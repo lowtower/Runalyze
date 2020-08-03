@@ -27,6 +27,7 @@ parameters:
   sqlite_mod_spatialite: mod_spatialite.so
   mail_sender: runalyze@example.local
   mail_name: RUNALYZE
+  mail_localdomain: localhost
   smtp_host: mailhog
   smtp_port: 1025
   smtp_security:
