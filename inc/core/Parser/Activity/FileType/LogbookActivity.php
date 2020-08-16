@@ -95,7 +95,6 @@ class LogbookActivity extends AbstractSingleParser
             if (!empty($this->Xml->Weather['conditions'])) {
                 $this->Container->WeatherData->Condition = (string)$this->Xml->Weather['conditions'];
             }
-
             if (!empty($this->Xml->Weather['temperatureCelsius'])) {
                 $this->Container->WeatherData->Temperature = (float)$this->Xml->Weather['temperatureCelsius'];
             }

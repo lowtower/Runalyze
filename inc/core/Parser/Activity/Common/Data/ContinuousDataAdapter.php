@@ -245,4 +245,26 @@ class ContinuousDataAdapter
             $this->ContinuousData->{$key} = array_merge($this->ContinuousData->{$key});
         }
     }
+
+    /**
+     * Returns the average temperature from continuous data if available.
+     *
+     * @return float|null
+     */
+    public function getAverageTemperature()
+    {
+        if (empty($this->ContinuousData->Temperature)) {
+            return null;
+        }
+        $temperatures = array_filter(
+            $this->ContinuousData->Temperature,
+            function ($temperature) {
+                return null !== $temperature;
+            }
+        );
+        if (empty($temperatures)) {
+            return null;
+        }
+        return array_sum($temperatures) / count($temperatures);
+    }
 }

@@ -84,7 +84,13 @@ class ActivityDataContainer
         $this->ActivityData->completeFromRounds($this->Rounds);
         $this->ActivityData->completeFromPauses($this->Pauses);
 
-        $this->clearRoundsIfOnlyOneRoundIsThere();
+        // Prefer average recorded sensor temperature when available.
+        // Otherwise retain temperature already supplied by the parser.
+        $averageTemperature = $this->ContinuousDataAdapter->getAverageTemperature();
+
+        if (null !== $averageTemperature) {
+            $this->WeatherData->Temperature = $averageTemperature;
+        }
     }
 
     public function filterActivityData(FilterCollection $filter)
