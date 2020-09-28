@@ -39,7 +39,10 @@ class InstallDatabaseCommand extends ContainerAwareCommand
 
         $output->writeln('  <info>Database has been successfully initialized.</info>');
 
+        $output->writeln('');
         $this->addAllMigrationsToDatabase();
+
+        $output->writeln('  <info>Migrations have been successfully applied to database.</info>');
 
     }
 

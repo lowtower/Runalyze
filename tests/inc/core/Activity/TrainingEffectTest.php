@@ -4,10 +4,24 @@ namespace Runalyze\Activity;
 
 class TrainingEffectTest extends \PHPUnit\Framework\TestCase
 {
+    public function testLowerBoundary()
+    {
+        $effect = new TrainingEffect(0.0);
+
+        $this->assertSame(0.0, $effect->value());
+    }
+
+    public function testUpperBoundary()
+    {
+        $effect = new TrainingEffect(5.0);
+
+        $this->assertSame(5.0, $effect->value());
+    }
+
     /** @expectedException \InvalidArgumentException */
 	public function testInvalidValueTooSmall()
 	{
-        new TrainingEffect(0.9);
+        new TrainingEffect(-0.1);
 	}
 
     /** @expectedException \InvalidArgumentException */
@@ -26,6 +40,20 @@ class TrainingEffectTest extends \PHPUnit\Framework\TestCase
     public function testInvalidValueString()
     {
         new TrainingEffect('foobar');
+    }
+
+    public function testValidValueZero()
+    {
+        $effect = new TrainingEffect(0.0);
+
+        $this->assertSame(0.0, $effect->value());
+    }
+
+    public function testValidCommaValue()
+    {
+        $effect = new TrainingEffect('3,5');
+
+        $this->assertSame(3.5, $effect->value());
     }
 
     public function testSimpleValue()

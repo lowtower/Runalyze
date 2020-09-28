@@ -15,7 +15,7 @@ namespace Runalyze\Activity;
 class TrainingEffect implements ValueInterface
 {
 	/** @var float */
-	const LOWER_LIMIT = 1.0;
+	const LOWER_LIMIT = 0.0;
 
 	/** @var float */
 	const UPPER_LIMIT = 5.0;
@@ -50,7 +50,8 @@ class TrainingEffect implements ValueInterface
      */
 	public function label()
     {
-		return __('Training Effect');
+		// #TSC: Add Aerobic-prefix
+		return __('(Aerob) Training Effect');
 	}
 
 	/**
@@ -76,11 +77,19 @@ class TrainingEffect implements ValueInterface
             return $this;
         }
 
-		$this->Value = (float)str_replace(',', '.', $value);
+		if (is_string($value)) {
+			$value = str_replace(',', '.', trim($value));
+		}
 
-        if ($this->Value < self::LOWER_LIMIT || self::UPPER_LIMIT < $this->Value) {
-            throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s', self::LOWER_LIMIT, self::UPPER_LIMIT));
+		if (!is_numeric($value)) {
+            throw new \InvalidArgumentException('Training Effect must be numeric.');
         }
+
+		$value = (float)$value;
+		if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
+			throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
+		}
+		$this->Value = $value;
 
 		return $this;
 	}

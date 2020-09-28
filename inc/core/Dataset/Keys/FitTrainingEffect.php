@@ -40,7 +40,8 @@ class FitTrainingEffect extends AbstractKey
 	 */
 	public function label()
 	{
-		return __('Training Effect').' '.__('(by file)');
+		// #TSC: Add aerobic
+		return __('(Aerob) Training Effect').' '.__('(by file)');
 	}
 
 	/**
@@ -59,7 +60,7 @@ class FitTrainingEffect extends AbstractKey
 	public function description()
 	{
 		return __(
-			'Training Effect is an indicator between 1.0 (easy) and 5.0 (overreaching) '.
+			'(Aerob) Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) '.
 			'to rate the impact of aerobic exercise on your body.'
 		);
 	}
