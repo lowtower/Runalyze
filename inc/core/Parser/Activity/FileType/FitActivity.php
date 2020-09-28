@@ -59,6 +59,9 @@ class FitActivity extends AbstractSingleParser
     /** @var string */
     protected $SoftwareVersion = '';
 
+    /** @var int|null Recovery time from undocumented message 140 */
+    protected $RecoveryTimeFallback = null;
+
     /** @var array */
     protected $DeveloperFieldMappingForRecord = [
         'Power' => ['power', 1],
@@ -129,6 +132,9 @@ class FitActivity extends AbstractSingleParser
                 end($this->Container->ContinuousData->Distance) - $this->Container->Rounds->getTotalDistance(),
                 $this->Container->ActivityData->Duration - $this->Container->Rounds->getTotalDuration()
             ));
+        }
+        if (null === $this->Container->FitDetails->RecoveryTime && null !== $this->RecoveryTimeFallback) {
+            $this->Container->FitDetails->RecoveryTime = $this->RecoveryTimeFallback;
         }
     }
 
@@ -483,6 +489,9 @@ class FitActivity extends AbstractSingleParser
                 $this->Container->FitDetails->PerformanceCondition = $this->Container->FitDetails->HrvAnalysis;
                 $this->Container->FitDetails->HrvAnalysis = null;
             }
+        }
+        if (isset($this->Values['unknown9'])) {
+            $this->RecoveryTimeFallback = (int)$this->Values['unknown9'][1];
         }
     }
 

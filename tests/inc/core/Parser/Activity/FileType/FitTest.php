@@ -482,6 +482,8 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertNull($this->Container->FitDetails->HrvAnalysis);
 
+        $this->assertEquals(1307, $this->Container->FitDetails->RecoveryTime);
+
 		// New values for later on:
 		//  - lactate threshold: 163 bpm / 2.583 m/s
 	}
