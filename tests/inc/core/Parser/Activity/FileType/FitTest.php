@@ -458,6 +458,9 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
+
+        $this->assertNull($this->Container->FitDetails->TotalAscent);
+        $this->assertNull($this->Container->FitDetails->TotalDescent);
 	}
 
     /**
@@ -482,10 +485,12 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertNull($this->Container->FitDetails->HrvAnalysis);
 
-        $this->assertEquals(1307, $this->Container->FitDetails->RecoveryTime);
-
-		// New values for later on:
+        // New values for later on:
 		//  - lactate threshold: 163 bpm / 2.583 m/s
+        $this->assertEquals(163, $this->Container->FitDetails->LactateThresholdHR);
+
+        $this->assertEquals(22, $this->Container->FitDetails->TotalAscent);
+        $this->assertEquals(38, $this->Container->FitDetails->TotalDescent);
 	}
 
 	/**

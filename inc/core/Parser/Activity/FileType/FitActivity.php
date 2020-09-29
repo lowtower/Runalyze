@@ -444,6 +444,14 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['total_anaerobic_training_effect']) && $this->Values['total_anaerobic_training_effect'][0] > 0 && $this->Values['total_anaerobic_training_effect'][0] <= 99.0) {
             $this->Container->FitDetails->AnaerobicTrainingEffect = $this->Values['total_anaerobic_training_effect'][0] / 10;
         }
+
+        // #TSC: fit ascent / descent
+        if (isset($this->Values['total_ascent']) && $this->Values['total_ascent'][0] != 0) {
+            $this->Container->FitDetails->TotalAscent = $this->Values['total_ascent'][0];
+        }
+        if (isset($this->Values['total_descent']) && $this->Values['total_descent'][0] != 0) {
+            $this->Container->FitDetails->TotalDescent = $this->Values['total_descent'][0];
+        }
     }
 
     protected function readSport()
@@ -484,14 +492,22 @@ class FitActivity extends AbstractSingleParser
     {
         if (isset($this->Values['unknown17'])) {
             $this->Container->FitDetails->PerformanceConditionEnd = 100 + (float)$this->Values['unknown17'][1];
-
             if (null === $this->Container->FitDetails->PerformanceCondition && null !== $this->Container->FitDetails->HrvAnalysis) {
                 $this->Container->FitDetails->PerformanceCondition = $this->Container->FitDetails->HrvAnalysis;
                 $this->Container->FitDetails->HrvAnalysis = null;
             }
         }
+
         if (isset($this->Values['unknown9'])) {
             $this->RecoveryTimeFallback = (int)$this->Values['unknown9'][1];
+        }
+
+        // #TSC: set Running Lactate Threshold Heart Rate, (in bpm) from 140er unknown14
+        if (isset($this->Values['unknown14'])) {
+            $lthr = (int)$this->Values['unknown14'][1];
+            if ($lthr > 0 && $lthr <= 250) {
+                $this->Container->FitDetails->LactateThresholdHR = $lthr;
+            }
         }
     }
 
