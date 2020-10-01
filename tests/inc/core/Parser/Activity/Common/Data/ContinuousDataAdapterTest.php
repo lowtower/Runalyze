@@ -85,4 +85,44 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEmpty($this->Data->HeartRate);
     }
+
+    public function testNullValuesInMiddleAndEndAreReplacedByLastKnownValue()
+    {
+        $values = [null, null, 100, 101, null, null, 104, null];
+        $this->Adapter->correctArraySurroundedNulls($values);
+
+        $this->assertSame([100, 100, 100, 101, 101, 101, 104, 104], $values);
+    }
+
+    public function testArrayContainingOnlyNullValuesIsNotModified()
+    {
+        $values = [null, null, null];
+        $this->Adapter->correctArraySurroundedNulls($values);
+
+        $this->assertSame([null, null, null], $values);
+    }
+
+    public function testArrayWithoutNullValuesRemainsUnchanged()
+    {
+        $values = [100, 101, 102 ];
+        $this->Adapter->correctArraySurroundedNulls($values);
+
+        $this->assertSame([ 100, 101, 102], $values);
+    }
+
+    public function testLeadingNullValuesAreReplacedByFirstKnownValue()
+    {
+        $values = [null, null, 100, 101];
+        $this->Adapter->correctArraySurroundedNulls($values);
+
+        $this->assertSame([100, 100, 100, 101], $values);
+    }
+
+    public function testMidNullValuesAreReplacedByPreviousValue()
+    {
+        $values = [150, 151, null, null, 154];
+        $this->Adapter->correctArraySurroundedNulls($values);
+
+        $this->assertSame([150, 151, 151, 151, 154], $values);
+    }
 }

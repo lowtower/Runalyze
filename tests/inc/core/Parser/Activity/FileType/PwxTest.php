@@ -89,7 +89,7 @@ class PwxTest extends AbstractActivityParserTestCase
 
         $this->checkExpectedPauseData([
             [635, 3, 155, 154],
-            [640, 286, 154, 0]
+            [640, 286, 154, 154]
         ]);
     }
 }
