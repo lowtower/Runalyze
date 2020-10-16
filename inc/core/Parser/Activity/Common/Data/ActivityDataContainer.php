@@ -92,12 +92,20 @@ class ActivityDataContainer
         $this->ActivityData->completeFromRounds($this->Rounds);
         $this->ActivityData->completeFromPauses($this->Pauses);
 
-        // Prefer average recorded sensor temperature when available.
-        // Otherwise retain temperature already supplied by the parser.
-        $averageTemperature = $this->ContinuousDataAdapter->getAverageTemperature();
+        // A single round is not needed in the final result, but it must remain
+        // available until ActivityData has inherited its summary values.
+        $this->clearRoundsIfOnlyOneRoundIsThere();
 
-        if (null !== $averageTemperature) {
-            $this->WeatherData->Temperature = $averageTemperature;
+        // #TSC: set average-temp from the clock/FIT data if available
+        if (!empty(($this->ActivityData->AvgTemperature))) {
+            // first use the session attribute
+            $this->WeatherData->Temperature = $this->ActivityData->AvgTemperature;
+        } else {
+            // second calc the avg from the temp's
+            $averageTemperature = $this->ContinuousDataAdapter->getAverageTemperature();
+            if (null !== $averageTemperature) {
+                $this->WeatherData->Temperature = $averageTemperature;
+            }
         }
     }
 
