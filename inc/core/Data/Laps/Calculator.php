@@ -52,6 +52,11 @@ class Calculator
 	protected $CalculateAdditionalValues = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $UsePreviousTrackpointForTimeLaps = false;
+
+	/**
 	 * @param \Runalyze\Data\Laps\Laps $object
 	 */
 	public function __construct(Laps $object)
@@ -328,7 +333,11 @@ class Calculator
 	 */
 	protected function moveToTime($seconds)
 	{
-		$this->TrackdataLoop->moveToTime($seconds);
+		if ($this->UsePreviousTrackpointForTimeLaps) {
+			$this->TrackdataLoop->moveToTimeBeforeOrAt($seconds);
+		} else {
+			$this->TrackdataLoop->moveToTime($seconds);
+		}
 
 		if (!is_null($this->RouteLoop)) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
@@ -345,7 +354,6 @@ class Calculator
 		if (!is_null($this->RouteLoop)) {
 			$this->RouteLoop->goToEnd();
 		}
-
 		$this->readLap();
 	}
 
@@ -365,5 +373,18 @@ class Calculator
 		}
 
 		return true;
+	}
+
+	/**
+	 * Use previous trackpoints for sparse time-based lap boundaries.
+	 *
+	 * Intended for swimming data where trackpoints commonly represent
+	 * complete pool lengths rather than one-second samples.
+	 *
+	 * @param bool $flag
+	 */
+	public function usePreviousTrackpointForTimeLaps($flag = true)
+	{
+		$this->UsePreviousTrackpointForTimeLaps = $flag;
 	}
 }

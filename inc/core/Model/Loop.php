@@ -14,6 +14,9 @@ namespace Runalyze\Model;
  */
 abstract class Loop
 {
+	const BOUNDARY_AT_OR_AFTER = 0;
+	const BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE = 1;
+
 	/**
 	 * Current index
 	 * @var int
@@ -173,15 +176,24 @@ abstract class Loop
 	}
 
 	/**
-	 * Move pointer to
+	 * Move pointer to a target value.
+	 *
+	 * By default, the loop stops at the first recorded value greater than
+	 * or equal to the target.
+	 *
+	 * For sparse trackdata, BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE selects the
+	 * last recorded value below the target, provided that doing so advances
+	 * the loop beyond the previous boundary.
+	 *
 	 * @param enum $key
-	 * @param float $target to move
+	 * @param int|float $target to move to
+	 * @param int $boundaryMode
 	 * @throws \InvalidArgumentException
 	 */
-	protected function moveTo($key, $target)
+	protected function moveTo($key, $target, $boundaryMode = self::BOUNDARY_AT_OR_AFTER)
 	{
 		if (!$this->Object->has($key)) {
-			throw new \InvalidArgumentException('No array available.');
+			throw new \InvalidArgumentException(sprintf('Cannot move loop: key "%s" is not available.', $key));
 		}
 
 		$this->LastIndex = $this->Index;
@@ -192,7 +204,31 @@ abstract class Loop
 		) {
 			$this->Index++;
 		}
+
+		if (
+			self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE === $boundaryMode &&
+			$this->Object->at($this->Index, $key) > $target &&
+			$this->Index > $this->LastIndex + 1
+		) {
+			$this->Index = $this->Index - 1;
+		}
 	}
+
+    /**
+    * @param int|float $seconds
+    */
+    public function moveToTimeBeforeOrAt($seconds)
+    {
+        $this->moveTo(Trackdata\Entity::TIME, $seconds, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
+    }
+
+    /**
+     * @param int|float $kilometer
+     */
+    public function moveToDistanceBeforeOrAt($kilometer)
+    {
+        $this->moveTo(Trackdata\Entity::DISTANCE, $kilometer, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
+    }
 
 	/**
 	 * Current value
