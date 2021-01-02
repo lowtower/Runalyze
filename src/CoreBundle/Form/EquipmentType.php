@@ -66,6 +66,8 @@ class EquipmentType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'required' => false,
+                // #TSC: fix if new equip set current date, else use stored date
+                'data' => (null === $equipment->getId() ? new \DateTime("now") : $equipment->getDateStart()),
                 'attr' => ['class' => 'pick-a-date small-size', 'placeholder' => 'dd.mm.YYYY']
             ])
             ->add('dateEnd', DateType::class, [
