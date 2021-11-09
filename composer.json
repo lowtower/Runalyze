@@ -120,7 +120,6 @@
     "config": {
         "process-timeout": 1800,
         "preferred-install": "dist",
-        "cache-dir": "./tests/cache",
         "allow-plugins": {
             "php-http/discovery": true
         }
