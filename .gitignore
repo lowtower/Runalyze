@@ -1,4 +1,5 @@
 # IDEs
+.vscode
 .buildpath
 .project
 .settings/
