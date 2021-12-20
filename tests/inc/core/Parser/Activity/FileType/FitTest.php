@@ -2,6 +2,7 @@
 
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
+use Runalyze\Activity\SelfEvaluationPerceivedEffort;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Converter\FitConverter;
 use Runalyze\Parser\Activity\FileType\Fit;
@@ -492,6 +493,21 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(22, $this->Container->FitDetails->TotalAscent);
         $this->assertEquals(38, $this->Container->FitDetails->TotalDescent);
 	}
+
+	public function testDataFromFR265WithFurtherRunningDataLikeSelfEvaluationFeeling()
+	{
+        $this->convertAndParse('fit/FR265-with-self-evaluation.fit');
+
+        $this->assertEquals('2026-08-02 16:39', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
+		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+		$this->assertEquals(4257, $this->Container->Metadata->getCreator());
+
+        $this->assertEquals(2724, $this->Container->ActivityData->Duration);
+        $this->assertEquals(6.753, $this->Container->ActivityData->Distance, '', 0.001);
+
+        $this->assertEquals(SelfEvaluationPerceivedEffort::NORMAL, $this->Container->FitDetails->SelfEvaluationFeeling);
+        $this->assertEquals(5, $this->Container->FitDetails->SelfEvaluationPerceivedEffort);
+    }
 
 	/**
 	 * @see https://github.com/Runalyze/Runalyze/issues/1886

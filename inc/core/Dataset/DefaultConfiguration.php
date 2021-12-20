@@ -73,6 +73,7 @@ class DefaultConfiguration extends Configuration
 			Keys::FIT_HRV_ANALYSIS => false,
 			Keys::FIT_TRAINING_EFFECT => false,
 			Keys::FIT_ANAEROBIC_TRAINING_EFFECT => false,
+			Keys::AVG_RESPIRATION_RATE => false,
 			Keys::SWOLF => false,
 			Keys::TAGS => false,
 			Keys::COMPLETE_EQUIPMENT => false,
