@@ -58,15 +58,15 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $data = [
             [
-                'time_local' => '2020-10-01 10:00:00',
+                'time' => '2020-10-01 10:00:00',
                 'temp' => 10
             ],
             [
-                'time_local' => '2020-10-01 11:00:00',
+                'time' => '2020-10-01 11:00:00',
                 'temp' => 11
             ],
             [
-                'time_local' => '2020-10-01 12:00:00',
+                'time' => '2020-10-01 12:00:00',
                 'temp' => 12
             ]
         ];
@@ -88,10 +88,10 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         ];
         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [$current]);
 
-        $this->assertEquals(15.3, $weather->Temperature);
+        $this->assertEquals(15, $weather->Temperature);
         $this->assertEquals(1012, $weather->AirPressure);
         $this->assertEquals(81, $weather->Humidity);
-        $this->assertEquals(12.3, $weather->WindSpeed);
+        $this->assertEquals(12, $weather->WindSpeed);
         $this->assertEquals(270, $weather->WindDirection);
         $this->assertEquals(WeatherConditionProfile::SUNNY, $weather->InternalConditionId);
     }
@@ -122,8 +122,8 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     public function testNoMatchingTimestampReturnsEmptyArray()
     {
         $data = [
-            ['time_local' => '2020-10-01 10:00:00'],
-            ['time_local' => '2020-10-01 11:00:00']
+            ['time' => '2020-10-01 10:00:00'],
+            ['time' => '2020-10-01 11:00:00']
         ];
 
         $result = $this->GetDataElementOfTimeMethod->invokeArgs($this->Strategy, [new \DateTime('2020-10-01 09:00:00'), $data]);
@@ -136,5 +136,18 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
          $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [['coco' => 9999]]);
 
         $this->assertEquals(WeatherConditionProfile::UNKNOWN, $weather->InternalConditionId);
+    }
+
+    public function testTemperatureAndWindSpeedAreRounded()
+    {
+        $current = [
+            'temp' => 15.6,
+            'wspd' => 12.6
+        ];
+
+        $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [$current]);
+
+        $this->assertEquals(16, $weather->Temperature);
+        $this->assertEquals(13, $weather->WindSpeed);
     }
 }
