@@ -24,7 +24,9 @@ class FitSdkMapping extends AbstractMapping
             FitSdk\SportProfile::HIKING => SportProfile::HIKING,
             FitSdk\SportProfile::MOUNTAINEERING => SportProfile::MOUNTAINEERING,
             FitSdk\SportProfile::SNOWSHOEING => SportProfile::SNOW_SHOEING,
-            FitSdk\SportProfile::CROSS_COUNTRY_SKIING => SportProfile::CROSS_COUNTRY_SKIING
+            FitSdk\SportProfile::CROSS_COUNTRY_SKIING => SportProfile::CROSS_COUNTRY_SKIING,
+            FitSdk\SportProfile::CLIMBING_INDOOR => SportProfile::CLIMBING_INDOOR,
+            FitSdk\SportProfile::BOULDERING => SportProfile::BOULDERING
         ];
     }
 
@@ -42,5 +44,21 @@ class FitSdkMapping extends AbstractMapping
     protected function externalDefault()
     {
         return FitSdk\SportProfile::GENERIC;
+    }
+
+    /**
+     * Returns an internal sport ID for a FIT sport/sub-sport combination.
+     *
+     * @param int|string $sport
+     * @param int|string $subsport
+     *
+     * @return int|null
+     */
+    public function sportWithSubsportToInternal($sport, $subsport)
+    {
+        $id = (int)$sport * 1000 + (int)$subsport;
+        $mapping = $this->getMapping();
+
+        return isset($mapping[$id]) ? $mapping[$id] : null;
     }
 }

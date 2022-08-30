@@ -869,4 +869,46 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertNull($this->Container->FitDetails->HrvAnalysis);
     }
+
+    public function testBoulderingSubSportMapping()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::BOULDERING, $mapping->sportWithSubsportToInternal(31, 69));
+    }
+
+    public function testIndoorClimbingSubSportMapping()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::CLIMBING_INDOOR, $mapping->sportWithSubsportToInternal(31, 68));
+    }
+
+    public function testUnknownSubSportMappingReturnsNull()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertNull($mapping->sportWithSubsportToInternal(31, 999));
+    }
+
+    public function testBoulderingMapping()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::BOULDERING, $mapping->sportWithSubsportToInternal(31, 69));
+    }
+
+    public function testIndoorClimbingMapping()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::CLIMBING_INDOOR, $mapping->sportWithSubsportToInternal(31, 68));
+    }
+
+    public function testUnknownClimbingSubSportReturnsNull()
+    {
+        $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
+
+        $this->assertNull($mapping->sportWithSubsportToInternal(31, 999));
+    }
 }

@@ -10,6 +10,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\StrtotimeWithLocalTimezoneOffsetTrait;
 use Runalyze\Profile\Sport\Mapping\FitSdkMapping;
+use Runalyze\Profile\Sport\SportProfile;
 
 class FitActivity extends AbstractSingleParser
 {
@@ -461,8 +462,9 @@ class FitActivity extends AbstractSingleParser
         }
 
         if (isset($this->Values['sport'])) {
-            $this->Container->Metadata->setInternalSportId((new FitSdkMapping())->toInternal($this->Values['sport'][0]));
-            $this->Container->Metadata->setSportName($this->Values['sport'][1]);
+            // #TSC in the session (same as NAME=sport) the sport is also stored
+            // not sure whats the best way and what to use in which case (and when they can differ); but use both as implementation before
+            $this->readSportProfile();
         }
 
         // #TSC: save effect (import at least is greater 0 - see also inc/core/Parser/Activity/Common/Filter/OutOfRangeValueFilter.php)
@@ -500,12 +502,7 @@ class FitActivity extends AbstractSingleParser
 
     protected function readSport()
     {
-        if (isset($this->Values['sport'])) {
-            $this->Container->Metadata->setInternalSportId((new FitSdkMapping())->toInternal($this->Values['sport'][0]));
-            $this->Container->Metadata->setSportName($this->Values['sport'][1]);
-        } elseif (isset($this->Values['name'])) {
-            $this->Container->Metadata->setSportName(substr($this->Values['name'][0], 1, -1));
-        }
+        $this->readSportProfile();
 
         // #TSC: set original sport-name to notes
         if (isset($this->Values['name'])) {
@@ -515,6 +512,46 @@ class FitActivity extends AbstractSingleParser
             }
             $this->Container->Metadata->setNotes($v);
         }
+    }
+
+    /**
+     * #TSC
+     * Reads the sports-type (running, climbing...) from the FIT data and sets the internal sport ID
+     * and sport name.
+     */
+    protected function readSportProfile()
+    {
+        $metadata = $this->Container->Metadata;
+
+        // Do not overwrite a sport that has already been identified.
+        if (null !== $metadata->getInternalSportId() && '' !== $metadata->getSportName()
+        ) {
+            return;
+        }
+
+        // Some FIT messages contain a profile name but no sport field.
+        if (!isset($this->Values['sport'][0])) {
+            if (isset($this->Values['name'][0])) {
+                $metadata->setSportName($this->normalizeSportName($this->Values['name'][0]));
+            }
+
+            return;
+        }
+
+        $fitSdkMapping = new FitSdkMapping();
+        $internalId = null;
+        // Prefer a specific sport/sub-sport mapping when available.
+        if (isset($this->Values['sub_sport'][0])) {
+            $internalId = $fitSdkMapping->sportWithSubsportToInternal($this->Values['sport'][0], $this->Values['sub_sport'][0]);
+        }
+        // Fall back to the generic FIT sport mapping.
+        if (null === $internalId) {
+            $internalId = $fitSdkMapping->toInternal($this->Values['sport'][0]);
+        }
+
+        $fitSportName = isset($this->Values['sport'][1]) ? $this->Values['sport'][1] : '';
+        $metadata->setInternalSportId($internalId);
+        $metadata->setSportName($this->getSportNameFor($internalId, $fitSportName));
     }
 
     protected function readUserProfile()
@@ -914,5 +951,38 @@ class FitActivity extends AbstractSingleParser
                 }
             }
         }
+    }
+
+    /**
+     * Determines the canonical sport name.
+     *
+     * @param int|string|null $internalId
+     * @param string $fitSportName
+     *
+     * @return string
+     */
+    protected function getSportNameFor($internalId, $fitSportName = '')
+    {
+        if (SportProfile::BOULDERING === $internalId) {
+            return 'Bouldering';
+        }
+
+        if (SportProfile::CLIMBING_INDOOR === $internalId) {
+            return 'Indoor Climbing';
+        }
+
+        return $fitSportName;
+    }
+
+    /**
+     * Removes quotation marks added by the FIT converter.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function normalizeSportName($name)
+    {
+        return trim($name, "\" \t\n\r\0\x0B");
     }
 }
