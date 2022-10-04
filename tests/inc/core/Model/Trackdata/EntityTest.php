@@ -79,20 +79,16 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(array(6500, 6430), $T->groundContactBalance());
 	}
 
-	/**
-	 * @expectedException \RuntimeException
-	 */
 	public function testWrongArraySizes() {
+        $this->expectException(\RuntimeException::class);
 		new Entity(array(
 			Entity::TIME => array(1, 2, 3),
 			Entity::DISTANCE => array(0.01, 0.03)
 		));
 	}
 
-	/**
-	 * @expectedException \RuntimeException
-	 */
 	public function testWrongArraySizeViaSet() {
+        $this->expectException(\RuntimeException::class);
 		$T = new Entity(array(
 			Entity::TIME => array(1, 2, 3)
 		));
@@ -100,10 +96,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$T->set(Entity::DISTANCE, array(0.01, 0.03));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testSettingPausesDirectly() {
+        $this->expectException(\InvalidArgumentException::class);
 		$P = new Pauses();
 
 		$T = new Entity();
@@ -123,10 +117,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(20, $T->at(5, Entity::TIME));
 	}
 
-	/**
-	 * @expectedException \OutOfBoundsException
-	 */
 	public function testInvalidAccessIndex() {
+        $this->expectException(\OutOfBoundsException::class);
 		$T = new Entity(array(
 			Entity::TIME => array(1)
 		));
@@ -134,10 +126,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$T->at(2, Entity::TIME);
 	}
 
-	/**
-	 * @expectedException \OutOfBoundsException
-	 */
 	public function testInvalidAccessKey() {
+        $this->expectException(\OutOfBoundsException::class);
 		$T = new Entity(array(
 			Entity::TIME => array(1)
 		));

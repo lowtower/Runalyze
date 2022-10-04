@@ -10,7 +10,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var RoundCollection */
     protected $Collection;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Collection = new RoundCollection();
     }
@@ -70,22 +70,18 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(261, $this->Collection[1]->getDuration());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testConstructorWithBadTypes()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new RoundCollection([
             new Round(1.0, 255),
             'foobar'
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testOffsetSetWithBadType()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->Collection[] = 'foobar';
     }
 

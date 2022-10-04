@@ -7,19 +7,15 @@ use Runalyze\Model\Trackdata;
 class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
 {
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNoTimeData()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TrackdataAverages(new Trackdata\Entity([]), []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testEmptyTimeData()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TrackdataAverages(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [0, 0, 0, 0, 0]
@@ -38,11 +34,9 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $Averages->averages());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidAverageKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [1, 2, 3, 4, 5]

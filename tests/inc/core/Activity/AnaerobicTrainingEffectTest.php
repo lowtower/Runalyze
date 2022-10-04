@@ -18,27 +18,27 @@ class AnaerobicTrainingEffectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(5.0, $effect->value());
     }
 
-    /** @expectedException \InvalidArgumentException */
 	public function testInvalidValueTooSmall()
 	{
+        $this->expectException(\InvalidArgumentException::class);
         new AnaerobicTrainingEffect(-0.1);
 	}
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueTooBig()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new AnaerobicTrainingEffect(5.1);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueNonNumeric()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new AnaerobicTrainingEffect(false);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new AnaerobicTrainingEffect('foobar');
     }
 

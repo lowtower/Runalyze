@@ -14,7 +14,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
     /** @var RouteRepository */
     protected $RouteRepository;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
 

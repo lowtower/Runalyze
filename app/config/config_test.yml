@@ -9,8 +9,11 @@ parameters:
   database_user: runalyze_test
   database_password: password
 
+liip_test_fixtures:
+  cache_db:
+    sqlite: liip_test_fixtures.services_database_backup.sqlite
+
 liip_functional_test:
-  cache_sqlite_db: true
   authentication:
     username: "default"
     password: "defaultPassword"
@@ -32,4 +35,10 @@ doctrine:
     connections:
       default:
         driver: pdo_sqlite
-        path: %kernel.cache_dir%/test.db
+        path: '%kernel.cache_dir%/test.db'
+
+services:
+  _defaults:
+    tags: ['doctrine.fixture.orm']
+  Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\:
+    resource: '../../tests/CoreBundle/DataFixtures/ORM/*'

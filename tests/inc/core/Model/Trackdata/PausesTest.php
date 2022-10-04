@@ -71,10 +71,8 @@ class PausesTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( '', $P->asString() );
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testException() {
+		$this->expectException(\InvalidArgumentException::class);
 		$P = new Pauses();
 		$P->at(0);
 	}

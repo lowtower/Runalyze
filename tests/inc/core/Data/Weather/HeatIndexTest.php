@@ -52,9 +52,10 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 			$temp->setFahrenheit($dataToTest[0]);
 			$humidity->set($dataToTest[1]);
 
-			$this->assertEquals(
+			$this->assertEqualsWithDelta(
 				$dataToTest[2], (new HeatIndex($temp, $humidity))->value(),
-				sprintf('Heat index does not match for $valuesToTest[%u]', $i), 0.5
+				0.5,
+				sprintf('Heat index does not match for $valuesToTest[%u]', $i)
 			);
 		}
 	}
@@ -73,6 +74,6 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 			)
 		);
 
-		$this->assertEquals(10.5, $heatIndex->value(), '', 0.1);
+		$this->assertEqualsWithDelta(10.5, $heatIndex->value(), 0.1);
 	}
 }

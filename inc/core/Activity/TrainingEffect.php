@@ -81,8 +81,8 @@ class TrainingEffect implements ValueInterface
 			$value = str_replace(',', '.', trim($value));
 		}
 
-		if (!is_numeric($value)) {
-            throw new \InvalidArgumentException('Training Effect must be numeric.');
+        if (!is_numeric($value)) {
+            throw new \InvalidArgumentException(sprintf('Training Effect must be a number, not ' . $value));
         }
 
 		$value = (float)$value;

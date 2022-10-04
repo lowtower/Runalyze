@@ -16,7 +16,7 @@ class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Filter = new OutOfRangeValueFilter();
         $this->Container = new ActivityDataContainer();

@@ -23,6 +23,6 @@ class HeartRateBasedEstimatorTest extends \PHPUnit\Framework\TestCase
             )
         );
 
-        $this->assertEquals(489, 60 * $estimator->getExpenditurePerMinute(148)->getValue(), '', 1.0);
+        $this->assertEqualsWithDelta(489, 60 * $estimator->getExpenditurePerMinute(148)->getValue(), 1.0);
     }
 }

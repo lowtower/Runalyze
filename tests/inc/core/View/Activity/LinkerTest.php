@@ -28,7 +28,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $ThisIDs = [];
 
-	protected function setUp(): void {
+	protected function setUp() : void {
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 		$this->PDO->exec('DELETE FROM `runalyze_account` WHERE `username` = "LinkerOther"');
@@ -55,7 +55,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	protected function tearDown(): void {
+	protected function tearDown() : void {
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
 

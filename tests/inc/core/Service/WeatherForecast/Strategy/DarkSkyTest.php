@@ -62,11 +62,11 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($result);
 
         $this->assertEquals(WeatherConditionProfile::CHANGEABLE, $result->InternalConditionId);
-        $this->assertEquals(18.02, $result->WindSpeed, '', 0.01);
+        $this->assertEqualsWithDelta(18.02, $result->WindSpeed, 0.01);
         $this->assertEquals(109, $result->WindDirection);
         $this->assertEquals(59, $result->Humidity);
         $this->assertEquals(1013, $result->AirPressure);
-        $this->assertEquals(22.8, $result->Temperature, '', 0.1);
+        $this->assertEqualsWithDelta(22.8, $result->Temperature, 0.1);
         $this->assertEquals(WeatherSourceProfile::DARK_SKY, $result->Source);
     }
 }

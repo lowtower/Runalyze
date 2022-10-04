@@ -9,7 +9,7 @@ class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
     /** @var DurationNullableType */
     protected $Type;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Type = new DurationNullableType();
     }

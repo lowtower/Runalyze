@@ -9,7 +9,7 @@ class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
     /** @var ClimbByBikeIndex */
     protected $Cbb;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Cbb = new ClimbByBikeIndex();
     }
@@ -36,11 +36,11 @@ class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($testMatrix as $testValues) {
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $testValues[2],
                 $this->Cbb->getScoreFor($testValues[0], $testValues[1]),
-                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1]),
-                0.05
+                0.05,
+                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1])
             );
         }
     }

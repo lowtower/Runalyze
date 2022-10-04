@@ -9,7 +9,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
     /** @var SaliteIndex */
     protected $Salite;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Salite = new SaliteIndex();
     }
@@ -21,11 +21,11 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($testMatrix as $testValues) {
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $testValues[2],
                 $this->Salite->getScoreFor($testValues[0], $testValues[1]),
-                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1]),
-                0.5
+                0.5,
+                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1])
             );
         }
     }
@@ -40,7 +40,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
 
     public function testPassoStelvioWithoutExactProfile()
     {
-        $this->assertEquals(1336, $this->Salite->getScoreFor(25.4, 1842), '', 0.5);
+        $this->assertEqualsWithDelta(1336, $this->Salite->getScoreFor(25.4, 1842), 0.5);
     }
 
     /**
@@ -48,7 +48,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassoStelvioWithExactProfile()
     {
-        $this->assertEquals(
+        $this->assertEqualsWithDelta(
             1417,
             $this->Salite->getScoreForProfile([
                 [1.0, 0.018],
@@ -74,7 +74,6 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
                 [1.0, 0.0860],
                 [1.4, 0.0886],
             ]),
-            '',
             5
         );
     }

@@ -10,7 +10,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     /** @var DistanceType */
     protected $Type;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Type = new DistanceType(new Kilometer());
     }
@@ -37,9 +37,9 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     public function testReverseTransform()
     {
         $this->assertNull($this->Type->reverseTransform(null));
-        $this->assertEquals(1.23, $this->Type->reverseTransform('1.23'), '', 0.000001);
-        $this->assertEquals(1.234, $this->Type->reverseTransform('1.234'), '', 0.000001);
-        $this->assertEquals(7.69, $this->Type->reverseTransform('7,69'), '', 0.000001);
+        $this->assertEqualsWithDelta(1.23, $this->Type->reverseTransform('1.23'), 0.000001);
+        $this->assertEqualsWithDelta(1.234, $this->Type->reverseTransform('1.234'), 0.000001);
+        $this->assertEqualsWithDelta(7.69, $this->Type->reverseTransform('7,69'), 0.000001);
     }
 
     public function testRoundingToViewPrecision()

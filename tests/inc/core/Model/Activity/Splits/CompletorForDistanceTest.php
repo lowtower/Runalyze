@@ -19,8 +19,8 @@ class CompletorForDistanceTest extends \PHPUnit\Framework\TestCase {
 		);
 		$Completor->completeSplits();
 
-		$this->assertEquals(1.0, $Splits->at(0)->distance());
-		$this->assertEquals(1.3, $Splits->at(1)->distance());
+		$this->assertEqualsWithDelta(1.0, $Splits->at(0)->distance(), 0.0001);
+		$this->assertEqualsWithDelta(1.3, $Splits->at(1)->distance(), 0.0001);
 	}
 
 }

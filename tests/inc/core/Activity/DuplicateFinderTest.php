@@ -16,7 +16,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	/** @var \Runalyze\Activity\DuplicateFinder */
 	protected $Finder;
 
-	protected function setUp(): void
+	protected function setUp() : void
 	{
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
@@ -26,7 +26,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 		$this->Finder = new DuplicateFinder($this->PDO, 0);
 	}
 
-	protected function tearDown(): void
+	protected function tearDown() : void
 	{
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
 	}
@@ -41,10 +41,10 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	    $this->assertFalse($this->Finder->checkForDuplicate(1234567890));
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testInvalidArgument()
 	{
-	    $this->Finder->checkForDuplicate('foobar');
+		$this->expectException(\InvalidArgumentException::class);
+		$this->Finder->checkForDuplicate('foobar');
 	}
 
 	public function testSingleNull()
@@ -96,10 +96,10 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testInvalidArgumentForDuplicates()
 	{
-	    $this->Finder->checkForDuplicates([
+		$this->expectException(\InvalidArgumentException::class);
+		$this->Finder->checkForDuplicates([
 	    	1448797800,
 	    	'foobar',
 	    	1234567890

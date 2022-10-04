@@ -83,10 +83,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 
 	}
 
-	/**
-	 * @expectedException \RuntimeException
-	 */
 	public function testThatSetLatitudesLongitudesMustHaveExpectedSize() {
+		$this->expectException(\RuntimeException::class);
 		$Object = new Entity(array(
 			Entity::ELEVATIONS_ORIGINAL => array(240, 238, 240),
 			Entity::ELEVATIONS_CORRECTED => array(240, 240, 240)

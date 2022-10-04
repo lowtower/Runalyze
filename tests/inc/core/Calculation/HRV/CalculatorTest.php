@@ -18,11 +18,11 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		$Calculator->calculate();
 
 		$this->assertEquals(530, $Calculator->mean());
-		$this->assertEquals(25.5, $Calculator->SDNN(), '', 0.1);
+		$this->assertEqualsWithDelta(25.5, $Calculator->SDNN(), 0.1);
 		// sqrt( (20^2 + 10^2 + 0^2 + 10^2 + 20^2 ) / 4 ) = sqrt(1000/4) = sqrt(250) = 15.8
-		$this->assertEquals(15.8, $Calculator->RMSSD(), '', 0.1);
+		$this->assertEqualsWithDelta(15.8, $Calculator->RMSSD(), 0.1);
 		// sqrt( (5^2 + 5^2 + 5^2 + 5^2 ) / 3 ) = sqrt(100/3) = sqrt(33.3) = 5.77
-		$this->assertEquals(5.77, $Calculator->SDSD(), '', 0.1);
+		$this->assertEqualsWithDelta(5.77, $Calculator->SDSD(), 0.1);
 	}
 
 	public function test5minAverages() {
@@ -44,7 +44,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		$Calculator->calculate();
 
 		// sqrt( (20^2 + 10^2 + 0^2 + 10^2 + 20^2 ) / 4 ) = sqrt(1000/4) = sqrt(250) = 15.8
-		$this->assertEquals(15.8, $Calculator->SDANN(), '', 0.1);
+		$this->assertEqualsWithDelta(15.8, $Calculator->SDANN(), 0.1);
 	}
 
 	public function testCountings() {

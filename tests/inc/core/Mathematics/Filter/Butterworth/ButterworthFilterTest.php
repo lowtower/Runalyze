@@ -21,10 +21,10 @@ class ButterworthFilterTest extends \PHPUnit\Framework\TestCase
         ]);
 
         for ($i = 0; $i < 10; ++$i) {
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $expected[$i], $actual[$i],
-                sprintf('Actual values dot not match at index %u.', $i),
-                0.05
+                0.05,
+                sprintf('Actual values dot not match at index %u.', $i)
             );
         }
     }

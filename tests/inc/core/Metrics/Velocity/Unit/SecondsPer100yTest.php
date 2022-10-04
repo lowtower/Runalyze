@@ -10,7 +10,7 @@ class SecondsPer100yTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new SecondsPer100y();
 
-        $this->assertEquals(27.4, $unit->fromBaseUnit(300), '', 0.5);
-        $this->assertEquals(300, $unit->toBaseUnit(27.4), '', 0.5);
+        $this->assertEqualsWithDelta(27.4, $unit->fromBaseUnit(300), 0.5);
+        $this->assertEqualsWithDelta(300, $unit->toBaseUnit(27.4), 0.5);
     }
 }

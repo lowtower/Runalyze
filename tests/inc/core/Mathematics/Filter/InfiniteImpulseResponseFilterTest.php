@@ -6,11 +6,9 @@ use Runalyze\Mathematics\Filter\InfiniteImpulseResponseFilter;
 
 class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidCoefficients()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new InfiniteImpulseResponseFilter([1, 2], [1, 2, 3]);
     }
 

@@ -23,7 +23,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     protected $Prefix = 'runalyze_';
 
-	protected function setUp(): void
+	protected function setUp() : void
     {
         $this->Base = __DIR__.'/../../../../testfiles/backup/';
 		$this->DB = \DB::getInstance();
@@ -31,7 +31,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->truncateTables();
 	}
 
-	protected function tearDown(): void
+	protected function tearDown() : void
     {
 		$this->truncateTables();
 	}

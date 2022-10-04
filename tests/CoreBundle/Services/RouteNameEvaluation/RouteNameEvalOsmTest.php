@@ -17,7 +17,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     private $underTest;
     private $coll;
 
-    public function setUp() {
+    protected function setUp() : void {
         $this->underTest = new RouteNameEvalOsm("", "", new Client());
         $this->coll = $this->getMockBuilder(OsmCsvDataCollection::class)->disableOriginalConstructor()->getMock();
     }

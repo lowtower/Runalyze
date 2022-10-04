@@ -5,11 +5,9 @@ namespace Runalyze\Parameter\Application;
 class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidEnum()
     {
+        $this->expectException(\InvalidArgumentException::class);
         Timezone::getFullNameByEnum(-1);
     }
 
@@ -47,11 +45,9 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidOriginalName()
     {
+        $this->expectException(\InvalidArgumentException::class);
         Timezone::getEnumByOriginalName('Horsehead_Nebula/Magrathea');
     }
 

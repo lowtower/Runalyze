@@ -50,7 +50,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 			));
 			$Swim->fillDistanceArray($Track);
 
-			$this->assertEquals($num * 0.05, $Track->totalDistance());
+			$this->assertEqualsWithDelta($num * 0.05, $Track->totalDistance(), 0.0001);
 		}
 	}
 

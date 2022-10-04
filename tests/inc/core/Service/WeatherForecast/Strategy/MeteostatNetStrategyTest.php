@@ -21,7 +21,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     /** @var \ReflectionMethod */
     protected $GetWeatherDataFromResultMethod;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $logger = $this->createMock(LoggerInterface::class);
 
@@ -47,11 +47,11 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     
         $url = $this->GetUrlForMethod->invokeArgs($this->Strategy, [$location]);
     
-        $this->assertContains('lat=52.4', $url);
-        $this->assertContains('lon=10.7', $url);
-        $this->assertContains('start=2020-10-01', $url);
-        $this->assertContains('end=2020-10-01', $url);
-        $this->assertContains('tz=Europe/Berlin', $url);
+        $this->assertStringContainsString('lat=52.4', $url);
+        $this->assertStringContainsString('lon=10.7', $url);
+        $this->assertStringContainsString('start=2020-10-01', $url);
+        $this->assertStringContainsString('end=2020-10-01', $url);
+        $this->assertStringContainsString('tz=Europe/Berlin', $url);
     }
 
     public function testSelectsCorrectHour()
@@ -108,9 +108,9 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $url = $this->GetUrlForMethod->invokeArgs($this->Strategy, [$location]);
         $dateAfter = new \DateTime('now', $timezone);
 
-        $this->assertContains('lat=52.4', $url);
-        $this->assertContains('lon=10.7', $url);
-        $this->assertContains('tz=Europe/Berlin', $url);
+        $this->assertStringContainsString('lat=52.4', $url);
+        $this->assertStringContainsString('lon=10.7', $url);
+        $this->assertStringContainsString('tz=Europe/Berlin', $url);
 
         $hasExpectedStartDate = false !== strpos($url, 'start='.$dateBefore->format('Y-m-d')) || false !== strpos($url, 'start='.$dateAfter->format('Y-m-d'));
         $hasExpectedEndDate   = false !== strpos($url,  'end='.$dateBefore->format('Y-m-d'))  || false !== strpos($url, 'end='.$dateAfter->format('Y-m-d'));

@@ -13,7 +13,7 @@ class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
     /** @var FitDetails */
     protected $SecondDetails;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->FirstDetails = new FitDetails();
         $this->SecondDetails = new FitDetails();

@@ -17,7 +17,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	/** @var \Runalyze\Dataset\Configuration */
 	protected $Configuration;
 
-	protected function setUp(): void
+	protected function setUp() : void
 	{
 		$this->PDO = new PDO('sqlite::memory:');
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,7 +30,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 		$this->Configuration = new Configuration($this->PDO, 0);
 	}
 
-	protected function tearDown(): void
+	protected function tearDown() : void
 	{
 		$this->PDO->exec('DROP TABLE `'.PREFIX.'dataset`');
 	}
@@ -57,19 +57,15 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse($this->Configuration->exists(5));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidKeyForActive()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->Configuration->isActive(5);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidKeyForStyle()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->Configuration->getStyle(5);
 	}
 

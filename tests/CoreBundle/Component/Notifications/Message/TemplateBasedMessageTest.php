@@ -6,11 +6,9 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMess
 
 class TemplateBasedMessageTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNonExistantTemplate()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TemplateBasedMessage('nonexistant.yml');
     }
 

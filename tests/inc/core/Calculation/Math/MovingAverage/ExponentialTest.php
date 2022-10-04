@@ -77,10 +77,10 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $Object->calculate();
 
         $result = $Object->movingAverage();
-        $this->assertEquals(10.000, $result[0], '', 0.001);
-        $this->assertEquals(16.836, $result[1], '', 0.001);
-        $this->assertEquals(20.127, $result[2], '', 0.001);
-        $this->assertEquals(20.053, $result[3], '', 0.001);
-        $this->assertEquals(17.540, $result[4], '', 0.001);
+        $this->assertEqualsWithDelta(10.000, $result[0], 0.001);
+        $this->assertEqualsWithDelta(16.836, $result[1], 0.001);
+        $this->assertEqualsWithDelta(20.127, $result[2], 0.001);
+        $this->assertEqualsWithDelta(20.053, $result[3], 0.001);
+        $this->assertEqualsWithDelta(17.540, $result[4], 0.001);
     }
 }

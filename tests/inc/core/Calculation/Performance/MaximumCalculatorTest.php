@@ -18,20 +18,16 @@ class FakeAbstractModel extends AbstractModel
 
 class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWrongClosure()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new MaximumCalculator(function () {
         }, []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNoModelInClosure()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new MaximumCalculator(function () {
             return new \StdClass();
         }, []);

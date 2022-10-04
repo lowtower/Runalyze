@@ -13,7 +13,7 @@ class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
     /** @var WeatherData */
     protected $SecondData;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->FirstData = new WeatherData();
         $this->SecondData = new WeatherData();

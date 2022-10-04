@@ -9,7 +9,7 @@ class TrainingTest extends \PHPUnit\Framework\TestCase
     /** @var Training */
     protected $Activity;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Activity = new Training();
     }

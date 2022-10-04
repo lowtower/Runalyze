@@ -8,17 +8,17 @@ class MinPerMileTest extends \PHPUnit\Framework\TestCase
 	{
 		$Pace = new MinPerMile();
 
-		$this->assertEquals(579, $Pace->rawValue(360), '', 0.5);
-		$this->assertEquals(483, $Pace->rawValue(300), '', 0.5);
+		$this->assertEqualsWithDelta(579, $Pace->rawValue(360), 0.5);
+		$this->assertEqualsWithDelta(483, $Pace->rawValue(300), 0.5);
 	}
 
 	public function testComparison()
 	{
 		$Pace = new MinPerMile();
 
-		$this->assertEquals(+97, $Pace->rawValue($Pace->compare(300, 360)), '', 0.5);
-		$this->assertEquals(-97, $Pace->rawValue($Pace->compare(360, 300)), '', 0.5);
-		$this->assertEquals(  0, $Pace->rawValue($Pace->compare(300, 300)), '', 0.5);
+		$this->assertEqualsWithDelta(+97, $Pace->rawValue($Pace->compare(300, 360)), 0.5);
+		$this->assertEqualsWithDelta(-97, $Pace->rawValue($Pace->compare(360, 300)), 0.5);
+		$this->assertEqualsWithDelta(  0, $Pace->rawValue($Pace->compare(300, 300)), 0.5);
 	}
 
 	public function testFormat()

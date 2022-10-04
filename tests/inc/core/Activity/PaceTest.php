@@ -39,10 +39,8 @@ class PaceTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('2:03/100m', $Pace->valueWithAppendix());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testDifferentUnitsForComparison() {
+		$this->expectException(\InvalidArgumentException::class);
 		$Pace1 = new Pace(300, 1, PaceUnit::MIN_PER_KM);
 		$Pace2 = new Pace(360, 1, PaceUnit::MIN_PER_100M);
 

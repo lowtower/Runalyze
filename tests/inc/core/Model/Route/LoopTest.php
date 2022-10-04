@@ -14,7 +14,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 		$Loop->nextStep();
 		$this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());
-		$this->assertEquals(0.02279247104384903, $Loop->calculatedStepDistance(), '', 0.2);
+		$this->assertEqualsWithDelta(0.02279247104384903, $Loop->calculatedStepDistance(), 0.2);
 
 		$Loop->setStepSize(2);
 		$Loop->nextStep();

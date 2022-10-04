@@ -10,7 +10,7 @@ class SecondsPer500yTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new SecondsPer500y();
 
-        $this->assertEquals(137, $unit->fromBaseUnit(300), '', 0.5);
-        $this->assertEquals(300, $unit->toBaseUnit(137), '', 0.5);
+        $this->assertEqualsWithDelta(137, $unit->fromBaseUnit(300), 0.5);
+        $this->assertEqualsWithDelta(300, $unit->toBaseUnit(137), 0.5);
     }
 }

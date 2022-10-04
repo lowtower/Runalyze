@@ -9,7 +9,7 @@ class EnergyTest extends \PHPUnit\Framework\TestCase
     /** @var Energy */
     protected $Energy;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Energy = new Energy();
     }

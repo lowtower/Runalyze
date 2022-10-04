@@ -10,7 +10,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     protected $DefaultTimezone;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -20,7 +20,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         date_default_timezone_set('Europe/Moscow');
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         putenv('TZ='.$this->DefaultTimezone);
         date_default_timezone_set($this->DefaultTimezone);
@@ -28,26 +28,22 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidParameterForConstructor()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new LocalTime('today');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidParameterForServerTime()
     {
+        $this->expectException(\InvalidArgumentException::class);
         LocalTime::fromServerTime('today');
     }
 
     public function testThatConstructorDoesNotChangeTimestamps()
     {
-        $this->assertEquals(time(), (new LocalTime())->getTimestamp(), '', 1);
-        $this->assertEquals(time(), (new LocalTime(time()))->getTimestamp(), '', 1);
+        $this->assertEqualsWithDelta(time(), (new LocalTime())->getTimestamp(), 1);
+        $this->assertEqualsWithDelta(time(), (new LocalTime(time()))->getTimestamp(), 1);
     }
 
 	public function testThatServerTimezoneIsIgnored()

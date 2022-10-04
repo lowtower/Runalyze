@@ -267,11 +267,9 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(72, $Loop->difference('foo'));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMoveToNearestThrowsExceptionForMissingProperty()
 	{
+        $this->expectException(\InvalidArgumentException::class);
 		$Loop = $this->exampleLoop();
 		$Loop->moveToNearest('missing', 10);
 	}

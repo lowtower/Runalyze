@@ -13,11 +13,9 @@ class HeartRateEnumTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThatUnknownUnitCantBeConstructed()
     {
+        $this->expectException(\InvalidArgumentException::class);
         HeartRateEnum::get(42, 200, 60);
     }
 }

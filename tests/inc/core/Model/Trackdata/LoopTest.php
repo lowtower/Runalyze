@@ -207,18 +207,14 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(3.5, $Loop->current(Entity::DISTANCE));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidMoving() {
+        $this->expectException(\InvalidArgumentException::class);
 		$Loop = new Loop(new Entity());
 		$Loop->moveTime(10);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidMovingTo() {
+        $this->expectException(\InvalidArgumentException::class);
 		$Loop = new Loop(new Entity());
 		$Loop->moveToTime(100);
 	}
@@ -248,20 +244,16 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(642, $Loop->current(Entity::TIME));
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMoveToTimeBeforeOrAtWithoutTimeData()
 	{
+        $this->expectException(\InvalidArgumentException::class);
 		$Loop = new Loop(new Entity());
 		$Loop->moveToTimeBeforeOrAt(100);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testMoveToDistanceBeforeOrAtWithoutDistanceData()
 	{
+        $this->expectException(\InvalidArgumentException::class);
 		$Loop = new Loop(new Entity());
 		$Loop->moveToDistanceBeforeOrAt(1.0);
 	}

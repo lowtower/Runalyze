@@ -15,18 +15,18 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($gradient->getSeries());
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testWithUnbalancedInputData()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Gradient(
             [100, 105, 110],
             [1.0, 2.0, 3.0, 4.0]
         );
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testWithEmptyTrackdata()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $gradient = new Gradient();
         $gradient->setDataFrom(
             new Model\Route\Entity([

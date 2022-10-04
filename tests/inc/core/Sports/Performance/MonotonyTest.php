@@ -15,11 +15,9 @@ class MonotonyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $monotony->value());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testRuntimeException()
     {
+        $this->expectException(\RuntimeException::class);
         $monotony = new Monotony([100]);
         $monotony->value();
     }
@@ -46,8 +44,8 @@ class MonotonyTest extends \PHPUnit\Framework\TestCase
         $monotony = new Monotony([5, 15, 20, 20, 20, 25, 35]);
         $monotony->calculate();
 
-        $this->assertEquals(20 / 8.45, $monotony->value(), '', 0.01);
-        $this->assertEquals(7 * 20 * 20 / 8.45, $monotony->trainingStrain(), '', 0.1);
+        $this->assertEqualsWithDelta(20 / 8.45, $monotony->value(), 0.01);
+        $this->assertEqualsWithDelta(7 * 20 * 20 / 8.45, $monotony->trainingStrain(), 0.1);
     }
 
     public function testEmptyDays()

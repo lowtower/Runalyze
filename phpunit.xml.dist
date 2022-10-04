@@ -2,7 +2,7 @@
 
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://phpunit.de/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
     executionOrder="depends,defects"
     resolveDependencies="true"
     backupGlobals="false"
@@ -20,12 +20,19 @@
     convertErrorsToExceptions="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
 >
-
     <php>
         <ini name="display_errors" value="1"/>
         <ini name="error_reporting" value="-1"/>
 
-         <server name="KERNEL_DIR" value="./app" />
+        <env name="APP_ENV" value="test" force="true"/>
+        <env name="SYMFONY_ENV" value="test" force="true"/>
+
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SYMFONY_ENV" value="test" force="true"/>
+
+        <env name="APP_DEBUG" value="1" force="true"/>
+
+        <server name="KERNEL_DIR" value="./app" />
 
         <!-- Symfony deprecation handling -->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose"/>

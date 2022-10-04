@@ -36,7 +36,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
 		$Bisection->setIterations(100);
 		$Bisection->setEpsilon(0.01);
 
-		$this->assertEquals(1, $Bisection->findValue(), '', 0.01);
+		$this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
 	}
 
 	public function testCubicFunction()
@@ -48,6 +48,6 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
 		$Bisection->setIterations(100);
 		$Bisection->setEpsilon(0.01);
 
-		$this->assertEquals(1, $Bisection->findValue(), '', 0.01);
+		$this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
 	}
 }

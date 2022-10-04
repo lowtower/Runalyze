@@ -52,9 +52,9 @@ class KeysTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testInvalidKeyForGet()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Keys::get('key-ids-are-integers');
 	}
 

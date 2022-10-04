@@ -20,7 +20,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     /** @var string[] */
     protected $FilesToClear = [];
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         foreach ($this->FilesToClear as $file) {
             if (file_exists($file)) {
@@ -157,8 +157,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->assertEquals(count($expectedRounds), $container->Rounds->count());
 
         foreach ($expectedRounds as $i => $expectedRoundData) {
-            $this->assertEquals($expectedRoundData[0], $container->Rounds[$i]->getDuration(), 'Round #'.$i.' has wrong duration.', $deltaDuration);
-            $this->assertEquals($expectedRoundData[1], $container->Rounds[$i]->getDistance(), 'Round #'.$i.' has wrong distance.', $deltaDistance);
+            $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #'.$i.' has wrong duration.');
+            $this->assertEqualsWithDelta($expectedRoundData[1], $container->Rounds[$i]->getDistance(), $deltaDistance, 'Round #'.$i.' has wrong distance.');
         }
     }
 
@@ -171,8 +171,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->assertEquals(count($expectedPauses), $this->Container->Pauses->count());
 
         foreach ($expectedPauses as $i => $expectedPauseData) {
-            $this->assertEquals($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), 'Pause #'.$i.' has wrong time index.', $deltaDuration);
-            $this->assertEquals($expectedPauseData[1], $this->Container->Pauses[$i]->getDuration(), 'Pause #'.$i.' has wrong duration.', $deltaDuration);
+            $this->assertEqualsWithDelta($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), $deltaDuration, 'Pause #'.$i.' has wrong time index.');
+            $this->assertEqualsWithDelta($expectedPauseData[1], $this->Container->Pauses[$i]->getDuration(), $deltaDuration, 'Pause #'.$i.' has wrong duration.');
 
             if (isset($expectedPauseData[2]) && isset($expectedPauseData[3])) {
                 $this->assertEquals($expectedPauseData[2], $this->Container->Pauses[$i]->getHeartRateAtStart(), 'Pause #'.$i.' has wrong heart rate at start.');

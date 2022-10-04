@@ -29,7 +29,7 @@ class TimeSeriesForTrackdataTest extends \PHPUnit\Framework\TestCase {
 			180 => 60
 		), $Dist->histogram() );
 
-		$this->assertEquals( array(
+		$this->assertEqualsWithDelta( array(
 			120 => array(
 				Trackdata\Entity::DISTANCE => 0.3,
 				Trackdata\Entity::CADENCE => 83,
@@ -45,7 +45,7 @@ class TimeSeriesForTrackdataTest extends \PHPUnit\Framework\TestCase {
 				Trackdata\Entity::CADENCE => 100,
 				Trackdata\Entity::GROUNDCONTACT => 120
 			)
-		), $Dist->data() );
+		), $Dist->data(), 0.0001);
 	}
 
 }

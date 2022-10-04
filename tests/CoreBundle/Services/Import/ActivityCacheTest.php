@@ -17,7 +17,7 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityCache */
     protected $Cache;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Cache = new ActivityCache(
             new ArrayAdapter()

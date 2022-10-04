@@ -14,7 +14,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityData */
     protected $Data;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Data = new ActivityData();
     }

@@ -6,9 +6,6 @@ use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
 class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase {
-    public function setUp() {
-    }
-
     public function testCsvCollectionEmpty() {
         $in = "@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity" . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);

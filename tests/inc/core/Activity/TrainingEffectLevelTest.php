@@ -4,27 +4,27 @@ namespace Runalyze\Activity;
 
 class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 {
-    /** @expectedException \InvalidArgumentException */
 	public function testInvalidLevelTooSmall()
 	{
-		TrainingEffectLevel::levelFor(0.9);
+        $this->expectException(\InvalidArgumentException::class);
+        TrainingEffectLevel::levelFor(0.9);
 	}
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidLevelTooBig()
     {
+        $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::levelFor(5.1);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidLevelNonNumeric()
     {
+        $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::levelFor(false);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidLevelString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::levelFor('foobar');
     }
 
@@ -41,15 +41,15 @@ class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(TrainingEffectLevel::OVERREACHING, TrainingEffectLevel::levelFor(5.0));
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testLabelForInvalidLevel()
     {
+        $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::label(0);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testDescriptionForInvalidLevel()
     {
+        $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::description(TrainingEffectLevel::OVERREACHING + 1);
     }
 

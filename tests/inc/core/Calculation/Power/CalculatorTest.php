@@ -39,7 +39,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		);
 		$Calculator->calculate(75, 1.0);
 
-		$this->assertEquals(134, $Calculator->average(), '', 1);
+		$this->assertEqualsWithDelta(134, $Calculator->average(), 1);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		);
 		$Calculator->calculate(75, 1.0);
 
-		$this->assertEquals(8, $Calculator->average(), '', 1);
+		$this->assertEqualsWithDelta(8, $Calculator->average(), 1);
 	}
 
 	/**

@@ -34,7 +34,6 @@
         "guzzlehttp/guzzle": "^7.0",
         "runalyze/common": "v4.3.0",
         "runalyze/devices": "v4.3.0",
-        "miniflux/picofeed": "v0.1.35",
         "p3k/picofeed": "^0.1.40",
         "laminas/laminas-zendframework-bridge": "^1.6",
         "runalyze/translations": "dev-master"
@@ -53,9 +52,10 @@
         }
     },
     "require-dev": {
-        "liip/functional-test-bundle": "^1.8",
+        "liip/functional-test-bundle": "^4.3.0",
+        "liip/test-fixtures-bundle": "^1.12",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^8.5"
     },
     "repositories": [
         {

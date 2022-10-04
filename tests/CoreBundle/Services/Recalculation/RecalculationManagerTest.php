@@ -26,7 +26,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigurationUpdater */
     protected $ConfigurationUpdater;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Account = new Account();
         $confRepository = $this->getConfRepositoryMock();

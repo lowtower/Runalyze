@@ -17,7 +17,7 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
     /** @var Account */
     protected $EmptyAccount;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
 

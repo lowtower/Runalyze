@@ -52,10 +52,8 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(0, $Array->num());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testException() {
+		$this->expectException(\InvalidArgumentException::class);
 		$Array = new StringArrayObject_MockTester();
 		$Array->at(0);
 	}

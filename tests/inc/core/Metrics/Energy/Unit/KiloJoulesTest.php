@@ -10,10 +10,10 @@ class KiloJoulesTest extends \PHPUnit\Framework\TestCase
     {
         $unit = new Kilojoules();
 
-        $this->assertEquals(419, $unit->fromBaseUnit(100), '', 0.5);
-        $this->assertEquals(100, $unit->toBaseUnit(419), '', 0.5);
+        $this->assertEqualsWithDelta(419, $unit->fromBaseUnit(100), 0.5);
+        $this->assertEqualsWithDelta(100, $unit->toBaseUnit(419), 0.5);
 
-        $this->assertEquals(100, $unit->fromBaseUnit(24), '', 0.5);
-        $this->assertEquals(24, $unit->toBaseUnit(100), '', 0.5);
+        $this->assertEqualsWithDelta(100, $unit->fromBaseUnit(24), 0.5);
+        $this->assertEqualsWithDelta(24, $unit->toBaseUnit(100), 0.5);
     }
 }

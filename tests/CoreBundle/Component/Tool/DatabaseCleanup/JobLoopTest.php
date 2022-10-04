@@ -13,7 +13,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 	/** @var \PDO */
 	protected $PDO;
 
-	protected function setUp(): void
+	protected function setUp() : void
     {
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
@@ -21,7 +21,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
 
-	protected function tearDown(): void
+	protected function tearDown() : void
     {
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');

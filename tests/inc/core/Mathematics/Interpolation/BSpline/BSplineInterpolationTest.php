@@ -13,23 +13,19 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $num = count($expected);
 
         for ($i = 0; $i < $num; ++$i) {
-            $this->assertEquals($expected[$i], $given[$i], '', $precision);
+            $this->assertEqualsWithDelta($expected[$i], $given[$i], $precision);
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidDegree()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation(0);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNonNumericDegree()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation('foo');
     }
 

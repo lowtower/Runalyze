@@ -14,31 +14,27 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	/** @var \PDO */
 	protected $PDO;
 
-	protected function setUp(): void
+	protected function setUp() : void
 	{
 		$this->PDO = DB::getInstance();
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}
 
-	protected function tearDown(): void
+	protected function tearDown() : void
 	{
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testThatResettingRequiresAccountId()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Configuration::loadAll(null);
 		Configuration::resetConfiguration();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidAccountId()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Configuration::resetConfiguration('foo');
 	}
 

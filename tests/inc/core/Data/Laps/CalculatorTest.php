@@ -25,7 +25,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
-	protected function setUp(): void
+	protected function setUp() : void
 	{
 		$this->Laps = new Laps;
 		$this->object = new Calculator($this->Laps);
@@ -77,10 +77,10 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	{
 		foreach ($ExpectedLaps as $i => $Lap) {
 			$this->assertEquals($Lap[0], $this->Laps->at($i)->duration()->seconds());
-			$this->assertEquals($Lap[1], $this->Laps->at($i)->distance()->kilometer());
+			$this->assertEqualsWithDelta($Lap[1], $this->Laps->at($i)->distance()->kilometer(), 0.0001);
 			$this->assertEquals($Lap[2], $this->Laps->at($i)->trackDuration()->seconds());
 			$this->assertEquals($Lap[3], $this->Laps->at($i)->trackDistance()->kilometer());
-			$this->assertEquals($Lap[4], $this->Laps->at($i)->HRavg()->inBPM(), '', 0.5);
+			$this->assertEqualsWithDelta($Lap[4], $this->Laps->at($i)->HRavg()->inBPM(), 0.5);
 			$this->assertEquals($Lap[5], $this->Laps->at($i)->HRmax()->inBPM());
 			$this->assertEquals($Lap[6], $this->Laps->at($i)->elevationUp());
 			$this->assertEquals($Lap[7], $this->Laps->at($i)->elevationDown());

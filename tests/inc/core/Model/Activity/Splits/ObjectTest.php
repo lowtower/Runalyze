@@ -7,10 +7,8 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class ObjectTest extends \PHPUnit\Framework\TestCase {
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidConstructor() {
+		$this->expectException(\InvalidArgumentException::class);
 		new Entity(array(new \stdClass(), new \stdClass()));
 	}
 

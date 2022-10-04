@@ -19,7 +19,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
     /** @var Location */
     protected $Location;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
 

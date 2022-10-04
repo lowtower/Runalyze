@@ -9,24 +9,20 @@ class HampelFilterTest extends \PHPUnit\Framework\TestCase
     /** @var HampelFilter */
     protected $Filter;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Filter = new HampelFilter(3);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidWindowWidth()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new HampelFilter(0);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNonIntegerWindowWidth()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new HampelFilter(3.14);
     }
 

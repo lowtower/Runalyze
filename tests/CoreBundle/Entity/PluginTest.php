@@ -9,7 +9,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
     /** @var Plugin */
     protected $Plugin;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Plugin = new Plugin();
     }

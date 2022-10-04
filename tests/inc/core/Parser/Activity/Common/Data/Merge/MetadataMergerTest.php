@@ -13,7 +13,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
     /** @var Metadata */
     protected $SecondMetadata;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->FirstMetadata = new Metadata();
         $this->SecondMetadata = new Metadata();

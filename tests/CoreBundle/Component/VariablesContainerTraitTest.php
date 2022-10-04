@@ -15,18 +15,16 @@ class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
     /** @var \ReflectionMethod */
     protected $SetMethod;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Object = $this->getObjectForTrait(VariablesContainerTrait::class);
         $this->GetMethod = new \ReflectionMethod($this->Object, 'get');
         $this->SetMethod = new \ReflectionMethod($this->Object, 'set');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGettingUnknownKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->GetMethod->invoke($this->Object, 'foobar');
     }
 

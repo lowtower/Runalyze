@@ -53,7 +53,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.05, (new Climb(1.0, 50))->getGradient());
         $this->assertEquals(0.16, (new Climb(0.2, 32))->getGradient());
         $this->assertEquals(0.06, (new Climb(0.5, 30))->getGradient());
-        $this->assertEquals(0.033, (new Climb(3.0, 100))->getGradient(), '', 0.001);
+        $this->assertEqualsWithDelta(0.033, (new Climb(3.0, 100))->getGradient(), 0.001);
     }
 
     public function testClimbProfile()

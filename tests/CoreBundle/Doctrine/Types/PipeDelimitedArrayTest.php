@@ -13,7 +13,7 @@ class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->Type = PipeDelimitedArray::getType(PipeDelimitedArray::PIPE_ARRAY);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

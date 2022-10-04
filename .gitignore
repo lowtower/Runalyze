@@ -1,5 +1,6 @@
 # IDEs
 .vscode
+.devcontainer/
 .buildpath
 .project
 .settings/

@@ -16,12 +16,12 @@ class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
         $inputCoefficients = $coefficients->getInputCoefficients();
         $outputCoefficients = $coefficients->getOutputCoefficients();
 
-        $this->assertEquals(0.06745, $inputCoefficients[0], '', 0.00001);
-        $this->assertEquals(0.13491, $inputCoefficients[1], '', 0.00001);
-        $this->assertEquals(0.06745, $inputCoefficients[2], '', 0.00001);
+        $this->assertEqualsWithDelta(0.06745, $inputCoefficients[0], 0.00001);
+        $this->assertEqualsWithDelta(0.13491, $inputCoefficients[1], 0.00001);
+        $this->assertEqualsWithDelta(0.06745, $inputCoefficients[2], 0.00001);
 
         $this->assertEquals(1.0, $outputCoefficients[0]);
-        $this->assertEquals(-1.14298, $outputCoefficients[1], '', 0.00001);
-        $this->assertEquals(0.41280, $outputCoefficients[2], '', 0.00001);
+        $this->assertEqualsWithDelta(-1.14298, $outputCoefficients[1], 0.00001);
+        $this->assertEqualsWithDelta(0.41280, $outputCoefficients[2], 0.00001);
     }
 }

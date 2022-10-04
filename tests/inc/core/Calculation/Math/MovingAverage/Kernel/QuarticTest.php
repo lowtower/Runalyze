@@ -25,7 +25,7 @@ class QuarticTest extends \PHPUnit\Framework\TestCase
     {
         $Kernel = new Quartic(10);
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             0.0,
             0.5625,
             1.0,
@@ -35,6 +35,6 @@ class QuarticTest extends \PHPUnit\Framework\TestCase
             -2.5,
             0.0,
             3.0
-        ]));
+        ]), 0.0001);
     }
 }
