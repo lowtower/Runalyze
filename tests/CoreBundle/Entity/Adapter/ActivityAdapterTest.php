@@ -9,6 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Athlete\Gender;
+use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 use Runalyze\Util\LocalTime;
 
 class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
@@ -70,16 +71,58 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function testCalculationOfSwimmingValues()
     {
-        $this->Activity->setTrackdata(new Trackdata());
-        $this->Activity->getTrackdata()->setTime([85, 165, 246, 323]);
+        $this->Activity->setS(323);
 
         $this->Activity->setSwimdata(new Swimdata());
         $this->Activity->getSwimdata()->setStroke([32, 27, 28, 25]);
+        $this->Activity->getSwimdata()->setStroketype([
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::FREESTYLE,
+        ]);
 
         $this->Adapter->calculateValuesForSwimming();
 
         $this->assertEquals(112, $this->Activity->getTotalStrokes());
         $this->assertEquals(109, $this->Activity->getSwolf());
+    }
+
+    public function testCalculationOfSwimmingValuesIgnoresBreaksForSwolf()
+    {
+        $this->Activity->setS(323);
+
+        $this->Activity->setSwimdata(new Swimdata());
+        $this->Activity->getSwimdata()->setStroke([32, 0, 27, 28, 25]);
+        $this->Activity->getSwimdata()->setStroketype([
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::BREAK,
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::FREESTYLE,
+            StrokeTypeProfile::FREESTYLE,
+        ]);
+
+        $this->Adapter->calculateValuesForSwimming();
+
+        $this->assertEquals(112, $this->Activity->getTotalStrokes());
+        $this->assertEquals(109, $this->Activity->getSwolf());
+    }
+
+    public function testSwolfIsNullIfOnlyBreakLapsExist()
+    {
+        $this->Activity->setS(300);
+
+        $this->Activity->setSwimdata(new Swimdata());
+        $this->Activity->getSwimdata()->setStroke([0, 0, 0]);
+        $this->Activity->getSwimdata()->setStroketype([
+            StrokeTypeProfile::BREAK,
+            StrokeTypeProfile::BREAK,
+            StrokeTypeProfile::BREAK
+        ]);
+
+        $this->Adapter->calculateSwolf();
+
+        $this->assertNull($this->Activity->getSwolf());
     }
 
     public function testCalculationOfEnergyConsumption()

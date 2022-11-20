@@ -203,4 +203,40 @@ class Loop extends \Runalyze\Model\Loop {
 	protected function createNewObject(array $data) {
 		return new Entity($data);
 	}
+
+    /**
+    * @param int|float $seconds
+    */
+    public function moveToTimeBeforeOrAt($seconds)
+    {
+        $this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
+    }
+
+    /**
+     * @param int|float $kilometer
+     */
+    public function moveToDistanceBeforeOrAt($kilometer)
+    {
+        $this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
+    }
+
+	/**
+	 * Move to the recorded time closest to the target.
+	 *
+	 * @param int|float $seconds
+	 */
+	public function moveToTimeNearest($seconds)
+	{
+		$this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_NEAREST);
+	}
+
+	/**
+	 * Move to the recorded distance closest to the target.
+	 *
+	 * @param int|float $kilometer
+	 */
+	public function moveToDistanceNearest($kilometer)
+	{
+		$this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_NEAREST);
+	}
 }

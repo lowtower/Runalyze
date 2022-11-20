@@ -16,6 +16,7 @@ abstract class Loop
 {
 	const BOUNDARY_AT_OR_AFTER = 0;
 	const BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE = 1;
+    const BOUNDARY_NEAREST = 2;
 
 	/**
 	 * Current index
@@ -178,16 +179,19 @@ abstract class Loop
 	/**
 	 * Move pointer to a target value.
 	 *
-	 * By default, the loop stops at the first recorded value greater than
-	 * or equal to the target.
+	 * BOUNDARY_AT_OR_AFTER selects the first value greater than or equal
+	 * to the target.
 	 *
-	 * For sparse trackdata, BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE selects the
-	 * last recorded value below the target, provided that doing so advances
-	 * the loop beyond the previous boundary.
+	 * BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE selects the last value below the
+	 * target, provided that the loop advances beyond the previous boundary.
 	 *
-	 * @param enum $key
-	 * @param int|float $target to move to
+	 * BOUNDARY_NEAREST selects the value closest to the target, provided
+	 * that selecting the previous value advances the loop.
+	 *
+	 * @param string $key
+	 * @param int|float $target
 	 * @param int $boundaryMode
+	 *
 	 * @throws \InvalidArgumentException
 	 */
 	protected function moveTo($key, $target, $boundaryMode = self::BOUNDARY_AT_OR_AFTER)
@@ -205,30 +209,43 @@ abstract class Loop
 			$this->Index++;
 		}
 
+		$current = $this->Object->at($this->Index, $key);
+
+		/*
+		* The target lies beyond the available data. In this case the final
+		* point is the closest point at or before the target and must be kept.
+		*/
+		if ($this->isAtEnd() && $current < $target) {
+			return;
+		}
+
+		/*
+		* Do not step back if that would return to the previous boundary.
+		* The loop must advance by at least one index.
+		*/
+		if ($this->Index <= $this->LastIndex + 1) {
+			return;
+		}
+
+		// An exact match is always preferred.
+		if ($current == $target) {
+			return;
+		}
+
+		$previous = $this->Object->at($this->Index - 1, $key);
+
+		if (self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE === $boundaryMode) {
+			$this->Index--;
+			return;
+		}
+
 		if (
-			self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE === $boundaryMode &&
-			$this->Object->at($this->Index, $key) > $target &&
-			$this->Index > $this->LastIndex + 1
+			self::BOUNDARY_NEAREST === $boundaryMode &&
+			$current - $target > $target - $previous
 		) {
-			$this->Index = $this->Index - 1;
+			$this->Index--;
 		}
 	}
-
-    /**
-    * @param int|float $seconds
-    */
-    public function moveToTimeBeforeOrAt($seconds)
-    {
-        $this->moveTo(Trackdata\Entity::TIME, $seconds, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
-    }
-
-    /**
-     * @param int|float $kilometer
-     */
-    public function moveToDistanceBeforeOrAt($kilometer)
-    {
-        $this->moveTo(Trackdata\Entity::DISTANCE, $kilometer, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
-    }
 
 	/**
 	 * Current value
@@ -343,7 +360,7 @@ abstract class Loop
 	 */
 	public function sliceObject()
 	{
-		if ($this->Object instanceof Runalyze\Model\Entity)
+		if (!$this->Object instanceof \Runalyze\Model\Entity)
 		{
 			throw new \RuntimeException('This object cannot be sliced.');
 		}

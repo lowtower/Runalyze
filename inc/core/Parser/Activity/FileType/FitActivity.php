@@ -3,12 +3,14 @@
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Activity;
+use Runalyze\Data\Stroketype;
 use Runalyze\Import\Exception\ParserException;
 use Runalyze\Parser\Activity\Common\AbstractSingleParser;
 use Runalyze\Parser\Activity\Common\Data\Metadata;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\StrtotimeWithLocalTimezoneOffsetTrait;
+use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 use Runalyze\Profile\Sport\Mapping\FitSdkMapping;
 use Runalyze\Profile\Sport\SportProfile;
 
@@ -70,7 +72,7 @@ class FitActivity extends AbstractSingleParser
         'ContactTime' => ['stance_time', 10],
         'RP_Power' => ['power', 1],
         'RS_Power_AVG' => ['power', 1],
-	'0_0_Power' => ['power', 1],
+        '0_0_Power' => ['power', 1],
         'RS_ContactTime_L' => ['stance_time_left', 10],
         'RS_ContactTime_R' => ['stance_time_right', 10],
         'RS_Impact_GS_L' => ['impact_gs_left', 1],
@@ -425,8 +427,14 @@ class FitActivity extends AbstractSingleParser
     {
         $this->mapDeveloperFieldsToNativeFieldsFor($this->DeveloperFieldMappingForSession);
 
-        if (isset($this->Values['total_timer_time'])) {
-            $this->Container->ActivityData->Duration += round($this->Values['total_timer_time'][0] / 1e3);
+        if ($this->IsSwimming && isset($this->Values['total_swim_time'])) {
+            // #TSC: if swimming and "total_swim_time" is available, this is the real swim time without rests (this was introduced with a new FW-version)
+            $this->Container->ActivityData->Duration += round($this->Values['total_swim_time'][0] / 1e3);
+        } else {
+            // if now "new" total_swim_time or "no swimming" use the "default" time
+            if (isset($this->Values['total_timer_time'])) {
+                $this->Container->ActivityData->Duration += round($this->Values['total_timer_time'][0] / 1e3);
+            }
         }
 
         if (isset($this->Values['total_elapsed_time'])) {
@@ -859,7 +867,8 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['total_timer_time']) && isset($this->Values['total_distance']) && round($this->Values['total_timer_time'][0] / 1e3) > 0) {
             $this->Container->Rounds->add(new Round(
                 $this->Values['total_distance'][0] / 1e5,
-                $this->Values['total_timer_time'][0] / 1e3
+                $this->Values['total_timer_time'][0] / 1e3,
+                $this->isActiveLap() // #TSC is swimming and no real activity in this lap ==> pause/rest
             ));
         }
     }
@@ -880,7 +889,15 @@ class FitActivity extends AbstractSingleParser
         }
 
         $this->Container->ContinuousData->Strokes[] = isset($this->Values['total_strokes']) ? (int)$this->Values['total_strokes'][0] : null;
-        $this->Container->ContinuousData->StrokeType[] = isset($this->Values['swim_stroke']) ? (int)$this->Values['swim_stroke'][0] : null;
+
+        // #TSC: if there is a rest/pause-lap ("length_type=0=idle" means nothink happens in this interval), set the BREAK-type
+        $stroketype = isset($this->Values['swim_stroke']) ? (int)$this->Values['swim_stroke'][0] : null;
+        if($stroketype == null && isset($this->Values['length_type']) && $this->Values['length_type'][0] == '0') {
+            $this->Container->ContinuousData->StrokeType[] = StrokeTypeProfile::BREAK;
+        } else {
+            $this->Container->ContinuousData->StrokeType[] = $stroketype;
+        }
+
         $this->Container->ContinuousData->Cadence[] = isset($this->Values['avg_swimming_cadence']) ? (int)$this->Values['avg_swimming_cadence'][0] : null;
 
         if (empty($this->Container->ContinuousData->Time)) {
@@ -984,5 +1001,21 @@ class FitActivity extends AbstractSingleParser
     protected function normalizeSportName($name)
     {
         return trim($name, "\" \t\n\r\0\x0B");
+    }
+
+    /**
+     * #TSC
+     * is lap active or pause/rest.
+     * primary for swimming.
+     */
+    protected function isActiveLap() {
+        if ($this->IsSwimming
+            && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == "0"
+            && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == "0") {
+            // this is for lap and StrokeTypeProfile::BREAK (for lanes) can't be used here
+            return false;
+        } else {
+            return true;
+        }
     }
 }

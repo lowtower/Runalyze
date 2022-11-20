@@ -99,20 +99,10 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 	public function testMoveToDistanceStillUsesFirstPointAtOrAfterTarget()
 	{
 		$Loop = new Loop(new Entity(array(
-			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5,3.7)
-		)));
-
-		$Loop->moveToDistance(3.4);
-		$this->assertEquals(3.5, $Loop->current(Entity::DISTANCE));
-	}
-
-	public function testMoveToDistanceUsesFirstValueAtOrAfterTarget()
-	{
-		$Loop = new Loop(new Entity(array(
 			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5, 3.7)
 		)));
-		$Loop->moveToDistance(3.4);
 
+		$Loop->moveToDistance(3.4);
 		$this->assertEquals(3.5, $Loop->current(Entity::DISTANCE));
 	}
 
@@ -233,43 +223,6 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$Loop->moveToTime(100);
 	}
 
-	public function testMoveToTimeBeforeOrAtWithExactMatch()
-	{
-		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0, 569, 608, 642, 680)
-		)));
-
-		$Loop->moveToTimeBeforeOrAt(608);
-
-		$this->assertEquals(608, $Loop->current(Entity::TIME));
-	}
-
-	public function testMoveToTimeBeforeOrAtWithTargetBetweenTrackpoints()
-	{
-		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0, 569, 608, 642, 680)
-		)));
-
-		$Loop->moveToTimeBeforeOrAt(610);
-		$this->assertEquals(608, $Loop->current(Entity::TIME));
-	}
-
-	public function testMoveToTimeBeforeOrAtMustAdvance()
-	{
-		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0, 569, 608, 642, 680)
-		)));
-
-		// 608 is the last point before 610.
-		$Loop->moveToTimeBeforeOrAt(610);
-		$this->assertEquals(608, $Loop->current(Entity::TIME));
-
-		// 608 is also the last point before 620, but choosing it again
-		// would not advance the loop. Therefore, use 642.
-		$Loop->moveToTimeBeforeOrAt(620);
-		$this->assertEquals(642, $Loop->current(Entity::TIME));
-	}
-
 	public function testMoveToTimeBeforeOrAtAtEnd()
 	{
 		$Loop = new Loop(new Entity(array(
@@ -311,5 +264,78 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 	{
 		$Loop = new Loop(new Entity());
 		$Loop->moveToDistanceBeforeOrAt(1.0);
+	}
+
+	public function testMoveToTimeNearestUsesPreviousPointWhenCloser()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::TIME => array(0, 569, 608, 642, 680)
+		)));
+
+		$Loop->moveToTimeNearest(610);
+		$this->assertEquals(608, $Loop->current(Entity::TIME));
+	}
+
+	public function testMoveToTimeNearestUsesFollowingPointWhenCloser()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::TIME => array(0, 569, 608, 642, 680)
+		)));
+
+		$Loop->moveToTimeNearest(635);
+		$this->assertEquals(642, $Loop->current(Entity::TIME));
+	}
+
+	public function testMoveToTimeNearestKeepsExactMatch()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::TIME => array(0, 569, 608, 642, 680)
+		)));
+
+		$Loop->moveToTimeNearest(642);
+		$this->assertEquals(642, $Loop->current(Entity::TIME));
+	}
+
+	public function testDifferenceAfterMoveToTimeNearest()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::TIME => array(0, 569, 608, 642, 680)
+		)));
+
+		$Loop->moveToTimeNearest(610);
+		$this->assertEquals(608, $Loop->difference(Entity::TIME));
+
+		$Loop->moveToTimeNearest(670);
+		$this->assertEquals(72, $Loop->difference(Entity::TIME));
+	}
+
+	public function testMoveToTimeNearestUsesFollowingPointOnEqualDistance()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::TIME => array(0, 600, 620)
+		)));
+
+		$Loop->moveToTimeNearest(610);
+		$this->assertEquals(620, $Loop->current(Entity::TIME));
+	}
+
+	public function testMoveToDistanceNearestUsesPreviousPointWhenCloser()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5, 3.7)
+		)));
+
+		$Loop->moveToDistanceNearest(3.3);
+		$this->assertEquals(3.2, $Loop->current(Entity::DISTANCE));
+	}
+
+	public function testMoveToDistanceNearestUsesFollowingPointWhenCloser()
+	{
+		$Loop = new Loop(new Entity(array(
+			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5, 3.7)
+		)));
+
+		$Loop->moveToDistanceNearest(3.4);
+		$this->assertEquals(3.5, $Loop->current(Entity::DISTANCE));
 	}
 }
