@@ -127,6 +127,9 @@ class FitActivity extends AbstractSingleParser
     protected $SwimHeartrate = [];
     protected $SwimTemperature = [];
 
+    // temperatur of the battery block (only as fallback)
+    protected $batteryTemperature = [];
+
     public function parse()
     {
         throw new \RuntimeException('FitActivity does not support parse().');
@@ -160,6 +163,11 @@ class FitActivity extends AbstractSingleParser
             } else {
                 $this->Container->ContinuousData->Temperature = [];
             }
+        }
+
+        // #TSC: set the 
+        if (empty($this->Container->ActivityData->AvgTemperature) && !empty($this->batteryTemperature)) {
+            $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature)/count($this->batteryTemperature);
         }
     }
 
@@ -371,6 +379,10 @@ class FitActivity extends AbstractSingleParser
 
                 case 'field_description':
                     $this->readFieldDescription();
+                    break;
+
+                case 'battery':
+                    $this->readBattery(); // #TSC
                     break;
 
                 case 'activity':
@@ -657,6 +669,17 @@ class FitActivity extends AbstractSingleParser
             } elseif ($thisTimestamp > $this->LastStopTimestamp) {
                 $this->PauseInSeconds += $thisTimestamp - $this->LastStopTimestamp;
             }
+        }
+    }
+
+    /**
+     * read data from battery block.
+     * #TSC
+     */
+    protected function readBattery() {
+        // set temperature of battery; besser als gar nichts ;-) will stored every 5 minutes on a Fenix 6
+        if (isset($this->Values['temperature'])) {
+            $this->batteryTemperature[] = (int)$this->Values['temperature'][0];
         }
     }
 
