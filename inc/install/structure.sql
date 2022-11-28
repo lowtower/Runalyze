@@ -335,6 +335,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_training` (
   `percentage_hilly` decimal(3,2) unsigned DEFAULT NULL,
   `kcal` smallint unsigned DEFAULT NULL,
   `pulse_avg` tinyint unsigned DEFAULT NULL,
+  `pulse_avg_active` tinyint(3) unsigned DEFAULT NULL,
   `pulse_max` tinyint unsigned DEFAULT NULL,
   `vo2max` decimal(5,2) unsigned DEFAULT NULL,
   `vo2max_by_time` decimal(5,2) unsigned DEFAULT NULL,

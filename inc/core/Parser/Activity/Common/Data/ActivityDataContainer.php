@@ -84,7 +84,7 @@ class ActivityDataContainer
 
     public function completeActivityData()
     {
-        $this->ActivityData->completeFromContinuousData($this->ContinuousData);
+        $this->ActivityData->completeFromContinuousData($this->ContinuousData, $this->Rounds);
         $this->ActivityData->completeFromRounds($this->Rounds);
         $this->ActivityData->completeFromPauses($this->Pauses);
 
