@@ -2,7 +2,7 @@
 
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
-use Runalyze\Activity\SelfEvaluationPerceivedEffort;
+use Runalyze\Activity\SelfEvaluationFeeling;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Converter\FitConverter;
 use Runalyze\Parser\Activity\FileType\Fit;
@@ -505,11 +505,20 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(2724, $this->Container->ActivityData->Duration);
         $this->assertEquals(6.753, $this->Container->ActivityData->Distance, '', 0.001);
 
-        $this->assertEquals(SelfEvaluationPerceivedEffort::NORMAL, $this->Container->FitDetails->SelfEvaluationFeeling);
-        $this->assertEquals(5, $this->Container->FitDetails->SelfEvaluationPerceivedEffort);
+        $this->assertEquals(SelfEvaluationFeeling::NORMAL, $this->Container->FitDetails->SelfEvaluationFeeling);
+        $this->assertEquals(3, $this->Container->FitDetails->SelfEvaluationFeeling);
     }
 
-	/**
+    public function testSelfEvaluationFeelingConversionFromFitValues()
+    {
+        $this->assertSame(SelfEvaluationFeeling::VERY_WEAK, SelfEvaluationFeeling::fromFitToEnum(1));
+        $this->assertSame(SelfEvaluationFeeling::WEAK, SelfEvaluationFeeling::fromFitToEnum(2));
+        $this->assertSame(SelfEvaluationFeeling::NORMAL, SelfEvaluationFeeling::fromFitToEnum(3));
+        $this->assertSame(SelfEvaluationFeeling::STRONG, SelfEvaluationFeeling::fromFitToEnum(4));
+        $this->assertSame(SelfEvaluationFeeling::VERY_STRONG, SelfEvaluationFeeling::fromFitToEnum(5));
+    }
+
+/**
 	 * @see https://github.com/Runalyze/Runalyze/issues/1886
 	 */
 	public function testDataFromSuuntoAmbitPeakWithoutFinalLap()
