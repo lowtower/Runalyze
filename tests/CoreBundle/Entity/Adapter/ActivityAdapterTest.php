@@ -125,6 +125,20 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getSwolf());
     }
 
+    public function testCalculationOfSwolfReturnsNullForEmptyTrackdataTime()
+    {
+        $this->Activity->setTrackdata(new Trackdata());
+        $this->Activity->getTrackdata()->setTime([]);
+
+        $this->Activity->setSwimdata(new Swimdata());
+        $this->Activity->getSwimdata()->setStroke([32, 27]);
+
+        $this->Adapter->calculateValuesForSwimming();
+
+        $this->assertSame(59, $this->Activity->getTotalStrokes());
+        $this->assertNull($this->Activity->getSwolf());
+    }
+
     public function testCalculationOfEnergyConsumption()
     {
         $this->Activity->setSport(new Sport());

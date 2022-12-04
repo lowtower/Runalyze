@@ -267,23 +267,41 @@ class ActivityAdapter
 
     public function calculateSwolf()
     {
-        // TSC calculation of SWOLF must use the real swim-time, not the "verstrichene" time
-        if (null !== $this->Activity->getTotalStrokes() && null !== $this->Activity->getS() &&
-            null !== $this->Activity->getSwimdata() && $this->Activity->getSwimdata()->hasStrokeTypes()) {
-            $totalTime = $this->Activity->getS(); // use the swim-time, not the "verstrichene" time
-            $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), function($v){
-                return $v != StrokeTypeProfile::BREAK; // ignore lanes form type=pause/rest
-            }));
-            if (null !== $this->Activity->getTotalStrokes() && null !== $this->Activity->getS() && $numberOfPoints > 0) {
-                $this->Activity->setSwolf((int)round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints));
-            } else {
-                $this->Activity->setSwolf(null);
+        $swolf = null;
+        if (null !== $this->Activity->getTotalStrokes()) {
+            $totalTime = 0;
+            $numberOfPoints = 0;
+
+            /*
+             * Preferred calculation:
+             * Use the actual swimming time and ignore break/rest lanes.
+             */
+            if (null !== $this->Activity->getS() &&
+                null !== $this->Activity->getSwimdata() &&
+                $this->Activity->getSwimdata()->hasStrokeTypes()
+            ) {
+                $totalTime = $this->Activity->getS();
+                $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), function ($strokeType) {
+                    return StrokeTypeProfile::BREAK != $strokeType;
+                }));
+            } elseif (null !== $this->Activity->getTrackdata() && $this->Activity->getTrackdata()->hasTime()) {
+                /*
+                 * Fallback for swimming data without stroke types:
+                 * Use the overall time and number of track-data points.
+                 */
+                $trackDataTime = $this->Activity->getTrackdata()->getTime();
+                if (!empty($trackDataTime)) {
+                    $totalTime = end($trackDataTime);
+                    $numberOfPoints = count($trackDataTime);
+                }
             }
 
-            $this->Activity->setSwolf((int)round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints));
-        } else {
-            $this->Activity->setSwolf(null);
+            if ($totalTime > 0 && $numberOfPoints > 0) {
+                $swolf = (int)round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints);
+           }
         }
+
+        $this->Activity->setSwolf($swolf);
     }
 
     public function useElevationFromRoute()
