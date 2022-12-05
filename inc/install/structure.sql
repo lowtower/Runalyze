@@ -363,6 +363,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_training` (
   `total_strokes` smallint(5) unsigned DEFAULT NULL,
   `swolf` tinyint(3) unsigned DEFAULT NULL,
   `stride_length` tinyint(3) unsigned DEFAULT NULL,
+  `total_cycles` smallint(5) unsigned DEFAULT NULL,
   `groundcontact` smallint(5) unsigned DEFAULT NULL,
   `groundcontact_balance` SMALLINT unsigned DEFAULT NULL,
   `vertical_oscillation` tinyint(3) unsigned DEFAULT NULL,
