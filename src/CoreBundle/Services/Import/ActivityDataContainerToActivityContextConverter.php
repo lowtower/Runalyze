@@ -279,6 +279,7 @@ class ActivityDataContainerToActivityContextConverter
         // #TSC: self evaluation
         $activity->setFitSelfEvaluationFeeling($fitDetails->SelfEvaluationFeeling);
         $activity->setFitSelfEvaluationPerceivedEffort($fitDetails->SelfEvaluationPerceivedEffort);
+        $activity->setFitLoadPeak($fitDetails->LoadPeak);
     }
 
     protected function setActivityWeatherDataFor(Training $activity, WeatherData $weatherData)
