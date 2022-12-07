@@ -17,17 +17,57 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testTransform()
     {
-        $this->assertEquals('', $this->Type->transform(null));
-        $this->assertEquals('1.234', $this->Type->transform(1.234));
-        $this->assertEquals('1234.50', $this->Type->transform(1234.5));
-        $this->assertEquals('7.69', $this->Type->transform('7.69'));
+        $this->assertSame('', $this->Type->transform(null));
+
+        // At least two decimals are displayed.
+        $this->assertSame('1.00', $this->Type->transform(1.0));
+        $this->assertSame('1.20', $this->Type->transform(1.2));
+        $this->assertSame('1.23', $this->Type->transform(1.23));
+
+        // A third existing decimal is preserved.
+        $this->assertSame('1.234', $this->Type->transform(1.234));
+
+        // Input precision is limited to three decimal places.
+        $this->assertSame('1.235', $this->Type->transform(1.2346));
+
+        // Formatting preserves trailing zeros.
+        $this->assertSame('1234.50', $this->Type->transform(1234.5));
     }
 
     public function testReverseTransform()
     {
-        $this->assertEquals(null, $this->Type->reverseTransform(null));
-        $this->assertEquals(1.23, $this->Type->reverseTransform('1.23'));
-        $this->assertEquals(1.234, $this->Type->reverseTransform('1.234'));
-        $this->assertEquals(7.69, $this->Type->reverseTransform('7,69'));
+        $this->assertNull($this->Type->reverseTransform(null));
+        $this->assertEquals(1.23, $this->Type->reverseTransform('1.23'), '', 0.000001);
+        $this->assertEquals(1.234, $this->Type->reverseTransform('1.234'), '', 0.000001);
+        $this->assertEquals(7.69, $this->Type->reverseTransform('7,69'), '', 0.000001);
+    }
+
+    public function testRoundingToViewPrecision()
+    {
+        $precision = $this->Type->getViewPrecision();
+
+        $this->assertEquals(1.23, round(1.234, $precision));
+        $this->assertEquals(1234.50, round(1234.5, $precision));
+        $this->assertEquals(7.69, round(7.69, $precision));
+    }
+
+    public function testTransformWithViewPrecision()
+    {
+        $precision = $this->Type->getViewPrecision();
+
+        $this->assertEquals(number_format(1.234, $precision, '.', ''), $this->Type->transform(1.23));
+        $this->assertEquals(number_format(1234.5, $precision, '.', ''), $this->Type->transform(1234.5));
+        $this->assertEquals(number_format(7.69, $precision, '.', ''), $this->Type->transform(7.69));
+    }
+
+    public function testTransformUsesCalculatedViewPrecision()
+    {
+        $values = [1.0, 1.2, 1.23, 1.234, 1.2346, 1234.5,];
+
+        foreach ($values as $value) {
+            $precision = $this->Type->getViewPrecisionFor($value);
+            $expected = number_format($value, $precision, '.', '');
+            $this->assertSame($expected, $this->Type->transform($value));
+        }
     }
 }

@@ -94,6 +94,10 @@ class ActiveRoundCalculator {
                     $timeIdx++;
                 }
             }
+
+            if ($timeIdx >= $len) {
+                break;
+            }
         }
     }
 

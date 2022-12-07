@@ -32,7 +32,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('100m', $Distance->set(0.1)->stringAuto());
 		$this->assertEquals('1.000m', $Distance->set(1.0)->stringAuto());
 		$this->assertEquals('1.500m', $Distance->set(1.5)->stringAuto());
-		$this->assertEquals('1,750&nbsp;km', $Distance->set(1.75)->stringAuto());
+		$this->assertEquals('1,756&nbsp;km', $Distance->set(1.756)->stringAuto());
 		$this->assertEquals('3.000m', $Distance->set(3.0)->stringAuto());
 		$this->assertEquals('5,000&nbsp;km', $Distance->set(5)->stringAuto());
 	}
