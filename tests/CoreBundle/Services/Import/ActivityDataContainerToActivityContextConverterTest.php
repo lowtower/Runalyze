@@ -115,7 +115,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEquals($this->Container->ContinuousData->Longitude, $activityContext->getRoute()->getLongitudes());
     }
 
-    public function testThatBarometricAltitudeDataIsTreatedAsCorrected()
+    public function testThatBarometricAltitudeDataIsStoredAsOriginalOnly()
     {
         $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
         $this->Container->ContinuousData->Altitude = [117, 117, 119, 124, 123, 120];
@@ -124,7 +124,17 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
 
         $this->assertNotNull($activityContext->getRoute());
         $this->assertEquals($this->Container->ContinuousData->Altitude, $activityContext->getRoute()->getElevationsOriginal());
-        $this->assertEquals($this->Container->ContinuousData->Altitude, $activityContext->getRoute()->getElevationsCorrected());
+        $this->assertNull($activityContext->getRoute()->getElevationsCorrected());
+        $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());
+    }
+
+    public function testThatAltitudeBarometricFlagIsTransferred()
+    {
+        $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
+        $this->Container->ContinuousData->Altitude = [117, 118];
+
+        $activityContext = $this->Converter->getContextFor($this->Container);
+        $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());
     }
 
     public function testThatRRIntervalsAreConverted()
