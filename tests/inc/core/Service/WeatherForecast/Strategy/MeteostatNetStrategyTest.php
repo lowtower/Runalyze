@@ -25,7 +25,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
 
-        $this->Strategy = new MeteostatNet('test-api-key', new \GuzzleHttp\Client(), $logger);
+        $this->Strategy = new MeteostatNet('test-api-key', NULL, new \GuzzleHttp\Client(), $logger);
 
         $this->GetUrlForMethod = new \ReflectionMethod($this->Strategy, 'getUrlFor');
         $this->GetUrlForMethod->setAccessible(true);
@@ -149,5 +149,34 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(16, $weather->Temperature);
         $this->assertEquals(13, $weather->WindSpeed);
+    }
+
+    public function testProxyIsPassedToHttpClient()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $location = new Location();
+        $location->setPosition(52.4, 10.7);
+        $location->setTimezone('Europe/Berlin');
+        $location->setDateTime(new \DateTime('2020-10-01 15:30:00'));
+        $container = [];
+        $history = \GuzzleHttp\Middleware::history($container);
+
+        $mock = new \GuzzleHttp\Handler\MockHandler([
+            new \GuzzleHttp\Psr7\Response(200, [], json_encode(['data' => []]))
+        ]);
+
+        $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
+        $handlerStack->push($history);
+
+        $client = new \GuzzleHttp\Client(['handler' => $handlerStack]);
+
+        $strategy = new MeteostatNet('api-key', 'http://proxy.example:8080', $client, $logger);
+
+        // Call the public method that triggers the request.
+        // Adapt this to the actual StrategyInterface method.
+        $strategy->loadForecast($location);
+
+        $this->assertCount(1, $container);
+        $this->assertSame('http://proxy.example:8080', $container[0]['options']['proxy']);
     }
 }
