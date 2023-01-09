@@ -157,9 +157,9 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$newTypeId = $this->DB->query('SELECT `id` FROM `runalyze_type` WHERE `accountid`='.$this->AccountID.' AND `name`="Newtype"')->fetchColumn();
         $newTypesSportId = $this->DB->query('SELECT `sportid` FROM `runalyze_type` WHERE `accountid`='.$this->AccountID.' AND `name`="Newtype"')->fetchColumn();
 
-		$this->assertNotEquals(0, $newSportId);
-		$this->assertNotEquals(0, $newTypeId);
-        $this->assertEquals($newSportId, $newTypesSportId);
+		$this->assertNotFalse($newSportId, 'Newsport was not imported.');
+		$this->assertNotFalse($newTypeId, 'Newtype was not imported.');
+		$this->assertEquals($newSportId, $newTypesSportId, 'Newtype must reference the remapped ID of Newsport.');
 
 		// Check inserts
 		$this->assertEquals(
