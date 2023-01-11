@@ -39,8 +39,8 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
             ADD PRIMARY KEY (`sportid`,`equipment_id`), ADD KEY `equipment_id` (`equipment_id`)');
 
         $this->addSql('ALTER TABLE `'.$prefix.'equipment_spor`
-            ADD CONSTRAINT `runalyze_equipment_spor_ibfk_1` FOREIGN KEY (`sportid`) REFERENCES `runalyze_sport` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-            ADD CONSTRAINT `runalyze_equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `runalyze_equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
+            ADD CONSTRAINT `'.$prefix.'equipment_spor_ibfk_1` FOREIGN KEY (`sportid`) REFERENCES `'.$prefix.'sport` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `'.$prefix.'equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `'.$prefix.'equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
     }
 
     /**
