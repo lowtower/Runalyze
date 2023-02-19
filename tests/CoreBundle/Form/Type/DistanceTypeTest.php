@@ -19,10 +19,10 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame('', $this->Type->transform(null));
 
-        // At least two decimals are displayed.
-        $this->assertSame('1.00', $this->Type->transform(1.0));
-        $this->assertSame('1.20', $this->Type->transform(1.2));
-        $this->assertSame('1.23', $this->Type->transform(1.23));
+        // Exactly three decimals are displayed.
+        $this->assertSame('1.000', $this->Type->transform(1.0));
+        $this->assertSame('1.200', $this->Type->transform(1.2));
+        $this->assertSame('1.230', $this->Type->transform(1.23));
 
         // A third existing decimal is preserved.
         $this->assertSame('1.234', $this->Type->transform(1.234));
@@ -31,7 +31,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('1.235', $this->Type->transform(1.2346));
 
         // Formatting preserves trailing zeros.
-        $this->assertSame('1234.50', $this->Type->transform(1234.5));
+        $this->assertSame('1234.500', $this->Type->transform(1234.5));
     }
 
     public function testReverseTransform()
@@ -46,7 +46,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     {
         $precision = $this->Type->getViewPrecision();
 
-        $this->assertEquals(1.23, round(1.234, $precision));
+        $this->assertEquals(1.234, round(1.234, $precision));
         $this->assertEquals(1234.50, round(1234.5, $precision));
         $this->assertEquals(7.69, round(7.69, $precision));
     }
@@ -55,7 +55,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     {
         $precision = $this->Type->getViewPrecision();
 
-        $this->assertEquals(number_format(1.234, $precision, '.', ''), $this->Type->transform(1.23));
+        $this->assertEquals(number_format(1.23, $precision, '.', ''), $this->Type->transform(1.23));
         $this->assertEquals(number_format(1234.5, $precision, '.', ''), $this->Type->transform(1234.5));
         $this->assertEquals(number_format(7.69, $precision, '.', ''), $this->Type->transform(7.69));
     }
