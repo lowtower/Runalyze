@@ -187,6 +187,11 @@ class FitActivity extends AbstractSingleParser
         if($this->fitSplitsAdditionals->hasData()) {
             $this->Container->ActivityData->SplitsAdditional = $this->fitSplitsAdditionals->getFinishedSplitsAdditional();
         }
+
+        // #TSC: if the training has a "goal", mark it
+        if($this->fitWorkoutStep->hasCustomTarget() || $this->Container->ActivityData->PaceGoal) {
+            $this->Container->ActivityData->WithGoal = true;
+        }
     }
 
     public function readMetadataForMultiSessionFrom(Metadata $metadata)
@@ -503,6 +508,11 @@ class FitActivity extends AbstractSingleParser
             $this->Container->ActivityData->EnergyConsumption += $this->Values['total_calories'][0];
         }
 
+        // #TSC calories in rest
+        if (isset($this->Values['total_calories_rest'])) {
+            $this->Container->ActivityData->EnergyInRest += $this->Values['total_calories_rest'][0];
+        }
+
         if (isset($this->Values['total_strokes'])) {
             $this->Container->ActivityData->TotalStrokes = $this->Values['total_strokes'][0];
         }
@@ -527,6 +537,11 @@ class FitActivity extends AbstractSingleParser
             // #TSC in the session (same as NAME=sport) the sport is also stored
             // not sure whats the best way and what to use in which case (and when they can differ); but use both as implementation before
             $this->readSportProfile();
+        }
+
+        // #TSC: save effect (import at least is greater 0 - see also inc/core/Parser/Activity/Common/Filter/OutOfRangeValueFilter.php)
+        if (isset($this->Values['training_effect_benefit']) && $this->Values['training_effect_benefit'][0] > 0 && $this->Values['training_effect_benefit'][0] <= 99) {
+            $this->Container->FitDetails->TrainingEffectBenefit = $this->Values['training_effect_benefit'][0];
         }
 
         // #TSC: save effect (import at least is greater 0 - see also inc/core/Parser/Activity/Common/Filter/OutOfRangeValueFilter.php)
@@ -569,6 +584,11 @@ class FitActivity extends AbstractSingleParser
         // #TSC: training load peak
         if (isset($this->Values['xxx168']) && $this->Values['xxx168'][0] > 0) {
             $this->Container->FitDetails->LoadPeak = round($this->Values['xxx168'][0] / 65536, 0);
+        }
+
+        // #TSC: sweat loss (Schweisverlust)
+        if (isset($this->Values['sweat_loss']) && $this->Values['sweat_loss'][0] != 0) {
+            $this->Container->FitDetails->SweatLoss = $this->Values['sweat_loss'][0];
         }
     }
 
@@ -660,6 +680,15 @@ class FitActivity extends AbstractSingleParser
             $lthr = (int)$this->Values['lactate_threshold_hr_bpm'][1];
             if ($lthr > 0 && $lthr <= 250) {
                 $this->Container->FitDetails->LactateThresholdHR = $lthr;
+            }
+        }
+        // #TSC: set Running Lactate Threshold Pace, (in m/s) from 140er (should always be filled if lactate_threshold_hr_bpm is)
+        if (isset($this->Values['lactate_threshold_pace'])) {
+            $ltp = (float)$this->Values['lactate_threshold_pace'][0];
+            // a value of 999 means 99 km/h
+            if ($ltp > 0 && $ltp <= 999) {
+                // see https://forum.intervals.icu/t/all-fields-from-garmin-activity/28097
+                $this->Container->FitDetails->LactateThresholdPace = $ltp / 36;
             }
         }
     }

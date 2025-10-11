@@ -208,6 +208,12 @@ final class Keys extends AbstractEnum
 	/** @var int */
 	const OPEN_TAB = 65;
 
+	/** @var int */
+	const FIT_TRAINING_EFFECT_BENEFIT = 66;
+
+	/** @var int */
+	const WITH_GOAL = 67;
+
     /**
 	 * @var array|null
 	 */
@@ -329,7 +335,9 @@ final class Keys extends AbstractEnum
             self::HEARTRATE_AVG_ACTIVE => 'HeartrateAverageActive',
             self::TOTAL_CYCLES => 'TotalCycles',
             self::FIT_LOAD_PEAK => 'FitLoadPeak',
-            self::OPEN_TAB => 'OpenTab'
+            self::OPEN_TAB => 'OpenTab',
+            self::FIT_TRAINING_EFFECT_BENEFIT => 'FitTrainingEffectBenefit',
+			self::WITH_GOAL => 'WithGoal'
         );
 	}
 }

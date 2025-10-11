@@ -219,6 +219,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setDistance($this->getRoundedValue($activityData->Distance, self::DISTANCE_PRECISION_FOR_ACTIVITY_DATA));
         $activity->setElevation($activityData->Elevation);
         $activity->setKcal($activityData->EnergyConsumption);
+        $activity->setKcalInRest($activityData->EnergyInRest); // #TSC
         $activity->setPower($this->getRoundedValue($activityData->AvgPower));
         $activity->setPulseAvg($this->getRoundedValue($activityData->AvgHeartRate));
         $activity->setPulseMax($activityData->MaxHeartRate);
@@ -246,6 +247,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setTotalCycles($activityData->TotalCycles);
         $activity->setSplitsAdditional($activityData->SplitsAdditional);
         $activity->setPaceGoal($activityData->PaceGoal);
+        $activity->setWithGoal($activityData->WithGoal);
     }
 
     /**
@@ -271,6 +273,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setFitVO2maxEstimate($fitDetails->VO2maxEstimate);
         $activity->setFitRecoveryTime($fitDetails->RecoveryTime);
         $activity->setFitHrvAnalysis($fitDetails->HrvAnalysis);
+        $activity->setFitTrainingEffectBenefit($fitDetails->TrainingEffectBenefit); // #TSC
         $activity->setFitTrainingEffect($fitDetails->TrainingEffect);
         // #TSC: transfer anaerobic effect from detail(import object) to activity to be saved
         $activity->setFitAnaerobicTrainingEffect($fitDetails->AnaerobicTrainingEffect);
@@ -278,6 +281,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setFitPerformanceConditionEnd($fitDetails->PerformanceConditionEnd);
         // #TSC: transfer LTHR from detail(import object) to activity to be saved
         $activity->setFitLactateThresholdHR($fitDetails->LactateThresholdHR);
+        $activity->setFitLactateThresholdPace($fitDetails->LactateThresholdPace);
         // #TSC: fit ascent / descent
         $activity->setFitTotalAscent($fitDetails->TotalAscent);
         $activity->setFitTotalDescent($fitDetails->TotalDescent);
@@ -289,6 +293,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setFitWalkTime($fitDetails->WalkTime);
         $activity->setFitStandTime($fitDetails->StandTime);
         $activity->setFitSecondsInHrZones($fitDetails->SecondsInHrZones);
+        $activity->setFitSweatLoss($fitDetails->SweatLoss);
     }
 
     protected function setActivityWeatherDataFor(Training $activity, WeatherData $weatherData)

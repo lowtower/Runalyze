@@ -66,6 +66,12 @@ class Entity extends Model\EntityWithID {
 	const IS_TRACK = 'is_track';
 
 	/**
+	 * Key: has training goal
+	 * @var string
+	 */
+	const WITH_GOAL = 'with_goal';
+
+	/**
 	 * Key: distance
 	 * @var string
 	 */
@@ -106,6 +112,12 @@ class Entity extends Model\EntityWithID {
 	 * @var string
 	 */
 	const ENERGY = 'kcal';
+
+	/**
+	 * Key: energy in rest
+	 * @var string
+	 */
+	const ENERGY_REST = 'kcal_rest';
 
 	/**
 	 * Key: average heart rate
@@ -180,6 +192,12 @@ class Entity extends Model\EntityWithID {
 	const FIT_HRV_ANALYSIS = 'fit_hrv_analysis';
 
 	/**
+	 * Key: total training effect benefit from fit file
+	 * @var string
+	 */
+	const FIT_TRAINING_EFFECT_BENEFIT = 'fit_training_effect_benefit';
+
+	/**
 	 * Key: total training effect from fit file
 	 * @var string
 	 */
@@ -208,6 +226,12 @@ class Entity extends Model\EntityWithID {
      * @var string
      */
     const FIT_LACTATE_THRESHOLD_HR = 'fit_lactate_threshold_hr';
+
+    /**
+     * Key: lactate threshold pace (in m/s) file
+     * @var string
+     */
+    const FIT_LACTATE_THRESHOLD_PACE = 'fit_lactate_threshold_pace_ms';
 
     /**
      * Key: fit total ascent
@@ -262,6 +286,12 @@ class Entity extends Model\EntityWithID {
      * @var string
      */
     const FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
+
+    /**
+     * Key: sweat loss in ml
+     * @var string
+     */
+    const FIT_SWEAT_LOSS = 'fit_sweat_loss';
 
     /**
      * Key: avg_respiration_rate
@@ -559,6 +589,7 @@ class Entity extends Model\EntityWithID {
 			self::TYPEID,
 			self::IS_PUBLIC,
 			self::IS_TRACK,
+			self::WITH_GOAL,
 			self::DISTANCE,
 			self::TIME_IN_SECONDS,
 			self::ELAPSED_TIME,
@@ -566,6 +597,7 @@ class Entity extends Model\EntityWithID {
             self::CLIMB_SCORE,
             self::PERCENTAGE_HILLY,
 			self::ENERGY,
+			self::ENERGY_REST,
 			self::HR_AVG,
 			self::HR_MAX,
 			self::HR_AVG_ACTIVE,
@@ -578,11 +610,13 @@ class Entity extends Model\EntityWithID {
 			self::FIT_VO2MAX_ESTIMATE,
 			self::FIT_RECOVERY_TIME,
 			self::FIT_HRV_ANALYSIS,
+			self::FIT_TRAINING_EFFECT_BENEFIT,
 			self::FIT_TRAINING_EFFECT,
             self::FIT_ANAEROBIC_TRAINING_EFFECT,
 			self::FIT_PERFORMANCE_CONDITION,
             self::FIT_PERFORMANCE_CONDITION_END,
             self::FIT_LACTATE_THRESHOLD_HR,
+            self::FIT_LACTATE_THRESHOLD_PACE,
             self::FIT_TOTAL_ASCENT,
             self::FIT_TOTAL_DESCENT,
             self::FIT_SELF_ELEVATION_FEELING,
@@ -592,6 +626,7 @@ class Entity extends Model\EntityWithID {
 			self::FIT_WALK_TIME,
 			self::FIT_STAND_TIME,
 			self::FIT_SECONDS_HR_ZONES,
+			self::FIT_SWEAT_LOSS,
             self::AVG_RESPIRATION_RATE,
             self::MAX_RESPIRATION_RATE,
             self::RPE,
@@ -693,6 +728,7 @@ class Entity extends Model\EntityWithID {
             case self::CLIMB_SCORE:
             case self::PERCENTAGE_HILLY:
             case self::ENERGY:
+            case self::ENERGY_REST:
             case self::HR_AVG:
             case self::HR_MAX:
             case self::HR_AVG_ACTIVE:
@@ -704,11 +740,13 @@ class Entity extends Model\EntityWithID {
             case self::FIT_VO2MAX_ESTIMATE:
             case self::FIT_RECOVERY_TIME:
             case self::FIT_HRV_ANALYSIS:
+            case self::FIT_TRAINING_EFFECT_BENEFIT:
             case self::FIT_TRAINING_EFFECT:
             case self::FIT_ANAEROBIC_TRAINING_EFFECT:
             case self::FIT_PERFORMANCE_CONDITION:
             case self::FIT_PERFORMANCE_CONDITION_END:
             case self::FIT_LACTATE_THRESHOLD_HR:
+            case self::FIT_LACTATE_THRESHOLD_PACE:
             case self::FIT_TOTAL_ASCENT:
             case self::FIT_TOTAL_DESCENT:
             case self::FIT_SELF_ELEVATION_FEELING:
@@ -718,6 +756,7 @@ class Entity extends Model\EntityWithID {
 			case self::FIT_WALK_TIME:
 			case self::FIT_STAND_TIME:
 			case self::FIT_SECONDS_HR_ZONES:
+			case self::FIT_SWEAT_LOSS:
             case self::AVG_RESPIRATION_RATE:
             case self::MAX_RESPIRATION_RATE:
             case self::RPE:
@@ -784,6 +823,7 @@ class Entity extends Model\EntityWithID {
             self::ELAPSED_TIME,
             self::ELEVATION,
             self::ENERGY,
+            self::ENERGY_REST,
             self::HR_AVG,
             self::HR_MAX,
             self::HR_AVG_ACTIVE,
@@ -795,17 +835,20 @@ class Entity extends Model\EntityWithID {
             self::FIT_VO2MAX_ESTIMATE,
             self::FIT_RECOVERY_TIME,
             self::FIT_HRV_ANALYSIS,
+            self::FIT_TRAINING_EFFECT_BENEFIT,
             self::FIT_TRAINING_EFFECT,
             self::FIT_ANAEROBIC_TRAINING_EFFECT,
             self::FIT_PERFORMANCE_CONDITION,
             self::FIT_PERFORMANCE_CONDITION_END,
             self::FIT_LACTATE_THRESHOLD_HR,
+            self::FIT_LACTATE_THRESHOLD_PACE,
             self::FIT_TOTAL_ASCENT,
             self::FIT_TOTAL_DESCENT,
             self::FIT_SELF_ELEVATION_FEELING,
             self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT,
 			self::FIT_LOAD_PEAK,
 			self::FIT_SECONDS_HR_ZONES,
+			self::FIT_SWEAT_LOSS,
             self::AVG_RESPIRATION_RATE,
             self::MAX_RESPIRATION_RATE,
             self::RPE,
@@ -914,6 +957,14 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
+	 * has training goal
+	 * @return bool
+	 */
+	public function withGoal() {
+		return ($this->Data[self::WITH_GOAL] == 1);
+	}
+
+	/**
 	 * Distance
 	 * @return null|float [km]
 	 */
@@ -965,6 +1016,15 @@ class Entity extends Model\EntityWithID {
 	 */
 	public function energy() {
 		return $this->Data[self::ENERGY];
+	}
+
+	/**
+	 * Energy in rest
+	 * #TSC
+	 * @return null|int [kcal]
+	 */
+	public function energyInRest() {
+		return $this->Data[self::ENERGY_REST];
 	}
 
 	/**
@@ -1060,6 +1120,15 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
+	 * Total training effect benefit
+	 * 1=Recovery, 2=Base, 3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
+	 * @return null|int
+	 */
+	public function fitTrainingEffectBenefit() {
+		return $this->Data[self::FIT_TRAINING_EFFECT_BENEFIT];
+	}
+
+	/**
 	 * Total training effect
 	 * @return null|float
 	 */
@@ -1097,6 +1166,14 @@ class Entity extends Model\EntityWithID {
      */
     public function fitLactateThresholdHR() {
         return $this->Data[self::FIT_LACTATE_THRESHOLD_HR];
+    }
+
+    /**
+     * Lactate threshold pace (in m/s)
+     * @return null|float
+     */
+    public function fitLactateThresholdPace() {
+        return $this->Data[self::FIT_LACTATE_THRESHOLD_PACE];
     }
 
     /**
@@ -1170,6 +1247,14 @@ class Entity extends Model\EntityWithID {
 	public function fitSecondsInHrZones() {
 		return $this->Data[self::FIT_SECONDS_HR_ZONES];
 	}
+
+    /**
+     * sweat loss (Schweissverbrauch in ml)
+     * @return null|int
+     */
+    public function fitSweetLoss() {
+        return $this->Data[self::FIT_SWEAT_LOSS];
+    }
 
     /**
      * avgRespirationRate

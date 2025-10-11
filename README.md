@@ -302,6 +302,21 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 			* `perceived effort` = 1 ("empfundene Anstrengung", very light/sehr leicht)
 			* and `feel evaluation` = 4 ("Gefühl", strong/stark)
 	* Adjust _IT_ interval auto detection to set at least 3 interval-laps (duration or distance) exists with 2 recovery-laps (previous there needs 4 laps)
+* 2025-10-07:
+	* Import of FIT attributes
+		* Calories in rest (`training.kcal_rest`),
+		* _Training Effect Benefit_ (=Hauptnutzen) (`training.fit_training_effect_benefit`) - represent the values 1=Recovery, 2=Base, 3=Pace, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
+		* "Schweissverlust" (in ml) (`training.fit_sweat_loss`),
+		* Lactate threshold pace (`fit_lactate_threshold_pace_ms`); is useful with the already existing lactate HR
+		* All values are available in the "fit detail" section of an selected activity
+		* _Training Effect Benefit_ is also available in the dataset
+	* training workout custom targets
+		* Garmin trainings custom targets for _cadence_ and _power_ are imported from FIT activities (additionally to _pace_ or _heart rate_)
+	* Adds a new _dataset_ key to see if trainings has a goal
+		* goal with a activity based on Garmins Pace-Pro plan or custom targets (like pace, HR, cadence, power)
+		* it's stored in the column `training.with_goal` and will be set/migrated with Version20251007210000 for the existing activities
+		* it will not indicate, if the goal is reached ;-)
+	* **Migration Version20251007210000 is necessary!**
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

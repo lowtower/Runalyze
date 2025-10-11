@@ -39,6 +39,8 @@ class OutOfRangeValueFilter extends AbstractFilter
     protected function checkFitDetailsValues(FitDetails $fitDetails)
     {
         $this->checkValue($fitDetails->VO2maxEstimate, 0.0, 100.0, 'VO2maxEstimate');
+        // #TSC: check training-effect benefit values to avoid db errors
+        $this->checkValue($fitDetails->TrainingEffectBenefit, 0, 99, 'TrainingEffectBenefit');
         // #TSC: check training-effect values to avoid db errors; but import values higher than 5.0
         $this->checkValue($fitDetails->TrainingEffect, 0.0, 9.9, 'TrainingEffect');
         $this->checkValue($fitDetails->AnaerobicTrainingEffect, 0.0, 9.9, 'AnaerobicTrainingEffect');

@@ -96,11 +96,14 @@ class ActivityCache
         $activityToMerge->setFitVO2maxEstimate($activityFromCache->getFitVO2maxEstimate());
         $activityToMerge->setFitHrvAnalysis($activityFromCache->getFitHrvAnalysis());
         $activityToMerge->setFitRecoveryTime($activityFromCache->getFitRecoveryTime());
+        $activityToMerge->setKcalInRest($activityFromCache->getKcalInRest()); // #TSC transfer calories in rest
+        $activityToMerge->setFitTrainingEffectBenefit($activityFromCache->getFitTrainingEffectBenefit()); // #TSC transfer benefit
         $activityToMerge->setFitTrainingEffect($activityFromCache->getFitTrainingEffect());
         $activityToMerge->setFitAnaerobicTrainingEffect($activityFromCache->getFitAnaerobicTrainingEffect()); // #TSC: transfer anaerobic eff
         $activityToMerge->setFitPerformanceCondition($activityFromCache->getFitPerformanceCondition());
         $activityToMerge->setFitPerformanceConditionEnd($activityFromCache->getFitPerformanceConditionEnd());
         $activityToMerge->setFitLactateThresholdHR($activityFromCache->getFitLactateThresholdHR()); // #TSC: transfer LTHR
+        $activityToMerge->setFitLactateThresholdPace($activityFromCache->getFitLactateThresholdPace()); // #TSC: transfer LTP
         $activityToMerge->setFitTotalAscent($activityFromCache->getFitTotalAscent()); // #TSC: transfer ascent
         $activityToMerge->setFitTotalDescent($activityFromCache->getFitTotalDescent()); // #TSC: transfer descent
         $activityToMerge->setFitSelfEvaluationFeeling($activityFromCache->getFitSelfEvaluationFeeling()); // #TSC: transfer...
@@ -110,6 +113,7 @@ class ActivityCache
         $activityToMerge->setFitWalkTime($activityFromCache->getFitWalkTime()); // #TSC: transfer...
         $activityToMerge->setFitStandTime($activityFromCache->getFitStandTime()); // #TSC: transfer...
         $activityToMerge->setFitSecondsInHrZones($activityFromCache->getFitSecondsInHrZones()); // #TSC: transfer...
+        $activityToMerge->setFitSweatLoss($activityFromCache->getFitSweatLoss()); // #TSC: transfer...
         $activityToMerge->setAvgRespirationRate($activityFromCache->getAvgRespirationRate()); // #TSC: transfer...
         $activityToMerge->setMaxRespirationRate($activityFromCache->getMaxRespirationRate()); // #TSC: transfer...
         $activityToMerge->setPowerCalculated($activityFromCache->isPowerCalculated());
@@ -133,6 +137,7 @@ class ActivityCache
         $activityToMerge->setTotalCycles($activityFromCache->getTotalCycles()); // #TSC: transfer
         $activityToMerge->setSplitsAdditional($activityFromCache->getSplitsAdditional()); // #TSC: transfer
         $activityToMerge->setPaceGoal($activityFromCache->getPaceGoal()); // #TSC: transfer
+        $activityToMerge->setWithGoal($activityFromCache->isWithGoal()); // #TSC: transfer
 
         if (null !== $activityFromCache->isPowerCalculated()) {
             $activityToMerge->setPower($activityFromCache->getPower());

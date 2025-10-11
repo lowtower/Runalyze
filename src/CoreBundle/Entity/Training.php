@@ -95,6 +95,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private $isTrack = false;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="with_goal", type="boolean")
+     */
+    private $withGoal = false;
+
+    /**
      * @var float|null [km]
      *
      * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, nullable=true, options={"unsigned":true})
@@ -143,6 +150,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @ORM\Column(name="kcal", type="smallint", nullable=true, options={"unsigned":true})
      */
     private $kcal = null;
+
+    /**
+     * @var int|null [kcal]
+     *
+     * @ORM\Column(name="kcal_rest", type="smallint", nullable=true, options={"unsigned":true})
+     */
+    private $kcalInRest = null;
 
     /**
      * @var int|null [bpm]
@@ -255,6 +269,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private $fitHrvAnalysis = null;
 
     /**
+     * @var int|null [1 .. 7]
+     *
+     * @ORM\Column(name="fit_training_effect_benefit", type="smallint", nullable=true, options={"unsigned":true})
+     */
+    private $fitTrainingEffectBenefit = null;
+
+    /**
      * @var float|null [0.0 .. 5.0]
      *
      * @ORM\Column(name="fit_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned":true})
@@ -290,6 +311,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @ORM\Column(name="fit_lactate_threshold_hr", type="tinyint", nullable=true, options={"unsigned":true})
      */
     private $fitLactateThresholdHR = null;
+
+    /**
+     * @var float|null [m/s]
+     *
+     * @ORM\Column(name="fit_lactate_threshold_pace_ms", type="casted_decimal_2", precision=4, scale=2, nullable=true, options={"unsigned":true})
+     */
+    private $fitLactateThresholdPace = null;
 
     /**
      * @var int|null [m]
@@ -353,6 +381,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @ORM\Column(name="fit_seconds_hr_zones", type="pipe_array", nullable=true)
      */
     private $fitSecondsInHrZones;
+
+    /**
+     * @var int|null [ml]
+     *
+     * @ORM\Column(name="fit_sweat_loss", type="smallint", nullable=true, options={"unsigned":true})
+     */
+    private $fitSweatLoss = null;
 
     /**
      * @var int|null []
@@ -969,6 +1004,24 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
+     * @param bool $withGoal
+     *
+     * @return $this
+     */
+    public function setWithGoal($withGoal)
+    {
+        return $this->withGoal = (bool)($withGoal);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithGoal()
+    {
+        return $this->withGoal;
+    }
+
+    /**
      * @param null|float $distance [km]
      *
      * @return $this
@@ -1108,12 +1161,32 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
+     /**
      * @return null|int [kcal]
      */
     public function getKcal()
     {
         return $this->kcal;
+    }
+
+   /**
+     * @return null|int [kcal]
+     */
+    public function getKcalInRest()
+    {
+        return $this->kcalInRest;
+    }
+
+    /**
+     * @param null|int $kcalInRest [kcal]
+     *
+     * @return $this
+     */
+    public function setKcalInRest($kcalInRest)
+    {
+        $this->kcalInRest = $kcalInRest;
+
+        return $this;
     }
 
     /**
@@ -1357,6 +1430,26 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
+     * @param null|int $fitTrainingEffectBenefit
+     *
+     * @return $this
+     */
+    public function setFitTrainingEffectBenefit($fitTrainingEffectBenefit)
+    {
+        $this->fitTrainingEffectBenefit = $fitTrainingEffectBenefit;
+
+        return $this;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getFitTrainingEffectBenefit()
+    {
+        return $this->fitTrainingEffectBenefit;
+    }
+
+    /**
      * @param null|float $fitTrainingEffect
      *
      * @return $this
@@ -1449,11 +1542,31 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @return null|int
+     * @return null|int [bpm]
      */
     public function getFitLactateThresholdHR()
     {
         return $this->fitLactateThresholdHR;
+    }
+
+    /**
+     * @return null|float [m/s]
+     */
+    public function getFitLactateThresholdPace()
+    {
+        return $this->fitLactateThresholdPace;
+    }
+
+    /**
+     * @param null|float $fitLactateThresholdPace
+     *
+     * @return $this
+     */
+    public function setFitLactateThresholdPace($fitLactateThresholdPace)
+    {
+        $this->fitLactateThresholdPace = $fitLactateThresholdPace;
+
+        return $this;
     }
 
     /**
@@ -1597,7 +1710,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-
     /**
      * @return null|int [s]
      */
@@ -1636,6 +1748,26 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     public function getFitSecondsInHrZones()
     {
         return $this->fitSecondsInHrZones;
+    }
+
+    /**
+     * @return null|int [ml]
+     */
+    public function getFitSweatLoss()
+    {
+        return $this->fitSweatLoss;
+    }
+
+    /**
+     * @param null|int $fitSweatLoss [ml]
+     *
+     * @return $this
+     */
+    public function setFitSweatLoss($fitSweatLoss)
+    {
+        $this->fitSweatLoss = $fitSweatLoss;
+
+        return $this;
     }
 
     /**

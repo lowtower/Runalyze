@@ -4,6 +4,7 @@ namespace Runalyze\View\Activity;
 
 use Runalyze\Activity\PerformanceCondition;
 use Runalyze\Activity\Temperature;
+use Runalyze\Activity\FitTrainingEffectBenefit;
 use Runalyze\Activity\TrainingEffect;
 use Runalyze\Activity\AnaerobicTrainingEffect;
 use Runalyze\Configuration;
@@ -359,6 +360,19 @@ class Dataview
         }
 
         return '';
+    }
+
+    /**
+     * #TSC The Hauptnutzen of the training
+     * @return string
+     */
+    public function fitTrainingEffectBenefit()
+    {
+        if ($this->Activity->fitTrainingEffectBenefit()) {
+            return FitTrainingEffectBenefit::descriptionFromNum($this->Activity->fitTrainingEffectBenefit());
+        } else {
+            return '';
+        }
     }
 
     /**

@@ -13,6 +13,9 @@ class FitDetails
     /** @var int|null */
     public $HrvAnalysis = null;
 
+    /** @var int|null [0 .. 7] (1=Recovery, 2=Base,3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint)*/
+    public $TrainingEffectBenefit = null;
+
     /** @var float|null [0.0 .. 5.0] */
     public $TrainingEffect = null;
 
@@ -27,6 +30,9 @@ class FitDetails
 
     /** @var int|null */
     public $LactateThresholdHR = null;
+
+    /** @var int|null [m/s]*/
+    public $LactateThresholdPace = null;
 
     /** @var int|null */
     public $TotalAscent = null;
@@ -54,4 +60,7 @@ class FitDetails
 
     /** @var array|null [bpm] #TSC */
     public $SecondsInHrZones = null;
+
+    /** @var int|null [ml] */
+    public $SweatLoss = null;
 }

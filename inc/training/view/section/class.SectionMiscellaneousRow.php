@@ -7,6 +7,7 @@
 use Runalyze\Activity as runActivity;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Temperature;
+use Runalyze\Activity\Pace;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
@@ -384,12 +385,29 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, 'Total desent (m):', ($this->Context->activity()->fitTotalDescent() != null ? $this->Context->activity()->fitTotalDescent() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('VO2MAX avg:', 'vo2max'), ($this->Context->activity()->fitVO2maxEstimate() != null ? $this->Context->activity()->fitVO2maxEstimate() : '-'), $c);
         $this->addToTable($details, 'Recovery time (h):', ($this->Context->activity()->fitRecoveryTime() != null ? round($this->Context->activity()->fitRecoveryTime() / 60, 1) : '-'), $c);
-        $this->addToTable($details, 'New lactate treshhold (bpm):', ($this->Context->activity()->fitLactateThresholdHR() != null ? $this->Context->activity()->fitLactateThresholdHR() : '-'), $c);
+
+		// #TSC lactate threshold
+		if ($this->Context->activity()->fitLactateThresholdHR() == null && $this->Context->activity()->fitLactateThresholdPace() == null) {
+			$lt = "-";
+		} else {
+			$lthr = $this->Context->activity()->fitLactateThresholdHR() != null ? $this->Context->activity()->fitLactateThresholdHR() : '-';
+			if ($this->Context->activity()->fitLactateThresholdPace() != null) {
+				$ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 0.01, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
+				$ltp = $ltp->valueWithAppendix();
+			} else {
+				$ltp = "-";
+			}
+			$lt = $lthr . ' | ' . $ltp;
+		}
+		$this->addToTable($details, 'New lactate treshhold (bpm | pace):', $lt, $c);
+
         $this->addToTable($details, $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'), ($this->Context->activity()->fitHRVscore() != null ? $this->Context->activity()->fitHRVscore() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
             ($this->Context->activity()->fitPerformanceCondition() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceCondition() - 100) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
             ($this->Context->activity()->fitPerformanceConditionEnd() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceConditionEnd() - 100) : '-'), $c);
+        $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
+        $this->addToTable($details, $this->getGlossaryLink(__('Training Effect').' benefit:', 'training-effect'), ($this->Context->activity()->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($this->Context->activity()->fitTrainingEffectBenefit()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Aerob training effect:', 'training-effect'), ($this->Context->activity()->fitTrainingEffect() != null ? $this->Context->activity()->fitTrainingEffect() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Anaerob training effect:', 'training-effect'), ($this->Context->activity()->fitAnaerobicTrainingEffect() != null ? $this->Context->activity()->fitAnaerobicTrainingEffect() : '-'), $c);
         $this->addToTable($details, 'Creator:', ($this->Context->activity()->creator() != null ? $this->Context->activity()->creator() : '-'), $c);
@@ -402,7 +420,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitRunTime()), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitWalkTime()), $c);
         $this->addToTable($details, $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitStandTime()), $c);
-        $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
+        $this->addToTable($details, 'Sweat loss (ml):', ($this->Context->activity()->fitSweetLoss() != null ? $this->Context->activity()->fitSweetLoss() : '-'), $c);
+        $this->addToTable($details, __('Energy').' '.__('Resting').' (kcal):', ($this->Context->activity()->energyInRest() != null ? $this->Context->activity()->energyInRest() : '-'), $c);
 
         $details .= '</tr></table>';
         $this->FitDetails .= HTML::fileBlock($details);

@@ -5432,13 +5432,16 @@ sub named_type_value {
      139 => +{'name' => 'avg_vam', 'scale' => 1000, 'unit' => 'm/s'},
      169 => +{'name' => 'avg_respiration_rate', 'scale' => 100, 'unit' => 'brpm'}, # RESPIRATIONRATE / per-minute
      170 => +{'name' => 'max_respiration_rate', 'scale' => 100, 'unit' => 'brpm'}, # RESPIRATIONRATE / per-minute
+     178 => +{'name' => 'sweat_loss', 'scale' => 1, 'unit' => 'ml'}, # Schweisverlust / Netto-Fluessigkeitshaushalt
      181 => +{'name' => 'total_grit', 'unit' => 'kGrit'},
      182 => +{'name' => 'total_flow', 'unit' => 'Flow'},
      183 => +{'name' => 'jump_count'},
      186 => +{'name' => 'avg_grit', 'unit' => 'kGrit'},
      187 => +{'name' => 'avg_flow', 'unit' => 'Flow'},
+     188 => +{'name' => 'training_effect_benefit'}, #TSC TrainingEffect Hauptnutzen: 1=Recovery, 2=Base, 3=Tempo, 4=Threshold, 5=VO2Max, 6=Anaerobic, 7=Sprint
      192 => +{'name' => 'self_evaluation_felt', 'unit' => '0>1, 25>2, 50>3, 75>4, 100>5'}, # Selbsteinschaetzung/Gefuehl; 1='Sehr schwach' bis 5='Sehr stark'
      193 => +{'name' => 'self_evaluation_perceived_effort', 'scale' => 10}, # Selbsteinschaetzung/Anstrengung; 1 - Sehr leicht, 2 - Leicht, 3 - Maessig, 4 - Etwas schwer, 5-6 - Schwer, 7-8 - Sehr schwer, 9 - Aeusserst schwer, 10 - Maximum
+     196 => +{'name' => 'total_calories_rest', 'unit' => 'kcal'}, #TSC caloriens in rest/Ruhe
    },
 
    'lap' => +{
@@ -6868,7 +6871,7 @@ $mesg_name_vs_num = $named_type{mesg_num};
      13 => +{'name' => 'unknown13'}, # unknown UINT8
      14 => +{'name' => 'lactate_threshold_hr_bpm'}, # unknown UINT16
      15 => +{'name' => 'unknown15'}, # unknown UINT16
-     16 => +{'name' => 'unknown16'}, # unknown UINT16
+     16 => +{'name' => 'lactate_threshold_pace', 'scale' => 36, 'unit' => 'm/s'}, #TSC Lactate Threshold Pace when detected during Garmin activity
      17 => +{'name' => 'performance_condition_end'}, # SINT8: positive and negative values allowed
      18 => +{'name' => 'unknown18'}, # unknown UINT8
      19 => +{'name' => 'unknown19'}, # unknown UINT8

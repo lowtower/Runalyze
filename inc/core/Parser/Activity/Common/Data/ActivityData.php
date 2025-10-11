@@ -31,6 +31,9 @@ class ActivityData
     /** @var int|null [kcal] */
     public $EnergyConsumption = null;
 
+    /** @var int|null [kcal] */
+    public $EnergyInRest = null;
+
     /** @var int|null */
     public $Trimp = null;
 
@@ -118,6 +121,9 @@ class ActivityData
     /** @var array|null [-] #TSC: added */
     public $PaceGoal = null;
 
+    /** @var bool  #TSC */
+    public $WithGoal = false;
+
     /**
      * @return array
      */
@@ -131,6 +137,7 @@ class ActivityData
             'ElevationAscent',
             'ElevationDescent',
             'EnergyConsumption',
+            'EnergyInRest',
             'Trimp',
             'RPE',
             'AvgPower',
@@ -159,7 +166,8 @@ class ActivityData
             'AvgRespirationRate',
             'MaxRespirationRate',
             'SplitsAdditional',
-            'PaceGoal'
+            'PaceGoal',
+            'WithGoal'
         ];
     }
 

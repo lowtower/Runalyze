@@ -281,6 +281,8 @@ class SettingsController extends Controller
             'pulse_avg_active' => 156,
             'total_cycles' => 203,
             'fit_load_peak' => 78,
+            'fit_training_effect_benefit' => 1, // #TSC Recovery
+            'with_goal' => '1',
             Keys\Tags::CONCAT_TAGIDS_KEY => $this->exampleTagID($account),
             Keys\CompleteEquipment::CONCAT_EQUIPMENT_KEY => $this->exampleEquipmentIDs($account)
         );
