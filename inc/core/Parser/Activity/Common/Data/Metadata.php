@@ -46,6 +46,10 @@ class Metadata
     /** @var string */
     protected $UploadedFilename = '';
 
+    // TSC: only internal for mapping to 
+    /** @var string */
+    protected $WorkoutName = null;
+
     /**
      * @param int $timestampAssumingUTC timestamp in local time, i.e. assuming the activity was in utc
      * @param null|int $timezoneOffset [min]
@@ -291,5 +295,21 @@ class Metadata
     public function getUploadedFilename()
     {
         return $this->UploadedFilename;
+    }
+
+    /**
+     * @param string $workoutName
+     */
+    public function setWorkoutName($workoutName)
+    {
+        $this->WorkoutName = $workoutName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkoutName()
+    {
+        return $this->WorkoutName;
     }
 }

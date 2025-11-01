@@ -307,7 +307,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* Calories in rest (`training.kcal_rest`),
 		* _Training Effect Benefit_ (=Hauptnutzen) (`training.fit_training_effect_benefit`) - represent the values 1=Recovery, 2=Base, 3=Pace, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
 		* "Schweissverlust" (in ml) (`training.fit_sweat_loss`),
-		* Lactate threshold pace (`fit_lactate_threshold_pace_ms`); is useful with the already existing lactate HR
+		* Lactate threshold pace (`fit_lactate_threshold_pace_ms` in meter-per-second); is useful with the already existing lactate HR
 		* All values are available in the "fit detail" section of an selected activity
 		* _Training Effect Benefit_ is also available in the dataset
 	* training workout custom targets
@@ -317,6 +317,12 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* it's stored in the column `training.with_goal` and will be set/migrated with Version20251007210000 for the existing activities
 		* it will not indicate, if the goal is reached ;-)
 	* **Migration Version20251007210000 is necessary!**
+* 2025-11-01:
+	* _WorkoutName_ of FIT activities will be auto mapped to training-types. You must add these types to your sport with the same (workout)name as in Garmin
+		* This will work only in batch import; _auto detection_ (of interval, Regeneration Run, Tempo Run, Basic Endurance...) or _Pace goal_ has higher priority
+		* It must be the same language as in your database. If you have a workout `Crescendolauf`, it needs a type of this name
+		* Hint: you can see your Garmins workout name in the notes of imported Runalyze activities, if it's stored in the FIT file
+	* Fix _Lactate threshold pace_ representation in "fit detail" section of an selected activity
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

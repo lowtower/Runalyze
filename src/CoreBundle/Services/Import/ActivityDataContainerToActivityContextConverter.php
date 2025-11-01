@@ -141,7 +141,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setNotes($metadata->getNotes());
 
         $this->tryToSetSportFor($activity, $metadata);
-        $this->tryToSetTypeFor($activity, $metadata->getTypeName());
+        $this->tryToSetTypeFor($activity, $metadata);
         $this->tryToSetEquipmentFor($activity, $metadata->getEquipmentNames());
     }
 
@@ -188,18 +188,27 @@ class ActivityDataContainerToActivityContextConverter
         return null;
     }
 
-    protected function tryToSetTypeFor(Training $activity, $typeName)
+    protected function tryToSetTypeFor(Training $activity, Metadata $metadata)
     {
+        $type = null;
+
+        // #TSC: first set a possible type from the typeName (can be interval or from the evaluation)
+        $typeName = $metadata->getTypeName();
         if ('' != $typeName) {
             $type = $this->TypeRepository->findByNameFor($typeName, $this->Account, $activity->getSport());
             // #TSC if the name not found, try it with the short-cut
             if (null === $type) {
                 $type = $this->TypeRepository->findByShortCutFor($typeName, $this->Account, $activity->getSport());
             }
+        }
 
-            if (null !== $type) {
-                $activity->setType($type);
-            }
+        // #TSC: if not set, try from workoutName
+        if ($type === null && !empty($metadata->getWorkoutName())) {
+            $type = $this->TypeRepository->findByNameFor($metadata->getWorkoutName(), $this->Account, $activity->getSport());
+        }
+
+        if (null !== $type) {
+            $activity->setType($type);
         }
     }
 

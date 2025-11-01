@@ -392,7 +392,10 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		} else {
 			$lthr = $this->Context->activity()->fitLactateThresholdHR() != null ? $this->Context->activity()->fitLactateThresholdHR() : '-';
 			if ($this->Context->activity()->fitLactateThresholdPace() != null) {
-				$ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 0.01, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
+				$ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
+				// the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
+				// so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
+				$ltp->fromMinPerKm(1/($this->Context->activity()->fitLactateThresholdPace()*3.6)*60*60);
 				$ltp = $ltp->valueWithAppendix();
 			} else {
 				$ltp = "-";
