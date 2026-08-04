@@ -2,7 +2,7 @@
 
 namespace Runalyze\Model\Route;
 
-class EntityTest extends \PHPUnit_Framework_TestCase {
+class EntityTest extends \PHPUnit\Framework\TestCase {
 
 	protected function simpleObject() {
 		return new Entity(array(

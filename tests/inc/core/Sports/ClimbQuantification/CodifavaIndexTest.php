@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\CodifavaIndex;
 
-class CodifavaIndexTest extends \PHPUnit_Framework_TestCase
+class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CodifavaIndex */
     protected $Codifava;

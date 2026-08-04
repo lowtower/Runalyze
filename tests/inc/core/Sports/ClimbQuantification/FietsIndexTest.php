@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\FietsIndex;
 
-class FietsIndexTest extends \PHPUnit_Framework_TestCase
+class FietsIndexTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FietsIndex */
     protected $Fiets;

@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class LogisticTest extends \PHPUnit_Framework_TestCase
+class LogisticTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForDefaultWidth()
     {

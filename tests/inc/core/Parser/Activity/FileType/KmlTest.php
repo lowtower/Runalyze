@@ -24,7 +24,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->Parser->setFileContent('<any><xml><file></file></xml></any>');
 
-        $this->setExpectedException(UnsupportedFileException::class);
+        $this->expectException(UnsupportedFileException::class);
 
         $this->Parser->parse();
     }

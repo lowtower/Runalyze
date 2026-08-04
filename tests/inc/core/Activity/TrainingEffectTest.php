@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class TrainingEffectTest extends \PHPUnit_Framework_TestCase
+class TrainingEffectTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
 	public function testInvalidValueTooSmall()

@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 use Runalyze\Bundle\CoreBundle\Form\Type\AbstractUnitBasedType;
 use Runalyze\Metrics\Common\Unit\None;
 
-class AbstractUnitBasedTypeTest extends \PHPUnit_Framework_TestCase
+class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractUnitBasedType */
     protected $Type;

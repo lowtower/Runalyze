@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Numerics;
 
 use Runalyze\Mathematics\Numerics\Bisection;
 
-class BisectionTest extends \PHPUnit_Framework_TestCase
+class BisectionTest extends \PHPUnit\Framework\TestCase
 {
 	public function testPerfectStartPoint()
     {

@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
-class WeekStartTest extends \PHPUnit_Framework_TestCase
+class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \Runalyze\Parameter\Application\WeekStart */
 	protected $Object;

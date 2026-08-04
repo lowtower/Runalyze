@@ -10,7 +10,7 @@ use Runalyze\Model\Trackdata;
 use Runalyze\Util\LocalTime;
 use Runalyze\View\Activity\FakeContext;
 
-class NightDetectorTest extends \PHPUnit_Framework_TestCase
+class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyDetector()
     {

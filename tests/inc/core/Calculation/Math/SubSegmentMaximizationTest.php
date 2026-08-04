@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math;
 
-class SubSegmentMaximizationTest extends \PHPUnit_Framework_TestCase
+class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

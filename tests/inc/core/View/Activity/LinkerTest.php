@@ -6,7 +6,7 @@ namespace Runalyze\View\Activity;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class LinkerTest extends \PHPUnit_Framework_TestCase {
+class LinkerTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDOforRunalyze

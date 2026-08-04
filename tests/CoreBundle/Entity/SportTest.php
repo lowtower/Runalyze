@@ -7,7 +7,7 @@ use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Profile\Sport\Generic;
 use Runalyze\Profile\Sport\SportProfile;
 
-class SportTest extends \PHPUnit_Framework_TestCase
+class SportTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Sport */
     protected $Sport;

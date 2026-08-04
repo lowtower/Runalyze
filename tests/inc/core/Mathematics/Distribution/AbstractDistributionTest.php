@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Distribution;
 
 use Runalyze\Mathematics\Distribution\AbstractDistribution;
 
-class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
+class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param array $histogram
@@ -70,7 +70,7 @@ class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
     {
         $dist = $this->getMockWithHistogram([]);
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $dist->quantile(0.1);
     }

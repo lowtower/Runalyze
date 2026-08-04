@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
-class AutomaticReloadFlagSetterTest extends \PHPUnit_Framework_TestCase
+class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FlashBag */
     protected $FlashBag;

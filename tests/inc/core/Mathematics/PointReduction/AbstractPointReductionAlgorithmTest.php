@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\PointReduction;
 
 use Runalyze\Mathematics\PointReduction\AbstractPointReductionAlgorithm;
 
-class AbstractPointReductionAlgorithmTest extends \PHPUnit_Framework_TestCase
+class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
 {
     public function testPerpendicularDistanceForPointsOutsideTheLinesXRegion()
     {

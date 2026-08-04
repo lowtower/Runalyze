@@ -20,7 +20,9 @@ require_once FRONTEND_PATH.'../app/autoload.php';
 
 require_once FRONTEND_PATH.'system/define.consts.php';
 
-date_default_timezone_set('Europe/Berlin');
+$testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
+putenv('TZ='.$testTimezone);
+date_default_timezone_set($testTimezone);
 
 if (!defined('NL'))
 	define('NL', "\n");
@@ -44,7 +46,7 @@ if (!defined('GEONAMES_USERNAME'))
 	define('GEONAMES_USERNAME', 'runalyze');
 
 if (!defined('SQLITE_MOD_SPATIALITE'))
-	define('SQLITE_MOD_SPATIALITE', 'libspatialite.so.5');
+	define('SQLITE_MOD_SPATIALITE', getenv('SQLITE_MOD_SPATIALITE') ?: 'mod_spatialite.so');
 
 if (!defined('DAY_IN_S'))
 	define('DAY_IN_S', 86400);
@@ -53,8 +55,22 @@ $_SERVER['REQUEST_URI'] = '/runalyze/index.php';
 $_SERVER['SCRIPT_NAME'] = '/runalyze/index.php';
 
 // Load and clean database
-DB::connect('127.0.0.1', '3306', 'root', '', 'runalyze_unittest');
-DB::getInstance()->exec('SET GLOBAL sql_mode="TRADITIONAL"');
+$databaseHost = getenv('DB_TEST_HOST') ?: getenv('DB_HOST') ?: 'db';
+$databasePort = getenv('DB_TEST_PORT') ?: getenv('DB_PORT') ?: '3306';
+$databaseUser = getenv('DB_TEST_USER') ?: 'runalyze_test';
+$databasePassword = getenv('DB_TEST_PASSWORD') ?: 'password';
+if ($databasePassword === false) {
+    $databasePassword = 'password';
+}
+$databaseName = getenv('DB_UNITTEST_NAME') ?: 'runalyze_unittest';
+DB::connect(
+    $databaseHost,
+    $databasePort,
+    $databaseUser,
+    $databasePassword,
+    $databaseName
+);
+DB::getInstance()->exec('SET SESSION sql_mode="TRADITIONAL"');
 DB::getInstance()->exec('DELETE FROM `runalyze_account`');
 DB::getInstance()->exec('INSERT INTO `runalyze_account` (`id`,`username`,`mail`) VALUES(1, "test", "test@test.com")');
 DB::getInstance()->exec('INSERT INTO `runalyze_account` (`username`,`mail`) VALUES("zero", "zero@test.com")');
@@ -70,10 +86,10 @@ SessionAccountHandler::setAccount(array(
 ));
 // Define RUNALYZE_TEST_TZ_LOOKUP
 try {
-    $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'libspatialite.so.5');
-    $lookup->getTimezoneForCoordinate(13.41, 52.52);
+    $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+    $detectedTimezone = $lookup->getTimezoneForCoordinate(13.41, 52.52);
 
-	define('RUNALYZE_TEST_TZ_LOOKUP', true);
+	define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
 } catch (\Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException $e) {
 	define('RUNALYZE_TEST_TZ_LOOKUP', false);
 }

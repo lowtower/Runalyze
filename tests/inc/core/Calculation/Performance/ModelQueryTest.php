@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Performance;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class ModelQueryTest extends \PHPUnit_Framework_TestCase
+class ModelQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \PDOforRunalyze */
     protected $DB;

@@ -57,15 +57,15 @@ doctrine_cache:
         vendor_filesystem_metadata_cache:
             file_system:
                 extension: cache
-                directory: "%kernel.root_dir%/../var/cache/doctrine"
+                directory: "%kernel.cache_dir%/doctrine"
         vendor_filesystem_result_cache:
             file_system:
                 extension: cache
-                directory: "%kernel.root_dir%/../var/cache/doctrine"
+                directory: "%kernel.cache_dir%/doctrine"
         vendor_filesystem_query_cache:
             file_system:
                 extension: cache
-                directory: "%kernel.root_dir%/../var/cache/doctrine"
+                directory: "%kernel.cache_dir%/doctrine"
 
 doctrine:
     dbal:
@@ -94,7 +94,7 @@ doctrine:
 
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: true
         auto_mapping: true
         metadata_cache_driver:
             type: service

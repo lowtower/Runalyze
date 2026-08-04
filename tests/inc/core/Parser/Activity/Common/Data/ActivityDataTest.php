@@ -9,7 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class ActivityDataTest extends \PHPUnit_Framework_TestCase
+class ActivityDataTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ActivityData */
     protected $Data;

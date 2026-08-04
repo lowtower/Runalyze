@@ -7,15 +7,15 @@ use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 
-class DatabaseCacheTest extends \PHPUnit_Framework_TestCase
+class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param WeatherData|null $data
-     * @return \PHPUnit_Framework_MockObject_MockObject|DatabaseCacheInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|DatabaseCacheInterface
      */
     protected function getMockForResponse(WeatherData $data = null)
     {
-        $mock = $this->getMock(DatabaseCacheInterface::class);
+        $mock = $this->createMock(DatabaseCacheInterface::class);
         $mock->method('getCachedWeatherDataFor')
             ->willReturn($data);
 

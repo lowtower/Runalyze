@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class TrainingEffectLevelTest extends \PHPUnit_Framework_TestCase
+class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
 	public function testInvalidLevelTooSmall()

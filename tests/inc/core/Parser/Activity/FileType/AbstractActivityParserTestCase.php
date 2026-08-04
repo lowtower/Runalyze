@@ -2,13 +2,14 @@
 
 namespace Runalyze\Tests\Parser\Activity\FileType;
 
+use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Filter\DefaultFilterCollection;
 use Runalyze\Parser\Activity\Common\ParserInterface;
 use Runalyze\Parser\Common\FileContentAwareParserInterface;
 use Runalyze\Parser\Common\FileTypeConverterInterface;
 
-abstract class AbstractActivityParserTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var null|ActivityDataContainer|ActivityDataContainer[] */
     protected $Container;
@@ -178,5 +179,59 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit_Framework_TestCas
                 $this->assertEquals($expectedPauseData[3], $this->Container->Pauses[$i]->getHeartRateAtEnd(), 'Pause #'.$i.' has wrong heart rate at end.');
             }
         }
+    }
+
+    /**
+     * Correct the activity timezone based on the first valid GPS coordinate.
+     *
+     * This mirrors the relevant behavior of
+     * ActivityAdapter::guessTimezoneBasedOnCoordinates(), because parser unit
+     * tests do not create and persist a Training entity and therefore do not
+     * invoke ActivityListener::prePersist().
+     *
+     * @param ActivityDataContainer $container
+     *
+     * @return bool true if a timezone was found and applied
+     */
+    protected function applyTimezoneLookup(ActivityDataContainer $container)
+    {
+        if (!RUNALYZE_TEST_TZ_LOOKUP) {
+            return false;
+        }
+
+        $latitude = null;
+        $longitude = null;
+        foreach ($container->ContinuousData->Latitude as $index => $value) {
+            if (
+                is_numeric($value) &&
+                isset($container->ContinuousData->Longitude[$index]) &&
+                is_numeric($container->ContinuousData->Longitude[$index])
+            ) {
+                $latitude = (float)$value;
+                $longitude = (float)$container->ContinuousData->Longitude[$index];
+
+                break;
+            }
+        }
+        if ($latitude === null || $longitude === null) {
+            return false;
+        }
+
+        $lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+        $timezoneName = $lookup->getTimezoneForCoordinate($longitude, $latitude);
+        if ($timezoneName === null) {
+            return false;
+        }
+
+        $timestamp = $container->Metadata->getTimestamp();
+        $oldOffset = $container->Metadata->getTimezoneOffset();
+        $newOffset = (new \DateTime(null, new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)->getOffset() / 60;
+        if ($oldOffset !== null) {
+            $timestamp += 60 * ($newOffset - $oldOffset);
+        }
+
+        $container->Metadata->setTimestamp($timestamp, (int)$newOffset);
+
+        return true;
     }
 }

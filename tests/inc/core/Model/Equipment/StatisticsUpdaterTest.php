@@ -9,7 +9,7 @@ use PDO;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class StatisticsUpdaterTest extends \PHPUnit_Framework_TestCase {
+class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDO

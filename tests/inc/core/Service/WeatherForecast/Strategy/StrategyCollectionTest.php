@@ -7,7 +7,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\StrategyCollection;
 use Runalyze\Service\WeatherForecast\Strategy\StrategyInterface;
 
-class StrategyCollectionTest extends \PHPUnit_Framework_TestCase
+class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StrategyCollection */
     protected $Collection;

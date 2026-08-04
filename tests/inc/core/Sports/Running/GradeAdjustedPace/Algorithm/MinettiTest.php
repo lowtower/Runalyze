@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\Running\GradeAdjustedPace\Algorithm;
 
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
-class MinettiTest extends \PHPUnit_Framework_TestCase
+class MinettiTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Minetti */
     protected $Minetti;

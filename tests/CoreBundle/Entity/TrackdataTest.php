@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class TrackdataTest extends \PHPUnit_Framework_TestCase
+class TrackdataTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Trackdata */
     protected $Data;

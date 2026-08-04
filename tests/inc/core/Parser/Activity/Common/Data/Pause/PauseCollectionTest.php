@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Common\Data\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class PauseCollectionTest extends \PHPUnit_Framework_TestCase
+class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PauseCollection */
     protected $Collection;

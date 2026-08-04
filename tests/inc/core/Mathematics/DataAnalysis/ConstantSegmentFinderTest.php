@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\DataAnalysis;
 
 use Runalyze\Mathematics\DataAnalysis\ConstantSegmentFinder;
 
-class ConstantSegmentFinderTest extends \PHPUnit_Framework_TestCase
+class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

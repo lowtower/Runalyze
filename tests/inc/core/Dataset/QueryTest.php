@@ -8,7 +8,7 @@ use DB;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit\Framework\TestCase
 {
 
 	/** @var \PDO */

@@ -228,6 +228,10 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->parseFile($this->Parser, 'tcx/Wrong-time-zone-by-polar.tcx');
 
         if (RUNALYZE_TEST_TZ_LOOKUP) {
+            $this->assertTrue($this->applyTimezoneLookup($this->Container), 'Timezone lookup could not be applied.');
+        }
+
+        if (RUNALYZE_TEST_TZ_LOOKUP) {
             $this->assertEquals('2016-04-10 19:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
             $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
         } else {

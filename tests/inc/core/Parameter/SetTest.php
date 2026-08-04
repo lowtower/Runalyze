@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter;
 
-class ParameterSetTest extends \PHPUnit_Framework_TestCase {
+class ParameterSetTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \Runalyze\Parameter\Set

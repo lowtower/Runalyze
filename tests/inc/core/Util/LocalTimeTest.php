@@ -5,14 +5,16 @@ namespace Runalyze\Util;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\WeekStart;
 
-class LocalTimeTest extends \PHPUnit_Framework_TestCase
+class LocalTimeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     protected $DefaultTimezone;
 
     public function setUp()
     {
-        $this->DefaultTimezone = date_default_timezone_get();
+        parent::setUp();
+
+        $this->DefaultTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
 
         // Let's use Europe/Moscow as there's no summer/winter time. It's always +03:00
         date_default_timezone_set('Europe/Moscow');
@@ -20,7 +22,10 @@ class LocalTimeTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
+        putenv('TZ='.$this->DefaultTimezone);
         date_default_timezone_set($this->DefaultTimezone);
+
+        parent::tearDown();
     }
 
     /**

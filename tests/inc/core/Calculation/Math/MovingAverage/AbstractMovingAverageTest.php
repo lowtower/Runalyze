@@ -8,7 +8,7 @@ class AbstractMovingAverage_MockTester extends AbstractMovingAverage
     public function calculateWithoutIndexData() { $this->MovingAverage = $this->Data; }
 }
 
-class AbstractMovingAverageTest extends \PHPUnit_Framework_TestCase
+class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

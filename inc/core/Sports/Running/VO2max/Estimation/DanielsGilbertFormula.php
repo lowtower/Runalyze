@@ -12,7 +12,7 @@ class DanielsGilbertFormula implements EstimationInterface
 {
     public function estimateFromRaceResult($distance, $seconds)
     {
-        $min = $seconds / 60;
+        $min = (int)$seconds / 60;
         $m = 1000 * $distance;
 
         if ($m <= 0.0 || $min <= 0.0 || $m / $min < 50.0 || $m / $min > 1000.0) {

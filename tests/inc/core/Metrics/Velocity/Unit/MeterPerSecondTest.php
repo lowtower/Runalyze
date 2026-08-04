@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\MeterPerSecond;
 
-class MeterPerSecondTest extends \PHPUnit_Framework_TestCase
+class MeterPerSecondTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\InvalidRRIntervalFilter;
 
-class InvalidRRIntervalFilterTest extends \PHPUnit_Framework_TestCase
+class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var InvalidRRIntervalFilter */
     protected $Filter;
@@ -51,7 +51,7 @@ class InvalidRRIntervalFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->RRIntervals = [469, 0, 471];
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }

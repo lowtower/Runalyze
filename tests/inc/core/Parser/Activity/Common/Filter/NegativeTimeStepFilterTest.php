@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NegativeTimeStepFilter;
 
-class NegativeTimeStepFilterTest extends \PHPUnit_Framework_TestCase
+class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NegativeTimeStepFilter */
     protected $Filter;
@@ -57,7 +57,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->ContinuousData->Time = [1, 2, 1, 2, 3];
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }

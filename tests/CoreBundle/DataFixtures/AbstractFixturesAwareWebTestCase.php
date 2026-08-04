@@ -26,8 +26,33 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     /** @var EntityManager */
     protected $EntityManager;
 
+    /** @var string */
+    private $PreviousPhpTimezone;
+
+    /** @var string|false */
+    private $PreviousEnvironmentTimezone;
+
+    private function rememberTimezone()
+    {
+        $this->PreviousPhpTimezone = date_default_timezone_get();
+        $this->PreviousEnvironmentTimezone = getenv('TZ');
+    }
+
+    private function restoreTimezone()
+    {
+        if ($this->PreviousEnvironmentTimezone === false) {
+            putenv('TZ');
+        } else {
+            putenv('TZ='.$this->PreviousEnvironmentTimezone);
+        }
+
+        date_default_timezone_set($this->PreviousPhpTimezone);
+    }
+
     protected function setUp()
     {
+        $this->rememberTimezone();
+
         if (null === $this->FixtureClasses) {
             $this->FixtureClasses = [
                 LoadAccountData::class
@@ -47,7 +72,11 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
     protected function tearDown()
     {
-        parent::tearDown();
+        try {
+            parent::tearDown();
+        } finally {
+            $this->restoreTimezone();
+        }
 
         if (null !== $this->EntityManager) {
             $this->EntityManager->close();

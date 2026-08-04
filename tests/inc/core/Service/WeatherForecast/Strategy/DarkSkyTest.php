@@ -9,7 +9,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DarkSky;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class DarkSkyTest extends \PHPUnit_Framework_TestCase
+class DarkSkyTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

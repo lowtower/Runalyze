@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class EpanechnikovTest extends \PHPUnit_Framework_TestCase
+class EpanechnikovTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {

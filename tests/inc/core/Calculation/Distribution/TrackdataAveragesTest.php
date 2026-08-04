@@ -4,7 +4,7 @@ namespace Runalyze\Calculation\Distribution;
 
 use Runalyze\Model\Trackdata;
 
-class TrackdataAveragesTest extends \PHPUnit_Framework_TestCase
+class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\ClimbScore;
 
 use Runalyze\Sports\ClimbScore\ClimbScore;
 
-class ClimbScoreTest extends \PHPUnit_Framework_TestCase
+class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ClimbScore */
     protected $Score;

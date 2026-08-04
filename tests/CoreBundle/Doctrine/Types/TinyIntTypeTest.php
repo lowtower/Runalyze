@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
-class TinyIntTypeTest extends \PHPUnit_Framework_TestCase
+class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TinyIntType */
     protected $Type;

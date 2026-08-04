@@ -8,7 +8,7 @@ class AbstractKernelTest_MockTester extends AbstractKernel
     public function atTransformed($difference) { return $difference; }
 }
 
-class AbstractKernelTest extends \PHPUnit_Framework_TestCase
+class AbstractKernelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

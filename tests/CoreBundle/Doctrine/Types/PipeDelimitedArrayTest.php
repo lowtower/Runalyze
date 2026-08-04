@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray;
 
-class PipeDelimitedArrayTest extends \PHPUnit_Framework_TestCase
+class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PipeDelimitedArray */
     protected $Type;

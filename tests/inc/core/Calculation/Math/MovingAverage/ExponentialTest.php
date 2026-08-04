@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class ExponentialTest extends \PHPUnit_Framework_TestCase
+class ExponentialTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleExampleWithAlpha50percent()
     {

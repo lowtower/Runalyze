@@ -8,7 +8,7 @@ use PDO;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class DuplicateFinderTest extends \PHPUnit_Framework_TestCase
+class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \PDO */
 	protected $PDO;

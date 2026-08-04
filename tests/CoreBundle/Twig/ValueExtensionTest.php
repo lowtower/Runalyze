@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Metrics;
 
-class ValueExtensionTest extends \PHPUnit_Framework_TestCase
+class ValueExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ValueExtension */
     protected $Extension;

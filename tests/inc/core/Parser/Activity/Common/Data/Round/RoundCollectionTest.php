@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class RoundCollectionTest extends \PHPUnit_Framework_TestCase
+class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RoundCollection */
     protected $Collection;

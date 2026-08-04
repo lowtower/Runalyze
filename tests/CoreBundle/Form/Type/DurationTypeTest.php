@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class DurationTypeTest extends \PHPUnit_Framework_TestCase
+class DurationTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DurationType */
     protected $Type;
@@ -26,7 +26,7 @@ class DurationTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testThatNullIsNotPossible()
     {
-        $this->setExpectedException(TransformationFailedException::class);
+        $this->expectException(TransformationFailedException::class);
 
         $this->Type->setRequired(true);
         $this->Type->reverseTransform(null);

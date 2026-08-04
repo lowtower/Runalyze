@@ -1,11 +1,11 @@
 parameters:
   locale: en
-  database_host: 127.0.0.1
+  database_host: db
   database_prefix: runalyze_
   database_port: 3306
   database_name: runalyze
-  database_user: root
-  database_password:
+  database_user: runalyze
+  database_password: runalyze
   secret: please_change_this_secret
   update_disabled: no
   user_can_register: true
@@ -24,11 +24,11 @@ parameters:
   rsvg_path: /usr/bin/rsvg-convert
   inkscape_path: /usr/bin/inkscape
   ttbin_path: ../call/perl/ttbincnv
-  sqlite_mod_spatialite: libspatialite.so.5
-  mail_sender:
-  mail_name:
-  smtp_host: localhost
-  smtp_port: 25
+  sqlite_mod_spatialite: mod_spatialite.so
+  mail_sender: runalyze@example.local
+  mail_name: RUNALYZE
+  smtp_host: mailhog
+  smtp_port: 1025
   smtp_security:
   smtp_username:
   smtp_password:

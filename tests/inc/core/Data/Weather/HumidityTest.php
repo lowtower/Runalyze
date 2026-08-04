@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Weather;
 
-class HumidityTest extends \PHPUnit_Framework_TestCase
+class HumidityTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
     public function testNonNumericValue()

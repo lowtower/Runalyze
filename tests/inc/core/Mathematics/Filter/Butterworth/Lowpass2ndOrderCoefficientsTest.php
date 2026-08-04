@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Filter\Butterworth;
 
 use Runalyze\Mathematics\Filter\Butterworth\Lowpass2ndOrderCoefficients;
 
-class Lowpass2ndOrderCoefficientsTest extends \PHPUnit_Framework_TestCase
+class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Values are compared to the following: (but we use different signs for ai and they don't normalize the frequency)

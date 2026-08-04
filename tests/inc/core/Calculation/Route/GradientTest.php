@@ -5,7 +5,7 @@ namespace Runalyze\Calculation\Route;
 use Runalyze\Model;
 use Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class GradientTest extends \PHPUnit_Framework_TestCase
+class GradientTest extends \PHPUnit\Framework\TestCase
 {
     public function testWithoutInputData()
     {

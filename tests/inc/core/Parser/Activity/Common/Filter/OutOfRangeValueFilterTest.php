@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\OutOfRangeValueFilter;
 
-class OutOfRangeValueFilterTest extends \PHPUnit_Framework_TestCase
+class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var OutOfRangeValueFilter */
     protected $Filter;
@@ -50,7 +50,7 @@ class OutOfRangeValueFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->ActivityData->Duration = 1234567.89;
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }

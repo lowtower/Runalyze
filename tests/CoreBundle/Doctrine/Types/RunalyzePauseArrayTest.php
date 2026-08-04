@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class RunalyzePauseArrayTest extends \PHPUnit_Framework_TestCase
+class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RunalyzePauseArray */
     protected $Type;

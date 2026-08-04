@@ -5,7 +5,7 @@ use Runalyze\Data\Weather\HeatIndex;
 use Runalyze\Data\Weather\Humidity;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class HeatIndexTest extends \PHPUnit_Framework_TestCase
+class HeatIndexTest extends \PHPUnit\Framework\TestCase
 {
 	public function testUnknownHeatIndex()
 	{
@@ -27,7 +27,7 @@ class HeatIndexTest extends \PHPUnit_Framework_TestCase
 	{
 		$obj = new HeatIndex();
 
-		$this->setExpectedException(\InvalidArgumentException::class);
+		$this->expectException(\InvalidArgumentException::class);
 
 		$obj->set('foobar');
 	}

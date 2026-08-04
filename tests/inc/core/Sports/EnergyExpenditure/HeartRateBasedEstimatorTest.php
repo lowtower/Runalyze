@@ -6,7 +6,7 @@ use Runalyze\Athlete;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Sports\EnergyExpenditure\HeartRateBasedEstimator;
 
-class HeartRateBasedEstimatorTest extends \PHPUnit_Framework_TestCase
+class HeartRateBasedEstimatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @see http://fitnowtraining.com/2012/01/formula-for-calories-burned/

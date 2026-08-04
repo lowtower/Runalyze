@@ -5,7 +5,7 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class TemperatureTest extends \PHPUnit_Framework_TestCase
+class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
 	public function testConstructor()
 	{

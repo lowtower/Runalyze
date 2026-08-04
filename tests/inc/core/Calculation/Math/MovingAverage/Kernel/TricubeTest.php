@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class TricubeTest extends \PHPUnit_Framework_TestCase
+class TricubeTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {

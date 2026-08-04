@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data;
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 use Runalyze\Parser\Activity\Common\Data\ContinuousDataAdapter;
 
-class ContinuousDataAdapterTest extends \PHPUnit_Framework_TestCase
+class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContinuousData */
     protected $Data;

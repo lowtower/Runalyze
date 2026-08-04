@@ -9,7 +9,7 @@ use Runalyze\Configuration;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JsonImporterTest extends \PHPUnit_Framework_TestCase
+class JsonImporterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     protected $Base;

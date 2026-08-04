@@ -34,7 +34,7 @@ class AbstractModel_MockTesterEmpty extends AbstractModel
     }
 }
 
-class ModelTest extends \PHPUnit_Framework_TestCase
+class ModelTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractModel */
     protected $object;

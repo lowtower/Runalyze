@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Weather;
 
-class WindDegreeTest extends \PHPUnit_Framework_TestCase
+class WindDegreeTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
     public function testNonNumericValue()

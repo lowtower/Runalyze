@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\Cameron;
 
-class CameronTest extends \PHPUnit_Framework_TestCase
+class CameronTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Cameron */
     protected $Cameron;

@@ -7,7 +7,7 @@ use PDO;
 /**
  * @group requiresSqlite
  */
-class SummaryModeTest extends \PHPUnit_Framework_TestCase
+class SummaryModeTest extends \PHPUnit\Framework\TestCase
 {
 
 	/** @var \PDO */

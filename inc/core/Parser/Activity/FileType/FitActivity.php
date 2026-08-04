@@ -631,8 +631,8 @@ class FitActivity extends AbstractSingleParser
             $nativeFieldName = $nativeData[0];
             $nativeFactor = $nativeData[1];
 
-            if (isset($this->Values[$devFieldName]) && ($this->Values[$devFieldName][0] != 0 || !isset($this->Values[$nativeFieldName]))) {
-                $this->Values[$devFieldName][0] *= $nativeFactor;
+            if (isset($this->Values[$devFieldName]) && ((int)$this->Values[$devFieldName][0] != 0 || !isset($this->Values[$nativeFieldName]))) {
+                $this->Values[$devFieldName][0] = (float)$this->Values[$devFieldName][0] * $nativeFactor;
                 $this->Values[$nativeFieldName] = $this->Values[$devFieldName];
             }
         }

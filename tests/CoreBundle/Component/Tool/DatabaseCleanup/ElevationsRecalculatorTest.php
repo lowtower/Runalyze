@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\ElevationsRecalcul
 /**
  * @group requiresSqlite
  */
-class ElevationsRecalculatorTest extends \PHPUnit_Framework_TestCase
+class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \PDO */
 	protected $PDO;

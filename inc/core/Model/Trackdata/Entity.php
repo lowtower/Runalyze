@@ -431,9 +431,14 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function at($index, $key) {
+    public function at($index, $key) {
+        if (!isset($this->Data[$key][$index])) {
+            throw new \OutOfBoundsException("Undefined offset: $index");
+        }
 		return $this->Data[$key][$index];
-	}
+    }
+
+
 
 	/**
 	 * Get activity id

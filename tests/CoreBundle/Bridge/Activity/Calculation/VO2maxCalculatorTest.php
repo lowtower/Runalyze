@@ -6,7 +6,7 @@ use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\VO2maxCalculator;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class VO2maxCalculatorTest extends \PHPUnit_Framework_TestCase
+class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var VO2maxCalculator */
     protected $Calculator;

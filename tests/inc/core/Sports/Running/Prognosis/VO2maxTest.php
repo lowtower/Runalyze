@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\VO2max;
 
-class VO2maxTest extends \PHPUnit_Framework_TestCase
+class VO2maxTest extends \PHPUnit\Framework\TestCase
 {
     /** @var VO2max */
     protected $VO2max;

@@ -7,7 +7,7 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class RunalyzeRoundArrayTest extends \PHPUnit_Framework_TestCase
+class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RunalyzeRoundArray */
     protected $Type;

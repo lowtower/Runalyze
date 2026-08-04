@@ -6,7 +6,7 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class WindChillFactorTest extends \PHPUnit_Framework_TestCase
+class WindChillFactorTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
     public function testUnknownInputData()

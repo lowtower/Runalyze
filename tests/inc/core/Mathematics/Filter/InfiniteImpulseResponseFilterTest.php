@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Filter;
 
 use Runalyze\Mathematics\Filter\InfiniteImpulseResponseFilter;
 
-class InfiniteImpulseResponseFilterTest extends \PHPUnit_Framework_TestCase
+class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

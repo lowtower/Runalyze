@@ -247,6 +247,10 @@ class FitTest extends AbstractActivityParserTestCase
 	{
         $this->convertAndParse('fit/swim-outdoor.fit');
 
+        if (RUNALYZE_TEST_TZ_LOOKUP) {
+            $this->assertTrue($this->applyTimezoneLookup($this->Container), 'Timezone lookup could not be applied.');
+        }
+
         $this->assertEquals(RUNALYZE_TEST_TZ_LOOKUP ? '2011-10-15 14:31' : '2011-10-15 21:31', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 		$this->assertEquals(RUNALYZE_TEST_TZ_LOOKUP ? -300 : 120, $this->Container->Metadata->getTimezoneOffset());
 

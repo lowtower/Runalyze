@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Weather;
 
-class CardinalDirectionTest extends \PHPUnit_Framework_TestCase
+class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

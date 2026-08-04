@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Twig;
 
 use Runalyze\Bundle\CoreBundle\Twig\HtmlExtension;
 
-class HtmlExtensionTest extends \PHPUnit_Framework_TestCase
+class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HtmlExtension */
     protected $Html;

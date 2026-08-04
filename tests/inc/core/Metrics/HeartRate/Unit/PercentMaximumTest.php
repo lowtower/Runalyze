@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\HeartRate\Unit;
 
 use Runalyze\Metrics\HeartRate\Unit\PercentMaximum;
 
-class PercentMaximumTest extends \PHPUnit_Framework_TestCase
+class PercentMaximumTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

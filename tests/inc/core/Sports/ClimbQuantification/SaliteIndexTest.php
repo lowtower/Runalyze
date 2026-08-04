@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\SaliteIndex;
 
-class SaliteIndexTest extends \PHPUnit_Framework_TestCase
+class SaliteIndexTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SaliteIndex */
     protected $Salite;

@@ -23,7 +23,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     {
         $this->Parser->setFileContent('<?xml version="1.0" encoding="utf-8"?><any><xml><file></file></xml></any>');
 
-        $this->setExpectedException(UnsupportedFileException::class);
+        $this->expectException(UnsupportedFileException::class);
 
         $this->Parser->parse();
     }

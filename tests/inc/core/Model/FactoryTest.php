@@ -6,7 +6,7 @@ namespace Runalyze\Model;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase {
+class FactoryTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var Factory

@@ -10,7 +10,7 @@ use DB;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class PersonalBestTest extends \PHPUnit_Framework_TestCase {
+class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDO

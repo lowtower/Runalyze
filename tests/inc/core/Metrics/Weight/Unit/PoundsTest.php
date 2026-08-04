@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Weight\Unit;
 
 use Runalyze\Metrics\Weight\Unit\Pounds;
 
-class PoundsTest extends \PHPUnit_Framework_TestCase
+class PoundsTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

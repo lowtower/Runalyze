@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class KernelsTest extends \PHPUnit_Framework_TestCase
+class KernelsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

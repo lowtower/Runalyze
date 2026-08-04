@@ -9,7 +9,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class OpenWeatherMapTest extends \PHPUnit_Framework_TestCase
+class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

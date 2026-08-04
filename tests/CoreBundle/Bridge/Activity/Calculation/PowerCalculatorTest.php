@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Sport\SportProfile;
 
-class PowerCalculatorTest extends \PHPUnit_Framework_TestCase
+class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PowerCalculator */
     protected $Calculator;

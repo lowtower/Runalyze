@@ -16,7 +16,7 @@ class FakeAbstractModel extends AbstractModel
     }
 }
 
-class MaximumCalculatorTest extends \PHPUnit_Framework_TestCase
+class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

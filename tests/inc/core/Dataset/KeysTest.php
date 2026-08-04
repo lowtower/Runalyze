@@ -2,7 +2,7 @@
 
 namespace Runalyze\Dataset;
 
-class KeysTest extends \PHPUnit_Framework_TestCase
+class KeysTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testAllIDs()

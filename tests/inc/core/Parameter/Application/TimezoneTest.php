@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
-class TimezoneTest extends \PHPUnit_Framework_TestCase
+class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

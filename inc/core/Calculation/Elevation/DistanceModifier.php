@@ -99,7 +99,7 @@ class DistanceModifier {
 	 * @return float [km]
 	 */
 	public function additionalDistance() {
-		return ($this->PositiveCorrector*$this->Up + $this->NegativeCorrector*$this->Down)/1000;
+		return ($this->PositiveCorrector*(int)$this->Up + $this->NegativeCorrector*(int)$this->Down)/1000;
 	}
 
 	/**

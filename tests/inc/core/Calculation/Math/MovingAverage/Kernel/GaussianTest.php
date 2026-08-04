@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class GaussianTest extends \PHPUnit_Framework_TestCase
+class GaussianTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForDefaultWidth()
     {

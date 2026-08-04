@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 
-class NotificationTest extends \PHPUnit_Framework_TestCase
+class NotificationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Notification */
     protected $Notification;

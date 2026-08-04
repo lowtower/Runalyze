@@ -4,7 +4,7 @@ namespace Runalyze\Dataset;
 
 use Runalyze\Model\Activity;
 
-class ContextTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testThatAllStringMethodsWork()

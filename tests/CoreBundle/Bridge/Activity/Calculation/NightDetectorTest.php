@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
 
-class NightDetectorTest extends \PHPUnit_Framework_TestCase
+class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NightDetector */
     protected $Detector;

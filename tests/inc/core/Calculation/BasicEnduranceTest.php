@@ -10,7 +10,7 @@ use Runalyze\Util\LocalTime;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class BasicEnduranceTest extends \PHPUnit_Framework_TestCase {
+class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var BasicEndurance

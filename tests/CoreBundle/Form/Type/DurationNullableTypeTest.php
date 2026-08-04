@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 
-class DurationNullableTypeTest extends \PHPUnit_Framework_TestCase
+class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DurationNullableType */
     protected $Type;

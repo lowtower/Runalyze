@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\JD;
 
-class LegacyEffectiveVO2maxTest extends \PHPUnit_Framework_TestCase
+class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {

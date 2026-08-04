@@ -7,7 +7,7 @@ class TimezoneLookup
     /** @var string sqlite-file with time zone database */
     protected $PathToTimeZoneDatabase;
 
-    /** @var string depends on os, linux default: libspatialite.so.5 */
+    /** @var string depends on os, linux default: mod_spatialite.so */
     protected $SpatialiteExtensionName;
 
     /** @var \SQLite3|null|false */
@@ -105,10 +105,14 @@ class TimezoneLookup
         $this->SQLite = new \SQLite3($this->PathToTimeZoneDatabase);
 
         try {
-            if (!@$this->SQLite->loadExtension($this->SpatialiteExtensionName)) {
-                throw new TimezoneLookupException(TimezoneLookupException::SPATIALITE_NOT_AVAILABLE);
-            }
+            $loaded = @$this->SQLite->loadExtension($this->SpatialiteExtensionName);
         } catch (\Exception $e) {
+            $loaded = false;
+        }
+        if (!$loaded) {
+            $this->SQLite->close();
+            $this->SQLite = false;
+
             throw new TimezoneLookupException(TimezoneLookupException::SPATIALITE_NOT_AVAILABLE);
         }
     }
@@ -121,7 +125,7 @@ class TimezoneLookup
             return;
         }
 
-        $query = $this->SQLite->query("SELECT spatialite_version()");
+        $query = @$this->SQLite->query("SELECT spatialite_version()");
 
         if (!$query) {
             $this->SQLite = false;

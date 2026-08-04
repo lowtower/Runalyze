@@ -8,7 +8,7 @@ use Cache;
 /**
  * @group requiresSqlite
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
 
 	/** @var \PDO */

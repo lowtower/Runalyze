@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Util\LocalTime;
 
-class ActivityAdapterTest extends \PHPUnit_Framework_TestCase
+class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Training */
     protected $Activity;

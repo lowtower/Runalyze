@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component;
 
 use Runalyze\Bundle\CoreBundle\Component\VariablesContainerTrait;
 
-class VariablesContainerTraitTest extends \PHPUnit_Framework_TestCase
+class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
 {
     /** @var object */
     protected $Object;

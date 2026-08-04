@@ -8,7 +8,7 @@ use Runalyze\Configuration;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JobLoopTest extends \PHPUnit_Framework_TestCase
+class JobLoopTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \PDO */
 	protected $PDO;

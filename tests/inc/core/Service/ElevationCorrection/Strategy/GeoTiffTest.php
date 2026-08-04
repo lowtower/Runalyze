@@ -11,7 +11,7 @@ use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
  * @group dependsOn
  * @group dependsOnSRTM
  */
-class GeoTiffTest extends \PHPUnit_Framework_TestCase
+class GeoTiffTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GeoTiff */
     protected $GeoTiff;

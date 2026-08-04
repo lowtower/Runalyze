@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
-class GeohashArrayTest extends \PHPUnit_Framework_TestCase
+class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GeohashArray */
     protected $Type;

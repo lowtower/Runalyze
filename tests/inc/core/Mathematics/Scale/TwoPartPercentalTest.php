@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Scale;
 
 use Runalyze\Mathematics\Scale\TwoPartPercental;
 
-class TwoPartPercentalTest extends \PHPUnit_Framework_TestCase
+class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TwoPartPercental */
     protected $Scale;

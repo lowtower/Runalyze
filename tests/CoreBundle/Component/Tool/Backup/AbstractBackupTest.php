@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\AbstractBackup;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class AbstractBackupTest extends \PHPUnit_Framework_TestCase
+class AbstractBackupTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     const TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';

@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class QuarticTest extends \PHPUnit_Framework_TestCase
+class QuarticTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {

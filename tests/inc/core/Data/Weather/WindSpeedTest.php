@@ -4,7 +4,7 @@ namespace Runalyze\Data\Weather;
 
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
-class WindSpeedTest extends \PHPUnit_Framework_TestCase
+class WindSpeedTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsUnknown()
     {

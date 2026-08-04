@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\HeartRate\Unit;
 
 use Runalyze\Metrics\HeartRate\Unit\PercentReserve;
 
-class PercentReserveTest extends \PHPUnit_Framework_TestCase
+class PercentReserveTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

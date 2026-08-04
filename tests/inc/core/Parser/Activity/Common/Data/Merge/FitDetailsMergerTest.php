@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 use Runalyze\Parser\Activity\Common\Data\FitDetails;
 use Runalyze\Parser\Activity\Common\Data\Merge\FitDetailsMerger;
 
-class FitDetailsMergerTest extends \PHPUnit_Framework_TestCase
+class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FitDetails */
     protected $FirstDetails;

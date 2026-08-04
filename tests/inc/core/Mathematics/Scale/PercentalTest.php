@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Scale;
 
 use Runalyze\Mathematics\Scale\Percental;
 
-class PercentalTest extends \PHPUnit_Framework_TestCase
+class PercentalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Percental */
     protected $Scale;

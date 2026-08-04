@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Energy;
 
 use Runalyze\Metrics\Energy\Energy;
 
-class EnergyTest extends \PHPUnit_Framework_TestCase
+class EnergyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Energy */
     protected $Energy;

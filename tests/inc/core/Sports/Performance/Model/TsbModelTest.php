@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Sports\Performance\Model;
 use Runalyze\Sports\Performance\Model\AbstractModel;
 use Runalyze\Sports\Performance\Model\TsbModel;
 
-class TsbModelTest extends \PHPUnit_Framework_TestCase
+class TsbModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testSingleWorkout()
     {

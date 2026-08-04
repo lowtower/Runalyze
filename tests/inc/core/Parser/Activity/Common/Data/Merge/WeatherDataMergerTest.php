@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Parser\Activity\Common\Data\Merge\WeatherDataMerger;
 
-class WeatherDataMergerTest extends \PHPUnit_Framework_TestCase
+class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var WeatherData */
     protected $FirstData;

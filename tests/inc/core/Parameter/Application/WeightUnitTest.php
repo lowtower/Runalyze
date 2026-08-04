@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
-class WeightUnitTest extends \PHPUnit_Framework_TestCase
+class WeightUnitTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**

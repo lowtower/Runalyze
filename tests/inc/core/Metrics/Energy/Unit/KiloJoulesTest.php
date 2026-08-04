@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Energy\Unit;
 
 use Runalyze\Metrics\Energy\Unit\Kilojoules;
 
-class KiloJoulesTest extends \PHPUnit_Framework_TestCase
+class KiloJoulesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

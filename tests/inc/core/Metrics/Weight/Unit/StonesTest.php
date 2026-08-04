@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Weight\Unit;
 
 use Runalyze\Metrics\Weight\Unit\Stones;
 
-class StonesTest extends \PHPUnit_Framework_TestCase
+class StonesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

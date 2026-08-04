@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Sports\Running;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Sports\Running\MarathonShape;
 
-class MarathonShapeTest extends \PHPUnit_Framework_TestCase
+class MarathonShapeTest extends \PHPUnit\Framework\TestCase
 {
     protected function getDefaultConfiguration()
     {

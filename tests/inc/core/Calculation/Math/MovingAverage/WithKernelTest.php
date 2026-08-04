@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class WithKernelTest extends \PHPUnit_Framework_TestCase
+class WithKernelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \RuntimeException

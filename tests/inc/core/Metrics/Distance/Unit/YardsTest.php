@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Distance\Unit;
 
 use Runalyze\Metrics\Distance\Unit\Yards;
 
-class YardsTest extends \PHPUnit_Framework_TestCase
+class YardsTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

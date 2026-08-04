@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 use Runalyze\Parser\Activity\Common\Data\ActivityData;
 use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataMerger;
 
-class ActivityDataMergerTest extends \PHPUnit_Framework_TestCase
+class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ActivityData */
     protected $FirstData;

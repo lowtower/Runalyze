@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\Steffny;
 
-class SteffnyTest extends \PHPUnit_Framework_TestCase
+class SteffnyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Steffny */
     protected $Steffny;

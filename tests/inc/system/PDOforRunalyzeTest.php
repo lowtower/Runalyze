@@ -4,7 +4,7 @@
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class PDOforRunalyzeTest extends PHPUnit_Framework_TestCase
+class PDOforRunalyzeTest extends PHPUnit\Framework\TestCase
 {
 	/** @var PDOforRunalyze */
 	protected $object;

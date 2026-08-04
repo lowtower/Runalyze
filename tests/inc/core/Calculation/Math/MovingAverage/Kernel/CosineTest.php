@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class CosineTest extends \PHPUnit_Framework_TestCase
+class CosineTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForDefaultWidth()
     {

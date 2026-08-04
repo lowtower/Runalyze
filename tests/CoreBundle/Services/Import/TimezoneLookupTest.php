@@ -10,19 +10,19 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
  * @group dependsOnTimezoneDatabase
  * @group requiresSqlite
  */
-class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
+class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TimezoneLookup */
     protected $Lookup;
 
     protected function setUp()
     {
-        $this->Lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'libspatialite.so.5');
+        $this->Lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     }
 
     public function testSilenceConstructor()
     {
-        $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', 'libspatialite.so.5');
+        $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', SQLITE_MOD_SPATIALITE);
         $lookup->silentExceptions();
 
         $this->assertFalse($lookup->isPossible());
@@ -31,9 +31,9 @@ class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithException()
     {
-        $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', 'libspatialite.so.5');
+        $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', SQLITE_MOD_SPATIALITE);
 
-        $this->setExpectedException(TimezoneLookupException::class);
+        $this->expectException(TimezoneLookupException::class);
 
         $lookup->isPossible();
     }
@@ -42,7 +42,7 @@ class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
     {
         $lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'non-existant-extension.so');
 
-        $this->setExpectedException(TimezoneLookupException::class);
+        $this->expectException(TimezoneLookupException::class);
 
         $lookup->isPossible();
     }
