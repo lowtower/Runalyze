@@ -1,0 +1,119 @@
+ARG PHP_VERSION=7.0.33
+ARG DEBIAN_FRONTEND=noninteractive
+
+ARG APP_ENV=dev
+
+###############################################################################
+# Builder Images
+###############################################################################
+FROM docker.io/composer/composer:2.2 AS composer
+
+FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
+
+###############################################################################
+# Web Server
+###############################################################################
+FROM docker.io/php:${PHP_VERSION}-apache
+
+ENV APP_ENV=${APP_ENV} \
+    TZ=Europe/Berlin \
+    LANG=C.UTF-8 \
+    LANGUAGE=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_CACHE_DIR=/tmp/composer-cache \
+    APACHE_DOCUMENT_ROOT=/var/www/html/web
+
+# Install Packages
+RUN set -eux; \
+    sed -i \
+      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
+      -e 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' \
+      /etc/apt/sources.list; \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list; \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until; \
+    echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure; \
+    apt-get update -o Acquire::AllowInsecureRepositories=true; \
+    apt-get install -y --allow-unauthenticated --no-install-recommends \
+      acl \
+      wget \
+      locales \
+      git \
+      openssh-client \
+      unzip \
+      zip \
+      tzdata \
+      nano \
+      vim-tiny \
+      ca-certificates \
+      curl \
+      mariadb-client \
+      sqlite3 \
+      libsqlite3-dev \
+      libsqlite3-mod-spatialite \
+      spatialite-bin \
+      libicu-dev \
+      libzip-dev \
+      zlib1g-dev \
+      libpng-dev \
+      libjpeg-dev \
+      libfreetype6-dev \
+      libxml2-dev \
+      libmcrypt-dev \
+      libcurl4-openssl-dev \
+      libonig-dev \
+    ; \
+    a2enmod rewrite headers expires; \
+    rm -rf /var/lib/apt/lists/*
+
+# Timezone
+RUN ln -snf /usr/share/zoneinfo/Europe/Berlin /etc/localtime; \
+    echo "Europe/Berlin" > /etc/timezone; \
+    dpkg-reconfigure --frontend=noninteractive tzdata
+
+# Set locale
+RUN printf '%s\n' 'en_US.UTF-8 UTF-8' 'de_DE.UTF-8 UTF-8' > /etc/locale.gen; \
+    locale-gen; \
+    dpkg-reconfigure --frontend=noninteractive locales; \
+    update-locale LANG=en_US.UTF-8
+
+# Install PHP Extensions
+COPY --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions \
+    ast \
+    bcmath \
+    gettext \
+    intl \
+    pdo_mysql \
+    xsl \
+    zip \
+    mysqli \
+    gd \
+    mcrypt
+# Dev only
+RUN if [ "$APP_ENV" = "dev" ]; then \
+      install-php-extensions xdebug; \
+    fi
+# Prod only
+RUN if [ "$APP_ENV" = "prod" ]; then \
+      install-php-extensions opcache apcu; \
+    fi
+
+WORKDIR /var/www/html
+
+# Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY composer.* ./
+RUN composer install --no-progress || true \
+    composer --version
+
+# Apache
+COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini
+COPY docker/apache/runalyze.conf /etc/apache2/sites-available/000-default.conf
+
+# Entrypoint
+COPY docker/runalyze-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/runalyze-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/runalyze-entrypoint.sh"]
+
+CMD ["apache2-foreground"]

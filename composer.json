@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "~5.6|~7.0",
+        "php": "~7.0",
         "symfony/symfony": "3.4.2",
         "sensio/framework-extra-bundle": "^3.0",
         "twig/twig": "1.35",
@@ -24,17 +24,17 @@
         "runalyze/dem-reader": "^1.0",
         "runalyze/age-grade": "^1.2",
         "symfony/swiftmailer-bundle": "2.6.*",
-        "beberlei/DoctrineExtensions": "~1.0",
-        "jms/translation-bundle": "dev-master",
+        "beberlei/doctrineextensions": "~1.0",
+        "jms/translation-bundle": "^1.4",
         "bernard/bernard-bundle": "^2.0.0",
-        "runalyze/GpxTrackPoster": "^1.0.0",
+        "runalyze/gpxtrackposter": "^1.0.0",
         "runalyze/glossary": "dev-master",
         "snc/redis-bundle": "2.*",
         "predis/predis": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
         "runalyze/common": "dev-master",
         "runalyze/devices": "dev-master",
-        "miniflux/picofeed": "@stable",
+        "miniflux/picofeed": "v0.1.35",
         "runalyze/translations": "dev-master"
     },
     "autoload": {
@@ -50,16 +50,27 @@
         }
     },
     "require-dev": {
-        "runalyze/playground": "dev-master",
-        "liip/functional-test-bundle": "^1.7",
+        "liip/functional-test-bundle": "^1.8",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "phpunit/phpunit": "4.8.*"
+        "phpunit/phpunit": "^6.5"
     },
     "repositories": [
         {
             "type": "package",
             "package": {
-                "name": "runalyze/GpxTrackPoster",
+                "name": "miniflux/picofeed",
+                "version": "v0.1.35",
+                "source": {
+                    "url": "https://github.com/aaronpk/picofeed.git",
+                    "type": "git",
+                    "reference": "3a27b47de31eedec075c719f961783c5db7a7b08"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "runalyze/gpxtrackposter",
                 "version": "1.0.2",
                 "source": {
                     "url": "https://github.com/laufhannes/GpxTrackPoster.git",
@@ -67,5 +78,22 @@
                     "reference": "8b337ca89e1cf9552dc0bbb08d8b81bc55335c45"
                 }
             }
-        }]
+        }],
+    "scripts": {
+        "test:setup":    "bash docker/setup-test-db.sh",
+        "test":          "php vendor/bin/phpunit          -c phpunit.xml.dist",
+        "test:dev":      "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
+        "test:import":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
+        "test:doctrine": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
+        "test:kernel":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
+        "test:client":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
+        "test:default":  "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
+        "test:ci": [
+            "test:setup",
+            "test"
+        ]
+    },
+    "config": {
+        "process-timeout": 1800
+    }
 }

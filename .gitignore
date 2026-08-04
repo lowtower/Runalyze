@@ -8,7 +8,9 @@ php.ini
 #Runalyze
 web/assets/v2.x/img/backgrounds/My-*
 data/config.yml
-data/sessions/sess*
+data/cache/
+data/sessions/
+data/srtm/
 data/timezone.sqlite
 *.mo
 inc/locale/*.po
@@ -24,9 +26,10 @@ node_modules/
 web/assets/css/*.css
 web/assets/js/*.js
 web/assets/js/*.map
+web/bundles/
 web/vendor/
 npm-debug.log
-
+package-lock.json
 #symfony
 /var/
 !/var/cache/.gitkeep
