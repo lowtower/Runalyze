@@ -19,7 +19,7 @@ class Location
     /** @var string */
     protected $LocationName = '';
 
-    /** @var \string */
+    /** @var string|null */
     protected $Timezone;
 
     /**
@@ -70,7 +70,7 @@ class Location
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getLatitude()
     {
@@ -78,7 +78,7 @@ class Location
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getLongitude()
     {
@@ -138,7 +138,7 @@ class Location
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getTimezone()
     {

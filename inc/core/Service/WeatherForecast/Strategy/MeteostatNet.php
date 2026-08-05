@@ -180,8 +180,16 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             $parameter[] = 'lat='.$location->getLatitude();
             $parameter[] = 'lon='.$location->getLongitude();
         }
-        $time = $location->hasDateTime() ? $location->getDateTime() : time();
-        $ymd = $time->format('Y-m-d');
+        $dateTime = $location->getDateTime();
+        if (null === $dateTime) {
+            try {
+                $timezone = new \DateTimeZone($location->getTimezone());
+            } catch (\Exception $e) {
+                $timezone = new \DateTimeZone(date_default_timezone_get());
+            }
+            $dateTime = new \DateTime('now', $timezone);
+        }
+        $ymd = $dateTime->format('Y-m-d');
         $parameter[] = 'start='.$ymd;
         $parameter[] = 'end='.$ymd;
         $parameter[] = 'tz='.$location->getTimezone();
