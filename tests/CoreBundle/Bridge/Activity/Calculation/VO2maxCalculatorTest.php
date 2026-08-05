@@ -14,7 +14,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
     /** @var Training */
     protected $Activity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Calculator = new VO2maxCalculator();
         $this->Activity = new Training();

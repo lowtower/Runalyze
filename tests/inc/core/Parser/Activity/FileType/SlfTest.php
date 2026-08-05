@@ -13,7 +13,7 @@ class SlfTest extends AbstractActivityParserTestCase
     /** @var Slf */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Slf();
     }

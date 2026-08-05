@@ -13,7 +13,7 @@ class HrmTest extends AbstractActivityParserTestCase
     /** @var Hrm */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Hrm();
     }

@@ -10,7 +10,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     protected $DefaultTimezone;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,7 +20,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         date_default_timezone_set('Europe/Moscow');
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         putenv('TZ='.$this->DefaultTimezone);
         date_default_timezone_set($this->DefaultTimezone);

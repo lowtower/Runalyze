@@ -13,7 +13,7 @@ class TrkTest extends AbstractActivityParserTestCase
     /** @var Trk */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Trk();
     }

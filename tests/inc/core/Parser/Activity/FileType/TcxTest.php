@@ -13,7 +13,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /** @var Tcx */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Tcx();
     }

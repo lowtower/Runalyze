@@ -14,7 +14,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     /** @var Fitlog */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Fitlog();
     }

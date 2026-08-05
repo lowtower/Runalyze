@@ -16,7 +16,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Filter = new NegativeTimeStepFilter();
         $this->Container = new ActivityDataContainer();

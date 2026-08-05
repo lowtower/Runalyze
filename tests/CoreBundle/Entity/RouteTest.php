@@ -9,7 +9,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     /** @var Route */
     protected $Route;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Route = new Route();
     }

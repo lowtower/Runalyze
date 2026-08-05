@@ -20,7 +20,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

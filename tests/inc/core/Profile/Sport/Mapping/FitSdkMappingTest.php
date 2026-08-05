@@ -11,7 +11,7 @@ class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
     /** @var FitSdkMapping */
     protected $Mapping;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Mapping = new FitSdkMapping();
     }

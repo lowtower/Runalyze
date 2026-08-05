@@ -13,7 +13,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
     /** @var ContinuousData */
     protected $SecondData;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->FirstData = new ContinuousData();
         $this->SecondData = new ContinuousData();

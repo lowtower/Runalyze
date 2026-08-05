@@ -13,14 +13,14 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 	/** @var \PDO */
 	protected $PDO;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->PDO = new PDO('sqlite::memory:');
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->PDO->exec('CREATE TABLE IF NOT EXISTS `testtable` (`value` float, `s` float);');
 	}
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		$this->PDO->exec('DROP TABLE `testtable`');
 	}

@@ -13,7 +13,7 @@ class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
     /** @var AutomaticReloadFlagSetter */
     protected $FlagSetter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->FlashBag = new FlashBag();
         $this->FlagSetter = new AutomaticReloadFlagSetter($this->FlashBag);

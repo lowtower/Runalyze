@@ -12,7 +12,7 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var ValueExtension */
     protected $Extension;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Extension = $this->getExtensionFor();
     }

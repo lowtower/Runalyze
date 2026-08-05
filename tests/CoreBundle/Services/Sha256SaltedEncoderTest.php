@@ -9,7 +9,7 @@ class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
     /** @var Sha256SaltedEncoder */
     protected $Encoder;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Encoder = new Sha256SaltedEncoder();
     }

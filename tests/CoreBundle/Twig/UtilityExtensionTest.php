@@ -9,7 +9,7 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var UtilityExtension */
     protected $Utility;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Utility = new UtilityExtension();
     }

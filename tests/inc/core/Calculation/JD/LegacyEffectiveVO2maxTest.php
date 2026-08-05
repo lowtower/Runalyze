@@ -4,12 +4,12 @@ namespace Runalyze\Calculation\JD;
 
 class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         LegacyEffectiveVO2max::setPrecision(2);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         LegacyEffectiveVO2max::setPrecision(2);
     }

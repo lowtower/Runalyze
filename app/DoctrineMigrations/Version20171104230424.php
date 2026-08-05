@@ -28,7 +28,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
     /** @var NegativeDistanceStepFilter */
     protected $NegativeDistanceStepFilter;
 
-    public function isTransactional()
+    public function isTransactional(): bool
     {
         return false;
     }

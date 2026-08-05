@@ -20,7 +20,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

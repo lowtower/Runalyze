@@ -9,7 +9,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
     /** @var Pause */
     protected $Pause;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Pause = new Pause(42, 314);
     }

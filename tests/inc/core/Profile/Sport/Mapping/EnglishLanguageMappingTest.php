@@ -11,7 +11,7 @@ class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
     /** @var EnglishLanguageMapping */
     protected $Mapping;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Mapping = new EnglishLanguageMapping();
     }

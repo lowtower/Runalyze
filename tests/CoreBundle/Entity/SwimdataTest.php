@@ -9,7 +9,7 @@ class SwimdataTest extends \PHPUnit\Framework\TestCase
     /** @var Swimdata */
     protected $Data;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Data = new Swimdata();
     }

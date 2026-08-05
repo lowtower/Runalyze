@@ -9,7 +9,7 @@ class BockTest extends \PHPUnit\Framework\TestCase
     /** @var Bock */
     protected $Bock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Bock = new Bock();
     }

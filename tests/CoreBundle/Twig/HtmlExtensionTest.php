@@ -9,7 +9,7 @@ class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var HtmlExtension */
     protected $Html;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Html = new HtmlExtension();
     }

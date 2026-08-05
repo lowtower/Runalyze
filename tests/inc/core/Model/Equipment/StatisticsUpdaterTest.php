@@ -26,7 +26,7 @@ class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $EquipmentIDs = array();
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->PDO = DB::getInstance();
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->PDO->exec('INSERT INTO `'.PREFIX.'equipment_type` (`name`, `accountid`) VALUES ("Test", 1)');
@@ -39,7 +39,7 @@ class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
 		$this->EquipmentIDs[] = $this->PDO->lastInsertId();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'equipment`');
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'equipment_type`');
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');

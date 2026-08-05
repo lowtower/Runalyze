@@ -9,7 +9,7 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
     /** @var Minetti */
     protected $Minetti;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Minetti = new Minetti();
     }

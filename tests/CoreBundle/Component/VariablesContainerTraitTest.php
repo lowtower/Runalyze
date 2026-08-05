@@ -15,7 +15,7 @@ class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
     /** @var \ReflectionMethod */
     protected $SetMethod;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Object = $this->getObjectForTrait(VariablesContainerTrait::class);
         $this->GetMethod = new \ReflectionMethod($this->Object, 'get');

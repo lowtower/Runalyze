@@ -19,7 +19,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityAdapter */
     protected $Adapter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Activity = new Training();
         $this->Adapter = new ActivityAdapter($this->Activity);

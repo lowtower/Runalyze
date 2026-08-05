@@ -9,7 +9,7 @@ class FietsIndexTest extends \PHPUnit\Framework\TestCase
     /** @var FietsIndex */
     protected $Fiets;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Fiets = new FietsIndex();
     }

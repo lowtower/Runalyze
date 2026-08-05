@@ -23,7 +23,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    public function isTransactional()
+    public function isTransactional(): bool
     {
         return false;
     }

@@ -13,7 +13,7 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityData */
     protected $SecondData;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->FirstData = new ActivityData();
         $this->SecondData = new ActivityData();

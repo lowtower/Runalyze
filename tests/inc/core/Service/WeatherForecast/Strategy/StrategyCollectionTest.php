@@ -12,7 +12,7 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var StrategyCollection */
     protected $Collection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Collection = new StrategyCollection();
     }

@@ -9,7 +9,7 @@ class HampelFilterTest extends \PHPUnit\Framework\TestCase
     /** @var HampelFilter */
     protected $Filter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Filter = new HampelFilter(3);
     }

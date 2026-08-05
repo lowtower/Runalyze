@@ -9,12 +9,12 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
     /** @var TwoPartPercental */
     protected $Scale;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Scale = new TwoPartPercental();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

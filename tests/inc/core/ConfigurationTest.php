@@ -14,13 +14,13 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	/** @var \PDO */
 	protected $PDO;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->PDO = DB::getInstance();
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}

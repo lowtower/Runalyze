@@ -17,7 +17,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
     /** @var Training */
     protected $Activity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Activity = new Training();
         $this->Activity->setSport(new Sport());

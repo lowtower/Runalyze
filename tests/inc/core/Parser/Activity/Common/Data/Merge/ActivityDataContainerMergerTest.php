@@ -15,7 +15,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $SecondContainer;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->FirstContainer = new ActivityDataContainer();
         $this->SecondContainer = new ActivityDataContainer();

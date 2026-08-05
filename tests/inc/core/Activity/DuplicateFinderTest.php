@@ -16,7 +16,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	/** @var \Runalyze\Activity\DuplicateFinder */
 	protected $Finder;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
@@ -26,7 +26,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 		$this->Finder = new DuplicateFinder($this->PDO, 0);
 	}
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
 	}

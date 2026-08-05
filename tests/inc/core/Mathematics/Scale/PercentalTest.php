@@ -9,7 +9,7 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
     /** @var Percental */
     protected $Scale;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Scale = new Percental();
     }

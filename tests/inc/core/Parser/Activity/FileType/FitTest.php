@@ -18,7 +18,7 @@ class FitTest extends AbstractActivityParserTestCase
     /** @var FitConverter */
     protected $Converter;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Fit();
         $this->Converter = new FitConverter(

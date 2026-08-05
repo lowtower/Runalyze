@@ -12,7 +12,7 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
     /** @var FlatOrHillyAnalyzer */
     protected $Analyzer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Analyzer = new FlatOrHillyAnalyzer();
     }

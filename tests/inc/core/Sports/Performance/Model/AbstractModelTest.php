@@ -39,7 +39,7 @@ class ModelTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractModel */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new AbstractModel_MockTesterFilled([]);
         $this->object->calculate();

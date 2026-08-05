@@ -13,7 +13,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
     /** @var FileImporter */
     protected $Importer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Importer = new FileImporter(
             new FitConverter('', ''),

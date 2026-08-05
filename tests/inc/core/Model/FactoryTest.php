@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $DB;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->DB = \DB::getInstance();
 		$this->truncateTables();
 		\Cache::clean();
@@ -34,7 +34,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 		$this->object->clearCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if (null !== $this->object) {
 			$this->object->clearCache();
 		}

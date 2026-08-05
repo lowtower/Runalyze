@@ -17,7 +17,7 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Filter = new NegativePauseFilter();
         $this->Container = new ActivityDataContainer();

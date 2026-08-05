@@ -9,7 +9,7 @@ class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
     /** @var ClimbByBikeIndex */
     protected $Cbb;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Cbb = new ClimbByBikeIndex();
     }

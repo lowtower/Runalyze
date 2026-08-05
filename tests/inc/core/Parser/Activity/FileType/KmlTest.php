@@ -15,7 +15,7 @@ class KmlTest extends AbstractActivityParserTestCase
     /** @var Kml */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Kml();
     }

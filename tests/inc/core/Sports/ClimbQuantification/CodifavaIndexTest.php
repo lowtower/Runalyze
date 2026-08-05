@@ -9,7 +9,7 @@ class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
     /** @var CodifavaIndex */
     protected $Codifava;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Codifava = new CodifavaIndex();
     }

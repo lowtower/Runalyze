@@ -8,7 +8,7 @@ php.ini
 #Runalyze
 web/assets/v2.x/img/backgrounds/My-*
 data/config.yml
-data/cache/
+data/cache*/
 data/sessions/
 data/srtm/
 data/timezone.sqlite
@@ -37,3 +37,6 @@ package-lock.json
 /app/config/config_test.yml
 
 !.gitkeep
+
+#Testing
+.phpunit.result.cache

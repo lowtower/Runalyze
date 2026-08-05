@@ -20,7 +20,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     /** @var string[] */
     protected $FilesToClear = [];
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         foreach ($this->FilesToClear as $file) {
             if (file_exists($file)) {

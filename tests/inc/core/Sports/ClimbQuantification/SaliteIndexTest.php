@@ -9,7 +9,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
     /** @var SaliteIndex */
     protected $Salite;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Salite = new SaliteIndex();
     }

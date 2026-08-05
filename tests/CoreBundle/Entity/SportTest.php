@@ -12,7 +12,7 @@ class SportTest extends \PHPUnit\Framework\TestCase
     /** @var Sport */
     protected $Sport;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Sport = new Sport();
     }

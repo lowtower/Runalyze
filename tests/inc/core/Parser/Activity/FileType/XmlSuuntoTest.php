@@ -14,7 +14,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     /** @var XmlSuunto */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new XmlSuunto();
     }

@@ -13,7 +13,7 @@ class PwxTest extends AbstractActivityParserTestCase
     /** @var Pwx */
     protected $Parser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Parser = new Pwx();
     }

@@ -24,7 +24,7 @@ class RegistrationTest extends WebTestCase
     /** @var AccountRepository */
     protected $AccountRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->loadFixtures([])->getReferenceRepository();
 

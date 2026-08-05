@@ -13,7 +13,7 @@ class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->Type = TinyIntType::getType(TinyIntType::TINYINT);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

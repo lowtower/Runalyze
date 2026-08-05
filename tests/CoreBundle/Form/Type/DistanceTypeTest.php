@@ -10,7 +10,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
     /** @var DistanceType */
     protected $Type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->Type = new DistanceType(new Kilometer());
     }
