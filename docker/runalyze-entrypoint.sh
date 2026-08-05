@@ -37,14 +37,14 @@ do
     find "$dir" -mindepth 1 -not -name ".gitignore" -not -name ".gitkeep" -delete
 done
 
-chown -R www-data:www-data data var web/uploads || true
-find data var web/uploads -type d -exec chmod 2775 {} +
-find data var web/uploads -type f -exec chmod  664 {} +
+chown -R www-data:www-data data var web || true
+find data var web -type d -exec chmod 2775 {} +
+find data var web -type f -exec chmod  664 {} +
 
-setfacl -R -m   u:www-data:rwx data var
-setfacl -R -m d:u:www-data:rwx data var
-setfacl -R -m   g:www-data:rwx data var
-setfacl -R -m d:g:www-data:rwx data var
+setfacl -R -m   u:www-data:rwx data var web
+setfacl -R -m d:u:www-data:rwx data var web
+setfacl -R -m   g:www-data:rwx data var web
+setfacl -R -m d:g:www-data:rwx data var web
 
 # The old Travis CI setup did exactly this:
 #   cp app/config/default_config.yml data/config.yml
