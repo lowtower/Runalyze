@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0f3162f0f5c3d4d1207312813e1c810",
+    "content-hash": "1bd52ab52571c2c32ff67b923a14e56d",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -4069,7 +4069,7 @@
             "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laufhannes/GpxTrackPoster.git",
+                "url": "https://github.com/codeproducer198/GpxTrackPoster.git",
                 "reference": "8b337ca89e1cf9552dc0bbb08d8b81bc55335c45"
             },
             "type": "library"
