@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.2.34
+ARG PHP_VERSION=7.4.33
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG APP_ENV=dev
@@ -6,7 +6,7 @@ ARG APP_ENV=dev
 ###############################################################################
 # Builder Images
 ###############################################################################
-FROM docker.io/composer/composer:2.2 AS composer
+FROM docker.io/composer/composer:2 AS composer
 
 FROM docker.io/mlocati/php-extension-installer:latest AS php_extension_installer
 
@@ -27,10 +27,10 @@ ENV APP_ENV=${APP_ENV} \
 # Install Packages
 RUN set -eux; \
     sed -i \
-      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
+#      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
       -e 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' \
       /etc/apt/sources.list; \
-    sed -i '/stretch-updates/d' /etc/apt/sources.list; \
+#    sed -i '/stretch-updates/d' /etc/apt/sources.list; \
     echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until; \
     echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure; \
     apt-get update -o Acquire::AllowInsecureRepositories=true; \
@@ -100,6 +100,9 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
     fi
 
 WORKDIR /var/www/html
+
+# Copy/link sources
+COPY --link . ./
 
 # Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer

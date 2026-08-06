@@ -214,22 +214,24 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 		while ($IsStreak) {
 			$Day = $Request->fetch();
+			if (!$Day) {
+				break;
+			}
 
 			if ($FirstDay) {
 				if ($Day['day'] != $LastDay) {
 					if (Time::diffOfDates($Day['day'], $LastDay) == 1) {
 						$Text = __('If you run today: ');
 						$NumDays++;
-					} else
+					} else {
 						$IsStreak = false;
+					}
 				}
 
 				$FirstDay = false;
 			}
 
-			if (!$Day || !$IsStreak)
-				$IsStreak = false;
-			else {
+			if ($IsStreak) {
 				if (Time::diffOfDates($Day['day'], $LastDay) <= 1) {
 					$NumDays++;
 					$LastDay  = $Day['day'];

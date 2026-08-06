@@ -225,13 +225,14 @@ class JsonImporter
     {
 		$line = $this->Reader->readLine();
 
-		if ($line{0} != '{')
+		if (!is_string($line) || $line === '' || $line[0] !== '{') {
 			return;
+		}
 
 		$this->DB->beginTransaction();
 		$statement = $this->prepareUpdateStatement($tableName);
 
-		while ($line{0} == '{') {
+		while (is_string($line) && $line !== '' && $line[0] === '{') {
 			$completeRow = json_decode($line, true);
 			$id = key($completeRow);
 			$row = current($completeRow);
@@ -321,8 +322,9 @@ class JsonImporter
     {
 		$line = $this->Reader->readLine();
 
-		if ($line{0} != '{')
+		if (!is_string($line) || $line === '' || $line[0] !== '{') {
 			return;
+		}
 
 		$completeRow = json_decode($line, true);
 		$row = array_shift($completeRow);
@@ -330,7 +332,7 @@ class JsonImporter
 
 		$bulkInserter = new BulkInserter($tableName, $columns, $this->AccountID, $this->DatabasePrefix);
 
-		while ($line{0} == '{') {
+		while (is_string($line) && $line !== '' && $line[0] === '{') {
 			$completeRow = json_decode($line, true);
 			$id = key($completeRow);
 			$row = current($completeRow);
