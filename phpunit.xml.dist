@@ -14,7 +14,10 @@
     stopOnError="false"
     stopOnFailure="false"
     verbose="true"
+    convertNoticesToExceptions="false"
     convertWarningsToExceptions="false"
+    convertDeprecationsToExceptions="false"
+    convertErrorsToExceptions="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
 >
 

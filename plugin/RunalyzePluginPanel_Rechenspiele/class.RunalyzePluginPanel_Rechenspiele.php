@@ -231,9 +231,11 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 							$Monotony->valueAsPercentage(),
 							(
 								$Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
-								: $Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
+								: (
+									$Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
 								: ProgressBarSingle::$COLOR_GREEN
-							)
+								)
+						)
 					)
 				),
 				'bar-tooltip'	=> 'Monotony = avg(Trimp)/stddev(Trimp)',
@@ -246,12 +248,13 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 				'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
 				'bars'	=> array(
 					new ProgressBarSingle(
-							$Monotony->trainingStrainAsPercentage(),
-							(
-								$Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
-								: ($Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE
-									: ProgressBarSingle::$COLOR_GREEN)
+						$Monotony->trainingStrainAsPercentage(),
+						(
+							$Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
+							: (
+								$Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
 							)
+						)
 					)
 				),
 				'bar-tooltip'	=> 'Training strain = sum(Trimp)*Monotony',

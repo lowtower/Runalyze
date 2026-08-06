@@ -1,6 +1,6 @@
 services:
   db:
-    image: docker.io/library/mariadb:10.1
+    image: docker.io/library/mariadb:12.3
     container_name: runalyze43-db
     environment:
       MYSQL_DATABASE: ${DB_NAME:-runalyze}
@@ -23,7 +23,7 @@ services:
       - db-data:/var/lib/mysql
       - ./docker/mysql:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 5s
       timeout: 3s
       retries: 30
@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: docker.io/library/redis:5-alpine
+    image: docker.io/library/redis:6.2-alpine
     container_name: runalyze43-redis
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
