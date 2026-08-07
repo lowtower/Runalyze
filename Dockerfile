@@ -93,6 +93,9 @@ RUN install-php-extensions \
 # Dev only
 RUN if [ "$APP_ENV" = "dev" ]; then \
       install-php-extensions xdebug; \
+      touch /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "zend_extension=xdebug.so"      > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.mode=develop,coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
     fi
 # Prod only
 RUN if [ "$APP_ENV" = "prod" ]; then \
