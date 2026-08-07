@@ -110,19 +110,17 @@ services:
     ports:
       - "${PMA_UI_PORT:-8081}:80"
 
-#  frontend:
-#    image: docker.io/library/node:8
-#    container_name: runalyze43-frontend
-#    working_dir: /var/www/html
-#    volumes:
-#      - ./:/var/www/html
-#      - node-modules:/var/www/html/node_modules
-#      - bower-components:/var/www/html/web/vendor
-#    command: ["bash", "-lc", "npm install --ignore-scripts && ./node_modules/.bin/bower install --allow-root && ./node_modules/.bin/gulp build"]
+  frontend:
+    image: docker.io/library/node:18
+    container_name: runalyze43-frontend
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - node-modules:/var/www/html/node_modules
+    command: ["bash", "-lc", "set -e && npm install --ignore-scripts && npm run bower:install && npm run build"]
 
 volumes:
   db-data:
   redis-data:
   composer-cache:
   node-modules:
-  bower-components:
