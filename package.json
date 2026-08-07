@@ -3,17 +3,18 @@
   "version": "4.3.0",
   "description": "Runalyze - training analysis for athletes",
   "homepage": "https://runalyze.com/",
-  "engines": {
-    "npm": "~5.6.0",
-    "node": "~8.9.4"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Runalyze/Runalyze.git"
   },
   "main": "gulpfile.js",
   "scripts": {
-    "postinstall": "bower install"
+    "bower:install": "bower install --allow-root",
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "build:styles": "gulp styles",
+    "build:installer": "gulp stylesInstaller",
+    "build:scripts": "gulp scripts"
   },
   "devDependencies": {
     "bower": "1.8.8",
