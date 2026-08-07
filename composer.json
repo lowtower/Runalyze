@@ -118,6 +118,13 @@
         "test:ci": [
             "test:setup",
             "test"
+        ],
+        "test:coverage-html":   "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html   var/coverage",
+        "test:coverage-clover": "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/logs/clover.xml",
+        "test:coverage-text":   "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
+        "test:coverage": [
+            "@test:coverage-html",
+            "@test:coverage-clover"
         ]
     },
     "config": {
