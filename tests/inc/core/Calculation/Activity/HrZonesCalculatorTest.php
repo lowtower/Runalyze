@@ -59,7 +59,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		$result = $underTest->getZones(25, 130, 180);
 		$this->assertEquals(array(
 			array(                      'hr' => 25),
-			array('t' => "B1 Warm up",  'hr' => 90 , 'c' => "#a6a6a6"),
+			array('t' => "B1 Warm up",  'hr' => 90, 'c' => "#a6a6a6"),
 			array('t' => "B2 Easy",     'hr' => 100, 'c' => "#3b97f3"),
 			array('t' => "B3 Aerob",    'hr' => 120, 'c' => "#82c91e"),
 			array('t' => "B4 Intensiv", 'hr' => 130, 'c' => "#f98925"),
@@ -76,7 +76,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		$result = $underTest->getZones(95, 190, 180);
 		$this->assertEquals(array(
 			array(                      'hr' => 0),
-			array('t' => "B1 Warm up",  'hr' => 90 , 'c' => "#a6a6a6"),
+			array('t' => "B1 Warm up",  'hr' => 90, 'c' => "#a6a6a6"),
 			array('t' => "B2 Easy",     'hr' => 100, 'c' => "#3b97f3"),
 			array('t' => "B3 Aerob",    'hr' => 120, 'c' => "#82c91e"),
 			array('t' => "B4 Intensiv", 'hr' => 130, 'c' => "#f98925"),

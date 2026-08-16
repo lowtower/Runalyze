@@ -6,7 +6,6 @@
 
 namespace Runalyze\Parser\Activity\Common\Data;
 
-use Runalyze\Model\Trackdata;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 /**

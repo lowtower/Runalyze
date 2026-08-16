@@ -19,10 +19,10 @@ use Ajax;
  */
 class Trimp extends \Runalyze\Configuration\Category {
 	/**
-	 * Flag: recalculation triggered?
-	 * @var boolean
-	 */
-	private static $TRIGGERED = false;
+     * Flag: recalculation triggered?
+     * @var Boolean
+     */
+    private static $TRIGGERED = false;
 
 	/**
 	 * Internal key

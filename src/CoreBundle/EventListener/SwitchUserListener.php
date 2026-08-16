@@ -1,7 +1,6 @@
 <?php
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
-use Symfony\Component\Security\Http\Firewall;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;

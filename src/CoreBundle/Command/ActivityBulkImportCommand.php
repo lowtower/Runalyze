@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
-use Runalyze\Util\LocalTime;
 
 /**
  * Internal class represents a maximal zone-target heart-rate.
@@ -308,7 +307,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         }
 
         if(!empty($equipments)) {
-            foreach($equipments as $k => $v) {
+            foreach($equipments as $v) {
                 // add every equipment, if it not "unique"
                 if($typeUnique[$v->getType()->getId()]) {
                     $activity->addEquipment($v);

@@ -4,8 +4,6 @@ namespace Runalyze\Migrations;
 
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
-use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator;
-use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\FlatOrHillyAnalyzer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

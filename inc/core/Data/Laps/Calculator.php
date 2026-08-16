@@ -7,7 +7,6 @@
 namespace Runalyze\Data\Laps;
 
 use Runalyze\Activity\Duration;
-use Runalyze\Bundle\CoreBundle\Entity\Swimdata as EntitySwimdata;
 use Runalyze\Calculation;
 use Runalyze\Configuration;
 use Runalyze\Model\Route;

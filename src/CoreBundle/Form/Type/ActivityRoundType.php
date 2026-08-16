@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class ActivityRoundType extends AbstractType implements DataTransformerInterface

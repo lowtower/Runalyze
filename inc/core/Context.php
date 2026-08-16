@@ -6,7 +6,6 @@
 
 namespace Runalyze;
 
-use Runalyze\Configuration;
 
 use SessionAccountHandler;
 

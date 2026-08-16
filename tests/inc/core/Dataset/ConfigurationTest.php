@@ -3,7 +3,6 @@
 namespace Runalyze\Dataset;
 
 use PDO;
-use Cache;
 
 /**
  * @group requiresSqlite

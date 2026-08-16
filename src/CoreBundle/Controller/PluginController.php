@@ -2,12 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData;
-use Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisSelection;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
-use Runalyze\Util\LocalTime;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;

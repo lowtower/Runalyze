@@ -1,8 +1,5 @@
 <?php
 
-use Runalyze\Configuration;
-use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\TemperatureUnit;
 
 /**
  * Test class for FormularValueParser.

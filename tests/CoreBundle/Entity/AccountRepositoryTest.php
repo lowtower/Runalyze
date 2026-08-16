@@ -2,11 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
-use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @group requiresDoctrine

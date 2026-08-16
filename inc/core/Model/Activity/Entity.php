@@ -8,7 +8,6 @@ namespace Runalyze\Model\Activity;
 
 use Runalyze\Data\Weather;
 use Runalyze\Model;
-use Runalyze\Model\Activity\Splits;
 
 /**
  * Activity entity

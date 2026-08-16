@@ -19,7 +19,6 @@ use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
 use Ajax;
 use Helper;
 use FormularFieldset;
-use Runalyze\View\Leaflet\Activity as LeafletActivity;
 
 /**
  * Display table for laps

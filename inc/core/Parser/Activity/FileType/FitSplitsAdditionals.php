@@ -98,7 +98,7 @@ class FitSplitsAdditionals {
         if (isset($values['total_calories']) && $values['total_calories'][0] > 0) {
             $i['FIT calories'] = (int)($values['total_calories'][0]);
         }
-    
+
         if (isset($adds)) {
             $i = array_merge($i, $adds);
         }

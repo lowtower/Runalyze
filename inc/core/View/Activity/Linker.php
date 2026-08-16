@@ -14,7 +14,6 @@ use SessionAccountHandler;
 use DataBrowserLinker;
 use SharedLinker;
 use System;
-use Request;
 use Icon;
 use Ajax;
 use DB;

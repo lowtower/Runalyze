@@ -3,7 +3,6 @@
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class AppKernel extends \Symfony\Component\HttpKernel\Kernel

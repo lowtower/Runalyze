@@ -1,6 +1,5 @@
 <?php
 
-use Runalyze\Model\Trackdata;
 
 class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 {

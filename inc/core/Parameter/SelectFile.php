@@ -16,10 +16,10 @@ class SelectFile extends Select {
 	protected $UseFallback = false;
 
 	/**
-	 * Boolean flag: allow uppercase variants of file extensions
-	 * @var boolean
-	 */
-	protected $AllowUppercaseVariants = true;
+     * Boolean flag: allow uppercase variants of file extensions
+     * @var Boolean
+     */
+    protected $AllowUppercaseVariants = true;
 
 	/**
 	 * Construct

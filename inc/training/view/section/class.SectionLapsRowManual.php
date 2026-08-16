@@ -4,7 +4,6 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\Model\Trackdata;
 use Runalyze\View\Activity;
 use Runalyze\View\Activity\Linker;
 

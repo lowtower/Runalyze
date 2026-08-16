@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\EntityRepository;
 
 class NotificationRepository extends EntityRepository

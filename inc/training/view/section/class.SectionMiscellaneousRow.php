@@ -11,7 +11,6 @@ use Runalyze\Activity\Pace;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
-use Runalyze\Configuration;
 use Runalyze\Model\Trackdata;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View;

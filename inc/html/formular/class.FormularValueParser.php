@@ -4,13 +4,7 @@
  * @package Runalyze\HTML\Formular\Validation
  */
 
-use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Elevation;
-use Runalyze\Activity\Energy;
-use Runalyze\Activity\Weight;
-use Runalyze\Activity\Temperature;
-use Runalyze\Data\Weather\WindSpeed;
 
 /**
  * @deprecated since v4.3

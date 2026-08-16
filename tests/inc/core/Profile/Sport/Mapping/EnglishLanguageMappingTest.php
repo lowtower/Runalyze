@@ -2,7 +2,6 @@
 
 namespace Runalyze\Tests\Profile\Sport\Mapping;
 
-use Runalyze\Profile\FitSdk;
 use Runalyze\Profile\Sport\Mapping\EnglishLanguageMapping;
 use Runalyze\Profile\Sport\SportProfile;
 

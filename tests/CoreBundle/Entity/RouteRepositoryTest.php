@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
-use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
 

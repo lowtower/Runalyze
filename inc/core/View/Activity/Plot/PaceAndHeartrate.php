@@ -33,7 +33,7 @@ class PaceAndHeartrate extends ActivityPlot {
 		];
 
 		$this->addMultipleSeries($allSeries);
-		
+
 		// #TSC add GAP, but not via addMultipleSeries, bacause yAxis must the same as the Pace series
 		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
 		$this->addSeries($GradeAdjustedPaceSeries, 1, false);

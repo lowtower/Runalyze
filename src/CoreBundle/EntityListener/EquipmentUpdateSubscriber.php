@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\PersistentCollection;

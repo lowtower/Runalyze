@@ -2,7 +2,6 @@
 
 namespace Runalyze\Activity;
 
-use Runalyze\Configuration;
 
 use DB;
 

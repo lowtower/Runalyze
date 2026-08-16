@@ -2,7 +2,6 @@
 
 namespace Runalyze\Parser\Activity;
 
-use Runalyze\Parser\Activity\FileType;
 
 class FileExtensionToParserMapping
 {

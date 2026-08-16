@@ -3,10 +3,7 @@
 namespace Runalyze\Tests\Parser\Activity\Data;
 
 use Runalyze\Parser\Activity\Common\Data\ActiveRoundCalculator;
-use Runalyze\Parser\Activity\Common\Data\ActivityData;
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
-use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
-use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 

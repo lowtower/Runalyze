@@ -182,7 +182,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 				}
 				$i--;
 			}
-			
+
             $e->Data[self::GEOHASHES] = array_values($e->Data[self::GEOHASHES]);
 			// reset also the count
 			$e->numberOfPoints = count($e->Data[self::GEOHASHES]);

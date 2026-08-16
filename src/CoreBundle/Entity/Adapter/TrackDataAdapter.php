@@ -10,7 +10,7 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
 class TrackDataAdapter
 {
-    /** @var TrackData */
+    /** @var Trackdata */
     protected $TrackData;
 
     public function __construct(Trackdata $trackData)

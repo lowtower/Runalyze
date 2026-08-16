@@ -4,7 +4,6 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
 
 /**
  * Row: Laps PaceGoal / PacePro #TSC

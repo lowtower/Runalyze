@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\Hrv;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
@@ -17,10 +16,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\MarathonShapeCalculation;
-use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\StartTimeCalculation;
-use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxCorrectionFactorCalculation;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculation;
-use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 /**
@@ -649,7 +645,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
      */
     protected function refreshEquipment(array $entities)
     {
-        foreach ($entities as $key => $entity) {
+        foreach ($entities as $entity) {
             $this->EntityManager->getUnitOfWork()->refresh($entity);
         }
     }

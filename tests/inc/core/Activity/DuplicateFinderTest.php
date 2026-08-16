@@ -2,7 +2,6 @@
 
 namespace Runalyze\Activity;
 
-use PDO;
 
 /**
  * @group dependsOn

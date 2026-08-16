@@ -111,7 +111,7 @@ class ImportActivityController extends Controller
         $result = '';
 
         // move from tmp-name (/tmp/phpOZLwMG) to the tmp-upload-folder (in error case an exception is thrown)
-        foreach($allfiles as $k => $v) {
+        foreach($allfiles as $v) {
             $v->move($uploadDir, $v->getClientOriginalName());
         }
 
@@ -123,7 +123,7 @@ class ImportActivityController extends Controller
 
         // cleanup: remove uploaded files
         $result = $result . 'Cleanup temp folder and uploaded files.' . PHP_EOL;
-        foreach($allfiles as $k => $v) {
+        foreach($allfiles as $v) {
             $f = $uploadDir . DIRECTORY_SEPARATOR .$v->getClientOriginalName();
             if(!unlink($f)) {
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;

@@ -6,8 +6,6 @@
 
 namespace Runalyze\Export\File;
 
-use League\Geotools\Coordinate\Coordinate;
-use League\Geotools\Geohash\Geohash;
 use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 use Runalyze\Util\LocalTime;

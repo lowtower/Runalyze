@@ -2,7 +2,6 @@
 
 namespace Runalyze\Calculation\Activity;
 
-use Runalyze\View\Activity\Context;
 
 /**
  * Calculates the HR zones for the zone view.

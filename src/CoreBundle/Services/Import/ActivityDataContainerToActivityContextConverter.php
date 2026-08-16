@@ -21,7 +21,6 @@ use Runalyze\Parser\Activity\Common\Data\Metadata;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Sport\Mapping\EnglishLanguageMapping;
 use Runalyze\Profile\Sport\SportProfile;
-use Runalyze\Profile\Weather\Mapping\EnglishTextMapping;
 
 class ActivityDataContainerToActivityContextConverter
 {

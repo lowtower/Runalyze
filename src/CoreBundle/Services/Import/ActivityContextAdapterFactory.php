@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter;
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
-use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 
 class ActivityContextAdapterFactory
 {

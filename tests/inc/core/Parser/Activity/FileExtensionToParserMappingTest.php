@@ -29,7 +29,7 @@ class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
 
     public function testThatAllMappedParserExist()
     {
-        foreach (FileExtensionToParserMapping::MAPPING as $extension => $class) {
+        foreach (FileExtensionToParserMapping::MAPPING as $class) {
             $this->assertInstanceOf(ParserInterface::class, new $class);
         }
     }

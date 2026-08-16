@@ -7,7 +7,6 @@
 namespace Runalyze\View\Activity\Plot;
 
 use Runalyze\View\Activity;
-use Runalyze\View\Activity\Plot\Series;
 
 /**
  * Plot for: Power
