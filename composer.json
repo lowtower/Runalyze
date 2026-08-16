@@ -55,7 +55,9 @@
         "liip/functional-test-bundle": "^4.3.0",
         "liip/test-fixtures-bundle": "^1.12",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "symplify/easy-coding-standard": "^13.2",
+        "rector/rector": "^2.6"
     },
     "repositories": [
         {
@@ -107,6 +109,15 @@
             }
         }],
     "scripts": {
+        "lint": "vendor/bin/ecs check",
+        "lint:fix": "vendor/bin/ecs check --fix",
+        "rector": "vendor/bin/rector process --dry-run",
+        "rector:fix": "vendor/bin/rector process",
+        "analyze": "vendor/bin/phpstan analyse",
+        "fix": [
+            "@lint:fix",
+            "@rector:fix"
+        ],
         "test:setup":    "bash docker/setup-test-db.sh",
         "test":          "php vendor/bin/phpunit          -c phpunit.xml.dist",
         "test:dev":      "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
