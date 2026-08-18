@@ -18,10 +18,10 @@ class Cameron implements PrognosisInterface
 	/** @var float [s] */
 	protected $ReferenceTime = 0.0;
 
-    /**
-     * @param float|int $referenceTime [s]
-     * @param float $referenceDistance [km]
-     */
+	/**
+	 * @param float|int $referenceTime [s]
+	 * @param float $referenceDistance [km]
+	 */
 	public function __construct($referenceTime = 0.0, $referenceDistance = 0.0)
     {
         $this->setReferenceResult($referenceDistance, $referenceTime);
@@ -35,7 +35,7 @@ class Cameron implements PrognosisInterface
 	/**
 	 * @param float $distance [km]
 	 * @param int|float $timeInSeconds [s]
-     * @return $this
+	 * @return $this
 	 */
 	public function setReferenceResult($distance, $timeInSeconds)
     {

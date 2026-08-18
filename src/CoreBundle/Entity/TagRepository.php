@@ -12,12 +12,14 @@ class TagRepository extends EntityRepository
      */
     public function findAllFor(Account $account)
     {
-        return $this->findBy([
-            'account' => $account->getId()
-        ],
+        return $this->findBy(
+            [
+                'account' => $account->getId()
+            ],
             [
                 'tag' => 'ASC'
-            ]);
+            ]
+        );
     }
 
     public function save(Tag $tag)

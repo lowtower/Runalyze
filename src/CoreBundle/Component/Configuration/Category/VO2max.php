@@ -7,7 +7,7 @@ class VO2max extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'VO2MAX_DAYS' => '30',

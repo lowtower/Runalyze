@@ -116,7 +116,7 @@ class SearchLink {
 	 * @return string
 	 */
 	public static function to($key, $value, $text, $sign = '') {
-		$Link = new SearchLink();
+		$Link = new self();
 		$Link->addParam($key, $value, $sign);
 
 		return $Link->link($text);
@@ -129,7 +129,7 @@ class SearchLink {
 	 * @return string
 	 */
 	public static function urlFor($key, $value) {
-		$Link = new SearchLink();
+		$Link = new self();
 		$Link->addParam($key, $value);
 
 		return $Link->url();

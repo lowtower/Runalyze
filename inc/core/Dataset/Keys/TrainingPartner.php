@@ -63,8 +63,8 @@ class TrainingPartner extends AbstractKey
 	public function description(): string
 	{
 		return sprintf(
-			__('Training partner are automatically cut after %u characters.'),
-			self::DEFAULT_CUT
+		    __('Training partner are automatically cut after %u characters.'),
+		    self::DEFAULT_CUT
 		);
 	}
 
@@ -76,8 +76,8 @@ class TrainingPartner extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		return \Helper::Cut(
-			$context->activity()->partner()->asString(),
-			20
+		    $context->activity()->partner()->asString(),
+		    20
 		);
 	}
 

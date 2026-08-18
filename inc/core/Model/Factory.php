@@ -70,9 +70,9 @@ class Factory {
 	 * @param int $activityid
 	 * @return \Runalyze\Model\Activity\Entity
 	 */
-	public function activity($activityid) {
+	public function activity($activityid): \Runalyze\Model\Activity\Entity {
 		return new Activity\Entity(
-			$this->arrayByPK('training', $activityid)
+		    $this->arrayByPK('training', $activityid)
 		);
 	}
 
@@ -81,9 +81,9 @@ class Factory {
 	 * @param int $activityid
 	 * @return \Runalyze\Model\Trackdata\Entity
 	 */
-	public function trackdata($activityid) {
+	public function trackdata($activityid): \Runalyze\Model\Trackdata\Entity {
 		return new Trackdata\Entity(
-			$this->arrayByPK('trackdata', $activityid)
+		    $this->arrayByPK('trackdata', $activityid)
 		);
 	}
 
@@ -92,9 +92,9 @@ class Factory {
 	 * @param int $activityid
 	 * @return \Runalyze\Model\Swimdata\Entity
 	 */
-	public function swimdata($activityid) {
+	public function swimdata($activityid): \Runalyze\Model\Swimdata\Entity {
 		return new Swimdata\Entity(
-			$this->arrayByPK('swimdata', $activityid)
+		    $this->arrayByPK('swimdata', $activityid)
 		);
 	}
 
@@ -103,9 +103,9 @@ class Factory {
 	 * @param int $routeid
 	 * @return \Runalyze\Model\Route\Entity
 	 */
-	public function route($routeid) {
+	public function route($routeid): \Runalyze\Model\Route\Entity {
 		return new Route\Entity(
-			$this->arrayByPK('route', $routeid)
+		    $this->arrayByPK('route', $routeid)
 		);
 	}
 
@@ -114,9 +114,9 @@ class Factory {
 	 * @param int $activityid
 	 * @return \Runalyze\Model\HRV\Entity
 	 */
-	public function hrv($activityid) {
+	public function hrv($activityid): \Runalyze\Model\HRV\Entity {
 		return new HRV\Entity(
-			$this->arrayByPK('hrv', $activityid)
+		    $this->arrayByPK('hrv', $activityid)
 		);
 	}
 
@@ -125,9 +125,9 @@ class Factory {
 	 * @param int $activityid
 	 * @return \Runalyze\Model\RaceResult\Entity
 	 */
-	public function raceResult($activityid) {
+	public function raceResult($activityid): \Runalyze\Model\RaceResult\Entity {
 		return new RaceResult\Entity(
-			$this->arrayByPK('raceresult', $activityid)
+		    $this->arrayByPK('raceresult', $activityid)
 		);
 	}
 
@@ -136,9 +136,9 @@ class Factory {
 	 * @param int $typeid
 	 * @return \Runalyze\Model\Type\Entity
 	 */
-	public function type($typeid) {
+	public function type($typeid): \Runalyze\Model\Type\Entity {
 		return new Type\Entity(
-			$this->arrayByPK('type', $typeid)
+		    $this->arrayByPK('type', $typeid)
 		);
 	}
 
@@ -176,9 +176,9 @@ class Factory {
 	 * @param int $sportid
 	 * @return \Runalyze\Model\Sport\Entity
 	 */
-	public function sport($sportid) {
+	public function sport($sportid): \Runalyze\Model\Sport\Entity {
 		return new Sport\Entity(
-			$this->arrayByPK('sport', $sportid)
+		    $this->arrayByPK('sport', $sportid)
 		);
 	}
 
@@ -197,9 +197,9 @@ class Factory {
 	 * @param int $equipmentTypeid
 	 * @return \Runalyze\Model\EquipmentType\Entity
 	 */
-	public function equipmentType($equipmentTypeid) {
+	public function equipmentType($equipmentTypeid): \Runalyze\Model\EquipmentType\Entity {
 		return new EquipmentType\Entity(
-			$this->arrayByPK('equipment_type', $equipmentTypeid)
+		    $this->arrayByPK('equipment_type', $equipmentTypeid)
 		);
 	}
 
@@ -208,9 +208,9 @@ class Factory {
 	 * @param int $equipmentid
 	 * @return \Runalyze\Model\Equipment\Entity
 	 */
-	public function equipment($equipmentid) {
+	public function equipment($equipmentid): \Runalyze\Model\Equipment\Entity {
 		return new Equipment\Entity(
-			$this->arrayByPK('equipment', $equipmentid)
+		    $this->arrayByPK('equipment', $equipmentid)
 		);
 	}
 
@@ -241,9 +241,9 @@ class Factory {
 	 * @param int $tagid
 	 * @return \Runalyze\Model\Tag\Entity
 	 */
-	public function tag($tagid) {
+	public function tag($tagid): \Runalyze\Model\Tag\Entity {
 		return new Tag\Entity(
-			$this->arrayByPK('tag', $tagid)
+		    $this->arrayByPK('tag', $tagid)
 		);
 	}
 

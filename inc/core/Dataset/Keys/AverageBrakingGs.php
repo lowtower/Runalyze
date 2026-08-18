@@ -12,7 +12,7 @@ class AverageBrakingGs extends AbstractKey
 		return \Runalyze\Dataset\Keys::AVG_BRAKING_GS;
 	}
 
-	public function column()
+	public function column(): array
 	{
         return ['avg_braking_gs_left', 'avg_braking_gs_right'];
 	}

@@ -17,9 +17,9 @@ class InverseCalculatorTest extends \PHPUnit\Framework\TestCase {
 		// Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
 		// Since we're using HRmax, we have to adapt the data
 		$Trimp = new InverseCalculator(new Athlete(
-			Gender::MALE,
-			160,
-			0
+		    Gender::MALE,
+		    160,
+		    0
 		), 90, 32 );
 
 		$this->assertEqualsWithDelta( 30*60, $Trimp->value(), 0.01*30*60 );

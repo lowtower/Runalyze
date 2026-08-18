@@ -54,7 +54,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @var int [timestamp]
      * @Assert\NotBlank(message = "Every activity needs a time")
-
+     *
      * @ORM\Column(name="time", type="integer", nullable=false)
      */
     private $time;
@@ -198,7 +198,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     private $pulseAvgActive;
 
-   /**
+    /**
      * @var int|null [bpm]
      *
      * @Assert\Range(
@@ -852,7 +852,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return LocalTime
      */
-    public function getDateTime()
+    public function getDateTime(): \Runalyze\Util\LocalTime
     {
         return new LocalTime($this->time);
     }
@@ -1161,7 +1161,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-     /**
+    /**
      * @return null|int [kcal]
      */
     public function getKcal()
@@ -1169,7 +1169,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->kcal;
     }
 
-   /**
+    /**
      * @return null|int [kcal]
      */
     public function getKcalInRest()

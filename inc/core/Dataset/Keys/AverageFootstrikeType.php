@@ -12,7 +12,7 @@ class AverageFootstrikeType extends AbstractKey
 		return \Runalyze\Dataset\Keys::AVG_FOOTSTRIKE_TYPE;
 	}
 
-	public function column()
+	public function column(): array
 	{
         return ['avg_footstrike_type_left', 'avg_footstrike_type_right'];
 	}

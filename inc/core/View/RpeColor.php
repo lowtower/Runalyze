@@ -21,7 +21,7 @@ class RpeColor
 	/** @var int|null */
 	protected $Value;
 
-    /**
+	/**
 	 * @param int|null $value
 	 */
 	public function __construct($value = null)

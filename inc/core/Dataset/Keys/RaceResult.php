@@ -69,7 +69,7 @@ class RaceResult extends AbstractKey
 	/**
 	 * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
 	 */
-	public function joinDefinition()
+	public function joinDefinition(): array
 	{
 		return array(
     'column' => 'raceresult_placements',

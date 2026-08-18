@@ -110,7 +110,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 				MINUTE(FROM_UNIXTIME(`time`)) as `MIN`
 			FROM `'.PREFIX.'training`
 			WHERE
-				`sportid` IN('.substr($sports_not_short,0,-1).') AND
+				`sportid` IN('.substr($sports_not_short, 0, -1).') AND
                                 `accountid` = '.SessionAccountHandler::getId().' AND
 				(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0) 
 				'.$this->getYearDependenceForQuery().'

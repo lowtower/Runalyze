@@ -32,7 +32,7 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @return array
      */
-    public static function getChoices()
+    public static function getChoices(): array
     {
         return array(
             self::stringFor(self::ALTERNATIVE_SPORT) => self::ALTERNATIVE_SPORT,

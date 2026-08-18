@@ -76,26 +76,31 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         );
         $this->assertEquals(17.1, $this->Container[0]->ActivityData->Distance);
 
-        $this->assertEquals(LocalTime::mktime(17, 31, 19, 5, 11, 2011),
+        $this->assertEquals(
+            LocalTime::mktime(17, 31, 19, 5, 11, 2011),
             $this->Container[1]->Metadata->getTimestamp()
         );
         $this->assertEquals(16.7, $this->Container[1]->ActivityData->Distance);
 
-        $this->assertEquals(LocalTime::mktime(7, 14, 49, 5, 12, 2011),
+        $this->assertEquals(
+            LocalTime::mktime(7, 14, 49, 5, 12, 2011),
             $this->Container[2]->Metadata->getTimestamp()
         );
         $this->assertEquals(17.0, $this->Container[2]->ActivityData->Distance);
 
-        $this->assertEquals(LocalTime::mktime(17, 35, 32, 5, 12, 2011),
+        $this->assertEquals(
+            LocalTime::mktime(17, 35, 32, 5, 12, 2011),
             $this->Container[3]->Metadata->getTimestamp()
         );
         $this->assertEquals(16.5, $this->Container[3]->ActivityData->Distance);
 
-        $this->assertEquals(LocalTime::mktime(7, 12, 15, 5, 13, 2011),
+        $this->assertEquals(
+            LocalTime::mktime(7, 12, 15, 5, 13, 2011),
             $this->Container[4]->Metadata->getTimestamp()
         );
 
-        $this->assertEquals(LocalTime::mktime(17, 5, 28, 5, 13, 2011),
+        $this->assertEquals(
+            LocalTime::mktime(17, 5, 28, 5, 13, 2011),
             $this->Container[5]->Metadata->getTimestamp()
         );
     }

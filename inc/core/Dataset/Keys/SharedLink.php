@@ -61,7 +61,7 @@ class SharedLink extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'You can decide for each activity whether it is visible for '.
+		    'You can decide for each activity whether it is visible for '.
 			'everybody or not. If it is public a linked icon is shown.'
 		);
 	}

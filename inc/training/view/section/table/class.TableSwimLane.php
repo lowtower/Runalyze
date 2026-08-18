@@ -124,7 +124,7 @@ class TableSwimLane extends TableLapsAbstract {
 
 		// #TSC: in break/rest add the last interval "summary"; but only if the last is not a break interval
 		if($hasBreak && ! $Stroketype->isBreak()) {
-			$this->writeSummary($Poollength,$TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
+			$this->writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
 		}
 
 		$this->Code .= '</tbody>';

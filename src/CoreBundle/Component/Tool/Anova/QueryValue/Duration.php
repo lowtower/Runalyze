@@ -17,7 +17,7 @@ class Duration extends AbstractOneColumnValue
      * @param UnitSystem $unitSystem
      * @return AbstractTimeUnit
      */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Time\Unit\Hours
     {
         return new Hours();
     }

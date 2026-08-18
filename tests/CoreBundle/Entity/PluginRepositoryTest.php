@@ -30,7 +30,7 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
      * @param null|string $key
      * @return Plugin
      */
-    protected function insertPanel($position, $key = null)
+    protected function insertPanel($position, $key = null): \Runalyze\Bundle\CoreBundle\Entity\Plugin
     {
         $panel = new Plugin();
         $panel->setAccount($this->EmptyAccount);

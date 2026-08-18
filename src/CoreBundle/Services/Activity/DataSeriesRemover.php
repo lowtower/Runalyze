@@ -459,7 +459,7 @@ class DataSeriesRemover
      * @param Hrv|null $hrv
      * @return array
      */
-    private static function getChoicesForHrv(?Hrv $hrv = null)
+    private static function getChoicesForHrv(?Hrv $hrv = null): array
     {
         if (null === $hrv) {
             return [];

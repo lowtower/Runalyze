@@ -120,9 +120,9 @@ class Pace extends AbstractKey
 			if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY))  {
 				if ($context->data(self::DURATION_SUM_WITH_DISTANCE_KEY) > 0) {
 					$Pace = new Activity\Pace(
-						$context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
-						$context->activity()->distance(),
-						$context->hasSport() ? $context->sport()->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
+					    $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
+					    $context->activity()->distance(),
+					    $context->hasSport() ? $context->sport()->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
 					);
 
 					return $Pace;
@@ -140,7 +140,7 @@ class Pace extends AbstractKey
 	/**
 	 * returns a value dependend CSS class and style.
 	 * #TSC
-     * @param \Runalyze\Dataset\Context $context
+	 * @param \Runalyze\Dataset\Context $context
 	 * @return array with key "class" and "style"
 	 */
 	public function valueDependendCssStyle(Context $context)

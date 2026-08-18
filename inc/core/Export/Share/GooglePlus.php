@@ -42,9 +42,9 @@ class GooglePlus extends AbstractSocialSharer
         return 'https://plus.google.com/share?url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=googleplus');
     }
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
 	public function name(): string
     {
 	    return __('Google+');

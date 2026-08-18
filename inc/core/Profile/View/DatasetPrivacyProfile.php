@@ -32,7 +32,7 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @return array
      */
-    static public function getChoices() {
+    static public function getChoices(): array {
         return array(
             self::stringFor(self::PRIVATE_KEY) => self::PRIVATE_KEY,
             self::stringFor(self::PUBLIC_KEY) => self::PUBLIC_KEY

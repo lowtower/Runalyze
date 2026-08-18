@@ -27,9 +27,9 @@ class GradeAdjustedPace extends AbstractBox
 		$Pace = $context->dataview()->GApace($context);
 
 		parent::__construct(
-			$Pace->value(),
-			$Pace->appendix(),
-			__('avg.').' '.($Pace->unit()->isTimeFormat() ? 'GAP' : 'GAP Speed')
+		    $Pace->value(),
+		    $Pace->appendix(),
+		    __('avg.').' '.($Pace->unit()->isTimeFormat() ? 'GAP' : 'GAP Speed')
 		);
 	}
 

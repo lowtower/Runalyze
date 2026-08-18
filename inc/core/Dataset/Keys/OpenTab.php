@@ -78,7 +78,7 @@ class OpenTab extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Open the activity in a new browser tab/window'
+		    'Open the activity in a new browser tab/window'
 		);
 	}
 

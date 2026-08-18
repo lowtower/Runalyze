@@ -220,7 +220,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
-            ->from('CoreBundle:Route','r')
+            ->from('CoreBundle:Route', 'r')
             ->getQuery()->getSingleScalarResult();
     }
 
@@ -233,7 +233,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         return (int) $em->createQueryBuilder()
             ->select('count(t.activity)')
             ->where('t.lock = 1')
-            ->from('CoreBundle:Trackdata','t')
+            ->from('CoreBundle:Trackdata', 't')
             ->getQuery()->getSingleScalarResult();
     }
 

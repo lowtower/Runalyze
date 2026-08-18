@@ -97,7 +97,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 				$strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
 
 				// calc a array where the type is the id; later the id with the highest value can be used for primary type
-				$stroketypePrimary[$Stroketype->id()] = array_key_exists($Stroketype->id() , $stroketypePrimary) ? $stroketypePrimary[$Stroketype->id()] + 1 : 1;
+				$stroketypePrimary[$Stroketype->id()] = array_key_exists($Stroketype->id(), $stroketypePrimary) ? $stroketypePrimary[$Stroketype->id()] + 1 : 1;
 
 				$lapFinished = in_array($TrackLoop->index(), $lapTrackloopIdx);
 
@@ -148,7 +148,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 					if(empty($stroketypePrimary)) {
 						$this->Code .= '<td></td>';
 					} else {
-						$t = array_keys($stroketypePrimary,max($stroketypePrimary));
+						$t = array_keys($stroketypePrimary, max($stroketypePrimary));
 						$Stroketype->set($t);
 						$this->Code .= '<td style="padding-right: 20px;">'.$Stroketype->shortString().'</td>';
 					}

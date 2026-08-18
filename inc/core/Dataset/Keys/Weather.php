@@ -30,7 +30,7 @@ class Weather extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): array
 	{
 		return ['weatherid', 'is_night', 'temperature', 'wind_speed', 'wind_deg', 'humidity', 'pressure'];
 	}

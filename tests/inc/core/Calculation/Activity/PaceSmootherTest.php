@@ -59,9 +59,9 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase {
 			foreach ($stepSizes as $stepSize) {
 				foreach ($modes as $name => $mode) {
 					$this->assertEquals(
-						$arraySize,
-						count($Smoother->smooth($stepSize, $mode)),
-						'Wrong array size for mode = '.$name.', arraySize = '.$arraySize.' and stepSize = '.$stepSize
+					    $arraySize,
+					    count($Smoother->smooth($stepSize, $mode)),
+					    'Wrong array size for mode = '.$name.', arraySize = '.$arraySize.' and stepSize = '.$stepSize
 					);
 				}
 			}

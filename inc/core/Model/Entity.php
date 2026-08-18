@@ -180,7 +180,7 @@ abstract class Entity {
 	 * Transforms empty strings to null
 	 * @param array|string $keyOrKeys key or array of keys to be checked
 	 * @param bool $ensureNumericIfNotEmpty
-     * @param bool $treatZeroAsNull
+	 * @param bool $treatZeroAsNull
 	 */
 	protected function ensureNullIfEmpty($keyOrKeys, $ensureNumericIfNotEmpty = false, $treatZeroAsNull = false) {
 		if (! is_array($keyOrKeys)) {

@@ -36,9 +36,9 @@ class Thb extends AbstractBox
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
 		parent::__construct(
-            round($value->average($trackdataKey)/100, 2),
-			'g/dL',
-			$label
+		    round($value->average($trackdataKey)/100, 2),
+		    'g/dL',
+		    $label
 		);
 		$this->defineAsFloatingBlock('w50');
 	}

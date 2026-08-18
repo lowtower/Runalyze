@@ -266,7 +266,7 @@ class Table {
 		}
 
 		$View = new Dataview(new Activity\Entity(
-			$Lap->additionalValues()
+		    $Lap->additionalValues()
 		));
 
 		foreach ($this->AdditionalKeys as $key) {
@@ -438,7 +438,7 @@ class Table {
 		$Code .= '</p>';
 
 		$Code .= Ajax::wrapJS(
-			'$("#toggle-active-splits").click(function(){'.
+		    '$("#toggle-active-splits").click(function(){'.
 				'$("#'.self::CSS_ID.' tr.unimportant").toggle();'.
 			'});'
 		);

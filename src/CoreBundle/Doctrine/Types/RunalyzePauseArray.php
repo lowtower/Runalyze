@@ -81,7 +81,7 @@ class RunalyzePauseArray extends Type
     /**
      * @param array<string, mixed> $data
      */
-    protected function getPauseForNativeValue(array $data)
+    protected function getPauseForNativeValue(array $data): \Runalyze\Parser\Activity\Common\Data\Pause\Pause
     {
         $data = array_merge([
             'time' => 0,

@@ -53,7 +53,7 @@ class LocalTime extends \DateTime
      * @return \Runalyze\Util\LocalTime
      * @throws \InvalidArgumentException
      */
-    public static function fromServerTime($timestampInServerTimezone)
+    public static function fromServerTime($timestampInServerTimezone): self
     {
         if (! is_numeric($timestampInServerTimezone)) {
             throw new \InvalidArgumentException('Given timestamp must be numeric.');
@@ -69,7 +69,7 @@ class LocalTime extends \DateTime
      * @param string $dateTimeString date/time string, any timezone information (like +02:00) will be ignored
      * @return \Runalyze\Util\LocalTime
      */
-    public static function fromString($dateTimeString)
+    public static function fromString($dateTimeString): self
     {
         $DateTime = new \DateTime($dateTimeString);
 
@@ -79,7 +79,7 @@ class LocalTime extends \DateTime
     /**
      * @return \DateTime
      */
-    public function toServerTime()
+    public function toServerTime(): \DateTime
     {
         return new \DateTime($this->format('d.m.Y H:i:s'));
     }

@@ -15,7 +15,7 @@ class BulkInserter
 	 * @param string $tableName
 	 * @param array $columns
 	 * @param int $accountID
-     * @param string $databasePrefix
+	 * @param string $databasePrefix
 	 */
 	public function __construct($tableName, array $columns, $accountID, $databasePrefix)
     {
@@ -29,7 +29,7 @@ class BulkInserter
 	 * @param string $tableName
 	 * @param array $columns
 	 * @param int $accountID
-     * @param string $databasePrefix
+	 * @param string $databasePrefix
 	 */
 	protected function prepareStatement($tableName, array $columns, $accountID, $databasePrefix)
     {

@@ -30,7 +30,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/cleanup", name="tools-cleanup")
      * @Security("has_role('ROLE_USER')")
      */
-    public function cleanupAction(Request $request, Account $account)
+    public function cleanupAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $prefix = $this->getParameter('database_prefix');
 
@@ -63,7 +63,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/tables/vo2max-pace", name="tools-tables-vo2max-pace")
      * @Security("has_role('ROLE_USER')")
      */
-    public function tableVo2maxPaceAction()
+    public function tableVo2maxPaceAction(): \Symfony\Component\HttpFoundation\Response
     {
         $config = $this->get('app.configuration_manager')->getList();
         $running = $this->getDoctrine()->getRepository('CoreBundle:Sport')->find($config->getGeneral()->getRunningSport());
@@ -79,7 +79,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/tables/general-pace", name="tools-tables-general-pace")
      * @Security("has_role('ROLE_USER')")
      */
-    public function tableGeneralPaceAction()
+    public function tableGeneralPaceAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/tables/general_paces.html.twig');
     }
@@ -89,7 +89,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/tables", name="tools-tables")
      * @Security("has_role('ROLE_USER')")
      */
-    public function tableVo2maxRaceResultAction()
+    public function tableVo2maxRaceResultAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/tables/vo2max.html.twig', [
             'currentVo2max' => $this->get('app.configuration_manager')->getList()->getCurrentVO2maxShape(),
@@ -103,7 +103,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/vo2max-analysis", name="tools-vo2max-analysis")
      * @Security("has_role('ROLE_USER')")
      */
-    public function vo2maxAnalysisAction(Account $account)
+    public function vo2maxAnalysisAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
@@ -151,7 +151,8 @@ class ToolsController extends Controller
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'groups' => $query->getResults(
                     $this->getDoctrine()->getRepository('CoreBundle:Training'),
-                    $account, $unitSystem
+                    $account,
+                    $unitSystem
                 )
             ]);
         }
@@ -188,7 +189,8 @@ class ToolsController extends Controller
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'values' => $query->getResults(
                     $this->getDoctrine()->getRepository('CoreBundle:Training'),
-                    $account, $unitSystem
+                    $account,
+                    $unitSystem
                 )
             ]);
         }
@@ -202,7 +204,7 @@ class ToolsController extends Controller
      * @Route("/my/tools/poster", name="poster")
      * @Security("has_role('ROLE_USER')")
      */
-    public function posterAction(Request $request, Account $account)
+    public function posterAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, 2017, 2);
 
@@ -261,7 +263,7 @@ class ToolsController extends Controller
      * @Route("/my/tools", name="tools")
      * @Security("has_role('ROLE_USER')")
      */
-    public function overviewAction()
+    public function overviewAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/tools_list.html.twig', [
             'posterAvailable' => $this->get('app.poster.availability')->isAvailable()

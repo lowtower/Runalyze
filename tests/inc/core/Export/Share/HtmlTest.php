@@ -14,15 +14,15 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 	public function checkThatItsAlwaysPossible()
 	{
 		$this->assertTrue((new Html(FakeContext::onlyWithActivity(
-			new Activity\Entity(array(
-			    Activity\Entity::IS_PUBLIC => false
-			))
+		    new Activity\Entity(array(
+		        Activity\Entity::IS_PUBLIC => false
+		    ))
 		)))->isPossible());
 
 		$this->assertTrue((new Html(FakeContext::onlyWithActivity(
-			new Activity\Entity(array(
-			    Activity\Entity::IS_PUBLIC => true
-			))
+		    new Activity\Entity(array(
+		        Activity\Entity::IS_PUBLIC => true
+		    ))
 		)))->isPossible());
 	}
 

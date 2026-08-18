@@ -60,7 +60,7 @@ class TotalCycles extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Wiederholungen insgesamt.'
+		    'Wiederholungen insgesamt.'
 		);
 	}
 

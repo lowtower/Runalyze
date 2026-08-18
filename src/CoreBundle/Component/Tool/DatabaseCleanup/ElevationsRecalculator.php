@@ -25,7 +25,7 @@ class ElevationsRecalculator
 	 * Construct
 	 * @param \PDO $database
 	 * @param int $accountId
-     * @param string $databasePrefix
+	 * @param string $databasePrefix
 	 */
 	public function __construct(\PDO $database, $accountId, $databasePrefix)
     {
@@ -85,7 +85,7 @@ class ElevationsRecalculator
 	protected function getQuery()
     {
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				`id`,
 				`elevation`,
 				`elevation_up`,

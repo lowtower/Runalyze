@@ -3,13 +3,13 @@
 namespace Runalyze\Model;
 
 class Object_MockTester extends Entity {
-	public function properties() {
+	public function properties(): array {
 		return array('a', 'b', 'c');
 	}
 }
 
 class ObjectWithArrays_MockTester extends Entity {
-	public function properties() {
+	public function properties(): array {
 		return array ('a', 'b', 'c');
 	}
 
@@ -23,7 +23,7 @@ class ObjectWithArrays_MockTester extends Entity {
 }
 
 class ObjectWithEmptyNumerics_MockTester extends Entity {
-	public function properties() {
+	public function properties(): array {
 		return array ('int', 'string');
 	}
 

@@ -32,7 +32,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 	public function testNoLoopForSingleActivity()
     {
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (1, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839475)'
 		);
 
@@ -50,7 +50,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 	public function testCompleteLoopForSingleActivity()
     {
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (1, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839906)'
 		);
 
@@ -81,7 +81,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$Loop->run();
 
 		$this->assertEquals(123, $this->PDO->query(
-			'SELECT `elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1'
+		    'SELECT `elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1'
 		)->fetchColumn());
 	}
 
@@ -96,18 +96,18 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$Loop->run();
 
 		$this->assertEquals(42, $this->PDO->query(
-			'SELECT `elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1'
+		    'SELECT `elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1'
 		)->fetchColumn());
 	}
 
 	public function testUsageOfCorrectElevation()
     {
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (1, 2, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839906)'
 		);
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (2, 1, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839906)'
 		);
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevations_corrected`, `accountid`) VALUES (1, "0|100", 0)');
@@ -135,11 +135,11 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 	public function testUsageOfCorrectElevationForVO2max()
 	{
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (1, 2, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839906)'
 		);
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (2, 1, 10, 3600, 150, '.Configuration::General()->runningSport().', 0, 1477839906)'
 		);
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (1, 200, 200, 0, 0)');
@@ -159,7 +159,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 	public function testIgnoreVO2maxForNotRunning()
     {
 		$this->PDO->exec(
-			'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
+		    'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) '.
 			'VALUES (1, 10, 3600, 150, '.(Configuration::General()->runningSport() + 1).', 0, 1477839906)'
 		);
 

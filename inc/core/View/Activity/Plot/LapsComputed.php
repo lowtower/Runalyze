@@ -76,7 +76,7 @@ class LapsComputed extends Laps {
 	 * @param Activity\Context $context
 	 * @return \Runalyze\Data\Laps\Laps
 	 */
-	protected function computeRounds(Activity\Context $context) {
+	protected function computeRounds(Activity\Context $context): \Runalyze\Data\Laps\Laps {
 		$singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
 		$totalDistance = $context->trackdata()->totalDistance();
 

@@ -98,7 +98,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Marathon shape') );
 		$Fieldset->addHandle( $this->handle('BE_MIN_KM_FOR_LONGJOG'), array(
     'label'		=> __('Minimal distance for longjogs'),
@@ -129,11 +129,11 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('BE_MIN_KM_FOR_LONGJOG')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_LONGJOGS')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
-		$this->handle('BE_PERCENTAGE_WEEK_KM')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
+		$this->handle('BE_MIN_KM_FOR_LONGJOG')->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_LONGJOGS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM')->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_PERCENTAGE_WEEK_KM')->registerOnchangeEvent(self::class . '::triggerRecalculation');
 	}
 
 	/**

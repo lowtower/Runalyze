@@ -40,7 +40,7 @@ class ClimbFinder
      * @param array $elevations
      * @return ClimbCollection
      */
-    protected function createClimbsForIndices(array $indices, array $distances, array $elevations)
+    protected function createClimbsForIndices(array $indices, array $distances, array $elevations): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbCollection
     {
         $numIndices = count($indices);
         $climbs = new ClimbCollection();

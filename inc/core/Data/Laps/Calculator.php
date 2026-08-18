@@ -236,8 +236,8 @@ class Calculator
 	protected function readLap()
 	{
 		$Lap = new Lap(
-			$this->TrackdataLoop->difference(Trackdata\Entity::TIME),
-			$this->TrackdataLoop->difference(Trackdata\Entity::DISTANCE)
+		    $this->TrackdataLoop->difference(Trackdata\Entity::TIME),
+		    $this->TrackdataLoop->difference(Trackdata\Entity::DISTANCE)
 		);
 
 		$Lap->setTrackDuration($this->TrackdataLoop->time());
@@ -287,7 +287,7 @@ class Calculator
 		$Lap->setAdditionalValues($AdditionalData);
 	}
 
-	/**
+    /**
      * @param \Runalyze\Model\Trackdata\Entity $Object
      * @param array<string, mixed> $AdditionalData
      */
@@ -312,7 +312,7 @@ class Calculator
 		}
 	}
 
-	/**
+    /**
      * #TSC add swim-data for the laps-popup.
      * @param \Runalyze\Model\Swimdata\Entity $Object
      * @param array<string, mixed> $AdditionalData
@@ -378,17 +378,17 @@ class Calculator
 		}
 	}
 
-	/**
+    /**
      * @param \Runalyze\Data\Laps\Lap $Lap
      * @param array<string, mixed> $AdditionalData
      */
     protected function addVO2maxToDataFrom(Lap $Lap, array &$AdditionalData) {
 		if (Configuration::VO2max()->useElevationCorrection() && $Lap->hasElevation()) {
 			$distance = (new Calculation\Elevation\DistanceModifier(
-				$Lap->distance()->kilometer(),
-				$Lap->elevationUp(),
-				$Lap->elevationDown(),
-				Configuration::VO2max()
+			    $Lap->distance()->kilometer(),
+			    $Lap->elevationUp(),
+			    $Lap->elevationDown(),
+			    Configuration::VO2max()
 			))->correctedDistance();
 		} else {
 			$distance = $Lap->distance()->kilometer();
@@ -396,10 +396,10 @@ class Calculator
 
 		$vo2max = new Calculation\JD\LegacyEffectiveVO2max();
         $vo2max->fromPaceAndHR(
-			$distance,
-			$Lap->duration()->seconds(),
-			$Lap->HRavg()->inHRmax() / 100
-		);
+            $distance,
+            $Lap->duration()->seconds(),
+            $Lap->HRavg()->inHRmax() / 100
+        );
 
 		if ($vo2max->value() > 0) {
 			$AdditionalData[Activity\Entity::VO2MAX] = $vo2max->value();
@@ -467,7 +467,7 @@ class Calculator
 		$this->readLap();
 	}
 
-	/**
+    /**
      * Is the given array sorted?
      * @param array<int, mixed> $data
      * @return boolean true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]

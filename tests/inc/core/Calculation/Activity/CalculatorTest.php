@@ -56,33 +56,33 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		)));
 
 		$this->assertGreaterThan(
-			$CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation(),
-			$CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation(),
+		    $CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevation()
 		);
 		$this->assertGreaterThan(
-			$CalculatorOnlyDown->estimateVO2maxByHeartRateWithElevation(),
-			$CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyDown->estimateVO2maxByHeartRateWithElevation(),
+		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
 		);
 		$this->assertGreaterThan(
-			$CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation(),
-			$CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation(),
+		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
 		);
 		$this->assertGreaterThan(
-			$CalculatorOnlyActivity->estimateVO2maxByHeartRate(),
-			$CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyActivity->estimateVO2maxByHeartRate(),
+		    $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
 		);
 
 		$this->assertEquals(
-			$CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevationFor(500, 100),
-			$CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevationFor(500, 100),
+		    $CalculatorUpAndDown->estimateVO2maxByHeartRateWithElevation()
 		);
 		$this->assertEquals(
-			$CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevationFor(500, 500),
-			$CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevationFor(500, 500),
+		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation()
 		);
 		$this->assertEquals(
-			$CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevationFor(100, 100),
-			$CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
+		    $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevationFor(100, 100),
+		    $CalculatorOnlyActivity->estimateVO2maxByHeartRateWithElevation()
 		);
 	}
 

@@ -35,7 +35,7 @@ class SettingsController extends Controller
      * @Route("/settings/account", name="settings-account")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsAccountAction(Request $request, Account $account)
+    public function settingsAccountAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
@@ -79,7 +79,7 @@ class SettingsController extends Controller
      * @Route("/settings/password", name="settings-password")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsPasswordAction(Request $request, Account $account)
+    public function settingsPasswordAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createForm(ChangePasswordType::class, $account, array(
             'action' => $this->generateUrl('settings-password')
@@ -104,7 +104,7 @@ class SettingsController extends Controller
      * @Route("/settings/mail", name="settings-mail")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsMailAction(Request $request, Account $account)
+    public function settingsMailAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createForm(ChangeMailType::class, $account, array(
             'action' => $this->generateUrl('settings-mail')
@@ -134,7 +134,7 @@ class SettingsController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function windowDeleteAction(Account $account)
+    public function windowDeleteAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $account->setNewDeletionHash();
         $this->getAccountRepository()->save($account);
@@ -149,7 +149,7 @@ class SettingsController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method("POST")
      */
-    public function datasetPostAction(Account $account, Request $request)
+    public function datasetPostAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -179,7 +179,7 @@ class SettingsController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method("GET")
      */
-    public function datasetAction(Account $account, Request $request)
+    public function datasetAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
@@ -216,7 +216,7 @@ class SettingsController extends Controller
     /**
      * @return array<string, mixed>
      */
-    protected function getExampleTraining(Account $account)
+    protected function getExampleTraining(Account $account): array
     {
         $configuration = $this->get('app.configuration_manager')->getList();
 

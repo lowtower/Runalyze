@@ -104,10 +104,10 @@ class VO2max extends \Runalyze\Configuration\Category
 
     protected function registerOnchangeEvents()
     {
-        $this->handle('VO2MAX_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\VO2max::class . '::triggerRecalculation');
+        $this->handle('VO2MAX_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('VO2MAX_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
-        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeEvent(\Runalyze\Configuration\Category\VO2max::class . '::triggerRecalculation');
+        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeEvent(self::class . '::triggerRecalculation');
         $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
         $this->handle('VO2MAX_MANUAL_VALUE')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
@@ -120,7 +120,7 @@ class VO2max extends \Runalyze\Configuration\Category
     /**
      * @return \Runalyze\Configuration\Fieldset
      */
-    public function Fieldset()
+    public function Fieldset(): \Runalyze\Configuration\Fieldset
     {
         $Fieldset = new Fieldset(__('VO<sub>2</sub>max estimation'));
 

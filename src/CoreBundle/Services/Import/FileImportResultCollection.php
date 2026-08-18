@@ -20,7 +20,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    public function merge(FileImportResultCollection $other)
+    public function merge(self $other)
     {
         $this->Elements = array_merge($this->Elements, $other->getElements());
     }

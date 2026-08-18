@@ -47,9 +47,9 @@ class IFrame extends AbstractSnippetSharer
         return $this->Context->activity()->isPublic();
     }
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
 	public function name(): string
     {
 	    return __('Widget');

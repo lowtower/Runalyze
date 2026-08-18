@@ -97,10 +97,10 @@ class Frontend {
 	 */
 	private function initConfig() {
 		$this->yamlConfig = array_merge(
-			Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/config.yml'))['parameters'],
-            Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/expert_config.yml'))['parameters'],
-            Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/default_config.yml'))['parameters'],
-			Yaml::parse(file_get_contents(FRONTEND_PATH.'/../data/config.yml'))['parameters']
+		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/expert_config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/default_config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../data/config.yml'))['parameters']
 		);
 
         define('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
@@ -131,7 +131,7 @@ class Frontend {
 		Timezone::setMysql();
 	}
 
-        /**
+	/**
 	 * Setup Language
 	 */
 	private function initCache() {
@@ -173,7 +173,7 @@ class Frontend {
 		new SessionAccountHandler();
 
 		if (null !== $this->symfonyToken && $this->symfonyToken->getToken()->getUser() != 'anon.') {
-			/** @var \Runalyze\Bundle\CoreBundle\Entity\Account $user */
+		    /** @var \Runalyze\Bundle\CoreBundle\Entity\Account $user */
 		    $user = $this->symfonyToken->getToken()->getUser();
 
 		    SessionAccountHandler::setAccount(array(

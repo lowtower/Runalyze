@@ -191,7 +191,7 @@ class General extends \Runalyze\Configuration\Category {
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('General settings') );
 
 		$Fieldset->addHandle( $this->handle('WEEK_START'), array(

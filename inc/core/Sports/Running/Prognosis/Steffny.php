@@ -121,17 +121,29 @@ class Steffny implements PrognosisInterface
 
         if ($distance <= 1.5) {
             return $distance * $paces['1500m'];
-        } elseif ($distance <= 3.0) {
+        }
+
+        if ($distance <= 3.0) {
             return $distance * ($paces['1500m'] + ($paces['3000m'] - $paces['1500m']) * ($distance - 1.5) / (3 - 1.5));
-        } elseif ($distance <= 5.0) {
+        }
+
+        if ($distance <= 5.0) {
             return $distance * ($paces['3000m'] + ($paces['5k'] - $paces['3000m']) * ($distance - 3.0) / (5.0 - 3.0));
-        } elseif ($distance <= 10.0) {
+        }
+
+        if ($distance <= 10.0) {
             return $distance * ($paces['5k'] + ($paces['10k'] - $paces['5k']) * ($distance - 5.0) / (10.0 - 5.0));
-        } elseif ($distance <= 21.0975) {
+        }
+
+        if ($distance <= 21.0975) {
             return $distance * ($paces['10k'] + ($paces['HM'] - $paces['10k']) * ($distance - 10.0) / (21.0975 - 10.0));
-        } elseif ($distance <= 42.195) {
+        }
+
+        if ($distance <= 42.195) {
             return $distance * ($paces['HM'] + ($paces['M'] - $paces['HM']) * ($distance - 21.0975) / (42.195 - 21.0975));
-        } elseif ($distance <= 100.0) {
+        }
+
+        if ($distance <= 100.0) {
             return $distance * ($paces['M'] + ($paces['100k'] - $paces['M']) * ($distance - 42.195) / (100.0 - 42.195));
         }
 

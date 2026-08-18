@@ -27,7 +27,7 @@ class FietsIndex extends AbstractAdditiveClimbQuantification implements Categori
         return min($score + $scoreForAltitudeAtTop, 1.5 * $score);
     }
 
-    public function getLowerLimitsForCategorization()
+    public function getLowerLimitsForCategorization(): array
     {
         return [6.5, 5.0, 3.5, 2.0, 0.5, 0.25];
     }

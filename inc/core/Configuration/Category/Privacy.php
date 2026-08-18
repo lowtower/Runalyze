@@ -36,7 +36,7 @@ class Privacy extends \Runalyze\Configuration\Category {
 		$this->createHandle('TRAINING_MAP_PUBLIC_MODE', new ActivityRoutePrivacy());
 	}
 
-    /**
+	/**
 	 * List is public
 	 * @return bool
 	 */
@@ -79,7 +79,7 @@ class Privacy extends \Runalyze\Configuration\Category {
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Privacy') );
 
         $Fieldset->addInfo( __('You can define the default privacy of new activities by sport type in the associated sport configuration.') );

@@ -19,7 +19,7 @@ use Ajax;
  * @package Runalyze\Configuration\Category
  */
 class Trimp extends \Runalyze\Configuration\Category {
-	/**
+    /**
      * Flag: recalculation triggered?
      * @var Boolean
      */
@@ -79,10 +79,10 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('ATL_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\Trimp::class . '::triggerRecalculation');
+		$this->handle('ATL_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
 		$this->handle('ATL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-		$this->handle('CTL_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\Trimp::class . '::triggerRecalculation');
+		$this->handle('CTL_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
 		$this->handle('CTL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
 		$this->handle('TRIMP_MODEL_IN_PERCENT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
@@ -93,7 +93,7 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('TRIMP') );
 
 		$Fieldset->addHandle( $this->handle('ATL_DAYS'), array(

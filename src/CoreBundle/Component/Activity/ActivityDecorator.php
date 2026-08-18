@@ -43,7 +43,7 @@ class ActivityDecorator
     /**
      * @return LocalTime
      */
-    public function getDateTime()
+    public function getDateTime(): \Runalyze\Util\LocalTime
     {
         return new LocalTime($this->Context->getActivity()->getTime());
     }

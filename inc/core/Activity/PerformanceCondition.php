@@ -50,10 +50,10 @@ class PerformanceCondition implements ValueInterface
 		$this->set($value);
 	}
 
-    /**
-     * @return string
-     * @codeCoverageIgnore
-     */
+	/**
+	 * @return string
+	 * @codeCoverageIgnore
+	 */
 	public function label(): string
     {
 		return __('Performance condition');
@@ -71,7 +71,7 @@ class PerformanceCondition implements ValueInterface
 	/**
 	 * Unit
 	 * @return string
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	public function unit(): string
     {
@@ -82,7 +82,7 @@ class PerformanceCondition implements ValueInterface
 	 * Set training effect
 	 * @param int|null|string $value
 	 * @return \Runalyze\Activity\PerformanceCondition $this-reference
-     * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function set($value)
     {

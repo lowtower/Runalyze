@@ -109,7 +109,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     /**
      * @return array
      */
-    protected function getRRIntervals()
+    protected function getRRIntervals(): array
     {
         if (property_exists($this->Xml, 'R-R') && ! empty($this->Xml->{'R-R'}->Data)) {
             return explode(' ', (string) $this->Xml->{'R-R'}->Data);

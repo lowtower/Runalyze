@@ -22,8 +22,8 @@ class ActivityMatcherController extends Controller
         $input = explode('&', urldecode(file_get_contents('php://input')));
 
         foreach ($input as $line) {
-            if (substr($line,0,12) == 'externalIds=') {
-                $ids[] = substr($line,12);
+            if (substr($line, 0, 12) == 'externalIds=') {
+                $ids[] = substr($line, 12);
             }
         }
 

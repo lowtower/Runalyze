@@ -11,7 +11,7 @@ class FitSdkMapping extends AbstractMapping
     /**
      * @return array [fitSdkId => runalyzeId, ...]
      */
-    protected function getMapping()
+    protected function getMapping(): array
     {
         return [
             FitSdk\SportProfile::GENERIC => SportProfile::GENERIC,

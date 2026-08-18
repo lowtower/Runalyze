@@ -158,7 +158,9 @@ class WithKernel extends AbstractMovingAverage
 
         if ($width <= 1) {
             return [0.0];
-        } elseif ($width % 2 == 1) {
+        }
+
+        if ($width % 2 == 1) {
             return range(-($width - 1)/2, ($width - 1)/2);
         } else {
             return range(-$width/2, $width/2);

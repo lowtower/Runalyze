@@ -25,7 +25,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array<int, int[]>
      */
-    public function fitValuesProvider()
+    public function fitValuesProvider(): array
     {
         return [
             [0,   SelfEvaluationFeeling::VERY_WEAK],

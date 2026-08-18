@@ -54,7 +54,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('account-default.equipment-type-clothes', $registration->getRegisteredEquipmentTypeClothes());
     }
 
-    protected function registerAccount(ObjectManager $manager, Account $account, $password)
+    protected function registerAccount(ObjectManager $manager, Account $account, $password): \Runalyze\Bundle\CoreBundle\Component\Account\Registration
     {
         $registration = new Registration($manager, $account);
         $registration->setPassword($password, $this->Container->get('security.encoder_factory'));

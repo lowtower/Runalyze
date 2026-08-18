@@ -11,11 +11,11 @@ use Runalyze\Model\Trackdata;
 class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testSingleValue() {
 		$Calculator = new Calculator(
-			new Trackdata\Entity(array(
-    Trackdata\Entity::TIME => array(60),
-			    Trackdata\Entity::DISTANCE => array(0.180),
-			    Trackdata\Entity::CADENCE => array(90)
-))
+		    new Trackdata\Entity(array(
+        Trackdata\Entity::TIME => array(60),
+		        Trackdata\Entity::DISTANCE => array(0.180),
+		        Trackdata\Entity::CADENCE => array(90)
+    ))
 		);
 		$Calculator->calculate();
 
@@ -24,18 +24,18 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testSimpleArray() {
 		$Calculator = new Calculator(
-			new Trackdata\Entity(array(
-    Trackdata\Entity::TIME => array(30, 60, 90, 120, 150),
-			    Trackdata\Entity::DISTANCE => array(0.09, 0.18, 0.30, 0.48, 0.55),
-			    Trackdata\Entity::CADENCE => array(90, 100, 100, 90, 70)
-))
+		    new Trackdata\Entity(array(
+        Trackdata\Entity::TIME => array(30, 60, 90, 120, 150),
+		        Trackdata\Entity::DISTANCE => array(0.09, 0.18, 0.30, 0.48, 0.55),
+		        Trackdata\Entity::CADENCE => array(90, 100, 100, 90, 70)
+    ))
 		);
 		$Calculator->calculate();
 
 		$this->assertEquals( 122, $Calculator->average());
 		$this->assertEquals(
-			array(100, 90, 120, 200, 100),
-			$Calculator->stridesData()
+		    array(100, 90, 120, 200, 100),
+		    $Calculator->stridesData()
 		);
 	}
 
@@ -44,11 +44,11 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	 */
 	public function testTooBigValue() {
 		$Calculator = new Calculator(
-			new Trackdata\Entity(array(
-			    Trackdata\Entity::TIME => array(60),
-			    Trackdata\Entity::DISTANCE => array(0.180),
-			    Trackdata\Entity::CADENCE => array(90)
-			))
+		    new Trackdata\Entity(array(
+		        Trackdata\Entity::TIME => array(60),
+		        Trackdata\Entity::DISTANCE => array(0.180),
+		        Trackdata\Entity::CADENCE => array(90)
+		    ))
 		);
 		$Calculator->calculate();
 

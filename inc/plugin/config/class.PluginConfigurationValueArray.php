@@ -41,7 +41,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue {
 	 * Display row for config form
 	 * @return FormularField
 	 */
-	public function getFormField() {
+	public function getFormField(): \FormularInput {
 		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
 		$Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);

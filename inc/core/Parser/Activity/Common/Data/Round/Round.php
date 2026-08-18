@@ -103,7 +103,7 @@ class Round
     /**
      * @return bool
      */
-    public function isEqualTo(Round $other): bool
+    public function isEqualTo(self $other): bool
     {
         return (
             $this->Duration == $other->getDuration() &&

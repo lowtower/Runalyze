@@ -168,24 +168,24 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 
 		// Check inserts
 		$this->assertEquals(
-            [1234567890, 70, 45, 205],
-            $this->DB->query('SELECT `time`, `weight`, `pulse_rest`, `pulse_max` FROM `runalyze_user` WHERE `accountid`='.$this->AccountID.' AND `time`="1234567890" LIMIT 1')->fetch(\PDO::FETCH_NUM)
-        );
+		    [1234567890, 70, 45, 205],
+		    $this->DB->query('SELECT `time`, `weight`, `pulse_rest`, `pulse_max` FROM `runalyze_user` WHERE `accountid`='.$this->AccountID.' AND `time`="1234567890" LIMIT 1')->fetch(\PDO::FETCH_NUM)
+		);
 		$this->assertEquals(
-            [1234567890, $sportId, $typeId, 900],
-            $this->DB->query('SELECT `time`, `sportid`, `typeid`, `s` FROM `runalyze_training` WHERE `accountid`='.$this->AccountID.' AND `title`="UNITTEST-1" LIMIT 1')->fetch(\PDO::FETCH_NUM)
-        );
+		    [1234567890, $sportId, $typeId, 900],
+		    $this->DB->query('SELECT `time`, `sportid`, `typeid`, `s` FROM `runalyze_training` WHERE `accountid`='.$this->AccountID.' AND `title`="UNITTEST-1" LIMIT 1')->fetch(\PDO::FETCH_NUM)
+		);
 		$this->assertEquals(
-            [1234567890, $newSportId, $newTypeId, 1500],
-            $this->DB->query('SELECT `time`, `sportid`, `typeid`, `s` FROM `runalyze_training` WHERE `accountid`='.$this->AccountID.' AND `title`="UNITTEST-RACE" LIMIT 1')->fetch(\PDO::FETCH_NUM)
-        );
+		    [1234567890, $newSportId, $newTypeId, 1500],
+		    $this->DB->query('SELECT `time`, `sportid`, `typeid`, `s` FROM `runalyze_training` WHERE `accountid`='.$this->AccountID.' AND `title`="UNITTEST-RACE" LIMIT 1')->fetch(\PDO::FETCH_NUM)
+		);
 
 		$competitionId = $this->DB->query('SELECT `id` FROM `runalyze_training` WHERE `accountid`='.$this->AccountID.' AND `title`="UNITTEST-RACE" LIMIT 1')->fetchColumn();
 
 		$this->assertEquals(
-            [10.00, 2400],
-            $this->DB->query('SELECT `official_distance`, `official_time` FROM `runalyze_raceresult` WHERE `activity_id`='.$competitionId.' LIMIT 1')->fetch(\PDO::FETCH_NUM)
-        );
+		    [10.00, 2400],
+		    $this->DB->query('SELECT `official_distance`, `official_time` FROM `runalyze_raceresult` WHERE `activity_id`='.$competitionId.' LIMIT 1')->fetch(\PDO::FETCH_NUM)
+		);
 	}
 
 	/**

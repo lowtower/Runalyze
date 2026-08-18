@@ -14,7 +14,7 @@ class OsmCsvDataCollection {
 
     /**
      * @param string $csvLines Overpass lines seperated with |
-	 * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $csvLines) {
         $lines = explode(PHP_EOL, $csvLines);

@@ -16,7 +16,7 @@ class StatisticsUpdater
 	/**
 	 * @param \PDO $connection
 	 * @param int $accountId
-     * @param string $databasePrefix
+	 * @param string $databasePrefix
 	 */
 	public function __construct(\PDO $connection, $accountId, $databasePrefix) {
 		$this->PDO = $connection;
@@ -31,7 +31,7 @@ class StatisticsUpdater
 	public function run()
     {
 		$result = $this->PDO->exec(
-			'UPDATE `'.$this->DatabasePrefix.'equipment`
+		    'UPDATE `'.$this->DatabasePrefix.'equipment`
 			CROSS JOIN(
 				SELECT
 					`eqp`.`id` AS `eqpid`,
@@ -46,7 +46,8 @@ class StatisticsUpdater
 			SET
 				`distance` = IFNULL(`new`.`km`, 0),
 				`time` = IFNULL(`new`.`s`, 0)
-			WHERE `id` = `new`.`eqpid`');
+			WHERE `id` = `new`.`eqpid`'
+		);
 
 		if ($result !== false) {
 			$Factory = new \Runalyze\Model\Factory($this->AccountId);

@@ -193,11 +193,11 @@ abstract class PlotSumData extends Plot {
 		return $Code;
 	}
 
-	/**
+    /**
      * Get menu links for grouping
      * @return array<string, string|string[]>
      */
-    private function getMenuLinksForGrouping() {
+    private function getMenuLinksForGrouping(): array {
 		if ('' == $this->ParamGroup) {
 			$Current = __('Total');
 		} else {
@@ -214,11 +214,11 @@ abstract class PlotSumData extends Plot {
 		];
 	}
 
-	/**
+    /**
      * Get menu links for analysis
      * @return array<string, string|string[]>
      */
-    private function getMenuLinksForAnalysis() {
+    private function getMenuLinksForAnalysis(): array {
 		if ($this->Analysis == self::ANALYSIS_DEFAULT) {
 			$Current = __('Distance/Duration');
 		} else {
@@ -236,11 +236,11 @@ abstract class PlotSumData extends Plot {
 		];
 	}
 
-	/**
+    /**
      * Get menu links for sports
      * @return array<string, mixed>
      */
-    private function getMenuLinksForSports() {
+    private function getMenuLinksForSports(): array {
 		$CurrentId = $this->Sport->id();
 		$Current = __('All sports');
 		$Links = array(
@@ -265,11 +265,11 @@ abstract class PlotSumData extends Plot {
 		];
 	}
 
-	/**
+    /**
      * Get menu links for years
      * @return array<string, string|\non-empty-list<string>>
      */
-    private function getMenuLinksForYears() {
+    private function getMenuLinksForYears(): array {
 		if (self::LAST_6_MONTHS == $this->Year) {
 			$Current = __('Last 6 months');
 		} elseif (self::LAST_12_MONTHS == $this->Year) {
@@ -330,7 +330,9 @@ abstract class PlotSumData extends Plot {
 	protected function getTitleAppendix() {
 		if ($this->Year == self::LAST_6_MONTHS) {
 			return __('last 6 months');
-		} elseif ($this->Year == self::LAST_12_MONTHS) {
+		}
+
+		if ($this->Year == self::LAST_12_MONTHS) {
 			return __('last 12 months');
 		}
 
@@ -400,7 +402,7 @@ abstract class PlotSumData extends Plot {
 	 */
 	private function initData() {
 		if (START_TIME != time() && (
-			($this->Year >= START_YEAR && $this->Year <= date('Y') && START_TIME != time()) ||
+		    ($this->Year >= START_YEAR && $this->Year <= date('Y') && START_TIME != time()) ||
 			$this->Year == self::LAST_6_MONTHS ||
 			$this->Year == self::LAST_12_MONTHS
 		)) {
@@ -445,7 +447,8 @@ abstract class PlotSumData extends Plot {
 				$this->usesDistance = false;
 		}
 
-		$this->RawData = DB::getInstance()->query('
+		$this->RawData = DB::getInstance()->query(
+		    '
 			SELECT
 				`sportid`,
 				`typeid`,
@@ -468,7 +471,9 @@ abstract class PlotSumData extends Plot {
 	protected function whereDate() {
 		if (is_numeric($this->Year)) {
 			return "`time` BETWEEN UNIX_TIMESTAMP('".(int) $this->Year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->Year+1)."-01-01')-1";
-		} elseif ($this->Year == self::LAST_6_MONTHS) {
+		}
+
+		if ($this->Year == self::LAST_6_MONTHS) {
 			return '`time` >= '.$this->beginningOfLast6Months();
 		} else {
 			return '`time` >= '.$this->beginningOfLast12Months();
@@ -492,7 +497,9 @@ abstract class PlotSumData extends Plot {
 	private function dataSum(): string {
 		if ($this->Analysis == self::ANALYSIS_TRIMP) {
 			return 'SUM(`trimp`)';
-		} elseif ($this->usesDistance) {
+		}
+
+		if ($this->usesDistance) {
 			return 'SUM(`distance`)';
 		}
 

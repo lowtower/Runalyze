@@ -48,10 +48,10 @@ class GradeAdjustedPace extends Pace
         $context->trackdata()->setTheoreticalPace($this->getGradeAdjustedPace($context));
 	}
 
-    /**
-     * @param Activity\Context $context
-     * @return array
-     */
+	/**
+	 * @param Activity\Context $context
+	 * @return array
+	 */
 	protected function getGradeAdjustedPace(Activity\Context $context)
     {
         $algorithm = new Minetti();

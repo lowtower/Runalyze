@@ -46,7 +46,7 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
         $user = $repository->loadUserByUsername($input->getArgument('username'));
         $activityId = $input->getArgument('id');
         $nexted = empty($input->getOption('nexted')) ? 0 : 1;
-        $this->override = empty($input->getOption('override')) ? False : True;
+        $this->override = ! empty($input->getOption('override'));
 
         if (null === $user) {
             $output->writeln('<fg=red>Unknown User</>');

@@ -191,7 +191,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-        /**
+	/**
 	 * Add running dynamics
 	 */
 	protected function addRunningDynamics() {
@@ -374,7 +374,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
 	/**
 	 * Fill FIT content.
-     * #TSC add FIT file data as a new panel/sheet
+	 * #TSC add FIT file data as a new panel/sheet
 	 */
 	protected function fillFitDetailContent() {
 		$this->FitDetails = '<div class="panel-content">';
@@ -407,10 +407,18 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		$this->addToTable($details, 'New lactate treshhold (bpm | pace):', $lt, $c);
 
         $this->addToTable($details, $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'), ($this->Context->activity()->fitHRVscore() != null ? $this->Context->activity()->fitHRVscore() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
-            ($this->Context->activity()->fitPerformanceCondition() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceCondition() - 100) : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
-            ($this->Context->activity()->fitPerformanceConditionEnd() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceConditionEnd() - 100) : '-'), $c);
+        $this->addToTable(
+            $details,
+            $this->getGlossaryLink('Performance condition start:', 'performance-condition'),
+            ($this->Context->activity()->fitPerformanceCondition() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceCondition() - 100) : '-'),
+            $c
+        );
+        $this->addToTable(
+            $details,
+            $this->getGlossaryLink('Performance cond. end:', 'performance-condition'),
+            ($this->Context->activity()->fitPerformanceConditionEnd() != null ? sprintf('%+d', $this->Context->activity()->fitPerformanceConditionEnd() - 100) : '-'),
+            $c
+        );
         $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink(__('Training Effect').' benefit:', 'training-effect'), ($this->Context->activity()->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($this->Context->activity()->fitTrainingEffectBenefit()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Aerob training effect:', 'training-effect'), ($this->Context->activity()->fitTrainingEffect() != null ? $this->Context->activity()->fitTrainingEffect() : '-'), $c);
@@ -464,7 +472,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 					$ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
 					$ageGradeIcon = new View\Icon('fa-info-circle');
 					$ageGradeIcon->setTooltip(
-						__('Age standard').': '.Duration::format($ageGrade->getAgeStandard()).', '.
+					    __('Age standard').': '.Duration::format($ageGrade->getAgeStandard()).', '.
 						__('Open standard').': '.Duration::format($ageGrade->getOpenStandard()).'<br>'.
 						'<small><em>'.sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF').'</em></small>'
 					);
@@ -514,7 +522,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	protected function addWeatherSourceInfo() {
 		if ($this->Context->activity()->weather()->sourceIsKnown()) {
 			$this->NotesContent .= HTML::info(
-				sprintf(__('Source of weather data: %s'), $this->Context->activity()->weather()->sourceAsString())
+			    sprintf(__('Source of weather data: %s'), $this->Context->activity()->weather()->sourceAsString())
 			);
 		}
 	}
@@ -530,16 +538,18 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		if ($created > 0 || $edited > 0) {
 			$createdDate = new \DateTime();
 			$createdDate->setTimestamp($created);
-			$CreationTime = ($created == 0) ? '' : sprintf( __('You created this training on <strong>%s</strong> at <strong>%s</strong>.'),
-				$createdDate->format('d.m.Y'),
-				$createdDate->format('H:i')
+			$CreationTime = ($created == 0) ? '' : sprintf(
+			    __('You created this training on <strong>%s</strong> at <strong>%s</strong>.'),
+			    $createdDate->format('d.m.Y'),
+			    $createdDate->format('H:i')
 			);
 
 			$editedDate = new \DateTime();
 			$editedDate->setTimestamp($edited);
-			$ModificationTime = ($edited == 0) ? '' : '<br>'.sprintf( __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
-				$editedDate->format('d.m.Y'),
-				$editedDate->format('H:i')
+			$ModificationTime = ($edited == 0) ? '' : '<br>'.sprintf(
+			    __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
+			    $editedDate->format('d.m.Y'),
+			    $editedDate->format('H:i')
 			);
 
 			$this->NotesContent .= HTML::fileBlock($CreationTime.$ModificationTime);

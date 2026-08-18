@@ -27,7 +27,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 
 	private $footerHint;
 
-    /**
+	/**
 	 * Calculator
 	 * @var Runalyze\Calculation\Activity\HrZonesCalculator
 	 */
@@ -64,7 +64,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 		$Pace->setUnit($this->Context->sport()->legacyPaceUnit());
 
 		foreach ($Zones as $Info) {
-			if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE || $Info['#start'] > TableZonesHeartrate::MINIMUM_TIME_IN_ZONE_MIN_HR) {
+			if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE || $Info['#start'] > self::MINIMUM_TIME_IN_ZONE_MIN_HR) {
 				$Pace->setTime($Info['time']);
 				$Pace->setDistance($Info['distance']);
 
@@ -106,9 +106,9 @@ class TableZonesHeartrate extends TableZonesAbstract {
 		$hasDistance = $this->Context->trackdata()->has(Trackdata\Entity::DISTANCE);
 
 		$Distribution = new TimeSeriesForTrackdata(
-			$this->Context->trackdata(),
-			Trackdata\Entity::HEARTRATE,
-			$hasDistance ? array(Trackdata\Entity::DISTANCE) : array()
+		    $this->Context->trackdata(),
+		    Trackdata\Entity::HEARTRATE,
+		    $hasDistance ? array(Trackdata\Entity::DISTANCE) : array()
 		);
 		$Data = $Distribution->data();
 
@@ -135,7 +135,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				    '%end' => round(100 / $hrMax * $endHr),
 				    'time' => 0,
 				    'distance' => 0,
-				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : TableZonesHeartrate::DEFAULT_COLOR
+				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : self::DEFAULT_COLOR
 				);
 			}
 

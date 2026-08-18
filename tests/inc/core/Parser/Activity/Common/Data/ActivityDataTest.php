@@ -54,7 +54,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Data->AvgGroundContactBalance);
     }
 
-    protected function getExampleForFilledContinuousData()
+    protected function getExampleForFilledContinuousData(): \Runalyze\Parser\Activity\Common\Data\ContinuousData
     {
         $continuousData = new ContinuousData();
         $continuousData->Time = range(0, 10);

@@ -9,7 +9,7 @@ class ActivityView extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'GMAP_PATH_PRECISION' => '5',
@@ -36,7 +36,7 @@ class ActivityView extends AbstractCategory
     /**
      * @return ElevationMethod
      */
-    public function getElevationCalculationMethod()
+    public function getElevationCalculationMethod(): \Runalyze\Parameter\Application\ElevationMethod
     {
         $method = new ElevationMethod();
         $method->setFromString($this->Variables['ELEVATION_METHOD']);

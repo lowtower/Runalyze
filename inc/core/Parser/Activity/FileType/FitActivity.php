@@ -188,9 +188,9 @@ class FitActivity extends AbstractSingleParser
         throw new \RuntimeException('FitActivity does not support parse().');
     }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1886
-	 */
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1886
+     */
     public function finishParsing()
     {
         if ('suunto' == $this->Container->Metadata->getCreator()) {

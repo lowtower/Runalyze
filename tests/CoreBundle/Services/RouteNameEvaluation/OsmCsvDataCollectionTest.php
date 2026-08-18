@@ -100,8 +100,10 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase {
               'way|Wolfratshauser Trail|||||||||mountain_hiking|' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
 
-        $this->assertEquals(['Gartner Wand', 'Grubigstein', 'Grubistein Vor gipfel', 'Sommerbergjöchle'],
-            $eval->getNames(OsmCsvData::$CAT_PEAK));
+        $this->assertEquals(
+            ['Gartner Wand', 'Grubigstein', 'Grubistein Vor gipfel', 'Sommerbergjöchle'],
+            $eval->getNames(OsmCsvData::$CAT_PEAK)
+        );
         $this->assertEquals([], $eval->getNames(OsmCsvData::$CAT_PLACE));
         $this->assertEquals(['Stepbergalm', 'Wolfratshauser Hütte'], $eval->getNames(OsmCsvData::$CAT_HUT));
         $this->assertEquals(['Wolfratshauser Trail'], $eval->getNames(OsmCsvData::$CAT_WAY));

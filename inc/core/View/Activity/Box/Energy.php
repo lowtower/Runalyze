@@ -26,7 +26,7 @@ class Energy extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			new Activity\Energy($Context->activity()->energy())
+		    new Activity\Energy($Context->activity()->energy())
 		);
 
 	}

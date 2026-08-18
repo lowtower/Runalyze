@@ -21,13 +21,13 @@ class Weight implements ValueInterface {
 	/**
 	 * Default poun d multiplier
 	 * @var double
-	*/
+	 */
 	const POUNDS_MULTIPLIER = 2.204622;
 
 	/**
 	 * Default stone multiplier
 	 * @var double
-	*/
+	 */
 	const STONES_MULTIPLIER = 0.157473;
 
 	/**
@@ -139,7 +139,9 @@ class Weight implements ValueInterface {
 	public function string($withUnit = true, $decimals = false): string {
 		if ($this->PreferredUnit->isPounds()) {
 			return $this->stringPounds($withUnit, $decimals);
-		} elseif ($this->PreferredUnit->isStones()) {
+		}
+
+		if ($this->PreferredUnit->isStones()) {
 			return $this->stringStones($withUnit, $decimals);
 		}
 
@@ -183,7 +185,9 @@ class Weight implements ValueInterface {
 	public function valueInPreferredUnit() {
 		if ($this->PreferredUnit->isPounds()) {
 			return $this->pounds();
-		} elseif ($this->PreferredUnit->isStones()) {
+		}
+
+		if ($this->PreferredUnit->isStones()) {
 			return $this->stones();
 		}
 

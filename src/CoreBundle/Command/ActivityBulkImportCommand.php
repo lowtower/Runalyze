@@ -216,7 +216,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
     /**
      * TSC: move the imported file to a specified folder under path-argument.
-    */ 
+     */ 
     private function moveFile(Filesystem $fs, string $path, string $importedFilename, OutputInterface $output)
     {
         if(! empty($this->moveFolder)) {
@@ -297,7 +297,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                 $endDate = null;
                 if($eqp->getDateEnd() !== null) {
                     $endDate = clone $eqp->getDateEnd();
-                    $endDate->setTime(23,59,59);
+                    $endDate->setTime(23, 59, 59);
                 }
 
                 if(($eqp->getDateStart() === null || $eqp->getDateStart() < $actDate) && ($endDate === null || $actDate <= $endDate)) {

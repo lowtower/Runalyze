@@ -52,7 +52,7 @@ class Trimp extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Trimp values are colored based on their value, '.
+		    'Trimp values are colored based on their value, '.
 			'slightly transparent for low values and dark red for high values.'
 		);
 	}

@@ -49,7 +49,7 @@ class VO2maxCalculationDetailsDecorator
     /**
      * @return DistanceModifier
      */
-    public function getDistanceModifierForElevationAdjustment()
+    public function getDistanceModifierForElevationAdjustment(): \Runalyze\Calculation\Elevation\DistanceModifier
     {
         $modifier = new DistanceModifier(
             $this->Context->getActivity()->getDistance(),

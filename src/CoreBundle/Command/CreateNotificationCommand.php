@@ -132,10 +132,12 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function validateLanguage(array $lang)
     {
-        return array_reduce($lang,
+        return array_reduce(
+            $lang,
             function ($state, $value) {
                 return $state && ctype_alpha($value);
-            }, true
+            },
+            true
         );
     }
 
@@ -145,10 +147,12 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function validateAccountIds(array $accountIds)
     {
-        return array_reduce($accountIds,
+        return array_reduce(
+            $accountIds,
             function ($state, $value) {
                 return $state && ctype_digit($value);
-            }, true
+            },
+            true
         );
     }
 

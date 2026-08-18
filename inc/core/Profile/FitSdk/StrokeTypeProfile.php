@@ -12,7 +12,7 @@ class StrokeTypeProfile extends AbstractEnum
 	/** @var int */
 	const BACK = 1;
 
-	/** @var int */
+    /** @var int */
     const BREAST = 2;
 
     /** @var int */

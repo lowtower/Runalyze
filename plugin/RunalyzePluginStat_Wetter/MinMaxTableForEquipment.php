@@ -55,7 +55,7 @@ class MinMaxTableForEquipment
 	protected function createStatement()
 	{
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				AVG(`temperature`) as `avg`,
 				MAX(`temperature`) as `max`,
 				MIN(`temperature`) as `min`,

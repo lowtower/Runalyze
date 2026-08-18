@@ -30,7 +30,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->object = new Calculator($this->Laps);
 	}
 
-	protected function trackdata()
+	protected function trackdata(): \Runalyze\Model\Trackdata\Entity
 	{
 		return new Trackdata\Entity(array(
     Trackdata\Entity::TIME => array(
@@ -60,7 +60,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 ));
 	}
 
-	protected function route()
+	protected function route(): \Runalyze\Model\Route\Entity
 	{
 		return new Route\Entity(array(
     Route\Entity::ELEVATIONS_ORIGINAL => array(
@@ -74,7 +74,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 ));
 	}
 
-	/**
+    /**
      * @param array<int, int[]>|array<int, float[]> $ExpectedLaps
      */
     protected function checkAgainst(array $ExpectedLaps)
@@ -94,7 +94,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testSimpleExample()
 	{
 		$this->object->setDistances(Calculator::getDistancesFromString(
-			'+1.0, 0.4, 0.2, 0.4, 0.2'
+		    '+1.0, 0.4, 0.2, 0.4, 0.2'
 		));
 		$this->object->calculateFrom($this->trackdata(), $this->route());
 
@@ -112,7 +112,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testWithoutRoute()
 	{
 		$this->object->setDistances(Calculator::getDistancesFromString(
-			'+1.0, 0.4, 0.2, 0.4, 0.2'
+		    '+1.0, 0.4, 0.2, 0.4, 0.2'
 		));
 		$this->object->calculateFrom($this->trackdata());
 
@@ -213,32 +213,32 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		    1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 		));
 		$this->object->calculateFrom(
-			new Trackdata\Entity(array(
-			    Trackdata\Entity::TIME => array(
-			        0, 150, 300,
-			        450, 600,
-			        800,
-			        1200,
-			        2200,
-			        2750
-			    ),
-			    Trackdata\Entity::DISTANCE => array(
-			        0.0, 0.5, 1.0,
-			        1.6, 2.1,
-			        2.8,
-			        4.1,
-			        7.3,
-			        8.9
-			    ),
-			    Trackdata\Entity::HEARTRATE => array(
-			        150, 150, 150,
-			        150, 150,
-			        150,
-			        150,
-			        150,
-			        150
-			    )
-			))
+		    new Trackdata\Entity(array(
+		        Trackdata\Entity::TIME => array(
+		            0, 150, 300,
+		            450, 600,
+		            800,
+		            1200,
+		            2200,
+		            2750
+		        ),
+		        Trackdata\Entity::DISTANCE => array(
+		            0.0, 0.5, 1.0,
+		            1.6, 2.1,
+		            2.8,
+		            4.1,
+		            7.3,
+		            8.9
+		        ),
+		        Trackdata\Entity::HEARTRATE => array(
+		            150, 150, 150,
+		            150, 150,
+		            150,
+		            150,
+		            150,
+		            150
+		        )
+		    ))
 		);
 
 		$this->assertEquals(10, $this->Laps->num());
@@ -259,16 +259,16 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testTimesFromString()
 	{
 		$this->assertEquals(
-			array(15*60, 45*60 + 30, 1*3600 + 60 + 1),
-			Calculator::getTimesFromString('15:00, 45:30, 1:01:01')
+		    array(15*60, 45*60 + 30, 1*3600 + 60 + 1),
+		    Calculator::getTimesFromString('15:00, 45:30, 1:01:01')
 		);
 	}
 
 	public function testTimesFromStringWithShortNotationForMinutes()
 	{
 		$this->assertEquals(
-			array(5*60, 15*60, 20*60),
-			Calculator::getTimesFromString("+5', 10', 5'")
+		    array(5*60, 15*60, 20*60),
+		    Calculator::getTimesFromString("+5', 10', 5'")
 		);
 	}
 

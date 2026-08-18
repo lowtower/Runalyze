@@ -202,8 +202,8 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 	public function testFillTimesFromArray() {
 		$Splits = new Splits('1|0:00-1|0:00-1|0:00');
 		$Splits->fillTimesFromArray(
-			array(115, 240, 440, 475, 720),
-			array(0.5, 1, 1.9, 2.1, 2.7)
+		    array(115, 240, 440, 475, 720),
+		    array(0.5, 1, 1.9, 2.1, 2.7)
 		);
 
 		$this->assertEquals( '1.000|4:00-1.000|3:55-1.000|4:05', $Splits->asString() );
@@ -215,8 +215,8 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 	public function testFillDistancesFromArray() {
 		$Splits = new Splits('0|4:00-0|3:55-0|4:05');
 		$Splits->fillDistancesFromArray(
-			array(115, 240, 440, 475, 720),
-			array(0.5, 1, 1.9, 2.1, 2.7)
+		    array(115, 240, 440, 475, 720),
+		    array(0.5, 1, 1.9, 2.1, 2.7)
 		);
 
 		$this->assertEquals( '1.000|4:00-1.100|3:55-0.600|4:05', $Splits->asString() );

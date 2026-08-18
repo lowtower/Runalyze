@@ -79,7 +79,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.plot.php" '.Ajax::tooltip('', __('Show shape'), true, true).'>'.Icon::$LINE_CHART.'</a>').'</li>';
         $Links .= '<li>'.Ajax::window('<a href="my/tools/tables/vo2max-pace" '.Ajax::tooltip('', __('Show training paces'), true, true).'><i class="fa fa-fw fa-tachometer"></i></a>').'</li>';
 		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php" '.Ajax::tooltip('', __('How are these values calculated?'), true, true).'>'.Icon::$MAGIC.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="dashboard/help-calculations" '.Ajax::tooltip('',  __('Explanations: What are VO2max and TRIMP?'), true, true).'>'.Icon::$INFO.'</a>').'</li>';
+		$Links .= '<li>'.Ajax::window('<a href="dashboard/help-calculations" '.Ajax::tooltip('', __('Explanations: What are VO2max and TRIMP?'), true, true).'>'.Icon::$INFO.'</a>').'</li>';
 
 		return '<ul>'.$Links.'</ul>';
 	}
@@ -110,9 +110,9 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$ModelQuery->execute(DB::getInstance());
 
 		$TSBmodel = new TsbModel(
-			$ModelQuery->data(),
-			Configuration::Trimp()->daysForCTL(),
-			Configuration::Trimp()->daysForATL()
+		    $ModelQuery->data(),
+		    Configuration::Trimp()->daysForCTL(),
+		    Configuration::Trimp()->daysForATL()
 		);
 		$TSBmodel->calculate();
 
@@ -147,7 +147,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		    'ATLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$ATLabsolute/$ATLmax).'&nbsp;&#37;' : $ATLabsolute,
 		    'CTL'		=> round(100*$CTLabsolute/$CTLmax),
 		    'CTLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$CTLabsolute/$CTLmax).'&nbsp;&#37;' : $CTLabsolute,
-		    'TSB'		=> round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute,1)),
+		    'TSB'		=> round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute, 1)),
 		    'TSBstring'	=> Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute))).'&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
 );
 		$TSBisPositive = $TrimpValues['TSB'] > 0;
@@ -229,14 +229,14 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(
-		            		$Monotony->valueAsPercentage(),
-		            		(
-		            			$Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
+		                $Monotony->valueAsPercentage(),
+		                (
+		                    $Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
 		            			: (
-		            				$Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
+		            			    $Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
 		            			: ProgressBarSingle::$COLOR_GREEN
 		            			)
-		            	)
+		                )
 		            )
 		        ),
 		        'bar-tooltip'	=> 'Monotony = avg(Trimp)/stddev(Trimp)',
@@ -249,13 +249,13 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(
-		            	$Monotony->trainingStrainAsPercentage(),
-		            	(
-		            		$Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
+		                $Monotony->trainingStrainAsPercentage(),
+		                (
+		                    $Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
 		            		: (
-		            			$Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
+		            		    $Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
 		            		)
-		            	)
+		                )
 		            )
 		        ),
 		        'bar-tooltip'	=> 'Training strain = sum(Trimp)*Monotony',
@@ -308,14 +308,14 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 * Get fieldset for TRIMP
 	 * @return \FormularFieldset
 	 */
-	public function getFieldsetTRIMP() {
+	public function getFieldsetTRIMP(): \FormularFieldset {
 		$ModelQuery = new Performance\ModelQuery();
 		$ModelQuery->execute(DB::getInstance());
 
 		$TSBmodel = new TsbModel(
-			$ModelQuery->data(),
-			Configuration::Trimp()->daysForCTL(),
-			Configuration::Trimp()->daysForATL()
+		    $ModelQuery->data(),
+		    Configuration::Trimp()->daysForCTL(),
+		    Configuration::Trimp()->daysForATL()
 		);
 		$TSBmodel->calculate();
 
@@ -385,7 +385,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	/**
 	 * @return \FormularFieldset
 	 */
-	public function getFieldsetEffecticeVO2max() {
+	public function getFieldsetEffecticeVO2max(): \FormularFieldset {
 		$Tooltip = new Tooltip('');
 		$EffectiveVO2max = new LegacyEffectiveVO2max(0, new LegacyEffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));
 		$vo2maxColumn = Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`) as `vo2max`' : '`vo2max`';
@@ -436,7 +436,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 * Get fieldset for Marathon shape
 	 * @return \FormularFieldset
 	 */
-	public function getFieldsetBasicEndurance() {
+	public function getFieldsetBasicEndurance(): \FormularFieldset {
 		$BasicEndurance = new BasicEndurance();
 		$BasicEndurance->readSettingsFromConfiguration();
 
@@ -505,8 +505,10 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 			</table>';
 		$LongjogTable .= '<p class="small">'.sprintf( __('* %s &quot;long&quot; jogs do not show up, '.
 														'because they have less than 0.2 points.'), $IgnoredLongjogs).'</p>';
-		$LongjogTable .= '<p class="small">'.sprintf( __('* In general, all runs with more than %s are being considered.'),
-														Distance::format($BasicEndurance->getMinimalDistanceForLongjogs())).'</p>';
+		$LongjogTable .= '<p class="small">'.sprintf(
+		    __('* In general, all runs with more than %s are being considered.'),
+		    Distance::format($BasicEndurance->getMinimalDistanceForLongjogs())
+		).'</p>';
 
 		$Fieldset = new FormularFieldset( __('Marathon shape') );
 		$Fieldset->addBlock( __('Your marathon shape is based on your weekly kilometers and your long jogs.<br>'.

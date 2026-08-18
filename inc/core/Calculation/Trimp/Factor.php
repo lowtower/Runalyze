@@ -46,7 +46,9 @@ class Factor {
 	public function A(): float {
 		if (Gender::MALE == $this->Gender) {
 			return 0.64;
-		} elseif (GENDER::FEMALE == $this->Gender) {
+		}
+
+		if (GENDER::FEMALE == $this->Gender) {
 			return 0.821776;
 		} else {
 			return 0.725215;
@@ -60,7 +62,9 @@ class Factor {
 	public function B(): float {
 		if (Gender::MALE == $this->Gender) {
 			return 1.92;
-		} elseif (Gender::FEMALE == $this->Gender) {
+		}
+
+		if (Gender::FEMALE == $this->Gender) {
 			return 1.67;
 		} else {
 			return 1.795;

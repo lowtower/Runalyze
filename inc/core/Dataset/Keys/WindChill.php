@@ -30,7 +30,7 @@ class WindChill extends AbstractKey
      * Database key
      * @return array
      */
-    public function column()
+    public function column(): array
     {
         return ['temperature', 'wind_speed', 'distance', 's'];
     }

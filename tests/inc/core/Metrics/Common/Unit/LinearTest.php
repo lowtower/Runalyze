@@ -11,7 +11,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $unit = new Linear(
             function ($value) { return 2.0 * $value + 5.0; },
             function ($value) { return ($value - 5.0) / 2.0; },
-            'foo', 1
+            'foo',
+            1
         );
 
         $this->assertEquals(7.0, $unit->fromBaseUnit(1.0));

@@ -8,9 +8,9 @@ use Runalyze\View\Activity\FakeContext;
 
 class ActivityTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @see https://github.com/Runalyze/Runalyze/issues/1805
-     */
+	/**
+	 * @see https://github.com/Runalyze/Runalyze/issues/1805
+	 */
 	public function testThatMapWorksWithPausesButWithoutTimeArray()
     {
 		$Context = FakeContext::outdoorContext();

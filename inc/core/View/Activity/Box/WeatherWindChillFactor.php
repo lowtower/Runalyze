@@ -2,7 +2,7 @@
 
 /**
  * This file contains class::WeatherWindChillFactor
-* @package Runalyze\View\Activity\Box
+ * @package Runalyze\View\Activity\Box
  */
 
 namespace Runalyze\View\Activity\Box;
@@ -25,7 +25,7 @@ class WeatherWindChillFactor extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			$Context->dataview()->windChillFactor()
+		    $Context->dataview()->windChillFactor()
 		);
 	}
 }

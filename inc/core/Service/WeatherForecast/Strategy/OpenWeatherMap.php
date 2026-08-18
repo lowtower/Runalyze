@@ -82,7 +82,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
      *
      * @return WeatherData
      */
-    protected function getWeatherDataFromResult(array $result)
+    protected function getWeatherDataFromResult(array $result): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
         $data = new WeatherData();
         $data->Source = WeatherSourceProfile::OPEN_WEATHER_MAP;

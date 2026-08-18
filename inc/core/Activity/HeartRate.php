@@ -60,7 +60,9 @@ class HeartRate {
 	public function string(): string {
 		if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
 			return $this->asHRrest();
-		} elseif ($this->PreferredUnit->isHRmax() && $this->canShowInHRmax()) {
+		}
+
+		if ($this->PreferredUnit->isHRmax() && $this->canShowInHRmax()) {
 			return $this->asHRmax();
 		}
 

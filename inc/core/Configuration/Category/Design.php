@@ -47,14 +47,14 @@ class Design extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('DESIGN_BG_FILE')->registerOnchangeEvent(\Runalyze\Configuration\Category\Design::class . '::setBackgroundImageToBody');
+		$this->handle('DESIGN_BG_FILE')->registerOnchangeEvent(self::class . '::setBackgroundImageToBody');
 	}
 
 	/**
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Design') );
 		$Fieldset->addHandle( $this->handle('DESIGN_BG_FILE'), array(
 		    'label'		=> __('Background image')

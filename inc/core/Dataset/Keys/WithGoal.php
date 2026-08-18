@@ -59,7 +59,7 @@ class WithGoal extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'This training has a goal like Garmins Pace-Goal or Garmins (custom-) targets.'
+		    'This training has a goal like Garmins Pace-Goal or Garmins (custom-) targets.'
 		);
 	}
 

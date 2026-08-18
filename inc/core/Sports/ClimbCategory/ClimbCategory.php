@@ -74,7 +74,7 @@ class ClimbCategory
     /**
      * @return int[]
      */
-    public static function getOptions()
+    public static function getOptions(): array
     {
         return [
             self::CATEGORY_HC,
@@ -92,7 +92,7 @@ class ClimbCategory
      * @param int[]|float[] $lowerLimits lower limits for as many categories as supported (see static::getOptions)
      * @return ClimbCategory
      */
-    public static function getCategoryFor($score, array $lowerLimits)
+    public static function getCategoryFor($score, array $lowerLimits): self
     {
         $categoryIndex = self::CATEGORY_NONE;
 

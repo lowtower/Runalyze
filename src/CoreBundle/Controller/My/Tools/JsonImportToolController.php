@@ -30,7 +30,7 @@ class JsonImportToolController extends Controller
      * @Route("/upload", name="tools-backup-json-upload")
      * @Security("has_role('ROLE_USER')")
      */
-    public function backupUploadAction(Request $request)
+    public function backupUploadAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $backupFile = $request->files->get('qqfile');
 
@@ -144,7 +144,7 @@ class JsonImportToolController extends Controller
      * @Route("", name="tools-backup-json")
      * @Security("has_role('ROLE_USER')")
      */
-    public function uploadFormAction()
+    public function uploadFormAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/backup/upload_form.html.twig', [
             'runalyzeVersion' => $this->getParameter('runalyze_version')

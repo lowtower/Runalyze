@@ -7,7 +7,7 @@ class DataBrowser extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'DB_DISPLAY_MODE' => 'week',

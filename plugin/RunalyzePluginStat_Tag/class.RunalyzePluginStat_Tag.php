@@ -155,7 +155,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	private function initData() {
 		if ($this->TagId > 0) {
 			$Statement = DB::getInstance()->query(
-				'SELECT
+			    'SELECT
 					SUM(1) as `num`,
 					YEAR(FROM_UNIXTIME(`'.PREFIX.'training`.`time`)) as `year`,
 					MONTH(FROM_UNIXTIME(`'.PREFIX.'training`.`time`)) as `month`

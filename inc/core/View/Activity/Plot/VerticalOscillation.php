@@ -29,7 +29,7 @@ class VerticalOscillation extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\VerticalOscillation($context)
+		    new Series\VerticalOscillation($context)
 		);
 	}
 }

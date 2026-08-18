@@ -61,7 +61,7 @@ class RaceContainer {
 	 */
 	protected function fetchDataFromDB() {
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				r.`official_time`, r.`official_distance`, r.`officially_measured`, r.`name`,
 				r.`place_total`, r.`place_gender`, r.`place_ageclass`,
 				r.`participants_total`,	r.`participants_gender`, r.`participants_ageclass`,

@@ -11,7 +11,7 @@ class FlightTime extends AbstractKey
 		return \Runalyze\Dataset\Keys::FLIGHT_TIME;
 	}
 
-	public function column()
+	public function column(): array
 	{
 		return ['cadence', 'groundcontact'];
 	}

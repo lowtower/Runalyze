@@ -320,7 +320,7 @@ class Distance implements ValueInterface {
 	 * @param \Runalyze\Activity\Distance $object
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function add(Distance $object)
+	public function add(self $object)
 	{
 		$this->Kilometer += $object->kilometer();
 
@@ -332,7 +332,7 @@ class Distance implements ValueInterface {
 	 * @param \Runalyze\Activity\Distance $object
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function subtract(Distance $object)
+	public function subtract(self $object)
 	{
 		$this->Kilometer -= $object->kilometer();
 

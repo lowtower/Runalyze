@@ -222,7 +222,7 @@ class Pace {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function compareTo(Pace $other, $raw = false): string {
+	public function compareTo(self $other, $raw = false): string {
 		if ($this->unitEnum() != $other->unitEnum()) {
 			throw new \InvalidArgumentException('Pace objects must have the same unit.');
 		}

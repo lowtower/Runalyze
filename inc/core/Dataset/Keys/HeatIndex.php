@@ -31,7 +31,7 @@ class HeatIndex extends AbstractKey
      * Database key
      * @return array
      */
-    public function column()
+    public function column(): array
     {
         return ['temperature', 'humidity'];
     }

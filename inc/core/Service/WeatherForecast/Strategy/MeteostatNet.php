@@ -79,7 +79,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
      *
      * @return WeatherData
      */
-    protected function getWeatherDataFromResult(array $currently)
+    protected function getWeatherDataFromResult(array $currently): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
         $data = new WeatherData();
         $data->Source = WeatherSourceProfile::METEOSTAT_NET;

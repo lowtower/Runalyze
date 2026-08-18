@@ -194,7 +194,7 @@ class SubSegmentMaximization
      * @param int $t
      * @return float[] [from, to]
      */
-    public function getIndizesOfMaximumForLengthIndex($t)
+    public function getIndizesOfMaximumForLengthIndex($t): array
     {
         return [$this->DataMaxFromIndex[$t], $this->DataMaxToIndex[$t]];
     }

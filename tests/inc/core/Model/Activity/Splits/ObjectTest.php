@@ -21,8 +21,8 @@ class ObjectTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($Split1, $Splits->at(0));
 		$this->assertEquals($Split2, $Splits->at(1));
 		$this->assertEquals(
-			$Split1->asString().Entity::SEPARATOR.$Split2->asString(),
-			$Splits->asString()
+		    $Split1->asString().Entity::SEPARATOR.$Split2->asString(),
+		    $Splits->asString()
 		);
 	}
 

@@ -32,7 +32,7 @@ class Gradient extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): array
 	{
 		return array('elevation', 'distance');
 	}

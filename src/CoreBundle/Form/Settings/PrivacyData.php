@@ -29,7 +29,7 @@ class PrivacyData
     /**
      * @return array<string, string>
      */
-    public function getDataForConfiguration()
+    public function getDataForConfiguration(): array
     {
         return [
             'TRAINING_LIST_PUBLIC' => $this->AthletePageActive ? 'true' : 'false',

@@ -126,7 +126,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals(
             [0, 10, 20, 30, 41, 41, 41, 117, 155, 182, 188, 186, 182, 178, 181, 180, 179, 178, 179, 180, 181, 180, 180, 178],
             $this->Container->ContinuousData->Power
-       );
+        );
     }
 
     /**
@@ -171,11 +171,11 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals(
             [23, 25, 27, 31, 32, 35, 37, 39, 45, 50],
             array_slice($this->Container->ContinuousData->Time, 10, 10)
-       );
+        );
         $this->assertEquals(
             [0.0, 0.0, 0.0, 0.052, 0.052, 0.052, 0.052, 0.052, 0.071, 0.085],
             array_slice($this->Container->ContinuousData->Distance, 10, 10)
-       );
+        );
     }
 
     public function testRouteOnly()

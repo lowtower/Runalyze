@@ -21,7 +21,7 @@ class Gaussian extends AbstractKernel
     protected $DefaultWidth = 6.0;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @param float $width
      */
     public function __construct($width)

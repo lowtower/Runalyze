@@ -35,7 +35,7 @@ class RaceResultController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function raceresultFormAction($activityId, Account $account, Request $request)
+    public function raceresultFormAction($activityId, Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Training $activity */
         $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->findForAccount($activityId, $account->getId());
@@ -78,7 +78,7 @@ class RaceResultController extends Controller
     /**
      * @Route("/{activityId}/delete", name="raceresult-delete", requirements={"activityId" = "\d+"})
      */
-    public function raceresultDeleteAction($activityId, Request $request, Account $account)
+    public function raceresultDeleteAction($activityId, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Raceresult $raceResult */
         $raceResult = $this->getRaceresultRepository()->findForAccount($activityId, $account->getId());
@@ -97,7 +97,7 @@ class RaceResultController extends Controller
      * @Route("/performance-chart", name="race-results-performance-chart")
      * @Security("has_role('ROLE_USER')")
      */
-    public function performanceChartAction(Account $account)
+    public function performanceChartAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $danielsGilbertFormula = new DanielsGilbertFormula();
         $ageGradeLookup = $this->get('app.age_grade_lookup')->getLookup() ?: $this->get('app.age_grade_lookup')->getDefaultLookup();

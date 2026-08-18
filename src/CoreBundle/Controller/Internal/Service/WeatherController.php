@@ -63,7 +63,7 @@ class WeatherController extends Controller
      * @param Account $account
      * @return Location
      */
-    private function getLocationForRequest(Request $request, Account $account)
+    private function getLocationForRequest(Request $request, Account $account): \Runalyze\Service\WeatherForecast\Location
     {
         $location = new Location();
 

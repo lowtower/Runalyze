@@ -36,7 +36,7 @@ class BackupToolController extends Controller
      * @param Account $account
      * @return BinaryFileResponse
      */
-    public function downloadBackupAction($filename, Account $account)
+    public function downloadBackupAction($filename, Account $account): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
         $fileSystem = new Filesystem();
         $fileHandler = new FilenameHandler($account->getId());
@@ -66,7 +66,7 @@ class BackupToolController extends Controller
      * @Route("", name="tools-backup")
      * @Security("has_role('ROLE_USER')")
      */
-    public function backupAction(Account $account, Request $request)
+    public function backupAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $lockedRoutes = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Route')->accountHasLockedRoutes($account);
         $hasLockedTrainings = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Training')->accountHasLockedTrainings($account);

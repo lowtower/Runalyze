@@ -49,11 +49,11 @@ class TableLaps extends TableLapsAbstract {
 		return $Halfs;
 	}
 
-	/**
+    /**
      * @param \Runalyze\Model\Trackdata\Loop $Loop
      * @return array<string, float>
      */
-    protected function halfFromLoop(Trackdata\Loop $Loop) {
+    protected function halfFromLoop(Trackdata\Loop $Loop): array {
 		return array(
 		    's' => $Loop->difference(Trackdata\Entity::TIME),
 		    'km' => $Loop->difference(Trackdata\Entity::DISTANCE)

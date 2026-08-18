@@ -29,7 +29,7 @@ class TagsController extends Controller
     /**
      * @Route("", name="settings-tags")
      */
-    public function overviewAction(Account $account)
+    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('settings/tag/overview.html.twig', [
             'tags' => $this->getTagRepository()->findAllFor($account),
@@ -51,7 +51,7 @@ class TagsController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(TagType::class, $tag,[
+        $form = $this->createForm(TagType::class, $tag, [
             'action' => $this->generateUrl('settings-tags-edit', [
                 'id' => $tag->getId()
             ])
@@ -73,7 +73,7 @@ class TagsController extends Controller
      * @Route("/{id}/delete", name="settings-tags-delete")
      * @ParamConverter("tag", class="CoreBundle:Tag")
      */
-    public function tagDeleteAction(Request $request, Tag $tag, Account $account)
+    public function tagDeleteAction(Request $request, Tag $tag, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
             $this->addFlash('notice', $this->get('translator')->trans('Invalid token.'));

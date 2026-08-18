@@ -3,7 +3,7 @@
 namespace Runalyze\Model\Route;
 
 class EntityTest extends \PHPUnit\Framework\TestCase {
-	protected function simpleObject() {
+	protected function simpleObject(): \Runalyze\Model\Route\Entity {
 		return new Entity(array(
     Entity::NAME => 'Test route',
 		    Entity::CITIES => 'City A - City B',
@@ -76,7 +76,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$Object->setLatitudesLongitudes(array(47.7, 47.8), array(7.8, 7.7));
 		$Object->forceToSetMinMaxFromGeohashes();
 
-		$this->assertEquals(array('u0mx37xb9hmx', 'u0mrzjwzpjb4') , $Object->get(Entity::GEOHASHES));
+		$this->assertEquals(array('u0mx37xb9hmx', 'u0mrzjwzpjb4'), $Object->get(Entity::GEOHASHES));
 		$this->assertEquals('u0mrr5wbxh', $Object->get(Entity::MIN));
 		$this->assertEquals('u0mxcmxz1j', $Object->get(Entity::MAX));
 
@@ -111,8 +111,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testSynchronizationOfStartAndEndpoint() {
 		$Object = new Entity([]);
 		$Object->setLatitudesLongitudes(
-			[0.0, 0.0, 47.7, 47.8, 47.7, 47.8],
-			[0.0, 0.0, 7.8, 7.7, 7.8, 7.7]
+		    [0.0, 0.0, 47.7, 47.8, 47.7, 47.8],
+		    [0.0, 0.0, 7.8, 7.7, 7.8, 7.7]
 		);
 		$Object->forceToSetMinMaxFromGeohashes();
 		$Object->synchronize();

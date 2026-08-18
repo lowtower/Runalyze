@@ -60,7 +60,7 @@ class PluginConfiguration {
 
 		if (null === $ResultFromDB) {
 			$ResultFromDB = DB::getInstance()->query(
-				'SELECT `pluginid`,`config`,`value` '.
+			    'SELECT `pluginid`,`config`,`value` '.
 				'FROM `'.PREFIX.'plugin_conf` '.
 				'WHERE `pluginid` IN ('.implode(',', PluginFactory::allIDs()).')'
 			)->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
@@ -71,7 +71,7 @@ class PluginConfiguration {
 		$this->checkValuesFromDatabase($ResultFromDB);
 	}
 
-	/**
+    /**
      * Check values
      * @param array<int, mixed> $ResultFromDB
      */
@@ -100,17 +100,18 @@ class PluginConfiguration {
 	 * @param PluginConfigurationValue $Value
 	 */
 	private function insertValueToDatabase(PluginConfigurationValue $Value) {
-		DB::getInstance()->insert('plugin_conf',
-			array(
-			    'pluginid',
-			    'config',
-			    'value'
-			),
-			array(
-			    $this->PluginID,
-			    $Value->key(),
-			    $Value->valueAsString()
-			)
+		DB::getInstance()->insert(
+		    'plugin_conf',
+		    array(
+		        'pluginid',
+		        'config',
+		        'value'
+		    ),
+		    array(
+		        $this->PluginID,
+		        $Value->key(),
+		        $Value->valueAsString()
+		    )
 		);
 
 		Cache::delete(self::CACHE_KEY);
@@ -136,10 +137,10 @@ class PluginConfiguration {
 	final public function update($key) {
 		if (isset($this->Values[$key])) {
 			DB::getInstance()->updateWhere(
-				'plugin_conf',
-				'`pluginid`='.(int) $this->PluginID.' AND `config`="'.$key.'"',
-				'value',
-				$this->Values[$key]->valueAsString()
+			    'plugin_conf',
+			    '`pluginid`='.(int) $this->PluginID.' AND `config`="'.$key.'"',
+			    'value',
+			    $this->Values[$key]->valueAsString()
 			);
 		}
 	}

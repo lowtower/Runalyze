@@ -76,7 +76,9 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 		uasort($data, function($a, $b) use ($key, $desc) {
 			if ($a[$key] == $b[$key]) {
 				return 0;
-			} else if ($a[$key] < $b[$key]) {
+			}
+
+			if ($a[$key] < $b[$key]) {
 				return -1 * $desc;
 			}
 
@@ -84,11 +86,11 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 		});
 	}
 
-    /**
-     * @param Collection $collection
-     * @return ArrayCollection
-     */
-	public function sortCollection(Collection $collection)
+	/**
+	 * @param Collection $collection
+	 * @return ArrayCollection
+	 */
+	public function sortCollection(Collection $collection): \Doctrine\Common\Collections\ArrayCollection
     {
         $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
         $desc = ($this->value() == self::DESC) ? -1 : 1;
@@ -102,7 +104,9 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
                 }
 
                 return ($a->getName() < $b->getName()) ? -1 * $desc : 1 * $desc;
-            } elseif ('id' == $key && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
+            }
+
+            if ('id' == $key && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
                 if ($a->getId() == $b->getId()) {
                     return 0;
                 }

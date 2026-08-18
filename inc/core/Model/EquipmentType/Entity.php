@@ -50,11 +50,11 @@ class Entity extends Model\EntityWithID {
 	 */
 	const MAX_TIME = 'max_time';
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties() {
+    public static function allDatabaseProperties(): array {
 		return array(
 		    self::NAME,
 		    self::INPUT,

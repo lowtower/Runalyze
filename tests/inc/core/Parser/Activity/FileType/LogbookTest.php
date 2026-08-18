@@ -61,7 +61,7 @@ class LogbookTest extends AbstractActivityParserTestCase
             [337, 1.000],
             [319, 1.000],
             [296, 0.904]
-        ],0, 0.00001);
+        ], 0, 0.00001);
 
         $this->assertEquals('Rennrad', $this->Container[4]->Metadata->getSportName());
 

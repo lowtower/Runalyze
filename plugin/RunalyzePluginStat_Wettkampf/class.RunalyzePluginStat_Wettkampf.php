@@ -66,11 +66,13 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
-			__('This plugin lists all your competitions. It shows you a summary of all race results and '.
-				'of your personal bests (over all distances with at least two results).') );
+		    __('This plugin lists all your competitions. It shows you a summary of all race results and '.
+				'of your personal bests (over all distances with at least two results).')
+		);
 		echo HTML::p(
-			__('In addition, it plots the trend of your results over a specific distance.'.
-				"If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.") );
+		    __('In addition, it plots the trend of your results over a specific distance.'.
+				"If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.")
+		);
 	}
 
 	/**
@@ -207,7 +209,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 
 	private function displayHintForPersonalBests() {
 		echo HTML::info(
-			__('This list shows all distances selected for yearly comparison or with at least two results.').'<br>'.
+		    __('This list shows all distances selected for yearly comparison or with at least two results.').'<br>'.
 			__('Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.')
 		);
 	}
@@ -421,7 +423,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 				<tbody>';
 	}
 
-	/**
+    /**
      * Display table-row for a competition
      * @param array<string, mixed> $data
      */
@@ -434,9 +436,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 
 		if ($this->knowsAgeGrade() && $this->AgeGradeLookup->getMinimalDistance() <= $RaceResult->officialDistance()) {
 			$ageGrade = $this->AgeGradeLookup->getAgeGrade(
-				$RaceResult->officialDistance(),
-				$RaceResult->officialTime(),
-				date('Y') - date('Y', $Activity->timestamp())
+			    $RaceResult->officialDistance(),
+			    $RaceResult->officialTime(),
+			    date('Y') - date('Y', $Activity->timestamp())
 			);
 			$ageGradeString = number_format(100 * $ageGrade->getPerformance(), 2).' &#37;';
 			$ageGradeTooltip = __('Age standard').': '.Duration::format($ageGrade->getAgeStandard()).', '.
@@ -483,7 +485,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 
 		if ($this->RaceContainer->num() < 5) {
 			echo HTML::info(__(
-				"You can mark any activity as race by checking the respective checkbox in the activity's form."
+			    "You can mark any activity as race by checking the respective checkbox in the activity's form."
 			));
 		}
 

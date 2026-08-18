@@ -202,13 +202,13 @@ class Loop extends \Runalyze\Model\Loop {
 	 * @param array $data
 	 * @return \Runalyze\Model\Trackdata\Entity
 	 */
-	protected function createNewObject(array $data) {
+	protected function createNewObject(array $data): \Runalyze\Model\Trackdata\Entity {
 		return new Entity($data);
 	}
 
     /**
-    * @param int|float $seconds
-    */
+     * @param int|float $seconds
+     */
     public function moveToTimeBeforeOrAt($seconds)
     {
         $this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);

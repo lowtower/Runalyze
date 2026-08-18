@@ -232,11 +232,11 @@ class ConfigTabPlugins extends ConfigTab {
 	 */
 	protected function prepareUpdateStatement() {
 		return DB::getInstance()->prepare(
-			'UPDATE `'.PREFIX.'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
+		    'UPDATE `'.PREFIX.'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
 		);
 	}
 
-	/**
+    /**
      * @param \PDOStatement $update
      * @param array<string, mixed> $Plugin
      * @param int $newModus

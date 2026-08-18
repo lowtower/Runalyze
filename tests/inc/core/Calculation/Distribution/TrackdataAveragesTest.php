@@ -18,7 +18,8 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         new TrackdataAverages(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [0, 0, 0, 0, 0]
-            ]), []
+            ]),
+            []
         );
     }
 
@@ -27,7 +28,8 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [1, 2, 3, 4, 5]
-            ]), []
+            ]),
+            []
         );
 
         $this->assertEquals([], $Averages->averages());
@@ -39,7 +41,8 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [1, 2, 3, 4, 5]
-            ]), [
+            ]),
+            [
                 Trackdata\Entity::HEARTRATE
             ]
         );
@@ -53,7 +56,8 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => [1, 3, 5, 10],
                 Trackdata\Entity::HEARTRATE => [120, 130, 140, 150]
-            ]), [
+            ]),
+            [
                 Trackdata\Entity::HEARTRATE,
                 Trackdata\Entity::CADENCE
             ]
@@ -71,7 +75,8 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
                 Trackdata\Entity::HEARTRATE => [0, 0, 0, 0],
                 Trackdata\Entity::CADENCE => [120, 120, 0, 0],
                 Trackdata\Entity::STRIDE_LENGTH => [1, 1, 0, 0]
-            ]), [
+            ]),
+            [
                 Trackdata\Entity::HEARTRATE,
                 Trackdata\Entity::CADENCE,
                 Trackdata\Entity::STRIDE_LENGTH

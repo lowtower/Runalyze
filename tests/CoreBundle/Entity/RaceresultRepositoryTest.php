@@ -115,7 +115,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
      * @param Training $activity
      * @return Raceresult
      */
-    protected function insertRace($name, Training $activity)
+    protected function insertRace($name, Training $activity): \Runalyze\Bundle\CoreBundle\Entity\Raceresult
     {
         $this->TrainingRepository->save($activity);
 

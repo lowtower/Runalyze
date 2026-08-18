@@ -59,7 +59,7 @@ class FitTrainingEffectBenefit extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Nutzen der Aktivität für das Training.'
+		    'Nutzen der Aktivität für das Training.'
 		);
 	}
 

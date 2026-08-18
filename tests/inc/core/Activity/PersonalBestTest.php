@@ -32,12 +32,12 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 
 	protected function insert($dist, $s, $time = 0) {
 		$this->PDO->exec(
-			'INSERT INTO `'.PREFIX.'training` (`distance`, `s`, `time`, `sportid`, `accountid`) '.
+		    'INSERT INTO `'.PREFIX.'training` (`distance`, `s`, `time`, `sportid`, `accountid`) '.
 			'VALUES ('.$dist.', '.$s.', '.$time.', '.self::SPORTID.', 0)'
 		);
 		$activityId = $this->PDO->lastInsertId();
 		$this->PDO->exec(
-			'INSERT INTO `'.PREFIX.'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) '.
+		    'INSERT INTO `'.PREFIX.'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) '.
 			'VALUES ('.$dist.', '.$s.', 0, '.$activityId.')'
 		);
 		return $activityId;
@@ -74,23 +74,23 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testDetails() {
-		$this->insert(1, 200, mktime(0,0,0,1,1,2010));
+		$this->insert(1, 200, mktime(0, 0, 0, 1, 1, 2010));
 
 		$PB = new PersonalBest(1, self::SPORTID, $this->PDO, false);
 		$PB->lookupWithDetails();
 
 		$this->assertTrue($PB->knowsActivity());
 		$this->assertGreaterThan(0, $PB->activityId());
-		$this->assertEquals(mktime(0,0,0,1,1,2010), $PB->timestamp());
+		$this->assertEquals(mktime(0, 0, 0, 1, 1, 2010), $PB->timestamp());
 	}
 
 	public function testMultiLookup() {
 		PersonalBest::activateStaticCache();
 
-		$this->insert(1.0,  180);
-		$this->insert(1.0,  200);
-		$this->insert(3.10,  600);
-		$this->insert(3.10,  650);
+		$this->insert(1.0, 180);
+		$this->insert(1.0, 200);
+		$this->insert(3.10, 600);
+		$this->insert(3.10, 650);
 		$this->insert(5.0, 1100);
 		$this->insert(5.0, 1200);
 
@@ -109,12 +109,12 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMultiLookupWithDetails() {
 		PersonalBest::activateStaticCache();
-		$date = mktime(12,0,0,6,1,2010);
+		$date = mktime(12, 0, 0, 6, 1, 2010);
 
-		$this->insert(1.0,  180, $date);
-		$this->insert(1.0,  200, $date);
-		$this->insert(3.10,  600, $date);
-		$this->insert(3.10,  650, $date);
+		$this->insert(1.0, 180, $date);
+		$this->insert(1.0, 200, $date);
+		$this->insert(3.10, 600, $date);
+		$this->insert(3.10, 650, $date);
 		$this->insert(5.0, 1100, $date);
 		$this->insert(5.0, 1200, $date);
 
@@ -137,11 +137,11 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMultiLookupWithDetailsForIdenticalResults() {
 		PersonalBest::activateStaticCache();
-		$date1 = mktime(12,0,0,6,1,2010);
-		$date2 = mktime(12,0,0,6,2,2010);
+		$date1 = mktime(12, 0, 0, 6, 1, 2010);
+		$date2 = mktime(12, 0, 0, 6, 2, 2010);
 
-		$first = $this->insert(1.0,  180, $date1);
-		$second = $this->insert(1.0,  180, $date2);
+		$first = $this->insert(1.0, 180, $date1);
+		$second = $this->insert(1.0, 180, $date2);
 
 		$this->assertEquals(1, PersonalBest::lookupDistances(array(1.0), self::SPORTID, $this->PDO, true));
 

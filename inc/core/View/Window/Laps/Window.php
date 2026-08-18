@@ -357,17 +357,17 @@ class Window {
 		$this->DemandedPace->setUnit($this->Context->sport()->legacyPaceUnit());
 
 		$Table = new Table(
-			$this->Laps,
-			$this->DemandedTime,
-			$this->DemandedPace,
-			$this->Context->sport()->getInternalProfileEnum(),
-			$this->Context->activity()->splitsAdditional()
+		    $this->Laps,
+		    $this->DemandedTime,
+		    $this->DemandedPace,
+		    $this->Context->sport()->getInternalProfileEnum(),
+		    $this->Context->activity()->splitsAdditional()
 		);
 
 		if ($this->LapDistance > 0) {
 			$Table->setAverage(
-				$this->Context->dataview()->pace(),
-				new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
+			    $this->Context->dataview()->pace(),
+			    new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
 			);
 		} else {
 			$Table->setAverage($this->Context->dataview()->pace());

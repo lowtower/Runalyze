@@ -123,11 +123,11 @@ class JsonImporterResults
 		return sprintf($format, $string, $this->Results[$tableName]['delete'], $this->Results[$tableName]['update'], $this->Results[$tableName]['insert']);
 	}
 
-	/**
+    /**
      * Tables with string
      * @return array<string, string>
      */
-    protected function tables()
+    protected function tables(): array
     {
 		return array(
 		    'runalyze_conf'			=> __('Configuration'),

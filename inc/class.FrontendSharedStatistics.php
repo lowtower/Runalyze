@@ -23,10 +23,10 @@ class FrontendSharedStatistics
 		return $Content;
 	}
 
-    /**
-     * @return SummaryTableAllYears
-     */
-	public function getYearComparisonTable()
+	/**
+	 * @return SummaryTableAllYears
+	 */
+	public function getYearComparisonTable(): \SummaryTableAllYears
     {
         require_once FRONTEND_PATH.'../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';
         require_once FRONTEND_PATH.'../plugin/RunalyzePluginStat_Statistiken/class.SummaryTableAllYears.php';

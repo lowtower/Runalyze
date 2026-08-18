@@ -70,7 +70,7 @@ class Pause {
 		$this->HRend = $hrEnd;
 	}
 
-	/**
+    /**
      * Set data from array
      * @param array<string, mixed> $data
      */
@@ -81,11 +81,11 @@ class Pause {
 		$this->HRend = $data[self::HR_END] ?? null;
 	}
 
-	/**
+    /**
      * As array
      * @return array<string, int>
      */
-    public function asArray() {
+    public function asArray(): array {
 		return array(
     self::TIME => $this->Time,
 		    self::DURATION => $this->Duration,

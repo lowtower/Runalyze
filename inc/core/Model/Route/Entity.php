@@ -161,17 +161,17 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
     }
 
-    /**
-     * Construct factory for route data where every x point is used.
+	/**
+	 * Construct factory for route data where every x point is used.
 	 * #TSC This is used to reduce the amount of routes and the shown gps positions; so more routes
 	 * can be shown with lower resolution.
 	 *
-     * @param array $data
+	 * @param array $data
 	 * @param int $positioninterval
 	 * @return Entity
-     */
-	public static function createWithIntervalClearing(array &$data, $positioninterval = 1): Entity {
-        $e = new Entity($data);
+	 */
+	public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self {
+        $e = new self($data);
 
 		// remove points so every x position is keeped
         if ($positioninterval > 1 && $e->hasGeohashes() && ! empty($e->Data[self::GEOHASHES] )) {
@@ -216,11 +216,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		}
 	}
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allProperties() {
+    public static function allProperties(): array {
 		return array(
 		    self::NAME,
 		    self::CITIES,
@@ -242,11 +242,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		);
 	}
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties() {
+    public static function allDatabaseProperties(): array {
 		return array(
 		    self::NAME,
 		    self::CITIES,
@@ -389,7 +389,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	    $this->setMinMaxFromGeohashes($this->Data[self::GEOHASHES]);
 	}
 
-	/**
+    /**
      * Set geohashes from latitudes/longitudes
      * @param array<int, mixed> $latitudes
      * @param array<int, mixed> $longitudes
@@ -451,7 +451,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return $this->latitudesAndLongitudesFromGeohash()['lng'];
 	}
 
-	/**
+    /**
      * @param float[]|bool[]|int[] $latitudes
      * @param float[]|bool[]|int[] $longitudes
      */
@@ -670,7 +670,9 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	public function elevations() {
 		if ($this->hasCorrectedElevations()) {
 			return $this->elevationsCorrected();
-		} elseif ($this->hasOriginalElevations()) {
+		}
+
+		if ($this->hasOriginalElevations()) {
 			return $this->elevationsOriginal();
 		}
 

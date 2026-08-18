@@ -88,8 +88,8 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 		switch ($this->XAxis) {
 			case DataCollector::X_AXIS_DISTANCE:
 				$Plot->setXUnitFactor(
-					Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor(),
-					Configuration::General()->distanceUnitSystem()->distanceUnit()
+				    Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor(),
+				    Configuration::General()->distanceUnitSystem()->distanceUnit()
 				);
 
 				$stepSize = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();

@@ -96,7 +96,7 @@ class Loopable_MockTester extends Entity implements Loopable {
 
 class Loop_MockTest extends Loop
 {
-    protected function createNewObject(array $data)
+    protected function createNewObject(array $data): \Runalyze\Model\Loopable_MockTester
     {
         return new Loopable_MockTester($data);
     }
@@ -136,19 +136,19 @@ class Loop_MockTest extends Loop
 }
 
 class LoopTest extends \PHPUnit\Framework\TestCase {
-	/**
+    /**
      * @param int[] $values
      *
      * @return Loop_MockTest
      */
-    protected function loopWithFooValues(array $values)
+    protected function loopWithFooValues(array $values): \Runalyze\Model\Loop_MockTest
 	{
 		return new Loop_MockTest(new Loopable_MockTester(array(
 		    'foo' => $values
 		)));
 	}
 
-	protected function exampleLoop() {
+	protected function exampleLoop(): \Runalyze\Model\Loop_MockTest {
 		return new Loop_MockTest(new Loopable_MockTester());
 	}
 

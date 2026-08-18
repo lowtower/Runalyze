@@ -12,7 +12,7 @@ class AveragePronationExcursion extends AbstractKey
 		return \Runalyze\Dataset\Keys::AVG_PRONATION_EXCURSION;
 	}
 
-	public function column()
+	public function column(): array
 	{
         return ['avg_pronation_excursion_left', 'avg_pronation_excursion_right'];
 	}

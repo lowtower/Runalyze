@@ -28,10 +28,10 @@ final class UserRole extends AbstractEnum
 		return $roleNames[$roleId];
 	}
 
-	/**
+    /**
      * @return array<int, string> [int(enum) => 'role name']
      */
-    private static function roleNamesArray()
+    private static function roleNamesArray(): array
 	{
 		return [
     self::ROLE_USER => 'ROLE_USER',

@@ -114,8 +114,8 @@ class BoxedValue {
 	 * @param string $Unit [optional]
 	 * @param string $Info [optional]
 	 * @param string $Icon [optional]
-     * @param string $Glossary [optional]
-     */
+	 * @param string $Glossary [optional]
+	 */
 	public function __construct($Value = '', $Unit = '', $Info = '', $Icon = '', $Glossary = '') {
 		$this->setValue($Value);
 		$this->setUnit($Unit);

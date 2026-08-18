@@ -12,7 +12,7 @@ class AverageImpactGs extends AbstractKey
 		return \Runalyze\Dataset\Keys::AVG_IMPACT_GS;
 	}
 
-	public function column()
+	public function column(): array
 	{
         return ['avg_impact_gs_left', 'avg_impact_gs_right'];
 	}

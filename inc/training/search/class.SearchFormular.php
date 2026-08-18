@@ -108,9 +108,9 @@ class SearchFormular extends Formular {
 	 */
 	private function addFieldSendToMultiEditor() {
 		$Label = Ajax::tooltip(
-			__('Send to multi editor'),
-			sprintf(__('Our multi editor is limited to a maximum of %d activities.'), SearchResults::MAX_LIMIT_FOR_MULTI_EDITOR),
-			'atRight'
+		    __('Send to multi editor'),
+		    sprintf(__('Our multi editor is limited to a maximum of %d activities.'), SearchResults::MAX_LIMIT_FOR_MULTI_EDITOR),
+		    'atRight'
 		);
 
 		$Field = new FormularCheckbox('send-to-multi-editor', $Label);

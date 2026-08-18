@@ -23,11 +23,11 @@ class SectionRouteRowMap extends TrainingViewSectionRowFullwidth {
 		if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
 			$Map = new Leaflet\Map('map-'.$this->Context->activity()->id());
 			$Map->addRoute(
-				new Leaflet\Activity(
-					'route-'.$this->Context->activity()->id(),
-					$this->Context->route(),
-					$this->Context->trackdata()
-				)
+			    new Leaflet\Activity(
+			        'route-'.$this->Context->activity()->id(),
+			        $this->Context->route(),
+			        $this->Context->trackdata()
+			    )
 			);
 
 			$this->Content = $Map->code();

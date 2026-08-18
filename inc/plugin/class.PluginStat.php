@@ -183,7 +183,9 @@ abstract class PluginStat extends Plugin {
 
 		if ($this->showsAllYears()) {
 			return 'YEAR(FROM_UNIXTIME('.$time.'))';
-		} elseif (! $this->showsSpecificYear()) {
+		}
+
+		if (! $this->showsSpecificYear()) {
 			return 'DATE_FORMAT(FROM_UNIXTIME('.$time.'), "%Y-%m")';
 		}
 
@@ -200,7 +202,9 @@ abstract class PluginStat extends Plugin {
 
 		if ($this->showsLast6Months()) {
 			return '((MONTH(FROM_UNIXTIME('.$time.')) + 5 - '.date('m').')%12 + 1)';
-		} elseif ($this->showsLast12Months()) {
+		}
+
+		if ($this->showsLast12Months()) {
 			return '((MONTH(FROM_UNIXTIME('.$time.')) + 11 - '.date('m').')%12 + 1)';
 		}
 
@@ -300,9 +304,13 @@ abstract class PluginStat extends Plugin {
 	protected function getYearString() {
 		if ($this->showsAllYears()) {
 			return $this->titleForAllYears();
-		} elseif ($this->showsLast6Months()) {
+		}
+
+		if ($this->showsLast6Months()) {
 			return __('Last 6 months');
-		} elseif ($this->showsLast12Months()) {
+		}
+
+		if ($this->showsLast12Months()) {
 			return __('Last 12 months');
 		}
 

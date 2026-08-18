@@ -34,7 +34,7 @@ class PlotWeekSumData extends PlotSumData {
 				$yearEnd = (int) Request::param('y');
 			}
 
-			$this->timerEnd = date('W', mktime(0,0,0,12,28,$yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
+			$this->timerEnd = date('W', mktime(0, 0, 0, 12, 28, $yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
 		}
 
 		parent::__construct();

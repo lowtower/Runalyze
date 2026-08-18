@@ -80,7 +80,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
      * @param Sport $sport
      * @param Route $route
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
-	 * @throws Exception
+     * @throws Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult {
         if(! empty($this->Url)) {
@@ -165,8 +165,14 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             }  
 		}
 
-        $this->logger->info(sprintf("RouteNameEvalOsm: geo count %d; dist m %d; step %.2f around-element-size %d around-radius %.2f \n",
-                                    $size, $dist, $step, $size/$step, $radius));
+        $this->logger->info(sprintf(
+            "RouteNameEvalOsm: geo count %d; dist m %d; step %.2f around-element-size %d around-radius %.2f \n",
+            $size,
+            $dist,
+            $step,
+            $size/$step,
+            $radius
+        ));
 
         // out is CSV (it's smaller than XML or JSON)
         // we generate the csv-output with TAB and replace it later
@@ -177,9 +183,12 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 		$geoMin = (new Geohash())->decode($route->getMin())->getCoordinate();
 		$geoMax = (new Geohash())->decode($route->getMax())->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
-		$osm .= sprintf('[bbox:%.6f,%.6f,%.6f,%.6f];',
-			$this->addLatitude($geoMin->getLatitude(), self::BOX_CORR*-1), $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR*-1),
-			$this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),    $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
+		$osm .= sprintf(
+		    '[bbox:%.6f,%.6f,%.6f,%.6f];',
+		    $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR*-1),
+		    $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR*-1),
+		    $this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),
+		    $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
 		);
 
         // build the "around" lat/lon
@@ -269,7 +278,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         }
 
         if(! empty($routes) || ! empty($notes)) {
-            $r = implode(' - ', array_slice($routes,0 ,$this->limitRoute($routes)));
+            $r = implode(' - ', array_slice($routes, 0, $this->limitRoute($routes)));
             return new RouteNameEvalResult($r, $notes);
         } else {
             return null;

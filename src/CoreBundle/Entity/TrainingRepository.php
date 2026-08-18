@@ -263,7 +263,7 @@ class TrainingRepository extends EntityRepository
      * @param Account $account
      * @return AccountStatistics
      */
-    public function getAccountStatistics(Account $account)
+    public function getAccountStatistics(Account $account): \Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics
     {
         $statistics = new AccountStatistics();
 

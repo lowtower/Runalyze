@@ -19,14 +19,15 @@ class ActivityContextAdapterFactory
     public function __construct(
         WeatherForecast $weatherForecast,
         DuplicateFinder $duplicateFinder,
-        RouteNameEvalFactory $routeNameEvalFactory)
+        RouteNameEvalFactory $routeNameEvalFactory
+    )
     {
         $this->WeatherForecast = $weatherForecast;
         $this->DuplicateFinder = $duplicateFinder;
         $this->RouteNameEval = $routeNameEvalFactory->getInstance();
     }
 
-    public function getAdapterFor(ActivityContext $context)
+    public function getAdapterFor(ActivityContext $context): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContextAdapter
     {
         return new ActivityContextAdapter(
             $context,

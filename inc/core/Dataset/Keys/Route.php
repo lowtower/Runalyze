@@ -52,7 +52,7 @@ class Route extends AbstractKey
 	/**
 	 * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
 	 */
-	public function joinDefinition()
+	public function joinDefinition(): array
 	{
 		return array(
     'column' => self::ROUTE_NAME_KEY,
@@ -77,8 +77,8 @@ class Route extends AbstractKey
 	public function description(): string
 	{
 		return sprintf(
-			__('Route names are automatically cut after %u characters.'),
-			self::DEFAULT_CUT
+		    __('Route names are automatically cut after %u characters.'),
+		    self::DEFAULT_CUT
 		);
 	}
 
@@ -91,8 +91,8 @@ class Route extends AbstractKey
 	{
 		if ($context->hasData(self::ROUTE_NAME_KEY) && $context->data(self::ROUTE_NAME_KEY) != '') {
 			return \Helper::Cut(
-				$context->data(self::ROUTE_NAME_KEY),
-				self::DEFAULT_CUT
+			    $context->data(self::ROUTE_NAME_KEY),
+			    self::DEFAULT_CUT
 			);
 		}
 

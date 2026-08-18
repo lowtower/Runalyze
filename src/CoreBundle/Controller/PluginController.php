@@ -14,7 +14,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/call/call.Plugin.install.php")
      * @Security("has_role('ROLE_USER')")
      */
-    public function pluginInstallAction()
+    public function pluginInstallAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
         $Pluginkey = filter_input(INPUT_GET, 'key');
@@ -49,8 +49,8 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @Route("/my/plugin/{id}", requirements={"id" = "\d+"}, name="plugin-display")
      * @Security("has_role('ROLE_USER')")
-    */
-    public function pluginDisplayAction($id, Request $request, Account $account)
+     */
+    public function pluginDisplayAction($id, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
 
@@ -60,8 +60,8 @@ class PluginController extends AbstractPluginsAwareController
     /**
      * @Route("/call/call.Plugin.config.php", name="plugin-config")
      * @Security("has_role('ROLE_USER')")
-    */
-    public function pluginConfigAction()
+     */
+    public function pluginConfigAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
         $Factory = new \PluginFactory();

@@ -39,7 +39,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         $numberLockedRoutes = $em->createQueryBuilder()
             ->select('count(route.id)')
             ->where('route.lock = 1')
-            ->from('CoreBundle:Route','route')
+            ->from('CoreBundle:Route', 'route')
             ->getQuery()->getSingleScalarResult();
 
         while ($numberLockedRoutes > 0) {

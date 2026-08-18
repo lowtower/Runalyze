@@ -280,16 +280,16 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
     protected function parsePowerFromExtensionValues(SimpleXMLElement &$extensions, $namespace, &$power, &$rpm)
     {
-        if ($extensions->children($namespace,true)->count() > 0) {
-            if (isset($extensions->children($namespace,true)->TPX)) {
-                $trackPointx = $extensions->children($namespace,true)->TPX[0];
+        if ($extensions->children($namespace, true)->count() > 0) {
+            if (isset($extensions->children($namespace, true)->TPX)) {
+                $trackPointx = $extensions->children($namespace, true)->TPX[0];
 
-                if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace,true)->Watts)) {
-                    $power = (int) $trackPointx->children($namespace,true)->Watts;
+                if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->Watts)) {
+                    $power = (int) $trackPointx->children($namespace, true)->Watts;
                 }
 
-                if ($trackPointx->children($namespace,true)->count() > 0 && isset($trackPointx->children($namespace,true)->RunCadence)) {
-                    $rpm = (int) $trackPointx->children($namespace,true)->RunCadence;
+                if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->RunCadence)) {
+                    $rpm = (int) $trackPointx->children($namespace, true)->RunCadence;
                 }
             }
         }

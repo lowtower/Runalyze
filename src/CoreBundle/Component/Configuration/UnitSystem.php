@@ -56,7 +56,7 @@ class UnitSystem
     /**
      * @return Cadence\Unit\AbstractCadenceUnit
      */
-    public function getCadenceUnit()
+    public function getCadenceUnit(): \Runalyze\Metrics\Cadence\Unit\RoundsPerMinute
     {
         return new Cadence\Unit\RoundsPerMinute();
     }
@@ -128,7 +128,7 @@ class UnitSystem
      * @param null|int $maximalHeartRate [bpm]
      * @return PercentMaximum
      */
-    public function getHeartRateUnitPercentMaximum($maximalHeartRate = null)
+    public function getHeartRateUnitPercentMaximum($maximalHeartRate = null): \Runalyze\Metrics\HeartRate\Unit\PercentMaximum
     {
         return new PercentMaximum($maximalHeartRate ?: $this->Configuration->get('data.HF_MAX'));
     }
@@ -169,7 +169,7 @@ class UnitSystem
      * @param null|float $correctionFactor
      * @return Factorial
      */
-    public function getVO2maxUnit($correctionFactor = null)
+    public function getVO2maxUnit($correctionFactor = null): \Runalyze\Metrics\Common\Unit\Factorial
     {
         return new Factorial('', $correctionFactor ?: $this->Configuration->getVO2maxCorrectionFactor(), 2);
     }

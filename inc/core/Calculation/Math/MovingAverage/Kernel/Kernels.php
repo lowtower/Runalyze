@@ -64,11 +64,11 @@ final class Kernels extends AbstractEnum
 		return new $className($width);
 	}
 
-	/**
+    /**
      * Get array with class names
      * @return array<int, string>
      */
-    private static function classNamesArray()
+    private static function classNamesArray(): array
 	{
 		return array(
     self::UNIFORM => 'Uniform',

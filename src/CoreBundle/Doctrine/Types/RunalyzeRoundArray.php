@@ -78,7 +78,7 @@ class RunalyzeRoundArray extends Type
      * @param string $data
      * @return Round
      */
-    protected function getRoundForNativeValue($data)
+    protected function getRoundForNativeValue($data): \Runalyze\Parser\Activity\Common\Data\Round\Round
     {
         $intensity = LapIntensity::fromValue(substr($data, 0, 1));
 

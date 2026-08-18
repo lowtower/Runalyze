@@ -40,7 +40,7 @@ class BodyValuesController extends Controller
         $oldUser = $this->getUserRepository()->getLatestEntryFor($account);
         $user = $oldUser ? $oldUser->cloneObjectForForm() : (new User())->setAccount($account)->setCurrentTimestamp();
 
-        $form = $this->createForm(BodyValuesType::class, $user,[
+        $form = $this->createForm(BodyValuesType::class, $user, [
             'action' => $this->generateUrl('body-values-add')
         ]);
         $form->handleRequest($request);
@@ -96,7 +96,7 @@ class BodyValuesController extends Controller
      * @param Account $account
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(User $user, Account $account)
+    public function deleteAction(User $user, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($user->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException('No user entry found.');
@@ -112,7 +112,7 @@ class BodyValuesController extends Controller
      * @Route("/table", name="body-values-table")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function tableAction(Account $account)
+    public function tableAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('my/body-values/table.html.twig', [
             'values' => $this->getUserRepository()->findAllFor($account),

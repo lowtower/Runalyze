@@ -71,7 +71,7 @@ class ActivityDataContainerToActivityContextConverter
      * @param Account $account
      * @return Training
      */
-    public function getActivityFor(ActivityDataContainer $container, ?Account $account = null)
+    public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
         if (null !== $account) {
             $this->Account = $account;
@@ -95,7 +95,7 @@ class ActivityDataContainerToActivityContextConverter
      * @param Account $account
      * @return ActivityContext
      */
-    public function getContextFor(ActivityDataContainer $container, ?Account $account = null)
+    public function getContextFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
         $activity = $this->getActivityFor($container, $account);
 

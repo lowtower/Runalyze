@@ -19,7 +19,8 @@ class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(
             $this->Encoder->isPasswordValid(
                 $this->Encoder->encodePassword('Th1$PassSwordIsSoDamnGreat!', 'Salt and pepper ...'),
-                'Th1$PassSwordIsSoDamnGreat!', 'Salt and pepper ...'
+                'Th1$PassSwordIsSoDamnGreat!',
+                'Salt and pepper ...'
             )
         );
     }
@@ -29,7 +30,8 @@ class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(
             $this->Encoder->isPasswordValid(
                 $this->Encoder->encodePassword('Th1$PassSwordIsSoDamnGreat!', 'A password is no sword.'),
-                'Th1$PasSwordIsSoDamnGreat!', 'A password is no sword.'
+                'Th1$PasSwordIsSoDamnGreat!',
+                'A password is no sword.'
             )
         );
     }

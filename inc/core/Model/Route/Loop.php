@@ -69,11 +69,11 @@ class Loop extends \Runalyze\Model\Loop {
 	    $IndexGeohash = (new Geohash())->decode($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
 
 	    return Entity::gpsDistance(
-			$LastGeohash->getLatitude(),
-			$LastGeohash->getLongitude(),
-			$IndexGeohash->getLatitude(),
-			$IndexGeohash->getLongitude()
-		);
+	        $LastGeohash->getLatitude(),
+	        $LastGeohash->getLongitude(),
+	        $IndexGeohash->getLatitude(),
+	        $IndexGeohash->getLongitude()
+	    );
 	}
 
 	/**
@@ -82,7 +82,9 @@ class Loop extends \Runalyze\Model\Loop {
 	public function sliceElevation() {
 		if ($this->Object->hasCorrectedElevations()) {
 			return $this->slice(Entity::ELEVATIONS_CORRECTED);
-		} elseif ($this->Object->hasOriginalElevations()) {
+		}
+
+		if ($this->Object->hasOriginalElevations()) {
 			return $this->slice(Entity::ELEVATIONS_ORIGINAL);
 		}
 
@@ -93,7 +95,7 @@ class Loop extends \Runalyze\Model\Loop {
 	 * @param array $data
 	 * @return \Runalyze\Model\Route\Entity
 	 */
-	protected function createNewObject(array $data) {
+	protected function createNewObject(array $data): \Runalyze\Model\Route\Entity {
 		return new Entity($data);
 	}
 }

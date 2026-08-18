@@ -318,11 +318,11 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		return '<div class="analysis-bar" style="width:'.$width.'%;opacity:'.$opacity.';"></div>';
 	}
 
-	/**
+    /**
      * Get array for "Trainingstyp"
      * @return array<string, string|mixed[]>
      */
-    private function getTypeArray() {
+    private function getTypeArray(): array {
 		$result = DB::getInstance()->query('
 			SELECT '.$this->getTimerIndexForQuery().' AS `timer`,
 				COUNT(*) AS `num`,
@@ -383,11 +383,11 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		);
 	}
 
-	/**
+    /**
      * Get array for "Tempobereiche"
      * @return array<string, string|mixed[]>
      */
-    private function getPaceArray() {
+    private function getPaceArray(): array {
 		$speed_min = $this->Configuration()->value('lowest_pacegroup');
 		$speed_max = $this->Configuration()->value('highest_pacegroup');
 		$speed_step = $this->Configuration()->value('pacegroup_step');
@@ -461,11 +461,11 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		);
 	}
 
-	/**
+    /**
      * Get array for "Pulsbereiche"
      * @return array<string, string|mixed[]>
      */
-    private function getPulseArray() {
+    private function getPulseArray(): array {
 		$hrMax = Configuration::Data()->HRmax();
 		$hrRest = Configuration::Data()->HRrest();
 		$pulse_min  = max((int) $this->Configuration()->value('lowest_pulsegroup'), 0);
@@ -527,7 +527,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		);
 	}
 
-	/**
+    /**
      * Set group data
      * @param never[][] $data
      * @param array<string, mixed> $result
@@ -548,7 +548,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		$data[$result['group']][$result['timer']]['s']        += $result['s'];
 	}
 
-	/**
+    /**
      * Set sum data
      * @param array<string, mixed> $data
      * @param array<string, mixed> $result

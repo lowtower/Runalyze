@@ -62,9 +62,13 @@ abstract class AbstractPluginsAwareController extends Controller
         if (null !== $plugin) {
         	if ($plugin instanceof \RunalyzePluginPanel_Sports) {
         	    return $this->getResponseForSportsPanel($account, $plugin);
-        	} elseif ($plugin instanceof \RunalyzePluginStat_MonthlyStats) {
+        	}
+
+        	if ($plugin instanceof \RunalyzePluginStat_MonthlyStats) {
         	    return $this->getResponseForMonthlyStats($request, $account, $pluginId);
-            } elseif ($plugin instanceof \PluginPanel) {
+            }
+
+            if ($plugin instanceof \PluginPanel) {
                 $plugin->setSurroundingDivVisible($this->IsShowingAllPanels);
             }
 

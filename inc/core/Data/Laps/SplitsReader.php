@@ -34,9 +34,9 @@ class SplitsReader {
 	public function readFrom(Splits\Entity $Splits) {
 		foreach ($Splits->asArray() as $Split) {
 			$this->Laps->add(new Lap(
-				$Split->time(),
-				$Split->distance(),
-				$Split->getIntensity()
+			    $Split->time(),
+			    $Split->distance(),
+			    $Split->getIntensity()
 			));
 		}
 	}

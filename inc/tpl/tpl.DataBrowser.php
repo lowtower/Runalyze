@@ -84,14 +84,14 @@ $Table = new \Runalyze\View\Dataset\Table($this->DatasetConfig);
 
 	<div id="data-browser-container">
 		<table class="zebra-style">
-			<?php if (\Runalyze\Configuration::DataBrowser()->showLabels()): ?>
+			<?php if (\Runalyze\Configuration::DataBrowser()->showLabels()) { ?>
 			<thead class="data-browser-labels">
 				<tr class="small">
 					<td colspan="<?php echo $this->AdditionalColumns; ?>"></td>
 					<?php echo $Table->codeForColumnLabels(); ?>
 				</tr>
 			</thead>
-			<?php endif; ?>
+			<?php } ?>
 			<tbody class="top-and-bottom-border">
 <?php
 $currentWeek = null;

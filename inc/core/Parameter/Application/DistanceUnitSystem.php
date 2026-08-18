@@ -39,7 +39,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * Factor: km => yards
 	 * @var double
-	*/
+	 */
 	const YARD_MULTIPLIER = 1093.6133;
 
 	/**

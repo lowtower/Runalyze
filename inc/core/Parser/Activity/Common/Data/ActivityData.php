@@ -127,7 +127,7 @@ class ActivityData
     /**
      * @return array<int, string>
      */
-    public function getPropertyNames()
+    public function getPropertyNames(): array
     {
         return [
             'Duration',
@@ -208,7 +208,8 @@ class ActivityData
 
         try {
             $averages = new TrackdataAverages(
-                (new ContinuousDataConverter($data))->convertToLegacyTrackdataModel(), [
+                (new ContinuousDataConverter($data))->convertToLegacyTrackdataModel(),
+                [
                     Trackdata\Entity::POWER,
                     Trackdata\Entity::HEARTRATE,
                     Trackdata\Entity::CADENCE,

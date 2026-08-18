@@ -19,7 +19,7 @@ if ($this->sportid > 0) {
 }
 
 $Query = DB::getInstance()->prepare(
-	'SELECT time, s
+    'SELECT time, s
 	FROM `' . PREFIX . 'training`
 	WHERE
 		`accountid`='.SessionAccountHandler::getId().' AND

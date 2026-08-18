@@ -48,9 +48,9 @@ class Twitter extends AbstractSocialSharer
         return 'https://twitter.com/intent/tweet?'.$urlPart.'text='.$this->text().'&via=RunalyzeDE';
     }
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
 	public function name(): string
     {
 	    return __('Twitter');

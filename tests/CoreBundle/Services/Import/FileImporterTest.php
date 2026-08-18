@@ -25,7 +25,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
     /**
      * @return TestHandler
      */
-    protected function setLoggerToImporter()
+    protected function setLoggerToImporter(): \Monolog\Handler\TestHandler
     {
         $handler = new TestHandler();
 

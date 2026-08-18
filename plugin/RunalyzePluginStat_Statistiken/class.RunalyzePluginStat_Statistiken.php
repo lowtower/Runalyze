@@ -34,7 +34,6 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-
 	final public function name(): string {
 		return __('Statistics');
 	}
@@ -112,7 +111,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
-			__('This plugin shows summaries for all weeks, months or years to compare your overall training.')
+		    __('This plugin shows summaries for all weeks, months or years to compare your overall training.')
 		);
 	}
 

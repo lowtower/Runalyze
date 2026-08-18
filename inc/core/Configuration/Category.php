@@ -281,14 +281,15 @@ abstract class Category {
 	 * @param string $Key
 	 */
 	private function insertKeyToDatabase($Key) {
-		DB::getInstance()->insert('conf',
-			array('key', 'value', 'category', 'accountid'),
-			array(
-			    $this->Handles[$Key]->key(),
-			    $this->Handles[$Key]->object()->valueAsString(),
-			    $this->key(),
-			    $this->userID()
-			)
+		DB::getInstance()->insert(
+		    'conf',
+		    array('key', 'value', 'category', 'accountid'),
+		    array(
+		        $this->Handles[$Key]->key(),
+		        $this->Handles[$Key]->object()->valueAsString(),
+		        $this->key(),
+		        $this->userID()
+		    )
 		);
 	}
 }

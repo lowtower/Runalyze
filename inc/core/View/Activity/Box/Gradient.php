@@ -22,9 +22,9 @@ class Gradient extends AbstractBox
 	public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		parent::__construct(
-			\Helper::Unknown(substr($Context->dataview()->gradientInPercent(), 0, -11), '-'),
-			'&#37;',
-			__('avg.').' '.__('Gradient')
+		    \Helper::Unknown(substr($Context->dataview()->gradientInPercent(), 0, -11), '-'),
+		    '&#37;',
+		    __('avg.').' '.__('Gradient')
 		);
 	}
 }

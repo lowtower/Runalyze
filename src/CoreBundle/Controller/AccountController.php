@@ -27,7 +27,7 @@ class AccountController extends Controller
     /**
      * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash": "[[:xdigit:]]{32}"})
      */
-    public function deleteAccountConfirmedAction($hash, Request $request)
+    public function deleteAccountConfirmedAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         if ($this->getAccountRepository()->deleteByHash($hash)) {
             $this->get('security.token_storage')->setToken(null);
@@ -42,7 +42,7 @@ class AccountController extends Controller
     /**
      * @Route("/delete/{hash}", name="account_delete", requirements={"hash": "[[:xdigit:]]{32}"})
      */
-    public function deleteAccountAction($hash)
+    public function deleteAccountAction($hash): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Account|null $account */
         $account = $this->getAccountRepository()->findOneBy([
@@ -62,7 +62,7 @@ class AccountController extends Controller
     /**
      * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash": "[[:xdigit:]]{32}"})
      */
-    public function recoverForHashAction($hash, Request $request)
+    public function recoverForHashAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Account|null $account */
         $account = $this->getAccountRepository()->findOneBy(array(
@@ -99,7 +99,7 @@ class AccountController extends Controller
     /**
      * @Route("/recover", name="account_recover")
      */
-    public function recoverAction(Request $request)
+    public function recoverAction(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createFormBuilder()
             ->add('username', TextType::class, [
@@ -137,11 +137,13 @@ class AccountController extends Controller
      * @Route("/activate/{hash}", requirements={"hash": "[[:xdigit:]]{32}"})
      * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash": "[[:xdigit:]]{32}"})
      */
-    public function activateAccountAction($hash, $username = null)
+    public function activateAccountAction($hash, $username = null): \Symfony\Component\HttpFoundation\Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {
             return $this->render('account/activate/success.html.twig');
-        } elseif (null !== $username && null != $this->getAccountRepository()->loadUserByUsername($username)) {
+        }
+
+        if (null !== $username && null != $this->getAccountRepository()->loadUserByUsername($username)) {
             return $this->render('account/activate/success.html.twig', [
                 'username' => $username,
                 'alreadyActivated' => true

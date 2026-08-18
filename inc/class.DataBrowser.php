@@ -330,11 +330,23 @@ class DataBrowser {
 		$style = 'padding-left: 2px; padding-right: 2px;';
 		if ($active) {
 			// if this sport is currently selected/active - the link is used for de-selection
-			return DataBrowserLinker::link('<i class="fa fa-fw ' . $icon . '" style="'.$style.' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',
-					$this->TimestampStart, $this->TimestampEnd, __($name), null, null);
+			return DataBrowserLinker::link(
+			    '<i class="fa fa-fw ' . $icon . '" style="'.$style.' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',
+			    $this->TimestampStart,
+			    $this->TimestampEnd,
+			    __($name),
+			    null,
+			    null
+			);
 		} else {
-			return DataBrowserLinker::link('<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
-					$this->TimestampStart, $this->TimestampEnd, __($name), null, $sportId);
+			return DataBrowserLinker::link(
+			    '<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
+			    $this->TimestampStart,
+			    $this->TimestampEnd,
+			    __($name),
+			    null,
+			    $sportId
+			);
 		}
 	}
 

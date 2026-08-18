@@ -11,9 +11,9 @@ class FitAnaerobicTrainingEffect extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			new Activity\AnaerobicTrainingEffect($Context->activity()->fitAnaerobicTrainingEffect()),
-            '',
-            'training-effect' // #TSC: use the same glossary as aerob-training
+		    new Activity\AnaerobicTrainingEffect($Context->activity()->fitAnaerobicTrainingEffect()),
+		    '',
+		    'training-effect' // #TSC: use the same glossary as aerob-training
 		);
 	}
 }

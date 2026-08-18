@@ -100,7 +100,7 @@ class EditController extends Controller
      * @Route("/activity/multi-editor", name="multi-editor")
      * @Security("has_role('ROLE_USER')")
      */
-    public function multiEditorAction(Request $request, Account $account)
+    public function multiEditorAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $ids = array_filter(explode(',', $request->get('ids', '')));
 
@@ -128,7 +128,7 @@ class EditController extends Controller
     * @Security("has_role('ROLE_USER')")
     * @ParamConverter("activity", class="CoreBundle:Training")
     */
-   public function deleteAction(Training $activity, Account $account)
+   public function deleteAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
    {
        $activityId = $activity->getId();
 
@@ -146,7 +146,7 @@ class EditController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function elevationCorrectionAction(Request $request, Training $activity, Account $account)
+    public function elevationCorrectionAction(Request $request, Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
@@ -209,9 +209,13 @@ class EditController extends Controller
     {
         if ('GeoTIFF' == $string) {
             return $this->get('app.elevation_correction.geotiff');
-        } elseif ('Geonames' == $string) {
+        }
+
+        if ('Geonames' == $string) {
             return $this->get('app.elevation_correction.geonames');
-        } elseif ('GoogleMaps' == $string) {
+        }
+
+        if ('GoogleMaps' == $string) {
             return $this->get('app.elevation_correction.google_maps');
         }
 

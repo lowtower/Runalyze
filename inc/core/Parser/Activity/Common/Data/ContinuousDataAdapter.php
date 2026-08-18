@@ -52,13 +52,13 @@ class ContinuousDataAdapter
         }
     }
 
-	/**
-	 * Corrects the problem that the GPS device has NULL values while GPS is not fully initializes while
-	 * activity is tracking.
-	 * so search for the first Latitude with NOT NULL and copy these value to the NULLs. Do this also with
-	 * the same range for Longitude (and Altitude). Hope that the two values has the same NULLs.
-	 * #TSC
-	 */
+    /**
+     * Corrects the problem that the GPS device has NULL values while GPS is not fully initializes while
+     * activity is tracking.
+     * so search for the first Latitude with NOT NULL and copy these value to the NULLs. Do this also with
+     * the same range for Longitude (and Altitude). Hope that the two values has the same NULLs.
+     * #TSC
+     */
     public function correctPreNullGpsIfRequired()
     {
         if (! empty($this->ContinuousData->Latitude)) {
@@ -78,7 +78,7 @@ class ContinuousDataAdapter
         }
     }
 
-	/**
+    /**
      * Ensure that on first/pre and mid/last values of a array there are no NULL values.
      * So search for the "first/last" valid value and replace the NULLs.
      * #TSC
@@ -123,7 +123,7 @@ class ContinuousDataAdapter
         }
     }
 
-	/**
+    /**
      * Ensure that empty/NULL values in array (||) has a valid number/0 (|0|).
      * #TSC
      * @param array<int, mixed> $values
@@ -203,7 +203,7 @@ class ContinuousDataAdapter
      * @param PauseCollection $pausesToApply
      * @return PauseCollection
      */
-    public function applyPauses(PauseCollection $pausesToApply)
+    public function applyPauses(PauseCollection $pausesToApply): \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
     {
         $resultingPauses = new PauseCollection();
 

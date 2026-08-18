@@ -42,9 +42,9 @@ class JsonImporter
 
 	/**
 	 * @param string $fileName absolute path
-     * @param \PDO $pdo
+	 * @param \PDO $pdo
 	 * @param int $accountID
-     * @param string $databasePrefix
+	 * @param string $databasePrefix
 	 */
 	public function __construct($fileName, \PDO $pdo, $accountID, $databasePrefix)
     {
@@ -273,7 +273,7 @@ class JsonImporter
 		}
 	}
 
-	/**
+    /**
      * Run prepared statement
      * @param string $tableName
      * @param \PDOStatement $statement
@@ -401,19 +401,13 @@ class JsonImporter
 	 */
 	protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid): bool
     {
-		if (
-			isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
+        return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid]) &&
 			in_array(
-				$this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid],
-				$this->ExistingData['runalyze_equipment_sport']
-			)
-		) {
-			return true;
-		}
-
-		return false;
-	}
+			    $this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid],
+			    $this->ExistingData['runalyze_equipment_sport']
+			);
+    }
 
 	/**
 	 * @param int $sportid
@@ -422,21 +416,15 @@ class JsonImporter
 	 */
 	protected function equipmentSporRelationDoesExist($sportid, $equipmentId): bool
     {
-		if (
-			isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
+        return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
 			in_array(
-				$this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment'][$equipmentId],
-				$this->ExistingData['runalyze_equipment_spor']
-			)
-		) {
-			return true;
-		}
+			    $this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment'][$equipmentId],
+			    $this->ExistingData['runalyze_equipment_spor']
+			);
+    }
 
-		return false;
-	}
-
-	/**
+    /**
      * Correct values
      * @param string $tableName
      * @param array<string, mixed> $row
@@ -482,7 +470,7 @@ class JsonImporter
 		}
 	}
 
-	/**
+    /**
      * @param array<string, mixed> $activity
      */
     private function correctActivity(array &$activity)

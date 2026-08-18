@@ -61,7 +61,7 @@ class FitHrvAnalysis extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Garmin calculates some HRV score within the first 12 minutes of '.
+		    'Garmin calculates some HRV score within the first 12 minutes of '.
 			'every activity. The value - probably the recovery time in minutes - '.
 			'is display as a colored marker, green for low values and red for high values. '.
 			'Garmin shows this value as recovery status.'

@@ -99,7 +99,7 @@ class DefaultConfiguration extends Configuration
 		return true;
 	}
 
-	/**
+    /**
      * Generate data array from base class
      * @param bool[]|int[] $keysArray array(keyid => active(true|false))
      */

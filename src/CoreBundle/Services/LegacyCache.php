@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class LegacyCache
 {
-	/** @var \phpFastCache */
+    /** @var \phpFastCache */
     public static $cache;
 
-    /**
-     * @param string $path
-     */
+	/**
+	 * @param string $path
+	 */
 	public function __construct($path)
     {
 		\phpFastCache::setup('storage', 'files');
@@ -22,11 +22,11 @@ class LegacyCache
 		self::$cache = new \phpFastCache();
 	}
 
-    /**
-     * @param string $keyword
-     * @param string|bool $accountId
-     * @return bool
-     */
+	/**
+	 * @param string $keyword
+	 * @param string|bool $accountId
+	 * @return bool
+	 */
 	public function delete($keyword, $accountId = false) {
 	    $accountId = false === $accountId ? '' : (string) $accountId;
 

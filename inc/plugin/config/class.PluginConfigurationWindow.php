@@ -98,7 +98,7 @@ class PluginConfigurationWindow {
 	 * Get fieldset: description
 	 * @return \FormularFieldset
 	 */
-	protected function getFieldsetForDescription() {
+	protected function getFieldsetForDescription(): \FormularFieldset {
 		$Fieldset = new FormularFieldset( __('Description') );
 		$Fieldset->addText( $this->Plugin->description() );
 
@@ -113,7 +113,7 @@ class PluginConfigurationWindow {
 	 * Get fieldset: values
 	 * @return \FormularFieldset
 	 */
-	protected function getFieldsetForValues() {
+	protected function getFieldsetForValues(): \FormularFieldset {
 		$Fieldset = new FormularFieldset( __('Configuration') );
 
 		if ($this->Plugin->Configuration()->isEmpty()) {
@@ -133,7 +133,7 @@ class PluginConfigurationWindow {
 	 * Get fieldset: activation
 	 * @return \FormularFieldset
 	 */
-	protected function getFieldsetForActivation() {
+	protected function getFieldsetForActivation(): \FormularFieldset {
 		$activationLink = $this->Plugin->isInActive()
 			? $this->Plugin->getConfigLink( __('Activate plugin'), '&active='.Plugin::ACTIVE)
 			: $this->Plugin->getConfigLink( __('Deactivate plugin'), '&active='.Plugin::ACTIVE_NOT);

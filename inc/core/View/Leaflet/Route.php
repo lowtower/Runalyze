@@ -80,9 +80,9 @@ class Route {
 		return $this->id;
 	}
 
-    /**
-     * @return bool
-     */
+	/**
+	 * @return bool
+	 */
 	public function isEmpty(): bool {
 	    return empty($this->Paths);
     }

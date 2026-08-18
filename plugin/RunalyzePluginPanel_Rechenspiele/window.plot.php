@@ -3,8 +3,6 @@
  * Window: plot for calculations
  * @package Runalyze\Plugins\Panels
  */
-
-
 if (isset($_GET['y'])){
 	$timerange=$_GET['y'];
 } else {

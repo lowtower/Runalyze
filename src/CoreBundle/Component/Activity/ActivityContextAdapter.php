@@ -27,7 +27,8 @@ class ActivityContextAdapter
         ActivityContext $context,
         WeatherForecast $weatherForecast,
         DuplicateFinder $duplicateFinder,
-        RouteNameEval $routeNameEval) {
+        RouteNameEval $routeNameEval
+    ) {
         $this->Context = $context;
         $this->WeatherForecast = $weatherForecast;
         $this->DuplicateFinder = $duplicateFinder;

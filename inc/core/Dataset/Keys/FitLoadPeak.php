@@ -60,7 +60,7 @@ class FitLoadPeak extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Die Belastung eines Trainings ist ein numerischer Wert, der angibt, inwieweit sich das Training auf den Körper auswirkt.'
+		    'Die Belastung eines Trainings ist ein numerischer Wert, der angibt, inwieweit sich das Training auf den Körper auswirkt.'
 		);
 	}
 

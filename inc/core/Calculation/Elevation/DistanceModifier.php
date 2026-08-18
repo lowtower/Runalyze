@@ -53,7 +53,7 @@ class DistanceModifier {
 	/**
 	 * Construct
 	 *
-*@param float $distance [optional] [km]
+	 *@param float $distance [optional] [km]
 	 * @param int $up [optional] [m]
 	 * @param int $down [optional] [m]
 	 * @param \Runalyze\Configuration\Category\VO2max $config [optional]

@@ -112,7 +112,7 @@ class Activity extends LeafletRoute {
 		$this->Trackdata = $trackdata;
 		$this->addIconsAndInfo = $addIconsAndInfo;
 
-        $this->addOption('options',array(
+        $this->addOption('options', array(
             'color' => '#FF5500'
         ));
 
@@ -243,9 +243,9 @@ class Activity extends LeafletRoute {
 			$Tooltip .= sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->TrackdataLoop->time()) );
 
 			$this->addMarkerGeohash(
-				$this->RouteLoop->geohash(),
-				$this->distIcon($this->Dist),
-				$Tooltip
+			    $this->RouteLoop->geohash(),
+			    $this->distIcon($this->Dist),
+			    $Tooltip
 			);
 
 			++$this->Dist;
@@ -262,10 +262,10 @@ class Activity extends LeafletRoute {
 		}
 
 		$this->addMarker(
-			$this->Paths[0][0][0],
-			$this->Paths[0][0][1],
-			$this->startIcon(),
-			__('Start')
+		    $this->Paths[0][0][0],
+		    $this->Paths[0][0][1],
+		    $this->startIcon(),
+		    __('Start')
 		);
 
 		if ($this->hasTrackdataLoop()) {
@@ -276,9 +276,9 @@ class Activity extends LeafletRoute {
 		}
 
 		$this->addMarkerGeohash(
-			$this->RouteLoop->geohash(),
-			$this->endIcon(),
-			$Tooltip
+		    $this->RouteLoop->geohash(),
+		    $this->endIcon(),
+		    $Tooltip
 		);
 	}
 
@@ -362,9 +362,9 @@ class Activity extends LeafletRoute {
 		}
 
 		$this->addMarkerGeohash(
-			$this->Route->at($Index, Route\Entity::GEOHASHES),
-			$this->pauseIcon(),
-			$Tooltip
+		    $this->Route->at($Index, Route\Entity::GEOHASHES),
+		    $this->pauseIcon(),
+		    $Tooltip
 		);
 	}
 }

@@ -37,7 +37,7 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @return array
      */
-    static public function getChoices() {
+    static public function getChoices(): array {
         return array(
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
             self::stringFor(self::ONLY_ICON) => self::ONLY_ICON,
@@ -48,7 +48,7 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @return array
      */
-    static public function getChoicesWithoutParent() {
+    static public function getChoicesWithoutParent(): array {
         return array(
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
             self::stringFor(self::ONLY_ICON) => self::ONLY_ICON

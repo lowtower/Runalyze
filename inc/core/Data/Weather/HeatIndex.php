@@ -10,10 +10,10 @@ class HeatIndex implements ValueInterface
     /** @var Activity\Temperature */
     protected $HeatIndexTemperature;
 
-	/**
-	 * @param Activity\Temperature $temperature
-	 * @param Humidity $humidity
-	 */
+    /**
+     * @param Activity\Temperature $temperature
+     * @param Humidity $humidity
+     */
     public function __construct(?Activity\Temperature $temperature = null, ?Humidity $humidity = null)
     {
         if (null !== $temperature && null !== $humidity) {
@@ -52,10 +52,10 @@ class HeatIndex implements ValueInterface
         );
     }
 
-	/**
-	 * @param Activity\Temperature $temperature
-	 * @param Humidity $humidity
-	 */
+    /**
+     * @param Activity\Temperature $temperature
+     * @param Humidity $humidity
+     */
     public function setFrom(Activity\Temperature $temperature, Humidity $humidity)
     {
         if (null !== $temperature->value() && ! $humidity->isUnknown()) {

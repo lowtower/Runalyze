@@ -16,7 +16,7 @@ class FlightTime implements QueryValueInterface
             ->andWhere(sprintf('%s.groundcontact IS NOT NULL', $alias));
     }
 
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
     {
         return new Simple('ms');
     }

@@ -381,7 +381,7 @@ abstract class Loop
 		return $this->createNewObject($data);
 	}
 
-	/**
+    /**
      * @param mixed[][] $data
      * @return \Runalyze\Model\Entity
      */

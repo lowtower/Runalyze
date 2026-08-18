@@ -63,11 +63,11 @@ class Entity extends Model\Entity implements Model\Loopable {
 		$this->checkArraySizes();
 	}
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allProperties() {
+    public static function allProperties(): array {
 		return array(
 		    self::ACTIVITYID,
 		    self::STROKE,
@@ -256,8 +256,8 @@ class Entity extends Model\Entity implements Model\Loopable {
 				$TrackLoop->nextStep();
 			}
 
-			$this->set(Entity::SWOLF, $swolf);
-			$this->set(Entity::SWOLFCYCLES, $swolfcycles);
+			$this->set(self::SWOLF, $swolf);
+			$this->set(self::SWOLFCYCLES, $swolfcycles);
 		}
 	}
 }

@@ -296,7 +296,7 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset(__('Activity view'));
 
 		$Fieldset->addHandle($this->handle('TRAINING_DECIMALS'), array(

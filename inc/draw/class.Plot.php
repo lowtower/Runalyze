@@ -142,10 +142,11 @@ class Plot {
 		$encodedData = json_encode($this->Data);
 
 		if (false === $encodedData) {
-			$this->ErrorString = sprintf('%s (%s: %u)',
-				__('There is an unknown problem with this plot.'),
-				__('Error code'),
-				json_last_error()
+			$this->ErrorString = sprintf(
+			    '%s (%s: %u)',
+			    __('There is an unknown problem with this plot.'),
+			    __('Error code'),
+			    json_last_error()
 			);
 
 			return $this->getJSForError();
@@ -255,11 +256,11 @@ class Plot {
     }
 
 
-    /**
-	* Set line width for series
-	* @param int $series
-	* @param int $width
-	*/
+	/**
+	 * Set line width for series
+	 * @param int $series
+	 * @param int $width
+	 */
 	public function setLineWidth($series, $width) {
 		$this->Data[$series]['lines']['lineWidth'] = $width;
 	}
@@ -274,9 +275,9 @@ class Plot {
 	}
 
 	/**
-	* Show specific series as bars
-	* @param int $series
-	*/
+	 * Show specific series as bars
+	 * @param int $series
+	 */
 	public function showAsBars($series, $barWidth = 0, $lineWidth = 0) {
 		$this->Data[$series]['bars']['show'] = true;
 
@@ -356,7 +357,7 @@ class Plot {
 		$this->Options['grid']['minBorderMargin'] = $margin;
 	}
 
-	/**
+    /**
      * Put grid above data
      */
     public function setGridAboveData() {
@@ -449,8 +450,8 @@ class Plot {
 	 * @param int $Year
 	 */
 	public function setXAxisLimitedTo($Year) {
-		$this->Options['xaxis']['min'] = mktime(1,0,0,1,1,$Year).'000';
-		$this->Options['xaxis']['max'] = mktime(1,0,0,1,0,$Year+1).'000';
+		$this->Options['xaxis']['min'] = mktime(1, 0, 0, 1, 1, $Year).'000';
+		$this->Options['xaxis']['max'] = mktime(1, 0, 0, 1, 0, $Year+1).'000';
 	}
 
 	/**
@@ -663,7 +664,7 @@ class Plot {
 	 * @return int
 	 */
 	public static function dayOfYearToJStime($year, $day, $hour = 12): string {
-		return mktime($hour,0,0,1,$day,$year).'000';
+		return mktime($hour, 0, 0, 1, $day, $year).'000';
 	}
 
 	/**

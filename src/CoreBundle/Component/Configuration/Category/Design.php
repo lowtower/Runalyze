@@ -7,7 +7,7 @@ class Design extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'DESIGN_BG_FILE' => 'runalyze.jpg',

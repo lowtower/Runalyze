@@ -7,7 +7,7 @@ use Runalyze\Sports\Running\MarathonShape;
 
 class MarathonShapeTest extends \PHPUnit\Framework\TestCase
 {
-    protected function getDefaultConfiguration()
+    protected function getDefaultConfiguration(): \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance
     {
         return new BasicEndurance();
     }

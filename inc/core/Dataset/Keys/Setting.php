@@ -113,7 +113,7 @@ class Setting extends AbstractKey
 	{
 		$id = $context->activity()->id();
 
-		$html = '<li>'.\Ajax::window('<a href="'.$context->linker()->editUrl().'">'.\Icon::$EDIT.' '.__('Edit').'</a> ','small').'</li>';
+		$html = '<li>'.\Ajax::window('<a href="'.$context->linker()->editUrl().'">'.\Icon::$EDIT.' '.__('Edit').'</a> ', 'small').'</li>';
 		$html .= '<li><span class="link" data-action="privacy" data-activityid="'.$id.'">'.$this->privacyIconAndLabel($context).'</span></li>';
 		$html .= '<li><span class="link" data-action="delete" data-activityid="'.$id.'" data-confirm="'.__('Do you really want to delete this activity?').'"><i class="fa fa-fw fa-trash"></i> '.__('Delete activity').'</span></li>';
 		$html .= ($context->activity()->isPublic())

@@ -252,7 +252,7 @@ class HTML {
 		if ($checked === -1)
 			$checked = isset($_POST[$name]) && $_POST[$name] != 0;
 
-		$hiddenSent = self::hiddenInput($name.'_sent','true');
+		$hiddenSent = self::hiddenInput($name.'_sent', 'true');
 
 		return (! $noHiddenSent ? $hiddenSent : '').'<input type="checkbox" name="'.$name.'"'.self::Checked($checked).'>';
 	}

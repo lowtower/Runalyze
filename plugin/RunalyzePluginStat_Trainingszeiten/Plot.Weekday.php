@@ -22,7 +22,7 @@ if ($this->sportid > 0) {
 }
 
 $Query = DB::getInstance()->prepare(
-	'SELECT
+    'SELECT
 		SUM(`s`) as `value`,
 		(DAYOFWEEK(FROM_UNIXTIME(`time`))-1) as `day`
 	FROM `'.PREFIX.'training`

@@ -7,7 +7,7 @@ class General extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'WEEK_START' => '1',

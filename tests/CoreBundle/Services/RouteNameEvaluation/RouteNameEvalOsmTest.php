@@ -43,7 +43,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, ['ahut']],
                 [OsmCsvData::$CAT_WAY, ['away']],
                 [OsmCsvData::$CAT_INFO, ['ainfo']]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -59,7 +60,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, []]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -75,7 +77,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, ['away']],
                 [OsmCsvData::$CAT_INFO, ['ainfo']]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -91,7 +94,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, []]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -107,7 +111,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, ['ahut1', 'ahut2']],
                 [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
                 [OsmCsvData::$CAT_INFO, ['ainfo']]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -124,7 +129,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
                 [OsmCsvData::$CAT_INFO, ['ainfo']]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -141,7 +147,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, ['ainfo1', 'ainfo2']]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -158,7 +165,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, []]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -173,7 +181,8 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, ['ahut']],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, []]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
@@ -201,12 +210,13 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                 [OsmCsvData::$CAT_HUT, []],
                 [OsmCsvData::$CAT_WAY, []],
                 [OsmCsvData::$CAT_INFO, []]
-            ]));
+            ]
+        ));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
 
         // last index is ignored to avoid places with "anyna..."
-        $this->assertEquals(implode(' - ', array_slice($a, 0 , 7)), $result->getNames());
+        $this->assertEquals(implode(' - ', array_slice($a, 0, 7)), $result->getNames());
     }
 
     protected function endsWith($haystack, $needle): bool {

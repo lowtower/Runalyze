@@ -24,9 +24,9 @@ class Pace extends AbstractBox
 		$Pace = $Context->dataview()->pace();
 
 		parent::__construct(
-			$Pace->value(),
-			$Pace->appendix(),
-			__('avg.').' '.($Pace->unit()->isTimeFormat() ? __('Pace') : __('Speed'))
+		    $Pace->value(),
+		    $Pace->appendix(),
+		    __('avg.').' '.($Pace->unit()->isTimeFormat() ? __('Pace') : __('Speed'))
 		);
 	}
 }

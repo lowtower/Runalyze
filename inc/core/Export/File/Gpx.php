@@ -112,8 +112,8 @@ class Gpx extends AbstractFileExporter
 
             if ($hasHeartrate) {
                 $ext = $Trackpoint->addChild('extensions');
-                $tpe = $ext->addChild('gpxtpx:TrackPointExtension','','http://www.garmin.com/xmlschemas/TrackPointExtension/v1');
-                $tpe->addChild('gpxtpx:hr',  $Trackdata->current(Trackdata\Entity::HEARTRATE));
+                $tpe = $ext->addChild('gpxtpx:TrackPointExtension', '', 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1');
+                $tpe->addChild('gpxtpx:hr', $Trackdata->current(Trackdata\Entity::HEARTRATE));
             }
         } while ($Trackdata->nextStep() && $Route->nextStep());
     }

@@ -26,7 +26,7 @@ class Smo2 extends ActivitySeries {
 	/**
 	 * Create series
 	 * @var \Runalyze\View\Activity\Context
-     * @param int $sensorIndex
+	 * @param int $sensorIndex
 	 */
 	public function __construct(Activity\Context $context, $sensorIndex = 0) {
 		$this->initOptions();

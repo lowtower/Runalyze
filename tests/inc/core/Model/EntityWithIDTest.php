@@ -3,7 +3,7 @@
 namespace Runalyze\Model;
 
 class EntityWithID_MockTester extends EntityWithID {
-	public function properties() {
+	public function properties(): array {
 		return array('foo');
 	}
 }

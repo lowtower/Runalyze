@@ -88,7 +88,7 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/all-panels", name="internal-plugin-all-panels")
      * @Security("has_role('ROLE_USER')")
      */
-    public function contentPanelsAction(Request $request, Account $account)
+    public function contentPanelsAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
 

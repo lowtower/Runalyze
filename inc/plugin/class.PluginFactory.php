@@ -63,7 +63,7 @@ class PluginFactory {
 	 */
 	private static function fetchAllPluginsFrom(PDO $PDO, $accountID) {
 		return $PDO->query(
-			'SELECT * FROM `'.PREFIX.'plugin` '.
+		    'SELECT * FROM `'.PREFIX.'plugin` '.
 			'WHERE `accountid`='.$accountID.' '.
 			'ORDER BY `order` ASC'
 		)->fetchAll();
@@ -146,7 +146,7 @@ class PluginFactory {
 	 * @param string $Pluginkey
 	 * @return Plugin
 	 */
-	public function newInstallerInstance($Pluginkey) {
+	public function newInstallerInstance($Pluginkey): object {
 		$Plugin = new $Pluginkey( PluginInstaller::ID );
 
 		return $Plugin;

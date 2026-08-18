@@ -53,9 +53,10 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 			$humidity->set($dataToTest[1]);
 
 			$this->assertEqualsWithDelta(
-				$dataToTest[2], (new HeatIndex($temp, $humidity))->value(),
-				0.5,
-				sprintf('Heat index does not match for $valuesToTest[%u]', $i)
+			    $dataToTest[2],
+			    (new HeatIndex($temp, $humidity))->value(),
+			    0.5,
+			    sprintf('Heat index does not match for $valuesToTest[%u]', $i)
 			);
 		}
 	}
@@ -64,14 +65,14 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 	{
 		$heatIndex = new HeatIndex();
 		$heatIndex->setFromWeather(
-			new \Runalyze\Data\Weather(
-				new \Runalyze\Data\Weather\Temperature(12.0),
-				new \Runalyze\Data\Weather\Condition(\Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN),
-				new \Runalyze\Data\Weather\WindSpeed(),
-				new \Runalyze\Data\Weather\WindDegree(),
-				new \Runalyze\Data\Weather\Humidity(50),
-				new \Runalyze\Data\Weather\Pressure()
-			)
+		    new \Runalyze\Data\Weather(
+		        new \Runalyze\Data\Weather\Temperature(12.0),
+		        new \Runalyze\Data\Weather\Condition(\Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN),
+		        new \Runalyze\Data\Weather\WindSpeed(),
+		        new \Runalyze\Data\Weather\WindDegree(),
+		        new \Runalyze\Data\Weather\Humidity(50),
+		        new \Runalyze\Data\Weather\Pressure()
+		    )
 		);
 
 		$this->assertEqualsWithDelta(10.5, $heatIndex->value(), 0.1);

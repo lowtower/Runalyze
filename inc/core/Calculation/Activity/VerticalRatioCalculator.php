@@ -14,7 +14,7 @@ use Runalyze\Model\Trackdata;
  * @package Runalyze\Calculation\Activity
  */
 class VerticalRatioCalculator {
-    /**
+	/**
 	 * @var \Runalyze\Model\Trackdata\Entity
 	 */
 	protected $Trackdata;
@@ -64,7 +64,7 @@ class VerticalRatioCalculator {
 
 	/**
 	 * @return array [%o]
-	*/
+	 */
 	public function verticalRatioData() {
 	    return $this->VerticalRatio;
 	}

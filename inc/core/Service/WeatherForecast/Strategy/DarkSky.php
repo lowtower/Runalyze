@@ -76,7 +76,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
      *
      * @return WeatherData
      */
-    protected function getWeatherDataFromResult(array $currently)
+    protected function getWeatherDataFromResult(array $currently): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
         $data = new WeatherData();
         $data->Source = WeatherSourceProfile::DARK_SKY;
@@ -125,7 +125,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
      *
      * @return array
      */
-    protected function tryToLoadForecast(Location $location)
+    protected function tryToLoadForecast(Location $location): array
     {
         if ($location->hasPosition()) {
             $url = sprintf(

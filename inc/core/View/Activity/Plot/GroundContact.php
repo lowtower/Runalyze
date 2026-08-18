@@ -29,7 +29,7 @@ class GroundContact extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\GroundContact($context)
+		    new Series\GroundContact($context)
 		);
 	}
 }

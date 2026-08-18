@@ -12,7 +12,7 @@ trait HttpClientAwareTestCaseTrait
      * @param array $responses
      * @return Client
      */
-    protected function getMockForResponses(array $responses)
+    protected function getMockForResponses(array $responses): \GuzzleHttp\Client
     {
         $mock = new MockHandler($responses);
         $handler = HandlerStack::create($mock);

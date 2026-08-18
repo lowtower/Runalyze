@@ -1038,7 +1038,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @return Model\Trackdata\Entity
      */
-    public function getLegacyModel()
+    public function getLegacyModel(): \Runalyze\Model\Trackdata\Entity
     {
         return new Model\Trackdata\Entity([
             Model\Trackdata\Entity::ACTIVITYID => $this->activity->getId(),

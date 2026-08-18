@@ -14,7 +14,6 @@ class UnitConversionByDividendTraitTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue(5));
 
         /** @var UnitConversionByDividendTrait $mock */
-
         $this->assertEquals(2.5, $mock->fromBaseUnit(2.0));
         $this->assertEquals(2.0, $mock->toBaseUnit(2.5));
     }

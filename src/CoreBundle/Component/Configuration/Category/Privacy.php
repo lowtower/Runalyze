@@ -7,7 +7,7 @@ class Privacy extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'TRAINING_LIST_PUBLIC' => 'false',

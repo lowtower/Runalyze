@@ -41,7 +41,6 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
             ->willReturn($altitudes);
 
         /** @var StrategyInterface $strategy */
-
         $this->Collection->add($strategy);
 
         $result = $this->Collection->loadAltitudeData([49.9, 49.8, 49.7], [7.7, 7.6, 7.5]);

@@ -10,7 +10,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'BE_MIN_KM_FOR_LONGJOG' => '13',

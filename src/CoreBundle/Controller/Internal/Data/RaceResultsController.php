@@ -26,7 +26,7 @@ class RaceResultsController extends Controller
      * @Route("/all", name="internal-data-race-results-all")
      * @Security("has_role('ROLE_USER')")
      */
-    public function allRaceResultsAction(Account $account)
+    public function allRaceResultsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $result = [];
         $races = $this->getRaceResultRepository()->findAllWithActivityStats($account);

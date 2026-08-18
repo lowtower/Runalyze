@@ -168,7 +168,7 @@ class PersonalBest {
 			}
 		} else {
 			$this->Time = $this->PDO->query(
-				'SELECT MIN(r.`official_time`), r.`activity_id` FROM `'.PREFIX.'raceresult` as r '.
+			    'SELECT MIN(r.`official_time`), r.`activity_id` FROM `'.PREFIX.'raceresult` as r '.
 				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id`= r.`activity_id`'.
 				'WHERE r.`accountid`='.\SessionAccountHandler::getId().'  '.
 				'AND r.`official_distance`="'.$this->Distance.'"'.
@@ -193,7 +193,7 @@ class PersonalBest {
 			$Data = self::$PBs[(float) $this->Distance];
 		} else {
 			$Data = $this->PDO->query(
-				'SELECT r.`activity_id`, r.`official_time` as pb, tr.`time` FROM `'.PREFIX.'raceresult` as r '.
+			    'SELECT r.`activity_id`, r.`official_time` as pb, tr.`time` FROM `'.PREFIX.'raceresult` as r '.
 				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id` = r.`activity_id` '.
 				'WHERE r.`accountid`='.\SessionAccountHandler::getId().'  '.
 				'AND r.`official_distance`="'.$this->Distance.'" '.

@@ -70,16 +70,16 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	public function testAllKeys()
 	{
 		$this->assertEquals(
-			array(2, 1, 3),
-			$this->Configuration->allKeys()
+		    array(2, 1, 3),
+		    $this->Configuration->allKeys()
 		);
 	}
 
 	public function testActiveKeys()
 	{
 		$this->assertEquals(
-			array(2, 1),
-			$this->Configuration->activeKeys()
+		    array(2, 1),
+		    $this->Configuration->activeKeys()
 		);
 	}
 

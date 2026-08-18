@@ -16,7 +16,7 @@ class SelectFile extends Select {
 	/** @var bool */
 	protected $UseFallback = false;
 
-	/**
+    /**
      * Boolean flag: allow uppercase variants of file extensions
      * @var Boolean
      */
@@ -29,12 +29,12 @@ class SelectFile extends Select {
 	 */
 	public function __construct($default, $options = array()) {
 		$options = array_merge(
-			array(
-			    'folder' => '',
-			    'extensions' => array(),
-			    'filename_only' => true
-			),
-			$options
+		    array(
+		        'folder' => '',
+		        'extensions' => array(),
+		        'filename_only' => true
+		    ),
+		    $options
 		);
 
 		parent::__construct($default, $options);
@@ -84,10 +84,7 @@ class SelectFile extends Select {
 			$extension = strtolower($extension);
 		}
 
-		if (! in_array($extension, $this->Options['extensions']))
-			return false;
-
-		return true;
+        return in_array($extension, $this->Options['extensions']);
 	}
 
 	/**

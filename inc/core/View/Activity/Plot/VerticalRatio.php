@@ -30,7 +30,7 @@ class VerticalRatio extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\VerticalRatio($context)
+		    new Series\VerticalRatio($context)
 		);
 	}
 }

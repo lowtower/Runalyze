@@ -14,7 +14,7 @@ class DataCollectorForArray extends DataCollector
 
 	/**
 	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-     * @param array $data
+	 * @param array $data
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Trackdata $trackdata, array $data, $interpolateData = true) {
@@ -35,8 +35,8 @@ class DataCollectorForArray extends DataCollector
 
             if ($this->InterpolateData) {
                 $value = array_sum(
-                        array_slice($this->RawData, $this->Loop->lastIndex(), $this->Loop->currentStepSize())
-                    ) / $this->Loop->currentStepSize();
+                    array_slice($this->RawData, $this->Loop->lastIndex(), $this->Loop->currentStepSize())
+                ) / $this->Loop->currentStepSize();
             } else {
     			$value = $this->RawData[$this->Loop->index()];
             }

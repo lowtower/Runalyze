@@ -18,9 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class InstallController extends Controller
 {
-     /**
-      * @Route("/install", name="install", condition="'%update_disabled%' == 'no'")
-      */
+    /**
+     * @Route("/install", name="install", condition="'%update_disabled%' == 'no'")
+     */
     public function installAction(Request $request)
     {
         $session = $request->getSession();

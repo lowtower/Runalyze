@@ -14,8 +14,8 @@ class KeysTest extends \PHPUnit\Framework\TestCase
 	public function testThatIDsAreUnique()
 	{
 		$this->assertEquals(
-			Keys::getEnum(),
-			array_unique(Keys::getEnum())
+		    Keys::getEnum(),
+		    array_unique(Keys::getEnum())
 		);
 	}
 
@@ -26,8 +26,8 @@ class KeysTest extends \PHPUnit\Framework\TestCase
 
 			if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
 				SummaryMode::query(
-					$KeyObject->summaryMode(),
-					$KeyObject->column()
+				    $KeyObject->summaryMode(),
+				    $KeyObject->column()
 				);
 			}
 		}

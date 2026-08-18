@@ -24,9 +24,9 @@ abstract class MaximalHeartRate extends AbstractBox
 	public function __construct(HeartRate $heartRate)
 	{
 		parent::__construct(
-			$this->value($heartRate),
-			$this->unit(),
-			$this->label()
+		    $this->value($heartRate),
+		    $this->unit(),
+		    $this->label()
 		);
 	}
 

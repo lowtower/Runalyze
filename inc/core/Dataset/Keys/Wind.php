@@ -31,7 +31,7 @@ class Wind extends AbstractKey
      * Database key
      * @return array
      */
-    public function column()
+    public function column(): array
     {
         return ['wind_speed', 'wind_deg'];
     }

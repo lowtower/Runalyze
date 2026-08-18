@@ -65,7 +65,7 @@ class Dataview
 	 * Official Duration
 	 * @return \Runalyze\Activity\Duration
 	 */
-	public function officialTime()
+	public function officialTime(): \Runalyze\Activity\Duration
 	{
 		return new Duration($this->RaceResult->officialTime());
 	}
@@ -75,7 +75,7 @@ class Dataview
 	 * @param int $sportid
 	 * @return \Runalyze\Activity\Pace
 	 */
-	public function pace($sportid)
+	public function pace($sportid): \Runalyze\Activity\Pace
 	{
 		return new Pace($this->RaceResult->officialTime(), $this->RaceResult->officialDistance(), SportFactory::getSpeedUnitFor($sportid));
 	}
@@ -87,9 +87,9 @@ class Dataview
 	public function placementTotalWithTooltip()
 	{
 		return $this->placementWithTooltip(
-			$this->RaceResult->placeTotal(),
-			$this->RaceResult->participantsTotal(),
-			__('of %u overall')
+		    $this->RaceResult->placeTotal(),
+		    $this->RaceResult->participantsTotal(),
+		    __('of %u overall')
 		);
 	}
 
@@ -100,9 +100,9 @@ class Dataview
 	public function placementAgeClassWithTooltip()
 	{
 		return $this->placementWithTooltip(
-			$this->RaceResult->placeAgeclass(),
-			$this->RaceResult->participantsAgeclass(),
-			__('of %u in your age group')
+		    $this->RaceResult->placeAgeclass(),
+		    $this->RaceResult->participantsAgeclass(),
+		    __('of %u in your age group')
 		);
 	}
 
@@ -113,9 +113,9 @@ class Dataview
 	public function placementGenderWithTooltip()
 	{
 		return $this->placementWithTooltip(
-			$this->RaceResult->placeGender(),
-			$this->RaceResult->participantsGender(),
-			__('of %u men/women')
+		    $this->RaceResult->placeGender(),
+		    $this->RaceResult->participantsGender(),
+		    __('of %u men/women')
 		);
 	}
 
@@ -126,8 +126,8 @@ class Dataview
 	public function placementTotalWithParticipants()
 	{
 		return $this->placementWithParticipants(
-			$this->RaceResult->placeTotal(),
-			$this->RaceResult->participantsTotal()
+		    $this->RaceResult->placeTotal(),
+		    $this->RaceResult->participantsTotal()
 		);
 	}
 
@@ -138,8 +138,8 @@ class Dataview
 	public function placementAgeClassWithParticipants()
 	{
 		return $this->placementWithParticipants(
-			$this->RaceResult->placeAgeclass(),
-			$this->RaceResult->participantsAgeclass()
+		    $this->RaceResult->placeAgeclass(),
+		    $this->RaceResult->participantsAgeclass()
 		);
 	}
 
@@ -150,8 +150,8 @@ class Dataview
 	public function placementGenderWithParticipants()
 	{
 		return $this->placementWithParticipants(
-			$this->RaceResult->placeGender(),
-			$this->RaceResult->participantsGender()
+		    $this->RaceResult->placeGender(),
+		    $this->RaceResult->participantsGender()
 		);
 	}
 

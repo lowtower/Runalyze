@@ -26,7 +26,7 @@ class GroundContactBalance extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			new Activity\GroundcontactBalance($Context->activity()->groundContactBalance())
+		    new Activity\GroundcontactBalance($Context->activity()->groundContactBalance())
 		);
 	}
 }

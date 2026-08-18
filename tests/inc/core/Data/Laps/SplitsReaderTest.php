@@ -27,7 +27,7 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase {
 		$this->object = new SplitsReader($this->Laps);
 	}
 
-	/**
+    /**
      * @param array<int, int[]>|array<int, float[]>|array<int, bool[]> $ExpectedLaps
      */
     protected function checkAgainst(array $ExpectedLaps) {
@@ -41,11 +41,11 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleExample() {
 		$Splits = new Splits\Entity();
 		$Splits->add(new Splits\Split(3.0, 1000, false));
-		$Splits->add(new Splits\Split(0.4,   72, true));
-		$Splits->add(new Splits\Split(0.2,   62, false));
-		$Splits->add(new Splits\Split(0.4,   69, true));
-		$Splits->add(new Splits\Split(0.2,   63, false));
-		$Splits->add(new Splits\Split(2.0,  600, false));
+		$Splits->add(new Splits\Split(0.4, 72, true));
+		$Splits->add(new Splits\Split(0.2, 62, false));
+		$Splits->add(new Splits\Split(0.4, 69, true));
+		$Splits->add(new Splits\Split(0.2, 63, false));
+		$Splits->add(new Splits\Split(2.0, 600, false));
 
 		$this->object->readFrom($Splits);
 

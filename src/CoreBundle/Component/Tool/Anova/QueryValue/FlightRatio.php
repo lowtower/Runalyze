@@ -16,7 +16,7 @@ class FlightRatio implements QueryValueInterface
             ->andWhere(sprintf('%s.groundcontact IS NOT NULL', $alias));
     }
 
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Factorial
     {
         return new Factorial('%', 100, 1);
     }

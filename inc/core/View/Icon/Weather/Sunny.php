@@ -20,9 +20,9 @@ class Sunny extends \Runalyze\View\Icon\WeatherIcon {
 		$this->setBaseClass('weather-sun');
 	}
 
-	/**
-	 * Set weather icon as night
-	 */
+	 /**
+	  * Set weather icon as night
+	  */
 	 public function setAsNight() {
 	 	$this->setBaseClass('weather-moon');
 	 }

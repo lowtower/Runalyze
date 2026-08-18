@@ -131,9 +131,9 @@ abstract class TableZonesAbstract {
 	}
 
 	/**
-	* Display data
+	 * Display data
 	 * @return string
-	*/
+	 */
 	private function getDataCode(): string {
 		$Code = '';
 

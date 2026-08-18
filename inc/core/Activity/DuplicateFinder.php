@@ -24,11 +24,11 @@ class DuplicateFinder
     /** @var int */
     protected $AccountId;
 
-	/**
-	 * Default constructor
-	 * @param \PDO $pdo
-	 * @param int $accountId
-	 */
+    /**
+     * Default constructor
+     * @param \PDO $pdo
+     * @param int $accountId
+     */
     public function __construct(PDO $pdo, $accountId)
     {
 	    $this->PDO = $pdo;

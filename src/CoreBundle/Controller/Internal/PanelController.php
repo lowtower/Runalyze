@@ -19,7 +19,7 @@ class PanelController extends Controller
      * @Route("/sport", name="internal-sport-panel")
      * @Security("has_role('ROLE_USER')")
      */
-    public function sportStatAction(Request $request, Account $account)
+    public function sportStatAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $sportRepository = $this->getDoctrine()->getRepository('CoreBundle:Sport');
         $today = (new LocalTime())->setTime(0, 0, 0);

@@ -36,12 +36,12 @@ class Context {
 	public static function Athlete() {
 		if (! isset(self::$Objects['athlete'])) {
 			self::$Objects['athlete'] = new Athlete(
-                SessionAccountHandler::getGender(),
-				Configuration::Data()->HRmax(),
-				Configuration::Data()->HRrest(),
-				null,
-                SessionAccountHandler::getBirthYear(),
-				Configuration::Data()->vo2max()
+			    SessionAccountHandler::getGender(),
+			    Configuration::Data()->HRmax(),
+			    Configuration::Data()->HRrest(),
+			    null,
+			    SessionAccountHandler::getBirthYear(),
+			    Configuration::Data()->vo2max()
 			);
 		}
 
@@ -55,7 +55,7 @@ class Context {
 	public static function Factory() {
 		if (! isset(self::$Objects['factory'])) {
 			self::$Objects['factory'] = new Model\Factory(
-				SessionAccountHandler::getId()
+			    SessionAccountHandler::getId()
 			);
 		}
 

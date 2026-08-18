@@ -88,7 +88,8 @@ class FileHandler
      */
     public function buildFinalFileName(Account $account, Sport $sport, $year, $type, $size): string
     {
-        return sprintf('%s-%s-%s-%s-%s-%s.%s',
+        return sprintf(
+            '%s-%s-%s-%s-%s-%s.%s',
             $account->getId(),
             $this->filesystemFriendlyName($sport->getName()),
             $year,

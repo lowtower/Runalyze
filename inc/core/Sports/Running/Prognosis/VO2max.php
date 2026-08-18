@@ -116,7 +116,10 @@ class VO2max implements PrognosisInterface
 
         $function = new DanielsGilbertFormula();
 
-        return (new Bisection($effectiveVO2maxToReach, round(2 * 60 * $distance), round(10 * 60 * $distance),
+        return (new Bisection(
+            $effectiveVO2maxToReach,
+            round(2 * 60 * $distance),
+            round(10 * 60 * $distance),
             function ($seconds) use ($distance, $function) {
                 return $function->estimateFromRaceResult($distance, $seconds);
             }

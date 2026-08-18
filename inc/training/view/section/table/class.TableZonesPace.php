@@ -76,10 +76,10 @@ class TableZonesPace extends TableZonesAbstract {
 		$hasHR = $this->Context->trackdata()->has(Trackdata\Entity::HEARTRATE);
 
 		$Distribution = new TimeSeriesForTrackdata(
-			$SmoothTrackdata,
-			Trackdata\Entity::PACE,
-			array(Trackdata\Entity::DISTANCE),
-			$hasHR ? array(Trackdata\Entity::HEARTRATE) : array()
+		    $SmoothTrackdata,
+		    Trackdata\Entity::PACE,
+		    array(Trackdata\Entity::DISTANCE),
+		    $hasHR ? array(Trackdata\Entity::HEARTRATE) : array()
 		);
 		$Data = $Distribution->data();
 

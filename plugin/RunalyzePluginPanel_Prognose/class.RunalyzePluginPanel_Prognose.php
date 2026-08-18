@@ -139,10 +139,10 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 		$this->NumberOfPBs = PersonalBest::lookupDistances($this->getDistances(), Configuration::General()->runningSport());
 	}
 
-    /**
-     * @param int $num
-     * @return array
-     */
+	/**
+	 * @param int $num
+	 * @return array
+	 */
 	protected function getTopResult($num = 1) {
 	    return (new Prognosis\TopResults())->getTopResults($num);
     }
@@ -185,10 +185,10 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 			case 'vo2max':
 			default:
 			    $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\VO2max(
-                    Configuration::Data()->vo2max(),
-                    $this->Configuration()->value('use_be'),
-                    \Runalyze\Calculation\BasicEndurance::getConst()
-                );
+			        Configuration::Data()->vo2max(),
+			        $this->Configuration()->value('use_be'),
+			        \Runalyze\Calculation\BasicEndurance::getConst()
+			    );
 
 				break;
 		}
@@ -203,7 +203,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 		$PB->lookupWithDetails();
 
 		$PBTime = $PB->exists() ? Duration::format( $PB->seconds() ) : '-';
-		$PBString = $PB->exists() ? Ajax::trainingLink($PB->activityId(),$PBTime,true) : $PBTime;
+		$PBString = $PB->exists() ? Ajax::trainingLink($PB->activityId(), $PBTime, true) : $PBTime;
 		$Distance = new Distance($distance);
 
 		if ($this->Prognosis->areValuesValid()) {

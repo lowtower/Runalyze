@@ -20,11 +20,11 @@ class ValueBox extends AbstractBox
 	public function __construct(Activity\ValueInterface $Value, $icon = '', $glossary = '')
 	{
 		parent::__construct(
-			\Helper::Unknown($Value->string(false), '-'),
-			$Value->unit(),
-			$Value->label(),
-            $icon,
-            $glossary
+		    \Helper::Unknown($Value->string(false), '-'),
+		    $Value->unit(),
+		    $Value->label(),
+		    $icon,
+		    $glossary
 		);
 	}
 }

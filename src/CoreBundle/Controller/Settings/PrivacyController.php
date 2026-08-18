@@ -25,7 +25,7 @@ class PrivacyController extends Controller
      * @Route("/settings/privacy", name="settings-privacy")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsAccountAction(Request $request, Account $account)
+    public function settingsAccountAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $privacyConfig = $this->get('app.configuration_manager')->getList()->getPrivacy();
 

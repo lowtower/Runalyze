@@ -91,7 +91,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 	 * Display row for config form
 	 * @return FormularInput
 	 */
-	public function getFormField() {
+	public function getFormField(): \FormularInput {
 		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
 		$Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);

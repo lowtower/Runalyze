@@ -25,7 +25,7 @@ class ConfigTabGeneral extends ConfigTab {
 	 * All categories
 	 * @return \Runalyze\Configuration\Category[]
 	 */
-	private function allCategories() {
+	private function allCategories(): array {
 		return array(
 		    Configuration::General(),
 		    Configuration::ActivityView(),

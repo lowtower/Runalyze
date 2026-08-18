@@ -66,7 +66,7 @@ $countPoints = 0;
 
 while ($RouteData = $Routes->fetch()) {
 	// only the first 4 "columns" are relevant for the GPS positions itself
-	$Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData,0 , 4), $positioninterval);
+	$Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData, 0, 4), $positioninterval);
 
 	if (null !== $RouteData['min'] && null !== $RouteData['max']) {
 		$MinCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['min'])->getCoordinate();
@@ -117,7 +117,7 @@ function getTooltipText($time, $routename, $distance, $sporticon): string {
 ?>
 
 <p class="info">
-	<?php echo sprintf( __('The map contains your %s most recent routes matching the criterias.').' Nummer der Positions-Punkte ist %d.', $count , $countPoints); ?>
+	<?php echo sprintf( __('The map contains your %s most recent routes matching the criterias.').' Nummer der Positions-Punkte ist %d.', $count, $countPoints); ?>
 	<?php echo sprintf( __('More routes are not possible at the moment due to performance issues.'). ' Limit %s.', $routesLimit); ?>
 </p>
 </div>

@@ -223,7 +223,9 @@ class Table {
 
 		if (! $this->demandedPace->isEmpty()) {
 			return $Pace->compareTo($this->demandedPace);
-		} elseif (! $this->achievedPaceActive->isEmpty()) {
+		}
+
+		if (! $this->achievedPaceActive->isEmpty()) {
 			return $Pace->compareTo($this->achievedPaceActive);
 		}
 

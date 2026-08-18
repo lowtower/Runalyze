@@ -29,7 +29,7 @@ class Heartrate extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\Heartrate($context)
+		    new Series\Heartrate($context)
 		);
 	}
 }

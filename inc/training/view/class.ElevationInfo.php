@@ -264,17 +264,17 @@ class ElevationInfo {
 		}
 
 		$Fieldset->setHtmlCode(
-			'<p class="info block" id="gps-results">'.$textInfo.'</p>
+		    '<p class="info block" id="gps-results">'.$textInfo.'</p>
 			<p class="info block">'.implode('<br>', $Links).'</p>'
 		);
 
 		$Fieldset->display();
 	}
 
-	/**
+    /**
      * @return array<string, string>
      */
-    protected function getLinksForCorrectionStrategies() {
+    protected function getLinksForCorrectionStrategies(): array {
 		return array(
 		    '?strategy=GeoTIFF' => sprintf(__('correct again using %s'), __('srtm files')),
 		    '?strategy=Geonames' => sprintf(__('correct again using %s'), 'geonames.org'),
@@ -305,7 +305,7 @@ class ElevationInfo {
 		$Fieldset->setId('general-information');
 		$Fieldset->setCollapsed();
 		$Fieldset->addInfo(
-				__('The calculation of elevation data is very difficult - there is not one single solution. '.
+		    __('The calculation of elevation data is very difficult - there is not one single solution. '.
 					'Bad gps data can be corrected via srtm-data but these are only available in a 90x90m grid and not always perfectly accurate. '.
 					'In addition, every platform uses another algorithm to determine the elevation value (for up-/downwards). '.
 					'We give you therefore the possibility to choose algorithm and threshold such that the values fit your experience.')

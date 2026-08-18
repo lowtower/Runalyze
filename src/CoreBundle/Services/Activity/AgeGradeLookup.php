@@ -50,7 +50,7 @@ class AgeGradeLookup
     /**
      * @return Lookup
      */
-    public function getDefaultLookup()
+    public function getDefaultLookup(): \Runalyze\AgeGrade\Lookup
     {
         return new Lookup(new MaleTable(), 25);
     }

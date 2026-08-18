@@ -103,7 +103,7 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 
 	/**
 	 * Add: FitAnaerobicTrainingEffect
-     * #TSC: new Anaerobic
+	 * #TSC: new Anaerobic
 	 */
 	protected function addFitAnaerobicTrainingEffect() {
 	    if ($this->Context->activity()->fitAnaerobicTrainingEffect() > 0) {

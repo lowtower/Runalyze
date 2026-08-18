@@ -141,7 +141,7 @@ class PDOforRunalyze extends PDO {
 			$set = '`'.$column.'`='.self::escape($value, true, ($column=='clothes')).', ';
 		}
 
-		$this->query('UPDATE `'.PREFIX.$table.'` SET '.substr($set,0,-2).' WHERE '.$where);
+		$this->query('UPDATE `'.PREFIX.$table.'` SET '.substr($set, 0, -2).' WHERE '.$where);
 	}
 
 	/**

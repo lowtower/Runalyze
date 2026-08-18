@@ -23,11 +23,11 @@ class SelectRow extends Select {
 	 */
 	public function __construct($default, $options = array()) {
 		$options = array_merge(
-			array(
-			    'table' => '',
-			    'column' => ''
-			),
-			$options
+		    array(
+		        'table' => '',
+		        'column' => ''
+		    ),
+		    $options
 		);
 
 		parent::__construct($default, $options);

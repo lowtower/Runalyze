@@ -54,7 +54,9 @@ class RouteNameEvalResult {
 
         if(empty($existingNote)) {
             return $taggedNote;
-        } else if(strpos($existingNote, self::NOTES_START) === false) {
+        }
+
+        if(strpos($existingNote, self::NOTES_START) === false) {
             // when append the eval-note the first time, make a newline between for better usability
             return $existingNote . ($this->endsWith($existingNote, PHP_EOL) ? '' : PHP_EOL) . PHP_EOL . $taggedNote;
         } else {

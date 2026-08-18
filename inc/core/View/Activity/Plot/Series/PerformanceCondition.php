@@ -61,10 +61,10 @@ class PerformanceCondition extends ActivitySeries {
 
 		if (! empty($this->Data)) {
             // #TSC different colored areas based on the garmin-connect documentation help
-			$Plot->addMarkingArea('y'.$yAxis,  10.5,  20.5, 'rgba( 50, 255, 50, 0.30)'); // excellent
-			$Plot->addMarkingArea('y'.$yAxis,   1.5,  10.5, 'rgba( 50, 255, 50, 0.15)'); // good
-			$Plot->addMarkingArea('y'.$yAxis,   1.5,  -1.5, 'rgba(255, 255, 50, 0.10)'); // normal / initial state
-			$Plot->addMarkingArea('y'.$yAxis,  -1.5, -10.5, 'rgba(255,  50, 50, 0.15)'); // sufficient
+			$Plot->addMarkingArea('y'.$yAxis, 10.5, 20.5, 'rgba( 50, 255, 50, 0.30)'); // excellent
+			$Plot->addMarkingArea('y'.$yAxis, 1.5, 10.5, 'rgba( 50, 255, 50, 0.15)'); // good
+			$Plot->addMarkingArea('y'.$yAxis, 1.5, -1.5, 'rgba(255, 255, 50, 0.10)'); // normal / initial state
+			$Plot->addMarkingArea('y'.$yAxis, -1.5, -10.5, 'rgba(255,  50, 50, 0.15)'); // sufficient
 			$Plot->addMarkingArea('y'.$yAxis, -10.5, -20.5, 'rgba(255,  50, 50, 0.30)'); // bad
 		}
 	}

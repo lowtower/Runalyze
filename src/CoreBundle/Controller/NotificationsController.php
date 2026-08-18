@@ -24,7 +24,7 @@ class NotificationsController extends Controller
      * @Route("", name="notifications-list")
      * @Security("has_role('ROLE_USER')")
      */
-    public function newNotificationsAction(Account $account)
+    public function newNotificationsAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('notifications.html.twig', [
             'notifications' => $this->getNotificationsRepository()->findAll($account),

@@ -111,7 +111,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
     /**
      * @return array<string, string>
      */
-    protected function getChoiceAttributesForEquipment(Equipment $equipment)
+    protected function getChoiceAttributesForEquipment(Equipment $equipment): array
     {
         return [
             'data-start' => $equipment->getDateStart() ? $equipment->getDateStart()->format('Y-m-d') : '',

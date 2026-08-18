@@ -92,10 +92,10 @@ final class SummaryMode extends AbstractEnum
 		}
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
+    /**
+     * @param string $key
+     * @return string
+     */
     public static function queryForAvg($key): string
 	{
 	    if (is_array($key)) {
@@ -141,10 +141,10 @@ final class SummaryMode extends AbstractEnum
 		return 'AVG(NULLIF(`'.$key.'`,0)) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
+    /**
+     * @param string $key
+     * @return string
+     */
     public static function queryForAvgWithZero($key): string
 	{
 	    if (is_array($key)) {

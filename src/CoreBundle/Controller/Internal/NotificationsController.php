@@ -29,7 +29,7 @@ class NotificationsController extends Controller
      * @Route("/read/all", name="internal-notifications-read-all")
      * @Security("has_role('ROLE_USER')")
      */
-    public function readAllNotificationsAction(Account $account)
+    public function readAllNotificationsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $this->getNotificationsRepository()->markAllAsRead($account);
 
@@ -56,7 +56,7 @@ class NotificationsController extends Controller
      * @Route("", name="internal-notifications-list")
      * @Security("has_role('ROLE_USER')")
      */
-    public function newNotificationsAction(Request $request, Account $account)
+    public function newNotificationsAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $messages = [];
         $factory = new MessageFactory();

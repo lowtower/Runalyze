@@ -17,7 +17,7 @@ use Runalyze\Activity\ValueInterface;
  */
 class BeaufortScale implements ValueInterface
 {
-	/** @var array */
+    /** @var array */
     protected $UpperLimits = [
         1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX
     ];
@@ -147,7 +147,7 @@ class BeaufortScale implements ValueInterface
 		}
 	}
 
-    /**
+	/**
 	 * Short string
 	 * @return string
 	 */

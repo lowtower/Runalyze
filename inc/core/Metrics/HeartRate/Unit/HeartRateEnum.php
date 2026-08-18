@@ -27,9 +27,13 @@ class HeartRateEnum extends AbstractEnum
     {
         if (self::BEATS_PER_MINUTE == $enum) {
             return new BeatsPerMinute();
-        } elseif (self::PERCENT_MAXIMUM == $enum) {
+        }
+
+        if (self::PERCENT_MAXIMUM == $enum) {
             return new PercentMaximum($maximalHeartRate);
-        } elseif (self::PERCENT_RESERVE == $enum) {
+        }
+
+        if (self::PERCENT_RESERVE == $enum) {
             return new PercentReserve($maximalHeartRate, $restingHeartRate);
         }
 

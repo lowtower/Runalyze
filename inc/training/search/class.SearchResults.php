@@ -253,13 +253,14 @@ class SearchResults {
 		$this->DatasetQuery->resetJoins();
 
 		$this->Trainings = DB::getInstance()->query(
-			'SELECT DISTINCT
+		    'SELECT DISTINCT
 				`t`.`id`,
 				`t`.`time`
-				'.($this->multiEditorRequested() ? '' :
+				'.(
+		        $this->multiEditorRequested() ? '' :
 					', '.$this->DatasetQuery->queryToSelectAllKeys().' '.
 					$this->DatasetQuery->queryToSelectJoinedFields()
-				).'
+		    ).'
 				'.$this->columnFromRaceResultIfRequired().'
 			FROM `'.PREFIX.'training` AS `t`
 			'.$this->joinRaceResultIfRequired().'
@@ -321,7 +322,7 @@ class SearchResults {
 		return $this->getEquipmentCondition().$this->getTagCondition().' WHERE '.implode(' AND ', array_unique($conditions));
 	}
 
-	/**
+    /**
      * @param lowercase-string[] $conditions
      */
     protected function addSpecialConditions(array &$conditions) {
@@ -346,7 +347,7 @@ class SearchResults {
 		}
 	}
 
-	/**
+    /**
      * @param string[] $conditions
      */
     protected function addPaceCondition(array &$conditions) {
@@ -360,7 +361,7 @@ class SearchResults {
 		$conditions[] = ($sign == '=' ? 'ROUND(`t`.`s`/`t`.`distance`)' : '`t`.`s`/`t`.`distance`').' '.$sign.' '.DB::getInstance()->escape($value);
 	}
 
-	/**
+    /**
      * @param string[] $conditions
      */
     protected function addGradientCondition(array &$conditions) {
@@ -371,7 +372,7 @@ class SearchResults {
 		$conditions[] = '`t`.`elevation`/`t`.`distance` '.$this->signForKey('gradient').' '.DB::getInstance()->escape($value);
 	}
 
-	/**
+    /**
      * @param string[] $conditions
      */
     protected function addIsRaceCondition(array &$conditions) {
@@ -382,17 +383,17 @@ class SearchResults {
 		}
 	}
 
-	/**
+    /**
      * Add condition for array from select box
      * @param string $key
      * @param string[] $conditions
      */
     protected function addConditionForArray($key, array &$conditions) {
 		$array = array_map(
-			function ($value) {
+		    function ($value) {
 				return (int) $value;
 			},
-			$_POST[$key]
+		    $_POST[$key]
 		);
 
 		$conditions[] = '`t`.`'.$key.'` IN('.implode(',', $array).')';
@@ -491,7 +492,7 @@ class SearchResults {
 		return '=';
 	}
 
-	/**
+    /**
      * Add time range condition
      * @param string[] $conditions
      */
@@ -505,17 +506,17 @@ class SearchResults {
 		}
 	}
 
-	/**
+    /**
      * Add sport condition
      * @param lowercase-string[] $conditions
      */
     protected function addSportCondition(array &$conditions) {
 		if (is_array($_POST['sportid'])) {
 			$array = array_map(
-				function ($value) {
+			    function ($value) {
 					return (int) $value;
 				},
-				$_POST['sportid']
+			    $_POST['sportid']
 			);
 
 			$conditions[] = '`t`.`sportid` IN('.implode(',', $array).')';
@@ -535,10 +536,10 @@ class SearchResults {
 
 		if (is_array($_POST['equipmentid'])) {
 			$array = array_map(
-				function ($value) {
+			    function ($value) {
 					return (int) $value;
 				},
-				$_POST['equipmentid']
+			    $_POST['equipmentid']
 			);
 
 			return 'INNER JOIN (SELECT `ae`.`activityid` FROM `'.PREFIX.'activity_equipment` AS `ae` WHERE `ae`.`equipmentid` IN('.implode(',', $array).')) AS `suba` ON `suba`.`activityid` = `t`.`id`';
@@ -558,10 +559,10 @@ class SearchResults {
 
 		if (is_array($_POST['tagid'])) {
 			$array = array_map(
-				function ($value) {
+			    function ($value) {
 					return (int) $value;
 				},
-				$_POST['tagid']
+			    $_POST['tagid']
 			);
 
 			return 'INNER JOIN (SELECT `at`.`activityid` FROM `'.PREFIX.'activity_tag` AS `at` WHERE `at`.`tagid` IN('.implode(',', $array).')) AS `subb` ON `subb`.`activityid` = `t`.`id`';
@@ -662,9 +663,9 @@ class SearchResults {
 		return isset($_POST['send-to-multi-editor']);
 	}
 
-    /**
-     * @return int[]
-     */
+	/**
+	 * @return int[]
+	 */
 	public function getIdsForMultiEditor() {
 	    return array_map(function($data) {
 	        return (int) $data['id'];
@@ -716,7 +717,7 @@ class SearchResults {
 	 */
 	protected function connectPagination() {
 		echo Ajax::wrapJSforDocumentReady(
-			'$("#search-back").click(function(){'.
+		    '$("#search-back").click(function(){'.
 				'var $i = $("#search input[name=\'page\']");'.
 				'$i.val( parseInt($i.val()) - 1 );'.
 				'$("#search").submit();'.

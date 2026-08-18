@@ -38,7 +38,6 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
             ->willReturn($exampleData);
 
         /** @var StrategyInterface $strategy */
-
         $this->Collection->add($strategy);
 
         $result = $this->Collection->tryToLoadForecast(new Location());

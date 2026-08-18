@@ -71,7 +71,9 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
             new Activity\Entity([
                 Activity\Entity::TIMESTAMP => LocalTime::fromString('2016-01-13 08:00:00')->getTimestamp(),
                 Activity\Entity::TIME_IN_SECONDS => 0
-            ]), new Trackdata\Entity([]), new Route\Entity([
+            ]),
+            new Trackdata\Entity([]),
+            new Route\Entity([
                 Route\Entity::GEOHASHES => [
                     (new Geohash())->encode(new Coordinate([49.44, 7.45]))->getGeohash()
                 ]
@@ -106,7 +108,8 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
             new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
                 Activity\Entity::TIME_IN_SECONDS => 600
-            ]), new Route\Entity([
+            ]),
+            new Route\Entity([
                 Route\Entity::DISTANCE => 10
             ])
         );

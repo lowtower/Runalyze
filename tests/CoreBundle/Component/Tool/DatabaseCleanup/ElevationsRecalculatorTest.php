@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\ElevationsRecalcul
  */
 class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \PDO */
+	/** @var \PDO */
 	protected $PDO;
 
     /** @var int */

@@ -48,7 +48,7 @@ class TablePaceGoal {
 		return $this->Code;
 	}
 
-	/**
+    /**
      * generate data
      * @param array<string, mixed> $inPaceGoal
      */

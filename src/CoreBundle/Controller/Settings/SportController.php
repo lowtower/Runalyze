@@ -52,7 +52,7 @@ class SportController extends Controller
     /**
      * @Route("", name="settings-sports")
      */
-    public function overviewAction(Account $account)
+    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('settings/sport/overview.html.twig', [
             'sports' => $this->getSportRepository()->findAllFor($account),
@@ -71,7 +71,7 @@ class SportController extends Controller
         $type = new Type();
         $type->setAccount($account);
 
-        $form = $this->createForm(Form\Settings\SportTypeType::class, $type ,[
+        $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-add', [
                 'sportid' => $sportid
             ])
@@ -103,7 +103,7 @@ class SportController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(Form\Settings\SportTypeType::class, $type ,[
+        $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-edit', [
                 'id' => $type->getId()
             ])
@@ -129,7 +129,7 @@ class SportController extends Controller
      * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id" = "\d+"})
      * @ParamConverter("type", class="CoreBundle:Type")
      */
-    public function deleteSportTypeAction(Request $request, Type $type, Account $account)
+    public function deleteSportTypeAction(Request $request, Type $type, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
@@ -173,7 +173,7 @@ class SportController extends Controller
             ]);
         }
 
-        $form = $this->createForm(Form\Settings\SportType::class, $sport,[
+        $form = $this->createForm(Form\Settings\SportType::class, $sport, [
             'action' => $this->generateUrl('sport-add')
         ]);
         $form->handleRequest($request);
@@ -202,7 +202,7 @@ class SportController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(Form\Settings\SportType::class, $sport,[
+        $form = $this->createForm(Form\Settings\SportType::class, $sport, [
             'action' => $this->generateUrl('sport-edit', [
                 'id' => $sport->getId()
             ])
@@ -230,7 +230,7 @@ class SportController extends Controller
      * @Route("/{id}/delete", name="sport-delete", requirements={"id" = "\d+"})
      * @ParamConverter("sport", class="CoreBundle:Sport")
      */
-    public function sportDeleteAction(Request $request, Sport $sport, Account $account)
+    public function sportDeleteAction(Request $request, Sport $sport, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));

@@ -16,7 +16,7 @@ class Gradient extends ActivitySeries
 
 	/**
 	 * @var \Runalyze\View\Activity\Context
-     * @param int $kernelWidth
+	 * @param int $kernelWidth
 	 */
 	public function __construct(Activity\Context $context, $kernelWidth = 20)
     {

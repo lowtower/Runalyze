@@ -53,45 +53,51 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 
 	public function testDuplicates()
 	{
-	    $this->assertEquals([
-        '1234567890' => false,
-	        '1448797800' => true,
-	        '1448797980' => false,
-	        '1450823800' => true,
-	        '9876543210' => false
-    ], $this->Finder->checkForDuplicates([
-	        1234567890,
-	        1448797800,
-	        1448797980,
-	        1450823800,
-	        9876543210
-	    ])
+	    $this->assertEquals(
+	        [
+            '1234567890' => false,
+	            '1448797800' => true,
+	            '1448797980' => false,
+	            '1450823800' => true,
+	            '9876543210' => false
+        ],
+	        $this->Finder->checkForDuplicates([
+	            1234567890,
+	            1448797800,
+	            1448797980,
+	            1450823800,
+	            9876543210
+	        ])
 	    );
 	}
 
 	public function testDuplicatesWithNull()
 	{
-		$this->assertEquals([
-		    null => false,
-		    '1234567890' => false,
-		    '1448797800' => true
-		], $this->Finder->checkForDuplicates([
-		    1234567890,
-		    null,
-		    1448797800,
-		    null
-		])
+		$this->assertEquals(
+		    [
+		        null => false,
+		        '1234567890' => false,
+		        '1448797800' => true
+		    ],
+		    $this->Finder->checkForDuplicates([
+		        1234567890,
+		        null,
+		        1448797800,
+		        null
+		    ])
 		);
 	}
 
 	public function testDuplicatesWithOnlyNull()
 	{
-		$this->assertEquals([
-		    null => false
-		], $this->Finder->checkForDuplicates([
-		    null,
-		    null
-		])
+		$this->assertEquals(
+		    [
+		        null => false
+		    ],
+		    $this->Finder->checkForDuplicates([
+		        null,
+		        null
+		    ])
 		);
 	}
 

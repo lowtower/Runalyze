@@ -79,7 +79,9 @@ abstract class AbstractPointReductionAlgorithm
 
         if ($t < 0) {
             return self::pointDistance($pointX, $pointY, $line1x, $line1y);
-        } else if ($t > 1) {
+        }
+
+        if ($t > 1) {
             return self::pointDistance($pointX, $pointY, $line2x, $line2y);
         }
 

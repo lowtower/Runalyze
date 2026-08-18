@@ -36,7 +36,7 @@ class SportSelectionFactory
      * @param bool $allIsAvailable
      * @return Selection
      */
-    public function getSelection($param = null, $allIsAvailable = true)
+    public function getSelection($param = null, $allIsAvailable = true): \Runalyze\Bundle\CoreBundle\Services\Selection\Selection
     {
         if (! $this->knowsUser()) {
             throw new \RuntimeException('Sport selection can only be collected if the user is known.');

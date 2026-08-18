@@ -98,11 +98,11 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	/** @var string */
 	const INTERNAL_SPORT_ID = 'internal_sport_id';
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties() {
+    public static function allDatabaseProperties(): array {
 		return array(
 		    self::NAME,
 		    self::IMAGE,
@@ -159,7 +159,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * @return \Runalyze\View\Icon\SportIcon
 	 * @codeCoverageIgnore
 	 */
-	public function icon() {
+	public function icon(): \Runalyze\View\Icon\SportIcon {
 		return new SportIcon($this->Data[self::IMAGE]);
 	}
 
@@ -167,7 +167,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
         return $this->Data[self::IMAGE];
     }
 
-    /**
+	/**
 	 * Uses short display?
 	 * @return boolean
 	 */

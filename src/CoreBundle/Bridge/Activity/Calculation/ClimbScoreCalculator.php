@@ -15,7 +15,7 @@ class ClimbScoreCalculator
     /** @var float [km] */
     const CLIMB_DISTANCE_THRESHOLD = 0.1;
 
-    public function calculateFor(Training $activity)
+    public function calculateFor(Training $activity): \Runalyze\Sports\ClimbScore\ClimbScore
     {
         $score = new ClimbScore();
 

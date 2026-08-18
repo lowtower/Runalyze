@@ -142,10 +142,6 @@ abstract class Laps extends ActivityPlot {
 			return true;
 		}
 
-		if (abs($context->activity()->splits()->totalDistance() - $context->activity()->distance()) > 0.02 * $context->activity()->distance()) {
-			return true;
-		}
-
-		return false;
+        return abs($context->activity()->splits()->totalDistance() - $context->activity()->distance()) > 0.02 * $context->activity()->distance();
 	}
 }

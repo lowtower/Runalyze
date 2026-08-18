@@ -31,7 +31,7 @@ class Tools extends AbstractKey
      * Database key
      * @return string
      */
-    public function column()
+    public function column(): array
     {
         return ['elevation', 'splits'];
     }

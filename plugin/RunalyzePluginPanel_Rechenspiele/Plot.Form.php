@@ -74,7 +74,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 
 	// Can't cache until we can invalidate it
 	$Statement = DB::getInstance()->query(
-		'SELECT
+	    'SELECT
 			DATEDIFF(FROM_UNIXTIME(`time`), "'.$StartDay.'") as `index`,
 			`trimp`,
 			`distance`,
@@ -240,7 +240,7 @@ if ($perfmodel == 'banister') {
 	$Plot->setLinesFilled(array(2), 0.3);
 }
 
-$Plot->setLinesFilled(array(1),0.4);
+$Plot->setLinesFilled(array(1), 0.4);
 $Plot->setXAxisAsTime();
 
 if (! $All && ! $lastHalf && ! $lastYear)
@@ -266,10 +266,10 @@ $maxBasicEndurance = empty($BasicEndurance) ? 100 : ceil(max($BasicEndurance)/10
 $Plot->setYLimits(4, 0, $maxBasicEndurance);
 
 if ($perfmodel == 'banister') {
-	$Plot->showAsBars(4,1,2);
+	$Plot->showAsBars(4, 1, 2);
 	$Plot->showAsPoints(5);
 } else {
-	$Plot->showAsBars(3,1,2);
+	$Plot->showAsBars(3, 1, 2);
 	$Plot->showAsPoints(4);
 }
 

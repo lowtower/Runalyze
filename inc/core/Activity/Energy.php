@@ -21,7 +21,7 @@ class Energy implements ValueInterface {
 	/**
 	 * Default kj multiplier
 	 * @var double
-	*/
+	 */
 	const KJ_MULTIPLIER = 4.1868;
 
 	/**

@@ -24,11 +24,11 @@ class Unit {
 	 */
 	const RUNNING = 2;
 
-	/**
+    /**
      * Complete list
      * @return array<int, int>
      */
-    public static function completeList() {
+    public static function completeList(): array {
 		return array(
 		    self::GENERAL,
 		    self::RUNNING

@@ -107,7 +107,7 @@ class PaceUnit extends AbstractEnum
     /**
      * @return array
      */
-    static public function getChoices() {
+    static public function getChoices(): array {
         return array(
             self::stringFor(self::KM_PER_H) => self::KM_PER_H,
             self::stringFor(self::MILES_PER_H) => self::MILES_PER_H,

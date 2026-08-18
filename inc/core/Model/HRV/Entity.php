@@ -28,11 +28,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	 */
 	const DATA = 'data';
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allProperties() {
+    public static function allProperties(): array {
 		return array(
 		    self::ACTIVITYID,
 		    self::DATA

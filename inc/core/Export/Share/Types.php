@@ -53,11 +53,11 @@ final class Types extends AbstractEnum
 		return new $className($context);
 	}
 
-	/**
+    /**
      * Get array with class names
      * @return array<int, string>
      */
-    private static function classNamesArray()
+    private static function classNamesArray(): array
 	{
 		return array(
     self::TWITTER => 'Twitter',

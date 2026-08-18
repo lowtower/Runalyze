@@ -32,7 +32,7 @@ class HRVdifferences extends HRV
 	protected function initData(Activity\Context $context)
     {
 		$this->addSeries(
-			new Series\HRVdifferencesWithoutAnomalies($context)
+		    new Series\HRVdifferencesWithoutAnomalies($context)
 		);
 
 		$this->Plot->PlotOptions['allowSelection'] = false;

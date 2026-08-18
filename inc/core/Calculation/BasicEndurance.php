@@ -331,7 +331,7 @@ class BasicEndurance
      * @param array $activityData array(array('time' => ..., 'distance' => ...), array(...), ...)
      * @return array<string, int|float> array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      */
-    public function dataFor(array $activityData, $timestamp)
+    public function dataFor(array $activityData, $timestamp): array
     {
         $km = 0;
         $points = 0;
@@ -365,7 +365,8 @@ class BasicEndurance
 
         if ($diff > $this->DAYS_FOR_WEEK_KM)
             return $this->DAYS_FOR_WEEK_KM;
-        elseif ($diff < $this->DAYS_FOR_WEEK_KM_MIN)
+
+        if ($diff < $this->DAYS_FOR_WEEK_KM_MIN)
             return $this->DAYS_FOR_WEEK_KM_MIN;
 
         return $diff;

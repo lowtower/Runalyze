@@ -19,7 +19,7 @@ class UpdateController extends Controller
     /**
      * @Route("/update", name="update", condition="'%update_disabled%' == 'no'")
      */
-    public function updateAction($entity_manager = 'default')
+    public function updateAction($entity_manager = 'default'): \Symfony\Component\HttpFoundation\Response
     {
         $output = new BufferedOutput();
         $application = new Application($this->get('kernel'));
@@ -58,7 +58,7 @@ class UpdateController extends Controller
     /**
      * @Route("/update/start", name="update_start", condition="'%update_disabled%' == 'no'")
      */
-    public function updateStartAction()
+    public function updateStartAction(): \Symfony\Component\HttpFoundation\Response
     {
         $output = new BufferedOutput();
         $application = new Application($this->get('kernel'));

@@ -170,7 +170,7 @@ class MonthwiseTable
 	/**
 	 * @return array
 	 */
-	protected function generateDataForAverageTemperature()
+	protected function generateDataForAverageTemperature(): array
 	{
 		$Temperature = new Temperature();
 		$Statement = $this->createStatementToFetchAverageTemperatures();
@@ -191,7 +191,7 @@ class MonthwiseTable
 	protected function createStatementToFetchAverageTemperatures()
 	{
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				AVG(`temperature`) as `temp`,
 				'.$this->GroupByQuery.' as `m`
 			FROM `'.PREFIX.'training`
@@ -239,7 +239,7 @@ class MonthwiseTable
 	protected function createStatementToFetchWeatherConditions()
 	{
 		return $this->PDO->prepare(
-			'SELECT
+		    'SELECT
 				SUM(1) as `num`,
 				'.$this->GroupByQuery.' as `m`
 			FROM `'.PREFIX.'training`
@@ -288,7 +288,7 @@ class MonthwiseTable
 	protected function createStatementToFetchEquipment()
 	{
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				SUM(IF(`eq`.`activityid` = `'.PREFIX.'training`.`id`, 1,0)) as `num`,
 				`eq`.`equipmentid`,
 				'.$this->GroupByQuery.' as `m`

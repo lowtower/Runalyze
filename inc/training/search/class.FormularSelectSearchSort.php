@@ -91,7 +91,7 @@ class FormularSelectSearchSort extends FormularField {
 		return $code;
 	}
 
-	/**
+    /**
      * @param array<int, string[]>|int[] $keyIds
      */
     protected function addOptionsFor(array $keyIds) {

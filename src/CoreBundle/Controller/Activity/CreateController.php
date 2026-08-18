@@ -36,13 +36,15 @@ class CreateController extends Controller
      * @Route("/activity/add", name="activity-add")
      * @Security("has_role('ROLE_USER')")
      */
-    public function createAction()
+    public function createAction(): \Symfony\Component\HttpFoundation\Response
     {
         $defaultUploadMode = $this->get('app.configuration_manager')->getList()->getActivityForm()->get('TRAINING_CREATE_MODE');
 
         if ('garmin' == $defaultUploadMode) {
             return $this->forward('CoreBundle:Activity\Create:communicator');
-        } elseif ('form' == $defaultUploadMode) {
+        }
+
+        if ('form' == $defaultUploadMode) {
             return $this->forward('CoreBundle:Activity\Create:new');
         }
 
@@ -53,7 +55,7 @@ class CreateController extends Controller
      * @Route("/activity/communicator", name="activity-communicator")
      * @Security("has_role('ROLE_USER')")
      */
-    public function communicatorAction()
+    public function communicatorAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('activity/import_garmin_communicator.html.twig');
     }
@@ -62,7 +64,7 @@ class CreateController extends Controller
      * @Route("/activity/communicator/iframe", name="activity-communicator-iframe")
      * @Security("has_role('ROLE_USER')")
      */
-    public function communicatorIFrameAction()
+    public function communicatorIFrameAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('import/garmin_communicator.html.twig', [
             'garminAPIKey' => $this->getParameter('garmin_api_key'),
@@ -73,7 +75,7 @@ class CreateController extends Controller
      * @Route("/activity/upload", name="activity-upload")
      * @Security("has_role('ROLE_USER')")
      */
-    public function uploadAction(Request $request, Account $account)
+    public function uploadAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $importResult = null;
         $importDir = $this->getParameter('data_directory').'/import/';
@@ -120,7 +122,9 @@ class CreateController extends Controller
                 $this->containerToActivity($results[0]->getContainer()[0], $account),
                 $request
             );
-        } elseif (1 < $numActivities) {
+        }
+
+        if (1 < $numActivities) {
             return $this->getResponseForMultipleNewActivities($results, $request, $account);
         }
 
@@ -266,7 +270,9 @@ class CreateController extends Controller
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             return $this->render('util/close_overlay.html.twig');
-        } elseif (! $form->isSubmitted() && $setCache) {
+        }
+
+        if (! $form->isSubmitted() && $setCache) {
             $form->get('temporaryHash')->setData(
                 $this->get('app.activity_context.cache')->save($activity)
             );
@@ -309,7 +315,7 @@ class CreateController extends Controller
      * @param int|null $time
      * @return Training
      */
-    protected function getDefaultNewActivity(Account $account, $time = null)
+    protected function getDefaultNewActivity(Account $account, $time = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
         $activity = new Training();
         $activity->setAccount($account);

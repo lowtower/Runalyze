@@ -29,7 +29,7 @@ class Temperature extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\Temperature($context)
+		    new Series\Temperature($context)
 		);
 	}
 }

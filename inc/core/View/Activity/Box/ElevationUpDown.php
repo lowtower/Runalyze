@@ -31,9 +31,9 @@ class ElevationUpDown extends AbstractBox
 		}
 
 		parent::__construct(
-			$upDown,
-			Configuration::General()->distanceUnitSystem()->elevationUnit(),
-			__('Elevation up/down')
+		    $upDown,
+		    Configuration::General()->distanceUnitSystem()->elevationUnit(),
+		    __('Elevation up/down')
 		);
 	}
 }

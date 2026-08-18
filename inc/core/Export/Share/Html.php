@@ -38,9 +38,9 @@ class Html extends AbstractSnippetSharer
         return true;
     }
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
 	public function name(): string
     {
 	    return __('HTML');

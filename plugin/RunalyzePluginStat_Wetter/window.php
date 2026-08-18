@@ -3,7 +3,6 @@
  * Window for weather plots
  * @package Runalyze\Plugins\Stats
  */
-
 if (! isset($_GET['y']))
 	$_GET['y'] = date('Y');
 else

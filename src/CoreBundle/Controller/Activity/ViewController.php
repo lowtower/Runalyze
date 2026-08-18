@@ -44,7 +44,7 @@ class ViewController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function displayAction(Request $request, Training $activity, Account $account)
+    public function displayAction(Request $request, Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
@@ -75,7 +75,7 @@ class ViewController extends Controller
      * @ParamConverter("activity", class="CoreBundle:Training")
      * @Security("has_role('ROLE_USER')")
      */
-    public function vo2maxInfoAction(Training $activity, Account $account)
+    public function vo2maxInfoAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
@@ -92,7 +92,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/splits-info", requirements={"id" = "\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function splitsInfoAction($id, Account $account)
+    public function splitsInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
 
@@ -112,7 +112,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/elevation-info", requirements={"id" = "\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function elevationInfoAction($id, Request $request, Account $account)
+    public function elevationInfoAction($id, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         if ($request->get('use-calculated-value') == 'true') {
             /** @var Training $activity */
@@ -143,7 +143,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/time-series-info", requirements={"id" = "\d+"}, name="activity-tool-time-series-info")
      * @Security("has_role('ROLE_USER')")
      */
-    public function timeSeriesInfoAction($id, Account $account)
+    public function timeSeriesInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $trackdata = $this->getDoctrine()->getRepository('CoreBundle:Trackdata')->findByActivity($id, $account);
 
@@ -171,7 +171,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/sub-segments-info", requirements={"id" = "\d+"}, name="activity-tool-sub-segments-info")
      * @Security("has_role('ROLE_USER')")
      */
-    public function subSegmentInfoAction($id, Account $account)
+    public function subSegmentInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $trackdata = $this->getDoctrine()->getRepository('CoreBundle:Trackdata')->findByActivity($id, $account);
 
@@ -201,7 +201,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/climb-score", requirements={"id" = "\d+"}, name="activity-tool-climb-score")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function climbScoreAction(Training $activity, ?Account $account = null)
+    public function climbScoreAction(Training $activity, ?Account $account = null): \Symfony\Component\HttpFoundation\Response
     {
         $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
 
@@ -227,7 +227,8 @@ class ViewController extends Controller
 
         if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
             $activity->getRoute()->setElevationsCorrected((new StepwiseElevationProfileFixer(
-                5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
+                5,
+                StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
             ))->fixStepwiseElevations(
                 $activity->getRoute()->getElevationsCorrected(),
                 $activity->getTrackdata()->getDistance()

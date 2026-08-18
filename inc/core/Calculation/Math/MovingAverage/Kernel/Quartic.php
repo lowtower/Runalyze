@@ -18,7 +18,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 class Quartic extends AbstractKernel
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @param float $width
      */
     public function __construct($width)

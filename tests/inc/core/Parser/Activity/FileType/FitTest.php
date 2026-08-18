@@ -55,7 +55,7 @@ class FitTest extends AbstractActivityParserTestCase
 		        $container->ContinuousData->Time[$i - 1],
 		        $container->ContinuousData->Time[$i],
 		        sprintf('Time array is not continuously increasing at index %u', $i)
-	        );
+		    );
 		}
     }
 
@@ -464,9 +464,9 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->FitDetails->TotalDescent);
 	}
 
-    /**
-     * @see https://github.com/Runalyze/Runalyze/issues/1798
-     */
+	/**
+	 * @see https://github.com/Runalyze/Runalyze/issues/1798
+	 */
 	public function testDataFromFR630WithFurtherRunningDataLikeLactateThreshold()
 	{
         $this->convertAndParse('fit/FR630-with-lth.fit');
@@ -518,7 +518,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertSame(SelfEvaluationFeeling::VERY_STRONG, SelfEvaluationFeeling::fromFitToEnum(5));
     }
 
-/**
+	/**
 	 * @see https://github.com/Runalyze/Runalyze/issues/1886
 	 */
 	public function testDataFromSuuntoAmbitPeakWithoutFinalLap()
@@ -811,7 +811,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(1.4, $this->Container->ActivityData->AvgFootstrikeTypeLeft, 0.1);
         $this->assertEqualsWithDelta(1.9, $this->Container->ActivityData->AvgFootstrikeTypeRight, 0.1);
         $this->assertEqualsWithDelta(-12.6, $this->Container->ActivityData->AvgPronationExcursionLeft, 0.1);
-        $this->assertEqualsWithDelta(-10.2, $this->Container->ActivityData->AvgPronationExcursionRight,0.1);
+        $this->assertEqualsWithDelta(-10.2, $this->Container->ActivityData->AvgPronationExcursionRight, 0.1);
 
         $this->assertEqualsWithDelta(253, $this->Container->ActivityData->AvgGroundContactTime, 0.5);
         $this->assertEqualsWithDelta(4940, $this->Container->ActivityData->AvgGroundContactBalance, 0.5);

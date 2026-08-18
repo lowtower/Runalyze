@@ -45,10 +45,10 @@ class AnaerobicTrainingEffect implements ValueInterface
 		$this->set($value);
 	}
 
-    /**
-     * @return string
-     * @codeCoverageIgnore
-     */
+	/**
+	 * @return string
+	 * @codeCoverageIgnore
+	 */
 	public function label(): string
     {
         // #TSC: this label is shown on the statistic heart-rate "box"
@@ -58,19 +58,19 @@ class AnaerobicTrainingEffect implements ValueInterface
 	/**
 	 * Unit
 	 * @return string
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	public function unit(): string
     {
 		return '';
 	}
 
-	/**
-	 * Set training effect
-	 * @param float|null|string $value
-	 * @return \Runalyze\Activity\AnaerobicTrainingEffect $this-reference
+    /**
+     * Set training effect
+     * @param float|null|string $value
+     * @return \Runalyze\Activity\AnaerobicTrainingEffect $this-reference
      * @throws \InvalidArgumentException
-	 */
+     */
     public function set($value) {
         if (null === $value) {
             $this->Value = null;

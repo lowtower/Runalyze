@@ -245,7 +245,7 @@ class Entity extends Model\EntityWithID {
      */
     const FIT_TOTAL_DESCENT = 'fit_total_descent';
 
-	/**
+    /**
      * Key: fit_self_evaluation_feeling
      * @var string
      */
@@ -575,11 +575,11 @@ class Entity extends Model\EntityWithID {
 		$this->cloneInternalObjects();
 	}
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties() {
+    public static function allDatabaseProperties(): array {
 		return array(
 		    self::TIMESTAMP,
 		    self::TIMEZONE_OFFSET,
@@ -1303,9 +1303,9 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::POWER];
 	}
 
-    /**
-     * @return null|bool
-     */
+	/**
+	 * @return null|bool
+	 */
 	public function isPowerCalculated() {
 	    return null === $this->Data[self::IS_POWER_CALCULATED] ? null : 1 == $this->Data[self::IS_POWER_CALCULATED];
     }
@@ -1336,7 +1336,7 @@ class Entity extends Model\EntityWithID {
 
     /**
      * total cycles
-	 * #TSC
+     * #TSC
      * @return null|int
      */
     public function totalCycles() {
@@ -1480,12 +1480,12 @@ class Entity extends Model\EntityWithID {
 	public function weather() {
 		if (null === $this->Weather) {
 			$this->Weather = new Weather(
-				new Weather\Temperature($this->Data[self::TEMPERATURE]),
-				new Weather\Condition($this->Data[self::WEATHERID]),
-				new Weather\WindSpeed($this->Data[self::WINDSPEED]),
-				new Weather\WindDegree($this->Data[self::WINDDEG]),
-				new Weather\Humidity($this->Data[self::HUMIDITY]),
-				new Weather\Pressure($this->Data[self::PRESSURE])
+			    new Weather\Temperature($this->Data[self::TEMPERATURE]),
+			    new Weather\Condition($this->Data[self::WEATHERID]),
+			    new Weather\WindSpeed($this->Data[self::WINDSPEED]),
+			    new Weather\WindDegree($this->Data[self::WINDDEG]),
+			    new Weather\Humidity($this->Data[self::HUMIDITY]),
+			    new Weather\Pressure($this->Data[self::PRESSURE])
 			);
 			$this->Weather->setSource($this->Data[self::WEATHER_SOURCE]);
 		}
@@ -1519,7 +1519,7 @@ class Entity extends Model\EntityWithID {
 		return $this->Splits;
 	}
 
-	/**
+    /**
      * SplitsAdditional
      * @return array<string, mixed>
      */
@@ -1548,7 +1548,7 @@ class Entity extends Model\EntityWithID {
 		return $this->Partner;
 	}
 
-	/**
+    /**
      * PaceGoal #TSC
      * @return array<string, mixed>
      */
@@ -1569,9 +1569,9 @@ class Entity extends Model\EntityWithID {
 	 * Unset running values
 	 */
 	public function unsetRunningValues() {
-		$this->set(Entity::VO2MAX_BY_TIME, null);
-		$this->set(Entity::VO2MAX, null);
-		$this->set(Entity::VO2MAX_WITH_ELEVATION, null);
+		$this->set(self::VO2MAX_BY_TIME, null);
+		$this->set(self::VO2MAX, null);
+		$this->set(self::VO2MAX_WITH_ELEVATION, null);
 	}
 
 	/**

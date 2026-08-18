@@ -77,13 +77,21 @@ class OutOfRangeValueFilter extends AbstractFilter
             )
         ) {
             if ($this->Strict) {
-                throw new InvalidDataException(sprintf('Out of range value detected: %s not in [%u, %u] for %s.',
-                    $value, $minimum, $maximum, $label
+                throw new InvalidDataException(sprintf(
+                    'Out of range value detected: %s not in [%u, %u] for %s.',
+                    $value,
+                    $minimum,
+                    $maximum,
+                    $label
                 ));
             }
 
-            $this->logger->warning(sprintf('Out of range value fixed: %s not in [%u, %u] for %s.',
-                $value, $minimum, $maximum, $label
+            $this->logger->warning(sprintf(
+                'Out of range value fixed: %s not in [%u, %u] for %s.',
+                $value,
+                $minimum,
+                $maximum,
+                $label
             ));
             $value = $default;
         }

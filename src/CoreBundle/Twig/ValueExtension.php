@@ -76,7 +76,7 @@ class ValueExtension extends \Twig_Extension
      * @param string $defaultThousandsSeparator
      * @return DisplayableValue
      */
-    public function value($value, $unit, $defaultDecimals = 0, $defaultDecimalPoint = '.', $defaultThousandsSeparator = ',')
+    public function value($value, $unit, $defaultDecimals = 0, $defaultDecimalPoint = '.', $defaultThousandsSeparator = ','): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         return new DisplayableValue($value, $unit, $defaultDecimals, $defaultDecimalPoint, $defaultThousandsSeparator);
     }
@@ -87,7 +87,7 @@ class ValueExtension extends \Twig_Extension
      * @param int $decimals
      * @return DisplayableValue
      */
-    public function distance($kilometer, $unit = null, $decimals = 2)
+    public function distance($kilometer, $unit = null, $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getDistanceUnit();
 
@@ -99,7 +99,7 @@ class ValueExtension extends \Twig_Extension
      * @param null|AbstractDistanceUnit $unit
      * @return DisplayableValue
      */
-    public function elevation($meter, $unit = null)
+    public function elevation($meter, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getElevationUnit();
 
@@ -112,7 +112,7 @@ class ValueExtension extends \Twig_Extension
      * @param int $decimals
      * @return DisplayableValue
      */
-    public function strideLength($centimeter, $unit = null, $decimals = 2)
+    public function strideLength($centimeter, $unit = null, $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getStrideLengthUnit();
 
@@ -124,7 +124,7 @@ class ValueExtension extends \Twig_Extension
      * @param null|AbstractEnergyUnit $unit
      * @return DisplayableValue
      */
-    public function energy($kcal, $unit = null)
+    public function energy($kcal, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getEnergyUnit();
 
@@ -152,7 +152,7 @@ class ValueExtension extends \Twig_Extension
      * @param null|int $bpmMax [bpm]
      * @return DisplayableValueInPercent
      */
-    public function heartRatePercentMaximum($bpm, $bpmMax = null)
+    public function heartRatePercentMaximum($bpm, $bpmMax = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent
     {
         return new DisplayableValueInPercent($bpm, $this->UnitSystem->getHeartRateUnitPercentMaximum($bpmMax));
     }
@@ -206,7 +206,7 @@ class ValueExtension extends \Twig_Extension
      * @param int $decimals
      * @return DisplayableValue
      */
-    public function temperature($celsius, $unit = null, $decimals = 0)
+    public function temperature($celsius, $unit = null, $decimals = 0): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getTemperatureUnit();
 
@@ -219,7 +219,7 @@ class ValueExtension extends \Twig_Extension
      * @param int $decimals
      * @return DisplayableValue
      */
-    public function weight($kilogram, $unit = null, $decimals = 1)
+    public function weight($kilogram, $unit = null, $decimals = 1): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
         $unit = $unit ?: $this->UnitSystem->getWeightUnit();
 
@@ -232,7 +232,7 @@ class ValueExtension extends \Twig_Extension
      * @param bool $valueIsUsedForShape
      * @return DisplayableVO2max
      */
-    public function vo2max($uncorrectedValue, RunalyzeConfigurationList $configurationList, $valueIsUsedForShape = true)
+    public function vo2max($uncorrectedValue, RunalyzeConfigurationList $configurationList, $valueIsUsedForShape = true): \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max
     {
         return new DisplayableVO2max($uncorrectedValue, $configurationList, $valueIsUsedForShape);
     }

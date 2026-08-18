@@ -53,7 +53,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
-			__("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'".
+		    __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'".
 				'This way the plugin will be able to count how often you visit each city or place.')
 		);
 	}
@@ -133,7 +133,8 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 		echo '<tbody class="r">';
 
 		$i = 0;
-		$statement = DB::getInstance()->query('
+		$statement = DB::getInstance()->query(
+		    '
 			SELECT
 				`'.PREFIX.'route`.`name`,
 				SUM(`'.PREFIX.'training`.`distance`) as `km`,
@@ -149,7 +150,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 		while ($data = $statement->fetch()) {
 			echo '<tr>
 					<td>'.$data['num'].'x</td>
-					<td class="l">'.SearchLink::to('route', $data['name'], Helper::Cut($data['name'],100)).'</td>
+					<td class="l">'.SearchLink::to('route', $data['name'], Helper::Cut($data['name'], 100)).'</td>
 					<td>'.Distance::format($data['km']).'</td>
 				</tr>';
 

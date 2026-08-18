@@ -91,7 +91,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 180,
 		        'c' => '#b80000'
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('activity stored zones', $underTest->getSourceHint());
 		// sort of array
 		$this->assertEquals(6, array_key_first($result));
@@ -139,7 +139,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		    array(
 		        'hr' => 191
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('activity stored zones', $underTest->getSourceHint());
 	}
 
@@ -181,7 +181,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 101,
 		        'c' => '#b80000'
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('default zones', $underTest->getSourceHint());
 		// sort of array
 		$this->assertEquals(8, array_key_first($result));
@@ -229,7 +229,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		    array(
 		        'hr' => 111
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('default zones', $underTest->getSourceHint());
 	}
 
@@ -254,7 +254,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        't' => 't3',
 		        'hr' => 120,
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('sport stored zones', $underTest->getSourceHint());
 		// sort of array
 		$this->assertEquals(3, array_key_first($result));
@@ -285,7 +285,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		    array(
 		        'hr' => 161,
 		    ),
-		),$result);
+		), $result);
 		$this->assertEquals('sport stored zones', $underTest->getSourceHint());
 		$this->assertEquals(array(
 		    'hr' => 52

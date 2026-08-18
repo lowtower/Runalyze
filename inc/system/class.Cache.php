@@ -5,7 +5,6 @@
  * @author Michael Pohl
  * @package Runalyze\System
  */
-
 class Cache {
 	/**
 	 * Path for cache, relative to runalyze root
@@ -16,7 +15,7 @@ class Cache {
 	/**
 	 * Last cache clean date
 	 * @var int
-	*/
+	 */
 	private static $LASTCLEAN;
 
     /**
@@ -30,7 +29,7 @@ class Cache {
 	 */
 	public $footer_sent = true;
 
-	/** @var \phpFastCache */
+    /** @var \phpFastCache */
     public static $cache;
 
 	/**
@@ -51,7 +50,7 @@ class Cache {
                 $key = $keyword.SessionAccountHandler::getId();
                 self::$cache->set($key, $data, $time);
             } else {
-                self::$cache->set($keyword,$data, $time);
+                self::$cache->set($keyword, $data, $time);
             }
         }
 

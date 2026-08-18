@@ -49,7 +49,7 @@ abstract class AbstractKey
 		return false;
 	}
 
-	/**
+    /**
      * column: internal identifier of this join (not used in queries), can be identical in different Dataset\Keys definitions to use the same join for both​
      * join: query part for the join
      * field: query part for the field(s) to select (will be available via $context->data('...'))
@@ -173,7 +173,7 @@ abstract class AbstractKey
 	/**
 	 * returns a value dependend CSS class and style.
 	 * #TSC
-     * @param \Runalyze\Dataset\Context $context
+	 * @param \Runalyze\Dataset\Context $context
 	 * @return array with key "class" and "style"
 	 */
 	public function valueDependendCssStyle(Context $context)

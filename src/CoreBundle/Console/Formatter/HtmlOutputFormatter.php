@@ -35,7 +35,7 @@ class HtmlOutputFormatter extends OutputFormatter
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function format($message)
     {

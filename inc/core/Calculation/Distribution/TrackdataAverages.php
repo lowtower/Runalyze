@@ -42,9 +42,9 @@ class TrackdataAverages
 	 * Constructor
 	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
 	 * @param string[] $keys enums
-     * @param bool $ignoreZeros by default 0s are ignored for mean
-     * @param array|bool $keysThatAllowZero some keys may allow 0s, by default: cadence, temperature
-     * @throws \InvalidArgumentException
+	 * @param bool $ignoreZeros by default 0s are ignored for mean
+	 * @param array|bool $keysThatAllowZero some keys may allow 0s, by default: cadence, temperature
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Trackdata\Entity $trackdata, array $keys, $ignoreZeros = true, $keysThatAllowZero = false)
 	{
@@ -61,7 +61,7 @@ class TrackdataAverages
     /**
      * @return array<int, string>
      */
-    protected function defaultKeysThatAllowZero()
+    protected function defaultKeysThatAllowZero(): array
     {
         return [
             Trackdata\Entity::TEMPERATURE

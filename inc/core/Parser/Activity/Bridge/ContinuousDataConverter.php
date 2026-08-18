@@ -20,7 +20,7 @@ class ContinuousDataConverter
     /**
      * @return Trackdata\Entity
      */
-    public function convertToLegacyTrackdataModel()
+    public function convertToLegacyTrackdataModel(): \Runalyze\Model\Trackdata\Entity
     {
         return new Trackdata\Entity([
             Trackdata\Entity::TIME => $this->Data->Time,
@@ -51,7 +51,7 @@ class ContinuousDataConverter
     /**
      * @return Route\Entity
      */
-    public function convertToLegacyRouteModel()
+    public function convertToLegacyRouteModel(): \Runalyze\Model\Route\Entity
     {
         $route = new Route\Entity([
             Route\Entity::DISTANCE => $this->Data->Distance,
@@ -65,7 +65,7 @@ class ContinuousDataConverter
     /**
      * @return Swimdata\Entity
      */
-    public function convertToLegacySwimdataModel()
+    public function convertToLegacySwimdataModel(): \Runalyze\Model\Swimdata\Entity
     {
         return new Swimdata\Entity([
             Swimdata\Entity::STROKE => $this->Data->Strokes,

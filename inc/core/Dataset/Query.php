@@ -75,7 +75,7 @@ class Query
 		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				`t`.`id`,
 				`t`.`time`,
 				`t`.`s` as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
@@ -110,7 +110,7 @@ class Query
 
 		// the query counts the activities group by sport and than limit the result; so the x most recent sports are selected
 		return $this->PDO->query(
-			'SELECT id, name, img FROM
+		    'SELECT id, name, img FROM
 				(SELECT s.id, s.name, s.img, count(*) AS c
 				FROM '.PREFIX.'sport AS s
 				JOIN '.PREFIX.'training AS t ON s.id = t.sportid
@@ -178,7 +178,7 @@ class Query
 	public function fetchSummaryForSport($sportid, $timeStart = 0, $timeEnd = false)
 	{
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				`time`,
 				`sportid`,
 				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
@@ -206,7 +206,7 @@ class Query
 		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
 		return $this->PDO->query(
-			'SELECT
+		    'SELECT
 				`time`,
 				`sportid`,
 				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
@@ -264,8 +264,8 @@ class Query
 
 			if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
 				$columnSelects[$key] = SummaryMode::query(
-					$KeyObject->summaryMode(),
-					$KeyObject->column()
+				    $KeyObject->summaryMode(),
+				    $KeyObject->column()
 				);
 			}
 		}
@@ -281,7 +281,7 @@ class Query
 	public function queryToSelectAllKeys(): string
 	{
 		return $this->queryToSelectKeys(
-			$this->collectColumnsForKeys($this->Configuration->allKeys())
+		    $this->collectColumnsForKeys($this->Configuration->allKeys())
 		);
 	}
 
@@ -293,7 +293,7 @@ class Query
 	public function queryToSelectActiveKeys(): string
 	{
 		return $this->queryToSelectKeys(
-			$this->collectColumnsForKeys($this->Configuration->activeKeys())
+		    $this->collectColumnsForKeys($this->Configuration->activeKeys())
 		);
 	}
 
@@ -367,7 +367,9 @@ class Query
 
 		if ($timerange == self::YEAR_TIMERANGE) {
 			return LocalTime::date('Y', $timeEnd).' - YEAR(FROM_UNIXTIME(`t`.`time`)) as `'.$asColumn.'`';
-		} elseif ($timerange == self::MONTH_TIMERANGE) {
+		}
+
+		if ($timerange == self::MONTH_TIMERANGE) {
 			return LocalTime::date('m', $timeEnd).' - MONTH(FROM_UNIXTIME(`t`.`time`)) + 12*('.LocalTime::date('Y', $timeEnd).' - YEAR(FROM_UNIXTIME(`t`.`time`))) as `'.$asColumn.'`';
 		}
 

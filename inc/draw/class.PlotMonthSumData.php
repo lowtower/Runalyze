@@ -63,7 +63,9 @@ class PlotMonthSumData extends PlotSumData {
 	protected function timer(): string {
 		if ($this->Year == parent::LAST_6_MONTHS) {
 			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
-		} elseif ($this->Year == parent::LAST_12_MONTHS) {
+		}
+
+		if ($this->Year == parent::LAST_12_MONTHS) {
 			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
 		}
 

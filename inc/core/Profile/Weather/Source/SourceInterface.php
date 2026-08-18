@@ -11,37 +11,37 @@ interface SourceInterface
 	 */
 	public function getInternalProfileEnum();
 
-    /**
-     * @return bool
-     */
+	/**
+	 * @return bool
+	 */
 	public function requiresAttribution();
 
-    /**
-     * @param TranslatorInterface $translator
-     * @param bool $withLink
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
+	/**
+	 * @param TranslatorInterface $translator
+	 * @param bool $withLink
+	 *
+	 * @return string
+	 *
+	 * @codeCoverageIgnore
+	 */
 	public function getAttribution(TranslatorInterface $translator, $withLink = true);
 
-    /**
-     * @param TranslatorInterface $translator
-     *
-     * @return string
-     *
-     * @codeCoverageIgnore
-     */
+	/**
+	 * @param TranslatorInterface $translator
+	 *
+	 * @return string
+	 *
+	 * @codeCoverageIgnore
+	 */
 	public function getAttributionLabel(TranslatorInterface $translator);
 
-    /**
-     * @return string|null
-     */
+	/**
+	 * @return string|null
+	 */
 	public function getAttributionUrl();
 
-    /**
-     * @return bool
-     */
+	/**
+	 * @return bool
+	 */
 	public function hasAttributionUrl();
 }

@@ -186,7 +186,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      */
     const RESPIRATION_RATE = 'respiration_rate';
 
-    /**
+	/**
 	 * Key: pauses
 	 * @var string
 	 */
@@ -303,11 +303,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         }
 	}
 
-	/**
+    /**
      * All databaseproperties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties() {
+    public static function allDatabaseProperties(): array {
 		return array(
 		    self::ACTIVITYID,
 		    self::TIME,
@@ -342,12 +342,13 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @return array
 	 */
 	public function properties() {
-		return array_merge(array(
-		    self::PACE,
-		    self::STRIDE_LENGTH,
-		    self::VERTICAL_RATIO
-		),
-			static::allDatabaseProperties()
+		return array_merge(
+		    array(
+		        self::PACE,
+		        self::STRIDE_LENGTH,
+		        self::VERTICAL_RATIO
+		    ),
+		    static::allDatabaseProperties()
 		);
 	}
 
@@ -436,22 +437,19 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canSet($key): bool {
-		if ($key == self::PAUSES) {
-			return false;
-		}
+	protected function canSet($key): bool
+    {
+        return $key != self::PAUSES;
+    }
 
-		return true;
-	}
-
-	/**
-	 * Value at
-	 *
-	 * Remark: This method may throw index offsets.
-	 * @param int $index
-	 * @param string $key
-	 * @return mixed
-	 */
+    /**
+     * Value at
+     *
+     * Remark: This method may throw index offsets.
+     * @param int $index
+     * @param string $key
+     * @return mixed
+     */
     public function at($index, $key) {
         if (! isset($this->Data[$key][$index])) {
             throw new \OutOfBoundsException("Undefined offset: {$index}");
@@ -523,11 +521,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return $this->Data[self::PACE];
 	}
 
-    /**
-     * Theoretical pace will force the loop to ignore distance data for average pace
-     * @param array $data
-     * @param bool $flag
-     */
+	/**
+	 * Theoretical pace will force the loop to ignore distance data for average pace
+	 * @param array $data
+	 * @param bool $flag
+	 */
 	public function setTheoreticalPace(array $data, $flag = true) {
 	    $this->set(self::PACE, $data);
 

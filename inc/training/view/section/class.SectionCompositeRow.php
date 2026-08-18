@@ -17,9 +17,9 @@ use Runalyze\View\Leaflet;
  * @package Runalyze\DataObjects\Training\View\Section
  */
 class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
-	/**
-	 * Add map
-	 */
+    /**
+     * Add map
+     */
     protected function addMap() {
         if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
             $Map = new Leaflet\Map('map-'.$this->Context->activity()->id());
@@ -268,7 +268,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 
 	/**
 	 * Add: FitAnaerobicTrainingEffect
-     * #TSC: new Anaerobic
+	 * #TSC: new Anaerobic
 	 */
 	protected function addFitAnaerobicTrainingEffect() {
 	    if ($this->Context->activity()->fitAnaerobicTrainingEffect() > 0) {

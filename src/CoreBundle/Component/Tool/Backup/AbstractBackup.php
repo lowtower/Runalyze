@@ -25,13 +25,13 @@ abstract class AbstractBackup
     /** @var string */
     protected $Filename;
 
-    /**
-     * @param string $filename
-     * @param int $accountid
-     * @param \PDO $databaseConnection
-     * @param string $databaseTablePrefix
-     * @param string $runalyzeVersion
-     */
+	/**
+	 * @param string $filename
+	 * @param int $accountid
+	 * @param \PDO $databaseConnection
+	 * @param string $databaseTablePrefix
+	 * @param string $runalyzeVersion
+	 */
 	public function __construct($filename, $accountid, \PDO $databaseConnection, $databaseTablePrefix, $runalyzeVersion)
     {
 		$this->Writer = new GZipWriter(md5($filename));

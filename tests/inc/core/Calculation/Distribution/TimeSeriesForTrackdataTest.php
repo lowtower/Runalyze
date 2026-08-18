@@ -10,16 +10,16 @@ use Runalyze\Model\Trackdata;
 class TimeSeriesForTrackdataTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleArray() {
 		$Dist = new TimeSeriesForTrackdata(
-			new Trackdata\Entity(array(
-    Trackdata\Entity::TIME => array(30, 60, 90, 120, 150, 180, 210, 240, 270, 300),
-			    Trackdata\Entity::HEARTRATE => array(120, 120, 150, 150, 150, 180, 150, 180, 150, 120),
-			    Trackdata\Entity::DISTANCE => array(0.1, 0.2, 0.35, 0.50, 0.65, 0.85, 1.0, 1.2, 1.35, 1.45),
-			    Trackdata\Entity::CADENCE => array(80, 84, 85, 90, 95, 100, 95, 100, 95, 85),
-			    Trackdata\Entity::GROUNDCONTACT => array(200, 185, 170, 160, 150, 120, 200, 120, 200, 200),
-)),
-			Trackdata\Entity::HEARTRATE,
-			array(Trackdata\Entity::DISTANCE),
-			array(Trackdata\Entity::CADENCE, Trackdata\Entity::GROUNDCONTACT)
+		    new Trackdata\Entity(array(
+        Trackdata\Entity::TIME => array(30, 60, 90, 120, 150, 180, 210, 240, 270, 300),
+		        Trackdata\Entity::HEARTRATE => array(120, 120, 150, 150, 150, 180, 150, 180, 150, 120),
+		        Trackdata\Entity::DISTANCE => array(0.1, 0.2, 0.35, 0.50, 0.65, 0.85, 1.0, 1.2, 1.35, 1.45),
+		        Trackdata\Entity::CADENCE => array(80, 84, 85, 90, 95, 100, 95, 100, 95, 85),
+		        Trackdata\Entity::GROUNDCONTACT => array(200, 185, 170, 160, 150, 120, 200, 120, 200, 200),
+    )),
+		    Trackdata\Entity::HEARTRATE,
+		    array(Trackdata\Entity::DISTANCE),
+		    array(Trackdata\Entity::CADENCE, Trackdata\Entity::GROUNDCONTACT)
 		);
 
 		$this->assertEquals( array(

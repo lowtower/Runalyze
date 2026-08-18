@@ -60,7 +60,7 @@ class FitRecoveryTime extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Garmin calculates a suggested recovery time based on your '.
+		    'Garmin calculates a suggested recovery time based on your '.
 			'heart rate variability right after the end of your activity.'
 		);
 	}

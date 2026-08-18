@@ -45,11 +45,17 @@ class TrainingEffectLevel extends AbstractEnum
 
         if ($value == 5.0) {
             return self::OVERREACHING;
-        } elseif ($value >= 4.0) {
+        }
+
+        if ($value >= 4.0) {
             return self::HIGHLY_IMPROVING;
-        } elseif ($value >= 3.0) {
+        }
+
+        if ($value >= 3.0) {
             return self::IMPROVING;
-        } elseif ($value >= 2.0) {
+        }
+
+        if ($value >= 2.0) {
             return self::MAINTAINING;
         }
 

@@ -61,7 +61,9 @@ class AutomaticReloadFlagSetter
         if (self::FLAG_DATA_BROWSER == min($flags)) {
             if (max($flags) == self::FLAG_PLUGINS) {
                 return self::FLAG_ALL;
-            } elseif (max($flags) == self::FLAG_TRAINING) {
+            }
+
+            if (max($flags) == self::FLAG_TRAINING) {
                 return self::FLAG_TRAINING_AND_DATA_BROWSER;
             }
         }

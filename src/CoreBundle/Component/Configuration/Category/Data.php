@@ -7,7 +7,7 @@ class Data extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'START_TIME' => '0',

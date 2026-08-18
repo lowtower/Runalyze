@@ -160,7 +160,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return bool
      */
-    public function isEqualTo(RoundCollection $other): bool
+    public function isEqualTo(self $other): bool
     {
         if ($this->count() != $other->count()) {
             return false;

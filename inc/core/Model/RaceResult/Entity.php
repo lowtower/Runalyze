@@ -89,11 +89,11 @@ class Entity extends Model\Entity {
 	 */
 	const ACCOUNTID = 'accountid';
 
-	/**
+    /**
      * All properties
      * @return array<int, string>
      */
-    static public function allDatabaseProperties() {
+    static public function allDatabaseProperties(): array {
 		return array(
 		    self::OFFICIAL_DISTANCE,
 		    self::OFFICIAL_TIME,
@@ -174,12 +174,12 @@ class Entity extends Model\Entity {
 	 * @param \Runalyze\Model\Activity\Entity $activity
 	 */
 	public function setDefaultValuesFromActivity(Model\Activity\Entity $activity) {
-		$this->set(Entity::OFFICIAL_DISTANCE, $activity->distance());
-		$this->set(Entity::OFFICIAL_TIME, $activity->duration());
-		$this->set(Entity::NAME, $activity->title());
+		$this->set(self::OFFICIAL_DISTANCE, $activity->distance());
+		$this->set(self::OFFICIAL_TIME, $activity->duration());
+		$this->set(self::NAME, $activity->title());
 
 		if ($activity->isTrack()) {
-			$this->set(Entity::OFFICIALLY_MEASURED, true);
+			$this->set(self::OFFICIALLY_MEASURED, true);
 		}
 	}
 

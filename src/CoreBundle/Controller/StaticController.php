@@ -12,7 +12,7 @@ class StaticController extends Controller
      * @Route("/dashboard/help", name="help")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardHelpAction()
+    public function dashboardHelpAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('static/help.html.twig', [
             'version' => $this->getParameter('RUNALYZE_VERSION')
@@ -23,7 +23,7 @@ class StaticController extends Controller
      * @Route("/dashboard/help-calculations", name="help-calculations")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardHelpCalculationsAction()
+    public function dashboardHelpCalculationsAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('static/help_calculations.html.twig');
     }

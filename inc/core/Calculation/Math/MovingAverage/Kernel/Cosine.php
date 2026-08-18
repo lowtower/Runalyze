@@ -18,7 +18,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 class Cosine extends AbstractKernel
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @param float $width
      */
     public function __construct($width)

@@ -35,7 +35,7 @@ class Messages {
 		$link = Ajax::window('<a href="'.ConfigTabs::$CONFIG_URL.'?key=config_tab_sports">'.__('sports configuration').'</a>');
 
 		self::addWarning(
-			sprintf( __('You may want to adjust pace units in %s. They are not changed automatically.'), $link )
+		    sprintf( __('You may want to adjust pace units in %s. They are not changed automatically.'), $link )
 		);
 	}
 
@@ -47,7 +47,7 @@ class Messages {
 	 */
 	public static function addValueRecalculated($what, $newValue, $oldValue) {
 		self::addInfo(
-			sprintf( __('%s has been recalculated. New value: <strong>%s</strong> (old value: %s)'), $what, $newValue, $oldValue)
+		    sprintf( __('%s has been recalculated. New value: <strong>%s</strong> (old value: %s)'), $what, $newValue, $oldValue)
 		);
 	}
 

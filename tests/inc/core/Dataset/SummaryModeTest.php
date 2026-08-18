@@ -29,7 +29,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 		return $this->PDO->query('SELECT '.SummaryMode::query($mode, 'value').' FROM `testtable`')->fetchColumn();
 	}
 
-	/**
+    /**
      * @param array<int, int[]> $dataArrays
      */
     protected function insertData(array $dataArrays)

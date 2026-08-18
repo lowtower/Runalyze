@@ -271,7 +271,7 @@ class Weathercache
     /**
      * @return WeatherData
      */
-    public function getAsWeatherData()
+    public function getAsWeatherData(): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
         $data = new WeatherData();
         $data->InternalConditionId = $this->weatherid;

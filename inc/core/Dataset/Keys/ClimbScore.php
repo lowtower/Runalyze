@@ -29,7 +29,7 @@ class ClimbScore extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'' // TODO
+		    '' // TODO
 		);
 	}
 

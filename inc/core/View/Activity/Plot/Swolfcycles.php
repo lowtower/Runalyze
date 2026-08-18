@@ -29,7 +29,7 @@ class Swolfcycles extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\Swolfcycles($context)
+		    new Series\Swolfcycles($context)
 		);
 	}
 }

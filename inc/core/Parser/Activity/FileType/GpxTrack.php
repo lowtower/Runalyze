@@ -263,7 +263,7 @@ class GpxTrack extends AbstractSingleParser
             }
         }
 
-        if ($parentNode->children('gpxdata',true)->count() > 0) {
+        if ($parentNode->children('gpxdata', true)->count() > 0) {
             $childNodes[] = $parentNode->children('gpxdata', true);
         }
 
@@ -272,17 +272,17 @@ class GpxTrack extends AbstractSingleParser
 
     protected function parseSpoQExtension()
     {
-        if (null !== $this->ExtensionXml && $this->ExtensionXml->children('st',true)->count() > 0) {
-            $activity = $this->ExtensionXml->children('st',true)->activity[0];
+        if (null !== $this->ExtensionXml && $this->ExtensionXml->children('st', true)->count() > 0) {
+            $activity = $this->ExtensionXml->children('st', true)->activity[0];
 
-            if (isset($activity) && count($activity->children('st',true)) > 0) {
-                $track = $activity->children('st',true)->heartRateTrack[0];
+            if (isset($activity) && count($activity->children('st', true)) > 0) {
+                $track = $activity->children('st', true)->heartRateTrack[0];
 
                 if (isset($track)) {
                     $num = count($this->Container->ContinuousData->Time);
                     $i = 0;
 
-                    foreach ($track->children('st',true)->heartRate as $heartRate) {
+                    foreach ($track->children('st', true)->heartRate as $heartRate) {
                         $attr = $heartRate->attributes();
 
                         if ($i < $num) {

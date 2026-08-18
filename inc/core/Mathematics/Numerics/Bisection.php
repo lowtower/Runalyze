@@ -71,7 +71,9 @@ class Bisection
 
 			if (abs($value - $this->Target) < $this->Epsilon) {
 				break;
-			} elseif ($this->decreasingFactor*$value > $this->Target*$this->decreasingFactor ) {
+			}
+
+			if ($this->decreasingFactor*$value > $this->Target*$this->decreasingFactor ) {
 				$this->Upper = $this->Current;
 			} else {
 				$this->Lower = $this->Current;

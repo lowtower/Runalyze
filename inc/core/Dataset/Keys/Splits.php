@@ -54,7 +54,7 @@ class Splits extends AbstractKey
 	public function description(): string
 	{
 		return __(
-			'Splits are shown as clock icon with all lap times as tooltip. '.
+		    'Splits are shown as clock icon with all lap times as tooltip. '.
 			'They are shown only if there are handmade laps, '.
 			'i.e. there are active and inactive laps, or if it was a race. '
 		);

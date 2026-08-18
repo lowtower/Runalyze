@@ -2,7 +2,7 @@
 
 /**
  * This file contains class::WeatherHumidity
-* @package Runalyze\View\Activity\Box
+ * @package Runalyze\View\Activity\Box
  */
 
 namespace Runalyze\View\Activity\Box;
@@ -25,7 +25,7 @@ class WeatherHumidity extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			$Context->activity()->weather()->humidity()
+		    $Context->activity()->weather()->humidity()
 		);
 	}
 }

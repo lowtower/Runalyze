@@ -7,10 +7,10 @@ use Runalyze\View\Activity;
 
 class FootstrikeType extends ActivitySeries
 {
-    /**
-     * @param Activity\Context $context
-     * @param bool $isLeft
-     */
+	/**
+	 * @param Activity\Context $context
+	 * @param bool $isLeft
+	 */
 	public function __construct(Activity\Context $context, $isLeft = true)
     {
 		$this->initOptions($isLeft);

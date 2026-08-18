@@ -29,7 +29,7 @@ class Stroke extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\Stroke($context)
+		    new Series\Stroke($context)
 		);
 	}
 }

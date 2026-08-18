@@ -114,7 +114,9 @@ class InstallCheckCommand extends ContainerAwareCommand
     {
         if ($this->ReturnCode & self::ERROR) {
             return '<error>Not all requirements are fulfilled, installation not possible.</error>';
-        } elseif ($this->ReturnCode & self::WARNING) {
+        }
+
+        if ($this->ReturnCode & self::WARNING) {
             return '<comment>There were some warnings, installation may still be possible.</comment>';
         }
 

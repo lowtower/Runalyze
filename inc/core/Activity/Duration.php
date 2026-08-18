@@ -55,7 +55,7 @@ class Duration {
 	 * @return string
 	 */
 	public static function format($input): string {
-		$Object = new Duration($input);
+		$Object = new self($input);
 
 		return $Object->string();
 	}
@@ -158,9 +158,13 @@ class Duration {
 
 		if ($this->Time >= 86400) {
 			return $this->formatString(self::FORMAT_WITH_DAYS);
-		} elseif ($this->Time >= 3600) {
+		}
+
+		if ($this->Time >= 3600) {
 			return $this->formatString(self::FORMAT_WITH_HOURS);
-		} elseif ($this->Time < 60) {
+		}
+
+		if ($this->Time < 60) {
 			return '0:'.$this->formatString('s'.$fraction, $decimals);
 		}
 
@@ -204,7 +208,7 @@ class Duration {
 			$s=$sec % 60;
 			$m=(($sec-$s) / 60) % 60;
 			$h=floor($sec / 3600);
-			return $h.':'.substr('0'.$m,-2).':'.substr('0'.$s,-2);
+			return $h.':'.substr('0'.$m, -2).':'.substr('0'.$s, -2);
 		} else
 			return $time->format($format);
 	}
@@ -225,7 +229,7 @@ class Duration {
 	 * @param \Runalyze\Activity\Duration $object
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
-	public function add(Duration $object) {
+	public function add(self $object) {
 		$this->Time += $object->seconds();
 
 		return $this;
@@ -236,7 +240,7 @@ class Duration {
 	 * @param \Runalyze\Activity\Duration $object
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
-	public function subtract(Duration $object) {
+	public function subtract(self $object) {
 		$this->Time -= $object->seconds();
 
 		return $this;
@@ -266,12 +270,12 @@ class Duration {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function compareTo(Duration $other, $invert = false, $raw = false): string {
+	public function compareTo(self $other, $invert = false, $raw = false): string {
 		if ($this->seconds() == 0 || $other->seconds() == 0) {
 			return '';
 		}
 
-		$CompareTime = new Duration(round(abs($this->seconds() - $other->seconds())));
+		$CompareTime = new self(round(abs($this->seconds() - $other->seconds())));
 		$isPositive = ! $invert ? $this->seconds() > $other->seconds() : $this->seconds() <= $other->seconds();
 
 		return $this->formatComparison($CompareTime->string(), $isPositive, $raw);

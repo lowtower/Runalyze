@@ -40,7 +40,7 @@ class EquipmentController extends Controller
     /**
      * @Route("/category/{typeid}/table", name="equipment-category-table", requirements={"typeid" = "\d+"})
      */
-    public function categoryTableAction($typeid, Account $account)
+    public function categoryTableAction($typeid, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         /** @var EquipmentType $equipmentType */
         $equipmentType = $this->getEquipmentTypeRepository()->findOneBy([
@@ -70,7 +70,7 @@ class EquipmentController extends Controller
      * @Route("/overview", name="equipment-overview")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function overviewAction(Account $account)
+    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()->findAllFor($account)
@@ -86,7 +86,7 @@ class EquipmentController extends Controller
         $equipmentType = new EquipmentType();
         $equipmentType->setAccount($account);
 
-        $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType ,[
+        $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType, [
             'action' => $this->generateUrl('equipment-category-add')
         ]);
         $form->handleRequest($request);
@@ -120,7 +120,7 @@ class EquipmentController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType ,[
+        $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType, [
             'action' => $this->generateUrl('equipment-category-edit', [
                 'id' => $equipmentType->getId()
             ])
@@ -146,7 +146,7 @@ class EquipmentController extends Controller
      * @Route("/category/{id}/delete", name="equipment-category-delete")
      * @ParamConverter("equipmentType", class="CoreBundle:EquipmentType")
      */
-    public function deleteEquipmentTypeAction(Request $request, EquipmentType $equipmentType, Account $account)
+    public function deleteEquipmentTypeAction(Request $request, EquipmentType $equipmentType, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
@@ -177,7 +177,7 @@ class EquipmentController extends Controller
         $equipment->setType($equipmentType);
         $equipment->setDateStart(new \DateTime('now'));
 
-        $form = $this->createForm(Form\EquipmentType::class, $equipment,[
+        $form = $this->createForm(Form\EquipmentType::class, $equipment, [
             'action' => $this->generateUrl('equipment-add', [
                 'id' => $equipmentType->getId()
             ])
@@ -213,7 +213,7 @@ class EquipmentController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(Form\EquipmentType::class, $equipment,[
+        $form = $this->createForm(Form\EquipmentType::class, $equipment, [
             'action' => $this->generateUrl('equipment-edit', [
                 'id' => $equipment->getId()
             ])
@@ -239,7 +239,7 @@ class EquipmentController extends Controller
      * @Route("/{id}/delete", name="equipment-delete")
      * @ParamConverter("equipment", class="CoreBundle:Equipment")
      */
-    public function deleteEquipmentAction(Request $request, Equipment $equipment, Account $account)
+    public function deleteEquipmentAction(Request $request, Equipment $equipment, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));

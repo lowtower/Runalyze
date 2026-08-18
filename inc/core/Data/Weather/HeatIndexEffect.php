@@ -34,11 +34,17 @@ class HeatIndexEffect extends AbstractEnum
     {
         if ($value >= 130) {
             return self::EXTREME_DANGER;
-        } elseif ($value >= 105) {
+        }
+
+        if ($value >= 105) {
             return self::DANGER;
-        } elseif ($value >= 91) {
+        }
+
+        if ($value >= 91) {
             return self::EXTREME_CAUTION;
-        } elseif ($value >= 80) {
+        }
+
+        if ($value >= 80) {
             return self::CAUTION;
         }
 

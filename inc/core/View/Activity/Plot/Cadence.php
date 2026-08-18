@@ -29,7 +29,7 @@ class Cadence extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\Cadence($context)
+		    new Series\Cadence($context)
 		);
 	}
 }

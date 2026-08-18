@@ -103,7 +103,7 @@ class HeartrateAverage extends AbstractKey
 	/**
 	 * returns a value dependend CSS class and style.
 	 * #TSC
-     * @param \Runalyze\Dataset\Context $context
+	 * @param \Runalyze\Dataset\Context $context
 	 * @return array with key "class" and "style"
 	 */
 	public function valueDependendCssStyle(Context $context)
@@ -114,7 +114,7 @@ class HeartrateAverage extends AbstractKey
 	/**
 	 * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
 	 * #TSC
-     * @param null|Runalyze\Activity\HeartRate $hr
+	 * @param null|Runalyze\Activity\HeartRate $hr
 	 * @param null|string $class
 	 * @return array with key "class" and "style"
 	 */

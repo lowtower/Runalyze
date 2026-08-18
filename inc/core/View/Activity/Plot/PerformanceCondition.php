@@ -29,7 +29,7 @@ class PerformanceCondition extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\PerformanceCondition($context)
+		    new Series\PerformanceCondition($context)
 		);
 	}
 }

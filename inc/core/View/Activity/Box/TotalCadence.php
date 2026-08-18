@@ -31,9 +31,9 @@ class TotalCadence extends AbstractBox
 		}
 
 		parent::__construct(
-			\Helper::Unknown($value, '-'),
-			'',
-			$label
+		    \Helper::Unknown($value, '-'),
+		    '',
+		    $label
 		);
 	}
 }

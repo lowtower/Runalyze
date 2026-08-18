@@ -38,7 +38,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @Route("/dashboard", name="dashboard")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardAction(Request $request, Account $account)
+    public function dashboardAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
@@ -67,7 +67,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/register", name="register")
      */
-    public function registerAction(Request $request)
+    public function registerAction(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         if (! $this->getParameter('user_can_register')) {
             return $this->render('register/disabled.html.twig');
@@ -138,7 +138,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction()
+    public function logoutAction(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->redirectToRoute('login');
     }
@@ -146,7 +146,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @return array<string, int|string> ['user' => (int)..., 'distance' => (string)...]
      */
-    protected function collectStatistics()
+    protected function collectStatistics(): array
     {
         $repository = $this->getDoctrine()->getRepository('CoreBundle:Account');
         $numUser =  $repository->getAmountOfActivatedUsers();
@@ -163,7 +163,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/plugin/{plugin}/{file}")
      */
-    public function pluginAction($plugin, $file)
+    public function pluginAction($plugin, $file): \Symfony\Component\HttpFoundation\Response
     {
         return $this->includeOldScript('../plugin/'.$plugin.'/'.$file);
     }
@@ -189,7 +189,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/login.php")
      */
-    public function loginPhpAction()
+    public function loginPhpAction(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->redirectToRoute('dashboard');
     }
@@ -197,7 +197,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}", name="unsubscribe-mail")
      */
-    public function unsubscribeMailAction($mail, $hash)
+    public function unsubscribeMailAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
     {
         $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
         $account = $repo->findOneBy(array(
@@ -217,7 +217,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}/confirm", name="unsubscribe-mail-confirm")
      */
-    public function unsubscribeMailConfirmAction($mail, $hash)
+    public function unsubscribeMailConfirmAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
     {
         $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
         $account = $repo->findOneBy(array(
@@ -238,7 +238,7 @@ class DefaultController extends AbstractPluginsAwareController
      * @Route("/feedback", name="feedback")
      * @Security("has_role('ROLE_USER')")
      */
-    public function feedbackAction(Request $request, Account $account)
+    public function feedbackAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         if (! empty($this->getParameter('feedback_mail'))) {
             $form = $this->createForm(FeedbackType::class, null, [

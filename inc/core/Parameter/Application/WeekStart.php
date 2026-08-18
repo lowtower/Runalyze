@@ -78,13 +78,15 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		return ($this->value() == self::SUNDAY);
 	}
 
-    /**
-     * @return int
-     */
+	/**
+	 * @return int
+	 */
 	public function differenceToMondayInDays(): int {
 		if ($this->value() == self::SATURDAY) {
 			return -2;
-		} elseif ($this->value() == self::SUNDAY) {
+		}
+
+		if ($this->value() == self::SUNDAY) {
 			return -1;
 		}
 
@@ -112,7 +114,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		}
 
 		if ($this->isSunday() && date('w', $now) == 0) {
-			if (date('W', $now) == 53 || date('W', $now) == date('W', mktime(0,0,0,12,28,date('Y', $now))))
+			if (date('W', $now) == 53 || date('W', $now) == date('W', mktime(0, 0, 0, 12, 28, date('Y', $now))))
 				return 1;
 
 			return date('W', $now) + 1;

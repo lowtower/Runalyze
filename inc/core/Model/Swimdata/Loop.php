@@ -56,7 +56,7 @@ class Loop extends \Runalyze\Model\Loop {
 	 * @param array $data
 	 * @return \Runalyze\Model\Swimdata\Entity
 	 */
-	protected function createNewObject(array $data) {
+	protected function createNewObject(array $data): \Runalyze\Model\Swimdata\Entity {
 		return new Entity($data);
 	}
 }

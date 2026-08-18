@@ -129,7 +129,7 @@ class OsmCsvData {
 
     /**
      * @param string $csvLine Overpass line seperated with |
-	 * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $csvLine) {
         $arr = explode(self::SEPERATOR, $csvLine);

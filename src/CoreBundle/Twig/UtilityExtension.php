@@ -40,9 +40,13 @@ class UtilityExtension extends \Twig_Extension
 
         if ($seconds>= 86400) {
             return $this->formatDuration($seconds, 'z\d H:i:s');
-        } elseif ($seconds >= 3600) {
+        }
+
+        if ($seconds >= 3600) {
             return $this->formatDuration($seconds, 'G:i:s');
-        } elseif ($seconds < 60) {
+        }
+
+        if ($seconds < 60) {
             return '0:'.$this->formatDuration($seconds, 's'.$fraction, $decimals);
         }
 

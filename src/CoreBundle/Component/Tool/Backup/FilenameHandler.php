@@ -43,7 +43,8 @@ class FilenameHandler
      */
     public function generateInternalFilename($extension): string
     {
-        return sprintf('%s-%s-%s-%s-%s.%s',
+        return sprintf(
+            '%s-%s-%s-%s-%s.%s',
             $this->AccountId,
             self::FILENAME_PREFIX,
             date('Ymd-Hi'),

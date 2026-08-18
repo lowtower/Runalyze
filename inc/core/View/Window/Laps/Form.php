@@ -53,7 +53,7 @@ class Form {
 	 * Field: lap distance
 	 * @return \FormularInput
 	 */
-	protected function lapDistanceField() {
+	protected function lapDistanceField(): \FormularInput {
 		$Field = new FormularInput('distance', Ajax::tooltip(__('Lap every ...'), __('Distance, after which a new lap should start') ) );
 		$Field->setUnit(Configuration::General()->distanceUnitSystem()->distanceUnit());
 
@@ -64,7 +64,7 @@ class Form {
 	 * Field: lap time
 	 * @return \FormularInput
 	 */
-	protected function lapTimeField() {
+	protected function lapTimeField(): \FormularInput {
 		$Field = new FormularInput('time', Ajax::tooltip('<small>'.__('or').':</small> '.__('Lap every ...'), __('Time, after which a new lap should start') ) );
 		$Field->setPlaceholder('h:mm:ss');
 		$Field->addCSSclass('c');
@@ -76,9 +76,11 @@ class Form {
 	 * Field: manual distances
 	 * @return \FormularInput
 	 */
-	protected function distancesField() {
-		$Field = new FormularInput('manual-distances', Ajax::tooltip('<small>'.__('or').':</small> '.__('Manual distances'),
-			__('List with all distances, comma seperated. Put "+" at the beginning to treat distances as intervals.') ));
+	protected function distancesField(): \FormularInput {
+		$Field = new FormularInput('manual-distances', Ajax::tooltip(
+		    '<small>'.__('or').':</small> '.__('Manual distances'),
+		    __('List with all distances, comma seperated. Put "+" at the beginning to treat distances as intervals.')
+		));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
 		$Field->setPlaceholder( __('e.g.').' 5, 10, 21.1 '.__('or').' +0.4, 0.8, 0.4');
 		$Field->setUnit(Configuration::General()->distanceUnitSystem()->distanceUnit());
@@ -90,9 +92,11 @@ class Form {
 	 * Field: manual times
 	 * @return \FormularInput
 	 */
-	protected function timesField() {
-		$Field = new FormularInput('manual-times', Ajax::tooltip('<small>'.__('or').':</small> '.__('Manual times'),
-			__('List with all times, comma seperated. Put "+" at the beginning to treat times as intervals.') ));
+	protected function timesField(): \FormularInput {
+		$Field = new FormularInput('manual-times', Ajax::tooltip(
+		    '<small>'.__('or').':</small> '.__('Manual times'),
+		    __('List with all times, comma seperated. Put "+" at the beginning to treat times as intervals.')
+		));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
 		$Field->setPlaceholder( __('e.g.').' 30:00, 1:00:00 '.__('or')." +15', 30', 15'");
 
@@ -103,7 +107,7 @@ class Form {
 	 * Field: time goal
 	 * @return \FormularInput
 	 */
-	protected function timeField() {
+	protected function timeField(): \FormularInput {
 		$Field = new FormularInput('demanded-time', __('Lap time goal'));
 		$Field->setPlaceholder('h:mm:ss');
 		$Field->addCSSclass('c');
@@ -115,7 +119,7 @@ class Form {
 	 * Field: pace goal
 	 * @return \FormularInput
 	 */
-	protected function paceField() {
+	protected function paceField(): \FormularInput {
 		$Field = new FormularInput('demanded-pace', '<small>'.__('or').':</small> '.__('Pace goal') );
 		$Field->setUnit( FormularUnit::$PACE );
 
@@ -164,7 +168,7 @@ class Form {
 	 */
 	protected function getJScode(): string {
 		return Ajax::wrapJS(
-			'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'.
+		    'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'.
 			'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");'.
 			'function updateButtonVisibility() {'.
 				'if ($("#rounds-configurator input:text").filter(function() { return this.value != ""; }).length == 0) {'.

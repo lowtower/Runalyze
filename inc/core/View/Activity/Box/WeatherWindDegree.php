@@ -2,7 +2,7 @@
 
 /**
  * This file contains class::WeatherWindDegree
-* @package Runalyze\View\Activity\Box
+ * @package Runalyze\View\Activity\Box
  */
 
 namespace Runalyze\View\Activity\Box;
@@ -26,9 +26,9 @@ class WeatherWindDegree extends AbstractBox
 		$WindDirection = $Context->activity()->weather()->windDegree();
 		$CardinalDirection = CardinalDirection::getDirection($WindDirection->value());
 		parent::__construct(
-			\Helper::Unknown($CardinalDirection.' / '.$WindDirection->string(false), '-'),
-			$WindDirection->unit(),
-			$WindDirection->label()
+		    \Helper::Unknown($CardinalDirection.' / '.$WindDirection->string(false), '-'),
+		    $WindDirection->unit(),
+		    $WindDirection->label()
 		);
 	}
 }

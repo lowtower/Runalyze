@@ -127,7 +127,7 @@ class GeneratePoster
     /**
      * @return array<int, string>
      */
-    public function availablePosterTypes()
+    public function availablePosterTypes(): array
     {
         return ['grid', 'calendar', 'circular', 'heatmap'];
     }

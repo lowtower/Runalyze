@@ -35,12 +35,12 @@ class HrZonesCalculator
 
 	private $sourceHint;
 
-    /**
+	/**
 	 * @var array
 	 */
 	protected $activityZoneBounds;
 
-    /**
+	/**
 	 * @var array
 	 */
 	protected $sportZoneBounds;
@@ -161,12 +161,12 @@ class HrZonesCalculator
         return $this->sourceHint;
     }
 
-    /**
-     * validates the user input in the sports view.
-     *
-     * @param string $zone
-     * @return boolean true=invalid
-     */
+	/**
+	 * validates the user input in the sports view.
+	 *
+	 * @param string $zone
+	 * @return boolean true=invalid
+	 */
 	public static function validateInputZone(string $zone): bool {
         $ok = preg_match(self::PATTERN, $zone, $matches, PREG_UNMATCHED_AS_NULL);
         // [0] is the full string and the other idx are the matches
@@ -175,12 +175,12 @@ class HrZonesCalculator
         return ! $ok || count($matches) - 1 < substr_count($zone, ':') + 1;
     }
 
-    /**
-     * sorts the zones array ascend of bpm.
-     *
-     * @param array $zones
-     * @return array
-     */
+	/**
+	 * sorts the zones array ascend of bpm.
+	 *
+	 * @param array $zones
+	 * @return array
+	 */
 	public static function sortZones(array $zones): array {
         usort($zones, function($a, $b){
             $oka = preg_match(self::PATTERN, $a, $matchesa, PREG_UNMATCHED_AS_NULL);

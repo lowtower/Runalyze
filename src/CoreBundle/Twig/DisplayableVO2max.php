@@ -77,11 +77,17 @@ class DisplayableVO2max extends DisplayableValue
     {
         if ($diffToShape > $this->LowerLimitsForIcon[0]) {
             return 'fa-arrow-up';
-        } elseif ($diffToShape > $this->LowerLimitsForIcon[1]) {
+        }
+
+        if ($diffToShape > $this->LowerLimitsForIcon[1]) {
             return 'fa-arrow-up  fa-rotate-45';
-        } elseif ($diffToShape > $this->LowerLimitsForIcon[2]) {
+        }
+
+        if ($diffToShape > $this->LowerLimitsForIcon[2]) {
             return 'fa-arrow-right';
-        } elseif ($diffToShape > $this->LowerLimitsForIcon[3]) {
+        }
+
+        if ($diffToShape > $this->LowerLimitsForIcon[3]) {
             return 'fa-arrow-right  fa-rotate-45';
         } else {
             return 'fa-arrow-down';

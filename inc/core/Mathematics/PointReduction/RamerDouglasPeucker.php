@@ -36,7 +36,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
      * @param int $offset
      * @return array [reduced_x[], reduced_y[]]
      */
-    protected function reducePointSet(array $x, array $y, $offset = 0)
+    protected function reducePointSet(array $x, array $y, $offset = 0): array
     {
         $num = count($x);
 
@@ -59,7 +59,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
      * @param array<int, mixed> $y
      * @return array<int, float|int> [max dist, index]
      */
-    protected function findMaximalDistanceAndIndexInPointSet(array $x, array $y)
+    protected function findMaximalDistanceAndIndexInPointSet(array $x, array $y): array
     {
         $maxDist = 0;
         $index = 0;
@@ -84,7 +84,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
      * @param int $offset
      * @return array<int, mixed[]> [x_reduced[], y_reduced[]]
      */
-    protected function splitAndReducePointSet(array $x, array $y, $index, $offset)
+    protected function splitAndReducePointSet(array $x, array $y, $index, $offset): array
     {
         list($firstX, $firstY) = $this->reducePointSet(
             array_slice($x, 0, $index + 1),

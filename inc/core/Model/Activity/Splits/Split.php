@@ -152,7 +152,7 @@ class Split extends StringObject {
 	 * @param int $legacyPaceUnitEnum [optional]
 	 * @return \Runalyze\Activity\Pace
 	 */
-	public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM) {
+	public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace {
 		return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
 	}
 

@@ -41,7 +41,9 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
             $message .= NL.NL.'You may need to compile ttbincnv for your environment.';
 
             throw new InstallationSpecificException($message);
-        } elseif (substr($firstLine, 0, 1) != '<') {
+        }
+
+        if (substr($firstLine, 0, 1) != '<') {
             throw new UnexpectedContentException('Parsing your *.ttbin-file failed: '.$firstLine);
         }
     }

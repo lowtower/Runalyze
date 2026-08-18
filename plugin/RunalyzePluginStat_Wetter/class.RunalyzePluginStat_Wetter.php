@@ -139,7 +139,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		}
 	}
 
-    /**
+	/**
 	 * Display extreme trainings
 	 */
 	protected function displayExtremeTrainings() {
@@ -193,9 +193,9 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		$offset = $this->showsTimeRange() ? date('m') - $num - 1 + 12 : -1;
 
 		$Table = new \Runalyze\Plugin\Stat\Wetter\MonthwiseTable(
-			DB::getInstance(),
-			SessionAccountHandler::getId(),
-			$this->EquipmentTypeId
+		    DB::getInstance(),
+		    SessionAccountHandler::getId(),
+		    $this->EquipmentTypeId
 		);
 		$Table->setDependency($this->getSportAndYearDependenceForQuery(true));
 		$Table->setGroupBy($this->getTimerIndexForQuery(true));
@@ -211,9 +211,9 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		require_once __DIR__.'/MinMaxTableForEquipment.php';
 
 		$Table = new \Runalyze\Plugin\Stat\Wetter\MinMaxTableForEquipment(
-			DB::getInstance(),
-			SessionAccountHandler::getId(),
-			$this->EquipmentTypeId
+		    DB::getInstance(),
+		    SessionAccountHandler::getId(),
+		    $this->EquipmentTypeId
 		);
 		$Table->setDependency($this->getSportAndYearDependenceForQuery(true));
 		$Table->display();

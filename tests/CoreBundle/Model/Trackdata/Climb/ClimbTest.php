@@ -10,7 +10,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
     /**
      * @return Climb
      */
-    protected function getDefaultClimb()
+    protected function getDefaultClimb(): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb
     {
         return new Climb(1.0, 50);
     }

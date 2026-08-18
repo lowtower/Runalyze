@@ -68,7 +68,7 @@ class ElevationAlgorithms extends ActivityPlot {
 	/**
 	 * @return \Runalyze\View\Plot\Series
 	 */
-	protected function seriesForCorrectedData() {
+	protected function seriesForCorrectedData(): \Runalyze\View\Activity\Plot\Series\Elevation {
 		$Series = new Series\Elevation($this->Context);
 
 		$this->updateLimits($Series->limits());
@@ -79,7 +79,7 @@ class ElevationAlgorithms extends ActivityPlot {
 	/**
 	 * @return \Runalyze\View\Plot\Series
 	 */
-	protected function seriesForOriginalData() {
+	protected function seriesForOriginalData(): \Runalyze\View\Activity\Plot\Series\Elevation {
 		$Series = new Series\Elevation($this->Context, true);
 		$Series->setColor('#ccc');
 		$Series->setLabel( __('Original data') );
@@ -92,7 +92,7 @@ class ElevationAlgorithms extends ActivityPlot {
 	/**
 	 * @return \Runalyze\View\Plot\Series
 	 */
-	protected function seriesForThreshold() {
+	protected function seriesForThreshold(): \Runalyze\View\Plot\Series {
 		$Series = new PlotSeries();
 		$Series->setColor('#008');
 		$Series->setLabel(__('Threshold'));
@@ -104,7 +104,7 @@ class ElevationAlgorithms extends ActivityPlot {
 	/**
 	 * @return \Runalyze\View\Plot\Series
 	 */
-	protected function seriesForDouglasPeucker() {
+	protected function seriesForDouglasPeucker(): \Runalyze\View\Plot\Series {
 		$Series = new PlotSeries();
 		$Series->setColor('#800');
 		$Series->setLabel(__('Douglas-Peucker'));
@@ -157,7 +157,7 @@ class ElevationAlgorithms extends ActivityPlot {
 		return $Data;
 	}
 
-	/**
+    /**
      * Manipulate data for correct unit
      * @param array<string, mixed> $data
      */
@@ -173,7 +173,7 @@ class ElevationAlgorithms extends ActivityPlot {
 		$this->updateLimits(array(min($data), max($data)));
 	}
 
-	/**
+    /**
      * @param array<int, mixed> $minmax array($min, $max)
      */
     protected function updateLimits(array $minmax) {

@@ -17,7 +17,7 @@ use Runalyze\Parameter\SelectRow;
  * @package Runalyze\Configuration
  */
 class FieldFactory {
-	/**
+    /**
      * Add field
      * @param \Runalyze\Configuration\Handle $Handle
      * @param array<string, mixed> $options
@@ -56,12 +56,16 @@ class FieldFactory {
 			$Field->loadOptionsFrom($Parameter->table(), $Parameter->column());
 
 			return $Field;
-		} elseif ($Parameter instanceof Select) {
+		}
+
+		if ($Parameter instanceof Select) {
 			$Field = new \FormularSelectBox($Handle->key(), $label, $Handle->value());
 			$Field->setOptions($Parameter->options());
 
 			return $Field;
-		} elseif ($Parameter instanceof Boolean) {
+		}
+
+		if ($Parameter instanceof Boolean) {
 			$Field = new \FormularCheckbox($Handle->key(), $label, $Handle->value());
 			$Field->addHiddenSentValue();
 
@@ -71,7 +75,7 @@ class FieldFactory {
 		return new $Class($Handle->key(), $label, $Handle->object()->valueAsString());
 	}
 
-	/**
+    /**
      * Set attributes to field
      * @param \FormularField $Field
      * @param array<string, mixed> $options

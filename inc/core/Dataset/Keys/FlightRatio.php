@@ -11,7 +11,7 @@ class FlightRatio extends AbstractKey
 		return \Runalyze\Dataset\Keys::FLIGHT_RATIO;
 	}
 
-	public function column()
+	public function column(): array
 	{
 		return ['cadence', 'groundcontact'];
 	}

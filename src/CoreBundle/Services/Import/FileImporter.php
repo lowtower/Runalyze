@@ -191,7 +191,7 @@ class FileImporter implements LoggerAwareInterface
      * @param string|null $originalFileName
      * @return FileImportResult
      */
-    protected function getFileImportResultFor($fileName, $originalFileName = null)
+    protected function getFileImportResultFor($fileName, $originalFileName = null): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult
     {
         if (null === $originalFileName) {
             $originalFileName = $fileName;
@@ -212,7 +212,7 @@ class FileImporter implements LoggerAwareInterface
      * @param string $fileName
      * @return string[] converted file names
      */
-    protected function tryToConvertFileNameIfRequired($fileName)
+    protected function tryToConvertFileNameIfRequired($fileName): array
     {
         try {
             return $this->convertFileNameIfRequired($fileName);
@@ -227,7 +227,7 @@ class FileImporter implements LoggerAwareInterface
      * @param string $fileName
      * @return string[] converted file names
      */
-    protected function convertFileNameIfRequired($fileName)
+    protected function convertFileNameIfRequired($fileName): array
     {
         $extension = mb_strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 

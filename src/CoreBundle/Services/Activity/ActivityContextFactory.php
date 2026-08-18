@@ -20,7 +20,7 @@ class ActivityContextFactory
      * @param Training $activity
      * @return ActivityContext
      */
-    public function getContext(Training $activity)
+    public function getContext(Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
         $activityId = $activity->getId();
 

@@ -30,7 +30,7 @@ class SharedController extends Controller
      * @Route("/shared/{activityHash}&{foo}", requirements={"activityHash": "[a-zA-Z0-9]+"})
      * @Route("/shared/{activityHash}", requirements={"activityHash": "[a-zA-Z0-9]+"}, name="shared-activity")
      */
-    public function sharedTrainingAction($activityHash, Request $request)
+    public function sharedTrainingAction($activityHash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Training $activity */
         $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->find((int) base_convert((string) $activityHash, 35, 10));
@@ -76,7 +76,7 @@ class SharedController extends Controller
     /**
      * @Route("/shared/{username}/")
      */
-    public function oldSharedUserAction($username)
+    public function oldSharedUserAction($username): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->redirect($this->generateUrl('shared-athlete', array(
             'username' => $username
@@ -86,7 +86,7 @@ class SharedController extends Controller
     /**
      * @Route("/athlete/{username}", name="shared-athlete")
      */
-    public function sharedUserAction($username, Request $request) {
+    public function sharedUserAction($username, Request $request): \Symfony\Component\HttpFoundation\Response {
         /** @var null|Account $account */
         $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($username);
         $privacy = $this->get('app.configuration_manager')->getList($account)->getPrivacy();
@@ -126,7 +126,7 @@ class SharedController extends Controller
     /**
      * @Route("/athlete/{username}/feed", name="shared-athlete-feed")
      */
-    public function publicUserFeedAction($username) {
+    public function publicUserFeedAction($username): \Symfony\Component\HttpFoundation\Response {
         /** @var null|Account $account */
         $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($username);
         $privacy = $this->get('app.configuration_manager')->getList($account)->getPrivacy();

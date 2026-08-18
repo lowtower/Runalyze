@@ -54,8 +54,8 @@ class Title extends AbstractKey
 	public function description(): string
 	{
 		return sprintf(
-			__('Titles are automatically cut after %u characters.'),
-			self::DEFAULT_CUT
+		    __('Titles are automatically cut after %u characters.'),
+		    self::DEFAULT_CUT
 		);
 	}
 
@@ -67,8 +67,8 @@ class Title extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		return \Helper::Cut(
-			$context->activity()->title(),
-			20
+		    $context->activity()->title(),
+		    20
 		);
 	}
 

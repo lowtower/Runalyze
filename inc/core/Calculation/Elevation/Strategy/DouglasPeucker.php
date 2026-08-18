@@ -60,13 +60,13 @@ class DouglasPeucker extends AbstractStrategy
 		sort($this->SmoothingIndices);
 	}
 
-	/**
+    /**
      * Smooth part of line
      * @param array<int, mixed> $data
      * @param int $offset
      * @return array
      */
-    protected function smoothPart(array $data, $offset = 0)
+    protected function smoothPart(array $data, $offset = 0): array
 	{
 		$maxDist = 0;
 		$index = 0;
@@ -74,9 +74,12 @@ class DouglasPeucker extends AbstractStrategy
 
 		for ($i = 1; $i < ($num - 1); $i++) {
 			$dist = $this->perpendicularDistance(
-				self::DISTANCE_BETWEEN_POINTS*$i, $data[$i],
-				self::DISTANCE_BETWEEN_POINTS*0, $data[0],
-				self::DISTANCE_BETWEEN_POINTS*($num-1), $data[$num-1]
+			    self::DISTANCE_BETWEEN_POINTS*$i,
+			    $data[$i],
+			    self::DISTANCE_BETWEEN_POINTS*0,
+			    $data[0],
+			    self::DISTANCE_BETWEEN_POINTS*($num-1),
+			    $data[$num-1]
 			);
 
 			if ($dist > $maxDist) {

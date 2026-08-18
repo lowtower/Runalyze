@@ -36,9 +36,9 @@ abstract class HtmlTag {
 		$this->Id = $id;
 	}
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
 	public function getId() {
         return $this->Id;
     }

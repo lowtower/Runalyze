@@ -47,18 +47,18 @@ class GradeAdjustedPaceCalculator {
 	 */
 	protected $StepSize = 1;
 
-	/**
+    /**
      * the result: grade adjusted time
      *
-	 * @var float
-	 */
+     * @var float
+     */
     protected $time;
 
     protected $KernelWidth = 20;
 
 	/**
 	 * Calculate the pace
-     *
+	 *
 	 * @param Runalyze\View\Activity\Context $context
 	 */
 	public function __construct(Activity\Context $context) {

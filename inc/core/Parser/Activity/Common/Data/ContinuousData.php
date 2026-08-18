@@ -101,7 +101,7 @@ class ContinuousData
     /**
      * @return array<int, string>
      */
-    public function getPropertyNamesOfArrays()
+    public function getPropertyNamesOfArrays(): array
     {
         return [
             'Time',
@@ -139,7 +139,7 @@ class ContinuousData
     /**
      * @return array<int, string>
      */
-    public function getPropertyNamesOfArraysThatShouldNotContainZeros()
+    public function getPropertyNamesOfArraysThatShouldNotContainZeros(): array
     {
         return [
             'HeartRate',

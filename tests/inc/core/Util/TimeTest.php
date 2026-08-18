@@ -14,13 +14,13 @@ class TimeTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testDiffInDays() {
-		$this->assertEquals(0, Time::diffInDays(mktime(0,0,0,12,5,2000), mktime(0,0,0,12,5,2000)));
-		$this->assertEquals(0, Time::diffInDays(mktime(0,0,0,12,5,2000), mktime(23,59,0,12,5,2000)));
-		$this->assertEquals(1, Time::diffInDays(mktime(0,0,0,12,5,2000), mktime(0,0,0,12,6,2000)));
-		$this->assertEquals(5, Time::diffInDays(mktime(0,0,0,12,5,2000), mktime(0,0,0,12,10,2000)));
-		$this->assertEquals(4, Time::diffInDays(mktime(17,0,0,12,5,2000), mktime(15,0,0,12,10,2000)));
-		$this->assertEquals(5, Time::diffInDays(mktime(18,0,0,12,5,2000), mktime(13,0,0,12,11,2000)));
-		$this->assertEquals(365, Time::diffInDays(mktime(0,0,0,12,5,2000), mktime(0,0,0,12,5,2001)));
+		$this->assertEquals(0, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 5, 2000)));
+		$this->assertEquals(0, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(23, 59, 0, 12, 5, 2000)));
+		$this->assertEquals(1, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 6, 2000)));
+		$this->assertEquals(5, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 10, 2000)));
+		$this->assertEquals(4, Time::diffInDays(mktime(17, 0, 0, 12, 5, 2000), mktime(15, 0, 0, 12, 10, 2000)));
+		$this->assertEquals(5, Time::diffInDays(mktime(18, 0, 0, 12, 5, 2000), mktime(13, 0, 0, 12, 11, 2000)));
+		$this->assertEquals(365, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 5, 2001)));
 	}
 
 	public function testDiffOfDays() {
@@ -35,10 +35,10 @@ class TimeTest extends \PHPUnit\Framework\TestCase {
 
 	public function testIsToday() {
 		$this->assertTrue(Time::isToday(time()));
-		$this->assertTrue(Time::isToday(mktime(0,0,0)));
-		$this->assertTrue(Time::isToday(mktime(23,59,0)));
-		$this->assertFalse(Time::isToday(mktime(-1,0,0)));
-		$this->assertFalse(Time::isToday(mktime(24,10,0)));
+		$this->assertTrue(Time::isToday(mktime(0, 0, 0)));
+		$this->assertTrue(Time::isToday(mktime(23, 59, 0)));
+		$this->assertFalse(Time::isToday(mktime(-1, 0, 0)));
+		$this->assertFalse(Time::isToday(mktime(24, 10, 0)));
 	}
 
 	public function testWeekstartAndWeekend() {

@@ -137,7 +137,7 @@ class Calculator {
 
 			if (
 				$oldData[$i] < $absoluteThreshold && (
-					(max($ratioPreceding, 1/$ratioPreceding) <= 1 + $filterThreshold) ||
+				    (max($ratioPreceding, 1/$ratioPreceding) <= 1 + $filterThreshold) ||
 					(max($ratioFollowing, 1/$ratioFollowing) <= 1 + $filterThreshold)
 				)
 			) {

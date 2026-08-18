@@ -18,7 +18,7 @@ class JsonBackupAnalyzer
 	/**
 	 * Construct
 	 * @param string $fileName absolute path
-     * @param string $runalyzeVersion runalyze version string
+	 * @param string $runalyzeVersion runalyze version string
 	 */
 	public function __construct($fileName, $runalyzeVersion)
     {
@@ -115,10 +115,10 @@ class JsonBackupAnalyzer
 		return $Errors;
 	}
 
-	/**
+    /**
      * @return array<int, string> table names with default prefix 'runalyze_'
      */
-    protected function expectedTables()
+    protected function expectedTables(): array
     {
 		return array(
 		    'runalyze_account',

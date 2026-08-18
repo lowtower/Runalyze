@@ -18,9 +18,9 @@ return RectorConfig::configure()
     ->withSets([
         SetList::PHP_74,
     ])
-    ->withTypeCoverageLevel(16)         # max level 72
+    ->withTypeCoverageLevel(20)         # max level 72
     ->withTypeCoverageDocblockLevel(14) # max level 14
-    ->withDeadCodeLevel(16)             # max level 73
-    ->withCodeQualityLevel(16)          # max level 73
-    ->withCodingStyleLevel(16)          # max level 18
+    ->withDeadCodeLevel(20)             # max level 73
+    ->withCodeQualityLevel(20)          # max level 73
+    ->withCodingStyleLevel(18)          # max level 18
 ;

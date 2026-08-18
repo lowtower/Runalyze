@@ -14,7 +14,6 @@ class UnitConversionByFactorTraitTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue(1.23));
 
         /** @var UnitConversionByFactorTrait $mock */
-
         $this->assertEquals(2.46, $mock->fromBaseUnit(2.0));
         $this->assertEquals(2.0, $mock->toBaseUnit(2.46));
     }

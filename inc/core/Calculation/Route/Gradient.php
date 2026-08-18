@@ -22,8 +22,8 @@ class Gradient
     protected $MovingAverageKernel;
 
 	/**
-     * @param array $elevation
-     * @param array $distance
+	 * @param array $elevation
+	 * @param array $distance
 	 */
 	public function __construct(array $elevation = [], array $distance = [])
     {

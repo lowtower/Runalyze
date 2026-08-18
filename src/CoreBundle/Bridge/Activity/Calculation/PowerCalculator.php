@@ -109,7 +109,7 @@ class PowerCalculator
     /**
      * @return array<int, int|mixed[]> [[power_1, ...], avgPower] [W]
      */
-    protected function calculatePower()
+    protected function calculatePower(): array
     {
         $calculator = new Calculator(
             new Trackdata\Entity([

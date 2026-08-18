@@ -25,7 +25,7 @@ class PoolLength extends ValueBox
 	public function __construct(Context $Context)
 	{
 		parent::__construct(
-			new Activity\PoolLength($Context->swimdata()->poollength())
+		    new Activity\PoolLength($Context->swimdata()->poollength())
 		);
 	}
 }

@@ -9,7 +9,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return array
      */
-    public function getDefaultVariables()
+    public function getDefaultVariables(): array
     {
         return [
             'TRAINING_CREATE_MODE' => 'upload',
@@ -112,7 +112,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return DatabaseOrder
      */
-    protected function getDatabaseOrderFor($key)
+    protected function getDatabaseOrderFor($key): \Runalyze\Parameter\Application\DatabaseOrder
     {
         $order = new DatabaseOrder();
         $order->set($this->Variables[$key]);

@@ -16,7 +16,7 @@ class CallController extends Controller
      * @Route("databrowser", name="databrowser")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dataBrowserAction()
+    public function dataBrowserAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         $DataBrowser = new \DataBrowser();
@@ -30,7 +30,7 @@ class CallController extends Controller
      * @Route("/upload/garminCommunicator")
      * @Security("has_role('ROLE_USER')")
      */
-    public function garminCommunicatorAction()
+    public function garminCommunicatorAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('import/garmin_communicator.html.twig', array(
             'garminAPIKey' => $this->getParameter('garmin_api_key'),
@@ -42,7 +42,7 @@ class CallController extends Controller
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
      */
-    public function savePngAction()
+    public function savePngAction(): \Symfony\Component\HttpFoundation\Response
     {
         header('Content-type: image/png');
         header('Content-Disposition: attachment; filename='.strtolower(str_replace(' ', '_', $_POST['filename'])));
@@ -56,7 +56,7 @@ class CallController extends Controller
      * @Route("/settings", name="settings")
      * @Security("has_role('ROLE_USER')")
      */
-    public function windowConfigAction(Request $request) {
+    public function windowConfigAction(Request $request): \Symfony\Component\HttpFoundation\Response {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         $ConfigTabs = new \ConfigTabs();
         $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
@@ -73,7 +73,7 @@ class CallController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function ajaxChanceConfigAction()
+    public function ajaxChanceConfigAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
@@ -150,7 +150,7 @@ class CallController extends Controller
     /**
      * @Route("/call/window.plotSumData.php")
      */
-    public function windowsPlotSumDataAction()
+    public function windowsPlotSumDataAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
         $this->getPlotSumData()->display();
@@ -161,7 +161,7 @@ class CallController extends Controller
     /**
      * @Route("/call/login.php")
      */
-    public function loginAction()
+    public function loginAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('login/ajax_not_logged_in.html.twig');
     }

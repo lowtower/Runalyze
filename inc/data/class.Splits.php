@@ -184,9 +184,9 @@ class Splits {
 		$splits        = explode('-', str_replace('\r\n', '-', $this->asString));
 
 		foreach ($splits as $split) {
-			if (substr($split,0,1) == 'R') {
+			if (substr($split, 0, 1) == 'R') {
 				$active = false;
-				$split  = substr($split,1);
+				$split  = substr($split, 1);
 			} else {
 				$active = true;
 			}
@@ -380,7 +380,7 @@ class Splits {
 		$this->fillFromArray($Time, $Distance, 'km');
 	}
 
-	/**
+    /**
      * Set empty times from array
      * @param array<int, mixed> $Time
      * @param array<int, mixed> $Distance

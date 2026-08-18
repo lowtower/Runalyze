@@ -20,7 +20,7 @@ class UploadController extends Controller
      * @Route("", name="internal-activity-upload")
      * @Security("has_role('ROLE_USER')")
      */
-    public function uploadAction(Request $request)
+    public function uploadAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if ($request->files->has('qqfile')) {
             /** @var UploadedFile $file */
@@ -56,7 +56,7 @@ class UploadController extends Controller
      * @Route("/tcx", name="internal-activity-upload-tcx")
      * @Security("has_role('ROLE_USER')")
      */
-    public function ajaxSaveTcxAction(Request $request)
+    public function ajaxSaveTcxAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         if (! $request->request->has('activityId') || ! $request->request->has('data')) {
             return new JsonResponse([

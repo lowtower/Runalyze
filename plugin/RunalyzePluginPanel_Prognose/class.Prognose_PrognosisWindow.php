@@ -126,9 +126,14 @@ class Prognose_PrognosisWindow {
 		$this->InfoLines['vo2max']  = __('Your current effective VO2max:').' '.$CurrentShape.'. ';
 		$this->InfoLines['vo2max'] .= __('Your current marathon shape:').' '.BasicEndurance::getConst().' &#37;.';
 
-		$ResultLine = empty($TopResults) ? __('none') : sprintf( __('%s in %s <small>(%s)</small> and %s in %s <small>(%s)</small>'),
-				Distance::format($TopResults[0]['distance']), Duration::format($TopResults[0]['s']), (new LocalTime($TopResults[0]['time']))->format('d.m.Y'),
-				Distance::format($TopResults[1]['distance']), Duration::format($TopResults[1]['s']), (new LocalTime($TopResults[1]['time']))->format('d.m.Y')
+		$ResultLine = empty($TopResults) ? __('none') : sprintf(
+		    __('%s in %s <small>(%s)</small> and %s in %s <small>(%s)</small>'),
+		    Distance::format($TopResults[0]['distance']),
+		    Duration::format($TopResults[0]['s']),
+		    (new LocalTime($TopResults[0]['time']))->format('d.m.Y'),
+		    Distance::format($TopResults[1]['distance']),
+		    Duration::format($TopResults[1]['s']),
+		    (new LocalTime($TopResults[1]['time']))->format('d.m.Y')
 		);
 		$this->InfoLines['robert-bock'] = __('Your two best results:').' '.$ResultLine;
 
@@ -161,7 +166,7 @@ class Prognose_PrognosisWindow {
 		$this->Distances = $this->distanceValuesToKm(Helper::arrayTrim(explode(',', $_POST['distances'])));
 	}
 
-	/**
+    /**
      * @param string[]|array<int, string[]> $values
      * @return array
      */
@@ -219,9 +224,9 @@ class Prognose_PrognosisWindow {
 	protected function setupCameronPrognosis()
     {
 		$this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\Cameron(
-            (new Duration($_POST['best-result-time']))->seconds(),
-            $_POST['best-result-km']
-        );
+		    (new Duration($_POST['best-result-time']))->seconds(),
+		    $_POST['best-result-km']
+		);
 	}
 
 	/**
@@ -341,9 +346,11 @@ class Prognose_PrognosisWindow {
 
 		if (! $this->PrognosisObject->areValuesValid()) {
 			$this->ResultTable .= HTML::warning(sprintf(
-				__('K must be between %u and %u, e between %f and %f.'),
-                \Runalyze\Sports\Running\Prognosis\Bock::K_LOWER_BOUND, \Runalyze\Sports\Running\Prognosis\Bock::K_UPPER_BOUND,
-                \Runalyze\Sports\Running\Prognosis\Bock::E_LOWER_BOUND, \Runalyze\Sports\Running\Prognosis\Bock::E_UPPER_BOUND
+			    __('K must be between %u and %u, e between %f and %f.'),
+			    \Runalyze\Sports\Running\Prognosis\Bock::K_LOWER_BOUND,
+			    \Runalyze\Sports\Running\Prognosis\Bock::K_UPPER_BOUND,
+			    \Runalyze\Sports\Running\Prognosis\Bock::E_LOWER_BOUND,
+			    \Runalyze\Sports\Running\Prognosis\Bock::E_UPPER_BOUND
 			));
 		}
 	}
@@ -351,8 +358,9 @@ class Prognose_PrognosisWindow {
 	protected function addHintsForEffectiveVO2max() {
 		if (! $this->PrognosisObject->areValuesValid()) {
 			$this->ResultTable .= HTML::warning(sprintf(
-				__('Effective VO2max must be between %u and %u.'),
-				\Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MINIMUM, \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MAXIMUM
+			    __('Effective VO2max must be between %u and %u.'),
+			    \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MINIMUM,
+			    \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MAXIMUM
 			));
 		}
 	}

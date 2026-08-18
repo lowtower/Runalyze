@@ -125,7 +125,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
                 }
 
                 $x = strlen($query) - 1;
-                if (mb_substr($query,$x) == ';') {
+                if (mb_substr($query, $x) == ';') {
                     $array[] = $query;
                     $query = '';
                 }

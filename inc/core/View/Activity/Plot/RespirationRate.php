@@ -29,7 +29,7 @@ class RespirationRate extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\RespirationRate($context)
+		    new Series\RespirationRate($context)
 		);
 	}
 }

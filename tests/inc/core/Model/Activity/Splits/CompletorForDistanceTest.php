@@ -12,9 +12,10 @@ class CompletorForDistanceTest extends \PHPUnit\Framework\TestCase {
 		    new Split(0, 300)
 		));
 
-		$Completor = new CompletorForDistance($Splits,
-			array(100, 200, 300, 400, 500, 600),
-			array(0.3, 0.6, 1.0, 1.4, 1.9, 2.3)
+		$Completor = new CompletorForDistance(
+		    $Splits,
+		    array(100, 200, 300, 400, 500, 600),
+		    array(0.3, 0.6, 1.0, 1.4, 1.9, 2.3)
 		);
 		$Completor->completeSplits();
 

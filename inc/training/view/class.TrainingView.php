@@ -134,10 +134,10 @@ class TrainingView {
 
 		if (! empty($toolsLinks)) {
 			$this->ToolbarLinks = array_merge(
-				$this->ToolbarLinks,
-				['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> '.__('Tools').'</span><ul class="submenu">'],
-				$toolsLinks,
-				['</ul></li>']
+			    $this->ToolbarLinks,
+			    ['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> '.__('Tools').'</span><ul class="submenu">'],
+			    $toolsLinks,
+			    ['</ul></li>']
 			);
 		}
 	}
@@ -162,8 +162,8 @@ class TrainingView {
 		}
 
 		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-wrench"></i></span><ul class="submenu">';
-		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="'.$linker->editUrl().'">'.Icon::$EDIT.' '.__('Edit activity').'</a> ','small').'</li>';
-		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="my/raceresult/'.$this->Context->activity()->id().'"><i class="fa fa-fw fa-trophy"></i> '.$raceResultLabel.'</a></li></a> ','normal').'</li>';
+		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="'.$linker->editUrl().'">'.Icon::$EDIT.' '.__('Edit activity').'</a> ', 'small').'</li>';
+		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="my/raceresult/'.$this->Context->activity()->id().'"><i class="fa fa-fw fa-trophy"></i> '.$raceResultLabel.'</a></li></a> ', 'normal').'</li>';
 		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/'.$this->Context->activity()->id().'?action=changePrivacy"><i class="fa fa-fw '.$privacyIcon.'"></i> '.$privacyLabel.'</a></li>';
 		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/'.$this->Context->activity()->id().'/delete" data-confirm="'.__('Do you really want to delete this activity?').'"><i class="fa fa-fw fa-trash"></i> '.__('Delete activity').'</a></li>';
 		$this->ToolbarLinks[] = '</ul></li>';
@@ -222,7 +222,7 @@ class TrainingView {
 
 		if (
 			(
-				$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
+			    $this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
 				$this->Context->sport()->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING
 			) ||
 			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT) ||

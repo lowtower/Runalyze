@@ -21,7 +21,7 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
      * @param array $configurationListData
      * @return ValueExtension
      */
-    protected function getExtensionFor(array $configurationListData = [])
+    protected function getExtensionFor(array $configurationListData = []): \Runalyze\Bundle\CoreBundle\Twig\ValueExtension
     {
         $configManager = $this->getMockBuilder(ConfigurationManager::class)
             ->disableOriginalConstructor()

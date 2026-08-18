@@ -20,7 +20,7 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array<int, int[]>
      */
-    public function conditionProvider()
+    public function conditionProvider(): array
     {
         return [
             [1, WeatherConditionProfile::SUNNY],

@@ -29,7 +29,7 @@ class StrideLength extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$this->addSeries(
-			new Series\StrideLength($context)
+		    new Series\StrideLength($context)
 		);
 	}
 }

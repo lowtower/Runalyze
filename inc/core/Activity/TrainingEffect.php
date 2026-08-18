@@ -45,10 +45,10 @@ class TrainingEffect implements ValueInterface
 		$this->set($value);
 	}
 
-    /**
-     * @return string
-     * @codeCoverageIgnore
-     */
+	/**
+	 * @return string
+	 * @codeCoverageIgnore
+	 */
 	public function label(): string
     {
 		// #TSC: Add Aerobic-prefix
@@ -58,7 +58,7 @@ class TrainingEffect implements ValueInterface
 	/**
 	 * Unit
 	 * @return string
-     * @codeCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	public function unit(): string
     {
@@ -69,7 +69,7 @@ class TrainingEffect implements ValueInterface
 	 * Set training effect
 	 * @param float|null|string $value
 	 * @return \Runalyze\Activity\TrainingEffect $this-reference
-     * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function set($value) {
         if (null === $value) {

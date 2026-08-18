@@ -64,7 +64,8 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
 
                 if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
                     $activity->getRoute()->setElevationsCorrected((new StepwiseElevationProfileFixer(
-                        5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
+                        5,
+                        StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
                     ))->fixStepwiseElevations(
                         $activity->getRoute()->getElevationsCorrected(),
                         $activity->getTrackdata()->getDistance()
@@ -111,7 +112,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
         return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
-            ->from('CoreBundle:Route','r')
+            ->from('CoreBundle:Route', 'r')
             ->getQuery()->getSingleScalarResult();
     }
 

@@ -86,14 +86,14 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		$this->handle('DB_SHOW_ACTIVE_DAYS_ONLY')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
         $this->handle('DB_REVERSE_MODE')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
 
-		$this->handle('DB_DISPLAY_MODE')->registerOnchangeEvent(\Runalyze\Configuration\Category\DataBrowser::class . '::showNewTimerangeInDB');
+		$this->handle('DB_DISPLAY_MODE')->registerOnchangeEvent(self::class . '::showNewTimerangeInDB');
 	}
 
 	/**
 	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
-	public function Fieldset() {
+	public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Calendar view') );
 
 		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), array(

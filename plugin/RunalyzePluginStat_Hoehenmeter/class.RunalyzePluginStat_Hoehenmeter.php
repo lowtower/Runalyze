@@ -71,7 +71,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 			for ($m = 1; $m <= 12; $m++) {
 				if (isset($Data[$m]) && $Data[$m]['elevation'] > 0) {
 					$Link = new SearchLink();
-					$Link->fromTo(mktime(0,0,0,$m,1,$y), mktime(0,0,0,$m+1,0,$y));
+					$Link->fromTo(mktime(0, 0, 0, $m, 1, $y), mktime(0, 0, 0, $m+1, 0, $y));
 					$Link->sortBy('elevation');
 					$summarized += $Data[$m]['elevation'];
 
@@ -100,7 +100,8 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	    echo '<div id="elevation-rankings">';
 
         $this->displayData(
-            __('Most elevation'), 'elevation',
+            __('Most elevation'),
+            'elevation',
             $this->getData('elevation'),
             function ($activityData) {
                 $grade = $activityData['distance'] > 0 ? $activityData['elevation'] / $activityData['distance'] : 0;
@@ -111,16 +112,18 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
         );
 
 	    $this->displayData(
-            __('Steepest routes'), 'grade',
-            $this->getData('gradient'),
-            function ($activityData) {
+	        __('Steepest routes'),
+	        'grade',
+	        $this->getData('gradient'),
+	        function ($activityData) {
                 return round($activityData['gradient']/10, 2).'&nbsp;&#37;<br>
 					<small>'.Elevation::format($activityData['elevation']).',&nbsp;'.Distance::format($activityData['distance']).'</small>';
             }
-        );
+	    );
 
         $this->displayData(
-            __('Highest Climb Score'), 'cs',
+            __('Highest Climb Score'),
+            'cs',
             $this->getData('climb_score'),
             function ($activityData) {
                 return '<small>'.round($activityData['gradient']/10, 2).'&nbsp;&#37;<br>
@@ -173,7 +176,9 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 			}
 
 			return $route;
-		} elseif ($title != '') {
+		}
+
+		if ($title != '') {
 			return '<em>'.$title.'</em>';
 		}
 
@@ -181,7 +186,8 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	}
 
 	private function initElevationData() {
-		$result = DB::getInstance()->query('
+		$result = DB::getInstance()->query(
+		    '
 			SELECT
 				SUM(`elevation`) as `elevation`,
 				SUM(`distance`) as `km`,
@@ -201,7 +207,8 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	}
 
 	private function getData($order, $limit = 10) {
-	    return DB::getInstance()->query('
+	    return DB::getInstance()->query(
+	        '
 			SELECT
 				`'.PREFIX.'training`.`id`,
 				`'.PREFIX.'training`.`time`,
@@ -220,6 +227,6 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 				`'.PREFIX.'training`.`elevation` > 0 '.$this->getSportAndYearDependenceForQuery().'
 			ORDER BY `'.$order.'` DESC
 			LIMIT '.(int) $limit
-        )->fetchAll();
+	    )->fetchAll();
     }
 }

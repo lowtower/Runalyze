@@ -36,9 +36,9 @@ class Smo2 extends AbstractBox
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
 		parent::__construct(
-            round($value->average($trackdataKey),2),
-			'%',
-			$label
+		    round($value->average($trackdataKey), 2),
+		    '%',
+		    $label
 		);
 		$this->defineAsFloatingBlock('w50');
 	}
