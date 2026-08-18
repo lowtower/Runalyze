@@ -114,7 +114,7 @@ class RaceResultController extends Controller
         $ageStandardTimes = array_map(function($kilometer) use ($ageGradeLookup) {
             return $ageGradeLookup->getAgeStandard($kilometer);
         }, $distances);
-        $ageStandardVO2max = array_map(function($kilometer, $seconds) use ($danielsGilbertFormula) {
+        $ageStandardVO2max = array_map(function($kilometer, $seconds) use ($danielsGilbertFormula): float {
             return $danielsGilbertFormula->estimateFromRaceResult($kilometer, $seconds);
         }, $distances, $ageStandardTimes);
 

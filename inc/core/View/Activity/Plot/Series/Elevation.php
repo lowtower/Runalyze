@@ -70,7 +70,7 @@ class Elevation extends ActivitySeries {
 		$UnitSystem = Configuration::General()->distanceUnitSystem();
 
 		if ($UnitSystem->isImperial()) {
-			$this->Data = array_map(function($value) {
+			$this->Data = array_map(function($value): float {
 				return round($value * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
 			}, $this->Data);
 		}

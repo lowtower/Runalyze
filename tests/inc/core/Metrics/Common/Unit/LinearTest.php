@@ -9,8 +9,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
     public function testSimpleFunction()
     {
         $unit = new Linear(
-            function ($value) { return 2.0 * $value + 5.0; },
-            function ($value) { return ($value - 5.0) / 2.0; },
+            function ($value): float { return 2.0 * $value + 5.0; },
+            function ($value): float { return ($value - 5.0) / 2.0; },
             'foo',
             1
         );

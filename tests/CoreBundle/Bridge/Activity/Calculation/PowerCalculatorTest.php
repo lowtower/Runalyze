@@ -41,7 +41,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
             $this->Activity->getTrackdata()
                 ->setDistance($distance);
             $this->Activity->getTrackdata()
-                ->setTime(array_map(function ($v) { return 300.0 * $v; }, $distance));
+                ->setTime(array_map(function ($v): float { return 300.0 * $v; }, $distance));
         }
     }
 

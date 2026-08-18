@@ -185,7 +185,7 @@ class Prognose_PrognosisWindow {
      */
     protected function distanceValuesToMiles(array $values) {
 		if ($this->UnitSystem->isImperial()) {
-			$values = array_map(function($val){
+			$values = array_map(function($val): float{
 				return round($val * DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
 			}, $values);
 		}

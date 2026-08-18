@@ -45,7 +45,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'class' => Equipment::class,
                     'choices' => $equipment[$category->getId()],
                     'choice_label' => 'name',
-                    'choice_attr' => function ($eqp, $key, $index) {
+                    'choice_attr' => function (\Runalyze\Bundle\CoreBundle\Entity\Equipment $eqp, $key, $index): array {
                         /** @var Equipment $eqp */
                         return $this->getChoiceAttributesForEquipment($eqp);
                     },

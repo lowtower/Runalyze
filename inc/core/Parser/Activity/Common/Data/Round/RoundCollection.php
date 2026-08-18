@@ -137,7 +137,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_reduce(
             $this->getElements(),
-            function ($carry, Round $round) {
+            function (float $carry, Round $round): float {
                 return $carry + $round->getDistance();
             },
             0.0
@@ -215,7 +215,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      * #TSC check if the rounds has inactive/ruhe rounds.
      */
     public function hasInactiveRounds(): bool {
-        return count(array_filter($this->Elements, function($v, $k) {
+        return count(array_filter($this->Elements, function($v, $k): bool {
             return ! $v->IsActive();
         }, ARRAY_FILTER_USE_BOTH)) > 0;
     }

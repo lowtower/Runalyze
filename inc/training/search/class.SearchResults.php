@@ -383,7 +383,7 @@ class SearchResults {
      */
     protected function addConditionForArray($key, array &$conditions) {
 		$array = array_map(
-		    function ($value) {
+		    function ($value): int {
 				return (int) $value;
 			},
 		    $_POST[$key]
@@ -509,7 +509,7 @@ class SearchResults {
     protected function addSportCondition(array &$conditions) {
 		if (is_array($_POST['sportid'])) {
 			$array = array_map(
-			    function ($value) {
+			    function ($value): int {
 					return (int) $value;
 				},
 			    $_POST['sportid']
@@ -531,7 +531,7 @@ class SearchResults {
 
 		if (is_array($_POST['equipmentid'])) {
 			$array = array_map(
-			    function ($value) {
+			    function ($value): int {
 					return (int) $value;
 				},
 			    $_POST['equipmentid']
@@ -553,7 +553,7 @@ class SearchResults {
 
 		if (is_array($_POST['tagid'])) {
 			$array = array_map(
-			    function ($value) {
+			    function ($value): int {
 					return (int) $value;
 				},
 			    $_POST['tagid']
@@ -655,7 +655,7 @@ class SearchResults {
 	 * @return int[]
 	 */
 	public function getIdsForMultiEditor(): array {
-	    return array_map(function($data) {
+	    return array_map(function(array $data): int {
 	        return (int) $data['id'];
         }, $this->Trainings);
     }

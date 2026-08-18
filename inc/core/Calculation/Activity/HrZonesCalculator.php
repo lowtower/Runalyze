@@ -177,7 +177,7 @@ class HrZonesCalculator
      * sorts the zones array ascend of bpm.
      */
     public static function sortZones(array $zones): array {
-        usort($zones, function($a, $b){
+        usort($zones, function($a, $b): int{
             $oka = preg_match(self::PATTERN, $a, $matchesa, PREG_UNMATCHED_AS_NULL);
             $okb = preg_match(self::PATTERN, $b, $matchesb, PREG_UNMATCHED_AS_NULL);
             if ($oka && $okb) {

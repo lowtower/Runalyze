@@ -120,7 +120,8 @@ class FitSplitsAdditionals {
 
     private function getUniqueKeys(): array {
         $keys = array();
-        for($i = 0; $i < count($this->data); $i++) {
+        $counter = count($this->data);
+        for($i = 0; $i < $counter; $i++) {
             foreach($this->data[$i] as $key => $value){
                 $keys[] = $key;
             }

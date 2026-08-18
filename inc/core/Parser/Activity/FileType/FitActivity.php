@@ -278,7 +278,7 @@ class FitActivity extends AbstractSingleParser
 
         $devFieldName = str_replace(['"', ' '], ['', '_'], $this->Values['field_name'][0]);
         $fieldName = $this->Values['developer_data_index'][0].'_'.$this->Values['field_definition_number'][0].'_'.$devFieldName;
-        $fieldName = preg_replace_callback('/(\W)/i', function(array $char) {
+        $fieldName = preg_replace_callback('/(\W)/i', function(array $char): string {
             return sprintf('_%02x_', ord($char[0]));
         }, preg_replace('/(\s+)/i', '_', $fieldName));
 
@@ -404,6 +404,7 @@ class FitActivity extends AbstractSingleParser
                     break;
 
                 case 'file_creator':
+                case 'activity':
                     break;
 
                 case 'device_info':
@@ -448,9 +449,6 @@ class FitActivity extends AbstractSingleParser
 
                 case 'battery':
                     $this->readBattery(); // #TSC
-                    break;
-
-                case 'activity':
                     break;
 
                 case 'user_profile':
@@ -1121,7 +1119,7 @@ class FitActivity extends AbstractSingleParser
         $endTime = (int) ($startTime + round(((int) $this->Values['total_timer_time'][0]) / 1000));
 
         // get the relevant records-times for this lane (inside the start/end-time)
-        $recordTimes = array_filter($this->RecordTime, function($v, $k) use ($startTime, $endTime) {
+        $recordTimes = array_filter($this->RecordTime, function($v, $k) use ($startTime, $endTime): bool {
             return isset($v) && $v >= $startTime && $v <= $endTime;
         }, ARRAY_FILTER_USE_BOTH);
 
@@ -1253,7 +1251,7 @@ class FitActivity extends AbstractSingleParser
             && isset($this->Values['total_distance']) 
             && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
             // init value
-            if (! isset($this->Container->ActivityData->PaceGoal)) {
+            if ($this->Container->ActivityData->PaceGoal === null) {
                 $this->Container->ActivityData->PaceGoal = array();
             }
 
@@ -1273,7 +1271,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // initialize the values for run/walk/stand
-        if (! isset($this->Container->FitDetails->RunTime) &&
+        if ($this->Container->FitDetails->RunTime === null &&
             (in_array($split_type, [17, 18, 22]))) {
             $this->Container->FitDetails->RunTime = 0;
             $this->Container->FitDetails->WalkTime = 0;

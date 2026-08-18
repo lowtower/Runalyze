@@ -56,7 +56,7 @@ class Temperature extends ActivitySeries {
         $temperatureUnit = Configuration::General()->temperatureUnit();
 
         if ($temperatureUnit->isFahrenheit()) {
-            $this->Data = array_map(function($value) {
+            $this->Data = array_map(function($value): float {
                 return round($value * 1.8 + 32.0, 1);
             }, $this->Data);
         }

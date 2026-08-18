@@ -121,7 +121,7 @@ class VO2max implements PrognosisInterface
             $effectiveVO2maxToReach,
             round(2 * 60 * $distance),
             round(10 * 60 * $distance),
-            function ($seconds) use ($distance, $function) {
+            function ($seconds) use ($distance, $function): float {
                 return $function->estimateFromRaceResult($distance, $seconds);
             }
         ))->findValue();

@@ -135,7 +135,8 @@ class PaceUnit extends AbstractEnum
 	{
 		switch ($id) {
 			case self::KM_PER_H:
-				return new PaceUnitObject\KmPerHour();
+            default:
+                return new PaceUnitObject\KmPerHour();
 			case self::MILES_PER_H:
 				return new PaceUnitObject\MilesPerHour();
 			case self::MIN_PER_KM:
@@ -152,8 +153,6 @@ class PaceUnit extends AbstractEnum
 				return new PaceUnitObject\MinPer500m();
 			case self::MIN_PER_500Y:
 				return new PaceUnitObject\MinPer500y();
-			default:
-                return new PaceUnitObject\KmPerHour();
 		}
 	}
 

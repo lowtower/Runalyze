@@ -147,8 +147,8 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 		    $this->Query->fetchSummaryForSport(3)
 		);
 
-		$this->assertEquals(array(1, 2, 1), array_map(function ($data) { return $data['num']; }, $summary));
-		$this->assertEquals(array(100, 323, 500), array_map(function ($data) { return $data['s']; }, $summary));
+		$this->assertEquals(array(1, 2, 1), array_map(function (array $data) { return $data['num']; }, $summary));
+		$this->assertEquals(array(100, 323, 500), array_map(function (array $data) { return $data['s']; }, $summary));
 	}
 
 	public function testSummaryForWeekTimerange()

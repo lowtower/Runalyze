@@ -162,7 +162,7 @@ class SportType extends AbstractType
                 'choices' => $this->getFilteredChoicesForInternalSportId($usedInternalSportIds, $sport),
                 'choice_translation_domain' => false,
                 'placeholder' => 'None (custom sport)',
-                'preferred_choices' => function ($val, $key) {
+                'preferred_choices' => function ($val, $key): bool {
                     return '' == $key;
                 },
                 'label' => 'Internal sport',

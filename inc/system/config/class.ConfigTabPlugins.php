@@ -144,7 +144,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 * @return \Closure
 	 */
 	protected function pluginOrderFunction() {
-		return function($a, $b){
+		return function($a, $b): int{
 			if ($a['active'] == $b['active']) {
 				if ($a['order'] == $b['order']) {
 					return ($a['id'] > $b['id']) ? 1 : -1;

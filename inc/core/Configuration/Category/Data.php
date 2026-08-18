@@ -236,7 +236,7 @@ class Data extends \Runalyze\Configuration\Category
         $Query = new Performance\ModelQuery();
         $Query->execute(\DB::getInstance());
 
-        $Calc = new Performance\MaximumCalculator(function (array $array) {
+        $Calc = new Performance\MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
             return new TsbModel($array, Configuration::Trimp()->daysForCTL(), Configuration::Trimp()->daysForATL());
         }, $Query->data());
 

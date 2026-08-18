@@ -113,7 +113,7 @@ class XmlPolarExercise extends AbstractSingleParser
                         break;
 
                     case 'DISTANCE':
-                        $this->Container->ContinuousData->Distance = array_map(function($m) {
+                        $this->Container->ContinuousData->Distance = array_map(function(string $m) {
                             return $m / 1000;
                         }, $data);
                         break;

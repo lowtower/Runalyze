@@ -78,7 +78,7 @@ class BSplineInterpolation
         }
 
         if (1 === $this->Dimension) {
-            $points = array_map(function ($v) {
+            $points = array_map(function ($v): array {
                 return [$v];
             }, $points);
         }

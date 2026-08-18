@@ -24,7 +24,7 @@ class PluginConfRepository extends EntityRepository
             ->getSingleScalarResult();
 
         return array_filter(
-            array_map(function ($id) {
+            array_map(function ($id): int {
                 return (int) trim($id);
             }, explode(',', $result))
         );

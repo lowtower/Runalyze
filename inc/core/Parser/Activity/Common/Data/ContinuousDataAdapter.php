@@ -42,7 +42,7 @@ class ContinuousDataAdapter
             $avg = array_sum($this->ContinuousData->Cadence) / count($this->ContinuousData->Cadence);
 
             if ($avg > self::RPM_LIMIT_FOR_CORRECTION) {
-                $this->ContinuousData->Cadence = array_map(function ($v) {
+                $this->ContinuousData->Cadence = array_map(function ($v): float {
                     return round($v / 2);
                 }, $this->ContinuousData->Cadence);
             }
@@ -265,7 +265,7 @@ class ContinuousDataAdapter
 
         $temperatures = array_filter(
             $this->ContinuousData->Temperature,
-            function ($temperature) {
+            function ($temperature): bool {
                 return null !== $temperature;
             }
         );

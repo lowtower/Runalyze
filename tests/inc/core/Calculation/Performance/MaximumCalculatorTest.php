@@ -28,21 +28,21 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
     public function testNoModelInClosure()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new MaximumCalculator(function () {
+        new MaximumCalculator(function (): \StdClass {
             return new \StdClass();
         }, []);
     }
 
     public function testTSBclosure()
     {
-        new MaximumCalculator(function (array $array) {
+        new MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
             return new TsbModel($array);
         }, []);
     }
 
     public function testFakeModel()
     {
-        $Calc = new MaximumCalculator(function (array $array) {
+        $Calc = new MaximumCalculator(function (array $array): \Runalyze\Calculation\Performance\FakeAbstractModel {
             return new FakeAbstractModel($array);
         }, [10, 0, 50, 100, 0, 75, 13]);
 

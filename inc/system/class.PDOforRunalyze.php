@@ -197,16 +197,17 @@ class PDOforRunalyze extends PDO {
 			}
 		} else if (is_bool($values)) {
 			$values = $values ? 1 : 0;
-		} else if (is_numeric($values) && ! $forceAsString) {
-        } else if ($values === null || $values == 'NULL') {
-			$values = 'NULL';
 		} else if (! is_numeric($values) || $forceAsString) {
-			$values = $this->quote($values);
+            if ($values === null || $values == 'NULL') {
+    			$values = 'NULL';
+    		} else if (! is_numeric($values) || $forceAsString) {
+    			$values = $this->quote($values);
 
-			if ($quotes === false && substr($values, 0, 1) == "'" && substr($values, -1) == "'" && strlen($values) > 2) {
-				$values = substr($values, 1, -1);
-			}
-		}
+    			if ($quotes === false && substr($values, 0, 1) == "'" && substr($values, -1) == "'" && strlen($values) > 2) {
+    				$values = substr($values, 1, -1);
+    			}
+    		}
+        }
 
 		return $values;
 	}

@@ -56,7 +56,7 @@ trait AbstractEnumFactoryTrait
             throw new \BadMethodCallException('Classes using this trait must have static method getEnum().');
         }
 
-        self::$ClassNames = array_map(function ($v) {
+        self::$ClassNames = array_map(function ($v): string {
             return str_replace(' ', '', ucwords(strtolower(str_replace('_', ' ', $v))));
         }, array_flip(self::getEnum()));
     }

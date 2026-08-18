@@ -122,7 +122,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     {
         return array_reduce(
             $lang,
-            function ($state, $value) {
+            function (bool $state, $value): bool {
                 return $state && ctype_alpha($value);
             },
             true
@@ -136,7 +136,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     {
         return array_reduce(
             $accountIds,
-            function ($state, $value) {
+            function (bool $state, $value): bool {
                 return $state && ctype_digit($value);
             },
             true

@@ -30,7 +30,7 @@ class OsmCsvDataCollection {
     }
 
     protected function sort() {
-        usort($this->data, function($a, $b) {
+        usort($this->data, function($a, $b): int {
             $r = $a->order <=> $b->order;
             if($r !== 0) {
                 return $r;
@@ -63,7 +63,7 @@ class OsmCsvDataCollection {
      * get (already sorted) names of a category.
      */
     public function getNames(string $category): array {
-        return array_keys(array_filter($this->names, function($v, $k) use ($category) {
+        return array_keys(array_filter($this->names, function($v, $k) use ($category): bool {
             return $v == $category;
         }, ARRAY_FILTER_USE_BOTH));
     }

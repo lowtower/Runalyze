@@ -357,8 +357,8 @@ class Route implements AccountRelatedEntityInterface
             throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
-        $latitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double) $value; }, $latitudes);
-        $longitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double) $value; }, $longitudes);
+        $latitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (double) $value; }, $latitudes);
+        $longitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (double) $value; }, $longitudes);
 
         $this->areMinMaxSynchronized = false;
         $this->geohashes = []; ;

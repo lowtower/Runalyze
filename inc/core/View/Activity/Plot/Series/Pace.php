@@ -213,7 +213,7 @@ class Pace extends ActivitySeries {
 			$ticks = [120, 180, 240, 300, 360, 480, 600, 3600];
 		}
 
-		$ticks = array_map(function($v){
+		$ticks = array_map(function($v): int{
 			return $v*1000;
 		}, $ticks);
 

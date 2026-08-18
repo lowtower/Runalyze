@@ -35,7 +35,7 @@ class PercentageHilly extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-        if ((! $context->activity()->isPublic() && \Request::isOnSharedPage()) OR $context->activity()->id() <= 0) {
+        if (! $context->activity()->isPublic() && \Request::isOnSharedPage() || $context->activity()->id() <= 0) {
             return $context->dataview()
                 ->percentageHilly();
         } else {

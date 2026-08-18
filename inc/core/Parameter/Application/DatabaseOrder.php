@@ -71,7 +71,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 		$key = ($this->value() == self::ALPHA) ? 'name' : 'id';
 		$desc = ($this->value() == self::DESC) ? -1 : 1;
 
-		uasort($data, function($a, $b) use ($key, $desc) {
+		uasort($data, function($a, $b) use ($key, $desc): int {
 			if ($a[$key] == $b[$key]) {
 				return 0;
 			}
@@ -91,7 +91,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 
         /** @var \ArrayIterator $iterator */
         $iterator = $collection->getIterator();
-        $iterator->uasort(function ($a, $b) use ($key, $desc) {
+        $iterator->uasort(function ($a, $b) use ($key, $desc): int {
             if ('name' === $key && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
                 if ($a->getName() == $b->getName()) {
                     return 0;

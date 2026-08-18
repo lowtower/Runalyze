@@ -117,7 +117,7 @@ class GradeAdjustedPaceCalculator {
 	 * @return the grade adjusted pace
 	 */
 	public function getAdjustedTime() {
-        if (! isset($this->time)) {
+        if ($this->time === null) {
             $this->calculate();
         }
 

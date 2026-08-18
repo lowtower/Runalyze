@@ -90,7 +90,7 @@ class CreateController extends Controller
         } elseif ($request->query->has('files')) {
             $importer = $this->get('app.file_importer');
             $importResult = $importer->importFiles(
-                array_map(function ($file) use ($importDir) {
+                array_map(function ($file) use ($importDir): string {
                     return $importDir.$file;
                 }, explode(';', $request->query->get('files')))
             );

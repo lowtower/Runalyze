@@ -51,7 +51,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
             'choice_value' => function (?Sport $sport = null) {
                 return $sport ? $sport->getId() : '';
             },
-            'choice_attr' => function($sport, $key, $index) use ($sportToEquipmentCategoryRelations) {
+            'choice_attr' => function($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 /** @var Sport $sport */
                 $sportId = $sport->getId();
                 $availableEquipmentTypes = [];

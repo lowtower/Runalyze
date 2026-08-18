@@ -211,13 +211,13 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
                 break;
 
             case 'GraphPitch':
-                $this->Container->ContinuousData->Cadence = array_map(function ($value) {
+                $this->Container->ContinuousData->Cadence = array_map(function (string $value) {
                     return round($value / 2);
                 }, $values);
                 break;
 
             case 'GraphDistance':
-                $this->Container->ContinuousData->Distance = array_map(function ($value) {
+                $this->Container->ContinuousData->Distance = array_map(function (string $value) {
                     return $value / 1000;
                 }, $values);
                 break;

@@ -140,7 +140,7 @@ class Factory {
 	 * @return \Runalyze\Model\Type\Entity[]
 	 */
 	public function allTypes(): array {
-		return $this->allObjects('type', function($data){
+		return $this->allObjects('type', function($data): \Runalyze\Model\Type\Entity{
 			return new Type\Entity($data);
 		});
 	}
@@ -178,7 +178,7 @@ class Factory {
 	 * @return \Runalyze\Model\Sport\Entity[]
 	 */
 	public function allSports(): array {
-		return $this->allObjects('sport', function($data){
+		return $this->allObjects('sport', function($data): \Runalyze\Model\Sport\Entity{
 			return new Sport\Entity($data);
 		});
 	}
@@ -240,7 +240,7 @@ class Factory {
 	 * @return \Runalyze\Model\Tag\Entity[]
 	 */
 	public function allTags(): array {
-		return $this->allObjects('tag', function($data){
+		return $this->allObjects('tag', function($data): \Runalyze\Model\Tag\Entity{
 			return new Tag\Entity($data);
 		});
 	}
@@ -429,7 +429,6 @@ class Factory {
 		switch ($tablename) {
 			case 'trackdata':
 			case 'hrv':
-				return 'activityid';
 			case 'swimdata':
 				return 'activityid';
 			case 'raceresult':

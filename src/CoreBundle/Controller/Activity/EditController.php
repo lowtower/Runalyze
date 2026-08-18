@@ -123,7 +123,7 @@ class EditController extends Controller
      */
     protected function getResponseForMultiEditor(array $activityIds, Account $account)
     {
-        $previews = array_map(function (Training $activity) {
+        $previews = array_map(function (Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview {
             return new ActivityPreview($activity);
         }, $this->getTrainingRepository()
             ->getPartialEntitiesForPreview($activityIds, $account, 20));

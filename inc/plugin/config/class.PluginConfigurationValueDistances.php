@@ -67,7 +67,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 			    ->distanceToKmFactor() : $this->unitSystem()
 			    ->distanceToPreferredUnitFactor();
 
-			return array_map(function($val) use ($factor){
+			return array_map(function($val) use ($factor): float{
 				return round($val * $factor, self::PRECISION);
 			}, $values);
 		}

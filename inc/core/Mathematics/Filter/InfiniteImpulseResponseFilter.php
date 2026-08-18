@@ -82,8 +82,8 @@ class InfiniteImpulseResponseFilter
         for ($i = 1; $i <= $this->Order; ++$i) {
             array_unshift($inputData, $firstElement);
             array_unshift($outputData, $firstElement);
-            array_push($inputData, $lastElement);
-            array_push($outputData, null);
+            $inputData[] = $lastElement;
+            $outputData[] = null;
         }
     }
 

@@ -66,9 +66,8 @@ class Gpx extends AbstractFileExporter
     /**
      * Get string for timestamp in xml
      * @param int $time
-     * @return string
      */
-    final protected function timeToString($time)
+    final protected function timeToString($time): string
     {
         return LocalTime::date('c', $time);
     }

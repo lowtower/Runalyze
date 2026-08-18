@@ -103,7 +103,7 @@ class RaceresultRepository extends EntityRepository
             return 1.0;
         }
 
-        return max(array_map(function($v) {
+        return max(array_map(function($v): float {
             return (float) $v;
         }, $result));
     }

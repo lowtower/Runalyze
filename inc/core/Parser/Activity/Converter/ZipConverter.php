@@ -43,7 +43,7 @@ class ZipConverter implements FileTypeConverterInterface
         $this->tryToOpenArchive($archive, $inputFile);
 
         $inputFileNames = $this->getFileNamesFrom($archive);
-        $outputFileNames = array_map(function($file) use ($inputFile) {
+        $outputFileNames = array_map(function($file) use ($inputFile): string {
             return $inputFile.'.'.$file;
         }, $inputFileNames);
 

@@ -52,7 +52,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
         $this->FilesToClear = $outputFile;
         $path = $this->pathToTestFiles();
-        $outputFile = array_map(function ($file) use ($path) {
+        $outputFile = array_map(function (string $file) use ($path): string {
             return str_replace($path, '', $file);
         }, $outputFile);
 

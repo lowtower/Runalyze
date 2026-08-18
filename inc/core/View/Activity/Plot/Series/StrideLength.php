@@ -77,7 +77,7 @@ class StrideLength extends ActivityPointSeries {
 			$factor = 1 / 100;
 		}
 
-		$this->Data = array_map(function ($value) use ($factor) {
+		$this->Data = array_map(function ($value) use ($factor): float {
 			return $value * $factor;
 		}, $this->Data);
 	}

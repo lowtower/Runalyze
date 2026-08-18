@@ -101,7 +101,7 @@ class AnovaType extends AbstractType
                     'data-placeholder' => __('Choose sport(s)'),
                     'class' => 'chosen-select full-size'
                 ],
-                'choice_attr' => function($sport, $key, $index) {
+                'choice_attr' => function($sport, $key, $index): array {
                     /** @var Sport $sport */
                     return [
                         'data-id' => $sport->getId()
@@ -121,7 +121,7 @@ class AnovaType extends AbstractType
                     'data-placeholder' => __('Choose activity type(s)'),
                     'class' => 'chosen-select full-size'
                 ],
-                'choice_attr' => function($type, $key, $index) {
+                'choice_attr' => function($type, $key, $index): array {
                     /** @var Type $type */
                     return [
                         'data-sportid' => $type->getSport()

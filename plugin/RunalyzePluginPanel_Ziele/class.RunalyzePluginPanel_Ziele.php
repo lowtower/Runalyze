@@ -21,12 +21,6 @@ $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
 class RunalyzePluginPanel_Ziele extends PluginPanel
 {
 	/**
-	 * Was there a run today?
-	 * @var bool
-	 */
-	private $wasRunningToday = false;
-
-	/**
 	 * All lines
 	 * @var array
 	 */
@@ -121,8 +115,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	protected function displayContent()
 	{
 		echo '<div id="bunny">';
-
-		$this->wasRunningToday = $this->wasRunningToday();
 
 		$isFirst = true;
 		foreach ($this->getTimeset() as $i => $timeset) {
