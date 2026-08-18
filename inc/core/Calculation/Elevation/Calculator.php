@@ -98,7 +98,7 @@ class Calculator
 	 * Get elevation
 	 * @return int
 	 */
-	public function totalElevation()
+	public function totalElevation(): int
 	{
 		return max($this->Up, $this->Down);
 	}

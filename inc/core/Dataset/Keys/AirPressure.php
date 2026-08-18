@@ -39,7 +39,7 @@ class AirPressure extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Air pressure');
 	}
@@ -48,7 +48,7 @@ class AirPressure extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Pressure');
 	}

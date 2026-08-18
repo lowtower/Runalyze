@@ -39,7 +39,6 @@ class RaceContainer {
 	protected $SportId;
 
 	/**
-	 *
 	 * @param PDO $pdo [optional]
 	 * @param int $sportId
 	 */
@@ -84,7 +83,7 @@ class RaceContainer {
 	/**
 	 * @return int
 	 */
-	public function num() {
+	public function num(): int {
 		return count($this->Data);
 	}
 

@@ -40,7 +40,7 @@ class VerticalRatio extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Vertical ratio');
 	}
@@ -49,7 +49,7 @@ class VerticalRatio extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Vertical ratio is the ratio of vertical oscillation to stride length.');
 	}

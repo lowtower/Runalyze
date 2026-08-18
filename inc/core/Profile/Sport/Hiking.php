@@ -19,7 +19,7 @@ class Hiking extends AbstractSport
         return 'icons8-Trekking';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('Hiking');
     }

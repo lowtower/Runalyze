@@ -454,7 +454,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 */
     public function at($index, $key) {
         if (! isset($this->Data[$key][$index])) {
-            throw new \OutOfBoundsException("Undefined offset: $index");
+            throw new \OutOfBoundsException("Undefined offset: {$index}");
         }
 		return $this->Data[$key][$index];
     }

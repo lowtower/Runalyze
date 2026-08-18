@@ -59,7 +59,7 @@ class Table {
 	/**
 	 * @return int
 	 */
-	public function numColumns()
+	public function numColumns(): int
 	{
 		return count($this->ActiveKeys);
 	}

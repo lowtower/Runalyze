@@ -28,7 +28,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Records');
 	}
 
@@ -36,7 +36,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Faster, longer, better: Your records from your activities.');
 	}
 
@@ -55,7 +55,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 	 * Title for all years
 	 * @return string
 	 */
-	protected function titleForAllYears() {
+	protected function titleForAllYears(): string {
 		return __('All years');
 	}
 

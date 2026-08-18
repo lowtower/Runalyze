@@ -52,7 +52,7 @@ class HeartRateBasedEstimator
      * @param int $heartRateInBpm [bpm]
      * @return float [kcal]
      */
-    protected function getExpenditureForFemale($heartRateInBpm)
+    protected function getExpenditureForFemale($heartRateInBpm): float
     {
         return -20.4022 + 0.4472 * $heartRateInBpm - 0.1263 * $this->getWeight(self::DEFAULT_WEIGHT_FEMALE) + 0.074 * $this->getAge();
     }
@@ -61,7 +61,7 @@ class HeartRateBasedEstimator
      * @param int $heartRateInBpm [bpm]
      * @return float [kcal]
      */
-    protected function getExpenditureForMale($heartRateInBpm)
+    protected function getExpenditureForMale($heartRateInBpm): float
     {
         return -55.0969 + 0.6309 * $heartRateInBpm - 0.1988 * $this->getWeight(self::DEFAULT_WEIGHT_MALE) + 0.2017 * $this->getAge();
     }

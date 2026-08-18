@@ -17,7 +17,7 @@ class SecondsPer500y extends AbstractPaceInTimeFormatUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 0.5 / 1.0936133;
     }

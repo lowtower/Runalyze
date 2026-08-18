@@ -139,7 +139,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return float
      */
-    public function getTotalDistance()
+    public function getTotalDistance(): float
     {
         return array_reduce(
             $this->getElements(),

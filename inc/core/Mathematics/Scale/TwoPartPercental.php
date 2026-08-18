@@ -40,7 +40,7 @@ class TwoPartPercental extends Percental
         $this->InflectionPoint = (float) $inflectionPoint;
     }
 
-    public function transform($input)
+    public function transform($input): float
     {
         if ($input < $this->InflectionPoint) {
             $value = ($input - $this->Min) * 50.0 / ($this->InflectionPoint - $this->Min);

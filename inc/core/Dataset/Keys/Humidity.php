@@ -39,7 +39,7 @@ class Humidity extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Humidity');
 	}

@@ -208,7 +208,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @return int [bpm]
      */
-    public function getMaximalHeartRate()
+    public function getMaximalHeartRate(): int
     {
         return (int) $this->Variables['data.HF_MAX'];
     }
@@ -216,7 +216,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @return int [bpm]
      */
-    public function getRestingHeartRate()
+    public function getRestingHeartRate(): int
     {
         return (int) $this->Variables['data.HF_REST'];
     }
@@ -224,7 +224,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @return float
      */
-    public function getVO2maxCorrectionFactor()
+    public function getVO2maxCorrectionFactor(): float
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'])) {
             return (float) $this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'];
@@ -244,7 +244,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @return float
      */
-    public function getCurrentVO2maxShape()
+    public function getCurrentVO2maxShape(): float
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_VALUE'])) {
             return (float) $this->Variables['vo2max.VO2MAX_MANUAL_VALUE'];

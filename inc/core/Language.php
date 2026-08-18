@@ -103,7 +103,7 @@ class Language implements InterfaceChoosable
 
         self::$CURRENT_LANG = $language;
 
-        putenv("LANG=$locale");
+        putenv("LANG={$locale}");
         setlocale(LC_ALL, $locale);
         setlocale(LC_NUMERIC, 'C');
 

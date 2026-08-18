@@ -27,7 +27,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Weather');
 	}
 
@@ -35,7 +35,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Statistics about weather conditions and temperatures.');
 	}
 

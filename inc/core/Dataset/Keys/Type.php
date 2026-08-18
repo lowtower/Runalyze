@@ -39,7 +39,7 @@ class Type extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Activity type');
 	}
@@ -48,7 +48,7 @@ class Type extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Type');
 	}
@@ -57,7 +57,7 @@ class Type extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'The activity type is shown with its abbreviation. '.

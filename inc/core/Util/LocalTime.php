@@ -87,7 +87,7 @@ class LocalTime extends \DateTime
     /**
      * @return int
      */
-    public function toServerTimestamp()
+    public function toServerTimestamp(): int
     {
         return $this->toServerTime()->getTimestamp();
     }

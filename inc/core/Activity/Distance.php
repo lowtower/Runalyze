@@ -149,7 +149,7 @@ class Distance implements ValueInterface {
 	 * Meter
 	 * @return int [m]
 	 */
-	public function meter()
+	public function meter(): float
 	{
 		return round($this->Kilometer * 1000);
 	}
@@ -158,7 +158,7 @@ class Distance implements ValueInterface {
 	 * Miles
 	 * @return float [miles]
 	 */
-	public function miles()
+	public function miles(): float
 	{
 		return $this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER;
 	}
@@ -167,7 +167,7 @@ class Distance implements ValueInterface {
 	 * Yards
 	 * @return int [yards]
 	 */
-	public function yards()
+	public function yards(): float
 	{
 		return round($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER);
 	}
@@ -176,7 +176,7 @@ class Distance implements ValueInterface {
 	 * Feet
 	 * @return int [feet]
 	 */
-	public function feet()
+	public function feet(): float
 	{
 		return round($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER);
 	}

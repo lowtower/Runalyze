@@ -44,7 +44,7 @@ class Dataview
 	 * @param bool $isTrack
 	 * @return string
 	 */
-	public function officialDistance($decimals = null, $isTrack = false)
+	public function officialDistance($decimals = null, $isTrack = false): string
 	{
 		if (null === $decimals) {
 			$decimals = Configuration::ActivityView()->decimals();

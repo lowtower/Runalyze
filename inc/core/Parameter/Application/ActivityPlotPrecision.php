@@ -47,7 +47,7 @@ class ActivityPlotPrecision extends \Runalyze\Parameter\Select {
 	 * Distance in m
 	 * @return int
 	 */
-	public function distanceStep() {
+	public function distanceStep(): int {
 		return (int) substr($this->value(), 0, -1);
 	}
 
@@ -63,7 +63,7 @@ class ActivityPlotPrecision extends \Runalyze\Parameter\Select {
 	 * Number of points
 	 * @return int
 	 */
-	public function numberOfPoints() {
+	public function numberOfPoints(): int {
 		return (int) substr($this->value(), 0, -6);
 	}
 }

@@ -17,7 +17,7 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
      * @param int $id id from internal enum
      * @return string
      */
-    static public function stringFor($id)
+    static public function stringFor($id): string
     {
         switch ($id) {
             case self::PRIVATE_KEY:

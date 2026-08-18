@@ -39,7 +39,7 @@ class WindChill extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Windchill');
     }
@@ -48,7 +48,7 @@ class WindChill extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         return __(
             'Windchill is the perceived air temperature felt by the body on exposed skin due to the flow of air.'

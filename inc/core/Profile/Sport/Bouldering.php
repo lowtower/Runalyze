@@ -20,7 +20,7 @@ class Bouldering extends AbstractSport
         return 'icons8-Bouldern';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: german text, so we need no translation
         return __('Bouldering');

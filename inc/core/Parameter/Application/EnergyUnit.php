@@ -67,7 +67,7 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 	/**
 	 * @return float
 	 */
-	public function factorFromKcalToUnit() {
+	public function factorFromKcalToUnit(): float {
 		if ($this->isKJ()) {
 			return Energy::KJ_MULTIPLIER;
 		}

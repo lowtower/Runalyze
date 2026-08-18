@@ -16,17 +16,17 @@ class ClimbScore extends AbstractKey
 		return 'climb_score';
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Climb Score');
 	}
 
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('CS');
 	}
 
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'' // TODO

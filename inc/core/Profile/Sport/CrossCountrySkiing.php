@@ -20,7 +20,7 @@ class CrossCountrySkiing extends AbstractSport
         return 'icons8-CrossCountrySkiing';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: german text, so we need no translation
         return __('Langlauf');

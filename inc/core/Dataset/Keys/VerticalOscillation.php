@@ -40,7 +40,7 @@ class VerticalOscillation extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Vertical oscillation');
 	}
@@ -49,7 +49,7 @@ class VerticalOscillation extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Vertical oscillation is your vertical motion of your torso measured in centimeters');
 	}

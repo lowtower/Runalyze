@@ -30,7 +30,7 @@ class CompleteEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Complete equipment');
 	}
@@ -48,7 +48,7 @@ class CompleteEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Your complete equipment is shown as icon with tooltip.');
 	}
@@ -58,7 +58,7 @@ class CompleteEquipment extends AbstractEquipment
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		if ($context->hasData(parent::CONCAT_EQUIPMENT_KEY) && $context->data(parent::CONCAT_EQUIPMENT_KEY) != '') {
 			$ids = explode(',', $context->data(parent::CONCAT_EQUIPMENT_KEY));

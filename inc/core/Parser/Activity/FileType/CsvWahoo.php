@@ -198,7 +198,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
      * @param string[] $possibleColumns ordered column names to look for
      * @return float 0.0 is returned if no column could be found
      */
-    protected function currentValue(array $possibleColumns)
+    protected function currentValue(array $possibleColumns): float
     {
         foreach ($possibleColumns as $columnName) {
             if (isset($this->CurrentHeader[$columnName]) && 0.0 != (float) $this->Row[$this->CurrentHeader[$columnName]]) {

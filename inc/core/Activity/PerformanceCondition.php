@@ -54,7 +54,7 @@ class PerformanceCondition implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-	public function label()
+	public function label(): string
     {
 		return __('Performance condition');
 	}
@@ -63,7 +63,7 @@ class PerformanceCondition implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function shortLabel()
+    public function shortLabel(): string
     {
         return __('PC');
     }

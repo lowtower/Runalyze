@@ -108,7 +108,7 @@ class Steffny implements PrognosisInterface
         }
     }
 
-    public function getSeconds($distance)
+    public function getSeconds($distance): float
     {
         $paces = [];
         $paces['10k'] = $this->ReferencePaceFor10k;
@@ -143,7 +143,7 @@ class Steffny implements PrognosisInterface
      * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from1500mTo3000m($timeInSeconds, $calculateBackwards = false)
+    protected function from1500mTo3000m($timeInSeconds, $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return ($timeInSeconds - 20.0) / 2.0;
@@ -157,7 +157,7 @@ class Steffny implements PrognosisInterface
      * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from3000mTo5k($timeInSeconds, $calculateBackwards = false)
+    protected function from3000mTo5k($timeInSeconds, $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return ($timeInSeconds / 1.666) - 20.0;
@@ -185,7 +185,7 @@ class Steffny implements PrognosisInterface
      * @param bool $calculateBackwards
      * @return float [s]
      */
-    protected function from10kToHalfMaraton($timeInSeconds, $calculateBackwards = false)
+    protected function from10kToHalfMaraton($timeInSeconds, $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return $timeInSeconds / 2.21;
@@ -199,7 +199,7 @@ class Steffny implements PrognosisInterface
      * @param bool $calculateBackwards
      * @return float
      */
-    protected function fromHalfMarathonToMarathon($timeInSeconds, $calculateBackwards = false)
+    protected function fromHalfMarathonToMarathon($timeInSeconds, $calculateBackwards = false): float
     {
         if ($calculateBackwards) {
             return $timeInSeconds / 2.11;
@@ -212,7 +212,7 @@ class Steffny implements PrognosisInterface
      * @param float $timeInSeconds [s]
      * @return float [s]
      */
-    protected function fromMarathonTo100k($timeInSeconds)
+    protected function fromMarathonTo100k($timeInSeconds): float
     {
         return $timeInSeconds * 3.0 - max(0.0, 3.0 * 3600.0 - $timeInSeconds);
     }

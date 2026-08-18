@@ -21,7 +21,7 @@ class Generic extends AbstractSport
         return 'icons8-Sports-Mode';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('Generic');
     }

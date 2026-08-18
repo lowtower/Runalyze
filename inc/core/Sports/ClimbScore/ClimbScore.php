@@ -81,7 +81,7 @@ class ClimbScore
      * @param float $percentageFlat [0.00 .. 1.00]
      * @return float
      */
-    public function getScoreForSumOfSingleScores($sumOfSingleScores, $percentageFlat = 0.0)
+    public function getScoreForSumOfSingleScores($sumOfSingleScores, $percentageFlat = 0.0): float
     {
         // TODO: Think about stretching the part between 0.0 and 1.0
 
@@ -92,7 +92,7 @@ class ClimbScore
      * @param float $percentageFlat [0.00 .. 1.00]
      * @return float
      */
-    public function getCompensationForFlatParts($percentageFlat)
+    public function getCompensationForFlatParts($percentageFlat): float
     {
         return min(1.0, max(0.0, 1.0 - $percentageFlat * $percentageFlat));
     }

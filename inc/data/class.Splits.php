@@ -230,7 +230,7 @@ class Splits {
 	 * @param float $seconds
 	 * @return string
 	 */
-	private function formatTime($seconds) {
+	private function formatTime($seconds): string {
 		return Duration::format(round($seconds));
 	}
 

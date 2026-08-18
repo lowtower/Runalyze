@@ -62,7 +62,7 @@ class Cameron implements PrognosisInterface
      * @param float $distance [m]
      * @return float
      */
-    protected function factorFor($distance)
+    protected function factorFor($distance): float
     {
         return 13.49681 - (0.000030363 * $distance) + (835.7114 / pow($distance, 0.7905) );
     }

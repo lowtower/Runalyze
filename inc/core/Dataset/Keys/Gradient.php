@@ -41,7 +41,7 @@ class Gradient extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Gradient');
 	}
@@ -50,7 +50,7 @@ class Gradient extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Grad.');
 	}
@@ -59,7 +59,7 @@ class Gradient extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('The gradient describes the ratio of elevation gain (or less) and distance. Dividing total elevation by total distance gives this value.');
 	}

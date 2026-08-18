@@ -40,7 +40,7 @@ class Trimp extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('TRIMP');
 	}
@@ -49,7 +49,7 @@ class Trimp extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Trimp values are colored based on their value, '.

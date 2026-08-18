@@ -49,7 +49,7 @@ class FileImportResult
     /**
      * @return int
      */
-    public function getNumberOfActivities()
+    public function getNumberOfActivities(): int
     {
         if ($this->isFailed()) {
             return 0;

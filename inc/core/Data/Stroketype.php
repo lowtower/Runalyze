@@ -46,7 +46,7 @@ class Stroketype
     /**
      * @return string
      */
-    public function string()
+    public function string(): string
     {
         switch ($this->Identifier) {
             case StrokeTypeProfile::FREESTYLE:
@@ -71,7 +71,7 @@ class Stroketype
     /**
      * @return string
      */
-    public function shortString()
+    public function shortString(): string
     {
         switch ($this->Identifier) {
             case StrokeTypeProfile::FREESTYLE:

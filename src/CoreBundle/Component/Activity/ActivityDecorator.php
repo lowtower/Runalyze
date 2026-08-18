@@ -81,7 +81,7 @@ class ActivityDecorator
      * @param RunalyzeConfigurationList $configurationList
      * @return float
      */
-    public function getEffectiveVO2max(RunalyzeConfigurationList $configurationList)
+    public function getEffectiveVO2max(RunalyzeConfigurationList $configurationList): float
     {
         return $configurationList->getVO2maxCorrectionFactor() * $this->getUncorrectedVO2max($configurationList);
     }

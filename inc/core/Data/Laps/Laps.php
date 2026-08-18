@@ -100,7 +100,7 @@ class Laps {
 	/**
 	 * @return int
 	 */
-	public function num() {
+	public function num(): int {
 		return count($this->Objects);
 	}
 

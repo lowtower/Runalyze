@@ -59,7 +59,7 @@ class IFrame extends AbstractSnippetSharer
      * Current width
      * @return int
      */
-    protected function width()
+    protected function width(): int
     {
         return (isset($_POST['width']) && is_numeric($_POST['width']) ? (int) $_POST['width'] : self::DEFAULT_WIDTH);
     }
@@ -68,7 +68,7 @@ class IFrame extends AbstractSnippetSharer
      * Current height
      * @return int
      */
-    protected function height()
+    protected function height(): int
     {
         return (isset($_POST['height']) && is_numeric($_POST['height']) ? (int) $_POST['height'] : self::DEFAULT_HEIGHT);
     }

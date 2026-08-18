@@ -17,12 +17,12 @@ class AveragePronationExcursion extends AbstractKey
         return ['avg_pronation_excursion_left', 'avg_pronation_excursion_right'];
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Pronation excursion');
 	}
 
-    public function shortLabel()
+    public function shortLabel(): string
     {
         return __('Pronation');
     }

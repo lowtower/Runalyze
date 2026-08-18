@@ -45,7 +45,7 @@ class MilesPerHour extends AbstractDecimalUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function dividendForUnit()
+	public function dividendForUnit(): float
 	{
 		return 3600 * DistanceUnitSystem::MILE_MULTIPLIER;
 	}

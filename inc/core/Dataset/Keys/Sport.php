@@ -49,7 +49,7 @@ class Sport extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Sport');
 	}
@@ -67,7 +67,7 @@ class Sport extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('The sports icon is shown.');
 	}

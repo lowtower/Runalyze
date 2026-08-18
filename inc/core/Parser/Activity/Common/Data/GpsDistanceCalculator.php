@@ -26,7 +26,7 @@ class GpsDistanceCalculator
      * @param float $lon2
      * @return float
      */
-    public static function gpsDistance($lat1, $lon1, $lat2, $lon2)
+    public static function gpsDistance($lat1, $lon1, $lat2, $lon2): float
     {
 		$rad1 = deg2rad($lat1);
 		$rad2 = deg2rad($lat2);

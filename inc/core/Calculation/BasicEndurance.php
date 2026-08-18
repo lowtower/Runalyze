@@ -103,7 +103,7 @@ class BasicEndurance
     /**
      * @return float [ml/kg/min]
      */
-    public function getUsedEffectiveVO2max()
+    public function getUsedEffectiveVO2max(): float
     {
         return max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX);
     }
@@ -374,7 +374,7 @@ class BasicEndurance
     /**
      * @return double
      */
-    public function getTargetWeekKm()
+    public function getTargetWeekKm(): float
     {
         return pow(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX), 1.135);
     }
@@ -385,7 +385,7 @@ class BasicEndurance
      *
      * @return double
      */
-    public function getTargetLongjogKmPerWeek()
+    public function getTargetLongjogKmPerWeek(): float
     {
         return log(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX) / 4) * 12 - $this->MIN_KM_FOR_LONGJOG;
     }
@@ -393,7 +393,7 @@ class BasicEndurance
     /**
      * @return double
      */
-    public function getRealTargetLongjogKmPerWeek()
+    public function getRealTargetLongjogKmPerWeek(): float
     {
         return $this->getTargetLongjogKmPerWeek() + $this->MIN_KM_FOR_LONGJOG;
     }

@@ -22,7 +22,7 @@ class EMtbMountain extends AbstractSport
         return 'icons8-Mountain-Biking';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('E-MTB Berg');
     }

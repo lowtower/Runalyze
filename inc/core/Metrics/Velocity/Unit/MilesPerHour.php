@@ -17,7 +17,7 @@ class MilesPerHour extends AbstractPaceInDecimalFormatUnit
     /**
      * @return float
      */
-    public function getDividendFromBaseUnit()
+    public function getDividendFromBaseUnit(): float
     {
         return 3600 * 0.621371192;
     }

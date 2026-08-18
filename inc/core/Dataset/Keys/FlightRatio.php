@@ -16,7 +16,7 @@ class FlightRatio extends AbstractKey
 		return ['cadence', 'groundcontact'];
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Flight ratio');
 	}

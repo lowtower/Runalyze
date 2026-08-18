@@ -147,7 +147,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function shortDescription()
+    public function shortDescription(): string
     {
         if (! $this->isKnown()) {
             return '';
@@ -160,7 +160,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         if (! $this->isKnown()) {
             return '';

@@ -45,7 +45,7 @@ class MinPer500y extends AbstractTimeUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function factorForUnit()
+	public function factorForUnit(): float
 	{
 		return 500 / DistanceUnitSystem::YARD_MULTIPLIER;
 	}

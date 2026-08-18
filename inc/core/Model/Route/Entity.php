@@ -646,7 +646,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 *
 	 * @return lat|lng
 	 */
 	public function min() {
@@ -655,7 +654,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 *
 	 * @return lat|lng
 	 */
 	public function max() {

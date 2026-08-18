@@ -66,7 +66,6 @@ final class SummaryMode extends AbstractEnum
 	const AVG_WITH_ZERO = 7;
 
 	/**
-	 *
 	 * @param int $mode int from internal enum
 	 * @param string $key key of database column
 	 * @return string query part to select column

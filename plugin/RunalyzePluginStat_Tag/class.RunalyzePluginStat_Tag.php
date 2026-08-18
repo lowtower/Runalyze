@@ -26,7 +26,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Tag analysis');
 	}
 
@@ -34,7 +34,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('How often have you tagged your activities with tag x?');
 	}
 

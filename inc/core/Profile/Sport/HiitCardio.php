@@ -20,7 +20,7 @@ class HiitCardio extends AbstractSport
         return 'icons8-Pushups';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: translation is available
         return __('HIIT Cardio');

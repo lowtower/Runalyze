@@ -131,7 +131,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
      *
      * @return int
      */
-    protected function getInternalConditionId(array $result)
+    protected function getInternalConditionId(array $result): int
     {
         if (isset($result['weather']) && isset($result['weather'][0]) && isset($result['weather'][0]['id'])) {
             return (new OpenWeatherMapMapping())->toInternal($result['weather'][0]['id']);

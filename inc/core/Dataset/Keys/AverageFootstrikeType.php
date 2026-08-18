@@ -17,7 +17,7 @@ class AverageFootstrikeType extends AbstractKey
         return ['avg_footstrike_type_left', 'avg_footstrike_type_right'];
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Footstrike type');
 	}

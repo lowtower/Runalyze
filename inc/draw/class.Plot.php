@@ -690,7 +690,7 @@ class Plot {
  * @param mixed $v
  * @return mixed
  */
-function PLOT__correctValuesMapperForTime($v) {
+function PLOT__correctValuesMapperForTime($v): float {
 	return round($v*1000);
 }
 

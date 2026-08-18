@@ -24,7 +24,7 @@ class DataBrowserLinker {
 	 * @param string $rel
 	 * @return string HTML-link
 	 */
-	public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '', ?int $sportid = null) {
+	public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '', ?int $sportid = null): string {
 		if (FrontendShared::$IS_SHOWN)
 			return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '');
 
@@ -44,7 +44,7 @@ class DataBrowserLinker {
 	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function weekLink($name, $time, $transformToLocalTime = true, ?int $sportid = null) {
+	public static function weekLink($name, $time, $transformToLocalTime = true, ?int $sportid = null): string {
 		$localTime = $transformToLocalTime ? LocalTime::fromServerTime($time) : new LocalTime($time);
 
 		return self::link($name, $localTime->weekstart(), $localTime->weekend(), '', 'week-link', $sportid);
@@ -57,7 +57,7 @@ class DataBrowserLinker {
 	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function monthLink($name, $timestampInNoTimezone, ?int $sportid = null) {
+	public static function monthLink($name, $timestampInNoTimezone, ?int $sportid = null): string {
 		$localTime = new LocalTime($timestampInNoTimezone);
 
 		return self::link($name, $localTime->monthStart(), $localTime->monthEnd(), '', 'month-link', $sportid);
@@ -70,7 +70,7 @@ class DataBrowserLinker {
 	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function yearLink($name, $timestampInNoTimezone, ?int $sportid = null) {
+	public static function yearLink($name, $timestampInNoTimezone, ?int $sportid = null): string {
 		$localTime = new LocalTime($timestampInNoTimezone);
 
 		return self::link($name, $localTime->yearStart(), $localTime->yearEnd(), '', 'year-link', $sportid);

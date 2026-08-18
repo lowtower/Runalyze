@@ -25,7 +25,7 @@ class Data extends AbstractCategory
     /**
      * @return int timestamp
      */
-    public function getStartTime()
+    public function getStartTime(): int
     {
         return (int) $this->Variables['START_TIME'];
     }
@@ -33,7 +33,7 @@ class Data extends AbstractCategory
     /**
      * @return int [bpm]
      */
-    public function getMaximalHeartRate()
+    public function getMaximalHeartRate(): int
     {
         return (int) $this->Variables['HF_MAX'];
     }
@@ -41,7 +41,7 @@ class Data extends AbstractCategory
     /**
      * @return int [bpm]
      */
-    public function getRestingHeartRate()
+    public function getRestingHeartRate(): int
     {
         return (int) $this->Variables['HF_REST'];
     }
@@ -49,7 +49,7 @@ class Data extends AbstractCategory
     /**
      * @return int
      */
-    public function getCurrentVO2maxShape()
+    public function getCurrentVO2maxShape(): int
     {
         return (int) $this->Variables['VO2MAX_FORM'];
     }
@@ -57,7 +57,7 @@ class Data extends AbstractCategory
     /**
      * @return float
      */
-    public function getVO2maxCorrectionFactor()
+    public function getVO2maxCorrectionFactor(): float
     {
         return (float) $this->Variables['VO2MAX_CORRECTOR'];
     }

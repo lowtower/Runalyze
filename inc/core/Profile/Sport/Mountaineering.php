@@ -20,7 +20,7 @@ class Mountaineering extends AbstractSport
         return 'icons8-Mountaineering';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: german text, so we need no translation
         return __('Bergsteigen');

@@ -202,11 +202,11 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         return $osm;
 	}
 
-	private function addLatitude($lat, $add) {
+	private function addLatitude($lat, $add): float {
 		return $lat + ($add * self::METER_IN_DEGREE);
 	}
 
-	private function addLongitude($lon, $lat, $add) {
+	private function addLongitude($lon, $lat, $add): float {
 		return $lon + ($add * self::METER_IN_DEGREE) / cos($lat * (self::PI / 180));
 	}
 

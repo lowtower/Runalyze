@@ -55,7 +55,7 @@ class Calculator
     /**
      * @return float [ml/kg/min]
      */
-    public function estimateVO2maxByTime()
+    public function estimateVO2maxByTime(): string
     {
         $VO2max = new JD\LegacyEffectiveVO2max();
         $VO2max->fromPace($this->Activity->distance(), $this->Activity->duration());
@@ -67,7 +67,7 @@ class Calculator
      * @param float|null $distance [km]
      * @return float [ml/kg/min]
      */
-    public function estimateVO2maxByHeartRate($distance = null)
+    public function estimateVO2maxByHeartRate($distance = null): string
     {
         if (null === $distance) {
             $distance = $this->Activity->distance();
@@ -86,7 +86,7 @@ class Calculator
     /**
      * @return float [ml/kg/min]
      */
-    public function estimateVO2maxByHeartRateWithElevation()
+    public function estimateVO2maxByHeartRateWithElevation(): string
     {
         if ($this->knowsRoute()) {
             if ($this->Route->elevationUp() > 0 || $this->Route->elevationDown() > 0) {
@@ -104,7 +104,7 @@ class Calculator
      * @param int $down
      * @return float
      */
-    public function estimateVO2maxByHeartRateWithElevationFor($up, $down)
+    public function estimateVO2maxByHeartRateWithElevationFor($up, $down): string
     {
         $Modifier = new Elevation\DistanceModifier(
             $this->Activity->distance(),
@@ -119,7 +119,7 @@ class Calculator
     /**
      * @return int
      */
-    public function calculateTrimp()
+    public function calculateTrimp(): float
     {
         if ($this->knowsTrackdata() && $this->Trackdata->has(Model\Trackdata\Entity::HEARTRATE)) {
             $Collector = new Trimp\DataCollector($this->Trackdata->heartRate(), $this->Trackdata->time());

@@ -119,7 +119,7 @@ class VO2maxCalculator
      *
      * @return float in [0.0, 1.0]
      */
-    protected function getExpectedPercentageOfVO2maxAt($heartRateInPercent)
+    protected function getExpectedPercentageOfVO2maxAt($heartRateInPercent): float
     {
         return exp(($heartRateInPercent - 1.00466) / 0.68725);
     }

@@ -135,7 +135,7 @@ class Energy implements ValueInterface {
 	 * Energy in Kilojule
 	 * @return int [kj]
 	 */
-	public function kj() {
+	public function kj(): float {
 		return round($this->Energy * self::KJ_MULTIPLIER);
 	}
 

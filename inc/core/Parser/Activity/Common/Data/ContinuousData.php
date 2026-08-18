@@ -164,7 +164,7 @@ class ContinuousData
     /**
      * @return int size of first non-empty array property
      */
-    public function getLength()
+    public function getLength(): int
     {
         foreach ($this->getPropertyNamesOfArrays() as $property) {
             if (! empty($this->{$property})) {

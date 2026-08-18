@@ -85,7 +85,7 @@ class HeatIndex implements ValueInterface
      * @param int $humidity [0 .. 100]
      * @return float [°F]
      */
-    protected function calculateHeatIndexFor($temperatureInFahrenheit, $humidity)
+    protected function calculateHeatIndexFor($temperatureInFahrenheit, $humidity): float
     {
         $t = $temperatureInFahrenheit;
         $h = $humidity;
@@ -109,7 +109,7 @@ class HeatIndex implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Heat index');
     }
@@ -151,7 +151,7 @@ class HeatIndex implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function getEffectOfHeatIndex()
+    public function getEffectOfHeatIndex(): string
     {
         $level = HeatIndexEffect::levelFor($this->HeatIndexTemperature->fahrenheit());
 
@@ -162,7 +162,7 @@ class HeatIndex implements ValueInterface
      * @return string html code
      * @codeCoverageIgnore
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         $level = HeatIndexEffect::levelFor($this->HeatIndexTemperature->fahrenheit());
 

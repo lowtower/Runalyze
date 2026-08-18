@@ -18,7 +18,7 @@ class Fahrenheit extends AbstractTemperatureUnit
      * @param mixed $valueInThisUnit
      * @return mixed
      */
-    public function toBaseUnit($valueInThisUnit)
+    public function toBaseUnit($valueInThisUnit): float
     {
         return ($valueInThisUnit - 32) / 1.8;
     }
@@ -27,7 +27,7 @@ class Fahrenheit extends AbstractTemperatureUnit
      * @param mixed $valueInBaseUnit
      * @return mixed
      */
-    public function fromBaseUnit($valueInBaseUnit)
+    public function fromBaseUnit($valueInBaseUnit): float
     {
         return $valueInBaseUnit * 1.8 + 32;
     }

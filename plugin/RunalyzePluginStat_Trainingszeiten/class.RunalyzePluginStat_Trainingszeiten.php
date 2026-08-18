@@ -23,7 +23,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Training times');
 	}
 
@@ -31,7 +31,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
 	}
 
@@ -67,7 +67,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	 * Title for all years
 	 * @return string
 	 */
-	protected function titleForAllYears() {
+	protected function titleForAllYears(): string {
 		return __('Total');
 	}
 

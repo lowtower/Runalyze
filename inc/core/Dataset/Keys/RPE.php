@@ -48,7 +48,7 @@ class RPE extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('RPE');
 	}
@@ -57,7 +57,7 @@ class RPE extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Rating of Perceived Exertion or Borg scale, a scale devised to show perceived exertion during exercise');
 	}

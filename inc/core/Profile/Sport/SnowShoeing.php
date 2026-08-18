@@ -20,7 +20,7 @@ class SnowShoeing extends AbstractSport
         return 'icons8-SnowShoeing';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: german text, so we need no translation
         return __('Schneeschuh');

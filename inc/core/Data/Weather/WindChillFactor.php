@@ -90,7 +90,7 @@ class WindChillFactor implements ValueInterface
      * Label for value
      * @return string
      */
-    public function label()
+    public function label(): string
     {
         return __('Wind chill factor');
     }

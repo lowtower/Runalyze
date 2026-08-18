@@ -40,7 +40,7 @@ class Stresscolor {
 	/**
 	 * @return int
 	 */
-	public function value() {
+	public function value(): int {
 		if ($this->Value < 0) {
 			return 0;
 		}

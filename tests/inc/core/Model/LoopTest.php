@@ -21,7 +21,7 @@ class Loopable_MockTester extends Entity implements Loopable {
     /**
      * @return int
      */
-    public function num()
+    public function num(): int
     {
         if (empty($this->Data)) {
             return 0;

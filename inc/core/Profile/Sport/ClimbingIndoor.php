@@ -20,7 +20,7 @@ class ClimbingIndoor extends AbstractSport
         return 'icons8-Climbing';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: german text, so we need no translation
         return __('Climbing Indoor');

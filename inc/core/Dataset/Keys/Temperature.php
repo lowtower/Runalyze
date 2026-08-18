@@ -40,7 +40,7 @@ class Temperature extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Temperature');
 	}
@@ -49,7 +49,7 @@ class Temperature extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Temp.');
 	}
@@ -59,7 +59,7 @@ class Temperature extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		// #TSC show the temperatur in the dataset if temp is available; the original code only shows in case of "not indoor"
 		if (! empty($context->activity()->weather()->temperature())) {

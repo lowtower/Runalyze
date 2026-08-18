@@ -48,7 +48,7 @@ class GroundContactBalance extends ActivityPointSeries {
 	 * @param int $value
 	 * @return float
 	 */
-	protected function correctUnit($value) {
+	protected function correctUnit($value): float {
 		return 0.01*$value;
 	}
 

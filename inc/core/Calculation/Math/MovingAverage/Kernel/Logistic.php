@@ -27,7 +27,7 @@ class Logistic extends AbstractKernel
      * @param float $u
      * @return float
      */
-    public function atTransformed($u)
+    public function atTransformed($u): float
     {
         return 1.0 / (exp($u) + 2.0 + exp(-$u));
     }

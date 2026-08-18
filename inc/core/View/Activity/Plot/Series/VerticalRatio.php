@@ -66,7 +66,7 @@ class VerticalRatio extends ActivityPointSeries {
 	 * @param int $value
 	 * @return float
 	 */
-	protected function correctUnit($value) {
+	protected function correctUnit($value): float {
 		return 0.1*$value;
 	}
 

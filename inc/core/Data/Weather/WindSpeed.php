@@ -156,7 +156,7 @@ class WindSpeed implements ValueInterface
      * Wind speed in miles per hour
      * @return null|float [mph]
      */
-    public function inMilesPerHour()
+    public function inMilesPerHour(): float
     {
         return $this->KilometerPerHour * DistanceUnitSystem::MILE_MULTIPLIER;
     }

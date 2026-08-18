@@ -69,7 +69,7 @@ class SharedLinker {
 	 * Get training ID from request
 	 * @return int
 	 */
-	public static function getTrainingId() {
+	public static function getTrainingId(): int {
 		return self::urlToId( Request::param('url') );
 	}
 
@@ -122,7 +122,7 @@ class SharedLinker {
 	 * @param string $url
 	 * @return int
 	 */
-	private static function urlToId($url) {
+	private static function urlToId($url): int {
 		return (int) base_convert((string) $url, 35, 10);
 	}
 }

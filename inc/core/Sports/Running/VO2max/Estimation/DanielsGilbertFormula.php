@@ -10,7 +10,7 @@ namespace Runalyze\Sports\Running\VO2max\Estimation;
  */
 class DanielsGilbertFormula implements EstimationInterface
 {
-    public function estimateFromRaceResult($distance, $seconds)
+    public function estimateFromRaceResult($distance, $seconds): float
     {
         $min = (int) $seconds / 60;
         $m = 1000 * $distance;
@@ -22,7 +22,7 @@ class DanielsGilbertFormula implements EstimationInterface
         return $this->estimateFromVelocity($m / $min) / $this->evaluateDropDead($min);
     }
 
-    public function estimateFromVelocity($meterPerMinute)
+    public function estimateFromVelocity($meterPerMinute): float
     {
         return max(0.0, -4.6 + 0.182253 * $meterPerMinute + 0.000104 * $meterPerMinute * $meterPerMinute);
     }
@@ -34,7 +34,7 @@ class DanielsGilbertFormula implements EstimationInterface
      *
      * @return float
      */
-    public function evaluateDropDead($minutes)
+    public function evaluateDropDead($minutes): float
     {
         return 0.8 + 0.1894393 * exp(-0.012778 * $minutes) + 0.2989558 * exp(-0.1932605 * $minutes);
     }

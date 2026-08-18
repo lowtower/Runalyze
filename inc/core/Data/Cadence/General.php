@@ -19,7 +19,7 @@ class General extends AbstractCadence {
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label() {
+	public function label(): string {
 		return __('Cadence');
 	}
 
@@ -37,7 +37,7 @@ class General extends AbstractCadence {
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function unitExplanation() {
+	protected function unitExplanation(): string {
 		return __('rpm = rotations per minute');
 	}
 

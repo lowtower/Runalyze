@@ -8,12 +8,12 @@ $PLUGINKEY = 'RunalyzePluginPanel_Sports';
 
 class RunalyzePluginPanel_Sports extends PluginPanel
 {
-	final public function name()
+	final public function name(): string
     {
 		return __('Sports');
 	}
 
-	final public function description()
+	final public function description(): string
     {
 		return __('Summary of your activities for each sport.');
 	}

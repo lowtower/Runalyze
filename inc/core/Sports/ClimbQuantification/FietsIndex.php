@@ -7,7 +7,7 @@ namespace Runalyze\Sports\ClimbQuantification;
  */
 class FietsIndex extends AbstractAdditiveClimbQuantification implements CategorizableInterface
 {
-    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0)
+    public function getScoreFor($distance, $elevation, $altitudeAtTop = 0): float
     {
         if ($elevation < 0) {
             return 0.0;

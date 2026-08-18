@@ -17,7 +17,7 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
      * @param int $id id from internal enum
      * @return string
      */
-    public static function stringFor($id)
+    public static function stringFor($id): string
     {
         switch ($id) {
             case self::ALTERNATIVE_SPORT:

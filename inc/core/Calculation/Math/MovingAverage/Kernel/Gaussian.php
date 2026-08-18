@@ -35,7 +35,7 @@ class Gaussian extends AbstractKernel
      * @param float $u
      * @return float
      */
-    public function atTransformed($u)
+    public function atTransformed($u): float
     {
         return exp(-0.5 * $u * $u);
     }

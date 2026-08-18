@@ -53,7 +53,7 @@ class RecalculationManager
      * @param Account $account
      * @return int
      */
-    public function getNumberOfScheduledTasksFor(Account $account)
+    public function getNumberOfScheduledTasksFor(Account $account): int
     {
         if (! isset($this->AccountRelatedTaskNames[$account->getId()])) {
             return 0;

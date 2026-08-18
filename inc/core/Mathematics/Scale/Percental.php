@@ -55,7 +55,7 @@ class Percental implements ScaleInterface
         $this->Max = (float) $max;
     }
 
-    public function transform($input)
+    public function transform($input): float
     {
         if ($this->Max == $this->Min) {
             return 0.0;

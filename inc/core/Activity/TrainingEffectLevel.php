@@ -62,7 +62,7 @@ class TrainingEffectLevel extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function label($enum)
+    public static function label($enum): string
     {
         switch ($enum) {
             case self::EASY:
@@ -86,7 +86,7 @@ class TrainingEffectLevel extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function description($enum)
+    public static function description($enum): string
     {
         switch ($enum) {
             case self::EASY:

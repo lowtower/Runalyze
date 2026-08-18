@@ -114,7 +114,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
      *
      * @return int
      */
-    protected function getInternalConditionId(array $result)
+    protected function getInternalConditionId(array $result): int
     {
         if (isset($result['coco'])) {
             $this->logger->debug(sprintf('meteostat.net weather condition %s.', $result['coco']));

@@ -140,7 +140,7 @@ class VO2max implements PrognosisInterface
      * @param float $distance [km]
      * @return float factor
      */
-    public function getAdjustedVO2maxForDistance($distance)
+    public function getAdjustedVO2maxForDistance($distance): float
     {
         return $this->EffectiveVO2max * $this->getAdjustmentFactor($distance);
     }
@@ -156,7 +156,7 @@ class VO2max implements PrognosisInterface
      * @param float $distance [km]
      * @return float factor [0.0 .. 1.0]
      */
-    public function getAdjustmentFactor($distance)
+    public function getAdjustmentFactor($distance): float
     {
         $requiredMarathonShape = pow($distance, 1.23);
         $marathonShapeFactor = max(0.0, 1 - ($requiredMarathonShape - $this->MarathonShapeInPercent) / 100.0);

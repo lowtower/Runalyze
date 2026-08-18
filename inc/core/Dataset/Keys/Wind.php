@@ -40,7 +40,7 @@ class Wind extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Wind');
     }
@@ -50,7 +50,7 @@ class Wind extends AbstractKey
      * @param \Runalyze\Dataset\Context $context
      * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         $weather = $context->activity()->weather();
 

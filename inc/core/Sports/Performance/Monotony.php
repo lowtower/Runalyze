@@ -77,7 +77,7 @@ class Monotony
      *
      * @throws \RuntimeException
      */
-    public function value()
+    public function value(): float
     {
         if (null === $this->Value) {
             throw new \RuntimeException('Monotony has to be calculated first.');
@@ -93,7 +93,7 @@ class Monotony
      *
      * @return float
      */
-    public function trainingStrain()
+    public function trainingStrain(): float
     {
         return $this->Avg * static::DAYS * $this->value();
     }
@@ -101,7 +101,7 @@ class Monotony
     /**
      * @return float
      */
-    public function valueAsPercentage()
+    public function valueAsPercentage(): float
     {
         return (new Scale\TwoPartPercental(self::MIN, self::CRITICAL, self::MAX))->transform($this->value());
     }
@@ -111,7 +111,7 @@ class Monotony
      *
      * @throws \RuntimeException
      */
-    public function trainingStrainAsPercentage()
+    public function trainingStrainAsPercentage(): float
     {
         if (null === $this->MaximumPerDay) {
             throw new \RuntimeException('Maximum per day needs to be set to get a percentage.');

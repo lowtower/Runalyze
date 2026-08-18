@@ -165,7 +165,7 @@ class Weight implements ValueInterface {
 	 * Weight in pounds
 	 * @return float [lbs]
 	 */
-	public function pounds() {
+	public function pounds(): float {
 		return $this->Weight * self::POUNDS_MULTIPLIER;
 	}
 
@@ -173,7 +173,7 @@ class Weight implements ValueInterface {
 	 * Weight in stones
 	 * @return float [st]
 	 */
-	public function stones() {
+	public function stones(): float {
 		return $this->Weight * self::STONES_MULTIPLIER;
 	}
 

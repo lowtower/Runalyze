@@ -19,7 +19,7 @@ class Rowing extends AbstractSport
         return 'icons8-Rowing';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('Rowing');
     }

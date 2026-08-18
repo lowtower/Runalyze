@@ -35,7 +35,7 @@ class RaceResult extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Race result');
 	}
@@ -83,7 +83,7 @@ class RaceResult extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Your placements at races');
 	}
@@ -93,7 +93,7 @@ class RaceResult extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		switch ($context->activity()->id()) {
 			case 0:
@@ -157,7 +157,7 @@ class RaceResult extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function fakeString()
+	protected function fakeString(): string
 	{
 			$RaceResult = new Model\RaceResult\Entity(array(
     Model\RaceResult\Entity::NAME => __('Race name'),

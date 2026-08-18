@@ -40,7 +40,7 @@ class GroundcontactBalance extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Ground contact balance');
 	}
@@ -49,7 +49,7 @@ class GroundcontactBalance extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('GCB');
 	}
@@ -58,7 +58,7 @@ class GroundcontactBalance extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Ground contact time balance measures your running symmetry.');
 	}

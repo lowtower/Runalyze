@@ -19,7 +19,7 @@ class Running extends AbstractSport
         return 'icons8-Running';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('Running');
     }

@@ -125,7 +125,7 @@ class PoolLength implements ValueInterface
 	 * Get pool length
 	 * @return int [cm]
 	 */
-	public function value()
+	public function value(): float
 	{
 		return round($this->Centimeter);
 	}
@@ -133,7 +133,7 @@ class PoolLength implements ValueInterface
 	/**
 	 * @return int
 	 */
-	public function cm()
+	public function cm(): float
 	{
 		return round($this->Centimeter);
 	}
@@ -141,7 +141,7 @@ class PoolLength implements ValueInterface
 	/**
 	 * @return float
 	 */
-	public function meter()
+	public function meter(): float
 	{
 		return round($this->Centimeter / 100, 2);
 	}	
@@ -149,7 +149,7 @@ class PoolLength implements ValueInterface
 	/**
 	 * @return float
 	 */
-	public function yards()
+	public function yards(): float
 	{
 		return round($this->Centimeter * DistanceUnitSystem::YARD_MULTIPLIER / 1000 / 100, 2);
 	}
@@ -157,7 +157,7 @@ class PoolLength implements ValueInterface
 	/**
 	 * @return mixed [mixed unit]
 	 */
-	public function valueInPreferredUnit()
+	public function valueInPreferredUnit(): float
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->yards();

@@ -41,7 +41,7 @@ class Energy extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Energy');
 	}
@@ -50,7 +50,7 @@ class Energy extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Energy values are taken from your device or calculated by a simple formula.');
 	}

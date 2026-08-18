@@ -17,7 +17,7 @@ class AverageBrakingGs extends AbstractKey
         return ['avg_braking_gs_left', 'avg_braking_gs_right'];
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Braking Gs');
 	}

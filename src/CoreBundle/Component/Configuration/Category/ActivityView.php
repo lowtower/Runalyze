@@ -47,7 +47,7 @@ class ActivityView extends AbstractCategory
     /**
      * @return int
      */
-    public function getElevationCalculationThreshold()
+    public function getElevationCalculationThreshold(): int
     {
         return (int) $this->Variables['ELEVATION_TRESHOLD'];
     }

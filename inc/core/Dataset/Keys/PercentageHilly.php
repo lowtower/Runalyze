@@ -16,17 +16,17 @@ class PercentageHilly extends AbstractKey
 		return 'percentage_hilly';
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Percentage hilly');
 	}
 
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Hilly');
 	}
 
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'' // TODO

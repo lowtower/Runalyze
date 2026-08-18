@@ -89,7 +89,7 @@ class Condition
 	/**
 	 * @return string
 	 */
-	public function string()
+	public function string(): string
 	{
 		switch ($this->identifier) {
 			case WeatherConditionProfile::SUNNY:

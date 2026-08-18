@@ -17,7 +17,7 @@ class SecondsPerMile extends AbstractPaceInTimeFormatUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 1.0 / 0.621371192;
     }

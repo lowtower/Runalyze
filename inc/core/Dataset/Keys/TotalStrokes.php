@@ -40,7 +40,7 @@ class TotalStrokes extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Total strokes');
 	}
@@ -49,7 +49,7 @@ class TotalStrokes extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Strokes');
 	}

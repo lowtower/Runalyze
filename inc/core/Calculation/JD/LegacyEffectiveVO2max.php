@@ -124,7 +124,7 @@ class LegacyEffectiveVO2max
      *
      * @return float [m/min]
      */
-    public function speed()
+    public function speed(): float
     {
         return (new VO2maxVelocity())->getVelocity($this->Value);
     }
@@ -166,7 +166,7 @@ class LegacyEffectiveVO2max
      * @param float $percentage in [0.0, 1.0]
      * @return float in [0.0, 1.0]
      */
-    public static function HRat($percentage)
+    public static function HRat($percentage): float
     {
         return 0.68725 * log($percentage) + 1.00466;
     }
@@ -179,7 +179,7 @@ class LegacyEffectiveVO2max
      * @param float $hrInPercent in [0.0, 1.0]
      * @return float in [0.0, 1.0]
      */
-    public static function percentageAt($hrInPercent)
+    public static function percentageAt($hrInPercent): float
     {
         return exp(($hrInPercent - 1.00466) / 0.68725);
     }

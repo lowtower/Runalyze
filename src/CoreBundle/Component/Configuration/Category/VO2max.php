@@ -22,7 +22,7 @@ class VO2max extends AbstractCategory
     /**
      * @return int
      */
-    public function getNumberOfDaysToConsider()
+    public function getNumberOfDaysToConsider(): int
     {
         return (int) $this->Variables['VO2MAX_DAYS'];
     }
@@ -38,7 +38,7 @@ class VO2max extends AbstractCategory
     /**
      * @return int [m]
      */
-    public function getAdditionalDistancePerPositiveElevation()
+    public function getAdditionalDistancePerPositiveElevation(): int
     {
         return (int) $this->Variables['VO2MAX_CORRECTION_POSITIVE_ELEVATION'];
     }
@@ -46,7 +46,7 @@ class VO2max extends AbstractCategory
     /**
      * @return int [m]
      */
-    public function getAdditionalDistancePerNegativeElevation()
+    public function getAdditionalDistancePerNegativeElevation(): int
     {
         return (int) $this->Variables['VO2MAX_CORRECTION_NEGATIVE_ELEVATION'];
     }

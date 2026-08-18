@@ -19,7 +19,7 @@ class Cycling extends AbstractSport
         return 'icons8-Regular-Biking';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return __('Cycling');
     }

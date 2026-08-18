@@ -20,11 +20,11 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	private $ElevationData = array();
 	private $IsFirstChangeTable = true;
 
-	final public function name() {
+	final public function name(): string {
 		return __('Elevation');
 	}
 
-	final public function description() {
+	final public function description(): string {
 		return __('Your steepest activities and an overview of your cumulated elevation.');
 	}
 
@@ -41,7 +41,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 		return -1;
 	}
 
-	protected function titleForAllYears() {
+	protected function titleForAllYears(): string {
 		return __('All years');
 	}
 

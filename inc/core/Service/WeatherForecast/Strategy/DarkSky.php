@@ -111,7 +111,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
      *
      * @return int
      */
-    protected function getInternalConditionId(array $currently)
+    protected function getInternalConditionId(array $currently): int
     {
         if (isset($currently['icon'])) {
             return (new DarkskyMapping())->toInternal($currently['icon']);

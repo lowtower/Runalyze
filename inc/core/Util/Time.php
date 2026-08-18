@@ -21,7 +21,7 @@ class Time {
 	 * @param int $time_2 optional
 	 * @return int
 	 */
-	public static function diffInDays($time_1, $time_2 = 0) {
+	public static function diffInDays($time_1, $time_2 = 0): float {
 		if ($time_2 == 0) {
 			$time_2 = time();
 		}
@@ -35,7 +35,7 @@ class Time {
 	 * @param string $date2
 	 * @return int
 	 */
-	public static function diffOfDates($date1, $date2) {
+	public static function diffOfDates($date1, $date2): int {
 		return (int) date_diff(date_create($date1), date_create($date2))->format('%a');
 	}
 
@@ -85,7 +85,7 @@ class Time {
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public static function weekday($w, $short = false) {
+	public static function weekday($w, $short = false): string {
 		switch ($w%7) {
 			case 0: return $short ? __('Sun') : __('Sunday');
 			case 1: return $short ? __('Mon') : __('Monday');
@@ -105,7 +105,7 @@ class Time {
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public static function month($m, $short = false) {
+	public static function month($m, $short = false): string {
 		switch ($m % 12) {
 			case 1: return $short ? __('Jan') : __('January');
 			case 2: return $short ? __('Feb') : __('February');

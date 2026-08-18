@@ -45,7 +45,7 @@ class MinPerMile extends AbstractTimeUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function factorForUnit()
+	public function factorForUnit(): float
 	{
 		return 1 / DistanceUnitSystem::MILE_MULTIPLIER;
 	}

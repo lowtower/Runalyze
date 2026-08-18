@@ -23,7 +23,7 @@ class VO2maxCalculationDetailsDecorator
     /**
      * @return int [%]
      */
-    public function getPercentVO2maxVelocityByHeartRate()
+    public function getPercentVO2maxVelocityByHeartRate(): int
     {
         return (int) round(100.0 * LegacyEffectiveVO2max::percentageAt(
             $this->Context->getActivity()->getPulseAvg() / $this->ConfigurationList->getMaximalHeartRate()

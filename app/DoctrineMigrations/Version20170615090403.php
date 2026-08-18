@@ -106,7 +106,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
      * @param EntityManager $em
      * @return int
      */
-    protected function getNumberOfLockedRoutes(EntityManager $em)
+    protected function getNumberOfLockedRoutes(EntityManager $em): int
     {
         return (int) $em->createQueryBuilder()
             ->select('count(r.id)')

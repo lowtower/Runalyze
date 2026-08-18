@@ -38,7 +38,7 @@ class FitTrainingEffectBenefit extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Training effect benefit');
 	}
@@ -47,7 +47,7 @@ class FitTrainingEffectBenefit extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('TEB');
 	}
@@ -56,7 +56,7 @@ class FitTrainingEffectBenefit extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Nutzen der Aktivität für das Training.'

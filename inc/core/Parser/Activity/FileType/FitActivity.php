@@ -987,7 +987,7 @@ class FitActivity extends AbstractSingleParser
      * @see FIT SDK, e.g. at https://github.com/dgaff/fitsdk/blob/7f38d911388b7cdc3db7bf0318239352928faa8b/c/examples/decode/decode.c#L132-L146
      * @return int current time
      */
-    protected function parseCompressedSpeedDistance()
+    protected function parseCompressedSpeedDistance(): float
     {
         $values = explode(',', $this->Values['compressed_speed_distance'][1]);
 

@@ -38,7 +38,7 @@ class WithGoal extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Training with goal');
 	}
@@ -47,7 +47,7 @@ class WithGoal extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('TG');
 	}
@@ -56,7 +56,7 @@ class WithGoal extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'This training has a goal like Garmins Pace-Goal or Garmins (custom-) targets.'

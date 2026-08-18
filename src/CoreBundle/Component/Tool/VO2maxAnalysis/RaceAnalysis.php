@@ -53,7 +53,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getDistance()
+    public function getDistance(): string
     {
         $distance = new Distance($this->Activity->distance());
 
@@ -67,7 +67,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getDuration()
+    public function getDuration(): string
     {
         return $this->formatTime($this->Activity->duration());
     }
@@ -99,7 +99,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getPrognosisByHeartRate()
+    public function getPrognosisByHeartRate(): string
     {
         return $this->prognosisFor($this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
     }
@@ -115,7 +115,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getPrognosisByHeartRateAfterCorrection()
+    public function getPrognosisByHeartRateAfterCorrection(): string
     {
         return $this->prognosisFor($this->VO2maxFactor * $this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
     }
@@ -131,7 +131,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getPrognosisByShape()
+    public function getPrognosisByShape(): string
     {
         return $this->prognosisFor($this->VO2maxShape, $this->Activity->distance());
     }
@@ -171,7 +171,7 @@ class RaceAnalysis
      * @param float $distance [km]
      * @return string
      */
-    protected function prognosisFor($vo2max, $distance)
+    protected function prognosisFor($vo2max, $distance): string
     {
         return $this->formatTime($this->prognosisInSecondsFor($vo2max, $distance));
     }
@@ -180,7 +180,7 @@ class RaceAnalysis
      * @param int $seconds [s]
      * @return string
      */
-    protected function formatTime($seconds)
+    protected function formatTime($seconds): string
     {
         $Duration = new Duration($seconds);
 

@@ -24,7 +24,7 @@ class General extends AbstractCategory
     /**
      * @return int
      */
-    public function getRunningSport()
+    public function getRunningSport(): int
     {
         return (int) $this->Variables['RUNNINGSPORT'];
     }
@@ -32,7 +32,7 @@ class General extends AbstractCategory
     /**
      * @return int
      */
-    public function getMainSport()
+    public function getMainSport(): int
     {
         return (int) $this->Variables['MAINSPORT'];
     }

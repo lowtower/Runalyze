@@ -40,7 +40,7 @@ class Daytime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Daytime');
 	}
@@ -49,7 +49,7 @@ class Daytime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Time');
 	}
@@ -66,7 +66,7 @@ class Daytime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Exact daytime of the activity. (the date itself is always shown)');
 	}

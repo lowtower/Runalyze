@@ -40,7 +40,7 @@ class HeatIndex extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Heat index');
     }
@@ -49,7 +49,7 @@ class HeatIndex extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('HI');
 	}
@@ -58,7 +58,7 @@ class HeatIndex extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         return __(
             'The heat index is a measure of how hot it really feels when relative humidity is factored with the actual air temperature.'

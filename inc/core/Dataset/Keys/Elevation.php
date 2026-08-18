@@ -40,7 +40,7 @@ class Elevation extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Elevation');
 	}
@@ -49,7 +49,7 @@ class Elevation extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Elev.');
 	}
@@ -58,7 +58,7 @@ class Elevation extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Calculated value for total elevation, i.e. maximum of total ascent or descent.');
 	}

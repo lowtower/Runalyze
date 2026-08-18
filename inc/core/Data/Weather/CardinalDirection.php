@@ -53,7 +53,7 @@ class CardinalDirection
      * String
      * @return string
      */
-    public function string()
+    public function string(): string
     {
         return self::getDirection($this->Value);
     }
@@ -63,7 +63,7 @@ class CardinalDirection
      * @param float $bearing
      * @return string
      */
-    public static function getDirection($bearing)
+    public static function getDirection($bearing): string
     {
         if (! is_numeric($bearing)) {
             throw new \InvalidArgumentException('Argument must be numeric');

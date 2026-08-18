@@ -167,7 +167,7 @@ class Dataview
     /**
      * @return string
      */
-    public function weekday()
+    public function weekday(): string
     {
         if (! is_numeric($this->Activity->timestamp())) {
             return '';
@@ -306,7 +306,6 @@ class Dataview
     /**
      * @param bool $valueOnly
      * @return int|null|string
-     *
      */
     public function rpe($valueOnly = false)
     {

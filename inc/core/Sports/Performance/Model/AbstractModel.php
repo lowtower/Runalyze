@@ -163,7 +163,7 @@ abstract class AbstractModel
      * @param int $enum enum for value
      * @return int
      */
-    private function at($index, $enum)
+    private function at($index, $enum): int
     {
         $Array = $this->arrayFor($enum);
 

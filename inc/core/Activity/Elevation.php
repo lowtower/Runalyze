@@ -114,7 +114,7 @@ class Elevation implements ValueInterface
 	 * Get elevation
 	 * @return int [m]
 	 */
-	public function value()
+	public function value(): float
 	{
 		return round($this->Meter);
 	}
@@ -122,7 +122,7 @@ class Elevation implements ValueInterface
 	/**
 	 * @return int
 	 */
-	public function meter()
+	public function meter(): float
 	{
 		return round($this->Meter);
 	}
@@ -130,7 +130,7 @@ class Elevation implements ValueInterface
 	/**
 	 * @return int
 	 */
-	public function feet()
+	public function feet(): float
 	{
 		return round($this->Meter * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
 	}
@@ -138,7 +138,7 @@ class Elevation implements ValueInterface
 	/**
 	 * @return int [mixed unit]
 	 */
-	public function valueInPreferredUnit()
+	public function valueInPreferredUnit(): float
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->feet();

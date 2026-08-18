@@ -175,7 +175,7 @@ class Weather {
 	/**
 	 * @return string
 	 */
-	public function sourceAsString() {
+	public function sourceAsString(): string {
 		if ($this->sourceIsKnown()) {
 			return Sources::stringFor($this->SourceId);
 		}

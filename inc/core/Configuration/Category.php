@@ -81,7 +81,7 @@ abstract class Category {
 	 * User ID
 	 * @return int
 	 */
-	private function userID() {
+	private function userID(): int {
 		return (int) $this->UserID;
 	}
 

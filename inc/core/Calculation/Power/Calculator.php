@@ -160,7 +160,7 @@ class Calculator {
 	 * Calculate average power
 	 * @return int [W]
 	 */
-	public function average() {
+	public function average(): int {
 		if (empty($this->Power)) {
 			return 0;
 		}

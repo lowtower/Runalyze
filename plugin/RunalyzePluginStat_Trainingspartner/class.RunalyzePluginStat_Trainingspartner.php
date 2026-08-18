@@ -33,7 +33,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Training partner');
 	}
 
@@ -41,7 +41,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('How often did you train with whom?');
 	}
 
@@ -69,7 +69,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	 * Title for all years
 	 * @return string
 	 */
-	protected function titleForAllYears() {
+	protected function titleForAllYears(): string {
 		return __('All years');
 	}
 

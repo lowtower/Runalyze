@@ -31,7 +31,7 @@ class VO2maxValue extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Effective VO<sub>2</sub>max');
     }
@@ -49,7 +49,7 @@ class VO2maxValue extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         return __(
             'Estimated VO<sub>2</sub>max based on pace and heart rate. '.

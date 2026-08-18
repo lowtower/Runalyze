@@ -183,7 +183,7 @@ class Split extends StringObject {
 	 * Format time
 	 * @return string
 	 */
-	private function timeAsString() {
+	private function timeAsString(): string {
 		return Duration::format($this->Time);
 	}
 }

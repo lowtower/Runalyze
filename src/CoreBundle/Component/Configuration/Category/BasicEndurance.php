@@ -24,7 +24,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return int
      */
-    public function getDaysToConsider()
+    public function getDaysToConsider(): int
     {
         return max($this->getDaysToConsiderForWeeklyMileage(), $this->getDaysToConsiderForLongJogs());
     }
@@ -32,7 +32,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return int
      */
-    public function getDaysToConsiderForLongJogs()
+    public function getDaysToConsiderForLongJogs(): int
     {
         return (int) $this->Variables['BE_DAYS_FOR_LONGJOGS'];
     }
@@ -55,7 +55,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return int [km]
      */
-    public function getMinimalDistanceForLongJog()
+    public function getMinimalDistanceForLongJog(): int
     {
         return (int) $this->Variables['BE_MIN_KM_FOR_LONGJOG'];
     }
@@ -63,7 +63,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return float [0.00 .. 1.00]
      */
-    public function getPercentageForWeeklyMileage()
+    public function getPercentageForWeeklyMileage(): float
     {
         return (float) $this->Variables['BE_PERCENTAGE_WEEK_KM'];
     }
@@ -71,7 +71,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @return float [0.00 .. 1.00]
      */
-    public function getPercentageForLongJogs()
+    public function getPercentageForLongJogs(): float
     {
         return 1.0 - $this->getPercentageForWeeklyMileage();
     }

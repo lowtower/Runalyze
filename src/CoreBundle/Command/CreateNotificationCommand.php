@@ -178,7 +178,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         );
     }
 
-    protected function insertSingleNotifications(Notification $notification, array $accountIds)
+    protected function insertSingleNotifications(Notification $notification, array $accountIds): int
     {
         /** @var NotificationRepository $notificationRepository */
         $notificationRepository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Notification');

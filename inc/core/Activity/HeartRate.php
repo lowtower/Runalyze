@@ -97,7 +97,7 @@ class HeartRate {
 	 * Value in [bpm]
 	 * @return int
 	 */
-	public function inBPM() {
+	public function inBPM(): float {
 		return round($this->value);
 	}
 
@@ -105,7 +105,7 @@ class HeartRate {
 	 * Value in [%HRmax]
 	 * @return int
 	 */
-	public function inHRmax() {
+	public function inHRmax(): float {
 		return round(100 * $this->value / $this->Athlete->maximalHR());
 	}
 
@@ -113,7 +113,7 @@ class HeartRate {
 	 * Value in [%HRrest]
 	 * @return int
 	 */
-	public function inHRrest() {
+	public function inHRrest(): float {
 		return round(100 * ($this->value - $this->Athlete->restingHR()) / ($this->Athlete->maximalHR() - $this->Athlete->restingHR()));
 	}
 
@@ -121,7 +121,7 @@ class HeartRate {
 	 * Value in [%] depending on preferred unit
 	 * @return int
 	 */
-	public function inPercent() {
+	public function inPercent(): float {
 		if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
 			return $this->inHRrest();
 		}

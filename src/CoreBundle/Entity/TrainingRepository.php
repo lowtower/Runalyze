@@ -445,7 +445,7 @@ class TrainingRepository extends EntityRepository
      * @param int $timestamp
      * @return int [0, inf)
      */
-    public function calculateVO2maxShape(Account $account, VO2max $configuration, $sportId, $timestamp)
+    public function calculateVO2maxShape(Account $account, VO2max $configuration, $sportId, $timestamp): float
     {
         $vo2maxColumn = $configuration->useCorrectionForElevation() ? 'vo2maxWithElevation' : 'vo2max';
 

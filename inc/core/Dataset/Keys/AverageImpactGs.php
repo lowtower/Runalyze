@@ -17,7 +17,7 @@ class AverageImpactGs extends AbstractKey
         return ['avg_impact_gs_left', 'avg_impact_gs_right'];
 	}
 
-	public function label()
+	public function label(): string
 	{
 		return __('Impact Gs');
 	}

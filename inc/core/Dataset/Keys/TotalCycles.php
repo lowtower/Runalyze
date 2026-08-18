@@ -48,7 +48,7 @@ class TotalCycles extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Cycles');
 	}
@@ -57,7 +57,7 @@ class TotalCycles extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Wiederholungen insgesamt.'

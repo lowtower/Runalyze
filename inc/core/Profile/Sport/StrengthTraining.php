@@ -20,7 +20,7 @@ class StrengthTraining extends AbstractSport
         return 'icons8-Weightlift';
     }
 
-    public function getName()
+    public function getName(): string
     {
         // #TSC: translation is available
         return __('Krafttraining');

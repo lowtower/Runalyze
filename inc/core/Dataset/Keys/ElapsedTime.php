@@ -40,7 +40,7 @@ class ElapsedTime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Elapsed time');
 	}
@@ -49,7 +49,7 @@ class ElapsedTime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('Elapsed time is the difference between end and start of your activity including pauses.');
 	}
