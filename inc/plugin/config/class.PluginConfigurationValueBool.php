@@ -34,11 +34,10 @@ class PluginConfigurationValueBool extends PluginConfigurationValue {
 		$this->setValue( isset($_POST[$this->Key]) );
 	}
 
-	/**
-	 * Display row for config form
-	 * @return FormularField
-	 */
-	public function getFormField(): \FormularCheckbox {
+    /**
+     * Display row for config form
+     */
+    public function getFormField(): \FormularField {
 		return new FormularCheckbox($this->Key, $this->formLabel(), $this->valueAsString());
 	}
 }

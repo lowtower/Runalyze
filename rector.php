@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
+use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -23,4 +25,12 @@ return RectorConfig::configure()
     ->withDeadCodeLevel(73)             # max level 73
     ->withCodeQualityLevel(73)          # max level 73
     ->withCodingStyleLevel(18)          # max level 18
+    ->withSkip([
+        AbsolutizeRequireAndIncludePathRector::class => [
+            __DIR__ . '/src/CoreBundle/Controller/DefaultController.php',
+        ],
+        StrictArrayParamDimFetchRector::class => [
+            __DIR__ . '/inc/system/class.PDOforRunalyze.php',
+        ],
+    ])
 ;

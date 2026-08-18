@@ -45,7 +45,7 @@ class DefaultController extends AbstractPluginsAwareController
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
 
-        include __DIR__ . '/../dashboard.php';
+        include '../dashboard.php';
 
         return $this->render('legacy_end.html.twig');
     }
