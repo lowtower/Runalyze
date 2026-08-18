@@ -20,7 +20,7 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                    'disabled' => true
+                'disabled' => true
             ])
             ->add('name', TextType::class, [
                 'required' => false,

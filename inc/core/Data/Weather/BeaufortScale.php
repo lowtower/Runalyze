@@ -18,7 +18,7 @@ class BeaufortScale implements ValueInterface
 {
 	/** @var array */
     protected $UpperLimits = [
-    	1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX
+        1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX
     ];
 
 	/**

@@ -4,7 +4,6 @@ namespace Runalyze\Parameter;
 
 class FloatingPointTest extends \PHPUnit\Framework\TestCase
 {
-
 	public function testSetFromString()
 	{
 		$object = new FloatingPoint(3.14);

@@ -329,9 +329,9 @@ class SearchFormular extends Formular {
 		$Field = new FormularSelectBox($key, $label);
 		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 		$Field->setOptions(array(
-			'' => '',
-			'1' => __('Yes'),
-			'0' => __('No')
+		    '' => '',
+		    '1' => __('Yes'),
+		    '0' => __('No')
 		));
 
 		$this->Fieldset->addField($Field);

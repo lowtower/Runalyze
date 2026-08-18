@@ -69,11 +69,11 @@ if (START_TIME != time()) {
 		if ($Data[count($Data) - 1]['date_age'] < 0) {
 		    $Data[] = [
 		        'date_age' => 0,
-                'date' => date('Y-m-d'),
-                'distance' => 0,
-                'vo2max_weighted' => 0,
-                'vo2max_sum_time' => 0
-            ];
+		        'date' => date('Y-m-d'),
+		        'distance' => 0,
+		        'vo2max_weighted' => 0,
+		        'vo2max_sum_time' => 0
+		    ];
         }
 
 		// Due to performance reasons, this is not clean code

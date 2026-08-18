@@ -44,10 +44,10 @@ foreach ($Sports as $sport) {
 		$yAxis[$id][$endtime['hours']] += $endtime['minutes'] / 60;
 
 		if ($starttime['hours'] == $endtime['hours'])
-			$yAxis[$id][$starttime['hours']] -= 1;
+			--$yAxis[$id][$starttime['hours']];
 
 		for ($i = $starttime['hours'] + 1; $i < $endtime['hours']; $i++)
-			$yAxis[$id][$i] += 1;
+			++$yAxis[$id][$i];
 	}
 }
 

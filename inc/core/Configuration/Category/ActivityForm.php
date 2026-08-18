@@ -187,23 +187,23 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset( __('Activity form') );
 
 		$Fieldset->addHandle( $this->handle('TRAINING_CREATE_MODE'), array(
-			'label'		=> __('Default window')
+		    'label'		=> __('Default window')
 		));
 
 		$Fieldset->addHandle( $this->handle('COMPUTE_KCAL'), array(
-			'label'		=> __('Calculate energy'),
-			'tooltip'	=> __('Recalculate energy after changing duration by hand')
+		    'label'		=> __('Calculate energy'),
+		    'tooltip'	=> __('Recalculate energy after changing duration by hand')
 		));
 
 		$Fieldset->addHandle( $this->handle('DETECT_PAUSES'), array(
-			'label'		=> __('Detect pauses'),
-			'tooltip'	=> __('Detect pauses (distance not increasing) when importing training')
+		    'label'		=> __('Detect pauses'),
+		    'tooltip'	=> __('Detect pauses (distance not increasing) when importing training')
 		));
 
 		// #TSC
 		$Fieldset->addHandle( $this->handle('IMPORT_MAX_HR_USER'), array(
-			'label'		=> 'Import max heart-rate',
-			'tooltip'	=> 'If the imported (FIT) activity has a general maximal HR of the user it will set the users max HR'
+		    'label'		=> 'Import max heart-rate',
+		    'tooltip'	=> 'If the imported (FIT) activity has a general maximal HR of the user it will set the users max HR'
 		));
 
 		$this->addHandlesForWeatherTo($Fieldset);
@@ -219,14 +219,14 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForWeatherTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_LOAD_WEATHER'), array(
-			'label'		=> __('Automatically load weather conditions'),
-			'tooltip'	=> __('via openweathermap.org')
+		    'label'		=> __('Automatically load weather conditions'),
+		    'tooltip'	=> __('via openweathermap.org')
 		));
 
 		$Fieldset->addHandle( $this->handle('PLZ'), array(
-			'label'		=> __('for weather: Location'),
-			'tooltip'	=> __('For loading weather data from openweathermap.org<br>e.g. <em>Berlin, de</em>'),
-			'size'		=> FormularInput::$SIZE_MIDDLE
+		    'label'		=> __('for weather: Location'),
+		    'tooltip'	=> __('For loading weather data from openweathermap.org<br>e.g. <em>Berlin, de</em>'),
+		    'size'		=> FormularInput::$SIZE_MIDDLE
 		));
 	}
 
@@ -236,8 +236,8 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForElevationTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_DO_ELEVATION'), array(
-			'label'		=> __('Automatically correct elevation data'),
-			'tooltip'	=> __('Instead of using gps-elevation a correction via external services is possible.')
+		    'label'		=> __('Automatically correct elevation data'),
+		    'tooltip'	=> __('Instead of using gps-elevation a correction via external services is possible.')
 		));
 	}
 
@@ -247,15 +247,15 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForSortingTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_SORT_SPORTS'), array(
-			'label'		=> __('Sort: sports')
+		    'label'		=> __('Sort: sports')
 		));
 
 		$Fieldset->addHandle( $this->handle('TRAINING_SORT_TYPES'), array(
-			'label'		=> __('Sort: activity types')
+		    'label'		=> __('Sort: activity types')
 		));
 
 		$Fieldset->addHandle( $this->handle('TRAINING_SORT_SHOES'), array(
-			'label'		=> __('Sort: equipment')
+		    'label'		=> __('Sort: equipment')
 		));
 	}
 }

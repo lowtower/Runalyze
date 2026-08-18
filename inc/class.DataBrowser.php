@@ -199,9 +199,9 @@ class DataBrowser {
 
 		for ($w = 0; $w <= ($this->DayCount-1); $w++) {
 			$this->Days[] = array(
-				'date' => $date->getTimestamp(),
-				'shorts' => array(),
-				'trainings' => array()
+			    'date' => $date->getTimestamp(),
+			    'shorts' => array(),
+			    'trainings' => array()
 			);
 
 			$date->add(new \DateInterval('P1D'));

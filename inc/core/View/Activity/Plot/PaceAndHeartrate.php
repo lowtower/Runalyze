@@ -28,8 +28,8 @@ class PaceAndHeartrate extends ActivityPlot {
 	 */
 	protected function initData(Activity\Context $context) {
 		$allSeries = [
-			new Series\Pace($context),
-			new Series\Heartrate($context)
+		    new Series\Pace($context),
+		    new Series\Heartrate($context)
 		];
 
 		$this->addMultipleSeries($allSeries);

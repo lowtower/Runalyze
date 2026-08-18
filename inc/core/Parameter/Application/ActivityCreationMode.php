@@ -35,11 +35,11 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct(self::UPLOAD, array(
-			'options'		=> array(
-				self::UPLOAD	=> __('Upload form'),
-				self::GARMIN	=> __('Garmin-Communicator'),
-				self::FORM		=> __('Standard form')
-			)
+		    'options'		=> array(
+		        self::UPLOAD	=> __('Upload form'),
+		        self::GARMIN	=> __('Garmin-Communicator'),
+		        self::FORM		=> __('Standard form')
+		    )
 		));
 	}
 

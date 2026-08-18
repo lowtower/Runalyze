@@ -24,12 +24,12 @@ class FieldFactory {
 	 */
 	public function FieldFor(Handle $Handle, array $options = array()) {
 		$options = array_merge(array(
-			'label'		=> $Handle->key(),
-			'tooltip'	=> '',
-			'unit'		=> '',
-			'size'		=> '',
-			'css'		=> '',
-			'layout'	=> ''
+		    'label'		=> $Handle->key(),
+		    'tooltip'	=> '',
+		    'unit'		=> '',
+		    'size'		=> '',
+		    'css'		=> '',
+		    'layout'	=> ''
 		), $options);
 
 		$label = !empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];

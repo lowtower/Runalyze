@@ -30,7 +30,7 @@ class Entity extends Model\EntityWithID {
 	 */
 	static public function allDatabaseProperties() {
 		return array(
-			self::TAG,
+		    self::TAG,
 		);
 	}
 

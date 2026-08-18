@@ -77,10 +77,10 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 
 		$Model = new PluginConfigurationValueSelect('model', __('Prediction model'));
 		$Model->setOptions( array(
-			'vo2max'	=> __('Effective VO2max'),
-			'cpp'		=> 'Robert Bock (CPP)',
-			'steffny'	=> 'Herbert Steffny',
-			'cameron'	=> 'David Cameron'
+		    'vo2max'	=> __('Effective VO2max'),
+		    'cpp'		=> 'Robert Bock (CPP)',
+		    'steffny'	=> 'Herbert Steffny',
+		    'cameron'	=> 'David Cameron'
 		) );
 		$Model->setDefaultValue('vo2max');
 

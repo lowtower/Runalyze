@@ -86,10 +86,10 @@ class Pause {
 	 */
 	public function asArray() {
 		return array(
-			self::TIME => $this->Time,
-			self::DURATION => $this->Duration,
-			self::HR_START => $this->HRstart,
-			self::HR_END => $this->HRend
+		    self::TIME => $this->Time,
+		    self::DURATION => $this->Duration,
+		    self::HR_START => $this->HRstart,
+		    self::HR_END => $this->HRend
 		);
 	}
 

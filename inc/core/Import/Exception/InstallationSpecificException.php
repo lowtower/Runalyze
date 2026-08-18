@@ -17,5 +17,4 @@ namespace Runalyze\Import\Exception;
  */
 class InstallationSpecificException extends ParserException
 {
-
 }

@@ -203,8 +203,8 @@ class Activity extends LeafletRoute {
 
 		if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
 			$this->Info[] = array(
-				(float)$this->TrackdataLoop->distance(),
-				(int)$this->TrackdataLoop->time()
+			    (float)$this->TrackdataLoop->distance(),
+			    (int)$this->TrackdataLoop->time()
 			);
 		}
 	}
@@ -215,12 +215,12 @@ class Activity extends LeafletRoute {
 	protected function defineInfoLabels() {
 		if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
 			$this->InfoLabels = array(
-				__('Distance'),
-				__('Time')
+			    __('Distance'),
+			    __('Time')
 			);
 			$this->InfoFunctions = array(
-				'function(v){return (v*'.Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor().').toFixed(2)+"&nbsp;'.Configuration::General()->distanceUnitSystem()->distanceUnit().'";}',
-				'function(v){return (new Date(v * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];}'
+			    'function(v){return (v*'.Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor().').toFixed(2)+"&nbsp;'.Configuration::General()->distanceUnitSystem()->distanceUnit().'";}',
+			    'function(v){return (new Date(v * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];}'
 			);
 		}
 	}
@@ -245,7 +245,7 @@ class Activity extends LeafletRoute {
 				$Tooltip
 			);
 
-			$this->Dist += 1;
+			++$this->Dist;
 			$this->Time = $this->TrackdataLoop->time();
 		}
 	}

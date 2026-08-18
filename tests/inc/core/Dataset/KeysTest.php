@@ -4,7 +4,6 @@ namespace Runalyze\Dataset;
 
 class KeysTest extends \PHPUnit\Framework\TestCase
 {
-
 	public function testAllIDs()
 	{
 		foreach (Keys::getEnum() as $id) {

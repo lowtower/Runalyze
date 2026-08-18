@@ -11,7 +11,6 @@ use Runalyze\Util\LocalTime;
  * @group dependsOnOldDatabase
  */
 class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var BasicEndurance
 	 */

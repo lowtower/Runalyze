@@ -51,10 +51,10 @@ class TableZonesPace extends TableZonesAbstract {
 				$HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
 
 				$this->Data[] = array(
-					'zone'     => $paceInSeconds == 0 ? __('faster') : '&gt; '.$Pace->valueWithAppendix(),
-					'time'     => $Info['time'],
-					'distance' => $Info['distance'],
-					'average'  => $HR->asBPM() > 0 ? $HR->string() : '-'
+				    'zone'     => $paceInSeconds == 0 ? __('faster') : '&gt; '.$Pace->valueWithAppendix(),
+				    'time'     => $Info['time'],
+				    'distance' => $Info['distance'],
+				    'average'  => $HR->asBPM() > 0 ? $HR->string() : '-'
 				);
 			}
 		}
@@ -86,9 +86,9 @@ class TableZonesPace extends TableZonesAbstract {
 
 			if (!isset($Zones[$pace])) {
 				$Zones[$pace] = array(
-					'time' => $seconds,
-					'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],
-					'hr' => $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0,
+				    'time' => $seconds,
+				    'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],
+				    'hr' => $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0,
 				);
 			} else {
 				$Zones[$pace]['time'] += $seconds;

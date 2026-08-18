@@ -18,9 +18,9 @@ if (isset($_GET['m'])){
 }
 
 $TimeRangeLabels = [
-	'all' => __('All years'),
-	'lasthalf' => __('Last half year'),
-	'lastyear' => __('Last year')
+    'all' => __('All years'),
+    'lasthalf' => __('Last half year'),
+    'lastyear' => __('Last year')
 ];
 
 $CurrentYear = (isset($TimeRangeLabels[$timerange])) ? $TimeRangeLabels[$timerange] : $timerange;
@@ -40,8 +40,8 @@ for ($j = date('Y'); $j >= START_YEAR; $j--)  {
 }
 
 $ModelLabels = [
-	'tsb' => __('TSB'),
-	'banister' => 'Banister'
+    'tsb' => __('TSB'),
+    'banister' => 'Banister'
 ];
 
 $CurrentModel = $ModelLabels[$perfmodel];

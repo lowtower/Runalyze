@@ -244,9 +244,9 @@ class ConfigTabPlugins extends ConfigTab {
 	protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder) {
 		if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
 			$update->execute([
-				':active' => $newModus,
-				':order' => $newOrder,
-				':id' => $Plugin['id']
+			    ':active' => $newModus,
+			    ':order' => $newOrder,
+			    ':id' => $Plugin['id']
 			]);
 
 			Ajax::setReloadFlag(Ajax::$RELOAD_ALL);

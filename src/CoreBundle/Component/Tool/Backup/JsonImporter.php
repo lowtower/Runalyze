@@ -123,12 +123,12 @@ class JsonImporter
 		Configuration::loadAll();
 
 		$Tables = [
-			'sport'		=> 'name',
-			'type'		=> 'name',
-			'plugin'	=> 'key',
-			'equipment'	=> 'name',
-			'equipment_type' => 'name',
-			'tag'		=> 'tag'
+		    'sport'		=> 'name',
+		    'type'		=> 'name',
+		    'plugin'	=> 'key',
+		    'equipment'	=> 'name',
+		    'equipment_type' => 'name',
+		    'tag'		=> 'tag'
 		];
 
 		foreach ($Tables as $Table => $Column) {
@@ -184,31 +184,31 @@ class JsonImporter
 	private function readTable($tableName)
     {
         $tableSettings = [
-			'import'	=> [
-				'runalyze_sport',
-				'runalyze_type',
-				'runalyze_user',
-				'runalyze_equipment_type',
-				'runalyze_equipment_sport',
-				'runalyze_equipment_spor',
-				'runalyze_equipment',
-				'runalyze_route',
-				'runalyze_training',
-				'runalyze_swimdata',
-				'runalyze_trackdata',
-				'runalyze_hrv',
-				'runalyze_activity_equipment',
-				'runalyze_tag',
-				'runalyze_activity_tag',
-				'runalyze_raceresult'
-			],
-			'update'	=> [
-				'runalyze_conf'			=> $this->OverwriteConfig,
-				'runalyze_dataset'		=> $this->OverwriteDataset,
-				'runalyze_plugin'		=> $this->OverwritePlugins,
-				'runalyze_plugin_conf'	=> $this->OverwritePlugins
-			]
-		];
+            'import'	=> [
+                'runalyze_sport',
+                'runalyze_type',
+                'runalyze_user',
+                'runalyze_equipment_type',
+                'runalyze_equipment_sport',
+                'runalyze_equipment_spor',
+                'runalyze_equipment',
+                'runalyze_route',
+                'runalyze_training',
+                'runalyze_swimdata',
+                'runalyze_trackdata',
+                'runalyze_hrv',
+                'runalyze_activity_equipment',
+                'runalyze_tag',
+                'runalyze_activity_tag',
+                'runalyze_raceresult'
+            ],
+            'update'	=> [
+                'runalyze_conf'			=> $this->OverwriteConfig,
+                'runalyze_dataset'		=> $this->OverwriteDataset,
+                'runalyze_plugin'		=> $this->OverwritePlugins,
+                'runalyze_plugin_conf'	=> $this->OverwritePlugins
+            ]
+        ];
 
 		if (in_array($tableName, $tableSettings['import'])) {
 			$this->importTable($tableName);
@@ -289,10 +289,10 @@ class JsonImporter
 
 			case 'runalyze_dataset':
 				$statement->execute(array(
-					$row['active'],
-					$row['style'],
-					$row['position'],
-					$row['keyid']
+				    $row['active'],
+				    $row['style'],
+				    $row['position'],
+				    $row['keyid']
 				));
 				break;
 
@@ -339,13 +339,13 @@ class JsonImporter
 			$values = array_values($row);
 			$columnIds = array_flip($columns);
 			if (in_array($tableName, array(
-				'runalyze_equipment',
-				'runalyze_equipment_type',
-				'runalyze_plugin',
-				'runalyze_route',
-                'runalyze_type',
-                'runalyze_sport',
-				'runalyze_tag'
+			    'runalyze_equipment',
+			    'runalyze_equipment_type',
+			    'runalyze_plugin',
+			    'runalyze_route',
+			    'runalyze_type',
+			    'runalyze_sport',
+			    'runalyze_tag'
 			))) {
 			    if ($tableName == 'runalyze_sport' && isset($columnIds['internal_sport_id'])) {
 			        $internalId = $values[$columnIds['internal_sport_id']];

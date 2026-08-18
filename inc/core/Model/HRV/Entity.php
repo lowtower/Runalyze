@@ -33,8 +33,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	 */
 	public static function allProperties() {
 		return array(
-			self::ACTIVITYID,
-			self::DATA
+		    self::ACTIVITYID,
+		    self::DATA
 		);
 	}
 

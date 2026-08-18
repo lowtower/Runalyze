@@ -170,10 +170,10 @@ abstract class PlotSumData extends Plot {
 	 */
 	private function getNavigationMenu() {
 		$Menus = array(
-			$this->getMenuLinksForGrouping(),
-			$this->getMenuLinksForAnalysis(),
-			$this->getMenuLinksForSports(),
-			$this->getMenuLinksForYears()
+		    $this->getMenuLinksForGrouping(),
+		    $this->getMenuLinksForAnalysis(),
+		    $this->getMenuLinksForSports(),
+		    $this->getMenuLinksForYears()
 		);
 
 		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
@@ -222,8 +222,8 @@ abstract class PlotSumData extends Plot {
 		}
 
 		$Links = array(
-			$this->link( __('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
-			$this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP)
+		    $this->link( __('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
+		    $this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP)
 		);
 
 		return ['title' => $Current, 'links' => $Links];
@@ -237,8 +237,8 @@ abstract class PlotSumData extends Plot {
 		$CurrentId = $this->Sport->id();
 		$Current = __('All sports');
 		$Links = array(
-			$this->link( __('All sports'), $this->Year, 0, 'sport', 'sport' == $this->ParamGroup),
-            $this->link( __('Main sports'), $this->Year, 0, 'mainsport', 'mainsport' == $this->ParamGroup)
+		    $this->link( __('All sports'), $this->Year, 0, 'sport', 'sport' == $this->ParamGroup),
+		    $this->link( __('Main sports'), $this->Year, 0, 'mainsport', 'mainsport' == $this->ParamGroup)
 		);
 
 		$SportGroup = $this->ParamGroup == 'sport' ? 'types' : $this->ParamGroup;
@@ -269,8 +269,8 @@ abstract class PlotSumData extends Plot {
 		}
 
 		$Links = array(
-			$this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_6_MONTHS == $this->Year),
-			$this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_12_MONTHS == $this->Year)
+		    $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_6_MONTHS == $this->Year),
+		    $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_12_MONTHS == $this->Year)
 		);
 
 		for ($Y = date('Y'); $Y >= START_YEAR; $Y--)

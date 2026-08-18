@@ -29,11 +29,11 @@ class Power extends ActivityPlot {
 	protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = [
-			new Series\Elevation($context),
-			new Series\Gradient($context),
-			new Series\Power($context),
-			new Series\TimeSeries($context),
-			new Series\DistanceSeries($context)
+		    new Series\Elevation($context),
+		    new Series\Gradient($context),
+		    new Series\Power($context),
+		    new Series\TimeSeries($context),
+		    new Series\DistanceSeries($context)
 		];
 
 		$this->addMultipleSeries($allSeries);

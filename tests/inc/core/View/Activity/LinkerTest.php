@@ -7,7 +7,6 @@ namespace Runalyze\View\Activity;
  * @group dependsOnOldDatabase
  */
 class LinkerTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var \PDOforRunalyze
 	 */
@@ -37,14 +36,14 @@ class LinkerTest extends \PHPUnit\Framework\TestCase {
 		$this->OtherAccountID = $this->PDO->lastInsertId();
 
 		$activities = [
-			[0, $this->OtherAccountID],
-			[1, $this->ThisAccountID],
-			[2, $this->OtherAccountID],
-			[3, $this->ThisAccountID],
-			[3, $this->ThisAccountID],
-			[4, $this->OtherAccountID],
-			[5, $this->ThisAccountID],
-			[6, $this->OtherAccountID]
+		    [0, $this->OtherAccountID],
+		    [1, $this->ThisAccountID],
+		    [2, $this->OtherAccountID],
+		    [3, $this->ThisAccountID],
+		    [3, $this->ThisAccountID],
+		    [4, $this->OtherAccountID],
+		    [5, $this->ThisAccountID],
+		    [6, $this->OtherAccountID]
 		];
 		foreach ($activities as $data) {
 			$this->PDO->exec('INSERT INTO `runalyze_training` (`time`, `accountid`, `sportid`, `s`) VALUES ('.$data[0].', '.$data[1].', 0, 2)');

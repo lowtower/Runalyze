@@ -117,8 +117,8 @@ class Prognose_PrognosisWindow {
 			$_POST['second-best-result-time'] = !empty($TopResults) ? Duration::format($TopResults[1]['s']) : '1:00:00';
 		} else {
 			list($_POST['best-result-km'], $_POST['second-best-result-km']) = $this->distanceValuesToKm([
-				str_replace(',', '.', $_POST['best-result-km']),
-				str_replace(',', '.', $_POST['second-best-result-km'])
+			    str_replace(',', '.', $_POST['best-result-km']),
+			    str_replace(',', '.', $_POST['second-best-result-km'])
 			]);
 		}
 
@@ -249,16 +249,16 @@ class Prognose_PrognosisWindow {
 			$DateWithLink = Ajax::trainingLink($PB->activityId(), (new LocalTime( $PB->timestamp() ))->format('d.m.Y'), true);
 
 			$this->Prognoses[] = array(
-				'distance'	=> (new Distance($km))->stringAuto(),
-				'prognosis'		=> $Prognosis > 0 ? Duration::format($Prognosis) : '-',
-				'prognosis-pace'=> $PacePrognosis->valueWithAppendix(),
-				'prognosis-vo2max'=> $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
-				'diff'			=> !$PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis?'+ ':'- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
-				'diff-class'	=> $PB->seconds() > $Prognosis ? 'plus' : 'minus',
-				'pb'			=> $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
-				'pb-pace'		=> $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
-				'pb-vo2max'		=> $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
-				'pb-date'		=> $PB->seconds() > 0 ? $DateWithLink : '-'
+			    'distance'	=> (new Distance($km))->stringAuto(),
+			    'prognosis'		=> $Prognosis > 0 ? Duration::format($Prognosis) : '-',
+			    'prognosis-pace'=> $PacePrognosis->valueWithAppendix(),
+			    'prognosis-vo2max'=> $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
+			    'diff'			=> !$PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis?'+ ':'- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
+			    'diff-class'	=> $PB->seconds() > $Prognosis ? 'plus' : 'minus',
+			    'pb'			=> $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
+			    'pb-pace'		=> $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
+			    'pb-vo2max'		=> $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
+			    'pb-date'		=> $PB->seconds() > 0 ? $DateWithLink : '-'
 			);
 		}
 	}

@@ -90,10 +90,10 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 			$route,
 			new HRV\Entity(array()),
 			new Sport\Entity(array(
-				Sport\Entity::NAME => 'Sport',
-				Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
-				Sport\Entity::HAS_DISTANCES => true,
-				Sport\Entity::IS_OUTSIDE => true
+			    Sport\Entity::NAME => 'Sport',
+			    Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+			    Sport\Entity::HAS_DISTANCES => true,
+			    Sport\Entity::IS_OUTSIDE => true
 			))
 		);
 	}
@@ -104,9 +104,9 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 	public static function examplaryContexts()
 	{
 		return array(
-			self::emptyContext(),
-			self::indoorContext(),
-			self::outdoorContext()
+		    self::emptyContext(),
+		    self::indoorContext(),
+		    self::outdoorContext()
 		);
 	}
 
@@ -132,27 +132,27 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 	{
 		return new FakeContext(
 			new Activity\Entity(array(
-				Activity\Entity::TIMESTAMP => time(),
-				Activity\Entity::TIMESTAMP_CREATED => time(),
-				Activity\Entity::TIME_IN_SECONDS => 600,
-				Activity\Entity::ENERGY => 120,
-				Activity\Entity::ELAPSED_TIME => 650,
-				Activity\Entity::HR_AVG => 140,
-				Activity\Entity::HR_MAX => 160,
-				Activity\Entity::TRIMP => 50
+			    Activity\Entity::TIMESTAMP => time(),
+			    Activity\Entity::TIMESTAMP_CREATED => time(),
+			    Activity\Entity::TIME_IN_SECONDS => 600,
+			    Activity\Entity::ENERGY => 120,
+			    Activity\Entity::ELAPSED_TIME => 650,
+			    Activity\Entity::HR_AVG => 140,
+			    Activity\Entity::HR_MAX => 160,
+			    Activity\Entity::TRIMP => 50
 			)),
 			new Trackdata\Entity(array(
-				Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
-				Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160)
+			    Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
+			    Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160)
 			)),
 			new Swimdata\Entity(array()),
 			new Route\Entity(array()),
 			new HRV\Entity(array()),
 			new Sport\Entity(array(
-				Sport\Entity::NAME => 'Sport',
-				Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
-				Sport\Entity::HAS_DISTANCES => false,
-				Sport\Entity::IS_OUTSIDE => false
+			    Sport\Entity::NAME => 'Sport',
+			    Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+			    Sport\Entity::HAS_DISTANCES => false,
+			    Sport\Entity::IS_OUTSIDE => false
 			))
 		);
 	}
@@ -164,39 +164,39 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 	{
 		return new FakeContext(
 			new Activity\Entity(array(
-				Activity\Entity::TIMESTAMP => time(),
-				Activity\Entity::TIMESTAMP_CREATED => time(),
-				Activity\Entity::TIME_IN_SECONDS => 600,
-				Activity\Entity::DISTANCE => 2.0,
-				Activity\Entity::ENERGY => 120,
-				Activity\Entity::ELAPSED_TIME => 650,
-				Activity\Entity::HR_AVG => 140,
-				Activity\Entity::HR_MAX => 160,
-				Activity\Entity::TRIMP => 50,
-				Activity\Entity::CADENCE => 90
+			    Activity\Entity::TIMESTAMP => time(),
+			    Activity\Entity::TIMESTAMP_CREATED => time(),
+			    Activity\Entity::TIME_IN_SECONDS => 600,
+			    Activity\Entity::DISTANCE => 2.0,
+			    Activity\Entity::ENERGY => 120,
+			    Activity\Entity::ELAPSED_TIME => 650,
+			    Activity\Entity::HR_AVG => 140,
+			    Activity\Entity::HR_MAX => 160,
+			    Activity\Entity::TRIMP => 50,
+			    Activity\Entity::CADENCE => 90
 			)),
 			new Trackdata\Entity(array(
-				Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
-				Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160),
-				Trackdata\Entity::DISTANCE => array(0.3, 0.6, 0.9, 1.25, 1.6, 2.0),
-				Trackdata\Entity::CADENCE => array(90, 90, 90, 90, 90, 90)
+			    Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
+			    Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160),
+			    Trackdata\Entity::DISTANCE => array(0.3, 0.6, 0.9, 1.25, 1.6, 2.0),
+			    Trackdata\Entity::CADENCE => array(90, 90, 90, 90, 90, 90)
 			)),
 			new Swimdata\Entity(array()),
 			new Route\Entity(array(
-				Route\Entity::NAME => 'Some route',
-				Route\Entity::DISTANCE => 2.0,
-				Route\Entity::ELEVATION => 20,
-				Route\Entity::ELEVATION_UP => 20,
-				Route\Entity::ELEVATION_DOWN => 20,
-				Route\Entity::ELEVATIONS_ORIGINAL => array(100, 105, 110, 120, 115, 100),
-				Route\Entity::GEOHASHES => array('u0v90mey4wr9', 'u0v90rp9092c', 'u0v90xh7kdtg', 'u0v90ze0s5qq', 'u0v92b708c70', 'u0v92chhefmz')
+			    Route\Entity::NAME => 'Some route',
+			    Route\Entity::DISTANCE => 2.0,
+			    Route\Entity::ELEVATION => 20,
+			    Route\Entity::ELEVATION_UP => 20,
+			    Route\Entity::ELEVATION_DOWN => 20,
+			    Route\Entity::ELEVATIONS_ORIGINAL => array(100, 105, 110, 120, 115, 100),
+			    Route\Entity::GEOHASHES => array('u0v90mey4wr9', 'u0v90rp9092c', 'u0v90xh7kdtg', 'u0v90ze0s5qq', 'u0v92b708c70', 'u0v92chhefmz')
 			)),
 			new HRV\Entity(array()),
 			new Sport\Entity(array(
-				Sport\Entity::NAME => 'Sport',
-				Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
-				Sport\Entity::HAS_DISTANCES => true,
-				Sport\Entity::IS_OUTSIDE => true
+			    Sport\Entity::NAME => 'Sport',
+			    Sport\Entity::PACE_UNIT => \Runalyze\Parameter\Application\PaceUnit::KM_PER_H,
+			    Sport\Entity::HAS_DISTANCES => true,
+			    Sport\Entity::IS_OUTSIDE => true
 			))
 		);
 	}

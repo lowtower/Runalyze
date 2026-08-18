@@ -11,13 +11,13 @@ class IFrameTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertFalse((new IFrame(FakeContext::onlyWithActivity(
 			new Activity\Entity(array(
-				Activity\Entity::IS_PUBLIC => false
+			    Activity\Entity::IS_PUBLIC => false
 			))
 		)))->isPossible());
 
 		$this->assertTrue((new IFrame(FakeContext::onlyWithActivity(
 			new Activity\Entity(array(
-				Activity\Entity::IS_PUBLIC => true
+			    Activity\Entity::IS_PUBLIC => true
 			))
 		)))->isPossible());
 	}

@@ -147,7 +147,7 @@ class ImportActivityController extends Controller
 
         $input = new ArrayInput([
             'command' => self::IMPORT_CMD,
-//            '--env' => 'prod',
+            //            '--env' => 'prod',
             'username' => $username,
             'path' => $uploadDir
         ]);

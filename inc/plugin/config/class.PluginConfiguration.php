@@ -101,14 +101,14 @@ class PluginConfiguration {
 	private function insertValueToDatabase(PluginConfigurationValue $Value) {
 		DB::getInstance()->insert('plugin_conf',
 			array(
-				'pluginid',
-				'config',
-				'value'
+			    'pluginid',
+			    'config',
+			    'value'
 			),
 			array(
-				$this->PluginID,
-				$Value->key(),
-				$Value->valueAsString()
+			    $this->PluginID,
+			    $Value->key(),
+			    $Value->valueAsString()
 			)
 		);
 

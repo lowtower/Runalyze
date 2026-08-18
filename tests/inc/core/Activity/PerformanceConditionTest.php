@@ -4,7 +4,6 @@ namespace Runalyze\Activity;
 
 class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testFormattingValues()
     {
         $this->assertEquals('', PerformanceCondition::format(null));

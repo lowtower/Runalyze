@@ -152,7 +152,7 @@ abstract class SummaryTable {
 		$CompleteResult = $this->DatasetQuery->fetchSummaryForTimerange($this->Sportid, $this->Timerange, $this->TimeStart, $this->TimeEnd);
 		$Context = new Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
 		$hiddenKeys = array(
-			Dataset\Keys::SPORT
+		    Dataset\Keys::SPORT
 		);
 
 		foreach ($CompleteResult as $Data) {

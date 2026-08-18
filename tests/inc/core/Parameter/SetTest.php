@@ -3,7 +3,6 @@
 namespace Runalyze\Parameter;
 
 class ParameterSetTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var \Runalyze\Parameter\Set
 	 */

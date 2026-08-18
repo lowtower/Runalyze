@@ -121,26 +121,26 @@ class JsonBackupAnalyzer
 	protected function expectedTables()
     {
 		return array(
-			'runalyze_account',
-			'runalyze_conf',
-			'runalyze_dataset',
-			'runalyze_hrv',
-			'runalyze_plugin',
-			'runalyze_plugin_conf',
-			'runalyze_route',
-			'runalyze_sport',
-			'runalyze_training',
-			'runalyze_trackdata',
-			'runalyze_type',
-			'runalyze_user',
-			'runalyze_equipment_type',
-			'runalyze_equipment_sport',
-			'runalyze_equipment_spor',
-			'runalyze_equipment',
-			'runalyze_activity_equipment',
-			'runalyze_activity_tag',
-			'runalyze_tag',
-			'runalyze_raceresult'
+		    'runalyze_account',
+		    'runalyze_conf',
+		    'runalyze_dataset',
+		    'runalyze_hrv',
+		    'runalyze_plugin',
+		    'runalyze_plugin_conf',
+		    'runalyze_route',
+		    'runalyze_sport',
+		    'runalyze_training',
+		    'runalyze_trackdata',
+		    'runalyze_type',
+		    'runalyze_user',
+		    'runalyze_equipment_type',
+		    'runalyze_equipment_sport',
+		    'runalyze_equipment_spor',
+		    'runalyze_equipment',
+		    'runalyze_activity_equipment',
+		    'runalyze_activity_tag',
+		    'runalyze_tag',
+		    'runalyze_raceresult'
 		);
 	}
 

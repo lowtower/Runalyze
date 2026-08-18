@@ -80,7 +80,7 @@ class UpdateController extends Controller
 
         return $this->render('system/update_start.html.twig', [
             'migrationStatus' => $migrationStatus,
-	        'migrationDump' => $content
+            'migrationDump' => $content
         ]);
     }
 }

@@ -12,7 +12,6 @@
 
 use Runalyze\Model\Swimdata;
 class SectionSwimLane extends TrainingViewSectionTabbedPlot {
-
 	/**
 	 * Set header and rows
 	 */

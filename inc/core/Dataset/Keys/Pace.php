@@ -21,12 +21,12 @@ class Pace extends AbstractKey
 {
 	// #TSC minimum- and maximum-values in "km/h" to bound the pace bar
 	const P_MIN_MAX = array(
-		// km/h values means: pace between 12min/km - 3:20min/km
-		SportProfile::RUNNING => array('min' => 5, 'max' => 18),
-		// km/h values means: pace between 3min/100m - 1:20min/100
-		SportProfile::SWIMMING => array('min' => 2, 'max' => 4.5),
-		// 10 - 32 km/h
-		SportProfile::CYCLING => array('min' => 10, 'max' => 32),
+	    // km/h values means: pace between 12min/km - 3:20min/km
+	    SportProfile::RUNNING => array('min' => 5, 'max' => 18),
+	    // km/h values means: pace between 3min/100m - 1:20min/100
+	    SportProfile::SWIMMING => array('min' => 2, 'max' => 4.5),
+	    // 10 - 32 km/h
+	    SportProfile::CYCLING => array('min' => 10, 'max' => 32),
 	);
 
 	/** @var string */

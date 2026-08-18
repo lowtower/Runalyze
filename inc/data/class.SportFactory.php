@@ -39,17 +39,17 @@ class SportFactory {
 	 */
 	private static function defaultArray() {
 		return array(
-			'name' => '?',
-			'img' => '',
-			'short' => 0,
-			'kcal' => 600,
-			'HFavg' => 140,
-			'distances' => 0,
-			'speed' => \Runalyze\Metrics\Velocity\Unit\PaceEnum::KILOMETER_PER_HOUR,
-			'power'	=> 0,
-			'outside' => 0,
-            'is_main' => 0,
-            'internal_sport_id' => null
+		    'name' => '?',
+		    'img' => '',
+		    'short' => 0,
+		    'kcal' => 600,
+		    'HFavg' => 140,
+		    'distances' => 0,
+		    'speed' => \Runalyze\Metrics\Velocity\Unit\PaceEnum::KILOMETER_PER_HOUR,
+		    'power'	=> 0,
+		    'outside' => 0,
+		    'is_main' => 0,
+		    'internal_sport_id' => null
 		);
 	}
 

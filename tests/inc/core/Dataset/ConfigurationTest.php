@@ -9,7 +9,6 @@ use PDO;
  */
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-
 	/** @var \PDO */
 	protected $PDO;
 

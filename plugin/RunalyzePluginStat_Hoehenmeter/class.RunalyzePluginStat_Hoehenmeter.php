@@ -190,8 +190,8 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 
 		foreach ($result as $dat) {
 			$this->ElevationData[$dat['year']][$dat['month']] = array(
-				'elevation' => $dat['elevation'],
-				'km' => $dat['km'],
+			    'elevation' => $dat['elevation'],
+			    'km' => $dat['km'],
 			);
 		}
 	}

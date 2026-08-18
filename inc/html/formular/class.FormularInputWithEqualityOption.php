@@ -13,13 +13,13 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 * @var array
 	 */
 	protected $Options = array(
-		'eq'	=> '=',
-		'gt'	=> '&gt;',
-		'ge'	=> '&ge;',
-		'le'	=> '&le;',
-		'lt'	=> '&lt;',
-		'ne'	=> '&ne;',
-		'like'	=> '&asymp;'
+	    'eq'	=> '=',
+	    'gt'	=> '&gt;',
+	    'ge'	=> '&ge;',
+	    'le'	=> '&le;',
+	    'lt'	=> '&lt;',
+	    'ne'	=> '&ne;',
+	    'like'	=> '&asymp;'
 	);
 
 	/**
@@ -34,9 +34,9 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 */
 	public function setStringOptions() {
 		$this->Options = array(
-			'eq'	=> '=',
-			'ne'	=> '&ne;',
-			'like'	=> '&asymp;'
+		    'eq'	=> '=',
+		    'ne'	=> '&ne;',
+		    'like'	=> '&asymp;'
 		);
 	}
 

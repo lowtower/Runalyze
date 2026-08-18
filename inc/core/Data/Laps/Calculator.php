@@ -290,13 +290,13 @@ class Calculator
 	 */
 	protected function addTrackdataAveragesToDataFrom(Trackdata\Entity $Object, array &$AdditionalData) {
 		$KeysToAverage = array(
-			Activity\Entity::CADENCE => Trackdata\Entity::CADENCE,
-			Activity\Entity::STRIDE_LENGTH => Trackdata\Entity::STRIDE_LENGTH,
-			Activity\Entity::GROUNDCONTACT => Trackdata\Entity::GROUNDCONTACT,
-			Activity\Entity::GROUNDCONTACT_BALANCE => Trackdata\Entity::GROUNDCONTACT_BALANCE,
-			Activity\Entity::VERTICAL_OSCILLATION => Trackdata\Entity::VERTICAL_OSCILLATION,
-			Activity\Entity::VERTICAL_RATIO => Trackdata\Entity::VERTICAL_RATIO,
-			Activity\Entity::POWER => Trackdata\Entity::POWER
+		    Activity\Entity::CADENCE => Trackdata\Entity::CADENCE,
+		    Activity\Entity::STRIDE_LENGTH => Trackdata\Entity::STRIDE_LENGTH,
+		    Activity\Entity::GROUNDCONTACT => Trackdata\Entity::GROUNDCONTACT,
+		    Activity\Entity::GROUNDCONTACT_BALANCE => Trackdata\Entity::GROUNDCONTACT_BALANCE,
+		    Activity\Entity::VERTICAL_OSCILLATION => Trackdata\Entity::VERTICAL_OSCILLATION,
+		    Activity\Entity::VERTICAL_RATIO => Trackdata\Entity::VERTICAL_RATIO,
+		    Activity\Entity::POWER => Trackdata\Entity::POWER
 		);
 
 		$NewLoop = new Trackdata\Loop($Object);
@@ -316,9 +316,9 @@ class Calculator
 	 */
 	protected function addSwimmdataAveragesToDataFrom(Swimdata\Entity $Object, array &$AdditionalData) {
 		$KeysToAverage = array(
-			Swimdata\Entity::STROKE => Swimdata\Entity::STROKE,
-			Swimdata\Entity::SWOLF => Swimdata\Entity::SWOLF,
-			Swimdata\Entity::SWOLFCYCLES => Swimdata\Entity::SWOLFCYCLES
+		    Swimdata\Entity::STROKE => Swimdata\Entity::STROKE,
+		    Swimdata\Entity::SWOLF => Swimdata\Entity::SWOLF,
+		    Swimdata\Entity::SWOLFCYCLES => Swimdata\Entity::SWOLFCYCLES
 		);
 
 		$NewLoop = new Swimdata\Loop($Object);

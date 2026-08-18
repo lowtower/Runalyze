@@ -13,7 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class MailingCommand extends ContainerAwareCommand
 {
-
     /** @var string */
     protected $customMailDirectory = '/mail/custom/';
 

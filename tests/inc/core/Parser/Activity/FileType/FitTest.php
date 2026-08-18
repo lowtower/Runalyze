@@ -124,12 +124,12 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals(932, $this->Container->FitDetails->RecoveryTime);
 
         $this->checkExpectedPauseData([
-			 [267, 14, 144, 130],
-			 [465, 53, 151, 104],
-			 [1491, 73, 145, 106],
-			 [2575, 35, 139, 111],
-			 [2804, 51, 136, 100],
-			 [2970, 9, 150, 144]
+            [267, 14, 144, 130],
+            [465, 53, 151, 104],
+            [1491, 73, 145, 106],
+            [2575, 35, 139, 111],
+            [2804, 51, 136, 100],
+            [2970, 9, 150, 144]
         ], 1);
 	}
 
@@ -187,7 +187,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(60, end($this->Container->ContinuousData->Time), 2);
 
         $this->checkExpectedPauseData([
-			 [41, 69, 100, 69]
+            [41, 69, 100, 69]
         ]);
 	}
 

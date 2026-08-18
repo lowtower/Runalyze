@@ -55,10 +55,10 @@ class Entity extends Model\EntityWithID {
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::NAME,
-			self::INPUT,
-			self::MAX_KM,
-			self::MAX_TIME
+		    self::NAME,
+		    self::INPUT,
+		    self::MAX_KM,
+		    self::MAX_TIME
 		);
 	}
 
@@ -84,9 +84,9 @@ class Entity extends Model\EntityWithID {
 	 */
 	protected function ensureAllNumericValues() {
 		$this->ensureNumericValue(array(
-			self::INPUT,
-			self::MAX_KM,
-			self::MAX_TIME
+		    self::INPUT,
+		    self::MAX_KM,
+		    self::MAX_TIME
 		));
 	}
 

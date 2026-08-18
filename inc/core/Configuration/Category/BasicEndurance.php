@@ -100,25 +100,25 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	public function Fieldset() {
 		$Fieldset = new Fieldset( __('Marathon shape') );
 		$Fieldset->addHandle( $this->handle('BE_MIN_KM_FOR_LONGJOG'), array(
-			'label'		=> __('Minimal distance for longjogs'),
-			'tooltip'	=> __('Every run above this distance will be rated.'),
-			'unit'		=> FormularUnit::$KM
+		    'label'		=> __('Minimal distance for longjogs'),
+		    'tooltip'	=> __('Every run above this distance will be rated.'),
+		    'unit'		=> FormularUnit::$KM
 		));
 		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_LONGJOGS'), array(
-			'label'		=> __('Days for longjogs'),
-			'tooltip'	=> __('Number of days to look at for longjog goal.')
+		    'label'		=> __('Days for longjogs'),
+		    'tooltip'	=> __('Number of days to look at for longjog goal.')
 		));
 		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_WEEK_KM'), array(
-			'label'		=> __('Days for week kilometer'),
-			'tooltip'	=> __('Number of days to look at for weekly kilometer goal.')
+		    'label'		=> __('Days for week kilometer'),
+		    'tooltip'	=> __('Number of days to look at for weekly kilometer goal.')
 		));
 		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_WEEK_KM_MIN'), array(
-			'label'		=> __('Days for week kilometer (minimum)'),
-			'tooltip'	=> __('This value will be used if not enough data is available.')
+		    'label'		=> __('Days for week kilometer (minimum)'),
+		    'tooltip'	=> __('This value will be used if not enough data is available.')
 		));
 		$Fieldset->addHandle( $this->handle('BE_PERCENTAGE_WEEK_KM'), array(
-			'label'		=> __('Factor for week kilometers'),
-			'tooltip'	=> __('Percentage as value between 0.00 and 1.00.')
+		    'label'		=> __('Factor for week kilometers'),
+		    'tooltip'	=> __('Percentage as value between 0.00 and 1.00.')
 		));
 
 		return $Fieldset;

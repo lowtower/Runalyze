@@ -34,8 +34,8 @@ final class UserRole extends AbstractEnum
 	private static function roleNamesArray()
 	{
 		return [
-			self::ROLE_USER => 'ROLE_USER',
-			self::ROLE_ADMIN => 'ROLE_ADMIN',
-        ];
+		    self::ROLE_USER => 'ROLE_USER',
+		    self::ROLE_ADMIN => 'ROLE_ADMIN',
+		];
 	}
 }

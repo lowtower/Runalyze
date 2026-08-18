@@ -15,7 +15,6 @@ use Runalyze\Util\LocalTime;
  */
 class PanelController extends Controller
 {
-
     /**
      * @Route("/sport", name="internal-sport-panel")
      * @Security("has_role('ROLE_USER')")

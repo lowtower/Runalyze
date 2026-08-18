@@ -64,9 +64,9 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(array(100,   0,   0), $Fetch->fetch());
 
 		$this->assertEquals(array(
-			1 => array(100, 100, 50),
-			2 => array(100, 100, 50),
-			3 => array(100, 50, 100)
+		    1 => array(100, 100, 50),
+		    2 => array(100, 100, 50),
+		    3 => array(100, 50, 100)
 		), $Job->results());
 	}
 }

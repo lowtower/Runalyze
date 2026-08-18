@@ -54,44 +54,44 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	public function testDuplicates()
 	{
 	    $this->assertEquals([
-	    		'1234567890' => false,
-	    		'1448797800' => true,
-	    		'1448797980' => false,
-	    		'1450823800' => true,
-	    		'9876543210' => false
-	    	], $this->Finder->checkForDuplicates([
-	    		1234567890,
-	    		1448797800,
-	    		1448797980,
-	    		1450823800,
-	    		9876543210
-	    	])
+	        '1234567890' => false,
+	        '1448797800' => true,
+	        '1448797980' => false,
+	        '1450823800' => true,
+	        '9876543210' => false
+	    ], $this->Finder->checkForDuplicates([
+	        1234567890,
+	        1448797800,
+	        1448797980,
+	        1450823800,
+	        9876543210
+	    ])
 	    );
 	}
 
 	public function testDuplicatesWithNull()
 	{
 		$this->assertEquals([
-				null => false,
-				'1234567890' => false,
-				'1448797800' => true
-			], $this->Finder->checkForDuplicates([
-				1234567890,
-				null,
-				1448797800,
-				null
-			])
+		    null => false,
+		    '1234567890' => false,
+		    '1448797800' => true
+		], $this->Finder->checkForDuplicates([
+		    1234567890,
+		    null,
+		    1448797800,
+		    null
+		])
 		);
 	}
 
 	public function testDuplicatesWithOnlyNull()
 	{
 		$this->assertEquals([
-				null => false
-			], $this->Finder->checkForDuplicates([
-				null,
-				null
-			])
+		    null => false
+		], $this->Finder->checkForDuplicates([
+		    null,
+		    null
+		])
 		);
 	}
 
@@ -99,9 +99,9 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->Finder->checkForDuplicates([
-	    	1448797800,
-	    	'foobar',
-	    	1234567890
-	    ]);
+		    1448797800,
+		    'foobar',
+		    1234567890
+		]);
 	}
 }

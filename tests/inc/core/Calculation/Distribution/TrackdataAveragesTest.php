@@ -6,7 +6,6 @@ use Runalyze\Model\Trackdata;
 
 class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testNoTimeData()
     {
         $this->expectException(\InvalidArgumentException::class);

@@ -6,7 +6,6 @@ use Runalyze\Sports\Performance\Monotony;
 
 class MonotonyTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testEmptyArray()
     {
         $monotony = new Monotony([]);

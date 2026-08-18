@@ -18,7 +18,7 @@ return RectorConfig::configure()
     ->withSets([
         SetList::PHP_74,
     ])
-    ->withTypeCoverageLevel(4)
-    ->withDeadCodeLevel(4)
-    ->withCodeQualityLevel(4)
+    ->withTypeCoverageLevel(5)
+    ->withDeadCodeLevel(5)
+    ->withCodeQualityLevel(5)
 ;

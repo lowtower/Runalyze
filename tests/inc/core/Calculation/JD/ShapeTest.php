@@ -24,7 +24,6 @@ class CategoryFake extends Category\VO2max {
  * @group requiresSqlite
  */
 class ShapeTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var \PDO
 	 */

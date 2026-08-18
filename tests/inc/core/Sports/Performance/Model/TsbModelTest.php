@@ -125,10 +125,10 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $model->calculate();
 
         $this->assertEquals([
-                AbstractModel::FITNESS => [5, 9, 13, 17, 21, 25, 28, 27, 26, 25, 23, 22, 21, 20],
-                AbstractModel::FATIGUE => [25, 44, 58, 68, 76, 82, 87, 65, 49, 37, 27, 21, 15, 12],
-                AbstractModel::PERFORMANCE => [-20, -35, -44, -51, -55, -57, -58, -38, -23, -12, -4, 2, 6, 9],
-            ], array_map(function($a) {
+            AbstractModel::FITNESS => [5, 9, 13, 17, 21, 25, 28, 27, 26, 25, 23, 22, 21, 20],
+            AbstractModel::FATIGUE => [25, 44, 58, 68, 76, 82, 87, 65, 49, 37, 27, 21, 15, 12],
+            AbstractModel::PERFORMANCE => [-20, -35, -44, -51, -55, -57, -58, -38, -23, -12, -4, 2, 6, 9],
+        ], array_map(function($a) {
                 return array_map(function($v) { return (int)round($v); }, $a);
             }, $model->getArrays())
         );

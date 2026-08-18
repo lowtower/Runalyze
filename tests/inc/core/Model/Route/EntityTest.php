@@ -3,20 +3,19 @@
 namespace Runalyze\Model\Route;
 
 class EntityTest extends \PHPUnit\Framework\TestCase {
-
 	protected function simpleObject() {
 		return new Entity(array(
-			Entity::NAME => 'Test route',
-			Entity::CITIES => 'City A - City B',
-			Entity::DISTANCE => 3.14,
-			Entity::ELEVATION => 20,
-			Entity::ELEVATION_UP => 20,
-			Entity::ELEVATION_DOWN => 15,
-			Entity::GEOHASHES => array('u1xjhpfe7yvs', 'u1xjhzdtjx62'),
-			Entity::ELEVATIONS_ORIGINAL => array(195, 210),
-			Entity::ELEVATIONS_CORRECTED => array(200, 220),
-			Entity::ELEVATIONS_SOURCE => 'unknown',
-			Entity::IN_ROUTENET => 1
+		    Entity::NAME => 'Test route',
+		    Entity::CITIES => 'City A - City B',
+		    Entity::DISTANCE => 3.14,
+		    Entity::ELEVATION => 20,
+		    Entity::ELEVATION_UP => 20,
+		    Entity::ELEVATION_DOWN => 15,
+		    Entity::GEOHASHES => array('u1xjhpfe7yvs', 'u1xjhzdtjx62'),
+		    Entity::ELEVATIONS_ORIGINAL => array(195, 210),
+		    Entity::ELEVATIONS_CORRECTED => array(200, 220),
+		    Entity::ELEVATIONS_SOURCE => 'unknown',
+		    Entity::IN_ROUTENET => 1
 		));
 	}
 
@@ -62,9 +61,9 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 	 */
 	public function testPossibilityOfTooLargeCorrectedElevations() {
 		$Object = new Entity(array(
-			Entity::GEOHASHES => array('u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxfdx0cw', 'u1xjhxffrhw4', 'u1xjhxg4r0du', 'u1xjhxg6p6bq', 'u1xjhxgdn0fk', 'u1xjhxgcvgh0', 'u1xjhxu1tytn', 'u1xjhxu3s0j8'),
-			Entity::ELEVATIONS_ORIGINAL => array(240, 238, 240, 238, 238, 237, 236, 237, 240, 248, 259),
-			Entity::ELEVATIONS_CORRECTED => array(240, 240, 240, 240, 240, 237, 237, 237, 237, 237, 259, 259, 259, 259, 259)
+		    Entity::GEOHASHES => array('u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxfdx0cw', 'u1xjhxffrhw4', 'u1xjhxg4r0du', 'u1xjhxg6p6bq', 'u1xjhxgdn0fk', 'u1xjhxgcvgh0', 'u1xjhxu1tytn', 'u1xjhxu3s0j8'),
+		    Entity::ELEVATIONS_ORIGINAL => array(240, 238, 240, 238, 238, 237, 236, 237, 240, 248, 259),
+		    Entity::ELEVATIONS_CORRECTED => array(240, 240, 240, 240, 240, 237, 237, 237, 237, 237, 259, 259, 259, 259, 259)
 		));
 
 		$this->assertEquals(11, $Object->num());
@@ -86,8 +85,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testThatSetLatitudesLongitudesMustHaveExpectedSize() {
 		$this->expectException(\RuntimeException::class);
 		$Object = new Entity(array(
-			Entity::ELEVATIONS_ORIGINAL => array(240, 238, 240),
-			Entity::ELEVATIONS_CORRECTED => array(240, 240, 240)
+		    Entity::ELEVATIONS_ORIGINAL => array(240, 238, 240),
+		    Entity::ELEVATIONS_CORRECTED => array(240, 240, 240)
 		));
 		$Object->setLatitudesLongitudes(array(47.7, 47.8, 47.7, 47.8), array(7.8, 7.7, 7.8, 7.7));
 		$Object->forceToSetMinMaxFromGeohashes();

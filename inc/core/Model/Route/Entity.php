@@ -220,23 +220,23 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 */
 	public static function allProperties() {
 		return array(
-			self::NAME,
-			self::CITIES,
-			self::DISTANCE,
-			self::ELEVATION,
-			self::ELEVATION_UP,
-			self::ELEVATION_DOWN,
-			self::GEOHASHES,
-			self::ELEVATIONS_ORIGINAL,
-			self::ELEVATIONS_CORRECTED,
-			self::ELEVATIONS_SOURCE,
-			self::ALTITUDE_BAROMETRIC,
-			self::STARTPOINT,
-			self::ENDPOINT,
-			self::MIN,
-			self::MAX,
-			self::IN_ROUTENET,
-            self::LOCK
+		    self::NAME,
+		    self::CITIES,
+		    self::DISTANCE,
+		    self::ELEVATION,
+		    self::ELEVATION_UP,
+		    self::ELEVATION_DOWN,
+		    self::GEOHASHES,
+		    self::ELEVATIONS_ORIGINAL,
+		    self::ELEVATIONS_CORRECTED,
+		    self::ELEVATIONS_SOURCE,
+		    self::ALTITUDE_BAROMETRIC,
+		    self::STARTPOINT,
+		    self::ENDPOINT,
+		    self::MIN,
+		    self::MAX,
+		    self::IN_ROUTENET,
+		    self::LOCK
 		);
 	}
 
@@ -246,23 +246,23 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::NAME,
-			self::CITIES,
-			self::DISTANCE,
-			self::ELEVATION,
-			self::ELEVATION_UP,
-			self::ELEVATION_DOWN,
-			self::GEOHASHES,
-			self::ELEVATIONS_ORIGINAL,
-			self::ELEVATIONS_CORRECTED,
-			self::ELEVATIONS_SOURCE,
-			self::ALTITUDE_BAROMETRIC,
-			self::STARTPOINT,
-			self::ENDPOINT,
-			self::MIN,
-			self::MAX,
-			self::IN_ROUTENET
-        );
+		    self::NAME,
+		    self::CITIES,
+		    self::DISTANCE,
+		    self::ELEVATION,
+		    self::ELEVATION_UP,
+		    self::ELEVATION_DOWN,
+		    self::GEOHASHES,
+		    self::ELEVATIONS_ORIGINAL,
+		    self::ELEVATIONS_CORRECTED,
+		    self::ELEVATIONS_SOURCE,
+		    self::ALTITUDE_BAROMETRIC,
+		    self::STARTPOINT,
+		    self::ENDPOINT,
+		    self::MIN,
+		    self::MAX,
+		    self::IN_ROUTENET
+		);
 	}
 
 	/**
@@ -328,12 +328,12 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 */
 	protected function ensureAllNumericValues() {
 		$this->ensureNumericValue(array(
-			self::DISTANCE,
-			self::ELEVATION,
-			self::ELEVATION_UP,
-			self::ELEVATION_DOWN,
-			self::ALTITUDE_BAROMETRIC,
-			self::IN_ROUTENET
+		    self::DISTANCE,
+		    self::ELEVATION,
+		    self::ELEVATION_UP,
+		    self::ELEVATION_DOWN,
+		    self::ALTITUDE_BAROMETRIC,
+		    self::IN_ROUTENET
 		));
 	}
 

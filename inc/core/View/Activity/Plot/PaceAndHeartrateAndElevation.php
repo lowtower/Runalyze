@@ -30,10 +30,10 @@ class PaceAndHeartrateAndElevation extends ActivityPlot {
 		$Gradient = new Series\Gradient($context);
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = [
-			new Series\Elevation($context),
-			$Gradient,
-			new Series\Heartrate($context),
-			new Series\Pace($context)
+		    new Series\Elevation($context),
+		    $Gradient,
+		    new Series\Heartrate($context),
+		    new Series\Pace($context)
 		];
 
 		$this->addMultipleSeries($allSeries);

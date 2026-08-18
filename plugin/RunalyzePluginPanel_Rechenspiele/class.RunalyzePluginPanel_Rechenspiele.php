@@ -142,12 +142,12 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$CTLabsolute = $TSBmodel->fitnessAt(0);
 		$TSBabsolute = $TSBmodel->performanceAt(0);
 		$TrimpValues = array(
-			'ATL'		=> round(100*$ATLabsolute/$ATLmax),
-			'ATLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$ATLabsolute/$ATLmax).'&nbsp;&#37;' : $ATLabsolute,
-			'CTL'		=> round(100*$CTLabsolute/$CTLmax),
-			'CTLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$CTLabsolute/$CTLmax).'&nbsp;&#37;' : $CTLabsolute,
-			'TSB'		=> round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute,1)),
-			'TSBstring'	=> Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute))).'&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
+		    'ATL'		=> round(100*$ATLabsolute/$ATLmax),
+		    'ATLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$ATLabsolute/$ATLmax).'&nbsp;&#37;' : $ATLabsolute,
+		    'CTL'		=> round(100*$CTLabsolute/$CTLmax),
+		    'CTLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$CTLabsolute/$CTLmax).'&nbsp;&#37;' : $CTLabsolute,
+		    'TSB'		=> round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute,1)),
+		    'TSBstring'	=> Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute))).'&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
 		);
 		$TSBisPositive = $TrimpValues['TSB'] > 0;
 
@@ -155,114 +155,114 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$restDays = ceil($TSBmodel->restDays($CTLabsolute, $ATLabsolute));
 
 		$Values = array(
-			array(
-				'show'	=> $this->Configuration()->value('show_vo2max'),
-				'bars'	=> array(
-					new ProgressBarSingle(2*round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE)
-				),
-				'value'	=> number_format($EffectiveVO2max, 2).(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
-                'title'	=> __('Effective VO<sub>2</sub>max'),
-				'glossary'	=> 'vo2max'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_basicendurance'),
-				'bars'	=> array(
-					new ProgressBarSingle(BasicEndurance::getConst(), ProgressBarSingle::$COLOR_BLUE)
-				),
-				'value'	=> BasicEndurance::getConst().'&nbsp;&#37;'.(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
-                'title'	=> __('Marathon shape'),
-				'glossary'	=> 'marathon-shape'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues'),
-				'bars'	=> array(
-					new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE)
-				),
-				'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $ATLabsolute, $ATLmax, $TrimpValues['ATL']),
-				'value'	=> $TrimpValues['ATLstring'],
-				'title'	=> __('Fatigue'),
-				'small'	=> '(<abbr title="'.__('Acute Training Load').'">ATL</abbr>)',
-				'glossary'	=> 'atl'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues'),
-				'bars'	=> array(
-					new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE)
-				),
-				'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $CTLabsolute, $CTLmax, $TrimpValues['CTL']),
-				'value'	=> $TrimpValues['CTLstring'],
-				'title'	=> __('Fitness&nbsp;level'),
-                'small'	=> '(<abbr title="'.__('Chronic Training Load').'">CTL</abbr>)',
-				'glossary'	=> 'ctl'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues'),
-				'bars'	=> array(
-					new ProgressBarSingle(abs($TrimpValues['TSB'])/2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left'))
-				),
-				'bar-tooltip'	=> 'TSB = CTL - ATL<br>'.sprintf( __('absolute: %s<br>as percentage: %s &#37;'), $CTLabsolute.' - '.$ATLabsolute.' = '.sprintf('%+d', $TSBabsolute), $TrimpValues['TSB']),
-				'value'	=> $TrimpValues['TSBstring'],
-				'title'	=> __('Stress Balance'),
-                'small'	=> '(<abbr title="'.__('Training Stress Balance').'">TSB</abbr>)',
-                'glossary'	=> 'tsb'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues') && !$TSBisPositive,
-				'bars'	=> array(
-					new ProgressBarSingle(100*$restDays/7, ProgressBarSingle::$COLOR_BLUE)
-				),
-				'value'	=> $restDays,
-				'title'	=> __('Rest days'),
-				'tooltip'	=> __('Rest days needed to reach TSB = 0')
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues') && $TSBisPositive,
-				'bars'	=> array(
-					new ProgressBarSingle(100*$maxTrimpToBalanced/1000, ProgressBarSingle::$COLOR_BLUE)
-				),
-				'value'	=> $maxTrimpToBalanced,
-				'title'	=> __('Easy TRIMP'),
-				'glossary'	=> 'easy-trimp'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
-				'bars'	=> array(
-					new ProgressBarSingle(
-							$Monotony->valueAsPercentage(),
-							(
-								$Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
-								: (
-									$Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
-								: ProgressBarSingle::$COLOR_GREEN
-								)
-						)
-					)
-				),
-				'bar-tooltip'	=> 'Monotony = avg(Trimp)/stddev(Trimp)',
-				'value'	=> number_format($Monotony->value(), 2),
-				'title'	=> __('Monotony'),
-				'tooltip'	=> __('Monotony<br><small>Monotony of your last seven days.<br>Values below 1.5 are preferable.</small>'),
-                'glossary'	=> 'monotony'
-			),
-			array(
-				'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
-				'bars'	=> array(
-					new ProgressBarSingle(
-						$Monotony->trainingStrainAsPercentage(),
-						(
-							$Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
-							: (
-								$Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
-							)
-						)
-					)
-				),
-				'bar-tooltip'	=> 'Training strain = sum(Trimp)*Monotony',
-				'value'	=> round($Monotony->trainingStrain()),
-				'title'	=> __('Training strain'),
-				'tooltip'	=> __('Training strain<br><small>of your last seven days</small>'),
-                'glossary'	=> 'training-strain'
-			)
+		    array(
+		        'show'	=> $this->Configuration()->value('show_vo2max'),
+		        'bars'	=> array(
+		            new ProgressBarSingle(2*round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'value'	=> number_format($EffectiveVO2max, 2).(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
+		        'title'	=> __('Effective VO<sub>2</sub>max'),
+		        'glossary'	=> 'vo2max'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_basicendurance'),
+		        'bars'	=> array(
+		            new ProgressBarSingle(BasicEndurance::getConst(), ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'value'	=> BasicEndurance::getConst().'&nbsp;&#37;'.(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
+		        'title'	=> __('Marathon shape'),
+		        'glossary'	=> 'marathon-shape'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'bars'	=> array(
+		            new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $ATLabsolute, $ATLmax, $TrimpValues['ATL']),
+		        'value'	=> $TrimpValues['ATLstring'],
+		        'title'	=> __('Fatigue'),
+		        'small'	=> '(<abbr title="'.__('Acute Training Load').'">ATL</abbr>)',
+		        'glossary'	=> 'atl'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'bars'	=> array(
+		            new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $CTLabsolute, $CTLmax, $TrimpValues['CTL']),
+		        'value'	=> $TrimpValues['CTLstring'],
+		        'title'	=> __('Fitness&nbsp;level'),
+		        'small'	=> '(<abbr title="'.__('Chronic Training Load').'">CTL</abbr>)',
+		        'glossary'	=> 'ctl'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'bars'	=> array(
+		            new ProgressBarSingle(abs($TrimpValues['TSB'])/2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left'))
+		        ),
+		        'bar-tooltip'	=> 'TSB = CTL - ATL<br>'.sprintf( __('absolute: %s<br>as percentage: %s &#37;'), $CTLabsolute.' - '.$ATLabsolute.' = '.sprintf('%+d', $TSBabsolute), $TrimpValues['TSB']),
+		        'value'	=> $TrimpValues['TSBstring'],
+		        'title'	=> __('Stress Balance'),
+		        'small'	=> '(<abbr title="'.__('Training Stress Balance').'">TSB</abbr>)',
+		        'glossary'	=> 'tsb'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues') && !$TSBisPositive,
+		        'bars'	=> array(
+		            new ProgressBarSingle(100*$restDays/7, ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'value'	=> $restDays,
+		        'title'	=> __('Rest days'),
+		        'tooltip'	=> __('Rest days needed to reach TSB = 0')
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues') && $TSBisPositive,
+		        'bars'	=> array(
+		            new ProgressBarSingle(100*$maxTrimpToBalanced/1000, ProgressBarSingle::$COLOR_BLUE)
+		        ),
+		        'value'	=> $maxTrimpToBalanced,
+		        'title'	=> __('Easy TRIMP'),
+		        'glossary'	=> 'easy-trimp'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
+		        'bars'	=> array(
+		            new ProgressBarSingle(
+		            		$Monotony->valueAsPercentage(),
+		            		(
+		            			$Monotony->value() > Monotony::CRITICAL ? ProgressBarSingle::$COLOR_RED
+		            			: (
+		            				$Monotony->value() > Monotony::WARNING ? ProgressBarSingle::$COLOR_ORANGE
+		            			: ProgressBarSingle::$COLOR_GREEN
+		            			)
+		            	)
+		            )
+		        ),
+		        'bar-tooltip'	=> 'Monotony = avg(Trimp)/stddev(Trimp)',
+		        'value'	=> number_format($Monotony->value(), 2),
+		        'title'	=> __('Monotony'),
+		        'tooltip'	=> __('Monotony<br><small>Monotony of your last seven days.<br>Values below 1.5 are preferable.</small>'),
+		        'glossary'	=> 'monotony'
+		    ),
+		    array(
+		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
+		        'bars'	=> array(
+		            new ProgressBarSingle(
+		            	$Monotony->trainingStrainAsPercentage(),
+		            	(
+		            		$Monotony->trainingStrainAsPercentage() >= 75 ? ProgressBarSingle::$COLOR_RED
+		            		: (
+		            			$Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
+		            		)
+		            	)
+		            )
+		        ),
+		        'bar-tooltip'	=> 'Training strain = sum(Trimp)*Monotony',
+		        'value'	=> round($Monotony->trainingStrain()),
+		        'title'	=> __('Training strain'),
+		        'tooltip'	=> __('Training strain<br><small>of your last seven days</small>'),
+		        'glossary'	=> 'training-strain'
+		    )
 		);
 
 		$this->showTableForValues($Values);
@@ -322,9 +322,9 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$ATL         = $TSBmodel->fatigueAt(0);
 		$CTL         = $TSBmodel->fitnessAt(0);
 		$TrimpValues = array(
-			'ATL'	=> round(100*$ATL/$maxATL),
-			'CTL'	=> round(100*$CTL/$maxCTL),
-			'TSB'	=> $TSBmodel->performanceAt(0)
+		    'ATL'	=> round(100*$ATL/$maxATL),
+		    'CTL'	=> round(100*$CTL/$maxCTL),
+		    'TSB'	=> $TSBmodel->performanceAt(0)
 		);
 
 		$Table = '

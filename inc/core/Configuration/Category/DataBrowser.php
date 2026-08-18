@@ -96,21 +96,21 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset( __('Calendar view') );
 
 		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), array(
-			'label'		=> __('Calendar: mode'),
-			'tooltip'	=> __('Default mode for the calendar')
+		    'label'		=> __('Calendar: mode'),
+		    'tooltip'	=> __('Default mode for the calendar')
 		));
 
 		$Fieldset->addHandle( $this->handle('DB_SHOW_DATASET_LABELS'), array(
-			'label'		=> __('Calendar: show labels for dataset')
+		    'label'		=> __('Calendar: show labels for dataset')
 		));
 
 		$Fieldset->addHandle( $this->handle('DB_SHOW_ACTIVE_DAYS_ONLY'), array(
-			'label'		=> __('Calendar: show days with activities only')
+		    'label'		=> __('Calendar: show days with activities only')
 		));
 
 		$Fieldset->addHandle( $this->handle('DB_SHOW_CREATELINK_FOR_DAYS'), array(
-			'label'		=> __('Calendar: create button'),
-			'tooltip'	=> __('Add a link for every day to create a new activity.')
+		    'label'		=> __('Calendar: create button'),
+		    'tooltip'	=> __('Add a link for every day to create a new activity.')
 		));
 
         $Fieldset->addHandle( $this->handle('DB_REVERSE_MODE'), array(

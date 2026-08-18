@@ -57,27 +57,27 @@ abstract class AbstractBackup
 		// - equipment_Type before equipment_sport before equipment before activity_equipment
 		// - tag before activity_tag
 		$Tables = array(
-			$this->Prefix.'account',
-			$this->Prefix.'conf',
-			$this->Prefix.'dataset',
-			$this->Prefix.'plugin',
-			$this->Prefix.'plugin_conf',
-			$this->Prefix.'sport',
-			$this->Prefix.'type',
-			$this->Prefix.'user',
-			$this->Prefix.'route',
-			$this->Prefix.'training',
-			$this->Prefix.'trackdata',
-			$this->Prefix.'swimdata',
-			$this->Prefix.'hrv',
-			$this->Prefix.'equipment_type',
-			$this->Prefix.'equipment_sport',
-			$this->Prefix.'equipment',
-			$this->Prefix.'equipment_spor',
-			$this->Prefix.'activity_equipment',
-			$this->Prefix.'tag',
-			$this->Prefix.'activity_tag',
-			$this->Prefix.'raceresult'
+		    $this->Prefix.'account',
+		    $this->Prefix.'conf',
+		    $this->Prefix.'dataset',
+		    $this->Prefix.'plugin',
+		    $this->Prefix.'plugin_conf',
+		    $this->Prefix.'sport',
+		    $this->Prefix.'type',
+		    $this->Prefix.'user',
+		    $this->Prefix.'route',
+		    $this->Prefix.'training',
+		    $this->Prefix.'trackdata',
+		    $this->Prefix.'swimdata',
+		    $this->Prefix.'hrv',
+		    $this->Prefix.'equipment_type',
+		    $this->Prefix.'equipment_sport',
+		    $this->Prefix.'equipment',
+		    $this->Prefix.'equipment_spor',
+		    $this->Prefix.'activity_equipment',
+		    $this->Prefix.'tag',
+		    $this->Prefix.'activity_tag',
+		    $this->Prefix.'raceresult'
 		);
 
 		foreach ($Tables as $TableName) {

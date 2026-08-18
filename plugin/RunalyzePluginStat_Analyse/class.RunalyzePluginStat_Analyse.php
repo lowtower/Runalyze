@@ -17,7 +17,6 @@ $PLUGINKEY = 'RunalyzePluginStat_Analyse';
  * @package Runalyze\Plugins\Stats
  */
 class RunalyzePluginStat_Analyse extends PluginStat {
-
 	/** @var string */
 	protected $WhereTime = '';
 
@@ -47,12 +46,12 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 * @var array
 	 */
 	protected $EmptyData = array(
-			'all_sum_km'	=> 0,
-			'all_sum_s'		=> 0,
-			'timer_sum_km'	=> array(),
-			'timer_sum_s'	=> array(),
-			'id_sum_km'		=> array(),
-			'id_sum_s'		=> array());
+	    'all_sum_km'	=> 0,
+	    'all_sum_s'		=> 0,
+	    'timer_sum_km'	=> array(),
+	    'timer_sum_s'	=> array(),
+	    'id_sum_km'		=> array(),
+	    'id_sum_s'		=> array());
 
 	/**
 	 * Sport
@@ -127,8 +126,8 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 
 	private function getAnalysisType() {
 		$types = ['' => __('in percent'),
-			'km' => __('by distance'),
-			's' => __('by time')];
+		    'km' => __('by distance'),
+		    's' => __('by time')];
 		return $types[$this->dat];
 	}
 
@@ -345,9 +344,9 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 				$type_data[$dat['typeid']] = array();
 
 			$type_data[$dat['typeid']][$dat['timer']] = array(
-				'num'		=> $dat['num'],
-				'distance'	=> $dat['distance'],
-				's'			=> $dat['s']
+			    'num'		=> $dat['num'],
+			    'distance'	=> $dat['distance'],
+			    's'			=> $dat['s']
 			);
 
 			$this->setSumData($type_data, $dat);
@@ -358,16 +357,16 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		if (!empty($result)) {
 			if (isset($type_data['id_sum_num'][0])) {
 				$type_foreach[] = array(
-					'name' => '<span style="font-weight:normal;">'.__('without').'</span>',
-					'id' => 0
+				    'name' => '<span style="font-weight:normal;">'.__('without').'</span>',
+				    'id' => 0
 				);
 			}
 
 			$types = DB::getInstance()->query('SELECT `id`, `name`, `abbr` FROM `'.PREFIX.'type` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`="'.$this->sportid.'" ORDER BY `hr_avg` ASC')->fetchAll();
 			foreach ($types as $type) {
 				$type_foreach[] = array(
-					'name' => '<span title="'.$type['name'].'">'.($type['abbr'] != '' ? $type['abbr'] : $type['name']).'</span>',
-					'id' => $type['id']
+				    'name' => '<span title="'.$type['name'].'">'.($type['abbr'] != '' ? $type['abbr'] : $type['name']).'</span>',
+				    'id' => $type['id']
 				);
 			}
 		}
@@ -496,8 +495,8 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 				}
 
 				$pulse_foreach[] = array(
-					'name' => $from.' <small>'.__('to').'</small> '.$to,
-					'id' => $pulse
+				    'name' => $from.' <small>'.__('to').'</small> '.$to,
+				    'id' => $pulse
 				);
 			}
 		}

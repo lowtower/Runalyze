@@ -141,8 +141,8 @@ class General extends \Runalyze\Configuration\Category {
 	 */
 	protected function createMainSport() {
 		$this->createHandle('MAINSPORT', new SelectRow(1, array(
-			'table'			=> 'sport',
-			'column'		=> 'name'
+		    'table'			=> 'sport',
+		    'column'		=> 'name'
 		)));
 	}
 
@@ -159,8 +159,8 @@ class General extends \Runalyze\Configuration\Category {
 	 */
 	protected function createRunningSport() {
 		$this->createHandle('RUNNINGSPORT', new SelectRow(1, array(
-			'table'			=> 'sport',
-			'column'		=> 'name'
+		    'table'			=> 'sport',
+		    'column'		=> 'name'
 		)));
 	}
 
@@ -194,32 +194,32 @@ class General extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset( __('General settings') );
 
 		$Fieldset->addHandle( $this->handle('WEEK_START'), array(
-			'label'		=> __('Beginning of the week')
+		    'label'		=> __('Beginning of the week')
 		));
 
 		$Fieldset->addHandle( $this->handle('DISTANCE_UNIT_SYSTEM'), array(
-			'label'		=> __('Unit system for distances'),
-			'tooltip'	=> __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.')
+		    'label'		=> __('Unit system for distances'),
+		    'tooltip'	=> __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.')
 		));
 
 		$Fieldset->addHandle( $this->handle('WEIGHT_UNIT'), array(
-			'label'		=> __('Weight unit')
+		    'label'		=> __('Weight unit')
 		));
 
 		$Fieldset->addHandle( $this->handle('ENERGY_UNIT'), array(
-			'label'		=> __('Energy unit')
+		    'label'		=> __('Energy unit')
 		));	
 
 		$Fieldset->addHandle( $this->handle('TEMPERATURE_UNIT'), array(
-			'label'		=> __('Temperature unit')
+		    'label'		=> __('Temperature unit')
 		));
 
 		$Fieldset->addHandle( $this->handle('HEART_RATE_UNIT'), array(
-			'label'		=> __('Heart rate unit')
+		    'label'		=> __('Heart rate unit')
 		));
 
 		$Fieldset->addHandle( $this->handle('MAINSPORT'), array(
-			'label'		=> __('Main sport')
+		    'label'		=> __('Main sport')
 		));
 
 		return $Fieldset;

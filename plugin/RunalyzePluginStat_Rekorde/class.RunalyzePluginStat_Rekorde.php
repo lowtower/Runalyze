@@ -188,15 +188,15 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 		// TODO: Use sport arrays from SportFactory
 		$this->rekorde = array();
 		$this->rekorde[] = array(
-			'name'			=> __('Fastest activities'),
-			'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
-			'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' AND `distance`>0 ORDER BY (`distance`/`s`) DESC, `s` DESC LIMIT 10',
-			'speed'			=> true);
+		    'name'			=> __('Fastest activities'),
+		    'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
+		    'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' AND `distance`>0 ORDER BY (`distance`/`s`) DESC, `s` DESC LIMIT 10',
+		    'speed'			=> true);
 		$this->rekorde[] = array(
-			'name'			=> __('Longest activities'),
-			'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
-			'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' ORDER BY `distance` DESC, `s` DESC LIMIT 10',
-			'speed'			=> false);
+		    'name'			=> __('Longest activities'),
+		    'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
+		    'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' ORDER BY `distance` DESC, `s` DESC LIMIT 10',
+		    'speed'			=> false);
 
 		if ($this->showsAllYears()) {
 			$this->years = DB::getInstance()->query('

@@ -29,8 +29,8 @@ class Unit {
 	 */
 	public static function completeList() {
 		return array(
-			self::GENERAL,
-			self::RUNNING
+		    self::GENERAL,
+		    self::RUNNING
 		);
 	}
 

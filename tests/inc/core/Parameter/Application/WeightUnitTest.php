@@ -4,7 +4,6 @@ namespace Runalyze\Parameter\Application;
 
 class WeightUnitTest extends \PHPUnit\Framework\TestCase
 {
-
 	/**
 	 * @var \Runalyze\Parameter\Application\WeightUnit
 	 */

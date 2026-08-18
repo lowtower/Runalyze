@@ -29,8 +29,8 @@ class Design extends \Runalyze\Configuration\Category {
 	 */
 	protected function createHandles() {
 		$this->createHandle('DESIGN_BG_FILE', new SelectFile('web/assets/v2.x/img/backgrounds/runalyze.jpg', array(
-			'folder' => 'web/assets/v2.x/img/backgrounds/',
-			'extensions' => array('jpg', 'png', 'gif', 'jpeg', 'svg', 'tiff', 'bmp')
+		    'folder' => 'web/assets/v2.x/img/backgrounds/',
+		    'extensions' => array('jpg', 'png', 'gif', 'jpeg', 'svg', 'tiff', 'bmp')
 		)));
 	}
 
@@ -56,7 +56,7 @@ class Design extends \Runalyze\Configuration\Category {
 	public function Fieldset() {
 		$Fieldset = new Fieldset( __('Design') );
 		$Fieldset->addHandle( $this->handle('DESIGN_BG_FILE'), array(
-			'label'		=> __('Background image')
+		    'label'		=> __('Background image')
 		));
 
 		return $Fieldset;

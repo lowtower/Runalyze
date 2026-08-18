@@ -36,13 +36,13 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 	{
 		// [temperature, humidity, heatIndex]
 		$valuesToTest = [
-			[60, 0, 56],
-			[60, 100, 60],
-			[80, 40, 80],
-			[80, 100, 87],
-			[88, 65, 98],
-			[98, 50, 113],
-			[96, 75, 132]
+		    [60, 0, 56],
+		    [60, 100, 60],
+		    [80, 40, 80],
+		    [80, 100, 87],
+		    [88, 65, 98],
+		    [98, 50, 113],
+		    [96, 75, 132]
 		];
 
 		$temp = new Temperature(null, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));

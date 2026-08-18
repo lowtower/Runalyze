@@ -47,9 +47,9 @@ class JsonImporterResults
     {
 		if (!isset($this->Results[$tableName])) {
 			$this->Results[$tableName] = array(
-				'update' => 0,
-				'delete' => 0,
-				'insert' => 0
+			    'update' => 0,
+			    'delete' => 0,
+			    'insert' => 0
 			);
 		}
 
@@ -130,26 +130,26 @@ class JsonImporterResults
 	protected function tables()
     {
 		return array(
-			'runalyze_conf'			=> __('Configuration'),
-			'runalyze_dataset'		=> __('Dataset'),
-			'runalyze_plugin'		=> __('Plugin'),
-			'runalyze_plugin_conf'	=> __('Plugin configuration'),
-			'runalyze_sport'		=> __('Sports'),
-			'runalyze_type'			=> __('Activity types'),
-			'runalyze_user'			=> __('Body data'),
-			'runalyze_training'		=> __('Activities'),
-			'runalyze_trackdata'	=> __('Trackdata'),
-			'runalyze_swimdata'     => __('Swimdata'),
-			'runalyze_route'		=> __('Routes'),
-			'runalyze_hrv'			=> __('HRV data'),
-			'runalyze_equipment'			=> __('Equipment'),
-			'runalyze_equipment_type'		=> __('Equipment types'),
-			'runalyze_equipment_sport'		=> __('Relation: equipment types to sports'),
-			'runalyze_equipment_spor'		=> __('Relation: equipment to sports'),
-			'runalyze_activity_equipment'	=> __('Relation: equipment to activities'),
-			'runalyze_tag'			=> __('Tags'),
-			'runalyze_activtiy_tag'		=> __('Relation: tag to activities'),
-			'runalyze_raceresult'	=> __('Race results')
+		    'runalyze_conf'			=> __('Configuration'),
+		    'runalyze_dataset'		=> __('Dataset'),
+		    'runalyze_plugin'		=> __('Plugin'),
+		    'runalyze_plugin_conf'	=> __('Plugin configuration'),
+		    'runalyze_sport'		=> __('Sports'),
+		    'runalyze_type'			=> __('Activity types'),
+		    'runalyze_user'			=> __('Body data'),
+		    'runalyze_training'		=> __('Activities'),
+		    'runalyze_trackdata'	=> __('Trackdata'),
+		    'runalyze_swimdata'     => __('Swimdata'),
+		    'runalyze_route'		=> __('Routes'),
+		    'runalyze_hrv'			=> __('HRV data'),
+		    'runalyze_equipment'			=> __('Equipment'),
+		    'runalyze_equipment_type'		=> __('Equipment types'),
+		    'runalyze_equipment_sport'		=> __('Relation: equipment types to sports'),
+		    'runalyze_equipment_spor'		=> __('Relation: equipment to sports'),
+		    'runalyze_activity_equipment'	=> __('Relation: equipment to activities'),
+		    'runalyze_tag'			=> __('Tags'),
+		    'runalyze_activtiy_tag'		=> __('Relation: tag to activities'),
+		    'runalyze_raceresult'	=> __('Race results')
 		);
 	}
 }

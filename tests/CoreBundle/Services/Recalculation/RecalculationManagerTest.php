@@ -151,7 +151,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 
     protected function getAccountMock()
     {
-        /** @var Account */
+        /** @var Account $account */
         $account = $this
             ->getMockBuilder(Account::class)
             ->setMethods(['getId'])
@@ -170,7 +170,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTrainingRepositoryMock()
     {
-        /** @var TrainingRepository */
+        /** @var TrainingRepository $repository */
         $repository = $this
             ->getMockBuilder(TrainingRepository::class)
             ->disableOriginalConstructor()
@@ -200,7 +200,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRaceResultRepositoryMock()
     {
-        /** @var RaceresultRepository */
+        /** @var RaceresultRepository $repository */
         $repository = $this
             ->getMockBuilder(RaceresultRepository::class)
             ->disableOriginalConstructor()
@@ -220,7 +220,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConfRepositoryMock()
     {
-        /** @var ConfRepository */
+        /** @var ConfRepository $repository */
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()

@@ -68,9 +68,9 @@ class ElevationsRecalculator
 	protected function prepareUpdate()
     {
 		$Set = array(
-			'`elevation` = :elevation',
-			'`elevation_up` = :elevation_up',
-			'`elevation_down` = :elevation_down'
+		    '`elevation` = :elevation',
+		    '`elevation_up` = :elevation_up',
+		    '`elevation_down` = :elevation_down'
 		);
 
 		$Query = 'UPDATE `'.$this->DatabasePrefix.'route` SET '.implode(',', $Set).' WHERE `id`=:id AND `accountid`="'.(int)$this->AccountID.'"';

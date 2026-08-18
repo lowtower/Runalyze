@@ -86,7 +86,7 @@ class PosterType extends AbstractType
                     'DIN A2' => 7000,
                     'DIN A1' => 10000,
                     'DIN A0' => 14000
-                 ],
+                ],
             ])
             ->add('backgroundColor', ColorType::class, [
                 'data' => '#222222',

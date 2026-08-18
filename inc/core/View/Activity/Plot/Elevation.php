@@ -29,8 +29,8 @@ class Elevation extends ActivityPlot {
 	protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = array(
-			new Series\Elevation($context),
-			new Series\Gradient($context)
+		    new Series\Elevation($context),
+		    new Series\Gradient($context)
 		);
 
 		$this->addMultipleSeries($allSeries);

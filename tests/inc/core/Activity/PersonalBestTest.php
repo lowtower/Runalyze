@@ -10,7 +10,6 @@ use DB;
  * @group dependsOnOldDatabase
  */
 class PersonalBestTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var \PDO
 	 */

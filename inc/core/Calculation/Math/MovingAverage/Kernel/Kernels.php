@@ -70,15 +70,15 @@ final class Kernels extends AbstractEnum
 	private static function classNamesArray()
 	{
 		return array(
-			self::UNIFORM => 'Uniform',
-			self::TRIANGULAR => 'Triangular',
-			self::EPANECHNIKOV => 'Epanechnikov',
-			self::QUARTIC => 'Quartic',
-			self::TRIWEIGHT => 'Triweight',
-            self::TRICUBE => 'Tricube',
-            self::GAUSSIAN => 'Gaussian',
-            self::COSINE => 'Cosine',
-            self::LOGISTIC => 'Logistic'
+		    self::UNIFORM => 'Uniform',
+		    self::TRIANGULAR => 'Triangular',
+		    self::EPANECHNIKOV => 'Epanechnikov',
+		    self::QUARTIC => 'Quartic',
+		    self::TRIWEIGHT => 'Triweight',
+		    self::TRICUBE => 'Tricube',
+		    self::GAUSSIAN => 'Gaussian',
+		    self::COSINE => 'Cosine',
+		    self::LOGISTIC => 'Logistic'
 		);
 	}
 }

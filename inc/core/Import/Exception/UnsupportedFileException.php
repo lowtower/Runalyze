@@ -14,5 +14,4 @@ namespace Runalyze\Import\Exception;
  */
 class UnsupportedFileException extends ParserException
 {
-
 }

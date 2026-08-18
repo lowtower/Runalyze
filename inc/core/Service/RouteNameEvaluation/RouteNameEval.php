@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
  * #TSC 
  */
 interface RouteNameEval {
-
     /**
      * Retrieves the route-name and some other relevant informations of the route.
      * 

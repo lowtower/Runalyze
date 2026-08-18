@@ -59,7 +59,7 @@ class Time {
 			if ($w == 0) {
 				$w = 6;
 			} else {
-				$w -= 1;
+				--$w;
 			}
 		}
 

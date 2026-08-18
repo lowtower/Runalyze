@@ -21,7 +21,6 @@ use Runalyze\Activity;
  */
 class RaceResult extends AbstractKey
 {
-
 	/**
 	 * Enum id
 	 * @return int
@@ -72,9 +71,9 @@ class RaceResult extends AbstractKey
 	public function joinDefinition()
 	{
 		return array(
-			'column' => 'raceresult_placements',
-			'join' => 'LEFT JOIN `'.PREFIX.'raceresult` AS `rrd` ON `rrd`.`activity_id` = `t`.id',
-			'field' => '`rrd`.`name` as `race_name`, `rrd`.`official_time`, `rrd`.`official_distance`, `rrd`.`place_total`, `rrd`.`place_gender`, `rrd`.`place_ageclass`, `rrd`.`participants_total`, `rrd`.`participants_ageclass`, `rrd`.`participants_gender`'
+		    'column' => 'raceresult_placements',
+		    'join' => 'LEFT JOIN `'.PREFIX.'raceresult` AS `rrd` ON `rrd`.`activity_id` = `t`.id',
+		    'field' => '`rrd`.`name` as `race_name`, `rrd`.`official_time`, `rrd`.`official_distance`, `rrd`.`place_total`, `rrd`.`place_gender`, `rrd`.`place_ageclass`, `rrd`.`participants_total`, `rrd`.`participants_ageclass`, `rrd`.`participants_gender`'
 		);
 	}
 
@@ -105,15 +104,15 @@ class RaceResult extends AbstractKey
 
 		if ($context->hasData('official_distance')) {
 			$RaceResult = new Model\RaceResult\Entity(array(
-				Model\RaceResult\Entity::NAME => $context->data('race_name'),
-				Model\RaceResult\Entity::OFFICIAL_TIME => $context->data('official_time'),
-				Model\RaceResult\Entity::OFFICIAL_DISTANCE => $context->data('official_distance'),
-				Model\RaceResult\Entity::PLACE_TOTAL => $context->data('place_total', true),
-				Model\RaceResult\Entity::PLACE_GENDER => $context->data('place_gender', true),
-				Model\RaceResult\Entity::PLACE_AGECLASS => $context->data('place_ageclass', true),
-				Model\RaceResult\Entity::PARTICIPANTS_TOTAL => $context->data('participants_total', true),
-				Model\RaceResult\Entity::PARTICIPANTS_GENDER => $context->data('participants_gender', true),
-				Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => $context->data('participants_ageclass', true)
+			    Model\RaceResult\Entity::NAME => $context->data('race_name'),
+			    Model\RaceResult\Entity::OFFICIAL_TIME => $context->data('official_time'),
+			    Model\RaceResult\Entity::OFFICIAL_DISTANCE => $context->data('official_distance'),
+			    Model\RaceResult\Entity::PLACE_TOTAL => $context->data('place_total', true),
+			    Model\RaceResult\Entity::PLACE_GENDER => $context->data('place_gender', true),
+			    Model\RaceResult\Entity::PLACE_AGECLASS => $context->data('place_ageclass', true),
+			    Model\RaceResult\Entity::PARTICIPANTS_TOTAL => $context->data('participants_total', true),
+			    Model\RaceResult\Entity::PARTICIPANTS_GENDER => $context->data('participants_gender', true),
+			    Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => $context->data('participants_ageclass', true)
 			));
 
 			$RaceResultView = new View\RaceResult\Dataview($RaceResult);
@@ -160,15 +159,15 @@ class RaceResult extends AbstractKey
 	protected function fakeString()
 	{
 			$RaceResult = new Model\RaceResult\Entity(array(
-				Model\RaceResult\Entity::NAME => __('Race name'),
-				Model\RaceResult\Entity::OFFICIAL_TIME => 2400,
-				Model\RaceResult\Entity::OFFICIAL_DISTANCE => 10.00,
-				Model\RaceResult\Entity::PLACE_TOTAL => 4,
-				Model\RaceResult\Entity::PLACE_GENDER => 5,
-				Model\RaceResult\Entity::PLACE_AGECLASS => 2,
-				Model\RaceResult\Entity::PARTICIPANTS_TOTAL => 2000,
-				Model\RaceResult\Entity::PARTICIPANTS_GENDER => 300,
-				Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => 100
+			    Model\RaceResult\Entity::NAME => __('Race name'),
+			    Model\RaceResult\Entity::OFFICIAL_TIME => 2400,
+			    Model\RaceResult\Entity::OFFICIAL_DISTANCE => 10.00,
+			    Model\RaceResult\Entity::PLACE_TOTAL => 4,
+			    Model\RaceResult\Entity::PLACE_GENDER => 5,
+			    Model\RaceResult\Entity::PLACE_AGECLASS => 2,
+			    Model\RaceResult\Entity::PARTICIPANTS_TOTAL => 2000,
+			    Model\RaceResult\Entity::PARTICIPANTS_GENDER => 300,
+			    Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => 100
 			));
 
 			$RaceResultView = new View\RaceResult\Dataview($RaceResult);

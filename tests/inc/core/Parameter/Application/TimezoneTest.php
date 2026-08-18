@@ -4,7 +4,6 @@ namespace Runalyze\Parameter\Application;
 
 class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testInvalidEnum()
     {
         $this->expectException(\InvalidArgumentException::class);

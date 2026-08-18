@@ -169,7 +169,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 
 					// increase lap counter
 					if($lapFinished) {
-						$lap += 1;
+						++$lap;
 						$beginLap = true;
 					} else {
 						$beginLap = false;

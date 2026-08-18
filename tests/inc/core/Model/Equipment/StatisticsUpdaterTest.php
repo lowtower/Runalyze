@@ -10,7 +10,6 @@ use PDO;
  * @group dependsOnOldDatabase
  */
 class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var \PDO
 	 */

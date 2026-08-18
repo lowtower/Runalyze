@@ -78,11 +78,11 @@ DB::getInstance()->exec('UPDATE `runalyze_account` SET `id`=0 WHERE `username`="
 
 // Login
 SessionAccountHandler::setAccount(array(
-	'id' => 0,
-	'username' => 'runalyze',
-	'language' => 'de',
-	'timezone' => '43',
-	'mail' => 'noreply@runalyze.com',
+    'id' => 0,
+    'username' => 'runalyze',
+    'language' => 'de',
+    'timezone' => '43',
+    'mail' => 'noreply@runalyze.com',
 ));
 // Define RUNALYZE_TEST_TZ_LOOKUP
 try {

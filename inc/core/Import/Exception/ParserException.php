@@ -14,5 +14,4 @@ namespace Runalyze\Import\Exception;
  */
 class ParserException extends \Exception
 {
-
 }

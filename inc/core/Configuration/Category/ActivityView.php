@@ -221,7 +221,7 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 */
 	protected function createOtherOptions() {
 		$this->createHandle('TRAINING_DECIMALS', new Select('1', array(
-			'options' => array('0', '1', '2', '3')
+		    'options' => array('0', '1', '2', '3')
 		)));
 
 		$this->createHandle('SHOW_SECTIONS_FULLHEIGHT', new Boolean(false));
@@ -299,12 +299,12 @@ class ActivityView extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset(__('Activity view'));
 
 		$Fieldset->addHandle($this->handle('TRAINING_DECIMALS'), array(
-			'label' => __('Number of decimals')
+		    'label' => __('Number of decimals')
 		));
 
 		$Fieldset->addHandle($this->handle('SHOW_SECTIONS_FULLHEIGHT'), array(
-			'label' => __('Activity view: show rows in full height'),
-			'tooltip' => __('By default e.g. lap data will be scrollable and not shown completely.')
+		    'label' => __('Activity view: show rows in full height'),
+		    'tooltip' => __('By default e.g. lap data will be scrollable and not shown completely.')
 		));
 
 		$this->addHandlesForMapsTo($Fieldset);
@@ -320,44 +320,44 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForPlotsTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_MODE'), array(
-			'label' => __('Plots: combination')
+		    'label' => __('Plots: combination')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_PRECISION'), array(
-			'label' => __('Plots: precision'),
-			'tooltip' => __('How many data points should be plotted?')
+		    'label' => __('Plots: precision'),
+		    'tooltip' => __('How many data points should be plotted?')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_SMOOTH'), array(
-			'label' => __('Plots: smooth curves')
+		    'label' => __('Plots: smooth curves')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_XAXIS_TIME'), array(
-			'label' => __('Plots: use time as x-axis')
+		    'label' => __('Plots: use time as x-axis')
 		));
 
 		$Fieldset->addHandle($this->handle('PACE_Y_LIMIT_MIN'), array(
-			'label' => __('Pace plot: y-axis minimum'),
-			'tooltip' => __('Data points below this limit will be ignored. (only for min/km)')
+		    'label' => __('Pace plot: y-axis minimum'),
+		    'tooltip' => __('Data points below this limit will be ignored. (only for min/km)')
 		));
 
 		$Fieldset->addHandle($this->handle('PACE_Y_LIMIT_MAX'), array(
-			'label' => __('Pace plot: y-axis maximum'),
-			'tooltip' => __('Data points above this limit will be ignored. (only for min/km)')
+		    'label' => __('Pace plot: y-axis maximum'),
+		    'tooltip' => __('Data points above this limit will be ignored. (only for min/km)')
 		));
 
 		$Fieldset->addHandle($this->handle('PACE_Y_AXIS_TYPE'), array(
-			'label' => __('Pace plot: y-axis scale type'),
-			'tooltip' => __('Scale type that will be used to show pace on y-axis.')
+		    'label' => __('Pace plot: y-axis scale type'),
+		    'tooltip' => __('Scale type that will be used to show pace on y-axis.')
 		));
 
 		$Fieldset->addHandle($this->handle('PACE_HIDE_OUTLIERS'), array(
-			'label' => __('Pace plot: Ignore outliers'),
-			'tooltip' => __('Try to ignore outliers in the pace plot.')
+		    'label' => __('Pace plot: Ignore outliers'),
+		    'tooltip' => __('Try to ignore outliers in the pace plot.')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_SPLITS_ZERO'), array(
-			'label' => __('Splits plot: use zero as axis minimum')
+		    'label' => __('Splits plot: use zero as axis minimum')
 		));
 	}
 
@@ -367,24 +367,24 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForMapsTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('GMAP_PATH_BREAK'), array(
-			'label' => __('Map: interrupt route'),
-			'tooltip' => __('The gps path can be interrupted in case of <em>interruptions</em> (e.g. by car/train/...).' .
-				'Finding these interruptions is not easy. You can define up to which distance (in seconds by average pace)' .
-				'between two data points can be interpolated.')
+		    'label' => __('Map: interrupt route'),
+		    'tooltip' => __('The gps path can be interrupted in case of <em>interruptions</em> (e.g. by car/train/...).' .
+		    	'Finding these interruptions is not easy. You can define up to which distance (in seconds by average pace)' .
+		    	'between two data points can be interpolated.')
 		));
 
 		$Fieldset->addHandle($this->handle('GMAP_PATH_PRECISION'), array(
-			'label' => __('Map: precision'),
-			'tooltip' => __('How many data points shoud be displayed?')
+		    'label' => __('Map: precision'),
+		    'tooltip' => __('How many data points shoud be displayed?')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_MAP_SHOW_FIRST'), array(
-			'label' => __('Map: show map first'),
-			'tooltip' => __('show map before plots')
+		    'label' => __('Map: show map first'),
+		    'tooltip' => __('show map before plots')
 		));
 
 		$Fieldset->addHandle($this->handle('TRAINING_MAP_ZOOM_ON_SCROLL'), array(
-			'label' => __('Map: zoom on scroll')
+		    'label' => __('Map: zoom on scroll')
 		));
 	}
 
@@ -394,13 +394,13 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 */
 	private function addHandlesForElevationTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('ELEVATION_METHOD'), array(
-			'label' => __('Elevation: smoothing'),
-			'tooltip' => __('Choose the algorithm to smooth the elevation data')
+		    'label' => __('Elevation: smoothing'),
+		    'tooltip' => __('Choose the algorithm to smooth the elevation data')
 		));
 
 		$Fieldset->addHandle($this->handle('ELEVATION_TRESHOLD'), array(
-			'label' => __('Elevation: threshold'),
-			'tooltip' => __('Threshold for the smoothing algorithm')
+		    'label' => __('Elevation: threshold'),
+		    'tooltip' => __('Threshold for the smoothing algorithm')
 		));
 	}
 }

@@ -209,9 +209,9 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$TagB = $this->DB->query('SELECT `id` FROM `runalyze_tag` WHERE `accountid`='.$this->AccountID.' AND `tag`="TagB"')->fetchColumn();
 
 		$this->assertEquals(array(
-			array($SportA, $TypeA),
-			array($SportA, $TypeAB),
-			array($SportB, $TypeAB)
+		    array($SportA, $TypeA),
+		    array($SportA, $TypeAB),
+		    array($SportB, $TypeAB)
 		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')->fetchAll(\PDO::FETCH_NUM));
 
 		$this->assertEquals($TypeA, $this->DB->query('SELECT `typeid` FROM `runalyze_equipment` WHERE `accountid`='.$this->AccountID.' AND `name`="A1"')->fetchColumn());
@@ -259,9 +259,9 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($ExistingTagA, $TagA);
 
 		$this->assertEquals(array(
-			array($SportA, $TypeA),
-			array($SportA, $TypeAB),
-			array($SportB, $TypeAB)
+		    array($SportA, $TypeA),
+		    array($SportA, $TypeAB),
+		    array($SportB, $TypeAB)
 		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')->fetchAll(\PDO::FETCH_NUM));
 	}
 

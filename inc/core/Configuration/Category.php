@@ -283,10 +283,10 @@ abstract class Category {
 		DB::getInstance()->insert('conf',
 			array('key', 'value', 'category', 'accountid'),
 			array(
-				$this->Handles[$Key]->key(),
-				$this->Handles[$Key]->object()->valueAsString(),
-				$this->key(),
-				$this->userID()
+			    $this->Handles[$Key]->key(),
+			    $this->Handles[$Key]->object()->valueAsString(),
+			    $this->key(),
+			    $this->userID()
 			)
 		);
 	}

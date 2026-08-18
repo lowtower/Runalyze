@@ -73,9 +73,9 @@ class Splits {
 		if (isset($array['km']) && isset($array['time']))
 			foreach ($array['km'] as $i => $km)
 				$this->asArray[] = array(
-					'km' => $km * $factor,
-					'time' => $array['time'][$i],
-					'active' => !isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i])
+				    'km' => $km * $factor,
+				    'time' => $array['time'][$i],
+				    'active' => !isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i])
 				);
 	}
 
@@ -115,9 +115,9 @@ class Splits {
 		}
 
 		$this->asArray[] = array(
-			'km' => $this->formatKM($km),
-			'time' => $this->formatTime($timeInSeconds),
-			'active' => $active
+		    'km' => $this->formatKM($km),
+		    'time' => $this->formatTime($timeInSeconds),
+		    'active' => $active
 		);
 		$this->arrayToString();
 	}
@@ -192,9 +192,9 @@ class Splits {
 
 			if (strlen($split) > 3)
 				$this->asArray[] = array(
-					'km' => strstr($split, '|', true),
-					'time' => substr(strrchr($split, '|'), 1),
-					'active' => $active
+				    'km' => strstr($split, '|', true),
+				    'time' => substr(strrchr($split, '|'), 1),
+				    'active' => $active
 				);
 		}
 	}

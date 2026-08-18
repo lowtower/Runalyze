@@ -29,9 +29,9 @@ class SelectFile extends Select {
 	public function __construct($default, $options = array()) {
 		$options = array_merge(
 			array(
-				'folder' => '',
-				'extensions' => array(),
-				'filename_only' => true
+			    'folder' => '',
+			    'extensions' => array(),
+			    'filename_only' => true
 			),
 			$options
 		);

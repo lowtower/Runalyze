@@ -123,7 +123,7 @@ class DefaultController extends AbstractPluginsAwareController
     	$error = $authenticationUtils->getLastAuthenticationError();
 
         return $this->render('login/form.html.twig', [
-   	        'error' => $error,
+            'error' => $error,
             'num' => $this->collectStatistics()
         ]);
     }

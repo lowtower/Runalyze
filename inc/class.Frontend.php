@@ -176,13 +176,13 @@ class Frontend {
 		    $user = $this->symfonyToken->getToken()->getUser();
 
 		    SessionAccountHandler::setAccount(array(
-			    'id' => $user->getId(),
-			    'username' => $user->getUsername(),
-			    'language' => $user->getLanguage(),
-			    'timezone' => $user->getTimezone(),
-			    'mail' => $user->getMail(),
-				'gender' => $user->getGender(),
-				'birthyear' => $user->getBirthyear()
+		        'id' => $user->getId(),
+		        'username' => $user->getUsername(),
+		        'language' => $user->getLanguage(),
+		        'timezone' => $user->getTimezone(),
+		        'mail' => $user->getMail(),
+		        'gender' => $user->getGender(),
+		        'birthyear' => $user->getBirthyear()
 		    ));
 		}
 	}

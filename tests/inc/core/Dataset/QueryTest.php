@@ -10,7 +10,6 @@ use DB;
  */
 class QueryTest extends \PHPUnit\Framework\TestCase
 {
-
 	/** @var \PDO */
 	protected $PDO;
 
@@ -100,9 +99,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 		$this->insertActivity(array('time' => time() - 9*DAY_IN_S, 's' => 500, 'sportid' => 3));
 
 		$summary = array(
-			$this->Query->fetchSummaryForSport(1),
-			$this->Query->fetchSummaryForSport(2),
-			$this->Query->fetchSummaryForSport(3)
+		    $this->Query->fetchSummaryForSport(1),
+		    $this->Query->fetchSummaryForSport(2),
+		    $this->Query->fetchSummaryForSport(3)
 		);
 
 		$this->assertEquals(array(1, 2, 1), array_map(function ($data) { return $data['num']; }, $summary));

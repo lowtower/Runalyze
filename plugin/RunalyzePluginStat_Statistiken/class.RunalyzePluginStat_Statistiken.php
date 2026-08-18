@@ -61,7 +61,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 	private function getAnalysisType() {
 		$types = ['' => __('General overview'),
-			'allWeeks' => __('All training weeks')];
+		    'allWeeks' => __('All training weeks')];
 		return $types[$this->dat];
 	}
 

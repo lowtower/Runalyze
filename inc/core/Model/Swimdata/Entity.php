@@ -68,12 +68,12 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 */
 	public static function allProperties() {
 		return array(
-			self::ACTIVITYID,
-			self::STROKE,
-			self::STROKETYPE,
-			self::SWOLF,
-			self::SWOLFCYCLES,
-			self::POOL_LENGTH
+		    self::ACTIVITYID,
+		    self::STROKE,
+		    self::STROKETYPE,
+		    self::SWOLF,
+		    self::SWOLFCYCLES,
+		    self::POOL_LENGTH
 		);
 	}
 
@@ -125,7 +125,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 */
 	protected function ensureAllNumericValues() {
 		$this->ensureNumericValue(array(
-			self::POOL_LENGTH
+		    self::POOL_LENGTH
 		));
 	}
 

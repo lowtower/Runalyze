@@ -184,7 +184,7 @@ class PaceSmoother {
 				$steps = $this->Loop->currentStepSize();
 
 				if (!$started) {
-					$steps += 1;
+					++$steps;
 					$started = true;
 				}
 

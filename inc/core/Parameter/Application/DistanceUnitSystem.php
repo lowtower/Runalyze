@@ -90,10 +90,10 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	public function __construct($default = self::METRIC)
 	{
 		parent::__construct($default, [
-			'options'		=> [
-				self::METRIC	=> __('Metric units'),
-				self::IMPERIAL	=> __('Imperial units')
-			]
+		    'options'		=> [
+		        self::METRIC	=> __('Metric units'),
+		        self::IMPERIAL	=> __('Imperial units')
+		    ]
 		]);
 	}
 

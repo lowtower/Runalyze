@@ -45,15 +45,15 @@ class PluginInstaller {
 		$Plugin = $Factory->newInstallerInstance($this->Key);
 
 		DB::getInstance()->insert('plugin', array(
-			'key',
-			'type',
-			'active',
-			'order',
+		    'key',
+		    'type',
+		    'active',
+		    'order',
 		), array(
-			$Plugin->key(),
-			$Plugin->typeString(),
-			'1',
-			'99',
+		    $Plugin->key(),
+		    $Plugin->typeString(),
+		    '1',
+		    '99',
 		));
 
 		PluginFactory::clearCache();

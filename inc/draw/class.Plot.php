@@ -314,9 +314,9 @@ class Plot {
 	 */
 	public function addThreshold($axis, $from, $color ='#000', $lineWidth = 1) {
 		$this->Options['grid']['markings'][] = array(
-			'color' => $color,
-			'lineWidth' => $lineWidth,
-			$axis.'axis' => array('from' => $from, 'to' => $from));
+		    'color' => $color,
+		    'lineWidth' => $lineWidth,
+		    $axis.'axis' => array('from' => $from, 'to' => $from));
 	}
 
 	/**
@@ -328,8 +328,8 @@ class Plot {
 	 */
 	public function addMarkingArea($axis, $from, $to, $color ='rgba(255,255,255,0.2)') {
 		$this->Options['grid']['markings'][] = array(
-			'color' => $color,
-			$axis.'axis' => array('from' => $from, 'to' => $to));
+		    'color' => $color,
+		    $axis.'axis' => array('from' => $from, 'to' => $to));
 	}
 
 	/**

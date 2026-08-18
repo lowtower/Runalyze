@@ -93,17 +93,17 @@ class Entity extends Model\Entity {
 	 */
 	static public function allDatabaseProperties() {
 		return array(
-			self::OFFICIAL_DISTANCE,
-			self::OFFICIAL_TIME,
-			self::OFFICIALLY_MEASURED,
-			self::NAME,
-			self::PLACE_TOTAL,
-			self::PLACE_GENDER,
-			self::PLACE_AGECLASS,
-			self::PARTICIPANTS_TOTAL,
-			self::PARTICIPANTS_GENDER,
-			self::PARTICIPANTS_AGECLASS,
-			self::ACTIVITY_ID
+		    self::OFFICIAL_DISTANCE,
+		    self::OFFICIAL_TIME,
+		    self::OFFICIALLY_MEASURED,
+		    self::NAME,
+		    self::PLACE_TOTAL,
+		    self::PLACE_GENDER,
+		    self::PLACE_AGECLASS,
+		    self::PARTICIPANTS_TOTAL,
+		    self::PARTICIPANTS_GENDER,
+		    self::PARTICIPANTS_AGECLASS,
+		    self::ACTIVITY_ID
 		);
 	}
 
@@ -120,10 +120,10 @@ class Entity extends Model\Entity {
 	 */
 	protected function ensureAllNumericValues() {
 		$this->ensureNumericValue(array(
-			self::OFFICIAL_DISTANCE,
-			self::OFFICIAL_TIME,
-			self::OFFICIALLY_MEASURED,
-			self::ACTIVITY_ID
+		    self::OFFICIAL_DISTANCE,
+		    self::OFFICIAL_TIME,
+		    self::OFFICIALLY_MEASURED,
+		    self::ACTIVITY_ID
 		));
 	}
 

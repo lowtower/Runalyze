@@ -103,20 +103,20 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::NAME,
-			self::IMAGE,
-			self::SHORT,
-			self::CALORIES_PER_HOUR,
-			self::HR_AVG,
-			self::HAS_DISTANCES,
-			self::PACE_UNIT,
-			self::HAS_POWER,
-			self::IS_OUTSIDE,
-			self::HR_ZONE_BOUNDS,
-			self::MAIN_EQUIPMENTTYPEID,
-			self::DEFAULT_TYPEID,
-            self::IS_MAIN,
-            self::INTERNAL_SPORT_ID
+		    self::NAME,
+		    self::IMAGE,
+		    self::SHORT,
+		    self::CALORIES_PER_HOUR,
+		    self::HR_AVG,
+		    self::HAS_DISTANCES,
+		    self::PACE_UNIT,
+		    self::HAS_POWER,
+		    self::IS_OUTSIDE,
+		    self::HR_ZONE_BOUNDS,
+		    self::MAIN_EQUIPMENTTYPEID,
+		    self::DEFAULT_TYPEID,
+		    self::IS_MAIN,
+		    self::INTERNAL_SPORT_ID
 		);
 	}
 

@@ -7,7 +7,6 @@ namespace Runalyze\Model;
  * @group dependsOnOldDatabase
  */
 class FactoryTest extends \PHPUnit\Framework\TestCase {
-
 	/**
 	 * @var Factory
 	 */
@@ -97,21 +96,21 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals(array(1, 2), $this->object->tagForActivity(1, true));
 		$this->assertEquals(array(
-			$this->object->tag(1), $this->object->tag(2)
+		    $this->object->tag(1), $this->object->tag(2)
 		), $this->object->tagForActivity(1));
 
 		$this->assertEquals(array(3), $this->object->tagForActivity(2, true));
 		$this->assertEquals(array(
-			$this->object->tag(3)
+		    $this->object->tag(3)
 		), $this->object->tagForActivity(2));
 
 		$this->assertEquals(array(4), $this->object->tagForActivity(3, true));
 		$this->assertEquals(array(
-			$this->object->tag(4)
+		    $this->object->tag(4)
 		), $this->object->tagForActivity(3));
 
 		$this->assertEquals(array(
-			$this->object->tag(1), $this->object->tag(2), $this->object->tag(3), $this->object->tag(4)
+		    $this->object->tag(1), $this->object->tag(2), $this->object->tag(3), $this->object->tag(4)
 		), $this->object->allTags());
         }
 
@@ -138,23 +137,23 @@ class FactoryTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals(array(1, 2), $this->object->equipmentForActivity(1, true));
 		$this->assertEquals(array(
-			$this->object->equipment(1), $this->object->equipment(2)
+		    $this->object->equipment(1), $this->object->equipment(2)
 		), $this->object->equipmentForActivity(1));
 
 		$this->assertEquals(array(3), $this->object->equipmentForActivity(2, true));
 		$this->assertEquals(array(
-			$this->object->equipment(3)
+		    $this->object->equipment(3)
 		), $this->object->equipmentForActivity(2));
 
 		$this->assertEquals(array(4), $this->object->equipmentForActivity(3, true));
 		$this->assertEquals(array(
-			$this->object->equipment(4)
+		    $this->object->equipment(4)
 		), $this->object->equipmentForActivity(3));
 
 		$this->assertEquals(array(), $this->object->allTypes());
 
 		$this->assertEquals(array(
-			$this->object->sport(1), $this->object->sport(2), $this->object->sport(3)
+		    $this->object->sport(1), $this->object->sport(2), $this->object->sport(3)
 		), $this->object->allSports());
 	}
 

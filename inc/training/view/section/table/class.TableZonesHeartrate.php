@@ -72,11 +72,11 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				$bpmRange = $this->threeNumbers($Info['#start']) . ' -' . $this->threeNumbers($Info['#end']) . ' bpm';
 
 				$this->Data[] = array(
-					'zone'     => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
-					'time'     => $Info['time'],
-					'distance' => $Info['distance'],
-					'average'  => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
-					'color'    => $Info['color'] #TSC support for colors
+				    'zone'     => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
+				    'time'     => $Info['time'],
+				    'distance' => $Info['distance'],
+				    'average'  => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
+				    'color'    => $Info['color'] #TSC support for colors
 				);
 			}
 		}
@@ -127,14 +127,14 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				$endHr = $defaultZones[$z + 1]['hr'] - 1; // use the next zone hr as the high bound of this zone
 
 				$Zones[$z] = array(
-					'text' => array_key_exists('t', $defaultZones[$z]) ? $defaultZones[$z]['t'] : '',
-					'#start' => $startHr,
-					'#end' => $endHr,
-					'%start' => round(100 / $hrMax * $startHr),
-					'%end' => round(100 / $hrMax * $endHr),
-					'time' => 0,
-					'distance' => 0,
-					'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : TableZonesHeartrate::DEFAULT_COLOR
+				    'text' => array_key_exists('t', $defaultZones[$z]) ? $defaultZones[$z]['t'] : '',
+				    '#start' => $startHr,
+				    '#end' => $endHr,
+				    '%start' => round(100 / $hrMax * $startHr),
+				    '%end' => round(100 / $hrMax * $endHr),
+				    'time' => 0,
+				    'distance' => 0,
+				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : TableZonesHeartrate::DEFAULT_COLOR
 				);
 			}
 			$Zones[$z]['time'] += $seconds;

@@ -26,7 +26,6 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
  * @package Runalyze\Calculation\Activity
  */
 class GradeAdjustedPaceCalculator {
-
 	/**
 	 * @var \Runalyze\Model\Trackdata\Entity
 	 */

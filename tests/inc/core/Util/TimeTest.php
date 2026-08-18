@@ -9,7 +9,6 @@ use Runalyze\Parameter\Application\WeekStart;
  * Test class for Time
  */
 class TimeTest extends \PHPUnit\Framework\TestCase {
-
 	protected function tearDown() : void {
 		Configuration::General()->weekStart()->set(WeekStart::MONDAY);
 	}

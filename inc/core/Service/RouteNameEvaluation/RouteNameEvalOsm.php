@@ -103,11 +103,11 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         $this->logger->debug(sprintf('RouteNameEvalOsm: Request for routeId=%d to url=%s with payload: %s', $routeId, $this->Url, $payload));
 
         $param = ['body' => sprintf('data=%s', $payload),
-                  'timeout' => self::TIMEOUT,
-                  'headers' => [
-                    'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
-                  ]
-                  //, 'debug' => True
+            'timeout' => self::TIMEOUT,
+            'headers' => [
+                'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
+            ]
+            //, 'debug' => True
         ];
         if(!empty($this->Proxy)) {
             $param['proxy'] = $this->Proxy;

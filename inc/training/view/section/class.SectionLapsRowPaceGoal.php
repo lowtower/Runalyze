@@ -15,7 +15,6 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 class SectionLapsRowPaceGoal extends SectionLapsRowComputed {
-
 	/**
 	 * Display right content / PaceGoal table.
 	 */

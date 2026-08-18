@@ -54,11 +54,11 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$Loop = new JobLoop([
-            JobLoop::ELEVATION => true,
-            JobLoop::ELEVATION_OVERWRITE => true,
-            JobLoop::VO2MAX => true,
-            JobLoop::TRIMP => true
-        ], $this->PDO, 0, 'runalyze_');
+		    JobLoop::ELEVATION => true,
+		    JobLoop::ELEVATION_OVERWRITE => true,
+		    JobLoop::VO2MAX => true,
+		    JobLoop::TRIMP => true
+		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
 		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
@@ -74,8 +74,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (1, 123, 123, 123, 0)');
 
 		$Loop = new JobLoop([
-			JobLoop::ELEVATION => true,
-			JobLoop::ELEVATION_OVERWRITE => true
+		    JobLoop::ELEVATION => true,
+		    JobLoop::ELEVATION_OVERWRITE => true
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
@@ -90,8 +90,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (1, 123, 123, 123, 0)');
 
 		$Loop = new JobLoop([
-            JobLoop::ELEVATION => true,
-        ], $this->PDO, 0, 'runalyze_');
+		    JobLoop::ELEVATION => true,
+		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
 		$this->assertEquals(42, $this->PDO->query(
@@ -113,10 +113,10 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevations_corrected`, `accountid`) VALUES (2, "200|0", 0)');
 
 		$Loop = new JobLoop([
-            JobLoop::ELEVATION => true,
-            JobLoop::ELEVATION_OVERWRITE => true,
-            JobLoop::VO2MAX => true
-        ], $this->PDO, 0, 'runalyze_');
+		    JobLoop::ELEVATION => true,
+		    JobLoop::ELEVATION_OVERWRITE => true,
+		    JobLoop::VO2MAX => true
+		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
 		$DataDown = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
@@ -145,7 +145,7 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (2, 200, 0, 200, 0)');
 
 		$Loop = new JobLoop([
-			JobLoop::VO2MAX => true
+		    JobLoop::VO2MAX => true
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
@@ -163,9 +163,9 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$Loop = new JobLoop([
-            JobLoop::VO2MAX => true,
-            JobLoop::TRIMP => true
-        ], $this->PDO, 0, 'runalyze_');
+		    JobLoop::VO2MAX => true,
+		    JobLoop::TRIMP => true
+		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
 		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();

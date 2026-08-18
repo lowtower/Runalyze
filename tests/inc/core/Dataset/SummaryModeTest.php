@@ -9,7 +9,6 @@ use PDO;
  */
 class SummaryModeTest extends \PHPUnit\Framework\TestCase
 {
-
 	/** @var \PDO */
 	protected $PDO;
 

@@ -39,7 +39,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConfRepositoryMock(array $existingData = [])
     {
-        /** @var ConfRepository */
+        /** @var ConfRepository $repository */
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()

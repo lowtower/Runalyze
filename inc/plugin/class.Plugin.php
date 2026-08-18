@@ -290,15 +290,15 @@ abstract class Plugin {
 		}
 
 		$this->id = DB::getInstance()->insert('plugin', array(
-			'key',
-			'type',
-			'active',
-			'order',
+		    'key',
+		    'type',
+		    'active',
+		    'order',
 		), array(
-			$this->key(),
-			$this->typeString(),
-			'1',
-			'99',
+		    $this->key(),
+		    $this->typeString(),
+		    '1',
+		    '99',
 		));
 
 		return true;

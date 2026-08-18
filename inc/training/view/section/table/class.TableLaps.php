@@ -54,8 +54,8 @@ class TableLaps extends TableLapsAbstract {
 	 */
 	protected function halfFromLoop(Trackdata\Loop $Loop) {
 		return array(
-			's' => $Loop->difference(Trackdata\Entity::TIME),
-			'km' => $Loop->difference(Trackdata\Entity::DISTANCE)
+		    's' => $Loop->difference(Trackdata\Entity::TIME),
+		    'km' => $Loop->difference(Trackdata\Entity::DISTANCE)
 		);
 	}
 }

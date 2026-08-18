@@ -231,11 +231,11 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	function addHeadline($name, $distance = 0, $num = 0, $noTopBorder = false)
 	{
 		$this->Lines[] = array(
-			'name' => $name,
-			'lvl' => 1,
-			'sep' => !$noTopBorder,
-			'km' => $distance,
-			'anz' => $num
+		    'name' => $name,
+		    'lvl' => 1,
+		    'sep' => !$noTopBorder,
+		    'km' => $distance,
+		    'anz' => $num
 		);
 	}
 
@@ -249,10 +249,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	function addLine($name, $distance = 0, $num = 0)
 	{
 		$this->Lines[] = array(
-			'name' => $name,
-			'lvl' => 2,
-			'km' => $distance,
-			'anz' => $num
+		    'name' => $name,
+		    'lvl' => 2,
+		    'km' => $distance,
+		    'anz' => $num
 		);
 	}
 
@@ -267,13 +267,13 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	function addBar($name, $val, $max, $color, $add = null, $addcolor = null)
 	{
 		$this->Lines[] = array(
-			'name' => $name,
-			'type' => 'bar',
-			'val' => $val,
-			'max' => $max,
-			'color' => $color,
-			'add' => $add,
-			'addcolor' => $addcolor
+		    'name' => $name,
+		    'type' => 'bar',
+		    'val' => $val,
+		    'max' => $max,
+		    'color' => $color,
+		    'add' => $add,
+		    'addcolor' => $addcolor
 		);
 	}
 

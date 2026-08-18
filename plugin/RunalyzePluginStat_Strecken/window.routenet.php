@@ -95,10 +95,10 @@ if (!isset($Route)) {
 }
 
 $Map->setBounds(array(
-	'lat.min' => $minLat,
-	'lat.max' => $maxLat,
-	'lng.min' => $minLng,
-	'lng.max' => $maxLng
+    'lat.min' => $minLat,
+    'lat.max' => $maxLat,
+    'lng.min' => $minLng,
+    'lng.max' => $maxLng
 ));
 $Map->display();
 

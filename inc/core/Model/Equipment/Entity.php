@@ -69,14 +69,14 @@ class Entity extends Model\EntityWithID {
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::NAME,
-			self::TYPEID,
-			self::NOTES,
-			self::DISTANCE,
-			self::TIME,
-			self::ADDITIONAL_KM,
-			self::DATE_START,
-			self::DATE_END
+		    self::NAME,
+		    self::TYPEID,
+		    self::NOTES,
+		    self::DISTANCE,
+		    self::TIME,
+		    self::ADDITIONAL_KM,
+		    self::DATE_START,
+		    self::DATE_END
 		);
 	}
 
@@ -117,9 +117,9 @@ class Entity extends Model\EntityWithID {
 	 */
 	protected function ensureAllNumericValues() {
 		$this->ensureNumericValue(array(
-			self::DISTANCE,
-			self::TIME,
-			self::ADDITIONAL_KM
+		    self::DISTANCE,
+		    self::TIME,
+		    self::ADDITIONAL_KM
 		));
 	}
 

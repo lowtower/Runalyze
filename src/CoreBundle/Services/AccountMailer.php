@@ -88,9 +88,9 @@ class AccountMailer
     {
             $this->sendMailTo($account, $this->Translator->trans('Please activate your RUNALYZE account'),
                 'mail/account/registration.html.twig', [
-                'username' => $account->getUsername(),
-                'activationHash' => $account->getActivationHash()
-            ]
+                    'username' => $account->getUsername(),
+                    'activationHash' => $account->getActivationHash()
+                ]
         );
     }
 
@@ -98,9 +98,9 @@ class AccountMailer
     {
         $this->sendMailTo($account, $this->Translator->trans('Reset your RUNALYZE password'),
                 'mail/account/recoverPassword.html.twig', [
-                'username' => $account->getUsername(),
-                'changepw_hash' => $account->getChangepwHash()
-            ]
+                    'username' => $account->getUsername(),
+                    'changepw_hash' => $account->getChangepwHash()
+                ]
         );
     }
 

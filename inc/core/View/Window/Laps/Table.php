@@ -120,12 +120,12 @@ class Table {
 
 		if (!$isRunning) {
 			$this->AdditionalKeys = array_diff($this->AdditionalKeys, array(
-				Activity\Entity::GROUNDCONTACT,
-				Activity\Entity::GROUNDCONTACT_BALANCE,
-				Activity\Entity::VERTICAL_OSCILLATION,
-				Activity\Entity::VERTICAL_RATIO,
-				Activity\Entity::STRIDE_LENGTH,
-				Activity\Entity::VO2MAX
+			    Activity\Entity::GROUNDCONTACT,
+			    Activity\Entity::GROUNDCONTACT_BALANCE,
+			    Activity\Entity::VERTICAL_OSCILLATION,
+			    Activity\Entity::VERTICAL_RATIO,
+			    Activity\Entity::STRIDE_LENGTH,
+			    Activity\Entity::VO2MAX
 			));
 		}
 	}

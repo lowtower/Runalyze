@@ -48,11 +48,11 @@ class Factory {
 		$this->DB = DB::getInstance();
 		$this->AccountID = $accountID;
 		$this->UseStaticCacheAndFullFetch = array(
-			'sport' => true,
-			'type' => true,
-			'equipment' => true,
-			'equipment_type' => true,
-			'tag' => true
+		    'sport' => true,
+		    'type' => true,
+		    'equipment' => true,
+		    'equipment_type' => true,
+		    'tag' => true
 		);
 	}
 

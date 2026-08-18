@@ -60,9 +60,9 @@ class Tags extends AbstractKey
 	public function joinDefinition()
 	{
 		return array(
-			'column' => self::CONCAT_TAGIDS_KEY,
-			'join' => 'LEFT JOIN `'.PREFIX.'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
-			'field' => 'GROUP_CONCAT(`atag`.`tagid` SEPARATOR \',\') AS `'.self::CONCAT_TAGIDS_KEY.'`'
+		    'column' => self::CONCAT_TAGIDS_KEY,
+		    'join' => 'LEFT JOIN `'.PREFIX.'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
+		    'field' => 'GROUP_CONCAT(`atag`.`tagid` SEPARATOR \',\') AS `'.self::CONCAT_TAGIDS_KEY.'`'
 		);
 	}
 

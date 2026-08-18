@@ -308,31 +308,31 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::ACTIVITYID,
-			self::TIME,
-			self::DISTANCE,
-			self::HEARTRATE,
-			self::CADENCE,
-			self::POWER,
-			self::TEMPERATURE,
-			self::GROUNDCONTACT,
-			self::VERTICAL_OSCILLATION,
-			self::GROUNDCONTACT_BALANCE,
-            self::SMO2_0,
-            self::SMO2_1,
-            self::THB_0,
-            self::THB_1,
-			self::IMPACT_GS_LEFT,
-			self::IMPACT_GS_RIGHT,
-			self::BRAKING_GS_LEFT,
-			self::BRAKING_GS_RIGHT,
-			self::FOOTSTRIKE_TYPE_LEFT,
-			self::FOOTSTRIKE_TYPE_RIGHT,
-			self::PRONATION_EXCURSION_LEFT,
-			self::PRONATION_EXCURSION_RIGHT,
-			self::PERFORMANCE_CONDITION,
-			self::RESPIRATION_RATE,
-			self::PAUSES
+		    self::ACTIVITYID,
+		    self::TIME,
+		    self::DISTANCE,
+		    self::HEARTRATE,
+		    self::CADENCE,
+		    self::POWER,
+		    self::TEMPERATURE,
+		    self::GROUNDCONTACT,
+		    self::VERTICAL_OSCILLATION,
+		    self::GROUNDCONTACT_BALANCE,
+		    self::SMO2_0,
+		    self::SMO2_1,
+		    self::THB_0,
+		    self::THB_1,
+		    self::IMPACT_GS_LEFT,
+		    self::IMPACT_GS_RIGHT,
+		    self::BRAKING_GS_LEFT,
+		    self::BRAKING_GS_RIGHT,
+		    self::FOOTSTRIKE_TYPE_LEFT,
+		    self::FOOTSTRIKE_TYPE_RIGHT,
+		    self::PRONATION_EXCURSION_LEFT,
+		    self::PRONATION_EXCURSION_RIGHT,
+		    self::PERFORMANCE_CONDITION,
+		    self::RESPIRATION_RATE,
+		    self::PAUSES
 		);
 	}
 
@@ -342,10 +342,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 */
 	public function properties() {
 		return array_merge(array(
-				self::PACE,
-				self::STRIDE_LENGTH,
-				self::VERTICAL_RATIO
-			),
+		    self::PACE,
+		    self::STRIDE_LENGTH,
+		    self::VERTICAL_RATIO
+		),
 			static::allDatabaseProperties()
 		);
 	}

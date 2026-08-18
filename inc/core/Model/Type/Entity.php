@@ -57,12 +57,12 @@ class Entity extends Model\EntityWithID {
 	 */
 	public static function allDatabaseProperties() {
 		return array(
-			self::NAME,
-			self::ABBREVIATION,
-			self::SPORTID,
-			self::SHORT,
-			self::HR_AVG,
-			self::QUALITY_SESSION
+		    self::NAME,
+		    self::ABBREVIATION,
+		    self::SPORTID,
+		    self::SHORT,
+		    self::HR_AVG,
+		    self::QUALITY_SESSION
 		);
 	}
 
