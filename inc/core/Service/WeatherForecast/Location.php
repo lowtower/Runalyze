@@ -48,7 +48,7 @@ class Location
         }
     }
 
-    public function setDateTime(\DateTime $dateTime = null)
+    public function setDateTime(?\DateTime $dateTime = null)
     {
         $this->DateTime = $dateTime;
     }

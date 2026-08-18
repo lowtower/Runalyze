@@ -31,25 +31,25 @@ class Prognose_PrognosisWindow {
 	 * Formular
 	 * @var Formular
 	 */
-	protected $Formular = null;
+	protected $Formular;
 
 	/**
 	 * Fieldset: Input
 	 * @var FormularFieldset
 	 */
-	protected $FieldsetInput = null;
+	protected $FieldsetInput;
 
 	/**
 	 * Fieldset: Result
 	 * @var FormularFieldset
 	 */
-	protected $FieldsetResult = null;
+	protected $FieldsetResult;
 
 	/**
 	 * Prognosis object
 	 * @var \Runalyze\Sports\Running\Prognosis\PrognosisInterface
 	 */
-	protected $PrognosisObject = null;
+	protected $PrognosisObject;
 
 	/**
 	 * Distances

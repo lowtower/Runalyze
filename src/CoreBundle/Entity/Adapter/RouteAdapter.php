@@ -23,7 +23,7 @@ class RouteAdapter
      * @param StrategyInterface|null $strategy
      * @return bool true on success
      */
-    public function correctElevation(ElevationCorrection $elevationCorrection, StrategyInterface $strategy = null)
+    public function correctElevation(ElevationCorrection $elevationCorrection, ?StrategyInterface $strategy = null): bool
     {
         if ($this->Route->hasGeohashes()) {
             list($latitudes, $longitudes) = $this->Route->getLatitudesAndLongitudes();

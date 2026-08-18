@@ -44,40 +44,40 @@ class Dataview
     protected $Activity;
 
     /** @var null|\Runalyze\Activity\Duration */
-    protected $Duration = null;
+    protected $Duration;
 
     /** @var null|\Runalyze\Activity\Energy */
-    protected $Energy = null;
+    protected $Energy;
 
     /** @var null|\Runalyze\Activity\HeartRate */
-    protected $HRmax = null;
+    protected $HRmax;
 
     /** @var null|\Runalyze\Activity\HeartRate */
-    protected $HRavg = null;
+    protected $HRavg;
 
     /** @var null|\Runalyze\Activity\HeartRate */
-    protected $HRavgActive = null;
+    protected $HRavgActive;
 
     /** @var null|\Runalyze\Activity\Pace */
-    protected $Pace = null;
+    protected $Pace;
 
     /** @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2max */
-    protected $VO2max = null;
+    protected $VO2max;
 
     /** @var null|\Runalyze\Data\Cadence\AbstractCadence */
-    protected $Cadence = null;
+    protected $Cadence;
 
     /** @var null|\Runalyze\Activity\StrideLength */
-    protected $StrideLength = null;
+    protected $StrideLength;
 
     /** @var null|\Runalyze\Activity\Elevation */
-    protected $Elevation = null;
+    protected $Elevation;
 
     /** @var null|\Runalyze\Data\Weather\WindChillFactor */
-    protected $WindChillFactor = null;
+    protected $WindChillFactor;
 
     /** @var null|HeatIndex */
-    protected $HeatIndex = null;
+    protected $HeatIndex;
 
     /**
      * @param \Runalyze\Model\Activity\Entity $activity

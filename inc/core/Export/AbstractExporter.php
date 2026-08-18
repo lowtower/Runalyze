@@ -18,7 +18,7 @@ use Runalyze\View\Activity\Context;
 abstract class AbstractExporter
 {
 	/** @var \Runalyze\View\Activity\Context */
-	protected $Context = null;
+	protected $Context;
 
 	/**
 	 * Constructor

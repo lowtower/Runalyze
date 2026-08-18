@@ -62,7 +62,7 @@ abstract class FormularField extends HtmlTag {
 	 * Enum from FormularValueParser
 	 * @var string enum
 	 */
-	protected $parser = null;
+	protected $parser;
 
 	/**
 	 * Array with options for parser

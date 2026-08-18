@@ -25,7 +25,7 @@ class AnaerobicTrainingEffect implements ValueInterface
     const DECIMALS = 1;
 
 	/** @var float|null */
-	protected $Value = null;
+	protected $Value;
 
 	/**
 	 * Format

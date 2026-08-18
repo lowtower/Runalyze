@@ -23,7 +23,7 @@ abstract class Parameter {
 	 * Value
 	 * @var mixed
 	 */
-	private $Value = null;
+	private $Value;
 
 	/**
 	 * Options

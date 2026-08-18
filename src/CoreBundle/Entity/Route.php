@@ -324,7 +324,7 @@ class Route implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setGeohashes(array $geohashes = null)
+    public function setGeohashes(?array $geohashes = null)
     {
         $this->areMinMaxSynchronized = false;
         $this->geohashes = $geohashes;
@@ -418,7 +418,7 @@ class Route implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setElevationsOriginal(array $elevationsOriginal = null)
+    public function setElevationsOriginal(?array $elevationsOriginal = null)
     {
         $this->elevationsOriginal = $elevationsOriginal;
 
@@ -438,7 +438,7 @@ class Route implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setElevationsCorrected(array $elevationsCorrected = null)
+    public function setElevationsCorrected(?array $elevationsCorrected = null)
     {
         $this->elevationsCorrected = $elevationsCorrected;
 

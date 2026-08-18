@@ -39,7 +39,7 @@ class Pace {
 	/**
 	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
 	 */
-	protected $UnitObject = null;
+	protected $UnitObject;
 
 	/**
 	 * Create pace

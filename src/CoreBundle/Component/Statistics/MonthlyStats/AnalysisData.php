@@ -28,7 +28,7 @@ class AnalysisData
     protected $DefaultValue;
 
     /** @var null|ValueExtension */
-    protected $ValueExtension = null;
+    protected $ValueExtension;
 
     public function __construct(
         Selection $sportSelection,

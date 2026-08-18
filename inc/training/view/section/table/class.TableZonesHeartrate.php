@@ -25,7 +25,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 
 	const DEFAULT_COLOR = '#c6c5c5';
 
-	private $footerHint = null;
+	private $footerHint;
 
     /**
 	 * Calculator

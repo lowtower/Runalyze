@@ -24,7 +24,7 @@ class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
                 /** @var LapIntensity $intensity */
                 return $intensity->getLabel();
             },
-            'choice_value' => function (LapIntensity $intensity = null) {
+            'choice_value' => function (?LapIntensity $intensity = null) {
                 return $intensity ? $intensity->getValue() : '';
             }
         ));

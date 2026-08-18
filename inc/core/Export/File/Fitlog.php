@@ -21,15 +21,15 @@ use SessionAccountHandler;
 class Fitlog extends AbstractFileExporter
 {
     /** @var \SimpleXMLElement */
-    protected $XML = null;
+    protected $XML;
 
     /** @var \SimpleXMLElement */
-    protected $Activity = null;
+    protected $Activity;
 
     /**
      * @return bool
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return true;
     }

@@ -18,7 +18,7 @@ abstract class EntityWithID extends Entity {
 	 * ID
 	 * @var int
 	 */
-	protected $ID = null;
+	protected $ID;
 
 	/**
 	 * Construct

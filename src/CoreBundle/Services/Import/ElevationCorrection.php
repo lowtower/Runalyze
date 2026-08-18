@@ -14,7 +14,7 @@ class ElevationCorrection
 	protected $StrategyCollection;
 
 	/** @var null|StrategyInterface */
-	protected $LastSuccessfulStrategy = null;
+	protected $LastSuccessfulStrategy;
 
 	public function __construct(
 	    GeoTiff $geoTiff,
@@ -35,7 +35,7 @@ class ElevationCorrection
      *
      * @return int[]|null altitude [m]
      */
-    public function loadAltitudeData(array $latitudes, array $longitudes, StrategyInterface $strategy = null)
+    public function loadAltitudeData(array $latitudes, array $longitudes, ?StrategyInterface $strategy = null)
     {
         if (null !== $strategy) {
             $this->LastSuccessfulStrategy = $strategy;

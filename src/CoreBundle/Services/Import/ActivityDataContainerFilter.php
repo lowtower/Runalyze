@@ -17,7 +17,7 @@ class ActivityDataContainerFilter implements LoggerAwareInterface
     /** @var FilterCollection */
     protected $Filter;
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: new NullLogger();
 

@@ -19,7 +19,7 @@ class GpxTrack extends AbstractSingleParser
     protected $LastTimestamp = 0;
 
     /** @var SimpleXMLElement */
-    protected $ExtensionXml = null;
+    protected $ExtensionXml;
 
     /** @var bool */
     protected $LookForPauses = false;
@@ -34,7 +34,7 @@ class GpxTrack extends AbstractSingleParser
     protected $PauseDuration = 0;
 
     /** @var int|null [bpm] */
-    protected $LastValidHeartRate = null;
+    protected $LastValidHeartRate;
 
     public function __construct(SimpleXMLElement $track)
     {

@@ -20,10 +20,10 @@ use Runalyze\Util\LocalTime;
 class Tcx extends AbstractFileExporter
 {
     /** @var \SimpleXMLElement */
-    protected $XML = null;
+    protected $XML;
 
     /** @var \SimpleXMLElement */
-    protected $Activity = null;
+    protected $Activity;
 
     /** @var bool */
     protected $HasRoute = false;

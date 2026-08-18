@@ -42,7 +42,7 @@ class Laps {
 	 * @param \Runalyze\Model\Route\Entity $route
 	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
 	 */
-	public function calculateFrom(array $distances, Trackdata\Entity $trackdata, Route\Entity $route = null) {
+	public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null) {
 		$Calculator = new Calculator($this);
 		$Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
 		$Calculator->setDistances($distances);
@@ -55,7 +55,7 @@ class Laps {
 	 * @param \Runalyze\Model\Route\Entity $route
 	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
 	 */
-	public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, Route\Entity $route = null, Swimdata\Entity $swimdata = null) {
+	public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null) {
 		$Calculator = new Calculator($this);
 		$Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
 		$Calculator->setTimes($times);
@@ -109,7 +109,7 @@ class Laps {
 	 * #TSC
 	 * @return bool
 	 */
-	public function hasMoreThanActiveOrRestLaps() {
+	public function hasMoreThanActiveOrRestLaps(): bool {
 		foreach ($this->Objects as $lap) {
 			if (!$lap->getMode()->isActive() && !$lap->getMode()->isRest()) {
 				return true;

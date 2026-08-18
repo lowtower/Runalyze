@@ -41,7 +41,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
      * @param Client $client
      * @param LoggerInterface|null $logger
      */
-    public function __construct($apiKey, Client $client, LoggerInterface $logger = null)
+    public function __construct($apiKey, Client $client, ?LoggerInterface $logger = null)
     {
         $this->ApiKey = $apiKey;
         $this->HttpClient = $client;
@@ -53,7 +53,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         return strlen($this->ApiKey) > 0;
     }
 
-    public function isCachable()
+    public function isCachable(): bool
     {
         return true;
     }

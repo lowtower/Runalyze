@@ -20,7 +20,7 @@ class ConstantSegmentFinder
     protected $MinimumIndexDiff = 1;
 
     /** @var int|float|null */
-    protected $MaximumIndexDiff = null;
+    protected $MaximumIndexDiff;
 
     public function __construct(array $data, array $indexData = [])
     {

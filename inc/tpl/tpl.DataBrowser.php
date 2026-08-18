@@ -49,7 +49,12 @@ use Runalyze\Util\LocalTime;
         $weekMin=_('wk');
 
         $locale = array (
-            'days' => $days, 'daysMin'=>$daysMin, 'daysShort'=>$daysShort, 'months' => $months, 'monthsShort' => $monthsShort, 'weekMin' => $weekMin
+            'days' => $days,
+            'daysMin'=>$daysMin,
+            'daysShort'=>$daysShort,
+            'months' => $months,
+            'monthsShort' => $monthsShort,
+            'weekMin' => $weekMin
         );
 
         echo htmlspecialchars(json_encode($locale)) ?>">

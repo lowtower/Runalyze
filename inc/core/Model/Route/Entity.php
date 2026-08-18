@@ -279,7 +279,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isArray($key) {
+	public function isArray($key): bool {
 		switch ($key) {
 			case self::ELEVATIONS_ORIGINAL:
 			case self::ELEVATIONS_CORRECTED:
@@ -295,7 +295,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::ELEVATIONS_ORIGINAL:
 			case self::ELEVATIONS_CORRECTED:
@@ -364,7 +364,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	/**
 	 * @param array $geohashes
 	 */
-	public function setMinMaxFromGeohashes(array $geohashes = null) {
+	public function setMinMaxFromGeohashes(?array $geohashes = null) {
 	    if (null === $geohashes) {
 	        $this->setMinMaxToNull();
 

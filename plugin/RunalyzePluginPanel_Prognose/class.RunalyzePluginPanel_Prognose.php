@@ -23,7 +23,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	 * Prognosis
 	 * @var \Runalyze\Sports\Running\Prognosis\PrognosisInterface
 	 */
-	protected $Prognosis = null;
+	protected $Prognosis;
 
 	/**
 	 * Number of successfully fetched PBs

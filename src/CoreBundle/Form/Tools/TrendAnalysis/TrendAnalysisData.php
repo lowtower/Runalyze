@@ -21,7 +21,7 @@ class TrendAnalysisData
     protected $Type = [];
 
     /** @var string|null */
-    protected $ValueToLookAt = null;
+    protected $ValueToLookAt;
 
     /**
      * @param Sport[] $sports

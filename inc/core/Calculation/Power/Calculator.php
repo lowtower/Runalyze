@@ -65,7 +65,7 @@ class Calculator {
 	 */
 	public function __construct(
 		Trackdata\Entity $trackdata,
-		Route\Entity $route = null
+		?Route\Entity $route = null
 	) {
 		$this->Trackdata = $trackdata;
 		$this->Route = $route;

@@ -14,13 +14,13 @@ class FormularInputNumber extends FormularInput {
 	 * Minimum
 	 * @var int
 	 */
-	protected $min = null;
+	protected $min;
 
 	/**
 	 * Maximum
 	 * @var int
 	 */
-	protected $max = null;
+	protected $max;
 
 	/**
 	 * Prepare for beeing displayed 

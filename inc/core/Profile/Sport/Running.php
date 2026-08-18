@@ -34,17 +34,17 @@ class Running extends AbstractSport
         return 140;
     }
 
-    public function hasDistances()
+    public function hasDistances(): bool
     {
         return true;
     }
 
-    public function hasPower()
+    public function hasPower(): bool
     {
         return false;
     }
 
-    public function isOutside()
+    public function isOutside(): bool
     {
         return true;
     }
@@ -54,7 +54,7 @@ class Running extends AbstractSport
         return PaceEnum::SECONDS_PER_KILOMETER;
     }
 
-    public function usesShortDisplay()
+    public function usesShortDisplay(): bool
     {
         return false;
     }

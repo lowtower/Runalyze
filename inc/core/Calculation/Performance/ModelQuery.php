@@ -10,13 +10,13 @@ use Runalyze\Util\LocalTime;
 class ModelQuery
 {
     /** @var null|int [timestamp] */
-    protected $From = null;
+    protected $From;
 
     /** @var null|int [timestamp] */
-    protected $To = null;
+    protected $To;
 
     /** @var null|int */
-    protected $SportId = null;
+    protected $SportId;
 
     /** @var array */
     protected $Data = array();

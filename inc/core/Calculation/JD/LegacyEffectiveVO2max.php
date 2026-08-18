@@ -31,7 +31,7 @@ class LegacyEffectiveVO2max
      * @param float $value [optional]
      * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
      */
-    public function __construct($value = 0.0, LegacyEffectiveVO2maxCorrector $corrector = null)
+    public function __construct($value = 0.0, ?LegacyEffectiveVO2maxCorrector $corrector = null)
     {
         $this->setValue($value);
         $this->setCorrector($corrector);
@@ -48,7 +48,7 @@ class LegacyEffectiveVO2max
     /**
      * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
      */
-    public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector = null)
+    public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null)
     {
         if (null !== $corrector) {
             $this->Corrector = $corrector;

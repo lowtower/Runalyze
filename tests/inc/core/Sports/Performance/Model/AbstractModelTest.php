@@ -17,13 +17,19 @@ class AbstractModel_MockTesterFilled extends AbstractModel
     protected function calculateArrays()
     {
         $this->Fitness = [
-            -1 => 10, 0 => 15, 1 => 20
+            -1 => 10,
+            0 => 15,
+            1 => 20
         ];
         $this->Fatigue = [
-            -1 => 15, 0 => 20, 1 => 15
+            -1 => 15,
+            0 => 20,
+            1 => 15
         ];
         $this->Performance = [
-            -1 => -10, 0 => -10, 1 => 0
+            -1 => -10,
+            0 => -10,
+            1 => 0
         ];
     }
 }
@@ -74,13 +80,19 @@ class ModelTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals([
             AbstractModel::FITNESS => [
-                -1 => 10, 0 => 15, 1 => 20
+                -1 => 10,
+                0 => 15,
+                1 => 20
             ],
             AbstractModel::FATIGUE => [
-                -1 => 15, 0 => 20, 1 => 15
+                -1 => 15,
+                0 => 20,
+                1 => 15
             ],
             AbstractModel::PERFORMANCE => [
-                -1 => -10, 0 => -10, 1 => 0
+                -1 => -10,
+                0 => -10,
+                1 => 0
             ]
         ], $this->object->getArrays());
     }

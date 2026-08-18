@@ -14,7 +14,7 @@ class TimeSeriesStatistics
     protected $AvailableKeys = [];
 
     /** @var MultipleTimeSeries|null */
-    protected $MultipleTimeSeries = null;
+    protected $MultipleTimeSeries;
 
     /**
      * @param Trackdata\Entity $trackdata

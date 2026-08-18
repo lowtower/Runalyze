@@ -11,10 +11,10 @@ class Configuration
     private static $Categories = array();
 
     /** @var array|null */
-    private static $ValuesFromDB = null;
+    private static $ValuesFromDB;
 
     /** @var int|null */
-    private static $AccountID = null;
+    private static $AccountID;
 
     /**
      * @param mixed $accountid

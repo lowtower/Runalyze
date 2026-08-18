@@ -91,7 +91,7 @@ class SelfEvaluationFeeling extends AbstractEnum
     /**
      * Gets the number and label text as a string.
      *
-     * @param int $enum internal enum
+     * @param int $num internal enum
      * @return description with number and texts
      * @codeCoverageIgnore
      */

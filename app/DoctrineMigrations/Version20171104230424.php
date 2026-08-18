@@ -89,7 +89,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         }
     }
 
-    protected function fixActivity(Trackdata $trackData, Route $route = null)
+    protected function fixActivity(Trackdata $trackData, ?Route $route = null)
     {
         $expectedSize = $trackData->hasTime() ? count($trackData->getTime()) : count($trackData->getDistance());
 

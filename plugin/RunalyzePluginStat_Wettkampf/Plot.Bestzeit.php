@@ -35,7 +35,8 @@ if (!empty($competitions)) {
 
 $Plot = new Plot('bestzeit'.$distance*1000, 480, 190);
 $Plot->Data[] = array(
-    'label' => $label, 'data' => $Results
+    'label' => $label,
+    'data' => $Results
 );
 
 $Plot->setMarginForGrid(5);

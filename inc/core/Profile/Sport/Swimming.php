@@ -34,17 +34,17 @@ class Swimming extends AbstractSport
         return 130;
     }
 
-    public function hasDistances()
+    public function hasDistances(): bool
     {
         return true;
     }
 
-    public function hasPower()
+    public function hasPower(): bool
     {
         return false;
     }
 
-    public function isOutside()
+    public function isOutside(): bool
     {
         return false;
     }
@@ -54,7 +54,7 @@ class Swimming extends AbstractSport
         return PaceEnum::SECONDS_PER_100M;
     }
 
-    public function usesShortDisplay()
+    public function usesShortDisplay(): bool
     {
         return false;
     }

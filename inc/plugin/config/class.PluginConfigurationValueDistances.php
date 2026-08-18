@@ -19,7 +19,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 	/**
 	 * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
-	protected $UnitSystem = null;
+	protected $UnitSystem;
 
 	/**
 	 * Construct

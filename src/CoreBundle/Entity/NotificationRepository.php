@@ -10,7 +10,7 @@ class NotificationRepository extends EntityRepository
      * @param Account|null $account
      * @return Notification[]
      */
-    public function findAll(Account $account = null)
+    public function findAll(?Account $account = null)
     {
         if (null === $account) {
             throw new \LogicException('Finding all notifications is only possible for a specific account.');

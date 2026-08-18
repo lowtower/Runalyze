@@ -53,12 +53,12 @@ class Table {
 	/**
 	 * @var \Runalyze\Activity\Pace
 	 */
-	protected $AveragePace = null;
+	protected $AveragePace;
 
 	/**
 	 * @var \Runalyze\Activity\Duration
 	 */
-	protected $AverageTime = null;
+	protected $AverageTime;
 
 	/**
 	 * @var int
@@ -79,7 +79,7 @@ class Table {
 	 * @var array
 	 * contains the decoded splits-additional infos as a object array.
 	 */
-	protected $splitsAdditional = null;
+	protected $splitsAdditional;
 
 	/** @var bool */
 	private $showIntensity = false;
@@ -88,7 +88,7 @@ class Table {
 	 * @param \Runalyze\Data\Laps\Laps $laps
 	 * @param \Runalyze\Activity\Duration $demandedTime
 	 * @param \Runalyze\Activity\Pace $demandedPace
-	 * @param int $InternalProfileEnum
+	 * @param int $internalSportProfileEnum
 	 * @param array $splitsAdditional
 	 */
 	public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, $internalSportProfileEnum, ?array $splitsAdditional = null)
@@ -135,7 +135,7 @@ class Table {
 	 * @param \Runalyze\Activity\Pace $pace
 	 * @param \Runalyze\Activity\Duration $time
 	 */
-	public function setAverage(Pace $pace, Duration $time = null) {
+	public function setAverage(Pace $pace, ?Duration $time = null) {
 		$this->AveragePace = $pace;
 		$this->AverageTime = $time;
 	}

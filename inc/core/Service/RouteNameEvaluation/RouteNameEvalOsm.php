@@ -62,7 +62,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
      * @param Client $client
      * @param LoggerInterface|null $logger
      */
-    public function __construct($url, $proxy, Client $client, LoggerInterface $logger = null) {
+    public function __construct($url, $proxy, Client $client, ?LoggerInterface $logger = null) {
         $this->Url = $url;
         $this->Proxy = $proxy;
         $this->HttpClient = $client;

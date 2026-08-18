@@ -41,7 +41,7 @@ class PluginInstaller {
 	 * Configuration variables will be inserted on the fly.
 	 * @return bool
 	 */
-	public function install() {
+	public function install(): bool {
 		$Factory = new PluginFactory();
 		$Plugin = $Factory->newInstallerInstance($this->Key);
 

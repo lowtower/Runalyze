@@ -125,16 +125,24 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals( array(
 		    array(
-		        'km' => 1, 'time' => '4:20', 'active' => true
+		        'km' => 1,
+		        'time' => '4:20',
+		        'active' => true
 		    ),
 		    array(
-		        'km' => 2.4, 'time' => '10:09', 'active' => true
+		        'km' => 2.4,
+		        'time' => '10:09',
+		        'active' => true
 		    ),
 		    array(
-		        'km' => 10, 'time' => '1:00:00', 'active' => true
+		        'km' => 10,
+		        'time' => '1:00:00',
+		        'active' => true
 		    ),
 		    array(
-		        'km' => 1, 'time' => '6:00', 'active' => false
+		        'km' => 1,
+		        'time' => '6:00',
+		        'active' => false
 		    )
 		), $Splits->asArray() );
 
@@ -176,10 +184,14 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( '1.000|4:20-0.200|0:35', $Splits->asString() );
 		$this->assertEquals( array(
 		    array(
-		        'km' => 1, 'time' => '4:20', 'active' => true
+		        'km' => 1,
+		        'time' => '4:20',
+		        'active' => true
 		    ),
 		    array(
-		        'km' => 0.2, 'time' => '0:35', 'active' => true
+		        'km' => 0.2,
+		        'time' => '0:35',
+		        'active' => true
 		    )
 		), $Splits->asArray() );
 	}

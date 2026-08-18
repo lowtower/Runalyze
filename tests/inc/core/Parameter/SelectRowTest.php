@@ -17,7 +17,8 @@ class ParameterSelectRowTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected function setUp() : void {
 		$this->object = new SelectRow('foo', array(
-		    'table' => 'table', 'column' => 'col'
+		    'table' => 'table',
+		    'column' => 'col'
 		));
 	}
 

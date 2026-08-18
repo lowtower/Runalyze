@@ -73,7 +73,7 @@ class SelectFile extends Select {
 	 * @param string $fileName
 	 * @return bool
 	 */
-	protected function valueIsAllowed($fileName) {
+	protected function valueIsAllowed($fileName): bool {
 		$firstChar = substr($fileName, 0, 1);
 		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
 

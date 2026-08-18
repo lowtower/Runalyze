@@ -20,7 +20,7 @@ class FormularSelectSearchSort extends FormularField {
 	 * Validate value
 	 * @return boolean
 	 */
-	public function validate() {
+	public function validate(): bool {
 		return true;
 	}
 
@@ -82,7 +82,8 @@ class FormularSelectSearchSort extends FormularField {
 
 		$code .= HTML::selectBox('search-sort-by', $this->SortByOptions);
 		$code .= HTML::selectBox('search-sort-order', array(
-		    'DESC' => __('descending'), 'ASC' => __('ascending')
+		    'DESC' => __('descending'),
+		    'ASC' => __('ascending')
 		));
 
 		$code .= '</div>';

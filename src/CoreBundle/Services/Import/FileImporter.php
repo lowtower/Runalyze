@@ -57,7 +57,7 @@ class FileImporter implements LoggerAwareInterface
         FitConverter $fitConverter,
         TTbinConverter $ttbinConverter,
         $directoryForFailedImports = null,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     )
     {
         $this->ParserMapping = new FileExtensionToParserMapping();

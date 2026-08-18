@@ -31,7 +31,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
      * @param Client $client
      * @param LoggerInterface|null $logger
      */
-    public function __construct($geonamesUsername, Client $client, LoggerInterface $logger = null)
+    public function __construct($geonamesUsername, Client $client, ?LoggerInterface $logger = null)
     {
         $this->GeonamesUsername = $geonamesUsername;
 
@@ -66,7 +66,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
         return $elevationData;
     }
 
-    protected function checkApiResult(array $json)
+    protected function checkApiResult(array $json): bool
     {
         if (isset($json['status']) && isset($json['status']['value'])) {
             if (isset($json['status']['message'])) {

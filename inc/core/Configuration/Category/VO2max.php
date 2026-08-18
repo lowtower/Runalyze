@@ -27,7 +27,9 @@ class VO2max extends \Runalyze\Configuration\Category
     {
         $this->createHandle('VO2MAX_DAYS', new Integer(30));
         $this->createHandle('VO2MAX_MANUAL_CORRECTOR', new FloatingPoint(null, [
-            'min' => 0.50, 'max' => 2.00, 'null' => true
+            'min' => 0.50,
+            'max' => 2.00,
+            'null' => true
         ]));
         $this->createHandle('VO2MAX_MANUAL_VALUE', new Textline(''));
 

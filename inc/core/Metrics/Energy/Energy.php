@@ -23,7 +23,7 @@ class Energy extends AbstractMetric
      * @param AbstractEnergyUnit|null $unit
      * @return $this
      */
-    public function setValue($value, AbstractEnergyUnit $unit = null)
+    public function setValue($value, ?AbstractEnergyUnit $unit = null)
     {
         $this->Value = null !== $unit ? $unit->toBaseUnit($value) : $value;
 

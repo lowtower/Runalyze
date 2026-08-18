@@ -30,7 +30,7 @@ class PerformanceCondition implements ValueInterface
     const UPPER_LIMIT = 120;
 
 	/** @var int|null */
-	protected $Value = null;
+	protected $Value;
 
 	/**
 	 * Format

@@ -11,7 +11,7 @@ class TimezoneLookup
     protected $SpatialiteExtensionName;
 
     /** @var \SQLite3|null|false */
-    protected $SQLite = null;
+    protected $SQLite;
 
     /** @var bool */
     protected $SilentExceptions = false;
@@ -40,7 +40,7 @@ class TimezoneLookup
      * @return bool
      * @throws TimezoneLookupException
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         try {
             $sqLite = $this->getSQLite();

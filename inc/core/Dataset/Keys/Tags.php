@@ -50,7 +50,7 @@ class Tags extends AbstractKey
 	/**
 	 * @return bool
 	 */
-	public function requiresJoin()
+	public function requiresJoin(): bool
 	{
 		return true;
 	}

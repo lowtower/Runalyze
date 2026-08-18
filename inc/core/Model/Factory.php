@@ -458,7 +458,7 @@ class Factory {
 	 * @param string $tablename
 	 * @return boolean
 	 */
-	protected function tableHasAccountid($tablename) {
+	protected function tableHasAccountid($tablename): bool {
 		switch ($tablename) {
 			case 'account':
 			case 'plugin_conf':

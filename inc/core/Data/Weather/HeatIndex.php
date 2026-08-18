@@ -14,7 +14,7 @@ class HeatIndex implements ValueInterface
 	 * @param Activity\Temperature $temperature
 	 * @param Humidity $humidity
 	 */
-    public function __construct(Activity\Temperature $temperature = null, Humidity $humidity = null)
+    public function __construct(?Activity\Temperature $temperature = null, ?Humidity $humidity = null)
     {
         if (null !== $temperature && null !== $humidity) {
             $this->setFrom($temperature, $humidity);

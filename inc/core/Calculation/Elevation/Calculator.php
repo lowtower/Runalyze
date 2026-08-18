@@ -69,7 +69,7 @@ class Calculator
 	 * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
 	 * @param int|null $Threshold [optional]
 	 */
-	public function __construct(array $ElevationPoints, ElevationMethod $Method = null, $Threshold = null)
+	public function __construct(array $ElevationPoints, ?ElevationMethod $Method = null, $Threshold = null)
 	{
 		$this->ElevationPoints = $ElevationPoints;
 		$this->Method = null !== $Method ? $Method : Configuration::ActivityView()->elevationMethod();

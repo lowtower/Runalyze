@@ -113,7 +113,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param string $deletionHash
      * @return bool true on success
      */
-    public function deleteByHash($deletionHash)
+    public function deleteByHash($deletionHash): bool
     {
         /** @var null|Account $account */
         $account = $this->findOneBy([
@@ -134,7 +134,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param string $activationHash
      * @return bool true on success
      */
-    public function activateByHash($activationHash)
+    public function activateByHash($activationHash): bool
     {
         /** @var null|Account $account */
         $account = $this->findOneBy([

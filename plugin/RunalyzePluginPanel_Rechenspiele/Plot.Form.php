@@ -174,7 +174,8 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 			}
 			$longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
 			$BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
-			    'km' => $currentKmSum, 'sum' => $longJogPoints
+			    'km' => $currentKmSum,
+			    'sum' => $longJogPoints
 			])['percentage'];
 		}
 
@@ -189,29 +190,47 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 $Plot = new Plot('form'.$timerange.$perfmodel, 800, 450);
 
 $Plot->Data[] = array(
-    'label' => __('Fitness (CTL)'), 'color' => '#008800', 'data' => $CTLs
+    'label' => __('Fitness (CTL)'),
+    'color' => '#008800',
+    'data' => $CTLs
 );
 
 if ($perfmodel == 'banister') {
 	$Plot->Data[] = array(
-	    'label' => 'TSB', 'color' => '#BBBB00', 'data' => $TSBs
+	    'label' => 'TSB',
+	    'color' => '#BBBB00',
+	    'data' => $TSBs
 	);
 }
 
 $Plot->Data[] = array(
-    'label' => __('Fatigue (ATL)'), 'color' => '#CC2222', 'data' => $ATLs
+    'label' => __('Fatigue (ATL)'),
+    'color' => '#CC2222',
+    'data' => $ATLs
 );
 $Plot->Data[] = array(
-    'label' => __('avg.').' VO2max', 'color' => '#000000', 'data' => $VO2MAXs, 'yaxis' => 2
+    'label' => __('avg.').' VO2max',
+    'color' => '#000000',
+    'data' => $VO2MAXs,
+    'yaxis' => 2
 );
 $Plot->Data[] = array(
-    'label' => 'TRIMP', 'color' => '#5555FF', 'data' => $TRIMPs, 'yaxis' => 3
+    'label' => 'TRIMP',
+    'color' => '#5555FF',
+    'data' => $TRIMPs,
+    'yaxis' => 3
 );
 $Plot->Data[] = array(
-    'label' => 'VO2max', 'color' => '#444444', 'data' => $VO2MAXsday, 'yaxis' => 2
+    'label' => 'VO2max',
+    'color' => '#444444',
+    'data' => $VO2MAXsday,
+    'yaxis' => 2
 );
 $Plot->Data[] = array(
-    'label' => __('Marathon shape'), 'color' => '#CC9322', 'data' => $BasicEndurance, 'yaxis' => 4
+    'label' => __('Marathon shape'),
+    'color' => '#CC9322',
+    'data' => $BasicEndurance,
+    'yaxis' => 4
 );
 
 $Plot->setMarginForGrid(5);

@@ -10,7 +10,7 @@ trait LineByLineParserTrait
     protected $FileName;
 
     /** @var resource|null */
-    protected $Handle = null;
+    protected $Handle;
 
     /**
      * @param string $file

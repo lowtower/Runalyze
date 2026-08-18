@@ -29,7 +29,7 @@ class Twitter extends AbstractSocialSharer
     /**
      * @return bool
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return true;
     }

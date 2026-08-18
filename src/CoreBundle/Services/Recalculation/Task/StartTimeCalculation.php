@@ -20,7 +20,7 @@ class StartTimeCalculation implements RecalculationTaskInterface
     protected $ForceRecalculation = false;
 
     /** @var int|null */
-    protected $NewStartTime = null;
+    protected $NewStartTime;
 
     public function __construct(TrainingRepository $repository, ConfigurationUpdater $updater)
     {

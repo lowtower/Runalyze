@@ -34,17 +34,17 @@ class Hiking extends AbstractSport
         return 100;
     }
 
-    public function hasDistances()
+    public function hasDistances(): bool
     {
         return true;
     }
 
-    public function hasPower()
+    public function hasPower(): bool
     {
         return false;
     }
 
-    public function isOutside()
+    public function isOutside(): bool
     {
         return true;
     }
@@ -54,7 +54,7 @@ class Hiking extends AbstractSport
         return PaceEnum::KILOMETER_PER_HOUR;
     }
 
-    public function usesShortDisplay()
+    public function usesShortDisplay(): bool
     {
         return false;
     }

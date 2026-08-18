@@ -134,7 +134,7 @@ class ActivityListener
         $activity->getAdapter()->setActivityIdIfEmpty();
     }
 
-    protected function checkRelatedEntitiesForConsistency(Training $activity, PreUpdateEventArgs $args = null)
+    protected function checkRelatedEntitiesForConsistency(Training $activity, ?PreUpdateEventArgs $args = null)
     {
         if (null === $args || $args->hasChangedField('sport')) {
             $this->setSportIfEmpty($activity);

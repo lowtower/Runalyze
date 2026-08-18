@@ -19,19 +19,19 @@ class Location {
 	 * Latitude
 	 * @var float|null
 	 */
-	protected $Latitude = null;
+	protected $Latitude;
 
 	/**
 	 * Longitude
 	 * @var float|null
 	 */
-	protected $Longitude = null;
+	protected $Longitude;
 
 	/**
 	 * DateTime
 	 * @var \DateTime|null
 	 */
-	protected $DateTime = null;
+	protected $DateTime;
 
 	/**
 	 * Location name

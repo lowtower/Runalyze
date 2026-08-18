@@ -35,7 +35,7 @@ class PrivacyGuard
      * @param Raceresult|null $raceresult
      * @return bool
      */
-    public function isMapVisible(Training $activity, Raceresult $raceresult = null)
+    public function isMapVisible(Training $activity, ?Raceresult $raceresult = null)
     {
         if ($this->knowsUser() && $this->getUser()->getId() == $activity->getAccount()->getId()) {
             return true;

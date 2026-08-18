@@ -54,7 +54,7 @@ class SelectRow extends Select {
 	 * @param string $value
 	 * @return bool
 	 */
-	protected function valueIsAllowed($value) {
+	protected function valueIsAllowed($value): bool {
 		return true;
 	}
 }

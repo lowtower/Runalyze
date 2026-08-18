@@ -31,7 +31,7 @@ class Sport extends AbstractKey
 	 * @return bool
 	 * @codeCoverageIgnore
 	 */
-	public function mustBeShown()
+	public function mustBeShown(): bool
 	{
 		return true;
 	}

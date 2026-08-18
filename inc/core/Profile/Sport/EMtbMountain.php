@@ -37,17 +37,17 @@ class EMtbMountain extends AbstractSport
         return 120;
     }
 
-    public function hasDistances()
+    public function hasDistances(): bool
     {
         return true;
     }
 
-    public function hasPower()
+    public function hasPower(): bool
     {
         return true;
     }
 
-    public function isOutside()
+    public function isOutside(): bool
     {
         return true;
     }
@@ -57,7 +57,7 @@ class EMtbMountain extends AbstractSport
         return PaceEnum::KILOMETER_PER_HOUR;
     }
 
-    public function usesShortDisplay()
+    public function usesShortDisplay(): bool
     {
         return false;
     }

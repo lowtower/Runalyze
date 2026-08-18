@@ -29,7 +29,7 @@ abstract class Category {
 	 * @todo use instead a user object
 	 * @var int
 	 */
-	private $UserID = null;
+	private $UserID;
 
 	/**
 	 * Constructor

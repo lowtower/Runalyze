@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 
 class DefaultFilterCollection extends FilterCollection
 {
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         parent::__construct($logger);
 

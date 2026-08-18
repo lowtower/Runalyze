@@ -17,7 +17,7 @@ class Cache {
 	 * Last cache clean date
 	 * @var int
 	*/
-	private static $LASTCLEAN = null;
+	private static $LASTCLEAN;
 
     /**
      * ignore some keywords

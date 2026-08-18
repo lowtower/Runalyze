@@ -22,7 +22,7 @@ class SearchFormular extends Formular {
 	 * Fieldset
 	 * @var FormularFieldset
 	 */
-	protected $Fieldset = null;
+	protected $Fieldset;
 
 	/**
 	 * Prepare display

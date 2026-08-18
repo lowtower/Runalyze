@@ -218,7 +218,7 @@ final class Keys extends AbstractEnum
     /**
 	 * @var array|null
 	 */
-	private static $ClassNames = null;
+	private static $ClassNames;
 
 	/**
 	 * @var array instances of key objects

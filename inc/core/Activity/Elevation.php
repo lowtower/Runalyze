@@ -44,7 +44,7 @@ class Elevation implements ValueInterface
 	 * @param int $meter
 	 * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
 	 */
-	public function __construct($meter = 0, DistanceUnitSystem $unitSystem = null)
+	public function __construct($meter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Meter = $meter;
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();

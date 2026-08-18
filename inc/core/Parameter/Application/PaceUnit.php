@@ -72,7 +72,7 @@ class PaceUnit extends AbstractEnum
 	/**
 	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
 	 */
-	protected $UnitObject = null;
+	protected $UnitObject;
 
     /**
      * @param int $id id from internal enum

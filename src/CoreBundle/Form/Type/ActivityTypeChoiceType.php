@@ -22,7 +22,7 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                 /** @var Type $type */
                 return $type->getName();
             },
-            'choice_value' => function (Type $type = null) {
+            'choice_value' => function (?Type $type = null) {
                 return $type ? $type->getId() : '';
             },
             'choice_attr' => function($type, $key, $index) {

@@ -18,7 +18,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 	 * Plot
 	 * @var \Runalyze\View\Activity\Plot\ActivityPlot
 	 */
-	protected $Plot = null;
+	protected $Plot;
 
 	/**
 	 * Boxed values
@@ -59,7 +59,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 	/**
 	 * Constructor
 	 */
-	public function __construct(Context $Context = null) {
+	public function __construct(?Context $Context = null) {
 		parent::__construct($Context);
 
 		$this->setPlot();

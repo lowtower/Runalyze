@@ -25,7 +25,7 @@ class FileImportResult
      * @param string $originalFileName
      * @param null|\Exception $exception
      */
-    public function __construct(array $container, $fileName, $originalFileName, \Exception $exception = null)
+    public function __construct(array $container, $fileName, $originalFileName, ?\Exception $exception = null)
     {
         $this->Container = $container;
         $this->FileName = $fileName;

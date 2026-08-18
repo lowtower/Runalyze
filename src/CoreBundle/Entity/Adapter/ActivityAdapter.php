@@ -361,7 +361,7 @@ class ActivityAdapter
     /**
      * @param array|null $backupElevations [m]
      */
-    protected function revertTemporaryFixForStepwiseElevationsInRoute(array $backupElevations = null)
+    protected function revertTemporaryFixForStepwiseElevationsInRoute(?array $backupElevations = null)
     {
         $this->Activity->getRoute()->setElevationsCorrected($backupElevations);
     }

@@ -7,16 +7,16 @@ use Runalyze\Util\LocalTime;
 class Metadata
 {
     /** @var int|null timestamp in local time, i.e. assuming the activity was in utc */
-    protected $Timestamp = null;
+    protected $Timestamp;
 
     /** @var int|null timezone offset in minutes */
-    protected $TimezoneOffset = null;
+    protected $TimezoneOffset;
 
     /** @var string */
     protected $SportName = '';
 
     /** @var int|null */
-    protected $InternalSportId = null;
+    protected $InternalSportId;
 
     /** @var string */
     protected $TypeName = '';
@@ -28,7 +28,7 @@ class Metadata
     protected $CreatorDetails = '';
 
     /** @var mixed */
-    protected $ActivityId = null;
+    protected $ActivityId;
 
     /** @var string */
     protected $Description = '';
@@ -48,7 +48,7 @@ class Metadata
 
     // TSC: only internal for mapping to 
     /** @var string */
-    protected $WorkoutName = null;
+    protected $WorkoutName;
 
     /**
      * @param int $timestampAssumingUTC timestamp in local time, i.e. assuming the activity was in utc

@@ -37,7 +37,7 @@ class ActivityCache
      * @param bool $removerAfterwards
      * @return Training|null
      */
-    public function get($hash, Training $activityToMerge = null, $removerAfterwards = false)
+    public function get($hash, ?Training $activityToMerge = null, $removerAfterwards = false)
     {
         if (null === $hash || '' == $hash) {
             return $activityToMerge;
@@ -148,7 +148,7 @@ class ActivityCache
      * @param Account|null $account
      * @return string
      */
-    protected function getRandomHash(Account $account = null)
+    protected function getRandomHash(?Account $account = null)
     {
         return hash('sha256', ($account ? $account->getName() : '').uniqid());
     }

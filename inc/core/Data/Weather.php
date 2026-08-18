@@ -64,7 +64,7 @@ class Weather {
 	 * @see \Runalyze\Data\Weather\Sources
 	 * @var null|int
 	 */
-	protected $SourceId = null;
+	protected $SourceId;
 
 	/**
 	 * Weather

@@ -23,7 +23,7 @@ class SessionAccountHandler {
 	 * Is anyone logged in?
 	 * @return boolean
 	 */
-	public static function isLoggedIn() {
+	public static function isLoggedIn(): bool {
 		if (isset($_SESSION['accountid']))
 			return true;
 

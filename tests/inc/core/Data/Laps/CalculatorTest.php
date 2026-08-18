@@ -40,14 +40,16 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		        464, 498,
 		        520, 540, 560,
 		        620, 680, 740, 800, 840
-		    ), Trackdata\Entity::DISTANCE => array(
+		    ),
+		    Trackdata\Entity::DISTANCE => array(
 		        0.0, 0.2, 0.4, 0.6, 0.8, 1.0,
 		        1.2, 1.4,
 		        1.47, 1.54, 1.60,
 		        1.8, 2.0,
 		        2.07, 2.14, 2.20,
 		        2.4, 2.6, 2.8, 3.0, 3.2
-		    ), Trackdata\Entity::HEARTRATE => array(
+		    ),
+		    Trackdata\Entity::HEARTRATE => array(
 		        100, 120, 125, 130, 133, 135,
 		        150, 175,
 		        170, 165, 160,
@@ -216,14 +218,16 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 			        1200,
 			        2200,
 			        2750
-			    ), Trackdata\Entity::DISTANCE => array(
+			    ),
+			    Trackdata\Entity::DISTANCE => array(
 			        0.0, 0.5, 1.0,
 			        1.6, 2.1,
 			        2.8,
 			        4.1,
 			        7.3,
 			        8.9
-			    ), Trackdata\Entity::HEARTRATE => array(
+			    ),
+			    Trackdata\Entity::HEARTRATE => array(
 			        150, 150, 150,
 			        150, 150,
 			        150,

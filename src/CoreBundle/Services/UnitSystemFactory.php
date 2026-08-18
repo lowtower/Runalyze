@@ -12,7 +12,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
      */
-    public function getUnitSystem(ConfigurationManager $configurationManager, Account $account = null)
+    public function getUnitSystem(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $configurationManager->getList($account)->getUnitSystem();
     }
@@ -22,7 +22,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit
      */
-    public function getDistanceUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getDistanceUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getDistanceUnit();
     }
@@ -32,7 +32,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit
      */
-    public function getElevationUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getElevationUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getElevationUnit();
     }
@@ -42,7 +42,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit
      */
-    public function getStrideLengthUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getStrideLengthUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getStrideLengthUnit();
     }
@@ -52,7 +52,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit
      */
-    public function getEnergyUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getEnergyUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getEnergyUnit();
     }
@@ -62,7 +62,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit
      */
-    public function getTemperatureUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getTemperatureUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getTemperatureUnit();
     }
@@ -72,7 +72,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit
      */
-    public function getWindSpeedUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getWindSpeedUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getWindSpeedUnit();
     }
@@ -82,7 +82,7 @@ class UnitSystemFactory
      * @param Account|null $account
      * @return \Runalyze\Metrics\Weight\Unit\AbstractWeightUnit
      */
-    public function getWeightUnit(ConfigurationManager $configurationManager, Account $account = null)
+    public function getWeightUnit(ConfigurationManager $configurationManager, ?Account $account = null)
     {
         return $this->getUnitSystem($configurationManager, $account)->getWeightUnit();
     }

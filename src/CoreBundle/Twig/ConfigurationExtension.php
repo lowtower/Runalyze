@@ -55,7 +55,7 @@ class ConfigurationExtension extends \Twig_Extension
      * @param Account|null $account
      * @return RunalyzeConfigurationList
      */
-    public function config(Account $account = null)
+    public function config(?Account $account = null)
     {
         return $this->ConfigurationManager->getList($account);
     }
@@ -64,7 +64,7 @@ class ConfigurationExtension extends \Twig_Extension
      * @param Account|null $account
      * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
      */
-    public function unitSystem(Account $account = null)
+    public function unitSystem(?Account $account = null)
     {
         return $this->ConfigurationManager->getList($account)->getUnitSystem();
     }

@@ -116,14 +116,16 @@ class SportType extends AbstractType
             ])
             ->add('kcal', EnergyKcalType::class, [
                 'attr' => [
-                    'min' => 1, 'max' => 10000
+                    'min' => 1,
+                    'max' => 10000
                 ],
                 'required' => false,
                 'label' => 'kcal/h'
             ])
             ->add('HFavg', HeartRateType::class, [
                 'attr' => [
-                    'min' => 40, 'max' => 255
+                    'min' => 40,
+                    'max' => 255
                 ],
                 'required' => false,
                 'label' => 'avg. HR'
@@ -191,7 +193,7 @@ class SportType extends AbstractType
         }
     }
 
-    protected function getFilteredChoicesForInternalSportId(array $usedInternalIds, Sport $sport = null)
+    protected function getFilteredChoicesForInternalSportId(array $usedInternalIds, ?Sport $sport = null)
     {
         $choicesWithIdsAsKeys = array_flip(SportProfile::getChoices());
 

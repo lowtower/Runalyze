@@ -42,7 +42,8 @@ $Plot = new Plot('average', 780, 240);
 for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++) {
 	if (min($Temperatures[$y]) !== null || max($Temperatures[$y]) !== null)
 		$Plot->Data[] = array(
-		    'label' => $y, 'data' => $Temperatures[$y]
+		    'label' => $y,
+		    'data' => $Temperatures[$y]
 		);
 }
 

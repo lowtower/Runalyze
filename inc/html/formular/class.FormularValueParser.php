@@ -85,7 +85,7 @@ class FormularValueParser {
 	 * @param string $key
 	 * @return boolean
 	 */
-	private static function validateBool($key) {
+	private static function validateBool($key): bool {
 		$_POST[$key] = isset($_POST[$key]) ? '1' : '0';
 
 		return true;

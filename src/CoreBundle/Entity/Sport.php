@@ -140,12 +140,12 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @ORM\Column(name="internal_sport_id", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $internalSportId = null;
+    private $internalSportId;
 
     /**
      * @var AbstractSport|null
      */
-    private $internalSport = null;
+    private $internalSport;
 
     /**
      * @var Account
@@ -448,7 +448,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @return $this
      */
-    public function setMainEquipmenttype(EquipmentType $mainEquipmenttype = null)
+    public function setMainEquipmenttype(?EquipmentType $mainEquipmenttype = null)
     {
         $this->mainEquipmenttype = $mainEquipmenttype;
 
@@ -468,7 +468,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @return $this
      */
-    public function setDefaultType(Type $defaultType = null)
+    public function setDefaultType(?Type $defaultType = null)
     {
         $this->defaultType = $defaultType;
 

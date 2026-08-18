@@ -16,7 +16,7 @@ class SportFactory {
 	 * All sports as array
 	 * @var array
 	 */
-	private static $AllSports = null;
+	private static $AllSports;
 
 	/**
 	 * Data for ID

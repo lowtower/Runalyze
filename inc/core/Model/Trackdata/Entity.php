@@ -196,7 +196,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * Pauses
 	 * @var \Runalyze\Model\Trackdata\Pauses
 	 */
-	protected $Pauses = null;
+	protected $Pauses;
 
 	/**
 	 * @var boolean
@@ -365,7 +365,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::TIME:
 			case self::DISTANCE:
@@ -402,7 +402,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function notInDatabase($key) {
+	protected function notInDatabase($key): bool {
 		switch ($key) {
 			case self::PACE:
 			case self::STRIDE_LENGTH:
@@ -436,7 +436,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canSet($key) {
+	protected function canSet($key): bool {
 		if ($key == self::PAUSES) {
 			return false;
 		}

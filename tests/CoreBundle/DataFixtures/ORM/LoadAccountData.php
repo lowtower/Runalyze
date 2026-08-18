@@ -15,7 +15,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
     /** @var ContainerInterface|null */
     protected $Container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->Container = $container;
     }

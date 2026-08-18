@@ -64,21 +64,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="timezone_offset", type="smallint", nullable=true)
      */
-    private $timezoneOffset = null;
+    private $timezoneOffset;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="created", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $created = null;
+    private $created;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="edited", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $edited = null;
+    private $edited;
 
     /**
      * @var bool
@@ -106,7 +106,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $distance = null;
+    private $distance;
 
     /**
      * @var float [s]
@@ -121,42 +121,42 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="elapsed_time", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $elapsedTime = null;
+    private $elapsedTime;
 
     /**
      * @var int|null [m]
      *
      * @ORM\Column(name="elevation", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $elevation = null;
+    private $elevation;
 
     /**
      * @var float|null [0.0 .. 10.0]
      *
      * @ORM\Column(name="climb_score", type="casted_decimal_1", precision=3, scale=1, nullable=true, options={"unsigned":true})
      */
-    private $climbScore = null;
+    private $climbScore;
 
     /**
      * @var float|null [0.00 .. 1.00]
      *
      * @ORM\Column(name="percentage_hilly", type="casted_decimal_2", precision=3, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $percentageHilly = null;
+    private $percentageHilly;
 
     /**
      * @var int|null [kcal]
      *
      * @ORM\Column(name="kcal", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $kcal = null;
+    private $kcal;
 
     /**
      * @var int|null [kcal]
      *
      * @ORM\Column(name="kcal_rest", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $kcalInRest = null;
+    private $kcalInRest;
 
     /**
      * @var int|null [bpm]
@@ -170,7 +170,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="pulse_avg", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $pulseAvg = null;
+    private $pulseAvg;
 
     /**
      * @var int|null [bpm]
@@ -182,7 +182,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * )
      * @ORM\Column(name="pulse_max", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $pulseMax = null;
+    private $pulseMax;
 
     /**
      * @var int|null [bpm]
@@ -196,7 +196,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="pulse_avg_active", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $pulseAvgActive = null;
+    private $pulseAvgActive;
 
    /**
      * @var int|null [bpm]
@@ -210,7 +210,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="max_hr_user", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $maxHrUser = null;
+    private $maxHrUser;
 
     /**
      * @var array|null [bpm]
@@ -224,21 +224,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="vo2max", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $vo2max = null;
+    private $vo2max;
 
     /**
      * @var float|null [ml/kg/min]
      *
      * @ORM\Column(name="vo2max_by_time", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $vo2maxByTime = null;
+    private $vo2maxByTime;
 
     /**
      * @var float|null [ml/kg/min]
      *
      * @ORM\Column(name="vo2max_with_elevation", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $vo2maxWithElevation = null;
+    private $vo2maxWithElevation;
 
     /**
      * @var bool
@@ -252,35 +252,35 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_vo2max_estimate", type="casted_decimal_2", precision=4, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $fitVO2maxEstimate = null;
+    private $fitVO2maxEstimate;
 
     /**
      * @var int|null [min]
      *
      * @ORM\Column(name="fit_recovery_time", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitRecoveryTime = null;
+    private $fitRecoveryTime;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="fit_hrv_analysis", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitHrvAnalysis = null;
+    private $fitHrvAnalysis;
 
     /**
      * @var int|null [1 .. 7]
      *
      * @ORM\Column(name="fit_training_effect_benefit", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitTrainingEffectBenefit = null;
+    private $fitTrainingEffectBenefit;
 
     /**
      * @var float|null [0.0 .. 5.0]
      *
      * @ORM\Column(name="fit_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned":true})
      */
-    private $fitTrainingEffect = null;
+    private $fitTrainingEffect;
 
     /**
      * @var float|null [0.0 .. 5.0]
@@ -289,91 +289,91 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_anaerobic_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned":true})
      */
-    private $fitAnaerobicTrainingEffect = null;
+    private $fitAnaerobicTrainingEffect;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="fit_performance_condition", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $fitPerformanceCondition = null;
+    private $fitPerformanceCondition;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="fit_performance_condition_end", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $fitPerformanceConditionEnd = null;
+    private $fitPerformanceConditionEnd;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="fit_lactate_threshold_hr", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $fitLactateThresholdHR = null;
+    private $fitLactateThresholdHR;
 
     /**
      * @var float|null [m/s]
      *
      * @ORM\Column(name="fit_lactate_threshold_pace_ms", type="casted_decimal_2", precision=4, scale=2, nullable=true, options={"unsigned":true})
      */
-    private $fitLactateThresholdPace = null;
+    private $fitLactateThresholdPace;
 
     /**
      * @var int|null [m]
      *
      * @ORM\Column(name="fit_total_ascent", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitTotalAscent = null;
+    private $fitTotalAscent;
 
     /**
      * @var int|null [m]
      *
      * @ORM\Column(name="fit_total_descent", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitTotalDescent = null;
+    private $fitTotalDescent;
 
     /**
      * @var int|null []
      *
      * @ORM\Column(name="fit_self_evaluation_feeling", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitSelfEvaluationFeeling = null;
+    private $fitSelfEvaluationFeeling;
 
     /**
      * @var int|null []
      *
      * @ORM\Column(name="fit_self_evaluation_perceived_effort", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitSelfEvaluationPerceivedEffort = null;
+    private $fitSelfEvaluationPerceivedEffort;
 
     /**
      * @var int|null []
      *
      * @ORM\Column(name="fit_load_peak", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitLoadPeak = null;
+    private $fitLoadPeak;
 
     /**
      * @var int|null [s]
      *
      * @ORM\Column(name="fit_run_time", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $fitRunTime = null;
+    private $fitRunTime;
 
     /**
      * @var int|null [s]
      *
      * @ORM\Column(name="fit_walk_time", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $fitWalkTime = null;
+    private $fitWalkTime;
 
     /**
      * @var int|null [s]
      *
      * @ORM\Column(name="fit_stand_time", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitStandTime = null;
+    private $fitStandTime;
 
     /**
      * @var array|null [s]
@@ -387,182 +387,182 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_sweat_loss", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $fitSweatLoss = null;
+    private $fitSweatLoss;
 
     /**
      * @var int|null []
      *
      * @ORM\Column(name="avg_respiration_rate", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $avgRespirationRate = null;
+    private $avgRespirationRate;
 
     /**
      * @var int|null []
      *
      * @ORM\Column(name="max_respiration_rate", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $maxRespirationRate = null;
+    private $maxRespirationRate;
 
     /**
      * @var int|null [6 .. 20]
      *
      * @ORM\Column(name="rpe", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $rpe = null;
+    private $rpe;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="trimp", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $trimp = null;
+    private $trimp;
 
     /**
      * @var int|null [rpm]
      *
      * @ORM\Column(name="cadence", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $cadence = null;
+    private $cadence;
 
     /**
      * @var int|null [W]
      *
      * @ORM\Column(name="power", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $power = null;
+    private $power;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="is_power_calculated", type="boolean", nullable=true, options={"default":null})
      */
-    private $isPowerCalculated = null;
+    private $isPowerCalculated;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="total_strokes", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $totalStrokes = null;
+    private $totalStrokes;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="swolf", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $swolf = null;
+    private $swolf;
 
     /**
      * @var bool|null [cm]
      *
      * @ORM\Column(name="stride_length", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $strideLength = null;
+    private $strideLength;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="total_cycles", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $totalCycles = null;
+    private $totalCycles;
 
     /**
      * @var int|null [ms]
      *
      * @ORM\Column(name="groundcontact", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $groundcontact = null;
+    private $groundcontact;
 
     /**
      * @var int|null [%ooL]
      *
      * @ORM\Column(name="groundcontact_balance", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $groundcontactBalance = null;
+    private $groundcontactBalance;
 
     /**
      * @var int|null [mm]
      *
      * @ORM\Column(name="vertical_oscillation", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $verticalOscillation = null;
+    private $verticalOscillation;
 
     /**
      * @var int|null [%]
      *
      * @ORM\Column(name="vertical_ratio", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $verticalRatio = null;
+    private $verticalRatio;
 
     /**
      * @var float|null [G]
      *
      * @ORM\Column(name="avg_impact_gs_left", type="float", nullable=true, options={"unsigned":true}, columnDefinition="FLOAT")
      */
-    private $avgImpactGsLeft = null;
+    private $avgImpactGsLeft;
 
     /**
      * @var float|null [G]
      *
      * @ORM\Column(name="avg_impact_gs_right", type="float", nullable=true, options={"unsigned":true}, columnDefinition="FLOAT")
      */
-    private $avgImpactGsRight = null;
+    private $avgImpactGsRight;
 
     /**
      * @var float|null [G]
      *
      * @ORM\Column(name="avg_braking_gs_left", type="float", nullable=true, options={"unsigned":true}, columnDefinition="FLOAT")
      */
-    private $avgBrakingGsLeft = null;
+    private $avgBrakingGsLeft;
 
     /**
      * @var float|null [G]
      *
      * @ORM\Column(name="avg_braking_gs_right", type="float", nullable=true, options={"unsigned":true}, columnDefinition="FLOAT")
      */
-    private $avgBrakingGsRight = null;
+    private $avgBrakingGsRight;
 
     /**
      * @var int|null [°]
      *
      * @ORM\Column(name="avg_footstrike_type_left", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $avgFootstrikeTypeLeft = null;
+    private $avgFootstrikeTypeLeft;
 
     /**
      * @var int|null [°]
      *
      * @ORM\Column(name="avg_footstrike_type_right", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $avgFootstrikeTypeRight = null;
+    private $avgFootstrikeTypeRight;
 
     /**
      * @var float|null [°]
      *
      * @ORM\Column(name="avg_pronation_excursion_left", type="float", nullable=true, columnDefinition="FLOAT")
      */
-    private $avgPronationExcursionLeft = null;
+    private $avgPronationExcursionLeft;
 
     /**
      * @var float|null [°]
      *
      * @ORM\Column(name="avg_pronation_excursion_right", type="float", nullable=true, columnDefinition="FLOAT")
      */
-    private $avgPronationExcursionRight = null;
+    private $avgPronationExcursionRight;
 
     /**
      * @var int|null [°C]
      *
      * @ORM\Column(name="temperature", type="tinyint", nullable=true)
      */
-    private $temperature = null;
+    private $temperature;
 
     /**
      * @var int|null [km/h]
      *
      * @ORM\Column(name="wind_speed", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $windSpeed = null;
+    private $windSpeed;
 
     /**
      * @var int|null [°]
@@ -574,7 +574,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * )
      * @ORM\Column(name="wind_deg", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $windDeg = null;
+    private $windDeg;
 
     /**
      * @var int|null [%]
@@ -586,21 +586,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * )
      * @ORM\Column(name="humidity", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $humidity = null;
+    private $humidity;
 
     /**
      * @var int|null [hPa]
      *
      * @ORM\Column(name="pressure", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $pressure = null;
+    private $pressure;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="is_night", type="boolean", nullable=true)
      */
-    private $isNight = null;
+    private $isNight;
 
     /**
      * @var int enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
@@ -614,14 +614,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="weather_source", type="tinyint", nullable=true, options={"unsigned":true})
      */
-    private $weatherSource = null;
+    private $weatherSource;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="route", type="text", length=65535, nullable=true)
      */
-    private $routeName = null;
+    private $routeName;
 
     /**
      * @var Route|null
@@ -631,7 +631,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *   @ORM\JoinColumn(name="routeid", referencedColumnName="id", nullable=true)
      * })
      */
-    private $route = null;
+    private $route;
 
     /**
      * @var \Runalyze\Parser\Activity\Common\Data\Round\RoundCollection
@@ -652,14 +652,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="title", type="text", length=65535, nullable=true)
      */
-    private $title = null;
+    private $title;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="partner", type="text", length=65535, nullable=true)
      */
-    private $partner = null;
+    private $partner;
 
     /**
      * @var array|null
@@ -673,7 +673,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="notes", type="text", length=65535, nullable=true)
      */
-    private $notes = null;
+    private $notes;
 
     /**
      * @var \Runalyze\Bundle\CoreBundle\Entity\Account
@@ -697,14 +697,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="creator_details", type="text", length=255, nullable=true)
      */
-    private $creatorDetails = null;
+    private $creatorDetails;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="activity_id", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $activityId = null;
+    private $activityId;
 
     /**
      * @var bool
@@ -814,7 +814,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @return $this
      */
-    public function setType(Type $type = null)
+    public function setType(?Type $type = null)
     {
         $this->type = $type;
 
@@ -1250,7 +1250,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $hrMaxUser [bpm]
+     * @param null|int $maxHrUser [bpm]
      *
      * @return $this
      */
@@ -1970,7 +1970,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|int $strideLength [stck]
+     * @param null|int $totalCycles [stck]
      *
      * @return $this
      */
@@ -2419,7 +2419,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @return $this
      */
-    public function setRoute(Route $route = null)
+    public function setRoute(?Route $route = null)
     {
         $this->route = $route;
 
@@ -2727,7 +2727,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->tag;
     }
 
-    public function setTrackdata(Trackdata $trackData = null)
+    public function setTrackdata(?Trackdata $trackData = null)
     {
         $this->trackdata = $trackData;
 
@@ -2756,7 +2756,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return null !== $this->trackdata;
     }
 
-    public function setSwimdata(Swimdata $swimData = null)
+    public function setSwimdata(?Swimdata $swimData = null)
     {
         $this->swimdata = $swimData;
 
@@ -2785,7 +2785,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return null !== $this->swimdata;
     }
 
-    public function setHrv(Hrv $hrv = null)
+    public function setHrv(?Hrv $hrv = null)
     {
         $this->hrv = $hrv;
 
@@ -2814,7 +2814,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return null !== $this->hrv;
     }
 
-    public function setRaceresult(Raceresult $raceResult = null)
+    public function setRaceresult(?Raceresult $raceResult = null)
     {
         $this->raceresult = $raceResult;
 

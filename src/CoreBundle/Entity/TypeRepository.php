@@ -11,7 +11,7 @@ class TypeRepository extends EntityRepository
      * @param Sport|null $sport
      * @return Type[]
      */
-    public function findAllFor(Account $account, Sport $sport = null)
+    public function findAllFor(Account $account, ?Sport $sport = null)
     {
         if (null !== $sport) {
             return $this->findBy([
@@ -31,7 +31,7 @@ class TypeRepository extends EntityRepository
      * @param Sport|null $sport
      * @return null|Type
      */
-    public function findByNameFor($typeName, Account $account, Sport $sport = null)
+    public function findByNameFor($typeName, Account $account, ?Sport $sport = null)
     {
         // #TSC add $sport as parameter - only with sport the type can be find unique
         return $this->findOneBy([
@@ -49,7 +49,7 @@ class TypeRepository extends EntityRepository
      * @param Sport|null $sport
      * @return null|Type
      */
-    public function findByShortCutFor($shortCut, Account $account, Sport $sport = null)
+    public function findByShortCutFor($shortCut, Account $account, ?Sport $sport = null)
     {
         return $this->findOneBy([
             'account' => $account->getId(),

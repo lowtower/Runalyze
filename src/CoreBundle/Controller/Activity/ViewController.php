@@ -201,7 +201,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/climb-score", requirements={"id" = "\d+"}, name="activity-tool-climb-score")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function climbScoreAction(Training $activity, Account $account = null)
+    public function climbScoreAction(Training $activity, ?Account $account = null)
     {
         $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
 

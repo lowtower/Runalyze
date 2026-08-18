@@ -37,7 +37,7 @@ class WindSpeed implements ValueInterface
      * @param float|null $kilometerPerHour [km/h]
      * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
      */
-    public function __construct($kilometerPerHour = null, DistanceUnitSystem $unitSystem = null)
+    public function __construct($kilometerPerHour = null, ?DistanceUnitSystem $unitSystem = null)
     {
         $this->set($kilometerPerHour);
         $this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();

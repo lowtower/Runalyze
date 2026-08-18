@@ -204,7 +204,11 @@ class Plot {
 	 */
 	public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0) {
 		$this->Annotations[] = array(
-		    'x' => $x, 'y' => $y, 'text' => $text, 'toX' => $toX, 'toY' => $toY
+		    'x' => $x,
+		    'y' => $y,
+		    'text' => $text,
+		    'toX' => $toX,
+		    'toY' => $toY
 		);
 	}
 
@@ -320,7 +324,8 @@ class Plot {
 		    'color' => $color,
 		    'lineWidth' => $lineWidth,
 		    $axis.'axis' => array(
-		        'from' => $from, 'to' => $from
+		        'from' => $from,
+		        'to' => $from
 		    )
 		);
 	}
@@ -336,7 +341,8 @@ class Plot {
 		$this->Options['grid']['markings'][] = array(
 		    'color' => $color,
 		    $axis.'axis' => array(
-		        'from' => $from, 'to' => $to
+		        'from' => $from,
+		        'to' => $to
 		    )
 		);
 	}

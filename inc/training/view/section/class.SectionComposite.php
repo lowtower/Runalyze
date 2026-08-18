@@ -24,7 +24,7 @@ class SectionComposite extends TrainingViewSectionTabbedPlot {
 	 * Has the training all required data?
 	 * @return bool
 	 */
-	protected function hasRequiredData() {
+	protected function hasRequiredData(): bool {
 		return true;
 	}
 

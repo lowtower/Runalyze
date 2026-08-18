@@ -19,10 +19,10 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
     protected $ViewPrecision = 1;
 
     /** @var int|null */
-    protected $MaxViewPrecision = null;
+    protected $MaxViewPrecision;
 
     /** @var int|null */
-    protected $ModelPrecision = null;
+    protected $ModelPrecision;
 
     public function __construct(UnitInterface $unit)
     {

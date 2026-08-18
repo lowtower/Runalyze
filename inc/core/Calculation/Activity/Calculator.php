@@ -27,8 +27,8 @@ class Calculator
      */
     public function __construct(
         Model\Activity\Entity $activity,
-        Model\Trackdata\Entity $trackdata = null,
-        Model\Route\Entity $route = null
+        ?Model\Trackdata\Entity $trackdata = null,
+        ?Model\Route\Entity $route = null
     )
     {
         $this->Activity = $activity;

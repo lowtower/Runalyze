@@ -18,7 +18,7 @@ class GZipReader {
 	 * Resource for file
 	 * @var resource
 	 */
-	protected $Resource = null;
+	protected $Resource;
 
 	/**
 	 * Constructor

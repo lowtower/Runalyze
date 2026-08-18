@@ -99,7 +99,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      * @param string $messageOnError
      * @return bool
      */
-    protected function checkValidation($success, OutputInterface $output, $messageOnError)
+    protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
         if (!$success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));
@@ -115,7 +115,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      * @param string $templateName
      * @return bool
      */
-    protected function validateTemplate($templateName)
+    protected function validateTemplate($templateName): bool
     {
         try {
             new TemplateBasedMessage($templateName);

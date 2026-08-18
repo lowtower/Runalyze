@@ -40,12 +40,12 @@ class PersonalBest {
 	/**
 	 * @var mixed
 	 */
-	protected $ActivityID = null;
+	protected $ActivityID;
 
 	/**
 	 * @var mixed
 	 */
-	protected $Timestamp = null;
+	protected $Timestamp;
 
 	/**
 	 * @var array distance => pb
@@ -90,7 +90,7 @@ class PersonalBest {
 	 * @param boolean $withDetails [optional]
 	 * @return int number of fetches PBs
 	 */
-	public static function lookupDistances(array $distances, $sportid, PDO $pdo = null, $withDetails = false) {
+	public static function lookupDistances(array $distances, $sportid, ?PDO $pdo = null, $withDetails = false) {
 		foreach ($distances as $km) {
 			self::$PBs[(float)$km] = false;
 		}
@@ -139,7 +139,7 @@ class PersonalBest {
 	 * @param boolean $autoLookup [optional]
 	 * @param boolean $withDetails [optional]
 	 */
-	public function __construct($distance, $sportid, PDO $pdo = null, $autoLookup = true, $withDetails = false) {
+	public function __construct($distance, $sportid, ?PDO $pdo = null, $autoLookup = true, $withDetails = false) {
 		$this->Distance = $distance;
 		$this->PDO = null === $pdo ? DB::getInstance() : $pdo;
 		$this->SportId = $sportid;

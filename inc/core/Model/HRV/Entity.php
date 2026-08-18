@@ -61,7 +61,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::DATA:
 				return true;

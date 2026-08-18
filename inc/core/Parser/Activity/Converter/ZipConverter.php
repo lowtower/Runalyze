@@ -8,9 +8,9 @@ use Runalyze\Parser\Common\FileTypeConverterInterface;
 class ZipConverter implements FileTypeConverterInterface
 {
     /** @var array|null */
-    protected $AcceptedFileExtensions = null;
+    protected $AcceptedFileExtensions;
 
-    public function __construct(array $acceptedFileExtensions = null)
+    public function __construct(?array $acceptedFileExtensions = null)
     {
         $this->AcceptedFileExtensions = $acceptedFileExtensions;
     }

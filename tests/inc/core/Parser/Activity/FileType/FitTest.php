@@ -44,7 +44,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->setContainerFrom($this->Parser, $completeAfterwards, $runFilter);
     }
 
-    protected function checkThatTimeIsStrictIncreasing(ActivityDataContainer $container = null)
+    protected function checkThatTimeIsStrictIncreasing(?ActivityDataContainer $container = null)
     {
         $container = $container ?: $this->Container;
 

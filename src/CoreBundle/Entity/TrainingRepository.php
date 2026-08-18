@@ -399,7 +399,7 @@ class TrainingRepository extends EntityRepository
      * @param int $limit
      * @return Training[]
      */
-    public function getPartialEntitiesForPreview(array $ids, Account $account = null, $limit = 20)
+    public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, $limit = 20)
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');

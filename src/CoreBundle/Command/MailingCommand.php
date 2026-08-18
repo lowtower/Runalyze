@@ -138,7 +138,7 @@ class MailingCommand extends ContainerAwareCommand
      * @param string $messageOnError
      * @return bool
      */
-    protected function checkValidation($success, OutputInterface $output, $messageOnError)
+    protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
         if (!$success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));

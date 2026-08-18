@@ -155,7 +155,7 @@ class Entity extends Model\Entity {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::PLACE_TOTAL:
 			case self::PLACE_GENDER:

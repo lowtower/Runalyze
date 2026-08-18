@@ -45,7 +45,8 @@ class AccountType extends AbstractType
             ])
             ->add('birthyear', IntegerType::class, [
                 'attr' => [
-                    'min' => 1900, 'max' => date('Y')
+                    'min' => 1900,
+                    'max' => date('Y')
                 ],
                 'required' => false,
                 'label' => 'Year of birth'

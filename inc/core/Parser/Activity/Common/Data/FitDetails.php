@@ -5,62 +5,62 @@ namespace Runalyze\Parser\Activity\Common\Data;
 class FitDetails
 {
     /** @var float|null [ml/kg/min] */
-    public $VO2maxEstimate = null;
+    public $VO2maxEstimate;
 
     /** @var int|null [min] */
-    public $RecoveryTime = null;
+    public $RecoveryTime;
 
     /** @var int|null */
-    public $HrvAnalysis = null;
+    public $HrvAnalysis;
 
     /** @var int|null [0 .. 7] (1=Recovery, 2=Base,3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint)*/
-    public $TrainingEffectBenefit = null;
+    public $TrainingEffectBenefit;
 
     /** @var float|null [0.0 .. 5.0] */
-    public $TrainingEffect = null;
+    public $TrainingEffect;
 
     /** @var float|null [0.0 .. 5.0] */
-    public $AnaerobicTrainingEffect = null; // #TSC: new anaerob
+    public $AnaerobicTrainingEffect; // #TSC: new anaerob
 
     /** @var int|null */
-    public $PerformanceCondition = null;
+    public $PerformanceCondition;
 
     /** @var int|null */
-    public $PerformanceConditionEnd = null;
+    public $PerformanceConditionEnd;
 
     /** @var int|null */
-    public $LactateThresholdHR = null;
+    public $LactateThresholdHR;
 
     /** @var int|null [m/s]*/
-    public $LactateThresholdPace = null;
+    public $LactateThresholdPace;
 
     /** @var int|null */
-    public $TotalAscent = null;
+    public $TotalAscent;
 
     /** @var int|null */
-    public $TotalDescent = null;
+    public $TotalDescent;
 
     /** @var int|null */
-    public $SelfEvaluationFeeling = null;
+    public $SelfEvaluationFeeling;
 
     /** @var int|null */
-    public $SelfEvaluationPerceivedEffort = null;
+    public $SelfEvaluationPerceivedEffort;
 
     /** @var int|null */
-    public $LoadPeak = null;
+    public $LoadPeak;
 
     /** @var int|null [s] */
-    public $RunTime = null;
+    public $RunTime;
 
     /** @var int|null [s] */
-    public $WalkTime = null;
+    public $WalkTime;
 
     /** @var int|null [s] */
-    public $StandTime = null;
+    public $StandTime;
 
     /** @var array|null [bpm] #TSC */
-    public $SecondsInHrZones = null;
+    public $SecondsInHrZones;
 
     /** @var int|null [ml] */
-    public $SweatLoss = null;
+    public $SweatLoss;
 }

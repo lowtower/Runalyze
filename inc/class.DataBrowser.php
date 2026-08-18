@@ -160,7 +160,8 @@ class DataBrowser {
 
 		while ($sport = $Statement->fetch()) {
 			$this->Sports[$sport['id']] = array(
-			    'name' => $sport['name'], 'icon' => $sport['img']
+			    'name' => $sport['name'],
+			    'icon' => $sport['img']
 			);
 		}
 	}

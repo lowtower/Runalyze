@@ -48,13 +48,13 @@ class Pause {
 	 * HR start
 	 * @var int
 	 */
-	protected $HRstart = null;
+	protected $HRstart;
 
 	/**
 	 * HR end
 	 * @var int
 	 */
-	protected $HRend = null;
+	protected $HRend;
 
 	/**
 	 * Construct

@@ -30,7 +30,7 @@ class Context
 	 * Activity
 	 * @var \Runalyze\Model\Activity\Entity
 	 */
-	protected $Activity = null;
+	protected $Activity;
 
 	/**
 	 * @var array
@@ -41,25 +41,25 @@ class Context
 	 * Sport
 	 * @var \Runalyze\Model\Sport\Entity
 	 */
-	protected $Sport = null;
+	protected $Sport;
 
 	/**
 	 * Type
 	 * @var \Runalyze\Model\Type\Entity
 	 */
-	protected $Type = null;
+	protected $Type;
 
 	/**
 	 * Dataview
 	 * @var \Runalyze\View\Activity\Dataview
 	 */
-	protected $Dataview = null;
+	protected $Dataview;
 
 	/**
 	 * Activity linker
 	 * @var \Runalyze\View\Activity\Linker
 	 */
-	protected $Linker = null;
+	protected $Linker;
 
 	/**
 	 * @var bool

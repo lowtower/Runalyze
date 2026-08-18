@@ -30,7 +30,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
         $this->UseSmoothing = $flag;
     }
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return true;
     }

@@ -250,7 +250,8 @@ class FormularFieldset extends HtmlTag {
 	 */
 	private function addMessage($message, $type) {
 		$this->messages[] = array(
-		    'type' => $type, 'message' => $message
+		    'type' => $type,
+		    'message' => $message
 		);
 	}
 

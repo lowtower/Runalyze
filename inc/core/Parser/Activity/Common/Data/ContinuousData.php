@@ -20,7 +20,7 @@ class ContinuousData
     public $Altitude = [];
 
     /** @var bool|null */
-    public $IsAltitudeDataBarometric = null;
+    public $IsAltitudeDataBarometric;
 
     /** @var array [bpm] */
     public $HeartRate = [];
@@ -178,7 +178,7 @@ class ContinuousData
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         foreach ($this->getPropertyNamesOfArrays() as $property) {
             if (!empty($this->{$property})) {

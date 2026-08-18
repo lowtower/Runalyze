@@ -73,7 +73,7 @@ class Distance implements ValueInterface {
 	 * @param float $km
 	 * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
 	 */
-	public function __construct($km = 0, DistanceUnitSystem $unitSystem = null)
+	public function __construct($km = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Kilometer = $km;
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();

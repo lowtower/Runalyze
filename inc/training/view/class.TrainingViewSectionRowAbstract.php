@@ -22,7 +22,7 @@ abstract class TrainingViewSectionRowAbstract {
 	/**
 	 * Constructor
 	 */
-	public function __construct(Context $Context = null) {
+	public function __construct(?Context $Context = null) {
 		$this->Context = $Context;
 
 		$this->setContent();

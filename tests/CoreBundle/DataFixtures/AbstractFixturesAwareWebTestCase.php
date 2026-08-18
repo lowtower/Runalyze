@@ -24,7 +24,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     protected $Fixtures;
 
     /** @var array|null */
-    protected $FixtureClasses = null;
+    protected $FixtureClasses;
 
     /** @var EntityManager */
     protected $EntityManager;
@@ -148,7 +148,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         $timestamp = null,
         $duration = 3600,
         $distance = null,
-        Sport $sport = null
+        ?Sport $sport = null
     )
     {
         return (new Training())

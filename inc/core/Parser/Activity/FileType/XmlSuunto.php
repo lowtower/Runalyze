@@ -18,10 +18,10 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected $Header;
 
     /** @var float|null */
-    protected $CurrentLatitude = null;
+    protected $CurrentLatitude;
 
     /** @var float|null */
-    protected $CurrentLongitude = null;
+    protected $CurrentLongitude;
 
     /** @var int [s] */
     protected $CurrentTime = 0;

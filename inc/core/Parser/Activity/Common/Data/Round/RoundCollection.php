@@ -160,7 +160,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return bool
      */
-    public function isEqualTo(RoundCollection $other)
+    public function isEqualTo(RoundCollection $other): bool
     {
         if ($this->count() != $other->count()) {
             return false;
@@ -187,7 +187,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      * 4. 3=150, 4=90,  5=150  => +1
      * 5. 4=90,  5=150, 6=462  =>  - ...
      */
-    public function hasIntervalRounds() {
+    public function hasIntervalRounds(): bool {
         $intDetect = 3;
         $precS = 1; // round duration/seconds
         $precD = 2; // round distance/km

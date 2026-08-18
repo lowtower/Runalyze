@@ -63,7 +63,7 @@ class Weight implements ValueInterface {
 	 * @param float $weight [kg]
 	 * @param \Runalyze\Parameter\Application\WeightUnit $preferredUnit
 	 */
-	public function __construct($weight = 0, WeightUnit $preferredUnit = null) {
+	public function __construct($weight = 0, ?WeightUnit $preferredUnit = null) {
 		$this->PreferredUnit = (null !== $preferredUnit) ? $preferredUnit : Configuration::General()->weightUnit();
 
 		$this->set($weight);

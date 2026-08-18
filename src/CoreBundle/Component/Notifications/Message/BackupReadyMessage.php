@@ -28,7 +28,7 @@ class BackupReadyMessage implements MessageInterface
         return $translator->trans('Your backup has been generated and is now available for download.');
     }
 
-    public function hasLink()
+    public function hasLink(): bool
     {
         return true;
     }
@@ -38,7 +38,7 @@ class BackupReadyMessage implements MessageInterface
         return $router->generate('tools-backup');
     }
 
-    public function isLinkInternal()
+    public function isLinkInternal(): bool
     {
         return true;
     }

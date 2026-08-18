@@ -62,22 +62,34 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 25
 		    ),
 		    array(
-		        't' => 'B1 Warm up',  'hr' => 90, 'c' => '#a6a6a6'
+		        't' => 'B1 Warm up',
+		        'hr' => 90,
+		        'c' => '#a6a6a6'
 		    ),
 		    array(
-		        't' => 'B2 Easy',     'hr' => 100, 'c' => '#3b97f3'
+		        't' => 'B2 Easy',
+		        'hr' => 100,
+		        'c' => '#3b97f3'
 		    ),
 		    array(
-		        't' => 'B3 Aerob',    'hr' => 120, 'c' => '#82c91e'
+		        't' => 'B3 Aerob',
+		        'hr' => 120,
+		        'c' => '#82c91e'
 		    ),
 		    array(
-		        't' => 'B4 Intensiv', 'hr' => 130, 'c' => '#f98925'
+		        't' => 'B4 Intensiv',
+		        'hr' => 130,
+		        'c' => '#f98925'
 		    ),
 		    array(
-		        't' => 'B5 Maximal',  'hr' => 135, 'c' => '#d32020'
+		        't' => 'B5 Maximal',
+		        'hr' => 135,
+		        'c' => '#d32020'
 		    ),
 		    array(
-		        't' => 'B6 Override', 'hr' => 180, 'c' => '#b80000'
+		        't' => 'B6 Override',
+		        'hr' => 180,
+		        'c' => '#b80000'
 		    ),
 		),$result);
 		$this->assertEquals('activity stored zones', $underTest->getSourceHint());
@@ -95,22 +107,34 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 0
 		    ),
 		    array(
-		        't' => 'B1 Warm up',  'hr' => 90, 'c' => '#a6a6a6'
+		        't' => 'B1 Warm up',
+		        'hr' => 90,
+		        'c' => '#a6a6a6'
 		    ),
 		    array(
-		        't' => 'B2 Easy',     'hr' => 100, 'c' => '#3b97f3'
+		        't' => 'B2 Easy',
+		        'hr' => 100,
+		        'c' => '#3b97f3'
 		    ),
 		    array(
-		        't' => 'B3 Aerob',    'hr' => 120, 'c' => '#82c91e'
+		        't' => 'B3 Aerob',
+		        'hr' => 120,
+		        'c' => '#82c91e'
 		    ),
 		    array(
-		        't' => 'B4 Intensiv', 'hr' => 130, 'c' => '#f98925'
+		        't' => 'B4 Intensiv',
+		        'hr' => 130,
+		        'c' => '#f98925'
 		    ),
 		    array(
-		        't' => 'B5 Maximal',  'hr' => 135, 'c' => '#d32020'
+		        't' => 'B5 Maximal',
+		        'hr' => 135,
+		        'c' => '#d32020'
 		    ),
 		    array(
-		        't' => 'B6 Override', 'hr' => 180, 'c' => '#b80000'
+		        't' => 'B6 Override',
+		        'hr' => 180,
+		        'c' => '#b80000'
 		    ),
 		    array(
 		        'hr' => 191
@@ -134,22 +158,28 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 41
 		    ),
 		    array(
-		        'hr' => 51,  'c' => '#a6a6a6'
+		        'hr' => 51,
+		        'c' => '#a6a6a6'
 		    ),
 		    array(
-		        'hr' => 61,  'c' => '#3b97f3'
+		        'hr' => 61,
+		        'c' => '#3b97f3'
 		    ),
 		    array(
-		        'hr' => 71,  'c' => '#82c91e'
+		        'hr' => 71,
+		        'c' => '#82c91e'
 		    ),
 		    array(
-		        'hr' => 81,  'c' => '#f98925'
+		        'hr' => 81,
+		        'c' => '#f98925'
 		    ),
 		    array(
-		        'hr' => 91,  'c' => '#d32020'
+		        'hr' => 91,
+		        'c' => '#d32020'
 		    ),
 		    array(
-		        'hr' => 101, 'c' => '#b80000'
+		        'hr' => 101,
+		        'c' => '#b80000'
 		    ),
 		),$result);
 		$this->assertEquals('default zones', $underTest->getSourceHint());
@@ -173,22 +203,28 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 41
 		    ),
 		    array(
-		        'hr' => 51,  'c' => '#a6a6a6'
+		        'hr' => 51,
+		        'c' => '#a6a6a6'
 		    ),
 		    array(
-		        'hr' => 61,  'c' => '#3b97f3'
+		        'hr' => 61,
+		        'c' => '#3b97f3'
 		    ),
 		    array(
-		        'hr' => 71,  'c' => '#82c91e'
+		        'hr' => 71,
+		        'c' => '#82c91e'
 		    ),
 		    array(
-		        'hr' => 81,  'c' => '#f98925'
+		        'hr' => 81,
+		        'c' => '#f98925'
 		    ),
 		    array(
-		        'hr' => 91,  'c' => '#d32020'
+		        'hr' => 91,
+		        'c' => '#d32020'
 		    ),
 		    array(
-		        'hr' => 101, 'c' => '#b80000'
+		        'hr' => 101,
+		        'c' => '#b80000'
 		    ),
 		    array(
 		        'hr' => 111
@@ -206,13 +242,17 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 0
 		    ),
 		    array(
-		        't' => 't1', 'hr' => 70,  'c' => '#000011'
+		        't' => 't1',
+		        'hr' => 70,
+		        'c' => '#000011'
 		    ),
 		    array(
-		        'hr' => 100, 'c' => '#002200'
+		        'hr' => 100,
+		        'c' => '#002200'
 		    ),
 		    array(
-		        't' => 't3', 'hr' => 120,
+		        't' => 't3',
+		        'hr' => 120,
 		    ),
 		),$result);
 		$this->assertEquals('sport stored zones', $underTest->getSourceHint());
@@ -230,13 +270,17 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		        'hr' => 52
 		    ),
 		    array(
-		        't' => 't1', 'hr' => 70,  'c' => '#000011'
+		        't' => 't1',
+		        'hr' => 70,
+		        'c' => '#000011'
 		    ),
 		    array(
-		        'hr' => 100, 'c' => '#002200'
+		        'hr' => 100,
+		        'c' => '#002200'
 		    ),
 		    array(
-		        't' => 't3', 'hr' => 120,
+		        't' => 't3',
+		        'hr' => 120,
 		    ),
 		    array(
 		        'hr' => 161,

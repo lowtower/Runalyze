@@ -16,10 +16,10 @@ class TemplateBasedMessage implements MessageInterface
     protected $TemplateName;
 
     /** @var null|int $lifetime [days] */
-    protected $Lifetime = null;
+    protected $Lifetime;
 
     /** @var null|array */
-    protected $TemplateContent = null;
+    protected $TemplateContent;
 
     /**
      * @param string $templateName relative to self::BASE_PATH
@@ -52,7 +52,7 @@ class TemplateBasedMessage implements MessageInterface
         return $this->Lifetime;
     }
 
-    public function getText(TranslatorInterface $translator = null)
+    public function getText(?TranslatorInterface $translator = null)
     {
         $this->loadTemplateIfNotDoneYet();
 
@@ -66,7 +66,7 @@ class TemplateBasedMessage implements MessageInterface
         return isset($this->TemplateContent['link']) && !empty($this->TemplateContent['link']);
     }
 
-    public function getLink(RouterInterface $router = null)
+    public function getLink(?RouterInterface $router = null)
     {
         $this->loadTemplateIfNotDoneYet();
 

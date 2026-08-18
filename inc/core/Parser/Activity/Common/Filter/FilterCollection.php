@@ -14,7 +14,7 @@ class FilterCollection
     /** @var LoggerInterface|null */
     protected $Logger;
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->Logger = $logger;
     }

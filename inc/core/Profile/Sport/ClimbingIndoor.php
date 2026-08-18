@@ -36,17 +36,17 @@ class ClimbingIndoor extends AbstractSport
         return 120;
     }
 
-    public function hasDistances()
+    public function hasDistances(): bool
     {
         return false;
     }
 
-    public function hasPower()
+    public function hasPower(): bool
     {
         return false;
     }
 
-    public function isOutside()
+    public function isOutside(): bool
     {
         return false;
     }
@@ -56,7 +56,7 @@ class ClimbingIndoor extends AbstractSport
         return PaceEnum::SECONDS_PER_KILOMETER;
     }
 
-    public function usesShortDisplay()
+    public function usesShortDisplay(): bool
     {
         return false;
     }

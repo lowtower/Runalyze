@@ -22,7 +22,7 @@ class AgeGradeLookup
      * @param Account|null $account
      * @return bool
      */
-    public function isLookupPossible(Account $account = null)
+    public function isLookupPossible(?Account $account = null)
     {
         $account = $account ?: $this->getUser();
 
@@ -33,7 +33,7 @@ class AgeGradeLookup
      * @param Account|null $account
      * @return null|Lookup
      */
-    public function getLookup(Account $account = null)
+    public function getLookup(?Account $account = null)
     {
         if (!$this->isLookupPossible($account)) {
             return null;

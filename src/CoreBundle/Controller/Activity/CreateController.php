@@ -252,7 +252,7 @@ class CreateController extends Controller
         );
     }
 
-    protected function getResponseForNewSingleActivity(Training $activity, Request $request = null, $setCache = true)
+    protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, $setCache = true)
     {
         $form = $this->createForm(ActivityType::class, $activity, [
             'action' => $this->generateUrl('activity-new')

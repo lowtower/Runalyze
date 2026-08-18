@@ -38,7 +38,7 @@ class Language implements InterfaceChoosable
      * Available languages
      * @var array|null
      */
-    private static $AVAILABLE_LANGUAGES = null;
+    private static $AVAILABLE_LANGUAGES;
 
     /**
      * Constructor
@@ -87,7 +87,7 @@ class Language implements InterfaceChoosable
      * @param boolean $overwriteGetParameter [optional]
      * @return boolean
      */
-    public static function setLanguage($language, $overwriteGetParameter = true)
+    public static function setLanguage($language, $overwriteGetParameter = true): bool
     {
         $supportedLanguages = self::availableLanguages();
 

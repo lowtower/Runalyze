@@ -298,7 +298,7 @@ class DataSeriesRemover
      * @param Trackdata|null $trackData
      * @return array
      */
-    private static function getChoicesForTrackData(Trackdata $trackData = null)
+    private static function getChoicesForTrackData(?Trackdata $trackData = null)
     {
         $choices = [];
 
@@ -373,7 +373,7 @@ class DataSeriesRemover
      * @param Trackdata|null $trackData
      * @return array
      */
-    private static function getChoicesForTrackDataForRunScribe(Trackdata $trackData = null)
+    private static function getChoicesForTrackDataForRunScribe(?Trackdata $trackData = null)
     {
         $choices = [];
 
@@ -420,7 +420,7 @@ class DataSeriesRemover
      * @param Route|null $route
      * @return array
      */
-    private static function getChoicesForRoute(Route $route = null)
+    private static function getChoicesForRoute(?Route $route = null)
     {
         $choices = [];
 
@@ -447,7 +447,7 @@ class DataSeriesRemover
      * @param Hrv|null $hrv
      * @return array
      */
-    private static function getChoicesForHrv(Hrv $hrv = null)
+    private static function getChoicesForHrv(?Hrv $hrv = null)
     {
         if (null === $hrv) {
             return [];

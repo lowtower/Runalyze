@@ -30,7 +30,7 @@ class RPE extends AbstractKey
 	/**
 	 * @return bool
 	 */
-	public function isInDatabase()
+	public function isInDatabase(): bool
 	{
 		return true;
 	}

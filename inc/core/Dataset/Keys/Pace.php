@@ -24,15 +24,18 @@ class Pace extends AbstractKey
 	const P_MIN_MAX = array(
 	    // km/h values means: pace between 12min/km - 3:20min/km
 	    SportProfile::RUNNING => array(
-	        'min' => 5, 'max' => 18
+	        'min' => 5,
+	        'max' => 18
 	    ),
 	    // km/h values means: pace between 3min/100m - 1:20min/100
 	    SportProfile::SWIMMING => array(
-	        'min' => 2, 'max' => 4.5
+	        'min' => 2,
+	        'max' => 4.5
 	    ),
 	    // 10 - 32 km/h
 	    SportProfile::CYCLING => array(
-	        'min' => 10, 'max' => 32
+	        'min' => 10,
+	        'max' => 32
 	    ),
 	);
 
@@ -60,7 +63,7 @@ class Pace extends AbstractKey
 	/**
 	 * @return bool
 	 */
-	public function isInDatabase()
+	public function isInDatabase(): bool
 	{
 		return false;
 	}
@@ -164,7 +167,8 @@ class Pace extends AbstractKey
 			}
 
 			return array(
-			    'class' => $class, 'style' => '--perc: ' . $v . '%;'
+			    'class' => $class,
+			    'style' => '--perc: ' . $v . '%;'
 			);
 		} else {
 			return null;

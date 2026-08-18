@@ -10,29 +10,29 @@ class WeatherData
     public $Condition = '';
 
     /** @var null|int */
-    public $InternalConditionId = null;
+    public $InternalConditionId;
 
     /** @var null|int|float */
-    public $Temperature = null;
+    public $Temperature;
 
     /** @var null|int|float [km/h] */
-    public $WindSpeed = null;
+    public $WindSpeed;
 
     /** @var null|int [°] */
-    public $WindDirection = null;
+    public $WindDirection;
 
     /** @var null|int [%] */
-    public $Humidity = null;
+    public $Humidity;
 
     /** @var null|int|float [hPa] */
-    public $AirPressure = null;
+    public $AirPressure;
 
     /**
      * @var null|int
      *
      * @see WeatherSourceProfile
      */
-    public $Source = null;
+    public $Source;
 
     /**
      * @return bool

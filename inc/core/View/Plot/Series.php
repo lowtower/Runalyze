@@ -82,7 +82,7 @@ class Series {
 	/**
 	 * @var null|int
 	 */
-	protected $YAxis = null;
+	protected $YAxis;
 
 	/**
 	 * Set label
@@ -141,7 +141,10 @@ class Series {
 		}
 
 		$Plot->Data[] = array(
-		    'label' => $this->Label, 'color' => $this->Color, 'data' => $this->Data, 'yaxis' => $yAxis
+		    'label' => $this->Label,
+		    'color' => $this->Color,
+		    'data' => $this->Data,
+		    'yaxis' => $yAxis
 		);
 
 		if ($this->UnitString != '') {

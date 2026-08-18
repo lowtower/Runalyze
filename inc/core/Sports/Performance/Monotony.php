@@ -33,10 +33,10 @@ class Monotony
     protected $Avg = 0;
 
     /** @var float|null */
-    protected $Value = null;
+    protected $Value;
 
     /** @var float|null */
-    protected $MaximumPerDay = null;
+    protected $MaximumPerDay;
 
     /**
      * @param array $trimpData

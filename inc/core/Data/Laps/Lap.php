@@ -34,7 +34,7 @@ class Lap {
 	/**
 	 * @var \Runalyze\Activity\Pace
 	 */
-	protected $LapPace = null;
+	protected $LapPace;
 
 	/**
 	 * #TSC Mode is the "old" name and i dont want to change it.
@@ -45,22 +45,22 @@ class Lap {
 	/**
 	 * @var \Runalyze\Activity\Duration
 	 */
-	protected $TrackDurationAtEnd = null;
+	protected $TrackDurationAtEnd;
 
 	/**
 	 * @var \Runalyze\Activity\Distance
 	 */
-	protected $TrackDistanceAtEnd = null;
+	protected $TrackDistanceAtEnd;
 
 	/**
 	 * @var \Runalyze\Activity\HeartRate
 	 */
-	protected $HRavg = null;
+	protected $HRavg;
 
 	/**
 	 * @var \Runalyze\Activity\HeartRate
 	 */
-	protected $HRmax = null;
+	protected $HRmax;
 
 	/**
 	 * @var int [m]
@@ -87,7 +87,7 @@ class Lap {
 	 * @param float $distance [optional]
 	 * @param LapIntensity|null $mode [optional]
 	 */
-	public function __construct($duration = 0, $distance = 0.0, LapIntensity $mode = null) {
+	public function __construct($duration = 0, $distance = 0.0, ?LapIntensity $mode = null) {
 		if (null === $mode) {
 			$mode = LapIntensity::getInstanceActive();
 		}

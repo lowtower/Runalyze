@@ -14,7 +14,7 @@ class FormularInputSearchTimeRange extends FormularField {
 	 * Validate value
 	 * @return boolean
 	 */
-	public function validate() {
+	public function validate(): bool {
 		return true;
 	}
 

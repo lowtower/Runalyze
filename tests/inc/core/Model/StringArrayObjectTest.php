@@ -29,7 +29,8 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals(2, $Array->num());
 		$this->assertEquals(array(
-		    'a' => 'foo', 'b' => 'bar'
+		    'a' => 'foo',
+		    'b' => 'bar'
 		), $Array->asArray());
 	}
 

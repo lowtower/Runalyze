@@ -15,7 +15,7 @@ class Version20161123211900 extends AbstractMigration implements ContainerAwareI
     /** @var string */
     private $Prefix;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->Prefix = $container->getParameter('database_prefix');
     }

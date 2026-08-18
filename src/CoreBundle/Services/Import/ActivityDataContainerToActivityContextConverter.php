@@ -51,7 +51,7 @@ class ActivityDataContainerToActivityContextConverter
         TypeRepository $typeRepository,
         EquipmentRepository $equipmentRepository,
         ConfigurationManager $configurationManager,
-        Account $account = null
+        ?Account $account = null
     )
     {
         $this->SportRepository = $sportRepository;
@@ -71,7 +71,7 @@ class ActivityDataContainerToActivityContextConverter
      * @param Account $account
      * @return Training
      */
-    public function getActivityFor(ActivityDataContainer $container, Account $account = null)
+    public function getActivityFor(ActivityDataContainer $container, ?Account $account = null)
     {
         if (null !== $account) {
             $this->Account = $account;
@@ -95,7 +95,7 @@ class ActivityDataContainerToActivityContextConverter
      * @param Account $account
      * @return ActivityContext
      */
-    public function getContextFor(ActivityDataContainer $container, Account $account = null)
+    public function getContextFor(ActivityDataContainer $container, ?Account $account = null)
     {
         $activity = $this->getActivityFor($container, $account);
 

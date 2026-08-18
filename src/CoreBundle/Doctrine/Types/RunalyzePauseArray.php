@@ -81,7 +81,8 @@ class RunalyzePauseArray extends Type
     protected function getPauseForNativeValue(array $data)
     {
         $data = array_merge([
-            'time' => 0, 'duration' => 0
+            'time' => 0,
+            'duration' => 0
         ], $data);
         $pause = new Pause($data['time'], $data['duration']);
 

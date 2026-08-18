@@ -10,16 +10,16 @@ class SportStatistic
     protected $Sport;
 
     /** @var null|int */
-    protected $NumberOfActivities = null;
+    protected $NumberOfActivities;
 
     /** @var null|int */
-    protected $NumberOfActivitiesWithDistance = null;
+    protected $NumberOfActivitiesWithDistance;
 
     /** @var null|float */
-    protected $TotalDistance = null;
+    protected $TotalDistance;
 
     /** @var null|float */
-    protected $TotalDuration = null;
+    protected $TotalDuration;
 
     public function __construct(Sport $sport)
     {

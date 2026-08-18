@@ -152,7 +152,7 @@ class Entity extends StringArrayObject {
 	 * @param int $num
 	 * @return boolean
 	 */
-	public function hasActiveLaps($num = 1) {
+	public function hasActiveLaps($num = 1): bool {
 		$count = 0;
 
 		foreach ($this->Elements as $split) {
@@ -172,7 +172,7 @@ class Entity extends StringArrayObject {
 	 * Are there active and inactive laps?
 	 * @return boolean
 	 */
-	public function hasActiveAndInactiveLaps() {
+	public function hasActiveAndInactiveLaps(): bool {
 		$active = null;
 
 		foreach ($this->Elements as $split) {

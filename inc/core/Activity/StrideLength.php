@@ -44,7 +44,7 @@ class StrideLength implements ValueInterface
 	 * @param int $centimeter
 	 * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
 	 */
-	public function __construct($centimeter = 0, DistanceUnitSystem $unitSystem = null)
+	public function __construct($centimeter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Centimeter = $centimeter;
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();

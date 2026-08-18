@@ -10,13 +10,13 @@ class EquipmentStatistic
     protected $Equipment;
 
     /** @var null|int */
-    protected $NumberOfActivities = null;
+    protected $NumberOfActivities;
 
     /** @var null|float [s/km] */
-    protected $MaximalPace = null;
+    protected $MaximalPace;
 
     /** @var null|float [km] */
-    protected $MaximalDistance = null;
+    protected $MaximalDistance;
 
     public function __construct(Equipment $equipment)
     {

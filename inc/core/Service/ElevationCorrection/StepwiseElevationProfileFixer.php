@@ -33,7 +33,7 @@ class StepwiseElevationProfileFixer
      * @param array $distances
      * @return array
      */
-    public function fixStepwiseElevations(array $elevations = null, array $distances = [])
+    public function fixStepwiseElevations(?array $elevations = null, array $distances = [])
     {
         if ($this->isProfileStepwise($elevations)) {
             $numElevations = count($elevations);

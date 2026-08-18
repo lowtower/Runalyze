@@ -18,7 +18,8 @@ class RaceResultType extends AbstractType
     {
         $placeOrParticipantsOptions = [
             'attr' => [
-                'min' => 1, 'class'=> 'small-size'
+                'min' => 1,
+                'class'=> 'small-size'
             ],
             'required' => false
         ];

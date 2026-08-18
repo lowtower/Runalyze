@@ -14,7 +14,7 @@ abstract class ConfigTab {
 	 * HTML-Form
 	 * @var Formular
 	 */
-	protected $Formular = null;
+	protected $Formular;
 
 	/**
 	 * Title

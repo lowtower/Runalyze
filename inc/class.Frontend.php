@@ -30,7 +30,7 @@ class Frontend {
 	 * Symfony token storage for user
 	 * @var null|\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage
 	 */
-	protected $symfonyToken = null;
+	protected $symfonyToken;
 
 	/**
 	 * Yaml Configuration

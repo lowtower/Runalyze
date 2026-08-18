@@ -44,7 +44,7 @@ class UnitSystem
     /**
      * @return AbstractPaceUnit
      */
-    public function getPaceUnit(Sport $sport = null)
+    public function getPaceUnit(?Sport $sport = null)
     {
         if (null !== $sport) {
             return $sport->getSpeedUnit();

@@ -22,7 +22,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
     /** @var Client */
     protected $HttpClient;
 
-    public function __construct(Client $client, LoggerInterface $logger = null)
+    public function __construct(Client $client, ?LoggerInterface $logger = null)
     {
         $this->HttpClient = $client;
         $this->logger = $logger ?: new NullLogger();

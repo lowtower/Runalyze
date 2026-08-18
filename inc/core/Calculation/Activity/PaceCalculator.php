@@ -23,7 +23,7 @@ class PaceCalculator {
 	/**
 	 * @var \Runalyze\Calculation\Activity\PaceSmoother
 	 */
-	protected $Smoother = null;
+	protected $Smoother;
 
 	/**
 	 * @var array

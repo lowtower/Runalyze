@@ -55,7 +55,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $timestamp = null,
         $duration = 3600,
         $distance = null,
-        Sport $sport = null
+        ?Sport $sport = null
     )
     {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
@@ -186,19 +186,31 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 7, 1, 2016), 3600, 33.3, $this->getDefaultAccountsCyclingSport());
 
         $this->assertEquals([
-            'num' => '1', 'total_distance' => '17.5', 'min_distance' => '17.5', 'max_distance' => '17.5'
+            'num' => '1',
+            'total_distance' => '17.5',
+            'min_distance' => '17.5',
+            'max_distance' => '17.5'
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)->getScalarResult()[0]);
 
         $this->assertEquals([
-            'num' => '2', 'total_distance' => '22.5', 'min_distance' => '10', 'max_distance' => '12.5'
+            'num' => '2',
+            'total_distance' => '22.5',
+            'min_distance' => '10',
+            'max_distance' => '12.5'
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)->getScalarResult()[0]);
 
         $this->assertEquals([
-            'num' => '0', 'total_distance' => null, 'min_distance' => null, 'max_distance' => null
+            'num' => '0',
+            'total_distance' => null,
+            'min_distance' => null,
+            'max_distance' => null
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2015)->getScalarResult()[0]);
 
         $this->assertEquals([
-            'num' => '1', 'total_distance' => '33.3', 'min_distance' => '33.3', 'max_distance' => '33.3'
+            'num' => '1',
+            'total_distance' => '33.3',
+            'min_distance' => '33.3',
+            'max_distance' => '33.3'
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2016)->getScalarResult()[0]);
     }
 

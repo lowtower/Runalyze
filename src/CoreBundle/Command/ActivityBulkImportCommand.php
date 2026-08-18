@@ -25,7 +25,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 class MaxZoneHR {
     private $import; // is import allowed by configuration
     public $MaxHR = 0; // max HR of all imported activities
-    public $Time = null; // timestamp of the first highest HR
+    public $Time; // timestamp of the first highest HR
 
     public function __construct($account, $container) {
         // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()

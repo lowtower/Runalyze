@@ -275,7 +275,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      *
      * @return $this
      */
-    public function setDateStart(\DateTime $dateStart = null)
+    public function setDateStart(?\DateTime $dateStart = null)
     {
         $this->dateStart = $dateStart;
 
@@ -303,7 +303,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      *
      * @return $this
      */
-    public function setDateEnd(\DateTime $dateEnd = null)
+    public function setDateEnd(?\DateTime $dateEnd = null)
     {
         $this->dateEnd = $dateEnd;
 

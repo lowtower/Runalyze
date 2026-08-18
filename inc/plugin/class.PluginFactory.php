@@ -19,7 +19,7 @@ class PluginFactory {
 	 * Array with all keys
 	 * @var array|null
 	 */
-	private static $Plugins = null;
+	private static $Plugins;
 
 	/**
 	 * Array with complete plugin data

@@ -11,19 +11,19 @@ class Pause
     protected $Duration;
 
     /** @var int|null [bpm] */
-    protected $HeartRateAtStart = null;
+    protected $HeartRateAtStart;
 
     /** @var int|null [bpm] */
-    protected $HeartRateAtEnd = null;
+    protected $HeartRateAtEnd;
 
     /** @var int|null [bpm] */
-    protected $HeartRateAtRecovery = null;
+    protected $HeartRateAtRecovery;
 
     /** @var int|null [s] */
-    protected $TimeUntilRecovery = null;
+    protected $TimeUntilRecovery;
 
     /** @var int|null relative to current baseline */
-    protected $PerformanceCondition = null;
+    protected $PerformanceCondition;
 
     /**
      * @param int $timeIndex

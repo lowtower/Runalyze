@@ -13,7 +13,7 @@ class ConfigurationUpdater
     /** @var ConfigurationManager */
     protected $Manager;
 
-    public function __construct(ConfRepository $repository, ConfigurationManager $manager = null)
+    public function __construct(ConfRepository $repository, ?ConfigurationManager $manager = null)
     {
         $this->Repository = $repository;
         $this->Manager = $manager;

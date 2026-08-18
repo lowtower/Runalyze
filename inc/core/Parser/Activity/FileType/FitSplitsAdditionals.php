@@ -12,7 +12,7 @@ use Runalyze\Profile\Mapping\FitSdkExercise;
  */
 class FitSplitsAdditionals {
     // additional infos for strength-training
-    private $fitExcerciseMapping = null;
+    private $fitExcerciseMapping;
     // every element is one lap/round with a sub-array of key/values
     private $data = array();
 
@@ -86,7 +86,7 @@ class FitSplitsAdditionals {
     /**
      * #TSC collect additional informations of the lap.
      */
-    public function collectLap(&$values, bool $isActiveLap, bool $isSwimming, array $adds = null) {
+    public function collectLap(&$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null) {
         $i = array();
 
         if($isActiveLap && $isSwimming) {

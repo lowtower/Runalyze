@@ -19,7 +19,7 @@ class Gradient
     protected $Gradient = [];
 
     /** @var AbstractKernel|null */
-    protected $MovingAverageKernel = null;
+    protected $MovingAverageKernel;
 
 	/**
      * @param array $elevation

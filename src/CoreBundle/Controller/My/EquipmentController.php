@@ -44,7 +44,8 @@ class EquipmentController extends Controller
     {
         /** @var EquipmentType $equipmentType */
         $equipmentType = $this->getEquipmentTypeRepository()->findOneBy([
-            'id' => $typeid, 'account' => $account->getId()
+            'id' => $typeid,
+            'account' => $account->getId()
         ]);
         $equipmentStatistics = $this->getEquipmentRepository()->getStatisticsForType($typeid, $account);
 

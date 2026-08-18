@@ -44,7 +44,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	/**
 	 * Constructor
 	 */
-	public function __construct(Activity\Context $Context = null, $showCadence = true) {
+	public function __construct(?Activity\Context $Context = null, $showCadence = true) {
 		$this->showCadence = $showCadence;
 
 		parent::__construct($Context);

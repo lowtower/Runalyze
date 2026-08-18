@@ -13,7 +13,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     protected $CategoryPool = [];
 
     /** @var UnitSystem|null */
-    protected $UnitSystem = null;
+    protected $UnitSystem;
 
     public function __construct(array $variables = [])
     {

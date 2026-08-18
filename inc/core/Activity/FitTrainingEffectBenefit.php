@@ -116,7 +116,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
     /**
      * Gets the label text as a string with color.
      *
-     * @param int $enum internal enum
+     * @param int $num internal enum
      * @return description with number and texts
      * @codeCoverageIgnore
      */

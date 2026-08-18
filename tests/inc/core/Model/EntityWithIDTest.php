@@ -27,7 +27,8 @@ class EntityWithIDTest extends \PHPUnit\Framework\TestCase {
 
 	public function testConstructorWithID() {
 		$O = new EntityWithID_MockTester(array(
-		    'foo' => 'bar', 'id' => 1
+		    'foo' => 'bar',
+		    'id' => 1
 		));
 
 		$this->assertTrue( $O->hasID() );

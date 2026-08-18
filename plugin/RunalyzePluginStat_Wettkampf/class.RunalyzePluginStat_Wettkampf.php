@@ -43,7 +43,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	protected $RaceContainer;
 
 	/** @var null|\Runalyze\AgeGrade\Lookup */
-	protected $AgeGradeLookup = null;
+	protected $AgeGradeLookup;
 
 	/**
 	 * Name
@@ -265,7 +265,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit'.($km*1000));
 		}
 		$Links = array(array(
-		    'tag' => '<span class="link">'.(new Distance($display_km))->stringAuto(true, 1).'</span>', 'subs' => $SubLinks
+		    'tag' => '<span class="link">'.(new Distance($display_km))->stringAuto(true, 1).'</span>',
+		    'subs' => $SubLinks
 		));
 
 		echo '<div class="databox" style="float:none;padding:0;width:490px;margin:20px auto;">';
@@ -298,7 +299,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()->value('pb_distances') : array(3, 5, 10, 21.1, 42.2);
 		foreach ($kms as $km)
 			$dists[(string)$km] = array(
-			    'sum' => 0, 'pb' => INFINITY
+			    'sum' => 0,
+			    'pb' => INFINITY
 			);
 
 		if ($this->RaceContainer->num() == 0)

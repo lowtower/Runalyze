@@ -143,7 +143,8 @@ class AccountController extends Controller
             return $this->render('account/activate/success.html.twig');
         } elseif (null !== $username && null != $this->getAccountRepository()->loadUserByUsername($username)) {
             return $this->render('account/activate/success.html.twig', [
-                'username' => $username, 'alreadyActivated' => true
+                'username' => $username,
+                'alreadyActivated' => true
             ]);
         }
 

@@ -18,12 +18,12 @@ class DatabaseCache implements StrategyInterface
         $this->Cache = $cache;
     }
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return true;
     }
 
-    public function isCachable()
+    public function isCachable(): bool
     {
         return false;
     }

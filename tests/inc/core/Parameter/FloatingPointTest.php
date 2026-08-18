@@ -22,7 +22,8 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
     public function testMinMaxOptions()
     {
         $object = new FloatingPoint(1.23, [
-            'min' => 1.0, 'max' => 2.0
+            'min' => 1.0,
+            'max' => 2.0
         ]);
         $this->assertEquals(1.23, $object->value());
 

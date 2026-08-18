@@ -30,7 +30,7 @@ class HrZonesCalculator
     const PATTERN_GRP_HR = 2;
     const PATTERN_GRP_COLOR = 3;
 
-	private $sourceHint = null;
+	private $sourceHint;
 
     /**
 	 * @var array
@@ -44,7 +44,7 @@ class HrZonesCalculator
 
 	/**
 	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $context
+	 * @param \Runalyze\View\Activity\Context $activityZoneBounds
 	 */
 	public function __construct(?array $activityZoneBounds, ?array $sportZoneBounds) {
 		$this->activityZoneBounds = $activityZoneBounds;
@@ -79,7 +79,9 @@ class HrZonesCalculator
 			// now add the bounds with its colors
 			foreach ($this->activityZoneBounds as $value) {
 				$defaultZones[$k] = array(
-				    't' => $t[$k-1], 'hr' => (int)$value, 'c' => $majorZoneColors[$k-1]
+				    't' => $t[$k-1],
+				    'hr' => (int)$value,
+				    'c' => $majorZoneColors[$k-1]
 				);
 				$k++;
 			}

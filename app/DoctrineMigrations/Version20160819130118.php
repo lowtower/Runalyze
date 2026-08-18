@@ -14,7 +14,7 @@ class Version20160819130118 extends AbstractMigration implements ContainerAwareI
 {
     private $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

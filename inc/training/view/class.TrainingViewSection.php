@@ -41,7 +41,7 @@ abstract class TrainingViewSection {
 	 * Constructor
 	 * @param \Runalyze\View\Activity\Context $Context
 	 */
-	public function __construct(Context $Context = null) {
+	public function __construct(?Context $Context = null) {
 		$this->Context = $Context;
 
 		if ($this->hasRequiredData())

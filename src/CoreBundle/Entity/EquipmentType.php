@@ -48,14 +48,14 @@ class EquipmentType implements AccountRelatedEntityInterface
      *
      * @ORM\Column(name="max_km", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $maxKm = null;
+    private $maxKm;
 
     /**
      * @var null|int [s]
      *
      * @ORM\Column(name="max_time", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $maxTime = null;
+    private $maxTime;
 
     /**
      * @var Account

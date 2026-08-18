@@ -31,7 +31,8 @@ foreach ($Data as $dat)
 
 $Plot = new Plot('year'.$Year, 780, 240);
 $Plot->Data[] = array(
-    'label' => __('Temperatures').' '.$Year, 'data' => $Temperatures
+    'label' => __('Temperatures').' '.$Year,
+    'data' => $Temperatures
 );
 
 $Plot->setMarginForGrid(5);

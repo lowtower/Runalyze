@@ -14,7 +14,7 @@ namespace Runalyze\Common\Enum;
 trait AbstractEnumFactoryTrait
 {
     /** @var array|null */
-    private static $ClassNames = null;
+    private static $ClassNames;
 
     /** @var string */
     private static $Namespace = '';

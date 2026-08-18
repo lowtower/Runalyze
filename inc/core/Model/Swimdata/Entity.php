@@ -83,7 +83,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::STROKE:
 			case self::STROKETYPE:

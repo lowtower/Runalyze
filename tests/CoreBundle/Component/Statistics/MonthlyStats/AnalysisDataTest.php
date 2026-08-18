@@ -53,10 +53,14 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
     {
         $data = $this->getAnalysisDataMockWithEmptySelections([
             [
-                'year' => 2006, 'month' => 7, 'value' => 42.0
+                'year' => 2006,
+                'month' => 7,
+                'value' => 42.0
             ],
             [
-                'year' => 2009, 'month' => 1, 'value' => 3.14
+                'year' => 2009,
+                'month' => 1,
+                'value' => 3.14
             ]
         ]);
 

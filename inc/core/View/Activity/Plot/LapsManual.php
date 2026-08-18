@@ -94,7 +94,8 @@ class LapsManual extends Laps {
 		}
 
 		$this->Plot->Data[] = array(
-		    'label' => $this->title, 'data' => $this->Data
+		    'label' => $this->title,
+		    'data' => $this->Data
 		);
 	}
 }

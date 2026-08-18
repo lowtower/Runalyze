@@ -243,7 +243,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setTime(array $time = null)
+    public function setTime(?array $time = null)
     {
         $this->time = $time;
 
@@ -285,7 +285,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setDistance(array $distance = null)
+    public function setDistance(?array $distance = null)
     {
         $this->distance = $distance;
 
@@ -328,7 +328,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setHeartrate(array $heartRate = null)
+    public function setHeartrate(?array $heartRate = null)
     {
         $this->heartrate = $heartRate;
 
@@ -356,7 +356,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setCadence(array $cadence = null)
+    public function setCadence(?array $cadence = null)
     {
         $this->cadence = $cadence;
 
@@ -386,7 +386,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setPower(array $power = null)
+    public function setPower(?array $power = null)
     {
         $this->power = $power;
 
@@ -414,7 +414,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setTemperature(array $temperature = null)
+    public function setTemperature(?array $temperature = null)
     {
         $this->temperature = $temperature;
 
@@ -442,7 +442,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setGroundcontact(array $groundcontact = null)
+    public function setGroundcontact(?array $groundcontact = null)
     {
         $this->groundcontact = $groundcontact;
 
@@ -470,7 +470,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setVerticalOscillation(array $verticalOscillation = null)
+    public function setVerticalOscillation(?array $verticalOscillation = null)
     {
         $this->verticalOscillation = $verticalOscillation;
 
@@ -500,7 +500,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setGroundcontactBalance(array $groundcontactBalance = null)
+    public function setGroundcontactBalance(?array $groundcontactBalance = null)
     {
         $this->groundcontactBalance = $groundcontactBalance;
 
@@ -528,7 +528,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setSmo20(array $smo20 = null)
+    public function setSmo20(?array $smo20 = null)
     {
         $this->smo20 = $smo20;
 
@@ -556,7 +556,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setSmo21(array $smo21 = null)
+    public function setSmo21(?array $smo21 = null)
     {
         $this->smo21 = $smo21;
 
@@ -584,7 +584,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setThb0(array $thb0 = null)
+    public function setThb0(?array $thb0 = null)
     {
         $this->thb0 = $thb0;
 
@@ -612,7 +612,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setThb1(array $thb1 = null)
+    public function setThb1(?array $thb1 = null)
     {
         $this->thb1 = $thb1;
 
@@ -640,7 +640,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setImpactGsLeft(array $impactGsLeft = null)
+    public function setImpactGsLeft(?array $impactGsLeft = null)
     {
         $this->impactGsLeft = $impactGsLeft;
 
@@ -668,7 +668,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setImpactGsRight(array $impactGsRight = null)
+    public function setImpactGsRight(?array $impactGsRight = null)
     {
         $this->impactGsRight = $impactGsRight;
 
@@ -696,7 +696,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setBrakingGsLeft(array $brakingGsLeft = null)
+    public function setBrakingGsLeft(?array $brakingGsLeft = null)
     {
         $this->brakingGsLeft = $brakingGsLeft;
 
@@ -724,7 +724,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setBrakingGsRight(array $brakingGsRight = null)
+    public function setBrakingGsRight(?array $brakingGsRight = null)
     {
         $this->brakingGsRight = $brakingGsRight;
 
@@ -752,7 +752,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setFootstrikeTypeLeft(array $footstrikeTypeLeft = null)
+    public function setFootstrikeTypeLeft(?array $footstrikeTypeLeft = null)
     {
         $this->footstrikeTypeLeft = $footstrikeTypeLeft;
 
@@ -780,7 +780,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setFootstrikeTypeRight(array $footstrikeTypeRight = null)
+    public function setFootstrikeTypeRight(?array $footstrikeTypeRight = null)
     {
         $this->footstrikeTypeRight = $footstrikeTypeRight;
 
@@ -808,7 +808,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setPronationExcursionLeft(array $pronationExcursionLeft = null)
+    public function setPronationExcursionLeft(?array $pronationExcursionLeft = null)
     {
         $this->pronationExcursionLeft = $pronationExcursionLeft;
 
@@ -836,7 +836,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setPronationExcursionRight(array $pronationExcursionRight = null)
+    public function setPronationExcursionRight(?array $pronationExcursionRight = null)
     {
         $this->pronationExcursionRight = $pronationExcursionRight;
 
@@ -864,7 +864,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setPerformanceCondition(array $performanceCondition = null)
+    public function setPerformanceCondition(?array $performanceCondition = null)
     {
         $this->performanceCondition = $performanceCondition;
 
@@ -892,7 +892,7 @@ class Trackdata implements AccountRelatedEntityInterface
      *
      * @return $this
      */
-    public function setRespirationRate(array $respirationRate = null)
+    public function setRespirationRate(?array $respirationRate = null)
     {
         $this->respirationRate = $respirationRate;
 
@@ -1098,7 +1098,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $pace [s/km]
      */
-    public function setPace(array $pace = null)
+    public function setPace(?array $pace = null)
     {
         $this->pace = $pace;
     }
@@ -1116,7 +1116,7 @@ class Trackdata implements AccountRelatedEntityInterface
      */
     public function getGradeAdjustedPace()
     {
-        if (false === $this->gradeAdjustedPace || false === $this->pace || false === $this->gradient) {
+        if (in_array(false, [$this->gradeAdjustedPace, $this->pace, $this->gradient], true)) {
             $this->getAdapter()->calculateGradeAdjustedPace();
         }
 
@@ -1126,7 +1126,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $gradeAdjustedPace [s/km]
      */
-    public function setGradeAdjustedPace(array $gradeAdjustedPace = null)
+    public function setGradeAdjustedPace(?array $gradeAdjustedPace = null)
     {
         $this->gradeAdjustedPace = $gradeAdjustedPace;
     }
@@ -1146,7 +1146,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $gradient (-100 .. 100)
      */
-    public function setGradient(array $gradient = null)
+    public function setGradient(?array $gradient = null)
     {
         $this->gradient = $gradient;
     }
@@ -1166,7 +1166,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $strideLength [cm]
      */
-    public function setStrideLength(array $strideLength = null)
+    public function setStrideLength(?array $strideLength = null)
     {
         $this->strideLength = $strideLength;
     }
@@ -1194,7 +1194,7 @@ class Trackdata implements AccountRelatedEntityInterface
     /**
      * @param array|null $verticalRatio [%]
      */
-    public function setVerticalRatio(array $verticalRatio = null)
+    public function setVerticalRatio(?array $verticalRatio = null)
     {
         $this->verticalRatio = $verticalRatio;
     }

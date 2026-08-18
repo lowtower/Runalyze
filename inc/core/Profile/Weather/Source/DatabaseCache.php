@@ -11,7 +11,7 @@ class DatabaseCache extends AbstractSource
         return WeatherSourceProfile::DATABASE_CACHE;
     }
 
-    public function requiresAttribution()
+    public function requiresAttribution(): bool
     {
         return false;
     }

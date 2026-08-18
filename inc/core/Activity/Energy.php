@@ -50,7 +50,7 @@ class Energy implements ValueInterface {
 	 * @param float $energy [kcal]
 	 * @param \Runalyze\Parameter\Application\EnergyUnit $preferredUnit
 	 */
-	public function __construct($energy = 0, EnergyUnit $preferredUnit = null) {
+	public function __construct($energy = 0, ?EnergyUnit $preferredUnit = null) {
 		$this->PreferredUnit = (null !== $preferredUnit) ? $preferredUnit : Configuration::General()->energyUnit();
 
 		$this->set($energy);

@@ -20,7 +20,7 @@ class ActivityPreview
     protected $Duration;
 
     /** @var float|null [km] */
-    protected $Distance = null;
+    protected $Distance;
 
     /** @var string */
     protected $SportName = '';
@@ -61,7 +61,7 @@ class ActivityPreview
         $this->HasRounds = !$activity->getSplits()->isEmpty();
     }
 
-    protected function setPropertiesFromSport(Sport $sport = null)
+    protected function setPropertiesFromSport(?Sport $sport = null)
     {
         if (null === $sport) {
             return;

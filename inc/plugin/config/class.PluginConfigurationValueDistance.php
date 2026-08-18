@@ -19,7 +19,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 	/**
 	 * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
-	protected $UnitSystem = null;
+	protected $UnitSystem;
 
 	/**
 	 * Construct

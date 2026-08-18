@@ -20,7 +20,7 @@ use Runalyze\Model\Trackdata;
 class Kml extends AbstractFileExporter
 {
     /** @var \SimpleXMLElement */
-    protected $XML = null;
+    protected $XML;
 
     /** @var string */
     protected $CurrentPath = '';
@@ -35,13 +35,13 @@ class Kml extends AbstractFileExporter
     protected $NumPauses = 0;
 
     /** @var \Runalyze\Model\Route\Loop */
-    protected $RouteLoop = null;
+    protected $RouteLoop;
 
     /** @var \Runalyze\Model\Trackdata\Loop */
-    protected $TrackdataLoop = null;
+    protected $TrackdataLoop;
 
     /** @var \Runalyze\Model\Trackdata\Pauses */
-    protected $Pauses = null;
+    protected $Pauses;
 
     /**
      * @return bool

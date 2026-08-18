@@ -542,31 +542,31 @@ class Entity extends Model\EntityWithID {
 	 * Weather
 	 * @var \Runalyze\Data\Weather
 	 */
-	protected $Weather = null;
+	protected $Weather;
 
 	/**
 	 * Splits
 	 * @var \Runalyze\Model\Activity\Splits\Entity
 	 */
-	protected $Splits = null;
+	protected $Splits;
 
 	/**
 	 * Splits-additional
 	 * @var array
 	 */
-	protected $SplitsAdditional = null;
+	protected $SplitsAdditional;
 
 	/**
 	 * Partner
 	 * @var \Runalyze\Model\Activity\Partner
 	 */
-	protected $Partner = null;
+	protected $Partner;
 
 	/**
 	 * Pace-Goal
 	 * @var array
 	 */
-	protected $PaceGoal = null;
+	protected $PaceGoal;
 
 	/**
 	 * Clone object
@@ -694,7 +694,7 @@ class Entity extends Model\EntityWithID {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canSet($key) {
+	protected function canSet($key): bool {
 		switch ($key) {
 			case self::TEMPERATURE:
 			case self::WINDSPEED:
@@ -716,7 +716,7 @@ class Entity extends Model\EntityWithID {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
             case self::TYPEID:
             case self::TIMESTAMP_CREATED:

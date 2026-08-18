@@ -75,7 +75,8 @@ class EditController extends Controller
 
             if (is_numeric($nextId)) {
                 return $this->redirectToRoute('activity-edit', [
-                    'id' => (int)$nextId, 'multi' => '1'
+                    'id' => (int)$nextId,
+                    'multi' => '1'
                 ]);
             }
         }

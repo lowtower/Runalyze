@@ -63,7 +63,7 @@ class Swimdata implements AccountRelatedEntityInterface
      * @param array|null $stroke
      * @return $this
      */
-    public function setStroke(array $stroke = null)
+    public function setStroke(?array $stroke = null)
     {
         $this->stroke = $stroke;
 
@@ -90,7 +90,7 @@ class Swimdata implements AccountRelatedEntityInterface
      * @param array|null $strokeType
      * @return $this
      */
-    public function setStroketype(array $strokeType = null)
+    public function setStroketype(?array $strokeType = null)
     {
         $this->stroketype = $strokeType;
 

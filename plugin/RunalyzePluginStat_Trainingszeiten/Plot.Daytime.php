@@ -59,7 +59,8 @@ $Plot = new Plot('daytime', 350, 190);
 $max = 0;
 foreach ($yAxis as $key => $data) {
 	$Plot->Data[] = array(
-	    'label' => $key, 'data' => $data
+	    'label' => $key,
+	    'data' => $data
 	);
 	$max += max($data);
 }

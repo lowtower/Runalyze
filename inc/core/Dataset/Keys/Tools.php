@@ -39,7 +39,7 @@ class Tools extends AbstractKey
     /**
      * @return bool
      */
-    public function isInDatabase()
+    public function isInDatabase(): bool
     {
         return true;
     }
@@ -66,7 +66,7 @@ class Tools extends AbstractKey
      * @return bool
      * @codeCoverageIgnore
      */
-    public function hasPrivacyOption() {
+    public function hasPrivacyOption(): bool {
         return false;
     }
 

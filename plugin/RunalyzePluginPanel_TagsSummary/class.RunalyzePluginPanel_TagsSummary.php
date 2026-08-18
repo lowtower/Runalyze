@@ -25,7 +25,11 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * @var array
 	 */
 	protected $Timescale = array(
-	    '1' => '1', '3' => '3', '6' => '6', '12' => '12', '24' => '24'
+	    '1' => '1',
+	    '3' => '3',
+	    '6' => '6',
+	    '12' => '12',
+	    '24' => '24'
 	);
 
 	/**

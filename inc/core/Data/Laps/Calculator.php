@@ -41,17 +41,17 @@ class Calculator
 	/**
 	 * @var \Runalyze\Model\Trackdata\Loop
 	 */
-	protected $TrackdataLoop = null;
+	protected $TrackdataLoop;
 
 	/**
 	 * @var \Runalyze\Model\Route\Loop
 	 */
-	protected $RouteLoop = null;
+	protected $RouteLoop;
 
 	/**
 	 * @var \Runalyze\Model\Swimdata\Loop
 	 */
-	protected $SwimdataLoop = null;
+	protected $SwimdataLoop;
 
 	/**
 	 * @var bool
@@ -109,7 +109,7 @@ class Calculator
 	 * @param \Runalyze\Model\Route\Entity $route
 	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
 	 */
-	public function calculateFrom(Trackdata\Entity $trackdata, Route\Entity $route = null, Swimdata\Entity $swimdata = null)
+	public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
 	{
 		$this->TrackdataLoop = new Trackdata\Loop($trackdata);
 		$this->RouteLoop = null !== $route ? new Route\Loop($route) : null;
@@ -464,7 +464,7 @@ class Calculator
 	 * @param array $data
 	 * @return boolean true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]
 	 */
-	protected static function isSorted(array $data)
+	protected static function isSorted(array $data): bool
 	{
 		$num = count($data);
 

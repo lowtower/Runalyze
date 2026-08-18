@@ -20,10 +20,10 @@ use Runalyze\Util\LocalTime;
 class Gpx extends AbstractFileExporter
 {
     /** @var \SimpleXMLElement */
-    protected $XML = null;
+    protected $XML;
 
     /** @var \SimpleXMLElement */
-    protected $Track = null;
+    protected $Track;
 
     /**
      * @return bool

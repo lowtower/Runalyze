@@ -16,13 +16,13 @@ class NightDetector
     /**
      * @var null|int null: unknown, 0: at sunlight, 1: at night
      */
-    protected $Value = null;
+    protected $Value;
 
     /**
      * @param bool|int $timestamp
      * @param \League\Geotools\Coordinate\CoordinateInterface|null $coordinate
      */
-    public function __construct($timestamp = false, CoordinateInterface $coordinate = null)
+    public function __construct($timestamp = false, ?CoordinateInterface $coordinate = null)
     {
         if ($timestamp !== false && null !== $coordinate) {
             $this->setFrom($timestamp, $coordinate);

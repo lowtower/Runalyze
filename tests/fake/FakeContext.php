@@ -73,8 +73,8 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 	 */
 	public static function withDefaultSport(
 		Activity\Entity $activity,
-		Trackdata\Entity $trackdata = null,
-		Route\Entity $route = null
+		?Trackdata\Entity $trackdata = null,
+		?Route\Entity $route = null
 	) {
 		if (null === $trackdata) {
 			$trackdata = new Trackdata\Entity(array());

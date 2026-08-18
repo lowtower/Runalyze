@@ -27,13 +27,13 @@ class BeaufortScale implements ValueInterface
 	 * @var int|null
 	 * @see https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
 	 */
-	protected $Btf = null;
+	protected $Btf;
 
 	/**
 	 * Wind condition
 	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
 	 */
-	public function __construct(WindSpeed $windSpeed = null)
+	public function __construct(?WindSpeed $windSpeed = null)
 	{
 	    if (null !== $windSpeed) {
 			$this->setFromWindSpeed($windSpeed);

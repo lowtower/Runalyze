@@ -397,7 +397,7 @@ class JsonImporter
 	 * @param int $equipmentTypeid
 	 * @return boolean
 	 */
-	protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid)
+	protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid): bool
     {
 		if (
 			isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
@@ -415,10 +415,10 @@ class JsonImporter
 
 	/**
 	 * @param int $sportid
-	 * @param int $equipmentid
+	 * @param int $equipmentId
 	 * @return boolean
 	 */
-	protected function equipmentSporRelationDoesExist($sportid, $equipmentId)
+	protected function equipmentSporRelationDoesExist($sportid, $equipmentId): bool
     {
 		if (
 			isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&

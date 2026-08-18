@@ -352,7 +352,8 @@ class BasicEndurance
         }
 
         return [
-            'km' => $km, 'sum' => $points
+            'km' => $km,
+            'sum' => $points
         ];
     }
 

@@ -58,7 +58,7 @@ abstract class PlotSumData extends Plot {
 	 * Sport
 	 * @var Sport
 	 */
-	protected $Sport = null;
+	protected $Sport;
 
 	/**
 	 * Raw data from database
@@ -209,7 +209,8 @@ abstract class PlotSumData extends Plot {
 		$Links[] = $this->link( __('By type'), $this->Year, $this->ParamSportId, 'types', 'types' == $this->ParamGroup);
 
 		return [
-		    'title' => $Current, 'links' => $Links
+		    'title' => $Current,
+		    'links' => $Links
 		];
 	}
 
@@ -230,7 +231,8 @@ abstract class PlotSumData extends Plot {
 		);
 
 		return [
-		    'title' => $Current, 'links' => $Links
+		    'title' => $Current,
+		    'links' => $Links
 		];
 	}
 
@@ -258,7 +260,8 @@ abstract class PlotSumData extends Plot {
 		}
 
 		return [
-		    'title' => $Current, 'links' => $Links
+		    'title' => $Current,
+		    'links' => $Links
 		];
 	}
 
@@ -284,7 +287,8 @@ abstract class PlotSumData extends Plot {
 			$Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
 
 		return [
-		    'title' => $Current, 'links' => $Links
+		    'title' => $Current,
+		    'links' => $Links
 		];
 	}
 
@@ -562,7 +566,8 @@ abstract class PlotSumData extends Plot {
                 $idMapping[$Sport->id()] = -1;
             } else {
     			$Sports[$Sport->id()] = array(
-    			    'name' => $Sport->name(), 'data' => $emptyData
+    			    'name' => $Sport->name(),
+    			    'data' => $emptyData
     			);
                 $idMapping[$Sport->id()] = $Sport->id();
             }
@@ -571,7 +576,8 @@ abstract class PlotSumData extends Plot {
 		if ('mainsport' == $this->ParamGroup) {
 		    $altId = max(array_keys($Sports)) + 1;
 		    $Sports[$altId] = [
-		        'name' => 'Alternative sports', 'data' => $emptyData
+		        'name' => 'Alternative sports',
+		        'data' => $emptyData
 		    ];
 
 		    foreach ($idMapping as $from => $to) {
@@ -587,7 +593,8 @@ abstract class PlotSumData extends Plot {
 
 		foreach ($Sports as $Sport)
 			$this->Data[] = array(
-			    'label' => isset($Sport['name']) ? $Sport['name'] : '?', 'data' => $Sport['data']
+			    'label' => isset($Sport['name']) ? $Sport['name'] : '?',
+			    'data' => $Sport['data']
 			);
 	}
 
@@ -597,13 +604,15 @@ abstract class PlotSumData extends Plot {
 	private function setDataForTypes() {
 		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
 		$Types     = array(array(
-		    'name' => __('without'), 'data' => $emptyData
+		    'name' => __('without'),
+		    'data' => $emptyData
 		));
 
 		foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
 		    $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
 			$Types[$Type->id()] = array(
-			    'name' => $name, 'data' => $emptyData
+			    'name' => $name,
+			    'data' => $emptyData
 			);
 		}
 
@@ -613,7 +622,8 @@ abstract class PlotSumData extends Plot {
 
 		foreach ($Types as $Type)
 			$this->Data[] = array(
-			    'label' => $Type['name'], 'data' => $Type['data']
+			    'label' => $Type['name'],
+			    'data' => $Type['data']
 			);
 	}
 
@@ -638,14 +648,19 @@ abstract class PlotSumData extends Plot {
 
 		if ($hasCompetitions) {
 			$this->Data[] = array(
-			    'label' => __('Races'), 'data' => $KilometersCompetition
+			    'label' => __('Races'),
+			    'data' => $KilometersCompetition
 			);
 			$this->Data[] = array(
-			    'label' => __('Training'), 'data' => $Kilometers, 'color' => '#E68617'
+			    'label' => __('Training'),
+			    'data' => $Kilometers,
+			    'color' => '#E68617'
 			);
 		} else {
 			$this->Data[] = array(
-			    'label' => $this->Sport->name(), 'data' => $Kilometers, 'color' => '#E68617'
+			    'label' => $this->Sport->name(),
+			    'data' => $Kilometers,
+			    'color' => '#E68617'
 			);
 		}
 	}

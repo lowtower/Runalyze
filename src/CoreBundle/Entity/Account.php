@@ -104,7 +104,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @Assert\Type("int")
      * @ORM\Column(name="birthyear", type="smallint", nullable=true, options={"unsigned":true})
      */
-    private $birthyear = null;
+    private $birthyear;
 
     /**
      * @var string
@@ -124,42 +124,42 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @Assert\Type("int")
      * @ORM\Column(name="registerdate", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $registerdate = null;
+    private $registerdate;
 
     /**
      * @var int|null [timestmap]
      * @Assert\Type("int")
      * @ORM\Column(name="lastaction", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $lastaction = null;
+    private $lastaction;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="changepw_hash", type="string", length=32, nullable=true, options={"fixed" = true})
      */
-    private $changepwHash = null;
+    private $changepwHash;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="changepw_timelimit", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $changepwTimelimit = null;
+    private $changepwTimelimit;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="activation_hash", type="string", length=32, nullable=true, options={"fixed" = true})
      */
-    private $activationHash = null;
+    private $activationHash;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="deletion_hash", type="string", length=32, nullable=true, options={"fixed" = true})
      */
-    private $deletionHash = null;
+    private $deletionHash;
 
     /**
      * @var bool

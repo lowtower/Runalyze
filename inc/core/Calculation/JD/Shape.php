@@ -21,10 +21,10 @@ class Shape
     protected $Configuration;
 
     /** @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector */
-    protected $Corrector = null;
+    protected $Corrector;
 
     /** @var float [ml/kg/min] */
-    protected $Value = null;
+    protected $Value;
 
     /**
      * @param PDO $database

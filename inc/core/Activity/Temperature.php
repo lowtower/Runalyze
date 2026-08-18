@@ -51,7 +51,7 @@ class Temperature implements ValueInterface {
 	 * @param float|null $temperature [°C]
 	 * @param \Runalyze\Parameter\Application\TemperatureUnit $preferredUnit
 	 */
-	public function __construct($temperature = null, TemperatureUnit $preferredUnit = null) {
+	public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null) {
 		$this->PreferredUnit = (null !== $preferredUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
 
 		$this->set($temperature);

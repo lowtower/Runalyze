@@ -22,7 +22,7 @@ class SectionMiscellaneous extends TrainingViewSectionTabbedPlot {
 	/**
 	 * Constructor
 	 */
-	public function __construct(Context $Context = null, $showCadence = true) {
+	public function __construct(?Context $Context = null, $showCadence = true) {
 		$this->showCadence = $showCadence;
 
 		parent::__construct($Context);
@@ -41,7 +41,7 @@ class SectionMiscellaneous extends TrainingViewSectionTabbedPlot {
 	 * Has the training all required data?
 	 * @return bool
 	 */
-	protected function hasRequiredData() {
+	protected function hasRequiredData(): bool {
 		return true;
 	}
 

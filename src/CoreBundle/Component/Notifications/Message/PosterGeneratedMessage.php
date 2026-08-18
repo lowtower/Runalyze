@@ -62,7 +62,7 @@ class PosterGeneratedMessage implements MessageInterface
         return $router->generate('poster');
     }
 
-    public function isLinkInternal()
+    public function isLinkInternal(): bool
     {
         return true;
     }

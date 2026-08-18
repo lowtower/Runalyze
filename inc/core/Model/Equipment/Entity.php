@@ -94,7 +94,7 @@ class Entity extends Model\EntityWithID {
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function canBeNull($key) {
+	protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::DATE_START:
 			case self::DATE_END:

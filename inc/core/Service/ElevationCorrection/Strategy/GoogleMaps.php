@@ -13,7 +13,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
 {
     use GuessUnknownValuesTrait;
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return true;
     }
@@ -41,7 +41,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         return $altitudes;
     }
 
-    protected function checkApiResult(array $json)
+    protected function checkApiResult(array $json): bool
     {
         if (isset($json['error_message'])) {
             $this->logger->warning(sprintf('GoogleMaps request failed: %s', $json['error_message']));

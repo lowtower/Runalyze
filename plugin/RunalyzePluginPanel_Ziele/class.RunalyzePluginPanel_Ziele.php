@@ -223,10 +223,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 	/**
 	 * Add headline
-	 * @param string $Name
-	 * @param double $Distance
-	 * @param int $Num
-	 * @param bool $NoTopBorder
+	 * @param string $name
+	 * @param double $distance
+	 * @param int $num
+	 * @param bool $noTopBorder
 	 */
 	private
 	function addHeadline($name, $distance = 0, $num = 0, $noTopBorder = false)
@@ -242,9 +242,9 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 	/**
 	 * Add line
-	 * @param string $Name
-	 * @param double $Distance
-	 * @param int $Num
+	 * @param string $name
+	 * @param double $distance
+	 * @param int $num
 	 */
 	private
 	function addLine($name, $distance = 0, $num = 0)
@@ -375,7 +375,9 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		')->fetch();
 		if (!is_array($Data))
 			return array(
-			    'anzahl' => 0, 'distanz_sum' => 0, 'dauer_sum' => 0
+			    'anzahl' => 0,
+			    'distanz_sum' => 0,
+			    'dauer_sum' => 0
 			);
 
 		return $Data;
@@ -426,19 +428,30 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 		// Zeitraeume fuer die Prognosen.
 		$timeset['woche'] = array(
-		    'name' => __('Week'), 'start' => (new DateTime())->setTimestamp(Time::weekstart(time())), 'end' => (new DateTime())->setTimestamp(Time::weekend(time()))
+		    'name' => __('Week'),
+		    'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),
+		    'end' => (new DateTime())->setTimestamp(Time::weekend(time()))
 		);
 		$timeset['mon'] = array(
-		    'name' => __('Month'), 'start' => new DateTime(date('Y-m-01')), 'end' => new Datetime(date('Y-m-t'))
+		    'name' => __('Month'),
+		    'start' => new DateTime(date('Y-m-01')),
+		    'end' => new Datetime(date('Y-m-t'))
 		);
 		$timeset['hj'] = array(
-		    'name' => __('Half-Year'), 'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')), 'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31'))
+		    'name' => __('Half-Year'),
+		    'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
+		    'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31'))
 		);
 		$timeset['saison'] = array(
-		    'name' => __('Season'), 'start' => $kmstart, 'end' => $kmend, 'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;')
+		    'name' => __('Season'),
+		    'start' => $kmstart,
+		    'end' => $kmend,
+		    'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;')
 		);
 		$timeset['jahr'] = array(
-		    'name' => __('Year'), 'start' => new DateTime(date('Y-01-01')), 'end' => new Datetime(date('Y-12-31'))
+		    'name' => __('Year'),
+		    'start' => new DateTime(date('Y-01-01')),
+		    'end' => new Datetime(date('Y-12-31'))
 		);
 
 		return $timeset;

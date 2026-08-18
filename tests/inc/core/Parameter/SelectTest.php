@@ -18,7 +18,9 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 	protected function setUp() : void {
 		$this->object = new Select('a', array(
 		    'options' => array(
-		        'a' => 'one', 'b' => 'two', 'c' => 'three'
+		        'a' => 'one',
+		        'b' => 'two',
+		        'c' => 'three'
 		    )
 		));
 	}
@@ -41,7 +43,9 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 
 	public function testOptions() {
 		$this->assertEquals( array(
-		    'a' => 'one', 'b' => 'two', 'c' => 'three'
+		    'a' => 'one',
+		    'b' => 'two',
+		    'c' => 'three'
 		), $this->object->options() );
 	}
 

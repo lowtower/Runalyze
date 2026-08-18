@@ -11,115 +11,115 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 class ActivityData
 {
     /** @var int|float|null [s] */
-    public $Duration = null;
+    public $Duration;
 
     /** @var int|null [s] */
-    public $ElapsedTime = null;
+    public $ElapsedTime;
 
     /** @var float|null [km]  */
-    public $Distance = null;
+    public $Distance;
 
     /** @var int|null [m] */
-    public $Elevation = null;
+    public $Elevation;
 
     /** @var int|null [m] */
-    public $ElevationAscent = null;
+    public $ElevationAscent;
 
     /** @var int|null [m] */
-    public $ElevationDescent = null;
+    public $ElevationDescent;
 
     /** @var int|null [kcal] */
-    public $EnergyConsumption = null;
+    public $EnergyConsumption;
 
     /** @var int|null [kcal] */
-    public $EnergyInRest = null;
+    public $EnergyInRest;
 
     /** @var int|null */
-    public $Trimp = null;
+    public $Trimp;
 
     /** @var int|null [6 .. 20] */
-    public $RPE = null;
+    public $RPE;
 
     /** @var int|float|null [W] */
-    public $AvgPower = null;
+    public $AvgPower;
 
     /** @var int|null [W] */
-    public $MaxPower = null;
+    public $MaxPower;
 
     /** @var int|float|null [bpm] */
-    public $AvgHeartRate = null;
+    public $AvgHeartRate;
 
     /** @var int|float|null [bpm] */
-    public $AvgHeartRateActive = null;
+    public $AvgHeartRateActive;
 
     /** @var int|null [bpm] */
-    public $MaxHeartRate = null;
+    public $MaxHeartRate;
 
     /** @var int|null [bpm] */
-    public $MaxHeartRateUser = null;
+    public $MaxHeartRateUser;
 
     /** @var array|null [bpm] */
-    public $HeartRateZoneBounds = null;
+    public $HeartRateZoneBounds;
 
     /** @var int|float|null [rpm] */
-    public $AvgCadence = null;
+    public $AvgCadence;
 
     /** @var int|float|null [ms] */
-    public $AvgGroundContactTime = null;
+    public $AvgGroundContactTime;
 
     /** @var int|float|null [%ooL] */
-    public $AvgGroundContactBalance = null;
+    public $AvgGroundContactBalance;
 
     /** @var int|float|null [mm] */
-    public $AvgVerticalOscillation = null;
+    public $AvgVerticalOscillation;
 
     /** @var int|float|null [G] */
-    public $AvgImpactGsLeft = null;
+    public $AvgImpactGsLeft;
 
     /** @var int|float|null [G] */
-    public $AvgImpactGsRight = null;
+    public $AvgImpactGsRight;
 
     /** @var int|float|null [G] */
-    public $AvgBrakingGsLeft = null;
+    public $AvgBrakingGsLeft;
 
     /** @var int|float|null [G] */
-    public $AvgBrakingGsRight = null;
+    public $AvgBrakingGsRight;
 
     /** @var int|null [°] */
-    public $AvgFootstrikeTypeLeft = null;
+    public $AvgFootstrikeTypeLeft;
 
     /** @var int|null [°] */
-    public $AvgFootstrikeTypeRight = null;
+    public $AvgFootstrikeTypeRight;
 
     /** @var int|null [°] */
-    public $AvgPronationExcursionLeft = null;
+    public $AvgPronationExcursionLeft;
 
     /** @var int|null [°] */
-    public $AvgPronationExcursionRight = null;
+    public $AvgPronationExcursionRight;
 
     /** @var int|null */
-    public $PoolLength = null;
+    public $PoolLength;
 
     /** @var int|null */
-    public $TotalStrokes = null;
+    public $TotalStrokes;
 
     /** @var int|null */
-    public $TotalCycles = null;
+    public $TotalCycles;
 
     /** @var int|null [grad] #TSC: add temperature here */
-    public $AvgTemperature = null;
+    public $AvgTemperature;
 
     /** @var int|null [-] #TSC: added */
-    public $AvgRespirationRate = null;
+    public $AvgRespirationRate;
 
     /** @var int|null [-] #TSC: added */
-    public $MaxRespirationRate = null;
+    public $MaxRespirationRate;
 
     /** @var array|null [-] #TSC: added */
-    public $SplitsAdditional = null;
+    public $SplitsAdditional;
 
     /** @var array|null [-] #TSC: added */
-    public $PaceGoal = null;
+    public $PaceGoal;
 
     /** @var bool  #TSC */
     public $WithGoal = false;

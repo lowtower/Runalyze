@@ -54,7 +54,7 @@ class EquipmentType implements QueryGroupInterface
     /**
      * @return bool
      */
-    public function showEmptyGroups()
+    public function showEmptyGroups(): bool
     {
         return false;
     }

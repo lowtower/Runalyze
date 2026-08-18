@@ -19,7 +19,7 @@ class RpeColor
     ];
 
 	/** @var int|null */
-	protected $Value = null;
+	protected $Value;
 
     /**
 	 * @param int|null $value

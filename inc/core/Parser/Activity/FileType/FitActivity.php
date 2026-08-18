@@ -64,7 +64,7 @@ class FitActivity extends AbstractSingleParser
     protected $SoftwareVersion = '';
 
     /** @var int|null Recovery time from undocumented message 140 */
-    protected $RecoveryTimeFallback = null;
+    protected $RecoveryTimeFallback;
 
     /** @var array */
     protected $DeveloperFieldMappingForRecord = [
@@ -93,28 +93,34 @@ class FitActivity extends AbstractSingleParser
         3 => ['heart_rate'],
         4 => [
             'cadence', [
-                'default' => 1, 'SPM' => 0.5
+                'default' => 1,
+                'SPM' => 0.5
             ]],
         5 => [
             'distance', [
-                'default' => 1, 'm' => 100
+                'default' => 1,
+                'm' => 100
             ]],
         7 => ['power'],
         39 => [
             'vertical_oscillation', [
-                'default' => 1, 'Centimeters' => 100
+                'default' => 1,
+                'Centimeters' => 100
             ]],
         40 => [
             'stance_time', [
-                'default' => 1, 'Milliseconds' => 10
+                'default' => 1,
+                'Milliseconds' => 10
             ]],
         54 => [['thb_0', 'thb_1'], [
-            'default' => 100, 'base_type' => [
+            'default' => 100,
+            'base_type' => [
                 'uint16' => 1
             ]
         ]],
         57 => [['smo2_0', 'smo2_1'], [
-            'default' => 1, 'base_type' => [
+            'default' => 1,
+            'base_type' => [
                 'uint16' => 0.1
             ]
         ]]
@@ -127,12 +133,14 @@ class FitActivity extends AbstractSingleParser
     protected $NativeFieldMappingForSession = [
         9 => [
             'total_distance', [
-                'default' => 1, 'm' => 100
+                'default' => 1,
+                'm' => 100
             ]],
         11 => ['total_calories'],
         44 => [
             'pool_length', [
-                'default' => 1, 'm' => 100
+                'default' => 1,
+                'm' => 100
             ]],
     ];
 
@@ -143,7 +151,8 @@ class FitActivity extends AbstractSingleParser
     protected $NativeFieldMappingForLap = [
         9 => [
             'total_distance', [
-                'default' => 1, 'm' => 100
+                'default' => 1,
+                'm' => 100
             ]],
     ];
 
@@ -160,7 +169,7 @@ class FitActivity extends AbstractSingleParser
     protected $batteryTemperature = [];
 
     // additional infos for strength-training
-    protected $fitSplitsAdditionals = null;
+    protected $fitSplitsAdditionals;
 
     /** @var FitWorkoutStep */
     protected $fitWorkoutStep;
@@ -797,7 +806,7 @@ class FitActivity extends AbstractSingleParser
      * TSC: list of devices which support Performance Condition
      * Mapping number to device see https://github.com/Runalyze/devices/blob/master/src/Mapping/GarminFitSdkMapping.php
      */
-    protected function hasPerformanceCondition($creator) {
+    protected function hasPerformanceCondition($creator): bool {
         if (substr($creator, 0, 5) === 'fr630' || $creator == '2156' || $creator == '2310' || $creator == '2311' ||                             // GARMIN_FORERUNNER_630
             substr($creator, 0, 5) === 'fr645' || $creator == '2886' || $creator == '3003' || $creator == '2888' || $creator == '3004' ||       // GARMIN_FORERUNNER_645
             substr($creator, 0, 5) === 'fr935' || $creator == '2691' || $creator == '2833' ||                                                   // GARMIN_FORERUNNER_935
@@ -1181,7 +1190,7 @@ class FitActivity extends AbstractSingleParser
      * is lap active or pause/rest.
      * primary for swimming.
      */
-    protected function isActiveLap() {
+    protected function isActiveLap(): bool {
         if ($this->IsSwimming
             && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == '0'
             && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == '0') {
@@ -1253,7 +1262,7 @@ class FitActivity extends AbstractSingleParser
 
         // initialize the values for run/walk/stand
         if (!isset($this->Container->FitDetails->RunTime) &&
-            ($split_type == 17 || $split_type == 18 || $split_type == 22)) {
+            (in_array($split_type, [17, 18, 22]))) {
             $this->Container->FitDetails->RunTime = 0;
             $this->Container->FitDetails->WalkTime = 0;
             $this->Container->FitDetails->StandTime = 0;

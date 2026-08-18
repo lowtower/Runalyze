@@ -155,7 +155,8 @@ class DefaultController extends AbstractPluginsAwareController
         $numDistance =  $repository->getAmountOfLoggedKilometers();
 
         return [
-            'user' => (int)$numUser, 'distance' => Distance::format($numDistance)
+            'user' => (int)$numUser,
+            'distance' => Distance::format($numDistance)
         ];
     }
 
@@ -205,7 +206,8 @@ class DefaultController extends AbstractPluginsAwareController
 
         if (null !== $account && $hash == md5($account->getUsername())) {
             return $this->render('account/unsubscribe_info.html.twig', array(
-                'mail' => $mail, 'hash' => $hash
+                'mail' => $mail,
+                'hash' => $hash
             ));
         }
 

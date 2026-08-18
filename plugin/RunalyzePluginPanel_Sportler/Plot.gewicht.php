@@ -39,10 +39,15 @@ foreach ($Labels as $i => &$value)
 
 $Plot = new Plot('sportler_weights', 320, 150);
 	$Plot->Data[] = array(
-	    'label' => __('Weight'), 'color' => '#008', 'data' => $Weights
+	    'label' => __('Weight'),
+	    'color' => '#008',
+	    'data' => $Weights
 	);
 	$Plot->Data[] = array(
-	    'label' => __('Resting HR'), 'color' => '#800', 'data' => $HRrests, 'yaxis' => 2
+	    'label' => __('Resting HR'),
+	    'color' => '#800',
+	    'data' => $HRrests,
+	    'yaxis' => 2
 	);
 
 $Plot->setMarginForGrid(5);

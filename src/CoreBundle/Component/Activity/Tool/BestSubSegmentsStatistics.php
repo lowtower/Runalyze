@@ -11,10 +11,10 @@ class BestSubSegmentsStatistics
     protected $Trackdata;
 
     /** @var SubSegmentMaximization|null */
-    protected $DistanceSegments = null;
+    protected $DistanceSegments;
 
     /** @var SubSegmentMaximization|null */
-    protected $TimeSegments = null;
+    protected $TimeSegments;
 
     /** @var array */
     protected $Distances = [];

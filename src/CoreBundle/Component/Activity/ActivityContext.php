@@ -16,30 +16,30 @@ class ActivityContext
     protected $Activity;
 
     /** @var Trackdata|null */
-    protected $Trackdata = null;
+    protected $Trackdata;
 
     /** @var Swimdata|null */
-    protected $Swimdata = null;
+    protected $Swimdata;
 
     /** @var Route|null */
-    protected $Route = null;
+    protected $Route;
 
     /** @var Hrv|null */
-    protected $HRV = null;
+    protected $HRV;
 
     /** @var Raceresult|null */
-    protected $RaceResult = null;
+    protected $RaceResult;
 
     /** @var ActivityDecorator */
     protected $Decorator;
 
     public function __construct(
         Training $activity,
-        Trackdata $trackdata = null,
-        Swimdata $swimdata = null,
-        Route $route = null,
-        Hrv $hrv = null,
-        Raceresult $raceResult = null
+        ?Trackdata $trackdata = null,
+        ?Swimdata $swimdata = null,
+        ?Route $route = null,
+        ?Hrv $hrv = null,
+        ?Raceresult $raceResult = null
     )
     {
         $this->Activity = $activity;

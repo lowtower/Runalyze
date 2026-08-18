@@ -7,7 +7,7 @@ abstract class AbstractMetric
     /**
      * @var mixed
      */
-    protected $Value = null;
+    protected $Value;
 
     /**
      * @return string full class name

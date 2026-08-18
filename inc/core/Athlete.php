@@ -10,16 +10,16 @@ class Athlete
     protected $Gender;
 
     /** @var null|int [bpm] */
-    protected $maximalHR = null;
+    protected $maximalHR;
 
     /** @var null|int [bpm] */
-    protected $restingHR = null;
+    protected $restingHR;
 
     /** @var null|float [kg] */
-    protected $weight = null;
+    protected $weight;
 
     /** @var null|int */
-    protected $birthyear = null;
+    protected $birthyear;
 
     /** @var float [ml/kg/min] */
     protected $vo2max = 0.0;

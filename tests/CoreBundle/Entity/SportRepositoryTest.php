@@ -43,7 +43,7 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $timestamp = null,
         $duration = 3600,
         $distance = null,
-        Sport $sport = null
+        ?Sport $sport = null
     )
     {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);

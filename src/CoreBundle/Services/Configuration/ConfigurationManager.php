@@ -16,10 +16,10 @@ class ConfigurationManager
     protected $Repository;
 
     /** @var null|RunalyzeConfigurationList */
-    protected $CurrentConfigurationList = null;
+    protected $CurrentConfigurationList;
 
     /** @var null|RunalyzeConfigurationList */
-    protected $DefaultList = null;
+    protected $DefaultList;
 
     public function __construct(ConfRepository $repository, TokenStorage $tokenStorage)
     {
@@ -31,7 +31,7 @@ class ConfigurationManager
      * @param Account|null $account defaults to current user or default config, if there is no user logged in
      * @return RunalyzeConfigurationList
      */
-    public function getList(Account $account = null)
+    public function getList(?Account $account = null)
     {
         if (null === $account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
             if (null === $this->CurrentConfigurationList) {

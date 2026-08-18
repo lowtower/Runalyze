@@ -17,7 +17,7 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot {
 	/**
 	 * Constructor
 	 */
-	public function __construct(Activity\Context $Context = null) {
+	public function __construct(?Activity\Context $Context = null) {
 		parent::__construct($Context);
 
 	}

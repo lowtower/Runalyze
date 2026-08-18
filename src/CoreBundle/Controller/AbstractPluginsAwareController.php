@@ -78,7 +78,7 @@ abstract class AbstractPluginsAwareController extends Controller
 
     /**
      * @param Account $account
-     * @param int $pluginId
+     * @param int $plugin
      * @return Response
      */
     protected function getResponseForSportsPanel(Account $account, \Plugin $plugin)

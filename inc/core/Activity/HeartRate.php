@@ -39,7 +39,7 @@ class HeartRate {
 	 * @param int $valueInBPM
 	 * @param \Runalyze\Athlete|null $Athlete
 	 */
-	public function __construct($valueInBPM, \Runalyze\Athlete $Athlete = null) {
+	public function __construct($valueInBPM, ?\Runalyze\Athlete $Athlete = null) {
 		$this->value = $valueInBPM;
 		$this->Athlete = $Athlete;
 		$this->PreferredUnit = Configuration::General()->heartRateUnit();

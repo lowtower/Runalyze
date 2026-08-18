@@ -24,7 +24,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Calculator = new PowerCalculator();
     }
 
-    protected function setDataToActivity(array $distance = null, array $elevation = null)
+    protected function setDataToActivity(?array $distance = null, ?array $elevation = null)
     {
         $this->Activity->getSport()->setInternalSportId(SportProfile::CYCLING);
 
