@@ -141,11 +141,11 @@ class Series {
 		}
 
 		$Plot->Data[] = array(
-		    'label' => $this->Label,
+    'label' => $this->Label,
 		    'color' => $this->Color,
 		    'data' => $this->Data,
 		    'yaxis' => $yAxis
-		);
+);
 
 		if ($this->UnitString != '') {
 			if ($this->UnitString == 'time') {

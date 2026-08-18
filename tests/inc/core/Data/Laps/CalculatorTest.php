@@ -33,7 +33,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	protected function trackdata()
 	{
 		return new Trackdata\Entity(array(
-		    Trackdata\Entity::TIME => array(
+    Trackdata\Entity::TIME => array(
 		        0, 60, 120, 180, 240, 300,
 		        335, 370,
 		        390, 410, 430,
@@ -57,13 +57,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		        185, 180, 175,
 		        170, 160, 150, 140, 130
 		    )
-		));
+));
 	}
 
 	protected function route()
 	{
 		return new Route\Entity(array(
-		    Route\Entity::ELEVATIONS_ORIGINAL => array(
+    Route\Entity::ELEVATIONS_ORIGINAL => array(
 		        100, 100, 110, 120, 115, 115,
 		        115, 115,
 		        115, 115, 115,
@@ -71,7 +71,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		        115, 115, 115,
 		        115, 115, 120, 110, 100
 		    )
-		));
+));
 	}
 
 	protected function checkAgainst(array $ExpectedLaps)

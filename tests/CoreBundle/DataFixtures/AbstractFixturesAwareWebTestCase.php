@@ -17,7 +17,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
     use FixturesTrait;
 
-    /** @var  Client */
+    /** @var Client */
     protected $Client;
 
     /** @var ReferenceRepository */

@@ -25,7 +25,7 @@ abstract class PaceAxisLimit extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct(self::AUTO, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        0				=> __('automatic'),
 		        60				=> '1:00/km',
 		        120				=> '2:00/km',
@@ -43,7 +43,7 @@ abstract class PaceAxisLimit extends \Runalyze\Parameter\Select {
 		        840				=> '14:00/km',
 		        900				=> '15:00/km'
 		    )
-		));
+));
 	}
 
 	/**

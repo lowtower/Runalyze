@@ -97,9 +97,9 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset( __('Calendar view') );
 
 		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), array(
-		    'label'		=> __('Calendar: mode'),
+    'label'		=> __('Calendar: mode'),
 		    'tooltip'	=> __('Default mode for the calendar')
-		));
+));
 
 		$Fieldset->addHandle( $this->handle('DB_SHOW_DATASET_LABELS'), array(
 		    'label'		=> __('Calendar: show labels for dataset')

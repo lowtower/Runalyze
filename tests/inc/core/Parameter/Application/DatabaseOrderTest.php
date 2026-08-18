@@ -32,7 +32,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 
 	public function testAscendingOrdering() {
 		$array = array(
-		    '3' => array(
+    '3' => array(
 		        'id' => 3
 		    ),
 		    '5' => array(
@@ -47,13 +47,13 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    '4' => array(
 		        'id' => 4
 		    )
-		);
+);
 
 		$this->object->set( DatabaseOrder::ASC );
 		$this->object->sort($array);
 
 		$this->assertEquals(array(
-		    '1' => array(
+    '1' => array(
 		        'id' => 1
 		    ),
 		    '2' => array(
@@ -68,12 +68,12 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    '5' => array(
 		        'id' => 5
 		    )
-		), $array);
+), $array);
 	}
 
 	public function testDescendingOrdering() {
 		$array = array(
-		    '3' => array(
+    '3' => array(
 		        'id' => 3
 		    ),
 		    '5' => array(
@@ -88,13 +88,13 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    '4' => array(
 		        'id' => 4
 		    )
-		);
+);
 
 		$this->object->set( DatabaseOrder::DESC );
 		$this->object->sort($array);
 
 		$this->assertEquals(array(
-		    '5' => array(
+    '5' => array(
 		        'id' => 5
 		    ),
 		    '4' => array(
@@ -109,12 +109,12 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    '1' => array(
 		        'id' => 1
 		    )
-		), $array);
+), $array);
 	}
 
 	public function testAlphabeticalOrdering() {
 		$array = array(
-		    'f' => array(
+    'f' => array(
 		        'name' => 'Foo'
 		    ),
 		    'v' => array(
@@ -129,13 +129,13 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    'n' => array(
 		        'name' => 'Name'
 		    )
-		);
+);
 
 		$this->object->set( DatabaseOrder::ALPHA );
 		$this->object->sort($array);
 
 		$this->assertEquals(array(
-		    'b' => array(
+    'b' => array(
 		        'name' => 'Bar'
 		    ),
 		    'f' => array(
@@ -150,7 +150,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase {
 		    'v' => array(
 		        'name' => 'Value'
 		    )
-		), $array);
+), $array);
 	}
 
 }

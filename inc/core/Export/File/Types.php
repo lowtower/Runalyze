@@ -57,10 +57,10 @@ final class Types extends AbstractEnum
 	private static function classNamesArray()
 	{
 		return array(
-		    self::TCX => 'Tcx',
+    self::TCX => 'Tcx',
 		    self::GPX => 'Gpx',
 		    self::KML => 'Kml',
 		    self::FITLOG => 'Fitlog',
-		);
+);
 	}
 }

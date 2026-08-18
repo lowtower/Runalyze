@@ -11,7 +11,7 @@ use Runalyze\Parameter\Application\PaceUnit;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleObject() {
 		$Sport = new Entity(array(
-		    Entity::NAME => 'Sport name',
+    Entity::NAME => 'Sport name',
 		    Entity::SHORT => 0,
 		    Entity::CALORIES_PER_HOUR => 700,
 		    Entity::HR_AVG => 140,
@@ -20,7 +20,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		    Entity::HAS_POWER => 0,
 		    Entity::IS_OUTSIDE => 1,
 		    Entity::DEFAULT_TYPEID => 2
-		));
+));
 
 		$this->assertEquals('Sport name', $Sport->name());
 		$this->assertEquals(700, $Sport->caloriesPerHour());

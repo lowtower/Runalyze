@@ -97,27 +97,27 @@ class Trimp extends \Runalyze\Configuration\Category {
 		$Fieldset = new Fieldset( __('TRIMP') );
 
 		$Fieldset->addHandle( $this->handle('ATL_DAYS'), array(
-		    'label'		=> __('Days for ATL'),
+    'label'		=> __('Days for ATL'),
 		    'tooltip'	=> __('Number of days for ATL time constant')
-		));
+));
 
 		$Fieldset->addHandle( $this->handle('CTL_DAYS'), array(
-		    'label'		=> __('Days for CTL'),
+    'label'		=> __('Days for CTL'),
 		    'tooltip'	=> __('Number of days for CTL time constant')
-		));
+));
 
 		$Fieldset->addHandle( $this->handle('TRIMP_MODEL_IN_PERCENT'), array(
-		    'label'		=> __('Show ATL/CTL in percent of your maximum'),
+    'label'		=> __('Show ATL/CTL in percent of your maximum'),
 		    'tooltip'	=> __('By default ATL/CTL are scaled based on your historical maximum. '.
 		    				'This can lead to wrong assumptions if you were overtrained. '.
 		    				'Deactivate this option in that case.')
-		));
+));
 
 		$Fieldset->addHandle( $this->handle('TSB_IN_PERCENT'), array(
-		    'label'		=> __('Show TSB in percent of ATL/CTL'),
+    'label'		=> __('Show TSB in percent of ATL/CTL'),
 		    'tooltip'	=> __('The scale of TSB values depends on your ATL/CTL. '.
 		    				'You can display TSB as percentage of your current ATL/CTL to keep consistency.')
-		));
+));
 
 		return $Fieldset;
 	}

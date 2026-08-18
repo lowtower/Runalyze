@@ -54,12 +54,12 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 	public function testDuplicates()
 	{
 	    $this->assertEquals([
-	        '1234567890' => false,
+        '1234567890' => false,
 	        '1448797800' => true,
 	        '1448797980' => false,
 	        '1450823800' => true,
 	        '9876543210' => false
-	    ], $this->Finder->checkForDuplicates([
+    ], $this->Finder->checkForDuplicates([
 	        1234567890,
 	        1448797800,
 	        1448797980,

@@ -33,11 +33,11 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct($default = self::KCAL) {
 		parent::__construct($default, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::KCAL	=> __('Kilocalories'),
 		        self::KJ	=> __('Kilojoules')
 		    )
-		));
+));
 	}
 
 	/**

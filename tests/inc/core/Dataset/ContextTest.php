@@ -9,11 +9,11 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 	public function testThatAllStringMethodsWork()
 	{
 		$Context = new Context(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
+    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
 		    Activity\Entity::TIME_IN_SECONDS => 3600,
 		    Activity\Entity::DISTANCE => 12.3,
 		    Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY => 42
-		), 0);
+), 0);
 
 		$Configuration = new DefaultConfiguration();
 
@@ -25,11 +25,11 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 	public function testContextFromArrayWithoutSportAndType()
 	{
 		$Context = new Context(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
+    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
 		    Activity\Entity::TIME_IN_SECONDS => 3600,
 		    Activity\Entity::DISTANCE => 12.3,
 		    'more-data' => 42
-		), 0);
+), 0);
 
 		$this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
 		$this->assertEquals(3600, $Context->activity()->duration());

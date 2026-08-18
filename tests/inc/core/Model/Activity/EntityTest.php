@@ -25,19 +25,19 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 
 	public function testEmptyWeatherValues() {
 		$A = new Entity(array(
-		    Entity::TEMPERATURE => null,
+    Entity::TEMPERATURE => null,
 		    Entity::WINDDEG => null,
 		    Entity::WINDSPEED => null,
 		    Entity::PRESSURE => null,
 		    Entity::HUMIDITY => null
-		));
+));
 		$B = new Entity(array(
-		    Entity::TEMPERATURE => '',
+    Entity::TEMPERATURE => '',
 		    Entity::WINDDEG => '',
 		    Entity::WINDSPEED => '',
 		    Entity::PRESSURE => '',
 		    Entity::HUMIDITY => ''
-		));
+));
 
 		$this->assertTrue($A->weather()->temperature()->isUnknown());
 		$this->assertTrue($B->weather()->temperature()->isUnknown());
@@ -53,12 +53,12 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 
 	public function testSynchronizationOfWeather() {
 		$A = new Entity(array(
-		    Entity::TEMPERATURE => null,
+    Entity::TEMPERATURE => null,
 		    Entity::WINDDEG => null,
 		    Entity::WINDSPEED => null,
 		    Entity::PRESSURE => null,
 		    Entity::HUMIDITY => null
-		));
+));
 		$A->weather()->temperature()->setTemperature(17);
 		$A->weather()->windSpeed()->set(10);
 		$A->weather()->windDegree()->set(180);

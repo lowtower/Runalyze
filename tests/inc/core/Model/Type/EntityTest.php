@@ -8,13 +8,13 @@ namespace Runalyze\Model\Type;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleObject() {
 		$Type = new Entity(array(
-		    Entity::NAME => 'Type name',
+    Entity::NAME => 'Type name',
 		    Entity::ABBREVIATION => 'Tn',
 		    Entity::SPORTID => 1,
 		    Entity::SHORT => 1,
 		    Entity::HR_AVG => 123,
 		    Entity::QUALITY_SESSION
-		));
+));
 
 		$this->assertEquals('Type name', $Type->name());
 		$this->assertEquals('Tn', $Type->abbreviation());

@@ -406,7 +406,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * Get the timeset as array for this panel
 	 */
 	private
-	function getTimeset()
+	function getTimeset(): array
 	{
 		$timeset = array();
 

@@ -22,7 +22,7 @@ class Pace extends AbstractKey
 {
 	// #TSC minimum- and maximum-values in "km/h" to bound the pace bar
 	const P_MIN_MAX = array(
-	    // km/h values means: pace between 12min/km - 3:20min/km
+    // km/h values means: pace between 12min/km - 3:20min/km
 	    SportProfile::RUNNING => array(
 	        'min' => 5,
 	        'max' => 18
@@ -37,7 +37,7 @@ class Pace extends AbstractKey
 	        'min' => 10,
 	        'max' => 32
 	    ),
-	);
+);
 
 	/** @var string */
 	const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
@@ -167,9 +167,9 @@ class Pace extends AbstractKey
 			}
 
 			return array(
-			    'class' => $class,
+    'class' => $class,
 			    'style' => '--perc: ' . $v . '%;'
-			);
+);
 		} else {
 			return null;
 		}

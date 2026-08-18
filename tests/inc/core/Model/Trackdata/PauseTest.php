@@ -29,11 +29,11 @@ class PauseTest extends \PHPUnit\Framework\TestCase {
 
 	public function testArray() {
 		$array = array(
-		    Pause::TIME => 60,
+    Pause::TIME => 60,
 		    Pause::DURATION => 10,
 		    Pause::HR_START => 120,
 		    Pause::HR_END => 100
-		);
+);
 
 		$P = new Pause();
 		$P->fromArray($array);

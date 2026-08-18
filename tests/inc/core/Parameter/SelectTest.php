@@ -17,12 +17,12 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected function setUp() : void {
 		$this->object = new Select('a', array(
-		    'options' => array(
+    'options' => array(
 		        'a' => 'one',
 		        'b' => 'two',
 		        'c' => 'three'
 		    )
-		));
+));
 	}
 
 	public function testSet() {
@@ -43,10 +43,10 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 
 	public function testOptions() {
 		$this->assertEquals( array(
-		    'a' => 'one',
+    'a' => 'one',
 		    'b' => 'two',
 		    'c' => 'three'
-		), $this->object->options() );
+), $this->object->options() );
 	}
 
 	public function testInvalidOption() {

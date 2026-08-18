@@ -14,10 +14,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var  RecalculationManager */
+    /** @var RecalculationManager */
     protected $Manager;
 
-    /** @var  Account */
+    /** @var Account */
     protected $Account;
 
     /** @var ConfigurationManager */

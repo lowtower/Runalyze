@@ -37,12 +37,12 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct($default = self::KG) {
 		parent::__construct($default, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::KG		=> __('kilograms'),
 		        self::POUNDS	=> __('pounds'),
 		        self::STONES	=> __('stones')
 		    )
-		));
+));
 	}
 	/**
 	 * Is kg?

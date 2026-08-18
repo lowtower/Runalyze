@@ -20,10 +20,10 @@ class FloatingPoint extends \Runalyze\Parameter {
 	 * @var array
 	 */
 	protected $Options = array(
-	    'min' => false,
+    'min' => false,
 	    'max' => false,
 	    'null' => false
-	);
+);
 
 	/**
 	 * Set from string

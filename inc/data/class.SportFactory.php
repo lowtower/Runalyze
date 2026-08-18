@@ -40,7 +40,7 @@ class SportFactory {
 	 */
 	private static function defaultArray() {
 		return array(
-		    'name' => '?',
+    'name' => '?',
 		    'img' => '',
 		    'short' => 0,
 		    'kcal' => 600,
@@ -51,7 +51,7 @@ class SportFactory {
 		    'outside' => 0,
 		    'is_main' => 0,
 		    'internal_sport_id' => null
-		);
+);
 	}
 
 	/**

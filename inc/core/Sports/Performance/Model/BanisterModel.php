@@ -21,7 +21,7 @@ class BanisterModel extends AbstractModel
     /** @var int r1 (adaptive) */
     protected $r1;
 
-    /**@var int r2 (fatigue) */
+    /** @var int r2 (fatigue) */
     protected $r2;
 
     /** @var int k1 (adaptive) */

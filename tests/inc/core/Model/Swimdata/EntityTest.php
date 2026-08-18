@@ -10,10 +10,10 @@ use Runalyze\Model\Trackdata;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	protected function simpleObject() {
 		return new Entity(array(
-		    Entity::POOL_LENGTH => 2500,
+    Entity::POOL_LENGTH => 2500,
 		    Entity::STROKE => array(25, 20, 15, 20),
 		    Entity::STROKETYPE => array(2, 2, 2, 2)
-		));
+));
 	}
 
 	public function testEmptyObject() {

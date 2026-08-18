@@ -73,12 +73,12 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				$bpmRange = $this->threeNumbers($Info['#start']) . ' -' . $this->threeNumbers($Info['#end']) . ' bpm';
 
 				$this->Data[] = array(
-				    'zone'     => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
+    'zone'     => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
 				    'time'     => $Info['time'],
 				    'distance' => $Info['distance'],
 				    'average'  => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
 				    'color'    => $Info['color'] #TSC support for colors
-				);
+);
 			}
 		}
 	}

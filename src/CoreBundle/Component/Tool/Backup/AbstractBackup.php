@@ -13,7 +13,7 @@ abstract class AbstractBackup
     /** @var int */
     protected $AccountID;
 
-	/** @var \PDO  */
+	/** @var \PDO */
 	protected $PDO;
 
     /** @var string */

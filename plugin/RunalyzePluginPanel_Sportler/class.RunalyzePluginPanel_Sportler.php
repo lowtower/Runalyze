@@ -85,13 +85,13 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 
 		if (!is_array($userData)) {
 		    $userData = [
-		        'weight' => 0.0,
+        'weight' => 0.0,
 		        'pulse_rest' => 0,
 		        'pulse_max' => 0,
 		        'fat' => 0.0,
 		        'water' => 0.0,
 		        'muscles' => 0.0
-		    ];
+    ];
         }
 
 		if ($userData['pulse_max'] == 0){

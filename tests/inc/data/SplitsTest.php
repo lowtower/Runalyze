@@ -99,16 +99,16 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 	 */
 	public function testCreateFromArray() {
 		$Splits = new Splits( array(
-		    'km' => array(1.2, 0.4, 1),
+    'km' => array(1.2, 0.4, 1),
 		    'time' => array('5:20', '1:20', '3:17')
-		) );
+) );
 		$this->assertEquals( '1.200|5:20-0.400|1:20-1.000|3:17', $Splits->asString() );
 
 		$Splits2 = new Splits( array(
-		    'km' => array(1.2, 0.4, 1),
+    'km' => array(1.2, 0.4, 1),
 		    'time' => array('5:20', '1:20', '3:17'),
 		    'active' => array(false, true, true)
-		) );
+) );
 		$this->assertEquals( 'R1.200|5:20-0.400|1:20-1.000|3:17', $Splits2->asString() );
 	}
 

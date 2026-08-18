@@ -10,9 +10,9 @@ use Runalyze\Model\Trackdata\Entity;
 class PaceSmootherTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleStepSmoothing() {
 		$Smoother = new PaceSmoother(new Entity(array(
-		    Entity::TIME => array(0, 7, 16, 20, 24, 25, 30, 40, 60, 66),
+    Entity::TIME => array(0, 7, 16, 20, 24, 25, 30, 40, 60, 66),
 		    Entity::DISTANCE => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-		)), false);
+)), false);
 
 		$this->assertEquals(array(
 		    8, 4, 3, 15 //, 6 - the last one will be ignored for MODE_STEP

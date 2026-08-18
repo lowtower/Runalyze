@@ -32,11 +32,11 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct($default = self::CELSIUS) {
 		parent::__construct($default, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::CELSIUS   => __('Celsius (°C)'),
 		        self::FAHRENHEIT	=> __('Fahrenheit (°F)')
 		    )
-		));
+));
 	}
 	/**
 	 * Is celsius?

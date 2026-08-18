@@ -11,10 +11,10 @@ use Runalyze\Model;
 class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testGeneralFunctionality() {
 		$Calculator = new Calculator(new Model\Activity\Entity(array(
-		    Model\Activity\Entity::DISTANCE => 10,
+    Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
 		    Model\Activity\Entity::HR_AVG => 150
-		), null, null));
+), null, null));
 
 		$this->assertGreaterThan(0, $Calculator->estimateVO2maxByTime());
 		$this->assertGreaterThan(0, $Calculator->estimateVO2maxByHeartRate());
@@ -35,11 +35,11 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testCalculationsWithElevation() {
 		$Activity = new Model\Activity\Entity(array(
-		    Model\Activity\Entity::DISTANCE => 10,
+    Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
 		    Model\Activity\Entity::HR_AVG => 150,
 		    Model\Activity\Entity::ELEVATION => 100
-		));
+));
 
 		$CalculatorOnlyActivity = new Calculator($Activity, null, null);
 		$CalculatorOnlyElevation = new Calculator($Activity, null, new Model\Route\Entity(array(

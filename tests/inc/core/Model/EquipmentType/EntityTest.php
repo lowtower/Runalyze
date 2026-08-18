@@ -8,11 +8,11 @@ namespace Runalyze\Model\EquipmentType;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleObject() {
 		$Type = new Entity(array(
-		    Entity::NAME => 'Equipment type name',
+    Entity::NAME => 'Equipment type name',
 		    Entity::INPUT => 1,
 		    Entity::MAX_KM => 100,
 		    Entity::MAX_TIME => 0
-		));
+));
 
 		$this->assertEquals('Equipment type name', $Type->name());
 		$this->assertTrue($Type->allowsMultipleValues());

@@ -342,7 +342,7 @@ abstract class Plugin {
 	 * @return boolean
 	 */
 	final protected function showsSpecificYear() {
-		return ($this->year != -1 && $this->year != 6 && $this->year != 12);
+		return (!in_array($this->year, [-1, 6, 12]));
 	}
 
 	/**

@@ -5,7 +5,7 @@ namespace Runalyze\Model\Route;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	protected function simpleObject() {
 		return new Entity(array(
-		    Entity::NAME => 'Test route',
+    Entity::NAME => 'Test route',
 		    Entity::CITIES => 'City A - City B',
 		    Entity::DISTANCE => 3.14,
 		    Entity::ELEVATION => 20,
@@ -16,7 +16,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		    Entity::ELEVATIONS_CORRECTED => array(200, 220),
 		    Entity::ELEVATIONS_SOURCE => 'unknown',
 		    Entity::IN_ROUTENET => 1
-		));
+));
 	}
 
 	public function testEmptyObject() {

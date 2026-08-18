@@ -10,10 +10,10 @@ use Runalyze\Model\HRV\Entity;
 class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleExample() {
 		$Calculator = new Calculator(new Entity(array(
-		    Entity::DATA => array(
+    Entity::DATA => array(
 		        500, 510, 530, 550, 560
 		    )
-		)));
+)));
 		$Calculator->calculate();
 
 		$this->assertEquals(530, $Calculator->mean());

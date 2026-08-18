@@ -45,13 +45,13 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct($default = self::MONDAY) {
 		parent::__construct($default, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::MONDAY		=>	__('Monday'),
 		        // Saturday is not supported by MySQL as first day of the week
 		        //self::SATURDAY		=>	__('Saturday'),
 		        self::SUNDAY	=>	__('Sunday')
 		    )
-		));
+));
 	}
 
 	/**

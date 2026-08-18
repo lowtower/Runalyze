@@ -36,12 +36,12 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct(self::SEPERATED, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::SEPERATED			=> __('all separated'),
 		        self::PACE_HR			=> __('Pace / Heart rate'),
 		        self::PACE_HR_ELEVATION	=> __('Pace / Heart rate / Elevation')
 		    )
-		));
+));
 	}
 
 	/**

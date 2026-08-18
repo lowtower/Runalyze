@@ -13,7 +13,7 @@ class FitDetails
     /** @var int|null */
     public $HrvAnalysis;
 
-    /** @var int|null [0 .. 7] (1=Recovery, 2=Base,3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint)*/
+    /** @var int|null [0 .. 7] (1=Recovery, 2=Base,3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint) */
     public $TrainingEffectBenefit;
 
     /** @var float|null [0.0 .. 5.0] */
@@ -31,7 +31,7 @@ class FitDetails
     /** @var int|null */
     public $LactateThresholdHR;
 
-    /** @var int|null [m/s]*/
+    /** @var int|null [m/s] */
     public $LactateThresholdPace;
 
     /** @var int|null */

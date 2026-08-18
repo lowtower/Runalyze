@@ -22,7 +22,7 @@ class DefaultConfiguration extends Configuration
 	public function __construct()
 	{
 		$this->generateDataFor(array(
-		    Keys::SETTING => true,
+    Keys::SETTING => true,
 		    Keys::DAYTIME => false,
 		    Keys::SHARED_LINK => false,
 		    Keys::WEATHER => true,
@@ -88,7 +88,7 @@ class DefaultConfiguration extends Configuration
 		    Keys::OPEN_TAB => false,
 		    Keys::FIT_TRAINING_EFFECT_BENEFIT => false,
 		    Keys::WITH_GOAL
-		));
+));
 	}
 
 	/**
@@ -109,11 +109,11 @@ class DefaultConfiguration extends Configuration
 			$keyObject = Keys::get($keyid);
 
 			$this->Data[$keyid] = array(
-			    'active' => $isActive,
+    'active' => $isActive,
 			    'style' => $keyObject->defaultCssStyle(),
 			    'privacy' => $keyObject->defaultPrivacy(),
 			    'privacyOption' => $keyObject->hasPrivacyOption()
-			);
+);
 		}
 	}
 }

@@ -157,7 +157,7 @@ class PDOforRunalyze extends PDO {
 		$table = str_replace(PREFIX, '', $table);
 
 		// TODO: TEST IT!
-		if ($table != 'account' && $table != 'plugin_conf' && $table != 'equipment_sport' && $table != 'equipment_spor' && !in_array('accountid', $columns)) {
+		if (!in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor']) && !in_array('accountid', $columns)) {
 			$columns[] = 'accountid';
 			$values[]  = $this->accountID;
 		}

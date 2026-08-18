@@ -12,11 +12,11 @@ class PaceAxisType extends \Runalyze\Parameter\Select
 	public function __construct()
 	{
 		parent::__construct(self::AS_SPEED, array(
-		    'options' => array(
+    'options' => array(
 		        self::LINEAR => __('linear'),
 		        self::REVERSE => __('reversed linear'),
 		        self::AS_SPEED => __('as speed')
 		    )
-		));
+));
 	}
 }

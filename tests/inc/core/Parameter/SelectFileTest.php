@@ -10,10 +10,10 @@ class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 	protected function setUp() : void
     {
 		$this->object = new SelectFile('path/to/file.jpg', array(
-		    'folder' => 'dir/',
+    'folder' => 'dir/',
 		    'extensions' => array('jpg', 'png', 'gif'),
 		    'filename_only' => false
-		));
+));
 	}
 
 	public function testSet()

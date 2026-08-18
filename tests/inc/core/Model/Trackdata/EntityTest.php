@@ -11,12 +11,12 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$P->add(new Pause(20, 10, 140, 120));
 
 		return new Entity(array(
-		    Entity::ACTIVITYID => 1,
+    Entity::ACTIVITYID => 1,
 		    Entity::TIME => '20'.Entity::ARRAY_SEPARATOR.'40',
 		    Entity::DISTANCE => '0.1'.Entity::ARRAY_SEPARATOR.'0.2',
 		    Entity::HEARTRATE => '140'.Entity::ARRAY_SEPARATOR.'120',
 		    Entity::PAUSES => $P->asString()
-		));
+));
 	}
 
 	public function testEmptyObject() {

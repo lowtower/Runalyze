@@ -36,12 +36,12 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct(self::HRMAX, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::BPM		=> __('absolute value'),
 		        self::HRMAX		=> __('&#37; HRmax'),
 		        self::HRRESERVE	=> __('&#37; HRreserve')
 		    )
-		));
+));
 	}
 	/**
 	 * Is bpm?

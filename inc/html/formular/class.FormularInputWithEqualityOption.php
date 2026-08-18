@@ -14,14 +14,14 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 * @var array
 	 */
 	protected $Options = array(
-	    'eq'	=> '=',
+    'eq'	=> '=',
 	    'gt'	=> '&gt;',
 	    'ge'	=> '&ge;',
 	    'le'	=> '&le;',
 	    'lt'	=> '&lt;',
 	    'ne'	=> '&ne;',
 	    'like'	=> '&asymp;'
-	);
+);
 
 	/**
 	 * Allow only valid operators for numeric values
@@ -35,10 +35,10 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 */
 	public function setStringOptions() {
 		$this->Options = array(
-		    'eq'	=> '=',
+    'eq'	=> '=',
 		    'ne'	=> '&ne;',
 		    'like'	=> '&asymp;'
-		);
+);
 	}
 
 	/**

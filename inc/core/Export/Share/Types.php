@@ -60,11 +60,11 @@ final class Types extends AbstractEnum
 	private static function classNamesArray()
 	{
 		return array(
-		    self::TWITTER => 'Twitter',
+    self::TWITTER => 'Twitter',
 		    self::FACEBOOK => 'Facebook',
 		    self::GOOGLE_PLUS => 'GooglePlus',
 		    self::HTML => 'Html',
 		    self::IFRAME => 'IFrame',
-		);
+);
 	}
 }

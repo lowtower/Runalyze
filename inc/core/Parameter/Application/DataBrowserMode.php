@@ -30,11 +30,11 @@ class DataBrowserMode extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct(self::WEEK, array(
-		    'options'		=> array(
+    'options'		=> array(
 		        self::WEEK		=> __('Week view'),
 		        self::MONTH		=> __('Month view')
 		    )
-		));
+));
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Runalyze\Profile\Athlete\Gender;
 class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	private function hrData() {
 		return array(
-		    120 => 30,
+    120 => 30,
 		    125 => 60,
 		    130 => 120,
 		    135 => 120,
@@ -21,7 +21,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		    160 => 30,
 		    165 => 120,
 		    170 => 30
-		);
+);
 	}
 
 	public function testException() {

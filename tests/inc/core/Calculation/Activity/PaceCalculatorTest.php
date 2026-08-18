@@ -10,8 +10,8 @@ use Runalyze\Model\Trackdata\Entity;
 class PaceCalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testNoDistanceGiven() {
 		$Calculator = new PaceCalculator(new Entity(array(
-		    Entity::TIME => array(0, 7, 16, 20, 24, 25, 30, 40, 60, 66)
-		)));
+    Entity::TIME => array(0, 7, 16, 20, 24, 25, 30, 40, 60, 66)
+)));
 
 		$this->assertEquals(array(), $Calculator->calculate());
 	}

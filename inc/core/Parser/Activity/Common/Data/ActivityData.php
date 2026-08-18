@@ -16,7 +16,7 @@ class ActivityData
     /** @var int|null [s] */
     public $ElapsedTime;
 
-    /** @var float|null [km]  */
+    /** @var float|null [km] */
     public $Distance;
 
     /** @var int|null [m] */
@@ -121,7 +121,7 @@ class ActivityData
     /** @var array|null [-] #TSC: added */
     public $PaceGoal;
 
-    /** @var bool  #TSC */
+    /** @var bool #TSC */
     public $WithGoal = false;
 
     /**

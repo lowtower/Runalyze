@@ -48,10 +48,10 @@ class HRVPoincare extends ActivityPlot {
 		}
 
 		$this->Plot->Data[] = array(
-		    'label' => __('R-R interval').' n+1',
+    'label' => __('R-R interval').' n+1',
 		    'color' => 'rgb(0,0,0)',
 		    'data' => $Collector->data()
-		);
+);
 
 		// TODO: ensure symmetric x-/y-axis
 

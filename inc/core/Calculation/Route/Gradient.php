@@ -15,7 +15,7 @@ class Gradient
     /** @var array */
     protected $Distance = [];
 
-    /** @var array  */
+    /** @var array */
     protected $Gradient = [];
 
     /** @var AbstractKernel|null */

@@ -8,9 +8,9 @@ namespace Runalyze\Model\Swimdata;
 class LoopTest extends \PHPUnit\Framework\TestCase {
 	public function testSwimdataLoop() {
 		$Loop = new Loop(new Entity(array(
-		    Entity::STROKE => array(25, 20, 15, 20),
+    Entity::STROKE => array(25, 20, 15, 20),
 		    Entity::STROKETYPE => array(2, 2, 2, 2)
-		)));
+)));
 
 		$Loop->nextStep();
 		$this->assertEquals(20, $Loop->stroke());

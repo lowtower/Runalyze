@@ -8,8 +8,8 @@ namespace Runalyze\Model\Route;
 class LoopTest extends \PHPUnit\Framework\TestCase {
 	public function testRouteLoop() {
 		$Loop = new Loop(new Entity(array(
-		    Entity::GEOHASHES => array('u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxf6b7s9', 'u1xjhxffrhw4')
-		)));
+    Entity::GEOHASHES => array('u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxf6b7s9', 'u1xjhxffrhw4')
+)));
 
 		$Loop->nextStep();
 		$this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());

@@ -8,13 +8,13 @@ namespace Runalyze\Model\Equipment;
 class EntityTest extends \PHPUnit\Framework\TestCase {
 	public function testSimpleObject() {
 		$Equipment = new Entity(array(
-		    Entity::NAME => 'Equipment name',
+    Entity::NAME => 'Equipment name',
 		    Entity::NOTES => 'Here are some notes',
 		    Entity::DISTANCE => 123.45,
 		    Entity::ADDITIONAL_KM => 50,
 		    Entity::DATE_START => '2015-01-01',
 		    Entity::DATE_END => null
-		));
+));
 
 		$this->assertEquals('Equipment name', $Equipment->name());
 		$this->assertEquals('Here are some notes', $Equipment->notes());

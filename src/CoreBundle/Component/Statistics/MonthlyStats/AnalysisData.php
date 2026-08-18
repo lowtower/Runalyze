@@ -18,7 +18,7 @@ class AnalysisData
     /** @var array */
     protected $Data = [];
 
-    /** @var Selection  */
+    /** @var Selection */
     protected $SportSelection;
 
     /** @var AnalysisSelection */

@@ -126,9 +126,9 @@ class HeartrateAverage extends AbstractKey
 		if (isset($hr) && $hrBpm > 0) {
 			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
 			return array(
-			    'class' => $class,
+    'class' => $class,
 			    'style' => '--perc: ' . $v . '%;'
-			);
+);
 		} else {
 			return null;
 		}

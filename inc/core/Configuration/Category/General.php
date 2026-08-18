@@ -142,9 +142,9 @@ class General extends \Runalyze\Configuration\Category {
 	 */
 	protected function createMainSport() {
 		$this->createHandle('MAINSPORT', new SelectRow(1, array(
-		    'table'			=> 'sport',
+    'table'			=> 'sport',
 		    'column'		=> 'name'
-		)));
+)));
 	}
 
 	/**
@@ -160,9 +160,9 @@ class General extends \Runalyze\Configuration\Category {
 	 */
 	protected function createRunningSport() {
 		$this->createHandle('RUNNINGSPORT', new SelectRow(1, array(
-		    'table'			=> 'sport',
+    'table'			=> 'sport',
 		    'column'		=> 'name'
-		)));
+)));
 	}
 
 	/**

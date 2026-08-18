@@ -52,11 +52,11 @@ class TableZonesPace extends TableZonesAbstract {
 				$HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
 
 				$this->Data[] = array(
-				    'zone'     => $paceInSeconds == 0 ? __('faster') : '&gt; '.$Pace->valueWithAppendix(),
+    'zone'     => $paceInSeconds == 0 ? __('faster') : '&gt; '.$Pace->valueWithAppendix(),
 				    'time'     => $Info['time'],
 				    'distance' => $Info['distance'],
 				    'average'  => $HR->asBPM() > 0 ? $HR->string() : '-'
-				);
+);
 			}
 		}
 	}

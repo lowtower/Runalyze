@@ -55,10 +55,10 @@ class Route extends AbstractKey
 	public function joinDefinition()
 	{
 		return array(
-		    'column' => self::ROUTE_NAME_KEY,
+    'column' => self::ROUTE_NAME_KEY,
 		    'join' => 'LEFT JOIN `'.PREFIX.'route` AS `route` ON `t`.`routeid` = `route`.id',
 		    'field' => '`route`.`name` AS `'.self::ROUTE_NAME_KEY.'`'
-		);
+);
 	}
 
 	/**

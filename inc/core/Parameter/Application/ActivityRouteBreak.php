@@ -24,7 +24,7 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct('15', array(
-		    'options'		=> array(
+    'options'		=> array(
 		        // see Runalyze\View\Leaflet\Activity::findLimitForPauses
 		        self::NO_BREAK	=> __('never'),
 		        '15'			=> __('at too big distance (15s)'),
@@ -35,7 +35,7 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select {
 		        '300'			=> __('at too big distance (300s)'),
 		        '600'			=> __('at too big distance (600s)'),
 		    )
-		));
+));
 	}
 
 	/**
