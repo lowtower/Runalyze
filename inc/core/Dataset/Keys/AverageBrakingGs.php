@@ -22,7 +22,7 @@ class AverageBrakingGs extends AbstractKey
 		return __('Braking Gs');
 	}
 
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		return $context->dataview()
 		    ->brakingGs();

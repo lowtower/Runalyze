@@ -202,7 +202,7 @@ class Frontend {
 	public function displayHeader() {
 
 		if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader']))
-			include 'tpl/tpl.Frontend.header.php';
+			include __DIR__ . '/tpl/tpl.Frontend.header.php';
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Frontend {
 	 */
 	public function displayFooter() {
 		if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
-			include 'tpl/tpl.Frontend.footer.php';
+			include __DIR__ . '/tpl/tpl.Frontend.footer.php';
 		}
 	}
 }

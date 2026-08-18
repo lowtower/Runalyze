@@ -9,7 +9,7 @@ class PluginConfRepository extends EntityRepository
     /**
      * @return int[]
      */
-    public function getAllActivityIdsOfFunRaces(Account $account)
+    public function getAllActivityIdsOfFunRaces(Account $account): array
     {
         $result = $this->createQueryBuilder('c')
             ->innerJoin('c.plugin', 'p')

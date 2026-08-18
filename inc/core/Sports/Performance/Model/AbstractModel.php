@@ -162,7 +162,7 @@ abstract class AbstractModel
      * @param int $index e.g. -1 for yesterday
      * @param int $enum enum for value
      */
-    private function at($index, $enum): int
+    private function at($index, int $enum): int
     {
         $Array = $this->arrayFor($enum);
 
@@ -174,10 +174,9 @@ abstract class AbstractModel
     }
 
     /**
-     * @param int $enum
      * @return array
      */
-    private function arrayFor($enum)
+    private function arrayFor(int $enum)
     {
         switch ($enum) {
             case self::FITNESS:

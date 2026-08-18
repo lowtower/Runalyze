@@ -123,10 +123,7 @@ class AnalysisData
         return empty($this->Data);
     }
 
-    /**
-     * @return array
-     */
-    public function getYears()
+    public function getYears(): array
     {
         $allYears = array_keys($this->Data);
 

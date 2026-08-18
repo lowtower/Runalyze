@@ -33,11 +33,10 @@ class ActivityContextFactory
     /**
      * @param int $activityId
      * @param int $accountId
-     * @return ActivityContext
      *
      * @throws \InvalidArgumentException
      */
-    public function getContextById($activityId, $accountId)
+    public function getContextById($activityId, $accountId): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
         $activity = $this->EntityManager->getRepository('CoreBundle:Training')
             ->findForAccount($activityId, $accountId);

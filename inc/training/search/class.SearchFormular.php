@@ -239,16 +239,11 @@ class SearchFormular extends Formular {
 		// elapsed_time, fit_hrv_analysis, total_strokes, swolf, wind_deg, is_night
 	}
 
-	/**
-	 * Add condition field with chosen
-	 * @param string $name
-	 * @param string $table
-	 * @param string $key
-	 * @param string $label
-	 * @param string $placeholder
-	 */
-	private function addConditionFieldWithChosen($name, $table, $key, $label, $placeholder) {
-		if ($table == 'weather') {
+    /**
+     * Add condition field with chosen
+     */
+    private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder) {
+		if ($table === 'weather') {
 			$Field = new TrainingSelectWeather($name, $label);
 		} else {
 			$Field = new FormularSelectDb($name, $label);
@@ -291,7 +286,7 @@ class SearchFormular extends Formular {
 	 * @param string $unit
 	 * @param string $type options: all | numeric | string
 	 */
-	private function addConditionField($key, $label, $size = '', $unit = '', $type = 'all') {
+	private function addConditionField($key, $label, $size = '', $unit = '', string $type = 'all') {
 		$Field = new FormularInputWithEqualityOption($key, $label);
 		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 
@@ -301,9 +296,9 @@ class SearchFormular extends Formular {
 		if (! empty($unit))
 			$Field->setUnit($unit);
 
-		if ($type == 'numeric') {
+		if ($type === 'numeric') {
 			$Field->setNumericOptions();
-		} elseif ($type == 'string') {
+		} elseif ($type === 'string') {
 			$Field->setStringOptions();
 		}
 
@@ -327,12 +322,10 @@ class SearchFormular extends Formular {
 		$this->Fieldset->addField($Field);
 	}
 
-	/**
-	 * Add boolean field
-	 * @param string $key
-	 * @param string $label
-	 */
-	private function addBooleanField($key, $label) {
+    /**
+     * Add boolean field
+     */
+    private function addBooleanField(string $key, string $label) {
 		$Field = new FormularSelectBox($key, $label);
 		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 		$Field->setOptions(array(

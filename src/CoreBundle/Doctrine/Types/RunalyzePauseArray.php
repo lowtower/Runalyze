@@ -59,10 +59,7 @@ class RunalyzePauseArray extends Type
         return $collection;
     }
 
-    /**
-     * @return array
-     */
-    protected function getNativeValueForPause(Pause $pause)
+    protected function getNativeValueForPause(Pause $pause): array
     {
         return array_filter([
             'time' => $pause->getTimeIndex(),

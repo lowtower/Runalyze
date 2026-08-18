@@ -25,7 +25,7 @@ class FitSdkExercise {
         $sub = array_map('intval', explode(',', $subtypes));
 
         // if the sub array has not the same size as the main-category, ignore it
-        if(! empty($sub) && count($cat) !== count($sub)) {
+        if(count($cat) !== count($sub)) {
             $sub = null;
         }
 

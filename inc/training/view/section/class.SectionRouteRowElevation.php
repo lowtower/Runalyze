@@ -87,7 +87,7 @@ class SectionRouteRowElevation extends TrainingViewSectionRow {
 	 * Add: course
 	 */
 	protected function addCourse() {
-		if (strlen($this->Context->route()->name()) > 0) {
+		if ((string) $this->Context->route()->name() !== '') {
 			$PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
 			$PathBox->defineAsFloatingBlock('w100 flexible-height');
 

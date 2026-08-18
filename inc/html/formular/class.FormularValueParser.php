@@ -41,7 +41,7 @@ class FormularValueParser {
 			return true;
 
 		if (isset($parserOptions['null']) && $parserOptions['null']) {
-			if (isset($_POST[$key]) && ! is_array($_POST[$key]) && strlen($_POST[$key]) === 0) {
+			if (isset($_POST[$key]) && ! is_array($_POST[$key]) && (string) $_POST[$key] === '') {
 				$_POST[$key] = null;
 				return true;
 			}
@@ -157,12 +157,11 @@ class FormularValueParser {
 		}
 	}
 
-	/**
-	 * Remove all empty values from array
-	 * @param array $array
-	 * @return array
-	 */
-	private static function removeEmptyValues($array) {
+    /**
+     * Remove all empty values from array
+     * @return array
+     */
+    private static function removeEmptyValues(array $array) {
 		foreach ($array as $key => $value)
 			if (empty($value))
 				unset($array[$key]);

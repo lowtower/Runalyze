@@ -159,11 +159,10 @@ class Split extends StringObject {
 		return $this->Intensity;
 	}
 
-	/**
-	 * Is active?
-	 * @return bool
-	 */
-	public function isActive() {
+    /**
+     * Is active?
+     */
+    public function isActive(): bool {
 		return $this->Intensity->isNotRest();
 	}
 

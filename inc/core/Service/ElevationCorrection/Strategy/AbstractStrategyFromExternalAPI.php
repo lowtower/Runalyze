@@ -95,7 +95,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
                 'exception' => $requestException
             ]);
 
-            throw new NoResponseException();
+            throw new NoResponseException($requestException->getMessage(), $requestException->getCode(), $requestException);
         }
 
         throw new InvalidResponseException();

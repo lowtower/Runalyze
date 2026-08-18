@@ -198,9 +198,8 @@ class LocalTime extends \DateTime
 
     /**
      * LocalTime equivalent for time()
-     * @return int
      */
-    public static function now()
+    public static function now(): int
     {
         return self::fromServerTime(time())->getTimestamp();
     }
@@ -209,9 +208,8 @@ class LocalTime extends \DateTime
      * LocalTime equivalent for date($format[, $timestamp])
      * @param string $format
      * @param int|null $timestamp
-     * @return string
      */
-    public static function date($format, $timestamp = null)
+    public static function date($format, $timestamp = null): string
     {
         if (null === $timestamp) {
             return self::fromServerTime(time())->format($format);
@@ -228,9 +226,8 @@ class LocalTime extends \DateTime
      * @param int $month
      * @param int $day
      * @param int $year
-     * @return int
      */
-    public static function mktime($hour, $minute, $second, $month, $day, $year)
+    public static function mktime($hour, $minute, $second, $month, $day, $year): int
     {
         return self::fromServerTime(mktime($hour, $minute, $second, $month, $day, $year))->getTimestamp();
     }

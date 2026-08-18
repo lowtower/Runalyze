@@ -230,10 +230,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 		return (0 == $this->NumberOfPBs);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getDistances() {
+	public function getDistances(): array {
 		return array_filter($this->Configuration()->value('distances'), 'is_numeric');
 	}
 }

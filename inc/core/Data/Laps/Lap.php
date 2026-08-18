@@ -202,10 +202,7 @@ class Lap {
 		return (null !== $this->TrackDurationAtEnd);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isActive() {
+	public function isActive(): bool {
 		return $this->Mode->isNotRest();
 	}
 

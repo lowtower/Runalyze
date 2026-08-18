@@ -4,6 +4,8 @@ namespace Runalyze\Sports\ClimbCategory;
 
 class ClimbCategory
 {
+    public $Category;
+
     /** @var int */
     const CATEGORY_HC = 0;
 

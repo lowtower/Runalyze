@@ -20,7 +20,7 @@ class OsmCsvDataCollection {
         $lines = explode(PHP_EOL, $csvLines);
 
         foreach($lines as &$l) {
-            if(substr($l, 0, 6) !== '@type'.OsmCsvData::SEPERATOR && strlen($l) > 0) { // ignore header-line
+            if(substr($l, 0, 6) !== '@type'.OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
                 $this->data[] = new OsmCsvData($l);
             }
         }

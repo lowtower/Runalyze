@@ -101,10 +101,7 @@ class RaceContainer {
 		return $races;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function distances() {
+	public function distances(): array {
 		return array_keys($this->DistanceIDs);
 	}
 

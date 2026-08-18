@@ -20,12 +20,12 @@ class ZipConverter implements FileTypeConverterInterface
         return 'zip';
     }
 
-    public function getConvertedFileName($inputFile)
+    public function getConvertedFileName($inputFile): array
     {
         return $this->readArchive($inputFile, false);
     }
 
-    public function convertFile($inputFile)
+    public function convertFile($inputFile): array
     {
         return $this->readArchive($inputFile, true);
     }

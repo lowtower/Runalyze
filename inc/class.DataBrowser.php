@@ -228,7 +228,7 @@ class DataBrowser {
 	 * Display the DataBrowser
 	 */
 	public function display() {
-		include 'tpl/tpl.DataBrowser.php';
+		include __DIR__ . '/tpl/tpl.DataBrowser.php';
 	}
 
 	/**

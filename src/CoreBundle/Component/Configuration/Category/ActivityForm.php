@@ -69,26 +69,17 @@ class ActivityForm extends AbstractCategory
         return 'true' === $this->Variables['DETECT_PAUSES'];
     }
 
-    /**
-     * @return DatabaseOrder
-     */
-    public function getDatabaseOrderForSport()
+    public function getDatabaseOrderForSport(): \Runalyze\Parameter\Application\DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_SPORTS');
     }
 
-    /**
-     * @return DatabaseOrder
-     */
-    public function getDatabaseOrderForTypes()
+    public function getDatabaseOrderForTypes(): \Runalyze\Parameter\Application\DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_TYPES');
     }
 
-    /**
-     * @return DatabaseOrder
-     */
-    public function getDatabaseOrderForEquipment()
+    public function getDatabaseOrderForEquipment(): \Runalyze\Parameter\Application\DatabaseOrder
     {
         return $this->getDatabaseOrderFor('TRAINING_SORT_SHOES');
     }
@@ -101,7 +92,7 @@ class ActivityForm extends AbstractCategory
         return $order;
     }
 
-    public function getIgnoredActivityIds()
+    public function getIgnoredActivityIds(): array
     {
         return array_filter(
             explode(',', $this->Variables['GARMIN_IGNORE_IDS'])

@@ -224,6 +224,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
         $output->writeln('');
         $output->writeln('Done.');
+        return null;
     }
 
     /**
@@ -343,7 +344,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      * #TSC
      * Check if the reported max pulse differs from the current one. If yes, create new "User" entity.
      */
-    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, $maxZoneHR) {
+    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, \Runalyze\Bundle\CoreBundle\Command\MaxZoneHR $maxZoneHR) {
         // same logic as BodyValuesController.addAction
         $repository = $this->getContainer()
             ->get('doctrine')

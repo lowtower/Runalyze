@@ -89,10 +89,7 @@ class Round
         $this->Intensity = $flag ? LapIntensity::getInstanceActive() : LapIntensity::getInstanceRest();
     }
 
-    /**
-     * @return bool
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->Intensity->isNotRest();
     }

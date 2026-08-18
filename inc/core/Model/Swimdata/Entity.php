@@ -101,11 +101,10 @@ class Entity extends Model\Entity implements Model\Loopable {
 		return ($key != self::ACTIVITYID && $key != self::POOL_LENGTH);
 	}
 
-	/**
-	 * Properties
-	 * @return array
-	 */
-	public function properties() {
+    /**
+     * Properties
+     */
+    public function properties(): array {
 		return static::allProperties();
 	}
 

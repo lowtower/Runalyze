@@ -84,10 +84,8 @@ abstract class ActivityPlot {
 
     /**
      * Add series
-     * @param int $yAxis
-     * @param bool $addAnnotations
      */
-    final protected function addSeries(\Runalyze\View\Plot\Series $series, $yAxis = 1, $addAnnotations = true) {
+    final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true) {
 		$series->addTo($this->Plot, $yAxis, $addAnnotations);
 	}
 

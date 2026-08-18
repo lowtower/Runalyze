@@ -207,7 +207,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 						$this->checkArraySize( $count );
 					}
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')');
+					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
 				}
 			}
 		}
@@ -264,11 +264,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		);
 	}
 
-	/**
-	 * Properties
-	 * @return array
-	 */
-	public function properties() {
+    /**
+     * Properties
+     */
+    public function properties(): array {
 		return static::allProperties();
 	}
 
@@ -542,11 +541,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return $this->Data[self::NAME];
 	}
 
-	/**
-	 * Cities as array
-	 * @return array
-	 */
-	public function citiesAsArray() {
+    /**
+     * Cities as array
+     */
+    public function citiesAsArray(): array {
 		return explode(self::CITIES_SEPARATOR, $this->Data[self::CITIES]);
 	}
 

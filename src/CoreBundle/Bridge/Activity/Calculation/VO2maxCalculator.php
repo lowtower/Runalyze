@@ -49,7 +49,7 @@ class VO2maxCalculator
     /**
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByTime()
+    protected function estimateVO2maxByTime(): float
     {
         return $this->EstimationFormula->estimateFromRaceResult($this->Activity->getDistance(), $this->Activity->getS());
     }
@@ -58,7 +58,7 @@ class VO2maxCalculator
      * @param float|null $distance [km]
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByHeartRate($distance = null)
+    protected function estimateVO2maxByHeartRate($distance = null): float
     {
         $duration = $this->Activity->getS();
         $distance = $distance ?: $this->Activity->getDistance();
@@ -78,7 +78,7 @@ class VO2maxCalculator
     /**
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByHeartRateWithElevation()
+    protected function estimateVO2maxByHeartRateWithElevation(): float
     {
         $elevationUp = $this->Activity->getElevation();
         $elevationDown = $elevationUp;
@@ -104,7 +104,7 @@ class VO2maxCalculator
      * @param int $down [m]
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByHeartRateWithElevationFor($up, $down)
+    protected function estimateVO2maxByHeartRateWithElevationFor($up, $down): float
     {
         $modifier = new DistanceModifier($this->Activity->getDistance(), $up, $down);
         $modifier->setCorrectionValues($this->CorrectionForPositiveElevation, $this->CorrectionForNegativeElevation);

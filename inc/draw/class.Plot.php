@@ -127,7 +127,7 @@ class Plot {
 
 		$this->convertData();
 
-		$bindedCode = (strlen($this->ErrorString) > 0) ? $this->getJSForError() : $this->getMainJS();
+		$bindedCode = ((string) $this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
 
 		echo Ajax::wrapJS('RunalyzePlot.preparePlot("'.$this->cssID.'","'.$this->width.'","'.$this->height.'",function(){'.$bindedCode.'});');
 	}
@@ -179,7 +179,7 @@ class Plot {
 		if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply']))
 			$this->Options['series']['curvedLines']['apply'] = true;
 
-		if (empty($this->Data) && strlen($this->ErrorString) === 0)
+		if (empty($this->Data) && (string) $this->ErrorString === '')
 			$this->raiseError('Es sind keine Daten vorhanden.');
 	}
 
@@ -660,21 +660,19 @@ class Plot {
 		return mktime($hour, 0, 0, 1, $day, $year).'000';
 	}
 
-	/**
-	 * Correct all values as JS-timestamps
-	 * @param array $array
-	 * @return array
-	 */
-	public static function correctValuesForTime($array) {
+    /**
+     * Correct all values as JS-timestamps
+     * @param array $array
+     */
+    public static function correctValuesForTime($array): array {
 		return array_map('PLOT__correctValuesMapperForTime', $array);
 	}
 
-	/**
-	 * Correct all pace-values to km/h
-	 * @param array $array
-	 * @return array
-	 */
-	public static function correctValuesFromPaceToKmh($array) {
+    /**
+     * Correct all pace-values to km/h
+     * @param array $array
+     */
+    public static function correctValuesFromPaceToKmh($array): array {
 		return array_map('PLOT__correctValuesMapperFromPaceToKmh', $array);
 	}
 }

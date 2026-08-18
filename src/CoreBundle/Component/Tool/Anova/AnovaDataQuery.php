@@ -65,10 +65,7 @@ class AnovaDataQuery
         return $this->QueryValue->getValueUnit($unitSystem);
     }
 
-    /**
-     * @return array
-     */
-    public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem)
+    public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem): array
     {
         $unit = $this->getValueUnit($unitSystem);
         $iterator = $this->buildQuery($trainingRepository, $account)

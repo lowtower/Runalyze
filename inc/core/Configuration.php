@@ -91,10 +91,9 @@ class Configuration
     }
 
     /**
-     * @param string $categoryName
      * @return \Runalyze\Configuration\Category
      */
-    private static function get($categoryName)
+    private static function get(string $categoryName)
     {
         if (! isset(self::$Categories[$categoryName])) {
             $className = 'Runalyze\\Configuration\\Category\\'.$categoryName;

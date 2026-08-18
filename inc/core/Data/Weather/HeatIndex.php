@@ -117,10 +117,7 @@ class HeatIndex implements ValueInterface
         return $this->HeatIndexTemperature->valueInPreferredUnit();
     }
 
-    /**
-     * @return bool
-     */
-    public function isUnknown()
+    public function isUnknown(): bool
     {
         return $this->HeatIndexTemperature->isEmpty();
     }
@@ -135,9 +132,8 @@ class HeatIndex implements ValueInterface
 
     /**
      * @param bool $withUnit
-     * @return string
      */
-    public function string($withUnit = true)
+    public function string($withUnit = true): string
     {
         return $this->HeatIndexTemperature->string($withUnit);
     }

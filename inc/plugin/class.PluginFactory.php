@@ -159,7 +159,7 @@ class PluginFactory {
 	 * @param mixed $type [optional] false or enum
 	 * @return array array with plugin keys
 	 */
-	public function allPlugins($type = false) {
+	public function allPlugins($type = false): array {
 		return $this->getPlugins($type);
 	}
 
@@ -168,7 +168,7 @@ class PluginFactory {
 	 * @param mixed $type [optional] false or enum
 	 * @return array array with plugin keys
 	 */
-	public function activePlugins($type = false) {
+	public function activePlugins($type = false): array {
 		return $this->getPlugins($type, Plugin::ACTIVE);
 	}
 
@@ -177,7 +177,7 @@ class PluginFactory {
 	 * @param mixed $type [optional] false or enum
 	 * @return array array with plugin keys
 	 */
-	public function inactivePlugins($type = false) {
+	public function inactivePlugins($type = false): array {
 		return $this->getPlugins($type, Plugin::ACTIVE_NOT);
 	}
 
@@ -185,7 +185,7 @@ class PluginFactory {
 	 * Get all various plugins
 	 * @return array array with plugin keys
 	 */
-	public function variousPlugins() {
+	public function variousPlugins(): array {
 		return $this->getPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
 	}
 

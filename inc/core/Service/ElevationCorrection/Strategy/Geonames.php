@@ -38,7 +38,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
 
     public function isPossible(): bool
     {
-        return strlen($this->GeonamesUsername) > 0;
+        return (string) $this->GeonamesUsername !== '';
     }
 
     public function loadAltitudeData(array $latitudes, array $longitudes)

@@ -38,7 +38,6 @@ class ActivityCache
             return $activityToMerge;
         }
 
-        /** @var Training $context */
         $activity = $this->Cache->getItem($hash)
             ->get();
 

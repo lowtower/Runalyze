@@ -227,15 +227,13 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$this->Lines = array();
 	}
 
-	/**
-	 * Add headline
-	 * @param string $name
-	 * @param float $distance
-	 * @param int $num
-	 * @param bool $noTopBorder
-	 */
-	private
-	function addHeadline($name, $distance = 0, $num = 0, $noTopBorder = false)
+    /**
+     * Add headline
+     * @param float $distance
+     * @param int $num
+     */
+    private
+	function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false)
 	{
 		$this->Lines[] = array(
 		    'name' => $name,
@@ -246,14 +244,13 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		);
 	}
 
-	/**
-	 * Add line
-	 * @param string $name
-	 * @param float $distance
-	 * @param int $num
-	 */
-	private
-	function addLine($name, $distance = 0, $num = 0)
+    /**
+     * Add line
+     * @param float $distance
+     * @param int $num
+     */
+    private
+	function addLine(string $name, $distance = 0, $num = 0)
 	{
 		$this->Lines[] = array(
 		    'name' => $name,
@@ -263,15 +260,13 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		);
 	}
 
-	/**
-	 * Add bar
-	 * @param string $name
-	 * @param float $val
-	 * @param float $max
-	 * @param string $color
-	 */
-	private
-	function addBar($name, $val, $max, $color, $add = null, $addcolor = null)
+    /**
+     * Add bar
+     * @param float $val
+     * @param float $max
+     */
+    private
+	function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null)
 	{
 		$this->Lines[] = array(
 		    'name' => $name,
@@ -297,12 +292,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			$this->showLine($Array);
 	}
 
-	/**
-	 * Show bar
-	 * @param array $Bar
-	 */
-	private
-	function showBar(&$Bar)
+    /**
+     * Show bar
+     * @param array<string, mixed> $Bar
+     */
+    private
+	function showBar(array &$Bar)
 	{
 		$percentage = min(100, 100 * $Bar['val'] / $Bar['max']);
 		$addPercentage = $Bar['add'] ? 100 * $Bar['add'] / $Bar['max'] : 0;

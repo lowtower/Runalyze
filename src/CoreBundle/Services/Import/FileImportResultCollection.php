@@ -133,7 +133,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return string[]
      */
-    public function getAllFileNames()
+    public function getAllFileNames(): array
     {
         return array_map(function($element) {
             /** @var FileImportResult $element */
@@ -144,7 +144,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return string[]
      */
-    public function getAllOriginalFileNames()
+    public function getAllOriginalFileNames(): array
     {
         return array_values(
             array_unique(

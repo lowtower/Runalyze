@@ -60,9 +60,8 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
     /**
      * @param bool $transformValues
      * @param bool $toKm
-     * @return array
      */
-    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false) {
+    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false): array {
 		if ($transformValues) {
 			$factor = $toKm ? $this->unitSystem()
 			    ->distanceToKmFactor() : $this->unitSystem()

@@ -21,7 +21,7 @@ class FlightRatio extends AbstractKey
 		return __('Flight ratio');
 	}
 
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 	    return $context->dataview()
 	        ->flightRatio();

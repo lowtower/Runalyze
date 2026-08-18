@@ -11,6 +11,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GeneratePoster
 {
+    public $Python3Path;
+
     /** @var array */
     protected $Parameter = [];
 

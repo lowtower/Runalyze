@@ -212,11 +212,10 @@ class Calculator
 		return $times;
 	}
 
-	/**
-	 * @param string $commaSeparatedString
-	 * @return array
-	 */
-	private static function explodeTimeStrings($commaSeparatedString)
+    /**
+     * @param string $commaSeparatedString
+     */
+    private static function explodeTimeStrings($commaSeparatedString): array
 	{
 		$timeStrings = explode(',', $commaSeparatedString);
 

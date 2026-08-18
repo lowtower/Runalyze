@@ -61,10 +61,7 @@ class Loopable_MockTester extends Entity implements Loopable {
         return $this->has($key) && is_array($this->Data[$key]);
     }
 
-    /**
-     * @return array
-     */
-    public function properties()
+    public function properties(): array
     {
         return array_keys($this->Data);
     }

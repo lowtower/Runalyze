@@ -25,11 +25,10 @@ class Weather extends AbstractKey
 		return \Runalyze\Dataset\Keys::WEATHER;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): array
+    /**
+     * Database key
+     */
+    public function column(): array
 	{
 		return ['weatherid', 'is_night', 'temperature', 'wind_speed', 'wind_deg', 'humidity', 'pressure'];
 	}
@@ -52,9 +51,8 @@ class Weather extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		if (! $context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
 			$icon = $context->activity()

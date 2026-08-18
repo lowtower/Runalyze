@@ -40,6 +40,8 @@ use HTML;
 
 class Dataview
 {
+    public $GAPace;
+
     /** @var null|\Runalyze\Model\Activity\Entity */
     protected $Activity;
 
@@ -127,9 +129,8 @@ class Dataview
 
     /**
      * @param string $format [optional]
-     * @return string
      */
-    public function date($format = 'd.m.Y')
+    public function date($format = 'd.m.Y'): string
     {
         if (! is_numeric($this->Activity->timestamp())) {
             return '';
@@ -214,10 +215,7 @@ class Dataview
         return $this->distance($decimals);
     }
 
-    /**
-     * @return string
-     */
-    public function distanceOrDuration()
+    public function distanceOrDuration(): string
     {
         if ($this->Activity->distance() > 0) {
             return $this->distance();

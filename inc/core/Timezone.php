@@ -21,7 +21,7 @@ use Runalyze\Util\InterfaceChoosable;
  */
 class Timezone implements InterfaceChoosable
 {
-    public static function getChoices()
+    public static function getChoices(): array
     {
         return array_flip(self::listTimezones());
     }

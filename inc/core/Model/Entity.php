@@ -115,7 +115,7 @@ abstract class Entity {
 				try {
 					$this->checkArraySize( count($this->Data[$key]) );
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')');
+					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
 				}
 			}
 		}

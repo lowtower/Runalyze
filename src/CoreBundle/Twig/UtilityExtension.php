@@ -55,11 +55,10 @@ class UtilityExtension extends \Twig_Extension
 
     /**
      * @param float $seconds
-     * @param string $format
      * @param int $decimals
      * @return string
      */
-    private function formatDuration($seconds, $format, $decimals = 0)
+    private function formatDuration($seconds, string $format, $decimals = 0)
     {
         if (substr($format, -1) == 'u') {
             $time = \DateTime::createFromFormat('!U', (int) floor($seconds), new \DateTimeZone('UTC'));

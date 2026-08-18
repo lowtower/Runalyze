@@ -63,10 +63,8 @@ class ActivityMatcherController extends Controller
      * Timestamps are given in UTC but local timezone offset has to be considered!
      *
      * @param string $string
-     *
-     * @return int
      */
-    private function parserStrtotime($string)
+    private function parserStrtotime($string): int
     {
         if (substr($string, -1) == 'Z') {
             return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1).' UTC'))->getTimestamp();

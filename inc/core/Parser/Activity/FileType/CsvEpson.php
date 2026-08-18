@@ -92,7 +92,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
             if (count($values) === count($this->TmpData)) {
                 foreach ($this->TmpData as $i => $label) {
-                    if (strlen($values[$i]) > 0) {
+                    if ($values[$i] !== '') {
                         switch ($label) {
                             case 'StartDay':
                                 $startDay = $values[$i];

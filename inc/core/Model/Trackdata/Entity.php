@@ -267,7 +267,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 						$this->checkArraySize( $count );
 					}
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')');
+					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
 				}
 			}
 		}
@@ -336,11 +336,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		);
 	}
 
-	/**
-	 * Properties
-	 * @return array
-	 */
-	public function properties() {
+    /**
+     * Properties
+     */
+    public function properties(): array {
 		return array_merge(
 		    array(
 		        self::PACE,

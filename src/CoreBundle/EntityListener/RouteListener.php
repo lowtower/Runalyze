@@ -68,10 +68,7 @@ class RouteListener
             );
     }
 
-    /**
-     * @return bool
-     */
-    protected function userWantsElevationsToBeCorrected(Account $account)
+    protected function userWantsElevationsToBeCorrected(Account $account): bool
     {
         return $this->ConfigurationManager->getList($account)
             ->getActivityForm()

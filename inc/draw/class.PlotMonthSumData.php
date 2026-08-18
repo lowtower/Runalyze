@@ -68,17 +68,11 @@ class PlotMonthSumData extends PlotSumData {
 		return 'MONTH(FROM_UNIXTIME(`time`))';
 	}
 
-	/**
-	 * @return int
-	 */
-	protected function beginningOfLast6Months() {
+	protected function beginningOfLast6Months(): int {
 		return LocalTime::fromString('first day of -5 months 00:00')->getTimestamp();
 	}
 
-	/**
-	 * @return int
-	 */
-	protected function beginningOfLast12Months() {
+	protected function beginningOfLast12Months(): int {
 		return LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
 	}
 

@@ -126,10 +126,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution($key);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForPace()
+    public function hasStatisticsForPace(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::PACE);
     }
@@ -142,10 +139,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::PACE);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForHeartRate()
+    public function hasStatisticsForHeartRate(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::HEARTRATE);
     }
@@ -158,10 +152,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::HEARTRATE);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForCadence()
+    public function hasStatisticsForCadence(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::CADENCE);
     }
@@ -174,10 +165,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::CADENCE);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForStrideLength()
+    public function hasStatisticsForStrideLength(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::STRIDE_LENGTH);
     }
@@ -190,10 +178,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::STRIDE_LENGTH);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForPower()
+    public function hasStatisticsForPower(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::POWER);
     }
@@ -206,10 +191,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::POWER);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForGroundcontact()
+    public function hasStatisticsForGroundcontact(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::GROUNDCONTACT);
     }
@@ -222,10 +204,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::GROUNDCONTACT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForGroundcontactBalance()
+    public function hasStatisticsForGroundcontactBalance(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
@@ -238,10 +217,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::GROUNDCONTACT_BALANCE);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForVerticalOscillation()
+    public function hasStatisticsForVerticalOscillation(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::VERTICAL_OSCILLATION);
     }
@@ -254,10 +230,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::VERTICAL_OSCILLATION);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForVerticalRatio()
+    public function hasStatisticsForVerticalRatio(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::VERTICAL_RATIO);
     }
@@ -270,10 +243,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::VERTICAL_RATIO);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForSaturatedHemoglobin()
+    public function hasStatisticsForSaturatedHemoglobin(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::SMO2_0);
     }
@@ -286,10 +256,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::SMO2_0);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForSaturatedHemoglobin2()
+    public function hasStatisticsForSaturatedHemoglobin2(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::SMO2_1);
     }
@@ -302,10 +269,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::SMO2_1);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForTotalHemoglobin()
+    public function hasStatisticsForTotalHemoglobin(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::THB_0);
     }
@@ -318,10 +282,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::THB_0);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForTotalHemoglobin2()
+    public function hasStatisticsForTotalHemoglobin2(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::THB_1);
     }
@@ -334,10 +295,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::THB_1);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForImpactGsLeft()
+    public function hasStatisticsForImpactGsLeft(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::IMPACT_GS_LEFT);
     }
@@ -350,10 +308,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::IMPACT_GS_LEFT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForImpactGsRight()
+    public function hasStatisticsForImpactGsRight(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::IMPACT_GS_RIGHT);
     }
@@ -366,10 +321,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::IMPACT_GS_RIGHT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForBrakingGsLeft()
+    public function hasStatisticsForBrakingGsLeft(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::BRAKING_GS_LEFT);
     }
@@ -382,10 +334,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::BRAKING_GS_LEFT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForBrakingGsRight()
+    public function hasStatisticsForBrakingGsRight(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::BRAKING_GS_RIGHT);
     }
@@ -398,10 +347,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::BRAKING_GS_RIGHT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForFootstrikeTypeLeft()
+    public function hasStatisticsForFootstrikeTypeLeft(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
     }
@@ -414,10 +360,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForFootstrikeTypeRight()
+    public function hasStatisticsForFootstrikeTypeRight(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
     }
@@ -430,10 +373,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForPronationExcursionLeft()
+    public function hasStatisticsForPronationExcursionLeft(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
     }
@@ -446,10 +386,7 @@ class TimeSeriesStatistics
         return $this->MultipleTimeSeries->getDistribution(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
     }
 
-    /**
-     * @return bool
-     */
-    public function hasStatisticsForPronationExcursionRight()
+    public function hasStatisticsForPronationExcursionRight(): bool
     {
         return $this->hasStatisticsFor(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
     }

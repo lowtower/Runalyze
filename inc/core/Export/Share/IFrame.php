@@ -36,10 +36,7 @@ class IFrame extends AbstractSnippetSharer
         return Types::IFRAME;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return $this->Context->activity()
             ->isPublic();

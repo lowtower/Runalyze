@@ -67,11 +67,10 @@ class Entity extends Model\EntityWithID {
 		);
 	}
 
-	/**
-	 * Properties
-	 * @return array
-	 */
-	public function properties() {
+    /**
+     * Properties
+     */
+    public function properties(): array {
 		return static::allDatabaseProperties();
 	}
 

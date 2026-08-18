@@ -96,7 +96,7 @@ class Duration {
 		$this->Time = 0;
 
 		// #TSC - fix: only set duration if soming exists in the string
-		if (strlen($string) > 0) {
+		if ((string) $string !== '') {
 			$split = explode('.', str_replace(',', '.', $string));
 
 			if (isset($split[1])) {

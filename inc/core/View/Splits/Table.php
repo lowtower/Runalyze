@@ -210,7 +210,7 @@ class Table {
      * Get td for pace difference
      * @param bool $compareOnlyToDemanded [optional] default false
      */
-    private function tdForPaceDifference(Pace $Pace, $compareOnlyToDemanded = false): string {
+    private function tdForPaceDifference(Pace $Pace, bool $compareOnlyToDemanded = false): string {
 		if (
 			($compareOnlyToDemanded && ($this->demandedPace->isEmpty())) ||
 			($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())

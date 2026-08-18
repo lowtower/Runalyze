@@ -181,7 +181,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected function readElapsedTimeFrom(SimpleXMLElement $sample)
     {
         if (! empty($sample->UTC)) {
-            $lastTimestamp = (int) $this->strtotime((string) $sample->UTC);
+            $lastTimestamp = $this->strtotime((string) $sample->UTC);
 
             if ($lastTimestamp > $this->Container->Metadata->getTimestamp())
                 $this->Container->ActivityData->ElapsedTime = $lastTimestamp - $this->Container->Metadata->getTimestamp();

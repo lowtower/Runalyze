@@ -55,9 +55,8 @@ class StepwiseElevationProfileFixer
 
     /**
      * @param int $arraySize
-     * @return array
      */
-    protected function getMidpointsForFixedGroupSize($arraySize)
+    protected function getMidpointsForFixedGroupSize($arraySize): array
     {
         if ($this->NumberOfGroupedPoints >= $arraySize) {
             return [$this->MidpointIndexOfConstantGroup];

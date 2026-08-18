@@ -29,7 +29,7 @@ class WeatherController extends Controller
 
         // #TSC: if no location is given, cancel
         if(! $location->hasPosition()) {
-            return;
+            return null;
         }
 
         $weather = $this->get('app.weather_forecast')

@@ -117,9 +117,8 @@ class FilenameHandler
 
     /**
      * @param string $publicFilename
-     * @return bool
      */
-    public function validatePublicFilename($publicFilename)
+    public function validatePublicFilename($publicFilename): bool
     {
         return $this->validateInternalFilename($this->transformPublicToInternalFilename($publicFilename));
     }

@@ -8,7 +8,7 @@ use Runalyze\Model;
 use Runalyze\Util\LocalTime;
 use Runalyze\Activity\Distance;
 
-require 'class.RunalyzePluginStat_Strecken.php';
+require __DIR__ . '/class.RunalyzePluginStat_Strecken.php';
 
 // #TSC the positioninterval (use every n gps-position of the shown routes)
 $positioninterval = isset($_GET['posint']) ? (int) $_GET['posint'] : 1;

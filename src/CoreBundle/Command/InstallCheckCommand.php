@@ -102,6 +102,8 @@ class InstallCheckCommand extends ContainerAwareCommand
         if ($this->ReturnCode & self::ERROR) {
             return self::CHECK_FAILED;
         }
+
+        return null;
     }
 
     protected function getFinalMessage(): string

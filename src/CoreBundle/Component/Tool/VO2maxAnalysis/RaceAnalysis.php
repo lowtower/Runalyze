@@ -32,11 +32,9 @@ class RaceAnalysis
     }
 
     /**
-     * @return string
-     *
      * @TODO use Twig extension for LocalTime
      */
-    public function getDate()
+    public function getDate(): string
     {
         return LocalTime::date('d.m.Y', $this->Activity->timestamp());
     }

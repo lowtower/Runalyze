@@ -48,7 +48,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
 
     public function isPossible(): bool
     {
-        return strlen($this->ApiKey) > 0;
+        return (string) $this->ApiKey !== '';
     }
 
     public function isCachable(): bool

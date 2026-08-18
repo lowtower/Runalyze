@@ -134,7 +134,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
         echo '</div>';
 	}
 
-    private function displayData($title, $changeId, array $data, $functionToDisplayElevation) {
+    private function displayData(string $title, string $changeId, array $data, \Closure $functionToDisplayElevation) {
         echo '<table class="fullwidth zebra-style more-padding change" id="elevation-ranking-'.$changeId.'"'.(! $this->IsFirstChangeTable ? ' style="display:none;"' : '').'>';
         echo '<thead><tr class="b c"><th colspan="4">'.$title.'</th><th><abbr title="Climb Score">CS</abbr></th></tr></thead>';
         echo '<tbody>';
@@ -206,7 +206,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 		}
 	}
 
-	private function getData($order, $limit = 10) {
+	private function getData(string $order, $limit = 10) {
 	    return DB::getInstance()->query(
 	        '
 			SELECT

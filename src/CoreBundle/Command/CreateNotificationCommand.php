@@ -48,7 +48,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return;
+                return null;
             }
         }
 
@@ -117,9 +117,8 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param string|bool|string[] $lang
-     * @return bool
      */
-    protected function validateLanguage(array $lang)
+    protected function validateLanguage(array $lang): bool
     {
         return array_reduce(
             $lang,
@@ -132,9 +131,8 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param string|bool|string[] $accountIds
-     * @return bool
      */
-    protected function validateAccountIds(array $accountIds)
+    protected function validateAccountIds(array $accountIds): bool
     {
         return array_reduce(
             $accountIds,

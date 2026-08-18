@@ -9,13 +9,11 @@ use Runalyze\Configuration;
 
 /**
  * Timestamp of the first training
- * @var int
  */
 define('START_TIME', Helper::getStartTime());
 
 /**
  * Year of the first training
- * @var int
  */
 define('START_YEAR', date('Y', START_TIME));
 

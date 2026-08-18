@@ -27,11 +27,10 @@ class Gradient extends AbstractKey
 		return \Runalyze\Dataset\Keys::GRADIENT;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): array
+    /**
+     * Database key
+     */
+    public function column(): array
 	{
 		return array('elevation', 'distance');
 	}
@@ -62,9 +61,8 @@ class Gradient extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		if ($context->activity()->elevation() > 0 && $context->activity()->distance() > 0) {
 			return $context->dataview()

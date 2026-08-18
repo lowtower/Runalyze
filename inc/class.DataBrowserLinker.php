@@ -82,7 +82,7 @@ class DataBrowserLinker {
 	 * @param int $endTimestampInNoTimezone Timestamp for last date in browser
 	 * @return array Returns an array {'start', 'end'}
 	 */
-	public static function prevTimestamps($startTimestampInNoTimezone, $endTimestampInNoTimezone) {
+	public static function prevTimestamps($startTimestampInNoTimezone, $endTimestampInNoTimezone): array {
 		return self::nextTimestamps($startTimestampInNoTimezone, $endTimestampInNoTimezone, true);
 	}
 

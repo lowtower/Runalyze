@@ -39,11 +39,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 		);
 	}
 
-	/**
-	 * Properties
-	 * @return array
-	 */
-	public function properties() {
+    /**
+     * Properties
+     */
+    public function properties(): array {
 		return static::allProperties();
 	}
 

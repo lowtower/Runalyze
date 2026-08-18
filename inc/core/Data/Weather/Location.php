@@ -139,7 +139,7 @@ class Location {
      * Has location name?
      */
     public function hasLocationName(): bool {
-		return (strlen($this->LocationName) > 0);
+		return ((string) $this->LocationName !== '');
 	}
 
     /**

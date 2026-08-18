@@ -130,9 +130,8 @@ class WindChillFactor implements ValueInterface
      * Format temperature as string
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
-     * @return string
      */
-    public function string($withUnit = true, $decimals = 0) {
+    public function string($withUnit = true, $decimals = 0): string {
         return $this->AdjustedTemperature->string($withUnit, $decimals);
     }
 }

@@ -80,10 +80,7 @@ class FileImporter implements LoggerAwareInterface
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getSupportedFileExtensions()
+    public function getSupportedFileExtensions(): array
     {
         return array_merge(
             array_keys(FileExtensionToParserMapping::MAPPING),

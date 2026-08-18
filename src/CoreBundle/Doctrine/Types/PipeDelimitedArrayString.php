@@ -32,7 +32,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
         $value = (is_resource($value)) ? stream_get_contents($value) : $value;
 
         return array_map(function ($v) {
-            if (is_string($v) && $v !== '') {
+            if ($v !== '') {
                 return $v; // #TSC to support strings don't return null
             } else {
                 return null;

@@ -103,24 +103,15 @@ class PlotWeekSumData extends PlotSumData {
         return parent::whereDate();
     }
 
-	/**
-	 * @return int
-	 */
-	protected function beginningOfLast6Months() {
+	protected function beginningOfLast6Months(): int {
 		return $this->beginningOfTimerange();
 	}
 
-	/**
-	 * @return int
-	 */
-	protected function beginningOfLast12Months() {
+	protected function beginningOfLast12Months(): int {
 		return $this->beginningOfTimerange();
 	}
 
-	/**
-	 * @return int
-	 */
-	protected function beginningOfTimerange() {
+	protected function beginningOfTimerange(): int {
 		if ($this->WeekStart->isSunday() && date('w') != 0) {
 			return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.$this->timerEnd.' weeks 00:00')->getTimestamp();
 		}

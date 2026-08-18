@@ -52,9 +52,8 @@ class HeartrateAverageActive extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		if ($context->activity()->hrAvgActive() > 0) {
 			return $context->dataview()

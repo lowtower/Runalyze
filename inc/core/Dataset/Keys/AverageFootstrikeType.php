@@ -22,7 +22,7 @@ class AverageFootstrikeType extends AbstractKey
 		return __('Footstrike type');
 	}
 
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		return $context->dataview()
 		    ->footstrikeType();

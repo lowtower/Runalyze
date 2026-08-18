@@ -51,19 +51,17 @@ class Messages {
 		);
 	}
 
-	/**
-	 * Add warning
-	 * @param string $message
-	 */
-	private static function addWarning($message) {
+    /**
+     * Add warning
+     */
+    private static function addWarning(string $message) {
 		ConfigTabs::addMessage(HTML::warning($message));
 	}
 
-	/**
-	 * Add info
-	 * @param string $message
-	 */
-	private static function addInfo($message) {
+    /**
+     * Add info
+     */
+    private static function addInfo(string $message) {
 		ConfigTabs::addMessage(HTML::info($message));
 	}
 }

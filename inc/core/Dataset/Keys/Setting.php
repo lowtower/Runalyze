@@ -109,12 +109,9 @@ class Setting extends AbstractKey
 			: '';
 
 		// #TSC also include the tools
-		if (self::INCLUDE_TOOLS) {
-			$html .= '<li class="separator"></li>';
-			$html .= Tools::inlineDropdownWithRealLinks($context);
-		}
+		$html .= '<li class="separator"></li>';
 
-		return $html;
+		return $html . Tools::inlineDropdownWithRealLinks($context);
 	}
 
     /**
@@ -130,9 +127,7 @@ class Setting extends AbstractKey
 			: '';
 
 		// #TSC also include the tools
-		if (self::INCLUDE_TOOLS) {
-			$html .= Tools::inlineDropdownWithFakeLinks($context);
-		}
+		$html .= Tools::inlineDropdownWithFakeLinks($context);
 
 		return $html;
 	}

@@ -68,9 +68,8 @@ class Fitlog extends AbstractFileExporter
     /**
      * Get string for timestamp in xml
      * @param int $time
-     * @return string
      */
-    final protected function timeToString($time)
+    final protected function timeToString($time): string
     {
         return LocalTime::date('c', (int) $time);
     }
@@ -80,7 +79,7 @@ class Fitlog extends AbstractFileExporter
      */
     protected function setGeneralInfo()
     {
-        if (strlen(SessionAccountHandler::getName()) > 0) {
+        if ((string) SessionAccountHandler::getName() !== '') {
             $this->XML->AthleteLog->Athlete->addAttribute('Name', SessionAccountHandler::getName());
         }
 

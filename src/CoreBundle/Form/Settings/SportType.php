@@ -194,7 +194,7 @@ class SportType extends AbstractType
         }
     }
 
-    protected function getFilteredChoicesForInternalSportId(array $usedInternalIds, ?Sport $sport = null)
+    protected function getFilteredChoicesForInternalSportId(array $usedInternalIds, ?Sport $sport = null): array
     {
         $choicesWithIdsAsKeys = array_flip(SportProfile::getChoices());
 

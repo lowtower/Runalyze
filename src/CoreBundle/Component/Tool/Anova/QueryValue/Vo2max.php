@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Metrics\Common\Unit\Factorial;
 
 class Vo2max extends AbstractOneColumnValue
 {
@@ -20,10 +19,7 @@ class Vo2max extends AbstractOneColumnValue
         return 'vo2max';
     }
 
-    /**
-     * @return Factorial
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Factorial
     {
         return $unitSystem->getVO2maxUnit();
     }

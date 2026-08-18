@@ -123,10 +123,7 @@ class Table {
 		return '<td></td>';
 	}
 
-    /**
-     * @return string
-     */
-    public function codeForShortLink(Context $context) {
+    public function codeForShortLink(Context $context): string {
 		return $context->linker()
 		    ->codeWithSportIcon(Tooltip::POSITION_RIGHT);
 	}

@@ -227,10 +227,7 @@ class ValueExtension extends \Twig_Extension
         return new DisplayableVO2max($uncorrectedValue, $configurationList, $valueIsUsedForShape);
     }
 
-    /**
-     * @return DisplayableVO2max
-     */
-    public function vo2maxFor(ActivityContext $activityContext, RunalyzeConfigurationList $configurationList)
+    public function vo2maxFor(ActivityContext $activityContext, RunalyzeConfigurationList $configurationList): \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max
     {
         return $this->vo2max(
             $activityContext->getDecorator()

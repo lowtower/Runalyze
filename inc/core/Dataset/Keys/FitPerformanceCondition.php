@@ -25,11 +25,10 @@ class FitPerformanceCondition extends AbstractKey
 		return \Runalyze\Dataset\Keys::FIT_PERFORMANCE_CONDITION;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): array
+    /**
+     * Database key
+     */
+    public function column(): array
 	{
         return ['fit_performance_condition', 'fit_performance_condition_end'];
 	}
@@ -63,9 +62,8 @@ class FitPerformanceCondition extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		return $context->dataview()
 		    ->fitPerformanceCondition();

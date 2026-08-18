@@ -163,7 +163,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 		}
 	}
 
-	private function getZones($minHr, $maxHr, $hrMaxUser, $footerHintMaxHr) {
+	private function getZones($minHr, $maxHr, $hrMaxUser, string $footerHintMaxHr) {
 		$z = $this->Calculator->getZones($minHr, $maxHr, $hrMaxUser);
 		$this->footerHint = 'Shows the ' . $this->Calculator->getSourceHint() . ' ' . $footerHintMaxHr;
 		return $z;

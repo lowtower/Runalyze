@@ -70,6 +70,7 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
 
         $output->writeln('');
         $output->writeln('Done.');
+        return null;
     }
 
     protected function processActivity(OutputInterface &$output, int $activityId, Account $user): Training {

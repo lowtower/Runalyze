@@ -15,7 +15,7 @@ class Cadence extends AbstractOneColumnValue
     /**
      * @return AbstractCadenceUnit
      */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Cadence\Unit\RoundsPerMinute
     {
         return $unitSystem->getCadenceUnit();
     }

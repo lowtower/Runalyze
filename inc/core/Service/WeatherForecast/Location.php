@@ -161,7 +161,7 @@ class Location
 
     public function hasLocationName(): bool
     {
-        return strlen($this->LocationName) > 0;
+        return (string) $this->LocationName !== '';
     }
 
     public function hasDateTime(): bool

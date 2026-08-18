@@ -52,9 +52,8 @@ class HeartrateMaximum extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		if ($context->activity()->hrMax() > 0) {
 			return $context->dataview()

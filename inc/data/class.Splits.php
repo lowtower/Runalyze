@@ -62,11 +62,11 @@ class Splits {
 		$this->removeSingleSplits();
 	}
 
-	/**
-	 * Create from array
-	 * @param array $array
-	 */
-	private function createFromArray($array) {
+    /**
+     * Create from array
+     * @param array<string, mixed> $array
+     */
+    private function createFromArray(array $array) {
 		$this->asArray = array();
 		$factor = $this->transformDistanceUnit ? Runalyze\Configuration::General()->distanceUnitSystem()->distanceToKmFactor() : 1;
 

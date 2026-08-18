@@ -295,7 +295,7 @@ class SearchResults {
 
 		$this->addSpecialConditions($conditions);
 
-		if (isset($_POST['s']) && strlen($_POST['s']) > 0) {
+		if (isset($_POST['s']) && (string) $_POST['s'] !== '') {
 			$Time = new Duration($_POST['s']);
 			$_POST['s'] = $Time->seconds();
 		}
@@ -304,7 +304,7 @@ class SearchResults {
 			if (isset($_POST[$key])) {
 				if (is_array($_POST[$key])) {
 					$this->addConditionForArray($key, $conditions);
-				} elseif (strlen($_POST[$key]) > 0) {
+				} elseif ((string) $_POST[$key] !== '') {
 					$this->addConditionFor($key, $conditions);
 				}
 			}
@@ -654,7 +654,7 @@ class SearchResults {
 	/**
 	 * @return int[]
 	 */
-	public function getIdsForMultiEditor() {
+	public function getIdsForMultiEditor(): array {
 	    return array_map(function($data) {
 	        return (int) $data['id'];
         }, $this->Trainings);

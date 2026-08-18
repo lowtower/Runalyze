@@ -83,7 +83,7 @@ class ContinuousDataAdapter
      */
     public function correctArraySurroundedNulls(array &$values)
     {
-        if (is_array($values) && ! empty($values)) {
+        if (! empty($values)) {
             $size = count($values);
 
             // pre NULLs
@@ -127,7 +127,7 @@ class ContinuousDataAdapter
      */
     public function correctArrayNullElements(array &$values)
     {
-        if (is_array($values) && ! empty($values)) {
+        if (! empty($values)) {
             $size = count($values);
 
             for($i = 0; $i < $size; $i++) {

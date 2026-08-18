@@ -98,10 +98,7 @@ abstract class AbstractBackup
 
 	protected function finishBackup() {}
 
-	/**
-	 * @param string $tableName
-	 */
-	private function saveTableRows($tableName)
+	private function saveTableRows(string $tableName)
     {
 		$columnInfo = $this->PDO->query('SHOW COLUMNS FROM '.$tableName)->fetchAll();
 
@@ -118,30 +115,28 @@ abstract class AbstractBackup
 		$this->finishTableRows();
 	}
 
-	/**
-	 * @param string $query
-	 * @param string $tableName
-	 * @return bool|array
-	 */
-	private function addConditionToQuery(&$query, $tableName)
+    /**
+     * @return bool|array
+     */
+    private function addConditionToQuery(string &$query, string $tableName)
     {
 		$ids = false;
 
-		if ($tableName == $this->Prefix.'account') {
+		if ($tableName === $this->Prefix . 'account') {
 			$query .= ' WHERE `id`='.$this->AccountID.' LIMIT 1';
-		} elseif ($tableName == $this->Prefix.'plugin_conf') {
+		} elseif ($tableName === $this->Prefix . 'plugin_conf') {
 			$ids = $this->fetchPluginIDs();
 			$query .= ' WHERE `pluginid` IN('.implode(',', $ids).')';
-		} elseif ($tableName == $this->Prefix.'equipment_sport') {
+		} elseif ($tableName === $this->Prefix . 'equipment_sport') {
 			$ids = $this->fetchEquipmentTypeIDs();
 			$query .= ' WHERE `equipment_typeid` IN('.implode(',', $ids).')';
-		} elseif ($tableName == $this->Prefix.'equipment_spor') {
+		} elseif ($tableName === $this->Prefix . 'equipment_spor') {
 			$ids = $this->fetchEquipmentIDs();
 			$query .= ' WHERE `equipment_id` IN('.implode(',', $ids).')';
-		} elseif ($tableName == $this->Prefix.'activity_equipment') {
+		} elseif ($tableName === $this->Prefix . 'activity_equipment') {
 			$ids = $this->fetchEquipmentIDs();
 			$query .= ' WHERE `equipmentid` IN('.implode(',', $ids).')';
-		} elseif ($tableName == $this->Prefix.'activity_tag') {
+		} elseif ($tableName === $this->Prefix . 'activity_tag') {
 			$ids = $this->fetchTagIDs();
 			$query .= ' WHERE `tagid` IN('.implode(',', $ids).')';
 		} else {

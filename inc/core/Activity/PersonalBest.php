@@ -90,7 +90,7 @@ class PersonalBest {
 	 * @param bool $withDetails [optional]
 	 * @return int number of fetches PBs
 	 */
-	public static function lookupDistances(array $distances, $sportid, ?PDO $pdo = null, $withDetails = false) {
+	public static function lookupDistances(array $distances, $sportid, ?PDO $pdo = null, $withDetails = false): int {
 		foreach ($distances as $km) {
 			self::$PBs[(float) $km] = false;
 		}

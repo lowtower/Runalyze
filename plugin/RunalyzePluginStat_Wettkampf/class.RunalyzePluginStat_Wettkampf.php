@@ -281,7 +281,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		foreach ($this->PBdistances as $km) {
 			echo Plot::getInnerDivFor('bestzeit'.($km*1000), 480, 190, $km != $display_km);
 			$_GET['km'] = $km;
-			include 'Plot.Bestzeit.php';
+			include __DIR__ . '/Plot.Bestzeit.php';
 		}
 
 		echo '</div>';
@@ -388,11 +388,10 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		echo '</table>';
 	}
 
-	/**
-	 * Display table start
-	 * @param string $id
-	 */
-	private function displayTableStart($id) {
+    /**
+     * Display table start
+     */
+    private function displayTableStart(string $id) {
 		echo '<table class="fullwidth zebra-style" id="'.$id.'">
 				<thead>
 					<tr class="c">
@@ -468,15 +467,14 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * Display an empty table-row
 	 * @param string $text [optional]
 	 */
-	private function displayEmptyTr($text = '') {
+	private function displayEmptyTr(string $text = '') {
 		echo '<tr class="a"><td colspan="11">'.$text.'</td></tr>';
 	}
 
-	/**
-	 * Display table end
-	 * @param string $id
-	 */
-	private function displayTableEnd($id) {
+    /**
+     * Display table end
+     */
+    private function displayTableEnd(string $id) {
 		echo '</tbody>';
 		echo '</table>';
 
@@ -567,7 +565,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * Handle data from get-variables
 	 */
 	private function handleGetData() {
-		if (isset($_GET['dat']) && strlen($_GET['dat']) > 0) {
+		if (isset($_GET['dat']) && (string) $_GET['dat'] !== '') {
 			$parts = explode('-', $_GET['dat']);
 			$tag   = $parts[0];
 			$id    = $parts[1];

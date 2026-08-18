@@ -148,10 +148,9 @@ abstract class AbstractDistribution
     }
 
     /**
-     * @param string $key
      * @param float $value
      */
-    final protected function setStatistic($key, $value)
+    final protected function setStatistic(string $key, $value)
     {
         $this->Statistic[$key] = $value;
     }

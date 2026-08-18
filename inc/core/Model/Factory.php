@@ -139,7 +139,7 @@ class Factory {
 	 * All type objects
 	 * @return \Runalyze\Model\Type\Entity[]
 	 */
-	public function allTypes() {
+	public function allTypes(): array {
 		return $this->allObjects('type', function($data){
 			return new Type\Entity($data);
 		});
@@ -177,7 +177,7 @@ class Factory {
 	 * All sport objects
 	 * @return \Runalyze\Model\Sport\Entity[]
 	 */
-	public function allSports() {
+	public function allSports(): array {
 		return $this->allObjects('sport', function($data){
 			return new Sport\Entity($data);
 		});
@@ -239,7 +239,7 @@ class Factory {
 	 * All tag objects
 	 * @return \Runalyze\Model\Tag\Entity[]
 	 */
-	public function allTags() {
+	public function allTags(): array {
 		return $this->allObjects('tag', function($data){
 			return new Tag\Entity($data);
 		});
@@ -453,12 +453,11 @@ class Factory {
 		return true;
 	}
 
-	/**
-	 * Order for full fetch
-	 * @param string $tablename
-	 * @return string
-	 */
-	protected function orderBy($tablename) {
+    /**
+     * Order for full fetch
+     * @param string $tablename
+     */
+    protected function orderBy($tablename): string {
 		switch ($tablename) {
 			case 'sport':
 				return \Runalyze\Configuration::ActivityForm()->orderSports()->asQuery();

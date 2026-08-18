@@ -51,9 +51,8 @@ class ConfigTabPlugins extends ConfigTab {
 
     /**
      * Get code for
-     * @param string $PluginType
      */
-    private function getCodeFor($PluginType): string {
+    private function getCodeFor(int $PluginType): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->completeData($PluginType);
 		usort($Plugins, $this->pluginOrderFunction());

@@ -85,7 +85,7 @@ class Configuration
 	 * Get all active keys
 	 * @return array active keys in dataset, sorted by position
 	 */
-	public function activeKeys()
+	public function activeKeys(): array
 	{
 		if ($this->ShowAllKeys) {
 			return $this->allKeys();
@@ -106,7 +106,7 @@ class Configuration
 	 * Get all keys
 	 * @return array all keys in dataset, sorted by position
 	 */
-	public function allKeys()
+	public function allKeys(): array
 	{
 		return array_keys($this->Data);
 	}

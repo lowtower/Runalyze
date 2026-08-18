@@ -19,11 +19,10 @@ class Request {
 		return $_SERVER['REQUEST_URI'] ?? '';
 	}
 
-	/**
-	 * Is the user on a shared page?
-	 * @return bool
-	 */
-	public static function isOnSharedPage() {
+    /**
+     * Is the user on a shared page?
+     */
+    public static function isOnSharedPage(): bool {
 		return SharedLinker::isOnSharedPage();
 	}
 

@@ -28,7 +28,6 @@ class Tools extends AbstractKey
 
     /**
      * Database key
-     * @return string
      */
     public function column(): array
     {

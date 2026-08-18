@@ -22,7 +22,7 @@ class AverageImpactGs extends AbstractKey
 		return __('Impact Gs');
 	}
 
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		return $context->dataview()
 		    ->impactGs();

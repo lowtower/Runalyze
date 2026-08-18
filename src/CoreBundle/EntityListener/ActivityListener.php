@@ -47,20 +47,14 @@ class ActivityListener
         $this->TimezoneLookup->silentExceptions();
     }
 
-    /**
-     * @return int
-     */
-    protected function getNumberOfDaysToConsiderForEffectiveVO2maxShape(Account $account)
+    protected function getNumberOfDaysToConsiderForEffectiveVO2maxShape(Account $account): int
     {
         return $this->ConfigurationManager->getList($account)
             ->getVO2max()
             ->getNumberOfDaysToConsider();
     }
 
-    /**
-     * @return int
-     */
-    protected function getNumberOfDaysToConsiderForMarathonShape(Account $account)
+    protected function getNumberOfDaysToConsiderForMarathonShape(Account $account): int
     {
         return $this->ConfigurationManager->getList($account)
             ->getBasicEndurance()

@@ -54,7 +54,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
 
     public function isPossible(): bool
     {
-        return strlen($this->ApiKey) > 0;
+        return (string) $this->ApiKey !== '';
     }
 
     public function isCachable(): bool
@@ -160,9 +160,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
                         return $result['list'][0];
                     }
 
-                    if (isset($result)) {
-                        return $result;
-                    }
+                    return $result;
                 }
             } catch (RequestException $e) {
                 $this->logger->warning('OpenWeatherMap API request failed.', [

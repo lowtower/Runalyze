@@ -209,13 +209,12 @@ abstract class PluginStat extends Plugin {
 		return $this->getTimerForOrderingInQuery($addTableName);
 	}
 
-	/**
-	 * Display header
-	 * @param string $name
-	 * @param string $rightMenu
-	 * @param string $leftMenu
-	 */
-	private function displayHeader($name = '', $rightMenu = '', $leftMenu = '') {
+    /**
+     * Display header
+     * @param string $name
+     * @param string $leftMenu
+     */
+    private function displayHeader($name = '', string $rightMenu = '', $leftMenu = '') {
 		if ($name == '') {
 			$name = $this->name();
 		}
@@ -251,11 +250,10 @@ abstract class PluginStat extends Plugin {
 		return '';
 	}
 
-	/**
-	 * Get links for all sports
-	 * @return array
-	 */
-	private function getSportLinksAsList(): string {
+    /**
+     * Get links for all sports
+     */
+    private function getSportLinksAsList(): string {
 		$Links = '';
 
 		if ($this->ShowAllSportsLink) {

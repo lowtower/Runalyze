@@ -72,11 +72,11 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		$this->Sport = SportFactory::DataFor($this->sportid);
 		$this->DatasetConfig = new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId());
 
-		require_once 'class.SummaryTable.php';
-		require_once 'class.SummaryTable10Weeks.php';
-		require_once 'class.SummaryTableAllWeeks.php';
-		require_once 'class.SummaryTableAllYears.php';
-		require_once 'class.SummaryTableMonths.php';
+		require_once __DIR__ . '/class.SummaryTable.php';
+		require_once __DIR__ . '/class.SummaryTable10Weeks.php';
+		require_once __DIR__ . '/class.SummaryTableAllWeeks.php';
+		require_once __DIR__ . '/class.SummaryTableAllYears.php';
+		require_once __DIR__ . '/class.SummaryTableMonths.php';
 	}
 
     /**
@@ -170,11 +170,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		$SummaryTable->display();
 	}
 
-	/**
-	 * Display table with last week-statistics
-	 * @param bool $showAllWeeks
-	 */
-	private function displayWeekTable($showAllWeeks = false) {
+    /**
+     * Display table with last week-statistics
+     */
+    private function displayWeekTable(bool $showAllWeeks = false) {
 		if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks)
 			return;
 

@@ -58,7 +58,7 @@ class InfiniteImpulseResponseFilter
      * @param array $inputData 0-index numerical array
      * @return array signal filtered forwards as well as backwards
      */
-    public function filterFilter(array $inputData)
+    public function filterFilter(array $inputData): array
     {
         $filteredData = array_reverse(
             $this->filter(

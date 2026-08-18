@@ -111,7 +111,7 @@ abstract class PlotSumData extends Plot {
         $this->ParamGroup = Request::param('group');
         $this->ParamType = Request::param('type');
 
-		$sportid = strlen($this->ParamSportId) > 0 ? $this->ParamSportId : Configuration::General()->runningSport();
+		$sportid = (string) $this->ParamSportId !== '' ? $this->ParamSportId : Configuration::General()->runningSport();
 
 		$this->Year  = $this->getRequestedYear();
 		$this->Sport = new Sport($sportid);
@@ -290,16 +290,15 @@ abstract class PlotSumData extends Plot {
 		];
 	}
 
-	/**
-	 * Link to plot
-	 * @param string $text
-	 * @param int $year
-	 * @param int $sportid
-	 * @param string $group
-	 * @param bool $current
-	 * @return string
-	 */
-	private function link($text, $year, $sportid, $group, $current = false, $analysis = false) {
+    /**
+     * Link to plot
+     * @param string $text
+     * @param int $year
+     * @param int $sportid
+     * @param string $group
+     * @return string
+     */
+    private function link($text, $year, $sportid, $group, bool $current = false, $analysis = false) {
 		if (! $analysis) {
 			$analysis = $this->Analysis;
 		}

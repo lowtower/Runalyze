@@ -71,7 +71,7 @@ class Set extends \Runalyze\Parameter {
 
 		$valueAsArray = array();
 
-		if (strlen($valueAsString) > 0) {
+		if ((string) $valueAsString !== '') {
 			$valueAsArray = explode(self::SEPARATOR, $valueAsString);
 
 			foreach ($valueAsArray as $key => $value) {

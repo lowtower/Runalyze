@@ -146,9 +146,8 @@ class WithKernel extends AbstractMovingAverage
 
     /**
      * @param float $width
-     * @return array
      */
-    protected function linearIndicesFor($width)
+    protected function linearIndicesFor($width): array
     {
         $width = floor($width);
 

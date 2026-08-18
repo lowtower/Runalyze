@@ -200,10 +200,8 @@ class Pace extends ActivitySeries {
      * @param int $yAxis
      * @param int $dataMin
      * @param int $dataMax
-     * @param bool $forceMin
-     * @param bool $forceMax
      */
-    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, $forceMin, $forceMax)
+    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax)
 	{
 		if ($this->paceUnitEnum == PaceUnit::MIN_PER_MILE) {
 			$ticks = [240, 300, 360, 450, 600, 900, 3600];

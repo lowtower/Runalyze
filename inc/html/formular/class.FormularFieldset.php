@@ -253,12 +253,11 @@ class FormularFieldset extends HtmlTag {
 		echo '</div>';
 	}
 
-	/**
-	 * Add message
-	 * @param string $message
-	 * @param string $type
-	 */
-	private function addMessage($message, $type) {
+    /**
+     * Add message
+     * @param string $message
+     */
+    private function addMessage($message, string $type) {
 		$this->messages[] = array(
 		    'type' => $type,
 		    'message' => $message

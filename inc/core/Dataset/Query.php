@@ -288,10 +288,7 @@ class Query
 		return empty($arrayOfKeys) ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
 	}
 
-    /**
-     * @return array
-     */
-    protected function collectColumnsForKeys(array $keys)
+    protected function collectColumnsForKeys(array $keys): array
 	{
 		$columns = $this->defaultColumns();
 
@@ -320,10 +317,7 @@ class Query
 		return array_unique($columns);
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function defaultColumns()
+	protected function defaultColumns(): array
 	{
 		return array_merge(array('sportid', 'time', 'use_vo2max', 'is_track', 'typeid'), $this->AdditionalColumns);
 	}

@@ -80,7 +80,7 @@ class SearchLink {
 	public function addParam($key, $value, $sign = '') {
 		$this->Params[$key] = $value;
 
-		if (strlen($sign) > 0)
+		if ((string) $sign !== '')
 			$this->Signs[$key] = $sign;
 	}
 

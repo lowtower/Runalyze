@@ -19,7 +19,9 @@ use Runalyze\Parameter\Application\PaceUnit;
  * @package Runalyze\DataObjects\Training\View\Section
  */
 class TablePaceGoal {
-	// Tolerance in % between stored running values and run-values from the plan; if the diff is higher than the tolerance, a warning is shown
+	public $distance;
+
+    // Tolerance in % between stored running values and run-values from the plan; if the diff is higher than the tolerance, a warning is shown
 	protected $TolerancePercent = 3.5;
 
 	protected $GreenTooltip = '<i class="fa fa-fw fa-info-circle atRight" rel="tooltip" data-original-title="Plus/green means you are faster/better than<br/>your goal. Minus/red you are slower/worse."></i>';

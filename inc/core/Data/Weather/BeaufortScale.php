@@ -17,6 +17,8 @@ use Runalyze\Activity\ValueInterface;
  */
 class BeaufortScale implements ValueInterface
 {
+    public $btf;
+
     /** @var array */
     protected $UpperLimits = [
         1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX

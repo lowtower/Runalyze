@@ -232,7 +232,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add: course
 	 */
 	protected function addCourse() {
-		if ($this->Context->hasRoute() && strlen($this->Context->route()->name()) > 0) {
+		if ($this->Context->hasRoute() && (string) $this->Context->route()->name() !== '') {
 			$PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
 			$PathBox->defineAsFloatingBlock('w100 flexible-height');
 

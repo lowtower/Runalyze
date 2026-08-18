@@ -53,9 +53,8 @@ class Duration extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
 	{
 		return $context->dataview()
 		    ->duration()
