@@ -127,8 +127,8 @@
         "test:client":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
         "test:default":  "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
-            "test:setup",
-            "test"
+            "@test:setup",
+            "@test"
         ],
         "test:coverage-html":   "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html   var/coverage",
         "test:coverage-clover": "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/logs/clover.xml",
