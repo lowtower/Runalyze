@@ -44,42 +44,42 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 
 	public function testAvg()
 	{
-		$this->insertData([[1,1], [2,1], [3,1]]);
+		$this->insertData([[1, 1], [2, 1], [3, 1]]);
 
 		$this->assertEquals(2, $this->fetchResult(SummaryMode::AVG));
 	}
 
 	public function testAvgBasedOnDuration()
 	{
-		$this->insertData([[10,7], [20,2], [30,1], [513,0]]);
+		$this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
 		$this->assertEquals(14, $this->fetchResult(SummaryMode::AVG));
 	}
 
 	public function testSum()
 	{
-		$this->insertData([[1,1], [2,1], [3,1]]);
+		$this->insertData([[1, 1], [2, 1], [3, 1]]);
 
 		$this->assertEquals(6, $this->fetchResult(SummaryMode::SUM));
 	}
 
 	public function testMax()
 	{
-		$this->insertData([[10,7], [20,2], [30,1], [513,0]]);
+		$this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
 		$this->assertEquals(513, $this->fetchResult(SummaryMode::MAX));
 	}
 
 	public function testMin()
 	{
-		$this->insertData([[10,7], [20,2], [30,1], [513,0]]);
+		$this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
 		$this->assertEquals(10, $this->fetchResult(SummaryMode::MIN));
 	}
 
 	public function testAvgWithoutNull()
 	{
-		$this->insertData([[5,1], [0,1]]);
+		$this->insertData([[5, 1], [0, 1]]);
 
 		$this->assertEquals(5, $this->fetchResult(SummaryMode::AVG));
 	}

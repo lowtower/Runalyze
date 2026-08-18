@@ -30,7 +30,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testArrayWithoutDuration() {
 		$Collector = new DataCollector(
-			array(140,145,140,150,160,175,190,150,145,140)
+			array(140, 145, 140, 150, 160, 175, 190, 150, 145, 140)
 		);
 
 		$this->assertEquals(array(
@@ -45,8 +45,8 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testArrayWithDuration() {
 		$Collector = new DataCollector(
-			array(140,145,140,150,160,175,190,150,145,140),
-			array( 60, 90,100,140,170,190,200,230,290,300)
+			array(140, 145, 140, 150, 160, 175, 190, 150, 145, 140),
+			array( 60, 90, 100, 140, 170, 190, 200, 230, 290, 300)
 			
 		);
 

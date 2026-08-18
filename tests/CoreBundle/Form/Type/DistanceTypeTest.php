@@ -62,7 +62,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testTransformUsesCalculatedViewPrecision()
     {
-        $values = [1.0, 1.2, 1.23, 1.234, 1.2346, 1234.5,];
+        $values = [1.0, 1.2, 1.23, 1.234, 1.2346, 1234.5, ];
 
         foreach ($values as $value) {
             $precision = $this->Type->getViewPrecisionFor($value);

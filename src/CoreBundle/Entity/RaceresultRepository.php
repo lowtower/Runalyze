@@ -100,7 +100,7 @@ class RaceresultRepository extends EntityRepository
             ->orderBy('t.vo2maxByTime', 'DESC')
             ->setMaxResults(self::NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR)
             ->getQuery()
-            ->getResult("COLUMN_HYDRATOR");
+            ->getResult('COLUMN_HYDRATOR');
 
         if (empty($result)) {
             return 1.0;

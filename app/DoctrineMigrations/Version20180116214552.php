@@ -24,7 +24,7 @@ class Version20180116214552 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql("DELETE FROM `".$prefix."conf` WHERE  `key`='COMPUTE_POWER'");
+        $this->addSql('DELETE FROM `'.$prefix."conf` WHERE  `key`='COMPUTE_POWER'");
     }
 
     /**

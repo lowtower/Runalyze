@@ -29,7 +29,7 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(4.891, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertEquals('Stuart', $this->Container->Metadata->getDescription());
-        $this->assertEquals("Apple, iPhone (SERIAL_NUMBER)", $this->Container->Metadata->getCreatorDetails());
+        $this->assertEquals('Apple, iPhone (SERIAL_NUMBER)', $this->Container->Metadata->getCreatorDetails());
 
         $this->assertTrue($this->Container->Rounds->isEmpty());
     }
@@ -48,7 +48,7 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(16.049, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertEquals('Blue Sky trail with Dan and Ian', $this->Container->Metadata->getDescription());
-        $this->assertEquals("Garmin, Edge 205/305 (EDGE305 Software Version 3.20)", $this->Container->Metadata->getCreatorDetails());
+        $this->assertEquals('Garmin, Edge 205/305 (EDGE305 Software Version 3.20)', $this->Container->Metadata->getCreatorDetails());
 
         $this->assertEquals(4, $this->Container->Rounds->count());
     }

@@ -32,7 +32,7 @@ if (!empty($competitions)) {
 		$timeFormat = '%H:%M:%S';
 }
 
-$Plot = new Plot("bestzeit".$distance*1000, 480, 190);
+$Plot = new Plot('bestzeit'.$distance*1000, 480, 190);
 $Plot->Data[] = array('label' => $label, 'data' => $Results);
 
 $Plot->setMarginForGrid(5);

@@ -110,7 +110,7 @@ class Registration
             array('RunalyzePluginPanel_Equipment', 'panel', 2, 4),
             array('RunalyzePluginPanel_Sportler', 'panel', 1, 5),
             array('RunalyzePluginStat_Analyse', 'stat', 1, 2),
-            array('RunalyzePluginStat_Statistiken', 'stat',1, 1),
+            array('RunalyzePluginStat_Statistiken', 'stat', 1, 1),
             array('RunalyzePluginStat_Wettkampf', 'stat', 1, 3),
             array('RunalyzePluginStat_Wetter', 'stat', 1, 5),
             array('RunalyzePluginStat_Rekorde', 'stat', 2, 6),

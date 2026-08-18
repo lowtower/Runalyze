@@ -125,7 +125,7 @@ class TimezoneLookup
             return;
         }
 
-        $query = @$this->SQLite->query("SELECT spatialite_version()");
+        $query = @$this->SQLite->query('SELECT spatialite_version()');
 
         if (!$query) {
             $this->SQLite = false;

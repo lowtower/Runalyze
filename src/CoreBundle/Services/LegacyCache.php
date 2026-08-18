@@ -15,9 +15,9 @@ class LegacyCache
      */
 	public function __construct($path)
     {
-		\phpFastCache::setup("storage", "files");
-        \phpFastCache::setup("path", $path);
-        \phpFastCache::setup("securityKey", "cache");
+		\phpFastCache::setup('storage', 'files');
+        \phpFastCache::setup('path', $path);
+        \phpFastCache::setup('securityKey', 'cache');
 
 		self::$cache = new \phpFastCache;
 	}

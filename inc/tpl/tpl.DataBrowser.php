@@ -40,15 +40,15 @@ use Runalyze\Util\LocalTime;
 
         <input id="calendar-locale" type="hidden" value="<?php
 
-        $days = array(__("Sunday"), __("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"));
-        $daysMin = array(__("Su"), __("Mo"), __("Tu"), __("We"), __("Th"), __("Fr"), __("Sa"));
-        $daysShort = array(__("Sun"), __("Mon"), __("Tue"), __("Wed"), __("Thu"), __("Fri"), __("Sat"));
-        $months = array(__("January"), __("February"), __("March"), __("April"), __("May"), __("June"),
-            __("July"), __("August"), __("September"), __("October"), __("November"), __("December"));
-        $monthsShort = array(__("Jan"), __("Feb"), __("Mar"), __("Apr"), __("May"), __("Jun"), __("Jul"), __("Aug"), __("Sep"), __("Oct"), __("Nov"), __("Dec"),);
-        $weekMin=_("wk");
+        $days = array(__('Sunday'), __('Monday'), __('Tuesday'), __('Wednesday'), __('Thursday'), __('Friday'), __('Saturday'));
+        $daysMin = array(__('Su'), __('Mo'), __('Tu'), __('We'), __('Th'), __('Fr'), __('Sa'));
+        $daysShort = array(__('Sun'), __('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat'));
+        $months = array(__('January'), __('February'), __('March'), __('April'), __('May'), __('June'),
+            __('July'), __('August'), __('September'), __('October'), __('November'), __('December'));
+        $monthsShort = array(__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May'), __('Jun'), __('Jul'), __('Aug'), __('Sep'), __('Oct'), __('Nov'), __('Dec'), );
+        $weekMin=_('wk');
 
-        $locale = array ("days" => $days, "daysMin"=>$daysMin, "daysShort"=>$daysShort, "months" => $months, "monthsShort" => $monthsShort, "weekMin" => $weekMin );
+        $locale = array ('days' => $days, 'daysMin'=>$daysMin, 'daysShort'=>$daysShort, 'months' => $months, 'monthsShort' => $monthsShort, 'weekMin' => $weekMin );
 
         echo htmlspecialchars(json_encode($locale)) ?>">
 

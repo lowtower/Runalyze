@@ -36,9 +36,9 @@ class Cache {
 	 * Prohibit creating an object from outside
 	 */
 	public function __construct() {
-		phpFastCache::setup("storage", "files");
-		phpFastCache::setup("path", FRONTEND_PATH."../".self::PATH);
-		phpFastCache::setup("securityKey", "cache");
+		phpFastCache::setup('storage', 'files');
+		phpFastCache::setup('path', FRONTEND_PATH.'../'.self::PATH);
+		phpFastCache::setup('securityKey', 'cache');
 		self::$cache = new phpFastCache;
 	}
 

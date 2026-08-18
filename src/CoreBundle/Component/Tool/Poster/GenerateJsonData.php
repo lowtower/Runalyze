@@ -51,7 +51,7 @@ class GenerateJsonData
      */
     public function createJsonFilesFor(Account $account, Sport $sport, $year)
     {
-        $this->Directory = md5($account->getId().strtotime("now"));
+        $this->Directory = md5($account->getId().strtotime('now'));
 
         $filesystem = new Filesystem();
         $filesystem->mkdir($this->getPathToJsonFiles(), 0755);

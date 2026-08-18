@@ -130,7 +130,7 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('minimum', $minimumActivities);
         }
 
-        return $queryBuilder->getQuery()->getResult("COLUMN_HYDRATOR");
+        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
     }
 
     /**
@@ -192,7 +192,7 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.type'))
             ->addGroupBy('t.type')
             ->setParameter('account', $account->getId());
-        return $queryBuilder->getQuery()->getResult("COLUMN_HYDRATOR");
+        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
     }
 
     /**
@@ -209,7 +209,7 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.sport'))
             ->addGroupBy('t.sport')
             ->setParameter('account', $account->getId());
-        return $queryBuilder->getQuery()->getResult("COLUMN_HYDRATOR");
+        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
     }
 
     /**

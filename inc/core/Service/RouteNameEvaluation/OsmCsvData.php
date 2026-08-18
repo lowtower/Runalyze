@@ -9,22 +9,22 @@ namespace Runalyze\Service\RouteNameEvaluation;
  */
 class OsmCsvData {
     // seperator for the fields in a line
-    const SEPERATOR = "|";
+    const SEPERATOR = '|';
 
     // internal categories
-    public static $CAT_PEAK = "peak";
-    public static $CAT_PLACE = "place";
-    public static $CAT_HUT = "hut";
-    public static $CAT_WAY = "way";
-    public static $CAT_INFO = "info";
+    public static $CAT_PEAK = 'peak';
+    public static $CAT_PLACE = 'place';
+    public static $CAT_HUT = 'hut';
+    public static $CAT_WAY = 'way';
+    public static $CAT_INFO = 'info';
 
     protected static $fieldCount = 12;
 
     /**
      * Used for internal order of the "place"; 1 is higher than 8 or 9; 9 if not "known" by this logic
      */
-    protected static $placeOrder = array("city" => 1, "borough" => 2, "suburb" => 3, "quarter" => 3, "neighbourhood" => 4, "town" => 5,
-        "village" => 6, "hamlet" => 7, "isolated_dwelling" => 8);
+    protected static $placeOrder = array('city' => 1, 'borough' => 2, 'suburb' => 3, 'quarter' => 3, 'neighbourhood' => 4, 'town' => 5,
+        'village' => 6, 'hamlet' => 7, 'isolated_dwelling' => 8);
 
     /**
      * @var string
@@ -160,51 +160,51 @@ class OsmCsvData {
     }
 
     protected function cleanNameChar(string $text): string {
-        return str_replace("-", " ", $text);
+        return str_replace('-', ' ', $text);
     }
 
     protected function setCategory() {
-        if(!empty($this->natural) && ($this->natural == "peak" || $this->natural == "saddle")) {
+        if(!empty($this->natural) && ($this->natural == 'peak' || $this->natural == 'saddle')) {
             $this->category = self::$CAT_PEAK;
         } else if(!empty($this->place) || !empty($this->trafficSign) ||
-            !empty($this->landuse) || $this->natural == "wood" || $this->natural == "water") {
+            !empty($this->landuse) || $this->natural == 'wood' || $this->natural == 'water') {
             $this->category = self::$CAT_PLACE;
-        } else if($this->tourism == "alpine_hut" || $this->tourism == "wilderness_hut" || $this->amenity == "restaurant") {
+        } else if($this->tourism == 'alpine_hut' || $this->tourism == 'wilderness_hut' || $this->amenity == 'restaurant') {
             $this->category = self::$CAT_HUT;
-        } else if($this->tourism == "way" || !empty($this->hiking) || !empty($this->sacScale)) {
+        } else if($this->tourism == 'way' || !empty($this->hiking) || !empty($this->sacScale)) {
             $this->category = self::$CAT_WAY;
-        } else if($this->tourism == "information") {
+        } else if($this->tourism == 'information') {
             $this->category = self::$CAT_INFO;
         }
     }
 
     protected function setOrder() {
-        $o = "";
+        $o = '';
 
         // peak/saddle
         if($this->category == self::$CAT_PEAK) {
             // high must be substract, so if it higher it is upper in the sort
             $ele = !empty($this->elevation) ? 9999 - $this->elevation : 9999;
-            $o .= sprintf("pk1.hi%04d.", $ele);
+            $o .= sprintf('pk1.hi%04d.', $ele);
         } else {
-            $o .= sprintf("pk9.hi%04d.", 9999); // max high
+            $o .= sprintf('pk9.hi%04d.', 9999); // max high
         }
 
         // places (orte) and orts-schilder
-        $o .= sprintf("pl%01d.", $this->getPlaceOrder());
-        $o .= !empty($this->trafficSign) ? "si1." : "si9.";
+        $o .= sprintf('pl%01d.', $this->getPlaceOrder());
+        $o .= !empty($this->trafficSign) ? 'si1.' : 'si9.';
 
         // (alpine) huts
-        $o .= $this->category == self::$CAT_HUT ? "ht1." : "ht9.";
+        $o .= $this->category == self::$CAT_HUT ? 'ht1.' : 'ht9.';
 
         // sea,lake,water
-        $o .= $this->natural == "water" ? "w1." : "w9.";
+        $o .= $this->natural == 'water' ? 'w1.' : 'w9.';
 
         // forest/woods
-        $o .= !empty($this->landuse) || $this->natural == "wood" ? "fo1." : "fo9.";
+        $o .= !empty($this->landuse) || $this->natural == 'wood' ? 'fo1.' : 'fo9.';
 
         // any (other) information
-        $o .= $this->category == self::$CAT_INFO ? "in1" : "in9";
+        $o .= $this->category == self::$CAT_INFO ? 'in1' : 'in9';
 
         $this->order = $o;
     }

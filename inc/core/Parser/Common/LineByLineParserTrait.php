@@ -26,7 +26,7 @@ trait LineByLineParserTrait
             throw new \RuntimeException('Line-by-line parser must implement parseLin($line)');
         }
 
-        $this->Handle = @fopen($this->FileName, "r");
+        $this->Handle = @fopen($this->FileName, 'r');
 
         if (false === $this->Handle) {
             throw new ParserException(sprintf('File "%s" can\'t be opened for reading.', $this->FileName));

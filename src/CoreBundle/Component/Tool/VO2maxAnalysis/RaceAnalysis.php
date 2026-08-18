@@ -145,7 +145,7 @@ class RaceAnalysis
         $duration = $this->Activity->duration();
         $difference = 100 * ($prognosis - $duration) / $duration;
 
-        return sprintf("%01.2f", $difference);
+        return sprintf('%01.2f', $difference);
     }
 
     /**

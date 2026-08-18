@@ -169,7 +169,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 
 					// increase lap counter
 					if($lapFinished) {
-						$lap = $lap + 1;
+						$lap += 1;
 						$beginLap = true;
 					} else {
 						$beginLap = false;
@@ -210,10 +210,10 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 		$diff = $previous - $new;
 		if($diff > 0) {
 			$class = 'plus';
-			$sign = "+";
+			$sign = '+';
 		} else {
 			$class = 'minus';
-			$sign = " ";
+			$sign = ' ';
 		}
 		return '<span class="' . $class . '" style="opacity: '. ($beginLap ? '0.5' : '1.0') . '">' . $sign . $diff . '</span>';
 	}

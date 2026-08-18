@@ -116,7 +116,7 @@ class HeartrateAverage extends AbstractKey
 	 * @param null|string $class
 	 * @return array with key "class" and "style"
 	 */
-	public static function hrBarCssStyle(?HeartRate $hr, ?string $class = "bar gray")
+	public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
 	{
 		$hrBpm = $hr->inBPM();
 		$hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;
@@ -124,7 +124,7 @@ class HeartrateAverage extends AbstractKey
 
 		if (isset($hr) && $hrBpm > 0) {
 			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
-			return array('class' => $class, 'style' => "--perc: " . $v . "%;");
+			return array('class' => $class, 'style' => '--perc: ' . $v . '%;');
 		} else {
 			return null;
 		}

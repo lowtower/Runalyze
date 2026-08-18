@@ -183,7 +183,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 	$DataFailed = true;
 }
 
-$Plot = new Plot("form".$timerange.$perfmodel, 800, 450);
+$Plot = new Plot('form'.$timerange.$perfmodel, 800, 450);
 
 $Plot->Data[] = array('label' => __('Fitness (CTL)'), 'color' => '#008800', 'data' => $CTLs);
 

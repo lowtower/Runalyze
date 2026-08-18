@@ -109,7 +109,7 @@ abstract class Laps extends ActivityPlot {
 				$demandedPace *= 1000;
 			}
 
-			$this->Plot->addThreshold("y", round($demandedPace), 'rgb(180,0,0)');
+			$this->Plot->addThreshold('y', round($demandedPace), 'rgb(180,0,0)');
 			//$this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
 		}
 
@@ -120,7 +120,7 @@ abstract class Laps extends ActivityPlot {
 				$achievedPace *= 1000;
 			}
 
-			$this->Plot->addThreshold("y", round($achievedPace), 'rgb(0,180,0)');
+			$this->Plot->addThreshold('y', round($achievedPace), 'rgb(0,180,0)');
 			$this->Plot->addAnnotation(0, round($achievedPace), __('avg:').' '.$this->PaceUnit->format($this->achievedPace), -40, -7);
 		}
 	}

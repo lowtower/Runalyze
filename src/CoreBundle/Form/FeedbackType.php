@@ -15,7 +15,7 @@ class FeedbackType extends AbstractType
         $builder
             ->add('message', TextareaType::class, array('attr' => array('placeholder' => 'Share your feedback here'),
                 'constraints' => array(
-                    new NotBlank(array("message" => "An empty feedback makes no sense.")),
+                    new NotBlank(array('message' => 'An empty feedback makes no sense.')),
                 )
             ));
     }

@@ -238,7 +238,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 		$statement = DB::getInstance()->query($this->fetchCitiesQuery());
 
 		while ($string = $statement->fetch(PDO::FETCH_COLUMN)) {
-			$cities = explode(" - ", $string);
+			$cities = explode(' - ', $string);
 			foreach ($cities as $city) {
 				$city = trim($city);
 
@@ -332,7 +332,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	private static function submenuForYear($positioninterval, $sportid, $year) {
 		$Code = '<li'.(-1 == $year ? ' class="active"' : '').'>'.self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1).'</li>';
 
-		for ($y = date("Y"); $y >= START_YEAR; $y--) {
+		for ($y = date('Y'); $y >= START_YEAR; $y--) {
 			$Code .= '<li'.($y == $year ? ' class="active"' : '').'>'.self::linkToRoutenet($y, $positioninterval, $sportid, $y).'</li>';
 		}
 

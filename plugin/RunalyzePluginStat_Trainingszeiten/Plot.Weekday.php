@@ -45,7 +45,7 @@ foreach ($Sports as $sport) {
 		$yAxis[$id][($dat['day']+6)%7] = $dat['value']/3600;
 }
 
-$Plot = new Plot("weekday", 350, 190);
+$Plot = new Plot('weekday', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
@@ -67,7 +67,7 @@ $Plot->stacked();
 $error = true;
 foreach($yAxis as $t) 
 	foreach($t as $e) 
-		if($e != "0") 
+		if($e != '0') 
 			$error = false;
 
 if($error === true)

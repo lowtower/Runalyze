@@ -104,7 +104,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 
 		$NumberOfFirstValues = count($FirstValues);
 		foreach ($FirstValues as &$Value) {
-			$Value->defineAsFloatingBlock( ($NumberOfFirstValues == 2) ? "w50" : "w33");
+			$Value->defineAsFloatingBlock( ($NumberOfFirstValues == 2) ? 'w50' : 'w33');
 			$Code .= $Value->getCode();
 		}
 
@@ -124,7 +124,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 
         if (count($SecondValues) > 0 ) {
             foreach ($SecondValues as &$Value) {
-                $Value->defineAsFloatingBlock("w33");
+                $Value->defineAsFloatingBlock('w33');
                 $Code .= $Value->getCode();
             }
         }

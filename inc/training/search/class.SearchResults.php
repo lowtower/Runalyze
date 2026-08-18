@@ -734,7 +734,7 @@ class SearchResults {
 		$Context = new \Runalyze\Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
 
 		foreach ($this->Trainings as $training) {
-			$date = (new LocalTime($training['time']))->format("d.m.Y");
+			$date = (new LocalTime($training['time']))->format('d.m.Y');
 			$link = Ajax::trainingLink($training['id'], $date, true);
 			$Context->setActivityData($training);
 

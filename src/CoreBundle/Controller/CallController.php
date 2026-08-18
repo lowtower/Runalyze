@@ -44,8 +44,8 @@ class CallController extends Controller
      */
     public function savePngAction()
     {
-        header("Content-type: image/png");
-        header("Content-Disposition: attachment; filename=".strtolower(str_replace(' ', '_', $_POST['filename'])));
+        header('Content-type: image/png');
+        header('Content-Disposition: attachment; filename='.strtolower(str_replace(' ', '_', $_POST['filename'])));
 
         $encodeData = substr($_POST['image'], strpos($_POST['image'], ',') + 1);
 

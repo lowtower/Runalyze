@@ -8,7 +8,7 @@
 use Runalyze\Util\LocalTime;
 
 $titleCenter = __('Activity [in h] by day time');
-$xAxis       = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23);
+$xAxis       = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 $yAxis       = array();
 
 if ($this->sportid > 0) {
@@ -51,7 +51,7 @@ foreach ($Sports as $sport) {
 	}
 }
 
-$Plot = new Plot("daytime", 350, 190);
+$Plot = new Plot('daytime', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
@@ -72,7 +72,7 @@ $Plot->stacked();
 $error = true;
 foreach ($yAxis as $t)
 	foreach ($t as $e)
-		if ($e != "0")
+		if ($e != '0')
 			$error = false;
 
 if ($error === true)

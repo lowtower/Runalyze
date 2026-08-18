@@ -119,7 +119,7 @@ class SportRepository extends EntityRepository
             ->andWhere($queryBuilder->expr()->isNotNull('s.internalSportId'))
             ->setParameter('account', $account->getId());
 
-        return $queryBuilder->getQuery()->getResult("COLUMN_HYDRATOR");
+        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
     }
 
     /**

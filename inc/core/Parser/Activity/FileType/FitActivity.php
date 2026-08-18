@@ -598,7 +598,7 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC: set original sport-name to notes
         if (isset($this->Values['name'])) {
-            $v = "Profile: " . substr($this->Values['name'][0], 1, -1);
+            $v = 'Profile: ' . substr($this->Values['name'][0], 1, -1);
             if(!empty($this->Container->Metadata->getNotes())) {
                 $v = $v . "\n".$this->Container->Metadata->getNotes();
             }
@@ -775,15 +775,15 @@ class FitActivity extends AbstractSingleParser
             $creator == '3113' || $creator == '3441' ||                                                                                         // GARMIN_FORERUNNER_945
             substr($creator, 0, 7) === 'fr735xt' || $creator == '2158' || $creator == '2533' || $creator == '2534' || $creator == '2158' ||     // GARMIN_FORERUNNER_735_X_T
                 $creator == '2533' || $creator == '2534' ||
-            substr($creator, 0, 6) === "fenix3" ||                                                                                              // GARMIN_FENIX 3...
+            substr($creator, 0, 6) === 'fenix3' ||                                                                                              // GARMIN_FENIX 3...
             $creator == '2050' || $creator == '2188' || $creator == '2293' || $creator == '2407' || $creator == '2408' || $creator == '2189' ||
             $creator == '2375' || $creator == '2432' || $creator == '2413' || $creator == '2473' || $creator == '2474' || $creator == '2475' ||
             $creator == '2476' || $creator == '2477' ||
-            substr($creator, 0, 6) === "fenix5" ||                                                                                              // GARMIN FENIX 5...
+            substr($creator, 0, 6) === 'fenix5' ||                                                                                              // GARMIN FENIX 5...
             $creator == '2697' || $creator == '3110' || $creator == '2796' || $creator == '2797' || $creator == '2544' || $creator == '2604' ||
             $creator == '2798' || $creator == '3089' || $creator == '3135' || $creator == '2900' || $creator == '3134' || $creator == '3111' ||
             $creator == '2798' || $creator == '3089' || $creator == '3135' || $creator == '2900' || $creator == '3134' || $creator == '3111' ||
-            substr($creator, 0, 6) === "fenix6" ||                                                                                              // GARMIN_FENIX 6...
+            substr($creator, 0, 6) === 'fenix6' ||                                                                                              // GARMIN_FENIX 6...
             $creator == '3287' || $creator == '3288' || $creator == '3289' || $creator == '3290' || $creator == '3291' || $creator == '3512' ||
             $creator == '3513' || $creator == '3514' || $creator == '3515' || $creator == '3516'
             ) {
@@ -1154,8 +1154,8 @@ class FitActivity extends AbstractSingleParser
      */
     protected function isActiveLap() {
         if ($this->IsSwimming
-            && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == "0"
-            && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == "0") {
+            && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == '0'
+            && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == '0') {
             // this is for lap and StrokeTypeProfile::BREAK (for lanes) can't be used here
             return false;
         } else {
@@ -1175,7 +1175,7 @@ class FitActivity extends AbstractSingleParser
             $n = ltrim($this->Values['wkt_name'][0], '"');
             $n = rtrim($n, '"');
 
-            $v = "Workout name: " . $n;
+            $v = 'Workout name: ' . $n;
             if(!empty($this->Container->Metadata->getNotes())) {
                 $v = $this->Container->Metadata->getNotes() . "\n" . $v;
             }
@@ -1259,7 +1259,7 @@ class FitActivity extends AbstractSingleParser
 
             // the zones: example "104,129,144,153,160,182"
             if (isset($this->Values['hr_zone_high_boundary'])) {
-                $zones = explode(",", $this->Values['hr_zone_high_boundary'][1]);
+                $zones = explode(',', $this->Values['hr_zone_high_boundary'][1]);
                 if(count($zones) > 0) {
                     $this->Container->ActivityData->HeartRateZoneBounds = $zones;
                 }
@@ -1269,9 +1269,9 @@ class FitActivity extends AbstractSingleParser
             if (isset($this->Values['time_in_hr_zone'])) {
                 $str = $this->Values['time_in_hr_zone'][1];
                 // remove the unit
-                $str = str_replace(" s", "", $str);
+                $str = str_replace(' s', '', $str);
 
-                $zones = explode(",", $str);
+                $zones = explode(',', $str);
                 if(count($zones) > 0) {
                     // round to ganzzahl
                     foreach($zones as &$v) {

@@ -72,7 +72,7 @@ class Distance extends AbstractKey
 	 */
 	protected function distanceComparison($currentDistance, $previousDistance) {
 		$Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
-		$String = ($Percentage != 0) ? sprintf("%+d", $Percentage).'&nbsp;&#37;' : '-';
+		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage).'&nbsp;&#37;' : '-';
 
 		$Stress = new Stresscolor($Percentage);
 		$Stress->scale(0, 30);

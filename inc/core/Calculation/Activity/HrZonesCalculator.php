@@ -68,7 +68,7 @@ class HrZonesCalculator
 		
 		$k = 0;
 		// add the low bound with min-HR (info: the high bound is the 6th element in the hrZoneBounds)
-		$defaultZones[$k++] = array("hr" => 0);
+		$defaultZones[$k++] = array('hr' => 0);
 
 		// are hrZoneBounds from a Garmin/FIT device available?
 		if (!is_null($this->activityZoneBounds) && count($this->activityZoneBounds) == 6) {
@@ -76,17 +76,17 @@ class HrZonesCalculator
 			$t = array('B1 Warm up', 'B2 Easy', 'B3 Aerob', 'B4 Intensiv', 'B5 Maximal', 'B6 Override');
 			// now add the bounds with its colors
 			foreach ($this->activityZoneBounds as $value) {
-				$defaultZones[$k] = array("t" => $t[$k-1], "hr" => (int)$value, "c" => $majorZoneColors[$k-1]);
+				$defaultZones[$k] = array('t' => $t[$k-1], 'hr' => (int)$value, 'c' => $majorZoneColors[$k-1]);
 				$k++;
 			}
-			$this->sourceHint = "activity stored zones";
+			$this->sourceHint = 'activity stored zones';
 		} else if (!is_null($this->sportZoneBounds) && count($this->sportZoneBounds) > 0) {
 			// zones for the sport are defined
 			foreach ($this->sportZoneBounds as $value) {
 				preg_match(self::PATTERN, $value, $matches, PREG_UNMATCHED_AS_NULL);
                 $this->removeDelimiter($matches);
 
-				$defaultZones[$k] = array("hr" => (int)$matches[self::PATTERN_GRP_HR]);
+				$defaultZones[$k] = array('hr' => (int)$matches[self::PATTERN_GRP_HR]);
 				if (!is_null($matches[self::PATTERN_GRP_TEXT])) {
 					$defaultZones[$k]['t'] = $matches[1];
 				}
@@ -95,18 +95,18 @@ class HrZonesCalculator
 				}
 				$k++;
 			}
-			$this->sourceHint = "sport stored zones";
+			$this->sourceHint = 'sport stored zones';
 		} else {
 			// default case: 10-percent steps to 100% (max-HR) with colors in the major range 50-100%
 			$c = 0;
 			for ($i = 3; $i <= 10; $i++, $k++) {
-				$defaultZones[$k] = array("hr" => (int)($hrMaxUser * $i/10) + 1);
+				$defaultZones[$k] = array('hr' => (int)($hrMaxUser * $i/10) + 1);
 				// in zonee 50-100% use the same colors as upper
 				if ($i >= 5 && $i <= 10) {
 					$defaultZones[$k]['c'] = $majorZoneColors[$c++];
 				}
 			}
-			$this->sourceHint = "default zones";
+			$this->sourceHint = 'default zones';
 		}
 
 		// if the min-HR lower than the first real/computed min HR (index=1), correct the 0 value
@@ -116,7 +116,7 @@ class HrZonesCalculator
 
 		// this is a "dummy" zone and will never be filled with time/distance; but its used to limit the previous zone ;-)
 		if ($maxHr >= end($defaultZones)['hr']) {
-			$defaultZones[$k++] = array("hr" => $maxHr + 1);
+			$defaultZones[$k++] = array('hr' => $maxHr + 1);
 		}
 
 		// sort: highest idx/bpm must be the first entry

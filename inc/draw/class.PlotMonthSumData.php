@@ -73,14 +73,14 @@ class PlotMonthSumData extends PlotSumData {
 	 * @return int
 	 */
 	protected function beginningOfLast6Months() {
-		return LocalTime::fromString("first day of -5 months 00:00")->getTimestamp();
+		return LocalTime::fromString('first day of -5 months 00:00')->getTimestamp();
 	}
 
 	/**
 	 * @return int
 	 */
 	protected function beginningOfLast12Months() {
-		return LocalTime::fromString("first day of -11 months 00:00")->getTimestamp();
+		return LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
 	}
 
 	/**

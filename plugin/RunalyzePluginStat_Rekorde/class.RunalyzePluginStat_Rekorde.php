@@ -109,7 +109,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 							$code = ($dat['distance'] != 0 ? Distance::format($dat['distance']) : Duration::format($dat['s']));
 						}
 
-						echo '<td class="small"><span title="'.\Runalyze\Util\LocalTime::date("d.m.Y",$dat['time']).'">
+						echo '<td class="small"><span title="'.\Runalyze\Util\LocalTime::date('d.m.Y',$dat['time']).'">
 								'.Ajax::trainingLink($dat['id'], $code).'
 							</span></td>';
 					}

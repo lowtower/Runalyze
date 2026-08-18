@@ -79,7 +79,7 @@ class Gpx extends AbstractFileExporter
      */
     final protected function timeToString($time)
     {
-        return LocalTime::date("c", $time);
+        return LocalTime::date('c', $time);
     }
 
     /**

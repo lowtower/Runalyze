@@ -100,7 +100,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$PDO = new \PDO('sqlite::memory:');
 
 		$PB1k = new PersonalBest(1, self::SPORTID, $PDO, true);
-		$PB3k = new PersonalBest("3.1", self::SPORTID, $PDO, true);
+		$PB3k = new PersonalBest('3.1', self::SPORTID, $PDO, true);
 		$PB5k = new PersonalBest(5, self::SPORTID, $PDO, true);
 
 		$this->assertEquals( 180, $PB1k->seconds());
@@ -124,7 +124,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$PDO = new \PDO('sqlite::memory:');
 
 		$PB1k = new PersonalBest(1, self::SPORTID, $PDO, true, true);
-		$PB3k = new PersonalBest("3.1", self::SPORTID, $PDO, true, true);
+		$PB3k = new PersonalBest('3.1', self::SPORTID, $PDO, true, true);
 		$PB5k = new PersonalBest(5, self::SPORTID, $PDO, true);
 		$PB5k->lookupWithDetails();
 

@@ -33,7 +33,7 @@ class PlotWeekSumData extends PlotSumData {
 				$yearEnd = (int)Request::param('y');
 			}
 
-			$this->timerEnd = date("W", mktime(0,0,0,12,28,$yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
+			$this->timerEnd = date('W', mktime(0,0,0,12,28,$yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
 		}
 
 		parent::__construct();
@@ -65,11 +65,11 @@ class PlotWeekSumData extends PlotSumData {
 		$yearDiff = $add == 0 ? 0 : date('Y') - $this->Year;
 
 		for ($w = $this->timerStart; $w <= $this->timerEnd; $w++) {
-			$time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime()." -".($this->timerEnd - $w + $add)." weeks -".$yearDiff." years");
-			$string = (date("d", $time) <= 7 || $w == $this->timerStart) ? Time::month(date("m", $time), true) : '';
+			$time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime().' -'.($this->timerEnd - $w + $add).' weeks -'.$yearDiff.' years');
+			$string = (date('d', $time) <= 7 || $w == $this->timerStart) ? Time::month(date('m', $time), true) : '';
 
-			if ($string != '' && date("m", $time) == 1) {
-				$string .= ' \''.date("y", $time);
+			if ($string != '' && date('m', $time) == 1) {
+				$string .= ' \''.date('y', $time);
 			}
 
 			$weeks[] = array($w-$this->timerStart, $string);
@@ -120,10 +120,10 @@ class PlotWeekSumData extends PlotSumData {
 	 */
 	protected function beginningOfTimerange() {
 		if ($this->WeekStart->isSunday() && date('w') != 0) {
-			return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime()." -".$this->timerEnd." weeks 00:00")->getTimestamp();
+			return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.$this->timerEnd.' weeks 00:00')->getTimestamp();
 		}
 
-		return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime()." -".($this->timerEnd - 1)." weeks 00:00")->getTimestamp();
+		return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.($this->timerEnd - 1).' weeks 00:00')->getTimestamp();
 	}
 
 	/**

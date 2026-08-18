@@ -102,7 +102,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     private function request(?int $routeId, string $payload): string {
         $this->logger->debug(sprintf('RouteNameEvalOsm: Request for routeId=%d to url=%s with payload: %s', $routeId, $this->Url, $payload));
 
-        $param = ['body' => sprintf("data=%s", $payload),
+        $param = ['body' => sprintf('data=%s', $payload),
                   'timeout' => self::TIMEOUT,
                   'headers' => [
                     'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
@@ -123,9 +123,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             } else {
                 $repCont = $response->getBody()->getContents();
                 // convert TAB from Overpass to | used here; i want to use | it's better to handle ;-)
-                $repCont = str_replace("|", "/", $repCont); // replace existing | (in f.e. names) to /
-                $repCont = str_replace("\t", "|", $repCont); // now replace all TAB to |
-                $this->logger->debug(sprintf("RouteNameEvalOsm: osm-result for routeId=%d: %s", $routeId, $repCont));
+                $repCont = str_replace('|', '/', $repCont); // replace existing | (in f.e. names) to /
+                $repCont = str_replace("\t", '|', $repCont); // now replace all TAB to |
+                $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
                 return $repCont;
             }
         } catch (RequestException $e) {
@@ -147,7 +147,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
         // but limit it to max coordinates limit
         if ($size / $step > self::AROUND_POS_LIMIT) {
-            $this->logger->info(sprintf("limit step from %.2f to %.2f", $step, $size / self::AROUND_POS_LIMIT));
+            $this->logger->info(sprintf('limit step from %.2f to %.2f', $step, $size / self::AROUND_POS_LIMIT));
             $step = $size / self::AROUND_POS_LIMIT;
 
             // if we run in limit, extend the default-value of radius to the radius-limit
@@ -168,20 +168,20 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 		$geoMin = (new Geohash())->decode($route->getMin())->getCoordinate();
 		$geoMax = (new Geohash())->decode($route->getMax())->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
-		$osm .= sprintf("[bbox:%.6f,%.6f,%.6f,%.6f];",
+		$osm .= sprintf('[bbox:%.6f,%.6f,%.6f,%.6f];',
 			$this->addLatitude($geoMin->getLatitude(), self::BOX_CORR*-1), $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR*-1),
 			$this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),    $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
 		);
 
         // build the "around" lat/lon
         // we add always the first and last coordinate; then every n (=calculated) coord will be used (to reduce) the amount
-        $aroundpos = $coordinates[0][0] . "," . $coordinates[1][0]; // add the first
+        $aroundpos = $coordinates[0][0] . ',' . $coordinates[1][0]; // add the first
 		for ($i = 0; $i < $size; $i+=$step) {
             if($coordinates[0][$i] != 0 && $coordinates[1][$i] != 0) {
-                $aroundpos .= "," . $coordinates[0][$i] . "," . $coordinates[1][$i];
+                $aroundpos .= ',' . $coordinates[0][$i] . ',' . $coordinates[1][$i];
             }
 		}
-        $aroundpos .= "," . $coordinates[0][$size - 1] . "," . $coordinates[1][$size - 1]; // add the last one
+        $aroundpos .= ',' . $coordinates[0][$size - 1] . ',' . $coordinates[1][$size - 1]; // add the last one
 
         // only use node, way, relation with a "name"-tag
 		$osm .= sprintf('node(around:%.2f,%s)["name"]->.named_node;', $radius, $aroundpos);
@@ -244,15 +244,15 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             $hutSet = true;
         }
 
-        $notes = "";
+        $notes = '';
         if(!$hutSet && !empty($hut)) {
-            $notes .= "Verpflegung: " . implode(', ', $hut) . PHP_EOL;
+            $notes .= 'Verpflegung: ' . implode(', ', $hut) . PHP_EOL;
         }
         if(!$waySet && !empty($way)) {
-            $notes .= "Wege: " . implode(', ', $way) . PHP_EOL;
+            $notes .= 'Wege: ' . implode(', ', $way) . PHP_EOL;
         }
         if(!$infoSet && !empty($info)) {
-            $notes .= "Info: " . implode(', ', $info) . PHP_EOL;
+            $notes .= 'Info: ' . implode(', ', $info) . PHP_EOL;
         }
 
         if(!empty($routes) || !empty($notes)) {

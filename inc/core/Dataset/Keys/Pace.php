@@ -149,14 +149,14 @@ class Pace extends AbstractKey
 			// we must differ between time-base (lower is better) and decimal-based (higher is faster) representaion
 			if ($pace->unit()->isTimeFormat()) {
 				// time-base (lower is better): example: running pace like 5 minutes for 1 kilometer (=5:00min/km)
-				$class = "bar gray";
+				$class = 'bar gray';
 				$v = 100 - $v;
 			} else {
 				// decimal-base (more km is better): example: cycling 20 km in one hour (=20km/h)
-				$class = "bar blue";
+				$class = 'bar blue';
 			}
 
-			return array('class' => $class, 'style' => "--perc: " . $v . "%;");
+			return array('class' => $class, 'style' => '--perc: ' . $v . '%;');
 		} else {
 			return null;
 		}

@@ -79,7 +79,7 @@ class XmlPolarExercise extends AbstractSingleParser
                     $seconds = $this->stringToDuration((string)$lap->duration);
 
                     if (($seconds / (double)$lap->distance) < 0.06) {
-                        $seconds = $seconds * 60;
+                        $seconds *= 60;
                     }
 
                     $this->Container->Rounds->add(new Round($distance, $seconds));

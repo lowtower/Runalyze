@@ -78,7 +78,7 @@ class ImportActivityController extends Controller
             try {
                 // process all uploaded files
                 $processFilesResult = $this->processFiles($username, $uploadDir, $allfiles);
-                $result = $result . $processFilesResult;
+                $result .= $processFilesResult;
 
                 // if not all files processed "successfully" document it and send HTTP state 202
                 $notSuccessful = $allfilesCount - substr_count($processFilesResult, self::SUCCESS_MSG);
@@ -135,7 +135,7 @@ class ImportActivityController extends Controller
             $result = $result . 'WARNING: Can not remove upload-folder ' . $uploadDir . PHP_EOL;
         }
 
-        $result = $result . PHP_EOL;
+        $result .= PHP_EOL;
 
         return $result;
     }

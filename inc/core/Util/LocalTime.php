@@ -99,7 +99,7 @@ class LocalTime extends \DateTime
     public function weekstart($asObject = false)
     {
         $Date = clone $this;
-        $w = $Date->format("w");
+        $w = $Date->format('w');
 
         if (Configuration::General()->weekStart()->isMonday()) {
             if ($w == 0) {

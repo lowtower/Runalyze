@@ -17,7 +17,7 @@ for ($m = 1; $m <= 12; $m++) {
 	$Months[] = array($m-1, Time::month($m, true));
 
 	for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++)
-		$Temperatures[$y] = array(null,null,null,null,null,null,null,null,null,null,null,null);
+		$Temperatures[$y] = array(null, null, null, null, null, null, null, null, null, null, null, null);
 }
 
 $Query = '
@@ -36,7 +36,7 @@ $Data = DB::getInstance()->query($Query)->fetchAll();
 foreach ($Data as $dat)
 	$Temperatures[$dat['y']][$dat['m'] - 1] = $Temperature->format((int)$dat['temp'], false);
 
-$Plot = new Plot("average", 780, 240);
+$Plot = new Plot('average', 780, 240);
 
 for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++) {
 	if (min($Temperatures[$y]) !== null || max($Temperatures[$y]) !== null)

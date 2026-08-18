@@ -31,7 +31,7 @@ class System {
 	public static function getFullDomain($onlyToRunalyze = true) {
 		// TODO: correct handling of /web
 
-		$path = self::getDomain().substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], "/"))."/";
+		$path = self::getDomain().substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], '/')).'/';
 
 		if ($onlyToRunalyze) {
 			$path = str_replace(array('call/', 'inc/', 'tpl/'), array('', '', ''), $path);

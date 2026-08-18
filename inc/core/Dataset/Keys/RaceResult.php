@@ -142,7 +142,7 @@ class RaceResult extends AbstractKey
 			$Icon = new View\Icon('fa-trophy');
 			$Icon->setTooltip($TooltipCode);
             if (!\Request::isOnSharedPage()) {
-                return '<a class="window" href="my/raceresult/' . $context->activity()->id() . '">' . $Icon->code() . "</a>";
+                return '<a class="window" href="my/raceresult/' . $context->activity()->id() . '">' . $Icon->code() . '</a>';
             } else {
                 return $Icon->code();
             }

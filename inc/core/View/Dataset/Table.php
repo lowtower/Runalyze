@@ -110,7 +110,7 @@ class Table {
 				$valueClassStyle = $Key->valueDependendCssStyle($context);
 				if (!is_null($valueClassStyle)) {
 					$class = $class . ' ' . $valueClassStyle['class'];
-					$style = $style . $valueClassStyle['style'];
+					$style .= $valueClassStyle['style'];
 				}
 
 				$class = ($class!= '') ? ' class="'.$class.'"' : '';

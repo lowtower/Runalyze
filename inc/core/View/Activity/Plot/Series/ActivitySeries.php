@@ -111,7 +111,7 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 
 			case DataCollector::X_AXIS_TIME:
 				$Plot->setXAxisAsTime();
-				$Plot->setXAxisTimeFormat("%h:%M:%S");
+				$Plot->setXAxisTimeFormat('%h:%M:%S');
 				$Plot->Options['xaxis']['ticks'] = 5;
 				break;
 

@@ -73,7 +73,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
             if (!is_array($this->Container)) {
                 $tmpContainer[] = $this->Container;
             } else {
-                $tmpContainer = $tmpContainer + $this->Container;
+                $tmpContainer += $this->Container;
             }
         }
 

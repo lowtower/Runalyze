@@ -92,6 +92,6 @@ class HeartrateMaximum extends AbstractKey
 	 */
 	public function valueDependendCssStyle(Context $context)
 	{
-		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrMax(), "bar red");
+		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrMax(), 'bar red');
 	}
 }

@@ -51,7 +51,7 @@ class StringReader {
 	 */
 	public function findDemandedPace($searchPattern = ' in ', $timePattern = '(\d+[:\d+]*)') {
 		$matches = array();
-		preg_match("/".$searchPattern.$timePattern."/", $this->String, $matches);
+		preg_match('/'.$searchPattern.$timePattern.'/', $this->String, $matches);
 
 		if (isset($matches[1])) {
 			return (new Duration($matches[1]))->seconds();

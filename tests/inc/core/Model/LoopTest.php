@@ -157,8 +157,8 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$Loop->nextStep();
 		$this->assertEquals(4, $Loop->current('foo'));
 		$this->assertEquals(8, $Loop->current('bar'));
-		$this->assertEquals(array(3,4), $Loop->slice('foo'));
-		$this->assertEquals(array(6,8), $Loop->slice('bar'));
+		$this->assertEquals(array(3, 4), $Loop->slice('foo'));
+		$this->assertEquals(array(6, 8), $Loop->slice('bar'));
 		$this->assertEquals(3+4, $Loop->sum('foo'));
 		$this->assertEquals(8, $Loop->max('bar'));
 		$this->assertEquals(8-4, $Loop->difference('bar'));

@@ -17,15 +17,15 @@ class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
 
     public function testInternalMapping()
     {
-        $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal("Run"));
-        $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal("running"));
-        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal("CYCLE"));
-        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal("Cycling"));
-        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal("Bike"));
-        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal("biking"));
-        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal("Ergometer"));
-        $this->assertEquals(SportProfile::SWIMMING, $this->Mapping->toInternal("Swim"));
-        $this->assertEquals(SportProfile::SWIMMING, $this->Mapping->toInternal("swimming"));
+        $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal('Run'));
+        $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal('running'));
+        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal('CYCLE'));
+        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal('Cycling'));
+        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal('Bike'));
+        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal('biking'));
+        $this->assertEquals(SportProfile::CYCLING, $this->Mapping->toInternal('Ergometer'));
+        $this->assertEquals(SportProfile::SWIMMING, $this->Mapping->toInternal('Swim'));
+        $this->assertEquals(SportProfile::SWIMMING, $this->Mapping->toInternal('swimming'));
     }
 
     public function testDefaultInternalMapping()

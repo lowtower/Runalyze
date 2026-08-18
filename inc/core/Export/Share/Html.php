@@ -50,7 +50,7 @@ class Html extends AbstractSnippetSharer
      */
     public function display()
     {
-        $Code = str_replace(array("\r", "\n", "\t"), array("", "", ""), $this->codeSnippet());
+        $Code = str_replace(array("\r", "\n", "\t"), array('', '', ''), $this->codeSnippet());
 
         $CodeField = new FormularTextarea('code', __('Code'), $Code);
         $CodeField->addCSSclass('fullwidth');

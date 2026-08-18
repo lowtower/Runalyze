@@ -97,8 +97,8 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     final public function downloadFile()
     {
-        header("Content-Type: ".$this->mimeType());
-        header("Content-Disposition: attachment; filename=".$this->filename()."");
+        header('Content-Type: '.$this->mimeType());
+        header('Content-Disposition: attachment; filename='.$this->filename().'');
 
         $this->createFile();
 

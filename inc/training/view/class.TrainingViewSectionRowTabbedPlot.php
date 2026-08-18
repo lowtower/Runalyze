@@ -27,7 +27,7 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
 	protected $RightContentTitle = array();
 
 
-    protected $TopContent="";
+    protected $TopContent='';
 
 	/**
 	 * CSS id

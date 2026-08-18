@@ -59,8 +59,8 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(2100, $this->Container->ActivityData->Duration, 30);
         $this->assertEqualsWithDelta(2100, $this->Container->ActivityData->ElapsedTime, 30);
 
-        $this->assertEquals("Other", $this->Container->Metadata->getSportName());
-        $this->assertEquals("Forerunner 310XT-000", $this->Container->Metadata->getCreatorDetails());
+        $this->assertEquals('Other', $this->Container->Metadata->getSportName());
+        $this->assertEquals('Forerunner 310XT-000', $this->Container->Metadata->getCreatorDetails());
     }
 
     public function testIndoorActivity()

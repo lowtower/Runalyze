@@ -73,7 +73,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 			'c' => true
 		));
 
-		$this->assertEquals(array(1,2,3), $O->get('b'));
+		$this->assertEquals(array(1, 2, 3), $O->get('b'));
 		$this->assertTrue($O->has('b'));
 		$this->assertEquals(3, $O->num());
 
@@ -103,7 +103,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 			'b' => '1'.Entity::ARRAY_SEPARATOR.'2'.Entity::ARRAY_SEPARATOR.'3'
 		));
 
-		$this->assertEquals(array(1,2,3), $O->get('b'));
+		$this->assertEquals(array(1, 2, 3), $O->get('b'));
 	}
 
 	public function testDefaultValues() {

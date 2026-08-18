@@ -211,7 +211,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 				$d = 0;
 				foreach ($this->stroketype() as &$strtype) {
 					// only add pool-length if stroke-type is not pause are done in this lane
-					$d = $d + ($strtype != StrokeTypeProfile::BREAK ? $length : null);
+					$d += $strtype != StrokeTypeProfile::BREAK ? $length : null;
 					$distance[] = $d;
 				}
 			} else {

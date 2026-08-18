@@ -16,17 +16,17 @@ class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
         $this->underTest = new FitWorkoutStep();
 
         $valLap0 = array(
-            'intensity' => array("0", "active"),
-            'custom_target_speed_low' => array("3175", "11.430 km/h"),
-            'custom_target_speed_high' => array("3333", "11.999 km/h")
+            'intensity' => array('0', 'active'),
+            'custom_target_speed_low' => array('3175', '11.430 km/h'),
+            'custom_target_speed_high' => array('3333', '11.999 km/h')
         );
         $valLap1 = array(
-            'weight_display_unit' => array("1", "kilogram")
+            'weight_display_unit' => array('1', 'kilogram')
         );
         $valLap2 = array(
-            'intensity' => array("1", "rest"),
-            'custom_target_heart_rate_low' => array("128", "128 bpm"),
-            'custom_target_heart_rate_high' => array("190", "190 bpm")
+            'intensity' => array('1', 'rest'),
+            'custom_target_heart_rate_low' => array('128', '128 bpm'),
+            'custom_target_heart_rate_high' => array('190', '190 bpm')
         );
 
         $this->underTest->collectWorkoutstep($valLap0);

@@ -16,7 +16,7 @@ define('START_TIME', Helper::getStartTime());
  * Year of the first training
  * @var int
  */
-define('START_YEAR', date("Y", START_TIME));
+define('START_YEAR', date('Y', START_TIME));
 
 /**
  * Class for all helper-functions previously done by functions.php
@@ -102,7 +102,7 @@ class Helper {
 	 * @return string
 	 */
 	public static function CommaToPoint($string) {
-		return str_replace(",", ".", $string);
+		return str_replace(',', '.', $string);
 	}
 
 	/**

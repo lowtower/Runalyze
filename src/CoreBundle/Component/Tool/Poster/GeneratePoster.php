@@ -60,7 +60,7 @@ class GeneratePoster
      */
     protected function generateRandomFileName($athlete, $year)
     {
-        $this->Filename = md5($athlete.$year.strtotime("now")).'.svg';
+        $this->Filename = md5($athlete.$year.strtotime('now')).'.svg';
     }
 
     /**

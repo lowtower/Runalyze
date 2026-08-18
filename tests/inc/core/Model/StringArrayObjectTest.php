@@ -22,7 +22,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase {
 		$Array = new StringArrayObject_MockTester('[1,2,3]');
 
 		$this->assertEquals(3, $Array->num());
-		$this->assertEquals(array(1,2,3), $Array->asArray());
+		$this->assertEquals(array(1, 2, 3), $Array->asArray());
 	}
 
 	public function testFromAssociativeString() {
@@ -45,7 +45,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testClearing() {
-		$Array = new StringArrayObject_MockTester(array(1,2,3));
+		$Array = new StringArrayObject_MockTester(array(1, 2, 3));
 		$Array->clear();
 
 		$this->assertTrue($Array->isEmpty());

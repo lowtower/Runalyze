@@ -9,7 +9,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testSimpleLoop() {
 		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0,1,2,3,4,5)
+			Entity::TIME => array(0, 1, 2, 3, 4, 5)
 		)));
 
 		$i = 0;
@@ -23,7 +23,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testReset() {
 		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0,1,2,3,4,5)
+			Entity::TIME => array(0, 1, 2, 3, 4, 5)
 		)));
 
 		$Loop->setStepSize(2);
@@ -38,7 +38,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testStepSize() {
 		$Loop = new Loop(new Entity(array(
-			Entity::TIME => array(0,1,2,3,4,5)
+			Entity::TIME => array(0, 1, 2, 3, 4, 5)
 		)));
 
 		$Loop->setStepSize(2);
@@ -175,7 +175,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 	public function testMoveToDistanceBeforeOrAtWithExactMatch()
 	{
 		$Loop = new Loop(new Entity(array(
-			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5,3.7)
+			Entity::DISTANCE => array(0.0, 3.0, 3.2, 3.5, 3.7)
 		)));
 
 		$Loop->moveToDistanceBeforeOrAt(3.5);

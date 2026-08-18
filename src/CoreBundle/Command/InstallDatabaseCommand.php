@@ -121,7 +121,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
                         $query = $line;
                     }
                 } elseif (strlen($query) > 1) {
-                    $query .= " ".$line;
+                    $query .= ' '.$line;
                 }
 
                 $x = strlen($query) - 1;

@@ -158,21 +158,21 @@ class LapIntensity extends AbstractEnum
     {
         switch ($this->Value) {
             case '':
-                return "Active";
+                return 'Active';
             case 'R':
-                return "Rest";
+                return 'Rest';
             case 'W':
-                return "Warmup";
+                return 'Warmup';
             case 'C':
-                return "Cooldown";
+                return 'Cooldown';
             case 'Y':
-                return "Recovery";
+                return 'Recovery';
             case 'I':
-                return "Interval";
+                return 'Interval';
             case 'O':
-                return "Other";
+                return 'Other';
             default:
-                return "Unknown";
+                return 'Unknown';
         }
     }
 

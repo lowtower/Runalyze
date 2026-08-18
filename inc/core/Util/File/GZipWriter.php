@@ -25,7 +25,7 @@ class GZipWriter {
 	 * @throws \RuntimeException
 	 */
 	public function __construct($fileName) {
-		$this->Resource = gzopen($fileName, "wb");
+		$this->Resource = gzopen($fileName, 'wb');
 
 		if (!$this->Resource) {
 			throw new \RuntimeException('The file "'.$fileName.'" couldn\'t be opened for writing.');

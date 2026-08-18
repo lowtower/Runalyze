@@ -65,9 +65,9 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected function addRootElement($fileContent)
     {
-        $fileContent = substr($fileContent, strpos($fileContent, ">")+1);
+        $fileContent = substr($fileContent, strpos($fileContent, '>')+1);
 
-        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>".$fileContent."</root>";
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>".$fileContent.'</root>';
     }
 
     public function parse()

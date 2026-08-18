@@ -71,7 +71,7 @@ class WindChillFactor implements ValueInterface
 				$actSpeed = $activitySpeed->asKmPerHour();
 			} else {
 				// if string try to "convert"
-				$akm = str_replace(",", ".", $activitySpeed->asKmPerHour());
+				$akm = str_replace(',', '.', $activitySpeed->asKmPerHour());
 				$actSpeed = (float)$akm;
 			}
             $kmh = $windSpeed->inKilometerPerHour() + $actSpeed;

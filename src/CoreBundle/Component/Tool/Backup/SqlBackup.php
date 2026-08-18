@@ -34,7 +34,7 @@ class SqlBackup extends AbstractBackup
                 }
 			}
 
-			$this->Writer->addToFile('INSERT INTO '.$tableName.' VALUES('.str_replace("\n", "\\n", $values).');'."\n");
+			$this->Writer->addToFile('INSERT INTO '.$tableName.' VALUES('.str_replace("\n", '\\n', $values).');'."\n");
 		}
 	}
 }

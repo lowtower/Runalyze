@@ -7,9 +7,9 @@ namespace Runalyze\Service\RouteNameEvaluation;
  * #TSC
  */
 class RouteNameEvalResult {
-    const NOTES_START = "Strecken-Info>>";
-    const NOTES_END = "<<Strecken-Info";
-    const NOTES_PATTERN = "/(.*)(" . self::NOTES_START . ".*" . self::NOTES_END . ")(.*)/is";
+    const NOTES_START = 'Strecken-Info>>';
+    const NOTES_END = '<<Strecken-Info';
+    const NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
     
     /** @var string */
     protected $names = '';
@@ -23,7 +23,7 @@ class RouteNameEvalResult {
      */
     public function __construct(string $names, string $notes) {
         // it should never occur, but limit it to 255 (same as the database attribute)
-        $this->names = mb_strimwidth($names, 0, 255, "...");
+        $this->names = mb_strimwidth($names, 0, 255, '...');
         $this->notes = $notes;
     }
 
@@ -57,11 +57,11 @@ class RouteNameEvalResult {
             return $existingNote . ($this->endsWith($existingNote, PHP_EOL) ? '' : PHP_EOL) . PHP_EOL . $taggedNote;
         } else {
             // replace between the tags the existing text
-            return preg_replace(self::NOTES_PATTERN, "$1" . $taggedNote . "$3", $existingNote);
+            return preg_replace(self::NOTES_PATTERN, '$1' . $taggedNote . '$3', $existingNote);
         }
     }
 
     protected function endsWith($haystack, $needle) {
-        return $needle === "" || (substr($haystack, -strlen($needle)) === $needle);
+        return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
     }
 }

@@ -301,7 +301,7 @@ class Plot {
 	 * Use stacked lines/bars
 	 */
 	public function stacked() {
-		$this->Options['series']['stack'] = "stack";
+		$this->Options['series']['stack'] = 'stack';
 		$this->Options['series']['lines']['fill'] = true;
 	}
 
@@ -401,7 +401,7 @@ class Plot {
 	 * Set axis-mode to time
 	 */
 	public function setXAxisAsTime() {
-		$this->Options['xaxis']['mode'] = "time";
+		$this->Options['xaxis']['mode'] = 'time';
         $this->Options['xaxis']['monthNames']=	array(
             __('Jan'),
             __('Feb'),
@@ -449,9 +449,9 @@ class Plot {
 	 */
 	public function setYAxisAsTime($axis = false) {
 		if ($axis === false)
-			$this->Options['yaxis']['mode'] = "time";
+			$this->Options['yaxis']['mode'] = 'time';
 		else
-			$this->Options['yaxes'][$axis-1]['mode'] = "time";
+			$this->Options['yaxes'][$axis-1]['mode'] = 'time';
 	}
 
 	/**
@@ -621,7 +621,7 @@ class Plot {
 	 */
 	public function setZeroPointsToNull() {
 		foreach ($this->Data as $series => $data) {
-			$this->Data[$series]['data'] = array_map("PLOT__setZeroToNullMapper", $data['data']);
+			$this->Data[$series]['data'] = array_map('PLOT__setZeroToNullMapper', $data['data']);
 		}
 	}
 
@@ -632,8 +632,8 @@ class Plot {
 	 */
 	public static function correctSpecialChars($string) {
 		$string    = utf8_encode($string);
-		$encrypted = array("ß",      "Ä",      "Ö",      "Ü",      "ä",      "ö",      "ü");
-		$correct   = array("&#223;", "&#196;", "&#214;", "&#220;", "&#228;", "&#246;", "&#252;");
+		$encrypted = array('ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü');
+		$correct   = array('&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;');
 
 		return str_replace($encrypted, $correct, $string);
 	}
@@ -655,7 +655,7 @@ class Plot {
 	 * @return array
 	 */
 	public static function correctValuesForTime($array) {
-		return array_map("PLOT__correctValuesMapperForTime", $array);
+		return array_map('PLOT__correctValuesMapperForTime', $array);
 	}
 
 	/**
@@ -664,7 +664,7 @@ class Plot {
 	 * @return array
 	 */
 	public static function correctValuesFromPaceToKmh($array) {
-		return array_map("PLOT__correctValuesMapperFromPaceToKmh", $array);
+		return array_map('PLOT__correctValuesMapperFromPaceToKmh', $array);
 	}
 }
 

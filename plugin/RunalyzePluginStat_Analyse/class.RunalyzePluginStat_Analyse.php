@@ -161,7 +161,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 			$this->TimerEnd = YEAR;
 		} else {
 			$num = $this->showsLast6Months() ? 6 : 12;
-			$this->WhereTime = ' AND `time` > '.LocalTime::fromString("first day of -".($num - 1)." months 00:00")->getTimestamp();
+			$this->WhereTime = ' AND `time` > '.LocalTime::fromString('first day of -'.($num - 1).' months 00:00')->getTimestamp();
 			$this->GroupTime = 'MONTH(FROM_UNIXTIME(`time`))';
 			$this->Timer= 'MONTH';
 			$this->TimerStart = 1;

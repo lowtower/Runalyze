@@ -81,7 +81,7 @@ class Fitlog extends AbstractFileExporter
      */
     final protected function timeToString($time)
     {
-        return LocalTime::date("c", (int)$time);
+        return LocalTime::date('c', (int)$time);
     }
 
     /**

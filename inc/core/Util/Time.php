@@ -53,7 +53,7 @@ class Time {
 	 * @return int
 	 */
 	public static function weekstart($time) {
-		$w = date("w", $time);
+		$w = date('w', $time);
 
 		if (Configuration::General()->weekStart()->isMonday()) {
 			if ($w == 0) {

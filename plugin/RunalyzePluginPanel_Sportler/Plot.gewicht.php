@@ -36,7 +36,7 @@ foreach ($Labels as $i => &$value)
 	if ($i != 0 && $i != count($Labels)-1)
 		$value = '';
 
-$Plot = new Plot("sportler_weights", 320, 150);
+$Plot = new Plot('sportler_weights', 320, 150);
 	$Plot->Data[] = array('label' => __('Weight'), 'color' => '#008', 'data' => $Weights);
 	$Plot->Data[] = array('label' => __('Resting HR'), 'color' => '#800', 'data' => $HRrests, 'yaxis' => 2);
 

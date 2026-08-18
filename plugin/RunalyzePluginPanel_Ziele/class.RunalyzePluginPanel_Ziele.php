@@ -69,7 +69,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 		foreach ($this->getTimeset() as $i => $timeset) {
 			$ShowHint = sprintf(__('Show a prognosis for the current %s'), $timeset['name']);
-			$GoalHint = sprintf(__('Current time range: %s to %s'), $timeset['start']->format("d.m.Y"), $timeset['end']->format("d.m.Y"));
+			$GoalHint = sprintf(__('Current time range: %s to %s'), $timeset['start']->format('d.m.Y'), $timeset['end']->format('d.m.Y'));
 
 			if (isset($timeset['note'])) {
 				$ShowHint .= '<br>' . $timeset['note'];
@@ -208,7 +208,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		foreach ($this->Lines as $Line)
 			$this->showLineOrBar($Line);
 
-		echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format("d.m.Y"), $end->format("d.m.Y"), $dauer) . '</small>';
+		echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
 	}
 
 	/**
@@ -410,7 +410,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$kmstart->setTime(0, 0, 0);
 		$kmend = new DateTime();
 		$kmend->setTime(0, 0, 0);
-		$now = new DateTime("now");
+		$now = new DateTime('now');
 		$kmstart->setISODate(date('Y'), 27, 1);
 
 		if ($kmstart > $now) {
@@ -423,10 +423,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 		// Zeitraeume fuer die Prognosen.
 		$timeset['woche'] = array('name' => __('Week'), 'start' => (new DateTime)->setTimestamp(Time::weekstart(time())), 'end' => (new DateTime)->setTimestamp(Time::weekend(time())));
-		$timeset['mon'] = array('name' => __('Month'), 'start' => new DateTime(date("Y-m-01")), 'end' => new Datetime(date('Y-m-t')));
-		$timeset['hj'] = array('name' => __('Half-Year'), 'start' => new DateTime(date('m') < 7 ? date("Y-01-01") : date("Y-07-01")), 'end' => new Datetime(date('m') < 7 ? date("Y-06-30") : date('Y-12-31')));
+		$timeset['mon'] = array('name' => __('Month'), 'start' => new DateTime(date('Y-m-01')), 'end' => new Datetime(date('Y-m-t')));
+		$timeset['hj'] = array('name' => __('Half-Year'), 'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')), 'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')));
 		$timeset['saison'] = array('name' => __('Season'), 'start' => $kmstart, 'end' => $kmend, 'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'));
-		$timeset['jahr'] = array('name' => __('Year'), 'start' => new DateTime(date("Y-01-01")), 'end' => new Datetime(date('Y-12-31')));
+		$timeset['jahr'] = array('name' => __('Year'), 'start' => new DateTime(date('Y-01-01')), 'end' => new Datetime(date('Y-12-31')));
 
 		return $timeset;
 	}

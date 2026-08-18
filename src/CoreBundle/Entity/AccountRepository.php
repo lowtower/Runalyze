@@ -30,7 +30,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      */
     public function findAllByLanguage($language, $excluded = false)
     {
-        return $this->findAllByLanguageQueryBuilder($language, $excluded)->getQuery()->getResult("COLUMN_HYDRATOR");
+        return $this->findAllByLanguageQueryBuilder($language, $excluded)->getQuery()->getResult('COLUMN_HYDRATOR');
     }
 
     /**

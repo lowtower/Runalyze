@@ -387,7 +387,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
 		// #TSC lactate threshold
 		if ($this->Context->activity()->fitLactateThresholdHR() == null && $this->Context->activity()->fitLactateThresholdPace() == null) {
-			$lt = "-";
+			$lt = '-';
 		} else {
 			$lthr = $this->Context->activity()->fitLactateThresholdHR() != null ? $this->Context->activity()->fitLactateThresholdHR() : '-';
 			if ($this->Context->activity()->fitLactateThresholdPace() != null) {
@@ -397,7 +397,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 				$ltp->fromMinPerKm(1/($this->Context->activity()->fitLactateThresholdPace()*3.6)*60*60);
 				$ltp = $ltp->valueWithAppendix();
 			} else {
-				$ltp = "-";
+				$ltp = '-';
 			}
 			$lt = $lthr . ' | ' . $ltp;
 		}

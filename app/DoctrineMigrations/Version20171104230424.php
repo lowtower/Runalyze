@@ -85,7 +85,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
 
             $em->flush();
 
-            $numLocked = $numLocked - 100;
+            $numLocked -= 100;
         }
     }
 

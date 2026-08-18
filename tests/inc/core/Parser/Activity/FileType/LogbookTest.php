@@ -30,10 +30,10 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->assertEquals(9382, $this->Container[0]->ActivityData->Duration);
         $this->assertEquals(26.743, $this->Container[0]->ActivityData->Distance);
         $this->assertEquals(943, $this->Container[0]->ActivityData->EnergyConsumption);
-        $this->assertEquals("Buxtehuder Abendlauf", $this->Container[0]->Metadata->getDescription());
-        $this->assertEquals("Buxtehude", $this->Container[0]->Metadata->getRouteDescription());
+        $this->assertEquals('Buxtehuder Abendlauf', $this->Container[0]->Metadata->getDescription());
+        $this->assertEquals('Buxtehude', $this->Container[0]->Metadata->getRouteDescription());
         $this->assertEquals("20°C\r\n1-2 Bft", $this->Container[0]->Metadata->getNotes());
-        $this->assertEquals("Clouds", $this->Container[0]->WeatherData->Condition);
+        $this->assertEquals('Clouds', $this->Container[0]->WeatherData->Condition);
 
         $this->assertEquals('2009-03-28 15:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container[1]->Metadata->getTimezoneOffset());
@@ -42,10 +42,10 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->assertEquals(365, $this->Container[1]->ActivityData->ElevationAscent);
         $this->assertEquals(156, $this->Container[1]->ActivityData->AvgHeartRate);
         $this->assertEquals(167, $this->Container[1]->ActivityData->MaxHeartRate);
-        $this->assertEquals("mit Michael", $this->Container[1]->Metadata->getDescription());
-        $this->assertEquals("Horneburg-Helmste-Harsefeld-Bliedersdorf", $this->Container[1]->Metadata->getRouteDescription());
-        $this->assertEquals("Erster Lauf mit der Forerunner 305  ;o)", $this->Container[1]->Metadata->getNotes());
-        $this->assertEquals("LightRain", $this->Container[1]->WeatherData->Condition);
+        $this->assertEquals('mit Michael', $this->Container[1]->Metadata->getDescription());
+        $this->assertEquals('Horneburg-Helmste-Harsefeld-Bliedersdorf', $this->Container[1]->Metadata->getRouteDescription());
+        $this->assertEquals('Erster Lauf mit der Forerunner 305  ;o)', $this->Container[1]->Metadata->getNotes());
+        $this->assertEquals('LightRain', $this->Container[1]->WeatherData->Condition);
         $this->assertTrue($this->Container[1]->Rounds->isEmpty());
 
         $this->assertEquals('2009-03-31 20:22', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
@@ -63,7 +63,7 @@ class LogbookTest extends AbstractActivityParserTestCase
             [296, 0.904]
         ],0, 0.00001);
 
-        $this->assertEquals("Rennrad", $this->Container[4]->Metadata->getSportName());
+        $this->assertEquals('Rennrad', $this->Container[4]->Metadata->getSportName());
 
         // #TSC ignore this assert because null returns; import of sportstracker is not my focus
         //$this->assertEqualsWithDelta(19.0, $this->Container[4]->WeatherData->Temperature, 0.5);

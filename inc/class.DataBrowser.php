@@ -323,7 +323,7 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getSportLink(int $sportId, string $name, string $icon, bool $active) {
-		$style = "padding-left: 2px; padding-right: 2px;";
+		$style = 'padding-left: 2px; padding-right: 2px;';
 		if ($active) {
 			// if this sport is currently selected/active - the link is used for de-selection
 			return DataBrowserLinker::link('<i class="fa fa-fw ' . $icon . '" style="'.$style.' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',

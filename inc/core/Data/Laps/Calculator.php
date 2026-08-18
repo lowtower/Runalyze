@@ -166,7 +166,7 @@ class Calculator
 	 */
 	public static function getDistancesFromString($distanceStr)
 	{
-		if (substr($distanceStr, 0, 1) == "+") {
+		if (substr($distanceStr, 0, 1) == '+') {
 			$distanceStr = substr($distanceStr, 1);
 			$distanceArr = explode(',', $distanceStr);
 			$distSum = 0;
@@ -193,7 +193,7 @@ class Calculator
 	{
 		$string = str_replace('\'', ':00', $string);
 
-		if (substr($string, 0, 1) == "+") {
+		if (substr($string, 0, 1) == '+') {
 			$times = self::explodeTimeStrings(substr($string, 1));
 			$sum = 0;
 

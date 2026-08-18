@@ -222,7 +222,7 @@ class HTML {
 	 * @return string
 	 */
 	public static function textareaTransform($text) {
-		return stripslashes(str_replace("&", "&amp;", $text));
+		return stripslashes(str_replace('&', '&amp;', $text));
 	}
 
 	/**

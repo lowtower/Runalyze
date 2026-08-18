@@ -105,7 +105,7 @@ class Query
 	public function statementToFetchActivitySports($timeStart, $timeEnd, ? int $sportIdSelected)
 	{
 		// this is needed to ensure, that the current selected sportId is included
-		$addSelected = is_null($sportIdSelected) ? '' : "UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = " . $sportIdSelected;
+		$addSelected = is_null($sportIdSelected) ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
 
 		// the query counts the activities group by sport and than limit the result; so the x most recent sports are selected
 		return $this->PDO->query(

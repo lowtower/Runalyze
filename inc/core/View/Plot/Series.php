@@ -136,7 +136,7 @@ class Series {
 
 		if ($this->UnitString == 'time') {
 			foreach ($this->Data as $k => $v)
-				$this->Data[$k] = $v * "1000";
+				$this->Data[$k] = $v * '1000';
 		}
 
 		$Plot->Data[] = array('label' => $this->Label, 'color' => $this->Color, 'data' => $this->Data, 'yaxis' => $yAxis);

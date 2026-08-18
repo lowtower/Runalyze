@@ -24,9 +24,9 @@ class Version20171217215801 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql("UPDATE `".$prefix."sport` SET default_privacy=1 WHERE accountid IN  (select accountid from `".$prefix."conf` WHERE `key`='TRAINING_MAKE_PUBLIC' and value='false')");
-        $this->addSql("UPDATE `".$prefix."sport` SET default_privacy=0 WHERE accountid IN  (select accountid from `".$prefix."conf` WHERE `key`='TRAINING_MAKE_PUBLIC' and value='true')");
-        $this->addSql("DELETE FROM `".$prefix."conf` WHERE  `key`='TRAINING_MAKE_PUBLIC'");
+        $this->addSql('UPDATE `'.$prefix.'sport` SET default_privacy=1 WHERE accountid IN  (select accountid from `'.$prefix."conf` WHERE `key`='TRAINING_MAKE_PUBLIC' and value='false')");
+        $this->addSql('UPDATE `'.$prefix.'sport` SET default_privacy=0 WHERE accountid IN  (select accountid from `'.$prefix."conf` WHERE `key`='TRAINING_MAKE_PUBLIC' and value='true')");
+        $this->addSql('DELETE FROM `'.$prefix."conf` WHERE  `key`='TRAINING_MAKE_PUBLIC'");
     }
 
     /**

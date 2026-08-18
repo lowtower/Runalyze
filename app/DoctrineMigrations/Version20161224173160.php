@@ -71,7 +71,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
 
             $em->flush();
 
-            $numberLockedRoutes = $numberLockedRoutes - 100;
+            $numberLockedRoutes -= 100;
         }
     }
 

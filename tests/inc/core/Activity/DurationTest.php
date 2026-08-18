@@ -15,13 +15,13 @@ class DurationTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testFromString() {
-		$Time = new Duration("1:17:21");
+		$Time = new Duration('1:17:21');
 
 		$this->assertEquals(1*3600 + 17*60 + 21, $Time->seconds());
-		$this->assertEquals(17*60 + 21, $Time->fromString("17:21")->seconds());
-		$this->assertEquals(3*60 + 54.2, $Time->fromString("3:54,2")->seconds());
-		$this->assertEquals(12, $Time->fromString("0:12")->seconds());
-		$this->assertEquals(10.05, $Time->fromString("10.05")->seconds());
+		$this->assertEquals(17*60 + 21, $Time->fromString('17:21')->seconds());
+		$this->assertEquals(3*60 + 54.2, $Time->fromString('3:54,2')->seconds());
+		$this->assertEquals(12, $Time->fromString('0:12')->seconds());
+		$this->assertEquals(10.05, $Time->fromString('10.05')->seconds());
 	}
 
 	public function testAddAndSubtract() {

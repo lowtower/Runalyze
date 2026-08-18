@@ -288,7 +288,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         }
 
         if (!empty($whereCondition)) {
-            return implode(" AND ", $whereCondition);
+            return implode(' AND ', $whereCondition);
         }
 
         return '1';

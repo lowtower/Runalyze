@@ -26,7 +26,7 @@ class GZipReader {
 	 */
 	public function __construct($fileName) {
 		if (is_readable($fileName)) {
-			$this->Resource = gzopen($fileName, "r");
+			$this->Resource = gzopen($fileName, 'r');
 		}
 
 		if (!$this->Resource) {
