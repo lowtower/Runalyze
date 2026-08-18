@@ -34,7 +34,7 @@ class Loop extends \Runalyze\Model\Loop {
 	public function stroke() {
 		return $this->current(Entity::STROKE);
 	}
-        
+
 	/**
 	 * Current stroke
 	 * @return int

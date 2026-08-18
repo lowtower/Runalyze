@@ -21,7 +21,7 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase {
 		$_POST = array();
 	}
 
-	public function testValidatePost_PARSER_DATE() {
+	public function testValidatePostPARSERDATE() {
 		$Parser = FormularValueParser::$PARSER_DATE;
 		$_POST  = array(
 			'empty'	=> '',

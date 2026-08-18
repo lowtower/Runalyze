@@ -437,7 +437,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 					$name = '<small>'.__('up to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
 				else
 					$name = $Pace->setTime($speed+$speed_step)->value().' <small>'.__('to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
-				$speed_foreach[] = array( 'name' => $name, 'id' => max($speed, $speed_max));
+				$speed_foreach[] = array('name' => $name, 'id' => max($speed, $speed_max));
 			}
 		}
 

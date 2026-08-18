@@ -510,7 +510,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     public function setLastAction($lastAction = null)
     {
         if (null === $lastAction) {
-            $lastAction = (int)(new \DateTime())->getTimestamp();
+            $lastAction = (new \DateTime())->getTimestamp();
         }
 
         $this->lastaction = $lastAction;

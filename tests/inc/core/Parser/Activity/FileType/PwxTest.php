@@ -38,7 +38,7 @@ class PwxTest extends AbstractActivityParserTestCase
      * Test: standard file
      * Filename: "with-dist.pwx"
      */
-    public function test_withDist() {
+    public function testWithDist() {
         $this->parseFile($this->Parser, 'pwx/with-dist.pwx');
 
         $this->assertEquals('2008-11-16 11:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
@@ -57,7 +57,7 @@ class PwxTest extends AbstractActivityParserTestCase
      * Test: standard file
      * Filename: "with-dist-and-hr.pwx"
      */
-    public function test_withDistAndHr() {
+    public function testWithDistAndHr() {
         $this->parseFile($this->Parser, 'pwx/with-dist-and-hr.pwx');
 
         $this->assertEqualsWithDelta(13539, $this->Container->ActivityData->Duration, 30);

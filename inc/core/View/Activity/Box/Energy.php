@@ -27,6 +27,6 @@ class Energy extends ValueBox
 		parent::__construct(
 			new Activity\Energy($Context->activity()->energy())
 		);
-		
+
 	}
 }

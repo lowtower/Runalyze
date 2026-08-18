@@ -36,5 +36,5 @@ class Partner extends StringArrayObject {
 	public function asString() {
 		return implode(self::SEPARATOR.' ', $this->Elements);
 	}
-	
+
 }

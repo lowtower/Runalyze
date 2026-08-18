@@ -61,7 +61,7 @@ class GroundcontactBalance extends AbstractKey
 	{
 		return __('Ground contact time balance measures your running symmetry.');
 	}
-	
+
 	/**
 	 * Get string to display this dataset value
 	 * @param \Runalyze\Dataset\Context $context

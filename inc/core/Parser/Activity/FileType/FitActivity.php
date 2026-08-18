@@ -865,7 +865,7 @@ class FitActivity extends AbstractSingleParser
                 $this->Container->ContinuousData->IsAltitudeDataBarometric = false;
             }
         }
-        
+
         if($this->Container->ContinuousData->IsAltitudeDataBarometric) {
             $this->Container->ContinuousData->Altitude[] = isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0 ? substr($this->Values['enhanced_altitude'][1], 0, -4) : null;
         } else {
@@ -1206,7 +1206,7 @@ class FitActivity extends AbstractSingleParser
             if (!isset($this->Container->ActivityData->PaceGoal)) {
                 $this->Container->ActivityData->PaceGoal = array();
             }
-        
+
             $split = array();
 
             // real running values

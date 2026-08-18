@@ -15,7 +15,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 	 * @var \PDO
 	 */
 	protected $PDO;
-	
+
 	/**
 	 * @var int
 	 */

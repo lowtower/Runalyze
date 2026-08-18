@@ -166,7 +166,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 		echo '<table style="width:25%;" class="right zebra-style">';
 		echo '<thead><tr><th colspan="2">'.__('Most frequent places').'</th></tr></thead>';
 		echo '<tbody>';
-		
+
 		$i = 1;
 
 		if (empty($this->Cities)) {
@@ -199,7 +199,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 
 		$num_x = 0;
 		$LonelyCities = array_reverse($this->Cities);
-		
+
 		foreach ($LonelyCities as $city => $num) {
 			if ($num_x <= 4) {
 				if ($num_x != $num) {

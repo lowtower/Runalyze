@@ -47,7 +47,7 @@ class Location {
 		$this->Latitude = $latitude;
 		$this->Longitude = $longitude;
 	}
-	
+
 	/**
 	 * Set geohash
 	 * @param string $geohash
@@ -88,7 +88,7 @@ class Location {
 	public function lon() {
 		return $this->Longitude;
 	}
-	
+
 	/**
 	 * Geohash
 	 * @return string

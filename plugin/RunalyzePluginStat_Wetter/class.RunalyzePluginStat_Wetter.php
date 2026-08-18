@@ -152,15 +152,15 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		foreach ($cold as $i => $c) {
 			$cold[$i] = Temperature::format($c['temperature'], true).' ' .__('on').' '.Ajax::trainingLink($c['id'], (new LocalTime($c['time']))->format('d.m.Y'));
 		}
-		
+
 		foreach ($windiest as $i => $w) {
 			$windiest[$i] = (new WindSpeed($w['wind_speed']))->string().' '.__('on').' '.Ajax::trainingLink($w['id'], (new LocalTime($w['time']))->format('d.m.Y'));
 		}
-		
+
 		foreach ($maxhumidity as $i => $h) {
 			$maxhumidity[$i] = (new Humidity($h['humidity']))->string().' '.__('on').' '.Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
 		}
-		
+
 		echo '<p>';
 		echo '<strong>'.__('Hottest activities').':</strong> ';
 		echo (empty($hot) ? __('none') : implode(', ', $hot)).'<br>';

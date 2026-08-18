@@ -61,7 +61,7 @@ class WindChillFactor implements ValueInterface
 
         $kmh = $windSpeed->inKilometerPerHour();
         $calc = $temperature->celsius();
-        
+
         // #TSC: $activitySpeed->asKmPerHour() can be the string "11,7".
         // so if not numeric: replace , with . and convert
         // if there are problems, the (float) cast is robust :-)

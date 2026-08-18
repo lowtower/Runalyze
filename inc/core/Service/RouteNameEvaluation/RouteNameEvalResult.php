@@ -10,7 +10,7 @@ class RouteNameEvalResult {
     const NOTES_START = 'Strecken-Info>>';
     const NOTES_END = '<<Strecken-Info';
     const NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
-    
+
     /** @var string */
     protected $names = '';
 

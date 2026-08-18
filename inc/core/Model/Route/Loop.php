@@ -43,7 +43,7 @@ class Loop extends \Runalyze\Model\Loop {
 	public function longitude() {
 		return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLongitude();
 	}
-	
+
 	/**
 	 * Current geohash
 	 * @return string

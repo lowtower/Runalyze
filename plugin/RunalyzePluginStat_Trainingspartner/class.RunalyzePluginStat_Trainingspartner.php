@@ -90,14 +90,14 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 		else {
 			$row_num = INFINITY;
 			$i = 0;
-		
+
 			foreach ($this->Partner as $name => $name_num) {
 				if ($row_num == $name_num)
 					echo(', ');
 				else {
 					if ($name_num != 1 && $row_num != INFINITY)
 						echo '</td></tr>';
-		
+
 					$row_num = $name_num;
 					$i++;
 					echo '<tr><td class="b">'.$row_num.'x</td><td>';

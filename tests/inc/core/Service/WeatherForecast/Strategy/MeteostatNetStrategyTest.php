@@ -44,9 +44,9 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $location->setPosition(52.4, 10.7);
         $location->setTimezone('Europe/Berlin');
         $location->setDateTime(new \DateTime('2020-10-01 15:30:00'));
-    
+
         $url = $this->GetUrlForMethod->invokeArgs($this->Strategy, [$location]);
-    
+
         $this->assertStringContainsString('lat=52.4', $url);
         $this->assertStringContainsString('lon=10.7', $url);
         $this->assertStringContainsString('start=2020-10-01', $url);

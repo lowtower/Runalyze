@@ -23,7 +23,7 @@ class RPE extends AbstractBox
 	 */
 	public function __construct(Context $Context)
 	{
-		
+
 		parent::__construct(
 			$Context->dataview()->rpe(true),
 			'',

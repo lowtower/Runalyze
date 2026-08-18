@@ -51,7 +51,7 @@ class General extends \Runalyze\Configuration\Category {
 	protected function createWeekStart() {
 		$this->createHandle('WEEK_START', new WeekStart());
 	}
-        
+
 	/**
 	 * WeekStart
 	 * @return \Runalyze\Parameter\Application\WeekStart
@@ -59,14 +59,14 @@ class General extends \Runalyze\Configuration\Category {
 	public function weekStart() {
 		return $this->object('WEEK_START');
 	}
-        
+
 	/**
 	 * Create: DISTANCE_UNIT_SYSTEM
 	 */
 	protected function createDistanceUnitSystem() {
 		$this->createHandle('DISTANCE_UNIT_SYSTEM', new DistanceUnitSystem());
 	}
-	
+
 	/**
 	 * Unit system for distances
 	 * @return \Runalyze\Parameter\Application\DistanceUnitSystem
@@ -81,7 +81,7 @@ class General extends \Runalyze\Configuration\Category {
 	protected function createWeightUnit() {
 		$this->createHandle('WEIGHT_UNIT', new WeightUnit());
 	}
-	
+
 	/**
 	 * weight Unit
 	 * @return \Runalyze\Parameter\Application\WeightUnit
@@ -89,15 +89,15 @@ class General extends \Runalyze\Configuration\Category {
 	public function weightUnit() {
 		return $this->object('WEIGHT_UNIT');
 	}
-	
+
 	/**
 	 * Create: EnergyUnit
 	 */
 	protected function createEnergyUnit() {
 		$this->createHandle('ENERGY_UNIT', new EnergyUnit());
 	}
-	
-	
+
+
 	/**
 	 * energy Unit
 	 * @return \Runalyze\Parameter\Application\EnergyUnit
@@ -112,7 +112,7 @@ class General extends \Runalyze\Configuration\Category {
 	protected function createTemperatureUnit() {
 		$this->createHandle('TEMPERATURE_UNIT', new TemperatureUnit());
 	}
-	
+
 	/**
 	 * temperature Unit
 	 * @return \Runalyze\Parameter\Application\TemperatureUnit
@@ -120,7 +120,7 @@ class General extends \Runalyze\Configuration\Category {
 	public function temperatureUnit() {
 		return $this->object('TEMPERATURE_UNIT');
 	}
-        
+
 	/**
 	 * Create: HEART_RATE_UNIT
 	 */
@@ -192,7 +192,7 @@ class General extends \Runalyze\Configuration\Category {
 	 */
 	public function Fieldset() {
 		$Fieldset = new Fieldset( __('General settings') );
-                
+
 		$Fieldset->addHandle( $this->handle('WEEK_START'), array(
 			'label'		=> __('Beginning of the week')
 		));
@@ -205,11 +205,11 @@ class General extends \Runalyze\Configuration\Category {
 		$Fieldset->addHandle( $this->handle('WEIGHT_UNIT'), array(
 			'label'		=> __('Weight unit')
 		));
-		
+
 		$Fieldset->addHandle( $this->handle('ENERGY_UNIT'), array(
 			'label'		=> __('Energy unit')
 		));	
-                
+
 		$Fieldset->addHandle( $this->handle('TEMPERATURE_UNIT'), array(
 			'label'		=> __('Temperature unit')
 		));

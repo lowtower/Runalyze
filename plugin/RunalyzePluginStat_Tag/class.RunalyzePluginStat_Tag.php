@@ -146,8 +146,8 @@ class RunalyzePluginStat_Tag extends PluginStat {
 		echo '</tbody></table>';
 	}
 
-	
-	
+
+
 	/**
 	 * Initialize $this->TagData
 	 */

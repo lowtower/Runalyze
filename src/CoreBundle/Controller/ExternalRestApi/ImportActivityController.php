@@ -95,7 +95,7 @@ class ImportActivityController extends Controller
             $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
         }
 
-        return new Response($result, $resultCode, [ 'Content-Type' => 'text/plain' ]);
+        return new Response($result, $resultCode, ['Content-Type' => 'text/plain']);
     }
 
     private function createUploadDir($username) {
@@ -129,7 +129,7 @@ class ImportActivityController extends Controller
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;
             }
         }
-        
+
         // cleanup: remove temp created folder
         if(!rmdir($uploadDir)) {
             $result = $result . 'WARNING: Can not remove upload-folder ' . $uploadDir . PHP_EOL;

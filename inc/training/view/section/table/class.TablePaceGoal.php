@@ -53,7 +53,7 @@ class TablePaceGoal {
 	protected function setDataToCode(array $inPaceGoal, int $activityTimeS, float $activityDistanceM) {
 		// set height, so that the layout not change why change the tab
 		$this->Code .= '<div style="height: 200px; overflow: scroll;">';
-		
+
 		// header
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';

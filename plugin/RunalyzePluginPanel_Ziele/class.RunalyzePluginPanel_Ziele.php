@@ -106,7 +106,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			};
 		}
 //		$(this).closest("li.with-submenu").find("span").text($(this).text())
-		
+
 		$Code .= '</ul>';
 		$Code .= '</li>';
 

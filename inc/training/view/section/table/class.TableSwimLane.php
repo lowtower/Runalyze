@@ -109,7 +109,7 @@ class TableSwimLane extends TableLapsAbstract {
 					$this->Code .= '<td></td>';
 					$this->Code .= '<td></td>';
 				}
-				
+
 				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
 				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
 			}

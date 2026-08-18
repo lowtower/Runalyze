@@ -33,7 +33,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
 
     /** @var string */
     protected $Proxy;
-    
+
     /** @var Client */
     protected $HttpClient;
 
@@ -136,9 +136,9 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         $this->logger->debug(sprintf('url >> %s.', $url));
 
         try {
-            $headers = [ 'headers' => [
+            $headers = ['headers' => [
                 'x-rapidapi-host' => 'meteostat.p.rapidapi.com',
-                'x-rapidapi-key' => $this->ApiKey ]];
+                'x-rapidapi-key' => $this->ApiKey]];
             if(!empty($this->Proxy)) {
                 $headers['proxy'] = $this->Proxy;
             }

@@ -28,7 +28,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	 * @var string
 	 */
 	const IMPERIAL = 'imperial';
-        
+
 	/**
 	 * Factor: km => miles
 	 * @var double 

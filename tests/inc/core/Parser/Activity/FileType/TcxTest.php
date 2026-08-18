@@ -116,7 +116,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Power);
     }
 
-    public function test_wattExtensionWithoutNamespace()
+    public function testWattExtensionWithoutNamespace()
     {
         $this->parseFile($this->Parser, 'tcx/watt-extension-without-namespace.tcx');
 

@@ -84,7 +84,7 @@ class WindSpeed implements ValueInterface
     {
         return $this->set($kilometerPerHour);
     }
-    
+
     /**
      * Set wind speed in m/s
      * @param float $meterPerSecond [m/s]
@@ -93,7 +93,7 @@ class WindSpeed implements ValueInterface
     public function setMeterPerSecond($meterPerSecond)
     {
         $this->KilometerPerHour = $meterPerSecond * 3.6;
-	
+
 	return $this;
     }
 

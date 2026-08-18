@@ -23,7 +23,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 * @var string
 	 */
 	const POUNDS = 'lbs';
-        
+
 	/**
 	 * Stone
 	 * @var string
@@ -58,7 +58,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	public function isPounds() {
 		return ($this->value() == self::POUNDS);
 	}
-        
+
 	/**
 	 * Is stones?
 	 * @return bool

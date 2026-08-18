@@ -29,7 +29,7 @@ $routesLimit = RunalyzePluginStat_Strecken::MAX_ROUTES_ON_NET * $positioninterva
 $Conditions = '';
 
 if ($sport > 0) {
-	$Conditions .= ' AND `'.PREFIX.'training`.`sportid`='.(int)$sport;
+	$Conditions .= ' AND `'.PREFIX.'training`.`sportid`='.$sport;
 }
 
 if ($year > 0) {

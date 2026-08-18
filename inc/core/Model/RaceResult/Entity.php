@@ -21,19 +21,19 @@ class Entity extends Model\Entity {
 	 * @var string
 	 */
 	const OFFICIAL_DISTANCE = 'official_distance';
-	
+
 	/**
 	 * Key: official_time
 	 * @var string
 	 */
 	const OFFICIAL_TIME = 'official_time';
-      
+
 	/**
 	 * Key: offically_measured
 	 * @var string
 	 */
 	const OFFICIALLY_MEASURED = 'officially_measured';
-	
+
 	/**
 	 * Key: name
 	 * @var string
@@ -44,43 +44,43 @@ class Entity extends Model\Entity {
 	 * @var string
 	 */
 	const PLACE_TOTAL = 'place_total';
-      
+
 	/**
 	 * Key: place_gender
 	 * @var string
 	 */
 	const PLACE_GENDER = 'place_gender';
-	
+
 	/**
 	 * Key: place_ageclass
 	 * @var string
 	 */
 	const PLACE_AGECLASS=  'place_ageclass';
-      
+
 	/**
 	 * Key: participants_total
 	 * @var string
 	 */
 	const PARTICIPANTS_TOTAL = 'participants_total';
-	
+
 	/**
 	 * Key: participants_gender
 	 * @var string
 	 */
 	const PARTICIPANTS_GENDER = 'participants_gender';
-      
+
 	/**
 	 * Key: participants_ageclass
 	 * @var string
 	 */
 	const PARTICIPANTS_AGECLASS = 'participants_ageclass';
-	
+
 	/**
 	 * Key: activity id
 	 * @var string
 	 */
 	const ACTIVITY_ID = 'activity_id';
-      
+
 	/**
 	 * Key: account id
 	 * @var string
@@ -106,7 +106,7 @@ class Entity extends Model\Entity {
 			self::ACTIVITY_ID
 		);
 	}
-	
+
 	/**
 	 * Properties
 	 * @return array
@@ -114,7 +114,7 @@ class Entity extends Model\Entity {
 	public function properties() {
 		return static::allDatabaseProperties();
 	}
-	
+
 	/**
 	 * Ensure that numeric fields get numeric values
 	 */
@@ -126,7 +126,7 @@ class Entity extends Model\Entity {
 			self::ACTIVITY_ID
 		));
 	}
-	
+
 	/**
 	 * Synchronize
 	 */
@@ -148,7 +148,7 @@ class Entity extends Model\Entity {
 		$this->ensureNullIfEmpty(self::PARTICIPANTS_GENDER, true);
 		$this->ensureNullIfEmpty(self::PARTICIPANTS_AGECLASS, true);
 	}
-	
+
 	/**
 	 * Can be null?
 	 * @param string $key
@@ -188,7 +188,7 @@ class Entity extends Model\Entity {
 	public function officialDistance() {
 		return $this->Data[self::OFFICIAL_DISTANCE];
 	}
-	
+
 	/**
 	 * official time
 	 * @return string
@@ -196,7 +196,7 @@ class Entity extends Model\Entity {
 	public function officialTime() {
 		return $this->Data[self::OFFICIAL_TIME];
 	}
-	
+
 	/**
 	 * officially measured
 	 * @return bool
@@ -204,7 +204,7 @@ class Entity extends Model\Entity {
 	public function officiallyMeasured() {
 		return ($this->Data[self::OFFICIALLY_MEASURED] == 1);
 	}
-	
+
 	/**
 	 * name
 	 * @return string
@@ -212,7 +212,7 @@ class Entity extends Model\Entity {
 	public function name() {
 		return $this->Data[self::NAME];
 	}
-	
+
 	/**
 	 * place total
 	 * @return string
@@ -220,7 +220,7 @@ class Entity extends Model\Entity {
 	public function placeTotal() {
 		return $this->Data[self::PLACE_TOTAL];
 	}
-	
+
 	/**
 	 * place gender
 	 * @return string
@@ -228,7 +228,7 @@ class Entity extends Model\Entity {
 	public function placeGender() {
 		return $this->Data[self::PLACE_GENDER];
 	}
-	
+
 	/**
 	 * place ageclass
 	 * @return string
@@ -236,7 +236,7 @@ class Entity extends Model\Entity {
 	public function placeAgeclass() {
 		return $this->Data[self::PLACE_AGECLASS];
 	}
-	
+
 	/**
 	 * participants total
 	 * @return string
@@ -244,7 +244,7 @@ class Entity extends Model\Entity {
 	public function participantsTotal() {
 		return $this->Data[self::PARTICIPANTS_TOTAL];
 	}
-	
+
 	/**
 	 * participants gender
 	 * @return string
@@ -252,7 +252,7 @@ class Entity extends Model\Entity {
 	public function participantsGender() {
 		return $this->Data[self::PARTICIPANTS_GENDER];
 	}
-	
+
 	/**
 	 * participants ageclass
 	 * @return string
@@ -260,7 +260,7 @@ class Entity extends Model\Entity {
 	public function participantsAgeclass() {
 		return $this->Data[self::PARTICIPANTS_AGECLASS];
 	}
-	
+
 	/**
 	 * activity id
 	 * @return string
@@ -268,7 +268,7 @@ class Entity extends Model\Entity {
 	public function activityId() {
 		return $this->Data[self::ACTIVITY_ID];
 	}
-	
+
 	/**
 	 * account id
 	 * @return string

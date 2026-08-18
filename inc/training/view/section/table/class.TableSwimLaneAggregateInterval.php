@@ -90,7 +90,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 			// if no break aggregate and write 100m interval row
 			if(!$Stroketype->isBreak()) {
 				$duration->add(new Duration($TrackLoop->difference(Trackdata\Entity::TIME)));
-	
+
 				// aggregate values (pace is diff by the TrackLoop)
 				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
 				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
@@ -176,7 +176,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 					}
 				}
 			}
-			
+
 
 			$TrackLoop->nextStep();
 			$Loop->nextStep();

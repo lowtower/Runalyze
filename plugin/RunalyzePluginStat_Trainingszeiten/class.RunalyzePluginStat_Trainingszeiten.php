@@ -96,7 +96,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 			foreach ($sports as $sport)
 				$sports_not_short .= $sport['id'].',';
 		}
-	
+
 		$nights = DB::getInstance()->query('SELECT * FROM (
 			SELECT
 				id,
@@ -125,7 +125,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 			$this->dataIsMissing = true;
 			return;
 		}
-		
+
 		echo '<table class="fullwidth zebra-style">';
 		echo '<thead><tr class="b c"><th colspan="8">'.__('Nightly activities').'</th></tr></thead>';
 		echo '<tbody>';

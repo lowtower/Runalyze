@@ -104,10 +104,10 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function testArrayWithoutNullValuesRemainsUnchanged()
     {
-        $values = [100, 101, 102 ];
+        $values = [100, 101, 102];
         $this->Adapter->correctArraySurroundedNulls($values);
 
-        $this->assertSame([ 100, 101, 102], $values);
+        $this->assertSame([100, 101, 102], $values);
     }
 
     public function testLeadingNullValuesAreReplacedByFirstKnownValue()

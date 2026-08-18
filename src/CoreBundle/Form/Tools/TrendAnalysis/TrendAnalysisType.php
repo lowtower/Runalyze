@@ -89,7 +89,7 @@ class TrendAnalysisType extends AbstractType
                     'class' => 'chosen-select full-size'
                 ],
                 'choice_attr' => function($sport, $key, $index) {
-                    /* @var Sport $sport */
+                    /** @var Sport $sport */
                     return ['data-id' => $sport->getId()];
                 }
             ])
@@ -107,7 +107,7 @@ class TrendAnalysisType extends AbstractType
                     'class' => 'chosen-select full-size'
                 ],
                 'choice_attr' => function($type, $key, $index) {
-                    /* @var Type $type */
+                    /** @var Type $type */
                     return ['data-sportid' => $type->getSport()->getId()];
                 }
             ])

@@ -12,12 +12,12 @@
 
 use Runalyze\Model\Swimdata;
 class SectionSwimLane extends TrainingViewSectionTabbedPlot {
-        
+
 	/**
 	 * Set header and rows
 	 */
 	protected function setHeaderAndRows() {
-		
+
                 $this->appendRowTabbedPlot(new SectionSwimLaneRow($this->Context, __('Lanes')));
                 $this->Header = __('Lanes');
 

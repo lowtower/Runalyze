@@ -341,7 +341,7 @@ class Calculator
 
 			$NewLoop->reset();
 			$NewLoop->goToEnd();
-	
+
 			// calculate stroke...swolf
 			if ($st > 0) {
 				foreach ($KeysToAverage as $objectKey => $dataKey) {

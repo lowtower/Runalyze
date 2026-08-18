@@ -138,7 +138,7 @@ class Pace extends AbstractKey
 		if (!array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
 			return null;
 		}
-		
+
 		$pace = $this->getPace($context);
 		if (!is_null($pace)) {
 			$minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];

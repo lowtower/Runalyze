@@ -42,7 +42,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
             return null;
         }
 
-        /* @var Round $value */
+        /** @var Round $value */
 
         return [
             'distance' => $value->getDistance(),

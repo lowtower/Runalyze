@@ -315,7 +315,7 @@ class Table {
 				case 'lanes':
 					$Code .= '<td>'. round($Lap->additionalValues()[$key]) .'</td>';
 					break;
-	
+
 				default:
 					$Code .= '<td></td>';
 			}

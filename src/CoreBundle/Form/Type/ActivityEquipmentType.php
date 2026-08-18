@@ -41,7 +41,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'choices' => $equipment[$category->getId()],
                     'choice_label' => 'name',
                     'choice_attr' => function ($eqp, $key, $index) {
-                        /* @var Equipment $eqp */
+                        /** @var Equipment $eqp */
                         return $this->getChoiceAttributesForEquipment($eqp);
                     },
                     'choice_translation_domain' => false,
@@ -67,7 +67,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             return null;
         }
 
-        /* @var Equipment[] $value */
+        /** @var Equipment[] $value */
         $categories = [];
 
         foreach ($value as $equipment) {

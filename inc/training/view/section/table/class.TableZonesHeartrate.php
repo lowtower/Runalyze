@@ -38,7 +38,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 */
 	public function __construct(Context $context) {
 		$this->Calculator = new HrZonesCalculator($context->activity()->hrZoneBounds(), $context->sport()->hrZoneBounds());
-		
+
 		parent::__construct($context);
 	}
 

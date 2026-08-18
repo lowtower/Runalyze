@@ -58,7 +58,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		$underTest = new HrZonesCalculator(array('90', '100', '120', '130', '135', '180'), null);
 		$result = $underTest->getZones(25, 130, 180);
 		$this->assertEquals(array(
-			array(                      'hr' => 25),
+			array('hr' => 25),
 			array('t' => 'B1 Warm up',  'hr' => 90, 'c' => '#a6a6a6'),
 			array('t' => 'B2 Easy',     'hr' => 100, 'c' => '#3b97f3'),
 			array('t' => 'B3 Aerob',    'hr' => 120, 'c' => '#82c91e'),
@@ -75,14 +75,14 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		// with min/max
 		$result = $underTest->getZones(95, 190, 180);
 		$this->assertEquals(array(
-			array(                      'hr' => 0),
+			array('hr' => 0),
 			array('t' => 'B1 Warm up',  'hr' => 90, 'c' => '#a6a6a6'),
 			array('t' => 'B2 Easy',     'hr' => 100, 'c' => '#3b97f3'),
 			array('t' => 'B3 Aerob',    'hr' => 120, 'c' => '#82c91e'),
 			array('t' => 'B4 Intensiv', 'hr' => 130, 'c' => '#f98925'),
 			array('t' => 'B5 Maximal',  'hr' => 135, 'c' => '#d32020'),
 			array('t' => 'B6 Override', 'hr' => 180, 'c' => '#b80000'),
-			array(                      'hr' => 191),
+			array('hr' => 191),
 		),$result);
 		$this->assertEquals('activity stored zones', $underTest->getSourceHint());
 	}
@@ -132,7 +132,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(array(
 			array('hr' => 0),
 			array('t' => 't1', 'hr' => 70,  'c' => '#000011'),
-			array(             'hr' => 100, 'c' => '#002200'),
+			array('hr' => 100, 'c' => '#002200'),
 			array('t' => 't3', 'hr' => 120, ),
 		),$result);
 		$this->assertEquals('sport stored zones', $underTest->getSourceHint());
@@ -146,9 +146,9 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(array(
 			array('hr' => 52),
 			array('t' => 't1', 'hr' => 70,  'c' => '#000011'),
-			array(             'hr' => 100, 'c' => '#002200'),
+			array('hr' => 100, 'c' => '#002200'),
 			array('t' => 't3', 'hr' => 120, ),
-			array(             'hr' => 161, ),
+			array('hr' => 161, ),
 		),$result);
 		$this->assertEquals('sport stored zones', $underTest->getSourceHint());
 		$this->assertEquals(array('hr' => 52), end($result));

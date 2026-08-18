@@ -59,7 +59,7 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 	public function showCreateLink() {
 		return $this->get('DB_SHOW_CREATELINK_FOR_DAYS');
 	}
-	
+
 	/**
 	 * Show days with activities only
 	 * @return bool
@@ -103,7 +103,7 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		$Fieldset->addHandle( $this->handle('DB_SHOW_DATASET_LABELS'), array(
 			'label'		=> __('Calendar: show labels for dataset')
 		));
-		
+
 		$Fieldset->addHandle( $this->handle('DB_SHOW_ACTIVE_DAYS_ONLY'), array(
 			'label'		=> __('Calendar: show days with activities only')
 		));

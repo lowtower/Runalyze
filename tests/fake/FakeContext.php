@@ -42,7 +42,7 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		$this->Route = $route;
 		$this->HRV = $hrv;
 		$this->Sport = $sport;
-		
+
 		$this->Swimdata->fillDistanceArray($this->Trackdata);
 		$this->Swimdata->fillSwolfArray($this->Trackdata);
 		$this->Dataview = new Dataview($this->Activity);

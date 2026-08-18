@@ -74,7 +74,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(2, $T->num());
 		$this->assertEquals(array(180, 185), $T->cadence());
 		$this->assertEquals(array(200, 250), $T->power());
-		$this->assertEquals(array( 25,  24), $T->temperature());
+		$this->assertEquals(array(25,  24), $T->temperature());
 		$this->assertEquals(array(200, 250), $T->groundcontact());
 		$this->assertEquals(array(6500, 6430), $T->groundContactBalance());
 	}

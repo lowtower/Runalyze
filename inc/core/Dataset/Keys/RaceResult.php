@@ -48,7 +48,7 @@ class RaceResult extends AbstractKey
 	{
 		return '';
 	}
-	
+
 	/**
 	 * Database key
 	 * @return string
@@ -57,7 +57,7 @@ class RaceResult extends AbstractKey
 	{
 		return '';
 	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -115,9 +115,9 @@ class RaceResult extends AbstractKey
 				Model\RaceResult\Entity::PARTICIPANTS_GENDER => $context->data('participants_gender', true),
 				Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => $context->data('participants_ageclass', true)
 			));
-			
+
 			$RaceResultView = new View\RaceResult\Dataview($RaceResult);
-			
+
 			$TooltipCode = '';
 
 			if ($context->hasData('race_name') && $context->data('race_name') != '') {
@@ -152,7 +152,7 @@ class RaceResult extends AbstractKey
 		break;
 		}
 	}
-	
+
 	/**
 	 * @return string
 	 * @codeCoverageIgnore
@@ -170,9 +170,9 @@ class RaceResult extends AbstractKey
 				Model\RaceResult\Entity::PARTICIPANTS_GENDER => 300,
 				Model\RaceResult\Entity::PARTICIPANTS_AGECLASS => 100
 			));
-			
+
 			$RaceResultView = new View\RaceResult\Dataview($RaceResult);
-			
+
 			$TooltipCode = $RaceResult->name().'<br>';
 
 			$TooltipCode .= __('Official distance').': '.$RaceResultView->officialDistance().'<br>';

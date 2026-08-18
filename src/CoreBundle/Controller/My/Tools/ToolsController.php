@@ -200,7 +200,7 @@ class ToolsController extends Controller
      */
     public function posterAction(Request $request, Account $account)
     {
-        $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, (int)2017, (int)2);
+        $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, 2017, 2);
 
         $form = $this->createForm(PosterType::class, [
             'postertype' => ['heatmap'],

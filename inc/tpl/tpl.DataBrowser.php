@@ -48,7 +48,7 @@ use Runalyze\Util\LocalTime;
         $monthsShort = array(__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May'), __('Jun'), __('Jul'), __('Aug'), __('Sep'), __('Oct'), __('Nov'), __('Dec'), );
         $weekMin=_('wk');
 
-        $locale = array ('days' => $days, 'daysMin'=>$daysMin, 'daysShort'=>$daysShort, 'months' => $months, 'monthsShort' => $monthsShort, 'weekMin' => $weekMin );
+        $locale = array ('days' => $days, 'daysMin'=>$daysMin, 'daysShort'=>$daysShort, 'months' => $months, 'monthsShort' => $monthsShort, 'weekMin' => $weekMin);
 
         echo htmlspecialchars(json_encode($locale)) ?>">
 

@@ -43,7 +43,7 @@ class VerticalRatio extends AbstractKey
 	{
 		return __('Vertical ratio');
 	}
-	
+
 	/**
 	 * @return string
 	 * @codeCoverageIgnore

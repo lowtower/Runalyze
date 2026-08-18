@@ -34,7 +34,8 @@ return ECSConfig::configure()
     //])
 
     // ...but first: take it step by step
-    ->withSpacesLevel(1)
-    ->withArrayLevel(1)
-    ->withControlStructuresLevel(1)
-    ->withDocblockLevel(1);
+    ->withSpacesLevel(2)
+    ->withArrayLevel(2)
+    ->withControlStructuresLevel(2)
+    ->withDocblockLevel(2)
+;

@@ -138,7 +138,7 @@ class ContinuousDataAdapter
             }
         }
     }
-    
+
     public function filterUnwantedZeros()
     {
         foreach ($this->ContinuousData->getPropertyNamesOfArraysThatShouldNotContainZeros() as $key) {

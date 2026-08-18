@@ -27,7 +27,7 @@ class ParameterTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() : void {
-		
+
 	}
 
 	public function testDefault() {

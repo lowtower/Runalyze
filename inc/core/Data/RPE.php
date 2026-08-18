@@ -31,7 +31,7 @@ class RPE {
 			10 => '10 - '.__('Maximal exertion')
 		);
 	}
-	
+
 	public static function validRPE($value) {
 		if ($value >=1 && $value <=10) {
 			return true;
@@ -39,7 +39,7 @@ class RPE {
 			return false;
 		}
 	}
-        
+
 	public static function getString($value) {
 		if (self::validRPE($value)) {
 			return self::completeList()[$value];

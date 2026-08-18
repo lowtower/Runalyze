@@ -37,11 +37,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultAllExists() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, ['apeak1', 'apeak2'] ],
-                [OsmCsvData::$CAT_PLACE, ['aplace'] ],
-                [OsmCsvData::$CAT_HUT, ['ahut'] ],
-                [OsmCsvData::$CAT_WAY, ['away'] ],
-                [OsmCsvData::$CAT_INFO, ['ainfo'] ]
+                [OsmCsvData::$CAT_PEAK, ['apeak1', 'apeak2']],
+                [OsmCsvData::$CAT_PLACE, ['aplace']],
+                [OsmCsvData::$CAT_HUT, ['ahut']],
+                [OsmCsvData::$CAT_WAY, ['away']],
+                [OsmCsvData::$CAT_INFO, ['ainfo']]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -53,11 +53,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultOnlyPeak() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, ['apeak1'] ],
-                [OsmCsvData::$CAT_PLACE, [] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, [] ]
+                [OsmCsvData::$CAT_PEAK, ['apeak1']],
+                [OsmCsvData::$CAT_PLACE, []],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, []]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -69,11 +69,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultPeakHutMissing() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2'] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, ['away'] ],
-                [OsmCsvData::$CAT_INFO, ['ainfo'] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2']],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, ['away']],
+                [OsmCsvData::$CAT_INFO, ['ainfo']]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -85,11 +85,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultOnlyPlace() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2'] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, [] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2']],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, []]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -101,11 +101,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultPeakPlaceMissing() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, [] ],
-                [OsmCsvData::$CAT_HUT, ['ahut1', 'ahut2'] ],
-                [OsmCsvData::$CAT_WAY, ['away1', 'away2'] ],
-                [OsmCsvData::$CAT_INFO, ['ainfo'] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, []],
+                [OsmCsvData::$CAT_HUT, ['ahut1', 'ahut2']],
+                [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
+                [OsmCsvData::$CAT_INFO, ['ainfo']]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -118,11 +118,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultPeakPlaceHutMissing() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, [] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, ['away1', 'away2'] ],
-                [OsmCsvData::$CAT_INFO, ['ainfo'] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, []],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
+                [OsmCsvData::$CAT_INFO, ['ainfo']]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -135,11 +135,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultPeakPlaceHutWayMissing() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, [] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, ['ainfo1', 'ainfo2'] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, []],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, ['ainfo1', 'ainfo2']]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -152,11 +152,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultAllMissing() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, [] ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, [] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, []],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, []]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -167,11 +167,11 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     public function testCreateResultHutWalking() {
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, ['aplace'] ],
-                [OsmCsvData::$CAT_HUT, ['ahut'] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, [] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, ['aplace']],
+                [OsmCsvData::$CAT_HUT, ['ahut']],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, []]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);
@@ -192,14 +192,14 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
         for($i = 0; $i < 8; $i++) {
             $a[] = str_repeat($i, 32);
         };
-        
+
         $this->coll->method('getNames')->will($this->returnValueMap(
             [
-                [OsmCsvData::$CAT_PEAK, [] ],
-                [OsmCsvData::$CAT_PLACE, $a ],
-                [OsmCsvData::$CAT_HUT, [] ],
-                [OsmCsvData::$CAT_WAY, [] ],
-                [OsmCsvData::$CAT_INFO, [] ]
+                [OsmCsvData::$CAT_PEAK, []],
+                [OsmCsvData::$CAT_PLACE, $a],
+                [OsmCsvData::$CAT_HUT, []],
+                [OsmCsvData::$CAT_WAY, []],
+                [OsmCsvData::$CAT_INFO, []]
             ]));
 
         $result = $this->underTest->createResult($this->getSportRunning(), $this->coll);

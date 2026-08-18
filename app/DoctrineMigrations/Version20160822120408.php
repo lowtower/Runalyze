@@ -17,7 +17,7 @@ class Version20160822120408 extends AbstractMigration implements ContainerAwareI
     {
         $this->container = $container;
     }
-    
+
     /**
      * @param Schema $schema
      */

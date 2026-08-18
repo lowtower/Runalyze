@@ -72,7 +72,7 @@ class Facebook extends AbstractSocialSharer
     {
 	    return __('Facebook');
     }
-        
+
     /**
      * Get meta title
      * @return string

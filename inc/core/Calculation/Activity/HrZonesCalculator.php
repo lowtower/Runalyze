@@ -65,7 +65,7 @@ class HrZonesCalculator
 	public function getZones(int $minHr, int $maxHr, int $hrMaxUser): array {
 		$majorZoneColors = array('#a6a6a6', '#3b97f3', '#82c91e', '#f98925', '#d32020', '#b80000');
 		$defaultZones = array();
-		
+
 		$k = 0;
 		// add the low bound with min-HR (info: the high bound is the 6th element in the hrZoneBounds)
 		$defaultZones[$k++] = array('hr' => 0);

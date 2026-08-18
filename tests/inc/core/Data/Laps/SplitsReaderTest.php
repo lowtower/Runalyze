@@ -50,11 +50,11 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(6, $this->Laps->num());
 		$this->checkAgainst(array(
 			array(1000, 3.0, false),
-			array(  72, 0.4,  true),
-			array(  62, 0.2, false),
-			array(  69, 0.4,  true),
-			array(  63, 0.2, false),
-			array( 600, 2.0, false)
+			array(72, 0.4,  true),
+			array(62, 0.2, false),
+			array(69, 0.4,  true),
+			array(63, 0.2, false),
+			array(600, 2.0, false)
 		));
 	}
 

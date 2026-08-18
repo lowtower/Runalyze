@@ -11,19 +11,19 @@ class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase {
         $this->underTest = new FitSdkExercise();
     }
 
-    public function testFullMap_1() {
+    public function testFullMap1() {
         $this->assertEquals('curl, bench_press', $this->underTest->getFullMapping('7,65534,0', null));
     }
 
-    public function testFullMap_2() {
+    public function testFullMap2() {
         $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,65534', '65535,8,65535'));
     }
 
-    public function testFullMap_allMultiple() {
+    public function testFullMapAllMultiple() {
         $this->assertEquals('jumping_jacks', $this->underTest->getFullMapping('2,2,2', '12,12,12'));
     }
 
-    public function testFullMap_twoMultiple() {
+    public function testFullMapTwoMultiple() {
         $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,30', '65535,8,65535'));
     }
 
@@ -44,11 +44,11 @@ class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(null, $this->underTest->getMapping(65534));
     }
 
-    public function testCategoryWithSub_1() {
+    public function testCategoryWithSub1() {
         $this->assertEquals('single_leg_decline_push_up', $this->underTest->getMapping(1, 11));
     }
 
-    public function testCategoryWithSub_30() {
+    public function testCategoryWithSub30() {
         $this->assertEquals('weighted_dip', $this->underTest->getMapping(30, 40));
     }
 

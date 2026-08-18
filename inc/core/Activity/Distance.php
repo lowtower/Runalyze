@@ -98,7 +98,7 @@ class Distance implements ValueInterface {
 
 		return $this;
 	}
-        
+
 	/**
 	 * Set distance in miles
 	 * @param float $miles [mi]
@@ -355,5 +355,5 @@ class Distance implements ValueInterface {
 	{
 		return ($this->Kilometer == 0);
 	}
-        
+
 }

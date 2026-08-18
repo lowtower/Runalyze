@@ -33,7 +33,7 @@ class RPE extends AbstractKey
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Database key
 	 * @return string

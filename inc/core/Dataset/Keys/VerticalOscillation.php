@@ -52,7 +52,7 @@ class VerticalOscillation extends AbstractKey
 	{
 		return __('Vertical oscillation is your vertical motion of your torso measured in centimeters');
 	}
-	
+
 	/**
 	 * Get string to display this dataset value
 	 * @param \Runalyze\Dataset\Context $context
