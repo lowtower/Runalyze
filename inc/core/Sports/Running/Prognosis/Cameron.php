@@ -32,12 +32,11 @@ class Cameron implements PrognosisInterface
         return 0.0 < $this->ReferenceDistance && 0.0 < $this->ReferenceTime;
     }
 
-	/**
-	 * @param float $distance [km]
-	 * @param int|float $timeInSeconds [s]
-	 * @return $this
-	 */
-	public function setReferenceResult($distance, $timeInSeconds)
+    /**
+     * @param float $distance [km]
+     * @param int|float $timeInSeconds [s]
+     */
+    public function setReferenceResult($distance, $timeInSeconds): self
     {
         $this->ReferenceDistance = $distance;
         $this->ReferenceTime = $timeInSeconds;

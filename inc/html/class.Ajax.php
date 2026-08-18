@@ -238,7 +238,7 @@ class Ajax {
 	public static function window($link, $size = 'normal') {
 		$link = self::insertClass($link, 'window');
 		if ($size == 'big' || $size == 'small')
-			$link = self::insertDataSize($link, $size);
+			return self::insertDataSize($link, $size);
 
 		return $link;
 	}
@@ -291,7 +291,7 @@ class Ajax {
 	public static function insertClass($link, $class) {
 		$text = preg_replace('#<a ([^>]*?)class="(.+?)"#i', '<a \\1class="'.$class.' \\2"', $link);
 		if ($text == $link)
-			$text = str_replace('<a ', '<a class="'.$class.'" ', $text);
+			return str_replace('<a ', '<a class="'.$class.'" ', $text);
 
 		return $text;
 	}
@@ -305,7 +305,7 @@ class Ajax {
 	public static function insertRel($link, $rel) {
 		$text = preg_replace('#rel="(.+?)"#i', 'rel="'.$rel.'"', $link);
 		if ($text == $link)
-			$text = str_replace('<a ', '<a rel="'.$rel.'" ', $text);
+			return str_replace('<a ', '<a rel="'.$rel.'" ', $text);
 
 		return $text;
 	}
@@ -319,7 +319,7 @@ class Ajax {
 	public static function insertDataSize($link, $rel) {
 		$text = preg_replace('#data-size="(.+?)"#i', 'data-size="'.$rel.'"', $link);
 		if ($text == $link)
-			$text = str_replace('<a ', '<a data-size="'.$rel.'" ', $text);
+			return str_replace('<a ', '<a data-size="'.$rel.'" ', $text);
 
 		return $text;
 	}
@@ -370,13 +370,12 @@ class Ajax {
 
 		if ($level == 1)
 			return array($input, $funcs);
-		else {
-			$input_json = json_encode($input);
-			foreach($funcs as $key => $value)
+
+        $input_json = json_encode($input);
+        foreach($funcs as $key => $value)
 				$input_json = str_replace('"'.$key.'"', $value, $input_json);
 
-			return $input_json;
-		}
+        return $input_json;
 	}
 
     /**

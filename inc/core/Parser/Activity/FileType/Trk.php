@@ -51,10 +51,8 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
     {
         $firstChar = substr($line, 0, 1);
 
-        switch ($firstChar) {
-            case 'T':
-                $this->readTrackPoint($line);
-                break;
+        if ($firstChar === 'T') {
+            $this->readTrackPoint($line);
         }
     }
 

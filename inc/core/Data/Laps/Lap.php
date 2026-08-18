@@ -88,7 +88,7 @@ class Lap {
 	 * @param LapIntensity|null $mode [optional]
 	 */
 	public function __construct($duration = 0, $distance = 0.0, ?LapIntensity $mode = null) {
-		if (null === $mode) {
+		if (! $mode instanceof \Runalyze\Activity\LapIntensity) {
 			$mode = LapIntensity::getInstanceActive();
 		}
 

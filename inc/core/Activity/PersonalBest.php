@@ -95,7 +95,7 @@ class PersonalBest {
 			self::$PBs[(float) $km] = false;
 		}
 
-		$PDO = null === $pdo ? DB::getInstance() : $pdo;
+		$PDO = ! $pdo instanceof \PDO ? DB::getInstance() : $pdo;
 		$Data = $PDO->query(self::groupedQuery($distances, $sportid, $withDetails))->fetchAll();
 
 		foreach ($Data as $result) {
@@ -140,7 +140,7 @@ class PersonalBest {
 	 */
 	public function __construct($distance, $sportid, ?PDO $pdo = null, $autoLookup = true, $withDetails = false) {
 		$this->Distance = $distance;
-		$this->PDO = null === $pdo ? DB::getInstance() : $pdo;
+		$this->PDO = ! $pdo instanceof \PDO ? DB::getInstance() : $pdo;
 		$this->SportId = $sportid;
 
 		if ($autoLookup) {
@@ -155,7 +155,7 @@ class PersonalBest {
 	/**
 	 * @return \Runalyze\Activity\PersonalBest this-reference
 	 */
-	public function lookup() {
+	public function lookup(): self {
 		$this->ActivityID = null;
 		$this->Timestamp = null;
 
@@ -187,7 +187,7 @@ class PersonalBest {
 	/**
 	 * @return \Runalyze\Activity\PersonalBest this-reference
 	 */
-	public function lookupWithDetails() {
+	public function lookupWithDetails(): self {
 		if (self::$USE_STATIC_CACHE && isset(self::$PBs[(float) $this->Distance]) && is_array(self::$PBs[(float) $this->Distance])) {
 			$Data = self::$PBs[(float) $this->Distance];
 		} else {

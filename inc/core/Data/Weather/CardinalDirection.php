@@ -30,7 +30,7 @@ class CardinalDirection
      * @throws \InvalidArgumentException
      * @return \Runalyze\Data\Weather\CardinalDirection $this-reference
      */
-    public function setDegree($degrees)
+    public function setDegree($degrees): self
     {
         if (! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');

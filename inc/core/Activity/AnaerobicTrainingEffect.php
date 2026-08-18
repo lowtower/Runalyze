@@ -68,7 +68,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      * @return \Runalyze\Activity\AnaerobicTrainingEffect $this-reference
      * @throws \InvalidArgumentException
      */
-    public function set($value) {
+    public function set($value): self {
         if (null === $value) {
             $this->Value = null;
             return $this;

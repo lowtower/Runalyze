@@ -457,9 +457,9 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
     protected function getFormattedSeconds($seconds): string {
 		if (isset($seconds)) {
 			return Duration::format($seconds) . 's';
-		} else {
-			return '-';
 		}
+
+        return '-';
     }
 
 	/**

@@ -70,12 +70,12 @@ class Cache {
 
 			if (isset($cachedobj['write_time']) && $cachedobj['write_time'] > $lastcacheclean) {
 				return $cachedobj['value'];
-			} else {
-				return null;
 			}
-		} else {
-			return self::$cache->get($keyword);
+
+            return null;
 		}
+
+        return self::$cache->get($keyword);
 	}
 
 	/**
@@ -85,9 +85,9 @@ class Cache {
 	    if (! in_array($keyword, self::$ignoreKeywords)) {
             if ($nousercache == 0) {
                 return self::$cache->delete($keyword . SessionAccountHandler::getId());
-            } else {
-                return self::$cache->delete($keyword);
             }
+
+            return self::$cache->delete($keyword);
         }
 	}
 
@@ -110,8 +110,8 @@ class Cache {
 	public static function is($keyword, $nousercache = 0) {
 		if ($nousercache == 0) { 
 			return self::$cache->isExisting($keyword.SessionAccountHandler::getId());
-		} else {
-			return self::$cache->isExisting($keyword);
 		}
+
+        return self::$cache->isExisting($keyword);
 	}
 }

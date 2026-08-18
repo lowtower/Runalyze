@@ -75,7 +75,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
         }
 
         if (count($altitudes) > $numberOfPoints) {
-            $altitudes = array_slice($altitudes, 0, $numberOfPoints);
+            return array_slice($altitudes, 0, $numberOfPoints);
         }
 
         return $altitudes;

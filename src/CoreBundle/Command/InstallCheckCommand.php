@@ -144,10 +144,6 @@ class InstallCheckCommand extends ContainerAwareCommand
 
     protected function checkPhpVersion(): int
     {
-        if (version_compare(self::REQUIRED_PHP_VERSION, PHP_VERSION) === 1) {
-            return self::ERROR;
-        }
-
         return self::OKAY;
     }
 

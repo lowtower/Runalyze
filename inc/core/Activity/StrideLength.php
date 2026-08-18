@@ -46,7 +46,7 @@ class StrideLength implements ValueInterface
 	public function __construct($centimeter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Centimeter = $centimeter;
-		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+		$this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
     /**
@@ -74,7 +74,7 @@ class StrideLength implements ValueInterface
 	 * @param int $centimeter
 	 * @return \Runalyze\Activity\StrideLength $this-reference
 	 */
-	public function set($centimeter)
+	public function set($centimeter): self
 	{
 		$this->Centimeter = $centimeter;
 
@@ -85,7 +85,7 @@ class StrideLength implements ValueInterface
 	 * @param float $meter
 	 * @return \Runalyze\Activity\StrideLength $this-reference
 	 */
-	public function setMeter($meter)
+	public function setMeter($meter): self
 	{
 		$this->Centimeter = $meter * 100;
 
@@ -96,7 +96,7 @@ class StrideLength implements ValueInterface
 	 * @param int $feet
 	 * @return \Runalyze\Activity\StrideLength $this-reference
 	 */
-	public function setFeet($feet)
+	public function setFeet($feet): self
 	{
 		$this->Centimeter = $feet / DistanceUnitSystem::FEET_MULTIPLIER * 1000 * 100;
 
@@ -107,7 +107,7 @@ class StrideLength implements ValueInterface
 	 * @param int $strideLength [mixed unit]
 	 * @return \Runalyze\Activity\StrideLength $this-reference
 	 */
-	public function setInPreferredUnit($strideLength)
+	public function setInPreferredUnit($strideLength): self
 	{
 		if ($this->UnitSystem->isImperial()) {
 			$this->setFeet($strideLength);

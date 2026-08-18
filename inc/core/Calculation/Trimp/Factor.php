@@ -49,9 +49,9 @@ class Factor {
 
 		if (GENDER::FEMALE == $this->Gender) {
 			return 0.821776;
-		} else {
-			return 0.725215;
 		}
+
+        return 0.725215;
 	}
 
     /**
@@ -64,8 +64,8 @@ class Factor {
 
 		if (Gender::FEMALE == $this->Gender) {
 			return 1.67;
-		} else {
-			return 1.795;
 		}
+
+        return 1.795;
 	}
 }

@@ -29,9 +29,8 @@ class AnovaData
     /**
      * @param Sport[] $sport
      * @param Type[] $type
-     * @return AnovaData
      */
-    public static function getDefault(array $sport, array $type)
+    public static function getDefault(array $sport, array $type): self
     {
         $data = new self();
         $data->setSport($sport);

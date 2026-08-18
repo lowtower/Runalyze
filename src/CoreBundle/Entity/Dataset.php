@@ -62,10 +62,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     private $privacy = true;
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -82,10 +79,8 @@ class Dataset implements AccountRelatedEntityInterface
 
     /**
      * @param string $keyId
-     *
-     * @return $this
      */
-    public function setKeyId($keyId)
+    public function setKeyId($keyId): self
     {
         $this->keyid = $keyId;
 
@@ -102,10 +97,8 @@ class Dataset implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setActive($flag = true)
+    public function setActive($flag = true): self
     {
         $this->active = (bool) $flag;
 
@@ -122,10 +115,8 @@ class Dataset implements AccountRelatedEntityInterface
 
     /**
      * @param string $style
-     *
-     * @return $this
      */
-    public function setStyle($style)
+    public function setStyle($style): self
     {
         $this->style = $style;
 
@@ -142,10 +133,8 @@ class Dataset implements AccountRelatedEntityInterface
 
     /**
      * @param int $position
-     *
-     * @return $this
      */
-    public function setPosition($position)
+    public function setPosition($position): self
     {
         $this->position = (int) $position;
 
@@ -162,10 +151,8 @@ class Dataset implements AccountRelatedEntityInterface
 
     /**
      * @param bool $privacy
-     *
-     * @return $this
      */
-    public function setPrivacy($privacy)
+    public function setPrivacy($privacy): self
     {
         $this->privacy = (bool) $privacy;
 

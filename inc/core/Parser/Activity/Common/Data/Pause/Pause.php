@@ -54,9 +54,8 @@ class Pause
     /**
      * @param int|null $atStart [bpm]
      * @param int|null $atEnd [bpm]
-     * @return $this
      */
-    public function setHeartRateDetails($atStart, $atEnd)
+    public function setHeartRateDetails($atStart, $atEnd): self
     {
         $this->HeartRateAtStart = $atStart;
         $this->HeartRateAtEnd = $atEnd;
@@ -101,9 +100,8 @@ class Pause
     /**
      * @param int|null $heartRate [bpm]
      * @param int|null $timeUntilRecovery [s]
-     * @return $this
      */
-    public function setRecoveryDetails($heartRate, $timeUntilRecovery)
+    public function setRecoveryDetails($heartRate, $timeUntilRecovery): self
     {
         $this->HeartRateAtRecovery = $heartRate;
         $this->TimeUntilRecovery = $timeUntilRecovery;
@@ -129,9 +127,8 @@ class Pause
 
     /**
      * @param int|null $performanceCondition relative to current baseline
-     * @return $this
      */
-    public function setPerformanceCondition($performanceCondition)
+    public function setPerformanceCondition($performanceCondition): self
     {
         $this->PerformanceCondition = $performanceCondition;
 

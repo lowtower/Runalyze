@@ -36,10 +36,9 @@ class WindDegree implements ValueInterface
     /**
      * Set wind Degree
      * @param float|null $degrees
-     * @return \Runalyze\Data\Weather\WindDegree
      * @throws \InvalidArgumentException
      */
-    public function set($degrees)
+    public function set($degrees): self
     {
         if (null !== $degrees && ! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');

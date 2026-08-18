@@ -138,9 +138,9 @@ class LapIntensity extends AbstractEnum
     {
         if (self::isValidValue($value)) {
             return new self($value);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

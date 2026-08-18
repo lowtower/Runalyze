@@ -28,11 +28,10 @@ class StringReader {
 		$this->setString($string);
 	}
 
-	/**
-	 * @param string $string
-	 * @return \Runalyze\Util\StringReader
-	 */
-	public function setString($string) {
+    /**
+     * @param string $string
+     */
+    public function setString($string): self {
 		$this->String = $string;
 
 		return $this;

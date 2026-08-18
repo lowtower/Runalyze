@@ -19,10 +19,8 @@ class VO2maxVelocity
 
     /**
      * @param float $effectiveVO2max [ml/kg/min]
-     *
-     * @return $this
      */
-    public function setEffectiveVO2max($effectiveVO2max)
+    public function setEffectiveVO2max($effectiveVO2max): self
     {
         $this->EffectiveVO2max = $effectiveVO2max;
 

@@ -44,7 +44,7 @@ class PrivacyGuard
             ->RoutePrivacy();
 
         if ($mapVisibility->showRace()) {
-            return null !== $raceresult;
+            return $raceresult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult;
         }
 
         return $mapVisibility->showAlways();

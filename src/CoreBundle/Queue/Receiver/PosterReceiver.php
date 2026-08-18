@@ -130,12 +130,12 @@ class PosterReceiver
 
                     if ($exitCode > 0) {
                         throw new \Exception('Error while converting with error-code='.$exitCode);
-                    } else {
-                        $filesystem = new Filesystem();
-                        $filesystem->rename($hashFinalFile, $finalFile);
-                        if ((new Filesystem())->exists($finalFile)) {
-                            $generatedFiles++;
-                        }
+                    }
+
+                    $filesystem = new Filesystem();
+                    $filesystem->rename($hashFinalFile, $finalFile);
+                    if ((new Filesystem())->exists($finalFile)) {
+                        $generatedFiles++;
                     }
 
                     $this->GeneratePoster->deleteSvg();

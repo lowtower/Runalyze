@@ -84,7 +84,7 @@ abstract class AbstractKernel
         );
 
         if ($normalized) {
-            $values = array_map(function(float $v): float {
+            return array_map(function(float $v): float {
                 return $this->NormalizationFactor * $v;
             }, $values);
         }

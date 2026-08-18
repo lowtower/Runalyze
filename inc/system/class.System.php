@@ -23,18 +23,17 @@ class System {
 		return '//'.$_SERVER['HTTP_HOST'];
 	}
 
-	/**
-	 * Get full domain
-	 * @param bool $onlyToRunalyze
-	 * @return string
-	 */
-	public static function getFullDomain($onlyToRunalyze = true) {
+    /**
+     * Get full domain
+     * @param bool $onlyToRunalyze
+     */
+    public static function getFullDomain($onlyToRunalyze = true): string {
 		// TODO: correct handling of /web
 
 		$path = self::getDomain().substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], '/')).'/';
 
 		if ($onlyToRunalyze) {
-			$path = str_replace(array('call/', 'inc/', 'tpl/'), array('', '', ''), $path);
+			return str_replace(array('call/', 'inc/', 'tpl/'), array('', '', ''), $path);
 		}
 
 		return $path;

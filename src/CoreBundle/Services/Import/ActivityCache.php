@@ -49,7 +49,7 @@ class ActivityCache
             return $activityToMerge;
         }
 
-        if (null !== $activityToMerge) {
+        if ($activityToMerge instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
             return $this->merge($activity, $activityToMerge);
         }
 

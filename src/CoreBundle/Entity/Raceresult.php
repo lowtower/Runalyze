@@ -110,10 +110,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param float $officialDistance [km]
-     *
-     * @return $this
      */
-    public function setOfficialDistance($officialDistance)
+    public function setOfficialDistance($officialDistance): self
     {
         $this->officialDistance = $officialDistance;
 
@@ -130,10 +128,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param float $officialTime [s]
-     *
-     * @return $this
      */
-    public function setOfficialTime($officialTime)
+    public function setOfficialTime($officialTime): self
     {
         $this->officialTime = $officialTime;
 
@@ -150,10 +146,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setOfficiallyMeasured($flag)
+    public function setOfficiallyMeasured($flag): self
     {
         $this->officiallyMeasured = $flag;
 
@@ -170,10 +164,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -190,10 +182,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $placeTotal
-     *
-     * @return $this
      */
-    public function setPlaceTotal($placeTotal)
+    public function setPlaceTotal($placeTotal): self
     {
         $this->placeTotal = $placeTotal;
 
@@ -210,10 +200,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $placeGender
-     *
-     * @return $this
      */
-    public function setPlaceGender($placeGender)
+    public function setPlaceGender($placeGender): self
     {
         $this->placeGender = $placeGender;
 
@@ -230,10 +218,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $placeAgeclass
-     *
-     * @return $this
      */
-    public function setPlaceAgeclass($placeAgeclass)
+    public function setPlaceAgeclass($placeAgeclass): self
     {
         $this->placeAgeclass = $placeAgeclass;
 
@@ -250,10 +236,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $participantsTotal
-     *
-     * @return $this
      */
-    public function setParticipantsTotal($participantsTotal)
+    public function setParticipantsTotal($participantsTotal): self
     {
         $this->participantsTotal = $participantsTotal;
 
@@ -270,10 +254,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $participantsGender
-     *
-     * @return $this
      */
-    public function setParticipantsGender($participantsGender)
+    public function setParticipantsGender($participantsGender): self
     {
         $this->participantsGender = $participantsGender;
 
@@ -290,10 +272,8 @@ class Raceresult implements AccountRelatedEntityInterface
 
     /**
      * @param int|null $participantsAgeclass
-     *
-     * @return $this
      */
-    public function setParticipantsAgeclass($participantsAgeclass)
+    public function setParticipantsAgeclass($participantsAgeclass): self
     {
         $this->participantsAgeclass = $participantsAgeclass;
 
@@ -308,10 +288,7 @@ class Raceresult implements AccountRelatedEntityInterface
         return $this->participantsAgeclass;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -326,10 +303,7 @@ class Raceresult implements AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @return $this
-     */
-    public function setActivity(Training $activity)
+    public function setActivity(Training $activity): self
     {
         $this->activity = $activity;
 
@@ -344,10 +318,7 @@ class Raceresult implements AccountRelatedEntityInterface
         return $this->activity;
     }
 
-    /**
-     * @return $this
-     */
-    public function fillFromActivity(Training $activity)
+    public function fillFromActivity(Training $activity): self
     {
         $this->setActivity($activity);
         $this->setAccount($activity->getAccount());

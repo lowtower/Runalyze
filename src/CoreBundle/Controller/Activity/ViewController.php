@@ -221,7 +221,7 @@ class ViewController extends Controller
         $activityContext = $this->get('app.activity_context.factory')
             ->getContext($activity);
 
-        if (! $activity->isPublic() && $account === null) {
+        if (! $activity->isPublic() && ! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             throw $this->createNotFoundException('No activity found.');
         }
 

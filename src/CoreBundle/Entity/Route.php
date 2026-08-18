@@ -179,10 +179,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name ?: '';
         $this->cities = $name ?: '';
@@ -200,10 +198,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string $cities
-     *
-     * @return $this
      */
-    public function setCities($cities)
+    public function setCities($cities): self
     {
         $this->cities = $cities ?: '';
         $this->name = $cities ?: '';
@@ -221,10 +217,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param float $distance [km]
-     *
-     * @return $this
      */
-    public function setDistance($distance)
+    public function setDistance($distance): self
     {
         $this->distance = $distance;
 
@@ -241,10 +235,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param int $elevation [m]
-     *
-     * @return $this
      */
-    public function setElevation($elevation)
+    public function setElevation($elevation): self
     {
         $this->elevation = $elevation;
 
@@ -261,10 +253,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param int $elevationUp [m]
-     *
-     * @return $this
      */
-    public function setElevationUp($elevationUp)
+    public function setElevationUp($elevationUp): self
     {
         $this->elevationUp = $elevationUp;
 
@@ -281,10 +271,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param int $elevationDown [m]
-     *
-     * @return $this
      */
-    public function setElevationDown($elevationDown)
+    public function setElevationDown($elevationDown): self
     {
         $this->elevationDown = $elevationDown;
 
@@ -301,10 +289,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param int $altitudeBarometric boolean
-     *
-     * @return $this
      */
-    public function setAltitudeBarometric($altitudeBarometric)
+    public function setAltitudeBarometric($altitudeBarometric): self
     {
         $this->altitudeBarometric = $altitudeBarometric;
 
@@ -319,10 +305,7 @@ class Route implements AccountRelatedEntityInterface
         return $this->altitudeBarometric;
     }
 
-    /**
-     * @return $this
-     */
-    public function setGeohashes(?array $geohashes = null)
+    public function setGeohashes(?array $geohashes = null): self
     {
         $this->areMinMaxSynchronized = false;
         $this->geohashes = $geohashes;
@@ -346,10 +329,8 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param array<int, mixed> $latitudes
      * @param array<int, mixed> $longitudes
-     *
-     * @return $this
      */
-    public function setLatitudesAndLongitudes(array $latitudes, array $longitudes)
+    public function setLatitudesAndLongitudes(array $latitudes, array $longitudes): self
     {
         $size = count($latitudes);
 
@@ -411,10 +392,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $elevationsOriginal [m]
-     *
-     * @return $this
      */
-    public function setElevationsOriginal(?array $elevationsOriginal = null)
+    public function setElevationsOriginal(?array $elevationsOriginal = null): self
     {
         $this->elevationsOriginal = $elevationsOriginal;
 
@@ -431,10 +410,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $elevationsCorrected [m]
-     *
-     * @return $this
      */
-    public function setElevationsCorrected(?array $elevationsCorrected = null)
+    public function setElevationsCorrected(?array $elevationsCorrected = null): self
     {
         $this->elevationsCorrected = $elevationsCorrected;
 
@@ -478,10 +455,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string|null $elevationsSource
-     *
-     * @return $this
      */
-    public function setElevationsSource($elevationsSource)
+    public function setElevationsSource($elevationsSource): self
     {
         $this->elevationsSource = $elevationsSource;
 
@@ -498,10 +473,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string|null $startpoint [geohash]
-     *
-     * @return $this
      */
-    public function setStartpoint($startpoint)
+    public function setStartpoint($startpoint): self
     {
         $this->startpoint = $startpoint;
 
@@ -518,10 +491,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string|null $endpoint [geohash]
-     *
-     * @return $this
      */
-    public function setEndpoint($endpoint)
+    public function setEndpoint($endpoint): self
     {
         $this->endpoint = $endpoint;
 
@@ -538,10 +509,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string|null $min [geohash]
-     *
-     * @return $this
      */
-    public function setMin($min)
+    public function setMin($min): self
     {
         $this->min = $min;
 
@@ -558,10 +527,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param string|null $max [geohash]
-     *
-     * @return $this
      */
-    public function setMax($max)
+    public function setMax($max): self
     {
         $this->max = $max;
 
@@ -578,10 +545,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setInRoutenet($flag)
+    public function setInRoutenet($flag): self
     {
         $this->inRoutenet = (bool) $flag;
 
@@ -596,10 +561,7 @@ class Route implements AccountRelatedEntityInterface
         return $this->inRoutenet;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -616,10 +578,8 @@ class Route implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setLock($flag)
+    public function setLock($flag): self
     {
         $this->lock = (bool) $flag;
 

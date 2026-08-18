@@ -10,7 +10,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
      * @param int[]|float[]|array<int, float[]> $expected
      * @param array<int, mixed> $given
      */
-    protected function assertArraysAreSimilar(array $expected, array $given, $precision)
+    protected function assertArraysAreSimilar(array $expected, array $given, float $precision)
     {
         $this->assertSameSize($expected, $given);
 

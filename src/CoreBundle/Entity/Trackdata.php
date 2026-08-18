@@ -240,10 +240,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $time [s]
-     *
-     * @return $this
      */
-    public function setTime(?array $time = null)
+    public function setTime(?array $time = null): self
     {
         $this->time = $time;
 
@@ -279,10 +277,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $distance [km]
-     *
-     * @return $this
      */
-    public function setDistance(?array $distance = null)
+    public function setDistance(?array $distance = null): self
     {
         $this->distance = $distance;
 
@@ -319,10 +315,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $heartRate [bpm]
-     *
-     * @return $this
      */
-    public function setHeartrate(?array $heartRate = null)
+    public function setHeartrate(?array $heartRate = null): self
     {
         $this->heartrate = $heartRate;
 
@@ -344,10 +338,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $cadence [rpm]
-     *
-     * @return $this
      */
-    public function setCadence(?array $cadence = null)
+    public function setCadence(?array $cadence = null): self
     {
         $this->cadence = $cadence;
 
@@ -371,10 +363,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $power [W]
-     *
-     * @return $this
      */
-    public function setPower(?array $power = null)
+    public function setPower(?array $power = null): self
     {
         $this->power = $power;
 
@@ -396,10 +386,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $temperature [°C]
-     *
-     * @return $this
      */
-    public function setTemperature(?array $temperature = null)
+    public function setTemperature(?array $temperature = null): self
     {
         $this->temperature = $temperature;
 
@@ -421,10 +409,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $groundcontact [ms]
-     *
-     * @return $this
      */
-    public function setGroundcontact(?array $groundcontact = null)
+    public function setGroundcontact(?array $groundcontact = null): self
     {
         $this->groundcontact = $groundcontact;
 
@@ -446,10 +432,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $verticalOscillation [mm]
-     *
-     * @return $this
      */
-    public function setVerticalOscillation(?array $verticalOscillation = null)
+    public function setVerticalOscillation(?array $verticalOscillation = null): self
     {
         $this->verticalOscillation = $verticalOscillation;
 
@@ -473,10 +457,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $groundcontactBalance [%*100]
-     *
-     * @return $this
      */
-    public function setGroundcontactBalance(?array $groundcontactBalance = null)
+    public function setGroundcontactBalance(?array $groundcontactBalance = null): self
     {
         $this->groundcontactBalance = $groundcontactBalance;
 
@@ -498,10 +480,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $smo20 [%]
-     *
-     * @return $this
      */
-    public function setSmo20(?array $smo20 = null)
+    public function setSmo20(?array $smo20 = null): self
     {
         $this->smo20 = $smo20;
 
@@ -523,10 +503,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $smo21 [%]
-     *
-     * @return $this
      */
-    public function setSmo21(?array $smo21 = null)
+    public function setSmo21(?array $smo21 = null): self
     {
         $this->smo21 = $smo21;
 
@@ -548,10 +526,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $thb0 [%]
-     *
-     * @return $this
      */
-    public function setThb0(?array $thb0 = null)
+    public function setThb0(?array $thb0 = null): self
     {
         $this->thb0 = $thb0;
 
@@ -573,10 +549,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $thb1 [%]
-     *
-     * @return $this
      */
-    public function setThb1(?array $thb1 = null)
+    public function setThb1(?array $thb1 = null): self
     {
         $this->thb1 = $thb1;
 
@@ -598,10 +572,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $impactGsLeft [G]
-     *
-     * @return $this
      */
-    public function setImpactGsLeft(?array $impactGsLeft = null)
+    public function setImpactGsLeft(?array $impactGsLeft = null): self
     {
         $this->impactGsLeft = $impactGsLeft;
 
@@ -623,10 +595,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $impactGsRight [G]
-     *
-     * @return $this
      */
-    public function setImpactGsRight(?array $impactGsRight = null)
+    public function setImpactGsRight(?array $impactGsRight = null): self
     {
         $this->impactGsRight = $impactGsRight;
 
@@ -648,10 +618,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $brakingGsLeft [G]
-     *
-     * @return $this
      */
-    public function setBrakingGsLeft(?array $brakingGsLeft = null)
+    public function setBrakingGsLeft(?array $brakingGsLeft = null): self
     {
         $this->brakingGsLeft = $brakingGsLeft;
 
@@ -673,10 +641,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $brakingGsRight [G]
-     *
-     * @return $this
      */
-    public function setBrakingGsRight(?array $brakingGsRight = null)
+    public function setBrakingGsRight(?array $brakingGsRight = null): self
     {
         $this->brakingGsRight = $brakingGsRight;
 
@@ -698,10 +664,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $footstrikeTypeLeft [°]
-     *
-     * @return $this
      */
-    public function setFootstrikeTypeLeft(?array $footstrikeTypeLeft = null)
+    public function setFootstrikeTypeLeft(?array $footstrikeTypeLeft = null): self
     {
         $this->footstrikeTypeLeft = $footstrikeTypeLeft;
 
@@ -723,10 +687,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $footstrikeTypeRight [°]
-     *
-     * @return $this
      */
-    public function setFootstrikeTypeRight(?array $footstrikeTypeRight = null)
+    public function setFootstrikeTypeRight(?array $footstrikeTypeRight = null): self
     {
         $this->footstrikeTypeRight = $footstrikeTypeRight;
 
@@ -748,10 +710,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $pronationExcursionLeft [°]
-     *
-     * @return $this
      */
-    public function setPronationExcursionLeft(?array $pronationExcursionLeft = null)
+    public function setPronationExcursionLeft(?array $pronationExcursionLeft = null): self
     {
         $this->pronationExcursionLeft = $pronationExcursionLeft;
 
@@ -773,10 +733,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $pronationExcursionRight [°]
-     *
-     * @return $this
      */
-    public function setPronationExcursionRight(?array $pronationExcursionRight = null)
+    public function setPronationExcursionRight(?array $pronationExcursionRight = null): self
     {
         $this->pronationExcursionRight = $pronationExcursionRight;
 
@@ -798,10 +756,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $performanceCondition [n]
-     *
-     * @return $this
      */
-    public function setPerformanceCondition(?array $performanceCondition = null)
+    public function setPerformanceCondition(?array $performanceCondition = null): self
     {
         $this->performanceCondition = $performanceCondition;
 
@@ -823,10 +779,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $respirationRate [pm]
-     *
-     * @return $this
      */
-    public function setRespirationRate(?array $respirationRate = null)
+    public function setRespirationRate(?array $respirationRate = null): self
     {
         $this->respirationRate = $respirationRate;
 
@@ -846,10 +800,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return null !== $this->respirationRate;
     }
 
-    /**
-     * @return $this
-     */
-    public function setPauses(PauseCollection $pauses)
+    public function setPauses(PauseCollection $pauses): self
     {
         $this->pauses = $pauses;
 
@@ -864,10 +815,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this->pauses;
     }
 
-    /**
-     * @return $this
-     */
-    public function setActivity(Training $activity)
+    public function setActivity(Training $activity): self
     {
         $this->activity = $activity;
 
@@ -882,10 +830,7 @@ class Trackdata implements AccountRelatedEntityInterface
         return $this->activity;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -902,9 +847,8 @@ class Trackdata implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     * @return $this
      */
-    public function setLock($flag)
+    public function setLock($flag): self
     {
         $this->lock = (bool) $flag;
 

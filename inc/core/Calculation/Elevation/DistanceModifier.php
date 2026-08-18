@@ -59,7 +59,7 @@ class DistanceModifier {
 	 * @param \Runalyze\Configuration\Category\VO2max $config [optional]
 	 */
 	public function __construct($distance = 0, $up = 0, $down = 0, ?Configuration\Category\VO2max $config = null) {
-		if (null !== $config) {
+		if ($config instanceof \Runalyze\Configuration\Category\VO2max) {
 			$this->setCorrectionValues($config->correctionForPositiveElevation(), $config->correctionForNegativeElevation());
 		}
 

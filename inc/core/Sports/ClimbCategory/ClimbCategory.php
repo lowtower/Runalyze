@@ -37,9 +37,8 @@ class ClimbCategory
 
     /**
      * @param int $category
-     * @return $this
      */
-    public function setCategory($category)
+    public function setCategory($category): self
     {
         if (! in_array($category, self::getOptions())) {
             throw new \InvalidArgumentException(sprintf('Invalid climb category "%s".', (string) $category));

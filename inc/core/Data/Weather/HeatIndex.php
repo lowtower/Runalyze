@@ -16,7 +16,7 @@ class HeatIndex implements ValueInterface
      */
     public function __construct(?Activity\Temperature $temperature = null, ?Humidity $humidity = null)
     {
-        if (null !== $temperature && null !== $humidity) {
+        if ($temperature instanceof \Runalyze\Activity\Temperature && $humidity instanceof \Runalyze\Data\Weather\Humidity) {
             $this->setFrom($temperature, $humidity);
         } else {
             $this->setUnknown();
@@ -25,11 +25,10 @@ class HeatIndex implements ValueInterface
 
     /**
      * @param null|float|Activity\Temperature $heatIndex floats are treated as temperature in config's unit
-     * @return $this
      *
      * @throws \InvalidArgumentException
      */
-    public function set($heatIndex)
+    public function set($heatIndex): self
     {
         if (null === $heatIndex) {
             $this->setUnknown();

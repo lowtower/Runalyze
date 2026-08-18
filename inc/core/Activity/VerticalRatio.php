@@ -60,7 +60,7 @@ class VerticalRatio implements ValueInterface
 	 * @param int $permille [%o]
 	 * @return \Runalyze\Activity\VerticalRatio $this-reference
 	 */
-	public function set($permille)
+	public function set($permille): self
 	{
 		$this->Permille = $permille;
 
@@ -72,7 +72,7 @@ class VerticalRatio implements ValueInterface
 	 * @param float $percent [%]
 	 * @return \Runalyze\Activity\VerticalRatio $this-reference
 	 */
-	public function setPercent($percent)
+	public function setPercent($percent): self
 	{
 		$this->Permille = 10*$percent;
 

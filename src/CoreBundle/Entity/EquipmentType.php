@@ -105,10 +105,8 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -125,10 +123,8 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     /**
      * @param int $input see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
-     *
-     * @return $this
      */
-    public function setInput($input)
+    public function setInput($input): self
     {
         $this->input = $input;
 
@@ -150,10 +146,8 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     /**
      * @param null|int $maxKm [km]
-     *
-     * @return $this
      */
-    public function setMaxKm($maxKm)
+    public function setMaxKm($maxKm): self
     {
         $this->maxKm = $maxKm;
 
@@ -175,10 +169,8 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     /**
      * @param null|int $maxTime [s]
-     *
-     * @return $this
      */
-    public function setMaxTime($maxTime)
+    public function setMaxTime($maxTime): self
     {
         $this->maxTime = $maxTime;
 
@@ -198,10 +190,7 @@ class EquipmentType implements AccountRelatedEntityInterface
         return null !== $this->maxTime && $this->maxTime > 0;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -218,10 +207,8 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     /**
      * @param Sport $sport
-     *
-     * @return $this
      */
-    public function addSport(Sport $sport)
+    public function addSport(Sport $sport): self
     {
         $this->sport[] = $sport;
 

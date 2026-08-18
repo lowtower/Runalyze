@@ -333,16 +333,16 @@ class DataBrowser {
 			    null,
 			    null
 			);
-		} else {
-			return DataBrowserLinker::link(
-			    '<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
-			    $this->TimestampStart,
-			    $this->TimestampEnd,
-			    __($name),
-			    null,
-			    $sportId
-			);
 		}
+
+        return DataBrowserLinker::link(
+            '<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
+            $this->TimestampStart,
+            $this->TimestampEnd,
+            __($name),
+            null,
+            $sportId
+        );
 	}
 
     /**

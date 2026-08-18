@@ -90,9 +90,8 @@ class ClimbProfile implements \Countable
      * @param array<int, mixed> $distances
      * @param array<int, mixed> $elevations
      * @param float $segmentLength
-     * @return ClimbProfile
      */
-    public static function getClimbProfileFor(array $distances, array $elevations, $segmentLength = self::DEFAULT_SEGMENT_LENGTH)
+    public static function getClimbProfileFor(array $distances, array $elevations, $segmentLength = self::DEFAULT_SEGMENT_LENGTH): self
     {
         $profile = new self();
 

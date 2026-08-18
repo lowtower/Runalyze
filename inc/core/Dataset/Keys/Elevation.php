@@ -67,11 +67,11 @@ class Elevation extends AbstractKey
         if ($context->activity()->elevation() > 0) {
             if ($context->activity()->id() > 0 && ! \Request::isOnSharedPage()) {
                 return '<a class="window" href="activity/' . $context->activity()->id() . '/elevation-info">' . $context->dataview()->elevation()->string() . '</a>';
-            } else {
-                return $context->dataview()
-                    ->elevation()
-                    ->string();
             }
+
+            return $context->dataview()
+                ->elevation()
+                ->string();
         }
 
 		return '';

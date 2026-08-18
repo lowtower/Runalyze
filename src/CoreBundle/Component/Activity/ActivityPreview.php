@@ -64,7 +64,7 @@ class ActivityPreview
 
     protected function setPropertiesFromSport(?Sport $sport = null)
     {
-        if (null === $sport) {
+        if (! $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
             return;
         }
 

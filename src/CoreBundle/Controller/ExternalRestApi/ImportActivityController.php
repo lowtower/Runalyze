@@ -105,9 +105,9 @@ class ImportActivityController extends Controller
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $username . '_' . microtime(true);
         if(mkdir($tmpDir)) {
             return $tmpDir;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     private function processFiles($username, $uploadDir, $allfiles): string {

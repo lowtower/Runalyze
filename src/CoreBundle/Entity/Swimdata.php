@@ -59,10 +59,7 @@ class Swimdata implements AccountRelatedEntityInterface
     private $activity;
 
 
-    /**
-     * @return $this
-     */
-    public function setStroke(?array $stroke = null)
+    public function setStroke(?array $stroke = null): self
     {
         $this->stroke = $stroke;
 
@@ -82,10 +79,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return null !== $this->stroke;
     }
 
-    /**
-     * @return $this
-     */
-    public function setStroketype(?array $strokeType = null)
+    public function setStroketype(?array $strokeType = null): self
     {
         $this->stroketype = $strokeType;
 
@@ -107,9 +101,8 @@ class Swimdata implements AccountRelatedEntityInterface
 
     /**
      * @param int $poolLength [cm]
-     * @return $this
      */
-    public function setPoolLength($poolLength)
+    public function setPoolLength($poolLength): self
     {
         $this->poolLength = $poolLength;
 
@@ -124,10 +117,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this->poolLength;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -142,10 +132,7 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @return $this
-     */
-    public function setActivity(Training $activity)
+    public function setActivity(Training $activity): self
     {
         $this->activity = $activity;
 

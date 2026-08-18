@@ -62,10 +62,8 @@ class Tag implements AccountRelatedEntityInterface
 
     /**
      * @param string $tag
-     *
-     * @return $this
      */
-    public function setTag($tag)
+    public function setTag($tag): self
     {
         $this->tag = $tag;
 
@@ -80,10 +78,7 @@ class Tag implements AccountRelatedEntityInterface
         return $this->tag;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 

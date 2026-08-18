@@ -53,9 +53,8 @@ class PluginConf
 
     /**
      * @param string $config
-     * @return $this
      */
-    public function setConfig($config)
+    public function setConfig($config): self
     {
         $this->config = $config;
 
@@ -72,9 +71,8 @@ class PluginConf
 
     /**
      * @param string $value
-     * @return $this
      */
-    public function setValue($value)
+    public function setValue($value): self
     {
         $this->value = $value;
 
@@ -91,9 +89,8 @@ class PluginConf
 
     /**
      * @param Plugin $plugin
-     * @return $this
      */
-    public function setPlugin(\Runalyze\Bundle\CoreBundle\Entity\Plugin $plugin)
+    public function setPlugin(\Runalyze\Bundle\CoreBundle\Entity\Plugin $plugin): self
     {
         $this->plugin = $plugin;
 

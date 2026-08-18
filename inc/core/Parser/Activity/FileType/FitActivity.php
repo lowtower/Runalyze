@@ -815,7 +815,7 @@ class FitActivity extends AbstractSingleParser
      * Mapping number to device see https://github.com/Runalyze/devices/blob/master/src/Mapping/GarminFitSdkMapping.php
      */
     protected function hasPerformanceCondition($creator): bool {
-        if (substr($creator, 0, 5) === 'fr630' || $creator == '2156' || $creator == '2310' || $creator == '2311' ||                             // GARMIN_FORERUNNER_630
+        return substr($creator, 0, 5) === 'fr630' || $creator == '2156' || $creator == '2310' || $creator == '2311' ||                             // GARMIN_FORERUNNER_630
             substr($creator, 0, 5) === 'fr645' || $creator == '2886' || $creator == '3003' || $creator == '2888' || $creator == '3004' ||       // GARMIN_FORERUNNER_645
             substr($creator, 0, 5) === 'fr935' || $creator == '2691' || $creator == '2833' ||                                                   // GARMIN_FORERUNNER_935
             $creator == '3113' || $creator == '3441' ||                                                                                         // GARMIN_FORERUNNER_945
@@ -831,12 +831,7 @@ class FitActivity extends AbstractSingleParser
             $creator == '2798' || $creator == '3089' || $creator == '3135' || $creator == '2900' || $creator == '3134' || $creator == '3111' ||
             substr($creator, 0, 6) === 'fenix6' ||                                                                                              // GARMIN_FENIX 6...
             $creator == '3287' || $creator == '3288' || $creator == '3289' || $creator == '3290' || $creator == '3291' || $creator == '3512' ||
-            $creator == '3513' || $creator == '3514' || $creator == '3515' || $creator == '3516'
-            ) {
-            return true;
-        } else {
-            return false;
-        }
+            $creator == '3513' || $creator == '3514' || $creator == '3515' || $creator == '3516';
     }
 
     protected function readRecord()
@@ -1200,14 +1195,8 @@ class FitActivity extends AbstractSingleParser
      * primary for swimming.
      */
     protected function isActiveLap(): bool {
-        if ($this->IsSwimming
-            && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == '0'
-            && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == '0') {
-            // this is for lap and StrokeTypeProfile::BREAK (for lanes) can't be used here
-            return false;
-        } else {
-            return true;
-        }
+        // this is for lap and StrokeTypeProfile::BREAK (for lanes) can't be used here
+        return ! ($this->IsSwimming && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == '0' && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == '0');
     }
 
     /**

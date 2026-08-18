@@ -99,10 +99,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -119,10 +117,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param string $abbr
-     *
-     * @return $this
      */
-    public function setAbbr($abbr)
+    public function setAbbr($abbr): self
     {
         $this->abbr = $abbr;
 
@@ -139,10 +135,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param Sport $sport
-     *
-     * @return $this
      */
-    public function setSport(Sport $sport)
+    public function setSport(Sport $sport): self
     {
         $this->sport = $sport;
 
@@ -159,10 +153,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param int $mode see \Runalyze\Profile\View\DataBrowserRowProfile
-     *
-     * @return $this
      */
-    public function setDisplayMode($mode)
+    public function setDisplayMode($mode): self
     {
         $this->displayMode = $mode;
 
@@ -205,10 +197,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param int $hrAvg [bpm]
-     *
-     * @return $this
      */
-    public function setHrAvg($hrAvg)
+    public function setHrAvg($hrAvg): self
     {
         $this->hrAvg = $hrAvg;
 
@@ -225,10 +215,8 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     /**
      * @param bool $qualitySession
-     *
-     * @return $this
      */
-    public function setQualitySession($qualitySession)
+    public function setQualitySession($qualitySession): self
     {
         $this->qualitySession = $qualitySession;
 
@@ -243,10 +231,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->qualitySession;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account= $account;
 

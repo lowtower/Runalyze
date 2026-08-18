@@ -184,9 +184,9 @@ class HrZonesCalculator
                 if ($matchesa[self::PATTERN_GRP_HR] == $matchesb[self::PATTERN_GRP_HR]) return 0;
 
                 return ($matchesa[self::PATTERN_GRP_HR] < $matchesb[self::PATTERN_GRP_HR]) ? -1 : 1;
-            } else {
-                return 0;
             }
+
+            return 0;
         });
         return $zones;
     }

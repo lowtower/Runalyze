@@ -120,20 +120,15 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param int $time
-     *
-     * @return $this
      */
-    public function setTime($time)
+    public function setTime($time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function setCurrentTimestamp()
+    public function setCurrentTimestamp(): self
     {
         $this->time = time();
 
@@ -150,10 +145,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param float|null $weight [kg]
-     *
-     * @return $this
      */
-    public function setWeight($weight)
+    public function setWeight($weight): self
     {
         $this->weight = $weight;
 
@@ -170,10 +163,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param int|null $pulseRest [bpm]
-     *
-     * @return $this
      */
-    public function setPulseRest($pulseRest)
+    public function setPulseRest($pulseRest): self
     {
         $this->pulseRest = $pulseRest;
 
@@ -190,10 +181,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param int|null $pulseMax [bpm]
-     *
-     * @return $this
      */
-    public function setPulseMax($pulseMax)
+    public function setPulseMax($pulseMax): self
     {
         $this->pulseMax = $pulseMax;
 
@@ -210,10 +199,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param float|null $fat [%]
-     *
-     * @return $this
      */
-    public function setFat($fat)
+    public function setFat($fat): self
     {
         $this->fat = $fat;
 
@@ -230,10 +217,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param float|null $water [%]
-     *
-     * @return $this
      */
-    public function setWater($water)
+    public function setWater($water): self
     {
         $this->water = $water;
 
@@ -250,10 +235,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param float|null $muscles [%]
-     *
-     * @return $this
      */
-    public function setMuscles($muscles)
+    public function setMuscles($muscles): self
     {
         $this->muscles = $muscles;
 
@@ -270,10 +253,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param int|null $sleepDuration [min]
-     *
-     * @return $this
      */
-    public function setSleepDuration($sleepDuration)
+    public function setSleepDuration($sleepDuration): self
     {
         $this->sleepDuration = $sleepDuration;
 
@@ -290,10 +271,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 
     /**
      * @param string|null $notes
-     *
-     * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): self
     {
         $this->notes = $notes;
 
@@ -308,10 +287,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
         return $this->notes;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -326,10 +302,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @return User
-     */
-    public function cloneObjectForForm()
+    public function cloneObjectForForm(): self
     {
         return (new self())
             ->setAccount($this->account)

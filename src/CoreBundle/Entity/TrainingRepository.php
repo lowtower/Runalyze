@@ -390,7 +390,7 @@ class TrainingRepository extends EntityRepository
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
 
         if (empty($ids)) {
-            if (null === $account) {
+            if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
                 return [];
             }
 

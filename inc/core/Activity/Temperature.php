@@ -51,7 +51,7 @@ class Temperature implements ValueInterface {
 	 * @param \Runalyze\Parameter\Application\TemperatureUnit $preferredUnit
 	 */
 	public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null) {
-		$this->PreferredUnit = (null !== $preferredUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
+		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
 
 		$this->set($temperature);
 	}
@@ -73,7 +73,7 @@ class Temperature implements ValueInterface {
 	 * @param float|string|null $temperature [°C]
 	 * @return \Runalyze\Activity\Temperature $this-reference
 	 */
-	public function set($temperature) {
+	public function set($temperature): self {
 		if (null === $temperature || $temperature === '') {
 			$this->Temperature = null;
 		} else {
@@ -88,7 +88,7 @@ class Temperature implements ValueInterface {
 	 * @param float|string|null $temperature [°F]
 	 * @return \Runalyze\Activity\Temperature $this-reference
 	 */
-	public function setFahrenheit($temperature) {
+	public function setFahrenheit($temperature): self {
 		if (null === $temperature || $temperature === '') {
 			$this->Temperature = null;
 		} else {
@@ -102,7 +102,7 @@ class Temperature implements ValueInterface {
 	 * @param float|string|null $temperature [mixed unit]
 	 * @return \Runalyze\Activity\Temperature $this-reference
 	 */
-	public function setInPreferredUnit($temperature) {
+	public function setInPreferredUnit($temperature): self {
 		if ($this->PreferredUnit->isFahrenheit()) {
 			$this->setFahrenheit($temperature);
 		} else {

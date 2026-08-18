@@ -86,8 +86,8 @@ class DisplayableVO2max extends DisplayableValue
 
         if ($diffToShape > $this->LowerLimitsForIcon[3]) {
             return 'fa-arrow-right  fa-rotate-45';
-        } else {
-            return 'fa-arrow-down';
         }
+
+        return 'fa-arrow-down';
     }
 }

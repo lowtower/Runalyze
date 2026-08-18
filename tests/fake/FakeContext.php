@@ -63,11 +63,11 @@ class FakeContext extends \Runalyze\View\Activity\Context {
         ?Trackdata\Entity $trackdata = null,
         ?Route\Entity $route = null
     ): self {
-		if (null === $trackdata) {
+		if (! $trackdata instanceof \Runalyze\Model\Trackdata\Entity) {
 			$trackdata = new Trackdata\Entity(array());
 		}
 
-		if (null === $route) {
+		if (! $route instanceof \Runalyze\Model\Route\Entity) {
 			$route = new Route\Entity(array());
 		}
 

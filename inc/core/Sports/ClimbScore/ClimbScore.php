@@ -25,9 +25,8 @@ class ClimbScore
 
     /**
      * @param float|null $score
-     * @return $this
      */
-    public function setScore($score)
+    public function setScore($score): self
     {
         $this->Score = $score;
 
@@ -51,9 +50,8 @@ class ClimbScore
      * @param float[] $fietsIndices fiets indices for climbs (assuming gradient >= 0.02)
      * @param float $totalDistance [km]
      * @param float $percentageFlat [0.00 .. 1.00]
-     * @return $this
      */
-    public function setScoreFromClassifiedClimbs(array $fietsIndices, $totalDistance, $percentageFlat)
+    public function setScoreFromClassifiedClimbs(array $fietsIndices, $totalDistance, $percentageFlat): self
     {
         $this->Score = $this->getScoreForSumOfSingleScores(
             $this->getSumOfScoresForClassifiedClimbs($fietsIndices, $totalDistance),

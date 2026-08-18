@@ -121,8 +121,8 @@ class HeartrateAverage extends AbstractKey
     'class' => $class,
 			    'style' => '--perc: ' . $v . '%;'
 );
-		} else {
-			return null;
 		}
+
+        return null;
 	}
 }

@@ -70,7 +70,7 @@ class Pace {
 	 * @param int $time [s]
 	 * @return \Runalyze\Activity\Pace $this-reference
 	 */
-	public function setTime($time) {
+	public function setTime($time): self {
 		$this->Time = $time;
 
 		return $this;
@@ -81,7 +81,7 @@ class Pace {
 	 * @param float $distance [km]
 	 * @return \Runalyze\Activity\Pace $this-reference
 	 */
-	public function setDistance($distance) {
+	public function setDistance($distance): self {
 		$this->Distance = $distance;
 
 		return $this;

@@ -147,9 +147,9 @@ abstract class Category {
 	final protected function object($key) {
 		if (isset($this->Handles[$key])) {
 			return $this->Handles[$key]->object();
-		} else {
-			throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
 		}
+
+        throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
 	}
 
 	/**
@@ -161,9 +161,9 @@ abstract class Category {
 	final protected function handle($key) {
 		if (isset($this->Handles[$key])) {
 			return $this->Handles[$key];
-		} else {
-			throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
 		}
+
+        throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
 	}
 
 	/**

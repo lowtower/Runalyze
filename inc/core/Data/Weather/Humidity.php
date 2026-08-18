@@ -39,7 +39,7 @@ class Humidity implements ValueInterface
      * @return \Runalyze\Data\Weather\Humidity $this-reference
      * @throws \InvalidArgumentException
      */
-    public function set($percent)
+    public function set($percent): self
     {
         if (null !== $percent && (! is_numeric($percent) || $percent < 0 || $percent > 100)) {
             throw new \InvalidArgumentException('Humidity must be a numeric value between 0 and 100.');

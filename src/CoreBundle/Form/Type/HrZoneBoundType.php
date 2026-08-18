@@ -54,10 +54,10 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
             }
 
             return null;
-        } else {
-            if (HrZonesCalculator::validateInputZone($zone)) {
-                throw new TransformationFailedException('Zone is invalid');
-            }
+        }
+
+        if (HrZonesCalculator::validateInputZone($zone)) {
+            throw new TransformationFailedException('Zone is invalid');
         }
 
         return $zone;

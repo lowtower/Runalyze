@@ -71,7 +71,7 @@ class Calculator
     public function __construct(array $ElevationPoints, ?ElevationMethod $Method = null, $Threshold = null)
 	{
 		$this->ElevationPoints = $ElevationPoints;
-		$this->Method = null !== $Method ? $Method : Configuration::ActivityView()->elevationMethod();
+		$this->Method = $Method instanceof \Runalyze\Parameter\Application\ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
 		$this->Threshold = null !== $Threshold ? $Threshold : Configuration::ActivityView()->elevationMinDiff();
 	}
 

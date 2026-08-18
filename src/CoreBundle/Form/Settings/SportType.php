@@ -199,7 +199,7 @@ class SportType extends AbstractType
         $choicesWithIdsAsKeys = array_flip(SportProfile::getChoices());
 
         foreach ($usedInternalIds as $id) {
-            if (null === $sport || $sport->getInternalSportId() != $id) {
+            if (! $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport || $sport->getInternalSportId() != $id) {
                 unset($choicesWithIdsAsKeys[$id]);
             }
         }

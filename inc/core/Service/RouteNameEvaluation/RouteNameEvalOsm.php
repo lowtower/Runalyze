@@ -89,9 +89,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $coll = new OsmCsvDataCollection($csvResponse);
                 if($coll->hasNames()) {
                     return $this->createResult($sport, $coll);
-                } else {
-                    $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d has EMPTY result and is skipped.', $route->getId()));
                 }
+
+                $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d has EMPTY result and is skipped.', $route->getId()));
             }
         }
 
@@ -121,15 +121,17 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
                 throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
                 return null;
-            } else {
-                $repCont = $response->getBody()
-                    ->getContents();
-                // convert TAB from Overpass to | used here; i want to use | it's better to handle ;-)
-                $repCont = str_replace('|', '/', $repCont); // replace existing | (in f.e. names) to /
-                $repCont = str_replace("\t", '|', $repCont); // now replace all TAB to |
-                $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
-                return $repCont;
             }
+
+            $repCont = $response->getBody()
+                ->getContents();
+            // convert TAB from Overpass to | used here; i want to use | it's better to handle ;-)
+            $repCont = str_replace('|', '/', $repCont);
+            // replace existing | (in f.e. names) to /
+            $repCont = str_replace("\t", '|', $repCont);
+            // now replace all TAB to |
+            $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
+            return $repCont;
         } catch (RequestException $requestException) {
             $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
                 'exception' => $requestException
@@ -278,9 +280,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         if(! empty($routes) || ! empty($notes)) {
             $r = implode(' - ', array_slice($routes, 0, $this->limitRoute($routes)));
             return new RouteNameEvalResult($r, $notes);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -300,8 +302,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
         if($len >= 255) {
             return $i - 1;
-        } else {
-            return $i;
         }
+
+        return $i;
     }
 }

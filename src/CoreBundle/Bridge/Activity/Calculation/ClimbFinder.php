@@ -67,10 +67,7 @@ class ClimbFinder
         return $climbs;
     }
 
-    /**
-     * @return ClimbProfile
-     */
-    protected function getClimbProfileFor(array $distances, array $elevations)
+    protected function getClimbProfileFor(array $distances, array $elevations): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile
     {
         return ClimbProfile::getClimbProfileFor($distances, $elevations, self::EPSILON_FOR_CLIMB_PROFILE);
     }

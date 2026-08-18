@@ -43,11 +43,11 @@ class FitSdkExercise {
 
         if(empty($result)) {
             return 'unknown';
-        } else {
-            // remove double entries
-            $result = array_unique($result);
-            return implode(', ', $result);
         }
+
+        // remove double entries
+        $result = array_unique($result);
+        return implode(', ', $result);
     }
 
     /**
@@ -71,18 +71,18 @@ class FitSdkExercise {
     private function getCategoryName(int $category): ?string {
         if($category !== self::CAT_UNKNOWN && $category !== self::UNUSED && array_key_exists($category, $this->categorys)) {
             return $this->categorys[$category];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     private function getSubCategoryName(string $cat, int $subtype): ?string {
         $id = $cat . '#' . strval($subtype);
         if(array_key_exists($id, $this->subCategorys)) {
             return $this->subCategorys[$id];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     // =TEXTKETTE(D2209;" => ";"""";C2209;"""";",")

@@ -188,7 +188,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
             }
         }
 
-        if (null !== $route && $route->hasElevations()) {
+        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && $route->hasElevations()) {
             $elevationsCorrected = $route->getElevationsCorrected();
 
             if (null !== $elevationsCorrected) {
@@ -205,10 +205,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         }
     }
 
-    /**
-     * @param string $message
-     */
-    protected function logMessage($message)
+    protected function logMessage(string $message)
     {
         if ($this->LogFixes) {
             $this->write($message);

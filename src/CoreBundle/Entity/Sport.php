@@ -185,10 +185,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         $this->trainings = new ArrayCollection();
     }
 
-    /**
-     * @return $this
-     */
-    public function setDataFrom(ProfileInterface $profile)
+    public function setDataFrom(ProfileInterface $profile): self
     {
         $this->setInternalSportId($profile->getInternalProfileEnum());
         $this->setImg($profile->getIconClass());
@@ -213,10 +210,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -233,10 +228,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param string $img
-     *
-     * @return $this
      */
-    public function setImg($img)
+    public function setImg($img): self
     {
         $this->img = $img;
 
@@ -253,10 +246,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setShort($flag)
+    public function setShort($flag): self
     {
         $this->short = $flag;
 
@@ -273,10 +264,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param int $kcal [kcal/h]
-     *
-     * @return $this
      */
-    public function setKcal($kcal)
+    public function setKcal($kcal): self
     {
         $this->kcal = $kcal;
 
@@ -293,10 +282,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param int $bpm [bpm]
-     *
-     * @return $this
      */
-    public function setHfavg($bpm)
+    public function setHfavg($bpm): self
     {
         $this->hfavg = $bpm;
 
@@ -313,10 +300,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setDistances($flag)
+    public function setDistances($flag): self
     {
         $this->distances = $flag;
 
@@ -333,10 +318,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param int $enum see \Runalyze\Metrics\Velocity\Unit\PaceEnum
-     *
-     * @return $this
      */
-    public function setSpeed($enum)
+    public function setSpeed($enum): self
     {
         $this->speed = $enum;
 
@@ -361,10 +344,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setPower($flag)
+    public function setPower($flag): self
     {
         $this->power = $flag;
 
@@ -381,10 +362,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setOutside($flag)
+    public function setOutside($flag): self
     {
         $this->outside = $flag;
 
@@ -401,10 +380,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $privacy true: defaults to private
-     *
-     * @return $this
      */
-    public function setDefaultPrivacy($privacy)
+    public function setDefaultPrivacy($privacy): self
     {
         $this->defaultPrivacy = $privacy;
 
@@ -421,10 +398,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param null|array $hrZoneBounds [bpm]
-     *
-     * @return $this
      */
-    public function setHrZoneBounds($hrZoneBounds)
+    public function setHrZoneBounds($hrZoneBounds): self
     {
         if (null !== $hrZoneBounds) {
             $hrZoneBounds = HrZonesCalculator::sortZones($hrZoneBounds);
@@ -443,10 +418,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->hrZoneBounds;
     }
 
-    /**
-     * @return $this
-     */
-    public function setMainEquipmenttype(?EquipmentType $mainEquipmenttype = null)
+    public function setMainEquipmenttype(?EquipmentType $mainEquipmenttype = null): self
     {
         $this->mainEquipmenttype = $mainEquipmenttype;
 
@@ -461,10 +433,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->mainEquipmenttype;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDefaultType(?Type $defaultType = null)
+    public function setDefaultType(?Type $defaultType = null): self
     {
         $this->defaultType = $defaultType;
 
@@ -481,10 +450,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setIsMain($flag = true)
+    public function setIsMain($flag = true): self
     {
         $this->isMain = $flag;
 
@@ -501,10 +468,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     /**
      * @param int|null $internalSportId see \Runalyze\Profile\Sport\SportProfile
-     *
-     * @return $this
      */
-    public function setInternalSportId($internalSportId)
+    public function setInternalSportId($internalSportId): self
     {
         $this->internalSportId = $internalSportId;
         $this->internalSport = null;
@@ -544,10 +509,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->internalSport;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -562,10 +524,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->account;
     }
 
-    /**
-     * @return $this
-     */
-    public function addEquipmentType(EquipmentType $equipmentType)
+    public function addEquipmentType(EquipmentType $equipmentType): self
     {
         $this->equipmentType[] = $equipmentType;
 

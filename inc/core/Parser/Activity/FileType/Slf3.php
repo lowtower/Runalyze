@@ -43,10 +43,10 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     {
         if (empty($this->Xml->LogEntries->LogEntry)) {
             throw new UnsupportedFileException('This file does not contain any data.');
-        } else {
-            foreach ($this->Xml->LogEntries->LogEntry as $log) {
-                $this->parseLogEntry($log);
-            }
+        }
+
+        foreach ($this->Xml->LogEntries->LogEntry as $log) {
+            $this->parseLogEntry($log);
         }
     }
 

@@ -35,9 +35,8 @@ class HeartRateBasedEstimator
 
     /**
      * @param int $heartRateInBpm
-     * @return Energy
      */
-    public function getExpenditurePerMinute($heartRateInBpm)
+    public function getExpenditurePerMinute($heartRateInBpm): \Runalyze\Metrics\Energy\Energy
     {
         if ($this->Athlete->knowsGender() && $this->Athlete->isFemale()) {
             $kiloJoulesPerMinute = $this->getExpenditureForFemale($heartRateInBpm);

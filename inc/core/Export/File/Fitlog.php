@@ -115,7 +115,7 @@ class Fitlog extends AbstractFileExporter
             $Point = $Track->addChild('pt');
             $Point->addAttribute('tm', $Trackdata->time());
 
-            if (null !== $Route) {
+            if ($Route instanceof \Runalyze\Model\Route\Loop) {
                 $Point->addAttribute('lat', $Route->latitude());
                 $Point->addAttribute('lon', $Route->longitude());
                 $Point->addAttribute('ele', $Route->current(Route\Entity::ELEVATIONS_ORIGINAL));

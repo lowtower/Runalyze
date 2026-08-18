@@ -239,9 +239,9 @@ class Table {
 		if(! $Lap->isActive()) {
 			if (count($this->AdditionalKeys) > 0) {
 				return $Code . '<td colspan="' . count($this->AdditionalKeys) . '"></td>';
-			} else {
-				return $Code;
 			}
+
+            return $Code;
 		}
 
 		$View = new Dataview(new Activity\Entity(

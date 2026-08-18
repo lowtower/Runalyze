@@ -18,11 +18,10 @@ class Energy extends AbstractMetric
 
     /**
      * @param mixed $value
-     * @return $this
      */
-    public function setValue($value, ?AbstractEnergyUnit $unit = null)
+    public function setValue($value, ?AbstractEnergyUnit $unit = null): self
     {
-        $this->Value = null !== $unit ? $unit->toBaseUnit($value) : $value;
+        $this->Value = $unit instanceof \Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit ? $unit->toBaseUnit($value) : $value;
 
         return $this;
     }
@@ -31,9 +30,8 @@ class Energy extends AbstractMetric
      * @param int|float $met metabolic equivalent [kcal/kg/h]
      * @param int|float $bodyMassInKilogram [kg]
      * @param int|float $timeInHours [h]
-     * @return $this
      */
-    public function setByMetabolicEquivalent($met, $bodyMassInKilogram, $timeInHours)
+    public function setByMetabolicEquivalent($met, $bodyMassInKilogram, $timeInHours): self
     {
         $this->Value = $met * $bodyMassInKilogram * $timeInHours;
 

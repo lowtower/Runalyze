@@ -69,9 +69,9 @@ class GeneratePoster
 
         if(! $builder->isSuccessful()) {
             throw new ProcessFailedException($builder);
-        } else {
-            return $this->pathToSvgDirectory().$this->Filename;
         }
+
+        return $this->pathToSvgDirectory().$this->Filename;
     }
 
     /**

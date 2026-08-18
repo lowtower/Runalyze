@@ -303,7 +303,7 @@ class DataSeriesRemover
     {
         $choices = [];
 
-        if (null === $trackData) {
+        if (! $trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             return [];
         }
 
@@ -374,7 +374,7 @@ class DataSeriesRemover
     {
         $choices = [];
 
-        if (null === $trackData) {
+        if (! $trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             return [];
         }
 
@@ -417,7 +417,7 @@ class DataSeriesRemover
     {
         $choices = [];
 
-        if (null === $route) {
+        if (! $route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route) {
             return [];
         }
 
@@ -438,7 +438,7 @@ class DataSeriesRemover
 
     private static function getChoicesForHrv(?Hrv $hrv = null): array
     {
-        if (null === $hrv) {
+        if (! $hrv instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
             return [];
         }
 

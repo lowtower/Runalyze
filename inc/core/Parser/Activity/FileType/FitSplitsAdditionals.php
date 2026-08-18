@@ -30,9 +30,9 @@ class FitSplitsAdditionals {
             $all['keys'] = $this->getUniqueKeys();
             $all['data'] = $this->data;
             return $all;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

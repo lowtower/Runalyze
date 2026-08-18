@@ -46,10 +46,8 @@ class Hrv implements AccountRelatedEntityInterface
 
     /**
      * @param array|null $data
-     *
-     * @return $this
      */
-    public function setData($data = null)
+    public function setData($data = null): self
     {
         $this->data = $data;
 
@@ -64,10 +62,7 @@ class Hrv implements AccountRelatedEntityInterface
         return $this->data;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -82,10 +77,7 @@ class Hrv implements AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @return $this
-     */
-    public function setActivity(Training $activity)
+    public function setActivity(Training $activity): self
     {
         $this->activity = $activity;
 

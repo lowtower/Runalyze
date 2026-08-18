@@ -154,9 +154,8 @@ class CreateNotificationCommand extends ContainerAwareCommand
     /**
      * @param string $template
      * @param int|null $lifetime [days]
-     * @return Notification
      */
-    protected function createNotification($template, $lifetime)
+    protected function createNotification($template, $lifetime): \Runalyze\Bundle\CoreBundle\Entity\Notification
     {
         if (null !== $lifetime) {
             $lifetime = (int) $lifetime;

@@ -26,9 +26,8 @@ class MarathonShape
 
     /**
      * @param float [ml/kg/min] $effectiveVO2max
-     * @return $this
      */
-    public function setEffectiveVO2max($effectiveVO2max)
+    public function setEffectiveVO2max($effectiveVO2max): self
     {
         $this->EffectiveVO2max = $effectiveVO2max;
 

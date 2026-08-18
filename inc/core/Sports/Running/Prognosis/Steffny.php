@@ -33,9 +33,8 @@ class Steffny implements PrognosisInterface
 
     /**
      * @param int|float $timeInSeconds [s]
-     * @return $this
      */
-    public function setReferenceFrom10kTime($timeInSeconds)
+    public function setReferenceFrom10kTime($timeInSeconds): self
     {
         $this->ReferencePaceFor10k = (float) $timeInSeconds / 10.0;
 
@@ -45,9 +44,8 @@ class Steffny implements PrognosisInterface
     /**
      * @param float $distance [km]
      * @param int|float $timeInSeconds [s]
-     * @return $this
      */
-    public function setReferenceResult($distance, $timeInSeconds)
+    public function setReferenceResult($distance, $timeInSeconds): self
     {
         $this->transformToNear10k($distance, $timeInSeconds);
 

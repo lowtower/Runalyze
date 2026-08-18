@@ -92,9 +92,8 @@ class Climb
 
     /**
      * @param int $altitude [m]
-     * @return $this
      */
-    public function setAltitudeAtTop($altitude)
+    public function setAltitudeAtTop($altitude): self
     {
         $this->AltitudeAtTop = $altitude;
 
@@ -114,10 +113,7 @@ class Climb
         return null !== $this->AltitudeAtTop;
     }
 
-    /**
-     * @return $this
-     */
-    public function setClimbProfile(ClimbProfile $profile)
+    public function setClimbProfile(ClimbProfile $profile): self
     {
         $this->ClimbProfile = $profile;
 

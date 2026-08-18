@@ -116,7 +116,7 @@ class ConfigTabs {
 		$CurrentKey = Request::param('key');
 
 		if (empty($CurrentKey)) {
-			$CurrentKey = $this->defaultKey;
+			return $this->defaultKey;
 		}
 
 		return $CurrentKey;

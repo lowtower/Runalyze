@@ -31,7 +31,7 @@ class Stresscolor {
 	 * @param float $value
 	 * @return \Runalyze\View\Stresscolor this-reference
 	 */
-	public function setValue($value) {
+	public function setValue($value): self {
 		$this->Value = $value;
 
 		return $this;
@@ -61,7 +61,7 @@ class Stresscolor {
 	 * @param float $to
 	 * @return \Runalyze\View\Stresscolor this-reference
 	 */
-	public function scale($from, $to) {
+	public function scale($from, $to): self {
 		$this->Value = 100 * ($this->Value - $from) / ($to - $from);
 
 		return $this;

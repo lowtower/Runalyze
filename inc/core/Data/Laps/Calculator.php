@@ -108,8 +108,8 @@ class Calculator
     public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
 	{
 		$this->TrackdataLoop = new Trackdata\Loop($trackdata);
-		$this->RouteLoop = null !== $route ? new Route\Loop($route) : null;
-		$this->SwimdataLoop = null !== $swimdata ? new Swimdata\Loop($swimdata) : null;
+		$this->RouteLoop = $route instanceof \Runalyze\Model\Route\Entity ? new Route\Loop($route) : null;
+		$this->SwimdataLoop = $swimdata instanceof \Runalyze\Model\Swimdata\Entity ? new Swimdata\Loop($swimdata) : null;
 
 		if (! empty($this->Distances)) {
 			$this->readLapsFromDistances();
@@ -175,7 +175,7 @@ class Calculator
 			$distanceArr = explode(',', $distanceStr);
 		}
 
-		if (! self::isSorted($distanceArr)) $distanceArr = array();
+		if (! self::isSorted($distanceArr)) return array();
 
 		return $distanceArr;
 	}
@@ -206,7 +206,7 @@ class Calculator
 
 		if (! self::isSorted($times))
 		{
-			$times = array();
+			return array();
 		}
 
 		return $times;

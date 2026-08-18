@@ -81,7 +81,7 @@ class PerformanceCondition implements ValueInterface
 	 * @return \Runalyze\Activity\PerformanceCondition $this-reference
 	 * @throws \InvalidArgumentException
 	 */
-	public function set($value)
+	public function set($value): self
     {
         if (null === $value || (int) $value < self::LOWER_LIMIT || self::UPPER_LIMIT < (int) $value ) {
             $this->Value = null;

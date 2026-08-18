@@ -12,11 +12,6 @@ namespace Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class Form extends \Formular {
-	/**
-	 * Construct new form
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
+class Form extends \Formular
+{
 }

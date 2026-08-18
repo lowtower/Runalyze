@@ -139,7 +139,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      * @param int $deltaDuration [s]
      * @param float $deltaDistance [km]
      */
-    protected function checkExpectedRoundData(array $expectedRounds, $deltaDuration = 0, $deltaDistance = 0.0)
+    protected function checkExpectedRoundData(array $expectedRounds, $deltaDuration = 0, float $deltaDistance = 0.0)
     {
         $this->checkExpectedRoundDataFor($this->Container, $expectedRounds, $deltaDuration, $deltaDistance);
     }
@@ -149,7 +149,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      * @param int $deltaDuration [s]
      * @param float $deltaDistance [km]
      */
-    protected function checkExpectedRoundDataFor(ActivityDataContainer $container, array $expectedRounds, $deltaDuration = 0, $deltaDistance = 0.0)
+    protected function checkExpectedRoundDataFor(ActivityDataContainer $container, array $expectedRounds, $deltaDuration = 0, float $deltaDistance = 0.0)
     {
         $this->assertEquals(count($expectedRounds), $container->Rounds->count());
 

@@ -46,7 +46,7 @@ class Elevation implements ValueInterface
 	public function __construct($meter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Meter = $meter;
-		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+		$this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
     /**
@@ -74,7 +74,7 @@ class Elevation implements ValueInterface
 	 * @param int $meter
 	 * @return \Runalyze\Activity\Elevation $this-reference
 	 */
-	public function set($meter)
+	public function set($meter): self
 	{
 		$this->Meter = $meter;
 
@@ -85,7 +85,7 @@ class Elevation implements ValueInterface
 	 * @param int $feet
 	 * @return \Runalyze\Activity\Elevation $this-reference
 	 */
-	public function setFeet($feet)
+	public function setFeet($feet): self
 	{
 		$this->Meter = $feet / DistanceUnitSystem::FEET_MULTIPLIER * 1000;
 
@@ -96,7 +96,7 @@ class Elevation implements ValueInterface
 	 * @param int $elevation [mixed unit]
 	 * @return \Runalyze\Activity\Elevation $this-reference
 	 */
-	public function setInPreferredUnit($elevation)
+	public function setInPreferredUnit($elevation): self
 	{
 		if ($this->UnitSystem->isImperial()) {
 			$this->setFeet($elevation);

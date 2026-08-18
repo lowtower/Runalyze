@@ -29,11 +29,10 @@ class RpeColor
 		$this->setValue($value);
 	}
 
-	/**
-	 * @param int|null $value
-	 * @return self
-	 */
-	public function setValue($value)
+    /**
+     * @param int|null $value
+     */
+    public function setValue($value): self
     {
         if (! is_numeric($value) || $value < 1 || $value > 10) {
             $this->Value = null;
@@ -56,9 +55,9 @@ class RpeColor
     {
         if($this->Value != null) {
             return self::LEVEL_COLORS[$this->Value - 1];
-        } else {
-            return 'transparent';
         }
+
+        return 'transparent';
 	}
 
     /**

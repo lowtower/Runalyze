@@ -18,7 +18,7 @@ class DisplayableTime extends DisplayableValue
      * @param bool|string $thousandsSeparator
      * @return string value
      */
-    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         return $this->getValue($decimals, $decimalPoint, $thousandsSeparator);
     }
@@ -27,9 +27,8 @@ class DisplayableTime extends DisplayableValue
      * @param bool|int $decimals
      * @param bool|string $decimalPoint
      * @param bool|string $thousandsSeparator
-     * @return string
      */
-    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         return (new UtilityExtension())->duration($this->Value);
     }

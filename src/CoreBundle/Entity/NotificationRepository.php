@@ -11,7 +11,7 @@ class NotificationRepository extends EntityRepository
      */
     public function findAll(?Account $account = null)
     {
-        if (null === $account) {
+        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             throw new \LogicException('Finding all notifications is only possible for a specific account.');
         }
 

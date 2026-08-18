@@ -133,9 +133,9 @@ class RaceResult extends AbstractKey
 			$Icon->setTooltip($TooltipCode);
             if (! \Request::isOnSharedPage()) {
                 return '<a class="window" href="my/raceresult/' . $context->activity()->id() . '">' . $Icon->code() . '</a>';
-            } else {
-                return $Icon->code();
             }
+
+            return $Icon->code();
 		}
 
 		return '';

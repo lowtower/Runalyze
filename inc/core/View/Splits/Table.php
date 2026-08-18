@@ -183,9 +183,9 @@ class Table {
 				}
 
 				continue;
-			} else {
-				$seperated = false;
 			}
+
+            $seperated = false;
 
 			// #TSC hide distance&pace if not available
 			if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {

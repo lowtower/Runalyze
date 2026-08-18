@@ -57,9 +57,9 @@ class SharedLinker {
 
 		if (! Configuration::Privacy()->listIsPublic()) {
             return '<a class=window tab" href="settings?key=config_tab_general" '.Ajax::tooltip('', __('You can activate your public athlete page at <em>Configuration->Privacy</em>'), false, true).'>'.$text.'</a>';
-		} else {
-            return '<a href="athlete/' . SessionAccountHandler::getUsername() . '" target="_blank" ' . Ajax::tooltip('', __('Your public athlete page'), false, true) . '>' . $text . '</a>';
-        }
+		}
+
+        return '<a href="athlete/' . SessionAccountHandler::getUsername() . '" target="_blank" ' . Ajax::tooltip('', __('Your public athlete page'), false, true) . '>' . $text . '</a>';
     }
 
     /**

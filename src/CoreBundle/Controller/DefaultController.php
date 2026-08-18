@@ -265,8 +265,8 @@ class DefaultController extends AbstractPluginsAwareController
             return $this->render('feedback.html.twig', array(
                 'form' => $form->createView()
             ));
-        } else {
-            throw $this->createNotFoundException();
         }
+
+        throw $this->createNotFoundException();
     }
 }

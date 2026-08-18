@@ -63,10 +63,8 @@ class Conf implements AccountRelatedEntityInterface
 
     /**
      * @param string $category
-     *
-     * @return $this
      */
-    public function setCategory($category)
+    public function setCategory($category): self
     {
         $this->category = $category;
 
@@ -83,10 +81,8 @@ class Conf implements AccountRelatedEntityInterface
 
     /**
      * @param string $key
-     *
-     * @return $this
      */
-    public function setKey($key)
+    public function setKey($key): self
     {
         $this->key = $key;
 
@@ -103,10 +99,8 @@ class Conf implements AccountRelatedEntityInterface
 
     /**
      * @param string $value
-     *
-     * @return $this
      */
-    public function setValue($value)
+    public function setValue($value): self
     {
         $this->value = $value;
 
@@ -121,10 +115,7 @@ class Conf implements AccountRelatedEntityInterface
         return $this->value;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 

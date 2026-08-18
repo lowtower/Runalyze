@@ -25,9 +25,8 @@ class TrendAnalysisData
 
     /**
      * @param Sport[] $sports
-     * @return TrendAnalysisData
      */
-    public static function getDefault(array $sports, array $types)
+    public static function getDefault(array $sports, array $types): self
     {
         $data = new self();
         $data->setSport($sports);

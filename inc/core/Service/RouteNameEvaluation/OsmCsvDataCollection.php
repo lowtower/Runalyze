@@ -34,10 +34,10 @@ class OsmCsvDataCollection {
             $r = $a->order <=> $b->order;
             if($r !== 0) {
                 return $r;
-            } else {
-                // order is the same, sort with name
-                return $a->name <=> $b->name;
             }
+
+            // order is the same, sort with name
+            return $a->name <=> $b->name;
         });
     }
 

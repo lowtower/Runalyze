@@ -340,9 +340,9 @@ class Dataview
     {
         if ($this->Activity->fitTrainingEffectBenefit()) {
             return FitTrainingEffectBenefit::descriptionFromNum($this->Activity->fitTrainingEffectBenefit());
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     public function fitTrainingEffect(): string
@@ -365,9 +365,9 @@ class Dataview
 
         if ($start !== '0' || $end !== '0') {
             return $this->formatTwoPartValue($start, $end);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -638,10 +638,7 @@ class Dataview
         return $this->Activity->vo2maxByHeartRate();
     }
 
-    /**
-     * @return string
-     */
-    public function effectiveVO2maxIcon()
+    public function effectiveVO2maxIcon(): string
     {
         $value = $this->usedVO2maxValue() * Configuration::Data()->vo2maxCorrectionFactor();
 

@@ -50,7 +50,7 @@ class LegacyEffectiveVO2max
      */
     public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null)
     {
-        if (null !== $corrector) {
+        if ($corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {
             $this->Corrector = $corrector;
         }
     }

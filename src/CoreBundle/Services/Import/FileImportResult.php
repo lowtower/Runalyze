@@ -107,7 +107,7 @@ class FileImportResult
             $container->completeActivityData();
         }
 
-        if (null !== $lastException) {
+        if ($lastException instanceof \Runalyze\Import\Exception\ParserException) {
             $this->Exception = $lastException;
 
             foreach ($indicesToRemove as $index) {

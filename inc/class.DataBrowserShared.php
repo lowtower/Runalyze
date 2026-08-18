@@ -129,7 +129,7 @@ class DataBrowserShared extends DataBrowser {
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context)
+    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
 	{
 		return $table->codeForPublicIcon($context);
 	}

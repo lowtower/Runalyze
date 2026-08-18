@@ -63,7 +63,7 @@ class Weight implements ValueInterface {
 	 * @param \Runalyze\Parameter\Application\WeightUnit $preferredUnit
 	 */
 	public function __construct($weight = 0, ?WeightUnit $preferredUnit = null) {
-		$this->PreferredUnit = (null !== $preferredUnit) ? $preferredUnit : Configuration::General()->weightUnit();
+		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\WeightUnit) ? $preferredUnit : Configuration::General()->weightUnit();
 
 		$this->set($weight);
 	}
@@ -85,7 +85,7 @@ class Weight implements ValueInterface {
 	 * @param float $weight [kg]
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
-	public function set($weight) {
+	public function set($weight): self {
 		$this->Weight = (float) str_replace(',', '.', $weight);
 
 		return $this;
@@ -96,7 +96,7 @@ class Weight implements ValueInterface {
 	 * @param float $weight [pounds]
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
-	public function setPounds($weight) {
+	public function setPounds($weight): self {
 		$this->Weight = (float) str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
 
 		return $this;
@@ -107,7 +107,7 @@ class Weight implements ValueInterface {
 	 * @param float $weight [stones]
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
-	public function setStones($weight) {
+	public function setStones($weight): self {
 		$this->Weight = (float) str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
 
 		return $this;
@@ -117,7 +117,7 @@ class Weight implements ValueInterface {
 	 * @param float $weight [mixed unit]
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
-	public function setInPreferredUnit($weight) {
+	public function setInPreferredUnit($weight): self {
 		if ($this->PreferredUnit->isPounds()) {
 			$this->setPounds($weight);
 		} elseif ($this->PreferredUnit->isStones()) {

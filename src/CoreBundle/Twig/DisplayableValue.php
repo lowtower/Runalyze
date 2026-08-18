@@ -76,10 +76,7 @@ class DisplayableValue
         );
     }
 
-    /**
-     * @return $this
-     */
-    public function setRawValue($value)
+    public function setRawValue($value): self
     {
         $this->Value = $value;
 

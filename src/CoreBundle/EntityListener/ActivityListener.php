@@ -133,11 +133,11 @@ class ActivityListener
 
     protected function checkRelatedEntitiesForConsistency(Training $activity, ?PreUpdateEventArgs $args = null)
     {
-        if (null === $args || $args->hasChangedField('sport')) {
+        if (! $args instanceof \Doctrine\ORM\Event\PreUpdateEventArgs || $args->hasChangedField('sport')) {
             $this->setSportIfEmpty($activity);
         }
 
-        if (null === $args || $args->hasChangedField('sport') || $args->hasChangedField('type')) {
+        if (! $args instanceof \Doctrine\ORM\Event\PreUpdateEventArgs || $args->hasChangedField('sport') || $args->hasChangedField('type')) {
             $this->removeTypeIfInvalidForSport($activity);
         }
     }

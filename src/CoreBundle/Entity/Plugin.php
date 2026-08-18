@@ -82,10 +82,8 @@ class Plugin implements AccountRelatedEntityInterface
 
     /**
      * @param string $key
-     *
-     * @return $this
      */
-    public function setKey($key)
+    public function setKey($key): self
     {
         $this->key = $key;
 
@@ -102,10 +100,8 @@ class Plugin implements AccountRelatedEntityInterface
 
     /**
      * @param string $type
-     *
-     * @return $this
      */
-    public function setType($type)
+    public function setType($type): self
     {
         $this->type = $type;
 
@@ -132,20 +128,15 @@ class Plugin implements AccountRelatedEntityInterface
 
     /**
      * @param int $active 0: inactive, 1: active, 2: hidden/misc
-     *
-     * @return $this
      */
-    public function setActive($active)
+    public function setActive($active): self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function toggleHidden()
+    public function toggleHidden(): self
     {
         if ($this->isActive()) {
             $this->setActive(self::STATE_HIDDEN);
@@ -181,10 +172,8 @@ class Plugin implements AccountRelatedEntityInterface
 
     /**
      * @param int $order
-     *
-     * @return $this
      */
-    public function setOrder($order)
+    public function setOrder($order): self
     {
         $this->order = $order;
 
@@ -199,30 +188,21 @@ class Plugin implements AccountRelatedEntityInterface
         return $this->order;
     }
 
-    /**
-     * @return $this
-     */
-    public function moveUp()
+    public function moveUp(): self
     {
         --$this->order;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function moveDown()
+    public function moveDown(): self
     {
         ++$this->order;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 

@@ -75,7 +75,7 @@ class Distance implements ValueInterface {
 	public function __construct($km = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Kilometer = $km;
-		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+		$this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
     /**
@@ -91,7 +91,7 @@ class Distance implements ValueInterface {
 	 * @param float $km [km]
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function set($km)
+	public function set($km): self
 	{
 		$this->Kilometer = (float) str_replace(',', '.', $km);
 
@@ -103,7 +103,7 @@ class Distance implements ValueInterface {
 	 * @param float $miles [mi]
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function setMiles($miles)
+	public function setMiles($miles): self
 	{
 		$this->Kilometer = (float) str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
 
@@ -114,7 +114,7 @@ class Distance implements ValueInterface {
 	 * @param float $distance [mixed unit]
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function setInPreferredUnit($distance)
+	public function setInPreferredUnit($distance): self
 	{
 		if ($this->UnitSystem->isImperial()) {
 			$this->setMiles($distance);
@@ -303,7 +303,7 @@ class Distance implements ValueInterface {
 	 * @param float $factor
 	 * @return \Runalyze\Activity\Distance $this-reference
 	 */
-	public function multiply($factor)
+	public function multiply($factor): self
 	{
 		$this->Kilometer *= $factor;
 
@@ -314,7 +314,7 @@ class Distance implements ValueInterface {
      * Add another distance
      * @return \Runalyze\Activity\Distance $this-reference
      */
-    public function add(self $object)
+    public function add(self $object): self
 	{
 		$this->Kilometer += $object->kilometer();
 
@@ -325,7 +325,7 @@ class Distance implements ValueInterface {
      * Subtract another distance
      * @return \Runalyze\Activity\Distance $this-reference
      */
-    public function subtract(self $object)
+    public function subtract(self $object): self
 	{
 		$this->Kilometer -= $object->kilometer();
 

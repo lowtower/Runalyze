@@ -88,10 +88,8 @@ class Notification implements AccountRelatedEntityInterface
      * @param int $messageType
      *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
-     *
-     * @return $this
      */
-    public function setMessageType($messageType)
+    public function setMessageType($messageType): self
     {
         $this->messageType = $messageType;
 
@@ -110,10 +108,8 @@ class Notification implements AccountRelatedEntityInterface
 
     /**
      * @param int $createdAt [timestamp]
-     *
-     * @return $this
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): self
     {
         $this->createdAt = (int) $createdAt;
 
@@ -130,10 +126,8 @@ class Notification implements AccountRelatedEntityInterface
 
     /**
      * @param null|int $lifetime [days]
-     *
-     * @return $this
      */
-    public function setLifetime($lifetime = null)
+    public function setLifetime($lifetime = null): self
     {
         if (null === $lifetime) {
             $this->expirationAt = null;
@@ -147,10 +141,8 @@ class Notification implements AccountRelatedEntityInterface
 
     /**
      * @param null|int $expirationAt [timestamp]
-     *
-     * @return $this
      */
-    public function setExpirationAt($expirationAt = null)
+    public function setExpirationAt($expirationAt = null): self
     {
         $this->expirationAt = $expirationAt ? (int) $expirationAt : null;
 
@@ -167,10 +159,8 @@ class Notification implements AccountRelatedEntityInterface
 
     /**
      * @param string $data
-     *
-     * @return $this
      */
-    public function setData($data)
+    public function setData($data): self
     {
         $this->data = $data;
 
@@ -187,10 +177,8 @@ class Notification implements AccountRelatedEntityInterface
 
     /**
      * @param bool $flag
-     *
-     * @return $this
      */
-    public function setRead($flag = true)
+    public function setRead($flag = true): self
     {
         $this->wasRead = (bool) $flag;
 
@@ -205,10 +193,7 @@ class Notification implements AccountRelatedEntityInterface
         return $this->wasRead;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -231,10 +216,7 @@ class Notification implements AccountRelatedEntityInterface
         return (new MessageFactory())->getMessage($this);
     }
 
-    /**
-     * @return Notification
-     */
-    public static function createFromMessage(MessageInterface $message, Account $account)
+    public static function createFromMessage(MessageInterface $message, Account $account): self
     {
         $notification = new self();
         $notification->setMessageType($message->getMessageType());

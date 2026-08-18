@@ -791,10 +791,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param Sport $sport
-     *
-     * @return $this
      */
-    public function setSport(Sport $sport)
+    public function setSport(Sport $sport): self
     {
         $this->sport = $sport;
 
@@ -809,10 +807,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->sport;
     }
 
-    /**
-     * @return $this
-     */
-    public function setType(?Type $type = null)
+    public function setType(?Type $type = null): self
     {
         $this->type = $type;
 
@@ -829,10 +824,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param int $time [timestamp]
-     *
-     * @return $this
      */
-    public function setTime($time)
+    public function setTime($time): self
     {
         $this->time = $time;
 
@@ -854,10 +847,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $timezoneOffset [min]
-     *
-     * @return $this
      */
-    public function setTimezoneOffset($timezoneOffset)
+    public function setTimezoneOffset($timezoneOffset): self
     {
         $this->timezoneOffset = $timezoneOffset;
 
@@ -874,10 +865,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $created [timestamp]
-     *
-     * @return $this
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -902,10 +891,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $edited [timestamp]
-     *
-     * @return $this
      */
-    public function setEdited($edited)
+    public function setEdited($edited): self
     {
         $this->edited = $edited;
 
@@ -930,10 +917,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $isPublic
-     *
-     * @return $this
      */
-    public function setPublic($isPublic)
+    public function setPublic($isPublic): self
     {
         $this->isPublic = (bool) $isPublic;
 
@@ -942,18 +927,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $isPublic
-     *
-     * @return $this
      */
-    public function setIsPublic($isPublic)
+    public function setIsPublic($isPublic): self
     {
         return $this->setPublic($isPublic);
     }
 
-    /**
-     * @return $this
-     */
-    public function togglePrivacy()
+    public function togglePrivacy(): self
     {
         $this->isPublic = ! $this->isPublic;
 
@@ -970,10 +950,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $isTrack
-     *
-     * @return $this
      */
-    public function setTrack($isTrack)
+    public function setTrack($isTrack): self
     {
         $this->isTrack = (bool) $isTrack;
 
@@ -982,10 +960,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $isTrack
-     *
-     * @return $this
      */
-    public function setIsTrack($isTrack)
+    public function setIsTrack($isTrack): self
     {
         return $this->setTrack($isTrack);
     }
@@ -1018,10 +994,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $distance [km]
-     *
-     * @return $this
      */
-    public function setDistance($distance)
+    public function setDistance($distance): self
     {
         $this->distance = $distance;
 
@@ -1038,10 +1012,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param float $s [s]
-     *
-     * @return $this
      */
-    public function setS($s)
+    public function setS($s): self
     {
         $this->s = (double) $s;
 
@@ -1058,10 +1030,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $elapsedTime [s]
-     *
-     * @return $this
      */
-    public function setElapsedTime($elapsedTime)
+    public function setElapsedTime($elapsedTime): self
     {
         $this->elapsedTime = $elapsedTime;
 
@@ -1078,10 +1048,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $elevation [m]
-     *
-     * @return $this
      */
-    public function setElevation($elevation)
+    public function setElevation($elevation): self
     {
         $this->elevation = null === $elevation ? null : (int) $elevation;
 
@@ -1098,10 +1066,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $score [0.0 .. 10.0]
-     *
-     * @return $this
      */
-    public function setClimbScore($score)
+    public function setClimbScore($score): self
     {
         $this->climbScore = $score;
 
@@ -1118,10 +1084,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $percentage [0.00 .. 1.00]
-     *
-     * @return $this
      */
-    public function setPercentageHilly($percentage)
+    public function setPercentageHilly($percentage): self
     {
         $this->percentageHilly = $percentage;
 
@@ -1146,10 +1110,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $kcal [kcal]
-     *
-     * @return $this
      */
-    public function setKcal($kcal)
+    public function setKcal($kcal): self
     {
         $this->kcal = $kcal;
 
@@ -1174,10 +1136,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $kcalInRest [kcal]
-     *
-     * @return $this
      */
-    public function setKcalInRest($kcalInRest)
+    public function setKcalInRest($kcalInRest): self
     {
         $this->kcalInRest = $kcalInRest;
 
@@ -1186,10 +1146,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $pulseAvg [bpm]
-     *
-     * @return $this
      */
-    public function setPulseAvg($pulseAvg)
+    public function setPulseAvg($pulseAvg): self
     {
         $this->pulseAvg = $pulseAvg;
 
@@ -1206,10 +1164,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $pulseMax [bpm]
-     *
-     * @return $this
      */
-    public function setPulseMax($pulseMax)
+    public function setPulseMax($pulseMax): self
     {
         $this->pulseMax = $pulseMax;
 
@@ -1226,10 +1182,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $pulseAvgActive [bpm]
-     *
-     * @return $this
      */
-    public function setPulseAvgActive($pulseAvgActive)
+    public function setPulseAvgActive($pulseAvgActive): self
     {
         $this->pulseAvgActive = $pulseAvgActive;
 
@@ -1246,10 +1200,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $maxHrUser [bpm]
-     *
-     * @return $this
      */
-    public function setMaxHrUser($maxHrUser)
+    public function setMaxHrUser($maxHrUser): self
     {
         $this->maxHrUser = $maxHrUser;
 
@@ -1266,10 +1218,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|array $hrZoneBounds [bpm]
-     *
-     * @return $this
      */
-    public function setHrZoneBounds($hrZoneBounds)
+    public function setHrZoneBounds($hrZoneBounds): self
     {
         $this->hrZoneBounds = $hrZoneBounds;
 
@@ -1286,10 +1236,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $vo2max [ml/kg/min]
-     *
-     * @return $this
      */
-    public function setVO2max($vo2max)
+    public function setVO2max($vo2max): self
     {
         $this->vo2max = $vo2max;
 
@@ -1306,10 +1254,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $vo2maxByTime [ml/kg/min]
-     *
-     * @return $this
      */
-    public function setVO2maxByTime($vo2maxByTime)
+    public function setVO2maxByTime($vo2maxByTime): self
     {
         $this->vo2maxByTime = $vo2maxByTime;
 
@@ -1326,10 +1272,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $vo2maxWithElevation [ml/kg/min]
-     *
-     * @return $this
      */
-    public function setVO2maxWithElevation($vo2maxWithElevation)
+    public function setVO2maxWithElevation($vo2maxWithElevation): self
     {
         $this->vo2maxWithElevation = $vo2maxWithElevation;
 
@@ -1346,10 +1290,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $useVO2max
-     *
-     * @return $this
      */
-    public function setUseVO2max($useVO2max)
+    public function setUseVO2max($useVO2max): self
     {
         $this->useVO2max = $useVO2max;
 
@@ -1366,10 +1308,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $fitVO2maxEstimate [ml/kg/min]
-     *
-     * @return $this
      */
-    public function setFitVO2maxEstimate($fitVO2maxEstimate)
+    public function setFitVO2maxEstimate($fitVO2maxEstimate): self
     {
         $this->fitVO2maxEstimate = $fitVO2maxEstimate;
 
@@ -1386,10 +1326,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitRecoveryTime [min]
-     *
-     * @return $this
      */
-    public function setFitRecoveryTime($fitRecoveryTime)
+    public function setFitRecoveryTime($fitRecoveryTime): self
     {
         $this->fitRecoveryTime = $fitRecoveryTime;
 
@@ -1406,10 +1344,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitHrvAnalysis
-     *
-     * @return $this
      */
-    public function setFitHrvAnalysis($fitHrvAnalysis)
+    public function setFitHrvAnalysis($fitHrvAnalysis): self
     {
         $this->fitHrvAnalysis = $fitHrvAnalysis;
 
@@ -1426,10 +1362,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitTrainingEffectBenefit
-     *
-     * @return $this
      */
-    public function setFitTrainingEffectBenefit($fitTrainingEffectBenefit)
+    public function setFitTrainingEffectBenefit($fitTrainingEffectBenefit): self
     {
         $this->fitTrainingEffectBenefit = $fitTrainingEffectBenefit;
 
@@ -1446,10 +1380,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $fitTrainingEffect
-     *
-     * @return $this
      */
-    public function setFitTrainingEffect($fitTrainingEffect)
+    public function setFitTrainingEffect($fitTrainingEffect): self
     {
         $this->fitTrainingEffect = $fitTrainingEffect;
 
@@ -1466,10 +1398,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $fitAnaerobicTrainingEffect
-     *
-     * @return $this
      */
-    public function setFitAnaerobicTrainingEffect($fitAnaerobicTrainingEffect)
+    public function setFitAnaerobicTrainingEffect($fitAnaerobicTrainingEffect): self
     {
         $this->fitAnaerobicTrainingEffect = $fitAnaerobicTrainingEffect;
 
@@ -1486,10 +1416,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitPerformanceCondition
-     *
-     * @return $this
      */
-    public function setFitPerformanceCondition($fitPerformanceCondition)
+    public function setFitPerformanceCondition($fitPerformanceCondition): self
     {
         $this->fitPerformanceCondition = $fitPerformanceCondition;
 
@@ -1506,10 +1434,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitPerformanceConditionEnd
-     *
-     * @return $this
      */
-    public function setFitPerformanceConditionEnd($fitPerformanceConditionEnd)
+    public function setFitPerformanceConditionEnd($fitPerformanceConditionEnd): self
     {
         $this->fitPerformanceConditionEnd = $fitPerformanceConditionEnd;
 
@@ -1526,10 +1452,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitLactateThresholdHR
-     *
-     * @return $this
      */
-    public function setFitLactateThresholdHR($fitLactateThresholdHR)
+    public function setFitLactateThresholdHR($fitLactateThresholdHR): self
     {
         $this->fitLactateThresholdHR = $fitLactateThresholdHR;
 
@@ -1554,10 +1478,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $fitLactateThresholdPace
-     *
-     * @return $this
      */
-    public function setFitLactateThresholdPace($fitLactateThresholdPace)
+    public function setFitLactateThresholdPace($fitLactateThresholdPace): self
     {
         $this->fitLactateThresholdPace = $fitLactateThresholdPace;
 
@@ -1566,10 +1488,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitTotalAscent
-     *
-     * @return $this
      */
-    public function setFitTotalAscent($fitTotalAscent)
+    public function setFitTotalAscent($fitTotalAscent): self
     {
         $this->fitTotalAscent = $fitTotalAscent;
 
@@ -1586,10 +1506,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitTotalDescent
-     *
-     * @return $this
      */
-    public function setFitTotalDescent($fitTotalDescent)
+    public function setFitTotalDescent($fitTotalDescent): self
     {
         $this->fitTotalDescent = $fitTotalDescent;
 
@@ -1614,10 +1532,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitSelfEvaluationFeeling
-     *
-     * @return $this
      */
-    public function setFitSelfEvaluationFeeling($fitSelfEvaluationFeeling)
+    public function setFitSelfEvaluationFeeling($fitSelfEvaluationFeeling): self
     {
         $this->fitSelfEvaluationFeeling = $fitSelfEvaluationFeeling;
 
@@ -1634,10 +1550,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitSelfEvaluationPerceivedEffort
-     *
-     * @return $this
      */
-    public function setFitSelfEvaluationPerceivedEffort($fitSelfEvaluationPerceivedEffort)
+    public function setFitSelfEvaluationPerceivedEffort($fitSelfEvaluationPerceivedEffort): self
     {
         $this->fitSelfEvaluationPerceivedEffort = $fitSelfEvaluationPerceivedEffort;
 
@@ -1654,10 +1568,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitLoadPeak
-     *
-     * @return $this
      */
-    public function setFitLoadPeak($fitLoadPeak)
+    public function setFitLoadPeak($fitLoadPeak): self
     {
         $this->fitLoadPeak = $fitLoadPeak;
 
@@ -1674,10 +1586,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitRunTime [s]
-     *
-     * @return $this
      */
-    public function setFitRunTime($fitRunTime)
+    public function setFitRunTime($fitRunTime): self
     {
         $this->fitRunTime = $fitRunTime;
 
@@ -1695,10 +1605,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitWalkTime [s]
-     *
-     * @return $this
      */
-    public function setFitWalkTime($fitWalkTime)
+    public function setFitWalkTime($fitWalkTime): self
     {
         $this->fitWalkTime = $fitWalkTime;
 
@@ -1715,10 +1623,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitStandTime [s]
-     *
-     * @return $this
      */
-    public function setFitStandTime($fitStandTime)
+    public function setFitStandTime($fitStandTime): self
     {
         $this->fitStandTime = $fitStandTime;
 
@@ -1727,10 +1633,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|array $fitSecondsInHrZones [bpm]
-     *
-     * @return $this
      */
-    public function setFitSecondsInHrZones($fitSecondsInHrZones)
+    public function setFitSecondsInHrZones($fitSecondsInHrZones): self
     {
         $this->fitSecondsInHrZones = $fitSecondsInHrZones;
 
@@ -1755,10 +1659,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $fitSweatLoss [ml]
-     *
-     * @return $this
      */
-    public function setFitSweatLoss($fitSweatLoss)
+    public function setFitSweatLoss($fitSweatLoss): self
     {
         $this->fitSweatLoss = $fitSweatLoss;
 
@@ -1775,10 +1677,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $avgRespirationRate
-     *
-     * @return $this
      */
-    public function setAvgRespirationRate($avgRespirationRate)
+    public function setAvgRespirationRate($avgRespirationRate): self
     {
         $this->avgRespirationRate = $avgRespirationRate;
 
@@ -1795,10 +1695,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $maxRespirationRate
-     *
-     * @return $this
      */
-    public function setMaxRespirationRate($maxRespirationRate)
+    public function setMaxRespirationRate($maxRespirationRate): self
     {
         $this->maxRespirationRate = $maxRespirationRate;
 
@@ -1807,10 +1705,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $rpe
-     *
-     * @return $this
      */
-    public function setRpe($rpe)
+    public function setRpe($rpe): self
     {
         $this->rpe = $rpe;
 
@@ -1827,10 +1723,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $trimp
-     *
-     * @return $this
      */
-    public function setTrimp($trimp)
+    public function setTrimp($trimp): self
     {
         $this->trimp = $trimp;
 
@@ -1847,10 +1741,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $cadence [rpm]
-     *
-     * @return $this
      */
-    public function setCadence($cadence)
+    public function setCadence($cadence): self
     {
         $this->cadence = $cadence;
 
@@ -1867,10 +1759,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $power [W]
-     *
-     * @return $this
      */
-    public function setPower($power)
+    public function setPower($power): self
     {
         $this->power = $power;
 
@@ -1887,9 +1777,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool|null $flag
-     * @return $this
      */
-    public function setPowerCalculated($flag)
+    public function setPowerCalculated($flag): self
     {
         $this->isPowerCalculated = null === $flag ? null : (bool) $flag;
 
@@ -1906,10 +1795,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $totalStrokes
-     *
-     * @return $this
      */
-    public function setTotalStrokes($totalStrokes)
+    public function setTotalStrokes($totalStrokes): self
     {
         $this->totalStrokes = $totalStrokes;
 
@@ -1926,10 +1813,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $swolf
-     *
-     * @return $this
      */
-    public function setSwolf($swolf)
+    public function setSwolf($swolf): self
     {
         $this->swolf = $swolf;
 
@@ -1946,10 +1831,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $strideLength [cm]
-     *
-     * @return $this
      */
-    public function setStrideLength($strideLength)
+    public function setStrideLength($strideLength): self
     {
         $this->strideLength = $strideLength;
 
@@ -1966,10 +1849,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $totalCycles [stck]
-     *
-     * @return $this
      */
-    public function setTotalCycles($totalCycles)
+    public function setTotalCycles($totalCycles): self
     {
         $this->totalCycles = $totalCycles;
 
@@ -1986,10 +1867,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $groundcontact [ms]
-     *
-     * @return $this
      */
-    public function setGroundcontact($groundcontact)
+    public function setGroundcontact($groundcontact): self
     {
         $this->groundcontact = $groundcontact;
 
@@ -2006,10 +1885,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $groundcontactBalance [%ooL]
-     *
-     * @return $this
      */
-    public function setGroundcontactBalance($groundcontactBalance)
+    public function setGroundcontactBalance($groundcontactBalance): self
     {
         $this->groundcontactBalance = $groundcontactBalance;
 
@@ -2026,10 +1903,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $verticalOscillation [mm]
-     *
-     * @return $this
      */
-    public function setVerticalOscillation($verticalOscillation)
+    public function setVerticalOscillation($verticalOscillation): self
     {
         $this->verticalOscillation = $verticalOscillation;
 
@@ -2046,10 +1921,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $verticalRatio [%]
-     *
-     * @return $this
      */
-    public function setVerticalRatio($verticalRatio)
+    public function setVerticalRatio($verticalRatio): self
     {
         $this->verticalRatio = $verticalRatio;
 
@@ -2067,10 +1940,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgImpactGsLeft [G]
-     *
-     * @return $this
      */
-    public function setAvgImpactGsLeft($avgImpactGsLeft)
+    public function setAvgImpactGsLeft($avgImpactGsLeft): self
     {
         $this->avgImpactGsLeft = $avgImpactGsLeft;
 
@@ -2087,10 +1958,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgImpactGsRight [G]
-     *
-     * @return $this
      */
-    public function setAvgImpactGsRight($avgImpactGsRight)
+    public function setAvgImpactGsRight($avgImpactGsRight): self
     {
         $this->avgImpactGsRight = $avgImpactGsRight;
 
@@ -2107,10 +1976,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgBrakingGsLeft [G]
-     *
-     * @return $this
      */
-    public function setAvgBrakingGsLeft($avgBrakingGsLeft)
+    public function setAvgBrakingGsLeft($avgBrakingGsLeft): self
     {
         $this->avgBrakingGsLeft = $avgBrakingGsLeft;
 
@@ -2127,10 +1994,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgBrakingGsRight [G]
-     *
-     * @return $this
      */
-    public function setAvgBrakingGsRight($avgBrakingGsRight)
+    public function setAvgBrakingGsRight($avgBrakingGsRight): self
     {
         $this->avgBrakingGsRight = $avgBrakingGsRight;
 
@@ -2147,10 +2012,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $avgFootstrikeTypeLeft [°]
-     *
-     * @return $this
      */
-    public function setAvgFootstrikeTypeLeft($avgFootstrikeTypeLeft)
+    public function setAvgFootstrikeTypeLeft($avgFootstrikeTypeLeft): self
     {
         $this->avgFootstrikeTypeLeft = $avgFootstrikeTypeLeft;
 
@@ -2167,10 +2030,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $avgFootstrikeTypeRight [°]
-     *
-     * @return $this
      */
-    public function setAvgFootstrikeTypeRight($avgFootstrikeTypeRight)
+    public function setAvgFootstrikeTypeRight($avgFootstrikeTypeRight): self
     {
         $this->avgFootstrikeTypeRight = $avgFootstrikeTypeRight;
 
@@ -2187,10 +2048,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgPronationExcursionLeft [°]
-     *
-     * @return $this
      */
-    public function setAvgPronationExcursionLeft($avgPronationExcursionLeft)
+    public function setAvgPronationExcursionLeft($avgPronationExcursionLeft): self
     {
         $this->avgPronationExcursionLeft = $avgPronationExcursionLeft;
 
@@ -2207,10 +2066,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|float $avgPronationExcursionRight [°]
-     *
-     * @return $this
      */
-    public function setAvgPronationExcursionRight($avgPronationExcursionRight)
+    public function setAvgPronationExcursionRight($avgPronationExcursionRight): self
     {
         $this->avgPronationExcursionRight = $avgPronationExcursionRight;
 
@@ -2227,10 +2084,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $temperature [°C]
-     *
-     * @return $this
      */
-    public function setTemperature($temperature)
+    public function setTemperature($temperature): self
     {
         $this->temperature = null === $temperature ? null : (int) $temperature;
 
@@ -2247,10 +2102,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $windSpeed [km/h]
-     *
-     * @return $this
      */
-    public function setWindSpeed($windSpeed)
+    public function setWindSpeed($windSpeed): self
     {
         $this->windSpeed = $windSpeed;
 
@@ -2267,10 +2120,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $windDeg [°]
-     *
-     * @return $this
      */
-    public function setWindDeg($windDeg)
+    public function setWindDeg($windDeg): self
     {
         $this->windDeg = $windDeg;
 
@@ -2287,10 +2138,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $humidity [%]
-     *
-     * @return $this
      */
-    public function setHumidity($humidity)
+    public function setHumidity($humidity): self
     {
         $this->humidity = $humidity;
 
@@ -2307,10 +2156,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $pressure [hPa]
-     *
-     * @return $this
      */
-    public function setPressure($pressure)
+    public function setPressure($pressure): self
     {
         $this->pressure = $pressure;
 
@@ -2327,10 +2174,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|bool $isNight
-     *
-     * @return $this
      */
-    public function setNight($isNight)
+    public function setNight($isNight): self
     {
         $this->isNight = $isNight;
 
@@ -2347,10 +2192,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param int $weatherid enum, see \Runalyze\Profile\Weather\WeatherConditionProfile
-     *
-     * @return $this
      */
-    public function setWeatherid($weatherid)
+    public function setWeatherid($weatherid): self
     {
         $this->weatherid = $weatherid;
 
@@ -2367,10 +2210,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $weatherSource
-     *
-     * @return $this
      */
-    public function setWeatherSource($weatherSource)
+    public function setWeatherSource($weatherSource): self
     {
         $this->weatherSource = null === $weatherSource ? null : (int) $weatherSource;
 
@@ -2387,10 +2228,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|string $routeName
-     *
-     * @return $this
      */
-    public function setRouteName($routeName)
+    public function setRouteName($routeName): self
     {
         $this->routeName = $routeName;
 
@@ -2410,14 +2249,11 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->routeName;
     }
 
-    /**
-     * @return $this
-     */
-    public function setRoute(?Route $route = null)
+    public function setRoute(?Route $route = null): self
     {
         $this->route = $route;
 
-        if (null !== $route && null !== $this->account) {
+        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && null !== $this->account) {
             $route->setAccount($this->account);
         }
 
@@ -2437,10 +2273,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return null !== $this->route;
     }
 
-    /**
-     * @return $this
-     */
-    public function setSplits(RoundCollection $splits)
+    public function setSplits(RoundCollection $splits): self
     {
         $this->splits = $splits;
 
@@ -2462,10 +2295,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|array $splitsAdditional
-     *
-     * @return $this
      */
-    public function setSplitsAdditional($splitsAdditional)
+    public function setSplitsAdditional($splitsAdditional): self
     {
         $this->splitsAdditional = $splitsAdditional;
 
@@ -2482,10 +2313,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|string $title
-     *
-     * @return $this
      */
-    public function setTitle($title)
+    public function setTitle($title): self
     {
         $this->title = $title;
 
@@ -2502,10 +2331,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|string $partner
-     *
-     * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): self
     {
         $this->partner = $partner;
 
@@ -2522,10 +2349,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|array $paceGoal
-     *
-     * @return $this
      */
-    public function setPaceGoal($paceGoal)
+    public function setPaceGoal($paceGoal): self
     {
         $this->paceGoal = $paceGoal;
 
@@ -2542,10 +2367,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|string $notes
-     *
-     * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): self
     {
         $this->notes = $notes;
 
@@ -2560,10 +2383,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->notes;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -2580,10 +2400,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param string $creator
-     *
-     * @return $this
      */
-    public function setCreator($creator)
+    public function setCreator($creator): self
     {
         $this->creator = $creator;
 
@@ -2600,10 +2418,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|string $creatorDetails
-     *
-     * @return $this
      */
-    public function setCreatorDetails($creatorDetails)
+    public function setCreatorDetails($creatorDetails): self
     {
         $this->creatorDetails = $creatorDetails;
 
@@ -2620,10 +2436,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param null|int $activityId
-     *
-     * @return $this
      */
-    public function setActivityId($activityId)
+    public function setActivityId($activityId): self
     {
         $this->activityId = null === $activityId ? null : (int) $activityId;
 
@@ -2640,10 +2454,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @param bool $lock
-     *
-     * @return $this
      */
-    public function setLock($lock)
+    public function setLock($lock): self
     {
         $this->lock = $lock;
 
@@ -2658,10 +2470,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->lock;
     }
 
-    /**
-     * @return $this
-     */
-    public function addEquipment(Equipment $equipment)
+    public function addEquipment(Equipment $equipment): self
     {
         $this->equipment[] = $equipment;
 
@@ -2681,10 +2490,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->equipment;
     }
 
-    /**
-     * @return $this
-     */
-    public function addTag(Tag $tag)
+    public function addTag(Tag $tag): self
     {
         $this->tag[] = $tag;
 
@@ -2708,7 +2514,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->trackdata = $trackData;
 
-        if (null !== $trackData) {
+        if ($trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             $trackData->setActivity($this);
 
             if (null !== $this->account) {
@@ -2734,7 +2540,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->swimdata = $swimData;
 
-        if (null !== $swimData) {
+        if ($swimData instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
             $swimData->setActivity($this);
 
             if (null !== $this->account) {
@@ -2760,7 +2566,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->hrv = $hrv;
 
-        if (null !== $hrv) {
+        if ($hrv instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
             $hrv->setActivity($this);
 
             if (null !== $this->account) {
@@ -2786,7 +2592,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->raceresult = $raceResult;
 
-        if (null !== $raceResult) {
+        if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
             $raceResult->setActivity($this);
 
             if (null !== $this->account) {

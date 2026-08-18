@@ -14,7 +14,7 @@ class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray 
 	 * Display row for config form
 	 * @return FormularField
 	 */
-	public function getFormField() {
+	public function getFormField(): \FormularInput {
 		return null;
 	}
 }

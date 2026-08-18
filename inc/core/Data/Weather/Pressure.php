@@ -39,7 +39,7 @@ class Pressure implements ValueInterface
      * @return \Runalyze\Data\Weather\Pressure $this-reference
      * @throws \InvalidArgumentException
      */
-    public function set($hectoPascals)
+    public function set($hectoPascals): self
     {
         if (null !== $hectoPascals && ! is_numeric($hectoPascals)) {
             throw new \InvalidArgumentException('Value must be numerical.');

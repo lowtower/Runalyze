@@ -16,7 +16,7 @@ class TinyIntType extends SmallIntType
         $declaration = parent::getSQLDeclaration($fieldDeclaration, $platform);
 
         if ($platform instanceof MySqlPlatform) {
-            $declaration = str_replace('SMALLINT', 'TINYINT', $declaration);
+            return str_replace('SMALLINT', 'TINYINT', $declaration);
         }
 
         return $declaration;

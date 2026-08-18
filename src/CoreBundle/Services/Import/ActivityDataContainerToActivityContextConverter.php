@@ -71,7 +71,7 @@ class ActivityDataContainerToActivityContextConverter
      */
     public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
-        if (null !== $account) {
+        if ($account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             $this->Account = $account;
         }
 

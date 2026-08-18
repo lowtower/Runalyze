@@ -137,10 +137,8 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
             $values = explode(',', $line);
 
             foreach ($this->TmpData as $i => $label) {
-                switch ($label) {
-                    case 'Calorie':
-                        $this->Container->ActivityData->EnergyConsumption = $values[$i];
-                        break;
+                if ($label === 'Calorie') {
+                    $this->Container->ActivityData->EnergyConsumption = $values[$i];
                 }
             }
 

@@ -38,8 +38,8 @@ class PercentageHilly extends AbstractKey
         if (! $context->activity()->isPublic() && \Request::isOnSharedPage() || $context->activity()->id() <= 0) {
             return $context->dataview()
                 ->percentageHilly();
-        } else {
-            return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->percentageHilly().'</a>';
         }
+
+        return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->percentageHilly().'</a>';
 	}
 }

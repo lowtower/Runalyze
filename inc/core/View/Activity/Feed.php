@@ -64,18 +64,14 @@ class Feed
 
     /**
      * @param array $activities
-     * @return $this
      */
-    public function setActivities($activities)
+    public function setActivities($activities): self
     {
         $this->Activities = $activities;
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function setFeedAuthor($author)
+    public function setFeedAuthor($author): self
     {
         $this->FeedBuilder->withAuthor($author);
         return $this;
@@ -83,9 +79,8 @@ class Feed
 
     /**
      * @param string $title
-     * @return $this
      */
-    public function setFeedTitle($title)
+    public function setFeedTitle($title): self
     {
         $this->FeedBuilder->withTitle($title);
         return $this;
@@ -93,9 +88,8 @@ class Feed
 
     /**
      * @param string $feed
-     * @return $this
      */
-    public function setFeedUrl($feed)
+    public function setFeedUrl($feed): self
     {
         $this->FeedBuilder->withFeedUrl($feed);
         return $this;
@@ -103,18 +97,14 @@ class Feed
 
     /**
      * @param string $site
-     * @return $this
      */
-    public function setSiteUrl($site)
+    public function setSiteUrl($site): self
     {
         $this->FeedBuilder->withSiteUrl($site);
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function setFeedDate(\DateTime $date)
+    public function setFeedDate(\DateTime $date): self
     {
         $this->FeedBuilder->withDate($date);
         return $this;

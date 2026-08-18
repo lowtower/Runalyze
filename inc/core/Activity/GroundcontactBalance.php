@@ -60,7 +60,7 @@ class GroundcontactBalance implements ValueInterface
 	 * @param int $basispoint [%oo L]
 	 * @return \Runalyze\Activity\GroundcontactBalance $this-reference
 	 */
-	public function set($basispoint)
+	public function set($basispoint): self
 	{
 		$this->BasisPoint = $basispoint;
 
@@ -72,7 +72,7 @@ class GroundcontactBalance implements ValueInterface
 	 * @param float $percent [% L]
 	 * @return \Runalyze\Activity\GroundcontactBalance $this-reference
 	 */
-	public function setPercent($percent)
+	public function setPercent($percent): self
 	{
 		$this->BasisPoint = 100*$percent;
 

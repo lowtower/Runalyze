@@ -42,7 +42,7 @@ class HtmlOutputFormatter extends OutputFormatter
         $formatted = parent::format($message);
         $escaped = htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8');
 
-        return preg_replace_callback(self::CLI_COLORS_PATTERN, function ($matches): string {
+        return preg_replace_callback(self::CLI_COLORS_PATTERN, function (array $matches): string {
             return $this->replaceFormat($matches);
         }, $escaped);
     }

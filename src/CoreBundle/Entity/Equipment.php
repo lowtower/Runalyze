@@ -132,10 +132,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param string $name
-     *
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -152,10 +150,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param string $notes
-     *
-     * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): self
     {
         $this->notes = $notes;
 
@@ -172,10 +168,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param float $distance [km]
-     *
-     * @return $this
      */
-    public function setDistance($distance)
+    public function setDistance($distance): self
     {
         $this->distance = $distance;
 
@@ -184,10 +178,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param float $distance [km]
-     *
-     * @return $this
      */
-    public function addDistance($distance)
+    public function addDistance($distance): self
     {
         $this->distance += $distance;
 
@@ -204,10 +196,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param int $time [s]
-     *
-     * @return $this
      */
-    public function setTime($time)
+    public function setTime($time): self
     {
         $this->time = $time;
 
@@ -216,10 +206,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param int $time [s]
-     *
-     * @return $this
      */
-    public function addTime($time)
+    public function addTime($time): self
     {
         $this->time += $time;
 
@@ -244,10 +232,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param int $additionalKm [km]
-     *
-     * @return $this
      */
-    public function setAdditionalKm($additionalKm)
+    public function setAdditionalKm($additionalKm): self
     {
         $this->additionalKm = $additionalKm;
 
@@ -270,10 +256,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->distance + $this->additionalKm;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDateStart(?\DateTime $dateStart = null)
+    public function setDateStart(?\DateTime $dateStart = null): self
     {
         $this->dateStart = $dateStart;
 
@@ -293,10 +276,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return null !== $this->dateStart;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDateEnd(?\DateTime $dateEnd = null)
+    public function setDateEnd(?\DateTime $dateEnd = null): self
     {
         $this->dateEnd = $dateEnd;
 
@@ -316,10 +296,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return null === $this->dateEnd;
     }
 
-    /**
-     * @return $this
-     */
-    public function setType(EquipmentType $type)
+    public function setType(EquipmentType $type): self
     {
         $this->type = $type;
 
@@ -336,10 +313,8 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     /**
      * @param Sport $sport
-     *
-     * @return $this
      */
-    public function addSport(Sport $sport)
+    public function addSport(Sport $sport): self
     {
         $this->sport[] = $sport;
 
@@ -362,10 +337,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->sport;
     }
 
-    /**
-     * @return $this
-     */
-    public function setAccount(Account $account)
+    public function setAccount(Account $account): self
     {
         $this->account = $account;
 
@@ -380,10 +352,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->account;
     }
 
-    /**
-     * @return $this
-     */
-    public function addActivity(Training $activity)
+    public function addActivity(Training $activity): self
     {
         $this->activity[] = $activity;
 

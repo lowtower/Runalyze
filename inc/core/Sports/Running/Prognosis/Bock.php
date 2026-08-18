@@ -58,9 +58,8 @@ class Bock implements PrognosisInterface
      * @param float $time1 [s]
      * @param float $distance2 [km]
      * @param float $time2 [s]
-     * @return $this
      */
-    public function setFromResults($distance1, $time1, $distance2, $time2)
+    public function setFromResults($distance1, $time1, $distance2, $time2): self
     {
         if ($distance1 <= 0.0 || $distance2 <= 0.0) {
             return $this;

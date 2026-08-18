@@ -79,9 +79,9 @@ class Pace extends AbstractKey
 		$pace = $this->getPace($context);
 		if (null === $pace) {
 			return '';
-		} else {
-			return $pace->valueWithAppendix();
 		}
+
+        return $pace->valueWithAppendix();
 	}
 
 	/**
@@ -160,8 +160,8 @@ class Pace extends AbstractKey
     'class' => $class,
 			    'style' => '--perc: ' . $v . '%;'
 );
-		} else {
-			return null;
 		}
+
+        return null;
 	}
 }

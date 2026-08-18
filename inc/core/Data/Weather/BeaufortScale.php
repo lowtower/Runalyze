@@ -37,7 +37,7 @@ class BeaufortScale implements ValueInterface
 	 */
 	public function __construct(?WindSpeed $windSpeed = null)
 	{
-	    if (null !== $windSpeed) {
+	    if ($windSpeed instanceof \Runalyze\Data\Weather\WindSpeed) {
 			$this->setFromWindSpeed($windSpeed);
 	    }
 	}
@@ -65,7 +65,7 @@ class BeaufortScale implements ValueInterface
 	 * @param int $btf beaufort number
 	 * @return \Runalyze\Data\Weather\BeaufortScale $this-reference
 	 */
-	public function set($btf)
+	public function set($btf): self
 	{
 	    $this->Btf = $btf;
 
@@ -76,7 +76,7 @@ class BeaufortScale implements ValueInterface
      * Set wind speed
      * @return \Runalyze\Data\Weather\BeaufortScale $this-reference
      */
-    public function setFromWindSpeed(WindSpeed $windSpeed)
+    public function setFromWindSpeed(WindSpeed $windSpeed): self
 	{
 	    $kmh = $windSpeed->inKilometerPerHour();
 		$this->Btf = 0;

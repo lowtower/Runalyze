@@ -133,9 +133,9 @@ abstract class Entity {
 
 		if ($this->numberOfPoints > 0 && $num != $this->numberOfPoints) {
 			throw new \RuntimeException('Data arrays must be of the same size. ('.$num.' != '.$this->numberOfPoints.')');
-		} else {
-			$this->numberOfPoints = $num;
 		}
+
+        $this->numberOfPoints = $num;
 	}
 
 	/**

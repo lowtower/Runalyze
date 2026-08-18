@@ -16,9 +16,9 @@ class InvalidRRIntervalFilter extends AbstractFilter
         if ($filteredLength !== $originalLength) {
             if ($strict) {
                 throw new InvalidDataException('Invalid r-r intervals detected.');
-            } else {
-                $this->logger->warning(sprintf('%u invalid r-r intervals removed.', $originalLength - $filteredLength));
             }
+
+            $this->logger->warning(sprintf('%u invalid r-r intervals removed.', $originalLength - $filteredLength));
         }
     }
 }

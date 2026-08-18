@@ -34,11 +34,7 @@ class RPE {
 	}
 
 	public static function validRPE($value): bool {
-		if ($value >=1 && $value <=10) {
-			return true;
-		} else {
-			return false;
-		}
+		return $value >=1 && $value <=10;
 	}
 
 	public static function getString($value) {

@@ -108,10 +108,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
         $this->Direction = self::DIRECTION_DOWN;
     }
 
-    /**
-     * @return string
-     */
-    public function code()
+    public function code(): string
     {
         $this->FontAwesomeName = self::BASE_CLASS.' '.$this->Direction;
 

@@ -46,7 +46,7 @@ class PoolLength implements ValueInterface
 	public function __construct($centimeter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
 		$this->Centimeter = $centimeter;
-		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+		$this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
     /**
@@ -74,7 +74,7 @@ class PoolLength implements ValueInterface
 	 * @param int $centimeter
 	 * @return \Runalyze\Activity\PoolLength $this-reference
 	 */
-	public function set($centimeter)
+	public function set($centimeter): self
 	{
 		$this->Centimeter = $centimeter;
 
@@ -85,7 +85,7 @@ class PoolLength implements ValueInterface
 	 * @param float $meter
 	 * @return \Runalyze\Activity\PoolLength $this-reference
 	 */
-	public function setMeter($meter)
+	public function setMeter($meter): self
 	{
 		$this->Centimeter = $meter * 100;
 
@@ -96,7 +96,7 @@ class PoolLength implements ValueInterface
 	 * @param float $yards
 	 * @return \Runalyze\Activity\PoolLength $this-reference
 	 */
-	public function setYards($yards)
+	public function setYards($yards): self
 	{
 		$this->Centimeter = $yards / DistanceUnitSystem::YARD_MULTIPLIER * 1000 * 100;
 
@@ -107,7 +107,7 @@ class PoolLength implements ValueInterface
 	 * @param int $poolLength [mixed unit]
 	 * @return \Runalyze\Activity\PoolLength $this-reference
 	 */
-	public function setInPreferredUnit($poolLength)
+	public function setInPreferredUnit($poolLength): self
 	{
 		if ($this->UnitSystem->isImperial()) {
 			$this->setYards($poolLength);

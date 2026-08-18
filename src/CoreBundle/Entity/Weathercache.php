@@ -90,10 +90,8 @@ class Weathercache
 
     /**
      * @param string $geohash
-     *
-     * @return $this
      */
-    public function setGeohash($geohash)
+    public function setGeohash($geohash): self
     {
         $this->geohash = substr($geohash, 0, self::GEOHASH_PRECISION_DATABASE);
 
@@ -110,10 +108,8 @@ class Weathercache
 
     /**
      * @param int $time
-     *
-     * @return $this
      */
-    public function setTime($time)
+    public function setTime($time): self
     {
         $this->time = $time;
 
@@ -130,10 +126,8 @@ class Weathercache
 
     /**
      * @param int|null $temperature [°C]
-     *
-     * @return $this
      */
-    public function setTemperature($temperature)
+    public function setTemperature($temperature): self
     {
         $this->temperature = $temperature;
 
@@ -150,10 +144,8 @@ class Weathercache
 
     /**
      * @param int|null $windSpeed [km/h]
-     *
-     * @return $this
      */
-    public function setWindSpeed($windSpeed)
+    public function setWindSpeed($windSpeed): self
     {
         $this->windSpeed = $windSpeed;
 
@@ -170,10 +162,8 @@ class Weathercache
 
     /**
      * @param int|null $windDeg [°]
-     *
-     * @return $this
      */
-    public function setWindDeg($windDeg)
+    public function setWindDeg($windDeg): self
     {
         $this->windDeg = $windDeg;
 
@@ -190,10 +180,8 @@ class Weathercache
 
     /**
      * @param int|null $humidity [%]
-     *
-     * @return $this
      */
-    public function setHumidity($humidity)
+    public function setHumidity($humidity): self
     {
         $this->humidity = $humidity;
 
@@ -210,10 +198,8 @@ class Weathercache
 
     /**
      * @param int|null $pressure [hPa]
-     *
-     * @return $this
      */
-    public function setPressure($pressure)
+    public function setPressure($pressure): self
     {
         $this->pressure = $pressure;
 
@@ -230,10 +216,8 @@ class Weathercache
 
     /**
      * @param int $weatherid
-     *
-     * @return $this
      */
-    public function setWeatherid($weatherid)
+    public function setWeatherid($weatherid): self
     {
         $this->weatherid = $weatherid;
 
@@ -250,10 +234,8 @@ class Weathercache
 
     /**
      * @param int|null $weatherSource
-     *
-     * @return $this
      */
-    public function setWeatherSource($weatherSource)
+    public function setWeatherSource($weatherSource): self
     {
         $this->weatherSource = $weatherSource;
 

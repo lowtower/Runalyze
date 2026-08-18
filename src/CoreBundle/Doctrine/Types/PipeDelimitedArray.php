@@ -35,9 +35,9 @@ class PipeDelimitedArray extends Type
         return array_map(function ($v) {
             if (is_numeric($v)) {
                 return $v + 0;
-            } else {
-                return null;
             }
+
+            return null;
         }, explode('|', $value));
     }
 

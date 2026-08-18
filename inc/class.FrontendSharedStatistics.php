@@ -14,7 +14,7 @@ class FrontendSharedStatistics
 		}
 
 		if ($Content === '') {
-			$Content = '<em>'.__('No data available.').'</em>';
+			return '<em>'.__('No data available.').'</em>';
 		}
 
 		return $Content;

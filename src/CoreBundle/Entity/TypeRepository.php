@@ -12,7 +12,7 @@ class TypeRepository extends EntityRepository
      */
     public function findAllFor(Account $account, ?Sport $sport = null)
     {
-        if (null !== $sport) {
+        if ($sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
             return $this->findBy([
                 'account' => $account->getId(),
                 'sport' => $sport->getId()

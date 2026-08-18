@@ -68,7 +68,7 @@ class TrainingEffect implements ValueInterface
 	 * @return \Runalyze\Activity\TrainingEffect $this-reference
 	 * @throws \InvalidArgumentException
 	 */
-	public function set($value) {
+	public function set($value): self {
         if (null === $value) {
             $this->Value = null;
 

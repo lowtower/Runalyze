@@ -60,7 +60,7 @@ class WindChillFactor implements ValueInterface
         // #TSC: $activitySpeed->asKmPerHour() can be the string "11,7".
         // so if not numeric: replace , with . and convert
         // if there are problems, the (float) cast is robust :-)
-        if (null !== $activitySpeed) {
+        if ($activitySpeed instanceof \Runalyze\Activity\Pace) {
 			if (is_numeric($activitySpeed->asKmPerHour())) {
 				// if numeric use direct
 				$actSpeed = $activitySpeed->asKmPerHour();

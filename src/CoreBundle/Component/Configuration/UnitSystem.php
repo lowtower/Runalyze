@@ -46,7 +46,7 @@ class UnitSystem
      */
     public function getPaceUnit(?Sport $sport = null)
     {
-        if (null !== $sport) {
+        if ($sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
             return $sport->getSpeedUnit();
         }
 

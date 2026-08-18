@@ -239,9 +239,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $username
-     * @return $this
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         $this->username = $username;
 
@@ -258,9 +257,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $name
-     * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -277,9 +275,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $mail
-     * @return Account
      */
-    public function setMail($mail)
+    public function setMail($mail): self
     {
         $this->mail = $mail;
 
@@ -296,9 +293,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $language
-     * @return $this
      */
-    public function setLanguage($language)
+    public function setLanguage($language): self
     {
         $this->language = $language;
 
@@ -316,9 +312,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param int $enum enum
-     * @return $this
      */
-    public function setTimezone($enum)
+    public function setTimezone($enum): self
     {
         $this->timezone = $enum;
 
@@ -335,9 +330,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param int $enum enum, see \Runalyze\Profile\Athlete\Gender
-     * @return $this
      */
-    public function setGender($enum)
+    public function setGender($enum): self
     {
         $this->gender = $enum;
 
@@ -369,9 +363,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param int|null $birthYear
-     * @return $this
      */
-    public function setBirthyear($birthYear)
+    public function setBirthyear($birthYear): self
     {
         $this->birthyear = $birthYear;
 
@@ -401,9 +394,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $password
-     * @return $this
      */
-    public function setPassword($password)
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -420,9 +412,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $plainPassword
-     * @return Account
      */
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword($plainPassword): self
     {
         $this->plainPassword = $plainPassword;
 
@@ -437,19 +428,15 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->plainPassword;
     }
 
-    /**
-     * @return Account
-     */
-    public function setNewSalt()
+    public function setNewSalt(): self
     {
         return $this->setSalt(self::getRandomHash(32));
     }
 
     /**
      * @param string $salt
-     * @return $this
      */
-    public function setSalt($salt)
+    public function setSalt($salt): self
     {
         $this->salt = $salt;
 
@@ -474,9 +461,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param int $registerDate [timestamp]
-     * @return $this
      */
-    public function setRegisterdate($registerDate)
+    public function setRegisterdate($registerDate): self
     {
         $this->registerdate = $registerDate;
 
@@ -493,9 +479,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param int|null $lastAction [timestamp]
-     * @return $this
      */
-    public function setLastAction($lastAction = null)
+    public function setLastAction($lastAction = null): self
     {
         if (null === $lastAction) {
             $lastAction = (new \DateTime())->getTimestamp();
@@ -514,10 +499,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->lastaction;
     }
 
-    /**
-     * @return $this
-     */
-    public function setNewChangePasswordHash()
+    public function setNewChangePasswordHash(): self
     {
         $this->setChangepwHash(self::getRandomHash(16));
         $this->setChangepwTimelimit(time() + 86400);
@@ -525,10 +507,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function removeChangePasswordHash()
+    public function removeChangePasswordHash(): self
     {
         $this->setChangepwHash(null);
         $this->setChangepwTimelimit(null);
@@ -538,9 +517,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param null|string $changepwHash
-     * @return $this
      */
-    public function setChangepwHash($changepwHash)
+    public function setChangepwHash($changepwHash): self
     {
         $this->changepwHash = $changepwHash;
 
@@ -557,9 +535,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param null|int $changepwTimelimit
-     * @return $this
      */
-    public function setChangepwTimelimit($changepwTimelimit)
+    public function setChangepwTimelimit($changepwTimelimit): self
     {
         $this->changepwTimelimit = $changepwTimelimit;
 
@@ -574,18 +551,12 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->changepwTimelimit;
     }
 
-    /**
-     * @return $this
-     */
-    public function setNewActivationHash()
+    public function setNewActivationHash(): self
     {
         return $this->setActivationHash(self::getRandomHash(16));
     }
 
-    /**
-     * @return $this
-     */
-    public function removeActivationHash()
+    public function removeActivationHash(): self
     {
         $this->setActivationHash(null);
 
@@ -594,9 +565,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string|null $activationHash
-     * @return $this
      */
-    public function setActivationHash($activationHash)
+    public function setActivationHash($activationHash): self
     {
         $this->activationHash = $activationHash;
 
@@ -611,19 +581,15 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->activationHash;
     }
 
-    /**
-     * @return $this
-     */
-    public function setNewDeletionHash()
+    public function setNewDeletionHash(): self
     {
         return $this->setDeletionHash(self::getRandomHash(16));
     }
 
     /**
      * @param string|null $deletionHash
-     * @return $this
      */
-    public function setDeletionHash($deletionHash)
+    public function setDeletionHash($deletionHash): self
     {
         $this->deletionHash = $deletionHash;
 
@@ -640,9 +606,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param bool $flag
-     * @return $this
      */
-    public function setAllowMails($flag)
+    public function setAllowMails($flag): self
     {
         $this->allowMails = $flag;
 
@@ -659,9 +624,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param bool $flag
-     * @return $this
      */
-    public function setAllowSupport($flag)
+    public function setAllowSupport($flag): self
     {
         $this->allowSupport = $flag;
 
@@ -678,9 +642,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @param string $role
-     * @return $this
      */
-    public function setRole($role)
+    public function setRole($role): self
     {
         $this->role = $role;
 

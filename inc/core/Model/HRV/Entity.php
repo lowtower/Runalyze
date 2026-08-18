@@ -58,14 +58,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
      * Can be null?
      * @param string $key
      */
-    protected function canBeNull($key): bool {
-		switch ($key) {
-			case self::DATA:
-				return true;
-		}
-
-		return false;
-	}
+    protected function canBeNull($key): bool
+    {
+        return $key === self::DATA;
+    }
 
     /**
      * Ignore a key while checking for emptiness

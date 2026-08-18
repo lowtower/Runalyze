@@ -52,9 +52,8 @@ class VO2max implements PrognosisInterface
 
     /**
      * @param float $effectiveVO2max [ml/kg/min]
-     * @return $this
      */
-    public function setEffectiveVO2max($effectiveVO2max)
+    public function setEffectiveVO2max($effectiveVO2max): self
     {
         $this->EffectiveVO2max = $effectiveVO2max;
 
@@ -63,9 +62,8 @@ class VO2max implements PrognosisInterface
 
     /**
      * @param bool $flag
-     * @return $this
      */
-    public function adjustForMarathonShape($flag = true)
+    public function adjustForMarathonShape($flag = true): self
     {
         $this->AdjustForMarathonShape = $flag;
 
@@ -74,9 +72,8 @@ class VO2max implements PrognosisInterface
 
     /**
      * @param float $marathonShapeInPercent [%, i.e. 100 = 100%]
-     * @return $this
      */
-    public function setMarathonShape($marathonShapeInPercent)
+    public function setMarathonShape($marathonShapeInPercent): self
     {
         $this->MarathonShapeInPercent = $marathonShapeInPercent;
 

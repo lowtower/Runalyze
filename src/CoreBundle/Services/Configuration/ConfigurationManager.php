@@ -33,7 +33,7 @@ class ConfigurationManager
      */
     public function getList(?Account $account = null)
     {
-        if (null === $account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
+        if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
             if (null === $this->CurrentConfigurationList) {
                 $this->setListForCurrentUser();
             }

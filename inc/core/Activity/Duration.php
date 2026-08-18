@@ -77,7 +77,7 @@ class Duration {
 	 * @throws \InvalidArgumentException
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
-	public function fromSeconds($seconds) {
+	public function fromSeconds($seconds): self {
 		if (! is_numeric($seconds)) {
 			throw new \InvalidArgumentException('Parameter $seconds must be of numeric type.');
 		}
@@ -92,7 +92,7 @@ class Duration {
 	 * @param string $string format: "[[[z\d ]H:]i:]s[(.|,)u]"
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
-	public function fromString($string) {
+	public function fromString($string): self {
 		$this->Time = 0;
 
 		// #TSC - fix: only set duration if soming exists in the string
@@ -204,8 +204,9 @@ class Duration {
 			$m=(($sec-$s) / 60) % 60;
 			$h=floor($sec / 3600);
 			return $h.':'.substr('0'.$m, -2).':'.substr('0'.$s, -2);
-		} else
-			return $time->format($format);
+		}
+
+        return $time->format($format);
 	}
 
 	/**
@@ -213,7 +214,7 @@ class Duration {
 	 * @param float $factor
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
-	public function multiply($factor) {
+	public function multiply($factor): self {
 		$this->Time *= $factor;
 
 		return $this;
@@ -223,7 +224,7 @@ class Duration {
      * Add another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function add(self $object) {
+    public function add(self $object): self {
 		$this->Time += $object->seconds();
 
 		return $this;
@@ -233,7 +234,7 @@ class Duration {
      * Subtract another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function subtract(self $object) {
+    public function subtract(self $object): self {
 		$this->Time -= $object->seconds();
 
 		return $this;

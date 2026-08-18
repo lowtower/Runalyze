@@ -150,13 +150,13 @@ class Loop extends \Runalyze\Model\Loop {
             if ($sum !== null) {
                 if (0 == $totalTime) {
                     return $sum / ($this->Index - $this->LastIndex);
-                } else {
-                    return $sum / $totalTime;
                 }
-            } else {
-                // for the considered timerange we have no values, return null instead of a wrong 0 - which leads in a 0-line wrong plot
-                return null;
+
+                return $sum / $totalTime;
             }
+
+            // for the considered timerange we have no values, return null instead of a wrong 0 - which leads in a 0-line wrong plot
+            return null;
         }
 
         return parent::average($key);
