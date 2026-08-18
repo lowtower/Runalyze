@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: TrainingPartner
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -42,7 +42,7 @@ class TrainingPartner extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Training partner');
 	}
@@ -51,7 +51,7 @@ class TrainingPartner extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Partner');
 	}
@@ -60,7 +60,7 @@ class TrainingPartner extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return sprintf(
 			__('Training partner are automatically cut after %u characters.'),

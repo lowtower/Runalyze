@@ -61,7 +61,7 @@ class Helper {
 	 * @param int $int
 	 * @return string
 	 */
-	public static function TwoNumbers($int) {
+	public static function TwoNumbers($int): string {
 		return ($int < 10) ? '0'.$int : (string) $int;
 	}
 
@@ -102,7 +102,7 @@ class Helper {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function CommaToPoint($string) {
+	public static function CommaToPoint($string): string {
 		return str_replace(',', '.', $string);
 	}
 

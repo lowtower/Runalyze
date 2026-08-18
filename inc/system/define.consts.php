@@ -7,25 +7,25 @@
 
 /**
  * Maximum value for integers
- * @var int 
+ * @var int
  */
 define('INFINITY', PHP_INT_MAX);
 
 /**
  * Number of seconds for a complete day
- * @var int 
+ * @var int
  */
 define('DAY_IN_S', 86400);
 
 /**
  * Current year
- * @var int 
+ * @var int
  */
 define('YEAR', date('Y'));
 
 /**
  * Default length for cutting strings
- * @var int 
+ * @var int
  */
 define('CUT_LENGTH', 29);
 

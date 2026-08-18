@@ -56,7 +56,7 @@ class HrZonesCalculator
 	 * index key is a sequence number and used for sorting and matching.
 	 * starts with idx=0 which is the $minHr and will be inserted before the predefine zones will created.
 	 * the predefine (generated or from FIT/device) will be start with idx=1.
-	 * 
+	 *
 	 * @param int $minHr the minimal HR of this activity
 	 * @param int $maxHr the max HR of this activity
 	 * @param int $hrMaxUser the maximal users HR (not the max of this activity)
@@ -153,7 +153,7 @@ class HrZonesCalculator
 
     /**
      * validates the user input in the sports view.
-     * 
+     *
      * @param string $zone
      * @return boolean true=invalid
      */
@@ -161,13 +161,13 @@ class HrZonesCalculator
         $ok = preg_match(self::PATTERN, $zone, $matches, PREG_UNMATCHED_AS_NULL);
         // [0] is the full string and the other idx are the matches
         $matches = array_filter($matches);
-        // check also the matches-1 (because of the [0]) and the ":" are valid 
+        // check also the matches-1 (because of the [0]) and the ":" are valid
         return ! $ok || count($matches) - 1 < substr_count($zone, ':') + 1;
     }
 
     /**
      * sorts the zones array ascend of bpm.
-     * 
+     *
      * @param array $zones
      * @return array
      */

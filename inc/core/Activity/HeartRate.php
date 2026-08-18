@@ -11,7 +11,7 @@ use Runalyze\Configuration;
 
 /**
  * HeartRate
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -57,7 +57,7 @@ class HeartRate {
 	 * Heart rate as string
 	 * @return string
 	 */
-	public function string() {
+	public function string(): string {
 		if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
 			return $this->asHRrest();
 		} elseif ($this->PreferredUnit->isHRmax() && $this->canShowInHRmax()) {
@@ -71,7 +71,7 @@ class HeartRate {
 	 * As bpm
 	 * @return string
 	 */
-	public function asBPM() {
+	public function asBPM(): string {
 		return $this->inBPM().'&nbsp;bpm';
 	}
 
@@ -80,7 +80,7 @@ class HeartRate {
 	 * Check first 'canShowInHRMax'!
 	 * @return string
 	 */
-	public function asHRmax() {
+	public function asHRmax(): string {
 		return $this->inHRmax().'&nbsp;&#37;';
 	}
 
@@ -89,7 +89,7 @@ class HeartRate {
 	 * Check first 'canShowInHRMax'!
 	 * @return string
 	 */
-	public function asHRrest() {
+	public function asHRrest(): string {
 		return $this->inHRrest().'&nbsp;&#37;';
 	}
 

@@ -11,7 +11,7 @@ use Runalyze\Model\StringArrayObject;
 
 /**
  * Training partner
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity
  */
@@ -34,7 +34,7 @@ class Partner extends StringArrayObject {
 	 * As string
 	 * @return string
 	 */
-	public function asString() {
+	public function asString(): string {
 		return implode(self::SEPARATOR.' ', $this->Elements);
 	}
 

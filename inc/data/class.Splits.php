@@ -155,7 +155,7 @@ class Splits {
 	 * @param bool $restingLaps optional
 	 * @return string
 	 */
-	public function asReadableString($restingLaps = false) {
+	public function asReadableString($restingLaps = false): string {
 		$strings = array();
 
 		foreach ($this->asArray as $split)
@@ -222,7 +222,7 @@ class Splits {
 	 * @param double $km
 	 * @return string
 	 */
-	private function formatKM($km) {
+	private function formatKM($km): string {
 		return number_format(Helper::CommaToPoint($km), 3, '.', '');
 	}
 

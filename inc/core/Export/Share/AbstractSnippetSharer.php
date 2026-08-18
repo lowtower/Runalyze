@@ -9,7 +9,7 @@ namespace Runalyze\Export\Share;
 
 /**
  * Exporter for: code snippets
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Export\Share
  */

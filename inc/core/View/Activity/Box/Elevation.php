@@ -11,7 +11,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for elevation
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

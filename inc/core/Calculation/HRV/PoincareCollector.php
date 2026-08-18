@@ -11,7 +11,7 @@ use Runalyze\Model\HRV\Entity;
 
 /**
  * Create data for a poincare plot
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\HRV
  */

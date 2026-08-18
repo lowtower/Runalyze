@@ -189,7 +189,7 @@ class ElevationInfo {
 	 * @param array $array
 	 * @return string
 	 */
-	protected function getDifferentAlgorithmsFor($array) {
+	protected function getDifferentAlgorithmsFor($array): string {
 		$Method        = new ElevationMethod();
 		$Calculator    = new Calculation\Elevation\Calculator($array);
 		$TresholdRange = range(1, 10);

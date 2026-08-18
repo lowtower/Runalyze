@@ -13,7 +13,7 @@ use Runalyze\Model\Trackdata;
 
 /**
  * Row: HRV
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

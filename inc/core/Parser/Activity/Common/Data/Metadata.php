@@ -46,7 +46,7 @@ class Metadata
     /** @var string */
     protected $UploadedFilename = '';
 
-    // TSC: only internal for mapping to 
+    // TSC: only internal for mapping to
     /** @var string */
     protected $WorkoutName;
 

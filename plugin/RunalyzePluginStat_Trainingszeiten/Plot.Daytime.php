@@ -81,7 +81,7 @@ foreach ($yAxis as $t)
 		if ($e != '0')
 			$error = false;
 
-if ($error === true)
+if ($error)
 	$Plot->raiseError( __('No data available.') );
 
 

@@ -12,7 +12,7 @@ use Runalyze\Configuration;
 
 /**
  * Boxed value for pace alternative (instead of speed, if pace is already in a decimal unit)
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

@@ -91,7 +91,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * @return string
      * @codeCoverageIgnore
      */
-    public static function labelOfEnum($num)
+    public static function labelOfEnum($num): string
     {
         switch ($num) {
             case self::RECOVERY:
@@ -120,7 +120,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * @return description with number and texts
      * @codeCoverageIgnore
      */
-    public static function descriptionFromNum($num)
+    public static function descriptionFromNum($num): string
     {
         if (is_numeric($num) && (int) $num > 0&& (int) $num <= 7) {
             $col = self::COLORS[$num - 1];

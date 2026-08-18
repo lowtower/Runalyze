@@ -126,7 +126,7 @@ class InstallCheckCommand extends ContainerAwareCommand
      * @param null|string $message
      * @return string
      */
-    protected function styleReturnCode($returnCode, $message = null)
+    protected function styleReturnCode($returnCode, $message = null): string
     {
         switch ($returnCode) {
             case self::WARNING:

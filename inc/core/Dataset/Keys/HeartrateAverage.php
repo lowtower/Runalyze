@@ -13,7 +13,7 @@ use Runalyze\Dataset\SummaryMode;
 
 /**
  * Dataset key: HeartrateAverage
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -45,7 +45,7 @@ class HeartrateAverage extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('avg.').' '.__('Heart rate');
 	}
@@ -54,7 +54,7 @@ class HeartrateAverage extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('avg.').' '.__('HR');
 	}

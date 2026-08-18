@@ -11,9 +11,9 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: FitAnaerobicTrainingEffect
- * 
+ *
  * #TSC: this class contains the labels/short/description for main-data-table, and the dataview (used to select the attributes/position for main-table).
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -41,7 +41,7 @@ class FitAnaerobicTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
         // #TSC: label on the dataview-configuration screen
 		return __('Anaerob Training Effect').' '.__('(by file)');
@@ -51,7 +51,7 @@ class FitAnaerobicTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
         // #TSC: short-label for main-table
 		return __('ATE');
@@ -61,7 +61,7 @@ class FitAnaerobicTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) '.

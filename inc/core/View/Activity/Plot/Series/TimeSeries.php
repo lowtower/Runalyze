@@ -12,7 +12,7 @@ use Runalyze\View\Activity;
 
 /**
  * Plot for: Time
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */

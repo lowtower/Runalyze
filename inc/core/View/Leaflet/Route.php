@@ -91,7 +91,7 @@ class Route {
 	 * Get JS
 	 * @return string
 	 */
-	final public function js() {
+	final public function js(): string {
 		$Options = 'segments: '.json_encode($this->Paths);
 
 		if (count($this->Paths) == count($this->Infos)) {
@@ -167,7 +167,7 @@ class Route {
 	 * @param int $km
 	 * @return string
 	 */
-	final public function distIcon($km) {
+	final public function distIcon($km): string {
 		return 'RunalyzeLeaflet.Routes.distIcon('.(int) $km.')';
 	}
 

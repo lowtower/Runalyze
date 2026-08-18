@@ -18,7 +18,7 @@ use System;
 
 /**
  * Exporter for: IFrame
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Export\Share
@@ -50,7 +50,7 @@ class IFrame extends AbstractSnippetSharer
     /**
      * @return string
      */
-	public function name()
+	public function name(): string
     {
 	    return __('Widget');
 	}
@@ -125,7 +125,7 @@ class IFrame extends AbstractSnippetSharer
      * Get HTML code for snippet
      * @return string
      */
-    protected function codeSnippet()
+    protected function codeSnippet(): string
     {
         $this->Context->activity()->set(Activity\Entity::IS_PUBLIC, 1);
         $Linker = new Linker($this->Context->activity());

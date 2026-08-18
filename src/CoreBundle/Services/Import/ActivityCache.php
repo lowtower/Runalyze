@@ -20,7 +20,7 @@ class ActivityCache
      * @param Training $activity
      * @return string
      */
-    public function save(Training $activity)
+    public function save(Training $activity): string
     {
         $hash = $this->getRandomHash($activity->getAccount());
         $item = $this->Cache->getItem($hash);
@@ -148,7 +148,7 @@ class ActivityCache
      * @param Account|null $account
      * @return string
      */
-    protected function getRandomHash(?Account $account = null)
+    protected function getRandomHash(?Account $account = null): string
     {
         return hash('sha256', ($account ? $account->getName() : '').uniqid());
     }

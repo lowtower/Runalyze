@@ -57,7 +57,7 @@ class FloatingPoint extends \Runalyze\Parameter {
 	 * Value as string
 	 * @return string
 	 */
-	public function valueAsString() {
+	public function valueAsString(): string {
 		$value = $this->value();
 
 		if (null === $value && $this->Options['null']) {

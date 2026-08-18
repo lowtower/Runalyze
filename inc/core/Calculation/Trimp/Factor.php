@@ -11,16 +11,16 @@ use Runalyze\Profile\Athlete\Gender;
 
 /**
  * Factor
- * 
+ *
  * Based on experiments there are different constants for men (1.92)
  * and women (1.67). The base factor (in general 0.64) is adapted for women
  * and unknown gender to get a normalized value which has the same range
  * for everyone.
- * 
+ *
  * For an unknown gender, the mean of men's and women's factor is used.
- * 
+ *
  * @see http://fellrnr.com/wiki/TRIMP
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */

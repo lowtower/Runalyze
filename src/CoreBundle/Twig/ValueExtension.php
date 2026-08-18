@@ -255,7 +255,7 @@ class ValueExtension extends \Twig_Extension
      * @param UnitInterface $unit
      * @return string
      */
-    public function jsFormatter(UnitInterface $unit)
+    public function jsFormatter(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getFormatter($unit);
     }
@@ -264,7 +264,7 @@ class ValueExtension extends \Twig_Extension
      * @param UnitInterface $unit
      * @return string
      */
-    public function jsTransformer(UnitInterface $unit)
+    public function jsTransformer(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getTransformer($unit);
     }

@@ -11,7 +11,7 @@ use Runalyze\Activity\HeartRate;
 
 /**
  * Boxed value for maximal heart rate
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

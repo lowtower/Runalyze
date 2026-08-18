@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Stride length
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -25,7 +25,7 @@ class StrideLength implements ValueInterface
 	protected $Centimeter;
 
 	/**
-	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem 
+	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected $UnitSystem;
 
@@ -35,7 +35,7 @@ class StrideLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public static function format($centimeter, $withUnit = true)
+	public static function format($centimeter, $withUnit = true): string
 	{
 		return (new self($centimeter))->string($withUnit);
 	}
@@ -54,7 +54,7 @@ class StrideLength implements ValueInterface
 	 * Label for stride length
 	 * @return string
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Stride length');
 	}
@@ -171,7 +171,7 @@ class StrideLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function string($withUnit = true)
+	public function string($withUnit = true): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringFeet($withUnit);
@@ -184,7 +184,7 @@ class StrideLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringMeter($withUnit = true)
+	public function stringMeter($withUnit = true): string
 	{
 		return number_format($this->Centimeter/100, 2).($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
 	}
@@ -193,7 +193,7 @@ class StrideLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringCM($withUnit = true)
+	public function stringCM($withUnit = true): string
 	{
 		return number_format($this->Centimeter, 0).($withUnit ? '&nbsp;'.DistanceUnitSystem::CM : '');
 	}
@@ -202,7 +202,7 @@ class StrideLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringFeet($withUnit = true)
+	public function stringFeet($withUnit = true): string
 	{
 		return number_format($this->feet(), 1, '.', '').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
 	}

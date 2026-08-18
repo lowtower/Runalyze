@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Dataview;
 
 /**
  * Plugin "Trainingszeiten"
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */

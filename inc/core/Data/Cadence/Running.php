@@ -9,7 +9,7 @@ namespace Runalyze\Data\Cadence;
 
 /**
  * Cadence for running in steps per minute
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */

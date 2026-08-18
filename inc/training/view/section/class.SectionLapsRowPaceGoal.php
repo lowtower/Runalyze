@@ -8,7 +8,7 @@
 
 /**
  * Row: Laps PaceGoal / PacePro #TSC
- * 
+ *
  * Here some trick: the SectionLapsRowComputed is left the laps-table and right normaly a plot.
  * But for this, the right content should be a table. So use no plot and override the displayPlot function.
  *

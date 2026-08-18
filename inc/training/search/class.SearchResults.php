@@ -284,7 +284,7 @@ class SearchResults {
 	/**
 	 * @return string
 	 */
-	protected function joinRaceResultIfRequired() {
+	protected function joinRaceResultIfRequired(): string {
 		if (isset($_POST['is_race']) && $_POST['is_race'] != '') {
 			return 'LEFT JOIN `'.PREFIX.'raceresult` AS `rr` ON `t`.`id` = `rr`.`activity_id`';
 		}
@@ -296,7 +296,7 @@ class SearchResults {
 	 * Get where
 	 * @return string
 	 */
-	protected function getWhere() {
+	protected function getWhere(): string {
 		$conditions = array('`t`.`accountid`="'.$this->AccountID.'"');
 
 		$this->addSpecialConditions($conditions);
@@ -463,7 +463,7 @@ class SearchResults {
 	 * @param string $key
 	 * @return string
 	 */
-	protected function signForKey($key) {
+	protected function signForKey($key): string {
 		if (isset($_POST['opt'][$key])) {
 			return $this->signFor($_POST['opt'][$key]);
 		}
@@ -527,7 +527,7 @@ class SearchResults {
 	 * Get equipment condition
 	 * @return string
 	 */
-	protected function getEquipmentCondition() {
+	protected function getEquipmentCondition(): string {
 		if (! isset($_POST['equipmentid'])) {
 			return '';
 		}
@@ -550,7 +550,7 @@ class SearchResults {
 	 * Get tag condition
 	 * @return string
 	 */
-	private function getTagCondition() {
+	private function getTagCondition(): string {
 		if (! isset($_POST['tagid'])) {
 			return '';
 		}
@@ -573,7 +573,7 @@ class SearchResults {
 	 * Get order
 	 * @return string
 	 */
-	protected function getOrder() {
+	protected function getOrder(): string {
 		$order = (! isset($_POST['search-sort-order'])) ? 'DESC' : $this->DB->escape($_POST['search-sort-order'], false);
 
 		if (isset($_POST['search-sort-by'])) {
@@ -632,7 +632,7 @@ class SearchResults {
 	 * Get limit
 	 * @return string
 	 */
-	protected function getLimit() {
+	protected function getLimit(): string {
 		if ($this->multiEditorRequested()) {
 			return ' LIMIT '.self::MAX_LIMIT_FOR_MULTI_EDITOR;
 		}

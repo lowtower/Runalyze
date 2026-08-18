@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
 
 class JavaScriptFormatter
 {
-    public static function getFormatter(UnitInterface $unit)
+    public static function getFormatter(UnitInterface $unit): string
     {
         if ($unit instanceof AbstractPaceInTimeFormatUnit) {
             $valueConversion = 'Math.floor(Math.round(d)/60) + \':\' + (Math.round(d)%60 < 10 ? \'0\' : \'\') + Math.round(d)%60';
@@ -21,7 +21,7 @@ class JavaScriptFormatter
         return 'function(d){return '.$valueConversion.' + \' '.$unit->getAppendix().'\';}';
     }
 
-    public static function getTransformer(UnitInterface $unit)
+    public static function getTransformer(UnitInterface $unit): string
     {
         if (method_exists($unit, 'getFactorFromBaseUnit')) {
             $valueConversion = 'd*'.$unit->getFactorFromBaseUnit();

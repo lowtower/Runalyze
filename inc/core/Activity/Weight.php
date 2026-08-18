@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\WeightUnit;
 
 /**
  * Weight
- * 
+ *
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Activity
@@ -20,13 +20,13 @@ use Runalyze\Parameter\Application\WeightUnit;
 class Weight implements ValueInterface {
 	/**
 	 * Default poun d multiplier
-	 * @var double 
+	 * @var double
 	*/
 	const POUNDS_MULTIPLIER = 2.204622;
 
 	/**
 	 * Default stone multiplier
-	 * @var double 
+	 * @var double
 	*/
 	const STONES_MULTIPLIER = 0.157473;
 
@@ -55,7 +55,7 @@ class Weight implements ValueInterface {
 	 * @param int $decimals [optional] number of decimals
 	 * @return string
 	 */
-	public static function format($weight, $withUnit = true, $decimals = false) {
+	public static function format($weight, $withUnit = true, $decimals = false): string {
 		return (new self($weight))->string($withUnit, $decimals);
 	}
 
@@ -69,7 +69,7 @@ class Weight implements ValueInterface {
 		$this->set($weight);
 	}
 
-	public function label() {
+	public function label(): string {
 		return __('Weight');
 	}
 
@@ -136,7 +136,7 @@ class Weight implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string
 	 */
-	public function string($withUnit = true, $decimals = false) {
+	public function string($withUnit = true, $decimals = false): string {
 		if ($this->PreferredUnit->isPounds()) {
 			return $this->stringPounds($withUnit, $decimals);
 		} elseif ($this->PreferredUnit->isStones()) {
@@ -196,7 +196,7 @@ class Weight implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string with unit
 	 */
-	public function stringKG($withUnit = true, $decimals = false) {
+	public function stringKG($withUnit = true, $decimals = false): string {
 		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
 		return number_format($this->Weight, $decimals, '.', '').($withUnit ? '&nbsp;'.WeightUnit::KG : '');
@@ -208,7 +208,7 @@ class Weight implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string with unit
 	 */
-	public function stringPounds($withUnit = true, $decimals = false) {
+	public function stringPounds($withUnit = true, $decimals = false): string {
 		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
 		return number_format($this->pounds(), $decimals, '.', '').($withUnit ? '&nbsp;'.WeightUnit::POUNDS : '');
@@ -220,7 +220,7 @@ class Weight implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string with unit
 	 */
-	public function stringStones($withUnit = true, $decimals = false) {
+	public function stringStones($withUnit = true, $decimals = false): string {
 		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
 		return number_format($this->stones(), $decimals, '.', '').($withUnit ? '&nbsp;'.WeightUnit::STONES : '');

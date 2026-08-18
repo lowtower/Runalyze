@@ -55,7 +55,7 @@ class RpeColor
 	/**
 	 * @return string
 	 */
-	public function borderColor()
+	public function borderColor(): string
     {
         if($this->Value != null) {
             return self::LEVEL_COLORS[$this->Value - 1];
@@ -68,7 +68,7 @@ class RpeColor
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function string()
+	public function string(): string
     {
 	    if (null === $this->Value) {
 	        return '';

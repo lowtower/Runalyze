@@ -12,7 +12,7 @@ use Runalyze\Dataset\SummaryMode;
 
 /**
  * Dataset key: Groundcontact
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */

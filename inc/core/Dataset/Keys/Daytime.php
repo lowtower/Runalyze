@@ -12,7 +12,7 @@ use Runalyze\Profile\View\DatasetPrivacyProfile;
 
 /**
  * Dataset key: Daytime
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */

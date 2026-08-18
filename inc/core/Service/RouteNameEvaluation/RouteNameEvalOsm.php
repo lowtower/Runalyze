@@ -71,7 +71,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
     /**
      * Retrieves the route-name and some other relevant informations for the route.
-     * 
+     *
      * @param Sport $sport
      * @param Route $route
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult

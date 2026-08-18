@@ -9,13 +9,13 @@ namespace Runalyze\Calculation\Trimp;
 
 /**
  * Inverse TRIMP-Calculator
- * 
+ *
  * TRIMP stands for Training Impulse and gives a measurement for the training impact.
- * 
+ *
  * This class computes the inverse of the standard Trimp calculator.
- * 
+ *
  * @see http://fellrnr.com/wiki/TRIMP
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */
@@ -51,9 +51,9 @@ class InverseCalculator {
 
 	/**
 	 * Inverse calculation
-	 * 
+	 *
 	 * Calculation is done for HR in [bpm] and time is transformed from [s] to [min].
-	 * 
+	 *
 	 * @param int $bpm [bpm]
 	 * @param int $trimp value to reach
 	 */

@@ -33,7 +33,7 @@ class AutomaticReloadFlagExtension extends \Twig_Extension
      * @param FlashBag $flashBag
      * @return string
      */
-    public function automaticJavaScriptReload(FlashBag $flashBag)
+    public function automaticJavaScriptReload(FlashBag $flashBag): string
     {
         $reloadFlag = $flashBag->get(AutomaticReloadFlagSetter::FLASH_BAG_KEY);
         $javaScriptCommands = [

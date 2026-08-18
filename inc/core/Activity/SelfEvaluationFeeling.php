@@ -11,7 +11,7 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 /**
  * Enum for SelfEvaluationFeeling (Gefuehl 1 - 5).
- * 
+ *
  * @package Runalyze\Activity
  */
 class SelfEvaluationFeeling extends AbstractEnum
@@ -70,7 +70,7 @@ class SelfEvaluationFeeling extends AbstractEnum
      * @return string
      * @codeCoverageIgnore
      */
-    public static function labelOfEnum($num)
+    public static function labelOfEnum($num): string
     {
         switch ($num) {
             case self::VERY_WEAK:
@@ -95,7 +95,7 @@ class SelfEvaluationFeeling extends AbstractEnum
      * @return description with number and texts
      * @codeCoverageIgnore
      */
-    public static function descriptionFromNum($num)
+    public static function descriptionFromNum($num): string
     {
         return $num . ' ' . self::labelOfEnum($num);
     }

@@ -90,7 +90,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
         return true;
     }
 
-    protected function getUrlFor(array $latitudes, array $longitudes)
+    protected function getUrlFor(array $latitudes, array $longitudes): string
     {
         return sprintf(
             'http://api.geonames.org/srtm3JSON?lats=%s&lngs=%s&username=%s',

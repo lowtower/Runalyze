@@ -9,7 +9,7 @@ namespace Runalyze\Activity;
 
 /**
  * Interface for any value
- * 
+ *
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @package Runalyze\Activity
  */

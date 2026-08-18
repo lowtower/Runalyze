@@ -16,7 +16,7 @@ class System {
 	 * Get domain where Runalyze is running
 	 * @return string
 	 */
-	public static function getDomain() {
+	public static function getDomain(): string {
 		if (! isset($_SERVER['HTTP_HOST'])) {
 			return '';
 		}
@@ -45,7 +45,7 @@ class System {
 	 * Get full domain with protocol
 	 * @return string
 	 */
-	public static function getFullDomainWithProtocol() {
+	public static function getFullDomainWithProtocol(): string {
 		return Request::getProtocol().':'.self::getFullDomain();
 	}
 

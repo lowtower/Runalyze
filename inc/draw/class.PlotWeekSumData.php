@@ -44,7 +44,7 @@ class PlotWeekSumData extends PlotSumData {
 	 * Get CSS id
 	 * @return string
 	 */
-	protected function getCSSid() {
+	protected function getCSSid(): string {
 		return 'weekKM'.$this->Year.'_'.$this->Sport->id();
 	}
 
@@ -52,7 +52,7 @@ class PlotWeekSumData extends PlotSumData {
 	 * Get title
 	 * @return string
 	 */
-	protected function getTitle() {
+	protected function getTitle(): string {
 		return __('Weekly chart:');
 	}
 

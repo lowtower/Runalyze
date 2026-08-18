@@ -11,8 +11,8 @@ use Runalyze\Activity;
 use Runalyze\View\Activity\Context;
 
 /**
- * Boxed value for ground contact balance 
- * 
+ * Boxed value for ground contact balance
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Box

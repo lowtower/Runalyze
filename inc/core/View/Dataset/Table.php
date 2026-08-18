@@ -68,7 +68,7 @@ class Table {
 	 * @param string $icon optional icon instead of text
 	 * @return string
 	 */
-	public function codeForColumnLabels($icon = false)
+	public function codeForColumnLabels($icon = false): string
 	{
 		$Tooltip = new Tooltip('');
 		$Code = '';
@@ -88,7 +88,7 @@ class Table {
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function codeForColumns(Context $context, array $hiddenKeys = array())
+	public function codeForColumns(Context $context, array $hiddenKeys = array()): string
 	{
 		$Code = '';
 
@@ -128,7 +128,7 @@ class Table {
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function codeForPublicIcon(Context $context) {
+	public function codeForPublicIcon(Context $context): string {
 		if ($context->activity()->isPublic()) {
 			return \HTML::td(\Icon::$ADD_SMALL_GREEN, 'link');
 		}

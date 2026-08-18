@@ -10,7 +10,7 @@ use League\Geotools\Geohash\Geohash;
 
 /**
  * Loop through route object
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\Route
  */

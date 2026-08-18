@@ -6,7 +6,7 @@
  */
 /**
  * Row of the training view (fullwidth)
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

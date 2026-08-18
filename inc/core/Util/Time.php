@@ -10,7 +10,7 @@ use Runalyze\Configuration;
 
 /**
  * Class for standard operations for timestamps
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Util
  */

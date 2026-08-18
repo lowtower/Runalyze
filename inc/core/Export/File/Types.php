@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Enum for export file types and their internal ids
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Export\File
  */

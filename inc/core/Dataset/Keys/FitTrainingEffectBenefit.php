@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: FitTrainingEffectBenefit
- * 
+ *
  * @package Runalyze\Dataset\Keys
  */
 class FitTrainingEffectBenefit extends AbstractKey

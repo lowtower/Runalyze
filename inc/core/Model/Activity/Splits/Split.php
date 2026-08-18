@@ -90,7 +90,7 @@ class Split extends StringObject {
 	 * As string
 	 * @return string
 	 */
-	public function asString() {
+	public function asString(): string {
 		$string  = $this->Intensity->getValue();
 		$string .= $this->distanceAsString();
 		$string .= self::SEPARATOR;
@@ -175,7 +175,7 @@ class Split extends StringObject {
 	 * Format distance
 	 * @return string
 	 */
-	private function distanceAsString() {
+	private function distanceAsString(): string {
 		return number_format($this->Distance, 3, '.', '');
 	}
 

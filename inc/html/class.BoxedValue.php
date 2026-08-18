@@ -207,7 +207,7 @@ class BoxedValue {
 	 * Get code
 	 * @return string
 	 */
-	public function getCode() {
+	public function getCode(): string {
 		$Code = '';
 
 		if ($this->AsFloatingBlock) {
@@ -233,7 +233,7 @@ class BoxedValue {
 	 * Get class
 	 * @return string
 	 */
-	protected function getDivClass() {
+	protected function getDivClass(): string {
 		$Class = empty($this->Icon) ? self::$CONTAINER_DIV : self::$CONTAINER_DIV_WITH_ICON;
 		$Class .= $this->AdditionalClasses;
 
@@ -252,7 +252,7 @@ class BoxedValue {
 	 * Get div for value
 	 * @return string
 	 */
-	protected function getDivForValue() {
+	protected function getDivForValue(): string {
 		$Code = '<div class="'.self::$VALUE_DIV.'">';
 		$Code .= $this->Value;
 		$Code .= $this->getDivForUnit();
@@ -265,7 +265,7 @@ class BoxedValue {
 	 * Get div for unit
 	 * @return string
 	 */
-	protected function getDivForUnit() {
+	protected function getDivForUnit(): string {
 		if (empty($this->Unit))
 			return '';
 
@@ -280,7 +280,7 @@ class BoxedValue {
 	 * Get div for info
 	 * @return string
 	 */
-	protected function getDivForInfo() {
+	protected function getDivForInfo(): string {
 		if (empty($this->Info))
 			return '';
 
@@ -307,7 +307,7 @@ class BoxedValue {
 	 * @param string $ValuesString
 	 * @return string
 	 */
-	public static function getWrappedValues($ValuesString) {
+	public static function getWrappedValues($ValuesString): string {
 		return '<div class="'.self::$SURROUNDING_DIV.'">'.$ValuesString.'</div>';
 	}
 }

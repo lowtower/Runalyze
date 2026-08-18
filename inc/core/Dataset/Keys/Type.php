@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: Type
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */

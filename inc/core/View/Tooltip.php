@@ -9,14 +9,14 @@ namespace Runalyze\View;
 
 /**
  * Tooltip
- * 
+ *
  * Example usage:
  * <pre>
  * $Tooltip = new Tooltip( 'I\'m a tooltip!' );
  * $Tooltip->setPosition( Tooltip::POSITION_LEFT );
  * $Tooltip->wrapAround( $code );
  * </pre>
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View
  */
@@ -90,7 +90,7 @@ class Tooltip {
 	 * Get attributes
 	 * @return string
 	 */
-	public function attributes() {
+	public function attributes(): string {
 		$Attributes = array();
 		$Attributes[] = 'rel="'.self::ATTRIBUTE_REL.'"';
 		$Attributes[] = self::ATTRIBUTE.'="'.str_replace('&amp;', '&', htmlspecialchars($this->text)).'"';

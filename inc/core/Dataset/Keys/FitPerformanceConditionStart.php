@@ -26,7 +26,7 @@ class FitPerformanceConditionStart extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Performance Condition').' '.__('at start').' '.__('(by file)');
 	}
@@ -35,7 +35,7 @@ class FitPerformanceConditionStart extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('PC start');
 	}
@@ -44,7 +44,7 @@ class FitPerformanceConditionStart extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'The performance condition is an assessment, detected by some Garmin devices, '.

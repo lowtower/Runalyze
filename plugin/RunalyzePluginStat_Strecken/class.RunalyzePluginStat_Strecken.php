@@ -22,7 +22,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	/**
 	 * Maximum number of routes on routenet.
 	 * #TSC set the max value from 50 to 250; must set to your preference regarding concurrent user, memory...
-	 * @var int 
+	 * @var int
 	 */
 	const MAX_ROUTES_ON_NET = 250;
 
@@ -36,7 +36,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Routes');
 	}
 
@@ -44,12 +44,12 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Some statistics for your most frequent routes.');
 	}
 
 	/**
-	 * Display long description 
+	 * Display long description
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
@@ -69,7 +69,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	}
 
 	/**
-	 * Init data 
+	 * Init data
 	 */
 	protected function prepareForDisplay() {
 		$text = __('Open route network');
@@ -98,7 +98,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * Title for all years
 	 * @return string
 	 */
-	protected function titleForAllYears() {
+	protected function titleForAllYears(): string {
 		return __('All years');
 	}
 
@@ -257,7 +257,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * Query to fetch cities
 	 * @return string
 	 */
-	private function fetchCitiesQuery() {
+	private function fetchCitiesQuery(): string {
 		if ($this->sportid <= 0 && $this->year <= 0) {
 			return 'SELECT `cities` FROM `'.PREFIX.'route` WHERE `cities`!=""';
 		}
@@ -278,7 +278,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * @param int $year
 	 * @return string
 	 */
-	public static function panelMenuForRoutenet($positioninterval, $sportid, $year) {
+	public static function panelMenuForRoutenet($positioninterval, $sportid, $year): string {
 		$Code = '<div class="panel-menu"><ul>';
 		$Code .= '<li class="with-submenu"><span class="link">Position interval</span><ul class="submenu">'.self::submenuForPositionInterval($positioninterval, $sportid, $year).'</ul></li>';
 		$Code .= '<li class="with-submenu"><span class="link">'.__('Choose sport').'</span><ul class="submenu">'.self::submenuForSport($positioninterval, $sportid, $year).'</ul></li>';
@@ -295,7 +295,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * @param int $year
 	 * @return string
 	 */
-	private static function submenuForPositionInterval($positioninterval, $sportid, $year) {
+	private static function submenuForPositionInterval($positioninterval, $sportid, $year): string {
 		$i = 1;
 		$Code = '<li'.($positioninterval == $i ? ' class="active"' : '').'>'.self::linkToRoutenet(__('All'), $i, $sportid, $year).'</li>';
 		for($i++; $i <= 5; $i++) {
@@ -312,7 +312,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * @param int $year
 	 * @return string
 	 */
-	private static function submenuForSport($positioninterval, $sportid, $year) {
+	private static function submenuForSport($positioninterval, $sportid, $year): string {
 		$Code = '<li'.(-1 == $sportid ? ' class="active"' : '').'>'.self::linkToRoutenet(__('All'), $positioninterval, -1, $year).'</li>';
 
 		$Sports = SportFactory::NamesAsArray();
@@ -330,7 +330,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * @param int $year
 	 * @return string
 	 */
-	private static function submenuForYear($positioninterval, $sportid, $year) {
+	private static function submenuForYear($positioninterval, $sportid, $year): string {
 		$Code = '<li'.(-1 == $year ? ' class="active"' : '').'>'.self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1).'</li>';
 
 		for ($y = date('Y'); $y >= START_YEAR; $y--) {

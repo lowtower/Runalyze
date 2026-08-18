@@ -266,7 +266,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
     /**
      * #TSC
      * automatic mapping of preloaded/preselected equipments (in method createEquiqmentArray) to the imported activity.
-     * this means, that the equipments stored in the sportEquipment array are searched for relevant equipment that 
+     * this means, that the equipments stored in the sportEquipment array are searched for relevant equipment that
      * fits to the activity date. if there more than one equipment found within ONE type/category, the mapping is ignored.
      */
     private function setEquipmentIfPossible(Training $activity, OutputInterface $output) {

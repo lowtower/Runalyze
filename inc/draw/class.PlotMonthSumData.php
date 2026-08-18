@@ -27,7 +27,7 @@ class PlotMonthSumData extends PlotSumData {
 	 * Get CSS id
 	 * @return string
 	 */
-	protected function getCSSid() {
+	protected function getCSSid(): string {
 		return 'monthKM'.$this->Year.'_'.$this->Sport->id();
 	}
 
@@ -35,7 +35,7 @@ class PlotMonthSumData extends PlotSumData {
 	 * Get title
 	 * @return string
 	 */
-	protected function getTitle() {
+	protected function getTitle(): string {
 		return __('Monthly chart:');
 	}
 
@@ -60,7 +60,7 @@ class PlotMonthSumData extends PlotSumData {
 	 * Timer table for query
 	 * @return string
 	 */
-	protected function timer() {
+	protected function timer(): string {
 		if ($this->Year == parent::LAST_6_MONTHS) {
 			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
 		} elseif ($this->Year == parent::LAST_12_MONTHS) {

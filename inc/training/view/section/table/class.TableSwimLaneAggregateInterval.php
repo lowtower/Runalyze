@@ -210,7 +210,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 	}
 
 	// calculates the difference between two values and return the diff with a pritty colored span
-	protected function difference($previous, $new, $beginLap) {
+	protected function difference($previous, $new, $beginLap): string {
 		$diff = $previous - $new;
 		if($diff > 0) {
 			$class = 'plus';

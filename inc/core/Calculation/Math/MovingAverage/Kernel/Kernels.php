@@ -11,7 +11,7 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 /**
  * Enum for available kernels
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
  */

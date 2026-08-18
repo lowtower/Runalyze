@@ -11,7 +11,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 /**
  * Calculate values based only on active rounds. Inactive rounds will be ignored.
- * 
+ *
  * @author #TSC
  * @package Runalyze\Calculation\Activity
  */
@@ -31,15 +31,15 @@ class ActiveRoundCalculator {
     /**
      * builds the activeIdx array this is corresponding with the other ContinuousData arrays.
      * for every index which is TRUE, the value is in a active round/lap.
-     * 
+     *
      * data examples:
-     * 
+     *
      * from the split/runalyze_training.splits:
      * round    duration    from-to
      * 1        549,92      0 - 549,92
      * 2        396,08      549,93 - 946,01 (add 0.01 to the duration of #1)
      * ...
-     * 
+     *
      * from runalyze_tackdata.time; all in seconds
      * runalyze_tackdata    lap#    round split
      * time	                        time

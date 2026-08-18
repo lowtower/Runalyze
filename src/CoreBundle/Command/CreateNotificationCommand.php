@@ -256,7 +256,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $lastActionAfter,
         $registrationBefore,
         $registrationAfter
-    )
+    ): string
     {
         $whereCondition = [];
         $exclude = false;

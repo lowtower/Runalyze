@@ -216,7 +216,7 @@ class FitActivity extends AbstractSingleParser
             }
         }
 
-        // #TSC: set the 
+        // #TSC: set the
         if (empty($this->Container->ActivityData->AvgTemperature) && ! empty($this->batteryTemperature)) {
             $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature)/count($this->batteryTemperature);
         }
@@ -1180,7 +1180,7 @@ class FitActivity extends AbstractSingleParser
      *
      * @return string
      */
-    protected function normalizeSportName($name)
+    protected function normalizeSportName($name): string
     {
         return trim($name, "\" \t\n\r\0\x0B");
     }

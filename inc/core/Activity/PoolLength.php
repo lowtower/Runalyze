@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Pool length
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -25,7 +25,7 @@ class PoolLength implements ValueInterface
 	protected $Centimeter;
 
 	/**
-	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem 
+	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected $UnitSystem;
 
@@ -35,7 +35,7 @@ class PoolLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public static function format($centimeter, $withUnit = true)
+	public static function format($centimeter, $withUnit = true): string
 	{
 		return (new self($centimeter))->string($withUnit);
 	}
@@ -54,7 +54,7 @@ class PoolLength implements ValueInterface
 	 * Label for pool length
 	 * @return string
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Pool length');
 	}
@@ -171,7 +171,7 @@ class PoolLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function string($withUnit = true)
+	public function string($withUnit = true): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringYards($withUnit);
@@ -184,7 +184,7 @@ class PoolLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringMeter($withUnit = true)
+	public function stringMeter($withUnit = true): string
 	{
 		return number_format($this->Centimeter/100, 0).($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
 	}
@@ -193,7 +193,7 @@ class PoolLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringCM($withUnit = true)
+	public function stringCM($withUnit = true): string
 	{
 		return number_format($this->Centimeter, 0, '', '').($withUnit ? '&nbsp;'.DistanceUnitSystem::CM : '');
 	}
@@ -202,7 +202,7 @@ class PoolLength implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringYards($withUnit = true)
+	public function stringYards($withUnit = true): string
 	{
 		return number_format($this->yards(), 2, '.', '').($withUnit ? '&nbsp;'.DistanceUnitSystem::YARDS : '');
 	}

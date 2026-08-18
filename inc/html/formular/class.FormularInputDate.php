@@ -11,7 +11,7 @@
  */
 class FormularInputDate extends FormularInput {
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->setUnit( Icon::$CALENDAR );

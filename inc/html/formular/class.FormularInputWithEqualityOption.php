@@ -45,7 +45,7 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		$selected = isset($_POST['opt']) && isset($_POST['opt'][$this->name]) ? $_POST['opt'][$this->name] : 'eq';
 
 		$label  = '<label>'.$this->label.'</label>';

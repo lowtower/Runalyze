@@ -73,7 +73,7 @@ class UtilityExtension extends \Twig_Extension
      * @param int $bytes
      * @return string
      */
-    public function filesizeAsString($bytes)
+    public function filesizeAsString($bytes): string
     {
         if ($bytes == 0) {
             return '0 B';
@@ -87,7 +87,7 @@ class UtilityExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function md5($value) {
+    public function md5($value): string {
         return md5($value);
     }
 

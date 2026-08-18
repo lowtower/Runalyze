@@ -6,7 +6,7 @@
  */
 /**
  * Section: Swim Lane
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

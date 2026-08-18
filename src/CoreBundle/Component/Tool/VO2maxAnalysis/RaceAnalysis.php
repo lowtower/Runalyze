@@ -139,7 +139,7 @@ class RaceAnalysis
     /**
      * @return string
      */
-    public function getShapeDeviation()
+    public function getShapeDeviation(): string
     {
         $prognosis = $this->prognosisInSecondsFor($this->VO2maxShape, $this->Activity->distance());
         $duration = $this->Activity->duration();

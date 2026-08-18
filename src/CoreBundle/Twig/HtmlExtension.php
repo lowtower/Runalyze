@@ -49,7 +49,7 @@ class HtmlExtension extends \Twig_Extension
      *
      * @codeCoverageIgnore
      */
-    public function info($string)
+    public function info($string): string
     {
         return '<p class="info">'.$string.'</p>';
     }
@@ -60,7 +60,7 @@ class HtmlExtension extends \Twig_Extension
      *
      * @codeCoverageIgnore
      */
-    public function error($string)
+    public function error($string): string
     {
         return '<p class="error">'.$string.'</p>';
     }
@@ -71,7 +71,7 @@ class HtmlExtension extends \Twig_Extension
      *
      * @codeCoverageIgnore
      */
-    public function warning($string)
+    public function warning($string): string
     {
         return '<p class="warning">'.$string.'</p>';
     }
@@ -82,7 +82,7 @@ class HtmlExtension extends \Twig_Extension
      *
      * @codeCoverageIgnore
      */
-    public function okay($string)
+    public function okay($string): string
     {
         return '<p class="okay">'.$string.'</p>';
     }
@@ -91,7 +91,7 @@ class HtmlExtension extends \Twig_Extension
      * @param string $string
      * @return string
      */
-    public function nbsp($string)
+    public function nbsp($string): string
     {
         return str_replace(' ', '&nbsp;', $string);
     }
@@ -100,7 +100,7 @@ class HtmlExtension extends \Twig_Extension
      * @param string $string
      * @return string
      */
-    public function nonbsp($string)
+    public function nonbsp($string): string
     {
         return str_replace('&nbsp;', ' ', $string);
     }

@@ -112,7 +112,7 @@ class PersonalBest {
 	 * @param boolean $withDetails [optional]
 	 * @return string
 	 */
-	private static function groupedQuery(array $distances, $sportid, $withDetails = false) {
+	private static function groupedQuery(array $distances, $sportid, $withDetails = false): string {
 		$distances = array_filter($distances, 'is_numeric');
 
 		if ($withDetails) {

@@ -49,7 +49,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Race results');
 	}
 
@@ -57,7 +57,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Personal bests and everything else related to your competitions.');
 	}
 
@@ -513,7 +513,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * @param int $id ID of the training
 	 * @return string
 	 */
-	private function getEditIconForActivity($id) {
+	private function getEditIconForActivity($id): string {
 		$SportIcon = (new Factory())->sport($this->sportid)->icon()->code();
 		$url = (new Linker(new Runalyze\Model\Activity\Entity([
 		    'id' => $id

@@ -24,7 +24,7 @@ final class QueryGroups extends AbstractEnum
     /** @var int */
     const EQUIPMENT_TYPE = 'equipment';
 
-    public static function getEnumForEquipmentType(\Runalyze\Bundle\CoreBundle\Entity\EquipmentType $equipmentType)
+    public static function getEnumForEquipmentType(\Runalyze\Bundle\CoreBundle\Entity\EquipmentType $equipmentType): string
     {
         return self::EQUIPMENT_TYPE.'_'.$equipmentType->getId();
     }

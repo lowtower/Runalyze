@@ -12,7 +12,7 @@ use Runalyze\View\Activity;
 
 /**
  * Poincare plot for hrv data
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */

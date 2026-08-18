@@ -25,7 +25,7 @@ class Boolean extends \Runalyze\Parameter {
 	 * Value as string
 	 * @return string
 	 */
-	public function valueAsString() {
+	public function valueAsString(): string {
 		return ($this->value() ? 'true' : 'false');
 	}
 }

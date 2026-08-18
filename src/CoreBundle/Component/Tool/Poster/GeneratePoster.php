@@ -41,7 +41,7 @@ class GeneratePoster
     /**
      * @return string
      */
-    protected function pathToRepository()
+    protected function pathToRepository(): string
     {
         return $this->KernelRootDir.'/../vendor/runalyze/gpxtrackposter/';
     }
@@ -49,7 +49,7 @@ class GeneratePoster
     /**
      * @return string
      */
-    protected function pathToSvgDirectory()
+    protected function pathToSvgDirectory(): string
     {
         return $this->KernelRootDir.'/../var/poster/';
     }
@@ -66,7 +66,7 @@ class GeneratePoster
     /**
      * @return string path to generated file
      */
-    public function generate()
+    public function generate(): string
     {
         $builder = new Process($this->Python3Path.' create_poster.py '.implode(' ', $this->Parameter));
         $builder->setWorkingDirectory($this->pathToRepository())->run();

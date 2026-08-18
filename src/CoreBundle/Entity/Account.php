@@ -480,7 +480,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @param int $bytes
      * @return string hash of length 2*$bytes
      */
-    public static function getRandomHash($bytes = 16) {
+    public static function getRandomHash($bytes = 16): string {
         return bin2hex(openssl_random_pseudo_bytes($bytes));
     }
 

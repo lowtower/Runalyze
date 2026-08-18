@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for distance
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

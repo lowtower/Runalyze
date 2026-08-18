@@ -9,7 +9,7 @@ namespace Runalyze\View\Activity\Box;
 
 /**
  * Boxed value for gradient
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

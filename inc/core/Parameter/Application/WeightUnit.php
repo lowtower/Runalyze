@@ -14,7 +14,7 @@ namespace Runalyze\Parameter\Application;
  */
 class WeightUnit extends \Runalyze\Parameter\Select {
 	/**
-	 * KG	
+	 * KG
 	 * @var string
 	 */
 	const KG = 'kg';

@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\ElevationMethod;
 
 /**
  * Elevation calculator
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Elevation
  */
@@ -62,9 +62,9 @@ class Calculator
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * If no options are set, the current configuration settings are used.
-	 * 
+	 *
 	 * @param array $ElevationPoints
 	 * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
 	 * @param int|null $Threshold [optional]

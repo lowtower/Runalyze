@@ -42,7 +42,7 @@ class Energy implements ValueInterface {
 	 * @param bool $withUnit [optional] with or without unit
 	 * @return string
 	 */
-	public static function format($energy, $withUnit = true) {
+	public static function format($energy, $withUnit = true): string {
 		return (new self($energy))->string($withUnit);
 	}
 
@@ -56,7 +56,7 @@ class Energy implements ValueInterface {
 		$this->set($energy);
 	}
 
-	public function label() {
+	public function label(): string {
 		return __('Energy');
 	}
 
@@ -108,7 +108,7 @@ class Energy implements ValueInterface {
 	 * @param bool $withUnit [optional] show unit?
 	 * @return string
 	 */
-	public function string($withUnit = true) {
+	public function string($withUnit = true): string {
 		if ($this->PreferredUnit->isKJ()) {
 			return $this->stringKJ($withUnit);
 		}
@@ -155,7 +155,7 @@ class Energy implements ValueInterface {
 	 * @param bool $withUnit [optional] show unit?
 	 * @return string with unit
 	 */
-	public function stringKcal($withUnit = true) {
+	public function stringKcal($withUnit = true): string {
 		return number_format($this->Energy, 0, '.', '').($withUnit ? '&nbsp;'.EnergyUnit::KCAL : '');
 	}
 
@@ -164,7 +164,7 @@ class Energy implements ValueInterface {
 	 * @param bool $withUnit [optional] show unit?
 	 * @return string with unit
 	 */
-	public function stringKJ($withUnit = true) {
+	public function stringKJ($withUnit = true): string {
 		return number_format($this->kj(), 0, '.', '').($withUnit ? '&nbsp;'.EnergyUnit::KJ : '');
 	}
 }

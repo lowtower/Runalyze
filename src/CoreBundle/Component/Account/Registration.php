@@ -315,7 +315,7 @@ class Registration
     /**
      * @return string
      */
-    public static function getNewSalt()
+    public static function getNewSalt(): string
     {
         return bin2hex(random_bytes(16));
     }

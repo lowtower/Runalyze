@@ -9,7 +9,7 @@ namespace Runalyze\Data\Weather;
 
 /**
  * Temperature
- * 
+ *
  * @deprecated since 3.1.0
  * @author Hannes Christiansen
  * @package Runalyze\Data\Weather
@@ -154,7 +154,7 @@ class Temperature {
 	 * As string
 	 * @return string
 	 */
-	public function asString() {
+	public function asString(): string {
 		return $this->asStringWithoutUnit().'&nbsp;'.$this->unit();
 	}
 

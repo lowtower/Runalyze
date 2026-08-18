@@ -284,7 +284,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     /**
      * @var float|null [0.0 .. 5.0]
-     * 
+     *
      * #TSC: new DB column to training table
      *
      * @ORM\Column(name="fit_anaerobic_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned":true})

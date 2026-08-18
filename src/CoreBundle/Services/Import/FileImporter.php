@@ -364,7 +364,7 @@ class FileImporter implements LoggerAwareInterface
      * @param FileImportResult $result
      * @return string
      */
-    protected function getFileNameForLog(FileImportResult $result)
+    protected function getFileNameForLog(FileImportResult $result): string
     {
         if ($result->getOriginalFileName() != $result->getFileName()) {
             return sprintf('%s (original %s)', pathinfo($result->getFileName(), PATHINFO_BASENAME), pathinfo($result->getOriginalFileName(), PATHINFO_BASENAME));

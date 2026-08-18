@@ -14,7 +14,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Plot for: stride length
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */

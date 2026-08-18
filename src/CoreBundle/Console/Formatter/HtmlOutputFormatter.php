@@ -53,7 +53,7 @@ class HtmlOutputFormatter extends OutputFormatter
      *
      * @return string
      */
-    private function replaceFormat(array $matches)
+    private function replaceFormat(array $matches): string
     {
         $text = $matches[3];
         $styles = explode(';', $matches[1]);

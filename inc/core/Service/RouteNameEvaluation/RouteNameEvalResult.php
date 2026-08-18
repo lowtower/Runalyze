@@ -40,7 +40,7 @@ class RouteNameEvalResult {
 
     /**
      * Appends or replace the existing note with the new notes text based on pre-/suffix.
-     * 
+     *
      * @param string $existingNote
      */
     public function appendNotes(?string $existingNote): string {

@@ -52,7 +52,7 @@ trait XmlParserTrait
      * @param string $content
      * @return string
      */
-    protected function removeBomFromFileContent($content)
+    protected function removeBomFromFileContent($content): string
     {
         return mb_substr($content, mb_strpos($content, '<'));
     }

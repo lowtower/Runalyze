@@ -21,7 +21,7 @@ class JsonImportToolController extends Controller
     /**
      * @return string
      */
-    protected function getImportFilePath()
+    protected function getImportFilePath(): string
     {
         return $this->getParameter('data_directory').'/backup-tool/import/';
     }

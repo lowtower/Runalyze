@@ -88,7 +88,7 @@ class Plot {
 	 * @param int $height
 	 * @return string
 	 */
-	public static function getDivFor($id, $width, $height) {
+	public static function getDivFor($id, $width, $height): string {
 		return '<div style="position:relative;width:'.$width.'px;height:'.$height.'px;margin:0 auto;">'.self::getInnerDivFor($id, $width, $height).'</div>';
 	}
 
@@ -101,14 +101,14 @@ class Plot {
 	 * @param string $class
 	 * @return string
 	 */
-	public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = '') {
+	public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string {
 		return '<div class="flot '.Ajax::$IMG_WAIT.' '.$class.($hidden ? ' flot-hide' : '').'" id="'.$id.'" style="width:'.$width.'px;height:'.$height.'px;position:absolute;"></div>';
 	}
 
 	/**
 	 * Get a div for this plot
 	 */
-	public function getDiv() {
+	public function getDiv(): string {
 		return self::getDivFor($this->cssID, $this->width, $this->height);
 	}
 
@@ -138,7 +138,7 @@ class Plot {
 	 * Get main functionalities for this plot
 	 * @return string
 	 */
-	private function getMainJS() {
+	private function getMainJS(): string {
 		$encodedData = json_encode($this->Data);
 
 		if (false === $encodedData) {
@@ -162,7 +162,7 @@ class Plot {
 	 * Get code for an error
 	 * @return string
 	 */
-	private function getJSForError() {
+	private function getJSForError(): string {
 		return '$("#'.$this->cssID.'").append(\'<div class="flot-error"><span>'.$this->ErrorString.'</span></div>\');';
 	}
 
@@ -552,7 +552,7 @@ class Plot {
 	 * @param int $roundTo
 	 * @return string
 	 */
-	private function jsRoundUnit($roundTo) {
+	private function jsRoundUnit($roundTo): string {
 		if ($roundTo == 0)
 			return 'Math.round(v)';
 
@@ -645,7 +645,7 @@ class Plot {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function correctSpecialChars($string) {
+	public static function correctSpecialChars($string): string {
 		$string    = utf8_encode($string);
 		$encrypted = array('ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü');
 		$correct   = array('&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;');
@@ -660,7 +660,7 @@ class Plot {
 	 * @param int $hour
 	 * @return int
 	 */
-	public static function dayOfYearToJStime($year, $day, $hour = 12) {
+	public static function dayOfYearToJStime($year, $day, $hour = 12): string {
 		return mktime($hour,0,0,1,$day,$year).'000';
 	}
 

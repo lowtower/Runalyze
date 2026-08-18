@@ -14,7 +14,7 @@ use Runalyze\Configuration;
 
 /**
  * Collect data from trackdata
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
@@ -66,7 +66,7 @@ class DataCollectorWithSwimdata extends DataCollector {
 
 	/**
 	 * Get next step for plot data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function move() {
 		parent::move();

@@ -29,7 +29,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Calculations');
 	}
 
@@ -37,7 +37,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.');
 	}
 
@@ -74,7 +74,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 * Method for getting the right symbol(s)
 	 * @see PluginPanel::getRightSymbol()
 	 */
-	protected function getRightSymbol() {
+	protected function getRightSymbol(): string {
 		$Links = '';
 		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.plot.php" '.Ajax::tooltip('', __('Show shape'), true, true).'>'.Icon::$LINE_CHART.'</a>').'</li>';
         $Links .= '<li>'.Ajax::window('<a href="my/tools/tables/vo2max-pace" '.Ajax::tooltip('', __('Show training paces'), true, true).'><i class="fa fa-fw fa-tachometer"></i></a>').'</li>';
@@ -528,7 +528,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	/**
 	 * @return string
 	 */
-	public function getNoEffectiveVO2maxDataError() {
+	public function getNoEffectiveVO2maxDataError(): string {
 		return __('There are no current activities with an estimated VO<sub>2</sub>max value.').'<br>'.
 			__('VO<sub>2</sub>max can only be estimated for runs with heart rate data.');
 	}

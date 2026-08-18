@@ -312,7 +312,7 @@ class DataBrowser {
 	 * Get ajax-link for reload this DataBrowser
 	 * @return string
 	 */
-	protected function getRefreshLink() {
+	protected function getRefreshLink(): string {
 		$Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
 
 		return str_replace('<a ', '<a id="'.self::REFRESH_BUTTON_ID.'" '.Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
@@ -339,7 +339,7 @@ class DataBrowser {
 	 * Get ajax-link for choosing timestamps from calendar
 	 * @return string
 	 */
-	protected function getCalenderLink() {
+	protected function getCalenderLink(): string {
 		return '<span id="calendar-link" class="link" title="'.__('Calendar').'">'.Icon::$CALENDAR.'</span>';
 	}
 
@@ -388,7 +388,7 @@ class DataBrowser {
 	 * Get list to shared list
 	 * @return string
 	 */
-	protected function getSharedListLink() {
+	protected function getSharedListLink(): string {
 		return SharedLinker::getListLinkForCurrentUser();
 	}
 
@@ -413,7 +413,7 @@ class DataBrowser {
 	 * @param int $timestampInNoTimezone
 	 * @return string
 	 */
-	protected function dateString($timestampInNoTimezone) {
+	protected function dateString($timestampInNoTimezone): string {
 		$localTime = new LocalTime($timestampInNoTimezone);
 		$addLink = '';
 		$weekDay = Time::weekday($localTime->format('w'), true);

@@ -13,7 +13,7 @@ use Runalyze\Configuration;
 
 /**
  * Collect data from trackdata
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
@@ -138,7 +138,7 @@ class DataCollector {
 
 	/**
 	 * Get next step for plot data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function move() {
 		if ($this->KnowsDistance && $this->Precision->byDistance()) {

@@ -59,7 +59,7 @@ class ClimbCategory
     /**
      * @return string
      */
-    public function getString()
+    public function getString(): string
     {
         $strings = ['hc', '1', '2', '3', '4', '5', '-'];
 

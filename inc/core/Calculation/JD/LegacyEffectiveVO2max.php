@@ -85,7 +85,7 @@ class LegacyEffectiveVO2max
     /**
      * @return float [ml/kg/min]
      */
-    public function value()
+    public function value(): string
     {
         return number_format($this->exactValue(), self::$Precision);
     }
@@ -106,7 +106,7 @@ class LegacyEffectiveVO2max
     /**
      * @return float [ml/kg/min]
      */
-    public function uncorrectedValue()
+    public function uncorrectedValue(): string
     {
         return number_format($this->Value, self::$Precision);
     }

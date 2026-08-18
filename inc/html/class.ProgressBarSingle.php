@@ -6,7 +6,7 @@
  */
 /**
  * Single progressbar (with HTML/CSS)
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */

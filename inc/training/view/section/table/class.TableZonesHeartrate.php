@@ -47,7 +47,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 * Get title for average
 	 * @return string
 	 */
-	public function titleForAverage() { return __('avg.').'&nbsp;'.__('Pace'); }
+	public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('Pace'); }
 
 	/**
 	 * Get hint for footer #TSC
@@ -86,7 +86,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	/**
 	 * fill a 2 char number with blanks for a better "column" prepresentation.
 	 */
-	private function threeNumbers($num) {
+	private function threeNumbers($num): string {
 		return ($num <= 99 ? '&nbsp;&nbsp;' : '') . $num;
 	}
 

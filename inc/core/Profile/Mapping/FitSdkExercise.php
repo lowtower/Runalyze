@@ -14,7 +14,7 @@ class FitSdkExercise {
     /**
      * Retrieve all mappings (can be 3).
      * The values are seperated in the string with ",".
-     * 
+     *
      * @return string or null
      */
     public function getFullMapping(string $categorys, ?string $subtypes=null): ?string {
@@ -50,7 +50,7 @@ class FitSdkExercise {
 
     /**
      * Retrieve on mapping.
-     * 
+     *
      * @return string or null
      */
     public function getMapping(int $category, ?int $subtype=null): ?string {

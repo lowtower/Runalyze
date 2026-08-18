@@ -41,7 +41,7 @@ class FilenameHandler
      * @param string $extension
      * @return string
      */
-    public function generateInternalFilename($extension)
+    public function generateInternalFilename($extension): string
     {
         return sprintf('%s-%s-%s-%s-%s.%s',
             $this->AccountId,
@@ -134,7 +134,7 @@ class FilenameHandler
      * @param string $publicFilename
      * @return string
      */
-    public function transformPublicToInternalFilename($publicFilename)
+    public function transformPublicToInternalFilename($publicFilename): string
     {
         return $this->AccountId.'-'.self::FILENAME_PREFIX.'-'.$publicFilename;
     }

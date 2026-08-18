@@ -12,7 +12,7 @@ use Runalyze\Dataset\SummaryMode;
 
 /**
  * Dataset key: HeartrateMaximum
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -40,7 +40,7 @@ class HeartrateMaximum extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('max.').' '.__('Heart rate');
 	}
@@ -49,7 +49,7 @@ class HeartrateMaximum extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return 'max. '.__('HR');
 	}

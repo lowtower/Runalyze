@@ -11,7 +11,7 @@
  */
 class FormularTextarea extends FormularField {
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->addAttribute('name', $this->name);
@@ -21,13 +21,13 @@ class FormularTextarea extends FormularField {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		return '<label for="'.$this->name.'">'.$this->label.'</label> <textarea '.$this->attributes().'>'.$this->value.'</textarea>';
 	}
 
 	/**
 	 * Size size for this textarea field
-	 * @param string $size 
+	 * @param string $size
 	 */
 	public function setSize($size) {
 		$this->addCSSclass($size);

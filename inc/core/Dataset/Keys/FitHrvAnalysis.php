@@ -12,7 +12,7 @@ use Runalyze\Dataset\SummaryMode;
 
 /**
  * Dataset key: FitHrvAnalysis
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -40,7 +40,7 @@ class FitHrvAnalysis extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('HRV score').' '.__('(by file)');
 	}
@@ -49,7 +49,7 @@ class FitHrvAnalysis extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('HRV');
 	}
@@ -58,7 +58,7 @@ class FitHrvAnalysis extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Garmin calculates some HRV score within the first 12 minutes of '.

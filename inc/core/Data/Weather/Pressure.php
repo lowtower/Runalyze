@@ -54,7 +54,7 @@ class Pressure implements ValueInterface
      * Label for value
      * @return string
      */
-    public function label()
+    public function label(): string
     {
         return __('Pressure');
     }
@@ -82,7 +82,7 @@ class Pressure implements ValueInterface
      * @param bool $withUnit
      * @return string
      */
-    public function string($withUnit = true)
+    public function string($withUnit = true): string
     {
         if ($this->isUnknown()) {
             return '';

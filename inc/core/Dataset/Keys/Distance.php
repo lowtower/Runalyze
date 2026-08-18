@@ -14,7 +14,7 @@ use Runalyze\Dataset\SummaryMode;
 
 /**
  * Dataset key: Distance
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -45,7 +45,7 @@ class Distance extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Distance');
 	}
@@ -71,7 +71,7 @@ class Distance extends AbstractKey
 	 * @param float $previousDistance [km]
 	 * @return string
 	 */
-	protected function distanceComparison($currentDistance, $previousDistance) {
+	protected function distanceComparison($currentDistance, $previousDistance): string {
 		$Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
 		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage).'&nbsp;&#37;' : '-';
 

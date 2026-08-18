@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: FitRecoveryTime
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -39,7 +39,7 @@ class FitRecoveryTime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Recovery time').' '.__('(by file)');
 	}
@@ -48,7 +48,7 @@ class FitRecoveryTime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Recovery time');
 	}
@@ -57,7 +57,7 @@ class FitRecoveryTime extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Garmin calculates a suggested recovery time based on your '.

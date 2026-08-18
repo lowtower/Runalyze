@@ -295,7 +295,7 @@ class SettingsController extends Controller
     /**
      * @return string
      */
-    protected function exampleTagID(Account $account)
+    protected function exampleTagID(Account $account): string
     {
         $tag = $this->getDoctrine()->getRepository('CoreBundle:Tag')->findBy([
             'account' => $account->getId()
@@ -311,7 +311,7 @@ class SettingsController extends Controller
     /**
      * @return string
      */
-    protected function exampleEquipmentIDs(Account $account)
+    protected function exampleEquipmentIDs(Account $account): string
     {
         $ids = [];
         $equipment = $this->getDoctrine()->getRepository('CoreBundle:Equipment')->findBy([

@@ -197,7 +197,7 @@ class Weather {
 	 * @param bool $isNight
 	 * @return string
 	 */
-	public function fullString($isNight = false) {
+	public function fullString($isNight = false): string {
 		$icon = $this->Condition->icon();
 
 		if ($isNight) {

@@ -48,7 +48,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Tools');
     }
@@ -75,7 +75,7 @@ class Tools extends AbstractKey
      * @param \Runalyze\Dataset\Context $context
      * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
             return $this->getCodeForDropdown($this->inlineDropdownWithRealLinks($context));
@@ -84,7 +84,7 @@ class Tools extends AbstractKey
         return '';
     }
 
-    public function stringForExample(Context $context)
+    public function stringForExample(Context $context): string
     {
         return $this->getCodeForDropdown($this->inlineDropdownWithFakeLinks($context));
     }
@@ -93,7 +93,7 @@ class Tools extends AbstractKey
      * @param string $menu
      * @return string
      */
-    protected function getCodeForDropdown($menu)
+    protected function getCodeForDropdown($menu): string
     {
         return '<div class="inline-menu"><ul><li class="with-submenu">'.
             '<span class="link"><i class="fa fa-fw fa-magic"></i></span>'.
@@ -106,7 +106,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public static function inlineDropdownWithRealLinks(Context $context)
+    public static function inlineDropdownWithRealLinks(Context $context): string
     {
         $id = $context->activity()->id();
         $html = '';
@@ -131,7 +131,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public static function inlineDropdownWithFakeLinks(Context $context)
+    public static function inlineDropdownWithFakeLinks(Context $context): string
     {
         $html = '<li><span class="link"><i class="fa fa-fw fa-bar-chart"></i> '.__('Analyze splits').'</span></li>';
         $html .= '<li><span class="link"><i class="fa fa-fw fa-area-chart"></i> '.__('Elevation info').'</span></li>';

@@ -169,7 +169,7 @@ abstract class PlotSumData extends Plot {
 	/**
 	 * Get navigation
 	 */
-	private function getNavigationMenu() {
+	private function getNavigationMenu(): string {
 		$Menus = array(
 		    $this->getMenuLinksForGrouping(),
 		    $this->getMenuLinksForAnalysis(),

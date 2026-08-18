@@ -11,7 +11,7 @@ use Runalyze\View\Activity;
 
 /**
  * Plot for: stroke
- * 
+ *
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\View\Activity\Plot
  */

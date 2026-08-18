@@ -9,7 +9,7 @@ namespace Runalyze\Model;
 
 /**
  * Abstract object with ID
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */

@@ -35,7 +35,7 @@ abstract class ConfigTab {
 	protected $Model;
 
 	/**
-	 * Set key and title for form 
+	 * Set key and title for form
 	 */
 	abstract protected function setKeyAndTitle();
 
@@ -45,7 +45,7 @@ abstract class ConfigTab {
 	abstract public function setFieldsetsAndFields();
 
 	/**
-	 * Parse all post values 
+	 * Parse all post values
 	 */
 	abstract public function parsePostData();
 
@@ -75,7 +75,7 @@ abstract class ConfigTab {
 	}
 
 	/**
-	 * Display formular 
+	 * Display formular
 	 */
 	final public function display() {
 		echo '<div class="panel-heading">';

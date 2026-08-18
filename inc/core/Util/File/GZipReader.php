@@ -9,7 +9,7 @@ namespace Runalyze\Util\File;
 
 /**
  * Class for reading big gzipped files
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Util\File
  */

@@ -16,7 +16,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Body values');
 	}
 
@@ -24,7 +24,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.');
 	}
 
@@ -60,7 +60,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 	 * Method for getting the right symbol(s)
 	 * @see PluginPanel::getRightSymbol()
 	 */
-	protected function getRightSymbol() {
+	protected function getRightSymbol(): string {
 		$Links = '';
 		$Links .= '<li>'.Ajax::window('<a href="my/body-values/add" '.Ajax::tooltip('', __('Add data'), true, true).'>'.Icon::$ADD.'</a>').'</li>';
 		$Links .= '<li>'.Ajax::window('<a href="my/body-values/table" '.Ajax::tooltip('', __('Show table'), true, true).'>'.Icon::$TABLE.'</a>').'</li>';

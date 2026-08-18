@@ -11,7 +11,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Display zones
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
@@ -133,7 +133,7 @@ abstract class TableZonesAbstract {
 	* Display data
 	 * @return string
 	*/
-	private function getDataCode() {
+	private function getDataCode(): string {
 		$Code = '';
 
 		foreach ($this->Data as $Info) {

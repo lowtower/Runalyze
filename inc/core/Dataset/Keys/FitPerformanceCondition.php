@@ -39,7 +39,7 @@ class FitPerformanceCondition extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Performance Condition').' '.__('(by file)');
 	}
@@ -48,7 +48,7 @@ class FitPerformanceCondition extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('PC');
 	}
@@ -57,7 +57,7 @@ class FitPerformanceCondition extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'The performance condition is an assessment, detected by some Garmin devices, '.

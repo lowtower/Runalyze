@@ -13,10 +13,10 @@ use Runalyze\Common\Enum\AbstractEnum;
  * Enum for LapIntensity which represents the intensitiy of one lap.
  * In normal cases only ACTIVE exists. In swim cases or manual edit activities can have a REST.
  * In cases of Garmins trainings other cases are possible.
- * 
+ *
  * The const's are also used in lib/runalyze.lib.activity.form.js, so if you change it, adapt the javascript.
  * #TSC
- * 
+ *
  * @package Runalyze\Activity
  */
 class LapIntensity extends AbstractEnum

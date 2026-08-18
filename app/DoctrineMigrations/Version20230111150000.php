@@ -28,7 +28,7 @@ class Version20230111150000 extends AbstractMigration implements ContainerAwareI
         // migrate existing rpe (6-20) to 1-10
         $this->addSql('update `'.$prefix.'training` t set t.rpe = round((t.rpe / 1.5) - 3.5) where t.rpe is not null;');
 
-        // use the fit_self_evaluation_perceived_effort as RPE 
+        // use the fit_self_evaluation_perceived_effort as RPE
         $this->addSql('update `'.$prefix.'training` t set t.rpe = t.fit_self_evaluation_perceived_effort '.
             'where t.rpe is null and t.fit_self_evaluation_perceived_effort is not null and t.fit_self_evaluation_perceived_effort between 1 and 10 '.
             // ignore RG and TR runs (here are the RPE values used for the run-type)

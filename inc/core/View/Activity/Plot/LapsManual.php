@@ -15,7 +15,7 @@ use Runalyze\View\Activity;
 
 /**
  * Plot for: manual laps
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */

@@ -11,7 +11,7 @@ use System;
 
 /**
  * Exporter for: Twitter
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Export\Share
@@ -37,7 +37,7 @@ class Twitter extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function url()
+    public function url(): string
     {
         if ($this->Context->activity()->isPublic() && ! System::isAtLocalhost()) {
             $urlPart = 'url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=twitter').'&';
@@ -51,7 +51,7 @@ class Twitter extends AbstractSocialSharer
     /**
      * @return string
      */
-	public function name()
+	public function name(): string
     {
 	    return __('Twitter');
 	}

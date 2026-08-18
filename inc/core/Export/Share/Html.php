@@ -15,7 +15,7 @@ use System;
 
 /**
  * Exporter for: Html
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Export\Share
@@ -41,7 +41,7 @@ class Html extends AbstractSnippetSharer
     /**
      * @return string
      */
-	public function name()
+	public function name(): string
     {
 	    return __('HTML');
 	}
@@ -79,7 +79,7 @@ class Html extends AbstractSnippetSharer
      * Get HTML code for snippet
      * @return string
      */
-    protected function codeSnippet()
+    protected function codeSnippet(): string
     {
         $Linker = new Linker($this->Context->activity());
         $TextUrl  = $Linker->publicUrl();

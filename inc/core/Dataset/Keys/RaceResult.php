@@ -15,7 +15,7 @@ use Runalyze\Activity;
 
 /**
  * Dataset key: Race Result
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Dataset\Keys

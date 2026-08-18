@@ -32,13 +32,13 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 
 	/**
 	 * Factor: km => miles
-	 * @var double 
+	 * @var double
 	 */
 	const MILE_MULTIPLIER = 0.621371192;
 
 	/**
 	 * Factor: km => yards
-	 * @var double 
+	 * @var double
 	*/
 	const YARD_MULTIPLIER = 1093.6133;
 
@@ -141,7 +141,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * @return string
 	 */
-	public function distanceUnit()
+	public function distanceUnit(): string
 	{
 		return (new Distance(0, $this))->unit();
 	}
@@ -149,7 +149,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * @return string
 	 */
-	public function elevationUnit()
+	public function elevationUnit(): string
 	{
 		return (new Elevation(0, $this))->unit();
 	}
@@ -157,7 +157,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * @return string
 	 */
-	public function strideLengthUnit()
+	public function strideLengthUnit(): string
 	{
 		return (new StrideLength(0, $this))->unit();
 	}

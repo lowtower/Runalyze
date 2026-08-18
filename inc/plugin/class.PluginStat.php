@@ -233,7 +233,7 @@ abstract class PluginStat extends Plugin {
 	/**
 	 * Get navigation
 	 */
-	private function getNavigation() {
+	private function getNavigation(): string {
 		if ($this->ShowSportsNavigation) {
 			$this->LinkList[] = '<li class="with-submenu"><span class="link">'.$this->getSportString().'</span><ul class="submenu">'.$this->getSportLinksAsList().'</ul>';
 		}
@@ -253,7 +253,7 @@ abstract class PluginStat extends Plugin {
 	 * Get links for all sports
 	 * @return array
 	 */
-	private function getSportLinksAsList() {
+	private function getSportLinksAsList(): string {
 		$Links = '';
 
 		if ($this->ShowAllSportsLink) {
@@ -274,7 +274,7 @@ abstract class PluginStat extends Plugin {
 	 * @param bool $TimeRanges If set, adds links with year=6/12
 	 * @return string
 	 */
-	private function getYearLinksAsList($CompareYears = true, $TimeRanges = false) {
+	private function getYearLinksAsList($CompareYears = true, $TimeRanges = false): string {
 		$Links = '';
 
 		if ($CompareYears) {

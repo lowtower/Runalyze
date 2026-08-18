@@ -11,7 +11,7 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 /**
  * Enum for weather sources and their internal ids
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Weather
  */

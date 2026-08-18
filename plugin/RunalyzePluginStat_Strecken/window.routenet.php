@@ -102,7 +102,7 @@ $Map->setBounds(array(
 ));
 $Map->display();
 
-function getTooltipText($time, $routename, $distance, $sporticon) {
+function getTooltipText($time, $routename, $distance, $sporticon): string {
 	$tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . (new LocalTime($time))->format('d.m.Y H:i');
 	if(! empty($routename)) {
 		$tt .= '<br/>';

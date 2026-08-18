@@ -8,7 +8,7 @@ namespace Runalyze\Data;
 
 /**
  * RPE - Perceived Exertion Scale
- * 
+ *
  * @author Michael Pohl
  * @package Runalyze\Data
  */

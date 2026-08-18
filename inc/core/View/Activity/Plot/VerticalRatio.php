@@ -11,7 +11,7 @@ use Runalyze\View\Activity;
 
 /**
  * Plot for: Vertical ratio
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Plot

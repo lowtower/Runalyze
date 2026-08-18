@@ -93,7 +93,7 @@ class JsonImporterResults
 	 * Get complete string
 	 * @return string
 	 */
-	public function completeString()
+	public function completeString(): string
     {
 		$Rows = array();
 
@@ -116,7 +116,7 @@ class JsonImporterResults
 	 * @param string $string
 	 * @return string
 	 */
-	protected function stringFor($tableName, $string)
+	protected function stringFor($tableName, $string): string
     {
 		$format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
 

@@ -11,7 +11,7 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 /**
  * Enum for training effect levels
- * 
+ *
  * @see https://www.firstbeat.com/en/consumer-products/features/#training-effect
  * @package Runalyze\Activity
  */

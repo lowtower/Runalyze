@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for pool length
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

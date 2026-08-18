@@ -75,7 +75,7 @@ class JsonBackupAnalyzer
 	/**
 	 * @return string
 	 */
-	public function fileVersion()
+	public function fileVersion(): string
     {
 		if ($this->VersionString == '') {
 			return 'unknown';
@@ -149,7 +149,7 @@ class JsonBackupAnalyzer
 	 * @param string $versionString
 	 * @return string
 	 */
-	public static function extractMajorAndMinorVersion($versionString)
+	public static function extractMajorAndMinorVersion($versionString): string
     {
 		if (preg_match('/^(\d+\.\d+)/', $versionString, $matches)) {
 			return $matches[1];

@@ -11,7 +11,7 @@ use Runalyze\Model;
 
 /**
  * Type entity
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\EquipmentType
  */

@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\TemperatureUnit;
 
 /**
  * Temperature
- * 
+ *
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Activity
@@ -43,7 +43,7 @@ class Temperature implements ValueInterface {
 	 * @param int $decimals [optional] number of decimals
 	 * @return string
 	 */
-	public static function format($temperature, $withUnit = true, $decimals = false) {
+	public static function format($temperature, $withUnit = true, $decimals = false): string {
 		return (new self($temperature))->string($withUnit, $decimals);
 	}
 
@@ -57,7 +57,7 @@ class Temperature implements ValueInterface {
 		$this->set($temperature);
 	}
 
-	public function label() {
+	public function label(): string {
 		return __('Temperature');
 	}
 
@@ -119,7 +119,7 @@ class Temperature implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string
 	 */
-	public function string($withUnit = true, $decimals = false) {
+	public function string($withUnit = true, $decimals = false): string {
 		if ($this->PreferredUnit->isFahrenheit()) {
 			return $this->stringFahrenheit($withUnit, $decimals);
 		}
@@ -179,7 +179,7 @@ class Temperature implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string with unit
 	 */
-	public function stringCelsius($withUnit = true, $decimals = false) {
+	public function stringCelsius($withUnit = true, $decimals = false): string {
 		if ($this->isEmpty()) {
 			return '';
 		}
@@ -195,7 +195,7 @@ class Temperature implements ValueInterface {
 	 * @param bool|int $decimals [optional] number of decimals
 	 * @return string with unit
 	 */
-	public function stringFahrenheit($withUnit = true, $decimals = false) {
+	public function stringFahrenheit($withUnit = true, $decimals = false): string {
 		if ($this->isEmpty()) {
 			return '';
 		}

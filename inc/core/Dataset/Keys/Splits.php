@@ -42,7 +42,7 @@ class Splits extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Splits');
 	}
@@ -51,7 +51,7 @@ class Splits extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Splits are shown as clock icon with all lap times as tooltip. '.
@@ -65,7 +65,7 @@ class Splits extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		if (! $context->activity()->splits()->isEmpty()) {
 			if (
@@ -91,7 +91,7 @@ class Splits extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function stringForActiveLaps(Entity $Splits)
+	protected function stringForActiveLaps(Entity $Splits): string
 	{
 		$laps = [];
 		$onlyActiveSplits = $Splits->hasActiveAndInactiveLaps();

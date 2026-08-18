@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: FitTrainingEffect
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -39,7 +39,7 @@ class FitTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		// #TSC: Add aerobic
 		return __('(Aerob) Training Effect').' '.__('(by file)');
@@ -49,7 +49,7 @@ class FitTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('TE');
 	}
@@ -58,7 +58,7 @@ class FitTrainingEffect extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'(Aerob) Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) '.

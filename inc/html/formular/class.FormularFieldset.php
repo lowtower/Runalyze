@@ -182,7 +182,7 @@ class FormularFieldset extends HtmlTag {
 	 * Get onclick attribute for legend
 	 * @return string
 	 */
-	private function getLegendOnclick() {
+	private function getLegendOnclick(): string {
 		$onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
 
 		return 'Runalyze.toggleFieldset(this, \''.$this->Id.'\', '.$onlyOne.', \''.$this->confValueToSaveStatus.'\')';

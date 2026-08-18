@@ -152,7 +152,7 @@ class Table {
 	/**
 	 * @return string
 	 */
-	protected function tableHeader() {
+	protected function tableHeader(): string {
 		// #TSC make width as possible with 100%
 		return '<table class="fullwidth zebra-style zebra-blue" id="'.self::CSS_ID.'" style="width: 100%">'.
 				'<thead>'.
@@ -178,7 +178,7 @@ class Table {
 	/**
 	 * @return string
 	 */
-	protected function tableHeaderForAdditionalKeys() {
+	protected function tableHeaderForAdditionalKeys(): string {
 		$Code = '';
 
 		foreach ($this->AdditionalKeys as $key) {
@@ -195,7 +195,7 @@ class Table {
 	 *
 	 * @return string
 	 */
-	protected function tableHeaderForSplitsAdditional() {
+	protected function tableHeaderForSplitsAdditional(): string {
 		$Code = '';
 
 		// parse the json and select all keys
@@ -211,7 +211,7 @@ class Table {
 	/**
 	 * @return string
 	 */
-	protected function tableBody() {
+	protected function tableBody(): string {
 		$Code = '<tbody class="top-and-bottom-border">';
 
 		for ($i = 0, $num = $this->Laps->num(); $i < $num; ++$i) {
@@ -227,7 +227,7 @@ class Table {
 	 * @param int $i
 	 * @return string
 	 */
-	protected function tableRowFor($i) {
+	protected function tableRowFor($i): string {
 		$Lap = $this->Laps->at($i);
 		$Lap->pace()->setUnit($this->DemandedPace->unit());
 
@@ -253,7 +253,7 @@ class Table {
 	 * @param \Runalyze\Data\Laps\Lap $Lap
 	 * @return string
 	 */
-	protected function additionalTableCellsFor(\Runalyze\Data\Laps\Lap $Lap) {
+	protected function additionalTableCellsFor(\Runalyze\Data\Laps\Lap $Lap): string {
 		$Code = '';
 
 		// #TSC show no values for rest-laps
@@ -326,7 +326,7 @@ class Table {
 	 * @param string $key
 	 * @return string
 	 */
-	protected function labelForAdditionalValue($key) {
+	protected function labelForAdditionalValue($key): string {
 		switch ($key) {
 			case Activity\Entity::CADENCE:
 				return __('Cadence');
@@ -367,7 +367,7 @@ class Table {
 	 * @param $idx table row index
 	 * @return string
 	 */
-	protected function splitsAdditionalCells(int $idx) {
+	protected function splitsAdditionalCells(int $idx): string {
 		$Code = '';
 
 		if(empty($this->splitsAdditional)) {
@@ -405,7 +405,7 @@ class Table {
 	/**
 	 * @return string
 	 */
-	protected function tableFooter() {
+	protected function tableFooter(): string {
 		$Code  = '<tbody>';
 		$Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">'.__('Average').':</td>';
 		$Code .= '<td class="c">'.($this->AverageTime !== null ? $this->AverageTime->string() : '').'</td>';
@@ -424,7 +424,7 @@ class Table {
 	/**
 	 * @return string
 	 */
-	protected function checkboxToToggleInactiveSplits() {
+	protected function checkboxToToggleInactiveSplits(): string {
 		if ($this->IndexActive == 1 || $this->IndexResting == 1) {
 			return '';
 		}

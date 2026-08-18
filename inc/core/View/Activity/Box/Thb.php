@@ -13,7 +13,7 @@ use Runalyze\Calculation\Distribution\TrackdataAverages;
 
 /**
  * Boxed value for Thb
- * 
+ *
  * @author Michael Pohl
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box

@@ -192,7 +192,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
      *
      * @return string
      */
-    protected function getUrlFor(Location $location)
+    protected function getUrlFor(Location $location): string
     {
         $parameter = [];
 

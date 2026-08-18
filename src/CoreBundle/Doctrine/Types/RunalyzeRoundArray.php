@@ -65,7 +65,7 @@ class RunalyzeRoundArray extends Type
      * @param Round $round
      * @return string
      */
-    protected function getNativeValueForRound(Round $round)
+    protected function getNativeValueForRound(Round $round): string
     {
         $distance = number_format($round->getDistance(), 3, '.', '');
         $duration = Duration::format($round->getDuration());

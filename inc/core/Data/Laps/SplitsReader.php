@@ -11,7 +11,7 @@ use Runalyze\Model\Activity\Splits;
 
 /**
  * Read laps from splits object
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Laps
  */

@@ -11,7 +11,7 @@ use System;
 
 /**
  * Exporter for: Facebook
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Export\Share
@@ -43,7 +43,7 @@ class Facebook extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function url()
+    public function url(): string
     {
         // TODO
         // check: on runalyze.com
@@ -69,7 +69,7 @@ class Facebook extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function name()
+    public function name(): string
     {
 	    return __('Facebook');
     }

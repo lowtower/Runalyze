@@ -12,7 +12,7 @@ use Runalyze\Profile\Sport\SportProfile;
 
 /**
  * Boxed value for the grade adjusted pace (=GAP)
- * 
+ *
  * @author codeproducer
  * @package Runalyze\View\Activity\Box
  */

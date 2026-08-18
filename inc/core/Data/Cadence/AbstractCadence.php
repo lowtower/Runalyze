@@ -9,7 +9,7 @@ namespace Runalyze\Data\Cadence;
 
 /**
  * Abstract class for cadence
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */

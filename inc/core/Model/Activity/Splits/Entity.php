@@ -11,7 +11,7 @@ use Runalyze\Model\StringArrayObject;
 
 /**
  * Splits entity
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */
@@ -86,7 +86,7 @@ class Entity extends StringArrayObject {
 	 * As string
 	 * @return string
 	 */
-	public function asString() {
+	public function asString(): string {
 		$array = array();
 
 		foreach ($this->Elements as $Split) {

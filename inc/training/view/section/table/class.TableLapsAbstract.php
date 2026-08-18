@@ -9,7 +9,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Table for laps
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

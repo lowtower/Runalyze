@@ -11,7 +11,7 @@ use Runalyze\View\Activity;
 
 /**
  * Plot for: Pace and heartrate
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */

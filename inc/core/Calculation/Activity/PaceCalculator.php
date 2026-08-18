@@ -11,11 +11,11 @@ use Runalyze\Model\Trackdata;
 
 /**
  * Calculate pace array
- * 
+ *
  * This pace calculator is a simple application of the PaceSmoother class.
  * To ensure a smooth pace for bad gps data, provided for example by Runtastic,
  * the smoother does move at least 1m at each step.
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Activity
  */

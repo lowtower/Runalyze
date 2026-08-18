@@ -12,7 +12,7 @@
 class PluginConfigurationValueArray extends PluginConfigurationValue {
 	/**
 	 * Set value from string
-	 * 
+	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */
@@ -24,7 +24,7 @@ class PluginConfigurationValueArray extends PluginConfigurationValue {
 	 * Get value as string
 	 * @return string
 	 */
-	public function valueAsString() {
+	public function valueAsString(): string {
 		return implode(', ', $this->Value);
 	}
 

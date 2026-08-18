@@ -11,7 +11,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for Wind Speed
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Box

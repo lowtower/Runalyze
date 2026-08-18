@@ -5,7 +5,7 @@ class FrontendSharedStatistics
 	/**
 	 * @return string
 	 */
-	public function getTabForComparisonOfYears()
+	public function getTabForComparisonOfYears(): string
     {
 		$Content = '';
 		$Factory = new PluginFactory();

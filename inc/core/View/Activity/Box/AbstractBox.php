@@ -9,7 +9,7 @@ namespace Runalyze\View\Activity\Box;
 
 /**
  * Abstract class for boxed values showing data for an activity
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

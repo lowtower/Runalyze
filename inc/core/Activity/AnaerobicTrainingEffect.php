@@ -32,7 +32,7 @@ class AnaerobicTrainingEffect implements ValueInterface
 	 * @param float|null $value
 	 * @return string
 	 */
-	public static function format($value)
+	public static function format($value): string
     {
         return (new self($value))->string();
 	}
@@ -49,7 +49,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-	public function label()
+	public function label(): string
     {
         // #TSC: this label is shown on the statistic heart-rate "box"
 		return __('Anaerob Training Effect');
@@ -99,7 +99,7 @@ class AnaerobicTrainingEffect implements ValueInterface
 	 * @param bool $withUnit [optional] show unit?
 	 * @return string
 	 */
-	public function string($withUnit = true) {
+	public function string($withUnit = true): string {
         if (! $this->isKnown()) {
             return '';
         }

@@ -12,7 +12,7 @@ use Runalyze\Configuration;
 
 /**
  * Boxed value for elevation up/down
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

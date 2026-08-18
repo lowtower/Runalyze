@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * #TSC Dataset key: TotalCycles
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */

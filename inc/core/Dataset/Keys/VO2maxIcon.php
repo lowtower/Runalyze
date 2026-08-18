@@ -31,7 +31,7 @@ class VO2maxIcon extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function label()
+    public function label(): string
     {
         return __('Effective VO<sub>2</sub>max icon');
     }
@@ -49,7 +49,7 @@ class VO2maxIcon extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         $text = __(
                 'Each VO<sub>2</sub>max value of an activity is marked with an arrow '.

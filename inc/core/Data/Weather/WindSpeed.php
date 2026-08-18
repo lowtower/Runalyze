@@ -59,7 +59,7 @@ class WindSpeed implements ValueInterface
      * Label for value
      * @return string
      */
-    public function label()
+    public function label(): string
     {
         return __('Wind Speed');
     }
@@ -165,7 +165,7 @@ class WindSpeed implements ValueInterface
      * Unit
      * @return string
      */
-    public function unit()
+    public function unit(): string
     {
         if ($this->UnitSystem->isImperial()) {
             return PaceUnit::stringFor(PaceUnit::MILES_PER_H);
@@ -178,7 +178,7 @@ class WindSpeed implements ValueInterface
      * String
      * @return string
      */
-    public function string($withUnit = true, $decimals = 0)
+    public function string($withUnit = true, $decimals = 0): string
     {
         if ($this->isUnknown()) {
             return '';

@@ -12,7 +12,7 @@
 class PluginConfigurationValueBool extends PluginConfigurationValue {
 	/**
 	 * Set value from string
-	 * 
+	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */
@@ -24,7 +24,7 @@ class PluginConfigurationValueBool extends PluginConfigurationValue {
 	 * Get value as string
 	 * @return string
 	 */
-	public function valueAsString() {
+	public function valueAsString(): string {
 		return ($this->Value ? '1' : '0');
 	}
 

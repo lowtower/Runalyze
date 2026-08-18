@@ -9,7 +9,7 @@ namespace Runalyze\Model\Swimdata;
 
 /**
  * Loop through swimdata object
- * 
+ *
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\Model\Swimdata
  */

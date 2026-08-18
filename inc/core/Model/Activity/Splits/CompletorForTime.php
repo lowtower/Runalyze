@@ -9,7 +9,7 @@ namespace Runalyze\Model\Activity\Splits;
 
 /**
  * Complete splits: fill missing times
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */

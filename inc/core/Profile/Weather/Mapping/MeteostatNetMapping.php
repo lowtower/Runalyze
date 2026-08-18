@@ -38,7 +38,7 @@ class MeteostatNetMapping implements ToInternalMappingInterface
             case 20: // heavy sleet shower
             case 21: // snow shower
             case 22: // heavy snow shower
-            case 24: // hail 
+            case 24: // hail
                 return WeatherConditionProfile::SNOWING;
             case 9:  // heavy rain
             case 11: // heavy freezing rain

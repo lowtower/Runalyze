@@ -87,7 +87,7 @@ class Map {
 	 * Get code
 	 * @return string
 	 */
-	public function code() {
+	public function code(): string {
 		return $this->html().$this->js();
 	}
 
@@ -95,7 +95,7 @@ class Map {
 	 * Get HTML
 	 * @return string
 	 */
-	public function html() {
+	public function html(): string {
 		$style = '';
 
 		if ($this->height > 0)
@@ -114,7 +114,7 @@ class Map {
 	 * Get JS
 	 * @return string
 	 */
-	public function js() {
+	public function js(): string {
 	    if (empty($this->Routes)) {
 	        return $this->getJavaScriptForNoRoutes();
         }
@@ -143,7 +143,7 @@ class Map {
         '});</script>';
 	}
 
-	protected function getJavaScriptForNoRoutes() {
+	protected function getJavaScriptForNoRoutes(): string {
 	    return '<script>(function(){$("#'.$this->id.'").remove();})();</script>';
     }
 }

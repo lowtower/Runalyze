@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: AverageRespirationRate
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -39,7 +39,7 @@ class AverageRespirationRate extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Avg respiration rate').' '.__('(by file)');
 	}
@@ -48,7 +48,7 @@ class AverageRespirationRate extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Avg respiration rate');
 	}
@@ -57,7 +57,7 @@ class AverageRespirationRate extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Die Atemfrequenz ist ein Messwert für die Anzahl der Atemzüge pro Minute (brpm) während des Tages. '.

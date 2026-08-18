@@ -52,7 +52,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 	 * @param bool $transformValues
 	 * @return string
 	 */
-	public function valueAsString($transformValues = false) {
+	public function valueAsString($transformValues = false): string {
 		$values = $this->roundAndTransformValues($this->Value, $transformValues, false);
 
 		return implode(', ', $values);

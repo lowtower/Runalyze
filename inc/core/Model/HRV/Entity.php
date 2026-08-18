@@ -11,7 +11,7 @@ use Runalyze\Model;
 
 /**
  * HRV entity
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\HRV
  */
@@ -81,7 +81,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 
 	/**
 	 * Value at
-	 * 
+	 *
 	 * Remark: This method may throw index offsets.
 	 * @param int $index
 	 * @param int $key string

@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for vertical ratio
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

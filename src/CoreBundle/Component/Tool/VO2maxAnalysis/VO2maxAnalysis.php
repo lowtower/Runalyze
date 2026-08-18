@@ -56,7 +56,7 @@ class VO2maxAnalysis
     /**
      * @return string
      */
-    protected function getQuery()
+    protected function getQuery(): string
     {
         return 'SELECT
 				`tr`.`id`,

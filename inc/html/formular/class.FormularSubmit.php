@@ -11,7 +11,7 @@
  */
 class FormularSubmit extends FormularField {
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->addAttribute('type', 'submit');
@@ -22,7 +22,7 @@ class FormularSubmit extends FormularField {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		return '<input '.$this->attributes().'>';
 	}
 }

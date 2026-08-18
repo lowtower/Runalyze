@@ -46,7 +46,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	}
 
 	/**
-	 * Init data 
+	 * Init data
 	 */
 	protected function prepareForDisplay() {
 		$this->setSportsNavigation(true, true);

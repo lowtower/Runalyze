@@ -26,7 +26,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Equipment');
 	}
 
@@ -34,7 +34,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Display statistics for your equipment.');
 	}
 
@@ -67,7 +67,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	/**
 	 * Method for getting the right symbol(s)
 	 */
-	protected function getRightSymbol() {
+	protected function getRightSymbol(): string {
 		$CurrentType = '';
 		$TypeLinks = [];
 
@@ -171,7 +171,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 * @param float $percentage [0.0 .. 1.0]
 	 * @return string
 	 */
-	protected function getUsageImage($percentage) {
+	protected function getUsageImage($percentage): string {
 		return '<span class="equipment-usage" style="width:'.round($percentage * 330).'px;"></span>';
 	}
 }

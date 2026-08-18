@@ -9,10 +9,10 @@ namespace Runalyze\Model;
 
 /**
  * Abstract string object
- * 
+ *
  * A string object represents a complete object that can be created by strings
  * and be saved as string.
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */

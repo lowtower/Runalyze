@@ -12,7 +12,7 @@ use Runalyze\Model;
 
 /**
  * Plot for: heart rate variability without anomalies
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */

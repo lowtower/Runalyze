@@ -40,7 +40,7 @@ class SharedLinker {
 	 * @param string $text [optional]
 	 * @return string
 	 */
-	public static function getStandardLinkTo($trainingID, $text = null) {
+	public static function getStandardLinkTo($trainingID, $text = null): string {
 		if (null === $text) {
 			$text = Icon::$ATTACH;
 		}
@@ -53,7 +53,7 @@ class SharedLinker {
 	 * @param string $text [optional]
 	 * @return string
 	 */
-	public static function getListLinkForCurrentUser($text = null) {
+	public static function getListLinkForCurrentUser($text = null): string {
         if (null === $text) {
             $text = '<i class="fa fa-fw fa-id-card-o"></i>';
         }
@@ -104,7 +104,7 @@ class SharedLinker {
 	 * @param int $trainingID
 	 * @return string
 	 */
-	public static function getUrlFor($trainingID) {
+	public static function getUrlFor($trainingID): string {
 		return self::$URL.self::idToUrl($trainingID);
 	}
 
@@ -113,7 +113,7 @@ class SharedLinker {
 	 * @param int $id
 	 * @return string
 	 */
-	private static function idToUrl($id) {
+	private static function idToUrl($id): string {
 		return base_convert((int) $id, 10, 35);
 	}
 

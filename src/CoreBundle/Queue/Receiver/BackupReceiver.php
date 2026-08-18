@@ -24,7 +24,7 @@ class BackupReceiver
     /**
      * @return string
      */
-    protected function getPathToBackupFiles()
+    protected function getPathToBackupFiles(): string
     {
         return $this->container->getParameter('data_directory').'/backup-tool/backup/';
     }

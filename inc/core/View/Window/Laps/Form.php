@@ -162,7 +162,7 @@ class Form {
 	/**
 	 * @return string
 	 */
-	protected function getJScode() {
+	protected function getJScode(): string {
 		return Ajax::wrapJS(
 			'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'.
 			'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");'.

@@ -432,7 +432,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		$this->FitDetails .= '</div>';
 	}
 
-    protected function getGlossaryLink($text, $glossary) {
+    protected function getGlossaryLink($text, $glossary): string {
         return '<a class="window left" href="glossary/' . $glossary . '"><i class="fa fa-question-circle-o"></i></a>&nbsp;' . $text;
     }
 

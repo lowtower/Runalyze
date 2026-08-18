@@ -12,7 +12,7 @@ use Request;
 use SearchLink;
 /**
  * Dataset key: Main Equipment
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -31,7 +31,7 @@ class MainEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Main Equipment');
 	}
@@ -40,7 +40,7 @@ class MainEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return __('Equipment');
 	}
@@ -49,7 +49,7 @@ class MainEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __('You can choose a main equipment type for each sport in your sport configuration. '.
 				'Equipment objects of this type will be shown with their names.');
@@ -60,7 +60,7 @@ class MainEquipment extends AbstractEquipment
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		if ($context->hasData(parent::CONCAT_EQUIPMENT_KEY) && $context->data(parent::CONCAT_EQUIPMENT_KEY) != '') {
 			$ids = explode(',', $context->data(parent::CONCAT_EQUIPMENT_KEY));

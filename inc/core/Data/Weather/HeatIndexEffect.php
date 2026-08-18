@@ -51,7 +51,7 @@ class HeatIndexEffect extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function label($enum)
+    public static function label($enum): string
     {
         switch ($enum) {
             case self::NO_EFFECT:
@@ -96,7 +96,7 @@ class HeatIndexEffect extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function description($enum)
+    public static function description($enum): string
     {
         switch ($enum) {
             case self::NO_EFFECT:
@@ -119,7 +119,7 @@ class HeatIndexEffect extends AbstractEnum
      * @return string
      * @codeCoverageIgnore
      */
-    public static function icon($enum)
+    public static function icon($enum): string
     {
         $Tooltip = new \Runalyze\View\Tooltip(self::label($enum).'<br>'.self::description($enum));
 

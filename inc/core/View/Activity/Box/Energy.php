@@ -12,7 +12,7 @@ use Runalyze\Activity;
 
 /**
  * Boxed value for energy
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Box

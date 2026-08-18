@@ -9,7 +9,7 @@ namespace Runalyze\View\Activity\Box;
 
 /**
  * Boxed value for pace
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Box
  */

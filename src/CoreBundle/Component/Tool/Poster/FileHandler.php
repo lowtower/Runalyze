@@ -25,7 +25,7 @@ class FileHandler
     /**
      * @return string
      */
-    protected function pathToImages()
+    protected function pathToImages(): string
     {
         return $this->DataDir.'/poster/';
     }
@@ -86,7 +86,7 @@ class FileHandler
      * @param string|int $size
      * @return string
      */
-    public function buildFinalFileName(Account $account, Sport $sport, $year, $type, $size)
+    public function buildFinalFileName(Account $account, Sport $sport, $year, $type, $size): string
     {
         return sprintf('%s-%s-%s-%s-%s-%s.%s',
             $account->getId(),

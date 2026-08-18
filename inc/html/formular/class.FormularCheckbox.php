@@ -35,7 +35,7 @@ class FormularCheckbox extends FormularField {
 	}
 
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->addAttribute('type', 'checkbox');
@@ -47,7 +47,7 @@ class FormularCheckbox extends FormularField {
 	}
 
 	/**
-	 * Set label to the right side 
+	 * Set label to the right side
 	 */
 	public function setLabelToRight() {
 		$this->labelOnRight = true;
@@ -64,7 +64,7 @@ class FormularCheckbox extends FormularField {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		$label = '<label class="checkable" for="'.$this->name.'">'.$this->label.'</label>';
 		$input = '<input '.$this->attributes().'>';
 

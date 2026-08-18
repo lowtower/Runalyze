@@ -53,7 +53,7 @@ class ContinuousDataAdapter
     }
 
 	/**
-	 * Corrects the problem that the GPS device has NULL values while GPS is not fully initializes while 
+	 * Corrects the problem that the GPS device has NULL values while GPS is not fully initializes while
 	 * activity is tracking.
 	 * so search for the first Latitude with NOT NULL and copy these value to the NULLs. Do this also with
 	 * the same range for Longitude (and Altitude). Hope that the two values has the same NULLs.

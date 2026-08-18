@@ -9,7 +9,7 @@ namespace Runalyze\Data\Cadence;
 
 /**
  * General cadence in rounds per minute
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */

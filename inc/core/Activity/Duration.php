@@ -54,7 +54,7 @@ class Duration {
 	 * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
 	 * @return string
 	 */
-	public static function format($input) {
+	public static function format($input): string {
 		$Object = new Duration($input);
 
 		return $Object->string();
@@ -136,7 +136,7 @@ class Duration {
 	 * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
 	 * @return string
 	 */
-	public function string($format = self::FORMAT_AUTO, $decimals = 2) {
+	public function string($format = self::FORMAT_AUTO, $decimals = 2): string {
 		if ($format == self::FORMAT_AUTO) {
 			return $this->autoString($decimals);
 		}
@@ -153,7 +153,7 @@ class Duration {
 	 * @param int $decimals [optional]
 	 * @return string
 	 */
-	protected function autoString($decimals = 2) {
+	protected function autoString($decimals = 2): string {
 		$fraction = (round($this->Time) != round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT.'u' : '';
 
 		if ($this->Time >= 86400) {
@@ -172,7 +172,7 @@ class Duration {
 	 * @param int $decimals [optional]
 	 * @return string
 	 */
-	protected function autoCompetitionString($decimals = 2) {
+	protected function autoCompetitionString($decimals = 2): string {
 		if ($this->Time >= 60 || $this->Time == 0) {
 			return $this->autoString($decimals);
 		}
@@ -186,7 +186,7 @@ class Duration {
 	 * @param int $decimals
 	 * @return string
 	 */
-	protected function formatString($format, $decimals = 2) {
+	protected function formatString($format, $decimals = 2): string {
 		if (substr($format, -1) == 'u') {
 			$fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
 			return $this->formatString(substr($format, 0, -1)).$fraction;
@@ -266,7 +266,7 @@ class Duration {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function compareTo(Duration $other, $invert = false, $raw = false) {
+	public function compareTo(Duration $other, $invert = false, $raw = false): string {
 		if ($this->seconds() == 0 || $other->seconds() == 0) {
 			return '';
 		}
@@ -284,7 +284,7 @@ class Duration {
 	 * @param boolean $raw [optional]
 	 * @return string
 	 */
-	protected function formatComparison($string, $isPositive, $raw = false) {
+	protected function formatComparison($string, $isPositive, $raw = false): string {
 		$class = ($isPositive) ? 'plus' : 'minus';
 		$sign = ($isPositive) ? '+' : '-';
 

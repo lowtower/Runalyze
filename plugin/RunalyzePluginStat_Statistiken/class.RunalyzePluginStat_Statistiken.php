@@ -35,7 +35,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * @return string
 	 */
 
-	final public function name() {
+	final public function name(): string {
 		return __('Statistics');
 	}
 
@@ -43,7 +43,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Monthly and weekly summaries for all sports');
 	}
 
@@ -60,7 +60,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		$this->setToolbarNavigationLinks(array($LinkList));
 	}
 
-	private function getAnalysisType() {
+	private function getAnalysisType(): string {
 		$types = [
 		    '' => __('General overview'),
 		    'allWeeks' => __('All training weeks')

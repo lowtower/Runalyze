@@ -13,12 +13,12 @@ class LinkerTest extends \PHPUnit\Framework\TestCase {
 	protected $PDO;
 
 	/**
-	 * @var int 
+	 * @var int
 	 */
 	protected $ThisAccountID;
 
 	/**
-	 * @var int 
+	 * @var int
 	 */
 	protected $OtherAccountID;
 

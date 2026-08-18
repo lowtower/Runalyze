@@ -9,23 +9,23 @@ namespace Runalyze\Calculation\Trimp;
 
 /**
  * TRIMP-Calculator
- * 
+ *
  * TRIMP stands for Training Impulse and gives a measurement for the training impact.
- * 
+ *
  * This class uses the exponential method with respect to the heart rate in %HRmax
  * and not in %HRrest to be independet of regular changes of the resting heart rate.
- * 
+ *
  * In generel a complete array of heart rate values is used:<br>
  * <code>$Trimp = new Calculator($Athlete, array(120 => 13, 121 => 47, ...));</code>
- * 
+ *
  * For an average only, use:<br>
  * <code>$Trimp = new Calculator($Athlete, array($avgHR => $totalDuration));</code>
- * 
+ *
  * To get consistent results for athletes without a maximal heart rate
  * (they may set it later), default values for HRmax and HRrest are used.
- * 
+ *
  * @see http://fellrnr.com/wiki/TRIMP
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */
@@ -79,7 +79,7 @@ class Calculator {
 
 	/**
 	 * Calculate
-	 * 
+	 *
 	 * Calculation is done for HR in [bpm] and time is transformed from [s] to [min].
 	 */
 	protected function calculate() {

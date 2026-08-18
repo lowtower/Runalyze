@@ -6,7 +6,7 @@
  */
 /**
  * Section: Overview
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

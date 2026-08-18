@@ -45,7 +45,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      * @param bool $sizesHaveBeenFixed
      * @return string
      */
-    protected function getErrorOrLogMessage(array $arraySizes, $sizesHaveBeenFixed = false)
+    protected function getErrorOrLogMessage(array $arraySizes, $sizesHaveBeenFixed = false): string
     {
         return sprintf(
             '%s array sizes %s (%s).',

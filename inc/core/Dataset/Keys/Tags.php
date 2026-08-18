@@ -11,7 +11,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: Tags
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -42,7 +42,7 @@ class Tags extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Tags');
 	}
@@ -72,7 +72,7 @@ class Tags extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		$string = '';
 

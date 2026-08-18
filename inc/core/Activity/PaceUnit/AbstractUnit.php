@@ -45,10 +45,10 @@ abstract class AbstractUnit
 
 	/**
 	 * Factor to transform 's/km' to current unit
-	 * 
+	 *
 	 * This should only be used for time formats.
 	 * 's/km' * factorForUnit() = [time in seconds per distance]
-	 * 
+	 *
 	 * @return float
 	 * @throws \RuntimeException
 	 */
@@ -56,10 +56,10 @@ abstract class AbstractUnit
 
 	/**
 	 * Dividend to transform 's/km' to current unit
-	 * 
+	 *
 	 * This should only be used for decimal formats.
 	 * dividendForUnit() / 's/km' = [decimal pace value]
-	 * 
+	 *
 	 * @return float
 	 * @throws \RuntimeException
 	 */
@@ -67,10 +67,10 @@ abstract class AbstractUnit
 
 	/**
 	 * Get raw value
-	 * 
+	 *
 	 * This returns for example a float for decimal units and an integer as 's/km'
 	 * for time units.
-	 * 
+	 *
 	 * @param int $secondsPerKm
 	 * @return mixed
 	 */
@@ -85,9 +85,9 @@ abstract class AbstractUnit
 
 	/**
 	 * Compare two paces
-	 * 
+	 *
 	 * This value is positive if $firstPaceInSecondsPerKm is larger than $secondPaceInSecondsPerKm
-	 * 
+	 *
 	 * @param int $firstPaceInSecondsPerKm
 	 * @param int $secondPaceInSecondsPerKm
 	 * @return float [s/km]

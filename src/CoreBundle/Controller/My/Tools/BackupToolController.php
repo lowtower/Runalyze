@@ -23,7 +23,7 @@ class BackupToolController extends Controller
     /**
      * @return string
      */
-    protected function getPathToBackupFiles()
+    protected function getPathToBackupFiles(): string
     {
         return $this->getParameter('data_directory').'/backup-tool/backup/';
     }

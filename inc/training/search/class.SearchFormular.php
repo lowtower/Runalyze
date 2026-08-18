@@ -150,7 +150,7 @@ class SearchFormular extends Formular {
 	/**
 	 * @return string
 	 */
-	protected function shortLinksForSportField() {
+	protected function shortLinksForSportField(): string {
 		$code = '<span class="link chosen-select-all" data-target="sportid">'.__('all').'</span>';
 		$code .= ' | ';
 		$code .= '<span class="link chosen-select-none" data-target="sportid">'.__('none').'</span>';

@@ -22,7 +22,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 * Get URL
 	 * @return string
 	 */
-	public static function getExternalUrl() {
+	public static function getExternalUrl(): string {
 		return ConfigTabs::$CONFIG_URL.'?key=config_tab_plugins&external=true';
 	}
 
@@ -55,7 +55,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 * @param string $PluginType
 	 * @return string
 	 */
-	private function getCodeFor($PluginType) {
+	private function getCodeFor($PluginType): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->completeData($PluginType);
 		usort($Plugins, $this->pluginOrderFunction());
@@ -172,7 +172,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 * Get code for install
 	 * @return string
 	 */
-	private function getCodeForInstall() {
+	private function getCodeForInstall(): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->notInstalledPlugins();
 

@@ -51,7 +51,7 @@ class Setting extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Setting');
 	}
@@ -78,7 +78,7 @@ class Setting extends AbstractKey
      * @param \Runalyze\Dataset\Context $context
      * @return string
      */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
             return $this->getCodeForDropdown($this->inlineDropdownWithRealLinks($context));
@@ -87,7 +87,7 @@ class Setting extends AbstractKey
         return '';
     }
 
-    public function stringForExample(Context $context)
+    public function stringForExample(Context $context): string
     {
         return $this->getCodeForDropdown($this->inlineDropdownWithFakeLinks($context));
     }
@@ -96,7 +96,7 @@ class Setting extends AbstractKey
      * @param string $menu
      * @return string
      */
-    protected function getCodeForDropdown($menu)
+    protected function getCodeForDropdown($menu): string
     {
         return '<div class="inline-menu"><ul><li class="with-submenu">'.
             '<span class="link"><i class="fa fa-fw fa-wrench"></i></span>'.
@@ -109,7 +109,7 @@ class Setting extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function inlineDropdownWithRealLinks(Context $context)
+	protected function inlineDropdownWithRealLinks(Context $context): string
 	{
 		$id = $context->activity()->id();
 
@@ -134,7 +134,7 @@ class Setting extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	protected function inlineDropdownWithFakeLinks(Context $context)
+	protected function inlineDropdownWithFakeLinks(Context $context): string
 	{
 		$html = '<li><span class="link">'.\Icon::$EDIT.' '.__('Edit').'</span></li>';
 		$html .= '<li><span class="link">'.$this->privacyIconAndLabel($context).'</span></li>';
@@ -155,7 +155,7 @@ class Setting extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	protected function privacyIconAndLabel(Context $context)
+	protected function privacyIconAndLabel(Context $context): string
 	{
 		if ($context->activity()->isPublic()) {
 			$privacyLabel = __('Make private');

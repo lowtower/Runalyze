@@ -151,7 +151,7 @@ class ProgressBar {
 	 * Get code
 	 * @return string
 	 */
-	public function getCode() {
+	public function getCode(): string {
 		$Code  = '<div class="'.$this->getDivClass().'"'.$this->getTooltip().'>';
 		$Code .= '<div class="'.self::$DIV_INNER.'">';
 		$Code .= $this->getDivForSingleBars();
@@ -166,7 +166,7 @@ class ProgressBar {
 	 * Get class
 	 * @return string
 	 */
-	protected function getDivClass() {
+	protected function getDivClass(): string {
 		return self::$DIV_CONTAINER.$this->AdditionalClasses;
 	}
 
@@ -174,7 +174,7 @@ class ProgressBar {
 	 * Get additional stuff for tooltip
 	 * @return string
 	 */
-	protected function getTooltip() {
+	protected function getTooltip(): string {
 		if (! empty($this->Tooltip))
 			return ' '.Ajax::tooltip('', $this->Tooltip, false, true);
 
@@ -185,7 +185,7 @@ class ProgressBar {
 	 * Get div for icon
 	 * @return string
 	 */
-	protected function getDivForSingleBars() {
+	protected function getDivForSingleBars(): string {
 		$Code = '';
 
 		foreach ($this->Bars as &$Bar)
@@ -199,7 +199,7 @@ class ProgressBar {
 	 * @param ProgressBarSingle $SingleBar
 	 * @return string
 	 */
-	protected function getDivForSingleBar(ProgressBarSingle $SingleBar) {
+	protected function getDivForSingleBar(ProgressBarSingle $SingleBar): string {
 		$Code  = '<div class="'.self::$DIV_BAR.' '.$SingleBar->getClasses().'" style="width:'.$SingleBar->getWidth().'%;">';
 		$Code .= '</div>';
 
@@ -209,7 +209,7 @@ class ProgressBar {
 	/**
 	 * Get code for goal line
 	 */
-	protected function getCodeForGoalLine() {
+	protected function getCodeForGoalLine(): string {
 		if ($this->Goal > 0)
 			return '<div class="'.self::$DIV_GOAL.'" style="left:'.$this->Goal.'%;"></div>';
 

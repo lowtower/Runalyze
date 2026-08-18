@@ -121,7 +121,7 @@ class Ajax {
 	 * Get reload command
 	 * @return string
 	 */
-	public static function getReloadCommand() {
+	public static function getReloadCommand(): string {
 		switch(self::$currentReloadFlag) {
 			case self::$RELOAD_PAGE:
 				return self::wrapJS('Runalyze.reloadPage();');
@@ -148,7 +148,7 @@ class Ajax {
 	 * @param bool $closeOverlay [optional] Boolean flag: Should the overlay be closed after clicking? (default: false)
 	 * @return string
 	 */
-	public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = '') {
+	public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = ''): string {
 		return '<a '.(! empty($htmlID) ? 'id="'.$htmlID.'" ' : '').'class="training '.$classes.'" href="activity/'.$id.'" rel="'.$id.'"'.($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '').'>'.$name.'</a>';
 	}
 
@@ -157,7 +157,7 @@ class Ajax {
 	 * @param int $id ID of the training
 	 * @return string
 	 */
-	public static function trainingLinkAsOnclick($id) {
+	public static function trainingLinkAsOnclick($id): string {
 		if (FrontendShared::$IS_SHOWN)
 			return 'onclick="Pace.restart();Runalyze.Training.load('.$id.', \''.SharedLinker::getUrlFor($id).'\', event)"';
 
@@ -190,7 +190,7 @@ class Ajax {
 	 * @param string $AdditionalClasses
 	 * @return string
 	 */
-	public static function toolbarNavigation($Links, $AdditionalClasses = '') {
+	public static function toolbarNavigation($Links, $AdditionalClasses = ''): string {
 		if (empty($Links))
 			return '';
 
@@ -255,7 +255,7 @@ class Ajax {
 	 * @param string $href   ID of div-container to be displayed
 	 * @return string
 	 */
-	public static function change($name, $target, $href, $additional_class = '') {
+	public static function change($name, $target, $href, $additional_class = ''): string {
 		if (substr($href, 0, 1) != '#')
 			$href = '#'.$href;
 
@@ -274,7 +274,7 @@ class Ajax {
 	 * @param string $title   title
 	 * @return string
 	 */
-	public static function link($name, $target, $href, $data = '', $title = '', $onclick = false) {
+	public static function link($name, $target, $href, $data = '', $title = '', $onclick = false): string {
 		return '<a class="ajax" href="'.$href.'" target="'.$target.'" rel="'.$data.'"'.(! empty($title) ? ' title="'.$title.'"' : '').' '.(($onclick) ? ' onclick="'.$onclick.'"' : '').'>'.$name.'</a>';
 	}
 
@@ -286,7 +286,7 @@ class Ajax {
 	 * @param boolean $active
 	 * @return string
 	 */
-	public static function flotChange($text, $divID, $flotID, $active = true) {
+	public static function flotChange($text, $divID, $flotID, $active = true): string {
 		return '<span class="link'.($active ? '' : ' unimportant').' flotChanger-'.$divID.' flotChanger-id-'.$flotID.'" onclick="Runalyze.flotChange(\''.$divID.'\',\''.$flotID.'\')">'.$text.'</span>';
 	}
 
@@ -337,7 +337,7 @@ class Ajax {
 	 * @param string $code
 	 * @return string
 	 */
-	public static function wrapJS($code) {
+	public static function wrapJS($code): string {
 		return '<script>'.$code.'</script>';
 	}
 
@@ -346,7 +346,7 @@ class Ajax {
 	 * @param string $code
 	 * @return string
 	 */
-	public static function wrapJSforDocumentReady($code) {
+	public static function wrapJSforDocumentReady($code): string {
 		return self::wrapJS('(function($){$(document).ready(function(){ '.$code.' });})(jQuery);');
 	}
 
@@ -355,7 +355,7 @@ class Ajax {
 	 * @param string $code
 	 * @return string
 	 */
-	public static function wrapJSasFunction($code) {
+	public static function wrapJSasFunction($code): string {
 		return self::wrapJS('$(function(){ '.$code.' });');
 	}
 
@@ -392,7 +392,7 @@ class Ajax {
 	 * Get code for closing overlay
 	 * @return string
 	 */
-	public static function closeOverlay() {
+	public static function closeOverlay(): string {
 		return self::wrapJS('Runalyze.Overlay.close();');
 	}
 
@@ -420,7 +420,7 @@ class Ajax {
 	 * @param bool $reinit [optional]
 	 * @return string
 	 */
-	public static function getTablesorterWithPagerFor($selector, $reinit = false) {
+	public static function getTablesorterWithPagerFor($selector, $reinit = false): string {
 		$Code = self::getPagerDiv();
 		$Code .= self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit ? 'true' : '').');');
 
@@ -430,7 +430,7 @@ class Ajax {
 	/**
 	 * Get div for pager for tables
 	 */
-	private static function getPagerDiv() {
+	private static function getPagerDiv(): string {
 		return '
 <div id="pager" class="pager c">
 	<form>

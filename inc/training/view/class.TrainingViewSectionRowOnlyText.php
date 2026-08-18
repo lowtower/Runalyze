@@ -6,7 +6,7 @@
  */
 /**
  * Row of the training view: only text
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

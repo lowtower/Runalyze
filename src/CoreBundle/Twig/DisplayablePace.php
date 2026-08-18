@@ -21,7 +21,7 @@ class DisplayablePace extends DisplayableValue
      * @param bool|string $thousandsSeparator
      * @return string value and unit, not separated by '&nbsp;'
      */
-    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         return $this->getValue($decimals, $decimalPoint, $thousandsSeparator).$this->getUnit();
     }
@@ -32,7 +32,7 @@ class DisplayablePace extends DisplayableValue
      * @param bool|string $thousandsSeparator
      * @return string
      */
-    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         $isNegative = $this->Value < 0;
         $seconds = round(abs($this->Value));

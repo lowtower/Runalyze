@@ -45,7 +45,7 @@ class Linker {
 	 * Get public url
 	 * @return string
 	 */
-	public function publicUrl() {
+	public function publicUrl(): string {
 		if ($this->Activity->isPublic()) {
 			return System::getFullDomainWithProtocol().SharedLinker::getUrlFor($this->Activity->id());
 		}
@@ -57,7 +57,7 @@ class Linker {
 	 * Get edit url
 	 * @return string
 	 */
-	public function editUrl() {
+	public function editUrl(): string {
 		return 'activity/'.$this->Activity->id().'/edit';
 	}
 
@@ -66,7 +66,7 @@ class Linker {
 	 * @param string $name displayed link name
 	 * @return string HTML-link to this training
 	 */
-	public function link($name) {
+	public function link($name): string {
 		return Ajax::trainingLink($this->Activity->id(), $name);
 	}
 
@@ -75,7 +75,7 @@ class Linker {
 	 * @param string $tooltipCssClass optional, e.g. 'atRight'
 	 * @return string HTML-link to this training
 	 */
-	public function linkWithSportIcon($tooltipCssClass = '') {
+	public function linkWithSportIcon($tooltipCssClass = ''): string {
 		return $this->link($this->codeWithSportIcon($tooltipCssClass));
 	}
 
@@ -83,7 +83,7 @@ class Linker {
 	 * @param string $tooltipCssClass optional, e.g. 'atRight'
 	 * @return string HTML-code that can be linked to this training
 	 */
-	public function codeWithSportIcon($tooltipCssClass = '') {
+	public function codeWithSportIcon($tooltipCssClass = ''): string {
 		$Time = new Duration($this->Activity->duration());
 		$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
 		$Sport = $Factory->sport($this->Activity->sportid());
@@ -113,7 +113,7 @@ class Linker {
 	 * URL to elevation correction
 	 * @return string
 	 */
-	public function urlToElevationCorrection() {
+	public function urlToElevationCorrection(): string {
 		return 'activity/'.$this->Activity->id().'/elevation-correction';
 	}
 
@@ -122,14 +122,14 @@ class Linker {
 	 * @param string $data
 	 * @return string
 	 */
-	public function urlToElevationInfo($data = '') {
+	public function urlToElevationInfo($data = ''): string {
 		return 'activity/'.$this->Activity->id().'/elevation-info'.($data != '' ? '?'.$data : '');
 	}
 
     /**
      * @return string
      */
-    public function urlToClimbScore() {
+    public function urlToClimbScore(): string {
         return 'activity/'.$this->Activity->id().'/climb-score';
     }
 
@@ -138,7 +138,7 @@ class Linker {
 	 * @param string $data
 	 * @return string
 	 */
-	public function urlToVO2maxinfo($data = '') {
+	public function urlToVO2maxinfo($data = ''): string {
 		return 'activity/'.$this->Activity->id().'/vo2max-info'.($data != '' ? '?'.$data : '');
 	}
 
@@ -147,7 +147,7 @@ class Linker {
 	 * @param string $data
 	 * @return string
 	 */
-	public function urlToRoundsInfo($data = '') {
+	public function urlToRoundsInfo($data = ''): string {
 		return 'activity/'.$this->Activity->id().'/splits-info'.($data != '' ? '?'.$data : '');
 	}
 

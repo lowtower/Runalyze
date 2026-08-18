@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Elevation
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -25,7 +25,7 @@ class Elevation implements ValueInterface
 	protected $Meter;
 
 	/**
-	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem 
+	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected $UnitSystem;
 
@@ -35,7 +35,7 @@ class Elevation implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public static function format($meter, $withUnit = true)
+	public static function format($meter, $withUnit = true): string
 	{
 		return (new self($meter))->string($withUnit);
 	}
@@ -54,7 +54,7 @@ class Elevation implements ValueInterface
 	 * Label for elevation
 	 * @return string
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Elevation');
 	}
@@ -152,7 +152,7 @@ class Elevation implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function string($withUnit = true)
+	public function string($withUnit = true): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringFeet($withUnit);
@@ -165,7 +165,7 @@ class Elevation implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringMeter($withUnit = true)
+	public function stringMeter($withUnit = true): string
 	{
 		return number_format($this->Meter, 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
 	}
@@ -174,7 +174,7 @@ class Elevation implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function stringFeet($withUnit = true)
+	public function stringFeet($withUnit = true): string
 	{
 		return number_format($this->feet(), 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
 	}

@@ -198,7 +198,7 @@ class PosterReceiver
     /**
      * @return string
      */
-    protected function exportDirectory()
+    protected function exportDirectory(): string
     {
         return $this->DataDir.'/poster/';
     }

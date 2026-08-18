@@ -65,7 +65,7 @@ class Route extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Route');
 	}
@@ -74,7 +74,7 @@ class Route extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return sprintf(
 			__('Route names are automatically cut after %u characters.'),

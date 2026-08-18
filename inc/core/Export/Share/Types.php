@@ -12,7 +12,7 @@ use Runalyze\View\Activity\Context;
 
 /**
  * Enum for share types and their internal ids
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Export\Share
  */

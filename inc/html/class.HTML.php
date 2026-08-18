@@ -19,7 +19,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function encodeTags($string) {
+	public static function encodeTags($string): string {
 		return str_replace(array('<', '>'), array('&lt;', '&gt;'), $string);
 	}
 
@@ -29,7 +29,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = '') {
+	public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = ''): string {
 		$colspan = ($colspan > 0) ? ' colspan="'.$colspan.'"' : '';
 		$class   = ($class != '') ? ' class="'.$class.'"' : '';
 
@@ -41,7 +41,7 @@ class HTML {
 	 * @param int $colspan colspan for empty TDs
 	 * @return string
 	 */
-	public static function emptyTR($colspan = 0) {
+	public static function emptyTR($colspan = 0): string {
 		return '<tr>'.self::emptyTD($colspan).'</tr>';
 	}
 
@@ -52,7 +52,7 @@ class HTML {
 	 * @param string $style optional css inline style
 	 * @return string
 	 */
-	public static function td($string, $class = '', $style = '') {
+	public static function td($string, $class = '', $style = ''): string {
 		if ($class != '')
 			$class = ' class="'.$class.'"';
 
@@ -68,7 +68,7 @@ class HTML {
 	 * @param int $emptyTDs Number of empty td before the month-td
 	 * @return string
 	 */
-	public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false) {
+	public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
 		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
 		$html = '<tr class="b">';
 
@@ -93,7 +93,7 @@ class HTML {
 	 * @param boolean $withTotal add last column for 'total'
 	 * @return string
 	 */
-	public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false) {
+	public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
 		$year = date('Y');
 		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
 		$html = '<tr class="b">';
@@ -118,7 +118,7 @@ class HTML {
 	 * @param int $colspan
 	 * @return string
 	 */
-	public static function spaceTR($colspan) {
+	public static function spaceTR($colspan): string {
 		return '<tr class="space"><td colspan="'.$colspan.'"></td></tr>';
 	}
 
@@ -127,7 +127,7 @@ class HTML {
 	 * @param string $text
 	 * @return string
 	 */
-	public static function h1($text) {
+	public static function h1($text): string {
 		return '<h1>'.$text.'</h1>';
 	}
 
@@ -159,7 +159,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function em($string) {
+	public static function em($string): string {
 		return '<em>'.$string.'</em>';
 	}
 
@@ -168,7 +168,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function p($string) {
+	public static function p($string): string {
 		return '<p class="text">'.$string.'</p>';
 	}
 
@@ -177,7 +177,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function info($string) {
+	public static function info($string): string {
 		return '<p class="info">'.$string.'</p>';
 	}
 
@@ -186,7 +186,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function error($string) {
+	public static function error($string): string {
 		return '<p class="error">'.$string.'</p>';
 	}
 
@@ -195,7 +195,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function warning($string) {
+	public static function warning($string): string {
 		return '<p class="warning">'.$string.'</p>';
 	}
 
@@ -204,7 +204,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function okay($string) {
+	public static function okay($string): string {
 		return '<p class="okay">'.$string.'</p>';
 	}
 
@@ -213,7 +213,7 @@ class HTML {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function fileBlock($string) {
+	public static function fileBlock($string): string {
 		return '<p class="file">'.$string.'</p>';
 	}
 
@@ -222,7 +222,7 @@ class HTML {
 	 * @param string $text
 	 * @return string
 	 */
-	public static function textareaTransform($text) {
+	public static function textareaTransform($text): string {
 		return stripslashes(str_replace('&', '&amp;', $text));
 	}
 
@@ -232,7 +232,7 @@ class HTML {
 	 * @param string $value value, if empty uses post-data
 	 * @return string
 	 */
-	public static function hiddenInput($name, $value = '') {
+	public static function hiddenInput($name, $value = ''): string {
 		if ($value == '' && isset($_POST[$name]))
 			$value = $_POST[$name];
 
@@ -246,7 +246,7 @@ class HTML {
 	 * @param bool $noHiddenSent
 	 * @return string
 	 */
-	public static function checkBox($name, $checked = -1, $noHiddenSent = false) {
+	public static function checkBox($name, $checked = -1, $noHiddenSent = false): string {
 		if ($checked === -1)
 			$checked = isset($_POST[$name]) && $_POST[$name] != 0;
 
@@ -261,7 +261,7 @@ class HTML {
 	 * @param mixed $value_to_be_checked [optional]
 	 * @return string
 	 */
-	public static function Checked($value, $value_to_be_checked = null) {
+	public static function Checked($value, $value_to_be_checked = null): string {
 		if ($value_to_be_checked !== null)
 			$value = ($value == $value_to_be_checked);
 		if ($value === null || ! isset($value))
@@ -281,7 +281,7 @@ class HTML {
 	 * @param string $class
 	 * @return string
 	 */
-	public static function selectBox($name, $options, $selected = false, $id = '', $class = '') {
+	public static function selectBox($name, $options, $selected = false, $id = '', $class = ''): string {
 		if ($selected === false && isset($_POST[$name]))
 			$selected = $_POST[$name];
 
@@ -312,7 +312,7 @@ class HTML {
 	 * @param mixed $value_to_be_checked [optional]
 	 * @return string
 	 */
-	public static function Selected($value, $value_to_be_checked = null) {
+	public static function Selected($value, $value_to_be_checked = null): string {
 		if ($value_to_be_checked !== null) {
 			if (is_array($value_to_be_checked))
 				$value = in_array($value, $value_to_be_checked);

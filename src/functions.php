@@ -13,7 +13,7 @@
  * @param string $text
  * @return string
  */
-function __($text)
+function __($text): string
 {
     return gettext($text);
 }
@@ -34,7 +34,7 @@ function _e($text)
  * @param int $n
  * @return string
  */
-function _n($msg1, $msg2, $n)
+function _n($msg1, $msg2, $n): string
 {
     return ngettext($msg1, $msg2, $n);
 }

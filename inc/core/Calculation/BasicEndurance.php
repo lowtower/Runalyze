@@ -267,7 +267,7 @@ class BasicEndurance
      * @param int $timestamp [optional] timestamp
      * @return string
      */
-    public function valueInPercent($timestamp = 0)
+    public function valueInPercent($timestamp = 0): string
     {
         return min(100, max(0, $this->value($timestamp))).' &#37;';
     }
@@ -277,7 +277,7 @@ class BasicEndurance
      * @param bool $onlyLongjogs [optional]
      * @return string
      */
-    public function getQuery($timestamp = 0, $onlyLongjogs = false)
+    public function getQuery($timestamp = 0, $onlyLongjogs = false): string
     {
         if ($timestamp == 0) {
             $timestamp = LocalTime::fromServerTime(time())->setTime(23, 59, 59)->getTimestamp();

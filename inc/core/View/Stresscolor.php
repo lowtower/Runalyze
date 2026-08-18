@@ -54,12 +54,12 @@ class Stresscolor {
 
 	/**
 	 * Scale value
-	 * 
+	 *
 	 * By default stress values are scaled in [0, 100].
 	 * This method can be used to transform a value from a different scale to [0, 100].
-	 * 
+	 *
 	 * After scaling the value you may need to used the text-parameter for the string display.
-	 * 
+	 *
 	 * @param float $from
 	 * @param float $to
 	 * @return \Runalyze\View\Stresscolor this-reference
@@ -73,7 +73,7 @@ class Stresscolor {
 	/**
 	 * @return string
 	 */
-	public function rgb() {
+	public function rgb(): string {
 		$hex = dechex(200 - 2*$this->value());
 
 		if (strlen($hex) == 1) {
@@ -85,15 +85,15 @@ class Stresscolor {
 
 	/**
 	 * String representation
-	 * 
+	 *
 	 * This will wrap the text in a span-tag with the computated color.
 	 * If you used another scale, make sure to display the appropriate text.
-	 * 
+	 *
 	 * @param string $text [optional]
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function string($text = '') {
+	public function string($text = ''): string {
 		if ($text == '') {
 			$text = $this->Value;
 		}

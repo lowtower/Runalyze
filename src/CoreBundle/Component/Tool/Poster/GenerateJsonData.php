@@ -39,7 +39,7 @@ class GenerateJsonData
     /**
      * @return string
      */
-    public function getPathToJsonFiles()
+    public function getPathToJsonFiles(): string
     {
         return $this->KernelRootDir.'/../var/tmp/'.$this->Directory;
     }

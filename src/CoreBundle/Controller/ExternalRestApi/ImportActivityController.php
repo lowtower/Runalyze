@@ -19,14 +19,14 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 /**
  * Uploads the files with this REST API and call the "runalyze:activity:bulk-import" to import the files.
  * The POST request must be a "multipart/form-data" to support multiple times in one request.
- * 
+ *
  * If no problems occur and all uploaded files are imported successfully a HTTP state 200 is returned otherwise (duplicates or failed) a state 202 is returned.
  * If there are technical trouble (while creating the tmp-folder, moving files ...) a HTTP state 500 is returned.
  * Additional infos and the output of the "runalyze:activity:bulk-import" are set in the response content as "Content-Type: text/plain"
- * 
+ *
  * example with 2 files:
  * curl -k -u "user:pwd" -H "Accept-Language: de,en" -X POST https://<domain>/api/import/activity -F 'file1=@afile.fit' -F 'file2=@another.fit' -w 'HttpCode: %{http_code}\n'
- * 
+ *
  * #TSC
  */
 class ImportActivityController extends Controller
@@ -36,13 +36,13 @@ class ImportActivityController extends Controller
 
     /**
      * import as REST api.
-     * 
+     *
      * basic steps:
      * - create a tmp folder under /tmp/<username_<timestamp>
      * - move uploaded files to the created tmp-folder
      * - call the existing command "runalyze:activity:bulk-import"
      * - cleanup: remove uploaded files and tmp-folder
-     * 
+     *
      * @Route("/api/import/activity")
      * @Security("has_role('ROLE_USER')")
      * @Method("POST")
@@ -59,7 +59,7 @@ class ImportActivityController extends Controller
 
             [data1] => Symfony\Component\HttpFoundation\File\UploadedFile Object
                 (
-                    [test:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 
+                    [test:Symfony\Component\HttpFoundation\File\UploadedFile:private] =>
                     [originalName:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 2020-10-09-15-26-00.fit
                     [mimeType:Symfony\Component\HttpFoundation\File\UploadedFile:private] => application/octet-stream
                     [size:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 162129
@@ -109,7 +109,7 @@ class ImportActivityController extends Controller
         }
     }
 
-    private function processFiles($username, $uploadDir, $allfiles) {
+    private function processFiles($username, $uploadDir, $allfiles): string {
         $result = '';
 
         // move from tmp-name (/tmp/phpOZLwMG) to the tmp-upload-folder (in error case an exception is thrown)

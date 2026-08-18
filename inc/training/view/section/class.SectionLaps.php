@@ -9,7 +9,7 @@ use Runalyze\Model\Trackdata;
 
 /**
  * Section: Laps
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */

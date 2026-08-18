@@ -40,7 +40,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	}
 
 	/**
-	 * Display long description 
+	 * Display long description
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p( __('There is no bad weather, there is only bad clothing.') );
@@ -116,7 +116,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	}
 
 	/**
-	 * Init data 
+	 * Init data
 	 */
 	protected function prepareForDisplay() {
 		$this->setSportsNavigation(true, true);

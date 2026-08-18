@@ -9,7 +9,7 @@ namespace Runalyze\Activity;
 
 /**
  * Groundcontact balance
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -27,7 +27,7 @@ class GroundcontactBalance implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public static function format($basispoint, $withUnit = true)
+	public static function format($basispoint, $withUnit = true): string
 	{
 		return (new self($basispoint))->string($withUnit);
 	}
@@ -44,7 +44,7 @@ class GroundcontactBalance implements ValueInterface
 	 * Label for stride length
 	 * @return string
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Groundcontact balance');
 	}
@@ -96,7 +96,7 @@ class GroundcontactBalance implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function string($withUnit = true)
+	public function string($withUnit = true): string
 	{
 		if ($this->isKnown()) {
 			$string = $this->leftInPercent().'L/'.$this->rightInPercent().'R';
@@ -114,7 +114,7 @@ class GroundcontactBalance implements ValueInterface
 	/**
 	 * @return string
 	 */
-	public function leftInPercent()
+	public function leftInPercent(): string
 	{
 		return number_format($this->BasisPoint/100, 1);
 	}
@@ -122,7 +122,7 @@ class GroundcontactBalance implements ValueInterface
 	/**
 	 * @return string
 	 */
-	public function rightInPercent()
+	public function rightInPercent(): string
 	{
 		return number_format(100 - $this->BasisPoint/100, 1);
 	}

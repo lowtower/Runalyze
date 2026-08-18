@@ -63,7 +63,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      * @param string $fileContent
      * @return string
      */
-    protected function addRootElement($fileContent)
+    protected function addRootElement($fileContent): string
     {
         $fileContent = substr($fileContent, strpos($fileContent, '>')+1);
 
@@ -131,7 +131,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     /**
      * @return string
      */
-    protected function getDeviceName()
+    protected function getDeviceName(): string
     {
         if (property_exists($this->Xml, 'Device')) {
             return (string) $this->Xml->Device->Name;

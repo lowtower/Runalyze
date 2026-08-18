@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains class::WeatherWindDegree 
+ * This file contains class::WeatherWindDegree
 * @package Runalyze\View\Activity\Box
  */
 
@@ -10,7 +10,7 @@ use Runalyze\Data\Weather\CardinalDirection;
 
 /**
  * Boxed value for Wind Degree
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Box

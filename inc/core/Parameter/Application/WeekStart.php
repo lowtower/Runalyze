@@ -145,7 +145,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * @param string $dateString
 	 * @return string Query part to select correct week number
 	 */
-	public function mysqlWeek($dateString) {
+	public function mysqlWeek($dateString): string {
 		if ($this->isSunday()) {
 			return 'WEEK(DATE_ADD('.$dateString.', INTERVAL 1 DAY), 3)';
 		}
@@ -157,7 +157,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * @param string $dateString
 	 * @return string
 	 */
-	public function mysqlYearWeek($dateString) {
+	public function mysqlYearWeek($dateString): string {
 		return 'YEAR'.$this->mysqlWeek($dateString);
 	}
 

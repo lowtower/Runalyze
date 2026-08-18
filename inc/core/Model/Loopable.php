@@ -9,7 +9,7 @@ namespace Runalyze\Model;
 
 /**
  * Loopable object
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
@@ -22,7 +22,7 @@ interface Loopable {
 
 	/**
 	 * Value at
-	 * 
+	 *
 	 * Remark: This method may throw index offsets.
 	 * @param int $index
 	 * @param int $key enum

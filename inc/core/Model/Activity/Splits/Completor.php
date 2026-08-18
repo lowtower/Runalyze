@@ -9,7 +9,7 @@ namespace Runalyze\Model\Activity\Splits;
 
 /**
  * Completor for splits: fill missing values from trackdata array
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */

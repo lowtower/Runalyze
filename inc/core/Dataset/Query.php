@@ -135,7 +135,7 @@ class Query
 	/**
 	 * @return string
 	 */
-	public function queryToSelectJoinedFields()
+	public function queryToSelectJoinedFields(): string
 	{
 		$query = '';
 
@@ -149,7 +149,7 @@ class Query
 	/**
 	 * @return string
 	 */
-	public function queryToJoinTables()
+	public function queryToJoinTables(): string
 	{
 		$query = '';
 
@@ -255,7 +255,7 @@ class Query
 	/**
 	 * @return string
 	 */
-	protected function queryToSummarizeActiveKeys()
+	protected function queryToSummarizeActiveKeys(): string
 	{
 		$columnSelects = array();
 
@@ -278,7 +278,7 @@ class Query
 	 * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
 	 * @return string
 	 */
-	public function queryToSelectAllKeys()
+	public function queryToSelectAllKeys(): string
 	{
 		return $this->queryToSelectKeys(
 			$this->collectColumnsForKeys($this->Configuration->allKeys())
@@ -290,7 +290,7 @@ class Query
 	 * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
 	 * @return string
 	 */
-	public function queryToSelectActiveKeys()
+	public function queryToSelectActiveKeys(): string
 	{
 		return $this->queryToSelectKeys(
 			$this->collectColumnsForKeys($this->Configuration->activeKeys())
@@ -301,7 +301,7 @@ class Query
 	 * @param array $arrayOfKeys
 	 * @return string
 	 */
-	protected function queryToSelectKeys(array $arrayOfKeys)
+	protected function queryToSelectKeys(array $arrayOfKeys): string
 	{
 		return empty($arrayOfKeys) ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
 	}
@@ -361,7 +361,7 @@ class Query
 	 * @param string $asColumn optional column key that is used in returned data row
 	 * @return string
 	 */
-	protected function queryToSelectTimerange($timerange, $timeEnd = false, $asColumn = 'timerange')
+	protected function queryToSelectTimerange($timerange, $timeEnd = false, $asColumn = 'timerange'): string
 	{
 		$timeEnd = $timeEnd ?: LocalTime::now();
 
@@ -379,7 +379,7 @@ class Query
 	 * @param int|bool $timeEnd default: LocalTime::now()
 	 * @return string
 	 */
-	protected function whereTimeIsBetween($timeStart = 0, $timeEnd = false)
+	protected function whereTimeIsBetween($timeStart = 0, $timeEnd = false): string
 	{
 		$timeEnd = $timeEnd ?: LocalTime::now();
 

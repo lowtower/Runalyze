@@ -56,7 +56,7 @@ class DisplayableValue
      * @param bool|string $thousandsSeparator
      * @return string value and unit, separated by '&nbsp;'
      */
-    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         return $this->getValue($decimals, $decimalPoint, $thousandsSeparator).'&nbsp;'.$this->getUnit();
     }
@@ -67,7 +67,7 @@ class DisplayableValue
      * @param bool|string $thousandsSeparator
      * @return string
      */
-    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false)
+    public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
         return number_format(
             $this->Value,

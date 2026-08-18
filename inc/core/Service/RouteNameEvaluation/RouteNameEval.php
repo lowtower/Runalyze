@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 /**
  * Interface for retrieving route details from a external service.
- * #TSC 
+ * #TSC
  */
 interface RouteNameEval {
     /**
      * Retrieves the route-name and some other relevant informations of the route.
-     * 
+     *
      * @param Sport $sport
      * @param Route $route
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult

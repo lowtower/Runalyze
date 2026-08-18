@@ -12,43 +12,43 @@
 class FormularInput extends FormularField {
 	/**
 	 * Size: full inline
-	 * @var string 
+	 * @var string
 	 */
 	public static $SIZE_FULL_INLINE = 'full-size';
 
 	/**
 	 * Size: full
-	 * @var string 
+	 * @var string
 	 */
 	public static $SIZE_FULL = 'fullwidth';
 
 	/**
 	 * Size: middle
-	 * @var string 
+	 * @var string
 	 */
 	public static $SIZE_MIDDLE = 'middle-size';
 
 	/**
 	 * Size: small
-	 * @var string 
+	 * @var string
 	 */
 	public static $SIZE_SMALL = 'small-size';
 
 	/**
 	 * Standard size for fields
-	 * @var string 
+	 * @var string
 	 */
 	static private $standardSize = 'small-size';
 
 	/**
 	 * Size
-	 * @var string 
+	 * @var string
 	 */
 	protected $size = '';
 
 	/**
 	 * Unit
-	 * @var string 
+	 * @var string
 	 */
 	protected $unit = '';
 
@@ -66,14 +66,14 @@ class FormularInput extends FormularField {
 
 	/**
 	 * Set standard size, used when no specific size is set (may be overwritten by css)
-	 * @param string $size 
+	 * @param string $size
 	 */
 	public static function setStandardSize($size) {
 		self::$standardSize = $size;
 	}
 
 	/**
-	 * Set label to the right side 
+	 * Set label to the right side
 	 */
 	public function setLabelToRight() {
 		$this->labelOnRight = true;
@@ -88,7 +88,7 @@ class FormularInput extends FormularField {
 
 	/**
 	 * Size size for this input field
-	 * @param string $size 
+	 * @param string $size
 	 */
 	public function setSize($size) {
 		$this->size = $size;
@@ -96,21 +96,21 @@ class FormularInput extends FormularField {
 
 	/**
 	 * Set specific unit for this input field
-	 * @param string $unit 
+	 * @param string $unit
 	 */
 	public function setUnit($unit) {
 		$this->unit = $unit;
 	}
 
 	/**
-	 * Set input field disabled 
+	 * Set input field disabled
 	 */
 	public function setDisabled() {
 		$this->addAttribute('disabled', 'disabled');
 	}
 
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->addAttribute('type', 'text');
@@ -122,7 +122,7 @@ class FormularInput extends FormularField {
 	}
 
 	/**
-	 * Add unit and size as css-classes 
+	 * Add unit and size as css-classes
 	 */
 	protected function addUnitAndSize() {
 		if (! empty($this->size))
@@ -143,7 +143,7 @@ class FormularInput extends FormularField {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		$label = '<label for="'.$this->name.'">'.$this->label.'</label>';
 		$input = $this->wrapInputTagForUnit('<input '.$this->attributes().'>');
 

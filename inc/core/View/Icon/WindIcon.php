@@ -72,7 +72,7 @@ class WindIcon extends \Runalyze\View\Icon
      * Display
      * @return string
      */
-    public function code()
+    public function code(): string
     {
         if ($this->WindSpeed->isUnknown() && $this->WindDegree->isUnknown()) {
             return '';

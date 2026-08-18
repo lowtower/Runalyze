@@ -75,7 +75,7 @@ class ModelQuery
     /**
      * @return string
      */
-    private function query()
+    private function query(): string
     {
         if (null === $this->From && null === $this->To) {
             $Where = '1';

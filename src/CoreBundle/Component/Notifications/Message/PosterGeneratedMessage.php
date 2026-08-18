@@ -30,7 +30,7 @@ class PosterGeneratedMessage implements MessageInterface
         return MessageTypeProfile::POSTER_GENERATED_MESSAGE;
     }
 
-    public function getData()
+    public function getData(): string
     {
         return (string) $this->State;
     }

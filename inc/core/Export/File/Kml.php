@@ -180,7 +180,7 @@ class Kml extends AbstractFileExporter
      * Get name for route in kml-file
      * @return string
      */
-    protected function nameForKml()
+    protected function nameForKml(): string
     {
         return $this->Context->dataview()->date('Y-m-d').': '.$this->Context->dataview()->titleWithComment();
     }
@@ -213,7 +213,7 @@ class Kml extends AbstractFileExporter
      * @param string $rgb
      * @return string
      */
-    public static function rgbToKmlColor($rgb)
+    public static function rgbToKmlColor($rgb): string
     {
         if (strlen($rgb) == 7) {
             $rgb = substr($rgb, 1);

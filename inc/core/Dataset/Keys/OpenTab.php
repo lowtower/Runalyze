@@ -12,7 +12,7 @@ use Runalyze\Dataset\Context;
 /**
  * Dataset key: OpenTab
  * Open the activity in a new Browser tab/window
- * 
+ *
  * @author TSC
  * @package Runalyze\Dataset\Keys
  */
@@ -48,7 +48,7 @@ class OpenTab extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Open new tab');
 	}
@@ -75,7 +75,7 @@ class OpenTab extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'Open the activity in a new browser tab/window'
@@ -87,7 +87,7 @@ class OpenTab extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		$id = $context->activity()->id();
         if ($id > 0) {
@@ -97,7 +97,7 @@ class OpenTab extends AbstractKey
         return '';
 	}
 
-    public function stringForExample(Context $context)
+    public function stringForExample(Context $context): string
     {
         return '<span class="link">' . $this->getCodeForIcon() . '</span>';
     }

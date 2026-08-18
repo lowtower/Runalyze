@@ -14,7 +14,7 @@ use Runalyze\Model\Activity\Splits;
 
 /**
  * Object of laps
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Data\Laps
  */

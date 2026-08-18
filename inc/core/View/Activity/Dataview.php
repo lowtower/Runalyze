@@ -159,7 +159,7 @@ class Dataview
     /**
      * @return string
      */
-    public function dateAndDaytime()
+    public function dateAndDaytime(): string
     {
         return $this->date().' '.$this->daytime();
     }
@@ -189,7 +189,7 @@ class Dataview
     /**
      * @return string
      */
-    public function elapsedTime()
+    public function elapsedTime(): string
     {
         if ($this->Activity->elapsedTime() < $this->Activity->duration())
             return '-:--:--';
@@ -201,7 +201,7 @@ class Dataview
      * @param int|null $decimals
      * @return string
      */
-    public function distance($decimals = null)
+    public function distance($decimals = null): string
     {
         if (null === $decimals) {
             $decimals = Configuration::ActivityView()->decimals();
@@ -221,7 +221,7 @@ class Dataview
     /**
      * @return string
      */
-    public function distanceWithoutEmptyDecimals()
+    public function distanceWithoutEmptyDecimals(): string
     {
         $distance = $this->Activity->distance();
         $decimals = ($distance == floor($distance)) ? 0 : null;
@@ -296,7 +296,7 @@ class Dataview
     /**
      * @return string
      */
-    public function trimp()
+    public function trimp(): string
     {
         $Stress = new Stresscolor($this->Activity->trimp());
 
@@ -320,7 +320,7 @@ class Dataview
     /**
      * @return string
      */
-    public function fitVO2maxEstimate()
+    public function fitVO2maxEstimate(): string
     {
         if ($this->Activity->fitVO2maxEstimate() > 0) {
             return number_format($this->Activity->fitVO2maxEstimate(), 2);
@@ -332,7 +332,7 @@ class Dataview
     /**
      * @return string
      */
-    public function fitRecoveryTime()
+    public function fitRecoveryTime(): string
     {
         if ($this->Activity->fitRecoveryTime() > 0) {
             $hours = $this->Activity->fitRecoveryTime() / 60;
@@ -350,7 +350,7 @@ class Dataview
     /**
      * @return string
      */
-    public function fitHRVscore()
+    public function fitHRVscore(): string
     {
         if ($this->Activity->fitHRVscore() > 0) {
             $hue = 128 - 64 * ($this->Activity->fitHRVscore() / 1000);
@@ -366,7 +366,7 @@ class Dataview
      * #TSC The Hauptnutzen of the training
      * @return string
      */
-    public function fitTrainingEffectBenefit()
+    public function fitTrainingEffectBenefit(): string
     {
         if ($this->Activity->fitTrainingEffectBenefit()) {
             return FitTrainingEffectBenefit::descriptionFromNum($this->Activity->fitTrainingEffectBenefit());
@@ -378,17 +378,17 @@ class Dataview
     /**
      * @return string
      */
-    public function fitTrainingEffect()
+    public function fitTrainingEffect(): string
     {
         return TrainingEffect::format($this->Activity->fitTrainingEffect());
     }
 
     /**
      * #TSC: This method returns the anaerobic value to display in the dataview (main)-table from the loaded activity.
-     * 
+     *
      * @return string
      */
-    public function fitAnaerobicTrainingEffect()
+    public function fitAnaerobicTrainingEffect(): string
     {
         return AnaerobicTrainingEffect::format($this->Activity->fitAnaerobicTrainingEffect());
     }
@@ -396,7 +396,7 @@ class Dataview
     /**
      * @return string
      */
-    public function fitPerformanceCondition()
+    public function fitPerformanceCondition(): string
     {
         $start = null !== $this->Activity->fitPerformanceCondition() ? $this->fitPerformanceConditionStart() : '0';
         $end = null !== $this->Activity->fitPerformanceConditionEnd() ? $this->fitPerformanceConditionEnd() : '0';
@@ -427,7 +427,7 @@ class Dataview
     /**
      * @return string power with unit
      */
-    public function power()
+    public function power(): string
     {
         if ($this->Activity->power() > 0)
             return round($this->Activity->power()).'&nbsp;W';
@@ -438,7 +438,7 @@ class Dataview
     /**
      * @return string ground contact time with unit
      */
-    public function groundcontact()
+    public function groundcontact(): string
     {
         if ($this->Activity->groundcontact() > 0)
             return round($this->Activity->groundcontact()).'&nbsp;ms';
@@ -449,7 +449,7 @@ class Dataview
     /**
      * @return string ground contact balance with unit
      */
-    public function groundcontactBalance()
+    public function groundcontactBalance(): string
     {
         if ($this->Activity->groundContactBalance() > 0) {
             return GroundcontactBalance::format($this->Activity->groundContactBalance());
@@ -461,7 +461,7 @@ class Dataview
     /**
      * @return string vertical oscillation with unit
      */
-    public function verticalOscillation()
+    public function verticalOscillation(): string
     {
         if ($this->Activity->verticalOscillation() > 0)
             return number_format($this->Activity->verticalOscillation() / 10, 1).'&nbsp;cm';
@@ -472,7 +472,7 @@ class Dataview
     /**
      * @return string
      */
-    public function verticalRatio()
+    public function verticalRatio(): string
     {
         if ($this->Activity->verticalRatio() > 0) {
             return VerticalRatio::format($this->Activity->verticalRatio());
@@ -484,7 +484,7 @@ class Dataview
     /**
      * @return string
      */
-    public function flightTime()
+    public function flightTime(): string
     {
         $flightTime = $this->Activity->flightTime();
 
@@ -498,7 +498,7 @@ class Dataview
     /**
      * @return string
      */
-    public function flightRatio()
+    public function flightRatio(): string
     {
         $flightRatio = $this->Activity->flightRatio();
 
@@ -512,7 +512,7 @@ class Dataview
     /**
      * @return string
      */
-    public function impactGs()
+    public function impactGs(): string
     {
         return $this->formatRunScribeValues($this->Activity->impactGsLeft(), $this->Activity->impactGsRight());
     }
@@ -520,7 +520,7 @@ class Dataview
     /**
      * @return string
      */
-    public function brakingGs()
+    public function brakingGs(): string
     {
         return $this->formatRunScribeValues($this->Activity->brakingGsLeft(), $this->Activity->brakingGsRight());
     }
@@ -528,7 +528,7 @@ class Dataview
     /**
      * @return string
      */
-    public function footstrikeType()
+    public function footstrikeType(): string
     {
         return $this->formatRunScribeValues($this->Activity->footstrikeTypeLeft(), $this->Activity->footstrikeTypeRight(), 0);
     }
@@ -536,7 +536,7 @@ class Dataview
     /**
      * @return string
      */
-    public function pronationExcursion()
+    public function pronationExcursion(): string
     {
         return $this->formatRunScribeValues($this->Activity->pronationExcursionLeft(), $this->Activity->pronationExcursionRight());
     }
@@ -547,7 +547,7 @@ class Dataview
      * @param int $precision
      * @return string
      */
-    protected function formatRunScribeValues($left, $right, $precision = 1)
+    protected function formatRunScribeValues($left, $right, $precision = 1): string
     {
         return $this->formatTwoPartValue(
             null !== $left ? number_format($left, $precision) : '-',
@@ -608,7 +608,7 @@ class Dataview
     /**
      * @return string gradient in percent with percent sign
      */
-    public function gradientInPercent()
+    public function gradientInPercent(): string
     {
         if ($this->Activity->distance() == 0)
             return '-';
@@ -646,7 +646,7 @@ class Dataview
     /**
      * @return string
      */
-    public function partner()
+    public function partner(): string
     {
         return HTML::encodeTags($this->Activity->partner()->asString());
     }
@@ -654,7 +654,7 @@ class Dataview
     /**
      * @return string
      */
-    public function partnerAsLinks()
+    public function partnerAsLinks(): string
     {
         if (\Request::isOnSharedPage()) {
             return $this->partner();
@@ -672,7 +672,7 @@ class Dataview
     /**
      * @return string
      */
-    public function notes()
+    public function notes(): string
     {
         return nl2br(HTML::encodeTags($this->Activity->notes()));
     }
@@ -728,7 +728,7 @@ class Dataview
     /**
      * @return string
      */
-    public function climbScore()
+    public function climbScore(): string
     {
         if (null !== $this->Activity->climbScore()) {
             return number_format($this->Activity->climbScore(), 1);
@@ -740,7 +740,7 @@ class Dataview
     /**
      * @return string
      */
-    public function percentageHilly()
+    public function percentageHilly(): string
     {
         if (null !== $this->Activity->percentageHilly()) {
             return (100 * $this->Activity->percentageHilly()).'&nbsp;&#37;';
@@ -755,7 +755,7 @@ class Dataview
      * @param string $empty
      * @return string
      */
-    protected function formatTwoPartValue($leftString, $rightString, $empty = '-')
+    protected function formatTwoPartValue($leftString, $rightString, $empty = '-'): string
     {
         if ($empty == $leftString && $empty == $rightString) {
             return '';

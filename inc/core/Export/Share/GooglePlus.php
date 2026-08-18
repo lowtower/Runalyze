@@ -11,7 +11,7 @@ use System;
 
 /**
  * Exporter for: Google+
- * 
+ *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Export\Share
@@ -37,7 +37,7 @@ class GooglePlus extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function url()
+    public function url(): string
     {
         return 'https://plus.google.com/share?url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=googleplus');
     }
@@ -45,7 +45,7 @@ class GooglePlus extends AbstractSocialSharer
     /**
      * @return string
      */
-	public function name()
+	public function name(): string
     {
 	    return __('Google+');
 	}

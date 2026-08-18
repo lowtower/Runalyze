@@ -9,7 +9,7 @@ namespace Runalyze\Activity;
 
 /**
  * Vertical ratio
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -27,7 +27,7 @@ class VerticalRatio implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public static function format($permille, $withUnit = true)
+	public static function format($permille, $withUnit = true): string
 	{
 		return (new self($permille))->string($withUnit);
 	}
@@ -44,7 +44,7 @@ class VerticalRatio implements ValueInterface
 	 * Label for stride length
 	 * @return string
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Vertical ratio');
 	}
@@ -105,7 +105,7 @@ class VerticalRatio implements ValueInterface
 	 * @param bool $withUnit
 	 * @return string
 	 */
-	public function string($withUnit = true)
+	public function string($withUnit = true): string
 	{
 		if ($this->Permille > 0) {
 			return number_format($this->Permille/10, 1, '.', '').($withUnit ? '&nbsp;%' : '');

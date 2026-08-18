@@ -11,7 +11,7 @@ use Runalyze\Model\Trackdata;
 
 /**
  * Smooth pace curve
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Activity
  */
@@ -133,7 +133,7 @@ class PaceSmoother {
 
 	/**
 	 * Run fast smoothing for step size
-	 * 
+	 *
 	 * Although this does not look nice and is not the cleanest code,
 	 * direct access to the arrays is approx. 5-times faster.
 	 * (0.02s vs 0.11s for an array of 10.000 elements)

@@ -23,7 +23,7 @@ class ServerParams
     /**
      * @return string
      */
-    public function getNormalizedIniPostMaxSize()
+    public function getNormalizedIniPostMaxSize(): string
     {
         return strtoupper(trim(ini_get('post_max_size')));
     }
@@ -31,7 +31,7 @@ class ServerParams
     /**
      * @return string
      */
-    public function getNormalizedIniUploadMaxFilesize()
+    public function getNormalizedIniUploadMaxFilesize(): string
     {
         return strtoupper(trim(ini_get('upload_max_filesize')));
     }

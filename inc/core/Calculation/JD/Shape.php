@@ -88,7 +88,7 @@ class Shape
      * @param bool $withElevation
      * @return string
      */
-    public static function mysqlVO2maxSum($withElevation = false)
+    public static function mysqlVO2maxSum($withElevation = false): string
     {
         return '`'.self::getVO2maxColumn($withElevation).'`*`s`*`use_vo2max`';
     }
@@ -101,7 +101,7 @@ class Shape
      * @param bool $withElevation
      * @return string
      */
-    public static function mysqlVO2maxSumTime($withElevation = false)
+    public static function mysqlVO2maxSumTime($withElevation = false): string
     {
         return '`s`*`use_vo2max`*(`'.self::getVO2maxColumn($withElevation).'` > 0)';
     }
@@ -110,7 +110,7 @@ class Shape
      * @param bool $withElevation
      * @return string column name without backticks
      */
-    public static function getVO2maxColumn($withElevation = false)
+    public static function getVO2maxColumn($withElevation = false): string
     {
         return $withElevation ? 'vo2max_with_elevation' : 'vo2max';
     }

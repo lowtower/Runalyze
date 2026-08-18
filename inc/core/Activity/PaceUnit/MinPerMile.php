@@ -38,10 +38,10 @@ class MinPerMile extends AbstractTimeUnit
 
 	/**
 	 * Factor to transform 's/km' to current unit
-	 * 
+	 *
 	 * This should only be used for time formats.
 	 * 's/km' * factorForUnit() = [time in seconds per distance]
-	 * 
+	 *
 	 * @return float
 	 * @throws \RuntimeException
 	 */

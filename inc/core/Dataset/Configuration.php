@@ -11,7 +11,7 @@ use Runalyze\Profile\View\DatasetPrivacyProfile;
 
 /**
  * Dataset configuration from database
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset
  */

@@ -36,12 +36,12 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
         return 'fit';
     }
 
-    public function getConvertedFileName($inputFile)
+    public function getConvertedFileName($inputFile): string
     {
         return $inputFile.'temp';
     }
 
-    protected function buildCommand($inputFile, $outputFile)
+    protected function buildCommand($inputFile, $outputFile): string
     {
         return sprintf('%s %s "%s" 1>"%s"', $this->PathToPerl, $this->PathToFitPerlScript, $inputFile, $outputFile);
     }

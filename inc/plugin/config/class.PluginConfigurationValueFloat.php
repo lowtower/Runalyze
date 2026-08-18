@@ -12,7 +12,7 @@
 class PluginConfigurationValueFloat extends PluginConfigurationValue {
 	/**
 	 * Set value from string
-	 * 
+	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */

@@ -167,7 +167,7 @@ class Pace {
 	 * Value with appendix
 	 * @return string
 	 */
-	public function valueWithAppendix() {
+	public function valueWithAppendix(): string {
 		return $this->value().$this->appendix();
 	}
 
@@ -222,7 +222,7 @@ class Pace {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function compareTo(Pace $other, $raw = false) {
+	public function compareTo(Pace $other, $raw = false): string {
 		if ($this->unitEnum() != $other->unitEnum()) {
 			throw new \InvalidArgumentException('Pace objects must have the same unit.');
 		}
@@ -248,7 +248,7 @@ class Pace {
 	 * @param boolean $raw [optional]
 	 * @return string
 	 */
-	protected function formatComparison($string, $isPositive, $raw = false) {
+	protected function formatComparison($string, $isPositive, $raw = false): string {
 		$class = ($isPositive) ? 'plus' : 'minus';
 		$sign = ($isPositive) ? '+' : '-';
 

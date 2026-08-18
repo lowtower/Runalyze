@@ -11,8 +11,8 @@ use Runalyze\Model;
 
 /**
  * RaceResult entity
- * 
- * @author Hannes Christiansen 
+ *
+ * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Model\RaceResult
  */

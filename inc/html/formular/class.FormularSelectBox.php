@@ -23,7 +23,7 @@ class FormularSelectBox extends FormularField {
 	protected $multiple = false;
 
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		// No attributes needed, HTML-function used
@@ -39,7 +39,7 @@ class FormularSelectBox extends FormularField {
 	/**
 	 * Add option to selectBox
 	 * @param mixed $key
-	 * @param string $text 
+	 * @param string $text
 	 * @param array $attributes
 	 */
 	public function addOption($key, $text, $attributes = array()) {
@@ -63,7 +63,7 @@ class FormularSelectBox extends FormularField {
 	 * Display this field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		if ($this->multiple)
 			$this->addAttribute('multiple', 'multiple');
 

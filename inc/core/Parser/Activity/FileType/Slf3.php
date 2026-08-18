@@ -95,7 +95,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     /**
      * @return string
      */
-    protected function findCreator()
+    protected function findCreator(): string
     {
         $string = '';
 

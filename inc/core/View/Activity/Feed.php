@@ -131,7 +131,7 @@ class Feed
      * @param ValueExtension $valueDecorator
      * @return string
      */
-    private function createItemContent(Training $activity, ValueExtension $valueDecorator)
+    private function createItemContent(Training $activity, ValueExtension $valueDecorator): string
     {
         $content = '<b>'.$this->Translator->trans('Sport') . '</b>: ' . $activity->getSport()->getName();
 
@@ -188,7 +188,7 @@ class Feed
      * @param ValueExtension $valueDecorator
      * @return string
      */
-    private function getFeedTitle(Training $activity, ValueExtension $valueDecorator)
+    private function getFeedTitle(Training $activity, ValueExtension $valueDecorator): string
     {
         $title = $activity->getSport()->getName();
 

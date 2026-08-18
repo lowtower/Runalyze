@@ -74,7 +74,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	}
 
 	/**
-	 * Init data 
+	 * Init data
 	 */
 	protected function prepareForDisplay() {
 		$this->setSportsNavigation(true, true);
@@ -118,7 +118,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	}
 
 	/**
-	 * Display the table with summed data for every month 
+	 * Display the table with summed data for every month
 	 */
 	private function displayData() {
 		echo '<p><strong>'.__('Tag').': '.$this->AllTags[$this->TagId].'</p>';

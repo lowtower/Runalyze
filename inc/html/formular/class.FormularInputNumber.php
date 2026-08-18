@@ -23,7 +23,7 @@ class FormularInputNumber extends FormularInput {
 	protected $max;
 
 	/**
-	 * Prepare for beeing displayed 
+	 * Prepare for beeing displayed
 	 */
 	protected function prepareForDisplay() {
 		$this->addAttribute('type', 'number');

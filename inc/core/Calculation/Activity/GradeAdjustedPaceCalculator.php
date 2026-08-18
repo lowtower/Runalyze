@@ -14,7 +14,7 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
 /**
  * Calculate pace with grade adjustment based on Minetti.
- * It exists already the "grade adjusted pace" in Runalyze 4.3.0 - details 
+ * It exists already the "grade adjusted pace" in Runalyze 4.3.0 - details
  * inc/core/Sports/Running/GradeAdjustedPace/Algorithm/Minetti.php.
  * This (and the underlying algorithm from Minetti) only works for running!!! (not walking or hiking)
  *
@@ -22,7 +22,7 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
  * https://journals.physiology.org/doi/full/10.1152/japplphysiol.01177.2001
  * https://forum.runalyze.com/viewtopic.php?f=35&t=566&p=2458&hilit=gap#p2458
  * https://github.com/gerhardol/trails/blob/master/Data/SpeedGradeAdjust.cs
- * 
+ *
  * @author codeproducer
  * @package Runalyze\Calculation\Activity
  */
@@ -58,7 +58,7 @@ class GradeAdjustedPaceCalculator {
 
 	/**
 	 * Calculate the pace
-     * 
+     *
 	 * @param Runalyze\View\Activity\Context $context
 	 */
 	public function __construct(Activity\Context $context) {
@@ -72,7 +72,7 @@ class GradeAdjustedPaceCalculator {
     /**
      * get the gradient series from elevation/distance as numbers from -90 to +90.
      * same as GradeAdjustedPace.php.
-     * 
+     *
      * @param Activity\Context $context
      * @return array
      */

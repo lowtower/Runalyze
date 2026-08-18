@@ -38,10 +38,10 @@ class MilesPerHour extends AbstractDecimalUnit
 
 	/**
 	 * Dividend to transform 's/km' to current unit
-	 * 
+	 *
 	 * This should only be used for decimal formats.
 	 * dividendForUnit() / 's/km' = [decimal pace value]
-	 * 
+	 *
 	 * @return float
 	 * @throws \RuntimeException
 	 */

@@ -9,7 +9,7 @@ use Runalyze\Util\LocalTime;
 
 /**
  * Summary table for dataset/data browser
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
  */

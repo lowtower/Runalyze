@@ -65,7 +65,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Analysis');
 	}
 
@@ -73,7 +73,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Analyze your training (only running) by means of pace, heart rate and different types.');
 	}
 
@@ -126,7 +126,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		$this->setToolbarNavigationLinks(array($LinkList));
 	}
 
-	private function getAnalysisType() {
+	private function getAnalysisType(): string {
 		$types = [
 		    '' => __('in percent'),
 		    'km' => __('by distance'),
@@ -312,7 +312,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 * @param float $percentage
 	 * @return string
 	 */
-	private function getBarFor($percentage) {
+	private function getBarFor($percentage): string {
 		$width = min(95, round($percentage));
 		$opacity = round($percentage/100, 2);
 		return '<div class="analysis-bar" style="width:'.$width.'%;opacity:'.$opacity.';"></div>';

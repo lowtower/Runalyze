@@ -12,7 +12,7 @@ use Runalyze\Dataset\Context;
 
 /**
  * Dataset key: SharedLink
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */
@@ -40,7 +40,7 @@ class SharedLink extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return __('Public link');
 	}
@@ -58,7 +58,7 @@ class SharedLink extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function description()
+	public function description(): string
 	{
 		return __(
 			'You can decide for each activity whether it is visible for '.
@@ -71,7 +71,7 @@ class SharedLink extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		if ($context->activity()->isPublic()) {
 			return '<a href="'.$context->linker()->publicUrl().'" target="_blank">'.Icon::$ATTACH.'</a>';

@@ -36,7 +36,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * Name
 	 * @return string
 	 */
-	final public function name()
+	final public function name(): string
 	{
 		return __('Goals');
 	}
@@ -45,7 +45,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * Description
 	 * @return string
 	 */
-	final public function description()
+	final public function description(): string
 	{
 		return __('Set your own goals for different time ranges and compare your current performance with them.');
 	}
@@ -93,7 +93,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * Method for getting the right symbol(s)
 	 * @see PluginPanel::getRightSymbol()
 	 */
-	protected function getRightSymbol()
+	protected function getRightSymbol(): string
 	{
 		$isFirst = true;
 		$Code = '<ul class="submenu">';

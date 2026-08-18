@@ -11,7 +11,7 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
 
 /**
  * Collect data from trackdata for stride length
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */

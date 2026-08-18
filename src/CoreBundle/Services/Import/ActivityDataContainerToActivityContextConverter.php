@@ -430,7 +430,7 @@ class ActivityDataContainerToActivityContextConverter
         $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric);
 
         if (! empty($container->ContinuousData->Altitude)) {
-            // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)" 
+            // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)"
             // in case of IsAltitudeDataBarometric; this is not necessary anymore
 
             // TSC: save only the original fields - so if the correction is removed we have the originals

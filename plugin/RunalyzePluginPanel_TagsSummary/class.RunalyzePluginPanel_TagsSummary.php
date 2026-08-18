@@ -36,7 +36,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * Name
 	 * @return string
 	 */
-	final public function name() {
+	final public function name(): string {
 		return __('Tags summary');
 	}
 
@@ -44,7 +44,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * Description
 	 * @return string
 	 */
-	final public function description() {
+	final public function description(): string {
 		return __('Summarises your tags for the selected sport.');
 	}
 
@@ -101,7 +101,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	/**
 	 * Method for getting the right symbol(s)
 	 */
-	protected function getRightSymbol() {
+	protected function getRightSymbol(): string {
 		$CurrentSport = '';
 		$SportLinks = [];
 		$CurrentTimescale = '';
@@ -196,7 +196,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * @param float $percentage [0.0 .. 1.0]
 	 * @return string
 	 */
-	protected function getUsageImage($percentage) {
+	protected function getUsageImage($percentage): string {
 		return '<span class="tags-usage" style="width:'.round($percentage * 330).'px;"></span>';
 	}
 }

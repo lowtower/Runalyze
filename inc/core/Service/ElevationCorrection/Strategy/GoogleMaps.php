@@ -61,7 +61,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         return true;
     }
 
-    protected function getUrlFor(array $latitudes, array $longitudes)
+    protected function getUrlFor(array $latitudes, array $longitudes): string
     {
         $numberOfCoordinates = count($latitudes);
         $coordinates = [];

@@ -24,12 +24,12 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
         return 'ttbin';
     }
 
-    public function getConvertedFileName($inputFile)
+    public function getConvertedFileName($inputFile): string
     {
         return $inputFile.'.tcx';
     }
 
-    protected function buildCommand($inputFile, $outputFile)
+    protected function buildCommand($inputFile, $outputFile): string
     {
         return sprintf('%s -t -E < "%s" > "%s"', $this->PathToConverter, $inputFile, $outputFile);
     }

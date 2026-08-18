@@ -9,7 +9,7 @@ namespace Runalyze\Dataset\Keys;
 
 /**
  * Abstract class for dataset keys that require equipment
- * 
+ *
  * @author Hannes Christiansen
  * @package Runalyze\Dataset\Keys
  */

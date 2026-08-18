@@ -28,7 +28,7 @@ class FormularSelectSearchSort extends FormularField {
 	 * Get code for displaying the field
 	 * @return string
 	 */
-	protected function getFieldCode() {
+	protected function getFieldCode(): string {
 		$code  = '<label>'.$this->label.'</label>';
 		$code .= '<div class="full-size left">';
 

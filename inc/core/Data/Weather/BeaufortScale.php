@@ -56,7 +56,7 @@ class BeaufortScale implements ValueInterface
 	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
 	 * @return string
 	 */
-	public static function getShortString(WindSpeed $windSpeed)
+	public static function getShortString(WindSpeed $windSpeed): string
 	{
         return (new self($windSpeed))->shortString();
 	}
@@ -113,7 +113,7 @@ class BeaufortScale implements ValueInterface
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function longString()
+	public function longString(): string
 	{
 		switch ($this->btf) {
 			case 0:
@@ -151,7 +151,7 @@ class BeaufortScale implements ValueInterface
 	 * Short string
 	 * @return string
 	 */
-	public function shortString()
+	public function shortString(): string
 	{
 	    if ($this->isValid()) {
 			return $this->Btf.' btf';
@@ -165,7 +165,7 @@ class BeaufortScale implements ValueInterface
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 	    return __('Beaufort scale');
 	}
