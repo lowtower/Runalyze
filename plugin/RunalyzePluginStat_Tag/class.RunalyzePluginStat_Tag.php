@@ -69,7 +69,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * Default year
 	 * @return int year, can be -1 for no year/comparison of all years
 	 */
-	protected function defaultYear() {
+	protected function defaultYear(): int {
 		return -1;
 	}
 

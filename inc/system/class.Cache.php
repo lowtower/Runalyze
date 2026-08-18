@@ -65,7 +65,7 @@ class Cache {
 			$lastcacheclean = self::$LASTCLEAN;
 			if ($lastcacheclean === null) {
 				$lastcacheclean = self::$cache->get('LASTCLEAN' . SessionAccountHandler::getId());
-				$lastcacheclean = $lastcacheclean ? : 0;
+				$lastcacheclean = $lastcacheclean ?: 0;
 				self::$LASTCLEAN = $lastcacheclean;
 			}
 			if (isset($cachedobj['write_time']) && $cachedobj['write_time'] > $lastcacheclean) {

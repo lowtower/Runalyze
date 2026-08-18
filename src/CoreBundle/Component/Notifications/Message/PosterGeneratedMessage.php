@@ -35,7 +35,7 @@ class PosterGeneratedMessage implements MessageInterface
         return (string) $this->State;
     }
 
-    public function getLifetime()
+    public function getLifetime(): int
     {
         return 5;
     }

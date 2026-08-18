@@ -50,7 +50,7 @@ class VO2maxShapeCalculation implements RecalculationTaskInterface
         $this->ConfigurationUpdater->updateVO2maxShape($this->Account, $shape * $configList->getVO2maxCorrectionFactor());
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 3;
     }

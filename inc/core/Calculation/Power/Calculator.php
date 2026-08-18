@@ -86,7 +86,7 @@ class Calculator {
 	 * Some typical values are sea level: 1.226, 1500m: 1.056 and 3000m: 0.905
 	 * @return float [kg/m]
 	 */
-	protected function rho() {
+	protected function rho(): float {
 		return 1.226;
 	}
 

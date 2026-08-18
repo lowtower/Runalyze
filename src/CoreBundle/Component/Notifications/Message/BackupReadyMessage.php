@@ -18,7 +18,7 @@ class BackupReadyMessage implements MessageInterface
         return '';
     }
 
-    public function getLifetime()
+    public function getLifetime(): int
     {
         return 5;
     }

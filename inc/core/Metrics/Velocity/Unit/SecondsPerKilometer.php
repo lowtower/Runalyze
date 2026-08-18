@@ -17,7 +17,7 @@ class SecondsPerKilometer extends AbstractPaceInTimeFormatUnit
     /**
      * @return int
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): int
     {
         return 1;
     }

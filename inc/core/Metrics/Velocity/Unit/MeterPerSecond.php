@@ -17,7 +17,7 @@ class MeterPerSecond extends AbstractPaceInDecimalFormatUnit
     /**
      * @return float
      */
-    public function getDividendFromBaseUnit()
+    public function getDividendFromBaseUnit(): int
     {
         return 1000;
     }

@@ -112,7 +112,7 @@ class TableSwimLane extends TableLapsAbstract {
 				}
 
 				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
-				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
+				$strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
 			}
 
 			$this->Code .= '<td>'.$Stroketype->shortString().'</td>';
@@ -164,7 +164,7 @@ class TableSwimLane extends TableLapsAbstract {
 		$this->Code .= '<td>'. $interval.'./'.$intervalLanes. '</td>';
 		$this->Code .= '<td>'. $distance->stringMeter() .'</td>';
 		$this->Code .= '<td></td>';
-		$this->Code .= '<td>&#216; '. ($intervalLanes != 0 ? round($swolfs / $intervalLanes)  : '-') .'</td>';
+		$this->Code .= '<td>&#216; '. ($intervalLanes != 0 ? round($swolfs / $intervalLanes) : '-') .'</td>';
 		$this->Code .= '<td>&#216; '. ($intervalLanes != 0 ? round($strokes / $intervalLanes) : '-') .'</td>';
 
 		$this->Code .= '<td>Summary</td>';

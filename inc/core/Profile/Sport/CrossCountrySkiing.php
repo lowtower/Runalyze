@@ -26,12 +26,12 @@ class CrossCountrySkiing extends AbstractSport
         return __('Langlauf');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 500;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 115;
     }

@@ -141,30 +141,30 @@ class OsmCsvData {
     protected function setFields(array $arr) {
         $this->type = $arr[0];
         $this->name = $this->cleanNameChar($arr[1]);
-        $this->nameDe = $arr[2]? $this->cleanNameChar($arr[2]) : null;
+        $this->nameDe = $arr[2] ? $this->cleanNameChar($arr[2]) : null;
 
-        $this->natural = $arr[7]? $arr[7] : null;
-        $this->elevation = $arr[8]? $arr[8] : null;
+        $this->natural = $arr[7] ? $arr[7] : null;
+        $this->elevation = $arr[8] ? $arr[8] : null;
         if(! empty($this->natural)) return;
 
-        $this->place = $arr[3]? $arr[3] : null;
+        $this->place = $arr[3] ? $arr[3] : null;
         if(! empty($this->place)) return;
 
-        $this->trafficSign = $arr[4]? $arr[4] : null;
+        $this->trafficSign = $arr[4] ? $arr[4] : null;
         if(! empty($this->trafficSign)) return;
 
-        $this->tourism = $arr[5]? $arr[5] : null;
+        $this->tourism = $arr[5] ? $arr[5] : null;
         if(! empty($this->tourism)) return;
 
-        $this->landuse = $arr[6]? $arr[6] : null;
+        $this->landuse = $arr[6] ? $arr[6] : null;
         if(! empty($this->landuse)) return;
 
-        $this->amenity = $arr[11]? $arr[11] : null;
+        $this->amenity = $arr[11] ? $arr[11] : null;
         if(! empty($this->amenity)) return;
 
-        $this->hiking = $arr[9]? $arr[9] : null;
+        $this->hiking = $arr[9] ? $arr[9] : null;
         if(! empty($this->hiking)) return;
-        $this->sacScale = $arr[10]? $arr[10] : null;
+        $this->sacScale = $arr[10] ? $arr[10] : null;
         if(! empty($this->sacScale)) return;
     }
 

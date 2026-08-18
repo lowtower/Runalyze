@@ -22,7 +22,7 @@ class Miliseconds extends AbstractTimeUnit implements FormattableUnitInterface
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): int
     {
         return 1000;
     }
@@ -30,7 +30,7 @@ class Miliseconds extends AbstractTimeUnit implements FormattableUnitInterface
     /**
      * @return int
      */
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return 0;
     }

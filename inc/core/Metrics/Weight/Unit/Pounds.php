@@ -21,7 +21,7 @@ class Pounds extends AbstractWeightUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 2.204622;
     }

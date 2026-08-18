@@ -402,7 +402,7 @@ class Ajax {
 	 * @param boolean $reinit [optional]
 	 */
 	public static function createTablesorterFor($selector, $reinit = false) {
-		echo self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterAutosort('.($reinit?'true':'').');');
+		echo self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterAutosort('.($reinit ? 'true' : '').');');
 	}
 
 	/**
@@ -422,7 +422,7 @@ class Ajax {
 	 */
 	public static function getTablesorterWithPagerFor($selector, $reinit = false) {
 		$Code = self::getPagerDiv();
-		$Code .= self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit?'true':'').');');
+		$Code .= self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit ? 'true' : '').');');
 
 		return $Code;
 	}

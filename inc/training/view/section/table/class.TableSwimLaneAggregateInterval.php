@@ -94,7 +94,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 
 				// aggregate values (pace is diff by the TrackLoop)
 				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
-				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
+				$strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
 
 				// calc a array where the type is the id; later the id with the highest value can be used for primary type
 				$stroketypePrimary[$Stroketype->id()] = array_key_exists($Stroketype->id() , $stroketypePrimary) ? $stroketypePrimary[$Stroketype->id()] + 1 : 1;

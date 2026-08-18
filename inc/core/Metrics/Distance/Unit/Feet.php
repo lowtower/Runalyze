@@ -21,7 +21,7 @@ class Feet extends AbstractDistanceUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 3280.84;
     }

@@ -20,7 +20,7 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
 
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
-        /** @var $classMetadata \Doctrine\ORM\Mapping\ClassMetadata */
+        /** @var \Doctrine\ORM\Mapping\ClassMetadata $classMetadata */
         $classMetadata = $eventArgs->getClassMetadata();
 
         if (strlen($this->prefix)) {

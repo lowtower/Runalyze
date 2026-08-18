@@ -24,12 +24,12 @@ class Hiking extends AbstractSport
         return __('Hiking');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 340;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 100;
     }

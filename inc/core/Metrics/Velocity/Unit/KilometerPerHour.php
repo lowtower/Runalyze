@@ -17,7 +17,7 @@ class KilometerPerHour extends AbstractPaceInDecimalFormatUnit
     /**
      * @return float
      */
-    public function getDividendFromBaseUnit()
+    public function getDividendFromBaseUnit(): int
     {
         return 3600;
     }

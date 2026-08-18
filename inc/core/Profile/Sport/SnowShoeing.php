@@ -26,12 +26,12 @@ class SnowShoeing extends AbstractSport
         return __('Schneeschuh');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 450;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 120;
     }

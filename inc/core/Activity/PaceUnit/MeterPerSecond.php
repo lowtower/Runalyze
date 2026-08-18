@@ -43,7 +43,7 @@ class MeterPerSecond extends AbstractDecimalUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function dividendForUnit()
+	public function dividendForUnit(): int
 	{
 		return 1000;
 	}

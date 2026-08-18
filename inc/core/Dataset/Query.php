@@ -234,19 +234,19 @@ class Query
 	{
 		$Query = '
 		        SELECT
-				'.(((int) $sportid > 0)?'`sportid`':'0').',
+				'.(((int) $sportid > 0) ? '`sportid`' : '0').',
 				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
 				SUM(1) as `num`,
 				'.$this->queryToSummarizeActiveKeys().',
 				'.$this->queryToSelectTimerange($timerange, $timeEnd, 'timerange').'
 			FROM `'.PREFIX.'training` AS `t`
 			WHERE
-				'.(((int) $sportid > 0)?'`sportid` = '.(int) $sportid.' AND':''). '
+				'.(((int) $sportid > 0) ? '`sportid` = '.(int) $sportid.' AND' : ''). '
 				`accountid` = '.(int) $this->AccountID.' AND
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
 				'.$this->wherePrivacyIsOkay().'
 				GROUP BY `timerange`
-				'.(((int) $sportid > 0)?', `sportid`':'').'
+				'.(((int) $sportid > 0) ? ', `sportid`' : '').'
 				ORDER BY `timerange` ASC';
 
 		return $this->PDO->query($Query)->fetchAll();

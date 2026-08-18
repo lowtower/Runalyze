@@ -148,9 +148,9 @@ class PDOforRunalyze extends PDO {
 	 * Escapes and inserts the given $values to the $columns in $table
 	 *
 	 * This methods always adds the accountid (unless something is inserted to the account table)
-	 * @param $table   string without PREFIX
-	 * @param $columns array
-	 * @param $values  array
+	 * @param string   $table without PREFIX
+	 * @param array $columns
+	 * @param array  $values
 	 * @return int       ID of inserted row
 	 */
 	public function insert($table, $columns, $values) {
@@ -184,9 +184,9 @@ class PDOforRunalyze extends PDO {
 	 *    - Sets null-objects to 'null'
 	 *    - Sets true/false to 1/0
 	 *    - Sets strings to "$value"
-	 * @param $values mixed might be an array
-	 * @param $quotes bool  true for adding quotes for strings
-	 * @param $forceAsString bool
+	 * @param mixed $values might be an array
+	 * @param bool $quotes  true for adding quotes for strings
+	 * @param bool $forceAsString
 	 * @return mixed        safe value(s)
 	 */
 	public function escape($values, $quotes = true, $forceAsString = false) {

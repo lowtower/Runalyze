@@ -21,7 +21,7 @@ class StepsPerMinute extends AbstractCadenceUnit
     /**
      * @return int
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): int
     {
         return 2;
     }

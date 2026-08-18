@@ -27,12 +27,12 @@ class EMtbMountain extends AbstractSport
         return __('E-MTB Berg');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 450;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 120;
     }

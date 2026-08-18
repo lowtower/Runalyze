@@ -244,7 +244,7 @@ class ElevationInfo {
 		$Links = array();
 
 		if ($this->Context->route()->elevationsCorrected()) {
-			$textInfo = __('Elevation data has been corrected.').($this->Context->route()->elevationsSource() != '' ? ' ('.$this->Context->route()->elevationsSource().')': '');
+			$textInfo = __('Elevation data has been corrected.').($this->Context->route()->elevationsSource() != '' ? ' ('.$this->Context->route()->elevationsSource().')' : '');
 			$rawLinks = $this->getLinksForCorrectionStrategies();
 		} else {
 			$textInfo = __('Elevation data has not been corrected.');

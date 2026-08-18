@@ -90,7 +90,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 * Default sport
 	 * @return int
 	 */
-	protected function defaultSport() {
+	protected function defaultSport(): int {
 		return -1;
 	}
 

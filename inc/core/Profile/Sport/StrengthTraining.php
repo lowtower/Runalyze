@@ -26,12 +26,12 @@ class StrengthTraining extends AbstractSport
         return __('Krafttraining');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 260;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 105;
     }

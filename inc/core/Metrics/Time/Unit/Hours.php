@@ -30,7 +30,7 @@ class Hours extends AbstractTimeUnit implements FormattableUnitInterface
     /**
      * @return int
      */
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return 1;
     }

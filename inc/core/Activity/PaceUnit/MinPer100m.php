@@ -43,7 +43,7 @@ class MinPer100m extends AbstractTimeUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function factorForUnit()
+	public function factorForUnit(): float
 	{
 		return 0.1;
 	}

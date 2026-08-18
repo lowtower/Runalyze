@@ -30,7 +30,7 @@ class CleanupPostersCommand extends ContainerAwareCommand
         $days = $input->getArgument('days') ?: $this->getContainer()->getParameter('poster_storage_period');
         $output->writeln(sprintf('<info>Delete all posters older than %s days</info>', $days));
 
-        /** @var $filesystem \Symfony\Component\Filesystem\Filesystem */
+        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
         $filesystem = $this->getContainer()->get('filesystem');
 
         $finder = new Finder();

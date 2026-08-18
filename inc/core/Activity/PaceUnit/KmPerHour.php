@@ -43,7 +43,7 @@ class KmPerHour extends AbstractDecimalUnit
 	 * @return float
 	 * @throws \RuntimeException
 	 */
-	public function dividendForUnit()
+	public function dividendForUnit(): int
 	{
 		return 3600;
 	}

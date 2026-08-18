@@ -24,12 +24,12 @@ class Swimming extends AbstractSport
         return __('Swimming');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 743;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 130;
     }

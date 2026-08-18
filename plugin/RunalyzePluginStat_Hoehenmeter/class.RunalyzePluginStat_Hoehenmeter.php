@@ -37,7 +37,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 		$this->initElevationData();
 	}
 
-	protected function defaultYear() {
+	protected function defaultYear(): int {
 		return -1;
 	}
 

@@ -254,7 +254,7 @@ class Prognose_PrognosisWindow {
 			    'prognosis'		=> $Prognosis > 0 ? Duration::format($Prognosis) : '-',
 			    'prognosis-pace'=> $PacePrognosis->valueWithAppendix(),
 			    'prognosis-vo2max'=> $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
-			    'diff'			=> ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis?'+ ':'- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
+			    'diff'			=> ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis ? '+ ' : '- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
 			    'diff-class'	=> $PB->seconds() > $Prognosis ? 'plus' : 'minus',
 			    'pb'			=> $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
 			    'pb-pace'		=> $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',

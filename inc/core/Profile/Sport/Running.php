@@ -24,12 +24,12 @@ class Running extends AbstractSport
         return __('Running');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 880;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 140;
     }

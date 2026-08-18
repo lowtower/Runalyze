@@ -81,7 +81,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
     /**
      * @return int
      */
-	public function differenceToMondayInDays() {
+	public function differenceToMondayInDays(): int {
 		if ($this->value() == self::SATURDAY) {
 			return -2;
 		} elseif ($this->value() == self::SUNDAY) {
@@ -128,7 +128,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 *
 	 * @return int
 	 */
-	public function mysqlParameter() {
+	public function mysqlParameter(): int {
 		switch ($this->value()) {
 			case self::SUNDAY:
 				return 6;

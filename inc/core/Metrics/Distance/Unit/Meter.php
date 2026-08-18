@@ -21,7 +21,7 @@ class Meter extends AbstractDistanceUnit
     /**
      * @return int
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): int
     {
         return 1000;
     }

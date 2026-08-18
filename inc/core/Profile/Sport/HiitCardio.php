@@ -26,12 +26,12 @@ class HiitCardio extends AbstractSport
         return __('HIIT Cardio');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 700;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 135;
     }

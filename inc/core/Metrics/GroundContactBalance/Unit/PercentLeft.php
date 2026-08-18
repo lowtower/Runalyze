@@ -12,7 +12,7 @@ class PercentLeft extends AbstractGroundContactBalanceUnit implements Formattabl
     /**
      * @return int|float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 0.01;
     }
@@ -30,7 +30,7 @@ class PercentLeft extends AbstractGroundContactBalanceUnit implements Formattabl
     /**
      * @return int
      */
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return 2;
     }

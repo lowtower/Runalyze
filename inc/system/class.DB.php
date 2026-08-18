@@ -32,11 +32,11 @@ class DB {
 
 	/**
 	 * Create connection
-	 * @param $host string
-	 * @param $port string
-	 * @param $user string
-	 * @param $password string
-	 * @param $database string
+	 * @param string $host
+	 * @param string $port
+	 * @param string $user
+	 * @param string $password
+	 * @param string $database
 	 */
 	public static function connect($host, $port, $user, $password, $database) {
 		self::$PDO = new PDOforRunalyze('mysql:dbname='.$database.';host='.$host.';port='.$port.';charset=utf8', $user, $password);

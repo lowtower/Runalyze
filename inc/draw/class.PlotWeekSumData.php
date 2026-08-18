@@ -130,7 +130,7 @@ class PlotWeekSumData extends PlotSumData {
 	/**
 	 * @return float
 	 */
-	protected function factorForWeekKm() {
+	protected function factorForWeekKm(): int {
 		return 1;
 	}
 }

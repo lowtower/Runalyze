@@ -21,7 +21,7 @@ class Yards extends AbstractDistanceUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 1093.6133;
     }

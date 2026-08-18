@@ -43,7 +43,7 @@ class Factor {
 	 * Base factor
 	 * @return float
 	 */
-	public function A() {
+	public function A(): float {
 		if (Gender::MALE == $this->Gender) {
 			return 0.64;
 		} elseif (GENDER::FEMALE == $this->Gender) {
@@ -57,7 +57,7 @@ class Factor {
 	 * Exponent factor
 	 * @return float
 	 */
-	public function B() {
+	public function B(): float {
 		if (Gender::MALE == $this->Gender) {
 			return 1.92;
 		} elseif (Gender::FEMALE == $this->Gender) {

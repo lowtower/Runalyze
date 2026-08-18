@@ -52,7 +52,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->DB->exec('DELETE FROM `runalyze_type`');
 	}
 
-	private function fillDummyTrainings()
+	private function fillDummyTrainings(): int
     {
         $statement = $this->DB->prepare('INSERT INTO `runalyze_training` (`sportid`, `time`, `distance`, `accountid`, `s`) VALUES (?, ?, ?, ?, ?)');
         $statement->execute([1, time() - DAY_IN_S, 15, $this->AccountID, 2]);
@@ -61,7 +61,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		return 2;
 	}
 
-	private function fillDummyUser()
+	private function fillDummyUser(): int
     {
         $statement = $this->DB->prepare('INSERT INTO `runalyze_user` (`time`, `weight`, `accountid`) VALUES (?, ?, ?)');
         $statement->execute([time() - DAY_IN_S, 72, $this->AccountID]);

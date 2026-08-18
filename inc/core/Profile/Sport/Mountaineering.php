@@ -26,12 +26,12 @@ class Mountaineering extends AbstractSport
         return __('Bergsteigen');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 540;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 120;
     }

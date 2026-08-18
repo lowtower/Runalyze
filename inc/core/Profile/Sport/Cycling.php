@@ -24,12 +24,12 @@ class Cycling extends AbstractSport
         return __('Cycling');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 770;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 120;
     }

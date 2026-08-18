@@ -86,7 +86,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Default year
 	 * @return int
 	 */
-	protected function defaultYear() {
+	protected function defaultYear(): int {
 		return 6;
 	}
 

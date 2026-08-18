@@ -19,7 +19,7 @@ class Kilometer extends AbstractDistanceUnit implements FormattableUnitInterface
         return 'km';
     }
 
-    public function getDecimals()
+    public function getDecimals(): int
     {
         return 2;
     }

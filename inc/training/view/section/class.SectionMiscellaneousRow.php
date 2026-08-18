@@ -381,7 +381,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
         $details = '<strong>'.__('FIT data from the file').':</strong><br>';
         $c = 0;
-        $this->addToTable($details, 'Total ascent (m):', ($this->Context->activity()->fitTotalAscent() != null  ? $this->Context->activity()->fitTotalAscent()  : '-'), $c);
+        $this->addToTable($details, 'Total ascent (m):', ($this->Context->activity()->fitTotalAscent() != null ? $this->Context->activity()->fitTotalAscent() : '-'), $c);
         $this->addToTable($details, 'Total desent (m):', ($this->Context->activity()->fitTotalDescent() != null ? $this->Context->activity()->fitTotalDescent() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('VO2MAX avg:', 'vo2max'), ($this->Context->activity()->fitVO2maxEstimate() != null ? $this->Context->activity()->fitVO2maxEstimate() : '-'), $c);
         $this->addToTable($details, 'Recovery time (h):', ($this->Context->activity()->fitRecoveryTime() != null ? round($this->Context->activity()->fitRecoveryTime() / 60, 1) : '-'), $c);

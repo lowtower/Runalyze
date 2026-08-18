@@ -26,12 +26,12 @@ class Generic extends AbstractSport
         return __('Generic');
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
         return 500;
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
         return 120;
     }

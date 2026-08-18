@@ -21,7 +21,7 @@ class Miles extends AbstractDistanceUnit
     /**
      * @return float
      */
-    public function getFactorFromBaseUnit()
+    public function getFactorFromBaseUnit(): float
     {
         return 0.621371192;
     }
