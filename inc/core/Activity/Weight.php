@@ -87,7 +87,7 @@ class Weight implements ValueInterface {
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
 	public function set($weight) {
-		$this->Weight = (float)str_replace(',', '.', $weight);
+		$this->Weight = (float) str_replace(',', '.', $weight);
 
 		return $this;
 	}
@@ -98,7 +98,7 @@ class Weight implements ValueInterface {
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
 	public function setPounds($weight) {
-		$this->Weight = (float)str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
+		$this->Weight = (float) str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
 
 		return $this;
 	}
@@ -109,7 +109,7 @@ class Weight implements ValueInterface {
 	 * @return \Runalyze\Activity\Weight $this-reference
 	 */
 	public function setStones($weight) {
-		$this->Weight = (float)str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
+		$this->Weight = (float) str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
 
 		return $this;
 	}

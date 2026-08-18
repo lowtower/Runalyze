@@ -22,7 +22,7 @@ class Daytime extends AbstractKey
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::DAYTIME;
 	}
@@ -58,7 +58,7 @@ class Daytime extends AbstractKey
      * @return int
      * @codeCoverageIgnore
      */
-    public function defaultPrivacy() {
+    public function defaultPrivacy(): int {
         return DatasetPrivacyProfile::PRIVATE_KEY;
     }
 

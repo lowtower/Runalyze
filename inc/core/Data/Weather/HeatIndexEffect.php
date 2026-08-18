@@ -30,7 +30,7 @@ class HeatIndexEffect extends AbstractEnum
      * @param float $value value (in Fahrenheit)
      * @return int internal enum
      */
-    public static function levelFor($value)
+    public static function levelFor($value): int
     {
         if ($value >= 130) {
             return self::EXTREME_DANGER;

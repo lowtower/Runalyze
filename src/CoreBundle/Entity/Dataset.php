@@ -108,7 +108,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     public function setActive($flag = true)
     {
-        $this->active = (bool)$flag;
+        $this->active = (bool) $flag;
 
         return $this;
     }
@@ -148,7 +148,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     public function setPosition($position)
     {
-        $this->position = (int)$position;
+        $this->position = (int) $position;
 
         return $this;
     }
@@ -168,7 +168,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     public function setPrivacy($privacy)
     {
-        $this->privacy = (bool)$privacy;
+        $this->privacy = (bool) $privacy;
 
         return $this;
     }
@@ -186,7 +186,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     public function isPrivate()
     {
-        return (bool)DatasetPrivacyProfile::PRIVATE_KEY == $this->privacy;
+        return (bool) DatasetPrivacyProfile::PRIVATE_KEY == $this->privacy;
     }
 
     /**
@@ -194,7 +194,7 @@ class Dataset implements AccountRelatedEntityInterface
      */
     public function isPublic()
     {
-        return (bool)DatasetPrivacyProfile::PUBLIC_KEY == $this->privacy;
+        return (bool) DatasetPrivacyProfile::PUBLIC_KEY == $this->privacy;
     }
 }
 

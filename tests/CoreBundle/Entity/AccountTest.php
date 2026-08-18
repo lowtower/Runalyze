@@ -69,7 +69,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
 
     public function testAge()
     {
-        $this->Account->setBirthyear((int)date('Y') - 42);
+        $this->Account->setBirthyear((int) date('Y') - 42);
 
         $this->assertTrue($this->Account->knowsBirthYear());
         $this->assertEquals(42, $this->Account->getAge());

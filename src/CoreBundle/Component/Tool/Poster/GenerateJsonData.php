@@ -65,7 +65,7 @@ class GenerateJsonData
             $json = [
                 'start' => date('Y-m-d H:i:s', $data['time']),
                 'end' => date('Y-m-d H:i:s', $data['time'] + $data['s']),
-                'length' => 1000.0 * (float)$data['distance'],
+                'length' => 1000.0 * (float) $data['distance'],
                 'segments' => $this->getSegmentsFor($data['geohashes'], $data['distance'])
             ];
             $filesystem->dumpFile($this->getPathToJsonFiles().'/'.date('Y-m-d-His', $data['time']).'.json', json_encode($json));
@@ -100,8 +100,8 @@ class GenerateJsonData
             if ($loop->geohash() != '7zzzzzzzzzzz') {
                 $coordinate = $loop->coordinate();
                 $segments[$currentSegment][] = [
-                    'lat' => (float)$coordinate->getLatitude(),
-                    'lng' => (float)$coordinate->getLongitude()
+                    'lat' => (float) $coordinate->getLatitude(),
+                    'lng' => (float) $coordinate->getLongitude()
                 ];
 
                 if ($loop->calculatedStepDistance() > $pauseLimit) {

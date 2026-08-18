@@ -52,15 +52,15 @@ class Month implements QueryGroupInterface
      */
     protected function filterMonths(array $months, \DateTime $dateFrom, \DateTime $dateTo)
     {
-        $startYear = (int)$dateFrom->format('Y');
-        $endYear = (int)$dateTo->format('Y');
+        $startYear = (int) $dateFrom->format('Y');
+        $endYear = (int) $dateTo->format('Y');
 
         if ($startYear < $endYear - 1) {
             return $months;
         }
 
-        $startMonth = (int)$dateFrom->format('m');
-        $endMonth = (int)$dateTo->format('m');
+        $startMonth = (int) $dateFrom->format('m');
+        $endMonth = (int) $dateTo->format('m');
 
         if ($startYear == $endYear - 1) {
             return array_slice($months, $startMonth - 1, 13 - $startMonth, true) +

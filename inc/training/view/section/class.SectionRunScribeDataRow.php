@@ -54,7 +54,7 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
 
         $type = $value >= 12 ? __('Fore-foot') : ($value >= 6 ? __('Mid-foot') : __('Heel'));
 
-        return (string)$value.' / '.$type;
+        return (string) $value.' / '.$type;
     }
 
 	protected function setRightContent()

@@ -65,14 +65,14 @@ class Context {
 	 * @var int $accountID
 	 */
 	public function __construct($activityID, $accountID) {
-		$Factory = new Factory((int)$accountID);
+		$Factory = new Factory((int) $accountID);
 
-		$this->Activity = $Factory->activity((int)$activityID);
-		$this->Trackdata = $Factory->trackdata((int)$activityID);
-		$this->Swimdata = $Factory->swimdata((int)$activityID);
-		$this->RaceResult = $Factory->raceResult((int)$activityID);
+		$this->Activity = $Factory->activity((int) $activityID);
+		$this->Trackdata = $Factory->trackdata((int) $activityID);
+		$this->Swimdata = $Factory->swimdata((int) $activityID);
+		$this->RaceResult = $Factory->raceResult((int) $activityID);
 		$this->Route = $this->Activity->get(Activity\Entity::ROUTEID) ? $Factory->route($this->Activity->get(Activity\Entity::ROUTEID)) : null;
-		$this->HRV = $Factory->hrv((int)$activityID);
+		$this->HRV = $Factory->hrv((int) $activityID);
 		$this->Sport = $Factory->sport($this->Activity->sportid());
 
 		$this->Swimdata->fillDistanceArray($this->Trackdata);

@@ -58,13 +58,13 @@ class UtilityExtension extends \Twig_Extension
     private function formatDuration($seconds, $format, $decimals = 0)
     {
         if (substr($format, -1) == 'u') {
-            $time = \DateTime::createFromFormat('!U', (int)floor($seconds), new \DateTimeZone('UTC'));
+            $time = \DateTime::createFromFormat('!U', (int) floor($seconds), new \DateTimeZone('UTC'));
             $fraction = str_pad(round(fmod($seconds, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
 
             return $time->format(substr($format, 0, -1)).$fraction;
         }
 
-        $time = \DateTime::createFromFormat('!U', (int)round($seconds), new \DateTimeZone('UTC'));
+        $time = \DateTime::createFromFormat('!U', (int) round($seconds), new \DateTimeZone('UTC'));
 
         return $time->format($format);
     }

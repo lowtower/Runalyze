@@ -61,13 +61,13 @@ class FitWorkoutStep {
             $target[self::ADD_TARGET_SPEED . ' low'] = round($values['custom_target_speed_low'][0] / 1000, 3); // unit m/s
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_heart_rate_low'][0])) {
-            $target[self::ADD_TARGET_HR . ' low'] = (int)$values['custom_target_heart_rate_low'][0];
+            $target[self::ADD_TARGET_HR . ' low'] = (int) $values['custom_target_heart_rate_low'][0];
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_cadence_low'][0])) {
-            $target[self::ADD_TARGET_CADENCE . ' low'] = (int)$values['custom_target_cadence_low'][0];
+            $target[self::ADD_TARGET_CADENCE . ' low'] = (int) $values['custom_target_cadence_low'][0];
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_power_low'][0])) {
-            $target[self::ADD_TARGET_POWER . ' low'] = (int)$values['custom_target_power_low'][0];
+            $target[self::ADD_TARGET_POWER . ' low'] = (int) $values['custom_target_power_low'][0];
             $this->hasTarget = true;
         }
 
@@ -75,13 +75,13 @@ class FitWorkoutStep {
             $target[self::ADD_TARGET_SPEED . ' high'] = round($values['custom_target_speed_high'][0] / 1000, 3); // unit m/s
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_heart_rate_high'][0])) {
-            $target[self::ADD_TARGET_HR . ' high'] = (int)$values['custom_target_heart_rate_high'][0];
+            $target[self::ADD_TARGET_HR . ' high'] = (int) $values['custom_target_heart_rate_high'][0];
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_cadence_high'][0])) {
-            $target[self::ADD_TARGET_CADENCE . ' high'] = (int)$values['custom_target_cadence_high'][0];
+            $target[self::ADD_TARGET_CADENCE . ' high'] = (int) $values['custom_target_cadence_high'][0];
             $this->hasTarget = true;
         } elseif (isset($values['custom_target_power_high'][0])) {
-            $target[self::ADD_TARGET_POWER . ' high'] = (int)$values['custom_target_power_high'][0];
+            $target[self::ADD_TARGET_POWER . ' high'] = (int) $values['custom_target_power_high'][0];
             $this->hasTarget = true;
         }
         $this->targets[] = $target;

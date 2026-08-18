@@ -12,7 +12,7 @@ class Pace extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return SecondsPerKilometer::class;
     }

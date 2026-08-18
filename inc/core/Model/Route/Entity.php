@@ -400,8 +400,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 			throw new \InvalidArgumentException('Latitude & Longitude Array cannot have different lenghts');
 		}
 
-		$latitudes = array_map(function ($value) { return ($value == '') ? 0 : (double)$value; }, $latitudes);
-		$longitudes = array_map(function ($value) { return ($value == '') ? 0 : (double)$value; }, $longitudes);
+		$latitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $latitudes);
+		$longitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $longitudes);
 
 		$geohashes = array();
 

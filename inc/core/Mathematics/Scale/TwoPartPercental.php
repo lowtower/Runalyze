@@ -37,7 +37,7 @@ class TwoPartPercental extends Percental
             throw new \InvalidArgumentException('Given maximum must be numeric.');
         }
 
-        $this->InflectionPoint = (float)$inflectionPoint;
+        $this->InflectionPoint = (float) $inflectionPoint;
     }
 
     public function transform($input)

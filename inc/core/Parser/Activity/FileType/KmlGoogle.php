@@ -54,7 +54,7 @@ class KmlGoogle extends AbstractSingleParser implements FileContentAwareParserIn
     protected function parseCoordinates()
     {
         foreach ($this->Xml->xpath($this->CoordinatesXPath) as $coordinates) {
-            $lines = preg_split('/\r\n|\r|\n/', (string)$coordinates);
+            $lines = preg_split('/\r\n|\r|\n/', (string) $coordinates);
             $thisLineHasValidPoints = false;
 
             foreach ($lines as $lineIndex => $line) {

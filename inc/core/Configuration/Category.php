@@ -53,7 +53,7 @@ abstract class Category {
 	 */
 	final public function setUserID($id, $data = null) {
 		if ($id !== $this->UserID && $id >= 0) {
-			$this->UserID = (int)$id;
+			$this->UserID = (int) $id;
 			$this->loadValues($data);
 		}
 	}
@@ -82,7 +82,7 @@ abstract class Category {
 	 * @return int
 	 */
 	private function userID() {
-		return (int)$this->UserID;
+		return (int) $this->UserID;
 	}
 
 	/**

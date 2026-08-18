@@ -13,7 +13,7 @@ class OpenWeatherMapMapping implements ToInternalMappingInterface
      * @param int|string $value
      * @return int|string
      */
-    public function toInternal($value)
+    public function toInternal($value): int
     {
         switch ($value) {
             case 800:

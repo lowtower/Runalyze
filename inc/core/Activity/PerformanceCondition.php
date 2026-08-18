@@ -86,10 +86,10 @@ class PerformanceCondition implements ValueInterface
 	 */
 	public function set($value)
     {
-        if (null === $value || (int)$value < self::LOWER_LIMIT || self::UPPER_LIMIT < (int)$value ) {
+        if (null === $value || (int) $value < self::LOWER_LIMIT || self::UPPER_LIMIT < (int) $value ) {
             $this->Value = null;
         } else {
-    		$this->Value = (int)$value;
+    		$this->Value = (int) $value;
         }
 
 		return $this;

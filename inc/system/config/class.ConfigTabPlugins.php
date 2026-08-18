@@ -220,7 +220,7 @@ class ConfigTabPlugins extends ConfigTab {
 			$id = $Plugin['id'];
 
 			if (isset($_POST['plugin_modus_'.$id]) && isset($_POST['plugin_order_'.$id])) {
-				$this->updatePlugin($PreparedUpdate, $Plugin, (int)$_POST['plugin_modus_'.$id], (int)$_POST['plugin_order_'.$id]);
+				$this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_'.$id], (int) $_POST['plugin_order_'.$id]);
 			}
 		}
 

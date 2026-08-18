@@ -30,7 +30,7 @@ class ActivityMatcherController extends Controller
         $duplicateFinder = $this->get('app.activity_duplicate_finder');
         $ignoredActivityIds = array_map(function($v) {
             try {
-                return (int)floor($this->parserStrtotime($v) / 60.0) * 60.0;
+                return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
             } catch (\Exception $e) {
                 return 0;
             }
@@ -66,7 +66,7 @@ class ActivityMatcherController extends Controller
     private function parserStrtotime($string)
     {
         if (substr($string, -1) == 'Z') {
-            return LocalTime::fromServerTime((int)strtotime(substr($string, 0, -1).' UTC'))->getTimestamp();
+            return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1).' UTC'))->getTimestamp();
         }
 
         return LocalTime::fromString($string)->getTimestamp();

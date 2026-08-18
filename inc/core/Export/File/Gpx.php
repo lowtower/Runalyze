@@ -53,7 +53,7 @@ class Gpx extends AbstractFileExporter
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::GPX;
     }

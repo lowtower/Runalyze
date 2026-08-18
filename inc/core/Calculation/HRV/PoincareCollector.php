@@ -54,7 +54,7 @@ class PoincareCollector {
 
 		for ($i = 1; $i < $num; ++$i) {
 			if (abs($data[$i-1] - $data[$i]) < $this->Filter) {
-				$this->PlotData[(string)$data[$i-1]] = $data[$i];
+				$this->PlotData[(string) $data[$i-1]] = $data[$i];
 			}
 		}
 	}

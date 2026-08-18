@@ -57,8 +57,8 @@ class Split extends StringObject {
 		if (null === $time) {
 			parent::__construct($dataOrDistance);
 		} else {
-			$this->Distance = (float)$dataOrDistance;
-			$this->Time = (int)$time;
+			$this->Distance = (float) $dataOrDistance;
+			$this->Time = (int) $time;
 			if ($active) {
 				$this->Intensity = LapIntensity::getInstanceActive();
 			} else {

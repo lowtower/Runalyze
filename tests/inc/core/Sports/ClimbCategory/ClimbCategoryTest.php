@@ -13,7 +13,7 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
         foreach (ClimbCategory::getOptions() as $category) {
             $object->setCategory($category);
 
-            $this->assertEquals((string)$object, $object->getString());
+            $this->assertEquals((string) $object, $object->getString());
         }
     }
 

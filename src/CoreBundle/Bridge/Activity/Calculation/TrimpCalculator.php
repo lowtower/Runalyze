@@ -38,7 +38,7 @@ class TrimpCalculator
             $this->getHeartRateHistogram($activity)
         );
 
-        $value = (int)$calculator->value();
+        $value = (int) $calculator->value();
 
         $this->checkIfValueIsOutOfRange($value, $activity);
 

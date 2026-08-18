@@ -6,7 +6,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class DarkSky extends AbstractSource
 {
-	public function getInternalProfileEnum()
+	public function getInternalProfileEnum(): int
     {
         return WeatherSourceProfile::DARK_SKY;
     }

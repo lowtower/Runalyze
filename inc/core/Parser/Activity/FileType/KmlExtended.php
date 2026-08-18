@@ -37,7 +37,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     {
         $when = $this->Xml->xpath('//when');
 
-        $this->Container->Metadata->setTimestamp(strtotime((string)$when[0]));
+        $this->Container->Metadata->setTimestamp(strtotime((string) $when[0]));
     }
 
     protected function interpretTimestampAsServerTime()
@@ -48,7 +48,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     protected function parseCoordinates()
     {
         foreach ($this->Xml->xpath('//gx:coord') as $coord) {
-            $parts = explode(' ', (string)$coord);
+            $parts = explode(' ', (string) $coord);
             $num = count($parts);
 
             if (($num == 3 || $num == 2) && ($parts[0] != 0.0 || $parts[1] != 0.0)) {
@@ -65,7 +65,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
         $DstCorrector = date('I') - date('I', $startTime);
 
         foreach ($this->Xml->xpath('//when') as $step) {
-            $time = strtotime((string)$step);
+            $time = strtotime((string) $step);
 
             if ($this->hasMorePauses()) {
                 $currentTime = strftime('%T', $time + $DstCorrector * 3600);
@@ -117,48 +117,48 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     {
         $kcal = array_pop($values);
 
-        $this->Container->ActivityData->EnergyConsumption = (int)$kcal;
+        $this->Container->ActivityData->EnergyConsumption = (int) $kcal;
     }
 
     protected function parseExtendedDistance(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->Distance[] = (float)$value / 1000;
+            $this->Container->ContinuousData->Distance[] = (float) $value / 1000;
         }
     }
 
     protected function parseExtendedHeartRate(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->HeartRate[] = (int)$value;
+            $this->Container->ContinuousData->HeartRate[] = (int) $value;
         }
     }
 
     protected function parseExtendedPower(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->Power[] = (int)$value;
+            $this->Container->ContinuousData->Power[] = (int) $value;
         }
     }
 
     protected function parseExtendedCadence(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->Cadence[] = (int)$value;
+            $this->Container->ContinuousData->Cadence[] = (int) $value;
         }
     }
 
     protected function parseExtendedAltitude(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->Altitude[] = (int)$value;
+            $this->Container->ContinuousData->Altitude[] = (int) $value;
         }
     }
 
     protected function parseExtendedTemperature(array $values)
     {
         foreach ($values as $value) {
-            $this->Container->ContinuousData->Temperature[] = (int)$value;
+            $this->Container->ContinuousData->Temperature[] = (int) $value;
         }
     }
 
@@ -170,9 +170,9 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
             if ($folder['id'] == 'pause_resume') {
                 foreach ($folder->Placemark as $mark) {
                     if ($mark->styleUrl == '#pause') {
-                        $start = strtotime((string)$mark->description.'Z');
+                        $start = strtotime((string) $mark->description.'Z');
                     } elseif ($mark->styleUrl == '#resume') {
-                        $end = strtotime((string)$mark->description.'Z');
+                        $end = strtotime((string) $mark->description.'Z');
 
                         $this->ResumeTimes[] = strftime('%T', $end);
                         $this->PauseTimes[] = ($end - $start) % DAY_IN_S;

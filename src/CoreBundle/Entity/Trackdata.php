@@ -981,7 +981,7 @@ class Trackdata implements AccountRelatedEntityInterface
      */
     public function setLock($flag)
     {
-        $this->lock = (bool)$flag;
+        $this->lock = (bool) $flag;
 
         return $this;
     }

@@ -99,10 +99,10 @@ class PosterReceiver
     public function posterGenerator(DefaultMessage $message)
     {
         /** @var Account|null $account */
-        $account = $this->AccountRepository->find((int)$message->get('accountid'));
+        $account = $this->AccountRepository->find((int) $message->get('accountid'));
 
         /** @var Sport|null $sport */
-        $sport = $this->SportRepository->find((int)$message->get('sportid'));
+        $sport = $this->SportRepository->find((int) $message->get('sportid'));
 
         if (null === $account || null === $sport || $sport->getAccount()->getId() != $account->getId()) {
             return;
@@ -169,7 +169,7 @@ class PosterReceiver
      * @param int $requestedFiles
      * @return int
      */
-    protected function getNotificationState($generatedFiles, $requestedFiles)
+    protected function getNotificationState($generatedFiles, $requestedFiles): int
     {
         if (0 == $generatedFiles) {
             return PosterGeneratedMessage::STATE_FAILED;

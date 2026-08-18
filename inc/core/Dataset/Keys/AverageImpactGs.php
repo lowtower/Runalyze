@@ -7,7 +7,7 @@ use Runalyze\Dataset\SummaryMode;
 
 class AverageImpactGs extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::AVG_IMPACT_GS;
 	}
@@ -27,7 +27,7 @@ class AverageImpactGs extends AbstractKey
 		return $context->dataview()->impactGs();
 	}
 
-    public function summaryMode()
+    public function summaryMode(): int
     {
         return SummaryMode::AVG;
     }

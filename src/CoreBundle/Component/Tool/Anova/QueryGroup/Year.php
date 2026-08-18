@@ -28,12 +28,12 @@ class Year implements QueryGroupInterface
      */
     public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
-        $startYear = (int)$anovaData->getDateFrom()->format('Y');
-        $endYear = (int)$anovaData->getDateTo()->format('Y');
+        $startYear = (int) $anovaData->getDateFrom()->format('Y');
+        $endYear = (int) $anovaData->getDateTo()->format('Y');
         $years = [];
 
         for ($year = $startYear; $year <= $endYear; ++$year) {
-            $years[$year] = (string)$year;
+            $years[$year] = (string) $year;
         }
 
         return $years;

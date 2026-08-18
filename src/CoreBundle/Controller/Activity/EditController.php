@@ -75,7 +75,7 @@ class EditController extends Controller
 
             if (is_numeric($nextId)) {
                 return $this->redirectToRoute('activity-edit', [
-                    'id' => (int)$nextId,
+                    'id' => (int) $nextId,
                     'multi' => '1'
                 ]);
             }
@@ -86,7 +86,7 @@ class EditController extends Controller
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => false,
-            'isMulti' => (bool)$request->get('multi', false),
+            'isMulti' => (bool) $request->get('multi', false),
             'decorator' => new ActivityDecorator($context),
             'activity_id' => $activity->getId(),
             'prev_activity_id' => $repository->getIdOfPreviousActivity($activity),
@@ -137,7 +137,7 @@ class EditController extends Controller
        $this->getTrainingRepository()->remove($activity);
 
         return $this->render('activity/activity_has_been_removed.html.twig', [
-            'multiEditorId' => (int)$activityId
+            'multiEditorId' => (int) $activityId
         ]);
    }
 

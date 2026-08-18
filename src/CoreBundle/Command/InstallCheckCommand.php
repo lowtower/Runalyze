@@ -148,7 +148,7 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @return int
      */
-    protected function checkPhpVersion()
+    protected function checkPhpVersion(): int
     {
         if (version_compare(self::REQUIRED_PHP_VERSION, PHP_VERSION) == 1) {
             return self::ERROR;
@@ -160,7 +160,7 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @return int
      */
-    protected function prefixIsNotUsed()
+    protected function prefixIsNotUsed(): int
     {
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->getContainer()->get('doctrine')->getConnection();
@@ -176,7 +176,7 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @return int
      */
-    protected function directoriesAreWritable()
+    protected function directoriesAreWritable(): int
     {
         $root = $this->getContainer()->getParameter('kernel.root_dir').'/../';
 

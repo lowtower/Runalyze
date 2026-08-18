@@ -73,7 +73,7 @@ class ElevationsRecalculator
 		    '`elevation_down` = :elevation_down'
 		);
 
-		$Query = 'UPDATE `'.$this->DatabasePrefix.'route` SET '.implode(',', $Set).' WHERE `id`=:id AND `accountid`="'.(int)$this->AccountID.'"';
+		$Query = 'UPDATE `'.$this->DatabasePrefix.'route` SET '.implode(',', $Set).' WHERE `id`=:id AND `accountid`="'.(int) $this->AccountID.'"';
 
 		return $this->PDO->prepare($Query);
 	}
@@ -96,7 +96,7 @@ class ElevationsRecalculator
 				END) AS  `elevations`
 			FROM `'.$this->DatabasePrefix.'route`
 			WHERE
-				`accountid`="'.(int)$this->AccountID.'" AND
+				`accountid`="'.(int) $this->AccountID.'" AND
 				(`elevations_original`!="" OR `elevations_corrected`!="")'
 		);
 	}

@@ -217,7 +217,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
      */
     protected function getNumberOfLockedRoutes(EntityManager $em)
     {
-        return (int)$em->createQueryBuilder()
+        return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
             ->from('CoreBundle:Route','r')
@@ -230,7 +230,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
      */
     protected function getNumberOfLockedTrackData(EntityManager $em)
     {
-        return (int)$em->createQueryBuilder()
+        return (int) $em->createQueryBuilder()
             ->select('count(t.activity)')
             ->where('t.lock = 1')
             ->from('CoreBundle:Trackdata','t')

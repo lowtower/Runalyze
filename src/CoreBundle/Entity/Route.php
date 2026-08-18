@@ -362,8 +362,8 @@ class Route implements AccountRelatedEntityInterface
             throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
-        $latitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double)$value; }, $latitudes);
-        $longitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double)$value; }, $longitudes);
+        $latitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double) $value; }, $latitudes);
+        $longitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double) $value; }, $longitudes);
 
         $this->areMinMaxSynchronized = false;
         $this->geohashes = []; ;
@@ -596,7 +596,7 @@ class Route implements AccountRelatedEntityInterface
      */
     public function setInRoutenet($flag)
     {
-        $this->inRoutenet = (bool)$flag;
+        $this->inRoutenet = (bool) $flag;
 
         return $this;
     }
@@ -636,7 +636,7 @@ class Route implements AccountRelatedEntityInterface
      */
     public function setLock($flag)
     {
-        $this->lock = (bool)$flag;
+        $this->lock = (bool) $flag;
 
         return $this;
     }

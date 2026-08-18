@@ -10,7 +10,7 @@ class VO2maxIcon extends AbstractKey
     /**
      * @return int
      */
-    public function id()
+    public function id(): int
     {
         return \Runalyze\Dataset\Keys::VO2MAX_ICON;
     }
@@ -94,7 +94,7 @@ class VO2maxIcon extends AbstractKey
     /**
      * @return int see \Runalyze\Dataset\SummaryMode for enum
      */
-    public function summaryMode()
+    public function summaryMode(): int
     {
         return SummaryMode::VO2MAX;
     }

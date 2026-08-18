@@ -67,7 +67,7 @@ class VO2max extends \Runalyze\Configuration\Category
      */
     public function manualValue()
     {
-        return (float)Helper::CommaToPoint($this->get('VO2MAX_MANUAL_VALUE'));
+        return (float) Helper::CommaToPoint($this->get('VO2MAX_MANUAL_VALUE'));
     }
 
     /**

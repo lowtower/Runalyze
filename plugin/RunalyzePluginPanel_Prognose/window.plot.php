@@ -13,7 +13,7 @@ $distances = $Plugin->getDistances();
 if (!isset($_GET['distance'])) {
 	$distance = (in_array(10, $distances)) ? 10 : trim($distances[0]);
 } else {
-	$distance = (float)$_GET['distance'];
+	$distance = (float) $_GET['distance'];
 }
 
 $Submenu = '';

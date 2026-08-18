@@ -22,7 +22,7 @@ class Power extends AbstractKey
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::POWER;
 	}
@@ -58,7 +58,7 @@ class Power extends AbstractKey
 	/**
 	 * @return int see \Runalyze\Dataset\SummaryMode for enum
 	 */
-	public function summaryMode()
+	public function summaryMode(): int
 	{
 		return SummaryMode::AVG;
 	}

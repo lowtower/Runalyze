@@ -57,7 +57,7 @@ class TrendAnalysisDataQuery
         foreach ($iterator as $row) {
             $data = array_shift($row);
 
-            $this->Values[(int)$data['time']] = $unit->fromBaseUnit((float)$data['value']);
+            $this->Values[(int) $data['time']] = $unit->fromBaseUnit((float) $data['value']);
         }
 
         return $this->Values;

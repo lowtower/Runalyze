@@ -62,7 +62,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 		}
 
 		$this->setConfiguration($Configuration);
-		$this->TagId = (int)$this->Configuration()->value('tag');
+		$this->TagId = (int) $this->Configuration()->value('tag');
 	}
 
 	/**

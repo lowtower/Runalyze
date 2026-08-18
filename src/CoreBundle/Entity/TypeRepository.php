@@ -36,7 +36,7 @@ class TypeRepository extends EntityRepository
         // #TSC add $sport as parameter - only with sport the type can be find unique
         return $this->findOneBy([
             'account' => $account->getId(),
-            'name' => (string)$typeName,
+            'name' => (string) $typeName,
             'sport' => $sport->getId()
         ]);
     }
@@ -53,7 +53,7 @@ class TypeRepository extends EntityRepository
     {
         return $this->findOneBy([
             'account' => $account->getId(),
-            'abbr' => (string)$shortCut,
+            'abbr' => (string) $shortCut,
             'sport' => $sport->getId()
         ]);
     }

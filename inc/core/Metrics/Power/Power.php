@@ -12,7 +12,7 @@ class Power extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return Watts::class;
     }

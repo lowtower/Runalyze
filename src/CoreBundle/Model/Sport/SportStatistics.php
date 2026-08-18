@@ -25,7 +25,7 @@ class SportStatistics
             $sportStatistic->setTotalDistance($row['distance']);
             $sportStatistic->setTotalDuration($row['time_in_s']);
 
-            $this->Sports[(string)$sport->getId()] = $sportStatistic;
+            $this->Sports[(string) $sport->getId()] = $sportStatistic;
         }
     }
 
@@ -51,7 +51,7 @@ class SportStatistics
      */
     public function hasStatisticFor(Sport $sport)
     {
-        return isset($this->Sports[(string)$sport->getId()]);
+        return isset($this->Sports[(string) $sport->getId()]);
     }
 
     /**
@@ -61,7 +61,7 @@ class SportStatistics
     public function getStatisticFor(Sport $sport)
     {
         if ($this->hasStatisticFor($sport)) {
-            return $this->Sports[(string)$sport->getId()];
+            return $this->Sports[(string) $sport->getId()];
         }
 
         return new SportStatistic($sport);

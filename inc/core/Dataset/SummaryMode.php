@@ -103,7 +103,7 @@ final class SummaryMode extends AbstractEnum
 	        return implode(', ', array_map(array(self::class, 'queryForAvg'), $key));
         }
 
-		return 'SUM(`s`*`'.$key.'`*(`'.$key.'` != 0))'.'/SUM(`s`*(`'.$key.'` != 0)) as `'.$key.'`';
+		return 'SUM(`s`*`'.$key.'`*(`'.$key.'` != 0))/SUM(`s`*(`'.$key.'` != 0)) as `'.$key.'`';
 	}
 
 	/**
@@ -152,7 +152,7 @@ final class SummaryMode extends AbstractEnum
 	        return implode(', ', array_map(array(self::class, 'queryForAvgWithZero'), $key));
         }
 
-		return 'SUM(`s`*`'.$key.'`)'.'/SUM(`s`) as `'.$key.'`';
+		return 'SUM(`s`*`'.$key.'`)/SUM(`s`) as `'.$key.'`';
 	}
 
 	/**

@@ -99,10 +99,10 @@ class Map {
 		$style = '';
 
 		if ($this->height > 0)
-			$style .= 'height:'.(int)$this->height.'px;';
+			$style .= 'height:'.(int) $this->height.'px;';
 
 		if ($this->width > 0)
-			$style .= 'width:'.(int)$this->width.'px;';
+			$style .= 'width:'.(int) $this->width.'px;';
 
 		if ($style != '')
 			$style = ' style="'.$style.'"';

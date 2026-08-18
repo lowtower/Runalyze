@@ -109,7 +109,7 @@ class ActivityAdapter
     public function setActivityIdIfEmpty()
     {
         if (null === $this->Activity->getActivityId()) {
-            $this->Activity->setActivityId((int)floor($this->Activity->getTime() / 60.0) * 60);
+            $this->Activity->setActivityId((int) floor($this->Activity->getTime() / 60.0) * 60);
         }
     }
 
@@ -124,7 +124,7 @@ class ActivityAdapter
         $strideLength = null;
 
         if ($this->isRunning() && $this->Activity->getS() > 0 && $this->Activity->getCadence() > 0 && $this->Activity->getDistance() > 0) {
-            $strideLength = (int)round($this->Activity->getDistance() * 1000.0 * 100.0 / ($this->Activity->getCadence() * 2.0 / 60.0 * $this->Activity->getS()));
+            $strideLength = (int) round($this->Activity->getDistance() * 1000.0 * 100.0 / ($this->Activity->getCadence() * 2.0 / 60.0 * $this->Activity->getS()));
 
             if ($strideLength > 255) {
                 $strideLength = null;
@@ -139,7 +139,7 @@ class ActivityAdapter
         $verticalRatio = null;
 
         if ($this->Activity->getVerticalOscillation() > 0 && $this->Activity->getStrideLength() > 0) {
-            $verticalRatio = (int)round(100.0 * $this->Activity->getVerticalOscillation() / $this->Activity->getStrideLength());
+            $verticalRatio = (int) round(100.0 * $this->Activity->getVerticalOscillation() / $this->Activity->getStrideLength());
         }
 
         $this->Activity->setVerticalRatio($verticalRatio);
@@ -297,7 +297,7 @@ class ActivityAdapter
             }
 
             if ($totalTime > 0 && $numberOfPoints > 0) {
-                $swolf = (int)round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints);
+                $swolf = (int) round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints);
            }
         }
 

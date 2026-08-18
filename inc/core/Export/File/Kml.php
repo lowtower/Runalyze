@@ -71,7 +71,7 @@ class Kml extends AbstractFileExporter
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::KML;
     }

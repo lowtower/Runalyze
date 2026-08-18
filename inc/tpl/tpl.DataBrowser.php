@@ -98,8 +98,8 @@ $currentWeek = null;
 $currentMonth = null;
 foreach ($this->Days as $i => $day) {
 	$trClass = '';
-	$week = (int)\Runalyze\Configuration::General()->weekStart()->phpWeek($day['date'], true);
-	$month = (int)LocalTime::date('n', $day['date']);
+	$week = (int) \Runalyze\Configuration::General()->weekStart()->phpWeek($day['date'], true);
+	$month = (int) LocalTime::date('n', $day['date']);
 
 	if ($i > 0 && $week != $currentWeek) {
 		$trClass = $weekSeparator;

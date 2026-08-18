@@ -19,7 +19,7 @@ class TcxActivityRuntastic extends TcxActivity
     {
         parent::parseGeneralValues();
 
-        $this->Container->ActivityData->Duration = (string)$this->Xml->Lap->TotalTimeSeconds;
+        $this->Container->ActivityData->Duration = (string) $this->Xml->Lap->TotalTimeSeconds;
     }
 
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
@@ -32,14 +32,14 @@ class TcxActivityRuntastic extends TcxActivity
             $this->LastValidHR = round($trackPoint->HeartRateBpm->Value);
         }
 
-        $this->Container->ContinuousData->Time[] = $this->strtotime((string)$trackPoint->Time) - $this->Container->Metadata->getTimestamp();
-        $this->Container->ContinuousData->Distance[] = (float)$trackPoint->DistanceMeters / 1000;
-        $this->Container->ContinuousData->Altitude[] = (int)$trackPoint->AltitudeMeters;
+        $this->Container->ContinuousData->Time[] = $this->strtotime((string) $trackPoint->Time) - $this->Container->Metadata->getTimestamp();
+        $this->Container->ContinuousData->Distance[] = (float) $trackPoint->DistanceMeters / 1000;
+        $this->Container->ContinuousData->Altitude[] = (int) $trackPoint->AltitudeMeters;
         $this->Container->ContinuousData->HeartRate[] = $this->LastValidHR;
 
         if (!empty($trackPoint->Position)) {
-            $this->Container->ContinuousData->Latitude[] = (double)$trackPoint->Position->LatitudeDegrees;
-            $this->Container->ContinuousData->Longitude[] = (double)$trackPoint->Position->LongitudeDegrees;
+            $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
+            $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
         } elseif (!empty($this->Container->ContinuousData->Latitude)) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);

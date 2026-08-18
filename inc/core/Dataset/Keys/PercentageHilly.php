@@ -6,7 +6,7 @@ use Runalyze\Dataset\Context;
 
 class PercentageHilly extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::PERCENTAGE_HILLY;
 	}

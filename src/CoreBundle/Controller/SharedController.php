@@ -33,7 +33,7 @@ class SharedController extends Controller
     public function sharedTrainingAction($activityHash, Request $request)
     {
         /** @var null|Training $activity */
-        $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->find((int)base_convert((string)$activityHash, 35, 10));
+        $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->find((int) base_convert((string) $activityHash, 35, 10));
 
         if (null === $activity || !$activity->isPublic()) {
             return $this->render('shared/invalid_activity.html.twig');

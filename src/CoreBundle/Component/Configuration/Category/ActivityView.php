@@ -49,13 +49,13 @@ class ActivityView extends AbstractCategory
      */
     public function getElevationCalculationThreshold()
     {
-        return (int)$this->Variables['ELEVATION_TRESHOLD'];
+        return (int) $this->Variables['ELEVATION_TRESHOLD'];
     }
 
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\ActivityView::class;
     }

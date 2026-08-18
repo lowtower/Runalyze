@@ -44,7 +44,7 @@ class AnovaDataQuery
         $groups = $this->QueryGroup->loadAllGroups($entityManager, $account, $this->AnovaData);
 
         foreach ($groups as $id => $label) {
-            $this->Groups[(int)$id] = [
+            $this->Groups[(int) $id] = [
                 'label' => $label,
                 'data' => []
             ];
@@ -76,7 +76,7 @@ class AnovaDataQuery
         foreach ($iterator as $row) {
             $data = array_shift($row);
 
-            $this->Groups[(int)$data['grouping']]['data'][] = $unit->fromBaseUnit((float)$data['value']);
+            $this->Groups[(int) $data['grouping']]['data'][] = $unit->fromBaseUnit((float) $data['value']);
         }
 
         $this->filterEmptyGroups();

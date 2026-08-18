@@ -96,11 +96,11 @@ class LapIntensity extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (!is_numeric($fitValue) || (int)$fitValue < 0 || (int)$fitValue > 6 ) {
+        if (!is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6 ) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 
-        switch ((int)$fitValue) {
+        switch ((int) $fitValue) {
             case 0:
                 return self::getInstanceActive();
             case 1:

@@ -70,13 +70,13 @@ class PDOforRunalyze extends PDO {
 				&& strpos($statement, 'accountid=') === false
 			) {
 			if (strpos($statement, 'WHERE') >= 7) {
-				$statement = str_replace('WHERE', 'WHERE `accountid`='.(int)$this->accountID.' AND ', $statement);
+				$statement = str_replace('WHERE', 'WHERE `accountid`='.(int) $this->accountID.' AND ', $statement);
 			} elseif (strpos($statement, 'GROUP BY') >= 7) {
-				$statement = str_replace('GROUP BY', 'WHERE `accountid`='.(int)$this->accountID.' GROUP BY ', $statement);
+				$statement = str_replace('GROUP BY', 'WHERE `accountid`='.(int) $this->accountID.' GROUP BY ', $statement);
 			} elseif (strpos($statement, 'ORDER BY') >= 7) {
-				$statement = str_replace('ORDER BY', 'WHERE `accountid`='.(int)$this->accountID.' ORDER BY ', $statement);
+				$statement = str_replace('ORDER BY', 'WHERE `accountid`='.(int) $this->accountID.' ORDER BY ', $statement);
 			} else {
-				$statement = $statement.' WHERE `accountid`='.(int)$this->accountID;
+				$statement = $statement.' WHERE `accountid`='.(int) $this->accountID;
 			}
 		}
 	}
@@ -91,10 +91,10 @@ class PDOforRunalyze extends PDO {
 		$table = str_replace(PREFIX, '', $table);
 
 		if ($table == 'account' || $table == 'plugin_conf') {
-			return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int)$ID.' LIMIT 1')->fetch();
+			return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' LIMIT 1')->fetch();
 		}
 
-		return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int)$ID.' AND `accountid`="'.SessionAccountHandler::getId().'" LIMIT 1')->fetch();
+		return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' AND `accountid`="'.SessionAccountHandler::getId().'" LIMIT 1')->fetch();
 
         }
 
@@ -108,7 +108,7 @@ class PDOforRunalyze extends PDO {
 	public function deleteByID($table, $ID) {
 		$table = str_replace(PREFIX, '', $table);
 
-		return $this->query('DELETE FROM `'.PREFIX.$table.'` WHERE `id`='.(int)$ID.' LIMIT 1');
+		return $this->query('DELETE FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' LIMIT 1');
 	}
 
 	/**

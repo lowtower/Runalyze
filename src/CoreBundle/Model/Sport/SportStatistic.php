@@ -40,8 +40,8 @@ class SportStatistic
      */
     public function setNumberOfActivities($numberOfActivities, $numberOfActivitiesWithDistance = null)
     {
-        $this->NumberOfActivities = (int)$numberOfActivities;
-        $this->NumberOfActivitiesWithDistance = null !== $numberOfActivitiesWithDistance ? (int)$numberOfActivitiesWithDistance : null;
+        $this->NumberOfActivities = (int) $numberOfActivities;
+        $this->NumberOfActivitiesWithDistance = null !== $numberOfActivitiesWithDistance ? (int) $numberOfActivitiesWithDistance : null;
     }
 
     /**
@@ -69,7 +69,7 @@ class SportStatistic
      */
     public function setTotalDistance($kilometer)
     {
-        $this->TotalDistance = null !== $kilometer ? (float)$kilometer : null;
+        $this->TotalDistance = null !== $kilometer ? (float) $kilometer : null;
     }
 
     /**
@@ -93,7 +93,7 @@ class SportStatistic
      */
     public function setTotalDuration($timeInSeconds)
     {
-        $this->TotalDuration = null !== $timeInSeconds ? (float)$timeInSeconds : null;
+        $this->TotalDuration = null !== $timeInSeconds ? (float) $timeInSeconds : null;
     }
 
     /**

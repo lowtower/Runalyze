@@ -132,7 +132,7 @@ abstract class PlotSumData extends Plot {
 			return $this->ParamYear;
 		}
 
-		return (int)$this->ParamYear;
+		return (int) $this->ParamYear;
 	}
 
 	/**
@@ -467,7 +467,7 @@ abstract class PlotSumData extends Plot {
 	 */
 	protected function whereDate() {
 		if (is_numeric($this->Year)) {
-			return '`time` BETWEEN UNIX_TIMESTAMP(\''.(int)$this->Year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int)$this->Year+1).'-01-01\')-1';
+			return '`time` BETWEEN UNIX_TIMESTAMP(\''.(int) $this->Year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->Year+1).'-01-01\')-1';
 		} elseif ($this->Year == self::LAST_6_MONTHS) {
 			return '`time` >= '.$this->beginningOfLast6Months();
 		} else {
@@ -720,7 +720,7 @@ abstract class PlotSumData extends Plot {
 			}
 		}
 
-		return (int)round($sum / ($this->timerEnd - $this->timerStart + 1));
+		return (int) round($sum / ($this->timerEnd - $this->timerStart + 1));
 	}
 
 	/**

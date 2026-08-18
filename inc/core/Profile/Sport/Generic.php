@@ -51,7 +51,7 @@ class Generic extends AbstractSport
         return false;
     }
 
-    public function getPaceUnitEnum()
+    public function getPaceUnitEnum(): int
     {
         return PaceEnum::KILOMETER_PER_HOUR;
     }

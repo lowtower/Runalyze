@@ -25,7 +25,7 @@ class Html extends AbstractSnippetSharer
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::HTML;
     }

@@ -16,7 +16,7 @@ for ($w = 1; $w <= 7; $w++)
 	$xAxis[] = array($w-1, Time::weekday($w, true));
 
 if ($this->sportid > 0) {
-	$Sports = array(SportFactory::DataFor((int)$this->sportid));
+	$Sports = array(SportFactory::DataFor((int) $this->sportid));
 } else {
 	$Sports = SportFactory::AllSports();
 }

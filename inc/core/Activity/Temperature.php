@@ -78,7 +78,7 @@ class Temperature implements ValueInterface {
 		if (null === $temperature || $temperature === '') {
 			$this->Temperature = null;
 		} else {
-			$this->Temperature = round((float)str_replace(',', '.', $temperature), 2);
+			$this->Temperature = round((float) str_replace(',', '.', $temperature), 2);
 		}
 
 		return $this;
@@ -93,7 +93,7 @@ class Temperature implements ValueInterface {
 		if (null === $temperature || $temperature === '') {
 			$this->Temperature = null;
 		} else {
-			$this->Temperature = round(((float)str_replace(',', '.', $temperature)-32)/1.8, 2);
+			$this->Temperature = round(((float) str_replace(',', '.', $temperature)-32)/1.8, 2);
 		}
 
 		return $this;

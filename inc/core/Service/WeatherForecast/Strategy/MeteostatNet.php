@@ -85,23 +85,23 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         $data->Source = WeatherSourceProfile::METEOSTAT_NET;
 
         if (isset($currently['temp'])) {
-            $data->Temperature = (int)round($currently['temp']);
+            $data->Temperature = (int) round($currently['temp']);
         }
 
         if (isset($currently['pres'])) {
-            $data->AirPressure = (int)round($currently['pres']);
+            $data->AirPressure = (int) round($currently['pres']);
         }
 
         if (isset($currently['rhum'])) {
-            $data->Humidity = (int)round($currently['rhum']);
+            $data->Humidity = (int) round($currently['rhum']);
         }
 
         if (isset($currently['wspd'])) {
-            $data->WindSpeed = (int)round($currently['wspd']);
+            $data->WindSpeed = (int) round($currently['wspd']);
         }
 
         if (isset($currently['wdir'])) {
-            $data->WindDirection = (int)round($currently['wdir']);
+            $data->WindDirection = (int) round($currently['wdir']);
         }
 
         $data->InternalConditionId = $this->getInternalConditionId($currently);

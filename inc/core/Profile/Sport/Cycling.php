@@ -49,7 +49,7 @@ class Cycling extends AbstractSport
         return true;
     }
 
-    public function getPaceUnitEnum()
+    public function getPaceUnitEnum(): int
     {
         return PaceEnum::KILOMETER_PER_HOUR;
     }

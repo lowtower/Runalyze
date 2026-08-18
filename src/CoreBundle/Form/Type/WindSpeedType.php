@@ -34,30 +34,30 @@ class WindSpeedType extends AbstractUnitBasedType
     public function transform($value)
     {
         if (null !== $value) {
-            if (0 == (int)$value) {
+            if (0 == (int) $value) {
                 return 0;
             }
 
-            $value = $this->ModelUnit->toBaseUnit((int)$value);
+            $value = $this->ModelUnit->toBaseUnit((int) $value);
         }
 
-        return null === $value ? null : (int)round($this->Unit->fromBaseUnit($value));
+        return null === $value ? null : (int) round($this->Unit->fromBaseUnit($value));
     }
 
     public function reverseTransform($value)
     {
         if (null !== $value) {
-            if (0 == (int)$value) {
+            if (0 == (int) $value) {
                 return 0;
             }
 
-            $value = $this->Unit->toBaseUnit((int)$value);
+            $value = $this->Unit->toBaseUnit((int) $value);
         }
 
-        return null === $value ? null : (int)round($this->ModelUnit->fromBaseUnit($value));
+        return null === $value ? null : (int) round($this->ModelUnit->fromBaseUnit($value));
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return IntegerType::class;
     }

@@ -95,7 +95,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 */
 	protected function computeZones(): array {
 		if (null !== $this->Context->activity()->maxHrUser()) {
-			$hrMax = (int)$this->Context->activity()->maxHrUser();
+			$hrMax = (int) $this->Context->activity()->maxHrUser();
 			$footerHintMaxHr = 'with a maximum users heart-rate of '.$hrMax.' from the activity.';
 		} else {
 			$hrMax = Runalyze\Configuration::Data()->HRmax();

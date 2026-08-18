@@ -270,7 +270,7 @@ class ActivityDataContainerToActivityContextConverter
         }
 
         if (0 == $precision) {
-            return (int)round($value);
+            return (int) round($value);
         }
 
         return round($value, $precision);

@@ -96,7 +96,7 @@ class Location {
 	 */
 	public function geohash() {
 	    if ($this->hasPosition()) {
-			return (new Geohash())->encode(new Coordinate(array((float)$this->lat(), (float)$this->lon())), 12)->getGeohash();
+			return (new Geohash())->encode(new Coordinate(array((float) $this->lat(), (float) $this->lon())), 12)->getGeohash();
 	    }
 	}
 

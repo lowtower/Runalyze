@@ -92,7 +92,7 @@ class GeneratePoster
 
         $this->Parameter[] = '--json-dir '.$jsonDir;
         $this->Parameter[] = '--athlete '.$account->getUsername();
-        $this->Parameter[] = '--year '.(int)$year;
+        $this->Parameter[] = '--year '.(int) $year;
         $this->Parameter[] = '--output '.$this->pathToSvgDirectory().$this->Filename;
         $this->Parameter[] = '--type '.$type;
         $this->Parameter[] = '--title '.escapeshellarg($title);
@@ -118,10 +118,10 @@ class GeneratePoster
         $stats = $this->TrainingRepository->getStatsForPoster($account, $sport, $year)->getArrayResult();
         $data = $stats[0];
 
-        $this->Parameter[] = '--stat-num '.(int)$data['num'];
-        $this->Parameter[] = '--stat-total '.(float)$data['total_distance'];
-        $this->Parameter[] = '--stat-min '.(float)$data['min_distance'];
-        $this->Parameter[] = '--stat-max '.(float)$data['max_distance'];
+        $this->Parameter[] = '--stat-num '.(int) $data['num'];
+        $this->Parameter[] = '--stat-total '.(float) $data['total_distance'];
+        $this->Parameter[] = '--stat-min '.(float) $data['min_distance'];
+        $this->Parameter[] = '--stat-max '.(float) $data['max_distance'];
     }
 
     /**

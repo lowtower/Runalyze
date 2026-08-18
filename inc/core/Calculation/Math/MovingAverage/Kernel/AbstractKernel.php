@@ -38,7 +38,7 @@ abstract class AbstractKernel
             throw new \InvalidArgumentException('Kernel width must be a positive float.');
         }
 
-        $this->Width = (float)$width;
+        $this->Width = (float) $width;
         $this->TransformationFactor = $this->DefaultWidth / $this->Width;
     }
 

@@ -17,7 +17,7 @@ class PluginConfigurationValueFloat extends PluginConfigurationValue {
 	 * @param string $Value
 	 */
 	public function setValueFromString($Value) {
-		$this->Value = (float)$Value;
+		$this->Value = (float) $Value;
 	}
 
 	/**

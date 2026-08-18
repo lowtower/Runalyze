@@ -84,19 +84,19 @@ class MailingCommand extends ContainerAwareCommand
         $query->andWhere('a.allowMails = 1');
 
         if ($input->getOption('last-action-after')) {
-            $query->andWhere('a.lastaction > '.(int)$input->getOption('last-action-after'));
+            $query->andWhere('a.lastaction > '.(int) $input->getOption('last-action-after'));
         }
 
         if ($input->getOption('last-action-before')) {
-             $query->andWhere('a.lastaction < '.(int)$input->getOption('last-action-before'));
+             $query->andWhere('a.lastaction < '.(int) $input->getOption('last-action-before'));
         }
 
         if ($input->getOption('registration-after')) {
-             $query->andWhere('a.registerdate > '.(int)$input->getOption('registration-after'));
+             $query->andWhere('a.registerdate > '.(int) $input->getOption('registration-after'));
         }
 
         if ($input->getOption('registration-before')) {
-             $query->andWhere('a.registerdate < '.(int)$input->getOption('registration-before'));
+             $query->andWhere('a.registerdate < '.(int) $input->getOption('registration-before'));
         }
 
         $lang = $input->getOption('lang');

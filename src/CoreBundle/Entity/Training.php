@@ -940,7 +940,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setPublic($isPublic)
     {
-        $this->isPublic = (bool)$isPublic;
+        $this->isPublic = (bool) $isPublic;
 
         return $this;
     }
@@ -980,7 +980,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setTrack($isTrack)
     {
-        $this->isTrack = (bool)$isTrack;
+        $this->isTrack = (bool) $isTrack;
 
         return $this;
     }
@@ -1010,7 +1010,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setWithGoal($withGoal)
     {
-        return $this->withGoal = (bool)($withGoal);
+        return $this->withGoal = (bool) ($withGoal);
     }
 
     /**
@@ -1048,7 +1048,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setS($s)
     {
-        $this->s = (double)$s;
+        $this->s = (double) $s;
 
         return $this;
     }
@@ -1088,7 +1088,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setElevation($elevation)
     {
-        $this->elevation = null === $elevation ? null : (int)$elevation;
+        $this->elevation = null === $elevation ? null : (int) $elevation;
 
         return $this;
     }
@@ -1896,7 +1896,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setPowerCalculated($flag)
     {
-        $this->isPowerCalculated = null === $flag ? null : (bool)$flag;
+        $this->isPowerCalculated = null === $flag ? null : (bool) $flag;
 
         return $this;
     }
@@ -2237,7 +2237,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setTemperature($temperature)
     {
-        $this->temperature = null === $temperature ? null : (int)$temperature;
+        $this->temperature = null === $temperature ? null : (int) $temperature;
 
         return $this;
     }
@@ -2377,7 +2377,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setWeatherSource($weatherSource)
     {
-        $this->weatherSource = null === $weatherSource ? null : (int)$weatherSource;
+        $this->weatherSource = null === $weatherSource ? null : (int) $weatherSource;
 
         return $this;
     }
@@ -2638,7 +2638,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setActivityId($activityId)
     {
-        $this->activityId = null === $activityId ? null : (int)$activityId;
+        $this->activityId = null === $activityId ? null : (int) $activityId;
 
         return $this;
     }

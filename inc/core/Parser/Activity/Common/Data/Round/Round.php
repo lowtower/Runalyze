@@ -81,7 +81,7 @@ class Round
 
     public function roundDuration()
     {
-        $this->Duration = (int)round($this->Duration);
+        $this->Duration = (int) round($this->Duration);
     }
 
     /**

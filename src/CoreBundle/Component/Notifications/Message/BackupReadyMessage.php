@@ -8,7 +8,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class BackupReadyMessage implements MessageInterface
 {
-    public function getMessageType()
+    public function getMessageType(): int
     {
         return MessageTypeProfile::BACKUP_READY_MESSAGE;
     }

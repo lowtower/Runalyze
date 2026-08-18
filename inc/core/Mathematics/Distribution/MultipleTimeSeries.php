@@ -49,7 +49,7 @@ class MultipleTimeSeries
      * @param array $time continuous time points
      * @return array
      */
-    protected function generateHistogramsFor(array $dataOfMultipleSeries, array $time)
+    protected function generateHistogramsFor(array $dataOfMultipleSeries, array $time): array
     {
         $lastTime = 0;
         $dataKeys = array_keys($dataOfMultipleSeries);

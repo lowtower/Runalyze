@@ -137,7 +137,7 @@ class ProgressBar {
 	 * @param int $Goal
 	 */
 	public function setGoalLine($Goal) {
-		$this->Goal = max(0, min(100, (int)$Goal));
+		$this->Goal = max(0, min(100, (int) $Goal));
 	}
 
 	/**

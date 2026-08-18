@@ -355,7 +355,7 @@ class Splits {
 		foreach ($this->asArray as $split) {
 			if ($restingLaps || $split['active']) {
 				$Duration = new Duration($split['time']);
-				$paces[] = $split['km'] > 0 ? (int)round($Duration->seconds()/$split['km']) : 0;
+				$paces[] = $split['km'] > 0 ? (int) round($Duration->seconds()/$split['km']) : 0;
 			}
 		}
 

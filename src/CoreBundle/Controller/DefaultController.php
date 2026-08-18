@@ -155,7 +155,7 @@ class DefaultController extends AbstractPluginsAwareController
         $numDistance =  $repository->getAmountOfLoggedKilometers();
 
         return [
-            'user' => (int)$numUser,
+            'user' => (int) $numUser,
             'distance' => Distance::format($numDistance)
         ];
     }

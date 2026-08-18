@@ -52,7 +52,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 	 */
 	public function setValueFromPost() {
 		if (isset($_POST[$this->Key])) {
-			$this->Value = (float)$_POST[$this->Key] * $this->unitSystem()->distanceToKmFactor();
+			$this->Value = (float) $_POST[$this->Key] * $this->unitSystem()->distanceToKmFactor();
 		}
 	}
 

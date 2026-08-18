@@ -30,7 +30,7 @@ class SportRepository extends EntityRepository
     {
         return $this->findOneBy([
             'account' => $account->getId(),
-            'internalSportId' => (int)$internalTypeId
+            'internalSportId' => (int) $internalTypeId
         ]);
     }
 
@@ -131,7 +131,7 @@ class SportRepository extends EntityRepository
      */
     public function isInternalTypeFree($internalTypeId, Account $account)
     {
-        return null === $this->findInternalIdFor((int)$internalTypeId, $account);
+        return null === $this->findInternalIdFor((int) $internalTypeId, $account);
     }
 
     /**

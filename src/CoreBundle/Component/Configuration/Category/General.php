@@ -26,7 +26,7 @@ class General extends AbstractCategory
      */
     public function getRunningSport()
     {
-        return (int)$this->Variables['RUNNINGSPORT'];
+        return (int) $this->Variables['RUNNINGSPORT'];
     }
 
     /**
@@ -34,13 +34,13 @@ class General extends AbstractCategory
      */
     public function getMainSport()
     {
-        return (int)$this->Variables['MAINSPORT'];
+        return (int) $this->Variables['MAINSPORT'];
     }
 
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\General::class;
     }

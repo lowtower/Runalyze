@@ -26,7 +26,7 @@ class PluginConfRepository extends EntityRepository
 
         return array_filter(
             array_map(function ($id) {
-                return (int)trim($id);
+                return (int) trim($id);
             }, explode(',', $result))
         );
     }

@@ -62,7 +62,7 @@ class Helper {
 	 * @return string
 	 */
 	public static function TwoNumbers($int) {
-		return ($int < 10) ? '0'.$int : (string)$int;
+		return ($int < 10) ? '0'.$int : (string) $int;
 	}
 
 	/**

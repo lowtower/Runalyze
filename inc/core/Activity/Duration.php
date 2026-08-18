@@ -101,7 +101,7 @@ class Duration {
 			$split = explode('.', str_replace(',', '.', $string));
 
 			if (isset($split[1])) {
-				$this->Time += (float)('0.'.$split[1]);
+				$this->Time += (float) ('0.'.$split[1]);
 			}
 
 			$splitDays = explode('d ', $split[0]);
@@ -115,7 +115,7 @@ class Duration {
 			$num = count($parts);
 
 			foreach ($parts as $i => $part) {
-				$this->Time += (int)$part * pow(60, $num - $i - 1);
+				$this->Time += (int) $part * pow(60, $num - $i - 1);
 			}
 		}
 
@@ -192,10 +192,10 @@ class Duration {
 			return $this->formatString(substr($format, 0, -1)).$fraction;
 		}
 
-		$time = DateTime::createFromFormat('!U', (int)round($this->Time, $decimals), new DateTimeZone('UTC'));
+		$time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
 
 		if ($time === false) {
-			throw new \InvalidArgumentException('Can\'t format time (t = '.((int)round($this->Time)).').');
+			throw new \InvalidArgumentException('Can\'t format time (t = '.((int) round($this->Time)).').');
 		}
 
 		if ($format == self::FORMAT_WITH_HOURS) {

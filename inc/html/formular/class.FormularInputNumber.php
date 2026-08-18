@@ -39,11 +39,11 @@ class FormularInputNumber extends FormularInput {
 	 */
 	protected function addMinMax() {
 		if (null !== $this->min) {
-			$this->addAttribute('min', (int)$this->min);
+			$this->addAttribute('min', (int) $this->min);
 		}
 
 		if (null !== $this->max) {
-			$this->addAttribute('max', (int)$this->max);
+			$this->addAttribute('max', (int) $this->max);
 		}
 	}
 

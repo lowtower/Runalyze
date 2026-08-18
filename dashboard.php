@@ -69,7 +69,7 @@ if (!isset($request) || !$request->isXmlHttpRequest()) {
 					$showFirstPlugin = true;
 
 					if (isset($_GET['pluginid'])) {
-						$Plugin = $Factory->newInstanceFor((int)$_GET['pluginid']);
+						$Plugin = $Factory->newInstanceFor((int) $_GET['pluginid']);
 
 						if (!$Plugin->isInActive()) {
 							$showFirstPlugin = false;

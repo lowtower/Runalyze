@@ -101,9 +101,9 @@ class FormularValueParser {
 		$numParts  = count($dateParts);
 
 		if ($numParts == 3) {
-			$_POST[$key] = mktime(0, 0, 0, (int)$dateParts[1], (int)$dateParts[0], (int)$dateParts[2]);
+			$_POST[$key] = mktime(0, 0, 0, (int) $dateParts[1], (int) $dateParts[0], (int) $dateParts[2]);
 		} elseif ($numParts == 2) {
-			$_POST[$key] = mktime(0, 0, 0, (int)$dateParts[1], (int)$dateParts[0], date('Y'));
+			$_POST[$key] = mktime(0, 0, 0, (int) $dateParts[1], (int) $dateParts[0], date('Y'));
 		} else {
 			return __('The date could not be parsed.');
 		}

@@ -51,7 +51,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
 
         $precision = null === $this->MaxViewPrecision ? $this->ViewPrecision : $this->getPrecisionFor($value);
 
-        return number_format($this->Unit->fromBaseUnit((float)$value), $precision, '.', '');
+        return number_format($this->Unit->fromBaseUnit((float) $value), $precision, '.', '');
     }
 
     /**
@@ -64,7 +64,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
             $this->ViewPrecision,
             min(
                 $this->MaxViewPrecision,
-                strlen(substr(strrchr((string)$value, '.'), 1))
+                strlen(substr(strrchr((string) $value, '.'), 1))
             )
         );
     }
@@ -79,7 +79,7 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
             return null;
         }
 
-        $value = $this->Unit->toBaseUnit((float)str_replace(',', '.', $value));
+        $value = $this->Unit->toBaseUnit((float) str_replace(',', '.', $value));
 
         return null === $this->ModelPrecision ? $value : round($value, $this->ModelPrecision);
     }

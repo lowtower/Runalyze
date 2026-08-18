@@ -42,11 +42,11 @@ class SelfEvaluationFeeling extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (!is_numeric($fitValue) || (int)$fitValue < 0 || (int)$fitValue > 100 ) {
+        if (!is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 100 ) {
             throw new \InvalidArgumentException(sprintf('Provided evaluation effort %s is invalid.', $fitValue));
         }
 
-        switch ((int)$fitValue) {
+        switch ((int) $fitValue) {
             case 0.0:
                 return self::VERY_WEAK;
             case 25.0:

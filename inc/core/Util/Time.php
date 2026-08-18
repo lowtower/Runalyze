@@ -36,7 +36,7 @@ class Time {
 	 * @return int
 	 */
 	public static function diffOfDates($date1, $date2) {
-		return (int)date_diff(date_create($date1), date_create($date2))->format('%a');
+		return (int) date_diff(date_create($date1), date_create($date2))->format('%a');
 	}
 
 	/**

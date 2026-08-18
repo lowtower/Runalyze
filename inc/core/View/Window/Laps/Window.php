@@ -124,8 +124,8 @@ class Window {
 	 * Read request
 	 */
 	protected function readPropertiesFromRequest() {
-		if ((float)Request::param('distance') > 0) {
-			$this->LapDistance = min($this->Context->trackdata()->totalDistance(), $this->distanceToKm((float)Request::param('distance')));
+		if ((float) Request::param('distance') > 0) {
+			$this->LapDistance = min($this->Context->trackdata()->totalDistance(), $this->distanceToKm((float) Request::param('distance')));
 		}
 
 		if (strlen(Request::param('time')) > 0) {

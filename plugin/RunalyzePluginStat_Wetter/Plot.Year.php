@@ -8,7 +8,7 @@
 use Runalyze\Activity\Temperature;
 
 $Temperature = new Temperature();
-$Year         = (int)$_GET['y'];
+$Year         = (int) $_GET['y'];
 $Temperatures = array();
 
 $Query = '
@@ -27,7 +27,7 @@ $Query = '
 $Data = DB::getInstance()->query($Query)->fetchAll();
 
 foreach ($Data as $dat)
-	$Temperatures[$dat['time']] = $Temperature->format((int)$dat['temp'], false);
+	$Temperatures[$dat['time']] = $Temperature->format((int) $dat['temp'], false);
 
 $Plot = new Plot('year'.$Year, 780, 240);
 $Plot->Data[] = array(

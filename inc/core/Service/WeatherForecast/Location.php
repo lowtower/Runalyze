@@ -91,7 +91,7 @@ class Location
     public function getCoordinate()
     {
         if ($this->hasPosition()) {
-            return new Coordinate(array((float)$this->getLatitude(), (float)$this->getLongitude()));
+            return new Coordinate(array((float) $this->getLatitude(), (float) $this->getLongitude()));
         }
 
         return null;

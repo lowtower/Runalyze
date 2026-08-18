@@ -138,7 +138,7 @@ class PluginFactory {
 	 * @return Plugin
 	 */
 	public function newInstanceFor($id) {
-		return $this->newInstance( self::keyFor((int)$id) );
+		return $this->newInstance( self::keyFor((int) $id) );
 	}
 
 	/**

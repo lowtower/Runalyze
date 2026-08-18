@@ -67,7 +67,7 @@ class ModelQuery
         $Statement = $DB->query($this->query());
         while ($row = $Statement->fetch()) {
             // Don't rely on MySQLs timezone => calculate diff based on timestamp
-            $index = (int)$Today->diff(new LocalTime($row['time']))->format('%r%a');
+            $index = (int) $Today->diff(new LocalTime($row['time']))->format('%r%a');
             $this->Data[$index] = $row['trimp'];
         }
     }
@@ -80,11 +80,11 @@ class ModelQuery
         if (null === $this->From && null === $this->To) {
             $Where = '1';
         } else {
-            $Where = '`time` BETWEEN ' . (int)$this->From . ' AND ' . (int)$this->To;
+            $Where = '`time` BETWEEN ' . (int) $this->From . ' AND ' . (int) $this->To;
         }
 
         if (null !== $this->SportId) {
-            $Where .= ' AND `sportid`=' . (int)$this->SportId;
+            $Where .= ' AND `sportid`=' . (int) $this->SportId;
         }
 
         $Query = '

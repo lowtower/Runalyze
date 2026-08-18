@@ -408,7 +408,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      */
     public function getAge()
     {
-        return $this->knowsBirthYear() ? (int)date('Y') - $this->birthyear : null;
+        return $this->knowsBirthYear() ? (int) date('Y') - $this->birthyear : null;
     }
 
     /**

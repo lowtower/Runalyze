@@ -86,7 +86,7 @@ class TrainingEffect implements ValueInterface
             throw new \InvalidArgumentException(sprintf('Training Effect must be a number, not ' . $value));
         }
 
-		$value = (float)$value;
+		$value = (float) $value;
 		if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
 			throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
 		}

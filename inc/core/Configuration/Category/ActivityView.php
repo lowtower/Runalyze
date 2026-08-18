@@ -237,7 +237,7 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 * @return int
 	 */
 	public function decimals() {
-		return (int)$this->get('TRAINING_DECIMALS');
+		return (int) $this->get('TRAINING_DECIMALS');
 	}
 
 	/**

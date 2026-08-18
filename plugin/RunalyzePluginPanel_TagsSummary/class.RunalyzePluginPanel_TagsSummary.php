@@ -108,7 +108,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		$TimescaleLinks = [];
 
 		foreach ($this->AllSports as $id => $name) {
-			$active = $id == (int)$this->sportid;
+			$active = $id == (int) $this->sportid;
 			$SportLinks[] = '<li'.($active ? ' class="active"' : '').'>'.Ajax::link($name, 'panel-'.$this->id(), Plugin::$DISPLAY_URL.'/'.$this->id().'?sport='.$id).'</li>';
 
 			if ($active) {
@@ -143,7 +143,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 */
 	protected function displayContent() {
 		$Factory = \Runalyze\Context::Factory();
-		$Sport = $Factory->sport((int)$this->sportid);
+		$Sport = $Factory->sport((int) $this->sportid);
 
 		echo $this->getStyle();
 		echo '<div id="tags-summary">';
@@ -164,18 +164,18 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 				' LEFT JOIN '.PREFIX.'training training ON training.sportid = '.$Sport->id().
 				' LEFT JOIN '.PREFIX.'tag tag ON tag.id = activity_tag.tagid'.
 				' WHERE training.id = activityid'.
-				' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL '.(int)$timescale.' MONTH'.
+				' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL '.(int) $timescale.' MONTH'.
 				' GROUP BY tagid ORDER BY count DESC');
 
 		foreach ($countTagsForSport as $data) {
 			if ($max == 0) {
-				$max = (int)$data['count'];
+				$max = (int) $data['count'];
 			}
 
 			echo '<p style="position:relative;">
 				<span class="right">'.$data['count'].'x</span>
 				<strong>'.SearchLink::to('tagid', $data['tagid'], $data['tag']).'</strong>
-				'.$this->getUsageImage((int)$data['count'] / $max).'
+				'.$this->getUsageImage((int) $data['count'] / $max).'
 			</p>';
 		}
 

@@ -38,7 +38,7 @@ class RpeColor
         if (!is_numeric($value) || $value < 1 || $value > 10) {
             $this->Value = null;
         } else {
-            $this->Value = (int)$value;
+            $this->Value = (int) $value;
         }
 
 		return $this;

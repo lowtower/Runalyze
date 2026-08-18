@@ -108,7 +108,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
      */
     protected function getNumberOfLockedRoutes(EntityManager $em)
     {
-        return (int)$em->createQueryBuilder()
+        return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
             ->from('CoreBundle:Route','r')

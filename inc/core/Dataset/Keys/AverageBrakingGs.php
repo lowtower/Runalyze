@@ -7,7 +7,7 @@ use Runalyze\Dataset\SummaryMode;
 
 class AverageBrakingGs extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::AVG_BRAKING_GS;
 	}
@@ -27,7 +27,7 @@ class AverageBrakingGs extends AbstractKey
 		return $context->dataview()->brakingGs();
 	}
 
-    public function summaryMode()
+    public function summaryMode(): int
     {
         return SummaryMode::AVG;
     }

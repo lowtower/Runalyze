@@ -179,7 +179,7 @@ class TrendAnalysisType extends AbstractType
     /**
      * @return string
      */
-    protected function getQueryValueEnumForVO2max()
+    protected function getQueryValueEnumForVO2max(): string
     {
         if ($this->ConfigurationManager->getList()->useVO2maxCorrectionForElevation()) {
             return QueryValues::VO2MAX_WITH_ELEVATION;

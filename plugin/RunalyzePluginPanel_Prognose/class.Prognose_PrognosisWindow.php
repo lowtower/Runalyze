@@ -192,9 +192,9 @@ class Prognose_PrognosisWindow {
 	protected function setupEffectiveVO2maxPrognosis()
     {
         $this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\VO2max(
-            (float)Helper::CommaToPoint($_POST['vo2max']),
+            (float) Helper::CommaToPoint($_POST['vo2max']),
             isset($_POST['endurance']),
-            (int)$_POST['endurance-value']
+            (int) $_POST['endurance-value']
         );
 	}
 

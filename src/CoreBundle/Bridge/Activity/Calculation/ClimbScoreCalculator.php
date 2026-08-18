@@ -50,7 +50,7 @@ class ClimbScoreCalculator
                 return $fietsIndex->getScoreForProfile($climb->getClimbProfile()->getDistancesWithGradients(), $climb->getAltitudeAtTop());
             }
 
-            return $fietsIndex->getScoreFor($climb->getDistance(), $climb->getElevation(), (int)$climb->getAltitudeAtTop());
+            return $fietsIndex->getScoreFor($climb->getDistance(), $climb->getElevation(), (int) $climb->getAltitudeAtTop());
         }, $climbs->getElements());
 
         return $fietsIndices;

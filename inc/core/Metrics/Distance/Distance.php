@@ -12,7 +12,7 @@ class Distance extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return Kilometer::class;
     }

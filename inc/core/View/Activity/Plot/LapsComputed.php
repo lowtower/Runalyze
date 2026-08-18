@@ -60,7 +60,7 @@ class LapsComputed extends Laps {
 			if ($this->PaceUnit->isTimeFormat()) {
 				$this->Data[$i] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
 			} else {
-				$this->Data[$i] = (float)str_replace(',', '.', $Pace->value());
+				$this->Data[$i] = (float) str_replace(',', '.', $Pace->value());
 			}
 		}
 

@@ -48,9 +48,9 @@ class AnalysisData
         $stats = $trainingRepository->getMonthlyStatsFor($account, $this->getColumn(), $this->getSportId());
 
         foreach ($stats as $result) {
-            $year = (int)$result['year'];
-            $month = (int)$result['month'];
-            $value = (float)$result['value'];
+            $year = (int) $result['year'];
+            $month = (int) $result['month'];
+            $value = (float) $result['value'];
 
             if (!isset($this->Data[$year])) {
                 $this->Data[$year] = array_fill(1, 12, 0.0);

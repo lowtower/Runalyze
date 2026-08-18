@@ -6,7 +6,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class OpenWeatherMap extends AbstractSource
 {
-	public function getInternalProfileEnum()
+	public function getInternalProfileEnum(): int
     {
         return WeatherSourceProfile::OPEN_WEATHER_MAP;
     }

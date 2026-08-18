@@ -19,7 +19,7 @@ class MinPer100m extends AbstractTimeUnit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): int
 	{
 		return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_100M;
 	}

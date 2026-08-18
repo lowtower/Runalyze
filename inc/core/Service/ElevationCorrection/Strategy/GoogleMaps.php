@@ -38,7 +38,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         $responseLength = count($response['results']);
 
         for ($i = 0; $i < $responseLength; $i++) {
-            $altitudes[] = (int)round($response['results'][$i]['elevation']);
+            $altitudes[] = (int) round($response['results'][$i]['elevation']);
         }
 
         return $altitudes;

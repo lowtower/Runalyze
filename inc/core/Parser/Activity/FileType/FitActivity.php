@@ -241,7 +241,7 @@ class FitActivity extends AbstractSingleParser
     protected function readDeveloperDataId()
     {
         if ($this->Values['application_id']) {
-            $this->DeveloperDataAppIds[(int)$this->Values['developer_data_index'][0]] = $this->Values['application_id'][1];
+            $this->DeveloperDataAppIds[(int) $this->Values['developer_data_index'][0]] = $this->Values['application_id'][1];
         }
     }
 
@@ -264,8 +264,8 @@ class FitActivity extends AbstractSingleParser
 
     protected function readFieldDescriptionFor(array &$nativeFieldMapping, array &$fieldMapping)
     {
-        if (isset($this->Values['developer_data_index']) && isset($this->DeveloperDataAppIds[(int)$this->Values['developer_data_index'][0]])) {
-            $this->adjustFieldDescriptionForDeveloperApp($this->DeveloperDataAppIds[(int)$this->Values['developer_data_index'][0]]);
+        if (isset($this->Values['developer_data_index']) && isset($this->DeveloperDataAppIds[(int) $this->Values['developer_data_index'][0]])) {
+            $this->adjustFieldDescriptionForDeveloperApp($this->DeveloperDataAppIds[(int) $this->Values['developer_data_index'][0]]);
         }
 
         if (!isset($this->Values['developer_data_index']) || !isset($this->Values['field_name']) || !isset($this->Values['field_definition_number'])) {
@@ -338,9 +338,9 @@ class FitActivity extends AbstractSingleParser
             12 => 'power'
         ];
 
-        if (isset($resultingFieldNames[(int)$this->Values['field_definition_number'][0]])) {
+        if (isset($resultingFieldNames[(int) $this->Values['field_definition_number'][0]])) {
             $this->DeveloperFieldMappingForRecord[$fieldName] = [
-                $resultingFieldNames[(int)$this->Values['field_definition_number'][0]],
+                $resultingFieldNames[(int) $this->Values['field_definition_number'][0]],
                 1.0
             ];
         }
@@ -493,7 +493,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         if (isset($this->Values['time_created'])) {
-            $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Values['time_created'][1]);
+            $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['time_created'][1]);
         }
 
         if (isset($this->Values['manufacturer'])) {
@@ -687,7 +687,7 @@ class FitActivity extends AbstractSingleParser
     protected function readUserProfile()
     {
         if (isset($this->Values['xxx39'])) {
-            $this->Container->FitDetails->VO2maxEstimate = round((float)$this->Values['xxx39'][1] * 3.5, 2);
+            $this->Container->FitDetails->VO2maxEstimate = round((float) $this->Values['xxx39'][1] * 3.5, 2);
         }
     }
 
@@ -695,14 +695,14 @@ class FitActivity extends AbstractSingleParser
     {
         if (isset($this->Values['unknown0']) && 0.0 == $this->Container->FitDetails->VO2maxEstimate) {
             // TSC: used on fenix6
-            $this->Container->FitDetails->VO2maxEstimate = round((int)$this->Values['unknown0'][1] * 3.5 / 1024, 2);
+            $this->Container->FitDetails->VO2maxEstimate = round((int) $this->Values['unknown0'][1] * 3.5 / 1024, 2);
         }
     }
 
     protected function readUndocumentedDataBlob140()
     {
         if (isset($this->Values['performance_condition_end'])) {
-            $this->Container->FitDetails->PerformanceConditionEnd = 100 + (float)$this->Values['performance_condition_end'][1];
+            $this->Container->FitDetails->PerformanceConditionEnd = 100 + (float) $this->Values['performance_condition_end'][1];
             if (null === $this->Container->FitDetails->PerformanceCondition && null !== $this->Container->FitDetails->HrvAnalysis) {
                 $this->Container->FitDetails->PerformanceCondition = $this->Container->FitDetails->HrvAnalysis;
                 $this->Container->FitDetails->HrvAnalysis = null;
@@ -710,19 +710,19 @@ class FitActivity extends AbstractSingleParser
         }
 
         if (isset($this->Values['recovery_time'])) {
-            $this->RecoveryTimeFallback = (int)$this->Values['recovery_time'][1];
+            $this->RecoveryTimeFallback = (int) $this->Values['recovery_time'][1];
         }
 
         // #TSC: set Running Lactate Threshold Heart Rate, (in bpm) from 140er unknown14
         if (isset($this->Values['lactate_threshold_hr_bpm'])) {
-            $lthr = (int)$this->Values['lactate_threshold_hr_bpm'][1];
+            $lthr = (int) $this->Values['lactate_threshold_hr_bpm'][1];
             if ($lthr > 0 && $lthr <= 250) {
                 $this->Container->FitDetails->LactateThresholdHR = $lthr;
             }
         }
         // #TSC: set Running Lactate Threshold Pace, (in m/s) from 140er (should always be filled if lactate_threshold_hr_bpm is)
         if (isset($this->Values['lactate_threshold_pace'])) {
-            $ltp = (float)$this->Values['lactate_threshold_pace'][0];
+            $ltp = (float) $this->Values['lactate_threshold_pace'][0];
             // a value of 999 means 99 km/h
             if ($ltp > 0 && $ltp <= 999) {
                 // see https://forum.intervals.icu/t/all-fields-from-garmin-activity/28097
@@ -734,13 +734,13 @@ class FitActivity extends AbstractSingleParser
     protected function readEvent()
     {
         if (isset($this->Values['event']) && isset($this->Values['data'])) {
-            switch ((int)$this->Values['event'][1]) {
+            switch ((int) $this->Values['event'][1]) {
                 case 37:
-                    $this->Container->FitDetails->VO2maxEstimate = (int)$this->Values['data'][1];
+                    $this->Container->FitDetails->VO2maxEstimate = (int) $this->Values['data'][1];
                     return;
 
                 case 38:
-                    $this->Container->FitDetails->RecoveryTime = (int)$this->Values['data'][1];
+                    $this->Container->FitDetails->RecoveryTime = (int) $this->Values['data'][1];
                     return;
 
                 case 39:
@@ -748,14 +748,14 @@ class FitActivity extends AbstractSingleParser
 
                     // TODO: this may need more device and firmware specific conditions
                     if ($this->hasPerformanceCondition($creator) && is_numeric($this->Values['data'][1])) {
-                        $v = (int)$this->Values['data'][1];
+                        $v = (int) $this->Values['data'][1];
                         if ($v >= 0 && $v <= 255) {
                             // must set the original value around 100, because the UI substracts 100 - see class.SectionMiscellaneousRow.php
                             // (and there is inc/core/Parser/Activity/Common/Filter/OutOfRangeValueFilter.php)
                             $this->Container->FitDetails->PerformanceCondition = $v;
                         }
                     } else {
-                        $this->Container->FitDetails->HrvAnalysis = (int)$this->Values['data'][1];
+                        $this->Container->FitDetails->HrvAnalysis = (int) $this->Values['data'][1];
                     }
 
                     return;
@@ -766,7 +766,7 @@ class FitActivity extends AbstractSingleParser
             return;
         }
 
-        $thisTimestamp = $this->strtotime((string)$this->Values['timestamp'][1]);
+        $thisTimestamp = $this->strtotime((string) $this->Values['timestamp'][1]);
 
         if (!empty($this->Container->ContinuousData->Time) && ($this->Values['event_type'][1] == 'stop_all' || $this->Values['event_type'][1] == 'stop')) {
             $this->IsPaused = true;
@@ -784,7 +784,7 @@ class FitActivity extends AbstractSingleParser
             $this->IsPaused = false;
 
             if ($this->LastStopTimestamp === false) {
-                $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Values['timestamp'][1]);
+                $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['timestamp'][1]);
             } elseif ($thisTimestamp > $this->LastStopTimestamp) {
                 $this->PauseInSeconds += $thisTimestamp - $this->LastStopTimestamp;
             }
@@ -798,7 +798,7 @@ class FitActivity extends AbstractSingleParser
     protected function readBattery() {
         // set temperature of battery; besser als gar nichts ;-) will stored every 5 minutes on a Fenix 6
         if (isset($this->Values['temperature'])) {
-            $this->batteryTemperature[] = (int)$this->Values['temperature'][0];
+            $this->batteryTemperature[] = (int) $this->Values['temperature'][0];
         }
     }
 
@@ -843,11 +843,11 @@ class FitActivity extends AbstractSingleParser
 
         if ($this->IsSwimming) {
             // #TSC: if swimming, also save this values (if available)
-            $this->Container->ContinuousData->HeartRate[] = isset($this->Values['heart_rate']) ? (int)$this->Values['heart_rate'][0] : null;
-            $this->Container->ContinuousData->Temperature[] = isset($this->Values['temperature']) ? (int)$this->Values['temperature'][0] : null;
+            $this->Container->ContinuousData->HeartRate[] = isset($this->Values['heart_rate']) ? (int) $this->Values['heart_rate'][0] : null;
+            $this->Container->ContinuousData->Temperature[] = isset($this->Values['temperature']) ? (int) $this->Values['temperature'][0] : null;
 
             // save also the timestamp of the record
-            $this->RecordTime[] = isset($this->Values['timestamp']) ? (int)$this->Values['timestamp'][0] : null;
+            $this->RecordTime[] = isset($this->Values['timestamp']) ? (int) $this->Values['timestamp'][0] : null;
 
             return;
         }
@@ -859,20 +859,20 @@ class FitActivity extends AbstractSingleParser
             $last = -1;
         } else {
             if (empty($this->Container->ContinuousData->Time)) {
-                $startTime = $this->strtotime((string)$this->Values['timestamp'][1]);
+                $startTime = $this->strtotime((string) $this->Values['timestamp'][1]);
 
                 if ($startTime < $this->Container->Metadata->getTimestamp()) {
-                    $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Values['timestamp'][1]);
+                    $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['timestamp'][1]);
                 }
             }
-            $time = $this->strtotime((string)$this->Values['timestamp'][1]) - $this->Container->Metadata->getTimestamp() - $this->PauseInSeconds - $this->TimeJumpsInSeconds;
+            $time = $this->strtotime((string) $this->Values['timestamp'][1]) - $this->Container->Metadata->getTimestamp() - $this->PauseInSeconds - $this->TimeJumpsInSeconds;
             $last = end($this->Container->ContinuousData->Time);
 
             if ($this->WasPaused) {
-                $pause = new Pause($last, $this->strtotime((string)$this->Values['timestamp'][1]) - $this->LastStopTimestamp);
+                $pause = new Pause($last, $this->strtotime((string) $this->Values['timestamp'][1]) - $this->LastStopTimestamp);
                 $pause->setHeartRateDetails(
                     end($this->Container->ContinuousData->HeartRate),
-                    isset($this->Values['heart_rate']) ? (int)$this->Values['heart_rate'][0] : null
+                    isset($this->Values['heart_rate']) ? (int) $this->Values['heart_rate'][0] : null
                 );
 
                 $this->Container->Pauses->add($pause);
@@ -889,7 +889,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // #TSC: save also the timestamp of the record
-        $this->RecordTime[] = isset($this->Values['timestamp']) ? (int)$this->Values['timestamp'][0] : null;
+        $this->RecordTime[] = isset($this->Values['timestamp']) ? (int) $this->Values['timestamp'][0] : null;
 
         $this->Container->ContinuousData->Latitude[] = isset($this->Values['position_lat']) ? substr($this->Values['position_lat'][1], 0, -4) : null;
         $this->Container->ContinuousData->Longitude[] = isset($this->Values['position_long']) ? substr($this->Values['position_long'][1], 0, -4) : null;
@@ -911,15 +911,15 @@ class FitActivity extends AbstractSingleParser
         }
 
         $this->Container->ContinuousData->Distance[] = isset($this->Values['distance']) ? $this->Values['distance'][0] / 1e5 : end($this->Container->ContinuousData->Distance);
-        $this->Container->ContinuousData->HeartRate[] = isset($this->Values['heart_rate']) ? (int)$this->Values['heart_rate'][0] : null;
-        $this->Container->ContinuousData->Cadence[] = isset($this->Values['cadence']) ? (int)$this->Values['cadence'][0] : null;
-        $this->Container->ContinuousData->Power[] = isset($this->Values['power']) ? (int)$this->Values['power'][0] : null;
-        $this->Container->ContinuousData->LeftRightBalance[] = isset($this->Values['left_right_balance']) ? (int)$this->Values['left_right_balance'][0] : null;
-        $this->Container->ContinuousData->Temperature[] = isset($this->Values['temperature']) ? (int)$this->Values['temperature'][0] : null;
+        $this->Container->ContinuousData->HeartRate[] = isset($this->Values['heart_rate']) ? (int) $this->Values['heart_rate'][0] : null;
+        $this->Container->ContinuousData->Cadence[] = isset($this->Values['cadence']) ? (int) $this->Values['cadence'][0] : null;
+        $this->Container->ContinuousData->Power[] = isset($this->Values['power']) ? (int) $this->Values['power'][0] : null;
+        $this->Container->ContinuousData->LeftRightBalance[] = isset($this->Values['left_right_balance']) ? (int) $this->Values['left_right_balance'][0] : null;
+        $this->Container->ContinuousData->Temperature[] = isset($this->Values['temperature']) ? (int) $this->Values['temperature'][0] : null;
         // #TSC added performance-condition and respiration-rate
-        $this->Container->ContinuousData->PerformanceCondition[] = isset($this->Values['perf_cond']) ? (int)$this->Values['perf_cond'][0] : null;
+        $this->Container->ContinuousData->PerformanceCondition[] = isset($this->Values['perf_cond']) ? (int) $this->Values['perf_cond'][0] : null;
         // respiration-rate is 1000er; means 3500 => 35 per minute
-        $this->Container->ContinuousData->RespirationRate[] = isset($this->Values['respiration_rate']) ? round((int)($this->Values['respiration_rate'][0] / 100), 0) : null;
+        $this->Container->ContinuousData->RespirationRate[] = isset($this->Values['respiration_rate']) ? round((int) ($this->Values['respiration_rate'][0] / 100), 0) : null;
 
         $this->Container->ContinuousData->Time[] = $time;
 
@@ -928,23 +928,23 @@ class FitActivity extends AbstractSingleParser
             isset($this->Values['stance_time_left']) && isset($this->Values['stance_time_right']) ? round(($this->Values['stance_time_left'][0] + $this->Values['stance_time_right'][0]) / 2 / 10) : null
         );
         $this->Container->ContinuousData->VerticalOscillation[] = isset($this->Values['vertical_oscillation']) ? round($this->Values['vertical_oscillation'][0] / 10) : null;
-        $this->Container->ContinuousData->GroundContactBalance[] = isset($this->Values['stance_time_balance']) ? (int)$this->Values['stance_time_balance'][0] : (
+        $this->Container->ContinuousData->GroundContactBalance[] = isset($this->Values['stance_time_balance']) ? (int) $this->Values['stance_time_balance'][0] : (
             isset($this->Values['stance_time_left']) && isset($this->Values['stance_time_right']) ? round(10000 * $this->Values['stance_time_left'][0] / ($this->Values['stance_time_left'][0] + $this->Values['stance_time_right'][0])) : null
         );
 
         // Fit developer fields
-        $this->Container->ContinuousData->MuscleOxygenation[] = isset($this->Values['smo2_0']) ? (int)$this->Values['smo2_0'][0] : null;
-        $this->Container->ContinuousData->MuscleOxygenation_2[] = isset($this->Values['smo2_1']) ? (int)$this->Values['smo2_1'][0] : null;
-        $this->Container->ContinuousData->TotalHaemoglobin[] = isset($this->Values['thb_0']) ? (int)$this->Values['thb_0'][0] : null;
-        $this->Container->ContinuousData->TotalHaemoglobin_2[] = isset($this->Values['thb_1']) ? (int)$this->Values['thb_1'][0] : null;
+        $this->Container->ContinuousData->MuscleOxygenation[] = isset($this->Values['smo2_0']) ? (int) $this->Values['smo2_0'][0] : null;
+        $this->Container->ContinuousData->MuscleOxygenation_2[] = isset($this->Values['smo2_1']) ? (int) $this->Values['smo2_1'][0] : null;
+        $this->Container->ContinuousData->TotalHaemoglobin[] = isset($this->Values['thb_0']) ? (int) $this->Values['thb_0'][0] : null;
+        $this->Container->ContinuousData->TotalHaemoglobin_2[] = isset($this->Values['thb_1']) ? (int) $this->Values['thb_1'][0] : null;
 
         // RunScribe fields
         $this->Container->ContinuousData->ImpactGsLeft[] = isset($this->Values['impact_gs_left']) ? round($this->Values['impact_gs_left'][0], 1) : null;
         $this->Container->ContinuousData->ImpactGsRight[] = isset($this->Values['impact_gs_right']) ? round($this->Values['impact_gs_right'][0], 1) : null;
         $this->Container->ContinuousData->BrakingGsLeft[] = isset($this->Values['braking_gs_left']) ? round($this->Values['braking_gs_left'][0], 1) : null;
         $this->Container->ContinuousData->BrakingGsRight[] = isset($this->Values['braking_gs_right']) ? round($this->Values['braking_gs_right'][0], 1) : null;
-        $this->Container->ContinuousData->FootstrikeTypeLeft[] = isset($this->Values['fs_type_left']) ? (int)$this->Values['fs_type_left'][0] : null;
-        $this->Container->ContinuousData->FootstrikeTypeRight[] = isset($this->Values['fs_type_right']) ? (int)$this->Values['fs_type_right'][0] : null;
+        $this->Container->ContinuousData->FootstrikeTypeLeft[] = isset($this->Values['fs_type_left']) ? (int) $this->Values['fs_type_left'][0] : null;
+        $this->Container->ContinuousData->FootstrikeTypeRight[] = isset($this->Values['fs_type_right']) ? (int) $this->Values['fs_type_right'][0] : null;
         $this->Container->ContinuousData->PronationExcursionLeft[] = isset($this->Values['pronation_left']) ? round($this->Values['pronation_left'][0], 1) : null;
         $this->Container->ContinuousData->PronationExcursionRight[] = isset($this->Values['pronation_right']) ? round($this->Values['pronation_right'][0], 1) : null;
 
@@ -959,8 +959,8 @@ class FitActivity extends AbstractSingleParser
             $nativeFieldName = $nativeData[0];
             $nativeFactor = $nativeData[1];
 
-            if (isset($this->Values[$devFieldName]) && ((int)$this->Values[$devFieldName][0] != 0 || !isset($this->Values[$nativeFieldName]))) {
-                $this->Values[$devFieldName][0] = (float)$this->Values[$devFieldName][0] * $nativeFactor;
+            if (isset($this->Values[$devFieldName]) && ((int) $this->Values[$devFieldName][0] != 0 || !isset($this->Values[$nativeFieldName]))) {
+                $this->Values[$devFieldName][0] = (float) $this->Values[$devFieldName][0] * $nativeFactor;
                 $this->Values[$nativeFieldName] = $this->Values[$devFieldName];
             }
         }
@@ -1070,25 +1070,25 @@ class FitActivity extends AbstractSingleParser
             $this->IsSwimming = true;
         }
 
-        $this->Container->ContinuousData->Strokes[] = isset($this->Values['total_strokes']) ? (int)$this->Values['total_strokes'][0] : null;
+        $this->Container->ContinuousData->Strokes[] = isset($this->Values['total_strokes']) ? (int) $this->Values['total_strokes'][0] : null;
 
         // #TSC: if there is a rest/pause-lap ("length_type=0=idle" means nothink happens in this interval), set the BREAK-type
-        $stroketype = isset($this->Values['swim_stroke']) ? (int)$this->Values['swim_stroke'][0] : null;
+        $stroketype = isset($this->Values['swim_stroke']) ? (int) $this->Values['swim_stroke'][0] : null;
         if($stroketype == null && isset($this->Values['length_type']) && $this->Values['length_type'][0] == '0') {
             $this->Container->ContinuousData->StrokeType[] = StrokeTypeProfile::BREAK;
         } else {
             $this->Container->ContinuousData->StrokeType[] = $stroketype;
         }
 
-        $this->Container->ContinuousData->Cadence[] = isset($this->Values['avg_swimming_cadence']) ? (int)$this->Values['avg_swimming_cadence'][0] : null;
+        $this->Container->ContinuousData->Cadence[] = isset($this->Values['avg_swimming_cadence']) ? (int) $this->Values['avg_swimming_cadence'][0] : null;
 
         if (empty($this->Container->ContinuousData->Time)) {
             // at first time set the start time and the first "round/lane" duration
-            $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Values['start_time'][1]);
-            $this->Container->ContinuousData->Time[] = round(((int)$this->Values['total_timer_time'][0]) / 1000);
+            $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['start_time'][1]);
+            $this->Container->ContinuousData->Time[] = round(((int) $this->Values['total_timer_time'][0]) / 1000);
         } else {
             // save the duration of this lane
-            $this->Container->ContinuousData->Time[] = end($this->Container->ContinuousData->Time) + round(((int)$this->Values['total_timer_time'][0]) / 1000);
+            $this->Container->ContinuousData->Time[] = end($this->Container->ContinuousData->Time) + round(((int) $this->Values['total_timer_time'][0]) / 1000);
         }
 
         // #TSC: calculate the heart-rate / temp for this lane
@@ -1105,8 +1105,8 @@ class FitActivity extends AbstractSingleParser
      */
     protected function setSwimAdditionalInfos() {
         // get start- and end-time of this lane
-        $startTime = (int)$this->Values['start_time'][0];
-        $endTime = (int)($startTime + round(((int)$this->Values['total_timer_time'][0]) / 1000));
+        $startTime = (int) $this->Values['start_time'][0];
+        $endTime = (int) ($startTime + round(((int) $this->Values['total_timer_time'][0]) / 1000));
 
         // get the relevant records-times for this lane (inside the start/end-time)
         $recordTimes = array_filter($this->RecordTime, function($v, $k) use ($startTime, $endTime) {
@@ -1146,7 +1146,7 @@ class FitActivity extends AbstractSingleParser
 
             foreach ($values as $value) {
                 if ($value != '65535') {
-                    $this->Container->RRIntervals[] = 1000 * (double)substr($value, 0, -2);
+                    $this->Container->RRIntervals[] = 1000 * (double) substr($value, 0, -2);
                 }
             }
         }
@@ -1234,7 +1234,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         $split_type = $this->Values['split_type'][0];
-        $total_timer_time_s = round((int)($this->Values['total_timer_time'][0]) / 1000);
+        $total_timer_time_s = round((int) ($this->Values['total_timer_time'][0]) / 1000);
 
         // pace-pro
         if ($split_type == 0
@@ -1249,11 +1249,11 @@ class FitActivity extends AbstractSingleParser
 
             // real running values
             $split['t_s'] = $total_timer_time_s;
-            $split['dist_m'] = round((int)($this->Values['total_distance'][0]) / 100);
+            $split['dist_m'] = round((int) ($this->Values['total_distance'][0]) / 100);
 
             // pace-pro plan values
-            $split['pp_t_s'] = round((int)($this->Values['pacep_plan_duration'][0]) / 1000);
-            $split['pp_dist_m'] = round((int)($this->Values['pacep_plan_distance'][0]) / 100);
+            $split['pp_t_s'] = round((int) ($this->Values['pacep_plan_duration'][0]) / 1000);
+            $split['pp_dist_m'] = round((int) ($this->Values['pacep_plan_distance'][0]) / 100);
 
             // add it to the existing JSON array
             $this->Container->ActivityData->PaceGoal[] = $split;
@@ -1292,7 +1292,7 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['reference_mesg']) && $this->Values['reference_mesg'][1] == 'session') {
             // max hr of the user
             if (isset($this->Values['max_hr']) && $this->Values['max_hr'][0] != 0) {
-                $this->Container->ActivityData->MaxHeartRateUser = (int)$this->Values['max_hr'][0];
+                $this->Container->ActivityData->MaxHeartRateUser = (int) $this->Values['max_hr'][0];
             }
 
             // the zones: example "104,129,144,153,160,182"

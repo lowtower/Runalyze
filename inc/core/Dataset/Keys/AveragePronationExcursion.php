@@ -7,7 +7,7 @@ use Runalyze\Dataset\SummaryMode;
 
 class AveragePronationExcursion extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::AVG_PRONATION_EXCURSION;
 	}
@@ -32,7 +32,7 @@ class AveragePronationExcursion extends AbstractKey
 		return $context->dataview()->pronationExcursion();
 	}
 
-    public function summaryMode()
+    public function summaryMode(): int
     {
         return SummaryMode::AVG;
     }

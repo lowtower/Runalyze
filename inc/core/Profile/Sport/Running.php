@@ -49,7 +49,7 @@ class Running extends AbstractSport
         return true;
     }
 
-    public function getPaceUnitEnum()
+    public function getPaceUnitEnum(): int
     {
         return PaceEnum::SECONDS_PER_KILOMETER;
     }

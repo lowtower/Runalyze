@@ -245,7 +245,7 @@ class SearchResults {
 		$where = $this->getWhere();
 
 		$this->TotalNumberOfTrainings = DB::getInstance()->query('SELECT COUNT(*) FROM `'.PREFIX.'training` AS `t` '.$this->joinRaceResultIfRequired().' '.$where.' LIMIT 1')->fetchColumn();
-		$this->Page = (int)Request::param('page');
+		$this->Page = (int) Request::param('page');
 
 		if (($this->Page-1)*$this->ResultsPerPage > $this->TotalNumberOfTrainings)
 			$this->Page--;
@@ -363,7 +363,7 @@ class SearchResults {
 	 * @param array $conditions
 	 */
 	protected function addGradientCondition(array &$conditions) {
-		$value = 10*(float)str_replace(',', '.', $_POST['gradient']);
+		$value = 10*(float) str_replace(',', '.', $_POST['gradient']);
 
 		$conditions[] = '`t`.`distance` > 0';
 		$conditions[] = '`t`.`elevation` > 0';
@@ -389,7 +389,7 @@ class SearchResults {
 	protected function addConditionForArray($key, array &$conditions) {
 		$array = array_map(
 			function ($value) {
-				return (int)$value;
+				return (int) $value;
 			},
 			$_POST[$key]
 		);
@@ -429,7 +429,7 @@ class SearchResults {
 	 */
 	protected function transformValueForDatabase($key, $value) {
 		if (in_array($key, array('distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'))) {
-			$value = (float)str_replace(',', '.', $value);
+			$value = (float) str_replace(',', '.', $value);
 		}
 
 		if ($key == 'elevation') {
@@ -512,14 +512,14 @@ class SearchResults {
 		if (is_array($_POST['sportid'])) {
 			$array = array_map(
 				function ($value) {
-					return (int)$value;
+					return (int) $value;
 				},
 				$_POST['sportid']
 			);
 
 			$conditions[] = '`t`.`sportid` IN('.implode(',', $array).')';
 		} else {
-			$conditions[] = '`t`.`sportid`="'.(int)$_POST['sportid'].'"';
+			$conditions[] = '`t`.`sportid`="'.(int) $_POST['sportid'].'"';
 		}
 	}
 
@@ -535,7 +535,7 @@ class SearchResults {
 		if (is_array($_POST['equipmentid'])) {
 			$array = array_map(
 				function ($value) {
-					return (int)$value;
+					return (int) $value;
 				},
 				$_POST['equipmentid']
 			);
@@ -543,7 +543,7 @@ class SearchResults {
 			return 'INNER JOIN (SELECT `ae`.`activityid` FROM `'.PREFIX.'activity_equipment` AS `ae` WHERE `ae`.`equipmentid` IN('.implode(',', $array).')) AS `suba` ON `suba`.`activityid` = `t`.`id`';
 		}
 
-		return 'INNER JOIN `'.PREFIX.'activity_equipment` AS `ae` ON `ae`.`activityid` = `t`.`id` AND `ae`.`equipmentid`="'.(int)$_POST['equipmentid'].'"';
+		return 'INNER JOIN `'.PREFIX.'activity_equipment` AS `ae` ON `ae`.`activityid` = `t`.`id` AND `ae`.`equipmentid`="'.(int) $_POST['equipmentid'].'"';
 	}
 
 	/**
@@ -558,7 +558,7 @@ class SearchResults {
 		if (is_array($_POST['tagid'])) {
 			$array = array_map(
 				function ($value) {
-					return (int)$value;
+					return (int) $value;
 				},
 				$_POST['tagid']
 			);
@@ -566,7 +566,7 @@ class SearchResults {
 			return 'INNER JOIN (SELECT `at`.`activityid` FROM `'.PREFIX.'activity_tag` AS `at` WHERE `at`.`tagid` IN('.implode(',', $array).')) AS `subb` ON `subb`.`activityid` = `t`.`id`';
 		}
 
-		return 'INNER JOIN `'.PREFIX.'activity_tag` AS `at` ON `at`.`activityid` = `t`.`id` AND `at`.`tagid`="'.(int)$_POST['tagid'].'"';
+		return 'INNER JOIN `'.PREFIX.'activity_tag` AS `at` ON `at`.`activityid` = `t`.`id` AND `at`.`tagid`="'.(int) $_POST['tagid'].'"';
 	}
 
 	/**
@@ -666,7 +666,7 @@ class SearchResults {
      */
 	public function getIdsForMultiEditor() {
 	    return array_map(function($data) {
-	        return (int)$data['id'];
+	        return (int) $data['id'];
         }, $this->Trainings);
     }
 

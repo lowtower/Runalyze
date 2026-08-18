@@ -12,7 +12,7 @@ class CastedDecimalScale2Type extends DecimalType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return (null === $value) ? null : (float)$value;
+        return (null === $value) ? null : (float) $value;
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)

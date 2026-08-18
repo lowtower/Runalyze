@@ -90,7 +90,7 @@ class WeatherController extends Controller
         }
 
         // #TSC set also the timezone for fetch historical time based data
-        $timezone = (int)$account->getTimezone();
+        $timezone = (int) $account->getTimezone();
         $timezoneName = Timezone::getFullNameByEnum($timezone);
         $location->setTimezone($timezoneName);
 

@@ -227,7 +227,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		sort($AllDistances);
 
 		foreach ($AllDistances as $distance) {
-			$Races = $this->RaceContainer->races((float)$distance);
+			$Races = $this->RaceContainer->races((float) $distance);
 
 			if (count($Races) > 1 || in_array($distance, $this->Configuration()->value('pb_distances'))) {
 				$this->PBdistances[] = $distance;
@@ -298,7 +298,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		$dists = array();
 		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()->value('pb_distances') : array(3, 5, 10, 21.1, 42.2);
 		foreach ($kms as $km)
-			$dists[(string)$km] = array(
+			$dists[(string) $km] = array(
 			    'sum' => 0,
 			    'pb' => INFINITY
 			);
@@ -317,9 +317,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$year[$wk['y']]['sum']++;
 			foreach($kms as $km)
 				if ($km == $wk['official_distance']) {
-					$year[$wk['y']][(string)$km]['sum']++;
-					if ($wk['official_time'] < $year[$wk['y']][(string)$km]['pb'])
-						$year[$wk['y']][(string)$km]['pb'] = $wk['official_time'];
+					$year[$wk['y']][(string) $km]['sum']++;
+					if ($wk['official_time'] < $year[$wk['y']][(string) $km]['pb'])
+						$year[$wk['y']][(string) $km]['pb'] = $wk['official_time'];
 				}
 		}
 
@@ -349,15 +349,15 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 				$y = $year[$key];
 
 				if ($key != 'sum') {
-					if ($y[(string)$km]['sum'] != 0) {
+					if ($y[(string) $km]['sum'] != 0) {
 						$PB = new PersonalBest($km, $this->sportid);
-						$distance = Duration::format($y[(string)$km]['pb']);
+						$distance = Duration::format($y[(string) $km]['pb']);
 
-						if ($PB->seconds() == $y[(string)$km]['pb']) {
+						if ($PB->seconds() == $y[(string) $km]['pb']) {
 							$distance = '<strong>'.$distance.'</strong>';
 						}
 
-						echo '<td>'.$distance.' <small>'.$y[(string)$km]['sum'].'x</small></td>';
+						echo '<td>'.$distance.' <small>'.$y[(string) $km]['sum'].'x</small></td>';
 					} else {
 						echo '<td><em><small>---</small></em></td>';
 					}

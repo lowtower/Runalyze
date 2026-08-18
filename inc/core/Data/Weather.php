@@ -102,7 +102,7 @@ class Weather {
 	 */
 	public function setSource($sourceId) {
 		if (null !== $sourceId) {
-			$sourceId = (int)$sourceId;
+			$sourceId = (int) $sourceId;
 
 			if (!Sources::isValidValue($sourceId)) {
 				throw new \InvalidArgumentException('Provided source must be null or defined in sources enum.');

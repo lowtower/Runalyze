@@ -222,7 +222,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     }
 
     /**
-     * @return int $hrAvg [bpm]
+     * @return int [bpm]
      */
     public function getHrAvg()
     {

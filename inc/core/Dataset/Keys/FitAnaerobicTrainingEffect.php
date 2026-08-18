@@ -23,7 +23,7 @@ class FitAnaerobicTrainingEffect extends AbstractKey
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_ANAEROBIC_TRAINING_EFFECT;
 	}

@@ -62,7 +62,7 @@ class Tcx extends AbstractFileExporter
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::TCX;
     }
@@ -188,8 +188,8 @@ class Tcx extends AbstractFileExporter
         }
 
         do {
-            if ($this->Activity->Lap[(int)floor($Trackdata->distance())]) {
-                $Trackpoint = $this->Activity->Lap[(int)floor($Trackdata->distance())]->Track->addChild('Trackpoint');
+            if ($this->Activity->Lap[(int) floor($Trackdata->distance())]) {
+                $Trackpoint = $this->Activity->Lap[(int) floor($Trackdata->distance())]->Track->addChild('Trackpoint');
                 $Trackpoint->addChild('Time', $this->timeToString($Starttime + $Trackdata->time()));
 
                 if ($this->HasRoute) {

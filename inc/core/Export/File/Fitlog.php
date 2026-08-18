@@ -54,7 +54,7 @@ class Fitlog extends AbstractFileExporter
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::FITLOG;
     }
@@ -82,7 +82,7 @@ class Fitlog extends AbstractFileExporter
      */
     final protected function timeToString($time)
     {
-        return LocalTime::date('c', (int)$time);
+        return LocalTime::date('c', (int) $time);
     }
 
     /**
@@ -96,7 +96,7 @@ class Fitlog extends AbstractFileExporter
 
         $this->Activity->addAttribute('StartTime', $this->timeToString($this->Context->activity()->timestamp()));
 
-        $this->Activity->Duration->addAttribute('TotalSeconds', (int)$this->Context->activity()->duration());
+        $this->Activity->Duration->addAttribute('TotalSeconds', (int) $this->Context->activity()->duration());
         $this->Activity->Distance->addAttribute('TotalMeters', 1000*$this->Context->activity()->distance());
         $this->Activity->Calories->addAttribute('TotalCal', $this->Context->activity()->energy());
     }

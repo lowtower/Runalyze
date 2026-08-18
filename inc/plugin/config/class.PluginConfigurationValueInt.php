@@ -17,7 +17,7 @@ class PluginConfigurationValueInt extends PluginConfigurationValue {
 	 * @param string $Value
 	 */
 	public function setValueFromString($Value) {
-		$this->Value = (int)$Value;
+		$this->Value = (int) $Value;
 	}
 
 	/**

@@ -74,7 +74,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		}
 
 		$this->setConfiguration($Configuration);
-		$this->EquipmentTypeId = (int)$this->Configuration()->value('equipment_type');
+		$this->EquipmentTypeId = (int) $this->Configuration()->value('equipment_type');
 	}
 
 	/**

@@ -216,7 +216,7 @@ class ToolsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $formdata = $request->request->get($form->getName());
 
-            $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, (int)$formdata['year'], (int)$formdata['sport']);
+            $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, (int) $formdata['year'], (int) $formdata['sport']);
             if ($numberOfActivities <= 1) {
                 $this->addFlash('error', $this->get('translator')->trans('There are not enough activities to generate a poster. Please change your selection.'));
             } else {

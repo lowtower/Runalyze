@@ -33,7 +33,7 @@ class FloatingPoint extends \Runalyze\Parameter {
 		if ($valueAsString == '' && $this->Options['null']) {
 			$this->set(null);
 		} else {
-			$this->set((float)Helper::CommaToPoint($valueAsString));
+			$this->set((float) Helper::CommaToPoint($valueAsString));
 		}
 	}
 
@@ -64,7 +64,7 @@ class FloatingPoint extends \Runalyze\Parameter {
 			return '';
 		}
 
-		return (string)$value;
+		return (string) $value;
 	}
 
 	/**

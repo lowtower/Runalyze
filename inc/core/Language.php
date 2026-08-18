@@ -262,7 +262,7 @@ class Language implements InterfaceChoosable
             $l = strtolower($option[0]);
 
             if (isset($option[1])) {
-                $q = (float)str_replace('q=', '', $option[1]);
+                $q = (float) str_replace('q=', '', $option[1]);
             } else {
                 $q = null;
 

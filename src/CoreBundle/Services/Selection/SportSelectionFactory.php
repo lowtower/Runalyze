@@ -49,11 +49,11 @@ class SportSelectionFactory
         }
 
         foreach ($this->SportRepository->findAllFor($this->getUser()) as $sport) {
-            $sportList[(string)$sport->getId()] = $sport->getName();
+            $sportList[(string) $sport->getId()] = $sport->getName();
         }
 
         if (null === $param || !isset($sportList[$param])) {
-            $param = (string)$this->ConfigurationManager->getList()->getGeneral()->getRunningSport();
+            $param = (string) $this->ConfigurationManager->getList()->getGeneral()->getRunningSport();
         }
 
         return new Selection($sportList, $param);

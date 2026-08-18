@@ -20,7 +20,7 @@ class FitTrainingEffectBenefit extends AbstractKey
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_TRAINING_EFFECT_BENEFIT;
 	}

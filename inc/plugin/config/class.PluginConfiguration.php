@@ -137,7 +137,7 @@ class PluginConfiguration {
 		if (isset($this->Values[$key])) {
 			DB::getInstance()->updateWhere(
 				'plugin_conf',
-				'`pluginid`='.(int)$this->PluginID.' AND `config`="'.$key.'"',
+				'`pluginid`='.(int) $this->PluginID.' AND `config`="'.$key.'"',
 				'value',
 				$this->Values[$key]->valueAsString()
 			);

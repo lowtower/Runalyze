@@ -48,24 +48,24 @@ class PwxWorkout extends AbstractSingleParser
      */
     protected function parseGeneralValues()
     {
-        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Xml->time);
+        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->time);
 
-        if (strlen((string)$this->Xml->time) == 19) {
+        if (strlen((string) $this->Xml->time) == 19) {
             $this->Container->Metadata->setTimezoneOffset(null);
         }
 
         if (!empty($this->Xml->sportType)) {
-            $this->Container->Metadata->setSportName((string)$this->Xml->sportType);
+            $this->Container->Metadata->setSportName((string) $this->Xml->sportType);
         }
 
         if (!empty($this->Xml->device)) {
-            $string = (string)$this->Xml->device->make.', '.((string)$this->Xml->device->model);
+            $string = (string) $this->Xml->device->make.', '.((string) $this->Xml->device->model);
 
-            $this->Container->Metadata->setCreator('', $string.' ('.((string)$this->Xml->device['id']).')');
+            $this->Container->Metadata->setCreator('', $string.' ('.((string) $this->Xml->device['id']).')');
         }
 
         if (!empty($this->Xml->cmt)) {
-            $this->Container->Metadata->setDescription((string)$this->Xml->cmt);
+            $this->Container->Metadata->setDescription((string) $this->Xml->cmt);
         }
     }
 
@@ -83,12 +83,12 @@ class PwxWorkout extends AbstractSingleParser
     protected function parseLap(SimpleXMLElement $lap)
     {
         if (!empty($lap->Calories)) {
-            $this->Container->ActivityData->EnergyConsumption += (int)$lap->Calories;
+            $this->Container->ActivityData->EnergyConsumption += (int) $lap->Calories;
         }
 
         $this->Container->Rounds->add(new Round(
-            round((int)$lap->dist) / 1000,
-            round((float)$lap->duration)
+            round((int) $lap->dist) / 1000,
+            round((float) $lap->duration)
         ));
     }
 
@@ -101,19 +101,19 @@ class PwxWorkout extends AbstractSingleParser
 
     protected function parseLogEntry(SimpleXMLElement $log)
     {
-        if ((int)$log->timeoffset == 0 || (empty($log->dist) && (empty($log->lat) || empty($log->lon)))) {
+        if ((int) $log->timeoffset == 0 || (empty($log->dist) && (empty($log->lat) || empty($log->lon)))) {
             return;
         }
 
-        $this->Container->ContinuousData->Time[] = (int)$log->timeoffset;
-        $this->Container->ContinuousData->Latitude[] = (!empty($log->lat)) ? (double)$log->lat : null;
-        $this->Container->ContinuousData->Longitude[] = (!empty($log->lon)) ? (double)$log->lon : null;
-        $this->Container->ContinuousData->Altitude[] = (!empty($log->alt)) ? round((int)$log->alt) : null;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($log->hr)) ? round((int)$log->hr) : null;
-        $this->Container->ContinuousData->Distance[] = (!empty($log->dist)) ? (float)$log->dist / 1000 : null;
-        $this->Container->ContinuousData->Cadence[] = (!empty($log->cad)) ? (int)$log->cad : null;
-        $this->Container->ContinuousData->Temperature[] = (!empty($log->temp)) ? round((int)$log->temp) : null;
-        $this->Container->ContinuousData->Power[] = (!empty($log->pwr)) ? round((int)$log->pwr) : null;
+        $this->Container->ContinuousData->Time[] = (int) $log->timeoffset;
+        $this->Container->ContinuousData->Latitude[] = (!empty($log->lat)) ? (double) $log->lat : null;
+        $this->Container->ContinuousData->Longitude[] = (!empty($log->lon)) ? (double) $log->lon : null;
+        $this->Container->ContinuousData->Altitude[] = (!empty($log->alt)) ? round((int) $log->alt) : null;
+        $this->Container->ContinuousData->HeartRate[] = (!empty($log->hr)) ? round((int) $log->hr) : null;
+        $this->Container->ContinuousData->Distance[] = (!empty($log->dist)) ? (float) $log->dist / 1000 : null;
+        $this->Container->ContinuousData->Cadence[] = (!empty($log->cad)) ? (int) $log->cad : null;
+        $this->Container->ContinuousData->Temperature[] = (!empty($log->temp)) ? round((int) $log->temp) : null;
+        $this->Container->ContinuousData->Power[] = (!empty($log->pwr)) ? round((int) $log->pwr) : null;
     }
 
     protected function parseEvents()
@@ -122,17 +122,17 @@ class PwxWorkout extends AbstractSingleParser
         $stopOffset = false;
 
         foreach ($this->Xml->event as $event) {
-            if ((string)$event->type == 'Starting' && $isStopped && $stopOffset !== false) {
+            if ((string) $event->type == 'Starting' && $isStopped && $stopOffset !== false) {
                 $this->Container->PausesToApply->add(new Pause(
                     $stopOffset,
-                    (int)$event->timeoffset - $stopOffset
+                    (int) $event->timeoffset - $stopOffset
                 ));
 
                 $isStopped = false;
                 $stopOffset = false;
-            } elseif ((string)$event->type == 'Stopping') {
+            } elseif ((string) $event->type == 'Stopping') {
                 $isStopped = true;
-                $stopOffset = (int)$event->timeoffset;
+                $stopOffset = (int) $event->timeoffset;
             }
         }
     }

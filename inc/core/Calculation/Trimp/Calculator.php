@@ -90,8 +90,8 @@ class Calculator {
 		$B = $Factor->B();
 
 		foreach ($this->Data as $bpm => $t) {
-			$hr = max(0, ((int)$bpm - $rest) / ($max - $rest));
-			$sum += (float)$t / 60 * $hr * exp($B * $hr);
+			$hr = max(0, ((int) $bpm - $rest) / ($max - $rest));
+			$sum += (float) $t / 60 * $hr * exp($B * $hr);
 		}
 
 		$this->value = $Factor->A() * $sum;

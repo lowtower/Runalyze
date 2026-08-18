@@ -11,7 +11,7 @@ if (!($this instanceof RunalyzePluginStat_Wettkampf)) {
 	die('Not allowed.');
 }
 
-$distance    = !is_numeric($_GET['km']) ? 10 : (float)$_GET['km'];
+$distance    = !is_numeric($_GET['km']) ? 10 : (float) $_GET['km'];
 $Dates       = array();
 $Results     = array();
 $label       = str_replace('&nbsp;', ' ', sprintf( __('Result over %s'), (new Distance($distance))->stringAuto(true, 1) ) );

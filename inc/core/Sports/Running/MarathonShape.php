@@ -47,7 +47,7 @@ class MarathonShape
         $percentageWeekly = $totalDistanceInTimePeriod * 7.0 / $this->Configuration->getDaysToConsiderForWeeklyMileage($numberOfDaysSinceFirstActivity) / $this->getTargetForWeeklyMileage();
         $percentageLongJogs = $totalWeightedRelativeLongJogPoints * 7.0 / $this->Configuration->getDaysToConsiderForLongJogs();
 
-        return (int)round(100.0 * (
+        return (int) round(100.0 * (
             $percentageWeekly * $this->Configuration->getPercentageForWeeklyMileage() +
             $percentageLongJogs * $this->Configuration->getPercentageForLongJogs()
         ));

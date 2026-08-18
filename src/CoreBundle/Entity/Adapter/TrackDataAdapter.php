@@ -74,7 +74,7 @@ class TrackDataAdapter
 
         for ($i = 0; $i < $num; ++$i) {
             $strideLength[] = ($cadence[$i] > 0 && $pace[$i] > 0)
-                ? (int)round( 1000 * 100 / ($cadence[$i] * 2 * $pace[$i] / 60))
+                ? (int) round( 1000 * 100 / ($cadence[$i] * 2 * $pace[$i] / 60))
                 : 0;
         }
 
@@ -95,7 +95,7 @@ class TrackDataAdapter
         $verticalRatio = [];
 
         for ($i = 0; $i < $num; ++$i) {
-            $verticalRatio[] = ($strideLength[$i] > 0) ? (int)round(100 * $oscillation[$i] / $strideLength[$i]) : 0;
+            $verticalRatio[] = ($strideLength[$i] > 0) ? (int) round(100 * $oscillation[$i] / $strideLength[$i]) : 0;
         }
 
         $this->TrackData->setVerticalRatio($verticalRatio);

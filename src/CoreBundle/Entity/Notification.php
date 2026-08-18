@@ -115,7 +115,7 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setCreatedAt($createdAt)
     {
-        $this->createdAt = (int)$createdAt;
+        $this->createdAt = (int) $createdAt;
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Notification implements AccountRelatedEntityInterface
         if (null === $lifetime) {
             $this->expirationAt = null;
         } else {
-            $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)->modify('+'.(int)$lifetime.' days')->getTimestamp();
+            $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)->modify('+'.(int) $lifetime.' days')->getTimestamp();
         }
 
         return $this;
@@ -151,7 +151,7 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setExpirationAt($expirationAt = null)
     {
-        $this->expirationAt = $expirationAt ? (int)$expirationAt : null;
+        $this->expirationAt = $expirationAt ? (int) $expirationAt : null;
 
         return $this;
     }
@@ -191,7 +191,7 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setRead($flag = true)
     {
-        $this->wasRead = (bool)$flag;
+        $this->wasRead = (bool) $flag;
 
         return $this;
     }

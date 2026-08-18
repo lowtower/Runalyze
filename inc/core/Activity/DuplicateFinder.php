@@ -32,7 +32,7 @@ class DuplicateFinder
     public function __construct(PDO $pdo, $accountId)
     {
 	    $this->PDO = $pdo;
-	    $this->AccountId = (int)$accountId;
+	    $this->AccountId = (int) $accountId;
     }
 
     /*

@@ -11,9 +11,9 @@ use Runalyze\Activity\Distance;
 require 'class.RunalyzePluginStat_Strecken.php';
 
 // #TSC the positioninterval (use every n gps-position of the shown routes)
-$positioninterval = isset($_GET['posint']) ? (int)$_GET['posint'] : 1;
-$sport = isset($_GET['sport']) ? (int)$_GET['sport'] : -1;
-$year = isset($_GET['y']) ? (int)$_GET['y'] : date('Y');
+$positioninterval = isset($_GET['posint']) ? (int) $_GET['posint'] : 1;
+$sport = isset($_GET['sport']) ? (int) $_GET['sport'] : -1;
+$year = isset($_GET['y']) ? (int) $_GET['y'] : date('Y');
 
 // #TSC the count of current showable routes increase if the positioninterval increase (and therefore the number of points decrease)
 $routesLimit = RunalyzePluginStat_Strecken::MAX_ROUTES_ON_NET * $positioninterval;
@@ -33,7 +33,7 @@ if ($sport > 0) {
 }
 
 if ($year > 0) {
-	$Conditions .= ' AND `'.PREFIX.'training`.`time` BETWEEN UNIX_TIMESTAMP(\''.(int)$year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int)$year+1).'-01-01\')-1';
+	$Conditions .= ' AND `'.PREFIX.'training`.`time` BETWEEN UNIX_TIMESTAMP(\''.(int) $year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $year+1).'-01-01\')-1';
 }
 
 // #TSC the route-name is limited to 50 chars and then a "..." will concated

@@ -96,7 +96,7 @@ class ProgressBarSingle {
 	 * @param mixed $LeftOrRight [optional] Can be 'left' or 'right' to set balance
 	 */
 	public function __construct($Width, $Color, $LeftOrRight = false) {
-		$this->Width = max(0, min(100, (int)$Width));
+		$this->Width = max(0, min(100, (int) $Width));
 		$this->Color = $Color;
 
 		if ($LeftOrRight == 'left')

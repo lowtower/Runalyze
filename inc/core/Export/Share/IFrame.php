@@ -34,7 +34,7 @@ class IFrame extends AbstractSnippetSharer
     /**
      * @return int
      */
-    public function enum()
+    public function enum(): int
     {
         return Types::IFRAME;
     }
@@ -61,7 +61,7 @@ class IFrame extends AbstractSnippetSharer
      */
     protected function width()
     {
-        return (isset($_POST['width']) && is_numeric($_POST['width']) ? (int)$_POST['width'] : self::DEFAULT_WIDTH);
+        return (isset($_POST['width']) && is_numeric($_POST['width']) ? (int) $_POST['width'] : self::DEFAULT_WIDTH);
     }
 
     /**
@@ -70,7 +70,7 @@ class IFrame extends AbstractSnippetSharer
      */
     protected function height()
     {
-        return (isset($_POST['height']) && is_numeric($_POST['height']) ? (int)$_POST['height'] : self::DEFAULT_HEIGHT);
+        return (isset($_POST['height']) && is_numeric($_POST['height']) ? (int) $_POST['height'] : self::DEFAULT_HEIGHT);
     }
 
     /**

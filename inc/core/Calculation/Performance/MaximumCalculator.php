@@ -46,7 +46,7 @@ class MaximumCalculator
      */
     public function maxFitness()
     {
-        return (int)round($this->MaxFitness);
+        return (int) round($this->MaxFitness);
     }
 
     /**
@@ -54,7 +54,7 @@ class MaximumCalculator
      */
     public function maxFatigue()
     {
-        return (int)round($this->MaxFatigue);
+        return (int) round($this->MaxFatigue);
     }
 
     /**
@@ -62,6 +62,6 @@ class MaximumCalculator
      */
     public function maxTrimp()
     {
-        return (int)round($this->MaxTrimp);
+        return (int) round($this->MaxTrimp);
     }
 }

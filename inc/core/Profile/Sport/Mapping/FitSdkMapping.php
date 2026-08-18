@@ -37,7 +37,7 @@ class FitSdkMapping extends AbstractMapping
     /**
      * @return int
      */
-    protected function internalDefault()
+    protected function internalDefault(): int
     {
         return SportProfile::GENERIC;
     }
@@ -45,7 +45,7 @@ class FitSdkMapping extends AbstractMapping
     /**
      * @return int
      */
-    protected function externalDefault()
+    protected function externalDefault(): int
     {
         return FitSdk\SportProfile::GENERIC;
     }
@@ -60,7 +60,7 @@ class FitSdkMapping extends AbstractMapping
      */
     public function sportWithSubsportToInternal($sport, $subsport)
     {
-        $id = (int)$sport * 1000 + (int)$subsport;
+        $id = (int) $sport * 1000 + (int) $subsport;
         $mapping = $this->getMapping();
 
         return isset($mapping[$id]) ? $mapping[$id] : null;

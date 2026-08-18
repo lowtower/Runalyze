@@ -291,7 +291,7 @@ class TrainingView {
 	 * Display shared menu
 	 */
 	protected function displaySharedMenu() {
-		$User = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'account` WHERE `id`="'.(int)SharedLinker::getUserId().'" LIMIT 1')->fetch();
+		$User = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'account` WHERE `id`="'.(int) SharedLinker::getUserId().'" LIMIT 1')->fetch();
 
 		$this->ToolbarLinks = array();
 		$this->ToolbarLinks[] = SharedLinker::getStandardLinkTo( $this->Context->activity()->id(), Icon::$ATTACH );

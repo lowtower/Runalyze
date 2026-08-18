@@ -12,7 +12,7 @@ class Elevation extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return Meter::class;
     }

@@ -95,7 +95,7 @@ class Distance implements ValueInterface {
 	 */
 	public function set($km)
 	{
-		$this->Kilometer = (float)str_replace(',', '.', $km);
+		$this->Kilometer = (float) str_replace(',', '.', $km);
 
 		return $this;
 	}
@@ -107,7 +107,7 @@ class Distance implements ValueInterface {
 	 */
 	public function setMiles($miles)
 	{
-		$this->Kilometer = (float)str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
+		$this->Kilometer = (float) str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
 
 		return $this;
 	}
@@ -185,7 +185,7 @@ class Distance implements ValueInterface {
 	 * Unit
 	 * @return string
 	 */
-	public function unit()
+	public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return DistanceUnitSystem::MILES;

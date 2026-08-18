@@ -169,7 +169,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     protected function createNotification($template, $lifetime)
     {
         if (null !== $lifetime) {
-            $lifetime = (int)$lifetime;
+            $lifetime = (int) $lifetime;
         }
 
         return Notification::createFromMessage(
@@ -262,19 +262,19 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $exclude = false;
 
         if ($lastActionAfter) {
-            $whereCondition[] = '`a`.`lastaction` > '.(int)$lastActionAfter;
+            $whereCondition[] = '`a`.`lastaction` > '.(int) $lastActionAfter;
         }
 
         if ($lastActionBefore) {
-            $whereCondition[] = '`a`.`lastaction` < '.(int)$lastActionBefore;
+            $whereCondition[] = '`a`.`lastaction` < '.(int) $lastActionBefore;
         }
 
         if ($registrationAfter) {
-            $whereCondition[] = '`a`.`registerdate` > '.(int)$registrationAfter;
+            $whereCondition[] = '`a`.`registerdate` > '.(int) $registrationAfter;
         }
 
         if ($registrationBefore) {
-            $whereCondition[] = '`a`.`registerdate` < '.(int)$registrationBefore;
+            $whereCondition[] = '`a`.`registerdate` < '.(int) $registrationBefore;
 
         }
 

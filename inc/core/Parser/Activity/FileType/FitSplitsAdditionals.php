@@ -69,10 +69,10 @@ class FitSplitsAdditionals {
                     $set['excercise'] = $this->fitExcerciseMapping->getFullMapping($cat, $sub);
                 }
                 if(isset($values['repetitions'])) {
-                    $set['repetitions'] = (int)($values['repetitions'][0]);
+                    $set['repetitions'] = (int) ($values['repetitions'][0]);
                 }
                 if(isset($values['weight']) && $values['weight'][0] > 0) {
-                    $set['weight'] = (int)($values['weight'][0]) / 16;
+                    $set['weight'] = (int) ($values['weight'][0]) / 16;
                 }
                 $this->data[] = $set;
             } else {
@@ -91,12 +91,12 @@ class FitSplitsAdditionals {
 
         if($isActiveLap && $isSwimming) {
             if (isset($values['total_strokes']) && $values['total_strokes'][0] > 0) {
-                $i['FIT strokes'] = (int)($values['total_strokes'][0]);
+                $i['FIT strokes'] = (int) ($values['total_strokes'][0]);
             }
         }
 
         if (isset($values['total_calories']) && $values['total_calories'][0] > 0) {
-            $i['FIT calories'] = (int)($values['total_calories'][0]);
+            $i['FIT calories'] = (int) ($values['total_calories'][0]);
         }
 
         if (isset($adds)) {

@@ -155,8 +155,8 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$start = $Timeset['start'];
 		$now = new DateTime(date('Y-m-d'));
 		$end = $Timeset['end'];
-		$days = 1 + (int)date_diff($start, $now)->format('%a');
-		$dauer = 1 + (int)date_diff($start, $end)->format('%a');
+		$days = 1 + (int) date_diff($start, $now)->format('%a');
+		$dauer = 1 + (int) date_diff($start, $end)->format('%a');
 		$rest = $dauer - $days;
 
 		$dat = $this->fetchDataSince($start->getTimestamp());
@@ -306,7 +306,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			'<div style="border: 1px solid black; padding: 1px; background-color: transparent; width: 100%; height: 15px">' .
 			'<span style="position: absolute; right: 15px">' . round($sumPercentage, 1) . '%&nbsp;</span>' .
 			'<span style="position: absolute; left: 15px">' . $Bar['name'] . '</span>' .
-			'<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;' . '</div>' .
+			'<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;</div>' .
 
 			($Bar['add'] ? '<div id="progress_bar_add" style="float: left; background-color:' . $Bar['addcolor'] . '; width:' . round($addPercentage) . '%;">&nbsp;</div>' : '') .
 			'</div>' .

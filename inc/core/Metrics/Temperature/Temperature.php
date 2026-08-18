@@ -12,7 +12,7 @@ class Temperature extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return Celsius::class;
     }

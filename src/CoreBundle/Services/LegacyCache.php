@@ -28,7 +28,7 @@ class LegacyCache
      * @return bool
      */
 	public function delete($keyword, $accountId = false) {
-	    $accountId = false === $accountId ? '' : (string)$accountId;
+	    $accountId = false === $accountId ? '' : (string) $accountId;
 
 	    if (self::$cache->isExisting($keyword.$accountId)) {
             return self::$cache->delete($keyword.$accountId);

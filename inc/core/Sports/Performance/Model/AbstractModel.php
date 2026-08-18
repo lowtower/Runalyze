@@ -104,7 +104,7 @@ abstract class AbstractModel
      */
     final public function maxFitness()
     {
-        return (int)round(max($this->Fitness));
+        return (int) round(max($this->Fitness));
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class AbstractModel
      */
     final public function maxFatigue()
     {
-        return (int)round(max($this->Fatigue));
+        return (int) round(max($this->Fatigue));
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class AbstractModel
      */
     final public function maxPerformance()
     {
-        return (int)round(max($this->Performance));
+        return (int) round(max($this->Performance));
     }
 
     /**
@@ -128,7 +128,7 @@ abstract class AbstractModel
      */
     final public function minPerformance()
     {
-        return (int)round(min($this->Performance));
+        return (int) round(min($this->Performance));
     }
 
     /**
@@ -168,7 +168,7 @@ abstract class AbstractModel
         $Array = $this->arrayFor($enum);
 
         if (isset($Array[$index])) {
-            return (int)round($Array[$index]);
+            return (int) round($Array[$index]);
         }
 
         return 0;

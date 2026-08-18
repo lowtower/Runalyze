@@ -216,7 +216,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 			WHERE `'.PREFIX.'training`.`accountid`="'.SessionAccountHandler::getId().'" AND
 				`'.PREFIX.'training`.`elevation` > 0 '.$this->getSportAndYearDependenceForQuery().'
 			ORDER BY `'.$order.'` DESC
-			LIMIT '.(int)$limit
+			LIMIT '.(int) $limit
         )->fetchAll();
     }
 }

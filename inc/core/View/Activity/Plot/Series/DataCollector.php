@@ -127,9 +127,9 @@ class DataCollector {
 			$value = $useCurrentValue ? $this->Loop->current($this->Key) : $this->Loop->average($this->Key);
 
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
-				$this->Data[(string)$this->Loop->current(Trackdata::DISTANCE)] = $value;
+				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[(string)$this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[(string) $this->Loop->current(Trackdata::TIME).'000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

@@ -22,7 +22,7 @@ class Temperature extends AbstractKey
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::TEMPERATURE;
 	}
@@ -76,7 +76,7 @@ class Temperature extends AbstractKey
 	/**
 	 * @return int see \Runalyze\Dataset\SummaryMode for enum
 	 */
-	public function summaryMode()
+	public function summaryMode(): int
 	{
 		return SummaryMode::AVG_WITH_ZERO;
 	}

@@ -36,7 +36,7 @@ class ConfigurationUpdater
      */
     public function updateStartTime(Account $account, $startTime)
     {
-        $this->updateInDataConfiguration($account, 'START_TIME', (string)$startTime);
+        $this->updateInDataConfiguration($account, 'START_TIME', (string) $startTime);
     }
 
     /**
@@ -45,7 +45,7 @@ class ConfigurationUpdater
      */
     public function updateMaximalHeartRate(Account $account, $bpm)
     {
-        $this->updateInDataConfiguration($account, 'HF_MAX', (string)$bpm);
+        $this->updateInDataConfiguration($account, 'HF_MAX', (string) $bpm);
     }
 
     /**
@@ -54,7 +54,7 @@ class ConfigurationUpdater
      */
     public function updateRestingHeartRate(Account $account, $bpm)
     {
-        $this->updateInDataConfiguration($account, 'HF_REST', (string)$bpm);
+        $this->updateInDataConfiguration($account, 'HF_REST', (string) $bpm);
     }
 
     /**
@@ -63,7 +63,7 @@ class ConfigurationUpdater
      */
     public function updateVO2maxShape(Account $account, $shape)
     {
-        $this->updateInDataConfiguration($account, 'VO2MAX_FORM', (string)$shape);
+        $this->updateInDataConfiguration($account, 'VO2MAX_FORM', (string) $shape);
     }
 
     /**
@@ -72,7 +72,7 @@ class ConfigurationUpdater
      */
     public function updateVO2maxCorrectionFactor(Account $account, $factor)
     {
-        $this->updateInDataConfiguration($account, 'VO2MAX_CORRECTOR', (string)$factor);
+        $this->updateInDataConfiguration($account, 'VO2MAX_CORRECTOR', (string) $factor);
     }
 
     /**
@@ -81,7 +81,7 @@ class ConfigurationUpdater
      */
     public function updateMarathonShape(Account $account, $shape)
     {
-        $this->updateInDataConfiguration($account, 'BASIC_ENDURANCE', (string)$shape);
+        $this->updateInDataConfiguration($account, 'BASIC_ENDURANCE', (string) $shape);
     }
 
     /**
@@ -90,7 +90,7 @@ class ConfigurationUpdater
      */
     public function updateMaximalAtl(Account $account, $atl)
     {
-        $this->updateInDataConfiguration($account, 'MAX_ATL', (string)$atl);
+        $this->updateInDataConfiguration($account, 'MAX_ATL', (string) $atl);
     }
 
     /**
@@ -99,7 +99,7 @@ class ConfigurationUpdater
      */
     public function updateMaximalCtl(Account $account, $ctl)
     {
-        $this->updateInDataConfiguration($account, 'MAX_CTL', (string)$ctl);
+        $this->updateInDataConfiguration($account, 'MAX_CTL', (string) $ctl);
     }
 
     /**
@@ -108,7 +108,7 @@ class ConfigurationUpdater
      */
     public function updateMaximalTrimp(Account $account, $trimp)
     {
-        $this->updateInDataConfiguration($account, 'MAX_TRIMP', (string)$trimp);
+        $this->updateInDataConfiguration($account, 'MAX_TRIMP', (string) $trimp);
     }
 
     public function updatePrivacyDetails(Account $account, array $values)

@@ -9,7 +9,7 @@ class FitPerformanceConditionEnd extends AbstractKey
 	/**
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_PERFORMANCE_CONDITION_END;
 	}

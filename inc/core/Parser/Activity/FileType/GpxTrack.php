@@ -74,10 +74,10 @@ class GpxTrack extends AbstractSingleParser
 
     protected function parseGeneralValues()
     {
-        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Xml->trkseg->trkpt[0]->time);
+        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->trkseg->trkpt[0]->time);
 
         if (!empty($this->Xml->desc)) {
-            $this->Container->Metadata->setDescription(strip_tags((string)$this->Xml->desc));
+            $this->Container->Metadata->setDescription(strip_tags((string) $this->Xml->desc));
         }
     }
 
@@ -90,7 +90,7 @@ class GpxTrack extends AbstractSingleParser
         for ($seg = 0; $seg < $numSegments; ++$seg) {
             $numPoints = count($this->Xml->trkseg[$seg]->trkpt);
             $totalPoints += $numPoints;
-            $totalTime += strtotime((string)$this->Xml->trkseg[$seg]->trkpt[$numPoints-1]->time) - strtotime((string)$this->Xml->trkseg[$seg]->trkpt[0]->time);
+            $totalTime += strtotime((string) $this->Xml->trkseg[$seg]->trkpt[$numPoints-1]->time) - strtotime((string) $this->Xml->trkseg[$seg]->trkpt[0]->time);
         }
 
         $this->LimitForPauses = round(self::$PAUSE_FACTOR_FROM_AVERAGE_INTERVAL * $totalTime / $totalPoints);
@@ -124,12 +124,12 @@ class GpxTrack extends AbstractSingleParser
     protected function parseTrackPoint(SimpleXMLElement $point)
     {
         if ($this->LastTimestamp == 0) {
-            $this->LastTimestamp = strtotime((string)$point->time);
+            $this->LastTimestamp = strtotime((string) $point->time);
         }
 
         if (!empty($point['lat'])) {
-            $lat  = round((double)$point['lat'], 7);
-            $lon  = round((double)$point['lon'], 7);
+            $lat  = round((double) $point['lat'], 7);
+            $lon  = round((double) $point['lon'], 7);
         } elseif (!empty($this->Container->ContinuousData->Latitude)) {
             $lat  = end($this->Container->ContinuousData->Latitude);
             $lon  = end($this->Container->ContinuousData->Longitude);
@@ -149,7 +149,7 @@ class GpxTrack extends AbstractSingleParser
         $this->Container->ContinuousData->Time[] = $newTime;
         $this->Container->ContinuousData->Latitude[] = $lat;
         $this->Container->ContinuousData->Longitude[] = $lon;
-        $this->Container->ContinuousData->Altitude[] = (isset($point->ele)) ? (int)$point->ele : null;
+        $this->Container->ContinuousData->Altitude[] = (isset($point->ele)) ? (int) $point->ele : null;
 
         $this->parseExtensionValues($point);
 
@@ -177,7 +177,7 @@ class GpxTrack extends AbstractSingleParser
      */
     private function getTimeOfPoint(SimpleXMLElement $point)
     {
-        $newTimestamp = strtotime((string)$point->time);
+        $newTimestamp = strtotime((string) $point->time);
         $timeToAdd = $newTimestamp - $this->LastTimestamp;
         $this->LastTimestamp = $newTimestamp;
 
@@ -191,11 +191,11 @@ class GpxTrack extends AbstractSingleParser
     public function parseMetadata(SimpleXMLElement $metadata)
     {
         if (isset($metadata->name)) {
-            $this->Container->Metadata->setDescription((string)$metadata->name);
+            $this->Container->Metadata->setDescription((string) $metadata->name);
         }
 
         if (isset($metadata->desc)) {
-            $this->Container->Metadata->setNotes((string)$metadata->desc);
+            $this->Container->Metadata->setNotes((string) $metadata->desc);
         }
     }
 
@@ -211,23 +211,23 @@ class GpxTrack extends AbstractSingleParser
             foreach ($this->getExtensionNodesOf($point->extensions[0]) as $extensionNode) {
                 if ($extensionNode instanceof SimpleXMLElement) {
                     if (isset($extensionNode->hr)) {
-                        $bpm = (int)$extensionNode->hr;
+                        $bpm = (int) $extensionNode->hr;
                     }
 
                     if (isset($extensionNode->cad)) {
-                        $rpm = (int)$extensionNode->cad;
+                        $rpm = (int) $extensionNode->cad;
                     } elseif (isset($extensionNode->cadence)) {
-                        $rpm = (int)$extensionNode->cadence;
+                        $rpm = (int) $extensionNode->cadence;
                     }
 
                     if (isset($extensionNode->temp)) {
-                        $temp = (int)$extensionNode->temp;
+                        $temp = (int) $extensionNode->temp;
                     } elseif (isset($extensionNode->atemp)) {
-                        $temp = (int)$extensionNode->atemp;
+                        $temp = (int) $extensionNode->atemp;
                     }
 
                     if (isset($extensionNode->altitude)) {
-                        $altitude = (int)$extensionNode->altitude;
+                        $altitude = (int) $extensionNode->altitude;
                     }
                 }
             }
@@ -286,7 +286,7 @@ class GpxTrack extends AbstractSingleParser
                         $attr = $heartRate->attributes();
 
                         if ($i < $num) {
-                            $this->Container->ContinuousData->HeartRate[$i] = (int)$attr->bpm;
+                            $this->Container->ContinuousData->HeartRate[$i] = (int) $attr->bpm;
                             $i++;
                         }
                     }

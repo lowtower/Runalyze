@@ -34,6 +34,6 @@ class WeatherDataToActivityConverter
      */
     protected function getRoundedValue($value)
     {
-        return null !== $value ? (int)round($value) : null;
+        return null !== $value ? (int) round($value) : null;
     }
 }

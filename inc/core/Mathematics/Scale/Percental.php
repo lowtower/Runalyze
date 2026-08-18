@@ -38,7 +38,7 @@ class Percental implements ScaleInterface
             throw new \InvalidArgumentException('Given minimum must be numeric.');
         }
 
-        $this->Min = (float)$min;
+        $this->Min = (float) $min;
     }
 
     /**
@@ -52,7 +52,7 @@ class Percental implements ScaleInterface
             throw new \InvalidArgumentException('Given maximum must be numeric.');
         }
 
-        $this->Max = (float)$max;
+        $this->Max = (float) $max;
     }
 
     public function transform($input)

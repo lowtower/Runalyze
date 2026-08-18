@@ -74,7 +74,7 @@ class Energy implements ValueInterface {
 	 * @return \Runalyze\Activity\Energy $this-reference
 	 */
 	public function set($energy) {
-		$this->Energy = (int)$energy;
+		$this->Energy = (int) $energy;
 
 		return $this;
 	}
@@ -85,7 +85,7 @@ class Energy implements ValueInterface {
 	 * @return \Runalyze\Activity\Energy $this-reference
 	 */
 	public function setKJ($energy) {
-		$this->Energy = (int)($energy / self::KJ_MULTIPLIER);
+		$this->Energy = (int) ($energy / self::KJ_MULTIPLIER);
 		return $this;
 	}
 

@@ -22,7 +22,7 @@ class MainEquipment extends AbstractEquipment
 	 * Enum id
 	 * @return int
 	 */
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::MAIN_EQUIPMENT;
 	}

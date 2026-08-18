@@ -111,12 +111,12 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
         ) {
             $this->Container->Metadata->interpretTimestampAsServerTime(
                 mktime(
-                    (int)$this->Row[7],
-                    (int)$this->Row[9],
-                    (int)$this->Row[11],
-                    (int)$this->Row[3],
-                    (int)$this->Row[5],
-                    (int)$this->Row[1]
+                    (int) $this->Row[7],
+                    (int) $this->Row[9],
+                    (int) $this->Row[11],
+                    (int) $this->Row[3],
+                    (int) $this->Row[5],
+                    (int) $this->Row[1]
                 )
             );
         }
@@ -124,10 +124,10 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function parseIntervalLine()
     {
-        if (count($this->TempSplits) < (int)$this->Row[0]) {
+        if (count($this->TempSplits) < (int) $this->Row[0]) {
             $this->TempSplits[] = [
                 $this->currentValue(['gpsdist', 'wheeldist', 'stridedist', 'manualdist']) / 1000,
-                (int)$this->Row[$this->CurrentHeader['runningtime']]
+                (int) $this->Row[$this->CurrentHeader['runningtime']]
             ];
         }
     }
@@ -157,24 +157,24 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function parseActiveTrackLine()
     {
-        $this->Container->ContinuousData->Time[] = (int)$this->Row[0] - $this->PauseTime;
+        $this->Container->ContinuousData->Time[] = (int) $this->Row[0] - $this->PauseTime;
         $this->Container->ContinuousData->Distance[] = $this->currentValue(['gps_dist', 'manual_dist', 'pwr_accdist', 'spd_accdist', 'fp_accdist']) / 1000;
         $this->Container->ContinuousData->Latitude[] = $this->currentValue(['gps_lat']);
         $this->Container->ContinuousData->Longitude[] = $this->currentValue(['gps_lon']);
-        $this->Container->ContinuousData->Altitude[] = (int)$this->currentValue(['disp_altitude', 'gps_altitude']);
-        $this->Container->ContinuousData->HeartRate[] = (int)$this->currentValue(['hr_heartrate']);
-        $this->Container->ContinuousData->Power[] = (int)$this->currentValue(['pwr_instpwr']);
-        $this->Container->ContinuousData->Cadence[] = (int)($this->currentValue(['cad_cadence', 'ma_cadence', 'pwr_cadence']) / 2); // stored in [spm]
-        $this->Container->ContinuousData->GroundContactTime[] = (int)($this->currentValue(['ma_gct']) * 1000); // stored in [s]
-        $this->Container->ContinuousData->VerticalOscillation[] = (int)($this->currentValue(['ma_vertosc']) * 1000); // stored in [m]
-        $this->Container->ContinuousData->Temperature[] = (int)$this->currentValue(['disp_temperature']);
+        $this->Container->ContinuousData->Altitude[] = (int) $this->currentValue(['disp_altitude', 'gps_altitude']);
+        $this->Container->ContinuousData->HeartRate[] = (int) $this->currentValue(['hr_heartrate']);
+        $this->Container->ContinuousData->Power[] = (int) $this->currentValue(['pwr_instpwr']);
+        $this->Container->ContinuousData->Cadence[] = (int) ($this->currentValue(['cad_cadence', 'ma_cadence', 'pwr_cadence']) / 2); // stored in [spm]
+        $this->Container->ContinuousData->GroundContactTime[] = (int) ($this->currentValue(['ma_gct']) * 1000); // stored in [s]
+        $this->Container->ContinuousData->VerticalOscillation[] = (int) ($this->currentValue(['ma_vertosc']) * 1000); // stored in [m]
+        $this->Container->ContinuousData->Temperature[] = (int) $this->currentValue(['disp_temperature']);
     }
 
     protected function startNewPause()
     {
         if (!empty($this->Container->ContinuousData->Time)) {
             $this->IsPaused = true;
-            $this->PauseStart = (int)$this->Row[0];
+            $this->PauseStart = (int) $this->Row[0];
         }
     }
 
@@ -182,11 +182,11 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     {
         if (!empty($this->Container->ContinuousData->Time)) {
             $lastTime = end($this->Container->ContinuousData->Time);
-            $pause = new Pause($lastTime, (int)$this->Row[0] - $this->PauseStart);
-            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), isset($this->Row[$this->CurrentHeader['hr_heartrate']]) ? (int)$this->Row[$this->CurrentHeader['hr_heartrate']] : 0);
+            $pause = new Pause($lastTime, (int) $this->Row[0] - $this->PauseStart);
+            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), isset($this->Row[$this->CurrentHeader['hr_heartrate']]) ? (int) $this->Row[$this->CurrentHeader['hr_heartrate']] : 0);
 
             $this->IsPaused = false;
-            $this->PauseTime += (int)$this->Row[0] - $this->PauseStart;
+            $this->PauseTime += (int) $this->Row[0] - $this->PauseStart;
             $this->Container->Pauses->add($pause);
         }
     }
@@ -201,8 +201,8 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function currentValue(array $possibleColumns)
     {
         foreach ($possibleColumns as $columnName) {
-            if (isset($this->CurrentHeader[$columnName]) && 0.0 != (float)$this->Row[$this->CurrentHeader[$columnName]]) {
-                return (float)$this->Row[$this->CurrentHeader[$columnName]];
+            if (isset($this->CurrentHeader[$columnName]) && 0.0 != (float) $this->Row[$this->CurrentHeader[$columnName]]) {
+                return (float) $this->Row[$this->CurrentHeader[$columnName]];
             }
         }
 

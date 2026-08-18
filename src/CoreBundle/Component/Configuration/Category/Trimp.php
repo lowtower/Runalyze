@@ -20,7 +20,7 @@ class Trimp extends AbstractCategory
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Trimp::class;
     }

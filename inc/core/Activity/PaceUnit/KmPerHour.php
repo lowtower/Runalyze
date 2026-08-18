@@ -19,7 +19,7 @@ class KmPerHour extends AbstractDecimalUnit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): int
 	{
 		return \Runalyze\Parameter\Application\PaceUnit::KM_PER_H;
 	}

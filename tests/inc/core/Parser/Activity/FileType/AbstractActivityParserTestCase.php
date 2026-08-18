@@ -207,8 +207,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
                 isset($container->ContinuousData->Longitude[$index]) &&
                 is_numeric($container->ContinuousData->Longitude[$index])
             ) {
-                $latitude = (float)$value;
-                $longitude = (float)$container->ContinuousData->Longitude[$index];
+                $latitude = (float) $value;
+                $longitude = (float) $container->ContinuousData->Longitude[$index];
 
                 break;
             }
@@ -230,7 +230,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
             $timestamp += 60 * ($newOffset - $oldOffset);
         }
 
-        $container->Metadata->setTimestamp($timestamp, (int)$newOffset);
+        $container->Metadata->setTimestamp($timestamp, (int) $newOffset);
 
         return true;
     }

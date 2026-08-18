@@ -6,7 +6,7 @@ use Runalyze\Dataset\Context;
 
 class FlightTime extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FLIGHT_TIME;
 	}

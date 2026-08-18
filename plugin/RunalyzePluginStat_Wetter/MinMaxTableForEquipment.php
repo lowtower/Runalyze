@@ -65,8 +65,8 @@ class MinMaxTableForEquipment
 			LEFT JOIN `'.PREFIX.'activity_equipment` AS `eq` ON `id` = `eq`.`activityid`
             LEFT JOIN `'.PREFIX.'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
 			WHERE
-				`eqp`.`typeid` = '.(int)$this->EquipmentTypeID.' AND
-				`'.PREFIX.'training`.`accountid` = '.(int)$this->AccountID.' AND
+				`eqp`.`typeid` = '.(int) $this->EquipmentTypeID.' AND
+				`'.PREFIX.'training`.`accountid` = '.(int) $this->AccountID.' AND
 				`eq`.`activityid` IS NOT NULL AND
 				`temperature` IS NOT NULL
 				'.$this->DependencyQuery.'

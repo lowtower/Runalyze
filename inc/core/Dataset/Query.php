@@ -88,7 +88,7 @@ class Query
 			'.$this->queryToJoinTables().'
 			WHERE
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-				`t`.`accountid` = '.(int)$this->AccountID.' AND
+				`t`.`accountid` = '.(int) $this->AccountID.' AND
 				' . $whereSport . '
 				'.$this->wherePrivacyIsOkay().'
 			'.$this->queryToGroupByActivity().'
@@ -116,7 +116,7 @@ class Query
 				JOIN '.PREFIX.'training AS t ON s.id = t.sportid
 				WHERE
 					'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-					t.accountid = '.(int)$this->AccountID.' AND
+					t.accountid = '.(int) $this->AccountID.' AND
 					'.$this->wherePrivacyIsOkay().'
 				GROUP BY s.id, s.name, s.img ORDER BY c DESC LIMIT 7) AS sub
 			' . $addSelected . '
@@ -186,8 +186,8 @@ class Query
 				'.$this->queryToSummarizeActiveKeys().'
 			FROM `'.PREFIX.'training` AS `t`
 			WHERE
-				`sportid` = '.(int)$sportid.' AND
-				`accountid` = '.(int)$this->AccountID.' AND
+				`sportid` = '.(int) $sportid.' AND
+				`accountid` = '.(int) $this->AccountID.' AND
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
 				'.$this->wherePrivacyIsOkay().'
 			GROUP BY `sportid`
@@ -214,7 +214,7 @@ class Query
 				'.$this->queryToSummarizeActiveKeys().'
 			FROM `'.PREFIX.'training` AS `t`
 			WHERE
-				`accountid` = '.(int)$this->AccountID.' AND
+				`accountid` = '.(int) $this->AccountID.' AND
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
 				' . $whereSport . '
 				'.$this->wherePrivacyIsOkay().'
@@ -234,19 +234,19 @@ class Query
 	{
 		$Query = '
 		        SELECT
-				'.(((int)$sportid > 0)?'`sportid`':'0').',
+				'.(((int) $sportid > 0)?'`sportid`':'0').',
 				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
 				SUM(1) as `num`,
 				'.$this->queryToSummarizeActiveKeys().',
 				'.$this->queryToSelectTimerange($timerange, $timeEnd, 'timerange').'
 			FROM `'.PREFIX.'training` AS `t`
 			WHERE
-				'.(((int)$sportid > 0)?'`sportid` = '.(int)$sportid.' AND':''). '
-				`accountid` = '.(int)$this->AccountID.' AND
+				'.(((int) $sportid > 0)?'`sportid` = '.(int) $sportid.' AND':''). '
+				`accountid` = '.(int) $this->AccountID.' AND
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
 				'.$this->wherePrivacyIsOkay().'
 				GROUP BY `timerange`
-				'.(((int)$sportid > 0)?', `sportid`':'').'
+				'.(((int) $sportid > 0)?', `sportid`':'').'
 				ORDER BY `timerange` ASC';
 
 		return $this->PDO->query($Query)->fetchAll();

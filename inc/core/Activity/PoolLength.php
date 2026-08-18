@@ -63,7 +63,7 @@ class PoolLength implements ValueInterface
 	 * Unit
 	 * @return string
 	 */
-	public function unit()
+	public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return DistanceUnitSystem::YARDS;

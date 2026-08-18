@@ -165,12 +165,12 @@ abstract class Entity {
 			if (array_key_exists($key, $this->Data)) {
 				if (!is_numeric($this->Data[$key])) {
 					if (is_bool($this->Data[$key])) {
-						$this->Data[$key] = (int)$this->Data[$key];
+						$this->Data[$key] = (int) $this->Data[$key];
 					} else {
 						$this->Data[$key] = $defaultValue;
 					}
 				} else {
-					$this->Data[$key] = (float)$this->Data[$key];
+					$this->Data[$key] = (float) $this->Data[$key];
 				}
 			}
 		}
@@ -192,7 +192,7 @@ abstract class Entity {
 				if ($this->Data[$key] === '' || null === $this->Data[$key] || ($treatZeroAsNull && 0 == $this->Data[$key]) || [] === $this->Data[$key]) {
 					$this->Data[$key] = null;
 				} elseif ($ensureNumericIfNotEmpty) {
-					$this->Data[$key] = (float)$this->Data[$key];
+					$this->Data[$key] = (float) $this->Data[$key];
 				}
 			}
 		}

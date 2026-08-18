@@ -63,7 +63,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
         $responseLength = count($response['geonames']);
 
         for ($i = 0; $i < $responseLength; $i++) {
-            $elevationData[] = (int)$response['geonames'][$i]['srtm3'];
+            $elevationData[] = (int) $response['geonames'][$i]['srtm3'];
         }
 
         return $elevationData;
@@ -76,7 +76,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
                 $this->logger->warning(sprintf('Geonames request failed: %s', $json['status']['message']));
             }
 
-            if (10 == (int)$json['status']['value']) {
+            if (10 == (int) $json['status']['value']) {
                 throw new StrategyException('Invalid user id for geonames.');
             }
 

@@ -20,9 +20,9 @@ class ExportController extends Controller
     public function exporterExportAction($id, $typeid, Account $account) {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-        if (Share\Types::isValidValue((int)$typeid)) {
-            $context = new Context((int)$id, $account->getId());
-            $exporter = Share\Types::get((int)$typeid, $context);
+        if (Share\Types::isValidValue((int) $typeid)) {
+            $context = new Context((int) $id, $account->getId());
+            $exporter = Share\Types::get((int) $typeid, $context);
 
             if ($exporter instanceof Share\AbstractSnippetSharer) {
                 $exporter->display();
@@ -39,9 +39,9 @@ class ExportController extends Controller
     public function fileExportAction($id, $typeid, Account $account) {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-        if (File\Types::isValidValue((int)$typeid)) {
-            $context = new Context((int)$id, $account->getId());
-            $exporter = File\Types::get((int)$typeid, $context);
+        if (File\Types::isValidValue((int) $typeid)) {
+            $context = new Context((int) $id, $account->getId());
+            $exporter = File\Types::get((int) $typeid, $context);
 
             if ($exporter instanceof File\AbstractFileExporter) {
                 $exporter->downloadFile();

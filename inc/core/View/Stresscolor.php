@@ -49,7 +49,7 @@ class Stresscolor {
 			return 100;
 		}
 
-		return (int)$this->Value;
+		return (int) $this->Value;
 	}
 
 	/**

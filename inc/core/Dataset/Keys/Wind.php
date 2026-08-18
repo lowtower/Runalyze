@@ -22,7 +22,7 @@ class Wind extends AbstractKey
      * Enum id
      * @return int
      */
-    public function id()
+    public function id(): int
     {
         return \Runalyze\Dataset\Keys::WIND;
     }

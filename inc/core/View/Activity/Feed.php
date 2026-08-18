@@ -153,7 +153,7 @@ class Feed
 
         if ($activity->isPublic()) {
             $content .= '<br><a href="'.$this->UrlGenerator->generate('shared-activity', [
-                'activityHash' => base_convert((int)$activity->getId(), 10, 35)
+                'activityHash' => base_convert((int) $activity->getId(), 10, 35)
             ], UrlGeneratorInterface::ABSOLUTE_URL);
 	        $content .= '?utm_medium=feed&utm_campaign=feed">'.$this->Translator->trans('View full activity').'</a>';
         }
@@ -176,7 +176,7 @@ class Feed
 
         if ($activity->isPublic()) {
             $item->withUrl($this->UrlGenerator->generate('shared-activity', array(
-                'activityHash' => base_convert((int)$activity->getId(), 10, 35)
+                'activityHash' => base_convert((int) $activity->getId(), 10, 35)
             ), UrlGeneratorInterface::ABSOLUTE_URL).'?utm_medium=feed&utm_campaign=feed');
         }
 

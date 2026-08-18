@@ -26,7 +26,7 @@ class FilenameHandler
      */
     public function __construct($accountId)
     {
-        $this->AccountId = (int)$accountId;
+        $this->AccountId = (int) $accountId;
     }
 
     /**

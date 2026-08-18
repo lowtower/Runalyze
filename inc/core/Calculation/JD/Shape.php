@@ -66,9 +66,9 @@ class Shape
 				SUM('.self::mysqlVO2maxSum($this->Configuration->useElevationCorrection()).') as `value`
 			FROM `'.PREFIX.'training`
 			WHERE
-				`sportid`='.(int)$this->RunningID.' AND
+				`sportid`='.(int) $this->RunningID.' AND
 				`time` BETWEEN '.($time - $this->Configuration->days() * DAY_IN_S).' AND '.$time.' AND
-				`accountid`='.(int)$this->AccountID.'
+				`accountid`='.(int) $this->AccountID.'
 			GROUP BY `sportid`
 			LIMIT 1'
         )->fetch();

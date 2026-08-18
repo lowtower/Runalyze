@@ -46,7 +46,7 @@ class BSplineInterpolation
      */
     public function __construct($degree)
     {
-        if ((int)$degree < 1) {
+        if ((int) $degree < 1) {
             throw new \InvalidArgumentException('Degree must be at least 1 (linear).');
         }
 

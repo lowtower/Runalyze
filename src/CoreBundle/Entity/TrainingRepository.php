@@ -280,9 +280,9 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult();
 
         if (null !== $dataForAccount) {
-            $statistics->setNumberOfActivities((int)$dataForAccount['num']);
-            $statistics->setTotalDistance((float)$dataForAccount['distance']);
-            $statistics->setTotalDuration((float)$dataForAccount['duration']);
+            $statistics->setNumberOfActivities((int) $dataForAccount['num']);
+            $statistics->setTotalDistance((float) $dataForAccount['distance']);
+            $statistics->setTotalDuration((float) $dataForAccount['duration']);
         }
 
         return $statistics;
@@ -435,7 +435,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
 
-        return null === $result ? $result : (int)$result;
+        return null === $result ? $result : (int) $result;
     }
 
     /**
@@ -466,11 +466,11 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        if (null === $result || 0.0 == (float)$result['ssum']) {
+        if (null === $result || 0.0 == (float) $result['ssum']) {
             return 0.0;
         }
 
-        return round((float)$result['value'] / (float)$result['ssum'], 5);
+        return round((float) $result['value'] / (float) $result['ssum'], 5);
     }
 
     /**

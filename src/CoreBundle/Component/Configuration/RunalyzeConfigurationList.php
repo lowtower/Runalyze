@@ -210,7 +210,7 @@ class RunalyzeConfigurationList extends ConfigurationList
      */
     public function getMaximalHeartRate()
     {
-        return (int)$this->Variables['data.HF_MAX'];
+        return (int) $this->Variables['data.HF_MAX'];
     }
 
     /**
@@ -218,7 +218,7 @@ class RunalyzeConfigurationList extends ConfigurationList
      */
     public function getRestingHeartRate()
     {
-        return (int)$this->Variables['data.HF_REST'];
+        return (int) $this->Variables['data.HF_REST'];
     }
 
     /**
@@ -227,10 +227,10 @@ class RunalyzeConfigurationList extends ConfigurationList
     public function getVO2maxCorrectionFactor()
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'])) {
-            return (float)$this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'];
+            return (float) $this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'];
         }
 
-        return (float)$this->Variables['data.VO2MAX_CORRECTOR'];
+        return (float) $this->Variables['data.VO2MAX_CORRECTOR'];
     }
 
     /**
@@ -247,9 +247,9 @@ class RunalyzeConfigurationList extends ConfigurationList
     public function getCurrentVO2maxShape()
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_VALUE'])) {
-            return (float)$this->Variables['vo2max.VO2MAX_MANUAL_VALUE'];
+            return (float) $this->Variables['vo2max.VO2MAX_MANUAL_VALUE'];
         }
 
-        return (float)$this->Variables['data.VO2MAX_FORM'];
+        return (float) $this->Variables['data.VO2MAX_FORM'];
     }
 }

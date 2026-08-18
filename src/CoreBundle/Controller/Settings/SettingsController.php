@@ -302,7 +302,7 @@ class SettingsController extends Controller
         ], null, 1);
 
         if ($tag) {
-            return (string)$tag[0]->getId();
+            return (string) $tag[0]->getId();
         }
 
         return '';

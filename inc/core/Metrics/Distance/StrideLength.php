@@ -12,7 +12,7 @@ class StrideLength extends AbstractMetric
      *
      * @codeCoverageIgnore
      */
-    public function getBaseUnitClass()
+    public function getBaseUnitClass(): string
     {
         return Centimeter::class;
     }

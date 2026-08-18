@@ -147,7 +147,7 @@ class Activity extends LeafletRoute {
 	 * Prepare loops
 	 */
 	protected function prepareLoops() {
-		$stepSize = (int)Configuration::ActivityView()->routePrecision()->value();
+		$stepSize = (int) Configuration::ActivityView()->routePrecision()->value();
 
 		$this->RouteLoop = new Route\Loop($this->Route);
 		$this->RouteLoop->setStepSize($stepSize);
@@ -202,12 +202,12 @@ class Activity extends LeafletRoute {
 			return;
 		}
 
-		$this->Path[] = array((float)$geohash->getCoordinate()->getLatitude(), (float)$geohash->getCoordinate()->getLongitude());
+		$this->Path[] = array((float) $geohash->getCoordinate()->getLatitude(), (float) $geohash->getCoordinate()->getLongitude());
 
 		if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
 			$this->Info[] = array(
-			    (float)$this->TrackdataLoop->distance(),
-			    (int)$this->TrackdataLoop->time()
+			    (float) $this->TrackdataLoop->distance(),
+			    (int) $this->TrackdataLoop->time()
 			);
 		}
 	}
@@ -297,7 +297,7 @@ class Activity extends LeafletRoute {
 	 */
 	protected function findLimitForPauses() {
 		if (null !== $this->Trackdata && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
-			$SecondsForDist = (int)Configuration::ActivityView()->routeBreak()->value();
+			$SecondsForDist = (int) Configuration::ActivityView()->routeBreak()->value();
 			$AveragePace = $this->Trackdata->totalDistance() > 0 ? $this->Trackdata->totalTime() / $this->Trackdata->totalDistance() : 0;
 
 			if ($AveragePace > 0) {
@@ -305,7 +305,7 @@ class Activity extends LeafletRoute {
 			}
 		}
 
-		$this->PauseLimit *= (int)Configuration::ActivityView()->routePrecision()->value();
+		$this->PauseLimit *= (int) Configuration::ActivityView()->routePrecision()->value();
 	}
 
 	/**

@@ -11,7 +11,7 @@ class TemperatureTypeTest extends \PHPUnit\Framework\TestCase
     {
         $type = new TemperatureType(new Fahrenheit());
 
-        $this->assertEquals(-18, (int)$type->reverseTransform('0'));
+        $this->assertEquals(-18, (int) $type->reverseTransform('0'));
         $this->assertEquals(8, $type->reverseTransform('46'));
         $this->assertEquals(9, $type->reverseTransform('48'));
         $this->assertEquals(10, $type->reverseTransform('50'));

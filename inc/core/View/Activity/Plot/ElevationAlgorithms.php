@@ -146,9 +146,9 @@ class ElevationAlgorithms extends ActivityPlot {
 			}
 
 			if ($hasDistances) {
-				$Data[(string)$Distances[$index]] = $Points[$i];
+				$Data[(string) $Distances[$index]] = $Points[$i];
 			} else {
-				$Data[(string)$Times[$index].'000'] = $Points[$i];
+				$Data[(string) $Times[$index].'000'] = $Points[$i];
 			}
 		}
 

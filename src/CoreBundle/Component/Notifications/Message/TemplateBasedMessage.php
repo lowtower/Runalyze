@@ -37,7 +37,7 @@ class TemplateBasedMessage implements MessageInterface
         $this->Lifetime = $lifetime;
     }
 
-    public function getMessageType()
+    public function getMessageType(): int
     {
         return MessageTypeProfile::TEMPLATE_BASED_MESSAGE;
     }

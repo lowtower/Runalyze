@@ -291,7 +291,7 @@ class CreateController extends Controller
 
             $activity->getRoute()->setName($activity->getRouteName());
 
-            if (0 != (int)$activity->getElevation() && 0 == $activity->getRoute()->getElevation()) {
+            if (0 != (int) $activity->getElevation() && 0 == $activity->getRoute()->getElevation()) {
                 $activity->getRoute()->setElevation($activity->getElevation());
             }
         }

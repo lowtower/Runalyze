@@ -21,7 +21,7 @@ class MilesPerHour extends AbstractDecimalUnit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): int
 	{
 		return \Runalyze\Parameter\Application\PaceUnit::MILES_PER_H;
 	}

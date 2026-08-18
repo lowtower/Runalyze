@@ -168,7 +168,7 @@ class Route {
 	 * @return string
 	 */
 	final public function distIcon($km) {
-		return 'RunalyzeLeaflet.Routes.distIcon('.(int)$km.')';
+		return 'RunalyzeLeaflet.Routes.distIcon('.(int) $km.')';
 	}
 
 	/**

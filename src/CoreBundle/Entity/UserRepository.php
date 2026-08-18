@@ -36,7 +36,7 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        return $result ? (int)$result['pulseRest'] : null;
+        return $result ? (int) $result['pulseRest'] : null;
     }
 
     /**
@@ -55,7 +55,7 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        return $result ? (int)$result['pulseMax'] : null;
+        return $result ? (int) $result['pulseMax'] : null;
     }
 
     /**

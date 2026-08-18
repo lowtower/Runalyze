@@ -151,7 +151,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 */
 	private function initTimer() {
 		if ($this->showsSpecificYear()) {
-			$this->WhereTime = 'AND `time` BETWEEN UNIX_TIMESTAMP(\''.(int)$this->year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int)$this->year+1).'-01-01\')-1';
+			$this->WhereTime = 'AND `time` BETWEEN UNIX_TIMESTAMP(\''.(int) $this->year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->year+1).'-01-01\')-1';
 			$this->GroupTime = 'MONTH(FROM_UNIXTIME(`time`))';
 			$this->Timer= 'MONTH';
 			$this->TimerStart = 1;
@@ -401,9 +401,9 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 			')->fetch();
 
 			if (!empty($MinMax)) {
-				$speed_min  = round((float)$MinMax['max']);
-				$speed_max  = round((float)$MinMax['min']);
-				$speed_step = ($speed_min == $speed_max) ? 1 : max(1, (int)round(($speed_min - $speed_max)/10));
+				$speed_min  = round((float) $MinMax['max']);
+				$speed_max  = round((float) $MinMax['min']);
+				$speed_step = ($speed_min == $speed_max) ? 1 : max(1, (int) round(($speed_min - $speed_max)/10));
 				$ceil_corr  = ($speed_min == $speed_max) ? 1 : $speed_min % $speed_step;
 			}
 		}
@@ -464,8 +464,8 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	private function getPulseArray() {
 		$hrMax = Configuration::Data()->HRmax();
 		$hrRest = Configuration::Data()->HRrest();
-		$pulse_min  = max((int)$this->Configuration()->value('lowest_pulsegroup'), 0);
-		$pulse_step = max((int)$this->Configuration()->value('pulsegroup_step'), 1);
+		$pulse_min  = max((int) $this->Configuration()->value('lowest_pulsegroup'), 0);
+		$pulse_step = max((int) $this->Configuration()->value('pulsegroup_step'), 1);
 		$ceil_corr  = $pulse_min % $pulse_step;
 
 		$result = DB::getInstance()->query('

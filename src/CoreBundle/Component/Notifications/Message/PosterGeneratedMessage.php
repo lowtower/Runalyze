@@ -22,17 +22,17 @@ class PosterGeneratedMessage implements MessageInterface
 
     public function __construct($state = self::STATE_SUCCESS)
     {
-        $this->State = (int)$state;
+        $this->State = (int) $state;
     }
 
-    public function getMessageType()
+    public function getMessageType(): int
     {
         return MessageTypeProfile::POSTER_GENERATED_MESSAGE;
     }
 
     public function getData()
     {
-        return (string)$this->State;
+        return (string) $this->State;
     }
 
     public function getLifetime()

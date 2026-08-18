@@ -72,7 +72,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		$TypeLinks = [];
 
 		foreach ($this->AllTypes as $Type) {
-			$active = $Type['id'] == (int)$this->Configuration()->value('type');
+			$active = $Type['id'] == (int) $this->Configuration()->value('type');
 			$TypeLinks[] = '<li'.($active ? ' class="active"' : '').'>'.Ajax::link($Type['name'], 'panel-'.$this->id(), Plugin::$DISPLAY_URL.'/'.$this->id().'?type='.$Type['id']).'</li>';
 
 			if ($active) {
@@ -84,7 +84,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		$Links .= '<ul class="submenu">'.implode('', $TypeLinks).'</ul>';
 		$Links .= '</li>';
 		$Links .= '<li>'.Ajax::window('<a href="my/equipment/overview" '.Ajax::tooltip('', __('Add/Edit equipment'), true, true).'>'.Icon::$ADD.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="my/equipment/category/'.(int)$this->Configuration()->value('type').'/table" '.Ajax::tooltip('', __('Show all equipment'), true, true).'>'.Icon::$TABLE.'</a>', 'big').'</li>';
+		$Links .= '<li>'.Ajax::window('<a href="my/equipment/category/'.(int) $this->Configuration()->value('type').'/table" '.Ajax::tooltip('', __('Show all equipment'), true, true).'>'.Icon::$TABLE.'</a>', 'big').'</li>';
 
 		return '<ul>'.$Links.'</ul>';
 	}
@@ -95,7 +95,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 */
 	protected function displayContent() {
 		$Factory = new Model\Factory(SessionAccountHandler::getId());
-		$EquipmentType = $Factory->equipmentType((int)$this->Configuration()->value('type'));
+		$EquipmentType = $Factory->equipmentType((int) $this->Configuration()->value('type'));
 
 		if ($EquipmentType->isEmpty()) {
 			echo HTML::warning(__('Please choose an equipment type in the plugin configuration.'));

@@ -37,7 +37,7 @@ class Steffny implements PrognosisInterface
      */
     public function setReferenceFrom10kTime($timeInSeconds)
     {
-        $this->ReferencePaceFor10k = (float)$timeInSeconds / 10.0;
+        $this->ReferencePaceFor10k = (float) $timeInSeconds / 10.0;
 
         return $this;
     }

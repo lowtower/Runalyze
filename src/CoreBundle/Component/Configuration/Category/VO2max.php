@@ -24,7 +24,7 @@ class VO2max extends AbstractCategory
      */
     public function getNumberOfDaysToConsider()
     {
-        return (int)$this->Variables['VO2MAX_DAYS'];
+        return (int) $this->Variables['VO2MAX_DAYS'];
     }
 
     /**
@@ -40,7 +40,7 @@ class VO2max extends AbstractCategory
      */
     public function getAdditionalDistancePerPositiveElevation()
     {
-        return (int)$this->Variables['VO2MAX_CORRECTION_POSITIVE_ELEVATION'];
+        return (int) $this->Variables['VO2MAX_CORRECTION_POSITIVE_ELEVATION'];
     }
 
     /**
@@ -48,7 +48,7 @@ class VO2max extends AbstractCategory
      */
     public function getAdditionalDistancePerNegativeElevation()
     {
-        return (int)$this->Variables['VO2MAX_CORRECTION_NEGATIVE_ELEVATION'];
+        return (int) $this->Variables['VO2MAX_CORRECTION_NEGATIVE_ELEVATION'];
     }
 
     /**
@@ -62,7 +62,7 @@ class VO2max extends AbstractCategory
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\VO2max::class;
     }

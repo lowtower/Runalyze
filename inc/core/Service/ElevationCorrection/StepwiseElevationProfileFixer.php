@@ -22,7 +22,7 @@ class StepwiseElevationProfileFixer
 	public function __construct($numberOfGroupedPoints = 5, $method = self::METHOD_FIXED_GROUP_SIZE)
     {
         $this->NumberOfGroupedPoints = $numberOfGroupedPoints;
-        $this->MidpointIndexOfConstantGroup = (int)floor(($numberOfGroupedPoints - 1) / 2);
+        $this->MidpointIndexOfConstantGroup = (int) floor(($numberOfGroupedPoints - 1) / 2);
         $this->Method = $method;
     }
 

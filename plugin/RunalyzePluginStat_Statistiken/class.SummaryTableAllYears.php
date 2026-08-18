@@ -46,16 +46,16 @@ class SummaryTableAllYears extends SummaryTable {
 		if ($this->AdditionalColumns) {
 			$startTime = new LocalTime(START_TIME);
 
-			if ((int)$data['timerange'] == 0) {
+			if ((int) $data['timerange'] == 0) {
 				$now = new LocalTime();
-				$weekFactor  = ((int)$now->format('z') + 1) / 7;
-				$monthFactor = ((int)$now->format('z') + 1) / 30.4;
+				$weekFactor  = ((int) $now->format('z') + 1) / 7;
+				$monthFactor = ((int) $now->format('z') + 1) / 30.4;
 			} else {
-                $numberOfDaysInYear = date('z', mktime(0, 0, 0, 12, 31, (int)$data['timerange'] + START_YEAR)) + 1;
+                $numberOfDaysInYear = date('z', mktime(0, 0, 0, 12, 31, (int) $data['timerange'] + START_YEAR)) + 1;
 
-                if ((int)$data['timerange'] == (date('Y') - START_YEAR) && $startTime->format('Y') == START_YEAR) {
-                    $weekFactor = ($numberOfDaysInYear - (int)$startTime->format('z')) / 7;
-                    $monthFactor = ($numberOfDaysInYear - (int)$startTime->format('z')) / 30.4;
+                if ((int) $data['timerange'] == (date('Y') - START_YEAR) && $startTime->format('Y') == START_YEAR) {
+                    $weekFactor = ($numberOfDaysInYear - (int) $startTime->format('z')) / 7;
+                    $monthFactor = ($numberOfDaysInYear - (int) $startTime->format('z')) / 30.4;
                 } else {
                     $weekFactor = $numberOfDaysInYear / 7.0;
                     $monthFactor = 12;

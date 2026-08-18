@@ -31,7 +31,7 @@ class PlotWeekSumData extends PlotSumData {
 			if (Request::param('y') == self::LAST_12_MONTHS) {
 				$yearEnd = date('Y') - 1;
 			} else {
-				$yearEnd = (int)Request::param('y');
+				$yearEnd = (int) Request::param('y');
 			}
 
 			$this->timerEnd = date('W', mktime(0,0,0,12,28,$yearEnd)); // http://de.php.net/manual/en/function.date.php#49457
@@ -93,8 +93,8 @@ class PlotWeekSumData extends PlotSumData {
 
     protected function whereDate() {
         if (is_numeric($this->Year)) {
-            $dateStart = (new LocalTime())->setISODate((int)$this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())->setTime(0, 0, 0)->getTimestamp();
-            $dateEnd = (new LocalTime())->setISODate((int)$this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())->setTime(23, 59, 59)->getTimestamp();
+            $dateStart = (new LocalTime())->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())->setTime(0, 0, 0)->getTimestamp();
+            $dateEnd = (new LocalTime())->setISODate((int) $this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())->setTime(23, 59, 59)->getTimestamp();
 
             return '`time` BETWEEN '.$dateStart.' AND '.$dateEnd;
         }

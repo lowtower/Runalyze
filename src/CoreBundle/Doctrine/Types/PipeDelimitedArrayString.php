@@ -40,7 +40,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
         }, explode('|', $value));
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::PIPE_ARRAY;
     }

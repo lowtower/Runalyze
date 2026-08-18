@@ -18,7 +18,7 @@ class CompletorForTime extends Completor {
 	 * Mode
 	 * @return string
 	 */
-	public function mode() {
+	public function mode(): string {
 		return parent::MODE_TIME;
 	}
 }

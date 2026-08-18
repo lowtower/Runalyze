@@ -86,11 +86,11 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         }
 
         if (isset($currently['pressure'])) {
-            $data->AirPressure = (int)round($currently['pressure']);
+            $data->AirPressure = (int) round($currently['pressure']);
         }
 
         if (isset($currently['humidity'])) {
-            $data->Humidity = (int)round($currently['humidity'] * 100);
+            $data->Humidity = (int) round($currently['humidity'] * 100);
         }
 
         if (isset($currently['windSpeed'])) {
@@ -98,7 +98,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         }
 
         if (isset($currently['windBearing'])) {
-            $data->WindDirection = (int)round($currently['windBearing']);
+            $data->WindDirection = (int) round($currently['windBearing']);
         }
 
         $data->InternalConditionId = $this->getInternalConditionId($currently);
@@ -131,9 +131,9 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
             $url = sprintf(
                 '%s/%s,%s,%s',
                 self::URL.$this->ApiKey,
-                (string)$location->getLatitude(),
-                (string)$location->getLongitude(),
-                $location->hasDateTime() ? (string)$location->getTimestamp() : time()
+                (string) $location->getLatitude(),
+                (string) $location->getLongitude(),
+                $location->hasDateTime() ? (string) $location->getTimestamp() : time()
             );
 
             try {

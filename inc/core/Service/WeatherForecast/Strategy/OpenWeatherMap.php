@@ -103,15 +103,15 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     protected function setMainConditions(WeatherData $data, array $main)
     {
         if (isset($main['temp'])) {
-            $data->Temperature = (int)round($main['temp'] - 273.15);
+            $data->Temperature = (int) round($main['temp'] - 273.15);
         }
 
         if (isset($main['pressure'])) {
-            $data->AirPressure = (int)round($main['pressure']);
+            $data->AirPressure = (int) round($main['pressure']);
         }
 
         if (isset($main['humidity'])) {
-            $data->Humidity = (int)round($main['humidity']);
+            $data->Humidity = (int) round($main['humidity']);
         }
     }
 
@@ -122,7 +122,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         }
 
         if (isset($wind['deg'])) {
-            $data->WindDirection = ((int)round($wind['deg'])) % 360;
+            $data->WindDirection = ((int) round($wind['deg'])) % 360;
         }
     }
 

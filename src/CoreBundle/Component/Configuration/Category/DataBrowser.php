@@ -21,7 +21,7 @@ class DataBrowser extends AbstractCategory
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\DataBrowser::class;
     }

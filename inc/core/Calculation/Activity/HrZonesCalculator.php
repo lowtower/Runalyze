@@ -80,7 +80,7 @@ class HrZonesCalculator
 			foreach ($this->activityZoneBounds as $value) {
 				$defaultZones[$k] = array(
 				    't' => $t[$k-1],
-				    'hr' => (int)$value,
+				    'hr' => (int) $value,
 				    'c' => $majorZoneColors[$k-1]
 				);
 				$k++;
@@ -93,7 +93,7 @@ class HrZonesCalculator
                 $this->removeDelimiter($matches);
 
 				$defaultZones[$k] = array(
-				    'hr' => (int)$matches[self::PATTERN_GRP_HR]
+				    'hr' => (int) $matches[self::PATTERN_GRP_HR]
 				);
 				if (null !== $matches[self::PATTERN_GRP_TEXT]) {
 					$defaultZones[$k]['t'] = $matches[1];
@@ -109,7 +109,7 @@ class HrZonesCalculator
 			$c = 0;
 			for ($i = 3; $i <= 10; $i++, $k++) {
 				$defaultZones[$k] = array(
-				    'hr' => (int)($hrMaxUser * $i/10) + 1
+				    'hr' => (int) ($hrMaxUser * $i/10) + 1
 				);
 				// in zonee 50-100% use the same colors as upper
 				if ($i >= 5 && $i <= 10) {

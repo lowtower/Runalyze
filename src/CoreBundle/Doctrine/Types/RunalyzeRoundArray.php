@@ -85,7 +85,7 @@ class RunalyzeRoundArray extends Type
         $data = null !== $intensity ? substr($data, 1) : $data;
 
         $duration = (new Duration(substr(strrchr($data, '|'), 1)))->seconds();
-        $distance = (double)strstr($data, '|', true);
+        $distance = (double) strstr($data, '|', true);
 
         $r = new Round($distance, $duration);
         if (null !== $intensity) {

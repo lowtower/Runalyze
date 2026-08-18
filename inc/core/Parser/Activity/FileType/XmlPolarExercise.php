@@ -39,34 +39,34 @@ class XmlPolarExercise extends AbstractSingleParser
 
     protected function parseGeneralValues()
     {
-        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Xml->time);
+        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->time);
     }
 
     protected function parseOptionalValues()
     {
         if (isset($this->Xml->result->distance)) {
-            $this->Container->ActivityData->Distance = (double)$this->Xml->result->distance / 1000;
+            $this->Container->ActivityData->Distance = (double) $this->Xml->result->distance / 1000;
         }
 
         if (isset($this->Xml->result->duration)) {
-            $this->Container->ActivityData->Duration = $this->stringToDuration((string)$this->Xml->result->duration);
+            $this->Container->ActivityData->Duration = $this->stringToDuration((string) $this->Xml->result->duration);
         }
 
         if (isset($this->Xml->result->calories)) {
-            $this->Container->ActivityData->EnergyConsumption = (int)$this->Xml->result->calories;
+            $this->Container->ActivityData->EnergyConsumption = (int) $this->Xml->result->calories;
         }
 
         if (isset($this->Xml->result->{'heart-rate'})) {
-            $this->Container->ActivityData->AvgHeartRate = (int)$this->Xml->result->{'heart-rate'}->average;
-            $this->Container->ActivityData->MaxHeartRate = (int)$this->Xml->result->{'heart-rate'}->maximum;
+            $this->Container->ActivityData->AvgHeartRate = (int) $this->Xml->result->{'heart-rate'}->average;
+            $this->Container->ActivityData->MaxHeartRate = (int) $this->Xml->result->{'heart-rate'}->maximum;
         }
 
         if (isset($this->Xml->note)) {
-            $this->Container->Metadata->setNotes((string)$this->Xml->note);
+            $this->Container->Metadata->setNotes((string) $this->Xml->note);
         }
 
         if (isset($this->Xml->name)) {
-            $this->Container->Metadata->setDescription((string)$this->Xml->name);
+            $this->Container->Metadata->setDescription((string) $this->Xml->name);
         }
     }
 
@@ -75,10 +75,10 @@ class XmlPolarExercise extends AbstractSingleParser
         if (isset($this->Xml->result->laps)) {
             foreach ($this->Xml->result->laps->lap as $lap) {
                 if (isset($lap->distance)) {
-                    $distance = round(((double)$lap->distance) / 1000, 3);
-                    $seconds = $this->stringToDuration((string)$lap->duration);
+                    $distance = round(((double) $lap->distance) / 1000, 3);
+                    $seconds = $this->stringToDuration((string) $lap->duration);
 
-                    if (($seconds / (double)$lap->distance) < 0.06) {
+                    if (($seconds / (double) $lap->distance) < 0.06) {
                         $seconds *= 60;
                     }
 
@@ -91,11 +91,11 @@ class XmlPolarExercise extends AbstractSingleParser
     protected function parseSamples()
     {
         $num = 0;
-        $interval = (int)$this->Xml->result->{'recording-rate'};
+        $interval = (int) $this->Xml->result->{'recording-rate'};
 
         if (isset($this->Xml->result->samples)) {
             foreach ($this->Xml->result->samples->sample as $sample) {
-                $data = explode(',', (string)$sample->values);
+                $data = explode(',', (string) $sample->values);
 
                 if (end($data) == '') {
                     array_pop($data);
@@ -103,7 +103,7 @@ class XmlPolarExercise extends AbstractSingleParser
 
                 $num = count($data);
 
-                switch ((string)$sample->type) {
+                switch ((string) $sample->type) {
                     case 'HEARTRATE':
                         $this->Container->ContinuousData->HeartRate = $data;
                         break;

@@ -35,7 +35,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
     protected function parseGeneralValues()
     {
-        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string)$this->Xml->GeneralInformation->StartDate);
+        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->GeneralInformation->StartDate);
         $this->Container->Metadata->setCreator('Sigma', $this->findCreator());
     }
 
@@ -52,20 +52,20 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
     protected function parseLogEntry(SimpleXMLElement $log)
     {
-        if ((int)$log->Time == 0 || (string)$log->IsPause == 'true') {
-            if ((int)$log->PauseTime > 0 && !empty($this->Container->ContinuousData->Time)) {
+        if ((int) $log->Time == 0 || (string) $log->IsPause == 'true') {
+            if ((int) $log->PauseTime > 0 && !empty($this->Container->ContinuousData->Time)) {
                 $this->Container->Pauses->add(new Pause(
                     end($this->Container->ContinuousData->Time),
-                    (int)$log->PauseTime
+                    (int) $log->PauseTime
                 ));
             }
 
             return;
         }
 
-        $this->Container->ContinuousData->Time[] = (int)$log->TimeAbsolute;
-        $this->Container->ContinuousData->Distance[] = (float)$log->DistanceAbsolute / 1000;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($log->Heartrate)) ? round((float)$log->Heartrate) : null;
+        $this->Container->ContinuousData->Time[] = (int) $log->TimeAbsolute;
+        $this->Container->ContinuousData->Distance[] = (float) $log->DistanceAbsolute / 1000;
+        $this->Container->ContinuousData->HeartRate[] = (!empty($log->Heartrate)) ? round((float) $log->Heartrate) : null;
     }
 
     protected function parseLaps()
@@ -82,13 +82,13 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     protected function parseLap(SimpleXMLElement $lap, $readEnergyConsumption = true)
     {
         if ($readEnergyConsumption && !empty($lap->Calories)) {
-            $this->Container->ActivityData->EnergyConsumption += (int)$lap->Calories;
+            $this->Container->ActivityData->EnergyConsumption += (int) $lap->Calories;
         }
 
         $this->Container->Rounds->add(new Round(
-            round((int)$lap->Distance) / 1000,
-            round((float)$lap->Time),
-            ((string)$lap->FastLap != 'false')
+            round((int) $lap->Distance) / 1000,
+            round((float) $lap->Time),
+            ((string) $lap->FastLap != 'false')
         ));
     }
 
@@ -101,7 +101,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
         if (!empty($this->Xml->GeneralInformation)) {
             foreach ($this->Xml->GeneralInformation->attributes() as $key => $value) {
-                $string .= (string)$key.': '.((string)$value)."\n";
+                $string .= (string) $key.': '.((string) $value)."\n";
             }
         }
 

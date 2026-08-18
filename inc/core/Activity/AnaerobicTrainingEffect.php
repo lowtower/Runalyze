@@ -85,7 +85,7 @@ class AnaerobicTrainingEffect implements ValueInterface
             throw new \InvalidArgumentException('Anaerobic Training Effect must be numeric.');
         }
 
-        $value = (float)$value;
+        $value = (float) $value;
         if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
             throw new \InvalidArgumentException(sprintf('Anaerobic Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
         }

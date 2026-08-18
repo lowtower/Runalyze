@@ -84,7 +84,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
         } elseif (substr($this->CurrentLine, 0, 6) == 'Length') {
             $this->Container->ActivityData->Duration = (new Duration(substr($this->CurrentLine, 7)))->seconds();
         } elseif (substr($this->CurrentLine, 0, 8) == 'Interval') {
-            $this->RecordingInterval = (int)trim(substr($this->CurrentLine, 9));
+            $this->RecordingInterval = (int) trim(substr($this->CurrentLine, 9));
         } elseif (substr($this->CurrentLine, 0, 4) == 'Mode') {
             $this->RecordsAltitude = (substr($this->CurrentLine, 5, 1) == '1');
             $this->UsesImperialUnits = (substr($this->CurrentLine, 7, 1) == '1');
@@ -123,7 +123,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
         $values = preg_split('/[\s]+/', $this->CurrentLine);
 
         if ($this->RecordingInterval == self::RR_DATA_INTERVAL) {
-            $rr = (int)trim($values[0]);
+            $rr = (int) trim($values[0]);
 
             if ($rr <= 0) {
                 return;
@@ -138,21 +138,21 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
             $this->TotalTime += $this->RecordingInterval;
 
             $this->Container->ContinuousData->Time[] = $this->TotalTime;
-            $this->Container->ContinuousData->HeartRate[] = (int)trim($values[0]);
+            $this->Container->ContinuousData->HeartRate[] = (int) trim($values[0]);
 
-            $pace = isset($values[1]) && (int)trim($values[1]) > 0 ? round($this->PaceFactor / ((int)trim($values[1]) / 10)) : 0.0;
+            $pace = isset($values[1]) && (int) trim($values[1]) > 0 ? round($this->PaceFactor / ((int) trim($values[1]) / 10)) : 0.0;
             $dist = $pace > 0 ? $this->RecordingInterval / $pace : 0.0;
 
             $this->Container->ContinuousData->Distance[] = empty($this->Container->ContinuousData->Distance) ? $dist : $dist + end($this->Container->ContinuousData->Distance);
 
             if (count($values) > 3) {
-                $this->Container->ContinuousData->Cadence[] = isset($values[2]) ? (int)trim($values[2]) : null;
-                $this->Container->ContinuousData->Altitude[] = isset($values[3]) ? round((int)trim($values[3]) * $this->DistanceFactor) : null;
-                $this->Container->ContinuousData->Power[] = isset($values[4]) ? (int)trim($values[4]) : null;
+                $this->Container->ContinuousData->Cadence[] = isset($values[2]) ? (int) trim($values[2]) : null;
+                $this->Container->ContinuousData->Altitude[] = isset($values[3]) ? round((int) trim($values[3]) * $this->DistanceFactor) : null;
+                $this->Container->ContinuousData->Power[] = isset($values[4]) ? (int) trim($values[4]) : null;
             } elseif ($this->RecordsAltitude) {
-                $this->Container->ContinuousData->Altitude[] = isset($values[2]) ? round((int)trim($values[2]) * $this->DistanceFactor) : null;
+                $this->Container->ContinuousData->Altitude[] = isset($values[2]) ? round((int) trim($values[2]) * $this->DistanceFactor) : null;
             } else {
-                $this->Container->ContinuousData->Cadence[] = isset($values[2]) ? (int)trim($values[2]) : null;
+                $this->Container->ContinuousData->Cadence[] = isset($values[2]) ? (int) trim($values[2]) : null;
             }
         }
     }

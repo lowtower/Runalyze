@@ -337,7 +337,7 @@ abstract class Loop
 			return 0;
 		}
 
-		return $this->sum($key) / ($this->Index - $this->LastIndex + (int)($this->LastIndex == 0));
+		return $this->sum($key) / ($this->Index - $this->LastIndex + (int) ($this->LastIndex == 0));
 	}
 
 	/**

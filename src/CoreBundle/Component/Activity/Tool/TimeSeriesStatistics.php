@@ -90,7 +90,7 @@ class TimeSeriesStatistics
 
             foreach ($nonIntegerKeys as $key => $factor) {
                 $this->Trackdata->set($key, array_map(function($v) use ($factor) {
-                    return (int)round($v * $factor);
+                    return (int) round($v * $factor);
                 }, $this->Trackdata->get($key)));
             }
         }

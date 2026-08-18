@@ -6,7 +6,7 @@ use Runalyze\Dataset\Context;
 
 class FlightRatio extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FLIGHT_RATIO;
 	}

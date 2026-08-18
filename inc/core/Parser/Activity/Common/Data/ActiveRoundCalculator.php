@@ -123,7 +123,7 @@ class ActiveRoundCalculator {
             return null;
         }
 
-        return (int)round(
+        return (int) round(
             array_sum($activeHeartRates) / count($activeHeartRates)
         );
     }

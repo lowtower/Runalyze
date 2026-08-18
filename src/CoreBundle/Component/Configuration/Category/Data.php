@@ -27,7 +27,7 @@ class Data extends AbstractCategory
      */
     public function getStartTime()
     {
-        return (int)$this->Variables['START_TIME'];
+        return (int) $this->Variables['START_TIME'];
     }
 
     /**
@@ -35,7 +35,7 @@ class Data extends AbstractCategory
      */
     public function getMaximalHeartRate()
     {
-        return (int)$this->Variables['HF_MAX'];
+        return (int) $this->Variables['HF_MAX'];
     }
 
     /**
@@ -43,7 +43,7 @@ class Data extends AbstractCategory
      */
     public function getRestingHeartRate()
     {
-        return (int)$this->Variables['HF_REST'];
+        return (int) $this->Variables['HF_REST'];
     }
 
     /**
@@ -51,7 +51,7 @@ class Data extends AbstractCategory
      */
     public function getCurrentVO2maxShape()
     {
-        return (int)$this->Variables['VO2MAX_FORM'];
+        return (int) $this->Variables['VO2MAX_FORM'];
     }
 
     /**
@@ -59,13 +59,13 @@ class Data extends AbstractCategory
      */
     public function getVO2maxCorrectionFactor()
     {
-        return (float)$this->Variables['VO2MAX_CORRECTOR'];
+        return (float) $this->Variables['VO2MAX_CORRECTOR'];
     }
 
     /**
      * @return string
      */
-    protected function getLegacyCategoryName()
+    protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Data::class;
     }

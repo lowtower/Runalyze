@@ -70,6 +70,6 @@ abstract class Parameter {
 	 * @return string
 	 */
 	public function valueAsString() {
-		return (string)$this->Value;
+		return (string) $this->Value;
 	}
 }

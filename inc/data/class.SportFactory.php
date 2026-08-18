@@ -74,7 +74,7 @@ class SportFactory {
 		$sports = self::cacheAllSports();
 
 		foreach ($sports as $sport) {
-			self::$AllSports[(string)$sport['id']] = $sport;
+			self::$AllSports[(string) $sport['id']] = $sport;
 		}
 
 		Configuration::ActivityForm()->orderSports()->sort(self::$AllSports);
@@ -87,7 +87,7 @@ class SportFactory {
 		$sports = Cache::get('sport');
 
 		if (null === $sports) {
-			$sports = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'sport` WHERE `accountid` = "'.(int)SessionAccountHandler::getId().'"')->fetchAll();
+			$sports = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'sport` WHERE `accountid` = "'.(int) SessionAccountHandler::getId().'"')->fetchAll();
 			Cache::set('sport', $sports, '3600');
 		}
 

@@ -35,8 +35,8 @@ class Timezone implements InterfaceChoosable
      */
     public static function setPHPTimezone($timezone)
     {
-        if (TimezoneEnum::isValidValue((int)$timezone)) {
-            $timezoneName = TimezoneEnum::getFullNameByEnum((int)$timezone);
+        if (TimezoneEnum::isValidValue((int) $timezone)) {
+            $timezoneName = TimezoneEnum::getFullNameByEnum((int) $timezone);
 
             if (self::isValidTimezone($timezoneName)) {
                 date_default_timezone_set($timezoneName);

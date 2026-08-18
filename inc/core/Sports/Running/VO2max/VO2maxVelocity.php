@@ -73,7 +73,7 @@ class VO2maxVelocity
             return 0;
         }
 
-        return (int)round(60000 / $velocity);
+        return (int) round(60000 / $velocity);
     }
 
     /**

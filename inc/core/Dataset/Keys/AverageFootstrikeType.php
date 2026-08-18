@@ -7,7 +7,7 @@ use Runalyze\Dataset\SummaryMode;
 
 class AverageFootstrikeType extends AbstractKey
 {
-	public function id()
+	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::AVG_FOOTSTRIKE_TYPE;
 	}
@@ -27,7 +27,7 @@ class AverageFootstrikeType extends AbstractKey
 		return $context->dataview()->footstrikeType();
 	}
 
-    public function summaryMode()
+    public function summaryMode(): int
     {
         return SummaryMode::AVG;
     }
