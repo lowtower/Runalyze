@@ -857,7 +857,7 @@ class FitActivity extends AbstractSingleParser
         $this->Container->ContinuousData->Longitude[] = isset($this->Values['position_long']) ? substr($this->Values['position_long'][1], 0, -4) : null;
 
         // TSC: check if altitude baro is not yet set; try to set it one time
-        if(is_null($this->Container->ContinuousData->IsAltitudeDataBarometric)) {
+        if(null === $this->Container->ContinuousData->IsAltitudeDataBarometric) {
             // TSC: check if "enhanced_altitude" is existing - if true => reading alti by Baro!
             if(isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0) {
                 $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
@@ -986,7 +986,7 @@ class FitActivity extends AbstractSingleParser
 
                 // #TSC set more detailed intensity (like warmup or recovery) for this lap
                 $v = $this->fitWorkoutStep->getIntensity($i);
-                if (!is_null($v)) {
+                if (null !== $v) {
                     // special case: if we have a lap with time and distance and its marked as REST we change it to RECOVERY
                     // if i use Fenix6 with interval created on the device, the laps between the intervals are pause - but i want RECOVERY
                     if ($v->isRest()) {
@@ -1012,7 +1012,7 @@ class FitActivity extends AbstractSingleParser
     protected function readSet()
     {
         $round = $this->fitSplitsAdditionals->getSetRoundAndCollect($this->Values);
-        if(!is_null($round)) {
+        if(null !== $round) {
             $this->Container->Rounds->add($round);
         }   
     }

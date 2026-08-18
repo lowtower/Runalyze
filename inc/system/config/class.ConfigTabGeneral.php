@@ -47,7 +47,7 @@ class ConfigTabGeneral extends ConfigTab {
 		foreach ($Categories as $Category) {
 			$Fieldset = $Category->Fieldset();
 
-			if (!is_null($Fieldset)) {
+			if (null !== $Fieldset) {
 				if ($IsFirst)
 					$IsFirst = false;
 				else

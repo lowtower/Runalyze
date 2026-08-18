@@ -126,7 +126,7 @@ class FormularFieldset extends HtmlTag {
 	 * @param null|FormularField $Field
 	 */
 	final public function addField($Field) {
-		if (!is_null($Field))
+		if (null !== $Field)
 			$this->fields[] = $Field;
 	}
 

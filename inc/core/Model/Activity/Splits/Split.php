@@ -53,7 +53,7 @@ class Split extends StringObject {
 	 * @param boolean $active [optional]
 	 */
 	public function __construct($dataOrDistance = '', $time = null, $active = true) {
-		if (is_null($time)) {
+		if (null === $time) {
 			parent::__construct($dataOrDistance);
 		} else {
 			$this->Distance = (float)$dataOrDistance;
@@ -72,7 +72,7 @@ class Split extends StringObject {
 	 */
 	public function fromString($string) {
 		$intensity = LapIntensity::fromValue(substr($string, 0, 1));
-		if (!is_null($intensity)) {
+		if (null !== $intensity) {
 			$this->Intensity = $intensity;
 			$string = substr($string, 1);
 		} else {

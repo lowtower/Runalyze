@@ -111,8 +111,8 @@ class Calculator
 	public function calculateFrom(Trackdata\Entity $trackdata, Route\Entity $route = null, Swimdata\Entity $swimdata = null)
 	{
 		$this->TrackdataLoop = new Trackdata\Loop($trackdata);
-		$this->RouteLoop = !is_null($route) ? new Route\Loop($route) : null;
-		$this->SwimdataLoop = !is_null($swimdata) ? new Swimdata\Loop($swimdata) : null;
+		$this->RouteLoop = null !== $route ? new Route\Loop($route) : null;
+		$this->SwimdataLoop = null !== $swimdata ? new Swimdata\Loop($swimdata) : null;
 
 		if (!empty($this->Distances)) {
 			$this->readLapsFromDistances();
@@ -274,7 +274,7 @@ class Calculator
 		$SlicedTrackdata = $this->TrackdataLoop->sliceObject();
 		$this->addTrackdataAveragesToDataFrom($SlicedTrackdata, $AdditionalData);
 
-		if(!is_null($this->SwimdataLoop)) {
+		if(null !== $this->SwimdataLoop) {
 			$SlicedSwimdata = $this->SwimdataLoop->sliceObject();
 			$this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
 		}
@@ -407,10 +407,10 @@ class Calculator
 	{
 		$this->TrackdataLoop->moveToDistance($kilometer);
 
-		if (!is_null($this->RouteLoop)) {
+		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
-		if (!is_null($this->SwimdataLoop)) {
+		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
 	}
@@ -426,10 +426,10 @@ class Calculator
 			$this->TrackdataLoop->moveToTime($seconds);
 		}
 
-		if (!is_null($this->RouteLoop)) {
+		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
-		if (!is_null($this->SwimdataLoop)) {
+		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
 	}
@@ -441,10 +441,10 @@ class Calculator
 	{
 		$this->TrackdataLoop->goToEnd();
 
-		if (!is_null($this->RouteLoop)) {
+		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToEnd();
 		}
-		if (!is_null($this->SwimdataLoop)) {
+		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToEnd();
 		}
 	}

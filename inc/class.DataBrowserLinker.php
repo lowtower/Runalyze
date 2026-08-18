@@ -28,7 +28,7 @@ class DataBrowserLinker {
 			return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '');
 
 		$href = 'call/call.DataBrowser.display.php?start='.$startTimestampInNoTimezone.'&end='.$endTimestampInNoTimezone;
-		if (!is_null($sportid)) {
+		if (null !== $sportid) {
 			$href = $href . '&sport=' . $sportid; // #TSC add sport selection criteria
 		}
 

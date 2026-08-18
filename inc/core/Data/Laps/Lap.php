@@ -87,7 +87,7 @@ class Lap {
 	 * @param LapIntensity|null $mode [optional]
 	 */
 	public function __construct($duration = 0, $distance = 0.0, LapIntensity $mode = null) {
-		if (is_null($mode)) {
+		if (null === $mode) {
 			$mode = LapIntensity::getInstanceActive();
 		}
 

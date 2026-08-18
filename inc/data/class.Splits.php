@@ -306,7 +306,7 @@ class Splits {
 		$active = null;
 
 		foreach ($this->asArray as $split) {
-			if (is_null($active))
+			if (null === $active)
 				$active = $split['active'];
 			elseif ($active != $split['active'])
 				return true;

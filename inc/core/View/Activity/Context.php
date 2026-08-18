@@ -157,14 +157,14 @@ class Context {
 	 * @return boolean
 	 */
 	public function hasRoute() {
-		return !is_null($this->Route);
+		return null !== $this->Route;
 	}
 
 	/**
 	 * @return boolean
 	 */
 	public function hasSwimdata() {
-		return !is_null($this->Swimdata);
+		return null !== $this->Swimdata;
 	}
 
 	/**

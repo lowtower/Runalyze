@@ -71,7 +71,7 @@ class HrZonesCalculator
 		$defaultZones[$k++] = array('hr' => 0);
 
 		// are hrZoneBounds from a Garmin/FIT device available?
-		if (!is_null($this->activityZoneBounds) && count($this->activityZoneBounds) == 6) {
+		if (null !== $this->activityZoneBounds && count($this->activityZoneBounds) == 6) {
 			// format of the 91|109|127|146|164|182; details see FitActivity.readTimeInZone()
 			$t = array('B1 Warm up', 'B2 Easy', 'B3 Aerob', 'B4 Intensiv', 'B5 Maximal', 'B6 Override');
 			// now add the bounds with its colors
@@ -80,17 +80,17 @@ class HrZonesCalculator
 				$k++;
 			}
 			$this->sourceHint = 'activity stored zones';
-		} else if (!is_null($this->sportZoneBounds) && count($this->sportZoneBounds) > 0) {
+		} else if (null !== $this->sportZoneBounds && count($this->sportZoneBounds) > 0) {
 			// zones for the sport are defined
 			foreach ($this->sportZoneBounds as $value) {
 				preg_match(self::PATTERN, $value, $matches, PREG_UNMATCHED_AS_NULL);
                 $this->removeDelimiter($matches);
 
 				$defaultZones[$k] = array('hr' => (int)$matches[self::PATTERN_GRP_HR]);
-				if (!is_null($matches[self::PATTERN_GRP_TEXT])) {
+				if (null !== $matches[self::PATTERN_GRP_TEXT]) {
 					$defaultZones[$k]['t'] = $matches[1];
 				}
-				if (!is_null($matches[self::PATTERN_GRP_COLOR])) {
+				if (null !== $matches[self::PATTERN_GRP_COLOR]) {
 					$defaultZones[$k]['c'] = $matches[3];
 				}
 				$k++;
@@ -129,9 +129,9 @@ class HrZonesCalculator
      * removes a colon in text and/or color.
      */
 	private function removeDelimiter(array &$zoneMatch) {
-        if(!is_null($zoneMatch[self::PATTERN_GRP_TEXT]))
+        if(null !== $zoneMatch[self::PATTERN_GRP_TEXT])
             $zoneMatch[self::PATTERN_GRP_TEXT] = substr($zoneMatch[self::PATTERN_GRP_TEXT], 0, strlen($zoneMatch[self::PATTERN_GRP_TEXT]) - 1);
-        if(!is_null($zoneMatch[self::PATTERN_GRP_COLOR]))
+        if(null !== $zoneMatch[self::PATTERN_GRP_COLOR])
             $zoneMatch[self::PATTERN_GRP_COLOR] = substr($zoneMatch[self::PATTERN_GRP_COLOR], 1);
     }
 

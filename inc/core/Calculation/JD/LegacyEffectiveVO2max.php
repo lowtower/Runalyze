@@ -50,7 +50,7 @@ class LegacyEffectiveVO2max
      */
     public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector = null)
     {
-        if (!is_null($corrector)) {
+        if (null !== $corrector) {
             $this->Corrector = $corrector;
         }
     }
@@ -96,7 +96,7 @@ class LegacyEffectiveVO2max
      */
     public function exactValue()
     {
-        if (!is_null($this->Corrector)) {
+        if (null !== $this->Corrector) {
             return $this->Corrector->factor() * $this->Value;
         }
 

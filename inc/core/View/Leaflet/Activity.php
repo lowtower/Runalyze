@@ -150,7 +150,7 @@ class Activity extends LeafletRoute {
 		$this->RouteLoop->setStepSize($stepSize);
 
 		if (
-			!is_null($this->Trackdata)
+			null !== $this->Trackdata
 			&& ($this->Route->num() == $this->Trackdata->num())
 			&& $this->Trackdata->has(Trackdata\Entity::TIME)
 		) {
@@ -164,7 +164,7 @@ class Activity extends LeafletRoute {
 	 * @return boolean
 	 */
 	protected function hasTrackdataLoop() {
-		return !is_null($this->TrackdataLoop);
+		return null !== $this->TrackdataLoop;
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Activity extends LeafletRoute {
 	 * Find limit for pauses
 	 */
 	protected function findLimitForPauses() {
-		if (!is_null($this->Trackdata) && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
+		if (null !== $this->Trackdata && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
 			$SecondsForDist = (int)Configuration::ActivityView()->routeBreak()->value();
 			$AveragePace = $this->Trackdata->totalDistance() > 0 ? $this->Trackdata->totalTime() / $this->Trackdata->totalDistance() : 0;
 
@@ -309,7 +309,7 @@ class Activity extends LeafletRoute {
 	 * Check for pause
 	 */
 	protected function checkForPause() {
-		if (!is_null($this->Trackdata) && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
+		if (null !== $this->Trackdata && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
 			if (
 				$this->PauseIndex < $this->Trackdata->pauses()->num() &&
 				$this->Trackdata->pauses()->at($this->PauseIndex)->time() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)

@@ -57,7 +57,7 @@ class PluginConfiguration {
 	final public function catchValuesFromDatabase() {
 		$ResultFromDB = Cache::get(self::CACHE_KEY);
 
-		if (is_null($ResultFromDB)) {
+		if (null === $ResultFromDB) {
 			$ResultFromDB = DB::getInstance()->query(
 				'SELECT `pluginid`,`config`,`value` '.
 				'FROM `'.PREFIX.'plugin_conf` '.

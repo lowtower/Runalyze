@@ -108,7 +108,7 @@ class Table {
 				$style = ($this->Configuration->getStyle($keyid) != '') ? $this->Configuration->getStyle($keyid) : '';
 				// css class&style depending on values
 				$valueClassStyle = $Key->valueDependendCssStyle($context);
-				if (!is_null($valueClassStyle)) {
+				if (null !== $valueClassStyle) {
 					$class = $class . ' ' . $valueClassStyle['class'];
 					$style .= $valueClassStyle['style'];
 				}

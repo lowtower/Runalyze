@@ -118,7 +118,7 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     final public function filename()
     {
-        if (is_null($this->Context)) {
+        if (null === $this->Context) {
             return 'undefined.'.$this->extension();
         }
 

@@ -58,9 +58,6 @@ class SubSegmentMaximization
     /** @var bool */
     protected $InterpolateOverlength = true;
 
-    /**
-     * @var int factor to apply to `$this->DataMax`, i.e. -1 for minimization, +1 otherwise
-     */
     protected $MinimizationFactor = 1;
 
     /**

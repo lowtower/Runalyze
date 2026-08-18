@@ -182,7 +182,7 @@ class LapIntensity extends AbstractEnum
      * @return LapIntensity
      */
     public static function getInstanceActive() {
-        if (is_null(self::$INST_ACTIVE)) {
+        if (null === self::$INST_ACTIVE) {
             self::$INST_ACTIVE = new LapIntensity(self::ACTIVE);
         }
         return self::$INST_ACTIVE;
@@ -194,7 +194,7 @@ class LapIntensity extends AbstractEnum
      * @return LapIntensity
      */
     public static function getInstanceRest() {
-        if (is_null(self::$INST_REST)) {
+        if (null === self::$INST_REST) {
             self::$INST_REST = new LapIntensity(self::REST);
         }
         return self::$INST_REST;

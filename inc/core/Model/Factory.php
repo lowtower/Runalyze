@@ -61,7 +61,7 @@ class Factory {
 	 * @return bool
 	 */
 	protected function hasAccountID() {
-		return !is_null($this->AccountID);
+		return null !== $this->AccountID;
 	}
 
 	/**
@@ -339,7 +339,7 @@ class Factory {
 	protected function arrayByPKfromCache($tablename, $id, $cachetime) {
 		$data = Cache::get($tablename.$id);
 
-		if (is_null($data)) {
+		if (null === $data) {
 			$data = $this->fetch($tablename, $id);
 
 			Cache::set($tablename.$id, $data, $cachetime);

@@ -378,7 +378,7 @@ class Plot {
 		$this->Options['series']['curvedLines']['apply'] = $flag;
 		$this->Options['series']['curvedLines']['monotonicFit'] = true;
 
-		if (!is_null($fit))
+		if (null !== $fit)
 			$this->Options['series']['curvedLines']['monotonicFit'] = $fit;
 	}
 

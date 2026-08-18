@@ -71,7 +71,7 @@ class Query
 	{
 		$this->resetJoins();
 
-		$whereSport = is_null($sportId) ? '' : '`t`.`sportid` = '.$sportId.' AND ';
+		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
 		return $this->PDO->query(
 			'SELECT
@@ -105,7 +105,7 @@ class Query
 	public function statementToFetchActivitySports($timeStart, $timeEnd, ? int $sportIdSelected)
 	{
 		// this is needed to ensure, that the current selected sportId is included
-		$addSelected = is_null($sportIdSelected) ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
+		$addSelected = null === $sportIdSelected ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
 
 		// the query counts the activities group by sport and than limit the result; so the x most recent sports are selected
 		return $this->PDO->query(
@@ -202,7 +202,7 @@ class Query
 	 */
 	public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId = null)
 	{
-		$whereSport = is_null($sportId) ? '' : '`t`.`sportid` = '.$sportId.' AND ';
+		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
 		return $this->PDO->query(
 			'SELECT

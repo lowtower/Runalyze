@@ -40,7 +40,7 @@ class SharedLinker {
 	 * @return string
 	 */
 	public static function getStandardLinkTo($trainingID, $text = null) {
-		if (is_null($text)) {
+		if (null === $text) {
 			$text = Icon::$ATTACH;
 		}
 
@@ -53,7 +53,7 @@ class SharedLinker {
 	 * @return string
 	 */
 	public static function getListLinkForCurrentUser($text = null) {
-        if (is_null($text)) {
+        if (null === $text) {
             $text = '<i class="fa fa-fw fa-id-card-o"></i>';
         }
 

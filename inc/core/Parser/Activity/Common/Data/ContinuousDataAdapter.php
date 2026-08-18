@@ -65,7 +65,7 @@ class ContinuousDataAdapter
             $size = count($this->ContinuousData->Latitude);
             //search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && is_null($this->ContinuousData->Latitude[$firstNotNull])) {
+            while($firstNotNull < $size && null === $this->ContinuousData->Latitude[$firstNotNull]) {
                 $firstNotNull++;
             }
 
@@ -92,7 +92,7 @@ class ContinuousDataAdapter
 
             // search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && is_null($values[$firstNotNull])) {
+            while($firstNotNull < $size && null === $values[$firstNotNull]) {
                 $firstNotNull++;
             }
 
@@ -113,7 +113,7 @@ class ContinuousDataAdapter
             $notNull = $values[$firstNotNull];
             // now search from start-to-end and set the last not null to the nulls
             for($i = $firstNotNull; $i < $size; $i++) {
-                if(is_null($values[$i])) {
+                if(null === $values[$i]) {
                     $values[$i] = $notNull;
                 } else {
                     $notNull = $values[$i];
@@ -132,7 +132,7 @@ class ContinuousDataAdapter
             $size = count($values);
 
             for($i = 0; $i < $size; $i++) {
-                if(is_null($values[$i])) {
+                if(null === $values[$i]) {
                     $values[$i] = 0;
                 }
             }

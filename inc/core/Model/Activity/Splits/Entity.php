@@ -175,7 +175,7 @@ class Entity extends StringArrayObject {
 		$active = null;
 
 		foreach ($this->Elements as $split) {
-			if (is_null($active)) {
+			if (null === $active) {
 				$active = $split->isActive();
 			} elseif ($active != $split->isActive()) {
 				return true;

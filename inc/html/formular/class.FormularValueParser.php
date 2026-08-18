@@ -36,7 +36,7 @@ class FormularValueParser {
 	 * @return boolean
 	 */
 	public static function validatePost($key, $parser, $parserOptions = array()) {
-		if (is_null($parser))
+		if (null === $parser)
 			return true;
 
 		if (isset($parserOptions['null']) && $parserOptions['null']) {
@@ -66,7 +66,7 @@ class FormularValueParser {
 	 * @param array $parserOptions
 	 */
 	public static function parse(&$value, $parser, $parserOptions = array()) {
-		if (is_null($parser))
+		if (null === $parser)
 			return;
 
 		switch ($parser) {

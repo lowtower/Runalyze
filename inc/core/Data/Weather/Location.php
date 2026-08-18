@@ -128,8 +128,8 @@ class Location {
 	 */
 	public function hasPosition() {
 		return (
-			!is_null($this->Latitude) &&
-			!is_null($this->Longitude) &&
+			null !== $this->Latitude &&
+			null !== $this->Longitude &&
 			($this->Latitude != 0 || $this->Longitude != 0)
 		);
 	}

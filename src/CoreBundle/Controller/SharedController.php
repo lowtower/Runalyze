@@ -159,7 +159,7 @@ class SharedController extends Controller
     {
         $Request = Request::createFromGlobals();
 
-        if (is_null($Request->query->get('y'))) {
+        if (null === $Request->query->get('y')) {
             $_GET['y'] = \PlotSumData::LAST_12_MONTHS;
         }
 

@@ -75,7 +75,7 @@ class Pace extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		$pace = $this->getPace($context);
-		if (is_null($pace)) {
+		if (null === $pace) {
 			return '';
 		} else {
 			return $pace->valueWithAppendix();
@@ -140,7 +140,7 @@ class Pace extends AbstractKey
 		}
 
 		$pace = $this->getPace($context);
-		if (!is_null($pace)) {
+		if (null !== $pace) {
 			$minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
 
 			$kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour

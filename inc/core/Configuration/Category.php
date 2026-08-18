@@ -222,7 +222,7 @@ abstract class Category {
 	 */
 	private function loadValues($data = null) {
 		$KeysInDatabase = array();
-		$Values = is_null($data) ? $this->fetchValues() : $data;
+		$Values = null === $data ? $this->fetchValues() : $data;
 
 		foreach ($Values as $Value) {
 			if (!isset($Value['category']) || $Value['category'] == $this->key()) {

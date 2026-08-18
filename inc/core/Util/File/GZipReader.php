@@ -63,7 +63,7 @@ class GZipReader {
 	 * @return bool
 	 */
 	protected function isOpen() {
-		return !is_null($this->Resource);
+		return null !== $this->Resource;
 	}
 
 	/**

@@ -36,7 +36,7 @@ abstract class EntityWithID extends Entity {
 	 * @return bool
 	 */
 	public function hasID() {
-		return !is_null($this->ID);
+		return null !== $this->ID;
 	}
 
 	/**

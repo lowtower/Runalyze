@@ -1477,7 +1477,7 @@ class Entity extends Model\EntityWithID {
 	 * @return \Runalyze\Data\Weather
 	 */
 	public function weather() {
-		if (is_null($this->Weather)) {
+		if (null === $this->Weather) {
 			$this->Weather = new Weather(
 				new Weather\Temperature($this->Data[self::TEMPERATURE]),
 				new Weather\Condition($this->Data[self::WEATHERID]),
@@ -1511,7 +1511,7 @@ class Entity extends Model\EntityWithID {
 	 * @return \Runalyze\Model\Activity\Splits\Entity
 	 */
 	public function splits() {
-		if (is_null($this->Splits)) {
+		if (null === $this->Splits) {
 			$this->Splits = new Splits\Entity($this->Data[self::SPLITS]);
 		}
 
@@ -1540,7 +1540,7 @@ class Entity extends Model\EntityWithID {
 	 * @return \Runalyze\Model\Activity\Partner
 	 */
 	public function partner() {
-		if (is_null($this->Partner)) {
+		if (null === $this->Partner) {
 			$this->Partner = new Partner($this->Data[self::PARTNER]);
 		}
 

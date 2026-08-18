@@ -98,7 +98,7 @@ class Pause {
 	 * @return bool
 	 */
 	public function hasHeartRateInfo() {
-		return !is_null($this->HRstart) && !is_null($this->HRend);
+		return null !== $this->HRstart && null !== $this->HRend;
 	}
 
 	/**

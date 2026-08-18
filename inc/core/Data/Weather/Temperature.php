@@ -56,7 +56,7 @@ class Temperature {
 	 * @param int|null $unit
 	 */
 	public function setTemperature($value, $unit = null) {
-		if (!is_null($unit)) {
+		if (null !== $unit) {
 			$this->unit = $unit;
 		}
 
@@ -91,7 +91,7 @@ class Temperature {
 	 * @return float
 	 */
 	protected function fromCelsiusTo($value, $unit) {
-		if (is_null($value)) {
+		if (null === $value) {
 			return null;
 		}
 
@@ -138,7 +138,7 @@ class Temperature {
 	 * @return bool
 	 */
 	public function isUnknown() {
-		return is_null($this->inCelsius);
+		return null === $this->inCelsius;
 	}
 
 	/**

@@ -33,7 +33,7 @@ class Configuration
 	 */
 	public function __construct(\PDO $pdo, $accountID, $fallbackToDefault = true)
 	{
-		if (is_null($this->Data)) {
+		if (null === $this->Data) {
 			$completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `'.PREFIX.'dataset` WHERE `accountid`="'.$accountID.'" ORDER BY `position` ASC')->fetchAll();
 
 			if (empty($completeData) && $fallbackToDefault) {

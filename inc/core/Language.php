@@ -210,7 +210,7 @@ class Language implements InterfaceChoosable
                 $supp
             );
 
-            if (!is_null($match)) {
+            if (null !== $match) {
                 return $match;
             }
         }

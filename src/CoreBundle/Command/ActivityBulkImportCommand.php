@@ -35,7 +35,7 @@ class MaxZoneHR {
         $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new \Runalyze\Parameter\Boolean(false);
-        $bool->setFromString(is_null($conf) ? '' : $conf->getValue());
+        $bool->setFromString(null === $conf ? '' : $conf->getValue());
         $this->import = $bool->value();
     }
 
@@ -330,7 +330,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $oldUser = $repository->getLatestEntryFor($account);
 
         // if new max differs from the stored one
-        if(!is_null($oldUser) && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
+        if(null !== $oldUser && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
             // clone current user and create a new one
             $newuser = $oldUser->cloneObjectForForm();
             $newuser->setTime($maxZoneHR->Time);

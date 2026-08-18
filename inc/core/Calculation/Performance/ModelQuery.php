@@ -77,13 +77,13 @@ class ModelQuery
      */
     private function query()
     {
-        if (is_null($this->From) && is_null($this->To)) {
+        if (null === $this->From && null === $this->To) {
             $Where = '1';
         } else {
             $Where = '`time` BETWEEN ' . (int)$this->From . ' AND ' . (int)$this->To;
         }
 
-        if (!is_null($this->SportId)) {
+        if (null !== $this->SportId) {
             $Where .= ' AND `sportid`=' . (int)$this->SportId;
         }
 

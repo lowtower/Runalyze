@@ -137,7 +137,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 	protected function displayPlot() {
 		echo '<div class="training-row-plot">';
 
-		if (!is_null($this->Plot)) {
+		if (null !== $this->Plot) {
 			echo '<div id="plot-'.$this->Plot->getKey().'" class="plot-container">';
 			$this->Plot->display();
 			echo '</div>';

@@ -54,7 +54,7 @@ class GZipWriter {
 	 * @return bool
 	 */
 	protected function isOpen() {
-		return !is_null($this->Resource);
+		return null !== $this->Resource;
 	}
 
 	/**

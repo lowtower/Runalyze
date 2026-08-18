@@ -58,7 +58,7 @@ class SportFactory {
 	 * @return array
 	 */
 	public static function AllSports() {
-		if (is_null(self::$AllSports)) {
+		if (null === self::$AllSports) {
 			self::initAllSports();
 		}
 
@@ -85,7 +85,7 @@ class SportFactory {
 	private static function cacheAllSports() {
 		$sports = Cache::get('sport');
 
-		if (is_null($sports)) {
+		if (null === $sports) {
 			$sports = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'sport` WHERE `accountid` = "'.(int)SessionAccountHandler::getId().'"')->fetchAll();
 			Cache::set('sport', $sports, '3600');
 		}

@@ -125,7 +125,7 @@ if (START_TIME != time()) {
 		}
 
 		$ResultsData = Cache::get('prognosePlotDistanceData'.$distance);
-		if (is_null($ResultsData)) {
+		if (null === $ResultsData) {
 			$ResultsData = DB::getInstance()->query('
 				SELECT
 					`time`,

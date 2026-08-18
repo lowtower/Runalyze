@@ -203,7 +203,7 @@ class Dataview
      */
     public function distance($decimals = null)
     {
-        if (is_null($decimals)) {
+        if (null === $decimals) {
             $decimals = Configuration::ActivityView()->decimals();
         }
 

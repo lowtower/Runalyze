@@ -171,7 +171,7 @@ class Frontend {
 	protected function initSessionAccountHandler() {
 		new SessionAccountHandler();
 
-		if (!is_null($this->symfonyToken) && $this->symfonyToken->getToken()->getUser() != 'anon.') {
+		if (null !== $this->symfonyToken && $this->symfonyToken->getToken()->getUser() != 'anon.') {
 			/** @var \Runalyze\Bundle\CoreBundle\Entity\Account $user */
 		    $user = $this->symfonyToken->getToken()->getUser();
 

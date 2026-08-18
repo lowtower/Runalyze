@@ -34,7 +34,7 @@ class BeaufortScale implements ValueInterface
 	 */
 	public function __construct(WindSpeed $windSpeed = null)
 	{
-	    if (!is_null($windSpeed)) {
+	    if (null !== $windSpeed) {
 			$this->setFromWindSpeed($windSpeed);
 	    }
 	}

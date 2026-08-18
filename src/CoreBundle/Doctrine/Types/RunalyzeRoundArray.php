@@ -82,13 +82,13 @@ class RunalyzeRoundArray extends Type
     {
         $intensity = LapIntensity::fromValue(substr($data, 0, 1));
 
-        $data = !is_null($intensity) ? substr($data, 1) : $data;
+        $data = null !== $intensity ? substr($data, 1) : $data;
 
         $duration = (new Duration(substr(strrchr($data, '|'), 1)))->seconds();
         $distance = (double)strstr($data, '|', true);
 
         $r = new Round($distance, $duration);
-        if (!is_null($intensity)) {
+        if (null !== $intensity) {
             $r->setIntensity($intensity);
         } else {
             // default is active if no special char exits
