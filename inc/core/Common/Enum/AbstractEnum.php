@@ -46,7 +46,7 @@ abstract class AbstractEnum
      */
     public static function getEnum()
     {
-        $enumClass = get_called_class();
+        $enumClass = static::class;
 
         if (!isset(self::$ConstantsCache[$enumClass])) {
             $reflect = new \ReflectionClass($enumClass);

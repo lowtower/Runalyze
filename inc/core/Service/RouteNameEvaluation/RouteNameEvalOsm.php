@@ -240,7 +240,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         // special case "hüttenwandern" without peaks
         if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
             && empty($peak) && !empty($hut) && !$hutSet) {
-            $routes = array_merge($routes, $hut);;
+            $routes = array_merge($routes, $hut); ;
             $hutSet = true;
         }
 

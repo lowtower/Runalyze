@@ -196,8 +196,7 @@ class PDOforRunalyze extends PDO {
 		} else if (is_bool($values)) {
 			$values = $values ? 1 : 0;
 		} else if (is_numeric($values) && !$forceAsString) {
-			$values = $values;
-		} else if ($values === null || $values == 'NULL') {
+        } else if ($values === null || $values == 'NULL') {
 			$values = 'NULL';
 		} else if (!is_numeric($values) || $forceAsString) {
 			$values = $this->quote($values);

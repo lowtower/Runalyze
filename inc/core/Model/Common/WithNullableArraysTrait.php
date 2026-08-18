@@ -2,7 +2,6 @@
 
 namespace Runalyze\Model\Common;
 
-use Runalyze\Model\Entity;
 
 trait WithNullableArraysTrait
 {

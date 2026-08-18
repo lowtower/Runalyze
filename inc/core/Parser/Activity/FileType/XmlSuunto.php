@@ -223,8 +223,8 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected function readCurrentLocationFrom(SimpleXMLElement $sample)
     {
         if (!empty($sample->Latitude) && !empty($sample->Longitude)) {
-            $this->CurrentLatitude = round((float)$sample->Latitude * 180 / pi(), 7);
-            $this->CurrentLongitude = round((float)$sample->Longitude * 180 / pi(), 7);
+            $this->CurrentLatitude = round((float)$sample->Latitude * 180 / M_PI, 7);
+            $this->CurrentLongitude = round((float)$sample->Longitude * 180 / M_PI, 7);
         }
     }
 

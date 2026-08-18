@@ -366,7 +366,7 @@ class Route implements AccountRelatedEntityInterface
         $longitudes = array_map(function ($value) { return ($value == '') ? 0.0 : (double)$value; }, $longitudes);
 
         $this->areMinMaxSynchronized = false;
-        $this->geohashes = [];;
+        $this->geohashes = []; ;
 
         for ($i = 0; $i < $size; ++$i) {
             $this->geohashes[] = (new Geohash())->encode(

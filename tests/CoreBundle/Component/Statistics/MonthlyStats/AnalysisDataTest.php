@@ -28,7 +28,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
      * @param array $results
      * @return TrainingRepository
      */
-    protected function getTrainingRepositoryMock(array $results = [])
+    protected function getTrainingRepositoryMock(array $results = []): \PHPUnit\Framework\MockObject\MockObject
     {
         $repository = $this->getMockBuilder(TrainingRepository::class)
             ->disableOriginalConstructor()

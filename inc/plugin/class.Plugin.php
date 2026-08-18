@@ -114,7 +114,7 @@ abstract class Plugin {
 	 */
 	public function __construct($id) {
 		$this->id = $id;
-		$this->key = get_class($this);
+		$this->key = static::class;
 
 		if ($id == PluginInstaller::ID) {
 			return;

@@ -10,7 +10,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
      * @param array $histogram
      * @return AbstractDistribution
      */
-    protected function getMockWithHistogram(array $histogram)
+    protected function getMockWithHistogram(array $histogram): \PHPUnit\Framework\MockObject\MockObject
     {
         $dist = $this->getMockForAbstractClass(AbstractDistribution::class);
         $dist->expects($this->any())
