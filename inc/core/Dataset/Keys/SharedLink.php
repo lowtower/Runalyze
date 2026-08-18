@@ -31,7 +31,7 @@ class SharedLink extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'is_public';
 	}
@@ -49,7 +49,7 @@ class SharedLink extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}

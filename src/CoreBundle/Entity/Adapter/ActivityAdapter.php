@@ -290,7 +290,7 @@ class ActivityAdapter
                  * Use the overall time and number of track-data points.
                  */
                 $trackDataTime = $this->Activity->getTrackdata()->getTime();
-                if (!empty($trackDataTime)) {
+                if (! empty($trackDataTime)) {
                     $totalTime = end($trackDataTime);
                     $numberOfPoints = count($trackDataTime);
                 }

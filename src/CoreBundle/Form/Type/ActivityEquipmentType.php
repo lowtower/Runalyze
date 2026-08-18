@@ -47,8 +47,8 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'choice_translation_domain' => false,
                     'translation_domain' => false,
                     'label' => $category->getName(),
-                    'multiple' => !$isSingleChoice,
-                    'expanded' => !$isSingleChoice,
+                    'multiple' => ! $isSingleChoice,
+                    'expanded' => ! $isSingleChoice,
                     'required' => false
                 ]);
             }
@@ -63,7 +63,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
      */
     public function transform($value)
     {
-        if (!($value instanceof \Doctrine\Common\Collections\Collection)) {
+        if (! ($value instanceof \Doctrine\Common\Collections\Collection)) {
             return null;
         }
 
@@ -74,7 +74,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             if ($equipment->getType()->getInput() == EquipmentType::CHOICE_SINGLE) {
                 $categories[$equipment->getType()->getId()] = $equipment;
             } else {
-                if (!isset($categories[$equipment->getType()->getId()])) {
+                if (! isset($categories[$equipment->getType()->getId()])) {
                     $categories[$equipment->getType()->getId()] = new ArrayCollection();
                 }
 

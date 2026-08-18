@@ -287,7 +287,7 @@ class Factory {
 	 * @return array
 	 */
 	protected function arrayByPK($tablename, $id, $cachetime = 3600) {
-		if (!$cachetime) {
+		if (! $cachetime) {
 			return $this->fetch($tablename, $id);
 		}
 
@@ -305,7 +305,7 @@ class Factory {
 	 * @return array
 	 */
 	protected function arrayByPKfromStaticCache($tablename, $id) {
-		if (!isset(self::$StaticCache[$tablename])) {
+		if (! isset(self::$StaticCache[$tablename])) {
 			$this->fetchStaticCache($tablename);
 		}
 
@@ -356,11 +356,11 @@ class Factory {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function allData($tablename) {
-		if (!isset($this->UseStaticCacheAndFullFetch[$tablename])) {
+		if (! isset($this->UseStaticCacheAndFullFetch[$tablename])) {
 			throw new \InvalidArgumentException('The table "'.$tablename.'" does not provide a full fetch');
 		}
 
-		if (!isset(self::$StaticCache[$tablename])) {
+		if (! isset(self::$StaticCache[$tablename])) {
 			$this->fetchStaticCache($tablename);
 		}
 
@@ -427,7 +427,7 @@ class Factory {
 			$result = $this->DB->query('SELECT * FROM `'.PREFIX.$tablename.'` WHERE `'.$field.'`='.(int) $id.' '.$AndAccountID.' LIMIT 1')->fetch();
 		}
 
-		if (!is_array($result)) {
+		if (! is_array($result)) {
 			return array();
 		}
 
@@ -439,7 +439,7 @@ class Factory {
 	 * @param string $tablename
 	 * @return string
 	 */
-	protected function primaryKey($tablename) {
+	protected function primaryKey($tablename): string {
 		switch ($tablename) {
 			case 'trackdata':
 			case 'hrv':

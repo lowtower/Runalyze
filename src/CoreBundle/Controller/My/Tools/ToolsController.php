@@ -137,7 +137,7 @@ class ToolsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
+            if (! $form->isValid()) {
                 return new JsonResponse([
                     'status' => 'There was a problem.'
                 ]);
@@ -175,7 +175,7 @@ class ToolsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
+            if (! $form->isValid()) {
                 return new JsonResponse([
                     'status' => 'There was a problem.'
                 ]);

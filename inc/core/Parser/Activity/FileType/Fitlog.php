@@ -38,7 +38,7 @@ class Fitlog extends AbstractMultipleParser implements FileContentAwareParserInt
 
     protected function checkThatXmlIsValid()
     {
-        if (!property_exists($this->Xml, 'AthleteLog') || !property_exists($this->Xml->AthleteLog, 'Activity')) {
+        if (! property_exists($this->Xml, 'AthleteLog') || ! property_exists($this->Xml->AthleteLog, 'Activity')) {
             throw new UnsupportedFileException('Given XML object is not from SportTracks. &lt;AthleteLog&gt;-tag or &lt;Activity&gt;-tag could not be located.');
         }
     }

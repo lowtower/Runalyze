@@ -35,7 +35,7 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot {
 
 			// #TSC only show tab, if pool-lengh is a "part" of 100 meter
 			$poollength = $this->Context->swimdata()->poollength(); // in cm
-			if(!empty($poollength) && (100 % ($poollength / 100)) == 0) {
+			if(! empty($poollength) && (100 % ($poollength / 100)) == 0) {
 				$Table = new TableSwimLaneAggregateInterval($this->Context);
 				$this->addRightContent('lanes_aggregate', __('Lanes') . ' 100m', $Table->getCode());
 			}

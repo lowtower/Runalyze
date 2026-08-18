@@ -33,15 +33,15 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	protected function insertActivity(array $data)
 	{
-		if (!isset($data['accountid'])) {
+		if (! isset($data['accountid'])) {
 			$data['accountid'] = 1;
 		}
 
-		if (!isset($data['sportid'])) {
+		if (! isset($data['sportid'])) {
 			$data['sportid'] = $this->Running;
 		}
 
-		if (!isset($data['is_public'])) {
+		if (! isset($data['is_public'])) {
 			$data['is_public'] = 1;
 		}
 

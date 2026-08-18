@@ -58,7 +58,7 @@ class ActivityPreview
         $this->Distance = $activity->getDistance();
         $this->HasHeartRate = null !== $activity->getPulseAvg();
         $this->HasRoute = $activity->hasRoute();
-        $this->HasRounds = !$activity->getSplits()->isEmpty();
+        $this->HasRounds = ! $activity->getSplits()->isEmpty();
     }
 
     protected function setPropertiesFromSport(?Sport $sport = null)

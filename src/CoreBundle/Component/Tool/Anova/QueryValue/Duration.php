@@ -8,7 +8,7 @@ use Runalyze\Metrics\Time\Unit\Hours;
 
 class Duration extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 's';
     }

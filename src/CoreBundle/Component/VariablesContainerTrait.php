@@ -22,7 +22,7 @@ trait VariablesContainerTrait
      */
     public function get($key)
     {
-        if (!isset($this->Variables[$key])) {
+        if (! isset($this->Variables[$key])) {
             throw new \InvalidArgumentException('Provided key "'.$key.'" does not exist in this container.');
         }
 

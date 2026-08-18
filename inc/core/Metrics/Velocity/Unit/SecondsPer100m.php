@@ -9,7 +9,7 @@ class SecondsPer100m extends AbstractPaceInTimeFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '/100m';
     }

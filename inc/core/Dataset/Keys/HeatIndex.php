@@ -73,9 +73,9 @@ class HeatIndex extends AbstractKey
     public function stringFor(Context $context)
     {
         if (
-            !$context->activity()->weather()->temperature()->isUnknown() &&
-            !$context->activity()->weather()->humidity()->isUnknown() &&
-            !($context->hasSport() && !$context->sport()->isOutside())
+            ! $context->activity()->weather()->temperature()->isUnknown() &&
+            ! $context->activity()->weather()->humidity()->isUnknown() &&
+            ! ($context->hasSport() && ! $context->sport()->isOutside())
         ) {
             return $context->dataview()->heatIndex()->getIcon();
         }
@@ -87,7 +87,7 @@ class HeatIndex extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function cssClass()
+    public function cssClass(): string
     {
         return 'small';
     }

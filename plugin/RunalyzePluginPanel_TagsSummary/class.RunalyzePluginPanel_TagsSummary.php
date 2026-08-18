@@ -187,7 +187,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * Get style
 	 * @return string
 	 */
-	protected function getStyle() {
+	protected function getStyle(): string {
 		return '<style type="text/css">.tags-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images/damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
 

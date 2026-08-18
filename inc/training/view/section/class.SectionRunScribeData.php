@@ -15,7 +15,7 @@ class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 		return $this->Context->hasTrackdata() && $this->Context->trackdata()->hasRunScribeData();
 	}
 
-	protected function cssId()
+	protected function cssId(): string
     {
 		return 'runscribe';
 	}

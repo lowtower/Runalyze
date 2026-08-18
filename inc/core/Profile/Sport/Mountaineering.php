@@ -15,7 +15,7 @@ class Mountaineering extends AbstractSport
         parent::__construct(SportProfile::MOUNTAINEERING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Mountaineering';
     }

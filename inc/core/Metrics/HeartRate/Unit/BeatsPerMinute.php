@@ -13,7 +13,7 @@ class BeatsPerMinute extends AbstractHeartRateUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'bpm';
     }

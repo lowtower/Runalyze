@@ -161,7 +161,7 @@ class PaceSmoother {
 			}
 		}
 
-		if ($this->KeepArraySize && !empty($distance)) {
+		if ($this->KeepArraySize && ! empty($distance)) {
 			$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime)/($dist - $lastDist)) : 0;
 
 			for ($j = count($this->Smoothed), $num = $this->Trackdata->num(); $j < $num; ++$j) {
@@ -176,7 +176,7 @@ class PaceSmoother {
 	protected function runFastSmoothingForKey($key) {
 		$started = false;
 
-		while (!$this->Loop->isAtEnd()) {
+		while (! $this->Loop->isAtEnd()) {
 			$this->Loop->move($key, $this->StepSize);
 			$dist = $this->Loop->difference(Trackdata\Entity::DISTANCE);
 			$pace = $dist > 0 ? round($this->Loop->difference(Trackdata\Entity::TIME)/$dist) : 0;
@@ -184,7 +184,7 @@ class PaceSmoother {
 			if ($this->KeepArraySize) {
 				$steps = $this->Loop->currentStepSize();
 
-				if (!$started) {
+				if (! $started) {
 					++$steps;
 					$started = true;
 				}

@@ -13,7 +13,7 @@ class StepsPerMinute extends AbstractCadenceUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'spm';
     }

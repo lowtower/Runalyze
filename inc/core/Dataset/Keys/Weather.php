@@ -48,7 +48,7 @@ class Weather extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}
@@ -60,7 +60,7 @@ class Weather extends AbstractKey
 	 */
 	public function stringFor(Context $context)
 	{
-		if (!$context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
+		if (! $context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
 			$icon = $context->activity()->weather()->condition()->icon();
             $weather = $context->activity()->weather();
 

@@ -7,11 +7,11 @@
 
 use Runalyze\Activity\Distance;
 
-if (!($this instanceof RunalyzePluginStat_Wettkampf)) {
+if (! ($this instanceof RunalyzePluginStat_Wettkampf)) {
 	die('Not allowed.');
 }
 
-$distance    = !is_numeric($_GET['km']) ? 10 : (float) $_GET['km'];
+$distance    = ! is_numeric($_GET['km']) ? 10 : (float) $_GET['km'];
 $Dates       = array();
 $Results     = array();
 $label       = str_replace('&nbsp;', ' ', sprintf( __('Result over %s'), (new Distance($distance))->stringAuto(true, 1) ) );
@@ -21,15 +21,15 @@ $timeFormat  = '%M:%S';
 
 $competitions = $this->RaceContainer->races($distance);
 
-if (!empty($competitions)) {
+if (! empty($competitions)) {
 	foreach ($competitions as $competition) {
-		if (!$this->isFunCompetition($competition['id'])) {
+		if (! $this->isFunCompetition($competition['id'])) {
 			$Dates[]   = $competition['time'];
 			$Results[$competition['time'].'000'] = ($competition['official_time']*1000); // Attention: timestamp(0) => 1:00:00
 		}
 	}
 
-	if (!empty($Results) && max($Results) > 3600*1000)
+	if (! empty($Results) && max($Results) > 3600*1000)
 		$timeFormat = '%H:%M:%S';
 }
 

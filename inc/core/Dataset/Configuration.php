@@ -100,7 +100,7 @@ class Configuration
 		$activeKeys = array();
 
 		foreach ($this->Data as $keyid => $keyData) {
-			if (!(DatasetPrivacyProfile::PRIVATE_KEY == $keyData['privacy'] && \Request::isOnSharedPage()) && $keyData['active'] == 1) {
+			if (! (DatasetPrivacyProfile::PRIVATE_KEY == $keyData['privacy'] && \Request::isOnSharedPage()) && $keyData['active'] == 1) {
 				$activeKeys[] = $keyid;
 			}
 		}
@@ -135,7 +135,7 @@ class Configuration
 	 */
 	public function isActive($keyid)
 	{
-		if (!isset($this->Data[$keyid])) {
+		if (! isset($this->Data[$keyid])) {
 			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
 		}
 
@@ -150,7 +150,7 @@ class Configuration
 	 */
 	public function getStyle($keyid)
 	{
-		if (!isset($this->Data[$keyid])) {
+		if (! isset($this->Data[$keyid])) {
 			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
 		}
 
@@ -165,7 +165,7 @@ class Configuration
      */
     public function getPrivacy($keyid)
     {
-        if (!isset($this->Data[$keyid])) {
+        if (! isset($this->Data[$keyid])) {
             throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
         }
 

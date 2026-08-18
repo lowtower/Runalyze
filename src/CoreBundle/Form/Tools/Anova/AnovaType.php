@@ -58,7 +58,7 @@ class AnovaType extends AbstractType
     {
         $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
 
-        if (!($account instanceof Account)) {
+        if (! ($account instanceof Account)) {
             throw new \RuntimeException('Anova type must have a valid account token.');
         }
 

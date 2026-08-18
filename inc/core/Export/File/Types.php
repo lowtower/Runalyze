@@ -41,7 +41,7 @@ final class Types extends AbstractEnum
 	{
 		$classNames = self::classNamesArray();
 
-		if (!isset($classNames[$typeid])) {
+		if (! isset($classNames[$typeid])) {
 			throw new \InvalidArgumentException('Invalid type id "'.$typeid.'".');
 		}
 

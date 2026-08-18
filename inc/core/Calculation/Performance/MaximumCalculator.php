@@ -28,12 +28,12 @@ class MaximumCalculator
             $model->calculate();
             $result = $model->getArrays();
 
-            if (!empty($result)) {
+            if (! empty($result)) {
                 $this->MaxFitness = max($result[AbstractModel::FITNESS]);
                 $this->MaxFatigue = max($result[AbstractModel::FATIGUE]);
             }
 
-            if (!empty($data)) {
+            if (! empty($data)) {
                 $this->MaxTrimp = max($data);
             }
         } else {

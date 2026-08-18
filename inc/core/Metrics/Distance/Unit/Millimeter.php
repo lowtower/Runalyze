@@ -13,7 +13,7 @@ class Millimeter extends AbstractDistanceUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'mm';
     }

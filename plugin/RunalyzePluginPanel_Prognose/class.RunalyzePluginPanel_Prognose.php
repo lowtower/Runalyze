@@ -121,7 +121,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 			$this->showPrognosis($km);
 		}
 
-		if (!$this->Prognosis->areValuesValid()) {
+		if (! $this->Prognosis->areValuesValid()) {
 			echo HTML::warning(__('Prognoses can\'t be calculated.'));
 		}
 

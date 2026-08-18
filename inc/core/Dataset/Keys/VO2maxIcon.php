@@ -18,7 +18,7 @@ class VO2maxIcon extends AbstractKey
     /**
      * @return string
      */
-    public function column()
+    public function column(): string
     {
         if (\Runalyze\Configuration::VO2max()->useElevationCorrection()) {
             return 'vo2max_with_elevation';
@@ -40,7 +40,7 @@ class VO2maxIcon extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function shortLabel()
+    public function shortLabel(): string
     {
         return 'VO<sub>2</sub>max';
     }
@@ -81,7 +81,7 @@ class VO2maxIcon extends AbstractKey
     public function stringFor(Context $context)
     {
         if ($context->isRunning() && $context->dataview()->usedVO2maxValue() > 0) {
-            if (!\Request::isOnSharedPage() && $context->activity()->id() > 0) {
+            if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
                 return '<a class="window" href="activity/' . $context->activity()->id() . '/vo2max-info">' . $context->dataview()->effectiveVO2maxIcon() . '</a>';
             } else {
                 return $context->dataview()->effectiveVO2maxIcon();

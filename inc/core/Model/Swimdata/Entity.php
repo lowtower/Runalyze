@@ -203,7 +203,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 * Fills a array like [0.025,0.05,0.075,0.75,0.1 ...]
 	 */
 	public function fillDistanceArray(Trackdata\Entity $trackdata) {
-		if ($this->poollength() && !$trackdata->has(Trackdata\Entity::DISTANCE) && $this->num() == $trackdata->num()) {
+		if ($this->poollength() && ! $trackdata->has(Trackdata\Entity::DISTANCE) && $this->num() == $trackdata->num()) {
 			$length = $this->poollength();
 
 			$distance = null;

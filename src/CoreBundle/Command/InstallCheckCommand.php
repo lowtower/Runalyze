@@ -90,7 +90,7 @@ class InstallCheckCommand extends ContainerAwareCommand
             $output->writeln(sprintf('  * %s ... %s', $check['message'], $this->styleReturnCode($returnCode)));
 
             if ($returnCode != self::OKAY && isset($check['hint'])) {
-                $check['hint'] = !is_array($check['hint']) ? [$check['hint']] : $check['hint'];
+                $check['hint'] = ! is_array($check['hint']) ? [$check['hint']] : $check['hint'];
 
                 foreach ($check['hint'] as $hint) {
                     $output->writeln('    <comment>'.$hint.'</comment>');
@@ -110,7 +110,7 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @return string
      */
-    protected function getFinalMessage()
+    protected function getFinalMessage(): string
     {
         if ($this->ReturnCode & self::ERROR) {
             return '<error>Not all requirements are fulfilled, installation not possible.</error>';
@@ -181,7 +181,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         $root = $this->getContainer()->getParameter('kernel.root_dir').'/../';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
-            if (!is_writable($root.$directory)) {
+            if (! is_writable($root.$directory)) {
                 return self::WARNING;
             }
         }

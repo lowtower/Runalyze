@@ -61,7 +61,7 @@ class SportType extends AbstractType
     {
         $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
 
-        if (!($account instanceof Account)) {
+        if (! ($account instanceof Account)) {
             throw new \RuntimeException('Sport type must have a valid account token.');
         }
 
@@ -169,7 +169,7 @@ class SportType extends AbstractType
             ]);
         }
 
-        if (!empty($equipmentTypes)) {
+        if (! empty($equipmentTypes)) {
             $builder->add('mainEquipmenttype', EntityType::class, [
                 'class' => EquipmentType::class,
                 'required' => false,
@@ -180,7 +180,7 @@ class SportType extends AbstractType
             ]);
         }
 
-        if (!empty($activityTypes)) {
+        if (! empty($activityTypes)) {
             $builder->add('defaultType', EntityType::class, [
                 'class' => Type::class,
                 'required' => false,

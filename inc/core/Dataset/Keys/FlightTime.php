@@ -26,7 +26,7 @@ class FlightTime extends AbstractKey
 		return $context->dataview()->flightTime();
 	}
 
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

@@ -86,7 +86,7 @@ class MainEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small nowrap';
 	}

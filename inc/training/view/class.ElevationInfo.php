@@ -157,7 +157,7 @@ class ElevationInfo {
 	 * Display different algorithms
 	 */
 	protected function displayDifferentAlgorithms() {
-		if (!$this->Context->route()->hasElevations()) {
+		if (! $this->Context->route()->hasElevations()) {
 			return;
 		}
 
@@ -173,7 +173,7 @@ class ElevationInfo {
 	 * Display different algorithms with original data
 	 */
 	protected function displayDifferentAlgorithmsWithOriginalData() {
-		if (!$this->Context->route()->hasOriginalElevations() || !$this->Context->route()->elevationsCorrected()) {
+		if (! $this->Context->route()->hasOriginalElevations() || ! $this->Context->route()->elevationsCorrected()) {
 			return;
 		}
 

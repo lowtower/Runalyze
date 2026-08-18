@@ -83,7 +83,7 @@ class Calculator
 	 */
 	public function setDistances(array $lapDistances)
 	{
-		if (!self::isSorted($lapDistances)) {
+		if (! self::isSorted($lapDistances)) {
 			throw new \InvalidArgumentException('Calculator needs sorted array of distances');
 		}
 
@@ -96,7 +96,7 @@ class Calculator
 	 */
 	public function setTimes(array $lapTimes)
 	{
-		if (!self::isSorted($lapTimes)) {
+		if (! self::isSorted($lapTimes)) {
 			throw new \InvalidArgumentException('Calculator needs sorted array of times');
 		}
 
@@ -115,13 +115,13 @@ class Calculator
 		$this->RouteLoop = null !== $route ? new Route\Loop($route) : null;
 		$this->SwimdataLoop = null !== $swimdata ? new Swimdata\Loop($swimdata) : null;
 
-		if (!empty($this->Distances)) {
+		if (! empty($this->Distances)) {
 			$this->readLapsFromDistances();
 		} else {
 			$this->readLapsFromTimes();
 		}
 
-		if (!$this->TrackdataLoop->isAtEnd()) {
+		if (! $this->TrackdataLoop->isAtEnd()) {
 			$this->finish();
 		}
 	}
@@ -177,7 +177,7 @@ class Calculator
 		} else {
 			$distanceArr = explode(',', $distanceStr);
 		}
-		if (!self::isSorted($distanceArr)) $distanceArr = array();
+		if (! self::isSorted($distanceArr)) $distanceArr = array();
 		return $distanceArr;
 	}
 
@@ -205,7 +205,7 @@ class Calculator
 			$times = self::explodeTimeStrings($string);
 		}
 
-		if (!self::isSorted($times))
+		if (! self::isSorted($times))
 		{
 			$times = array();
 		}
@@ -266,7 +266,7 @@ class Calculator
 	 */
 	protected function calculateAdditionalValuesFor(Lap $Lap)
 	{
-		if (!$this->CalculateAdditionalValues) {
+		if (! $this->CalculateAdditionalValues) {
 			return;
 		}
 
@@ -327,7 +327,7 @@ class Calculator
 		if ($Object->has(Swimdata\Entity::STROKETYPE)) {
 			// first determine the lanes
 			$st = 0;
-			while(!$NewLoop->isAtEnd()) {
+			while(! $NewLoop->isAtEnd()) {
 				if($NewLoop->current(Swimdata\Entity::STROKETYPE) != \Runalyze\Profile\FitSdk\StrokeTypeProfile::BREAK) {
 					// number of lanes of a lap
 					$st++;

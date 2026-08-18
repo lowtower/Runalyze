@@ -53,7 +53,7 @@ class DB {
 	 * @return PDOforRunalyze
 	 */
 	public static function getInstance() {
-		if (!self::$PDO)
+		if (! self::$PDO)
 			throw new RuntimeException('No active database connection.');
 
 		return self::$PDO;

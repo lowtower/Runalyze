@@ -84,7 +84,7 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addInfoLink() {
 		if ($this->Context->dataview()->vo2max()->value() > 0) {
-			if (!Request::isOnSharedPage()) {
+			if (! Request::isOnSharedPage()) {
 				$Linker = new Activity\Linker($this->Context->activity());
 				$InfoLink = Ajax::window('<a href="'.$Linker->urlToVO2maxinfo().'">'.__('More about VO<sub>2</sub>max estimation').'</a>', 'small');
 

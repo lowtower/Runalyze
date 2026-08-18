@@ -37,7 +37,7 @@ class DataBrowserShared extends DataBrowser {
 	{
 		parent::initInternalObjects();
 
-		if (!\Runalyze\Configuration::Privacy()->showPrivateActivitiesInList()) {
+		if (! \Runalyze\Configuration::Privacy()->showPrivateActivitiesInList()) {
 			$this->DatasetQuery->showOnlyPublicActivities();
 		}
 	}
@@ -56,7 +56,7 @@ class DataBrowserShared extends DataBrowser {
 	 * Get ajax-link for choosing timestamps from calendar
 	 * @return string
 	 */
-	protected function getCalenderLink() {
+	protected function getCalenderLink(): string {
 		return '';
 	}
 

@@ -46,11 +46,11 @@ class Entity extends StringArrayObject {
 		$this->clear();
 
 		foreach ($splits as $split) {
-			if (!($split instanceof Split)) {
+			if (! ($split instanceof Split)) {
 				throw new \InvalidArgumentException('Array must consist of Split-objects only.');
 			}
 
-			if (!$split->isEmpty()) {
+			if (! $split->isEmpty()) {
 				$this->add($split);
 			}
 		}
@@ -76,7 +76,7 @@ class Entity extends StringArrayObject {
 			$Split = new Split();
 			$Split->fromString($splitString);
 
-			if (!$Split->isEmpty()) {
+			if (! $Split->isEmpty()) {
 				$this->add($Split);
 			}
 		}
@@ -102,7 +102,7 @@ class Entity extends StringArrayObject {
 	 * @throws \InvalidArgumentException
 	 */
 	public function add($split) {
-		if (!($split) instanceof Split) {
+		if (! ($split) instanceof Split) {
 			throw new \InvalidArgumentException('Element to add has to be of type \'Split\'.');
 		}
 

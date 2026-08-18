@@ -35,7 +35,7 @@ class SharedController extends Controller
         /** @var null|Training $activity */
         $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->find((int) base_convert((string) $activityHash, 35, 10));
 
-        if (null === $activity || !$activity->isPublic()) {
+        if (null === $activity || ! $activity->isPublic()) {
             return $this->render('shared/invalid_activity.html.twig');
         }
 
@@ -91,7 +91,7 @@ class SharedController extends Controller
         $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($username);
         $privacy = $this->get('app.configuration_manager')->getList($account)->getPrivacy();
 
-        if (null === $account || !$privacy->isListPublic()) {
+        if (null === $account || ! $privacy->isListPublic()) {
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
@@ -141,7 +141,7 @@ class SharedController extends Controller
                 ], UrlGeneratorInterface::ABSOLUTE_URL))
                 ->setFeedAuthor($username);
 
-        if (null === $account || !$privacy->isListPublic()) {
+        if (null === $account || ! $privacy->isListPublic()) {
             return new Response(
                 $feed->buildFeed(),
                 Response::HTTP_OK,
@@ -151,7 +151,7 @@ class SharedController extends Controller
             );
         }
 
-        $feed->setActivities($this->getTrainingRepository()->getLatestActivities($account, 20, !$privacy->isListShowingAllActivities()));
+        $feed->setActivities($this->getTrainingRepository()->getLatestActivities($account, 20, ! $privacy->isListShowingAllActivities()));
 
         return new Response(
             $feed->buildFeed(),

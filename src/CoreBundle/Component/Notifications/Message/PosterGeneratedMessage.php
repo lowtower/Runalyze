@@ -67,7 +67,7 @@ class PosterGeneratedMessage implements MessageInterface
         return true;
     }
 
-    public function getWindowSizeForInternalLink()
+    public function getWindowSizeForInternalLink(): string
     {
         return '';
     }

@@ -58,7 +58,7 @@ class HeatIndex implements ValueInterface
 	 */
     public function setFrom(Activity\Temperature $temperature, Humidity $humidity)
     {
-        if (null !== $temperature->value() && !$humidity->isUnknown()) {
+        if (null !== $temperature->value() && ! $humidity->isUnknown()) {
             $this->HeatIndexTemperature = clone $temperature;
             $this->HeatIndexTemperature->setFahrenheit(
                 $this->calculateHeatIndexFor($temperature->fahrenheit(), $humidity->value())

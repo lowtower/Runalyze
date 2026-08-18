@@ -16,11 +16,11 @@ class SessionRequestProcessor
 
     public function processRecord(array $record)
     {
-        if (!$this->session->isStarted()) {
+        if (! $this->session->isStarted()) {
             return $record;
         }
 
-        if (!$this->sessionId) {
+        if (! $this->sessionId) {
             $this->sessionId = substr($this->session->getId(), 0, 8) ?: '????????';
         }
 

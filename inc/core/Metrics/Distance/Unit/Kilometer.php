@@ -14,7 +14,7 @@ class Kilometer extends AbstractDistanceUnit implements FormattableUnitInterface
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'km';
     }

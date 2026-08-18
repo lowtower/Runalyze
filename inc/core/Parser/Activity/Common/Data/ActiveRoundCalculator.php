@@ -23,7 +23,7 @@ class ActiveRoundCalculator {
 	public function __construct(ContinuousData $continuousData, RoundCollection $rounds) {
 		$this->continuousData = $continuousData;
 
-        if (!$rounds->isEmpty() ) {
+        if (! $rounds->isEmpty() ) {
             $this->init($rounds);
         }
 	}
@@ -66,7 +66,7 @@ class ActiveRoundCalculator {
         $timeIdx = 0;
         foreach($rounds as $round) {
             // find the start of the inactive round
-            if (!$round->isActive()) {
+            if (! $round->isActive()) {
                 // Find the first track point after the beginning of the inactive round.
                 while ($timeIdx < $len && $time[$timeIdx] <= $roundTimeStart) {
                     $timeIdx++;
@@ -81,7 +81,7 @@ class ActiveRoundCalculator {
             // the rounds have only durations, so add the duration to get the "next round start time"
             $roundTimeStart += $round->getDuration() + 0.01;
 
-            if (!$round->isActive()) {
+            if (! $round->isActive()) {
                 // Mark all track points belonging to the inactive round.
                 while ($timeIdx < $len && $time[$timeIdx] <= $roundTimeStart) {
                     $this->activeIdx[$timeIdx] = false;

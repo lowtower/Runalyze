@@ -197,14 +197,14 @@ abstract class Loop
 	 */
 	protected function moveTo($key, $target, $boundaryMode = self::BOUNDARY_AT_OR_AFTER)
 	{
-		if (!$this->Object->has($key)) {
+		if (! $this->Object->has($key)) {
 			throw new \InvalidArgumentException(sprintf('Cannot move loop: key "%s" is not available.', $key));
 		}
 
 		$this->LastIndex = $this->Index;
 
 		while (
-			!$this->isAtEnd() &&
+			! $this->isAtEnd() &&
 			$this->Object->at($this->Index, $key) < $target
 		) {
 			$this->Index++;
@@ -361,7 +361,7 @@ abstract class Loop
 	 */
 	public function sliceObject()
 	{
-		if (!$this->Object instanceof \Runalyze\Model\Entity)
+		if (! $this->Object instanceof \Runalyze\Model\Entity)
 		{
 			throw new \RuntimeException('This object cannot be sliced.');
 		}

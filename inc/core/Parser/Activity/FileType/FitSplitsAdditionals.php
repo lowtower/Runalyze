@@ -17,7 +17,7 @@ class FitSplitsAdditionals {
     private $data = array();
 
     public function hasData(): bool {
-        return !empty($this->data) && !empty($this->getUniqueKeys());
+        return ! empty($this->data) && ! empty($this->getUniqueKeys());
     }
 
     /**
@@ -103,7 +103,7 @@ class FitSplitsAdditionals {
             $i = array_merge($i, $adds);
         }
 
-        if(!empty($i)) {
+        if(! empty($i)) {
             $this->data[] = $i;
         } else {
             // its a rest, use a empty element

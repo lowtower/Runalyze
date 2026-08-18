@@ -34,7 +34,7 @@ class XmlPolar extends AbstractMultipleParser implements FileContentAwareParserI
 
     protected function checkThatXmlIsValid()
     {
-        if (!property_exists($this->Xml, 'calendar-items')) {
+        if (! property_exists($this->Xml, 'calendar-items')) {
             throw new UnsupportedFileException('Given XML object is not from Polar. &lt;calendar-items&gt;-tag could not be located.');
         }
     }

@@ -21,7 +21,7 @@ class Design extends \Runalyze\Configuration\Category {
 	 * Internal key
 	 * @return string
 	 */
-	protected function key() {
+	protected function key(): string {
 		return 'design';
 	}
 

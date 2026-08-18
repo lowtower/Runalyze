@@ -35,7 +35,7 @@ class AccountValueResolver implements ArgumentValueResolverInterface
 
         $token = $this->tokenStorage->getToken();
 
-        if (!$token instanceof TokenInterface) {
+        if (! $token instanceof TokenInterface) {
             return false;
         }
 

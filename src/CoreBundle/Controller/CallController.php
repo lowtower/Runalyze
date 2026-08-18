@@ -103,7 +103,7 @@ class CallController extends Controller
     public function windowSearchAction()
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
-        $showResults = !empty($_POST);
+        $showResults = ! empty($_POST);
 
         if (isset($_GET['get']) && $_GET['get'] == 'true') {
         	$_POST = array_merge($_POST, $_GET);

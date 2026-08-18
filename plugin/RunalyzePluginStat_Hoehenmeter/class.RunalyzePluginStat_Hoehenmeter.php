@@ -129,7 +129,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	}
 
     private function displayData($title, $changeId, array $data, $functionToDisplayElevation) {
-        echo '<table class="fullwidth zebra-style more-padding change" id="elevation-ranking-'.$changeId.'"'.(!$this->IsFirstChangeTable ? ' style="display:none;"' : '').'>';
+        echo '<table class="fullwidth zebra-style more-padding change" id="elevation-ranking-'.$changeId.'"'.(! $this->IsFirstChangeTable ? ' style="display:none;"' : '').'>';
         echo '<thead><tr class="b c"><th colspan="4">'.$title.'</th><th><abbr title="Climb Score">CS</abbr></th></tr></thead>';
         echo '<tbody>';
 

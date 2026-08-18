@@ -85,7 +85,7 @@ class InstallCommand extends ContainerAwareCommand
         foreach ($this->Commands as $step => $command) {
             $output->writeln(sprintf('<comment>Step %d of %d.</comment> <info>%s</info>', $step + 1, count($this->Commands), $command['message']));
 
-            if (!$command['skip']) {
+            if (! $command['skip']) {
                 $subInput = new ArrayInput([
                     'command' => 'runalyze:install:'.$command['command']
                 ]);

@@ -9,7 +9,7 @@ class SecondsPer100y extends AbstractPaceInTimeFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '/100y';
     }

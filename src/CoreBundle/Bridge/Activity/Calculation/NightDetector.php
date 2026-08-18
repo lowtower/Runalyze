@@ -14,7 +14,7 @@ class NightDetector
      */
     public function isActivityAtNight(Training $activity)
     {
-        if (!$activity->hasRoute() || !$activity->getRoute()->hasGeohashes()) {
+        if (! $activity->hasRoute() || ! $activity->getRoute()->hasGeohashes()) {
             return null;
         }
 

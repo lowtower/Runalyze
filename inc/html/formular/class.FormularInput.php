@@ -125,9 +125,9 @@ class FormularInput extends FormularField {
 	 * Add unit and size as css-classes 
 	 */
 	protected function addUnitAndSize() {
-		if (!empty($this->size))
+		if (! empty($this->size))
 			$this->addCSSclass($this->size);
-		elseif (!empty(self::$standardSize))
+		elseif (! empty(self::$standardSize))
 			$this->addCSSclass(self::$standardSize);
 	}
 

@@ -94,7 +94,7 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
         echo $this->TopContent;
 
 		foreach ($this->RightContent as $key => $Content) {
-			echo '<div class="change" id="training-view-tabbed-'.$this->cssID.'-'.$key.'"'.(!$first ? ' style="display:none;"' : '').'>';
+			echo '<div class="change" id="training-view-tabbed-'.$this->cssID.'-'.$key.'"'.(! $first ? ' style="display:none;"' : '').'>';
 
 			if ($Content instanceof ActivityPlot) {
 				echo '<div id="plot-'.$Content->getKey().'" class="plot-container">';

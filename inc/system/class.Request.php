@@ -41,14 +41,14 @@ class Request {
 	 * @return boolean
 	 */
 	public static function isHttps() {
-		return isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+		return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
 	}
 
 	/**
 	 * Get protocol (http/https)
 	 * @return string
 	 */
-	public static function getProtocol() {
+	public static function getProtocol(): string {
 		if (self::isHttps())
 			return 'https';
 

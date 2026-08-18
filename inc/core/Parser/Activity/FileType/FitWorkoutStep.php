@@ -38,7 +38,7 @@ class FitWorkoutStep {
      * @return array|null
      */
     public function getSplitAdditionals($index): ?array {
-        return !empty($this->targets[$index]) ? $this->targets[$index] : null;
+        return ! empty($this->targets[$index]) ? $this->targets[$index] : null;
     }
 
     /**

@@ -21,7 +21,7 @@ class GooglePlus extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function iconClass()
+    public function iconClass(): string
     {
         return 'fa-google-plus color-google-plus';
     }
@@ -31,7 +31,7 @@ class GooglePlus extends AbstractSocialSharer
      */
     public function isPossible()
     {
-        return ($this->Context->activity()->isPublic() && !System::isAtLocalhost());
+        return ($this->Context->activity()->isPublic() && ! System::isAtLocalhost());
     }
 
     /**

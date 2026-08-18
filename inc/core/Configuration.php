@@ -51,7 +51,7 @@ class Configuration
      */
     public static function resetConfiguration($accountid = 'auto')
     {
-        if ($accountid !== 'auto' && !is_numeric($accountid)) {
+        if ($accountid !== 'auto' && ! is_numeric($accountid)) {
             throw new \InvalidArgumentException('Invalid accountid: '.$accountid);
         }
 
@@ -96,7 +96,7 @@ class Configuration
      */
     private static function get($categoryName)
     {
-        if (!isset(self::$Categories[$categoryName])) {
+        if (! isset(self::$Categories[$categoryName])) {
             $className = 'Runalyze\\Configuration\\Category\\'.$categoryName;
             $Category = new $className();
             $Category->setUserID(self::$AccountID, self::$ValuesFromDB);

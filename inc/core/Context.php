@@ -34,7 +34,7 @@ class Context {
 	 * @return \Runalyze\Athlete
 	 */
 	public static function Athlete() {
-		if (!isset(self::$Objects['athlete'])) {
+		if (! isset(self::$Objects['athlete'])) {
 			self::$Objects['athlete'] = new Athlete(
                 SessionAccountHandler::getGender(),
 				Configuration::Data()->HRmax(),
@@ -53,7 +53,7 @@ class Context {
 	 * @return \Runalyze\Model\Factory
 	 */
 	public static function Factory() {
-		if (!isset(self::$Objects['factory'])) {
+		if (! isset(self::$Objects['factory'])) {
 			self::$Objects['factory'] = new Model\Factory(
 				SessionAccountHandler::getId()
 			);

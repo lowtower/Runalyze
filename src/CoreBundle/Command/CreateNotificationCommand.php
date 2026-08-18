@@ -42,22 +42,22 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->validateInput($input, $output)) {
+        if (! $this->validateInput($input, $output)) {
             return 1;
         }
 
-        if (!($input->getOption('force'))  ) {
+        if (! ($input->getOption('force'))  ) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
-            if (!$helper->ask($input, $output, $question)) {
+            if (! $helper->ask($input, $output, $question)) {
                 return;
             }
         }
 
         $notification = $this->createNotification($input->getArgument('template'), $input->getOption('lifetime'));
 
-        if (!empty($input->getOption('account'))) {
+        if (! empty($input->getOption('account'))) {
             $num = $this->insertSingleNotifications($notification, $input->getOption('account'));
         } else {
             $num = $this->insertNotificationsWithSubquery(
@@ -101,7 +101,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
-        if (!$success) {
+        if (! $success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));
             $output->writeln('');
 
@@ -278,16 +278,16 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
         }
 
-        if (!empty($excludeLang)) {
+        if (! empty($excludeLang)) {
             $exclude = true;
             $lang = $excludeLang;
         }
 
-        if (!empty($lang)) {
+        if (! empty($lang)) {
             $whereCondition[] = '`a`.`language` '.($exclude ? 'NOT' : '').' IN ("'.implode('", "', $lang).'")';
         }
 
-        if (!empty($whereCondition)) {
+        if (! empty($whereCondition)) {
             return implode(' AND ', $whereCondition);
         }
 

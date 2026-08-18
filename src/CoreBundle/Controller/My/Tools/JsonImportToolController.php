@@ -40,7 +40,7 @@ class JsonImportToolController extends Controller
             ]);
         }
 
-        if (!FilenameHandler::validateImportFileExtension($backupFile->getClientOriginalName())) {
+        if (! FilenameHandler::validateImportFileExtension($backupFile->getClientOriginalName())) {
             return $this->json([
                 'error' => 'Wrong file extension.'
             ]);
@@ -69,7 +69,7 @@ class JsonImportToolController extends Controller
     {
         $sessionFlashBag = $this->get('session')->getFlashBag();
 
-        if (!$sessionFlashBag->has('json-import.file')) {
+        if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');
         }
 
@@ -78,7 +78,7 @@ class JsonImportToolController extends Controller
         $fileInfo = new \SplFileInfo($filePath.$filename);
         $analyzer = new JsonBackupAnalyzer($filePath.$filename, $this->getParameter('runalyze_version'));
 
-        if (!$analyzer->fileIsOkay()) {
+        if (! $analyzer->fileIsOkay()) {
             (new Filesystem())->remove($filePath.$filename);
 
             return $this->render('tools/backup/import_bad_file.html.twig', [
@@ -108,7 +108,7 @@ class JsonImportToolController extends Controller
 
         $sessionFlashBag = $this->get('session')->getFlashBag();
 
-        if (!$sessionFlashBag->has('json-import.file')) {
+        if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');
         }
 

@@ -29,7 +29,7 @@ class RunalyzePauseArray extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (!($value instanceof PauseCollection) || $value->isEmpty()) {
+        if (! ($value instanceof PauseCollection) || $value->isEmpty()) {
             return null;
         }
 

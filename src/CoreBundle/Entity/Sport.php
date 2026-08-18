@@ -604,7 +604,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      */
     public function hasEquipmentTypes()
     {
-        return !$this->equipmentType->isEmpty();
+        return ! $this->equipmentType->isEmpty();
     }
 
     /**

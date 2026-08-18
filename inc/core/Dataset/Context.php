@@ -205,7 +205,7 @@ class Context
 	 */
 	public function data($key, $returnNullForUnknownKeys = false)
 	{
-		if (!isset($this->ActivityData[$key])) {
+		if (! isset($this->ActivityData[$key])) {
 			if ($returnNullForUnknownKeys) {
 				return null;
 			}

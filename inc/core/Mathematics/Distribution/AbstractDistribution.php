@@ -203,7 +203,7 @@ abstract class AbstractDistribution
      */
     final public function quantile($alpha)
     {
-        if (!isset($this->Statistic[self::QUANTILES]['p' . $alpha])) {
+        if (! isset($this->Statistic[self::QUANTILES]['p' . $alpha])) {
             throw new \InvalidArgumentException('No quantile calculated for alpha = ' . $alpha);
         }
 

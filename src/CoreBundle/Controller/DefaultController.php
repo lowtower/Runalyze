@@ -69,7 +69,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function registerAction(Request $request)
     {
-        if (!$this->getParameter('user_can_register')) {
+        if (! $this->getParameter('user_can_register')) {
             return $this->render('register/disabled.html.twig');
         }
 
@@ -84,7 +84,7 @@ class DefaultController extends AbstractPluginsAwareController
             $registration->setLocale($request->getLocale());
             $registration->setTimezoneByName($formdata['textTimezone']);
 
-            if (!$this->getParameter('user_disable_account_activation')) {
+            if (! $this->getParameter('user_disable_account_activation')) {
                 $registration->requireAccountActivation();
             }
 
@@ -240,7 +240,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function feedbackAction(Request $request, Account $account)
     {
-        if (!empty($this->getParameter('feedback_mail'))) {
+        if (! empty($this->getParameter('feedback_mail'))) {
             $form = $this->createForm(FeedbackType::class, null, [
                 'action' => $this->generateUrl('feedback'),
             ]);

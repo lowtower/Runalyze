@@ -34,7 +34,7 @@ class Percental implements ScaleInterface
      */
     public function setMinimum($min)
     {
-        if (!is_numeric($min)) {
+        if (! is_numeric($min)) {
             throw new \InvalidArgumentException('Given minimum must be numeric.');
         }
 
@@ -48,7 +48,7 @@ class Percental implements ScaleInterface
      */
     public function setMaximum($max)
     {
-        if (!is_numeric($max)) {
+        if (! is_numeric($max)) {
             throw new \InvalidArgumentException('Given maximum must be numeric.');
         }
 

@@ -61,7 +61,7 @@ class TrackDataAdapter
 
     public function calculateStrideLength()
     {
-        if (!$this->TrackData->hasStrideLength()) {
+        if (! $this->TrackData->hasStrideLength()) {
             $this->TrackData->setStrideLength(null);
 
             return;
@@ -83,7 +83,7 @@ class TrackDataAdapter
 
     public function calculateVerticalRatio()
     {
-        if (!$this->TrackData->hasVerticalRatio()) {
+        if (! $this->TrackData->hasVerticalRatio()) {
             $this->TrackData->setVerticalRatio(null);
 
             return;

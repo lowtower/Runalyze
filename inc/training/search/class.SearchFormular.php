@@ -47,11 +47,11 @@ class SearchFormular extends Formular {
 	 * Set default values
 	 */
 	protected function setDefaultValues() {
-		if (!isset($_POST['sportid']))
+		if (! isset($_POST['sportid']))
 			$_POST['sportid'] = array_keys(SportFactory::AllSports());
-		if (!isset($_POST['date-from']))
+		if (! isset($_POST['date-from']))
 			$_POST['date-from'] = date('d.m.Y', START_TIME);
-		if (!isset($_POST['date-to']))
+		if (! isset($_POST['date-to']))
 			$_POST['date-to'] = date('d.m.Y');
 	}
 
@@ -294,9 +294,9 @@ class SearchFormular extends Formular {
 		$Field = new FormularInputWithEqualityOption($key, $label);
 		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 
-		if (!empty($size))
+		if (! empty($size))
 			$Field->setSize($size);
-		if (!empty($unit))
+		if (! empty($unit))
 			$Field->setUnit($unit);
 
 		if ($type == 'numeric') {

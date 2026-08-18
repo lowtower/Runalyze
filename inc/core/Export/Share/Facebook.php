@@ -27,7 +27,7 @@ class Facebook extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function iconClass()
+    public function iconClass(): string
     {
         return 'fa-facebook color-facebook';
     }
@@ -37,7 +37,7 @@ class Facebook extends AbstractSocialSharer
      */
     public function isPossible()
     {
-        return ($this->Context->activity()->isPublic() && !System::isAtLocalhost());
+        return ($this->Context->activity()->isPublic() && ! System::isAtLocalhost());
     }
 
     /**

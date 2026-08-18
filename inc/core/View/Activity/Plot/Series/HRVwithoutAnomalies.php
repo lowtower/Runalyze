@@ -44,7 +44,7 @@ class HRVwithoutAnomalies extends HRV
         $num = $hrv->num();
 
         for ($i = 0; $i < $num; ++$i) {
-            if (!isset($FilteredData[$filteredIndex]) || $OriginalData[$i] != $FilteredData[$filteredIndex]) {
+            if (! isset($FilteredData[$filteredIndex]) || $OriginalData[$i] != $FilteredData[$filteredIndex]) {
                 unset($this->XAxisData[$i]);
             } else {
                 $filteredIndex++;

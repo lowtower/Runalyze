@@ -1684,7 +1684,7 @@ class Timezone extends \Runalyze\Common\Enum\AbstractEnum
     {
 	    $enums = array_flip(self::getEnum());
 
-        if (!isset($enums[$enum])) {
+        if (! isset($enums[$enum])) {
             throw new \InvalidArgumentException('Requested enum "'.$enum.'"" does not exist.');
         }
 
@@ -1702,7 +1702,7 @@ class Timezone extends \Runalyze\Common\Enum\AbstractEnum
         $mapping = array_flip(self::$Mapping);
         $enums = self::getEnum();
 
-        if (!isset($mapping[$name])) {
+        if (! isset($mapping[$name])) {
             throw new \InvalidArgumentException('Requested name "'.$name.'"" does not exist.');
         }
 

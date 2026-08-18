@@ -235,7 +235,7 @@ class BasicEndurance
             $timestamp = time();
 
         // If you change the algorithm, remember to change *info* in 'RunalyzePluginPanel_Rechenspiele'.
-        $DataSum = !empty($data) ? $data : DB::getInstance()->query($this->getQuery($timestamp))->fetch();
+        $DataSum = ! empty($data) ? $data : DB::getInstance()->query($this->getQuery($timestamp))->fetch();
         $Result = array();
         $Result['weekkm-result'] = isset($DataSum['km']) ? $DataSum['km'] : 0;
         $Result['longjog-result'] = isset($DataSum['sum']) ? $DataSum['sum'] : 0;

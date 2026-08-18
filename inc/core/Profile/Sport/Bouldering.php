@@ -15,7 +15,7 @@ class Bouldering extends AbstractSport
         parent::__construct(SportProfile::BOULDERING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Bouldern';
     }

@@ -85,7 +85,7 @@ class TableZonesPace extends TableZonesAbstract {
 		foreach ($Distribution->histogram() as $paceInSeconds => $seconds) {
 			$pace = $this->zoneFor($paceInSeconds);
 
-			if (!isset($Zones[$pace])) {
+			if (! isset($Zones[$pace])) {
 				$Zones[$pace] = array(
 				    'time' => $seconds,
 				    'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],

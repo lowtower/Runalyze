@@ -199,7 +199,7 @@ class Window {
 		if (
 			empty($this->ManualDistances) && $this->LapDistance == 0 &&
 			empty($this->ManualTimes) && $this->LapTime == 0 &&
-			!$this->Context->activity()->splits()->isEmpty()
+			! $this->Context->activity()->splits()->isEmpty()
 		) {
 			$this->constructLapsFromSplits();
 		} else {
@@ -211,7 +211,7 @@ class Window {
 	 * Construct laps from splits object
 	 */
 	protected function constructLapsFromSplits() {
-		if ($this->handmadeLapsDiffer() && !Request::param('calculate-for-splits')) {
+		if ($this->handmadeLapsDiffer() && ! Request::param('calculate-for-splits')) {
 			$this->Laps->readFrom($this->Context->activity()->splits());
 			return;
 		}
@@ -265,7 +265,7 @@ class Window {
 	 * Construct laps from trackdata
 	 */
 	protected function constructLapsFromTrackdata() {
-		if (!empty($this->ManualTimes) || $this->LapTime != 0) {
+		if (! empty($this->ManualTimes) || $this->LapTime != 0) {
 			$this->constructLapsFromTrackdataByTimes();
 		} else {
 			$this->constructLapsFromTrackdataByDistances();
@@ -339,7 +339,7 @@ class Window {
 	protected function displayForm() {
 		$Form = new Form();
 
-		if (!$this->Context->activity()->splits()->isEmpty()) {
+		if (! $this->Context->activity()->splits()->isEmpty()) {
 			if ($this->handmadeLapsDiffer()) {
 				$Form->activateHandmadeDifference();
 			}

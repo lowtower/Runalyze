@@ -36,7 +36,7 @@ class HeartrateAverage extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'pulse_avg';
 	}
@@ -85,7 +85,7 @@ class HeartrateAverage extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}
@@ -94,7 +94,7 @@ class HeartrateAverage extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function defaultCssStyle()
+	public function defaultCssStyle(): string
 	{
 		return 'font-style:italic;';
 	}

@@ -38,7 +38,7 @@ class LocalTime extends \DateTime
         if (null === $timestampInNoTimezone) {
             parent::__construct(null, new \DateTimeZone('UTC'));
         } else {
-            if (!is_numeric($timestampInNoTimezone)) {
+            if (! is_numeric($timestampInNoTimezone)) {
                 throw new \InvalidArgumentException('Given timestamp must be numeric.');
             }
 
@@ -55,7 +55,7 @@ class LocalTime extends \DateTime
      */
     public static function fromServerTime($timestampInServerTimezone)
     {
-        if (!is_numeric($timestampInServerTimezone)) {
+        if (! is_numeric($timestampInServerTimezone)) {
             throw new \InvalidArgumentException('Given timestamp must be numeric.');
         }
 

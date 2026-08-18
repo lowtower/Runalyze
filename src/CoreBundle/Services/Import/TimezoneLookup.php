@@ -49,7 +49,7 @@ class TimezoneLookup
                 return true;
             }
         } catch (TimezoneLookupException $e) {
-            if (!$this->SilentExceptions) {
+            if (! $this->SilentExceptions) {
                 throw $e;
             }
         }
@@ -67,7 +67,7 @@ class TimezoneLookup
         if ($this->isPossible() && is_numeric($longitude) && is_numeric($latitude)) {
             $query = $this->SQLite->query('SELECT `tzid` FROM `tz_world` WHERE ST_Contains(`geometry`, MakePoint('.$longitude.', '.$latitude.'))');
 
-            if (!is_bool($query)) {
+            if (! is_bool($query)) {
                 $result = $query->fetchArray();
 
                 if ($result['tzid']) {
@@ -94,11 +94,11 @@ class TimezoneLookup
 
     protected function tryToConnectToSQLite()
     {
-        if (!file_exists($this->PathToTimeZoneDatabase)) {
+        if (! file_exists($this->PathToTimeZoneDatabase)) {
             throw new TimezoneLookupException(TimezoneLookupException::TIMEZONE_DB_NOT_AVAILABLE);
         }
 
-        if (!class_exists('SQLite3')) {
+        if (! class_exists('SQLite3')) {
             throw new TimezoneLookupException(TimezoneLookupException::SQLITE3_NOT_AVAILABLE);
         }
 
@@ -109,7 +109,7 @@ class TimezoneLookup
         } catch (\Exception $e) {
             $loaded = false;
         }
-        if (!$loaded) {
+        if (! $loaded) {
             $this->SQLite->close();
             $this->SQLite = false;
 
@@ -119,7 +119,7 @@ class TimezoneLookup
 
     protected function checkSpatialiteExtension()
     {
-        if (!($this->SQLite instanceof \SQLite3)) {
+        if (! ($this->SQLite instanceof \SQLite3)) {
             $this->SQLite = false;
 
             return;
@@ -127,7 +127,7 @@ class TimezoneLookup
 
         $query = @$this->SQLite->query('SELECT spatialite_version()');
 
-        if (!$query) {
+        if (! $query) {
             $this->SQLite = false;
 
             throw new TimezoneLookupException(TimezoneLookupException::SPATIALITE_NOT_AVAILABLE);

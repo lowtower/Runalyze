@@ -90,7 +90,7 @@ while ($RouteData = $Routes->fetch()) {
 	$countPoints += $Route->num();
 }
 
-if (!isset($Route)) {
+if (! isset($Route)) {
 	echo HTML::error(__('There are no routes matching the criterias.'));
 }
 
@@ -104,7 +104,7 @@ $Map->display();
 
 function getTooltipText($time, $routename, $distance, $sporticon) {
 	$tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . (new LocalTime($time))->format('d.m.Y H:i');
-	if(!empty($routename)) {
+	if(! empty($routename)) {
 		$tt .= '<br/>';
 		$tt .= '<strong>' . __('Course') . ':</strong> ' . $routename;
 	}

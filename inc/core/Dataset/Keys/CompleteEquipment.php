@@ -39,7 +39,7 @@ class CompleteEquipment extends AbstractEquipment
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}

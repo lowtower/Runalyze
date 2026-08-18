@@ -33,7 +33,7 @@ class TwoPartPercental extends Percental
      */
     public function setInflectionPoint($inflectionPoint)
     {
-        if (!is_numeric($inflectionPoint)) {
+        if (! is_numeric($inflectionPoint)) {
             throw new \InvalidArgumentException('Given maximum must be numeric.');
         }
 

@@ -53,7 +53,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	protected function setOwnNavigation() {
 		$LinkList  = '<li class="with-submenu"><span class="link">'.$this->getAnalysisType().'</span><ul class="submenu">';
 		$LinkList .= '<li'.('' == $this->dat ? ' class="active"' : '').'>'.$this->getInnerLink(__('General overview'), $this->sportid, $this->year, '').'</li>';
-		$LinkList .= '<li'.('allWeeks' == $this->dat ? ' class="active"' : '').'>'.$this->getInnerLink(__('All training weeks'), $this->sportid, (!$this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks').'</li>';
+		$LinkList .= '<li'.('allWeeks' == $this->dat ? ' class="active"' : '').'>'.$this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks').'</li>';
 
 		$LinkList .= '</ul></li>';
 
@@ -94,7 +94,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Init data
 	 */
 	protected function prepareForDisplay() {
-		if (!$this->showsSpecificYear() && $this->dat = 'allWeeks') {
+		if (! $this->showsSpecificYear() && $this->dat = 'allWeeks') {
 			$this->dat = '';
 		}
 
@@ -180,7 +180,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * @param bool $showAllWeeks
 	 */
 	private function displayWeekTable($showAllWeeks = false) {
-		if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && !$showAllWeeks)
+		if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks)
 			return;
 
 		if ($showAllWeeks) {
@@ -217,7 +217,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 		while ($IsStreak) {
 			$Day = $Request->fetch();
-			if (!$Day) {
+			if (! $Day) {
 				break;
 			}
 

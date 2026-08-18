@@ -28,7 +28,7 @@ class TcxActivityRuntastic extends TcxActivity
             $trackPoint->addChild('DistanceMeters', 1000 * $this->distanceToTrackpoint($trackPoint));
         }
 
-        if (!empty($trackPoint->HeartRateBpm)) {
+        if (! empty($trackPoint->HeartRateBpm)) {
             $this->LastValidHR = round($trackPoint->HeartRateBpm->Value);
         }
 
@@ -37,10 +37,10 @@ class TcxActivityRuntastic extends TcxActivity
         $this->Container->ContinuousData->Altitude[] = (int) $trackPoint->AltitudeMeters;
         $this->Container->ContinuousData->HeartRate[] = $this->LastValidHR;
 
-        if (!empty($trackPoint->Position)) {
+        if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
-        } elseif (!empty($this->Container->ContinuousData->Latitude)) {
+        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
         } else {

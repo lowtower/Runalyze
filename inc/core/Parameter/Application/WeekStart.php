@@ -164,7 +164,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	/**
 	 * @return string
 	 */
-	public function firstDayOfWeekForStrtotime() {
+	public function firstDayOfWeekForStrtotime(): string {
 		switch ($this->value()) {
 			case self::SUNDAY:
 				return 'sunday';
@@ -179,7 +179,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	/**
 	 * @return string
 	 */
-	public function lastDayOfWeekForStrtotime() {
+	public function lastDayOfWeekForStrtotime(): string {
 		switch ($this->value()) {
 			case self::SUNDAY:
 				return 'saturday';

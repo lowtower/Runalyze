@@ -68,7 +68,7 @@ class SwitchUserListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        if (!$request->get($this->usernameParameter)) {
+        if (! $request->get($this->usernameParameter)) {
             return;
         }
 

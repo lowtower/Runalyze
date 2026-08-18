@@ -47,13 +47,13 @@ class PosterReceiver
     /** @var AccountMailer */
     protected $AccountMailer;
 
-    /** @var $Datadir */
+    /** @var */
     protected $DataDir;
 
-    /** @var $RsvgPath */
+    /** @var */
     protected $RsvgPath;
 
-    /** @var $InkscapePath */
+    /** @var */
     protected $InkscapePath;
 
     /**

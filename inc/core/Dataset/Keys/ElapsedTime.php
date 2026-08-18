@@ -31,7 +31,7 @@ class ElapsedTime extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'elapsed_time';
 	}

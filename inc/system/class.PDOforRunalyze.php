@@ -53,7 +53,7 @@ class PDOforRunalyze extends PDO {
 	 * @param string $statement
 	 */
 	protected function addAccountIDtoStatement(&$statement) {
-		if (!is_numeric($this->accountID) || strpos($statement, 'SET NAMES') !== false || strpos($statement, 'TRUNCATE') !== false || strpos($statement, 'accountid')) {
+		if (! is_numeric($this->accountID) || strpos($statement, 'SET NAMES') !== false || strpos($statement, 'TRUNCATE') !== false || strpos($statement, 'accountid')) {
 			return;
 		}
 
@@ -157,7 +157,7 @@ class PDOforRunalyze extends PDO {
 		$table = str_replace(PREFIX, '', $table);
 
 		// TODO: TEST IT!
-		if (!in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor']) && !in_array('accountid', $columns)) {
+		if (! in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor']) && ! in_array('accountid', $columns)) {
 			$columns[] = 'accountid';
 			$values[]  = $this->accountID;
 		}
@@ -170,7 +170,7 @@ class PDOforRunalyze extends PDO {
 		$values  = implode(', ', self::escape($values));
 
 		$this->stopAddingAccountID();
-		if (!$this->query('INSERT INTO `'.PREFIX.$table.'` ('.$columns.') VALUES('.$values.')')) {
+		if (! $this->query('INSERT INTO `'.PREFIX.$table.'` ('.$columns.') VALUES('.$values.')')) {
 			$this->startAddingAccountID();
 			return false;
 		}
@@ -196,10 +196,10 @@ class PDOforRunalyze extends PDO {
 			}
 		} else if (is_bool($values)) {
 			$values = $values ? 1 : 0;
-		} else if (is_numeric($values) && !$forceAsString) {
+		} else if (is_numeric($values) && ! $forceAsString) {
         } else if ($values === null || $values == 'NULL') {
 			$values = 'NULL';
-		} else if (!is_numeric($values) || $forceAsString) {
+		} else if (! is_numeric($values) || $forceAsString) {
 			$values = $this->quote($values);
 
 			if ($quotes === false && substr($values, 0, 1) == "'" && substr($values, -1) == "'" && strlen($values) > 2) {

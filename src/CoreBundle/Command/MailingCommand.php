@@ -42,18 +42,18 @@ class MailingCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->validateInput($input, $output)) {
+        if (! $this->validateInput($input, $output)) {
             return 1;
         }
 
         $accounts = $this->buildQuery($input);
 
-        if (!($input->getOption('force'))  ) {
+        if (! ($input->getOption('force'))  ) {
             $helper = $this->getHelper('question');
             $output->writeln(sprintf('<info>%u mail(s) will be sent.</info>', count($accounts)));
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
-            if (!$helper->ask($input, $output, $question)) {
+            if (! $helper->ask($input, $output, $question)) {
                 return;
             }
         }
@@ -101,15 +101,15 @@ class MailingCommand extends ContainerAwareCommand
 
         $lang = $input->getOption('lang');
 
-        if (!empty($input->getOption('exclude-lang'))) {
+        if (! empty($input->getOption('exclude-lang'))) {
             $exclude = true;
             $lang = $input->getOption('exclude-lang');
         }
-        if (!empty($input->getOption('lang')) || !empty($input->getOption('exclude-lang')) ) {
+        if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang')) ) {
             $query->andWhere('a.language '.($exclude ? 'NOT' : '').' IN (\''.implode('", "', $lang).'\')');
         }
 
-        if (!empty($input->getOption('account'))) {
+        if (! empty($input->getOption('account'))) {
             $query->andWhere('a.id IN ('.implode(', ', $input->getOption('account')).')');
         }
 
@@ -140,7 +140,7 @@ class MailingCommand extends ContainerAwareCommand
      */
     protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
-        if (!$success) {
+        if (! $success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));
             $output->writeln('');
 

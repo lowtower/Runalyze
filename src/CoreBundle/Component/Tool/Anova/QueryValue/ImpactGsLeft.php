@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\Simple;
 
 class ImpactGsLeft extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'avgImpactGsLeft';
     }

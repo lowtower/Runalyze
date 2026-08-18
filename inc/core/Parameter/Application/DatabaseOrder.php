@@ -53,7 +53,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 	 * As mysql query-string
 	 * @return string
 	 */
-	public function asQuery() {
+	public function asQuery(): string {
 		switch ($this->value()) {
 			case self::ALPHA:
 				return 'ORDER BY `name` ASC';

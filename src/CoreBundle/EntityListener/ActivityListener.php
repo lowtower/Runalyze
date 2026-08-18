@@ -166,7 +166,7 @@ class ActivityListener
 
     public function removeWeatherIfInside(Training $activity)
     {
-        if (!$activity->getSport()->getOutside()) {
+        if (! $activity->getSport()->getOutside()) {
             $activity->getAdapter()->removeWeather();
         }
     }
@@ -189,7 +189,7 @@ class ActivityListener
 
     protected function calculateVO2max(Training $activity)
     {
-        if (!$activity->getAdapter()->isRunning()) {
+        if (! $activity->getAdapter()->isRunning()) {
             $activity->getAdapter()->removeEffectiveVO2max();
 
             return;
@@ -332,7 +332,7 @@ class ActivityListener
     protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args)
     {
         return (
-            (!$activity->hasTrackdata() || !$activity->getTrackdata()->hasHeartrate()) && (
+            (! $activity->hasTrackdata() || ! $activity->getTrackdata()->hasHeartrate()) && (
                 $args->hasChangedField('pulseAvg') ||
                 $args->hasChangedField('s') ||
                 (
@@ -370,7 +370,7 @@ class ActivityListener
      */
     protected function timestampEnteredOrLeftPeriodOfLastXDays($numberOfDays, PreUpdateEventArgs $args)
     {
-        if (!$args->hasChangedField('time')) {
+        if (! $args->hasChangedField('time')) {
             return false;
         }
 

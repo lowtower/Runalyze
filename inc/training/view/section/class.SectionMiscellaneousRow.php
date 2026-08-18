@@ -213,7 +213,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	protected function addWeather() {
 		$WeatherObject = $this->Context->activity()->weather();
 
-		if (!$WeatherObject->isEmpty()) {
+		if (! $WeatherObject->isEmpty()) {
 			$WeatherIcon = $WeatherObject->condition()->icon();
 
 			if ($this->Context->activity()->isNight()) {
@@ -230,37 +230,37 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			$this->BoxedValues[] = $Weather;
 			$this->BoxedValues[] = $Temp;
 
-			if (!$WeatherObject->windSpeed()->isUnknown()) {
+			if (! $WeatherObject->windSpeed()->isUnknown()) {
 				$WindSpeed = new Box\WeatherWindSpeed($this->Context);
 				$WindSpeed->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $WindSpeed;
 			}
 
-			if (!$WeatherObject->windDegree()->isUnknown()) {
+			if (! $WeatherObject->windDegree()->isUnknown()) {
 				$WindDegree = new Box\WeatherWindDegree($this->Context);
 				$WindDegree->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $WindDegree;
 			}
 
-			if (!$WeatherObject->humidity()->isUnknown()) {
+			if (! $WeatherObject->humidity()->isUnknown()) {
 				$Humidity = new Box\WeatherHumidity($this->Context);
 				$Humidity->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $Humidity;
 			}
 
-			if (!$WeatherObject->pressure()->isUnknown()) {
+			if (! $WeatherObject->pressure()->isUnknown()) {
 				$Pressure = new Box\WeatherPressure($this->Context);
 				$Pressure->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $Pressure;
 			}
 
-			if (!$WeatherObject->windSpeed()->isUnknown() && !$WeatherObject->temperature()->isUnknown() && $this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
+			if (! $WeatherObject->windSpeed()->isUnknown() && ! $WeatherObject->temperature()->isUnknown() && $this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
 				$WindChill = new Box\WeatherWindChillFactor($this->Context);
 				$WindChill->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $WindChill;
 			}
 
-			if (!$WeatherObject->temperature()->isUnknown() && !$WeatherObject->humidity()->isUnknown()) {
+			if (! $WeatherObject->temperature()->isUnknown() && ! $WeatherObject->humidity()->isUnknown()) {
 				$heatIndexObject = $this->Context->dataview()->heatIndex();
 				$HeatIndex = new BoxedValue(Helper::Unknown(round($heatIndexObject->value(), 1), '-'), $heatIndexObject->unit(), $heatIndexObject->label(), $heatIndexObject->getIcon());
 				$HeatIndex->defineAsFloatingBlock('w50');
@@ -309,7 +309,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			$Links[] = Request::isOnSharedPage() ? '#'.$Object->tag() : SearchLink::to('tagid', $Object->id(), '#'.$Object->tag());
 		}
 
-		if (!empty($Links)) {
+		if (! empty($Links)) {
 			$Value = new BoxedValue(implode(', ', $Links), '', __('Tags'));
 			$Value->defineAsFloatingBlock('w100 flexible-height');
 
@@ -321,7 +321,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add training partner
 	 */
 	protected function addTrainingPartner() {
-		if (!$this->Context->activity()->partner()->isEmpty()) {
+		if (! $this->Context->activity()->partner()->isEmpty()) {
 			$TrainingPartner = new BoxedValue($this->Context->dataview()->partnerAsLinks(), '', __('Training partner'));
 			$TrainingPartner->defineAsFloatingBlock('w100 flexible-height');
 
@@ -521,7 +521,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add created/edited
 	 */
 	protected function addCreationAndModificationTime() {
-	    if (!Request::isOnSharedPage()) {
+	    if (! Request::isOnSharedPage()) {
 		$created = $this->Context->activity()->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_CREATED);
 		$edited = $this->Context->activity()->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
 

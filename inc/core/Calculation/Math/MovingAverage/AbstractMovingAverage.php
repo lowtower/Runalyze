@@ -56,12 +56,12 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
      */
     protected function checkIndexData($indexDataIsAscending)
     {
-        if (!empty($this->IndexData)) {
+        if (! empty($this->IndexData)) {
             if (count($this->IndexData) != $this->Length) {
                 throw new \InvalidArgumentException('Index data must be of same length as provided data.');
             }
 
-            if (!$indexDataIsAscending) {
+            if (! $indexDataIsAscending) {
                 $this->makeIndexDataAscending();
             }
         }
@@ -106,7 +106,7 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
      */
     protected function hasIndexData()
     {
-        return !empty($this->IndexData);
+        return ! empty($this->IndexData);
     }
 
     /**

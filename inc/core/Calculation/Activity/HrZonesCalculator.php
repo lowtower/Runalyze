@@ -162,7 +162,7 @@ class HrZonesCalculator
         // [0] is the full string and the other idx are the matches
         $matches = array_filter($matches);
         // check also the matches-1 (because of the [0]) and the ":" are valid 
-        return !$ok || count($matches) - 1 < substr_count($zone, ':') + 1;
+        return ! $ok || count($matches) - 1 < substr_count($zone, ':') + 1;
     }
 
     /**

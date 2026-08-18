@@ -707,7 +707,7 @@ class Route implements AccountRelatedEntityInterface
 
     public function synchronizeMinMaxGeohashIfRequired()
     {
-        if (!$this->areMinMaxSynchronized) {
+        if (! $this->areMinMaxSynchronized) {
             $this->setMinMaxGeohashes();
         }
     }
@@ -721,7 +721,7 @@ class Route implements AccountRelatedEntityInterface
         $latitudes = array_filter($coordinates[0]);
         $longitudes = array_filter($coordinates[1]);
 
-        if (!empty($latitudes) && !empty($longitudes)) {
+        if (! empty($latitudes) && ! empty($longitudes)) {
             $minCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
             $maxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
 

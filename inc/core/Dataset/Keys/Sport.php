@@ -40,7 +40,7 @@ class Sport extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'sportid';
 	}
@@ -58,7 +58,7 @@ class Sport extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}

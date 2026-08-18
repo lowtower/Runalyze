@@ -17,7 +17,7 @@ class EMtbMountain extends AbstractSport
         parent::__construct(SportProfile::E_MTB_MOUNTAIN);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Mountain-Biking';
     }

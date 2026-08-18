@@ -21,7 +21,7 @@ final class UserRole extends AbstractEnum
 	{
 		$roleNames = self::roleNamesArray();
 
-		if (!isset($roleNames[$roleId])) {
+		if (! isset($roleNames[$roleId])) {
 			throw new \InvalidArgumentException('Invalid type id "'.$roleId.'".');
 		}
 

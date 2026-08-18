@@ -79,7 +79,7 @@ abstract class ActivityPlot {
 		$this->initPlot();
 		$this->initData($context);
 
-		if (!$this->dataIsAvailable()) {
+		if (! $this->dataIsAvailable()) {
 			$this->Plot->raiseError( __('No plot available.') );
 		}
 	}
@@ -101,7 +101,7 @@ abstract class ActivityPlot {
 		$yaxis = 1;
 
 		foreach ($series as $object) {
-			if ($object instanceof \Runalyze\View\Plot\Series && !$object->isEmpty()) {
+			if ($object instanceof \Runalyze\View\Plot\Series && ! $object->isEmpty()) {
 				$this->addSeries($object, $yaxis, false);
 				$yaxis++;
 			}
@@ -140,12 +140,12 @@ abstract class ActivityPlot {
 	 */
 	private function dataIsAvailable() {
 		foreach ($this->Plot->Data as $key => $Data) {
-			if (!isset($Data['data']) || empty($Data['data'])) {
+			if (! isset($Data['data']) || empty($Data['data'])) {
 				unset($this->Plot->Data[$key]);
 			}
 		}
 
-		return (count($this->Data) >= 2 || !empty($this->Plot->Data));
+		return (count($this->Data) >= 2 || ! empty($this->Plot->Data));
 	}
 
 	/**

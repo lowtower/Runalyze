@@ -83,7 +83,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 		$Code = '';
 		$userData = DB::getInstance()->query('SELECT `weight`, `pulse_rest`, `pulse_max`, `fat`, `water`, `muscles` FROM `'.PREFIX.'user` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `time` DESC LIMIT 1')->fetch();
 
-		if (!is_array($userData)) {
+		if (! is_array($userData)) {
 		    $userData = [
         'weight' => 0.0,
 		        'pulse_rest' => 0,
@@ -116,7 +116,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 			$Code .= $Value->getCode();
 		}
 
-		if (!empty($Code)) {
+		if (! empty($Code)) {
 			$Code .= '<br>';
 		}
 
@@ -136,7 +136,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
         }
 
 
-		if (!empty($Code)) {
+		if (! empty($Code)) {
 			BoxedValue::wrapValues($Code);
 		}
 

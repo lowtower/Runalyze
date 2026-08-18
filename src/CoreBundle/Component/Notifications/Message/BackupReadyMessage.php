@@ -13,7 +13,7 @@ class BackupReadyMessage implements MessageInterface
         return MessageTypeProfile::BACKUP_READY_MESSAGE;
     }
 
-    public function getData()
+    public function getData(): string
     {
         return '';
     }
@@ -43,7 +43,7 @@ class BackupReadyMessage implements MessageInterface
         return true;
     }
 
-    public function getWindowSizeForInternalLink()
+    public function getWindowSizeForInternalLink(): string
     {
         return '';
     }

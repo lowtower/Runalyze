@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\Factorial;
 
 class FitRecoveryTime extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'fitRecoveryTime';
     }

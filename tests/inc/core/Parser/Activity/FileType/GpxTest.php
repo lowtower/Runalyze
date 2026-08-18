@@ -44,7 +44,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @return string
      */
-    protected function getExampleXmlForExtensions()
+    protected function getExampleXmlForExtensions(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxdata="http://www.cluetrust.com/XML/GPXDATA/1/0">

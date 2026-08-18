@@ -15,7 +15,7 @@ class CrossCountrySkiing extends AbstractSport
         parent::__construct(SportProfile::CROSS_COUNTRY_SKIING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-CrossCountrySkiing';
     }

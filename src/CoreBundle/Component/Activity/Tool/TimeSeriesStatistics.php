@@ -23,7 +23,7 @@ class TimeSeriesStatistics
      */
     public function __construct(Trackdata\Entity $trackdata)
     {
-        if (!$trackdata->has(Trackdata\Entity::TIME)) {
+        if (! $trackdata->has(Trackdata\Entity::TIME)) {
             throw new \InvalidArgumentException('Provided trackdata object must have time array.');
         }
 

@@ -43,7 +43,7 @@ class AutomaticReloadFlagSetter
     {
         $currentFlag = $this->FlashBag->get(self::FLASH_BAG_KEY);
 
-        if (!empty($currentFlag)) {
+        if (! empty($currentFlag)) {
             $flag = $this->mergeFlags([$currentFlag[0], $flag]);
         }
 

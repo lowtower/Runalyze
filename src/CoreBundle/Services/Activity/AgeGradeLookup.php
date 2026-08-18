@@ -35,7 +35,7 @@ class AgeGradeLookup
      */
     public function getLookup(?Account $account = null)
     {
-        if (!$this->isLookupPossible($account)) {
+        if (! $this->isLookupPossible($account)) {
             return null;
         }
 

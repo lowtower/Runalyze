@@ -31,7 +31,7 @@ class FitHrvAnalysis extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'fit_hrv_analysis';
 	}
@@ -90,7 +90,7 @@ class FitHrvAnalysis extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

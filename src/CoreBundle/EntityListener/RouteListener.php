@@ -30,7 +30,7 @@ class RouteListener
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
         if (null === $route->getElevationsCorrected() 
-            && !$route->getAltitudeBarometric()
+            && ! $route->getAltitudeBarometric()
             && $this->userWantsElevationsToBeCorrected($route->getAccount())) {
             $route->getAdapter()->correctElevation($this->ElevationCorrection);
         }

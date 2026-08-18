@@ -55,7 +55,7 @@ final class Kernels extends AbstractEnum
 	{
 		$classNames = self::classNamesArray();
 
-		if (!isset($classNames[$kernelid])) {
+		if (! isset($classNames[$kernelid])) {
 			throw new \InvalidArgumentException('Invalid kernel id "'.$kernelid.'".');
 		}
 

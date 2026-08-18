@@ -74,7 +74,7 @@ class HeatIndexEffect extends AbstractEnum
      * @return string
      * @codeCoverageIgnore
      */
-    public static function colorFor($enum)
+    public static function colorFor($enum): string
     {
         switch ($enum) {
             case self::CAUTION:
@@ -131,7 +131,7 @@ class HeatIndexEffect extends AbstractEnum
      * @return string
      * @codeCoverageIgnore
      */
-    public static function fontIconName($enum)
+    public static function fontIconName($enum): string
     {
         switch ($enum) {
             case self::CAUTION:

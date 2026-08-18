@@ -54,7 +54,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
             throw new OverQueryLimitException($json['error_message']);
         }
 
-        if (!isset($json['results']) || !isset($json['results'][0]['elevation'])) {
+        if (! isset($json['results']) || ! isset($json['results'][0]['elevation'])) {
             throw new InvalidResponseException('GoogleMaps returned malformed code.');
         }
 

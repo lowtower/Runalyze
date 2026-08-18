@@ -31,7 +31,7 @@ class RunalyzeRoundArray extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (!($value instanceof RoundCollection) || $value->isEmpty()) {
+        if (! ($value instanceof RoundCollection) || $value->isEmpty()) {
             return null;
         }
 

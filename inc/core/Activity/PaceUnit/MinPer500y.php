@@ -31,7 +31,7 @@ class MinPer500y extends AbstractTimeUnit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function appendix()
+	public function appendix(): string
 	{
 		return '/500y';
 	}

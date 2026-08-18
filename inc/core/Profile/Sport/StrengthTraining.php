@@ -15,7 +15,7 @@ class StrengthTraining extends AbstractSport
         parent::__construct(SportProfile::STRENGTH_TRAINING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Weightlift';
     }

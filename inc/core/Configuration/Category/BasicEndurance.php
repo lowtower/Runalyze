@@ -31,7 +31,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Internal key
 	 * @return string
 	 */
-	protected function key() {
+	protected function key(): string {
 		return 'basic-endurance';
 	}
 
@@ -140,7 +140,7 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Trigger recalculation
 	 */
 	public static function triggerRecalculation() {
-		if (!self::$TRIGGERED) {
+		if (! self::$TRIGGERED) {
 			self::$TRIGGERED = true;
 
 			$oldValue = CalculationBasicEndurance::getConst();

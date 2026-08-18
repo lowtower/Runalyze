@@ -40,7 +40,7 @@ class LapsManual extends Laps {
 			return;
 		}
 
-		$this->readDataFromSplits($Splits, !$Splits->hasActiveLaps(2));
+		$this->readDataFromSplits($Splits, ! $Splits->hasActiveLaps(2));
 
 		$num = count($this->Data);
 

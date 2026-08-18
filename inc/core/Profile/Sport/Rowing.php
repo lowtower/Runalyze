@@ -14,7 +14,7 @@ class Rowing extends AbstractSport
         parent::__construct(SportProfile::ROWING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Rowing';
     }

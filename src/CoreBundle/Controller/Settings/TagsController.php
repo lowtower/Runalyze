@@ -75,7 +75,7 @@ class TagsController extends Controller
      */
     public function tagDeleteAction(Request $request, Tag $tag, Account $account)
     {
-        if (!$this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
+        if (! $this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
             $this->addFlash('notice', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirect($this->generateUrl('settings-tags'));

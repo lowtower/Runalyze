@@ -63,7 +63,7 @@ class ClimbCollection implements \Countable, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof Climb)) {
+        if (! ($value instanceof Climb)) {
             throw new \InvalidArgumentException('Climb collection does only accept instances of Climb as elements.');
         }
 

@@ -33,7 +33,7 @@ class FieldFactory {
 		    'layout'	=> ''
 		), $options);
 
-		$label = !empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];
+		$label = ! empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];
 
 		$Field = $this->createFieldFor($Handle, $label);
 		$this->setAttributesToField($Field, $options);
@@ -77,16 +77,16 @@ class FieldFactory {
 	 * @param array $options
 	 */
 	private function setAttributesToField(\FormularField $Field, array &$options) {
-		if (!empty($options['unit']))
+		if (! empty($options['unit']))
 			$Field->setUnit($options['unit']);
 
-		if (!empty($options['size']))
+		if (! empty($options['size']))
 			$Field->setSize($options['size']);
 
-		if (!empty($options['css']))
+		if (! empty($options['css']))
 			$Field->addLayoutClass($options['css']);
 
-		if (!empty($options['layout']))
+		if (! empty($options['layout']))
 			$Field->setLayout($options['layout']);
 	}
 }

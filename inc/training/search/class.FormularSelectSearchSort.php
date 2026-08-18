@@ -101,7 +101,7 @@ class FormularSelectSearchSort extends FormularField {
 			} else {
 				$Key = Keys::get($keyIdOrArray);
 
-				if (!is_array($Key->column())) {
+				if (! is_array($Key->column())) {
     				$this->SortByOptions[$Key->column()] = $Key->label();
                 }
 			}

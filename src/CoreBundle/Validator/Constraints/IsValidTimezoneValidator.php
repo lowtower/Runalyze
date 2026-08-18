@@ -10,7 +10,7 @@ class IsValidTimezoneValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if (!Timezone::isValidValue($value)) {
+        if (! Timezone::isValidValue($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

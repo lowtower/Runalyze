@@ -50,7 +50,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
             $stmt->setFetchMode(PDOConnection::FETCH_COLUMN, 0);
             $tables = $stmt->fetchAll();
 
-            if (!empty($tables)) {
+            if (! empty($tables)) {
                 $this->Connection->exec('SET foreign_key_checks = 0');
                 $this->Connection->executeQuery('DROP TABLE `'.implode('`, `', $tables).'`');
                 $this->Connection->exec('SET foreign_key_checks = 1');

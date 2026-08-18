@@ -78,7 +78,7 @@ class PaceUnit extends AbstractEnum
      * @param int $id id from internal enum
      * @return string
      */
-    static public function stringFor($id)
+    static public function stringFor($id): string
     {
         switch ($id) {
             case self::KM_PER_H:

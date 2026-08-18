@@ -9,7 +9,7 @@ class SecondsPer500m extends AbstractPaceInTimeFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '/500m';
     }

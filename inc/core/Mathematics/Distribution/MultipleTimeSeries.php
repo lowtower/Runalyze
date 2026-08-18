@@ -63,7 +63,7 @@ class MultipleTimeSeries
 
                 // #TSC more robust to avoid errors
                 if (isset($value)) {
-                    if (!isset($histograms[$key][$value])) {
+                    if (! isset($histograms[$key][$value])) {
                         $histograms[$key][$value] = $deltaTime;
                     } else {
                         $histograms[$key][$value] += $deltaTime;
@@ -124,7 +124,7 @@ class MultipleTimeSeries
      */
     public function getDistribution($key)
     {
-        if (!isset($this->Distributions[$key])) {
+        if (! isset($this->Distributions[$key])) {
             throw new \InvalidArgumentException('Unknown distribution key "' . $key . '"');
         }
 

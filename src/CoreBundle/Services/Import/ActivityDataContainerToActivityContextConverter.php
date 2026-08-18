@@ -131,7 +131,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setCreatorDetails($metadata->getCreatorDetails());
 
         // TSC: set the uploaded-file name
-        if(!empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) != 0) {
+        if(! empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) != 0) {
             // description exists and is not the same as the filename, so set existing description and filename as title
             $activity->setTitle($metadata->getDescription() . ' / ' . $metadata->getUploadedFilename());
         } else {
@@ -162,7 +162,7 @@ class ActivityDataContainerToActivityContextConverter
 
         if (null !== $sport) {
             $activity->setSport($sport);
-            $activity->setPublic(!$sport->getDefaultPrivacy());
+            $activity->setPublic(! $sport->getDefaultPrivacy());
 
             if (null !== $sport->getDefaultType()) {
                 $activity->setType($sport->getDefaultType());
@@ -202,7 +202,7 @@ class ActivityDataContainerToActivityContextConverter
         }
 
         // #TSC: if not set, try from workoutName
-        if ($type === null && !empty($metadata->getWorkoutName())) {
+        if ($type === null && ! empty($metadata->getWorkoutName())) {
             $type = $this->TypeRepository->findByNameFor($metadata->getWorkoutName(), $this->Account, $activity->getSport());
         }
 
@@ -213,7 +213,7 @@ class ActivityDataContainerToActivityContextConverter
 
     protected function tryToSetEquipmentFor(Training $activity, array $equipmentNames)
     {
-        if (!empty($equipmentNames)) {
+        if (! empty($equipmentNames)) {
             foreach ($this->EquipmentRepository->findByName($equipmentNames, $this->Account) as $equipment) {
                 $activity->addEquipment($equipment);
             }
@@ -429,7 +429,7 @@ class ActivityDataContainerToActivityContextConverter
         // #TSC store Altitude-Barometric flag
         $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric);
 
-        if (!empty($container->ContinuousData->Altitude)) {
+        if (! empty($container->ContinuousData->Altitude)) {
             // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)" 
             // in case of IsAltitudeDataBarometric; this is not necessary anymore
 
@@ -437,7 +437,7 @@ class ActivityDataContainerToActivityContextConverter
             $route->setElevationsOriginal($container->ContinuousData->Altitude);
         }
 
-        if (!empty($container->ContinuousData->Latitude) && !empty($container->ContinuousData->Longitude)) {
+        if (! empty($container->ContinuousData->Latitude) && ! empty($container->ContinuousData->Longitude)) {
             $route->setLatitudesAndLongitudes($container->ContinuousData->Latitude, $container->ContinuousData->Longitude);
         }
 

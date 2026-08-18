@@ -100,7 +100,7 @@ class GradeAdjustedPaceCalculator {
         $key = Trackdata\Entity::TIME;
 
         $gapTime = 0.0;
-        while (!$this->Loop->isAtEnd()) {
+        while (! $this->Loop->isAtEnd()) {
             $this->Loop->move($key, $this->StepSize);
 
             // calculate time factor from Minetti's algorithm based on the gradient
@@ -119,7 +119,7 @@ class GradeAdjustedPaceCalculator {
 	 * @return the grade adjusted pace
 	 */
 	public function getAdjustedTime() {
-        if (!isset($this->time)) {
+        if (! isset($this->time)) {
             $this->calculate();
         }
 

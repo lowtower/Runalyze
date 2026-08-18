@@ -8,7 +8,7 @@
 
 use Runalyze\View\Activity\Context;
 
-if (!isset($request) || !$request->isXmlHttpRequest()) {
+if (! isset($request) || ! $request->isXmlHttpRequest()) {
 	include 'inc/tpl/tpl.Frontend.header.php';
 }
 ?>
@@ -71,7 +71,7 @@ if (!isset($request) || !$request->isXmlHttpRequest()) {
 					if (isset($_GET['pluginid'])) {
 						$Plugin = $Factory->newInstanceFor((int) $_GET['pluginid']);
 
-						if (!$Plugin->isInActive()) {
+						if (! $Plugin->isInActive()) {
 							$showFirstPlugin = false;
 							$Plugin->display();
 						}
@@ -96,7 +96,7 @@ if (!isset($request) || !$request->isXmlHttpRequest()) {
 	</div>
 </div>
 <?php
-if (!isset($request) || !$request->isXmlHttpRequest()) {
+if (! isset($request) || ! $request->isXmlHttpRequest()) {
 	include 'inc/tpl/tpl.Frontend.footer.php';
 }
 ?>

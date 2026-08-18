@@ -83,7 +83,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
             throw new OverQueryLimitException('Geonames request failed: limit of credits reached.');
         }
 
-        if (!isset($json['geonames']) || !is_array($json['geonames'])) {
+        if (! isset($json['geonames']) || ! is_array($json['geonames'])) {
             throw new InvalidResponseException('Geonames returned malformed code.');
         }
 

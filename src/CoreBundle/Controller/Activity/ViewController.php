@@ -59,7 +59,7 @@ class ViewController extends Controller
                 return $this->render('activity/activity_has_been_removed.html.twig');
         }
 
-        if (!$request->query->get('silent')) {
+        if (! $request->query->get('silent')) {
             $frontend = new \Frontend(true, $this->get('security.token_storage'));
             $context = new Context($activity->getId(), $account->getId());
 
@@ -98,7 +98,7 @@ class ViewController extends Controller
 
         $context = new Context($id, $account->getId());
 
-        if (!$context->hasTrackdata()) {
+        if (! $context->hasTrackdata()) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -129,7 +129,7 @@ class ViewController extends Controller
 
         $context = new Context($id, $account->getId());
 
-        if (!$context->hasRoute()) {
+        if (! $context->hasRoute()) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -205,11 +205,11 @@ class ViewController extends Controller
     {
         $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
 
-        if (!$activity->isPublic() && $account === null) {
+        if (! $activity->isPublic() && $account === null) {
             throw $this->createNotFoundException('No activity found.');
         }
 
-        if (!$activityContext->hasTrackdata() || !$activityContext->hasRoute()) {
+        if (! $activityContext->hasTrackdata() || ! $activityContext->hasRoute()) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 

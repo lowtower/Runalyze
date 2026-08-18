@@ -63,9 +63,9 @@ class WindChill extends AbstractKey
     public function stringFor(Context $context)
     {
         if (
-            !$context->activity()->weather()->temperature()->isUnknown() &&
-            !$context->activity()->weather()->windSpeed()->isUnknown() &&
-            !($context->hasSport() && !$context->sport()->isOutside())
+            ! $context->activity()->weather()->temperature()->isUnknown() &&
+            ! $context->activity()->weather()->windSpeed()->isUnknown() &&
+            ! ($context->hasSport() && ! $context->sport()->isOutside())
         ) {
             return $context->dataview()->windChillFactor()->string();
         }
@@ -77,7 +77,7 @@ class WindChill extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function cssClass()
+    public function cssClass(): string
     {
         return 'small';
     }

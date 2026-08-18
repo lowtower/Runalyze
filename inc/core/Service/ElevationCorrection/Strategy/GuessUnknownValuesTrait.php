@@ -17,7 +17,7 @@ trait GuessUnknownValuesTrait
      */
     public function guessUnknown(?array &$altitudes = null, $unknownValue = -32768)
     {
-        if (!$this->GuessUnknown || null === $altitudes) {
+        if (! $this->GuessUnknown || null === $altitudes) {
             return;
         }
 

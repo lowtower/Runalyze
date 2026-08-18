@@ -41,7 +41,7 @@ class FormularValueParser {
 			return true;
 
 		if (isset($parserOptions['null']) && $parserOptions['null']) {
-			if (isset($_POST[$key]) && !is_array($_POST[$key]) && strlen($_POST[$key]) == 0) {
+			if (isset($_POST[$key]) && ! is_array($_POST[$key]) && strlen($_POST[$key]) == 0) {
 				$_POST[$key] = null;
 				return true;
 			}

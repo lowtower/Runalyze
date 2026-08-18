@@ -11,7 +11,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (!is_array($value) || empty($value)) {
+        if (! is_array($value) || empty($value)) {
             return null;
         }
 

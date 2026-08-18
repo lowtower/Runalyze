@@ -7,7 +7,7 @@ use Runalyze\Metrics\Cadence\Unit\AbstractCadenceUnit;
 
 class Cadence extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'cadence';
     }

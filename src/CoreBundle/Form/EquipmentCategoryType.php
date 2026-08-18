@@ -39,7 +39,7 @@ class EquipmentCategoryType extends AbstractType
     {
         $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
 
-        if (!($account instanceof Account)) {
+        if (! ($account instanceof Account)) {
             throw new \RuntimeException('Equipment category must have a valid account token.');
         }
 
@@ -60,7 +60,7 @@ class EquipmentCategoryType extends AbstractType
                 $equipmentType = $event->getData();
                 $form = $event->getForm();
 
-                if (!$equipmentType || null === $equipmentType->getId()) {
+                if (! $equipmentType || null === $equipmentType->getId()) {
                     $form->add('input', ChoiceType::class, [
                         'choices' => [
                             'Single choice' => EntityEquipmentType::CHOICE_SINGLE,

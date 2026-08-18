@@ -83,7 +83,7 @@ class Laps {
 	 * @throws \InvalidArgumentException
 	 */
 	public function at($index) {
-		if (!is_numeric($index) || $index < 0 || $index > $this->num()) {
+		if (! is_numeric($index) || $index < 0 || $index > $this->num()) {
 			throw new \InvalidArgumentException('Index out of bounds.');
 		}
 
@@ -111,7 +111,7 @@ class Laps {
 	 */
 	public function hasMoreThanActiveOrRestLaps(): bool {
 		foreach ($this->Objects as $lap) {
-			if (!$lap->getMode()->isActive() && !$lap->getMode()->isRest()) {
+			if (! $lap->getMode()->isActive() && ! $lap->getMode()->isRest()) {
 				return true;
 			}
 		}

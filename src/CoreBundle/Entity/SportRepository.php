@@ -43,7 +43,7 @@ class SportRepository extends EntityRepository
     {
         $sport = $this->findInternalIdFor(SportProfile::RUNNING, $account);
 
-        if (null === $sport && !$returnNull) {
+        if (null === $sport && ! $returnNull) {
             $sport = new Sport();
             $sport->setDataFrom(new Running());
         }

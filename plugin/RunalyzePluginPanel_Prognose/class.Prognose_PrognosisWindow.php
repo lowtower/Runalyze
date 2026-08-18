@@ -112,10 +112,10 @@ class Prognose_PrognosisWindow {
 			$_POST['endurance'] = true;
 			$_POST['endurance-value'] = BasicEndurance::getConst();
 
-			$_POST['best-result-km'] = !empty($TopResults) ? $TopResults[0]['distance'] : '5.0';
-			$_POST['best-result-time'] = !empty($TopResults) ? Duration::format($TopResults[0]['s']) : '0:26:00';
-			$_POST['second-best-result-km'] = !empty($TopResults) ? $TopResults[1]['distance'] : '10.0';
-			$_POST['second-best-result-time'] = !empty($TopResults) ? Duration::format($TopResults[1]['s']) : '1:00:00';
+			$_POST['best-result-km'] = ! empty($TopResults) ? $TopResults[0]['distance'] : '5.0';
+			$_POST['best-result-time'] = ! empty($TopResults) ? Duration::format($TopResults[0]['s']) : '0:26:00';
+			$_POST['second-best-result-km'] = ! empty($TopResults) ? $TopResults[1]['distance'] : '10.0';
+			$_POST['second-best-result-time'] = ! empty($TopResults) ? Duration::format($TopResults[1]['s']) : '1:00:00';
 		} else {
 			list($_POST['best-result-km'], $_POST['second-best-result-km']) = $this->distanceValuesToKm([
 			    str_replace(',', '.', $_POST['best-result-km']),
@@ -228,7 +228,7 @@ class Prognose_PrognosisWindow {
 	 * Init calculations
 	 */
 	protected function runCalculations() {
-		if (!$this->PrognosisObject->areValuesValid()) {
+		if (! $this->PrognosisObject->areValuesValid()) {
 			return;
 		}
 
@@ -254,7 +254,7 @@ class Prognose_PrognosisWindow {
 			    'prognosis'		=> $Prognosis > 0 ? Duration::format($Prognosis) : '-',
 			    'prognosis-pace'=> $PacePrognosis->valueWithAppendix(),
 			    'prognosis-vo2max'=> $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
-			    'diff'			=> !$PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis?'+ ':'- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
+			    'diff'			=> ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis?'+ ':'- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
 			    'diff-class'	=> $PB->seconds() > $Prognosis ? 'plus' : 'minus',
 			    'pb'			=> $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
 			    'pb-pace'		=> $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
@@ -339,7 +339,7 @@ class Prognose_PrognosisWindow {
 	protected function addHintsForRobertBock(\Runalyze\Sports\Running\Prognosis\Bock $prognosis) {
 		$this->ResultTable .= HTML::info( sprintf( __('The results give the constants K = %f and e = %f.'), $prognosis->getK(), $prognosis->getE()) ).'<br>';
 
-		if (!$this->PrognosisObject->areValuesValid()) {
+		if (! $this->PrognosisObject->areValuesValid()) {
 			$this->ResultTable .= HTML::warning(sprintf(
 				__('K must be between %u and %u, e between %f and %f.'),
                 \Runalyze\Sports\Running\Prognosis\Bock::K_LOWER_BOUND, \Runalyze\Sports\Running\Prognosis\Bock::K_UPPER_BOUND,
@@ -349,7 +349,7 @@ class Prognose_PrognosisWindow {
 	}
 
 	protected function addHintsForEffectiveVO2max() {
-		if (!$this->PrognosisObject->areValuesValid()) {
+		if (! $this->PrognosisObject->areValuesValid()) {
 			$this->ResultTable .= HTML::warning(sprintf(
 				__('Effective VO2max must be between %u and %u.'),
 				\Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MINIMUM, \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MAXIMUM

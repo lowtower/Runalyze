@@ -30,7 +30,7 @@ class PluginConfigurationWindow {
 	 * Handle post data
 	 */
 	protected function handlePostData() {
-		if (!empty($_POST)) {
+		if (! empty($_POST)) {
 			$this->updateConfiguration();
 			$this->setReloadCommand();
 		}

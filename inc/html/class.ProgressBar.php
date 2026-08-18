@@ -175,7 +175,7 @@ class ProgressBar {
 	 * @return string
 	 */
 	protected function getTooltip() {
-		if (!empty($this->Tooltip))
+		if (! empty($this->Tooltip))
 			return ' '.Ajax::tooltip('', $this->Tooltip, false, true);
 
 		return '';

@@ -241,7 +241,7 @@ abstract class FormularField extends HtmlTag {
 	 * @return string
 	 */
 	final protected function getSurroundedByLayoutDiv($Content) {
-		if (!empty($this->layout))
+		if (! empty($this->layout))
 			return '<div class="'.$this->layout.' '.implode(' ', $this->layoutClasses).'">'.$Content.'</div>';
 
 		return $Content;
@@ -251,7 +251,7 @@ abstract class FormularField extends HtmlTag {
 	 * Prepare field for being displayed
 	 */
 	private function prepare() {
-		if (!$this->prepared) {
+		if (! $this->prepared) {
 			$this->parseForDisplay();
 			$this->prepareForDisplay();
 

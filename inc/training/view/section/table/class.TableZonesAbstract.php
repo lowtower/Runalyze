@@ -122,7 +122,7 @@ abstract class TableZonesAbstract {
 		$Code .= '</tbody>';
 		$Code .= '</table>';
 
-		if (!empty($this->footerHint())) {
+		if (! empty($this->footerHint())) {
 			$Code .= HTML::info($this->footerHint());
 		}
 

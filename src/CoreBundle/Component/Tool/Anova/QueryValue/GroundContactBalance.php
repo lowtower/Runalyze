@@ -8,7 +8,7 @@ use Runalyze\Metrics\GroundContactBalance\Unit\PercentLeft;
 
 class GroundContactBalance extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'groundcontactBalance';
     }

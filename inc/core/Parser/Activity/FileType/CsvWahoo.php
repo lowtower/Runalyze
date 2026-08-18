@@ -89,11 +89,11 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
         $this->CurrentHeader = array_flip($columnLabels);
 
         if ('interval' == $this->CurrentBlock) {
-            if (!isset($this->CurrentHeader['runningtime'])) {
+            if (! isset($this->CurrentHeader['runningtime'])) {
                 throw new UnsupportedFileException('\'interval\' rows must specify at least \'runningtime\'.');
             }
         } elseif ('time' == $this->CurrentBlock) {
-            if (!isset($this->CurrentHeader['paused'])) {
+            if (! isset($this->CurrentHeader['paused'])) {
                 throw new UnsupportedFileException('\'time\' rows must specify at least \'paused\'.');
             }
         }
@@ -141,7 +141,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function parseTrackLine()
     {
-        if (!$this->IsPaused) {
+        if (! $this->IsPaused) {
             if ('1' == $this->Row[$this->CurrentHeader['paused']]) {
                 $this->startNewPause();
             } else {
@@ -172,7 +172,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function startNewPause()
     {
-        if (!empty($this->Container->ContinuousData->Time)) {
+        if (! empty($this->Container->ContinuousData->Time)) {
             $this->IsPaused = true;
             $this->PauseStart = (int) $this->Row[0];
         }
@@ -180,7 +180,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function finishCurrentPause()
     {
-        if (!empty($this->Container->ContinuousData->Time)) {
+        if (! empty($this->Container->ContinuousData->Time)) {
             $lastTime = end($this->Container->ContinuousData->Time);
             $pause = new Pause($lastTime, (int) $this->Row[0] - $this->PauseStart);
             $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), isset($this->Row[$this->CurrentHeader['hr_heartrate']]) ? (int) $this->Row[$this->CurrentHeader['hr_heartrate']] : 0);

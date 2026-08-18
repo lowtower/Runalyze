@@ -65,7 +65,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     {
         $result = $this->tryToLoadForecast($location);
 
-        if (!is_array($result) || empty($result)) {
+        if (! is_array($result) || empty($result)) {
             return null;
         }
 
@@ -142,7 +142,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
                     'x-rapidapi-key' => $this->ApiKey
                 ]
             ];
-            if(!empty($this->Proxy)) {
+            if(! empty($this->Proxy)) {
                 $headers['proxy'] = $this->Proxy;
             }
 
@@ -156,7 +156,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
 
             // we've get a json with 'meta' and 'data'; 'data' contains one object for every hour
             if (is_array($result)) {
-                if (isset($result['data']) && !empty($result['data'])) {
+                if (isset($result['data']) && ! empty($result['data'])) {
                     // retrieve the data-element with our trainings-time
                     return $this->getDataElementOfTime($location->hasDateTime() ? $location->getDateTime() : time(), $result['data']);
                 }

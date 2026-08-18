@@ -95,7 +95,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
         $array = array();
         $inDelimiter = false;
 
-        if (!is_array($SQL)) {
+        if (! is_array($SQL)) {
             $SQL = array();
         }
 

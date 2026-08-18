@@ -142,8 +142,8 @@ class Lap {
 	}
 
 	/**
-	 * @var int $avg
-	 * @var int $max
+	 * @var int
+	 * @var int
 	 */
 	public function setHR($avg, $max) {
 		$this->HRavg = new HeartRate($avg, $this->Athlete);

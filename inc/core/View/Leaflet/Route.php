@@ -131,7 +131,7 @@ class Route {
 
 		$this->Paths[] = $Path;
 
-		if (!empty($Info))
+		if (! empty($Info))
 			$this->Infos[] = $Info;
 	}
 
@@ -175,7 +175,7 @@ class Route {
 	 * Start icon
 	 * @return string
 	 */
-	final public function startIcon() {
+	final public function startIcon(): string {
 		return 'RunalyzeLeaflet.Routes.startIcon()';
 	}
 
@@ -183,7 +183,7 @@ class Route {
 	 * End icon
 	 * @return string
 	 */
-	final public function endIcon() {
+	final public function endIcon(): string {
 		return 'RunalyzeLeaflet.Routes.endIcon()';
 	}
 
@@ -191,7 +191,7 @@ class Route {
 	 * Pause icon
 	 * @return string
 	 */
-	final public function pauseIcon() {
+	final public function pauseIcon(): string {
 		return 'RunalyzeLeaflet.Routes.pauseIcon()';
 	}
 }

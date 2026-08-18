@@ -71,7 +71,7 @@ class GeneratePoster
         $builder = new Process($this->Python3Path.' create_poster.py '.implode(' ', $this->Parameter));
         $builder->setWorkingDirectory($this->pathToRepository())->run();
 
-        if(!$builder->isSuccessful()) {
+        if(! $builder->isSuccessful()) {
             throw new ProcessFailedException($builder);
         } else {
             return $this->pathToSvgDirectory().$this->Filename;

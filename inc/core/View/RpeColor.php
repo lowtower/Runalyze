@@ -35,7 +35,7 @@ class RpeColor
 	 */
 	public function setValue($value)
     {
-        if (!is_numeric($value) || $value < 1 || $value > 10) {
+        if (! is_numeric($value) || $value < 1 || $value > 10) {
             $this->Value = null;
         } else {
             $this->Value = (int) $value;

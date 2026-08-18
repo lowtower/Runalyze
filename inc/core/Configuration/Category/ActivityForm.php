@@ -25,7 +25,7 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 	 * Internal key
 	 * @return string
 	 */
-	protected function key() {
+	protected function key(): string {
 		return 'activity-form';
 	}
 

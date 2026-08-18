@@ -108,7 +108,7 @@ abstract class AbstractPluginsAwareController extends Controller
         $sportSelection = $this->get('app.sport_selection_factory')->getSelection($request->get('sport'));
         $analysisList = new AnalysisSelection($request->get('dat'));
 
-        if (!$analysisList->hasCurrentKey()) {
+        if (! $analysisList->hasCurrentKey()) {
             $analysisList->setCurrentKey(AnalysisSelection::DISTANCE);
         }
 

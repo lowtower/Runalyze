@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\None;
 
 class FitTrainingEffect extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'fitTrainingEffect';
     }

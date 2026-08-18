@@ -11,7 +11,7 @@ class ClimbScore extends AbstractKey
 		return \Runalyze\Dataset\Keys::CLIMB_SCORE;
 	}
 
-	public function column()
+	public function column(): string
 	{
 		return 'climb_score';
 	}
@@ -35,7 +35,7 @@ class ClimbScore extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-        if ((!$context->activity()->isPublic() && \Request::isOnSharedPage()) OR $context->activity()->id() <= 0) {
+        if ((! $context->activity()->isPublic() && \Request::isOnSharedPage()) OR $context->activity()->id() <= 0) {
             return $context->dataview()->climbScore();
         } else {
             return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->climbScore().'</a>';

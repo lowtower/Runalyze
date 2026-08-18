@@ -31,7 +31,7 @@ class GroundcontactBalance extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'groundcontact_balance';
 	}
@@ -85,7 +85,7 @@ class GroundcontactBalance extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

@@ -110,7 +110,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 
 		echo '</div>';
 
-		if (!$inuse)
+		if (! $inuse)
 			echo Ajax::toggle('<a class="right" href="#equipment" name="equipment">'.__('Show/Hide unused equipment').'</a>', 'hiddenequipment');
 
 		echo HTML::clearBreak();
@@ -131,7 +131,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 			$Distance = new Distance($Object->totalDistance());
 			$Duration = new Duration($Object->duration());
 
-			if ($inuse && !$Object->isInUse()) {
+			if ($inuse && ! $Object->isInUse()) {
 				echo '<div id="hiddenequipment" style="display:none;">';
 				$inuse = false;
 			}
@@ -154,7 +154,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		if (empty($allEquipment))
 			echo HTML::em( __('You don\'t have any equipment') );
 
-		if (!$inuse)
+		if (! $inuse)
 			echo '</div>';
 	}
 
@@ -162,7 +162,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 * Get style
 	 * @return string
 	 */
-	protected function getStyle() {
+	protected function getStyle(): string {
 		return '<style type="text/css">.equipment-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images//damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
 

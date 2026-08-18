@@ -34,7 +34,7 @@ abstract class AbstractKernel
      */
     public function __construct($width)
     {
-        if (!is_numeric($width) || $width <= 0.0) {
+        if (! is_numeric($width) || $width <= 0.0) {
             throw new \InvalidArgumentException('Kernel width must be a positive float.');
         }
 

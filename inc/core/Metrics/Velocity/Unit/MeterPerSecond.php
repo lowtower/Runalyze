@@ -9,7 +9,7 @@ class MeterPerSecond extends AbstractPaceInDecimalFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'm/s';
     }

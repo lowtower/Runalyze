@@ -47,7 +47,7 @@ class GpxTrack extends AbstractSingleParser
 
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $track)
     {
-        if (!property_exists($track, 'trkseg')) {
+        if (! property_exists($track, 'trkseg')) {
             throw new UnsupportedFileException('Given XML object does not contain any track. &lt;trkseg&gt;-tag could not be located.');
         }
     }
@@ -76,7 +76,7 @@ class GpxTrack extends AbstractSingleParser
     {
         $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->trkseg->trkpt[0]->time);
 
-        if (!empty($this->Xml->desc)) {
+        if (! empty($this->Xml->desc)) {
             $this->Container->Metadata->setDescription(strip_tags((string) $this->Xml->desc));
         }
     }
@@ -105,7 +105,7 @@ class GpxTrack extends AbstractSingleParser
 
         foreach ($this->Xml->trkseg as $trackSegment) {
             foreach ($trackSegment->trkpt as $point) {
-                if ($i > 0 && !$lookForPauses) {
+                if ($i > 0 && ! $lookForPauses) {
                     $this->LookForPauses = $j == 0;
                 }
 
@@ -127,10 +127,10 @@ class GpxTrack extends AbstractSingleParser
             $this->LastTimestamp = strtotime((string) $point->time);
         }
 
-        if (!empty($point['lat'])) {
+        if (! empty($point['lat'])) {
             $lat  = round((double) $point['lat'], 7);
             $lon  = round((double) $point['lon'], 7);
-        } elseif (!empty($this->Container->ContinuousData->Latitude)) {
+        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
             $lat  = end($this->Container->ContinuousData->Latitude);
             $lon  = end($this->Container->ContinuousData->Longitude);
         } else {
@@ -159,7 +159,7 @@ class GpxTrack extends AbstractSingleParser
             if ($num >= 2) {
                 $pause = new Pause($this->Container->ContinuousData->Time[$num - 2], $this->PauseDuration);
 
-                if (!empty($this->Container->ContinuousData->HeartRate)) {
+                if (! empty($this->Container->ContinuousData->HeartRate)) {
                     $pause->setHeartRateDetails($this->Container->ContinuousData->HeartRate[$num - 2], $this->Container->ContinuousData->HeartRate[$num - 1]);
                 }
 
@@ -181,7 +181,7 @@ class GpxTrack extends AbstractSingleParser
         $timeToAdd = $newTimestamp - $this->LastTimestamp;
         $this->LastTimestamp = $newTimestamp;
 
-        if (!empty($this->Container->ContinuousData->Time)) {
+        if (! empty($this->Container->ContinuousData->Time)) {
             return end($this->Container->ContinuousData->Time) + $timeToAdd;
         }
 

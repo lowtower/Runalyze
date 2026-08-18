@@ -11,12 +11,12 @@ class OpenWeatherMap extends AbstractSource
         return WeatherSourceProfile::OPEN_WEATHER_MAP;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator)
+    public function getAttributionLabel(TranslatorInterface $translator): string
     {
         return 'openweathermap.org';
     }
 
-    public function getAttributionUrl()
+    public function getAttributionUrl(): string
     {
         return 'http://openweathermap.org/';
     }

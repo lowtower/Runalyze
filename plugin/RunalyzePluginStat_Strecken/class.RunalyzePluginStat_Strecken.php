@@ -243,7 +243,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 			foreach ($cities as $city) {
 				$city = trim($city);
 
-				if (!isset($this->Cities[$city]))
+				if (! isset($this->Cities[$city]))
 					$this->Cities[$city] = 1;
 				else
 					$this->Cities[$city]++;

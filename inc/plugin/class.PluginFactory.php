@@ -239,7 +239,7 @@ class PluginFactory {
 		$dir = opendir(FRONTEND_PATH.'../plugin/');
 
 		while ($file = readdir($dir)) {
-			if ($file[0] != '.' && is_dir(FRONTEND_PATH.'../plugin/'.$file) && !$this->isInstalled($file)) {
+			if ($file[0] != '.' && is_dir(FRONTEND_PATH.'../plugin/'.$file) && ! $this->isInstalled($file)) {
 				$plugins[] = array(
 				    'key' => $file
 				);

@@ -109,14 +109,14 @@ foreach ($this->Days as $i => $day) {
 		$trClass = ($trClass == '') ? $monthSeparator : ' top-separated';
 	}
 
-	if (!empty($day['trainings'])) {
+	if (! empty($day['trainings'])) {
 		foreach ($day['trainings'] as $t => $Training) {
 			$id       = $Training['id'];
 			$Sport = $this->Factory->sport($id);
 			$wk_class = ($Training['is_race']) ? ' wk' : '';
 			$trClass = ($t == 0) ? $trClass : '';
 
-			if (FrontendShared::$IS_SHOWN && !$Training['is_public']) {
+			if (FrontendShared::$IS_SHOWN && ! $Training['is_public']) {
 				echo '<tr class="r'.$trClass.' training'.$wk_class.'">';
 			} else {
 				echo '<tr class="r'.$trClass.' training'.$wk_class.'" id="training_'.$id.'" '.Ajax::trainingLinkAsOnclick($id).'>';
@@ -130,7 +130,7 @@ foreach ($this->Days as $i => $day) {
 				foreach ($day['shorts'] as $short) {
 					$Context->setActivityData($short);
 
-					if (FrontendShared::$IS_SHOWN && !$Context->activity()->isPublic()) {
+					if (FrontendShared::$IS_SHOWN && ! $Context->activity()->isPublic()) {
                         echo $Table->codeForShortLink($Context);
                     } else {
                         echo '<span class="link" '.Ajax::trainingLinkAsOnclick($Context->activity()->id()).'>'.$Table->codeForShortLink($Context).'</span>';
@@ -150,7 +150,7 @@ foreach ($this->Days as $i => $day) {
 
 		$currentWeek = $week;
 		$currentMonth = $month;
-	} elseif (!\Runalyze\Configuration::DataBrowser()->showActiveDaysOnly() || !empty($day['shorts'])) {
+	} elseif (! \Runalyze\Configuration::DataBrowser()->showActiveDaysOnly() || ! empty($day['shorts'])) {
 		echo '
 			<tr class="r'.$trClass.'">
 				<td class="l" style="width:24px;">';
@@ -158,7 +158,7 @@ foreach ($this->Days as $i => $day) {
 		foreach ($day['shorts'] as $short) {
             $Context->setActivityData($short);
 
-            if (FrontendShared::$IS_SHOWN && !$Context->activity()->isPublic()) {
+            if (FrontendShared::$IS_SHOWN && ! $Context->activity()->isPublic()) {
                 echo $Table->codeForShortLink($Context);
             } else {
                 echo '<span class="link" '.Ajax::trainingLinkAsOnclick($Context->activity()->id()).'>'.$Table->codeForShortLink($Context).'</span>';

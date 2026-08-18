@@ -24,7 +24,7 @@ class PwxWorkout extends AbstractSingleParser
 
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $workout)
     {
-        if (!property_exists($workout, 'device') || !property_exists($workout, 'sample')) {
+        if (! property_exists($workout, 'device') || ! property_exists($workout, 'sample')) {
             throw new UnsupportedFileException('Given XML object is not from Peaksware/Trainingpeaks. &lt;device&gt;- or &lt;sample&gt;-tag could not be located.');
         }
     }
@@ -54,24 +54,24 @@ class PwxWorkout extends AbstractSingleParser
             $this->Container->Metadata->setTimezoneOffset(null);
         }
 
-        if (!empty($this->Xml->sportType)) {
+        if (! empty($this->Xml->sportType)) {
             $this->Container->Metadata->setSportName((string) $this->Xml->sportType);
         }
 
-        if (!empty($this->Xml->device)) {
+        if (! empty($this->Xml->device)) {
             $string = (string) $this->Xml->device->make.', '.((string) $this->Xml->device->model);
 
             $this->Container->Metadata->setCreator('', $string.' ('.((string) $this->Xml->device['id']).')');
         }
 
-        if (!empty($this->Xml->cmt)) {
+        if (! empty($this->Xml->cmt)) {
             $this->Container->Metadata->setDescription((string) $this->Xml->cmt);
         }
     }
 
     protected function parseLaps()
     {
-        if (!empty($this->Xml->segment)) {
+        if (! empty($this->Xml->segment)) {
             foreach ($this->Xml->segment as $segment) {
                 foreach ($segment->summarydata as $lap) {
                     $this->parseLap($lap);
@@ -82,7 +82,7 @@ class PwxWorkout extends AbstractSingleParser
 
     protected function parseLap(SimpleXMLElement $lap)
     {
-        if (!empty($lap->Calories)) {
+        if (! empty($lap->Calories)) {
             $this->Container->ActivityData->EnergyConsumption += (int) $lap->Calories;
         }
 
@@ -106,14 +106,14 @@ class PwxWorkout extends AbstractSingleParser
         }
 
         $this->Container->ContinuousData->Time[] = (int) $log->timeoffset;
-        $this->Container->ContinuousData->Latitude[] = (!empty($log->lat)) ? (double) $log->lat : null;
-        $this->Container->ContinuousData->Longitude[] = (!empty($log->lon)) ? (double) $log->lon : null;
-        $this->Container->ContinuousData->Altitude[] = (!empty($log->alt)) ? round((int) $log->alt) : null;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($log->hr)) ? round((int) $log->hr) : null;
-        $this->Container->ContinuousData->Distance[] = (!empty($log->dist)) ? (float) $log->dist / 1000 : null;
-        $this->Container->ContinuousData->Cadence[] = (!empty($log->cad)) ? (int) $log->cad : null;
-        $this->Container->ContinuousData->Temperature[] = (!empty($log->temp)) ? round((int) $log->temp) : null;
-        $this->Container->ContinuousData->Power[] = (!empty($log->pwr)) ? round((int) $log->pwr) : null;
+        $this->Container->ContinuousData->Latitude[] = (! empty($log->lat)) ? (double) $log->lat : null;
+        $this->Container->ContinuousData->Longitude[] = (! empty($log->lon)) ? (double) $log->lon : null;
+        $this->Container->ContinuousData->Altitude[] = (! empty($log->alt)) ? round((int) $log->alt) : null;
+        $this->Container->ContinuousData->HeartRate[] = (! empty($log->hr)) ? round((int) $log->hr) : null;
+        $this->Container->ContinuousData->Distance[] = (! empty($log->dist)) ? (float) $log->dist / 1000 : null;
+        $this->Container->ContinuousData->Cadence[] = (! empty($log->cad)) ? (int) $log->cad : null;
+        $this->Container->ContinuousData->Temperature[] = (! empty($log->temp)) ? round((int) $log->temp) : null;
+        $this->Container->ContinuousData->Power[] = (! empty($log->pwr)) ? round((int) $log->pwr) : null;
     }
 
     protected function parseEvents()

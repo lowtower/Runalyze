@@ -42,7 +42,7 @@ class OsmCsvDataCollection {
     }
 
     public function hasNames() {
-        return !empty($this->data);
+        return ! empty($this->data);
     }
 
     /**
@@ -53,7 +53,7 @@ class OsmCsvDataCollection {
             $n = empty($e->nameDe) ? $e->name : $e->nameDe;
 
             // if this name is not already in the list, add it
-            if(!array_key_exists($n, $this->names)) {
+            if(! array_key_exists($n, $this->names)) {
                 $this->names[$n] = $e->category;
             }
         }

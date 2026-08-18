@@ -31,7 +31,7 @@ class FitVO2maxEstimate extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'fit_vo2max_estimate';
 	}
@@ -90,7 +90,7 @@ class FitVO2maxEstimate extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

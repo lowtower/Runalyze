@@ -24,7 +24,7 @@ class MaintenanceListener
 	    $request = $event->getRequest();
 	    $routes = array('update', 'install', 'install_start', 'install_finish', 'update_start', 'admin');
 
-        if ($maintenance && !$debug && !in_array($request->get('_route'), $routes)) {
+        if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
             $engine = $this->container->get('templating');
             $content = $engine->render('maintenance.html.twig');
             $event->setResponse(new Response($content, 503));

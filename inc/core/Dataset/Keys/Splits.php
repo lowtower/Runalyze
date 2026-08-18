@@ -33,7 +33,7 @@ class Splits extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'splits';
 	}
@@ -67,7 +67,7 @@ class Splits extends AbstractKey
 	 */
 	public function stringFor(Context $context)
 	{
-		if (!$context->activity()->splits()->isEmpty()) {
+		if (! $context->activity()->splits()->isEmpty()) {
 			if (
 				$context->activity()->splits()->hasActiveAndInactiveLaps() ||
 				round($context->activity()->splits()->totalDistance()) != round($context->activity()->distance())
@@ -75,7 +75,7 @@ class Splits extends AbstractKey
 				$Icon = new Icon( Icon::CLOCK );
 				$Icon->setTooltip($this->stringForActiveLaps($context->activity()->splits()));
 
-                if (!\Request::isOnSharedPage() && $context->activity()->id() > 0) {
+                if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
                     return '<a class="window large" data-size="big" href="activity/' . $context->activity()->id() . '/splits-info">' . $Icon->code() . '</a>';
                 } else {
                     return $Icon->code();
@@ -97,7 +97,7 @@ class Splits extends AbstractKey
 		$onlyActiveSplits = $Splits->hasActiveAndInactiveLaps();
 
 		foreach ($Splits->asArray() as $Split) {
-			if (!$onlyActiveSplits || $Split->isActive()) {
+			if (! $onlyActiveSplits || $Split->isActive()) {
 				$laps[] = Activity\Duration::format($Split->time());
 			}
 		}

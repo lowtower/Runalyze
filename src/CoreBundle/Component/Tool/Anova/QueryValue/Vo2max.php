@@ -15,7 +15,7 @@ class Vo2max extends AbstractOneColumnValue
         $queryBuilder->andWhere(sprintf('%s.%s = 1', $alias, 'useVO2max'));
     }
 
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'vo2max';
     }

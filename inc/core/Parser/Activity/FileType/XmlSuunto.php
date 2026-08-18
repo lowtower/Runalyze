@@ -84,8 +84,8 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected function checkThatXmlIsValid()
     {
         if (
-            (!property_exists($this->Xml, 'header') && !property_exists($this->Xml, 'Header')) ||
-            (!property_exists($this->Xml, 'Samples') && !property_exists($this->Xml, 'samples'))
+            (! property_exists($this->Xml, 'header') && ! property_exists($this->Xml, 'Header')) ||
+            (! property_exists($this->Xml, 'Samples') && ! property_exists($this->Xml, 'samples'))
         ) {
             throw new UnsupportedFileException('Given XML object is not from Suunto. &lt;header&gt;- or &lt;Samples&gt;-tag could not be located.');
         }
@@ -100,7 +100,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     {
         $this->Container->RRIntervals = $this->getRRIntervals();
 
-        if (!empty($this->Container->RRIntervals)) {
+        if (! empty($this->Container->RRIntervals)) {
             $this->UseRRIntervalsForHeartRate = true;
             $this->NumRRIntervals = count($this->Container->RRIntervals);
         }
@@ -111,7 +111,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected function getRRIntervals()
     {
-        if (property_exists($this->Xml, 'R-R') && !empty($this->Xml->{'R-R'}->Data)) {
+        if (property_exists($this->Xml, 'R-R') && ! empty($this->Xml->{'R-R'}->Data)) {
             return explode(' ', (string) $this->Xml->{'R-R'}->Data);
         }
 
@@ -123,7 +123,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         $this->Container->Metadata->setCreator($this->getDeviceName(), 'Suunto');
         $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Header->DateTime);
 
-        if (!empty($this->Header->Activity)) {
+        if (! empty($this->Header->Activity)) {
             $this->Container->Metadata->setSportName((string) $this->Header->Activity);
         }
     }
@@ -142,32 +142,32 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     protected function parseOptionalValues()
     {
-        if (!empty($this->Header->Duration)) {
+        if (! empty($this->Header->Duration)) {
             $this->Container->ActivityData->Duration = (int) $this->Header->Duration;
         }
 
-        if (!empty($this->Header->Distance)) {
+        if (! empty($this->Header->Distance)) {
             $this->Container->ActivityData->Distance = (int) $this->Header->Distance / 1000;
         }
 
-        if (!empty($this->Header->Energy)) {
+        if (! empty($this->Header->Energy)) {
             $this->Container->ActivityData->EnergyConsumption = round((int) $this->Header->Energy / 4184);
         }
 
-        if (!empty($this->Header->PoolLength)) {
+        if (! empty($this->Header->PoolLength)) {
             $this->Container->ActivityData->PoolLength = (int) $this->Header->PoolLength;
         }
 
-        if (!empty($this->Header->PeakTrainingEffect)) {
+        if (! empty($this->Header->PeakTrainingEffect)) {
             $this->Container->FitDetails->TrainingEffect = (float) $this->Header->PeakTrainingEffect;
         }
     }
 
     protected function parseSamples()
     {
-        if (!empty($this->Xml->Samples)) {
+        if (! empty($this->Xml->Samples)) {
             $this->parseSamplesFrom($this->Xml->Samples->Sample);
-        } elseif (!empty($this->Xml->samples)) {
+        } elseif (! empty($this->Xml->samples)) {
             $this->parseSamplesFrom($this->Xml->samples->sample);
         }
 
@@ -187,7 +187,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     protected function readElapsedTimeFrom(SimpleXMLElement $sample)
     {
-        if (!empty($sample->UTC)) {
+        if (! empty($sample->UTC)) {
             $lastTimestamp = (int) $this->strtotime((string) $sample->UTC);
 
             if ($lastTimestamp > $this->Container->Metadata->getTimestamp())
@@ -208,8 +208,8 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     protected function addRoundIfAvailableFrom(SimpleXMLElement $sample)
     {
-        if (!empty($sample->Events)) {
-            if (!empty($sample->Events->Lap) && !empty($sample->Events->Lap->Distance) && !empty($sample->Events->Lap->Duration)) {
+        if (! empty($sample->Events)) {
+            if (! empty($sample->Events->Lap) && ! empty($sample->Events->Lap->Distance) && ! empty($sample->Events->Lap->Duration)) {
                 $this->Container->Rounds->add(
                     new Round(
                         round((int) $sample->Events->Lap->Distance) / 1000,
@@ -222,7 +222,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     protected function readCurrentLocationFrom(SimpleXMLElement $sample)
     {
-        if (!empty($sample->Latitude) && !empty($sample->Longitude)) {
+        if (! empty($sample->Latitude) && ! empty($sample->Longitude)) {
             $this->CurrentLatitude = round((float) $sample->Latitude * 180 / M_PI, 7);
             $this->CurrentLongitude = round((float) $sample->Longitude * 180 / M_PI, 7);
         }
@@ -231,8 +231,8 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     protected function parsePeriodicSample(SimpleXMLElement $sample)
     {
         if (
-            (!empty($sample->Distance) && (int) $sample->Distance <= $this->CurrentDistance)
-            || (!empty($sample->Time) && (int) $sample->Time <= $this->CurrentTime)
+            (! empty($sample->Distance) && (int) $sample->Distance <= $this->CurrentDistance)
+            || (! empty($sample->Time) && (int) $sample->Time <= $this->CurrentTime)
         ) {
             return;
         }
@@ -251,7 +251,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     protected function setContinuousDataFrom(SimpleXMLElement $sample)
     {
-        if (!empty($sample->HR)) {
+        if (! empty($sample->HR)) {
             $hr = round(60 * (float) $sample->HR);
             $this->UseRRIntervalsForHeartRate = false;
         } elseif ($this->UseRRIntervalsForHeartRate) {
@@ -272,9 +272,9 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         $this->Container->ContinuousData->Latitude[] = $this->CurrentLatitude;
         $this->Container->ContinuousData->Longitude[] = $this->CurrentLongitude;
         $this->Container->ContinuousData->HeartRate[] = $hr;
-        $this->Container->ContinuousData->Altitude[] = !empty($sample->Altitude) ? (int) $sample->Altitude : $this->getCurrentValueOf($this->Container->ContinuousData->Altitude);
-        $this->Container->ContinuousData->Temperature[] = !empty($sample->Temperature) ? round((float) $sample->Temperature - 273.15) : $this->getCurrentValueOf($this->Container->ContinuousData->Temperature);
-        $this->Container->ContinuousData->Cadence[] = !empty($sample->Cadence) ? (float) $sample->Cadence * 60 : $this->getCurrentValueOf($this->Container->ContinuousData->Cadence);
+        $this->Container->ContinuousData->Altitude[] = ! empty($sample->Altitude) ? (int) $sample->Altitude : $this->getCurrentValueOf($this->Container->ContinuousData->Altitude);
+        $this->Container->ContinuousData->Temperature[] = ! empty($sample->Temperature) ? round((float) $sample->Temperature - 273.15) : $this->getCurrentValueOf($this->Container->ContinuousData->Temperature);
+        $this->Container->ContinuousData->Cadence[] = ! empty($sample->Cadence) ? (float) $sample->Cadence * 60 : $this->getCurrentValueOf($this->Container->ContinuousData->Cadence);
     }
 
     /**
@@ -283,7 +283,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected function getCurrentValueOf(array $data)
     {
-        if (!empty($data)) {
+        if (! empty($data)) {
             return end($data);
         }
 

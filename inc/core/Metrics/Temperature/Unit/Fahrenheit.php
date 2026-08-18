@@ -9,7 +9,7 @@ class Fahrenheit extends AbstractTemperatureUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '°F';
     }

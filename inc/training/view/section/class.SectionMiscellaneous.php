@@ -49,7 +49,7 @@ class SectionMiscellaneous extends TrainingViewSectionTabbedPlot {
 	 * CSS-ID
 	 * @return string
 	 */
-	protected function cssId() {
+	protected function cssId(): string {
 		return 'misc';
 	}
 }

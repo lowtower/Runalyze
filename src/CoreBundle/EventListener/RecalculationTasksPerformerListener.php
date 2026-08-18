@@ -17,7 +17,7 @@ class RecalculationTasksPerformerListener
 
     public function onTerminate()
     {
-        if ($this->Manager instanceof LazyLoadingInterface && !$this->Manager->isProxyInitialized()) {
+        if ($this->Manager instanceof LazyLoadingInterface && ! $this->Manager->isProxyInitialized()) {
             return;
         }
 

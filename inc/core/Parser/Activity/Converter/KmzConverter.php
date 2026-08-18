@@ -9,7 +9,7 @@ class KmzConverter extends ZipConverter
         parent::__construct(['kml']);
     }
 
-    public function getConvertibleFileExtension()
+    public function getConvertibleFileExtension(): string
     {
         return 'kmz';
     }

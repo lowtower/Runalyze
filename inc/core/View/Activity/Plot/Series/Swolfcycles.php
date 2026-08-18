@@ -24,8 +24,8 @@ class Swolfcycles extends ActivityPointSeries {
 
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
-	 * @var boolean $forceOriginal [optional]
+	 * @var \Runalyze\View\Activity\Context
+	 * @var boolean [optional]
 	 */
 	public function __construct(Activity\Context $context) {
 		$this->initOptions();
@@ -34,18 +34,18 @@ class Swolfcycles extends ActivityPointSeries {
 
 	/**
 	 * Init data
-	 * @var \Runalyze\View\Activity\Context $context
-	 * @var boolean $forceOriginal
+	 * @var \Runalyze\View\Activity\Context
+	 * @var boolean
 	 */
 	protected function initDataWithSwimdata(Activity\Context $context) {
-		if (!$context->hasSwimdata()) {
+		if (! $context->hasSwimdata()) {
 			$this->Data = array();
 			return;
 		}
 
 		$key = Swimdata::SWOLFCYCLES;
 
-		if (!$context->swimdata()->has($key)) {
+		if (! $context->swimdata()->has($key)) {
 			$this->Data = array();
 			return;
 		}

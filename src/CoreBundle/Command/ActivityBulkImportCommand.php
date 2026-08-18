@@ -119,10 +119,10 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $sport = $input->getOption('sport');
         $this->moveFolder = $input->getOption('move');
 
-        if(!empty($sport)) {
+        if(! empty($sport)) {
             $output->writeln('<info>using sport=' . $sport . '</info>');
         }
-        if(!empty($this->moveFolder)) {
+        if(! empty($this->moveFolder)) {
             $output->writeln('<info>move imported files to ' . $this->moveFolder . '</info>');
         }
 
@@ -134,7 +134,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         foreach ($it as $fileinfo) {
             $file = $fileinfo->getFilename();
 
-            if (!is_file($path.'/'.$file)) {
+            if (! is_file($path.'/'.$file)) {
                 continue;
             }
 
@@ -158,7 +158,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             foreach ($result->getContainer() as $container) {
 
                 // #TSC override the sportname to set the sport profile
-                if(!empty($sport)) {
+                if(! empty($sport)) {
                     $container->Metadata->setSportName($sport);
                 }
 
@@ -193,7 +193,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $this->checkStoreMaxZoneHR($user, $output, $maxZoneHR);
         }
 
-        if (!empty($this->FailedImports)) {
+        if (! empty($this->FailedImports)) {
             $output->writeln('');
             $output->writeln('<fg=red>Failed imports:</>');
 
@@ -211,13 +211,13 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
     */ 
     private function moveFile(Filesystem $fs, string $path, string $importedFilename, OutputInterface $output)
     {
-        if(!empty($this->moveFolder)) {
+        if(! empty($this->moveFolder)) {
             $path_parts = pathinfo($importedFilename);
             $source = $path . '/' . $path_parts['basename'];
             $moveTo = $path . '/' . $this->moveFolder. '/' . $path_parts['basename'];
             echo 'moveTo:'.$moveTo;
 
-            if(!rename($source, $moveTo)) {
+            if(! rename($source, $moveTo)) {
                 $output->writeln('<fg=red>Cant move to ' . $moveTo . '</>');
             }
         }
@@ -297,7 +297,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                     $equipments[$eqp->getId()] = $eqp;
 
                     // store if this type already selected (to avoid multiple mappings of the same category)
-                    if(!array_key_exists($eqp->getType()->getId(), $typeUnique)) {
+                    if(! array_key_exists($eqp->getType()->getId(), $typeUnique)) {
                         $typeUnique[$eqp->getType()->getId()] = true;
                     } else {
                         $typeUnique[$eqp->getType()->getId()] = false;

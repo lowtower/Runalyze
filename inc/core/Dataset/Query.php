@@ -160,9 +160,9 @@ class Query
 		return $query;
 	}
 
-	public function queryToGroupByActivity()
+	public function queryToGroupByActivity(): string
 	{
-		if (!empty($this->JoinTables)) {
+		if (! empty($this->JoinTables)) {
 			return 'GROUP BY `t`.`id`';
 		}
 
@@ -321,7 +321,7 @@ class Query
 				if ($KeyObject->requiresJoin()) {
 					$joinDefinition = $KeyObject->joinDefinition();
 
-					if (!array_key_exists($joinDefinition['column'], $this->JoinTables)) {
+					if (! array_key_exists($joinDefinition['column'], $this->JoinTables)) {
 						$this->JoinTables[$joinDefinition['column']] = $joinDefinition;
 					}
 				} else {
@@ -390,7 +390,7 @@ class Query
 	 * Query to respect activity's privacy
 	 * @return string
 	 */
-	protected function wherePrivacyIsOkay() {
+	protected function wherePrivacyIsOkay(): string {
 		if ($this->ShowOnlyPublicActivites) {
 			return '`t`.`is_public`=1';
 		}

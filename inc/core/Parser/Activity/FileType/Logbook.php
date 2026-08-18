@@ -34,7 +34,7 @@ class Logbook extends AbstractMultipleParser implements FileContentAwareParserIn
 
     protected function checkThatXmlIsValid()
     {
-        if (!property_exists($this->Xml, 'Activities')) {
+        if (! property_exists($this->Xml, 'Activities')) {
             throw new UnsupportedFileException('Given XML object is not from SportTracks. &lt;Activities&gt;-tag could not be located.');
         }
     }

@@ -51,7 +51,7 @@ class ActivityContextAdapter
     public function guessWeatherConditions($defaultLocationName, $account)
     {
         // #TSC if not outside, no weather needed
-        if(!$this->Context->getSport()->getOutside()) {
+        if(! $this->Context->getSport()->getOutside()) {
             return;
         }
 
@@ -76,7 +76,7 @@ class ActivityContextAdapter
         $location->setTimezone($timezoneName);
 
         // if we have no valid location-object, no forecast is meaningful
-        if(!$location->isValid()) {
+        if(! $location->isValid()) {
             return;
         }
 

@@ -19,7 +19,7 @@ class JsonImporter
     /** @var string */
     protected $DatabasePrefix;
 
-	/** @var array $ReplaceIDs[table][oldID] = newID */
+	/** @var array[table][oldID] = newID */
 	protected $ReplaceIDs = [];
 
 	/** @var array */
@@ -141,7 +141,7 @@ class JsonImporter
 
 			while ($row = $statement->fetch()) {
 				$this->ExistingData['runalyze_'.$Table][$row[$Column]] = $row['id'];
-				if ($Table == 'sport' && !empty($row['internal_sport_id'])) {
+				if ($Table == 'sport' && ! empty($row['internal_sport_id'])) {
 				    $this->InternalSportIds[$row['internal_sport_id']] = $row['id'];
                 }
 			}
@@ -167,7 +167,7 @@ class JsonImporter
 	 */
 	private function readFile()
     {
-		while (!$this->Reader->eof()) {
+		while (! $this->Reader->eof()) {
 			$line = trim($this->Reader->readLine());
 
 			if (substr($line, 0, 8) == '{"TABLE"') {
@@ -225,7 +225,7 @@ class JsonImporter
     {
 		$line = $this->Reader->readLine();
 
-		if (!is_string($line) || $line === '' || $line[0] !== '{') {
+		if (! is_string($line) || $line === '' || $line[0] !== '{') {
 			return;
 		}
 
@@ -322,7 +322,7 @@ class JsonImporter
     {
 		$line = $this->Reader->readLine();
 
-		if (!is_string($line) || $line === '' || $line[0] !== '{') {
+		if (! is_string($line) || $line === '' || $line[0] !== '{') {
 			return;
 		}
 

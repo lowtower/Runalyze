@@ -39,7 +39,7 @@ class ClimbCategory
      */
     public function setCategory($category)
     {
-        if (!in_array($category, self::getOptions())) {
+        if (! in_array($category, self::getOptions())) {
             throw new \InvalidArgumentException(sprintf('Invalid climb category "%s".', (string) $category));
         }
 

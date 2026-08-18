@@ -320,7 +320,7 @@ class ActivityData
 
     public function completeFromRounds(RoundCollection $rounds)
     {
-        if (!$rounds->isEmpty()) {
+        if (! $rounds->isEmpty()) {
             if (null === $this->Duration) {
                 $this->Duration = $rounds->getTotalDuration();
             }

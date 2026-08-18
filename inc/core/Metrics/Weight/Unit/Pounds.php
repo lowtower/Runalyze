@@ -13,7 +13,7 @@ class Pounds extends AbstractWeightUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'lbs';
     }

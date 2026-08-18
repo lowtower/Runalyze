@@ -22,7 +22,7 @@ class PercentLeft extends AbstractGroundContactBalanceUnit implements Formattabl
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '%L';
     }

@@ -12,12 +12,12 @@ class MeteostatNet extends AbstractSource
         return WeatherSourceProfile::METEOSTAT_NET;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator)
+    public function getAttributionLabel(TranslatorInterface $translator): string
     {
         return 'meteostat.net';
     }
 
-    public function getAttributionUrl()
+    public function getAttributionUrl(): string
     {
         return 'https://meteostat.net/';
     }

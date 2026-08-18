@@ -178,7 +178,7 @@ class Plot {
 			$this->Data[$i]['data'] = $Points;
 		}
 
-		if (Configuration::ActivityView()->smoothCurves() && !isset($this->Options['series']['curvedLines']['apply']))
+		if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply']))
 			$this->Options['series']['curvedLines']['apply'] = true;
 
 		if (empty($this->Data) && strlen($this->ErrorString) == 0)
@@ -386,8 +386,8 @@ class Plot {
 
 	/**
 	 * Set smoothing
-	 * @var bool $flag
-	 * @var bool $fit [optional]
+	 * @var bool
+	 * @var bool [optional]
 	 */
 	public function smoothing($flag = true, $fit = null) {
 		$this->Options['series']['curvedLines']['apply'] = $flag;

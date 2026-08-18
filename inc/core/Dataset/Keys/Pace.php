@@ -55,7 +55,7 @@ class Pace extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return '';
 	}
@@ -104,7 +104,7 @@ class Pace extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}
@@ -145,7 +145,7 @@ class Pace extends AbstractKey
 	 */
 	public function valueDependendCssStyle(Context $context)
 	{
-		if (!array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
+		if (! array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
 			return null;
 		}
 

@@ -76,7 +76,7 @@ class Splits {
 				$this->asArray[] = array(
 				    'km' => $km * $factor,
 				    'time' => $array['time'][$i],
-				    'active' => !isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i])
+				    'active' => ! isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i])
 				);
 	}
 
@@ -160,7 +160,7 @@ class Splits {
 
 		foreach ($this->asArray as $split)
 			if ($restingLaps || $split['active'])
-				$strings[] = $split['km'].'&nbsp;km&nbsp;'.__('in').'&nbsp;'.$split['time'].(!$split['active'] ? '&nbsp;('.__('Resting').')' : '');
+				$strings[] = $split['km'].'&nbsp;km&nbsp;'.__('in').'&nbsp;'.$split['time'].(! $split['active'] ? '&nbsp;('.__('Resting').')' : '');
 
 		return implode(', ', $strings);
 	}
@@ -170,7 +170,7 @@ class Splits {
 	 * @return string
 	 */
 	public function asIconWithTooltip() {
-		if (!$this->areEmpty())
+		if (! $this->areEmpty())
 			return Ajax::tooltip(Icon::$CLOCK, $this->asReadableString());
 
 		return '';

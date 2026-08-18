@@ -85,7 +85,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
             $this->Container->Metadata->setNotes(substr($line, 5));
         } elseif (substr($line, 0, 15) == 'TrainingKindId,') {
             $this->TmpData = explode(',', $line);
-        } elseif (!empty($this->TmpData)) {
+        } elseif (! empty($this->TmpData)) {
             $values = explode(',', $line);
             $startDay = '';
             $startTime = '';
@@ -149,7 +149,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
     }
 
     /**
-     * @var string $line
+     * @var string
      */
     protected function readGpsData($line) {
         $parts = explode(',', $line);

@@ -45,7 +45,7 @@ class JsonImporterResults
 	 */
 	protected function add($tableName, $counter, $key)
     {
-		if (!isset($this->Results[$tableName])) {
+		if (! isset($this->Results[$tableName])) {
 			$this->Results[$tableName] = array(
 			    'update' => 0,
 			    'delete' => 0,

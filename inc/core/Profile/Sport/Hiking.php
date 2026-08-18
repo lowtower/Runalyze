@@ -14,7 +14,7 @@ class Hiking extends AbstractSport
         parent::__construct(SportProfile::HIKING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Trekking';
     }

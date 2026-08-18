@@ -178,7 +178,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$this->displayWkTr($data);
 		}
 
-		if (!isset($data)) {
+		if (! isset($data)) {
 			$this->displayEmptyTr( __('There are no races.') );
 		}
 
@@ -198,7 +198,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		    $this->displayLinkToPerformanceChart();
         }
 
-		if (!empty($this->PBdistances)) {
+		if (! empty($this->PBdistances)) {
 			$this->displayPersonalBestsImages();
 		}
 
@@ -309,7 +309,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		foreach ($this->RaceContainer->allRaces() as $wk) {
 			$wk['y'] = date('Y', $wk['time']);
 
-			if (!isset($year[$wk['y']])) {
+			if (! isset($year[$wk['y']])) {
 				$year[$wk['y']] = $dists;
 				$year[$wk['y']]['sum'] = 0;
 				$year['sum'] = 0;
@@ -501,7 +501,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$Strings[] = $W['num'].'x '.$Condition->icon()->code();
 		}
 
-		if (!empty($Strings)) {
+		if (! empty($Strings)) {
 			echo '<strong>'.__('Weather statistics').':</strong> ';
 			echo implode(', ', $Strings);
 			echo '<br><br>';

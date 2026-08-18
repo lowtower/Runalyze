@@ -14,7 +14,7 @@ class Hours extends AbstractTimeUnit implements FormattableUnitInterface
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'h';
     }

@@ -138,7 +138,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 			foreach ($trainingspartner as $name) {
 				$name = trim($name);
 
-				if (!isset($this->Partner[$name]))
+				if (! isset($this->Partner[$name]))
 					$this->Partner[$name] = 1;
 				else
 					$this->Partner[$name]++;

@@ -30,7 +30,7 @@ class AirPressure extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'pressure';
 	}
@@ -61,8 +61,8 @@ class AirPressure extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		if (
-			!$context->activity()->weather()->pressure()->isUnknown() &&
-			!($context->hasSport() && !$context->sport()->isOutside())
+			! $context->activity()->weather()->pressure()->isUnknown() &&
+			! ($context->hasSport() && ! $context->sport()->isOutside())
 		) {
 			return $context->activity()->weather()->pressure()->string();
 		}
@@ -74,7 +74,7 @@ class AirPressure extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

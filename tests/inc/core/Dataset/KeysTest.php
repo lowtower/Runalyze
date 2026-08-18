@@ -45,7 +45,7 @@ class KeysTest extends \PHPUnit\Framework\TestCase
 		foreach (Keys::getEnum() as $id) {
 			$Key = Keys::get($id);
 
-			if (!$Key->isInDatabase()) {
+			if (! $Key->isInDatabase()) {
 				$this->assertEquals('', $Key->column());
 			}
 		}

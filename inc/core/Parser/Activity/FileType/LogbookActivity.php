@@ -40,50 +40,50 @@ class LogbookActivity extends AbstractSingleParser
     {
         $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml['startTime']);
 
-        if (!empty($this->Xml['categoryName'])) {
+        if (! empty($this->Xml['categoryName'])) {
             $this->Container->Metadata->setSportName((string) $this->Xml['categoryName']);
         }
 
-        if (!empty($this->Xml['name'])) {
+        if (! empty($this->Xml['name'])) {
             $this->Container->Metadata->setDescription((string) $this->Xml['name']);
         }
 
-        if (!empty($this->Xml['notes'])) {
+        if (! empty($this->Xml['notes'])) {
             $this->Container->Metadata->setNotes((string) $this->Xml['notes']);
         }
 
-        if (!empty($this->Xml['location'])) {
+        if (! empty($this->Xml['location'])) {
             $this->Container->Metadata->setRouteDescription((string) $this->Xml['location']);
         }
     }
 
     protected function parseAttributesForActivityData()
     {
-        if (!empty($this->Xml['totalTime'])) {
+        if (! empty($this->Xml['totalTime'])) {
             $this->Container->ActivityData->Duration = (int) $this->Xml['totalTime'];
         }
 
-        if (!empty($this->Xml['totalDistance'])) {
+        if (! empty($this->Xml['totalDistance'])) {
             $this->Container->ActivityData->Distance = ((int) $this->Xml['totalDistance']) / 1000;
         }
 
-        if (!empty($this->Xml['averageHeartRate'])) {
+        if (! empty($this->Xml['averageHeartRate'])) {
             $this->Container->ActivityData->AvgHeartRate = (int) $this->Xml['averageHeartRate'];
         }
 
-        if (!empty($this->Xml['maximumHeartRate'])) {
+        if (! empty($this->Xml['maximumHeartRate'])) {
             $this->Container->ActivityData->MaxHeartRate = (int) $this->Xml['maximumHeartRate'];
         }
 
-        if (!empty($this->Xml['totalCalories'])) {
+        if (! empty($this->Xml['totalCalories'])) {
             $this->Container->ActivityData->EnergyConsumption = (int) $this->Xml['totalCalories'];
         }
 
-        if (!empty($this->Xml['totalAscend'])) {
+        if (! empty($this->Xml['totalAscend'])) {
             $this->Container->ActivityData->ElevationAscent = (int) $this->Xml['totalAscend'];
         }
 
-        if (!empty($this->Xml['totalDescend'])) {
+        if (! empty($this->Xml['totalDescend'])) {
             $this->Container->ActivityData->ElevationDescent = -(int) $this->Xml['totalDescend'];
         }
     }
@@ -91,10 +91,10 @@ class LogbookActivity extends AbstractSingleParser
     protected function parseAdditionalAttributes()
     {
         if (property_exists($this->Xml, 'Weather')) {
-            if (!empty($this->Xml->Weather['conditions'])) {
+            if (! empty($this->Xml->Weather['conditions'])) {
                 $this->Container->WeatherData->Condition = (string) $this->Xml->Weather['conditions'];
             }
-            if (!empty($this->Xml->Weather['temperatureCelsius'])) {
+            if (! empty($this->Xml->Weather['temperatureCelsius'])) {
                 $this->Container->WeatherData->Temperature = (float) $this->Xml->Weather['temperatureCelsius'];
             }
         }
@@ -107,7 +107,7 @@ class LogbookActivity extends AbstractSingleParser
         $totalDistance = 0;
         $heartRateMultipliedByTime = 0;
 
-        if (isset($this->Xml->Laps) && !empty($this->Xml->Laps)) {
+        if (isset($this->Xml->Laps) && ! empty($this->Xml->Laps)) {
             foreach ($this->Xml->Laps->Lap as $Lap) {
                 $lapTimes[] = (int) $Lap['totalTime'];
 
@@ -117,7 +117,7 @@ class LogbookActivity extends AbstractSingleParser
             }
         }
 
-        if (isset($this->Xml->DistanceMarkers) && !empty($this->Xml->DistanceMarkers)) {
+        if (isset($this->Xml->DistanceMarkers) && ! empty($this->Xml->DistanceMarkers)) {
             foreach ($this->Xml->DistanceMarkers->DistanceMarker as $Marker) {
                 $lapDistances[] = (int) $Marker['distance'] / 1000 - $totalDistance;
                 $totalDistance += end($lapDistances);

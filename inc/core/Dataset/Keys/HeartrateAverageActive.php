@@ -31,7 +31,7 @@ class HeartrateAverageActive extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'pulse_avg_active';
 	}
@@ -80,7 +80,7 @@ class HeartrateAverageActive extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

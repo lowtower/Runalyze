@@ -196,7 +196,7 @@ class CreateController extends Controller
         if ($form->isSubmitted()) {
             $hashes = $form->get('activity')->getData();
 
-            if (!is_array($hashes)) {
+            if (! is_array($hashes)) {
                 return $this->redirectToRoute('activity-upload');
             }
 
@@ -266,7 +266,7 @@ class CreateController extends Controller
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             return $this->render('util/close_overlay.html.twig');
-        } elseif (!$form->isSubmitted() && $setCache) {
+        } elseif (! $form->isSubmitted() && $setCache) {
             $form->get('temporaryHash')->setData(
                 $this->get('app.activity_context.cache')->save($activity)
             );
@@ -285,7 +285,7 @@ class CreateController extends Controller
         $activity = $this->get('app.activity_context.cache')->get($form->get('temporaryHash')->getData(), $newActivity, true);
 
         if ('' != $activity->getRouteName()) {
-            if (!$activity->hasRoute()) {
+            if (! $activity->hasRoute()) {
                 $activity->setRoute((new EntityRoute())->setAccount($activity->getAccount()));
             }
 
@@ -315,7 +315,7 @@ class CreateController extends Controller
         $activity->setAccount($account);
         $activity->setTime($time ?: LocalTime::now());
         $activity->setSport($this->getMainSport($account));
-        $activity->setPublic(!$activity->getSport()->getDefaultPrivacy());
+        $activity->setPublic(! $activity->getSport()->getDefaultPrivacy());
 
         if (null !== $activity->getSport()) {
             $activity->setType($activity->getSport()->getDefaultType());

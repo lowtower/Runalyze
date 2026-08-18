@@ -19,7 +19,7 @@ class HRVdifferencesWithoutAnomalies extends HRVwithoutAnomalies
 {
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	public function __construct(Activity\Context $context)
     {

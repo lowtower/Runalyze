@@ -57,10 +57,10 @@ class EditController extends Controller
                 $this->get('app.data_series_remover')->handleRequest($form->get('data_series_remover')->getData(), $activity);
             }
 
-            if ($form->get('is_race')->getData() && !$activity->hasRaceresult()) {
+            if ($form->get('is_race')->getData() && ! $activity->hasRaceresult()) {
                 $raceResult = (new Raceresult())->fillFromActivity($activity);
                 $activity->setRaceresult($raceResult);
-            } elseif (!$form->get('is_race')->getData() && $activity->hasRaceresult()) {
+            } elseif (! $form->get('is_race')->getData() && $activity->hasRaceresult()) {
                 $this->getDoctrine()->getRepository('CoreBundle:Raceresult')->delete($activity->getRaceresult());
                 $activity->setRaceresult(null);
             }
@@ -91,7 +91,7 @@ class EditController extends Controller
             'activity_id' => $activity->getId(),
             'prev_activity_id' => $repository->getIdOfPreviousActivity($activity),
             'next_activity_id' => $repository->getIdOfNextActivity($activity),
-            'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()->hasGeohashes() && !$activity->getRoute()->hasCorrectedElevations(),
+            'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()->hasGeohashes() && ! $activity->getRoute()->hasCorrectedElevations(),
             'isPowerLocked' => null !== $activity->isPowerCalculated()
         ]);
     }

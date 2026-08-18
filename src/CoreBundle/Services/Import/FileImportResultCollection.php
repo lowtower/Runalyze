@@ -73,7 +73,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof FileImportResult)) {
+        if (! ($value instanceof FileImportResult)) {
             throw new \InvalidArgumentException('FileImportResultCollection does only accept instances of FileImportResult as elements.');
         }
 

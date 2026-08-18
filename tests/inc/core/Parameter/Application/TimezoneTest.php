@@ -30,7 +30,7 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
             }
         }
 
-        if (!empty($unknownTimezones)) {
+        if (! empty($unknownTimezones)) {
             $this->markTestSkipped('Unknown timezones: '.implode(', ', $unknownTimezones));
         }
     }

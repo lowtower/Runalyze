@@ -51,7 +51,7 @@ class TimeSeriesForTrackdata extends TimeSeries
         $emptyArray = array_fill(0, $this->Trackdata->num(), 0);
 
         foreach (array_merge($this->SumDifferencesKeys, $this->AvgValuesKeys) as $key) {
-            if (!$this->Trackdata->has($key)) {
+            if (! $this->Trackdata->has($key)) {
                 $this->Trackdata->set($key, $emptyArray);
             }
         }
@@ -68,7 +68,7 @@ class TimeSeriesForTrackdata extends TimeSeries
         }
 
         foreach ($data as $i => $val) {
-            if (!isset($this->Data[$val])) {
+            if (! isset($this->Data[$val])) {
                 $this->Data[$val] = array();
 
                 foreach (array_merge($this->SumDifferencesKeys, $this->AvgValuesKeys) as $key) {
@@ -93,7 +93,7 @@ class TimeSeriesForTrackdata extends TimeSeries
 
     protected function calculateAverages()
     {
-        if (!empty($this->AvgValuesKeys)) {
+        if (! empty($this->AvgValuesKeys)) {
             foreach ($this->Data as $index => $data) {
                 foreach ($this->AvgValuesKeys as $key) {
                     if ($this->Histogram[$index] > 0) {

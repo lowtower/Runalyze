@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\Factorial;
 
 class PercentageHilly extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'percentageHilly';
     }

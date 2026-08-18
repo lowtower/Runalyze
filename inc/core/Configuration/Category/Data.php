@@ -17,7 +17,7 @@ use Helper;
 class Data extends \Runalyze\Configuration\Category
 {
     /** @return string */
-    protected function key()
+    protected function key(): string
     {
         return 'data';
     }

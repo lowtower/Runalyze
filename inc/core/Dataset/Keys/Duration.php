@@ -41,7 +41,7 @@ class Duration extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 's';
 	}

@@ -302,7 +302,7 @@ abstract class PlotSumData extends Plot {
 	 * @return string
 	 */
 	private function link($text, $year, $sportid, $group, $current = false, $analysis = false) {
-		if (!$analysis) {
+		if (! $analysis) {
 			$analysis = $this->Analysis;
 		}
 
@@ -489,7 +489,7 @@ abstract class PlotSumData extends Plot {
 	 * Sum data for query
 	 * @return string
 	 */
-	private function dataSum() {
+	private function dataSum(): string {
 		if ($this->Analysis == self::ANALYSIS_TRIMP) {
 			return 'SUM(`trimp`)';
 		} elseif ($this->usesDistance) {
@@ -509,7 +509,7 @@ abstract class PlotSumData extends Plot {
 	 * Group by table for query
 	 * @return string
 	 */
-	private function groupBy() {
+	private function groupBy(): string {
 		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
 			return '`sportid`';
 
@@ -544,7 +544,7 @@ abstract class PlotSumData extends Plot {
 
 		foreach ($this->Data as $data) {
 			foreach ($data['data'] as $i => $val)
-				if (!isset($values[$i]))
+				if (! isset($values[$i]))
 					$values[$i] = $val;
 				else
 					$values[$i] += $val;
@@ -562,7 +562,7 @@ abstract class PlotSumData extends Plot {
 		$idMapping = array();
 
 		foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
-		    if ('mainsport' == $this->ParamGroup && !$Sport->isMainSport()) {
+		    if ('mainsport' == $this->ParamGroup && ! $Sport->isMainSport()) {
                 $idMapping[$Sport->id()] = -1;
             } else {
     			$Sports[$Sport->id()] = array(

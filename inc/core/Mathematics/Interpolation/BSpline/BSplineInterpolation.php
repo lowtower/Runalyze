@@ -102,7 +102,7 @@ class BSplineInterpolation
      */
     public function evaluateAtAllPoints($keepCurrentKnots = false)
     {
-        if (!$keepCurrentKnots) {
+        if (! $keepCurrentKnots) {
             $this->setClampedKnotVector();
         }
 

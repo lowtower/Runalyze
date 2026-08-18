@@ -73,7 +73,7 @@ class PerformanceCondition implements ValueInterface
 	 * @return string
      * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): string
     {
 		return '';
 	}
@@ -102,7 +102,7 @@ class PerformanceCondition implements ValueInterface
 	 */
 	public function string($withUnit = true)
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 

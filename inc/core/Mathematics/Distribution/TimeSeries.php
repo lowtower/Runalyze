@@ -25,7 +25,7 @@ class TimeSeries extends EmpiricalDistribution
         $lastTime = 0;
 
         foreach ($data as $i => $val) {
-            if (!isset($histogram[$val])) {
+            if (! isset($histogram[$val])) {
                 $histogram[$val] = $time[$i] - $lastTime;
             } else {
                 $histogram[$val] += $time[$i] - $lastTime;

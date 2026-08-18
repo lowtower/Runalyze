@@ -30,7 +30,7 @@ class TotalCycles extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'total_cycles';
 	}
@@ -39,7 +39,7 @@ class TotalCycles extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function label()
+	public function label(): string
 	{
 		return ('Total cycles');
 	}
@@ -78,7 +78,7 @@ class TotalCycles extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

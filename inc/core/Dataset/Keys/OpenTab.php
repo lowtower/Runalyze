@@ -31,7 +31,7 @@ class OpenTab extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return '';
 	}
@@ -57,7 +57,7 @@ class OpenTab extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}
@@ -105,7 +105,7 @@ class OpenTab extends AbstractKey
     /**
      * @return string
      */
-    protected function getCodeForIcon()
+    protected function getCodeForIcon(): string
     {
         return '<i class="fa fa-fw fa-external-link" style="font-weight: 900;"></i>';
     }
@@ -114,7 +114,7 @@ class OpenTab extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\None;
 
 class FitHrvAnalysis extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'fitHrvAnalysis';
     }

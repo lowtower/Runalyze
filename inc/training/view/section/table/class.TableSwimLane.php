@@ -94,7 +94,7 @@ class TableSwimLane extends TableLapsAbstract {
 			} else {
 				$this->Code .= '<tr class="r">';
 
-				if(!$Stroketype->isBreak()) {
+				if(! $Stroketype->isBreak()) {
 					$lane++;
 					$intervalLanes++;
 
@@ -123,7 +123,7 @@ class TableSwimLane extends TableLapsAbstract {
 		}
 
 		// #TSC: in break/rest add the last interval "summary"; but only if the last is not a break interval
-		if($hasBreak && !$Stroketype->isBreak()) {
+		if($hasBreak && ! $Stroketype->isBreak()) {
 			$this->writeSummary($Poollength,$TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
 		}
 
@@ -141,7 +141,7 @@ class TableSwimLane extends TableLapsAbstract {
 		$time = 0;
 		foreach ($splits->asArray() as $Split) {
 			$time += $Split->time();
-			if (!$Split->isActive()) {
+			if (! $Split->isActive()) {
 				$trackLoop->moveToTime($time);
 				$result[] = $trackLoop->index();
 			}

@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\Simple;
 
 class PronationExcursionRight extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'avgPronationExcursionRight';
     }

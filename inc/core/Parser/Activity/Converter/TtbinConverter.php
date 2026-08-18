@@ -19,7 +19,7 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
         $this->PathToConverter = $pathToTtbincnv;
     }
 
-    public function getConvertibleFileExtension()
+    public function getConvertibleFileExtension(): string
     {
         return 'ttbin';
     }

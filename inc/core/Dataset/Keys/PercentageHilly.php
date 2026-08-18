@@ -11,7 +11,7 @@ class PercentageHilly extends AbstractKey
 		return \Runalyze\Dataset\Keys::PERCENTAGE_HILLY;
 	}
 
-	public function column()
+	public function column(): string
 	{
 		return 'percentage_hilly';
 	}
@@ -35,7 +35,7 @@ class PercentageHilly extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-        if ((!$context->activity()->isPublic() && \Request::isOnSharedPage()) OR $context->activity()->id() <= 0) {
+        if ((! $context->activity()->isPublic() && \Request::isOnSharedPage()) OR $context->activity()->id() <= 0) {
             return $context->dataview()->percentageHilly();
         } else {
             return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->percentageHilly().'</a>';

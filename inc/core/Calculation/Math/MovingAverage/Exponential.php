@@ -27,7 +27,7 @@ class Exponential extends AbstractMovingAverage
      */
     public function setAlpha($alpha)
     {
-        if (!is_numeric($alpha) || $alpha <= 0.0 || $alpha >= 1.0) {
+        if (! is_numeric($alpha) || $alpha <= 0.0 || $alpha >= 1.0) {
             throw new \InvalidArgumentException('Alpha value must be a double between 0.0 and 1.0.');
         }
 

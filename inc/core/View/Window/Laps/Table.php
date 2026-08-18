@@ -100,7 +100,7 @@ class Table {
 		$this->defineAdditionalKeys($internalSportProfileEnum == SportProfile::RUNNING);
 
 		// #TSC: parse the additional infos (only if it has the same lap count)
-		if(!empty($splitsAdditional) && count($splitsAdditional['data']) == $laps->num()) {
+		if(! empty($splitsAdditional) && count($splitsAdditional['data']) == $laps->num()) {
 			$this->splitsAdditional = $splitsAdditional;
 		}
 
@@ -116,7 +116,7 @@ class Table {
 
 		$this->AdditionalKeys = array_keys($additionalKeys);
 
-		if (!$isRunning) {
+		if (! $isRunning) {
 			$this->AdditionalKeys = array_diff($this->AdditionalKeys, array(
 			    Activity\Entity::GROUNDCONTACT,
 			    Activity\Entity::GROUNDCONTACT_BALANCE,
@@ -199,7 +199,7 @@ class Table {
 		$Code = '';
 
 		// parse the json and select all keys
-		if(!empty($this->splitsAdditional)) {
+		if(! empty($this->splitsAdditional)) {
 			foreach($this->splitsAdditional['keys'] as $key){
 				$Code .= '<th class="small">'. ucfirst($key) .'</th>';
 			}
@@ -257,7 +257,7 @@ class Table {
 		$Code = '';
 
 		// #TSC show no values for rest-laps
-		if(!$Lap->isActive()) {
+		if(! $Lap->isActive()) {
 			if (count($this->AdditionalKeys) > 0) {
 				return $Code . '<td colspan="' . count($this->AdditionalKeys) . '"></td>';
 			} else {

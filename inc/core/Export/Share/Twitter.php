@@ -21,7 +21,7 @@ class Twitter extends AbstractSocialSharer
     /**
      * @return string
      */
-    public function iconClass()
+    public function iconClass(): string
     {
         return 'fa-twitter color-twitter';
     }
@@ -39,7 +39,7 @@ class Twitter extends AbstractSocialSharer
      */
     public function url()
     {
-        if ($this->Context->activity()->isPublic() && !System::isAtLocalhost()) {
+        if ($this->Context->activity()->isPublic() && ! System::isAtLocalhost()) {
             $urlPart = 'url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=twitter').'&';
         } else {
             $urlPart = '';

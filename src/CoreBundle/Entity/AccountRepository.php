@@ -40,14 +40,14 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      */
     public function findAllByLanguageQueryBuilder($language, $excluded = false)
     {
-        if (!is_array($language)) {
+        if (! is_array($language)) {
             $language = [$language];
         }
 
         $queryBuilder = $this->createQueryBuilder('u')
             ->select('u.id');
 
-        if (!empty($language)) {
+        if (! empty($language)) {
             $queryBuilder
                 ->where('u.language '.($excluded ? 'NOT' : '').' IN (:lang)')
                 ->setParameter('lang', $language, Connection::PARAM_STR_ARRAY);

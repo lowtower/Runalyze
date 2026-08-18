@@ -32,7 +32,7 @@ class DataCollectorWithRoute extends DataCollector {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Trackdata $trackdata, $key, Route $route) {
-		if (!$route->has($key)) {
+		if (! $route->has($key)) {
 			throw new \InvalidArgumentException('Route has no data for "'.$key.'".');
 		}
 
@@ -61,7 +61,7 @@ class DataCollectorWithRoute extends DataCollector {
 			} else {
 				$this->Data[] = $value;
 			}
-		} while (!$this->Loop->isAtEnd());
+		} while (! $this->Loop->isAtEnd());
 	}
 
 	/**

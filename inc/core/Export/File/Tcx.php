@@ -46,7 +46,7 @@ class Tcx extends AbstractFileExporter
      * Get extension
      * @return string
      */
-    public function extension()
+    public function extension(): string
     {
         return 'tcx';
     }
@@ -54,7 +54,7 @@ class Tcx extends AbstractFileExporter
     /**
      * @return string
      */
-    protected function mimeType()
+    protected function mimeType(): string
     {
         return 'application/tcx+xml';
     }
@@ -146,7 +146,7 @@ class Tcx extends AbstractFileExporter
 
         $Loop = new Trackdata\Loop($this->Context->trackdata());
 
-        while (!$Loop->isAtEnd()) {
+        while (! $Loop->isAtEnd()) {
             if ($this->TrackdataHas[Trackdata\Entity::DISTANCE]) {
                 $Loop->nextKilometer();
             } else {
@@ -270,7 +270,7 @@ class Tcx extends AbstractFileExporter
      * Get empty xml
      * @return string
      */
-    protected function emptyXml()
+    protected function emptyXml(): string
     {
         return '<TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd" xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2">
 	<Activities>

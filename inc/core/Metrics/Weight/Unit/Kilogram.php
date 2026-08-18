@@ -13,7 +13,7 @@ class Kilogram extends AbstractWeightUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'kg';
     }

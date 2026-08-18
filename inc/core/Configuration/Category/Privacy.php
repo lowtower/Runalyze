@@ -22,7 +22,7 @@ class Privacy extends \Runalyze\Configuration\Category {
 	 * Internal key
 	 * @return string
 	 */
-	protected function key() {
+	protected function key(): string {
 		return 'privacy';
 	}
 

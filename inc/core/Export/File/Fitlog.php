@@ -38,7 +38,7 @@ class Fitlog extends AbstractFileExporter
      * Get extension
      * @return string
      */
-    public function extension()
+    public function extension(): string
     {
         return 'fitlog';
     }
@@ -46,7 +46,7 @@ class Fitlog extends AbstractFileExporter
     /**
      * @return string
      */
-    protected function mimeType()
+    protected function mimeType(): string
     {
         return 'application/fitlog+xml';
     }
@@ -106,7 +106,7 @@ class Fitlog extends AbstractFileExporter
      */
     protected function setTrack()
     {
-        if (!$this->Context->hasTrackdata()) {
+        if (! $this->Context->hasTrackdata()) {
             return;
         }
 
@@ -141,7 +141,7 @@ class Fitlog extends AbstractFileExporter
      * Get empty xml
      * @return string
      */
-    protected function emptyXml()
+    protected function emptyXml(): string
     {
         return '<FitnessWorkbook xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.zonefivesoftware.com/xmlschemas/FitnessLogbook/v2">
  <AthleteLog>

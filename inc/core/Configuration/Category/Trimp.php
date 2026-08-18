@@ -29,7 +29,7 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Internal key
 	 * @return string
 	 */
-	protected function key() {
+	protected function key(): string {
 		return 'trimp';
 	}
 
@@ -126,7 +126,7 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Trigger recalculation
 	 */
 	public static function triggerRecalculation() {
-		if (!self::$TRIGGERED) {
+		if (! self::$TRIGGERED) {
 			self::$TRIGGERED = true;
 
 			$Data = \Runalyze\Configuration::Data();

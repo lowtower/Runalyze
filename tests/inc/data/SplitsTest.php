@@ -59,7 +59,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 		$Splits->addSplit(1, 260);
 		$Splits->addSplit(1, 360, false);
 
-		$this->assertTrue( !$Splits->areEmpty() );
+		$this->assertTrue( ! $Splits->areEmpty() );
 		$this->assertEquals( '1.000|5:00-1.000|4:20-R1.000|6:00', $Splits->asString() );
 	}
 
@@ -70,7 +70,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 		$Splits = new Splits();
 		$Splits->addSplit(1, 300);
 
-		$this->assertTrue( !$Splits->areEmpty() );
+		$this->assertTrue( ! $Splits->areEmpty() );
 
 		$Splits->removeSingleSplits();
 
@@ -80,7 +80,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 		$Splits->addSplit(1, 300);
 		$Splits->removeSingleSplits();
 
-		$this->assertTrue( !$Splits->areEmpty() );
+		$this->assertTrue( ! $Splits->areEmpty() );
 	}
 
 	/**

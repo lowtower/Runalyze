@@ -40,7 +40,7 @@ abstract class AbstractUnit
 	 */
 	final public function isDecimalFormat()
 	{
-		return !$this->isTimeFormat();
+		return ! $this->isTimeFormat();
 	}
 
 	/**

@@ -98,7 +98,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
      */
     protected function smoothAltitudes(array &$altitudes)
     {
-        if (empty($altitudes) || !$this->UseSmoothing) {
+        if (empty($altitudes) || ! $this->UseSmoothing) {
             return;
         }
 

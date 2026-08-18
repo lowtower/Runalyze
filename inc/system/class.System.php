@@ -17,7 +17,7 @@ class System {
 	 * @return string
 	 */
 	public static function getDomain() {
-		if (!isset($_SERVER['HTTP_HOST'])) {
+		if (! isset($_SERVER['HTTP_HOST'])) {
 			return '';
 		}
 
@@ -54,7 +54,7 @@ class System {
 	 * @return boolean
 	 */
 	public static function isAtLocalhost() {
-		if (!isset($_SERVER['SERVER_NAME'])) {
+		if (! isset($_SERVER['SERVER_NAME'])) {
 			return false;
 		}
 

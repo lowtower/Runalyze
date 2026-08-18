@@ -39,7 +39,7 @@ class FootstrikeType extends ActivitySeries
 	{
 		parent::addTo($Plot, $yAxis, $addAnnotations);
 
-		if (!empty($this->Data)) {
+		if (! empty($this->Data)) {
 			$Plot->setYLimits($yAxis, 0, 16.5);
 			$Plot->setYAxisLabels($yAxis, [6, 12]);
 

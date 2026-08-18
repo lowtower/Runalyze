@@ -21,7 +21,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add map
 	 */
     protected function addMap() {
-        if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && !$this->Context->hideMap()) {
+        if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
             $Map = new Leaflet\Map('map-'.$this->Context->activity()->id());
             $Map->addRoute(
                 new Leaflet\Activity(
@@ -151,7 +151,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add info link
 	 */
 	protected function addVO2maxInfoLink() {
-		if (!Request::isOnSharedPage() && $this->Context->dataview()->vo2max()->value() > 0) {
+		if (! Request::isOnSharedPage() && $this->Context->dataview()->vo2max()->value() > 0) {
 			$Linker = new Activity\Linker($this->Context->activity());
 			$InfoLink = Ajax::window('<a href="'.$Linker->urlToVO2maxinfo().'">'.__('More about VO<sub>2</sub>max calculation').'</a>', 'small');
 
@@ -186,7 +186,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 			$this->BoxedValues[] = new Box\MaximalHeartRateInBPM($this->Context->dataview()->hrMax());
 
 			if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
-				$this->BoxedValues[] = new Box\MaximalHeartRateInPercent($this->Context->dataview()->hrMax(), !Request::isOnSharedPage());
+				$this->BoxedValues[] = new Box\MaximalHeartRateInPercent($this->Context->dataview()->hrMax(), ! Request::isOnSharedPage());
 			}
 		}
 	}
@@ -206,7 +206,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addElevation() {
 		if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
-			if ($this->Context->activity()->distance() > 0 && !(Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst())) {
+			if ($this->Context->activity()->distance() > 0 && ! (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst())) {
 				$this->BoxedValues[] = new Box\Distance($this->Context);
 			}
 
@@ -241,7 +241,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add info link
 	 */
 	protected function addElevationInfoLink() {
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$Linker = new Activity\Linker($this->Context->activity());
 			$InfoLink = Ajax::window('<a href="'.$Linker->urlToElevationInfo().'">'.__('More about elevation').'</a>', 'normal');
 			$this->Footer .= HTML::info( $InfoLink );

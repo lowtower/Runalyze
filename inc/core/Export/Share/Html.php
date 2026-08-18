@@ -64,7 +64,7 @@ class Html extends AbstractSnippetSharer
         $FieldsetPreview = new FormularFieldset( __('Preview') );
         $FieldsetPreview->addBlock($Code);
 
-        if (!$this->Context->activity()->isPublic()) {
+        if (! $this->Context->activity()->isPublic()) {
             $FieldsetPreview->addWarning( __('Your training is private: There is no link included.') );
         }
 
@@ -102,7 +102,7 @@ class Html extends AbstractSnippetSharer
         if ($Elev != '')
             $Spans .= '<span class="runalyze-emb-elev">'.$Elev.'</span>';
 
-        $UrlLink = (System::isAtLocalhost() || !$this->Context->activity()->isPublic()) ? '' : '<a href="'.$Url.'" class="runalyze-emb-share">'.$TextUrl.'</a>';
+        $UrlLink = (System::isAtLocalhost() || ! $this->Context->activity()->isPublic()) ? '' : '<a href="'.$Url.'" class="runalyze-emb-share">'.$TextUrl.'</a>';
 
         return '<div class="runalyze-emb">
 	<a href="https://runalyze.com/" class="runalyze-emb-runalyze">runalyze.com</a>

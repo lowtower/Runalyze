@@ -118,7 +118,7 @@ class AnovaDataQuery
     {
         $types = $this->AnovaData->getType();
 
-        if (!empty($types)) {
+        if (! empty($types)) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
             $queryBuilder->setParameter(':types', array_map(function(Type $type) {
                 return $type->getId();
@@ -128,7 +128,7 @@ class AnovaDataQuery
 
     protected function filterEmptyGroups()
     {
-        if (!$this->QueryGroup->showEmptyGroups()) {
+        if (! $this->QueryGroup->showEmptyGroups()) {
             foreach ($this->Groups as $key => $data) {
                 if (empty($data['data'])) {
                     unset($this->Groups[$key]);

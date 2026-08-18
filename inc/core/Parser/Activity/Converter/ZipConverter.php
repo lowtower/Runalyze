@@ -15,7 +15,7 @@ class ZipConverter implements FileTypeConverterInterface
         $this->AcceptedFileExtensions = $acceptedFileExtensions;
     }
 
-    public function getConvertibleFileExtension()
+    public function getConvertibleFileExtension(): string
     {
         return 'zip';
     }

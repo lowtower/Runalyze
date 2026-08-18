@@ -30,7 +30,7 @@ abstract class StringArrayObject extends StringObject {
 	public function __construct($data = '') {
 		if (is_array($data)) {
 			$this->fromArray($data);
-		} elseif (!empty($data)) {
+		} elseif (! empty($data)) {
 			parent::__construct($data);
 		}
 	}
@@ -115,7 +115,7 @@ abstract class StringArrayObject extends StringObject {
 	 * @throws \InvalidArgumentException
 	 */
 	public function at($index) {
-		if (!isset($this->Elements[$index])) {
+		if (! isset($this->Elements[$index])) {
 			throw new \InvalidArgumentException('Unknown object index.');
 		}
 

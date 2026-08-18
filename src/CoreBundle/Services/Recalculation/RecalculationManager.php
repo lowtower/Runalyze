@@ -55,7 +55,7 @@ class RecalculationManager
      */
     public function getNumberOfScheduledTasksFor(Account $account)
     {
-        if (!isset($this->AccountRelatedTaskNames[$account->getId()])) {
+        if (! isset($this->AccountRelatedTaskNames[$account->getId()])) {
             return 0;
         }
 
@@ -89,7 +89,7 @@ class RecalculationManager
      */
     protected function getCurrentStartTime(Account $account)
     {
-        if (!isset($this->CurrentStartTimes[$account->getId()])) {
+        if (! isset($this->CurrentStartTimes[$account->getId()])) {
             $this->CurrentStartTimes[$account->getId()] = $this->ConfigurationManager->getList($account)->getData()->getStartTime();
 
             if (0 == $this->CurrentStartTimes[$account->getId()]) {
@@ -107,7 +107,7 @@ class RecalculationManager
      */
     public function scheduleStartTimeCalculation(Account $account, $forceRecalculation = true)
     {
-        if (!$this->isTaskScheduled($account, StartTimeCalculation::class)) {
+        if (! $this->isTaskScheduled($account, StartTimeCalculation::class)) {
             $task = new StartTimeCalculation($this->TrainingRepository, $this->ConfigurationUpdater);
             $this->scheduleTaskForAccount($account, $task);
         } else {
@@ -124,7 +124,7 @@ class RecalculationManager
 
     public function scheduleEffectiveVO2maxCorrectionFactorCalculation(Account $account)
     {
-        if (!$this->isTaskScheduled($account, VO2maxCorrectionFactorCalculation::class)) {
+        if (! $this->isTaskScheduled($account, VO2maxCorrectionFactorCalculation::class)) {
             $task = new VO2maxCorrectionFactorCalculation($this->RaceResultRepository, $this->ConfigurationManager, $this->ConfigurationUpdater);
             $this->scheduleTaskForAccount($account, $task);
         }
@@ -132,7 +132,7 @@ class RecalculationManager
 
     public function scheduleEffectiveVO2maxShapeCalculation(Account $account)
     {
-        if (!$this->isTaskScheduled($account, VO2maxShapeCalculation::class)) {
+        if (! $this->isTaskScheduled($account, VO2maxShapeCalculation::class)) {
             if ($this->isTaskScheduled($account, MarathonShapeCalculation::class)) {
                 // #TSC: fix: remove here existing MarathonShapeCalculation, than add VO2max and add MarathonShapeCalculation again (order is importent because Marathon based on VO2max)
                 $this->Tasks->offsetUnset($this->AccountRelatedTaskNames[$account->getId()][MarathonShapeCalculation::class]);
@@ -148,7 +148,7 @@ class RecalculationManager
 
     public function scheduleMarathonShapeCalculation(Account $account)
     {
-        if (!$this->isTaskScheduled($account, MarathonShapeCalculation::class)) {
+        if (! $this->isTaskScheduled($account, MarathonShapeCalculation::class)) {
             $task = new MarathonShapeCalculation($this->TrainingRepository, $this->ConfigurationManager, $this->ConfigurationUpdater);
             $this->scheduleTaskForAccount($account, $task);
         }
@@ -163,7 +163,7 @@ class RecalculationManager
     {
         $accountId = $account->getId();
 
-        if (!isset($this->AccountRelatedTaskNames[$accountId])) {
+        if (! isset($this->AccountRelatedTaskNames[$accountId])) {
             $this->AccountRelatedTaskNames[$accountId] = [];
         }
 

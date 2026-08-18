@@ -104,7 +104,7 @@ class Activity extends LeafletRoute {
 	public function __construct($id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true) {
 		parent::__construct($id);
 
-		if (!$route->hasPositionData()) {
+		if (! $route->hasPositionData()) {
 			throw new \InvalidArgumentException('Route needs position data.');
 		}
 
@@ -232,7 +232,7 @@ class Activity extends LeafletRoute {
 	 * Check for distance marker
 	 */
 	protected function checkForDistanceMarker() {
-		if (!$this->addIconsAndInfo || !$this->hasTrackdataLoop()) {
+		if (! $this->addIconsAndInfo || ! $this->hasTrackdataLoop()) {
 			return;
 		}
 
@@ -257,7 +257,7 @@ class Activity extends LeafletRoute {
 	 * Add start and end icon
 	 */
 	protected function addStartAndEndIcon() {
-		if (!$this->addIconsAndInfo) {
+		if (! $this->addIconsAndInfo) {
 			return;
 		}
 
@@ -326,7 +326,7 @@ class Activity extends LeafletRoute {
 
 				$this->PauseIndex++;
 			}
-		} elseif (!Configuration::ActivityView()->routeBreak()->never() && $this->RouteLoop->calculatedStepDistance() > $this->PauseLimit) {
+		} elseif (! Configuration::ActivityView()->routeBreak()->never() && $this->RouteLoop->calculatedStepDistance() > $this->PauseLimit) {
 			$this->addCurrentSegment();
 		}
 	}

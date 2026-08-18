@@ -42,9 +42,9 @@ class Calculator {
 	 */
 	public function calculate() {
 		if (
-			!$this->Trackdata->has(Trackdata\Entity::TIME) ||
-			!$this->Trackdata->has(Trackdata\Entity::DISTANCE) ||
-			!$this->Trackdata->has(Trackdata\Entity::CADENCE)
+			! $this->Trackdata->has(Trackdata\Entity::TIME) ||
+			! $this->Trackdata->has(Trackdata\Entity::DISTANCE) ||
+			! $this->Trackdata->has(Trackdata\Entity::CADENCE)
 		) {
 			return [];
 		}

@@ -273,7 +273,7 @@ class Trackdata implements AccountRelatedEntityInterface
      */
     public function getTotalDuration()
     {
-        if (!$this->hasTime()) {
+        if (! $this->hasTime()) {
             return 0;
         }
 
@@ -316,7 +316,7 @@ class Trackdata implements AccountRelatedEntityInterface
      */
     public function getTotalDistance()
     {
-        if (!$this->hasDistance()) {
+        if (! $this->hasDistance()) {
             return 0.0;
         }
 

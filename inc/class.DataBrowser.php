@@ -125,7 +125,7 @@ class DataBrowser {
 	 * Init private timestamps from request
 	 */
 	protected function initTimestamps() {
-		if (!isset($_GET['start']) || !isset($_GET['end']) || !is_numeric($_GET['start']) || !is_numeric($_GET['end'])) {
+		if (! isset($_GET['start']) || ! isset($_GET['end']) || ! is_numeric($_GET['start']) || ! is_numeric($_GET['end'])) {
 			$Mode = Configuration::DataBrowser()->mode();
 
 			if ($Mode->showMonth()) {
@@ -149,7 +149,7 @@ class DataBrowser {
 	 */
 	protected function initSports() {
 		// set the sport from the request to this model
-		if (!isset($_GET['sport']) || !is_numeric($_GET['sport'])) {
+		if (! isset($_GET['sport']) || ! is_numeric($_GET['sport'])) {
 			$this->SportId = null;
 		} else {
 			$this->SportId = $_GET['sport'];
@@ -180,7 +180,7 @@ class DataBrowser {
 
 			if (
 				in_array($Training['typeid'], $this->TypesShort) ||
-				(!in_array($Training['typeid'], $this->TypesNotShort) && in_array($Training['sportid'], $this->SportsShort))
+				(! in_array($Training['typeid'], $this->TypesNotShort) && in_array($Training['sportid'], $this->SportsShort))
 			) {
 				$this->Days[$w]['shorts'][]    = $Training;
 			} else {
@@ -418,7 +418,7 @@ class DataBrowser {
 		$addLink = '';
 		$weekDay = Time::weekday($localTime->format('w'), true);
 
-		if (Configuration::DataBrowser()->showCreateLink() && !FrontendShared::$IS_SHOWN) {
+		if (Configuration::DataBrowser()->showCreateLink() && ! FrontendShared::$IS_SHOWN) {
 			$addLink = ImporterWindow::linkForDate($localTime->toServerTimestamp());
 		}
 
@@ -435,7 +435,7 @@ class DataBrowser {
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string html string that must contain `$this->AdditionalColumns - 2` columns
 	 */
-	protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context)
+	protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
 	{
 		return '';
 	}

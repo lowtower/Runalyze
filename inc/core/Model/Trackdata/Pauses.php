@@ -52,7 +52,7 @@ class Pauses extends StringArrayObject {
 	 * @throws \InvalidArgumentException
 	 */
 	public function add($pause) {
-		if (!($pause) instanceof Pause) {
+		if (! ($pause) instanceof Pause) {
 			throw new \InvalidArgumentException('Element to add has to be of type \'Pause\'.');
 		}
 

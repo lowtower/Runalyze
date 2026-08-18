@@ -47,7 +47,7 @@ class Cameron implements PrognosisInterface
 
 	public function getSeconds($distance)
     {
-        if ($distance <= 0.0 || !$this->areValuesValid()) {
+        if ($distance <= 0.0 || ! $this->areValuesValid()) {
             return null;
         }
 

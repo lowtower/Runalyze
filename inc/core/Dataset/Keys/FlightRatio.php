@@ -26,7 +26,7 @@ class FlightRatio extends AbstractKey
 	    return $context->dataview()->flightRatio();
 	}
 
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

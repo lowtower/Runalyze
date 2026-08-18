@@ -135,7 +135,7 @@ class ElevationAlgorithms extends ActivityPlot {
 		$Data = array();
 		$Points = $Calculator->strategy()->smoothedData();
 		$Indices = $Calculator->strategy()->smoothingIndices();
-		$hasDistances = $this->Context->trackdata()->get(Trackdata\Entity::DISTANCE) && !Configuration::ActivityView()->usesTimeAsXAxis();
+		$hasDistances = $this->Context->trackdata()->get(Trackdata\Entity::DISTANCE) && ! Configuration::ActivityView()->usesTimeAsXAxis();
 		$Distances = $this->Context->trackdata()->get(Trackdata\Entity::DISTANCE);
 		$Times = $this->Context->trackdata()->get(Trackdata\Entity::TIME);
 		$num = $this->Context->trackdata()->num();

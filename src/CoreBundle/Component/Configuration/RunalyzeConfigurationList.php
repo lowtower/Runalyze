@@ -22,7 +22,7 @@ class RunalyzeConfigurationList extends ConfigurationList
         $this->setCategoryMap();
         $this->loadDefaultVariablesFromCategories();
 
-        if (!empty($variables)) {
+        if (! empty($variables)) {
             $this->mergeWith($variables);
         }
     }
@@ -79,12 +79,12 @@ class RunalyzeConfigurationList extends ConfigurationList
      */
     protected function getCategory($categoryName)
     {
-        if (!isset($this->CategoryPool[$categoryName])) {
-            if (!isset($this->CategoryMap[$categoryName])) {
+        if (! isset($this->CategoryPool[$categoryName])) {
+            if (! isset($this->CategoryMap[$categoryName])) {
                 throw new \InvalidArgumentException('Unknown category key "'.$categoryName.'".');
             }
 
-            if (!class_exists($this->CategoryMap[$categoryName]) || !is_subclass_of($this->CategoryMap[$categoryName], AbstractCategory::class)) {
+            if (! class_exists($this->CategoryMap[$categoryName]) || ! is_subclass_of($this->CategoryMap[$categoryName], AbstractCategory::class)) {
                 throw new \LogicException('Category must be mapped to an class extending AbstractCategory.');
             }
 

@@ -89,7 +89,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 			$distance100->add(new Distance($TrackLoop->difference(Trackdata\Entity::DISTANCE))); // in KM
 
 			// if no break aggregate and write 100m interval row
-			if(!$Stroketype->isBreak()) {
+			if(! $Stroketype->isBreak()) {
 				$duration->add(new Duration($TrackLoop->difference(Trackdata\Entity::TIME)));
 
 				// aggregate values (pace is diff by the TrackLoop)

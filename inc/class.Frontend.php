@@ -55,7 +55,7 @@ class Frontend {
 		$this->initSystem();
 		$this->defineConsts();
 
-		if (!$hideHeaderAndFooter)
+		if (! $hideHeaderAndFooter)
 			$this->displayHeader();
 		else
 		    $this->HideFooter = true;
@@ -65,7 +65,7 @@ class Frontend {
 	 * Destructor
 	 */
 	public function __destruct() {
-	    if (!$this->HideFooter)
+	    if (! $this->HideFooter)
     		$this->displayFooter();
 	}
 
@@ -200,7 +200,7 @@ class Frontend {
 	 */
 	public function displayHeader() {
 
-		if (!Request::isAjax() && !isset($_GET['hideHtmlHeader']))
+		if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader']))
 			include 'tpl/tpl.Frontend.header.php';
 	}
 
@@ -208,7 +208,7 @@ class Frontend {
 	 * Display the HTML-Footer
 	 */
 	public function displayFooter() {
-		if (!Request::isAjax() && !isset($_GET['hideHtmlHeader'])) {
+		if (! Request::isAjax() && ! isset($_GET['hideHtmlHeader'])) {
 			include 'tpl/tpl.Frontend.footer.php';
 		}
 	}

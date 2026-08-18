@@ -76,7 +76,7 @@ class DataCollector {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Trackdata $trackdata, $key) {
-		if (!$trackdata->has($key)) {
+		if (! $trackdata->has($key)) {
 			throw new \InvalidArgumentException('Trackdata has no data for "'.$key.'".');
 		}
 
@@ -133,7 +133,7 @@ class DataCollector {
 			} else {
 				$this->Data[] = $value;
 			}
-		} while (!$this->Loop->isAtEnd());
+		} while (! $this->Loop->isAtEnd());
 	}
 
 	/**

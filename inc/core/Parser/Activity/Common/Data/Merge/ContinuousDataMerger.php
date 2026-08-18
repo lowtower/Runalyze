@@ -43,7 +43,7 @@ class ContinuousDataMerger implements MergerInterface
 
     protected function mergeAltitudeWithPreferringBarometricData()
     {
-        if ($this->DataToMerge->IsAltitudeDataBarometric && !empty($this->DataToMerge->Altitude)) {
+        if ($this->DataToMerge->IsAltitudeDataBarometric && ! empty($this->DataToMerge->Altitude)) {
             $this->ResultingData->Altitude = [];
         }
 

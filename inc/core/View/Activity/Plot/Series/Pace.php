@@ -54,7 +54,7 @@ class Pace extends ActivitySeries {
 
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	public function __construct(Activity\Context $context) {
 		$this->paceUnit = $context->sport()->legacyPaceUnit();
@@ -76,7 +76,7 @@ class Pace extends ActivitySeries {
 
 		$pace = new \Runalyze\Activity\Pace(0, 1);
 		$pace->setUnit($this->paceUnit);
-		$this->UnitString = !$this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
+		$this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
 		$this->UnitDecimals = 1;
 
 		$this->TickSize = false;
@@ -161,19 +161,19 @@ class Pace extends ActivitySeries {
 			$min = $LimitMin->automatic() ? $min : $LimitMin->value() * 1000;
 			$max = $LimitMax->automatic() ? $max : $LimitMax->value() * 1000;
 
-			$this->setYAxisForReversePace($Plot, $yAxis, $min, $max, !$LimitMin->automatic(), !$LimitMax->automatic());
+			$this->setYAxisForReversePace($Plot, $yAxis, $min, $max, ! $LimitMin->automatic(), ! $LimitMax->automatic());
 		} else {
-			if (!$LimitMin->automatic() || !$LimitMax->automatic()) {
+			if (! $LimitMin->automatic() || ! $LimitMax->automatic()) {
 				$setLimits = true;
 				$autoscale = false;
 
-				if (!$LimitMin->automatic() && $min < 1000 * $LimitMin->value()) {
+				if (! $LimitMin->automatic() && $min < 1000 * $LimitMin->value()) {
 					$min = 1000 * $LimitMin->value();
 				} else {
 					$min = 60 * 1000 * floor($min / 60 / 1000);
 				}
 
-				if (!$LimitMax->automatic() && $max > 1000 * $LimitMax->value()) {
+				if (! $LimitMax->automatic() && $max > 1000 * $LimitMax->value()) {
 					$max = 1000 * $LimitMax->value();
 				} else {
 					$max = 60 * 1000 * floor($max / 60 / 1000);

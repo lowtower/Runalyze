@@ -15,7 +15,7 @@ class ClimbingIndoor extends AbstractSport
         parent::__construct(SportProfile::CLIMBING_INDOOR);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Climbing';
     }

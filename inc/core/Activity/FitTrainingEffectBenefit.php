@@ -59,7 +59,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (!is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7 ) {
+        if (! is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7 ) {
             throw new \InvalidArgumentException(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
         }
 

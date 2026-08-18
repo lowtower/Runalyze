@@ -9,7 +9,7 @@ class SecondsPerKilometer extends AbstractPaceInTimeFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '/km';
     }

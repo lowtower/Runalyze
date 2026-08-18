@@ -242,12 +242,12 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 				try {
 					// #TSC temp & perf-cond can have only 0 values in the array, so exclude it
 					if ($key != self::TEMPERATURE && $key != self::PERFORMANCE_CONDITION &&
-						!empty($this->Data[$key]) && max($this->Data[$key]) == 0) {
+						! empty($this->Data[$key]) && max($this->Data[$key]) == 0) {
 						$this->Data[$key] = array();
 					}
 
 					// TODO: Move all these fixes to a new script to correct defect activities
-					if ($key == self::TIME && !empty($this->Data[$key]) && min($this->Data[$key]) < 0) {
+					if ($key == self::TIME && ! empty($this->Data[$key]) && min($this->Data[$key]) < 0) {
 						$this->TimeHasBeenRemoved = true;
 						$this->Data[$key] = array();
 					}
@@ -453,7 +453,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @return mixed
 	 */
     public function at($index, $key) {
-        if (!isset($this->Data[$key][$index])) {
+        if (! isset($this->Data[$key][$index])) {
             throw new \OutOfBoundsException("Undefined offset: $index");
         }
 		return $this->Data[$key][$index];
@@ -507,7 +507,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @return float
 	 */
 	public function totalPace() {
-		if (!empty($this->Data[self::DISTANCE])) {
+		if (! empty($this->Data[self::DISTANCE])) {
 			return $this->totalTime() / $this->totalDistance();
 		}
 
@@ -712,14 +712,14 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      * @return bool
      */
     public function hasRunScribeData() {
-        return !empty($this->Data[self::IMPACT_GS_LEFT]) ||
-            !empty($this->Data[self::IMPACT_GS_RIGHT]) ||
-            !empty($this->Data[self::BRAKING_GS_LEFT]) ||
-            !empty($this->Data[self::BRAKING_GS_RIGHT]) ||
-            !empty($this->Data[self::FOOTSTRIKE_TYPE_LEFT]) ||
-            !empty($this->Data[self::FOOTSTRIKE_TYPE_RIGHT]) ||
-            !empty($this->Data[self::PRONATION_EXCURSION_LEFT]) ||
-            !empty($this->Data[self::PRONATION_EXCURSION_RIGHT]);
+        return ! empty($this->Data[self::IMPACT_GS_LEFT]) ||
+            ! empty($this->Data[self::IMPACT_GS_RIGHT]) ||
+            ! empty($this->Data[self::BRAKING_GS_LEFT]) ||
+            ! empty($this->Data[self::BRAKING_GS_RIGHT]) ||
+            ! empty($this->Data[self::FOOTSTRIKE_TYPE_LEFT]) ||
+            ! empty($this->Data[self::FOOTSTRIKE_TYPE_RIGHT]) ||
+            ! empty($this->Data[self::PRONATION_EXCURSION_LEFT]) ||
+            ! empty($this->Data[self::PRONATION_EXCURSION_RIGHT]);
     }
 
     /**
@@ -751,14 +751,14 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @return bool
 	 */
 	public function hasPauses() {
-		return !$this->Pauses->isEmpty();
+		return ! $this->Pauses->isEmpty();
 	}
 
 	/*
 	 * Calculate pace array
 	 */
 	public function calculatePaceArray() {
-		if (!$this->has(self::PACE)) {
+		if (! $this->has(self::PACE)) {
 			$PaceCalculator = new PaceCalculator($this);
 			$PaceCalculator->calculate();
 
@@ -770,7 +770,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * Calculate stride length array
 	 */
 	protected function calculateStrideLengthArray() {
-		if (!$this->has(self::STRIDE_LENGTH)) {
+		if (! $this->has(self::STRIDE_LENGTH)) {
 			$StridesCalculator = new StrideLength\Calculator($this);
 			$StridesCalculator->calculate();
 
@@ -782,7 +782,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * Calculate vertical ratio array
 	 */
 	protected function calculateVerticalRatioArray() {
-		if (!$this->has(self::VERTICAL_RATIO)) {
+		if (! $this->has(self::VERTICAL_RATIO)) {
 			$RatioCalculator = new VerticalRatioCalculator($this);
 			$RatioCalculator->calculate();
 

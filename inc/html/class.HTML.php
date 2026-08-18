@@ -135,7 +135,7 @@ class HTML {
 	 * Return a break with class="clear"
 	 * @return string
 	 */
-	public static function clearBreak() {
+	public static function clearBreak(): string {
 		return '<br class="clear">';
 	}
 
@@ -252,7 +252,7 @@ class HTML {
 
 		$hiddenSent = self::hiddenInput($name.'_sent','true');
 
-		return (!$noHiddenSent ? $hiddenSent : '').'<input type="checkbox" name="'.$name.'"'.self::Checked($checked).'>';
+		return (! $noHiddenSent ? $hiddenSent : '').'<input type="checkbox" name="'.$name.'"'.self::Checked($checked).'>';
 	}
 
 	/**
@@ -264,7 +264,7 @@ class HTML {
 	public static function Checked($value, $value_to_be_checked = null) {
 		if ($value_to_be_checked !== null)
 			$value = ($value == $value_to_be_checked);
-		if ($value === null || !isset($value))
+		if ($value === null || ! isset($value))
 			$value = false;
 
 		return ($value === true)
@@ -285,7 +285,7 @@ class HTML {
 		if ($selected === false && isset($_POST[$name]))
 			$selected = $_POST[$name];
 
-		$html = '<select name="'.$name.'"'.(!empty($id) ? ' id="'.$id.'"' : '').(!empty($class) ? ' class="'.$class.'"' : '').'>';
+		$html = '<select name="'.$name.'"'.(! empty($id) ? ' id="'.$id.'"' : '').(! empty($class) ? ' class="'.$class.'"' : '').'>';
 
 		foreach ($options as $value => $text) {
 			$additionalAttributes = array();

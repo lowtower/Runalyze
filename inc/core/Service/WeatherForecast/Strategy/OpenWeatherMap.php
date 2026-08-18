@@ -68,7 +68,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     {
         $result = $this->tryToLoadForecast($location);
 
-        if (!is_array($result) || empty($result)) {
+        if (! is_array($result) || empty($result)) {
             return null;
         }
 
@@ -147,10 +147,10 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
      */
     protected function tryToLoadForecast(Location $location)
     {
-        if (!$location->isOlderThan(7200)) {
+        if (! $location->isOlderThan(7200)) {
             try {
                 $headers = [];
-                if(!empty($this->Proxy)) {
+                if(! empty($this->Proxy)) {
                     $headers['proxy'] = $this->Proxy;
                 }
 
@@ -158,7 +158,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
                 $result = json_decode($response->getBody()->getContents(), true);
 
                 if (is_array($result)) {
-                    if (isset($result['list']) && !empty($result['list'])) {
+                    if (isset($result['list']) && ! empty($result['list'])) {
                         return $result['list'][0];
                     }
 

@@ -14,7 +14,7 @@ class Cycling extends AbstractSport
         parent::__construct(SportProfile::CYCLING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Regular-Biking';
     }

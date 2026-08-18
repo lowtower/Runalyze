@@ -127,13 +127,13 @@ class ImportActivityController extends Controller
         $result = $result . 'Cleanup temp folder and uploaded files.' . PHP_EOL;
         foreach($allfiles as $v) {
             $f = $uploadDir . DIRECTORY_SEPARATOR .$v->getClientOriginalName();
-            if(!unlink($f)) {
+            if(! unlink($f)) {
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;
             }
         }
 
         // cleanup: remove temp created folder
-        if(!rmdir($uploadDir)) {
+        if(! rmdir($uploadDir)) {
             $result = $result . 'WARNING: Can not remove upload-folder ' . $uploadDir . PHP_EOL;
         }
 

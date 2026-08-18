@@ -9,7 +9,7 @@ class MilesPerHour extends AbstractPaceInDecimalFormatUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'mph';
     }

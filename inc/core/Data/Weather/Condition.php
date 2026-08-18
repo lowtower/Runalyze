@@ -31,7 +31,7 @@ class Condition
 	 */
 	public function set($identifier)
 	{
-		if (!in_array($identifier, self::completeList())) {
+		if (! in_array($identifier, self::completeList())) {
 			$this->identifier = WeatherConditionProfile::UNKNOWN;
 		} else {
 			$this->identifier = $identifier;

@@ -34,7 +34,7 @@ class Setting extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'is_public';
 	}
@@ -60,7 +60,7 @@ class Setting extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}
@@ -80,7 +80,7 @@ class Setting extends AbstractKey
      */
     public function stringFor(Context $context)
     {
-        if (!\Request::isOnSharedPage() && $context->activity()->id() > 0) {
+        if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
             return $this->getCodeForDropdown($this->inlineDropdownWithRealLinks($context));
         }
 
@@ -172,7 +172,7 @@ class Setting extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small l';
 	}

@@ -52,7 +52,7 @@ class AnalysisData
             $month = (int) $result['month'];
             $value = (float) $result['value'];
 
-            if (!isset($this->Data[$year])) {
+            if (! isset($this->Data[$year])) {
                 $this->Data[$year] = array_fill(1, 12, 0.0);
             }
 
@@ -90,7 +90,7 @@ class AnalysisData
      */
     protected function getSportId()
     {
-        if (!$this->SportSelection->hasCurrentKey() || SportSelectionFactory::ALL == $this->SportSelection->getCurrentKey()) {
+        if (! $this->SportSelection->hasCurrentKey() || SportSelectionFactory::ALL == $this->SportSelection->getCurrentKey()) {
             return null;
         }
 

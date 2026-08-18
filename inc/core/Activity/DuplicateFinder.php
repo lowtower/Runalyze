@@ -47,7 +47,7 @@ class DuplicateFinder
             return false;
         }
 
-        if (!is_numeric($activityId)) {
+        if (! is_numeric($activityId)) {
             throw new \InvalidArgumentException('Activity id must be numerical.');
         }
 
@@ -68,7 +68,7 @@ class DuplicateFinder
             $activityIds = array_filter($activityIds, 'strlen');
         }
 
-        if (!empty($activityIds)) {
+        if (! empty($activityIds)) {
             if (array_filter($activityIds, 'is_numeric') !== $activityIds) {
                 throw new \InvalidArgumentException('All activity ids must be numerical.');
             }

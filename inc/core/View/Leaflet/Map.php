@@ -63,7 +63,7 @@ class Map {
 	 * @param \Runalyze\View\Leaflet\Route $route
 	 */
 	public function addRoute(Route $route) {
-	    if (!$route->isEmpty()) {
+	    if (! $route->isEmpty()) {
     		$this->Routes[] = $route;
         }
 	}
@@ -127,11 +127,11 @@ class Map {
 			$Code .= $Route->js();
 		}
 
-		if (!empty($this->Bounds)) {
+		if (! empty($this->Bounds)) {
 			$Code .= 'RunalyzeLeaflet.map().fitBounds([['.$this->Bounds['lat.min'].','.$this->Bounds['lng.min'].'],['.$this->Bounds['lat.max'].','.$this->Bounds['lng.max'].']]);';
 		}
 
-		if (!empty($this->Routes)) {
+		if (! empty($this->Routes)) {
 	        $Code.= 'RunalyzeLeaflet.Routes.routeid="'.$this->Routes[0]->id().'";';
 		}
 

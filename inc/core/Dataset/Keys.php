@@ -250,14 +250,14 @@ final class Keys extends AbstractEnum
 			self::generateClassNamesArray();
 		}
 
-		if (!isset(self::$ClassNames[$keyid])) {
+		if (! isset(self::$ClassNames[$keyid])) {
 			throw new \InvalidArgumentException('Invalid keyid "'.$keyid.'".');
 		}
 
 		$className = 'Runalyze\\Dataset\\Keys\\'.self::$ClassNames[$keyid];
 
 		if (self::$KeepInstances) {
-			if (!isset(self::$Instances[$keyid])) {
+			if (! isset(self::$Instances[$keyid])) {
 				self::$Instances[$keyid] = new $className();
 			}
 

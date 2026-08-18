@@ -70,7 +70,7 @@ class LapIntensity extends AbstractEnum
 
     /** @return bool */
     public function isNotRest() {
-        return !$this->isRest();
+        return ! $this->isRest();
     }
 
     /** @return bool */
@@ -96,7 +96,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (!is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6 ) {
+        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6 ) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 
@@ -155,7 +155,7 @@ class LapIntensity extends AbstractEnum
      *
      * @return string a label text
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         switch ($this->Value) {
             case '':

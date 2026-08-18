@@ -29,7 +29,7 @@ class PaceCumulativeAverage extends Pace
 
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	public function __construct(Activity\Context $context)
 	{
@@ -53,7 +53,7 @@ class PaceCumulativeAverage extends Pace
 
 	/**
 	 * Calculate cumulative moving average
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	protected function adjustTrackdata(Activity\Context $context)
 	{

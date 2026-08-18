@@ -186,7 +186,7 @@ abstract class Category {
 	 * @param \Runalyze\Configuration\Handle $Handle
 	 */
 	final protected function updateValue(Handle $Handle) {
-		if ($this->hasUserID() && !SharedLinker::isOnSharedPage()) {
+		if ($this->hasUserID() && ! SharedLinker::isOnSharedPage()) {
 			$where = '`accountid`='.$this->userID();
 			$where .= ' AND `key`='.DB::getInstance()->escape($Handle->key());
 
@@ -226,7 +226,7 @@ abstract class Category {
 		$Values = null === $data ? $this->fetchValues() : $data;
 
 		foreach ($Values as $Value) {
-			if (!isset($Value['category']) || $Value['category'] == $this->key()) {
+			if (! isset($Value['category']) || $Value['category'] == $this->key()) {
 				$KeysInDatabase[] = $Value['key'];
 
 				if (isset($this->Handles[$Value['key']])) {
@@ -235,7 +235,7 @@ abstract class Category {
 			}
 		}
 
-		if (!FrontendShared::$IS_SHOWN && $this->hasUserID()) {
+		if (! FrontendShared::$IS_SHOWN && $this->hasUserID()) {
 			$this->correctDatabaseFor($KeysInDatabase);
 		}
 	}

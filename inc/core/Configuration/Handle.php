@@ -113,11 +113,11 @@ class Handle {
 	 * Process onchange events
 	 */
 	final public function processOnchangeEvents() {
-		if (!empty($this->OnchangeCallback)) {
+		if (! empty($this->OnchangeCallback)) {
 			call_user_func($this->OnchangeCallback);
 		}
 
-		if (!empty($this->OnchangeReloadFlag)) {
+		if (! empty($this->OnchangeReloadFlag)) {
 			Ajax::setReloadFlag($this->OnchangeReloadFlag);
 		}
 	}

@@ -4,7 +4,7 @@
  * @package Runalyze\Plugins\Stats
  */
 
-if (!isset($_GET['y']))
+if (! isset($_GET['y']))
 	$_GET['y'] = date('Y');
 else
 	$_GET['y'] = (int) $_GET['y'];

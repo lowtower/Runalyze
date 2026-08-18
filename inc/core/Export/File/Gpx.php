@@ -37,7 +37,7 @@ class Gpx extends AbstractFileExporter
      * Get extension
      * @return string
      */
-    public function extension()
+    public function extension(): string
     {
         return 'gpx';
     }
@@ -45,7 +45,7 @@ class Gpx extends AbstractFileExporter
     /**
      * @return string
      */
-    protected function mimeType()
+    protected function mimeType(): string
     {
         return 'application/gpx+xml';
     }
@@ -122,7 +122,7 @@ class Gpx extends AbstractFileExporter
      * Get empty xml
      * @return string
      */
-    protected function emptyXml()
+    protected function emptyXml(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="Runalyze"

@@ -49,7 +49,7 @@ class Loopable_MockTester extends Entity implements Loopable {
      */
     public function get($key)
     {
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s".', $key));
         }
         return $this->Data[$key];
@@ -83,7 +83,7 @@ class Loopable_MockTester extends Entity implements Loopable {
      */
     public function at($index, $key)
     {
-        if (!$this->has($key) || !array_key_exists($index, $this->Data[$key])) {
+        if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));
         }
         return $this->Data[$key][$index];

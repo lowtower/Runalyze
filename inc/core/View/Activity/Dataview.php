@@ -133,7 +133,7 @@ class Dataview
      */
     public function date($format = 'd.m.Y')
     {
-        if (!is_numeric($this->Activity->timestamp())) {
+        if (! is_numeric($this->Activity->timestamp())) {
             return '';
         }
 
@@ -169,7 +169,7 @@ class Dataview
      */
     public function weekday()
     {
-        if (!is_numeric($this->Activity->timestamp())) {
+        if (! is_numeric($this->Activity->timestamp())) {
             return '';
         }
 
@@ -715,7 +715,7 @@ class Dataview
         if ($value > 0) {
             $Icon = new EffectiveVO2maxIcon($value);
 
-            if (!$this->Activity->usesVO2max()) {
+            if (! $this->Activity->usesVO2max()) {
                 $Icon->setTransparent();
             }
 

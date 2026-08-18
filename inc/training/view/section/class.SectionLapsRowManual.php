@@ -44,7 +44,7 @@ class SectionLapsRowManual extends TrainingViewSectionRow {
 	 */
 	protected function addInfoLink() {
 		// #TSC for implementing Strength-training, why not allow the show more lap-details like HR
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$Linker = new Linker($this->Context->activity());
 			$InfoLink = Ajax::window('<a href="'.$Linker->urlToRoundsInfo().'">'.__('More details about your laps').'</a>', 'big');
 

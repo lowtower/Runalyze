@@ -23,7 +23,7 @@ class DisplayableValueInPercent extends DisplayableValue
     /**
      * @return string
      */
-    public function getUnit()
+    public function getUnit(): string
     {
         return '%';
     }

@@ -30,7 +30,7 @@ class AverageRespirationRate extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'avg_respiration_rate';
 	}
@@ -79,7 +79,7 @@ class AverageRespirationRate extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

@@ -44,7 +44,7 @@ class RaceResult extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function shortLabel()
+	public function shortLabel(): string
 	{
 		return '';
 	}
@@ -53,7 +53,7 @@ class RaceResult extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return '';
 	}
@@ -141,7 +141,7 @@ class RaceResult extends AbstractKey
 
 			$Icon = new View\Icon('fa-trophy');
 			$Icon->setTooltip($TooltipCode);
-            if (!\Request::isOnSharedPage()) {
+            if (! \Request::isOnSharedPage()) {
                 return '<a class="window" href="my/raceresult/' . $context->activity()->id() . '">' . $Icon->code() . '</a>';
             } else {
                 return $Icon->code();

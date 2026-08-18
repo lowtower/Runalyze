@@ -13,7 +13,7 @@ class RoundsPerMinute extends AbstractCadenceUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'rpm';
     }

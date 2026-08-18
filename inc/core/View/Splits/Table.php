@@ -176,8 +176,8 @@ class Table {
 		foreach ($this->Splits->asArray() as $Split) {
 			$PaceObj = $Split->pace($this->PaceUnit);
 
-			if ($showOnlyActive && !$Split->isActive()) {
-				if (!$seperated && ($i > 0)) { // && ($i < $num_active)) {
+			if ($showOnlyActive && ! $Split->isActive()) {
+				if (! $seperated && ($i > 0)) { // && ($i < $num_active)) {
 					$this->Code .= '<tr class="space-line"><td colspan="5"></td></tr>';
 					$this->Code .= '<tr class="space-line zebra-corrector"><td colspan="5"></td></tr>';
 					$seperated = true;
@@ -189,7 +189,7 @@ class Table {
 			}
 
 			// #TSC hide distance&pace if not available
-			if ($Split->distance() > 0 || !$PaceObj->isEmpty()) {
+			if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
 				$hasDistance = true;
 			}
 
@@ -220,9 +220,9 @@ class Table {
 		)
 			return '';
 
-		if (!$this->demandedPace->isEmpty()) {
+		if (! $this->demandedPace->isEmpty()) {
 			return $Pace->compareTo($this->demandedPace);
-		} elseif (!$this->achievedPaceActive->isEmpty()) {
+		} elseif (! $this->achievedPaceActive->isEmpty()) {
 			return $Pace->compareTo($this->achievedPaceActive);
 		}
 
@@ -248,7 +248,7 @@ class Table {
 	 * Set average
 	 */
 	private function setAverage() {
-		if (!$this->achievedPaceActive->isEmpty()) {
+		if (! $this->achievedPaceActive->isEmpty()) {
 			$this->Code .= '
 				<tr class="small r no-zebra">
 					<td colspan="3">'.__('Average (active)').': </td>

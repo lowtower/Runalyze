@@ -38,8 +38,8 @@ class VerticalRatioCalculator {
 	 */
 	public function calculate() {
 		if (
-			!$this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-			!$this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
+			! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
+			! $this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
 		) {
 			return [];
 		}
@@ -78,7 +78,7 @@ class VerticalRatioCalculator {
 			return null;
 		}
 
-		if (!$this->Trackdata->has(Trackdata\Entity::TIME)) {
+		if (! $this->Trackdata->has(Trackdata\Entity::TIME)) {
 			return round(array_sum($this->VerticalRatio) / $this->Trackdata->num());
 		}
 

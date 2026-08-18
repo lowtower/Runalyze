@@ -41,7 +41,7 @@ class WindDegree implements ValueInterface
      */
     public function set($degrees)
     {
-        if (null !== $degrees && !is_numeric($degrees)) {
+        if (null !== $degrees && ! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');
         }
 
@@ -63,7 +63,7 @@ class WindDegree implements ValueInterface
      * Label for value
      * @return string
      */
-    public function unit()
+    public function unit(): string
     {
         return '&deg;';
     }

@@ -174,7 +174,7 @@ class BeaufortScale implements ValueInterface
 	 * Label for value
 	 * @return string
 	 */
-	public function unit()
+	public function unit(): string
 	{
 	    return 'btf';
 	}

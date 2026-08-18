@@ -57,7 +57,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function shortLabel()
+    public function shortLabel(): string
     {
         return '';
     }
@@ -77,7 +77,7 @@ class Tools extends AbstractKey
      */
     public function stringFor(Context $context)
     {
-        if (!\Request::isOnSharedPage() && $context->activity()->id() > 0) {
+        if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
             return $this->getCodeForDropdown($this->inlineDropdownWithRealLinks($context));
         }
 
@@ -111,7 +111,7 @@ class Tools extends AbstractKey
         $id = $context->activity()->id();
         $html = '';
 
-        if (!$context->activity()->splits()->isEmpty()) {
+        if (! $context->activity()->splits()->isEmpty()) {
             $html .= '<li><a class="window" data-size="big" href="activity/'.$id.'/splits-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Analyze splits').'</a></li>';
         }
 
@@ -146,7 +146,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    public function cssClass()
+    public function cssClass(): string
     {
         return 'small l';
     }

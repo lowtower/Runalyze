@@ -33,7 +33,7 @@ trait AbstractEnumFactoryTrait
             self::generateClassNamesArray();
         }
 
-        if (!isset(self::$ClassNames[$enum])) {
+        if (! isset(self::$ClassNames[$enum])) {
             throw new \InvalidArgumentException('Invalid enum "'.$enum.'".');
         }
 
@@ -52,7 +52,7 @@ trait AbstractEnumFactoryTrait
      */
     private static function generateClassNamesArray()
     {
-        if (!method_exists(static::class, 'getEnum')) {
+        if (! method_exists(static::class, 'getEnum')) {
             throw new \BadMethodCallException('Classes using this trait must have static method getEnum().');
         }
 

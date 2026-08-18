@@ -40,7 +40,7 @@ class Heartrate extends ActivitySeries {
 
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	public function __construct(Activity\Context $context) {
 		$this->setManipulationFactor();
@@ -76,7 +76,7 @@ class Heartrate extends ActivitySeries {
 		$this->HRmax = Configuration::Data()->HRmax();
 		$this->HRrest = Configuration::Data()->HRrest();
 
-		if (\Runalyze\Context::Athlete()->knowsMaximalHeartRate() && !Configuration::General()->heartRateUnit()->isBPM()) {
+		if (\Runalyze\Context::Athlete()->knowsMaximalHeartRate() && ! Configuration::General()->heartRateUnit()->isBPM()) {
 			if (\Runalyze\Context::Athlete()->knowsRestingHeartRate() && Configuration::General()->heartRateUnit()->isHRreserve()) {
 				$this->Factor = false;
 			} else {
@@ -116,7 +116,7 @@ class Heartrate extends ActivitySeries {
 
 		$max = $this->showsAsPercentage() ? 100 : $this->HRmax;
 
-		if (!empty($this->Data)) {
+		if (! empty($this->Data)) {
 			$Plot->setYLimits($yAxis, 10*floor(min($this->Data)/10), $max);
 
 			$Plot->addMarkingArea('y'.$yAxis, $max *1,   $max *0.9, 'rgba(255,100,100,0.3)');
@@ -130,7 +130,7 @@ class Heartrate extends ActivitySeries {
 	 * Get unit for current pulse mode
 	 * @return string
 	 */
-	protected function unitAsString() {
+	protected function unitAsString(): string {
 		if ($this->showsAsPercentage()) {
 			return '%';
 		}

@@ -15,7 +15,7 @@ class HiitCardio extends AbstractSport
         parent::__construct(SportProfile::HIIT_CARDIO);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Pushups';
     }

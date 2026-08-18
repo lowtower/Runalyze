@@ -51,7 +51,7 @@ class TrainingView {
 	private function initToolbarLinks() {
 		$Linker = new Linker($this->Context->activity());
 
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$this->initShareLinks($Linker);
 			$this->initExportLinks();
 			$this->initToolsLinks();
@@ -77,7 +77,7 @@ class TrainingView {
 
 			if ($Exporter->isPossible()) {
 				$link = '<li><a href="'.$Exporter->url().'"'.($Exporter->isExternalLink() ? ' target="_blank"' : '').'><i class="fa fa-fw '.$Exporter->iconClass().'"></i> '.$Exporter->name().'</a></li>';
-				$this->ToolbarLinks[] = !$Exporter->isExternalLink() ? Ajax::window($link) : $link;
+				$this->ToolbarLinks[] = ! $Exporter->isExternalLink() ? Ajax::window($link) : $link;
 			}
 		}
 
@@ -132,7 +132,7 @@ class TrainingView {
 			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Find best sub segments').'</a></li>';
 		}
 
-		if (!empty($toolsLinks)) {
+		if (! empty($toolsLinks)) {
 			$this->ToolbarLinks = array_merge(
 				$this->ToolbarLinks,
 				['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> '.__('Tools').'</span><ul class="submenu">'],
@@ -209,7 +209,7 @@ class TrainingView {
 						$this->Sections[] = new SectionRoute($this->Context);
 
 				} else {
-					if (!Configuration::ActivityView()->mapFirst())
+					if (! Configuration::ActivityView()->mapFirst())
 						$this->Sections[] = new SectionRouteOnlyMap($this->Context);
 				}
 			}
@@ -254,7 +254,7 @@ class TrainingView {
 	protected function displayHeader() {
 		echo '<div class="panel-heading">';
 
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$this->displayHeaderMenu();
 			$this->displayNavigation();
 		} else {
@@ -263,7 +263,7 @@ class TrainingView {
 
 		echo '<h1>'.$this->Context->dataview()->titleWithComment().'</h1>';
 
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$this->displayReloadLink();
 		}
 

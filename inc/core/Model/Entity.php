@@ -73,7 +73,7 @@ abstract class Entity {
 	final protected function readData(array $data) {
 		foreach ($this->properties() as $key) {
 			if (isset($data[$key]) && $data[$key] !== '') {
-				$this->Data[$key] = $this->isArray($key) && !is_array($data[$key]) ? self::explode($data[$key]) : $data[$key];
+				$this->Data[$key] = $this->isArray($key) && ! is_array($data[$key]) ? self::explode($data[$key]) : $data[$key];
 			} else {
 				$this->Data[$key] = $this->isArray($key) ? array() : ($this->canBeNull($key) ? null : '');
 			}
@@ -157,13 +157,13 @@ abstract class Entity {
 	 * @param int|float $defaultValue optional, default: 0
 	 */
 	protected function ensureNumericValue($keyOrKeys, $defaultValue = 0) {
-		if (!is_array($keyOrKeys)) {
+		if (! is_array($keyOrKeys)) {
 			$keyOrKeys = array($keyOrKeys);
 		}
 
 		foreach ($keyOrKeys as $key) {
 			if (array_key_exists($key, $this->Data)) {
-				if (!is_numeric($this->Data[$key])) {
+				if (! is_numeric($this->Data[$key])) {
 					if (is_bool($this->Data[$key])) {
 						$this->Data[$key] = (int) $this->Data[$key];
 					} else {
@@ -183,7 +183,7 @@ abstract class Entity {
      * @param bool $treatZeroAsNull
 	 */
 	protected function ensureNullIfEmpty($keyOrKeys, $ensureNumericIfNotEmpty = false, $treatZeroAsNull = false) {
-		if (!is_array($keyOrKeys)) {
+		if (! is_array($keyOrKeys)) {
 			$keyOrKeys = array($keyOrKeys);
 		}
 
@@ -233,15 +233,15 @@ abstract class Entity {
 	 * @throws \RuntimeException
 	 */
 	public function set($key, $value) {
-		if (!array_key_exists($key, $this->Data)) {
+		if (! array_key_exists($key, $this->Data)) {
 			throw new \InvalidArgumentException('Unkown data index "'.$key.'".');
 		}
 
-		if (!$this->canSet($key)) {
+		if (! $this->canSet($key)) {
 			throw new \InvalidArgumentException('"'.$key.'" can not be set.');
 		}
 
-		if ($this->isArray($key) && !is_array($value) && !($this->canBeNull($key) && null === $value)) {
+		if ($this->isArray($key) && ! is_array($value) && ! ($this->canBeNull($key) && null === $value)) {
 			throw new \RuntimeException('Value "'.$key.'" must be provided as array.');
 		}
 
@@ -273,7 +273,7 @@ abstract class Entity {
 	 * @throws \InvalidArgumentException
 	 */
 	public function get($key) {
-		if (!array_key_exists($key, $this->Data)) {
+		if (! array_key_exists($key, $this->Data)) {
 			throw new \InvalidArgumentException('Unknown data index "'.$key.'".');
 		}
 
@@ -287,11 +287,11 @@ abstract class Entity {
 	 * @throws \InvalidArgumentException
 	 */
 	public function has($key) {
-		if (!array_key_exists($key, $this->Data)) {
+		if (! array_key_exists($key, $this->Data)) {
 			throw new \InvalidArgumentException('Unknown data index "'.$key.'".');
 		}
 
-		return !empty($this->Data[$key]);
+		return ! empty($this->Data[$key]);
 	}
 
 	/**
@@ -315,7 +315,7 @@ abstract class Entity {
 	 */
 	public function isEmpty() {
 		foreach ($this->properties() as $key) {
-			if (!empty($this->Data[$key]) && !$this->ignoreNonEmptyValue($key)) {
+			if (! empty($this->Data[$key]) && ! $this->ignoreNonEmptyValue($key)) {
 				return false;
 			}
 		}

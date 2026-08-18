@@ -105,7 +105,7 @@ class DataSeriesRemover
      */
     public function handleRequest($formData, Training $activity)
     {
-        if (!is_array($formData)) {
+        if (! is_array($formData)) {
             return;
         }
 
@@ -118,7 +118,7 @@ class DataSeriesRemover
 
     protected function handleTrackDataKeys(array $keys, Training $activity)
     {
-        if (!$activity->hasTrackdata()) {
+        if (! $activity->hasTrackdata()) {
             return;
         }
 
@@ -243,7 +243,7 @@ class DataSeriesRemover
 
     protected function handleRouteKeys(array $keys, Training $activity)
     {
-        if (!$activity->hasRoute()) {
+        if (! $activity->hasRoute()) {
             return;
         }
 

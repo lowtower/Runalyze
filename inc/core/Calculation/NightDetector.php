@@ -37,7 +37,7 @@ class NightDetector
      */
     public function setFrom($timestamp, CoordinateInterface $coordinate)
     {
-        if (!is_numeric($timestamp)) {
+        if (! is_numeric($timestamp)) {
             throw new \InvalidArgumentException('Provided timestamp must be numerical.');
         }
 

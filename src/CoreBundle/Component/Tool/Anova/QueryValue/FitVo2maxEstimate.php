@@ -7,7 +7,7 @@ use Runalyze\Metrics\Common\Unit\None;
 
 class FitVo2maxEstimate extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'fitVO2maxEstimate';
     }

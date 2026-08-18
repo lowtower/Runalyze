@@ -72,10 +72,10 @@ class Helper {
 	 * @return string
 	 */
 	public static function Unknown($var, $string = '?') {
-		if ($var === null || !isset($var))
+		if ($var === null || ! isset($var))
 			return $string;
 
-		if ((is_numeric($var) && $var != 0) || (!is_numeric($var) && $var != '') )
+		if ((is_numeric($var) && $var != 0) || (! is_numeric($var) && $var != '') )
 			return $var;
 
 		return $string;

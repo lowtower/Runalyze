@@ -55,8 +55,8 @@ class Wind extends AbstractKey
         $weather = $context->activity()->weather();
 
         if (
-            (!$weather->windSpeed()->isUnknown() || !$weather->windDegree()->isUnknown()) &&
-            !($context->hasSport() && !$context->sport()->isOutside())
+            (! $weather->windSpeed()->isUnknown() || ! $weather->windDegree()->isUnknown()) &&
+            ! ($context->hasSport() && ! $context->sport()->isOutside())
         ) {
             return (new WindIcon($weather->windSpeed(), $weather->windDegree()))->code();
         }

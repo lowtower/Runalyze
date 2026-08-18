@@ -30,7 +30,7 @@ class Humidity extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'humidity';
 	}
@@ -52,8 +52,8 @@ class Humidity extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		if (
-			!$context->activity()->weather()->humidity()->isUnknown() &&
-			!($context->hasSport() && !$context->sport()->isOutside())
+			! $context->activity()->weather()->humidity()->isUnknown() &&
+			! ($context->hasSport() && ! $context->sport()->isOutside())
 		) {
 			return $context->activity()->weather()->humidity()->string();
 		}
@@ -65,7 +65,7 @@ class Humidity extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

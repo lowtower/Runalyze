@@ -40,10 +40,10 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 
     protected function parseLine($line)
     {
-        if (!$this->ParsingStarted) {
+        if (! $this->ParsingStarted) {
             $this->checkFirstLine($line);
         } else {
-            if (substr($line, -20) == 'NAME=sport NUMBER=12' && !$this->currentContainerIsEmpty()) {
+            if (substr($line, -20) == 'NAME=sport NUMBER=12' && ! $this->currentContainerIsEmpty()) {
                 $this->finishCurrentSubParser();
                 $this->startAnotherSubParser();
             }

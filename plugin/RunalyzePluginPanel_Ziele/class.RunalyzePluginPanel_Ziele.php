@@ -98,7 +98,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$isFirst = true;
 		$Code = '<ul class="submenu">';
 		foreach ($this->getTimeset() as $i => $timeset) {
-			if (!$this->Configuration()->value('ziel_show_' . $i))
+			if (! $this->Configuration()->value('ziel_show_' . $i))
 				continue;
 			$Code .= '<li>' . Ajax::change($timeset['name'], 'bunny', '#bunny_' . $i) . '</li>';
 			if ($isFirst) {
@@ -126,7 +126,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 
 		$isFirst = true;
 		foreach ($this->getTimeset() as $i => $timeset) {
-			if (!$this->Configuration()->value('ziel_show_' . $i))
+			if (! $this->Configuration()->value('ziel_show_' . $i))
 				continue;
 
 			echo '<div id="bunny_' . $i . '" class="change"' . ($isFirst ? '' : ' style="display:none;"') . '>';
@@ -234,7 +234,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$this->Lines[] = array(
 		    'name' => $name,
 		    'lvl' => 1,
-		    'sep' => !$noTopBorder,
+		    'sep' => ! $noTopBorder,
 		    'km' => $distance,
 		    'anz' => $num
 		);
@@ -340,7 +340,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * @return string
 	 */
 	private
-	function getLevelStyle($level)
+	function getLevelStyle($level): string
 	{
 		if ($level == 1)
 			return ' style="font-weight:bold;"';
@@ -373,7 +373,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			GROUP BY `sportid`
 			ORDER BY `distanz_sum` DESC, `dauer_sum` DESC
 		')->fetch();
-		if (!is_array($Data))
+		if (! is_array($Data))
 			return array(
 			    'anzahl' => 0,
 			    'distanz_sum' => 0,

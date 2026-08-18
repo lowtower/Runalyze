@@ -9,10 +9,10 @@
 
 error_reporting(E_ALL);
 
-if (!defined('RUNALYZE_TEST'))
+if (! defined('RUNALYZE_TEST'))
 	define('RUNALYZE_TEST', true);
 
-if (!defined('FRONTEND_PATH'))
+if (! defined('FRONTEND_PATH'))
 	define('FRONTEND_PATH', dirname(__FILE__).'/../inc/');
 
 define('TESTS_ROOT', __DIR__);
@@ -25,31 +25,31 @@ $testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
 putenv('TZ='.$testTimezone);
 date_default_timezone_set($testTimezone);
 
-if (!defined('NL'))
+if (! defined('NL'))
 	define('NL', "\n");
 
-if (!defined('NBSP'))
+if (! defined('NBSP'))
 	define('NBSP', '&nbsp;');
 
-if (!defined('PREFIX'))
+if (! defined('PREFIX'))
 	define('PREFIX', 'runalyze_');
 
-if (!defined('PERL_PATH'))
+if (! defined('PERL_PATH'))
 	define('PERL_PATH', '/usr/bin/perl');
 
-if (!defined('TTBIN_PATH'))
+if (! defined('TTBIN_PATH'))
 	define('TTBIN_PATH', FRONTEND_PATH.'../call/perl/ttbincnv');
 
-if (!defined('DATA_DIRECTORY'))
+if (! defined('DATA_DIRECTORY'))
     define('DATA_DIRECTORY', FRONTEND_PATH.'../data');
 
-if (!defined('GEONAMES_USERNAME'))
+if (! defined('GEONAMES_USERNAME'))
 	define('GEONAMES_USERNAME', 'runalyze');
 
-if (!defined('SQLITE_MOD_SPATIALITE'))
+if (! defined('SQLITE_MOD_SPATIALITE'))
 	define('SQLITE_MOD_SPATIALITE', getenv('SQLITE_MOD_SPATIALITE') ?: 'mod_spatialite.so');
 
-if (!defined('DAY_IN_S'))
+if (! defined('DAY_IN_S'))
 	define('DAY_IN_S', 86400);
 
 $_SERVER['REQUEST_URI'] = '/runalyze/index.php';
@@ -96,19 +96,19 @@ try {
 }
 
 // Language functions
-if (!function_exists('__')) {
+if (! function_exists('__')) {
 	function __($text, $domain = 'runalyze') {
 		return $text;
 	}
 }
 
-if (!function_exists('_e')) {
+if (! function_exists('_e')) {
 	function _e($text, $domain = 'runalyze') {
 		echo $text;
 	}
 }
 
-if (!function_exists('_n')) {
+if (! function_exists('_n')) {
 	function _n($msg1, $msg2, $n, $domain = 'runalyze') {
 		if ($n == 1)
 			return $msg1;
@@ -117,7 +117,7 @@ if (!function_exists('_n')) {
 	}
 }
 
-if (!function_exists('_ne')) {
+if (! function_exists('_ne')) {
 	function _ne($msg1, $msg2, $n, $domain = 'runalyze') {
 		if ($n == 1)
 			echo $msg1;

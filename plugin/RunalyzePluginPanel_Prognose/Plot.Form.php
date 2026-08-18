@@ -16,12 +16,12 @@ use Runalyze\Util\LocalTime;
 if (is_dir(FRONTEND_PATH.'../plugin/RunalyzePluginStat_Wettkampf')) {
 	$Factory = new PluginFactory();
 
-	if (!$Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
+	if (! $Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
 		$WKplugin = $Factory->newInstance('RunalyzePluginStat_Wettkampf');
 	}
 }
 
-if (!isset($distance)) {
+if (! isset($distance)) {
 	$distance = 10;
 }
 
@@ -52,7 +52,7 @@ if (START_TIME != time()) {
 			`sportid`='.Configuration::General()->runningSport().'
 		ORDER BY `date` ASC')->fetchAll();
 
-	if (!empty($Data)) {
+	if (! empty($Data)) {
 		$currentFirstIndexForVO2max = 0;
 		$currentFirstIndexForKm = 0;
 		$currentFirstIndexForLongJogs = 0;
@@ -148,7 +148,7 @@ if (START_TIME != time()) {
 		}
 
 		foreach ($ResultsData as $dat) {
-			if (!isset($WKplugin) || !$WKplugin->isFunCompetition($dat['id'])) {
+			if (! isset($WKplugin) || ! $WKplugin->isFunCompetition($dat['id'])) {
 				$Results[(new LocalTime($dat['time']))->toServerTimestamp().'000'] = $dat['official_time'] * 1000;
 			}
 		}
@@ -210,7 +210,7 @@ $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();
 $Plot->addYAxis(1, 'left');
 
-if (!empty($Prognosis) && max($Prognosis) > 1000*3600)
+if (! empty($Prognosis) && max($Prognosis) > 1000*3600)
 	$Plot->setYAxisTimeFormat('%H:%M:%S');
 else
 	$Plot->setYAxisTimeFormat('%M:%S');

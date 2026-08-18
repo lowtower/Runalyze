@@ -59,7 +59,7 @@ class Cache {
 	 * Set Cache
 	 */
 	public static function get($keyword, $nousercache = 0) {
-		if ($nousercache == 0 && !in_array($keyword, self::$ignoreKeywords)) {
+		if ($nousercache == 0 && ! in_array($keyword, self::$ignoreKeywords)) {
             $key = $keyword . SessionAccountHandler::getId();
 			$cachedobj = self::$cache->getinfo($key);
 			$lastcacheclean = self::$LASTCLEAN;
@@ -82,7 +82,7 @@ class Cache {
 	 * Delete from cache
 	 */
 	public static function delete($keyword, $nousercache = 0) {
-	    if (!in_array($keyword, self::$ignoreKeywords)) {
+	    if (! in_array($keyword, self::$ignoreKeywords)) {
             if ($nousercache == 0) {
                 return self::$cache->delete($keyword . SessionAccountHandler::getId());
             } else {

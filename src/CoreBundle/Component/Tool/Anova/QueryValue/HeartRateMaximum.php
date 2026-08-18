@@ -7,7 +7,7 @@ use Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit;
 
 class HeartRateMaximum extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'pulseMax';
     }

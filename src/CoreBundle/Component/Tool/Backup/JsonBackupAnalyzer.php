@@ -26,7 +26,7 @@ class JsonBackupAnalyzer
 
 		$reader = new GZipReader($fileName);
 
-		while (!$reader->eof()) {
+		while (! $reader->eof()) {
             $line = trim($reader->readLine());
 
 			if (substr($line, 0, 8) == '{"TABLE"') {

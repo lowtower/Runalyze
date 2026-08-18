@@ -60,7 +60,7 @@ class AnaerobicTrainingEffect implements ValueInterface
 	 * @return string
      * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): string
     {
 		return '';
 	}
@@ -81,7 +81,7 @@ class AnaerobicTrainingEffect implements ValueInterface
             $value = str_replace(',', '.', trim($value));
         }
 
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             throw new \InvalidArgumentException('Anaerobic Training Effect must be numeric.');
         }
 
@@ -100,7 +100,7 @@ class AnaerobicTrainingEffect implements ValueInterface
 	 * @return string
 	 */
 	public function string($withUnit = true) {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 
@@ -136,7 +136,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      */
     public function level()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return null;
         }
 
@@ -149,7 +149,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      */
     public function shortDescription()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 
@@ -162,7 +162,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      */
     public function description()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 

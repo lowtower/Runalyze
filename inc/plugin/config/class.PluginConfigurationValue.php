@@ -97,7 +97,7 @@ class PluginConfigurationValue {
 	 * @return string
 	 */
 	final protected function formLabel() {
-		if (!empty($this->Tooltip)) {
+		if (! empty($this->Tooltip)) {
 			return Ajax::tooltip($this->Label, $this->Tooltip, true);
 		}
 

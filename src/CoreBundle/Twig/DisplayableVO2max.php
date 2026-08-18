@@ -62,7 +62,7 @@ class DisplayableVO2max extends DisplayableValue
             $this->getIconClassFor($this->Value - $configurationList->getCurrentVO2maxShape())
         ];
 
-        if (!$valueIsUsedForShape) {
+        if (! $valueIsUsedForShape) {
             $classes[] = 'unimportant';
         }
 
@@ -73,7 +73,7 @@ class DisplayableVO2max extends DisplayableValue
      * @param float $diffToShape
      * @return string
      */
-    protected function getIconClassFor($diffToShape)
+    protected function getIconClassFor($diffToShape): string
     {
         if ($diffToShape > $this->LowerLimitsForIcon[0]) {
             return 'fa-arrow-up';

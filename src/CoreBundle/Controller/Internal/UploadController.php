@@ -58,7 +58,7 @@ class UploadController extends Controller
      */
     public function ajaxSaveTcxAction(Request $request)
     {
-        if (!$request->request->has('activityId') || !$request->request->has('data')) {
+        if (! $request->request->has('activityId') || ! $request->request->has('data')) {
             return new JsonResponse([
                 'error' => 'No data given.'
             ]);

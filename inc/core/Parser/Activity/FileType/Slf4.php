@@ -10,7 +10,7 @@ class Slf4 extends Slf3
 {
     protected function checkThatXmlIsValid()
     {
-        if (!property_exists($this->Xml, 'Entries')) {
+        if (! property_exists($this->Xml, 'Entries')) {
             throw new UnsupportedFileException('Given XML object is not from Sigma. &lt;Entries&gt;-tag could not be located.');
         }
     }
@@ -26,7 +26,7 @@ class Slf4 extends Slf3
 
     protected function parseLogEntries()
     {
-        if (!isset($this->Xml->Entries->Entry) ) {
+        if (! isset($this->Xml->Entries->Entry) ) {
             if ($this->Xml->GeneralInformation->trainingTime) {
                 $this->Container->ActivityData->Duration = (int) $this->Xml->GeneralInformation->trainingTime / 100;
                 $this->Container->ActivityData->Distance = (float) $this->Xml->GeneralInformation->distance / 1000;
@@ -52,12 +52,12 @@ class Slf4 extends Slf3
 
         $this->Container->ContinuousData->Time[] = (int) $log['trainingTimeAbsolute'] / 100;
         $this->Container->ContinuousData->Distance[] = (float) $log['distanceAbsolute'] / 1000;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($log['heartrate'])) ? round((float) $log['heartrate']) : null;
+        $this->Container->ContinuousData->HeartRate[] = (! empty($log['heartrate'])) ? round((float) $log['heartrate']) : null;
     }
 
     protected function parseLaps()
     {
-        if (!empty($this->Xml->Markers)) {
+        if (! empty($this->Xml->Markers)) {
             $readEnergyConsumption = null === $this->Container->ActivityData->EnergyConsumption;
 
             foreach ($this->Xml->Markers->Marker as $lap) {
@@ -70,7 +70,7 @@ class Slf4 extends Slf3
     {
         $lap = $lap->attributes();
 
-        if ($readEnergyConsumption && !empty($lap['calories'])) {
+        if ($readEnergyConsumption && ! empty($lap['calories'])) {
             $this->Container->ActivityData->EnergyConsumption += (int) $lap['calories'];
         }
 

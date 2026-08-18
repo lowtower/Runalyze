@@ -49,6 +49,6 @@ class DataCollectorForStrideLength extends DataCollector {
 			} else {
 				$this->Data[] = $value;
 			}
-		} while (!$this->Loop->isAtEnd());
+		} while (! $this->Loop->isAtEnd());
 	}
 }

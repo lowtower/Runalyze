@@ -14,7 +14,7 @@ class Running extends AbstractSport
         parent::__construct(SportProfile::RUNNING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Running';
     }

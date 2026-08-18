@@ -208,7 +208,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'tsb'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues') && !$TSBisPositive,
+		        'show'	=> $this->Configuration()->value('show_trimpvalues') && ! $TSBisPositive,
 		        'bars'	=> array(
 		            new ProgressBarSingle(100*$restDays/7, ProgressBarSingle::$COLOR_BLUE)
 		        ),

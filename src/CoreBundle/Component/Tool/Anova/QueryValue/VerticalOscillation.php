@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class VerticalOscillation extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'verticalOscillation';
     }

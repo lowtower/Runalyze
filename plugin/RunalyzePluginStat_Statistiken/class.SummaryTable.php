@@ -163,7 +163,7 @@ abstract class SummaryTable {
 		for ($index = 0; $index <= $maxIndex; ++$index) {
 			echo '<tr><td class="l"><span class="b">'.$this->rowHead($index).'</span></td>';
 
-			if (isset($CompleteData[$index]) && !empty($CompleteData[$index])) {
+			if (isset($CompleteData[$index]) && ! empty($CompleteData[$index])) {
 				echo '<td class="small">'.$CompleteData[$index]['num'].'x</td>';
 
 				$this->displayAdditionalColumns($CompleteData[$index]);

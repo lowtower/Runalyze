@@ -68,7 +68,7 @@ class ActivityType extends AbstractType
     {
         $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
 
-        if (!($account instanceof Account)) {
+        if (! ($account instanceof Account)) {
             throw new \RuntimeException('Activity type must have a valid account token.');
         }
 
@@ -257,7 +257,7 @@ class ActivityType extends AbstractType
 
             $tags = $data['tag'];
             foreach($tags as $key => $tag) {
-                if (!is_numeric($tag)) {
+                if (! is_numeric($tag)) {
                     $tagElement = (new Tag())->setTag($tag)->setAccount($this->getAccount());
                     $this->TagRepository->save($tagElement);
                     $activity->addTag($tagElement);
@@ -308,7 +308,7 @@ class ActivityType extends AbstractType
     {
         $choices = DataSeriesRemover::getChoicesForActivity($activity);
 
-        if (!empty($choices)) {
+        if (! empty($choices)) {
             $form->add('data_series_remover', ChoiceType::class, [
                 'label' => 'Remove data series',
                 'choices' => $choices,

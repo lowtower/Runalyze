@@ -106,7 +106,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 		}
 	}
 
-	$LowestIndex = $AddDays + 1*(!$All);
+	$LowestIndex = $AddDays + 1*(! $All);
 	$HighestIndex = $LowestIndex + $NumberOfDays;
 
 	if ($perfmodel == 'banister') {
@@ -135,7 +135,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 
 	$showInPercent = Configuration::Trimp()->showInPercent() && $perfmodel != 'banister';
 
-	if (!$showInPercent) {
+	if (! $showInPercent) {
 		$maxATL = 100;
 		$maxCTL = 100;
 	}
@@ -241,7 +241,7 @@ if ($perfmodel == 'banister') {
 $Plot->setLinesFilled(array(1),0.4);
 $Plot->setXAxisAsTime();
 
-if (!$All && !$lastHalf && !$lastYear)
+if (! $All && ! $lastHalf && ! $lastYear)
 	$Plot->setXAxisLimitedTo($Year);
 
 $Plot->addYAxis(1, 'left');
@@ -273,7 +273,7 @@ if ($perfmodel == 'banister') {
 
 $Plot->smoothing(false);
 
-if (($lastHalf || $lastYear || ($Year == date('Y'))) && !$DataFailed) {
+if (($lastHalf || $lastYear || ($Year == date('Y'))) && ! $DataFailed) {
 	$Plot->addMarkingArea('x', time().'000', $index, 'rgba(255,255,255,0.3)');
 }
 

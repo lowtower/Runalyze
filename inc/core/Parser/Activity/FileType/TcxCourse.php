@@ -22,7 +22,7 @@ class TcxCourse extends AbstractSingleParser
 
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $xml)
     {
-        if (!property_exists($xml, 'Track')) {
+        if (! property_exists($xml, 'Track')) {
             throw new UnsupportedFileException('Given XML object is not a valid tcx activity. &lt;Track&gt;-tag could not be located.');
         }
     }
@@ -38,10 +38,10 @@ class TcxCourse extends AbstractSingleParser
 
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
-        if (!empty($trackPoint->Position)) {
+        if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[]  = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
-        } elseif (!empty($this->Container->ContinuousData->Latitude)) {
+        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
         } else {

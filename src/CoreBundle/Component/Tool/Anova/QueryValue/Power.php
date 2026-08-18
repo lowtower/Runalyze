@@ -7,7 +7,7 @@ use Runalyze\Metrics\Power\Unit\Watts;
 
 class Power extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'power';
     }

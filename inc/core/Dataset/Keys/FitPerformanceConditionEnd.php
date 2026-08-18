@@ -17,7 +17,7 @@ class FitPerformanceConditionEnd extends AbstractKey
 	/**
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'fit_performance_condition_end';
 	}
@@ -65,7 +65,7 @@ class FitPerformanceConditionEnd extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

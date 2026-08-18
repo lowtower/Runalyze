@@ -84,7 +84,7 @@ class SelectFile extends Select {
 			$extension = strtolower($extension);
 		}
 
-		if (!in_array($extension, $this->Options['extensions']))
+		if (! in_array($extension, $this->Options['extensions']))
 			return false;
 
 		return true;
@@ -98,7 +98,7 @@ class SelectFile extends Select {
 		$Options = array();
 		$Folder = $this->Options['folder'];
 
-		if (!is_array($Folder)) {
+		if (! is_array($Folder)) {
 			$Folder = array($Folder);
 		}
 

@@ -95,7 +95,7 @@ class Icon {
 	 * @return string
 	 */
 	protected function tooltipAttributes() {
-		if (!empty($this->Tooltip)) {
+		if (! empty($this->Tooltip)) {
 			$Tooltip = new Tooltip($this->Tooltip);
 			return ' '.$Tooltip->attributes();
 		}
@@ -108,7 +108,7 @@ class Icon {
 	 * @param string $code
 	 */
 	protected function addTooltipToCode(&$code) {
-		if (!empty($this->Tooltip)) {
+		if (! empty($this->Tooltip)) {
 			$Tooltip = new Tooltip($this->Tooltip);
 			$Tooltip->wrapAround($code);
 		}

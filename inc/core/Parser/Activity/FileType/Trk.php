@@ -74,7 +74,7 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
         $longitude = floatval($values[3]);
         $time = strtotime($values[4].' '.$values[5].' UTC') - $this->StartTime - $this->PauseInSeconds;
 
-        if (!$this->IsStarted) {
+        if (! $this->IsStarted) {
             $this->IsStarted = true;
             $this->StartTime = $time;
             $time = 0;

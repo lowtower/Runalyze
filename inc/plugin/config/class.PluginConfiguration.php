@@ -45,7 +45,7 @@ class PluginConfiguration {
 	 * Catch values if not done yet
 	 */
 	final public function catchValuesFromDatabaseIfNotDoneYet() {
-		if (!$this->CatchedValues) {
+		if (! $this->CatchedValues) {
 			$this->catchValuesFromDatabase();
 
 			$this->CatchedValues = true;

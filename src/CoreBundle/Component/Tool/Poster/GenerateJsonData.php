@@ -123,7 +123,7 @@ class GenerateJsonData
     {
         $races = $this->RaceresultRepository->findBySportAndYear($account, $sport, $year);
 
-        if (!empty($races)) {
+        if (! empty($races)) {
             $argument = '';
 
             foreach ($races as $race) {

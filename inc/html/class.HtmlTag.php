@@ -65,10 +65,10 @@ abstract class HtmlTag {
 	 * @return string
 	 */
 	public function attributes() {
-		if (!empty($this->Id))
+		if (! empty($this->Id))
 			$this->addAttribute('id', $this->Id);
 
-		if (!empty($this->cssClasses))
+		if (! empty($this->cssClasses))
 			$this->addAttribute('class', implode(' ', $this->cssClasses));
 
 		return implode(' ', $this->attributes);

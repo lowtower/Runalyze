@@ -58,7 +58,7 @@ class DataCollector
             throw new \InvalidArgumentException('Heart rate array must not be empty.');
         }
 
-        if (!empty($duration) && count($heartRate) != count($duration)) {
+        if (! empty($duration) && count($heartRate) != count($duration)) {
             throw new \InvalidArgumentException('Heart rate and duration array must be of equal size.');
         }
 

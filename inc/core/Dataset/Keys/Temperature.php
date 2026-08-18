@@ -31,7 +31,7 @@ class Temperature extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'temperature';
 	}
@@ -62,7 +62,7 @@ class Temperature extends AbstractKey
 	public function stringFor(Context $context)
 	{
 		// #TSC show the temperatur in the dataset if temp is available; the original code only shows in case of "not indoor"
-		if (!empty($context->activity()->weather()->temperature())) {
+		if (! empty($context->activity()->weather()->temperature())) {
 			return \Runalyze\Activity\Temperature::format(
 				$context->activity()->weather()->temperature()->value(),
 				true,
@@ -85,7 +85,7 @@ class Temperature extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}
@@ -94,7 +94,7 @@ class Temperature extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function defaultCssStyle()
+	public function defaultCssStyle(): string
 	{
 		return 'width:35px;';
 	}

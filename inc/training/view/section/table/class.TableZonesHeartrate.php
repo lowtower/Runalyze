@@ -123,7 +123,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 			// index is 1-n of the relevant key to use
 			$z = $this->zoneFor($bpm, $defaultZones);
 
-			if (!isset($Zones[$z])) {
+			if (! isset($Zones[$z])) {
 				$startHr = $defaultZones[$z]['hr'];
 				$endHr = $defaultZones[$z + 1]['hr'] - 1; // use the next zone hr as the high bound of this zone
 

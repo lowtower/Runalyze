@@ -79,7 +79,7 @@ class Duration {
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
 	public function fromSeconds($seconds) {
-		if (!is_numeric($seconds)) {
+		if (! is_numeric($seconds)) {
 			throw new \InvalidArgumentException('Parameter $seconds must be of numeric type.');
 		}
 
@@ -272,7 +272,7 @@ class Duration {
 		}
 
 		$CompareTime = new Duration(round(abs($this->seconds() - $other->seconds())));
-		$isPositive = !$invert ? $this->seconds() > $other->seconds() : $this->seconds() <= $other->seconds();
+		$isPositive = ! $invert ? $this->seconds() > $other->seconds() : $this->seconds() <= $other->seconds();
 
 		return $this->formatComparison($CompareTime->string(), $isPositive, $raw);
 	}

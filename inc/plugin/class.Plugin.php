@@ -121,7 +121,7 @@ abstract class Plugin {
 			return;
 		}
 
-		if (!is_numeric($id) || $id <= 0) {
+		if (! is_numeric($id) || $id <= 0) {
 			throw new RuntimeException('Invalid id "'.$id.'" given to create a plugin.');
 		}
 
@@ -342,7 +342,7 @@ abstract class Plugin {
 	 * @return boolean
 	 */
 	final protected function showsSpecificYear() {
-		return (!in_array($this->year, [-1, 6, 12]));
+		return (! in_array($this->year, [-1, 6, 12]));
 	}
 
 	/**
@@ -408,7 +408,7 @@ abstract class Plugin {
 		if ($name == '') {
 			$name = Icon::$CONF;
 		}
-		if (!empty($this->Configuration()->objects())) {
+		if (! empty($this->Configuration()->objects())) {
             return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
         }
     }

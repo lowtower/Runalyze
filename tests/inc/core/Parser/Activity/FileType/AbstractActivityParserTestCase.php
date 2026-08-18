@@ -48,7 +48,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     {
         $outputFile = $converter->convertFile($this->pathToTestFiles().$file);
 
-        if (!is_array($outputFile)) {
+        if (! is_array($outputFile)) {
             $outputFile = [$outputFile];
         }
 
@@ -70,7 +70,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         foreach ($files as $currentFile) {
             $this->parseFile($parser, $currentFile, $completeAfterwards);
 
-            if (!is_array($this->Container)) {
+            if (! is_array($this->Container)) {
                 $tmpContainer[] = $this->Container;
             } else {
                 $tmpContainer += $this->Container;
@@ -195,7 +195,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function applyTimezoneLookup(ActivityDataContainer $container)
     {
-        if (!RUNALYZE_TEST_TZ_LOOKUP) {
+        if (! RUNALYZE_TEST_TZ_LOOKUP) {
             return false;
         }
 

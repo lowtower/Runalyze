@@ -107,7 +107,7 @@ class SectionRouteRowElevation extends TrainingViewSectionRow {
             $this->Footer .= HTML::info(Ajax::window('<a href="'.$Linker->urlToClimbScore().'">'.__('Climb Score view').'</a>', 'normal'));
         }
 
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
             $this->Footer .= HTML::info(Ajax::window('<a href="'.$Linker->urlToElevationInfo().'">'.__('More about elevation').'</a>', 'normal'));
 		}
 

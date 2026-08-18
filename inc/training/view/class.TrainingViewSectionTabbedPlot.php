@@ -32,7 +32,7 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection {
 	 * Display
 	 */
 	final public function display() {
-		if (!$this->isEmpty()) {
+		if (! $this->isEmpty()) {
 			$this->displayHeader();
 			$this->displayContent();
 		}
@@ -42,7 +42,7 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection {
 	 * Display header
 	 */
 	private function displayHeader() {
-		echo '<div class="panel-heading'.(!$this->isFirst ? ' panel-inner-heading' : '').'">';
+		echo '<div class="panel-heading'.(! $this->isFirst ? ' panel-inner-heading' : '').'">';
 		$this->displayChangeMenu();
 		echo '<h2>'.$this->Header.'</h2>';
 		echo '</div>';

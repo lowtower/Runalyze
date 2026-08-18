@@ -44,7 +44,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if (!($value instanceof Round)) {
+        if (! ($value instanceof Round)) {
             return null;
         }
 

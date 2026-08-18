@@ -148,7 +148,7 @@ class EquipmentController extends Controller
      */
     public function deleteEquipmentTypeAction(Request $request, EquipmentType $equipmentType, Account $account)
     {
-        if (!$this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
+        if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-overview');
@@ -241,7 +241,7 @@ class EquipmentController extends Controller
      */
     public function deleteEquipmentAction(Request $request, Equipment $equipment, Account $account)
     {
-        if (!$this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
+        if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-category-edit', [

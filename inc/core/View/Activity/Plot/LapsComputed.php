@@ -32,7 +32,7 @@ class LapsComputed extends Laps {
 	 * @param \Runalyze\View\Activity\Context $context
 	 */
 	protected function loadData(Activity\Context $context) {
-		if (!$context->trackdata()->has(Trackdata\Entity::DISTANCE) || !$context->trackdata()->has(Trackdata\Entity::TIME)) {
+		if (! $context->trackdata()->has(Trackdata\Entity::DISTANCE) || ! $context->trackdata()->has(Trackdata\Entity::TIME)) {
 			$this->Plot->raiseError( __('No GPS-data available. Can\\\'t compute laps.') );
 			return;
 		}

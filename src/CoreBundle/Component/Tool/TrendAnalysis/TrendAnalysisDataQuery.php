@@ -96,7 +96,7 @@ class TrendAnalysisDataQuery
     {
         $types = $this->TrendAnalysisData->getType();
 
-        if (!empty($types)) {
+        if (! empty($types)) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
             $queryBuilder->setParameter(':types', array_map(function(Type $type) {
                 return $type->getId();

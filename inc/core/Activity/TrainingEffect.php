@@ -60,7 +60,7 @@ class TrainingEffect implements ValueInterface
 	 * @return string
      * @codeCoverageIgnore
 	 */
-	public function unit()
+	public function unit(): string
     {
 		return '';
 	}
@@ -82,7 +82,7 @@ class TrainingEffect implements ValueInterface
 			$value = str_replace(',', '.', trim($value));
 		}
 
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             throw new \InvalidArgumentException(sprintf('Training Effect must be a number, not ' . $value));
         }
 
@@ -101,7 +101,7 @@ class TrainingEffect implements ValueInterface
 	 * @return string
 	 */
 	public function string($withUnit = true) {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 
@@ -137,7 +137,7 @@ class TrainingEffect implements ValueInterface
      */
     public function level()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return null;
         }
 
@@ -150,7 +150,7 @@ class TrainingEffect implements ValueInterface
      */
     public function shortDescription()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 
@@ -163,7 +163,7 @@ class TrainingEffect implements ValueInterface
      */
     public function description()
     {
-        if (!$this->isKnown()) {
+        if (! $this->isKnown()) {
             return '';
         }
 

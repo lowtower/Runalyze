@@ -16,7 +16,7 @@ class Generic extends AbstractSport
         parent::__construct(SportProfile::GENERIC);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-Sports-Mode';
     }

@@ -34,7 +34,7 @@ class Running extends AbstractCadence {
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function unitAsString() {
+	public function unitAsString(): string {
 		return 'spm';
 	}
 

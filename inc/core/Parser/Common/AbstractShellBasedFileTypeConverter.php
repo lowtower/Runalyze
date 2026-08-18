@@ -33,7 +33,7 @@ abstract class AbstractShellBasedFileTypeConverter implements FileTypeConverterI
     {
         $handle = @fopen($outputFile, 'r');
 
-        if (!$handle) {
+        if (! $handle) {
             throw new UnsupportedFileException(sprintf('Output file %s not found.', $outputFile));
         }
 

@@ -35,7 +35,7 @@ class HampelFilter
      */
     public function __construct($windowWidth = 3, $sigmaFactor = 3.0)
     {
-        if (!is_int($windowWidth) || $windowWidth < 1) {
+        if (! is_int($windowWidth) || $windowWidth < 1) {
             throw new \InvalidArgumentException('Window width must be a positive integer.');
         }
 

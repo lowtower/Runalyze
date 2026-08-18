@@ -28,7 +28,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
     protected function checkThatXmlIsValid()
     {
-        if (!property_exists($this->Xml, 'LogEntries')) {
+        if (! property_exists($this->Xml, 'LogEntries')) {
             throw new UnsupportedFileException('Given XML object is not from Sigma. &lt;LogEntries&gt;-tag could not be located.');
         }
     }
@@ -53,7 +53,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     protected function parseLogEntry(SimpleXMLElement $log)
     {
         if ((int) $log->Time == 0 || (string) $log->IsPause == 'true') {
-            if ((int) $log->PauseTime > 0 && !empty($this->Container->ContinuousData->Time)) {
+            if ((int) $log->PauseTime > 0 && ! empty($this->Container->ContinuousData->Time)) {
                 $this->Container->Pauses->add(new Pause(
                     end($this->Container->ContinuousData->Time),
                     (int) $log->PauseTime
@@ -65,12 +65,12 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
         $this->Container->ContinuousData->Time[] = (int) $log->TimeAbsolute;
         $this->Container->ContinuousData->Distance[] = (float) $log->DistanceAbsolute / 1000;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($log->Heartrate)) ? round((float) $log->Heartrate) : null;
+        $this->Container->ContinuousData->HeartRate[] = (! empty($log->Heartrate)) ? round((float) $log->Heartrate) : null;
     }
 
     protected function parseLaps()
     {
-        if (!empty($this->Xml->Laps)) {
+        if (! empty($this->Xml->Laps)) {
             $readEnergyConsumption = null === $this->Container->ActivityData->EnergyConsumption;
 
             foreach ($this->Xml->Laps->Lap as $lap) {
@@ -81,7 +81,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
     protected function parseLap(SimpleXMLElement $lap, $readEnergyConsumption = true)
     {
-        if ($readEnergyConsumption && !empty($lap->Calories)) {
+        if ($readEnergyConsumption && ! empty($lap->Calories)) {
             $this->Container->ActivityData->EnergyConsumption += (int) $lap->Calories;
         }
 
@@ -99,7 +99,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     {
         $string = '';
 
-        if (!empty($this->Xml->GeneralInformation)) {
+        if (! empty($this->Xml->GeneralInformation)) {
             foreach ($this->Xml->GeneralInformation->attributes() as $key => $value) {
                 $string .= (string) $key.': '.((string) $value)."\n";
             }

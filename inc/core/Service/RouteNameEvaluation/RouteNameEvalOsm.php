@@ -78,7 +78,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 	 * @throws Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult {
-        if(!empty($this->Url)) {
+        if(! empty($this->Url)) {
             // needed to use min/max position
             $route->synchronizeMinMaxGeohashIfRequired();
 
@@ -109,7 +109,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             ]
             //, 'debug' => True
         ];
-        if(!empty($this->Proxy)) {
+        if(! empty($this->Proxy)) {
             $param['proxy'] = $this->Proxy;
         }
 
@@ -230,34 +230,34 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         if(empty($routes)) {
             // ...or use huts and ways
             $routes = array_merge($hut, $way);
-            $hutSet = !empty($hut);
-            $waySet = !empty($way);
+            $hutSet = ! empty($hut);
+            $waySet = ! empty($way);
             if(empty($routes)) {
                 // anywhere empty, use at least the info category :-(
                 $routes = $info;
-                $infoSet = !empty($info);
+                $infoSet = ! empty($info);
             }
         }  
         // if we hiking, but no peak is set, but huts available...
         // special case "hüttenwandern" without peaks
         if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
-            && empty($peak) && !empty($hut) && !$hutSet) {
+            && empty($peak) && ! empty($hut) && ! $hutSet) {
             $routes = array_merge($routes, $hut); ;
             $hutSet = true;
         }
 
         $notes = '';
-        if(!$hutSet && !empty($hut)) {
+        if(! $hutSet && ! empty($hut)) {
             $notes .= 'Verpflegung: ' . implode(', ', $hut) . PHP_EOL;
         }
-        if(!$waySet && !empty($way)) {
+        if(! $waySet && ! empty($way)) {
             $notes .= 'Wege: ' . implode(', ', $way) . PHP_EOL;
         }
-        if(!$infoSet && !empty($info)) {
+        if(! $infoSet && ! empty($info)) {
             $notes .= 'Info: ' . implode(', ', $info) . PHP_EOL;
         }
 
-        if(!empty($routes) || !empty($notes)) {
+        if(! empty($routes) || ! empty($notes)) {
             $r = implode(' - ', array_slice($routes,0 ,$this->limitRoute($routes)));
             return new RouteNameEvalResult($r, $notes);
         } else {

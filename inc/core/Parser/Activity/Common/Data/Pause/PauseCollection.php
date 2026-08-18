@@ -77,7 +77,7 @@ class PauseCollection implements \Countable, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof Pause)) {
+        if (! ($value instanceof Pause)) {
             throw new \InvalidArgumentException('Pause collection does only accept instances of Pause as elements.');
         }
 

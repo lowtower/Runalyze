@@ -110,7 +110,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
-		if (!isset($this->AllTags[$this->TagId])) {
+		if (! isset($this->AllTags[$this->TagId])) {
 			echo '<p class="warning"><em>'.__('Please choose a tag.').'</em></p>';
 		} else {
 			$this->displayData();

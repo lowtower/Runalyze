@@ -18,7 +18,7 @@ class VO2max extends \Runalyze\Configuration\Category
     private static $TRIGGERED = false;
 
     /** @return string */
-    protected function key()
+    protected function key(): string
     {
         return 'vo2max';
     }
@@ -162,7 +162,7 @@ class VO2max extends \Runalyze\Configuration\Category
 
     public static function triggerRecalculation()
     {
-        if (!self::$TRIGGERED) {
+        if (! self::$TRIGGERED) {
             self::$TRIGGERED = true;
 
             $Data = \Runalyze\Configuration::Data();

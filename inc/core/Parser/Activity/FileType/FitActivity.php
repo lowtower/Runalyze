@@ -217,7 +217,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // #TSC: set the 
-        if (empty($this->Container->ActivityData->AvgTemperature) && !empty($this->batteryTemperature)) {
+        if (empty($this->Container->ActivityData->AvgTemperature) && ! empty($this->batteryTemperature)) {
             $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature)/count($this->batteryTemperature);
         }
 
@@ -268,7 +268,7 @@ class FitActivity extends AbstractSingleParser
             $this->adjustFieldDescriptionForDeveloperApp($this->DeveloperDataAppIds[(int) $this->Values['developer_data_index'][0]]);
         }
 
-        if (!isset($this->Values['developer_data_index']) || !isset($this->Values['field_name']) || !isset($this->Values['field_definition_number'])) {
+        if (! isset($this->Values['developer_data_index']) || ! isset($this->Values['field_name']) || ! isset($this->Values['field_definition_number'])) {
             return;
         }
 
@@ -281,7 +281,7 @@ class FitActivity extends AbstractSingleParser
         if (
             isset($this->Values['native_field_num']) &&
             isset($nativeFieldMapping[$this->Values['native_field_num'][0]]) &&
-            !empty($nativeFieldMapping[$this->Values['native_field_num'][0]][0])
+            ! empty($nativeFieldMapping[$this->Values['native_field_num'][0]][0])
         ) {
             $nativeFieldNum = $this->Values['native_field_num'][0];
             $unitDefinition = str_replace('"', '', $this->Values['units'][0]);
@@ -637,7 +637,7 @@ class FitActivity extends AbstractSingleParser
         // #TSC: set original sport-name to notes
         if (isset($this->Values['name'])) {
             $v = 'Profile: ' . substr($this->Values['name'][0], 1, -1);
-            if(!empty($this->Container->Metadata->getNotes())) {
+            if(! empty($this->Container->Metadata->getNotes())) {
                 $v = $v . "\n".$this->Container->Metadata->getNotes();
             }
             $this->Container->Metadata->setNotes($v);
@@ -660,7 +660,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // Some FIT messages contain a profile name but no sport field.
-        if (!isset($this->Values['sport'][0])) {
+        if (! isset($this->Values['sport'][0])) {
             if (isset($this->Values['name'][0])) {
                 $metadata->setSportName($this->normalizeSportName($this->Values['name'][0]));
             }
@@ -762,13 +762,13 @@ class FitActivity extends AbstractSingleParser
             }
         }
 
-        if (!isset($this->Values['event']) || $this->Values['event'][1] != 'timer' || !isset($this->Values['event_type'])) {
+        if (! isset($this->Values['event']) || $this->Values['event'][1] != 'timer' || ! isset($this->Values['event_type'])) {
             return;
         }
 
         $thisTimestamp = $this->strtotime((string) $this->Values['timestamp'][1]);
 
-        if (!empty($this->Container->ContinuousData->Time) && ($this->Values['event_type'][1] == 'stop_all' || $this->Values['event_type'][1] == 'stop')) {
+        if (! empty($this->Container->ContinuousData->Time) && ($this->Values['event_type'][1] == 'stop_all' || $this->Values['event_type'][1] == 'stop')) {
             $this->IsPaused = true;
             $this->LastStopTimestamp = $thisTimestamp;
         } elseif ($this->Values['event_type'][1] == 'start') {
@@ -836,7 +836,7 @@ class FitActivity extends AbstractSingleParser
         if (
             $this->IsPaused || // Should not happen?
             count($this->Values) == 1 ||
-            (!isset($this->Values['compressed_speed_distance']) && !isset($this->Values['timestamp']))
+            (! isset($this->Values['compressed_speed_distance']) && ! isset($this->Values['timestamp']))
         ) {
             return;
         }
@@ -959,7 +959,7 @@ class FitActivity extends AbstractSingleParser
             $nativeFieldName = $nativeData[0];
             $nativeFactor = $nativeData[1];
 
-            if (isset($this->Values[$devFieldName]) && ((int) $this->Values[$devFieldName][0] != 0 || !isset($this->Values[$nativeFieldName]))) {
+            if (isset($this->Values[$devFieldName]) && ((int) $this->Values[$devFieldName][0] != 0 || ! isset($this->Values[$nativeFieldName]))) {
                 $this->Values[$devFieldName][0] = (float) $this->Values[$devFieldName][0] * $nativeFactor;
                 $this->Values[$nativeFieldName] = $this->Values[$devFieldName];
             }
@@ -1058,7 +1058,7 @@ class FitActivity extends AbstractSingleParser
     // "NAME=length" is a swim lane
     protected function readLength()
     {
-        if (!$this->IsSwimming) {
+        if (! $this->IsSwimming) {
             foreach ($this->Container->ContinuousData->getPropertyNamesOfArrays() as $key) {
                 // TSC: do not delete here heart-rate and temperature
                 // before the first lap is reading the both values are already written
@@ -1141,7 +1141,7 @@ class FitActivity extends AbstractSingleParser
 
     protected function readHRV()
     {
-        if (!$this->IsPaused) {
+        if (! $this->IsPaused) {
             $values = explode(',', $this->Values['time'][1]);
 
             foreach ($values as $value) {
@@ -1214,7 +1214,7 @@ class FitActivity extends AbstractSingleParser
             $n = rtrim($n, '"');
 
             $v = 'Workout name: ' . $n;
-            if(!empty($this->Container->Metadata->getNotes())) {
+            if(! empty($this->Container->Metadata->getNotes())) {
                 $v = $this->Container->Metadata->getNotes() . "\n" . $v;
             }
             $this->Container->Metadata->setNotes($v);
@@ -1229,7 +1229,7 @@ class FitActivity extends AbstractSingleParser
      */
     protected function readSplit()
     {
-        if (!isset($this->Values['split_type']) || !isset($this->Values['total_timer_time'])) {
+        if (! isset($this->Values['split_type']) || ! isset($this->Values['total_timer_time'])) {
             return;
         }
 
@@ -1241,7 +1241,7 @@ class FitActivity extends AbstractSingleParser
             && isset($this->Values['total_distance']) 
             && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
             // init value
-            if (!isset($this->Container->ActivityData->PaceGoal)) {
+            if (! isset($this->Container->ActivityData->PaceGoal)) {
                 $this->Container->ActivityData->PaceGoal = array();
             }
 
@@ -1261,7 +1261,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // initialize the values for run/walk/stand
-        if (!isset($this->Container->FitDetails->RunTime) &&
+        if (! isset($this->Container->FitDetails->RunTime) &&
             (in_array($split_type, [17, 18, 22]))) {
             $this->Container->FitDetails->RunTime = 0;
             $this->Container->FitDetails->WalkTime = 0;

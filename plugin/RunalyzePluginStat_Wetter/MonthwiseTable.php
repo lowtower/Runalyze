@@ -268,7 +268,7 @@ class MonthwiseTable
 		$Statement = $this->createStatementToFetchEquipment();
 
 		while ($data = $Statement->fetch()) {
-			if (!isset($RowsByID[$data['equipmentid']])) {
+			if (! isset($RowsByID[$data['equipmentid']])) {
 				$RowsByID[$data['equipmentid']] = array();
 			}
 

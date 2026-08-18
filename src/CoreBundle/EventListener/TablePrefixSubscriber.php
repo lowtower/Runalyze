@@ -34,8 +34,8 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY) {
                 if (
-                    !isset($classMetadata->associationMappings[$fieldName]['joinTable']) ||
-                    !isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])
+                    ! isset($classMetadata->associationMappings[$fieldName]['joinTable']) ||
+                    ! isset($classMetadata->associationMappings[$fieldName]['joinTable']['name'])
                 ) {
                     continue;
                 }

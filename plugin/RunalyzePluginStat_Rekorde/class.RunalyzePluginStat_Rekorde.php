@@ -94,7 +94,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 				$Request->execute();
 				$data = $Request->fetchAll();
 
-				if (!empty($data)) {
+				if (! empty($data)) {
 					$Sport = new Sport\Entity($sportData);
 					$output = true;
 					echo '<tr class="r">';
@@ -122,7 +122,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 				}
 			}
 
-			if (!$output)
+			if (! $output)
 				echo '<tr><td colspan="11"><em>'.__('No data available').'</em></td></tr>';
 
 			echo '</tbody>';

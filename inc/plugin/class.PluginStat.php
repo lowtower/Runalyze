@@ -130,7 +130,7 @@ abstract class PluginStat extends Plugin {
 			$HeaderParts[] = $this->getYearString();
 		}
 
-		if (!empty($HeaderParts)) {
+		if (! empty($HeaderParts)) {
 			$this->setHeader($this->name().': '.implode(', ', $HeaderParts));
 		}
 	}
@@ -166,7 +166,7 @@ abstract class PluginStat extends Plugin {
 			$Query .= ' AND '.$time.' > '.LocalTime::fromString('first day of -5 months 00:00')->getTimestamp();
 		} elseif ($this->showsLast12Months()) {
 			$Query .= ' AND '.$time.' > '.LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
-		} elseif (!$this->showsAllYears()) {
+		} elseif (! $this->showsAllYears()) {
 			$Query .= ' AND '.$time.' BETWEEN UNIX_TIMESTAMP(\''.(int) $this->year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->year+1).'-01-01\')-1 ';
 		}
 
@@ -183,7 +183,7 @@ abstract class PluginStat extends Plugin {
 
 		if ($this->showsAllYears()) {
 			return 'YEAR(FROM_UNIXTIME('.$time.'))';
-		} elseif (!$this->showsSpecificYear()) {
+		} elseif (! $this->showsSpecificYear()) {
 			return 'DATE_FORMAT(FROM_UNIXTIME('.$time.'), "%Y-%m")';
 		}
 
@@ -218,11 +218,11 @@ abstract class PluginStat extends Plugin {
 			$name = $this->name();
 		}
 
-		if (!empty($leftMenu)) {
+		if (! empty($leftMenu)) {
 			echo '<div class="icons-left">'.$leftMenu.'</div>';
 		}
 
-		if (!empty($rightMenu)) {
+		if (! empty($rightMenu)) {
 			echo '<div class="panel-menu">'.$rightMenu.'</div>';
 		}
 
@@ -242,7 +242,7 @@ abstract class PluginStat extends Plugin {
 			$this->LinkList[] = '<li class="with-submenu"><span class="link">'.$this->getYearString().'</span><ul class="submenu">'.$this->getYearLinksAsList($this->ShowCompareYearsLink, $this->ShowTimeRangeLinks).'</ul>';
 		}
 
-		if (!empty($this->LinkList)) {
+		if (! empty($this->LinkList)) {
 			return '<ul>'.implode('', $this->LinkList).'</ul>';
 		}
 
@@ -327,7 +327,7 @@ abstract class PluginStat extends Plugin {
 			echo '<th></th>';
 		}
 
-		if (!empty($width)) {
+		if (! empty($width)) {
 			$width = ' width="'.$width.'"';
 		}
 
@@ -384,7 +384,7 @@ abstract class PluginStat extends Plugin {
 		$Factory = new PluginFactory();
 		$array = $Factory->variousPlugins();
 
-		return (!empty($array));
+		return (! empty($array));
 	}
 
 	/**

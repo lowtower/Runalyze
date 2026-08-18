@@ -76,7 +76,7 @@ class FormularFieldset extends HtmlTag {
 	 * @param string $title [optional]
 	 */
 	public function __construct($title = '') {
-		if (!empty($title))
+		if (! empty($title))
 			$this->setTitle($title);
 	}
 
@@ -102,7 +102,7 @@ class FormularFieldset extends HtmlTag {
 	final public function setConfValueToSaveStatus($confValue) {
 		$this->confValueToSaveStatus = $confValue;
 
-		if (!Configuration::ActivityForm()->show($confValue))
+		if (! Configuration::ActivityForm()->show($confValue))
 			$this->setCollapsed();
 	}
 
@@ -174,7 +174,7 @@ class FormularFieldset extends HtmlTag {
 	 * Display all fields
 	 */
 	private function displayLegend() {
-		if (!empty($this->title))
+		if (! empty($this->title))
 			echo '<legend onclick="'.$this->getLegendOnclick().'">'.$this->title.'</legend>';
 	}
 
@@ -211,7 +211,7 @@ class FormularFieldset extends HtmlTag {
 	 * Display individual html code
 	 */
 	private function displayHtmlCode() {
-		if (!empty($this->HtmlCode))
+		if (! empty($this->HtmlCode))
 			echo '<div>'.$this->HtmlCode.'</div>';
 	}
 
@@ -223,7 +223,7 @@ class FormularFieldset extends HtmlTag {
     }
 
     private function displayHtmlCodeBeforeFields() {
-        if (!empty($this->HtmlCodeBeforeFields))
+        if (! empty($this->HtmlCodeBeforeFields))
             echo '<div>'.$this->HtmlCodeBeforeFields.'</div>';
     }
 

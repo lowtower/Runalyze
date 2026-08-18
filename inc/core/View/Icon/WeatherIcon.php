@@ -82,7 +82,7 @@ abstract class WeatherIcon extends \Runalyze\View\Icon {
 	public function code() {
 		$code = '<i class="weather '.$this->Base.'"'.$this->tooltipAttributes().'>';
 
-		if (!empty($this->Layer)) {
+		if (! empty($this->Layer)) {
 			$code .= '<i class="'.$this->Layer.'"></i>';
 		}
 

@@ -93,7 +93,7 @@ class RaceContainer {
 	 * @return array
 	 */
 	public function races($distance): array {
-		if (!isset($this->DistanceIDs[(string) (float) $distance])) {
+		if (! isset($this->DistanceIDs[(string) (float) $distance])) {
 			return array();
 		}
 
@@ -120,7 +120,7 @@ class RaceContainer {
 		foreach ($this->Data as $index => $data) {
 			$dist = (float) $data['official_distance'];
 
-			if (!isset($this->DistanceIDs[(string) $dist])) {
+			if (! isset($this->DistanceIDs[(string) $dist])) {
 				$this->DistanceIDs[(string) $dist] = array($index);
 			} else {
 				$this->DistanceIDs[(string) $dist][] = $index;

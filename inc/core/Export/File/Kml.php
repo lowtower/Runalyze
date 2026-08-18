@@ -55,7 +55,7 @@ class Kml extends AbstractFileExporter
      * Get extension
      * @return string
      */
-    public function extension()
+    public function extension(): string
     {
         return 'kml';
     }
@@ -63,7 +63,7 @@ class Kml extends AbstractFileExporter
     /**
      * @return string
      */
-    protected function mimeType()
+    protected function mimeType(): string
     {
         return 'application/vnd.google-earth.kml+xml';
     }
@@ -189,7 +189,7 @@ class Kml extends AbstractFileExporter
      * Get empty xml
      * @return string
      */
-    protected function emptyXml()
+    protected function emptyXml(): string
     {
         return '<kml xmlns="http://earth.google.com/kml/2.0">
   <Folder>

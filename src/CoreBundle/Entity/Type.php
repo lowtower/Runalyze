@@ -183,7 +183,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     public function showsCompleteRow()
     {
         if ($this->inheritsDisplayMode()) {
-            return !$this->sport->getShort();
+            return ! $this->sport->getShort();
         }
 
         return DataBrowserRowProfile::COMPLETE_ROW == $this->displayMode;

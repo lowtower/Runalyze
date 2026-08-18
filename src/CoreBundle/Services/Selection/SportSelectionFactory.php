@@ -38,7 +38,7 @@ class SportSelectionFactory
      */
     public function getSelection($param = null, $allIsAvailable = true)
     {
-        if (!$this->knowsUser()) {
+        if (! $this->knowsUser()) {
             throw new \RuntimeException('Sport selection can only be collected if the user is known.');
         }
 
@@ -52,7 +52,7 @@ class SportSelectionFactory
             $sportList[(string) $sport->getId()] = $sport->getName();
         }
 
-        if (null === $param || !isset($sportList[$param])) {
+        if (null === $param || ! isset($sportList[$param])) {
             $param = (string) $this->ConfigurationManager->getList()->getGeneral()->getRunningSport();
         }
 

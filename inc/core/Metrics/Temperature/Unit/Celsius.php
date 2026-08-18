@@ -13,7 +13,7 @@ class Celsius extends AbstractTemperatureUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return '°C';
     }

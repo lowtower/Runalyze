@@ -54,16 +54,16 @@ class WindIcon extends \Runalyze\View\Icon
     {
         $strings = [];
 
-        if (!$this->WindSpeed->isUnknown()) {
+        if (! $this->WindSpeed->isUnknown()) {
             $strings[] = $this->WindSpeed->string();
 	        $strings[] = $this->BeaufortScale->shortString();
         }
 
-        if (!$this->WindDegree->isUnknown()) {
+        if (! $this->WindDegree->isUnknown()) {
             $strings[] = $this->WindDegree->string();
         }
 
-        if (!empty($strings)) {
+        if (! empty($strings)) {
             $this->setTooltip(__('Wind').': '.implode(', ', $strings));
         }
     }
@@ -80,7 +80,7 @@ class WindIcon extends \Runalyze\View\Icon
 
         $code = '<span class="'.self::BASE_CLASS.'"'.$this->tooltipAttributes().'>';
 
-        if (!$this->WindDegree->isUnknown()) {
+        if (! $this->WindDegree->isUnknown()) {
             $code .= '<span class="'.self::DIRECTION_CLASS.'" style="transform:rotate('.$this->WindDegree->value().'deg);"></span> ';
         }
 

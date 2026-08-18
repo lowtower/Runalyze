@@ -50,7 +50,7 @@ class ActivityCache
             $this->remove($hash);
         }
 
-        if (!($activity instanceof Training)) {
+        if (! ($activity instanceof Training)) {
             return $activityToMerge;
         }
 

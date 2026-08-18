@@ -273,7 +273,7 @@ class SearchResults {
 	/**
 	 * @return string
 	 */
-	protected function columnFromRaceResultIfRequired() {
+	protected function columnFromRaceResultIfRequired(): string {
 		if (isset($_POST['is_race']) && $_POST['is_race'] != '') {
 			return ', `rr`.`activity_id`';
 		}
@@ -476,7 +476,7 @@ class SearchResults {
 	 * @param string $postSign from $_POST
 	 * @return string
 	 */
-	protected function signFor($postSign) {
+	protected function signFor($postSign): string {
 		switch ($postSign) {
 			case 'is': return '=';
 			case 'gt': return '>';
@@ -528,7 +528,7 @@ class SearchResults {
 	 * @return string
 	 */
 	protected function getEquipmentCondition() {
-		if (!isset($_POST['equipmentid'])) {
+		if (! isset($_POST['equipmentid'])) {
 			return '';
 		}
 
@@ -551,7 +551,7 @@ class SearchResults {
 	 * @return string
 	 */
 	private function getTagCondition() {
-		if (!isset($_POST['tagid'])) {
+		if (! isset($_POST['tagid'])) {
 			return '';
 		}
 
@@ -574,7 +574,7 @@ class SearchResults {
 	 * @return string
 	 */
 	protected function getOrder() {
-		$order = (!isset($_POST['search-sort-order'])) ? 'DESC' : $this->DB->escape($_POST['search-sort-order'], false);
+		$order = (! isset($_POST['search-sort-order'])) ? 'DESC' : $this->DB->escape($_POST['search-sort-order'], false);
 
 		if (isset($_POST['search-sort-by'])) {
 			if ($_POST['search-sort-by'] == 'vo2max' && Configuration::VO2max()->useElevationCorrection()) {
@@ -610,7 +610,7 @@ class SearchResults {
 	 * @param array $conditions
 	 */
 	protected function addConditionsForOrder(array &$conditions) {
-		if (!isset($_POST['search-sort-by']))
+		if (! isset($_POST['search-sort-by']))
 			return;
 
 		if ($_POST['search-sort-by'] == 'pace') {
@@ -674,7 +674,7 @@ class SearchResults {
 	 * Display results
 	 */
 	protected function displayResults() {
-		if (!$this->WithResults)
+		if (! $this->WithResults)
 			return;
 
 		$Table = new \Runalyze\View\Dataset\Table($this->DatasetConfig);

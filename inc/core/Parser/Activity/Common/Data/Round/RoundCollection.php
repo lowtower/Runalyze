@@ -81,7 +81,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof Round)) {
+        if (! ($value instanceof Round)) {
             throw new \InvalidArgumentException('Round collection does only accept instances of Round as elements.');
         }
 
@@ -167,7 +167,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         }
 
         foreach ($this->Elements as $key => $round) {
-            if (!$round->isEqualTo($other->offsetGet($key))) {
+            if (! $round->isEqualTo($other->offsetGet($key))) {
                 return false;
             }
         }
@@ -224,7 +224,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function hasInactiveRounds() {
         return count(array_filter($this->Elements, function($v, $k) {
-            return !$v->IsActive();
+            return ! $v->IsActive();
         }, ARRAY_FILTER_USE_BOTH)) > 0;
     }
 }

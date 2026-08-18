@@ -73,7 +73,7 @@ class TrackdataAverages
      */
     protected function checkData()
     {
-        if (!$this->Trackdata->has(Trackdata\Entity::TIME)) {
+        if (! $this->Trackdata->has(Trackdata\Entity::TIME)) {
             throw new \InvalidArgumentException('Trackdata must have time data.');
         }
 
@@ -88,7 +88,7 @@ class TrackdataAverages
 	protected function prepareData()
 	{
 		foreach ($this->Keys as $i => $key) {
-			if (!$this->Trackdata->has($key)) {
+			if (! $this->Trackdata->has($key)) {
 				$this->Averages[$key] = null;
                 unset($this->Keys[$i]);
 			}
@@ -127,7 +127,7 @@ class TrackdataAverages
 		}
 
         foreach ($this->Keys as $key) {
-            if ($this->IgnoreZeros && !in_array($key, $this->KeysThatAllowZero) && $timeInZero[$key] < $lastTime) {
+            if ($this->IgnoreZeros && ! in_array($key, $this->KeysThatAllowZero) && $timeInZero[$key] < $lastTime) {
                 $this->Averages[$key] = $weightedSums[$key] / ($lastTime - $timeInZero[$key]);
             } else {
                 $this->Averages[$key] = $weightedSums[$key] / $lastTime;
@@ -142,7 +142,7 @@ class TrackdataAverages
      */
     public function average($key)
     {
-        if (!array_key_exists($key, $this->Averages)) {
+        if (! array_key_exists($key, $this->Averages)) {
             throw new \InvalidArgumentException('No average calculated for "'.$key.'".');
         }
 

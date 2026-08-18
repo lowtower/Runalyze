@@ -28,7 +28,7 @@ class WeatherController extends Controller
         $location = $this->getLocationForRequest($request, $account);
 
         // #TSC: if no location is given, cancel
-        if(!$location->hasPosition()) {
+        if(! $location->hasPosition()) {
             return;
         }
 
@@ -79,7 +79,7 @@ class WeatherController extends Controller
 
         if ($request->query->has('city')) {
             $location->setLocationName($request->query->get('city'));
-        } elseif (!$location->hasPosition()) {
+        } elseif (! $location->hasPosition()) {
             $location->setLocationName($this->get('app.configuration_manager')->getList($account)->get('activity-form.PLZ'));
         }
 

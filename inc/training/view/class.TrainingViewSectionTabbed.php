@@ -37,7 +37,7 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 	 * Display
 	 */
 	final public function display() {
-		if (!empty($this->Header) && (!empty($this->RowsTabbed) || !empty($this->Rows))) {
+		if (! empty($this->Header) && (! empty($this->RowsTabbed) || ! empty($this->Rows))) {
 			$this->displayHeader();
 			$this->displayContent();
 		}
@@ -47,7 +47,7 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 	 * Display header
 	 */
 	private function displayHeader() {
-		echo '<div class="panel-heading'.(!$this->isFirst ? ' panel-inner-heading' : '').'">';
+		echo '<div class="panel-heading'.(! $this->isFirst ? ' panel-inner-heading' : '').'">';
 		$this->displayChangeMenu();
 		echo '<h2>'.$this->Header.'</h2>';
 		echo '</div>';

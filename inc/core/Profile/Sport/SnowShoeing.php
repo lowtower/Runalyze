@@ -15,7 +15,7 @@ class SnowShoeing extends AbstractSport
         parent::__construct(SportProfile::SNOW_SHOEING);
     }
 
-    public function getIconClass()
+    public function getIconClass(): string
     {
         return 'icons8-SnowShoeing';
     }

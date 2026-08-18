@@ -104,7 +104,7 @@ class Calculator {
 	 * @return array
 	 */
 	public function calculate($weight = 75, $powerFactor = 1.0) {
-		if (!$this->Trackdata->has(Trackdata\Entity::TIME) || !$this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
+		if (! $this->Trackdata->has(Trackdata\Entity::TIME) || ! $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
 			return [];
 		}
 
@@ -128,7 +128,7 @@ class Calculator {
 				}
 
 				$distance = ($ArrayDist[$i+$n] - $ArrayDist[$i]) * 1000;
-				$grade = ($distance == 0 || !$calcGrade) ? 0 : ($ArrayElev[$i+$n] - $ArrayElev[$i]) / $distance;
+				$grade = ($distance == 0 || ! $calcGrade) ? 0 : ($ArrayElev[$i+$n] - $ArrayElev[$i]) / $distance;
 			}
 
 			$distance = $ArrayDist[$i+1] - $ArrayDist[$i];

@@ -11,12 +11,12 @@ class DarkSky extends AbstractSource
         return WeatherSourceProfile::DARK_SKY;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator)
+    public function getAttributionLabel(TranslatorInterface $translator): string
     {
         return 'Powered by Dark Sky';
     }
 
-    public function getAttributionUrl()
+    public function getAttributionUrl(): string
     {
         return 'https://darksky.net/poweredby/';
     }

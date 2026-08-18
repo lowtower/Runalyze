@@ -7,7 +7,7 @@ use Runalyze\Metrics\Cadence\Unit\AbstractCadenceUnit;
 
 class WeatherWindSpeed extends AbstractOneColumnValue
 {
-    protected function getColumn()
+    protected function getColumn(): string
     {
         return 'windSpeed';
     }

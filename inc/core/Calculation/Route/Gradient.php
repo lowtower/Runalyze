@@ -27,7 +27,7 @@ class Gradient
 	 */
 	public function __construct(array $elevation = [], array $distance = [])
     {
-        if (!empty($elevation) && !empty($distance)) {
+        if (! empty($elevation) && ! empty($distance)) {
             $this->setData($elevation, $distance);
         }
 	}
@@ -54,7 +54,7 @@ class Gradient
      */
     public function setDataFrom(Model\Route\Entity $route, Model\Trackdata\Entity $trackdata)
     {
-        if (!$route->hasElevations() || !$trackdata->has(Model\Trackdata\Entity::DISTANCE)) {
+        if (! $route->hasElevations() || ! $trackdata->has(Model\Trackdata\Entity::DISTANCE)) {
             throw new \InvalidArgumentException('Route must have elevations and trackdata must have distances.');
         }
 

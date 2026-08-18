@@ -129,7 +129,7 @@ class SportController extends Controller
      */
     public function deleteSportTypeAction(Request $request, Type $type, Account $account)
     {
-        if (!$this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
+        if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirect($this->generateUrl('settings-sports'));
@@ -227,7 +227,7 @@ class SportController extends Controller
      */
     public function sportDeleteAction(Request $request, Sport $sport, Account $account)
     {
-        if (!$this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
+        if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirect($this->generateUrl('sport-edit', [

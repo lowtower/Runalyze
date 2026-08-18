@@ -21,7 +21,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
 
         $arraySizes = $this->getArraySizes($nonEmptyKeys, $container->ContinuousData);
 
-        if (!$this->areAllElementsEqual($arraySizes)) {
+        if (! $this->areAllElementsEqual($arraySizes)) {
             if ($strict) {
                 $this->throwErrorForNonMatchingArraySizes($arraySizes);
             }

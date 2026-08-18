@@ -29,7 +29,7 @@ class WithGoal extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'with_goal';
 	}
@@ -68,7 +68,7 @@ class WithGoal extends AbstractKey
 	 * @param \Runalyze\Dataset\Context $context
 	 * @return string
 	 */
-	public function stringFor(Context $context)
+	public function stringFor(Context $context): string
 	{
 		if ($context->activity()->withGoal()) {
 			return '<i class="fa fa-fw fa-flag-checkered"></i>';
@@ -81,7 +81,7 @@ class WithGoal extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

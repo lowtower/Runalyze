@@ -31,7 +31,7 @@ class MilesPerHour extends AbstractDecimalUnit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function appendix()
+	public function appendix(): string
 	{
 		return '&nbsp;mph';
 	}

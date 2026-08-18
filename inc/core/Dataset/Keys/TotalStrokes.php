@@ -31,7 +31,7 @@ class TotalStrokes extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'total_strokes';
 	}
@@ -76,7 +76,7 @@ class TotalStrokes extends AbstractKey
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

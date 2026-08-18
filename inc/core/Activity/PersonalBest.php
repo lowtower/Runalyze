@@ -202,7 +202,7 @@ class PersonalBest {
 			)->fetch();
 		}
 
-		if (!empty($Data)) {
+		if (! empty($Data)) {
 			$this->ActivityID = $Data['activity_id'];
 			$this->Timestamp = $Data['time'];
 			$this->Time = $Data['pb'];

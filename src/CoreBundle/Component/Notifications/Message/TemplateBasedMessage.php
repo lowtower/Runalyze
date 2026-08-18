@@ -15,7 +15,7 @@ class TemplateBasedMessage implements MessageInterface
     /** @var string */
     protected $TemplateName;
 
-    /** @var null|int $lifetime [days] */
+    /** @var null|int [days] */
     protected $Lifetime;
 
     /** @var null|array */
@@ -29,7 +29,7 @@ class TemplateBasedMessage implements MessageInterface
      */
     public function __construct($templateName, $lifetime = null)
     {
-        if (!file_exists(__DIR__.'/'.self::BASE_PATH.$templateName)) {
+        if (! file_exists(__DIR__.'/'.self::BASE_PATH.$templateName)) {
             throw new \InvalidArgumentException(sprintf('Given template "%s" cannot be found in "%s".', $templateName, __DIR__.'/'.self::BASE_PATH));
         }
 
@@ -63,7 +63,7 @@ class TemplateBasedMessage implements MessageInterface
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['link']) && !empty($this->TemplateContent['link']);
+        return isset($this->TemplateContent['link']) && ! empty($this->TemplateContent['link']);
     }
 
     public function getLink(?RouterInterface $router = null)

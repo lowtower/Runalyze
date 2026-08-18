@@ -33,11 +33,11 @@ class ActivityDataContainerMerger
 
     protected function copyPropertiesIfEmptyFrom(ActivityDataContainer $container)
     {
-        if ($this->ResultingContainer->Rounds->isEmpty() && !$container->Rounds->isEmpty()) {
+        if ($this->ResultingContainer->Rounds->isEmpty() && ! $container->Rounds->isEmpty()) {
             $this->ResultingContainer->Rounds = clone $container->Rounds;
         }
 
-        if ($this->ResultingContainer->Pauses->isEmpty() && !$container->Pauses->isEmpty()) {
+        if ($this->ResultingContainer->Pauses->isEmpty() && ! $container->Pauses->isEmpty()) {
             $this->ResultingContainer->Pauses = clone $container->Pauses;
         }
 

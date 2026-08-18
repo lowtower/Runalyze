@@ -41,7 +41,7 @@ class Humidity implements ValueInterface
      */
     public function set($percent)
     {
-        if (null !== $percent && (!is_numeric($percent) || $percent < 0 || $percent > 100)) {
+        if (null !== $percent && (! is_numeric($percent) || $percent < 0 || $percent > 100)) {
             throw new \InvalidArgumentException('Humidity must be a numeric value between 0 and 100.');
         }
 
@@ -63,7 +63,7 @@ class Humidity implements ValueInterface
      * Label for value
      * @return string
      */
-    public function unit()
+    public function unit(): string
     {
         return '&#37;';
     }

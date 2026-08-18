@@ -13,7 +13,7 @@ class Sml extends XmlSuunto
 
     public function parse()
     {
-        if (!property_exists($this->Xml, 'DeviceLog')) {
+        if (! property_exists($this->Xml, 'DeviceLog')) {
             throw new UnsupportedFileException('Given XML object is not from Suunto. &lt;DeviceLog&gt;--tag could not be located.');
         }
 

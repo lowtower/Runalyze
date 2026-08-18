@@ -95,7 +95,7 @@ class ActivityDataContainer
         $this->clearRoundsIfOnlyOneRoundIsThere();
 
         // #TSC: set average-temp from the clock/FIT data if available
-        if (!empty(($this->ActivityData->AvgTemperature))) {
+        if (! empty(($this->ActivityData->AvgTemperature))) {
             // first use the session (or battery) attribute
             $this->WeatherData->Temperature = $this->ActivityData->AvgTemperature;
         } else {
@@ -108,7 +108,7 @@ class ActivityDataContainer
 
         $fitSelfEvalEffortUsed = false;
         // check that the type belongs to sport "running" not needed here; will be checked further in ActivityDataContainerToActivityContextConverter.tryToSetTypeFor
-        if (empty($this->Metadata->getTypeName()) && !empty($this->FitDetails)) {
+        if (empty($this->Metadata->getTypeName()) && ! empty($this->FitDetails)) {
             // #TSC set RG=Regeneration Run
             if ($this->FitDetails->SelfEvaluationPerceivedEffort == 1 // anstrengung=sehr leicht=1
                 && $this->FitDetails->SelfEvaluationFeeling == Activity\SelfEvaluationFeeling::VERY_STRONG) { // gefuehl=sehr stark=5
@@ -128,12 +128,12 @@ class ActivityDataContainer
         }
 
         // #TSC: map FIT SelfEvaluationPerceivedEffort to RPE
-        if (!$fitSelfEvalEffortUsed && !empty($this->FitDetails) && !empty($this->FitDetails->SelfEvaluationPerceivedEffort)) {
+        if (! $fitSelfEvalEffortUsed && ! empty($this->FitDetails) && ! empty($this->FitDetails->SelfEvaluationPerceivedEffort)) {
             $this->ActivityData->RPE = RPE::getString($this->FitDetails->SelfEvaluationPerceivedEffort);
         }
 
         // #TSC if a Pace-Goal run, set it if no other type is already set
-        if (empty($this->Metadata->getTypeName()) && !empty($this->ActivityData->PaceGoal)) {
+        if (empty($this->Metadata->getTypeName()) && ! empty($this->ActivityData->PaceGoal)) {
             // if PG not exists, no error and no mapping will be done
             $this->Metadata->setTypeName('PG');
         }
@@ -146,7 +146,7 @@ class ActivityDataContainer
 
     protected function completeRoundsIfRequired()
     {
-        if (!$this->Rounds->isEmpty() && !empty($this->ContinuousData->Time) && !empty($this->ContinuousData->Distance)) {
+        if (! $this->Rounds->isEmpty() && ! empty($this->ContinuousData->Time) && ! empty($this->ContinuousData->Distance)) {
             if ($this->Rounds->getTotalDuration() == 0) {
                 (new RoundCollectionFiller($this->Rounds))->fillTimesFromArray(
                     $this->ContinuousData->Time,
@@ -171,14 +171,14 @@ class ActivityDataContainer
 
     protected function clearRoundsIfOnlyOneRoundIsThere()
     {
-        if (!$this->Rounds->isEmpty() && $this->Rounds->count() == 1) {
+        if (! $this->Rounds->isEmpty() && $this->Rounds->count() == 1) {
             $this->Rounds->clear();
         }
     }
 
     protected function applyPauses()
     {
-        if (!$this->PausesToApply->isEmpty() && !empty($this->ContinuousData->Time)) {
+        if (! $this->PausesToApply->isEmpty() && ! empty($this->ContinuousData->Time)) {
             $this->Pauses = $this->ContinuousDataAdapter->applyPauses($this->PausesToApply);
             $this->PausesToApply->clear();
 

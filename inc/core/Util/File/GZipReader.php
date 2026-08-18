@@ -30,7 +30,7 @@ class GZipReader {
 			$this->Resource = gzopen($fileName, 'r');
 		}
 
-		if (!$this->Resource) {
+		if (! $this->Resource) {
 			throw new \RuntimeException('The file "'.$fileName.'" couldn\'t be opened for reading.');
 		}
 	}

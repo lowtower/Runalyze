@@ -156,7 +156,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     public function __construct(array $data = array()) {
         parent::__construct($data);
 
-        if ($this->hasGeohashes() && !empty($this->Data[self::GEOHASHES] )) {
+        if ($this->hasGeohashes() && ! empty($this->Data[self::GEOHASHES] )) {
             $this->Data[self::GEOHASHES] = GeohashLine::extend($this->Data[self::GEOHASHES]);
         }
     }
@@ -174,7 +174,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $e = new Entity($data);
 
 		// remove points so every x position is keeped
-        if ($positioninterval > 1 && $e->hasGeohashes() && !empty($e->Data[self::GEOHASHES] )) {
+        if ($positioninterval > 1 && $e->hasGeohashes() && ! empty($e->Data[self::GEOHASHES] )) {
 			// use a loop based on the original array to avoid a "copy"
 			$i = count($e->Data[self::GEOHASHES]);
 			while ($i > 0) {
@@ -319,7 +319,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$this->ensureAllNumericValues();
 		$this->synchronizeStartAndEndpoint();
 
-		if (!$this->hasCorrectedElevations()) {
+		if (! $this->hasCorrectedElevations()) {
 			$this->set(self::ELEVATIONS_SOURCE, '');
 		}
 	}
@@ -457,7 +457,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$latitudes = array_filter($latitudes);
 		$longitudes = array_filter($longitudes);
 
-		if (!empty($latitudes) && !empty($longitudes)) {
+		if (! empty($latitudes) && ! empty($longitudes)) {
 			$MinCoordinate = new Coordinate(array(min($latitudes), min($longitudes)));
 			$this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
@@ -688,14 +688,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * @return boolean
 	 */
 	public function hasOriginalElevations() {
-		return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && !empty($this->Data[self::ELEVATIONS_ORIGINAL]);
+		return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && ! empty($this->Data[self::ELEVATIONS_ORIGINAL]);
 	}
 
 	/**
 	 * @return boolean
 	 */
 	public function hasCorrectedElevations() {
-		return isset($this->Data[self::ELEVATIONS_CORRECTED]) && !empty($this->Data[self::ELEVATIONS_CORRECTED]);
+		return isset($this->Data[self::ELEVATIONS_CORRECTED]) && ! empty($this->Data[self::ELEVATIONS_CORRECTED]);
 	}
 
 	/**

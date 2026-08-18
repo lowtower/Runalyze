@@ -64,7 +64,7 @@ class SessionAccountHandler {
 	 * @return string
 	 */
 	public static function getName() {
-		if (!isset(self::$Account['name'])) {
+		if (! isset(self::$Account['name'])) {
 			return '';
 		}
 
@@ -76,7 +76,7 @@ class SessionAccountHandler {
 	 * @return mixed
 	 */
 	public static function getGender() {
-		if (!isset(self::$Account['gender'])) {
+		if (! isset(self::$Account['gender'])) {
 			return null;
 		}
 
@@ -88,7 +88,7 @@ class SessionAccountHandler {
 	 * @return null|int
 	 */
 	public static function getBirthYear() {
-		if (!isset(self::$Account['birthyear'])) {
+		if (! isset(self::$Account['birthyear'])) {
 			return null;
 		}
 
@@ -100,7 +100,7 @@ class SessionAccountHandler {
 	 * @return string
 	 */
 	public static function getLanguage() {
-		if (!isset(self::$Account['language'])) {
+		if (! isset(self::$Account['language'])) {
 			return '';
 		}
 
@@ -112,7 +112,7 @@ class SessionAccountHandler {
 	 * @return string
 	 */
 	public static function getTimezone() {
-		if (!isset(self::$Account['timezone'])) {
+		if (! isset(self::$Account['timezone'])) {
 			return '';
 		}
 
@@ -124,7 +124,7 @@ class SessionAccountHandler {
 	 * @return string
 	 */
 	public static function getUsername() {
-		if (!isset(self::$Account['username'])) {
+		if (! isset(self::$Account['username'])) {
 			return '';
 		}
 

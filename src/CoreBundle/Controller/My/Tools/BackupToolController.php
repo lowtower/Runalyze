@@ -43,11 +43,11 @@ class BackupToolController extends Controller
         $filePath = $this->getPathToBackupFiles();
         $internalFilename = $fileHandler->transformPublicToInternalFilename($filename);
 
-        if (!$fileSystem->exists($filePath.$internalFilename)) {
+        if (! $fileSystem->exists($filePath.$internalFilename)) {
             throw $this->createNotFoundException();
         }
 
-        if (!$fileHandler->validateInternalFilename($internalFilename)) {
+        if (! $fileHandler->validateInternalFilename($internalFilename)) {
             throw $this->createAccessDeniedException();
         }
 

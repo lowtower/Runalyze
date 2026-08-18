@@ -32,7 +32,7 @@ class CardinalDirection
      */
     public function setDegree($degrees)
     {
-        if (!is_numeric($degrees)) {
+        if (! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');
         }
 
@@ -65,7 +65,7 @@ class CardinalDirection
      */
     public static function getDirection($bearing)
     {
-        if (!is_numeric($bearing)) {
+        if (! is_numeric($bearing)) {
             throw new \InvalidArgumentException('Argument must be numeric');
         }
 

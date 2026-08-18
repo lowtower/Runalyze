@@ -149,7 +149,7 @@ class Ajax {
 	 * @return string
 	 */
 	public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = '') {
-		return '<a '.(!empty($htmlID) ? 'id="'.$htmlID.'" ' : '').'class="training '.$classes.'" href="activity/'.$id.'" rel="'.$id.'"'.($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '').'>'.$name.'</a>';
+		return '<a '.(! empty($htmlID) ? 'id="'.$htmlID.'" ' : '').'class="training '.$classes.'" href="activity/'.$id.'" rel="'.$id.'"'.($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '').'>'.$name.'</a>';
 	}
 
 	/**
@@ -275,7 +275,7 @@ class Ajax {
 	 * @return string
 	 */
 	public static function link($name, $target, $href, $data = '', $title = '', $onclick = false) {
-		return '<a class="ajax" href="'.$href.'" target="'.$target.'" rel="'.$data.'"'.(!empty($title) ? ' title="'.$title.'"' : '').' '.(($onclick) ? ' onclick="'.$onclick.'"' : '').'>'.$name.'</a>';
+		return '<a class="ajax" href="'.$href.'" target="'.$target.'" rel="'.$data.'"'.(! empty($title) ? ' title="'.$title.'"' : '').' '.(($onclick) ? ' onclick="'.$onclick.'"' : '').'>'.$name.'</a>';
 	}
 
 	/**

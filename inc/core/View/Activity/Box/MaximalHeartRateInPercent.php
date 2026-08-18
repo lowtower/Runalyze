@@ -48,7 +48,7 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
     /**
      * @return string
      */
-    protected function unit()
+    protected function unit(): string
 	{
         return '&#37;';
 	}

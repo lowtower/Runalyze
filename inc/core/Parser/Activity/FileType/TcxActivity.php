@@ -58,7 +58,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $xml)
     {
-        if (!property_exists($xml, 'Id') || !property_exists($xml, 'Lap')) {
+        if (! property_exists($xml, 'Id') || ! property_exists($xml, 'Lap')) {
             throw new UnsupportedFileException('Given XML object is not a valid tcx activity. &lt;Id&gt;- or &lt;Lap&gt;-tag could not be located.');
         }
     }
@@ -81,11 +81,11 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             $this->Container->Metadata->setSportName((string) $this->Xml->attributes()->Sport);
         }
 
-        if (!empty($this->Xml->Notes)) {
+        if (! empty($this->Xml->Notes)) {
             $this->Container->Metadata->setNotes((string) $this->Xml->Notes);
         }
 
-        if (!empty($this->Xml->Training)) {
+        if (! empty($this->Xml->Training)) {
             $this->Container->Metadata->setDescription((string) $this->Xml->Training->Plan->Name);
         }
     }
@@ -102,7 +102,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
                     }
                 }
 
-                if (!empty($lap->Track) && !empty($lap->Track[0]->Trackpoint[0])) {
+                if (! empty($lap->Track) && ! empty($lap->Track[0]->Trackpoint[0])) {
                     $start = $this->strtotime((string) $lap->Track[0]->Trackpoint[0]->Time);
 
                     if ($start < $this->Container->Metadata->getTimestamp()) {
@@ -123,7 +123,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
     protected function parseLapValues(SimpleXMLElement &$lap)
     {
-        if (!empty($lap->Calories)) {
+        if (! empty($lap->Calories)) {
             $this->Container->ActivityData->EnergyConsumption += (int) $lap->Calories;
         }
 
@@ -178,15 +178,15 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             return;
         }
 
-        if ($this->DetectPauses && !$this->IsWithoutDistance) {
+        if ($this->DetectPauses && ! $this->IsWithoutDistance) {
             $noMove = ($this->LastDistance == (float) $trackPoint->DistanceMeters);
-            $tooSlow = !$this->LastPointWasEmpty && $thisBreakInMeter > 0 && ($thisBreakInSeconds / $thisBreakInMeter > 6);
+            $tooSlow = ! $this->LastPointWasEmpty && $thisBreakInMeter > 0 && ($thisBreakInSeconds / $thisBreakInMeter > 6);
         } else {
             $noMove = false;
             $tooSlow = false;
         }
 
-        if ((empty($trackPoint->DistanceMeters) && !$this->IsWithoutDistance ) || $noMove || $tooSlow) {
+        if ((empty($trackPoint->DistanceMeters) && ! $this->IsWithoutDistance ) || $noMove || $tooSlow) {
             $ignored = false;
 
             if ($trackPoint->children()->count() == 1 || $noMove || $tooSlow) {
@@ -199,12 +199,12 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
                 }
             }
 
-            if (!$ignored) {
+            if (! $ignored) {
                 return;
             }
         }
 
-        if (empty($trackPoint->DistanceMeters) && !empty($this->Container->ContinuousData->Distance)) {
+        if (empty($trackPoint->DistanceMeters) && ! empty($this->Container->ContinuousData->Distance)) {
             $trackPoint->DistanceMeters = end($this->Container->ContinuousData->Distance) * 1000;
         }
 
@@ -221,7 +221,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
         if ($this->WasPause) {
             $pause = new Pause(end($this->Container->ContinuousData->Time), $this->PauseDuration);
-            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), !empty($trackPoint->HeartRateBpm) ? round($trackPoint->HeartRateBpm->Value) : null);
+            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), ! empty($trackPoint->HeartRateBpm) ? round($trackPoint->HeartRateBpm->Value) : null);
 
             $this->Container->Pauses->add($pause);
 
@@ -236,12 +236,12 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $this->Container->ContinuousData->Time[] = $this->strtotime((string) $trackPoint->Time) - $this->Container->Metadata->getTimestamp() - $this->PauseInSeconds;
         $this->Container->ContinuousData->Distance[] = (float) $trackPoint->DistanceMeters / 1000;
         $this->Container->ContinuousData->Altitude[] = (int) $trackPoint->AltitudeMeters;
-        $this->Container->ContinuousData->HeartRate[] = (!empty($trackPoint->HeartRateBpm)) ? round($trackPoint->HeartRateBpm->Value) : null;
+        $this->Container->ContinuousData->HeartRate[] = (! empty($trackPoint->HeartRateBpm)) ? round($trackPoint->HeartRateBpm->Value) : null;
 
-        if (!empty($trackPoint->Position)) {
+        if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
-        } elseif (!empty($this->Container->ContinuousData->Latitude)) {
+        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
         } else {
@@ -257,7 +257,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $power = null;
         $rpm   = null;
 
-        if (!empty($point->Cadence)) {
+        if (! empty($point->Cadence)) {
             $rpm = (int) $point->Cadence;
         }
 

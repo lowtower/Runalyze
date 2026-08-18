@@ -76,7 +76,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
-		if (!$this->dataIsMissing)
+		if (! $this->dataIsMissing)
 			$this->displayImages();
 		else
 			echo HTML::em( __('No data available.') );

@@ -70,7 +70,7 @@ class FileImporter implements LoggerAwareInterface
 
     public function disableFileDeletion($flag = true)
     {
-        $this->RemoveFiles = !$flag;
+        $this->RemoveFiles = ! $flag;
     }
 
     /**
@@ -154,7 +154,7 @@ class FileImporter implements LoggerAwareInterface
             }
         }
 
-        if (!empty($matchingIndices)) {
+        if (! empty($matchingIndices)) {
             $this->mergeResultsOfRelatedHrmAndGpx($results, $matchingIndices);
         }
     }

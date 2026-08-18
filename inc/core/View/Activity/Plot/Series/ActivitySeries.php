@@ -37,7 +37,7 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 	 * @param boolean $fillGaps try to fill gaps (zero values)
 	 */
 	protected function initData(Trackdata $trackdata, $key, $fillGaps = false) {
-		if (!$trackdata->has($key)) {
+		if (! $trackdata->has($key)) {
 			$this->Data = array();
 			return;
 		}

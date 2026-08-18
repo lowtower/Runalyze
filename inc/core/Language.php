@@ -91,11 +91,11 @@ class Language implements InterfaceChoosable
     {
         $supportedLanguages = self::availableLanguages();
 
-        if (!isset($supportedLanguages[$language])) {
+        if (! isset($supportedLanguages[$language])) {
             return false;
         }
 
-        if (!$overwriteGetParameter && isset($_GET[self::GET_KEY]) && isset($supportedLanguages[$_GET[self::GET_KEY]])) {
+        if (! $overwriteGetParameter && isset($_GET[self::GET_KEY]) && isset($supportedLanguages[$_GET[self::GET_KEY]])) {
             return false;
         }
 
@@ -107,7 +107,7 @@ class Language implements InterfaceChoosable
         setlocale(LC_ALL, $locale);
         setlocale(LC_NUMERIC, 'C');
 
-        if (!headers_sent() && (!isset($_COOKIE[self::COOKIE_KEY]) || $_COOKIE[self::COOKIE_KEY] != $language)) {
+        if (! headers_sent() && (! isset($_COOKIE[self::COOKIE_KEY]) || $_COOKIE[self::COOKIE_KEY] != $language)) {
             setcookie(self::COOKIE_KEY, $language);
         }
 
@@ -201,7 +201,7 @@ class Language implements InterfaceChoosable
             }
         }
 
-        if (!count($supp)) {
+        if (! count($supp)) {
             return $default;
         }
 
@@ -283,7 +283,7 @@ class Language implements InterfaceChoosable
             if (strlen($k) > 2) {
                 $gen_lang = substr($k, 0, 2);
 
-                if (!isset ($matches[$gen_lang])) {
+                if (! isset ($matches[$gen_lang])) {
                     $matches[$gen_lang] = $v - 0.001;
                 }
             }

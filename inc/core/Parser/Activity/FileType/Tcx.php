@@ -34,7 +34,7 @@ class Tcx extends AbstractMultipleParser implements FileContentAwareParserInterf
 
     protected function parseMultiSportSessions()
     {
-        if (!isset($this->Xml->Activities->MultiSportSession)) {
+        if (! isset($this->Xml->Activities->MultiSportSession)) {
             return;
         }
 

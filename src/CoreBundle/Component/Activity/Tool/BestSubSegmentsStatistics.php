@@ -28,7 +28,7 @@ class BestSubSegmentsStatistics
      */
     public function __construct(Trackdata\Entity $trackdata)
     {
-        if (!$trackdata->has(Trackdata\Entity::TIME) || !$trackdata->has(Trackdata\Entity::DISTANCE)) {
+        if (! $trackdata->has(Trackdata\Entity::TIME) || ! $trackdata->has(Trackdata\Entity::DISTANCE)) {
             throw new \InvalidArgumentException('Provided trackdata object must have time and distance array.');
         }
 

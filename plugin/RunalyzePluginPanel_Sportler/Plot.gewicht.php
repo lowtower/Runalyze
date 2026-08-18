@@ -25,7 +25,7 @@ $HRrests  = array();
 if (count($Data) == 1)
 	$Data[1] = $Data[0];
 
-if (!empty($Data)) {
+if (! empty($Data)) {
 	foreach ($Data as $D) {
 		$Weights[$D['time'].'000'] = $Weight->set($D['weight'])->valueInPreferredUnit();
 		$HRrests[$D['time'].'000'] = (int) $D['pulse_rest'];

@@ -50,7 +50,7 @@ class TrainingRepository extends EntityRepository
      */
     public function isPossibleDuplicate(Training $activity)
     {
-        if (null === $activity->getAccount() || !is_numeric($activity->getAccount()->getId()) || null == $activity->getActivityId()) {
+        if (null === $activity->getAccount() || ! is_numeric($activity->getAccount()->getId()) || null == $activity->getActivityId()) {
             return false;
         }
 
@@ -569,13 +569,13 @@ class TrainingRepository extends EntityRepository
         $sport = $activity->getSport();
         $type = $activity->getType();
 
-        if (null !== $sport && $sport->getId() && !$this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
+        if (null !== $sport && $sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
             $activity->setSport(
                 $this->_em->find(Sport::class, $sport->getId())
             );
         }
 
-        if (null !== $type && $type->getId() && !$this->_em->getUnitOfWork()->isInIdentityMap($type)) {
+        if (null !== $type && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
             $activity->setType(
                 $this->_em->find(Type::class, $type->getId())
             );

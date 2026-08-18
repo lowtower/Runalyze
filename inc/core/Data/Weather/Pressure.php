@@ -41,7 +41,7 @@ class Pressure implements ValueInterface
      */
     public function set($hectoPascals)
     {
-        if (null !== $hectoPascals && !is_numeric($hectoPascals)) {
+        if (null !== $hectoPascals && ! is_numeric($hectoPascals)) {
             throw new \InvalidArgumentException('Value must be numerical.');
         }
 
@@ -63,7 +63,7 @@ class Pressure implements ValueInterface
      * Label for value
      * @return string
      */
-    public function unit()
+    public function unit(): string
     {
         return 'hpa';
     }

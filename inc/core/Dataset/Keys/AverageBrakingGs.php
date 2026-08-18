@@ -32,7 +32,7 @@ class AverageBrakingGs extends AbstractKey
         return SummaryMode::AVG;
     }
 
-	public function cssClass()
+	public function cssClass(): string
 	{
 		return 'small';
 	}

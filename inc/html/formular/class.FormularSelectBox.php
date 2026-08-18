@@ -43,7 +43,7 @@ class FormularSelectBox extends FormularField {
 	 * @param array $attributes
 	 */
 	public function addOption($key, $text, $attributes = array()) {
-		if (!empty($attributes)) {
+		if (! empty($attributes)) {
 			$attributes['text'] = $text;
 			$text = $attributes;
 		}

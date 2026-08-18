@@ -74,7 +74,7 @@ class ConfigTabs {
 
 			$SubmitInfo = '<p class="okay"><em>'.__('The settings have been saved.').'</em></p>';
 
-			if (!empty(self::$Messages))
+			if (! empty(self::$Messages))
 				$SubmitInfo .= implode('', self::$Messages);
 
 			echo '<div class="panel-heading" id="submit-info">'.$SubmitInfo.'</div>';

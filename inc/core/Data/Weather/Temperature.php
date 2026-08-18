@@ -71,7 +71,7 @@ class Temperature {
 	 * @return float
 	 */
 	protected function toCelsiusFrom($value, $unit) {
-		if (!is_numeric($value)) {
+		if (! is_numeric($value)) {
 			return null;
 		}
 
@@ -175,7 +175,7 @@ class Temperature {
 	 * Unit
 	 * @return string
 	 */
-	public function unit() {
+	public function unit(): string {
 		switch ($this->unit) {
 			case self::CELSIUS:
 				return '&deg;C';

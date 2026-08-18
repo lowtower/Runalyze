@@ -13,7 +13,7 @@ class Watts extends AbstractPowerUnit
      *
      * @codeCoverageIgnore
      */
-    public function getAppendix()
+    public function getAppendix(): string
     {
         return 'W';
     }

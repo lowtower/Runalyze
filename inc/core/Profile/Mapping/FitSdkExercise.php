@@ -24,7 +24,7 @@ class FitSdkExercise {
         $sub = array_map('intval', explode(',', $subtypes));
 
         // if the sub array has not the same size as the main-category, ignore it
-        if(!empty($sub) && count($cat) != count($sub)) {
+        if(! empty($sub) && count($cat) != count($sub)) {
             $sub = null;
         }
 
@@ -56,7 +56,7 @@ class FitSdkExercise {
     public function getMapping(int $category, ?int $subtype=null): ?string {
         $cat = $this->getCategoryName($category);
 
-        if($cat != null && !empty($subtype)) {
+        if($cat != null && ! empty($subtype)) {
             $sub = $this->getSubCategoryName($cat, $subtype);
             if($sub != null) {
                 return $sub;

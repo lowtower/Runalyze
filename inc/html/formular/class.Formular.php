@@ -106,7 +106,7 @@ class Formular extends HtmlTag {
     		$Fieldset->setId($this->Id.'_legend_'.count($this->fieldsets));
         }
 
-		if (!$opened)
+		if (! $opened)
 			$Fieldset->setCollapsed();
 
 		$this->fieldsets[] = $Fieldset;
@@ -198,7 +198,7 @@ class Formular extends HtmlTag {
 	 * Display header
 	 */
 	protected function displayHeader() {
-		if (!empty($this->header))
+		if (! empty($this->header))
 			echo '<h1>'.$this->header.'</h1>';
 	}
 

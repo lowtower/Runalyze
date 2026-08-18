@@ -61,8 +61,8 @@ class Context {
 
 	/**
 	 * Construct context
-	 * @var int $activityID
-	 * @var int $accountID
+	 * @var int
+	 * @var int
 	 */
 	public function __construct($activityID, $accountID) {
 		$Factory = new Factory((int) $accountID);
@@ -151,7 +151,7 @@ class Context {
 	 * @return boolean
 	 */
 	public function hasTrackdata() {
-		return !$this->Trackdata->isEmpty();
+		return ! $this->Trackdata->isEmpty();
 	}
 
 	/**
@@ -172,14 +172,14 @@ class Context {
 	 * @return boolean
 	 */
 	public function hasHRV() {
-		return !$this->HRV->isEmpty();
+		return ! $this->HRV->isEmpty();
 	}
 
 	/**
 	 * @return boolean
 	 */
 	public function hasRaceResult() {
-		return !$this->RaceResult->isEmpty();
+		return ! $this->RaceResult->isEmpty();
 	}
 
 
@@ -187,7 +187,7 @@ class Context {
 	 * @return boolean
 	 */
 	public function hideMap() {
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			return false;
 		}
 
@@ -198,7 +198,7 @@ class Context {
 		}
 
 		if ($RoutePrivacy->showRace()) {
-			return (!$this->hasRaceResult());
+			return (! $this->hasRaceResult());
 		}
 
 		return true;

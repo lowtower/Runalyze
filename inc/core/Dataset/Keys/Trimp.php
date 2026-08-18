@@ -31,7 +31,7 @@ class Trimp extends AbstractKey
 	 * Database key
 	 * @return string
 	 */
-	public function column()
+	public function column(): string
 	{
 		return 'trimp';
 	}

@@ -52,7 +52,7 @@ class InstallController extends Controller
     {
         $session = $request->getSession();
 
-        if (!$session->has('installer/possible') || !$session->get('installer/possible')) {
+        if (! $session->has('installer/possible') || ! $session->get('installer/possible')) {
             return $this->redirectToRoute('install');
         }
 
@@ -89,7 +89,7 @@ class InstallController extends Controller
     {
         $session = $request->getSession();
 
-        if (!$session->has('installer/successful')) {
+        if (! $session->has('installer/successful')) {
             return $this->redirectToRoute('install');
         }
 

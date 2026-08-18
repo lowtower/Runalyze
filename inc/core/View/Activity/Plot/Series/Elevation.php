@@ -29,8 +29,8 @@ class Elevation extends ActivitySeries {
 
 	/**
 	 * Create series
-	 * @var \Runalyze\View\Activity\Context $context
-	 * @var boolean $forceOriginal [optional]
+	 * @var \Runalyze\View\Activity\Context
+	 * @var boolean [optional]
 	 */
 	public function __construct(Activity\Context $context, $forceOriginal = false) {
 		$this->initOptions();
@@ -39,18 +39,18 @@ class Elevation extends ActivitySeries {
 
 	/**
 	 * Init data
-	 * @var \Runalyze\View\Activity\Context $context
-	 * @var boolean $forceOriginal
+	 * @var \Runalyze\View\Activity\Context
+	 * @var boolean
 	 */
 	protected function initDataWithRoute(Activity\Context $context, $forceOriginal) {
-		if (!$context->hasRoute()) {
+		if (! $context->hasRoute()) {
 			$this->Data = array();
 			return;
 		}
 
-		$key = $context->route()->hasCorrectedElevations() && !$forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
+		$key = $context->route()->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
 
-		if (!$context->route()->has($key)) {
+		if (! $context->route()->has($key)) {
 			$this->Data = array();
 			return;
 		}

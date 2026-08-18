@@ -281,7 +281,7 @@ class Registration
      */
     public function getRegisteredSportForRunning()
     {
-        if (!isset($this->specialVars['RUNNINGSPORT'])) {
+        if (! isset($this->specialVars['RUNNINGSPORT'])) {
             throw new \LogicException('Account has to be registered first.');
         }
 
@@ -293,7 +293,7 @@ class Registration
      */
     public function getRegisteredSportForCycling()
     {
-        if (!isset($this->specialVars['BIKESPORT'])) {
+        if (! isset($this->specialVars['BIKESPORT'])) {
             throw new \LogicException('Account has to be registered first.');
         }
 
@@ -305,7 +305,7 @@ class Registration
      */
     public function getRegisteredEquipmentTypeClothes()
     {
-        if (!isset($this->specialVars['EQUIPMENT_CLOTHES'])) {
+        if (! isset($this->specialVars['EQUIPMENT_CLOTHES'])) {
             throw new \LogicException('Account has to be registered first.');
         }
 

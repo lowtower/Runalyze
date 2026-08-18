@@ -32,7 +32,7 @@ class DataCollectorWithSwimdata extends DataCollector {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata) {
-		if (!$swimdata->has($key)) {
+		if (! $swimdata->has($key)) {
 			throw new \InvalidArgumentException('Swimdata has no data for "'.$key.'".');
 		}
 
@@ -61,7 +61,7 @@ class DataCollectorWithSwimdata extends DataCollector {
 			} else {
 				$this->Data[] = $value;
 			}
-		} while (!$this->Loop->isAtEnd());
+		} while (! $this->Loop->isAtEnd());
 	}
 
 	/**

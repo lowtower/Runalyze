@@ -100,19 +100,19 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 
 		echo '<div class="training-row-info '.$class.'">';
 
-		if (!empty($this->BoxedValues)) {
+		if (! empty($this->BoxedValues)) {
 			$this->displayBoxedValues();
 		}
 
-		if (!empty($this->Header)) {
+		if (! empty($this->Header)) {
 			echo '<div class="panel-content">'.$this->Header.'</div>';
 		}
 
-		if (!empty($this->Code)) {
+		if (! empty($this->Code)) {
 			echo '<div>' . $this->Code . '</div>';
 		}
 
-		if (!empty($this->Footer)) {
+		if (! empty($this->Footer)) {
 			echo '<div class="panel-content">'.$this->Footer.'</div>';
 		}
 

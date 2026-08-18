@@ -43,7 +43,7 @@ class SectionLapsRowComputed extends TrainingViewSectionRow {
 	 * Add info link
 	 */
 	protected function addInfoLink() {
-		if (!Request::isOnSharedPage()) {
+		if (! Request::isOnSharedPage()) {
 			$Linker = new Linker($this->Context->activity());
 			$InfoLink = Ajax::window('<a href="'.$Linker->urlToRoundsInfo().'">'.__('More details about your laps').'</a>', 'big');
 
