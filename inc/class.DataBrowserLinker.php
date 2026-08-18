@@ -93,7 +93,7 @@ class DataBrowserLinker {
 	 * @param bool $getPrev optional to get previous timestamps
 	 * @return array Returns an array {'start', 'end'}
 	 */
-	public static function nextTimestamps($startTimestampInNoTimezone, $endTimestampInNoTimezone, $getPrev = false) {
+	public static function nextTimestamps($startTimestampInNoTimezone, $endTimestampInNoTimezone, $getPrev = false): array {
 		$start = new LocalTime(is_numeric($startTimestampInNoTimezone) ? $startTimestampInNoTimezone : null);
 		$end = new LocalTime(is_numeric($endTimestampInNoTimezone) ? $endTimestampInNoTimezone : null);
 

@@ -48,7 +48,7 @@ class HampelFilter
      * @param bool $returnCorrectedData by default, outlier indices are returned
      * @return array outlier indices or corrected data
      */
-    public function filter(array $inputData, $returnCorrectedData = false)
+    public function filter(array $inputData, $returnCorrectedData = false): array
     {
         $num = count($inputData);
         $outlierIndices = [];

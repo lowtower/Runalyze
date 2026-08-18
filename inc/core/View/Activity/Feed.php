@@ -78,7 +78,6 @@ class Feed
     }
 
     /**
-     * @param $author
      * @return $this
      */
     public function setFeedAuthor($author)

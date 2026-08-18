@@ -63,7 +63,7 @@ class Language implements InterfaceChoosable
     /**
      * @return array
      */
-    public static function getChoices() {
+    public static function getChoices(): array {
         $languages = [];
 
         foreach (self::availableLanguages() as $name => $lang) {
@@ -253,7 +253,7 @@ class Language implements InterfaceChoosable
      *
      * @return array Sorted list of "accept" options
      */
-    protected function sortAccept($header)
+    protected function sortAccept($header): array
     {
         $matches = array();
 

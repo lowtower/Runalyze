@@ -59,7 +59,7 @@ class CallController extends Controller
     public function windowConfigAction(Request $request) {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         $ConfigTabs = new \ConfigTabs();
-        $ConfigTabs->addDefaultTab(new  \ConfigTabGeneral());
+        $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
         $ConfigTabs->addTab(new \ConfigTabPlugins());
         $ConfigTabs->display();
 

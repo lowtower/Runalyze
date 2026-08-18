@@ -125,7 +125,7 @@ class LapIntensity extends AbstractEnum
      *
      * @return array
      */
-    public static function getAll()
+    public static function getAll(): array
     {
         $r = array();
         for ($i = 0; $i <= 6; $i++) {

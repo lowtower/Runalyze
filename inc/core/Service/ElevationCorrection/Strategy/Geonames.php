@@ -52,7 +52,10 @@ class Geonames extends AbstractStrategyFromExternalAPI
         return $altitudes;
     }
 
-    protected function fetchElevationFor(array $latitudes, array $longitudes)
+    /**
+     * @return int[]
+     */
+    protected function fetchElevationFor(array $latitudes, array $longitudes): array
     {
         $response = $this->tryToLoadJsonFromUrl($this->getUrlFor($latitudes, $longitudes));
 

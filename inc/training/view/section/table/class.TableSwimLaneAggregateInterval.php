@@ -188,7 +188,10 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 	}
 
 	// create a array with trackloop-indexes where the laps/rounds changing
-	protected function getTrackloopLapIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop) {
+    /**
+     * @return mixed[]
+     */
+    protected function getTrackloopLapIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop): array {
 		$result = array();
 
 		$time = 0;

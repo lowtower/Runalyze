@@ -122,7 +122,6 @@ class TimeSeriesStatistics
     }
 
     /**
-     * @param $key
      * @return \Runalyze\Mathematics\Distribution\EmpiricalDistribution
      */
     public function getStatisticsFor($key)

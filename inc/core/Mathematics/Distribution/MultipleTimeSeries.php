@@ -105,7 +105,7 @@ class MultipleTimeSeries
      * @param array $keys keys that will appear as indices
      * @return array ['key a' => [], ...]
      */
-    protected function getEmptyArraysForKeys(array $keys)
+    protected function getEmptyArraysForKeys(array $keys): array
     {
         $collection = [];
 

@@ -6,7 +6,10 @@ use Runalyze\Util\InterfaceChoosable;
 
 class SportIconProfile implements InterfaceChoosable
 {
-    public static function getChoices()
+    /**
+     * @return mixed[]
+     */
+    public static function getChoices(): array
     {
         $choices = [];
         $iconClasses = [

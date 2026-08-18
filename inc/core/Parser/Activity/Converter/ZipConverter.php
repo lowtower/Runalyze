@@ -36,7 +36,7 @@ class ZipConverter implements FileTypeConverterInterface
      *
      * @return string[]
      */
-    protected function readArchive($inputFile, $extractFiles)
+    protected function readArchive($inputFile, $extractFiles): array
     {
         $archive = new \ZipArchive();
 
@@ -71,7 +71,10 @@ class ZipConverter implements FileTypeConverterInterface
         }
     }
 
-    protected function getFileNamesFrom(\ZipArchive $archive)
+    /**
+     * @return mixed[]
+     */
+    protected function getFileNamesFrom(\ZipArchive $archive): array
     {
         $files = [];
 

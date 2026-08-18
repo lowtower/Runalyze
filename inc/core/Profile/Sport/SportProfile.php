@@ -55,7 +55,7 @@ class SportProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @return array
      */
-    public static function getChoices()
+    public static function getChoices(): array
     {
         $choices = [];
 

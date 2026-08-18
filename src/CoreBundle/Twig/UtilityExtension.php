@@ -85,7 +85,6 @@ class UtilityExtension extends \Twig_Extension
     }
 
     /**
-     * @param $value
      * @return string
      */
     public function md5($value) {

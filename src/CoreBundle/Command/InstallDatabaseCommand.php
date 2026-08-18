@@ -87,7 +87,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
      * @param bool $removeDelimiter
      * @return array
      */
-    public function getSqlFileAsArray($filename, $databasePrefix, $removeDelimiter = true)
+    public function getSqlFileAsArray($filename, $databasePrefix, $removeDelimiter = true): array
     {
         $MRK = array('DELIMITER', 'USE', 'SET', 'LOCK', 'SHOW', 'DROP', 'GRANT', 'ALTER', 'UNLOCK', 'CREATE', 'INSERT', 'UPDATE', 'DELETE', 'REVOKE', 'REPLACE', 'RENAME', 'TRUNCATE');
         $SQL = @file($filename);

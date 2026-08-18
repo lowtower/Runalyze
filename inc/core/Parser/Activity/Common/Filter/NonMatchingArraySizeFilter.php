@@ -79,7 +79,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      * @param ContinuousData $continuousData
      * @return int[]
      */
-    protected function getArraySizes(array $keys, ContinuousData $continuousData)
+    protected function getArraySizes(array $keys, ContinuousData $continuousData): array
     {
         $sizes = [];
 

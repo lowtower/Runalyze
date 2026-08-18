@@ -138,7 +138,7 @@ class SportRepository extends EntityRepository
      * @param Account $account
      * @return array
      */
-    public function getFreeInternalTypes(Account $account)
+    public function getFreeInternalTypes(Account $account): array
     {
         $allTypes = array_flip(SportProfile::getChoices());
 

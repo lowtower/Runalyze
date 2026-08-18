@@ -92,7 +92,7 @@ class RaceContainer {
 	 * @param float $distance [km]
 	 * @return array
 	 */
-	public function races($distance) {
+	public function races($distance): array {
 		if (!isset($this->DistanceIDs[(string)(float)$distance])) {
 			return array();
 		}

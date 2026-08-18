@@ -320,9 +320,6 @@ class DataBrowser {
 
 	/**
 	 * Get link including the selection of one sport.
-	 * @param $sportId
-	 * @param $name
-	 * @param $icon
 	 * @param $active the link was clicked and is active
 	 * @return string
 	 */

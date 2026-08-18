@@ -59,7 +59,7 @@ class DuplicateFinder
      * @return bool[] array(id => true|false)
      * @throws \InvalidArgumentException
      */
-    public function checkForDuplicates(array $activityIds)
+    public function checkForDuplicates(array $activityIds): array
     {
         $result = [];
 

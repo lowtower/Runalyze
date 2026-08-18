@@ -93,7 +93,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	/**
 	 * @return array
 	 */
-	protected function computeZones() {
+	protected function computeZones(): array {
 		if (null !== $this->Context->activity()->maxHrUser()) {
 			$hrMax = (int)$this->Context->activity()->maxHrUser();
 			$footerHintMaxHr = 'with a maximum users heart-rate of '.$hrMax.' from the activity.';

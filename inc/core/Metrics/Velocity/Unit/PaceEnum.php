@@ -37,7 +37,10 @@ class PaceEnum extends AbstractEnum implements InterfaceChoosable
     /** @var int */
     const METER_PER_SECOND = 8;
 
-    public static function getChoices()
+    /**
+     * @return mixed[]
+     */
+    public static function getChoices(): array
     {
         $choices = [];
 

@@ -64,7 +64,7 @@ class TableZonesPace extends TableZonesAbstract {
 	/**
 	 * @return array
 	 */
-	protected function computeZones() {
+	protected function computeZones(): array {
 		// TODO
 		// - move this a calculation class
 		// - make zones configurable

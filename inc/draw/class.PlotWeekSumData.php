@@ -60,7 +60,7 @@ class PlotWeekSumData extends PlotSumData {
 	 * Get X labels
 	 * @return array
 	 */
-	protected function getXLabels() {
+	protected function getXLabels(): array {
 		$weeks = array();
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? 0 : $this->WeekStart->phpWeek() - $this->timerEnd;
 		$yearDiff = $add == 0 ? 0 : date('Y') - $this->Year;

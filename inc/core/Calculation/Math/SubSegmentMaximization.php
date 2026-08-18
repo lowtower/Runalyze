@@ -202,7 +202,7 @@ class SubSegmentMaximization
     /**
      * @return array
      */
-    public function getAvailableSegmentLengths()
+    public function getAvailableSegmentLengths(): array
     {
         $lengths = [];
 

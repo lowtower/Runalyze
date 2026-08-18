@@ -108,9 +108,6 @@ class Table {
 		$this->showIntensity = $laps->hasMoreThanActiveOrRestLaps();
 	}
 
-	/**
-	 * @param $isRunning
-	 */
 	protected function defineAdditionalKeys($isRunning) {
 		$additionalKeys = array();
 		foreach ($this->Laps->objects() as $lap) {

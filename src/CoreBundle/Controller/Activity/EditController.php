@@ -203,7 +203,6 @@ class EditController extends Controller
     }
 
     /**
-     * @param $string
      * @return null|\Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface
      */
     protected function getElevationCorrectionStrategyFromRequest($string)

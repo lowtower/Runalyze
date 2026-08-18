@@ -71,7 +71,7 @@ class StepwiseElevationProfileFixer
      * @param array $elevations
      * @return array
      */
-    protected function findMidpointsForConstantParts(array $elevations)
+    protected function findMidpointsForConstantParts(array $elevations): array
     {
         $midpoints = [];
         $lastDiffIndex = -1;

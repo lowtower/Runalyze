@@ -86,7 +86,7 @@ class PluginFactory {
 	/**
 	 * @return array
 	 */
-	public static function allIDs() {
+	public static function allIDs(): array {
 		$IDs = array();
 
 		foreach (self::Plugins() as $data) {
@@ -200,7 +200,7 @@ class PluginFactory {
 	 * Get all enabled panels
 	 * @return array array with plugin keys
 	 */
-	public function enabledPanels() {
+	public function enabledPanels(): array {
 		$keys = array();
 
 		foreach (self::Plugins() as $plugin) {
@@ -218,7 +218,7 @@ class PluginFactory {
 	 * @param mixed $active [optional] false or enum
 	 * @return array array with plugin keys
 	 */
-	protected function getPlugins($type = false, $active = false) {
+	protected function getPlugins($type = false, $active = false): array {
 		$keys = array();
 
 		foreach (self::Plugins() as $plugin) {
@@ -234,7 +234,7 @@ class PluginFactory {
 	 * Get uninstalled plugins
 	 * @return array
 	 */
-	public function notInstalledPlugins() {
+	public function notInstalledPlugins(): array {
 		$plugins = array();
 		$dir = opendir(FRONTEND_PATH.'../plugin/');
 

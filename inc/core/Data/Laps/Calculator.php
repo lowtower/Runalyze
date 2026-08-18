@@ -162,7 +162,6 @@ class Calculator
 	/**
 	 * Convert distance comma-separated string to array
 	 * + at the beginning means treat as intervals
-	 * @param $distanceStr
 	 * @return array
 	 */
 	public static function getDistancesFromString($distanceStr)

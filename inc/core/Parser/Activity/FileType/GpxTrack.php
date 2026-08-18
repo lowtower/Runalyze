@@ -250,7 +250,7 @@ class GpxTrack extends AbstractSingleParser
      * @param SimpleXMLElement $parentNode
      * @return SimpleXMLElement[]
      */
-    protected function getExtensionNodesOf(SimpleXMLElement $parentNode) {
+    protected function getExtensionNodesOf(SimpleXMLElement $parentNode): array {
         $childNodes = [];
 
         foreach (['gpxtpx', 'ns3', 'ns2'] as $namespace) {

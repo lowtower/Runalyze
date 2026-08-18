@@ -74,7 +74,6 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
      * 
      * @param Sport $sport
      * @param Route $route
-     * @param $distance
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
 	 * @throws Exception
      */

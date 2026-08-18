@@ -80,7 +80,7 @@ class GenerateJsonData
      * @param float $distance
      * @return array
      */
-    protected function getSegmentsFor($geohashLine, $distance)
+    protected function getSegmentsFor($geohashLine, $distance): array
     {
         $segments = [];
         $segments[] = [];

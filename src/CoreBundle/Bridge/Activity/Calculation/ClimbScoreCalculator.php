@@ -36,7 +36,7 @@ class ClimbScoreCalculator
      * @param Training $activity
      * @return array
      */
-    protected function getFietsIndicesFor(Training $activity)
+    protected function getFietsIndicesFor(Training $activity): array
     {
         $fietsIndex = new FietsIndex();
         $climbs = (new ClimbFinder())->findClimbsFor($activity);

@@ -60,7 +60,7 @@ class ConstantSegmentFinder
     /**
      * @return array[] [index_start, index_end] for each constant segment
      */
-    public function findConstantSegments()
+    public function findConstantSegments(): array
     {
         if (0 == $this->DataSize) {
             return [];

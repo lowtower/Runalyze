@@ -265,9 +265,6 @@ class Metadata
         return $this->RouteDescription;
     }
 
-    /**
-     * @param $name
-     */
     public function addEquipment($name)
     {
         $this->EquipmentNames[] = $name;

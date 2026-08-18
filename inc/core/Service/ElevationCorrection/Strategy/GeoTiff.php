@@ -66,7 +66,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
      *
      * @return array   array(array($lat, $lng), ...)
      */
-    protected function getBoundsFor(array $latitudes, array $longitudes)
+    protected function getBoundsFor(array $latitudes, array $longitudes): array
     {
         $filteredLatitudes = array_filter($latitudes);
         $filteredLongitudes = array_filter($longitudes);

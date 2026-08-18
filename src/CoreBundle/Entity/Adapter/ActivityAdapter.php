@@ -63,7 +63,7 @@ class ActivityAdapter
      */
     public function isNotOlderThanXDays($days)
     {
-        return  (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))->days <= $days;
+        return (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))->days <= $days;
     }
 
     /**

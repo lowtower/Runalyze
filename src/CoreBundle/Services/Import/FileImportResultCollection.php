@@ -162,7 +162,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return string[]
      */
-    public function getAllConvertedFileNames()
+    public function getAllConvertedFileNames(): array
     {
         $convertedFiles = [];
 

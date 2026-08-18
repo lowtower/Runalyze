@@ -24,7 +24,7 @@ class NegativeTimeStepFilter extends AbstractFilter
      *
      * @throws InvalidDataException
      */
-    protected function detectNegativeTimeSteps(array $time, $strict)
+    protected function detectNegativeTimeSteps(array $time, $strict): array
     {
         $negativeTimeSteps = [];
         $numberOfPoints = count($time);

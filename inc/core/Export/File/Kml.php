@@ -191,8 +191,7 @@ class Kml extends AbstractFileExporter
      */
     protected function emptyXml()
     {
-        return
-            '<kml xmlns="http://earth.google.com/kml/2.0">
+        return '<kml xmlns="http://earth.google.com/kml/2.0">
   <Folder>
     <open>1</open>
     <name></name>

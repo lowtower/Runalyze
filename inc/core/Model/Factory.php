@@ -158,7 +158,7 @@ class Factory {
 	 * @param int $sportid
 	 * @return \Runalyze\Model\Type\Entity[]
 	 */
-	public function typeForSport($sportid) {
+	public function typeForSport($sportid): array {
 		$Types = $this->allTypes();
 		$SportTypes = array();
 
@@ -373,7 +373,7 @@ class Factory {
 	 * @param \Closure $constructor
 	 * @return \Runalyze\Model\Entity[]
 	 */
-	public function allObjects($tablename, \Closure $constructor) {
+	public function allObjects($tablename, \Closure $constructor): array {
 		$allObjects = array();
 		$allData = $this->allData($tablename);
 

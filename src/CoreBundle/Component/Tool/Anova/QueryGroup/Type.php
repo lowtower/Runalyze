@@ -29,7 +29,7 @@ class Type implements QueryGroupInterface
      * @param AnovaData $anovaData
      * @return array
      */
-    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData)
+    public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
         $groups = [];
         $sports = $anovaData->getSport();

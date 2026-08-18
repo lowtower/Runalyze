@@ -282,7 +282,7 @@ class DataSeriesRemover
      * @param Training $activity
      * @return array
      */
-    public static function getChoicesForActivity(Training $activity)
+    public static function getChoicesForActivity(Training $activity): array
     {
         $choices = array_merge(
             self::getChoicesForTrackData($activity->getTrackdata()),

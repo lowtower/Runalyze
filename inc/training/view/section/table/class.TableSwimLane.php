@@ -132,7 +132,10 @@ class TableSwimLane extends TableLapsAbstract {
 	}
 
 	// create a array with trackloop-indexes where the pause laps/rounds including #TSC
-	protected function getTrackloopPauseIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop) {
+    /**
+     * @return mixed[]
+     */
+    protected function getTrackloopPauseIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop): array {
 		$result = array();
 
 		$time = 0;

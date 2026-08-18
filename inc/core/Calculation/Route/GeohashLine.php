@@ -11,7 +11,7 @@ class GeohashLine
      * @param array $geolineHashes
      * @return array
      */
-    public static function extend(array $geolineHashes)
+    public static function extend(array $geolineHashes): array
     {
         $geohashes = array();
 
@@ -30,7 +30,7 @@ class GeohashLine
      * @param array $geolineHashes
      * @return array
      */
-    public static function shorten(array $geolineHashes)
+    public static function shorten(array $geolineHashes): array
     {
         $last = '';
         $newgeoline = array();

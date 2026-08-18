@@ -278,7 +278,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
      * @param int $limit
      * @return array
      */
-    protected function gpsKeysThatExceed($limit)
+    protected function gpsKeysThatExceed($limit): array
     {
         $keys = [];
 
@@ -297,7 +297,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
      * @param array $keys
      * @return array
      */
-    protected function createNewArraysFor(array $keys)
+    protected function createNewArraysFor(array $keys): array
     {
         $newArrays = array();
 

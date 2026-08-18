@@ -24,7 +24,7 @@ class Derivative
      *
      * @throws InvalidArgumentException
      */
-    public function calculate(array $y, array $x)
+    public function calculate(array $y, array $x): array
     {
         if (count($x) !== $num = count($y)) {
             throw new InvalidArgumentException('Input arrays must be of same size.');

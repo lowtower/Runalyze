@@ -34,7 +34,7 @@ class FileHandler
      * @param Account $account
      * @return array
      */
-    public function getFileList(Account $account)
+    public function getFileList(Account $account): array
     {
         $finder = new Finder();
         $finder->files()->name($account->getId().'-*')

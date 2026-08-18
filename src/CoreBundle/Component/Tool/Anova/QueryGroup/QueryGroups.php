@@ -30,7 +30,6 @@ final class QueryGroups extends AbstractEnum
     }
 
     /**
-     * @param $enum
      * @return QueryGroupInterface
      */
     public static function getGroup($enum)

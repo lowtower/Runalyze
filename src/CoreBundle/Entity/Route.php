@@ -381,7 +381,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return array [[lat1, lat2, ...], [lng1, lng2, ...]]
      */
-    public function getLatitudesAndLongitudes()
+    public function getLatitudesAndLongitudes(): array
     {
         $coordinates = [[], []];
 

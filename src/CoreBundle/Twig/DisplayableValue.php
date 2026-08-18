@@ -78,7 +78,6 @@ class DisplayableValue
     }
 
     /**
-     * @param $value
      * @return $this
      */
     public function setRawValue($value)

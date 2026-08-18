@@ -98,7 +98,7 @@ class RunalyzeConfigurationList extends ConfigurationList
      * @param string $prefix
      * @return array
      */
-    protected function getDataForPrefix($prefix)
+    protected function getDataForPrefix($prefix): array
     {
         $prefix .= '.';
         $prefixLength = strlen($prefix);

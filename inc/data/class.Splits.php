@@ -251,7 +251,7 @@ class Splits {
 	 * @param bool $restingLaps optional
 	 * @return array
 	 */
-	public function timesAsArray($restingLaps = false) {
+	public function timesAsArray($restingLaps = false): array {
 		$times = array();
 
 		foreach ($this->asArray as $split) {
@@ -321,7 +321,7 @@ class Splits {
 	 * @param bool $restingLaps optional
 	 * @return array
 	 */
-	public function distancesAsArray($restingLaps = false) {
+	public function distancesAsArray($restingLaps = false): array {
 		$distances = array();
 
 		foreach ($this->asArray as $split)
@@ -349,7 +349,7 @@ class Splits {
 	 * @param bool $restingLaps optional
 	 * @return array
 	 */
-	public function pacesAsArray($restingLaps = false) {
+	public function pacesAsArray($restingLaps = false): array {
 		$paces = array();
 
 		foreach ($this->asArray as $split) {

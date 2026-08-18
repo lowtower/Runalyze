@@ -39,7 +39,7 @@ class InfiniteImpulseResponseFilter
      * @param bool $returnEnlargedData set to true to return an array of size [n + 2*order], starting at [-order]
      * @return array remember: applying the filter only once causes a shift of the original signal
      */
-    public function filter(array $inputData, $returnEnlargedData = false)
+    public function filter(array $inputData, $returnEnlargedData = false): array
     {
         $signalLength = count($inputData);
         $outputData = array_fill(0, $signalLength, 0);

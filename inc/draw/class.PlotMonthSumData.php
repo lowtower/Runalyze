@@ -43,7 +43,7 @@ class PlotMonthSumData extends PlotSumData {
 	 * Get X labels
 	 * @return array
 	 */
-	protected function getXLabels() {
+	protected function getXLabels(): array {
 		$months = array();
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? date('m') : 0;
 		$i = 0;

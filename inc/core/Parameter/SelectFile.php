@@ -94,7 +94,7 @@ class SelectFile extends Select {
 	 * Options
 	 * @return array
 	 */
-	public function options() {
+	public function options(): array {
 		$Options = array();
 		$Folder = $this->Options['folder'];
 

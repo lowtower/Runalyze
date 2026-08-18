@@ -98,7 +98,7 @@ class JsonBackupAnalyzer
 	/**
 	 * @return array error messages
 	 */
-	public function errors()
+	public function errors(): array
     {
 		$Expected = $this->expectedTables();
 		$Found = array_keys($this->NumberOf);

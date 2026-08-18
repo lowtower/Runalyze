@@ -265,7 +265,7 @@ class FileImporter implements LoggerAwareInterface
      * @throws UnsupportedFileException
      * @throws ParserException
      */
-    protected function parseSingleFile($fileName)
+    protected function parseSingleFile($fileName): array
     {
         if (isset($this->ConverterExceptions[$fileName])) {
             throw $this->ConverterExceptions[$fileName];

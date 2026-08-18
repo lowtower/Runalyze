@@ -81,7 +81,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Get own links for toolbar navigation
 	 * @return array
 	 */
-	protected function getToolbarNavigationLinks() {
+	protected function getToolbarNavigationLinks(): array {
 		$LinkList = array();
 		$LinkList[] = '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php">'.Ajax::tooltip(Icon::$LINE_CHART, __('Show temperature plots')).'</a>').'</li>';
 

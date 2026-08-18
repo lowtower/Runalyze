@@ -144,7 +144,7 @@ class JobLoop extends Job
     /**
      * @return array
      */
-    protected function updateSet()
+    protected function updateSet(): array
     {
         $Set = array();
 

@@ -208,7 +208,7 @@ class MonthwiseTable
 	/**
 	 * @return array
 	 */
-	protected function generateDataForWeatherConditions()
+	protected function generateDataForWeatherConditions(): array
 	{
 		$Rows = array();
 		$Condition = new Weather\Condition(0);
@@ -256,7 +256,7 @@ class MonthwiseTable
 	/**
 	 * @return array
 	 */
-	protected function generateDataForEquipment()
+	protected function generateDataForEquipment(): array
 	{
 		if ($this->EquipmentTypeID == 0) {
 			return array();

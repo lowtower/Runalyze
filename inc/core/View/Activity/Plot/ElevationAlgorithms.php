@@ -119,7 +119,7 @@ class ElevationAlgorithms extends ActivityPlot {
 	 * @param int|bool $threshold
 	 * @return array
 	 */
-	protected function constructPlotDataFor($algorithm, $threshold = false) {
+	protected function constructPlotDataFor($algorithm, $threshold = false): array {
 		$Method = new ElevationMethod();
 		$Method->set($algorithm);
 

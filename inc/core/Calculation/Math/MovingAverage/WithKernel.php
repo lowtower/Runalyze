@@ -77,7 +77,7 @@ class WithKernel extends AbstractMovingAverage
      * @param float $maxDiff
      * @return array deltaIndex => delta
      */
-    protected function deltasToRespect($currentIndex, $maxDiff)
+    protected function deltasToRespect($currentIndex, $maxDiff): array
     {
         $x = $this->IndexData[$currentIndex];
         $deltas = array(0);

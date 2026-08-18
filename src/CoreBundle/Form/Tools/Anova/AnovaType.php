@@ -183,7 +183,7 @@ class AnovaType extends AbstractType
     /**
      * @return array
      */
-    protected function getGroupsForSingleChoiceEquipmentTypes()
+    protected function getGroupsForSingleChoiceEquipmentTypes(): array
     {
         $equipmentTypes = $this->EquipmentTypeRepository->findSingleChoiceTypesFor($this->getAccount());
         $groups = [];

@@ -419,7 +419,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * create latitude and longitude array
 	 * @return array Array with coordiantes: ['lat' => array, 'lng' => array]
 	 */
-	public function latitudesAndLongitudesFromGeohash() {
+	public function latitudesAndLongitudesFromGeohash(): array {
 		$Coordinates = array();
 		$Geohashes = $this->Data[self::GEOHASHES];
 		$size = count($this->Data[self::GEOHASHES]);

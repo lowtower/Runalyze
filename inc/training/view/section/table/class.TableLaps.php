@@ -36,7 +36,7 @@ class TableLaps extends TableLapsAbstract {
 	/**
 	 * @return array
 	 */
-	protected function computeHalfs() {
+	protected function computeHalfs(): array {
 		$Halfs = array();
 
 		$Loop = new Trackdata\Loop($this->Context->trackdata());

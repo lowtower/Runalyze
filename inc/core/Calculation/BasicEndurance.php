@@ -229,7 +229,7 @@ class BasicEndurance
      * @param array $data [optional] array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      * @return array array('weekkm-result', 'longjog-result', 'weekkm-percentage', 'longjog-percentage', 'percentage')
      */
-    public function asArray($timestamp = 0, array $data = [])
+    public function asArray($timestamp = 0, array $data = []): array
     {
         if ($timestamp == 0)
             $timestamp = time();
@@ -329,7 +329,6 @@ class BasicEndurance
 
     /**
      * @param array $activityData array(array('time' => ..., 'distance' => ...), array(...), ...)
-     * @param $timestamp
      * @return array array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      */
     public function dataFor(array $activityData, $timestamp)
