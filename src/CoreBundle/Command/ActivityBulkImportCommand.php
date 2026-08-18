@@ -23,8 +23,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
  * #TSC
  */
 class MaxZoneHR {
-    private $import; // is import allowed by configuration
-    public $MaxHR = 0; // max HR of all imported activities
+    private $import;
+
+     // is import allowed by configuration
+    public $MaxHR = 0;
+
+     // max HR of all imported activities
     public $Time; // timestamp of the first highest HR
 
     public function __construct($account, $container) {
@@ -36,6 +40,7 @@ class MaxZoneHR {
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new \Runalyze\Parameter\Boolean(false);
         $bool->setFromString(null === $conf ? '' : $conf->getValue());
+
         $this->import = $bool->value();
     }
 
@@ -122,6 +127,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         if(! empty($sport)) {
             $output->writeln('<info>using sport=' . $sport . '</info>');
         }
+
         if(! empty($this->moveFolder)) {
             $output->writeln('<info>move imported files to ' . $this->moveFolder . '</info>');
         }
@@ -144,10 +150,12 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $fs->copy($path.'/'.$file, $dataDirectory.'/import/'.$filename);
             $files[] = $dataDirectory.'/import/'.$filename;
         }
+
         asort($files);
 
         $importResult = $importer->importFiles($files);
         $importResult->completeAndFilterResults($this->getContainer()->get('app.activity_data_container.filter'));
+
         $contextAdapterFactory = $this->getContainer()->get('app.activity_context_adapter_factory');
         $defaultLocation = $this->getContainer()->get('app.configuration_manager')->getList()->getActivityForm()->getDefaultLocationForWeatherForecast();
 

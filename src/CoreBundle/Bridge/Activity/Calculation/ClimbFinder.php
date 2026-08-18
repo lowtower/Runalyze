@@ -35,7 +35,7 @@ class ClimbFinder
     }
 
     /**
-     * @param array $indices
+     * @param array<int, mixed> $indices
      * @param array $distances
      * @param array $elevations
      * @return ClimbCollection

@@ -381,12 +381,12 @@ class Splits {
 	}
 
 	/**
-	 * Set empty times from array
-	 * @param array $Time
-	 * @param array $Distance
-	 * @param string $mode
-	 */
-	protected function fillFromArray(array $Time, array $Distance, $mode = 'time') {
+     * Set empty times from array
+     * @param array<int, mixed> $Time
+     * @param array<int, mixed> $Distance
+     * @param string $mode
+     */
+    protected function fillFromArray(array $Time, array $Distance, $mode = 'time') {
 		$totalDistance = 0;
 		$totalTime = 0;
 		$size = min(count($Time), count($Distance));

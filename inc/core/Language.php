@@ -288,6 +288,7 @@ class Language implements InterfaceChoosable
                 }
             }
         }
+
         arsort($matches, SORT_NUMERIC);
 
         return $matches;

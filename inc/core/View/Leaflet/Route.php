@@ -105,7 +105,8 @@ class Route {
 		foreach ($this->Options as $property => $value) {
 			$Options .= ', '.$property.': '.json_encode($value);
 		}
-		return 'RunalyzeLeaflet.Routes.addRoute(\''.$this->id.'\', {'.$Options.'});';
+
+		return "RunalyzeLeaflet.Routes.addRoute('".$this->id."', {".$Options.'});';
 	}
 
 	/**

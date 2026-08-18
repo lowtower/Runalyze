@@ -115,6 +115,7 @@ class Laps {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

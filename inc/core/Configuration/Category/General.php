@@ -179,7 +179,7 @@ class General extends \Runalyze\Configuration\Category {
 	protected function registerOnchangeEvents() {
 		$this->handle('DISTANCE_UNIT_SYSTEM')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 		$this->handle('ENERGY_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
-		$this->handle('DISTANCE_UNIT_SYSTEM')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::adjustPacesInSportsConfiguration');
+		$this->handle('DISTANCE_UNIT_SYSTEM')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
 		$this->handle('WEIGHT_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
                 $this->handle('TEMPERATURE_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
 		$this->handle('HEART_RATE_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);

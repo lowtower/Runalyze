@@ -42,7 +42,7 @@ class Location
 
             $this->Latitude = $decoded->getLatitude();
             $this->Longitude = $decoded->getLongitude();
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $invalidArgumentException) {
             $this->Latitude = null;
             $this->Longitude = null;
         }

@@ -31,13 +31,13 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
     {
         //Table: conf
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('DELETE FROM `'.$prefix.'conf` WHERE `accountid` = \'-1\'');
+        $this->addSql('DELETE FROM `'.$prefix."conf` WHERE `accountid` = '-1'");
         $this->addSql('ALTER TABLE `'.$prefix.'conf`
                   MODIFY `id` int(10) unsigned auto_increment NOT NULL,
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
         //Table: plugin
-        $this->addSql('DELETE FROM `'.$prefix.'plugin` WHERE `accountid` = \'-1\'');
+        $this->addSql('DELETE FROM `'.$prefix."plugin` WHERE `accountid` = '-1'");
         $this->addSql('UPDATE `'.$prefix.'plugin` SET `order`= 0 WHERE `order` < 0');
 
         $this->addSql('ALTER TABLE `'.$prefix.'plugin`
@@ -46,8 +46,8 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
         //Table: equipment_type
-        $this->addSql('UPDATE `'.$prefix.'equipment_type` SET `max_km` = 0 WHERE `max_km` > \'16777215\'');
-        $this->addSql('UPDATE `'.$prefix.'equipment_type` SET `max_time` = 0 WHERE `max_time` > \'16777215\'');
+        $this->addSql('UPDATE `'.$prefix."equipment_type` SET `max_km` = 0 WHERE `max_km` > '16777215'");
+        $this->addSql('UPDATE `'.$prefix."equipment_type` SET `max_time` = 0 WHERE `max_time` > '16777215'");
 
 
         $this->addSql('ALTER TABLE `'.$prefix.'equipment_type`
@@ -58,7 +58,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'equipment_type` SET `max_time` = NULL WHERE `max_time`= 0');
 
         //Table: type
-        $this->addSql('DELETE FROM `'.$prefix.'type` WHERE `accountid` = \'-1\'');
+        $this->addSql('DELETE FROM `'.$prefix."type` WHERE `accountid` = '-1'");
         $this->addSql('DELETE FROM `'.$prefix.'type` WHERE `sportid` = 0');
         $this->addSql('ALTER TABLE `'.$prefix.'type`
                   MODIFY `id` int(10) unsigned auto_increment NOT NULL,
@@ -66,7 +66,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
         //Table: user
-        $this->addSql('DELETE FROM `'.$prefix.'user` WHERE `accountid` = \'-1\'');
+        $this->addSql('DELETE FROM `'.$prefix."user` WHERE `accountid` = '-1'");
         $this->addSql('UPDATE `'.$prefix.'user` SET `pulse_rest` = 0 WHERE `pulse_rest` > 255');
         $this->addSql('UPDATE `'.$prefix.'user` SET `pulse_max` = 0 WHERE `pulse_max` > 255');
 
@@ -83,10 +83,10 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `sleep_duration` smallint(3) unsigned DEFAULT NULL');
         $this->addSql('UPDATE `'.$prefix.'user` SET `pulse_rest` = NULL WHERE `pulse_rest`= 0');
         $this->addSql('UPDATE `'.$prefix.'user` SET `pulse_max` = NULL WHERE `pulse_max`= 0');
-        $this->addSql('UPDATE `'.$prefix.'user` SET `fat` = NULL WHERE `fat`= \'0.0\'');
-        $this->addSql('UPDATE `'.$prefix.'user` SET `weight` = NULL WHERE `weight`= \'0.0\'');
-        $this->addSql('UPDATE `'.$prefix.'user` SET `water` = NULL WHERE `water`= \'0.0\'');
-        $this->addSql('UPDATE `'.$prefix.'user` SET `muscles` = NULL WHERE `muscles`= \'0.0\'');
+        $this->addSql('UPDATE `'.$prefix."user` SET `fat` = NULL WHERE `fat`= '0.0'");
+        $this->addSql('UPDATE `'.$prefix."user` SET `weight` = NULL WHERE `weight`= '0.0'");
+        $this->addSql('UPDATE `'.$prefix."user` SET `water` = NULL WHERE `water`= '0.0'");
+        $this->addSql('UPDATE `'.$prefix."user` SET `muscles` = NULL WHERE `muscles`= '0.0'");
         $this->addSql('UPDATE `'.$prefix.'user` SET `sleep_duration` = NULL WHERE `sleep_duration`= 0');
 
         //Table account
@@ -100,10 +100,10 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `allow_mails` tinyint(1) unsigned NOT NULL DEFAULT 1');
         $this->addSql('UPDATE `'.$prefix.'account` SET `registerdate` = NULL WHERE `registerdate`= 0');
         $this->addSql('UPDATE `'.$prefix.'account` SET `lastaction` = NULL WHERE `lastaction`= 0');
-        $this->addSql('UPDATE `'.$prefix.'account` SET `activation_hash` = NULL WHERE `activation_hash`= \'\'');
-        $this->addSql('UPDATE `'.$prefix.'account` SET `deletion_hash` = NULL WHERE `deletion_hash`= \'\'');
+        $this->addSql('UPDATE `'.$prefix."account` SET `activation_hash` = NULL WHERE `activation_hash`= ''");
+        $this->addSql('UPDATE `'.$prefix."account` SET `deletion_hash` = NULL WHERE `deletion_hash`= ''");
         $this->addSql('UPDATE `'.$prefix.'account` SET `changepw_timelimit` = NULL WHERE `changepw_timelimit`= 0');
-        $this->addSql('UPDATE `'.$prefix.'account` SET `changepw_hash` = NULL WHERE `changepw_hash`= \'\'');
+        $this->addSql('UPDATE `'.$prefix."account` SET `changepw_hash` = NULL WHERE `changepw_hash`= ''");
 
         $this->addSql('UPDATE `'.$prefix.'sport` SET `HFavg` = 120 WHERE `HFavg` >= 255');
 
@@ -194,10 +194,10 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'training` SET `edited` = NULL WHERE `edited`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `pulse_avg` = NULL WHERE `pulse_avg`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `pulse_max` = NULL WHERE `pulse_max`= 0');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot` = NULL WHERE `vdot`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot_by_time` = NULL WHERE `vdot_by_time`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot_with_elevation` = NULL WHERE `vdot_with_elevation`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `fit_vdot_estimate` = NULL WHERE `fit_vdot_estimate`= \'0.0\'');
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot` = NULL WHERE `vdot`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot_by_time` = NULL WHERE `vdot_by_time`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot_with_elevation` = NULL WHERE `vdot_with_elevation`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `fit_vdot_estimate` = NULL WHERE `fit_vdot_estimate`= '0.0'");
         $this->addSql('UPDATE `'.$prefix.'training` SET `fit_recovery_time` = NULL WHERE `fit_recovery_time`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `fit_hrv_analysis` = NULL WHERE `fit_hrv_analysis`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `jd_intensity` = NULL WHERE `jd_intensity`= 0');

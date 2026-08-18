@@ -108,7 +108,7 @@ class EditController extends Controller
     }
 
     /**
-     * @param array $activityIds
+     * @param string[] $activityIds
      * @param Account $account
      * @return Response
      */

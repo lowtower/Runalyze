@@ -65,10 +65,10 @@ final class Kernels extends AbstractEnum
 	}
 
 	/**
-	 * Get array with class names
-	 * @return array
-	 */
-	private static function classNamesArray()
+     * Get array with class names
+     * @return array<int, string>
+     */
+    private static function classNamesArray()
 	{
 		return array(
     self::UNIFORM => 'Uniform',

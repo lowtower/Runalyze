@@ -27,7 +27,7 @@ class PrivacyData
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     public function getDataForConfiguration()
     {

@@ -72,7 +72,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $currently
+     * @param array<string, mixed> $currently
      *
      * @return WeatherData
      */
@@ -107,7 +107,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $currently
+     * @param array<string, mixed> $currently
      *
      * @return int
      */
@@ -153,6 +153,9 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         return [];
     }
 
+    /**
+     * @param array<string, mixed> $result
+     */
     protected function updateLocationFromResult(Location $location, array $result)
     {
         if (isset($result['latitude']) && isset($result['longitude'])) {

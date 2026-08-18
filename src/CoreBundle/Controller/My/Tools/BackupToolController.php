@@ -91,9 +91,9 @@ class BackupToolController extends Controller
             ->filter(function(\SplFileInfo $file) use ($fileHandler) {
                 return $fileHandler->validateInternalFilename($file->getFilename());
             })
-        ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-            return ($b->getMTime() - $a->getMTime());
-        });
+            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
+                return ($b->getMTime() - $a->getMTime());
+            });
 
         return $this->render('tools/backup/export.html.twig', [
             'backupjobWasCreated' => $this->get('session')->getFlashBag()->get('runalyze.backupjob.created'),

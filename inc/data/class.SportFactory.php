@@ -33,12 +33,12 @@ class SportFactory {
 	}
 
 	/**
-	 * Array with default values
-	 *
-	 * @todo This method should be useless as soon as a DatabaseScheme is used
-	 * @return array
-	 */
-	private static function defaultArray() {
+     * Array with default values
+     *
+     * @todo This method should be useless as soon as a DatabaseScheme is used
+     * @return array<string, string|int|null>
+     */
+    private static function defaultArray() {
 		return array(
     'name' => '?',
 		    'img' => '',

@@ -99,7 +99,7 @@ class ContinuousData
     public $StrokeType = [];
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function getPropertyNamesOfArrays()
     {
@@ -137,7 +137,7 @@ class ContinuousData
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function getPropertyNamesOfArraysThatShouldNotContainZeros()
     {

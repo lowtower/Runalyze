@@ -329,7 +329,7 @@ class BasicEndurance
 
     /**
      * @param array $activityData array(array('time' => ..., 'distance' => ...), array(...), ...)
-     * @return array array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
+     * @return array<string, int|float> array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      */
     public function dataFor(array $activityData, $timestamp)
     {
@@ -417,6 +417,7 @@ class BasicEndurance
     {
         $Object = new self();
         $Object->readSettingsFromConfiguration();
+
         $BASIC_ENDURANCE = $Object->value();
 
         Configuration::Data()->updateBasicEndurance($BASIC_ENDURANCE);

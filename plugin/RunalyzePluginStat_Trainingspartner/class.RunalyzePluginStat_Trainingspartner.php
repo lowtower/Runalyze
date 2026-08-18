@@ -106,6 +106,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 
 				echo SearchLink::to('partner', $name, $name, 'like');
 			}
+
 			echo '</td></tr>';
 		}
 

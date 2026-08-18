@@ -7,7 +7,7 @@ use Runalyze\Mathematics\Distribution\AbstractDistribution;
 class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param array $histogram
+     * @param int[] $histogram
      * @return AbstractDistribution
      */
     protected function getMockWithHistogram(array $histogram): \PHPUnit\Framework\MockObject\MockObject

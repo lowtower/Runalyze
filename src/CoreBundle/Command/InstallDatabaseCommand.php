@@ -63,10 +63,10 @@ class InstallDatabaseCommand extends ContainerAwareCommand
             }
 
             $em->commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $em->rollBack();
 
-            throw $e;
+            throw $exception;
         }
     }
 
@@ -113,7 +113,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
                 }
             } else {
                 $AA = explode(' ', $line);
-                if (in_array(strtoupper($AA[0]), $MRK)) {
+                if (in_array(strtoupper($AA[0]), $MRK, true)) {
                     if ($AA[0] == 'DELIMITER') {
                         $inDelimiter = true;
                         $query = $removeDelimiter ? '' : $line;

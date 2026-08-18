@@ -45,6 +45,7 @@ class ActivityDataContainerMerger
             $this->ResultingContainer->RRIntervals = $container->RRIntervals;
         }
     }
+
     /**
      * @return ActivityDataContainer
      */

@@ -157,7 +157,7 @@ class PDOforRunalyze extends PDO {
 		$table = str_replace(PREFIX, '', $table);
 
 		// TODO: TEST IT!
-		if (! in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor']) && ! in_array('accountid', $columns)) {
+		if (! in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor'], true) && ! in_array('accountid', $columns)) {
 			$columns[] = 'accountid';
 			$values[]  = $this->accountID;
 		}
@@ -174,6 +174,7 @@ class PDOforRunalyze extends PDO {
 			$this->startAddingAccountID();
 			return false;
 		}
+
 		$this->startAddingAccountID();
 
 		return $this->lastInsertId();
@@ -269,6 +270,7 @@ class PDOforRunalyze extends PDO {
 		if ($this->addsAccountID) {
 			$this->addAccountIDtoStatement($statement);
 		}
+
 		return parent::query($statement);
 	}
 }

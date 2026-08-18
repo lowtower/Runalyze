@@ -80,9 +80,9 @@ class UploadController extends Controller
             return new JsonResponse([
                 'success' => true
             ]);
-        } catch (FileException $e) {
+        } catch (FileException $fileException) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $fileException->getMessage()
             ]);
         }
     }

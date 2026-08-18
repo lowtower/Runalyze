@@ -48,9 +48,9 @@ class TimezoneLookup
             if ($sqLite instanceof \SQLite3) {
                 return true;
             }
-        } catch (TimezoneLookupException $e) {
+        } catch (TimezoneLookupException $timezoneLookupException) {
             if (! $this->SilentExceptions) {
-                throw $e;
+                throw $timezoneLookupException;
             }
         }
 
@@ -106,9 +106,10 @@ class TimezoneLookup
 
         try {
             $loaded = @$this->SQLite->loadExtension($this->SpatialiteExtensionName);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $loaded = false;
         }
+
         if (! $loaded) {
             $this->SQLite->close();
             $this->SQLite = false;

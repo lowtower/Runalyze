@@ -65,10 +65,10 @@ class Entity extends Model\EntityWithID {
 	const DATE_END = 'date_end';
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::NAME,
 		    self::TYPEID,

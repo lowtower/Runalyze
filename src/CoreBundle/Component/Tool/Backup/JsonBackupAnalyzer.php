@@ -116,9 +116,9 @@ class JsonBackupAnalyzer
 	}
 
 	/**
-	 * @return array table names with default prefix 'runalyze_'
-	 */
-	protected function expectedTables()
+     * @return array<int, string> table names with default prefix 'runalyze_'
+     */
+    protected function expectedTables()
     {
 		return array(
 		    'runalyze_account',

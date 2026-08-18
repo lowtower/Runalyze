@@ -44,6 +44,7 @@ class TableZonesPace extends TableZonesAbstract {
 		$Zones = $this->computeZones();
 		$Pace = new Pace(0, 1);
 		$Pace->setUnit($this->PaceUnit);
+
 		$HR = new HeartRate(0, Runalyze\Context::Athlete());
 
 		foreach ($Zones as $paceInSeconds => $Info) {

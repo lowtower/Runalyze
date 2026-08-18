@@ -53,7 +53,7 @@ abstract class AbstractPluginsAwareController extends Controller
 
         try {
         	$plugin = $factory->newInstanceFor($pluginId);
-        } catch (\Exception $E) {
+        } catch (\Exception $exception) {
             $plugin = null;
 
         	echo \HTML::error(__('The plugin could not be found.'));

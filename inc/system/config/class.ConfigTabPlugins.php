@@ -134,7 +134,7 @@ class ConfigTabPlugins extends ConfigTab {
 				$Code .= HTML::info(__('* Hidden plugins only show their headings.'));
 				break;
 			case 'stat':
-				$Code .= HTML::info(__('* Hidden plugins are grouped as \'Miscellaneous\'.'));
+				$Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'."));
 				break;
 			default:
 				$Code .= '';
@@ -237,12 +237,12 @@ class ConfigTabPlugins extends ConfigTab {
 	}
 
 	/**
-	 * @param \PDOStatement $update
-	 * @param array $Plugin
-	 * @param int $newModus
-	 * @param int $newOrder
-	 */
-	protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder) {
+     * @param \PDOStatement $update
+     * @param array<string, mixed> $Plugin
+     * @param int $newModus
+     * @param int $newOrder
+     */
+    protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder) {
 		if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
 			$update->execute([
     ':active' => $newModus,

@@ -52,8 +52,8 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         try {
             $this->assertEquals('Europe/Berlin', $this->Lookup->getTimezoneForCoordinate(13.41, 52.52));
             $this->assertEquals('America/Los_Angeles', $this->Lookup->getTimezoneForCoordinate(-122.420706, 37.776685));
-        } catch (TimezoneLookupException $e) {
-            $this->markTestSkipped('Timezone lookup is not possible: '.$e->getMessage());
+        } catch (TimezoneLookupException $timezoneLookupException) {
+            $this->markTestSkipped('Timezone lookup is not possible: '.$timezoneLookupException->getMessage());
         }
     }
 
@@ -61,8 +61,8 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $this->assertNull($this->Lookup->getTimezoneForCoordinate('foo', 'bar'));
-        } catch (TimezoneLookupException $e) {
-            $this->markTestSkipped('Timezone lookup is not possible: '.$e->getMessage());
+        } catch (TimezoneLookupException $timezoneLookupException) {
+            $this->markTestSkipped('Timezone lookup is not possible: '.$timezoneLookupException->getMessage());
         }
     }
 }

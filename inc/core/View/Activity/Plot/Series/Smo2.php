@@ -37,6 +37,7 @@ class Smo2 extends ActivitySeries {
             $trackdataKey = Trackdata::SMO2_0;
             $this->Label = __('SmO2');
         }
+
 		$this->initData($context->trackdata(), $trackdataKey);
 	}
 

@@ -27,7 +27,10 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase {
 		$this->object = new SplitsReader($this->Laps);
 	}
 
-	protected function checkAgainst(array $ExpectedLaps) {
+	/**
+     * @param array<int, int[]>|array<int, float[]>|array<int, bool[]> $ExpectedLaps
+     */
+    protected function checkAgainst(array $ExpectedLaps) {
 		foreach ($ExpectedLaps as $i => $Lap) {
 			$this->assertEquals($Lap[0], $this->Laps->at($i)->duration()->seconds());
 			$this->assertEquals($Lap[1], $this->Laps->at($i)->distance()->kilometer());

@@ -24,7 +24,7 @@ class LogbookActivity extends AbstractSingleParser
     protected function checkThatActivityXmlIsValid(SimpleXMLElement $activity)
     {
         if (empty($activity->attributes()->startTime)) {
-            throw new UnsupportedFileException('Given XML object is not from SportTracks. &lt;Activity&gt;-tag has no attribute \'startTime\'.');
+            throw new UnsupportedFileException("Given XML object is not from SportTracks. &lt;Activity&gt;-tag has no attribute 'startTime'.");
         }
     }
 
@@ -94,6 +94,7 @@ class LogbookActivity extends AbstractSingleParser
             if (! empty($this->Xml->Weather['conditions'])) {
                 $this->Container->WeatherData->Condition = (string) $this->Xml->Weather['conditions'];
             }
+
             if (! empty($this->Xml->Weather['temperatureCelsius'])) {
                 $this->Container->WeatherData->Temperature = (float) $this->Xml->Weather['temperatureCelsius'];
             }

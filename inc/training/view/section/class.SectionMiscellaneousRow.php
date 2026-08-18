@@ -400,8 +400,10 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			} else {
 				$ltp = '-';
 			}
+
 			$lt = $lthr . ' | ' . $ltp;
 		}
+
 		$this->addToTable($details, 'New lactate treshhold (bpm | pace):', $lt, $c);
 
         $this->addToTable($details, $this->getGlossaryLink('HVR Heart-Rate Variability:', 'hrv'), ($this->Context->activity()->fitHRVscore() != null ? $this->Context->activity()->fitHRVscore() : '-'), $c);

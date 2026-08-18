@@ -247,7 +247,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 		if ($NumDays >= $this->Configuration()->value('show_streak_days')) {
 			if ($NumDays == 0) {
-				$Text .= __('You don\'t have a streak. Go out and start one!');
+				$Text .= __("You don't have a streak. Go out and start one!");
 				$LastTraining = DB::getInstance()->query('SELECT time FROM `'.PREFIX.'training` WHERE `sportid`='.Configuration::General()->runningSport().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `time` DESC LIMIT 1')->fetch();
 
 				if (isset($LastTraining['time']))

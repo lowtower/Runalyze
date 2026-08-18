@@ -181,6 +181,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 				for ($y = 1; $i > 0 && $y < $positioninterval; $y++) {
 					unset($e->Data[self::GEOHASHES][--$i]);
 				}
+
 				$i--;
 			}
 
@@ -216,10 +217,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allProperties() {
 		return array(
 		    self::NAME,
 		    self::CITIES,
@@ -242,10 +243,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::NAME,
 		    self::CITIES,
@@ -307,6 +308,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 			case self::MAX:
 				return true;
 		}
+
 		return false;
 	}
 
@@ -388,12 +390,12 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Set geohashes from latitudes/longitudes
-	 * @param array $latitudes
-	 * @param array $longitudes
-	 * @throws \InvalidArgumentException
-	 */
-	public function setLatitudesLongitudes(array $latitudes, array $longitudes) {
+     * Set geohashes from latitudes/longitudes
+     * @param array<int, mixed> $latitudes
+     * @param array<int, mixed> $longitudes
+     * @throws \InvalidArgumentException
+     */
+    public function setLatitudesLongitudes(array $latitudes, array $longitudes) {
 		$size = count($latitudes);
 
 		if ($size != count($longitudes)) {
@@ -450,10 +452,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * @param array $latitudes
-	 * @param array $longitudes
-	 */
-	protected function setMinMaxFromLatitudesLongitudes(array $latitudes, array $longitudes) {
+     * @param float[]|bool[]|int[] $latitudes
+     * @param float[]|bool[]|int[] $longitudes
+     */
+    protected function setMinMaxFromLatitudesLongitudes(array $latitudes, array $longitudes) {
 		$latitudes = array_filter($latitudes);
 		$longitudes = array_filter($longitudes);
 
@@ -718,6 +720,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$dist = sin($rad1) * sin($rad2) +  cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
 		$dist = acos($dist);
 		$dist = rad2deg($dist);
+
 		$miles = $dist * 60 * 1.1515;
 
 		if (is_nan($miles))

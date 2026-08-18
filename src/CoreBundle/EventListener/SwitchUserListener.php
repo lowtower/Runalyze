@@ -31,13 +31,21 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class SwitchUserListener implements ListenerInterface
 {
     private $tokenStorage;
+
     private $provider;
+
     private $userChecker;
+
     private $providerKey;
+
     private $accessDecisionManager;
+
     private $usernameParameter;
+
     private $role;
+
     private $logger;
+
     private $dispatcher;
 
     public function __construct(TokenStorageInterface $tokenStorage, UserProviderInterface $provider, UserCheckerInterface $userChecker, $providerKey, AccessDecisionManagerInterface $accessDecisionManager, ?LoggerInterface $logger = null, $usernameParameter = '_switch_user', $role = 'ROLE_ADMIN', ?EventDispatcherInterface $dispatcher = null)

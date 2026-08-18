@@ -29,6 +29,7 @@ class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
 		$this->PDO = DB::getInstance();
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->PDO->exec('INSERT INTO `'.PREFIX.'equipment_type` (`name`, `accountid`) VALUES ("Test", 1)');
+
 		$this->Typeid = $this->PDO->lastInsertId();
 		$this->PDO->exec('INSERT INTO `'.PREFIX.'equipment` (`name`, `typeid`, `notes`, `distance`, `time`, `accountid`) VALUES ("Test A", '.$this->Typeid.', "", 10, 100, 1)');
 		$this->EquipmentIDs[] = $this->PDO->lastInsertId();

@@ -43,7 +43,7 @@ class DB {
 		self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
+		if (PHP_VERSION_ID < 50300) {
 			self::$PDO->exec("SET NAMES 'utf8'");
 		}
 	}

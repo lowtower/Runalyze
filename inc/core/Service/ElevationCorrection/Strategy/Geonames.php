@@ -90,6 +90,10 @@ class Geonames extends AbstractStrategyFromExternalAPI
         return true;
     }
 
+    /**
+     * @param float[] $latitudes
+     * @param float[] $longitudes
+     */
     protected function getUrlFor(array $latitudes, array $longitudes): string
     {
         return sprintf(

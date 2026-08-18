@@ -194,10 +194,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	/**
-	 * Get menu links for grouping
-	 * @return array
-	 */
-	private function getMenuLinksForGrouping() {
+     * Get menu links for grouping
+     * @return array<string, string|string[]>
+     */
+    private function getMenuLinksForGrouping() {
 		if ('' == $this->ParamGroup) {
 			$Current = __('Total');
 		} else {
@@ -215,10 +215,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	/**
-	 * Get menu links for analysis
-	 * @return array
-	 */
-	private function getMenuLinksForAnalysis() {
+     * Get menu links for analysis
+     * @return array<string, string|string[]>
+     */
+    private function getMenuLinksForAnalysis() {
 		if ($this->Analysis == self::ANALYSIS_DEFAULT) {
 			$Current = __('Distance/Duration');
 		} else {
@@ -237,10 +237,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	/**
-	 * Get menu links for sports
-	 * @return array
-	 */
-	private function getMenuLinksForSports() {
+     * Get menu links for sports
+     * @return array<string, mixed>
+     */
+    private function getMenuLinksForSports() {
 		$CurrentId = $this->Sport->id();
 		$Current = __('All sports');
 		$Links = array(
@@ -266,10 +266,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	/**
-	 * Get menu links for years
-	 * @return array
-	 */
-	private function getMenuLinksForYears() {
+     * Get menu links for years
+     * @return array<string, string|\non-empty-list<string>>
+     */
+    private function getMenuLinksForYears() {
 		if (self::LAST_6_MONTHS == $this->Year) {
 			$Current = __('Last 6 months');
 		} elseif (self::LAST_12_MONTHS == $this->Year) {
@@ -467,7 +467,7 @@ abstract class PlotSumData extends Plot {
 	 */
 	protected function whereDate() {
 		if (is_numeric($this->Year)) {
-			return '`time` BETWEEN UNIX_TIMESTAMP(\''.(int) $this->Year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->Year+1).'-01-01\')-1';
+			return "`time` BETWEEN UNIX_TIMESTAMP('".(int) $this->Year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->Year+1)."-01-01')-1";
 		} elseif ($this->Year == self::LAST_6_MONTHS) {
 			return '`time` >= '.$this->beginningOfLast6Months();
 		} else {

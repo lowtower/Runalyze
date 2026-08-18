@@ -6,7 +6,9 @@ namespace Runalyze\Parameter\Application;
 class PaceAxisType extends \Runalyze\Parameter\Select
 {
 	const LINEAR = 'LINEAR';
+
 	const REVERSE = 'REVERSE';
+
 	const AS_SPEED = 'AS_SPEED';
 
 	public function __construct()

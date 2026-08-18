@@ -322,9 +322,9 @@ class SearchResults {
 	}
 
 	/**
-	 * @param array $conditions
-	 */
-	protected function addSpecialConditions(array &$conditions) {
+     * @param lowercase-string[] $conditions
+     */
+    protected function addSpecialConditions(array &$conditions) {
 		if (isset($_POST['sportid'])) {
 			$this->addSportCondition($conditions);
 		}
@@ -347,11 +347,12 @@ class SearchResults {
 	}
 
 	/**
-	 * @param array $conditions
-	 */
-	protected function addPaceCondition(array &$conditions) {
+     * @param string[] $conditions
+     */
+    protected function addPaceCondition(array &$conditions) {
 		$Pace = new Pace(0);
 		$Pace->fromMinPerKm($_POST['pace']);
+
 		$value = $Pace->secondsPerKm();
 		$sign = $this->signForKey('pace');
 
@@ -360,9 +361,9 @@ class SearchResults {
 	}
 
 	/**
-	 * @param array $conditions
-	 */
-	protected function addGradientCondition(array &$conditions) {
+     * @param string[] $conditions
+     */
+    protected function addGradientCondition(array &$conditions) {
 		$value = 10*(float) str_replace(',', '.', $_POST['gradient']);
 
 		$conditions[] = '`t`.`distance` > 0';
@@ -371,9 +372,9 @@ class SearchResults {
 	}
 
 	/**
-	 * @param array $conditions
-	 */
-	protected function addIsRaceCondition(array &$conditions) {
+     * @param string[] $conditions
+     */
+    protected function addIsRaceCondition(array &$conditions) {
 		if ($_POST['is_race'] == 1) {
 			$conditions[] = '`rr`.`activity_id` IS NOT NULL';
 		} else {
@@ -382,11 +383,11 @@ class SearchResults {
 	}
 
 	/**
-	 * Add condition for array from select box
-	 * @param string $key
-	 * @param array $conditions
-	 */
-	protected function addConditionForArray($key, array &$conditions) {
+     * Add condition for array from select box
+     * @param string $key
+     * @param string[] $conditions
+     */
+    protected function addConditionForArray($key, array &$conditions) {
 		$array = array_map(
 			function ($value) {
 				return (int) $value;
@@ -491,10 +492,10 @@ class SearchResults {
 	}
 
 	/**
-	 * Add time range condition
-	 * @param array $conditions
-	 */
-	protected function addTimeRangeCondition(array &$conditions) {
+     * Add time range condition
+     * @param string[] $conditions
+     */
+    protected function addTimeRangeCondition(array &$conditions) {
 		if (
 			FormularValueParser::validatePost('date-from', FormularValueParser::$PARSER_DATE) &&
 			FormularValueParser::validatePost('date-to', FormularValueParser::$PARSER_DATE) &&
@@ -505,10 +506,10 @@ class SearchResults {
 	}
 
 	/**
-	 * Add sport condition
-	 * @param array $conditions
-	 */
-	protected function addSportCondition(array &$conditions) {
+     * Add sport condition
+     * @param lowercase-string[] $conditions
+     */
+    protected function addSportCondition(array &$conditions) {
 		if (is_array($_POST['sportid'])) {
 			$array = array_map(
 				function ($value) {

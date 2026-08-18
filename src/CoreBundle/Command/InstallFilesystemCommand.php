@@ -46,8 +46,8 @@ class InstallFilesystemCommand extends ContainerAwareCommand
             $root = $this->getContainer()->get('kernel')->getRootDir().'/../';
             $FileSystem = new Filesystem();
             $FileSystem->copy($root.'.htaccess.dist', $root.'.htaccess');
-        } catch (IOException $e) {
-            $output->writeln(sprintf('  <comment>%s</comment>', $e->getMessage()));
+        } catch (IOException $ioException) {
+            $output->writeln(sprintf('  <comment>%s</comment>', $ioException->getMessage()));
         }
 
         $output->writeln('');

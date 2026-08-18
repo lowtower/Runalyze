@@ -21,6 +21,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     {
         $this->Activity = new Training();
         $this->Activity->setRoute(new Route());
+
         $this->Detector = new NightDetector();
     }
 
@@ -59,7 +60,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array $testData [['time string', [lat, lng], true|false], ...]
+     * @param array<int, array<int, float[]>>|array<int, string[]>|array<int, bool[]> $testData [['time string', [lat, lng], true|false], ...]
      */
     protected function checkData(array $testData)
     {

@@ -5,6 +5,7 @@ namespace Runalyze\Calculation\Math\MovingAverage;
 class AbstractMovingAverage_MockTester extends AbstractMovingAverage
 {
     public function calculateWithIndexData() { $this->MovingAverage = $this->IndexData; }
+
     public function calculateWithoutIndexData() { $this->MovingAverage = $this->Data; }
 }
 

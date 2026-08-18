@@ -11,5 +11,5 @@ class TimezoneLookupException extends \Exception
     const SQLITE3_NOT_AVAILABLE = 'SQLite3 is not available.';
 
     /** @var string */
-    const SPATIALITE_NOT_AVAILABLE = 'SQLite3 extension \'spatialite\' can\'t be loaded.';
+    const SPATIALITE_NOT_AVAILABLE = "SQLite3 extension 'spatialite' can't be loaded.";
 }

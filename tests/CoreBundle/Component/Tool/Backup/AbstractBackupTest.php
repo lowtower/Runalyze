@@ -20,6 +20,7 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
     {
         $mockBuilder = $this->getMockBuilder(AbstractBackup::class);
         $mockBuilder->setConstructorArgs([__DIR__.self::TESTFILE, 1, \DB::getInstance(), 'runalyze_', '3.2.0']);
+
         $this->Backup = $mockBuilder->getMockForAbstractClass();
     }
 

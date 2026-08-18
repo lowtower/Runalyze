@@ -219,6 +219,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 			$class = 'minus';
 			$sign = ' ';
 		}
+
 		return '<span class="' . $class . '" style="opacity: '. ($beginLap ? '0.5' : '1.0') . '">' . $sign . $diff . '</span>';
 	}
 }

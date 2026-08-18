@@ -87,8 +87,8 @@ class ClimbProfile implements \Countable
     }
 
     /**
-     * @param array $distances
-     * @param array $elevations
+     * @param array<int, mixed> $distances
+     * @param array<int, mixed> $elevations
      * @param float $segmentLength
      * @return ClimbProfile
      */

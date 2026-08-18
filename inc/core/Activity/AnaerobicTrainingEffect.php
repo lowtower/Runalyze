@@ -89,6 +89,7 @@ class AnaerobicTrainingEffect implements ValueInterface
         if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
             throw new \InvalidArgumentException(sprintf('Anaerobic Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
         }
+
         $this->Value = $value;
 
         return $this;

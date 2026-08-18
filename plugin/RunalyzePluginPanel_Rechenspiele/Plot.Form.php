@@ -172,6 +172,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 					$longJogPoints += 2*(1 - $i/$BElongjogsDays) * pow($longjog - $MinKmOfLongJogs, 2);
 				}
 			}
+
 			$longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
 			$BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
 			    'km' => $currentKmSum,
@@ -238,6 +239,7 @@ $Plot->setLinesFilled(array(0));
 if ($perfmodel == 'banister') {
 	$Plot->setLinesFilled(array(2), 0.3);
 }
+
 $Plot->setLinesFilled(array(1),0.4);
 $Plot->setXAxisAsTime();
 

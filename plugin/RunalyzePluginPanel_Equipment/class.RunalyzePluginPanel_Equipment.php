@@ -152,7 +152,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		}
 
 		if (empty($allEquipment))
-			echo HTML::em( __('You don\'t have any equipment') );
+			echo HTML::em( __("You don't have any equipment") );
 
 		if (! $inuse)
 			echo '</div>';

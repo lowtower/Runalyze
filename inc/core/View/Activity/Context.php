@@ -77,6 +77,7 @@ class Context {
 
 		$this->Swimdata->fillDistanceArray($this->Trackdata);
 		$this->Swimdata->fillSwolfArray($this->Trackdata);
+
 		$this->Dataview = new Dataview($this->Activity);
 	}
 

@@ -64,10 +64,10 @@ class Entity extends Model\Entity implements Model\Loopable {
 	}
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allProperties() {
 		return array(
 		    self::ACTIVITYID,
 		    self::STROKE,
@@ -219,6 +219,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 				// if we have no strokes, fill the array as before; every lane = pool-length
 				$distance = range($length, $this->num()*$length, $length);
 			}
+
 			// from meter to kilometer
 			$distance = array_map(function($v) { return $v / 100000; }, $distance);
 			$trackdata->set(Trackdata\Entity::DISTANCE, $distance);

@@ -100,10 +100,10 @@ class DefaultConfiguration extends Configuration
 	}
 
 	/**
-	 * Generate data array from base class
-	 * @param array $keysArray array(keyid => active(true|false))
-	 */
-	protected function generateDataFor(array $keysArray)
+     * Generate data array from base class
+     * @param bool[]|int[] $keysArray array(keyid => active(true|false))
+     */
+    protected function generateDataFor(array $keysArray)
 	{
 		foreach ($keysArray as $keyid => $isActive) {
 			$keyObject = Keys::get($keyid);

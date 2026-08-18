@@ -49,8 +49,10 @@ class SearchFormular extends Formular {
 	protected function setDefaultValues() {
 		if (! isset($_POST['sportid']))
 			$_POST['sportid'] = array_keys(SportFactory::AllSports());
+
 		if (! isset($_POST['date-from']))
 			$_POST['date-from'] = date('d.m.Y', START_TIME);
+
 		if (! isset($_POST['date-to']))
 			$_POST['date-to'] = date('d.m.Y');
 	}
@@ -116,6 +118,7 @@ class SearchFormular extends Formular {
 
 		$this->Fieldset->addField( $Field );
 	}
+
     /**
      * Add field results per page
      */
@@ -254,6 +257,7 @@ class SearchFormular extends Formular {
 			$Field = new FormularSelectDb($name, $label);
 			$Field->loadOptionsFrom($table, $key);
 		}
+
 		$Field->addCSSclass('chosen-select full-size');
 		$Field->setMultiple();
 		$Field->addAttribute('data-placeholder', $placeholder);
@@ -296,6 +300,7 @@ class SearchFormular extends Formular {
 
 		if (! empty($size))
 			$Field->setSize($size);
+
 		if (! empty($unit))
 			$Field->setUnit($unit);
 
@@ -352,10 +357,13 @@ class SearchFormular extends Formular {
 
 		if (isset($_POST['time-gt']))
 			$_POST['date-from'] = $_POST['time-gt'];
+
 		if (isset($_POST['time-lt']))
 			$_POST['date-to'] = $_POST['time-lt'];
+
 		if (isset($_POST['order']))
 			$_POST['search-sort-by'] = $_POST['order'];
+
 		if (isset($_POST['sort']))
 			$_POST['search-sort-order'] = $_POST['sort'];
 	}

@@ -78,7 +78,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $result
+     * @param array<string, mixed> $result
      *
      * @return WeatherData
      */
@@ -100,6 +100,9 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         return $data;
     }
 
+    /**
+     * @param array<string, mixed> $main
+     */
     protected function setMainConditions(WeatherData $data, array $main)
     {
         if (isset($main['temp'])) {
@@ -115,6 +118,9 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         }
     }
 
+    /**
+     * @param array<string, mixed> $wind
+     */
     protected function setWindConditions(WeatherData $data, array $wind)
     {
         if (isset($wind['speed'])) {
@@ -127,7 +133,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $result
+     * @param array<string, mixed> $result
      *
      * @return int
      */
@@ -200,6 +206,9 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         );
     }
 
+    /**
+     * @param array<string, mixed> $result
+     */
     protected function updateLocationFromResult(Location $location, array $result)
     {
         if (isset($result['coord']) && isset($result['coord']['lat']) && isset($result['coord']['lon'])) {

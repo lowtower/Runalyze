@@ -137,6 +137,7 @@ class ActivityDataContainerToActivityContextConverter
         } else {
             $activity->setTitle($metadata->getUploadedFilename());
         }
+
         $activity->setNotes($metadata->getNotes());
 
         $this->tryToSetSportFor($activity, $metadata);

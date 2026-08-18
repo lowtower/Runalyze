@@ -38,6 +38,7 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 		    )
 ));
 	}
+
 	/**
 	 * Is celsius?
 	 * @return bool

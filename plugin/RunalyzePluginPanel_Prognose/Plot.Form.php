@@ -85,10 +85,12 @@ if (START_TIME != time()) {
 				$currentVO2maxTimeSum -= $Data[$currentFirstIndexForVO2max]['vo2max_sum_time'];
 				$currentFirstIndexForVO2max++;
 			}
+
 			while ($currentFirstIndexForKm < $currentIndex && $currentData['date_age'] - $Data[$currentFirstIndexForKm]['date_age'] >= $maxAgeOfKm) {
 				$currentKmSum -= $Data[$currentFirstIndexForKm]['distance'];
 				$currentFirstIndexForKm++;
 			}
+
 			while ($currentFirstIndexForLongJogs < $currentIndex && $currentData['date_age'] - $Data[$currentFirstIndexForLongJogs]['date_age'] >= $maxAgeOfLongJogs) {
 				$currentFirstIndexForLongJogs++;
 			}

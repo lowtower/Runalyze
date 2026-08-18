@@ -31,7 +31,7 @@ class ActivityMatcherController extends Controller
         $ignoredActivityIds = array_map(function($v) {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
                 return 0;
             }
         }, $this->get('app.configuration_manager')->getList()->getActivityForm()->getIgnoredActivityIds());

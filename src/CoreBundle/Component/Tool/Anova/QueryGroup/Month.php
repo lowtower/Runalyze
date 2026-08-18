@@ -45,7 +45,7 @@ class Month implements QueryGroupInterface
     }
 
     /**
-     * @param array $months
+     * @param string[] $months
      * @param \DateTime $dateFrom
      * @param \DateTime $dateTo
      * @return array

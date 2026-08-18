@@ -16,7 +16,9 @@ namespace Runalyze\Model;
 abstract class Loop
 {
 	const BOUNDARY_AT_OR_AFTER = 0;
+
 	const BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE = 1;
+
     const BOUNDARY_NEAREST = 2;
 
 	/**
@@ -380,8 +382,8 @@ abstract class Loop
 	}
 
 	/**
-	 * @param array $data
-	 * @return \Runalyze\Model\Entity
-	 */
-	abstract protected function createNewObject(array $data);
+     * @param mixed[][] $data
+     * @return \Runalyze\Model\Entity
+     */
+    abstract protected function createNewObject(array $data);
 }

@@ -9,7 +9,7 @@ class JavaScriptFormatter
     public static function getFormatter(UnitInterface $unit): string
     {
         if ($unit instanceof AbstractPaceInTimeFormatUnit) {
-            $valueConversion = 'Math.floor(Math.round(d)/60) + \':\' + (Math.round(d)%60 < 10 ? \'0\' : \'\') + Math.round(d)%60';
+            $valueConversion = "Math.floor(Math.round(d)/60) + ':' + (Math.round(d)%60 < 10 ? '0' : '') + Math.round(d)%60";
         } elseif ($unit instanceof FormattableUnitInterface) {
             $valueConversion = '(d).toFixed('.$unit->getDecimals().')';
         } elseif (method_exists($unit, 'getJavaScriptConversion')) {
@@ -18,7 +18,7 @@ class JavaScriptFormatter
             $valueConversion = 'Math.round(d*100)/100';
         }
 
-        return 'function(d){return '.$valueConversion.' + \' '.$unit->getAppendix().'\';}';
+        return 'function(d){return '.$valueConversion." + ' ".$unit->getAppendix()."';}";
     }
 
     public static function getTransformer(UnitInterface $unit): string
@@ -30,7 +30,7 @@ class JavaScriptFormatter
         } elseif (1.234 == $unit->toBaseUnit(1.234)) { // check for base units
             $valueConversion = 'd';
         } else {
-            throw new \InvalidArgumentException('Unsupported unit. Transformation rule can\'t be determined.');
+            throw new \InvalidArgumentException("Unsupported unit. Transformation rule can't be determined.");
         }
 
         return 'function(d){return '.$valueConversion.';}';

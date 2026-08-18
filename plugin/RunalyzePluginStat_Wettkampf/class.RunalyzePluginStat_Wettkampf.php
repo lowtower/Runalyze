@@ -70,7 +70,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 				'of your personal bests (over all distances with at least two results).') );
 		echo HTML::p(
 			__('In addition, it plots the trend of your results over a specific distance.'.
-				'If you do a race just for fun, you can mark it as a \'fun race\' to ignore it in the plot.') );
+				"If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.") );
 	}
 
 	/**
@@ -264,6 +264,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$name       = (new Distance($km))->stringAuto(true, 1);
 			$SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit'.($km*1000));
 		}
+
 		$Links = array(array(
 		    'tag' => '<span class="link">'.(new Distance($display_km))->stringAuto(true, 1).'</span>',
 		    'subs' => $SubLinks
@@ -284,6 +285,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$_GET['km'] = $km;
 			include 'Plot.Bestzeit.php';
 		}
+
 		echo '</div>';
 
 		echo '</div>';
@@ -314,6 +316,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 				$year[$wk['y']]['sum'] = 0;
 				$year['sum'] = 0;
 			}
+
 			$year[$wk['y']]['sum']++;
 			foreach($kms as $km)
 				if ($km == $wk['official_distance']) {
@@ -419,10 +422,10 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	}
 
 	/**
-	 * Display table-row for a competition
-	 * @param array $data
-	 */
-	private function displayWKTr(array $data) {
+     * Display table-row for a competition
+     * @param array<string, mixed> $data
+     */
+    private function displayWKTr(array $data) {
 		$Activity = new Activity\Entity($data);
 
 		$Linker = new Linker($Activity);
@@ -480,7 +483,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 
 		if ($this->RaceContainer->num() < 5) {
 			echo HTML::info(__(
-				'You can mark any activity as race by checking the respective checkbox in the activity\'s form.'
+				"You can mark any activity as race by checking the respective checkbox in the activity's form."
 			));
 		}
 
@@ -550,11 +553,11 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		if ($this->isFunCompetition($id)) {
 			$tag = 'nofun';
 			$icon = new Icon( Icon::CLOCK_GRAY );
-			$icon->setTooltip( __('Fun race | Click to mark this activity as a \'normal race\'.') );
+			$icon->setTooltip( __("Fun race | Click to mark this activity as a 'normal race'.") );
 		} else {
 			$tag = 'fun';
 			$icon = new Icon( Icon::CLOCK );
-			$icon->setTooltip( __('Race | Click to mark this activity as a \'fun race\'.') );
+			$icon->setTooltip( __("Race | Click to mark this activity as a 'fun race'.") );
 		}
 
 		return $this->getInnerLink($icon->code(), 0, 0, $tag.'-'.$id);
@@ -574,7 +577,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			if ($tag == 'fun' && is_numeric($id)) {
 				$FunIDs[] = $id;
 			} elseif ($tag == 'nofun' && is_numeric($id)) {
-				if (($index = array_search($id, $FunIDs)) !== FALSE)
+				if (($index = array_search($id, $FunIDs, true)) !== FALSE)
 					unset($FunIDs[$index]);
 			}
 

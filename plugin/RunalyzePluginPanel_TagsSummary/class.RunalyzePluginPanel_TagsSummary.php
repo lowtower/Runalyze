@@ -49,6 +49,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	}
 
 	protected $sportid;
+
 	protected $timescale;
 
 	/**
@@ -159,13 +160,13 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	protected function showListFor(Model\Sport\Entity $Sport, $timescale) {
 		$max = 0;
 		$countTagsForSport = DB::getInstance()
-			->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`'.
-				' FROM '.PREFIX.'activity_tag activity_tag'.
-				' LEFT JOIN '.PREFIX.'training training ON training.sportid = '.$Sport->id().
-				' LEFT JOIN '.PREFIX.'tag tag ON tag.id = activity_tag.tagid'.
-				' WHERE training.id = activityid'.
-				' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL '.(int) $timescale.' MONTH'.
-				' GROUP BY tagid ORDER BY count DESC');
+		    ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`'.
+		    	' FROM '.PREFIX.'activity_tag activity_tag'.
+		    	' LEFT JOIN '.PREFIX.'training training ON training.sportid = '.$Sport->id().
+		    	' LEFT JOIN '.PREFIX.'tag tag ON tag.id = activity_tag.tagid'.
+		    	' WHERE training.id = activityid'.
+		    	' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL '.(int) $timescale.' MONTH'.
+		    	' GROUP BY tagid ORDER BY count DESC');
 
 		foreach ($countTagsForSport as $data) {
 			if ($max == 0) {
@@ -180,7 +181,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		}
 
 		if ($countTagsForSport->rowCount() == 0)
-			echo HTML::em( __('You don\'t have any tags for this sport or timescale.') );
+			echo HTML::em( __("You don't have any tags for this sport or timescale.") );
 	}
 
 	/**

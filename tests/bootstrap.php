@@ -63,6 +63,7 @@ $databasePassword = getenv('DB_TEST_PASSWORD') ?: 'password';
 if ($databasePassword === false) {
     $databasePassword = 'password';
 }
+
 $databaseName = getenv('DB_UNITTEST_NAME') ?: 'runalyze_unittest';
 DB::connect(
     $databaseHost,
@@ -91,7 +92,7 @@ try {
     $detectedTimezone = $lookup->getTimezoneForCoordinate(13.41, 52.52);
 
 	define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
-} catch (\Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException $e) {
+} catch (\Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException $timezoneLookupException) {
 	define('RUNALYZE_TEST_TZ_LOOKUP', false);
 }
 

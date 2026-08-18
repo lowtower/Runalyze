@@ -18,7 +18,7 @@ class NegativeTimeStepFilter extends AbstractFilter
     }
 
     /**
-     * @param array $time
+     * @param array<int, mixed> $time
      * @param bool $strict
      * @return array [time array index => duration]
      *

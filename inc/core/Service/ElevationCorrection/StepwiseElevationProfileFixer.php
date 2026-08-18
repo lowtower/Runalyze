@@ -68,7 +68,7 @@ class StepwiseElevationProfileFixer
     }
 
     /**
-     * @param array $elevations
+     * @param array<int, mixed> $elevations
      * @return array
      */
     protected function findMidpointsForConstantParts(array $elevations): array
@@ -97,7 +97,7 @@ class StepwiseElevationProfileFixer
     /**
      * @param array $elevations
      * @param array $distances
-     * @param array $midpoints
+     * @param array<int, mixed> $midpoints
      * @return array
      */
     protected function fixStepwiseElevationsForMidpoints(array $elevations, array $distances, array $midpoints)
@@ -117,7 +117,7 @@ class StepwiseElevationProfileFixer
     }
 
     /**
-     * @param array $elevations
+     * @param array<int, mixed> $elevations
      * @return bool
      */
     public function isProfileStepwise(array $elevations)

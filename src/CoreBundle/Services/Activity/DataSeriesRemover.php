@@ -116,6 +116,9 @@ class DataSeriesRemover
         $this->handleHrvKeys($keys, $activity);
     }
 
+    /**
+     * @param int[]|string[] $keys
+     */
     protected function handleTrackDataKeys(array $keys, Training $activity)
     {
         if (! $activity->hasTrackdata()) {
@@ -196,6 +199,9 @@ class DataSeriesRemover
         }
     }
 
+    /**
+     * @param array<string, mixed> $keys
+     */
     protected function handleTrackDataForRunScribeKeys(array $keys, Training $activity)
     {
         $trackData = $activity->getTrackdata();
@@ -241,6 +247,9 @@ class DataSeriesRemover
         }
     }
 
+    /**
+     * @param int[]|string[] $keys
+     */
     protected function handleRouteKeys(array $keys, Training $activity)
     {
         if (! $activity->hasRoute()) {
@@ -269,6 +278,9 @@ class DataSeriesRemover
         }
     }
 
+    /**
+     * @param int[]|string[] $keys
+     */
     protected function handleHrvKeys(array $keys, Training $activity)
     {
         if (isset($keys[self::KEY_HRV]) && $activity->hasHrv()) {

@@ -6,6 +6,10 @@ use Runalyze\Mathematics\Interpolation\BSpline\BSplineInterpolation;
 
 class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @param int[]|float[]|array<int, float[]> $expected
+     * @param array<int, mixed> $given
+     */
     protected function assertArraysAreSimilar(array $expected, array $given, $precision)
     {
         $this->assertSameSize($expected, $given);

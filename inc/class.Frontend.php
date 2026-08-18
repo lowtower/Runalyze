@@ -139,7 +139,7 @@ class Frontend {
 
 		try {
 			new Cache();
-		} catch (Exception $E) {
+		} catch (Exception $exception) {
 			die('Cache directory "./'.Cache::PATH.'/cache/" must be writable.');
 		}
 	}

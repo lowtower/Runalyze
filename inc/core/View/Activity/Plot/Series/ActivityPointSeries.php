@@ -17,9 +17,13 @@ use \Plot;
  */
 abstract class ActivityPointSeries extends ActivitySeries {
 	const COLOR_PERFECT = '#8E44AD';
+
 	const COLOR_GREAT = '#2980B9';
+
 	const COLOR_GOOD = '#27AE60';
+
 	const COLOR_OKAY = '#E67E22';
+
 	const COLOR_BAD = '#E74C3C';
 
 	/**

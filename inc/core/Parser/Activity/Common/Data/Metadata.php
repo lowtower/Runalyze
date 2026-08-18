@@ -105,7 +105,7 @@ class Metadata
                 $dateTime->getTimestamp() + $dateTime->getOffset(),
                 round($dateTime->getOffset() / 60)
             );
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Invalid date
         }
     }

@@ -66,7 +66,9 @@ class TableLapsComputed extends TableLapsAbstract {
 		$this->Code .= '<th>'.__('Time').'</th>';
 		$this->Code .= '<th>'.__('Pace').'</th>';
 		if ($showCellForHeartrate) $this->Code .= '<th>'.__('avg.').' '.__('bpm').'</th>';
+
 		if ($showCellForElevation) $this->Code .= '<th>'.__('elev.').'</th>';
+
 		$this->Code .= '</tr></thead>';
 
 		$this->Code .= '<tbody>';
@@ -80,7 +82,9 @@ class TableLapsComputed extends TableLapsAbstract {
 			$this->Code .= '<td>'.$Lap->trackDuration()->string().'</td>';
 			$this->Code .= '<td>'.$Lap->pace()->value().'<small>'.$Lap->pace()->appendix().'</small></td>';
 			if ($showCellForHeartrate) $this->Code .= '<td>'.$Lap->HRavg()->inBPM().'<small>bpm</small></td>';
+
 			if ($showCellForElevation) $this->Code .= '<td class="c">+'.Elevation::format($Lap->elevationUp(), false).'/-'.Elevation::format($Lap->elevationDown(), false).'</td>';
+
 			$this->Code .= '</tr>';
 		}
 

@@ -6,14 +6,17 @@ use Runalyze\Parameter\Integer;
 use Runalyze\Parameter\Textline;
 
 class ConfigurationCategory_MockTester extends Category {
-	public function key(): string { return 'key'; }
+	protected function key(): string { return 'key'; }
+
 	protected function createHandles() {
 		$this->addHandle(new Handle('TEST', new Integer(42)));
 		$this->addHandle(new Handle('SECOND', new Textline('foobar')));
 	}
+
 	public function test() {
 		return $this->get('TEST');
 	}
+
 	public function Second() {
 		return $this->object('SECOND');
 	}

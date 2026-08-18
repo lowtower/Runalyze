@@ -53,7 +53,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
-			__('The input field \'route\' expects different places separted by a \'-\', e.g. \'City A - City B\''.
+			__("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'".
 				'This way the plugin will be able to count how often you visit each city or place.')
 		);
 	}
@@ -206,6 +206,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 				if ($num_x != $num) {
 					if ($num != 1)
 						echo '</td></tr>';
+
 					$num_x = $num;
 					echo '<tr><td class="b">'.$num.'x</td><td>';
 				} else
@@ -228,7 +229,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 		</tbody>
 		</table>
 
-		<p class="c"><em>'.__('Everything seperated by a \' - \' is considered as an individual place.').'</em></p>';
+		<p class="c"><em>'.__("Everything seperated by a ' - ' is considered as an individual place.").'</em></p>';
 	}
 
 	/**

@@ -86,7 +86,7 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		$this->handle('DB_SHOW_ACTIVE_DAYS_ONLY')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
         $this->handle('DB_REVERSE_MODE')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
 
-		$this->handle('DB_DISPLAY_MODE')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\DataBrowser::showNewTimerangeInDB');
+		$this->handle('DB_DISPLAY_MODE')->registerOnchangeEvent(\Runalyze\Configuration\Category\DataBrowser::class . '::showNewTimerangeInDB');
 	}
 
 	/**

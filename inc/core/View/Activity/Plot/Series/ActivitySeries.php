@@ -108,6 +108,7 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 
 					$Plot->Options['xaxis']['tickSize'] = $stepSize;
 				}
+
 				break;
 
 			case DataCollector::X_AXIS_TIME:

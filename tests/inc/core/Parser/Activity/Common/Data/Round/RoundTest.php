@@ -46,6 +46,9 @@ class RoundTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @return array<int, bool[]|float[]|int[]>
+     */
     public function getProviderForComparison()
     {
         return [

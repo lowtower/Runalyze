@@ -25,10 +25,10 @@ class Unit {
 	const RUNNING = 2;
 
 	/**
-	 * Complete list
-	 * @return array
-	 */
-	public static function completeList() {
+     * Complete list
+     * @return array<int, int>
+     */
+    public static function completeList() {
 		return array(
 		    self::GENERAL,
 		    self::RUNNING

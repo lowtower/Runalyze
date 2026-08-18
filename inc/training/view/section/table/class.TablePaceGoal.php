@@ -49,9 +49,10 @@ class TablePaceGoal {
 	}
 
 	/**
-	 * generate data
-	 */
-	protected function setDataToCode(array $inPaceGoal, int $activityTimeS, float $activityDistanceM) {
+     * generate data
+     * @param array<string, mixed> $inPaceGoal
+     */
+    protected function setDataToCode(array $inPaceGoal, int $activityTimeS, float $activityDistanceM) {
 		// set height, so that the layout not change why change the tab
 		$this->Code .= '<div style="height: 200px; overflow: scroll;">';
 
@@ -81,9 +82,10 @@ class TablePaceGoal {
 		$paceRun = new Pace(0, 100 / 1000, PaceUnit::MIN_PER_KM);
 		$durationGoal = new Duration(0);
 		$durationRun = new Duration(0);
-
-		$sum_pp_dist_m = $sum_dist_m = 0;
-		$sum_pp_t_s = $sum_t_s = 0;
+        $sum_pp_dist_m = 0;
+        $sum_dist_m = 0;
+        $sum_pp_t_s = 0;
+        $sum_t_s = 0;
 
 		foreach ($inPaceGoal as $split) {
 			$sum_pp_dist_m += $split['pp_dist_m'];

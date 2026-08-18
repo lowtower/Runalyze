@@ -22,6 +22,9 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
         SelfEvaluationFeeling::fromFitToEnum(101);
     }
 
+    /**
+     * @return array<int, int[]>
+     */
     public function fitValuesProvider()
     {
         return [

@@ -92,9 +92,9 @@ class FormularSelectSearchSort extends FormularField {
 	}
 
 	/**
-	 * @param array $keyIds
-	 */
-	protected function addOptionsFor(array $keyIds) {
+     * @param array<int, string[]>|int[] $keyIds
+     */
+    protected function addOptionsFor(array $keyIds) {
 		foreach ($keyIds as $keyIdOrArray) {
 			if (is_array($keyIdOrArray)) {
 				$this->SortByOptions[$keyIdOrArray[0]] = $keyIdOrArray[1];

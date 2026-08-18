@@ -44,7 +44,7 @@ class HampelFilter
     }
 
     /**
-     * @param array $inputData
+     * @param array<int, mixed> $inputData
      * @param bool $returnCorrectedData by default, outlier indices are returned
      * @return array outlier indices or corrected data
      */
@@ -80,7 +80,7 @@ class HampelFilter
     }
 
     /**
-     * @param array $data must be of size 2 * $this->WindowWidth + 1
+     * @param float[]|int[] $data must be of size 2 * $this->WindowWidth + 1
      * @return mixed
      */
     protected function median(array $data)

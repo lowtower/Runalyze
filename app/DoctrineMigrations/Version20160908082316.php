@@ -34,6 +34,6 @@ class Version20160908082316 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'account` ADD `autologin_hash` varchar(32) NOT NULL DEFAULT \'\' AFTER lastaction');
+        $this->addSql('ALTER TABLE `'.$prefix."account` ADD `autologin_hash` varchar(32) NOT NULL DEFAULT '' AFTER lastaction");
     }
 }

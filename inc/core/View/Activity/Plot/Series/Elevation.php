@@ -125,9 +125,9 @@ class Elevation extends ActivitySeries {
 	}
 
 	/**
-	 * @return array array($min, $max)
-	 */
-	public function limits() {
+     * @return array<int, mixed> array($min, $max)
+     */
+    public function limits() {
 		return array(
 		    min($this->Data),
 		    max($this->Data)

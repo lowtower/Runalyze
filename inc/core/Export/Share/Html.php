@@ -95,10 +95,13 @@ class Html extends AbstractSnippetSharer
 
         if ($Time != '')
             $Spans .= '<span class="runalyze-emb-time">'.$Time.'</span>';
+
         if ($Pace != '')
             $Spans .= '<span class="runalyze-emb-pace">'.$Pace.'</span>';
+
         if ($Heart != '')
             $Spans .= '<span class="runalyze-emb-heart">'.$Heart.'</span>';
+
         if ($Elev != '')
             $Spans .= '<span class="runalyze-emb-elev">'.$Elev.'</span>';
 

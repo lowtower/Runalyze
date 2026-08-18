@@ -75,7 +75,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $currently
+     * @param array<string, mixed> $currently
      *
      * @return WeatherData
      */
@@ -110,7 +110,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param array $result
+     * @param array<string, mixed> $result
      *
      * @return int
      */
@@ -161,11 +161,11 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
                     return $this->getDataElementOfTime($location->hasDateTime() ? $location->getDateTime() : time(), $result['data']);
                 }
             }
-        } catch (RequestException $e) {
+        } catch (RequestException $requestException) {
             $this->logger->error('MeteostatNet API request failed.', [
-                'exception' => $e
+                'exception' => $requestException
             ]);
-            throw new \RuntimeException('MeteostatNet request resulted in an error: '.$e->getMessage(), 0, $e);
+            throw new \RuntimeException('MeteostatNet request resulted in an error: '.$requestException->getMessage(), 0, $requestException);
         }
 
         return [];
@@ -203,6 +203,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             $this->logger->error('MeteostatNet cant build URL because we have no location.');
             throw new \Exception('MeteostatNet cant build URL because we have no location.');   
         }
+
         $dateTime = $location->getDateTime();
         if (null === $dateTime) {
             try {
@@ -210,8 +211,10 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             } catch (\Exception $e) {
                 $timezone = new \DateTimeZone(date_default_timezone_get());
             }
+
             $dateTime = new \DateTime('now', $timezone);
         }
+
         $ymd = $dateTime->format('Y-m-d');
         $parameter[] = 'start='.$ymd;
         $parameter[] = 'end='.$ymd;
@@ -224,6 +227,9 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         );
     }
 
+    /**
+     * @param array<string, mixed> $result
+     */
     protected function updateLocationFromResult(Location $location, array $result)
     {
         if (isset($result['time'])) {

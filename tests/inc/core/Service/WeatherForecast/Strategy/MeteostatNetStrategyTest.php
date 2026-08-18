@@ -164,6 +164,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $location->setPosition(52.4, 10.7);
         $location->setTimezone('Europe/Berlin');
         $location->setDateTime(new \DateTime('2020-10-01 15:30:00'));
+
         $container = [];
         $history = \GuzzleHttp\Middleware::history($container);
 

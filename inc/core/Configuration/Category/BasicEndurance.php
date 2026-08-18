@@ -129,11 +129,11 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('BE_MIN_KM_FOR_LONGJOG')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\BasicEndurance::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_LONGJOGS')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\BasicEndurance::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\BasicEndurance::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\BasicEndurance::triggerRecalculation');
-		$this->handle('BE_PERCENTAGE_WEEK_KM')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\BasicEndurance::triggerRecalculation');
+		$this->handle('BE_MIN_KM_FOR_LONGJOG')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_LONGJOGS')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
+		$this->handle('BE_PERCENTAGE_WEEK_KM')->registerOnchangeEvent(\Runalyze\Configuration\Category\BasicEndurance::class . '::triggerRecalculation');
 	}
 
 	/**

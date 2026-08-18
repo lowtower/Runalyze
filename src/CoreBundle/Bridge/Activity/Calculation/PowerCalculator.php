@@ -107,7 +107,7 @@ class PowerCalculator
     }
 
     /**
-     * @return array [[power_1, ...], avgPower] [W]
+     * @return array<int, int|mixed[]> [[power_1, ...], avgPower] [W]
      */
     protected function calculatePower()
     {

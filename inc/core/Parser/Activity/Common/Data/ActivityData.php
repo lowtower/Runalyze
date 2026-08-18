@@ -125,7 +125,7 @@ class ActivityData
     public $WithGoal = false;
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function getPropertyNames()
     {
@@ -225,7 +225,7 @@ class ActivityData
                     Trackdata\Entity::PRONATION_EXCURSION_RIGHT
                 ]
             );
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $invalidArgumentException) {
             return;
         }
 

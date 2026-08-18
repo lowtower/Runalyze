@@ -19,6 +19,7 @@ class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->Activity = new Training();
         $this->Activity->setSport(new Sport());
+
         $this->Calculator = new TrimpCalculator(10000, 400);
     }
 

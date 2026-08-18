@@ -104,17 +104,17 @@ class VO2max extends \Runalyze\Configuration\Category
 
     protected function registerOnchangeEvents()
     {
-        $this->handle('VO2MAX_DAYS')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\VO2max::triggerRecalculation');
+        $this->handle('VO2MAX_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\VO2max::class . '::triggerRecalculation');
         $this->handle('VO2MAX_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
-        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\VO2max::triggerRecalculation');
+        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeEvent(\Runalyze\Configuration\Category\VO2max::class . '::triggerRecalculation');
         $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
         $this->handle('VO2MAX_MANUAL_VALUE')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-        $this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::useCleanup');
-        $this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::useCleanup');
-        $this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::useCleanup');
+        $this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+        $this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+        $this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
     }
 
     /**

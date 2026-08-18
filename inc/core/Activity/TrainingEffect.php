@@ -90,6 +90,7 @@ class TrainingEffect implements ValueInterface
 		if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
 			throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
 		}
+
 		$this->Value = $value;
 
 		return $this;
@@ -148,7 +149,7 @@ class TrainingEffect implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function shortDescription()
+    public function shortDescription(): string
     {
         if (! $this->isKnown()) {
             return '';
@@ -161,7 +162,7 @@ class TrainingEffect implements ValueInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function description()
+    public function description(): string
     {
         if (! $this->isKnown()) {
             return '';

@@ -158,10 +158,10 @@ class ElevationAlgorithms extends ActivityPlot {
 	}
 
 	/**
-	 * Manipulate data for correct unit
-	 * @param array $data
-	 */
-	protected function manipulateData(array &$data) {
+     * Manipulate data for correct unit
+     * @param array<string, mixed> $data
+     */
+    protected function manipulateData(array &$data) {
 		$UnitSystem = Configuration::General()->distanceUnitSystem();
 
 		if ($UnitSystem->isImperial()) {
@@ -174,9 +174,9 @@ class ElevationAlgorithms extends ActivityPlot {
 	}
 
 	/**
-	 * @param array $minmax array($min, $max)
-	 */
-	protected function updateLimits(array $minmax) {
+     * @param array<int, mixed> $minmax array($min, $max)
+     */
+    protected function updateLimits(array $minmax) {
 		$min = $minmax[0];
 		$max = $minmax[1];
 

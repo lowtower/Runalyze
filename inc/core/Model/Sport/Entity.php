@@ -99,10 +99,10 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	const INTERNAL_SPORT_ID = 'internal_sport_id';
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::NAME,
 		    self::IMAGE,

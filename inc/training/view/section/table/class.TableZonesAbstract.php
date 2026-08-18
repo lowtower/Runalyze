@@ -115,6 +115,7 @@ abstract class TableZonesAbstract {
 		$Code .= '<th>'.__('Time').'</th>';
 		$Code .= '<th>'.__('Distance').'</th>';
 		if ($this->showAverage()) $Code .= '<th>'.$this->titleForAverage().'</th>';
+
 		$Code .= '</tr></thead>';
 
 		$Code .= '<tbody>';
@@ -147,6 +148,7 @@ abstract class TableZonesAbstract {
 			$Code .= '<td>'.$Info['time'].'</td>';
 			$Code .= '<td>'.$Info['distance'].'</td>';
 			if ($this->showAverage()) $Code .= '<td>'.$Info['average'].'</td>';
+
 			$Code .= '</tr>';
 		}
 

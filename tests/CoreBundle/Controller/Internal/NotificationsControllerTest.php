@@ -39,6 +39,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
             $account
         );
         $notification->setCreatedAt(10);
+
         $this->NotificationRepository->save($notification);
 
         return $notification->getId();

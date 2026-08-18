@@ -10,6 +10,6 @@ class OverrideServiceCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $definition = $container->getDefinition('security.authentication.switchuser_listener');
-        $definition->setClass('Runalyze\Bundle\CoreBundle\EventListener\SwitchUserListener');
+        $definition->setClass(\Runalyze\Bundle\CoreBundle\EventListener\SwitchUserListener::class);
     }
 }

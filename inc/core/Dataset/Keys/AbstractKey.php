@@ -50,12 +50,12 @@ abstract class AbstractKey
 	}
 
 	/**
-	 * column: internal identifier of this join (not used in queries), can be identical in different Dataset\Keys definitions to use the same join for both​
-	 * join: query part for the join
-	 * field: query part for the field(s) to select (will be available via $context->data('...'))
-	 * @return array array('column' => '...','join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
-	 */
-	public function joinDefinition()
+     * column: internal identifier of this join (not used in queries), can be identical in different Dataset\Keys definitions to use the same join for both​
+     * join: query part for the join
+     * field: query part for the field(s) to select (will be available via $context->data('...'))
+     * @return array<string, string> array('column' => '...','join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
+     */
+    public function joinDefinition()
 	{
 		return array(
     'column' => '',

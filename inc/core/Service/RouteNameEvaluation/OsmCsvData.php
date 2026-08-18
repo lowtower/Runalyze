@@ -13,9 +13,13 @@ class OsmCsvData {
 
     // internal categories
     public static $CAT_PEAK = 'peak';
+
     public static $CAT_PLACE = 'place';
+
     public static $CAT_HUT = 'hut';
+
     public static $CAT_WAY = 'way';
+
     public static $CAT_INFO = 'info';
 
     protected static $fieldCount = 12;
@@ -138,6 +142,9 @@ class OsmCsvData {
         $this->setOrder();
     }
 
+    /**
+     * @param array<int, mixed> $arr
+     */
     protected function setFields(array $arr) {
         $this->type = $arr[0];
         $this->name = $this->cleanNameChar($arr[1]);
@@ -164,6 +171,7 @@ class OsmCsvData {
 
         $this->hiking = $arr[9] ? $arr[9] : null;
         if(! empty($this->hiking)) return;
+
         $this->sacScale = $arr[10] ? $arr[10] : null;
         if(! empty($this->sacScale)) return;
     }

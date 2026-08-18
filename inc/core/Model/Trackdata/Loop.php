@@ -144,6 +144,7 @@ class Loop extends \Runalyze\Model\Loop {
                     $sum += $val * ($currentTime - $lastTime);
                     $totalTime += $currentTime - $lastTime;
                 }
+
                 $lastTime = $currentTime;
             }
 

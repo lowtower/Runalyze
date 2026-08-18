@@ -21,7 +21,7 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Runalyze\Bundle\CoreBundle\Entity\Tag'
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Tag::class
         ]);
     }
 }

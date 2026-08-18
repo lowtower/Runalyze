@@ -61,12 +61,12 @@ class DouglasPeucker extends AbstractStrategy
 	}
 
 	/**
-	 * Smooth part of line
-	 * @param array $data
-	 * @param int $offset
-	 * @return array
-	 */
-	protected function smoothPart(array $data, $offset = 0)
+     * Smooth part of line
+     * @param array<int, mixed> $data
+     * @param int $offset
+     * @return array
+     */
+    protected function smoothPart(array $data, $offset = 0)
 	{
 		$maxDist = 0;
 		$index = 0;

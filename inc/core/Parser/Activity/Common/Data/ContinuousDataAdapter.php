@@ -79,10 +79,11 @@ class ContinuousDataAdapter
     }
 
 	/**
-	 * Ensure that on first/pre and mid/last values of a array there are no NULL values.
+     * Ensure that on first/pre and mid/last values of a array there are no NULL values.
      * So search for the "first/last" valid value and replace the NULLs.
-	 * #TSC
-	 */
+     * #TSC
+     * @param array<int, mixed> $values
+     */
     public function correctArraySurroundedNulls(array &$values)
     {
         if (is_array($values) && ! empty($values)) {
@@ -123,9 +124,10 @@ class ContinuousDataAdapter
     }
 
 	/**
-	 * Ensure that empty/NULL values in array (||) has a valid number/0 (|0|).
-	 * #TSC
-	 */
+     * Ensure that empty/NULL values in array (||) has a valid number/0 (|0|).
+     * #TSC
+     * @param array<int, mixed> $values
+     */
     public function correctArrayNullElements(array &$values)
     {
         if (is_array($values) && ! empty($values)) {
@@ -267,6 +269,7 @@ class ContinuousDataAdapter
         if (empty($this->ContinuousData->Temperature)) {
             return null;
         }
+
         $temperatures = array_filter(
             $this->ContinuousData->Temperature,
             function ($temperature) {
@@ -276,6 +279,7 @@ class ContinuousDataAdapter
         if (empty($temperatures)) {
             return null;
         }
+
         return array_sum($temperatures) / count($temperatures);
     }
 }

@@ -288,8 +288,8 @@ class ActivityView extends \Runalyze\Configuration\Category {
 
 		$this->handle('SHOW_SECTIONS_FULLHEIGHT')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('ELEVATION_METHOD')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::useCleanup');
-		$this->handle('ELEVATION_TRESHOLD')->registerOnchangeEvent('Runalyze\\Configuration\\Messages::useCleanup');
+		$this->handle('ELEVATION_METHOD')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+		$this->handle('ELEVATION_TRESHOLD')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
 	}
 
 	/**

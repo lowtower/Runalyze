@@ -53,7 +53,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     {
         $this->Row = explode(',', $line);
 
-        if (in_array($this->Row[0], ['Device', 'interval', 'time'])) {
+        if (in_array($this->Row[0], ['Device', 'interval', 'time'], true)) {
             $this->setHeader($this->Row);
         } else {
             switch ($this->CurrentBlock) {
@@ -79,7 +79,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     }
 
     /**
-     * @param array $columnLabels
+     * @param array<int, mixed> $columnLabels
      *
      * @throws UnsupportedFileException
      */
@@ -90,11 +90,11 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
         if ('interval' == $this->CurrentBlock) {
             if (! isset($this->CurrentHeader['runningtime'])) {
-                throw new UnsupportedFileException('\'interval\' rows must specify at least \'runningtime\'.');
+                throw new UnsupportedFileException("'interval' rows must specify at least 'runningtime'.");
             }
         } elseif ('time' == $this->CurrentBlock) {
             if (! isset($this->CurrentHeader['paused'])) {
-                throw new UnsupportedFileException('\'time\' rows must specify at least \'paused\'.');
+                throw new UnsupportedFileException("'time' rows must specify at least 'paused'.");
             }
         }
     }

@@ -28,7 +28,7 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 		) {
 			$Table = new TableZonesPace($this->Context);
 			$Code = $Table->getCode();
-			$Code .= HTML::info( __('You\'ll be soon able to configure your own zones.') );
+			$Code .= HTML::info( __("You'll be soon able to configure your own zones.") );
 
 			$this->addRightContent('zones', __('Pace zones'), $Code);
 		}
@@ -64,6 +64,7 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);
 				$this->BoxedValues[] = new Activity\Box\Speed($this->Context);
 			}
+
 			if (Activity\Box\GradeAdjustedPace::hasPace($this->Context)) {
 				$this->BoxedValues[] = new Activity\Box\GradeAdjustedPace($this->Context);
 			}

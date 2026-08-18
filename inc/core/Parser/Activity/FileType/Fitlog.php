@@ -21,7 +21,7 @@ class Fitlog extends AbstractMultipleParser implements FileContentAwareParserInt
                 try {
                     $this->parseSingleActivity($activity);
                 } catch (UnsupportedFileException $e) {
-                    $this->logger->warning('Couldn\'t parse one of the fitlog activities: '.$e->getMessage());
+                    $this->logger->warning("Couldn't parse one of the fitlog activities: ".$e->getMessage());
                 }
             }
         }

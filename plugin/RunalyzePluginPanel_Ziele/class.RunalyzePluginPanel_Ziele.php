@@ -100,12 +100,14 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		foreach ($this->getTimeset() as $i => $timeset) {
 			if (! $this->Configuration()->value('ziel_show_' . $i))
 				continue;
+
 			$Code .= '<li>' . Ajax::change($timeset['name'], 'bunny', '#bunny_' . $i) . '</li>';
 			if ($isFirst) {
 				$Code = '<li class="with-submenu"><span class="link">' . $timeset['name'] . '</span>' . $Code;
 				$isFirst = false;
 			};
 		}
+
 //		$(this).closest("li.with-submenu").find("span").text($(this).text())
 
 		$Code .= '</ul>';
@@ -172,6 +174,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 					$this->addHeadline(__('Prognosis'), $dat['distanz_sum'] / $days * $dauer, $dat['anzahl'] / $days * $dauer);
 			}
 		}
+
 		if ($goal > 0) {
 			$this->addHeadline(__('Goal'), $goal);
 			if ($dat['distanz_sum'] < $goal) {
@@ -200,8 +203,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 					$this->addLine(__('Behind'), abs($diff));
 				else
 					$this->addLine(__('Ahead'), abs($diff));
+
 				$this->addHeadline(__('Head 2 Head'));
 			}
+
 			$this->addBar(__('Me'), $dat['distanz_sum'], $goal, $diff > 0 ? '#f99' : '#9f9');
 			$this->addBar(__('Pace&nbsp;Bunny'), $goal / $dauer * ($days - 1), $goal, '#ccf', $goal / $dauer, '#ddf');
 		}
@@ -395,7 +400,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 				`sportid`
 			FROM `' . PREFIX . 'training`
 			WHERE
-				`time` BETWEEN UNIX_TIMESTAMP(\'' . date('Y-m-d') . '\') AND UNIX_TIMESTAMP(\'' . date('Y-m-d', time() + DAY_IN_S) . '\')-1 AND
+				`time` BETWEEN UNIX_TIMESTAMP(\'' . date('Y-m-d') . "') AND UNIX_TIMESTAMP('" . date('Y-m-d', time() + DAY_IN_S) . '\')-1 AND
 				`sportid`=' . Configuration::General()->runningSport() . ' AND
 				`accountid`=' . SessionAccountHandler::getId() . '
 			LIMIT 1
@@ -413,8 +418,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		// km-Spiel Saisonen
 		$kmstart = new DateTime();
 		$kmstart->setTime(0, 0, 0);
+
 		$kmend = new DateTime();
 		$kmend->setTime(0, 0, 0);
+
 		$now = new DateTime('now');
 		$kmstart->setISODate(date('Y'), 27, 1);
 

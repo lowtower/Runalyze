@@ -22,6 +22,10 @@ class RoundCollectionFiller
         $this->fillFromArray($time, $distance, true);
     }
 
+    /**
+     * @param array<int, mixed> $time
+     * @param array<int, mixed> $distance
+     */
     protected function fillFromArray(array $time, array $distance, $fillByDistance)
     {
         $totalDistance = 0;

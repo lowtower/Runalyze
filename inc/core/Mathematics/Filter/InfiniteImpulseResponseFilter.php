@@ -70,8 +70,8 @@ class InfiniteImpulseResponseFilter
     }
 
     /**
-     * @param array $inputData 0-index numerical array
-     * @param array $outputData 0-index numerical array
+     * @param array<int, mixed> $inputData 0-index numerical array
+     * @param int[] $outputData 0-index numerical array
      * @param int $currentSize must equal size of $inputData and $outputData
      */
     protected function enlargeData(array &$inputData, array &$outputData, $currentSize)
@@ -88,8 +88,8 @@ class InfiniteImpulseResponseFilter
     }
 
     /**
-     * @param array $inputData numerical array, must  be of size [order + $lengh]
-     * @param array $outputData numerical array, must be of size [order + $length]
+     * @param array<int, mixed> $inputData numerical array, must  be of size [order + $lengh]
+     * @param array<int, mixed> $outputData numerical array, must be of size [order + $length]
      * @param int $length number of points to filter (in general [signalLength + order])
      */
     protected function applyFilter(array &$inputData, array &$outputData, $length)

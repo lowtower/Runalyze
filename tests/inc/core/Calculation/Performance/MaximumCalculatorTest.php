@@ -7,7 +7,7 @@ use Runalyze\Sports\Performance\Model\TsbModel;
 
 class FakeAbstractModel extends AbstractModel
 {
-    public function calculateArrays()
+    protected function calculateArrays()
     {
         foreach ($this->Trimp as $i => $Trimp) {
             $this->Fitness[$i] = 2 * $Trimp;

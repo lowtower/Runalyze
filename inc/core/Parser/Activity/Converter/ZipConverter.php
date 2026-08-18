@@ -67,7 +67,7 @@ class ZipConverter implements FileTypeConverterInterface
     protected function tryToOpenArchive(\ZipArchive $archive, $inputFile)
     {
         if (true !== $archive->open($inputFile)) {
-            throw new UnsupportedFileException('Can\'t open zip file.');
+            throw new UnsupportedFileException("Can't open zip file.");
         }
     }
 

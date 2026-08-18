@@ -264,6 +264,7 @@ class ActivityType extends AbstractType
                     $tags[$key] = $tagElement->getId();
                 }
             }
+
             $event->getForm()->remove('tag');
 
             $data['tag'] = $tags;

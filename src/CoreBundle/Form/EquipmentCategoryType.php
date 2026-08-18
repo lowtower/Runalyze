@@ -100,7 +100,7 @@ class EquipmentCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Runalyze\Bundle\CoreBundle\Entity\EquipmentType'
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class
         ]);
     }
 }

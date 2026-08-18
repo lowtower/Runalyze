@@ -57,6 +57,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
     {
         $this->FirstData->Altitude = [120, 125, 120];
         $this->FirstData->IsAltitudeDataBarometric = true;
+
         $this->SecondData->Altitude = [121, 124, 122];
 
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
@@ -69,6 +70,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
     {
         $this->FirstData->Altitude = [120, 125, 120];
         $this->FirstData->IsAltitudeDataBarometric = false;
+
         $this->SecondData->Altitude = [121, 124, 122];
         $this->SecondData->IsAltitudeDataBarometric = true;
 

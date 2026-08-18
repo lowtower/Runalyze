@@ -133,13 +133,13 @@ class SharedController extends Controller
 
         $feed = $this->get('app.activity.feed');
         $feed->setFeedTitle('RUNALYZE athlete '.$username)
-                ->setFeedUrl($this->generateUrl('shared-athlete-feed', [
-                    'username' => $username
-                ], UrlGeneratorInterface::ABSOLUTE_URL))
-                ->setSiteUrl($this->generateUrl('shared-athlete', [
-                    'username' => $username
-                ], UrlGeneratorInterface::ABSOLUTE_URL))
-                ->setFeedAuthor($username);
+            ->setFeedUrl($this->generateUrl('shared-athlete-feed', [
+                'username' => $username
+            ], UrlGeneratorInterface::ABSOLUTE_URL))
+            ->setSiteUrl($this->generateUrl('shared-athlete', [
+                'username' => $username
+            ], UrlGeneratorInterface::ABSOLUTE_URL))
+            ->setFeedAuthor($username);
 
         if (null === $account || ! $privacy->isListPublic()) {
             return new Response(

@@ -37,6 +37,7 @@ class Thb extends ActivitySeries {
             $trackdataKey = Trackdata::THB_0;
             $this->Label = _('THb');
         }
+
 		$this->initData($context->trackdata(), $trackdataKey);
         $this->manipulateData();
 	}

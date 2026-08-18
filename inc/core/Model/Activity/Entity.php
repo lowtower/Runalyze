@@ -576,10 +576,10 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::TIMESTAMP,
 		    self::TIMEZONE_OFFSET,
@@ -1520,10 +1520,10 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * SplitsAdditional
-	 * @return array
-	 */
-	public function splitsAdditional() {
+     * SplitsAdditional
+     * @return array<string, mixed>
+     */
+    public function splitsAdditional() {
 		// #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
 		return json_decode($this->Data[self::SPLITS_ADDITIONAL], true);
 	}
@@ -1549,10 +1549,10 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * PaceGoal #TSC
-	 * @return array
-	 */
-	public function paceGoal() {
+     * PaceGoal #TSC
+     * @return array<string, mixed>
+     */
+    public function paceGoal() {
 		// #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
 		return json_decode($this->Data[self::PACE_GOAL], true);
 	}

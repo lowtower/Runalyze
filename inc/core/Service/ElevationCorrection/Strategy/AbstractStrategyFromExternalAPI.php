@@ -32,7 +32,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
     {
         try {
             $altitudes = $this->collectGroupWiseAltitudes($latitudes, $longitudes);
-        } catch (StrategyException $e) {
+        } catch (StrategyException $strategyException) {
             return null;
         }
 
@@ -90,9 +90,9 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
             if (is_array($result) && $this->checkApiResult($result)) {
                 return $result;
             }
-        } catch (RequestException $e) {
+        } catch (RequestException $requestException) {
             $this->logger->warning('Elevation request failed.', [
-                'exception' => $e
+                'exception' => $requestException
             ]);
 
             throw new NoResponseException();

@@ -53,10 +53,10 @@ class Entity extends Model\EntityWithID {
 	const QUALITY_SESSION = 'quality_session';
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::NAME,
 		    self::ABBREVIATION,

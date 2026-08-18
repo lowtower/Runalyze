@@ -214,7 +214,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getExampleTraining(Account $account)
     {

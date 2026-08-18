@@ -84,9 +84,11 @@ class Ajax {
 		if (defined('NOKIA_HERE_APPID') && NOKIA_HERE_APPID != '' && defined('NOKIA_HERE_TOKEN') && NOKIA_HERE_TOKEN != '') {
 			echo self::wrapJS('Runalyze.Options.setNokiaLayerAuth("'.NOKIA_HERE_APPID.'", "'.NOKIA_HERE_TOKEN.'")');
 		}
+
 		if (defined('THUNDERFOREST_API_KEY') && THUNDERFOREST_API_KEY != '') {
                         echo self::wrapJS('Runalyze.Options.setThunderforestLayerAuth("'.THUNDERFOREST_API_KEY.'")');
                 }
+
 		if (defined('MAPBOX_API_KEY') && MAPBOX_API_KEY != '') {
 				echo self::wrapJS('Runalyze.Options.setMapboxLayerAuth("'.MAPBOX_API_KEY.'")');
 			}
@@ -159,7 +161,7 @@ class Ajax {
 	 */
 	public static function trainingLinkAsOnclick($id): string {
 		if (FrontendShared::$IS_SHOWN)
-			return 'onclick="Pace.restart();Runalyze.Training.load('.$id.', \''.SharedLinker::getUrlFor($id).'\', event)"';
+			return 'onclick="Pace.restart();Runalyze.Training.load('.$id.", '".SharedLinker::getUrlFor($id).'\', event)"';
 
 		return 'onclick="Pace.restart();Runalyze.Training.load('.$id.', false, event)"';
 	}
@@ -287,7 +289,7 @@ class Ajax {
 	 * @return string
 	 */
 	public static function flotChange($text, $divID, $flotID, $active = true): string {
-		return '<span class="link'.($active ? '' : ' unimportant').' flotChanger-'.$divID.' flotChanger-id-'.$flotID.'" onclick="Runalyze.flotChange(\''.$divID.'\',\''.$flotID.'\')">'.$text.'</span>';
+		return '<span class="link'.($active ? '' : ' unimportant').' flotChanger-'.$divID.' flotChanger-id-'.$flotID.'" onclick="Runalyze.flotChange(\''.$divID."','".$flotID.'\')">'.$text.'</span>';
 	}
 
 	/**
@@ -378,12 +380,14 @@ class Ajax {
                   $input[$key] = $func_key;
 			}
 		}
+
 		if ($level == 1)
 			return array($input, $funcs);
 		else {
 			$input_json = json_encode($input);
 			foreach($funcs as $key => $value)
 				$input_json = str_replace('"'.$key.'"', $value, $input_json);
+
 			return $input_json;
 		}
 	}

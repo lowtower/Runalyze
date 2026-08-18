@@ -349,8 +349,8 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array $latitudes
-     * @param array $longitudes
+     * @param array<int, mixed> $latitudes
+     * @param array<int, mixed> $longitudes
      *
      * @return $this
      */
@@ -394,6 +394,7 @@ class Route implements AccountRelatedEntityInterface
                 $coordinates[1][] = round($coordinate->getLongitude(), 6);
             }
         }
+
         return $coordinates;
     }
 

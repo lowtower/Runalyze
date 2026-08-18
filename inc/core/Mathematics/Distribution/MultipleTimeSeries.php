@@ -91,7 +91,7 @@ class MultipleTimeSeries
     }
 
     /**
-     * @param array $histograms ['key a' => histogram, ...]
+     * @param mixed[][] $histograms ['key a' => histogram, ...]
      */
     protected function generateDistributions(array $histograms)
     {
@@ -102,7 +102,7 @@ class MultipleTimeSeries
     }
 
     /**
-     * @param array $keys keys that will appear as indices
+     * @param int[]|string[] $keys keys that will appear as indices
      * @return array ['key a' => [], ...]
      */
     protected function getEmptyArraysForKeys(array $keys): array

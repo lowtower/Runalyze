@@ -30,10 +30,10 @@ class Version20161208215800 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'training` SET `kcal` = NULL WHERE `kcal` = 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `pulse_avg` = NULL WHERE `pulse_avg` = 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `pulse_max` = NULL WHERE `pulse_max` = 0');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot` = NULL WHERE `vdot`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot_by_time` = NULL WHERE `vdot_by_time`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `vdot_with_elevation` = NULL WHERE `vdot_with_elevation`= \'0.00\'');
-        $this->addSql('UPDATE `'.$prefix.'training` SET `fit_vdot_estimate` = NULL WHERE `fit_vdot_estimate`= \'0.0\'');
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot` = NULL WHERE `vdot`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot_by_time` = NULL WHERE `vdot_by_time`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `vdot_with_elevation` = NULL WHERE `vdot_with_elevation`= '0.00'");
+        $this->addSql('UPDATE `'.$prefix."training` SET `fit_vdot_estimate` = NULL WHERE `fit_vdot_estimate`= '0.0'");
         $this->addSql('UPDATE `'.$prefix.'training` SET `fit_recovery_time` = NULL WHERE `fit_recovery_time`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `fit_hrv_analysis` = NULL WHERE `fit_hrv_analysis`= 0');
         $this->addSql('UPDATE `'.$prefix.'training` SET `fit_performance_condition` = NULL WHERE `fit_performance_condition` = 0');

@@ -63,6 +63,7 @@ class Timezone implements InterfaceChoosable
         foreach ($timezoneList as $key => $timezone) {
             $timezones[$key] = $timezone;
         }
+
         $timezoneList = array_flip($timezoneList);
 
         $currentTime = new DateTime();
@@ -74,14 +75,15 @@ class Timezone implements InterfaceChoosable
                 // Invalid time zone
             }
         }
+
         ksort($timezone_offsets);
 
         return self::listPrettyTimezones($timezone_offsets, $timezoneList);
     }
 
     /**
-     * @param array $timezoneOffsets [offset => [timezone_id_1, timezone_id_2, ...]]
-     * @param array $timezoneEnum [timezone_id => enum]
+     * @param array<int, non-empty-list> $timezoneOffsets [offset => [timezone_id_1, timezone_id_2, ...]]
+     * @param int[]|string[] $timezoneEnum [timezone_id => enum]
      * @return array [timezone_id => "(UTC+XX:XX) Timezone/Name - HH:MM"]
      */
     private static function listPrettyTimezones(array $timezoneOffsets, array $timezoneEnum)
@@ -94,7 +96,7 @@ class Timezone implements InterfaceChoosable
                 $prettyOffset = 'UTC'.$offsetPrefix.$offsetFormatted;
 
                 $currentTime = (new DateTime(null, new DateTimeZone($timezone)))->format('g:i A');
-                $timezoneId = constant('Runalyze\Parameter\Application\Timezone::'.strtoupper($timezoneEnum[$timezone]));
+                $timezoneId = constant(\Runalyze\Parameter\Application\Timezone::class . '::'.strtoupper($timezoneEnum[$timezone]));
                 $timezoneList[$timezoneId] = '('.$prettyOffset.') '.str_replace('_', '', $timezone).' - '.$currentTime;
             }
         }
@@ -111,7 +113,7 @@ class Timezone implements InterfaceChoosable
     {
         try {
             new DateTimeZone($timezone);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             return false;
         }
 

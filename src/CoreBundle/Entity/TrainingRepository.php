@@ -353,12 +353,12 @@ class TrainingRepository extends EntityRepository
     public function accountHasLockedTrainings(Account $account): bool
     {
         return null !== $this->createQueryBuilder('t')
-                ->select('t.id')
-                ->setMaxResults(1)
-                ->where('t.account = :accountid AND t.lock = 1')
-                ->setParameter('accountid', $account->getId())
-                ->getQuery()
-                ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
+            ->select('t.id')
+            ->setMaxResults(1)
+            ->where('t.account = :accountid AND t.lock = 1')
+            ->setParameter('accountid', $account->getId())
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
     }
 
     /**
@@ -370,11 +370,11 @@ class TrainingRepository extends EntityRepository
     public function getLatestActivities(Account $account, $limit = 20, $onlyPublic = false)
     {
         $queryBuilder = $this->createQueryBuilder('t')
-                ->select('t')
-                ->where('t.account = :accountid')
-                ->setParameter('accountid', $account->getId())
-                ->orderBy('t.time', 'DESC')
-                ->setMaxResults($limit);
+            ->select('t')
+            ->where('t.account = :accountid')
+            ->setParameter('accountid', $account->getId())
+            ->orderBy('t.time', 'DESC')
+            ->setMaxResults($limit);
 
         if ($onlyPublic) {
             $queryBuilder->andWhere('t.isPublic = 1');

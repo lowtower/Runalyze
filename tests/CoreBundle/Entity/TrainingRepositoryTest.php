@@ -348,6 +348,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $raceResult = new Raceresult();
         $raceResult->fillFromActivity($activity);
         $raceResult->setName('Event');
+
         $activity->setRaceresult($raceResult);
 
         $this->TrainingRepository->save($activity);

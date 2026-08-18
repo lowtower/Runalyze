@@ -137,6 +137,7 @@ class ProgressBarSingle {
 
 		if ($this->LeftBalanced)
 			$Class .= ' '.self::$CLASS_BALANCE_NEGATIVE;
+
 		if ($this->RightBalanced)
 			$Class .= ' '.self::$CLASS_BALANCE_POSITIVE;
 

@@ -14,6 +14,7 @@ class Loopable_MockTester extends Entity implements Loopable {
                 'bar' => array(2, 4, 6, 8, 10)
             );
         }
+
 		parent::__construct(array());
 		$this->Data = $data;
     }
@@ -26,6 +27,7 @@ class Loopable_MockTester extends Entity implements Loopable {
         if (empty($this->Data)) {
             return 0;
         }
+
         $firstProperty = reset($this->Data);
         return is_array($firstProperty) ? count($firstProperty) : 0;
     }
@@ -52,6 +54,7 @@ class Loopable_MockTester extends Entity implements Loopable {
         if (! $this->has($key)) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s".', $key));
         }
+
         return $this->Data[$key];
     }
 
@@ -86,6 +89,7 @@ class Loopable_MockTester extends Entity implements Loopable {
         if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));
         }
+
         return $this->Data[$key][$index];
     }
 }
@@ -133,11 +137,11 @@ class Loop_MockTest extends Loop
 
 class LoopTest extends \PHPUnit\Framework\TestCase {
 	/**
-	 * @param array $values
-	 *
-	 * @return Loop_MockTest
-	 */
-	protected function loopWithFooValues(array $values)
+     * @param int[] $values
+     *
+     * @return Loop_MockTest
+     */
+    protected function loopWithFooValues(array $values)
 	{
 		return new Loop_MockTest(new Loopable_MockTester(array(
 		    'foo' => $values

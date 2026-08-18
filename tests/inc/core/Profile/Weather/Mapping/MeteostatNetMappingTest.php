@@ -17,6 +17,9 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $mapping->toInternal($meteostatCode));
     }
 
+    /**
+     * @return array<int, int[]>
+     */
     public function conditionProvider()
     {
         return [

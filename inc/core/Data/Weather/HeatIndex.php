@@ -38,7 +38,7 @@ class HeatIndex implements ValueInterface
         } elseif (is_numeric($heatIndex)) {
             $this->HeatIndexTemperature = new Activity\Temperature($heatIndex);
         } else {
-            throw new \InvalidArgumentException('Can\'t handle given argument, must be null, numerical or an instance of Temperature.');
+            throw new \InvalidArgumentException("Can't handle given argument, must be null, numerical or an instance of Temperature.");
         }
 
         return $this;

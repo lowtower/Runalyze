@@ -79,10 +79,10 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('ATL_DAYS')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\Trimp::triggerRecalculation');
+		$this->handle('ATL_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\Trimp::class . '::triggerRecalculation');
 		$this->handle('ATL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-		$this->handle('CTL_DAYS')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\Trimp::triggerRecalculation');
+		$this->handle('CTL_DAYS')->registerOnchangeEvent(\Runalyze\Configuration\Category\Trimp::class . '::triggerRecalculation');
 		$this->handle('CTL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
 		$this->handle('TRIMP_MODEL_IN_PERCENT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);

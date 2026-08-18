@@ -138,6 +138,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : TableZonesHeartrate::DEFAULT_COLOR
 				);
 			}
+
 			$Zones[$z]['time'] += $seconds;
 			$Zones[$z]['distance'] += $hasDistance ? $Data[$bpm][Trackdata\Entity::DISTANCE] : 0;
 		}
@@ -146,6 +147,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 			$z['%start'] = round(100 / $hrMax * $z['#start']);
 			$z['%end'] = round(100 / $hrMax * $z['#end']);
 }
+
 		ksort($Zones, SORT_NUMERIC);
 
 		return $Zones;

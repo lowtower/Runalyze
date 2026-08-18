@@ -430,6 +430,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         if (null !== $hrZoneBounds) {
             $hrZoneBounds = HrZonesCalculator::sortZones($hrZoneBounds);
         }
+
         $this->hrZoneBounds = $hrZoneBounds;
 
         return $this;
@@ -608,7 +609,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection|Type[]
+     * @return \Doctrine\Common\Collections\Collection<int, Type>
      */
     public function getTypes()
     {

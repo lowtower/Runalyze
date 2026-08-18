@@ -34,8 +34,8 @@ return ECSConfig::configure()
     //])
 
     // ...but first: take it step by step
-    ->withSpacesLevel(15)
-    ->withArrayLevel(15)
-    ->withControlStructuresLevel(15)
-    ->withDocblockLevel(15)
+    ->withSpacesLevel(16)               # max level 22
+    ->withArrayLevel(15)                # max level 15
+    ->withControlStructuresLevel(16)    # max level 21
+    ->withDocblockLevel(16)             # max level 24
 ;

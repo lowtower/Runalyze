@@ -103,7 +103,7 @@ class Entity extends StringArrayObject {
 	 */
 	public function add($split) {
 		if (! ($split) instanceof Split) {
-			throw new \InvalidArgumentException('Element to add has to be of type \'Split\'.');
+			throw new \InvalidArgumentException("Element to add has to be of type 'Split'.");
 		}
 
 		parent::add($split);

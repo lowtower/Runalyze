@@ -14,10 +14,10 @@ namespace Runalyze\Data;
  */
 class RPE {
 	/**
-	 * Complete list
-	 * @return array
-	 */
-	public static function completeList() {
+     * Complete list
+     * @return array<int, string>
+     */
+    public static function completeList() {
 		// #TSC change from old 6-15 Borg to CR10 Borg
 		return array(
     1 => '1 - '.__('Very light'),

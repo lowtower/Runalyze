@@ -118,6 +118,7 @@ class DataBrowser {
 		$this->DatasetConfig = new Dataset\Configuration($this->DB, $this->AccountID);
 		$this->DatasetQuery = new Dataset\Query($this->DatasetConfig, $this->DB, $this->AccountID);
 		$this->DatasetQuery->setAdditionalColumns(array('is_public'));
+
 		$this->Factory = new Factory($this->AccountID);
 	}
 
@@ -186,8 +187,10 @@ class DataBrowser {
 			} else {
 				$this->Days[$w]['trainings'][] = $Training;
 			}
+
 			$this->AllDaysEmpty = false;
 		}
+
 		if (\Runalyze\Configuration::DataBrowser()->reverseMode()) {
 		    $this->Days = array_reverse($this->Days);
         }
@@ -284,7 +287,7 @@ class DataBrowser {
 	 * Get link to navigation back
 	 * @return string
 	 */
-	protected function getPrevLink() {
+	protected function getPrevLink(): string {
 		$timestamp_array = DataBrowserLinker::prevTimestamps($this->TimestampStart, $this->TimestampEnd);
 
 		return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'), null, $this->SportId);
@@ -294,7 +297,7 @@ class DataBrowser {
 	 * Get link to navigation forward
 	 * @return string
 	 */
-	protected function getNextLink() {
+	protected function getNextLink(): string {
 		$timestamp_array = DataBrowserLinker::nextTimestamps($this->TimestampStart, $this->TimestampEnd);
 
 		return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'), null, $this->SportId);
@@ -304,7 +307,7 @@ class DataBrowser {
 	 * Get link to jump to today
 	 * @return string
 	 */
-	protected function getCurrentLink() {
+	protected function getCurrentLink(): string {
 		return DataBrowserLinker::link('<i class="fa fa-lg fa-fw fa-circle"></i>', '', '', __('today'), null, $this->SportId);
 	}
 
@@ -323,7 +326,7 @@ class DataBrowser {
 	 * @param $active the link was clicked and is active
 	 * @return string
 	 */
-	protected function getSportLink(int $sportId, string $name, string $icon, bool $active) {
+	protected function getSportLink(int $sportId, string $name, string $icon, bool $active): string {
 		$style = 'padding-left: 2px; padding-right: 2px;';
 		if ($active) {
 			// if this sport is currently selected/active - the link is used for de-selection
@@ -357,14 +360,17 @@ class DataBrowser {
 			if($i % 4 == 0) {
 				echo '<tr>';
 			}
+
 			$year = $t->format('Y');
 			echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>' . 
 				DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
 			if($i % 4 == 3) {
 				echo '</tr>';
 			}
+
 			$t = $t->sub($oneYear);
 		}
+
 		echo '</table>';
 	}
 

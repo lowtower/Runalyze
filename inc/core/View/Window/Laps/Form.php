@@ -94,7 +94,7 @@ class Form {
 		$Field = new FormularInput('manual-times', Ajax::tooltip('<small>'.__('or').':</small> '.__('Manual times'),
 			__('List with all times, comma seperated. Put "+" at the beginning to treat times as intervals.') ));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
-		$Field->setPlaceholder( __('e.g.').' 30:00, 1:00:00 '.__('or').' +15\', 30\', 15\'');
+		$Field->setPlaceholder( __('e.g.').' 30:00, 1:00:00 '.__('or')." +15', 30', 15'");
 
 		return $Field;
 	}

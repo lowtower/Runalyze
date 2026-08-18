@@ -24,7 +24,7 @@ class Triangular extends AbstractKernel
      * @param float $u
      * @return float
      */
-    public function atTransformed($u): float
+    protected function atTransformed($u): float
     {
         if (-1.0 <= $u && $u <= 1.0) {
             return 1.0 - abs($u);

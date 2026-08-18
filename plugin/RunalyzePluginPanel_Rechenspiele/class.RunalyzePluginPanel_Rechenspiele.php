@@ -300,6 +300,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 				echo '<tr><td>'.$glossaryLink.'</td><td>'.$Text.'</td><td style="width:99%;vertical-align:middle;">'.$Progress.'</td><td class="r nowrap">'.$Value['value'].'</td></tr>';
 			}
 		}
+
 		echo '</table>';
 	}
 
@@ -438,6 +439,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	public function getFieldsetBasicEndurance() {
 		$BasicEndurance = new BasicEndurance();
 		$BasicEndurance->readSettingsFromConfiguration();
+
 		$usedVO2max = $BasicEndurance->getUsedEffectiveVO2max();
 		$BEresults = $BasicEndurance->asArray();
 
@@ -520,7 +522,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 								'and a 30k-jog gives more points than two 20k-jogs.').'<br>&nbsp;' );
 		$Fieldset->addBlock($LongjogTable);
 		$Fieldset->addBlock( __('The marathon shape is <strong>not</strong> scientifically based.<br>'.
-								'It\'s our own attempt to adjust the prognosis for long distances based on your current endurance.') );
+								"It's our own attempt to adjust the prognosis for long distances based on your current endurance.") );
 
 		return $Fieldset;
 	}

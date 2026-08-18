@@ -57,6 +57,7 @@ class MailingCommand extends ContainerAwareCommand
                 return;
             }
         }
+
         $mailer = $this->getContainer()->get('app.mailer.account');
         foreach($accounts as $account) {
             /** Account $account */
@@ -64,6 +65,7 @@ class MailingCommand extends ContainerAwareCommand
                 'account' => $account
             ]);
         }
+
         $output->writeln(sprintf('<info>%u mail(s) have been sent.</info>', count($accounts)));
         $output->writeln('');
 
@@ -105,8 +107,9 @@ class MailingCommand extends ContainerAwareCommand
             $exclude = true;
             $lang = $input->getOption('exclude-lang');
         }
+
         if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang')) ) {
-            $query->andWhere('a.language '.($exclude ? 'NOT' : '').' IN (\''.implode('", "', $lang).'\')');
+            $query->andWhere('a.language '.($exclude ? 'NOT' : '')." IN ('".implode('", "', $lang)."')");
         }
 
         if (! empty($input->getOption('account'))) {
@@ -164,7 +167,7 @@ class MailingCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $lang
+     * @param string|bool|string[] $lang
      * @return bool
      */
     protected function validateLanguage(array $lang)
@@ -177,7 +180,7 @@ class MailingCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $accountIds
+     * @param string|bool|string[] $accountIds
      * @return bool
      */
     protected function validateAccountIds(array $accountIds)

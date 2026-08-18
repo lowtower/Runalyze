@@ -62,6 +62,7 @@ class Request {
 	public static function sendId() {
 		if (isset($_GET['id']))
 			return $_GET['id'];
+
 		if (isset($_POST['id']))
 			return $_POST['id'];
 
@@ -76,6 +77,7 @@ class Request {
 	public static function param($key) {
 		if (isset($_GET[$key]))
 			return $_GET[$key];
+
 		if (isset($_POST[$key]))
 			return $_POST[$key];
 

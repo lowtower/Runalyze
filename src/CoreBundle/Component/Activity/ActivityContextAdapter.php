@@ -62,6 +62,7 @@ class ActivityContextAdapter
         $time = new LocalTime($this->Context->getActivity()->getTime());
         // we add here the elapsed time, not the duration; half this time to set the mid of the activity
         $time->add(new \DateInterval('PT'. round($this->Context->getActivity()->getElapsedTime() / 2 ).'S'));
+
         $location->setDateTime($time);
 
         if ($this->Context->hasRoute() && $this->Context->getRoute()->hasGeohashes()) {

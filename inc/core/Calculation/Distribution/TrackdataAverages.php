@@ -59,7 +59,7 @@ class TrackdataAverages
 	}
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     protected function defaultKeysThatAllowZero()
     {
@@ -78,7 +78,7 @@ class TrackdataAverages
         }
 
         if ($this->Trackdata->totalTime() <= 0) {
-            throw new \InvalidArgumentException('Trackdata\'s time array must not be empty.');
+            throw new \InvalidArgumentException("Trackdata's time array must not be empty.");
         }
     }
 

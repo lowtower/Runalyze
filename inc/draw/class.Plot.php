@@ -163,7 +163,7 @@ class Plot {
 	 * @return string
 	 */
 	private function getJSForError(): string {
-		return '$("#'.$this->cssID.'").append(\'<div class="flot-error"><span>'.$this->ErrorString.'</span></div>\');';
+		return '$("#'.$this->cssID.'").append(\'<div class="flot-error"><span>'.$this->ErrorString."</span></div>');";
 	}
 
 	/**
@@ -175,6 +175,7 @@ class Plot {
 			foreach ($Data['data'] as $x => $y) {
 				$Points[] = array($x, $y);
 			}
+
 			$this->Data[$i]['data'] = $Points;
 		}
 
@@ -442,6 +443,7 @@ class Plot {
 		$this->setXAxisAsTime();
 		$this->Options['xaxis']['timeformat'] = $format;
 	}
+
 	/**
 	 * Set x-axis limits to a specific year
 	 * @param int $Year
@@ -515,9 +517,9 @@ class Plot {
 	 */
 	public function addYUnit($i, $unit, $roundTo = 2, $factor = 1) {
 		if ($factor != 1) {
-			$this->Options['yaxes'][$i-1]['tickFormatter'] = 'function (v) { v = v * '.$factor.'; return '.$this->jsRoundUnit($roundTo).' + \' '.$unit.'\'; }';
+			$this->Options['yaxes'][$i-1]['tickFormatter'] = 'function (v) { v = v * '.$factor.'; return '.$this->jsRoundUnit($roundTo)." + ' ".$unit."'; }";
 		} else {
-			$this->Options['yaxes'][$i-1]['tickFormatter'] = 'function (v) { return '.$this->jsRoundUnit($roundTo).' + \' '.$unit.'\'; }';
+			$this->Options['yaxes'][$i-1]['tickFormatter'] = 'function (v) { return '.$this->jsRoundUnit($roundTo)." + ' ".$unit."'; }";
 		}
 	}
 
@@ -527,7 +529,7 @@ class Plot {
 	 * @param int $roundTo
 	 */
 	public function setXUnit($unit, $roundTo = 2) {
-		$this->Options['xaxis']['tickFormatter'] = 'function (v) { return '.$this->jsRoundUnit($roundTo).' + \' '.$unit.'\'; }';
+		$this->Options['xaxis']['tickFormatter'] = 'function (v) { return '.$this->jsRoundUnit($roundTo)." + ' ".$unit."'; }";
 	}
 
 	/**
@@ -544,7 +546,7 @@ class Plot {
 	 * @param int $roundTo
 	 */
 	public function setXUnitFactor($factor, $unit, $roundTo = 2) {
-		$this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * '.$factor.'; return '.$this->jsRoundUnit($roundTo).' + \' '.$unit.'\'; }';
+		$this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * '.$factor.'; return '.$this->jsRoundUnit($roundTo)." + ' ".$unit."'; }";
 	}
 
 	/**

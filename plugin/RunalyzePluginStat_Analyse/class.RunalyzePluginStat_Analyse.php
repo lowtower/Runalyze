@@ -151,7 +151,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 */
 	private function initTimer() {
 		if ($this->showsSpecificYear()) {
-			$this->WhereTime = 'AND `time` BETWEEN UNIX_TIMESTAMP(\''.(int) $this->year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->year+1).'-01-01\')-1';
+			$this->WhereTime = "AND `time` BETWEEN UNIX_TIMESTAMP('".(int) $this->year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->year+1)."-01-01')-1";
 			$this->GroupTime = 'MONTH(FROM_UNIXTIME(`time`))';
 			$this->Timer= 'MONTH';
 			$this->TimerStart = 1;
@@ -319,9 +319,10 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	/**
-	 * Get array for "Trainingstyp"
-	 */
-	private function getTypeArray() {
+     * Get array for "Trainingstyp"
+     * @return array<string, string|mixed[]>
+     */
+    private function getTypeArray() {
 		$result = DB::getInstance()->query('
 			SELECT '.$this->getTimerIndexForQuery().' AS `timer`,
 				COUNT(*) AS `num`,
@@ -383,9 +384,10 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	/**
-	 * Get array for "Tempobereiche"
-	 */
-	private function getPaceArray() {
+     * Get array for "Tempobereiche"
+     * @return array<string, string|mixed[]>
+     */
+    private function getPaceArray() {
 		$speed_min = $this->Configuration()->value('lowest_pacegroup');
 		$speed_max = $this->Configuration()->value('highest_pacegroup');
 		$speed_step = $this->Configuration()->value('pacegroup_step');
@@ -444,6 +446,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 					$name = '<small>'.__('up to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
 				else
 					$name = $Pace->setTime($speed+$speed_step)->value().' <small>'.__('to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
+
 				$speed_foreach[] = array(
 				    'name' => $name,
 				    'id' => max($speed, $speed_max)
@@ -459,9 +462,10 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	/**
-	 * Get array for "Pulsbereiche"
-	 */
-	private function getPulseArray() {
+     * Get array for "Pulsbereiche"
+     * @return array<string, string|mixed[]>
+     */
+    private function getPulseArray() {
 		$hrMax = Configuration::Data()->HRmax();
 		$hrRest = Configuration::Data()->HRrest();
 		$pulse_min  = max((int) $this->Configuration()->value('lowest_pulsegroup'), 0);
@@ -524,13 +528,14 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	/**
-	 * Set group data
-	 * @param array $data
-	 * @param array $result
-	 */
-	private function setGroupData(array &$data, array &$result) {
+     * Set group data
+     * @param never[][] $data
+     * @param array<string, mixed> $result
+     */
+    private function setGroupData(array &$data, array &$result) {
 		if (! isset($data[$result['group']]))
 			$data[$result['group']] = array();
+
 		if (! isset($data[$result['group']][$result['timer']]))
 			$data[$result['group']][$result['timer']] = array(
 			    'num' => 0,
@@ -544,15 +549,16 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	/**
-	 * Set sum data
-	 * @param array $data
-	 * @param array $result
-	 */
-	private function setSumData(array &$data, array &$result) {
+     * Set sum data
+     * @param array<string, mixed> $data
+     * @param array<string, mixed> $result
+     */
+    private function setSumData(array &$data, array &$result) {
 		if (! isset($data['timer_sum_km'][$result['timer']])) {
 			$data['timer_sum_km'][$result['timer']] = 0;
 			$data['timer_sum_s'][$result['timer']]  = 0;
 		}
+
 		if (! isset($data['id_sum_km'][$result['group']])) {
 			$data['id_sum_num'][$result['group']] = 0;
 			$data['id_sum_km'][$result['group']]  = 0;

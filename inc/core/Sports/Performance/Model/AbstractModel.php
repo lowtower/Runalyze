@@ -88,7 +88,7 @@ abstract class AbstractModel
     abstract protected function calculateArrays();
 
     /**
-     * @return array array(enum => data)
+     * @return array<int, mixed[]> array(enum => data)
      */
     final public function getArrays()
     {

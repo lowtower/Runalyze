@@ -41,7 +41,7 @@ class AccountMailer
      * @param Account $account
      * @param string $subject
      * @param string $template
-     * @param array $templateData
+     * @param array<string, string>|array<string, null> $templateData
      */
     public function sendMailTo(Account $account, $subject, $template, array $templateData)
     {
@@ -85,7 +85,7 @@ class AccountMailer
         try {
             $this->Twig->render($template.$language.'.html.twig');
             return $template.$language.'.html.twig';
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
             return $template.'html.twig';
         }
     }

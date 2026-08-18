@@ -143,6 +143,7 @@ class Table {
 			$this->setAverage();
 			$this->setHalfsOfCompetitionToCode();
 		}
+
 		$this->setTableFooter();
 	}
 

@@ -81,6 +81,7 @@ class HTML {
 		if ($withTotal) {
 			$html .= '<'.$tag.$width.'>'.__('Total').'</'.$tag.'>';
 		}
+
 		$html .= '</tr>';
 
 		return $html;
@@ -148,6 +149,7 @@ class HTML {
 	public static function plusMinus($value, $ignorance = 0) {
 		if ($value > +$ignorance)
 			return '<span class="plus">'.$value.'</span>';
+
 		if ($value < -$ignorance)
 			return '<span class="minus">'.$value.'</span>';
 
@@ -264,6 +266,7 @@ class HTML {
 	public static function Checked($value, $value_to_be_checked = null): string {
 		if ($value_to_be_checked !== null)
 			$value = ($value == $value_to_be_checked);
+
 		if ($value === null || ! isset($value))
 			$value = false;
 

@@ -20,6 +20,7 @@ class BussoModelTest extends \PHPUnit\Framework\TestCase
 
         $Banister = new BanisterModel($data, 42, 7, 1, 2);
         $Banister->calculate();
+
         $Busso = new BussoModel($data, 42, 7, 4, 1, 2);
         $Busso->calculate();
 

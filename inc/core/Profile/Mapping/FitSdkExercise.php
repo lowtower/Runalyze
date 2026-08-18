@@ -9,6 +9,7 @@ namespace Runalyze\Profile\Mapping;
  */
 class FitSdkExercise {
     const CAT_UNKNOWN = 65534;
+
     const UNUSED = 65535;
 
     /**
@@ -34,6 +35,7 @@ class FitSdkExercise {
             } else {
                 $r = $this->getMapping($c);
             }
+
             if($r != null) {
                 $result[] = $r;
             }

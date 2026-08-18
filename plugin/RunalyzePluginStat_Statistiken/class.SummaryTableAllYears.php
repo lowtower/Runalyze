@@ -32,7 +32,7 @@ class SummaryTableAllYears extends SummaryTable {
 	 * @param int $index
 	 * @return string
 	 */
-	protected function rowHead($index) {
+	protected function rowHead($index): string {
 		$timestampInMiddelOfYear = $this->TimeEnd - ($index + 0.5)*366*DAY_IN_S;
 
 		return DataBrowserLinker::yearLink(date('Y', $timestampInMiddelOfYear), $timestampInMiddelOfYear, $this->Sportid > 0 ? $this->Sportid : null);

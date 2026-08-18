@@ -304,10 +304,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/**
-	 * All databaseproperties
-	 * @return array
-	 */
-	public static function allDatabaseProperties() {
+     * All databaseproperties
+     * @return array<int, string>
+     */
+    public static function allDatabaseProperties() {
 		return array(
 		    self::ACTIVITYID,
 		    self::TIME,
@@ -456,6 +456,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         if (! isset($this->Data[$key][$index])) {
             throw new \OutOfBoundsException("Undefined offset: {$index}");
         }
+
 		return $this->Data[$key][$index];
     }
 

@@ -18,8 +18,8 @@ class Derivative
     protected $Filter = 1000.0;
 
     /**
-     * @param array $y evaluation
-     * @param array $x distance
+     * @param array<int, mixed> $y evaluation
+     * @param array<int, mixed> $x distance
      * @return array
      *
      * @throws InvalidArgumentException
@@ -48,6 +48,7 @@ class Derivative
                 } elseif ($v < -$this->Filter) {
                     $v = -$this->Filter;
                 }
+
                 $ddx[] = $v;
             } elseif ($i > 1) {
                 $ddx[] = $ddx[$i - 2];

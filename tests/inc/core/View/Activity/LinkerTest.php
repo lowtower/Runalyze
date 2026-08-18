@@ -31,6 +31,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase {
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 		$this->PDO->exec('DELETE FROM `runalyze_account` WHERE `username` = "LinkerOther"');
+
 		$this->ThisAccountID = \SessionAccountHandler::getId();
 		$this->PDO->exec('INSERT INTO `runalyze_account` (`username`, `name`, `mail`) VALUES ("LinkerOther", "LinkerOther", "linker@other.com")');
 		$this->OtherAccountID = $this->PDO->lastInsertId();

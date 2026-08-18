@@ -39,7 +39,7 @@ class UpdateController extends Controller
             $output->writeln(' To warmup the cache, run `php bin/console cache:clear`.');
         } else {
             $output->writeln('');
-            $output->writeln(' Runalyze is running in dev environment. Cache can\'t be cleared automatically.');
+            $output->writeln(" Runalyze is running in dev environment. Cache can't be cleared automatically.");
         }
 
         $content = $output->fetch();

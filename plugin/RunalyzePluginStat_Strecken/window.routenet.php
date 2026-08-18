@@ -33,7 +33,7 @@ if ($sport > 0) {
 }
 
 if ($year > 0) {
-	$Conditions .= ' AND `'.PREFIX.'training`.`time` BETWEEN UNIX_TIMESTAMP(\''.(int) $year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $year+1).'-01-01\')-1';
+	$Conditions .= ' AND `'.PREFIX."training`.`time` BETWEEN UNIX_TIMESTAMP('".(int) $year."-01-01') AND UNIX_TIMESTAMP('".((int) $year+1)."-01-01')-1";
 }
 
 // #TSC the route-name is limited to 50 chars and then a "..." will concated

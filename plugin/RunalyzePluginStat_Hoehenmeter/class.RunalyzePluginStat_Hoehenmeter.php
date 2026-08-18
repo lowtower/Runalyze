@@ -18,6 +18,7 @@ $PLUGINKEY = 'RunalyzePluginStat_Hoehenmeter';
  */
 class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	private $ElevationData = array();
+
 	private $IsFirstChangeTable = true;
 
 	final public function name(): string {
@@ -61,6 +62,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 
 		if (empty($this->ElevationData))
 			echo '<tr><td colspan="13" class="l"><em>'.__('No routes found.').'</em></td></tr>';
+
 		foreach ($this->ElevationData as $y => $Data) {
 			echo('
 				<tr>
@@ -78,6 +80,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 					echo HTML::emptyTD();
 				}
 			}
+
 			echo '<td>'.Elevation::format($summarized).'</td>';
 
 

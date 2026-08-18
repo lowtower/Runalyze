@@ -72,10 +72,10 @@ class PluginConfiguration {
 	}
 
 	/**
-	 * Check values
-	 * @param array $ResultFromDB
-	 */
-	private function checkValuesFromDatabase(array $ResultFromDB) {
+     * Check values
+     * @param array<int, mixed> $ResultFromDB
+     */
+    private function checkValuesFromDatabase(array $ResultFromDB) {
 		$ValuesFromDB = array();
 
 		if (isset($ResultFromDB[$this->PluginID])) {

@@ -41,10 +41,10 @@ abstract class AbstractShellBasedFileTypeConverter implements FileTypeConverterI
             $this->checkFirstLineOfOutput(
                 stream_get_line($handle, 4096, PHP_EOL)
             );
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             unlink($outputFile);
 
-            throw $e;
+            throw $exception;
         } finally {
             fclose($handle);
         }

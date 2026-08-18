@@ -43,6 +43,7 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 		    )
 ));
 	}
+
 	/**
 	 * Is bpm?
 	 * @return bool

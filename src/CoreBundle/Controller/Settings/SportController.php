@@ -70,6 +70,7 @@ class SportController extends Controller
         $em = $this->getDoctrine()->getManager();
         $type = new Type();
         $type->setAccount($account);
+
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type ,[
             'action' => $this->generateUrl('sport-type-add', [
                 'sportid' => $sportid
@@ -117,6 +118,7 @@ class SportController extends Controller
                 'id' => $type->getId()
             ]);
         }
+
         return $this->render('settings/sport/form-type.html.twig', [
             'form' => $form->createView(),
             'sport_id' => $type->getSport()->getId()
@@ -148,6 +150,7 @@ class SportController extends Controller
         } else {
             $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.').' '.$this->get('translator')->trans('You have activities associated with this type.'));
         }
+
         return $this->redirect($this->generateUrl('settings-sports'));
     }
 
@@ -198,6 +201,7 @@ class SportController extends Controller
         if ($sport->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
         }
+
         $form = $this->createForm(Form\Settings\SportType::class, $sport,[
             'action' => $this->generateUrl('sport-edit', [
                 'id' => $sport->getId()
@@ -213,6 +217,7 @@ class SportController extends Controller
                 'id' => $sport->getId()
             ]);
         }
+
         return $this->render('settings/sport/form-sport.html.twig', [
             'form' => $form->createView(),
             'types' => $this->getTypeRepository()->findAllFor($account, $sport),

@@ -55,11 +55,11 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 		echo HTML::fileBlock( '<strong>VO2max</strong><br>'.
 					__('Your current effective VO2max is estimated based on the ratio of heart rate and pace. '.
 						'This value is equivalent to specific performances.') );
-		echo HTML::fileBlock('<strong>Robert Bock (CPP, \'Competitive Performance Predictor\')</strong><br>'.
+		echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>".
 					__('Robert Bock uses an individual coefficient for your fatigue over time/distance. '.
 						'This model uses your two best results.').'<br>'.
 						'<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
-		echo HTML::fileBlock('<strong>Herbert Steffny (\'Das gro&szlig;e Laufbuch\')</strong><br>'.
+		echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>".
 					__('Herbert Steffny uses fixed factors to transform performances from one distance to another. '.
 						'This model uses your best result.') );
 		echo HTML::fileBlock('<strong>David Cameron</strong><br>'.
@@ -122,7 +122,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 		}
 
 		if (! $this->Prognosis->areValuesValid()) {
-			echo HTML::warning(__('Prognoses can\'t be calculated.'));
+			echo HTML::warning(__("Prognoses can't be calculated."));
 		}
 
 		if ($this->thereAreNotEnoughCompetitions()) {
@@ -201,6 +201,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	protected function showPrognosis($distance) {
 		$PB = new PersonalBest($distance, Configuration::General()->runningSport());
 		$PB->lookupWithDetails();
+
 		$PBTime = $PB->exists() ? Duration::format( $PB->seconds() ) : '-';
 		$PBString = $PB->exists() ? Ajax::trainingLink($PB->activityId(),$PBTime,true) : $PBTime;
 		$Distance = new Distance($distance);

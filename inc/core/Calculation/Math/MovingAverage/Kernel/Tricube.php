@@ -32,7 +32,7 @@ class Tricube extends AbstractKernel
      * @param float $u
      * @return float
      */
-    public function atTransformed($u): float
+    protected function atTransformed($u): float
     {
         if (-1.0 <= $u && $u <= 1.0) {
             return pow(1 - abs($u*$u*$u), 3);

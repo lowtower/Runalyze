@@ -167,7 +167,7 @@ abstract class PluginStat extends Plugin {
 		} elseif ($this->showsLast12Months()) {
 			$Query .= ' AND '.$time.' > '.LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
 		} elseif (! $this->showsAllYears()) {
-			$Query .= ' AND '.$time.' BETWEEN UNIX_TIMESTAMP(\''.(int) $this->year.'-01-01\') AND UNIX_TIMESTAMP(\''.((int) $this->year+1).'-01-01\')-1 ';
+			$Query .= ' AND '.$time." BETWEEN UNIX_TIMESTAMP('".(int) $this->year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->year+1)."-01-01')-1 ";
 		}
 
 		return $Query;
@@ -337,6 +337,7 @@ abstract class PluginStat extends Plugin {
 			for ($i = START_YEAR; $i <= $year; $i++) {
 				echo '<th'.$width.'>'.$i.'</th>';
 			}
+
 			echo '<th>'.__('In total').'</th>';
 		} else {
 			$num = $this->showsLast6Months() ? 6 : 12;

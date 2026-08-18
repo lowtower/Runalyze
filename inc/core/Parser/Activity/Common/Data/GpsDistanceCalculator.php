@@ -33,6 +33,7 @@ class GpsDistanceCalculator
 		$dist = sin($rad1) * sin($rad2) +  cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
 		$dist = acos($dist);
 		$dist = rad2deg($dist);
+
 		$miles = $dist * 60 * 1.1515;
 
 		if (is_nan($miles)) {

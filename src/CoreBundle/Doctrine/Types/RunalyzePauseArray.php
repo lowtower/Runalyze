@@ -78,6 +78,9 @@ class RunalyzePauseArray extends Type
         });
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     protected function getPauseForNativeValue(array $data)
     {
         $data = array_merge([

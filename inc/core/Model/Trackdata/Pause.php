@@ -71,10 +71,10 @@ class Pause {
 	}
 
 	/**
-	 * Set data from array
-	 * @param array $data
-	 */
-	public function fromArray(array $data) {
+     * Set data from array
+     * @param array<string, mixed> $data
+     */
+    public function fromArray(array $data) {
 		$this->Time = $data[self::TIME] ?? 0;
 		$this->Duration = $data[self::DURATION] ?? 0;
 		$this->HRstart = $data[self::HR_START] ?? null;
@@ -82,10 +82,10 @@ class Pause {
 	}
 
 	/**
-	 * As array
-	 * @return array
-	 */
-	public function asArray() {
+     * As array
+     * @return array<string, int>
+     */
+    public function asArray() {
 		return array(
     self::TIME => $this->Time,
 		    self::DURATION => $this->Duration,

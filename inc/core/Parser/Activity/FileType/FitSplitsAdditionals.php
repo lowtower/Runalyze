@@ -13,6 +13,7 @@ use Runalyze\Profile\Mapping\FitSdkExercise;
 class FitSplitsAdditionals {
     // additional infos for strength-training
     private $fitExcerciseMapping;
+
     // every element is one lap/round with a sub-array of key/values
     private $data = array();
 
@@ -61,25 +62,31 @@ class FitSplitsAdditionals {
                     } else {
                         $sub = null;
                     }
+
                     // init the mapper the first time
                     if($this->fitExcerciseMapping == null) {
                         $this->fitExcerciseMapping = new FitSdkExercise();
                     }
+
                     // map the categories to a string name
                     $set['excercise'] = $this->fitExcerciseMapping->getFullMapping($cat, $sub);
                 }
+
                 if(isset($values['repetitions'])) {
                     $set['repetitions'] = (int) ($values['repetitions'][0]);
                 }
+
                 if(isset($values['weight']) && $values['weight'][0] > 0) {
                     $set['weight'] = (int) ($values['weight'][0]) / 16;
                 }
+
                 $this->data[] = $set;
             } else {
                 // its a rest, use a empty element
                 $this->data[] = json_decode('{}');
             }          
         }
+
         return $round;
     }
 
@@ -118,6 +125,7 @@ class FitSplitsAdditionals {
                 $keys[] = $key;
             }
         }
+
         // make all the keys unique
         return array_unique($keys);
     }

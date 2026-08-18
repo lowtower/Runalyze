@@ -26,10 +26,10 @@ class Entity extends Model\EntityWithID {
 
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	static public function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    static public function allDatabaseProperties() {
 		return array(
 		    self::TAG,
 		);

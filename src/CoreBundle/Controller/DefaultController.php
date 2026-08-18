@@ -144,7 +144,7 @@ class DefaultController extends AbstractPluginsAwareController
     }
 
     /**
-     * @return array ['user' => (int)..., 'distance' => (string)...]
+     * @return array<string, int|string> ['user' => (int)..., 'distance' => (string)...]
      */
     protected function collectStatistics()
     {

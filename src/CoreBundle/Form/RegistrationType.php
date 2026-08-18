@@ -48,7 +48,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Runalyze\Bundle\CoreBundle\Entity\Account'
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class
         ]);
     }
 }

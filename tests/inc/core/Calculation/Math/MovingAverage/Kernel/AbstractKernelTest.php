@@ -5,7 +5,8 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 class AbstractKernelTest_MockTester extends AbstractKernel
 {
     protected $DefaultWidth = 1.0;
-    public function atTransformed($difference) { return $difference; }
+
+    protected function atTransformed($difference) { return $difference; }
 }
 
 class AbstractKernelTest extends \PHPUnit\Framework\TestCase

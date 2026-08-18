@@ -81,6 +81,7 @@ class Table {
 
             $Code .= '<td>' . $Header . '</td>';
 		}
+
         return $Code;
 	}
 

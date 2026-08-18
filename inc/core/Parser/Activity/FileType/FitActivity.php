@@ -161,8 +161,10 @@ class FitActivity extends AbstractSingleParser
 
     // #TSC: time of a "record" row
     protected $RecordTime = [];
+
     // #TSC: temporary heartrate for swimming. array-index is the lane
     protected $SwimHeartrate = [];
+
     protected $SwimTemperature = [];
 
     // temperatur of the battery block (only as fallback)
@@ -198,6 +200,7 @@ class FitActivity extends AbstractSingleParser
                 $this->Container->ActivityData->Duration - $this->Container->Rounds->getTotalDuration()
             ));
         }
+
         if (null === $this->Container->FitDetails->RecoveryTime && null !== $this->RecoveryTimeFallback) {
             $this->Container->FitDetails->RecoveryTime = $this->RecoveryTimeFallback;
         }
@@ -209,6 +212,7 @@ class FitActivity extends AbstractSingleParser
             } else {
                 $this->Container->ContinuousData->HeartRate = [];
             }
+
             if(array_sum($this->SwimTemperature) > 0) {
                 $this->Container->ContinuousData->Temperature = $this->SwimTemperature;
             } else {
@@ -567,6 +571,7 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['avg_respiration_rate'])) {
             $this->Container->ActivityData->AvgRespirationRate = round($this->Values['avg_respiration_rate'][0] / 100, 0);
         }
+
         if (isset($this->Values['max_respiration_rate'])) {
             $this->Container->ActivityData->MaxRespirationRate = round($this->Values['max_respiration_rate'][0] / 100, 0);
         }
@@ -596,6 +601,7 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['total_ascent']) && $this->Values['total_ascent'][0] != 0) {
             $this->Container->FitDetails->TotalAscent = $this->Values['total_ascent'][0];
         }
+
         if (isset($this->Values['total_descent']) && $this->Values['total_descent'][0] != 0) {
             $this->Container->FitDetails->TotalDescent = $this->Values['total_descent'][0];
         }
@@ -605,6 +611,7 @@ class FitActivity extends AbstractSingleParser
             $v = Activity\SelfEvaluationFeeling::fromFitToEnum($this->Values['self_evaluation_felt'][0]);
             $this->Container->FitDetails->SelfEvaluationFeeling = $v;
         }
+
         if (isset($this->Values['self_evaluation_perceived_effort'])) {
             $this->Container->FitDetails->SelfEvaluationPerceivedEffort = $this->Values['self_evaluation_perceived_effort'][0] / 10;
         }
@@ -640,6 +647,7 @@ class FitActivity extends AbstractSingleParser
             if(! empty($this->Container->Metadata->getNotes())) {
                 $v = $v . "\n".$this->Container->Metadata->getNotes();
             }
+
             $this->Container->Metadata->setNotes($v);
         }
     }
@@ -674,6 +682,7 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['sub_sport'][0])) {
             $internalId = $fitSdkMapping->sportWithSubsportToInternal($this->Values['sport'][0], $this->Values['sub_sport'][0]);
         }
+
         // Fall back to the generic FIT sport mapping.
         if (null === $internalId) {
             $internalId = $fitSdkMapping->toInternal($this->Values['sport'][0]);
@@ -720,6 +729,7 @@ class FitActivity extends AbstractSingleParser
                 $this->Container->FitDetails->LactateThresholdHR = $lthr;
             }
         }
+
         // #TSC: set Running Lactate Threshold Pace, (in m/s) from 140er (should always be filled if lactate_threshold_hr_bpm is)
         if (isset($this->Values['lactate_threshold_pace'])) {
             $ltp = (float) $this->Values['lactate_threshold_pace'][0];
@@ -865,6 +875,7 @@ class FitActivity extends AbstractSingleParser
                     $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['timestamp'][1]);
                 }
             }
+
             $time = $this->strtotime((string) $this->Values['timestamp'][1]) - $this->Container->Metadata->getTimestamp() - $this->PauseInSeconds - $this->TimeJumpsInSeconds;
             $last = end($this->Container->ContinuousData->Time);
 
@@ -1030,6 +1041,7 @@ class FitActivity extends AbstractSingleParser
                     if ($v->isRest()) {
                         $v = LapIntensity::getInstanceRecovery();
                     }
+
                     $r->setIntensity($v);
                 }
 
@@ -1120,6 +1132,7 @@ class FitActivity extends AbstractSingleParser
             if(isset($this->Container->ContinuousData->HeartRate[$i])) {
                 $heartsVal[] = $this->Container->ContinuousData->HeartRate[$i];
             }
+
             if(isset($this->Container->ContinuousData->Temperature[$i])) {
                 $tempVal[]   = $this->Container->ContinuousData->Temperature[$i];
             }
@@ -1217,6 +1230,7 @@ class FitActivity extends AbstractSingleParser
             if(! empty($this->Container->Metadata->getNotes())) {
                 $v = $this->Container->Metadata->getNotes() . "\n" . $v;
             }
+
             $this->Container->Metadata->setNotes($v);
             $this->Container->Metadata->setWorkoutName($n);
         }
@@ -1319,6 +1333,7 @@ class FitActivity extends AbstractSingleParser
                     $this->Container->FitDetails->SecondsInHrZones = $zones;
                 }
             }
+
             /*
             the mapping of the examples values are
             hr_zone_high_boundary (bpm)  104 129 144  153  160  182

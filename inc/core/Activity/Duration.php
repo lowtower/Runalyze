@@ -195,7 +195,7 @@ class Duration {
 		$time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
 
 		if ($time === false) {
-			throw new \InvalidArgumentException('Can\'t format time (t = '.((int) round($this->Time)).').');
+			throw new \InvalidArgumentException("Can't format time (t = ".((int) round($this->Time)).').');
 		}
 
 		if ($format == self::FORMAT_WITH_HOURS) {

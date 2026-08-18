@@ -74,7 +74,10 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 ));
 	}
 
-	protected function checkAgainst(array $ExpectedLaps)
+	/**
+     * @param array<int, int[]>|array<int, float[]> $ExpectedLaps
+     */
+    protected function checkAgainst(array $ExpectedLaps)
 	{
 		foreach ($ExpectedLaps as $i => $Lap) {
 			$this->assertEquals($Lap[0], $this->Laps->at($i)->duration()->seconds());
@@ -265,7 +268,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertEquals(
 			array(5*60, 15*60, 20*60),
-			Calculator::getTimesFromString('+5\', 10\', 5\'')
+			Calculator::getTimesFromString("+5', 10', 5'")
 		);
 	}
 

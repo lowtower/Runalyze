@@ -51,7 +51,7 @@ class Registration
     {
         try {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName($timezoneName));
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $invalidArgumentException) {
             $this->Account->setTimezone(Timezone::getEnumByOriginalName(date_default_timezone_get()));
         }
     }
@@ -255,10 +255,12 @@ class Registration
         $Running->setMainEquipmenttype($this->specialVars['EQUIPMENT_SHOES']);
         $Running->addEquipmentType($this->specialVars['EQUIPMENT_CLOTHES']);
         $Running->addEquipmentType($this->specialVars['EQUIPMENT_SHOES']);
+
         $this->em->persist($Running);
 
         $Biking = $this->specialVars['BIKESPORT'];
         $Biking->addEquipmentType($this->specialVars['EQUIPMENT_BIKES']);
+
         $this->em->persist($Biking);
         $this->em->flush();
         $this->em->clear();

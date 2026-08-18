@@ -35,16 +35,21 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     const TIMEOUT = 180;
 
     const EARTH = 6378.137;
+
     const PI = 3.1415926535898;
+
     const METER_IN_DEGREE = (1 / ((2 * self::PI / 360) * self::EARTH)) / 1000;
 
     // size of lat/lng elements in the around for node,way,relation
     // with 600 the request tooks longer and do not run in timeouts
     const AROUND_POS_LIMIT = 600;
+
     // extend the bounding-box of the min/max of the geohashes
     const BOX_CORR = 30.0;
+
     // configuration for the around-radius
     const RADIUS_LIMIT = 40.0;
+
     const RADIUS_DEFAULT = 20.0;
 
     /** @var string */
@@ -94,6 +99,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 }
             }
         }
+
         return null;
     }
 
@@ -128,11 +134,11 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $this->logger->debug(sprintf('RouteNameEvalOsm: osm-result for routeId=%d: %s', $routeId, $repCont));
                 return $repCont;
             }
-        } catch (RequestException $e) {
+        } catch (RequestException $requestException) {
             $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
-                'exception' => $e
+                'exception' => $requestException
             ]);
-            throw new \Exception('Route evaluation result in error: ' . $e);
+            throw new \Exception('Route evaluation result in error: ' . $requestException);
         }
     }
 
@@ -158,6 +164,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $radius = self::RADIUS_LIMIT;
             }  
 		}
+
         $this->logger->info(sprintf("RouteNameEvalOsm: geo count %d; dist m %d; step %.2f around-element-size %d around-radius %.2f \n",
                                     $size, $dist, $step, $size/$step, $radius));
 
@@ -183,6 +190,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $aroundpos .= ',' . $coordinates[0][$i] . ',' . $coordinates[1][$i];
             }
 		}
+
         $aroundpos .= ',' . $coordinates[0][$size - 1] . ',' . $coordinates[1][$size - 1]; // add the last one
 
         // only use node, way, relation with a "name"-tag
@@ -237,7 +245,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 $routes = $info;
                 $infoSet = ! empty($info);
             }
-        }  
+        }
+
         // if we hiking, but no peak is set, but huts available...
         // special case "hüttenwandern" without peaks
         if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
@@ -250,9 +259,11 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         if(! $hutSet && ! empty($hut)) {
             $notes .= 'Verpflegung: ' . implode(', ', $hut) . PHP_EOL;
         }
+
         if(! $waySet && ! empty($way)) {
             $notes .= 'Wege: ' . implode(', ', $way) . PHP_EOL;
         }
+
         if(! $infoSet && ! empty($info)) {
             $notes .= 'Info: ' . implode(', ', $info) . PHP_EOL;
         }
@@ -267,6 +278,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
     /**
      * limit the array to only show "full" names of the elements in the available 255 chars.
+     * @param array<int, mixed> $element
      */
     private function limitRoute(array $element): int {
         if(empty($element)) {

@@ -205,6 +205,7 @@ class ElevationInfo {
 		$Code .= '<tr><th class="r">'.__('Threshold').':</th>';
 		foreach ($TresholdRange as $t)
 			$Code .= '<th>'.$t.'</th>';
+
 		$Code .= '</tr>';
 		$Code .= '</thead>';
 		$Code .= '<tbody>';
@@ -271,9 +272,9 @@ class ElevationInfo {
 	}
 
 	/**
-	 * @return array
-	 */
-	protected function getLinksForCorrectionStrategies() {
+     * @return array<string, string>
+     */
+    protected function getLinksForCorrectionStrategies() {
 		return array(
 		    '?strategy=GeoTIFF' => sprintf(__('correct again using %s'), __('srtm files')),
 		    '?strategy=Geonames' => sprintf(__('correct again using %s'), 'geonames.org'),

@@ -203,8 +203,8 @@ class FileImporter implements LoggerAwareInterface
                 $fileName,
                 $originalFileName
             );
-        } catch (ParserException $e) {
-            return new FileImportResult([], $fileName, $originalFileName, $e);
+        } catch (ParserException $parserException) {
+            return new FileImportResult([], $fileName, $originalFileName, $parserException);
         }
     }
 
@@ -216,8 +216,8 @@ class FileImporter implements LoggerAwareInterface
     {
         try {
             return $this->convertFileNameIfRequired($fileName);
-        } catch (ParserException $e) {
-            $this->ConverterExceptions[$fileName] = $e;
+        } catch (ParserException $parserException) {
+            $this->ConverterExceptions[$fileName] = $parserException;
         }
 
         return [$fileName];

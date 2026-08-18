@@ -40,7 +40,7 @@ class ConditionTest extends \PHPUnit\Framework\TestCase {
 			$this->object->set($id);
 
 			$this->assertEquals($id, $this->object->id());
-			$this->assertInstanceOf('\Runalyze\View\Icon', $this->object->icon());
+			$this->assertInstanceOf(\Runalyze\View\Icon::class, $this->object->icon());
 			$this->assertNotEmpty($this->object->string());
 		}
 	}

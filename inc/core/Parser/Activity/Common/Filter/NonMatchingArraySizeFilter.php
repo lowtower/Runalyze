@@ -30,18 +30,24 @@ class NonMatchingArraySizeFilter extends AbstractFilter
         }
     }
 
+    /**
+     * @param int[] $arraySizes
+     */
     protected function throwErrorForNonMatchingArraySizes(array $arraySizes)
     {
         throw new InvalidDataException($this->getErrorOrLogMessage($arraySizes, false));
     }
 
+    /**
+     * @param int[] $arraySizes
+     */
     protected function logFixedArraySizes(array $arraySizes)
     {
         $this->logger->warning($this->getErrorOrLogMessage($arraySizes, true));
     }
 
     /**
-     * @param array $arraySizes
+     * @param int[] $arraySizes
      * @param bool $sizesHaveBeenFixed
      * @return string
      */
@@ -91,7 +97,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     }
 
     /**
-     * @param array $data
+     * @param int[] $data
      * @return bool
      */
     protected function areAllElementsEqual(array $data): bool
@@ -99,6 +105,9 @@ class NonMatchingArraySizeFilter extends AbstractFilter
         return 1 === count(array_unique($data));
     }
 
+    /**
+     * @param int[] $arraySizes
+     */
     protected function tryToHandleNonMatchingArraySizes(array $arraySizes, ContinuousData $continuousData)
     {
         $minimalSize = min($arraySizes);
@@ -113,7 +122,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
 
     /**
      * @param int $newSize
-     * @param array $arraySizes
+     * @param int[] $arraySizes
      * @param ContinuousData $continuousData
      */
     protected function reduceArrays($newSize, array $arraySizes, ContinuousData $continuousData)

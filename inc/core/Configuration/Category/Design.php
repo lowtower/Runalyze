@@ -47,7 +47,7 @@ class Design extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('DESIGN_BG_FILE')->registerOnchangeEvent('Runalyze\\Configuration\\Category\\Design::setBackgroundImageToBody');
+		$this->handle('DESIGN_BG_FILE')->registerOnchangeEvent(\Runalyze\Configuration\Category\Design::class . '::setBackgroundImageToBody');
 	}
 
 	/**

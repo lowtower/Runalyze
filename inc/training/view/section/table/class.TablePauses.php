@@ -85,6 +85,7 @@ class TablePauses {
 			$allPause += $pause->duration();
 			$this->Code .= '</tr>';
 		}
+
 		$this->Code .= '</tbody>';
 
 		// summary
@@ -103,6 +104,7 @@ class TablePauses {
 			$this->Code .= '<td colspan="3" style="padding-right: 20px;"></td>';
 			$this->Code .= '</tr>';
 		}
+
 		$this->Code .= '</tbody>';
 
 		$this->Code .= '</table>';

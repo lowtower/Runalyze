@@ -72,7 +72,7 @@ class SportTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Runalyze\Bundle\CoreBundle\Entity\Type'
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Type::class
         ]);
     }
 }

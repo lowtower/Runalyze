@@ -119,7 +119,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     {
         try {
             new TemplateBasedMessage($templateName);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $invalidArgumentException) {
             return false;
         }
 
@@ -127,7 +127,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $lang
+     * @param string|bool|string[] $lang
      * @return bool
      */
     protected function validateLanguage(array $lang)
@@ -140,7 +140,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $accountIds
+     * @param string|bool|string[] $accountIds
      * @return bool
      */
     protected function validateAccountIds(array $accountIds)
@@ -178,6 +178,9 @@ class CreateNotificationCommand extends ContainerAwareCommand
         );
     }
 
+    /**
+     * @param string|bool|non-empty-array<string> $accountIds
+     */
     protected function insertSingleNotifications(Notification $notification, array $accountIds): int
     {
         /** @var NotificationRepository $notificationRepository */
@@ -204,8 +207,8 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param Notification $notification
-     * @param array $lang
-     * @param array $excludeLang
+     * @param string|bool|string[] $lang
+     * @param string|bool|string[] $excludeLang
      * @param mixed $lastActionBefore
      * @param mixed $lastActionAfter
      * @param mixed $registrationBefore

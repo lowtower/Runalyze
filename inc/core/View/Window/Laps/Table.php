@@ -378,7 +378,8 @@ class Table {
 
 		// clone a pace & HR from the first lap as "template"
 		$pace = clone $this->Laps->at(0)->pace();
-		$pace->setTime(1); // set one second
+		$pace->setTime(1);
+         // set one second
 		$hr = clone $this->Laps->at(0)->HRavg();
 
 		foreach ($this->splitsAdditional['keys'] as $key) {

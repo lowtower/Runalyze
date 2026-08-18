@@ -55,6 +55,7 @@ class GenerateJsonData
 
         $filesystem = new Filesystem();
         $filesystem->mkdir($this->getPathToJsonFiles(), 0755);
+
         $counter = 0;
 
         $query = $this->TrainingRepository->getQueryForJsonPosterData($account, $sport, $year);
@@ -93,6 +94,7 @@ class GenerateJsonData
             Model\Route\Entity::GEOHASHES => $geohashLine
         ]));
         $loop->setStepSize(5);
+
         $pauseLimit = 50 * 5 * $distance / $loop->num();
         $currentSegment = 0;
 

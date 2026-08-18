@@ -20,7 +20,7 @@ $Query = '
 	WHERE
 		`accountid`='.SessionAccountHandler::getId().' AND
 		!ISNULL(`temperature`) AND
-		`time` BETWEEN UNIX_TIMESTAMP(\''.$Year.'-01-01\') AND UNIX_TIMESTAMP(\''.($Year+1).'-01-01\')-1
+		`time` BETWEEN UNIX_TIMESTAMP(\''.$Year."-01-01') AND UNIX_TIMESTAMP('".($Year+1).'-01-01\')-1
 	GROUP BY `d`
 	ORDER BY `d` ASC';
 

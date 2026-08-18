@@ -109,7 +109,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     protected function getChoiceAttributesForEquipment(Equipment $equipment)
     {

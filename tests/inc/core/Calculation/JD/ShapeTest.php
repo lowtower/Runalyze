@@ -45,6 +45,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase {
 
 		LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
 	}
+
 	protected function tearDown(): void {
 		$this->PDO->exec('DROP TABLE `'.PREFIX.'training`');
 	}

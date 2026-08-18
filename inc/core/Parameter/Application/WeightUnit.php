@@ -44,6 +44,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 		    )
 ));
 	}
+
 	/**
 	 * Is kg?
 	 * @return bool

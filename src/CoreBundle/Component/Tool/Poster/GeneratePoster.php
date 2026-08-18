@@ -125,7 +125,7 @@ class GeneratePoster
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function availablePosterTypes()
     {

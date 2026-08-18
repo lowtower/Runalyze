@@ -324,9 +324,11 @@ abstract class Plugin {
 		if (isset($_GET['sport']))
 			if (is_numeric($_GET['sport']))
 				$this->sportid = $_GET['sport'];
+
 		if (isset($_GET['jahr']))
 			if (is_numeric($_GET['jahr']))
 				$this->year = $_GET['jahr'];
+
 		if (isset($_GET['dat']))
 			$this->dat = $_GET['dat'];
 	}
@@ -408,6 +410,7 @@ abstract class Plugin {
 		if ($name == '') {
 			$name = Icon::$CONF;
 		}
+
 		if (! empty($this->Configuration()->objects())) {
             return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
         }

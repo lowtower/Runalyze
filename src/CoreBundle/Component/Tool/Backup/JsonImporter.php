@@ -274,13 +274,13 @@ class JsonImporter
 	}
 
 	/**
-	 * Run prepared statement
-	 * @param string $tableName
-	 * @param \PDOStatement $statement
-	 * @param int $id
-	 * @param array $row
-	 */
-	private function runPreparedStatement($tableName, \PDOStatement $statement, $id, array $row)
+     * Run prepared statement
+     * @param string $tableName
+     * @param \PDOStatement $statement
+     * @param int $id
+     * @param array<string, mixed> $row
+     */
+    private function runPreparedStatement($tableName, \PDOStatement $statement, $id, array $row)
     {
 		switch ($tableName) {
 			case 'runalyze_conf':
@@ -311,6 +311,7 @@ class JsonImporter
 			default:
 				return;
 		}
+
 		$this->Results->addUpdates($tableName, $statement->rowCount());
 	}
 
@@ -357,6 +358,7 @@ class JsonImporter
                         continue;
                     }
                 }
+
                 if (isset($this->ExistingData[$tableName][$values[0]])) {
 					$this->ReplaceIDs[$tableName][$id] = $this->ExistingData[$tableName][$values[0]];
 				} else {
@@ -435,11 +437,11 @@ class JsonImporter
 	}
 
 	/**
-	 * Correct values
-	 * @param string $tableName
-	 * @param array $row
-	 */
-	private function correctValues($tableName, array &$row)
+     * Correct values
+     * @param string $tableName
+     * @param array<string, mixed> $row
+     */
+    private function correctValues($tableName, array &$row)
     {
 		if ($tableName == 'runalyze_training') {
             $this->correctActivity($row);
@@ -481,9 +483,9 @@ class JsonImporter
 	}
 
 	/**
-     * @param array $activity
+     * @param array<string, mixed> $activity
      */
-	private function correctActivity(array &$activity)
+    private function correctActivity(array &$activity)
     {
 		if (isset($activity['sportid'])) {
             $activity['sportid'] = $this->correctID('runalyze_sport', $activity['sportid']);

@@ -91,7 +91,7 @@ class BodyValuesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Runalyze\Bundle\CoreBundle\Entity\User'
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\User::class
         ]);
     }
 }

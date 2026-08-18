@@ -123,9 +123,11 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
         if ( $userData['fat'] ) {
             $SecondValues[] = new BoxedValue(Helper::Unknown($userData['fat'], '-'), '&#37;', __('Fat'));
         }
+
         if ( $userData['water'] ) {
             $SecondValues[] = new BoxedValue(Helper::Unknown($userData['water'], '-'), '&#37;', __('Water'));
         }
+
         if ( $userData['muscles'] ) {
             $SecondValues[] = new BoxedValue(Helper::Unknown($userData['muscles'], '-'), '&#37;', __('Muscles'));
         }

@@ -124,10 +124,10 @@ class JsonImporterResults
 	}
 
 	/**
-	 * Tables with string
-	 * @return array
-	 */
-	protected function tables()
+     * Tables with string
+     * @return array<string, string>
+     */
+    protected function tables()
     {
 		return array(
 		    'runalyze_conf'			=> __('Configuration'),

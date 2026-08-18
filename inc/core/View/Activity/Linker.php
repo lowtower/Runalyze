@@ -101,7 +101,7 @@ class Linker {
 	 * @param string $name [optional]
 	 * @return string
 	 */
-	public function weekLink($name = '') {
+	public function weekLink($name = ''): string {
 		if ($name == '') {
 			$name = (new LocalTime($this->Activity->timestamp()))->format('d.m.Y');
 		}

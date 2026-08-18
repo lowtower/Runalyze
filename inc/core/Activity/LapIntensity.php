@@ -131,6 +131,7 @@ class LapIntensity extends AbstractEnum
         for ($i = 0; $i <= 6; $i++) {
             $r[] = self::fromFitToEnum($i);
         }
+
         return $r;
     }
 
@@ -186,6 +187,7 @@ class LapIntensity extends AbstractEnum
         if (null === self::$INST_ACTIVE) {
             self::$INST_ACTIVE = new LapIntensity(self::ACTIVE);
         }
+
         return self::$INST_ACTIVE;
     }
 
@@ -198,6 +200,7 @@ class LapIntensity extends AbstractEnum
         if (null === self::$INST_REST) {
             self::$INST_REST = new LapIntensity(self::REST);
         }
+
         return self::$INST_REST;
     }
 

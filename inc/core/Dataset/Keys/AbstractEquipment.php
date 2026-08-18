@@ -43,7 +43,7 @@ abstract class AbstractEquipment extends AbstractKey
 		return array(
     'column' => self::CONCAT_EQUIPMENT_KEY,
 		    'join' => 'LEFT JOIN `'.PREFIX.'activity_equipment` AS `aeqp` ON `t`.`id` = `aeqp`.`activityid`',
-		    'field' => 'GROUP_CONCAT(`aeqp`.`equipmentid` SEPARATOR \',\') AS `'.self::CONCAT_EQUIPMENT_KEY.'`'
+		    'field' => "GROUP_CONCAT(`aeqp`.`equipmentid` SEPARATOR ',') AS `".self::CONCAT_EQUIPMENT_KEY.'`'
 );
 	}
 }

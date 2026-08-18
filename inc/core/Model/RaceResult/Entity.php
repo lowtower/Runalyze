@@ -40,6 +40,7 @@ class Entity extends Model\Entity {
 	 * @var string
 	 */
 	const NAME = 'name';
+
 	/**
 	 * Key: place_total
 	 * @var string
@@ -89,10 +90,10 @@ class Entity extends Model\Entity {
 	const ACCOUNTID = 'accountid';
 
 	/**
-	 * All properties
-	 * @return array
-	 */
-	static public function allDatabaseProperties() {
+     * All properties
+     * @return array<int, string>
+     */
+    static public function allDatabaseProperties() {
 		return array(
 		    self::OFFICIAL_DISTANCE,
 		    self::OFFICIAL_TIME,

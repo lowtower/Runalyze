@@ -87,7 +87,7 @@ class JobLoop extends Job
     }
 
     /**
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return \Runalyze\Calculation\Activity\Calculator
      */
     protected function calculatorFor(array $data)
@@ -109,7 +109,7 @@ class JobLoop extends Job
     }
 
     /**
-     * @param array $data activity data
+     * @param array<string, mixed> $data activity data
      * @return array ('total', 'up', 'down')
      */
     protected function elevationsFor(array $data)

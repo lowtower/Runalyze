@@ -14,16 +14,27 @@ use Runalyze\Configuration;
  */
 class FormularFieldset extends HtmlTag {
 	public static $LAYOUT_FIELD_W100          = 'w100 block';
+
 	public static $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
+
 	public static $LAYOUT_FIELD_W100_IN_W50   = 'w100 with50erLabel';
+
 	public static $LAYOUT_FIELD_W100_IN_W33   = 'w100 with33erLabel';
+
 	public static $LAYOUT_FIELD_W50_IN_W33    = 'w50 with33erLabel';
+
 	public static $LAYOUT_FIELD_W50           = 'w50';
+
 	public static $LAYOUT_FIELD_W50_AS_W100   = 'w50 marginr50';
+
 	public static $LAYOUT_FIELD_W33           = 'w33';
+
 	public static $LAYOUT_FIELD_W25           = 'w25';
+
 	public static $LAYOUT_FIELD_INLINE        = 'inline';
+
 	public static $LAYOUT_FIELD_SMALL         = 'small';
+
 	public static $LAYOUT_FIELD_SMALL_INLINE  = 'inline small';
 
 	/**
@@ -185,7 +196,7 @@ class FormularFieldset extends HtmlTag {
 	private function getLegendOnclick(): string {
 		$onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
 
-		return 'Runalyze.toggleFieldset(this, \''.$this->Id.'\', '.$onlyOne.', \''.$this->confValueToSaveStatus.'\')';
+		return "Runalyze.toggleFieldset(this, '".$this->Id."', ".$onlyOne.", '".$this->confValueToSaveStatus."')";
 	}
 
 	/**

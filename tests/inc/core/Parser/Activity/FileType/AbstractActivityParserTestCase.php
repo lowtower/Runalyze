@@ -63,6 +63,9 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->parseFiles($parser, $outputFile, $completeAfterwards);
     }
 
+    /**
+     * @param string[] $files
+     */
     protected function parseFiles(FileContentAwareParserInterface $parser, array $files, $completeAfterwards = true)
     {
         $tmpContainer = [];
@@ -213,6 +216,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
                 break;
             }
         }
+
         if ($latitude === null || $longitude === null) {
             return false;
         }

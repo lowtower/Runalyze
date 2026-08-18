@@ -28,7 +28,7 @@ class WeatherDataMerger implements MergerInterface
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     protected function getPropertiesToMerge()
     {

@@ -21,6 +21,7 @@ class HeartrateAverage extends AbstractKey
 {
 	// default bound for heart-rate if no user/Athlete configuration exists
 	const HR_MIN = 40;
+
 	const HR_MAX = 220;
 
 	/**

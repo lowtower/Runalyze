@@ -26,8 +26,11 @@ class HrZonesCalculator
     // followings formats are allowed: [text:]bpm[:color]
     // examples: 165, 165:#ff0000, Anarob:165:#ff0000 or Anarob:165
     const PATTERN = "/^(.{1,25}:)?(\d{2,3})(:#[0-9a-fA-F]{6})?$/";
+
     const PATTERN_GRP_TEXT = 1;
+
     const PATTERN_GRP_HR = 2;
+
     const PATTERN_GRP_COLOR = 3;
 
 	private $sourceHint;
@@ -85,6 +88,7 @@ class HrZonesCalculator
 				);
 				$k++;
 			}
+
 			$this->sourceHint = 'activity stored zones';
 		} else if (null !== $this->sportZoneBounds && count($this->sportZoneBounds) > 0) {
 			// zones for the sport are defined
@@ -98,11 +102,14 @@ class HrZonesCalculator
 				if (null !== $matches[self::PATTERN_GRP_TEXT]) {
 					$defaultZones[$k]['t'] = $matches[1];
 				}
+
 				if (null !== $matches[self::PATTERN_GRP_COLOR]) {
 					$defaultZones[$k]['c'] = $matches[3];
 				}
+
 				$k++;
 			}
+
 			$this->sourceHint = 'sport stored zones';
 		} else {
 			// default case: 10-percent steps to 100% (max-HR) with colors in the major range 50-100%
@@ -116,6 +123,7 @@ class HrZonesCalculator
 					$defaultZones[$k]['c'] = $majorZoneColors[$c++];
 				}
 			}
+
 			$this->sourceHint = 'default zones';
 		}
 
@@ -139,10 +147,12 @@ class HrZonesCalculator
 
     /**
      * removes a colon in text and/or color.
+     * @param array<int, mixed> $zoneMatch
      */
-	private function removeDelimiter(array &$zoneMatch) {
+    private function removeDelimiter(array &$zoneMatch) {
         if(null !== $zoneMatch[self::PATTERN_GRP_TEXT])
             $zoneMatch[self::PATTERN_GRP_TEXT] = substr($zoneMatch[self::PATTERN_GRP_TEXT], 0, strlen($zoneMatch[self::PATTERN_GRP_TEXT]) - 1);
+
         if(null !== $zoneMatch[self::PATTERN_GRP_COLOR])
             $zoneMatch[self::PATTERN_GRP_COLOR] = substr($zoneMatch[self::PATTERN_GRP_COLOR], 1);
     }
@@ -177,6 +187,7 @@ class HrZonesCalculator
             $okb = preg_match(self::PATTERN, $b, $matchesb, PREG_UNMATCHED_AS_NULL);
             if ($oka && $okb) {
                 if ($matchesa[self::PATTERN_GRP_HR] == $matchesb[self::PATTERN_GRP_HR]) return 0;
+
                 return ($matchesa[self::PATTERN_GRP_HR] < $matchesb[self::PATTERN_GRP_HR]) ? -1 : 1;
             } else {
                 return 0;

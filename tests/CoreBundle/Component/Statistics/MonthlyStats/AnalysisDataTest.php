@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 class AnalysisDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param array $results
+     * @param array<int, array<string, int>>|array<int, array<string, float>> $results
      * @return AnalysisData
      */
     protected function getAnalysisDataMockWithEmptySelections(array $results = [])
@@ -25,7 +25,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array $results
+     * @param array<int, array<string, int|float>> $results
      * @return TrainingRepository
      */
     protected function getTrainingRepositoryMock(array $results = []): \PHPUnit\Framework\MockObject\MockObject

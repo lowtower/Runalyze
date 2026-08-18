@@ -71,10 +71,12 @@ class ActiveRoundCalculator {
                 while ($timeIdx < $len && $time[$timeIdx] <= $roundTimeStart) {
                     $timeIdx++;
                 }
+
                 // Select the track point closest to the round boundary. This is only possible if points exist on both sides.
                 if ($timeIdx > 0 && $timeIdx < $len && $roundTimeStart - $time[$timeIdx - 1] > $time[$timeIdx] - $roundTimeStart) {
                     $timeIdx++;
                 }
+
                 // now the idx is on the break start
             }
 

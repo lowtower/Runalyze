@@ -18,12 +18,12 @@ use Runalyze\Parameter\SelectRow;
  */
 class FieldFactory {
 	/**
-	 * Add field
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 * @param array $options
-	 * @return \FormularField
-	 */
-	public function FieldFor(Handle $Handle, array $options = array()) {
+     * Add field
+     * @param \Runalyze\Configuration\Handle $Handle
+     * @param array<string, mixed> $options
+     * @return \FormularField
+     */
+    public function FieldFor(Handle $Handle, array $options = array()) {
 		$options = array_merge(array(
 		    'label'		=> $Handle->key(),
 		    'tooltip'	=> '',
@@ -72,11 +72,11 @@ class FieldFactory {
 	}
 
 	/**
-	 * Set attributes to field
-	 * @param \FormularField $Field
-	 * @param array $options
-	 */
-	private function setAttributesToField(\FormularField $Field, array &$options) {
+     * Set attributes to field
+     * @param \FormularField $Field
+     * @param array<string, mixed> $options
+     */
+    private function setAttributesToField(\FormularField $Field, array &$options) {
 		if (! empty($options['unit']))
 			$Field->setUnit($options['unit']);
 

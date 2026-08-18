@@ -68,6 +68,7 @@ class Cache {
 				$lastcacheclean = $lastcacheclean ?: 0;
 				self::$LASTCLEAN = $lastcacheclean;
 			}
+
 			if (isset($cachedobj['write_time']) && $cachedobj['write_time'] > $lastcacheclean) {
 				return $cachedobj['value'];
 			} else {

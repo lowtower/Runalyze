@@ -21,6 +21,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->Activity = new Training();
         $this->Activity->setSport(new Sport());
+
         $this->Calculator = new PowerCalculator();
     }
 

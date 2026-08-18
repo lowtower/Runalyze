@@ -94,6 +94,7 @@ class RunalyzeRoundArray extends Type
             // default is active if no special char exits
             $r->setIntensity(LapIntensity::getInstanceActive());
         }
+
         return $r;
     }
 }

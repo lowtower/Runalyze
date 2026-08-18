@@ -4,9 +4,11 @@ namespace Runalyze\Model;
 
 class StringObject_MockTester extends StringObject {
 	protected $String;
+
 	public function fromString($string) {
 		$this->String = $string;
 	}
+
 	public function asString() {
 		return $this->String;
 	}

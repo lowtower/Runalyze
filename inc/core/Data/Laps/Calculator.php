@@ -155,6 +155,7 @@ class Calculator
 				$this->moveToTime($seconds);
 
 			}
+
 			$this->readLap();
 		}
 	}
@@ -177,7 +178,9 @@ class Calculator
 		} else {
 			$distanceArr = explode(',', $distanceStr);
 		}
+
 		if (! self::isSorted($distanceArr)) $distanceArr = array();
+
 		return $distanceArr;
 	}
 
@@ -191,7 +194,7 @@ class Calculator
 	 */
 	public static function getTimesFromString($string)
 	{
-		$string = str_replace('\'', ':00', $string);
+		$string = str_replace("'", ':00', $string);
 
 		if (substr($string, 0, 1) == '+') {
 			$times = self::explodeTimeStrings(substr($string, 1));
@@ -285,10 +288,10 @@ class Calculator
 	}
 
 	/**
-	 * @param \Runalyze\Model\Trackdata\Entity $Object
-	 * @param array $AdditionalData
-	 */
-	protected function addTrackdataAveragesToDataFrom(Trackdata\Entity $Object, array &$AdditionalData) {
+     * @param \Runalyze\Model\Trackdata\Entity $Object
+     * @param array<string, mixed> $AdditionalData
+     */
+    protected function addTrackdataAveragesToDataFrom(Trackdata\Entity $Object, array &$AdditionalData) {
 		$KeysToAverage = array(
 		    Activity\Entity::CADENCE => Trackdata\Entity::CADENCE,
 		    Activity\Entity::STRIDE_LENGTH => Trackdata\Entity::STRIDE_LENGTH,
@@ -310,11 +313,11 @@ class Calculator
 	}
 
 	/**
-	 * #TSC add swim-data for the laps-popup.
-	 * @param \Runalyze\Model\Swimdata\Entity $Object
-	 * @param array $AdditionalData
-	 */
-	protected function addSwimmdataAveragesToDataFrom(Swimdata\Entity $Object, array &$AdditionalData) {
+     * #TSC add swim-data for the laps-popup.
+     * @param \Runalyze\Model\Swimdata\Entity $Object
+     * @param array<string, mixed> $AdditionalData
+     */
+    protected function addSwimmdataAveragesToDataFrom(Swimdata\Entity $Object, array &$AdditionalData) {
 		$KeysToAverage = array(
 		    Swimdata\Entity::STROKE => Swimdata\Entity::STROKE,
 		    Swimdata\Entity::SWOLF => Swimdata\Entity::SWOLF,
@@ -332,11 +335,14 @@ class Calculator
 					// number of lanes of a lap
 					$st++;
 				}
+
 				$NewLoop->nextStep();
 			}
+
 			if($NewLoop->current(Swimdata\Entity::STROKETYPE) != \Runalyze\Profile\FitSdk\StrokeTypeProfile::BREAK) {
 				$st++;
 			}
+
 			$AdditionalData['lanes'] = $st; // number of lanes
 
 			$NewLoop->reset();
@@ -373,10 +379,10 @@ class Calculator
 	}
 
 	/**
-	 * @param \Runalyze\Data\Laps\Lap $Lap
-	 * @param array $AdditionalData
-	 */
-	protected function addVO2maxToDataFrom(Lap $Lap, array &$AdditionalData) {
+     * @param \Runalyze\Data\Laps\Lap $Lap
+     * @param array<string, mixed> $AdditionalData
+     */
+    protected function addVO2maxToDataFrom(Lap $Lap, array &$AdditionalData) {
 		if (Configuration::VO2max()->useElevationCorrection() && $Lap->hasElevation()) {
 			$distance = (new Calculation\Elevation\DistanceModifier(
 				$Lap->distance()->kilometer(),
@@ -410,6 +416,7 @@ class Calculator
 		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
+
 		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
@@ -429,6 +436,7 @@ class Calculator
 		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
+
 		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
@@ -444,6 +452,7 @@ class Calculator
 		if (null !== $this->RouteLoop) {
 			$this->RouteLoop->goToEnd();
 		}
+
 		if (null !== $this->SwimdataLoop) {
 			$this->SwimdataLoop->goToEnd();
 		}
@@ -459,11 +468,11 @@ class Calculator
 	}
 
 	/**
-	 * Is the given array sorted?
-	 * @param array $data
-	 * @return boolean true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]
-	 */
-	protected static function isSorted(array $data): bool
+     * Is the given array sorted?
+     * @param array<int, mixed> $data
+     * @return boolean true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]
+     */
+    protected static function isSorted(array $data): bool
 	{
 		$num = count($data);
 

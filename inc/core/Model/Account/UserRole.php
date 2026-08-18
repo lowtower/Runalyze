@@ -17,7 +17,7 @@ final class UserRole extends AbstractEnum
 	 * @return string role name
 	 * @throws \InvalidArgumentException
 	 */
-	public static function getRoleName($roleId)
+	public static function getRoleName($roleId): string
 	{
 		$roleNames = self::roleNamesArray();
 
@@ -29,9 +29,9 @@ final class UserRole extends AbstractEnum
 	}
 
 	/**
-	 * @return array [int(enum) => 'role name']
-	 */
-	private static function roleNamesArray()
+     * @return array<int, string> [int(enum) => 'role name']
+     */
+    private static function roleNamesArray()
 	{
 		return [
     self::ROLE_USER => 'ROLE_USER',

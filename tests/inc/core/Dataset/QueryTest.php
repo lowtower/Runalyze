@@ -31,7 +31,10 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
 
-	protected function insertActivity(array $data)
+	/**
+     * @param array<string, int>|array<string, string>|array<string, bool> $data
+     */
+    protected function insertActivity(array $data)
 	{
 		if (! isset($data['accountid'])) {
 			$data['accountid'] = 1;

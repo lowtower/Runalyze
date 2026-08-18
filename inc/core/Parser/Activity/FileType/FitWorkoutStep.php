@@ -12,12 +12,16 @@ use Runalyze\Activity\LapIntensity;
  */
 class FitWorkoutStep {
     const ADD_TARGET_SPEED = 'FIT target speed';
+
     const ADD_TARGET_HR = 'FIT target HR';
+
     const ADD_TARGET_CADENCE = 'FIT target cadence';
+
     const ADD_TARGET_POWER = 'FIT target power';
 
     /** @var array array of LapIntensity|null can contain null values */
     protected $intensitys = [];
+
     /** @var array low/high of a target */
     protected $targets = [];
 
@@ -84,6 +88,7 @@ class FitWorkoutStep {
             $target[self::ADD_TARGET_POWER . ' high'] = (int) $values['custom_target_power_high'][0];
             $this->hasTarget = true;
         }
+
         $this->targets[] = $target;
     }
 

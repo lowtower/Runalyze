@@ -32,6 +32,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 class ImportActivityController extends Controller
 {
     const IMPORT_CMD = 'runalyze:activity:bulk-import';
+
     const SUCCESS_MSG = 'successfully imported';
 
     /**

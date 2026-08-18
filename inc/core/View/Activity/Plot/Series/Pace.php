@@ -76,6 +76,7 @@ class Pace extends ActivitySeries {
 
 		$pace = new \Runalyze\Activity\Pace(0, 1);
 		$pace->setUnit($this->paceUnit);
+
 		$this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
 		$this->UnitDecimals = 1;
 
@@ -179,6 +180,7 @@ class Pace extends ActivitySeries {
 					$max = 60 * 1000 * floor($max / 60 / 1000);
 				}
 			}
+
 			if ($setLimits) {
 				$Plot->setYLimits($yAxis, $min, $max, $autoscale);
 			}

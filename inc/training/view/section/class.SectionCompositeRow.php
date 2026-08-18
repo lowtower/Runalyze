@@ -131,6 +131,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);
 				$this->BoxedValues[] = new Activity\Box\Speed($this->Context);
 			}
+
 			// #TSC show also GAP
 			if (Activity\Box\GradeAdjustedPace::hasPace($this->Context)) {
 				$this->BoxedValues[] = new Activity\Box\GradeAdjustedPace($this->Context);

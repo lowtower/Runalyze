@@ -49,7 +49,7 @@ class HtmlOutputFormatter extends OutputFormatter
     }
 
     /**
-     * @param array $matches
+     * @param string[] $matches
      *
      * @return string
      */

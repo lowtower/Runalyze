@@ -216,6 +216,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
                 }
             }
         }
+
         return false;
     }
 

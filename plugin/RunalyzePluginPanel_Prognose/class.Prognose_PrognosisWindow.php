@@ -162,10 +162,10 @@ class Prognose_PrognosisWindow {
 	}
 
 	/**
-	 * @param array $values
-	 * @return array
-	 */
-	protected function distanceValuesToKm(array $values) {
+     * @param string[]|array<int, string[]> $values
+     * @return array
+     */
+    protected function distanceValuesToKm(array $values) {
 		if ($this->UnitSystem->isImperial()) {
 			$values = array_map(function($val){
 				return round($val / DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
@@ -498,6 +498,6 @@ class Prognose_PrognosisWindow {
 	protected function displayFormular() {
 		$this->Formular->display();
 
-		echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-'.$_POST['model'].')\').closest(\'div\').hide();');
+		echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-'.$_POST['model'].")').closest('div').hide();");
 	}
 }

@@ -104,12 +104,15 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
     {
         $insertConf = $this->DB->prepare('INSERT INTO `runalyze_conf` (`category`, `key`, `value`, `accountid`) VALUES (?, ?, ?, ?)');
         $insertConf->execute(['test-data', 'TEST_CONF', 'false', $this->AccountID]);
+
         $insertPlugin = $this->DB->prepare('INSERT INTO `runalyze_plugin` (`key`, `active`, `order`, `accountid`) VALUES (?, ?, ?, ?)');
         $insertPlugin->execute(['RunalyzePluginTool_TEST', 0, 3, $this->AccountID]);
+
         $pluginId = $this->DB->lastInsertId();
         $insertPluginConf = $this->DB->prepare('INSERT INTO `runalyze_plugin_conf` (`pluginid`, `config`, `value`) VALUES (?, ?, ?)');
         $insertPluginConf->execute([$pluginId, 'test_one', 2]);
         $insertPluginConf->execute([$pluginId, 'test_two', 1]);
+
         $insertDataset = $this->DB->prepare('INSERT INTO `runalyze_dataset` (`keyid`, `active`, `style`, `position`, `accountid`) VALUES (?, ?, ?, ?, ?)');
         $insertDataset->execute([1, 1, '', 1, $this->AccountID]);
 
@@ -137,11 +140,13 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
         $insertSport->execute(['ID-Increaser 1', $this->AccountID]);
         $insertSport->execute(['ID-Increaser 2', $this->AccountID]);
         $insertSport->execute(['Testsport', $this->AccountID]);
+
         $sportId = $this->DB->lastInsertId();
         $insertType = $this->DB->prepare('INSERT INTO `runalyze_type` (`name`, `sportid`, `accountid`) VALUES (?, ?, ?)');
         $insertType->execute(['ID-Increaser 1', $sportId, $this->AccountID]);
         $insertType->execute(['ID-Increaser 2', $sportId, $this->AccountID]);
         $insertType->execute(['Testtype', $sportId, $this->AccountID]);
+
         $typeId = $this->DB->lastInsertId();
 
 		// Act
@@ -240,6 +245,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$ExistingTypeAB = $this->DB->lastInsertId();
 		$this->DB->exec('INSERT INTO `runalyze_equipment_sport` (`sportid`, `equipment_typeid`) VALUES('.$ExistingSportA.', '.$ExistingTypeA.')');
 		$this->DB->exec('INSERT INTO `runalyze_tag` (`tag`, `accountid`) VALUES("Tag A", '.$this->AccountID.')');
+
 		$ExistingTagA = $this->DB->lastInsertId();
 
 		$Importer = new JsonImporter($this->Base.'with-equipment.json.gz', $this->DB, $this->AccountID, $this->Prefix);
@@ -305,12 +311,14 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->DB->exec('INSERT INTO `runalyze_hrv` (`accountid`,`activityid`) VALUES(0, '.$FirstTraining.')');
 		$this->DB->exec('INSERT INTO `runalyze_activity_equipment` (`activityid`,`equipmentid`) VALUES('.$FirstTraining.', '.$FirstEquipment.')');
 		$this->DB->exec('INSERT INTO `runalyze_tag` (`accountid`,`tag`) VALUES(0, "")');
+
 		$FirstTag = $this->DB->lastInsertId();
 		$this->DB->exec('INSERT INTO `runalyze_activity_tag` (`activityid`,`tagid`) VALUES('.$FirstTraining.', '.$FirstTag.')');
 
 
 		// Data of account 1
 		$this->DB->exec('INSERT INTO `runalyze_equipment_type` (`accountid`,`name`) VALUES(1, "")');
+
 		$SecondEquipmentType = $this->DB->lastInsertId();
 		$this->DB->exec('INSERT INTO `runalyze_equipment` (`accountid`,`typeid`,`name`,`notes`) VALUES(1, '.$SecondEquipmentType.', "", "")');
 		$SecondEquipment = $this->DB->lastInsertId();
@@ -323,6 +331,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->DB->exec('INSERT INTO `runalyze_hrv` (`accountid`,`activityid`) VALUES(1, '.$SecondTraining.')');
 		$this->DB->exec('INSERT INTO `runalyze_activity_equipment` (`activityid`,`equipmentid`) VALUES('.$SecondTraining.', '.$SecondEquipment.')');
 		$this->DB->exec('INSERT INTO `runalyze_tag` (`accountid`,`tag`) VALUES(1, "")');
+
 		$SecondTag = $this->DB->lastInsertId();
 		$this->DB->exec('INSERT INTO `runalyze_activity_tag` (`activityid`,`tagid`) VALUES('.$SecondTraining.', '.$SecondTag.')');
 
