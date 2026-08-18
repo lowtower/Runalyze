@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ValueInterface
  * @package Runalyze\Activity
  */
-
 namespace Runalyze\Activity;
 
 /**

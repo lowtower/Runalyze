@@ -60,7 +60,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     {
         $result = $this->tryToLoadForecast($location);
 
-        if (empty($result)) {
+        if ($result === []) {
             return null;
         }
 

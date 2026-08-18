@@ -27,6 +27,6 @@ class Version20180113231353 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $this->container->getParameter('database_prefix');
     }
 }

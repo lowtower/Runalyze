@@ -29,14 +29,14 @@ class FormularValueParser {
 	 */
 	public static $PARSER_BOOL = 'bool';
 
-	/**
-	 * Validate post-value for a given key with a given parser
-	 * @param string $key
-	 * @param string $parser
-	 * @param array $parserOptions
-	 * @return bool
-	 */
-	public static function validatePost($key, $parser, $parserOptions = array()) {
+    /**
+     * Validate post-value for a given key with a given parser
+     * @param string $key
+     * @param string $parser
+     * @param array<string, mixed> $parserOptions
+     * @return bool
+     */
+    public static function validatePost($key, $parser, array $parserOptions = array()) {
 		if (null === $parser)
 			return true;
 
@@ -60,13 +60,12 @@ class FormularValueParser {
 		}
 	}
 
-	/**
-	 * Transform value with a given parser
-	 * @param mixed $value
-	 * @param string $parser
-	 * @param array $parserOptions
-	 */
-	public static function parse(&$value, $parser, $parserOptions = array()) {
+    /**
+     * Transform value with a given parser
+     * @param mixed $value
+     * @param string $parser
+     */
+    public static function parse(&$value, $parser, array $parserOptions = array()) {
 		if (null === $parser)
 			return;
 
@@ -123,13 +122,13 @@ class FormularValueParser {
 			$value = date('d.m.Y', $value);
 	}
 
-	/**
-	 * Validator: time-string => time in seconds
-	 * @param string $key
-	 * @param array $options
-	 * @return bool
-	 */
-	private static function validateTime($key, $options) {
+    /**
+     * Validator: time-string => time in seconds
+     * @param string $key
+     * @param array<string, mixed> $options
+     * @return bool
+     */
+    private static function validateTime($key, array $options) {
 		$Time = new Duration($_POST[$key]);
 
 		$_POST[$key] = $Time->seconds();
@@ -140,12 +139,12 @@ class FormularValueParser {
 		return true;
 	}
 
-	/**
-	 * Parse: time in seconds => time-string
-	 * @param mixed $value
-	 * @param array $options
-	 */
-	private static function parseTime(&$value, $options) {
+    /**
+     * Parse: time in seconds => time-string
+     * @param mixed $value
+     * @param array<string, mixed> $options
+     */
+    private static function parseTime(&$value, array $options) {
 		if ($value == 0) {
 			if (isset($options['hide-empty'])) {
 				$value = '';

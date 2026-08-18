@@ -25,7 +25,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testEmptyValues() {
-		$Calculator = new Calculator(new Model\Activity\Entity(), null, null);
+		$Calculator = new Calculator(new Model\Activity\Entity());
 
 		$this->assertEquals(0, $Calculator->estimateVO2maxByTime());
 		$this->assertEquals(0, $Calculator->estimateVO2maxByHeartRate());
@@ -41,7 +41,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		    Model\Activity\Entity::ELEVATION => 100
 ));
 
-		$CalculatorOnlyActivity = new Calculator($Activity, null, null);
+		$CalculatorOnlyActivity = new Calculator($Activity);
 		$CalculatorOnlyElevation = new Calculator($Activity, null, new Model\Route\Entity(array(
 		    Model\Route\Entity::ELEVATION => 500
 		)));
@@ -93,11 +93,11 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		    Model\Activity\Entity::HR_AVG => 150
 		));
 
-		$CalculatorOnlyActivity = new Calculator($Activity, null, null);
+		$CalculatorOnlyActivity = new Calculator($Activity);
 		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity(array(
 		    Model\Trackdata\Entity::TIME => array(1500, 3000),
 		    Model\Trackdata\Entity::HEARTRATE => array(125, 175)
-		)), null);
+		)));
 
 		$this->assertGreaterThan($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
 	}
@@ -109,11 +109,11 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 		    Model\Activity\Entity::HR_AVG => 150
 		));
 
-		$CalculatorOnlyActivity = new Calculator($Activity, null, null);
+		$CalculatorOnlyActivity = new Calculator($Activity);
 		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity(array(
 		    Model\Trackdata\Entity::TIME => array(1500, 3000),
 		    Model\Trackdata\Entity::HEARTRATE => array(0, 0)
-		)), null);
+		)));
 
 		$this->assertEquals($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
 	}

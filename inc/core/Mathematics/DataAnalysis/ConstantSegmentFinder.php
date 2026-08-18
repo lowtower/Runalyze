@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\DataAnalysis;
 
 class ConstantSegmentFinder
@@ -26,7 +28,7 @@ class ConstantSegmentFinder
     {
         $this->Data = $data;
         $this->DataSize = count($data);
-        $this->IndexData = empty($indexData) && 0 < $this->DataSize ? range(0, $this->DataSize - 1) : $indexData;
+        $this->IndexData = $indexData === [] && 0 < $this->DataSize ? range(0, $this->DataSize - 1) : $indexData;
 
         if (count($this->IndexData) !== $this->DataSize) {
             throw new \InvalidArgumentException('Size of $indexData must match size of $data.');

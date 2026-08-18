@@ -32,7 +32,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
 
     public function testActivityWithoutRoute()
     {
-        $this->Activity->setRoute(null);
+        $this->Activity->setRoute();
 
         $this->assertNull($this->Detector->isActivityAtNight($this->Activity));
     }

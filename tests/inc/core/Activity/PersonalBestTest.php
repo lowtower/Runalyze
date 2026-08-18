@@ -141,7 +141,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$date2 = mktime(12, 0, 0, 6, 2, 2010);
 
 		$first = $this->insert(1.0, 180, $date1);
-		$second = $this->insert(1.0, 180, $date2);
+		$this->insert(1.0, 180, $date2);
 
 		$this->assertEquals(1, PersonalBest::lookupDistances(array(1.0), self::SPORTID, $this->PDO, true));
 

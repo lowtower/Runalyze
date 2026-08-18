@@ -75,7 +75,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testDeleteActivities()
     {
-		$numTrainings = $this->fillDummyTrainings();
+		$this->fillDummyTrainings();
 		$numUser = $this->fillDummyUser();
 
 		$Importer = new JsonImporter($this->Base.'default-empty.json.gz', $this->DB, $this->AccountID, $this->Prefix);
@@ -88,7 +88,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteBody()
     {
 		$numTrainings = $this->fillDummyTrainings();
-		$numUser = $this->fillDummyUser();
+		$this->fillDummyUser();
 
 		$Importer = new JsonImporter($this->Base.'default-empty.json.gz', $this->DB, $this->AccountID, $this->Prefix);
         $Importer->deleteOldBodyValues();
@@ -262,7 +262,7 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($ExistingTypeAB, $TypeAB);
 
 		$TagA = $this->DB->query('SELECT `id` FROM `runalyze_tag` WHERE `accountid`='.$this->AccountID.' AND `tag`="Tag A"')->fetchColumn();
-		$TagB = $this->DB->query('SELECT `id` FROM `runalyze_tag` WHERE `accountid`='.$this->AccountID.' AND `tag`="Tag B"')->fetchColumn();
+		$this->DB->query('SELECT `id` FROM `runalyze_tag` WHERE `accountid`='.$this->AccountID.' AND `tag`="Tag B"')->fetchColumn();
 		$this->assertEquals($ExistingTagA, $TagA);
 
 		$this->assertEquals(array(

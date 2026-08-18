@@ -223,7 +223,7 @@ class Language implements InterfaceChoosable
      *
      * @return string|null a matched option, or null if no match
      */
-    protected function matchAccept($header, $supported)
+    protected function matchAccept($header, array $supported)
     {
         $matches = $this->sortAccept($header);
 

@@ -30,12 +30,12 @@ class Splits {
 	 */
 	protected $transformDistanceUnit = false;
 
-	/**
-	 * Construct a new object of Splits
-	 * @param string $data [optional]
-	 * @param array $options
-	 */
-	public function __construct($data = '', $options = array()) {
+    /**
+     * Construct a new object of Splits
+     * @param string $data [optional]
+     * @param array<string, mixed> $options
+     */
+    public function __construct($data = '', array $options = array()) {
 		if (isset($options['transform-unit']) && $options['transform-unit'] === true) {
 			$this->transformDistanceUnit = true;
 		}
@@ -84,7 +84,7 @@ class Splits {
      * Are the splits empty?
      */
     public function areEmpty(): bool {
-		return empty($this->asArray);
+		return $this->asArray === [];
 	}
 
 	/**

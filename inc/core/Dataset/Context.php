@@ -107,7 +107,7 @@ class Context
 	 */
 	public function setActivityData(array $data)
 	{
-		if (empty($data)) {
+		if ($data === []) {
 			throw new \InvalidArgumentException('Provided data must not be empty.');
 		}
 

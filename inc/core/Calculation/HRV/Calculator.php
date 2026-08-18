@@ -298,7 +298,7 @@ class Calculator {
 	 * Finish sub intervals to calculate SDANN
 	 */
 	protected function finishSubIntervalsForSDANN() {
-		if (empty($this->SubIntervals)) {
+		if ($this->SubIntervals === []) {
 			return;
 		}
 

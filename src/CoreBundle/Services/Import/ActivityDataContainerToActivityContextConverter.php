@@ -212,7 +212,7 @@ class ActivityDataContainerToActivityContextConverter
 
     protected function tryToSetEquipmentFor(Training $activity, array $equipmentNames)
     {
-        if (! empty($equipmentNames)) {
+        if ($equipmentNames !== []) {
             foreach ($this->EquipmentRepository->findByName($equipmentNames, $this->Account) as $equipment) {
                 $activity->addEquipment($equipment);
             }
@@ -366,7 +366,7 @@ class ActivityDataContainerToActivityContextConverter
      */
     protected function getRoundedContinuousDistanceData(array $distance)
     {
-        if (empty($distance)) {
+        if ($distance === []) {
             return null;
         }
 
@@ -425,7 +425,7 @@ class ActivityDataContainerToActivityContextConverter
         // #TSC store Altitude-Barometric flag
         $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric);
 
-        if (! empty($container->ContinuousData->Altitude)) {
+        if ($container->ContinuousData->Altitude !== []) {
             // #TSC do not here store the "$route->setElevationsCorrected($container->ContinuousData->Altitude)"
             // in case of IsAltitudeDataBarometric; this is not necessary anymore
 
@@ -433,7 +433,7 @@ class ActivityDataContainerToActivityContextConverter
             $route->setElevationsOriginal($container->ContinuousData->Altitude);
         }
 
-        if (! empty($container->ContinuousData->Latitude) && ! empty($container->ContinuousData->Longitude)) {
+        if ($container->ContinuousData->Latitude !== [] && $container->ContinuousData->Longitude !== []) {
             $route->setLatitudesAndLongitudes($container->ContinuousData->Latitude, $container->ContinuousData->Longitude);
         }
 
@@ -454,7 +454,7 @@ class ActivityDataContainerToActivityContextConverter
      */
     protected function getHrvFor(ActivityDataContainer $container)
     {
-        if (empty($container->RRIntervals)) {
+        if ($container->RRIntervals === []) {
             return null;
         }
 

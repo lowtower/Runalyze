@@ -191,7 +191,7 @@ class ContinuousData
      */
     public function getTotalDuration()
     {
-        if (! empty($this->Time) && end($this->Time) > 0.0) {
+        if ($this->Time !== [] && end($this->Time) > 0.0) {
             return end($this->Time);
         }
 
@@ -203,7 +203,7 @@ class ContinuousData
      */
     public function getTotalDistance()
     {
-        if (! empty($this->Distance) && end($this->Distance) > 0.0) {
+        if ($this->Distance !== [] && end($this->Distance) > 0.0) {
             return end($this->Distance);
         }
 
@@ -215,7 +215,7 @@ class ContinuousData
      */
     public function getMaximalHeartRate()
     {
-        if (! empty($this->HeartRate)) {
+        if ($this->HeartRate !== []) {
             return max($this->HeartRate);
         }
 
@@ -227,7 +227,7 @@ class ContinuousData
      */
     public function getMaximalPower()
     {
-        if (! empty($this->Power)) {
+        if ($this->Power !== []) {
             return max($this->Power);
         }
 

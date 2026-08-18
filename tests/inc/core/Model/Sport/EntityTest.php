@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Model\Sport;
 
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;

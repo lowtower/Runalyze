@@ -81,7 +81,7 @@ class Route {
 	}
 
 	public function isEmpty(): bool {
-	    return empty($this->Paths);
+	    return $this->Paths === [];
     }
 
     /**
@@ -122,12 +122,12 @@ class Route {
      * @param array $Info [optional] must be of the same size as $Path
      */
     final public function addSegment(array $Path, array $Info = array()) {
-		if (empty($Path))
+		if ($Path === [])
 			return;
 
 		$this->Paths[] = $Path;
 
-		if (! empty($Info))
+		if ($Info !== [])
 			$this->Infos[] = $Info;
 	}
 

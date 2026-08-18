@@ -42,15 +42,15 @@ class HRVPoincare extends ActivityPlot {
 		$Collector = new PoincareCollector($context->hrv());
 		$this->Data = $Collector->data();
 
-		if (empty($this->Data)) {
+		if ($this->Data === []) {
 			return;
 		}
 
 		$this->Plot->Data[] = array(
-    'label' => __('R-R interval').' n+1',
+		    'label' => __('R-R interval').' n+1',
 		    'color' => 'rgb(0,0,0)',
 		    'data' => $Collector->data()
-);
+		);
 
 		// TODO: ensure symmetric x-/y-axis
 

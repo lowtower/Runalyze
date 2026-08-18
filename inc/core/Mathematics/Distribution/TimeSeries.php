@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Distribution;
 
 /**
@@ -15,7 +17,7 @@ class TimeSeries extends EmpiricalDistribution
      */
     public function __construct(array $data, array $time)
     {
-        if (empty($time)) {
+        if ($time === []) {
             throw new \InvalidArgumentException('Time array must not be empty.');
         }
 

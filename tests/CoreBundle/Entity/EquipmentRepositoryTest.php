@@ -41,15 +41,15 @@ class EquipmentRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNotEmpty($clothes);
 
         $this->TrainingRepository->save(
-            $this->getActivityForDefaultAccount(null, 3600, 10.0, null)
+            $this->getActivityForDefaultAccount(null, 3600, 10.0)
                 ->addEquipment($clothes[0])
         );
         $this->TrainingRepository->save(
-            $this->getActivityForDefaultAccount(null, 1800, 7.5, null)
+            $this->getActivityForDefaultAccount(null, 1800, 7.5)
                 ->addEquipment($clothes[0])
         );
         $this->TrainingRepository->save(
-            $this->getActivityForDefaultAccount(null, 3600, 12.0, null)
+            $this->getActivityForDefaultAccount(null, 3600, 12.0)
                 ->addEquipment($clothes[1])
         );
 

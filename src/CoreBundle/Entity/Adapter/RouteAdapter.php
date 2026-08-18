@@ -40,7 +40,7 @@ class RouteAdapter
 
     public function removeElevation()
     {
-        $this->Route->setElevationsCorrected(null);
+        $this->Route->setElevationsCorrected();
         $this->Route->setElevationsSource(null);
     }
 

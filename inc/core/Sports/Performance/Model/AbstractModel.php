@@ -57,8 +57,8 @@ abstract class AbstractModel
 
     final public function calculate()
     {
-        if (empty($this->Range)) {
-            if (empty($this->Trimp)) {
+        if ($this->Range === []) {
+            if ($this->Trimp === []) {
                 $this->setRange(0, 0);
             } else {
                 $Keys = array_keys($this->Trimp);

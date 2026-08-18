@@ -34,7 +34,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         $em = $this->container->get('doctrine.orm.entity_manager');
         $em->getConnection()
             ->getConfiguration()
-            ->setSQLLogger(null);
+            ->setSQLLogger();
 
         $repo = $em->getRepository('CoreBundle:Route');
 

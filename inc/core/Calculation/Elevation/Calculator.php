@@ -125,7 +125,7 @@ class Calculator
 	{
 		$this->chooseStrategy();
 
-		if (! empty($this->ElevationPoints)) {
+		if ($this->ElevationPoints !== []) {
 			$this->runStrategy();
 
 			$this->Up = array_sum( array_filter($this->UpDownPoints, function($value): bool{ return $value > 0; }) );

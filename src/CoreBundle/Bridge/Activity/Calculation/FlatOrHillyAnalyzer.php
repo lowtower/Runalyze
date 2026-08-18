@@ -41,7 +41,7 @@ class FlatOrHillyAnalyzer
      */
     public function calculatePercentageFlatForArrays(array $distances, array $elevations, $threshold = self::DEFAULT_GRADIENT_THRESHOLD)
     {
-        if (empty($distances)) {
+        if ($distances === []) {
             return null;
         }
 

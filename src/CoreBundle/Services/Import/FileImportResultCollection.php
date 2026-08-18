@@ -40,7 +40,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function isEmpty(): bool
     {
-        return empty($this->Elements);
+        return $this->Elements === [];
     }
 
     public function count()

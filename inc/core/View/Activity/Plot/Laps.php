@@ -67,12 +67,12 @@ abstract class Laps extends ActivityPlot {
 		$this->SplitsAreNotComplete = $this->splitsAreNotComplete($context);
 		$this->loadData($context);
 
-		if (! empty($this->Data) && $this->PaceUnit->isTimeFormat()) {
+		if ($this->Data !== [] && $this->PaceUnit->isTimeFormat()) {
 			$min = Helper::floorFor(min($this->Data), 30000);
 			$max = Helper::ceilFor(max($this->Data), 30000);
 
 			$this->Plot->setYAxisTimeFormat('%M:%S');
-		} else if(! empty($this->Data)) {
+		} else if($this->Data !== []) {
 			$min = floor(min($this->Data));
 			$max = ceil(max($this->Data));
 

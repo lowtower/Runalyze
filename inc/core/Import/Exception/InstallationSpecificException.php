@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::InstallationSpecificException
  * @package Runalyze\Import\Exception
  */
-
 namespace Runalyze\Import\Exception;
 
 /**

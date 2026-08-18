@@ -451,7 +451,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$latitudes = array_filter($latitudes);
 		$longitudes = array_filter($longitudes);
 
-		if (! empty($latitudes) && ! empty($longitudes)) {
+		if ($latitudes !== [] && $longitudes !== []) {
 			$MinCoordinate = new Coordinate(array(min($latitudes), min($longitudes)));
 			$this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 

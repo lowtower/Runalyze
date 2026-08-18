@@ -179,7 +179,7 @@ class Plot {
 		if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply']))
 			$this->Options['series']['curvedLines']['apply'] = true;
 
-		if (empty($this->Data) && (string) $this->ErrorString === '')
+		if ($this->Data === [] && (string) $this->ErrorString === '')
 			$this->raiseError('Es sind keine Daten vorhanden.');
 	}
 

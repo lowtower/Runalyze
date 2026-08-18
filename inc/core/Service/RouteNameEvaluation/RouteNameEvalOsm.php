@@ -120,7 +120,6 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             if($statusCode != 200) {
                 $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
                 throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
-                return null;
             }
 
             $repCont = $response->getBody()
@@ -244,40 +243,40 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
         // first peaks and places (orte) will be the route
         $routes = array_merge($peak, $place);
-        if(empty($routes)) {
+        if($routes === []) {
             // ...or use huts and ways
             $routes = array_merge($hut, $way);
-            $hutSet = ! empty($hut);
-            $waySet = ! empty($way);
-            if(empty($routes)) {
+            $hutSet = $hut !== [];
+            $waySet = $way !== [];
+            if($routes === []) {
                 // anywhere empty, use at least the info category :-(
                 $routes = $info;
-                $infoSet = ! empty($info);
+                $infoSet = $info !== [];
             }
         }
 
         // if we hiking, but no peak is set, but huts available...
         // special case "hüttenwandern" without peaks
         if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
-            && empty($peak) && ! empty($hut) && ! $hutSet) {
+            && $peak === [] && $hut !== [] && ! $hutSet) {
             $routes = array_merge($routes, $hut); ;
             $hutSet = true;
         }
 
         $notes = '';
-        if(! $hutSet && ! empty($hut)) {
+        if(! $hutSet && $hut !== []) {
             $notes .= 'Verpflegung: ' . implode(', ', $hut) . PHP_EOL;
         }
 
-        if(! $waySet && ! empty($way)) {
+        if(! $waySet && $way !== []) {
             $notes .= 'Wege: ' . implode(', ', $way) . PHP_EOL;
         }
 
-        if(! $infoSet && ! empty($info)) {
+        if(! $infoSet && $info !== []) {
             $notes .= 'Info: ' . implode(', ', $info) . PHP_EOL;
         }
 
-        if(! empty($routes) || ! empty($notes)) {
+        if($routes !== [] || ! empty($notes)) {
             $r = implode(' - ', array_slice($routes, 0, $this->limitRoute($routes)));
             return new RouteNameEvalResult($r, $notes);
         }
@@ -290,7 +289,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
      * @param array<int, mixed> $element
      */
     private function limitRoute(array $element): int {
-        if(empty($element)) {
+        if($element === []) {
             return 0;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase

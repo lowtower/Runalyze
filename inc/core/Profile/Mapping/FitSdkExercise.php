@@ -41,7 +41,7 @@ class FitSdkExercise {
             }
         }
 
-        if(empty($result)) {
+        if($result === []) {
             return 'unknown';
         }
 

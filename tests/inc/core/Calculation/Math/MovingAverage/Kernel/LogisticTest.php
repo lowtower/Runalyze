@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class LogisticTest extends \PHPUnit\Framework\TestCase

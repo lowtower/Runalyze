@@ -102,7 +102,7 @@ abstract class TableZonesAbstract {
 	 * @return string
 	 */
 	final public function getCode() {
-		if (empty($this->Data))
+		if ($this->Data === [])
 			return '';
 
 		$Code = '<table class="fullwidth bar-chart-table">';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Component\Notifications\Message;
 
 use Runalyze\Profile\Notifications\MessageTypeProfile;

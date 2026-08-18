@@ -32,7 +32,7 @@ class MaximumCalculator
                 $this->MaxFatigue = max($result[AbstractModel::FATIGUE]);
             }
 
-            if (! empty($data)) {
+            if ($data !== []) {
                 $this->MaxTrimp = max($data);
             }
         } else {

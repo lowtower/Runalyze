@@ -66,7 +66,7 @@ class EditController extends Controller
                 $this->getDoctrine()
                     ->getRepository('CoreBundle:Raceresult')
                     ->delete($activity->getRaceresult());
-                $activity->setRaceresult(null);
+                $activity->setRaceresult();
             }
 
             $repository->save($activity);

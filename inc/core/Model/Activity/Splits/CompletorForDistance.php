@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::CompletorForDistance
  * @package Runalyze\Model\Activity\Splits
  */
-
 namespace Runalyze\Model\Activity\Splits;
 
 /**

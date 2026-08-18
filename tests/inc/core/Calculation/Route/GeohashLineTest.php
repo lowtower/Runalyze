@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Route;
 
 class GeohashLineTest extends \PHPUnit\Framework\TestCase

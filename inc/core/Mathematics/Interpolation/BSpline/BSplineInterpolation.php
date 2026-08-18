@@ -59,7 +59,7 @@ class BSplineInterpolation
     public function setPoints(array $points, array $weights = [], array $knots = [])
     {
         $this->NumPoints = count($points);
-        if (empty($points)) {
+        if ($points === []) {
             throw new \InvalidArgumentException('No points given.');
         }
 
@@ -125,7 +125,7 @@ class BSplineInterpolation
      */
     public function evaluateAt($t)
     {
-        if (empty($this->Points)) {
+        if ($this->Points === []) {
             throw new \RuntimeException('Points must be set first.');
         }
 

@@ -167,7 +167,7 @@ class RunalyzePluginStat_Strecken extends PluginStat {
 
 		$i = 1;
 
-		if (empty($this->Cities)) {
+		if ($this->Cities === []) {
 			echo HTML::emptyTD(2, HTML::em( __('There are no routes.') ));
 		}
 

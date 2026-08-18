@@ -35,13 +35,13 @@ class TrackDataAdapter
                 new Uniform(20)
             );
         } else {
-            $this->TrackData->setGradient(null);
+            $this->TrackData->setGradient();
         }
     }
 
     public function calculateGradeAdjustedPace()
     {
-        $this->TrackData->setGradeAdjustedPace(null);
+        $this->TrackData->setGradeAdjustedPace();
 
         if ($this->TrackData->hasPace()) {
             $pace = $this->TrackData->getPace();
@@ -63,7 +63,7 @@ class TrackDataAdapter
     public function calculateStrideLength()
     {
         if (! $this->TrackData->hasStrideLength()) {
-            $this->TrackData->setStrideLength(null);
+            $this->TrackData->setStrideLength();
 
             return;
         }
@@ -85,7 +85,7 @@ class TrackDataAdapter
     public function calculateVerticalRatio()
     {
         if (! $this->TrackData->hasVerticalRatio()) {
-            $this->TrackData->setVerticalRatio(null);
+            $this->TrackData->setVerticalRatio();
 
             return;
         }

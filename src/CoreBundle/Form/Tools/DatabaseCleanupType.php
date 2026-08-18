@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Form\Tools;
 
 use Symfony\Component\Form\AbstractType;

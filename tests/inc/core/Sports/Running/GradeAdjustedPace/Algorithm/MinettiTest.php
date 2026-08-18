@@ -82,7 +82,7 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
      * @param float $gradient in percent [-1.00 1.00]
      * @param string $flatPace as 'm:ss' [/km]
      */
-    protected function assertPaceEquivalence($achievedPace, $gradient, $flatPace)
+    protected function assertPaceEquivalence(string $achievedPace, $gradient, $flatPace)
     {
         $this->assertEqualsWithDelta(
             60 * (int) $flatPace[0] + (int) ($flatPace[2].$flatPace[3]),

@@ -172,7 +172,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function startNewPause()
     {
-        if (! empty($this->Container->ContinuousData->Time)) {
+        if ($this->Container->ContinuousData->Time !== []) {
             $this->IsPaused = true;
             $this->PauseStart = (int) $this->Row[0];
         }
@@ -180,7 +180,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function finishCurrentPause()
     {
-        if (! empty($this->Container->ContinuousData->Time)) {
+        if ($this->Container->ContinuousData->Time !== []) {
             $lastTime = end($this->Container->ContinuousData->Time);
             $pause = new Pause($lastTime, (int) $this->Row[0] - $this->PauseStart);
             $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), isset($this->Row[$this->CurrentHeader['hr_heartrate']]) ? (int) $this->Row[$this->CurrentHeader['hr_heartrate']] : 0);

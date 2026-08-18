@@ -88,8 +88,6 @@ class GradeAdjustedPaceCalculator {
 	 * Calculate the pace
 	 */
 	protected function calculate() {
-        $pace = array();
-
         // calculate the grade adjusted pace
         $algorithm = new Minetti();
         $gradient = $this->getGradientSeries();

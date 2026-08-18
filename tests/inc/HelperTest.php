@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class HelperTest extends \PHPUnit\Framework\TestCase
 {
 	public function testArrayTrim()

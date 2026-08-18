@@ -203,7 +203,7 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 * Display the analysis
 	 */
 	private function displayAnalysis() {
-		if (empty($this->AnalysisData)) {
+		if ($this->AnalysisData === []) {
 			echo HTML::info( __('There is no data for this sport.') );
 		}
 

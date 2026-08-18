@@ -21,7 +21,7 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
 
     public function testSetNoLifetime()
     {
-        $this->assertNull($this->Notification->setLifetime(null)->getExpirationAt());
+        $this->assertNull($this->Notification->setLifetime()->getExpirationAt());
     }
 
     public function testSetLifetime()

@@ -99,7 +99,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     {
         $this->Container->RRIntervals = $this->getRRIntervals();
 
-        if (! empty($this->Container->RRIntervals)) {
+        if ($this->Container->RRIntervals !== []) {
             $this->UseRRIntervalsForHeartRate = true;
             $this->NumRRIntervals = count($this->Container->RRIntervals);
         }
@@ -275,7 +275,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected function getCurrentValueOf(array $data)
     {
-        if (! empty($data)) {
+        if ($data !== []) {
             return end($data);
         }
 

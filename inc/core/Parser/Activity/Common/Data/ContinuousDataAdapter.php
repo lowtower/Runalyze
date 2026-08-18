@@ -27,9 +27,9 @@ class ContinuousDataAdapter
     protected function distancesShouldBeCalculated(): bool
     {
         return (
-            empty($this->ContinuousData->Distance) &&
-            ! empty($this->ContinuousData->Latitude) &&
-            ! empty($this->ContinuousData->Longitude)
+            $this->ContinuousData->Distance === [] &&
+            $this->ContinuousData->Latitude !== [] &&
+            $this->ContinuousData->Longitude !== []
         );
     }
 
@@ -38,7 +38,7 @@ class ContinuousDataAdapter
      */
     public function correctCadenceIfRequired()
     {
-        if (! empty($this->ContinuousData->Cadence)) {
+        if ($this->ContinuousData->Cadence !== []) {
             $avg = array_sum($this->ContinuousData->Cadence) / count($this->ContinuousData->Cadence);
 
             if ($avg > self::RPM_LIMIT_FOR_CORRECTION) {
@@ -58,7 +58,7 @@ class ContinuousDataAdapter
      */
     public function correctPreNullGpsIfRequired()
     {
-        if (! empty($this->ContinuousData->Latitude)) {
+        if ($this->ContinuousData->Latitude !== []) {
             $size = count($this->ContinuousData->Latitude);
             //search for the index with the first NOT NULL value
             $firstNotNull = 0;
@@ -83,7 +83,7 @@ class ContinuousDataAdapter
      */
     public function correctArraySurroundedNulls(array &$values)
     {
-        if (! empty($values)) {
+        if ($values !== []) {
             $size = count($values);
 
             // pre NULLs
@@ -127,7 +127,7 @@ class ContinuousDataAdapter
      */
     public function correctArrayNullElements(array &$values)
     {
-        if (! empty($values)) {
+        if ($values !== []) {
             $size = count($values);
 
             for($i = 0; $i < $size; $i++) {
@@ -150,19 +150,19 @@ class ContinuousDataAdapter
             }
         }
 
-        if (! empty($this->ContinuousData->Distance) && 0 == end($this->ContinuousData->Distance)) {
+        if ($this->ContinuousData->Distance !== [] && 0 == end($this->ContinuousData->Distance)) {
             $this->ContinuousData->Distance = [];
         }
 
-        if (! empty($this->ContinuousData->Altitude) && 0 == $this->ContinuousData->Altitude[0] && 0 == min($this->ContinuousData->Altitude) && 0 == max($this->ContinuousData->Altitude)) {
+        if ($this->ContinuousData->Altitude !== [] && 0 == $this->ContinuousData->Altitude[0] && 0 == min($this->ContinuousData->Altitude) && 0 == max($this->ContinuousData->Altitude)) {
             $this->ContinuousData->Altitude = [];
         }
 
-        if (! empty($this->ContinuousData->Latitude) && 0 == $this->ContinuousData->Latitude[0] && 0 == min($this->ContinuousData->Latitude) && 0 == max($this->ContinuousData->Latitude)) {
+        if ($this->ContinuousData->Latitude !== [] && 0 == $this->ContinuousData->Latitude[0] && 0 == min($this->ContinuousData->Latitude) && 0 == max($this->ContinuousData->Latitude)) {
             $this->ContinuousData->Latitude = [];
         }
 
-        if (! empty($this->ContinuousData->Longitude) && 0 == $this->ContinuousData->Longitude[0] && 0 == min($this->ContinuousData->Longitude) && 0 == max($this->ContinuousData->Longitude)) {
+        if ($this->ContinuousData->Longitude !== [] && 0 == $this->ContinuousData->Longitude[0] && 0 == min($this->ContinuousData->Longitude) && 0 == max($this->ContinuousData->Longitude)) {
             $this->ContinuousData->Longitude = [];
         }
     }
@@ -203,7 +203,7 @@ class ContinuousDataAdapter
         $num = count($this->ContinuousData->Time);
         $numPauses = $pausesToApply->count();
         $keys = $this->ContinuousData->getPropertyNamesOfArrays();
-        $hasHeartRate = ! empty($this->ContinuousData->HeartRate);
+        $hasHeartRate = $this->ContinuousData->HeartRate !== [];
         $hrStart = null;
         $pauseInSeconds = 0;
         $pauseIndex = 0;
@@ -259,7 +259,7 @@ class ContinuousDataAdapter
      */
     public function getAverageTemperature()
     {
-        if (empty($this->ContinuousData->Temperature)) {
+        if ($this->ContinuousData->Temperature === []) {
             return null;
         }
 
@@ -269,7 +269,7 @@ class ContinuousDataAdapter
                 return null !== $temperature;
             }
         );
-        if (empty($temperatures)) {
+        if ($temperatures === []) {
             return null;
         }
 

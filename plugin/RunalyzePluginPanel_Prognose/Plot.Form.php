@@ -212,7 +212,7 @@ $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();
 $Plot->addYAxis(1, 'left');
 
-if (! empty($Prognosis) && max($Prognosis) > 1000*3600)
+if ($Prognosis !== [] && max($Prognosis) > 1000*3600)
 	$Plot->setYAxisTimeFormat('%H:%M:%S');
 else
 	$Plot->setYAxisTimeFormat('%M:%S');

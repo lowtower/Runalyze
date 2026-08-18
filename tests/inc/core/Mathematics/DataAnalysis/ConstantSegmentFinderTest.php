@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\DataAnalysis;
 
 use Runalyze\Mathematics\DataAnalysis\ConstantSegmentFinder;

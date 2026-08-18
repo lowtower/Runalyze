@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Elevation
  * @package Runalyze
  */
-
 namespace Runalyze\Dataset\Keys;
 
 use Runalyze\Dataset\Context;

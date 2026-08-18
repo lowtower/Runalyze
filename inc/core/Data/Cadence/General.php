@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::General
  * @package Runalyze\Data\Cadence
  */
-
 namespace Runalyze\Data\Cadence;
 
 /**

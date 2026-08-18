@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Model;
 
 class StringArrayObject_MockTester extends StringArrayObject {}

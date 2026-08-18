@@ -23,7 +23,7 @@ class Gradient
 
 	public function __construct(array $elevation = [], array $distance = [])
     {
-        if (! empty($elevation) && ! empty($distance)) {
+        if ($elevation !== [] && $distance !== []) {
             $this->setData($elevation, $distance);
         }
 	}

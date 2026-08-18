@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::AbstractEquipment
  * @package Runalyze
  */
-
 namespace Runalyze\Dataset\Keys;
 
 /**

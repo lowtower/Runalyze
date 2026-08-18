@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Util;
 
 class StringReaderTest extends \PHPUnit\Framework\TestCase

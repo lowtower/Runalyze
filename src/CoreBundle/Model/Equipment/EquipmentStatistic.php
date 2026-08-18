@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Model\Equipment;
 
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;

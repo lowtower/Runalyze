@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;

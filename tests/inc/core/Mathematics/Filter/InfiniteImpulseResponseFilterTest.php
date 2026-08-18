@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Mathematics\Filter;
 
 use Runalyze\Mathematics\Filter\InfiniteImpulseResponseFilter;

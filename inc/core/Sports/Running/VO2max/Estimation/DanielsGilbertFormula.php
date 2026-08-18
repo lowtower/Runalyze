@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Sports\Running\VO2max\Estimation;
 
 /**

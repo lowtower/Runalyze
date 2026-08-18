@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Service\RouteNameEvaluation;
 
 use Runalyze\Bundle\CoreBundle\Entity\Route;

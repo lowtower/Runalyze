@@ -54,11 +54,11 @@ class DataCollector
         $this->HeartRate = $heartRate;
         $this->Duration = $duration;
 
-        if (empty($heartRate)) {
+        if ($heartRate === []) {
             throw new \InvalidArgumentException('Heart rate array must not be empty.');
         }
 
-        if (! empty($duration) && count($heartRate) !== count($duration)) {
+        if ($duration !== [] && count($heartRate) !== count($duration)) {
             throw new \InvalidArgumentException('Heart rate and duration array must be of equal size.');
         }
 
@@ -67,7 +67,7 @@ class DataCollector
 
     protected function calculate()
     {
-        $distribution = empty($this->Duration)
+        $distribution = $this->Duration === []
             ? new EmpiricalDistribution($this->HeartRate)
             : new TimeSeries($this->HeartRate, $this->Duration);
 

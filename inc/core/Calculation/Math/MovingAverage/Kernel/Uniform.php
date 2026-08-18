@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Uniform
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel
  */
-
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 /**

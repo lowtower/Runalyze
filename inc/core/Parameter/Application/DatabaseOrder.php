@@ -71,7 +71,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 		$key = ($this->value() == self::ALPHA) ? 'name' : 'id';
 		$desc = ($this->value() == self::DESC) ? -1 : 1;
 
-		uasort($data, function($a, $b) use ($key, $desc): int {
+		uasort($data, function(array $a, array $b) use ($key, $desc): int {
 			if ($a[$key] == $b[$key]) {
 				return 0;
 			}

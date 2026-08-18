@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::TrainingViewSectionRow
  * @package Runalyze\DataObjects\Training\View\Section
@@ -100,7 +102,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 
 		echo '<div class="training-row-info '.$class.'">';
 
-		if (! empty($this->BoxedValues)) {
+		if ($this->BoxedValues !== []) {
 			$this->displayBoxedValues();
 		}
 

@@ -501,7 +501,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$Strings[] = $W['num'].'x '.$Condition->icon()->code();
 		}
 
-		if (! empty($Strings)) {
+		if ($Strings !== []) {
 			echo '<strong>'.__('Weather statistics').':</strong> ';
 			echo implode(', ', $Strings);
 			echo '<br><br>';

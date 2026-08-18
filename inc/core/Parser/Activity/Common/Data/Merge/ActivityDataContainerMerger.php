@@ -41,7 +41,7 @@ class ActivityDataContainerMerger
             $this->ResultingContainer->Pauses = clone $container->Pauses;
         }
 
-        if (empty($this->ResultingContainer->RRIntervals)) {
+        if ($this->ResultingContainer->RRIntervals === []) {
             $this->ResultingContainer->RRIntervals = $container->RRIntervals;
         }
     }

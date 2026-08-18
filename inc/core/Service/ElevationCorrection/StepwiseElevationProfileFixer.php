@@ -37,7 +37,7 @@ class StepwiseElevationProfileFixer
         if ($this->isProfileStepwise($elevations)) {
             $numElevations = count($elevations);
 
-            if (empty($distances)) {
+            if ($distances === []) {
                 $distances = range(0.0, $numElevations - 1.0);
             }
 

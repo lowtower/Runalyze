@@ -388,7 +388,7 @@ abstract class PluginStat extends Plugin {
 		$Factory = new PluginFactory();
 		$array = $Factory->variousPlugins();
 
-		return (! empty($array));
+		return ($array !== []);
 	}
 
 	/**

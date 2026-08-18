@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Rainy
  * @package Runalyze\View\Icon\Weather
  */
-
 namespace Runalyze\View\Icon\Weather;
 
 /**

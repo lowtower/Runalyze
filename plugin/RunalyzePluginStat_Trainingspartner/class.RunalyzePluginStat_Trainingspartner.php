@@ -78,7 +78,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 		echo '<thead><tr><th colspan="2">'.__('All training partners').'</th></tr></thead>';
 		echo '<tbody>';
 
-		if (empty($this->Partner))
+		if ($this->Partner === [])
 			echo('
 				<tr>
 					<td class="b">0x</td>

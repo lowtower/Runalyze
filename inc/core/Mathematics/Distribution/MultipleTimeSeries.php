@@ -34,7 +34,7 @@ class MultipleTimeSeries
      */
     public function generateDistributionsFor(array $dataOfMultipleSeries, array $time, array $keysThatAllowZero = [])
     {
-        if (empty($time)) {
+        if ($time === []) {
             throw new \InvalidArgumentException('Time array must not be empty.');
         }
 

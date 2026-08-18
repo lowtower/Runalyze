@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Filter\Butterworth;
 
 class Lowpass2ndOrderCoefficients extends AbstractButterworthCoefficients

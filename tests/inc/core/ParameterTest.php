@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze;
 
 class Parameter_MockTester extends Parameter {}

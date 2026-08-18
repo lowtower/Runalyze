@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter\Application;
 
 class WeightUnitTest extends \PHPUnit\Framework\TestCase

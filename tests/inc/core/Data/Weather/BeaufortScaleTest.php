@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Weather;
 
 class BeaufortScaleTest extends \PHPUnit\Framework\TestCase

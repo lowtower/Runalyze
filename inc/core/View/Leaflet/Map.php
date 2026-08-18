@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Map
  * @package Runalyze\View\Leaflet
  */
-
 namespace Runalyze\View\Leaflet;
 
 use Runalyze\Configuration;
@@ -110,7 +111,7 @@ class Map {
      * Get JS
      */
     public function js(): string {
-	    if (empty($this->Routes)) {
+	    if ($this->Routes === []) {
 	        return $this->getJavaScriptForNoRoutes();
         }
 
@@ -122,11 +123,11 @@ class Map {
 			$Code .= $Route->js();
 		}
 
-		if (! empty($this->Bounds)) {
+		if ($this->Bounds !== []) {
 			$Code .= 'RunalyzeLeaflet.map().fitBounds([['.$this->Bounds['lat.min'].','.$this->Bounds['lng.min'].'],['.$this->Bounds['lat.max'].','.$this->Bounds['lng.max'].']]);';
 		}
 
-		if (! empty($this->Routes)) {
+		if ($this->Routes !== []) {
 	        $Code.= 'RunalyzeLeaflet.Routes.routeid="'.$this->Routes[0]->id().'";';
 		}
 

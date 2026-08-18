@@ -146,7 +146,7 @@ class ActivityDataContainer
 
     protected function completeRoundsIfRequired()
     {
-        if (! $this->Rounds->isEmpty() && ! empty($this->ContinuousData->Time) && ! empty($this->ContinuousData->Distance)) {
+        if (! $this->Rounds->isEmpty() && $this->ContinuousData->Time !== [] && $this->ContinuousData->Distance !== []) {
             if ($this->Rounds->getTotalDuration() == 0) {
                 (new RoundCollectionFiller($this->Rounds))->fillTimesFromArray(
                     $this->ContinuousData->Time,
@@ -178,7 +178,7 @@ class ActivityDataContainer
 
     protected function applyPauses()
     {
-        if (! $this->PausesToApply->isEmpty() && ! empty($this->ContinuousData->Time)) {
+        if (! $this->PausesToApply->isEmpty() && $this->ContinuousData->Time !== []) {
             $this->Pauses = $this->ContinuousDataAdapter->applyPauses($this->PausesToApply);
             $this->PausesToApply->clear();
 

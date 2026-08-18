@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;

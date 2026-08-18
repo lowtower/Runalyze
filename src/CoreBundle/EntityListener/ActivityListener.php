@@ -159,7 +159,7 @@ class ActivityListener
     protected function removeTypeIfInvalidForSport(Training $activity)
     {
         if (null !== $activity->getType() && $activity->getType()->getSport()->getId() != $activity->getSport()->getId()) {
-            $activity->setType(null);
+            $activity->setType();
         }
     }
 

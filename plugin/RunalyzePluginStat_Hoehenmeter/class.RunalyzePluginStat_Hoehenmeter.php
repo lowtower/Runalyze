@@ -103,7 +103,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
             __('Most elevation'),
             'elevation',
             $this->getData('elevation'),
-            function ($activityData): string {
+            function (array $activityData): string {
                 $grade = $activityData['distance'] > 0 ? $activityData['elevation'] / $activityData['distance'] : 0;
 
                 return Elevation::format($activityData['elevation']).'<br>
@@ -115,7 +115,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
 	        __('Steepest routes'),
 	        'grade',
 	        $this->getData('gradient'),
-	        function ($activityData): string {
+	        function (array $activityData): string {
                 return round($activityData['gradient']/10, 2).'&nbsp;&#37;<br>
 					<small>'.Elevation::format($activityData['elevation']).',&nbsp;'.Distance::format($activityData['distance']).'</small>';
             }
@@ -125,7 +125,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
             __('Highest Climb Score'),
             'cs',
             $this->getData('climb_score'),
-            function ($activityData): string {
+            function (array $activityData): string {
                 return '<small>'.round($activityData['gradient']/10, 2).'&nbsp;&#37;<br>
 					'.Elevation::format($activityData['elevation']).',&nbsp;'.Distance::format($activityData['distance']).'</small>';
             }
@@ -139,7 +139,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat {
         echo '<thead><tr class="b c"><th colspan="4">'.$title.'</th><th><abbr title="Climb Score">CS</abbr></th></tr></thead>';
         echo '<tbody>';
 
-        if (empty($data)) {
+        if ($data === []) {
             echo '<tr><td colspan="5"><em>'.__('No routes found.').'</em></td></tr>';
         } else {
             foreach ($data as $activityData) {

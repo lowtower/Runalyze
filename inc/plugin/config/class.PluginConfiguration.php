@@ -177,7 +177,7 @@ class PluginConfiguration {
      * Is empty?
      */
     final public function isEmpty(): bool {
-		return empty($this->Values);
+		return $this->Values === [];
 	}
 
 	/**

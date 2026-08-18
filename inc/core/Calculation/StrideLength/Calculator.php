@@ -78,7 +78,7 @@ class Calculator {
 	 * @return null|int [cm]
 	 */
 	public function average() {
-		if (empty($this->Strides)) {
+		if ($this->Strides === []) {
 			return null;
 		}
 

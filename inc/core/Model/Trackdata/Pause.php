@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Pause
  * @package Runalyze\Model\Trackdata
  */
-
 namespace Runalyze\Model\Trackdata;
 
 /**

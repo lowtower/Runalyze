@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\HRV;
 
 use Runalyze\Model\HRV\Entity;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Service\WeatherForecast\Strategy;
 
 use Runalyze\Service\WeatherForecast\Location;

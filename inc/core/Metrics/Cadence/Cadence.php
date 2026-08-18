@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics\Cadence;
 
 use Runalyze\Metrics\Common\AbstractMetric;

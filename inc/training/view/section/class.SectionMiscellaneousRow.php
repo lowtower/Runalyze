@@ -314,7 +314,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			$Links[] = Request::isOnSharedPage() ? '#'.$Object->tag() : SearchLink::to('tagid', $Object->id(), '#'.$Object->tag());
 		}
 
-		if (! empty($Links)) {
+		if ($Links !== []) {
 			$Value = new BoxedValue(implode(', ', $Links), '', __('Tags'));
 			$Value->defineAsFloatingBlock('w100 flexible-height');
 

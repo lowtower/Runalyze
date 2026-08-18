@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Window: prognosis
  * @package Runalyze\Plugins\Panels

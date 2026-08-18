@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests\Profile\Sport\Mapping;
 
 use Runalyze\Profile\FitSdk;

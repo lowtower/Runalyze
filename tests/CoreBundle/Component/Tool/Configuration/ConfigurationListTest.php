@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Runalyze\Bundle\CoreBundle\Component\Configuration\ConfigurationList;
 
 class ConfigurationListTest extends \PHPUnit\Framework\TestCase

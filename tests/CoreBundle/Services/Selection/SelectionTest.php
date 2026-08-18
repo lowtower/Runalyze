@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services\Selection;
 
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;

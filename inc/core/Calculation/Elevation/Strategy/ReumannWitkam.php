@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ReumannWitkamm
  * @package Runalyze\Calculation\Elevation\Strategy
  */
-
 namespace Runalyze\Calculation\Elevation\Strategy;
 
 /**

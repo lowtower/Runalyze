@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Cumulative
  * @package Runalyze\Calculation\Math\MovingAverage
  */
-
 namespace Runalyze\Calculation\Math\MovingAverage;
 
 /**

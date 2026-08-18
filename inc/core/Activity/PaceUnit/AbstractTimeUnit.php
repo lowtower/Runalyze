@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::AbstractTimeUnit
  * @package Runalyze\Activity\PaceUnit
  */
-
 namespace Runalyze\Activity\PaceUnit;
 
 use Runalyze\Activity\Duration;

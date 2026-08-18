@@ -69,7 +69,7 @@ class Calculator {
 		$this->Athlete = $Athlete;
 		$this->Data = $data;
 
-		if (empty($data)) {
+		if ($data === []) {
 			throw new \InvalidArgumentException('Data array must not be empty.');
 		}
 

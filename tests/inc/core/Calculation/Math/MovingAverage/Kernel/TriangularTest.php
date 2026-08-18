@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class TriangularTest extends \PHPUnit\Framework\TestCase

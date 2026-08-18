@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Export\Share;
 
 use Runalyze\View\Activity\FakeContext;

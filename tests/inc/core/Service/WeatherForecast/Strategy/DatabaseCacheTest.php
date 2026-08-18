@@ -24,7 +24,7 @@ class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyResponse()
     {
-        $cache = new DatabaseCache($this->getMockForResponse(null));
+        $cache = new DatabaseCache($this->getMockForResponse());
 
         $this->assertNull($cache->loadForecast(new Location()));
     }

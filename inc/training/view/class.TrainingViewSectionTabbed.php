@@ -36,7 +36,7 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 	 * Display
 	 */
 	final public function display() {
-		if (! empty($this->Header) && (! empty($this->RowsTabbed) || ! empty($this->Rows))) {
+		if (! empty($this->Header) && ($this->RowsTabbed !== [] || $this->Rows !== [])) {
 			$this->displayHeader();
 			$this->displayContent();
 		}

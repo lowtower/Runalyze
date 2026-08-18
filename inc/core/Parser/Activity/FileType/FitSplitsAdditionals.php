@@ -37,8 +37,9 @@ class FitSplitsAdditionals {
 
     /**
      * #TSC read the sets of a strength-training as "normal" laps
+     * @param array<string, mixed> $values
      */
-    public function getSetRoundAndCollect(&$values): ?Round {
+    public function getSetRoundAndCollect(array &$values): ?Round {
         $round = null;
 
         // duration in seconds
@@ -92,8 +93,9 @@ class FitSplitsAdditionals {
 
     /**
      * #TSC collect additional informations of the lap.
+     * @param array<string, mixed> $values
      */
-    public function collectLap(&$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null) {
+    public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null) {
         $i = array();
 
         if($isActiveLap && $isSwimming) {
@@ -110,7 +112,7 @@ class FitSplitsAdditionals {
             $i = array_merge($i, $adds);
         }
 
-        if(! empty($i)) {
+        if($i !== []) {
             $this->data[] = $i;
         } else {
             // its a rest, use a empty element

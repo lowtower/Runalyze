@@ -139,7 +139,7 @@ abstract class ActivityPlot {
 			}
 		}
 
-		return (count($this->Data) >= 2 || ! empty($this->Plot->Data));
+		return (count($this->Data) >= 2 || $this->Plot->Data !== []);
 	}
 
 	/**

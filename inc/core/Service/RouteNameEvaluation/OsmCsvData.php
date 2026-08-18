@@ -173,7 +173,6 @@ class OsmCsvData {
         if(! empty($this->hiking)) return;
 
         $this->sacScale = $arr[10] ? $arr[10] : null;
-        if(! empty($this->sacScale)) return;
     }
 
     protected function cleanNameChar(string $text): string {

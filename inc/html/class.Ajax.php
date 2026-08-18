@@ -348,14 +348,13 @@ class Ajax {
 		return self::wrapJS('$(function(){ '.$code.' });');
 	}
 
-	/**
-	 * JSON encode with function
-	 * @param array $input
-	 * @param array $funcs
-	 * @param int $level
-	 * @return string
-	 */
-	public static function json_encode_jsfunc($input, $funcs = array(), $level = 0) {
+    /**
+     * JSON encode with function
+     * @param array $funcs
+     * @param int $level
+     * @return string
+     */
+    public static function json_encode_jsfunc(array $input, $funcs = array(), $level = 0) {
 		foreach($input as $key => $value) {
 			if (is_array($value)) {
 				$ret = self::json_encode_jsfunc($value, $funcs, 1);

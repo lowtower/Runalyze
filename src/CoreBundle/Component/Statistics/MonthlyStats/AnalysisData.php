@@ -120,7 +120,7 @@ class AnalysisData
 
     public function isEmpty(): bool
     {
-        return empty($this->Data);
+        return $this->Data === [];
     }
 
     public function getYears(): array

@@ -258,7 +258,7 @@ class Query
 			}
 		}
 
-		return empty($columnSelects) ? '1' : implode(', ', $columnSelects);
+		return $columnSelects === [] ? '1' : implode(', ', $columnSelects);
 	}
 
     /**
@@ -285,7 +285,7 @@ class Query
 
 	protected function queryToSelectKeys(array $arrayOfKeys): string
 	{
-		return empty($arrayOfKeys) ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
+		return $arrayOfKeys === [] ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
 	}
 
     protected function collectColumnsForKeys(array $keys): array

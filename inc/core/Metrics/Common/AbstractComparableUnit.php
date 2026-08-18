@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics\Common;
 
 abstract class AbstractComparableUnit implements ComparableUnitInterface

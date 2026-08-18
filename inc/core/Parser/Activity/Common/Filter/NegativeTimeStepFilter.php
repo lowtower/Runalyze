@@ -12,7 +12,7 @@ class NegativeTimeStepFilter extends AbstractFilter
     {
         $negativeTimeSteps = $this->detectNegativeTimeSteps($container->ContinuousData->Time, $strict);
 
-        if (! empty($negativeTimeSteps)) {
+        if ($negativeTimeSteps !== []) {
             $this->tryToHandleNegativeTimeSteps($negativeTimeSteps, $container->ContinuousData);
         }
     }
@@ -56,7 +56,7 @@ class NegativeTimeStepFilter extends AbstractFilter
             }
         }
 
-        if (! empty($indicesToRemove)) {
+        if ($indicesToRemove !== []) {
             $this->removeInvalidIndices($indicesToRemove, $continuousData);
         }
     }

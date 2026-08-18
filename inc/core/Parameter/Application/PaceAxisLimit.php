@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PaceAxisLimit
  * @package Runalyze\System\Configuration\Value
  */
-
 namespace Runalyze\Parameter\Application;
 
 /**

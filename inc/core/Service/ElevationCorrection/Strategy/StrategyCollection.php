@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Service\ElevationCorrection\Strategy;
 
 class StrategyCollection
@@ -22,7 +24,7 @@ class StrategyCollection
      */
     public function loadAltitudeData(array $latitudes, array $longitudes)
     {
-        if (empty($latitudes)) {
+        if ($latitudes === []) {
             return null;
         }
 

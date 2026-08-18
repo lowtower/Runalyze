@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Distribution;
 
 use Runalyze\Model\Trackdata;

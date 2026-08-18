@@ -15,7 +15,7 @@ class Loopable_MockTester extends Entity implements Loopable {
             );
         }
 
-		parent::__construct(array());
+		parent::__construct();
 		$this->Data = $data;
     }
 

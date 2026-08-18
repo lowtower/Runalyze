@@ -135,14 +135,15 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 		$RequestDistance->bindParam('id', $id);
 
 		$id = 1;
+		$RequestDistance->bindValue('id', $id);
 		$RequestDistance->execute();
 		$this->assertEquals( 1, $RequestDistance->fetchColumn() );
-
 		$id = 2;
+		$RequestDistance->bindValue('id', $id);
 		$RequestDistance->execute();
 		$this->assertEquals( 2.1, $RequestDistance->fetchColumn() );
-
 		$id = 3;
+		$RequestDistance->bindValue('id', $id);
 		$RequestDistance->execute();
 		$this->assertEquals( 11.23, $RequestDistance->fetchColumn() );
 

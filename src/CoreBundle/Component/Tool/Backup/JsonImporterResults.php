@@ -102,7 +102,7 @@ class JsonImporterResults
 			}
 		}
 
-		if (empty($Rows)) {
+		if ($Rows === []) {
 			return 'Nothing changed.';
 		}
 
@@ -112,9 +112,8 @@ class JsonImporterResults
     /**
      * Get result string
      * @param string $tableName
-     * @param string $string
      */
-    protected function stringFor($tableName, $string): string
+    protected function stringFor($tableName, string $string): string
     {
 		$format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
 

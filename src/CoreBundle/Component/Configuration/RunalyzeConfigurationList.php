@@ -22,7 +22,7 @@ class RunalyzeConfigurationList extends ConfigurationList
         $this->setCategoryMap();
         $this->loadDefaultVariablesFromCategories();
 
-        if (! empty($variables)) {
+        if ($variables !== []) {
             $this->mergeWith($variables);
         }
     }

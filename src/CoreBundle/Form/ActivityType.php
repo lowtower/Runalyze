@@ -318,7 +318,7 @@ class ActivityType extends AbstractType
     {
         $choices = DataSeriesRemover::getChoicesForActivity($activity);
 
-        if (! empty($choices)) {
+        if ($choices !== []) {
             $form->add('data_series_remover', ChoiceType::class, [
                 'label' => 'Remove data series',
                 'choices' => $choices,

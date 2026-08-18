@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::WindIcon
  * @package Runalyze\View\Icon
  */
-
 namespace Runalyze\View\Icon;
 
 use Runalyze\Data\Weather\WindDegree;

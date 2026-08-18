@@ -57,7 +57,7 @@ class ConfigTabPlugins extends ConfigTab {
 		$Plugins = $Factory->completeData($PluginType);
 		usort($Plugins, $this->pluginOrderFunction());
 
-		if (empty($Plugins)) {
+		if ($Plugins === []) {
 			return HTML::info(__('No plugins available.'));
 		}
 
@@ -144,7 +144,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 * @return \Closure
 	 */
 	protected function pluginOrderFunction() {
-		return function($a, $b): int{
+		return function(array $a, array $b): int{
 			if ($a['active'] == $b['active']) {
 				if ($a['order'] == $b['order']) {
 					return ($a['id'] > $b['id']) ? 1 : -1;
@@ -172,7 +172,7 @@ class ConfigTabPlugins extends ConfigTab {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->notInstalledPlugins();
 
-		if (empty($Plugins)) {
+		if ($Plugins === []) {
 			return HTML::fileBlock( __('There are no new plugins to install.') );
 		}
 
@@ -238,10 +238,10 @@ class ConfigTabPlugins extends ConfigTab {
     protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder) {
 		if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
 			$update->execute([
-    ':active' => $newModus,
+			    ':active' => $newModus,
 			    ':order' => $newOrder,
 			    ':id' => $Plugin['id']
-]);
+			]);
 
 			Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
 		}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Profile\Weather\Source;
 
 use Runalyze\Common\Enum\AbstractEnum;

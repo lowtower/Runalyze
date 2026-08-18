@@ -130,7 +130,7 @@ class GpxTrack extends AbstractSingleParser
         if (! empty($point['lat'])) {
             $lat  = round((double) $point['lat'], 7);
             $lon  = round((double) $point['lon'], 7);
-        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
+        } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $lat  = end($this->Container->ContinuousData->Latitude);
             $lon  = end($this->Container->ContinuousData->Longitude);
         } else {
@@ -159,7 +159,7 @@ class GpxTrack extends AbstractSingleParser
             if ($num >= 2) {
                 $pause = new Pause($this->Container->ContinuousData->Time[$num - 2], $this->PauseDuration);
 
-                if (! empty($this->Container->ContinuousData->HeartRate)) {
+                if ($this->Container->ContinuousData->HeartRate !== []) {
                     $pause->setHeartRateDetails($this->Container->ContinuousData->HeartRate[$num - 2], $this->Container->ContinuousData->HeartRate[$num - 1]);
                 }
 
@@ -180,7 +180,7 @@ class GpxTrack extends AbstractSingleParser
         $timeToAdd = $newTimestamp - $this->LastTimestamp;
         $this->LastTimestamp = $newTimestamp;
 
-        if (! empty($this->Container->ContinuousData->Time)) {
+        if ($this->Container->ContinuousData->Time !== []) {
             return end($this->Container->ContinuousData->Time) + $timeToAdd;
         }
 

@@ -146,7 +146,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 					}
 
 					// get the primary stoke type of this 100m interval
-					if(empty($stroketypePrimary)) {
+					if($stroketypePrimary === []) {
 						$this->Code .= '<td></td>';
 					} else {
 						$t = array_keys($stroketypePrimary, max($stroketypePrimary));

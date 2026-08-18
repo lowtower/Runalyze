@@ -88,7 +88,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * @return array
 	 */
 	private function getToolbarNavigationLinks() {
-		if (empty($this->AllTags)) {
+		if ($this->AllTags === []) {
 			return '';
 		}
 
@@ -126,7 +126,7 @@ class RunalyzePluginStat_Tag extends PluginStat {
 		echo '<thead>'.HTML::monthTr(8, 1).'</thead>';
 		echo '<tbody>';
 
-		if (empty($this->TagData)) {
+		if ($this->TagData === []) {
 			echo '<tr><td colspan="13" class="c"><em>'.__('No activities found.').'</em></td></tr>';
 		}
 

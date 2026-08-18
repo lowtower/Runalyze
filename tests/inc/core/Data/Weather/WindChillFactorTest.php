@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Weather;
 
 use Runalyze\Activity\Pace;
@@ -11,7 +13,7 @@ class WindChillFactorTest extends \PHPUnit\Framework\TestCase
     public function testUnknownInputData()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $WindChill = new WindChillFactor(
+        new WindChillFactor(
             new WindSpeed(20),
             new ActivityTemperature()
         );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Model\Trackdata\Climb;
 
 use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb;

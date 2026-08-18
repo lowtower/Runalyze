@@ -157,7 +157,7 @@ class Calculator {
 	 * @return int [W]
 	 */
 	public function average(): int {
-		if (empty($this->Power)) {
+		if ($this->Power === []) {
 			return 0;
 		}
 

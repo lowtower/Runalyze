@@ -41,7 +41,7 @@ class TcxCourse extends AbstractSingleParser
         if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[]  = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
-        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
+        } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
         } else {

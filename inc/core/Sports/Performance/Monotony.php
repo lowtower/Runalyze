@@ -50,7 +50,7 @@ class Monotony
 
     public function calculate()
     {
-        if (empty($this->Trimp)) {
+        if ($this->Trimp === []) {
             $this->Value = 0;
 
             return;

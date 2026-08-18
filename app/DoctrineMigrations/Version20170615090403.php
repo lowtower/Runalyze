@@ -33,7 +33,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
         $em = $this->container->get('doctrine.orm.entity_manager');
         $em->getConnection()
             ->getConfiguration()
-            ->setSQLLogger(null);
+            ->setSQLLogger();
 
         $repo = $em->getRepository('CoreBundle:Training');
         $numLocked = $this->getNumberOfLockedRoutes($em);

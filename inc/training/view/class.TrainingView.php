@@ -130,7 +130,7 @@ class TrainingView {
 			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Find best sub segments').'</a></li>';
 		}
 
-		if (! empty($toolsLinks)) {
+		if ($toolsLinks !== []) {
 			$this->ToolbarLinks = array_merge(
 			    $this->ToolbarLinks,
 			    ['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> '.__('Tools').'</span><ul class="submenu">'],

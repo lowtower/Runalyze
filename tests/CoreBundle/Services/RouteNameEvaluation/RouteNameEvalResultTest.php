@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
 use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;

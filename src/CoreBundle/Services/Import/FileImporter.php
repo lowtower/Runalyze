@@ -146,7 +146,7 @@ class FileImporter implements LoggerAwareInterface
             }
         }
 
-        if (! empty($matchingIndices)) {
+        if ($matchingIndices !== []) {
             $this->mergeResultsOfRelatedHrmAndGpx($results, $matchingIndices);
         }
     }

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::RaceResult
  * @package Runalyze
  */
-
 namespace Runalyze\Dataset\Keys;
 
 use Runalyze\Dataset\Context;
@@ -90,7 +91,6 @@ class RaceResult extends AbstractKey
 				return '';
 			case -1:
 				return $this->FakeString();
-				break;
 			default:
 
 		if ($context->hasData('official_distance')) {
@@ -139,7 +139,6 @@ class RaceResult extends AbstractKey
 		}
 
 		return '';
-		break;
 		}
 	}
 

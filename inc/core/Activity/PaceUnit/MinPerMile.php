@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::MinPerMile
  * @package Runalyze\Activity\PaceUnit
  */
-
 namespace Runalyze\Activity\PaceUnit;
 
 use Runalyze\Parameter\Application\DistanceUnitSystem;

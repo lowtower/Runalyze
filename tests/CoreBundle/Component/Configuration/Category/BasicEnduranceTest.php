@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration\Category;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;

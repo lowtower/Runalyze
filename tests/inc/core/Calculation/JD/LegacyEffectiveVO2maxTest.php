@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\JD;
 
 class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase

@@ -204,7 +204,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             }
         }
 
-        if (empty($trackPoint->DistanceMeters) && ! empty($this->Container->ContinuousData->Distance)) {
+        if (empty($trackPoint->DistanceMeters) && $this->Container->ContinuousData->Distance !== []) {
             $trackPoint->DistanceMeters = end($this->Container->ContinuousData->Distance) * 1000;
         }
 
@@ -241,7 +241,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
-        } elseif (! empty($this->Container->ContinuousData->Latitude)) {
+        } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
         } else {
@@ -300,7 +300,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
     protected function distanceToTrackpoint(SimpleXMLElement &$trackPoint)
     {
-        if (empty($this->Container->ContinuousData->Distance)) {
+        if ($this->Container->ContinuousData->Distance === []) {
             return empty($trackPoint->Position) ? 0.0 : 0.001;
         }
 

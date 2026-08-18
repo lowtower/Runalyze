@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::GooglePlus
  * @package Runalyze\Export\Share
  */
-
 namespace Runalyze\Export\Share;
 
 use System;

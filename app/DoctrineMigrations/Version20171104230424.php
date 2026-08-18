@@ -39,7 +39,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         $em = $this->container->get('doctrine.orm.entity_manager');
         $em->getConnection()
             ->getConfiguration()
-            ->setSQLLogger(null);
+            ->setSQLLogger();
 
         $this->NegativeTimeStepFilter = new NegativeTimeStepFilter();
         $this->NegativeDistanceStepFilter = new NegativeDistanceStepFilter(0.1);
@@ -100,7 +100,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         if ($trackData->hasTime()) {
             if (min($trackData->getTime()) < 0) {
                 $this->logMessage(sprintf('#%u: time array removed (negative time).', $trackData->getActivity()->getId()));
-                $trackData->setTime(null);
+                $trackData->setTime();
             } else {
                 $dataContainer = new ActivityDataContainer();
                 $dataContainer->ContinuousData->Time = $trackData->getTime();
@@ -109,7 +109,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
                     $this->NegativeTimeStepFilter->filter($dataContainer, true);
                 } catch (InvalidDataException $e) {
                     $this->logMessage(sprintf('#%u: time array removed (negative time step).', $trackData->getActivity()->getId()));
-                    $trackData->setTime(null);
+                    $trackData->setTime();
                 }
             }
         }
@@ -142,7 +142,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
                 }
             } catch (InvalidDataException $e) {
                 $this->logMessage(sprintf('#%u: distance array removed (negative distance step).', $trackData->getActivity()->getId()));
-                $trackData->setDistance(null);
+                $trackData->setDistance();
             }
         }
 
@@ -199,7 +199,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
                     $route->setElevationsCorrected(array_slice($elevationsCorrected, 0, $expectedSize));
                 } elseif ($numElevations < $expectedSize) {
                     $this->logMessage(sprintf('#%u: elevations array removed.', $trackData->getActivity()->getId()));
-                    $route->setElevationsCorrected(null);
+                    $route->setElevationsCorrected();
                 }
             }
         }

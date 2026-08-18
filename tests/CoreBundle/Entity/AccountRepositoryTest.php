@@ -25,9 +25,8 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
     /**
      * @param string $username
      * @param string $mail
-     * @return Account
      */
-    protected function getNewAccount($username, $mail = '')
+    protected function getNewAccount($username, $mail = ''): \Runalyze\Bundle\CoreBundle\Entity\Account
     {
         if ('' == $mail) {
             $mail = $username.'@test.com';

@@ -67,7 +67,7 @@ class DuplicateFinder
             $activityIds = array_filter($activityIds, 'strlen');
         }
 
-        if (! empty($activityIds)) {
+        if ($activityIds !== []) {
             if (array_filter($activityIds, 'is_numeric') !== $activityIds) {
                 throw new \InvalidArgumentException('All activity ids must be numerical.');
             }

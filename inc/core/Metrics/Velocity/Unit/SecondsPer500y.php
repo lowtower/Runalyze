@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics\Velocity\Unit;
 
 class SecondsPer500y extends AbstractPaceInTimeFormatUnit

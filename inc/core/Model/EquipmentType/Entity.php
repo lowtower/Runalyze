@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Entity
  * @package Runalyze\Model\EquipmentType
  */
-
 namespace Runalyze\Model\EquipmentType;
 
 use Runalyze\Model;

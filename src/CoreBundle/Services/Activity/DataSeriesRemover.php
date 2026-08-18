@@ -194,7 +194,7 @@ class DataSeriesRemover
         if ($trackData->isEmpty()) {
             $this->EntityManager->remove($trackData);
 
-            $activity->setTrackdata(null);
+            $activity->setTrackdata();
         }
     }
 
@@ -272,7 +272,7 @@ class DataSeriesRemover
         if ($route->isEmpty()) {
             $this->EntityManager->remove($route);
 
-            $activity->setRoute(null);
+            $activity->setRoute();
             $activity->setElevation(null);
         }
     }
@@ -285,7 +285,7 @@ class DataSeriesRemover
         if (isset($keys[self::KEY_HRV]) && $activity->hasHrv()) {
             $this->EntityManager->remove($activity->getHrv());
 
-            $activity->setHrv(null);
+            $activity->setHrv();
         }
     }
 

@@ -15,7 +15,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     {
         $nonEmptyKeys = $this->getNonEmptyContinuousDataKeys($container->ContinuousData);
 
-        if (empty($nonEmptyKeys)) {
+        if ($nonEmptyKeys === []) {
             return;
         }
 

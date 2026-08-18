@@ -111,7 +111,7 @@ class RaceResultController extends Controller
             ->getDefaultLookup();
         $distances = [0.06, 0.1, 0.2, 0.4, 0.8, 1.0, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2, 50.0];
         $distanceTicks = [0.06, 0.1, 0.2, 0.4, 0.8, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2];
-        $ageStandardTimes = array_map(function($kilometer) use ($ageGradeLookup) {
+        $ageStandardTimes = array_map(function(float $kilometer) use ($ageGradeLookup) {
             return $ageGradeLookup->getAgeStandard($kilometer);
         }, $distances);
         $ageStandardVO2max = array_map(function($kilometer, $seconds) use ($danielsGilbertFormula): float {

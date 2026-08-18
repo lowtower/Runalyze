@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter;
 
 class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase

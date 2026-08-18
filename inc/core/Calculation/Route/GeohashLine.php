@@ -30,7 +30,7 @@ class GeohashLine
         foreach ($geolineHashes as $hash) {
             if ($last == $hash) {
                 $newgeoline[] = '';
-            } elseif (empty($newgeoline)) {
+            } elseif ($newgeoline === []) {
                 $newgeoline[] = $hash;
             } else {
                 $newgeoline[] = substr($hash, strspn($last ^ $hash, "\0"));

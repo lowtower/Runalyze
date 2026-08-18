@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::ActivityRoutePrecision
  * @package Runalyze\Parameter\Application
  */
-
 namespace Runalyze\Parameter\Application;
 
 /**

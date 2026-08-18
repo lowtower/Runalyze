@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Factor
  * @package Runalyze\Calculation\Trimp
  */
-
 namespace Runalyze\Calculation\Trimp;
 
 use Runalyze\Profile\Athlete\Gender;

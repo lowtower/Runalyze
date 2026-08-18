@@ -389,7 +389,7 @@ class TrainingRepository extends EntityRepository
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
 
-        if (empty($ids)) {
+        if ($ids === []) {
             if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
                 return [];
             }

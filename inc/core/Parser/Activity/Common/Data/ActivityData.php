@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\Common\Data;
 
 use Runalyze\Calculation\Distribution\TrackdataAverages;
@@ -202,7 +204,7 @@ class ActivityData
 
     public function completeAverageValuesFromContinuousData(ContinuousData $data, RoundCollection $rounds)
     {
-        if (empty($data->Time)) {
+        if ($data->Time === []) {
             return;
         }
 

@@ -304,7 +304,7 @@ class FitActivity extends AbstractSingleParser
             }
 
             if (is_array($mappingKey)) {
-                if (empty($mappingKey)) {
+                if ($mappingKey === []) {
                     return;
                 }
 
@@ -356,7 +356,7 @@ class FitActivity extends AbstractSingleParser
     public function parseLine($line)
     {
         if ('=' == $line[0]) {
-            if (empty($this->Header)) {
+            if ($this->Header === []) {
                 $this->setHeaderFrom($line);
             } else {
                 $this->interpretCurrentValues();
@@ -776,7 +776,7 @@ class FitActivity extends AbstractSingleParser
 
         $thisTimestamp = $this->strtotime((string) $this->Values['timestamp'][1]);
 
-        if (! empty($this->Container->ContinuousData->Time) && ($this->Values['event_type'][1] == 'stop_all' || $this->Values['event_type'][1] == 'stop')) {
+        if ($this->Container->ContinuousData->Time !== [] && ($this->Values['event_type'][1] == 'stop_all' || $this->Values['event_type'][1] == 'stop')) {
             $this->IsPaused = true;
             $this->LastStopTimestamp = $thisTimestamp;
         } elseif ($this->Values['event_type'][1] == 'start') {
@@ -861,7 +861,7 @@ class FitActivity extends AbstractSingleParser
             $time = $this->parseCompressedSpeedDistance();
             $last = -1;
         } else {
-            if (empty($this->Container->ContinuousData->Time)) {
+            if ($this->Container->ContinuousData->Time === []) {
                 $startTime = $this->strtotime((string) $this->Values['timestamp'][1]);
 
                 if ($startTime < $this->Container->Metadata->getTimestamp()) {
@@ -1087,7 +1087,7 @@ class FitActivity extends AbstractSingleParser
 
         $this->Container->ContinuousData->Cadence[] = isset($this->Values['avg_swimming_cadence']) ? (int) $this->Values['avg_swimming_cadence'][0] : null;
 
-        if (empty($this->Container->ContinuousData->Time)) {
+        if ($this->Container->ContinuousData->Time === []) {
             // at first time set the start time and the first "round/lane" duration
             $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Values['start_time'][1]);
             $this->Container->ContinuousData->Time[] = round(((int) $this->Values['total_timer_time'][0]) / 1000);

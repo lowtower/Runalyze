@@ -29,7 +29,7 @@ if (! empty($competitions)) {
 		}
 	}
 
-	if (! empty($Results) && max($Results) > 3600*1000)
+	if ($Results !== [] && max($Results) > 3600*1000)
 		$timeFormat = '%H:%M:%S';
 }
 

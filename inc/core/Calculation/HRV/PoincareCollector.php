@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PoincareCollector
  * @package Runalyze\Calculation\HRV
  */
-
 namespace Runalyze\Calculation\HRV;
 
 use Runalyze\Model\HRV\Entity;

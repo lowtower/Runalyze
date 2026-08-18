@@ -46,9 +46,9 @@ class FitWorkoutStep {
     /**
      * Collect workout-step information.
      *
-     * @param array $values
+     * @param array<string, mixed> $values
      */
-    public function collectWorkoutstep(&$values) {
+    public function collectWorkoutstep(array &$values) {
         // intensity (like warmup, cooldown ...)
         if (isset($values['intensity'][0])) {
             $this->intensitys[] = LapIntensity::fromFitToEnum($values['intensity'][0]);

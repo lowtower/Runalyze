@@ -29,7 +29,7 @@ abstract class AbstractShellBasedFileTypeConverter implements FileTypeConverterI
         return $outputFile;
     }
 
-    private function readFirstLineOfOutputAndForwardToSubclass($outputFile)
+    private function readFirstLineOfOutputAndForwardToSubclass(string $outputFile)
     {
         $handle = @fopen($outputFile, 'r');
 

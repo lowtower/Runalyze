@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::TrainingViewSection
  * @package Runalyze\DataObjects\Training\View\Section
@@ -86,7 +88,7 @@ abstract class TrainingViewSection {
 	 * @return bool
 	 */
 	final public function isEmpty() {
-		return empty($this->Header) || empty($this->Rows);
+		return empty($this->Header) || $this->Rows === [];
 	}
 
 	/**

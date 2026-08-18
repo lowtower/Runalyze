@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Activity;
 
 class PerformanceConditionTest extends \PHPUnit\Framework\TestCase

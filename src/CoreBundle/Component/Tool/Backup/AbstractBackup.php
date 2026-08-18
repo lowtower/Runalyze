@@ -107,7 +107,7 @@ abstract class AbstractBackup
 
 		$this->startTableRows($tableName);
 
-		if (! is_array($ids) || ! empty($ids)) {
+		if (! is_array($ids) || $ids !== []) {
 			$statement = $this->PDO->query($query);
 			$this->saveRowsFromStatement($tableName, $columnInfo, $statement);
 		}

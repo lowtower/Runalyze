@@ -49,7 +49,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
         $queryBuilder = $this->createQueryBuilder('u')
             ->select('u.id');
 
-        if (! empty($language)) {
+        if ($language !== []) {
             $queryBuilder
                 ->where('u.language '.($excluded ? 'NOT' : '').' IN (:lang)')
                 ->setParameter('lang', $language, Connection::PARAM_STR_ARRAY);

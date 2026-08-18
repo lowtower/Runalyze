@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics\HeartRate;
 
 use Runalyze\Metrics\Common\AbstractMetric;

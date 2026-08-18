@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::HRVdifferencesWithoutAnomalies
  * @package Runalyze\View\Activity\Plot\Series
  */
-
 namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\View\Activity;

@@ -73,7 +73,7 @@ class VerticalRatioCalculator {
 	 * @return null|int [%o]
 	 */
 	public function average() {
-		if (empty($this->VerticalRatio)) {
+		if ($this->VerticalRatio === []) {
 			return null;
 		}
 

@@ -143,7 +143,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
             $pace = isset($values[1]) && (int) trim($values[1]) > 0 ? round($this->PaceFactor / ((int) trim($values[1]) / 10)) : 0.0;
             $dist = $pace > 0 ? $this->RecordingInterval / $pace : 0.0;
 
-            $this->Container->ContinuousData->Distance[] = empty($this->Container->ContinuousData->Distance) ? $dist : $dist + end($this->Container->ContinuousData->Distance);
+            $this->Container->ContinuousData->Distance[] = $this->Container->ContinuousData->Distance === [] ? $dist : $dist + end($this->Container->ContinuousData->Distance);
 
             if (count($values) > 3) {
                 $this->Container->ContinuousData->Cadence[] = isset($values[2]) ? (int) trim($values[2]) : null;

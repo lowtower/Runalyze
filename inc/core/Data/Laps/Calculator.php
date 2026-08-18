@@ -111,7 +111,7 @@ class Calculator
 		$this->RouteLoop = $route instanceof \Runalyze\Model\Route\Entity ? new Route\Loop($route) : null;
 		$this->SwimdataLoop = $swimdata instanceof \Runalyze\Model\Swimdata\Entity ? new Swimdata\Loop($swimdata) : null;
 
-		if (! empty($this->Distances)) {
+		if ($this->Distances !== []) {
 			$this->readLapsFromDistances();
 		} else {
 			$this->readLapsFromTimes();

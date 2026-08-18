@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Profile\Notifications;
 
 use Runalyze\Common\Enum\AbstractEnum;

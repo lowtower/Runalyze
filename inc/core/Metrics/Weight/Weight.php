@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Metrics\Weight;
 
 use Runalyze\Metrics\Common\AbstractMetric;

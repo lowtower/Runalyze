@@ -55,7 +55,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 
     public function testActivityWithoutElevation()
     {
-        $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], null);
+        $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5]);
 
         $this->Calculator->calculateFor($this->Activity);
 

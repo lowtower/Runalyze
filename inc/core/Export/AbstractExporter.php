@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::AbstractExporter
  * @package Runalyze\Export
  */
-
 namespace Runalyze\Export;
 
 use Runalyze\View\Activity\Context;

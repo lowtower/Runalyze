@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Notifications\Message;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMessage;

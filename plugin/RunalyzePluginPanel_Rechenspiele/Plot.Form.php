@@ -262,7 +262,7 @@ $Plot->setYLimits(3, 0, $maxTrimp*2);
 $Plot->addYAxis(4, 'right');
 $Plot->addYUnit(4, '%');
 
-$maxBasicEndurance = empty($BasicEndurance) ? 100 : ceil(max($BasicEndurance)/100)*100;
+$maxBasicEndurance = $BasicEndurance === [] ? 100 : ceil(max($BasicEndurance)/100)*100;
 $Plot->setYLimits(4, 0, $maxBasicEndurance);
 
 if ($perfmodel == 'banister') {

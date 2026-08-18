@@ -53,7 +53,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     protected function parseLogEntry(SimpleXMLElement $log)
     {
         if ((int) $log->Time === 0 || (string) $log->IsPause === 'true') {
-            if ((int) $log->PauseTime > 0 && ! empty($this->Container->ContinuousData->Time)) {
+            if ((int) $log->PauseTime > 0 && $this->Container->ContinuousData->Time !== []) {
                 $this->Container->Pauses->add(new Pause(
                     end($this->Container->ContinuousData->Time),
                     (int) $log->PauseTime

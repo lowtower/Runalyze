@@ -193,7 +193,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                 if ($contextAdapter->isPossibleDuplicate()) {
                     $output->writeln('<fg=yellow> ... is a duplicate</>');
 
-                    $this->moveFile($fs, $path, $result->getOriginalFileName(), $output);
+                    $this->moveFile($path, $result->getOriginalFileName(), $output);
                     break;
                 }
 
@@ -202,7 +202,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                 $this->getTrainingRepository()
                     ->save($activity);
                 $output->writeln('<fg=green> ... successfully imported</>');
-                $this->moveFile($fs, $path, $result->getOriginalFileName(), $output);
+                $this->moveFile($path, $result->getOriginalFileName(), $output);
 
                 // collect the max pulse from the ZoneTarget in case of main-sports
                 $maxZoneHR->collect($activity, $container);
@@ -213,7 +213,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $this->checkStoreMaxZoneHR($user, $output, $maxZoneHR);
         }
 
-        if (! empty($this->FailedImports)) {
+        if ($this->FailedImports !== []) {
             $output->writeln('');
             $output->writeln('<fg=red>Failed imports:</>');
 
@@ -230,7 +230,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
     /**
      * TSC: move the imported file to a specified folder under path-argument.
      */ 
-    private function moveFile(Filesystem $fs, string $path, string $importedFilename, OutputInterface $output)
+    private function moveFile(string $path, string $importedFilename, OutputInterface $output)
     {
         if(! empty($this->moveFolder)) {
             $path_parts = pathinfo($importedFilename);
@@ -252,11 +252,6 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         return $this->getContainer()
             ->get('app.activity_data_container.converter')
             ->getActivityFor($container, $account);
-    }
-
-    private function addFailedFile($fileName, $error)
-    {
-        $this->FailedImports[$fileName] = $error;
     }
 
     /**

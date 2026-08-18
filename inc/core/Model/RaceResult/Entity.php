@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Entity
  * @package Runalyze\Model\RaceResult
  */
-
 namespace Runalyze\Model\RaceResult;
 
 use Runalyze\Model;

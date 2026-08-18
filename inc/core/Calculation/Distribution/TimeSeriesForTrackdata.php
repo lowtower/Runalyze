@@ -91,7 +91,7 @@ class TimeSeriesForTrackdata extends TimeSeries
 
     protected function calculateAverages()
     {
-        if (! empty($this->AvgValuesKeys)) {
+        if ($this->AvgValuesKeys !== []) {
             foreach ($this->Data as $index => $data) {
                 foreach ($this->AvgValuesKeys as $key) {
                     if ($this->Histogram[$index] > 0) {

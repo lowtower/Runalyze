@@ -12,7 +12,7 @@ class GradientCalculator
     public function calculateFor(Trackdata $trackData, Route $route, AbstractKernel $kernel)
     {
         if (! $trackData->hasDistance() || ! $route->hasElevations()) {
-            $trackData->setGradient(null);
+            $trackData->setGradient();
 
             return;
         }

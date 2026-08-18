@@ -268,7 +268,7 @@ class Table {
 	 * Set halfs of competition
 	 */
 	private function setHalfsOfCompetitionToCode() {
-		if (empty($this->Halfs)) {
+		if ($this->Halfs === []) {
 			return;
 		}
 

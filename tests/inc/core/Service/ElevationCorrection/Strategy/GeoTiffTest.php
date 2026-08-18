@@ -34,11 +34,9 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param string $srtmFile
-     *
      * @return bool
      */
-    protected function checkExistenceOf($srtmFile)
+    protected function checkExistenceOf(string $srtmFile)
     {
         $result = file_exists($this->SrtmRoot.'/'.$srtmFile);
 

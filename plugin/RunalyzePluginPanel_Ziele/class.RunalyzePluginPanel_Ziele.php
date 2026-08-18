@@ -132,12 +132,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		echo '</div>';
 	}
 
-	/**
-	 * Show timeset
-	 * @param array $Timeset
-	 * @param int $goal
-	 */
-	private function showTimeset(&$Timeset, $goal)
+    /**
+     * Show timeset
+     * @param array<string, mixed> $Timeset
+     * @param int $goal
+     */
+    private function showTimeset(array &$Timeset, $goal)
 	{
 		$this->clearLines();
 
@@ -271,12 +271,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		);
 	}
 
-	/**
-	 * Show line or bar
-	 * @param array $Array
-	 */
-	private
-	function showLineOrBar(&$Array)
+    /**
+     * Show line or bar
+     * @param array<string, mixed> $Array
+     */
+    private
+	function showLineOrBar(array &$Array)
 	{
 		if (isset($Array['type']) && $Array['type'] == 'bar')
 			$this->showBar($Array);
@@ -306,12 +306,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			'</div>';
 	}
 
-	/**
-	 * Show line
-	 * @param array $Line
-	 */
-	private
-	function showLine(&$Line)
+    /**
+     * Show line
+     * @param array<string, mixed> $Line
+     */
+    private
+	function showLine(array &$Line)
 	{
 		$span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : 0;
 		$p_format = isset($Line['sep']) && $Line['sep'] ? ' style="border-top:1px solid #ccc;"' : '';
@@ -373,24 +373,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			);
 
 		return $Data;
-	}
-
-    /**
-     * Was there a run today?
-     */
-    private
-	function wasRunningToday(): bool
-	{
-		return 0 < DB::getInstance()->query('
-			SELECT
-				`sportid`
-			FROM `' . PREFIX . 'training`
-			WHERE
-				`time` BETWEEN UNIX_TIMESTAMP(\'' . date('Y-m-d') . "') AND UNIX_TIMESTAMP('" . date('Y-m-d', time() + DAY_IN_S) . '\')-1 AND
-				`sportid`=' . Configuration::General()->runningSport() . ' AND
-				`accountid`=' . SessionAccountHandler::getId() . '
-			LIMIT 1
-		')->rowCount();
 	}
 
 	/**

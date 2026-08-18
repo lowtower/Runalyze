@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Configuration;
 
 use Runalyze\Parameter\Integer;

@@ -68,7 +68,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
         $filteredLatitudes = array_filter($latitudes);
         $filteredLongitudes = array_filter($longitudes);
 
-        if (empty($filteredLatitudes) || empty($filteredLongitudes)) {
+        if ($filteredLatitudes === [] || $filteredLongitudes === []) {
             return [];
         }
 
@@ -95,7 +95,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
      */
     protected function smoothAltitudes(array &$altitudes)
     {
-        if (empty($altitudes) || ! $this->UseSmoothing) {
+        if ($altitudes === [] || ! $this->UseSmoothing) {
             return;
         }
 

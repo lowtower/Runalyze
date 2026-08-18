@@ -121,7 +121,7 @@ class ActiveRoundCalculator {
             }
         }
 
-        if (empty($activeHeartRates)) {
+        if ($activeHeartRates === []) {
             return null;
         }
 

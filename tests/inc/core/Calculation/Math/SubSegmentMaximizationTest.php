@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Math;
 
 class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase

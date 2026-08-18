@@ -330,7 +330,6 @@ class DataBrowser {
 			    $this->TimestampStart,
 			    $this->TimestampEnd,
 			    __($name),
-			    null,
 			    null
 			);
 		}
