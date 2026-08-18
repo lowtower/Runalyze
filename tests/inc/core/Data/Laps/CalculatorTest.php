@@ -26,7 +26,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function setUp() : void
 	{
-		$this->Laps = new Laps;
+		$this->Laps = new Laps();
 		$this->object = new Calculator($this->Laps);
 	}
 

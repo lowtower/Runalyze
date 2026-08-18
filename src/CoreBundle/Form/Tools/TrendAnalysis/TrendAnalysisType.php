@@ -64,7 +64,9 @@ class TrendAnalysisType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
-                'attr' => ['class' => 'pick-a-date small-size'],
+                'attr' => [
+                    'class' => 'pick-a-date small-size'
+                ],
                 'model_timezone' => 'UTC',
                 'view_timezone' => 'UTC'
             ])
@@ -72,7 +74,9 @@ class TrendAnalysisType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
-                'attr' => ['class' => 'pick-a-date small-size'],
+                'attr' => [
+                    'class' => 'pick-a-date small-size'
+                ],
                 'model_timezone' => 'UTC',
                 'view_timezone' => 'UTC'
             ])
@@ -90,7 +94,9 @@ class TrendAnalysisType extends AbstractType
                 ],
                 'choice_attr' => function($sport, $key, $index) {
                     /** @var Sport $sport */
-                    return ['data-id' => $sport->getId()];
+                    return [
+                        'data-id' => $sport->getId()
+                    ];
                 }
             ])
             ->add('type', ChoiceType::class, [
@@ -108,7 +114,9 @@ class TrendAnalysisType extends AbstractType
                 ],
                 'choice_attr' => function($type, $key, $index) {
                     /** @var Type $type */
-                    return ['data-sportid' => $type->getSport()->getId()];
+                    return [
+                        'data-sportid' => $type->getSport()->getId()
+                    ];
                 }
             ])
             ->add('valueToLookAt', ChoiceType::class, [

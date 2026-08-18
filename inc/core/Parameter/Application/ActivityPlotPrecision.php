@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ActivityPlotPrecision
  * @package Runalyze\Parameter\Application

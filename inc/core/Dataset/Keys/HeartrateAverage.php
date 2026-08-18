@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::HeartrateAverage
  * @package Runalyze
@@ -124,7 +125,9 @@ class HeartrateAverage extends AbstractKey
 
 		if (isset($hr) && $hrBpm > 0) {
 			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
-			return array('class' => $class, 'style' => '--perc: ' . $v . '%;');
+			return array(
+			    'class' => $class, 'style' => '--perc: ' . $v . '%;'
+			);
 		} else {
 			return null;
 		}

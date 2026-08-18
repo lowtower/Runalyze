@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TrainingEffectLevel
  * @package Runalyze\Activity

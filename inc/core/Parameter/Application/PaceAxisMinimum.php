@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PaceAxisMinimum
  * @package Runalyze\Parameter\Application

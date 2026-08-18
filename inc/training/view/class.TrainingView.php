@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TrainingView
  * @package Runalyze\DataObjects\Training\View

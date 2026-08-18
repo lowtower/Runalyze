@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FloatingPoint
  * @package Runalyze\Parameter

@@ -16,7 +16,7 @@ class TemperatureUnitTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new TemperatureUnit;
+		$this->object = new TemperatureUnit();
 	}
 
 	public function testHasTemperature() {

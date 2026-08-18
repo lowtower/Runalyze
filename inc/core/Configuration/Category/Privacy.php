@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Privacy
  * @package Runalyze\Configuration\Category

@@ -16,7 +16,7 @@ class ActivityRouteBreakTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new ActivityRouteBreak;
+		$this->object = new ActivityRouteBreak();
 	}
 
 	public function testNever() {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WeatherWindDegree 
 * @package Runalyze\View\Activity\Box

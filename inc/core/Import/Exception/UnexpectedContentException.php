@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::UnexpectedContentException
  * @package Runalyze\Import\Exception

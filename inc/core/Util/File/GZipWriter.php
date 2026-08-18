@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::GZipWriter
  * @package Runalyze\Util\File

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Icon
  * @package Runalyze\HTML

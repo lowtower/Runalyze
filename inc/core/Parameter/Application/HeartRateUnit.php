@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::HeartRateUnit
  * @package Runalyze\Parameter\Application

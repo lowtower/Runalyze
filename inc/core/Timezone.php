@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Timezone
  * @package Runalyze
@@ -64,7 +65,7 @@ class Timezone implements InterfaceChoosable
         }
         $timezoneList = array_flip($timezoneList);
 
-        $currentTime = new DateTime;
+        $currentTime = new DateTime();
         $timezone_offsets = array();
         foreach ($timezones as $timezone) {
             try {

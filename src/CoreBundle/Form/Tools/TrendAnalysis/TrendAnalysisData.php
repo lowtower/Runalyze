@@ -29,7 +29,7 @@ class TrendAnalysisData
      */
     public static function getDefault(array $sports, array $types)
     {
-        $data = new self;
+        $data = new self();
         $data->setSport($sports);
         $data->setType($types);
         $data->setDateFrom((new \DateTime())->sub(new \DateInterval('P6M')));

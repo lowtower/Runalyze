@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DataBrowser
  * @package Runalyze\DataBrowser
@@ -131,8 +132,8 @@ class DataBrowser {
 				$this->TimestampStart = LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
 				$this->TimestampEnd   = LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
 			} else {
-				$this->TimestampStart = (new LocalTime)->weekstart();
-				$this->TimestampEnd   = (new LocalTime)->weekend();
+				$this->TimestampStart = (new LocalTime())->weekstart();
+				$this->TimestampEnd   = (new LocalTime())->weekend();
 			}
 		} else {
 			$this->TimestampStart = $_GET['start'];
@@ -158,7 +159,9 @@ class DataBrowser {
 		$Statement = $this->DatasetQuery->statementToFetchActivitySports($this->TimestampStart, $this->TimestampEnd, $this->SportId);
 
 		while ($sport = $Statement->fetch()) {
-			$this->Sports[$sport['id']] = array('name' => $sport['name'], 'icon' => $sport['img']);
+			$this->Sports[$sport['id']] = array(
+			    'name' => $sport['name'], 'icon' => $sport['img']
+			);
 		}
 	}
 
@@ -240,7 +243,7 @@ class DataBrowser {
 	 * Display title
 	 */
 	protected function displayTitle() {
-		$now = (new LocalTime)->getTimestamp();
+		$now = (new LocalTime())->getTimestamp();
 		$timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
 		$timeForLinks = new LocalTime($timestampForLinks);
 

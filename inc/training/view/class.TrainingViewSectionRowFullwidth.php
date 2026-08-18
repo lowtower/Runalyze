@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TrainingViewSectionRowFullwidth
  * @package Runalyze\DataObjects\Training\View\Section

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::GooglePlus
  * @package Runalyze\Export\Share

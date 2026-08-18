@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginPanel "Sports".
  * @package Runalyze\Plugins\Panels

@@ -16,7 +16,7 @@ class DataBrowserModeTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new DataBrowserMode;
+		$this->object = new DataBrowserMode();
 	}
 
 	public function testMode() {

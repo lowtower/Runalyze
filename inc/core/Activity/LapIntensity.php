@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SelfEvaluationPerceivedEffort
  * @package Runalyze\Activity

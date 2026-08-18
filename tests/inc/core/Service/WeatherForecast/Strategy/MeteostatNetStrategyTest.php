@@ -122,8 +122,12 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     public function testNoMatchingTimestampReturnsEmptyArray()
     {
         $data = [
-            ['time' => '2020-10-01 10:00:00'],
-            ['time' => '2020-10-01 11:00:00']
+            [
+                'time' => '2020-10-01 10:00:00'
+            ],
+            [
+                'time' => '2020-10-01 11:00:00'
+            ]
         ];
 
         $result = $this->GetDataElementOfTimeMethod->invokeArgs($this->Strategy, [new \DateTime('2020-10-01 09:00:00'), $data]);
@@ -133,7 +137,9 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
     public function testUnknownWeatherCondition()
     {
-         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [['coco' => 9999]]);
+         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [[
+             'coco' => 9999
+         ]]);
 
         $this->assertEquals(WeatherConditionProfile::UNKNOWN, $weather->InternalConditionId);
     }
@@ -162,13 +168,17 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $history = \GuzzleHttp\Middleware::history($container);
 
         $mock = new \GuzzleHttp\Handler\MockHandler([
-            new \GuzzleHttp\Psr7\Response(200, [], json_encode(['data' => []]))
+            new \GuzzleHttp\Psr7\Response(200, [], json_encode([
+                'data' => []
+            ]))
         ]);
 
         $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
         $handlerStack->push($history);
 
-        $client = new \GuzzleHttp\Client(['handler' => $handlerStack]);
+        $client = new \GuzzleHttp\Client([
+            'handler' => $handlerStack
+        ]);
 
         $strategy = new MeteostatNet('api-key', 'http://proxy.example:8080', $client, $logger);
 

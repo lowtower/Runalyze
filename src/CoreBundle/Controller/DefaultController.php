@@ -154,7 +154,9 @@ class DefaultController extends AbstractPluginsAwareController
         $repository = $this->getDoctrine()->getRepository('CoreBundle:Training');
         $numDistance =  $repository->getAmountOfLoggedKilometers();
 
-        return ['user' => (int)$numUser, 'distance' => Distance::format($numDistance)];
+        return [
+            'user' => (int)$numUser, 'distance' => Distance::format($numDistance)
+        ];
     }
 
     /**
@@ -197,10 +199,14 @@ class DefaultController extends AbstractPluginsAwareController
     public function unsubscribeMailAction($mail, $hash)
     {
         $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
-        $account = $repo->findOneBy(array('mail' => $mail));
+        $account = $repo->findOneBy(array(
+            'mail' => $mail
+        ));
 
         if (null !== $account && $hash == md5($account->getUsername())) {
-            return $this->render('account/unsubscribe_info.html.twig', array('mail' => $mail, 'hash' => $hash));
+            return $this->render('account/unsubscribe_info.html.twig', array(
+                'mail' => $mail, 'hash' => $hash
+            ));
         }
 
         return $this->render('account/unsubscribe_failure.html.twig');
@@ -212,7 +218,9 @@ class DefaultController extends AbstractPluginsAwareController
     public function unsubscribeMailConfirmAction($mail, $hash)
     {
         $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
-        $account = $repo->findOneBy(array('mail' => $mail));
+        $account = $repo->findOneBy(array(
+            'mail' => $mail
+        ));
 
         if (null !== $account && $hash == md5($account->getUsername())) {
             $account->setAllowMails(false);

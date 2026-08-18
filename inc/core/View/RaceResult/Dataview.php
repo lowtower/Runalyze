@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Dataview
  * @package Runalyze\View\RaceResult\Dataview

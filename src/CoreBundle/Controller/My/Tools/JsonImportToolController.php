@@ -35,22 +35,30 @@ class JsonImportToolController extends Controller
         $backupFile = $request->files->get('qqfile');
 
         if (null === $backupFile) {
-            return $this->json(['error' => 'File upload did not work.']);
+            return $this->json([
+                'error' => 'File upload did not work.'
+            ]);
         }
 
         if (!FilenameHandler::validateImportFileExtension($backupFile->getClientOriginalName())) {
-            return $this->json(['error' => 'Wrong file extension.']);
+            return $this->json([
+                'error' => 'Wrong file extension.'
+            ]);
         }
 
         try {
             $backupFile->move($this->getImportFilePath(), $backupFile->getClientOriginalName());
         } catch (FileException $e) {
-            return $this->json(['error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $e->getMessage()]);
+            return $this->json([
+                'error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $e->getMessage()
+            ]);
         }
 
         $this->get('session')->getFlashBag()->set('json-import.file', $backupFile->getClientOriginalName());
 
-        return $this->json(['success' => true]);
+        return $this->json([
+            'success' => true
+        ]);
     }
 
     /**

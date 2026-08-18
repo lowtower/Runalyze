@@ -50,7 +50,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testThatMethodsWorkForDefaultConfiguration()
 	{
-		$this->insertActivity(array('time' => time() - DAY_IN_S, 's' => 100));
+		$this->insertActivity(array(
+		    'time' => time() - DAY_IN_S, 's' => 100
+		));
 
 		$this->assertIsArray($this->Query->statementToFetchActivities(0, time())->fetchAll());
 		$this->assertIsArray($this->Query->fetchSummaryForSport($this->Running));
@@ -70,9 +72,15 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testTimerangeAndPrivacyForSingleActivities()
 	{
-		$this->insertActivity(array('time' => time() - DAY_IN_S, 'is_public' => '0', 's' => 600));
-		$this->insertActivity(array('time' => time() - DAY_IN_S, 'is_public' => '1', 's' => 300));
-		$this->insertActivity(array('time' => time() + DAY_IN_S, 'is_public' => '1', 's' => 100));
+		$this->insertActivity(array(
+		    'time' => time() - DAY_IN_S, 'is_public' => '0', 's' => 600
+		));
+		$this->insertActivity(array(
+		    'time' => time() - DAY_IN_S, 'is_public' => '1', 's' => 300
+		));
+		$this->insertActivity(array(
+		    'time' => time() + DAY_IN_S, 'is_public' => '1', 's' => 100
+		));
 
 		$this->Query->showOnlyPublicActivities();
 		$allActivities = $this->Query->statementToFetchActivities(0, time())->fetchAll();
@@ -83,8 +91,12 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testDurationSumWithDistance()
 	{
-		$this->insertActivity(array('time' => time() - DAY_IN_S, 's' => 900, 'distance' => 0));
-		$this->insertActivity(array('time' => time() - DAY_IN_S, 's' => 600, 'distance' => 2));
+		$this->insertActivity(array(
+		    'time' => time() - DAY_IN_S, 's' => 900, 'distance' => 0
+		));
+		$this->insertActivity(array(
+		    'time' => time() - DAY_IN_S, 's' => 600, 'distance' => 2
+		));
 
 		$Context = new Context($this->Query->fetchSummaryForSport($this->Running), 1);
 
@@ -93,10 +105,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testSummary()
 	{
-		$this->insertActivity(array('time' => time() - 1*DAY_IN_S, 's' => 100, 'sportid' => 1));
-		$this->insertActivity(array('time' => time() - 5*DAY_IN_S, 's' => 200, 'sportid' => 2));
-		$this->insertActivity(array('time' => time() - 5*DAY_IN_S, 's' => 123, 'sportid' => 2));
-		$this->insertActivity(array('time' => time() - 9*DAY_IN_S, 's' => 500, 'sportid' => 3));
+		$this->insertActivity(array(
+		    'time' => time() - 1*DAY_IN_S, 's' => 100, 'sportid' => 1
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 5*DAY_IN_S, 's' => 200, 'sportid' => 2
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 5*DAY_IN_S, 's' => 123, 'sportid' => 2
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 9*DAY_IN_S, 's' => 500, 'sportid' => 3
+		));
 
 		$summary = array(
 		    $this->Query->fetchSummaryForSport(1),
@@ -110,10 +130,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testSummaryForWeekTimerange()
 	{
-		$this->insertActivity(array('time' => time() - 1*DAY_IN_S, 's' => 100));
-		$this->insertActivity(array('time' => time() - 5*DAY_IN_S, 's' => 200));
-		$this->insertActivity(array('time' => time() - 5*DAY_IN_S, 's' => 123, 'sportid' => $this->Running + 1));
-		$this->insertActivity(array('time' => time() - 9*DAY_IN_S, 's' => 500));
+		$this->insertActivity(array(
+		    'time' => time() - 1*DAY_IN_S, 's' => 100
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 5*DAY_IN_S, 's' => 200
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 5*DAY_IN_S, 's' => 123, 'sportid' => $this->Running + 1
+		));
+		$this->insertActivity(array(
+		    'time' => time() - 9*DAY_IN_S, 's' => 500
+		));
 
 		$summary = $this->Query->fetchSummaryForTimerange($this->Running);
 
@@ -124,10 +152,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testSummaryForMonthTimerange()
 	{
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 6, 15, 2015), 's' => 100));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 6, 1, 2015), 's' => 200));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 6, 12, 2015), 's' => 123, 'sportid' => $this->Running + 1));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 5, 31, 2015), 's' => 500));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 6, 15, 2015), 's' => 100
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 6, 1, 2015), 's' => 200
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 6, 12, 2015), 's' => 123, 'sportid' => $this->Running + 1
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 5, 31, 2015), 's' => 500
+		));
 
 		$summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::MONTH_TIMERANGE);
 
@@ -138,10 +174,18 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 
 	public function testSummaryForYearTimerange()
 	{
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 6, 15, 2015), 's' => 100));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 1, 1, 2015), 's' => 200));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 12, 31, 2014), 's' => 123, 'sportid' => $this->Running + 1));
-		$this->insertActivity(array('time' => mktime(12, 0, 0, 12, 31, 2014), 's' => 500));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 6, 15, 2015), 's' => 100
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 1, 1, 2015), 's' => 200
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 12, 31, 2014), 's' => 123, 'sportid' => $this->Running + 1
+		));
+		$this->insertActivity(array(
+		    'time' => mktime(12, 0, 0, 12, 31, 2014), 's' => 500
+		));
 
 		$summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::YEAR_TIMERANGE);
 

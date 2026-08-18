@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractSnippetSharer
  * @package Runalyze\Export\Share

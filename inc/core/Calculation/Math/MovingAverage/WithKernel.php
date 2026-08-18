@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WithKernel
  * @package Runalyze\Calculation\Math\MovingAverage

@@ -13,21 +13,29 @@ class EntityWithID_MockTester extends EntityWithID {
  */
 class EntityWithIDTest extends \PHPUnit\Framework\TestCase {
 	public function testConstructorWithoutID() {
-		$O = new EntityWithID_MockTester(array('foo' => 'bar'));
+		$O = new EntityWithID_MockTester(array(
+		    'foo' => 'bar'
+		));
 
 		$this->assertFalse( $O->hasID() );
 		$this->assertNull( $O->id() );
 
-		$this->assertEquals( array('foo' => 'bar'), $O->completeData() );
+		$this->assertEquals( array(
+		    'foo' => 'bar'
+		), $O->completeData() );
 	}
 
 	public function testConstructorWithID() {
-		$O = new EntityWithID_MockTester(array('foo' => 'bar', 'id' => 1));
+		$O = new EntityWithID_MockTester(array(
+		    'foo' => 'bar', 'id' => 1
+		));
 
 		$this->assertTrue( $O->hasID() );
 		$this->assertEquals( 1, $O->id() );
 
-		$this->assertEquals( array('foo' => 'bar'), $O->completeData() );
+		$this->assertEquals( array(
+		    'foo' => 'bar'
+		), $O->completeData() );
 	}
 
 }

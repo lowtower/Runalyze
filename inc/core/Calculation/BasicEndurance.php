@@ -351,7 +351,9 @@ class BasicEndurance
             }
         }
 
-        return ['km' => $km, 'sum' => $points];
+        return [
+            'km' => $km, 'sum' => $points
+        ];
     }
 
     /**
@@ -413,7 +415,7 @@ class BasicEndurance
 
     public static function recalculateValue()
     {
-        $Object = new self;
+        $Object = new self();
         $Object->readSettingsFromConfiguration();
         $BASIC_ENDURANCE = $Object->value();
 

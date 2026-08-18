@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Gpx
  * @package Runalyze\Export\File

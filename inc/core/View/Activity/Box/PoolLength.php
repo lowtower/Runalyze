@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PoolLength
  * @package Runalyze\View\Activity\Box

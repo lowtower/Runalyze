@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Design
  * @package Runalyze\Configuration\Category

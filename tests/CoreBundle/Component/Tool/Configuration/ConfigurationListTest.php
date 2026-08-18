@@ -6,7 +6,9 @@ class ConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleConstructor()
     {
-        $list = new ConfigurationList(['foo' => 'bar']);
+        $list = new ConfigurationList([
+            'foo' => 'bar'
+        ]);
 
         $this->assertEquals('bar', $list->get('foo'));
     }

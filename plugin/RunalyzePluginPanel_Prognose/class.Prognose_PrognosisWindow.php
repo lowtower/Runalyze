@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class Prognose_PrognosisWindow
  * @package Runalyze\Plugins\Panels
@@ -237,10 +238,10 @@ class Prognose_PrognosisWindow {
 			$PB = new PersonalBest($km, Configuration::General()->runningSport(), DB::getInstance(), false);
 			$PB->lookupWithDetails();
 
-			$VO2maxprognosis = new LegacyEffectiveVO2max;
+			$VO2maxprognosis = new LegacyEffectiveVO2max();
             $VO2maxprognosis->fromPace($km, $Prognosis);
 
-            $VO2maxpb = new LegacyEffectiveVO2max;
+            $VO2maxpb = new LegacyEffectiveVO2max();
             $VO2maxpb->fromPace($km, $PB->seconds());
 
 			$PacePrognosis = new Pace($Prognosis, $km, SportFactory::getSpeedUnitFor(Configuration::General()->runningSport()));

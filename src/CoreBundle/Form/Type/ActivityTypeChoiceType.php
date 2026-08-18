@@ -27,7 +27,9 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
             },
             'choice_attr' => function($type, $key, $index) {
                 /** @var Type $type */
-                return ['data-sport' => $type->getSport()->getId()];
+                return [
+                    'data-sport' => $type->getSport()->getId()
+                ];
             },
             'choice_translation_domain' => false
         ));

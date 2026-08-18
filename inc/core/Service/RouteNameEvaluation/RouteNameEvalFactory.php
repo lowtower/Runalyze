@@ -11,7 +11,7 @@ class RouteNameEvalFactory {
     protected $RouteNameEval;
 
     /**
-     * @param a implementation
+     * @param a $routeNameEvalOsm implementation
      */
     public function __construct(RouteNameEvalOsm $routeNameEvalOsm) {
         $this->RouteNameEval = $routeNameEvalOsm;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TotalCadence
  * @package Runalyze\View\Activity\Box

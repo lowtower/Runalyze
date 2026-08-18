@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginStat "Strecken".
  * @package Runalyze\Plugins\Stats

@@ -155,7 +155,9 @@ class SettingsController extends Controller
 
         $dataset = $em->getRepository('CoreBundle:Dataset')->findAllFor($account);
 
-        $form = $this->createForm(DatasetCollectionType::class, ['datasets' => $dataset]);
+        $form = $this->createForm(DatasetCollectionType::class, [
+            'datasets' => $dataset
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -194,7 +196,9 @@ class SettingsController extends Controller
             $dataset[] = (new Dataset())->setActive(false)->setKeyId($key)->setAccount($account);
         }
 
-        $form = $this->createForm(DatasetCollectionType::class, ['datasets' => $dataset], array(
+        $form = $this->createForm(DatasetCollectionType::class, [
+            'datasets' => $dataset
+        ], array(
             'action' => $this->generateUrl('settings-dataset'),
         ));
         $form->handleRequest($request);
@@ -203,7 +207,7 @@ class SettingsController extends Controller
             'form' => $form->createView(),
             'datasetKeys' => new RunalyzeDataset\Keys(),
             'missingKeys' => $missingKeyObjects,
-            'defaultConfiguration' => (new DefaultConfiguration)->data(),
+            'defaultConfiguration' => (new DefaultConfiguration())->data(),
             'numberOfExistingKeys' => $numberOfExistingKeys,
             'context' => new RunalyzeDataset\Context($this->getExampleTraining($account), $account->getId())
         ]);
@@ -293,7 +297,9 @@ class SettingsController extends Controller
      */
     protected function exampleTagID(Account $account)
     {
-        $tag = $this->getDoctrine()->getRepository('CoreBundle:Tag')->findBy(['account' => $account->getId()], null, 1);
+        $tag = $this->getDoctrine()->getRepository('CoreBundle:Tag')->findBy([
+            'account' => $account->getId()
+        ], null, 1);
 
         if ($tag) {
             return (string)$tag[0]->getId();
@@ -308,7 +314,9 @@ class SettingsController extends Controller
     protected function exampleEquipmentIDs(Account $account)
     {
         $ids = [];
-        $equipment = $this->getDoctrine()->getRepository('CoreBundle:Equipment')->findBy(['account' => $account->getId()], null, 2);
+        $equipment = $this->getDoctrine()->getRepository('CoreBundle:Equipment')->findBy([
+            'account' => $account->getId()
+        ], null, 2);
 
         if (is_array($equipment)) {
             foreach ($equipment as $element) {

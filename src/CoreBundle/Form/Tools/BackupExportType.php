@@ -15,7 +15,8 @@ class BackupExportType extends AbstractType
                 'data' => 'general',
                 'choices' => [
                     'Portable backup (*.json.gz)' => 'json',
-                    'Database backup (*.sql.gz)' => 'sql']
+                    'Database backup (*.sql.gz)' => 'sql'
+                ]
             ]);
 
         ;

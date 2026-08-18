@@ -65,7 +65,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         foreach ($this->CategoryMap as $categoryKey => $className) {
             /** @var AbstractCategory $category */
-            $category = new $className;
+            $category = new $className();
 
             foreach ($category->getDefaultVariables() as $key => $defaultValue) {
                 $this->Variables[$categoryKey.'.'.$key] = $defaultValue;

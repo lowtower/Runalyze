@@ -58,8 +58,11 @@ class PosterType extends AbstractType
                     'Circular' => 'circular',
                     'Calendar' => 'calendar',
                     'Grid'     => 'grid',
-                    'Heatmap'  => 'heatmap'],
-                'attr' => ['class' => 'chosen-select full-size']
+                    'Heatmap'  => 'heatmap'
+                ],
+                'attr' => [
+                    'class' => 'chosen-select full-size'
+                ]
             ])
             ->add('year', ChoiceType::class, [
                 'choices' => $this->TrainingRepository->getActiveYearsFor($this->getAccount(), null, 2),
@@ -69,7 +72,9 @@ class PosterType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'required' => true,
-                'attr' => ['maxlength' => 11]
+                'attr' => [
+                    'maxlength' => 11
+                ]
             ])
             ->add('sport', ChoiceType::class, [
                 'choices' => $this->SportRepository->findWithDistancesFor($this->getAccount()),

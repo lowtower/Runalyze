@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw total time of training for each day of a week for the user
  * Include:   inc/draw/Plot.Weekday.php
@@ -38,7 +39,9 @@ foreach ($Sports as $sport) {
 	$id = $sport['name'];
 	$yAxis[$id] = array(0, 0, 0, 0, 0, 0, 0);
 
-	$Query->execute(array(':id' => $sport['id']));
+	$Query->execute(array(
+	    ':id' => $sport['id']
+	));
 	$data = $Query->fetchAll();
 
 	foreach ($data as $dat)
@@ -49,7 +52,9 @@ $Plot = new Plot('weekday', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = array('label' => $key, 'data' => $data);
+	$Plot->Data[] = array(
+	    'label' => $key, 'data' => $data
+	);
 	$max += max($data);
 }
 

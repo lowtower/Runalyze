@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PersonalBest
  * @package Runalyze\Activity

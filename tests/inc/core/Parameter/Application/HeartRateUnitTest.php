@@ -16,7 +16,7 @@ class HeartRateUnitTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new HeartRateUnit;
+		$this->object = new HeartRateUnit();
 	}
 
 	public function testValues() {

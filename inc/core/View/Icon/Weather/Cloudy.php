@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Cloudy
  * @package Runalyze\View\Icon\Weather

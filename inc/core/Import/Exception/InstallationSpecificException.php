@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::InstallationSpecificException
  * @package Runalyze\Import\Exception

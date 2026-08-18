@@ -10,7 +10,9 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
     public function testSingleWorkout()
     {
         $Model = new TsbModel(
-            [0 => 1000],
+            [
+                0 => 1000
+            ],
             42, 7
         );
         $Model->calculate();
@@ -74,7 +76,9 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
 
     public function testFutureFitness()
     {
-        $Model = new TsbModel([0 => 1000], 42, 7);
+        $Model = new TsbModel([
+            0 => 1000
+        ], 42, 7);
         $Model->setRange(0, 100);
         $Model->calculate();
 
@@ -96,7 +100,9 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
 
     public function testFutureFatigue()
     {
-        $Model = new TsbModel([0 => 1000], 42, 7);
+        $Model = new TsbModel([
+            0 => 1000
+        ], 42, 7);
         $Model->setRange(0, 30);
         $Model->calculate();
 

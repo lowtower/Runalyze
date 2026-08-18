@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Keys
  * @package Runalyze
@@ -257,13 +258,13 @@ final class Keys extends AbstractEnum
 
 		if (self::$KeepInstances) {
 			if (!isset(self::$Instances[$keyid])) {
-				self::$Instances[$keyid] = new $className;
+				self::$Instances[$keyid] = new $className();
 			}
 
 			return self::$Instances[$keyid];
 		}
 
-		return new $className;
+		return new $className();
 	}
 
 	/**

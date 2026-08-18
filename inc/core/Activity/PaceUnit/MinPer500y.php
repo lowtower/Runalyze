@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MinPer500y
  * @package Runalyze\Activity\PaceUnit

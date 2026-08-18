@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginStat "Wetter".
  * @package Runalyze\Plugins\Stats
@@ -51,7 +52,9 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Init configuration
 	 */
 	protected function initConfiguration() {
-		$this->AllTypes = array(0 => __('none'));
+		$this->AllTypes = array(
+		    0 => __('none')
+		);
 		$AllTypes = DB::getInstance()->query('SELECT `id`, `name` FROM `'.PREFIX.'equipment_type` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `name` ASC')->fetchAll();
 
 		foreach ($AllTypes as $data) {

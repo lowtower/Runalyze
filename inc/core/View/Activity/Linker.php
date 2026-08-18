@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Linker
  * @package Runalyze\View\Activity

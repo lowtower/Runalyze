@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::StringObject
  * @package Runalyze\Model

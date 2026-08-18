@@ -136,9 +136,12 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         $this->logger->debug(sprintf('url >> %s.', $url));
 
         try {
-            $headers = ['headers' => [
-                'x-rapidapi-host' => 'meteostat.p.rapidapi.com',
-                'x-rapidapi-key' => $this->ApiKey]];
+            $headers = [
+                'headers' => [
+                    'x-rapidapi-host' => 'meteostat.p.rapidapi.com',
+                    'x-rapidapi-key' => $this->ApiKey
+                ]
+            ];
             if(!empty($this->Proxy)) {
                 $headers['proxy'] = $this->Proxy;
             }
@@ -159,7 +162,9 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
                 }
             }
         } catch (RequestException $e) {
-            $this->logger->error('MeteostatNet API request failed.', ['exception' => $e]);
+            $this->logger->error('MeteostatNet API request failed.', [
+                'exception' => $e
+            ]);
             throw new \RuntimeException('MeteostatNet request resulted in an error: '.$e->getMessage(), 0, $e);
         }
 

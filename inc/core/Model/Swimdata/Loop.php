@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Loop
  * @package Runalyze\Model\Swimdata

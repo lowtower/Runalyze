@@ -71,7 +71,9 @@ class SportController extends Controller
         $type = new Type();
         $type->setAccount($account);
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type ,[
-            'action' => $this->generateUrl('sport-type-add', ['sportid' => $sportid])
+            'action' => $this->generateUrl('sport-type-add', [
+                'sportid' => $sportid
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -79,7 +81,9 @@ class SportController extends Controller
             $type->setSport($em->getReference('CoreBundle:Sport', $sportid));
             $this->getTypeRepository()->save($type);
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
-            return $this->redirectToRoute('sport-edit', ['id' => $sportid]);
+            return $this->redirectToRoute('sport-edit', [
+                'id' => $sportid
+            ]);
         }
 
         return $this->render('settings/sport/form-type.html.twig', [
@@ -99,7 +103,9 @@ class SportController extends Controller
         }
 
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type ,[
-            'action' => $this->generateUrl('sport-type-edit', ['id' => $type->getId()])
+            'action' => $this->generateUrl('sport-type-edit', [
+                'id' => $type->getId()
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -107,7 +113,9 @@ class SportController extends Controller
             $this->getTypeRepository()->save($type);
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
-            return $this->redirectToRoute('sport-type-edit', ['id' => $type->getId()]);
+            return $this->redirectToRoute('sport-type-edit', [
+                'id' => $type->getId()
+            ]);
         }
         return $this->render('settings/sport/form-type.html.twig', [
             'form' => $form->createView(),
@@ -171,7 +179,9 @@ class SportController extends Controller
             $this->getSportRepository()->save($sport);
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
-            return $this->redirectToRoute('sport-edit', ['id' => $sport->getId()]);
+            return $this->redirectToRoute('sport-edit', [
+                'id' => $sport->getId()
+            ]);
         }
 
         return $this->render('settings/sport/form-sport.html.twig', [
@@ -189,7 +199,9 @@ class SportController extends Controller
             throw $this->createNotFoundException();
         }
         $form = $this->createForm(Form\Settings\SportType::class, $sport,[
-            'action' => $this->generateUrl('sport-edit', ['id' => $sport->getId()])
+            'action' => $this->generateUrl('sport-edit', [
+                'id' => $sport->getId()
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -197,7 +209,9 @@ class SportController extends Controller
             $this->getSportRepository()->save($sport);
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
-            return $this->redirectToRoute('sport-edit', ['id' => $sport->getId()]);
+            return $this->redirectToRoute('sport-edit', [
+                'id' => $sport->getId()
+            ]);
         }
         return $this->render('settings/sport/form-sport.html.twig', [
             'form' => $form->createView(),
@@ -216,7 +230,9 @@ class SportController extends Controller
         if (!$this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
-            return $this->redirect($this->generateUrl('sport-edit', ['id' => $sport->getId()]));
+            return $this->redirect($this->generateUrl('sport-edit', [
+                'id' => $sport->getId()
+            ]));
         }
 
         if ($sport->getAccount()->getId() != $account->getId()) {

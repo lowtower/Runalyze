@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::RunalyzePluginStat_Analyse
  * @package Runalyze\Plugins\Stats
@@ -51,7 +52,8 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	    'timer_sum_km'	=> array(),
 	    'timer_sum_s'	=> array(),
 	    'id_sum_km'		=> array(),
-	    'id_sum_s'		=> array());
+	    'id_sum_s'		=> array()
+	);
 
 	/**
 	 * Sport
@@ -125,9 +127,11 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	}
 
 	private function getAnalysisType() {
-		$types = ['' => __('in percent'),
+		$types = [
+		    '' => __('in percent'),
 		    'km' => __('by distance'),
-		    's' => __('by time')];
+		    's' => __('by time')
+		];
 		return $types[$this->dat];
 	}
 
@@ -371,7 +375,9 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 			}
 		}
 
-		return array('name' => __('Training types'), 'array' => $type_data, 'foreach' => $type_foreach);
+		return array(
+		    'name' => __('Training types'), 'array' => $type_data, 'foreach' => $type_foreach
+		);
 	}
 
 	/**
@@ -436,11 +442,15 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 					$name = '<small>'.__('up to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
 				else
 					$name = $Pace->setTime($speed+$speed_step)->value().' <small>'.__('to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
-				$speed_foreach[] = array('name' => $name, 'id' => max($speed, $speed_max));
+				$speed_foreach[] = array(
+				    'name' => $name, 'id' => max($speed, $speed_max)
+				);
 			}
 		}
 
-		return array('name' => __('Pace Zones').'*', 'array' => $speed_data, 'foreach' => $speed_foreach);
+		return array(
+		    'name' => __('Pace Zones').'*', 'array' => $speed_data, 'foreach' => $speed_foreach
+		);
 	}
 
 	/**
@@ -501,7 +511,9 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 			}
 		}
 
-		return array('name' => __('Heart Rate Zones').'*', 'array' => $pulse_data, 'foreach' => $pulse_foreach);
+		return array(
+		    'name' => __('Heart Rate Zones').'*', 'array' => $pulse_data, 'foreach' => $pulse_foreach
+		);
 	}
 
 	/**
@@ -513,7 +525,9 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		if (!isset($data[$result['group']]))
 			$data[$result['group']] = array();
 		if (!isset($data[$result['group']][$result['timer']]))
-			$data[$result['group']][$result['timer']] = array('num' => 0, 'distance' => 0, 's' => 0);
+			$data[$result['group']][$result['timer']] = array(
+			    'num' => 0, 'distance' => 0, 's' => 0
+			);
 
 		$data[$result['group']][$result['timer']]['num']      += $result['num'];
 		$data[$result['group']][$result['timer']]['distance'] += $result['distance'];

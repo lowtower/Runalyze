@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class::SummaryTable
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken

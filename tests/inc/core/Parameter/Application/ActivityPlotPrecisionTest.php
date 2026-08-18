@@ -16,7 +16,7 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new ActivityPlotPrecision;
+		$this->object = new ActivityPlotPrecision();
 	}
 
 	public function testAssigns() {

@@ -11,7 +11,7 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->object = new WeightUnit;
+		$this->object = new WeightUnit();
 	}
 
 	public function testKilograms()

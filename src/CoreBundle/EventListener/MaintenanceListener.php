@@ -1,4 +1,5 @@
 <?php
+
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

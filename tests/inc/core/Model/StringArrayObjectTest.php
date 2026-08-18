@@ -28,7 +28,9 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase {
 		$Array = new StringArrayObject_MockTester('{"a":"foo","b":"bar"}');
 
 		$this->assertEquals(2, $Array->num());
-		$this->assertEquals(array('a' => 'foo', 'b' => 'bar'), $Array->asArray());
+		$this->assertEquals(array(
+		    'a' => 'foo', 'b' => 'bar'
+		), $Array->asArray());
 	}
 
 	public function testAddingElements() {

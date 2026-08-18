@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularValueParser
  * @package Runalyze\HTML\Formular\Validation

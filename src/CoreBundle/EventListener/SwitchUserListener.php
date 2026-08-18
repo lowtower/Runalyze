@@ -1,4 +1,5 @@
 <?php
+
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -119,7 +120,9 @@ class SwitchUserListener implements ListenerInterface
         $username = $request->get($this->usernameParameter);
 
         if (null !== $this->logger) {
-            $this->logger->info('Attempting to switch to user.', array('username' => $username));
+            $this->logger->info('Attempting to switch to user.', array(
+                'username' => $username
+            ));
         }
 
         $user = $this->provider->loadUserByUsername($username);

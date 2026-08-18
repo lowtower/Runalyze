@@ -78,7 +78,9 @@ class EquipmentCategoryType extends AbstractType
             ->add('maxTime', DurationNullableType::class, [
                 'label' => 'max. Time',
                 'required' => false,
-                'attr' => ['class' => 'medium-size']
+                'attr' => [
+                    'class' => 'medium-size'
+                ]
             ])
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,

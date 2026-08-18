@@ -16,7 +16,7 @@ class ElevationMethodTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new ElevationMethod;
+		$this->object = new ElevationMethod();
 	}
 
 	public function testMethods() {

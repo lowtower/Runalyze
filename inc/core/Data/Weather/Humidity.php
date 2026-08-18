@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Humidity
  * @package Runalyze\Data\Weather

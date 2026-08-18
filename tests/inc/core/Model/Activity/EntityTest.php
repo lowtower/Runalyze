@@ -78,11 +78,15 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(false, $EmptyEntity->knowsIfItIsNight());
 		$this->assertEquals(false, $EmptyEntity->isNight());
 
-		$IsNotNight = new Entity([Entity::IS_NIGHT => false]);
+		$IsNotNight = new Entity([
+		    Entity::IS_NIGHT => false
+		]);
 		$this->assertEquals(true, $IsNotNight->knowsIfItIsNight());
 		$this->assertEquals(false, $IsNotNight->isNight());
 
-		$IsNight = new Entity([Entity::IS_NIGHT => true]);
+		$IsNight = new Entity([
+		    Entity::IS_NIGHT => true
+		]);
 		$this->assertEquals(true, $IsNight->knowsIfItIsNight());
 		$this->assertEquals(true, $IsNight->isNight());
 

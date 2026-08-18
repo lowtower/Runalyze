@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::UnsupportedFileException
  * @package Runalyze\Import\Exception

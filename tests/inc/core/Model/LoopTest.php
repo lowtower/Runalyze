@@ -139,7 +139,9 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected function loopWithFooValues(array $values)
 	{
-		return new Loop_MockTest(new Loopable_MockTester(array('foo' => $values)));
+		return new Loop_MockTest(new Loopable_MockTester(array(
+		    'foo' => $values
+		)));
 	}
 
 	protected function exampleLoop() {
@@ -276,7 +278,9 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMockSupportsCustomProperties()
 	{
-		$object = new Loopable_MockTester(array('foo' => array(0, 10, 20)));
+		$object = new Loopable_MockTester(array(
+		    'foo' => array(0, 10, 20)
+		));
 
 		$this->assertTrue($object->has('foo'));
 		$this->assertFalse($object->has('bar'));

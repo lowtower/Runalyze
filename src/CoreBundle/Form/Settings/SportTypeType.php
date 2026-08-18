@@ -51,7 +51,9 @@ class SportTypeType extends AbstractType
                 'label' => 'Abbreviation'
             ])
             ->add('hrAvg', HeartRateType::class, [
-                'attr' => ['min' => 40, 'max' => 255],
+                'attr' => [
+                    'min' => 40, 'max' => 255
+                ],
                 'required' => false,
                 'label' => 'avg. HR'
             ])

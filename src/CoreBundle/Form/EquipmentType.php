@@ -70,7 +70,9 @@ class EquipmentType extends AbstractType
                 'required' => false,
                 // #TSC: fix if new equip set current date, else use stored date
                 'data' => (null === $equipment->getId() ? new \DateTime('now') : $equipment->getDateStart()),
-                'attr' => ['class' => 'pick-a-date small-size', 'placeholder' => 'dd.mm.YYYY']
+                'attr' => [
+                    'class' => 'pick-a-date small-size', 'placeholder' => 'dd.mm.YYYY'
+                ]
             ])
             ->add('dateEnd', DateType::class, [
                 'label' => 'End of use',
@@ -78,13 +80,17 @@ class EquipmentType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'required' => false,
-                'attr' => ['class' => 'pick-a-date small-size', 'placeholder' => 'dd.mm.YYYY']
+                'attr' => [
+                    'class' => 'pick-a-date small-size', 'placeholder' => 'dd.mm.YYYY'
+                ]
             ])
             ->add('notes', TextareaType::class, [
                 'label' => 'Notes',
                 'required' => false,
                 'empty_data' => '',
-                'attr' => ['class' => 'fullwidth']
+                'attr' => [
+                    'class' => 'fullwidth'
+                ]
             ])
             // #TSC allow only sports from the type
             ->add('sport', EntityType::class, [

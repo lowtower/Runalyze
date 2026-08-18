@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw prognosis as function of time
  * Call:   include Plot.form.php
@@ -108,7 +109,9 @@ if (START_TIME != time()) {
 
 				$BasicEnduranceObj->setEffectiveVO2max($Data[$currentIndex]['vo2max']);
 				$longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
-				$BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, ['km' => $currentKmSum, 'sum' => $longJogPoints])['percentage'];
+				$BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
+				    'km' => $currentKmSum, 'sum' => $longJogPoints
+				])['percentage'];
 
 				$PrognosisObj->setEffectiveVO2max($Data[$currentIndex]['vo2max']);
 				$PrognosisObj->setMarathonShape($BasicEndurance[$index]);
@@ -157,9 +160,33 @@ if (START_TIME != time()) {
 
 $Plot = new Plot('formverlauf_'.str_replace('.', '_', $distance), 800, 450);
 
-$Plot->Data[] = array('label' => __('Prognosis'), 'color' => '#880000', 'data' => $Prognosis, 'lines' => array('show' => true), 'points' => array('show' => false), 'curvedLines' => array('apply' => false));
-$Plot->Data[] = array('label' => __('Prognosis with marathon shape'), 'color' => '#000088', 'data' => $PrognosisWithBasicEndurance, 'lines' => array('show' => true), 'points' => array('show' => false), 'curvedLines' => array('apply' => false));
-$Plot->Data[] = array('label' => __('Result'), 'color' => '#000000', 'data' => $Results, 'lines' => array('show' => false), 'points' => array('show' => true), 'curvedLines' => array('apply' => false));
+$Plot->Data[] = array(
+    'label' => __('Prognosis'), 'color' => '#880000', 'data' => $Prognosis, 'lines' => array(
+        'show' => true
+    ), 'points' => array(
+        'show' => false
+    ), 'curvedLines' => array(
+        'apply' => false
+    )
+);
+$Plot->Data[] = array(
+    'label' => __('Prognosis with marathon shape'), 'color' => '#000088', 'data' => $PrognosisWithBasicEndurance, 'lines' => array(
+        'show' => true
+    ), 'points' => array(
+        'show' => false
+    ), 'curvedLines' => array(
+        'apply' => false
+    )
+);
+$Plot->Data[] = array(
+    'label' => __('Result'), 'color' => '#000000', 'data' => $Results, 'lines' => array(
+        'show' => false
+    ), 'points' => array(
+        'show' => true
+    ), 'curvedLines' => array(
+        'apply' => false
+    )
+);
 
 $Plot->setZeroPointsToNull();
 

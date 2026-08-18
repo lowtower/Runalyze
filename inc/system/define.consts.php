@@ -1,4 +1,5 @@
 <?php
+
 /*
  * All definitions of CONST variables have to be done here
  * otherwise the Autoloader will not work correct

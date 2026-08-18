@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginStat "Rekorde".
  * @package Runalyze\Plugins\Stats
@@ -191,12 +192,14 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 		    'name'			=> __('Fastest activities'),
 		    'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
 		    'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' AND `distance`>0 ORDER BY (`distance`/`s`) DESC, `s` DESC LIMIT 10',
-		    'speed'			=> true);
+		    'speed'			=> true
+		);
 		$this->rekorde[] = array(
 		    'name'			=> __('Longest activities'),
 		    'sportquery'	=> 'SELECT * FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' ORDER BY `id` ASC',
 		    'datquery'		=> 'SELECT `id`, `time`, `s`, `distance`, `sportid` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `sportid`=:sportid '.$this->getYearDependenceForQuery().' ORDER BY `distance` DESC, `s` DESC LIMIT 10',
-		    'speed'			=> false);
+		    'speed'			=> false
+		);
 
 		if ($this->showsAllYears()) {
 			$this->years = DB::getInstance()->query('

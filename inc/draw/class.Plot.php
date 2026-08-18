@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Plot
  * @package Runalyze\Draw
@@ -202,7 +203,9 @@ class Plot {
 	 * @param double $toY relative repositioning in px
 	 */
 	public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0) {
-		$this->Annotations[] = array('x' => $x, 'y' => $y, 'text' => $text, 'toX' => $toX, 'toY' => $toY);
+		$this->Annotations[] = array(
+		    'x' => $x, 'y' => $y, 'text' => $text, 'toX' => $toX, 'toY' => $toY
+		);
 	}
 
 	/**
@@ -316,7 +319,10 @@ class Plot {
 		$this->Options['grid']['markings'][] = array(
 		    'color' => $color,
 		    'lineWidth' => $lineWidth,
-		    $axis.'axis' => array('from' => $from, 'to' => $from));
+		    $axis.'axis' => array(
+		        'from' => $from, 'to' => $from
+		    )
+		);
 	}
 
 	/**
@@ -329,7 +335,10 @@ class Plot {
 	public function addMarkingArea($axis, $from, $to, $color ='rgba(255,255,255,0.2)') {
 		$this->Options['grid']['markings'][] = array(
 		    'color' => $color,
-		    $axis.'axis' => array('from' => $from, 'to' => $to));
+		    $axis.'axis' => array(
+		        'from' => $from, 'to' => $to
+		    )
+		);
 	}
 
 	/**

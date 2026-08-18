@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Trimp
  * @package Runalyze\Configuration\Category

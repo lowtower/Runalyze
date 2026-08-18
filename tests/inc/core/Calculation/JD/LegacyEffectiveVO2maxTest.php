@@ -181,7 +181,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
     public function testMissingValueForEmptyHR()
     {
-        $Value = new LegacyEffectiveVO2max;
+        $Value = new LegacyEffectiveVO2max();
         $Value->fromPaceAndHR(10, 40 * 60 + 0, 0);
 
         $this->assertEquals(0, $Value->value());

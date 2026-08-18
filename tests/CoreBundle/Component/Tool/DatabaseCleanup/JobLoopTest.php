@@ -1,4 +1,5 @@
 <?php
+
 namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\DatabaseCleanup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobLoop;

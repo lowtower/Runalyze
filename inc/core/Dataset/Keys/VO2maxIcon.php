@@ -57,7 +57,7 @@ class VO2maxIcon extends AbstractKey
                 'equal to it or (much) lower:'
             ).' ';
 
-        $Icon = new \Runalyze\View\Icon\EffectiveVO2maxIcon;
+        $Icon = new \Runalyze\View\Icon\EffectiveVO2maxIcon();
         $Icon->setUp();
         $text .= $Icon->code();
         $Icon->setUpHalf();

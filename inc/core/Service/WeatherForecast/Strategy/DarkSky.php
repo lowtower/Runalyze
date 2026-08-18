@@ -144,7 +144,9 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
                     return $result;
                 }
             } catch (RequestException $e) {
-                $this->logger->warning('DarkSky API request failed.', ['exception' => $e]);
+                $this->logger->warning('DarkSky API request failed.', [
+                    'exception' => $e
+                ]);
             }
         }
 

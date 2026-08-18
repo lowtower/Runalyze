@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Series
  * @package Runalyze\View\Plot
@@ -139,7 +140,9 @@ class Series {
 				$this->Data[$k] = $v * '1000';
 		}
 
-		$Plot->Data[] = array('label' => $this->Label, 'color' => $this->Color, 'data' => $this->Data, 'yaxis' => $yAxis);
+		$Plot->Data[] = array(
+		    'label' => $this->Label, 'color' => $this->Color, 'data' => $this->Data, 'yaxis' => $yAxis
+		);
 
 		if ($this->UnitString != '') {
 			if ($this->UnitString == 'time') {

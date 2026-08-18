@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PaceAxisMaximum
  * @package Runalyze\Parameter\Application

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Additional helper functions
  *

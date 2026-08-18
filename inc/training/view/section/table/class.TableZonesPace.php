@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TableZonesPace
  * @package Runalyze\DataObjects\Training\View

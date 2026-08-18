@@ -167,7 +167,9 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
                     }
                 }
             } catch (RequestException $e) {
-                $this->logger->warning('OpenWeatherMap API request failed.', ['exception' => $e]);
+                $this->logger->warning('OpenWeatherMap API request failed.', [
+                    'exception' => $e
+                ]);
             }
         }
 

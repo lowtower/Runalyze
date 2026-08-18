@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MaximalHeartRate
  * @package Runalyze\View\Activity\Box

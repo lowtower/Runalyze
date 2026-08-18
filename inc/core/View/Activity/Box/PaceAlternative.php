@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PaceAlternative
  * @package Runalyze\View\Activity\Box

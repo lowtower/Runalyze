@@ -30,7 +30,7 @@ class Version20170130000000 extends AbstractMigration implements ContainerAwareI
      */
     public function up(Schema $schema) : void
     {
-        MessagesSchema::create($bernardSchema = new Schema);
+        MessagesSchema::create($bernardSchema = new Schema());
         $sql = $bernardSchema->toSql($this->connection->getDatabasePlatform());
 
         foreach ($sql as $query) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PluginFactory
  * @package Runalyze\Plugin
@@ -239,7 +240,9 @@ class PluginFactory {
 
 		while ($file = readdir($dir)) {
 			if ($file[0] != '.' && is_dir(FRONTEND_PATH.'../plugin/'.$file) && !$this->isInstalled($file)) {
-				$plugins[] = array('key' => $file);
+				$plugins[] = array(
+				    'key' => $file
+				);
 			}
 		}
 

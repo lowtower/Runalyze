@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::HRVwithoutAnomalies
  * @package Runalyze\View\Activity\Plot\Series

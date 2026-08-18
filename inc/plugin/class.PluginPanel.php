@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PluginPanel
  * @package Runalyze\Plugin

@@ -44,7 +44,9 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase {
 	public function testKeepingArraySize() {
 		$arraySizes = range(15, 35);
 		$stepSizes = range(2, 11);
-		$modes = array('step' => PaceSmoother::MODE_STEP, 'time' => PaceSmoother::MODE_TIME, 'distance' => PaceSmoother::MODE_DISTANCE);
+		$modes = array(
+		    'step' => PaceSmoother::MODE_STEP, 'time' => PaceSmoother::MODE_TIME, 'distance' => PaceSmoother::MODE_DISTANCE
+		);
 
 		foreach ($arraySizes as $arraySize) {
 			$Smoother = new PaceSmoother(new Entity(array(

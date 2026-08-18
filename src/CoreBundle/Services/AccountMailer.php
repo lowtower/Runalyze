@@ -32,7 +32,9 @@ class AccountMailer
      */
     public function setFrom($senderMail, $senderName)
     {
-        $this->Sender = [$senderMail => $senderName];
+        $this->Sender = [
+            $senderMail => $senderName
+        ];
     }
 
     /**
@@ -45,7 +47,9 @@ class AccountMailer
     {
         $template = $this->customLanguageTemplates($template, $account->getLanguage());
         $message = (new \Swift_Message($subject))
-            ->setTo([$account->getMail() => $account->getUsername()])
+            ->setTo([
+                $account->getMail() => $account->getUsername()
+            ])
             ->setFrom($this->Sender);
         $message->setBody($this->Twig->render($template, $templateData), 'text/html');
 
@@ -67,7 +71,9 @@ class AccountMailer
         $message = (new \Swift_Message($subject))
             ->setTo($mailTo)
             ->setFrom($this->Sender)
-            ->setReplyTo([$account->getMail() => $account->getUsername()]);
+            ->setReplyTo([
+                $account->getMail() => $account->getUsername()
+            ]);
         $message->setBody($content, 'text/plain');
 
         $this->Mailer->send($message);

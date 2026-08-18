@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractTimeUnit
  * @package Runalyze\Activity\PaceUnit

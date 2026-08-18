@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DouglasPeucker
  * @package Runalyze\Calculation\Elevation\Strategy

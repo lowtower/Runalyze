@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::NoSmoothing
  * @package Runalyze\Calculation\Elevation\Strategy

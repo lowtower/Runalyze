@@ -79,7 +79,9 @@ class SportRepository extends EntityRepository
 
         if (null === $requestedSport) {
             $results = $this->findBy(
-                ['account' => $account->getId()],
+                [
+                    'account' => $account->getId()
+                ],
                 null,
                 1
             );

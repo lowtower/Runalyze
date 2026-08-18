@@ -45,7 +45,9 @@ class AccountController extends Controller
     public function deleteAccountAction($hash)
     {
         /** @var Account|null $account */
-        $account = $this->getAccountRepository()->findOneBy(['deletionHash' => $hash]);
+        $account = $this->getAccountRepository()->findOneBy([
+            'deletionHash' => $hash
+        ]);
 
         if (null === $account) {
             return $this->render('account/delete/problem.html.twig');
@@ -63,10 +65,14 @@ class AccountController extends Controller
     public function recoverForHashAction($hash, Request $request)
     {
         /** @var Account|null $account */
-        $account = $this->getAccountRepository()->findOneBy(array('changepwHash' => $hash));
+        $account = $this->getAccountRepository()->findOneBy(array(
+            'changepwHash' => $hash
+        ));
 
         if (null === $account) {
-            return $this->render('account/recover/hash_invalid.html.twig', ['recoverHash' => $hash]);
+            return $this->render('account/recover/hash_invalid.html.twig', [
+                'recoverHash' => $hash
+            ]);
         }
 
         $form = $this->createForm(RecoverPasswordType::class, $account);
@@ -136,7 +142,9 @@ class AccountController extends Controller
         if ($this->getAccountRepository()->activateByHash($hash)) {
             return $this->render('account/activate/success.html.twig');
         } elseif (null !== $username && null != $this->getAccountRepository()->loadUserByUsername($username)) {
-            return $this->render('account/activate/success.html.twig', ['username' => $username, 'alreadyActivated' => true]);
+            return $this->render('account/activate/success.html.twig', [
+                'username' => $username, 'alreadyActivated' => true
+            ]);
         }
 
         return $this->render('account/activate/problem.html.twig');

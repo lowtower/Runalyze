@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::HRV
  * @package Runalyze\View\Activity\Plot

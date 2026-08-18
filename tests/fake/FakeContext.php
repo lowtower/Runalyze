@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FakeContext
  * @package Runalyze\View\Activity

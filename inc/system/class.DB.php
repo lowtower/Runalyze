@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DB
  * @package Runalyze\System

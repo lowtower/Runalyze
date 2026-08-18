@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DataBrowser
  * @package Runalyze\Configuration\Category

@@ -16,7 +16,7 @@ class ActivityCreationModeTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new ActivityCreationMode;
+		$this->object = new ActivityCreationMode();
 	}
 
 	public function testModes() {

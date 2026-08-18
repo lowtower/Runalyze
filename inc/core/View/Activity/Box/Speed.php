@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Speed
  * @package Runalyze\View\Activity\Box

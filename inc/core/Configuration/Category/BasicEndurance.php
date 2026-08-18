@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::BasicEndurance
  * @package Runalyze\Configuration\Category

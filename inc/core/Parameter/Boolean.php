@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Boolean
  * @package Runalyze\Parameter

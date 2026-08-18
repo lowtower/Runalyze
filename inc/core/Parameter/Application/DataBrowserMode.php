@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DataBrowserMode
  * @package Runalyze\Parameter\Application

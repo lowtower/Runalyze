@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PluginConfigurationValueArray
  * @package Runalyze\Plugin

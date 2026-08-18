@@ -147,7 +147,9 @@ class PosterReceiver
 
                     $this->GeneratePoster->deleteSvg();
                 } catch (\Exception $e) {
-                    $this->Logger->error('Poster creation failed', ['type' => $type, 'exception' => $e]);
+                    $this->Logger->error('Poster creation failed', [
+                        'type' => $type, 'exception' => $e
+                    ]);
                 }
             }
         }

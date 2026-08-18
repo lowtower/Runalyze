@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MonthwiseTable
  * @package Runalyze\Plugin\Stat\Wetter
@@ -171,7 +172,7 @@ class MonthwiseTable
 	 */
 	protected function generateDataForAverageTemperature()
 	{
-		$Temperature = new Temperature;
+		$Temperature = new Temperature();
 		$Statement = $this->createStatementToFetchAverageTemperatures();
 		$data = array();
 
@@ -179,7 +180,9 @@ class MonthwiseTable
 			$data[$row['m']] = $Temperature->format(round($row['temp']));
 		}
 
-		return array($Temperature->unit() => $data);
+		return array(
+		    $Temperature->unit() => $data
+		);
 	}
 
 	/**

@@ -33,7 +33,7 @@ class AnovaData
      */
     public static function getDefault(array $sport, array $type)
     {
-        $data = new self;
+        $data = new self();
         $data->setSport($sport);
         $data->setType($type);
         $data->setDateFrom((new \DateTime())->sub(new \DateInterval('P6M')));

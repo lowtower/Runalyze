@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Completor
  * @package Runalyze\Model\Activity\Splits
@@ -45,7 +46,7 @@ abstract class Completor {
 
 	/**
 	 * Construct
-	 * @param \Runalyze\Model\Activity\Splits\Entity
+	 * @param \Runalyze\Model\Activity\Splits\Entity $splits
 	 * @param array $time
 	 * @param array $distance
 	 */

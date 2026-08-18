@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::swolf
  * @package Runalyze\View\Activity\Plot

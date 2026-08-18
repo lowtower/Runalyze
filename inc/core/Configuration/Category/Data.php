@@ -242,7 +242,7 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function recalculateVO2maxCorrector()
     {
-        $Corrector = new JD\LegacyEffectiveVO2maxCorrector;
+        $Corrector = new JD\LegacyEffectiveVO2maxCorrector();
         $Corrector->fromDatabase(
             DB::getInstance(),
             SessionAccountHandler::getId(),

@@ -57,7 +57,7 @@ class Calculator
      */
     public function estimateVO2maxByTime()
     {
-        $VO2max = new JD\LegacyEffectiveVO2max;
+        $VO2max = new JD\LegacyEffectiveVO2max();
         $VO2max->fromPace($this->Activity->distance(), $this->Activity->duration());
 
         return $VO2max->uncorrectedValue();
@@ -73,7 +73,7 @@ class Calculator
             $distance = $this->Activity->distance();
         }
 
-        $VO2max = new JD\LegacyEffectiveVO2max;
+        $VO2max = new JD\LegacyEffectiveVO2max();
         $VO2max->fromPaceAndHR(
             $distance,
             $this->Activity->duration(),
@@ -125,14 +125,20 @@ class Calculator
             $Collector = new Trimp\DataCollector($this->Trackdata->heartRate(), $this->Trackdata->time());
             $data = $Collector->result();
         } elseif ($this->Activity->hrAvg() > 0) {
-            $data = array($this->Activity->hrAvg() => $this->Activity->duration());
+            $data = array(
+                $this->Activity->hrAvg() => $this->Activity->duration()
+            );
         } else {
             $Factory = Context::Factory();
 
             if ($this->Activity->typeid() > 0) {
-                $data = array($Factory->type($this->Activity->typeid())->hrAvg() => $this->Activity->duration());
+                $data = array(
+                    $Factory->type($this->Activity->typeid())->hrAvg() => $this->Activity->duration()
+                );
             } else {
-                $data = array($Factory->sport($this->Activity->sportid())->avgHR() => $this->Activity->duration());
+                $data = array(
+                    $Factory->sport($this->Activity->sportid())->avgHR() => $this->Activity->duration()
+                );
             }
         }
 

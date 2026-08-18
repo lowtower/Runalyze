@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default entry point for microframework based app
  */

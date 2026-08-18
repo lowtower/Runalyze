@@ -34,7 +34,7 @@ abstract class AbstractCategory
         $className = $this->getLegacyCategoryName();
 
         /** @var \Runalyze\Configuration\Category $category */
-        $category = new $className;
+        $category = new $className();
         $category->setValues($this->Variables);
 
         return $category;

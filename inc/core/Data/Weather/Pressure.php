@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Pressure
  * @package Runalyze\Data\Weather

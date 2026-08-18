@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DataCollectorForStrideLength
  * @package Runalyze\View\Activity\Plot\Series

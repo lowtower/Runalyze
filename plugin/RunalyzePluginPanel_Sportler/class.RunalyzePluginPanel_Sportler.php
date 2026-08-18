@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginPanel "Sportler".
  * @package Runalyze\Plugins\Panels
@@ -83,7 +84,9 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 		$userData = DB::getInstance()->query('SELECT `weight`, `pulse_rest`, `pulse_max`, `fat`, `water`, `muscles` FROM `'.PREFIX.'user` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `time` DESC LIMIT 1')->fetch();
 
 		if (!is_array($userData)) {
-		    $userData = ['weight' => 0.0, 'pulse_rest' => 0, 'pulse_max' => 0, 'fat' => 0.0, 'water' => 0.0, 'muscles' => 0.0];
+		    $userData = [
+		        'weight' => 0.0, 'pulse_rest' => 0, 'pulse_max' => 0, 'fat' => 0.0, 'water' => 0.0, 'muscles' => 0.0
+		    ];
         }
 
 		if ($userData['pulse_max'] == 0){
@@ -122,11 +125,9 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
             $SecondValues[] = new BoxedValue(Helper::Unknown($userData['muscles'], '-'), '&#37;', __('Muscles'));
         }
 
-        if (count($SecondValues) > 0 ) {
-            foreach ($SecondValues as &$Value) {
-                $Value->defineAsFloatingBlock('w33');
-                $Code .= $Value->getCode();
-            }
+        foreach ($SecondValues as &$Value) {
+            $Value->defineAsFloatingBlock('w33');
+            $Code .= $Value->getCode();
         }
 
 

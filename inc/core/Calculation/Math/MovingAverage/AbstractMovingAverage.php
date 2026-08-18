@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractMovingAverage
  * @package Runalyze\Calculation\Math\MovingAverage

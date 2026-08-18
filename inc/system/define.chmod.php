@@ -1,4 +1,5 @@
 <?php
+
 $CHMOD_FOLDERS = array(
     'data/backup-tool/import/',
     'data/backup-tool/backup/',

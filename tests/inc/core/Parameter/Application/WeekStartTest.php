@@ -23,7 +23,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
     {
-		$this->Object = new WeekStart;
+		$this->Object = new WeekStart();
         $this->PDO = \DB::getInstance();
 	}
 

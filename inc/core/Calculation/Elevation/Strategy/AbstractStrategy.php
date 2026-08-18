@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Strategy
  * @package Runalyze\Calculation\Elevation\Strategy

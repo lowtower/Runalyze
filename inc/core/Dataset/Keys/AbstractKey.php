@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractKey
  * @package Runalyze
@@ -56,7 +57,9 @@ abstract class AbstractKey
 	 */
 	public function joinDefinition()
 	{
-		return array('column' => '', 'join' => '', 'field' => '');
+		return array(
+		    'column' => '', 'join' => '', 'field' => ''
+		);
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginPanel "Ziele".
  * @package Runalyze\Plugins\Panels
@@ -373,7 +374,9 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			ORDER BY `distanz_sum` DESC, `dauer_sum` DESC
 		')->fetch();
 		if (!is_array($Data))
-			return array('anzahl' => 0, 'distanz_sum' => 0, 'dauer_sum' => 0);
+			return array(
+			    'anzahl' => 0, 'distanz_sum' => 0, 'dauer_sum' => 0
+			);
 
 		return $Data;
 	}
@@ -422,11 +425,21 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		}
 
 		// Zeitraeume fuer die Prognosen.
-		$timeset['woche'] = array('name' => __('Week'), 'start' => (new DateTime)->setTimestamp(Time::weekstart(time())), 'end' => (new DateTime)->setTimestamp(Time::weekend(time())));
-		$timeset['mon'] = array('name' => __('Month'), 'start' => new DateTime(date('Y-m-01')), 'end' => new Datetime(date('Y-m-t')));
-		$timeset['hj'] = array('name' => __('Half-Year'), 'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')), 'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')));
-		$timeset['saison'] = array('name' => __('Season'), 'start' => $kmstart, 'end' => $kmend, 'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'));
-		$timeset['jahr'] = array('name' => __('Year'), 'start' => new DateTime(date('Y-01-01')), 'end' => new Datetime(date('Y-12-31')));
+		$timeset['woche'] = array(
+		    'name' => __('Week'), 'start' => (new DateTime())->setTimestamp(Time::weekstart(time())), 'end' => (new DateTime())->setTimestamp(Time::weekend(time()))
+		);
+		$timeset['mon'] = array(
+		    'name' => __('Month'), 'start' => new DateTime(date('Y-m-01')), 'end' => new Datetime(date('Y-m-t'))
+		);
+		$timeset['hj'] = array(
+		    'name' => __('Half-Year'), 'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')), 'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31'))
+		);
+		$timeset['saison'] = array(
+		    'name' => __('Season'), 'start' => $kmstart, 'end' => $kmend, 'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;')
+		);
+		$timeset['jahr'] = array(
+		    'name' => __('Year'), 'start' => new DateTime(date('Y-01-01')), 'end' => new Datetime(date('Y-12-31'))
+		);
 
 		return $timeset;
 	}

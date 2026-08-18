@@ -91,7 +91,9 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
                 return $result;
             }
         } catch (RequestException $e) {
-            $this->logger->warning('Elevation request failed.', ['exception' => $e]);
+            $this->logger->warning('Elevation request failed.', [
+                'exception' => $e
+            ]);
 
             throw new NoResponseException();
         }

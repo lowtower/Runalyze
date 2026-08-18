@@ -75,7 +75,9 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->Container->Metadata->setSportName('Running');
 
         $backupDefaultType = $this->getDefaultAccountsRunningSport()->getDefaultType();
-        $defaultType = $this->EntityManager->getRepository('CoreBundle:Type')->findBy(['name' => 'Fartlek'])[0];
+        $defaultType = $this->EntityManager->getRepository('CoreBundle:Type')->findBy([
+            'name' => 'Fartlek'
+        ])[0];
         $this->getDefaultAccountsRunningSport()->setDefaultType($defaultType);
 
         $activityContext = $this->Converter->getContextFor($this->Container);

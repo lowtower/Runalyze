@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Lap
  * @package Runalyze\Data\Laps

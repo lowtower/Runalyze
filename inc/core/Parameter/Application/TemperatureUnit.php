@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TemperatureUnit
  * @package Runalyze\Parameter\Application

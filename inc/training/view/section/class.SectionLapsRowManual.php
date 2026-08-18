@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SectionLapsRowManual
  * @package Runalyze\DataObjects\Training\View\Section

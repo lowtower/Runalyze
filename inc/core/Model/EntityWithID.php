@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::EntityWithID
  * @package Runalyze\Model

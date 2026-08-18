@@ -185,7 +185,9 @@ class ActivityType extends AbstractType
             ->add('notes', TextareaType::class, [
                 'label' => 'Notes',
                 'required' => false,
-                'attr' => ['class' => 'fullwidth']
+                'attr' => [
+                    'class' => 'fullwidth'
+                ]
             ])
             ->add('routename', TextType::class, [
                 'required' => false,

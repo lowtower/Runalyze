@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Adjustment
  * @package Runalyze\Calculation\JD\Correction

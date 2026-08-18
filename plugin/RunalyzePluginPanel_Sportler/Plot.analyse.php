@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw weight and rest-heartrate for the user
  * Call:   include 'Plot.gewicht.php'
@@ -39,9 +40,15 @@ foreach ($Labels as $i => &$value) {
 
 $Plot = new Plot('sportler_analyse', 320, 150);
 
-$Plot->Data[] = array('label' => __('Fat').'', 'color' => '#800', 'data' => $Adiposes);
-$Plot->Data[] = array('label' => __('Water'), 'color' => '#008', 'data' => $Water, 'yaxis' => 2);
-$Plot->Data[] = array('label' => __('Muscles'), 'color' => '#080', 'data' => $Muscles, 'yaxis' => 2);
+$Plot->Data[] = array(
+    'label' => __('Fat').'', 'color' => '#800', 'data' => $Adiposes
+);
+$Plot->Data[] = array(
+    'label' => __('Water'), 'color' => '#008', 'data' => $Water, 'yaxis' => 2
+);
+$Plot->Data[] = array(
+    'label' => __('Muscles'), 'color' => '#080', 'data' => $Muscles, 'yaxis' => 2
+);
 
 $Plot->setMarginForGrid(5);
 

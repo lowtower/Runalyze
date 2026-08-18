@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::StrideLength
  * @package Runalyze\View\Activity\Plot

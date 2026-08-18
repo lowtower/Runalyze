@@ -43,7 +43,9 @@ class EquipmentController extends Controller
     public function categoryTableAction($typeid, Account $account)
     {
         /** @var EquipmentType $equipmentType */
-        $equipmentType = $this->getEquipmentTypeRepository()->findOneBy(['id' => $typeid, 'account' => $account->getId()]);
+        $equipmentType = $this->getEquipmentTypeRepository()->findOneBy([
+            'id' => $typeid, 'account' => $account->getId()
+        ]);
         $equipmentStatistics = $this->getEquipmentRepository()->getStatisticsForType($typeid, $account);
 
         if (null === $equipmentType) {
@@ -118,7 +120,9 @@ class EquipmentController extends Controller
         }
 
         $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType ,[
-            'action' => $this->generateUrl('equipment-category-edit', ['id' => $equipmentType->getId()])
+            'action' => $this->generateUrl('equipment-category-edit', [
+                'id' => $equipmentType->getId()
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -173,7 +177,9 @@ class EquipmentController extends Controller
         $equipment->setDateStart(new \DateTime('now'));
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment,[
-            'action' => $this->generateUrl('equipment-add', ['id' => $equipmentType->getId()])
+            'action' => $this->generateUrl('equipment-add', [
+                'id' => $equipmentType->getId()
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -207,7 +213,9 @@ class EquipmentController extends Controller
         }
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment,[
-            'action' => $this->generateUrl('equipment-edit', ['id' => $equipment->getId()])
+            'action' => $this->generateUrl('equipment-edit', [
+                'id' => $equipment->getId()
+            ])
         ]);
         $form->handleRequest($request);
 

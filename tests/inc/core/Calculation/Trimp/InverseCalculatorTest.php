@@ -32,7 +32,9 @@ class InverseCalculatorTest extends \PHPUnit\Framework\TestCase {
 			$hr = mt_rand(45, 205);
 			$t = mt_rand(60, 3600);
 
-			$Trimp = new Calculator($Athlete, array($hr => $t));
+			$Trimp = new Calculator($Athlete, array(
+			    $hr => $t
+			));
 
 			if ($Trimp->value() > 0) {
 				$Inverse = new InverseCalculator($Athlete, $hr, $Trimp->value() );

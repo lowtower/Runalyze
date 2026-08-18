@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Fitlog
  * @package Runalyze\Export\File

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SelfEvaluationFeeling
  * @package Runalyze\Activity

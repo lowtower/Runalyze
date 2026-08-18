@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Gradient
  * @package Runalyze\View\Activity\Box

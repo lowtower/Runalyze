@@ -37,13 +37,19 @@ class UploadController extends Controller
                     $newFileName
                 );
 
-                return new JsonResponse(['success' => true]);
+                return new JsonResponse([
+                    'success' => true
+                ]);
             } catch (FileException $e) {
-                return new JsonResponse(['error' => $e->getMessage()]);
+                return new JsonResponse([
+                    'error' => $e->getMessage()
+                ]);
             }
         }
 
-        return new JsonResponse(['error' => 'No file given.']);
+        return new JsonResponse([
+            'error' => 'No file given.'
+        ]);
     }
 
     /**
@@ -53,7 +59,9 @@ class UploadController extends Controller
     public function ajaxSaveTcxAction(Request $request)
     {
         if (!$request->request->has('activityId') || !$request->request->has('data')) {
-            return new JsonResponse(['error' => 'No data given.']);
+            return new JsonResponse([
+                'error' => 'No data given.'
+            ]);
         }
 
         $filesystem = new Filesystem();
@@ -69,9 +77,13 @@ class UploadController extends Controller
                 $request->request->get('data')
             );
 
-            return new JsonResponse(['success' => true]);
+            return new JsonResponse([
+                'success' => true
+            ]);
         } catch (FileException $e) {
-            return new JsonResponse(['error' => $e->getMessage()]);
+            return new JsonResponse([
+                'error' => $e->getMessage()
+            ]);
         }
     }
 }

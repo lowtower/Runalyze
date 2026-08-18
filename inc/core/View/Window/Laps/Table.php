@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Table
  * @package Runalyze\View\Window\Laps
@@ -366,7 +367,7 @@ class Table {
 	 * this is dynamical regarding the json content.
 	 * #TSC
 	 *
-	 * @param idx table row index
+	 * @param $idx table row index
 	 * @return string
 	 */
 	protected function splitsAdditionalCells(int $idx) {

@@ -578,7 +578,9 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     public function testEquipmentStatistics()
     {
         $someEquipment = $this->EntityManager->getRepository('CoreBundle:Equipment')->findBy(
-            ['account' => $this->getDefaultAccount()],
+            [
+                'account' => $this->getDefaultAccount()
+            ],
             null,
             3
         );

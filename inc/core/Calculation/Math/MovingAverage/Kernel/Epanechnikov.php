@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Epanechnikov
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel

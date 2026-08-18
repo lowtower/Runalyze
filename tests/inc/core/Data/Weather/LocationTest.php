@@ -16,7 +16,7 @@ class LocationTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new Location;
+		$this->object = new Location();
 	}
 
 	public function testPosition() {

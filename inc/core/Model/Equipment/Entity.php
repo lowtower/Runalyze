@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Entity
  * @package Runalyze\Model\Equipment

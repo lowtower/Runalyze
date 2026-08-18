@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WeatherWindChillFactor
 * @package Runalyze\View\Activity\Box

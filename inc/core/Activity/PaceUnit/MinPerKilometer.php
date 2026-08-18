@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MinPerKilometer
  * @package Runalyze\Activity\PaceUnit

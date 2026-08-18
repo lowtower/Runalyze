@@ -21,7 +21,7 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetter()
 	{
-		$object = new BeaufortScale;
+		$object = new BeaufortScale();
 
 	    $this->assertEquals(5, $object->set(5)->value());
 	    $this->assertEquals(9, $object->setFromWindSpeed(new WindSpeed(80))->value());
@@ -29,13 +29,13 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 
 	public function testInvalidValue()
 	{
-		$this->assertFalse((new BeaufortScale)->set(42)->isValid());
+		$this->assertFalse((new BeaufortScale())->set(42)->isValid());
 	}
 
 	public function testLimits()
 	{
-		$object = new BeaufortScale;
-		$wind = new WindSpeed;
+		$object = new BeaufortScale();
+		$wind = new WindSpeed();
 
 		$this->assertEquals(0, $object->setFromWindSpeed($wind->set(0))->value());
 		$this->assertEquals(0, $object->setFromWindSpeed($wind->set(0.99))->value());

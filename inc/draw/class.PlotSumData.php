@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PlotSumData
  * @package Runalyze\Plot
@@ -207,7 +208,9 @@ abstract class PlotSumData extends Plot {
 		$Links[] = $this->link( __('Total'), $this->Year, $this->ParamSportId, '', '' == $this->ParamGroup);
 		$Links[] = $this->link( __('By type'), $this->Year, $this->ParamSportId, 'types', 'types' == $this->ParamGroup);
 
-		return ['title' => $Current, 'links' => $Links];
+		return [
+		    'title' => $Current, 'links' => $Links
+		];
 	}
 
 	/**
@@ -226,7 +229,9 @@ abstract class PlotSumData extends Plot {
 		    $this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP)
 		);
 
-		return ['title' => $Current, 'links' => $Links];
+		return [
+		    'title' => $Current, 'links' => $Links
+		];
 	}
 
 	/**
@@ -252,7 +257,9 @@ abstract class PlotSumData extends Plot {
 			$Links[] = $this->link($name, $this->Year, $id, $SportGroup, $CurrentId == $id);
 		}
 
-		return ['title' => $Current, 'links' => $Links];
+		return [
+		    'title' => $Current, 'links' => $Links
+		];
 	}
 
 	/**
@@ -276,7 +283,9 @@ abstract class PlotSumData extends Plot {
 		for ($Y = date('Y'); $Y >= START_YEAR; $Y--)
 			$Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
 
-		return ['title' => $Current, 'links' => $Links];
+		return [
+		    'title' => $Current, 'links' => $Links
+		];
 	}
 
 	/**
@@ -552,14 +561,18 @@ abstract class PlotSumData extends Plot {
 		    if ('mainsport' == $this->ParamGroup && !$Sport->isMainSport()) {
                 $idMapping[$Sport->id()] = -1;
             } else {
-    			$Sports[$Sport->id()] = array('name' => $Sport->name(), 'data' => $emptyData);
+    			$Sports[$Sport->id()] = array(
+    			    'name' => $Sport->name(), 'data' => $emptyData
+    			);
                 $idMapping[$Sport->id()] = $Sport->id();
             }
 		}
 
 		if ('mainsport' == $this->ParamGroup) {
 		    $altId = max(array_keys($Sports)) + 1;
-		    $Sports[$altId] = ['name' => 'Alternative sports', 'data' => $emptyData];
+		    $Sports[$altId] = [
+		        'name' => 'Alternative sports', 'data' => $emptyData
+		    ];
 
 		    foreach ($idMapping as $from => $to) {
 		        if (-1 == $to) {
@@ -573,7 +586,9 @@ abstract class PlotSumData extends Plot {
 				$Sports[$idMapping[$dat['sportid']]]['data'][$dat['timer']-$this->timerStart] += $dat['sum'];
 
 		foreach ($Sports as $Sport)
-			$this->Data[] = array('label' => isset($Sport['name']) ? $Sport['name'] : '?', 'data' => $Sport['data']);
+			$this->Data[] = array(
+			    'label' => isset($Sport['name']) ? $Sport['name'] : '?', 'data' => $Sport['data']
+			);
 	}
 
 	/**
@@ -581,11 +596,15 @@ abstract class PlotSumData extends Plot {
 	 */
 	private function setDataForTypes() {
 		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$Types     = array(array('name' => __('without'), 'data' => $emptyData));
+		$Types     = array(array(
+		    'name' => __('without'), 'data' => $emptyData
+		));
 
 		foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
 		    $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
-			$Types[$Type->id()] = array('name' => $name, 'data' => $emptyData);
+			$Types[$Type->id()] = array(
+			    'name' => $name, 'data' => $emptyData
+			);
 		}
 
 		foreach ($this->RawData as $dat)
@@ -593,7 +612,9 @@ abstract class PlotSumData extends Plot {
 				$Types[isset($Types[$dat['typeid']]) ? $dat['typeid'] : 0]['data'][$dat['timer']-$this->timerStart] = $dat['sum'];
 
 		foreach ($Types as $Type)
-			$this->Data[] = array('label' => $Type['name'], 'data' => $Type['data']);
+			$this->Data[] = array(
+			    'label' => $Type['name'], 'data' => $Type['data']
+			);
 	}
 
 	/**
@@ -616,10 +637,16 @@ abstract class PlotSumData extends Plot {
 		}
 
 		if ($hasCompetitions) {
-			$this->Data[] = array('label' => __('Races'), 'data' => $KilometersCompetition);
-			$this->Data[] = array('label' => __('Training'), 'data' => $Kilometers, 'color' => '#E68617');
+			$this->Data[] = array(
+			    'label' => __('Races'), 'data' => $KilometersCompetition
+			);
+			$this->Data[] = array(
+			    'label' => __('Training'), 'data' => $Kilometers, 'color' => '#E68617'
+			);
 		} else {
-			$this->Data[] = array('label' => $this->Sport->name(), 'data' => $Kilometers, 'color' => '#E68617');
+			$this->Data[] = array(
+			    'label' => $this->Sport->name(), 'data' => $Kilometers, 'color' => '#E68617'
+			);
 		}
 	}
 

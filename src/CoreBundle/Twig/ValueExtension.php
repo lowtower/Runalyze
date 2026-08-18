@@ -44,7 +44,9 @@ class ValueExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        $safeHtmlOptions = array('is_safe' => ['html']);
+        $safeHtmlOptions = array(
+            'is_safe' => ['html']
+        );
 
         return array(
             new \Twig_SimpleFunction('value', array($this, 'value'), $safeHtmlOptions),

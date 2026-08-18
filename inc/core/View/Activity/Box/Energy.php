@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Energy
  * @package Runalyze\View\Activity\Box

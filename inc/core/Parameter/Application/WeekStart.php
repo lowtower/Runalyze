@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WeekStart
  * @package Runalyze\Parameter\Application
@@ -40,7 +41,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 
 	/**
 	 * Construct
-	 * @param int|string
+	 * @param int|string $default
 	 */
 	public function __construct($default = self::MONDAY) {
 		parent::__construct($default, array(

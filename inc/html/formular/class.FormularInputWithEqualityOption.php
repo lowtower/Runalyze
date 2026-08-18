@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularInputWithEqualityOption
  * @package Runalyze\HTML\Formular

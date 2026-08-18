@@ -95,7 +95,9 @@ class ImportActivityController extends Controller
             $resultCode = Response::HTTP_INTERNAL_SERVER_ERROR; // 500
         }
 
-        return new Response($result, $resultCode, ['Content-Type' => 'text/plain']);
+        return new Response($result, $resultCode, [
+            'Content-Type' => 'text/plain'
+        ]);
     }
 
     private function createUploadDir($username) {

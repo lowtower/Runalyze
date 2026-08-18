@@ -16,7 +16,9 @@ class ParameterSelectRowTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new SelectRow('foo', array('table' => 'table', 'column' => 'col'));
+		$this->object = new SelectRow('foo', array(
+		    'table' => 'table', 'column' => 'col'
+		));
 	}
 
 	public function testSet() {

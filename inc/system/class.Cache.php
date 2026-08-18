@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class: Cache - Wrapper for PHPFastCache
  * @author Michael Pohl
@@ -39,7 +40,7 @@ class Cache {
 		phpFastCache::setup('storage', 'files');
 		phpFastCache::setup('path', FRONTEND_PATH.'../'.self::PATH);
 		phpFastCache::setup('securityKey', 'cache');
-		self::$cache = new phpFastCache;
+		self::$cache = new phpFastCache();
 	}
 
 	/**

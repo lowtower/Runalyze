@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractBox
  * @package Runalyze\View\Activity\Box

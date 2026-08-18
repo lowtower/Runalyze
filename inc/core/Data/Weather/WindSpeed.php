@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WindSpeed
  * @package Runalyze\Data\Weather

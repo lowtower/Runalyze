@@ -126,7 +126,7 @@ class Shape
     public function value()
     {
         if (null === $this->Corrector) {
-            $this->Corrector = new LegacyEffectiveVO2maxCorrector;
+            $this->Corrector = new LegacyEffectiveVO2maxCorrector();
         }
 
         return $this->uncorrectedValue() * $this->Corrector->factor();

@@ -52,7 +52,9 @@ class TagsController extends Controller
         }
 
         $form = $this->createForm(TagType::class, $tag,[
-            'action' => $this->generateUrl('settings-tags-edit', ['id' => $tag->getId()])
+            'action' => $this->generateUrl('settings-tags-edit', [
+                'id' => $tag->getId()
+            ])
         ]);
         $form->handleRequest($request);
 

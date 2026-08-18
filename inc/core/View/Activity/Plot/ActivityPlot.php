@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ActivityPlot
  * @package Runalyze\View\Activity\Plot

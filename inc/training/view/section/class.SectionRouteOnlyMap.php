@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SectionRouteOnlyMap
  * @package Runalyze\DataObjects\Training\View\Section

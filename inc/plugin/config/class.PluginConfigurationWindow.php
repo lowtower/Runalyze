@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PluginConfigurationWindow
  * @package Runalyze\Plugin
@@ -66,7 +67,9 @@ class PluginConfigurationWindow {
 	 */
 	protected function displayHeader() {
 		$Links = array();
-		$Links[] = array('tag' => Ajax::window('<a href="'.ConfigTabPlugins::getExternalUrl().'">'.__('back to overview').'</a>'));
+		$Links[] = array(
+		    'tag' => Ajax::window('<a href="'.ConfigTabPlugins::getExternalUrl().'">'.__('back to overview').'</a>')
+		);
 
 		echo '<div class="panel-heading">';
 		echo '<div class="panel-menu">';

@@ -19,7 +19,9 @@ class ChangeMailType extends AbstractType
                 'label' => 'Enter your current password',
                 'mapped' => false,
                 'empty_data' => null,
-                'constraints' => new UserPassword(['message' => 'Please enter your current password']),
+                'constraints' => new UserPassword([
+                    'message' => 'Please enter your current password'
+                ]),
                 'attr' => [
                     'autofocus' => true
                 ]

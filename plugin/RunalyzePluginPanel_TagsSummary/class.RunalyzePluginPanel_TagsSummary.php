@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class of the RunalyzePluginPanel "Tags Summary".
  * @package Runalyze\Plugins\Panels
@@ -23,7 +24,9 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	 * Timescale in months.
 	 * @var array
 	 */
-	protected $Timescale = array('1' => '1', '3' => '3', '6' => '6', '12' => '12', '24' => '24');
+	protected $Timescale = array(
+	    '1' => '1', '3' => '3', '6' => '6', '12' => '12', '24' => '24'
+	);
 
 	/**
 	 * Name

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Threshold
  * @package Runalyze\Calculation\Elevation\Strategy

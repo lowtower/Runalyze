@@ -46,7 +46,9 @@ class EditController extends Controller
 
         $repository = $this->getTrainingRepository();
         $form = $this->createForm(ActivityType::class, $activity, [
-            'action' => $this->generateUrl('activity-edit', ['id' => $activity->getId()])
+            'action' => $this->generateUrl('activity-edit', [
+                'id' => $activity->getId()
+            ])
         ]);
         $form->handleRequest($request);
 
@@ -72,7 +74,9 @@ class EditController extends Controller
             $nextId = $form->get('next-multi-editor')->getData();
 
             if (is_numeric($nextId)) {
-                return $this->redirectToRoute('activity-edit', ['id' => (int)$nextId, 'multi' => '1']);
+                return $this->redirectToRoute('activity-edit', [
+                    'id' => (int)$nextId, 'multi' => '1'
+                ]);
             }
         }
 

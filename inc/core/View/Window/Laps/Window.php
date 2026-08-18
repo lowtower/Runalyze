@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Window
  * @package Runalyze\View\Window\Laps

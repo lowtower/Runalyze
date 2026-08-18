@@ -15,7 +15,7 @@ interface RouteNameEval {
      * 
      * @param Sport $sport
      * @param Route $route
-     * @param distance
+     * @param $distance
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
 	 * @throws Exception
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Location
  * @package Runalyze\Data\Weather
@@ -53,7 +54,7 @@ class Location {
 	 * @param string $geohash
 	 */
 	public function setGeohash($geohash) {
-		$decoded = (new Geohash)->decode($geohash)->getCoordinate();
+		$decoded = (new Geohash())->decode($geohash)->getCoordinate();
 		$this->Latitude = $decoded->getLatitude();
 		$this->Longitude = $decoded->getLongitude();
 	}
@@ -95,7 +96,7 @@ class Location {
 	 */
 	public function geohash() {
 	    if ($this->hasPosition()) {
-			return (new Geohash)->encode(new Coordinate(array((float)$this->lat(), (float)$this->lon())), 12)->getGeohash();
+			return (new Geohash())->encode(new Coordinate(array((float)$this->lat(), (float)$this->lon())), 12)->getGeohash();
 	    }
 	}
 

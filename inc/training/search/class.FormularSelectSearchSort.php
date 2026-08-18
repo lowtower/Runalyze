@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularSelectSearchSort
  * @package Runalyze\HTML\Formular
@@ -80,7 +81,9 @@ class FormularSelectSearchSort extends FormularField {
 		]);
 
 		$code .= HTML::selectBox('search-sort-by', $this->SortByOptions);
-		$code .= HTML::selectBox('search-sort-order', array('DESC' => __('descending'), 'ASC' => __('ascending')));
+		$code .= HTML::selectBox('search-sort-order', array(
+		    'DESC' => __('descending'), 'ASC' => __('ascending')
+		));
 
 		$code .= '</div>';
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PluginConfigurationValueDistance
  * @package Runalyze\Plugin

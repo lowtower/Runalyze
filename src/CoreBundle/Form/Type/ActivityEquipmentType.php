@@ -75,7 +75,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                 $categories[$equipment->getType()->getId()] = $equipment;
             } else {
                 if (!isset($categories[$equipment->getType()->getId()])) {
-                    $categories[$equipment->getType()->getId()] = new ArrayCollection;
+                    $categories[$equipment->getType()->getId()] = new ArrayCollection();
                 }
 
                 $categories[$equipment->getType()->getId()][] = $equipment;
@@ -91,7 +91,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
      */
     public function reverseTransform($value)
     {
-        $equipment = new ArrayCollection;
+        $equipment = new ArrayCollection();
 
         if (is_array($value)) {
             foreach ($value as $subValue) {

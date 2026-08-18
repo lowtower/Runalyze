@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ElevationAlgorithms
  * @package Runalyze\View\Activity\Plot
@@ -56,7 +57,9 @@ class ElevationAlgorithms extends ActivityPlot {
 		$this->addSeries($this->seriesForDouglasPeucker(), 1, false);
 
 		foreach (array_keys($this->Plot->Data) as $key) {
-			$this->Plot->Data[$key]['curvedLines'] = array('apply' => false);
+			$this->Plot->Data[$key]['curvedLines'] = array(
+			    'apply' => false
+			);
 		}
 
 		$this->setAxisLimits();

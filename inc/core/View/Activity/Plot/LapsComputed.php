@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::LapsComputed
  * @package Runalyze\View\Activity\Plot
@@ -65,7 +66,9 @@ class LapsComputed extends Laps {
 
 		$avgPace = new PaceObject($context->activity()->duration(), $context->activity()->distance());
 		$this->achievedPace = $avgPace->secondsPerKm();
-		$this->Plot->Data[] = array('label' => $this->title, 'data' => $this->Data);
+		$this->Plot->Data[] = array(
+		    'label' => $this->title, 'data' => $this->Data
+		);
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ValueBox
  * @package Runalyze\View\Activity\Box

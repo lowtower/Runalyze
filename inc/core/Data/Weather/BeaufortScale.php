@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::BeaufortScale
  * @package Runalyze\Data\Weather
@@ -74,7 +75,7 @@ class BeaufortScale implements ValueInterface
 
 	/**
 	 * Set wind speed
-	 * @param \Runalyze\Data\Weather\WindSpeed
+	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
 	 * @return \Runalyze\Data\Weather\BeaufortScale $this-reference
 	 */
 	public function setFromWindSpeed(WindSpeed $windSpeed)

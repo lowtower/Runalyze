@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MilesPerHour
  * @package Runalyze\Activity\PaceUnit

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularCheckbox
  * @package Runalyze\HTML\Formular

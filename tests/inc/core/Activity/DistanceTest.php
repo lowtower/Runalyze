@@ -6,7 +6,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 {
 	public function testSimpleDistances()
 	{
-		$Distance = new Distance;
+		$Distance = new Distance();
 
 		$this->assertTrue($Distance->isZero());
 		$this->assertFalse($Distance->isNegative());
@@ -27,7 +27,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 
 	public function testAutoFormat()
 	{
-		$Distance = new Distance;
+		$Distance = new Distance();
 
 		$this->assertEquals('100m', $Distance->set(0.1)->stringAuto());
 		$this->assertEquals('1.000m', $Distance->set(1.0)->stringAuto());
@@ -39,7 +39,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 
 	public function testWithoutUnit()
 	{
-		$Distance = new Distance;
+		$Distance = new Distance();
 
 		$this->assertEquals('100', $Distance->set(0.1)->stringMeter(false));
 		$this->assertEquals('0,10', $Distance->set(0.1)->stringKilometer(false, 2));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::General
  * @package Runalyze\Data\Cadence

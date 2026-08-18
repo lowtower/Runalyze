@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::VerticalRatio
  * @package Runalyze\View\Activity\Plot

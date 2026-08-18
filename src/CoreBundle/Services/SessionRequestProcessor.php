@@ -1,4 +1,5 @@
 <?php
+
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

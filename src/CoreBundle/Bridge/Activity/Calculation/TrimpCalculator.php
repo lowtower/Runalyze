@@ -55,7 +55,9 @@ class TrimpCalculator
             return (new DataCollector($activity->getTrackdata()->getHeartrate(), $activity->getTrackdata()->getTime()))->result();
         }
 
-        return [$activity->getAdapter()->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS()];
+        return [
+            $activity->getAdapter()->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS()
+        ];
     }
 
     /**

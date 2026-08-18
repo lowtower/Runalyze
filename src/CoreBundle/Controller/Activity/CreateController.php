@@ -220,7 +220,9 @@ class CreateController extends Controller
             $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             if ($form->get('show_multi_editor')->getData()) {
-                return $this->redirectToRoute('multi-editor', ['ids' => implode(',', $activityIds)]);
+                return $this->redirectToRoute('multi-editor', [
+                    'ids' => implode(',', $activityIds)
+                ]);
             }
 
             $this->addFlash('success', $this->get('translator')->trans('The activities have been successfully imported.'));

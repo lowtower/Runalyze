@@ -38,7 +38,9 @@
             <ul class="submenu right-oriented">
                 <li>
                     <?php if (\Runalyze\Configuration::Privacy()->listIsPublic()): ?>
-                    <a target="_blank" href="<?php echo $this->get('router')->generate('shared-athlete', ['username' => $username]); ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></a>
+                    <a target="_blank" href="<?php echo $this->get('router')->generate('shared-athlete', [
+                        'username' => $username
+                    ]); ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></a>
                     <?php else: ?>
                     <span class="no-link cursor-not-allowed unimportant" title="<?php _e('Your public athlete page is deactivated.') ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></span>
                     <?php endif; ?>

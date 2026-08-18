@@ -15,7 +15,9 @@ class TagRepository extends EntityRepository
         return $this->findBy([
             'account' => $account->getId()
         ],
-            ['tag' => 'ASC']);
+            [
+                'tag' => 'ASC'
+            ]);
     }
 
     public function save(Tag $tag)

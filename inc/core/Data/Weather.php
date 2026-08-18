@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Weather
  * @package Runalyze\Data

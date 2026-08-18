@@ -185,10 +185,6 @@ class ContinuousDataAdapter
         }
 
         for ($i = 0; $i < $arraySize; ++$i) {
-            if (empty($arrayKeysWithData)) {
-                return;
-            }
-
             foreach ($arrayKeysWithData as $j => $key) {
                 if (null !== $this->ContinuousData->{$key}[$i]) {
                     unset($arrayKeysWithData[$j]);

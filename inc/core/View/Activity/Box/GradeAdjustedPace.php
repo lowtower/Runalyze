@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::GradeAdjustedPace
  * @package Runalyze\View\Activity\Box

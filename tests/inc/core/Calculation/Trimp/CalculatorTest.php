@@ -81,7 +81,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSmallValues() {
-		$Trimp = new Calculator(new Athlete(), array(1 => 60*60));
+		$Trimp = new Calculator(new Athlete(), array(
+		    1 => 60*60
+		));
 
 		$this->assertEquals( 0, round($Trimp->value()) );
 	}

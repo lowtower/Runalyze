@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Heartrate
  * @package Runalyze\View\Activity\Plot

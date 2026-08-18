@@ -91,13 +91,33 @@ class FitActivity extends AbstractSingleParser
     protected $NativeFieldMappingForRecord = [
         // TODO: native fields aller verwendeten Arrays
         3 => ['heart_rate'],
-        4 => ['cadence', ['default' => 1, 'SPM' => 0.5]],
-        5 => ['distance', ['default' => 1, 'm' => 100]],
+        4 => [
+            'cadence', [
+                'default' => 1, 'SPM' => 0.5
+            ]],
+        5 => [
+            'distance', [
+                'default' => 1, 'm' => 100
+            ]],
         7 => ['power'],
-        39 => ['vertical_oscillation', ['default' => 1, 'Centimeters' => 100]],
-        40 => ['stance_time', ['default' => 1, 'Milliseconds' => 10]],
-        54 => [['thb_0', 'thb_1'], ['default' => 100, 'base_type' => ['uint16' => 1]]],
-        57 => [['smo2_0', 'smo2_1'], ['default' => 1, 'base_type' => ['uint16' => 0.1]]]
+        39 => [
+            'vertical_oscillation', [
+                'default' => 1, 'Centimeters' => 100
+            ]],
+        40 => [
+            'stance_time', [
+                'default' => 1, 'Milliseconds' => 10
+            ]],
+        54 => [['thb_0', 'thb_1'], [
+            'default' => 100, 'base_type' => [
+                'uint16' => 1
+            ]
+        ]],
+        57 => [['smo2_0', 'smo2_1'], [
+            'default' => 1, 'base_type' => [
+                'uint16' => 0.1
+            ]
+        ]]
     ];
 
     /** @var array */
@@ -105,9 +125,15 @@ class FitActivity extends AbstractSingleParser
 
     /** @var array */
     protected $NativeFieldMappingForSession = [
-        9 => ['total_distance', ['default' => 1, 'm' => 100]],
+        9 => [
+            'total_distance', [
+                'default' => 1, 'm' => 100
+            ]],
         11 => ['total_calories'],
-        44 => ['pool_length', ['default' => 1, 'm' => 100]],
+        44 => [
+            'pool_length', [
+                'default' => 1, 'm' => 100
+            ]],
     ];
 
     /** @var array */
@@ -115,7 +141,10 @@ class FitActivity extends AbstractSingleParser
 
     /** @var array */
     protected $NativeFieldMappingForLap = [
-        9 => ['total_distance', ['default' => 1, 'm' => 100]],
+        9 => [
+            'total_distance', [
+                'default' => 1, 'm' => 100
+            ]],
     ];
 
     /** @var array [developer_data_index => application_id] */

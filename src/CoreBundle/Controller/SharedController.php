@@ -78,7 +78,9 @@ class SharedController extends Controller
      */
     public function oldSharedUserAction($username)
     {
-        return $this->redirect($this->generateUrl('shared-athlete', array('username' => $username)), 301);
+        return $this->redirect($this->generateUrl('shared-athlete', array(
+            'username' => $username
+        )), 301);
     }
 
     /**
@@ -131,15 +133,21 @@ class SharedController extends Controller
 
         $feed = $this->get('app.activity.feed');
         $feed->setFeedTitle('RUNALYZE athlete '.$username)
-                ->setFeedUrl($this->generateUrl('shared-athlete-feed', ['username' => $username], UrlGeneratorInterface::ABSOLUTE_URL))
-                ->setSiteUrl($this->generateUrl('shared-athlete', ['username' => $username], UrlGeneratorInterface::ABSOLUTE_URL))
+                ->setFeedUrl($this->generateUrl('shared-athlete-feed', [
+                    'username' => $username
+                ], UrlGeneratorInterface::ABSOLUTE_URL))
+                ->setSiteUrl($this->generateUrl('shared-athlete', [
+                    'username' => $username
+                ], UrlGeneratorInterface::ABSOLUTE_URL))
                 ->setFeedAuthor($username);
 
         if (null === $account || !$privacy->isListPublic()) {
             return new Response(
                 $feed->buildFeed(),
                 Response::HTTP_OK,
-                ['content-type' => 'text/xml']
+                [
+                    'content-type' => 'text/xml'
+                ]
             );
         }
 
@@ -148,7 +156,9 @@ class SharedController extends Controller
         return new Response(
             $feed->buildFeed(),
             Response::HTTP_OK,
-            ['content-type' => 'text/xml']
+            [
+                'content-type' => 'text/xml'
+            ]
         );
     }
 

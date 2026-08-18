@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Activity
  * @package Runalyze\View\Leaflet
@@ -111,7 +112,9 @@ class Activity extends LeafletRoute {
 		$this->Trackdata = $trackdata;
 		$this->addIconsAndInfo = $addIconsAndInfo;
 
-        $this->addOption('options',array('color' => '#FF5500'));
+        $this->addOption('options',array(
+            'color' => '#FF5500'
+        ));
 
 		$this->createRoute();
 	}

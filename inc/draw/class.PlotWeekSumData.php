@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PlotWeekSumData
  * @package Runalyze\Plot

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Split
  * @package Runalyze\Model\Activity\Splits

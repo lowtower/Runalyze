@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Elevation
  * @package Runalyze\View\Activity\Plot\Series

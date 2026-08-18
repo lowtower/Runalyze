@@ -72,7 +72,9 @@ class BodyValuesController extends Controller
         }
 
         $form = $this->createForm(BodyValuesType::class, $user, [
-            'action' => $this->generateUrl('body-values-edit', ['id' => $user->getId()])
+            'action' => $this->generateUrl('body-values-edit', [
+                'id' => $user->getId()
+            ])
         ]);
         $form->handleRequest($request);
 

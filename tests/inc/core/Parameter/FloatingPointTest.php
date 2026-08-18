@@ -21,7 +21,9 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
     public function testMinMaxOptions()
     {
-        $object = new FloatingPoint(1.23, ['min' => 1.0, 'max' => 2.0]);
+        $object = new FloatingPoint(1.23, [
+            'min' => 1.0, 'max' => 2.0
+        ]);
         $this->assertEquals(1.23, $object->value());
 
         $object->set(0.12);
@@ -33,7 +35,9 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyStringForNotNull()
     {
-        $object = new FloatingPoint(3.0, ['null' => false]);
+        $object = new FloatingPoint(3.0, [
+            'null' => false
+        ]);
         $object->setFromString('');
 
         $this->assertNotNull($object->value());
@@ -43,7 +47,9 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyStringForNull()
     {
-        $object = new FloatingPoint(3.0, ['null' => true]);
+        $object = new FloatingPoint(3.0, [
+            'null' => true
+        ]);
         $object->setFromString('');
 
         $this->assertNull($object->value());

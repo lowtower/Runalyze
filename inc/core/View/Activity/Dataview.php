@@ -685,7 +685,7 @@ class Dataview
         $self = $this;
 
         return $this->object($this->VO2max, function (Activity\Entity $Activity) use ($self) {
-            return new LegacyEffectiveVO2max($self->usedVO2maxValue(), new LegacyEffectiveVO2maxCorrector);
+            return new LegacyEffectiveVO2max($self->usedVO2maxValue(), new LegacyEffectiveVO2maxCorrector());
         });
     }
 

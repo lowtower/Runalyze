@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ActivityRoutePrivacy
  * @package Runalyze\Parameter\Application

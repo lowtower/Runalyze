@@ -51,16 +51,24 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(2, $Job->numberOfRoutes());
 
-		$Fetch->execute(array(':id' => 1));
+		$Fetch->execute(array(
+		    ':id' => 1
+		));
 		$this->assertEquals(array(100, 100, 50), $Fetch->fetch());
 
-		$Fetch->execute(array(':id' => 2));
+		$Fetch->execute(array(
+		    ':id' => 2
+		));
 		$this->assertEquals(array(100, 100, 50), $Fetch->fetch());
 
-		$Fetch->execute(array(':id' => 3));
+		$Fetch->execute(array(
+		    ':id' => 3
+		));
 		$this->assertEquals(array(100,  50, 100), $Fetch->fetch());
 
-		$Fetch->execute(array(':id' => 4));
+		$Fetch->execute(array(
+		    ':id' => 4
+		));
 		$this->assertEquals(array(100,   0,   0), $Fetch->fetch());
 
 		$this->assertEquals(array(

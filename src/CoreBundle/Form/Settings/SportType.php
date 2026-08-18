@@ -115,12 +115,16 @@ class SportType extends AbstractType
                 ),
             ])
             ->add('kcal', EnergyKcalType::class, [
-                'attr' => ['min' => 1, 'max' => 10000],
+                'attr' => [
+                    'min' => 1, 'max' => 10000
+                ],
                 'required' => false,
                 'label' => 'kcal/h'
             ])
             ->add('HFavg', HeartRateType::class, [
-                'attr' => ['min' => 40, 'max' => 255],
+                'attr' => [
+                    'min' => 40, 'max' => 255
+                ],
                 'required' => false,
                 'label' => 'avg. HR'
             ])

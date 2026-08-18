@@ -45,7 +45,9 @@ class ActivityMatcherController extends Controller
                 $possibleDuplicate = false;
             }
 
-            $matches[$id] = ['match' => $possibleDuplicate || in_array($id, $ignoredActivityIds)];
+            $matches[$id] = [
+                'match' => $possibleDuplicate || in_array($id, $ignoredActivityIds)
+            ];
         }
 
         return new JsonResponse([

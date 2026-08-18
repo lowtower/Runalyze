@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ElevationInfo
  * @package Runalyze\DataObjects\Training\View
@@ -247,7 +248,9 @@ class ElevationInfo {
 			$rawLinks = $this->getLinksForCorrectionStrategies();
 		} else {
 			$textInfo = __('Elevation data has not been corrected.');
-			$rawLinks = array('' => __('correct now'));
+			$rawLinks = array(
+			    '' => __('correct now')
+			);
 		}
 
 		// #TSC add info about barometric device

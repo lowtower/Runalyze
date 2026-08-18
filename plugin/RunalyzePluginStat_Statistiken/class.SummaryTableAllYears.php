@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class::SummaryTableAllYears
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
@@ -21,7 +22,7 @@ class SummaryTableAllYears extends SummaryTable {
 	protected function prepare() {
 		$this->Title = __('All years');
 		$this->Timerange = 366*DAY_IN_S;
-		$this->TimeEnd = (new LocalTime)->yearEnd();
+		$this->TimeEnd = (new LocalTime())->yearEnd();
 		$this->TimeStart = (new LocalTime(START_TIME))->yearStart();
 		$this->AdditionalColumns = 1 * ($this->Sportid == Configuration::General()->runningSport());
 	}

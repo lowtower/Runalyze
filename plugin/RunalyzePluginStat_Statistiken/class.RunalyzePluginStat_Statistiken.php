@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class::RunalyzePluginStat_Statistiken
  * @package Runalyze\Plugins\Stats
@@ -60,8 +61,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	}
 
 	private function getAnalysisType() {
-		$types = ['' => __('General overview'),
-		    'allWeeks' => __('All training weeks')];
+		$types = [
+		    '' => __('General overview'),
+		    'allWeeks' => __('All training weeks')
+		];
 		return $types[$this->dat];
 	}
 

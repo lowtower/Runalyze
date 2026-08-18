@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Power
  * @package Runalyze\View\Activity\Plot\Series

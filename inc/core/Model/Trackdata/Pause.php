@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Pause
  * @package Runalyze\Model\Trackdata

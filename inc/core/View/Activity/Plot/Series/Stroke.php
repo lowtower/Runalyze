@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Stroke
  * @package Runalyze\View\Activity\Plot\Series

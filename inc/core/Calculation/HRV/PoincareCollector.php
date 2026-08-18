@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PoincareCollector
  * @package Runalyze\Calculation\HRV

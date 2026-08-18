@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TrackdataAverages
  * @package Runalyze\Calculation\Distribution

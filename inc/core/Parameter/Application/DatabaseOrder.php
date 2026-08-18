@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DatabaseOrder
  * @package Runalyze\Parameter\Application

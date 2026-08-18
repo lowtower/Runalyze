@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::RunalyzePluginStat_Wettkampf
  * @package Runalyze\Plugins\Stats
@@ -263,7 +264,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$name       = (new Distance($km))->stringAuto(true, 1);
 			$SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit'.($km*1000));
 		}
-		$Links = array(array('tag' => '<span class="link">'.(new Distance($display_km))->stringAuto(true, 1).'</span>', 'subs' => $SubLinks));
+		$Links = array(array(
+		    'tag' => '<span class="link">'.(new Distance($display_km))->stringAuto(true, 1).'</span>', 'subs' => $SubLinks
+		));
 
 		echo '<div class="databox" style="float:none;padding:0;width:490px;margin:20px auto;">';
 		echo '<div class="panel-heading">';
@@ -294,7 +297,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		$dists = array();
 		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()->value('pb_distances') : array(3, 5, 10, 21.1, 42.2);
 		foreach ($kms as $km)
-			$dists[(string)$km] = array('sum' => 0, 'pb' => INFINITY);
+			$dists[(string)$km] = array(
+			    'sum' => 0, 'pb' => INFINITY
+			);
 
 		if ($this->RaceContainer->num() == 0)
 			return;
@@ -508,7 +513,9 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 */
 	private function getEditIconForActivity($id) {
 		$SportIcon = (new Factory())->sport($this->sportid)->icon()->code();
-		$url = (new Linker(new Runalyze\Model\Activity\Entity(['id' => $id])))->editUrl();
+		$url = (new Linker(new Runalyze\Model\Activity\Entity([
+		    'id' => $id
+		])))->editUrl();
 		$code = Ajax::window('<a href="'.$url.'">'.$SportIcon.'</a>', 'small');
 
 		$Tooltip = new Tooltip(__('Edit the activity'));

@@ -23,49 +23,67 @@ class BodyValuesType extends AbstractType
                 'input' => 'timestamp',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
-                'attr' => ['class' => 'pick-a-date small-size']
+                'attr' => [
+                    'class' => 'pick-a-date small-size'
+                ]
             ])
             ->add('weight', WeightType::class, [
                 'label' => 'Weight',
                 'required' => false,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('fat', PercentageType::class, [
                 'label' => 'Body fat',
                 'required' => false,
                 'empty_data'  => null,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('water', PercentageType::class, [
                 'label' => 'Body water',
                 'required' => false,
                 'empty_data'  => null,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('muscles', PercentageType::class, [
                 'label' => 'Body muscle',
                 'required' => false,
                 'empty_data'  => null,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('pulse_rest', HeartRateType::class, [
                 'label' => 'Resting HR',
                 'required' => false,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('pulse_max', HeartRateType::class, [
                 'label' => 'Maximal HR',
                 'required' => false,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('sleep_duration', DurationType::class, [
                 'required' => true,
-                'attr' => ['class' => 'small-size']
+                'attr' => [
+                    'class' => 'small-size'
+                ]
             ])
             ->add('notes', TextareaType::class, [
                 'label' => 'Notes',
                 'required' => false,
-                'attr' => ['class' => 'fullwidth']
+                'attr' => [
+                    'class' => 'fullwidth'
+                ]
             ])
         ;
     }

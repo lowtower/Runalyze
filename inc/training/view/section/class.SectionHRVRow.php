@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SectionHRVRow
  * @package Runalyze\DataObjects\Training\View\Section

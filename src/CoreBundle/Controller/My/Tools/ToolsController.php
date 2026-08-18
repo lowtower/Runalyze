@@ -138,7 +138,9 @@ class ToolsController extends Controller
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                return new JsonResponse(['status' => 'There was a problem.']);
+                return new JsonResponse([
+                    'status' => 'There was a problem.'
+                ]);
             }
 
             $unitSystem = $this->get('app.configuration_manager')->getList($account)->getUnitSystem();
@@ -174,7 +176,9 @@ class ToolsController extends Controller
 
         if ($form->isSubmitted()) {
             if (!$form->isValid()) {
-                return new JsonResponse(['status' => 'There was a problem.']);
+                return new JsonResponse([
+                    'status' => 'There was a problem.'
+                ]);
             }
 
             $unitSystem = $this->get('app.configuration_manager')->getList($account)->getUnitSystem();

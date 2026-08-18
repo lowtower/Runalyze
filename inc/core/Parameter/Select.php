@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Select
  * @package Runalyze\Parameter
@@ -25,7 +26,9 @@ class Select extends \Runalyze\Parameter {
 	 */
 	public function __construct($default, $options = array()) {
 		$this->Default = $default;
-		$options = array_merge(array('options' => array()), $options);
+		$options = array_merge(array(
+		    'options' => array()
+		), $options);
 
 		parent::__construct($default, $options);
 	}

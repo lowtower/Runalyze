@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::RespirationRate
  * @package Runalyze\View\Activity\Plot

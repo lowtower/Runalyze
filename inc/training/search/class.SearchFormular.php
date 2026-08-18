@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::SearchFormular
  * @package Runalyze\Search
@@ -120,11 +121,13 @@ class SearchFormular extends Formular {
      */
     private function addResultsPerPageField() {
         $Field = new FormularSelectBox('resultsPerPage', __('Results per page'), 20);
-        $Field->setOptions([10 => 10,
+        $Field->setOptions([
+            10 => 10,
             20 => 20,
             50 => 50,
             100 => 100,
-            200 => 200]);
+            200 => 200
+        ]);
         $Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 
         $this->Fieldset->addField($Field);
@@ -313,7 +316,9 @@ class SearchFormular extends Formular {
 		$Field = new FormularInputWithEqualityOption($key, $label);
 		$Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
 		$Field->setSize(FormularInput::$SIZE_SMALL);
-		$Field->setParser(FormularValueParser::$PARSER_TIME, array('hide-empty' => true));
+		$Field->setParser(FormularValueParser::$PARSER_TIME, array(
+		    'hide-empty' => true
+		));
 		$Field->addAttribute('placeholder', 'h:mm:ss');
 		$Field->setNumericOptions();
 

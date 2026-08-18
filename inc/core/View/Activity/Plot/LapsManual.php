@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::LapsManual
  * @package Runalyze\View\Activity\Plot
@@ -92,6 +93,8 @@ class LapsManual extends Laps {
 			}
 		}
 
-		$this->Plot->Data[] = array('label' => $this->title, 'data' => $this->Data);
+		$this->Plot->Data[] = array(
+		    'label' => $this->title, 'data' => $this->Data
+		);
 	}
 }

@@ -23,7 +23,9 @@ class DatasetType extends AbstractType
                 'required' => false
             ])
             ->add('position', IntegerType::class, [
-                'attr' => ['class' => 'dataset-position']
+                'attr' => [
+                    'class' => 'dataset-position'
+                ]
             ])
             ->add('keyId', HiddenType::class)
             ->add('style', TextType::class, [

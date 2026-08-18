@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Factor
  * @package Runalyze\Calculation\Trimp

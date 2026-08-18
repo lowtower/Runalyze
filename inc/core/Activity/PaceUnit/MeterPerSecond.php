@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::MeterPerSecond
  * @package Runalyze\Activity\PaceUnit

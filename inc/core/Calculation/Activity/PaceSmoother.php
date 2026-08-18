@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::PaceSmoother
  * @package Runalyze\Calculation\Activity

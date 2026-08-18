@@ -17,7 +17,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
 	protected $object;
 
 	protected function setUp() : void {
-		$this->object = new BasicEndurance;
+		$this->object = new BasicEndurance();
 		DB::getInstance()->exec('DELETE FROM `runalyze_training`');
 	}
 

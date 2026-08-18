@@ -280,7 +280,7 @@ class FileImporter implements LoggerAwareInterface
         }
 
         /** @var ParserInterface $parser */
-        $parser = new $parserClass;
+        $parser = new $parserClass();
         $this->letParserParseFile($parser, $fileName);
 
         $container = [];

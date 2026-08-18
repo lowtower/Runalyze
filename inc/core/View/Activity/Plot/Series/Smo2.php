@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Smo2
  * @package Runalyze\View\Activity\Plot\Series

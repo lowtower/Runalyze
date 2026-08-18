@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WeatherIcon
  * @package Runalyze\View\Icon

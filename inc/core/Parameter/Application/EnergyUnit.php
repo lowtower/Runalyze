@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::EnergyUnit
  * @package Runalyze\Parameter\Application

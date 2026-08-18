@@ -19,7 +19,7 @@ class LegacyCache
         \phpFastCache::setup('path', $path);
         \phpFastCache::setup('securityKey', 'cache');
 
-		self::$cache = new \phpFastCache;
+		self::$cache = new \phpFastCache();
 	}
 
     /**

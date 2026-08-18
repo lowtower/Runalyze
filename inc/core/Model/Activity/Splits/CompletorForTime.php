@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::CompletorForTime
  * @package Runalyze\Model\Activity\Splits

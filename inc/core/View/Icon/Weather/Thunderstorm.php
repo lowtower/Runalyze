@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Thunderstorm
  * @package Runalyze\View\Icon\Weather

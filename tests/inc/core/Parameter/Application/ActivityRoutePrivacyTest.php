@@ -16,7 +16,7 @@ class ActivityRoutePrivacyTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new ActivityRoutePrivacy;
+		$this->object = new ActivityRoutePrivacy();
 	}
 
 	public function testValues() {

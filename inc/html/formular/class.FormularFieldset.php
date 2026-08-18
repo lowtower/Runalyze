@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularFieldset
  * @package Runalyze\HTML\Formular
@@ -248,7 +249,9 @@ class FormularFieldset extends HtmlTag {
 	 * @param string $type
 	 */
 	private function addMessage($message, $type) {
-		$this->messages[] = array('type' => $type, 'message' => $message);
+		$this->messages[] = array(
+		    'type' => $type, 'message' => $message
+		);
 	}
 
 	/**

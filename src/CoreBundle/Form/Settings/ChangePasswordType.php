@@ -21,7 +21,9 @@ class ChangePasswordType extends AbstractType
                 'label' => 'Old password',
                 'mapped' => false,
                 'empty_data' => null,
-                'constraints' => new UserPassword(['message' => 'Please enter your current password']),
+                'constraints' => new UserPassword([
+                    'message' => 'Please enter your current password'
+                ]),
                 'attr' => [
                     'autofocus' => true
                 ]
@@ -29,14 +31,24 @@ class ChangePasswordType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
-                'options' => ['attr' => ['class' => 'password-field']],
+                'options' => [
+                    'attr' => [
+                        'class' => 'password-field'
+                    ]
+                ],
                 'required' => false,
-                'first_options'  => ['label' => 'New password'],
-                'second_options' => ['label' => 'Repeat password'],
+                'first_options'  => [
+                    'label' => 'New password'
+                ],
+                'second_options' => [
+                    'label' => 'Repeat password'
+                ],
                 'empty_data'  => null,
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['min' => 8]),
+                    new Length([
+                        'min' => 8
+                    ]),
                 ],
             ])
         ;

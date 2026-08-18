@@ -23,7 +23,9 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testSomeHistogram()
     {
-        $dist = $this->getMockWithHistogram([10 => 1, 15 => 2, 20 => 1]);
+        $dist = $this->getMockWithHistogram([
+            10 => 1, 15 => 2, 20 => 1
+        ]);
         $dist->calculateStatistic();
 
         $this->assertEquals(10, $dist->min());
@@ -38,7 +40,9 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testAnotherHistogram()
     {
-        $dist = $this->getMockWithHistogram([0 => 5, 80 => 10, 85 => 10, 90 => 15]);
+        $dist = $this->getMockWithHistogram([
+            0 => 5, 80 => 10, 85 => 10, 90 => 15
+        ]);
         $dist->calculateStatistic();
 
         $this->assertEquals(0, $dist->min());
@@ -77,7 +81,9 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testQuantiles()
     {
-        $dist = $this->getMockWithHistogram([10 => 1, 20 => 5, 30 => 2, 40 => 2]);
+        $dist = $this->getMockWithHistogram([
+            10 => 1, 20 => 5, 30 => 2, 40 => 2
+        ]);
         $dist->calculateStatistic([0.1, 0.2, 0.5, 0.75, 0.8, 0.9]);
 
         $this->assertEquals(10, $dist->quantile(0.1));

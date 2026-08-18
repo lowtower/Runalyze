@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Laps
  * @package Runalyze\View\Activity\Plot

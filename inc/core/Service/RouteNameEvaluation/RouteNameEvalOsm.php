@@ -74,7 +74,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
      * 
      * @param Sport $sport
      * @param Route $route
-     * @param distance
+     * @param $distance
      * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
 	 * @throws Exception
      */
@@ -102,7 +102,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     private function request(?int $routeId, string $payload): string {
         $this->logger->debug(sprintf('RouteNameEvalOsm: Request for routeId=%d to url=%s with payload: %s', $routeId, $this->Url, $payload));
 
-        $param = ['body' => sprintf('data=%s', $payload),
+        $param = [
+            'body' => sprintf('data=%s', $payload),
             'timeout' => self::TIMEOUT,
             'headers' => [
                 'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
@@ -129,7 +130,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 return $repCont;
             }
         } catch (RequestException $e) {
-            $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', ['exception' => $e]);
+            $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
+                'exception' => $e
+            ]);
             throw new \Exception('Route evaluation result in error: ' . $e);
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FitPerformanceCondition
  * @package Runalyze\Dataset\Keys

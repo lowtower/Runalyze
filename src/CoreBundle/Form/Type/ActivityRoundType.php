@@ -14,17 +14,23 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
         $builder
             ->add('distance', DistanceType::class, [
                 'required' => false,
-                'attr' => ['class' => 'small-size'],
+                'attr' => [
+                    'class' => 'small-size'
+                ],
                 'label' => false
             ])
             ->add('duration', DurationType::class, [
                 'required' => true,
-                'attr' => ['class' => 'small-size'],
+                'attr' => [
+                    'class' => 'small-size'
+                ],
                 'label' => false
             ])
             ->add('intensity', ActivityLapIntensityChoiceType::class, [
                 'required' => false,
-                'attr' => ['class' => 'small-size'],
+                'attr' => [
+                    'class' => 'small-size'
+                ],
                 'label' => false
             ])
         ;

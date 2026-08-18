@@ -86,7 +86,9 @@ class InstallCommand extends ContainerAwareCommand
             $output->writeln(sprintf('<comment>Step %d of %d.</comment> <info>%s</info>', $step + 1, count($this->Commands), $command['message']));
 
             if (!$command['skip']) {
-                $subInput = new ArrayInput(['command' => 'runalyze:install:'.$command['command']]);
+                $subInput = new ArrayInput([
+                    'command' => 'runalyze:install:'.$command['command']
+                ]);
                 $exitCode = $this->Application->run($subInput, $output);
                 $output->writeln('');
 

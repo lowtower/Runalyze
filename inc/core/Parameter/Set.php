@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Set
  * @package Runalyze\Parameter

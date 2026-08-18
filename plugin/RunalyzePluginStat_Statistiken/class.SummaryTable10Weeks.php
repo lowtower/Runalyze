@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the class::SummaryTable10Weeks
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
@@ -19,7 +20,7 @@ class SummaryTable10Weeks extends SummaryTable {
 	protected function prepare() {
 		$this->Title = __('Last 10 training weeks');
 		$this->Timerange = 7*DAY_IN_S;
-		$this->TimeEnd = (new LocalTime)->weekend();
+		$this->TimeEnd = (new LocalTime())->weekend();
 		$this->TimeStart = $this->TimeEnd - 10*$this->Timerange;
 	}
 

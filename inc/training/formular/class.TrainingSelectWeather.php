@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TrainingSelectWeather
  * @package Runalyze\DataObjects\Training\Formular

@@ -16,7 +16,11 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->object = new Select('a', array('options' => array('a' => 'one', 'b' => 'two', 'c' => 'three')));
+		$this->object = new Select('a', array(
+		    'options' => array(
+		        'a' => 'one', 'b' => 'two', 'c' => 'three'
+		    )
+		));
 	}
 
 	public function testSet() {
@@ -36,7 +40,9 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testOptions() {
-		$this->assertEquals( array('a' => 'one', 'b' => 'two', 'c' => 'three'), $this->object->options() );
+		$this->assertEquals( array(
+		    'a' => 'one', 'b' => 'two', 'c' => 'three'
+		), $this->object->options() );
 	}
 
 	public function testInvalidOption() {

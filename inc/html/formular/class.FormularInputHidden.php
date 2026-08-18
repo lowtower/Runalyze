@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularInputHidden
  * @package Runalyze\HTML\Formular

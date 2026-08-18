@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularInputSearchTimeRange
  * @package Runalyze\HTML\Formular

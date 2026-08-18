@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::AbstractSocialSharer
  * @package Runalyze\Export\Share

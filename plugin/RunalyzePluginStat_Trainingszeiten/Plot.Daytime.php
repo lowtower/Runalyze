@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw total time of training for each hour of a day for the user
  * Include:   inc/draw/Plot.Daytime.php
@@ -32,7 +33,9 @@ foreach ($Sports as $sport) {
 	$id = $sport['name'];
 	$yAxis[$id] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	$Query->execute(array(':id' => $sport['id']));
+	$Query->execute(array(
+	    ':id' => $sport['id']
+	));
 	$data = $Query->fetchAll();
 
 	foreach ($data as $dat) {
@@ -55,7 +58,9 @@ $Plot = new Plot('daytime', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = array('label' => $key, 'data' => $data);
+	$Plot->Data[] = array(
+	    'label' => $key, 'data' => $data
+	);
 	$max += max($data);
 }
 

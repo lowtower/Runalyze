@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw personal bests for a given distance
  * Call:   include Plot.Bestzeit.php
@@ -33,7 +34,9 @@ if (!empty($competitions)) {
 }
 
 $Plot = new Plot('bestzeit'.$distance*1000, 480, 190);
-$Plot->Data[] = array('label' => $label, 'data' => $Results);
+$Plot->Data[] = array(
+    'label' => $label, 'data' => $Results
+);
 
 $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();

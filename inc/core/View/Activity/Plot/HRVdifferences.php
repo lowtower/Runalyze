@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::HRVdifferences
  * @package Runalyze\View\Activity\Plot

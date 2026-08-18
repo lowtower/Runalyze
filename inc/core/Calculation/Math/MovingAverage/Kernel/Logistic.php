@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::Logistic
  * @package Runalyze\Calculation\Math\MovingAverage\Kernel

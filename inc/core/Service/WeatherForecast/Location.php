@@ -38,7 +38,7 @@ class Location
     public function setGeohash($geohash)
     {
         try {
-            $decoded = (new Geohash)->decode($geohash)->getCoordinate();
+            $decoded = (new Geohash())->decode($geohash)->getCoordinate();
 
             $this->Latitude = $decoded->getLatitude();
             $this->Longitude = $decoded->getLongitude();
@@ -103,7 +103,7 @@ class Location
     public function getGeohash()
     {
         if ($this->hasPosition()) {
-            return (new Geohash)->encode($this->getCoordinate(), 12)->getGeohash();
+            return (new Geohash())->encode($this->getCoordinate(), 12)->getGeohash();
         }
 
         return null;

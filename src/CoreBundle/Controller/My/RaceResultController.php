@@ -56,7 +56,9 @@ class RaceResultController extends Controller
         }
 
         $form = $this->createForm(RaceResultType::class, $raceResult, array(
-            'action' => $this->generateUrl('raceresult-form', array('activityId' => $activityId))
+            'action' => $this->generateUrl('raceresult-form', array(
+                'activityId' => $activityId
+            ))
         ));
         $form->handleRequest($request);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ConfigTabPlugins
  * @package Runalyze\System\Config

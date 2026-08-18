@@ -212,9 +212,15 @@ class Registration
         }
 
         $equipmentType = $this->em->getRepository('CoreBundle:EquipmentType');
-        $equipmentClothes = $equipmentType->findOneBy(array('name' => __('Clothes'), 'account' => $this->Account->getId()));
-        $equipmentShoes = $equipmentType->findOneBy(array('name' => __('Shoes'), 'account' => $this->Account->getId()));
-        $equipmentBikes = $equipmentType->findOneBy(array('name' => __('Bikes'), 'account' => $this->Account->getId()));
+        $equipmentClothes = $equipmentType->findOneBy(array(
+            'name' => __('Clothes'), 'account' => $this->Account->getId()
+        ));
+        $equipmentShoes = $equipmentType->findOneBy(array(
+            'name' => __('Shoes'), 'account' => $this->Account->getId()
+        ));
+        $equipmentBikes = $equipmentType->findOneBy(array(
+            'name' => __('Bikes'), 'account' => $this->Account->getId()
+        ));
 
         $this->specialVars['EQUIPMENT_CLOTHES'] = $equipmentClothes;
         $this->specialVars['EQUIPMENT_SHOES'] = $equipmentShoes;

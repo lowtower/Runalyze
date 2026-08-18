@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ParserException
  * @package Runalyze\Import\Exception

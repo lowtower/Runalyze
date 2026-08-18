@@ -23,7 +23,7 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase {
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp() : void {
-		$this->Laps = new Laps;
+		$this->Laps = new Laps();
 		$this->object = new SplitsReader($this->Laps);
 	}
 

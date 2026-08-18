@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::WeightUnit
  * @package Runalyze\Parameter\Application

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw weather-plot
  * Call:   include 'Plot.Year.php'
@@ -6,7 +7,7 @@
  */
 use Runalyze\Activity\Temperature;
 
-$Temperature = new Temperature;
+$Temperature = new Temperature();
 $Year         = (int)$_GET['y'];
 $Temperatures = array();
 
@@ -29,7 +30,9 @@ foreach ($Data as $dat)
 	$Temperatures[$dat['time']] = $Temperature->format((int)$dat['temp'], false);
 
 $Plot = new Plot('year'.$Year, 780, 240);
-$Plot->Data[] = array('label' => __('Temperatures').' '.$Year, 'data' => $Temperatures);
+$Plot->Data[] = array(
+    'label' => __('Temperatures').' '.$Year, 'data' => $Temperatures
+);
 
 $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();

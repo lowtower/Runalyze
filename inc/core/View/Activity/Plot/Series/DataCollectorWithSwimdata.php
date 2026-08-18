@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::DataCollector
  * @package Runalyze\View\Activity\Plot\Series

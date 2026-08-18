@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::GroundContactBalance
  * @package Runalyze\View\Activity\Plot

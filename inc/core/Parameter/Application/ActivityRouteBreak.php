@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ActivityRouteBreak
  * @package Runalyze\Parameter\Application
@@ -23,7 +24,8 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select {
 	 */
 	public function __construct() {
 		parent::__construct('15', array(
-		    'options'		=> array( // see Runalyze\View\Leaflet\Activity::findLimitForPauses
+		    'options'		=> array(
+		        // see Runalyze\View\Leaflet\Activity::findLimitForPauses
 		        self::NO_BREAK	=> __('never'),
 		        '15'			=> __('at too big distance (15s)'),
 		        '30'			=> __('at too big distance (30s)'),

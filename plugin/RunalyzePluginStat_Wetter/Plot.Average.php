@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Draw weather-plot
  * Call:   include 'Plot.Average.php'
@@ -8,7 +9,7 @@
 use Runalyze\Util\Time;
 use Runalyze\Activity\Temperature;
 
-$Temperature = new Temperature;
+$Temperature = new Temperature();
 
 $Months       = array();
 $Temperatures = array();
@@ -40,7 +41,9 @@ $Plot = new Plot('average', 780, 240);
 
 for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++) {
 	if (min($Temperatures[$y]) !== null || max($Temperatures[$y]) !== null)
-		$Plot->Data[] = array('label' => $y, 'data' => $Temperatures[$y]);
+		$Plot->Data[] = array(
+		    'label' => $y, 'data' => $Temperatures[$y]
+		);
 }
 
 $Plot->setMarginForGrid(5);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::TableLapsAbstract
  * @package Runalyze\DataObjects\Training\View\Section

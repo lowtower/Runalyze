@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ReumannWitkamm
  * @package Runalyze\Calculation\Elevation\Strategy

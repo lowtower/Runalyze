@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::GroundContact
  * @package Runalyze\View\Activity\Plot\Series

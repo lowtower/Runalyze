@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::FormularInputNumber
  * @package Runalyze\HTML\Formular

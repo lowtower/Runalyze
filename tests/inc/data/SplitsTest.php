@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../../inc/data/class.Splits.php';
 
 /**
@@ -123,10 +124,18 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 		$Splits = new Splits('1|4:20-2.4|10:09-10|1:00:00-R1|6:00');
 
 		$this->assertEquals( array(
-		    array('km' => 1, 'time' => '4:20', 'active' => true),
-		    array('km' => 2.4, 'time' => '10:09', 'active' => true),
-		    array('km' => 10, 'time' => '1:00:00', 'active' => true),
-		    array('km' => 1, 'time' => '6:00', 'active' => false)
+		    array(
+		        'km' => 1, 'time' => '4:20', 'active' => true
+		    ),
+		    array(
+		        'km' => 2.4, 'time' => '10:09', 'active' => true
+		    ),
+		    array(
+		        'km' => 10, 'time' => '1:00:00', 'active' => true
+		    ),
+		    array(
+		        'km' => 1, 'time' => '6:00', 'active' => false
+		    )
 		), $Splits->asArray() );
 
 		$this->assertEquals( array(1, 2.4, 10), $Splits->distancesAsArray());
@@ -166,8 +175,12 @@ class SplitsTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals( '1.000|4:20-0.200|0:35', $Splits->asString() );
 		$this->assertEquals( array(
-		    array('km' => 1, 'time' => '4:20', 'active' => true),
-		    array('km' => 0.2, 'time' => '0:35', 'active' => true)
+		    array(
+		        'km' => 1, 'time' => '4:20', 'active' => true
+		    ),
+		    array(
+		        'km' => 0.2, 'time' => '0:35', 'active' => true
+		    )
 		), $Splits->asArray() );
 	}
 

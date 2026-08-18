@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains class::ActiveRoundCalculator
  * @package Runalyze\Calculation\Activity

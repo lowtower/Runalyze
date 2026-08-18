@@ -23,8 +23,10 @@ class OsmCsvData {
     /**
      * Used for internal order of the "place"; 1 is higher than 8 or 9; 9 if not "known" by this logic
      */
-    protected static $placeOrder = array('city' => 1, 'borough' => 2, 'suburb' => 3, 'quarter' => 3, 'neighbourhood' => 4, 'town' => 5,
-        'village' => 6, 'hamlet' => 7, 'isolated_dwelling' => 8);
+    protected static $placeOrder = array(
+        'city' => 1, 'borough' => 2, 'suburb' => 3, 'quarter' => 3, 'neighbourhood' => 4, 'town' => 5,
+        'village' => 6, 'hamlet' => 7, 'isolated_dwelling' => 8
+    );
 
     /**
      * @var string
