@@ -10,7 +10,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var PauseCollection */
     protected $Collection;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Collection = new PauseCollection();
     }

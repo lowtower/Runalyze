@@ -22,7 +22,7 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'trackdata` ADD `smo2_0` longtext AFTER `groundcontact_balance`, 
@@ -34,7 +34,7 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'trackdata` DROP `smo2_0`, DROP `smo2_1`, DROP `thb_0`, DROP `thb_1`');

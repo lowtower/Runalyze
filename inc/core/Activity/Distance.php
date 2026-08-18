@@ -343,7 +343,7 @@ class Distance implements ValueInterface {
 	 * Is distance negative?
 	 * @return boolean
 	 */
-	public function isNegative()
+	public function isNegative(): bool
 	{
 		return ($this->Kilometer < 0);
 	}
@@ -352,7 +352,7 @@ class Distance implements ValueInterface {
 	 * Is distance zero?
 	 * @return boolean
 	 */
-	public function isZero()
+	public function isZero(): bool
 	{
 		return ($this->Kilometer == 0);
 	}

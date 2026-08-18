@@ -57,7 +57,7 @@ class FilenameHandler
      * @param string $extension
      * @return bool
      */
-    public function isValidImportExtension($extension)
+    public function isValidImportExtension($extension): bool
     {
         return self::JSON_FORMAT === $extension;
     }
@@ -66,7 +66,7 @@ class FilenameHandler
      * @param string $extension
      * @return bool
      */
-    public function isValidExportExtension($extension)
+    public function isValidExportExtension($extension): bool
     {
         return in_array($extension, [self::JSON_FORMAT, self::SQL_FORMAT]);
     }
@@ -75,7 +75,7 @@ class FilenameHandler
      * @param string $internalFilename
      * @return bool
      */
-    public function validateInternalFilename($internalFilename)
+    public function validateInternalFilename($internalFilename): bool
     {
         return $this->validateInternalPrefix($internalFilename) && self::validateFileExtension($internalFilename);
     }
@@ -84,7 +84,7 @@ class FilenameHandler
      * @param string $internalFilename
      * @return bool
      */
-    protected function validateInternalPrefix($internalFilename)
+    protected function validateInternalPrefix($internalFilename): bool
     {
         $expectedPrefix = $this->AccountId.'-'.self::FILENAME_PREFIX;
 
@@ -95,7 +95,7 @@ class FilenameHandler
      * @param string $completeFilename
      * @return bool
      */
-    static public function validateFileExtension($completeFilename)
+    static public function validateFileExtension($completeFilename): bool
     {
         return (
             substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT ||
@@ -107,7 +107,7 @@ class FilenameHandler
      * @param string $completeFilename
      * @return bool
      */
-    static public function validateImportFileExtension($completeFilename)
+    static public function validateImportFileExtension($completeFilename): bool
     {
         return substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT;
     }

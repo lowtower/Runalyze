@@ -82,7 +82,7 @@ class Configuration
 	/**
 	 * @return bool
 	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
 		return empty($this->Data);
 	}
@@ -122,7 +122,7 @@ class Configuration
 	 * @param int $keyid enum, see \Runalyze\Dataset\Keys
 	 * @return bool
 	 */
-	public function exists($keyid)
+	public function exists($keyid): bool
 	{
 		return isset($this->Data[$keyid]);
 	}
@@ -133,7 +133,7 @@ class Configuration
 	 * @return bool
 	 * @throws \InvalidArgumentException
 	 */
-	public function isActive($keyid)
+	public function isActive($keyid): bool
 	{
 		if (! isset($this->Data[$keyid])) {
 			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');

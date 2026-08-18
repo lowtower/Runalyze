@@ -227,7 +227,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	 * Are there not enough competitions?
 	 * @return bool
 	 */
-	protected function thereAreNotEnoughCompetitions() {
+	protected function thereAreNotEnoughCompetitions(): bool {
 		return (0 == $this->NumberOfPBs);
 	}
 

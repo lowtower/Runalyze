@@ -8,7 +8,7 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
  * Testcase for RouteNameEvalResult.
  */
 class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase {
-    protected function setUp() : void {
+    protected function setUp(): void {
     }
 
     public function testAppendNotesExistingNull() {

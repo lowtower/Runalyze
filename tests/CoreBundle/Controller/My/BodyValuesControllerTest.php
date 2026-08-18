@@ -14,7 +14,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

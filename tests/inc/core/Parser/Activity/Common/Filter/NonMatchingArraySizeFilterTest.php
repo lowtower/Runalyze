@@ -16,7 +16,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Filter = new NonMatchingArraySizeFilter();
         $this->Container = new ActivityDataContainer();

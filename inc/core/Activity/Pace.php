@@ -143,7 +143,7 @@ class Pace {
 	/**
 	 * @return boolean
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return ($this->Distance <= 0 || $this->Time <= 0);
 	}
 

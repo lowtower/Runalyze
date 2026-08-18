@@ -15,7 +15,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
     /** @var TimezoneLookup */
     protected $Lookup;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     }

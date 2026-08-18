@@ -104,7 +104,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      * @param array $criteria
      * @return bool
      */
-    public function existsOneWith(array $criteria)
+    public function existsOneWith(array $criteria): bool
     {
         return null !== $this->findOneBy($criteria);
     }

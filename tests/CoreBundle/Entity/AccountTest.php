@@ -10,7 +10,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Account = new Account();
     }

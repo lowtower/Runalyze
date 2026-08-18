@@ -118,7 +118,7 @@ class Series {
 	/**
 	 * @return boolean
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return empty($this->Data);
 	}
 

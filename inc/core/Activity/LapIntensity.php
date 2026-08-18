@@ -64,24 +64,24 @@ class LapIntensity extends AbstractEnum
     }
 
     /** @return bool */
-    public function isActive() {
+    public function isActive(): bool {
         return $this->Value == self::ACTIVE;
     }
 
     /** @return bool */
-    public function isNotRest() {
+    public function isNotRest(): bool {
         return ! $this->isRest();
     }
 
     /** @return bool */
-    public function isRest() {
+    public function isRest(): bool {
         return $this->Value == self::REST;
     }
 
     /**
      * @return bool
      */
-    public function isEqualTo(LapIntensity $other)
+    public function isEqualTo(LapIntensity $other): bool
     {
         return $this->Value == $other->getValue();
     }

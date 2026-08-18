@@ -680,21 +680,21 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	/**
 	 * @return boolean
 	 */
-	public function hasElevations() {
+	public function hasElevations(): bool {
 		return $this->hasOriginalElevations() || $this->hasCorrectedElevations();
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasOriginalElevations() {
+	public function hasOriginalElevations(): bool {
 		return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && ! empty($this->Data[self::ELEVATIONS_ORIGINAL]);
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasCorrectedElevations() {
+	public function hasCorrectedElevations(): bool {
 		return isset($this->Data[self::ELEVATIONS_CORRECTED]) && ! empty($this->Data[self::ELEVATIONS_CORRECTED]);
 	}
 
@@ -702,7 +702,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * Is in routenet?
 	 * @return boolean
 	 */
-	public function inRoutenet() {
+	public function inRoutenet(): bool {
 		return ($this->Data[self::IN_ROUTENET] == 1);
 	}
 

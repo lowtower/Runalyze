@@ -55,7 +55,7 @@ class GZipReader {
 	 * End of file?
 	 * @return bool
 	 */
-	public function eof() {
+	public function eof(): bool {
 		return gzeof($this->Resource);
 	}
 
@@ -63,7 +63,7 @@ class GZipReader {
 	 * Is file open?
 	 * @return bool
 	 */
-	protected function isOpen() {
+	protected function isOpen(): bool {
 		return null !== $this->Resource;
 	}
 

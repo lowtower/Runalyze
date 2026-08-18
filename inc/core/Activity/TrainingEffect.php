@@ -83,7 +83,7 @@ class TrainingEffect implements ValueInterface
 		}
 
         if (! is_numeric($value)) {
-            throw new \InvalidArgumentException(sprintf('Training Effect must be a number, not ' . $value));
+            throw new \InvalidArgumentException('Training Effect must be a number, not ' . $value);
         }
 
 		$value = (float) $value;
@@ -127,7 +127,7 @@ class TrainingEffect implements ValueInterface
     /**
      * @return bool
      */
-    public function isKnown()
+    public function isKnown(): bool
     {
         return (null !== $this->Value);
     }

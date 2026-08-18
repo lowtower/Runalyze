@@ -16,7 +16,7 @@ class Request {
 	 * @return string
 	 */
 	public static function Uri() {
-		return isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+		return $_SERVER['REQUEST_URI'] ?? '';
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Request {
 	 * Be careful: Does not work if a file is sent via jQuery!
 	 * @return boolean
 	 */
-	public static function isAjax() {
+	public static function isAjax(): bool {
 		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 	}
 
@@ -40,7 +40,7 @@ class Request {
 	 * Is request HTTPS?
 	 * @return boolean
 	 */
-	public static function isHttps() {
+	public static function isHttps(): bool {
 		return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
 	}
 

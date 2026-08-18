@@ -49,7 +49,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->Elements);
     }
@@ -222,7 +222,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * #TSC check if the rounds has inactive/ruhe rounds.
      */
-    public function hasInactiveRounds() {
+    public function hasInactiveRounds(): bool {
         return count(array_filter($this->Elements, function($v, $k) {
             return ! $v->IsActive();
         }, ARRAY_FILTER_USE_BOTH)) > 0;

@@ -46,7 +46,7 @@ class Kml extends AbstractFileExporter
     /**
      * @return bool
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return ($this->Context->hasRoute() && $this->Context->route()->hasPositionData());
     }
@@ -137,7 +137,7 @@ class Kml extends AbstractFileExporter
     /**
      * @return bool
      */
-    protected function thereWasAPause()
+    protected function thereWasAPause(): bool
     {
         return ($this->CurrentPauseIndex < $this->NumPauses) && ($this->CurrentPauseTime < $this->TrackdataLoop->time());
     }

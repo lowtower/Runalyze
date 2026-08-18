@@ -48,7 +48,7 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select {
 	 * Show seperated
 	 * @return bool
 	 */
-	public function showSeperated() {
+	public function showSeperated(): bool {
 		return ($this->value() == self::SEPERATED);
 	}
 
@@ -56,7 +56,7 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select {
 	 * Show pace and heart rate
 	 * @return bool
 	 */
-	public function showPaceAndHR() {
+	public function showPaceAndHR(): bool {
 		return ($this->value() == self::PACE_HR);
 	}
 
@@ -64,7 +64,7 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select {
 	 * Show pace and heart rate and elevation
 	 * @return bool
 	 */
-	public function showCollection() {
+	public function showCollection(): bool {
 		return ($this->value() == self::PACE_HR_ELEVATION);
 	}
 }

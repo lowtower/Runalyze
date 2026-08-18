@@ -9,7 +9,7 @@ class CameronTest extends \PHPUnit\Framework\TestCase
     /** @var Cameron */
     protected $Cameron;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Cameron = new Cameron();
     }

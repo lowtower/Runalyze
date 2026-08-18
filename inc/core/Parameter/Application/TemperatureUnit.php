@@ -42,7 +42,7 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 	 * Is celsius?
 	 * @return bool
 	 */
-	public function isCelsius() {
+	public function isCelsius(): bool {
 		return ($this->value() == self::CELSIUS);
 	}
 
@@ -50,7 +50,7 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 	 * Is fahrenheit?
 	 * @return bool
 	 */
-	public function isFahrenheit() {
+	public function isFahrenheit(): bool {
 		return ($this->value() == self::FAHRENHEIT);
 	}
 

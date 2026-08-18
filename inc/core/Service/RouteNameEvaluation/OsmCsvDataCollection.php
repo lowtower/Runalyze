@@ -41,7 +41,7 @@ class OsmCsvDataCollection {
         });
     }
 
-    public function hasNames() {
+    public function hasNames(): bool {
         return ! empty($this->data);
     }
 

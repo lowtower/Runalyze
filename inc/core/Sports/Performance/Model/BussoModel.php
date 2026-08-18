@@ -51,7 +51,7 @@ class BussoModel extends AbstractModel
         $k2 = 0;
 
         for ($i = $this->Range['from']; $i <= $this->Range['to']; ++$i) {
-            $t = isset($this->Trimp[$i]) ? $this->Trimp[$i] : 0;
+            $t = $this->Trimp[$i] ?? 0;
 
             $k2 = $t + exp(-1 / $this->r3) * $k2;
 

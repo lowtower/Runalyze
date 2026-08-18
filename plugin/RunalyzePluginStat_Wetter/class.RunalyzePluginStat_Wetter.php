@@ -179,7 +179,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	/**
 	 * @return bool
 	 */
-	protected function knowsEquipmentType() {
+	protected function knowsEquipmentType(): bool {
 		return ($this->EquipmentTypeId > 0) && isset($this->AllTypes[$this->EquipmentTypeId]);
 	}
 

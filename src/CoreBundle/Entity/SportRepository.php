@@ -129,7 +129,7 @@ class SportRepository extends EntityRepository
      * @param Account $account
      * @return bool
      */
-    public function isInternalTypeFree($internalTypeId, Account $account)
+    public function isInternalTypeFree($internalTypeId, Account $account): bool
     {
         return null === $this->findInternalIdFor((int) $internalTypeId, $account);
     }

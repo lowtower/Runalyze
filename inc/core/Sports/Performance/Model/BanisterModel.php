@@ -50,7 +50,7 @@ class BanisterModel extends AbstractModel
     protected function calculateArrays()
     {
         for ($i = $this->Range['from']; $i <= $this->Range['to']; ++$i) {
-            $t = isset($this->Trimp[$i]) ? $this->Trimp[$i] : 0;
+            $t = $this->Trimp[$i] ?? 0;
 
             $this->Fitness[$i] = $t + exp(-1 / $this->r1) * $this->Fitness[$i - 1];
             $this->Fatigue[$i] = $t + exp(-1 / $this->r2) * $this->Fatigue[$i - 1];

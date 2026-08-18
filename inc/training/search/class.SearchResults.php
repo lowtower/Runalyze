@@ -657,7 +657,7 @@ class SearchResults {
 	/**
 	 * @return bool
 	 */
-	public function multiEditorRequested() {
+	public function multiEditorRequested(): bool {
 		return isset($_POST['send-to-multi-editor']);
 	}
 

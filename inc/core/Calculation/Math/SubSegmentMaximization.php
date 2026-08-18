@@ -176,7 +176,7 @@ class SubSegmentMaximization
      * @param int $t
      * @return bool
      */
-    public function hasMaximumForLengthIndex($t)
+    public function hasMaximumForLengthIndex($t): bool
     {
         return PHP_INT_MAX !== abs($this->DataMax[$t]);
     }

@@ -201,7 +201,7 @@ class Lap {
 	/**
 	 * @return boolean
 	 */
-	public function hasTrackValues() {
+	public function hasTrackValues(): bool {
 		return (null !== $this->TrackDurationAtEnd);
 	}
 
@@ -215,7 +215,7 @@ class Lap {
 	/**
 	 * @return boolean
 	 */
-	public function hasHR() {
+	public function hasHR(): bool {
 		return (null !== $this->HRavg);
 	}
 
@@ -236,7 +236,7 @@ class Lap {
 	/**
 	 * @return boolean
 	 */
-	public function hasElevation() {
+	public function hasElevation(): bool {
 		return (false !== $this->ElevationUp);
 	}
 
@@ -280,7 +280,7 @@ class Lap {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function hasAdditionalValue($key) {
+	public function hasAdditionalValue($key): bool {
 		return isset($this->AdditionalValues[$key]);
 	}
 

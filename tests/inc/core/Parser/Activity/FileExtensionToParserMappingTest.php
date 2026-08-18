@@ -11,7 +11,7 @@ class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
     /** @var FileExtensionToParserMapping */
     protected $Mapping;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Mapping = new FileExtensionToParserMapping();
     }

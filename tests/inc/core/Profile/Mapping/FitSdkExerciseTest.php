@@ -7,7 +7,7 @@ use Runalyze\Profile\Mapping\FitSdkExercise;
 class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase {
     protected $underTest;
 
-    protected function setUp() : void {
+    protected function setUp(): void {
         $this->underTest = new FitSdkExercise();
     }
 

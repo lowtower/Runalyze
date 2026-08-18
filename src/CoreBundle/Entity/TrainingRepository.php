@@ -350,7 +350,7 @@ class TrainingRepository extends EntityRepository
      * @param Account $account
      * @return bool
      */
-    public function accountHasLockedTrainings(Account $account)
+    public function accountHasLockedTrainings(Account $account): bool
     {
         return null !== $this->createQueryBuilder('t')
                 ->select('t.id')

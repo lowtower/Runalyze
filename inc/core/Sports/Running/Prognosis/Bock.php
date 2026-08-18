@@ -79,7 +79,7 @@ class Bock implements PrognosisInterface
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1258
      */
-    public function areValuesValid()
+    public function areValuesValid(): bool
     {
         return (
             ($this->K > self::K_LOWER_BOUND) &&

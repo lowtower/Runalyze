@@ -293,7 +293,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return bool
      */
-    public function hasStartDate()
+    public function hasStartDate(): bool
     {
         return null !== $this->dateStart;
     }
@@ -321,7 +321,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return null === $this->dateEnd;
     }

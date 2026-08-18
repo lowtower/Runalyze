@@ -276,7 +276,7 @@ class Language implements InterfaceChoosable
 
             // Unweighted values, get high weight by their position in the
             // list
-            $matches[$l] = isset($q) ? $q : 1000 - count($matches);
+            $matches[$l] = $q ?? 1000 - count($matches);
         }
 
         foreach ($matches as $k => $v) {

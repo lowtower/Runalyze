@@ -20,7 +20,7 @@ class Version20170614214532 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'training` ADD `percentage_hilly` decimal(3,2) unsigned DEFAULT NULL AFTER `elevation`, ADD `climb_score` decimal(3,1) unsigned DEFAULT NULL AFTER `elevation`');
@@ -31,7 +31,7 @@ class Version20170614214532 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'training` DROP COLUMN `percentage_hilly`, DROP COLUMN `climb_score`');

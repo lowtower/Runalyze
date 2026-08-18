@@ -246,7 +246,7 @@ class Duration {
 	 * Is duration negative?
 	 * @return boolean
 	 */
-	public function isNegative() {
+	public function isNegative(): bool {
 		return ($this->Time < 0);
 	}
 
@@ -254,7 +254,7 @@ class Duration {
 	 * Is duration zero?
 	 * @return boolean
 	 */
-	public function isZero() {
+	public function isZero(): bool {
 		return ($this->Time == 0);
 	}
 

@@ -9,7 +9,7 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected $object;
 
-	protected function setUp() : void
+	protected function setUp(): void
 	{
 		$this->object = new WeightUnit();
 	}

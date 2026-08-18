@@ -14,7 +14,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /** @var Gpx */
     protected $Parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Parser = new Gpx();
     }

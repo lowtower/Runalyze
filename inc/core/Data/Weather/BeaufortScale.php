@@ -191,7 +191,7 @@ class BeaufortScale implements ValueInterface
 	/**
 	 * @return bool
 	 */
-	public function isValid()
+	public function isValid(): bool
 	{
 		return is_numeric($this->Btf) && ($this->Btf >= 0) && ($this->Btf < count($this->UpperLimits));
 	}

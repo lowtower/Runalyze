@@ -73,7 +73,7 @@ abstract class Category {
 	 * Has user ID?
 	 * @return bool
 	 */
-	private function hasUserID() {
+	private function hasUserID(): bool {
 		return is_numeric($this->UserID);
 	}
 

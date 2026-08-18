@@ -157,7 +157,7 @@ class PluginFactory {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isInstalled($key) {
+	public function isInstalled($key): bool {
 		return in_array($key, $this->allPlugins());
 	}
 

@@ -13,7 +13,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
     /** @var XmlPolar */
     protected $Parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Parser = new XmlPolar();
     }

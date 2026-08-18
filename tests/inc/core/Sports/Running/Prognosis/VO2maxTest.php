@@ -9,7 +9,7 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
     /** @var VO2max */
     protected $VO2max;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->VO2max = new VO2max();
     }

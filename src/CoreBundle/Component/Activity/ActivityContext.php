@@ -119,14 +119,14 @@ class ActivityContext
     /**
      * @return bool
      */
-    public function hasTrackdata() {
+    public function hasTrackdata(): bool {
         return null !== $this->Trackdata;
     }
 
     /**
      * @return bool
      */
-    public function hasRoute()
+    public function hasRoute(): bool
     {
         return null !== $this->Route;
     }
@@ -134,7 +134,7 @@ class ActivityContext
     /**
      * @return bool
      */
-    public function hasSwimdata()
+    public function hasSwimdata(): bool
     {
         return null !== $this->Swimdata;
     }
@@ -142,7 +142,7 @@ class ActivityContext
     /**
      * @return bool
      */
-    public function hasHRV()
+    public function hasHRV(): bool
     {
         return null !== $this->HRV;
     }
@@ -150,7 +150,7 @@ class ActivityContext
     /**
      * @return bool
      */
-    public function hasRaceResult()
+    public function hasRaceResult(): bool
     {
         return null !== $this->RaceResult;
     }
@@ -166,7 +166,7 @@ class ActivityContext
     /**
      * @return boolean
      */
-    public function canShowMap()
+    public function canShowMap(): bool
     {
         return $this->hasRoute() && $this->Route->hasGeohashes();
     }

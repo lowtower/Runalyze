@@ -30,7 +30,7 @@ class Availability
     /**
      * @return bool
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return ($this->isPythonAvailable() && $this->isRsvgConverterAvailable());
     }

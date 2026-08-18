@@ -287,7 +287,7 @@ class FitActivity extends AbstractSingleParser
             $unitDefinition = str_replace('"', '', $this->Values['units'][0]);
 
             $mappingKey = $nativeFieldMapping[$nativeFieldNum][0];
-            $mappingFactor = isset($nativeFieldMapping[$nativeFieldNum][1]) ? $nativeFieldMapping[$nativeFieldNum][1] : 1;
+            $mappingFactor = $nativeFieldMapping[$nativeFieldNum][1] ?? 1;
 
             if (is_array($mappingFactor)) {
                 if (isset($mappingFactor[$unitDefinition])) {
@@ -679,7 +679,7 @@ class FitActivity extends AbstractSingleParser
             $internalId = $fitSdkMapping->toInternal($this->Values['sport'][0]);
         }
 
-        $fitSportName = isset($this->Values['sport'][1]) ? $this->Values['sport'][1] : '';
+        $fitSportName = $this->Values['sport'][1] ?? '';
         $metadata->setInternalSportId($internalId);
         $metadata->setSportName($this->getSportNameFor($internalId, $fitSportName));
     }

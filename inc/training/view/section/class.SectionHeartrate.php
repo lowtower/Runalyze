@@ -24,7 +24,7 @@ class SectionHeartrate extends TrainingViewSectionTabbedPlot {
 	 * Has the training all required data?
 	 * @return bool
 	 */
-	protected function hasRequiredData() {
+	protected function hasRequiredData(): bool {
 		return $this->Context->activity()->hrAvg() > 0;
 	}
 

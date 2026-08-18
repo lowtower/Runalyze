@@ -11,7 +11,7 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected $ContinuousData;
 
-    protected function setUp() : void {
+    protected function setUp(): void {
         $this->ContinuousData = new ContinuousData();
 
         // create 10 samples

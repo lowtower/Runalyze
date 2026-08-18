@@ -52,7 +52,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isArray($key) {
+	public function isArray($key): bool {
 		return ($key == self::DATA);
 	}
 
@@ -75,7 +75,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	 * @param string $key enum
 	 * @return boolean
 	 */
-	protected function ignoreNonEmptyValue($key) {
+	protected function ignoreNonEmptyValue($key): bool {
 		return ($key == self::ACTIVITYID);
 	}
 

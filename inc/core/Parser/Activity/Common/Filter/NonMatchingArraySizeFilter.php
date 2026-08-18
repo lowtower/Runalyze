@@ -94,7 +94,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      * @param array $data
      * @return bool
      */
-    protected function areAllElementsEqual(array $data)
+    protected function areAllElementsEqual(array $data): bool
     {
         return 1 === count(array_unique($data));
     }

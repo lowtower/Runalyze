@@ -8,7 +8,7 @@ class ParameterSetTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $object;
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		$this->object = new Set(array());
 	}
 

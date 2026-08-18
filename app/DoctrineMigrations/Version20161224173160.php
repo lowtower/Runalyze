@@ -28,7 +28,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         return false;
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -75,7 +75,7 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
         }
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
     }
 }

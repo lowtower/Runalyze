@@ -13,7 +13,7 @@ class SmlTest extends AbstractActivityParserTestCase
     /** @var Sml */
     protected $Parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Parser = new Sml();
     }

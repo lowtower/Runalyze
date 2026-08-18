@@ -223,7 +223,7 @@ class PersonalBest {
 	 * Does a personal best exist for this distance?
 	 * @return boolean
 	 */
-	public function exists() {
+	public function exists(): bool {
 		return (false !== $this->Time);
 	}
 
@@ -238,7 +238,7 @@ class PersonalBest {
 	/**
 	 * @return boolean
 	 */
-	public function knowsActivity() {
+	public function knowsActivity(): bool {
 		return (null !== $this->ActivityID);
 	}
 

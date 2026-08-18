@@ -194,7 +194,7 @@ class LocalTime extends \DateTime
      * Is given timestamp from today?
      * @return bool
      */
-    public function isToday()
+    public function isToday(): bool
     {
         return (date('d.m.Y') == $this->format('d.m.Y'));
     }

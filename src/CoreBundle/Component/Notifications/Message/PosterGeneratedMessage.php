@@ -52,7 +52,7 @@ class PosterGeneratedMessage implements MessageInterface
         return $translator->trans('Your posters have been generated and are now available for download.');
     }
 
-    public function hasLink()
+    public function hasLink(): bool
     {
         return self::STATE_FAILED != $this->State;
     }

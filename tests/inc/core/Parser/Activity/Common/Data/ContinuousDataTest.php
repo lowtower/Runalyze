@@ -9,7 +9,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
     /** @var ContinuousData */
     protected $Data;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Data = new ContinuousData();
     }

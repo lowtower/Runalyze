@@ -20,7 +20,7 @@ class Version20170715090403 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
@@ -34,7 +34,7 @@ class Version20170715090403 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
     }
 }

@@ -106,7 +106,7 @@ class DisplayableValue
     /**
      * @return bool
      */
-    public function isZero()
+    public function isZero(): bool
     {
         return 0 == $this->Value;
     }

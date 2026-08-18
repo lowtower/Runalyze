@@ -11,12 +11,12 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $object;
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		$this->object = new FormularValueParser();
 		$_POST = array();
 	}
 
-	protected function tearDown() : void {
+	protected function tearDown(): void {
 		$_POST = array();
 	}
 

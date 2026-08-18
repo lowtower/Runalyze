@@ -128,7 +128,7 @@ class ActivityPreview
     /**
      * @return bool
      */
-    public function hasDistance()
+    public function hasDistance(): bool
     {
         return null !== $this->Distance;
     }

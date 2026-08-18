@@ -13,7 +13,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
     /** @var ContinuousDataAdapter */
     protected $Adapter;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Data = new ContinuousData();
         $this->Adapter = new ContinuousDataAdapter($this->Data);

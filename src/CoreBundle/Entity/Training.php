@@ -2441,7 +2441,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return bool
      */
-    public function hasRoute()
+    public function hasRoute(): bool
     {
         return null !== $this->route;
     }
@@ -2751,7 +2751,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return bool
      */
-    public function hasTrackdata()
+    public function hasTrackdata(): bool
     {
         return null !== $this->trackdata;
     }
@@ -2780,7 +2780,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return bool
      */
-    public function hasSwimdata()
+    public function hasSwimdata(): bool
     {
         return null !== $this->swimdata;
     }
@@ -2809,7 +2809,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return bool
      */
-    public function hasHrv()
+    public function hasHrv(): bool
     {
         return null !== $this->hrv;
     }
@@ -2838,7 +2838,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return bool
      */
-    public function hasRaceresult()
+    public function hasRaceresult(): bool
     {
         return null !== $this->raceresult;
     }

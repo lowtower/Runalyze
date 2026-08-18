@@ -14,7 +14,7 @@ class CsvTest extends AbstractActivityParserTestCase
     /** @var Csv */
     protected $Parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Parser = new Csv();
     }

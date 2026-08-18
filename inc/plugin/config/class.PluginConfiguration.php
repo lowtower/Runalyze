@@ -178,7 +178,7 @@ class PluginConfiguration {
 	 * Is empty?
 	 * @return bool
 	 */
-	final public function isEmpty() {
+	final public function isEmpty(): bool {
 		return empty($this->Values);
 	}
 

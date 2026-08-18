@@ -27,7 +27,7 @@ class ContinuousDataAdapter
     /**
      * @return bool
      */
-    protected function distancesShouldBeCalculated()
+    protected function distancesShouldBeCalculated(): bool
     {
         return (
             empty($this->ContinuousData->Distance) &&
@@ -220,7 +220,7 @@ class ContinuousDataAdapter
             if (! $isPause && $this->ContinuousData->Time[$i] > $pauseTime) {
                 if ($pauseIndex < $numPauses) {
                     $isPause = true;
-                    $hrStart = ! $hasHeartRate ? null : (isset($this->ContinuousData->HeartRate[$i - 1]) ? $this->ContinuousData->HeartRate[$i - 1] : $this->ContinuousData->HeartRate[$i]);
+                    $hrStart = ! $hasHeartRate ? null : ($this->ContinuousData->HeartRate[$i - 1] ?? $this->ContinuousData->HeartRate[$i]);
                     $pauseInSeconds += $pausesToApply[$pauseIndex]->getDuration();
                     $pauseUntil = $pausesToApply[$pauseIndex]->getDuration() + $pausesToApply[$pauseIndex]->getTimeIndex();
                     $pauseIndex++;

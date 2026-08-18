@@ -37,7 +37,7 @@ class WeatherData
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return (
             '' == $this->Condition &&

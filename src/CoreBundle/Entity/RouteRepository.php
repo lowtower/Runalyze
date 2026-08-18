@@ -12,7 +12,7 @@ class RouteRepository extends EntityRepository
      * @param Account $account
      * @return bool
      */
-    public function accountHasLockedRoutes(Account $account)
+    public function accountHasLockedRoutes(Account $account): bool
     {
         return null !== $this->createQueryBuilder('r')
             ->select('r.id')

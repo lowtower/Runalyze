@@ -21,7 +21,7 @@ class Version20170328101217 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
@@ -42,7 +42,7 @@ class Version20170328101217 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'sport` MODIFY `speed` varchar(10) NOT NULL DEFAULT "min/km"');

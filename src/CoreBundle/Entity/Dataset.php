@@ -184,7 +184,7 @@ class Dataset implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function isPrivate()
+    public function isPrivate(): bool
     {
         return (bool) DatasetPrivacyProfile::PRIVATE_KEY == $this->privacy;
     }
@@ -192,7 +192,7 @@ class Dataset implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return (bool) DatasetPrivacyProfile::PUBLIC_KEY == $this->privacy;
     }

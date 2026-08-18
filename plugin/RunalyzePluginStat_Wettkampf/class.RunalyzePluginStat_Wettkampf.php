@@ -118,7 +118,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	/**
 	 * @return bool
 	 */
-	protected function knowsAgeGrade() {
+	protected function knowsAgeGrade(): bool {
 		return null !== $this->AgeGradeLookup;
 	}
 
@@ -588,7 +588,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	 * @param int $id
 	 * @return bool
 	 */
-	public function isFunCompetition($id) {
+	public function isFunCompetition($id): bool {
 		return (in_array($id, $this->Configuration()->value('fun_ids')));
 	}
 }

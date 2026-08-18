@@ -57,7 +57,7 @@ class VO2max extends \Runalyze\Configuration\Category
     /**
      * @return bool
      */
-    public function useManualFactor()
+    public function useManualFactor(): bool
     {
         return (null !== $this->get('VO2MAX_MANUAL_CORRECTOR'));
     }
@@ -73,7 +73,7 @@ class VO2max extends \Runalyze\Configuration\Category
     /**
      * @return bool
      */
-    public function useManualValue()
+    public function useManualValue(): bool
     {
         return ($this->manualValue() > 0.0);
     }

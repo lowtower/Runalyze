@@ -28,7 +28,7 @@ class Version20170130000000 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         MessagesSchema::create($bernardSchema = new Schema());
         $sql = $bernardSchema->toSql($this->connection->getDatabasePlatform());
@@ -42,7 +42,7 @@ class Version20170130000000 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DROP TABLE bernard_messages');

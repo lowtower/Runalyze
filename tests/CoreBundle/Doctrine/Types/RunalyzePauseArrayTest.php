@@ -15,7 +15,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

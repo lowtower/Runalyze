@@ -30,7 +30,7 @@ class SharedLinker {
 	 * Is the user on the shared page?
 	 * @return boolean
 	 */
-	public static function isOnSharedPage() {
+	public static function isOnSharedPage(): bool {
 		return in_array('shared', explode('/', Request::Uri())) || in_array('athlete', explode('/', Request::Uri()));
 	}
 

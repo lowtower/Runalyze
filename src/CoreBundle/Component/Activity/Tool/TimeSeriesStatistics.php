@@ -116,7 +116,7 @@ class TimeSeriesStatistics
      * @param mixed $key enum from trackdata model class
      * @return bool
      */
-    public function hasStatisticsFor($key)
+    public function hasStatisticsFor($key): bool
     {
         return isset($this->AvailableKeys[$key]);
     }

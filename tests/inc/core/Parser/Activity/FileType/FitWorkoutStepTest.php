@@ -11,7 +11,7 @@ class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
     /** @var FitWorkoutStep */
     protected $underTest;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->underTest = new FitWorkoutStep();
 

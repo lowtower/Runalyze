@@ -180,7 +180,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @return bool
      */
-    public function showsCompleteRow()
+    public function showsCompleteRow(): bool
     {
         if ($this->inheritsDisplayMode()) {
             return ! $this->sport->getShort();
@@ -204,7 +204,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @return bool
      */
-    public function inheritsDisplayMode()
+    public function inheritsDisplayMode(): bool
     {
         return DataBrowserRowProfile::INHERIT_FROM_PARENT == $this->displayMode;
     }

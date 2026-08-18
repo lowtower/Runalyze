@@ -202,7 +202,7 @@ class Entity extends Model\Entity {
 	 * officially measured
 	 * @return bool
 	 */
-	public function officiallyMeasured() {
+	public function officiallyMeasured(): bool {
 		return ($this->Data[self::OFFICIALLY_MEASURED] == 1);
 	}
 

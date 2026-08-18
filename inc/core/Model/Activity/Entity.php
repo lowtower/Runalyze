@@ -685,7 +685,7 @@ class Entity extends Model\EntityWithID {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isArray($key) {
+	public function isArray($key): bool {
 		return ($key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES);
 	}
 
@@ -913,7 +913,7 @@ class Entity extends Model\EntityWithID {
 	/**
 	 * @return bool
 	 */
-	public function knowsTimezoneOffset() {
+	public function knowsTimezoneOffset(): bool {
 		return (null !== $this->Data[self::TIMEZONE_OFFSET]);
 	}
 
@@ -944,7 +944,7 @@ class Entity extends Model\EntityWithID {
 	 * Is public?
 	 * @return bool
 	 */
-	public function isPublic() {
+	public function isPublic(): bool {
 		return ($this->Data[self::IS_PUBLIC] == 1);
 	}
 
@@ -952,7 +952,7 @@ class Entity extends Model\EntityWithID {
 	 * On track?
 	 * @return bool
 	 */
-	public function isTrack() {
+	public function isTrack(): bool {
 		return ($this->Data[self::IS_TRACK] == 1);
 	}
 
@@ -960,7 +960,7 @@ class Entity extends Model\EntityWithID {
 	 * has training goal
 	 * @return bool
 	 */
-	public function withGoal() {
+	public function withGoal(): bool {
 		return ($this->Data[self::WITH_GOAL] == 1);
 	}
 
@@ -1091,7 +1091,7 @@ class Entity extends Model\EntityWithID {
 	/**
 	 * @return bool
 	 */
-	public function usesVO2max() {
+	public function usesVO2max(): bool {
 		return ($this->Data[self::USE_VO2MAX] == 1);
 	}
 
@@ -1496,14 +1496,14 @@ class Entity extends Model\EntityWithID {
 	/**
 	 * @return bool
 	 */
-	public function isNight() {
+	public function isNight(): bool {
 		return ($this->Data[self::IS_NIGHT] == 1);
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function knowsIfItIsNight() {
+	public function knowsIfItIsNight(): bool {
 		return (null !== $this->Data[self::IS_NIGHT]);
 	}
 

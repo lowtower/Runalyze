@@ -55,7 +55,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
     /**
      * @return bool
      */
-    protected function currentContainerIsEmpty()
+    protected function currentContainerIsEmpty(): bool
     {
         return null !== $this->CurrentSubParser && $this->CurrentSubParser->getActivityDataContainer()->ContinuousData->isEmpty();
     }

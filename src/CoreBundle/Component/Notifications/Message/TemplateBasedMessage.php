@@ -56,10 +56,10 @@ class TemplateBasedMessage implements MessageInterface
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['text']) ? $this->TemplateContent['text'] : '';
+        return $this->TemplateContent['text'] ?? '';
     }
 
-    public function hasLink()
+    public function hasLink(): bool
     {
         $this->loadTemplateIfNotDoneYet();
 
@@ -70,7 +70,7 @@ class TemplateBasedMessage implements MessageInterface
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['link']) ? $this->TemplateContent['link'] : '';
+        return $this->TemplateContent['link'] ?? '';
     }
 
     protected function loadTemplateIfNotDoneYet()
@@ -80,7 +80,7 @@ class TemplateBasedMessage implements MessageInterface
         }
     }
 
-    public function isLinkInternal()
+    public function isLinkInternal(): bool
     {
         $this->loadTemplateIfNotDoneYet();
 
@@ -91,6 +91,6 @@ class TemplateBasedMessage implements MessageInterface
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['window_size']) ? $this->TemplateContent['window_size'] : '';
+        return $this->TemplateContent['window_size'] ?? '';
     }
 }

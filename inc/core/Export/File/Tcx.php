@@ -37,7 +37,7 @@ class Tcx extends AbstractFileExporter
     /**
      * @return bool
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return $this->Context->hasTrackdata() && $this->Context->trackdata()->has(Trackdata\Entity::TIME);
     }

@@ -149,7 +149,7 @@ class Location
      * Is position set?
      * @return bool
      */
-    public function hasPosition()
+    public function hasPosition(): bool
     {
         return (
             null !== $this->Latitude &&
@@ -161,7 +161,7 @@ class Location
     /**
      * @return bool
      */
-    public function hasLocationName()
+    public function hasLocationName(): bool
     {
         return strlen($this->LocationName) > 0;
     }
@@ -169,7 +169,7 @@ class Location
     /**
      * @return bool
      */
-    public function hasDateTime()
+    public function hasDateTime(): bool
     {
         return null !== $this->DateTime;
     }
@@ -178,7 +178,7 @@ class Location
      * @param int $seconds
      * @return bool
      */
-    public function isOlderThan($seconds = 86400)
+    public function isOlderThan($seconds = 86400): bool
     {
         return $this->hasDateTime() && ($this->getTimestamp() < time() - $seconds);
     }
@@ -188,7 +188,7 @@ class Location
      * #TSC
      * @return bool
      */
-    public function isValid() {
+    public function isValid(): bool {
         return $this->hasDateTime() && ($this->hasLocationName() || $this->hasPosition());
     }
 }

@@ -41,7 +41,7 @@ class DataBrowserMode extends \Runalyze\Parameter\Select {
 	 * Show week
 	 * @return bool
 	 */
-	public function showWeek() {
+	public function showWeek(): bool {
 		return ($this->value() == self::WEEK);
 	}
 
@@ -49,7 +49,7 @@ class DataBrowserMode extends \Runalyze\Parameter\Select {
 	 * Show month
 	 * @return bool
 	 */
-	public function showMonth() {
+	public function showMonth(): bool {
 		return ($this->value() == self::MONTH);
 	}
 }

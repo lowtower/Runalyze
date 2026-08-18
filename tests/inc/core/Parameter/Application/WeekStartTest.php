@@ -21,7 +21,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         '3 January 2016' => [53, 1]
     ];
 
-	protected function setUp() : void
+	protected function setUp(): void
     {
 		$this->Object = new WeekStart();
         $this->PDO = \DB::getInstance();

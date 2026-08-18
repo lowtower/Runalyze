@@ -53,7 +53,7 @@ class Select extends \Runalyze\Parameter {
 	 * @param string $value
 	 * @return bool
 	 */
-	protected function valueIsAllowed($value) {
+	protected function valueIsAllowed($value): bool {
 		return in_array($value, array_keys($this->Options['options']));
 	}
 

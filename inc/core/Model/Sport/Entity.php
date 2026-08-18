@@ -134,7 +134,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isArray($key) {
+	public function isArray($key): bool {
 		return ($key == self::HR_ZONE_BOUNDS);
 	}
 
@@ -171,7 +171,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * Uses short display?
 	 * @return boolean
 	 */
-	public function usesShortDisplay() {
+	public function usesShortDisplay(): bool {
 		return ($this->Data[self::SHORT] == 1);
 	}
 
@@ -223,7 +223,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * Has distances?
 	 * @return boolean
 	 */
-	public function hasDistances() {
+	public function hasDistances(): bool {
 		return ($this->Data[self::HAS_DISTANCES] == 1);
 	}
 
@@ -231,7 +231,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * Has power?
 	 * @return boolean
 	 */
-	public function hasPower() {
+	public function hasPower(): bool {
 		return ($this->Data[self::HAS_POWER] == 1);
 	}
 
@@ -239,7 +239,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 * Is this sport outside?
 	 * @return boolean
 	 */
-	public function isOutside() {
+	public function isOutside(): bool {
 		return ($this->Data[self::IS_OUTSIDE] == 1);
 	}
 
@@ -270,7 +270,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
     /**
      * @return bool
      */
-    public function isMainSport() {
+    public function isMainSport(): bool {
         return ($this->Data[self::IS_MAIN] == 1);
     }
 }

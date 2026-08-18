@@ -24,7 +24,7 @@ class SectionRouteOnlyMap extends SectionRoute {
 	 * Has the training all required data?
 	 * @return bool
 	 */
-	protected function hasRequiredData() {
+	protected function hasRequiredData(): bool {
 		return $this->Context->hasRoute() && $this->Context->route()->hasPositionData();
 	}
 }

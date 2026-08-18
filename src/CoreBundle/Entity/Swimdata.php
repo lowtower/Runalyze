@@ -81,7 +81,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasStrokes()
+    public function hasStrokes(): bool
     {
         return null !== $this->stroke;
     }
@@ -108,7 +108,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasStrokeTypes()
+    public function hasStrokeTypes(): bool
     {
         return null !== $this->stroketype;
     }
@@ -173,7 +173,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return (
             (null === $this->stroke || empty($this->stroke)) &&

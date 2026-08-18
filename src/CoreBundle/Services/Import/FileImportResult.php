@@ -77,7 +77,7 @@ class FileImportResult
     /**
      * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
         return null !== $this->Exception;
     }

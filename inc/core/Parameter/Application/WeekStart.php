@@ -58,7 +58,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * Is monday?
 	 * @return bool
 	 */
-	public function isMonday() {
+	public function isMonday(): bool {
 		return ($this->value() == self::MONDAY);
 	}
 
@@ -66,7 +66,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * Is saturday?
 	 * @return bool
 	 */
-	public function isSaturday() {
+	public function isSaturday(): bool {
 		return ($this->value() == self::SATURDAY);
 	}
 
@@ -74,7 +74,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * Is sunday?
 	 * @return bool
 	 */
-	public function isSunday() {
+	public function isSunday(): bool {
 		return ($this->value() == self::SUNDAY);
 	}
 

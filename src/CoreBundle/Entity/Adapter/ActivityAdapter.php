@@ -61,7 +61,7 @@ class ActivityAdapter
      * @param int $days
      * @return bool
      */
-    public function isNotOlderThanXDays($days)
+    public function isNotOlderThanXDays($days): bool
     {
         return (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))->days <= $days;
     }
@@ -69,7 +69,7 @@ class ActivityAdapter
     /**
      * @return bool
      */
-    public function isRunning()
+    public function isRunning(): bool
     {
         return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isRunning();
     }
@@ -77,7 +77,7 @@ class ActivityAdapter
     /**
      * @return bool
      */
-    public function isCycling()
+    public function isCycling(): bool
     {
         return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isCycling();
     }
@@ -85,7 +85,7 @@ class ActivityAdapter
     /**
      * @return bool
      */
-    public function isSwimming()
+    public function isSwimming(): bool
     {
         return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isSwimming();
     }
@@ -149,7 +149,7 @@ class ActivityAdapter
      * @param int $numberOfDaysToConsiderForShape
      * @return bool
      */
-    public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape)
+    public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape): bool
     {
         return (
             $this->isRunning() &&
@@ -161,7 +161,7 @@ class ActivityAdapter
      * @param int $numberOfDaysToConsiderForShape
      * @return bool
      */
-    public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape)
+    public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape): bool
     {
         return (
             $this->isRunning() &&
@@ -331,7 +331,7 @@ class ActivityAdapter
     /**
      * @return bool
      */
-    protected function canCalculateClimbScore()
+    protected function canCalculateClimbScore(): bool
     {
         return (
             null !== $this->Activity->getRoute() &&

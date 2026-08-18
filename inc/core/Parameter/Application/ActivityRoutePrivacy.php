@@ -48,7 +48,7 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 	 * Show never
 	 * @return bool
 	 */
-	public function showNever() {
+	public function showNever(): bool {
 		return ($this->value() == self::NEVER);
 	}
 
@@ -56,7 +56,7 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 	 * Show only for races
 	 * @return bool
 	 */
-	public function showRace() {
+	public function showRace(): bool {
 		return ($this->value() == self::RACE);
 	}
 
@@ -64,7 +64,7 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 	 * Show always
 	 * @return bool
 	 */
-	public function showAlways() {
+	public function showAlways(): bool {
 		return ($this->value() == self::ALWAYS);
 	}
 }

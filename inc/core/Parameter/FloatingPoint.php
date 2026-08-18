@@ -70,7 +70,7 @@ class FloatingPoint extends \Runalyze\Parameter {
 	/**
 	 * @return bool
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return (null === $this->value());
 	}
 }

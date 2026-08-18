@@ -192,7 +192,7 @@ class Entity extends Model\EntityWithID {
 	 * Has this equipment a start date?
 	 * @return boolean
 	 */
-	public function hasStartDate() {
+	public function hasStartDate(): bool {
 		return (null !== $this->Data[self::DATE_START]);
 	}
 
@@ -208,7 +208,7 @@ class Entity extends Model\EntityWithID {
 	 * Is this equipment still in use?
 	 * @return boolean
 	 */
-	public function isInUse() {
+	public function isInUse(): bool {
 		return (null === $this->Data[self::DATE_END]);
 	}
 }

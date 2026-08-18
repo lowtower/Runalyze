@@ -10,7 +10,7 @@ class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 		$this->appendRowTabbedPlot(new SectionRunScribeDataRow($this->Context));
 	}
 
-	protected function hasRequiredData()
+	protected function hasRequiredData(): bool
     {
 		return $this->Context->hasTrackdata() && $this->Context->trackdata()->hasRunScribeData();
 	}

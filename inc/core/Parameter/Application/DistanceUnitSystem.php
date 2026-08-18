@@ -101,7 +101,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * @return bool
 	 */
-	public function isMetric()
+	public function isMetric(): bool
 	{
 		return ($this->value() == self::METRIC);
 	}
@@ -109,7 +109,7 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 	/**
 	 * @return bool
 	 */
-	public function isImperial()
+	public function isImperial(): bool
 	{
 		return ($this->value() == self::IMPERIAL);
 	}

@@ -7,7 +7,7 @@ class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 	/** @var \Runalyze\Parameter\SelectFile */
 	protected $object;
 
-	protected function setUp() : void
+	protected function setUp(): void
     {
 		$this->object = new SelectFile('path/to/file.jpg', array(
     'folder' => 'dir/',

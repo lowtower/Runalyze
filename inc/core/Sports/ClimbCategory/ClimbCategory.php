@@ -51,7 +51,7 @@ class ClimbCategory
     /**
      * @return bool
      */
-    public function isClassified()
+    public function isClassified(): bool
     {
         return self::CATEGORY_NONE != $this->Category;
     }

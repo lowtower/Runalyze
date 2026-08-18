@@ -269,7 +269,7 @@ class ActivityListener
         }
     }
 
-    protected function updateRequiresEffectiveVO2maxShapeCalculation(Training $activity, PreUpdateEventArgs $args)
+    protected function updateRequiresEffectiveVO2maxShapeCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         $days = $this->getNumberOfDaysToConsiderForEffectiveVO2maxShape($activity->getAccount());
 
@@ -295,7 +295,7 @@ class ActivityListener
      * @param PreUpdateEventArgs $args
      * @return bool
      */
-    protected function updateRequiresMarathonShapeCalculation(Training $activity, PreUpdateEventArgs $args)
+    protected function updateRequiresMarathonShapeCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         $daysToConsider = $this->getNumberOfDaysToConsiderForMarathonShape($activity->getAccount());
 
@@ -315,7 +315,7 @@ class ActivityListener
      * @param PreUpdateEventArgs $args
      * @return bool
      */
-    protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args)
+    protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return (
             $activity->hasRaceresult() &&
@@ -329,7 +329,7 @@ class ActivityListener
      * @param PreUpdateEventArgs $args
      * @return bool
      */
-    protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args)
+    protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return (
             (! $activity->hasTrackdata() || ! $activity->getTrackdata()->hasHeartrate()) && (
@@ -350,7 +350,7 @@ class ActivityListener
      * @param PreUpdateEventArgs $args
      * @return bool
      */
-    protected function updateRequiresVO2maxCalculation(Training $activity, PreUpdateEventArgs $args)
+    protected function updateRequiresVO2maxCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return ((
             $activity->getAdapter()->isRunning() && (

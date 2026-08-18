@@ -26,7 +26,7 @@ class Steffny implements PrognosisInterface
         $this->setReferenceResult($referenceDistance, $referenceTime);
     }
 
-    public function areValuesValid()
+    public function areValuesValid(): bool
     {
         return 150 < $this->ReferencePaceFor10k;
     }

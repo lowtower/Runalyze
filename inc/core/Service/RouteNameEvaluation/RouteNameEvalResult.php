@@ -61,7 +61,7 @@ class RouteNameEvalResult {
         }
     }
 
-    protected function endsWith($haystack, $needle) {
+    protected function endsWith($haystack, $needle): bool {
         return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
     }
 }

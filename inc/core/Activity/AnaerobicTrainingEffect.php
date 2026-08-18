@@ -126,7 +126,7 @@ class AnaerobicTrainingEffect implements ValueInterface
     /**
      * @return bool
      */
-    public function isKnown()
+    public function isKnown(): bool
     {
         return (null !== $this->Value);
     }

@@ -593,7 +593,7 @@ abstract class PlotSumData extends Plot {
 
 		foreach ($Sports as $Sport)
 			$this->Data[] = array(
-			    'label' => isset($Sport['name']) ? $Sport['name'] : '?',
+			    'label' => $Sport['name'] ?? '?',
 			    'data' => $Sport['data']
 			);
 	}

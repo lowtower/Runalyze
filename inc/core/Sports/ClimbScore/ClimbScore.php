@@ -45,7 +45,7 @@ class ClimbScore
     /**
      * @return bool
      */
-    public function isKnown()
+    public function isKnown(): bool
     {
         return null !== $this->Score;
     }

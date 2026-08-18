@@ -356,7 +356,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return bool
 	 */
-	public function isArray($key) {
+	public function isArray($key): bool {
 		return ($key != self::PAUSES && $key != self::ACTIVITYID);
 	}
 
@@ -418,7 +418,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * @param string $key
 	 * @return boolean
 	 */
-	protected function ignoreNonEmptyValue($key) {
+	protected function ignoreNonEmptyValue($key): bool {
 		return ($key == self::ACTIVITYID);
 	}
 
@@ -711,7 +711,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * @return bool
      */
-    public function hasRunScribeData() {
+    public function hasRunScribeData(): bool {
         return ! empty($this->Data[self::IMPACT_GS_LEFT]) ||
             ! empty($this->Data[self::IMPACT_GS_RIGHT]) ||
             ! empty($this->Data[self::BRAKING_GS_LEFT]) ||
@@ -750,7 +750,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 * Are there pauses?
 	 * @return bool
 	 */
-	public function hasPauses() {
+	public function hasPauses(): bool {
 		return ! $this->Pauses->isEmpty();
 	}
 

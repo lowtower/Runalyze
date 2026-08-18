@@ -52,7 +52,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         date_default_timezone_set($this->PreviousPhpTimezone);
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -73,7 +73,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         $this->EntityManager->clear();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         try {
             parent::tearDown();

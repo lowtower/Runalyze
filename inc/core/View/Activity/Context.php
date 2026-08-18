@@ -150,35 +150,35 @@ class Context {
 	/**
 	 * @return boolean
 	 */
-	public function hasTrackdata() {
+	public function hasTrackdata(): bool {
 		return ! $this->Trackdata->isEmpty();
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasRoute() {
+	public function hasRoute(): bool {
 		return null !== $this->Route;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasSwimdata() {
+	public function hasSwimdata(): bool {
 		return null !== $this->Swimdata;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasHRV() {
+	public function hasHRV(): bool {
 		return ! $this->HRV->isEmpty();
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function hasRaceResult() {
+	public function hasRaceResult(): bool {
 		return ! $this->RaceResult->isEmpty();
 	}
 

@@ -19,7 +19,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     protected $SrtmRoot;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->SrtmRoot = TESTS_ROOT.'/../data/srtm';
         $this->GeoTiff = new GeoTiff(

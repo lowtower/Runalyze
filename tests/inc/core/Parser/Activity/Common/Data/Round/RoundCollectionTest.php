@@ -10,7 +10,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var RoundCollection */
     protected $Collection;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Collection = new RoundCollection();
     }

@@ -388,7 +388,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * @return bool
 	 */
 	private
-	function wasRunningToday()
+	function wasRunningToday(): bool
 	{
 		return 0 < DB::getInstance()->query('
 			SELECT

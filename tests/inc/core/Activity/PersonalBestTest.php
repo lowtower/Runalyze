@@ -20,13 +20,13 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 	 */
 	const SPORTID = 5;
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		PersonalBest::deactivateStaticCache();
 
 		$this->PDO = DB::getInstance();
 	}
 
-	protected function tearDown() : void {
+	protected function tearDown(): void {
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
 	}
 

@@ -84,7 +84,7 @@ class Splits {
 	 * Are the splits empty?
 	 * @return boolean
 	 */
-	public function areEmpty() {
+	public function areEmpty(): bool {
 		return empty($this->asArray);
 	}
 

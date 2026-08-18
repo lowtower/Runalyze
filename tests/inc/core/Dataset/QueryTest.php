@@ -19,14 +19,14 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 	/** @var int */
 	protected $Running;
 
-	protected function setUp() : void
+	protected function setUp(): void
 	{
 		$this->PDO = DB::getInstance();
 		$this->Query = new Query(new DefaultConfiguration(), $this->PDO, 1);
 		$this->Running = \Runalyze\Configuration::General()->runningSport();
 	}
 
-	protected function tearDown() : void
+	protected function tearDown(): void
 	{
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}

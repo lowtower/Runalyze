@@ -47,7 +47,7 @@ class Selection
     /**
      * @return bool
      */
-    public function hasCurrentKey()
+    public function hasCurrentKey(): bool
     {
         return isset($this->List[$this->CurrentKey]);
     }

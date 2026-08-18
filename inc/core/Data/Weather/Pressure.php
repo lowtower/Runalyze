@@ -95,7 +95,7 @@ class Pressure implements ValueInterface
      * Pressure is unknown?
      * @return bool
      */
-    public function isUnknown()
+    public function isUnknown(): bool
     {
         return (null === $this->Value);
     }

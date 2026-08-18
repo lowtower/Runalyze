@@ -237,8 +237,8 @@ class BasicEndurance
         // If you change the algorithm, remember to change *info* in 'RunalyzePluginPanel_Rechenspiele'.
         $DataSum = ! empty($data) ? $data : DB::getInstance()->query($this->getQuery($timestamp))->fetch();
         $Result = array();
-        $Result['weekkm-result'] = isset($DataSum['km']) ? $DataSum['km'] : 0;
-        $Result['longjog-result'] = isset($DataSum['sum']) ? $DataSum['sum'] : 0;
+        $Result['weekkm-result'] = $DataSum['km'] ?? 0;
+        $Result['longjog-result'] = $DataSum['sum'] ?? 0;
 
         $Result['weekkm-percentage'] = $Result['weekkm-result'] * 7 / $this->getDaysForWeekKm() / $this->getTargetWeekKm();
         $Result['longjog-percentage'] = $Result['longjog-result'] * 7 / $this->DAYS_FOR_LONGJOGS;

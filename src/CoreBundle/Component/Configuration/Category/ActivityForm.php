@@ -40,7 +40,7 @@ class ActivityForm extends AbstractCategory
      * @param string $key
      * @return bool
      */
-    public function fieldSetIsCollapsed($key)
+    public function fieldSetIsCollapsed($key): bool
     {
         return isset($this->Variables['FORMULAR_SHOW_'.$key]) && 'true' !== $this->Variables['FORMULAR_SHOW_'.$key];
     }
@@ -48,7 +48,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return bool
      */
-    public function isAutomaticElevationCorrectionActivated()
+    public function isAutomaticElevationCorrectionActivated(): bool
     {
         return 'true' === $this->Variables['TRAINING_DO_ELEVATION'];
     }
@@ -56,7 +56,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return bool
      */
-    public function isAutomaticWeatherForecastActivated()
+    public function isAutomaticWeatherForecastActivated(): bool
     {
         return 'true' === $this->Variables['TRAINING_LOAD_WEATHER'];
     }
@@ -72,7 +72,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return bool
      */
-    public function isComputingEnergyActivated()
+    public function isComputingEnergyActivated(): bool
     {
         return 'true' === $this->Variables['COMPUTE_KCAL'];
     }
@@ -80,7 +80,7 @@ class ActivityForm extends AbstractCategory
     /**
      * @return bool
      */
-    public function isAutomaticPauseDetectionActivated()
+    public function isAutomaticPauseDetectionActivated(): bool
     {
         return 'true' === $this->Variables['DETECT_PAUSES'];
     }

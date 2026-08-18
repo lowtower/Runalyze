@@ -83,7 +83,7 @@ class VO2max implements PrognosisInterface
         return $this;
     }
 
-    public function areValuesValid()
+    public function areValuesValid(): bool
     {
         return self::REASONABLE_VO2MAX_MINIMUM <= $this->EffectiveVO2max && $this->EffectiveVO2max <= self::REASONABLE_VO2MAX_MAXIMUM;
     }

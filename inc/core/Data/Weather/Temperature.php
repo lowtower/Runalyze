@@ -138,7 +138,7 @@ class Temperature {
 	 * Temperature unknown?
 	 * @return bool
 	 */
-	public function isUnknown() {
+	public function isUnknown(): bool {
 		return null === $this->inCelsius;
 	}
 

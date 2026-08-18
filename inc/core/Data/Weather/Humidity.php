@@ -95,7 +95,7 @@ class Humidity implements ValueInterface
      * Humidity is unknown?
      * @return bool
      */
-    public function isUnknown()
+    public function isUnknown(): bool
     {
         return (null === $this->Percent);
     }

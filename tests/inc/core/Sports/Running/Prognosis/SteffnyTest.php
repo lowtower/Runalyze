@@ -9,7 +9,7 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
     /** @var Steffny */
     protected $Steffny;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Steffny = new Steffny();
     }

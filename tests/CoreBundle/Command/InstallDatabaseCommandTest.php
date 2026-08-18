@@ -20,7 +20,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
     /** @var string */
     protected $DatabasePrefix;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         static::bootKernel([
             'environment' => 'test_empty'
@@ -36,7 +36,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $this->dropAllTables();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->dropAllTables();
 

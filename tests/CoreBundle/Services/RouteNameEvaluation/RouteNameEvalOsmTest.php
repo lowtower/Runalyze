@@ -17,7 +17,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     private $underTest;
     private $coll;
 
-    protected function setUp() : void {
+    protected function setUp(): void {
         $this->underTest = new RouteNameEvalOsm('', '', new Client());
         $this->coll = $this->getMockBuilder(OsmCsvDataCollection::class)->disableOriginalConstructor()->getMock();
     }
@@ -208,7 +208,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(implode(' - ', array_slice($a, 0 , 7)), $result->getNames());
     }
 
-    protected function endsWith($haystack, $needle) {
+    protected function endsWith($haystack, $needle): bool {
         return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
     }
 }

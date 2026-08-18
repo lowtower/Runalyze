@@ -63,6 +63,6 @@ class FitSdkMapping extends AbstractMapping
         $id = (int) $sport * 1000 + (int) $subsport;
         $mapping = $this->getMapping();
 
-        return isset($mapping[$id]) ? $mapping[$id] : null;
+        return $mapping[$id] ?? null;
     }
 }

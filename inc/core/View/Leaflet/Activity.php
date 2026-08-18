@@ -166,7 +166,7 @@ class Activity extends LeafletRoute {
 	 * Has trackdata loop?
 	 * @return boolean
 	 */
-	protected function hasTrackdataLoop() {
+	protected function hasTrackdataLoop(): bool {
 		return null !== $this->TrackdataLoop;
 	}
 

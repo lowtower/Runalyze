@@ -17,14 +17,14 @@ class Version20171201214532 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'dataset` ADD `privacy` tinyint(3) unsigned NOT NULL DEFAULT 1 AFTER `position`');
         $this->addSql('UPDATE `'.$prefix.'dataset` SET `privacy` = 0 WHERE `keyid`= 3');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('ALTER TABLE `'.$prefix.'dataset` DROP COLUMN `privacy`');

@@ -138,7 +138,7 @@ abstract class ActivityPlot {
 	 * Data is available
 	 * @return bool
 	 */
-	private function dataIsAvailable() {
+	private function dataIsAvailable(): bool {
 		foreach ($this->Plot->Data as $key => $Data) {
 			if (! isset($Data['data']) || empty($Data['data'])) {
 				unset($this->Plot->Data[$key]);

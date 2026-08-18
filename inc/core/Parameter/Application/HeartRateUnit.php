@@ -47,7 +47,7 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 	 * Is bpm?
 	 * @return bool
 	 */
-	public function isBPM() {
+	public function isBPM(): bool {
 		return ($this->value() == self::BPM);
 	}
 
@@ -55,7 +55,7 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 	 * Is HRmax?
 	 * @return bool
 	 */
-	public function isHRmax() {
+	public function isHRmax(): bool {
 		return ($this->value() == self::HRMAX);
 	}
 
@@ -63,7 +63,7 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 	 * Is HRreserve?
 	 * @return bool
 	 */
-	public function isHRreserve() {
+	public function isHRreserve(): bool {
 		return ($this->value() == self::HRRESERVE);
 	}
 }

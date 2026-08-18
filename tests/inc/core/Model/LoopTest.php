@@ -35,7 +35,7 @@ class Loopable_MockTester extends Entity implements Loopable {
      *
      * @return bool
      */
-    public function has($key)
+    public function has($key): bool
     {
         return array_key_exists($key, $this->Data);
     }
@@ -60,7 +60,7 @@ class Loopable_MockTester extends Entity implements Loopable {
      *
      * @return bool
      */
-    public function isArray($key)
+    public function isArray($key): bool
     {
         return $this->has($key) && is_array($this->Data[$key]);
     }

@@ -16,12 +16,12 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $object;
 
-	protected function setUp() : void {
+	protected function setUp(): void {
 		$this->object = new BasicEndurance();
 		DB::getInstance()->exec('DELETE FROM `runalyze_training`');
 	}
 
-	protected function tearDown() : void {
+	protected function tearDown(): void {
 		DB::getInstance()->exec('DELETE FROM `runalyze_training`');
 	}
 

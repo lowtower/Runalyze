@@ -343,7 +343,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasGeohashes()
+    public function hasGeohashes(): bool
     {
         return null !== $this->geohashes;
     }
@@ -468,7 +468,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasElevations()
+    public function hasElevations(): bool
     {
         return null !== $this->elevationsCorrected || null !== $this->elevationsOriginal;
     }
@@ -476,7 +476,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasOriginalElevations()
+    public function hasOriginalElevations(): bool
     {
         return null !== $this->elevationsOriginal;
     }
@@ -484,7 +484,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function hasCorrectedElevations()
+    public function hasCorrectedElevations(): bool
     {
         return null !== $this->elevationsCorrected;
     }
@@ -660,7 +660,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return (
             '' == $this->name &&

@@ -519,7 +519,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return bool
      */
-    public function hasInternalSportId()
+    public function hasInternalSportId(): bool
     {
         return null !== $this->internalSportId && SportProfile::GENERIC != $this->internalSportId;
     }
@@ -602,7 +602,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @return bool
      */
-    public function hasEquipmentTypes()
+    public function hasEquipmentTypes(): bool
     {
         return ! $this->equipmentType->isEmpty();
     }

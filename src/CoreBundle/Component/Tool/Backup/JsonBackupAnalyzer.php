@@ -59,7 +59,7 @@ class JsonBackupAnalyzer
 	/**
 	 * @return bool
 	 */
-	public function fileIsOkay()
+	public function fileIsOkay(): bool
     {
 		return $this->versionIsOkay() && $this->expectedTablesAreThere();
 	}
@@ -67,7 +67,7 @@ class JsonBackupAnalyzer
 	/**
 	 * @return bool
 	 */
-	public function versionIsOkay()
+	public function versionIsOkay(): bool
     {
 		return (self::extractMajorAndMinorVersion($this->RunalyzeVersion) == self::extractMajorAndMinorVersion($this->VersionString));
 	}
@@ -87,7 +87,7 @@ class JsonBackupAnalyzer
 	/**
 	 * @return bool
 	 */
-	protected function expectedTablesAreThere()
+	protected function expectedTablesAreThere(): bool
     {
 		$Expected = $this->expectedTables();
 		$Found = array_keys($this->NumberOf);

@@ -26,7 +26,7 @@ class Version20160909105213 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DELETE FROM `'.$prefix.'plugin` WHERE `type`="tool"');
@@ -35,7 +35,7 @@ class Version20160909105213 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // Tools must be installed by hand if required
     }

@@ -38,7 +38,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
         parent::__construct($client, $logger);
     }
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return strlen($this->GeonamesUsername) > 0;
     }

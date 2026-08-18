@@ -9,7 +9,7 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
     /** @var ClimbScore */
     protected $Score;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Score = new ClimbScore();
     }

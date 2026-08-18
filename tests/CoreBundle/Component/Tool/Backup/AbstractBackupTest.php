@@ -16,14 +16,14 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractBackup */
     protected $Backup;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $mockBuilder = $this->getMockBuilder(AbstractBackup::class);
         $mockBuilder->setConstructorArgs([__DIR__.self::TESTFILE, 1, \DB::getInstance(), 'runalyze_', '3.2.0']);
         $this->Backup = $mockBuilder->getMockForAbstractClass();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         if (file_exists(__DIR__.self::TESTFILE)) {
             unlink(__DIR__.self::TESTFILE);

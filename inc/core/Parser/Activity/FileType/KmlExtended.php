@@ -185,7 +185,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @return bool
      */
-    protected function hasMorePauses()
+    protected function hasMorePauses(): bool
     {
         return $this->PauseIndex < count($this->PauseTimes);
     }

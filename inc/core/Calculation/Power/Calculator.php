@@ -76,7 +76,7 @@ class Calculator {
 	/**
 	 * @return boolean
 	 */
-	protected function knowsRoute() {
+	protected function knowsRoute(): bool {
 		return (null !== $this->Route);
 	}
 

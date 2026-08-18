@@ -44,7 +44,7 @@ class Time {
 	 * @param int $timestamp
 	 * @return boolean
 	 */
-	public static function isToday($timestamp) {
+	public static function isToday($timestamp): bool {
 		return (date('d.m.Y') == date('d.m.Y', $timestamp));
 	}
 

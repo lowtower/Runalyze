@@ -61,7 +61,7 @@ class Factory {
 	 * Has account id?
 	 * @return bool
 	 */
-	protected function hasAccountID() {
+	protected function hasAccountID(): bool {
 		return null !== $this->AccountID;
 	}
 

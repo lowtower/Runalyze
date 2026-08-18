@@ -21,7 +21,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     /** @var \ReflectionMethod */
     protected $GetWeatherDataFromResultMethod;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
 

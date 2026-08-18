@@ -44,7 +44,7 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 	 * Is kilocalories?
 	 * @return bool
 	 */
-	public function isKCAL() {
+	public function isKCAL(): bool {
 		return ($this->value() == self::KCAL);
 	}
 
@@ -52,7 +52,7 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 	 * Is kilojoules?
 	 * @return bool
 	 */
-	public function isKJ() {
+	public function isKJ(): bool {
 		return ($this->value() == self::KJ);
 	}
 

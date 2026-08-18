@@ -149,7 +149,7 @@ class MonthwiseTable
 				echo '<td colspan="12" class="c">'.($mentionEmptyData ? '<em>'.__('No data found.').'</em>' : '').'</td>';
 			} else {
 				for ($i = 1; $i <= 12; ++$i) {
-					echo '<td>'.(isset($rowData[$i]) ? $rowData[$i] : '').'</td>';
+					echo '<td>'.($rowData[$i] ?? '').'</td>';
 				}
 			}
 

@@ -13,7 +13,7 @@ class LogbookTest extends AbstractActivityParserTestCase
     /** @var Logbook */
     protected $Parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Parser = new Logbook();
     }

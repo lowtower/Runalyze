@@ -40,7 +40,7 @@ class PauseCollection implements \Countable, \ArrayAccess
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->Elements);
     }

@@ -141,7 +141,7 @@ class Heartrate extends ActivitySeries {
 	/**
 	 * @return boolean
 	 */
-	protected function showsAsPercentage() {
+	protected function showsAsPercentage(): bool {
 		return $this->Factor != 1;
 	}
 }

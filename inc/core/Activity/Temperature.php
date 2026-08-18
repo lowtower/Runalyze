@@ -158,7 +158,7 @@ class Temperature implements ValueInterface {
 	 * Is temperature empty?
 	 * @return bool
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return (null === $this->Temperature);
 	}
 

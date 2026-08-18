@@ -40,7 +40,7 @@ class TsbModel extends AbstractModel
     protected function calculateArrays()
     {
         for ($i = $this->Range['from']; $i <= $this->Range['to']; ++$i) {
-            $T = isset($this->Trimp[$i]) ? $this->Trimp[$i] : 0;
+            $T = $this->Trimp[$i] ?? 0;
 
             $this->Fitness[$i] = $T * $this->LambdaCTL + (1 - $this->LambdaCTL) * $this->Fitness[$i - 1];
             $this->Fatigue[$i] = $T * $this->LambdaATL + (1 - $this->LambdaATL) * $this->Fatigue[$i - 1];

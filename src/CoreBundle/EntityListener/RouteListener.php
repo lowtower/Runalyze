@@ -50,7 +50,7 @@ class RouteListener
      *
      * @return bool
      */
-    protected function hasChangedElevations(PreUpdateEventArgs $args)
+    protected function hasChangedElevations(PreUpdateEventArgs $args): bool
     {
         return (
             $args->hasChangedField('elevationsCorrected') || (

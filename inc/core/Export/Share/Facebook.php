@@ -35,7 +35,7 @@ class Facebook extends AbstractSocialSharer
     /**
      * @return bool
      */
-    public function isPossible()
+    public function isPossible(): bool
     {
         return ($this->Context->activity()->isPublic() && ! System::isAtLocalhost());
     }

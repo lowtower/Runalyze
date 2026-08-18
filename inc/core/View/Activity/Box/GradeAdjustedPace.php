@@ -33,7 +33,7 @@ class GradeAdjustedPace extends AbstractBox
 		);
 	}
 
-    public static function hasPace(\Runalyze\View\Activity\Context $context) {
+    public static function hasPace(\Runalyze\View\Activity\Context $context): bool {
         return $context->sport()->getInternalProfileEnum() == SportProfile::RUNNING
             && $context->hasRoute() && $context->route()->hasElevations()
             && $context->hasTrackdata() && $context->trackdata()->has(Trackdata::DISTANCE);

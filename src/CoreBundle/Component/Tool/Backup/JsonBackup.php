@@ -28,7 +28,7 @@ class JsonBackup extends AbstractBackup
 			return;
 
 		while ($row = $statement->fetch()) {
-			$id = isset($row['id']) ? $row['id'] : '';
+			$id = $row['id'] ?? '';
 			unset($row['id']);
 
 			if (isset($row['accountid'])) {

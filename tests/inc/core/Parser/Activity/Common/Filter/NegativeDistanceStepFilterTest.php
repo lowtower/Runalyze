@@ -16,7 +16,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Filter = new NegativeDistanceStepFilter();
         $this->Container = new ActivityDataContainer();

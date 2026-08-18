@@ -45,7 +45,7 @@ class Sport {
 	 * Has a training of this sport a distance?
 	 * @return bool
 	 */
-	public function usesDistance() {
+	public function usesDistance(): bool {
 		return ($this->data['distances'] == 1);
 	}
 
@@ -53,7 +53,7 @@ class Sport {
 	 * Checks if this sport is set as "Running"
 	 * @return bool
 	 */
-	public function isRunning() {
+	public function isRunning(): bool {
 	    return (\Runalyze\Profile\Sport\SportProfile::RUNNING == $this->data['internal_sport_id']);
 	}
 }

@@ -75,10 +75,10 @@ class Pause {
 	 * @param array $data
 	 */
 	public function fromArray(array $data) {
-		$this->Time = isset($data[self::TIME]) ? $data[self::TIME] : 0;
-		$this->Duration = isset($data[self::DURATION]) ? $data[self::DURATION] : 0;
-		$this->HRstart = isset($data[self::HR_START]) ? $data[self::HR_START] : null;
-		$this->HRend = isset($data[self::HR_END]) ? $data[self::HR_END] : null;
+		$this->Time = $data[self::TIME] ?? 0;
+		$this->Duration = $data[self::DURATION] ?? 0;
+		$this->HRstart = $data[self::HR_START] ?? null;
+		$this->HRend = $data[self::HR_END] ?? null;
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Pause {
 	 * Has heart rate info?
 	 * @return bool
 	 */
-	public function hasHeartRateInfo() {
+	public function hasHeartRateInfo(): bool {
 		return null !== $this->HRstart && null !== $this->HRend;
 	}
 

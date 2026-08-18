@@ -178,14 +178,14 @@ class Window {
 	/**
 	 * @return bool
 	 */
-	protected function handmadeLapsTimeDiffers() {
+	protected function handmadeLapsTimeDiffers(): bool {
 		return (abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME);
 	}
 
 	/**
 	 * @return bool
 	 */
-	protected function handmadeLapsDistanceDiffers() {
+	protected function handmadeLapsDistanceDiffers(): bool {
 		return (abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE);
 	}
 

@@ -39,7 +39,7 @@ class Calculator
     /**
      * @return bool
      */
-    protected function knowsTrackdata()
+    protected function knowsTrackdata(): bool
     {
         return (null !== $this->Trackdata);
     }
@@ -47,7 +47,7 @@ class Calculator
     /**
      * @return bool
      */
-    protected function knowsRoute()
+    protected function knowsRoute(): bool
     {
         return (null !== $this->Route);
     }

@@ -72,7 +72,7 @@ class NightDetector
     /**
      * @return bool
      */
-    public function isKnown()
+    public function isKnown(): bool
     {
         return (null !== $this->Value);
     }
@@ -80,7 +80,7 @@ class NightDetector
     /**
      * @return bool
      */
-    public function isNight()
+    public function isNight(): bool
     {
         return (1 == $this->Value);
     }

@@ -12,7 +12,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
     /** @var Trackdata */
     protected $Data;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Data = new Trackdata();
     }

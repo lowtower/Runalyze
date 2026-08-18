@@ -111,7 +111,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsGender()
+    public function knowsGender(): bool
     {
         return ($this->Gender !== Gender::NONE && null !== $this->Gender);
     }
@@ -119,7 +119,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function isMale()
+    public function isMale(): bool
     {
         return Gender::MALE == $this->Gender;
     }
@@ -127,7 +127,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function isFemale()
+    public function isFemale(): bool
     {
         return Gender::FEMALE == $this->Gender;
     }
@@ -135,7 +135,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsMaximalHeartRate()
+    public function knowsMaximalHeartRate(): bool
     {
         return (null !== $this->maximalHR);
     }
@@ -143,7 +143,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsRestingHeartRate()
+    public function knowsRestingHeartRate(): bool
     {
         return (null !== $this->restingHR);
     }
@@ -151,7 +151,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsWeight()
+    public function knowsWeight(): bool
     {
         return (null !== $this->weight);
     }
@@ -159,7 +159,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsBirthyear()
+    public function knowsBirthyear(): bool
     {
         return (null !== $this->birthyear);
     }
@@ -167,7 +167,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsAge()
+    public function knowsAge(): bool
     {
         return (null !== $this->birthyear);
     }
@@ -175,7 +175,7 @@ class Athlete
     /**
      * @return bool
      */
-    public function knowsEffectiveVO2max()
+    public function knowsEffectiveVO2max(): bool
     {
         return (0.0 !== $this->vo2max);
     }

@@ -48,7 +48,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 * Is kg?
 	 * @return bool
 	 */
-	public function isKG() {
+	public function isKG(): bool {
 		return ($this->value() == self::KG);
 	}
 
@@ -56,7 +56,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 * Is pounds?
 	 * @return bool
 	 */
-	public function isPounds() {
+	public function isPounds(): bool {
 		return ($this->value() == self::POUNDS);
 	}
 
@@ -64,7 +64,7 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 * Is stones?
 	 * @return bool
 	 */
-	public function isStones() {
+	public function isStones(): bool {
 		return ($this->value() == self::STONES);
 	}
 

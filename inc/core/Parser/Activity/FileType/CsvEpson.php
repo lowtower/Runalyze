@@ -266,7 +266,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
             foreach ($this->Container->ContinuousData->Time as $sec) {
                 foreach ($keysToAdjust as $key) {
-                    $newArrays[$key][] = isset($this->Container->ContinuousData->{$key}[$sec]) ? $this->Container->ContinuousData->{$key}[$sec] : 0;
+                    $newArrays[$key][] = $this->Container->ContinuousData->{$key}[$sec] ?? 0;
                 }
             }
 

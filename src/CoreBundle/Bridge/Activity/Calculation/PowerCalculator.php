@@ -46,7 +46,7 @@ class PowerCalculator
     /**
      * @return bool
      */
-    protected function hasActivityPowerDataFromDevice()
+    protected function hasActivityPowerDataFromDevice(): bool
     {
         return false === $this->Activity->isPowerCalculated();
     }
@@ -54,7 +54,7 @@ class PowerCalculator
     /**
      * @return bool
      */
-    protected function canCalculatePower()
+    protected function canCalculatePower(): bool
     {
         return (
             null !== $this->Activity->getSport() &&
@@ -76,7 +76,7 @@ class PowerCalculator
      * @param Training $activity
      * @return bool
      */
-    protected function canCalculatePowerForActivity(Training $activity)
+    protected function canCalculatePowerForActivity(Training $activity): bool
     {
         return (
             $activity->hasRoute() &&

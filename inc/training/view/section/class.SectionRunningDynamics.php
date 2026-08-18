@@ -27,7 +27,7 @@ class SectionRunningDynamics extends TrainingViewSectionTabbedPlot {
 	 * Has the training all required data?
 	 * @return bool
 	 */
-	protected function hasRequiredData() {
+	protected function hasRequiredData(): bool {
 		return (
 			$this->Context->trackdata()->has(Trackdata\Entity::CADENCE) ||
 			$this->Context->trackdata()->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||

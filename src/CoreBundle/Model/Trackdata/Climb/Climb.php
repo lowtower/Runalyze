@@ -51,7 +51,7 @@ class Climb
     /**
      * @return bool
      */
-    public function knowsTrackdataStartIndex()
+    public function knowsTrackdataStartIndex(): bool
     {
         return null !== $this->TrackdataStartIndex;
     }
@@ -67,7 +67,7 @@ class Climb
     /**
      * @return bool
      */
-    public function knowsTrackdataEndIndex()
+    public function knowsTrackdataEndIndex(): bool
     {
         return null !== $this->TrackdataEndIndex;
     }
@@ -118,7 +118,7 @@ class Climb
     /**
      * @return bool
      */
-    public function knowsAltitudeAtTop()
+    public function knowsAltitudeAtTop(): bool
     {
         return null !== $this->AltitudeAtTop;
     }
@@ -145,7 +145,7 @@ class Climb
     /**
      * @return bool
      */
-    public function knowsClimbProfile()
+    public function knowsClimbProfile(): bool
     {
         return null !== $this->ClimbProfile;
     }

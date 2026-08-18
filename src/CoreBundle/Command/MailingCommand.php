@@ -122,7 +122,7 @@ class MailingCommand extends ContainerAwareCommand
      * @param OutputInterface $output
      * @return bool
      */
-    protected function validateInput(InputInterface $input, OutputInterface $output)
+    protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
         return (
             $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
@@ -193,7 +193,7 @@ class MailingCommand extends ContainerAwareCommand
      * @param null|string $lifetime
      * @return bool
      */
-    protected function validateLifetime($lifetime)
+    protected function validateLifetime($lifetime): bool
     {
         return (null === $lifetime || ctype_digit($lifetime));
     }

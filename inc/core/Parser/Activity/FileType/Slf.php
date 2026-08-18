@@ -25,7 +25,7 @@ class Slf extends AbstractMultipleParserWithSubParser implements FileContentAwar
     /**
      * @return bool
      */
-    protected function isSlf3()
+    protected function isSlf3(): bool
     {
         return strpos($this->FileContent, '<LogEntries') !== false;
     }
@@ -33,7 +33,7 @@ class Slf extends AbstractMultipleParserWithSubParser implements FileContentAwar
     /**
      * @return bool
      */
-    protected function isSlf4()
+    protected function isSlf4(): bool
     {
         return strpos($this->FileContent, '<Entries') !== false;
     }

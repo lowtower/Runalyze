@@ -17,7 +17,7 @@ class Version20161208215800 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
@@ -52,7 +52,7 @@ class Version20161208215800 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'training` SET `activity_id` = NULL WHERE `activity_id` = 0');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
     }
 }

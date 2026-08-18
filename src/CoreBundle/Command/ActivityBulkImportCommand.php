@@ -51,7 +51,7 @@ class MaxZoneHR {
         }
     }
 
-    public function isCollected() {
+    public function isCollected(): bool {
         return $this->MaxHR > 0;
     }
 }

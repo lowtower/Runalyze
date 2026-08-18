@@ -28,7 +28,7 @@ class Privacy extends AbstractCategory
     /**
      * @return bool
      */
-    public function isListPublic()
+    public function isListPublic(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_PUBLIC'];
     }
@@ -36,7 +36,7 @@ class Privacy extends AbstractCategory
     /**
      * @return bool
      */
-    public function isListShowingAllActivities()
+    public function isListShowingAllActivities(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_ALL'];
     }
@@ -44,7 +44,7 @@ class Privacy extends AbstractCategory
     /**
      * @return bool
      */
-    public function isListWithStatistics()
+    public function isListWithStatistics(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_STATISTICS'];
     }

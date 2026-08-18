@@ -55,7 +55,7 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 	 * Uses none
 	 * @return bool
 	 */
-	public function usesNone() {
+	public function usesNone(): bool {
 		return ($this->value() == self::NONE);
 	}
 
@@ -63,7 +63,7 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 	 * Uses: Threshold
 	 * @return bool
 	 */
-	public function usesThreshold() {
+	public function usesThreshold(): bool {
 		return ($this->value() == self::THRESHOLD);
 	}
 
@@ -71,7 +71,7 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 	 * Uses: Douglas-Peucker
 	 * @return bool
 	 */
-	public function usesDouglasPeucker() {
+	public function usesDouglasPeucker(): bool {
 		return ($this->value() == self::DOUGLAS_PEUCKER);
 	}
 
@@ -79,7 +79,7 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 	 * Uses: Reumann-Witkam
 	 * @return bool
 	 */
-	public function usesReumannWitkam() {
+	public function usesReumannWitkam(): bool {
 		return ($this->value() == self::REUMANN_WITKAM);
 	}
 }

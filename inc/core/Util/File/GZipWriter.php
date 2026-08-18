@@ -54,7 +54,7 @@ class GZipWriter {
 	 * Is file open?
 	 * @return bool
 	 */
-	protected function isOpen() {
+	protected function isOpen(): bool {
 		return null !== $this->Resource;
 	}
 

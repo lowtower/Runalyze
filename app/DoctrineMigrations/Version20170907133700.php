@@ -23,7 +23,7 @@ class Version20170907133700 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DELETE FROM `'.$prefix."conf` WHERE `key`='SEARCH_RESULTS_PER_PAGE'");
@@ -32,7 +32,7 @@ class Version20170907133700 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
     }
 }

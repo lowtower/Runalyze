@@ -186,7 +186,7 @@ class Weather {
 	/**
 	 * @return bool
 	 */
-	public function sourceIsKnown() {
+	public function sourceIsKnown(): bool {
 		return (null !== $this->SourceId);
 	}
 
@@ -211,7 +211,7 @@ class Weather {
 	 * Is the weather-data empty?
 	 * @return bool
 	 */
-	public function isEmpty() {
+	public function isEmpty(): bool {
 		return (
 			$this->Temperature->isUnknown() &&
 			$this->Condition->isUnknown() &&

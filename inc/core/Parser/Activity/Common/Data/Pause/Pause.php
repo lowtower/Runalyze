@@ -67,7 +67,7 @@ class Pause
     /**
      * @return bool
      */
-    public function hasHeartRateDetails()
+    public function hasHeartRateDetails(): bool
     {
         return null !== $this->HeartRateAtStart && null !== $this->HeartRateAtEnd;
     }
@@ -99,7 +99,7 @@ class Pause
     /**
      * @return bool
      */
-    public function hasRecoveryDetails()
+    public function hasRecoveryDetails(): bool
     {
         return null !== $this->HeartRateAtRecovery && null !== $this->TimeUntilRecovery;
     }
@@ -147,7 +147,7 @@ class Pause
     /**
      * @return bool
      */
-    public function hasPerformanceCondition()
+    public function hasPerformanceCondition(): bool
     {
         return null !== $this->PerformanceCondition;
     }

@@ -51,7 +51,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         $this->logger = $logger;
     }
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return strlen($this->ApiKey) > 0;
     }

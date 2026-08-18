@@ -9,7 +9,7 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
     /** @var Notification */
     protected $Notification;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Notification = new Notification();
     }

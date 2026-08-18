@@ -102,7 +102,7 @@ class LegacyUnitConverter
         ];
 
         if ($returnLegacyEnum) {
-            return isset($paceUnitMap[$paceEnum]) ? $paceUnitMap[$paceEnum] : Application\PaceUnit::KM_PER_H;
+            return $paceUnitMap[$paceEnum] ?? Application\PaceUnit::KM_PER_H;
         }
 
         if (isset($paceUnitMap[$paceEnum])) {

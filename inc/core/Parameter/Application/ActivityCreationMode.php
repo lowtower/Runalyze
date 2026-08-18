@@ -48,7 +48,7 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 	 * Uses upload form
 	 * @return bool
 	 */
-	public function usesUpload() {
+	public function usesUpload(): bool {
 		return ($this->value() == self::UPLOAD);
 	}
 
@@ -56,7 +56,7 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 	 * Uses Garmin-Communicator
 	 * @return bool
 	 */
-	public function usesGarminCommunicator() {
+	public function usesGarminCommunicator(): bool {
 		return ($this->value() == self::GARMIN);
 	}
 
@@ -64,7 +64,7 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 	 * Uses standard form
 	 * @return bool
 	 */
-	public function usesForm() {
+	public function usesForm(): bool {
 		return ($this->value() == self::FORM);
 	}
 }

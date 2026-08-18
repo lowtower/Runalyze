@@ -23,7 +23,7 @@ class Version20170320195530 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DELETE FROM `'.$prefix."conf` WHERE `key`='TRAINING_SHOW_AFTER_CREATE'");
@@ -32,7 +32,7 @@ class Version20170320195530 extends AbstractMigration implements ContainerAwareI
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
     }
 }

@@ -27,7 +27,7 @@ class Cameron implements PrognosisInterface
         $this->setReferenceResult($referenceDistance, $referenceTime);
     }
 
-    public function areValuesValid()
+    public function areValuesValid(): bool
     {
         return 0.0 < $this->ReferenceDistance && 0.0 < $this->ReferenceTime;
     }

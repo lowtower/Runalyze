@@ -355,7 +355,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @return bool
      */
-    public function knowsGender()
+    public function knowsGender(): bool
     {
         return Gender::NONE !== $this->gender;
     }
@@ -363,7 +363,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @return bool
      */
-    public function isMale()
+    public function isMale(): bool
     {
         return Gender::MALE == $this->gender;
     }
@@ -371,7 +371,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @return bool
      */
-    public function isFemale()
+    public function isFemale(): bool
     {
         return Gender::FEMALE == $this->gender;
     }
@@ -398,7 +398,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @return bool
      */
-    public function knowsBirthYear()
+    public function knowsBirthYear(): bool
     {
         return null !== $this->birthyear;
     }

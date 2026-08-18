@@ -27,7 +27,7 @@ class Kml extends AbstractMultipleParserWithSubParser implements FileContentAwar
     /**
      * @return bool
      */
-    protected function isTomTomFile()
+    protected function isTomTomFile(): bool
     {
         return strpos($this->FileContent, '<gx:Track') !== false;
     }
@@ -35,7 +35,7 @@ class Kml extends AbstractMultipleParserWithSubParser implements FileContentAwar
     /**
      * @return bool
      */
-    protected function isNamespacedFile()
+    protected function isNamespacedFile(): bool
     {
         return strpos($this->FileContent, '<kml:coordinates') !== false;
     }
@@ -43,7 +43,7 @@ class Kml extends AbstractMultipleParserWithSubParser implements FileContentAwar
     /**
      * @return bool
      */
-    protected function isDefaultFile()
+    protected function isDefaultFile(): bool
     {
         return strpos($this->FileContent, '<coordinates') !== false;
     }

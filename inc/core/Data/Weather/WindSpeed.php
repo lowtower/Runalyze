@@ -129,7 +129,7 @@ class WindSpeed implements ValueInterface
      * Wind Speed is unknown?
      * @return bool
      */
-    public function isUnknown()
+    public function isUnknown(): bool
     {
         return (null === $this->KilometerPerHour);
     }

@@ -96,7 +96,7 @@ class ConfigTabs {
 	 * Has to show surrounding div and navigation?
 	 * @return boolean
 	 */
-	private function hasToShowDiv() {
+	private function hasToShowDiv(): bool {
 		return (Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true');
 	}
 

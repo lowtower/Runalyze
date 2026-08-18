@@ -12,7 +12,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     protected $Base;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->Base = __DIR__.'/../../../../testfiles/backup/';
     }

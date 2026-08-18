@@ -149,7 +149,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Boolean flag: Show all weeks?
 	 * @return bool
 	 */
-	private function wantToShowAllWeeks() {
+	private function wantToShowAllWeeks(): bool {
 		return $this->dat == 'allWeeks';
 	}
 

@@ -127,7 +127,7 @@ class Location {
 	 * Is position set?
 	 * @return bool
 	 */
-	public function hasPosition() {
+	public function hasPosition(): bool {
 		return (
 			null !== $this->Latitude &&
 			null !== $this->Longitude &&
@@ -139,7 +139,7 @@ class Location {
 	 * Has location name?
 	 * @return string
 	 */
-	public function hasLocationName() {
+	public function hasLocationName(): bool {
 		return (strlen($this->LocationName) > 0);
 	}
 
@@ -147,7 +147,7 @@ class Location {
 	 * Is position set?
 	 * @return bool
 	 */
-	public function hasDateTime() {
+	public function hasDateTime(): bool {
 		return null !== $this->DateTime;
 	}
 
@@ -156,7 +156,7 @@ class Location {
 	 * @param int $seconds
 	 * @return bool true if the timestamp is older than 24 hours
 	 */
-	public function isOlderThan($seconds = DAY_IN_S) {
+	public function isOlderThan($seconds = DAY_IN_S): bool {
 		return $this->hasDateTime() && ($this->timestamp() < time() - $seconds);
 	}
 }

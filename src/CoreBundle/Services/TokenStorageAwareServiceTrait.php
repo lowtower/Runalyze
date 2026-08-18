@@ -13,7 +13,7 @@ trait TokenStorageAwareServiceTrait
     /**
      * @return bool
      */
-    protected function knowsUser()
+    protected function knowsUser(): bool
     {
         return null !== $this->TokenStorage->getToken() && $this->TokenStorage->getToken()->getUser() instanceof Account;
     }

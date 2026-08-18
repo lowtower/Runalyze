@@ -133,7 +133,7 @@ class HeartRate {
 	 * Can show in HRmax?
 	 * @return bool
 	 */
-	public function canShowInHRmax() {
+	public function canShowInHRmax(): bool {
 		return $this->knowsAthlete() && $this->Athlete->knowsMaximalHeartRate();
 	}
 
@@ -141,7 +141,7 @@ class HeartRate {
 	 * Can show in HRrest?
 	 * @return bool
 	 */
-	public function canShowInHRrest() {
+	public function canShowInHRrest(): bool {
 		return $this->knowsAthlete() && $this->Athlete->knowsRestingHeartRate();
 	}
 
@@ -167,7 +167,7 @@ class HeartRate {
 	 * Is the athlete known?
 	 * @return bool
 	 */
-	protected function knowsAthlete() {
+	protected function knowsAthlete(): bool {
 		return (null !== $this->Athlete);
 	}
 }

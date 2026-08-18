@@ -48,7 +48,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         $this->logger = $logger ?: new NullLogger();
     }
 
-    public function isPossible()
+    public function isPossible(): bool
     {
         return strlen($this->ApiKey) > 0;
     }
