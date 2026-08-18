@@ -21,11 +21,10 @@ class Boolean extends \Runalyze\Parameter {
 		$this->set( ($valueAsString == 'true') );
 	}
 
-	/**
-	 * Value as string
-	 * @return string
-	 */
-	public function valueAsString(): string {
+    /**
+     * Value as string
+     */
+    public function valueAsString(): string {
 		return ($this->value() ? 'true' : 'false');
 	}
 }

@@ -15,9 +15,13 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->getConfigurationList()->getActivityForm()->getDatabaseOrderForTypes()->sortCollection(
-                $this->getAccount()->getActivityTypes()
-            ),
+            'choices' => $this->getConfigurationList()
+                ->getActivityForm()
+                ->getDatabaseOrderForTypes()
+                ->sortCollection(
+                    $this->getAccount()
+                        ->getActivityTypes()
+                ),
             'choice_label' => function($type, $key, $index) {
                 /** @var Type $type */
                 return $type->getName();
@@ -28,7 +32,8 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
             'choice_attr' => function($type, $key, $index) {
                 /** @var Type $type */
                 return [
-                    'data-sport' => $type->getSport()->getId()
+                    'data-sport' => $type->getSport()
+                        ->getId()
                 ];
             },
             'choice_translation_domain' => false

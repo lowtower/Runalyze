@@ -13,7 +13,7 @@ class InvalidRRIntervalFilter extends AbstractFilter
         $container->RRIntervals = array_values(array_filter($container->RRIntervals));
         $filteredLength = count($container->RRIntervals);
 
-        if ($filteredLength != $originalLength) {
+        if ($filteredLength !== $originalLength) {
             if ($strict) {
                 throw new InvalidDataException('Invalid r-r intervals detected.');
             } else {

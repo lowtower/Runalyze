@@ -34,17 +34,11 @@ class FitSdkMapping extends AbstractMapping
         ];
     }
 
-    /**
-     * @return int
-     */
     protected function internalDefault(): int
     {
         return SportProfile::GENERIC;
     }
 
-    /**
-     * @return int
-     */
     protected function externalDefault(): int
     {
         return FitSdk\SportProfile::GENERIC;

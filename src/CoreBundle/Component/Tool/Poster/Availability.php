@@ -27,9 +27,6 @@ class Availability
         $this->Python3Path = $python3Path;
     }
 
-    /**
-     * @return bool
-     */
     public function isAvailable(): bool
     {
         return ($this->isPythonAvailable() && $this->isRsvgConverterAvailable());

@@ -21,11 +21,10 @@ use FormularInput;
  * @package Runalyze\Configuration\Category
  */
 class ActivityForm extends \Runalyze\Configuration\Category {
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'activity-form';
 	}
 
@@ -168,7 +167,8 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 	 * @param string $ID
 	 */
 	public function ignoreActivityID($ID) {
-		$this->object('GARMIN_IGNORE_IDS')->append($ID);
+		$this->object('GARMIN_IGNORE_IDS')
+		    ->append($ID);
 		$this->updateValue( $this->handle('GARMIN_IGNORE_IDS') );
 	}
 
@@ -180,11 +180,10 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		return $this->get('DETECT_PAUSES');
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Activity form') );
 
 		$Fieldset->addHandle( $this->handle('TRAINING_CREATE_MODE'), array(
@@ -214,11 +213,10 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		return $Fieldset;
 	}
 
-	/**
-	 * Add handles for weather to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForWeatherTo(Fieldset $Fieldset) {
+    /**
+     * Add handles for weather to fieldset
+     */
+    private function addHandlesForWeatherTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_LOAD_WEATHER'), array(
 		    'label'		=> __('Automatically load weather conditions'),
 		    'tooltip'	=> __('via openweathermap.org')
@@ -231,22 +229,20 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		));
 	}
 
-	/**
-	 * Add handles for elevation to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForElevationTo(Fieldset $Fieldset) {
+    /**
+     * Add handles for elevation to fieldset
+     */
+    private function addHandlesForElevationTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_DO_ELEVATION'), array(
 		    'label'		=> __('Automatically correct elevation data'),
 		    'tooltip'	=> __('Instead of using gps-elevation a correction via external services is possible.')
 		));
 	}
 
-	/**
-	 * Add handles for sorting to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForSortingTo(Fieldset $Fieldset) {
+    /**
+     * Add handles for sorting to fieldset
+     */
+    private function addHandlesForSortingTo(Fieldset $Fieldset) {
 		$Fieldset->addHandle( $this->handle('TRAINING_SORT_SPORTS'), array(
 		    'label'		=> __('Sort: sports')
 		));

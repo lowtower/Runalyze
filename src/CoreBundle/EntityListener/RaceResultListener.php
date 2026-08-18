@@ -36,7 +36,9 @@ class RaceResultListener
         $activity = $race->getActivity();
 
         if (
-            $activity->getSport()->getInternalSport()->isRunning() &&
+            $activity->getSport()
+                ->getInternalSport()
+                ->isRunning() &&
             $activity->getUseVO2max() &&
             $activity->getVO2max() > 0
         ) {

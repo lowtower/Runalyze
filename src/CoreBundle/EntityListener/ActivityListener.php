@@ -48,21 +48,23 @@ class ActivityListener
     }
 
     /**
-     * @param Account $account
      * @return int
      */
     protected function getNumberOfDaysToConsiderForEffectiveVO2maxShape(Account $account)
     {
-        return $this->ConfigurationManager->getList($account)->getVO2max()->getNumberOfDaysToConsider();
+        return $this->ConfigurationManager->getList($account)
+            ->getVO2max()
+            ->getNumberOfDaysToConsider();
     }
 
     /**
-     * @param Account $account
      * @return int
      */
     protected function getNumberOfDaysToConsiderForMarathonShape(Account $account)
     {
-        return $this->ConfigurationManager->getList($account)->getBasicEndurance()->getDaysToConsider();
+        return $this->ConfigurationManager->getList($account)
+            ->getBasicEndurance()
+            ->getDaysToConsider();
     }
 
     public function prePersist(Training $activity, LifecycleEventArgs $args)
@@ -131,7 +133,8 @@ class ActivityListener
 
     protected function setActivityIdIfEmpty(Training $activity)
     {
-        $activity->getAdapter()->setActivityIdIfEmpty();
+        $activity->getAdapter()
+            ->setActivityIdIfEmpty();
     }
 
     protected function checkRelatedEntitiesForConsistency(Training $activity, ?PreUpdateEventArgs $args = null)
@@ -150,7 +153,9 @@ class ActivityListener
         if (null === $activity->getSport()) {
             /** @var Sport $mainSport */
             $mainSport = $this->SportRepository->findThisOrAny(
-                $this->ConfigurationManager->getList($activity->getAccount())->getGeneral()->getMainSport(),
+                $this->ConfigurationManager->getList($activity->getAccount())
+                    ->getGeneral()
+                    ->getMainSport(),
                 $activity->getAccount()
             );
             $activity->setSport($mainSport);
@@ -167,30 +172,36 @@ class ActivityListener
     public function removeWeatherIfInside(Training $activity)
     {
         if (! $activity->getSport()->getOutside()) {
-            $activity->getAdapter()->removeWeather();
+            $activity->getAdapter()
+                ->removeWeather();
         }
     }
 
     protected function calculateEnergyConsumptionIfEmpty(Training $activity)
     {
-        $activity->getAdapter()->calculateEnergyConsumptionIfEmpty();
+        $activity->getAdapter()
+            ->calculateEnergyConsumptionIfEmpty();
     }
 
     protected function calculateTrimp(Training $activity)
     {
-        $dataConfiguration = $this->ConfigurationManager->getList($activity->getAccount())->getData();
+        $dataConfiguration = $this->ConfigurationManager->getList($activity->getAccount())
+            ->getData();
 
-        $activity->getAdapter()->calculateTrimp(
-            $activity->getAccount()->getGender(),
-            $dataConfiguration->getMaximalHeartRate(),
-            $dataConfiguration->getRestingHeartRate()
-        );
+        $activity->getAdapter()
+            ->calculateTrimp(
+                $activity->getAccount()
+                    ->getGender(),
+                $dataConfiguration->getMaximalHeartRate(),
+                $dataConfiguration->getRestingHeartRate()
+            );
     }
 
     protected function calculateVO2max(Training $activity)
     {
         if (! $activity->getAdapter()->isRunning()) {
-            $activity->getAdapter()->removeEffectiveVO2max();
+            $activity->getAdapter()
+                ->removeEffectiveVO2max();
 
             return;
         }
@@ -199,40 +210,45 @@ class ActivityListener
         $dataConfiguration = $configuration->getData();
         $vo2maxConfiguration = $configuration->getVO2max();
 
-        $activity->getAdapter()->calculateEffectiveVO2max(
-            $dataConfiguration->getMaximalHeartRate(),
-            $vo2maxConfiguration->getAdditionalDistancePerPositiveElevation(),
-            $vo2maxConfiguration->getAdditionalDistancePerNegativeElevation()
-        );
+        $activity->getAdapter()
+            ->calculateEffectiveVO2max(
+                $dataConfiguration->getMaximalHeartRate(),
+                $vo2maxConfiguration->getAdditionalDistancePerPositiveElevation(),
+                $vo2maxConfiguration->getAdditionalDistancePerNegativeElevation()
+            );
     }
 
     protected function calculatePower(Training $activity)
     {
-        $activity->getAdapter()->calculatePower();
+        $activity->getAdapter()
+            ->calculatePower();
     }
 
     protected function calculateIfActivityWasAtNight(Training $activity)
     {
-        $activity->getAdapter()->calculateIfActivityWasAtNight();
+        $activity->getAdapter()
+            ->calculateIfActivityWasAtNight();
     }
 
     protected function calculateClimbScore(Training $activity)
     {
-        $activity->getAdapter()->calculateClimbScore();
+        $activity->getAdapter()
+            ->calculateClimbScore();
     }
 
     protected function calculateValuesForSwimming(Training $activity)
     {
-        $activity->getAdapter()->calculateValuesForSwimming();
+        $activity->getAdapter()
+            ->calculateValuesForSwimming();
     }
 
     protected function guessTimezoneBasedOnCoordinates(Training $activity)
     {
-        $activity->getAdapter()->guessTimezoneBasedOnCoordinates($this->TimezoneLookup);
+        $activity->getAdapter()
+            ->guessTimezoneBasedOnCoordinates($this->TimezoneLookup);
     }
 
     /**
-     * @param Account $account
      * @param int $timestamp
      * @param bool $isRemoved
      */
@@ -279,7 +295,8 @@ class ActivityListener
                 $args->hasChangedField('vo2max') ||
                 $args->hasChangedField('vo2maxWithElevation')
             ) && (
-                $activity->getAdapter()->isNotOlderThanXDays($days) ||
+                $activity->getAdapter()
+                    ->isNotOlderThanXDays($days) ||
                 $this->timestampEnteredOrLeftPeriodOfLastXDays($days, $args)
             )
         ) || (
@@ -290,31 +307,23 @@ class ActivityListener
         ));
     }
 
-    /**
-     * @param Training $activity
-     * @param PreUpdateEventArgs $args
-     * @return bool
-     */
     protected function updateRequiresMarathonShapeCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         $daysToConsider = $this->getNumberOfDaysToConsiderForMarathonShape($activity->getAccount());
 
         return (
-            $activity->getAdapter()->isRunning() && (
-                $args->hasChangedField('distance') ||
+            $activity->getAdapter()
+                ->isRunning() && (
+                    $args->hasChangedField('distance') ||
                 $this->timestampEnteredOrLeftPeriodOfLastXDays($daysToConsider, $args)
-            )
+                )
         ) || (
             $args->hasChangedField('sport') &&
-            $activity->getAdapter()->isNotOlderThanXDays($daysToConsider)
+            $activity->getAdapter()
+                ->isNotOlderThanXDays($daysToConsider)
         );
     }
 
-    /**
-     * @param Training $activity
-     * @param PreUpdateEventArgs $args
-     * @return bool
-     */
     protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return (
@@ -324,11 +333,6 @@ class ActivityListener
         );
     }
 
-    /**
-     * @param Training $activity
-     * @param PreUpdateEventArgs $args
-     * @return bool
-     */
     protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return (
@@ -345,19 +349,15 @@ class ActivityListener
         );
     }
 
-    /**
-     * @param Training $activity
-     * @param PreUpdateEventArgs $args
-     * @return bool
-     */
     protected function updateRequiresVO2maxCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
         return ((
-            $activity->getAdapter()->isRunning() && (
-                $args->hasChangedField('pulseAvg') ||
+            $activity->getAdapter()
+                ->isRunning() && (
+                    $args->hasChangedField('pulseAvg') ||
                 $args->hasChangedField('s') ||
                 $args->hasChangedField('distance')
-            )
+                )
         ) || (
             $args->hasChangedField('sport')
         ));
@@ -365,7 +365,6 @@ class ActivityListener
 
     /**
      * @param int $numberOfDays
-     * @param PreUpdateEventArgs $args
      * @return bool
      */
     protected function timestampEnteredOrLeftPeriodOfLastXDays($numberOfDays, PreUpdateEventArgs $args)
@@ -375,8 +374,10 @@ class ActivityListener
         }
 
         $now = new LocalTime();
-        $ageOfOldDate = (new LocalTime($args->getOldValue('time')))->diff($now, true)->days;
-        $ageOfNewDate = (new LocalTime($args->getNewValue('time')))->diff($now, true)->days;
+        $ageOfOldDate = (new LocalTime($args->getOldValue('time')))->diff($now, true)
+            ->days;
+        $ageOfNewDate = (new LocalTime($args->getNewValue('time')))->diff($now, true)
+            ->days;
 
         return (
             ($ageOfOldDate <= $numberOfDays && $ageOfNewDate > $numberOfDays) ||
@@ -387,7 +388,8 @@ class ActivityListener
     protected function addStatisticsToEquipment(Training $activity)
     {
         $this->EquipmentRepository->updateEquipment(
-            $activity->getEquipment()->toArray(),
+            $activity->getEquipment()
+                ->toArray(),
             $activity->getS(),
             $activity->getDistance()
         );
@@ -396,7 +398,8 @@ class ActivityListener
     protected function removeStatisticsFromEquipment(Training $activity)
     {
         $this->EquipmentRepository->updateEquipment(
-            $activity->getEquipment()->toArray(),
+            $activity->getEquipment()
+                ->toArray(),
             -$activity->getS(),
             -$activity->getDistance()
         );
@@ -404,8 +407,10 @@ class ActivityListener
 
     protected function recomputeOwnChangeSet(Training $activity, PreUpdateEventArgs $args)
     {
-        $metaData = $args->getEntityManager()->getClassMetadata(Training::class);
-        $unitOfWork = $args->getEntityManager()->getUnitOfWork();
+        $metaData = $args->getEntityManager()
+            ->getClassMetadata(Training::class);
+        $unitOfWork = $args->getEntityManager()
+            ->getUnitOfWork();
         $unitOfWork->recomputeSingleEntityChangeSet($metaData, $activity);
     }
 }

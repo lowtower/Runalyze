@@ -17,47 +17,42 @@ use Runalyze\Dataset\Context;
  */
 class FitRecoveryTime extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_RECOVERY_TIME;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'fit_recovery_time';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Recovery time').' '.__('(by file)');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('Recovery time');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __(
 		    'Garmin calculates a suggested recovery time based on your '.
@@ -65,21 +60,20 @@ class FitRecoveryTime extends AbstractKey
 		);
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
-		return $context->dataview()->fitRecoveryTime();
+		return $context->dataview()
+		    ->fitRecoveryTime();
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

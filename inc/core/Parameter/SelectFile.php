@@ -18,7 +18,7 @@ class SelectFile extends Select {
 
     /**
      * Boolean flag: allow uppercase variants of file extensions
-     * @var Boolean
+     * @var bool
      */
     protected $AllowUppercaseVariants = true;
 
@@ -49,7 +49,7 @@ class SelectFile extends Select {
 	}
 
 	/**
-	 * @param boolean $flag
+	 * @param bool $flag
 	 */
 	public function allowUppercaseVariants($flag = true) {
 		$this->AllowUppercaseVariants = $flag;
@@ -68,12 +68,11 @@ class SelectFile extends Select {
 		parent::set($value);
 	}
 
-	/**
-	 * File allowed?
-	 * @param string $fileName
-	 * @return bool
-	 */
-	protected function valueIsAllowed($fileName): bool {
+    /**
+     * File allowed?
+     * @param string $fileName
+     */
+    protected function valueIsAllowed($fileName): bool {
 		$firstChar = substr($fileName, 0, 1);
 		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
 
@@ -87,11 +86,10 @@ class SelectFile extends Select {
         return in_array($extension, $this->Options['extensions']);
 	}
 
-	/**
-	 * Options
-	 * @return array
-	 */
-	public function options(): array {
+    /**
+     * Options
+     */
+    public function options(): array {
 		$Options = array();
 		$Folder = $this->Options['folder'];
 

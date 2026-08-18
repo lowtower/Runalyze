@@ -9,8 +9,6 @@ class BeatsPerMinute extends AbstractHeartRateUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

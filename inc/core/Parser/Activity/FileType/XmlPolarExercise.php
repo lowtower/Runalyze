@@ -97,7 +97,7 @@ class XmlPolarExercise extends AbstractSingleParser
             foreach ($this->Xml->result->samples->sample as $sample) {
                 $data = explode(',', (string) $sample->values);
 
-                if (end($data) == '') {
+                if (end($data) === '') {
                     array_pop($data);
                 }
 

@@ -51,19 +51,17 @@ class GZipReader {
 		return gzgets($this->Resource);
 	}
 
-	/**
-	 * End of file?
-	 * @return bool
-	 */
-	public function eof(): bool {
+    /**
+     * End of file?
+     */
+    public function eof(): bool {
 		return gzeof($this->Resource);
 	}
 
-	/**
-	 * Is file open?
-	 * @return bool
-	 */
-	protected function isOpen(): bool {
+    /**
+     * Is file open?
+     */
+    protected function isOpen(): bool {
 		return null !== $this->Resource;
 	}
 

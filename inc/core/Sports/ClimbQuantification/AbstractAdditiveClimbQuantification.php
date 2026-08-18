@@ -16,7 +16,7 @@ abstract class AbstractAdditiveClimbQuantification implements AdditiveClimbQuant
             $score += $this->getScoreFor(
                 $distancesAndGradients[$i][0],
                 $distancesAndGradients[$i][0] * min($this->MaximalGradient, $distancesAndGradients[$i][1]) * 1000,
-                ($numSegments - 1 == $i) ? $altitudeAtTop : 0
+                ($numSegments - 1 === $i) ? $altitudeAtTop : 0
             );
         }
 

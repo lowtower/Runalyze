@@ -29,7 +29,8 @@ class AveragePronationExcursion extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-		return $context->dataview()->pronationExcursion();
+		return $context->dataview()
+		    ->pronationExcursion();
 	}
 
     public function summaryMode(): int

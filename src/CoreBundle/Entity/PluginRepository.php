@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class PluginRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @param int $position
      * @return null|Plugin
      */

@@ -82,9 +82,6 @@ class Window {
 	 */
 	protected $ManualTimes = array();
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->Context = $context;
 
@@ -148,7 +145,8 @@ class Window {
 			$this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
 			$this->DemandedTime->fromSeconds( $this->LapDistance * $this->DemandedPace->secondsPerKm() );
 		} elseif ($this->DemandedPace->secondsPerKm() == 0) {
-			$this->DemandedPace = $this->Context->dataview()->pace();
+			$this->DemandedPace = $this->Context->dataview()
+			    ->pace();
 		}
 
 		if (strlen(Request::param('manual-distances')) > 0) {
@@ -175,16 +173,10 @@ class Window {
 		return ($this->handmadeLapsTimeDiffers() && $this->handmadeLapsDistanceDiffers());
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function handmadeLapsTimeDiffers(): bool {
 		return (abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME);
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function handmadeLapsDistanceDiffers(): bool {
 		return (abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE);
 	}
@@ -199,7 +191,9 @@ class Window {
 		if (
 			empty($this->ManualDistances) && $this->LapDistance == 0 &&
 			empty($this->ManualTimes) && $this->LapTime == 0 &&
-			! $this->Context->activity()->splits()->isEmpty()
+			! $this->Context->activity()
+			    ->splits()
+			    ->isEmpty()
 		) {
 			$this->constructLapsFromSplits();
 		} else {
@@ -226,7 +220,8 @@ class Window {
 
 		foreach ($this->Context->activity()->splits()->asArray() as $i => $split) {
 			if ($i < $num) {
-				$this->Laps->at($i)->setMode($split->getIntensity());
+				$this->Laps->at($i)
+				    ->setMode($split->getIntensity());
 			}
 		}
 	}
@@ -360,13 +355,16 @@ class Window {
 		    $this->Laps,
 		    $this->DemandedTime,
 		    $this->DemandedPace,
-		    $this->Context->sport()->getInternalProfileEnum(),
-		    $this->Context->activity()->splitsAdditional()
+		    $this->Context->sport()
+		        ->getInternalProfileEnum(),
+		    $this->Context->activity()
+		        ->splitsAdditional()
 		);
 
 		if ($this->LapDistance > 0) {
 			$Table->setAverage(
-			    $this->Context->dataview()->pace(),
+			    $this->Context->dataview()
+			        ->pace(),
 			    new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
 			);
 		} else {

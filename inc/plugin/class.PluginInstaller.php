@@ -34,14 +34,13 @@ class PluginInstaller {
 		$this->Key = $Key;
 	}
 
-	/**
-	 * Install
-	 *
-	 * To install a new plugin, it is only needed to insert it into the database.
-	 * Configuration variables will be inserted on the fly.
-	 * @return bool
-	 */
-	public function install(): bool {
+    /**
+     * Install
+     *
+     * To install a new plugin, it is only needed to insert it into the database.
+     * Configuration variables will be inserted on the fly.
+     */
+    public function install(): bool {
 		$Factory = new PluginFactory();
 		$Plugin = $Factory->newInstallerInstance($this->Key);
 

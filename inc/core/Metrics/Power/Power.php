@@ -8,8 +8,6 @@ use Runalyze\Metrics\Power\Unit\Watts;
 class Power extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

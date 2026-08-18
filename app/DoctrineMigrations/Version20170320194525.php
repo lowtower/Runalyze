@@ -17,9 +17,6 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -38,9 +35,6 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
         $this->addSql('ALTER TABLE '.$prefix.'notification ADD CONSTRAINT FK_F99B51889B6B5FBA FOREIGN KEY (account_id) REFERENCES '.$prefix.'account (id)');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

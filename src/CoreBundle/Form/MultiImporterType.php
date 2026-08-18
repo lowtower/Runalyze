@@ -33,7 +33,9 @@ class MultiImporterType extends AbstractType
             if (is_array($data['activity'])) {
                 $this->addChoicesToForm($event->getForm(), $data['activity']);
 
-                $event->getForm()->get('activity')->setData($data['activity']);
+                $event->getForm()
+                    ->get('activity')
+                    ->setData($data['activity']);
             }
         });
     }

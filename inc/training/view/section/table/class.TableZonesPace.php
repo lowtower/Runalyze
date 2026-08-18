@@ -29,17 +29,17 @@ class TableZonesPace extends TableZonesAbstract {
 	 */
 	protected $PaceUnit;
 
-	/**
-	 * Get title for average
-	 * @return string
-	 */
-	public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('HR'); }
+    /**
+     * Get title for average
+     */
+    public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('HR'); }
 
 	/**
 	 * Init data
 	 */
 	protected function initData() {
-		$this->PaceUnit = $this->Context->sport()->legacyPaceUnit();
+		$this->PaceUnit = $this->Context->sport()
+		    ->legacyPaceUnit();
 
 		$Zones = $this->computeZones();
 		$Pace = new Pace(0, 1);
@@ -62,9 +62,6 @@ class TableZonesPace extends TableZonesAbstract {
 		}
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function computeZones(): array {
 		// TODO
 		// - move this a calculation class
@@ -73,7 +70,8 @@ class TableZonesPace extends TableZonesAbstract {
 		$SmoothTrackdata = clone $this->Context->trackdata();
 		$Smoother = new PaceSmoother($SmoothTrackdata, true);
 		$SmoothTrackdata->set(Trackdata\Entity::PACE, $Smoother->smooth(self::STEP_SIZE, PaceSmoother::MODE_STEP));
-		$hasHR = $this->Context->trackdata()->has(Trackdata\Entity::HEARTRATE);
+		$hasHR = $this->Context->trackdata()
+		    ->has(Trackdata\Entity::HEARTRATE);
 
 		$Distribution = new TimeSeriesForTrackdata(
 		    $SmoothTrackdata,

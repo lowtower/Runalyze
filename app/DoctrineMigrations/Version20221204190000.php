@@ -17,9 +17,6 @@ class Version20221204190000 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -28,9 +25,6 @@ class Version20221204190000 extends AbstractMigration implements ContainerAwareI
                                 ADD `total_cycles` smallint(5) unsigned DEFAULT NULL AFTER `stride_length`');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

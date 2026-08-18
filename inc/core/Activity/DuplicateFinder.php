@@ -26,7 +26,6 @@ class DuplicateFinder
 
     /**
      * Default constructor
-     * @param \PDO $pdo
      * @param int $accountId
      */
     public function __construct(PDO $pdo, $accountId)

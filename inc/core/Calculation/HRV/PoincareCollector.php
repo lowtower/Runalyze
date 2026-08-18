@@ -33,12 +33,11 @@ class PoincareCollector {
 	 */
 	protected $PlotData = array();
 
-	/**
-	 * Calculator for hrv statistics
-	 * @param \Runalyze\Model\HRV\Entity $hrvObject
-	 * @param int $filter [optional] maximal difference to include in plot
-	 */
-	public function __construct(Entity $hrvObject, $filter = 200) {
+    /**
+     * Calculator for hrv statistics
+     * @param int $filter [optional] maximal difference to include in plot
+     */
+    public function __construct(Entity $hrvObject, $filter = 200) {
 		$this->Object = $hrvObject;
 		$this->Filter = $filter;
 

@@ -19,49 +19,44 @@ use Runalyze\Dataset\Context;
  */
 class FitAnaerobicTrainingEffect extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_ANAEROBIC_TRAINING_EFFECT;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'fit_anaerobic_training_effect';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
         // #TSC: label on the dataview-configuration screen
 		return __('Anaerob Training Effect').' '.__('(by file)');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
         // #TSC: short-label for main-table
 		return __('ATE');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __(
 		    'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) '.
@@ -69,21 +64,20 @@ class FitAnaerobicTrainingEffect extends AbstractKey
 		);
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
-		return $context->dataview()->fitAnaerobicTrainingEffect();
+		return $context->dataview()
+		    ->fitAnaerobicTrainingEffect();
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

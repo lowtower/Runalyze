@@ -88,7 +88,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 
         if ($this->Context->trackdata()->has(Trackdata\Entity::SMO2_0) ||
-            $this->Context->trackdata()->has(Trackdata\Entity::THB_0)) {
+            $this->Context->trackdata()
+                ->has(Trackdata\Entity::THB_0)) {
             $Plot = new Activity\Plot\Smo2AndThb($this->Context);
             $this->addRightContent('smo2AndThb', __('SmO2').' / '.__('THb'), $Plot);
         }
@@ -158,7 +159,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 
 		if ($this->Context->activity()->power() > 0) {
-		    $icon = $this->Context->activity()->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="'.__('This value has been calculated.').'"></i>' : '';
+		    $icon = $this->Context->activity()
+		        ->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="'.__('This value has been calculated.').'"></i>' : '';
 			$Power = new BoxedValue($this->Context->activity()->power(), 'W', '&#216; '.__('Power'), $icon);
 			$Power->defineAsFloatingBlock('w50');
 
@@ -211,10 +213,12 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	 * Add weather
 	 */
 	protected function addWeather() {
-		$WeatherObject = $this->Context->activity()->weather();
+		$WeatherObject = $this->Context->activity()
+		    ->weather();
 
 		if (! $WeatherObject->isEmpty()) {
-			$WeatherIcon = $WeatherObject->condition()->icon();
+			$WeatherIcon = $WeatherObject->condition()
+			    ->icon();
 
 			if ($this->Context->activity()->isNight()) {
 				$WeatherIcon->setAsNight();
@@ -261,7 +265,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			}
 
 			if (! $WeatherObject->temperature()->isUnknown() && ! $WeatherObject->humidity()->isUnknown()) {
-				$heatIndexObject = $this->Context->dataview()->heatIndex();
+				$heatIndexObject = $this->Context->dataview()
+				    ->heatIndex();
 				$HeatIndex = new BoxedValue(Helper::Unknown(round($heatIndexObject->value(), 1), '-'), $heatIndexObject->unit(), $heatIndexObject->label(), $heatIndexObject->getIcon());
 				$HeatIndex->defineAsFloatingBlock('w50');
 				$this->BoxedValues[] = $HeatIndex;
@@ -390,7 +395,9 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		if ($this->Context->activity()->fitLactateThresholdHR() == null && $this->Context->activity()->fitLactateThresholdPace() == null) {
 			$lt = '-';
 		} else {
-			$lthr = $this->Context->activity()->fitLactateThresholdHR() != null ? $this->Context->activity()->fitLactateThresholdHR() : '-';
+			$lthr = $this->Context->activity()
+			    ->fitLactateThresholdHR() != null ? $this->Context->activity()
+			    ->fitLactateThresholdHR() : '-';
 			if ($this->Context->activity()->fitLactateThresholdPace() != null) {
 				$ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
 				// the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
@@ -426,7 +433,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, 'Creator:', ($this->Context->activity()->creator() != null ? $this->Context->activity()->creator() : '-'), $c);
         $this->addToTable($details, 'Creator details:', ($this->Context->activity()->creatorDetails() != null ? $this->Context->activity()->creatorDetails() : '-'), $c);
         $this->addToTable($details, 'Avg / max respiration rate (brpm):', ($this->Context->activity()->avgRespirationRate() != null ?
-            $this->Context->activity()->avgRespirationRate() . ' / ' .  $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
+            $this->Context->activity()
+                ->avgRespirationRate() . ' / ' .  $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationPerceivedEffort() != null ? $this->Context->activity()->fitSelfEvaluationPerceivedEffort() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($this->Context->activity()->fitSelfEvaluationFeeling()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'), ($this->Context->activity()->fitLoadPeak() != null ? $this->Context->activity()->fitLoadPeak() : '-'), $c);
@@ -506,7 +514,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         if($count == 0) {
             $html .= '<table class="fitdetail">';
             $html .= '<tr>';
-        } else if($count % 3 == 0) {
+        } else if($count % 3 === 0) {
             $html .= '</tr><tr>';
         }
 
@@ -532,8 +540,10 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addCreationAndModificationTime() {
 	    if (! Request::isOnSharedPage()) {
-		$created = $this->Context->activity()->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_CREATED);
-		$edited = $this->Context->activity()->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
+		$created = $this->Context->activity()
+		    ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_CREATED);
+		$edited = $this->Context->activity()
+		    ->get(\Runalyze\Model\Activity\Entity::TIMESTAMP_EDITED);
 
 		if ($created > 0 || $edited > 0) {
 			$createdDate = new \DateTime();

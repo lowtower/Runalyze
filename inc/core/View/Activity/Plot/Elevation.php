@@ -23,11 +23,10 @@ class Elevation extends ActivityPlot {
 		$this->key   = 'elevation';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = array(
 		    new Series\Elevation($context),

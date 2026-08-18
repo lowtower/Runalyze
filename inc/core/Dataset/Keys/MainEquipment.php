@@ -18,54 +18,49 @@ use SearchLink;
  */
 class MainEquipment extends AbstractEquipment
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::MAIN_EQUIPMENT;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Main Equipment');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('Equipment');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('You can choose a main equipment type for each sport in your sport configuration. '.
 				'Equipment objects of this type will be shown with their names.');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context): string
+    /**
+     * Get string to display this dataset value
+     */
+    public function stringFor(Context $context): string
 	{
 		if ($context->hasData(parent::CONCAT_EQUIPMENT_KEY) && $context->data(parent::CONCAT_EQUIPMENT_KEY) != '') {
 			$ids = explode(',', $context->data(parent::CONCAT_EQUIPMENT_KEY));
 			$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
-			$mainTypeID = $context->sport()->mainEquipmentTypeID();
+			$mainTypeID = $context->sport()
+			    ->mainEquipmentTypeID();
 			$names = array();
 
 			foreach (array_unique($ids) as $id) {
@@ -82,11 +77,10 @@ class MainEquipment extends AbstractEquipment
 		return '';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small nowrap';
 	}

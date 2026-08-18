@@ -18,7 +18,7 @@ class FormularSelectBox extends FormularField {
 
 	/**
 	 * Multiple
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $multiple = false;
 
@@ -59,11 +59,10 @@ class FormularSelectBox extends FormularField {
 		$this->options = $options;
 	}
 
-	/**
-	 * Display this field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Display this field
+     */
+    protected function getFieldCode(): string {
 		if ($this->multiple)
 			$this->addAttribute('multiple', 'multiple');
 

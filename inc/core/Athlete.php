@@ -108,73 +108,46 @@ class Athlete
         return $this->vo2max;
     }
 
-    /**
-     * @return bool
-     */
     public function knowsGender(): bool
     {
         return ($this->Gender !== Gender::NONE && null !== $this->Gender);
     }
 
-    /**
-     * @return bool
-     */
     public function isMale(): bool
     {
         return Gender::MALE == $this->Gender;
     }
 
-    /**
-     * @return bool
-     */
     public function isFemale(): bool
     {
         return Gender::FEMALE == $this->Gender;
     }
 
-    /**
-     * @return bool
-     */
     public function knowsMaximalHeartRate(): bool
     {
         return (null !== $this->maximalHR);
     }
 
-    /**
-     * @return bool
-     */
     public function knowsRestingHeartRate(): bool
     {
         return (null !== $this->restingHR);
     }
 
-    /**
-     * @return bool
-     */
     public function knowsWeight(): bool
     {
         return (null !== $this->weight);
     }
 
-    /**
-     * @return bool
-     */
     public function knowsBirthyear(): bool
     {
         return (null !== $this->birthyear);
     }
 
-    /**
-     * @return bool
-     */
     public function knowsAge(): bool
     {
         return (null !== $this->birthyear);
     }
 
-    /**
-     * @return bool
-     */
     public function knowsEffectiveVO2max(): bool
     {
         return (0.0 !== $this->vo2max);

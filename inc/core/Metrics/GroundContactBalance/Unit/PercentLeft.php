@@ -9,17 +9,12 @@ class PercentLeft extends AbstractGroundContactBalanceUnit implements Formattabl
 {
     use UnitConversionByFactorTrait;
 
-    /**
-     * @return int|float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 0.01;
     }
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -27,9 +22,6 @@ class PercentLeft extends AbstractGroundContactBalanceUnit implements Formattabl
         return '%L';
     }
 
-    /**
-     * @return int
-     */
     public function getDecimals(): int
     {
         return 2;

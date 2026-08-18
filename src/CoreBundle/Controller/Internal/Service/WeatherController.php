@@ -32,7 +32,8 @@ class WeatherController extends Controller
             return;
         }
 
-        $weather = $this->get('app.weather_forecast')->loadForecast($location) ?: new WeatherData();
+        $weather = $this->get('app.weather_forecast')
+            ->loadForecast($location) ?: new WeatherData();
 
         /** @var SourceInterface|null $source */
         $source = $weather->Source ? WeatherSourceProfile::get($weather->Source) : null;
@@ -43,7 +44,8 @@ class WeatherController extends Controller
                 'name' => $location->getLocationName(),
                 'lat' => $location->hasPosition() ? $location->getLatitude() : '',
                 'lng' => $location->hasPosition() ? $location->getLongitude() : '',
-                'date' => $location->hasDateTime() ? $location->getDateTime()->format('c') : ''
+                'date' => $location->hasDateTime() ? $location->getDateTime()
+                    ->format('c') : ''
             ],
             'source' => [
                 'id' => $weather->Source,
@@ -58,11 +60,6 @@ class WeatherController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @param Account $account
-     * @return Location
-     */
     private function getLocationForRequest(Request $request, Account $account): \Runalyze\Service\WeatherForecast\Location
     {
         $location = new Location();
@@ -72,7 +69,7 @@ class WeatherController extends Controller
         } elseif ($request->query->has('latlng')) {
             $latLng = explode(',', $request->query->get('latlng'));
 
-            if (2 == count($latLng)) {
+            if (2 === count($latLng)) {
                 $location->setPosition($latLng[0], $latLng[1]);
             }
         }

@@ -8,8 +8,6 @@ use Runalyze\Metrics\Distance\Unit\Millimeter;
 class VerticalOscillation extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

@@ -7,10 +7,6 @@ use League\Geotools\Geohash\Geohash;
 
 class GeohashLine
 {
-    /**
-     * @param array $geolineHashes
-     * @return array
-     */
     public static function extend(array $geolineHashes): array
     {
         $geohashes = array();
@@ -26,10 +22,6 @@ class GeohashLine
         return $geohashes;
     }
 
-    /**
-     * @param array $geolineHashes
-     * @return array
-     */
     public static function shorten(array $geolineHashes): array
     {
         $last = '';
@@ -51,7 +43,6 @@ class GeohashLine
     }
 
     /**
-     * @param array $geohashes
      * @return null|string
      */
     public static function findFirstNonNullGeohash(array $geohashes, $precision)

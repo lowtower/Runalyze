@@ -19,7 +19,6 @@ use Runalyze\Parameter\SelectRow;
 class FieldFactory {
     /**
      * Add field
-     * @param \Runalyze\Configuration\Handle $Handle
      * @param array<string, mixed> $options
      * @return \FormularField
      */
@@ -41,13 +40,12 @@ class FieldFactory {
 		return $Field;
 	}
 
-	/**
-	 * Create a field
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 * @param string $label
-	 * @return \FormularField
-	 */
-	private function createFieldFor(Handle $Handle, $label) {
+    /**
+     * Create a field
+     * @param string $label
+     * @return \FormularField
+     */
+    private function createFieldFor(Handle $Handle, $label) {
 		$Parameter = $Handle->object();
 		$Class = 'FormularInput';
 
@@ -77,7 +75,6 @@ class FieldFactory {
 
     /**
      * Set attributes to field
-     * @param \FormularField $Field
      * @param array<string, mixed> $options
      */
     private function setAttributesToField(\FormularField $Field, array &$options) {

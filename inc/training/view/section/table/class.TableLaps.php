@@ -22,7 +22,8 @@ class TableLaps extends TableLapsAbstract {
 	protected function setCode() {
 		$Reader = new StringReader($this->Context->activity()->title());
 
-		$Splits = $this->Context->activity()->splits();
+		$Splits = $this->Context->activity()
+		    ->splits();
 		$SplitsView = new Splits\Table($Splits, $this->Context->dataview()->pace()->unitEnum());
 		$SplitsView->setDemandedPace($Reader->findDemandedPace());
 
@@ -33,9 +34,6 @@ class TableLaps extends TableLapsAbstract {
 		$this->Code = $SplitsView->code();
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function computeHalfs(): array {
 		$Halfs = array();
 
@@ -50,7 +48,6 @@ class TableLaps extends TableLapsAbstract {
 	}
 
     /**
-     * @param \Runalyze\Model\Trackdata\Loop $Loop
      * @return array<string, float>
      */
     protected function halfFromLoop(Trackdata\Loop $Loop): array {

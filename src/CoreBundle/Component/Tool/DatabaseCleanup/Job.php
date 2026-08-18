@@ -23,8 +23,6 @@ abstract class Job
     protected $RunningSportId;
 
     /**
-     * @param array $requestData
-     * @param \PDO $pdo
      * @param int $accountId
      * @param string $databasePrefix
      */

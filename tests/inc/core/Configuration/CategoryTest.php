@@ -43,7 +43,8 @@ class ConfigurationCategoryTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(42, $this->object->test());
 		$this->assertEquals('foobar', $this->object->Second()->value());
 
-		$this->object->Second()->set('test');
+		$this->object->Second()
+		    ->set('test');
 		$this->assertEquals('test', $this->object->Second()->value());
 	}
 

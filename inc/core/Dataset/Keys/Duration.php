@@ -18,51 +18,48 @@ use Runalyze\Dataset\SummaryMode;
  */
 class Duration extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::DURATION;
 	}
 
-	/**
-	 * Is this key always shown?
-	 * @return bool
-	 * @codeCoverageIgnore
-	 */
-	public function mustBeShown(): bool
+    /**
+     * Is this key always shown?
+     * @codeCoverageIgnore
+     */
+    public function mustBeShown(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 's';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Duration');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
-		return $context->dataview()->duration()->string();
+		return $context->dataview()
+		    ->duration()
+		    ->string();
 	}
 
 	/**

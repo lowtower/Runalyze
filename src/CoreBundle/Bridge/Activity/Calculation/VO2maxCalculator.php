@@ -24,7 +24,6 @@ class VO2maxCalculator
     protected $EstimationFormula;
 
     /**
-     * @param Training $activity
      * @param int $heartRateMaximum [bpm]
      * @param int $correctionForPositiveElevation [m]
      * @param int $correctionForNegativeElevation [m]
@@ -86,10 +85,13 @@ class VO2maxCalculator
 
         if ($this->Activity->hasRoute()) {
             if ($this->Activity->getRoute()->getElevationUp() > 0 || $this->Activity->getRoute()->getElevationDown() > 0) {
-                $elevationUp = $this->Activity->getRoute()->getElevationUp();
-                $elevationDown = $this->Activity->getRoute()->getElevationDown();
+                $elevationUp = $this->Activity->getRoute()
+                    ->getElevationUp();
+                $elevationDown = $this->Activity->getRoute()
+                    ->getElevationDown();
             } elseif ($this->Activity->getRoute()->getElevation() > 0) {
-                $elevationUp = $this->Activity->getRoute()->getElevation();
+                $elevationUp = $this->Activity->getRoute()
+                    ->getElevation();
                 $elevationDown = $elevationUp;
             }
         }

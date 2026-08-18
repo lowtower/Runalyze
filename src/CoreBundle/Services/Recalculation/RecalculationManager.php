@@ -49,10 +49,6 @@ class RecalculationManager
         $this->Tasks = new RecalculationTaskCollection();
     }
 
-    /**
-     * @param Account $account
-     * @return int
-     */
     public function getNumberOfScheduledTasksFor(Account $account): int
     {
         if (! isset($this->AccountRelatedTaskNames[$account->getId()])) {
@@ -63,7 +59,6 @@ class RecalculationManager
     }
 
     /**
-     * @param Account $account
      * @param int $timestamp
      * @param bool $isRemoved
      */
@@ -84,7 +79,6 @@ class RecalculationManager
     }
 
     /**
-     * @param Account $account
      * @return int
      */
     protected function getCurrentStartTime(Account $account)
@@ -101,7 +95,6 @@ class RecalculationManager
     }
 
     /**
-     * @param Account $account
      * @param bool $forceRecalculation
      * @return StartTimeCalculation
      */
@@ -155,9 +148,7 @@ class RecalculationManager
     }
 
     /**
-     * @param Account $account
      * @param string $taskName
-     * @return bool
      */
     public function isTaskScheduled(Account $account, $taskName): bool
     {

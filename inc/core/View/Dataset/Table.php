@@ -31,12 +31,9 @@ class Table {
 	 */
 	protected $AutomaticDistanceComparison = false;
 
-	/** @var double [km] */
+	/** @var float [km] */
 	protected $LastDistance = 0;
 
-	/**
-	 * @param \Runalyze\Dataset\Configuration $configuration
-	 */
 	public function __construct(Configuration $configuration)
 	{
 		$this->Configuration = $configuration;
@@ -56,19 +53,15 @@ class Table {
 		$this->AutomaticDistanceComparison = true;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function numColumns(): int
 	{
 		return count($this->ActiveKeys);
 	}
 
-	/**
-	 * @param string $icon optional icon instead of text
-	 * @return string
-	 */
-	public function codeForColumnLabels($icon = false): string
+    /**
+     * @param string $icon optional icon instead of text
+     */
+    public function codeForColumnLabels($icon = false): string
 	{
 		$Tooltip = new Tooltip('');
 		$Code = '';
@@ -85,17 +78,14 @@ class Table {
         return $Code;
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
 	public function codeForColumns(Context $context, array $hiddenKeys = array()): string
 	{
 		$Code = '';
 
 		if ($this->AutomaticDistanceComparison) {
 			$context->setData(Keys\Distance::KEY_DISTANCE_COMPARISON, $this->LastDistance);
-			$this->LastDistance = $context->activity()->distance();
+			$this->LastDistance = $context->activity()
+			    ->distance();
 		}
 
 		foreach ($this->ActiveKeys as $keyid) {
@@ -115,8 +105,8 @@ class Table {
 					$style .= $valueClassStyle['style'];
 				}
 
-				$class = ($class!= '') ? ' class="'.$class.'"' : '';
-				$style = ($style!= '') ? ' style="'.$style.'"' : '';
+				$class = ($class !== '') ? ' class="'.$class.'"' : '';
+				$style = ($style !== '') ? ' style="'.$style.'"' : '';
 
 				$Code .= '<td'.$class.$style.'>'.$Key->stringFor($context).'</td>';
 			}
@@ -125,10 +115,6 @@ class Table {
 		return $Code;
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
 	public function codeForPublicIcon(Context $context): string {
 		if ($context->activity()->isPublic()) {
 			return \HTML::td(\Icon::$ADD_SMALL_GREEN, 'link');
@@ -137,11 +123,11 @@ class Table {
 		return '<td></td>';
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function codeForShortLink(Context $context) {
-		return $context->linker()->codeWithSportIcon(Tooltip::POSITION_RIGHT);
+    /**
+     * @return string
+     */
+    public function codeForShortLink(Context $context) {
+		return $context->linker()
+		    ->codeWithSportIcon(Tooltip::POSITION_RIGHT);
 	}
 }

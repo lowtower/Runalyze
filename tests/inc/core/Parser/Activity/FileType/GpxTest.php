@@ -41,9 +41,6 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Temperature);
     }
 
-    /**
-     * @return string
-     */
     protected function getExampleXmlForExtensions(): string
     {
         return '<?xml version="1.0" encoding="UTF-8"?>
@@ -140,7 +137,7 @@ class GpxTest extends AbstractActivityParserTestCase
         // 02:28:57 - 02:46:56 or 13:33:58 - 13:51:53
         // - sum of (large) pauses = 29:41 or 29:00
 
-        $this->assertEqualsWithDelta(1 * 3600 + 13 * 60 - 29 * 60, $this->Container->ActivityData->Duration, 10);
+        $this->assertEqualsWithDelta(3600 + 13 * 60 - 29 * 60, $this->Container->ActivityData->Duration, 10);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
 

@@ -23,11 +23,10 @@ class Pace extends ActivityPlot {
 		$this->key = 'pace';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$CumulativeSeries = new Series\PaceCumulativeAverage($context);
 		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
 

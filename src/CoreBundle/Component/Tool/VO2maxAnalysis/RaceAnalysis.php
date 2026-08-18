@@ -21,7 +21,6 @@ class RaceAnalysis
     protected $Activity;
 
     /**
-     * @param Model\Activity\Entity $activity
      * @param float $vo2maxFactor
      * @param float $vo2maxShape
      */
@@ -50,9 +49,6 @@ class RaceAnalysis
         return $this->Activity->title();
     }
 
-    /**
-     * @return string
-     */
     public function getDistance(): string
     {
         $distance = new Distance($this->Activity->distance());
@@ -64,9 +60,6 @@ class RaceAnalysis
         return $distance->string();
     }
 
-    /**
-     * @return string
-     */
     public function getDuration(): string
     {
         return $this->formatTime($this->Activity->duration());
@@ -96,9 +89,6 @@ class RaceAnalysis
         return $this->Activity->vo2maxByHeartRate();
     }
 
-    /**
-     * @return string
-     */
     public function getPrognosisByHeartRate(): string
     {
         return $this->prognosisFor($this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
@@ -112,9 +102,6 @@ class RaceAnalysis
         return $this->VO2maxFactor * $this->Activity->vo2maxByHeartRate();
     }
 
-    /**
-     * @return string
-     */
     public function getPrognosisByHeartRateAfterCorrection(): string
     {
         return $this->prognosisFor($this->VO2maxFactor * $this->Activity->vo2maxByHeartRate(), $this->Activity->distance());
@@ -128,17 +115,11 @@ class RaceAnalysis
         return $this->VO2maxShape;
     }
 
-    /**
-     * @return string
-     */
     public function getPrognosisByShape(): string
     {
         return $this->prognosisFor($this->VO2maxShape, $this->Activity->distance());
     }
 
-    /**
-     * @return string
-     */
     public function getShapeDeviation(): string
     {
         $prognosis = $this->prognosisInSecondsFor($this->VO2maxShape, $this->Activity->distance());
@@ -169,7 +150,6 @@ class RaceAnalysis
     /**
      * @param float $vo2max [ml/kg/min]
      * @param float $distance [km]
-     * @return string
      */
     protected function prognosisFor($vo2max, $distance): string
     {
@@ -178,7 +158,6 @@ class RaceAnalysis
 
     /**
      * @param int $seconds [s]
-     * @return string
      */
     protected function formatTime($seconds): string
     {

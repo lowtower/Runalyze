@@ -20,7 +20,6 @@ class Derivative
     /**
      * @param array<int, mixed> $y evaluation
      * @param array<int, mixed> $x distance
-     * @return array
      *
      * @throws InvalidArgumentException
      */

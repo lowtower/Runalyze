@@ -34,7 +34,6 @@ class RaceresultRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param Sport $sport
      * @param int $year
      * @return array
@@ -62,7 +61,6 @@ class RaceresultRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return array|Raceresult[]
      */
     public function findAllWithActivityStats(Account $account)
@@ -80,7 +78,6 @@ class RaceresultRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param int $sportId
      * @return float
      */

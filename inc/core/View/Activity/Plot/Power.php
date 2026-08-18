@@ -23,11 +23,10 @@ class Power extends ActivityPlot {
 		$this->key   = 'power';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = [
 		    new Series\Elevation($context),

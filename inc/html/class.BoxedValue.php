@@ -91,7 +91,7 @@ class BoxedValue {
 
 	/**
 	 * Flag: as floating block
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $AsFloatingBlock = false;
 
@@ -203,11 +203,10 @@ class BoxedValue {
 		echo $this->getCode();
 	}
 
-	/**
-	 * Get code
-	 * @return string
-	 */
-	public function getCode(): string {
+    /**
+     * Get code
+     */
+    public function getCode(): string {
 		$Code = '';
 
 		if ($this->AsFloatingBlock) {
@@ -229,15 +228,13 @@ class BoxedValue {
 		return $Code;
 	}
 
-	/**
-	 * Get class
-	 * @return string
-	 */
-	protected function getDivClass(): string {
+    /**
+     * Get class
+     */
+    protected function getDivClass(): string {
 		$Class = empty($this->Icon) ? self::$CONTAINER_DIV : self::$CONTAINER_DIV_WITH_ICON;
-		$Class .= $this->AdditionalClasses;
 
-		return $Class;
+		return $Class . $this->AdditionalClasses;
 	}
 
 	/**
@@ -248,39 +245,34 @@ class BoxedValue {
 		return $this->Icon;
 	}
 
-	/**
-	 * Get div for value
-	 * @return string
-	 */
-	protected function getDivForValue(): string {
+    /**
+     * Get div for value
+     */
+    protected function getDivForValue(): string {
 		$Code = '<div class="'.self::$VALUE_DIV.'">';
 		$Code .= $this->Value;
 		$Code .= $this->getDivForUnit();
-		$Code .= '</div>';
 
-		return $Code;
+		return $Code . '</div>';
 	}
 
-	/**
-	 * Get div for unit
-	 * @return string
-	 */
-	protected function getDivForUnit(): string {
+    /**
+     * Get div for unit
+     */
+    protected function getDivForUnit(): string {
 		if (empty($this->Unit))
 			return '';
 
 		$Code = ' <div class="'.self::$VALUE_UNIT_DIV.'">';
 		$Code .= str_replace(' ', '&nbsp;', $this->Unit);
-		$Code .= '</div>';
 
-		return $Code;
+		return $Code . '</div>';
 	}
 
-	/**
-	 * Get div for info
-	 * @return string
-	 */
-	protected function getDivForInfo(): string {
+    /**
+     * Get div for info
+     */
+    protected function getDivForInfo(): string {
 		if (empty($this->Info))
 			return '';
 
@@ -290,9 +282,8 @@ class BoxedValue {
         }
 
         $Code .= str_replace(' ', '&nbsp;', $this->Info);
-        $Code .= '</div>';
 
-		return $Code;
+		return $Code . '</div>';
 	}
 
 	/**
@@ -303,12 +294,11 @@ class BoxedValue {
 		echo self::getWrappedValues($ValuesString);
 	}
 
-	/**
-	 * Get wrapped values
-	 * @param string $ValuesString
-	 * @return string
-	 */
-	public static function getWrappedValues($ValuesString): string {
+    /**
+     * Get wrapped values
+     * @param string $ValuesString
+     */
+    public static function getWrappedValues($ValuesString): string {
 		return '<div class="'.self::$SURROUNDING_DIV.'">'.$ValuesString.'</div>';
 	}
 }

@@ -80,11 +80,10 @@ class Splits {
 				);
 	}
 
-	/**
-	 * Are the splits empty?
-	 * @return boolean
-	 */
-	public function areEmpty(): bool {
+    /**
+     * Are the splits empty?
+     */
+    public function areEmpty(): bool {
 		return empty($this->asArray);
 	}
 
@@ -106,7 +105,7 @@ class Splits {
 
 	/**
 	 * Add a split
-	 * @param double $km kilometer
+	 * @param float $km kilometer
 	 * @param int $timeInSeconds seconds
 	 * @param bool $active optional
 	 */
@@ -144,18 +143,17 @@ class Splits {
 	 * Remove single splits
 	 */
 	public function removeSingleSplits() {
-		if (count($this->asArray) == 1) {
+		if (count($this->asArray) === 1) {
 			$this->asArray = array();
 			$this->asString = '';
 		}
 	}
 
-	/**
-	 * Get splits as readable string
-	 * @param bool $restingLaps optional
-	 * @return string
-	 */
-	public function asReadableString($restingLaps = false): string {
+    /**
+     * Get splits as readable string
+     * @param bool $restingLaps optional
+     */
+    public function asReadableString($restingLaps = false): string {
 		$strings = array();
 
 		foreach ($this->asArray as $split)
@@ -217,20 +215,18 @@ class Splits {
 		}
 	}
 
-	/**
-	 * Format kilometer
-	 * @param double $km
-	 * @return string
-	 */
-	private function formatKM($km): string {
+    /**
+     * Format kilometer
+     * @param float $km
+     */
+    private function formatKM($km): string {
 		return number_format(Helper::CommaToPoint($km), 3, '.', '');
 	}
 
-	/**
-	 * @param float $seconds
-	 * @return string
-	 */
-	private function formatTime($seconds): string {
+    /**
+     * @param float $seconds
+     */
+    private function formatTime($seconds): string {
 		return Duration::format(round($seconds));
 	}
 
@@ -246,12 +242,11 @@ class Splits {
 		$this->asString = implode('-', $strings);
 	}
 
-	/**
-	 * Get all times as array
-	 * @param bool $restingLaps optional
-	 * @return array
-	 */
-	public function timesAsArray($restingLaps = false): array {
+    /**
+     * Get all times as array
+     * @param bool $restingLaps optional
+     */
+    public function timesAsArray($restingLaps = false): array {
 		$times = array();
 
 		foreach ($this->asArray as $split) {
@@ -279,12 +274,11 @@ class Splits {
 		return $time;
 	}
 
-	/**
-	 * Is at least one lap active?
-	 * @param int $num
-	 * @return boolean
-	 */
-	public function hasActiveLaps($num = 1): bool {
+    /**
+     * Is at least one lap active?
+     * @param int $num
+     */
+    public function hasActiveLaps($num = 1): bool {
 		$count = 0;
 		foreach ($this->asArray as $split) {
 			if ($split['active']) {
@@ -299,11 +293,10 @@ class Splits {
 		return false;
 	}
 
-	/**
-	 * Are there active and inactive laps?
-	 * @return boolean
-	 */
-	public function hasActiveAndInactiveLaps(): bool {
+    /**
+     * Are there active and inactive laps?
+     */
+    public function hasActiveAndInactiveLaps(): bool {
 		$active = null;
 
 		foreach ($this->asArray as $split) {
@@ -316,12 +309,11 @@ class Splits {
 		return false;
 	}
 
-	/**
-	 * Get all distances as array
-	 * @param bool $restingLaps optional
-	 * @return array
-	 */
-	public function distancesAsArray($restingLaps = false): array {
+    /**
+     * Get all distances as array
+     * @param bool $restingLaps optional
+     */
+    public function distancesAsArray($restingLaps = false): array {
 		$distances = array();
 
 		foreach ($this->asArray as $split)
@@ -344,12 +336,12 @@ class Splits {
 		return $km;
 	}
 
-	/**
-	 * Get all paces as array
-	 * @param bool $restingLaps optional
-	 * @return array
-	 */
-	public function pacesAsArray($restingLaps = false): array {
+    /**
+     * Get all paces as array
+     * @param bool $restingLaps optional
+     * @return int[]
+     */
+    public function pacesAsArray($restingLaps = false): array {
 		$paces = array();
 
 		foreach ($this->asArray as $split) {
@@ -362,21 +354,17 @@ class Splits {
 		return $paces;
 	}
 
-	/**
-	 * Set empty times from array
-	 * @param array $Time
-	 * @param array $Distance
-	 */
-	public function fillTimesFromArray(array $Time, array $Distance) {
+    /**
+     * Set empty times from array
+     */
+    public function fillTimesFromArray(array $Time, array $Distance) {
 		$this->fillFromArray($Time, $Distance, 'time');
 	}
 
-	/**
-	 * Set empty times from array
-	 * @param array $Time
-	 * @param array $Distance
-	 */
-	public function fillDistancesFromArray(array $Time, array $Distance) {
+    /**
+     * Set empty times from array
+     */
+    public function fillDistancesFromArray(array $Time, array $Distance) {
 		$this->fillFromArray($Time, $Distance, 'km');
 	}
 

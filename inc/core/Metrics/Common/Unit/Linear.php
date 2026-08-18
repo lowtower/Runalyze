@@ -20,8 +20,6 @@ class Linear implements UnitInterface, FormattableUnitInterface
     protected $TransformationToBaseUnit;
 
     /**
-     * @param callable $transformationFromBaseUnit
-     * @param callable $transformationToBaseUnit
      * @param string $appendix
      * @param int $decimals
      */

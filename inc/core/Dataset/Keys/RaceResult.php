@@ -22,45 +22,38 @@ use Runalyze\Activity;
  */
 class RaceResult extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::RACE_RESULT;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Race result');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return '';
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return '';
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function requiresJoin(): bool
 	{
 		return true;
@@ -79,21 +72,18 @@ class RaceResult extends AbstractKey
 	}
 
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('Your placements at races');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context): string
+    /**
+     * Get string to display this dataset value
+     */
+    public function stringFor(Context $context): string
 	{
 		switch ($context->activity()->id()) {
 			case 0:
@@ -153,11 +143,10 @@ class RaceResult extends AbstractKey
 		}
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	protected function fakeString(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function fakeString(): string
 	{
 			$RaceResult = new Model\RaceResult\Entity(array(
     Model\RaceResult\Entity::NAME => __('Race name'),

@@ -18,58 +18,51 @@ use Runalyze\Dataset\SummaryMode;
  */
 class RPE extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::RPE;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isInDatabase(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'rpe';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('RPE');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('Rating of Perceived Exertion or Borg scale, a scale devised to show perceived exertion during exercise');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
-	    return $context->dataview()->rpe();
+	    return $context->dataview()
+	        ->rpe();
 	}
 
 	/**

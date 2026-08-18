@@ -16,8 +16,6 @@ class PercentMaximum extends AbstractHeartRateUnitInPercent
     }
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

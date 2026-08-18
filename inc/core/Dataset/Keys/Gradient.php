@@ -19,11 +19,10 @@ use Runalyze\Dataset\SummaryMode;
  */
 class Gradient extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::GRADIENT;
 	}
@@ -37,42 +36,39 @@ class Gradient extends AbstractKey
 		return array('elevation', 'distance');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Gradient');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('Grad.');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('The gradient describes the ratio of elevation gain (or less) and distance. Dividing total elevation by total distance gives this value.');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->activity()->elevation() > 0 && $context->activity()->distance() > 0) {
-			return $context->dataview()->gradientInPercent();
+			return $context->dataview()
+			    ->gradientInPercent();
 		}
 
 		return '';
@@ -86,11 +82,10 @@ class Gradient extends AbstractKey
 		return SummaryMode::NO;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

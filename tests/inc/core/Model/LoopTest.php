@@ -19,9 +19,6 @@ class Loopable_MockTester extends Entity implements Loopable {
 		$this->Data = $data;
     }
 
-    /**
-     * @return int
-     */
     public function num(): int
     {
         if (empty($this->Data)) {
@@ -34,8 +31,6 @@ class Loopable_MockTester extends Entity implements Loopable {
 
     /**
      * @param string $key
-     *
-     * @return bool
      */
     public function has($key): bool
     {
@@ -60,8 +55,6 @@ class Loopable_MockTester extends Entity implements Loopable {
 
     /**
      * @param string $key
-     *
-     * @return bool
      */
     public function isArray($key): bool
     {
@@ -138,8 +131,6 @@ class Loop_MockTest extends Loop
 class LoopTest extends \PHPUnit\Framework\TestCase {
     /**
      * @param int[] $values
-     *
-     * @return Loop_MockTest
      */
     protected function loopWithFooValues(array $values): \Runalyze\Model\Loop_MockTest
 	{

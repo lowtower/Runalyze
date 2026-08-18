@@ -17,11 +17,10 @@ abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection {
 	 */
 	protected $Links = array();
 
-	/**
-	 * Append row
-	 * @param TrainingViewSectionRowTabbedPlot $Row
-	 */
-	final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row) {
+    /**
+     * Append row
+     */
+    final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row) {
 		$this->Rows[] = $Row;
 		$this->Links += $Row->getLinks();
 

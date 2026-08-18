@@ -54,13 +54,13 @@ class FormularInput extends FormularField {
 
 	/**
 	 * Boolean flag: label is on the right side
-	 * @var boolean
+	 * @var bool
 	 */
 	private $labelOnRight = false;
 
 	/**
 	 * Boolean flag: hide label
-	 * @var boolean
+	 * @var bool
 	 */
 	private $hideLabel = false;
 
@@ -139,11 +139,10 @@ class FormularInput extends FormularField {
 		$this->addAttribute('placeholder', $text);
 	}
 
-	/**
-	 * Display this field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Display this field
+     */
+    protected function getFieldCode(): string {
 		$label = '<label for="'.$this->name.'">'.$this->label.'</label>';
 		$input = $this->wrapInputTagForUnit('<input '.$this->attributes().'>');
 

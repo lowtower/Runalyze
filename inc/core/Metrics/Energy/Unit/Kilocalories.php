@@ -9,8 +9,6 @@ class Kilocalories extends AbstractEnergyUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

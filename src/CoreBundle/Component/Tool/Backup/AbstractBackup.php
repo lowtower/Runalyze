@@ -25,14 +25,13 @@ abstract class AbstractBackup
     /** @var string */
     protected $Filename;
 
-	/**
-	 * @param string $filename
-	 * @param int $accountid
-	 * @param \PDO $databaseConnection
-	 * @param string $databaseTablePrefix
-	 * @param string $runalyzeVersion
-	 */
-	public function __construct($filename, $accountid, \PDO $databaseConnection, $databaseTablePrefix, $runalyzeVersion)
+    /**
+     * @param string $filename
+     * @param int $accountid
+     * @param string $databaseTablePrefix
+     * @param string $runalyzeVersion
+     */
+    public function __construct($filename, $accountid, \PDO $databaseConnection, $databaseTablePrefix, $runalyzeVersion)
     {
 		$this->Writer = new GZipWriter(md5($filename));
         $this->AccountID = $accountid;
@@ -191,10 +190,8 @@ abstract class AbstractBackup
 		return $this->PDO->query('SELECT `id` FROM `'.$this->Prefix.'equipment_type` WHERE `accountid`='.$this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
-	/**
-	 * @param string $tableName
-	 * @param array $columnInfo
-	 * @param \PDOStatement $statement
-	 */
-	abstract protected function saveRowsFromStatement($tableName, array $columnInfo, \PDOStatement $statement);
+    /**
+     * @param string $tableName
+     */
+    abstract protected function saveRowsFromStatement($tableName, array $columnInfo, \PDOStatement $statement);
 }

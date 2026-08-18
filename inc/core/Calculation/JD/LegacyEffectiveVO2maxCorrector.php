@@ -49,7 +49,6 @@ class LegacyEffectiveVO2maxCorrector
      * Simply looks for the best ratio of vo2max by time and by heart rate.
      * This method does not regard any other correction (e.g. elevation, ...).
      *
-     * @param PDO $database
      * @param int $accountid
      * @param int $sportid
      * @return float
@@ -88,7 +87,6 @@ class LegacyEffectiveVO2maxCorrector
      * Simply calculates the ratio of vo2max by time and by heart rate.
      * This method does not regard any other correction (e.g. elevation, ...).
      *
-     * @param \Runalyze\Model\Activity\Entity $activity
      * @return float
      */
     public function fromActivity(Activity\Entity $activity)

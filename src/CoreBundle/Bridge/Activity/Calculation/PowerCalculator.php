@@ -20,7 +20,6 @@ class PowerCalculator
     protected $Activity;
 
     /**
-     * @param Training $activity
      * @param float $athleteWeight [kg]
      * @param float $bikeWeight [kg]
      */
@@ -43,17 +42,11 @@ class PowerCalculator
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function hasActivityPowerDataFromDevice(): bool
     {
         return false === $this->Activity->isPowerCalculated();
     }
 
-    /**
-     * @return bool
-     */
     protected function canCalculatePower(): bool
     {
         return (
@@ -64,7 +57,6 @@ class PowerCalculator
     }
 
     /**
-     * @param AbstractSport $sport
      * @return bool
      */
     protected function canCalculatePowerForSport(AbstractSport $sport)
@@ -72,18 +64,17 @@ class PowerCalculator
         return $sport->isCycling();
     }
 
-    /**
-     * @param Training $activity
-     * @return bool
-     */
     protected function canCalculatePowerForActivity(Training $activity): bool
     {
         return (
             $activity->hasRoute() &&
-            $activity->getRoute()->hasElevations() &&
+            $activity->getRoute()
+                ->hasElevations() &&
             $activity->hasTrackdata() &&
-            $activity->getTrackdata()->hasTime() &&
-            $activity->getTrackdata()->hasDistance()
+            $activity->getTrackdata()
+                ->hasTime() &&
+            $activity->getTrackdata()
+                ->hasDistance()
         );
     }
 
@@ -94,13 +85,13 @@ class PowerCalculator
     }
 
     /**
-     * @param Training $activity
      * @param array $power [W]
      * @param int $avgPower [W]
      */
     protected function setPowerValues(Training $activity, array $power, $avgPower)
     {
-        $activity->getTrackdata()->setPower($power);
+        $activity->getTrackdata()
+            ->setPower($power);
 
         $activity->setPower($avgPower);
         $activity->setPowerCalculated(true);

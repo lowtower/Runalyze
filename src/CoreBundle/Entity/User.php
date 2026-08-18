@@ -309,8 +309,6 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)

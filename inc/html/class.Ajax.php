@@ -119,11 +119,10 @@ class Ajax {
 		self::$RELOAD_PLUGIN_ID = $ID;
 	}
 
-	/**
-	 * Get reload command
-	 * @return string
-	 */
-	public static function getReloadCommand(): string {
+    /**
+     * Get reload command
+     */
+    public static function getReloadCommand(): string {
 		switch(self::$currentReloadFlag) {
 			case self::$RELOAD_PAGE:
 				return self::wrapJS('Runalyze.reloadPage();');
@@ -143,23 +142,21 @@ class Ajax {
 		}
 	}
 
-	/**
-	 * Gives a HTML-link for using jTraining
-	 * @param int $id ID of the training
-	 * @param string $name Name of the link to be displayed
-	 * @param bool $closeOverlay [optional] Boolean flag: Should the overlay be closed after clicking? (default: false)
-	 * @return string
-	 */
-	public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = ''): string {
+    /**
+     * Gives a HTML-link for using jTraining
+     * @param int $id ID of the training
+     * @param string $name Name of the link to be displayed
+     * @param bool $closeOverlay [optional] Boolean flag: Should the overlay be closed after clicking? (default: false)
+     */
+    public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = ''): string {
 		return '<a '.(! empty($htmlID) ? 'id="'.$htmlID.'" ' : '').'class="training '.$classes.'" href="activity/'.$id.'" rel="'.$id.'"'.($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '').'>'.$name.'</a>';
 	}
 
-	/**
-	 * Get onclick-string for loading training
-	 * @param int $id ID of the training
-	 * @return string
-	 */
-	public static function trainingLinkAsOnclick($id): string {
+    /**
+     * Get onclick-string for loading training
+     * @param int $id ID of the training
+     */
+    public static function trainingLinkAsOnclick($id): string {
 		if (FrontendShared::$IS_SHOWN)
 			return 'onclick="Pace.restart();Runalyze.Training.load('.$id.", '".SharedLinker::getUrlFor($id).'\', event)"';
 
@@ -170,8 +167,8 @@ class Ajax {
 	 * Get html-code for jquery-tooltip
 	 * @param string $html
 	 * @param string $tooltip
-	 * @param boolean $atLeft [optional] can be 'atRight'
-	 * @param boolean $onlyAttributes [optional]
+	 * @param bool $atLeft [optional] can be 'atRight'
+	 * @param bool $onlyAttributes [optional]
 	 * @return string
 	 */
 	public static function tooltip($html, $tooltip, $atLeft = false, $onlyAttributes = false) {
@@ -186,13 +183,12 @@ class Ajax {
 		return '<span '.$class.'rel="tooltip" title="'.htmlspecialchars($tooltip).'">'.$html.'</span>';
 	}
 
-	/**
-	 * Get code for toolbar navigation for links as array (tag => ..., subs => array(..., ...))
-	 * @param array $Links
-	 * @param string $AdditionalClasses
-	 * @return string
-	 */
-	public static function toolbarNavigation($Links, $AdditionalClasses = ''): string {
+    /**
+     * Get code for toolbar navigation for links as array (tag => ..., subs => array(..., ...))
+     * @param array $Links
+     * @param string $AdditionalClasses
+     */
+    public static function toolbarNavigation($Links, $AdditionalClasses = ''): string {
 		if (empty($Links))
 			return '';
 
@@ -218,9 +214,7 @@ class Ajax {
 			}
 		}
 
-		$code .= '</ul>';
-
-		return $code;
+		return $code . '</ul>';
 	}
 
 	/**
@@ -231,9 +225,8 @@ class Ajax {
 	 */
 	public static function toggle($link, $toggle_id) {
 		$link = self::insertClass($link, 'toggle');
-		$link = self::insertRel($link, $toggle_id);
 
-		return $link;
+		return self::insertRel($link, $toggle_id);
 	}
 
 	/**
@@ -250,14 +243,13 @@ class Ajax {
 		return $link;
 	}
 
-	/**
-	 * Gives a HTML-link for using jChange()
-	 * @param string $name   Displayed name for this link
-	 * @param string $target ID of surrounding div-container
-	 * @param string $href   ID of div-container to be displayed
-	 * @return string
-	 */
-	public static function change($name, $target, $href, $additional_class = ''): string {
+    /**
+     * Gives a HTML-link for using jChange()
+     * @param string $name   Displayed name for this link
+     * @param string $target ID of surrounding div-container
+     * @param string $href   ID of div-container to be displayed
+     */
+    public static function change($name, $target, $href, $additional_class = ''): string {
 		if (substr($href, 0, 1) != '#')
 			$href = '#'.$href;
 
@@ -267,28 +259,26 @@ class Ajax {
 		return '<a class="'.$additional_class.'change" target="'.$target.'" href="'.$href.'">'.$name.'</a>';
 	}
 
-	/**
-	 * Gives a HTML-link for using jLinks()
-	 * @param string $name    Displayed name for this link
-	 * @param string $target  ID of target div-container
-	 * @param string $href    URL to be loaded
-	 * @param string $data    data to be passed
-	 * @param string $title   title
-	 * @return string
-	 */
-	public static function link($name, $target, $href, $data = '', $title = '', $onclick = false): string {
+    /**
+     * Gives a HTML-link for using jLinks()
+     * @param string $name    Displayed name for this link
+     * @param string $target  ID of target div-container
+     * @param string $href    URL to be loaded
+     * @param string $data    data to be passed
+     * @param string $title   title
+     */
+    public static function link($name, $target, $href, $data = '', $title = '', $onclick = false): string {
 		return '<a class="ajax" href="'.$href.'" target="'.$target.'" rel="'.$data.'"'.(! empty($title) ? ' title="'.$title.'"' : '').' '.(($onclick) ? ' onclick="'.$onclick.'"' : '').'>'.$name.'</a>';
 	}
 
-	/**
-	 * Transform text to link for changing flot
-	 * @param string $text
-	 * @param string $divID
-	 * @param string $flotID
-	 * @param boolean $active
-	 * @return string
-	 */
-	public static function flotChange($text, $divID, $flotID, $active = true): string {
+    /**
+     * Transform text to link for changing flot
+     * @param string $text
+     * @param string $divID
+     * @param string $flotID
+     * @param bool $active
+     */
+    public static function flotChange($text, $divID, $flotID, $active = true): string {
 		return '<span class="link'.($active ? '' : ' unimportant').' flotChanger-'.$divID.' flotChanger-id-'.$flotID.'" onclick="Runalyze.flotChange(\''.$divID."','".$flotID.'\')">'.$text.'</span>';
 	}
 
@@ -334,30 +324,27 @@ class Ajax {
 		return $text;
 	}
 
-	/**
-	 * Wrap JavaScript into code block
-	 * @param string $code
-	 * @return string
-	 */
-	public static function wrapJS($code): string {
+    /**
+     * Wrap JavaScript into code block
+     * @param string $code
+     */
+    public static function wrapJS($code): string {
 		return '<script>'.$code.'</script>';
 	}
 
-	/**
-	 * Wrap JavaScript into code block for beeing executed on document ready
-	 * @param string $code
-	 * @return string
-	 */
-	public static function wrapJSforDocumentReady($code): string {
+    /**
+     * Wrap JavaScript into code block for beeing executed on document ready
+     * @param string $code
+     */
+    public static function wrapJSforDocumentReady($code): string {
 		return self::wrapJS('(function($){$(document).ready(function(){ '.$code.' });})(jQuery);');
 	}
 
-	/**
-	 * Wrap JavaScript into code block for beeing an unnamed function
-	 * @param string $code
-	 * @return string
-	 */
-	public static function wrapJSasFunction($code): string {
+    /**
+     * Wrap JavaScript into code block for beeing an unnamed function
+     * @param string $code
+     */
+    public static function wrapJSasFunction($code): string {
 		return self::wrapJS('$(function(){ '.$code.' });');
 	}
 
@@ -392,18 +379,17 @@ class Ajax {
 		}
 	}
 
-	/**
-	 * Get code for closing overlay
-	 * @return string
-	 */
-	public static function closeOverlay(): string {
+    /**
+     * Get code for closing overlay
+     */
+    public static function closeOverlay(): string {
 		return self::wrapJS('Runalyze.Overlay.close();');
 	}
 
 	/**
 	 * Create code for binding tablesorter
 	 * @param string $selector
-	 * @param boolean $reinit [optional]
+	 * @param bool $reinit [optional]
 	 */
 	public static function createTablesorterFor($selector, $reinit = false) {
 		echo self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterAutosort('.($reinit ? 'true' : '').');');
@@ -418,17 +404,15 @@ class Ajax {
 		echo self::getTablesorterWithPagerFor($selector, $reinit);
 	}
 
-	/**
-	 * Create code for binding tablesorter with pager
-	 * @param string $selector
-	 * @param bool $reinit [optional]
-	 * @return string
-	 */
-	public static function getTablesorterWithPagerFor($selector, $reinit = false): string {
+    /**
+     * Create code for binding tablesorter with pager
+     * @param string $selector
+     * @param bool $reinit [optional]
+     */
+    public static function getTablesorterWithPagerFor($selector, $reinit = false): string {
 		$Code = self::getPagerDiv();
-		$Code .= self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit ? 'true' : '').');');
 
-		return $Code;
+		return $Code . self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit ? 'true' : '').');');
 	}
 
 	/**

@@ -32,20 +32,18 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 */
 	private $Lines = array();
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string
+    /**
+     * Name
+     */
+    final public function name(): string
 	{
 		return __('Goals');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string
+    /**
+     * Description
+     */
+    final public function description(): string
 	{
 		return __('Set your own goals for different time ranges and compare your current performance with them.');
 	}
@@ -151,14 +149,17 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	{
 		$this->clearLines();
 
-		$showDetails = $this->Configuration()->value('details');
+		$showDetails = $this->Configuration()
+		    ->value('details');
 
 		// Some Numbers we need
 		$start = $Timeset['start'];
 		$now = new DateTime(date('Y-m-d'));
 		$end = $Timeset['end'];
-		$days = 1 + (int) date_diff($start, $now)->format('%a');
-		$dauer = 1 + (int) date_diff($start, $end)->format('%a');
+		$days = 1 + (int) date_diff($start, $now)
+		    ->format('%a');
+		$dauer = 1 + (int) date_diff($start, $end)
+		    ->format('%a');
 		$rest = $dauer - $days;
 
 		$dat = $this->fetchDataSince($start->getTimestamp());
@@ -229,7 +230,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	/**
 	 * Add headline
 	 * @param string $name
-	 * @param double $distance
+	 * @param float $distance
 	 * @param int $num
 	 * @param bool $noTopBorder
 	 */
@@ -248,7 +249,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	/**
 	 * Add line
 	 * @param string $name
-	 * @param double $distance
+	 * @param float $distance
 	 * @param int $num
 	 */
 	private
@@ -265,8 +266,8 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	/**
 	 * Add bar
 	 * @param string $name
-	 * @param double $val
-	 * @param double $max
+	 * @param float $val
+	 * @param float $max
 	 * @param string $color
 	 */
 	private
@@ -339,12 +340,11 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			'</p>';
 	}
 
-	/**
-	 * Get style for level
-	 * @param int $level
-	 * @return string
-	 */
-	private
+    /**
+     * Get style for level
+     * @param int $level
+     */
+    private
 	function getLevelStyle($level): string
 	{
 		if ($level == 1)
@@ -388,11 +388,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		return $Data;
 	}
 
-	/**
-	 * Was there a run today?
-	 * @return bool
-	 */
-	private
+    /**
+     * Was there a run today?
+     */
+    private
 	function wasRunningToday(): bool
 	{
 		return 0 < DB::getInstance()->query('

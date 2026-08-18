@@ -8,8 +8,6 @@ use Runalyze\Metrics\Distance\Unit\Centimeter;
 class StrideLength extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

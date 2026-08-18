@@ -180,11 +180,10 @@ class Prognose_PrognosisWindow {
 		return $values;
 	}
 
-	/**
-	 * @param array $values
-	 * @return array
-	 */
-	protected function distanceValuesToMiles(array $values) {
+    /**
+     * @return array
+     */
+    protected function distanceValuesToMiles(array $values) {
 		if ($this->UnitSystem->isImperial()) {
 			$values = array_map(function($val){
 				return round($val * DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);

@@ -21,7 +21,8 @@ class PluginController extends AbstractPluginsAwareController
      */
     protected function getPluginRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Plugin');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Plugin');
     }
 
     /**
@@ -39,7 +40,8 @@ class PluginController extends AbstractPluginsAwareController
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         \PluginFactory::clearCache();
 
-        $this->getPluginRepository()->toggleHidden($plugin);
+        $this->getPluginRepository()
+            ->toggleHidden($plugin);
 
         return new JsonResponse();
     }
@@ -59,7 +61,8 @@ class PluginController extends AbstractPluginsAwareController
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         \PluginFactory::clearCache();
 
-        $this->getPluginRepository()->movePanelUp($plugin);
+        $this->getPluginRepository()
+            ->movePanelUp($plugin);
 
         return new JsonResponse();
     }
@@ -79,7 +82,8 @@ class PluginController extends AbstractPluginsAwareController
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         \PluginFactory::clearCache();
 
-        $this->getPluginRepository()->movePanelDown($plugin);
+        $this->getPluginRepository()
+            ->movePanelDown($plugin);
 
         return new JsonResponse();
     }

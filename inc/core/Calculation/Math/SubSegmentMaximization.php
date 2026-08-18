@@ -174,7 +174,6 @@ class SubSegmentMaximization
 
     /**
      * @param int $t
-     * @return bool
      */
     public function hasMaximumForLengthIndex($t): bool
     {
@@ -199,9 +198,6 @@ class SubSegmentMaximization
         return [$this->DataMaxFromIndex[$t], $this->DataMaxToIndex[$t]];
     }
 
-    /**
-     * @return array
-     */
     public function getAvailableSegmentLengths(): array
     {
         $lengths = [];

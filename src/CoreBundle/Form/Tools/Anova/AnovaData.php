@@ -55,12 +55,11 @@ class AnovaData
         return $this->DateFrom;
     }
 
-    /**
-     * @return int
-     */
     public function getDateFromTimestamp(): int
     {
-        return $this->getDateFrom()->setTimezone(new \DateTimeZone('UTC'))->getTimestamp();
+        return $this->getDateFrom()
+            ->setTimezone(new \DateTimeZone('UTC'))
+            ->getTimestamp();
     }
 
     public function setDateTo(DateTime $dateTo)
@@ -76,12 +75,12 @@ class AnovaData
         return $this->DateTo;
     }
 
-    /**
-     * @return int
-     */
     public function getDateToTimestamp(): int
     {
-        return $this->getDateTo()->setTimezone(new \DateTimeZone('UTC'))->setTime(23, 59, 00)->getTimestamp();
+        return $this->getDateTo()
+            ->setTimezone(new \DateTimeZone('UTC'))
+            ->setTime(23, 59, 00)
+            ->getTimestamp();
     }
 
     /**

@@ -30,11 +30,10 @@ class Partner extends StringArrayObject {
 		$this->Elements = array_map('trim', explode(self::SEPARATOR, $string));
 	}
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	public function asString(): string {
+    /**
+     * As string
+     */
+    public function asString(): string {
 		return implode(self::SEPARATOR.' ', $this->Elements);
 	}
 

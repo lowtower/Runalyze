@@ -23,7 +23,8 @@ class FlightTime extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-		return $context->dataview()->flightTime();
+		return $context->dataview()
+		    ->flightTime();
 	}
 
 	public function cssClass(): string

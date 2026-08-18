@@ -21,47 +21,47 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
 
     public function testSetReferenceFrom10kTime()
     {
-        $this->Steffny->setReferenceFrom10kTime(41 * 60 + 0);
+        $this->Steffny->setReferenceFrom10kTime(41 * 60);
 
         $this->assertTrue($this->Steffny->areValuesValid());
 
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0));
-        $this->assertEquals(20 * 60 + 0, $this->Steffny->getSeconds(5.0));
+        $this->assertEquals(41 * 60, $this->Steffny->getSeconds(10.0));
+        $this->assertEquals(20 * 60, $this->Steffny->getSeconds(5.0));
     }
 
     public function testSetReferenceResult()
     {
         $this->Steffny->setReferenceResult(9.9, 40 * 60 + 35);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(5.1, 20 * 60 + 24);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0));
+        $this->assertEquals(41 * 60, $this->Steffny->getSeconds(10.0));
 
-        $this->Steffny->setReferenceResult(5.0, 20 * 60 + 0);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0));
+        $this->Steffny->setReferenceResult(5.0, 20 * 60);
+        $this->assertEquals(41 * 60, $this->Steffny->getSeconds(10.0));
 
         $this->Steffny->setReferenceResult(3.0, 11 * 60 + 40);
         $this->assertEqualsWithDelta(11 * 60 + 40, $this->Steffny->getSeconds(3.0), 1);
-        $this->assertEqualsWithDelta(20 * 60 + 0, $this->Steffny->getSeconds(5.0), 1);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(20 * 60, $this->Steffny->getSeconds(5.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(1.5, 5 * 60 + 40);
         $this->assertEqualsWithDelta(5 * 60 + 40, $this->Steffny->getSeconds(1.5), 1);
         $this->assertEqualsWithDelta(11 * 60 + 40, $this->Steffny->getSeconds(3.0), 1);
-        $this->assertEqualsWithDelta(20 * 60 + 0, $this->Steffny->getSeconds(5.0), 1);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(20 * 60, $this->Steffny->getSeconds(5.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
 
         $this->Steffny->setReferenceResult(10.1, 41 * 60 + 25);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(21.0, 90 * 60 + 11);
         $this->assertEqualsWithDelta(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), 1);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(21.0975, 90 * 60 + 36);
         $this->assertEqualsWithDelta(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), 1);
-        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
     }
 
     public function testInSeconds()

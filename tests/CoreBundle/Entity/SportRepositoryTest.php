@@ -36,7 +36,6 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
      * @param int|null $timestamp
      * @param int|float $duration
      * @param float|int|null $distance
-     * @param Sport|null $sport
      * @return Training
      */
     protected function insertActivityForDefaultAccount(

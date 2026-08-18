@@ -23,55 +23,52 @@ class Distance extends AbstractKey
 	/** @var string */
 	const KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
 
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::DISTANCE;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'distance';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Distance');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->hasData(self::KEY_DISTANCE_COMPARISON)) {
-			return $context->dataview()->distance().
+			return $context->dataview()
+			    ->distance().
 				$this->distanceComparison($context->activity()->distance(), $context->data(self::KEY_DISTANCE_COMPARISON));
 		}
 
-		return $context->dataview()->distance();
+		return $context->dataview()
+		    ->distance();
 	}
 
-	/**
-	 * Compare distance to last set
-	 * @param float $currentDistance [km]
-	 * @param float $previousDistance [km]
-	 * @return string
-	 */
-	protected function distanceComparison($currentDistance, $previousDistance): string {
+    /**
+     * Compare distance to last set
+     * @param float $currentDistance [km]
+     * @param float $previousDistance [km]
+     */
+    protected function distanceComparison($currentDistance, $previousDistance): string {
 		$Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
 		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage).'&nbsp;&#37;' : '-';
 

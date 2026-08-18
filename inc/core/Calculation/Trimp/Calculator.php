@@ -60,13 +60,12 @@ class Calculator {
 	 */
 	protected $value;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Athlete $Athlete
-	 * @param array $data array('hr' => 'time in seconds')
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(\Runalyze\Athlete $Athlete, array $data) {
+    /**
+     * Construct
+     * @param array $data array('hr' => 'time in seconds')
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(\Runalyze\Athlete $Athlete, array $data) {
 		$this->Athlete = $Athlete;
 		$this->Data = $data;
 

@@ -59,9 +59,7 @@ class ZipConverter implements FileTypeConverterInterface
     }
 
     /**
-     * @param \ZipArchive $archive
      * @param string $inputFile
-     *
      * @throws UnsupportedFileException
      */
     protected function tryToOpenArchive(\ZipArchive $archive, $inputFile)

@@ -90,7 +90,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
             $startDay = '';
             $startTime = '';
 
-            if (count($values) == count($this->TmpData)) {
+            if (count($values) === count($this->TmpData)) {
                 foreach ($this->TmpData as $i => $label) {
                     if (strlen($values[$i]) > 0) {
                         switch ($label) {
@@ -154,7 +154,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
     protected function readGpsData($line) {
         $parts = explode(',', $line);
 
-        if (count($parts) == 2) {
+        if (count($parts) === 2) {
             $this->finishGpsData();
 
             $this->GraphKey = $parts[0];
@@ -238,9 +238,9 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
             $labels = explode(',', $line);
 
             foreach ($labels as $i => $label) {
-                if ($label == 'LapTime') {
+                if ($label === 'LapTime') {
                     $this->TmpData[0] = $i;
-                } elseif ($label == 'LapDistance') {
+                } elseif ($label === 'LapDistance') {
                     $this->TmpData[1] = $i;
                 }
             }
@@ -276,7 +276,6 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
     /**
      * @param int $limit
-     * @return array
      */
     protected function gpsKeysThatExceed($limit): array
     {
@@ -293,10 +292,6 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
         return $keys;
     }
 
-    /**
-     * @param array $keys
-     * @return array
-     */
     protected function createNewArraysFor(array $keys): array
     {
         $newArrays = array();
@@ -308,9 +303,6 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
         return $newArrays;
     }
 
-    /**
-     * @param array $newArrays
-     */
     protected function useNewArrays(array $newArrays)
     {
         foreach ($newArrays as $key => $data) {

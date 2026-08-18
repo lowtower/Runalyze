@@ -680,21 +680,19 @@ class Entity extends Model\EntityWithID {
 		return static::allDatabaseProperties();
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		return ($key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES);
 	}
 
-	/**
-	 * Can set key?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canSet($key): bool {
+    /**
+     * Can set key?
+     * @param string $key
+     */
+    protected function canSet($key): bool {
 		switch ($key) {
 			case self::TEMPERATURE:
 			case self::WINDSPEED:
@@ -711,12 +709,11 @@ class Entity extends Model\EntityWithID {
 		return true;
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
             case self::TYPEID:
             case self::TIMESTAMP_CREATED:
@@ -910,9 +907,6 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::TIMESTAMP];
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function knowsTimezoneOffset(): bool {
 		return (null !== $this->Data[self::TIMEZONE_OFFSET]);
 	}
@@ -940,27 +934,24 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::TYPEID];
 	}
 
-	/**
-	 * Is public?
-	 * @return bool
-	 */
-	public function isPublic(): bool {
+    /**
+     * Is public?
+     */
+    public function isPublic(): bool {
 		return ($this->Data[self::IS_PUBLIC] == 1);
 	}
 
-	/**
-	 * On track?
-	 * @return bool
-	 */
-	public function isTrack(): bool {
+    /**
+     * On track?
+     */
+    public function isTrack(): bool {
 		return ($this->Data[self::IS_TRACK] == 1);
 	}
 
-	/**
-	 * has training goal
-	 * @return bool
-	 */
-	public function withGoal(): bool {
+    /**
+     * has training goal
+     */
+    public function withGoal(): bool {
 		return ($this->Data[self::WITH_GOAL] == 1);
 	}
 
@@ -1088,9 +1079,6 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::VO2MAX_WITH_ELEVATION];
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function usesVO2max(): bool {
 		return ($this->Data[self::USE_VO2MAX] == 1);
 	}
@@ -1493,16 +1481,10 @@ class Entity extends Model\EntityWithID {
 		return $this->Weather;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isNight(): bool {
 		return ($this->Data[self::IS_NIGHT] == 1);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function knowsIfItIsNight(): bool {
 		return (null !== $this->Data[self::IS_NIGHT]);
 	}

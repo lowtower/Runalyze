@@ -28,7 +28,7 @@ class ConstantSegmentFinder
         $this->DataSize = count($data);
         $this->IndexData = empty($indexData) && 0 < $this->DataSize ? range(0, $this->DataSize - 1) : $indexData;
 
-        if (count($this->IndexData) != $this->DataSize) {
+        if (count($this->IndexData) !== $this->DataSize) {
             throw new \InvalidArgumentException('Size of $indexData must match size of $data.');
         }
     }
@@ -75,7 +75,7 @@ class ConstantSegmentFinder
         while ($i < $this->DataSize) {
             $value = $this->Data[$i];
 
-            if ($i == $currentStartIndex) {
+            if ($i === $currentStartIndex) {
                 ++$i;
                 continue;
             }

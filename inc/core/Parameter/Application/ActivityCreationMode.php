@@ -44,27 +44,24 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Uses upload form
-	 * @return bool
-	 */
-	public function usesUpload(): bool {
+    /**
+     * Uses upload form
+     */
+    public function usesUpload(): bool {
 		return ($this->value() == self::UPLOAD);
 	}
 
-	/**
-	 * Uses Garmin-Communicator
-	 * @return bool
-	 */
-	public function usesGarminCommunicator(): bool {
+    /**
+     * Uses Garmin-Communicator
+     */
+    public function usesGarminCommunicator(): bool {
 		return ($this->value() == self::GARMIN);
 	}
 
-	/**
-	 * Uses standard form
-	 * @return bool
-	 */
-	public function usesForm(): bool {
+    /**
+     * Uses standard form
+     */
+    public function usesForm(): bool {
 		return ($this->value() == self::FORM);
 	}
 }

@@ -9,7 +9,6 @@ class EquipmentRepository extends EntityRepository
 {
     /**
      * @param int $equipmentTypeId
-     * @param Account $account
      * @return Equipment[]
      */
     public function findByTypeId($equipmentTypeId, Account $account)
@@ -22,7 +21,6 @@ class EquipmentRepository extends EntityRepository
 
     /**
      * @param string|string[] $equipmentName
-     * @param Account $account
      * @return Equipment[]
      */
     public function findByName($equipmentName, Account $account)
@@ -35,8 +33,6 @@ class EquipmentRepository extends EntityRepository
 
     /**
      * @param int $typeId
-     * @param Account $account
-     * @return EquipmentStatistics
      */
     public function getStatisticsForType($typeId, Account $account): \Runalyze\Bundle\CoreBundle\Model\Equipment\EquipmentStatistics
     {

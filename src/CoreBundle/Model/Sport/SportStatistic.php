@@ -52,9 +52,6 @@ class SportStatistic
         return $this->NumberOfActivities;
     }
 
-    /**
-     * @return bool
-     */
     public function areMostActivitiesWithDistance(): bool
     {
         if (null !== $this->NumberOfActivitiesWithDistance) {
@@ -80,9 +77,6 @@ class SportStatistic
         return $this->TotalDistance;
     }
 
-    /**
-     * @return bool
-     */
     public function isTotalDistanceKnown(): bool
     {
         return null !== $this->TotalDistance;
@@ -104,9 +98,6 @@ class SportStatistic
         return $this->TotalDuration;
     }
 
-    /**
-     * @return bool
-     */
     public function isTotalDurationKnown(): bool
     {
         return null !== $this->TotalDuration;

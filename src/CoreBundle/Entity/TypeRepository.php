@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class TypeRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @param Sport|null $sport
      * @return Type[]
      */
@@ -27,7 +26,6 @@ class TypeRepository extends EntityRepository
 
     /**
      * @param string $typeName
-     * @param Account $account
      * @param Sport|null $sport
      * @return null|Type
      */
@@ -45,7 +43,6 @@ class TypeRepository extends EntityRepository
      * #TSC add search for shurt-cut.
      *
      * @param string $shortCut
-     * @param Account $account
      * @param Sport|null $sport
      * @return null|Type
      */

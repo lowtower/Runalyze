@@ -57,14 +57,13 @@ class Distance implements ValueInterface {
 	 */
 	protected $UnitSystem;
 
-	/**
-	 * Format
-	 * @param float $km [km]
-	 * @param bool $withUnit [optional] with or without unit
-	 * @param int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public static function format($km, $withUnit = true, $decimals = false): string
+    /**
+     * Format
+     * @param float $km [km]
+     * @param bool $withUnit [optional] with or without unit
+     * @param int $decimals [optional] number of decimals
+     */
+    public static function format($km, $withUnit = true, $decimals = false): string
 	{
 		return (new self($km))->string($withUnit, $decimals);
 	}
@@ -79,11 +78,10 @@ class Distance implements ValueInterface {
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
-	/**
-	 * Label for distance
-	 * @return string
-	 */
-	public function label(): string
+    /**
+     * Label for distance
+     */
+    public function label(): string
 	{
 		return __('Distance');
 	}
@@ -181,11 +179,10 @@ class Distance implements ValueInterface {
 		return round($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER);
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     */
+    public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return DistanceUnitSystem::MILES;
@@ -206,13 +203,12 @@ class Distance implements ValueInterface {
 		return $this->kilometer();
 	}
 
-	/**
-	 * Format distance as string
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public function string($withUnit = true, $decimals = false): string
+    /**
+     * Format distance as string
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional] number of decimals
+     */
+    public function string($withUnit = true, $decimals = false): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringMiles($withUnit, $decimals);
@@ -221,13 +217,12 @@ class Distance implements ValueInterface {
 		return $this->stringKilometer($withUnit, $decimals);
 	}
 
-	/**
-	 * Format distance with auto detection for track distances shown in meter
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public function stringAuto($withUnit = true, $decimals = false): string
+    /**
+     * Format distance with auto detection for track distances shown in meter
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional] number of decimals
+     */
+    public function stringAuto($withUnit = true, $decimals = false): string
 	{
 		if ($this->Kilometer <= 1.0 || $this->Kilometer == 1.5 || $this->Kilometer == 3.0) {
 			return $this->stringMeter($withUnit, $decimals);
@@ -315,44 +310,40 @@ class Distance implements ValueInterface {
 		return $this;
 	}
 
-	/**
-	 * Add another distance
-	 * @param \Runalyze\Activity\Distance $object
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function add(self $object)
+    /**
+     * Add another distance
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function add(self $object)
 	{
 		$this->Kilometer += $object->kilometer();
 
 		return $this;
 	}
 
-	/**
-	 * Subtract another distance
-	 * @param \Runalyze\Activity\Distance $object
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function subtract(self $object)
+    /**
+     * Subtract another distance
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function subtract(self $object)
 	{
 		$this->Kilometer -= $object->kilometer();
 
 		return $this;
 	}
 
-	/**
-	 * Is distance negative?
-	 * @return boolean
-	 */
-	public function isNegative(): bool
+    /**
+     * Is distance negative?
+     */
+    public function isNegative(): bool
 	{
 		return ($this->Kilometer < 0);
 	}
 
-	/**
-	 * Is distance zero?
-	 * @return boolean
-	 */
-	public function isZero(): bool
+    /**
+     * Is distance zero?
+     */
+    public function isZero(): bool
 	{
 		return ($this->Kilometer == 0);
 	}

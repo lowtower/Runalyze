@@ -31,7 +31,7 @@ class Handle {
 
 	/**
 	 * Onchange callback
-	 * @var callback
+	 * @var callable
 	 */
 	protected $OnchangeCallback = '';
 
@@ -55,12 +55,11 @@ class Handle {
 		return self::$TableHandles;
 	}
 
-	/**
-	 * Construct
-	 * @param string $Key
-	 * @param \Runalyze\Parameter $Parameter
-	 */
-	public function __construct($Key, Parameter $Parameter) {
+    /**
+     * Construct
+     * @param string $Key
+     */
+    public function __construct($Key, Parameter $Parameter) {
 		$this->Key = $Key;
 		$this->Parameter = $Parameter;
 
@@ -95,7 +94,7 @@ class Handle {
 
 	/**
 	 * Register onchange event
-	 * @param callback $callback
+	 * @param callable $callback
 	 */
 	final public function registerOnchangeEvent($callback) {
 		$this->OnchangeCallback = $callback;

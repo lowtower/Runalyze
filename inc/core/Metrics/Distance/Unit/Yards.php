@@ -9,8 +9,6 @@ class Yards extends AbstractDistanceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Yards extends AbstractDistanceUnit
         return 'yd';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 1093.6133;

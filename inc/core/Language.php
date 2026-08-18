@@ -60,9 +60,6 @@ class Language implements InterfaceChoosable
         $this->setDomain($domain);
     }
 
-    /**
-     * @return array
-     */
     public static function getChoices(): array {
         $languages = [];
 
@@ -84,8 +81,7 @@ class Language implements InterfaceChoosable
     /**
      * Set Language for user
      * @param string $language
-     * @param boolean $overwriteGetParameter [optional]
-     * @return boolean
+     * @param bool $overwriteGetParameter [optional]
      */
     public static function setLanguage($language, $overwriteGetParameter = true): bool
     {
@@ -187,7 +183,6 @@ class Language implements InterfaceChoosable
 
     /**
      * Get browser language
-     * @param array $supported
      * @param string $default
      * @return string
      */
@@ -267,7 +262,7 @@ class Language implements InterfaceChoosable
                 $q = null;
 
                 // Assign default low weight for generic values
-                if ($l == '*/*') {
+                if ($l === '*/*') {
                     $q = 0.01;
                 } elseif (substr($l, -1) == '*') {
                     $q = 0.02;

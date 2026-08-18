@@ -57,16 +57,15 @@ class PaceSmoother {
 	protected $StepSize = 1;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $KeepArraySize = false;
 
-	/**
-	 * Smoother
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param boolean $keepArraySize [optional]
-	 */
-	public function __construct(Trackdata\Entity $trackdata, $keepArraySize = false) {
+    /**
+     * Smoother
+     * @param bool $keepArraySize [optional]
+     */
+    public function __construct(Trackdata\Entity $trackdata, $keepArraySize = false) {
 		$this->Trackdata = $trackdata;
 		$this->Loop = new Trackdata\Loop($trackdata);
 		$this->KeepArraySize = $keepArraySize;
@@ -145,7 +144,7 @@ class PaceSmoother {
 		$lastTime = 0;
 
 		foreach ($distance as $i => $dist) {
-			if ($i != 0 && $i % $this->StepSize == 0) {
+			if ($i != 0 && $i % $this->StepSize === 0) {
 				$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime)/($dist - $lastDist)) : 0;
 
 				if ($this->KeepArraySize) {

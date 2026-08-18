@@ -65,7 +65,6 @@ class DisplayableValue
      * @param bool|int $decimals
      * @param bool|string $decimalPoint
      * @param bool|string $thousandsSeparator
-     * @return string
      */
     public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
@@ -103,9 +102,6 @@ class DisplayableValue
         return $this->Unit;
     }
 
-    /**
-     * @return bool
-     */
     public function isZero(): bool
     {
         return 0 == $this->Value;

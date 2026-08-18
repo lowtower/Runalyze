@@ -12,10 +12,6 @@ class Rpe extends AbstractOneColumnValue
         return 'rpe';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return None
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
     {
         return new None();

@@ -21,7 +21,7 @@ class ClimbProfile implements \Countable
      */
     public function __construct(array $distances = [], array $elevations = [])
     {
-        if (count($distances) != count($elevations)) {
+        if (count($distances) !== count($elevations)) {
             throw new \InvalidArgumentException('Distances and elevations must be of same size.');
         }
 
@@ -100,7 +100,7 @@ class ClimbProfile implements \Countable
         $lastIndex = 0;
         $currentIndex = 1;
 
-        if (count($elevations) != $num) {
+        if (count($elevations) !== $num) {
             throw new \InvalidArgumentException(sprintf('Arrays must be of same size. (size(distances) = %u, size(elevations) = %u)', $num, count($elevations)));
         }
 

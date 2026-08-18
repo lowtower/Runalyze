@@ -60,7 +60,6 @@ class Cameron implements PrognosisInterface
 
     /**
      * @param float $distance [m]
-     * @return float
      */
     protected function factorFor($distance): float
     {

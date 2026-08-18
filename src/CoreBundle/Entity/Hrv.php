@@ -65,8 +65,6 @@ class Hrv implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -85,8 +83,6 @@ class Hrv implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Training $activity
-     *
      * @return $this
      */
     public function setActivity(Training $activity)

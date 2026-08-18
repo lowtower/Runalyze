@@ -106,7 +106,7 @@ foreach ($this->Days as $i => $day) {
 	}
 
 	if ($i > 0 && $month != $currentMonth) {
-		$trClass = ($trClass == '') ? $monthSeparator : ' top-separated';
+		$trClass = ($trClass === '') ? $monthSeparator : ' top-separated';
 	}
 
 	if (! empty($day['trainings'])) {

@@ -30,14 +30,13 @@ final class Types extends AbstractEnum
 	/** @var int */
 	const FITLOG = 4;
 
-	/**
-	 * Get exporter
-	 * @param int $typeid int from internal enum
-	 * @param \Runalyze\View\Activity\Context $context
-	 * @return \Runalyze\Export\File\AbstractFileExporter
-	 * @throws \InvalidArgumentException
-	 */
-	public static function get($typeid, Context $context)
+    /**
+     * Get exporter
+     * @param int $typeid int from internal enum
+     * @return \Runalyze\Export\File\AbstractFileExporter
+     * @throws \InvalidArgumentException
+     */
+    public static function get($typeid, Context $context)
 	{
 		$classNames = self::classNamesArray();
 

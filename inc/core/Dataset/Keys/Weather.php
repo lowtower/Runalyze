@@ -17,11 +17,10 @@ use Runalyze\Dataset\Context;
  */
 class Weather extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::WEATHER;
 	}
@@ -35,34 +34,35 @@ class Weather extends AbstractKey
 		return ['weatherid', 'is_night', 'temperature', 'wind_speed', 'wind_deg', 'humidity', 'pressure'];
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Weather');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return '';
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if (! $context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
-			$icon = $context->activity()->weather()->condition()->icon();
-            $weather = $context->activity()->weather();
+			$icon = $context->activity()
+			    ->weather()
+			    ->condition()
+			    ->icon();
+            $weather = $context->activity()
+                ->weather();
 
 			if ($context->activity()->isNight()) {
 				$icon->setAsNight();

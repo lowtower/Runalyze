@@ -23,7 +23,7 @@ class DataBrowserShared extends DataBrowser {
 
 	/**
 	 * Boolean flag: show public link for trainings
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $ShowPublicLink = true;
 
@@ -52,11 +52,10 @@ class DataBrowserShared extends DataBrowser {
 		$this->DayCount = round(($this->TimestampEnd - $this->TimestampStart) / 86400);
 	}
 
-	/**
-	 * Get ajax-link for choosing timestamps from calendar
-	 * @return string
-	 */
-	protected function getCalenderLink(): string {
+    /**
+     * Get ajax-link for choosing timestamps from calendar
+     */
+    protected function getCalenderLink(): string {
 		return '';
 	}
 
@@ -75,11 +74,10 @@ class DataBrowserShared extends DataBrowser {
 		echo $this->getRefreshLink();
 	}
 
-	/**
-	 * Get base url
-	 * @return string
-	 */
-	public static function getBaseUrl(): string {
+    /**
+     * Get base url
+     */
+    public static function getBaseUrl(): string {
 		return 'athlete/'.Request::param('user').'';
 	}
 
@@ -97,19 +95,17 @@ class DataBrowserShared extends DataBrowser {
 		return Ajax::link($name, 'publicList', $href, '', $title);
 	}
 
-	/**
-	 * Get URL for month km
-	 * @return string
-	 */
-	public static function getUrlForMonthKm(): string {
+    /**
+     * Get URL for month km
+     */
+    public static function getUrlForMonthKm(): string {
 		return self::getBaseUrl().'?type=month';
 	}
 
-	/**
-	 * Get URL for month km
-	 * @return string
-	 */
-	public static function getUrlForWeekKm(): string {
+    /**
+     * Get URL for month km
+     */
+    public static function getUrlForWeekKm(): string {
 		return self::getBaseUrl().'?type=week';
 	}
 
@@ -129,13 +125,11 @@ class DataBrowserShared extends DataBrowser {
 		return Ajax::window('<a href="'.self::getUrlForWeekKm().'">'.Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')).'</a>');
 	}
 
-	/**
-	 * Additional columns that are shown next to date columns
-	 * @param \Runalyze\View\Dataset\Table $table
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string html string that must contain `$this->AdditionalColumns - 2` columns
-	 */
-	protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context)
+    /**
+     * Additional columns that are shown next to date columns
+     * @return string html string that must contain `$this->AdditionalColumns - 2` columns
+     */
+    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context)
 	{
 		return $table->codeForPublicIcon($context);
 	}

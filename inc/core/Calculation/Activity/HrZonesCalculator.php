@@ -54,18 +54,17 @@ class HrZonesCalculator
 		$this->sportZoneBounds = $sportZoneBounds;
 	}
 
-	/**
-	 * array with the lower bound bpm of the zones (and some additional infos like text and color)
-	 * index key is a sequence number and used for sorting and matching.
-	 * starts with idx=0 which is the $minHr and will be inserted before the predefine zones will created.
-	 * the predefine (generated or from FIT/device) will be start with idx=1.
-	 *
-	 * @param int $minHr the minimal HR of this activity
-	 * @param int $maxHr the max HR of this activity
-	 * @param int $hrMaxUser the maximal users HR (not the max of this activity)
-	 * @return array
-	 */
-	public function getZones(int $minHr, int $maxHr, int $hrMaxUser): array {
+    /**
+     * array with the lower bound bpm of the zones (and some additional infos like text and color)
+     * index key is a sequence number and used for sorting and matching.
+     * starts with idx=0 which is the $minHr and will be inserted before the predefine zones will created.
+     * the predefine (generated or from FIT/device) will be start with idx=1.
+     *
+     * @param int $minHr the minimal HR of this activity
+     * @param int $maxHr the max HR of this activity
+     * @param int $hrMaxUser the maximal users HR (not the max of this activity)
+     */
+    public function getZones(int $minHr, int $maxHr, int $hrMaxUser): array {
 		$majorZoneColors = array('#a6a6a6', '#3b97f3', '#82c91e', '#f98925', '#d32020', '#b80000');
 		$defaultZones = array();
 
@@ -76,7 +75,7 @@ class HrZonesCalculator
 		);
 
 		// are hrZoneBounds from a Garmin/FIT device available?
-		if (null !== $this->activityZoneBounds && count($this->activityZoneBounds) == 6) {
+		if (null !== $this->activityZoneBounds && count($this->activityZoneBounds) === 6) {
 			// format of the 91|109|127|146|164|182; details see FitActivity.readTimeInZone()
 			$t = array('B1 Warm up', 'B2 Easy', 'B3 Aerob', 'B4 Intensiv', 'B5 Maximal', 'B6 Override');
 			// now add the bounds with its colors
@@ -161,13 +160,12 @@ class HrZonesCalculator
         return $this->sourceHint;
     }
 
-	/**
-	 * validates the user input in the sports view.
-	 *
-	 * @param string $zone
-	 * @return boolean true=invalid
-	 */
-	public static function validateInputZone(string $zone): bool {
+    /**
+     * validates the user input in the sports view.
+     *
+     * @return bool true=invalid
+     */
+    public static function validateInputZone(string $zone): bool {
         $ok = preg_match(self::PATTERN, $zone, $matches, PREG_UNMATCHED_AS_NULL);
         // [0] is the full string and the other idx are the matches
         $matches = array_filter($matches);
@@ -175,13 +173,10 @@ class HrZonesCalculator
         return ! $ok || count($matches) - 1 < substr_count($zone, ':') + 1;
     }
 
-	/**
-	 * sorts the zones array ascend of bpm.
-	 *
-	 * @param array $zones
-	 * @return array
-	 */
-	public static function sortZones(array $zones): array {
+    /**
+     * sorts the zones array ascend of bpm.
+     */
+    public static function sortZones(array $zones): array {
         usort($zones, function($a, $b){
             $oka = preg_match(self::PATTERN, $a, $matchesa, PREG_UNMATCHED_AS_NULL);
             $okb = preg_match(self::PATTERN, $b, $matchesb, PREG_UNMATCHED_AS_NULL);

@@ -35,9 +35,6 @@ class MailingCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -58,7 +55,8 @@ class MailingCommand extends ContainerAwareCommand
             }
         }
 
-        $mailer = $this->getContainer()->get('app.mailer.account');
+        $mailer = $this->getContainer()
+            ->get('app.mailer.account');
         foreach($accounts as $account) {
             /** Account $account */
             $mailer->sendMailTo($account, $input->getOption('subject'), $this->customMailDirectory . $input->getArgument('template'), [
@@ -73,11 +71,12 @@ class MailingCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
      * @return array
      */
     private function buildQuery(InputInterface $input) {
-        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Account');
+        $repository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Account');
 
         /** @var QueryBuilder $query */
         $query = $repository->createQueryBuilder('a');
@@ -116,15 +115,11 @@ class MailingCommand extends ContainerAwareCommand
             $query->andWhere('a.id IN ('.implode(', ', $input->getOption('account')).')');
         }
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()
+            ->getResult();
 
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return bool
-     */
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
         return (
@@ -137,9 +132,7 @@ class MailingCommand extends ContainerAwareCommand
 
     /**
      * @param bool $success
-     * @param OutputInterface $output
      * @param string $messageOnError
-     * @return bool
      */
     protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
@@ -159,7 +152,8 @@ class MailingCommand extends ContainerAwareCommand
      */
     protected function validateTemplate($templateName)
     {
-        $source = $this->getContainer()->getParameter('data_directory').'/views'.$this->customMailDirectory.$templateName;
+        $source = $this->getContainer()
+            ->getParameter('data_directory').'/views'.$this->customMailDirectory.$templateName;
         if ((new Filesystem())->exists($source)) {
             return true;
         }
@@ -198,7 +192,6 @@ class MailingCommand extends ContainerAwareCommand
 
     /**
      * @param null|string $lifetime
-     * @return bool
      */
     protected function validateLifetime($lifetime): bool
     {

@@ -27,7 +27,7 @@ class Cadence extends ActivityPointSeries {
 	const COLOR = 'rgb(41,128,185)';
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $isRunning = false;
 
@@ -62,30 +62,27 @@ class Cadence extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Init strings
-	 * @param \Runalyze\Data\Cadence\AbstractCadence $cadence
-	 */
-	protected function initStrings(Data\Cadence\AbstractCadence $cadence) {
+    /**
+     * Init strings
+     */
+    protected function initStrings(Data\Cadence\AbstractCadence $cadence) {
 		$this->Label = $cadence->label();
 		$this->UnitString = $cadence->unitAsString();
 	}
 
-	/**
-	 * Manipulate data
-	 * @param \Runalyze\Data\Cadence\AbstractCadence $cadence
-	 */
-	protected function manipulateData(Data\Cadence\AbstractCadence $cadence) {
+    /**
+     * Manipulate data
+     */
+    protected function manipulateData(Data\Cadence\AbstractCadence $cadence) {
 		$cadence->manipulateArray($this->Data);
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
 		parent::addTo($Plot, $yAxis, $addAnnotations);
 
 		if ($this->isRunning) {

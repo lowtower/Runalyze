@@ -76,7 +76,6 @@ class PaceUnit extends AbstractEnum
 
     /**
      * @param int $id id from internal enum
-     * @return string
      */
     static public function stringFor($id): string
     {
@@ -104,9 +103,6 @@ class PaceUnit extends AbstractEnum
         }
     }
 
-    /**
-     * @return array
-     */
     static public function getChoices(): array {
         return array(
             self::stringFor(self::KM_PER_H) => self::KM_PER_H,

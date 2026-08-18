@@ -129,12 +129,11 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 		return static::allDatabaseProperties();
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		return ($key == self::HR_ZONE_BOUNDS);
 	}
 
@@ -154,12 +153,11 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
         return $this->Data[self::INTERNAL_SPORT_ID] ?: SportProfile::GENERIC;
     }
 
-	/**
-	 * Icon
-	 * @return \Runalyze\View\Icon\SportIcon
-	 * @codeCoverageIgnore
-	 */
-	public function icon(): \Runalyze\View\Icon\SportIcon {
+    /**
+     * Icon
+     * @codeCoverageIgnore
+     */
+    public function icon(): \Runalyze\View\Icon\SportIcon {
 		return new SportIcon($this->Data[self::IMAGE]);
 	}
 
@@ -167,11 +165,10 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
         return $this->Data[self::IMAGE];
     }
 
-	/**
-	 * Uses short display?
-	 * @return boolean
-	 */
-	public function usesShortDisplay(): bool {
+    /**
+     * Uses short display?
+     */
+    public function usesShortDisplay(): bool {
 		return ($this->Data[self::SHORT] == 1);
 	}
 
@@ -219,27 +216,24 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
         return $this->Data[self::PACE_UNIT];
     }
 
-	/**
-	 * Has distances?
-	 * @return boolean
-	 */
-	public function hasDistances(): bool {
+    /**
+     * Has distances?
+     */
+    public function hasDistances(): bool {
 		return ($this->Data[self::HAS_DISTANCES] == 1);
 	}
 
-	/**
-	 * Has power?
-	 * @return boolean
-	 */
-	public function hasPower(): bool {
+    /**
+     * Has power?
+     */
+    public function hasPower(): bool {
 		return ($this->Data[self::HAS_POWER] == 1);
 	}
 
-	/**
-	 * Is this sport outside?
-	 * @return boolean
-	 */
-	public function isOutside(): bool {
+    /**
+     * Is this sport outside?
+     */
+    public function isOutside(): bool {
 		return ($this->Data[self::IS_OUTSIDE] == 1);
 	}
 
@@ -267,9 +261,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 		return $this->Data[self::DEFAULT_TYPEID];
 	}
 
-    /**
-     * @return bool
-     */
     public function isMainSport(): bool {
         return ($this->Data[self::IS_MAIN] == 1);
     }

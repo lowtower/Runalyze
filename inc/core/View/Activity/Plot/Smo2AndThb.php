@@ -23,11 +23,10 @@ class Smo2AndThb extends ActivityPlot {
 		$this->key   = 'smo2andthb';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
         $this->addSeries(new Series\Smo2($context), 1);
         $this->addSeries(new Series\Smo2($context, 1), 1, false);
         $this->addSeries(new Series\Thb($context), 2);

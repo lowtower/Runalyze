@@ -42,7 +42,7 @@ $Plot->Data[] = array(
 $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();
 
-if (count($Results) == 1)
+if (count($Results) === 1)
 	$Plot->setXAxisTimeFormat('%d.%m.%y');
 
 $Plot->addYAxis(1, 'left');

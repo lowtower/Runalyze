@@ -21,13 +21,12 @@ class GroundcontactBalance implements ValueInterface
 	 */
 	protected $BasisPoint;
 
-	/**
-	 * Format groundcontact balance
-	 * @param int $basispoint
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public static function format($basispoint, $withUnit = true): string
+    /**
+     * Format groundcontact balance
+     * @param int $basispoint
+     * @param bool $withUnit
+     */
+    public static function format($basispoint, $withUnit = true): string
 	{
 		return (new self($basispoint))->string($withUnit);
 	}
@@ -40,20 +39,18 @@ class GroundcontactBalance implements ValueInterface
 		$this->BasisPoint = $basispoint;
 	}
 
-	/**
-	 * Label for stride length
-	 * @return string
-	 */
-	public function label(): string
+    /**
+     * Label for stride length
+     */
+    public function label(): string
 	{
 		return __('Groundcontact balance');
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     */
+    public function unit(): string
 	{
 		return '%';
 	}
@@ -91,12 +88,11 @@ class GroundcontactBalance implements ValueInterface
 		return $this->BasisPoint;
 	}
 
-	/**
-	 * Format value as string
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function string($withUnit = true): string
+    /**
+     * Format value as string
+     * @param bool $withUnit
+     */
+    public function string($withUnit = true): string
 	{
 		if ($this->isKnown()) {
 			$string = $this->leftInPercent().'L/'.$this->rightInPercent().'R';
@@ -111,25 +107,16 @@ class GroundcontactBalance implements ValueInterface
 		return $string;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function leftInPercent(): string
 	{
 		return number_format($this->BasisPoint/100, 1);
 	}
 
-	/**
-	 * @return string
-	 */
 	public function rightInPercent(): string
 	{
 		return number_format(100 - $this->BasisPoint/100, 1);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isKnown(): bool
 	{
 		return ($this->BasisPoint > 0);

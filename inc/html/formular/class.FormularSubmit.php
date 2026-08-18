@@ -18,11 +18,10 @@ class FormularSubmit extends FormularField {
 		$this->addAttribute('value', $this->name);
 	}
 
-	/**
-	 * Display this field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Display this field
+     */
+    protected function getFieldCode(): string {
 		return '<input '.$this->attributes().'>';
 	}
 }

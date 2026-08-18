@@ -16,36 +16,33 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class MilesPerHour extends AbstractDecimalUnit
 {
-	/**
-	 * Unit
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function unit(): int
+    /**
+     * Unit
+     * @codeCoverageIgnore
+     */
+    public function unit(): int
 	{
 		return \Runalyze\Parameter\Application\PaceUnit::MILES_PER_H;
 	}
 
-	/**
-	 * Appendix
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function appendix(): string
+    /**
+     * Appendix
+     * @codeCoverageIgnore
+     */
+    public function appendix(): string
 	{
 		return '&nbsp;mph';
 	}
 
-	/**
-	 * Dividend to transform 's/km' to current unit
-	 *
-	 * This should only be used for decimal formats.
-	 * dividendForUnit() / 's/km' = [decimal pace value]
-	 *
-	 * @return float
-	 * @throws \RuntimeException
-	 */
-	public function dividendForUnit(): float
+    /**
+     * Dividend to transform 's/km' to current unit
+     *
+     * This should only be used for decimal formats.
+     * dividendForUnit() / 's/km' = [decimal pace value]
+     *
+     * @throws \RuntimeException
+     */
+    public function dividendForUnit(): float
 	{
 		return 3600 * DistanceUnitSystem::MILE_MULTIPLIER;
 	}

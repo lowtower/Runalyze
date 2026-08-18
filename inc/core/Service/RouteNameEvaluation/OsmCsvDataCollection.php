@@ -32,7 +32,7 @@ class OsmCsvDataCollection {
     protected function sort() {
         usort($this->data, function($a, $b) {
             $r = $a->order <=> $b->order;
-            if($r != 0) {
+            if($r !== 0) {
                 return $r;
             } else {
                 // order is the same, sort with name

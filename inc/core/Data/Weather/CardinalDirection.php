@@ -51,7 +51,6 @@ class CardinalDirection
 
     /**
      * String
-     * @return string
      */
     public function string(): string
     {
@@ -61,7 +60,6 @@ class CardinalDirection
     /**
      * Get cardinal direction
      * @param float $bearing
-     * @return string
      */
     public static function getDirection($bearing): string
     {

@@ -6,45 +6,36 @@ use Runalyze\Dataset\Context;
 
 class FitPerformanceConditionStart extends AbstractKey
 {
-	/**
-	 * @return int
-	 */
 	public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_PERFORMANCE_CONDITION_START;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function column(): string
 	{
 		return 'fit_performance_condition';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Performance Condition').' '.__('at start').' '.__('(by file)');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('PC start');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __(
 		    'The performance condition is an assessment, detected by some Garmin devices, '.
@@ -52,20 +43,19 @@ class FitPerformanceConditionStart extends AbstractKey
 		);
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
-		return $context->dataview()->fitPerformanceConditionStart();
+		return $context->dataview()
+		    ->fitPerformanceConditionStart();
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

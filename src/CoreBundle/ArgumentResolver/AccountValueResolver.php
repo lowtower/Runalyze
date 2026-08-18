@@ -14,17 +14,12 @@ class AccountValueResolver implements ArgumentValueResolverInterface
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
     }
 
     /**
-     * @param Request $request
-     * @param ArgumentMetadata $argument
      * @return bool
      */
     public function supports(Request $request, ArgumentMetadata $argument)
@@ -43,12 +38,11 @@ class AccountValueResolver implements ArgumentValueResolverInterface
     }
 
     /**
-     * @param Request $request
-     * @param ArgumentMetadata $argument
      * @return \Generator
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        yield $this->tokenStorage->getToken()->getUser();
+        yield $this->tokenStorage->getToken()
+            ->getUser();
     }
 }

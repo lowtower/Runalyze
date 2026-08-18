@@ -28,12 +28,11 @@ class DouglasPeucker extends AbstractStrategy
 	 */
 	protected $Epsilon = 0;
 
-	/**
-	 * Construct
-	 * @param array $elevation
-	 * @param float|int $epsilon [optional]
-	 */
-	public function __construct(array $elevation, $epsilon = 0)
+    /**
+     * Construct
+     * @param float|int $epsilon [optional]
+     */
+    public function __construct(array $elevation, $epsilon = 0)
 	{
 		parent::__construct($elevation);
 
@@ -64,7 +63,6 @@ class DouglasPeucker extends AbstractStrategy
      * Smooth part of line
      * @param array<int, mixed> $data
      * @param int $offset
-     * @return array
      */
     protected function smoothPart(array $data, $offset = 0): array
 	{

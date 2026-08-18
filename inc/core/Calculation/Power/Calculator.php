@@ -58,24 +58,20 @@ class Calculator {
 	 */
 	protected $Power = array();
 
-	/**
-	 * Calculator for activity properties
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 */
-	public function __construct(
-	    Trackdata\Entity $trackdata,
-	    ?Route\Entity $route = null
-	) {
+    /**
+     * Calculator for activity properties
+     * @param \Runalyze\Model\Route\Entity $route
+     */
+    public function __construct(
+        Trackdata\Entity $trackdata,
+        ?Route\Entity $route = null
+    ) {
 		$this->Trackdata = $trackdata;
 		$this->Route = $route;
 
 		$this->Size = $trackdata->num();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	protected function knowsRoute(): bool {
 		return (null !== $this->Route);
 	}
@@ -122,7 +118,7 @@ class Calculator {
 		$Fslp = $weight * self::GRAVITY;
 
 		for ($i = 0; $i < $this->Size - 1; $i++) {
-			if ($i%$everyNthPoint == 0) {
+			if ($i % $everyNthPoint === 0) {
 				if ($i + $n > $this->Size - 1) {
 					$n = $this->Size - $i - 1;
 				}

@@ -23,9 +23,6 @@ class TablePauses {
 	 */
 	protected $Code = '';
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->setDataToCode($context->trackdata()->pauses(), $context->Activity()->elapsedTime());
 	}

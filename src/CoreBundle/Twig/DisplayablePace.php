@@ -8,7 +8,6 @@ class DisplayablePace extends DisplayableValue
 {
     /**
      * @param mixed $value
-     * @param AbstractPaceInTimeFormatUnit $unit
      */
     public function __construct($value, AbstractPaceInTimeFormatUnit $unit)
     {
@@ -30,7 +29,6 @@ class DisplayablePace extends DisplayableValue
      * @param bool|int $decimals
      * @param bool|string $decimalPoint
      * @param bool|string $thousandsSeparator
-     * @return string
      */
     public function getValue($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {

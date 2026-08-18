@@ -21,8 +21,10 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 		$this->addRightContent('plot', __('Heartrate plot'), new Activity\Plot\Heartrate($this->Context));
 
 		if (
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::HEARTRATE) &&
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::TIME)
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::HEARTRATE) &&
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::TIME)
 		) {
 			$Table = new TableZonesHeartrate($this->Context);
 			$Code = $Table->getCode();
@@ -76,7 +78,8 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 	 * #TSC Add: average heartrate of active rounds
 	 */
 	protected function addAverageHeartrateActive() {
-		$hr = $this->Context->activity()->hrAvgActive();
+		$hr = $this->Context->activity()
+		    ->hrAvgActive();
 		if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
 			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; '.__('Heart rate').' active');
 		}

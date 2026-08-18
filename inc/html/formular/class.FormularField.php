@@ -72,7 +72,7 @@ abstract class FormularField extends HtmlTag {
 
 	/**
 	 * Field is prepared for being displayed
-	 * @var boolean
+	 * @var bool
 	 */
 	private $prepared = false;
 

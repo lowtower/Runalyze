@@ -57,7 +57,6 @@ class WindSpeed implements ValueInterface
 
     /**
      * Label for value
-     * @return string
      */
     public function label(): string
     {
@@ -127,7 +126,6 @@ class WindSpeed implements ValueInterface
 
     /**
      * Wind Speed is unknown?
-     * @return bool
      */
     public function isUnknown(): bool
     {
@@ -163,7 +161,6 @@ class WindSpeed implements ValueInterface
 
     /**
      * Unit
-     * @return string
      */
     public function unit(): string
     {

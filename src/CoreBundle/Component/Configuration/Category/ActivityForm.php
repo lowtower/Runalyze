@@ -6,9 +6,6 @@ use Runalyze\Parameter\Application\DatabaseOrder;
 
 class ActivityForm extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -38,24 +35,17 @@ class ActivityForm extends AbstractCategory
 
     /**
      * @param string $key
-     * @return bool
      */
     public function fieldSetIsCollapsed($key): bool
     {
         return isset($this->Variables['FORMULAR_SHOW_'.$key]) && 'true' !== $this->Variables['FORMULAR_SHOW_'.$key];
     }
 
-    /**
-     * @return bool
-     */
     public function isAutomaticElevationCorrectionActivated(): bool
     {
         return 'true' === $this->Variables['TRAINING_DO_ELEVATION'];
     }
 
-    /**
-     * @return bool
-     */
     public function isAutomaticWeatherForecastActivated(): bool
     {
         return 'true' === $this->Variables['TRAINING_LOAD_WEATHER'];
@@ -69,17 +59,11 @@ class ActivityForm extends AbstractCategory
         return $this->Variables['PLZ'];
     }
 
-    /**
-     * @return bool
-     */
     public function isComputingEnergyActivated(): bool
     {
         return 'true' === $this->Variables['COMPUTE_KCAL'];
     }
 
-    /**
-     * @return bool
-     */
     public function isAutomaticPauseDetectionActivated(): bool
     {
         return 'true' === $this->Variables['DETECT_PAUSES'];
@@ -109,9 +93,6 @@ class ActivityForm extends AbstractCategory
         return $this->getDatabaseOrderFor('TRAINING_SORT_SHOES');
     }
 
-    /**
-     * @return DatabaseOrder
-     */
     protected function getDatabaseOrderFor($key): \Runalyze\Parameter\Application\DatabaseOrder
     {
         $order = new DatabaseOrder();
@@ -127,9 +108,6 @@ class ActivityForm extends AbstractCategory
         );
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\ActivityForm::class;

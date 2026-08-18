@@ -48,7 +48,6 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
      * @param int|null $timestamp
      * @param int|float $duration
      * @param float|int|null $distance
-     * @param Sport|null $sport
      * @return Training
      */
     protected function insertActivityForDefaultAccount(
@@ -124,17 +123,21 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     public function testSpeedUnit()
     {
         $this->assertEquals(
-            $this->getDefaultAccountsRunningSport()->getSpeed(),
+            $this->getDefaultAccountsRunningSport()
+                ->getSpeed(),
             $this->TrainingRepository->getSpeedUnitFor(
-                $this->insertActivityForDefaultAccount(null, 3600, null, $this->getDefaultAccountsRunningSport())->getId(),
+                $this->insertActivityForDefaultAccount(null, 3600, null, $this->getDefaultAccountsRunningSport())
+                    ->getId(),
                 $this->Account->getId()
             )
         );
 
         $this->assertEquals(
-            $this->getDefaultAccountsCyclingSport()->getSpeed(),
+            $this->getDefaultAccountsCyclingSport()
+                ->getSpeed(),
             $this->TrainingRepository->getSpeedUnitFor(
-                $this->insertActivityForDefaultAccount(null, 3600, null, $this->getDefaultAccountsCyclingSport())->getId(),
+                $this->insertActivityForDefaultAccount(null, 3600, null, $this->getDefaultAccountsCyclingSport())
+                    ->getId(),
                 $this->Account->getId()
             )
         );
@@ -190,28 +193,32 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'total_distance' => '17.5',
             'min_distance' => '17.5',
             'max_distance' => '17.5'
-        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)->getScalarResult()[0]);
+        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)
+            ->getScalarResult()[0]);
 
         $this->assertEquals([
             'num' => '2',
             'total_distance' => '22.5',
             'min_distance' => '10',
             'max_distance' => '12.5'
-        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)->getScalarResult()[0]);
+        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)
+            ->getScalarResult()[0]);
 
         $this->assertEquals([
             'num' => '0',
             'total_distance' => null,
             'min_distance' => null,
             'max_distance' => null
-        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2015)->getScalarResult()[0]);
+        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2015)
+            ->getScalarResult()[0]);
 
         $this->assertEquals([
             'num' => '1',
             'total_distance' => '33.3',
             'min_distance' => '33.3',
             'max_distance' => '33.3'
-        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2016)->getScalarResult()[0]);
+        ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2016)
+            ->getScalarResult()[0]);
     }
 
     public function testLockedActivities()
@@ -297,7 +304,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertGreaterThan(0, $result->getRoute()->getElevation());
         $this->assertNotNull($result->getClimbScore());
 
-        $routeId = $result->getRoute()->getId();
+        $routeId = $result->getRoute()
+            ->getId();
         $this->TrainingRepository->remove($activity);
 
         $this->assertNull($this->EntityManager->getRepository('CoreBundle:Route')->find($routeId));
@@ -394,7 +402,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
      */
     public function testThatVO2maxUpdateInListenerRecalculatesMarathonShape()
     {
-        $recalculationManager = $this->getContainer()->get('app.recalculation_manager');
+        $recalculationManager = $this->getContainer()
+            ->get('app.recalculation_manager');
 
         $activity = $this->getActivityForDefaultAccount(time(), 2700, 10.0, $this->getDefaultAccountsRunningSport());
         $activity->setPulseAvg(140);
@@ -409,7 +418,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($recalculationManager->isTaskScheduled($this->getDefaultAccount(), VO2maxShapeCalculation::class));
         $this->assertFalse($recalculationManager->isTaskScheduled($this->getDefaultAccount(), MarathonShapeCalculation::class));
 
-        $this->EntityManager->getUnitOfWork()->refresh($activity);
+        $this->EntityManager->getUnitOfWork()
+            ->refresh($activity);
         $activity->setPulseAvg(150);
 
         $this->TrainingRepository->save($activity);
@@ -436,8 +446,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->insertActivityForDefaultAccount(987654321);
         $firstActivity = $this->insertActivityForDefaultAccount(123456789);
 
-        $this->getContainer()->get('app.recalculation_manager')->runScheduledTasks();
-        $configList = $this->getContainer()->get('app.configuration_manager')->getList($this->getDefaultAccount());
+        $this->getContainer()
+            ->get('app.recalculation_manager')
+            ->runScheduledTasks();
+        $configList = $this->getContainer()
+            ->get('app.configuration_manager')
+            ->getList($this->getDefaultAccount());
 
         $this->assertEquals(123456789, $configList->get('data.START_TIME'));
 
@@ -445,15 +459,23 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->save($firstActivity);
 
-        $this->getContainer()->get('app.recalculation_manager')->runScheduledTasks();
-        $configList = $this->getContainer()->get('app.configuration_manager')->getList($this->getDefaultAccount());
+        $this->getContainer()
+            ->get('app.recalculation_manager')
+            ->runScheduledTasks();
+        $configList = $this->getContainer()
+            ->get('app.configuration_manager')
+            ->getList($this->getDefaultAccount());
 
         $this->assertEquals(100000000, $configList->get('data.START_TIME'));
 
         $this->TrainingRepository->remove($firstActivity);
 
-        $this->getContainer()->get('app.recalculation_manager')->runScheduledTasks();
-        $configList = $this->getContainer()->get('app.configuration_manager')->getList($this->getDefaultAccount());
+        $this->getContainer()
+            ->get('app.recalculation_manager')
+            ->runScheduledTasks();
+        $configList = $this->getContainer()
+            ->get('app.configuration_manager')
+            ->getList($this->getDefaultAccount());
 
         $this->assertEquals(987654321, $configList->get('data.START_TIME'));
     }
@@ -463,21 +485,24 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0.0, $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             new VO2max(),
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             time()
         ));
     }
 
     public function testVO2maxShapeCalculationForASingleActivity()
     {
-        $activity = $this->getActivityForDefaultAccount(time() - 86400, 3600, 10.0)->setPulseAvg(160);
+        $activity = $this->getActivityForDefaultAccount(time() - 86400, 3600, 10.0)
+            ->setPulseAvg(160);
 
         $this->TrainingRepository->save($activity);
 
         $this->assertEqualsWithDelta($activity->getVO2max(), $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             new VO2max(),
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             time()
         ), 0.01);
     }
@@ -487,9 +512,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $config = new VO2max();
         $config->set('VO2MAX_USE_CORRECTION_FOR_ELEVATION', 'true');
 
-        $activity1 = $this->getActivityForDefaultAccount(time() - 86400, 1000, 4.0)->setPulseAvg(160);
-        $activity2 = $this->getActivityForDefaultAccount(time() - 2 * 86400, 2000, 8.0)->setPulseAvg(160);
-        $activity3 = $this->getActivityForDefaultAccount(time() - 200 * 86400, 10000, 40.0)->setPulseAvg(160);
+        $activity1 = $this->getActivityForDefaultAccount(time() - 86400, 1000, 4.0)
+            ->setPulseAvg(160);
+        $activity2 = $this->getActivityForDefaultAccount(time() - 2 * 86400, 2000, 8.0)
+            ->setPulseAvg(160);
+        $activity3 = $this->getActivityForDefaultAccount(time() - 200 * 86400, 10000, 40.0)
+            ->setPulseAvg(160);
 
         $this->TrainingRepository->save($activity1);
         $this->TrainingRepository->save($activity2);
@@ -500,7 +528,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEqualsWithDelta($expectedShape, $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             $config,
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             time()
         ), 0.01);
     }
@@ -511,7 +540,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->getDefaultAccount(),
             new BasicEndurance(),
             50.0,
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             time()
         ));
     }
@@ -530,7 +560,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->getDefaultAccount(),
             $config,
             60.0,
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             $date
         ));
     }
@@ -550,7 +581,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->getDefaultAccount(),
             $config,
             60.0,
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             $date
         ));
 
@@ -558,7 +590,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             $this->getDefaultAccount(),
             $config,
             60.0,
-            $this->getDefaultAccountsRunningSport()->getId(),
+            $this->getDefaultAccountsRunningSport()
+                ->getId(),
             $date,
             $date - 7 * 86400
         ));
@@ -590,13 +623,14 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
     public function testEquipmentStatistics()
     {
-        $someEquipment = $this->EntityManager->getRepository('CoreBundle:Equipment')->findBy(
-            [
-                'account' => $this->getDefaultAccount()
-            ],
-            null,
-            3
-        );
+        $someEquipment = $this->EntityManager->getRepository('CoreBundle:Equipment')
+            ->findBy(
+                [
+                    'account' => $this->getDefaultAccount()
+                ],
+                null,
+                3
+            );
 
         if (count($someEquipment) < 3) {
             $this->markTestSkipped('Test requires at least three existing equipment objects for default account.');
@@ -661,7 +695,8 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     protected function refreshEquipment(array $entities)
     {
         foreach ($entities as $entity) {
-            $this->EntityManager->getUnitOfWork()->refresh($entity);
+            $this->EntityManager->getUnitOfWork()
+                ->refresh($entity);
         }
     }
 }

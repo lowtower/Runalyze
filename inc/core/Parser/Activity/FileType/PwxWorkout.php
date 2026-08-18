@@ -50,7 +50,7 @@ class PwxWorkout extends AbstractSingleParser
     {
         $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $this->Xml->time);
 
-        if (strlen((string) $this->Xml->time) == 19) {
+        if (strlen((string) $this->Xml->time) === 19) {
             $this->Container->Metadata->setTimezoneOffset(null);
         }
 
@@ -59,9 +59,9 @@ class PwxWorkout extends AbstractSingleParser
         }
 
         if (! empty($this->Xml->device)) {
-            $string = (string) $this->Xml->device->make.', '.((string) $this->Xml->device->model);
+            $string = $this->Xml->device->make.', '.($this->Xml->device->model);
 
-            $this->Container->Metadata->setCreator('', $string.' ('.((string) $this->Xml->device['id']).')');
+            $this->Container->Metadata->setCreator('', $string.' ('.($this->Xml->device['id']).')');
         }
 
         if (! empty($this->Xml->cmt)) {
@@ -101,7 +101,7 @@ class PwxWorkout extends AbstractSingleParser
 
     protected function parseLogEntry(SimpleXMLElement $log)
     {
-        if ((int) $log->timeoffset == 0 || (empty($log->dist) && (empty($log->lat) || empty($log->lon)))) {
+        if ((int) $log->timeoffset === 0 || (empty($log->dist) && (empty($log->lat) || empty($log->lon)))) {
             return;
         }
 
@@ -122,7 +122,7 @@ class PwxWorkout extends AbstractSingleParser
         $stopOffset = false;
 
         foreach ($this->Xml->event as $event) {
-            if ((string) $event->type == 'Starting' && $isStopped && $stopOffset !== false) {
+            if ((string) $event->type === 'Starting' && $isStopped && $stopOffset !== false) {
                 $this->Container->PausesToApply->add(new Pause(
                     $stopOffset,
                     (int) $event->timeoffset - $stopOffset
@@ -130,7 +130,7 @@ class PwxWorkout extends AbstractSingleParser
 
                 $isStopped = false;
                 $stopOffset = false;
-            } elseif ((string) $event->type == 'Stopping') {
+            } elseif ((string) $event->type === 'Stopping') {
                 $isStopped = true;
                 $stopOffset = (int) $event->timeoffset;
             }

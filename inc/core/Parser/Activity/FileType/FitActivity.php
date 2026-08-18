@@ -388,7 +388,7 @@ class FitActivity extends AbstractSingleParser
         $line = substr($line, 4);
         $values = explode('=', $line);
 
-        if (count($values) == 3) {
+        if (count($values) === 3) {
             $this->Values[$values[0]] = [$values[1], $values[2]];
         } elseif (count($values) >= 2) {
             $this->Values[$values[0]] = [$values[1]];
@@ -845,7 +845,7 @@ class FitActivity extends AbstractSingleParser
     {
         if (
             $this->IsPaused || // Should not happen?
-            count($this->Values) == 1 ||
+            count($this->Values) === 1 ||
             (! isset($this->Values['compressed_speed_distance']) && ! isset($this->Values['timestamp']))
         ) {
             return;
@@ -970,7 +970,7 @@ class FitActivity extends AbstractSingleParser
             $nativeFieldName = $nativeData[0];
             $nativeFactor = $nativeData[1];
 
-            if (isset($this->Values[$devFieldName]) && ((int) $this->Values[$devFieldName][0] != 0 || ! isset($this->Values[$nativeFieldName]))) {
+            if (isset($this->Values[$devFieldName]) && ((int) $this->Values[$devFieldName][0] !== 0 || ! isset($this->Values[$nativeFieldName]))) {
                 $this->Values[$devFieldName][0] = (float) $this->Values[$devFieldName][0] * $nativeFactor;
                 $this->Values[$nativeFieldName] = $this->Values[$devFieldName];
             }
@@ -1002,7 +1002,7 @@ class FitActivity extends AbstractSingleParser
     {
         $values = explode(',', $this->Values['compressed_speed_distance'][1]);
 
-        if (count($values) == 3) {
+        if (count($values) === 3) {
             $speed100 = $values[0] | (($values[1] & 0x0F) << 8);
 
             $distance16 = ($values[1] >> 4) | ($values[2] << 4);
@@ -1158,7 +1158,7 @@ class FitActivity extends AbstractSingleParser
             $values = explode(',', $this->Values['time'][1]);
 
             foreach ($values as $value) {
-                if ($value != '65535') {
+                if ($value !== '65535') {
                     $this->Container->RRIntervals[] = 1000 * (double) substr($value, 0, -2);
                 }
             }
@@ -1190,8 +1190,6 @@ class FitActivity extends AbstractSingleParser
      * Removes quotation marks added by the FIT converter.
      *
      * @param string $name
-     *
-     * @return string
      */
     protected function normalizeSportName($name): string
     {

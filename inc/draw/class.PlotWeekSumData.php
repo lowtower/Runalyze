@@ -40,27 +40,24 @@ class PlotWeekSumData extends PlotSumData {
 		parent::__construct();
 	}
 
-	/**
-	 * Get CSS id
-	 * @return string
-	 */
-	protected function getCSSid(): string {
+    /**
+     * Get CSS id
+     */
+    protected function getCSSid(): string {
 		return 'weekKM'.$this->Year.'_'.$this->Sport->id();
 	}
 
-	/**
-	 * Get title
-	 * @return string
-	 */
-	protected function getTitle(): string {
+    /**
+     * Get title
+     */
+    protected function getTitle(): string {
 		return __('Weekly chart:');
 	}
 
-	/**
-	 * Get X labels
-	 * @return array
-	 */
-	protected function getXLabels(): array {
+    /**
+     * Get X labels
+     */
+    protected function getXLabels(): array {
 		$weeks = array();
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? 0 : $this->WeekStart->phpWeek() - $this->timerEnd;
 		$yearDiff = $add == 0 ? 0 : date('Y') - $this->Year;
@@ -69,7 +66,7 @@ class PlotWeekSumData extends PlotSumData {
 			$time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime().' -'.($this->timerEnd - $w + $add).' weeks -'.$yearDiff.' years');
 			$string = (date('d', $time) <= 7 || $w == $this->timerStart) ? Time::month(date('m', $time), true) : '';
 
-			if ($string != '' && date('m', $time) == 1) {
+			if ($string !== '' && date('m', $time) == 1) {
 				$string .= " '".date('y', $time);
 			}
 
@@ -93,8 +90,12 @@ class PlotWeekSumData extends PlotSumData {
 
     protected function whereDate() {
         if (is_numeric($this->Year)) {
-            $dateStart = (new LocalTime())->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())->setTime(0, 0, 0)->getTimestamp();
-            $dateEnd = (new LocalTime())->setISODate((int) $this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())->setTime(23, 59, 59)->getTimestamp();
+            $dateStart = (new LocalTime())->setISODate((int) $this->Year, 1, 1 + $this->WeekStart->differenceToMondayInDays())
+                ->setTime(0, 0, 0)
+                ->getTimestamp();
+            $dateEnd = (new LocalTime())->setISODate((int) $this->Year + 1, 0, 7 + $this->WeekStart->differenceToMondayInDays())
+                ->setTime(23, 59, 59)
+                ->getTimestamp();
 
             return '`time` BETWEEN '.$dateStart.' AND '.$dateEnd;
         }
@@ -127,9 +128,6 @@ class PlotWeekSumData extends PlotSumData {
 		return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.($this->timerEnd - 1).' weeks 00:00')->getTimestamp();
 	}
 
-	/**
-	 * @return float
-	 */
 	protected function factorForWeekKm(): int {
 		return 1;
 	}

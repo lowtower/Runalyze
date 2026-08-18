@@ -25,7 +25,7 @@ abstract class SummaryTable {
 
 	/**
 	 * Compare kilometers
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $CompareKilometers = false;
 
@@ -71,13 +71,12 @@ abstract class SummaryTable {
 	 */
 	protected $AdditionalColumns = 0;
 
-	/**
-	 * Construct summary table
-	 * @param \Runalyze\Dataset\Configuration $datasetConfig
-	 * @param int $sportid
-	 * @param int $year
-	 */
-	public function __construct(Dataset\Configuration $datasetConfig, $sportid, $year) {
+    /**
+     * Construct summary table
+     * @param int $sportid
+     * @param int $year
+     */
+    public function __construct(Dataset\Configuration $datasetConfig, $sportid, $year) {
 		$this->AccountID = SessionAccountHandler::getId();
 		$this->DatasetQuery = new Dataset\Query($datasetConfig, DB::getInstance(), $this->AccountID);
 		$this->DatasetTable = new Runalyze\View\Dataset\Table($datasetConfig);

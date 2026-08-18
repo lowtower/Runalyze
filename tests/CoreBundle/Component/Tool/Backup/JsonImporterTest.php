@@ -217,7 +217,8 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		    array($SportA, $TypeA),
 		    array($SportA, $TypeAB),
 		    array($SportB, $TypeAB)
-		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')->fetchAll(\PDO::FETCH_NUM));
+		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')
+		    ->fetchAll(\PDO::FETCH_NUM));
 
 		$this->assertEquals($TypeA, $this->DB->query('SELECT `typeid` FROM `runalyze_equipment` WHERE `accountid`='.$this->AccountID.' AND `name`="A1"')->fetchColumn());
 		$this->assertEquals($TypeAB, $this->DB->query('SELECT `typeid` FROM `runalyze_equipment` WHERE `accountid`='.$this->AccountID.' AND `name`="AB1"')->fetchColumn());
@@ -268,7 +269,8 @@ class JsonImporterTest extends \PHPUnit\Framework\TestCase
 		    array($SportA, $TypeA),
 		    array($SportA, $TypeAB),
 		    array($SportB, $TypeAB)
-		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')->fetchAll(\PDO::FETCH_NUM));
+		), $this->DB->query('SELECT `sportid`, `equipment_typeid` FROM `runalyze_equipment_sport`')
+		    ->fetchAll(\PDO::FETCH_NUM));
 	}
 
     public function testWithExistingInternalSport()

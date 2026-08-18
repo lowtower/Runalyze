@@ -66,7 +66,8 @@ class ActivityType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
+        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
 
         if (! ($account instanceof Account)) {
             throw new \RuntimeException('Activity type must have a valid account token.');
@@ -217,26 +218,28 @@ class ActivityType extends AbstractType
             /** @var Training $activity */
             $activity = $event->getData();
 
-            $event->getForm()->add('is_race', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Race',
-                'mapped' => false,
-                'data' => $activity->hasRaceresult()
-            ]);
+            $event->getForm()
+                ->add('is_race', CheckboxType::class, [
+                    'required' => false,
+                    'label' => 'Race',
+                    'mapped' => false,
+                    'data' => $activity->hasRaceresult()
+                ]);
 
-            $event->getForm()->add('tag', EntityType::class, [
-                'class' => Tag::class,
-                'choices' => $this->TagRepository->findAllFor($this->getAccount()),
-                'choice_label' => 'tag',
-                'label' => 'Assigned tags',
-                'attr' => [
-                    'class' => 'chosen-select-create full-size',
-                    'data-placeholder' => 'Choose tag(s)'
-                ],
-                'multiple' => true,
-                'expanded' => false,
-                'required' => false
-            ]);
+            $event->getForm()
+                ->add('tag', EntityType::class, [
+                    'class' => Tag::class,
+                    'choices' => $this->TagRepository->findAllFor($this->getAccount()),
+                    'choice_label' => 'tag',
+                    'label' => 'Assigned tags',
+                    'attr' => [
+                        'class' => 'chosen-select-create full-size',
+                        'data-placeholder' => 'Choose tag(s)'
+                    ],
+                    'multiple' => true,
+                    'expanded' => false,
+                    'required' => false
+                ]);
 
             $this->setStartCoordinates($event->getForm(), $activity);
 
@@ -249,7 +252,8 @@ class ActivityType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
             /** @var Training $activity */
-            $activity = $event->getForm()->getData();
+            $activity = $event->getForm()
+                ->getData();
 
             if (empty($data['tag'])) {
                 return;
@@ -258,19 +262,22 @@ class ActivityType extends AbstractType
             $tags = $data['tag'];
             foreach($tags as $key => $tag) {
                 if (! is_numeric($tag)) {
-                    $tagElement = (new Tag())->setTag($tag)->setAccount($this->getAccount());
+                    $tagElement = (new Tag())->setTag($tag)
+                        ->setAccount($this->getAccount());
                     $this->TagRepository->save($tagElement);
                     $activity->addTag($tagElement);
                     $tags[$key] = $tagElement->getId();
                 }
             }
 
-            $event->getForm()->remove('tag');
+            $event->getForm()
+                ->remove('tag');
 
             $data['tag'] = $tags;
 
             $event->setData($data);
-            $event->getForm()->setData($activity);
+            $event->getForm()
+                ->setData($activity);
 
 
         });
@@ -289,11 +296,13 @@ class ActivityType extends AbstractType
 
         if ($activity->hasRoute() && $activity->getRoute()->hasGeohashes()) {
             if (null === $activity->getRoute()->getStartpoint()) {
-                $activity->getRoute()->setStartEndGeohashes();
+                $activity->getRoute()
+                    ->setStartEndGeohashes();
             }
 
             if (null !== $activity->getRoute()->getStartpoint()) {
-                $coordinate = (new Geohash())->decode($activity->getRoute()->getStartpoint())->getCoordinate();
+                $coordinate = (new Geohash())->decode($activity->getRoute()->getStartpoint())
+                    ->getCoordinate();
                 $data = $coordinate->getLatitude().','.$coordinate->getLongitude();
             }
         }

@@ -28,13 +28,12 @@ class Bisection
 	/** @var int */
 	protected $decreasingFactor;
 
-	/**
-	 * @param float $target
-	 * @param float $lowerBound
-	 * @param float $upperBound
-	 * @param \Closure $function
-	 */
-	public function __construct($target, $lowerBound, $upperBound, \Closure $function)
+    /**
+     * @param float $target
+     * @param float $lowerBound
+     * @param float $upperBound
+     */
+    public function __construct($target, $lowerBound, $upperBound, \Closure $function)
     {
 		$this->Target = $target;
 		$this->Lower = $lowerBound;

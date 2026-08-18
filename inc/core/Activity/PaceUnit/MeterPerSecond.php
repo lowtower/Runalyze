@@ -14,36 +14,33 @@ namespace Runalyze\Activity\PaceUnit;
  */
 class MeterPerSecond extends AbstractDecimalUnit
 {
-	/**
-	 * Unit
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function unit(): int
+    /**
+     * Unit
+     * @codeCoverageIgnore
+     */
+    public function unit(): int
 	{
 		return \Runalyze\Parameter\Application\PaceUnit::M_PER_S;
 	}
 
-	/**
-	 * Appendix
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function appendix(): string
+    /**
+     * Appendix
+     * @codeCoverageIgnore
+     */
+    public function appendix(): string
 	{
 		return '&nbsp;m/s';
 	}
 
-	/**
-	 * Dividend to transform 's/km' to current unit
-	 *
-	 * This should only be used for decimal formats.
-	 * dividendForUnit() / 's/km' = [decimal pace value]
-	 *
-	 * @return float
-	 * @throws \RuntimeException
-	 */
-	public function dividendForUnit(): int
+    /**
+     * Dividend to transform 's/km' to current unit
+     *
+     * This should only be used for decimal formats.
+     * dividendForUnit() / 's/km' = [decimal pace value]
+     *
+     * @throws \RuntimeException
+     */
+    public function dividendForUnit(): int
 	{
 		return 1000;
 	}

@@ -16,11 +16,10 @@ class PluginConfigurationWindow {
 	 */
 	protected $Plugin;
 
-	/**
-	 * Constructor
-	 * @param Plugin $Plugin
-	 */
-	public function __construct(Plugin $Plugin) {
+    /**
+     * Constructor
+     */
+    public function __construct(Plugin $Plugin) {
 		$this->Plugin = $Plugin;
 
 		$this->handlePostData();
@@ -41,7 +40,8 @@ class PluginConfigurationWindow {
 	 */
 	protected function updateConfiguration() {
 		if (isset($_POST['edit']) && $_POST['edit'] == 'true') {
-			$this->Plugin->Configuration()->updateFromPost();
+			$this->Plugin->Configuration()
+			    ->updateFromPost();
 		}
 	}
 
@@ -94,11 +94,10 @@ class PluginConfigurationWindow {
 		$Formular->display();
 	}
 
-	/**
-	 * Get fieldset: description
-	 * @return \FormularFieldset
-	 */
-	protected function getFieldsetForDescription(): \FormularFieldset {
+    /**
+     * Get fieldset: description
+     */
+    protected function getFieldsetForDescription(): \FormularFieldset {
 		$Fieldset = new FormularFieldset( __('Description') );
 		$Fieldset->addText( $this->Plugin->description() );
 
@@ -109,11 +108,10 @@ class PluginConfigurationWindow {
 		return $Fieldset;
 	}
 
-	/**
-	 * Get fieldset: values
-	 * @return \FormularFieldset
-	 */
-	protected function getFieldsetForValues(): \FormularFieldset {
+    /**
+     * Get fieldset: values
+     */
+    protected function getFieldsetForValues(): \FormularFieldset {
 		$Fieldset = new FormularFieldset( __('Configuration') );
 
 		if ($this->Plugin->Configuration()->isEmpty()) {
@@ -129,11 +127,10 @@ class PluginConfigurationWindow {
 		return $Fieldset;
 	}
 
-	/**
-	 * Get fieldset: activation
-	 * @return \FormularFieldset
-	 */
-	protected function getFieldsetForActivation(): \FormularFieldset {
+    /**
+     * Get fieldset: activation
+     */
+    protected function getFieldsetForActivation(): \FormularFieldset {
 		$activationLink = $this->Plugin->isInActive()
 			? $this->Plugin->getConfigLink( __('Activate plugin'), '&active='.Plugin::ACTIVE)
 			: $this->Plugin->getConfigLink( __('Deactivate plugin'), '&active='.Plugin::ACTIVE_NOT);

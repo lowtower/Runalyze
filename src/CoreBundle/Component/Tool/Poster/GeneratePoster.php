@@ -29,7 +29,6 @@ class GeneratePoster
     /**
      * @param string $kernelRootDir
      * @param string $python3Path
-     * @param TrainingRepository $trainingRepository
      */
     public function __construct($kernelRootDir, $python3Path, TrainingRepository $trainingRepository)
     {
@@ -38,17 +37,11 @@ class GeneratePoster
         $this->TrainingRepository = $trainingRepository;
     }
 
-    /**
-     * @return string
-     */
     protected function pathToRepository(): string
     {
         return $this->KernelRootDir.'/../vendor/runalyze/gpxtrackposter/';
     }
 
-    /**
-     * @return string
-     */
     protected function pathToSvgDirectory(): string
     {
         return $this->KernelRootDir.'/../var/poster/';
@@ -69,7 +62,8 @@ class GeneratePoster
     public function generate(): string
     {
         $builder = new Process($this->Python3Path.' create_poster.py '.implode(' ', $this->Parameter));
-        $builder->setWorkingDirectory($this->pathToRepository())->run();
+        $builder->setWorkingDirectory($this->pathToRepository())
+            ->run();
 
         if(! $builder->isSuccessful()) {
             throw new ProcessFailedException($builder);
@@ -82,8 +76,6 @@ class GeneratePoster
      * @param string $type
      * @param string $jsonDir
      * @param int $year
-     * @param Account $account
-     * @param Sport $sport
      * @param null|string $title
      */
     public function buildCommand($type, $jsonDir, $year, Account $account, Sport $sport, $title, $backgroundColor, $trackColor, $textColor, $raceColor)
@@ -109,13 +101,12 @@ class GeneratePoster
     }
 
     /**
-     * @param Account $account
-     * @param Sport $sport
      * @param int $year
      */
     private function addStatsParameter(Account $account, Sport $sport, $year)
     {
-        $stats = $this->TrainingRepository->getStatsForPoster($account, $sport, $year)->getArrayResult();
+        $stats = $this->TrainingRepository->getStatsForPoster($account, $sport, $year)
+            ->getArrayResult();
         $data = $stats[0];
 
         $this->Parameter[] = '--stat-num '.(int) $data['num'];

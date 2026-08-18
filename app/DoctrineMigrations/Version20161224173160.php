@@ -32,7 +32,9 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
     {
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $em->getConnection()
+            ->getConfiguration()
+            ->setSQLLogger(null);
 
         $repo = $em->getRepository('CoreBundle:Route');
 
@@ -40,7 +42,8 @@ class Version20161224173160 extends AbstractMigration implements ContainerAwareI
             ->select('count(route.id)')
             ->where('route.lock = 1')
             ->from('CoreBundle:Route', 'route')
-            ->getQuery()->getSingleScalarResult();
+            ->getQuery()
+            ->getSingleScalarResult();
 
         while ($numberLockedRoutes > 0) {
             $lockedRoutes = $repo->createQueryBuilder('r')

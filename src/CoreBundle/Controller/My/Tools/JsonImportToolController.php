@@ -18,9 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class JsonImportToolController extends Controller
 {
-    /**
-     * @return string
-     */
     protected function getImportFilePath(): string
     {
         return $this->getParameter('data_directory').'/backup-tool/import/';
@@ -54,7 +51,9 @@ class JsonImportToolController extends Controller
             ]);
         }
 
-        $this->get('session')->getFlashBag()->set('json-import.file', $backupFile->getClientOriginalName());
+        $this->get('session')
+            ->getFlashBag()
+            ->set('json-import.file', $backupFile->getClientOriginalName());
 
         return $this->json([
             'success' => true
@@ -67,7 +66,8 @@ class JsonImportToolController extends Controller
      */
     public function backupImportAction()
     {
-        $sessionFlashBag = $this->get('session')->getFlashBag();
+        $sessionFlashBag = $this->get('session')
+            ->getFlashBag();
 
         if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');
@@ -106,7 +106,8 @@ class JsonImportToolController extends Controller
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-        $sessionFlashBag = $this->get('session')->getFlashBag();
+        $sessionFlashBag = $this->get('session')
+            ->getFlashBag();
 
         if (! $sessionFlashBag->has('json-import.file')) {
             return $this->redirectToRoute('tools-backup-json');

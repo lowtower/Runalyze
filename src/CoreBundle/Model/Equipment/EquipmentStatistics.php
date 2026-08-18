@@ -7,9 +7,6 @@ class EquipmentStatistics
     /** @var EquipmentStatistic[] */
     protected $Equipments = [];
 
-    /**
-     * @param array $queryResult
-     */
     public function __construct(array $queryResult)
     {
         $activeEquipment = [];
@@ -40,9 +37,6 @@ class EquipmentStatistics
         return $this->Equipments;
     }
 
-    /**
-     * @return int
-     */
     public function getCount(): int
     {
         return count($this->Equipments);

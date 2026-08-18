@@ -20,11 +20,6 @@ class Calculator
     /** @var Model\Route\Entity */
     protected $Route;
 
-    /**
-     * @param Model\Activity\Entity $activity
-     * @param null|Model\Trackdata\Entity $trackdata
-     * @param null|Model\Route\Entity $route
-     */
     public function __construct(
         Model\Activity\Entity $activity,
         ?Model\Trackdata\Entity $trackdata = null,
@@ -36,17 +31,11 @@ class Calculator
         $this->Route = $route;
     }
 
-    /**
-     * @return bool
-     */
     protected function knowsTrackdata(): bool
     {
         return (null !== $this->Trackdata);
     }
 
-    /**
-     * @return bool
-     */
     protected function knowsRoute(): bool
     {
         return (null !== $this->Route);
@@ -102,7 +91,6 @@ class Calculator
     /**
      * @param int $up
      * @param int $down
-     * @return float
      */
     public function estimateVO2maxByHeartRateWithElevationFor($up, $down): string
     {
@@ -116,9 +104,6 @@ class Calculator
         return $this->estimateVO2maxByHeartRate($Modifier->correctedDistance());
     }
 
-    /**
-     * @return int
-     */
     public function calculateTrimp(): float
     {
         if ($this->knowsTrackdata() && $this->Trackdata->has(Model\Trackdata\Entity::HEARTRATE)) {
@@ -133,11 +118,13 @@ class Calculator
 
             if ($this->Activity->typeid() > 0) {
                 $data = array(
-                    $Factory->type($this->Activity->typeid())->hrAvg() => $this->Activity->duration()
+                    $Factory->type($this->Activity->typeid())
+                        ->hrAvg() => $this->Activity->duration()
                 );
             } else {
                 $data = array(
-                    $Factory->sport($this->Activity->sportid())->avgHR() => $this->Activity->duration()
+                    $Factory->sport($this->Activity->sportid())
+                        ->avgHR() => $this->Activity->duration()
                 );
             }
         }

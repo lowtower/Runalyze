@@ -6,9 +6,6 @@ use Runalyze\Parameter\Application\ElevationMethod;
 
 class ActivityView extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -33,9 +30,6 @@ class ActivityView extends AbstractCategory
         ];
     }
 
-    /**
-     * @return ElevationMethod
-     */
     public function getElevationCalculationMethod(): \Runalyze\Parameter\Application\ElevationMethod
     {
         $method = new ElevationMethod();
@@ -44,17 +38,11 @@ class ActivityView extends AbstractCategory
         return $method;
     }
 
-    /**
-     * @return int
-     */
     public function getElevationCalculationThreshold(): int
     {
         return (int) $this->Variables['ELEVATION_TRESHOLD'];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\ActivityView::class;

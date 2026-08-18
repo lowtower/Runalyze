@@ -19,9 +19,6 @@ class CleanupRegistrationsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,7 +28,9 @@ class CleanupRegistrationsCommand extends ContainerAwareCommand
         $output->writeln('<info>Delete all not activated accounts older than '.$days.' days</info>');
         $output->writeln('');
 
-        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Account');
+        $repository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Account');
         $delete =  $repository->deleteNotActivatedAccounts($days);
         $output->writeln('<info>'.$delete.' deleted accounts</info>');
         $output->writeln('');

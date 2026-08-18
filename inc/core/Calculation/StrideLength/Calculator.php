@@ -28,11 +28,10 @@ class Calculator {
 	 */
 	protected $Strides = array();
 
-	/**
-	 * Calculator for stride length
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 */
-	public function __construct(Trackdata\Entity $trackdata) {
+    /**
+     * Calculator for stride length
+     */
+    public function __construct(Trackdata\Entity $trackdata) {
 		$this->Trackdata = $trackdata;
 	}
 
@@ -89,16 +88,15 @@ class Calculator {
 		return round($Series->mean());
 	}
 
-	/**
-	 * Calculate stride length for activity
-	 * Use this method if trackdata is not available
-	 *
-	 * @see https://github.com/Runalyze/Runalyze/issues/1951
-	 *
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 * @return null|int [cm]
-	 */
-	public static function forActivity(Activity\Entity $activity) {
+    /**
+     * Calculate stride length for activity
+     * Use this method if trackdata is not available
+     *
+     * @see https://github.com/Runalyze/Runalyze/issues/1951
+     *
+     * @return null|int [cm]
+     */
+    public static function forActivity(Activity\Entity $activity) {
 		if ($activity->cadence() > 0 && $activity->duration() > 0) {
 			$value = round($activity->distance() * 1000 * 100 / ($activity->cadence() * 2 / 60 * $activity->duration()));
 

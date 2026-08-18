@@ -61,19 +61,17 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 	 */
 	protected $Sport;
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Analysis');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Analyze your training (only running) by means of pace, heart rate and different types.');
 	}
 
@@ -307,12 +305,11 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 		echo '<td>'.Ajax::tooltip($number, $tooltip).$this->getBarFor($percent).'</td>';
 	}
 
-	/**
-	 * Get bar
-	 * @param float $percentage
-	 * @return string
-	 */
-	private function getBarFor($percentage): string {
+    /**
+     * Get bar
+     * @param float $percentage
+     */
+    private function getBarFor($percentage): string {
 		$width = min(95, round($percentage));
 		$opacity = round($percentage/100, 2);
 		return '<div class="analysis-bar" style="width:'.$width.'%;opacity:'.$opacity.';"></div>';
@@ -388,9 +385,12 @@ class RunalyzePluginStat_Analyse extends PluginStat {
      * @return array<string, string|mixed[]>
      */
     private function getPaceArray(): array {
-		$speed_min = $this->Configuration()->value('lowest_pacegroup');
-		$speed_max = $this->Configuration()->value('highest_pacegroup');
-		$speed_step = $this->Configuration()->value('pacegroup_step');
+		$speed_min = $this->Configuration()
+		    ->value('lowest_pacegroup');
+		$speed_max = $this->Configuration()
+		    ->value('highest_pacegroup');
+		$speed_step = $this->Configuration()
+		    ->value('pacegroup_step');
 		$ceil_corr  = $speed_min % $speed_step;
 
 		if ($this->sportid != Configuration::General()->runningSport()) {
@@ -445,7 +445,8 @@ class RunalyzePluginStat_Analyse extends PluginStat {
 				else if ($speed == $speed_min)
 					$name = '<small>'.__('up to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
 				else
-					$name = $Pace->setTime($speed+$speed_step)->value().' <small>'.__('to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
+					$name = $Pace->setTime($speed+$speed_step)
+					    ->value().' <small>'.__('to').'</small>&nbsp;'.$Pace->setTime($speed)->valueWithAppendix();
 
 				$speed_foreach[] = array(
 				    'name' => $name,

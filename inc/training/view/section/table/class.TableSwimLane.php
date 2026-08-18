@@ -49,7 +49,8 @@ class TableSwimLane extends TableLapsAbstract {
 		$this->Code .= '<tbody>';
 
 		$Loop = new Swimdata\Loop($this->Context->swimdata());
-		$Poollength = $this->Context->swimdata()->poollength() / 100000;
+		$Poollength = $this->Context->swimdata()
+		    ->poollength() / 100000;
 		$TrackLoop = new Trackdata\Loop($this->Context->trackdata());
 		$Stroketype = new Stroketype(\Runalyze\Profile\FitSdk\StrokeTypeProfile::FREESTYLE);
 		$Distance = new Distance(0);

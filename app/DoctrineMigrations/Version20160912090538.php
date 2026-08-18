@@ -19,9 +19,6 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -31,9 +28,6 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
                                 ADD `thb_1` longtext AFTER `thb_0`');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

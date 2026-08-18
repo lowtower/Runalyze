@@ -20,7 +20,6 @@ class Tools extends AbstractKey
 {
     /**
      * Enum id
-     * @return int
      */
     public function id(): int
     {
@@ -36,16 +35,12 @@ class Tools extends AbstractKey
         return ['elevation', 'splits'];
     }
 
-    /**
-     * @return bool
-     */
     public function isInDatabase(): bool
     {
         return true;
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -54,7 +49,6 @@ class Tools extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
@@ -63,7 +57,6 @@ class Tools extends AbstractKey
     }
 
     /**
-     * @return bool
      * @codeCoverageIgnore
      */
     public function hasPrivacyOption(): bool {
@@ -72,8 +65,6 @@ class Tools extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @param \Runalyze\Dataset\Context $context
-     * @return string
      */
     public function stringFor(Context $context): string
     {
@@ -91,7 +82,6 @@ class Tools extends AbstractKey
 
     /**
      * @param string $menu
-     * @return string
      */
     protected function getCodeForDropdown($menu): string
     {
@@ -102,13 +92,12 @@ class Tools extends AbstractKey
     }
 
     /**
-     * @param \Runalyze\Dataset\Context $context
-     * @return string
      * @codeCoverageIgnore
      */
     public static function inlineDropdownWithRealLinks(Context $context): string
     {
-        $id = $context->activity()->id();
+        $id = $context->activity()
+            ->id();
         $html = '';
 
         if (! $context->activity()->splits()->isEmpty()) {
@@ -121,14 +110,11 @@ class Tools extends AbstractKey
         }
 
         $html .= '<li><a class="window" href="activity/'.$id.'/time-series-info"><i class="fa fa-fw fa-line-chart"></i> '.__('Time series').'</a></li>';
-        $html .= '<li><a class="window" href="activity/'.$id.'/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Sub segments').'</a></li>';
 
-        return $html;
+        return $html . ('<li><a class="window" href="activity/' . $id . '/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Sub segments') . '</a></li>');
     }
 
     /**
-     * @param \Runalyze\Dataset\Context $context
-     * @return string
      * @codeCoverageIgnore
      */
     public static function inlineDropdownWithFakeLinks(Context $context): string
@@ -137,13 +123,11 @@ class Tools extends AbstractKey
         $html .= '<li><span class="link"><i class="fa fa-fw fa-area-chart"></i> '.__('Elevation info').'</span></li>';
         $html .= '<li><span class="link"><i class="fa fa-fw fa-area-chart"></i> '.__('Climb score').'</span></li>';
         $html .= '<li><span class="link"><i class="fa fa-fw fa-line-chart"></i> '.__('Time series').'</span></li>';
-        $html .= '<li><span class="link"><i class="fa fa-fw fa-bar-chart"></i> '.__('Sub segments').'</span></li>';
 
-        return $html;
+        return $html . ('<li><span class="link"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Sub segments') . '</span></li>');
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function cssClass(): string

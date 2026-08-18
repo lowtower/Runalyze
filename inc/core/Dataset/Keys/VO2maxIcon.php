@@ -7,17 +7,11 @@ use Runalyze\Dataset\SummaryMode;
 
 class VO2maxIcon extends AbstractKey
 {
-    /**
-     * @return int
-     */
     public function id(): int
     {
         return \Runalyze\Dataset\Keys::VO2MAX_ICON;
     }
 
-    /**
-     * @return string
-     */
     public function column(): string
     {
         if (\Runalyze\Configuration::VO2max()->useElevationCorrection()) {
@@ -28,7 +22,6 @@ class VO2maxIcon extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -37,7 +30,6 @@ class VO2maxIcon extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
@@ -46,7 +38,6 @@ class VO2maxIcon extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function description(): string
@@ -67,15 +58,13 @@ class VO2maxIcon extends AbstractKey
         $Icon->setDownHalf();
         $text .= $Icon->code();
         $Icon->setDown();
-        $text .= $Icon->code();
 
-        return $text;
+        return $text . $Icon->code();
     }
 
     /**
      * Get string to display this dataset value
      *
-     * @param \Runalyze\Dataset\Context $context
      * @return string
      */
     public function stringFor(Context $context)
@@ -84,7 +73,8 @@ class VO2maxIcon extends AbstractKey
             if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
                 return '<a class="window" href="activity/' . $context->activity()->id() . '/vo2max-info">' . $context->dataview()->effectiveVO2maxIcon() . '</a>';
             } else {
-                return $context->dataview()->effectiveVO2maxIcon();
+                return $context->dataview()
+                    ->effectiveVO2maxIcon();
             }
         }
 

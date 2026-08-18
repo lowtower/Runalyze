@@ -24,7 +24,8 @@ class AverageBrakingGs extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-		return $context->dataview()->brakingGs();
+		return $context->dataview()
+		    ->brakingGs();
 	}
 
     public function summaryMode(): int

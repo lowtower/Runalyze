@@ -18,8 +18,6 @@ interface StrategyInterface
     public function isCachable();
 
     /**
-     * @param Location $location
-     *
      * @return WeatherData|null
      */
     public function loadForecast(Location $location);

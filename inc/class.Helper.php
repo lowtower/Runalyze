@@ -38,7 +38,7 @@ class Helper {
 
 	/**
 	 * Round to the next lowest factor of $roundForInt
-	 * @param double $numberToRound
+	 * @param float $numberToRound
 	 * @param int $roundForInt
 	 * @return int
 	 */
@@ -48,7 +48,7 @@ class Helper {
 
 	/**
 	 * Round to the next highest factor of $roundForInt
-	 * @param double $numberToRound
+	 * @param float $numberToRound
 	 * @param int $roundForInt
 	 * @return int
 	 */
@@ -56,12 +56,11 @@ class Helper {
 		return $roundForInt * ceil($numberToRound / $roundForInt);
 	}
 
-	/**
-	 * Get a leading 0 if $int is lower than 10
-	 * @param int $int
-	 * @return string
-	 */
-	public static function TwoNumbers($int): string {
+    /**
+     * Get a leading 0 if $int is lower than 10
+     * @param int $int
+     */
+    public static function TwoNumbers($int): string {
 		return ($int < 10) ? '0'.$int : (string) $int;
 	}
 
@@ -97,12 +96,11 @@ class Helper {
 		return $text;
 	}
 
-	/**
-	 * Replace every comma with a point
-	 * @param string $string
-	 * @return string
-	 */
-	public static function CommaToPoint($string): string {
+    /**
+     * Replace every comma with a point
+     * @param string $string
+     */
+    public static function CommaToPoint($string): string {
 		return str_replace(',', '.', $string);
 	}
 

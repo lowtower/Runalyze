@@ -60,16 +60,15 @@ class Calculator
 	 */
 	protected $Down = 0;
 
-	/**
-	 * Constructor
-	 *
-	 * If no options are set, the current configuration settings are used.
-	 *
-	 * @param array $ElevationPoints
-	 * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
-	 * @param int|null $Threshold [optional]
-	 */
-	public function __construct(array $ElevationPoints, ?ElevationMethod $Method = null, $Threshold = null)
+    /**
+     * Constructor
+     *
+     * If no options are set, the current configuration settings are used.
+     *
+     * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
+     * @param int|null $Threshold [optional]
+     */
+    public function __construct(array $ElevationPoints, ?ElevationMethod $Method = null, $Threshold = null)
 	{
 		$this->ElevationPoints = $ElevationPoints;
 		$this->Method = null !== $Method ? $Method : Configuration::ActivityView()->elevationMethod();
@@ -85,20 +84,18 @@ class Calculator
 		$this->Threshold = $threshold;
 	}
 
-	/**
-	 * Set method
-	 * @param \Runalyze\Parameter\Application\ElevationMethod $Method
-	 */
-	public function setMethod(ElevationMethod $Method)
+    /**
+     * Set method
+     */
+    public function setMethod(ElevationMethod $Method)
 	{
 		$this->Method = $Method;
 	}
 
-	/**
-	 * Get elevation
-	 * @return int
-	 */
-	public function totalElevation(): int
+    /**
+     * Get elevation
+     */
+    public function totalElevation(): int
 	{
 		return max($this->Up, $this->Down);
 	}

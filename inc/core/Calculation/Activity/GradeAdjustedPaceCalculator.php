@@ -56,12 +56,10 @@ class GradeAdjustedPaceCalculator {
 
     protected $KernelWidth = 20;
 
-	/**
-	 * Calculate the pace
-	 *
-	 * @param Runalyze\View\Activity\Context $context
-	 */
-	public function __construct(Activity\Context $context) {
+    /**
+     * Calculate the pace
+     */
+    public function __construct(Activity\Context $context) {
         $trackdata = $context->trackdata();
 
 		$this->Trackdata = $trackdata;

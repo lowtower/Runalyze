@@ -39,9 +39,7 @@ class Monotony
     protected $MaximumPerDay;
 
     /**
-     * @param array $trimpData
      * @param float|null $maximumPerDay
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(array $trimpData, $maximumPerDay = null)
@@ -73,8 +71,6 @@ class Monotony
     }
 
     /**
-     * @return float
-     *
      * @throws \RuntimeException
      */
     public function value(): float
@@ -90,25 +86,18 @@ class Monotony
      * Training strain
      *
      * We use the Trimp-average instead of the sum to keep this value comparable.
-     *
-     * @return float
      */
     public function trainingStrain(): float
     {
         return $this->Avg * static::DAYS * $this->value();
     }
 
-    /**
-     * @return float
-     */
     public function valueAsPercentage(): float
     {
         return (new Scale\TwoPartPercental(self::MIN, self::CRITICAL, self::MAX))->transform($this->value());
     }
 
     /**
-     * @return float
-     *
      * @throws \RuntimeException
      */
     public function trainingStrainAsPercentage(): float

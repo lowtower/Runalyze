@@ -143,9 +143,6 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this->input;
     }
 
-    /**
-     * @return bool
-     */
     public function allowsMultipleValues(): bool
     {
         return self::CHOICE_MULTIPLE === $this->input;
@@ -171,9 +168,6 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this->maxKm;
     }
 
-    /**
-     * @return bool
-     */
     public function hasMaximalDistance(): bool
     {
         return null !== $this->maxKm && $this->maxKm > 0;
@@ -199,17 +193,12 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this->maxTime;
     }
 
-    /**
-     * @return bool
-     */
     public function hasMaximalDuration(): bool
     {
         return null !== $this->maxTime && $this->maxTime > 0;
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)

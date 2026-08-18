@@ -5,7 +5,7 @@
  */
 class FrontendShared extends Frontend
 {
-    /** @var boolean */
+    /** @var bool */
     public static $IS_SHOWN = false;
 
     public function displayHeader()

@@ -23,11 +23,10 @@ class PaceAndHeartrateAndElevation extends ActivityPlot {
 		$this->key = 'pacehrelevation';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$Gradient = new Series\Gradient($context);
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = [

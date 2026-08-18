@@ -13,9 +13,6 @@ interface RouteNameEval {
     /**
      * Retrieves the route-name and some other relevant informations of the route.
      *
-     * @param Sport $sport
-     * @param Route $route
-     * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
      * @throws Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult;

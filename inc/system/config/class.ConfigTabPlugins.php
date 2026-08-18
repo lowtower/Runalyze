@@ -18,11 +18,10 @@ class ConfigTabPlugins extends ConfigTab {
 		$this->title = __('Plugins');
 	}
 
-	/**
-	 * Get URL
-	 * @return string
-	 */
-	public static function getExternalUrl(): string {
+    /**
+     * Get URL
+     */
+    public static function getExternalUrl(): string {
 		return ConfigTabs::$CONFIG_URL.'?key=config_tab_plugins&external=true';
 	}
 
@@ -50,12 +49,11 @@ class ConfigTabPlugins extends ConfigTab {
 		$this->Formular->allowOnlyOneOpenedFieldset();
 	}
 
-	/**
-	 * Get code for
-	 * @param string $PluginType
-	 * @return string
-	 */
-	private function getCodeFor($PluginType): string {
+    /**
+     * Get code for
+     * @param string $PluginType
+     */
+    private function getCodeFor($PluginType): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->completeData($PluginType);
 		usort($Plugins, $this->pluginOrderFunction());
@@ -168,11 +166,10 @@ class ConfigTabPlugins extends ConfigTab {
 		};
 	}
 
-	/**
-	 * Get code for install
-	 * @return string
-	 */
-	private function getCodeForInstall(): string {
+    /**
+     * Get code for install
+     */
+    private function getCodeForInstall(): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->notInstalledPlugins();
 
@@ -202,11 +199,9 @@ class ConfigTabPlugins extends ConfigTab {
 				</tr>';
 		}
 
-		$Code .= '
+		return $Code . '
 				</tbody>
 			</table>';
-
-		return $Code;
 	}
 
 	/**
@@ -237,7 +232,6 @@ class ConfigTabPlugins extends ConfigTab {
 	}
 
     /**
-     * @param \PDOStatement $update
      * @param array<string, mixed> $Plugin
      * @param int $newModus
      * @param int $newOrder

@@ -32,14 +32,13 @@ class TrendAnalysisDataQuery
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return UnitInterface
      */
     public function getValueUnit(UnitSystem $unitSystem)
     {
         $sports = $this->TrendAnalysisData->getSport();
 
-        if (1 == count($sports)) {
+        if (1 === count($sports)) {
             $unitSystem->setPaceUnitFromSport(array_shift($sports));
         }
 
@@ -52,7 +51,8 @@ class TrendAnalysisDataQuery
     public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem)
     {
         $unit = $this->getValueUnit($unitSystem);
-        $iterator = $this->buildQuery($trainingRepository, $account)->iterate(null, AbstractQuery::HYDRATE_ARRAY);
+        $iterator = $this->buildQuery($trainingRepository, $account)
+            ->iterate(null, AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($iterator as $row) {
             $data = array_shift($row);

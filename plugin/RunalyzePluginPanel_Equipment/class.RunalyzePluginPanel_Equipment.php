@@ -22,19 +22,17 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 	 */
 	protected $AllTypes = array();
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Equipment');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Display statistics for your equipment.');
 	}
 
@@ -56,7 +54,8 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		$Configuration->addValue($Types);
 
 		if (isset($_GET['type']) && isset($Options[$_GET['type']])) {
-			$Configuration->object('type')->setValue($_GET['type']);
+			$Configuration->object('type')
+			    ->setValue($_GET['type']);
 			$Configuration->update('type');
 			Cache::delete(PluginConfiguration::CACHE_KEY);
 		}
@@ -116,11 +115,10 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		echo HTML::clearBreak();
 	}
 
-	/**
-	 * @param \Runalyze\Model\EquipmentType\Entity $EquipmentType
-	 * @param boolean $inuse
-	 */
-	protected function showListFor(Model\EquipmentType\Entity $EquipmentType, &$inuse) {
+    /**
+     * @param bool $inuse
+     */
+    protected function showListFor(Model\EquipmentType\Entity $EquipmentType, &$inuse) {
 		$max = 0;
 		$showDistance = $EquipmentType->hasMaxDistance();
 		$hasMaxDuration = $showDistance || $EquipmentType->hasMaxDuration();
@@ -158,20 +156,18 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 			echo '</div>';
 	}
 
-	/**
-	 * Get style
-	 * @return string
-	 */
-	protected function getStyle(): string {
+    /**
+     * Get style
+     */
+    protected function getStyle(): string {
 		return '<style type="text/css">.equipment-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images//damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
 
-	/**
-	 * Get shoe usage image
-	 * @param float $percentage [0.0 .. 1.0]
-	 * @return string
-	 */
-	protected function getUsageImage($percentage): string {
+    /**
+     * Get shoe usage image
+     * @param float $percentage [0.0 .. 1.0]
+     */
+    protected function getUsageImage($percentage): string {
 		return '<span class="equipment-usage" style="width:'.round($percentage * 330).'px;"></span>';
 	}
 }

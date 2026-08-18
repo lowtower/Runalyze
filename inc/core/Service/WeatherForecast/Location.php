@@ -38,7 +38,8 @@ class Location
     public function setGeohash($geohash)
     {
         try {
-            $decoded = (new Geohash())->decode($geohash)->getCoordinate();
+            $decoded = (new Geohash())->decode($geohash)
+                ->getCoordinate();
 
             $this->Latitude = $decoded->getLatitude();
             $this->Longitude = $decoded->getLongitude();
@@ -103,7 +104,8 @@ class Location
     public function getGeohash()
     {
         if ($this->hasPosition()) {
-            return (new Geohash())->encode($this->getCoordinate(), 12)->getGeohash();
+            return (new Geohash())->encode($this->getCoordinate(), 12)
+                ->getGeohash();
         }
 
         return null;
@@ -147,7 +149,6 @@ class Location
 
     /**
      * Is position set?
-     * @return bool
      */
     public function hasPosition(): bool
     {
@@ -158,17 +159,11 @@ class Location
         );
     }
 
-    /**
-     * @return bool
-     */
     public function hasLocationName(): bool
     {
         return strlen($this->LocationName) > 0;
     }
 
-    /**
-     * @return bool
-     */
     public function hasDateTime(): bool
     {
         return null !== $this->DateTime;
@@ -176,7 +171,6 @@ class Location
 
     /**
      * @param int $seconds
-     * @return bool
      */
     public function isOlderThan($seconds = 86400): bool
     {
@@ -186,7 +180,6 @@ class Location
     /**
      * Check if location is valid for request a weather-forecast.
      * #TSC
-     * @return bool
      */
     public function isValid(): bool {
         return $this->hasDateTime() && ($this->hasLocationName() || $this->hasPosition());

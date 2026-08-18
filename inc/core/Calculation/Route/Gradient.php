@@ -21,10 +21,6 @@ class Gradient
     /** @var AbstractKernel|null */
     protected $MovingAverageKernel;
 
-	/**
-	 * @param array $elevation
-	 * @param array $distance
-	 */
 	public function __construct(array $elevation = [], array $distance = [])
     {
         if (! empty($elevation) && ! empty($distance)) {
@@ -33,8 +29,6 @@ class Gradient
 	}
 
     /**
-     * @param array $elevation
-     * @param array $distance
      * @throws \InvalidArgumentException
      */
     public function setData(array $elevation, array $distance)
@@ -48,8 +42,6 @@ class Gradient
     }
 
     /**
-     * @param Model\Route\Entity $route
-     * @param Model\Trackdata\Entity $trackdata
      * @throws \InvalidArgumentException
      */
     public function setDataFrom(Model\Route\Entity $route, Model\Trackdata\Entity $trackdata)
@@ -88,9 +80,6 @@ class Gradient
         ));
     }
 
-    /**
-     * @param array $elevation
-     */
     protected function applyMovingAverage(array &$elevation)
     {
         if (null !== $this->MovingAverageKernel) {

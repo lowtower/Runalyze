@@ -9,8 +9,6 @@ class Centimeter extends AbstractDistanceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Centimeter extends AbstractDistanceUnit
         return 'cm';
     }
 
-    /**
-     * @return int
-     */
     public function getFactorFromBaseUnit(): int
     {
         return 100000;

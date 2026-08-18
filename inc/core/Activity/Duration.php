@@ -49,12 +49,11 @@ class Duration {
 	 */
 	protected $Time;
 
-	/**
-	 * Format
-	 * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
-	 * @return string
-	 */
-	public static function format($input): string {
+    /**
+     * Format
+     * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
+     */
+    public static function format($input): string {
 		$Object = new self($input);
 
 		return $Object->string();
@@ -130,13 +129,12 @@ class Duration {
 		return $this->Time;
 	}
 
-	/**
-	 * Format duration as string
-	 * @param string $format [optional] format accepted by date()
-	 * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
-	 * @return string
-	 */
-	public function string($format = self::FORMAT_AUTO, $decimals = 2): string {
+    /**
+     * Format duration as string
+     * @param string $format [optional] format accepted by date()
+     * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
+     */
+    public function string($format = self::FORMAT_AUTO, $decimals = 2): string {
 		if ($format == self::FORMAT_AUTO) {
 			return $this->autoString($decimals);
 		}
@@ -148,13 +146,12 @@ class Duration {
 		return $this->formatString($format, $decimals);
 	}
 
-	/**
-	 * Auto format as string
-	 * @param int $decimals [optional]
-	 * @return string
-	 */
-	protected function autoString($decimals = 2): string {
-		$fraction = (round($this->Time) != round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT.'u' : '';
+    /**
+     * Auto format as string
+     * @param int $decimals [optional]
+     */
+    protected function autoString($decimals = 2): string {
+		$fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT.'u' : '';
 
 		if ($this->Time >= 86400) {
 			return $this->formatString(self::FORMAT_WITH_DAYS);
@@ -171,12 +168,11 @@ class Duration {
 		return ltrim($this->formatString('i:s'.$fraction, $decimals), '0');
 	}
 
-	/**
-	 * Format for competition results
-	 * @param int $decimals [optional]
-	 * @return string
-	 */
-	protected function autoCompetitionString($decimals = 2): string {
+    /**
+     * Format for competition results
+     * @param int $decimals [optional]
+     */
+    protected function autoCompetitionString($decimals = 2): string {
 		if ($this->Time >= 60 || $this->Time == 0) {
 			return $this->autoString($decimals);
 		}
@@ -184,13 +180,12 @@ class Duration {
 		return ltrim($this->formatString('s'.self::$DECIMAL_POINT.'u', $decimals), '0').'s';
 	}
 
-	/**
-	 * Format with DateTime object
-	 * @param string $format
-	 * @param int $decimals
-	 * @return string
-	 */
-	protected function formatString($format, $decimals = 2): string {
+    /**
+     * Format with DateTime object
+     * @param string $format
+     * @param int $decimals
+     */
+    protected function formatString($format, $decimals = 2): string {
 		if (substr($format, -1) == 'u') {
 			$fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
 			return $this->formatString(substr($format, 0, -1)).$fraction;
@@ -224,53 +219,47 @@ class Duration {
 		return $this;
 	}
 
-	/**
-	 * Add another duration
-	 * @param \Runalyze\Activity\Duration $object
-	 * @return \Runalyze\Activity\Duration $this-reference
-	 */
-	public function add(self $object) {
+    /**
+     * Add another duration
+     * @return \Runalyze\Activity\Duration $this-reference
+     */
+    public function add(self $object) {
 		$this->Time += $object->seconds();
 
 		return $this;
 	}
 
-	/**
-	 * Subtract another duration
-	 * @param \Runalyze\Activity\Duration $object
-	 * @return \Runalyze\Activity\Duration $this-reference
-	 */
-	public function subtract(self $object) {
+    /**
+     * Subtract another duration
+     * @return \Runalyze\Activity\Duration $this-reference
+     */
+    public function subtract(self $object) {
 		$this->Time -= $object->seconds();
 
 		return $this;
 	}
 
-	/**
-	 * Is duration negative?
-	 * @return boolean
-	 */
-	public function isNegative(): bool {
+    /**
+     * Is duration negative?
+     */
+    public function isNegative(): bool {
 		return ($this->Time < 0);
 	}
 
-	/**
-	 * Is duration zero?
-	 * @return boolean
-	 */
-	public function isZero(): bool {
+    /**
+     * Is duration zero?
+     */
+    public function isZero(): bool {
 		return ($this->Time == 0);
 	}
 
-	/**
-	 * Compare
-	 * @param \Runalyze\Activity\Duration $other
-	 * @param boolean $invert [optional] by default, larger is 'better'; set to true to invert that
-	 * @param boolean $raw [optional]
-	 * @throws \InvalidArgumentException
-	 * @return string
-	 */
-	public function compareTo(self $other, $invert = false, $raw = false): string {
+    /**
+     * Compare
+     * @param bool $invert [optional] by default, larger is 'better'; set to true to invert that
+     * @param bool $raw [optional]
+     * @throws \InvalidArgumentException
+     */
+    public function compareTo(self $other, $invert = false, $raw = false): string {
 		if ($this->seconds() == 0 || $other->seconds() == 0) {
 			return '';
 		}
@@ -281,14 +270,13 @@ class Duration {
 		return $this->formatComparison($CompareTime->string(), $isPositive, $raw);
 	}
 
-	/**
-	 * Format comparison
-	 * @param string $string e.g. '0:27'
-	 * @param boolean $isPositive
-	 * @param boolean $raw [optional]
-	 * @return string
-	 */
-	protected function formatComparison($string, $isPositive, $raw = false): string {
+    /**
+     * Format comparison
+     * @param string $string e.g. '0:27'
+     * @param bool $isPositive
+     * @param bool $raw [optional]
+     */
+    protected function formatComparison($string, $isPositive, $raw = false): string {
 		$class = ($isPositive) ? 'plus' : 'minus';
 		$sign = ($isPositive) ? '+' : '-';
 

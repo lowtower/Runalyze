@@ -20,11 +20,10 @@ class PluginConfigurationValueBool extends PluginConfigurationValue {
 		$this->Value = ($Value == '1');
 	}
 
-	/**
-	 * Get value as string
-	 * @return string
-	 */
-	public function valueAsString(): string {
+    /**
+     * Get value as string
+     */
+    public function valueAsString(): string {
 		return ($this->Value ? '1' : '0');
 	}
 
@@ -40,8 +39,6 @@ class PluginConfigurationValueBool extends PluginConfigurationValue {
 	 * @return FormularField
 	 */
 	public function getFormField(): \FormularCheckbox {
-		$Field = new FormularCheckbox($this->Key, $this->formLabel(), $this->valueAsString());
-
-		return $Field;
+		return new FormularCheckbox($this->Key, $this->formLabel(), $this->valueAsString());
 	}
 }

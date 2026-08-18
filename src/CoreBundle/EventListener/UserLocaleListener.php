@@ -15,20 +15,15 @@ class UserLocaleListener
     /** @var \Symfony\Component\HttpFoundation\Session\Session */
     private $session;
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Session\Session $session
-     */
     public function __construct(Session $session)
     {
         $this->session = $session;
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
-     */
     public function onInteractiveLogin(InteractiveLoginEvent $event)
     {
-        $user = $event->getAuthenticationToken()->getUser();
+        $user = $event->getAuthenticationToken()
+            ->getUser();
 
         if (null !== $user->getLanguage()) {
             $this->session->set('_locale', $user->getLanguage());

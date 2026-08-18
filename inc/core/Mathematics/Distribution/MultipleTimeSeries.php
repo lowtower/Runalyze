@@ -47,7 +47,6 @@ class MultipleTimeSeries
     /**
      * @param array[] $dataOfMultipleSeries array of multiple data series, array keys are used to get single distributions
      * @param array $time continuous time points
-     * @return array
      */
     protected function generateHistogramsFor(array $dataOfMultipleSeries, array $time): array
     {

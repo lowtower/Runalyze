@@ -63,24 +63,18 @@ class LapIntensity extends AbstractEnum
         return $this->Value;
     }
 
-    /** @return bool */
     public function isActive(): bool {
         return $this->Value == self::ACTIVE;
     }
 
-    /** @return bool */
     public function isNotRest(): bool {
         return ! $this->isRest();
     }
 
-    /** @return bool */
     public function isRest(): bool {
         return $this->Value == self::REST;
     }
 
-    /**
-     * @return bool
-     */
     public function isEqualTo(self $other): bool
     {
         return $this->Value == $other->getValue();
@@ -122,8 +116,6 @@ class LapIntensity extends AbstractEnum
 
     /**
      * Get all LapIntensity.
-     *
-     * @return array
      */
     public static function getAll(): array
     {
@@ -206,8 +198,6 @@ class LapIntensity extends AbstractEnum
 
     /**
      * Gets a RECOVERY.
-     *
-     * @return LapIntensity
      */
     public static function getInstanceRecovery(): self {
         return new self(self::RECOVERY);

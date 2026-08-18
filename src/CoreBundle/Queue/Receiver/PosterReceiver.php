@@ -57,14 +57,6 @@ class PosterReceiver
     protected $InkscapePath;
 
     /**
-     * @param LoggerInterface $logger
-     * @param AccountRepository $accountRepository
-     * @param SportRepository $sportRepository
-     * @param NotificationRepository $notificationRepository
-     * @param GenerateJsonData $generateJsonData
-     * @param GeneratePoster $generatePoster
-     * @param FileHandler $posterFileHandler
-     * @param AccountMailer $accountMailer
      * @param string $dataDir
      * @param string $rsvgPath
      * @param string $inkscapePath
@@ -110,7 +102,8 @@ class PosterReceiver
 
         $generatedFiles = 0;
         $this->GenerateJsonData->createJsonFilesFor($account, $sport, $message->get('year'));
-        $jsonFiles = (new Finder())->files()->in($this->GenerateJsonData->getPathToJsonFiles());
+        $jsonFiles = (new Finder())->files()
+            ->in($this->GenerateJsonData->getPathToJsonFiles());
 
         if ($jsonFiles->count() > 0) {
             foreach ($message->get('types') as $type) {
@@ -167,7 +160,6 @@ class PosterReceiver
     /**
      * @param int $generatedFiles
      * @param int $requestedFiles
-     * @return int
      */
     protected function getNotificationState($generatedFiles, $requestedFiles): int
     {
@@ -195,9 +187,6 @@ class PosterReceiver
         return new RsvgConverter($this->RsvgPath);
     }
 
-    /**
-     * @return string
-     */
     protected function exportDirectory(): string
     {
         return $this->DataDir.'/poster/';

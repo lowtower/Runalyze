@@ -28,12 +28,12 @@ class LapsManual extends Laps {
 		$this->title = __('Manual Laps');
 	}
 
-	/**
-	 * Load data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function loadData(Activity\Context $context) {
-		$Splits = $context->activity()->splits();
+    /**
+     * Load data
+     */
+    protected function loadData(Activity\Context $context) {
+		$Splits = $context->activity()
+		    ->splits();
 
 		if ($Splits->isEmpty() || $Splits->totalDistance() <= 0) {
 			$this->Plot->raiseError( __('There are no manual laps.') );
@@ -52,11 +52,10 @@ class LapsManual extends Laps {
 		$this->manipulateData($num);
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Entity $splits
-	 * @param boolean $showInactive
-	 */
-	protected function readDataFromSplits(Splits\Entity $splits, $showInactive) {
+    /**
+     * @param bool $showInactive
+     */
+    protected function readDataFromSplits(Splits\Entity $splits, $showInactive) {
 		foreach ($splits->asArray() as $split) {
 			if (($showInactive || $split->isActive()) && $split->distance() > 0) {
 				$this->Labels[] = round((new Distance($split->distance()))->valueInPreferredUnit(), 2);

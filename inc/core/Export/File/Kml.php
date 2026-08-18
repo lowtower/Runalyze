@@ -43,9 +43,6 @@ class Kml extends AbstractFileExporter
     /** @var \Runalyze\Model\Trackdata\Pauses */
     protected $Pauses;
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return ($this->Context->hasRoute() && $this->Context->route()->hasPositionData());
@@ -53,24 +50,17 @@ class Kml extends AbstractFileExporter
 
     /**
      * Get extension
-     * @return string
      */
     public function extension(): string
     {
         return 'kml';
     }
 
-    /**
-     * @return string
-     */
     protected function mimeType(): string
     {
         return 'application/vnd.google-earth.kml+xml';
     }
 
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::KML;
@@ -126,17 +116,16 @@ class Kml extends AbstractFileExporter
     {
         $this->RouteLoop = new Route\Loop($this->Context->route());
         $this->TrackdataLoop = new Trackdata\Loop($this->Context->trackdata());
-        $this->Pauses = $this->Context->trackdata()->pauses();
+        $this->Pauses = $this->Context->trackdata()
+            ->pauses();
         $this->NumPauses = $this->Pauses->num();
 
         if ($this->NumPauses > 0) {
-            $this->CurrentPauseTime = $this->Pauses->at(0)->time();
+            $this->CurrentPauseTime = $this->Pauses->at(0)
+                ->time();
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function thereWasAPause(): bool
     {
         return ($this->CurrentPauseIndex < $this->NumPauses) && ($this->CurrentPauseTime < $this->TrackdataLoop->time());
@@ -151,13 +140,11 @@ class Kml extends AbstractFileExporter
         $this->CurrentPauseIndex++;
 
         if ($this->NumPauses > $this->CurrentPauseIndex) {
-            $this->CurrentPauseTime = $this->Pauses->at($this->CurrentPauseIndex)->time();
+            $this->CurrentPauseTime = $this->Pauses->at($this->CurrentPauseIndex)
+                ->time();
         }
     }
 
-    /**
-     * @param \League\Geotools\Coordinate\CoordinateInterface $coordinate
-     */
     protected function addCoordinateToCurrentPath(CoordinateInterface $coordinate)
     {
         if (abs($coordinate->getLatitude()) > 1e-5 || abs($coordinate->getLongitude()) > 1e-5) {
@@ -178,16 +165,15 @@ class Kml extends AbstractFileExporter
 
     /**
      * Get name for route in kml-file
-     * @return string
      */
     protected function nameForKml(): string
     {
-        return $this->Context->dataview()->date('Y-m-d').': '.$this->Context->dataview()->titleWithComment();
+        return $this->Context->dataview()
+            ->date('Y-m-d').': '.$this->Context->dataview()->titleWithComment();
     }
 
     /**
      * Get empty xml
-     * @return string
      */
     protected function emptyXml(): string
     {
@@ -211,11 +197,10 @@ class Kml extends AbstractFileExporter
     /**
      * Transform rgb-color (i.e. #FF7700 or FF7700) to abgr-color needed for kml
      * @param string $rgb
-     * @return string
      */
     public static function rgbToKmlColor($rgb): string
     {
-        if (strlen($rgb) == 7) {
+        if (strlen($rgb) === 7) {
             $rgb = substr($rgb, 1);
         }
 

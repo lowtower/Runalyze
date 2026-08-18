@@ -20,7 +20,6 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
 {
     /**
      * MaximalHeartRateInPercent constructor.
-     * @param \Runalyze\Activity\HeartRate $heartRate
      * @param bool $addWarningIfMaximalHeartRateIsExceeded
      */
     public function __construct(HeartRate $heartRate, $addWarningIfMaximalHeartRateIsExceeded = false)
@@ -33,7 +32,6 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
     }
 
     /**
-     * @param \Runalyze\Activity\HeartRate $heartRate
      * @return string
      */
     protected function value(HeartRate $heartRate)
@@ -45,17 +43,11 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
         return '-';
 	}
 
-    /**
-     * @return string
-     */
     protected function unit(): string
 	{
         return '&#37;';
 	}
 
-    /**
-     * @param \Runalyze\Activity\HeartRate $heartRate
-     */
     public function addWarningIfMaximalHeartRateIsExceeded(HeartRate $heartRate)
     {
         if ($heartRate->canShowInHRmax() && $heartRate->inPercent() > 100) {

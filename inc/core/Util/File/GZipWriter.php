@@ -50,11 +50,10 @@ class GZipWriter {
 		}
 	}
 
-	/**
-	 * Is file open?
-	 * @return bool
-	 */
-	protected function isOpen(): bool {
+    /**
+     * Is file open?
+     */
+    protected function isOpen(): bool {
 		return null !== $this->Resource;
 	}
 

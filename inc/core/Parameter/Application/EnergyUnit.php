@@ -40,19 +40,17 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Is kilocalories?
-	 * @return bool
-	 */
-	public function isKCAL(): bool {
+    /**
+     * Is kilocalories?
+     */
+    public function isKCAL(): bool {
 		return ($this->value() == self::KCAL);
 	}
 
-	/**
-	 * Is kilojoules?
-	 * @return bool
-	 */
-	public function isKJ(): bool {
+    /**
+     * Is kilojoules?
+     */
+    public function isKJ(): bool {
 		return ($this->value() == self::KJ);
 	}
 
@@ -64,9 +62,6 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 		return $this->value();
 	}
 
-	/**
-	 * @return float
-	 */
 	public function factorFromKcalToUnit(): float {
 		if ($this->isKJ()) {
 			return Energy::KJ_MULTIPLIER;

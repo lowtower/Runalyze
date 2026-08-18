@@ -39,7 +39,8 @@ class LegacyCache
 
 	public function clearActivityCache(Training $activity)
     {
-        $accountId = $activity->getAccount()->getId();
+        $accountId = $activity->getAccount()
+            ->getId();
 
         if (null !== $activity->getRoute()) {
             $this->delete('route'.$activity->getRoute()->getId(), $accountId);
@@ -66,7 +67,8 @@ class LegacyCache
 
     public function clearRaceResultCache(Raceresult $raceResult)
     {
-        $accountId = $raceResult->getAccount()->getId();
+        $accountId = $raceResult->getAccount()
+            ->getId();
 
         $this->delete('raceresult'.$raceResult->getActivity()->getId(), $accountId);
     }

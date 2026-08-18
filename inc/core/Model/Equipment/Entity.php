@@ -89,12 +89,11 @@ class Entity extends Model\EntityWithID {
 		return static::allDatabaseProperties();
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::DATE_START:
 			case self::DATE_END:
@@ -188,11 +187,10 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::DATE_START];
 	}
 
-	/**
-	 * Has this equipment a start date?
-	 * @return boolean
-	 */
-	public function hasStartDate(): bool {
+    /**
+     * Has this equipment a start date?
+     */
+    public function hasStartDate(): bool {
 		return (null !== $this->Data[self::DATE_START]);
 	}
 
@@ -204,11 +202,10 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::DATE_END];
 	}
 
-	/**
-	 * Is this equipment still in use?
-	 * @return boolean
-	 */
-	public function isInUse(): bool {
+    /**
+     * Is this equipment still in use?
+     */
+    public function isInUse(): bool {
 		return (null === $this->Data[self::DATE_END]);
 	}
 }

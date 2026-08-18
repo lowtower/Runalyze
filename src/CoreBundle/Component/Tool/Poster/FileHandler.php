@@ -22,22 +22,16 @@ class FileHandler
         $this->DataDir = $dataDir;
     }
 
-    /**
-     * @return string
-     */
     protected function pathToImages(): string
     {
         return $this->DataDir.'/poster/';
     }
 
-    /**
-     * @param Account $account
-     * @return array
-     */
     public function getFileList(Account $account): array
     {
         $finder = new Finder();
-        $finder->files()->name($account->getId().'-*')
+        $finder->files()
+            ->name($account->getId().'-*')
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
                 return ($b->getMTime() - $a->getMTime());
             })
@@ -53,10 +47,8 @@ class FileHandler
     }
 
     /**
-     * @param Account $account
      * @param string $filename
      * @return Response
-     *
      * @throws ResourceNotFoundException
      */
     public function getPosterDownloadResponse(Account $account, $filename)
@@ -79,12 +71,9 @@ class FileHandler
     }
 
     /**
-     * @param Account $account
-     * @param Sport $sport
      * @param string|int $year
      * @param string $type
      * @param string|int $size
-     * @return string
      */
     public function buildFinalFileName(Account $account, Sport $sport, $year, $type, $size): string
     {

@@ -37,7 +37,6 @@ class TimezoneLookup
     }
 
     /**
-     * @return bool
      * @throws TimezoneLookupException
      */
     public function isPossible(): bool

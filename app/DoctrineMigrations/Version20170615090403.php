@@ -31,7 +31,9 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
     {
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $em->getConnection()
+            ->getConfiguration()
+            ->setSQLLogger(null);
 
         $repo = $em->getRepository('CoreBundle:Training');
         $numLocked = $this->getNumberOfLockedRoutes($em);
@@ -60,16 +62,20 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
 
                 $this->correctSizeOfCorrectedElevationsIfRequired($activity);
 
-                $oldElevations = $activity->getRoute()->getElevationsCorrected();
+                $oldElevations = $activity->getRoute()
+                    ->getElevationsCorrected();
 
                 if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
-                    $activity->getRoute()->setElevationsCorrected((new StepwiseElevationProfileFixer(
-                        5,
-                        StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
-                    ))->fixStepwiseElevations(
-                        $activity->getRoute()->getElevationsCorrected(),
-                        $activity->getTrackdata()->getDistance()
-                    ));
+                    $activity->getRoute()
+                        ->setElevationsCorrected((new StepwiseElevationProfileFixer(
+                            5,
+                            StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
+                        ))->fixStepwiseElevations(
+                            $activity->getRoute()
+                                ->getElevationsCorrected(),
+                            $activity->getTrackdata()
+                                ->getDistance()
+                        ));
                 }
 
                 try {
@@ -83,8 +89,10 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
                     ));
                 };
 
-                $activity->getRoute()->setElevationsCorrected($oldElevations);
-                $activity->getRoute()->setLock(false);
+                $activity->getRoute()
+                    ->setElevationsCorrected($oldElevations);
+                $activity->getRoute()
+                    ->setLock(false);
 
                 $em->persist($activity);
 
@@ -103,30 +111,30 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
         }
     }
 
-    /**
-     * @param EntityManager $em
-     * @return int
-     */
     protected function getNumberOfLockedRoutes(EntityManager $em): int
     {
         return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
             ->from('CoreBundle:Route', 'r')
-            ->getQuery()->getSingleScalarResult();
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     protected function correctSizeOfCorrectedElevationsIfRequired(Training $activity)
     {
         if (
-            $activity->hasRoute() && null !== $activity->getRoute()->getElevationsCorrected() &&
-            $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()
+            $activity->hasRoute() && null !== $activity->getRoute()
+                ->getElevationsCorrected() &&
+            $activity->hasTrackdata() && null !== $activity->getTrackdata()
+                ->getDistance()
         ) {
             $numDistance = count($activity->getTrackdata()->getDistance());
             $numElevations = count($activity->getRoute()->getElevationsCorrected());
 
             if ($numElevations > $numDistance) {
-                $activity->getRoute()->setElevationsCorrected(array_slice($activity->getRoute()->getElevationsCorrected(), 0, $numDistance));
+                $activity->getRoute()
+                    ->setElevationsCorrected(array_slice($activity->getRoute()->getElevationsCorrected(), 0, $numDistance));
             }
         }
     }

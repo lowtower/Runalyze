@@ -9,8 +9,6 @@ class RoundsPerMinute extends AbstractCadenceUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

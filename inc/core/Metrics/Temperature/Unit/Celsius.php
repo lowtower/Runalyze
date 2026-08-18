@@ -9,8 +9,6 @@ class Celsius extends AbstractTemperatureUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

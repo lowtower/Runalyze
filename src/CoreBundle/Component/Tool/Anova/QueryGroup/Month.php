@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 class Month implements QueryGroupInterface
 {
     /**
-     * @param QueryBuilder $queryBuilder
      * @param string $alias
      * @param string $as
      * @param string $sportAlias
@@ -21,9 +20,6 @@ class Month implements QueryGroupInterface
     }
 
     /**
-     * @param EntityManager $entityManager
-     * @param Account $account
-     * @param AnovaData $anovaData
      * @return array
      */
     public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData)
@@ -46,8 +42,6 @@ class Month implements QueryGroupInterface
 
     /**
      * @param string[] $months
-     * @param \DateTime $dateFrom
-     * @param \DateTime $dateTo
      * @return array
      */
     protected function filterMonths(array $months, \DateTime $dateFrom, \DateTime $dateTo)
@@ -62,7 +56,7 @@ class Month implements QueryGroupInterface
         $startMonth = (int) $dateFrom->format('m');
         $endMonth = (int) $dateTo->format('m');
 
-        if ($startYear == $endYear - 1) {
+        if ($startYear === $endYear - 1) {
             return array_slice($months, $startMonth - 1, 13 - $startMonth, true) +
                 array_slice($months, 0, $endMonth, true);
         }
@@ -70,9 +64,6 @@ class Month implements QueryGroupInterface
         return array_slice($months, $startMonth - 1, $endMonth - $startMonth + 1, true);
     }
 
-    /**
-     * @return bool
-     */
     public function showEmptyGroups(): bool
     {
         return true;

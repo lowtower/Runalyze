@@ -58,17 +58,17 @@ class Series {
 	protected $TickDecimals = 0;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $ShowAverage = false;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $ShowMaximum = false;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $ShowMinimum = false;
 
@@ -107,28 +107,23 @@ class Series {
 		$this->Color = $color;
 	}
 
-	/**
-	 * Set data
-	 * @param array $data
-	 */
-	public function setData(array $data) {
+    /**
+     * Set data
+     */
+    public function setData(array $data) {
 		$this->Data = $data;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function isEmpty(): bool {
 		return empty($this->Data);
 	}
 
-	/**
-	 * Set properties
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param bool $addAnnotations [optional]
-	 */
-	public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Set properties
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
 		if (empty($this->Data)) {
 			return;
 		}
@@ -181,9 +176,6 @@ class Series {
 		}
 	}
 
-	/**
-	 * @param ActivityPlot $plot
-	 */
 	public function hideIn(ActivityPlot $plot) {
 		if (null !== $this->YAxis) {
 			$plot->hideYAxisAndSeries($this->YAxis);

@@ -21,52 +21,44 @@ class Setting extends AbstractKey
 	/** if true, this Settings also include the links from Tools. */
 	const INCLUDE_TOOLS = true;
 
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::SETTING;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'is_public';
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isInDatabase(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Setting');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return '';
 	}
 
     /**
-     * @return bool
      * @codeCoverageIgnore
      */
     public function hasPrivacyOption(): bool {
@@ -75,8 +67,6 @@ class Setting extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @param \Runalyze\Dataset\Context $context
-     * @return string
      */
     public function stringFor(Context $context): string
     {
@@ -94,7 +84,6 @@ class Setting extends AbstractKey
 
     /**
      * @param string $menu
-     * @return string
      */
     protected function getCodeForDropdown($menu): string
     {
@@ -104,14 +93,13 @@ class Setting extends AbstractKey
             '</li></ul></div>';
     }
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	protected function inlineDropdownWithRealLinks(Context $context): string
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function inlineDropdownWithRealLinks(Context $context): string
 	{
-		$id = $context->activity()->id();
+		$id = $context->activity()
+		    ->id();
 
 		$html = '<li>'.\Ajax::window('<a href="'.$context->linker()->editUrl().'">'.\Icon::$EDIT.' '.__('Edit').'</a> ', 'small').'</li>';
 		$html .= '<li><span class="link" data-action="privacy" data-activityid="'.$id.'">'.$this->privacyIconAndLabel($context).'</span></li>';
@@ -129,12 +117,10 @@ class Setting extends AbstractKey
 		return $html;
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	protected function inlineDropdownWithFakeLinks(Context $context): string
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function inlineDropdownWithFakeLinks(Context $context): string
 	{
 		$html = '<li><span class="link">'.\Icon::$EDIT.' '.__('Edit').'</span></li>';
 		$html .= '<li><span class="link">'.$this->privacyIconAndLabel($context).'</span></li>';
@@ -151,10 +137,6 @@ class Setting extends AbstractKey
 		return $html;
 	}
 
-	/**
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
 	protected function privacyIconAndLabel(Context $context): string
 	{
 		if ($context->activity()->isPublic()) {
@@ -168,11 +150,10 @@ class Setting extends AbstractKey
 		return '<i class="fa fa-fw '.$privacyIcon.'"></i> '.$privacyLabel;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small l';
 	}

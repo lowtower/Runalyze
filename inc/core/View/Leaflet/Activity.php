@@ -93,15 +93,14 @@ class Activity extends LeafletRoute {
 	 */
 	protected $addIconsAndInfo = true;
 
-	/**
-	 * Construct new route
-	 * @param string $id
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata [optional]
-	 * @param bool $addIconsAndInfo [optional]
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct($id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true) {
+    /**
+     * Construct new route
+     * @param string $id
+     * @param \Runalyze\Model\Trackdata\Entity $trackdata [optional]
+     * @param bool $addIconsAndInfo [optional]
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true) {
 		parent::__construct($id);
 
 		if (! $route->hasPositionData()) {
@@ -162,17 +161,16 @@ class Activity extends LeafletRoute {
 		}
 	}
 
-	/**
-	 * Has trackdata loop?
-	 * @return boolean
-	 */
-	protected function hasTrackdataLoop(): bool {
+    /**
+     * Has trackdata loop?
+     */
+    protected function hasTrackdataLoop(): bool {
 		return null !== $this->TrackdataLoop;
 	}
 
 	/**
 	 * Next step
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function nextStep() {
 		if ($this->hasTrackdataLoop()) {
@@ -197,7 +195,8 @@ class Activity extends LeafletRoute {
 	 * Fill current segment
 	 */
 	protected function fillCurrentSegment() {
-		$geohash = (new Geotools())->geohash()->decode($this->RouteLoop->geohash());
+		$geohash = (new Geotools())->geohash()
+		    ->decode($this->RouteLoop->geohash());
 		if ($this->RouteLoop->geohash() == '7zzzzzzzzzzz') {
 			return;
 		}
@@ -314,8 +313,11 @@ class Activity extends LeafletRoute {
 	protected function checkForPause() {
 		if (null !== $this->Trackdata && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
 			if (
-				$this->PauseIndex < $this->Trackdata->pauses()->num() &&
-				$this->Trackdata->pauses()->at($this->PauseIndex)->time() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
+				$this->PauseIndex < $this->Trackdata->pauses()
+				    ->num() &&
+				$this->Trackdata->pauses()
+				    ->at($this->PauseIndex)
+				    ->time() <= $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)
 			) {
 			    if ($this->Trackdata->pauses()->at($this->PauseIndex)->time() < $this->Trackdata->at($this->TrackdataLoop->index(), Trackdata\Entity::TIME)) {
 			        $this->handleExactPausePosition();
@@ -349,7 +351,8 @@ class Activity extends LeafletRoute {
 	 * Add icon for current pause
 	 */
 	protected function addCurrentPauseIcon() {
-		$Pause = $this->Trackdata->pauses()->at($this->PauseIndex);
+		$Pause = $this->Trackdata->pauses()
+		    ->at($this->PauseIndex);
 		$Index = $this->RouteLoop->index();
 
 		// #TSC: add also pause-index to the tooltip

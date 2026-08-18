@@ -106,7 +106,8 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
     public function testActivatingByHash()
     {
-        $fooAccount = $this->getNewAccount('foo')->setNewActivationHash();
+        $fooAccount = $this->getNewAccount('foo')
+            ->setNewActivationHash();
         $activationHash = $fooAccount->getActivationHash();
 
         $this->AccountRepository->save($fooAccount);
@@ -118,10 +119,14 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
     public function testFindingByLanguage()
     {
-        $english1 = $this->getNewAccount('en1')->setLanguage('en');
-        $english2 = $this->getNewAccount('en2')->setLanguage('en');
-        $german = $this->getNewAccount('de')->setLanguage('de');
-        $swedish = $this->getNewAccount('sv')->setLanguage('sv');
+        $english1 = $this->getNewAccount('en1')
+            ->setLanguage('en');
+        $english2 = $this->getNewAccount('en2')
+            ->setLanguage('en');
+        $german = $this->getNewAccount('de')
+            ->setLanguage('de');
+        $swedish = $this->getNewAccount('sv')
+            ->setLanguage('sv');
 
         $this->EntityManager->persist($english1);
         $this->EntityManager->persist($english2);

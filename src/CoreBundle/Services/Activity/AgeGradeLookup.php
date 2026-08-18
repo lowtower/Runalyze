@@ -18,10 +18,6 @@ class AgeGradeLookup
         $this->TokenStorage = $tokenStorage;
     }
 
-    /**
-     * @param Account|null $account
-     * @return bool
-     */
     public function isLookupPossible(?Account $account = null): bool
     {
         $account = $account ?: $this->getUser();
@@ -30,7 +26,6 @@ class AgeGradeLookup
     }
 
     /**
-     * @param Account|null $account
      * @return null|Lookup
      */
     public function getLookup(?Account $account = null)
@@ -47,9 +42,6 @@ class AgeGradeLookup
         );
     }
 
-    /**
-     * @return Lookup
-     */
     public function getDefaultLookup(): \Runalyze\AgeGrade\Lookup
     {
         return new Lookup(new MaleTable(), 25);

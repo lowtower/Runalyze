@@ -40,13 +40,12 @@ class JsonImporter
     /** @var bool */
     protected $OverwritePlugins = false;
 
-	/**
-	 * @param string $fileName absolute path
-	 * @param \PDO $pdo
-	 * @param int $accountID
-	 * @param string $databasePrefix
-	 */
-	public function __construct($fileName, \PDO $pdo, $accountID, $databasePrefix)
+    /**
+     * @param string $fileName absolute path
+     * @param int $accountID
+     * @param string $databasePrefix
+     */
+    public function __construct($fileName, \PDO $pdo, $accountID, $databasePrefix)
     {
 		$this->Reader = new GZipReader($fileName);
 		$this->DB = $pdo;
@@ -133,7 +132,7 @@ class JsonImporter
 
 		foreach ($Tables as $Table => $Column) {
 			$this->ExistingData['runalyze_'.$Table] = [];
-			if ($Table == 'sport') {
+			if ($Table === 'sport') {
                 $statement = $this->DB->query('SELECT `id`, `internal_sport_id`, `' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '`');
             } else {
                 $statement = $this->DB->query('SELECT `id`,`' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '`');
@@ -141,7 +140,7 @@ class JsonImporter
 
 			while ($row = $statement->fetch()) {
 				$this->ExistingData['runalyze_'.$Table][$row[$Column]] = $row['id'];
-				if ($Table == 'sport' && ! empty($row['internal_sport_id'])) {
+				if ($Table === 'sport' && ! empty($row['internal_sport_id'])) {
 				    $this->InternalSportIds[$row['internal_sport_id']] = $row['id'];
                 }
 			}
@@ -276,7 +275,6 @@ class JsonImporter
     /**
      * Run prepared statement
      * @param string $tableName
-     * @param \PDOStatement $statement
      * @param int $id
      * @param array<string, mixed> $row
      */
@@ -348,7 +346,7 @@ class JsonImporter
 			    'runalyze_sport',
 			    'runalyze_tag'
 			))) {
-			    if ($tableName == 'runalyze_sport' && isset($columnIds['internal_sport_id'])) {
+			    if ($tableName === 'runalyze_sport' && isset($columnIds['internal_sport_id'])) {
 			        $internalId = $values[$columnIds['internal_sport_id']];
 
 			        if (isset($this->InternalSportIds[$internalId])) {
@@ -394,12 +392,11 @@ class JsonImporter
 
 	}
 
-	/**
-	 * @param int $sportid
-	 * @param int $equipmentTypeid
-	 * @return boolean
-	 */
-	protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid): bool
+    /**
+     * @param int $sportid
+     * @param int $equipmentTypeid
+     */
+    protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid): bool
     {
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid]) &&
@@ -409,12 +406,11 @@ class JsonImporter
 			);
     }
 
-	/**
-	 * @param int $sportid
-	 * @param int $equipmentId
-	 * @return boolean
-	 */
-	protected function equipmentSporRelationDoesExist($sportid, $equipmentId): bool
+    /**
+     * @param int $sportid
+     * @param int $equipmentId
+     */
+    protected function equipmentSporRelationDoesExist($sportid, $equipmentId): bool
     {
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&

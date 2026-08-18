@@ -43,7 +43,8 @@ class VO2maxShapeCalculation implements RecalculationTaskInterface
         $shape = $this->TrainingRepository->calculateVO2maxShape(
             $this->Account,
             $configList->getVO2max(),
-            $configList->getGeneral()->getRunningSport(),
+            $configList->getGeneral()
+                ->getRunningSport(),
             $timestamp
         );
 

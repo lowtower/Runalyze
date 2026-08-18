@@ -67,7 +67,6 @@ class SelfEvaluationFeeling extends AbstractEnum
      * Gets the label text for the number.
      *
      * @param int $num internal enum
-     * @return string
      * @codeCoverageIgnore
      */
     public static function labelOfEnum($num): string

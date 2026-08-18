@@ -94,7 +94,7 @@ abstract class StringArrayObject extends StringObject {
 
 	/**
 	 * Is empty
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isEmpty() {
 		return ($this->num() == 0);

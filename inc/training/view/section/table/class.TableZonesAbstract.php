@@ -34,12 +34,10 @@ abstract class TableZonesAbstract {
 	protected $Data = array();
 
 	private $TitlePercent = ''; // #TSC
-
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	public function __construct(Context $context) {
+    /**
+     * Constructor
+     */
+    public function __construct(Context $context) {
 		$this->Context = $context;
 
 		if ($this->Context->trackdata()->has(Runalyze\Model\Trackdata\Entity::TIME)) {
@@ -54,11 +52,10 @@ abstract class TableZonesAbstract {
 	 */
 	public function titleForAverage() { return ''; }
 
-	/**
-	 * Show average?
-	 * @return bool
-	 */
-	private function showAverage(): bool { return $this->titleForAverage() != ''; }
+    /**
+     * Show average?
+     */
+    private function showAverage(): bool { return $this->titleForAverage() != ''; }
 
 	/**
 	 * Init data
@@ -130,11 +127,10 @@ abstract class TableZonesAbstract {
 		return $Code;
 	}
 
-	/**
-	 * Display data
-	 * @return string
-	 */
-	private function getDataCode(): string {
+    /**
+     * Display data
+     */
+    private function getDataCode(): string {
 		$Code = '';
 
 		foreach ($this->Data as $Info) {

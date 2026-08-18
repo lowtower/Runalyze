@@ -26,9 +26,6 @@ class Version20161123211900 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$this->Prefix.'training` SET `routeid` = NULL WHERE `routeid`= 0');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
 

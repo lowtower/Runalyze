@@ -31,8 +31,6 @@ class DanielsGilbertFormula implements EstimationInterface
      * Formerly known as 'drop dead'
      *
      * @param float $minutes [min]
-     *
-     * @return float
      */
     public function evaluateDropDead($minutes): float
     {

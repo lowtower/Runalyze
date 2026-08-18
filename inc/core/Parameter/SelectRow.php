@@ -49,12 +49,11 @@ class SelectRow extends Select {
 		return $this->Options['column'];
 	}
 
-	/**
-	 * Value allowed?
-	 * @param string $value
-	 * @return bool
-	 */
-	protected function valueIsAllowed($value): bool {
+    /**
+     * Value allowed?
+     * @param string $value
+     */
+    protected function valueIsAllowed($value): bool {
 		return true;
 	}
 }

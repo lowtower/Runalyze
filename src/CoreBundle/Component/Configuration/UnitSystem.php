@@ -126,7 +126,6 @@ class UnitSystem
 
     /**
      * @param null|int $maximalHeartRate [bpm]
-     * @return PercentMaximum
      */
     public function getHeartRateUnitPercentMaximum($maximalHeartRate = null): \Runalyze\Metrics\HeartRate\Unit\PercentMaximum
     {
@@ -167,7 +166,6 @@ class UnitSystem
 
     /**
      * @param null|float $correctionFactor
-     * @return Factorial
      */
     public function getVO2maxUnit($correctionFactor = null): \Runalyze\Metrics\Common\Unit\Factorial
     {

@@ -24,51 +24,48 @@ class HeartrateAverage extends AbstractKey
 
 	const HR_MAX = 220;
 
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::HEARTRATE_AVG;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'pulse_avg';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('avg.').' '.__('Heart rate');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('avg.').' '.__('HR');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->activity()->hrAvg() > 0) {
-			return $context->dataview()->hrAvg()->string();
+			return $context->dataview()
+			    ->hrAvg()
+			    ->string();
 		}
 
 		return '';
@@ -82,43 +79,38 @@ class HeartrateAverage extends AbstractKey
 		return SummaryMode::AVG;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function defaultCssStyle(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function defaultCssStyle(): string
 	{
 		return 'font-style:italic;';
 	}
 
-	/**
-	 * returns a value dependend CSS class and style.
-	 * #TSC
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return array with key "class" and "style"
-	 */
-	public function valueDependendCssStyle(Context $context)
+    /**
+     * returns a value dependend CSS class and style.
+     * #TSC
+     * @return array with key "class" and "style"
+     */
+    public function valueDependendCssStyle(Context $context)
 	{
 		return self::hrBarCssStyle($context->dataview()->hrAvg());
 	}
 
-	/**
-	 * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
-	 * #TSC
-	 * @param null|Runalyze\Activity\HeartRate $hr
-	 * @param null|string $class
-	 * @return array with key "class" and "style"
-	 */
-	public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
+    /**
+     * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
+     * #TSC
+     * @return array with key "class" and "style"
+     */
+    public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
 	{
 		$hrBpm = $hr->inBPM();
 		$hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;

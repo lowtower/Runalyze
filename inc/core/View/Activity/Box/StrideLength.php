@@ -17,14 +17,14 @@ use Runalyze\View\Activity\Context;
  */
 class StrideLength extends ValueBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(Context $Context)
 	{
 		parent::__construct(
-		    $Context->dataview()->strideLength()
+		    $Context->dataview()
+		        ->strideLength()
 		);
 	}
 }

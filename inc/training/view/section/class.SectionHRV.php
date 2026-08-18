@@ -31,11 +31,10 @@ class SectionHRV extends TrainingViewSectionTabbedPlot {
 		);
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'hrv';
 	}
 }

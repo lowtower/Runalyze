@@ -8,10 +8,6 @@ use GuzzleHttp\HandlerStack;
 
 trait HttpClientAwareTestCaseTrait
 {
-    /**
-     * @param array $responses
-     * @return Client
-     */
     protected function getMockForResponses(array $responses): \GuzzleHttp\Client
     {
         $mock = new MockHandler($responses);

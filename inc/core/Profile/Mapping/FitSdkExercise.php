@@ -25,7 +25,7 @@ class FitSdkExercise {
         $sub = array_map('intval', explode(',', $subtypes));
 
         // if the sub array has not the same size as the main-category, ignore it
-        if(! empty($sub) && count($cat) != count($sub)) {
+        if(! empty($sub) && count($cat) !== count($sub)) {
             $sub = null;
         }
 
@@ -69,7 +69,7 @@ class FitSdkExercise {
     }
 
     private function getCategoryName(int $category): ?string {
-        if($category != self::CAT_UNKNOWN && $category != self::UNUSED && array_key_exists($category, $this->categorys)) {
+        if($category !== self::CAT_UNKNOWN && $category !== self::UNUSED && array_key_exists($category, $this->categorys)) {
             return $this->categorys[$category];
         } else {
             return null;

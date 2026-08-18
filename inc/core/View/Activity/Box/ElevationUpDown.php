@@ -18,11 +18,10 @@ use Runalyze\Configuration;
  */
 class ElevationUpDown extends AbstractBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(\Runalyze\View\Activity\Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		if ($Context->hasRoute()) {
 			$upDown = '+'.ElevationBase::format($Context->route()->elevationUp(), false).'/-'.ElevationBase::format($Context->route()->elevationDown(), false);

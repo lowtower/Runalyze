@@ -8,8 +8,6 @@ use Runalyze\Metrics\HeartRate\Unit\BeatsPerMinute;
 class HeartRate extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

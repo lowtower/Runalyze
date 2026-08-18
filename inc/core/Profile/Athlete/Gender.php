@@ -16,11 +16,10 @@ class Gender extends AbstractEnum implements InterfaceChoosable
 	/** @var int */
 	const FEMALE = 2;
 
-	/**
-	 * @param int $id id from internal enum
-	 * @return string
-	 */
-	static public function stringFor($id): string
+    /**
+     * @param int $id id from internal enum
+     */
+    static public function stringFor($id): string
 	{
 		switch ($id) {
             case self::NONE:
@@ -34,9 +33,6 @@ class Gender extends AbstractEnum implements InterfaceChoosable
 		}
 	}
 
-    /**
-     * @return array
-     */
     static public function getChoices(): array {
         return array(
             self::stringFor(self::NONE) => self::NONE,

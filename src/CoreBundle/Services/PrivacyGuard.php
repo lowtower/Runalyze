@@ -22,17 +22,16 @@ class PrivacyGuard
     }
 
     /**
-     * @param Account $account
      * @return \Runalyze\Configuration\Category\Privacy
      */
     protected function getPrivacyFor(Account $account)
     {
-        return $this->ConfigurationManager->getList($account)->getPrivacy()->getLegacyCategory();
+        return $this->ConfigurationManager->getList($account)
+            ->getPrivacy()
+            ->getLegacyCategory();
     }
 
     /**
-     * @param Training $activity
-     * @param Raceresult|null $raceresult
      * @return bool
      */
     public function isMapVisible(Training $activity, ?Raceresult $raceresult = null)
@@ -41,7 +40,8 @@ class PrivacyGuard
             return true;
         }
 
-        $mapVisibility = $this->getPrivacyFor($activity->getAccount())->RoutePrivacy();
+        $mapVisibility = $this->getPrivacyFor($activity->getAccount())
+            ->RoutePrivacy();
 
         if ($mapVisibility->showRace()) {
             return null !== $raceresult;

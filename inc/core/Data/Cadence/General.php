@@ -14,30 +14,27 @@ namespace Runalyze\Data\Cadence;
  * @package Runalyze\Data\Cadence
  */
 class General extends AbstractCadence {
-	/**
-	 * Label
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string {
+    /**
+     * Label
+     * @codeCoverageIgnore
+     */
+    public function label(): string {
 		return __('Cadence');
 	}
 
-	/**
-	 * Unit as string
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function unitAsString(): string {
+    /**
+     * Unit as string
+     * @codeCoverageIgnore
+     */
+    public function unitAsString(): string {
 		return 'rpm';
 	}
 
-	/**
-	 * Explanation for unit
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	protected function unitExplanation(): string {
+    /**
+     * Explanation for unit
+     * @codeCoverageIgnore
+     */
+    protected function unitExplanation(): string {
 		return __('rpm = rotations per minute');
 	}
 

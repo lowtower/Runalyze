@@ -8,10 +8,6 @@ use League\Geotools\Geohash\Geohash;
 
 class RouteRepository extends EntityRepository
 {
-    /**
-     * @param Account $account
-     * @return bool
-     */
     public function accountHasLockedRoutes(Account $account): bool
     {
         return null !== $this->createQueryBuilder('r')

@@ -20,19 +20,18 @@ class SectionPace extends TrainingViewSectionTabbedPlot {
 		$this->appendRowTabbedPlot( new SectionPaceRow($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
-		return ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) || $this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::PACE);
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
+		return ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) || $this->Context->trackdata()
+		    ->has(\Runalyze\Model\Trackdata\Entity::PACE);
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'pace';
 	}
 }

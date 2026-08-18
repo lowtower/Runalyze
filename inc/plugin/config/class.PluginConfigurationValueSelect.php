@@ -16,11 +16,10 @@ class PluginConfigurationValueSelect extends PluginConfigurationValue {
 	 */
 	protected $Options = array();
 
-	/**
-	 * Set options
-	 * @param array $Options
-	 */
-	public function setOptions(array $Options) {
+    /**
+     * Set options
+     */
+    public function setOptions(array $Options) {
 		$this->Options = $Options;
 	}
 

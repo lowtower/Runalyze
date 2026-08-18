@@ -66,7 +66,7 @@ class SearchResults {
 
 	/**
 	 * Search and show trainings=
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $WithResults = true;
 
@@ -90,7 +90,7 @@ class SearchResults {
 
 	/**
 	 * Constructor
-	 * @param boolean $withResults
+	 * @param bool $withResults
 	 */
 	public function __construct($withResults = true) {
 		$this->WithResults = $withResults;
@@ -271,9 +271,6 @@ class SearchResults {
 		)->fetchAll();
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function columnFromRaceResultIfRequired(): string {
 		if (isset($_POST['is_race']) && $_POST['is_race'] != '') {
 			return ', `rr`.`activity_id`';
@@ -282,9 +279,6 @@ class SearchResults {
 		return '';
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function joinRaceResultIfRequired(): string {
 		if (isset($_POST['is_race']) && $_POST['is_race'] != '') {
 			return 'LEFT JOIN `'.PREFIX.'raceresult` AS `rr` ON `t`.`id` = `rr`.`activity_id`';
@@ -293,11 +287,10 @@ class SearchResults {
 		return '';
 	}
 
-	/**
-	 * Get where
-	 * @return string
-	 */
-	protected function getWhere(): string {
+    /**
+     * Get where
+     */
+    protected function getWhere(): string {
 		$conditions = array('`t`.`accountid`="'.$this->AccountID.'"');
 
 		$this->addSpecialConditions($conditions);
@@ -358,7 +351,7 @@ class SearchResults {
 		$sign = $this->signForKey('pace');
 
 		$conditions[] = '`t`.`distance` > 0';
-		$conditions[] = ($sign == '=' ? 'ROUND(`t`.`s`/`t`.`distance`)' : '`t`.`s`/`t`.`distance`').' '.$sign.' '.DB::getInstance()->escape($value);
+		$conditions[] = ($sign === '=' ? 'ROUND(`t`.`s`/`t`.`distance`)' : '`t`.`s`/`t`.`distance`').' '.$sign.' '.DB::getInstance()->escape($value);
 	}
 
     /**
@@ -399,22 +392,21 @@ class SearchResults {
 		$conditions[] = '`t`.`'.$key.'` IN('.implode(',', $array).')';
 	}
 
-	/**
-	 * Add condition for single value
-	 * @param string $key
-	 * @param array $conditions
-	 */
-	protected function addConditionFor($key, array &$conditions) {
+    /**
+     * Add condition for single value
+     * @param string $key
+     */
+    protected function addConditionFor($key, array &$conditions) {
 		$sign = (isset($_POST['opt'][$key])) ? $this->signFor($_POST['opt'][$key]) : '=';
 
-		if ($sign == ' LIKE ') {
+		if ($sign === ' LIKE ') {
 			$conditions[] = '`t`.`'.$key.'` '.$sign.' "%'.DB::getInstance()->escape($_POST[$key], false).'%"';
 		} else {
 			$value = $this->transformValueForDatabase($key, $_POST[$key]);
 
 			$conditions[] = '`t`.`'.$key.'` '.$sign.' '.DB::getInstance()->escape($value);
 
-			if ($sign == '<' || $sign == '<=') {
+			if ($sign === '<' || $sign === '<=') {
 				if (in_array($key, $this->KeysThatShouldIgnoreZero)) {
 					$conditions[] = '`t`.`'.$key.'` != 0';
 				} elseif (in_array($key, $this->KeysThatShouldIgnoreNull)) {
@@ -435,9 +427,11 @@ class SearchResults {
 		}
 
 		if ($key == 'elevation') {
-			$value = (new Elevation())->setInPreferredUnit($value)->meter();
+			$value = (new Elevation())->setInPreferredUnit($value)
+			    ->meter();
 		} elseif ($key == 'distance') {
-			$value = (new Distance())->setInPreferredUnit($value)->kilometer();
+			$value = (new Distance())->setInPreferredUnit($value)
+			    ->kilometer();
         } elseif ($key == 'percentage_hilly') {
             $value *= 0.01;
 		} elseif ($key == 'vertical_oscillation' || $key == 'vertical_ratio') {
@@ -445,15 +439,19 @@ class SearchResults {
 		} elseif ($key == 'groundcontact_balance') {
 			$value *= 100;
 		} elseif ($key == 'stride_length') {
-			$value = (new StrideLength())->setInPreferredUnit($value)->cm();
+			$value = (new StrideLength())->setInPreferredUnit($value)
+			    ->cm();
 		} elseif ($key == 'temperature') {
-			$value = (new Temperature())->setInPreferredUnit($value)->celsius();
+			$value = (new Temperature())->setInPreferredUnit($value)
+			    ->celsius();
 		} elseif ($key == 'wind_speed') {
-			$value = (new WindSpeed())->setInPreferredUnit($value)->value();
+			$value = (new WindSpeed())->setInPreferredUnit($value)
+			    ->value();
 		} elseif (($key == 'vo2max' || $key == 'vo2max_with_elevation')) {
 			$value /= Configuration::Data()->vo2maxCorrectionFactor();
 		} elseif ($key == 'kcal') {
-			$value = (new Energy())->setInPreferredUnit($value)->kcal();
+			$value = (new Energy())->setInPreferredUnit($value)
+			    ->kcal();
 		} elseif ($key == 'fit_recovery_time') {
             $value *= 60;
         }
@@ -461,11 +459,10 @@ class SearchResults {
 		return $value;
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function signForKey($key): string {
+    /**
+     * @param string $key
+     */
+    protected function signForKey($key): string {
 		if (isset($_POST['opt'][$key])) {
 			return $this->signFor($_POST['opt'][$key]);
 		}
@@ -473,12 +470,11 @@ class SearchResults {
 		return '=';
 	}
 
-	/**
-	 * Equality sign
-	 * @param string $postSign from $_POST
-	 * @return string
-	 */
-	protected function signFor($postSign): string {
+    /**
+     * Equality sign
+     * @param string $postSign from $_POST
+     */
+    protected function signFor($postSign): string {
 		switch ($postSign) {
 			case 'is': return '=';
 			case 'gt': return '>';
@@ -525,11 +521,10 @@ class SearchResults {
 		}
 	}
 
-	/**
-	 * Get equipment condition
-	 * @return string
-	 */
-	protected function getEquipmentCondition(): string {
+    /**
+     * Get equipment condition
+     */
+    protected function getEquipmentCondition(): string {
 		if (! isset($_POST['equipmentid'])) {
 			return '';
 		}
@@ -548,11 +543,10 @@ class SearchResults {
 		return 'INNER JOIN `'.PREFIX.'activity_equipment` AS `ae` ON `ae`.`activityid` = `t`.`id` AND `ae`.`equipmentid`="'.(int) $_POST['equipmentid'].'"';
 	}
 
-	/**
-	 * Get tag condition
-	 * @return string
-	 */
-	private function getTagCondition(): string {
+    /**
+     * Get tag condition
+     */
+    private function getTagCondition(): string {
 		if (! isset($_POST['tagid'])) {
 			return '';
 		}
@@ -571,11 +565,10 @@ class SearchResults {
 		return 'INNER JOIN `'.PREFIX.'activity_tag` AS `at` ON `at`.`activityid` = `t`.`id` AND `at`.`tagid`="'.(int) $_POST['tagid'].'"';
 	}
 
-	/**
-	 * Get order
-	 * @return string
-	 */
-	protected function getOrder(): string {
+    /**
+     * Get order
+     */
+    protected function getOrder(): string {
 		$order = (! isset($_POST['search-sort-order'])) ? 'DESC' : $this->DB->escape($_POST['search-sort-order'], false);
 
 		if (isset($_POST['search-sort-by'])) {
@@ -607,11 +600,10 @@ class SearchResults {
 		return ' ORDER BY `t`.`time` '.$order;
 	}
 
-	/**
-	 * Add additional conditions for order
-	 * @param array $conditions
-	 */
-	protected function addConditionsForOrder(array &$conditions) {
+    /**
+     * Add additional conditions for order
+     */
+    protected function addConditionsForOrder(array &$conditions) {
 		if (! isset($_POST['search-sort-by']))
 			return;
 
@@ -630,11 +622,10 @@ class SearchResults {
 		}
 	}
 
-	/**
-	 * Get limit
-	 * @return string
-	 */
-	protected function getLimit(): string {
+    /**
+     * Get limit
+     */
+    protected function getLimit(): string {
 		if ($this->multiEditorRequested()) {
 			return ' LIMIT '.self::MAX_LIMIT_FOR_MULTI_EDITOR;
 		}
@@ -656,9 +647,6 @@ class SearchResults {
         echo '</div>';
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function multiEditorRequested(): bool {
 		return isset($_POST['send-to-multi-editor']);
 	}
@@ -730,9 +718,6 @@ class SearchResults {
 		);
 	}
 
-	/**
-	 * @param \Runalyze\View\Dataset\Table $Table
-	 */
 	protected function displayTrainingRows(\Runalyze\View\Dataset\Table $Table) {
 		$Context = new \Runalyze\Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
 

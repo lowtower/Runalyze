@@ -7,7 +7,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider fitValuesProvider
      */
-    public function testConversionFromFit($fitValue, $expected)
+    public function testConversionFromFit(int $fitValue, int $expected)
     {
         $this->assertEquals(
             $expected,

@@ -16,10 +16,6 @@ class ActivityContextFactory
         $this->EntityManager = $em;
     }
 
-    /**
-     * @param Training $activity
-     * @return ActivityContext
-     */
     public function getContext(Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
         $activityId = $activity->getId();
@@ -43,7 +39,8 @@ class ActivityContextFactory
      */
     public function getContextById($activityId, $accountId)
     {
-        $activity = $this->EntityManager->getRepository('CoreBundle:Training')->findForAccount($activityId, $accountId);
+        $activity = $this->EntityManager->getRepository('CoreBundle:Training')
+            ->findForAccount($activityId, $accountId);
 
         if (null === $activity) {
             throw new \InvalidArgumentException('Unknown activity (id = '.$activityId.').');

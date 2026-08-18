@@ -15,13 +15,13 @@ namespace Runalyze\View\Activity\Box;
  */
 class Pace extends AbstractBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(\Runalyze\View\Activity\Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
-		$Pace = $Context->dataview()->pace();
+		$Pace = $Context->dataview()
+		    ->pace();
 
 		parent::__construct(
 		    $Pace->value(),

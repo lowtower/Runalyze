@@ -188,9 +188,7 @@ abstract class PlotSumData extends Plot {
 			$Code .= '</ul></li>';
 		}
 
-		$Code .= '</ul>';
-
-		return $Code;
+		return $Code . '</ul>';
 	}
 
     /**
@@ -298,7 +296,7 @@ abstract class PlotSumData extends Plot {
 	 * @param int $year
 	 * @param int $sportid
 	 * @param string $group
-	 * @param boolean $current
+	 * @param bool $current
 	 * @return string
 	 */
 	private function link($text, $year, $sportid, $group, $current = false, $analysis = false) {
@@ -490,11 +488,10 @@ abstract class PlotSumData extends Plot {
 	 */
 	abstract protected function beginningOfLast12Months();
 
-	/**
-	 * Sum data for query
-	 * @return string
-	 */
-	private function dataSum(): string {
+    /**
+     * Sum data for query
+     */
+    private function dataSum(): string {
 		if ($this->Analysis == self::ANALYSIS_TRIMP) {
 			return 'SUM(`trimp`)';
 		}
@@ -512,11 +509,10 @@ abstract class PlotSumData extends Plot {
 	 */
 	abstract protected function timer();
 
-	/**
-	 * Group by table for query
-	 * @return string
-	 */
-	private function groupBy(): string {
+    /**
+     * Group by table for query
+     */
+    private function groupBy(): string {
 		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
 			return '`sportid`';
 

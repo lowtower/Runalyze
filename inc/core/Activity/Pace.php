@@ -61,7 +61,8 @@ class Pace {
 	public function fromMinPerKm($string) {
 		$Duration = new Duration($string);
 
-		$this->setTime($Duration->seconds())->setDistance(1);
+		$this->setTime($Duration->seconds())
+		    ->setDistance(1);
 	}
 
 	/**
@@ -105,11 +106,10 @@ class Pace {
 		return $this->UnitObject->unit();
 	}
 
-	/**
-	 * Set unit
-	 * @param \Runalyze\Activity\PaceUnit\AbstractUnit $Unit
-	 */
-	public function setUnit(PaceUnit\AbstractUnit $Unit) {
+    /**
+     * Set unit
+     */
+    public function setUnit(PaceUnit\AbstractUnit $Unit) {
 		$this->UnitObject = $Unit;
 	}
 
@@ -140,9 +140,6 @@ class Pace {
         // TODO: remove
     }
 
-	/**
-	 * @return boolean
-	 */
 	public function isEmpty(): bool {
 		return ($this->Distance <= 0 || $this->Time <= 0);
 	}
@@ -163,11 +160,10 @@ class Pace {
 		return $this->UnitObject->format($this->secondsPerKm());
 	}
 
-	/**
-	 * Value with appendix
-	 * @return string
-	 */
-	public function valueWithAppendix(): string {
+    /**
+     * Value with appendix
+     */
+    public function valueWithAppendix(): string {
 		return $this->value().$this->appendix();
 	}
 
@@ -190,11 +186,10 @@ class Pace {
 		return $this->asUnit($Option->object());
 	}
 
-	/**
-	 * @param \Runalyze\Activity\PaceUnit\AbstractUnit $Unit
-	 * @return string
-	 */
-	public function asUnit(PaceUnit\AbstractUnit $Unit) {
+    /**
+     * @return string
+     */
+    public function asUnit(PaceUnit\AbstractUnit $Unit) {
 		return $Unit->format($this->secondsPerKm());
 	}
 
@@ -214,15 +209,13 @@ class Pace {
 		return $this->asUnit(new PaceUnit\MinPerKilometer());
 	}
 
-	/**
-	 * Compare
-	 * Both pace objects must have the same unit and the unit must be comparable.
-	 * @param \Runalyze\Activity\Pace $other
-	 * @param boolean $raw [optional]
-	 * @throws \InvalidArgumentException
-	 * @return string
-	 */
-	public function compareTo(self $other, $raw = false): string {
+    /**
+     * Compare
+     * Both pace objects must have the same unit and the unit must be comparable.
+     * @param bool $raw [optional]
+     * @throws \InvalidArgumentException
+     */
+    public function compareTo(self $other, $raw = false): string {
 		if ($this->unitEnum() != $other->unitEnum()) {
 			throw new \InvalidArgumentException('Pace objects must have the same unit.');
 		}
@@ -241,14 +234,13 @@ class Pace {
 		return $this->formatComparison($this->UnitObject->format(abs($comparisonInSecondsPerKm)), $isPositive, $raw);
 	}
 
-	/**
-	 * Format comparison
-	 * @param string $string e.g. '0:27' or '1,4'
-	 * @param boolean $isPositive
-	 * @param boolean $raw [optional]
-	 * @return string
-	 */
-	protected function formatComparison($string, $isPositive, $raw = false): string {
+    /**
+     * Format comparison
+     * @param string $string e.g. '0:27' or '1,4'
+     * @param bool $isPositive
+     * @param bool $raw [optional]
+     */
+    protected function formatComparison($string, $isPositive, $raw = false): string {
 		$class = ($isPositive) ? 'plus' : 'minus';
 		$sign = ($isPositive) ? '+' : '-';
 

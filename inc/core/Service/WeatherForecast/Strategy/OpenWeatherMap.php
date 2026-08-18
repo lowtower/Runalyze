@@ -43,8 +43,6 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     /**
      * @param string $apiKey
      * @param string $proxy
-     * @param Client $client
-     * @param LoggerInterface|null $logger
      */
     public function __construct($apiKey, $proxy, Client $client, ?LoggerInterface $logger = null)
     {
@@ -79,8 +77,6 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $result
-     *
-     * @return WeatherData
      */
     protected function getWeatherDataFromResult(array $result): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
@@ -134,8 +130,6 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $result
-     *
-     * @return int
      */
     protected function getInternalConditionId(array $result): int
     {
@@ -147,8 +141,6 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param Location $location
-     *
      * @return array
      */
     protected function tryToLoadForecast(Location $location)
@@ -182,11 +174,6 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         return [];
     }
 
-    /**
-     * @param Location $location
-     *
-     * @return string
-     */
     protected function getUrlFor(Location $location): string
     {
         $parameter = [];

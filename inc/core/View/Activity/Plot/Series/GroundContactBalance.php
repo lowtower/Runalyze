@@ -43,12 +43,11 @@ class GroundContactBalance extends ActivityPointSeries {
 		$this->Data = array_filter($this->Data);
 	}
 
-	/**
-	 * Change value by internal factor
-	 * @param int $value
-	 * @return float
-	 */
-	protected function correctUnit($value): float {
+    /**
+     * Change value by internal factor
+     * @param int $value
+     */
+    protected function correctUnit($value): float {
 		return 0.01*$value;
 	}
 
@@ -70,13 +69,12 @@ class GroundContactBalance extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
 		parent::addTo($Plot, $yAxis, $addAnnotations);
 
 		$Plot->Options['hooks']['draw'] = array('RunalyzePlot.flotHookColorPoints('

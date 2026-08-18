@@ -21,15 +21,14 @@ use Ajax;
 class Trimp extends \Runalyze\Configuration\Category {
     /**
      * Flag: recalculation triggered?
-     * @var Boolean
+     * @var bool
      */
     private static $TRIGGERED = false;
 
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'trimp';
 	}
 
@@ -61,7 +60,7 @@ class Trimp extends \Runalyze\Configuration\Category {
 
 	/**
 	 * Show ATL/CTL in percent?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function showInPercent() {
 		return $this->get('TRIMP_MODEL_IN_PERCENT');
@@ -69,7 +68,7 @@ class Trimp extends \Runalyze\Configuration\Category {
 
 	/**
 	 * Show TSB in percent?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function showTSBinPercent() {
 		return $this->get('TSB_IN_PERCENT');
@@ -79,21 +78,26 @@ class Trimp extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('ATL_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('ATL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+		$this->handle('ATL_DAYS')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('ATL_DAYS')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-		$this->handle('CTL_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('CTL_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+		$this->handle('CTL_DAYS')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('CTL_DAYS')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-		$this->handle('TRIMP_MODEL_IN_PERCENT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
-		$this->handle('TSB_IN_PERCENT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+		$this->handle('TRIMP_MODEL_IN_PERCENT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+		$this->handle('TSB_IN_PERCENT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('TRIMP') );
 
 		$Fieldset->addHandle( $this->handle('ATL_DAYS'), array(

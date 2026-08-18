@@ -71,7 +71,6 @@ abstract class AbstractKernel
     abstract protected function atTransformed($u);
 
     /**
-     * @param array $differences
      * @param bool $normalized flag if values should be normalized
      * @return float[]
      */

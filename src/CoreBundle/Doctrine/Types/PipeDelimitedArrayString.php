@@ -25,7 +25,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || '' == trim($value)) {
+        if ($value === null || '' === trim($value)) {
             return null;
         }
 

@@ -19,8 +19,10 @@ class UserTimezoneListener
     public function onKernelRequest()
     {
         if ($this->token->getToken()) {
-            $account = $this->token->getToken()->getUser();
-            $this->token->getToken()->getUser();
+            $account = $this->token->getToken()
+                ->getUser();
+            $this->token->getToken()
+                ->getUser();
 
             if ($account instanceof Account) {
                 $timezone = (int) $account->getTimezone();

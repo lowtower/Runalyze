@@ -34,7 +34,10 @@ class ActivityMatcherController extends Controller
             } catch (\Exception $exception) {
                 return 0;
             }
-        }, $this->get('app.configuration_manager')->getList()->getActivityForm()->getIgnoredActivityIds());
+        }, $this->get('app.configuration_manager')
+            ->getList()
+            ->getActivityForm()
+            ->getIgnoredActivityIds());
 
         foreach ($ids as $id) {
             try {

@@ -54,7 +54,8 @@ class Location {
 	 * @param string $geohash
 	 */
 	public function setGeohash($geohash) {
-		$decoded = (new Geohash())->decode($geohash)->getCoordinate();
+		$decoded = (new Geohash())->decode($geohash)
+		    ->getCoordinate();
 		$this->Latitude = $decoded->getLatitude();
 		$this->Longitude = $decoded->getLongitude();
 	}
@@ -123,11 +124,10 @@ class Location {
 		return $this->LocationName;
 	}
 
-	/**
-	 * Is position set?
-	 * @return bool
-	 */
-	public function hasPosition(): bool {
+    /**
+     * Is position set?
+     */
+    public function hasPosition(): bool {
 		return (
 			null !== $this->Latitude &&
 			null !== $this->Longitude &&
@@ -135,19 +135,17 @@ class Location {
 		);
 	}
 
-	/**
-	 * Has location name?
-	 * @return string
-	 */
-	public function hasLocationName(): bool {
+    /**
+     * Has location name?
+     */
+    public function hasLocationName(): bool {
 		return (strlen($this->LocationName) > 0);
 	}
 
-	/**
-	 * Is position set?
-	 * @return bool
-	 */
-	public function hasDateTime(): bool {
+    /**
+     * Is position set?
+     */
+    public function hasDateTime(): bool {
 		return null !== $this->DateTime;
 	}
 

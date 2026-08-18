@@ -268,9 +268,6 @@ class Weathercache
         return $this->weatherSource;
     }
 
-    /**
-     * @return WeatherData
-     */
     public function getAsWeatherData(): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
         $data = new WeatherData();

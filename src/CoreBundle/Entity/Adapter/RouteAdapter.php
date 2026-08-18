@@ -19,8 +19,6 @@ class RouteAdapter
     }
 
     /**
-     * @param ElevationCorrection $elevationCorrection
-     * @param StrategyInterface|null $strategy
      * @return bool true on success
      */
     public function correctElevation(ElevationCorrection $elevationCorrection, ?StrategyInterface $strategy = null): bool
@@ -47,7 +45,6 @@ class RouteAdapter
     }
 
     /**
-     * @param ElevationMethod $method
      * @param int $threshold [m]
      */
     public function calculateElevation(ElevationMethod $method, $threshold)

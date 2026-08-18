@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class Design extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -14,9 +11,6 @@ class Design extends AbstractCategory
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Design::class;

@@ -44,13 +44,10 @@ abstract class Completor {
 	 */
 	protected $Splits;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Model\Activity\Splits\Entity $splits
-	 * @param array $time
-	 * @param array $distance
-	 */
-	public function __construct(Entity $splits, array $time, array $distance) {
+    /**
+     * Construct
+     */
+    public function __construct(Entity $splits, array $time, array $distance) {
 		$this->Splits = $splits;
 		$this->Time = $time;
 		$this->Distance = $distance;

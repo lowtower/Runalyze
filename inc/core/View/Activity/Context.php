@@ -148,44 +148,29 @@ class Context {
 		return $this->Dataview;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasTrackdata(): bool {
 		return ! $this->Trackdata->isEmpty();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasRoute(): bool {
 		return null !== $this->Route;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasSwimdata(): bool {
 		return null !== $this->Swimdata;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasHRV(): bool {
 		return ! $this->HRV->isEmpty();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasRaceResult(): bool {
 		return ! $this->RaceResult->isEmpty();
 	}
 
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hideMap() {
 		if (! Request::isOnSharedPage()) {

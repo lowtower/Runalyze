@@ -42,7 +42,8 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-        $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)->getContent();
+        $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
+            ->getContent();
 
         include '../dashboard.php';
 
@@ -95,7 +96,8 @@ class DefaultController extends AbstractPluginsAwareController
                 return $this->render('account/activate/success.html.twig');
             }
 
-            $this->get('app.mailer.account')->sendActivationLinkTo($account);
+            $this->get('app.mailer.account')
+                ->sendActivationLinkTo($account);
 
             return $this->render('register/mail_delivered.html.twig');
         }
@@ -148,10 +150,12 @@ class DefaultController extends AbstractPluginsAwareController
      */
     protected function collectStatistics(): array
     {
-        $repository = $this->getDoctrine()->getRepository('CoreBundle:Account');
+        $repository = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account');
         $numUser =  $repository->getAmountOfActivatedUsers();
 
-        $repository = $this->getDoctrine()->getRepository('CoreBundle:Training');
+        $repository = $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
         $numDistance =  $repository->getAmountOfLoggedKilometers();
 
         return [
@@ -176,7 +180,8 @@ class DefaultController extends AbstractPluginsAwareController
         if ($request->isXmlHttpRequest()) {
             $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-            $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)->getContent();
+            $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
+                ->getContent();
 
             include $this->getParameter('kernel.root_dir').'/../dashboard.php';
 
@@ -199,7 +204,8 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function unsubscribeMailAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
     {
-        $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
+        $repo = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account');
         $account = $repo->findOneBy(array(
             'mail' => $mail
         ));
@@ -219,7 +225,8 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function unsubscribeMailConfirmAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
     {
-        $repo = $this->getDoctrine()->getRepository('CoreBundle:Account');
+        $repo = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account');
         $account = $repo->findOneBy(array(
             'mail' => $mail
         ));
@@ -248,7 +255,8 @@ class DefaultController extends AbstractPluginsAwareController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->get('app.mailer.account')->sendCustomFeedbackToSystem($account, $this->getParameter('feedback_mail'), $form->getData()['message']);
+                $this->get('app.mailer.account')
+                    ->sendCustomFeedbackToSystem($account, $this->getParameter('feedback_mail'), $form->getData()['message']);
                 return $this->render('feedback.html.twig', [
                     'form' => $form->createView()
                 ]);

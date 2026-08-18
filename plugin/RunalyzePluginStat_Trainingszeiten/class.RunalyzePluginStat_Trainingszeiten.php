@@ -19,19 +19,17 @@ use Runalyze\View\Activity\Dataview;
 class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	protected $dataIsMissing = false;
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Training times');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
 	}
 
@@ -55,19 +53,17 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 		$this->setHeaderWithSportAndYear();
 	}
 
-	/**
-	 * Default sport
-	 * @return int
-	 */
-	protected function defaultSport(): int {
+    /**
+     * Default sport
+     */
+    protected function defaultSport(): int {
 		return -1;
 	}
 
-	/**
-	 * Title for all years
-	 * @return string
-	 */
-	protected function titleForAllYears(): string {
+    /**
+     * Title for all years
+     */
+    protected function titleForAllYears(): string {
 		return __('Total');
 	}
 
@@ -136,7 +132,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 			$Linker = new Linker($Activity);
 			$View = new Dataview($Activity);
 
-			if ($i%2 == 0)
+			if ($i % 2 === 0)
 				echo '<tr">';
 
 			echo '<td class="b">'.$View->daytime().'</td>
@@ -144,7 +140,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 				<td>'.$View->distanceOrDuration().' '.SportFactory::name($Activity->sportid()).'</td>
 				<td>'.$Linker->weekLink().'</td>';
 
-			if ($i%2 == 1)
+			if ($i % 2 === 1)
 				echo '</tr>';
 		}
 

@@ -40,7 +40,8 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
         $configList = $this->ConfigurationManager->getList($this->Account);
         $factor = $this->RaceResultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
-            $configList->getGeneral()->getRunningSport()
+            $configList->getGeneral()
+                ->getRunningSport()
         );
 
         $this->ConfigurationUpdater->updateVO2maxCorrectionFactor($this->Account, $factor);

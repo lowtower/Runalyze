@@ -16,17 +16,11 @@ class Version20170424080000 extends AbstractMigration implements ContainerAwareI
     /** @var ContainerInterface|null */
     private $container;
 
-    /**
-     * @param ContainerInterface|null $container
-     */
     public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -34,9 +28,6 @@ class Version20170424080000 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'sport` SET `default_typeid` = NULL WHERE `default_typeid`= 0');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
 

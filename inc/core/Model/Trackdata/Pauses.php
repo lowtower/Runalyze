@@ -32,11 +32,10 @@ class Pauses extends StringArrayObject {
 		}
 	}
 
-	/**
-	 * As array
-	 * @return array
-	 */
-	public function asArray(): array {
+    /**
+     * As array
+     */
+    public function asArray(): array {
 		$Data = array();
 
 		foreach ($this->Elements as $Pause) {

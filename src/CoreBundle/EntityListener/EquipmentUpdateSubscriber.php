@@ -42,13 +42,17 @@ class EquipmentUpdateSubscriber implements EventSubscriber
     {
         $newEquipment = [];
         $removedEquipment = [];
-        $updates = $args->getEntityManager()->getUnitOfWork()->getScheduledCollectionUpdates();
+        $updates = $args->getEntityManager()
+            ->getUnitOfWork()
+            ->getScheduledCollectionUpdates();
 
         foreach ($updates as $collection) {
             /** @var PersistentCollection $collection */
             if (
-                $collection->isDirty() && $collection->getTypeClass()->getName() == Equipment::class &&
-                $collection->getOwner() instanceof Training && $collection->getOwner()->getId() == $activity->getId()
+                $collection->isDirty() && $collection->getTypeClass()
+                    ->getName() == Equipment::class &&
+                $collection->getOwner() instanceof Training && $collection->getOwner()
+                    ->getId() == $activity->getId()
             ) {
                 $newEquipment = $collection->getInsertDiff();
                 $removedEquipment = $collection->getDeleteDiff();
@@ -73,7 +77,8 @@ class EquipmentUpdateSubscriber implements EventSubscriber
 
         if (0 != $durationChange || 0.0 != $distanceChange) {
             /** @var Equipment[] $unchangedEquipment */
-            $unchangedEquipment = $activity->getEquipment()->toArray();
+            $unchangedEquipment = $activity->getEquipment()
+                ->toArray();
 
             foreach ($unchangedEquipment as $i => $equipment) {
                 if (in_array($equipment->getId(), $handledIds)) {
@@ -84,8 +89,10 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             $this->EquipmentRepository->updateEquipment($unchangedEquipment, $durationChange, $distanceChange, false);
         }
 
-        $metaData = $args->getEntityManager()->getClassMetadata(Equipment::class);
-        $unitOfWork = $args->getEntityManager()->getUnitOfWork();
+        $metaData = $args->getEntityManager()
+            ->getClassMetadata(Equipment::class);
+        $unitOfWork = $args->getEntityManager()
+            ->getUnitOfWork();
 
         foreach (array_merge($removedEquipment, $newEquipment, $unchangedEquipment) as $equipment) {
             $unitOfWork->computeChangeSet($metaData, $equipment);

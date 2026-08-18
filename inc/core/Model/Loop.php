@@ -51,11 +51,10 @@ abstract class Loop
 	 */
 	protected $Object;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Model\Loopable $object
-	 */
-	public function __construct(Loopable $object)
+    /**
+     * Construct
+     */
+    public function __construct(Loopable $object)
 	{
 		$this->Object = $object;
 
@@ -102,7 +101,7 @@ abstract class Loop
 
 	/**
 	 * Move index forward
-	 * @return boolean
+	 * @return bool
 	 */
 	public function nextStep()
 	{
@@ -119,7 +118,7 @@ abstract class Loop
 
 	/**
 	 * Is at the end?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isAtEnd()
 	{

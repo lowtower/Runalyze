@@ -26,10 +26,6 @@ class Registration
     /** @var object[] */
     protected $specialVars;
 
-    /**
-     * @param ObjectManager $em
-     * @param Account $account
-     */
     public function __construct(ObjectManager $em, Account $account)
     {
         $this->em = $em;
@@ -66,7 +62,6 @@ class Registration
 
     /**
      * @param string $password
-     * @param EncoderFactoryInterface $encoderFactory
      */
     public function setPassword($password, EncoderFactoryInterface $encoderFactory)
     {
@@ -198,7 +193,8 @@ class Registration
     private function collectSpecialVars()
     {
         /** @var Sport[] $sport */
-        $sport = $this->em->getRepository('CoreBundle:Sport')->findByAccount($this->Account);
+        $sport = $this->em->getRepository('CoreBundle:Sport')
+            ->findByAccount($this->Account);
 
         foreach ($sport as $item) {
             switch ($item->getImg()) {
@@ -314,9 +310,6 @@ class Registration
         return $this->specialVars['EQUIPMENT_CLOTHES'];
     }
 
-    /**
-     * @return string
-     */
     public static function getNewSalt(): string
     {
         return bin2hex(random_bytes(16));

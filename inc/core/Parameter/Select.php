@@ -48,12 +48,11 @@ class Select extends \Runalyze\Parameter {
 		}
 	}
 
-	/**
-	 * Value allowed?
-	 * @param string $value
-	 * @return bool
-	 */
-	protected function valueIsAllowed($value): bool {
+    /**
+     * Value allowed?
+     * @param string $value
+     */
+    protected function valueIsAllowed($value): bool {
 		return in_array($value, array_keys($this->Options['options']));
 	}
 

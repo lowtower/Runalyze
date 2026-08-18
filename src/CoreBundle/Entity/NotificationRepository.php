@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class NotificationRepository extends EntityRepository
 {
     /**
-     * @param Account|null $account
      * @return Notification[]
      */
     public function findAll(?Account $account = null)
@@ -21,7 +20,6 @@ class NotificationRepository extends EntityRepository
 
     /**
      * @param null|int $timestamp
-     * @param Account $account
      * @return Notification[]
      */
     public function findAllSince($timestamp, Account $account)
@@ -39,7 +37,8 @@ class NotificationRepository extends EntityRepository
                 ->orderBy('n.createdAt', 'ASC');
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
     public function markAsRead(Notification $notification)

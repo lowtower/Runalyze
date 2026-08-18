@@ -20,7 +20,8 @@ trait TokenStorageAwareTypeTrait
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
+        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
 
         if (! ($account instanceof Account)) {
             throw new \RuntimeException('Activity type must have a valid account token.');

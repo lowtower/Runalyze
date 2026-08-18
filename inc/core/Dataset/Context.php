@@ -147,9 +147,6 @@ class Context
 		return $this->Linker;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasSport(): bool
 	{
 		return (null !== $this->Sport);
@@ -171,9 +168,6 @@ class Context
 		return $this->IsRunning;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasType(): bool
 	{
 		return (null !== $this->Type);
@@ -187,11 +181,10 @@ class Context
 		return $this->Type;
 	}
 
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasData($key): bool
+    /**
+     * @param string $key
+     */
+    public function hasData($key): bool
 	{
 		return isset($this->ActivityData[$key]);
 	}

@@ -11,7 +11,6 @@ class OpenWeatherMapMapping implements ToInternalMappingInterface
      * @see http://openweathermap.org/weather-conditions
      *
      * @param int|string $value
-     * @return int|string
      */
     public function toInternal($value): int
     {

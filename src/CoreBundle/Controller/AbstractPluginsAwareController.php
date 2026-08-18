@@ -16,8 +16,6 @@ abstract class AbstractPluginsAwareController extends Controller
     protected $IsShowingAllPanels = false;
 
     /**
-     * @param Request $request
-     * @param Account $account
      * @return Response
      */
     protected function getResponseForAllEnabledPanels(Request $request, Account $account)
@@ -28,7 +26,8 @@ abstract class AbstractPluginsAwareController extends Controller
 
         foreach ($factory->enabledPanels() as $key) {
             $panel = $factory->newInstance($key);
-            $panelContent = $this->getResponseFor($panel->id(), $request, $account)->getContent();
+            $panelContent = $this->getResponseFor($panel->id(), $request, $account)
+                ->getContent();
 
             if ($panel instanceof \RunalyzePluginPanel_Sports) {
                 $panelContent = '<div class="panel" id="panel-'.$panel->id().'">'.$panelContent.'</div>';
@@ -42,8 +41,6 @@ abstract class AbstractPluginsAwareController extends Controller
 
     /**
      * @param int $pluginId
-     * @param Request $request
-     * @param Account $account
      * @return Response
      */
     protected function getResponseFor($pluginId, Request $request, Account $account)
@@ -81,13 +78,13 @@ abstract class AbstractPluginsAwareController extends Controller
     }
 
     /**
-     * @param Account $account
      * @param int $plugin
      * @return Response
      */
     protected function getResponseForSportsPanel(Account $account, \Plugin $plugin)
     {
-        $sportRepository = $this->getDoctrine()->getRepository('CoreBundle:Sport');
+        $sportRepository = $this->getDoctrine()
+            ->getRepository('CoreBundle:Sport');
         $today = (new LocalTime())->setTime(0, 0, 0);
 
         return $this->render('my/panels/sports/base.html.twig', [
@@ -101,15 +98,14 @@ abstract class AbstractPluginsAwareController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Account $account
      * @param int $pluginId
      * @return Response
      */
     protected function getResponseForMonthlyStats(Request $request, Account $account, $pluginId)
     {
         $valueExtension = new ValueExtension($this->get('app.configuration_manager'));
-        $sportSelection = $this->get('app.sport_selection_factory')->getSelection($request->get('sport'));
+        $sportSelection = $this->get('app.sport_selection_factory')
+            ->getSelection($request->get('sport'));
         $analysisList = new AnalysisSelection($request->get('dat'));
 
         if (! $analysisList->hasCurrentKey()) {
@@ -119,7 +115,8 @@ abstract class AbstractPluginsAwareController extends Controller
         $analysisData = new AnalysisData(
             $sportSelection,
             $analysisList,
-            $this->get('doctrine')->getRepository('CoreBundle:Training'),
+            $this->get('doctrine')
+                ->getRepository('CoreBundle:Training'),
             $account
         );
         $analysisData->setValueExtension($valueExtension);

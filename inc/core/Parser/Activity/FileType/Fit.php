@@ -52,12 +52,10 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function currentContainerIsEmpty(): bool
     {
-        return null !== $this->CurrentSubParser && $this->CurrentSubParser->getActivityDataContainer()->ContinuousData->isEmpty();
+        return null !== $this->CurrentSubParser && $this->CurrentSubParser->getActivityDataContainer()
+            ->ContinuousData->isEmpty();
     }
 
     protected function finishCurrentSubParser()
@@ -75,7 +73,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 
     protected function checkFirstLine($line)
     {
-        if (trim($line) != 'SUCCESS') {
+        if (trim($line) !== 'SUCCESS') {
             fclose($this->Handle);
 
             $this->throwErrorForFirstLine($line);

@@ -25,8 +25,6 @@ class GenerateJsonData
     protected $Directory;
 
     /**
-     * @param TrainingRepository $trainingRepository
-     * @param RaceresultRepository $raceresultRepository
      * @param string $kernelRootDir
      */
     public function __construct(TrainingRepository $trainingRepository, RaceresultRepository $raceresultRepository, $kernelRootDir)
@@ -36,17 +34,12 @@ class GenerateJsonData
         $this->KernelRootDir = $kernelRootDir;
     }
 
-    /**
-     * @return string
-     */
     public function getPathToJsonFiles(): string
     {
         return $this->KernelRootDir.'/../var/tmp/'.$this->Directory;
     }
 
     /**
-     * @param Account $account
-     * @param Sport $sport
      * @param int $year
      */
     public function createJsonFilesFor(Account $account, Sport $sport, $year)
@@ -79,7 +72,6 @@ class GenerateJsonData
     /**
      * @param string $geohashLine
      * @param float $distance
-     * @return array
      */
     protected function getSegmentsFor($geohashLine, $distance): array
     {
@@ -117,8 +109,6 @@ class GenerateJsonData
     }
 
     /**
-     * @param Account $account
-     * @param Sport $sport
      * @param int $year
      */
     protected function listSpecialFiles(Account $account, Sport $sport, $year)

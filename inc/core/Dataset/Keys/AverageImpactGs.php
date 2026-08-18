@@ -24,7 +24,8 @@ class AverageImpactGs extends AbstractKey
 
 	public function stringFor(Context $context)
 	{
-		return $context->dataview()->impactGs();
+		return $context->dataview()
+		    ->impactGs();
 	}
 
     public function summaryMode(): int

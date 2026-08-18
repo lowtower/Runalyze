@@ -85,11 +85,10 @@ class ProgressBar {
 			$this->addNewBar($Width, $Color);
 	}
 
-	/**
-	 * Add existing bar
-	 * @param ProgressBarSingle $SingleBar
-	 */
-	public function addBar(ProgressBarSingle $SingleBar) {
+    /**
+     * Add existing bar
+     */
+    public function addBar(ProgressBarSingle $SingleBar) {
 		$this->Bars[] = $SingleBar;
 	}
 
@@ -147,45 +146,40 @@ class ProgressBar {
 		echo $this->getCode();
 	}
 
-	/**
-	 * Get code
-	 * @return string
-	 */
-	public function getCode(): string {
+    /**
+     * Get code
+     */
+    public function getCode(): string {
 		$Code  = '<div class="'.$this->getDivClass().'"'.$this->getTooltip().'>';
 		$Code .= '<div class="'.self::$DIV_INNER.'">';
 		$Code .= $this->getDivForSingleBars();
 		$Code .= $this->getCodeForGoalLine();
 		$Code .= '</div>';
-		$Code .= '</div>';
 
-		return $Code;
+		return $Code . '</div>';
 	}
 
-	/**
-	 * Get class
-	 * @return string
-	 */
-	protected function getDivClass(): string {
+    /**
+     * Get class
+     */
+    protected function getDivClass(): string {
 		return self::$DIV_CONTAINER.$this->AdditionalClasses;
 	}
 
-	/**
-	 * Get additional stuff for tooltip
-	 * @return string
-	 */
-	protected function getTooltip(): string {
+    /**
+     * Get additional stuff for tooltip
+     */
+    protected function getTooltip(): string {
 		if (! empty($this->Tooltip))
 			return ' '.Ajax::tooltip('', $this->Tooltip, false, true);
 
 		return '';
 	}
 
-	/**
-	 * Get div for icon
-	 * @return string
-	 */
-	protected function getDivForSingleBars(): string {
+    /**
+     * Get div for icon
+     */
+    protected function getDivForSingleBars(): string {
 		$Code = '';
 
 		foreach ($this->Bars as &$Bar)
@@ -194,16 +188,13 @@ class ProgressBar {
 		return $Code;
 	}
 
-	/**
-	 * Get div for single bar
-	 * @param ProgressBarSingle $SingleBar
-	 * @return string
-	 */
-	protected function getDivForSingleBar(ProgressBarSingle $SingleBar): string {
+    /**
+     * Get div for single bar
+     */
+    protected function getDivForSingleBar(ProgressBarSingle $SingleBar): string {
 		$Code  = '<div class="'.self::$DIV_BAR.' '.$SingleBar->getClasses().'" style="width:'.$SingleBar->getWidth().'%;">';
-		$Code .= '</div>';
 
-		return $Code;
+		return $Code . '</div>';
 	}
 
 	/**

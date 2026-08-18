@@ -17,70 +17,65 @@ use Runalyze\Dataset\Context;
  */
 class Sport extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::SPORT;
 	}
 
-	/**
-	 * Is this key always shown?
-	 * @return bool
-	 * @codeCoverageIgnore
-	 */
-	public function mustBeShown(): bool
+    /**
+     * Is this key always shown?
+     * @codeCoverageIgnore
+     */
+    public function mustBeShown(): bool
 	{
 		return true;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'sportid';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Sport');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return '';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('The sports icon is shown.');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->hasSport()) {
-			return $context->sport()->icon()->code();
+			return $context->sport()
+			    ->icon()
+			    ->code();
 		}
 
 		return '';

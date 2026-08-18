@@ -34,7 +34,7 @@ class WindSpeedType extends AbstractUnitBasedType
     public function transform($value)
     {
         if (null !== $value) {
-            if (0 == (int) $value) {
+            if (0 === (int) $value) {
                 return 0;
             }
 
@@ -47,7 +47,7 @@ class WindSpeedType extends AbstractUnitBasedType
     public function reverseTransform($value)
     {
         if (null !== $value) {
-            if (0 == (int) $value) {
+            if (0 === (int) $value) {
                 return 0;
             }
 

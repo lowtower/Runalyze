@@ -21,7 +21,8 @@ class SharedController extends Controller
      */
     protected function getTrainingRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Training');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
     }
 
     /**
@@ -33,25 +34,35 @@ class SharedController extends Controller
     public function sharedTrainingAction($activityHash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Training $activity */
-        $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->find((int) base_convert((string) $activityHash, 35, 10));
+        $activity = $this->getDoctrine()
+            ->getRepository('CoreBundle:Training')
+            ->find((int) base_convert((string) $activityHash, 35, 10));
 
         if (null === $activity || ! $activity->isPublic()) {
             return $this->render('shared/invalid_activity.html.twig');
         }
 
         $_GET['user'] = $activity->getAccount()->getUsername();
-        $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($activity->getAccount()->getUsername());
-        $publicList = $this->get('app.configuration_manager')->getList($account)->getPrivacy()->isListPublic();
+        $account = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account')
+            ->findByUsername($activity->getAccount()->getUsername());
+        $publicList = $this->get('app.configuration_manager')
+            ->getList($account)
+            ->getPrivacy()
+            ->isListPublic();
 
         $Frontend = new \FrontendShared(true);
-        $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
+        $activityContext = $this->get('app.activity_context.factory')
+            ->getContext($activity);
         $activityContextLegacy = new Context($activity->getId(), $activity->getAccount()->getId());
 
-        $hasRoute = $activityContext->canShowMap() && $this->get('app.privacy_guard')->isMapVisible($activity, $activityContext->getRaceResult());
+        $hasRoute = $activityContext->canShowMap() && $this->get('app.privacy_guard')
+            ->isMapVisible($activity, $activityContext->getRaceResult());
 
         if ('iframe' == $request->query->get('mode')) {
             return $this->render('shared/widget/iframe/base.html.twig', [
-                'username' => $activity->getAccount()->getUsername(),
+                'username' => $activity->getAccount()
+                    ->getUsername(),
                 'hasPublicList' => $publicList,
                 'context' => $activityContext,
                 'route' => $hasRoute ? new \Runalyze\View\Leaflet\Activity(
@@ -63,7 +74,8 @@ class SharedController extends Controller
         }
 
         return $this->render('shared/activity/base.html.twig', [
-            'username' => $activity->getAccount()->getUsername(),
+            'username' => $activity->getAccount()
+                ->getUsername(),
             'activity' => $activity,
             'hasPublicList' => $publicList,
             'activityUrl' => (new Linker($activityContextLegacy->activity()))->publicUrl(),
@@ -88,8 +100,12 @@ class SharedController extends Controller
      */
     public function sharedUserAction($username, Request $request): \Symfony\Component\HttpFoundation\Response {
         /** @var null|Account $account */
-        $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($username);
-        $privacy = $this->get('app.configuration_manager')->getList($account)->getPrivacy();
+        $account = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account')
+            ->findByUsername($username);
+        $privacy = $this->get('app.configuration_manager')
+            ->getList($account)
+            ->getPrivacy();
 
         if (null === $account || ! $privacy->isListPublic()) {
             return $this->render('shared/invalid_athlete.html.twig');
@@ -107,7 +123,9 @@ class SharedController extends Controller
         }
 
         if ($privacy->isListWithStatistics()) {
-            $accountStatistics = $this->getDoctrine()->getRepository('CoreBundle:Training')->getAccountStatistics($account);
+            $accountStatistics = $this->getDoctrine()
+                ->getRepository('CoreBundle:Training')
+                ->getAccountStatistics($account);
             $legacyStatistics = new \FrontendSharedStatistics();
         } else {
             $accountStatistics = null;
@@ -128,8 +146,12 @@ class SharedController extends Controller
      */
     public function publicUserFeedAction($username): \Symfony\Component\HttpFoundation\Response {
         /** @var null|Account $account */
-        $account = $this->getDoctrine()->getRepository('CoreBundle:Account')->findByUsername($username);
-        $privacy = $this->get('app.configuration_manager')->getList($account)->getPrivacy();
+        $account = $this->getDoctrine()
+            ->getRepository('CoreBundle:Account')
+            ->findByUsername($username);
+        $privacy = $this->get('app.configuration_manager')
+            ->getList($account)
+            ->getPrivacy();
 
         $feed = $this->get('app.activity.feed');
         $feed->setFeedTitle('RUNALYZE athlete '.$username)

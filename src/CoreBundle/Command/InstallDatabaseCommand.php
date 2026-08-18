@@ -22,9 +22,6 @@ class InstallDatabaseCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -50,11 +47,14 @@ class InstallDatabaseCommand extends ContainerAwareCommand
      */
     protected function importDatabaseStructure()
     {
-        $fileName = $this->getContainer()->getParameter('kernel.root_dir').'/../'.self::DATABASE_STRUCTURE_FILE;
+        $fileName = $this->getContainer()
+            ->getParameter('kernel.root_dir').'/../'.self::DATABASE_STRUCTURE_FILE;
         $queries = $this->getSqlFileAsArray($fileName, $this->getContainer()->getParameter('database_prefix'));
 
         /** @var \Doctrine\DBAL\Connection $em */
-        $em = $this->getContainer()->get('doctrine')->getConnection();
+        $em = $this->getContainer()
+            ->get('doctrine')
+            ->getConnection();
         $em->beginTransaction();
 
         try {
@@ -85,7 +85,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
      * @param string $filename
      * @param string $databasePrefix
      * @param bool $removeDelimiter
-     * @return array
+     * @return string[]
      */
     public function getSqlFileAsArray($filename, $databasePrefix, $removeDelimiter = true): array
     {
@@ -104,11 +104,11 @@ class InstallDatabaseCommand extends ContainerAwareCommand
             $line = str_replace('runalyze_', $databasePrefix, $line);
 
             if ($inDelimiter) {
-                if (mb_substr($line, 0, 9) == 'DELIMITER') {
+                if (mb_substr($line, 0, 9) === 'DELIMITER') {
                     $inDelimiter = false;
                     $query .= $removeDelimiter ? '' : ' '.$line;
                     $array[] = $query;
-                } elseif (trim($line) != '//') {
+                } elseif (trim($line) !== '//') {
                     $query .= ' '.$line;
                 }
             } else {
@@ -125,7 +125,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
                 }
 
                 $x = strlen($query) - 1;
-                if (mb_substr($query, $x) == ';') {
+                if (mb_substr($query, $x) === ';') {
                     $array[] = $query;
                     $query = '';
                 }

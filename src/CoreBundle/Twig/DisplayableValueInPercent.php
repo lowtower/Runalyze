@@ -20,9 +20,6 @@ class DisplayableValueInPercent extends DisplayableValue
         $this->Value *= 100;
     }
 
-    /**
-     * @return string
-     */
     public function getUnit(): string
     {
         return '%';

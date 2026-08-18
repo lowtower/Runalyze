@@ -20,11 +20,10 @@ class Loop extends \Runalyze\Model\Loop {
 	 */
 	protected $Object;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Model\Swimdata\Entity $object
-	 */
-	public function __construct(Entity $object) {
+    /**
+     * Construct
+     */
+    public function __construct(Entity $object) {
 		parent::__construct($object);
 	}
 
@@ -52,10 +51,6 @@ class Loop extends \Runalyze\Model\Loop {
 		return $this->current(Entity::SWOLF);
 	}
 
-	/**
-	 * @param array $data
-	 * @return \Runalyze\Model\Swimdata\Entity
-	 */
 	protected function createNewObject(array $data): \Runalyze\Model\Swimdata\Entity {
 		return new Entity($data);
 	}

@@ -20,11 +20,10 @@ abstract class AbstractExporter
 	/** @var \Runalyze\View\Activity\Context */
 	protected $Context;
 
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	public function __construct(Context $context)
+    /**
+     * Constructor
+     */
+    public function __construct(Context $context)
     {
 		$this->Context = $context;
 	}

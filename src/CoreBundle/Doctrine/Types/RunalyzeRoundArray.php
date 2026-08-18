@@ -48,7 +48,7 @@ class RunalyzeRoundArray extends Type
     {
         $collection = new RoundCollection();
 
-        if ($value !== null && '' != trim($value)) {
+        if ($value !== null && '' !== trim($value)) {
             $rounds = explode('-', $value);
 
             if (is_array($rounds)) {
@@ -61,10 +61,6 @@ class RunalyzeRoundArray extends Type
         return $collection;
     }
 
-    /**
-     * @param Round $round
-     * @return string
-     */
     protected function getNativeValueForRound(Round $round): string
     {
         $distance = number_format($round->getDistance(), 3, '.', '');
@@ -76,7 +72,6 @@ class RunalyzeRoundArray extends Type
 
     /**
      * @param string $data
-     * @return Round
      */
     protected function getRoundForNativeValue($data): \Runalyze\Parser\Activity\Common\Data\Round\Round
     {

@@ -177,9 +177,6 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->displayMode;
     }
 
-    /**
-     * @return bool
-     */
     public function showsCompleteRow(): bool
     {
         if ($this->inheritsDisplayMode()) {
@@ -201,9 +198,6 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return DataBrowserRowProfile::ONLY_ICON == $this->displayMode;
     }
 
-    /**
-     * @return bool
-     */
     public function inheritsDisplayMode(): bool
     {
         return DataBrowserRowProfile::INHERIT_FROM_PARENT == $this->displayMode;
@@ -250,8 +244,6 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)

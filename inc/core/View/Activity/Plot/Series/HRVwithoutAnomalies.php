@@ -20,7 +20,6 @@ class HRVwithoutAnomalies extends HRV
 {
     /**
      * Init data
-     * @param \Runalyze\Model\HRV\Entity $hrv
      */
     protected function initHRVData(Model\HRV\Entity $hrv)
     {
@@ -29,17 +28,16 @@ class HRVwithoutAnomalies extends HRV
             $this->defineFilteredDataAndAxis($hrv);
         } else {
             $this->XAxis = DataCollector::X_AXIS_INDEX;
-            $this->Data = (new Calculator($hrv))->filteredObject()->data();
+            $this->Data = (new Calculator($hrv))->filteredObject()
+                ->data();
         }
     }
 
-    /**
-     * @param \Runalyze\Model\HRV\Entity $hrv
-     */
     protected function defineFilteredDataAndAxis(Model\HRV\Entity $hrv)
     {
         $OriginalData = $hrv->data();
-        $FilteredData = (new Calculator($hrv))->filteredObject()->data();
+        $FilteredData = (new Calculator($hrv))->filteredObject()
+            ->data();
         $filteredIndex = 0;
         $num = $hrv->num();
 

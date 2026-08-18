@@ -48,20 +48,18 @@ class ConfigTabs {
 		self::$Messages[] = $HTMLcode;
 	}
 
-	/**
-	 * Add a tab and set it as the default one
-	 * @param ConfigTab $Tab
-	 */
-	public function addDefaultTab(ConfigTab $Tab) {
+    /**
+     * Add a tab and set it as the default one
+     */
+    public function addDefaultTab(ConfigTab $Tab) {
 		$this->defaultKey = $Tab->getKey();
 		$this->addTab($Tab);
 	}
 
-	/**
-	 * Add a tab
-	 * @param ConfigTab $Tab
-	 */
-	public function addTab(ConfigTab $Tab) {
+    /**
+     * Add a tab
+     */
+    public function addTab(ConfigTab $Tab) {
 		$this->Tabs[$Tab->getKey()] = $Tab;
 	}
 
@@ -92,11 +90,10 @@ class ConfigTabs {
 		}
 	}
 
-	/**
-	 * Has to show surrounding div and navigation?
-	 * @return boolean
-	 */
-	private function hasToShowDiv(): bool {
+    /**
+     * Has to show surrounding div and navigation?
+     */
+    private function hasToShowDiv(): bool {
 		return (Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true');
 	}
 

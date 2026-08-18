@@ -9,8 +9,6 @@ class Watts extends AbstractPowerUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

@@ -20,38 +20,34 @@ use Runalyze\View\Icon;
  */
 class Splits extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::SPLITS;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'splits';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Splits');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __(
 		    'Splits are shown as clock icon with all lap times as tooltip. '.
@@ -60,17 +56,17 @@ class Splits extends AbstractKey
 		);
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context): string
+    /**
+     * Get string to display this dataset value
+     */
+    public function stringFor(Context $context): string
 	{
 		if (! $context->activity()->splits()->isEmpty()) {
 			if (
-				$context->activity()->splits()->hasActiveAndInactiveLaps() ||
-				round($context->activity()->splits()->totalDistance()) != round($context->activity()->distance())
+				$context->activity()
+				    ->splits()
+				    ->hasActiveAndInactiveLaps() ||
+				round($context->activity()->splits()->totalDistance()) !== round($context->activity()->distance())
 			) {
 				$Icon = new Icon( Icon::CLOCK );
 				$Icon->setTooltip($this->stringForActiveLaps($context->activity()->splits()));
@@ -86,12 +82,10 @@ class Splits extends AbstractKey
 		return '';
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Entity $Splits
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	protected function stringForActiveLaps(Entity $Splits): string
+    /**
+     * @codeCoverageIgnore
+     */
+    protected function stringForActiveLaps(Entity $Splits): string
 	{
 		$laps = [];
 		$onlyActiveSplits = $Splits->hasActiveAndInactiveLaps();

@@ -26,7 +26,8 @@ class ConfigurationHandleTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testObject() {
-		$this->object->object()->set(1337);
+		$this->object->object()
+		    ->set(1337);
 		$this->assertEquals(1337, $this->object->object()->value());
 	}
 

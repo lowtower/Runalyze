@@ -28,8 +28,6 @@ class Geonames extends AbstractStrategyFromExternalAPI
 
     /**
      * @param string $geonamesUsername
-     * @param Client $client
-     * @param LoggerInterface|null $logger
      */
     public function __construct($geonamesUsername, Client $client, ?LoggerInterface $logger = null)
     {
@@ -76,7 +74,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
                 $this->logger->warning(sprintf('Geonames request failed: %s', $json['status']['message']));
             }
 
-            if (10 == (int) $json['status']['value']) {
+            if (10 === (int) $json['status']['value']) {
                 throw new StrategyException('Invalid user id for geonames.');
             }
 

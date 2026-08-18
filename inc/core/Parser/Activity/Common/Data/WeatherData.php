@@ -34,9 +34,6 @@ class WeatherData
      */
     public $Source;
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return (

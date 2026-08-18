@@ -11,7 +11,7 @@ abstract class AbstractButterworthCoefficients
     protected $OutputCoefficients = [];
 
     /**
-     * @param double $normalizedFrequency
+     * @param float $normalizedFrequency
      */
     public function __construct($normalizedFrequency)
     {
@@ -21,7 +21,7 @@ abstract class AbstractButterworthCoefficients
     }
 
     /**
-     * @param double $frequencyRatio
+     * @param float $frequencyRatio
      */
     abstract protected function calculateCoefficients($frequencyRatio);
 

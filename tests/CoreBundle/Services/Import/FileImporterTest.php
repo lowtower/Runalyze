@@ -22,9 +22,6 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         $this->Importer->disableFileDeletion();
     }
 
-    /**
-     * @return TestHandler
-     */
     protected function setLoggerToImporter(): \Monolog\Handler\TestHandler
     {
         $handler = new TestHandler();

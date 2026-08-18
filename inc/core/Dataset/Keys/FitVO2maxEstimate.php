@@ -18,61 +18,56 @@ use Runalyze\Dataset\SummaryMode;
  */
 class FitVO2maxEstimate extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::FIT_VO2MAX_ESTIMATE;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'fit_vo2max_estimate';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return 'VO<sub>2</sub>max '.__('(by file)');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return 'VO<sub>2</sub>max '.__('(file)');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __("Garmin's newer devices have an integrated VO2max estimation.").' '.
 			__('This value refers to your estimated VO2max at the start of the activity.');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->isRunning()) {
-			return $context->dataview()->fitVO2maxEstimate();
+			return $context->dataview()
+			    ->fitVO2maxEstimate();
 		}
 
 		return '';
@@ -86,11 +81,10 @@ class FitVO2maxEstimate extends AbstractKey
 		return SummaryMode::AVG;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

@@ -24,14 +24,12 @@ class DataCollectorWithSwimdata extends DataCollector {
 	 */
 	protected $LoopSwimdata;
 
-	/**
-	 * Construct collector
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param int $key
-	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata) {
+    /**
+     * Construct collector
+     * @param int $key
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata) {
 		if (! $swimdata->has($key)) {
 			throw new \InvalidArgumentException('Swimdata has no data for "'.$key.'".');
 		}
@@ -57,7 +55,7 @@ class DataCollectorWithSwimdata extends DataCollector {
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[(string) $this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

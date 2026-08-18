@@ -18,33 +18,21 @@ use System;
  */
 class GooglePlus extends AbstractSocialSharer
 {
-    /**
-     * @return string
-     */
     public function iconClass(): string
     {
         return 'fa-google-plus color-google-plus';
     }
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return ($this->Context->activity()->isPublic() && ! System::isAtLocalhost());
     }
 
-    /**
-     * @return string
-     */
     public function url(): string
     {
         return 'https://plus.google.com/share?url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=googleplus');
     }
 
-	/**
-	 * @return string
-	 */
 	public function name(): string
     {
 	    return __('Google+');

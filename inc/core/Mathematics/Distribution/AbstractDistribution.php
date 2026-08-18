@@ -79,9 +79,6 @@ abstract class AbstractDistribution
         $this->calculateQuantilesAndVariance($sortedData, $quantiles);
     }
 
-    /**
-     * @param array $sortedData
-     */
     private function calculateMinAndMax(array $sortedData)
     {
         $keys = array_keys($sortedData);
@@ -90,9 +87,6 @@ abstract class AbstractDistribution
         $this->setStatistic(self::MAX, end($keys));
     }
 
-    /**
-     * @param array $sortedData
-     */
     private function calculateMeanAndMode(array $sortedData)
     {
         $sum = 0;
@@ -117,7 +111,6 @@ abstract class AbstractDistribution
     }
 
     /**
-     * @param array $sortedData
      * @param float[] $quantiles
      */
     private function calculateQuantilesAndVariance(array $sortedData, array $quantiles)

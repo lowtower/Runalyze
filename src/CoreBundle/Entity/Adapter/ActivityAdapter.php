@@ -29,23 +29,28 @@ class ActivityAdapter
     public function setAccountToRelatedEntities()
     {
         if ($this->Activity->hasRoute()) {
-            $this->Activity->getRoute()->setAccount($this->Activity->getAccount());
+            $this->Activity->getRoute()
+                ->setAccount($this->Activity->getAccount());
         }
 
         if ($this->Activity->hasTrackdata()) {
-            $this->Activity->getTrackdata()->setAccount($this->Activity->getAccount());
+            $this->Activity->getTrackdata()
+                ->setAccount($this->Activity->getAccount());
         }
 
         if ($this->Activity->hasSwimdata()) {
-            $this->Activity->getSwimdata()->setAccount($this->Activity->getAccount());
+            $this->Activity->getSwimdata()
+                ->setAccount($this->Activity->getAccount());
         }
 
         if ($this->Activity->hasHrv()) {
-            $this->Activity->getHrv()->setAccount($this->Activity->getAccount());
+            $this->Activity->getHrv()
+                ->setAccount($this->Activity->getAccount());
         }
 
         if ($this->Activity->hasRaceresult()) {
-            $this->Activity->getRaceresult()->setAccount($this->Activity->getAccount());
+            $this->Activity->getRaceresult()
+                ->setAccount($this->Activity->getAccount());
         }
     }
 
@@ -59,35 +64,32 @@ class ActivityAdapter
 
     /**
      * @param int $days
-     * @return bool
      */
     public function isNotOlderThanXDays($days): bool
     {
-        return (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))->days <= $days;
+        return (new LocalTime())->diff(new LocalTime($this->Activity->getTime()))
+            ->days <= $days;
     }
 
-    /**
-     * @return bool
-     */
     public function isRunning(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isRunning();
+        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+            ->getInternalSport()
+            ->isRunning();
     }
 
-    /**
-     * @return bool
-     */
     public function isCycling(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isCycling();
+        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+            ->getInternalSport()
+            ->isCycling();
     }
 
-    /**
-     * @return bool
-     */
     public function isSwimming(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()->getInternalSport()->isSwimming();
+        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+            ->getInternalSport()
+            ->isSwimming();
     }
 
     /**
@@ -100,10 +102,12 @@ class ActivityAdapter
         }
 
         if (null !== $this->Activity->getType()) {
-            return $this->Activity->getType()->getHrAvg();
+            return $this->Activity->getType()
+                ->getHrAvg();
         }
 
-        return null !== $this->Activity->getSport() ? $this->Activity->getSport()->getHfavg() : 100;
+        return null !== $this->Activity->getSport() ? $this->Activity->getSport()
+            ->getHfavg() : 100;
     }
 
     public function setActivityIdIfEmpty()
@@ -147,7 +151,6 @@ class ActivityAdapter
 
     /**
      * @param int $numberOfDaysToConsiderForShape
-     * @return bool
      */
     public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape): bool
     {
@@ -159,7 +162,6 @@ class ActivityAdapter
 
     /**
      * @param int $numberOfDaysToConsiderForShape
-     * @return bool
      */
     public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape): bool
     {
@@ -174,7 +176,8 @@ class ActivityAdapter
     public function calculateEnergyConsumptionIfEmpty()
     {
         if (null === $this->Activity->getKcal() || 0 == $this->Activity->getKcal()) {
-            $energyConsumption = $this->Activity->getSport()->getKcal() * $this->Activity->getS() / 3600.0;
+            $energyConsumption = $this->Activity->getSport()
+                ->getKcal() * $this->Activity->getS() / 3600.0;
 
             $this->Activity->setKcal($energyConsumption > 0 ? $energyConsumption : null);
         }
@@ -225,7 +228,8 @@ class ActivityAdapter
         $this->Activity->setPower(null);
 
         if ($this->Activity->hasTrackdata()) {
-            $this->Activity->getTrackdata()->setPower(null);
+            $this->Activity->getTrackdata()
+                ->setPower(null);
         }
     }
 
@@ -278,7 +282,8 @@ class ActivityAdapter
              */
             if (null !== $this->Activity->getS() &&
                 null !== $this->Activity->getSwimdata() &&
-                $this->Activity->getSwimdata()->hasStrokeTypes()
+                $this->Activity->getSwimdata()
+                    ->hasStrokeTypes()
             ) {
                 $totalTime = $this->Activity->getS();
                 $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), function ($strokeType) {
@@ -289,7 +294,8 @@ class ActivityAdapter
                  * Fallback for swimming data without stroke types:
                  * Use the overall time and number of track-data points.
                  */
-                $trackDataTime = $this->Activity->getTrackdata()->getTime();
+                $trackDataTime = $this->Activity->getTrackdata()
+                    ->getTime();
                 if (! empty($trackDataTime)) {
                     $totalTime = end($trackDataTime);
                     $numberOfPoints = count($trackDataTime);
@@ -328,31 +334,34 @@ class ActivityAdapter
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function canCalculateClimbScore(): bool
     {
         return (
             null !== $this->Activity->getRoute() &&
-            $this->Activity->getRoute()->hasElevations() &&
+            $this->Activity->getRoute()
+                ->hasElevations() &&
             null !== $this->Activity->getTrackdata() &&
-            $this->Activity->getTrackdata()->hasDistance()
+            $this->Activity->getTrackdata()
+                ->hasDistance()
         );
     }
 
     protected function temporarilyFixStepwiseElevationsInRoute()
     {
-        $backupElevations = $this->Activity->getRoute()->getElevationsCorrected();
+        $backupElevations = $this->Activity->getRoute()
+            ->getElevationsCorrected();
 
         if (null !== $backupElevations) {
-            $this->Activity->getRoute()->setElevationsCorrected(
-                (new StepwiseElevationProfileFixer(5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE))
-                    ->fixStepwiseElevations(
-                        $this->Activity->getRoute()->getElevationsCorrected(),
-                        $this->Activity->getTrackdata()->getDistance()
-                    )
-            );
+            $this->Activity->getRoute()
+                ->setElevationsCorrected(
+                    (new StepwiseElevationProfileFixer(5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE))
+                        ->fixStepwiseElevations(
+                            $this->Activity->getRoute()
+                                ->getElevationsCorrected(),
+                            $this->Activity->getTrackdata()
+                                ->getDistance()
+                        )
+                );
         }
 
         return $backupElevations;
@@ -363,7 +372,8 @@ class ActivityAdapter
      */
     protected function revertTemporaryFixForStepwiseElevationsInRoute(?array $backupElevations = null)
     {
-        $this->Activity->getRoute()->setElevationsCorrected($backupElevations);
+        $this->Activity->getRoute()
+            ->setElevationsCorrected($backupElevations);
     }
 
     public function guessTimezoneBasedOnCoordinates(TimezoneLookup $timezoneLookup)
@@ -371,15 +381,19 @@ class ActivityAdapter
         if (
             null === $this->Activity->getTimezoneOffset() &&
             $this->Activity->hasRoute() &&
-            $this->Activity->getRoute()->hasGeohashes() &&
+            $this->Activity->getRoute()
+                ->hasGeohashes() &&
             $timezoneLookup->isPossible()
         ) {
-            $this->Activity->getRoute()->setStartEndGeohashes();
+            $this->Activity->getRoute()
+                ->setStartEndGeohashes();
 
-            $startPoint = $this->Activity->getRoute()->getStartpoint();
+            $startPoint = $this->Activity->getRoute()
+                ->getStartpoint();
 
             if (null !== $startPoint) {
-                $coordinate = (new Geohash())->decode($startPoint)->getCoordinate();
+                $coordinate = (new Geohash())->decode($startPoint)
+                    ->getCoordinate();
                 $timezone = $timezoneLookup->getTimezoneForCoordinate($coordinate->getLongitude(), $coordinate->getLatitude());
                 $this->updateTimezoneForActivity($timezone);
             }
@@ -395,7 +409,8 @@ class ActivityAdapter
             return;
         }
 
-        $newOffset = (new \DateTime(null, new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())->getOffset() / 60;
+        $newOffset = (new \DateTime(null, new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())
+            ->getOffset() / 60;
 
         if (null !== $this->Activity->getTimezoneOffset()) {
             $this->Activity->setTime($this->Activity->getTime() + 60 * ($newOffset - $this->Activity->getTimezoneOffset()));

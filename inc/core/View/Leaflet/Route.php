@@ -80,21 +80,17 @@ class Route {
 		return $this->id;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isEmpty(): bool {
 	    return empty($this->Paths);
     }
 
-	/**
-	 * Get JS
-	 * @return string
-	 */
-	final public function js(): string {
+    /**
+     * Get JS
+     */
+    final public function js(): string {
 		$Options = 'segments: '.json_encode($this->Paths);
 
-		if (count($this->Paths) == count($this->Infos)) {
+		if (count($this->Paths) === count($this->Infos)) {
 			$Options .= ', segmentsInfoLabels: '.json_encode($this->InfoLabels);
 			$Options .= ', segmentsInfo: '.json_encode($this->Infos);
 			$Options .= ', segmentsInfoFunctions: ['.implode(',', $this->InfoFunctions).']';
@@ -118,15 +114,14 @@ class Route {
 		$this->Options[$property] = $value;
 	}
 
-	/**
-	 * Add segment
-	 *
-	 * Caution: Set infos for all paths or for none!
-	 *
-	 * @param array $Path
-	 * @param array $Info [optional] must be of the same size as $Path
-	 */
-	final public function addSegment(array $Path, array $Info = array()) {
+    /**
+     * Add segment
+     *
+     * Caution: Set infos for all paths or for none!
+     *
+     * @param array $Info [optional] must be of the same size as $Path
+     */
+    final public function addSegment(array $Path, array $Info = array()) {
 		if (empty($Path))
 			return;
 
@@ -158,41 +153,39 @@ class Route {
 	        return;
         }
 
-		$coordinate = (new Geotools())->geohash()->decode($geohash)->getCoordinate();
+		$coordinate = (new Geotools())->geohash()
+		    ->decode($geohash)
+		    ->getCoordinate();
 
 		$this->Marker[] = 'L.marker(['.$coordinate->getLatitude().','.$coordinate->getLongitude().'], {icon: '.$Icon.', tooltip: '.json_encode($Tooltip).'})';
 	}
 
-	/**
-	 * Dist icon
-	 * @param int $km
-	 * @return string
-	 */
-	final public function distIcon($km): string {
+    /**
+     * Dist icon
+     * @param int $km
+     */
+    final public function distIcon($km): string {
 		return 'RunalyzeLeaflet.Routes.distIcon('.(int) $km.')';
 	}
 
-	/**
-	 * Start icon
-	 * @return string
-	 */
-	final public function startIcon(): string {
+    /**
+     * Start icon
+     */
+    final public function startIcon(): string {
 		return 'RunalyzeLeaflet.Routes.startIcon()';
 	}
 
-	/**
-	 * End icon
-	 * @return string
-	 */
-	final public function endIcon(): string {
+    /**
+     * End icon
+     */
+    final public function endIcon(): string {
 		return 'RunalyzeLeaflet.Routes.endIcon()';
 	}
 
-	/**
-	 * Pause icon
-	 * @return string
-	 */
-	final public function pauseIcon(): string {
+    /**
+     * Pause icon
+     */
+    final public function pauseIcon(): string {
 		return 'RunalyzeLeaflet.Routes.pauseIcon()';
 	}
 }

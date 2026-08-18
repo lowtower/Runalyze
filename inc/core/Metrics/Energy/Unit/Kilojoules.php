@@ -9,8 +9,6 @@ class Kilojoules extends AbstractEnergyUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Kilojoules extends AbstractEnergyUnit
         return 'kJ';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 4.1868;

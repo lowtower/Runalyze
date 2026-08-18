@@ -21,13 +21,12 @@ class ElevationsRecalculator
     /** @var string */
     protected $DatabasePrefix;
 
-	/**
-	 * Construct
-	 * @param \PDO $database
-	 * @param int $accountId
-	 * @param string $databasePrefix
-	 */
-	public function __construct(\PDO $database, $accountId, $databasePrefix)
+    /**
+     * Construct
+     * @param int $accountId
+     * @param string $databasePrefix
+     */
+    public function __construct(\PDO $database, $accountId, $databasePrefix)
     {
 		$this->PDO = $database;
 		$this->AccountID = $accountId;

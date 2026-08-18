@@ -81,27 +81,25 @@ class Plot {
 		$this->ErrorString = $string;
 	}
 
-	/**
-	 * Get standard div for a special plot
-	 * @param string $id
-	 * @param int $width
-	 * @param int $height
-	 * @return string
-	 */
-	public static function getDivFor($id, $width, $height): string {
+    /**
+     * Get standard div for a special plot
+     * @param string $id
+     * @param int $width
+     * @param int $height
+     */
+    public static function getDivFor($id, $width, $height): string {
 		return '<div style="position:relative;width:'.$width.'px;height:'.$height.'px;margin:0 auto;">'.self::getInnerDivFor($id, $width, $height).'</div>';
 	}
 
-	/**
-	 * Get standard div for a special plot
-	 * @param string $id
-	 * @param int $width
-	 * @param int $height
-	 * @param bool $hidden
-	 * @param string $class
-	 * @return string
-	 */
-	public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string {
+    /**
+     * Get standard div for a special plot
+     * @param string $id
+     * @param int $width
+     * @param int $height
+     * @param bool $hidden
+     * @param string $class
+     */
+    public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string {
 		return '<div class="flot '.Ajax::$IMG_WAIT.' '.$class.($hidden ? ' flot-hide' : '').'" id="'.$id.'" style="width:'.$width.'px;height:'.$height.'px;position:absolute;"></div>';
 	}
 
@@ -121,7 +119,7 @@ class Plot {
 
 	/**
 	 * Output JavaScript
-	 * @param boolean $removeOldPlot
+	 * @param bool $removeOldPlot
 	 */
 	public function outputJavaScript($removeOldPlot = false) {
 		if ($removeOldPlot)
@@ -134,11 +132,10 @@ class Plot {
 		echo Ajax::wrapJS('RunalyzePlot.preparePlot("'.$this->cssID.'","'.$this->width.'","'.$this->height.'",function(){'.$bindedCode.'});');
 	}
 
-	/**
-	 * Get main functionalities for this plot
-	 * @return string
-	 */
-	private function getMainJS(): string {
+    /**
+     * Get main functionalities for this plot
+     */
+    private function getMainJS(): string {
 		$encodedData = json_encode($this->Data);
 
 		if (false === $encodedData) {
@@ -159,11 +156,10 @@ class Plot {
 				json_encode($this->Annotations).');';
 	}
 
-	/**
-	 * Get code for an error
-	 * @return string
-	 */
-	private function getJSForError(): string {
+    /**
+     * Get code for an error
+     */
+    private function getJSForError(): string {
 		return '$("#'.$this->cssID.'").append(\'<div class="flot-error"><span>'.$this->ErrorString."</span></div>');";
 	}
 
@@ -183,7 +179,7 @@ class Plot {
 		if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply']))
 			$this->Options['series']['curvedLines']['apply'] = true;
 
-		if (empty($this->Data) && strlen($this->ErrorString) == 0)
+		if (empty($this->Data) && strlen($this->ErrorString) === 0)
 			$this->raiseError('Es sind keine Daten vorhanden.');
 	}
 
@@ -198,11 +194,11 @@ class Plot {
 
 	/**
 	 * Add an annotation to plot
-	 * @param double $x
-	 * @param double $y
+	 * @param float $x
+	 * @param float $y
 	 * @param string $text
-	 * @param double $toX relative repositioning in px
-	 * @param double $toY relative repositioning in px
+	 * @param float $toX relative repositioning in px
+	 * @param float $toY relative repositioning in px
 	 */
 	public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0) {
 		$this->Annotations[] = array(
@@ -317,7 +313,7 @@ class Plot {
 	/**
 	 * Add a threshold
 	 * @param string $axis
-	 * @param double $from
+	 * @param float $from
 	 * @param string $color
 	 * @param int $lineWidth
 	 */
@@ -335,8 +331,8 @@ class Plot {
 	/**
 	 * Add a marking area
 	 * @param string $axis
-	 * @param double $from
-	 * @param double $to
+	 * @param float $from
+	 * @param float $to
 	 * @param string $color
 	 */
 	public function addMarkingArea($axis, $from, $to, $color ='rgba(255,255,255,0.2)') {
@@ -550,12 +546,11 @@ class Plot {
 		$this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * '.$factor.'; return '.$this->jsRoundUnit($roundTo)." + ' ".$unit."'; }";
 	}
 
-	/**
-	 * JS function to round
-	 * @param int $roundTo
-	 * @return string
-	 */
-	private function jsRoundUnit($roundTo): string {
+    /**
+     * JS function to round
+     * @param int $roundTo
+     */
+    private function jsRoundUnit($roundTo): string {
 		if ($roundTo == 0)
 			return 'Math.round(v)';
 
@@ -643,12 +638,11 @@ class Plot {
 		}
 	}
 
-	/**
-	 * Correct special characters like umlaute to unicode-HTML
-	 * @param string $string
-	 * @return string
-	 */
-	public static function correctSpecialChars($string): string {
+    /**
+     * Correct special characters like umlaute to unicode-HTML
+     * @param string $string
+     */
+    public static function correctSpecialChars($string): string {
 		$string    = utf8_encode($string);
 		$encrypted = array('ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü');
 		$correct   = array('&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;');
@@ -656,14 +650,13 @@ class Plot {
 		return str_replace($encrypted, $correct, $string);
 	}
 
-	/**
-	 * Get JavaScript-timestamp for a day of a year
-	 * @param int $year
-	 * @param int $day
-	 * @param int $hour
-	 * @return int
-	 */
-	public static function dayOfYearToJStime($year, $day, $hour = 12): string {
+    /**
+     * Get JavaScript-timestamp for a day of a year
+     * @param int $year
+     * @param int $day
+     * @param int $hour
+     */
+    public static function dayOfYearToJStime($year, $day, $hour = 12): string {
 		return mktime($hour, 0, 0, 1, $day, $year).'000';
 	}
 
@@ -691,7 +684,6 @@ class Plot {
  *
  * Correct php-timestamps to JS-timestamps
  * @param mixed $v
- * @return mixed
  */
 function PLOT__correctValuesMapperForTime($v): float {
 	return round($v*1000);

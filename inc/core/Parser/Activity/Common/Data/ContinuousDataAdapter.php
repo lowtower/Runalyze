@@ -24,9 +24,6 @@ class ContinuousDataAdapter
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function distancesShouldBeCalculated(): bool
     {
         return (
@@ -199,10 +196,6 @@ class ContinuousDataAdapter
         }
     }
 
-    /**
-     * @param PauseCollection $pausesToApply
-     * @return PauseCollection
-     */
     public function applyPauses(PauseCollection $pausesToApply): \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection
     {
         $resultingPauses = new PauseCollection();

@@ -120,17 +120,11 @@ class Plugin implements AccountRelatedEntityInterface
         return $this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function isStatistic(): bool
     {
         return self::TYPE_STAT == $this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function isPanel(): bool
     {
         return self::TYPE_PANEL == $this->type;
@@ -170,25 +164,16 @@ class Plugin implements AccountRelatedEntityInterface
         return $this->active;
     }
 
-    /**
-     * @return bool
-     */
     public function isInactive(): bool
     {
         return self::STATE_INACTIVE == $this->active;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return self::STATE_ACTIVE == $this->active;
     }
 
-    /**
-     * @return bool
-     */
     public function isHidden(): bool
     {
         return self::STATE_HIDDEN == $this->active;
@@ -235,8 +220,6 @@ class Plugin implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)

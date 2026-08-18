@@ -7,11 +7,10 @@ use Runalyze\View\Activity;
 
 class BrakingGs extends ActivitySeries
 {
-	/**
-	 * @param Activity\Context $context
-	 * @param bool $isLeft
-	 */
-	public function __construct(Activity\Context $context, $isLeft = true)
+    /**
+     * @param bool $isLeft
+     */
+    public function __construct(Activity\Context $context, $isLeft = true)
     {
 		$this->initOptions($isLeft);
 		$this->initData($context->trackdata(), $isLeft ? Trackdata::BRAKING_GS_LEFT : Trackdata::BRAKING_GS_RIGHT);

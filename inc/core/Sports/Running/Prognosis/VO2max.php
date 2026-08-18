@@ -100,7 +100,8 @@ class VO2max implements PrognosisInterface
      */
     public function getSecondsFor($distance, $effectiveVO2max)
     {
-        return $this->setEffectiveVO2max($effectiveVO2max)->getSeconds($distance);
+        return $this->setEffectiveVO2max($effectiveVO2max)
+            ->getSeconds($distance);
     }
 
     /**

@@ -20,18 +20,17 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param string $configName
      * @param string $value
      */
     protected function updateInDataConfiguration(Account $account, $configName, $value)
     {
         $this->Repository->updateOrInsert($account, 'data', $configName, $value);
-        $this->Manager->getList($account)->set('data.'.$configName, $value);
+        $this->Manager->getList($account)
+            ->set('data.'.$configName, $value);
     }
 
     /**
-     * @param Account $account
      * @param int $startTime
      */
     public function updateStartTime(Account $account, $startTime)
@@ -40,7 +39,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $bpm
      */
     public function updateMaximalHeartRate(Account $account, $bpm)
@@ -49,7 +47,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $bpm
      */
     public function updateRestingHeartRate(Account $account, $bpm)
@@ -58,7 +55,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param float $shape [0.00, inf)
      */
     public function updateVO2maxShape(Account $account, $shape)
@@ -67,7 +63,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param float $factor [0.00 .. 2.00]
      */
     public function updateVO2maxCorrectionFactor(Account $account, $factor)
@@ -76,7 +71,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $shape [0, inf)
      */
     public function updateMarathonShape(Account $account, $shape)
@@ -85,7 +79,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $atl [0, inf)
      */
     public function updateMaximalAtl(Account $account, $atl)
@@ -94,7 +87,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $ctl [0, inf)
      */
     public function updateMaximalCtl(Account $account, $ctl)
@@ -103,7 +95,6 @@ class ConfigurationUpdater
     }
 
     /**
-     * @param Account $account
      * @param int $trimp [0, inf)
      */
     public function updateMaximalTrimp(Account $account, $trimp)

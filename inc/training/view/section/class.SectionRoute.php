@@ -21,11 +21,11 @@ class SectionRoute extends TrainingViewSection {
 		$this->appendRow( new SectionRouteRowMap($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
-		return $this->Context->activity()->elevation() > 0 || $this->Context->hasRoute();
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
+		return $this->Context->activity()
+		    ->elevation() > 0 || $this->Context->hasRoute();
 	}
 }

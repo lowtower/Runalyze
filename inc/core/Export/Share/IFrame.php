@@ -31,9 +31,6 @@ class IFrame extends AbstractSnippetSharer
     /** @var int */
     const DEFAULT_HEIGHT = 500;
 
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::IFRAME;
@@ -44,12 +41,10 @@ class IFrame extends AbstractSnippetSharer
      */
     public function isPossible()
     {
-        return $this->Context->activity()->isPublic();
+        return $this->Context->activity()
+            ->isPublic();
     }
 
-	/**
-	 * @return string
-	 */
 	public function name(): string
     {
 	    return __('Widget');
@@ -57,7 +52,6 @@ class IFrame extends AbstractSnippetSharer
 
     /**
      * Current width
-     * @return int
      */
     protected function width(): int
     {
@@ -66,7 +60,6 @@ class IFrame extends AbstractSnippetSharer
 
     /**
      * Current height
-     * @return int
      */
     protected function height(): int
     {
@@ -123,11 +116,11 @@ class IFrame extends AbstractSnippetSharer
 
     /**
      * Get HTML code for snippet
-     * @return string
      */
     protected function codeSnippet(): string
     {
-        $this->Context->activity()->set(Activity\Entity::IS_PUBLIC, 1);
+        $this->Context->activity()
+            ->set(Activity\Entity::IS_PUBLIC, 1);
         $Linker = new Linker($this->Context->activity());
 
         return '<iframe style="padding:0;margin:0 auto;display:block;max-width:100%;" src="'.$Linker->publicUrl().'?mode=iframe&amp;utm_medium=referral&amp;utm_source=iframe" width="'.$this->width().'" height="'.$this->height().'"></iframe>';

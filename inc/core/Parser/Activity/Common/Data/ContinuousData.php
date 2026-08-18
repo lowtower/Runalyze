@@ -175,9 +175,6 @@ class ContinuousData
         return 0;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         foreach ($this->getPropertyNamesOfArrays() as $property) {

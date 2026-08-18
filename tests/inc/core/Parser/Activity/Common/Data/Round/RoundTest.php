@@ -37,7 +37,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getProviderForComparison
      */
-    public function testComparison($expectedComparison, $distanceFirst, $durationFirst, $isActiveFirst, $distanceSecond, $durationSecond, $isActiveSecond)
+    public function testComparison(bool $expectedComparison, float $distanceFirst, int $durationFirst, bool $isActiveFirst, float $distanceSecond, int $durationSecond, bool $isActiveSecond)
     {
         $this->assertEquals(
             $expectedComparison,

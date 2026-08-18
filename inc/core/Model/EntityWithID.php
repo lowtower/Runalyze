@@ -20,11 +20,10 @@ abstract class EntityWithID extends Entity {
 	 */
 	protected $ID;
 
-	/**
-	 * Construct
-	 * @param array $data
-	 */
-	public function __construct(array $data = array()) {
+    /**
+     * Construct
+     */
+    public function __construct(array $data = array()) {
 		parent::__construct($data);
 
 		if (isset($data['id'])) {

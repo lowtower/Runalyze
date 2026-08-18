@@ -32,19 +32,17 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	    '24' => '24'
 	);
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Tags summary');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Summarises your tags for the selected sport.');
 	}
 
@@ -68,7 +66,8 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		$Configuration->addValue($Sports);
 
 		if (isset($_GET['sport']) && isset($this->AllSports[$_GET['sport']])) {
-			$Configuration->object('sport')->setValue($_GET['sport']);
+			$Configuration->object('sport')
+			    ->setValue($_GET['sport']);
 			$Configuration->update('sport');
 			Cache::delete(PluginConfiguration::CACHE_KEY);
 		}
@@ -79,7 +78,8 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		$Configuration->addValue($Timescale);
 
 		if (isset($_GET['tagssummary_timescale']) && in_array($_GET['tagssummary_timescale'], $this->Timescale)) {
-			$Configuration->object('tagssummary_timescale')->setValue($_GET['tagssummary_timescale']);
+			$Configuration->object('tagssummary_timescale')
+			    ->setValue($_GET['tagssummary_timescale']);
 			$Configuration->update('tagssummary_timescale');
 			Cache::delete(PluginConfiguration::CACHE_KEY);
 		}
@@ -88,12 +88,14 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	}
 
 	protected function initPlugin() {
-		$this->sportid = $this->Configuration()->value('sport');
+		$this->sportid = $this->Configuration()
+		    ->value('sport');
 		if (empty($this->sportid)) {
 			$this->sportid = $this->defaultSport();
 		}
 
-		$this->timescale = $this->Configuration()->value('tagssummary_timescale');
+		$this->timescale = $this->Configuration()
+		    ->value('tagssummary_timescale');
 		if (empty($this->timescale)) {
 			$this->timescale = reset($this->Timescale);
 		}
@@ -154,9 +156,6 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		echo HTML::clearBreak();
 	}
 
-	/**
-	 * @param \Runalyze\Model\Sport\Entity $Sport
-	 */
 	protected function showListFor(Model\Sport\Entity $Sport, $timescale) {
 		$max = 0;
 		$countTagsForSport = DB::getInstance()
@@ -169,7 +168,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 		    	' GROUP BY tagid ORDER BY count DESC');
 
 		foreach ($countTagsForSport as $data) {
-			if ($max == 0) {
+			if ($max === 0) {
 				$max = (int) $data['count'];
 			}
 
@@ -180,24 +179,22 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 			</p>';
 		}
 
-		if ($countTagsForSport->rowCount() == 0)
+		if ($countTagsForSport->rowCount() === 0)
 			echo HTML::em( __("You don't have any tags for this sport or timescale.") );
 	}
 
-	/**
-	 * Get style
-	 * @return string
-	 */
-	protected function getStyle(): string {
+    /**
+     * Get style
+     */
+    protected function getStyle(): string {
 		return '<style type="text/css">.tags-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images/damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
 
-	/**
-	 * Get shoe usage image
-	 * @param float $percentage [0.0 .. 1.0]
-	 * @return string
-	 */
-	protected function getUsageImage($percentage): string {
+    /**
+     * Get shoe usage image
+     * @param float $percentage [0.0 .. 1.0]
+     */
+    protected function getUsageImage($percentage): string {
 		return '<span class="tags-usage" style="width:'.round($percentage * 330).'px;"></span>';
 	}
 }

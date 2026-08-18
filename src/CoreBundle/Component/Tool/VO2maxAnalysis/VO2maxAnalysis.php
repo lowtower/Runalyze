@@ -20,9 +20,6 @@ class VO2maxAnalysis
     /** @var Configuration\Category\VO2max */
     protected $VO2maxConfig;
 
-    /**
-     * @param Configuration\Category\VO2max $vo2maxConfig
-     */
     public function __construct(Configuration\Category\VO2max $vo2maxConfig)
     {
         $this->VO2maxConfig = $vo2maxConfig;
@@ -53,9 +50,6 @@ class VO2maxAnalysis
         return $analysisData;
     }
 
-    /**
-     * @return string
-     */
     protected function getQuery(): string
     {
         return 'SELECT

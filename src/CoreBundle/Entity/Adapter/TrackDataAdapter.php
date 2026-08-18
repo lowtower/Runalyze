@@ -30,7 +30,8 @@ class TrackDataAdapter
             $calculator = new GradientCalculator();
             $calculator->calculateFor(
                 $this->TrackData,
-                $this->TrackData->getActivity()->getRoute(),
+                $this->TrackData->getActivity()
+                    ->getRoute(),
                 new Uniform(20)
             );
         } else {

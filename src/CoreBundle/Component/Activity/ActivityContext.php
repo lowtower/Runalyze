@@ -116,40 +116,25 @@ class ActivityContext
         return $this->RaceResult;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTrackdata(): bool {
         return null !== $this->Trackdata;
     }
 
-    /**
-     * @return bool
-     */
     public function hasRoute(): bool
     {
         return null !== $this->Route;
     }
 
-    /**
-     * @return bool
-     */
     public function hasSwimdata(): bool
     {
         return null !== $this->Swimdata;
     }
 
-    /**
-     * @return bool
-     */
     public function hasHRV(): bool
     {
         return null !== $this->HRV;
     }
 
-    /**
-     * @return bool
-     */
     public function hasRaceResult(): bool
     {
         return null !== $this->RaceResult;
@@ -163,9 +148,6 @@ class ActivityContext
         return $this->Decorator;
     }
 
-    /**
-     * @return boolean
-     */
     public function canShowMap(): bool
     {
         return $this->hasRoute() && $this->Route->hasGeohashes();

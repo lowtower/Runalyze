@@ -52,7 +52,6 @@ class Humidity implements ValueInterface
 
     /**
      * Label for value
-     * @return string
      */
     public function label(): string
     {
@@ -61,7 +60,6 @@ class Humidity implements ValueInterface
 
     /**
      * Label for value
-     * @return string
      */
     public function unit(): string
     {
@@ -80,7 +78,6 @@ class Humidity implements ValueInterface
     /**
      * Format value as string
      * @param bool $withUnit
-     * @return string
      */
     public function string($withUnit = true): string
     {
@@ -93,7 +90,6 @@ class Humidity implements ValueInterface
 
     /**
      * Humidity is unknown?
-     * @return bool
      */
     public function isUnknown(): bool
     {

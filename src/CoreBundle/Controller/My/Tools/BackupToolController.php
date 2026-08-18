@@ -20,9 +20,6 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
  */
 class BackupToolController extends Controller
 {
-    /**
-     * @return string
-     */
     protected function getPathToBackupFiles(): string
     {
         return $this->getParameter('data_directory').'/backup-tool/backup/';
@@ -33,8 +30,6 @@ class BackupToolController extends Controller
      * @Security("has_role('ROLE_USER')")
      *
      * @param string $filename
-     * @param Account $account
-     * @return BinaryFileResponse
      */
     public function downloadBackupAction($filename, Account $account): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
@@ -68,19 +63,28 @@ class BackupToolController extends Controller
      */
     public function backupAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {
-        $lockedRoutes = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Route')->accountHasLockedRoutes($account);
-        $hasLockedTrainings = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Training')->accountHasLockedTrainings($account);
+        $lockedRoutes = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CoreBundle:Route')
+            ->accountHasLockedRoutes($account);
+        $hasLockedTrainings = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CoreBundle:Training')
+            ->accountHasLockedTrainings($account);
 
         $form = $this->createForm(BackupExportType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $formdata = $request->request->get($form->getName());
-            $this->get('bernard.producer')->produce(new DefaultMessage('userBackup', [
-                'accountid' => $account->getId(),
-                'export-type' => $formdata['fileFormat']
-            ]));
-            $this->get('session')->getFlashBag()->set('runalyze.backupjob.created', true);
+            $this->get('bernard.producer')
+                ->produce(new DefaultMessage('userBackup', [
+                    'accountid' => $account->getId(),
+                    'export-type' => $formdata['fileFormat']
+                ]));
+            $this->get('session')
+                ->getFlashBag()
+                ->set('runalyze.backupjob.created', true);
         }
 
         $fileHandler = new FilenameHandler($account->getId());
@@ -96,7 +100,9 @@ class BackupToolController extends Controller
             });
 
         return $this->render('tools/backup/export.html.twig', [
-            'backupjobWasCreated' => $this->get('session')->getFlashBag()->get('runalyze.backupjob.created'),
+            'backupjobWasCreated' => $this->get('session')
+                ->getFlashBag()
+                ->get('runalyze.backupjob.created'),
             'hasFiles' => $finder->count() > 0,
             'files' => $finder->getIterator(),
             'hasLocks' => ($lockedRoutes || $hasLockedTrainings),

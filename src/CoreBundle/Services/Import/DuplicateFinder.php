@@ -16,12 +16,12 @@ class DuplicateFinder
     }
 
     /**
-     * @param Training $activity
      * @return bool
      */
     public function isPossibleDuplicate(Training $activity)
     {
-        $activity->getAdapter()->setActivityIdIfEmpty();
+        $activity->getAdapter()
+            ->setActivityIdIfEmpty();
 
         return $this->TrainingRepository->isPossibleDuplicate($activity);
     }

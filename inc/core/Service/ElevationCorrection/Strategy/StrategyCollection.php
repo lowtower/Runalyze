@@ -16,9 +16,6 @@ class StrategyCollection
     }
 
     /**
-     * @param array $latitudes
-     * @param array $longitudes
-     *
      * @return array|null altitude [m]
      *
      * @throws \InvalidArgumentException
@@ -29,7 +26,7 @@ class StrategyCollection
             return null;
         }
 
-        if (count($latitudes) != count($longitudes)) {
+        if (count($latitudes) !== count($longitudes)) {
             throw new \InvalidArgumentException('Latitudes and longitudes must be of same size.');
         }
 

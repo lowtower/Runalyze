@@ -35,9 +35,6 @@ class TrainingView {
 	 */
 	protected $Context;
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->Context = $context;
 
@@ -61,11 +58,10 @@ class TrainingView {
 		$this->ToolbarLinks[] = Ajax::tooltip($Linker->weekLink(), '<em>'.__('Show week').'</em><br>'.$this->Context->dataview()->weekday().', '.$this->Context->dataview()->dateAndDaytime());
 	}
 
-	/**
-	 * Init social share links
-	 * @param \Runalyze\View\Activity\Linker $linker
-	 */
-	protected function initShareLinks(Linker $linker) {
+    /**
+     * Init social share links
+     */
+    protected function initShareLinks(Linker $linker) {
 		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-share-alt"></i> '.__('Share').'</span><ul class="submenu">';
 
 		if ($this->Context->activity()->isPublic()) {
@@ -106,8 +102,10 @@ class TrainingView {
 
 		if (
 			$this->Context->hasTrackdata() &&
-			$this->Context->trackdata()->has(Model\Trackdata\Entity::DISTANCE) &&
-			$this->Context->trackdata()->has(Model\Trackdata\Entity::TIME)
+			$this->Context->trackdata()
+			    ->has(Model\Trackdata\Entity::DISTANCE) &&
+			$this->Context->trackdata()
+			    ->has(Model\Trackdata\Entity::TIME)
 		) {
 			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/splits-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Analyze splits').'</a></li>';
 		}
@@ -142,11 +140,10 @@ class TrainingView {
 		}
 	}
 
-	/**
-	 * Init edit links
-	 * @param \Runalyze\View\Activity\Linker $linker
-	 */
-	protected function initEditLinks(Linker $linker) {
+    /**
+     * Init edit links
+     */
+    protected function initEditLinks(Linker $linker) {
 		if ($this->Context->activity()->isPublic()) {
 			$privacyLabel = __('Make private');
 			$privacyIcon = 'fa-lock';
@@ -222,11 +219,15 @@ class TrainingView {
 
 		if (
 			(
-			    $this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
-				$this->Context->sport()->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING
+			    $this->Context->trackdata()
+			        ->has(\Runalyze\Model\Trackdata\Entity::CADENCE) &&
+				$this->Context->sport()
+				    ->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING
 			) ||
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT) ||
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::VERTICAL_OSCILLATION)
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::GROUNDCONTACT) ||
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::VERTICAL_OSCILLATION)
 		) {
 			$this->Sections[] = new SectionRunningDynamics($this->Context);
             $this->Sections[] = new SectionRunScribeData($this->Context);

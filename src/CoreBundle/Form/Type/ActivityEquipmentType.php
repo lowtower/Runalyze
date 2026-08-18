@@ -20,10 +20,15 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $equipmentCategories = $this->getAccount()->getEquipmentTypes();
-        $accountEquipment = $this->getConfigurationList()->getActivityForm()->getDatabaseOrderForEquipment()->sortCollection(
-            $this->getAccount()->getEquipment()
-        );
+        $equipmentCategories = $this->getAccount()
+            ->getEquipmentTypes();
+        $accountEquipment = $this->getConfigurationList()
+            ->getActivityForm()
+            ->getDatabaseOrderForEquipment()
+            ->sortCollection(
+                $this->getAccount()
+                    ->getEquipment()
+            );
 
         $equipment = [];
         /** @var Equipment $acEqp */
@@ -114,8 +119,10 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
     protected function getChoiceAttributesForEquipment(Equipment $equipment): array
     {
         return [
-            'data-start' => $equipment->getDateStart() ? $equipment->getDateStart()->format('Y-m-d') : '',
-            'data-end' => $equipment->getDateEnd() ? $equipment->getDateEnd()->format('Y-m-d') : ''
+            'data-start' => $equipment->getDateStart() ? $equipment->getDateStart()
+                ->format('Y-m-d') : '',
+            'data-end' => $equipment->getDateEnd() ? $equipment->getDateEnd()
+                ->format('Y-m-d') : ''
         ];
     }
 

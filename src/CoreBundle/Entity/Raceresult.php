@@ -309,8 +309,6 @@ class Raceresult implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -329,8 +327,6 @@ class Raceresult implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Training $activity
-     *
      * @return $this
      */
     public function setActivity(Training $activity)
@@ -349,8 +345,6 @@ class Raceresult implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Training $activity
-     *
      * @return $this
      */
     public function fillFromActivity(Training $activity)

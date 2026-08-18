@@ -58,7 +58,7 @@ class AnovaDataQuery
     {
         $sports = $this->AnovaData->getSport();
 
-        if (1 == count($sports)) {
+        if (1 === count($sports)) {
             $unitSystem->setPaceUnitFromSport(array_shift($sports));
         }
 
@@ -71,7 +71,8 @@ class AnovaDataQuery
     public function getResults(TrainingRepository $trainingRepository, Account $account, UnitSystem $unitSystem)
     {
         $unit = $this->getValueUnit($unitSystem);
-        $iterator = $this->buildQuery($trainingRepository, $account)->iterate(null, AbstractQuery::HYDRATE_ARRAY);
+        $iterator = $this->buildQuery($trainingRepository, $account)
+            ->iterate(null, AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($iterator as $row) {
             $data = array_shift($row);

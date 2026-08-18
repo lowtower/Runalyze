@@ -20,11 +20,11 @@ class SectionRouteOnlyElevation extends SectionRoute {
         $this->appendRow( new SectionRouteRowElevation($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
-        return $this->Context->activity()->elevation() > 0;
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
+        return $this->Context->activity()
+            ->elevation() > 0;
 	}
 }

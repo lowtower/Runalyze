@@ -64,7 +64,6 @@ class TrainingEffectLevel extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
@@ -88,7 +87,6 @@ class TrainingEffectLevel extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */

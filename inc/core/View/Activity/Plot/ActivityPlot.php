@@ -36,7 +36,7 @@ abstract class ActivityPlot {
 
 	/**
 	 * Use standard x-axis?
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $useStandardXaxis = true;
 
@@ -63,17 +63,15 @@ abstract class ActivityPlot {
 	 */
 	abstract protected function setKey();
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	abstract protected function initData(Activity\Context $context);
+    /**
+     * Init data
+     */
+    abstract protected function initData(Activity\Context $context);
 
-	/**
-	 * Construct
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	public function __construct(Activity\Context $context) {
+    /**
+     * Construct
+     */
+    public function __construct(Activity\Context $context) {
 		$this->setKey();
 		$this->setID($context->activity()->id());
 		$this->initPlot();
@@ -84,13 +82,12 @@ abstract class ActivityPlot {
 		}
 	}
 
-	/**
-	 * Add series
-	 * @param \Runalyze\View\Plot\Series $series
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations
-	 */
-	final protected function addSeries(\Runalyze\View\Plot\Series $series, $yAxis = 1, $addAnnotations = true) {
+    /**
+     * Add series
+     * @param int $yAxis
+     * @param bool $addAnnotations
+     */
+    final protected function addSeries(\Runalyze\View\Plot\Series $series, $yAxis = 1, $addAnnotations = true) {
 		$series->addTo($this->Plot, $yAxis, $addAnnotations);
 	}
 
@@ -134,11 +131,10 @@ abstract class ActivityPlot {
 		$this->Plot->setShadowSize($series, 0);
 	}
 
-	/**
-	 * Data is available
-	 * @return bool
-	 */
-	private function dataIsAvailable(): bool {
+    /**
+     * Data is available
+     */
+    private function dataIsAvailable(): bool {
 		foreach ($this->Plot->Data as $key => $Data) {
 			if (! isset($Data['data']) || empty($Data['data'])) {
 				unset($this->Plot->Data[$key]);

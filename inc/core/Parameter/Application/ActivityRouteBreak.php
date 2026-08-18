@@ -38,11 +38,10 @@ class ActivityRouteBreak extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Never break?
-	 * @return bool
-	 */
-	public function never(): bool {
+    /**
+     * Never break?
+     */
+    public function never(): bool {
 		return ($this->value() == self::NO_BREAK);
 	}
 }

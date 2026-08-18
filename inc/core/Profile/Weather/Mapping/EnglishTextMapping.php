@@ -13,7 +13,6 @@ class EnglishTextMapping implements ToInternalMappingInterface
 {
     /**
      * @param int|string $value
-     * @return int|string
      */
     public function toInternal($value): int
     {

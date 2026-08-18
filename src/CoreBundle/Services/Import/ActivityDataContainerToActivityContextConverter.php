@@ -67,9 +67,7 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @param Account $account
-     * @return Training
      */
     public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
@@ -91,9 +89,7 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @param Account $account
-     * @return ActivityContext
      */
     public function getContextFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
@@ -156,7 +152,9 @@ class ActivityDataContainerToActivityContextConverter
 
         if (null === $sport) {
             $sport = $this->SportRepository->findThisOrAny(
-                $this->ConfigurationManager->getList($this->Account)->getGeneral()->getMainSport(),
+                $this->ConfigurationManager->getList($this->Account)
+                    ->getGeneral()
+                    ->getMainSport(),
                 $this->Account
             );
         }
@@ -325,7 +323,6 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @return Trackdata|null
      */
     protected function getTrackdataFor(ActivityDataContainer $container)
@@ -388,7 +385,6 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @return Swimdata|null
      */
     protected function getSwimdataFor(ActivityDataContainer $container)
@@ -415,7 +411,6 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @return Route|null
      */
     protected function getRouteFor(ActivityDataContainer $container)
@@ -455,7 +450,6 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @return Hrv|null
      */
     protected function getHrvFor(ActivityDataContainer $container)
@@ -481,7 +475,6 @@ class ActivityDataContainerToActivityContextConverter
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @return Raceresult|null
      */
     protected function getRaceResultFor(ActivityDataContainer $container)

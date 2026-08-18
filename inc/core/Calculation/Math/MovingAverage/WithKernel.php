@@ -20,9 +20,6 @@ class WithKernel extends AbstractMovingAverage
     /** @var \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel */
     protected $Kernel;
 
-    /**
-     * @param Kernel\AbstractKernel $kernel
-     */
     public function setKernel(Kernel\AbstractKernel $kernel)
     {
         $this->Kernel = $kernel;
@@ -129,7 +126,6 @@ class WithKernel extends AbstractMovingAverage
     }
 
     /**
-     * @param array $linearIndices
      * @return array
      */
     protected function enlargedData(array $linearIndices)
@@ -160,7 +156,7 @@ class WithKernel extends AbstractMovingAverage
             return [0.0];
         }
 
-        if ($width % 2 == 1) {
+        if ($width % 2 === 1) {
             return range(-($width - 1)/2, ($width - 1)/2);
         } else {
             return range(-$width/2, $width/2);

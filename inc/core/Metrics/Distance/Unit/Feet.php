@@ -9,8 +9,6 @@ class Feet extends AbstractDistanceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Feet extends AbstractDistanceUnit
         return 'ft';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 3280.84;

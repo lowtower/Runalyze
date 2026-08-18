@@ -37,7 +37,9 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
     {
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $em->getConnection()
+            ->getConfiguration()
+            ->setSQLLogger(null);
 
         $this->NegativeTimeStepFilter = new NegativeTimeStepFilter();
         $this->NegativeDistanceStepFilter = new NegativeDistanceStepFilter(0.1);
@@ -69,8 +71,10 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
                     $this->fixActivity($activity->getTrackdata(), $activity->getRoute());
                 }
 
-                $activity->getRoute()->setLock(false);
-                $activity->getTrackdata()->setLock(false);
+                $activity->getRoute()
+                    ->setLock(false);
+                $activity->getTrackdata()
+                    ->setLock(false);
 
                 $em->persist($activity);
 
@@ -145,13 +149,13 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         if ($trackData->hasCadence()) {
             $numCadence = count($trackData->getCadence());
 
-            if ($numCadence != $expectedSize) {
+            if ($numCadence !== $expectedSize) {
                 $cadence = $trackData->getCadence();
 
-                if ($numCadence == $expectedSize + 1) {
+                if ($numCadence === $expectedSize + 1) {
                     $cadence = array_slice($cadence, 1);
                     $this->logMessage(sprintf('#%u: cadence array fixed.', $trackData->getActivity()->getId()));
-                } elseif ($numCadence == $expectedSize - 1) {
+                } elseif ($numCadence === $expectedSize - 1) {
                     array_unshift($cadence, $cadence[0]);
                     $this->logMessage(sprintf('#%u: cadence array fixed.', $trackData->getActivity()->getId()));
                 } else {
@@ -166,13 +170,13 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         if ($trackData->hasHeartrate()) {
             $numHeartRate = count($trackData->getHeartrate());
 
-            if ($numHeartRate != $expectedSize) {
+            if ($numHeartRate !== $expectedSize) {
                 $heartRate = $trackData->getHeartrate();
 
-                if ($numHeartRate == $expectedSize + 1) {
+                if ($numHeartRate === $expectedSize + 1) {
                     $heartRate = array_slice($heartRate, 1);
                     $this->logMessage(sprintf('#%u: heart rate array fixed.', $trackData->getActivity()->getId()));
-                } elseif ($numHeartRate == $expectedSize - 1) {
+                } elseif ($numHeartRate === $expectedSize - 1) {
                     array_unshift($heartRate, $heartRate[0]);
                     $this->logMessage(sprintf('#%u: heart rate array fixed.', $trackData->getActivity()->getId()));
                 } else {
@@ -211,30 +215,24 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         }
     }
 
-    /**
-     * @param EntityManager $em
-     * @return int
-     */
     protected function getNumberOfLockedRoutes(EntityManager $em): int
     {
         return (int) $em->createQueryBuilder()
             ->select('count(r.id)')
             ->where('r.lock = 1')
             ->from('CoreBundle:Route', 'r')
-            ->getQuery()->getSingleScalarResult();
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
-    /**
-     * @param EntityManager $em
-     * @return int
-     */
     protected function getNumberOfLockedTrackData(EntityManager $em): int
     {
         return (int) $em->createQueryBuilder()
             ->select('count(t.activity)')
             ->where('t.lock = 1')
             ->from('CoreBundle:Trackdata', 't')
-            ->getQuery()->getSingleScalarResult();
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function down(Schema $schema): void

@@ -8,8 +8,6 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 class Pace extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

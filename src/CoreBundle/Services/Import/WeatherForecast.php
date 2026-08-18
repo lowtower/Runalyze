@@ -39,7 +39,6 @@ class WeatherForecast
     }
 
     /**
-     * @param Location $location
      * @return null|\Runalyze\Parser\Activity\Common\Data\WeatherData
      */
     public function loadForecast(Location $location)

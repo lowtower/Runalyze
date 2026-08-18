@@ -21,7 +21,8 @@ class AccountController extends Controller
      */
     protected function getAccountRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Account');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Account');
     }
 
     /**
@@ -30,8 +31,10 @@ class AccountController extends Controller
     public function deleteAccountConfirmedAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         if ($this->getAccountRepository()->deleteByHash($hash)) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
+            $this->get('security.token_storage')
+                ->setToken(null);
+            $request->getSession()
+                ->invalidate();
 
             return $this->render('account/delete/success.html.twig');
         }
@@ -45,9 +48,10 @@ class AccountController extends Controller
     public function deleteAccountAction($hash): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Account|null $account */
-        $account = $this->getAccountRepository()->findOneBy([
-            'deletionHash' => $hash
-        ]);
+        $account = $this->getAccountRepository()
+            ->findOneBy([
+                'deletionHash' => $hash
+            ]);
 
         if (null === $account) {
             return $this->render('account/delete/problem.html.twig');
@@ -65,9 +69,10 @@ class AccountController extends Controller
     public function recoverForHashAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Account|null $account */
-        $account = $this->getAccountRepository()->findOneBy(array(
-            'changepwHash' => $hash
-        ));
+        $account = $this->getAccountRepository()
+            ->findOneBy(array(
+                'changepwHash' => $hash
+            ));
 
         if (null === $account) {
             return $this->render('account/recover/hash_invalid.html.twig', [
@@ -79,13 +84,15 @@ class AccountController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $encoder = $this->container->get('security.encoder_factory')->getEncoder($account);
+            $encoder = $this->container->get('security.encoder_factory')
+                ->getEncoder($account);
 
             $account->setNewSalt();
             $account->setPassword($encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
             $account->removeChangePasswordHash();
 
-            $this->getAccountRepository()->save($account);
+            $this->getAccountRepository()
+                ->save($account);
 
             return $this->render('account/recover/success.html.twig');
         }
@@ -112,17 +119,21 @@ class AccountController extends Controller
 
         if ($form->isSubmitted()) {
             /** @var Account|null $account */
-            $account = $this->getAccountRepository()->loadUserByUsername([
-                $request->request->get($form->getName())['username']
-            ]);
+            $account = $this->getAccountRepository()
+                ->loadUserByUsername([
+                    $request->request->get($form->getName())['username']
+                ]);
 
             if (null === $account) {
-                $form->get('username')->addError(new FormError($this->get('translator')->trans('The username is not known.')));
+                $form->get('username')
+                    ->addError(new FormError($this->get('translator')->trans('The username is not known.')));
             } else {
                 $account->setNewChangePasswordHash();
-                $this->getAccountRepository()->save($account);
+                $this->getAccountRepository()
+                    ->save($account);
 
-                $this->get('app.mailer.account')->sendRecoverPasswordLinkTo($account);
+                $this->get('app.mailer.account')
+                    ->sendRecoverPasswordLinkTo($account);
 
                 return $this->render('account/recover/mail_delivered.html.twig');
             }

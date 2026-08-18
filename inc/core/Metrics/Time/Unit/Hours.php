@@ -10,8 +10,6 @@ class Hours extends AbstractTimeUnit implements FormattableUnitInterface
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -19,17 +17,11 @@ class Hours extends AbstractTimeUnit implements FormattableUnitInterface
         return 'h';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 1/3600;
     }
 
-    /**
-     * @return int
-     */
     public function getDecimals(): int
     {
         return 1;

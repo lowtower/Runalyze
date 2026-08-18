@@ -21,12 +21,11 @@ class Set extends \Runalyze\Parameter {
 	 */
 	const SEPARATOR = ',';
 
-	/**
-	 * Array to string
-	 * @param array $array
-	 * @return string
-	 */
-	public static function arrayToString(array $array) {
+    /**
+     * Array to string
+     * @return string
+     */
+    public static function arrayToString(array $array) {
 		$string = '';
 		$stringLength = 0;
 		$separatorLength = strlen(self::SEPARATOR);
@@ -34,7 +33,7 @@ class Set extends \Runalyze\Parameter {
 		foreach (array_reverse($array) as $value) {
 			$valueLength = strlen($value);
 
-			if ($stringLength == 0 && $valueLength <= Parameter::MAX_LENGTH) {
+			if ($stringLength === 0 && $valueLength <= Parameter::MAX_LENGTH) {
 				$string = $value;
 			} elseif ($stringLength + $separatorLength + $valueLength <= Parameter::MAX_LENGTH) {
 				$string = $value.self::SEPARATOR.$string;
@@ -49,13 +48,12 @@ class Set extends \Runalyze\Parameter {
 		return $string;
 	}
 
-	/**
-	 * Construct
-	 * @param array $default
-	 * @param array $options [optional]
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(array $default, $options = array()) {
+    /**
+     * Construct
+     * @param array $options [optional]
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(array $default, $options = array()) {
 		if (! is_array($default)) {
 			// Typehint in constructor does not fetch this
 			throw new \InvalidArgumentException('Parameter\Set needs an array as default value.');

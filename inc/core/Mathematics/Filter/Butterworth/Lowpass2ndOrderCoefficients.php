@@ -5,7 +5,7 @@ namespace Runalyze\Mathematics\Filter\Butterworth;
 class Lowpass2ndOrderCoefficients extends AbstractButterworthCoefficients
 {
     /**
-     * @param double $normalizedFrequency
+     * @param float $normalizedFrequency
      */
     protected function calculateCoefficients($normalizedFrequency)
     {

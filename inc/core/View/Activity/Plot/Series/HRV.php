@@ -42,11 +42,10 @@ class HRV extends ActivityPointSeries {
 		$this->initHRVData($context->hrv());
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\Model\HRV\Entity $hrv
-	 */
-	protected function initHRVData(Model\HRV\Entity $hrv) {
+    /**
+     * Init data
+     */
+    protected function initHRVData(Model\HRV\Entity $hrv) {
 		if (count($this->XAxisData) == $hrv->num()) {
 			$this->XAxis = DataCollector::X_AXIS_TIME;
 			$this->Data = array_combine($this->XAxisData, $hrv->data());
@@ -56,18 +55,19 @@ class HRV extends ActivityPointSeries {
 		}
 	}
 
-	/**
-	 * Determine correct x axis
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function determineXAxis(Activity\Context $context) {
+    /**
+     * Determine correct x axis
+     */
+    protected function determineXAxis(Activity\Context $context) {
 		if ($context->hasTrackdata()) {
-			$totalTime = 1000 * $context->trackdata()->totalTime();
+			$totalTime = 1000 * $context->trackdata()
+			    ->totalTime();
 
 			if ($context->hrv()->num() == $context->trackdata()->num()) {
 				$this->XAxisData = array_map(function($value) {
 					return 1000 * $value;
-				}, $context->trackdata()->time());
+				}, $context->trackdata()
+				    ->time());
 			} else {
 				$correctTime = abs(array_sum($context->hrv()->data()) - $totalTime) > 0.005 * $totalTime;
 				$time = 0;

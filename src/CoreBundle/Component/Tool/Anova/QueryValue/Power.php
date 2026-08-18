@@ -12,10 +12,6 @@ class Power extends AbstractOneColumnValue
         return 'power';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return Watts
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Power\Unit\Watts
     {
         return new Watts();

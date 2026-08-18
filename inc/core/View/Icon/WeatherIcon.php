@@ -86,8 +86,6 @@ abstract class WeatherIcon extends \Runalyze\View\Icon {
 			$code .= '<i class="'.$this->Layer.'"></i>';
 		}
 
-		$code .= '</i>';
-
-		return $code;
+		return $code . '</i>';
 	}
 }

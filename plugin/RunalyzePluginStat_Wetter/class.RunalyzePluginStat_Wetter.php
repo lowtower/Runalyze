@@ -23,19 +23,17 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	/** @var array array(id => name) */
 	protected $AllTypes = array();
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Weather');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Statistics about weather conditions and temperatures.');
 	}
 
@@ -68,20 +66,22 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		$Configuration->addValue($Types);
 
 		if (isset($_GET['dat']) && isset($this->AllTypes[$_GET['dat']])) {
-			$Configuration->object('equipment_type')->setValue($_GET['dat']);
+			$Configuration->object('equipment_type')
+			    ->setValue($_GET['dat']);
 			$Configuration->update('equipment_type');
 			Cache::delete(PluginConfiguration::CACHE_KEY);
 		}
 
 		$this->setConfiguration($Configuration);
-		$this->EquipmentTypeId = (int) $this->Configuration()->value('equipment_type');
+		$this->EquipmentTypeId = (int) $this->Configuration()
+		    ->value('equipment_type');
 	}
 
-	/**
-	 * Get own links for toolbar navigation
-	 * @return array
-	 */
-	protected function getToolbarNavigationLinks(): array {
+    /**
+     * Get own links for toolbar navigation
+     * @return string[]
+     */
+    protected function getToolbarNavigationLinks(): array {
 		$LinkList = array();
 		$LinkList[] = '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php">'.Ajax::tooltip(Icon::$LINE_CHART, __('Show temperature plots')).'</a>').'</li>';
 
@@ -176,9 +176,6 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		echo '</p>';
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function knowsEquipmentType(): bool {
 		return ($this->EquipmentTypeId > 0) && isset($this->AllTypes[$this->EquipmentTypeId]);
 	}

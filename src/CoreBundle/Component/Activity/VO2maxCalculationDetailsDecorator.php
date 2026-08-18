@@ -26,7 +26,8 @@ class VO2maxCalculationDetailsDecorator
     public function getPercentVO2maxVelocityByHeartRate(): int
     {
         return (int) round(100.0 * LegacyEffectiveVO2max::percentageAt(
-            $this->Context->getActivity()->getPulseAvg() / $this->ConfigurationList->getMaximalHeartRate()
+            $this->Context->getActivity()
+                ->getPulseAvg() / $this->ConfigurationList->getMaximalHeartRate()
         ));
     }
 
@@ -35,7 +36,8 @@ class VO2maxCalculationDetailsDecorator
      */
     public function getCorrectedVO2max()
     {
-        return $this->Context->getActivity()->getVO2max() * $this->ConfigurationList->getVO2maxCorrectionFactor();
+        return $this->Context->getActivity()
+            ->getVO2max() * $this->ConfigurationList->getVO2maxCorrectionFactor();
     }
 
     /**
@@ -43,22 +45,25 @@ class VO2maxCalculationDetailsDecorator
      */
     public function getCorrectedVO2maxWithElevationAdjustment()
     {
-        return $this->Context->getActivity()->getVO2maxWithElevation() * $this->ConfigurationList->getVO2maxCorrectionFactor();
+        return $this->Context->getActivity()
+            ->getVO2maxWithElevation() * $this->ConfigurationList->getVO2maxCorrectionFactor();
     }
 
-    /**
-     * @return DistanceModifier
-     */
     public function getDistanceModifierForElevationAdjustment(): \Runalyze\Calculation\Elevation\DistanceModifier
     {
         $modifier = new DistanceModifier(
-            $this->Context->getActivity()->getDistance(),
-            $this->Context->getDecorator()->getElevationUp(),
-            $this->Context->getDecorator()->getElevationDown()
+            $this->Context->getActivity()
+                ->getDistance(),
+            $this->Context->getDecorator()
+                ->getElevationUp(),
+            $this->Context->getDecorator()
+                ->getElevationDown()
         );
         $modifier->setCorrectionValues(
-            $this->ConfigurationList->getVO2max()->getAdditionalDistancePerPositiveElevation(),
-            $this->ConfigurationList->getVO2max()->getAdditionalDistancePerNegativeElevation()
+            $this->ConfigurationList->getVO2max()
+                ->getAdditionalDistancePerPositiveElevation(),
+            $this->ConfigurationList->getVO2max()
+                ->getAdditionalDistancePerNegativeElevation()
         );
 
         return $modifier;

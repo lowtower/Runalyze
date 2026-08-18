@@ -27,10 +27,8 @@ class Shape
     protected $Value;
 
     /**
-     * @param PDO $database
      * @param int $accountid
      * @param int $sportid for running
-     * @param \Runalyze\Configuration\Category\VO2max $config
      */
     public function __construct(PDO $database, $accountid, $sportid, Configuration\Category\VO2max $config)
     {
@@ -40,9 +38,6 @@ class Shape
         $this->Configuration = $config;
     }
 
-    /**
-     * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector
-     */
     public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector)
     {
         $this->Corrector = $corrector;
@@ -86,7 +81,6 @@ class Shape
      * Depends on configuration: `vo2max`*`s`*`use_vo2max` or `vo2max_with_elevation`*`s`*`use_vo2max`
      *
      * @param bool $withElevation
-     * @return string
      */
     public static function mysqlVO2maxSum($withElevation = false): string
     {
@@ -99,7 +93,6 @@ class Shape
      * `s`*`use_vo2max`
      *
      * @param bool $withElevation
-     * @return string
      */
     public static function mysqlVO2maxSumTime($withElevation = false): string
     {

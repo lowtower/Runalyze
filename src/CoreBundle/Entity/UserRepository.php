@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return User[]
      */
     public function findAllFor(Account $account)
@@ -21,7 +20,6 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return int|null [bpm]
      */
     public function getCurrentRestingHeartRate(Account $account)
@@ -40,7 +38,6 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return int|null [bpm]
      */
     public function getCurrentMaximalHeartRate(Account $account)
@@ -58,10 +55,6 @@ class UserRepository extends EntityRepository
         return $result ? (int) $result['pulseMax'] : null;
     }
 
-    /**
-     * @param User $user
-     * @param Account $account
-     */
     public function save(User $user, Account $account)
     {
         $this->_em->persist($user);
@@ -69,7 +62,6 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return null|User
      */
     public function getLatestEntryFor(Account $account)
@@ -83,9 +75,6 @@ class UserRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param User $user
-     */
     public function remove(User $user)
     {
         $this->_em->remove($user);

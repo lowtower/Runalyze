@@ -105,16 +105,14 @@ abstract class AbstractKey
 		return '';
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	abstract public function stringFor(Context $context);
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    abstract public function stringFor(Context $context);
 
     /**
      * Get string to display this dataset value for fake data
-     * @param \Runalyze\Dataset\Context $context
      * @return string
      */
     public function stringForExample(Context $context)
@@ -170,13 +168,12 @@ abstract class AbstractKey
 		return '';
 	}
 
-	/**
-	 * returns a value dependend CSS class and style.
-	 * #TSC
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return array with key "class" and "style"
-	 */
-	public function valueDependendCssStyle(Context $context)
+    /**
+     * returns a value dependend CSS class and style.
+     * #TSC
+     * @return array with key "class" and "style"
+     */
+    public function valueDependendCssStyle(Context $context)
 	{
 		return null;
 	}

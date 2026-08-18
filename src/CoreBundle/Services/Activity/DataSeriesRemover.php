@@ -101,7 +101,6 @@ class DataSeriesRemover
 
     /**
      * @param mixed $formData
-     * @param Training $activity
      */
     public function handleRequest($formData, Training $activity)
     {
@@ -290,26 +289,16 @@ class DataSeriesRemover
         }
     }
 
-    /**
-     * @param Training $activity
-     * @return array
-     */
     public static function getChoicesForActivity(Training $activity): array
     {
-        $choices = array_merge(
+        return array_merge(
             self::getChoicesForTrackData($activity->getTrackdata()),
             self::getChoicesForTrackDataForRunScribe($activity->getTrackdata()),
             self::getChoicesForRoute($activity->getRoute()),
             self::getChoicesForHrv($activity->getHrv())
         );
-
-        return $choices;
     }
 
-    /**
-     * @param Trackdata|null $trackData
-     * @return array
-     */
     private static function getChoicesForTrackData(?Trackdata $trackData = null): array
     {
         $choices = [];
@@ -381,10 +370,6 @@ class DataSeriesRemover
         return $choices;
     }
 
-    /**
-     * @param Trackdata|null $trackData
-     * @return array
-     */
     private static function getChoicesForTrackDataForRunScribe(?Trackdata $trackData = null): array
     {
         $choices = [];
@@ -428,10 +413,6 @@ class DataSeriesRemover
         return $choices;
     }
 
-    /**
-     * @param Route|null $route
-     * @return array
-     */
     private static function getChoicesForRoute(?Route $route = null): array
     {
         $choices = [];
@@ -455,10 +436,6 @@ class DataSeriesRemover
         return $choices;
     }
 
-    /**
-     * @param Hrv|null $hrv
-     * @return array
-     */
     private static function getChoicesForHrv(?Hrv $hrv = null): array
     {
         if (null === $hrv) {

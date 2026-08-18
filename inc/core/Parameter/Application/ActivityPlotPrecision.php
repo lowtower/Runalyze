@@ -35,35 +35,31 @@ class ActivityPlotPrecision extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Break by distance?
-	 * @return bool
-	 */
-	public function byDistance(): bool {
+    /**
+     * Break by distance?
+     */
+    public function byDistance(): bool {
 		return (substr($this->value(), -1) == 'm');
 	}
 
-	/**
-	 * Distance in m
-	 * @return int
-	 */
-	public function distanceStep(): int {
+    /**
+     * Distance in m
+     */
+    public function distanceStep(): int {
 		return (int) substr($this->value(), 0, -1);
 	}
 
-	/**
-	 * Break by number of points?
-	 * @return bool
-	 */
-	public function byPoints(): bool {
+    /**
+     * Break by number of points?
+     */
+    public function byPoints(): bool {
 		return (substr($this->value(), -6) == 'points');
 	}
 
-	/**
-	 * Number of points
-	 * @return int
-	 */
-	public function numberOfPoints(): int {
+    /**
+     * Number of points
+     */
+    public function numberOfPoints(): int {
 		return (int) substr($this->value(), 0, -6);
 	}
 }

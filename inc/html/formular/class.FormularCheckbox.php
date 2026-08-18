@@ -12,13 +12,13 @@
 class FormularCheckbox extends FormularField {
 	/**
 	 * Boolean flag: label is on the right side
-	 * @var boolean
+	 * @var bool
 	 */
 	private $labelOnRight = false;
 
 	/**
 	 * Boolean flag: add hidden field with '..._sent'
-	 * @var boolean
+	 * @var bool
 	 */
 	private $addHiddenSent = false;
 
@@ -60,11 +60,10 @@ class FormularCheckbox extends FormularField {
 		$this->addHiddenSent = true;
 	}
 
-	/**
-	 * Display this field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Display this field
+     */
+    protected function getFieldCode(): string {
 		$label = '<label class="checkable" for="'.$this->name.'">'.$this->label.'</label>';
 		$input = '<input '.$this->attributes().'>';
 

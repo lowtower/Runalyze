@@ -37,7 +37,8 @@ class TableLapsComputed extends TableLapsAbstract {
 	 */
 	protected function constructLaps() {
 		$singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
-		$totalDistance = $this->Context->trackdata()->totalDistance();
+		$totalDistance = $this->Context->trackdata()
+		    ->totalDistance();
 
 		if ($totalDistance < 2*$singleDistance) {
 			$Distances = array($singleDistance);
@@ -57,8 +58,10 @@ class TableLapsComputed extends TableLapsAbstract {
 	 * Display data
 	 */
 	protected function setDataToCode() {
-		$showCellForHeartrate = $this->Context->trackdata()->has(Trackdata\Entity::HEARTRATE);
-		$showCellForElevation = $this->Context->hasRoute() && $this->Context->route()->hasElevations();
+		$showCellForHeartrate = $this->Context->trackdata()
+		    ->has(Trackdata\Entity::HEARTRATE);
+		$showCellForElevation = $this->Context->hasRoute() && $this->Context->route()
+		    ->hasElevations();
 
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';
@@ -73,9 +76,11 @@ class TableLapsComputed extends TableLapsAbstract {
 
 		$this->Code .= '<tbody>';
 
-		$unit = $this->Context->sport()->legacyPaceUnit();
+		$unit = $this->Context->sport()
+		    ->legacyPaceUnit();
 		foreach ($this->Laps->objects() as $Lap) {
-			$Lap->pace()->setUnit($unit);
+			$Lap->pace()
+			    ->setUnit($unit);
 
 			$this->Code .= '<tr class="r">';
 			$this->Code .= '<td>'.$Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable).'</td>';

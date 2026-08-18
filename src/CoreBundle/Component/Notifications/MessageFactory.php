@@ -12,7 +12,6 @@ use Runalyze\Profile\Notifications\MessageTypeProfile;
 class MessageFactory
 {
     /**
-     * @param Notification $notification
      * @return MessageInterface
      */
     public function getMessage(Notification $notification)

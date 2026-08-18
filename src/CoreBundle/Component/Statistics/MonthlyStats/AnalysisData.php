@@ -118,9 +118,6 @@ class AnalysisData
         return $this->AnalysisSelection;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty($this->Data);

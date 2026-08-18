@@ -26,21 +26,19 @@ class SharedLinker {
 	 */
 	public static $USER_ID = 0;
 
-	/**
-	 * Is the user on the shared page?
-	 * @return boolean
-	 */
-	public static function isOnSharedPage(): bool {
+    /**
+     * Is the user on the shared page?
+     */
+    public static function isOnSharedPage(): bool {
 		return in_array('shared', explode('/', Request::Uri())) || in_array('athlete', explode('/', Request::Uri()));
 	}
 
-	/**
-	 * Get link to a given training
-	 * @param int $trainingID
-	 * @param string $text [optional]
-	 * @return string
-	 */
-	public static function getStandardLinkTo($trainingID, $text = null): string {
+    /**
+     * Get link to a given training
+     * @param int $trainingID
+     * @param string $text [optional]
+     */
+    public static function getStandardLinkTo($trainingID, $text = null): string {
 		if (null === $text) {
 			$text = Icon::$ATTACH;
 		}
@@ -48,12 +46,11 @@ class SharedLinker {
 		return '<a href="'.self::getUrlFor($trainingID).'" target="_blank">'.$text.'</a>';
 	}
 
-	/**
-	 * Get link to shared list for current user
-	 * @param string $text [optional]
-	 * @return string
-	 */
-	public static function getListLinkForCurrentUser($text = null): string {
+    /**
+     * Get link to shared list for current user
+     * @param string $text [optional]
+     */
+    public static function getListLinkForCurrentUser($text = null): string {
         if (null === $text) {
             $text = '<i class="fa fa-fw fa-id-card-o"></i>';
         }
@@ -65,11 +62,10 @@ class SharedLinker {
         }
     }
 
-	/**
-	 * Get training ID from request
-	 * @return int
-	 */
-	public static function getTrainingId(): int {
+    /**
+     * Get training ID from request
+     */
+    public static function getTrainingId(): int {
 		return self::urlToId( Request::param('url') );
 	}
 
@@ -99,30 +95,27 @@ class SharedLinker {
 		return self::$USER_ID;
 	}
 
-	/**
-	 * Get URL for a given training
-	 * @param int $trainingID
-	 * @return string
-	 */
-	public static function getUrlFor($trainingID): string {
+    /**
+     * Get URL for a given training
+     * @param int $trainingID
+     */
+    public static function getUrlFor($trainingID): string {
 		return self::$URL.self::idToUrl($trainingID);
 	}
 
-	/**
-	 * Transform given ID to url
-	 * @param int $id
-	 * @return string
-	 */
-	private static function idToUrl($id): string {
+    /**
+     * Transform given ID to url
+     * @param int $id
+     */
+    private static function idToUrl($id): string {
 		return base_convert((int) $id, 10, 35);
 	}
 
-	/**
-	 * Transform given url to ID
-	 * @param string $url
-	 * @return int
-	 */
-	private static function urlToId($url): int {
+    /**
+     * Transform given url to ID
+     * @param string $url
+     */
+    private static function urlToId($url): int {
 		return (int) base_convert((string) $url, 35, 10);
 	}
 }

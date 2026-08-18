@@ -51,35 +51,31 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Uses none
-	 * @return bool
-	 */
-	public function usesNone(): bool {
+    /**
+     * Uses none
+     */
+    public function usesNone(): bool {
 		return ($this->value() == self::NONE);
 	}
 
-	/**
-	 * Uses: Threshold
-	 * @return bool
-	 */
-	public function usesThreshold(): bool {
+    /**
+     * Uses: Threshold
+     */
+    public function usesThreshold(): bool {
 		return ($this->value() == self::THRESHOLD);
 	}
 
-	/**
-	 * Uses: Douglas-Peucker
-	 * @return bool
-	 */
-	public function usesDouglasPeucker(): bool {
+    /**
+     * Uses: Douglas-Peucker
+     */
+    public function usesDouglasPeucker(): bool {
 		return ($this->value() == self::DOUGLAS_PEUCKER);
 	}
 
-	/**
-	 * Uses: Reumann-Witkam
-	 * @return bool
-	 */
-	public function usesReumannWitkam(): bool {
+    /**
+     * Uses: Reumann-Witkam
+     */
+    public function usesReumannWitkam(): bool {
 		return ($this->value() == self::REUMANN_WITKAM);
 	}
 }

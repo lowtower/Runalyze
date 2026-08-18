@@ -9,7 +9,6 @@ use Runalyze\Util\LocalTime;
 class NightDetector
 {
     /**
-     * @param Training $activity
      * @return bool|null
      */
     public function isActivityAtNight(Training $activity)
@@ -22,7 +21,8 @@ class NightDetector
         $detector = new \Runalyze\Calculation\NightDetector();
         $detector->setFrom(
             (new LocalTime($activity->getTime()))->toServerTimestamp() + 0.5 * $activity->getS(),
-            (new Geohash())->decode($activity->getRoute()->getStartpoint())->getCoordinate()
+            (new Geohash())->decode($activity->getRoute()->getStartpoint())
+                ->getCoordinate()
         );
 
         return $detector->isNight();

@@ -17,9 +17,6 @@ class Version20170715090403 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -31,9 +28,6 @@ class Version20170715090403 extends AbstractMigration implements ContainerAwareI
         $this->addSql('ALTER TABLE `'.$prefix.'sport` ADD FOREIGN KEY (default_typeid) REFERENCES `'.$prefix.'type` (id) ON DELETE SET NULL ON UPDATE CASCADE');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
     }

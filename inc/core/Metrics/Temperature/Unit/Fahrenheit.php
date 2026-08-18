@@ -5,8 +5,6 @@ namespace Runalyze\Metrics\Temperature\Unit;
 class Fahrenheit extends AbstractTemperatureUnit
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -16,7 +14,6 @@ class Fahrenheit extends AbstractTemperatureUnit
 
     /**
      * @param mixed $valueInThisUnit
-     * @return mixed
      */
     public function toBaseUnit($valueInThisUnit): float
     {
@@ -25,7 +22,6 @@ class Fahrenheit extends AbstractTemperatureUnit
 
     /**
      * @param mixed $valueInBaseUnit
-     * @return mixed
      */
     public function fromBaseUnit($valueInBaseUnit): float
     {

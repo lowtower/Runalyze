@@ -39,19 +39,17 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Is celsius?
-	 * @return bool
-	 */
-	public function isCelsius(): bool {
+    /**
+     * Is celsius?
+     */
+    public function isCelsius(): bool {
 		return ($this->value() == self::CELSIUS);
 	}
 
-	/**
-	 * Is fahrenheit?
-	 * @return bool
-	 */
-	public function isFahrenheit(): bool {
+    /**
+     * Is fahrenheit?
+     */
+    public function isFahrenheit(): bool {
 		return ($this->value() == self::FAHRENHEIT);
 	}
 

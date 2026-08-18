@@ -46,9 +46,6 @@ class Condition
 		return $this->identifier;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isUnknown(): bool
 	{
 		return (WeatherConditionProfile::UNKNOWN == $this->identifier);
@@ -86,9 +83,6 @@ class Condition
 		}
 	}
 
-	/**
-	 * @return string
-	 */
 	public function string(): string
 	{
 		switch ($this->identifier) {

@@ -16,19 +16,17 @@ class FormularSelectSearchSort extends FormularField {
 	/** @var array */
 	protected $SortByOptions = [];
 
-	/**
-	 * Validate value
-	 * @return boolean
-	 */
-	public function validate(): bool {
+    /**
+     * Validate value
+     */
+    public function validate(): bool {
 		return true;
 	}
 
-	/**
-	 * Get code for displaying the field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Get code for displaying the field
+     */
+    protected function getFieldCode(): string {
 		$code  = '<label>'.$this->label.'</label>';
 		$code .= '<div class="full-size left">';
 
@@ -86,9 +84,7 @@ class FormularSelectSearchSort extends FormularField {
 		    'ASC' => __('ascending')
 		));
 
-		$code .= '</div>';
-
-		return $code;
+		return $code . '</div>';
 	}
 
     /**

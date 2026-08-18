@@ -83,7 +83,8 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0, $route->getElevationDown());
         $this->assertEquals(30, $route->getElevation());
 
-        $this->EntityManager->getUnitOfWork()->refresh($route);
+        $this->EntityManager->getUnitOfWork()
+            ->refresh($route);
 
         $this->assertEquals(30, $route->getElevationUp());
         $this->assertEquals(0, $route->getElevationDown());
@@ -97,7 +98,8 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(20, $route->getElevationDown());
         $this->assertEquals(20, $route->getElevation());
 
-        $this->EntityManager->getUnitOfWork()->refresh($route);
+        $this->EntityManager->getUnitOfWork()
+            ->refresh($route);
 
         $this->assertEquals(0, $route->getElevationUp());
         $this->assertEquals(20, $route->getElevationDown());

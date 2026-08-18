@@ -12,10 +12,6 @@ class PronationExcursionRight extends AbstractOneColumnValue
         return 'avgPronationExcursionRight';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return Simple
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
     {
         return new Simple('°');

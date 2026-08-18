@@ -50,17 +50,15 @@ class PerformanceCondition implements ValueInterface
 		$this->set($value);
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
     {
 		return __('Performance condition');
 	}
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
@@ -68,12 +66,11 @@ class PerformanceCondition implements ValueInterface
         return __('PC');
     }
 
-	/**
-	 * Unit
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     * @codeCoverageIgnore
+     */
+    public function unit(): string
     {
 		return '';
 	}
@@ -125,9 +122,6 @@ class PerformanceCondition implements ValueInterface
 		return $this->Value;
 	}
 
-    /**
-     * @return bool
-     */
     public function isKnown(): bool
     {
         return (null !== $this->Value);

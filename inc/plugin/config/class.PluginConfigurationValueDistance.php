@@ -31,7 +31,8 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 	public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '') {
 		parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
-		$this->DefaultValue *= $this->unitSystem()->distanceToPreferredUnitFactor();
+		$this->DefaultValue *= $this->unitSystem()
+		    ->distanceToPreferredUnitFactor();
 	}
 
 	/**
@@ -56,11 +57,10 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 		}
 	}
 
-	/**
-	 * Display row for config form
-	 * @return FormularInput
-	 */
-	public function getFormField(): \FormularInput {
+    /**
+     * Display row for config form
+     */
+    public function getFormField(): \FormularInput {
 		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
 		$Field->setSize( FormularInput::$SIZE_SMALL );
 

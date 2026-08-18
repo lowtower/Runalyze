@@ -186,7 +186,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param ProfileInterface $profile
      * @return $this
      */
     public function setDataFrom(ProfileInterface $profile)
@@ -445,8 +444,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param EquipmentType|null $mainEquipmenttype
-     *
      * @return $this
      */
     public function setMainEquipmenttype(?EquipmentType $mainEquipmenttype = null)
@@ -465,8 +462,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param Type|null $defaultType
-     *
      * @return $this
      */
     public function setDefaultType(?Type $defaultType = null)
@@ -517,9 +512,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasInternalSportId(): bool
     {
         return null !== $this->internalSportId && SportProfile::GENERIC != $this->internalSportId;
@@ -553,8 +545,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -573,8 +563,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     }
 
     /**
-     * @param EquipmentType $equipmentType
-     *
      * @return $this
      */
     public function addEquipmentType(EquipmentType $equipmentType)
@@ -584,9 +572,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this;
     }
 
-    /**
-     * @param EquipmentType $equipmentType
-     */
     public function removeEquipmentType(EquipmentType $equipmentType)
     {
         $this->equipmentType->removeElement($equipmentType);
@@ -600,9 +585,6 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         return $this->equipmentType;
     }
 
-    /**
-     * @return bool
-     */
     public function hasEquipmentTypes(): bool
     {
         return ! $this->equipmentType->isEmpty();

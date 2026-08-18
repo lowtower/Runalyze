@@ -29,13 +29,12 @@ class Elevation implements ValueInterface
 	 */
 	protected $UnitSystem;
 
-	/**
-	 * Format elevation
-	 * @param int $meter
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public static function format($meter, $withUnit = true): string
+    /**
+     * Format elevation
+     * @param int $meter
+     * @param bool $withUnit
+     */
+    public static function format($meter, $withUnit = true): string
 	{
 		return (new self($meter))->string($withUnit);
 	}
@@ -50,20 +49,18 @@ class Elevation implements ValueInterface
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
-	/**
-	 * Label for elevation
-	 * @return string
-	 */
-	public function label(): string
+    /**
+     * Label for elevation
+     */
+    public function label(): string
 	{
 		return __('Elevation');
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     */
+    public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return DistanceUnitSystem::FEET;
@@ -119,17 +116,11 @@ class Elevation implements ValueInterface
 		return round($this->Meter);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function meter(): float
 	{
 		return round($this->Meter);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function feet(): float
 	{
 		return round($this->Meter * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
@@ -147,12 +138,11 @@ class Elevation implements ValueInterface
 		return $this->meter();
 	}
 
-	/**
-	 * Format value as string
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function string($withUnit = true): string
+    /**
+     * Format value as string
+     * @param bool $withUnit
+     */
+    public function string($withUnit = true): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringFeet($withUnit);
@@ -161,20 +151,18 @@ class Elevation implements ValueInterface
 		return $this->stringMeter($withUnit);
 	}
 
-	/**
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function stringMeter($withUnit = true): string
+    /**
+     * @param bool $withUnit
+     */
+    public function stringMeter($withUnit = true): string
 	{
 		return number_format($this->Meter, 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
 	}
 
-	/**
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function stringFeet($withUnit = true): string
+    /**
+     * @param bool $withUnit
+     */
+    public function stringFeet($withUnit = true): string
 	{
 		return number_format($this->feet(), 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
 	}

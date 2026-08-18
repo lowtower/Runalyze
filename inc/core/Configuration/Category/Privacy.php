@@ -18,11 +18,10 @@ use Ajax;
  * @package Runalyze\Configuration\Category
  */
 class Privacy extends \Runalyze\Configuration\Category {
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'privacy';
 	}
 
@@ -72,14 +71,14 @@ class Privacy extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('TRAINING_LIST_PUBLIC')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+		$this->handle('TRAINING_LIST_PUBLIC')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Privacy') );
 
         $Fieldset->addInfo( __('You can define the default privacy of new activities by sport type in the associated sport configuration.') );

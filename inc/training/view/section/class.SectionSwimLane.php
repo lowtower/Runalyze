@@ -31,11 +31,10 @@ class SectionSwimLane extends TrainingViewSectionTabbedPlot {
 		return ($this->Context->swimdata()->has(Swimdata\Entity::STROKE));
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'swim-laps';
 	}
 }

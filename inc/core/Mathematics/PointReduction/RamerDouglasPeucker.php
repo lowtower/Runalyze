@@ -12,13 +12,11 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
     protected $Epsilon;
 
     /**
-     * @param array $x
-     * @param array $y
      * @param float $epsilon
      */
     public function __construct(array $x, array $y, $epsilon)
     {
-        if (count($x) != count($y)) {
+        if (count($x) !== count($y)) {
             throw new \InvalidArgumentException('Arrays must be of same size.');
         }
 
@@ -78,8 +76,6 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
     }
 
     /**
-     * @param array $x
-     * @param array $y
      * @param int $index
      * @param int $offset
      * @return array<int, mixed[]> [x_reduced[], y_reduced[]]

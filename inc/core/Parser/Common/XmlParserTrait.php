@@ -9,9 +9,6 @@ trait XmlParserTrait
     /** @var \SimpleXMLElement */
     protected $Xml;
 
-    /**
-     * @param \SimpleXMLElement $xml
-     */
     public function setXml(\SimpleXMLElement $xml)
     {
         $this->Xml = $xml;
@@ -50,7 +47,6 @@ trait XmlParserTrait
 
     /**
      * @param string $content
-     * @return string
      */
     protected function removeBomFromFileContent($content): string
     {

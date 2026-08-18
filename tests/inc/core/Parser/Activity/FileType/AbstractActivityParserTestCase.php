@@ -38,8 +38,6 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     }
 
     /**
-     * @param FileTypeConverterInterface $converter
-     * @param FileContentAwareParserInterface $parser
      * @param string $file file path relative to 'testfiles/'
      * @param string[] $expectedOutputFiles
      * @param bool $completeAfterwards
@@ -81,11 +79,10 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         }
 
         $this->NumberOfActivities = count($tmpContainer);
-        $this->Container = 1 == $this->NumberOfActivities ? $tmpContainer[0] : $tmpContainer;
+        $this->Container = 1 === $this->NumberOfActivities ? $tmpContainer[0] : $tmpContainer;
     }
 
     /**
-     * @param FileContentAwareParserInterface $parser
      * @param string $file file path relative to 'testfiles/'
      * @param bool $completeAfterwards
      */
@@ -95,7 +92,6 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     }
 
     /**
-     * @param FileContentAwareParserInterface $parser
      * @param string $fileContent
      * @param bool $completeAfterwards
      */
@@ -108,7 +104,6 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     }
 
     /**
-     * @param ParserInterface $parser
      * @param bool $completeAfterwards
      * @param bool $runFilter
      */
@@ -150,7 +145,6 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     }
 
     /**
-     * @param ActivityDataContainer $container
      * @param array $expectedRounds [[duration [s], distance [km]], ...]
      * @param int $deltaDuration [s]
      * @param float $deltaDistance [km]
@@ -192,8 +186,6 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      * tests do not create and persist a Training entity and therefore do not
      * invoke ActivityListener::prePersist().
      *
-     * @param ActivityDataContainer $container
-     *
      * @return bool true if a timezone was found and applied
      */
     protected function applyTimezoneLookup(ActivityDataContainer $container)
@@ -229,7 +221,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
         $timestamp = $container->Metadata->getTimestamp();
         $oldOffset = $container->Metadata->getTimezoneOffset();
-        $newOffset = (new \DateTime(null, new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)->getOffset() / 60;
+        $newOffset = (new \DateTime(null, new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)
+            ->getOffset() / 60;
         if ($oldOffset !== null) {
             $timestamp += 60 * ($newOffset - $oldOffset);
         }

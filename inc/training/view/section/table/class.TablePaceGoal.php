@@ -30,9 +30,6 @@ class TablePaceGoal {
 	 */
 	protected $Code = '';
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->distance = new Distance(0);
 

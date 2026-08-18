@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class EquipmentTypeRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return EquipmentType[]
      */
     public function findAllFor(Account $account)
@@ -18,7 +17,6 @@ class EquipmentTypeRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return EquipmentType[]
      */
     public function findSingleChoiceTypesFor(Account $account)

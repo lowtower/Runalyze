@@ -64,8 +64,6 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     /**
      * @param string $url
      * @param string $proxy
-     * @param Client $client
-     * @param LoggerInterface|null $logger
      */
     public function __construct($url, $proxy, Client $client, ?LoggerInterface $logger = null) {
         $this->Url = $url;
@@ -77,9 +75,6 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     /**
      * Retrieves the route-name and some other relevant informations for the route.
      *
-     * @param Sport $sport
-     * @param Route $route
-     * @return null|\Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult
      * @throws Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult {
@@ -127,7 +122,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
                 throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
                 return null;
             } else {
-                $repCont = $response->getBody()->getContents();
+                $repCont = $response->getBody()
+                    ->getContents();
                 // convert TAB from Overpass to | used here; i want to use | it's better to handle ;-)
                 $repCont = str_replace('|', '/', $repCont); // replace existing | (in f.e. names) to /
                 $repCont = str_replace("\t", '|', $repCont); // now replace all TAB to |
@@ -180,8 +176,10 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         $osm .= sprintf('[timeout:%d]', self::TIMEOUT);
 
         // set a (bounding)box for better performance
-		$geoMin = (new Geohash())->decode($route->getMin())->getCoordinate();
-		$geoMax = (new Geohash())->decode($route->getMax())->getCoordinate();
+		$geoMin = (new Geohash())->decode($route->getMin())
+		    ->getCoordinate();
+		$geoMax = (new Geohash())->decode($route->getMax())
+		    ->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
 		$osm .= sprintf(
 		    '[bbox:%.6f,%.6f,%.6f,%.6f];',

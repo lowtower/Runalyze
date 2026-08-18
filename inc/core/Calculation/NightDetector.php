@@ -20,7 +20,6 @@ class NightDetector
 
     /**
      * @param bool|int $timestamp
-     * @param \League\Geotools\Coordinate\CoordinateInterface|null $coordinate
      */
     public function __construct($timestamp = false, ?CoordinateInterface $coordinate = null)
     {
@@ -31,7 +30,6 @@ class NightDetector
 
     /**
      * @param int $timestamp
-     * @param \League\Geotools\Coordinate\CoordinateInterface $coordinate
      * @return \Runalyze\Calculation\NightDetector $this-reference
      * @throws \InvalidArgumentException
      */
@@ -50,8 +48,6 @@ class NightDetector
     }
 
     /**
-     * @param \Runalyze\Model\Activity\Entity $activity
-     * @param \Runalyze\Model\Route\Entity $route
      * @return \Runalyze\Calculation\NightDetector $this-reference
      */
     public function setFromEntities(Activity\Entity $activity, Route\Entity $route)
@@ -69,17 +65,11 @@ class NightDetector
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isKnown(): bool
     {
         return (null !== $this->Value);
     }
 
-    /**
-     * @return bool
-     */
     public function isNight(): bool
     {
         return (1 == $this->Value);

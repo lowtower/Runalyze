@@ -56,7 +56,8 @@ class AnovaType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
+        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
 
         if (! ($account instanceof Account)) {
             throw new \RuntimeException('Anova type must have a valid account token.');
@@ -123,7 +124,8 @@ class AnovaType extends AbstractType
                 'choice_attr' => function($type, $key, $index) {
                     /** @var Type $type */
                     return [
-                        'data-sportid' => $type->getSport()->getId()
+                        'data-sportid' => $type->getSport()
+                            ->getId()
                     ];
                 }
             ])
@@ -180,9 +182,6 @@ class AnovaType extends AbstractType
         ;
     }
 
-    /**
-     * @return array
-     */
     protected function getGroupsForSingleChoiceEquipmentTypes(): array
     {
         $equipmentTypes = $this->EquipmentTypeRepository->findSingleChoiceTypesFor($this->getAccount());
@@ -202,9 +201,6 @@ class AnovaType extends AbstractType
         ]);
     }
 
-    /**
-     * @return string
-     */
     protected function getQueryValueEnumForVO2max(): string
     {
         if ($this->ConfigurationManager->getList()->useVO2maxCorrectionForElevation()) {

@@ -49,7 +49,6 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     /**
      * @param int[] $arraySizes
      * @param bool $sizesHaveBeenFixed
-     * @return string
      */
     protected function getErrorOrLogMessage(array $arraySizes, $sizesHaveBeenFixed = false): string
     {
@@ -64,10 +63,9 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     }
 
     /**
-     * @param ContinuousData $continuousData
      * @return string[] keys
      */
-    protected function getNonEmptyContinuousDataKeys(ContinuousData $continuousData)
+    protected function getNonEmptyContinuousDataKeys(ContinuousData $continuousData): array
     {
         $keys = $continuousData->getPropertyNamesOfArrays();
 
@@ -82,7 +80,6 @@ class NonMatchingArraySizeFilter extends AbstractFilter
 
     /**
      * @param string[] $keys
-     * @param ContinuousData $continuousData
      * @return int[]
      */
     protected function getArraySizes(array $keys, ContinuousData $continuousData): array
@@ -98,7 +95,6 @@ class NonMatchingArraySizeFilter extends AbstractFilter
 
     /**
      * @param int[] $data
-     * @return bool
      */
     protected function areAllElementsEqual(array $data): bool
     {
@@ -123,7 +119,6 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     /**
      * @param int $newSize
      * @param int[] $arraySizes
-     * @param ContinuousData $continuousData
      */
     protected function reduceArrays($newSize, array $arraySizes, ContinuousData $continuousData)
     {

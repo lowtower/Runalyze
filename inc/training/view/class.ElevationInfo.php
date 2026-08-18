@@ -48,9 +48,6 @@ class ElevationInfo {
 	 */
 	protected $calculatedElevation = 0;
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->Context = $context;
 	}
@@ -88,8 +85,10 @@ class ElevationInfo {
 		$this->lowestPoint = min( $this->Context->route()->elevations() );
 		$this->highestPoint = max( $this->Context->route()->elevations() );
 
-		$this->manualElevation = $this->Context->activity()->elevation();
-		$this->calculatedElevation = $this->Context->route()->elevation();
+		$this->manualElevation = $this->Context->activity()
+		    ->elevation();
+		$this->calculatedElevation = $this->Context->route()
+		    ->elevation();
 	}
 
 	/**
@@ -184,12 +183,11 @@ class ElevationInfo {
 		$Fieldset->display();
 	}
 
-	/**
-	 * Get different algorithms for
-	 * @param array $array
-	 * @return string
-	 */
-	protected function getDifferentAlgorithmsFor($array): string {
+    /**
+     * Get different algorithms for
+     * @param array $array
+     */
+    protected function getDifferentAlgorithmsFor($array): string {
 		$Method        = new ElevationMethod();
 		$Calculator    = new Calculation\Elevation\Calculator($array);
 		$TresholdRange = range(1, 10);
@@ -231,9 +229,8 @@ class ElevationInfo {
 		}
 
 		$Code .= '</tbody>';
-		$Code .= '</table>';
 
-		return $Code;
+		return $Code . '</table>';
 	}
 
 	/**

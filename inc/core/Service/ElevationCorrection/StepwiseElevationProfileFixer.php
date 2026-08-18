@@ -30,7 +30,6 @@ class StepwiseElevationProfileFixer
      * Smooth elevation profile if it's composed of constant groups
      *
      * @param array $elevations
-     * @param array $distances
      * @return array
      */
     public function fixStepwiseElevations(?array $elevations = null, array $distances = [])
@@ -69,7 +68,7 @@ class StepwiseElevationProfileFixer
 
     /**
      * @param array<int, mixed> $elevations
-     * @return array
+     * @return float[]
      */
     protected function findMidpointsForConstantParts(array $elevations): array
     {
@@ -95,8 +94,6 @@ class StepwiseElevationProfileFixer
     }
 
     /**
-     * @param array $elevations
-     * @param array $distances
      * @param array<int, mixed> $midpoints
      * @return array
      */
@@ -125,7 +122,7 @@ class StepwiseElevationProfileFixer
         $num = count($elevations);
 
         for ($i = 1; $i < $num; ++$i) {
-            if (0 != $i % $this->NumberOfGroupedPoints && $elevations[$i] != $elevations[$i - 1]) {
+            if (0 !== $i % $this->NumberOfGroupedPoints && $elevations[$i] != $elevations[$i - 1]) {
                 return false;
             }
         }

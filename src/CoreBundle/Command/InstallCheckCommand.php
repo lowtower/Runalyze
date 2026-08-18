@@ -73,9 +73,6 @@ class InstallCheckCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -107,9 +104,6 @@ class InstallCheckCommand extends ContainerAwareCommand
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getFinalMessage(): string
     {
         if ($this->ReturnCode & self::ERROR) {
@@ -126,7 +120,6 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @param int $returnCode
      * @param null|string $message
-     * @return string
      */
     protected function styleReturnCode($returnCode, $message = null): string
     {
@@ -147,26 +140,23 @@ class InstallCheckCommand extends ContainerAwareCommand
         return '<'.$tag.'>'.($message ? $message : $tag).'</'.$tag.'>';
     }
 
-    /**
-     * @return int
-     */
     protected function checkPhpVersion(): int
     {
-        if (version_compare(self::REQUIRED_PHP_VERSION, PHP_VERSION) == 1) {
+        if (version_compare(self::REQUIRED_PHP_VERSION, PHP_VERSION) === 1) {
             return self::ERROR;
         }
 
         return self::OKAY;
     }
 
-    /**
-     * @return int
-     */
     protected function prefixIsNotUsed(): int
     {
         /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = $this->getContainer()->get('doctrine')->getConnection();
-        $prefix = $this->getContainer()->getParameter('database_prefix');
+        $connection = $this->getContainer()
+            ->get('doctrine')
+            ->getConnection();
+        $prefix = $this->getContainer()
+            ->getParameter('database_prefix');
 
         if (0 !== $connection->query('SHOW TABLES LIKE "'.$prefix.'%"')->rowCount()) {
             return self::ERROR;
@@ -175,12 +165,10 @@ class InstallCheckCommand extends ContainerAwareCommand
         return self::OKAY;
     }
 
-    /**
-     * @return int
-     */
     protected function directoriesAreWritable(): int
     {
-        $root = $this->getContainer()->getParameter('kernel.root_dir').'/../';
+        $root = $this->getContainer()
+            ->getParameter('kernel.root_dir').'/../';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
             if (! is_writable($root.$directory)) {

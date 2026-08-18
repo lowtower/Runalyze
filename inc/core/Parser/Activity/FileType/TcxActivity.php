@@ -130,14 +130,14 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $this->Container->Rounds->add(new Round(
             round((int) $lap->DistanceMeters) / 1000,
             round((float) $lap->TotalTimeSeconds),
-            'Active' == (string) $lap->Intensity
+            'Active' === (string) $lap->Intensity
         ));
 
         $this->IsWithoutDistance = (
-            (0 == (int) $lap->DistanceMeters && 10 < (int) $lap->TotalTimeSeconds) ||
+            (0 === (int) $lap->DistanceMeters && 10 < (int) $lap->TotalTimeSeconds) ||
             (
                 isset($lap->Track[0]) && count($lap->Track[0]->Trackpoint) > 5 &&
-                (double) $lap->Track[0]->Trackpoint[0]->DistanceMeters == (double) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
+                (double) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (double) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
             )
         );
     }
@@ -282,14 +282,17 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     {
         if ($extensions->children($namespace, true)->count() > 0) {
             if (isset($extensions->children($namespace, true)->TPX)) {
-                $trackPointx = $extensions->children($namespace, true)->TPX[0];
+                $trackPointx = $extensions->children($namespace, true)
+                    ->TPX[0];
 
                 if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->Watts)) {
-                    $power = (int) $trackPointx->children($namespace, true)->Watts;
+                    $power = (int) $trackPointx->children($namespace, true)
+                        ->Watts;
                 }
 
                 if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->RunCadence)) {
-                    $rpm = (int) $trackPointx->children($namespace, true)->RunCadence;
+                    $rpm = (int) $trackPointx->children($namespace, true)
+                        ->RunCadence;
                 }
             }
         }

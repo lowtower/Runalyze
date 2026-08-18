@@ -14,45 +14,41 @@ use Runalyze\Util\Time;
  * @package Runalyze\HTML
  */
 class HTML {
-	/**
-	 * Encode opening and ending tag-character
-	 * @param string $string
-	 * @return string
-	 */
-	public static function encodeTags($string): string {
+    /**
+     * Encode opening and ending tag-character
+     * @param string $string
+     */
+    public static function encodeTags($string): string {
 		return str_replace(array('<', '>'), array('&lt;', '&gt;'), $string);
 	}
 
-	/**
-	 * Return an empty td-Tag
-	 * @param int $colspan
-	 * @param string $string
-	 * @return string
-	 */
-	public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = ''): string {
+    /**
+     * Return an empty td-Tag
+     * @param int $colspan
+     * @param string $string
+     */
+    public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = ''): string {
 		$colspan = ($colspan > 0) ? ' colspan="'.$colspan.'"' : '';
 		$class   = ($class != '') ? ' class="'.$class.'"' : '';
 
 		return '<td'.$colspan.$class.'>'.$string.'</td>';
 	}
 
-	/**
-	 * Return an empty tr-Tag
-	 * @param int $colspan colspan for empty TDs
-	 * @return string
-	 */
-	public static function emptyTR($colspan = 0): string {
+    /**
+     * Return an empty tr-Tag
+     * @param int $colspan colspan for empty TDs
+     */
+    public static function emptyTR($colspan = 0): string {
 		return '<tr>'.self::emptyTD($colspan).'</tr>';
 	}
 
-	/**
-	 * Wrap string in td-tag
-	 * @param string $string string for td-tag
-	 * @param string $class optional css class
-	 * @param string $style optional css inline style
-	 * @return string
-	 */
-	public static function td($string, $class = '', $style = ''): string {
+    /**
+     * Wrap string in td-tag
+     * @param string $string string for td-tag
+     * @param string $class optional css class
+     * @param string $style optional css inline style
+     */
+    public static function td($string, $class = '', $style = ''): string {
 		if ($class != '')
 			$class = ' class="'.$class.'"';
 
@@ -62,13 +58,12 @@ class HTML {
 		return '<td'.$class.$style.'>'.$string.'</td>';
 	}
 
-	/**
-	 * Get a tr-tag for a bold header-line containing all month-names
-	 * @param int $fixedWidth Fixed width for every month-td in percent [set '0' for no fixed width]
-	 * @param int $emptyTDs Number of empty td before the month-td
-	 * @return string
-	 */
-	public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
+    /**
+     * Get a tr-tag for a bold header-line containing all month-names
+     * @param int $fixedWidth Fixed width for every month-td in percent [set '0' for no fixed width]
+     * @param int $emptyTDs Number of empty td before the month-td
+     */
+    public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
 		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
 		$html = '<tr class="b">';
 
@@ -82,19 +77,16 @@ class HTML {
 			$html .= '<'.$tag.$width.'>'.__('Total').'</'.$tag.'>';
 		}
 
-		$html .= '</tr>';
-
-		return $html;
+		return $html . '</tr>';
 	}
 
-	/**
-	 * Get a tr-tag for a bold header-line containing all years
-	 * @param int $fixedWidth Fixed width for every year-td in percent [set '0' for no fixed width]
-	 * @param int $emptyTDs Number of empty td before the year-td
-	 * @param boolean $withTotal add last column for 'total'
-	 * @return string
-	 */
-	public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
+    /**
+     * Get a tr-tag for a bold header-line containing all years
+     * @param int $fixedWidth Fixed width for every year-td in percent [set '0' for no fixed width]
+     * @param int $emptyTDs Number of empty td before the year-td
+     * @param bool $withTotal add last column for 'total'
+     */
+    public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
 		$year = date('Y');
 		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
 		$html = '<tr class="b">';
@@ -109,34 +101,29 @@ class HTML {
 			$html .= '<'.$tag.$width.'>'.__('Total').'</'.$tag.'>';
 		}
 
-		$html .= '</tr>';
-
-		return $html;
+		return $html . '</tr>';
 	}
 
-	/**
-	 * Get a tr-tag for a space-line
-	 * @param int $colspan
-	 * @return string
-	 */
-	public static function spaceTR($colspan): string {
+    /**
+     * Get a tr-tag for a space-line
+     * @param int $colspan
+     */
+    public static function spaceTR($colspan): string {
 		return '<tr class="space"><td colspan="'.$colspan.'"></td></tr>';
 	}
 
-	/**
-	 * Return a header
-	 * @param string $text
-	 * @return string
-	 */
-	public static function h1($text): string {
+    /**
+     * Return a header
+     * @param string $text
+     */
+    public static function h1($text): string {
 		return '<h1>'.$text.'</h1>';
 	}
 
-	/**
-	 * Return a break with class="clear"
-	 * @return string
-	 */
-	public static function clearBreak(): string {
+    /**
+     * Return a break with class="clear"
+     */
+    public static function clearBreak(): string {
 		return '<br class="clear">';
 	}
 
@@ -156,99 +143,89 @@ class HTML {
 		return $value;
 	}
 
-	/**
-	 * Wrap a string into emphasize-tag
-	 * @param string $string
-	 * @return string
-	 */
-	public static function em($string): string {
+    /**
+     * Wrap a string into emphasize-tag
+     * @param string $string
+     */
+    public static function em($string): string {
 		return '<em>'.$string.'</em>';
 	}
 
-	/**
-	 * Wrap a string into paragraph-tag
-	 * @param string $string
-	 * @return string
-	 */
-	public static function p($string): string {
+    /**
+     * Wrap a string into paragraph-tag
+     * @param string $string
+     */
+    public static function p($string): string {
 		return '<p class="text">'.$string.'</p>';
 	}
 
-	/**
-	 * Wrap a string into p-tag with class="info"
-	 * @param string $string
-	 * @return string
-	 */
-	public static function info($string): string {
+    /**
+     * Wrap a string into p-tag with class="info"
+     * @param string $string
+     */
+    public static function info($string): string {
 		return '<p class="info">'.$string.'</p>';
 	}
 
-	/**
-	 * Wrap a string into p-tag with class="error"
-	 * @param string $string
-	 * @return string
-	 */
-	public static function error($string): string {
+    /**
+     * Wrap a string into p-tag with class="error"
+     * @param string $string
+     */
+    public static function error($string): string {
 		return '<p class="error">'.$string.'</p>';
 	}
 
-	/**
-	 * Wrap a string into p-tag with class="warning"
-	 * @param string $string
-	 * @return string
-	 */
-	public static function warning($string): string {
+    /**
+     * Wrap a string into p-tag with class="warning"
+     * @param string $string
+     */
+    public static function warning($string): string {
 		return '<p class="warning">'.$string.'</p>';
 	}
 
-	/**
-	 * Wrap a string into p-tag with class="okay"
-	 * @param string $string
-	 * @return string
-	 */
-	public static function okay($string): string {
+    /**
+     * Wrap a string into p-tag with class="okay"
+     * @param string $string
+     */
+    public static function okay($string): string {
 		return '<p class="okay">'.$string.'</p>';
 	}
 
-	/**
-	 * Wrap a string into p-tag with class="file"
-	 * @param string $string
-	 * @return string
-	 */
-	public static function fileBlock($string): string {
+    /**
+     * Wrap a string into p-tag with class="file"
+     * @param string $string
+     */
+    public static function fileBlock($string): string {
 		return '<p class="file">'.$string.'</p>';
 	}
 
-	/**
-	 * Replace ampersands for a textarea
-	 * @param string $text
-	 * @return string
-	 */
-	public static function textareaTransform($text): string {
+    /**
+     * Replace ampersands for a textarea
+     * @param string $text
+     */
+    public static function textareaTransform($text): string {
 		return stripslashes(str_replace('&', '&amp;', $text));
 	}
 
-	/**
-	 * Get a hidden input field, filled with post-data for this name
-	 * @param string $name name for this field
-	 * @param string $value value, if empty uses post-data
-	 * @return string
-	 */
-	public static function hiddenInput($name, $value = ''): string {
+    /**
+     * Get a hidden input field, filled with post-data for this name
+     * @param string $name name for this field
+     * @param string $value value, if empty uses post-data
+     */
+    public static function hiddenInput($name, $value = ''): string {
 		if ($value == '' && isset($_POST[$name]))
 			$value = $_POST[$name];
 
 		return '<input type="hidden" name="'.$name.'" value="'.$value.'">';
 	}
 
-	/**
-	 * Get a select box with given options
-	 * @param string $name Name for this select-box
-	 * @param mixed $checked [optional] bool for beeing checked or not, otherwise checks for post-data
-	 * @param bool $noHiddenSent
-	 * @return string
-	 */
-	public static function checkBox($name, $checked = -1, $noHiddenSent = false): string {
+    /**
+     * Get a select box with given options
+     * @param string $name Name for this select-box
+     * @param mixed $checked [optional] bool for beeing checked or not, otherwise checks for post-data
+     * @param bool $noHiddenSent
+     */
+    public static function checkBox($name, $checked = -1, $noHiddenSent = false): string {
 		if ($checked === -1)
 			$checked = isset($_POST[$name]) && $_POST[$name] != 0;
 
@@ -257,13 +234,12 @@ class HTML {
 		return (! $noHiddenSent ? $hiddenSent : '').'<input type="checkbox" name="'.$name.'"'.self::Checked($checked).'>';
 	}
 
-	/**
-	 * Get ' checked' if boolean value is true
-	 * @param bool $value
-	 * @param mixed $value_to_be_checked [optional]
-	 * @return string
-	 */
-	public static function Checked($value, $value_to_be_checked = null): string {
+    /**
+     * Get ' checked' if boolean value is true
+     * @param bool $value
+     * @param mixed $value_to_be_checked [optional]
+     */
+    public static function Checked($value, $value_to_be_checked = null): string {
 		if ($value_to_be_checked !== null)
 			$value = ($value == $value_to_be_checked);
 
@@ -275,16 +251,15 @@ class HTML {
 			: '';
 	}
 
-	/**
-	 * Get a select box with given options
-	 * @param string $name Name for this select-box
-	 * @param array $options Array containing values as indices, displayed text as values (may be array: 'text' => ..., 'data-...' => ...)
-	 * @param mixed $selected Value to be selected
-	 * @param string $id [optional]
-	 * @param string $class
-	 * @return string
-	 */
-	public static function selectBox($name, $options, $selected = false, $id = '', $class = ''): string {
+    /**
+     * Get a select box with given options
+     * @param string $name Name for this select-box
+     * @param array $options Array containing values as indices, displayed text as values (may be array: 'text' => ..., 'data-...' => ...)
+     * @param mixed $selected Value to be selected
+     * @param string $id [optional]
+     * @param string $class
+     */
+    public static function selectBox($name, $options, $selected = false, $id = '', $class = ''): string {
 		if ($selected === false && isset($_POST[$name]))
 			$selected = $_POST[$name];
 
@@ -309,13 +284,12 @@ class HTML {
 		return $html.'</select>';
 	}
 
-	/**
-	 * Get ' selected' if boolean value is true
-	 * @param bool $value
-	 * @param mixed $value_to_be_checked [optional]
-	 * @return string
-	 */
-	public static function Selected($value, $value_to_be_checked = null): string {
+    /**
+     * Get ' selected' if boolean value is true
+     * @param bool $value
+     * @param mixed $value_to_be_checked [optional]
+     */
+    public static function Selected($value, $value_to_be_checked = null): string {
 		if ($value_to_be_checked !== null) {
 			if (is_array($value_to_be_checked))
 				$value = in_array($value, $value_to_be_checked);

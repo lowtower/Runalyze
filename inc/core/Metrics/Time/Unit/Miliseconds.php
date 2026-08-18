@@ -10,8 +10,6 @@ class Miliseconds extends AbstractTimeUnit implements FormattableUnitInterface
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -19,17 +17,11 @@ class Miliseconds extends AbstractTimeUnit implements FormattableUnitInterface
         return 'ms';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): int
     {
         return 1000;
     }
 
-    /**
-     * @return int
-     */
     public function getDecimals(): int
     {
         return 0;

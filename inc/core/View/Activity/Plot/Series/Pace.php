@@ -35,7 +35,7 @@ class Pace extends ActivitySeries {
 	const COLOR = 'rgb(0,0,136)';
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $isRunning;
 
@@ -57,8 +57,10 @@ class Pace extends ActivitySeries {
 	 * @var \Runalyze\View\Activity\Context
 	 */
 	public function __construct(Activity\Context $context) {
-		$this->paceUnit = $context->sport()->legacyPaceUnit();
-		$this->paceUnitEnum = $context->sport()->getLegacyPaceUnitEnum();
+		$this->paceUnit = $context->sport()
+		    ->legacyPaceUnit();
+		$this->paceUnitEnum = $context->sport()
+		    ->getLegacyPaceUnitEnum();
 
 		$this->isRunning = ($context->sport()->getInternalProfileEnum() == SportProfile::RUNNING);
 
@@ -106,13 +108,12 @@ class Pace extends ActivitySeries {
 		}
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
 	{
 		if (empty($this->Data)) {
 			return;
@@ -125,11 +126,10 @@ class Pace extends ActivitySeries {
 		}
 	}
 
-	/**
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 */
-	protected function adjustAxis(\Plot $Plot, $yAxis)
+    /**
+     * @param int $yAxis
+     */
+    protected function adjustAxis(\Plot $Plot, $yAxis)
 	{
 		$Plot->setYAxisTimeFormat('%M:%S', $yAxis);
 
@@ -196,15 +196,14 @@ class Pace extends ActivitySeries {
 		}
 	}
 
-	/**
-	 * @param \Plot $plot
-	 * @param int $yAxis
-	 * @param int $dataMin
-	 * @param int $dataMax
-	 * @param bool $forceMin
-	 * @param bool $forceMax
-	 */
-	private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, $forceMin, $forceMax)
+    /**
+     * @param int $yAxis
+     * @param int $dataMin
+     * @param int $dataMax
+     * @param bool $forceMin
+     * @param bool $forceMax
+     */
+    private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, $forceMin, $forceMax)
 	{
 		if ($this->paceUnitEnum == PaceUnit::MIN_PER_MILE) {
 			$ticks = [240, 300, 360, 450, 600, 900, 3600];

@@ -21,34 +21,31 @@ class Request {
 
 	/**
 	 * Is the user on a shared page?
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isOnSharedPage() {
 		return SharedLinker::isOnSharedPage();
 	}
 
-	/**
-	 * Was the request an AJAX-request?
-	 * Be careful: Does not work if a file is sent via jQuery!
-	 * @return boolean
-	 */
-	public static function isAjax(): bool {
-		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    /**
+     * Was the request an AJAX-request?
+     * Be careful: Does not work if a file is sent via jQuery!
+     */
+    public static function isAjax(): bool {
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 	}
 
-	/**
-	 * Is request HTTPS?
-	 * @return boolean
-	 */
-	public static function isHttps(): bool {
+    /**
+     * Is request HTTPS?
+     */
+    public static function isHttps(): bool {
 		return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
 	}
 
-	/**
-	 * Get protocol (http/https)
-	 * @return string
-	 */
-	public static function getProtocol(): string {
+    /**
+     * Get protocol (http/https)
+     */
+    public static function getProtocol(): string {
 		if (self::isHttps())
 			return 'https';
 

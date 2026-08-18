@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class TagRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return Tag[]
      */
     public function findAllFor(Account $account)

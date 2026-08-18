@@ -25,27 +25,28 @@ class RaceResultController extends Controller
      */
     protected function getRaceresultRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Raceresult');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Raceresult');
     }
 
     /**
      * @Route("/{activityId}", name="raceresult-form", requirements={"activityId" = "\d+"})
      * @param int $activityId
-     * @param Account $account
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function raceresultFormAction($activityId, Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Training $activity */
-        $activity = $this->getDoctrine()->getRepository('CoreBundle:Training')->findForAccount($activityId, $account->getId());
+        $activity = $this->getDoctrine()
+            ->getRepository('CoreBundle:Training')
+            ->findForAccount($activityId, $account->getId());
 
         if (null === $activity) {
             throw $this->createAccessDeniedException();
         }
 
         /** @var null|Raceresult $raceResult */
-        $raceResult = $this->getRaceresultRepository()->findForAccount($activityId, $account->getId());
+        $raceResult = $this->getRaceresultRepository()
+            ->findForAccount($activityId, $account->getId());
         $isNew = false;
 
         if (null === $raceResult) {
@@ -63,8 +64,10 @@ class RaceResultController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getRaceresultRepository()->save($raceResult);
-            $this->get('app.legacy_cache')->clearRaceResultCache($raceResult);
+            $this->getRaceresultRepository()
+                ->save($raceResult);
+            $this->get('app.legacy_cache')
+                ->clearRaceResultCache($raceResult);
         }
 
         return $this->render('my/raceresult/form.html.twig', [
@@ -81,11 +84,14 @@ class RaceResultController extends Controller
     public function raceresultDeleteAction($activityId, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         /** @var null|Raceresult $raceResult */
-        $raceResult = $this->getRaceresultRepository()->findForAccount($activityId, $account->getId());
+        $raceResult = $this->getRaceresultRepository()
+            ->findForAccount($activityId, $account->getId());
 
         if ($raceResult) {
-            $this->getRaceresultRepository()->delete($raceResult);
-            $this->get('app.legacy_cache')->clearRaceResultCache($raceResult);
+            $this->getRaceresultRepository()
+                ->delete($raceResult);
+            $this->get('app.legacy_cache')
+                ->clearRaceResultCache($raceResult);
         } else {
             throw $this->createAccessDeniedException();
         }
@@ -100,7 +106,9 @@ class RaceResultController extends Controller
     public function performanceChartAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $danielsGilbertFormula = new DanielsGilbertFormula();
-        $ageGradeLookup = $this->get('app.age_grade_lookup')->getLookup() ?: $this->get('app.age_grade_lookup')->getDefaultLookup();
+        $ageGradeLookup = $this->get('app.age_grade_lookup')
+            ->getLookup() ?: $this->get('app.age_grade_lookup')
+            ->getDefaultLookup();
         $distances = [0.06, 0.1, 0.2, 0.4, 0.8, 1.0, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2, 50.0];
         $distanceTicks = [0.06, 0.1, 0.2, 0.4, 0.8, 1.5, 3.0, 5.0, 10.0, 21.1, 42.2];
         $ageStandardTimes = array_map(function($kilometer) use ($ageGradeLookup) {
@@ -111,7 +119,10 @@ class RaceResultController extends Controller
         }, $distances, $ageStandardTimes);
 
         return $this->render('my/raceresult/performance_chart.html.twig', [
-            'runningSportId' => $this->getDoctrine()->getRepository('CoreBundle:Sport')->findRunningFor($account)->getId(),
+            'runningSportId' => $this->getDoctrine()
+                ->getRepository('CoreBundle:Sport')
+                ->findRunningFor($account)
+                ->getId(),
             'mainDistances' => $distances,
             'mainDistanceTicks' => $distanceTicks,
             'ageStandardTimes' => $ageStandardTimes,

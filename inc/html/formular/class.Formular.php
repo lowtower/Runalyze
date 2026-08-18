@@ -31,7 +31,7 @@ class Formular extends HtmlTag {
 
 	/**
 	 * Boolean flag: submit buttons centered
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $submitButtonsCentered = false;
 
@@ -96,12 +96,11 @@ class Formular extends HtmlTag {
 		$this->hiddenValues[$name] = $value;
 	}
 
-	/**
-	 * Add a fieldset to formular
-	 * @param FormularFieldset $Fieldset
-	 * @param boolean $opened [optional]
-	 */
-	public function addFieldset(FormularFieldset $Fieldset, $opened = true) {
+    /**
+     * Add a fieldset to formular
+     * @param bool $opened [optional]
+     */
+    public function addFieldset(FormularFieldset $Fieldset, $opened = true) {
 	    if ('' == $Fieldset->getId()) {
     		$Fieldset->setId($this->Id.'_legend_'.count($this->fieldsets));
         }

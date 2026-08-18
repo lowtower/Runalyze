@@ -17,9 +17,6 @@ class Version20170225101217 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -36,9 +33,6 @@ class Version20170225101217 extends AbstractMigration implements ContainerAwareI
         $this->addSql('ALTER TABLE `'.$prefix.'training` DROP `jd_intensity`, CHANGE `vdot` `vo2max` DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL, CHANGE `vdot_by_time` `vo2max_by_time` DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL, CHANGE `vdot_with_elevation` `vo2max_with_elevation` DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL, CHANGE `use_vdot` `use_vo2max` TINYINT(1) UNSIGNED NOT NULL DEFAULT "1", CHANGE `fit_vdot_estimate` `fit_vo2max_estimate` DECIMAL(4,2) UNSIGNED NULL DEFAULT NULL');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

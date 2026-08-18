@@ -23,23 +23,24 @@ class SectionRunningDynamics extends TrainingViewSectionTabbedPlot {
 		$this->appendRowTabbedPlot( new SectionRunningDynamicsRow($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
 		return (
-			$this->Context->trackdata()->has(Trackdata\Entity::CADENCE) ||
-			$this->Context->trackdata()->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-			$this->Context->trackdata()->has(Trackdata\Entity::GROUNDCONTACT)
+			$this->Context->trackdata()
+			    ->has(Trackdata\Entity::CADENCE) ||
+			$this->Context->trackdata()
+			    ->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
+			$this->Context->trackdata()
+			    ->has(Trackdata\Entity::GROUNDCONTACT)
 		);
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'runningdynamics';
 	}
 }

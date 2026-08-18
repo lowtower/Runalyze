@@ -38,7 +38,6 @@ class AccountMailer
     }
 
     /**
-     * @param Account $account
      * @param string $subject
      * @param string $template
      * @param array<string, string>|array<string, null> $templateData
@@ -57,7 +56,6 @@ class AccountMailer
     }
 
     /**
-     * @param Account $account
      * @param string $mailTo
      * @param string $customText
      */

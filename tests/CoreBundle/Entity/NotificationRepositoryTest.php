@@ -27,7 +27,6 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
     }
 
     /**
-     * @param Account $account
      * @param int|null $createdAt [timestamp]
      * @param int|null $expirationAt [timestamp]
      * @return int

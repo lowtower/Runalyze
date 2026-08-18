@@ -143,11 +143,10 @@ abstract class Plugin {
 		$this->setConfiguration($Configuration);
 	}
 
-	/**
-	 * Set configuration
-	 * @param PluginConfiguration $Configuration
-	 */
-	protected function setConfiguration(PluginConfiguration $Configuration) {
+    /**
+     * Set configuration
+     */
+    protected function setConfiguration(PluginConfiguration $Configuration) {
 		$this->Configuration = $Configuration;
 	}
 
@@ -334,35 +333,35 @@ abstract class Plugin {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	final protected function showsAllYears() {
 		return ($this->year == -1);
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	final protected function showsSpecificYear() {
 		return (! in_array($this->year, [-1, 6, 12]));
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	final protected function showsTimeRange() {
 		return ($this->year == 6) || ($this->year == 12);
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	final protected function showsLast6Months() {
 		return ($this->year == 6);
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	final protected function showsLast12Months() {
 		return ($this->year == 12);

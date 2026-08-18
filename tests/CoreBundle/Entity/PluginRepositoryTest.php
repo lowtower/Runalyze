@@ -28,7 +28,6 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
     /**
      * @param int $position
      * @param null|string $key
-     * @return Plugin
      */
     protected function insertPanel($position, $key = null): \Runalyze\Bundle\CoreBundle\Entity\Plugin
     {

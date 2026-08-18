@@ -34,15 +34,15 @@ class ActivityDecorator
                 return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getType()->getName());
             }
 
-            return $this->Context->getActivity()->getType()->getName();
+            return $this->Context->getActivity()
+                ->getType()
+                ->getName();
         }
 
-        return $this->Context->getSport()->getName();
+        return $this->Context->getSport()
+            ->getName();
     }
 
-    /**
-     * @return LocalTime
-     */
     public function getDateTime(): \Runalyze\Util\LocalTime
     {
         return new LocalTime($this->Context->getActivity()->getTime());
@@ -71,32 +71,32 @@ class ActivityDecorator
     protected function getElevation($up = true)
     {
         if ($this->Context->hasRoute() && ($this->Context->getRoute()->getElevationUp() > 0 || $this->Context->getRoute()->getElevationDown() > 0)) {
-            return $up ? $this->Context->getRoute()->getElevationUp() : $this->Context->getRoute()->getElevationDown();
+            return $up ? $this->Context->getRoute()
+                ->getElevationUp() : $this->Context->getRoute()
+                ->getElevationDown();
         }
 
-        return $this->Context->getActivity()->getElevation();
+        return $this->Context->getActivity()
+            ->getElevation();
     }
 
-    /**
-     * @param RunalyzeConfigurationList $configurationList
-     * @return float
-     */
     public function getEffectiveVO2max(RunalyzeConfigurationList $configurationList): float
     {
         return $configurationList->getVO2maxCorrectionFactor() * $this->getUncorrectedVO2max($configurationList);
     }
 
     /**
-     * @param RunalyzeConfigurationList $configurationList
      * @return float
      */
     public function getUncorrectedVO2max(RunalyzeConfigurationList $configurationList)
     {
         if ($configurationList->useVO2maxCorrectionForElevation() && $this->Context->getActivity()->getVO2maxWithElevation() > 0.0) {
-            return $this->Context->getActivity()->getVO2maxWithElevation();
+            return $this->Context->getActivity()
+                ->getVO2maxWithElevation();
         }
 
-        return $this->Context->getActivity()->getVO2max();
+        return $this->Context->getActivity()
+            ->getVO2max();
     }
 
     /**
@@ -104,8 +104,10 @@ class ActivityDecorator
      */
     public function getFlightTime()
     {
-        $cadence = $this->Context->getActivity()->getCadence();
-        $groundContactTime = $this->Context->getActivity()->getGroundcontact();
+        $cadence = $this->Context->getActivity()
+            ->getCadence();
+        $groundContactTime = $this->Context->getActivity()
+            ->getGroundcontact();
 
         if ($cadence > 0 && $groundContactTime > 0) {
             return 30000.0 / $cadence - $groundContactTime;
@@ -119,8 +121,10 @@ class ActivityDecorator
      */
     public function getFlightRatio()
     {
-        $cadence = $this->Context->getActivity()->getCadence();
-        $groundContactTime = $this->Context->getActivity()->getGroundcontact();
+        $cadence = $this->Context->getActivity()
+            ->getCadence();
+        $groundContactTime = $this->Context->getActivity()
+            ->getGroundcontact();
 
         if ($cadence > 0 && $groundContactTime > 0) {
             return 1.0 - $cadence * $groundContactTime / 30000.0;

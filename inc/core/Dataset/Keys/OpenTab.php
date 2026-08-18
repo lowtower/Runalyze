@@ -18,78 +18,68 @@ use Runalyze\Dataset\Context;
  */
 class OpenTab extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::OPEN_TAB;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return '';
 	}
 
-    /**
-     * @return bool
-     */
     public function isInDatabase(): bool
     {
         return false;
     }
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Open new tab');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return '';
 	}
 
 
     /**
-     * @return bool
      * @codeCoverageIgnore
      */
     public function hasPrivacyOption(): bool {
         return false;
     }
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __(
 		    'Open the activity in a new browser tab/window'
 		);
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context): string
+    /**
+     * Get string to display this dataset value
+     */
+    public function stringFor(Context $context): string
 	{
-		$id = $context->activity()->id();
+		$id = $context->activity()
+		    ->id();
         if ($id > 0) {
             return '<a href="/dashboard?id=' . $id . '#statistics-scrolltag" target="_blank" onclick="event.stopPropagation()">' . $this->getCodeForIcon() .'</a>';
         }
@@ -102,19 +92,15 @@ class OpenTab extends AbstractKey
         return '<span class="link">' . $this->getCodeForIcon() . '</span>';
     }
 
-    /**
-     * @return string
-     */
     protected function getCodeForIcon(): string
     {
         return '<i class="fa fa-fw fa-external-link" style="font-weight: 900;"></i>';
     }
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

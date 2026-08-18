@@ -32,7 +32,7 @@ class JsonBackupAnalyzer
 			if (substr($line, 0, 8) == '{"TABLE"') {
 				$tableName = substr($line, 10, -2);
 				$this->NumberOf[$tableName] = 0;
-			} elseif ($line != '' && $line[0] == '{' && isset($this->NumberOf[$tableName])) {
+			} elseif ($line !== '' && $line[0] == '{' && isset($this->NumberOf[$tableName])) {
 				$this->NumberOf[$tableName]++;
 			} elseif (substr($line, 0, 8) == 'version=') {
 				$this->VersionString = substr($line, 8);
@@ -56,25 +56,16 @@ class JsonBackupAnalyzer
 		return 0;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function fileIsOkay(): bool
     {
 		return $this->versionIsOkay() && $this->expectedTablesAreThere();
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function versionIsOkay(): bool
     {
-		return (self::extractMajorAndMinorVersion($this->RunalyzeVersion) == self::extractMajorAndMinorVersion($this->VersionString));
+		return (self::extractMajorAndMinorVersion($this->RunalyzeVersion) === self::extractMajorAndMinorVersion($this->VersionString));
 	}
 
-	/**
-	 * @return string
-	 */
 	public function fileVersion(): string
     {
 		if ($this->VersionString == '') {
@@ -84,15 +75,12 @@ class JsonBackupAnalyzer
 		return 'v'.$this->VersionString;
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function expectedTablesAreThere(): bool
     {
 		$Expected = $this->expectedTables();
 		$Found = array_keys($this->NumberOf);
 
-		return (sort($Expected) == sort($Found));
+		return (sort($Expected) === sort($Found));
 	}
 
 	/**
@@ -144,12 +132,11 @@ class JsonBackupAnalyzer
 		);
 	}
 
-	/**
-	 * Extract major and minor version, i.e. 'X.Y' of any 'X.Y[.Z][-abc]'
-	 * @param string $versionString
-	 * @return string
-	 */
-	public static function extractMajorAndMinorVersion($versionString): string
+    /**
+     * Extract major and minor version, i.e. 'X.Y' of any 'X.Y[.Z][-abc]'
+     * @param string $versionString
+     */
+    public static function extractMajorAndMinorVersion($versionString): string
     {
 		if (preg_match('/^(\d+\.\d+)/', $versionString, $matches)) {
 			return $matches[1];

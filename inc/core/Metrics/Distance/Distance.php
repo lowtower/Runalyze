@@ -8,8 +8,6 @@ use Runalyze\Metrics\Distance\Unit\Kilometer;
 class Distance extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

@@ -37,7 +37,7 @@ abstract class Laps extends ActivityPlot {
 	protected $Labels = array();
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $SplitsAreNotComplete;
 
@@ -52,18 +52,17 @@ abstract class Laps extends ActivityPlot {
 	 */
 	protected $PaceUnit;
 
-	/**
-	 * Load data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	abstract protected function loadData(Activity\Context $context);
+    /**
+     * Load data
+     */
+    abstract protected function loadData(Activity\Context $context);
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
-		$this->PaceUnit = $context->sport()->legacyPaceUnit();
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
+		$this->PaceUnit = $context->sport()
+		    ->legacyPaceUnit();
 
 		$this->SplitsAreNotComplete = $this->splitsAreNotComplete($context);
 		$this->loadData($context);
@@ -126,14 +125,13 @@ abstract class Laps extends ActivityPlot {
 		}
 	}
 
-	/**
-	 * Splits are not complete
-	 * "Complete" means: all laps are active and fill total distance
-	 *
-	 * @param \Runalyze\View\Activity\Context $context
-	 * @return boolean
-	 */
-	protected function splitsAreNotComplete(Activity\Context $context) {
+    /**
+     * Splits are not complete
+     * "Complete" means: all laps are active and fill total distance
+     *
+     * @return bool
+     */
+    protected function splitsAreNotComplete(Activity\Context $context) {
 		if ($context->activity()->splits()->isEmpty() || $context->activity()->splits()->totalDistance() <= 0) {
 			return false;
 		}
@@ -142,6 +140,7 @@ abstract class Laps extends ActivityPlot {
 			return true;
 		}
 
-        return abs($context->activity()->splits()->totalDistance() - $context->activity()->distance()) > 0.02 * $context->activity()->distance();
+        return abs($context->activity()->splits()->totalDistance() - $context->activity()->distance()) > 0.02 * $context->activity()
+            ->distance();
 	}
 }

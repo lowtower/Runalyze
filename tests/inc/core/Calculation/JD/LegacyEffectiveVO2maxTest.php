@@ -50,7 +50,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
 
         $Results = array(
             30 => 30 * 60 + 40,
-            35 => 27 * 60 + 0,
+            35 => 27 * 60,
             40 => 24 * 60 + 8,
             45 => 21 * 60 + 50,
             50 => 19 * 60 + 57,
@@ -82,7 +82,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             55 => 38 * 60 + 6,
             60 => 35 * 60 + 22,
             65 => 33 * 60 + 1,
-            70 => 31 * 60 + 0,
+            70 => 31 * 60,
             75 => 29 * 60 + 14,
             80 => 27 * 60 + 41,
             85 => 26 * 60 + 19
@@ -101,15 +101,15 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $Results = array(
             30 => 2 * 60 * 60 + 21 * 60 + 4,
             35 => 2 * 60 * 60 + 4 * 60 + 13,
-            40 => 1 * 60 * 60 + 50 * 60 + 59,
-            45 => 1 * 60 * 60 + 40 * 60 + 20,
-            50 => 1 * 60 * 60 + 31 * 60 + 35,
-            55 => 1 * 60 * 60 + 24 * 60 + 18,
-            60 => 1 * 60 * 60 + 18 * 60 + 9,
-            65 => 1 * 60 * 60 + 12 * 60 + 53,
-            70 => 1 * 60 * 60 + 8 * 60 + 21,
-            75 => 1 * 60 * 60 + 4 * 60 + 23,
-            80 => 1 * 60 * 60 + 0 * 60 + 54,
+            40 => 60 * 60 + 50 * 60 + 59,
+            45 => 60 * 60 + 40 * 60 + 20,
+            50 => 60 * 60 + 31 * 60 + 35,
+            55 => 60 * 60 + 24 * 60 + 18,
+            60 => 60 * 60 + 18 * 60 + 9,
+            65 => 60 * 60 + 12 * 60 + 53,
+            70 => 60 * 60 + 8 * 60 + 21,
+            75 => 60 * 60 + 4 * 60 + 23,
+            80 => 60 * 60 + 0 * 60 + 54,
             85 => 0 * 60 * 60 + 57 * 60 + 50
         );
 
@@ -135,7 +135,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             70 => 2 * 60 * 60 + 23 * 60 + 10,
             75 => 2 * 60 * 60 + 14 * 60 + 55,
             80 => 2 * 60 * 60 + 7 * 60 + 38,
-            85 => 2 * 60 * 60 + 1 * 60 + 10
+            85 => 2 * 60 * 60 + 60 + 10
         );
 
         foreach ($Results as $vo2max => $seconds) {
@@ -171,10 +171,10 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     public function testDistanceIndependenceOfEstimateByHR()
     {
         $Value1 = new LegacyEffectiveVO2max();
-        $Value1->fromPaceAndHR(10, 40 * 60 + 0, 0.75);
+        $Value1->fromPaceAndHR(10, 40 * 60, 0.75);
 
         $Value2 = new LegacyEffectiveVO2max();
-        $Value2->fromPaceAndHR(3, 12 * 60 + 0, 0.75);
+        $Value2->fromPaceAndHR(3, 12 * 60, 0.75);
 
         $this->assertEquals($Value1->value(), $Value2->value());
     }
@@ -182,7 +182,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     public function testMissingValueForEmptyHR()
     {
         $Value = new LegacyEffectiveVO2max();
-        $Value->fromPaceAndHR(10, 40 * 60 + 0, 0);
+        $Value->fromPaceAndHR(10, 40 * 60, 0);
 
         $this->assertEquals(0, $Value->value());
     }

@@ -45,7 +45,7 @@ class UpdateController extends Controller
         $content = $output->fetch();
 
 		$updateAvailable = true;
-		if (substr_count($content, 'Already at latest version') == 1) {
+		if (substr_count($content, 'Already at latest version') === 1) {
 		    $updateAvailable = false;
 		}
 

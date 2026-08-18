@@ -36,7 +36,8 @@ class EquipmentType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
+        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
 
         if (! ($account instanceof Account)) {
             throw new \RuntimeException('Equipment type must have a valid account token.');
@@ -97,7 +98,8 @@ class EquipmentType extends AbstractType
             // #TSC allow only sports from the type
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
-                'choices' => $equipment->getType()->getSport(),
+                'choices' => $equipment->getType()
+                    ->getSport(),
                 'choice_label' => 'name',
                 'label' => 'Assigned sports',
                 'attr' => [

@@ -23,8 +23,10 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 		}
 
 		if (
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::PACE) &&
-			$this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::TIME)
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::PACE) &&
+			$this->Context->trackdata()
+			    ->has(\Runalyze\Model\Trackdata\Entity::TIME)
 		) {
 			$Table = new TableZonesPace($this->Context);
 			$Code = $Table->getCode();
@@ -55,7 +57,8 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addAveragePace() {
 		if ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
-			$Pace = $this->Context->dataview()->pace();
+			$Pace = $this->Context->dataview()
+			    ->pace();
 
 			if ($Pace->unit()->isDecimalFormat()) {
 				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);

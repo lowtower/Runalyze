@@ -33,11 +33,10 @@ abstract class AbstractStrategy
 	 */
 	protected $SmoothingIndices = array();
 
-	/**
-	 * Construct
-	 * @param array $elevation
-	 */
-	public function __construct(array $elevation)
+    /**
+     * Construct
+     */
+    public function __construct(array $elevation)
 	{
 		$this->ElevationData = $elevation;
 	}

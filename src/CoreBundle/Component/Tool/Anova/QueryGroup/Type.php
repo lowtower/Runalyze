@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 class Type implements QueryGroupInterface
 {
     /**
-     * @param QueryBuilder $queryBuilder
      * @param string $alias
      * @param string $as
      * @param string $sportAlias
@@ -23,12 +22,6 @@ class Type implements QueryGroupInterface
         ;
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Account $account
-     * @param AnovaData $anovaData
-     * @return array
-     */
     public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
         $groups = [];
@@ -46,9 +39,6 @@ class Type implements QueryGroupInterface
         return $groups;
     }
 
-    /**
-     * @return bool
-     */
     public function showEmptyGroups(): bool
     {
         return true;

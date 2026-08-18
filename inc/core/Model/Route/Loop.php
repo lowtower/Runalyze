@@ -21,11 +21,10 @@ class Loop extends \Runalyze\Model\Loop {
 	 */
 	protected $Object;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Model\Route\Entity $object
-	 */
-	public function __construct(Entity $object) {
+    /**
+     * Construct
+     */
+    public function __construct(Entity $object) {
 		parent::__construct($object);
 	}
 
@@ -62,7 +61,7 @@ class Loop extends \Runalyze\Model\Loop {
 
 	/**
 	 * Calculate distance of current step from latitude/longitude
-	 * @return double
+	 * @return float
 	 */
 	public function calculatedStepDistance() {
 	    $LastGeohash = (new Geohash())->decode($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
@@ -91,10 +90,6 @@ class Loop extends \Runalyze\Model\Loop {
 		return array();
 	}
 
-	/**
-	 * @param array $data
-	 * @return \Runalyze\Model\Route\Entity
-	 */
 	protected function createNewObject(array $data): \Runalyze\Model\Route\Entity {
 		return new Entity($data);
 	}

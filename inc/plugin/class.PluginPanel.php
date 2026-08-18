@@ -18,19 +18,19 @@ abstract class PluginPanel extends Plugin {
 
 	/**
 	 * Boolean flag: Don't reload if config has changed
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $dontReloadForConfig = false;
 
 	/**
 	 * Boolean flag: Don't reload if a training has changed
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $dontReloadForTraining = false;
 
 	/**
 	 * Boolean flag: Remove padding from panel-content
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $removePanelContentPadding = false;
 

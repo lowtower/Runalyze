@@ -150,9 +150,6 @@ class SearchFormular extends Formular {
 		$this->Fieldset->addField( $Field );
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function shortLinksForSportField(): string {
 		$code = '<span class="link chosen-select-all" data-target="sportid">'.__('all').'</span>';
 		$code .= ' | ';

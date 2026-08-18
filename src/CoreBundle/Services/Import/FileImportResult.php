@@ -23,7 +23,6 @@ class FileImportResult
      * @param ActivityDataContainer[] $container
      * @param string $fileName
      * @param string $originalFileName
-     * @param null|\Exception $exception
      */
     public function __construct(array $container, $fileName, $originalFileName, ?\Exception $exception = null)
     {
@@ -46,9 +45,6 @@ class FileImportResult
         return $this->Container;
     }
 
-    /**
-     * @return int
-     */
     public function getNumberOfActivities(): int
     {
         if ($this->isFailed()) {
@@ -74,9 +70,6 @@ class FileImportResult
         return $this->OriginalFileName;
     }
 
-    /**
-     * @return bool
-     */
     public function isFailed(): bool
     {
         return null !== $this->Exception;

@@ -45,19 +45,17 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	/** @var null|\Runalyze\AgeGrade\Lookup */
 	protected $AgeGradeLookup;
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Race results');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Personal bests and everything else related to your competitions.');
 	}
 
@@ -117,9 +115,6 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function knowsAgeGrade(): bool {
 		return null !== $this->AgeGradeLookup;
 	}
@@ -259,7 +254,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	private function displayPersonalBestsImages() {
 		$display_km = $this->PBdistances[0];
 		if (in_array($this->Configuration()->value('main_distance'), $this->PBdistances))
-			$display_km = $this->Configuration()->value('main_distance');
+			$display_km = $this->Configuration()
+			    ->value('main_distance');
 
 		$SubLinks = array();
 		foreach ($this->PBdistances as $km) {
@@ -300,7 +296,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 	private function displayPersonalBestYears() {
 		$year = array();
 		$dists = array();
-		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()->value('pb_distances') : array(3, 5, 10, 21.1, 42.2);
+		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()
+		    ->value('pb_distances') : array(3, 5, 10, 21.1, 42.2);
 		foreach ($kms as $km)
 			$dists[(string) $km] = array(
 			    'sum' => 0,
@@ -456,7 +453,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 				<td class="l"><strong>'.$Linker->link($RaceResult->name()).'</strong></td>
 				<td>'.$RaceResultView->officialDistance(null, $Activity->isTrack()).'</td>
 				<td>'.$RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION).'</td>
-				'.($this->knowsAgeGrade() ? '<td class="small"'.('' != $ageGradeTooltip ? ' rel="tooltip" title="'.$ageGradeTooltip.'"' : '').'>'.$ageGradeString.'</td>' : '').'
+				'.($this->knowsAgeGrade() ? '<td class="small"'.('' !== $ageGradeTooltip ? ' rel="tooltip" title="'.$ageGradeTooltip.'"' : '').'>'.$ageGradeString.'</td>' : '').'
 				<td class="small">'.$RaceResultView->pace($this->sportid)->valueWithAppendix().'</td>
 				<td class="small">'.Helper::Unknown($Activity->hrAvg()).' / '.Helper::Unknown($Activity->hrMax()).' bpm</td>
 				<td class="small">'.($Activity->weather()->isEmpty() ? '' : $Activity->weather()->fullString($Activity->isNight())).'</td>
@@ -513,13 +510,14 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 		}
 	}
 
-	/**
-	 * Get edit icon for this competition
-	 * @param int $id ID of the training
-	 * @return string
-	 */
-	private function getEditIconForActivity($id): string {
-		$SportIcon = (new Factory())->sport($this->sportid)->icon()->code();
+    /**
+     * Get edit icon for this competition
+     * @param int $id ID of the training
+     */
+    private function getEditIconForActivity($id): string {
+		$SportIcon = (new Factory())->sport($this->sportid)
+		    ->icon()
+		    ->code();
 		$url = (new Linker(new Runalyze\Model\Activity\Entity([
 		    'id' => $id
 		])))->editUrl();
@@ -574,26 +572,29 @@ class RunalyzePluginStat_Wettkampf extends PluginStat {
 			$tag   = $parts[0];
 			$id    = $parts[1];
 
-			$FunIDs = $this->Configuration()->value('fun_ids');
+			$FunIDs = $this->Configuration()
+			    ->value('fun_ids');
 
-			if ($tag == 'fun' && is_numeric($id)) {
+			if ($tag === 'fun' && is_numeric($id)) {
 				$FunIDs[] = $id;
-			} elseif ($tag == 'nofun' && is_numeric($id)) {
+			} elseif ($tag === 'nofun' && is_numeric($id)) {
 				if (($index = array_search($id, $FunIDs, true)) !== FALSE)
 					unset($FunIDs[$index]);
 			}
 
-			$this->Configuration()->object('fun_ids')->setValue($FunIDs);
-			$this->Configuration()->update('fun_ids');
+			$this->Configuration()
+			    ->object('fun_ids')
+			    ->setValue($FunIDs);
+			$this->Configuration()
+			    ->update('fun_ids');
 		}
 	}
 
-	/**
-	 * Is this competition just for fun?
-	 * @param int $id
-	 * @return bool
-	 */
-	public function isFunCompetition($id): bool {
+    /**
+     * Is this competition just for fun?
+     * @param int $id
+     */
+    public function isFunCompetition($id): bool {
 		return (in_array($id, $this->Configuration()->value('fun_ids')));
 	}
 }

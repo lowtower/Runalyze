@@ -60,11 +60,10 @@ class Table {
 	 */
 	protected $Code = '';
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Entity $splits
-	 * @param int $legacyPaceUnitEnum enum
-	 */
-	public function __construct(Splits\Entity $splits, $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM) {
+    /**
+     * @param int $legacyPaceUnitEnum enum
+     */
+    public function __construct(Splits\Entity $splits, $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM) {
 		$this->Splits = $splits;
 		$this->PaceUnit = $legacyPaceUnitEnum;
 
@@ -121,11 +120,10 @@ class Table {
 		$this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
 	}
 
-	/**
-	 * Set halfs of competition
-	 * @param array $Halfs
-	 */
-	public function setHalfsOfCompetition(array $Halfs) {
+    /**
+     * Set halfs of competition
+     */
+    public function setHalfsOfCompetition(array $Halfs) {
 		$this->Halfs = $Halfs;
 	}
 
@@ -208,13 +206,11 @@ class Table {
 		return $hasDistance;
 	}
 
-	/**
-	 * Get td for pace difference
-	 * @param \Runalyze\Activity\Pace $Pace
-	 * @param bool $compareOnlyToDemanded [optional] default false
-	 * @return string
-	 */
-	private function tdForPaceDifference(Pace $Pace, $compareOnlyToDemanded = false): string {
+    /**
+     * Get td for pace difference
+     * @param bool $compareOnlyToDemanded [optional] default false
+     */
+    private function tdForPaceDifference(Pace $Pace, $compareOnlyToDemanded = false): string {
 		if (
 			($compareOnlyToDemanded && ($this->demandedPace->isEmpty())) ||
 			($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())

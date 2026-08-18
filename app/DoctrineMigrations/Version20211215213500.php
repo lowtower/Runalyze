@@ -17,9 +17,6 @@ class Version20211215213500 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -28,9 +25,6 @@ class Version20211215213500 extends AbstractMigration implements ContainerAwareI
                                                           ADD `respiration_rate` longtext AFTER `performance_condition`');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

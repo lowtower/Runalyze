@@ -40,11 +40,10 @@ class ElevationAlgorithms extends ActivityPlot {
 		$this->key   = 'elevation-algorithms';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$this->Context = $context;
 
 		$this->addSeries($this->seriesForCorrectedData(), 1, false);
@@ -89,9 +88,6 @@ class ElevationAlgorithms extends ActivityPlot {
 		return $Series;
 	}
 
-	/**
-	 * @return \Runalyze\View\Plot\Series
-	 */
 	protected function seriesForThreshold(): \Runalyze\View\Plot\Series {
 		$Series = new PlotSeries();
 		$Series->setColor('#008');
@@ -101,9 +97,6 @@ class ElevationAlgorithms extends ActivityPlot {
 		return $Series;
 	}
 
-	/**
-	 * @return \Runalyze\View\Plot\Series
-	 */
 	protected function seriesForDouglasPeucker(): \Runalyze\View\Plot\Series {
 		$Series = new PlotSeries();
 		$Series->setColor('#800');
@@ -113,13 +106,12 @@ class ElevationAlgorithms extends ActivityPlot {
 		return $Series;
 	}
 
-	/**
-	 * Construct plot data
-	 * @param mixed $algorithm
-	 * @param int|bool $threshold
-	 * @return array
-	 */
-	protected function constructPlotDataFor($algorithm, $threshold = false): array {
+    /**
+     * Construct plot data
+     * @param mixed $algorithm
+     * @param int|bool $threshold
+     */
+    protected function constructPlotDataFor($algorithm, $threshold = false): array {
 		$Method = new ElevationMethod();
 		$Method->set($algorithm);
 
@@ -133,12 +125,18 @@ class ElevationAlgorithms extends ActivityPlot {
 		$Calculator->calculate();
 
 		$Data = array();
-		$Points = $Calculator->strategy()->smoothedData();
-		$Indices = $Calculator->strategy()->smoothingIndices();
-		$hasDistances = $this->Context->trackdata()->get(Trackdata\Entity::DISTANCE) && ! Configuration::ActivityView()->usesTimeAsXAxis();
-		$Distances = $this->Context->trackdata()->get(Trackdata\Entity::DISTANCE);
-		$Times = $this->Context->trackdata()->get(Trackdata\Entity::TIME);
-		$num = $this->Context->trackdata()->num();
+		$Points = $Calculator->strategy()
+		    ->smoothedData();
+		$Indices = $Calculator->strategy()
+		    ->smoothingIndices();
+		$hasDistances = $this->Context->trackdata()
+		    ->get(Trackdata\Entity::DISTANCE) && ! Configuration::ActivityView()->usesTimeAsXAxis();
+		$Distances = $this->Context->trackdata()
+		    ->get(Trackdata\Entity::DISTANCE);
+		$Times = $this->Context->trackdata()
+		    ->get(Trackdata\Entity::TIME);
+		$num = $this->Context->trackdata()
+		    ->num();
 
 		foreach ($Indices as $i => $index) {
 			if ($index >= $num) {
@@ -148,7 +146,7 @@ class ElevationAlgorithms extends ActivityPlot {
 			if ($hasDistances) {
 				$Data[(string) $Distances[$index]] = $Points[$i];
 			} else {
-				$Data[(string) $Times[$index].'000'] = $Points[$i];
+				$Data[$Times[$index].'000'] = $Points[$i];
 			}
 		}
 

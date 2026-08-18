@@ -17,13 +17,14 @@ use Runalyze\Data\Weather\CardinalDirection;
  */
 class WeatherWindDegree extends AbstractBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(\Runalyze\View\Activity\Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
-		$WindDirection = $Context->activity()->weather()->windDegree();
+		$WindDirection = $Context->activity()
+		    ->weather()
+		    ->windDegree();
 		$CardinalDirection = CardinalDirection::getDirection($WindDirection->value());
 		parent::__construct(
 		    \Helper::Unknown($CardinalDirection.' / '.$WindDirection->string(false), '-'),

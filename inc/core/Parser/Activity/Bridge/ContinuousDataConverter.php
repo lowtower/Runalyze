@@ -17,9 +17,6 @@ class ContinuousDataConverter
         $this->Data = $data;
     }
 
-    /**
-     * @return Trackdata\Entity
-     */
     public function convertToLegacyTrackdataModel(): \Runalyze\Model\Trackdata\Entity
     {
         return new Trackdata\Entity([
@@ -48,9 +45,6 @@ class ContinuousDataConverter
         ]);
     }
 
-    /**
-     * @return Route\Entity
-     */
     public function convertToLegacyRouteModel(): \Runalyze\Model\Route\Entity
     {
         $route = new Route\Entity([
@@ -62,9 +56,6 @@ class ContinuousDataConverter
         return $route;
     }
 
-    /**
-     * @return Swimdata\Entity
-     */
     public function convertToLegacySwimdataModel(): \Runalyze\Model\Swimdata\Entity
     {
         return new Swimdata\Entity([

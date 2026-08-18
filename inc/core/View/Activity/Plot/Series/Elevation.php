@@ -30,7 +30,7 @@ class Elevation extends ActivitySeries {
 	/**
 	 * Create series
 	 * @var \Runalyze\View\Activity\Context
-	 * @var boolean [optional]
+	 * @var bool [optional]
 	 */
 	public function __construct(Activity\Context $context, $forceOriginal = false) {
 		$this->initOptions();
@@ -40,7 +40,7 @@ class Elevation extends ActivitySeries {
 	/**
 	 * Init data
 	 * @var \Runalyze\View\Activity\Context
-	 * @var boolean
+	 * @var bool
 	 */
 	protected function initDataWithRoute(Activity\Context $context, $forceOriginal) {
 		if (! $context->hasRoute()) {
@@ -48,7 +48,8 @@ class Elevation extends ActivitySeries {
 			return;
 		}
 
-		$key = $context->route()->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
+		$key = $context->route()
+		    ->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
 
 		if (! $context->route()->has($key)) {
 			$this->Data = array();
@@ -93,13 +94,12 @@ class Elevation extends ActivitySeries {
 		$this->ShowMinimum = true;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
 		if (empty($this->Data)) {
 			return;
 		}

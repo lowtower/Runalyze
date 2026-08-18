@@ -89,11 +89,10 @@ class JsonImporterResults
         return false;
 	}
 
-	/**
-	 * Get complete string
-	 * @return string
-	 */
-	public function completeString(): string
+    /**
+     * Get complete string
+     */
+    public function completeString(): string
     {
 		$Rows = array();
 
@@ -110,13 +109,12 @@ class JsonImporterResults
 		return implode('<br>', $Rows);
 	}
 
-	/**
-	 * Get result string
-	 * @param string $tableName
-	 * @param string $string
-	 * @return string
-	 */
-	protected function stringFor($tableName, $string): string
+    /**
+     * Get result string
+     * @param string $tableName
+     * @param string $string
+     */
+    protected function stringFor($tableName, $string): string
     {
 		$format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
 

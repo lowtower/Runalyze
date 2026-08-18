@@ -42,12 +42,11 @@ class MonthwiseTable
 	/** @var int */
 	protected $MonthOffsetForHeader = -1;
 
-	/**
-	 * @param \PDO $pdo
-	 * @param int $accountId
-	 * @param int $equipmentTypeId
-	 */
-	public function __construct(\PDO $pdo, $accountId, $equipmentTypeId = 0)
+    /**
+     * @param int $accountId
+     * @param int $equipmentTypeId
+     */
+    public function __construct(\PDO $pdo, $accountId, $equipmentTypeId = 0)
 	{
 		$this->PDO = $pdo;
 		$this->AccountID = $accountId;
@@ -133,13 +132,10 @@ class MonthwiseTable
 		$this->displayBodyForData($this->generateDataForEquipment());
 	}
 
-	/**
-	 * @param array $rows
-	 */
 	protected function displayBodyForData(array $rows)
 	{
 		$isFirst = true;
-		$mentionEmptyData = (count($rows) == 1);
+		$mentionEmptyData = (count($rows) === 1);
 
 		foreach ($rows as $name => $rowData) {
 			echo '<tr'.($isFirst ? ' class="top-spacer"' : '').'>';
@@ -167,9 +163,6 @@ class MonthwiseTable
 		echo '</table>';
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function generateDataForAverageTemperature(): array
 	{
 		$Temperature = new Temperature();
@@ -205,9 +198,6 @@ class MonthwiseTable
 		);
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function generateDataForWeatherConditions(): array
 	{
 		$Rows = array();
@@ -253,9 +243,6 @@ class MonthwiseTable
 		);
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function generateDataForEquipment(): array
 	{
 		if ($this->EquipmentTypeID == 0) {

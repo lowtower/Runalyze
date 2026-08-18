@@ -20,36 +20,30 @@ class Tags extends AbstractKey
 	/** @var string */
 	const CONCAT_TAGIDS_KEY = 'concat_tags';
 
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::TAGS;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return '';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Tags');
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function requiresJoin(): bool
 	{
 		return true;
@@ -67,12 +61,10 @@ class Tags extends AbstractKey
 );
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context): string
+    /**
+     * Get string to display this dataset value
+     */
+    public function stringFor(Context $context): string
 	{
 		$string = '';
 
@@ -88,11 +80,10 @@ class Tags extends AbstractKey
 		return $string;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

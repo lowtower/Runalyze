@@ -810,8 +810,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|Type $type
-     *
      * @return $this
      */
     public function setType(?Type $type = null)
@@ -849,9 +847,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->time;
     }
 
-    /**
-     * @return LocalTime
-     */
     public function getDateTime(): \Runalyze\Util\LocalTime
     {
         return new LocalTime($this->time);
@@ -2400,7 +2395,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->routeName = $routeName;
 
         if ($this->hasRoute()) {
-            $this->getRoute()->setName($routeName);
+            $this->getRoute()
+                ->setName($routeName);
         }
 
         return $this;
@@ -2415,8 +2411,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param null|Route $route
-     *
      * @return $this
      */
     public function setRoute(?Route $route = null)
@@ -2438,17 +2432,12 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->route;
     }
 
-    /**
-     * @return bool
-     */
     public function hasRoute(): bool
     {
         return null !== $this->route;
     }
 
     /**
-     * @param RoundCollection $splits
-     *
      * @return $this
      */
     public function setSplits(RoundCollection $splits)
@@ -2572,8 +2561,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -2672,8 +2659,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param Equipment $equipment
-     *
      * @return $this
      */
     public function addEquipment(Equipment $equipment)
@@ -2683,9 +2668,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @param Equipment $equipment
-     */
     public function removeEquipment(Equipment $equipment)
     {
         $this->equipment->removeElement($equipment);
@@ -2700,8 +2682,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
-     * @param Tag $tag
-     *
      * @return $this
      */
     public function addTag(Tag $tag)
@@ -2711,9 +2691,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-    /**
-     * @param Tag $tag
-     */
     public function removeTag(Tag $tag)
     {
         $this->tag->removeElement($tag);
@@ -2748,9 +2725,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->trackdata;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTrackdata(): bool
     {
         return null !== $this->trackdata;
@@ -2777,9 +2751,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->swimdata;
     }
 
-    /**
-     * @return bool
-     */
     public function hasSwimdata(): bool
     {
         return null !== $this->swimdata;
@@ -2806,9 +2777,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->hrv;
     }
 
-    /**
-     * @return bool
-     */
     public function hasHrv(): bool
     {
         return null !== $this->hrv;
@@ -2835,9 +2803,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->raceresult;
     }
 
-    /**
-     * @return bool
-     */
     public function hasRaceresult(): bool
     {
         return null !== $this->raceresult;
@@ -2865,7 +2830,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
             $this->distance = null;
         }
 
-        $this->getAdapter()->updateSimpleCalculatedValues();
+        $this->getAdapter()
+            ->updateSimpleCalculatedValues();
     }
 
     /**
@@ -2874,7 +2840,8 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     public function useElevationFromRouteIfEmpty()
     {
         if (null === $this->elevation || 0 == $this->elevation) {
-            $this->getAdapter()->useElevationFromRoute();
+            $this->getAdapter()
+                ->useElevationFromRoute();
         }
     }
 }

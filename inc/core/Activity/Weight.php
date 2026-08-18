@@ -20,13 +20,13 @@ use Runalyze\Parameter\Application\WeightUnit;
 class Weight implements ValueInterface {
 	/**
 	 * Default poun d multiplier
-	 * @var double
+	 * @var float
 	 */
 	const POUNDS_MULTIPLIER = 2.204622;
 
 	/**
 	 * Default stone multiplier
-	 * @var double
+	 * @var float
 	 */
 	const STONES_MULTIPLIER = 0.157473;
 
@@ -48,14 +48,13 @@ class Weight implements ValueInterface {
 	 */
 	protected $PreferredUnit;
 
-	/**
-	 * Format
-	 * @param float $weight [kg]
-	 * @param bool $withUnit [optional] with or without unit
-	 * @param int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public static function format($weight, $withUnit = true, $decimals = false): string {
+    /**
+     * Format
+     * @param float $weight [kg]
+     * @param bool $withUnit [optional] with or without unit
+     * @param int $decimals [optional] number of decimals
+     */
+    public static function format($weight, $withUnit = true, $decimals = false): string {
 		return (new self($weight))->string($withUnit, $decimals);
 	}
 
@@ -130,13 +129,12 @@ class Weight implements ValueInterface {
 		return $this;
 	}
 
-	/**
-	 * Format weight as string
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public function string($withUnit = true, $decimals = false): string {
+    /**
+     * Format weight as string
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     */
+    public function string($withUnit = true, $decimals = false): string {
 		if ($this->PreferredUnit->isPounds()) {
 			return $this->stringPounds($withUnit, $decimals);
 		}

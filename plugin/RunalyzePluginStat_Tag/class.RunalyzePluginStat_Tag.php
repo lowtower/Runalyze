@@ -22,19 +22,17 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	/** @var array array(year => array(month => num)) */
 	protected $TagData = array();
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Tag analysis');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('How often have you tagged your activities with tag x?');
 	}
 
@@ -56,13 +54,15 @@ class RunalyzePluginStat_Tag extends PluginStat {
 		$Configuration->addValue($Tags);
 
 		if (isset($_GET['dat']) && isset($this->AllTags[$_GET['dat']])) {
-			$Configuration->object('tag')->setValue($_GET['dat']);
+			$Configuration->object('tag')
+			    ->setValue($_GET['dat']);
 			$Configuration->update('tag');
 			Cache::delete(PluginConfiguration::CACHE_KEY);
 		}
 
 		$this->setConfiguration($Configuration);
-		$this->TagId = (int) $this->Configuration()->value('tag');
+		$this->TagId = (int) $this->Configuration()
+		    ->value('tag');
 	}
 
 	/**

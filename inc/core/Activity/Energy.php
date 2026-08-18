@@ -20,7 +20,7 @@ use Runalyze\Parameter\Application\EnergyUnit;
 class Energy implements ValueInterface {
 	/**
 	 * Default kj multiplier
-	 * @var double
+	 * @var float
 	 */
 	const KJ_MULTIPLIER = 4.1868;
 
@@ -36,13 +36,12 @@ class Energy implements ValueInterface {
 	 */
 	protected $PreferredUnit;
 
-	/**
-	 * Format
-	 * @param float $energy [kcal]
-	 * @param bool $withUnit [optional] with or without unit
-	 * @return string
-	 */
-	public static function format($energy, $withUnit = true): string {
+    /**
+     * Format
+     * @param float $energy [kcal]
+     * @param bool $withUnit [optional] with or without unit
+     */
+    public static function format($energy, $withUnit = true): string {
 		return (new self($energy))->string($withUnit);
 	}
 
@@ -103,12 +102,11 @@ class Energy implements ValueInterface {
 		return $this;
 	}
 
-	/**
-	 * Format energy as string
-	 * @param bool $withUnit [optional] show unit?
-	 * @return string
-	 */
-	public function string($withUnit = true): string {
+    /**
+     * Format energy as string
+     * @param bool $withUnit [optional] show unit?
+     */
+    public function string($withUnit = true): string {
 		if ($this->PreferredUnit->isKJ()) {
 			return $this->stringKJ($withUnit);
 		}

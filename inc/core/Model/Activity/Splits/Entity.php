@@ -82,11 +82,10 @@ class Entity extends StringArrayObject {
 		}
 	}
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	public function asString(): string {
+    /**
+     * As string
+     */
+    public function asString(): string {
 		$array = array();
 
 		foreach ($this->Elements as $Split) {
@@ -147,12 +146,11 @@ class Entity extends StringArrayObject {
 		return $distance;
 	}
 
-	/**
-	 * Is at least one lap active?
-	 * @param int $num
-	 * @return boolean
-	 */
-	public function hasActiveLaps($num = 1): bool {
+    /**
+     * Is at least one lap active?
+     * @param int $num
+     */
+    public function hasActiveLaps($num = 1): bool {
 		$count = 0;
 
 		foreach ($this->Elements as $split) {
@@ -168,11 +166,10 @@ class Entity extends StringArrayObject {
 		return false;
 	}
 
-	/**
-	 * Are there active and inactive laps?
-	 * @return boolean
-	 */
-	public function hasActiveAndInactiveLaps(): bool {
+    /**
+     * Are there active and inactive laps?
+     */
+    public function hasActiveAndInactiveLaps(): bool {
 		$active = null;
 
 		foreach ($this->Elements as $split) {

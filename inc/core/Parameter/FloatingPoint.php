@@ -53,11 +53,10 @@ class FloatingPoint extends \Runalyze\Parameter {
 		parent::set($value);
 	}
 
-	/**
-	 * Value as string
-	 * @return string
-	 */
-	public function valueAsString(): string {
+    /**
+     * Value as string
+     */
+    public function valueAsString(): string {
 		$value = $this->value();
 
 		if (null === $value && $this->Options['null']) {
@@ -67,9 +66,6 @@ class FloatingPoint extends \Runalyze\Parameter {
 		return (string) $value;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isEmpty(): bool {
 		return (null === $this->value());
 	}

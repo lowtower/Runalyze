@@ -30,13 +30,12 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 	 */
 	abstract public function __construct(Context $context);
 
-	/**
-	 * Init data
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param string $key
-	 * @param boolean $fillGaps try to fill gaps (zero values)
-	 */
-	protected function initData(Trackdata $trackdata, $key, $fillGaps = false) {
+    /**
+     * Init data
+     * @param string $key
+     * @param bool $fillGaps try to fill gaps (zero values)
+     */
+    protected function initData(Trackdata $trackdata, $key, $fillGaps = false) {
 		if (! $trackdata->has($key)) {
 			$this->Data = array();
 			return;
@@ -52,12 +51,11 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 		$this->XAxis = $Collector->xAxis();
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param string $key
-	 */
-	protected function fillGaps(Trackdata $trackdata, $key) {
+    /**
+     * Init data
+     * @param string $key
+     */
+    protected function fillGaps(Trackdata $trackdata, $key) {
 		$data = $trackdata->get($key);
 		$last = $data[0];
 
@@ -72,13 +70,12 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
 		$trackdata->set($key, $data);
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param bool $addAnnotations [optional]
-	 */
-	public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
 		if (empty($this->Data)) {
 			return;
 		}

@@ -20,17 +20,11 @@ class ServerParams
         return $this->transformStringToBytes($this->getNormalizedIniUploadMaxFilesize());
     }
 
-    /**
-     * @return string
-     */
     public function getNormalizedIniPostMaxSize(): string
     {
         return strtoupper(trim(ini_get('post_max_size')));
     }
 
-    /**
-     * @return string
-     */
     public function getNormalizedIniUploadMaxFilesize(): string
     {
         return strtoupper(trim(ini_get('upload_max_filesize')));

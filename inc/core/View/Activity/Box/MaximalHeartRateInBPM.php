@@ -18,7 +18,6 @@ use Runalyze\Activity\HeartRate;
 class MaximalHeartRateInBPM extends MaximalHeartRate
 {
     /**
-     * @param \Runalyze\Activity\HeartRate $heartRate
      * @return string
      */
     protected function value(HeartRate $heartRate)
@@ -30,9 +29,6 @@ class MaximalHeartRateInBPM extends MaximalHeartRate
         return '-';
 	}
 
-    /**
-     * @return string
-     */
     protected function unit(): string
 	{
         return 'bpm';

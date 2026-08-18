@@ -61,22 +61,20 @@ class VerticalRatio extends ActivityPointSeries {
 		$this->Data = array_map(array($this, 'correctUnit'), $this->Data);
 	}
 
-	/**
-	 * Change value by internal factor
-	 * @param int $value
-	 * @return float
-	 */
-	protected function correctUnit($value): float {
+    /**
+     * Change value by internal factor
+     * @param int $value
+     */
+    protected function correctUnit($value): float {
 		return 0.1*$value;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
 		parent::addTo($Plot, $yAxis, $addAnnotations);
 
 		$this->setColorThresholdsBelow($Plot, 6.1, 7.4, 8.6, 10.1);

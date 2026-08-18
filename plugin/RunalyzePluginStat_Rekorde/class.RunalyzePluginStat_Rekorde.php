@@ -27,19 +27,17 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 
 	private $years  = array();
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Records');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Faster, longer, better: Your records from your activities.');
 	}
 
@@ -54,19 +52,17 @@ class RunalyzePluginStat_Rekorde extends PluginStat {
 		$this->initData();
 	}
 
-	/**
-	 * Title for all years
-	 * @return string
-	 */
-	protected function titleForAllYears(): string {
+    /**
+     * Title for all years
+     */
+    protected function titleForAllYears(): string {
 		return __('All years');
 	}
 
-	/**
-	 * Default sport
-	 * @return int
-	 */
-	protected function defaultSport(): int {
+    /**
+     * Default sport
+     */
+    protected function defaultSport(): int {
 		return -1;
 	}
 

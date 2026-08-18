@@ -53,7 +53,6 @@ class Pressure implements ValueInterface
     #
     /**
      * Label for value
-     * @return string
      */
     public function label(): string
     {
@@ -62,7 +61,6 @@ class Pressure implements ValueInterface
 
     /**
      * Label for value
-     * @return string
      */
     public function unit(): string
     {
@@ -81,7 +79,6 @@ class Pressure implements ValueInterface
     /**
      * Format value as string
      * @param bool $withUnit
-     * @return string
      */
     public function string($withUnit = true): string
     {
@@ -94,7 +91,6 @@ class Pressure implements ValueInterface
 
     /**
      * Pressure is unknown?
-     * @return bool
      */
     public function isUnknown(): bool
     {

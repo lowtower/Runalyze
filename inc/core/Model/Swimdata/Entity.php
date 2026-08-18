@@ -54,11 +54,10 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 */
 	const SWOLFCYCLES = 'swolfcycles';
 
-	/**
-	 * Construct
-	 * @param array $data
-	 */
-	public function __construct(array $data = array()) {
+    /**
+     * Construct
+     */
+    public function __construct(array $data = array()) {
 		parent::__construct($data);
 		$this->checkArraySizes();
 	}
@@ -78,12 +77,11 @@ class Entity extends Model\Entity implements Model\Loopable {
 		);
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::STROKE:
 			case self::STROKETYPE:
@@ -95,12 +93,11 @@ class Entity extends Model\Entity implements Model\Loopable {
 		return false;
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		return ($key != self::ACTIVITYID && $key != self::POOL_LENGTH);
 	}
 
@@ -207,7 +204,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 			$length = $this->poollength();
 
 			$distance = null;
-			if($this->stroketype() && $this->num() == count($this->stroketype())) {
+			if($this->stroketype() && $this->num() === count($this->stroketype())) {
 				// #TSC: optimize for GARMINs: if we have 0 strokes for one lane, distance must be 0 for this lane; because it's a erholung/"length_type=0=idle" lane
 				$d = 0;
 				foreach ($this->stroketype() as &$strtype) {

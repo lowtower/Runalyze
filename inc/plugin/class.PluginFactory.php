@@ -55,13 +55,12 @@ class PluginFactory {
 		Cache::delete(self::CACHE_KEY);
 	}
 
-	/**
-	 * Fetch complete list from database
-	 * @param \PDO $PDO
-	 * @param int $accountID
-	 * @return array
-	 */
-	private static function fetchAllPluginsFrom(PDO $PDO, $accountID) {
+    /**
+     * Fetch complete list from database
+     * @param int $accountID
+     * @return array
+     */
+    private static function fetchAllPluginsFrom(PDO $PDO, $accountID) {
 		return $PDO->query(
 		    'SELECT * FROM `'.PREFIX.'plugin` '.
 			'WHERE `accountid`='.$accountID.' '.
@@ -83,9 +82,6 @@ class PluginFactory {
 		return array();
 	}
 
-	/**
-	 * @return array
-	 */
 	public static function allIDs(): array {
 		$IDs = array();
 
@@ -147,17 +143,14 @@ class PluginFactory {
 	 * @return Plugin
 	 */
 	public function newInstallerInstance($Pluginkey): object {
-		$Plugin = new $Pluginkey( PluginInstaller::ID );
-
-		return $Plugin;
+		return new $Pluginkey( PluginInstaller::ID );
 	}
 
-	/**
-	 * Is the plugin already installed?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isInstalled($key): bool {
+    /**
+     * Is the plugin already installed?
+     * @param string $key
+     */
+    public function isInstalled($key): bool {
 		return in_array($key, $this->allPlugins());
 	}
 
@@ -230,11 +223,10 @@ class PluginFactory {
 		return $keys;
 	}
 
-	/**
-	 * Get uninstalled plugins
-	 * @return array
-	 */
-	public function notInstalledPlugins(): array {
+    /**
+     * Get uninstalled plugins
+     */
+    public function notInstalledPlugins(): array {
 		$plugins = array();
 		$dir = opendir(FRONTEND_PATH.'../plugin/');
 

@@ -10,8 +10,6 @@ class None implements UnitInterface
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

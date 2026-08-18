@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class VO2max extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -19,17 +16,11 @@ class VO2max extends AbstractCategory
         ];
     }
 
-    /**
-     * @return int
-     */
     public function getNumberOfDaysToConsider(): int
     {
         return (int) $this->Variables['VO2MAX_DAYS'];
     }
 
-    /**
-     * @return bool
-     */
     public function useCorrectionForElevation(): bool
     {
         return ('true' == $this->Variables['VO2MAX_USE_CORRECTION_FOR_ELEVATION']);
@@ -59,9 +50,6 @@ class VO2max extends AbstractCategory
         return parent::getLegacyCategory();
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\VO2max::class;

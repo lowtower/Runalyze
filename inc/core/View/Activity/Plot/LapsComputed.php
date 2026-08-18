@@ -27,11 +27,10 @@ class LapsComputed extends Laps {
 		$this->title = __('Computed Laps');
 	}
 
-	/**
-	 * Load data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function loadData(Activity\Context $context) {
+    /**
+     * Load data
+     */
+    protected function loadData(Activity\Context $context) {
 		if (! $context->trackdata()->has(Trackdata\Entity::DISTANCE) || ! $context->trackdata()->has(Trackdata\Entity::TIME)) {
 			$this->Plot->raiseError( __('No GPS-data available. Can\\\'t compute laps.') );
 			return;
@@ -47,15 +46,16 @@ class LapsComputed extends Laps {
 			if ($num < 30) {
 				$label = $km;
 			} elseif ($num < 50) {
-				$label = ($km%2 == 1 && $km > 0) ? $km : '';
+				$label = ($km % 2 === 1 && $km > 0) ? $km : '';
 			} elseif ($num < 100) {
-				$label = ($km%5 == 0 && $km > 0) ? $km : '';
+				$label = ($km % 5 === 0 && $km > 0) ? $km : '';
 			} else {
-				$label = ($km%10 == 0 && $km > 0) ? $km : '';
+				$label = ($km % 10 === 0 && $km > 0) ? $km : '';
 			}
 
 			$this->Labels[$i] = array($i, $label);
-			$Pace->setDistance($lap->distance()->kilometer())->setTime($lap->duration()->seconds());
+			$Pace->setDistance($lap->distance()->kilometer())
+			    ->setTime($lap->duration()->seconds());
 
 			if ($this->PaceUnit->isTimeFormat()) {
 				$this->Data[$i] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
@@ -72,13 +72,10 @@ class LapsComputed extends Laps {
 		);
 	}
 
-	/**
-	 * @param Activity\Context $context
-	 * @return \Runalyze\Data\Laps\Laps
-	 */
 	protected function computeRounds(Activity\Context $context): \Runalyze\Data\Laps\Laps {
 		$singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
-		$totalDistance = $context->trackdata()->totalDistance();
+		$totalDistance = $context->trackdata()
+		    ->totalDistance();
 
 		if ($totalDistance < 2*$singleDistance) {
 			$Distances = array($singleDistance);

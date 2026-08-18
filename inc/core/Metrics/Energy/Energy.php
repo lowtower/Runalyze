@@ -9,8 +9,6 @@ use Runalyze\Metrics\Energy\Unit\Kilocalories;
 class Energy extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string
@@ -20,7 +18,6 @@ class Energy extends AbstractMetric
 
     /**
      * @param mixed $value
-     * @param AbstractEnergyUnit|null $unit
      * @return $this
      */
     public function setValue($value, ?AbstractEnergyUnit $unit = null)

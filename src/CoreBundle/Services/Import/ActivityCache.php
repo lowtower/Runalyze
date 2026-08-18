@@ -16,10 +16,6 @@ class ActivityCache
         $this->Cache = $cache;
     }
 
-    /**
-     * @param Training $activity
-     * @return string
-     */
     public function save(Training $activity): string
     {
         $hash = $this->getRandomHash($activity->getAccount());
@@ -33,7 +29,6 @@ class ActivityCache
 
     /**
      * @param string|null $hash
-     * @param Training|null $activityToMerge
      * @param bool $removerAfterwards
      * @return Training|null
      */
@@ -44,7 +39,8 @@ class ActivityCache
         }
 
         /** @var Training $context */
-        $activity = $this->Cache->getItem($hash)->get();
+        $activity = $this->Cache->getItem($hash)
+            ->get();
 
         if ($removerAfterwards) {
             $this->remove($hash);
@@ -70,8 +66,6 @@ class ActivityCache
     }
 
     /**
-     * @param Training $activityFromCache
-     * @param Training $activityToMerge
      * @return Training
      */
     public function merge(Training $activityFromCache, Training $activityToMerge)
@@ -84,7 +78,8 @@ class ActivityCache
         $activityToMerge->setHrv($activityFromCache->getHrv());
         $activityToMerge->setRaceresult($activityFromCache->getRaceResult());
 
-        $activityToMerge->getAdapter()->setAccountToRelatedEntities();
+        $activityToMerge->getAdapter()
+            ->setAccountToRelatedEntities();
 
         return $activityToMerge;
     }
@@ -144,10 +139,6 @@ class ActivityCache
         }
     }
 
-    /**
-     * @param Account|null $account
-     * @return string
-     */
     protected function getRandomHash(?Account $account = null): string
     {
         return hash('sha256', ($account ? $account->getName() : '').uniqid());

@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class Trimp extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -17,9 +14,6 @@ class Trimp extends AbstractCategory
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Trimp::class;

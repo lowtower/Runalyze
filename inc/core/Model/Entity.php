@@ -41,11 +41,10 @@ abstract class Entity {
 	 */
 	protected $checkArraySizes = false;
 
-	/**
-	 * Construct
-	 * @param array $data
-	 */
-	public function __construct(array $data = array()) {
+    /**
+     * Construct
+     */
+    public function __construct(array $data = array()) {
 		$this->readData($data);
 
 		if ($this->checkArraySizes) {
@@ -66,11 +65,10 @@ abstract class Entity {
 		}
 	}
 
-	/**
-	 * Read data
-	 * @param array $data
-	 */
-	final protected function readData(array $data) {
+    /**
+     * Read data
+     */
+    final protected function readData(array $data) {
 		foreach ($this->properties() as $key) {
 			if (isset($data[$key]) && $data[$key] !== '') {
 				$this->Data[$key] = $this->isArray($key) && ! is_array($data[$key]) ? self::explode($data[$key]) : $data[$key];
@@ -201,7 +199,7 @@ abstract class Entity {
 	/**
 	 * Can set key?
 	 * @param string $key
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function canSet($key) {
 		return true;
@@ -210,7 +208,7 @@ abstract class Entity {
 	/**
 	 * Is the property an array?
 	 * @param string $key
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isArray($key) {
 		return false;
@@ -219,7 +217,7 @@ abstract class Entity {
 	/**
 	 * Can be null?
 	 * @param string $key
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function canBeNull($key) {
 		return false;
@@ -241,7 +239,7 @@ abstract class Entity {
 			throw new \InvalidArgumentException('"'.$key.'" can not be set.');
 		}
 
-		if ($this->isArray($key) && ! is_array($value) && ! ($this->canBeNull($key) && null === $value)) {
+		if ($this->isArray($key) && ! is_array($value) && (! $this->canBeNull($key) || null !== $value)) {
 			throw new \RuntimeException('Value "'.$key.'" must be provided as array.');
 		}
 
@@ -311,7 +309,7 @@ abstract class Entity {
 
 	/**
 	 * Is this object empty?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isEmpty() {
 		foreach ($this->properties() as $key) {
@@ -326,7 +324,7 @@ abstract class Entity {
 	/**
 	 * Ignore a key while checking for emptiness
 	 * @param string $key
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function ignoreNonEmptyValue($key) {
 		return false;
@@ -349,12 +347,11 @@ abstract class Entity {
 		return explode(self::ARRAY_SEPARATOR, $string);
 	}
 
-	/**
-	 * Implode array to string
-	 * @param array $data
-	 * @return string
-	 */
-	public static function implode(array $data) {
+    /**
+     * Implode array to string
+     * @return string
+     */
+    public static function implode(array $data) {
 		return implode(self::ARRAY_SEPARATOR, $data);
 	}
 }

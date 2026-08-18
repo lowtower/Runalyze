@@ -91,9 +91,6 @@ class DefaultConfiguration extends Configuration
 ));
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isDefault(): bool
 	{
 		return true;

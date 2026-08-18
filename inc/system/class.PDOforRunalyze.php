@@ -132,7 +132,7 @@ class PDOforRunalyze extends PDO {
 	public function updateWhere($table, $where, $column, $value) {
 		$table = str_replace(PREFIX, '', $table);
 
-		if (is_array($column) && count($column) == count($value)) {
+		if (is_array($column) && count($column) === count($value)) {
 			$set = '';
 			foreach ($column as $i => $col) {
 				$set .= '`' . $col . '`=' . self::escape($value[$i], true, ($col == 'clothes')) . ', ';

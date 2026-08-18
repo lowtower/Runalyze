@@ -10,12 +10,10 @@ trait TokenStorageAwareServiceTrait
     /** @var TokenStorage */
     protected $TokenStorage;
 
-    /**
-     * @return bool
-     */
     protected function knowsUser(): bool
     {
-        return null !== $this->TokenStorage->getToken() && $this->TokenStorage->getToken()->getUser() instanceof Account;
+        return null !== $this->TokenStorage->getToken() && $this->TokenStorage->getToken()
+            ->getUser() instanceof Account;
     }
 
     /**
@@ -23,6 +21,7 @@ trait TokenStorageAwareServiceTrait
      */
     protected function getUser()
     {
-        return $this->knowsUser() ? $this->TokenStorage->getToken()->getUser() : null;
+        return $this->knowsUser() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
     }
 }

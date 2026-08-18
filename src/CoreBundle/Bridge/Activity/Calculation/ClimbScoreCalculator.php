@@ -22,7 +22,8 @@ class ClimbScoreCalculator
         if ($activity->hasRoute() && $activity->hasTrackdata()) {
             $score->setScoreFromClassifiedClimbs(
                 $this->getFietsIndicesFor($activity),
-                $activity->getRoute()->getDistance(),
+                $activity->getRoute()
+                    ->getDistance(),
                 $activity->getPercentageFlat()
             );
         }
@@ -32,16 +33,12 @@ class ClimbScoreCalculator
         return $score;
     }
 
-    /**
-     * @param Training $activity
-     * @return array
-     */
     protected function getFietsIndicesFor(Training $activity): array
     {
         $fietsIndex = new FietsIndex();
         $climbs = (new ClimbFinder())->findClimbsFor($activity);
 
-        $fietsIndices = array_map(function (Climb $climb) use ($fietsIndex) {
+        return array_map(function (Climb $climb) use ($fietsIndex) {
             if ($climb->getGradient() < self::CLIMB_GRADIENT_THRESHOLD || $climb->getDistance() <= self::CLIMB_DISTANCE_THRESHOLD) {
                 return 0.0;
             }
@@ -52,7 +49,5 @@ class ClimbScoreCalculator
 
             return $fietsIndex->getScoreFor($climb->getDistance(), $climb->getElevation(), (int) $climb->getAltitudeAtTop());
         }, $climbs->getElements());
-
-        return $fietsIndices;
     }
 }

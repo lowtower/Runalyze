@@ -44,10 +44,6 @@ class ConfigurationManager
         return $this->getListFor($account);
     }
 
-    /**
-     * @param Account $account
-     * @return RunalyzeConfigurationList
-     */
     protected function getListFor(Account $account): \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
     {
         $listData = [];

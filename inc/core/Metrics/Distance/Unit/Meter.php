@@ -9,8 +9,6 @@ class Meter extends AbstractDistanceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Meter extends AbstractDistanceUnit
         return 'm';
     }
 
-    /**
-     * @return int
-     */
     public function getFactorFromBaseUnit(): int
     {
         return 1000;

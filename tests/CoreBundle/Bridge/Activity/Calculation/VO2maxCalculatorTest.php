@@ -69,15 +69,18 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertGreaterThan($vo2maxWithoutCorrection, $vo2maxWithCorrection);
 
-        $this->Activity->getRoute()->setElevation(150);
+        $this->Activity->getRoute()
+            ->setElevation(150);
 
         $this->Calculator->calculateFor($this->Activity, 200, 3, -1);
         $vo2maxWithCorrectionViaRoute = $this->Activity->getVO2maxWithElevation();
 
         $this->assertGreaterThan($vo2maxWithCorrection, $vo2maxWithCorrectionViaRoute);
 
-        $this->Activity->getRoute()->setElevationUp(150);
-        $this->Activity->getRoute()->setElevationDown(0);
+        $this->Activity->getRoute()
+            ->setElevationUp(150);
+        $this->Activity->getRoute()
+            ->setElevationDown(0);
 
         $this->Calculator->calculateFor($this->Activity, 200, 3, -1);
         $vo2maxWithDetailedCorrectionViaRoute = $this->Activity->getVO2maxWithElevation();

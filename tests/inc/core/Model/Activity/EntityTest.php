@@ -59,11 +59,21 @@ class EntityTest extends \PHPUnit\Framework\TestCase {
 		    Entity::PRESSURE => null,
 		    Entity::HUMIDITY => null
 ));
-		$A->weather()->temperature()->setTemperature(17);
-		$A->weather()->windSpeed()->set(10);
-		$A->weather()->windDegree()->set(180);
-		$A->weather()->humidity()->set(65);
-		$A->weather()->pressure()->set(1025);
+		$A->weather()
+		    ->temperature()
+		    ->setTemperature(17);
+		$A->weather()
+		    ->windSpeed()
+		    ->set(10);
+		$A->weather()
+		    ->windDegree()
+		    ->set(180);
+		$A->weather()
+		    ->humidity()
+		    ->set(65);
+		$A->weather()
+		    ->pressure()
+		    ->set(1025);
 		$A->synchronize();
 
 		$this->assertEquals(17, $A->get(Entity::TEMPERATURE));

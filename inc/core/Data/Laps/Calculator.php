@@ -63,9 +63,6 @@ class Calculator
 	 */
 	protected $UsePreviousTrackpointForTimeLaps = false;
 
-	/**
-	 * @param \Runalyze\Data\Laps\Laps $object
-	 */
 	public function __construct(Laps $object)
 	{
 		$this->Laps = $object;
@@ -104,12 +101,11 @@ class Calculator
 		$this->Times = $lapTimes;
 	}
 
-	/**
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
-	 */
-	public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
+    /**
+     * @param \Runalyze\Model\Route\Entity $route
+     * @param \Runalyze\Model\Swimdata\Entity $swimdata
+     */
+    public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
 	{
 		$this->TrackdataLoop = new Trackdata\Loop($trackdata);
 		$this->RouteLoop = null !== $route ? new Route\Loop($route) : null;
@@ -249,9 +245,6 @@ class Calculator
 		$this->Laps->add($Lap);
 	}
 
-	/**
-	 * @param \Runalyze\Data\Laps\Lap $Lap
-	 */
 	protected function addElevationFor(Lap $Lap)
 	{
 		if ($this->RouteLoop === null) {
@@ -264,9 +257,6 @@ class Calculator
 		$Lap->setElevation($Calculator->elevationUp(), $Calculator->elevationDown());
 	}
 
-	/**
-	 * @param \Runalyze\Data\Laps\Lap $Lap
-	 */
 	protected function calculateAdditionalValuesFor(Lap $Lap)
 	{
 		if (! $this->CalculateAdditionalValues) {
@@ -288,7 +278,6 @@ class Calculator
 	}
 
     /**
-     * @param \Runalyze\Model\Trackdata\Entity $Object
      * @param array<string, mixed> $AdditionalData
      */
     protected function addTrackdataAveragesToDataFrom(Trackdata\Entity $Object, array &$AdditionalData) {
@@ -314,7 +303,6 @@ class Calculator
 
     /**
      * #TSC add swim-data for the laps-popup.
-     * @param \Runalyze\Model\Swimdata\Entity $Object
      * @param array<string, mixed> $AdditionalData
      */
     protected function addSwimmdataAveragesToDataFrom(Swimdata\Entity $Object, array &$AdditionalData) {
@@ -379,26 +367,29 @@ class Calculator
 	}
 
     /**
-     * @param \Runalyze\Data\Laps\Lap $Lap
      * @param array<string, mixed> $AdditionalData
      */
     protected function addVO2maxToDataFrom(Lap $Lap, array &$AdditionalData) {
 		if (Configuration::VO2max()->useElevationCorrection() && $Lap->hasElevation()) {
 			$distance = (new Calculation\Elevation\DistanceModifier(
-			    $Lap->distance()->kilometer(),
+			    $Lap->distance()
+			        ->kilometer(),
 			    $Lap->elevationUp(),
 			    $Lap->elevationDown(),
 			    Configuration::VO2max()
 			))->correctedDistance();
 		} else {
-			$distance = $Lap->distance()->kilometer();
+			$distance = $Lap->distance()
+			    ->kilometer();
 		}
 
 		$vo2max = new Calculation\JD\LegacyEffectiveVO2max();
         $vo2max->fromPaceAndHR(
             $distance,
-            $Lap->duration()->seconds(),
-            $Lap->HRavg()->inHRmax() / 100
+            $Lap->duration()
+                ->seconds(),
+            $Lap->HRavg()
+                ->inHRmax() / 100
         );
 
 		if ($vo2max->value() > 0) {
@@ -470,7 +461,7 @@ class Calculator
     /**
      * Is the given array sorted?
      * @param array<int, mixed> $data
-     * @return boolean true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]
+     * @return bool true for e.g. [1, 2.5, 3], false for e.g. [1, 2, 1.5]
      */
     protected static function isSorted(array $data): bool
 	{

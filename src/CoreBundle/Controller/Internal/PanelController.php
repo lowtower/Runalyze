@@ -21,7 +21,8 @@ class PanelController extends Controller
      */
     public function sportStatAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
-        $sportRepository = $this->getDoctrine()->getRepository('CoreBundle:Sport');
+        $sportRepository = $this->getDoctrine()
+            ->getRepository('CoreBundle:Sport');
         $today = (new LocalTime())->setTime(0, 0, 0);
 
         return new JsonResponse( [

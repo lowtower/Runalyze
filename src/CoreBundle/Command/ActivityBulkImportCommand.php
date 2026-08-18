@@ -34,7 +34,8 @@ class MaxZoneHR {
     public function __construct($account, $container) {
         // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()
         // so read the conf via repository
-        $repository = $container->get('doctrine')->getRepository('CoreBundle:Conf');
+        $repository = $container->get('doctrine')
+            ->getRepository('CoreBundle:Conf');
 
         $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
@@ -90,18 +91,19 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      */
     protected function getTrainingRepository()
     {
-        return $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Training');
+        return $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Training');
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Account');
+        $repository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Account');
         $user = $repository->loadUserByUsername($input->getArgument('username'));
 
         if (null === $user) {
@@ -114,10 +116,14 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $this->createEquiqmentArray($user, $output);
 
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $this->getContainer()->get('security.token_storage')->setToken($token);
+        $this->getContainer()
+            ->get('security.token_storage')
+            ->setToken($token);
 
-        $importer = $this->getContainer()->get('app.file_importer');
-        $dataDirectory = $this->getContainer()->getParameter('data_directory');
+        $importer = $this->getContainer()
+            ->get('app.file_importer');
+        $dataDirectory = $this->getContainer()
+            ->getParameter('data_directory');
         $path = $input->getArgument('path');
 
         // #TSC - new arguments/options
@@ -156,8 +162,13 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $importResult = $importer->importFiles($files);
         $importResult->completeAndFilterResults($this->getContainer()->get('app.activity_data_container.filter'));
 
-        $contextAdapterFactory = $this->getContainer()->get('app.activity_context_adapter_factory');
-        $defaultLocation = $this->getContainer()->get('app.configuration_manager')->getList()->getActivityForm()->getDefaultLocationForWeatherForecast();
+        $contextAdapterFactory = $this->getContainer()
+            ->get('app.activity_context_adapter_factory');
+        $defaultLocation = $this->getContainer()
+            ->get('app.configuration_manager')
+            ->getList()
+            ->getActivityForm()
+            ->getDefaultLocationForWeatherForecast();
 
         $maxZoneHR = new MaxZoneHR($user, $this->getContainer());
 
@@ -188,7 +199,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
                 $contextAdapter->guessWeatherConditions($defaultLocation, $user);
                 $contextAdapter->guessRouteDetails();
-                $this->getTrainingRepository()->save($activity);
+                $this->getTrainingRepository()
+                    ->save($activity);
                 $output->writeln('<fg=green> ... successfully imported</>');
                 $this->moveFile($fs, $path, $result->getOriginalFileName(), $output);
 
@@ -232,13 +244,13 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param ActivityDataContainer $container
-     * @param Account $account
      * @return \Runalyze\Bundle\CoreBundle\Entity\Training
      */
     protected function containerToActivity(ActivityDataContainer $container, Account $account)
     {
-        return $this->getContainer()->get('app.activity_data_container.converter')->getActivityFor($container, $account);
+        return $this->getContainer()
+            ->get('app.activity_data_container.converter')
+            ->getActivityFor($container, $account);
     }
 
     private function addFailedFile($fileName, $error)
@@ -279,7 +291,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      */
     private function setEquipmentIfPossible(Training $activity, OutputInterface $output) {
         $actDate = $activity->getDateTime();
-        $sportId = $activity->getSport()->getId();
+        $sportId = $activity->getSport()
+            ->getId();
 
         // use equipmentId as key
         $equipments = array();
@@ -332,7 +345,9 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      */
     private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, $maxZoneHR) {
         // same logic as BodyValuesController.addAction
-        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:User');
+        $repository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:User');
         $oldUser = $repository->getLatestEntryFor($account);
 
         // if new max differs from the stored one

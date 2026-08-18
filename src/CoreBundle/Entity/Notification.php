@@ -138,7 +138,8 @@ class Notification implements AccountRelatedEntityInterface
         if (null === $lifetime) {
             $this->expirationAt = null;
         } else {
-            $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)->modify('+'.(int) $lifetime.' days')->getTimestamp();
+            $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)
+                ->modify('+'.(int) $lifetime.' days')->getTimestamp();
         }
 
         return $this;
@@ -205,8 +206,6 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -233,8 +232,6 @@ class Notification implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param MessageInterface $message
-     * @param Account $account
      * @return Notification
      */
     public static function createFromMessage(MessageInterface $message, Account $account)

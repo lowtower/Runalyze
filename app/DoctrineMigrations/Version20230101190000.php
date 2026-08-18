@@ -21,9 +21,6 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -43,9 +40,6 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
             ADD CONSTRAINT `'.$prefix.'equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `'.$prefix.'equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

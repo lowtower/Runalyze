@@ -15,8 +15,10 @@ class CategoryFake extends Category\VO2max {
 	public function __construct($vo2maxDays = 30, $elevationCorrector = false) {
 		parent::__construct();
 
-		$this->object('VO2MAX_DAYS')->set($vo2maxDays);
-		$this->object('VO2MAX_USE_CORRECTION_FOR_ELEVATION')->set($elevationCorrector);
+		$this->object('VO2MAX_DAYS')
+		    ->set($vo2maxDays);
+		$this->object('VO2MAX_USE_CORRECTION_FOR_ELEVATION')
+		    ->set($elevationCorrector);
 	}
 }
 

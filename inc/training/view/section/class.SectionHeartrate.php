@@ -20,19 +20,18 @@ class SectionHeartrate extends TrainingViewSectionTabbedPlot {
 		$this->appendRowTabbedPlot( new SectionHeartrateRow($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
-		return $this->Context->activity()->hrAvg() > 0;
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
+		return $this->Context->activity()
+		    ->hrAvg() > 0;
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'heartrate';
 	}
 }

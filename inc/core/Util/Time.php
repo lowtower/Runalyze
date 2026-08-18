@@ -15,13 +15,12 @@ use Runalyze\Configuration;
  * @package Runalyze\Util
  */
 class Time {
-	/**
-	 * Absolute difference in days between two timestamps
-	 * @param int $time_1
-	 * @param int $time_2 optional
-	 * @return int
-	 */
-	public static function diffInDays($time_1, $time_2 = 0): float {
+    /**
+     * Absolute difference in days between two timestamps
+     * @param int $time_1
+     * @param int $time_2 optional
+     */
+    public static function diffInDays($time_1, $time_2 = 0): float {
 		if ($time_2 == 0) {
 			$time_2 = time();
 		}
@@ -29,23 +28,22 @@ class Time {
 		return floor(abs(($time_1 - $time_2)/(3600*24)));
 	}
 
-	/**
-	 * Calculates the difference in days of two dates (YYYY-mm-dd)
-	 * @param string $date1
-	 * @param string $date2
-	 * @return int
-	 */
-	public static function diffOfDates($date1, $date2): int {
-		return (int) date_diff(date_create($date1), date_create($date2))->format('%a');
+    /**
+     * Calculates the difference in days of two dates (YYYY-mm-dd)
+     * @param string $date1
+     * @param string $date2
+     */
+    public static function diffOfDates($date1, $date2): int {
+		return (int) date_diff(date_create($date1), date_create($date2))
+		    ->format('%a');
 	}
 
-	/**
-	 * Is given timestamp from today?
-	 * @param int $timestamp
-	 * @return boolean
-	 */
-	public static function isToday($timestamp): bool {
-		return (date('d.m.Y') == date('d.m.Y', $timestamp));
+    /**
+     * Is given timestamp from today?
+     * @param int $timestamp
+     */
+    public static function isToday($timestamp): bool {
+		return (date('d.m.Y') === date('d.m.Y', $timestamp));
 	}
 
 	/**
@@ -78,14 +76,13 @@ class Time {
 		return mktime(23, 59, 50, date('m', $start), date('d', $start) + 6, date('Y', $start));
 	}
 
-	/**
-	 * Get the name of a day
-	 * @param string $w     date('w');
-	 * @param bool $short   short version, default: false
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public static function weekday($w, $short = false): string {
+    /**
+     * Get the name of a day
+     * @param string $w     date('w');
+     * @param bool $short   short version, default: false
+     * @codeCoverageIgnore
+     */
+    public static function weekday($w, $short = false): string {
 		switch ($w%7) {
 			case 0: return $short ? __('Sun') : __('Sunday');
 			case 1: return $short ? __('Mon') : __('Monday');
@@ -98,14 +95,13 @@ class Time {
 		}
 	}
 
-	/**
-	 * Get the name of the month
-	 * @param string $m     date('m');
-	 * @param bool $short   short version, default: false
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public static function month($m, $short = false): string {
+    /**
+     * Get the name of the month
+     * @param string $m     date('m');
+     * @param bool $short   short version, default: false
+     * @codeCoverageIgnore
+     */
+    public static function month($m, $short = false): string {
 		switch ($m % 12) {
 			case 1: return $short ? __('Jan') : __('January');
 			case 2: return $short ? __('Feb') : __('February');

@@ -39,7 +39,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		$Loop = new JobLoop([], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
-		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
+		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
+		    ->fetch();
 		$this->assertEquals(0, $data['elevation']);
 		$this->assertEquals(0, $data['vo2max']);
 		$this->assertEquals(0, $data['vo2max_by_time']);
@@ -62,7 +63,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
-		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
+		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
+		    ->fetch();
 		$this->assertNotEquals(0, $data['vo2max']);
 		$this->assertNotEquals(0, $data['vo2max_by_time']);
 		$this->assertNotEquals(0, $data['vo2max_with_elevation']);
@@ -120,8 +122,10 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
-		$DataDown = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
-		$DataUp = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')->fetch();
+		$DataDown = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
+		    ->fetch();
+		$DataUp = $this->PDO->query('SELECT `elevation`, `vo2max`, `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')
+		    ->fetch();
 
 		$this->assertEquals($DataUp['vo2max'], $DataDown['vo2max']);
 		$this->assertEquals(100, $DataUp['elevation']);
@@ -150,8 +154,10 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
-		$vo2maxElevationDown = $this->PDO->query('SELECT `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetchColumn();
-		$vo2maxElevationUp = $this->PDO->query('SELECT `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')->fetchColumn();
+		$vo2maxElevationDown = $this->PDO->query('SELECT `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
+		    ->fetchColumn();
+		$vo2maxElevationUp = $this->PDO->query('SELECT `vo2max_with_elevation` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')
+		    ->fetchColumn();
 
 		$this->assertGreaterThan($vo2maxElevationDown, $vo2maxElevationUp);
 	}
@@ -169,7 +175,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 		], $this->PDO, 0, 'runalyze_');
 		$Loop->run();
 
-		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch();
+		$data = $this->PDO->query('SELECT * FROM `runalyze_training` WHERE `id`=1 LIMIT 1')
+		    ->fetch();
 		$this->assertEquals(0, $data['vo2max']);
 		$this->assertEquals(0, $data['vo2max_by_time']);
 		$this->assertEquals(0, $data['vo2max_with_elevation']);

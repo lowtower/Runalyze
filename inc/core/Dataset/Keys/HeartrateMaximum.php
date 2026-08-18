@@ -18,51 +18,48 @@ use Runalyze\Dataset\SummaryMode;
  */
 class HeartrateMaximum extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::HEARTRATE_MAX;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'pulse_max';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('max.').' '.__('Heart rate');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return 'max. '.__('HR');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		if ($context->activity()->hrMax() > 0) {
-			return $context->dataview()->hrMax()->string();
+			return $context->dataview()
+			    ->hrMax()
+			    ->string();
 		}
 
 		return '';
@@ -76,22 +73,20 @@ class HeartrateMaximum extends AbstractKey
 		return SummaryMode::MAX;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}
 
-	/**
-	 * returns a value dependend CSS class and style.
-	 * #TSC
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return array with key "class" and "style"
-	 */
-	public function valueDependendCssStyle(Context $context)
+    /**
+     * returns a value dependend CSS class and style.
+     * #TSC
+     * @return array with key "class" and "style"
+     */
+    public function valueDependendCssStyle(Context $context)
 	{
 		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrMax(), 'bar red');
 	}

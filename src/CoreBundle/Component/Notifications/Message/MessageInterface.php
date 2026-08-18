@@ -25,7 +25,6 @@ interface MessageInterface
     public function getLifetime();
 
     /**
-     * @param TranslatorInterface $translator
      * @return string
      */
     public function getText(TranslatorInterface $translator);
@@ -36,7 +35,6 @@ interface MessageInterface
     public function hasLink();
 
     /**
-     * @param RouterInterface $router
      * @return string
      */
     public function getLink(RouterInterface $router);

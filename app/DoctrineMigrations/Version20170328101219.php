@@ -18,9 +18,6 @@ class Version20170328101219 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -42,9 +39,6 @@ class Version20170328101219 extends AbstractMigration implements ContainerAwareI
         //? Walken, Walking, Trekking, Spazieren, Skaten,Klettern, Kajak, Inline, Gehen,Bergwandern, Bergsteigen
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

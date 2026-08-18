@@ -74,13 +74,15 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setS(323);
 
         $this->Activity->setSwimdata(new Swimdata());
-        $this->Activity->getSwimdata()->setStroke([32, 27, 28, 25]);
-        $this->Activity->getSwimdata()->setStroketype([
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::FREESTYLE,
-        ]);
+        $this->Activity->getSwimdata()
+            ->setStroke([32, 27, 28, 25]);
+        $this->Activity->getSwimdata()
+            ->setStroketype([
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::FREESTYLE,
+            ]);
 
         $this->Adapter->calculateValuesForSwimming();
 
@@ -93,14 +95,16 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setS(323);
 
         $this->Activity->setSwimdata(new Swimdata());
-        $this->Activity->getSwimdata()->setStroke([32, 0, 27, 28, 25]);
-        $this->Activity->getSwimdata()->setStroketype([
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::BREAK,
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::FREESTYLE,
-            StrokeTypeProfile::FREESTYLE,
-        ]);
+        $this->Activity->getSwimdata()
+            ->setStroke([32, 0, 27, 28, 25]);
+        $this->Activity->getSwimdata()
+            ->setStroketype([
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::BREAK,
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::FREESTYLE,
+                StrokeTypeProfile::FREESTYLE,
+            ]);
 
         $this->Adapter->calculateValuesForSwimming();
 
@@ -113,12 +117,14 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setS(300);
 
         $this->Activity->setSwimdata(new Swimdata());
-        $this->Activity->getSwimdata()->setStroke([0, 0, 0]);
-        $this->Activity->getSwimdata()->setStroketype([
-            StrokeTypeProfile::BREAK,
-            StrokeTypeProfile::BREAK,
-            StrokeTypeProfile::BREAK
-        ]);
+        $this->Activity->getSwimdata()
+            ->setStroke([0, 0, 0]);
+        $this->Activity->getSwimdata()
+            ->setStroketype([
+                StrokeTypeProfile::BREAK,
+                StrokeTypeProfile::BREAK,
+                StrokeTypeProfile::BREAK
+            ]);
 
         $this->Adapter->calculateSwolf();
 
@@ -128,10 +134,12 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
     public function testCalculationOfSwolfReturnsNullForEmptyTrackdataTime()
     {
         $this->Activity->setTrackdata(new Trackdata());
-        $this->Activity->getTrackdata()->setTime([]);
+        $this->Activity->getTrackdata()
+            ->setTime([]);
 
         $this->Activity->setSwimdata(new Swimdata());
-        $this->Activity->getSwimdata()->setStroke([32, 27]);
+        $this->Activity->getSwimdata()
+            ->setStroke([32, 27]);
 
         $this->Adapter->calculateValuesForSwimming();
 
@@ -142,7 +150,8 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
     public function testCalculationOfEnergyConsumption()
     {
         $this->Activity->setSport(new Sport());
-        $this->Activity->getSport()->setKcal(720);
+        $this->Activity->getSport()
+            ->setKcal(720);
         $this->Activity->setS(1800);
 
         $this->Adapter->calculateEnergyConsumptionIfEmpty();
@@ -159,10 +168,12 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
     public function testCalculationOfClimbScore()
     {
         $this->Activity->setTrackdata(new Trackdata());
-        $this->Activity->getTrackdata()->setDistance([0.0, 1.0, 2.0, 3.0, 4.0, 5.0]);
+        $this->Activity->getTrackdata()
+            ->setDistance([0.0, 1.0, 2.0, 3.0, 4.0, 5.0]);
 
         $this->Activity->setRoute(new Route());
-        $this->Activity->getRoute()->setElevationsCorrected([0, 0, 100, 250, 250, 250]);
+        $this->Activity->getRoute()
+            ->setElevationsCorrected([0, 0, 100, 250, 250, 250]);
 
         $this->Adapter->calculateClimbScore();
 
@@ -176,16 +187,19 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
     public function testCalculationOfClimbScoreForStepwiseElevationProfile()
     {
         $this->Activity->setTrackdata(new Trackdata());
-        $this->Activity->getTrackdata()->setDistance(range(0.0, 29.0, 1.0));
+        $this->Activity->getTrackdata()
+            ->setDistance(range(0.0, 29.0, 1.0));
 
         $this->Activity->setRoute(new Route());
-        $this->Activity->getRoute()->setElevationsCorrected(
-            array_fill(0, 10, 0) +
-            array_fill(10, 10, 500) +
-            array_fill(20, 10, 0)
-        );
+        $this->Activity->getRoute()
+            ->setElevationsCorrected(
+                array_fill(0, 10, 0) +
+                        array_fill(10, 10, 500) +
+                        array_fill(20, 10, 0)
+            );
 
-        $backupElevations = $this->Activity->getRoute()->getElevationsCorrected();
+        $backupElevations = $this->Activity->getRoute()
+            ->getElevationsCorrected();
 
         $this->Adapter->calculateClimbScore();
 

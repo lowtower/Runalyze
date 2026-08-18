@@ -46,7 +46,7 @@ class RunalyzePauseArray extends Type
     {
         $collection = new PauseCollection();
 
-        if ($value !== null && '' != trim($value)) {
+        if ($value !== null && '' !== trim($value)) {
             $pauses = json_decode($value, true);
 
             if (is_array($pauses)) {
@@ -60,7 +60,6 @@ class RunalyzePauseArray extends Type
     }
 
     /**
-     * @param Pause $pause
      * @return array
      */
     protected function getNativeValueForPause(Pause $pause)

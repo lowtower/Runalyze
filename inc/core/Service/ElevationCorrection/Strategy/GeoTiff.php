@@ -14,9 +14,6 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
     /** @var bool */
     protected $UseSmoothing = true;
 
-    /**
-     * @param Reader $reader
-     */
     public function __construct(Reader $reader)
     {
         $this->Reader = $reader;
@@ -106,7 +103,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
         $currentValue = $altitudes[0];
 
         for ($i = 0; $i < $arraySize; $i++) {
-            if ($i % $this->PointsToGroup == 0) {
+            if ($i % $this->PointsToGroup === 0) {
                 $currentValue = $altitudes[$i];
             } else {
                 $altitudes[$i] = $currentValue;

@@ -20,11 +20,10 @@ class SectionOverview extends TrainingViewSection {
 		$this->appendRow( new SectionOverviewRow($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
 		return true;
 	}
 }

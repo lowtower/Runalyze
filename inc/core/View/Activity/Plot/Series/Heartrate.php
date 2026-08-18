@@ -105,13 +105,12 @@ class Heartrate extends ActivitySeries {
 		return $this->Factor*$value;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
 		parent::addTo($Plot, $yAxis, $addAnnotations);
 
 		$max = $this->showsAsPercentage() ? 100 : $this->HRmax;
@@ -126,11 +125,10 @@ class Heartrate extends ActivitySeries {
 		}
 	}
 
-	/**
-	 * Get unit for current pulse mode
-	 * @return string
-	 */
-	protected function unitAsString(): string {
+    /**
+     * Get unit for current pulse mode
+     */
+    protected function unitAsString(): string {
 		if ($this->showsAsPercentage()) {
 			return '%';
 		}
@@ -138,9 +136,6 @@ class Heartrate extends ActivitySeries {
 		return 'bpm';
 	}
 
-	/**
-	 * @return boolean
-	 */
 	protected function showsAsPercentage(): bool {
 		return $this->Factor != 1;
 	}

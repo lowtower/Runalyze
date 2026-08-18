@@ -17,8 +17,6 @@ class TimeSeriesStatistics
     protected $MultipleTimeSeries;
 
     /**
-     * @param Trackdata\Entity $trackdata
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata)
@@ -114,7 +112,6 @@ class TimeSeriesStatistics
 
     /**
      * @param mixed $key enum from trackdata model class
-     * @return bool
      */
     public function hasStatisticsFor($key): bool
     {

@@ -46,9 +46,6 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         return $this->Elements;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty($this->Elements);
@@ -136,9 +133,6 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         );
     }
 
-    /**
-     * @return float
-     */
     public function getTotalDistance(): float
     {
         return array_reduce(
@@ -157,9 +151,6 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
         }
     }
 
-    /**
-     * @return bool
-     */
     public function isEqualTo(self $other): bool
     {
         if ($this->count() != $other->count()) {
@@ -203,13 +194,13 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
                 $nextR2 = $this->Elements[$i + 2]; // next-next lap
                 // first check: we not in auto laping (=duration or distance is always the same for every lap)
                 // second check: if the next-next is the same (duration or distance)
-                if ((round($thisR->getDuration(), $precS) != round($nextR1->getDuration(), $precS) 
-                        && round($thisR->getDistance(), $precD) != round($nextR1->getDistance(), $precD))
-                    && (round($thisR->getDuration(), $precS) == round($nextR2->getDuration(), $precS) 
-                        || round($thisR->getDistance(), $precD) == round($nextR2->getDistance(), $precD))
+                if ((round($thisR->getDuration(), $precS) !== round($nextR1->getDuration(), $precS) 
+                        && round($thisR->getDistance(), $precD) !== round($nextR1->getDistance(), $precD))
+                    && (round($thisR->getDuration(), $precS) === round($nextR2->getDuration(), $precS) 
+                        || round($thisR->getDistance(), $precD) === round($nextR2->getDistance(), $precD))
                     ) {
                     $intCount++;
-                    if ($intCount == $intDetect) {
+                    if ($intCount === $intDetect) {
                         // if we found 3x consensus we have at least 3 same (interval-)laps with min 2 same (recovery-)lap
                         return true;
                     }

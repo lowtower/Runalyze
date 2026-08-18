@@ -39,7 +39,6 @@ class FilenameHandler
 
     /**
      * @param string $extension
-     * @return string
      */
     public function generateInternalFilename($extension): string
     {
@@ -56,7 +55,6 @@ class FilenameHandler
 
     /**
      * @param string $extension
-     * @return bool
      */
     public function isValidImportExtension($extension): bool
     {
@@ -65,7 +63,6 @@ class FilenameHandler
 
     /**
      * @param string $extension
-     * @return bool
      */
     public function isValidExportExtension($extension): bool
     {
@@ -74,7 +71,6 @@ class FilenameHandler
 
     /**
      * @param string $internalFilename
-     * @return bool
      */
     public function validateInternalFilename($internalFilename): bool
     {
@@ -83,7 +79,6 @@ class FilenameHandler
 
     /**
      * @param string $internalFilename
-     * @return bool
      */
     protected function validateInternalPrefix($internalFilename): bool
     {
@@ -94,7 +89,6 @@ class FilenameHandler
 
     /**
      * @param string $completeFilename
-     * @return bool
      */
     static public function validateFileExtension($completeFilename): bool
     {
@@ -106,7 +100,6 @@ class FilenameHandler
 
     /**
      * @param string $completeFilename
-     * @return bool
      */
     static public function validateImportFileExtension($completeFilename): bool
     {
@@ -133,7 +126,6 @@ class FilenameHandler
 
     /**
      * @param string $publicFilename
-     * @return string
      */
     public function transformPublicToInternalFilename($publicFilename): string
     {

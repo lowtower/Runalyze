@@ -22,25 +22,16 @@ use System;
  */
 class Html extends AbstractSnippetSharer
 {
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::HTML;
     }
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return true;
     }
 
-	/**
-	 * @return string
-	 */
 	public function name(): string
     {
 	    return __('HTML');
@@ -77,20 +68,34 @@ class Html extends AbstractSnippetSharer
 
     /**
      * Get HTML code for snippet
-     * @return string
      */
     protected function codeSnippet(): string
     {
         $Linker = new Linker($this->Context->activity());
         $TextUrl  = $Linker->publicUrl();
 	$Url      = $Linker->publicUrl().'?utm_medium=referral&utm_source=sharehtml';
-        $Date     = $this->Context->dataview()->date();
-        $Time     = $this->Context->dataview()->duration()->string();
-        $Title    = $this->Context->activity()->distance() > 0 ? $this->Context->dataview()->distance().' ' : '';
-        $Title   .= $this->Context->dataview()->titleByTypeOrSport();
-        $Pace     = $this->Context->activity()->distance() > 0 ? $this->Context->dataview()->pace()->valueWithAppendix() : '';
-        $Elev     = $this->Context->activity()->elevation() > 0 ? $this->Context->dataview()->elevation()->string() : '';
-        $Heart    = $this->Context->activity()->hrAvg() > 0 ? $this->Context->dataview()->hrAvg()->string() : '';
+        $Date     = $this->Context->dataview()
+            ->date();
+        $Time     = $this->Context->dataview()
+            ->duration()
+            ->string();
+        $Title    = $this->Context->activity()
+            ->distance() > 0 ? $this->Context->dataview()
+            ->distance().' ' : '';
+        $Title   .= $this->Context->dataview()
+            ->titleByTypeOrSport();
+        $Pace     = $this->Context->activity()
+            ->distance() > 0 ? $this->Context->dataview()
+            ->pace()
+            ->valueWithAppendix() : '';
+        $Elev     = $this->Context->activity()
+            ->elevation() > 0 ? $this->Context->dataview()
+            ->elevation()
+            ->string() : '';
+        $Heart    = $this->Context->activity()
+            ->hrAvg() > 0 ? $this->Context->dataview()
+            ->hrAvg()
+            ->string() : '';
         $Spans    = '';
 
         if ($Time != '')

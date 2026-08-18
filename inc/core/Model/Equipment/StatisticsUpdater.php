@@ -13,12 +13,11 @@ class StatisticsUpdater
     /** @var string */
     protected $DatabasePrefix;
 
-	/**
-	 * @param \PDO $connection
-	 * @param int $accountId
-	 * @param string $databasePrefix
-	 */
-	public function __construct(\PDO $connection, $accountId, $databasePrefix) {
+    /**
+     * @param int $accountId
+     * @param string $databasePrefix
+     */
+    public function __construct(\PDO $connection, $accountId, $databasePrefix) {
 		$this->PDO = $connection;
 		$this->AccountId = $accountId;
         $this->DatabasePrefix = $databasePrefix;

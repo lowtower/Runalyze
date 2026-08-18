@@ -5,8 +5,6 @@ namespace Runalyze\Metrics\Velocity\Unit;
 class KilometerPerHour extends AbstractPaceInDecimalFormatUnit
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -14,9 +12,6 @@ class KilometerPerHour extends AbstractPaceInDecimalFormatUnit
         return 'km/h';
     }
 
-    /**
-     * @return float
-     */
     public function getDividendFromBaseUnit(): int
     {
         return 3600;

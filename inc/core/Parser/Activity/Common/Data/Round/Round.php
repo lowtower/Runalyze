@@ -31,9 +31,6 @@ class Round
         }
     }
 
-    /**
-     * @param LapIntensity $intensity
-     */
     public function setIntensity(LapIntensity $intensity)
     {
         $this->Intensity = $intensity;
@@ -100,9 +97,6 @@ class Round
         return $this->Intensity->isNotRest();
     }
 
-    /**
-     * @return bool
-     */
     public function isEqualTo(self $other): bool
     {
         return (

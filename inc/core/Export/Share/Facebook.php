@@ -24,25 +24,16 @@ class Facebook extends AbstractSocialSharer
      */
     public static $APP_ID = '473795412675725';
 
-    /**
-     * @return string
-     */
     public function iconClass(): string
     {
         return 'fa-facebook color-facebook';
     }
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return ($this->Context->activity()->isPublic() && ! System::isAtLocalhost());
     }
 
-    /**
-     * @return string
-     */
     public function url(): string
     {
         // TODO
@@ -66,9 +57,6 @@ class Facebook extends AbstractSocialSharer
         //$FbUrl = 'https://facebook.com/sharer.php?s=100&amp;p[url]='.$url.'&amp;p[title]='.$title.'&amp;p[summary]='.$text.'&amp;p[images][0]='.$image;
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
 	    return __('Facebook');

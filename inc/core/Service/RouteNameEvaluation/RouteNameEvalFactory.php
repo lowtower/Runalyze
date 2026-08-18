@@ -19,8 +19,6 @@ class RouteNameEvalFactory {
 
     /**
      * Gets a instance.
-     *
-     * @return Runalyze\Service\RouteNameEvaluation\RouteNameEval
      */
     public function getInstance(): RouteNameEval {
         return $this->RouteNameEval;

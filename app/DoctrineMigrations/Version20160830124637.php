@@ -20,9 +20,6 @@ class Version20160830124637 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -32,9 +29,6 @@ class Version20160830124637 extends AbstractMigration implements ContainerAwareI
         $this->addSql('DELETE FROM `'.$prefix."conf` WHERE `key`='GENDER'");
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
     }

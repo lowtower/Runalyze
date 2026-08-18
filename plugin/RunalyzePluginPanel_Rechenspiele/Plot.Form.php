@@ -160,7 +160,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 		$VO2MAX_sum        = array_sum($VO2MAX_slice);
 		$Durations_sum   = array_sum($Durations_slice);
 
-		if (count($VO2MAX_slice) != 0 && $Durations_sum != 0) {
+		if (count($VO2MAX_slice) !== 0 && $Durations_sum != 0) {
 			$VO2MAXs[$index] = $vo2maxFactor * ($VO2MAX_sum / $Durations_sum);
 
 			$BasicEnduranceObj->setEffectiveVO2max($VO2MAXs[$index]);

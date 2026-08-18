@@ -14,8 +14,11 @@ class ActivityTest extends \PHPUnit\Framework\TestCase
 	public function testThatMapWorksWithPausesButWithoutTimeArray()
     {
 		$Context = FakeContext::outdoorContext();
-        $Context->trackdata()->set(Entity::TIME, []);
-        $Context->trackdata()->pauses()->add(new Pause(123, 10));
+        $Context->trackdata()
+            ->set(Entity::TIME, []);
+        $Context->trackdata()
+            ->pauses()
+            ->add(new Pause(123, 10));
 
         new Activity('test', $Context->route(), $Context->trackdata(), true);
 	}

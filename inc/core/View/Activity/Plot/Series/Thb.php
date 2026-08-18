@@ -53,7 +53,6 @@ class Thb extends ActivitySeries {
     /**
      * Change value by internal factor
      * @param int $value
-     * @return float
      */
     protected function correctUnit($value): float {
         return 0.01*$value;

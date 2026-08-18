@@ -42,9 +42,6 @@ class ClimbScore
         return $this->Score;
     }
 
-    /**
-     * @return bool
-     */
     public function isKnown(): bool
     {
         return null !== $this->Score;
@@ -79,7 +76,6 @@ class ClimbScore
     /**
      * @param float $sumOfSingleScores
      * @param float $percentageFlat [0.00 .. 1.00]
-     * @return float
      */
     public function getScoreForSumOfSingleScores($sumOfSingleScores, $percentageFlat = 0.0): float
     {
@@ -90,7 +86,6 @@ class ClimbScore
 
     /**
      * @param float $percentageFlat [0.00 .. 1.00]
-     * @return float
      */
     public function getCompensationForFlatParts($percentageFlat): float
     {

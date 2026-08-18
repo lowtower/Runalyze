@@ -33,14 +33,13 @@ final class Types extends AbstractEnum
 	/** @var int */
 	const IFRAME = 5;
 
-	/**
-	 * Get sharer
-	 * @param int $typeid int from internal enum
-	 * @param \Runalyze\View\Activity\Context $context
-	 * @return \Runalyze\Export\Share\AbstractSharer
-	 * @throws \InvalidArgumentException
-	 */
-	public static function get($typeid, Context $context)
+    /**
+     * Get sharer
+     * @param int $typeid int from internal enum
+     * @return \Runalyze\Export\Share\AbstractSharer
+     * @throws \InvalidArgumentException
+     */
+    public static function get($typeid, Context $context)
 	{
 		$classNames = self::classNamesArray();
 

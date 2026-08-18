@@ -10,7 +10,6 @@ use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param WeatherData|null $data
      * @return \PHPUnit\Framework\MockObject\MockObject|DatabaseCacheInterface
      */
     protected function getMockForResponse(?WeatherData $data = null): \PHPUnit\Framework\MockObject\MockObject

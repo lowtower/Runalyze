@@ -17,15 +17,16 @@ class ClimbFinder
     const EPSILON_FOR_CLIMB_PROFILE = 0.1;
 
     /**
-     * @param Training $activity
      * @param float $epsilon
      * @return ClimbCollection
      */
     public function findClimbsFor(Training $activity, $epsilon = self::EPSILON_DEFAULT)
     {
         if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()) {
-            $distances = $activity->getTrackdata()->getDistance();
-            $elevations = $activity->getRoute()->getElevations();
+            $distances = $activity->getTrackdata()
+                ->getDistance();
+            $elevations = $activity->getRoute()
+                ->getElevations();
             $cuttingIndices = (new RamerDouglasPeucker($distances, $elevations, $epsilon))->getReducedIndices();
 
             return $this->createClimbsForIndices($cuttingIndices, $distances, $elevations);
@@ -36,9 +37,6 @@ class ClimbFinder
 
     /**
      * @param array<int, mixed> $indices
-     * @param array $distances
-     * @param array $elevations
-     * @return ClimbCollection
      */
     protected function createClimbsForIndices(array $indices, array $distances, array $elevations): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbCollection
     {
@@ -70,8 +68,6 @@ class ClimbFinder
     }
 
     /**
-     * @param array $distances
-     * @param array $elevations
      * @return ClimbProfile
      */
     protected function getClimbProfileFor(array $distances, array $elevations)

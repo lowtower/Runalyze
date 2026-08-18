@@ -19,7 +19,7 @@ use Runalyze\View\Activity;
 class HRVPoincare extends ActivityPlot {
 	/**
 	 * Use standard x-axis?
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $useStandardXaxis = false;
 
@@ -35,11 +35,10 @@ class HRVPoincare extends ActivityPlot {
 		$this->key = 'hrvpoincare';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$Collector = new PoincareCollector($context->hrv());
 		$this->Data = $Collector->data();
 

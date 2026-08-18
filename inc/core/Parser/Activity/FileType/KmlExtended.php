@@ -51,7 +51,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
             $parts = explode(' ', (string) $coord);
             $num = count($parts);
 
-            if (($num == 3 || $num == 2) && ($parts[0] != 0.0 || $parts[1] != 0.0)) {
+            if (($num === 3 || $num === 2) && ($parts[0] != 0.0 || $parts[1] != 0.0)) {
                 $this->Container->ContinuousData->Latitude[] = $parts[1];
                 $this->Container->ContinuousData->Longitude[] = $parts[0];
                 $this->Container->ContinuousData->Altitude[] = ($num > 2) ? $parts[2] : null;
@@ -188,9 +188,9 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
             if ($folder['id'] == 'pause_resume') {
                 foreach ($folder->Placemark as $mark) {
                     if ($mark->styleUrl == '#pause') {
-                        $start = strtotime((string) $mark->description.'Z');
+                        $start = strtotime($mark->description.'Z');
                     } elseif ($mark->styleUrl == '#resume') {
-                        $end = strtotime((string) $mark->description.'Z');
+                        $end = strtotime($mark->description.'Z');
 
                         $this->ResumeTimes[] = strftime('%T', $end);
                         $this->PauseTimes[] = ($end - $start) % DAY_IN_S;
@@ -200,9 +200,6 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function hasMorePauses(): bool
     {
         return $this->PauseIndex < count($this->PauseTimes);

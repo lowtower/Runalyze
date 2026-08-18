@@ -31,10 +31,15 @@ class SportChoiceType extends AbstractTokenStorageAwareType
             return $object->getId();
         };
 
-        $allSports = $this->getConfigurationList()->getActivityForm()->getDatabaseOrderForSport()->sortCollection(
-            $this->getAccount()->getSports()
-        );
-        $sportIds = $allSports->map($mapIdFunction)->toArray();
+        $allSports = $this->getConfigurationList()
+            ->getActivityForm()
+            ->getDatabaseOrderForSport()
+            ->sortCollection(
+                $this->getAccount()
+                    ->getSports()
+            );
+        $sportIds = $allSports->map($mapIdFunction)
+            ->toArray();
         $sportToEquipmentCategoryRelations = $this->SportRepository->findEquipmentCategoryIdsFor($sportIds);
 
         $resolver->setDefaults(array(
@@ -63,7 +68,8 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                     'data-internal' => $sport->getInternalSportId() ?: '',
                     'data-distances' => $sport->getDistances() ? '1' : '0',
                     'data-speed' => $sport->getSpeed(),
-                    'data-activity-type' => $sport->getDefaultType() ? $sport->getDefaultType()->getId() : '',
+                    'data-activity-type' => $sport->getDefaultType() ? $sport->getDefaultType()
+                        ->getId() : '',
                     'data-equipment-types' => json_encode($availableEquipmentTypes),
                     'data-privacy' => $sport->getDefaultPrivacy() ? '1' : '0',
                     'data-power' => $sport->getPower() ? '1' : '0'

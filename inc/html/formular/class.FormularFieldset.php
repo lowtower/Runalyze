@@ -51,7 +51,7 @@ class FormularFieldset extends HtmlTag {
 
 	/**
 	 * Boolean flag: collapsed
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $collapsed = false;
 
@@ -72,7 +72,7 @@ class FormularFieldset extends HtmlTag {
 
 	/**
 	 * Boolean flag: only one opened fieldset allowed
-	 * @var boolean
+	 * @var bool
 	 */
 	private $allowOnlyOneOpenedFieldset = false;
 
@@ -189,11 +189,10 @@ class FormularFieldset extends HtmlTag {
 			echo '<legend onclick="'.$this->getLegendOnclick().'">'.$this->title.'</legend>';
 	}
 
-	/**
-	 * Get onclick attribute for legend
-	 * @return string
-	 */
-	private function getLegendOnclick(): string {
+    /**
+     * Get onclick attribute for legend
+     */
+    private function getLegendOnclick(): string {
 		$onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
 
 		return "Runalyze.toggleFieldset(this, '".$this->Id."', ".$onlyOne.", '".$this->confValueToSaveStatus."')";

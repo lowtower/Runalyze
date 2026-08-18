@@ -20,7 +20,6 @@ class Wind extends AbstractKey
 {
     /**
      * Enum id
-     * @return int
      */
     public function id(): int
     {
@@ -29,7 +28,6 @@ class Wind extends AbstractKey
 
     /**
      * Database key
-     * @return array
      */
     public function column(): array
     {
@@ -37,7 +35,6 @@ class Wind extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -47,16 +44,15 @@ class Wind extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @param \Runalyze\Dataset\Context $context
-     * @return string
      */
     public function stringFor(Context $context): string
     {
-        $weather = $context->activity()->weather();
+        $weather = $context->activity()
+            ->weather();
 
         if (
             (! $weather->windSpeed()->isUnknown() || ! $weather->windDegree()->isUnknown()) &&
-            ! ($context->hasSport() && ! $context->sport()->isOutside())
+            (! $context->hasSport() || $context->sport()->isOutside())
         ) {
             return (new WindIcon($weather->windSpeed(), $weather->windDegree()))->code();
         }

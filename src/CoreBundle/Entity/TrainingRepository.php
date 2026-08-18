@@ -45,7 +45,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Training $activity
      * @return bool
      */
     public function isPossibleDuplicate(Training $activity)
@@ -65,7 +64,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Training $activity
      * @return null|int
      */
     public function getIdOfNextActivity(Training $activity) {
@@ -85,7 +83,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Training $activity
      * @return null|int
      */
     public function getIdOfPreviousActivity(Training $activity) {
@@ -105,7 +102,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param null|int $sportid
      * @return array
      */
@@ -130,11 +126,11 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('minimum', $minimumActivities);
         }
 
-        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
+        return $queryBuilder->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
     }
 
     /**
-     * @param Account $account
      * @param null|int $year
      * @param null|int $sportid
      * @return array
@@ -160,11 +156,11 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('sportid', $sportid);
         }
 
-        return $queryBuilder->getQuery()->getSingleScalarResult();
+        return $queryBuilder->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
-     * @param Type $type
      * @return array
      */
     public function getNumberOfActivitiesWithActivityType(Type $type)
@@ -175,11 +171,11 @@ class TrainingRepository extends EntityRepository
             ->where('t.type = :typeid')
             ->setParameter('typeid', $type->getId());
 
-        return $queryBuilder->getQuery()->getSingleScalarResult();
+        return $queryBuilder->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
-     * @param Account $account
      * @return array
      */
     public function getTypesWithTraining(Account $account)
@@ -192,11 +188,11 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.type'))
             ->addGroupBy('t.type')
             ->setParameter('account', $account->getId());
-        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
+        return $queryBuilder->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
     }
 
     /**
-     * @param Account $account
      * @return array
      */
     public function getSportsWithTraining(Account $account)
@@ -209,11 +205,11 @@ class TrainingRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('t.sport'))
             ->addGroupBy('t.sport')
             ->setParameter('account', $account->getId());
-        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
+        return $queryBuilder->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
     }
 
     /**
-     * @param Account $account
      * @param null|string $column
      * @param null|int $sportid
      * @return array
@@ -243,7 +239,8 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('sportid', $sportid);
         }
 
-        return $queryBuilder->getQuery()->getArrayResult();
+        return $queryBuilder->getQuery()
+            ->getArrayResult();
     }
 
     /**
@@ -259,10 +256,6 @@ class TrainingRepository extends EntityRepository
         ]);
     }
 
-    /**
-     * @param Account $account
-     * @return AccountStatistics
-     */
     public function getAccountStatistics(Account $account): \Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics
     {
         $statistics = new AccountStatistics();
@@ -289,7 +282,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param Sport $sport
      * @param int $year
      * @return \Doctrine\ORM\Query
@@ -319,7 +311,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param Sport $sport
      * @param int $year
      * @return \Doctrine\ORM\Query
@@ -346,10 +337,6 @@ class TrainingRepository extends EntityRepository
             ->getQuery();
     }
 
-    /**
-     * @param Account $account
-     * @return bool
-     */
     public function accountHasLockedTrainings(Account $account): bool
     {
         return null !== $this->createQueryBuilder('t')
@@ -362,7 +349,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param int $limit
      * @param bool $onlyPublic
      * @return Training[]
@@ -380,11 +366,11 @@ class TrainingRepository extends EntityRepository
             $queryBuilder->andWhere('t.isPublic = 1');
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
     /**
-     * @param Account $account
      * @param int $limit
      * @return Training[]
      */
@@ -395,7 +381,6 @@ class TrainingRepository extends EntityRepository
 
     /**
      * @param int[] $ids
-     * @param Account|null $account
      * @param int $limit
      * @return Training[]
      */
@@ -418,11 +403,11 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('ids', $ids);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
     /**
-     * @param Account $account
      * @return int|null
      */
     public function getStartTime(Account $account)
@@ -439,8 +424,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
-     * @param VO2max $configuration
      * @param int $sportId
      * @param int $timestamp
      * @return int [0, inf)
@@ -466,7 +449,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        if (null === $result || 0.0 == (float) $result['ssum']) {
+        if (null === $result || 0.0 === (float) $result['ssum']) {
             return 0.0;
         }
 
@@ -474,8 +457,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
-     * @param BasicEndurance $configuration
      * @param float $effectiveVO2max
      * @param int $sportId
      * @param int $timestamp
@@ -528,7 +509,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Training $training
      * @param bool $ensureThatSportAndTypeAreManaged
      * @return int activity id
      */
@@ -589,7 +569,8 @@ class TrainingRepository extends EntityRepository
         }
 
         // #TSC: hacky request the lazy equipments here, so that while removing via EventListener the collection is filled
-        $activity->getEquipment()->count();
+        $activity->getEquipment()
+            ->count();
 
         $this->_em->remove($activity);
         $this->_em->flush();

@@ -148,9 +148,7 @@ abstract class PluginStat extends Plugin {
 			$Query .= ' AND '.$sport.'='.(int) $this->sportid;
 		}
 
-		$Query .= $this->getYearDependenceForQuery($addTableName);
-
-		return $Query;
+		return $Query . $this->getYearDependenceForQuery($addTableName);
 	}
 
 	/**
@@ -272,13 +270,12 @@ abstract class PluginStat extends Plugin {
 		return $Links;
 	}
 
-	/**
-	 * Get links for all years
-	 * @param bool $CompareYears If set, adds a link with year=-1
-	 * @param bool $TimeRanges If set, adds links with year=6/12
-	 * @return string
-	 */
-	private function getYearLinksAsList($CompareYears = true, $TimeRanges = false): string {
+    /**
+     * Get links for all years
+     * @param bool $CompareYears If set, adds a link with year=-1
+     * @param bool $TimeRanges If set, adds links with year=6/12
+     */
+    private function getYearLinksAsList($CompareYears = true, $TimeRanges = false): string {
 		$Links = '';
 
 		if ($CompareYears) {

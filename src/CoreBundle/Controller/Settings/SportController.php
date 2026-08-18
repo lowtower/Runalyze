@@ -29,7 +29,8 @@ class SportController extends Controller
      */
     protected function getSportRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Sport');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Sport');
     }
 
     /**
@@ -37,7 +38,8 @@ class SportController extends Controller
      */
     protected function getTypeRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Type');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Type');
     }
 
     /**
@@ -45,7 +47,8 @@ class SportController extends Controller
      */
     protected function getTrainingRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Training');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
     }
 
 
@@ -55,9 +58,11 @@ class SportController extends Controller
     public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('settings/sport/overview.html.twig', [
-            'sports' => $this->getSportRepository()->findAllFor($account),
+            'sports' => $this->getSportRepository()
+                ->findAllFor($account),
             'hasTrainings' => array_flip($this->getTrainingRepository()->getSportsWithTraining($account)),
-            'freeInternalTypes' => $this->getSportRepository()->getFreeInternalTypes($account),
+            'freeInternalTypes' => $this->getSportRepository()
+                ->getFreeInternalTypes($account),
             'calendarView' => new DataBrowserRowProfile()
         ]);
     }
@@ -67,7 +72,8 @@ class SportController extends Controller
      */
     public function typeAddAction(Request $request, $sportid, Account $account)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()
+            ->getManager();
         $type = new Type();
         $type->setAccount($account);
 
@@ -80,8 +86,10 @@ class SportController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $type->setSport($em->getReference('CoreBundle:Sport', $sportid));
-            $this->getTypeRepository()->save($type);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
+            $this->getTypeRepository()
+                ->save($type);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sportid
             ]);
@@ -111,8 +119,10 @@ class SportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getTypeRepository()->save($type);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->getTypeRepository()
+                ->save($type);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-type-edit', [
                 'id' => $type->getId()
@@ -121,7 +131,8 @@ class SportController extends Controller
 
         return $this->render('settings/sport/form-type.html.twig', [
             'form' => $form->createView(),
-            'sport_id' => $type->getSport()->getId()
+            'sport_id' => $type->getSport()
+                ->getId()
         ]);
     }
 
@@ -142,10 +153,12 @@ class SportController extends Controller
         }
 
         if ($type->getTrainings()->count() == NULL) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()
+                ->getManager();
             $em->remove($type);
             $em->flush();
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.').' '.$this->get('translator')->trans('You have activities associated with this type.'));
@@ -166,7 +179,8 @@ class SportController extends Controller
 
         if (null !== $internalType && $this->getSportRepository()->isInternalTypeFree($internalType, $account)) {
             $sport->setDataFrom(SportProfile::get($internalType));
-            $this->getSportRepository()->save($sport);
+            $this->getSportRepository()
+                ->save($sport);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId()
@@ -179,8 +193,10 @@ class SportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getSportRepository()->save($sport);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->getSportRepository()
+                ->save($sport);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId()
@@ -210,8 +226,10 @@ class SportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getSportRepository()->save($sport);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->getSportRepository()
+                ->save($sport);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
                 'id' => $sport->getId()
@@ -220,7 +238,8 @@ class SportController extends Controller
 
         return $this->render('settings/sport/form-sport.html.twig', [
             'form' => $form->createView(),
-            'types' => $this->getTypeRepository()->findAllFor($account, $sport),
+            'types' => $this->getTypeRepository()
+                ->findAllFor($account, $sport),
             'calendarView' => new DataBrowserRowProfile(),
             'hasTrainings' => array_flip($this->getTrainingRepository()->getTypesWithTraining($account)),
         ]);
@@ -245,8 +264,10 @@ class SportController extends Controller
         }
 
         if (0 == $sport->getTrainings()->count()) {
-            $this->getSportRepository()->remove($sport);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->getSportRepository()
+                ->remove($sport);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
         } else {
             $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.').' '.$this->get('translator')->trans('You have activities associated with this type.'));

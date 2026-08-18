@@ -11,9 +11,7 @@ use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 class WeathercacheRepository extends EntityRepository implements DatabaseCacheInterface
 {
     /**
-     * @param Location $location
      * @param int $timeTolerance [s]
-     *
      * @return WeatherData|null
      */
     public function getCachedWeatherDataFor(Location $location, $timeTolerance)

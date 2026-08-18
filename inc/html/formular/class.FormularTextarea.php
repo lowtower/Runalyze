@@ -17,11 +17,10 @@ class FormularTextarea extends FormularField {
 		$this->addAttribute('name', $this->name);
 	}
 
-	/**
-	 * Display this field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Display this field
+     */
+    protected function getFieldCode(): string {
 		return '<label for="'.$this->name.'">'.$this->label.'</label> <textarea '.$this->attributes().'>'.$this->value.'</textarea>';
 	}
 

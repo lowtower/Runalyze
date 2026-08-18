@@ -21,9 +21,6 @@ class LocaleListener implements EventSubscriberInterface
         $this->defaultLocale = $defaultLocale;
     }
 
-    /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -38,7 +35,8 @@ class LocaleListener implements EventSubscriberInterface
 
         $locale = Language::getCurrentLanguage();
 
-        $request->getSession()->set('_locale', $locale);
+        $request->getSession()
+            ->set('_locale', $locale);
         $request->setLocale($locale);
         $request->attributes->set('_locale', $locale);
     }

@@ -30,7 +30,6 @@ class FitWorkoutStep {
     /**
      * has intensity data.
      * @param int $index
-     * @return LapIntensity|null
      */
     public function getIntensity($index): ?LapIntensity {
         return $this->intensitys[$index] ?? null;
@@ -39,7 +38,6 @@ class FitWorkoutStep {
     /**
      * get array for split-additionals.
      * @param int $index
-     * @return array|null
      */
     public function getSplitAdditionals($index): ?array {
         return ! empty($this->targets[$index]) ? $this->targets[$index] : null;

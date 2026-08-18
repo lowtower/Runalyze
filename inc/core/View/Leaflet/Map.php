@@ -58,21 +58,19 @@ class Map {
 		$this->width = $width;
 	}
 
-	/**
-	 * Add route
-	 * @param \Runalyze\View\Leaflet\Route $route
-	 */
-	public function addRoute(Route $route) {
+    /**
+     * Add route
+     */
+    public function addRoute(Route $route) {
 	    if (! $route->isEmpty()) {
     		$this->Routes[] = $route;
         }
 	}
 
-	/**
-	 * Set bounds
-	 * @param array $bounds
-	 */
-	public function setBounds(array $bounds) {
+    /**
+     * Set bounds
+     */
+    public function setBounds(array $bounds) {
 		$this->Bounds = $bounds;
 	}
 
@@ -83,19 +81,17 @@ class Map {
 		echo $this->code();
 	}
 
-	/**
-	 * Get code
-	 * @return string
-	 */
-	public function code(): string {
+    /**
+     * Get code
+     */
+    public function code(): string {
 		return $this->html().$this->js();
 	}
 
-	/**
-	 * Get HTML
-	 * @return string
-	 */
-	public function html(): string {
+    /**
+     * Get HTML
+     */
+    public function html(): string {
 		$style = '';
 
 		if ($this->height > 0)
@@ -104,17 +100,16 @@ class Map {
 		if ($this->width > 0)
 			$style .= 'width:'.(int) $this->width.'px;';
 
-		if ($style != '')
+		if ($style !== '')
 			$style = ' style="'.$style.'"';
 
 		return '<div id="'.$this->id.'" class="map"'.$style.'></div>';
 	}
 
-	/**
-	 * Get JS
-	 * @return string
-	 */
-	public function js(): string {
+    /**
+     * Get JS
+     */
+    public function js(): string {
 	    if (empty($this->Routes)) {
 	        return $this->getJavaScriptForNoRoutes();
         }

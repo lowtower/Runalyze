@@ -11,7 +11,6 @@ class MeteostatNetMapping implements ToInternalMappingInterface
      * @see https://dev.meteostat.net/formats.html#weather-condition-codes
      *
      * @param int|string $value
-     * @return int|string
      */
     public function toInternal($value): int
     {

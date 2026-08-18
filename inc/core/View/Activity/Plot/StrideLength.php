@@ -23,11 +23,10 @@ class StrideLength extends ActivityPlot {
 		$this->key = 'stridelength';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\StrideLength($context)
 		);

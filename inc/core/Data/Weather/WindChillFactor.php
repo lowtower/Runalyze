@@ -24,9 +24,6 @@ class WindChillFactor implements ValueInterface
 
     /**
      * Construct WindChillFactor
-     * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-     * @param \Runalyze\Activity\Temperature $temperature
-     * @param null|\Runalyze\Activity\Pace $activitySpeed
      */
     public function __construct(WindSpeed $windSpeed, ActivityTemperature $temperature, ?Pace $activitySpeed = null)
     {
@@ -47,10 +44,7 @@ class WindChillFactor implements ValueInterface
 
     /**
      * Calculate and set adjusted temperature
-     * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-     * @param \Runalyze\Activity\Temperature $temperature
      * @param \Runalyze\Activity\Pace $activitySpeed
-     * @param null|\Runalyze\Activity\Pace $activitySpeed
      * @throws \InvalidArgumentException
      * @see https://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
      */
@@ -89,7 +83,6 @@ class WindChillFactor implements ValueInterface
 
     /**
      * Label for value
-     * @return string
      */
     public function label(): string
     {

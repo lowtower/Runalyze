@@ -37,9 +37,6 @@ class Stresscolor {
 		return $this;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function value(): int {
 		if ($this->Value < 0) {
 			return 0;
@@ -70,30 +67,26 @@ class Stresscolor {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function rgb(): string {
 		$hex = dechex(200 - 2*$this->value());
 
-		if (strlen($hex) == 1) {
+		if (strlen($hex) === 1) {
 			$hex = '0'.$hex;
 		}
 
 		return 'c8'.$hex.$hex;
 	}
 
-	/**
-	 * String representation
-	 *
-	 * This will wrap the text in a span-tag with the computated color.
-	 * If you used another scale, make sure to display the appropriate text.
-	 *
-	 * @param string $text [optional]
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function string($text = ''): string {
+    /**
+     * String representation
+     *
+     * This will wrap the text in a span-tag with the computated color.
+     * If you used another scale, make sure to display the appropriate text.
+     *
+     * @param string $text [optional]
+     * @codeCoverageIgnore
+     */
+    public function string($text = ''): string {
 		if ($text == '') {
 			$text = $this->Value;
 		}

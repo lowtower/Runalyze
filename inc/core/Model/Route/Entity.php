@@ -151,7 +151,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Construct
-     * @param array $data
      */
     public function __construct(array $data = array()) {
         parent::__construct($data);
@@ -161,16 +160,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
     }
 
-	/**
-	 * Construct factory for route data where every x point is used.
-	 * #TSC This is used to reduce the amount of routes and the shown gps positions; so more routes
-	 * can be shown with lower resolution.
-	 *
-	 * @param array $data
-	 * @param int $positioninterval
-	 * @return Entity
-	 */
-	public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self {
+    /**
+     * Construct factory for route data where every x point is used.
+     * #TSC This is used to reduce the amount of routes and the shown gps positions; so more routes
+     * can be shown with lower resolution.
+     *
+     * @param int $positioninterval
+     */
+    public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self {
         $e = new self($data);
 
 		// remove points so every x position is keeped
@@ -275,12 +272,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return static::allProperties();
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		switch ($key) {
 			case self::ELEVATIONS_ORIGINAL:
 			case self::ELEVATIONS_CORRECTED:
@@ -291,12 +287,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return false;
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::ELEVATIONS_ORIGINAL:
 			case self::ELEVATIONS_CORRECTED:
@@ -355,9 +350,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
 	}
 
-    /**
-     * @param array $geohashes
-     */
     public function setGeohashesWithoutMinMaxRecalculation(array $geohashes)
     {
         $this->Data[self::GEOHASHES] = $geohashes;
@@ -377,7 +369,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$longitudes = array();
 
 		foreach ($geohashes as $geohash) {
-			$coordinate = (new Geohash())->decode($geohash)->getCoordinate();
+			$coordinate = (new Geohash())->decode($geohash)
+			    ->getCoordinate();
 			$latitudes[] = round($coordinate->getLatitude(), 6);
 			$longitudes[] = round($coordinate->getLongitude(), 6);
 		}
@@ -398,7 +391,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     public function setLatitudesLongitudes(array $latitudes, array $longitudes) {
 		$size = count($latitudes);
 
-		if ($size != count($longitudes)) {
+		if ($size !== count($longitudes)) {
 			throw new \InvalidArgumentException('Latitude & Longitude Array cannot have different lenghts');
 		}
 
@@ -504,11 +497,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return $this->findFirstNonNullGeohash(array_reverse($this->Data[self::GEOHASHES]));
 	}
 
-	/**
-	 * @param array $geohashes
-	 * @return null|string
-	 */
-	protected function findFirstNonNullGeohash(array $geohashes) {
+    /**
+     * @return null|string
+     */
+    protected function findFirstNonNullGeohash(array $geohashes) {
 		$nullGeohash = (new Geohash())->encode(new Coordinate(array(0, 0)), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
 		foreach ($geohashes as $geohash) {
@@ -601,7 +593,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
 	/**
 	 * Has position data?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasPositionData() {
 		return $this->has(self::GEOHASHES);
@@ -609,7 +601,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
 	/**
 	 * Has geohash data?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function hasGeohashes() {
 		return $this->has(self::GEOHASHES);
@@ -652,7 +644,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 */
 	public function min() {
 		$geohash = $this->Data[self::MIN];
-		return (new Geohash())->decode($geohash)->getCoordinate();
+		return (new Geohash())->decode($geohash)
+		    ->getCoordinate();
 	}
 
 	/**
@@ -660,7 +653,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 */
 	public function max() {
 		$geohash = $this->Data[self::MAX];
-		return (new Geohash())->decode($geohash)->getCoordinate();
+		return (new Geohash())->decode($geohash)
+		    ->getCoordinate();
 	}
 
 	/**
@@ -679,42 +673,32 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		return array();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasElevations(): bool {
 		return $this->hasOriginalElevations() || $this->hasCorrectedElevations();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasOriginalElevations(): bool {
 		return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && ! empty($this->Data[self::ELEVATIONS_ORIGINAL]);
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasCorrectedElevations(): bool {
 		return isset($this->Data[self::ELEVATIONS_CORRECTED]) && ! empty($this->Data[self::ELEVATIONS_CORRECTED]);
 	}
 
-	/**
-	 * Is in routenet?
-	 * @return boolean
-	 */
-	public function inRoutenet(): bool {
+    /**
+     * Is in routenet?
+     */
+    public function inRoutenet(): bool {
 		return ($this->Data[self::IN_ROUTENET] == 1);
 	}
 
 	/**
 	 * Calculate distance between two coordinates
-	 * @param double $lat1
-	 * @param double $lon1
-	 * @param double $lat2
-	 * @param double $lon2
-	 * @return double
+	 * @param float $lat1
+	 * @param float $lon1
+	 * @param float $lat2
+	 * @param float $lon2
+	 * @return float
 	 */
 	public static function gpsDistance($lat1, $lon1, $lat2, $lon2) {
 		$rad1 = deg2rad($lat1);

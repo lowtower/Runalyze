@@ -50,7 +50,6 @@ class LocalTime extends \DateTime
 
     /**
      * @param int $timestampInServerTimezone timestamp (created by time(), mktime(), ...) that will be corrected
-     * @return \Runalyze\Util\LocalTime
      * @throws \InvalidArgumentException
      */
     public static function fromServerTime($timestampInServerTimezone): self
@@ -59,7 +58,8 @@ class LocalTime extends \DateTime
             throw new \InvalidArgumentException('Given timestamp must be numeric.');
         }
 
-        $correctedTimestamp = $timestampInServerTimezone + (new \DateTime())->setTimestamp($timestampInServerTimezone)->getOffset();
+        $correctedTimestamp = $timestampInServerTimezone + (new \DateTime())->setTimestamp($timestampInServerTimezone)
+            ->getOffset();
 
         return new self($correctedTimestamp);
     }
@@ -67,7 +67,6 @@ class LocalTime extends \DateTime
     /**
      * @see http://php.net/manual/en/datetime.formats.php
      * @param string $dateTimeString date/time string, any timezone information (like +02:00) will be ignored
-     * @return \Runalyze\Util\LocalTime
      */
     public static function fromString($dateTimeString): self
     {
@@ -76,20 +75,15 @@ class LocalTime extends \DateTime
         return new self($DateTime->getTimestamp() + $DateTime->getOffset());
     }
 
-    /**
-     * @return \DateTime
-     */
     public function toServerTime(): \DateTime
     {
         return new \DateTime($this->format('d.m.Y H:i:s'));
     }
 
-    /**
-     * @return int
-     */
     public function toServerTimestamp(): int
     {
-        return $this->toServerTime()->getTimestamp();
+        return $this->toServerTime()
+            ->getTimestamp();
     }
 
     /**
@@ -146,7 +140,8 @@ class LocalTime extends \DateTime
     public function monthStart($asObject = false)
     {
         $Date = clone $this;
-        $Date->setDate($this->format('Y'), $this->format('m'), 1)->setTime(0, 0, 0);
+        $Date->setDate($this->format('Y'), $this->format('m'), 1)
+            ->setTime(0, 0, 0);
 
         return $asObject ? $Date : $Date->getTimestamp();
     }
@@ -159,7 +154,8 @@ class LocalTime extends \DateTime
     public function monthEnd($asObject = false)
     {
         $Date = clone $this;
-        $Date->setDate($this->format('Y'), $this->format('m') + 1, 0)->setTime(23, 59, 59);
+        $Date->setDate($this->format('Y'), $this->format('m') + 1, 0)
+            ->setTime(23, 59, 59);
 
         return $asObject ? $Date : $Date->getTimestamp();
     }
@@ -172,7 +168,8 @@ class LocalTime extends \DateTime
     public function yearStart($asObject = false)
     {
         $Date = clone $this;
-        $Date->setDate($this->format('Y'), 1, 1)->setTime(0, 0, 0);
+        $Date->setDate($this->format('Y'), 1, 1)
+            ->setTime(0, 0, 0);
 
         return $asObject ? $Date : $Date->getTimestamp();
     }
@@ -185,14 +182,14 @@ class LocalTime extends \DateTime
     public function yearEnd($asObject = false)
     {
         $Date = clone $this;
-        $Date->setDate($this->format('Y'), 12, 31)->setTime(23, 59, 59);
+        $Date->setDate($this->format('Y'), 12, 31)
+            ->setTime(23, 59, 59);
 
         return $asObject ? $Date : $Date->getTimestamp();
     }
 
     /**
      * Is given timestamp from today?
-     * @return bool
      */
     public function isToday(): bool
     {

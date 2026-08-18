@@ -36,12 +36,6 @@ class Feed
     /** @var UnitSystem */
     protected $UnitSystem;
 
-    /**
-     * @param TranslatorInterface $translator
-     * @param ActivityContextFactory $activityContextFactory
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param ConfigurationManager $configurationManager
-     */
     public function __construct(TranslatorInterface $translator, ActivityContextFactory $activityContextFactory, UrlGeneratorInterface $urlGenerator, ConfigurationManager $configurationManager)
     {
         $this->FeedBuilder = new Rss20FeedBuilder();
@@ -50,7 +44,8 @@ class Feed
         $this->UrlGenerator = $urlGenerator;
         $this->ConfigurationManager = $configurationManager;
         $this->FeedBuilder->withDate(new \DateTime());
-        $this->UnitSystem = $configurationManager->getList()->getUnitSystem();
+        $this->UnitSystem = $configurationManager->getList()
+            ->getUnitSystem();
     }
 
     public function setTranslator(TranslatorInterface $translator)
@@ -117,7 +112,6 @@ class Feed
     }
 
     /**
-     * @param \DateTime $date
      * @return $this
      */
     public function setFeedDate(\DateTime $date)
@@ -126,11 +120,6 @@ class Feed
         return $this;
     }
 
-    /**
-     * @param Training $activity
-     * @param ValueExtension $valueDecorator
-     * @return string
-     */
     private function createItemContent(Training $activity, ValueExtension $valueDecorator): string
     {
         $content = '<b>'.$this->Translator->trans('Sport') . '</b>: ' . $activity->getSport()->getName();
@@ -161,9 +150,6 @@ class Feed
         return $content;
     }
 
-    /**
-     * @param Training $activity
-     */
     private function createItem(Training $activity)
     {
         $item = new Rss20ItemBuilder($this->FeedBuilder);
@@ -183,14 +169,10 @@ class Feed
         $this->FeedBuilder->withItem($item);
     }
 
-    /**
-     * @param Training $activity
-     * @param ValueExtension $valueDecorator
-     * @return string
-     */
     private function getFeedTitle(Training $activity, ValueExtension $valueDecorator): string
     {
-        $title = $activity->getSport()->getName();
+        $title = $activity->getSport()
+            ->getName();
 
         if (null !== $activity->getType()) {
             $title .= ' ('. $activity->getType()->getName().')';

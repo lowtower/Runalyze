@@ -9,8 +9,6 @@ class StepsPerMinute extends AbstractCadenceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class StepsPerMinute extends AbstractCadenceUnit
         return 'spm';
     }
 
-    /**
-     * @return int
-     */
     public function getFactorFromBaseUnit(): int
     {
         return 2;

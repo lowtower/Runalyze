@@ -19,9 +19,6 @@ class Version20230111150000 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void {
         $prefix = $this->container->getParameter('database_prefix');
 
@@ -40,9 +37,6 @@ class Version20230111150000 extends AbstractMigration implements ContainerAwareI
         $this->addSql('update `'.$prefix.'training` t set t.rpe = 10 where t.rpe is not null and t.rpe > 10;');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void {
         $prefix = $this->container->getParameter('database_prefix');
 

@@ -42,47 +42,40 @@ class Pace extends AbstractKey
 	/** @var string */
 	const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
 
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::PACE;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return '';
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isInDatabase(): bool
 	{
 		return false;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Pace');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
 		$pace = $this->getPace($context);
 		if (null === $pace) {
@@ -100,50 +93,48 @@ class Pace extends AbstractKey
 		return SummaryMode::AVG;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}
 
-	/**
-	 * Get pace
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return \Runalyze\Activity\Pace
-	 */
-	private function getPace(Context $context)
+    /**
+     * Get pace
+     * @return \Runalyze\Activity\Pace
+     */
+    private function getPace(Context $context)
 	{
 		if ($context->activity()->distance() > 0) {
 			if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY))  {
 				if ($context->data(self::DURATION_SUM_WITH_DISTANCE_KEY) > 0) {
-					$Pace = new Activity\Pace(
+					return new Activity\Pace(
 					    $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
-					    $context->activity()->distance(),
-					    $context->hasSport() ? $context->sport()->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
+					    $context->activity()
+					        ->distance(),
+					    $context->hasSport() ? $context->sport()
+					        ->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
 					);
-
-					return $Pace;
 				}
 
 				return null;
 			}
 
-			return $context->dataview()->pace();
+			return $context->dataview()
+			    ->pace();
 		}
 
 		return null;
 	}
 
-	/**
-	 * returns a value dependend CSS class and style.
-	 * #TSC
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return array with key "class" and "style"
-	 */
-	public function valueDependendCssStyle(Context $context)
+    /**
+     * returns a value dependend CSS class and style.
+     * #TSC
+     * @return array with key "class" and "style"
+     */
+    public function valueDependendCssStyle(Context $context)
 	{
 		if (! array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
 			return null;

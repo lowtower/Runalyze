@@ -74,7 +74,6 @@ class ValueExtension extends \Twig_Extension
      * @param int $defaultDecimals
      * @param string $defaultDecimalPoint
      * @param string $defaultThousandsSeparator
-     * @return DisplayableValue
      */
     public function value($value, $unit, $defaultDecimals = 0, $defaultDecimalPoint = '.', $defaultThousandsSeparator = ','): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -85,7 +84,6 @@ class ValueExtension extends \Twig_Extension
      * @param float|int $kilometer [km]
      * @param null|AbstractDistanceUnit $unit
      * @param int $decimals
-     * @return DisplayableValue
      */
     public function distance($kilometer, $unit = null, $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -97,7 +95,6 @@ class ValueExtension extends \Twig_Extension
     /**
      * @param float|int $meter [m]
      * @param null|AbstractDistanceUnit $unit
-     * @return DisplayableValue
      */
     public function elevation($meter, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -110,7 +107,6 @@ class ValueExtension extends \Twig_Extension
      * @param float|int $centimeter [cm]
      * @param null|AbstractDistanceUnit $unit
      * @param int $decimals
-     * @return DisplayableValue
      */
     public function strideLength($centimeter, $unit = null, $decimals = 2): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -122,7 +118,6 @@ class ValueExtension extends \Twig_Extension
     /**
      * @param float|int $kcal [kcal]
      * @param null|AbstractEnergyUnit $unit
-     * @return DisplayableValue
      */
     public function energy($kcal, $unit = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -150,7 +145,6 @@ class ValueExtension extends \Twig_Extension
     /**
      * @param int $bpm [bpm]
      * @param null|int $bpmMax [bpm]
-     * @return DisplayableValueInPercent
      */
     public function heartRatePercentMaximum($bpm, $bpmMax = null): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValueInPercent
     {
@@ -204,7 +198,6 @@ class ValueExtension extends \Twig_Extension
      * @param float|int $celsius [°C]
      * @param null|AbstractTemperatureUnit $unit
      * @param int $decimals
-     * @return DisplayableValue
      */
     public function temperature($celsius, $unit = null, $decimals = 0): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -217,7 +210,6 @@ class ValueExtension extends \Twig_Extension
      * @param float $kilogram [kg]
      * @param null|AbstractWeightUnit $unit
      * @param int $decimals
-     * @return DisplayableValue
      */
     public function weight($kilogram, $unit = null, $decimals = 1): \Runalyze\Bundle\CoreBundle\Twig\DisplayableValue
     {
@@ -228,9 +220,7 @@ class ValueExtension extends \Twig_Extension
 
     /**
      * @param float $uncorrectedValue
-     * @param RunalyzeConfigurationList $configurationList
      * @param bool $valueIsUsedForShape
-     * @return DisplayableVO2max
      */
     public function vo2max($uncorrectedValue, RunalyzeConfigurationList $configurationList, $valueIsUsedForShape = true): \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max
     {
@@ -238,32 +228,24 @@ class ValueExtension extends \Twig_Extension
     }
 
     /**
-     * @param ActivityContext $activityContext
-     * @param RunalyzeConfigurationList $configurationList
      * @return DisplayableVO2max
      */
     public function vo2maxFor(ActivityContext $activityContext, RunalyzeConfigurationList $configurationList)
     {
         return $this->vo2max(
-            $activityContext->getDecorator()->getUncorrectedVO2max($configurationList),
+            $activityContext->getDecorator()
+                ->getUncorrectedVO2max($configurationList),
             $configurationList,
-            $activityContext->getActivity()->getUseVO2max()
+            $activityContext->getActivity()
+                ->getUseVO2max()
         );
     }
 
-    /**
-     * @param UnitInterface $unit
-     * @return string
-     */
     public function jsFormatter(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getFormatter($unit);
     }
 
-    /**
-     * @param UnitInterface $unit
-     * @return string
-     */
     public function jsTransformer(UnitInterface $unit): string
     {
         return JavaScriptFormatter::getTransformer($unit);

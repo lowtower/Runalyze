@@ -17,9 +17,6 @@ class Version20171225193117 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -28,9 +25,6 @@ class Version20171225193117 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'raceresult` SET `official_distance` = NULL WHERE `official_distance` = 0.0');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

@@ -17,7 +17,6 @@ class DisplayableVO2max extends DisplayableValue
 
     /**
      * @param float $uncorrectedValue
-     * @param RunalyzeConfigurationList $configurationList
      * @param bool $valueIsUsedForShape
      */
     public function __construct($uncorrectedValue, RunalyzeConfigurationList $configurationList, $valueIsUsedForShape = true)
@@ -51,7 +50,6 @@ class DisplayableVO2max extends DisplayableValue
     }
 
     /**
-     * @param RunalyzeConfigurationList $configurationList
      * @param bool $valueIsUsedForShape
      */
     protected function setIconClass(RunalyzeConfigurationList $configurationList, $valueIsUsedForShape)
@@ -71,7 +69,6 @@ class DisplayableVO2max extends DisplayableValue
 
     /**
      * @param float $diffToShape
-     * @return string
      */
     protected function getIconClassFor($diffToShape): string
     {

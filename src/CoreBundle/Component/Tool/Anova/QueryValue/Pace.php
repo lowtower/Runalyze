@@ -16,7 +16,6 @@ class Pace implements QueryValueInterface
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return AbstractPaceUnit
      */
     public function getValueUnit(UnitSystem $unitSystem)

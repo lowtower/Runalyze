@@ -12,10 +12,6 @@ class PercentageHilly extends AbstractOneColumnValue
         return 'percentageHilly';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return Factorial
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Factorial
     {
         return new Factorial('%', 100, 0);

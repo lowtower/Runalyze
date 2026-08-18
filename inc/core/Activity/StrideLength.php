@@ -29,13 +29,12 @@ class StrideLength implements ValueInterface
 	 */
 	protected $UnitSystem;
 
-	/**
-	 * Format stride length
-	 * @param int $centimeter
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public static function format($centimeter, $withUnit = true): string
+    /**
+     * Format stride length
+     * @param int $centimeter
+     * @param bool $withUnit
+     */
+    public static function format($centimeter, $withUnit = true): string
 	{
 		return (new self($centimeter))->string($withUnit);
 	}
@@ -50,20 +49,18 @@ class StrideLength implements ValueInterface
 		$this->UnitSystem = (null !== $unitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
 	}
 
-	/**
-	 * Label for stride length
-	 * @return string
-	 */
-	public function label(): string
+    /**
+     * Label for stride length
+     */
+    public function label(): string
 	{
 		return __('Stride length');
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     */
+    public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return DistanceUnitSystem::FEET;
@@ -130,25 +127,16 @@ class StrideLength implements ValueInterface
 		return round($this->Centimeter);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function cm(): float
 	{
 		return round($this->Centimeter);
 	}
 
-	/**
-	 * @return float
-	 */
 	public function meter(): float
 	{
 		return round($this->Centimeter / 100, 2);
 	}	
 
-	/**
-	 * @return float
-	 */
 	public function feet(): float
 	{
 		return round($this->Centimeter * DistanceUnitSystem::FEET_MULTIPLIER / 1000 / 100, 2);
@@ -166,12 +154,11 @@ class StrideLength implements ValueInterface
 		return $this->meter();
 	}
 
-	/**
-	 * Format value as string
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function string($withUnit = true): string
+    /**
+     * Format value as string
+     * @param bool $withUnit
+     */
+    public function string($withUnit = true): string
 	{
 		if ($this->UnitSystem->isImperial()) {
 			return $this->stringFeet($withUnit);
@@ -180,29 +167,26 @@ class StrideLength implements ValueInterface
 		return $this->stringMeter($withUnit);
 	}
 
-	/**
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function stringMeter($withUnit = true): string
+    /**
+     * @param bool $withUnit
+     */
+    public function stringMeter($withUnit = true): string
 	{
 		return number_format($this->Centimeter/100, 2).($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
 	}
 
-	/**
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function stringCM($withUnit = true): string
+    /**
+     * @param bool $withUnit
+     */
+    public function stringCM($withUnit = true): string
 	{
 		return number_format($this->Centimeter, 0).($withUnit ? '&nbsp;'.DistanceUnitSystem::CM : '');
 	}
 
-	/**
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function stringFeet($withUnit = true): string
+    /**
+     * @param bool $withUnit
+     */
+    public function stringFeet($withUnit = true): string
 	{
 		return number_format($this->feet(), 1, '.', '').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
 	}

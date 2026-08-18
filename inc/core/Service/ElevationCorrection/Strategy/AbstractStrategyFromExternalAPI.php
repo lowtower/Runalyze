@@ -54,12 +54,12 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
         $altitudes = [];
 
         for ($i = 0; $i < $numberOfPoints; $i++) {
-            if ($i % $pointsToGroup == 0) {
+            if ($i % $pointsToGroup === 0) {
                 $latitudesForRequest[] = $latitudes[$i];
                 $longitudesForRequest[] = $longitudes[$i];
             }
 
-            if (($i + 1) % ($this->PointsPerCall * $pointsToGroup) == 0 || $i == $numberOfPoints - 1) {
+            if (($i + 1) % ($this->PointsPerCall * $pointsToGroup) === 0 || $i === $numberOfPoints - 1) {
                 $result = $this->fetchElevationFor($latitudesForRequest, $longitudesForRequest);
                 $points = count($result);
 
@@ -110,8 +110,6 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
     abstract protected function fetchElevationFor(array $latitudes, array $longitudes);
 
     /**
-     * @param array $json
-     *
      * @return bool
      */
     abstract protected function checkApiResult(array $json);

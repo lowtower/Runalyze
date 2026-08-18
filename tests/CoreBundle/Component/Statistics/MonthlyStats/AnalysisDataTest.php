@@ -12,7 +12,6 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param array<int, array<string, int>>|array<int, array<string, float>> $results
-     * @return AnalysisData
      */
     protected function getAnalysisDataMockWithEmptySelections(array $results = []): \Runalyze\Bundle\CoreBundle\Component\Statistics\MonthlyStats\AnalysisData
     {

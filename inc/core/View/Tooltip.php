@@ -86,11 +86,10 @@ class Tooltip {
 		$code = '<span '.$this->attributes().'>'.$code.'</span>';
 	}
 
-	/**
-	 * Get attributes
-	 * @return string
-	 */
-	public function attributes(): string {
+    /**
+     * Get attributes
+     */
+    public function attributes(): string {
 		$Attributes = array();
 		$Attributes[] = 'rel="'.self::ATTRIBUTE_REL.'"';
 		$Attributes[] = self::ATTRIBUTE.'="'.str_replace('&amp;', '&', htmlspecialchars($this->text)).'"';

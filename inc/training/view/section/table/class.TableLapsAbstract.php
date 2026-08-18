@@ -30,9 +30,6 @@ abstract class TableLapsAbstract {
 	 */
 	protected $Code = '';
 
-	/**
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
 	public function __construct(Context $context) {
 		$this->Context = $context;
 

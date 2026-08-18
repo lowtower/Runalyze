@@ -48,10 +48,7 @@ class FileImporter implements LoggerAwareInterface
     protected $RemoveFiles = true;
 
     /**
-     * @param FitConverter $fitConverter
-     * @param TTbinConverter $ttbinConverter
      * @param string|null $directoryForFailedImports
-     * @param LoggerInterface|null $logger
      */
     public function __construct(
         FitConverter $fitConverter,
@@ -98,7 +95,6 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param array $fileNames
      * @return FileImportResultCollection
      */
     public function importFiles(array $fileNames)
@@ -131,7 +127,6 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param FileImportResultCollection $results
      * @return FileImportResultCollection
      */
     protected function handleResults(FileImportResultCollection $results)
@@ -189,7 +184,6 @@ class FileImporter implements LoggerAwareInterface
     /**
      * @param string $fileName
      * @param string|null $originalFileName
-     * @return FileImportResult
      */
     protected function getFileImportResultFor($fileName, $originalFileName = null): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult
     {
@@ -231,7 +225,7 @@ class FileImporter implements LoggerAwareInterface
     {
         $extension = mb_strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        if ('zip' == $extension) {
+        if ('zip' === $extension) {
             $allConvertedFileNames = [];
             $zipFiles = $this->ZipConverter->convertFile($fileName);
 
@@ -298,9 +292,7 @@ class FileImporter implements LoggerAwareInterface
     }
 
     /**
-     * @param ParserInterface $parser
      * @param string $fileName
-     *
      * @throws ParserException
      */
     protected function letParserParseFile(ParserInterface $parser, $fileName)
@@ -360,10 +352,6 @@ class FileImporter implements LoggerAwareInterface
         }
     }
 
-    /**
-     * @param FileImportResult $result
-     * @return string
-     */
     protected function getFileNameForLog(FileImportResult $result): string
     {
         if ($result->getOriginalFileName() != $result->getFileName()) {

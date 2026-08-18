@@ -99,7 +99,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
 		$this->object->setPercentageForLongjogs(0.33);
 		$this->object->setPercentageForWeekKilometer(0.67);
 
-		DB::getInstance()->insert('training', array('sportid', 'time', 'distance', 's'), array(Configuration::General()->runningSport(), LocalTime::fromServerTime(time())->getTimestamp() - 1*DAY_IN_S, 15, 2));
+		DB::getInstance()->insert('training', array('sportid', 'time', 'distance', 's'), array(Configuration::General()->runningSport(), LocalTime::fromServerTime(time())->getTimestamp() - DAY_IN_S, 15, 2));
 		DB::getInstance()->insert('training', array('sportid', 'time', 'distance', 's'), array(Configuration::General()->runningSport(), LocalTime::fromServerTime(time())->getTimestamp() - 3*DAY_IN_S, 15, 2));
 		DB::getInstance()->insert('training', array('sportid', 'time', 'distance', 's'), array(Configuration::General()->runningSport(), LocalTime::fromServerTime(time())->getTimestamp() - 8*DAY_IN_S, 42, 2));
 

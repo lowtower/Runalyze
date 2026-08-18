@@ -18,63 +18,59 @@ use Runalyze\Dataset\SummaryMode;
  */
 class Elevation extends AbstractKey
 {
-	/**
-	 * Enum id
-	 * @return int
-	 */
-	public function id(): int
+    /**
+     * Enum id
+     */
+    public function id(): int
 	{
 		return \Runalyze\Dataset\Keys::ELEVATION;
 	}
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column(): string
+    /**
+     * Database key
+     */
+    public function column(): string
 	{
 		return 'elevation';
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 		return __('Elevation');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function shortLabel(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function shortLabel(): string
 	{
 		return __('Elev.');
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function description(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function description(): string
 	{
 		return __('Calculated value for total elevation, i.e. maximum of total ascent or descent.');
 	}
 
-	/**
-	 * Get string to display this dataset value
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string
-	 */
-	public function stringFor(Context $context)
+    /**
+     * Get string to display this dataset value
+     * @return string
+     */
+    public function stringFor(Context $context)
 	{
         if ($context->activity()->elevation() > 0) {
             if ($context->activity()->id() > 0 && ! \Request::isOnSharedPage()) {
                 return '<a class="window" href="activity/' . $context->activity()->id() . '/elevation-info">' . $context->dataview()->elevation()->string() . '</a>';
             } else {
-                return $context->dataview()->elevation()->string();
+                return $context->dataview()
+                    ->elevation()
+                    ->string();
             }
         }
 
@@ -89,11 +85,10 @@ class Elevation extends AbstractKey
 		return SummaryMode::SUM;
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function cssClass(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function cssClass(): string
 	{
 		return 'small';
 	}

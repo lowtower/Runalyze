@@ -80,18 +80,14 @@ class RaceContainer {
 		return $this->Data;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function num(): int {
 		return count($this->Data);
 	}
 
-	/**
-	 * @param float $distance [km]
-	 * @return array
-	 */
-	public function races($distance): array {
+    /**
+     * @param float $distance [km]
+     */
+    public function races($distance): array {
 		if (! isset($this->DistanceIDs[(string) (float) $distance])) {
 			return array();
 		}

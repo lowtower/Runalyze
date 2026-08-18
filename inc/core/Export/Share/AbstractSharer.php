@@ -42,13 +42,20 @@ abstract class AbstractSharer extends AbstractExporter
         $Text  = __('I did sport: ');
 
         if ($this->Context->activity()->distance() > 0) {
-            $Text .= $this->Context->dataview()->distance().' ';
-            $Text .= $this->Context->dataview()->titleByTypeOrSport().__(' in ');
-            $Text .= $this->Context->dataview()->duration()->string().' ';
+            $Text .= $this->Context->dataview()
+                ->distance().' ';
+            $Text .= $this->Context->dataview()
+                ->titleByTypeOrSport().__(' in ');
+            $Text .= $this->Context->dataview()
+                ->duration()
+                ->string().' ';
             $Text .= '('.$this->Context->dataview()->pace()->valueWithAppendix().')';
         } else {
-            $Text .= $this->Context->dataview()->duration()->string().' ';
-            $Text .= $this->Context->dataview()->titleByTypeOrSport();
+            $Text .= $this->Context->dataview()
+                ->duration()
+                ->string().' ';
+            $Text .= $this->Context->dataview()
+                ->titleByTypeOrSport();
         }
 
 

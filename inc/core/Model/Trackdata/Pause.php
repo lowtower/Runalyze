@@ -94,11 +94,10 @@ class Pause {
 );
 	}
 
-	/**
-	 * Has heart rate info?
-	 * @return bool
-	 */
-	public function hasHeartRateInfo(): bool {
+    /**
+     * Has heart rate info?
+     */
+    public function hasHeartRateInfo(): bool {
 		return null !== $this->HRstart && null !== $this->HRend;
 	}
 

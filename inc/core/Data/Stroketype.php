@@ -43,9 +43,6 @@ class Stroketype
         return $this->Identifier;
     }
 
-    /**
-     * @return string
-     */
     public function string(): string
     {
         switch ($this->Identifier) {
@@ -68,9 +65,6 @@ class Stroketype
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function shortString(): string
     {
         switch ($this->Identifier) {
@@ -93,9 +87,6 @@ class Stroketype
         return '';
     }
 
-    /**
-     * @return bool
-     */
     public function isBreak(): bool {
         return $this->Identifier == StrokeTypeProfile::BREAK;
     }

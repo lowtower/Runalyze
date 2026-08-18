@@ -108,11 +108,11 @@ class DataBrowserLinker {
 		$end_year    = $end->format('Y');
 
 		if (360 < $diff_in_days && $diff_in_days < 370) {
-			$start_year  += 1*$factor;
-			$end_year    += 1*$factor;
+			$start_year  += $factor;
+			$end_year    += $factor;
 		} elseif (28 <= $diff_in_days && $diff_in_days <= 31) {
-			$start_month += 1*$factor;
-			$end_month   += 1*$factor;
+			$start_month += $factor;
+			$end_month   += $factor;
 
 			if ($start_day == 1 && $end_day != 0) {
 				$end_month = $start_month + 1;

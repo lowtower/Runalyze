@@ -64,12 +64,16 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
             ];
         }
 
-        $this->Fixtures = $this->loadFixtures($this->FixtureClasses)->getReferenceRepository();
+        $this->Fixtures = $this->loadFixtures($this->FixtureClasses)
+            ->getReferenceRepository();
 
-        $this->Client = $this->getContainer()->get('test.client');
+        $this->Client = $this->getContainer()
+            ->get('test.client');
         $this->Client->disableReboot();
 
-        $this->EntityManager = $this->getContainer()->get('doctrine')->getManager();
+        $this->EntityManager = $this->getContainer()
+            ->get('doctrine')
+            ->getManager();
         $this->EntityManager->clear();
     }
 
@@ -94,7 +98,8 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     {
         $ref = $this->Fixtures->getReference('account-default');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository('CoreBundle:Account')->find($ref->getId());
+        return $this->EntityManager->getRepository('CoreBundle:Account')
+            ->find($ref->getId());
     }
 
     /**
@@ -104,7 +109,8 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     {
         $ref = $this->Fixtures->getReference('account-default.sport-running');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository('CoreBundle:Sport')->find($ref->getId());
+        return $this->EntityManager->getRepository('CoreBundle:Sport')
+            ->find($ref->getId());
     }
 
     /**
@@ -114,7 +120,8 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     {
         $ref = $this->Fixtures->getReference('account-default.sport-cycling');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository('CoreBundle:Sport')->find($ref->getId());
+        return $this->EntityManager->getRepository('CoreBundle:Sport')
+            ->find($ref->getId());
     }
 
     /**
@@ -124,7 +131,8 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     {
         $ref = $this->Fixtures->getReference('account-default.equipment-type-clothes');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository('CoreBundle:EquipmentType')->find($ref->getId());
+        return $this->EntityManager->getRepository('CoreBundle:EquipmentType')
+            ->find($ref->getId());
     }
 
     /**
@@ -134,14 +142,14 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     {
         $ref = $this->Fixtures->getReference('account-empty');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository('CoreBundle:Account')->find($ref->getId());
+        return $this->EntityManager->getRepository('CoreBundle:Account')
+            ->find($ref->getId());
     }
 
     /**
      * @param int|null $timestamp
      * @param int|float $duration
      * @param float|int|null $distance
-     * @param Sport|null $sport
      * @return Training
      */
     protected function getActivityForDefaultAccount(

@@ -36,14 +36,13 @@ class Temperature implements ValueInterface {
 	 */
 	protected $PreferredUnit;
 
-	/**
-	 * Format
-	 * @param float|null $temperature [°C]
-	 * @param bool $withUnit [optional] with or without unit
-	 * @param int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public static function format($temperature, $withUnit = true, $decimals = false): string {
+    /**
+     * Format
+     * @param float|null $temperature [°C]
+     * @param bool $withUnit [optional] with or without unit
+     * @param int $decimals [optional] number of decimals
+     */
+    public static function format($temperature, $withUnit = true, $decimals = false): string {
 		return (new self($temperature))->string($withUnit, $decimals);
 	}
 
@@ -113,13 +112,12 @@ class Temperature implements ValueInterface {
 		return $this;
 	}
 
-	/**
-	 * Format temperature as string
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string
-	 */
-	public function string($withUnit = true, $decimals = false): string {
+    /**
+     * Format temperature as string
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     */
+    public function string($withUnit = true, $decimals = false): string {
 		if ($this->PreferredUnit->isFahrenheit()) {
 			return $this->stringFahrenheit($withUnit, $decimals);
 		}
@@ -154,11 +152,10 @@ class Temperature implements ValueInterface {
 		return $this->Temperature * 1.8 + 32;
 	}
 
-	/**
-	 * Is temperature empty?
-	 * @return bool
-	 */
-	public function isEmpty(): bool {
+    /**
+     * Is temperature empty?
+     */
+    public function isEmpty(): bool {
 		return (null === $this->Temperature);
 	}
 

@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class Privacy extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -17,33 +14,21 @@ class Privacy extends AbstractCategory
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Privacy::class;
     }
 
-    /**
-     * @return bool
-     */
     public function isListPublic(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_PUBLIC'];
     }
 
-    /**
-     * @return bool
-     */
     public function isListShowingAllActivities(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_ALL'];
     }
 
-    /**
-     * @return bool
-     */
     public function isListWithStatistics(): bool
     {
         return 'true' == $this->Variables['TRAINING_LIST_STATISTICS'];

@@ -37,19 +37,17 @@ class DataBrowserMode extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Show week
-	 * @return bool
-	 */
-	public function showWeek(): bool {
+    /**
+     * Show week
+     */
+    public function showWeek(): bool {
 		return ($this->value() == self::WEEK);
 	}
 
-	/**
-	 * Show month
-	 * @return bool
-	 */
-	public function showMonth(): bool {
+    /**
+     * Show month
+     */
+    public function showMonth(): bool {
 		return ($this->value() == self::MONTH);
 	}
 }

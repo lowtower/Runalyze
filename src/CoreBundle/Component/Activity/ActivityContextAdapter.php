@@ -67,7 +67,8 @@ class ActivityContextAdapter
         $location->setDateTime($time);
 
         if ($this->Context->hasRoute() && $this->Context->getRoute()->hasGeohashes()) {
-            $this->Context->getRoute()->setStartEndGeohashes();
+            $this->Context->getRoute()
+                ->setStartEndGeohashes();
 
             $location->setGeohash($this->Context->getRoute()->getStartpoint());
         }
@@ -92,7 +93,6 @@ class ActivityContextAdapter
 
     /**
      * #TSC get details of the route and set it on the relevant activity fields.
-     * @return bool
      */
     public function guessRouteDetails(): bool {
         $activity = $this->Context->getActivity();

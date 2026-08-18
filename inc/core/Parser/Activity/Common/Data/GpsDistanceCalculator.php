@@ -24,7 +24,6 @@ class GpsDistanceCalculator
      * @param float $lon1
      * @param float $lat2
      * @param float $lon2
-     * @return float
      */
     public static function gpsDistance($lat1, $lon1, $lat2, $lon2): float
     {

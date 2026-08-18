@@ -9,8 +9,6 @@ class Seconds extends AbstractTimeUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

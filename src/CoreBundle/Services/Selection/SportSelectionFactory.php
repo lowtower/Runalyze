@@ -34,7 +34,6 @@ class SportSelectionFactory
     /**
      * @param string|null $param
      * @param bool $allIsAvailable
-     * @return Selection
      */
     public function getSelection($param = null, $allIsAvailable = true): \Runalyze\Bundle\CoreBundle\Services\Selection\Selection
     {
@@ -53,7 +52,9 @@ class SportSelectionFactory
         }
 
         if (null === $param || ! isset($sportList[$param])) {
-            $param = (string) $this->ConfigurationManager->getList()->getGeneral()->getRunningSport();
+            $param = (string) $this->ConfigurationManager->getList()
+                ->getGeneral()
+                ->getRunningSport();
         }
 
         return new Selection($sportList, $param);

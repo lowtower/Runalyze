@@ -153,7 +153,8 @@ class CallController extends Controller
     public function windowsPlotSumDataAction(): \Symfony\Component\HttpFoundation\Response
     {
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
-        $this->getPlotSumData()->display();
+        $this->getPlotSumData()
+            ->display();
 
         return new Response();
     }

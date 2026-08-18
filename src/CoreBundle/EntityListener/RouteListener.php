@@ -32,7 +32,8 @@ class RouteListener
         if (null === $route->getElevationsCorrected() 
             && ! $route->getAltitudeBarometric()
             && $this->userWantsElevationsToBeCorrected($route->getAccount())) {
-            $route->getAdapter()->correctElevation($this->ElevationCorrection);
+            $route->getAdapter()
+                ->correctElevation($this->ElevationCorrection);
         }
 
         $this->calculateElevation($route);
@@ -45,11 +46,6 @@ class RouteListener
         }
     }
 
-    /**
-     * @param PreUpdateEventArgs $args
-     *
-     * @return bool
-     */
     protected function hasChangedElevations(PreUpdateEventArgs $args): bool
     {
         return (
@@ -62,21 +58,23 @@ class RouteListener
 
     protected function calculateElevation(Route $route)
     {
-        $configuration = $this->ConfigurationManager->getList($route->getAccount())->getActivityView();
+        $configuration = $this->ConfigurationManager->getList($route->getAccount())
+            ->getActivityView();
 
-        $route->getAdapter()->calculateElevation(
-            $configuration->getElevationCalculationMethod(),
-            $configuration->getElevationCalculationThreshold()
-        );
+        $route->getAdapter()
+            ->calculateElevation(
+                $configuration->getElevationCalculationMethod(),
+                $configuration->getElevationCalculationThreshold()
+            );
     }
 
     /**
-     * @param Account $account
-     *
      * @return bool
      */
     protected function userWantsElevationsToBeCorrected(Account $account)
     {
-        return $this->ConfigurationManager->getList($account)->getActivityForm()->isAutomaticElevationCorrectionActivated();
+        return $this->ConfigurationManager->getList($account)
+            ->getActivityForm()
+            ->isAutomaticElevationCorrectionActivated();
     }
 }

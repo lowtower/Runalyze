@@ -151,12 +151,11 @@ class Entity extends Model\Entity {
 		$this->ensureNullIfEmpty(self::PARTICIPANTS_AGECLASS, true);
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::PLACE_TOTAL:
 			case self::PLACE_GENDER:
@@ -170,9 +169,6 @@ class Entity extends Model\Entity {
 		return false;
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 */
 	public function setDefaultValuesFromActivity(Model\Activity\Entity $activity) {
 		$this->set(self::OFFICIAL_DISTANCE, $activity->distance());
 		$this->set(self::OFFICIAL_TIME, $activity->duration());
@@ -199,11 +195,10 @@ class Entity extends Model\Entity {
 		return $this->Data[self::OFFICIAL_TIME];
 	}
 
-	/**
-	 * officially measured
-	 * @return bool
-	 */
-	public function officiallyMeasured(): bool {
+    /**
+     * officially measured
+     */
+    public function officiallyMeasured(): bool {
 		return ($this->Data[self::OFFICIALLY_MEASURED] == 1);
 	}
 

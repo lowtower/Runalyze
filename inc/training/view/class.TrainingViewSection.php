@@ -67,11 +67,10 @@ abstract class TrainingViewSection {
 		$this->Header = $header;
 	}
 
-	/**
-	 * Append row
-	 * @param TrainingViewSectionRowAbstract $Row
-	 */
-	final protected function appendRow(TrainingViewSectionRowAbstract $Row) {
+    /**
+     * Append row
+     */
+    final protected function appendRow(TrainingViewSectionRowAbstract $Row) {
 		$this->Rows[] = $Row;
 	}
 

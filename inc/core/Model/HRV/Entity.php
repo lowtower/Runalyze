@@ -47,21 +47,19 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 		return static::allProperties();
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		return ($key == self::DATA);
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::DATA:
 				return true;
@@ -70,12 +68,11 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 		return false;
 	}
 
-	/**
-	 * Ignore a key while checking for emptiness
-	 * @param string $key enum
-	 * @return boolean
-	 */
-	protected function ignoreNonEmptyValue($key): bool {
+    /**
+     * Ignore a key while checking for emptiness
+     * @param string $key enum
+     */
+    protected function ignoreNonEmptyValue($key): bool {
 		return ($key == self::ACTIVITYID);
 	}
 

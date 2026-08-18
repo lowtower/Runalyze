@@ -12,10 +12,6 @@ class FitTrainingEffect extends AbstractOneColumnValue
         return 'fitTrainingEffect';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return None
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
     {
         return new None();

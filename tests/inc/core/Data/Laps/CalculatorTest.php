@@ -259,7 +259,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testTimesFromString()
 	{
 		$this->assertEquals(
-		    array(15*60, 45*60 + 30, 1*3600 + 60 + 1),
+		    array(15*60, 45*60 + 30, 3600 + 60 + 1),
 		    Calculator::getTimesFromString('15:00, 45:30, 1:01:01')
 		);
 	}

@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class ConfRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return Conf[]
      */
     public function findByAccount(Account $account)
@@ -18,7 +17,6 @@ class ConfRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param string $key
      * @return Conf|null
      */
@@ -33,11 +31,9 @@ class ConfRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param string $category
      * @param string $key
      * @param string $value
-     *
      * @return Conf
      */
     public function updateOrInsert(Account $account, $category, $key, $value)

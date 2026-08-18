@@ -27,12 +27,11 @@ class SummaryTableAllYears extends SummaryTable {
 		$this->AdditionalColumns = 1 * ($this->Sportid == Configuration::General()->runningSport());
 	}
 
-	/**
-	 * Head for row
-	 * @param int $index
-	 * @return string
-	 */
-	protected function rowHead($index): string {
+    /**
+     * Head for row
+     * @param int $index
+     */
+    protected function rowHead($index): string {
 		$timestampInMiddelOfYear = $this->TimeEnd - ($index + 0.5)*366*DAY_IN_S;
 
 		return DataBrowserLinker::yearLink(date('Y', $timestampInMiddelOfYear), $timestampInMiddelOfYear, $this->Sportid > 0 ? $this->Sportid : null);
@@ -46,7 +45,7 @@ class SummaryTableAllYears extends SummaryTable {
 		if ($this->AdditionalColumns) {
 			$startTime = new LocalTime(START_TIME);
 
-			if ((int) $data['timerange'] == 0) {
+			if ((int) $data['timerange'] === 0) {
 				$now = new LocalTime();
 				$weekFactor  = ((int) $now->format('z') + 1) / 7;
 				$monthFactor = ((int) $now->format('z') + 1) / 30.4;

@@ -41,12 +41,10 @@ class Query
 	/** @var array array('table' => array('field' => ..., 'join' => ...)) */
 	protected $JoinTables = array();
 
-	/**
-	 * @param \Runalyze\Dataset\Configuration $configuration
-	 * @param \PDO $pdo
-	 * @param int $accountID
-	 */
-	public function __construct(Configuration $configuration, \PDO $pdo, $accountID)
+    /**
+     * @param int $accountID
+     */
+    public function __construct(Configuration $configuration, \PDO $pdo, $accountID)
 	{
 		$this->Configuration = $configuration;
 		$this->PDO = $pdo;
@@ -61,14 +59,13 @@ class Query
 		$this->ShowOnlyPublicActivites = $flag;
 	}
 
-	/**
-	 * @param int $timeStart
-	 * @param int $timeEnd
-	 * @param null|int $sportId
-	 * @param bool $allKeys
-	 * @return \PDOStatement
-	 */
-	public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId = null, $allKeys = false)
+    /**
+     * @param int $timeStart
+     * @param int $timeEnd
+     * @param bool $allKeys
+     * @return \PDOStatement
+     */
+    public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId = null, $allKeys = false)
 	{
 		$this->resetJoins();
 
@@ -132,9 +129,6 @@ class Query
 		$this->JoinTables = array();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function queryToSelectJoinedFields(): string
 	{
 		$query = '';
@@ -146,9 +140,6 @@ class Query
 		return $query;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function queryToJoinTables(): string
 	{
 		$query = '';
@@ -195,13 +186,12 @@ class Query
 		)->fetch();
 	}
 
-	/**
-	 * @param int $timeStart default 0
-	 * @param int $timeEnd   default time()
-	 * @param null|int $sportId
-	 * @return array array with summary for each sportid and given timerange
-	 */
-	public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId = null)
+    /**
+     * @param int $timeStart default 0
+     * @param int $timeEnd   default time()
+     * @return array array with summary for each sportid and given timerange
+     */
+    public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId = null)
 	{
 		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
@@ -249,12 +239,10 @@ class Query
 				'.(((int) $sportid > 0) ? ', `sportid`' : '').'
 				ORDER BY `timerange` ASC';
 
-		return $this->PDO->query($Query)->fetchAll();
+		return $this->PDO->query($Query)
+		    ->fetchAll();
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function queryToSummarizeActiveKeys(): string
 	{
 		$columnSelects = array();
@@ -273,44 +261,37 @@ class Query
 		return empty($columnSelects) ? '1' : implode(', ', $columnSelects);
 	}
 
-	/**
-	 * Query to select all keys
-	 * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
-	 * @return string
-	 */
-	public function queryToSelectAllKeys(): string
+    /**
+     * Query to select all keys
+     * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
+     */
+    public function queryToSelectAllKeys(): string
 	{
 		return $this->queryToSelectKeys(
 		    $this->collectColumnsForKeys($this->Configuration->allKeys())
 		);
 	}
 
-	/**
-	 * Query to select active keys
-	 * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
-	 * @return string
-	 */
-	public function queryToSelectActiveKeys(): string
+    /**
+     * Query to select active keys
+     * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
+     */
+    public function queryToSelectActiveKeys(): string
 	{
 		return $this->queryToSelectKeys(
 		    $this->collectColumnsForKeys($this->Configuration->activeKeys())
 		);
 	}
 
-	/**
-	 * @param array $arrayOfKeys
-	 * @return string
-	 */
 	protected function queryToSelectKeys(array $arrayOfKeys): string
 	{
 		return empty($arrayOfKeys) ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
 	}
 
-	/**
-	 * @param array $keys
-	 * @return array
-	 */
-	protected function collectColumnsForKeys(array $keys)
+    /**
+     * @return array
+     */
+    protected function collectColumnsForKeys(array $keys)
 	{
 		$columns = $this->defaultColumns();
 
@@ -347,21 +328,17 @@ class Query
 		return array_merge(array('sportid', 'time', 'use_vo2max', 'is_track', 'typeid'), $this->AdditionalColumns);
 	}
 
-	/**
-	 * @param array $columns
-	 */
 	public function setAdditionalColumns(array $columns)
 	{
 		$this->AdditionalColumns = $columns;
 	}
 
-	/**
-	 * @param int $timerange length of time range, typically 366* or 31*DAY_IN_S
-	 * @param int $timeEnd last timestamp to consider
-	 * @param string $asColumn optional column key that is used in returned data row
-	 * @return string
-	 */
-	protected function queryToSelectTimerange($timerange, $timeEnd = false, $asColumn = 'timerange'): string
+    /**
+     * @param int $timerange length of time range, typically 366* or 31*DAY_IN_S
+     * @param int $timeEnd last timestamp to consider
+     * @param string $asColumn optional column key that is used in returned data row
+     */
+    protected function queryToSelectTimerange($timerange, $timeEnd = false, $asColumn = 'timerange'): string
 	{
 		$timeEnd = $timeEnd ?: LocalTime::now();
 
@@ -376,23 +353,21 @@ class Query
 		return 'FLOOR(('.$timeEnd.'-`t`.`time`)/('.$timerange.')) as `'.$asColumn.'`';
 	}
 
-	/**
-	 * @param int $timeStart default: 0
-	 * @param int|bool $timeEnd default: LocalTime::now()
-	 * @return string
-	 */
-	protected function whereTimeIsBetween($timeStart = 0, $timeEnd = false): string
+    /**
+     * @param int $timeStart default: 0
+     * @param int|bool $timeEnd default: LocalTime::now()
+     */
+    protected function whereTimeIsBetween($timeStart = 0, $timeEnd = false): string
 	{
 		$timeEnd = $timeEnd ?: LocalTime::now();
 
 		return '`t`.`time` BETWEEN '.($timeStart - 10).' AND '.($timeEnd - 10);
 	}
 
-	/**
-	 * Query to respect activity's privacy
-	 * @return string
-	 */
-	protected function wherePrivacyIsOkay(): string {
+    /**
+     * Query to respect activity's privacy
+     */
+    protected function wherePrivacyIsOkay(): string {
 		if ($this->ShowOnlyPublicActivites) {
 			return '`t`.`is_public`=1';
 		}

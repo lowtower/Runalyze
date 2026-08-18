@@ -53,7 +53,7 @@ class PersonalBest {
 	public static $PBs = array();
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	public static $USE_STATIC_CACHE = true;
 
@@ -87,7 +87,7 @@ class PersonalBest {
 	 * @param array $distances distances in [km]
 	 * @param int $sportid sportid
 	 * @param \PDO $pdo [optional]
-	 * @param boolean $withDetails [optional]
+	 * @param bool $withDetails [optional]
 	 * @return int number of fetches PBs
 	 */
 	public static function lookupDistances(array $distances, $sportid, ?PDO $pdo = null, $withDetails = false) {
@@ -105,14 +105,13 @@ class PersonalBest {
 		return count($Data);
 	}
 
-	/**
-	 * Query to lookup distances
-	 * @param array $distances distances in [km]
-	 * @param int $sportid Sportid for lookup
-	 * @param boolean $withDetails [optional]
-	 * @return string
-	 */
-	private static function groupedQuery(array $distances, $sportid, $withDetails = false): string {
+    /**
+     * Query to lookup distances
+     * @param array $distances distances in [km]
+     * @param int $sportid Sportid for lookup
+     * @param bool $withDetails [optional]
+     */
+    private static function groupedQuery(array $distances, $sportid, $withDetails = false): string {
 		$distances = array_filter($distances, 'is_numeric');
 
 		if ($withDetails) {
@@ -136,8 +135,8 @@ class PersonalBest {
 	 * @param float $distance [km]
 	 * @param int $sportid Sportid for lookup
 	 * @param \PDO $pdo [optional]
-	 * @param boolean $autoLookup [optional]
-	 * @param boolean $withDetails [optional]
+	 * @param bool $autoLookup [optional]
+	 * @param bool $withDetails [optional]
 	 */
 	public function __construct($distance, $sportid, ?PDO $pdo = null, $autoLookup = true, $withDetails = false) {
 		$this->Distance = $distance;
@@ -219,11 +218,10 @@ class PersonalBest {
 		return $this;
 	}
 
-	/**
-	 * Does a personal best exist for this distance?
-	 * @return boolean
-	 */
-	public function exists(): bool {
+    /**
+     * Does a personal best exist for this distance?
+     */
+    public function exists(): bool {
 		return (false !== $this->Time);
 	}
 
@@ -235,9 +233,6 @@ class PersonalBest {
 		return $this->Time;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function knowsActivity(): bool {
 		return (null !== $this->ActivityID);
 	}

@@ -49,22 +49,20 @@ class Form {
 		$this->Fieldset->setLayoutForFields(FormularFieldset::$LAYOUT_FIELD_W33);
 	}
 
-	/**
-	 * Field: lap distance
-	 * @return \FormularInput
-	 */
-	protected function lapDistanceField(): \FormularInput {
+    /**
+     * Field: lap distance
+     */
+    protected function lapDistanceField(): \FormularInput {
 		$Field = new FormularInput('distance', Ajax::tooltip(__('Lap every ...'), __('Distance, after which a new lap should start') ) );
 		$Field->setUnit(Configuration::General()->distanceUnitSystem()->distanceUnit());
 
 		return $Field;
 	}
 
-	/**
-	 * Field: lap time
-	 * @return \FormularInput
-	 */
-	protected function lapTimeField(): \FormularInput {
+    /**
+     * Field: lap time
+     */
+    protected function lapTimeField(): \FormularInput {
 		$Field = new FormularInput('time', Ajax::tooltip('<small>'.__('or').':</small> '.__('Lap every ...'), __('Time, after which a new lap should start') ) );
 		$Field->setPlaceholder('h:mm:ss');
 		$Field->addCSSclass('c');
@@ -72,11 +70,10 @@ class Form {
 		return $Field;
 	}
 
-	/**
-	 * Field: manual distances
-	 * @return \FormularInput
-	 */
-	protected function distancesField(): \FormularInput {
+    /**
+     * Field: manual distances
+     */
+    protected function distancesField(): \FormularInput {
 		$Field = new FormularInput('manual-distances', Ajax::tooltip(
 		    '<small>'.__('or').':</small> '.__('Manual distances'),
 		    __('List with all distances, comma seperated. Put "+" at the beginning to treat distances as intervals.')
@@ -88,11 +85,10 @@ class Form {
 		return $Field;
 	}
 
-	/**
-	 * Field: manual times
-	 * @return \FormularInput
-	 */
-	protected function timesField(): \FormularInput {
+    /**
+     * Field: manual times
+     */
+    protected function timesField(): \FormularInput {
 		$Field = new FormularInput('manual-times', Ajax::tooltip(
 		    '<small>'.__('or').':</small> '.__('Manual times'),
 		    __('List with all times, comma seperated. Put "+" at the beginning to treat times as intervals.')
@@ -103,11 +99,10 @@ class Form {
 		return $Field;
 	}
 
-	/**
-	 * Field: time goal
-	 * @return \FormularInput
-	 */
-	protected function timeField(): \FormularInput {
+    /**
+     * Field: time goal
+     */
+    protected function timeField(): \FormularInput {
 		$Field = new FormularInput('demanded-time', __('Lap time goal'));
 		$Field->setPlaceholder('h:mm:ss');
 		$Field->addCSSclass('c');
@@ -115,11 +110,10 @@ class Form {
 		return $Field;
 	}
 
-	/**
-	 * Field: pace goal
-	 * @return \FormularInput
-	 */
-	protected function paceField(): \FormularInput {
+    /**
+     * Field: pace goal
+     */
+    protected function paceField(): \FormularInput {
 		$Field = new FormularInput('demanded-pace', '<small>'.__('or').':</small> '.__('Pace goal') );
 		$Field->setUnit( FormularUnit::$PACE );
 
@@ -163,9 +157,6 @@ class Form {
 		echo $this->getJScode();
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function getJScode(): string {
 		return Ajax::wrapJS(
 		    'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'.

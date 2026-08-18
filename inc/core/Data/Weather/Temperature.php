@@ -134,11 +134,10 @@ class Temperature {
 		return $this->fromCelsiusTo($this->inCelsius, self::FAHRENHEIT);
 	}
 
-	/**
-	 * Temperature unknown?
-	 * @return bool
-	 */
-	public function isUnknown(): bool {
+    /**
+     * Temperature unknown?
+     */
+    public function isUnknown(): bool {
 		return null === $this->inCelsius;
 	}
 
@@ -150,11 +149,10 @@ class Temperature {
 		return $this->fromCelsiusTo($this->inCelsius, $this->unit);
 	}
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	public function asString(): string {
+    /**
+     * As string
+     */
+    public function asString(): string {
 		return $this->asStringWithoutUnit().'&nbsp;'.$this->unit();
 	}
 
@@ -171,11 +169,10 @@ class Temperature {
 		return round($this->value());
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string {
+    /**
+     * Unit
+     */
+    public function unit(): string {
 		switch ($this->unit) {
 			case self::CELSIUS:
 				return '&deg;C';

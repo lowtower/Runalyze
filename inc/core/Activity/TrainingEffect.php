@@ -27,12 +27,11 @@ class TrainingEffect implements ValueInterface
 	/** @var float|null */
 	protected $Value;
 
-	/**
-	 * Format
-	 * @param float|null $value
-	 * @return string
-	 */
-	public static function format($value): string
+    /**
+     * Format
+     * @param float|null $value
+     */
+    public static function format($value): string
     {
         return (new self($value))->string();
 	}
@@ -45,22 +44,20 @@ class TrainingEffect implements ValueInterface
 		$this->set($value);
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function label(): string
     {
 		// #TSC: Add Aerobic-prefix
 		return __('(Aerob) Training Effect');
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     * @codeCoverageIgnore
+     */
+    public function unit(): string
     {
 		return '';
 	}
@@ -96,12 +93,11 @@ class TrainingEffect implements ValueInterface
 		return $this;
 	}
 
-	/**
-	 * Format training effect as string
-	 * @param bool $withUnit [optional] show unit?
-	 * @return string
-	 */
-	public function string($withUnit = true): string {
+    /**
+     * Format training effect as string
+     * @param bool $withUnit [optional] show unit?
+     */
+    public function string($withUnit = true): string {
         if (! $this->isKnown()) {
             return '';
         }
@@ -125,9 +121,6 @@ class TrainingEffect implements ValueInterface
         return ($this->isKnown()) ? $this->Value : 0.0;
     }
 
-    /**
-     * @return bool
-     */
     public function isKnown(): bool
     {
         return (null !== $this->Value);
@@ -146,7 +139,6 @@ class TrainingEffect implements ValueInterface
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function shortDescription(): string
@@ -159,7 +151,6 @@ class TrainingEffect implements ValueInterface
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function description(): string

@@ -84,14 +84,11 @@ class Table {
 	/** @var bool */
 	private $showIntensity = false;
 
-	/**
-	 * @param \Runalyze\Data\Laps\Laps $laps
-	 * @param \Runalyze\Activity\Duration $demandedTime
-	 * @param \Runalyze\Activity\Pace $demandedPace
-	 * @param int $internalSportProfileEnum
-	 * @param array $splitsAdditional
-	 */
-	public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, $internalSportProfileEnum, ?array $splitsAdditional = null)
+    /**
+     * @param int $internalSportProfileEnum
+     * @param array $splitsAdditional
+     */
+    public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, $internalSportProfileEnum, ?array $splitsAdditional = null)
 	{
 		$this->Laps = $laps;
 		$this->DemandedTime = $demandedTime;
@@ -100,7 +97,7 @@ class Table {
 		$this->defineAdditionalKeys($internalSportProfileEnum == SportProfile::RUNNING);
 
 		// #TSC: parse the additional infos (only if it has the same lap count)
-		if(! empty($splitsAdditional) && count($splitsAdditional['data']) == $laps->num()) {
+		if(! empty($splitsAdditional) && count($splitsAdditional['data']) === $laps->num()) {
 			$this->splitsAdditional = $splitsAdditional;
 		}
 
@@ -128,11 +125,10 @@ class Table {
 		}
 	}
 
-	/**
-	 * @param \Runalyze\Activity\Pace $pace
-	 * @param \Runalyze\Activity\Duration $time
-	 */
-	public function setAverage(Pace $pace, ?Duration $time = null) {
+    /**
+     * @param \Runalyze\Activity\Duration $time
+     */
+    public function setAverage(Pace $pace, ?Duration $time = null) {
 		$this->AveragePace = $pace;
 		$this->AverageTime = $time;
 	}
@@ -149,9 +145,6 @@ class Table {
 		Ajax::createTablesorterFor('#'.self::CSS_ID, true);
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function tableHeader(): string {
 		// #TSC make width as possible with 100%
 		return '<table class="fullwidth zebra-style zebra-blue" id="'.self::CSS_ID.'" style="width: 100%">'.
@@ -175,9 +168,6 @@ class Table {
 				'</thead>';
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function tableHeaderForAdditionalKeys(): string {
 		$Code = '';
 
@@ -188,14 +178,12 @@ class Table {
 		return $Code;
 	}
 
-	/**
-	 * shows the table header for the split-additional informations.
-	 * this is dynamical regarding the json content.
-	 * #TSC
-	 *
-	 * @return string
-	 */
-	protected function tableHeaderForSplitsAdditional(): string {
+    /**
+     * shows the table header for the split-additional informations.
+     * this is dynamical regarding the json content.
+     * #TSC
+     */
+    protected function tableHeaderForSplitsAdditional(): string {
 		$Code = '';
 
 		// parse the json and select all keys
@@ -208,9 +196,6 @@ class Table {
 		return $Code;
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function tableBody(): string {
 		$Code = '<tbody class="top-and-bottom-border">';
 
@@ -218,18 +203,16 @@ class Table {
 			$Code .= $this->tableRowFor($i);
 		}
 
-		$Code .= '</tbody>';
-
-		return $Code;
+		return $Code . '</tbody>';
 	}
 
-	/**
-	 * @param int $i
-	 * @return string
-	 */
-	protected function tableRowFor($i): string {
+    /**
+     * @param int $i
+     */
+    protected function tableRowFor($i): string {
 		$Lap = $this->Laps->at($i);
-		$Lap->pace()->setUnit($this->DemandedPace->unit());
+		$Lap->pace()
+		    ->setUnit($this->DemandedPace->unit());
 
 		return '<tr class="c '.($Lap->isActive() ? '' : 'unimportant').'">'.
 				'<td class="small">'.($Lap->isActive() ? ($this->IndexActive++).'.' : '('.($this->IndexResting++).'.)').'</td>'.
@@ -249,10 +232,6 @@ class Table {
 			'</tr>';
 	}
 
-	/**
-	 * @param \Runalyze\Data\Laps\Lap $Lap
-	 * @return string
-	 */
 	protected function additionalTableCellsFor(\Runalyze\Data\Laps\Lap $Lap): string {
 		$Code = '';
 
@@ -322,11 +301,10 @@ class Table {
 		return $Code;
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	protected function labelForAdditionalValue($key): string {
+    /**
+     * @param string $key
+     */
+    protected function labelForAdditionalValue($key): string {
 		switch ($key) {
 			case Activity\Entity::CADENCE:
 				return __('Cadence');
@@ -359,15 +337,14 @@ class Table {
 		return '';
 	}
 
-	/**
-	 * hows the cell values from the json.
-	 * this is dynamical regarding the json content.
-	 * #TSC
-	 *
-	 * @param $idx table row index
-	 * @return string
-	 */
-	protected function splitsAdditionalCells(int $idx): string {
+    /**
+     * hows the cell values from the json.
+     * this is dynamical regarding the json content.
+     * #TSC
+     *
+     * @param $idx table row index
+     */
+    protected function splitsAdditionalCells(int $idx): string {
 		$Code = '';
 
 		if(empty($this->splitsAdditional)) {
@@ -377,10 +354,12 @@ class Table {
 		$obj = $this->splitsAdditional['data'][$idx];
 
 		// clone a pace & HR from the first lap as "template"
-		$pace = clone $this->Laps->at(0)->pace();
+		$pace = clone $this->Laps->at(0)
+		    ->pace();
 		$pace->setTime(1);
          // set one second
-		$hr = clone $this->Laps->at(0)->HRavg();
+		$hr = clone $this->Laps->at(0)
+		    ->HRavg();
 
 		foreach ($this->splitsAdditional['keys'] as $key) {
 			if(array_key_exists($key, $obj)) {
@@ -403,9 +382,6 @@ class Table {
 		return $Code;
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function tableFooter(): string {
 		$Code  = '<tbody>';
 		$Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">'.__('Average').':</td>';
@@ -417,14 +393,10 @@ class Table {
 		$Code .= '</tr>';
 		$Code .= '</tbody>';
 		$Code .= '</table>';
-		$Code .= $this->checkboxToToggleInactiveSplits();
 
-		return $Code;
+		return $Code . $this->checkboxToToggleInactiveSplits();
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function checkboxToToggleInactiveSplits(): string {
 		if ($this->IndexActive == 1 || $this->IndexResting == 1) {
 			return '';
@@ -437,12 +409,10 @@ class Table {
 		$Code .= '</label>';
 		$Code .= '</p>';
 
-		$Code .= Ajax::wrapJS(
+		return $Code . Ajax::wrapJS(
 		    '$("#toggle-active-splits").click(function(){'.
 				'$("#'.self::CSS_ID.' tr.unimportant").toggle();'.
 			'});'
 		);
-
-		return $Code;
 	}
 }

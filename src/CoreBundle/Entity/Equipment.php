@@ -17,7 +17,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, AccountRelatedEntityInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", options={"unsigned":true})
      * @ORM\Id
@@ -271,8 +271,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     }
 
     /**
-     * @param null|\DateTime $dateStart
-     *
      * @return $this
      */
     public function setDateStart(?\DateTime $dateStart = null)
@@ -290,17 +288,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->dateStart;
     }
 
-    /**
-     * @return bool
-     */
     public function hasStartDate(): bool
     {
         return null !== $this->dateStart;
     }
 
     /**
-     * @param null|\DateTime $dateEnd
-     *
      * @return $this
      */
     public function setDateEnd(?\DateTime $dateEnd = null)
@@ -318,17 +311,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->dateEnd;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return null === $this->dateEnd;
     }
 
     /**
-     * @param EquipmentType $type
-     *
      * @return $this
      */
     public function setType(EquipmentType $type)
@@ -375,8 +363,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -395,8 +381,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     }
 
     /**
-     * @param Training $activity
-     *
      * @return $this
      */
     public function addActivity(Training $activity)
@@ -406,9 +390,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @param Training $activity
-     */
     public function removeActivity(Training $activity)
     {
         $this->activity->removeElement($activity);

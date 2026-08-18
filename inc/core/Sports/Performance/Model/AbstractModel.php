@@ -161,7 +161,6 @@ abstract class AbstractModel
     /**
      * @param int $index e.g. -1 for yesterday
      * @param int $enum enum for value
-     * @return int
      */
     private function at($index, $enum): int
     {

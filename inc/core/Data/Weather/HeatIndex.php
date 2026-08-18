@@ -52,10 +52,6 @@ class HeatIndex implements ValueInterface
         );
     }
 
-    /**
-     * @param Activity\Temperature $temperature
-     * @param Humidity $humidity
-     */
     public function setFrom(Activity\Temperature $temperature, Humidity $humidity)
     {
         if (null !== $temperature->value() && ! $humidity->isUnknown()) {
@@ -106,7 +102,6 @@ class HeatIndex implements ValueInterface
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -148,7 +143,6 @@ class HeatIndex implements ValueInterface
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function getEffectOfHeatIndex(): string

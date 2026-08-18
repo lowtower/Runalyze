@@ -9,7 +9,8 @@ class RespirationRate extends AbstractBox
     public function __construct(Context $context)
     {
         parent::__construct(
-            $context->activity()->avgRespirationRate(),
+            $context->activity()
+                ->avgRespirationRate(),
             'brpm',
             '&empty; Atemfrequenz',
             '',

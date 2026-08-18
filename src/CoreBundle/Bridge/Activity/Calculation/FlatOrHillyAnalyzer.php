@@ -11,7 +11,6 @@ class FlatOrHillyAnalyzer
     const DEFAULT_GRADIENT_THRESHOLD = 0.02;
 
     /**
-     * @param Training $activity
      * @param float $threshold
      * @return float|null
      */
@@ -21,8 +20,10 @@ class FlatOrHillyAnalyzer
 
         if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()) {
             $percentageFlat = $this->calculatePercentageFlatForArrays(
-                $activity->getTrackdata()->getDistance(),
-                $activity->getRoute()->getElevations(),
+                $activity->getTrackdata()
+                    ->getDistance(),
+                $activity->getRoute()
+                    ->getElevations(),
                 $threshold
             );
         }
@@ -56,6 +57,6 @@ class FlatOrHillyAnalyzer
             }
         }
 
-        return $distanceFlat == 0.0 ? 0.0 : $distanceFlat / ($distanceFlat + $distanceHilly);
+        return $distanceFlat === 0.0 ? 0.0 : $distanceFlat / ($distanceFlat + $distanceHilly);
     }
 }

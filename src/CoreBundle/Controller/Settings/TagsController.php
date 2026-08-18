@@ -23,7 +23,8 @@ class TagsController extends Controller
      */
     protected function getTagRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Tag');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Tag');
     }
 
     /**
@@ -32,7 +33,8 @@ class TagsController extends Controller
     public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('settings/tag/overview.html.twig', [
-            'tags' => $this->getTagRepository()->findAllFor($account),
+            'tags' => $this->getTagRepository()
+                ->findAllFor($account),
         ]);
     }
 
@@ -40,9 +42,6 @@ class TagsController extends Controller
      * @Route("/{id}/edit", name="settings-tags-edit")
      * @ParamConverter("tag", class="CoreBundle:Tag")
      *
-     * @param Request $request
-     * @param Tag $tag
-     * @param Account $account
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function tagEditAction(Request $request, Tag $tag, Account $account)
@@ -59,7 +58,8 @@ class TagsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getTagRepository()->save($tag);
+            $this->getTagRepository()
+                ->save($tag);
 
             return $this->redirectToRoute('settings-tags');
         }
@@ -85,7 +85,8 @@ class TagsController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $this->getTagRepository()->remove($tag);
+        $this->getTagRepository()
+            ->remove($tag);
 
         $this->addFlash('notice', $this->get('translator')->trans('Tag has been deleted.'));
 

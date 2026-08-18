@@ -22,11 +22,10 @@ class Loop extends \Runalyze\Model\Loop {
 	 */
 	protected $Object;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Model\Trackdata\Entity $object
-	 */
-	public function __construct(Entity $object) {
+    /**
+     * Construct
+     */
+    public function __construct(Entity $object) {
 		parent::__construct($object);
 	}
 
@@ -62,7 +61,7 @@ class Loop extends \Runalyze\Model\Loop {
 	 * Next kilometer
 	 *
 	 * Alias for <code>moveDistance(1.0)</code>
-	 * @return boolean
+	 * @return bool
 	 */
 	public function nextKilometer() {
 		$this->moveDistance(1.0);
@@ -74,7 +73,7 @@ class Loop extends \Runalyze\Model\Loop {
 	 * Next mile
 	 *
 	 * Alias for <code>moveDistance(1.60934)</code>
-	 * @return boolean
+	 * @return bool
 	 */
 	public function nextMile() {
 		$this->moveDistance(1.60934);
@@ -198,10 +197,6 @@ class Loop extends \Runalyze\Model\Loop {
         return $totalDistance > 0 ? $totalTime / $totalDistance : 0;
     }
 
-	/**
-	 * @param array $data
-	 * @return \Runalyze\Model\Trackdata\Entity
-	 */
 	protected function createNewObject(array $data): \Runalyze\Model\Trackdata\Entity {
 		return new Entity($data);
 	}

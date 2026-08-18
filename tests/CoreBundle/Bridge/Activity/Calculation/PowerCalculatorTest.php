@@ -27,17 +27,21 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 
     protected function setDataToActivity(?array $distance = null, ?array $elevation = null)
     {
-        $this->Activity->getSport()->setInternalSportId(SportProfile::CYCLING);
+        $this->Activity->getSport()
+            ->setInternalSportId(SportProfile::CYCLING);
 
         if (null !== $elevation) {
             $this->Activity->setRoute(new Route());
-            $this->Activity->getRoute()->setElevationsCorrected($elevation);
+            $this->Activity->getRoute()
+                ->setElevationsCorrected($elevation);
         }
 
         if (null !== $distance) {
             $this->Activity->setTrackdata(new Trackdata());
-            $this->Activity->getTrackdata()->setDistance($distance);
-            $this->Activity->getTrackdata()->setTime(array_map(function ($v) { return 300.0 * $v; }, $distance));
+            $this->Activity->getTrackdata()
+                ->setDistance($distance);
+            $this->Activity->getTrackdata()
+                ->setTime(array_map(function ($v) { return 300.0 * $v; }, $distance));
         }
     }
 
@@ -63,7 +67,8 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
     public function testActivityWithWrongSport()
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], [100, 110, 120, 110, 100]);
-        $this->Activity->getSport()->setInternalSportId(SportProfile::HIKING);
+        $this->Activity->getSport()
+            ->setInternalSportId(SportProfile::HIKING);
 
         $this->Calculator->calculateFor($this->Activity);
 
@@ -76,7 +81,8 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], [100, 110, 120, 110, 100]);
         $this->Activity->setPowerCalculated(false);
-        $this->Activity->getTrackdata()->setPower([42, 42, 42, 42, 42]);
+        $this->Activity->getTrackdata()
+            ->setPower([42, 42, 42, 42, 42]);
         $this->Activity->setPower(314);
 
         $this->Calculator->calculateFor($this->Activity);

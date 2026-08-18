@@ -25,9 +25,6 @@ class Gpx extends AbstractFileExporter
     /** @var \SimpleXMLElement */
     protected $Track;
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return ($this->Context->hasRoute() && $this->Context->route()->hasPositionData());
@@ -35,24 +32,17 @@ class Gpx extends AbstractFileExporter
 
     /**
      * Get extension
-     * @return string
      */
     public function extension(): string
     {
         return 'gpx';
     }
 
-    /**
-     * @return string
-     */
     protected function mimeType(): string
     {
         return 'application/gpx+xml';
     }
 
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::GPX;
@@ -88,13 +78,16 @@ class Gpx extends AbstractFileExporter
      */
     protected function setTrack()
     {
-        $Starttime = $this->Context->activity()->timestamp();
+        $Starttime = $this->Context->activity()
+            ->timestamp();
 
         $Trackdata = new Trackdata\Loop($this->Context->trackdata());
         $Route = new Route\Loop($this->Context->route());
 
-        $hasElevation = $this->Context->route()->hasOriginalElevations();
-        $hasHeartrate = $this->Context->trackdata()->has(Trackdata\Entity::HEARTRATE);
+        $hasElevation = $this->Context->route()
+            ->hasOriginalElevations();
+        $hasHeartrate = $this->Context->trackdata()
+            ->has(Trackdata\Entity::HEARTRATE);
 
         do {
             $coordinate = $Route->coordinate();
@@ -120,7 +113,6 @@ class Gpx extends AbstractFileExporter
 
     /**
      * Get empty xml
-     * @return string
      */
     protected function emptyXml(): string
     {

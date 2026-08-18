@@ -17,7 +17,6 @@ class VO2max extends \Runalyze\Configuration\Category
     /** @var bool Flag: recalculation triggered? */
     private static $TRIGGERED = false;
 
-    /** @return string */
     protected function key(): string
     {
         return 'vo2max';
@@ -54,25 +53,16 @@ class VO2max extends \Runalyze\Configuration\Category
         return $this->get('VO2MAX_MANUAL_CORRECTOR');
     }
 
-    /**
-     * @return bool
-     */
     public function useManualFactor(): bool
     {
         return (null !== $this->get('VO2MAX_MANUAL_CORRECTOR'));
     }
 
-    /**
-     * @return float
-     */
     public function manualValue(): float
     {
         return (float) Helper::CommaToPoint($this->get('VO2MAX_MANUAL_VALUE'));
     }
 
-    /**
-     * @return bool
-     */
     public function useManualValue(): bool
     {
         return ($this->manualValue() > 0.0);
@@ -104,22 +94,27 @@ class VO2max extends \Runalyze\Configuration\Category
 
     protected function registerOnchangeEvents()
     {
-        $this->handle('VO2MAX_DAYS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-        $this->handle('VO2MAX_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+        $this->handle('VO2MAX_DAYS')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('VO2MAX_DAYS')
+            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
-        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-        $this->handle('VO2MAX_MANUAL_CORRECTOR')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+        $this->handle('VO2MAX_MANUAL_CORRECTOR')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('VO2MAX_MANUAL_CORRECTOR')
+            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
 
-        $this->handle('VO2MAX_MANUAL_VALUE')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+        $this->handle('VO2MAX_MANUAL_VALUE')
+            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 
-        $this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
-        $this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
-        $this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+        $this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION')
+            ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+        $this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION')
+            ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+        $this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION')
+            ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
     }
 
-    /**
-     * @return \Runalyze\Configuration\Fieldset
-     */
     public function Fieldset(): \Runalyze\Configuration\Fieldset
     {
         $Fieldset = new Fieldset(__('VO<sub>2</sub>max estimation'));

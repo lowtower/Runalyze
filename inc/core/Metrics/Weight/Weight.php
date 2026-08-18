@@ -8,8 +8,6 @@ use Runalyze\Metrics\Weight\Unit\Kilogram;
 class Weight extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

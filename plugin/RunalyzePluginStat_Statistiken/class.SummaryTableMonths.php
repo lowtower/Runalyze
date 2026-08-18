@@ -80,12 +80,11 @@ class SummaryTableMonths extends SummaryTable {
 		}
 	}
 
-	/**
-	 * Head for row
-	 * @param int $index
-	 * @return string
-	 */
-	protected function rowHead($index): string {
+    /**
+     * Head for row
+     * @param int $index
+     */
+    protected function rowHead($index): string {
 		$midOfTimerange = $this->TimeEnd - ($index + 0.5)*31*DAY_IN_S;
 		$month = date('m', $midOfTimerange);
 

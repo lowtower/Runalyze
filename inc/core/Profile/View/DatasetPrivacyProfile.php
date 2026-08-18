@@ -15,7 +15,6 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
 
     /**
      * @param int $id id from internal enum
-     * @return string
      */
     static public function stringFor($id): string
     {
@@ -29,9 +28,6 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
         }
     }
 
-    /**
-     * @return array
-     */
     static public function getChoices(): array {
         return array(
             self::stringFor(self::PRIVATE_KEY) => self::PRIVATE_KEY,

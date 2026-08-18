@@ -12,10 +12,6 @@ class FitVo2maxEstimate extends AbstractOneColumnValue
         return 'fitVO2maxEstimate';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return None
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\None
     {
         return new None();

@@ -61,7 +61,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 
     /**
      * @param string $fileContent
-     * @return string
      */
     protected function addRootElement($fileContent): string
     {
@@ -106,9 +105,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getRRIntervals(): array
     {
         if (property_exists($this->Xml, 'R-R') && ! empty($this->Xml->{'R-R'}->Data)) {
@@ -128,9 +124,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getDeviceName(): string
     {
         if (property_exists($this->Xml, 'Device')) {
@@ -201,7 +194,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         $this->readCurrentLocationFrom($sample);
 
 
-        if ((string) $sample->SampleType == 'periodic') {
+        if ((string) $sample->SampleType === 'periodic') {
             $this->parsePeriodicSample($sample);
         }
     }
@@ -278,7 +271,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     }
 
     /**
-     * @param array $data
      * @return mixed|null
      */
     protected function getCurrentValueOf(array $data)

@@ -39,7 +39,8 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertEquals(1.0, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
-            $this->getDefaultAccountsRunningSport()->getId()
+            $this->getDefaultAccountsRunningSport()
+                ->getId()
         ));
     }
 
@@ -72,14 +73,16 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     public function testFindingVO2maxCorrectionFactorForSingleRace()
     {
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 10.0);
-        $activity->setPulseAvg(160)->setUseVO2max(true);
+        $activity->setPulseAvg(160)
+            ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
 
         $expectedFactor = $activity->getVO2maxByTime() / $activity->getVO2max();
 
         $this->assertEqualsWithDelta($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
-            $this->getDefaultAccountsRunningSport()->getId()
+            $this->getDefaultAccountsRunningSport()
+                ->getId()
         ), 0.01);
 
         $this->assertTrue($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
@@ -88,32 +91,35 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     public function testFindingVO2maxCorrectionFactorForMultipleRaces()
     {
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 10.0);
-        $activity->setPulseAvg(160)->setUseVO2max(true);
+        $activity->setPulseAvg(160)
+            ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
 
         $activity = $this->getActivityForDefaultAccount(time(), 2100, 10.0);
-        $activity->setPulseAvg(140)->setUseVO2max(true);
+        $activity->setPulseAvg(140)
+            ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
 
         $activity = $this->getActivityForDefaultAccount(time(), 1200, 5.0);
-        $activity->setPulseAvg(180)->setUseVO2max(true);
+        $activity->setPulseAvg(180)
+            ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
         $expectedFactor = $activity->getVO2maxByTime() / $activity->getVO2max();
 
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 5.0);
-        $activity->setPulseAvg(100)->setUseVO2max(true);
+        $activity->setPulseAvg(100)
+            ->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
 
         $this->assertEqualsWithDelta($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
-            $this->getDefaultAccountsRunningSport()->getId()
+            $this->getDefaultAccountsRunningSport()
+                ->getId()
         ), 0.01);
     }
 
     /**
      * @param string $name
-     * @param Training $activity
-     * @return Raceresult
      */
     protected function insertRace($name, Training $activity): \Runalyze\Bundle\CoreBundle\Entity\Raceresult
     {

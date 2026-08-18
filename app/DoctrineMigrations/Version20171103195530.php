@@ -20,18 +20,12 @@ class Version20171103195530 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DELETE FROM `'.$prefix."conf` WHERE `key`='TRAINING_MAP_COLOR'");
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
     }

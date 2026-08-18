@@ -31,19 +31,17 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	 */
 	protected $NumberOfPBs = 0;
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Prognosis');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Predict your race performance on various distances.');
 	}
 
@@ -156,7 +154,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 			    $topResults = $this->getTopResult(2);
 			    $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Bock();
 
-			    if (count($topResults) == 2) {
+			    if (count($topResults) === 2) {
 			        $this->Prognosis->setFromResults($topResults[0]['distance'], $topResults[0]['s'], $topResults[1]['distance'], $topResults[1]['s']);
                 }
 
@@ -166,7 +164,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
                 $topResults = $this->getTopResult(2);
 			    $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Steffny();
 
-                if (count($topResults) == 2) {
+                if (count($topResults) === 2) {
                     $this->Prognosis->setReferenceResult($topResults[0]['distance'], $topResults[0]['s']);
                 }
 
@@ -176,7 +174,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
                 $topResults = $this->getTopResult(2);
                 $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\Cameron();
 
-                if (count($topResults) == 2) {
+                if (count($topResults) === 2) {
                     $this->Prognosis->setReferenceResult($topResults[0]['distance'], $topResults[0]['s']);
                 }
 
@@ -186,7 +184,8 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 			default:
 			    $this->Prognosis = new \Runalyze\Sports\Running\Prognosis\VO2max(
 			        Configuration::Data()->vo2max(),
-			        $this->Configuration()->value('use_be'),
+			        $this->Configuration()
+			            ->value('use_be'),
 			        \Runalyze\Calculation\BasicEndurance::getConst()
 			    );
 
@@ -196,7 +195,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 
 	/**
 	 * Show prognosis for a given distance
-	 * @param double $distance
+	 * @param float $distance
 	 */
 	protected function showPrognosis($distance) {
 		$PB = new PersonalBest($distance, Configuration::General()->runningSport());
@@ -224,11 +223,10 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 			</p>';
 	}
 
-	/**
-	 * Are there not enough competitions?
-	 * @return bool
-	 */
-	protected function thereAreNotEnoughCompetitions(): bool {
+    /**
+     * Are there not enough competitions?
+     */
+    protected function thereAreNotEnoughCompetitions(): bool {
 		return (0 == $this->NumberOfPBs);
 	}
 

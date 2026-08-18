@@ -32,17 +32,18 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
      * @return TrainingRepository
      */
     protected function getTrainingRepository() {
-        return $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Training');
+        return $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Training');
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Account');
+        $repository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Account');
         $user = $repository->loadUserByUsername($input->getArgument('username'));
         $activityId = $input->getArgument('id');
         $nexted = empty($input->getOption('nexted')) ? 0 : 1;
@@ -63,26 +64,30 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
 
         do {
             $activity = $this->processActivity($output, $activityId, $user);
-            $activityId = $this->getTrainingRepository()->getIdOfNextActivity($activity);
-        } while($nexted == 1 && $activityId != null);
+            $activityId = $this->getTrainingRepository()
+                ->getIdOfNextActivity($activity);
+        } while($nexted === 1 && $activityId != null);
 
         $output->writeln('');
         $output->writeln('Done.');
     }
 
     protected function processActivity(OutputInterface &$output, int $activityId, Account $user): Training {
-        $activity = $this->getTrainingRepository()->findForAccount($activityId, $user);
+        $activity = $this->getTrainingRepository()
+            ->findForAccount($activityId, $user);
 
         if($activity->hasRoute()) {
             if(empty($activity->getRouteName()) || $this->override) {
-                $contextAdapterFactory = $this->getContainer()->get('app.activity_context_adapter_factory');
+                $contextAdapterFactory = $this->getContainer()
+                    ->get('app.activity_context_adapter_factory');
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
                 $contextAdapter = $contextAdapterFactory->getAdapterFor($context);
 
                 $updated = $contextAdapter->guessRouteDetails();
 
                 if($updated) {
-                    $this->getTrainingRepository()->save($activity);
+                    $this->getTrainingRepository()
+                        ->save($activity);
 
                     $output->writeln('<fg=green>successfully updated id=' . $activityId . ' / ' . $activity->getTitle() . 
                         ' / ' . $activity->getRouteName() . '</>');

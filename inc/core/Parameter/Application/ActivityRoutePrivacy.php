@@ -44,27 +44,24 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Show never
-	 * @return bool
-	 */
-	public function showNever(): bool {
+    /**
+     * Show never
+     */
+    public function showNever(): bool {
 		return ($this->value() == self::NEVER);
 	}
 
-	/**
-	 * Show only for races
-	 * @return bool
-	 */
-	public function showRace(): bool {
+    /**
+     * Show only for races
+     */
+    public function showRace(): bool {
 		return ($this->value() == self::RACE);
 	}
 
-	/**
-	 * Show always
-	 * @return bool
-	 */
-	public function showAlways(): bool {
+    /**
+     * Show always
+     */
+    public function showAlways(): bool {
 		return ($this->value() == self::ALWAYS);
 	}
 }

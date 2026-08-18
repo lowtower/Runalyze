@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class DataBrowser extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -18,9 +15,6 @@ class DataBrowser extends AbstractCategory
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\DataBrowser::class;

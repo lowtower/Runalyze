@@ -19,11 +19,10 @@ use Runalyze\View\Activity\Context;
  */
 class GroundContactBalance extends ValueBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(Context $Context)
 	{
 		parent::__construct(
 		    new Activity\GroundcontactBalance($Context->activity()->groundContactBalance())

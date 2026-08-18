@@ -95,11 +95,10 @@ class PluginConfiguration {
 		}
 	}
 
-	/**
-	 * Insert value to database
-	 * @param PluginConfigurationValue $Value
-	 */
-	private function insertValueToDatabase(PluginConfigurationValue $Value) {
+    /**
+     * Insert value to database
+     */
+    private function insertValueToDatabase(PluginConfigurationValue $Value) {
 		DB::getInstance()->insert(
 		    'plugin_conf',
 		    array(
@@ -145,11 +144,10 @@ class PluginConfiguration {
 		}
 	}
 
-	/**
-	 * Add value
-	 * @param PluginConfigurationValue $Value
-	 */
-	final public function addValue(PluginConfigurationValue $Value) {
+    /**
+     * Add value
+     */
+    final public function addValue(PluginConfigurationValue $Value) {
 		$this->Values[$Value->key()] = $Value;
 	}
 
@@ -175,11 +173,10 @@ class PluginConfiguration {
 		return $this->Values;
 	}
 
-	/**
-	 * Is empty?
-	 * @return bool
-	 */
-	final public function isEmpty(): bool {
+    /**
+     * Is empty?
+     */
+    final public function isEmpty(): bool {
 		return empty($this->Values);
 	}
 
@@ -189,6 +186,7 @@ class PluginConfiguration {
 	 * @return mixed
 	 */
 	final public function value($key) {
-		return $this->object($key)->value();
+		return $this->object($key)
+		    ->value();
 	}
 }

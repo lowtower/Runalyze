@@ -8,8 +8,6 @@ use Runalyze\Metrics\Temperature\Unit\Celsius;
 class Temperature extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

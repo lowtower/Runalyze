@@ -14,7 +14,6 @@ class WeatherHumidity extends AbstractOneColumnValue
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return AbstractCadenceUnit
      */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple

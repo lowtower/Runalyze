@@ -82,19 +82,17 @@ class Icon {
 		echo $this->code();
 	}
 
-	/**
-	 * Get code
-	 * @return string
-	 */
-	public function code(): string {
+    /**
+     * Get code
+     */
+    public function code(): string {
 		return '<i class="fa fa-fw '.$this->FontAwesomeName.'"'.$this->tooltipAttributes().'></i>';
 	}
 
-	/**
-	 * Tooltip attributes
-	 * @return string
-	 */
-	protected function tooltipAttributes(): string {
+    /**
+     * Tooltip attributes
+     */
+    protected function tooltipAttributes(): string {
 		if (! empty($this->Tooltip)) {
 			$Tooltip = new Tooltip($this->Tooltip);
 			return ' '.$Tooltip->attributes();

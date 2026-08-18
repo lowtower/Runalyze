@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 class Year implements QueryGroupInterface
 {
     /**
-     * @param QueryBuilder $queryBuilder
      * @param string $alias
      * @param string $as
      * @param string $sportAlias
@@ -20,16 +19,12 @@ class Year implements QueryGroupInterface
         $queryBuilder->addSelect(sprintf('YEAR(FROM_UNIXTIME(%s.time)) as %s', $alias, $as));
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Account $account
-     * @param AnovaData $anovaData
-     * @return array
-     */
     public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
-        $startYear = (int) $anovaData->getDateFrom()->format('Y');
-        $endYear = (int) $anovaData->getDateTo()->format('Y');
+        $startYear = (int) $anovaData->getDateFrom()
+            ->format('Y');
+        $endYear = (int) $anovaData->getDateTo()
+            ->format('Y');
         $years = [];
 
         for ($year = $startYear; $year <= $endYear; ++$year) {
@@ -39,9 +34,6 @@ class Year implements QueryGroupInterface
         return $years;
     }
 
-    /**
-     * @return bool
-     */
     public function showEmptyGroups(): bool
     {
         return true;

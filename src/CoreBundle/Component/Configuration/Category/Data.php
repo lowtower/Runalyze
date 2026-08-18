@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class Data extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -46,25 +43,16 @@ class Data extends AbstractCategory
         return (int) $this->Variables['HF_REST'];
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentVO2maxShape(): int
     {
         return (int) $this->Variables['VO2MAX_FORM'];
     }
 
-    /**
-     * @return float
-     */
     public function getVO2maxCorrectionFactor(): float
     {
         return (float) $this->Variables['VO2MAX_CORRECTOR'];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\Data::class;

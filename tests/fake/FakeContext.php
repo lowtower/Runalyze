@@ -21,14 +21,6 @@ use Runalyze\Model\Trackdata;
  * @package Runalyze\View\Activity
  */
 class FakeContext extends \Runalyze\View\Activity\Context {
-	/**
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @param \Runalyze\Model\HRV\Entity $hrv
-	 * @param \Runalyze\Model\Sport\Entity $sport
-	 */
 	public function __construct(
 	    Activity\Entity $activity,
 	    Trackdata\Entity $trackdata,
@@ -50,10 +42,6 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		$this->Dataview = new Dataview($this->Activity);
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 * @return \Runalyze\View\Activity\FakeContext
-	 */
 	public static function onlyWithActivity(Activity\Entity $activity): self
 	{
 		return new self(
@@ -66,17 +54,15 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		);
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @return \Runalyze\View\Activity\FakeContext
-	 */
-	public static function withDefaultSport(
-	    Activity\Entity $activity,
-	    ?Trackdata\Entity $trackdata = null,
-	    ?Route\Entity $route = null
-	): self {
+    /**
+     * @param \Runalyze\Model\Trackdata\Entity $trackdata
+     * @param \Runalyze\Model\Route\Entity $route
+     */
+    public static function withDefaultSport(
+        Activity\Entity $activity,
+        ?Trackdata\Entity $trackdata = null,
+        ?Route\Entity $route = null
+    ): self {
 		if (null === $trackdata) {
 			$trackdata = new Trackdata\Entity(array());
 		}
@@ -112,9 +98,6 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		);
 	}
 
-	/**
-	 * @return \Runalyze\View\Activity\FakeContext
-	 */
 	public static function emptyContext(): self
 	{
 		return new self(
@@ -127,9 +110,6 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		);
 	}
 
-	/**
-	 * @return \Runalyze\View\Activity\FakeContext
-	 */
 	public static function indoorContext(): self
 	{
 		return new self(
@@ -159,9 +139,6 @@ class FakeContext extends \Runalyze\View\Activity\Context {
 		);
 	}
 
-	/**
-	 * @return \Runalyze\View\Activity\FakeContext
-	 */
 	public static function outdoorContext(): self
 	{
 		return new self(

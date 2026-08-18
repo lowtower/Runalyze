@@ -48,17 +48,11 @@ class ClimbCategory
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isClassified(): bool
     {
         return self::CATEGORY_NONE != $this->Category;
     }
 
-    /**
-     * @return string
-     */
     public function getString(): string
     {
         $strings = ['hc', '1', '2', '3', '4', '5', '-'];
@@ -90,7 +84,6 @@ class ClimbCategory
     /**
      * @param int|float $score
      * @param int[]|float[] $lowerLimits lower limits for as many categories as supported (see static::getOptions)
-     * @return ClimbCategory
      */
     public static function getCategoryFor($score, array $lowerLimits): self
     {

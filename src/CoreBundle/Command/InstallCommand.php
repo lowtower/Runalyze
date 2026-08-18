@@ -44,10 +44,6 @@ class InstallCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->Application = $this->getApplication();
@@ -57,9 +53,6 @@ class InstallCommand extends ContainerAwareCommand
         $this->removeCommandsThatShouldBeSkipped($input);
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     */
     protected function removeCommandsThatShouldBeSkipped(InputInterface $input)
     {
         if ($input->hasOption('skip') && is_array($input->getOption('skip'))) {
@@ -72,9 +65,6 @@ class InstallCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)

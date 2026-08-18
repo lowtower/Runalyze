@@ -46,7 +46,7 @@ class Slf4 extends Slf3
     {
         $log = $log->attributes();
 
-        if ((int) $log['trainingTime'] == 0) {
+        if ((int) $log['trainingTime'] === 0) {
             return;
         }
 
@@ -77,7 +77,7 @@ class Slf4 extends Slf3
         $this->Container->Rounds->add(new Round(
             round((int) $lap['distance']) / 1000,
             round((float) $lap['time']),
-            ((string) $lap['FastLap'] != 'false')
+            ((string) $lap['FastLap'] !== 'false')
         ));
     }
 }

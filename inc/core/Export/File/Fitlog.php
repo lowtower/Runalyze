@@ -26,9 +26,6 @@ class Fitlog extends AbstractFileExporter
     /** @var \SimpleXMLElement */
     protected $Activity;
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return true;
@@ -36,24 +33,17 @@ class Fitlog extends AbstractFileExporter
 
     /**
      * Get extension
-     * @return string
      */
     public function extension(): string
     {
         return 'fitlog';
     }
 
-    /**
-     * @return string
-     */
     protected function mimeType(): string
     {
         return 'application/fitlog+xml';
     }
 
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::FITLOG;
@@ -110,12 +100,14 @@ class Fitlog extends AbstractFileExporter
             return;
         }
 
-        $Starttime = $this->Context->activity()->timestamp();
+        $Starttime = $this->Context->activity()
+            ->timestamp();
         $Trackdata = new Trackdata\Loop($this->Context->trackdata());
         $Route = ($this->Context->hasRoute() && $this->Context->route()->hasPositionData())
             ? new Route\Loop($this->Context->route()) : null;
 
-        $hasHeartrate = $this->Context->trackdata()->has(Trackdata\Entity::HEARTRATE);
+        $hasHeartrate = $this->Context->trackdata()
+            ->has(Trackdata\Entity::HEARTRATE);
 
         $Track = $this->Activity->addChild('Track');
         $Track->addAttribute('StartTime', $this->timeToString($Starttime));
@@ -139,7 +131,6 @@ class Fitlog extends AbstractFileExporter
 
     /**
      * Get empty xml
-     * @return string
      */
     protected function emptyXml(): string
     {

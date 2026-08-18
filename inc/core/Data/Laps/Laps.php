@@ -36,43 +36,33 @@ class Laps {
 		$this->CalculateAdditionalValues = $flag;
 	}
 
-	/**
-	 * @param array $distances
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
-	 */
-	public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null) {
+    /**
+     * @param \Runalyze\Model\Route\Entity $route
+     * @param \Runalyze\Model\Swimdata\Entity $trackdata
+     */
+    public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null) {
 		$Calculator = new Calculator($this);
 		$Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
 		$Calculator->setDistances($distances);
 		$Calculator->calculateFrom($trackdata, $route);
 	}
 
-	/**
-	 * @param array $times
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param \Runalyze\Model\Route\Entity $route
-	 * @param \Runalyze\Model\Swimdata\Entity $swimdata
-	 */
-	public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null) {
+    /**
+     * @param \Runalyze\Model\Route\Entity $route
+     * @param \Runalyze\Model\Swimdata\Entity $swimdata
+     */
+    public function calculateFromTimes(array $times, Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null) {
 		$Calculator = new Calculator($this);
 		$Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
 		$Calculator->setTimes($times);
 		$Calculator->calculateFrom($trackdata, $route, ($swimdata != null && $swimdata->num() > 0 ? $swimdata : null));
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Entity $splits
-	 */
 	public function readFrom(Splits\Entity $splits) {
 		$SplitsReader = new SplitsReader($this);
 		$SplitsReader->readFrom($splits);
 	}
 
-	/**
-	 * @param \Runalyze\Data\Laps\Lap $object
-	 */
 	public function add(Lap $object) {
 		$this->Objects[] = $object;
 	}
@@ -97,19 +87,15 @@ class Laps {
 		return $this->Objects;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function num(): int {
 		return count($this->Objects);
 	}
 
-	/**
-	 * true if there other laps with mode not ACTIVE and not RESTING.
-	 * #TSC
-	 * @return bool
-	 */
-	public function hasMoreThanActiveOrRestLaps(): bool {
+    /**
+     * true if there other laps with mode not ACTIVE and not RESTING.
+     * #TSC
+     */
+    public function hasMoreThanActiveOrRestLaps(): bool {
 		foreach ($this->Objects as $lap) {
 			if (! $lap->getMode()->isActive() && ! $lap->getMode()->isRest()) {
 				return true;

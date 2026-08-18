@@ -18,13 +18,13 @@ use Runalyze\Configuration;
  */
 class Speed extends AbstractBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(\Runalyze\View\Activity\Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
-		$Pace = clone $Context->dataview()->pace();
+		$Pace = clone $Context->dataview()
+		    ->pace();
 
 		if (Configuration::General()->distanceUnitSystem()->isImperial()) {
 			$Pace->setUnit(new PaceUnit\MilesPerHour());

@@ -60,6 +60,7 @@ class PaceCumulativeAverage extends Pace
 		$MovingAverage = new MovingAverage\Cumulative($context->trackdata()->pace(), $context->trackdata()->distance());
 		$MovingAverage->calculate();
 
-		$context->trackdata()->setTheoreticalPace($MovingAverage->movingAverage());
+		$context->trackdata()
+		    ->setTheoreticalPace($MovingAverage->movingAverage());
 	}
 }

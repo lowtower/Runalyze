@@ -23,7 +23,6 @@ class BestSubSegmentsStatistics
     protected $Times = [];
 
     /**
-     * @param Trackdata\Entity $trackdata
      * @throws \InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata)
@@ -35,17 +34,11 @@ class BestSubSegmentsStatistics
         $this->Trackdata = $trackdata;
     }
 
-    /**
-     * @param array $distances
-     */
     public function setDistancesToAnalyze(array $distances)
     {
         $this->Distances = $distances;
     }
 
-    /**
-     * @param array $times
-     */
     public function setTimesToAnalyze(array $times)
     {
         $this->Times = $times;

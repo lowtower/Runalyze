@@ -21,12 +21,11 @@ class Threshold extends AbstractStrategy
 	 */
 	protected $Epsilon = 0;
 
-	/**
-	 * Construct
-	 * @param array $elevation
-	 * @param int $epsilon [optional]
-	 */
-	public function __construct(array $elevation, $epsilon = 0)
+    /**
+     * Construct
+     * @param int $epsilon [optional]
+     */
+    public function __construct(array $elevation, $epsilon = 0)
 	{
 		parent::__construct($elevation);
 

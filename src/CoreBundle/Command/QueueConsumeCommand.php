@@ -38,9 +38,6 @@ class QueueConsumeCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,6 +53,8 @@ class QueueConsumeCommand extends ContainerAwareCommand
             }
         }
 
-        return $this->getApplication()->find('bernard:consume')->run(new ArrayInput($arguments), $output);
+        return $this->getApplication()
+            ->find('bernard:consume')
+            ->run(new ArrayInput($arguments), $output);
     }
 }

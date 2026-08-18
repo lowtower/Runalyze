@@ -13,7 +13,6 @@ class Distance extends AbstractOneColumnValue
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return AbstractDistanceUnit
      */
     public function getValueUnit(UnitSystem $unitSystem)

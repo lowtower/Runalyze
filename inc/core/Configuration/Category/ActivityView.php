@@ -28,11 +28,10 @@ use Runalyze\Parameter\Textline;
  * @package Runalyze\Configuration\Category
  */
 class ActivityView extends \Runalyze\Configuration\Category {
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'activity-view';
 	}
 
@@ -98,7 +97,8 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 * @param string $layer
 	 */
 	public function updateLayer($layer) {
-		$this->object('TRAINING_LEAFLET_LAYER')->set($layer);
+		$this->object('TRAINING_LEAFLET_LAYER')
+		    ->set($layer);
 		$this->updateValue($this->handle('TRAINING_LEAFLET_LAYER'));
 	}
 
@@ -232,11 +232,10 @@ class ActivityView extends \Runalyze\Configuration\Category {
 		$this->createHandle('ELEVATION_TRESHOLD', new Integer(3));
 	}
 
-	/**
-	 * Decimals to display
-	 * @return int
-	 */
-	public function decimals(): int {
+    /**
+     * Decimals to display
+     */
+    public function decimals(): int {
 		return (int) $this->get('TRAINING_DECIMALS');
 	}
 
@@ -268,35 +267,51 @@ class ActivityView extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('TRAINING_PLOT_MODE')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER_AND_TRAINING);
-		$this->handle('TRAINING_MAP_SHOW_FIRST')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('TRAINING_MAP_ZOOM_ON_SCROLL')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_MODE')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER_AND_TRAINING);
+		$this->handle('TRAINING_MAP_SHOW_FIRST')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_MAP_ZOOM_ON_SCROLL')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('TRAINING_PLOT_XAXIS_TIME')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('TRAINING_PLOT_MODE')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('TRAINING_PLOT_SMOOTH')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('PACE_Y_LIMIT_MIN')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('PACE_Y_LIMIT_MAX')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('PACE_Y_AXIS_TYPE')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('PACE_HIDE_OUTLIERS')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('TRAINING_PLOT_SPLITS_ZERO')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_XAXIS_TIME')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_MODE')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_SMOOTH')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('PACE_Y_LIMIT_MIN')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('PACE_Y_LIMIT_MAX')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('PACE_Y_AXIS_TYPE')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('PACE_HIDE_OUTLIERS')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_SPLITS_ZERO')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('TRAINING_PLOT_PRECISION')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('TRAINING_PLOT_PRECISION')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('GMAP_PATH_BREAK')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
-		$this->handle('GMAP_PATH_PRECISION')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('GMAP_PATH_BREAK')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('GMAP_PATH_PRECISION')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('SHOW_SECTIONS_FULLHEIGHT')->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
+		$this->handle('SHOW_SECTIONS_FULLHEIGHT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_TRAINING);
 
-		$this->handle('ELEVATION_METHOD')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
-		$this->handle('ELEVATION_TRESHOLD')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+		$this->handle('ELEVATION_METHOD')
+		    ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
+		$this->handle('ELEVATION_TRESHOLD')
+		    ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::useCleanup');
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset(__('Activity view'));
 
 		$Fieldset->addHandle($this->handle('TRAINING_DECIMALS'), array(
@@ -315,11 +330,10 @@ class ActivityView extends \Runalyze\Configuration\Category {
 		return $Fieldset;
 	}
 
-	/**
-	 * Add handles for plots to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForPlotsTo(Fieldset &$Fieldset) {
+    /**
+     * Add handles for plots to fieldset
+     */
+    private function addHandlesForPlotsTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('TRAINING_PLOT_MODE'), array(
 		    'label' => __('Plots: combination')
 		));
@@ -362,11 +376,10 @@ class ActivityView extends \Runalyze\Configuration\Category {
 		));
 	}
 
-	/**
-	 * Add handles for maps to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForMapsTo(Fieldset &$Fieldset) {
+    /**
+     * Add handles for maps to fieldset
+     */
+    private function addHandlesForMapsTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('GMAP_PATH_BREAK'), array(
 		    'label' => __('Map: interrupt route'),
 		    'tooltip' => __('The gps path can be interrupted in case of <em>interruptions</em> (e.g. by car/train/...).' .
@@ -389,11 +402,10 @@ class ActivityView extends \Runalyze\Configuration\Category {
 		));
 	}
 
-	/**
-	 * Add handles for elevation to fieldset
-	 * @param \Runalyze\Configuration\Fieldset $Fieldset
-	 */
-	private function addHandlesForElevationTo(Fieldset &$Fieldset) {
+    /**
+     * Add handles for elevation to fieldset
+     */
+    private function addHandlesForElevationTo(Fieldset &$Fieldset) {
 		$Fieldset->addHandle($this->handle('ELEVATION_METHOD'), array(
 		    'label' => __('Elevation: smoothing'),
 		    'tooltip' => __('Choose the algorithm to smooth the elevation data')

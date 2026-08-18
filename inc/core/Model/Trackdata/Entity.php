@@ -199,7 +199,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	protected $Pauses;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $TimeHasBeenRemoved = false;
 
@@ -219,11 +219,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		$this->cloneInternalObjects();
 	}
 
-	/**
-	 * Construct
-	 * @param array $data
-	 */
-	public function __construct(array $data = array()) {
+    /**
+     * Construct
+     */
+    public function __construct(array $data = array()) {
 		parent::__construct($data);
 
 		$this->calculatePaceArray();
@@ -352,21 +351,19 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		);
 	}
 
-	/**
-	 * Is the property an array?
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isArray($key): bool {
+    /**
+     * Is the property an array?
+     * @param string $key
+     */
+    public function isArray($key): bool {
 		return ($key != self::PAUSES && $key != self::ACTIVITYID);
 	}
 
-	/**
-	 * Can be null?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canBeNull($key): bool {
+    /**
+     * Can be null?
+     * @param string $key
+     */
+    protected function canBeNull($key): bool {
 		switch ($key) {
 			case self::TIME:
 			case self::DISTANCE:
@@ -398,12 +395,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return false;
 	}
 
-	/**
-	 * Is not in Database?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function notInDatabase($key): bool {
+    /**
+     * Is not in Database?
+     * @param string $key
+     */
+    protected function notInDatabase($key): bool {
 		switch ($key) {
 			case self::PACE:
 			case self::STRIDE_LENGTH:
@@ -414,12 +410,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return false;
 	}
 
-	/**
-	 * Ignore a key while checking for emptiness
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function ignoreNonEmptyValue($key): bool {
+    /**
+     * Ignore a key while checking for emptiness
+     * @param string $key
+     */
+    protected function ignoreNonEmptyValue($key): bool {
 		return ($key == self::ACTIVITYID);
 	}
 
@@ -432,12 +427,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		$this->Pauses->clear();
 	}
 
-	/**
-	 * Can set key?
-	 * @param string $key
-	 * @return boolean
-	 */
-	protected function canSet($key): bool
+    /**
+     * Can set key?
+     * @param string $key
+     */
+    protected function canSet($key): bool
     {
         return $key != self::PAUSES;
     }
@@ -521,12 +515,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return $this->Data[self::PACE];
 	}
 
-	/**
-	 * Theoretical pace will force the loop to ignore distance data for average pace
-	 * @param array $data
-	 * @param bool $flag
-	 */
-	public function setTheoreticalPace(array $data, $flag = true) {
+    /**
+     * Theoretical pace will force the loop to ignore distance data for average pace
+     * @param bool $flag
+     */
+    public function setTheoreticalPace(array $data, $flag = true) {
 	    $this->set(self::PACE, $data);
 
 	    $this->hasTheoreticalPace = $flag;
@@ -707,9 +700,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         return $this->Data[self::PRONATION_EXCURSION_RIGHT];
     }
 
-    /**
-     * @return bool
-     */
     public function hasRunScribeData(): bool {
         return ! empty($this->Data[self::IMPACT_GS_LEFT]) ||
             ! empty($this->Data[self::IMPACT_GS_RIGHT]) ||
@@ -745,11 +735,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return $this->Pauses;
 	}
 
-	/**
-	 * Are there pauses?
-	 * @return bool
-	 */
-	public function hasPauses(): bool {
+    /**
+     * Are there pauses?
+     */
+    public function hasPauses(): bool {
 		return ! $this->Pauses->isEmpty();
 	}
 

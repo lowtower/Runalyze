@@ -19,7 +19,8 @@ class RaceResultsController extends Controller
      */
     protected function getRaceResultRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Raceresult');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Raceresult');
     }
 
     /**
@@ -29,21 +30,33 @@ class RaceResultsController extends Controller
     public function allRaceResultsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $result = [];
-        $races = $this->getRaceResultRepository()->findAllWithActivityStats($account);
-        $ageGradeLookup = $this->get('app.age_grade_lookup')->getLookup() ?: $this->get('app.age_grade_lookup')->getDefaultLookup();
-        $funIds = $this->getDoctrine()->getRepository('CoreBundle:PluginConf')->getAllActivityIdsOfFunRaces($account);
+        $races = $this->getRaceResultRepository()
+            ->findAllWithActivityStats($account);
+        $ageGradeLookup = $this->get('app.age_grade_lookup')
+            ->getLookup() ?: $this->get('app.age_grade_lookup')
+            ->getDefaultLookup();
+        $funIds = $this->getDoctrine()
+            ->getRepository('CoreBundle:PluginConf')
+            ->getAllActivityIdsOfFunRaces($account);
 
         foreach ($races as $race) {
             $ageGrade = $ageGradeLookup->getAgeGrade(
                 $race->getOfficialDistance(),
                 $race->getOfficialTime(),
-                (int) $race->getActivity()->getDateTime()->diff(new LocalTime())->format('%y')
+                (int) $race->getActivity()
+                    ->getDateTime()
+                    ->diff(new LocalTime())
+                    ->format('%y')
             );
 
             $result[] = [
                 'name' => $race->getName(),
-                'date' => $race->getActivity()->getDateTime()->format('c'),
-                'sport_id' => $race->getActivity()->getSport()->getId(),
+                'date' => $race->getActivity()
+                    ->getDateTime()
+                    ->format('c'),
+                'sport_id' => $race->getActivity()
+                    ->getSport()
+                    ->getId(),
                 'distance' => $race->getOfficialDistance(),
                 'duration' => $race->getOfficialTime(),
                 'officially_measured' => $race->getOfficiallyMeasured(),
@@ -53,9 +66,12 @@ class RaceResultsController extends Controller
                 'participants_total' => $race->getParticipantsTotal(),
                 'participants_gender' => $race->getParticipantsGender(),
                 'participants_ageclass' => $race->getParticipantsAgeclass(),
-                'vo2max' => $race->getActivity()->getVO2max(),
-                'vo2max_by_time' => $race->getActivity()->getVO2maxByTime(),
-                'vo2max_with_elevation' => $race->getActivity()->getVO2maxWithElevation(),
+                'vo2max' => $race->getActivity()
+                    ->getVO2max(),
+                'vo2max_by_time' => $race->getActivity()
+                    ->getVO2maxByTime(),
+                'vo2max_with_elevation' => $race->getActivity()
+                    ->getVO2maxWithElevation(),
                 'age_grade' => $ageGrade->getPerformance(),
                 'is_fun' => in_array($race->getActivity()->getId(), $funIds)
             ];

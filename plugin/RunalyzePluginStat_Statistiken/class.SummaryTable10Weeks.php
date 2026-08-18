@@ -24,12 +24,11 @@ class SummaryTable10Weeks extends SummaryTable {
 		$this->TimeStart = $this->TimeEnd - 10*$this->Timerange;
 	}
 
-	/**
-	 * Head for row
-	 * @param int $index
-	 * @return string
-	 */
-	protected function rowHead($index): string {
+    /**
+     * Head for row
+     * @param int $index
+     */
+    protected function rowHead($index): string {
 		$time  = $this->TimeEnd - ($index + 0.5)*7*DAY_IN_S;
 		$start = (new LocalTime($time))->weekstart(true);
 		$end   = (new LocalTime($time))->weekend(true);

@@ -33,21 +33,19 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 */
 	protected $Calculator;
 
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	public function __construct(Context $context) {
+    /**
+     * Constructor
+     */
+    public function __construct(Context $context) {
 		$this->Calculator = new HrZonesCalculator($context->activity()->hrZoneBounds(), $context->sport()->hrZoneBounds());
 
 		parent::__construct($context);
 	}
 
-	/**
-	 * Get title for average
-	 * @return string
-	 */
-	public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('Pace'); }
+    /**
+     * Get title for average
+     */
+    public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('Pace'); }
 
 	/**
 	 * Get hint for footer #TSC
@@ -90,12 +88,10 @@ class TableZonesHeartrate extends TableZonesAbstract {
 		return ($num <= 99 ? '&nbsp;&nbsp;' : '') . $num;
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function computeZones(): array {
 		if (null !== $this->Context->activity()->maxHrUser()) {
-			$hrMax = (int) $this->Context->activity()->maxHrUser();
+			$hrMax = (int) $this->Context->activity()
+			    ->maxHrUser();
 			$footerHintMaxHr = 'with a maximum users heart-rate of '.$hrMax.' from the activity.';
 		} else {
 			$hrMax = Runalyze\Configuration::Data()->HRmax();
@@ -103,7 +99,8 @@ class TableZonesHeartrate extends TableZonesAbstract {
 		}
 
 		$Zones = array();
-		$hasDistance = $this->Context->trackdata()->has(Trackdata\Entity::DISTANCE);
+		$hasDistance = $this->Context->trackdata()
+		    ->has(Trackdata\Entity::DISTANCE);
 
 		$Distribution = new TimeSeriesForTrackdata(
 		    $this->Context->trackdata(),

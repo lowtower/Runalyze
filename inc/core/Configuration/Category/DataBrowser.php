@@ -18,11 +18,10 @@ use Ajax;
  * @package Runalyze\Configuration\Category
  */
 class DataBrowser extends \Runalyze\Configuration\Category {
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'data-browser';
 	}
 
@@ -81,19 +80,23 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('DB_SHOW_DATASET_LABELS')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-		$this->handle('DB_SHOW_CREATELINK_FOR_DAYS')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-		$this->handle('DB_SHOW_ACTIVE_DAYS_ONLY')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-        $this->handle('DB_REVERSE_MODE')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+		$this->handle('DB_SHOW_DATASET_LABELS')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+		$this->handle('DB_SHOW_CREATELINK_FOR_DAYS')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+		$this->handle('DB_SHOW_ACTIVE_DAYS_ONLY')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+        $this->handle('DB_REVERSE_MODE')
+            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
 
-		$this->handle('DB_DISPLAY_MODE')->registerOnchangeEvent(self::class . '::showNewTimerangeInDB');
+		$this->handle('DB_DISPLAY_MODE')
+		    ->registerOnchangeEvent(self::class . '::showNewTimerangeInDB');
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Calendar view') );
 
 		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), array(

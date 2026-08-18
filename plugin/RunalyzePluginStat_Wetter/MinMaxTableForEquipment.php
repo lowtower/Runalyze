@@ -29,12 +29,11 @@ class MinMaxTableForEquipment
 	/** @var string */
 	protected $DependencyQuery = '';
 
-	/**
-	 * @param \PDO $pdo
-	 * @param int $accountId
-	 * @param int $equipmentTypeId
-	 */
-	public function __construct(\PDO $pdo, $accountId, $equipmentTypeId)
+    /**
+     * @param int $accountId
+     * @param int $equipmentTypeId
+     */
+    public function __construct(\PDO $pdo, $accountId, $equipmentTypeId)
 	{
 		$this->PDO = $pdo;
 		$this->AccountID = $accountId;
@@ -114,18 +113,18 @@ class MinMaxTableForEquipment
 		$i = 0;
 
 		while ($data = $Statement->fetch()) {
-			echo ($i % 3 == 0) ? '<tr class="r">' : '<td>&nbsp;&nbsp;</td>';
+			echo ($i % 3 === 0) ? '<tr class="r">' : '<td>&nbsp;&nbsp;</td>';
 
 			echo '<td class="l">'.$data['name'].'</td>';
 			echo '<td>'.(Temperature::format($data['min'], true)).' '.__('to').' '.(Temperature::format($data['max'], true)).'</td>';
 			echo '<td>'.(Temperature::format(round($data['avg']), true)).'</td>';
 
-			echo (++$i % 3 == 0) ? '</tr>' : '';
+			echo (++$i % 3 === 0) ? '</tr>' : '';
 		}
 
-		if ($i % 3 != 0) {
+		if ($i % 3 !== 0) {
 			echo '<td colspan="'.(3 * (3 - $i % 3)).'">&nbsp;</td></tr>';
-		} elseif ($i == 0) {
+		} elseif ($i === 0) {
 			echo '<td colspan="11" class="c"><em>'.__('No data found.').'</em></td>';
 		}
 

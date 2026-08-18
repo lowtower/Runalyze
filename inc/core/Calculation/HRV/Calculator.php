@@ -97,16 +97,15 @@ class Calculator {
 	 */
 	protected $PercentageAnomalies = 0.0;
 
-	/**
-	 * Calculator for hrv statistics
-	 *
-	 * http://www.zhb.uni-luebeck.de/epubs/ediss1118.pdf, 2.4.2.1 suggests a filter threshold of 75 %
-	 *
-	 * @param \Runalyze\Model\HRV\Entity $hrvObject
-	 * @param double|null $filterThreshold RR intervals are considered only if they differ from the preceding or following interval by less than XXX %
-	 * @param int $absoluteThreshold RR intervals above this threshold will be ignored (unless $filterThreshold is null)
-	 */
-	public function __construct(Entity $hrvObject, $filterThreshold = 0.75, $absoluteThreshold = 2000) {
+    /**
+     * Calculator for hrv statistics
+     *
+     * http://www.zhb.uni-luebeck.de/epubs/ediss1118.pdf, 2.4.2.1 suggests a filter threshold of 75 %
+     *
+     * @param float|null $filterThreshold RR intervals are considered only if they differ from the preceding or following interval by less than XXX %
+     * @param int $absoluteThreshold RR intervals above this threshold will be ignored (unless $filterThreshold is null)
+     */
+    public function __construct(Entity $hrvObject, $filterThreshold = 0.75, $absoluteThreshold = 2000) {
 		$this->Object = clone $hrvObject;
 
 		if (null !== $filterThreshold && $this->Object->num() > 0) {
@@ -123,7 +122,7 @@ class Calculator {
 
 	/**
 	 * Remove all rr intervals that are not within [1 - $filterThreshold, 1 + $filterThreshold]-times their preceding/following interval
-	 * @param double $filterThreshold
+	 * @param float $filterThreshold
 	 * @param int $absoluteThreshold
 	 */
 	protected function filterByThreshold($filterThreshold, $absoluteThreshold) {
@@ -311,7 +310,7 @@ class Calculator {
 			$sum += ($x - $mean) * ($x - $mean);
 		}
 
-		$this->SDANN = $count == 1 ? sqrt($sum) : sqrt($sum / ($count - 1));
+		$this->SDANN = $count === 1 ? sqrt($sum) : sqrt($sum / ($count - 1));
 	}
 
 	/**

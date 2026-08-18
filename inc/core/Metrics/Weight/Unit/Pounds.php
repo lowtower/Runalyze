@@ -9,8 +9,6 @@ class Pounds extends AbstractWeightUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Pounds extends AbstractWeightUnit
         return 'lbs';
     }
 
-    /**
-     * @return float
-     */
     public function getFactorFromBaseUnit(): float
     {
         return 2.204622;

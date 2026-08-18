@@ -28,9 +28,6 @@ class ClimbCollection implements \Countable, \ArrayAccess
         return $this->Elements;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty($this->Elements);

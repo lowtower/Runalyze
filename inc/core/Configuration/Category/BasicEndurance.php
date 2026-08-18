@@ -23,15 +23,14 @@ use FormularUnit;
 class BasicEndurance extends \Runalyze\Configuration\Category {
 	/**
 	 * Flag: recalculation triggered?
-	 * @var boolean
+	 * @var bool
 	 */
 	private static $TRIGGERED = false;
 
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'basic-endurance';
 	}
 
@@ -94,11 +93,10 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 		return 1 - $this->percentageWeekKm();
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Marathon shape') );
 		$Fieldset->addHandle( $this->handle('BE_MIN_KM_FOR_LONGJOG'), array(
     'label'		=> __('Minimal distance for longjogs'),
@@ -129,11 +127,16 @@ class BasicEndurance extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('BE_MIN_KM_FOR_LONGJOG')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_LONGJOGS')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_PERCENTAGE_WEEK_KM')->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_MIN_KM_FOR_LONGJOG')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_LONGJOGS')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+		$this->handle('BE_PERCENTAGE_WEEK_KM')
+		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
 	}
 
 	/**

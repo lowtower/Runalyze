@@ -33,21 +33,19 @@ class SectionLaps extends TrainingViewSectionTabbed {
 		}
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
 		// #TSC only splits are needed as required-data, if the splits()->totalDistance() is 0, anyway show laps
 		return (! $this->Context->activity()->splits()->isEmpty())
 			|| ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME));
 	}
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	protected function cssId(): string {
+    /**
+     * CSS-ID
+     */
+    protected function cssId(): string {
 		return 'laps';
 	}
 }

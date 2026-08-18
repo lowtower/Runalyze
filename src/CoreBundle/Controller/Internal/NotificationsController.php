@@ -22,7 +22,8 @@ class NotificationsController extends Controller
      */
     protected function getNotificationsRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Notification');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Notification');
     }
 
     /**
@@ -31,7 +32,8 @@ class NotificationsController extends Controller
      */
     public function readAllNotificationsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
-        $this->getNotificationsRepository()->markAllAsRead($account);
+        $this->getNotificationsRepository()
+            ->markAllAsRead($account);
 
         return new JsonResponse();
     }
@@ -47,7 +49,8 @@ class NotificationsController extends Controller
             return $this->createAccessDeniedException();
         }
 
-        $this->getNotificationsRepository()->markAsRead($notification);
+        $this->getNotificationsRepository()
+            ->markAsRead($notification);
 
         return new JsonResponse();
     }
@@ -62,7 +65,8 @@ class NotificationsController extends Controller
         $factory = new MessageFactory();
         $router = $this->get('router');
         $translator = $this->get('translator.default');
-        $notifications = $this->getNotificationsRepository()->findAllSince($request->query->getInt('last_request'), $account);
+        $notifications = $this->getNotificationsRepository()
+            ->findAllSince($request->query->getInt('last_request'), $account);
 
         foreach ($notifications as $notification) {
             $message = $factory->getMessage($notification);

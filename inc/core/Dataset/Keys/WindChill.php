@@ -19,7 +19,6 @@ class WindChill extends AbstractKey
 {
     /**
      * Enum id
-     * @return int
      */
     public function id(): int
     {
@@ -28,7 +27,6 @@ class WindChill extends AbstractKey
 
     /**
      * Database key
-     * @return array
      */
     public function column(): array
     {
@@ -36,7 +34,6 @@ class WindChill extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -45,7 +42,6 @@ class WindChill extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function description(): string
@@ -57,24 +53,30 @@ class WindChill extends AbstractKey
 
     /**
      * Get string to display this dataset value
-     * @param \Runalyze\Dataset\Context $context
      * @return string
      */
     public function stringFor(Context $context)
     {
         if (
-            ! $context->activity()->weather()->temperature()->isUnknown() &&
-            ! $context->activity()->weather()->windSpeed()->isUnknown() &&
-            ! ($context->hasSport() && ! $context->sport()->isOutside())
+            ! $context->activity()
+                ->weather()
+                ->temperature()
+                ->isUnknown() &&
+            ! $context->activity()
+                ->weather()
+                ->windSpeed()
+                ->isUnknown() &&
+            (! $context->hasSport() || $context->sport()->isOutside())
         ) {
-            return $context->dataview()->windChillFactor()->string();
+            return $context->dataview()
+                ->windChillFactor()
+                ->string();
         }
 
         return '';
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function cssClass(): string

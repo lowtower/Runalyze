@@ -29,22 +29,20 @@ class Dataview
 	/** @var \Runalyze\Model\RaceResult\Entity */
 	protected $RaceResult;
 
-	/**
-	 * Constructor
-	 * @param \Runalyze\Model\RaceResult\Entity $RaceResult
-	 */
-	public function __construct(Model\RaceResult\Entity $RaceResult)
+    /**
+     * Constructor
+     */
+    public function __construct(Model\RaceResult\Entity $RaceResult)
 	{
 		$this->RaceResult = $RaceResult;
 	}
 
-	/**
-	 * Get official distance
-	 * @param null|int $decimals can be null to load default decimals from config
-	 * @param bool $isTrack
-	 * @return string
-	 */
-	public function officialDistance($decimals = null, $isTrack = false): string
+    /**
+     * Get official distance
+     * @param null|int $decimals can be null to load default decimals from config
+     * @param bool $isTrack
+     */
+    public function officialDistance($decimals = null, $isTrack = false): string
 	{
 		if (null === $decimals) {
 			$decimals = Configuration::ActivityView()->decimals();
@@ -61,21 +59,19 @@ class Dataview
 		return '';
 	}
 
-	/**
-	 * Official Duration
-	 * @return \Runalyze\Activity\Duration
-	 */
-	public function officialTime(): \Runalyze\Activity\Duration
+    /**
+     * Official Duration
+     */
+    public function officialTime(): \Runalyze\Activity\Duration
 	{
 		return new Duration($this->RaceResult->officialTime());
 	}
 
-	/**
-	 * Get a string for the speed depending on sportid
-	 * @param int $sportid
-	 * @return \Runalyze\Activity\Pace
-	 */
-	public function pace($sportid): \Runalyze\Activity\Pace
+    /**
+     * Get a string for the speed depending on sportid
+     * @param int $sportid
+     */
+    public function pace($sportid): \Runalyze\Activity\Pace
 	{
 		return new Pace($this->RaceResult->officialTime(), $this->RaceResult->officialDistance(), SportFactory::getSpeedUnitFor($sportid));
 	}

@@ -29,7 +29,8 @@ class CreateController extends Controller
      */
     protected function getTrainingRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Training');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
     }
 
     /**
@@ -38,7 +39,10 @@ class CreateController extends Controller
      */
     public function createAction(): \Symfony\Component\HttpFoundation\Response
     {
-        $defaultUploadMode = $this->get('app.configuration_manager')->getList()->getActivityForm()->get('TRAINING_CREATE_MODE');
+        $defaultUploadMode = $this->get('app.configuration_manager')
+            ->getList()
+            ->getActivityForm()
+            ->get('TRAINING_CREATE_MODE');
 
         if ('garmin' == $defaultUploadMode) {
             return $this->forward('CoreBundle:Activity\Create:communicator');
@@ -100,9 +104,6 @@ class CreateController extends Controller
     }
 
     /**
-     * @param FileImportResultCollection $results
-     * @param Account $account
-     * @param Request $request
      * @return Response
      */
     protected function getResponseForImportResults(FileImportResultCollection $results, Account $account, Request $request)
@@ -145,13 +146,12 @@ class CreateController extends Controller
     }
 
     /**
-     * @param ActivityDataContainer $container
-     * @param Account $account
      * @return Training
      */
     protected function containerToActivity(ActivityDataContainer $container, Account $account)
     {
-        return $this->get('app.activity_data_container.converter')->getActivityFor($container, $account);
+        return $this->get('app.activity_data_container.converter')
+            ->getActivityFor($container, $account);
     }
 
     protected function getResponseForMultipleNewActivities(FileImportResultCollection $results, Request $request, Account $account)
@@ -198,7 +198,8 @@ class CreateController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $hashes = $form->get('activity')->getData();
+            $hashes = $form->get('activity')
+                ->getData();
 
             if (! is_array($hashes)) {
                 return $this->redirectToRoute('activity-upload');
@@ -207,21 +208,27 @@ class CreateController extends Controller
             $repository = $this->getTrainingRepository();
             $cache = $this->get('app.activity_context.cache');
             $contextAdapterFactory = $this->get('app.activity_context_adapter_factory');
-            $defaultLocation = $this->get('app.configuration_manager')->getList()->getActivityForm()->getDefaultLocationForWeatherForecast();
+            $defaultLocation = $this->get('app.configuration_manager')
+                ->getList()
+                ->getActivityForm()
+                ->getDefaultLocationForWeatherForecast();
             $activityIds = [];
 
             foreach ($hashes as $hash) {
                 $activity = $cache->get($hash, null, true);
                 $activity->setAccount($account);
-                $activity->getAdapter()->setAccountToRelatedEntities();
+                $activity->getAdapter()
+                    ->setAccountToRelatedEntities();
 
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
-                $contextAdapterFactory->getAdapterFor($context)->guessWeatherConditions($defaultLocation, $account);
+                $contextAdapterFactory->getAdapterFor($context)
+                    ->guessWeatherConditions($defaultLocation, $account);
 
                 $activityIds[] = $repository->save($activity, true);
             }
 
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             if ($form->get('show_multi_editor')->getData()) {
                 return $this->redirectToRoute('multi-editor', [
@@ -267,38 +274,45 @@ class CreateController extends Controller
             $this->handleSubmitOfNewActivityForm($activity, $form);
 
             $this->addFlash('success', $this->get('translator')->trans('The activity has been successfully created.'));
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
             return $this->render('util/close_overlay.html.twig');
         }
 
         if (! $form->isSubmitted() && $setCache) {
-            $form->get('temporaryHash')->setData(
-                $this->get('app.activity_context.cache')->save($activity)
-            );
+            $form->get('temporaryHash')
+                ->setData(
+                    $this->get('app.activity_context.cache')
+                        ->save($activity)
+                );
         }
 
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => true,
-            'isDuplicate' => $this->get('app.activity_duplicate_finder')->isPossibleDuplicate($activity),
+            'isDuplicate' => $this->get('app.activity_duplicate_finder')
+                ->isPossibleDuplicate($activity),
             'isPowerLocked' => null !== $activity->isPowerCalculated()
         ]);
     }
 
     protected function handleSubmitOfNewActivityForm(Training $newActivity, Form $form)
     {
-        $activity = $this->get('app.activity_context.cache')->get($form->get('temporaryHash')->getData(), $newActivity, true);
+        $activity = $this->get('app.activity_context.cache')
+            ->get($form->get('temporaryHash')->getData(), $newActivity, true);
 
         if ('' != $activity->getRouteName()) {
             if (! $activity->hasRoute()) {
                 $activity->setRoute((new EntityRoute())->setAccount($activity->getAccount()));
             }
 
-            $activity->getRoute()->setName($activity->getRouteName());
+            $activity->getRoute()
+                ->setName($activity->getRouteName());
 
-            if (0 != (int) $activity->getElevation() && 0 == $activity->getRoute()->getElevation()) {
-                $activity->getRoute()->setElevation($activity->getElevation());
+            if (0 !== (int) $activity->getElevation() && 0 == $activity->getRoute()->getElevation()) {
+                $activity->getRoute()
+                    ->setElevation($activity->getElevation());
             }
         }
 
@@ -307,13 +321,12 @@ class CreateController extends Controller
             $activity->setRaceresult($raceResult);
         }
 
-        $this->getTrainingRepository()->save($activity);
+        $this->getTrainingRepository()
+            ->save($activity);
     }
 
     /**
-     * @param Account $account
      * @param int|null $time
-     * @return Training
      */
     protected function getDefaultNewActivity(Account $account, $time = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
@@ -331,13 +344,17 @@ class CreateController extends Controller
     }
 
     /**
-     * @param Account $account
      * @return null|\Runalyze\Bundle\CoreBundle\Entity\Sport
      */
     protected function getMainSport(Account $account)
     {
-        $mainSportId = $this->get('app.configuration_manager')->getList()->getGeneral()->getMainSport();
-        $sport = $this->getDoctrine()->getRepository('CoreBundle:Sport')->findThisOrAny($mainSportId, $account);
+        $mainSportId = $this->get('app.configuration_manager')
+            ->getList()
+            ->getGeneral()
+            ->getMainSport();
+        $sport = $this->getDoctrine()
+            ->getRepository('CoreBundle:Sport')
+            ->findThisOrAny($mainSportId, $account);
 
         if (null === $sport || $account->getId() != $sport->getAccount()->getId()) {
             return null;

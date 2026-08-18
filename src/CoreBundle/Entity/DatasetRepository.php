@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class DatasetRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return Dataset[]
      */
     public function findAllFor(Account $account)

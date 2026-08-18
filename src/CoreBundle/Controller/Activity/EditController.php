@@ -25,7 +25,8 @@ class EditController extends Controller
      */
     protected function getTrainingRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Training');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
     }
 
     protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
@@ -54,24 +55,30 @@ class EditController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->has('data_series_remover')) {
-                $this->get('app.data_series_remover')->handleRequest($form->get('data_series_remover')->getData(), $activity);
+                $this->get('app.data_series_remover')
+                    ->handleRequest($form->get('data_series_remover')->getData(), $activity);
             }
 
             if ($form->get('is_race')->getData() && ! $activity->hasRaceresult()) {
                 $raceResult = (new Raceresult())->fillFromActivity($activity);
                 $activity->setRaceresult($raceResult);
             } elseif (! $form->get('is_race')->getData() && $activity->hasRaceresult()) {
-                $this->getDoctrine()->getRepository('CoreBundle:Raceresult')->delete($activity->getRaceresult());
+                $this->getDoctrine()
+                    ->getRepository('CoreBundle:Raceresult')
+                    ->delete($activity->getRaceresult());
                 $activity->setRaceresult(null);
             }
 
             $repository->save($activity);
-            $this->get('app.legacy_cache')->clearActivityCache($activity);
+            $this->get('app.legacy_cache')
+                ->clearActivityCache($activity);
 
             $this->addFlash('success', $this->get('translator')->trans('Changes have been saved.'));
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
-            $nextId = $form->get('next-multi-editor')->getData();
+            $nextId = $form->get('next-multi-editor')
+                ->getData();
 
             if (is_numeric($nextId)) {
                 return $this->redirectToRoute('activity-edit', [
@@ -81,7 +88,8 @@ class EditController extends Controller
             }
         }
 
-        $context = $this->get('app.activity_context.factory')->getContext($activity);
+        $context = $this->get('app.activity_context.factory')
+            ->getContext($activity);
 
         return $this->render('activity/form.html.twig', [
             'form' => $form->createView(),
@@ -91,7 +99,9 @@ class EditController extends Controller
             'activity_id' => $activity->getId(),
             'prev_activity_id' => $repository->getIdOfPreviousActivity($activity),
             'next_activity_id' => $repository->getIdOfNextActivity($activity),
-            'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()->hasGeohashes() && ! $activity->getRoute()->hasCorrectedElevations(),
+            'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()
+                ->hasGeohashes() && ! $activity->getRoute()
+                ->hasCorrectedElevations(),
             'isPowerLocked' => null !== $activity->isPowerCalculated()
         ]);
     }
@@ -109,14 +119,14 @@ class EditController extends Controller
 
     /**
      * @param string[] $activityIds
-     * @param Account $account
      * @return Response
      */
     protected function getResponseForMultiEditor(array $activityIds, Account $account)
     {
         $previews = array_map(function (Training $activity) {
             return new ActivityPreview($activity);
-        }, $this->getTrainingRepository()->getPartialEntitiesForPreview($activityIds, $account, 20));
+        }, $this->getTrainingRepository()
+            ->getPartialEntitiesForPreview($activityIds, $account, 20));
 
         return $this->render('activity/multi_editor_navigation.html.twig', [
             'previews' => $previews
@@ -134,7 +144,8 @@ class EditController extends Controller
 
        $this->checkThatEntityBelongsToActivity($activity, $account);
 
-       $this->getTrainingRepository()->remove($activity);
+       $this->getTrainingRepository()
+           ->remove($activity);
 
         return $this->render('activity/activity_has_been_removed.html.twig', [
             'multiEditorId' => (int) $activityId
@@ -154,7 +165,8 @@ class EditController extends Controller
         $success = false;
 
         if ($activity->hasRoute()) {
-            $routeAdapter = $activity->getRoute()->getAdapter();
+            $routeAdapter = $activity->getRoute()
+                ->getAdapter();
             $strategy = null;
 
             if ('none' == $request->query->get('strategy')) {
@@ -185,21 +197,28 @@ class EditController extends Controller
 
     protected function adjustAndSaveRouteAndActivityForElevationCorrection(Training $activity)
     {
-        $configuration = $this->get('app.configuration_manager')->getList($activity->getAccount())->getActivityView();
+        $configuration = $this->get('app.configuration_manager')
+            ->getList($activity->getAccount())
+            ->getActivityView();
 
-        $activity->getRoute()->getAdapter()->calculateElevation(
-            $configuration->getElevationCalculationMethod(),
-            $configuration->getElevationCalculationThreshold()
-        );
+        $activity->getRoute()
+            ->getAdapter()
+            ->calculateElevation(
+                $configuration->getElevationCalculationMethod(),
+                $configuration->getElevationCalculationThreshold()
+            );
 
         $activityAdapter = $activity->getAdapter();
         $activityAdapter->useElevationFromRoute();
         $activityAdapter->calculateClimbScore();
 
-        $this->getTrainingRepository()->save($activity);
+        $this->getTrainingRepository()
+            ->save($activity);
 
-        $this->get('app.legacy_cache')->clearActivityCache($activity);
-        $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_TRAINING_AND_DATA_BROWSER);
+        $this->get('app.legacy_cache')
+            ->clearActivityCache($activity);
+        $this->get('app.automatic_reload_flag_setter')
+            ->set(AutomaticReloadFlagSetter::FLAG_TRAINING_AND_DATA_BROWSER);
     }
 
     /**

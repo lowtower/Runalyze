@@ -20,11 +20,11 @@ class SectionRouteOnlyMap extends SectionRoute {
 		$this->appendRow( new SectionRouteRowMap($this->Context) );
 	}
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData(): bool {
-		return $this->Context->hasRoute() && $this->Context->route()->hasPositionData();
+    /**
+     * Has the training all required data?
+     */
+    protected function hasRequiredData(): bool {
+		return $this->Context->hasRoute() && $this->Context->route()
+		    ->hasPositionData();
 	}
 }

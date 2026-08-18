@@ -29,11 +29,10 @@ final class Sources extends AbstractEnum
     /** @var int */
     const METEOSTAT_NET = 4;
 
-	/**
-	 * @param int $sourceId id from internal enum
-	 * @return string
-	 */
-	static public function stringFor($sourceId): string
+    /**
+     * @param int $sourceId id from internal enum
+     */
+    static public function stringFor($sourceId): string
 	{
 		switch ($sourceId) {
             case self::DARKSKY:

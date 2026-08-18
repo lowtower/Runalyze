@@ -20,11 +20,10 @@ class Unknown extends \Runalyze\View\Icon\WeatherIcon {
 
 	}
 
-	/**
-	 * Code
-	 * @return string
-	 */
-	public function code(): string {
+    /**
+     * Code
+     */
+    public function code(): string {
 		return '<i class="weather"></i>';
 	}
 }

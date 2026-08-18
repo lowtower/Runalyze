@@ -21,13 +21,12 @@ class VerticalRatio implements ValueInterface
 	 */
 	protected $Permille;
 
-	/**
-	 * Format vertical ratio
-	 * @param int $permille
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public static function format($permille, $withUnit = true): string
+    /**
+     * Format vertical ratio
+     * @param int $permille
+     * @param bool $withUnit
+     */
+    public static function format($permille, $withUnit = true): string
 	{
 		return (new self($permille))->string($withUnit);
 	}
@@ -40,20 +39,18 @@ class VerticalRatio implements ValueInterface
 		$this->Permille = $permille;
 	}
 
-	/**
-	 * Label for stride length
-	 * @return string
-	 */
-	public function label(): string
+    /**
+     * Label for stride length
+     */
+    public function label(): string
 	{
 		return __('Vertical ratio');
 	}
 
-	/**
-	 * Unit
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Unit
+     */
+    public function unit(): string
 	{
 		return '%';
 	}
@@ -100,12 +97,11 @@ class VerticalRatio implements ValueInterface
 		return $this->Permille/10;
 	}
 
-	/**
-	 * Format value as string
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function string($withUnit = true): string
+    /**
+     * Format value as string
+     * @param bool $withUnit
+     */
+    public function string($withUnit = true): string
 	{
 		if ($this->Permille > 0) {
 			return number_format($this->Permille/10, 1, '.', '').($withUnit ? '&nbsp;%' : '');

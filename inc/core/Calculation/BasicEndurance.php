@@ -40,7 +40,7 @@ class BasicEndurance
     /**
      * Minimum distance to be recognized as a longjog
      *
-     * @var double
+     * @var float
      */
     protected $MIN_KM_FOR_LONGJOG = 13;
 
@@ -68,14 +68,14 @@ class BasicEndurance
     /**
      * Percentage for weekkilometer
      *
-     * @var double
+     * @var float
      */
     protected $PERCENTAGE_WEEK_KM = 0.67;
 
     /**
      * Percentage for longjogs
      *
-     * @var double
+     * @var float
      */
     protected $PERCENTAGE_LONGJOGS = 0.33;
 
@@ -265,7 +265,6 @@ class BasicEndurance
 
     /**
      * @param int $timestamp [optional] timestamp
-     * @return string
      */
     public function valueInPercent($timestamp = 0): string
     {
@@ -275,7 +274,6 @@ class BasicEndurance
     /**
      * @param int $timestamp [optional]
      * @param bool $onlyLongjogs [optional]
-     * @return string
      */
     public function getQuery($timestamp = 0, $onlyLongjogs = false): string
     {
@@ -357,7 +355,7 @@ class BasicEndurance
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getDaysForWeekKm()
     {
@@ -372,9 +370,6 @@ class BasicEndurance
         return $diff;
     }
 
-    /**
-     * @return double
-     */
     public function getTargetWeekKm(): float
     {
         return pow(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX), 1.135);
@@ -383,17 +378,12 @@ class BasicEndurance
     /**
      * Get target longjog km per week
      * PAY ATTENTION: $MIN_KM_FOR_LONGJOG is already subtracted!
-     *
-     * @return double
      */
     public function getTargetLongjogKmPerWeek(): float
     {
         return log(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX) / 4) * 12 - $this->MIN_KM_FOR_LONGJOG;
     }
 
-    /**
-     * @return double
-     */
     public function getRealTargetLongjogKmPerWeek(): float
     {
         return $this->getTargetLongjogKmPerWeek() + $this->MIN_KM_FOR_LONGJOG;

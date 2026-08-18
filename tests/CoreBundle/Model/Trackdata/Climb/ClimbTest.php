@@ -7,9 +7,6 @@ use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
 
 class ClimbTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @return Climb
-     */
     protected function getDefaultClimb(): \Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\Climb
     {
         return new Climb(1.0, 50);
@@ -42,7 +39,8 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
 
     public function testAltitudeAtTop()
     {
-        $climb = $this->getDefaultClimb()->setAltitudeAtTop(1234);
+        $climb = $this->getDefaultClimb()
+            ->setAltitudeAtTop(1234);
 
         $this->assertTrue($climb->knowsAltitudeAtTop());
         $this->assertEquals(1234, $climb->getAltitudeAtTop());

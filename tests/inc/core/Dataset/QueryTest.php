@@ -93,7 +93,8 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 ));
 
 		$this->Query->showOnlyPublicActivities();
-		$allActivities = $this->Query->statementToFetchActivities(0, time())->fetchAll();
+		$allActivities = $this->Query->statementToFetchActivities(0, time())
+		    ->fetchAll();
 
 		$this->assertEquals(1, count($allActivities));
 		$this->assertEquals(300, $allActivities[0]['s']);
@@ -120,7 +121,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 	public function testSummary()
 	{
 		$this->insertActivity(array(
-    'time' => time() - 1*DAY_IN_S,
+    'time' => time() - DAY_IN_S,
 		    's' => 100,
 		    'sportid' => 1
 ));
@@ -153,7 +154,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
 	public function testSummaryForWeekTimerange()
 	{
 		$this->insertActivity(array(
-		    'time' => time() - 1*DAY_IN_S,
+		    'time' => time() - DAY_IN_S,
 		    's' => 100
 		));
 		$this->insertActivity(array(

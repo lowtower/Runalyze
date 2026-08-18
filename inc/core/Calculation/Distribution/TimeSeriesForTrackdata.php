@@ -26,11 +26,9 @@ class TimeSeriesForTrackdata extends TimeSeries
     protected $Data = array();
 
     /**
-     * @param Trackdata\Entity $trackdata
      * @param string $indexKey enum
      * @param string[] $sumDifferencesKeys enums
      * @param string[] $avgValuesKeys enums
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata, $indexKey, array $sumDifferencesKeys = [], array $avgValuesKeys = [])

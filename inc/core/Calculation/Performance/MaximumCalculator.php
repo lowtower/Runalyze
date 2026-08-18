@@ -17,7 +17,6 @@ class MaximumCalculator
 
     /**
      * @param \Closure $modelCreator Closure that takes an trimp array as argument and creates a performance model.
-     * @param array $data
      * @throws \InvalidArgumentException
      */
     public function __construct(\Closure $modelCreator, array $data)
@@ -41,25 +40,16 @@ class MaximumCalculator
         }
     }
 
-    /**
-     * @return int
-     */
     public function maxFitness(): int
     {
         return (int) round($this->MaxFitness);
     }
 
-    /**
-     * @return int
-     */
     public function maxFatigue(): int
     {
         return (int) round($this->MaxFatigue);
     }
 
-    /**
-     * @return int
-     */
     public function maxTrimp(): int
     {
         return (int) round($this->MaxTrimp);

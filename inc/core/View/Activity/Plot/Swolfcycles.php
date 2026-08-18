@@ -23,11 +23,10 @@ class Swolfcycles extends ActivityPlot {
 		$this->key = 'swolfcycles';
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\View\Activity\Context $context
-	 */
-	protected function initData(Activity\Context $context) {
+    /**
+     * Init data
+     */
+    protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\Swolfcycles($context)
 		);

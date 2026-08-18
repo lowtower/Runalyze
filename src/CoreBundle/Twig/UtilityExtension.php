@@ -36,7 +36,7 @@ class UtilityExtension extends \Twig_Extension
      */
     public function duration($seconds, $decimals = 0, $decimalPoint = ',')
     {
-        $fraction = (round($seconds) != round($seconds, $decimals) && $decimals > 0) ? $decimalPoint.'u' : '';
+        $fraction = (round($seconds) !== round($seconds, $decimals) && $decimals > 0) ? $decimalPoint.'u' : '';
 
         if ($seconds>= 86400) {
             return $this->formatDuration($seconds, 'z\d H:i:s');
@@ -75,7 +75,6 @@ class UtilityExtension extends \Twig_Extension
 
     /**
      * @param int $bytes
-     * @return string
      */
     public function filesizeAsString($bytes): string
     {
@@ -88,9 +87,6 @@ class UtilityExtension extends \Twig_Extension
         return number_format($bytes / pow(1024, $I = floor(log($bytes, 1024))), ($I >= 1) ? 2 : 0, '.', '').' '.$FS[$I];
     }
 
-    /**
-     * @return string
-     */
     public function md5($value): string {
         return md5($value);
     }

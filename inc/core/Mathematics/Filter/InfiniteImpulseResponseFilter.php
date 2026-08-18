@@ -29,7 +29,7 @@ class InfiniteImpulseResponseFilter
         $this->OutputCoefficients = $outputCoefficients;
         $this->Order = count($inputCoefficients) - 1;
 
-        if (count($outputCoefficients) - 1 != $this->Order) {
+        if (count($outputCoefficients) - 1 !== $this->Order) {
             throw new \InvalidArgumentException('Number of input/output coefficients must be equal.');
         }
     }

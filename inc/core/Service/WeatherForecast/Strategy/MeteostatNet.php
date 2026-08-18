@@ -40,8 +40,6 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     /**
      * @param string $apiKey
      * @param string $proxy
-     * @param Client $client
-     * @param LoggerInterface|null $logger
      */
     public function __construct($apiKey, $proxy, Client $client, ?LoggerInterface $logger = null)
     {
@@ -76,8 +74,6 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $currently
-     *
-     * @return WeatherData
      */
     protected function getWeatherDataFromResult(array $currently): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
@@ -111,8 +107,6 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $result
-     *
-     * @return int
      */
     protected function getInternalConditionId(array $result): int
     {
@@ -126,8 +120,6 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     }
 
     /**
-     * @param Location $location
-     *
      * @return array
      */
     protected function tryToLoadForecast(Location $location)
@@ -149,7 +141,8 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
             $response = $this->HttpClient->request('GET', $url, $headers);
             $statusCode = $response->getStatusCode();
 
-            $repCont = $response->getBody()->getContents();
+            $repCont = $response->getBody()
+                ->getContents();
             $this->logger->info(sprintf('status-code >> %d result-raw >> %s', $statusCode, $repCont));
 
             $result = json_decode($repCont, true);
@@ -187,11 +180,6 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         return [];
     }
 
-    /**
-     * @param Location $location
-     *
-     * @return string
-     */
     protected function getUrlFor(Location $location): string
     {
         $parameter = [];

@@ -38,8 +38,6 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param string $apiKey
-     * @param Client $client
-     * @param LoggerInterface|null $logger
      */
     public function __construct($apiKey, Client $client, ?LoggerInterface $logger = null)
     {
@@ -73,8 +71,6 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $currently
-     *
-     * @return WeatherData
      */
     protected function getWeatherDataFromResult(array $currently): \Runalyze\Parser\Activity\Common\Data\WeatherData
     {
@@ -108,8 +104,6 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
 
     /**
      * @param array<string, mixed> $currently
-     *
-     * @return int
      */
     protected function getInternalConditionId(array $currently): int
     {
@@ -120,11 +114,6 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         return WeatherConditionProfile::UNKNOWN;
     }
 
-    /**
-     * @param Location $location
-     *
-     * @return array
-     */
     protected function tryToLoadForecast(Location $location): array
     {
         if ($location->hasPosition()) {

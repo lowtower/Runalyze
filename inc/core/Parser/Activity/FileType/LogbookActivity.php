@@ -129,7 +129,7 @@ class LogbookActivity extends AbstractSingleParser
 
         $numTimes = count($lapTimes);
 
-        if ($numTimes > 0 && count($lapDistances) == $numTimes) {
+        if ($numTimes > 0 && count($lapDistances) === $numTimes) {
             for ($i = 0; $i < $numTimes; ++$i) {
                 $this->Container->Rounds->add(new Round(
                     $lapDistances[$i],

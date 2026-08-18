@@ -209,7 +209,6 @@ class Steffny implements PrognosisInterface
     /**
      * @param float $timeInSeconds [s]
      * @param bool $calculateBackwards
-     * @return float
      */
     protected function fromHalfMarathonToMarathon($timeInSeconds, $calculateBackwards = false): float
     {

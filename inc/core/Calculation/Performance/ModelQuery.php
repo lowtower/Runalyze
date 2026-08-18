@@ -56,9 +56,6 @@ class ModelQuery
         return $this->Data;
     }
 
-    /**
-     * @param \PDOforRunalyze $DB
-     */
     public function execute(\PDOforRunalyze $DB)
     {
         $this->Data = array();
@@ -72,9 +69,6 @@ class ModelQuery
         }
     }
 
-    /**
-     * @return string
-     */
     private function query(): string
     {
         if (null === $this->From && null === $this->To) {
@@ -87,7 +81,7 @@ class ModelQuery
             $Where .= ' AND `sportid`=' . (int) $this->SportId;
         }
 
-        $Query = '
+        return '
 			SELECT
 				`time`,
 				DATE(FROM_UNIXTIME(`time`)) AS `date`,
@@ -96,7 +90,5 @@ class ModelQuery
 			WHERE ' . $Where . '
 			AND `accountid`=' . \SessionAccountHandler::getId() . '
 			GROUP BY `date`';
-
-        return $Query;
     }
 }

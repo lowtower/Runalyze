@@ -50,13 +50,12 @@ class PerformanceCondition extends ActivitySeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
 		if (! empty($this->Data)) {

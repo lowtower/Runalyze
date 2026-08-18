@@ -31,7 +31,6 @@ class ElevationCorrection
     /**
      * @param float[] $latitudes
      * @param float[] $longitudes
-     * @param null|StrategyInterface $strategy
      *
      * @return int[]|null altitude [m]
      */

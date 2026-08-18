@@ -25,20 +25,21 @@ class BodyValuesController extends Controller
      */
     protected function getUserRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:User');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:User');
     }
 
     /**
      * @Route("/add", name="body-values-add")
-     * @param Request $request
-     * @param Account $account
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addAction(Request $request, Account $account)
     {
         /** @var User $oldUser */
-        $oldUser = $this->getUserRepository()->getLatestEntryFor($account);
-        $user = $oldUser ? $oldUser->cloneObjectForForm() : (new User())->setAccount($account)->setCurrentTimestamp();
+        $oldUser = $this->getUserRepository()
+            ->getLatestEntryFor($account);
+        $user = $oldUser ? $oldUser->cloneObjectForForm() : (new User())->setAccount($account)
+            ->setCurrentTimestamp();
 
         $form = $this->createForm(BodyValuesType::class, $user, [
             'action' => $this->generateUrl('body-values-add')
@@ -46,8 +47,10 @@ class BodyValuesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUserRepository()->save($user, $account);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->getUserRepository()
+                ->save($user, $account);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
             return $this->redirectToRoute('body-values-table');
         }
 
@@ -60,9 +63,6 @@ class BodyValuesController extends Controller
     /**
      * @Route("/{id}/edit", name="body-values-edit")
      * @ParamConverter("user", class="CoreBundle:User")
-     * @param Request $request
-     * @param User $user
-     * @param Account $account
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user, Account $account)
@@ -79,8 +79,10 @@ class BodyValuesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUserRepository()->save($user, $account);
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->getUserRepository()
+                ->save($user, $account);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
             return $this->redirectToRoute('body-values-table');
         }
 
@@ -92,9 +94,6 @@ class BodyValuesController extends Controller
     /**
      * @Route("/{id}/delete", name="body-values-delete")
      * @ParamConverter("user", class="CoreBundle:User")
-     * @param User $user
-     * @param Account $account
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(User $user, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -102,21 +101,26 @@ class BodyValuesController extends Controller
             throw $this->createNotFoundException('No user entry found.');
         }
 
-        $this->getUserRepository()->remove($user);
-        $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+        $this->getUserRepository()
+            ->remove($user);
+        $this->get('app.automatic_reload_flag_setter')
+            ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
         return $this->redirectToRoute('body-values-table');
     }
 
     /**
      * @Route("/table", name="body-values-table")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function tableAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('my/body-values/table.html.twig', [
-            'values' => $this->getUserRepository()->findAllFor($account),
-            'unitWeight' => $this->get('app.configuration_manager')->getList()->getUnitSystem()->getWeightUnit(),
+            'values' => $this->getUserRepository()
+                ->findAllFor($account),
+            'unitWeight' => $this->get('app.configuration_manager')
+                ->getList()
+                ->getUnitSystem()
+                ->getWeightUnit(),
             'unitHeartRate' => new BeatsPerMinute()
         ]);
     }

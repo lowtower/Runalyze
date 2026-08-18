@@ -23,12 +23,11 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 	 */
 	protected $RowsTabbedTitle = array();
 
-	/**
-	 * Append row
-	 * @param TrainingViewSectionRowAbstract $Row
-	 * @param string $Title
-	 */
-	final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, $Title) {
+    /**
+     * Append row
+     * @param string $Title
+     */
+    final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, $Title) {
 		$this->RowsTabbed[] = $Row;
 		$this->RowsTabbedTitle[] = $Title;
 	}

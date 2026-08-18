@@ -28,7 +28,8 @@ class SettingsController extends Controller
      */
     protected function getAccountRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Account');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Account');
     }
 
     /**
@@ -52,19 +53,23 @@ class SettingsController extends Controller
                 Configuration::resetConfiguration($account->getId());
                 $this->addFlash('success', $this->get('translator')->trans('Default configuration has been restored!'));
 
-                $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_ALL);
+                $this->get('app.automatic_reload_flag_setter')
+                    ->set(AutomaticReloadFlagSetter::FLAG_ALL);
             }
 
             if (isset($formdata['language'])) {
-                $this->get('session')->set('_locale', $formdata['language']);
+                $this->get('session')
+                    ->set('_locale', $formdata['language']);
                 Language::setLanguage($formdata['language']);
 
                 if ($account->getLanguage() != $currentLanguage) {
-                    $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_PAGE);
+                    $this->get('app.automatic_reload_flag_setter')
+                        ->set(AutomaticReloadFlagSetter::FLAG_PAGE);
                 }
             }
 
-            $this->getAccountRepository()->save($account);
+            $this->getAccountRepository()
+                ->save($account);
 
             $this->addFlash('success', $this->get('translator')->trans('Your changes have been saved!'));
         }
@@ -90,7 +95,8 @@ class SettingsController extends Controller
             $formdata = $request->request->get($form->getName());
             $account->setPlainPassword($formdata['plainPassword']['first']);
             $this->encodePassword($account);
-            $this->getAccountRepository()->save($account);
+            $this->getAccountRepository()
+                ->save($account);
 
             $this->addFlash('success', $this->get('translator')->trans('Your new password has been saved!'));
         }
@@ -112,7 +118,8 @@ class SettingsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getAccountRepository()->save($account);
+            $this->getAccountRepository()
+                ->save($account);
             $this->addFlash('success', $this->get('translator')->trans('Your mail address has been changed!'));
         }
 
@@ -123,7 +130,8 @@ class SettingsController extends Controller
 
     protected function encodePassword(Account $account)
     {
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($account);
+        $encoder = $this->container->get('security.encoder_factory')
+            ->getEncoder($account);
 
         $account->setNewSalt();
         $account->setPassword($encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
@@ -132,14 +140,15 @@ class SettingsController extends Controller
     /**
      * @Route("/settings/account/delete", name="settings-account-delete")
      * @Security("has_role('ROLE_USER')")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function windowDeleteAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $account->setNewDeletionHash();
-        $this->getAccountRepository()->save($account);
+        $this->getAccountRepository()
+            ->save($account);
 
-        $this->get('app.mailer.account')->sendDeleteLinkTo($account);
+        $this->get('app.mailer.account')
+            ->sendDeleteLinkTo($account);
 
         return $this->render('settings/account-delete.html.twig');
     }
@@ -151,9 +160,11 @@ class SettingsController extends Controller
      */
     public function datasetPostAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()
+            ->getManager();
 
-        $dataset = $em->getRepository('CoreBundle:Dataset')->findAllFor($account);
+        $dataset = $em->getRepository('CoreBundle:Dataset')
+            ->findAllFor($account);
 
         $form = $this->createForm(DatasetCollectionType::class, [
             'datasets' => $dataset
@@ -168,7 +179,8 @@ class SettingsController extends Controller
             }
 
             $em->flush();
-            $this->get('app.automatic_reload_flag_setter')->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
+            $this->get('app.automatic_reload_flag_setter')
+                ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
         }
 
         return $this->redirectToRoute('settings-dataset');
@@ -184,7 +196,10 @@ class SettingsController extends Controller
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
         /** @var Dataset[] $dataset */
-        $dataset = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Dataset')->findAllFor($account);
+        $dataset = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('CoreBundle:Dataset')
+            ->findAllFor($account);
         $missingKeyObjects = array_flip(RunalyzeDataset\Keys::getEnum());
         $numberOfExistingKeys = count($dataset);
 
@@ -218,11 +233,13 @@ class SettingsController extends Controller
      */
     protected function getExampleTraining(Account $account): array
     {
-        $configuration = $this->get('app.configuration_manager')->getList();
+        $configuration = $this->get('app.configuration_manager')
+            ->getList();
 
         return array(
             'id' => 0,
-            'sportid' => $configuration->getGeneral()->getRunningSport(),
+            'sportid' => $configuration->getGeneral()
+                ->getRunningSport(),
             'typeid' => __('race'),
             'time' => time(),
             'created' => time(),
@@ -237,8 +254,10 @@ class SettingsController extends Controller
             'kcal' => 691,
             'pulse_avg' => 186,
             'pulse_max' => 193,
-            'vo2max_with_elevation' => $configuration->getData()->getCurrentVO2maxShape() + 1,
-            'vo2max' => $configuration->getData()->getCurrentVO2maxShape() + 2,
+            'vo2max_with_elevation' => $configuration->getData()
+                ->getCurrentVO2maxShape() + 1,
+            'vo2max' => $configuration->getData()
+                ->getCurrentVO2maxShape() + 2,
             'use_vo2max' => 0,
             'fit_vo2max_estimate' => round($configuration->getData()->getCurrentVO2maxShape()),
             'fit_recovery_time' => 800,
@@ -292,14 +311,13 @@ class SettingsController extends Controller
         );
     }
 
-    /**
-     * @return string
-     */
     protected function exampleTagID(Account $account): string
     {
-        $tag = $this->getDoctrine()->getRepository('CoreBundle:Tag')->findBy([
-            'account' => $account->getId()
-        ], null, 1);
+        $tag = $this->getDoctrine()
+            ->getRepository('CoreBundle:Tag')
+            ->findBy([
+                'account' => $account->getId()
+            ], null, 1);
 
         if ($tag) {
             return (string) $tag[0]->getId();
@@ -308,15 +326,14 @@ class SettingsController extends Controller
         return '';
     }
 
-    /**
-     * @return string
-     */
     protected function exampleEquipmentIDs(Account $account): string
     {
         $ids = [];
-        $equipment = $this->getDoctrine()->getRepository('CoreBundle:Equipment')->findBy([
-            'account' => $account->getId()
-        ], null, 2);
+        $equipment = $this->getDoctrine()
+            ->getRepository('CoreBundle:Equipment')
+            ->findBy([
+                'account' => $account->getId()
+            ], null, 2);
 
         if (is_array($equipment)) {
             foreach ($equipment as $element) {

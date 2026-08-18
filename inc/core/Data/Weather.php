@@ -66,16 +66,10 @@ class Weather {
 	 */
 	protected $SourceId;
 
-	/**
-	 * Weather
-	 * @param \Runalyze\Data\Weather\Temperature $Temperature
-	 * @param \Runalyze\Data\Weather\Condition $Condition
-	 * @param \Runalyze\Data\Weather\WindSpeed $WindSpeed
-	 * @param \Runalyze\Data\Weather\WindDegree $WindDegree
-	 * @param \Runalyze\Data\Weather\Humidity $Humidity
-	 * @param \Runalyze\Data\Weather\Pressure $Pressure
-	 */
-	public function __construct(Temperature $Temperature, Condition $Condition, WindSpeed $WindSpeed, WindDegree $WindDegree, Humidity $Humidity, Pressure $Pressure) {
+    /**
+     * Weather
+     */
+    public function __construct(Temperature $Temperature, Condition $Condition, WindSpeed $WindSpeed, WindDegree $WindDegree, Humidity $Humidity, Pressure $Pressure) {
 		$this->Temperature = $Temperature;
 		$this->Condition = $Condition;
 		$this->WindSpeed = $WindSpeed;
@@ -172,9 +166,6 @@ class Weather {
 		return $this->SourceId;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function sourceAsString(): string {
 		if ($this->sourceIsKnown()) {
 			return Sources::stringFor($this->SourceId);
@@ -183,21 +174,17 @@ class Weather {
 		return '';
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function sourceIsKnown(): bool {
 		return (null !== $this->SourceId);
 	}
 
-	/**
-	 * Full string
-	 *
-	 * Complete string for the weather conditions with icon, name and temperature.
-	 * @param bool $isNight
-	 * @return string
-	 */
-	public function fullString($isNight = false): string {
+    /**
+     * Full string
+     *
+     * Complete string for the weather conditions with icon, name and temperature.
+     * @param bool $isNight
+     */
+    public function fullString($isNight = false): string {
 		$icon = $this->Condition->icon();
 
 		if ($isNight) {
@@ -207,11 +194,10 @@ class Weather {
 		return $icon->code().' '.$this->Condition->string().' '.__('at').' '.$this->Temperature->asString();
 	}
 
-	/**
-	 * Is the weather-data empty?
-	 * @return bool
-	 */
-	public function isEmpty(): bool {
+    /**
+     * Is the weather-data empty?
+     */
+    public function isEmpty(): bool {
 		return (
 			$this->Temperature->isUnknown() &&
 			$this->Condition->isUnknown() &&

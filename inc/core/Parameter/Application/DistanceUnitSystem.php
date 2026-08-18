@@ -32,19 +32,19 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 
 	/**
 	 * Factor: km => miles
-	 * @var double
+	 * @var float
 	 */
 	const MILE_MULTIPLIER = 0.621371192;
 
 	/**
 	 * Factor: km => yards
-	 * @var double
+	 * @var float
 	 */
 	const YARD_MULTIPLIER = 1093.6133;
 
 	/**
 	 * Factor: km => feet
-	 * @var double
+	 * @var float
 	 */
 	const FEET_MULTIPLIER = 3280.84;
 
@@ -98,17 +98,11 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 ]);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isMetric(): bool
 	{
 		return ($this->value() == self::METRIC);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isImperial(): bool
 	{
 		return ($this->value() == self::IMPERIAL);
@@ -138,25 +132,16 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 		return 1;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function distanceUnit(): string
 	{
 		return (new Distance(0, $this))->unit();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function elevationUnit(): string
 	{
 		return (new Elevation(0, $this))->unit();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function strideLengthUnit(): string
 	{
 		return (new StrideLength(0, $this))->unit();

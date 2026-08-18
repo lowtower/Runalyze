@@ -96,7 +96,6 @@ class RunalyzeConfigurationList extends ConfigurationList
 
     /**
      * @param string $prefix
-     * @return array
      */
     protected function getDataForPrefix($prefix): array
     {
@@ -221,9 +220,6 @@ class RunalyzeConfigurationList extends ConfigurationList
         return (int) $this->Variables['data.HF_REST'];
     }
 
-    /**
-     * @return float
-     */
     public function getVO2maxCorrectionFactor(): float
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_CORRECTOR'])) {
@@ -233,17 +229,11 @@ class RunalyzeConfigurationList extends ConfigurationList
         return (float) $this->Variables['data.VO2MAX_CORRECTOR'];
     }
 
-    /**
-     * @return bool
-     */
     public function useVO2maxCorrectionForElevation(): bool
     {
         return ('true' == $this->Variables['vo2max.VO2MAX_USE_CORRECTION_FOR_ELEVATION']);
     }
 
-    /**
-     * @return float
-     */
     public function getCurrentVO2maxShape(): float
     {
         if (is_numeric($this->Variables['vo2max.VO2MAX_MANUAL_VALUE'])) {

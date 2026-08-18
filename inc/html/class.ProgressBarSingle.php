@@ -79,13 +79,13 @@ class ProgressBarSingle {
 
 	/**
 	 * Boolean flag: left balanced?
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $LeftBalanced = false;
 
 	/**
 	 * Boolean flag: right balanced?
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $RightBalanced = false;
 

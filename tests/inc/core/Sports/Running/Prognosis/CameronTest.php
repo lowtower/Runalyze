@@ -35,7 +35,7 @@ class CameronTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(9 * 60 + 33, $this->Cameron->getSeconds(3.0), 1);
         $this->assertEqualsWithDelta(16 * 60 + 32, $this->Cameron->getSeconds(5.0), 1);
         $this->assertEqualsWithDelta(34 * 60 + 26, $this->Cameron->getSeconds(10.0), 1);
-        $this->assertEqualsWithDelta(1 * 60 * 60 + 15 * 60 + 56, $this->Cameron->getSeconds(21.1), 1);
+        $this->assertEqualsWithDelta(60 * 60 + 15 * 60 + 56, $this->Cameron->getSeconds(21.1), 1);
         $this->assertEqualsWithDelta(2 * 60 * 60 + 41 * 60 + 22, $this->Cameron->getSeconds(42.2), 1);
     }
 }

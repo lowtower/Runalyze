@@ -198,23 +198,17 @@ class Lap {
 		return $this->TrackDistanceAtEnd;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasTrackValues(): bool {
 		return (null !== $this->TrackDurationAtEnd);
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isActive() {
 		return $this->Mode->isNotRest();
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasHR(): bool {
 		return (null !== $this->HRavg);
 	}
@@ -233,9 +227,6 @@ class Lap {
 		return $this->HRmax;
 	}
 
-	/**
-	 * @return boolean
-	 */
 	public function hasElevation(): bool {
 		return (false !== $this->ElevationUp);
 	}
@@ -254,9 +245,6 @@ class Lap {
 		return $this->ElevationDown;
 	}
 
-	/**
-	 * @param array $data
-	 */
 	public function setAdditionalValues(array $data) {
 		$this->AdditionalValues = $data;
 	}
@@ -276,11 +264,10 @@ class Lap {
 		$this->AdditionalValues[$key] = $value;
 	}
 
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasAdditionalValue($key): bool {
+    /**
+     * @param string $key
+     */
+    public function hasAdditionalValue($key): bool {
 		return isset($this->AdditionalValues[$key]);
 	}
 

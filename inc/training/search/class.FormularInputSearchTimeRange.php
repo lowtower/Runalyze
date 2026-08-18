@@ -10,19 +10,17 @@
  * @package Runalyze\HTML\Formular
  */
 class FormularInputSearchTimeRange extends FormularField {
-	/**
-	 * Validate value
-	 * @return boolean
-	 */
-	public function validate(): bool {
+    /**
+     * Validate value
+     */
+    public function validate(): bool {
 		return true;
 	}
 
-	/**
-	 * Get code for displaying the field
-	 * @return string
-	 */
-	protected function getFieldCode(): string {
+    /**
+     * Get code for displaying the field
+     */
+    protected function getFieldCode(): string {
 		$code  = '<label>'.$this->label.'</label>';
 		$code .= '<div class="full-size left">';
 
@@ -33,8 +31,7 @@ class FormularInputSearchTimeRange extends FormularField {
 		$To->hideLabel();
 
 		$code .= $From->getCode().' '.__('to').' '.$To->getCode();
-		$code .= '</div>';
 
-		return $code;
+		return $code . '</div>';
 	}
 }

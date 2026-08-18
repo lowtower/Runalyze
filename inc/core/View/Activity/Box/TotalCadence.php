@@ -16,13 +16,13 @@ use Runalyze\Profile\Sport\SportProfile;
  */
 class TotalCadence extends AbstractBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(\Runalyze\View\Activity\Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
-		$TotalCadence = $Context->dataview()->cadence();
+		$TotalCadence = $Context->dataview()
+		    ->cadence();
 		$value = round($TotalCadence->value() * ($Context->activity()->duration() / 60));
 		if ($Context->sport()->getInternalProfileEnum() == SportProfile::RUNNING) {
 		    $label = __('Number of steps');

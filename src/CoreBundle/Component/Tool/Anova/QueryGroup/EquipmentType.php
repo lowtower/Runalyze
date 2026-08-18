@@ -18,7 +18,6 @@ class EquipmentType implements QueryGroupInterface
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
      * @param string $alias
      * @param string $as
      * @param string $sportAlias
@@ -34,12 +33,6 @@ class EquipmentType implements QueryGroupInterface
         ;
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Account $account
-     * @param AnovaData $anovaData
-     * @return array
-     */
     public function loadAllGroups(EntityManager $entityManager, Account $account, AnovaData $anovaData): array
     {
         $groups = [];
@@ -51,9 +44,6 @@ class EquipmentType implements QueryGroupInterface
         return $groups;
     }
 
-    /**
-     * @return bool
-     */
     public function showEmptyGroups(): bool
     {
         return false;

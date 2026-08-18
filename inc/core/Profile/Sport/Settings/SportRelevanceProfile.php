@@ -15,7 +15,6 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
 
     /**
      * @param int $id id from internal enum
-     * @return string
      */
     public static function stringFor($id): string
     {
@@ -29,9 +28,6 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
         }
     }
 
-    /**
-     * @return array
-     */
     public static function getChoices(): array
     {
         return array(

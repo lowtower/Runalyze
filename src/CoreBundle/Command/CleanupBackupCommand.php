@@ -20,18 +20,17 @@ class CleanupBackupCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $days = $input->getArgument('days') ?: $this->getContainer()->getParameter('backup_storage_period');
+        $days = $input->getArgument('days') ?: $this->getContainer()
+            ->getParameter('backup_storage_period');
         $output->writeln(sprintf('<info>Delete all backups older than %s days</info>', $days));
 
         /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
-        $filesystem = $this->getContainer()->get('filesystem');
+        $filesystem = $this->getContainer()
+            ->get('filesystem');
 
         $finder = new Finder();
         $finder

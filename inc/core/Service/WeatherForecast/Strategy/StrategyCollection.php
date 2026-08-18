@@ -18,8 +18,6 @@ class StrategyCollection
     }
 
     /**
-     * @param Location $location
-     *
      * @return null|\Runalyze\Parser\Activity\Common\Data\WeatherData
      */
     public function tryToLoadForecast(Location $location)

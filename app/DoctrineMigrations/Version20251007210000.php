@@ -17,9 +17,6 @@ class Version20251007210000 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -34,9 +31,6 @@ class Version20251007210000 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'training` SET `with_goal`="1" WHERE `splits_additional` like "%FIT target%" or `pace_goal` is not null;');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

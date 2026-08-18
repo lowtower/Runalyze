@@ -20,11 +20,10 @@ class PluginConfigurationValueFloat extends PluginConfigurationValue {
 		$this->Value = (float) $Value;
 	}
 
-	/**
-	 * Display row for config form
-	 * @return FormularInput
-	 */
-	public function getFormField(): \FormularInput {
+    /**
+     * Display row for config form
+     */
+    public function getFormField(): \FormularInput {
 		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
 		$Field->setSize( FormularInput::$SIZE_SMALL );
 

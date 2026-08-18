@@ -19,7 +19,7 @@ $Adiposes = array();
 $Water    = array();
 $Muscles  = array();
 
-if (count($Data) == 1) {
+if (count($Data) === 1) {
 	$Data[1] = $Data[0];
 }
 
@@ -33,7 +33,7 @@ if (! empty($Data)) {
 
 $Labels = array_keys($Water);
 foreach ($Labels as $i => &$value) {
-	if ($i != 0 && $i != count($Labels)-1) {
+	if ($i !== 0 && $i !== count($Labels) - 1) {
 		$value = '';
 	}
 }

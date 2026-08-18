@@ -18,11 +18,10 @@ use Runalyze\View\Activity\Context;
  */
 class Distance extends ValueBox
 {
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
-	public function __construct(Context $Context)
+    /**
+     * Constructor
+     */
+    public function __construct(Context $Context)
 	{
 		parent::__construct(
 		    new Activity\Distance($Context->activity()->distance())

@@ -9,8 +9,6 @@ class Millimeter extends AbstractDistanceUnit
     use UnitConversionByFactorTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string
@@ -18,9 +16,6 @@ class Millimeter extends AbstractDistanceUnit
         return 'mm';
     }
 
-    /**
-     * @return int
-     */
     public function getFactorFromBaseUnit(): int
     {
         return 1000000;

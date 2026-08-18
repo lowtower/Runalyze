@@ -45,7 +45,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      *
      * @codeCoverageIgnore
      */
@@ -56,7 +55,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      *
      * @codeCoverageIgnore
      */
@@ -67,7 +65,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      *
      * @codeCoverageIgnore
      */
@@ -78,7 +75,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      *
      * @codeCoverageIgnore
      */
@@ -89,7 +85,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      */
     public function nbsp($string): string
     {
@@ -98,7 +93,6 @@ class HtmlExtension extends \Twig_Extension
 
     /**
      * @param string $string
-     * @return string
      */
     public function nonbsp($string): string
     {

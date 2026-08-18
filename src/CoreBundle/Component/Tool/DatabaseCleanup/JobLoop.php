@@ -88,7 +88,6 @@ class JobLoop extends Job
 
     /**
      * @param array<string, mixed> $data
-     * @return \Runalyze\Calculation\Activity\Calculator
      */
     protected function calculatorFor(array $data): \Runalyze\Calculation\Activity\Calculator
     {
@@ -142,7 +141,7 @@ class JobLoop extends Job
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     protected function updateSet(): array
     {

@@ -79,9 +79,6 @@ class Dataview
     /** @var null|HeatIndex */
     protected $HeatIndex;
 
-    /**
-     * @param \Runalyze\Model\Activity\Entity $activity
-     */
     public function __construct(Activity\Entity $activity)
     {
         $this->Activity = $activity;
@@ -89,7 +86,6 @@ class Dataview
 
     /**
      * @param mixed $value
-     * @param \Closure $constructor
      * @return mixed
      */
     protected function object(&$value, \Closure $constructor)
@@ -109,10 +105,12 @@ class Dataview
         $Factory = new Factory(SessionAccountHandler::getId());
 
         if ($this->Activity->typeid() != 0) {
-            return $Factory->type($this->Activity->typeid())->name();
+            return $Factory->type($this->Activity->typeid())
+                ->name();
         }
 
-        return $Factory->sport($this->Activity->sportid())->name();
+        return $Factory->sport($this->Activity->sportid())
+            ->name();
     }
 
     /**
@@ -156,17 +154,11 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function dateAndDaytime(): string
     {
         return $this->date().' '.$this->daytime();
     }
 
-    /**
-     * @return string
-     */
     public function weekday(): string
     {
         if (! is_numeric($this->Activity->timestamp())) {
@@ -186,9 +178,6 @@ class Dataview
         });
     }
 
-    /**
-     * @return string
-     */
     public function elapsedTime(): string
     {
         if ($this->Activity->elapsedTime() < $this->Activity->duration())
@@ -199,7 +188,6 @@ class Dataview
 
     /**
      * @param int|null $decimals
-     * @return string
      */
     public function distance($decimals = null): string
     {
@@ -218,9 +206,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function distanceWithoutEmptyDecimals(): string
     {
         $distance = $this->Activity->distance();
@@ -238,7 +223,8 @@ class Dataview
             return $this->distance();
         }
 
-        return $this->duration()->string();
+        return $this->duration()
+            ->string();
     }
 
     /**
@@ -293,9 +279,6 @@ class Dataview
         });
     }
 
-    /**
-     * @return string
-     */
     public function trimp(): string
     {
         $Stress = new Stresscolor($this->Activity->trimp());
@@ -316,9 +299,6 @@ class Dataview
         return (new RpeColor($this->Activity->rpe()))->string();
     }
 
-    /**
-     * @return string
-     */
     public function fitVO2maxEstimate(): string
     {
         if ($this->Activity->fitVO2maxEstimate() > 0) {
@@ -328,9 +308,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function fitRecoveryTime(): string
     {
         if ($this->Activity->fitRecoveryTime() > 0) {
@@ -346,9 +323,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function fitHRVscore(): string
     {
         if ($this->Activity->fitHRVscore() > 0) {
@@ -363,7 +337,6 @@ class Dataview
 
     /**
      * #TSC The Hauptnutzen of the training
-     * @return string
      */
     public function fitTrainingEffectBenefit(): string
     {
@@ -374,9 +347,6 @@ class Dataview
         }
     }
 
-    /**
-     * @return string
-     */
     public function fitTrainingEffect(): string
     {
         return TrainingEffect::format($this->Activity->fitTrainingEffect());
@@ -384,17 +354,12 @@ class Dataview
 
     /**
      * #TSC: This method returns the anaerobic value to display in the dataview (main)-table from the loaded activity.
-     *
-     * @return string
      */
     public function fitAnaerobicTrainingEffect(): string
     {
         return AnaerobicTrainingEffect::format($this->Activity->fitAnaerobicTrainingEffect());
     }
 
-    /**
-     * @return string
-     */
     public function fitPerformanceCondition(): string
     {
         $start = null !== $this->Activity->fitPerformanceCondition() ? $this->fitPerformanceConditionStart() : '0';
@@ -468,9 +433,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function verticalRatio(): string
     {
         if ($this->Activity->verticalRatio() > 0) {
@@ -480,9 +442,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function flightTime(): string
     {
         $flightTime = $this->Activity->flightTime();
@@ -494,9 +453,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function flightRatio(): string
     {
         $flightRatio = $this->Activity->flightRatio();
@@ -508,33 +464,21 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function impactGs(): string
     {
         return $this->formatRunScribeValues($this->Activity->impactGsLeft(), $this->Activity->impactGsRight());
     }
 
-    /**
-     * @return string
-     */
     public function brakingGs(): string
     {
         return $this->formatRunScribeValues($this->Activity->brakingGsLeft(), $this->Activity->brakingGsRight());
     }
 
-    /**
-     * @return string
-     */
     public function footstrikeType(): string
     {
         return $this->formatRunScribeValues($this->Activity->footstrikeTypeLeft(), $this->Activity->footstrikeTypeRight(), 0);
     }
 
-    /**
-     * @return string
-     */
     public function pronationExcursion(): string
     {
         return $this->formatRunScribeValues($this->Activity->pronationExcursionLeft(), $this->Activity->pronationExcursionRight());
@@ -544,7 +488,6 @@ class Dataview
      * @param null|float|int $left
      * @param null|float|int $right
      * @param int $precision
-     * @return string
      */
     protected function formatRunScribeValues($left, $right, $precision = 1): string
     {
@@ -622,7 +565,8 @@ class Dataview
     {
         return $this->object($this->WindChillFactor, function (Activity\Entity $Activity) {
             return new WindChillFactor(
-                $Activity->weather()->windSpeed(),
+                $Activity->weather()
+                    ->windSpeed(),
                 new Temperature($Activity->weather()->temperature()->value()),
                 new Pace($Activity->duration(), $Activity->distance())
             );
@@ -637,22 +581,17 @@ class Dataview
         return $this->object($this->HeatIndex, function (Activity\Entity $Activity) {
             return new HeatIndex(
                 new \Runalyze\Activity\Temperature($Activity->weather()->temperature()->value()),
-                $Activity->weather()->humidity()
+                $Activity->weather()
+                    ->humidity()
             );
         });
     }
 
-    /**
-     * @return string
-     */
     public function partner(): string
     {
         return HTML::encodeTags($this->Activity->partner()->asString());
     }
 
-    /**
-     * @return string
-     */
     public function partnerAsLinks(): string
     {
         if (\Request::isOnSharedPage()) {
@@ -668,9 +607,6 @@ class Dataview
         return implode(', ', $links);
     }
 
-    /**
-     * @return string
-     */
     public function notes(): string
     {
         return nl2br(HTML::encodeTags($this->Activity->notes()));
@@ -724,9 +660,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function climbScore(): string
     {
         if (null !== $this->Activity->climbScore()) {
@@ -736,9 +669,6 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function percentageHilly(): string
     {
         if (null !== $this->Activity->percentageHilly()) {
@@ -752,7 +682,6 @@ class Dataview
      * @param string $leftString
      * @param string $rightString
      * @param string $empty
-     * @return string
      */
     protected function formatTwoPartValue($leftString, $rightString, $empty = '-'): string
     {

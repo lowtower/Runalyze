@@ -21,7 +21,6 @@ class Gpx extends AbstractMultipleParser implements FileContentAwareParserInterf
     }
 
     /**
-     * @param SimpleXMLElement $track
      * @return \Runalyze\Parser\Activity\Common\Data\ActivityDataContainer
      */
     protected function parseSingleTrack(SimpleXMLElement $track)

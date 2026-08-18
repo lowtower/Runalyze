@@ -13,7 +13,6 @@ class HeartRateAverage extends AbstractOneColumnValue
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return AbstractHeartRateUnit
      */
     public function getValueUnit(UnitSystem $unitSystem)

@@ -94,7 +94,6 @@ final class SummaryMode extends AbstractEnum
 
     /**
      * @param string $key
-     * @return string
      */
     public static function queryForAvg($key): string
 	{
@@ -105,45 +104,40 @@ final class SummaryMode extends AbstractEnum
 		return 'SUM(`s`*`'.$key.'`*(`'.$key.'` != 0))/SUM(`s`*(`'.$key.'` != 0)) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	private static function queryForSum($key): string
+    /**
+     * @param string $key
+     */
+    private static function queryForSum($key): string
 	{
 		return 'SUM(`'.$key.'`) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	private static function queryForMax($key): string
+    /**
+     * @param string $key
+     */
+    private static function queryForMax($key): string
 	{
 		return 'MAX(`'.$key.'`) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	private static function queryForMin($key): string
+    /**
+     * @param string $key
+     */
+    private static function queryForMin($key): string
 	{
 		return 'MIN(`'.$key.'`) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	private static function queryForAvgWithoutNull($key): string
+    /**
+     * @param string $key
+     */
+    private static function queryForAvgWithoutNull($key): string
 	{
 		return 'AVG(NULLIF(`'.$key.'`,0)) as `'.$key.'`';
 	}
 
     /**
      * @param string $key
-     * @return string
      */
     public static function queryForAvgWithZero($key): string
 	{
@@ -154,11 +148,10 @@ final class SummaryMode extends AbstractEnum
 		return 'SUM(`s`*`'.$key.'`)/SUM(`s`) as `'.$key.'`';
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
-	private static function queryForVO2max($key): string
+    /**
+     * @param string $key
+     */
+    private static function queryForVO2max($key): string
 	{
 		$Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
 

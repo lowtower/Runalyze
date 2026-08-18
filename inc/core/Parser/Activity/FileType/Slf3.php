@@ -52,7 +52,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
     protected function parseLogEntry(SimpleXMLElement $log)
     {
-        if ((int) $log->Time == 0 || (string) $log->IsPause == 'true') {
+        if ((int) $log->Time === 0 || (string) $log->IsPause === 'true') {
             if ((int) $log->PauseTime > 0 && ! empty($this->Container->ContinuousData->Time)) {
                 $this->Container->Pauses->add(new Pause(
                     end($this->Container->ContinuousData->Time),
@@ -88,20 +88,17 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
         $this->Container->Rounds->add(new Round(
             round((int) $lap->Distance) / 1000,
             round((float) $lap->Time),
-            ((string) $lap->FastLap != 'false')
+            ((string) $lap->FastLap !== 'false')
         ));
     }
 
-    /**
-     * @return string
-     */
     protected function findCreator(): string
     {
         $string = '';
 
         if (! empty($this->Xml->GeneralInformation)) {
             foreach ($this->Xml->GeneralInformation->attributes() as $key => $value) {
-                $string .= (string) $key.': '.((string) $value)."\n";
+                $string .= $key.': '.($value)."\n";
             }
         }
 

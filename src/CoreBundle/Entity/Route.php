@@ -312,7 +312,7 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAltitudeBarometric()
     {
@@ -320,8 +320,6 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param array|null $geohashes
-     *
      * @return $this
      */
     public function setGeohashes(?array $geohashes = null)
@@ -340,9 +338,6 @@ class Route implements AccountRelatedEntityInterface
         return $this->geohashes;
     }
 
-    /**
-     * @return bool
-     */
     public function hasGeohashes(): bool
     {
         return null !== $this->geohashes;
@@ -358,7 +353,7 @@ class Route implements AccountRelatedEntityInterface
     {
         $size = count($latitudes);
 
-        if ($size != count($longitudes)) {
+        if ($size !== count($longitudes)) {
             throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
@@ -466,25 +461,16 @@ class Route implements AccountRelatedEntityInterface
         return $this->elevationsOriginal;
     }
 
-    /**
-     * @return bool
-     */
     public function hasElevations(): bool
     {
         return null !== $this->elevationsCorrected || null !== $this->elevationsOriginal;
     }
 
-    /**
-     * @return bool
-     */
     public function hasOriginalElevations(): bool
     {
         return null !== $this->elevationsOriginal;
     }
 
-    /**
-     * @return bool
-     */
     public function hasCorrectedElevations(): bool
     {
         return null !== $this->elevationsCorrected;
@@ -611,8 +597,6 @@ class Route implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
-     *
      * @return $this
      */
     public function setAccount(Account $account)
@@ -658,9 +642,6 @@ class Route implements AccountRelatedEntityInterface
         return $this->lock;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return (

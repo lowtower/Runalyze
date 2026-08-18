@@ -61,7 +61,7 @@ class KmlGoogle extends AbstractSingleParser implements FileContentAwareParserIn
                 $parts = explode(',', $line);
                 $num = count($parts);
 
-                if (($num == 3 || $num == 2) && ($parts[0] != 0.0 || $parts[1] != 0.0)) {
+                if (($num === 3 || $num === 2) && ($parts[0] != 0.0 || $parts[1] != 0.0)) {
                     if ($lineIndex > 0 && $thisLineHasValidPoints) {
                         $this->CurrentDistance += GpsDistanceCalculator::gpsDistance(
                             $parts[1],

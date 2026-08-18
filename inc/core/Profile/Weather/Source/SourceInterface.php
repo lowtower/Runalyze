@@ -16,24 +16,19 @@ interface SourceInterface
 	 */
 	public function requiresAttribution();
 
-	/**
-	 * @param TranslatorInterface $translator
-	 * @param bool $withLink
-	 *
-	 * @return string
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function getAttribution(TranslatorInterface $translator, $withLink = true);
+    /**
+     * @param bool $withLink
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getAttribution(TranslatorInterface $translator, $withLink = true);
 
-	/**
-	 * @param TranslatorInterface $translator
-	 *
-	 * @return string
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function getAttributionLabel(TranslatorInterface $translator);
+    /**
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getAttributionLabel(TranslatorInterface $translator);
 
 	/**
 	 * @return string|null

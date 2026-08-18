@@ -48,11 +48,11 @@ class ConfigurationExtension extends \Twig_Extension
      */
     public function configVar($key)
     {
-        return $this->ConfigurationManager->getList()->get($key);
+        return $this->ConfigurationManager->getList()
+            ->get($key);
     }
 
     /**
-     * @param Account|null $account
      * @return RunalyzeConfigurationList
      */
     public function config(?Account $account = null)
@@ -61,11 +61,11 @@ class ConfigurationExtension extends \Twig_Extension
     }
 
     /**
-     * @param Account|null $account
      * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
      */
     public function unitSystem(?Account $account = null)
     {
-        return $this->ConfigurationManager->getList($account)->getUnitSystem();
+        return $this->ConfigurationManager->getList($account)
+            ->getUnitSystem();
     }
 }

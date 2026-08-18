@@ -107,7 +107,6 @@ class Timezone implements InterfaceChoosable
     /**
      * Check if TimezoneName is valid
      * @param string $timezone
-     * @return bool
      */
     public static function isValidTimezone($timezone): bool
     {

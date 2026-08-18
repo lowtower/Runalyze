@@ -65,17 +65,16 @@ class DataCollector {
 	protected $Precision;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $KnowsDistance;
 
-	/**
-	 * Construct collector
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param int $key
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(Trackdata $trackdata, $key) {
+    /**
+     * Construct collector
+     * @param int $key
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(Trackdata $trackdata, $key) {
 		if (! $trackdata->has($key)) {
 			throw new \InvalidArgumentException('Trackdata has no data for "'.$key.'".');
 		}
@@ -104,11 +103,10 @@ class DataCollector {
 		return $this->XAxis;
 	}
 
-	/**
-	 * Init loop
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 */
-	protected function init(Trackdata $trackdata) {
+    /**
+     * Init loop
+     */
+    protected function init(Trackdata $trackdata) {
 		$this->Loop = new Loop($trackdata);
 
 		$this->defineStepSize($trackdata);
@@ -129,7 +127,7 @@ class DataCollector {
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[(string) $this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}
@@ -148,11 +146,10 @@ class DataCollector {
 		}
 	}
 
-	/**
-	 * Set step size
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 */
-	protected function defineStepSize(Trackdata $trackdata) {
+    /**
+     * Set step size
+     */
+    protected function defineStepSize(Trackdata $trackdata) {
 		if ($this->Precision->byPoints() && $trackdata->num() > $this->Precision->numberOfPoints()) {
 			$this->Loop->setStepSize( round($trackdata->num() / $this->Precision->numberOfPoints ()) );
 		} elseif ($this->Precision->byDistance()) {
@@ -160,11 +157,10 @@ class DataCollector {
 		}
 	}
 
-	/**
-	 * Define x-axis
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 */
-	protected function defineXAxis(Trackdata $trackdata) {
+    /**
+     * Define x-axis
+     */
+    protected function defineXAxis(Trackdata $trackdata) {
 		if (Configuration::ActivityView()->usesTimeAsXAxis() && $trackdata->has(Trackdata::TIME) && $trackdata->totalTime() > 0) {
 			$this->XAxis = self::X_AXIS_TIME;
 		} elseif ($trackdata->has(Trackdata::DISTANCE) && $trackdata->totalDistance() > 0) {

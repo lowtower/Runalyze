@@ -24,7 +24,6 @@ class AccountLastActionListener
 
     /**
      * Update the user "lastaction" on each request
-     * @param FilterControllerEvent $event
      */
     public function onCoreController(FilterControllerEvent $event)
     {
@@ -33,8 +32,10 @@ class AccountLastActionListener
         }
 
         if ($this->token->getToken()) {
-            $account = $this->token->getToken()->getUser();
-            $this->token->getToken()->getUser();
+            $account = $this->token->getToken()
+                ->getUser();
+            $this->token->getToken()
+                ->getUser();
 
             if ($account instanceof Account && $account->getLastAction() < strtotime('2 minutes ago')) {
                 $account->setLastAction();

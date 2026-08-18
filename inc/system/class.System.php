@@ -12,11 +12,10 @@
  * @deprecated since v3.1
  */
 class System {
-	/**
-	 * Get domain where Runalyze is running
-	 * @return string
-	 */
-	public static function getDomain(): string {
+    /**
+     * Get domain where Runalyze is running
+     */
+    public static function getDomain(): string {
 		if (! isset($_SERVER['HTTP_HOST'])) {
 			return '';
 		}
@@ -26,7 +25,7 @@ class System {
 
 	/**
 	 * Get full domain
-	 * @param boolean $onlyToRunalyze
+	 * @param bool $onlyToRunalyze
 	 * @return string
 	 */
 	public static function getFullDomain($onlyToRunalyze = true) {
@@ -41,17 +40,16 @@ class System {
 		return $path;
 	}
 
-	/**
-	 * Get full domain with protocol
-	 * @return string
-	 */
-	public static function getFullDomainWithProtocol(): string {
+    /**
+     * Get full domain with protocol
+     */
+    public static function getFullDomainWithProtocol(): string {
 		return Request::getProtocol().':'.self::getFullDomain();
 	}
 
 	/**
 	 * Is this script running on localhost?
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isAtLocalhost() {
 		if (! isset($_SERVER['SERVER_NAME'])) {

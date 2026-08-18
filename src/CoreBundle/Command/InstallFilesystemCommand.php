@@ -19,9 +19,6 @@ class InstallFilesystemCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -35,15 +32,14 @@ class InstallFilesystemCommand extends ContainerAwareCommand
         $output->writeln('');
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
     protected function tryToCopyHtaccess(OutputInterface $output)
     {
         $output->writeln('  <info>Copying .htaccess.dist to .htaccess ...</info>');
 
         try {
-            $root = $this->getContainer()->get('kernel')->getRootDir().'/../';
+            $root = $this->getContainer()
+                ->get('kernel')
+                ->getRootDir().'/../';
             $FileSystem = new Filesystem();
             $FileSystem->copy($root.'.htaccess.dist', $root.'.htaccess');
         } catch (IOException $ioException) {

@@ -25,19 +25,17 @@ use Runalyze\View\Tooltip;
  * @package Runalyze\Plugins\Panels
  */
 class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Calculations');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.');
 	}
 
@@ -157,7 +155,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 
 		$Values = array(
 		    array(
-		        'show'	=> $this->Configuration()->value('show_vo2max'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_vo2max'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(2*round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -166,7 +165,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'vo2max'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_basicendurance'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_basicendurance'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(BasicEndurance::getConst(), ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -175,7 +175,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'marathon-shape'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues'),
 		        'bars'	=> array(
 		            new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -186,7 +187,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'atl'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues'),
 		        'bars'	=> array(
 		            new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -197,7 +199,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'ctl'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(abs($TrimpValues['TSB'])/2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left'))
 		        ),
@@ -208,7 +211,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'tsb'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues') && ! $TSBisPositive,
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues') && ! $TSBisPositive,
 		        'bars'	=> array(
 		            new ProgressBarSingle(100*$restDays/7, ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -217,7 +221,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'tooltip'	=> __('Rest days needed to reach TSB = 0')
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues') && $TSBisPositive,
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues') && $TSBisPositive,
 		        'bars'	=> array(
 		            new ProgressBarSingle(100*$maxTrimpToBalanced/1000, ProgressBarSingle::$COLOR_BLUE)
 		        ),
@@ -226,7 +231,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'easy-trimp'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues_extra'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(
 		                $Monotony->valueAsPercentage(),
@@ -246,7 +252,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		        'glossary'	=> 'monotony'
 		    ),
 		    array(
-		        'show'	=> $this->Configuration()->value('show_trimpvalues_extra'),
+		        'show'	=> $this->Configuration()
+		            ->value('show_trimpvalues_extra'),
 		        'bars'	=> array(
 		            new ProgressBarSingle(
 		                $Monotony->trainingStrainAsPercentage(),
@@ -304,11 +311,10 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		echo '</table>';
 	}
 
-	/**
-	 * Get fieldset for TRIMP
-	 * @return \FormularFieldset
-	 */
-	public function getFieldsetTRIMP(): \FormularFieldset {
+    /**
+     * Get fieldset for TRIMP
+     */
+    public function getFieldsetTRIMP(): \FormularFieldset {
 		$ModelQuery = new Performance\ModelQuery();
 		$ModelQuery->execute(DB::getInstance());
 
@@ -382,9 +388,6 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		return $Fieldset;
 	}
 
-	/**
-	 * @return \FormularFieldset
-	 */
 	public function getFieldsetEffecticeVO2max(): \FormularFieldset {
 		$Tooltip = new Tooltip('');
 		$EffectiveVO2max = new LegacyEffectiveVO2max(0, new LegacyEffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));
@@ -403,7 +406,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 				<tbody class="top-and-bottom-border">';
 
 			foreach ($EffectiveVO2maxValues as $i => $Data) {
-				if ($i % 10 == 0)
+				if ($i % 10 === 0)
 					$Table .= '<tr>';
 
 				$Tooltip->setText((new LocalTime($Data['time']))->format('d.m.Y').': '.Distance::format($Data['distance']));
@@ -411,11 +414,11 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 
 				$Table .= '<td '.$Tooltip->attributes().'>'.Ajax::trainingLink($Data['id'], $EffectiveVO2max->value()).'</td>';
 
-				if ($i % 10 == 9)
+				if ($i % 10 === 9)
 					$Table .= '</tr>';
 			}
 
-			if (count($EffectiveVO2maxValues) % 10 != 0)
+			if (count($EffectiveVO2maxValues) % 10 !== 0)
 				$Table .= HTML::emptyTD(10 - count($EffectiveVO2maxValues) % 10);
 
 			$Table .= '</tbody></table>';
@@ -432,11 +435,10 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		return $Fieldset;
 	}
 
-	/**
-	 * Get fieldset for Marathon shape
-	 * @return \FormularFieldset
-	 */
-	public function getFieldsetBasicEndurance(): \FormularFieldset {
+    /**
+     * Get fieldset for Marathon shape
+     */
+    public function getFieldsetBasicEndurance(): \FormularFieldset {
 		$BasicEndurance = new BasicEndurance();
 		$BasicEndurance->readSettingsFromConfiguration();
 
@@ -529,9 +531,6 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		return $Fieldset;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getNoEffectiveVO2maxDataError(): string {
 		return __('There are no current activities with an estimated VO<sub>2</sub>max value.').'<br>'.
 			__('VO<sub>2</sub>max can only be estimated for runs with heart rate data.');

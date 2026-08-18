@@ -18,25 +18,16 @@ use System;
  */
 class Twitter extends AbstractSocialSharer
 {
-    /**
-     * @return string
-     */
     public function iconClass(): string
     {
         return 'fa-twitter color-twitter';
     }
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
         return true;
     }
 
-    /**
-     * @return string
-     */
     public function url(): string
     {
         if ($this->Context->activity()->isPublic() && ! System::isAtLocalhost()) {
@@ -48,9 +39,6 @@ class Twitter extends AbstractSocialSharer
         return 'https://twitter.com/intent/tweet?'.$urlPart.'text='.$this->text().'&via=RunalyzeDE';
     }
 
-	/**
-	 * @return string
-	 */
 	public function name(): string
     {
 	    return __('Twitter');

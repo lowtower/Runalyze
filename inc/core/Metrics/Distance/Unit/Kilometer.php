@@ -10,8 +10,6 @@ class Kilometer extends AbstractDistanceUnit implements FormattableUnitInterface
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

@@ -34,12 +34,11 @@ class HeartRate {
 	 */
 	protected $PreferredUnit;
 
-	/**
-	 * Constructor
-	 * @param int $valueInBPM
-	 * @param \Runalyze\Athlete|null $Athlete
-	 */
-	public function __construct($valueInBPM, ?\Runalyze\Athlete $Athlete = null) {
+    /**
+     * Constructor
+     * @param int $valueInBPM
+     */
+    public function __construct($valueInBPM, ?\Runalyze\Athlete $Athlete = null) {
 		$this->value = $valueInBPM;
 		$this->Athlete = $Athlete;
 		$this->PreferredUnit = Configuration::General()->heartRateUnit();
@@ -53,11 +52,10 @@ class HeartRate {
 		$this->value = $valueInBPM;
 	}
 
-	/**
-	 * Heart rate as string
-	 * @return string
-	 */
-	public function string(): string {
+    /**
+     * Heart rate as string
+     */
+    public function string(): string {
 		if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
 			return $this->asHRrest();
 		}
@@ -69,61 +67,54 @@ class HeartRate {
 		return $this->asBPM();
 	}
 
-	/**
-	 * As bpm
-	 * @return string
-	 */
-	public function asBPM(): string {
+    /**
+     * As bpm
+     */
+    public function asBPM(): string {
 		return $this->inBPM().'&nbsp;bpm';
 	}
 
-	/**
-	 * As %HRmax
-	 * Check first 'canShowInHRMax'!
-	 * @return string
-	 */
-	public function asHRmax(): string {
+    /**
+     * As %HRmax
+     * Check first 'canShowInHRMax'!
+     */
+    public function asHRmax(): string {
 		return $this->inHRmax().'&nbsp;&#37;';
 	}
 
-	/**
-	 * As %HRrest
-	 * Check first 'canShowInHRMax'!
-	 * @return string
-	 */
-	public function asHRrest(): string {
+    /**
+     * As %HRrest
+     * Check first 'canShowInHRMax'!
+     */
+    public function asHRrest(): string {
 		return $this->inHRrest().'&nbsp;&#37;';
 	}
 
-	/**
-	 * Value in [bpm]
-	 * @return int
-	 */
-	public function inBPM(): float {
+    /**
+     * Value in [bpm]
+     */
+    public function inBPM(): float {
 		return round($this->value);
 	}
 
-	/**
-	 * Value in [%HRmax]
-	 * @return int
-	 */
-	public function inHRmax(): float {
+    /**
+     * Value in [%HRmax]
+     */
+    public function inHRmax(): float {
 		return round(100 * $this->value / $this->Athlete->maximalHR());
 	}
 
-	/**
-	 * Value in [%HRrest]
-	 * @return int
-	 */
-	public function inHRrest(): float {
+    /**
+     * Value in [%HRrest]
+     */
+    public function inHRrest(): float {
 		return round(100 * ($this->value - $this->Athlete->restingHR()) / ($this->Athlete->maximalHR() - $this->Athlete->restingHR()));
 	}
 
-	/**
-	 * Value in [%] depending on preferred unit
-	 * @return int
-	 */
-	public function inPercent(): float {
+    /**
+     * Value in [%] depending on preferred unit
+     */
+    public function inPercent(): float {
 		if ($this->PreferredUnit->isHRreserve() && $this->canShowInHRrest()) {
 			return $this->inHRrest();
 		}
@@ -131,45 +122,40 @@ class HeartRate {
 		return $this->inHRmax();
 	}
 
-	/**
-	 * Can show in HRmax?
-	 * @return bool
-	 */
-	public function canShowInHRmax(): bool {
+    /**
+     * Can show in HRmax?
+     */
+    public function canShowInHRmax(): bool {
 		return $this->knowsAthlete() && $this->Athlete->knowsMaximalHeartRate();
 	}
 
-	/**
-	 * Can show in HRrest?
-	 * @return bool
-	 */
-	public function canShowInHRrest(): bool {
+    /**
+     * Can show in HRrest?
+     */
+    public function canShowInHRrest(): bool {
 		return $this->knowsAthlete() && $this->Athlete->knowsRestingHeartRate();
 	}
 
-	/**
-	 * HRmax from the Athlete
-	 * #TSC
-	 * @return null|int
-	 */
-	public function getHRmax(): ?int {
+    /**
+     * HRmax from the Athlete
+     * #TSC
+     */
+    public function getHRmax(): ?int {
 		return $this->knowsAthlete() ? $this->Athlete->maximalHR() : null;
 	}
 
-	/**
-	 * HRrest from the Athlete
-	 * #TSC
-	 * @return null|int
-	 */
-	public function getHRrest(): ?int {
+    /**
+     * HRrest from the Athlete
+     * #TSC
+     */
+    public function getHRrest(): ?int {
 		return $this->knowsAthlete() ? $this->Athlete->restingHR() : null;
 	}
 
-	/**
-	 * Is the athlete known?
-	 * @return bool
-	 */
-	protected function knowsAthlete(): bool {
+    /**
+     * Is the athlete known?
+     */
+    protected function knowsAthlete(): bool {
 		return (null !== $this->Athlete);
 	}
 }

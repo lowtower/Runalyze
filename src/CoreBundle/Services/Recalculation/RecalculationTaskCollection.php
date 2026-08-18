@@ -11,7 +11,6 @@ class RecalculationTaskCollection
     protected $NextTaskIndex = 0;
 
     /**
-     * @param RecalculationTaskInterface $task
      * @return int
      */
     public function addTask(RecalculationTaskInterface $task)

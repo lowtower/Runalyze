@@ -8,8 +8,6 @@ use Runalyze\Metrics\Distance\Unit\Meter;
 class Elevation extends AbstractMetric
 {
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getBaseUnitClass(): string

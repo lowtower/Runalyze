@@ -51,7 +51,7 @@ class Split extends StringObject {
 	 * Construct
 	 * @param string|float $dataOrDistance
 	 * @param int $time [optional]
-	 * @param boolean $active [optional]
+	 * @param bool $active [optional]
 	 */
 	public function __construct($dataOrDistance = '', $time = null, $active = true) {
 		if (null === $time) {
@@ -86,24 +86,21 @@ class Split extends StringObject {
 		$this->Time = $Duration->seconds();
 	}
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	public function asString(): string {
+    /**
+     * As string
+     */
+    public function asString(): string {
 		$string  = $this->Intensity->getValue();
 		$string .= $this->distanceAsString();
 		$string .= self::SEPARATOR;
-		$string .= $this->timeAsString();
 
-		return $string;
+		return $string . $this->timeAsString();
 	}
 
-	/**
-	 * Is empty
-	 * @return boolean
-	 */
-	public function isEmpty(): bool {
+    /**
+     * Is empty
+     */
+    public function isEmpty(): bool {
 		return ($this->Distance <= 0 && $this->Time <= 0);
 	}
 
@@ -125,7 +122,7 @@ class Split extends StringObject {
 
 	/**
 	 * Set resting flag
-	 * @param boolean $flag
+	 * @param bool $flag
 	 */
 	public function setResting($flag = true) {
 		$this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
@@ -147,12 +144,11 @@ class Split extends StringObject {
 		return $this->Time;
 	}
 
-	/**
-	 * Pace
-	 * @param int $legacyPaceUnitEnum [optional]
-	 * @return \Runalyze\Activity\Pace
-	 */
-	public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace {
+    /**
+     * Pace
+     * @param int $legacyPaceUnitEnum [optional]
+     */
+    public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace {
 		return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
 	}
 
@@ -165,25 +161,23 @@ class Split extends StringObject {
 
 	/**
 	 * Is active?
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isActive() {
 		return $this->Intensity->isNotRest();
 	}
 
-	/**
-	 * Format distance
-	 * @return string
-	 */
-	private function distanceAsString(): string {
+    /**
+     * Format distance
+     */
+    private function distanceAsString(): string {
 		return number_format($this->Distance, 3, '.', '');
 	}
 
-	/**
-	 * Format time
-	 * @return string
-	 */
-	private function timeAsString(): string {
+    /**
+     * Format time
+     */
+    private function timeAsString(): string {
 		return Duration::format($this->Time);
 	}
 }

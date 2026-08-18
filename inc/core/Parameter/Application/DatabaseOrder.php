@@ -49,11 +49,10 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * As mysql query-string
-	 * @return string
-	 */
-	public function asQuery(): string {
+    /**
+     * As mysql query-string
+     */
+    public function asQuery(): string {
 		switch ($this->value()) {
 			case self::ALPHA:
 				return 'ORDER BY `name` ASC';
@@ -65,11 +64,10 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 		}
 	}
 
-	/**
-	 * Sort data
-	 * @param array $data
-	 */
-	public function sort(array &$data) {
+    /**
+     * Sort data
+     */
+    public function sort(array &$data) {
 		$key = ($this->value() == self::ALPHA) ? 'name' : 'id';
 		$desc = ($this->value() == self::DESC) ? -1 : 1;
 
@@ -82,14 +80,10 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 				return -1 * $desc;
 			}
 
-			return 1 * $desc;
+			return $desc;
 		});
 	}
 
-	/**
-	 * @param Collection $collection
-	 * @return ArrayCollection
-	 */
 	public function sortCollection(Collection $collection): \Doctrine\Common\Collections\ArrayCollection
     {
         $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
@@ -98,20 +92,20 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
         /** @var \ArrayIterator $iterator */
         $iterator = $collection->getIterator();
         $iterator->uasort(function ($a, $b) use ($key, $desc) {
-            if ('name' == $key && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
+            if ('name' === $key && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
                 if ($a->getName() == $b->getName()) {
                     return 0;
                 }
 
-                return ($a->getName() < $b->getName()) ? -1 * $desc : 1 * $desc;
+                return ($a->getName() < $b->getName()) ? -1 * $desc : $desc;
             }
 
-            if ('id' == $key && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
+            if ('id' === $key && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
                 if ($a->getId() == $b->getId()) {
                     return 0;
                 }
 
-                return ($a->getId() < $b->getId()) ? -1 * $desc : 1 * $desc;
+                return ($a->getId() < $b->getId()) ? -1 * $desc : $desc;
             }
 
             return 0;

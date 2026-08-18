@@ -52,9 +52,6 @@ class RpeColor
         return $this->Value;
     }
 
-	/**
-	 * @return string
-	 */
 	public function borderColor(): string
     {
         if($this->Value != null) {
@@ -64,11 +61,10 @@ class RpeColor
         }
 	}
 
-	/**
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function string(): string
+    /**
+     * @codeCoverageIgnore
+     */
+    public function string(): string
     {
 	    if (null === $this->Value) {
 	        return '';

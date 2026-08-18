@@ -17,9 +17,6 @@ class Version20170614214532 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -28,9 +25,6 @@ class Version20170614214532 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `'.$prefix.'route` SET `lock` = 1 WHERE `elevations_original` IS NOT NULL OR `elevations_corrected` IS NOT NULL');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

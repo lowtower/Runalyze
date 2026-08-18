@@ -16,26 +16,17 @@ class Version20170424090000 extends AbstractMigration implements ContainerAwareI
     /** @var ContainerInterface|null */
     private $container;
 
-    /**
-     * @param ContainerInterface|null $container
-     */
     public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('CREATE UNIQUE INDEX unique_key ON `'.$prefix.'dataset` (`accountid`, `keyid`)');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

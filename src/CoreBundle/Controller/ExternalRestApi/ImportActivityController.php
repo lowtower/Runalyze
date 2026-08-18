@@ -83,7 +83,7 @@ class ImportActivityController extends Controller
 
                 // if not all files processed "successfully" document it and send HTTP state 202
                 $notSuccessful = $allfilesCount - substr_count($processFilesResult, self::SUCCESS_MSG);
-                if($notSuccessful != 0) {
+                if($notSuccessful !== 0) {
                     $result = $result . 'WARNING: ' . $notSuccessful .' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
@@ -138,9 +138,7 @@ class ImportActivityController extends Controller
             $result = $result . 'WARNING: Can not remove upload-folder ' . $uploadDir . PHP_EOL;
         }
 
-        $result .= PHP_EOL;
-
-        return $result;
+        return $result . PHP_EOL;
     }
 
     private function processImport($username, $uploadDir) {

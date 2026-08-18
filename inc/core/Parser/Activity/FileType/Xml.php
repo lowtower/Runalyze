@@ -24,25 +24,16 @@ class Xml extends AbstractMultipleParserWithSubParser implements FileContentAwar
 		}
     }
 
-    /**
-     * @return bool
-     */
     protected function isRunningAheadFile(): bool
     {
         return strpos($this->FileContent, '<RunningAHEADLog') !== false;
     }
 
-    /**
-     * @return bool
-     */
     protected function isSuuntoFile(): bool
     {
         return strpos($this->FileContent, '<header>') !== false;
     }
 
-    /**
-     * @return bool
-     */
     protected function isPolarFile(): bool
     {
         return strpos($this->FileContent, '<polar-exercise-data') !== false;

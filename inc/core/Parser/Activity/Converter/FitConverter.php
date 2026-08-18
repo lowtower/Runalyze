@@ -48,7 +48,7 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
 
     protected function checkFirstLineOfOutput($firstLine)
     {
-        if (trim($firstLine) != 'SUCCESS') {
+        if (trim($firstLine) !== 'SUCCESS') {
             $message = 'Reading *.fit-file failed. First line was "'.$firstLine.'".';
 
             if (substr($firstLine, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {

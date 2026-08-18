@@ -35,8 +35,6 @@ class WindIcon extends \Runalyze\View\Icon
 
     /**
      * WindIcon constructor.
-     * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-     * @param \Runalyze\Data\Weather\WindDegree $windDegree
      */
     public function __construct(WindSpeed $windSpeed, WindDegree $windDegree)
     {
@@ -70,7 +68,6 @@ class WindIcon extends \Runalyze\View\Icon
 
     /**
      * Display
-     * @return string
      */
     public function code(): string
     {
@@ -85,8 +82,7 @@ class WindIcon extends \Runalyze\View\Icon
         }
 
         $code .= $this->WindSpeed->isUnknown() ? '?' : $this->BeaufortScale->string(false);
-        $code .= '</span>';
 
-        return $code;
+        return $code . '</span>';
     }
 }

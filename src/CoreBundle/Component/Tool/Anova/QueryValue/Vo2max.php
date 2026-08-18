@@ -21,7 +21,6 @@ class Vo2max extends AbstractOneColumnValue
     }
 
     /**
-     * @param UnitSystem $unitSystem
      * @return Factorial
      */
     public function getValueUnit(UnitSystem $unitSystem)

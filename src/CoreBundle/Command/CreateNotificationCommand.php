@@ -35,9 +35,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -77,11 +74,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
         return null;
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return bool
-     */
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
         return (
@@ -95,9 +87,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param bool $success
-     * @param OutputInterface $output
      * @param string $messageOnError
-     * @return bool
      */
     protected function checkValidation($success, OutputInterface $output, $messageOnError): bool
     {
@@ -113,7 +103,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param string $templateName
-     * @return bool
      */
     protected function validateTemplate($templateName): bool
     {
@@ -158,7 +147,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     /**
      * @param null|string $lifetime
-     * @return bool
      */
     protected function validateLifetime($lifetime): bool
     {
@@ -188,10 +176,14 @@ class CreateNotificationCommand extends ContainerAwareCommand
     protected function insertSingleNotifications(Notification $notification, array $accountIds): int
     {
         /** @var NotificationRepository $notificationRepository */
-        $notificationRepository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Notification');
+        $notificationRepository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Notification');
 
         /** @var AccountRepository $accountRepository */
-        $accountRepository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:Account');
+        $accountRepository = $this->getContainer()
+            ->get('doctrine')
+            ->getRepository('CoreBundle:Account');
         $num = 0;
 
         foreach ($accountIds as $id) {
@@ -210,7 +202,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param Notification $notification
      * @param string|bool|string[] $lang
      * @param string|bool|string[] $excludeLang
      * @param mixed $lastActionBefore
@@ -229,13 +220,16 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $registrationAfter
     )
     {
-        $prefix = $this->getContainer()->getParameter('database_prefix');
+        $prefix = $this->getContainer()
+            ->getParameter('database_prefix');
         $accountWhere = $this->getWhereToFindRelevantAccounts($lang, $excludeLang, $lastActionBefore, $lastActionAfter, $registrationBefore, $registrationAfter);
 
-        $statement = $this->getContainer()->get('doctrine.dbal.default_connection')->prepare(
-            'INSERT INTO `'.$prefix.'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) '.
-            'SELECT ?, ?, ?, ?, `a`.`id` FROM `'.$prefix.'account` AS `a` WHERE '.$accountWhere
-        );
+        $statement = $this->getContainer()
+            ->get('doctrine.dbal.default_connection')
+            ->prepare(
+                'INSERT INTO `'.$prefix.'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) '.
+                        'SELECT ?, ?, ?, ?, `a`.`id` FROM `'.$prefix.'account` AS `a` WHERE '.$accountWhere
+            );
 
         $statement->execute([
             $notification->getMessageType(),
@@ -248,13 +242,10 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $lang
-     * @param array $excludeLang
      * @param mixed $lastActionBefore
      * @param mixed $lastActionAfter
      * @param mixed $registrationBefore
      * @param mixed $registrationAfter
-     * @return string
      */
     protected function getWhereToFindRelevantAccounts(
         array $lang,

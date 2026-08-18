@@ -8,7 +8,8 @@ class FlightRatio extends AbstractBox
 {
 	public function __construct(Context $context)
 	{
-	    $flightRatio = $context->activity()->flightRatio();
+	    $flightRatio = $context->activity()
+	        ->flightRatio();
 
 		parent::__construct(
 		    null !== $flightRatio ? number_format(100 * $flightRatio, 1) : '-',

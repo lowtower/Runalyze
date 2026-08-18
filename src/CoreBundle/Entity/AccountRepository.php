@@ -30,7 +30,9 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
      */
     public function findAllByLanguage($language, $excluded = false)
     {
-        return $this->findAllByLanguageQueryBuilder($language, $excluded)->getQuery()->getResult('COLUMN_HYDRATOR');
+        return $this->findAllByLanguageQueryBuilder($language, $excluded)
+            ->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
     }
 
     /**
@@ -100,10 +102,6 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
             ->getSingleScalarResult();
     }
 
-    /**
-     * @param array $criteria
-     * @return bool
-     */
     public function existsOneWith(array $criteria): bool
     {
         return null !== $this->findOneBy($criteria);

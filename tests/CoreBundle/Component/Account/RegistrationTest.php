@@ -31,10 +31,13 @@ class RegistrationTest extends WebTestCase
     {
         $this->loadFixtures([])->getReferenceRepository();
 
-        $this->Client = $this->getContainer()->get('test.client');
+        $this->Client = $this->getContainer()
+            ->get('test.client');
         $this->Client->disableReboot();
 
-        $this->EntityManager = $this->getContainer()->get('doctrine')->getManager();
+        $this->EntityManager = $this->getContainer()
+            ->get('doctrine')
+            ->getManager();
         $this->EntityManager->clear();
 
         $this->AccountRepository = $this->EntityManager->getRepository('CoreBundle:Account');

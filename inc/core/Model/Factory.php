@@ -57,86 +57,78 @@ class Factory {
 		);
 	}
 
-	/**
-	 * Has account id?
-	 * @return bool
-	 */
-	protected function hasAccountID(): bool {
+    /**
+     * Has account id?
+     */
+    protected function hasAccountID(): bool {
 		return null !== $this->AccountID;
 	}
 
-	/**
-	 * Activity
-	 * @param int $activityid
-	 * @return \Runalyze\Model\Activity\Entity
-	 */
-	public function activity($activityid): \Runalyze\Model\Activity\Entity {
+    /**
+     * Activity
+     * @param int $activityid
+     */
+    public function activity($activityid): \Runalyze\Model\Activity\Entity {
 		return new Activity\Entity(
 		    $this->arrayByPK('training', $activityid)
 		);
 	}
 
-	/**
-	 * Trackdata
-	 * @param int $activityid
-	 * @return \Runalyze\Model\Trackdata\Entity
-	 */
-	public function trackdata($activityid): \Runalyze\Model\Trackdata\Entity {
+    /**
+     * Trackdata
+     * @param int $activityid
+     */
+    public function trackdata($activityid): \Runalyze\Model\Trackdata\Entity {
 		return new Trackdata\Entity(
 		    $this->arrayByPK('trackdata', $activityid)
 		);
 	}
 
-	/**
-	 * Swimdata
-	 * @param int $activityid
-	 * @return \Runalyze\Model\Swimdata\Entity
-	 */
-	public function swimdata($activityid): \Runalyze\Model\Swimdata\Entity {
+    /**
+     * Swimdata
+     * @param int $activityid
+     */
+    public function swimdata($activityid): \Runalyze\Model\Swimdata\Entity {
 		return new Swimdata\Entity(
 		    $this->arrayByPK('swimdata', $activityid)
 		);
 	}
 
-	/**
-	 * Route
-	 * @param int $routeid
-	 * @return \Runalyze\Model\Route\Entity
-	 */
-	public function route($routeid): \Runalyze\Model\Route\Entity {
+    /**
+     * Route
+     * @param int $routeid
+     */
+    public function route($routeid): \Runalyze\Model\Route\Entity {
 		return new Route\Entity(
 		    $this->arrayByPK('route', $routeid)
 		);
 	}
 
-	/**
-	 * HRV
-	 * @param int $activityid
-	 * @return \Runalyze\Model\HRV\Entity
-	 */
-	public function hrv($activityid): \Runalyze\Model\HRV\Entity {
+    /**
+     * HRV
+     * @param int $activityid
+     */
+    public function hrv($activityid): \Runalyze\Model\HRV\Entity {
 		return new HRV\Entity(
 		    $this->arrayByPK('hrv', $activityid)
 		);
 	}
 
-	/**
-	 * RaceResult
-	 * @param int $activityid
-	 * @return \Runalyze\Model\RaceResult\Entity
-	 */
-	public function raceResult($activityid): \Runalyze\Model\RaceResult\Entity {
+    /**
+     * RaceResult
+     * @param int $activityid
+     */
+    public function raceResult($activityid): \Runalyze\Model\RaceResult\Entity {
 		return new RaceResult\Entity(
 		    $this->arrayByPK('raceresult', $activityid)
 		);
 	}
 
-	/**
-	 * Type
-	 * @param int $typeid
-	 * @return \Runalyze\Model\Type\Entity
-	 */
-	public function type($typeid): \Runalyze\Model\Type\Entity {
+    /**
+     * Type
+     * @param int $typeid
+     */
+    public function type($typeid): \Runalyze\Model\Type\Entity {
 		return new Type\Entity(
 		    $this->arrayByPK('type', $typeid)
 		);
@@ -171,12 +163,11 @@ class Factory {
 		return $SportTypes;
 	}
 
-	/**
-	 * Sport
-	 * @param int $sportid
-	 * @return \Runalyze\Model\Sport\Entity
-	 */
-	public function sport($sportid): \Runalyze\Model\Sport\Entity {
+    /**
+     * Sport
+     * @param int $sportid
+     */
+    public function sport($sportid): \Runalyze\Model\Sport\Entity {
 		return new Sport\Entity(
 		    $this->arrayByPK('sport', $sportid)
 		);
@@ -192,23 +183,21 @@ class Factory {
 		});
 	}
 
-	/**
-	 * Equipment type
-	 * @param int $equipmentTypeid
-	 * @return \Runalyze\Model\EquipmentType\Entity
-	 */
-	public function equipmentType($equipmentTypeid): \Runalyze\Model\EquipmentType\Entity {
+    /**
+     * Equipment type
+     * @param int $equipmentTypeid
+     */
+    public function equipmentType($equipmentTypeid): \Runalyze\Model\EquipmentType\Entity {
 		return new EquipmentType\Entity(
 		    $this->arrayByPK('equipment_type', $equipmentTypeid)
 		);
 	}
 
-	/**
-	 * Equipment
-	 * @param int $equipmentid
-	 * @return \Runalyze\Model\Equipment\Entity
-	 */
-	public function equipment($equipmentid): \Runalyze\Model\Equipment\Entity {
+    /**
+     * Equipment
+     * @param int $equipmentid
+     */
+    public function equipment($equipmentid): \Runalyze\Model\Equipment\Entity {
 		return new Equipment\Entity(
 		    $this->arrayByPK('equipment', $equipmentid)
 		);
@@ -217,7 +206,7 @@ class Factory {
 	/**
 	 * Equipment for activity
 	 * @param int $activityid
-	 * @param boolean $onlyIDs [optional]
+	 * @param bool $onlyIDs [optional]
 	 * @return int[]|\Runalyze\Model\Equipment\Entity[]
 	 */
 	public function equipmentForActivity($activityid, $onlyIDs = false) {
@@ -236,12 +225,11 @@ class Factory {
 		return $Equipment;
 	}
 
-	/**
-	 * Tag
-	 * @param int $tagid
-	 * @return \Runalyze\Model\Tag\Entity
-	 */
-	public function tag($tagid): \Runalyze\Model\Tag\Entity {
+    /**
+     * Tag
+     * @param int $tagid
+     */
+    public function tag($tagid): \Runalyze\Model\Tag\Entity {
 		return new Tag\Entity(
 		    $this->arrayByPK('tag', $tagid)
 		);
@@ -260,7 +248,7 @@ class Factory {
 	/**
 	 * tags for activity
 	 * @param int $activityid
-	 * @param boolean $onlyIDs [optional]
+	 * @param bool $onlyIDs [optional]
 	 * @return int[]|\Runalyze\Model\Tag\Entity[]
 	 */
 	public function tagForActivity($activityid, $onlyIDs = false) {
@@ -367,13 +355,12 @@ class Factory {
 		return self::$StaticCache[$tablename];
 	}
 
-	/**
-	 * All objects
-	 * @param string $tablename
-	 * @param \Closure $constructor
-	 * @return \Runalyze\Model\Entity[]
-	 */
-	public function allObjects($tablename, \Closure $constructor): array {
+    /**
+     * All objects
+     * @param string $tablename
+     * @return \Runalyze\Model\Entity[]
+     */
+    public function allObjects($tablename, \Closure $constructor): array {
 		$allObjects = array();
 		$allData = $this->allData($tablename);
 
@@ -414,7 +401,7 @@ class Factory {
 	 * Fetch data
 	 * @param string $tablename
 	 * @param int $id
-	 * @param boolean $fullFetch
+	 * @param bool $fullFetch
 	 * @return array
 	 */
 	protected function fetch($tablename, $id, $fullFetch = false) {
@@ -434,12 +421,11 @@ class Factory {
 		return $result;
 	}
 
-	/**
-	 * Get primary key
-	 * @param string $tablename
-	 * @return string
-	 */
-	protected function primaryKey($tablename): string {
+    /**
+     * Get primary key
+     * @param string $tablename
+     */
+    protected function primaryKey($tablename): string {
 		switch ($tablename) {
 			case 'trackdata':
 			case 'hrv':
@@ -453,12 +439,11 @@ class Factory {
 		return 'id';
 	}
 
-	/**
-	 * Has the table a column 'accountid'?
-	 * @param string $tablename
-	 * @return boolean
-	 */
-	protected function tableHasAccountid($tablename): bool {
+    /**
+     * Has the table a column 'accountid'?
+     * @param string $tablename
+     */
+    protected function tableHasAccountid($tablename): bool {
 		switch ($tablename) {
 			case 'account':
 			case 'plugin_conf':

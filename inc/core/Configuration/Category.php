@@ -58,9 +58,6 @@ abstract class Category {
 		}
 	}
 
-	/**
-	 * @param array $data
-	 */
 	public function setValues(array $data) {
 		foreach ($data as $key => $value) {
 			if (isset($this->Handles[$key])) {
@@ -69,19 +66,17 @@ abstract class Category {
 		}
 	}
 
-	/**
-	 * Has user ID?
-	 * @return bool
-	 */
-	private function hasUserID(): bool {
+    /**
+     * Has user ID?
+     */
+    private function hasUserID(): bool {
 		return is_numeric($this->UserID);
 	}
 
-	/**
-	 * User ID
-	 * @return int
-	 */
-	private function userID(): int {
+    /**
+     * User ID
+     */
+    private function userID(): int {
 		return (int) $this->UserID;
 	}
 
@@ -117,20 +112,18 @@ abstract class Category {
 		return null;
 	}
 
-	/**
-	 * Add handle
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 */
-	final protected function addHandle(Handle $Handle) {
+    /**
+     * Add handle
+     */
+    final protected function addHandle(Handle $Handle) {
 		$this->Handles[$Handle->key()] = $Handle;
 	}
 
-	/**
-	 * Add handle
-	 * @param string $key
-	 * @param Parameter $Parameter
-	 */
-	final protected function createHandle($key, Parameter $Parameter) {
+    /**
+     * Add handle
+     * @param string $key
+     */
+    final protected function createHandle($key, Parameter $Parameter) {
 		$this->Handles[$key] = new Handle($key, $Parameter);
 	}
 
@@ -141,7 +134,8 @@ abstract class Category {
 	 * @throws \InvalidArgumentException
 	 */
 	final protected function get($key) {
-		return $this->object($key)->value();
+		return $this->object($key)
+		    ->value();
 	}
 
 	/**
@@ -181,11 +175,10 @@ abstract class Category {
 		}
 	}
 
-	/**
-	 * Update value
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 */
-	final protected function updateValue(Handle $Handle) {
+    /**
+     * Update value
+     */
+    final protected function updateValue(Handle $Handle) {
 		if ($this->hasUserID() && ! SharedLinker::isOnSharedPage()) {
 			$where = '`accountid`='.$this->userID();
 			$where .= ' AND `key`='.DB::getInstance()->escape($Handle->key());
@@ -194,20 +187,21 @@ abstract class Category {
 		}
 	}
 
-	/**
-	 * Update value from post
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 */
-	private function updateValueFromPost(Handle $Handle) {
+    /**
+     * Update value from post
+     */
+    private function updateValueFromPost(Handle $Handle) {
 		$key = $Handle->key();
 
 		if (isset($_POST[$key]) || isset($_POST[$key.'_sent'])) {
 			$value = $Handle->value();
 
 			if ($Handle->object() instanceof Parameter\Boolean) {
-				$Handle->object()->set( isset($_POST[$key]) );
+				$Handle->object()
+				    ->set( isset($_POST[$key]) );
 			} else {
-				$Handle->object()->setFromString($_POST[$key]);
+				$Handle->object()
+				    ->setFromString($_POST[$key]);
 			}
 
 			if ($value != $Handle->value()) {
@@ -245,16 +239,13 @@ abstract class Category {
 	 * @return array
 	 */
 	private function fetchValues() {
-		$Data = DB::getInstance()->query('SELECT `key`,`value` FROM '.PREFIX.'conf WHERE `accountid`="'.$this->userID().'" AND `category`="'.$this->key().'"')->fetchAll();
-
-		return $Data;
+		return DB::getInstance()->query('SELECT `key`,`value` FROM '.PREFIX.'conf WHERE `accountid`="'.$this->userID().'" AND `category`="'.$this->key().'"')->fetchAll();
 	}
 
-	/**
-	 * Correct database
-	 * @param array $KeysInDatabase
-	 */
-	private function correctDatabaseFor(array $KeysInDatabase) {
+    /**
+     * Correct database
+     */
+    private function correctDatabaseFor(array $KeysInDatabase) {
 		$WantedKeys = array_keys($this->Handles);
 		$UnusedKeys = array_diff($KeysInDatabase, $WantedKeys);
 		$MissingKeys = array_diff($WantedKeys, $KeysInDatabase);

@@ -11,7 +11,6 @@ class DarkskyMapping implements ToInternalMappingInterface
      * @see https://darksky.net/dev/docs/response
      *
      * @param int|string $value
-     * @return int|string
      */
     public function toInternal($value): int
     {

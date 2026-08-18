@@ -31,7 +31,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testFastExampleFromUltracycle() {
 		$Calculator = new Calculator(
 		    new Trackdata\Entity(array(
-		        Trackdata\Entity::DISTANCE => array(1*0.0892, 2*0.0892, 3*0.0892, 4*0.0892, 5*0.0892, 6*0.0892),
+		        Trackdata\Entity::DISTANCE => array(0.0892, 2*0.0892, 3*0.0892, 4*0.0892, 5*0.0892, 6*0.0892),
 		        Trackdata\Entity::TIME => array(10, 20, 30, 40, 50, 60)
 		    ))
 		);
@@ -46,7 +46,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testSlowExampleFromUltracycle() {
 		$Calculator = new Calculator(
 		    new Trackdata\Entity(array(
-		        Trackdata\Entity::DISTANCE => array(1*0.0223, 2*0.0223, 3*0.0223, 4*0.0223, 5*0.0223, 6*0.0223),
+		        Trackdata\Entity::DISTANCE => array(0.0223, 2*0.0223, 3*0.0223, 4*0.0223, 5*0.0223, 6*0.0223),
 		        Trackdata\Entity::TIME => array(10, 20, 30, 40, 50, 60)
 		    ))
 		);
@@ -61,7 +61,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	public function testClimbExampleFromUltracycle() {
 		$Calculator = new Calculator(
 		    new Trackdata\Entity(array(
-		        Trackdata\Entity::DISTANCE => array(1*0.0223, 2*0.0223, 3*0.0223, 4*0.0223, 5*0.0223, 6*0.0223),
+		        Trackdata\Entity::DISTANCE => array(0.0223, 2*0.0223, 3*0.0223, 4*0.0223, 5*0.0223, 6*0.0223),
 		        Trackdata\Entity::TIME => array(10, 20, 30, 40, 50, 60)
 		    )),
 		    new Route\Entity(array(

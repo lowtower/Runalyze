@@ -37,7 +37,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase {
 		)), false);
 
 		$this->assertEquals(array(
-		    round(20/3), 20/4, 20/1, 6/1
+		    round(20/3), 20/4, 20, 6
 		), $Smoother->smooth(18, PaceSmoother::MODE_TIME));
 	}
 

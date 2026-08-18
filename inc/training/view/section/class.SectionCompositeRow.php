@@ -122,7 +122,8 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addAveragePace() {
 		if ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
-			$Pace = $this->Context->dataview()->pace();
+			$Pace = $this->Context->dataview()
+			    ->pace();
 
 			if ($Pace->unit()->isDecimalFormat()) {
 				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);
@@ -173,7 +174,8 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 		}
 
 		// #TSC: also show active-HR (without rests) in the combined view
-		$hr = $this->Context->activity()->hrAvgActive();
+		$hr = $this->Context->activity()
+		    ->hrAvgActive();
 		if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
 			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; '.__('Heart rate').' active');
 		}
@@ -207,7 +209,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addElevation() {
 		if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
-			if ($this->Context->activity()->distance() > 0 && ! (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst())) {
+			if ($this->Context->activity()->distance() > 0 && (! Configuration::ActivityView()->plotMode()->showCollection() || ! Configuration::ActivityView()->mapFirst())) {
 				$this->BoxedValues[] = new Box\Distance($this->Context);
 			}
 

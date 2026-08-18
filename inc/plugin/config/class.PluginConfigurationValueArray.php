@@ -20,11 +20,10 @@ class PluginConfigurationValueArray extends PluginConfigurationValue {
 		$this->Value = array_map('trim', explode(',', $Value));
 	}
 
-	/**
-	 * Get value as string
-	 * @return string
-	 */
-	public function valueAsString(): string {
+    /**
+     * Get value as string
+     */
+    public function valueAsString(): string {
 		return implode(', ', $this->Value);
 	}
 

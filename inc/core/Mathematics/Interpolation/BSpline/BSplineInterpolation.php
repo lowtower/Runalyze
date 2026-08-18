@@ -69,7 +69,7 @@ class BSplineInterpolation
             throw new \InvalidArgumentException('Number of points must be greater than degree.');
         }
 
-        if (count($weights) != $this->NumPoints) {
+        if (count($weights) !== $this->NumPoints) {
             $weights = array_fill(0, $this->NumPoints, 1.0);
         }
 
@@ -77,7 +77,7 @@ class BSplineInterpolation
             $knots = range(0, $this->NumPoints + $this->Degree);
         }
 
-        if (1 == $this->Dimension) {
+        if (1 === $this->Dimension) {
             $points = array_map(function ($v) {
                 return [$v];
             }, $points);

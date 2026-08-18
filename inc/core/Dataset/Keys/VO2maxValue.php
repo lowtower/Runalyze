@@ -7,17 +7,11 @@ use Runalyze\Dataset\SummaryMode;
 
 class VO2maxValue extends AbstractKey
 {
-    /**
-     * @return int
-     */
     public function id(): int
     {
         return \Runalyze\Dataset\Keys::VO2MAX_VALUE;
     }
 
-    /**
-     * @return string
-     */
     public function column(): string
     {
         if (\Runalyze\Configuration::VO2max()->useElevationCorrection()) {
@@ -28,7 +22,6 @@ class VO2maxValue extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function label(): string
@@ -37,7 +30,6 @@ class VO2maxValue extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
@@ -46,7 +38,6 @@ class VO2maxValue extends AbstractKey
     }
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
     public function description(): string
@@ -60,7 +51,6 @@ class VO2maxValue extends AbstractKey
     /**
      * Get string to display this dataset value
      *
-     * @param \Runalyze\Dataset\Context $context
      * @return string
      */
     public function stringFor(Context $context)
@@ -73,7 +63,9 @@ class VO2maxValue extends AbstractKey
                     return '<a class="window" href="activity/' . $context->activity()->id() . '/vo2max-info">' . $context->dataview()->vo2max()->value() . '</a>';
                 }
             } else {
-                return $context->dataview()->vo2max()->value();
+                return $context->dataview()
+                    ->vo2max()
+                    ->value();
             }
         }
 

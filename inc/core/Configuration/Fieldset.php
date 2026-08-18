@@ -29,12 +29,10 @@ class Fieldset extends \FormularFieldset {
 		$this->Factory = new FieldFactory();
 	}
 
-	/**
-	 * Add handle
-	 * @param \Runalyze\Configuration\Handle $Handle
-	 * @param array $options
-	 */
-	public function addHandle(Handle $Handle, array $options = array()) {
+    /**
+     * Add handle
+     */
+    public function addHandle(Handle $Handle, array $options = array()) {
 		$this->addField( $this->Factory->FieldFor($Handle, $options) );
 	}
 }

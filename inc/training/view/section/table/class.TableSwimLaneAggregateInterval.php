@@ -59,7 +59,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 
 		// needed data
 		$Loop = new Swimdata\Loop($this->Context->swimdata());
-		$poollength = $this->Context->swimdata()->poollength() / 100000; // in KM
+		$poollength = $this->Context->swimdata()
+		    ->poollength() / 100000; // in KM
 		$Stroketype = new Stroketype(\Runalyze\Profile\FitSdk\StrokeTypeProfile::FREESTYLE);
 		$distance = new Distance(0);	// whole distance
 		$distance100 = new Distance(0); // distance for every 100m interval
@@ -102,7 +103,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 				$lapFinished = in_array($TrackLoop->index(), $lapTrackloopIdx);
 
 				// if 100m exceeded or the lap is finished write the table row
-				if($distance100->stringMeter(false) == '100' || $lapFinished) {	
+				if($distance100->stringMeter(false) === '100' || $lapFinished) {	
 					$this->Code .= '<tr class="r"' . 
 						($beginLap ? ' style="border-color: #666; border-style: dashed dashed dashed dashed; border-width: 1px 0px 1px 0px;"' : '')
 						. '>';
@@ -121,7 +122,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 					// make it very easy: the pace seconds define the bar-width
 					$this->Code .= '<td style="text-align: left; padding-left: 2%;">'. 
 						'<span class="bar-chart-value" style="width:'. ($pace->secondsPerKm() / 10) .'px; top: 0px;"></span></td>';
-					if($beginLap && $lap == 1) {
+					if($beginLap && $lap === 1) {
 						$this->Code .= '<td></td>';
 					} else {
 						$this->Code .= '<td><span style="opacity: ' . ($beginLap ? '0.5' : '1.0') . '">' . $pace->compareTo($prevPace) . '</span></td>';
@@ -129,7 +130,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 
 					// swolfs
 					$sw = round($swolfs / ($distance100->value() / $poollength));
-					if($beginLap && $lap == 1) {
+					if($beginLap && $lap === 1) {
 						$this->Code .= '<td></td><td></td>';
 					} else {
 						$this->Code .= '<td>'. $sw .'</td>';
@@ -137,7 +138,7 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract {
 					}
 
 					// strokes
-					if($beginLap && $lap == 1) {
+					if($beginLap && $lap === 1) {
 						$this->Code .= '<td></td><td></td>';
 					} else {
 						$this->Code .= '<td>'.$strokes.'</td>';

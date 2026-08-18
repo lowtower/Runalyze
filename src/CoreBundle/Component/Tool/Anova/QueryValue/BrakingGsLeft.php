@@ -12,10 +12,6 @@ class BrakingGsLeft extends AbstractOneColumnValue
         return 'avgBrakingGsLeft';
     }
 
-    /**
-     * @param UnitSystem $unitSystem
-     * @return Simple
-     */
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
     {
         return new Simple('G');

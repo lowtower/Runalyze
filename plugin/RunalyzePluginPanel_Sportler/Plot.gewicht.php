@@ -11,7 +11,8 @@ use Runalyze\Activity\Weight;
 $Weight = new Weight();
 $Factory = new PluginFactory();
 $Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
-$Wunschgewicht = $Plugin->Configuration()->value('wunschgewicht');
+$Wunschgewicht = $Plugin->Configuration()
+    ->value('wunschgewicht');
 
 if ($Plugin->Configuration()->value('plot_timerange') > 0)
 	$QueryEnd = 'WHERE `time` > '.(time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')).' AND `accountid` = '.SessionAccountHandler::getId().' ORDER BY `time` DESC';
@@ -22,7 +23,7 @@ $Data     = array_reverse( DB::getInstance()->query('SELECT weight,pulse_rest,ti
 $Weights  = array();
 $HRrests  = array();
 
-if (count($Data) == 1)
+if (count($Data) === 1)
 	$Data[1] = $Data[0];
 
 if (! empty($Data)) {
@@ -34,7 +35,7 @@ if (! empty($Data)) {
 
 $Labels = array_keys($Weights);
 foreach ($Labels as $i => &$value)
-	if ($i != 0 && $i != count($Labels)-1)
+	if ($i !== 0 && $i !== count($Labels) - 1)
 		$value = '';
 
 $Plot = new Plot('sportler_weights', 320, 150);

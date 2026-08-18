@@ -19,10 +19,6 @@ class RouteNameEvalResult {
     /** @var string */
     protected $notes = '';
 
-    /**
-     * @param string $names
-     * @param string $notes
-     */
     public function __construct(string $names, string $notes) {
         // it should never occur, but limit it to 255 (same as the database attribute)
         $this->names = mb_strimwidth($names, 0, 255, '...');

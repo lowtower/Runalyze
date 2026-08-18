@@ -16,12 +16,11 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
  * @package Runalyze\View\Activity\Plot\Series
  */
 class DataCollectorForStrideLength extends DataCollector {
-	/**
-	 * Construct collector
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(Trackdata $trackdata) {
+    /**
+     * Construct collector
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(Trackdata $trackdata) {
 		parent::__construct($trackdata, Trackdata::CADENCE);
 	}
 
@@ -45,7 +44,7 @@ class DataCollectorForStrideLength extends DataCollector {
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[(string) $this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

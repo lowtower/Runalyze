@@ -32,14 +32,13 @@ class InverseCalculator {
 	 */
 	protected $value;
 
-	/**
-	 * Construct
-	 * @param \Runalyze\Athlete $Athlete
-	 * @param int $heartRate [bpm]
-	 * @param int $trimp value to reach
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(\Runalyze\Athlete $Athlete, $heartRate, $trimp) {
+    /**
+     * Construct
+     * @param int $heartRate [bpm]
+     * @param int $trimp value to reach
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(\Runalyze\Athlete $Athlete, $heartRate, $trimp) {
 		$this->Athlete = $Athlete;
 
 		if ($heartRate <= 0 || $trimp <= 0) {

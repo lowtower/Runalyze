@@ -65,13 +65,17 @@ class ToolsController extends Controller
      */
     public function tableVo2maxPaceAction(): \Symfony\Component\HttpFoundation\Response
     {
-        $config = $this->get('app.configuration_manager')->getList();
-        $running = $this->getDoctrine()->getRepository('CoreBundle:Sport')->find($config->getGeneral()->getRunningSport());
+        $config = $this->get('app.configuration_manager')
+            ->getList();
+        $running = $this->getDoctrine()
+            ->getRepository('CoreBundle:Sport')
+            ->find($config->getGeneral()->getRunningSport());
 
         return $this->render('tools/tables/vo2max_paces.html.twig', [
             'currentVo2max' => $config->getCurrentVO2maxShape(),
             'vo2maxVelocity' => new VO2maxVelocity(),
-            'paceUnit' => $config->getUnitSystem()->getPaceUnit($running)
+            'paceUnit' => $config->getUnitSystem()
+                ->getPaceUnit($running)
         ]);
     }
 
@@ -92,7 +96,9 @@ class ToolsController extends Controller
     public function tableVo2maxRaceResultAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/tables/vo2max.html.twig', [
-            'currentVo2max' => $this->get('app.configuration_manager')->getList()->getCurrentVO2maxShape(),
+            'currentVo2max' => $this->get('app.configuration_manager')
+                ->getList()
+                ->getCurrentVO2maxShape(),
             'prognosis' => new VO2max(),
             'distances' => [1.0, 3.0, 5.0, 10.0, 21.1, 42.2, 50],
             'vo2maxValues' => range(30.0, 80.0)
@@ -107,13 +113,15 @@ class ToolsController extends Controller
     {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-        $configuration = $this->get('app.configuration_manager')->getList();
+        $configuration = $this->get('app.configuration_manager')
+            ->getList();
         $correctionFactor = $configuration->getVO2maxCorrectionFactor();
 
         $analysisTable = new VO2maxAnalysis($configuration->getVO2max()->getLegacyCategory());
         $races = $analysisTable->getAnalysisForAllRaces(
             $correctionFactor,
-            $configuration->getGeneral()->getRunningSport(),
+            $configuration->getGeneral()
+                ->getRunningSport(),
             $account->getId()
         );
 
@@ -143,14 +151,17 @@ class ToolsController extends Controller
                 ]);
             }
 
-            $unitSystem = $this->get('app.configuration_manager')->getList($account)->getUnitSystem();
+            $unitSystem = $this->get('app.configuration_manager')
+                ->getList($account)
+                ->getUnitSystem();
             $query = new AnovaDataQuery($data);
             $query->loadAllGroups($this->getDoctrine()->getManager(), $account);
 
             return new JsonResponse([
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'groups' => $query->getResults(
-                    $this->getDoctrine()->getRepository('CoreBundle:Training'),
+                    $this->getDoctrine()
+                        ->getRepository('CoreBundle:Training'),
                     $account,
                     $unitSystem
                 )
@@ -182,13 +193,16 @@ class ToolsController extends Controller
                 ]);
             }
 
-            $unitSystem = $this->get('app.configuration_manager')->getList($account)->getUnitSystem();
+            $unitSystem = $this->get('app.configuration_manager')
+                ->getList($account)
+                ->getUnitSystem();
             $query = new TrendAnalysisDataQuery($data);
 
             return new JsonResponse([
                 'tickFormatter' => JavaScriptFormatter::getFormatter($query->getValueUnit($unitSystem)),
                 'values' => $query->getResults(
-                    $this->getDoctrine()->getRepository('CoreBundle:Training'),
+                    $this->getDoctrine()
+                        ->getRepository('CoreBundle:Training'),
                     $account,
                     $unitSystem
                 )
@@ -206,7 +220,9 @@ class ToolsController extends Controller
      */
     public function posterAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
-        $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, 2017, 2);
+        $numberOfActivities = $this->getDoctrine()
+            ->getRepository('CoreBundle:Training')
+            ->getNumberOfActivitiesFor($account, 2017, 2);
 
         $form = $this->createForm(PosterType::class, [
             'postertype' => ['heatmap'],
@@ -218,7 +234,9 @@ class ToolsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $formdata = $request->request->get($form->getName());
 
-            $numberOfActivities = $this->getDoctrine()->getRepository('CoreBundle:Training')->getNumberOfActivitiesFor($account, (int) $formdata['year'], (int) $formdata['sport']);
+            $numberOfActivities = $this->getDoctrine()
+                ->getRepository('CoreBundle:Training')
+                ->getNumberOfActivitiesFor($account, (int) $formdata['year'], (int) $formdata['sport']);
             if ($numberOfActivities <= 1) {
                 $this->addFlash('error', $this->get('translator')->trans('There are not enough activities to generate a poster. Please change your selection.'));
             } else {
@@ -234,11 +252,13 @@ class ToolsController extends Controller
                     'textColor' => $formdata['textColor'],
                     'raceColor' => $formdata['raceColor'],
                 ));
-                $this->get('bernard.producer')->produce($message);
+                $this->get('bernard.producer')
+                    ->produce($message);
 
                 return $this->render('tools/poster_success.html.twig', [
                     'posterStoragePeriod' => $this->getParameter('poster_storage_period'),
-                    'listing' => $this->get('app.poster.filehandler')->getFileList($account)
+                    'listing' => $this->get('app.poster.filehandler')
+                        ->getFileList($account)
                 ]);
             }
         }
@@ -246,7 +266,8 @@ class ToolsController extends Controller
         return $this->render('tools/poster.html.twig', [
             'form' => $form->createView(),
             'posterStoragePeriod' => $this->getParameter('poster_storage_period'),
-            'listing' => $this->get('app.poster.filehandler')->getFileList($account)
+            'listing' => $this->get('app.poster.filehandler')
+                ->getFileList($account)
         ]);
     }
 
@@ -256,7 +277,8 @@ class ToolsController extends Controller
      */
     public function posterDownloadAction(Account $account, $name)
     {
-        return $this->get('app.poster.filehandler')->getPosterDownloadResponse($account, $name);
+        return $this->get('app.poster.filehandler')
+            ->getPosterDownloadResponse($account, $name);
     }
 
     /**
@@ -266,7 +288,8 @@ class ToolsController extends Controller
     public function overviewAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/tools_list.html.twig', [
-            'posterAvailable' => $this->get('app.poster.availability')->isAvailable()
+            'posterAvailable' => $this->get('app.poster.availability')
+                ->isAvailable()
         ]);
     }
 }

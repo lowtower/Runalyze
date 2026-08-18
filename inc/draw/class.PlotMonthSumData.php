@@ -23,27 +23,24 @@ class PlotMonthSumData extends PlotSumData {
 		parent::__construct();
 	}
 
-	/**
-	 * Get CSS id
-	 * @return string
-	 */
-	protected function getCSSid(): string {
+    /**
+     * Get CSS id
+     */
+    protected function getCSSid(): string {
 		return 'monthKM'.$this->Year.'_'.$this->Sport->id();
 	}
 
-	/**
-	 * Get title
-	 * @return string
-	 */
-	protected function getTitle(): string {
+    /**
+     * Get title
+     */
+    protected function getTitle(): string {
 		return __('Monthly chart:');
 	}
 
-	/**
-	 * Get X labels
-	 * @return array
-	 */
-	protected function getXLabels(): array {
+    /**
+     * Get X labels
+     */
+    protected function getXLabels(): array {
 		$months = array();
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? date('m') : 0;
 		$i = 0;
@@ -56,11 +53,10 @@ class PlotMonthSumData extends PlotSumData {
 		return $months;
 	}
 
-	/**
-	 * Timer table for query
-	 * @return string
-	 */
-	protected function timer(): string {
+    /**
+     * Timer table for query
+     */
+    protected function timer(): string {
 		if ($this->Year == parent::LAST_6_MONTHS) {
 			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
 		}
@@ -86,9 +82,6 @@ class PlotMonthSumData extends PlotSumData {
 		return LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
 	}
 
-	/**
-	 * @return float
-	 */
 	protected function factorForWeekKm(): float {
 		return 365/12/7;
 	}

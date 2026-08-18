@@ -45,17 +45,12 @@ class SportStatistics
         return $this->Sports;
     }
 
-    /**
-     * @param Sport $sport
-     * @return bool
-     */
     public function hasStatisticFor(Sport $sport): bool
     {
         return isset($this->Sports[(string) $sport->getId()]);
     }
 
     /**
-     * @param Sport $sport
      * @return SportStatistic
      */
     public function getStatisticFor(Sport $sport)
@@ -67,9 +62,6 @@ class SportStatistics
         return new SportStatistic($sport);
     }
 
-    /**
-     * @return int
-     */
     public function getCount(): int
     {
         return count($this->Sports);

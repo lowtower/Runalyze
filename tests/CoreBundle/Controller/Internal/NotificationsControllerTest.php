@@ -29,7 +29,6 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     }
 
     /**
-     * @param Account $account
      * @return int
      */
     protected function insertMessageFor(Account $account)

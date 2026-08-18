@@ -2,9 +2,6 @@
 
 class FrontendSharedStatistics
 {
-	/**
-	 * @return string
-	 */
 	public function getTabForComparisonOfYears(): string
     {
 		$Content = '';
@@ -16,16 +13,13 @@ class FrontendSharedStatistics
 			$Content .= ($Plugin->getYearComparisonTable());
 		}
 
-		if ($Content == '') {
+		if ($Content === '') {
 			$Content = '<em>'.__('No data available.').'</em>';
 		}
 
 		return $Content;
 	}
 
-	/**
-	 * @return SummaryTableAllYears
-	 */
 	public function getYearComparisonTable(): \SummaryTableAllYears
     {
         require_once FRONTEND_PATH.'../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';

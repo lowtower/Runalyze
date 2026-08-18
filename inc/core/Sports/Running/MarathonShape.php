@@ -17,7 +17,6 @@ class MarathonShape
 
     /**
      * @param float [ml/kg/min] $effectiveVO2max
-     * @param BasicEndurance $configuration
      */
     public function __construct($effectiveVO2max, BasicEndurance $configuration)
     {

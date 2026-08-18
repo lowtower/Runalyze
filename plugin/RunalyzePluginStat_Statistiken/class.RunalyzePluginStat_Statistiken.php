@@ -30,19 +30,17 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 */
 	protected $DatasetConfig;
 
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Statistics');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Monthly and weekly summaries for all sports');
 	}
 
@@ -81,11 +79,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		require_once 'class.SummaryTableMonths.php';
 	}
 
-	/**
-	 * Default year
-	 * @return int
-	 */
-	protected function defaultYear(): int {
+    /**
+     * Default year
+     */
+    protected function defaultYear(): int {
 		return 6;
 	}
 
@@ -144,11 +141,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		}
 	}
 
-	/**
-	 * Boolean flag: Show all weeks?
-	 * @return bool
-	 */
-	private function wantToShowAllWeeks(): bool {
+    /**
+     * Boolean flag: Show all weeks?
+     */
+    private function wantToShowAllWeeks(): bool {
 		return $this->dat == 'allWeeks';
 	}
 
@@ -222,7 +218,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 			if ($FirstDay) {
 				if ($Day['day'] != $LastDay) {
-					if (Time::diffOfDates($Day['day'], $LastDay) == 1) {
+					if (Time::diffOfDates($Day['day'], $LastDay) === 1) {
 						$Text = __('If you run today: ');
 						$NumDays++;
 					} else {
@@ -245,7 +241,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		}
 
 		if ($NumDays >= $this->Configuration()->value('show_streak_days')) {
-			if ($NumDays == 0) {
+			if ($NumDays === 0) {
 				$Text .= __("You don't have a streak. Go out and start one!");
 				$LastTraining = DB::getInstance()->query('SELECT time FROM `'.PREFIX.'training` WHERE `sportid`='.Configuration::General()->runningSport().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `time` DESC LIMIT 1')->fetch();
 

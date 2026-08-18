@@ -4,9 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class General extends AbstractCategory
 {
-    /**
-     * @return array
-     */
     public function getDefaultVariables(): array
     {
         return [
@@ -21,25 +18,16 @@ class General extends AbstractCategory
         ];
     }
 
-    /**
-     * @return int
-     */
     public function getRunningSport(): int
     {
         return (int) $this->Variables['RUNNINGSPORT'];
     }
 
-    /**
-     * @return int
-     */
     public function getMainSport(): int
     {
         return (int) $this->Variables['MAINSPORT'];
     }
 
-    /**
-     * @return string
-     */
     protected function getLegacyCategoryName(): string
     {
         return \Runalyze\Configuration\Category\General::class;

@@ -17,7 +17,8 @@ class NotificationsController extends Controller
      */
     protected function getNotificationsRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Notification');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Notification');
     }
 
     /**
@@ -27,7 +28,8 @@ class NotificationsController extends Controller
     public function newNotificationsAction(Account $account): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('notifications.html.twig', [
-            'notifications' => $this->getNotificationsRepository()->findAll($account),
+            'notifications' => $this->getNotificationsRepository()
+                ->findAll($account),
             'router' => $this->get('router'),
             'translator' => $this->get('translator.default')
         ]);

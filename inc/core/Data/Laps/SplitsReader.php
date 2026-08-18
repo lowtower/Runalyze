@@ -21,16 +21,10 @@ class SplitsReader {
 	 */
 	protected $Laps;
 
-	/**
-	 * @param \Runalyze\Data\Laps\Laps $object
-	 */
 	public function __construct(Laps $object) {
 		$this->Laps = $object;
 	}
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Entity $Splits
-	 */
 	public function readFrom(Splits\Entity $Splits) {
 		foreach ($Splits->asArray() as $Split) {
 			$this->Laps->add(new Lap(

@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class PluginConfRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return int[]
      */
     public function getAllActivityIdsOfFunRaces(Account $account)

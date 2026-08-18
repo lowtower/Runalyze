@@ -40,23 +40,25 @@ class GradeAdjustedPace extends Pace
 	{
         // #TSC the based Minetti-algorithm only makes sence in RUNNING
         if ($context->sport()->getInternalProfileEnum() != SportProfile::RUNNING || ! $context->hasRoute() || ! $context->route()->hasElevations() || ! $context->hasTrackdata() || ! $context->trackdata()->has(Trackdata::DISTANCE)) {
-            $context->trackdata()->set(Trackdata::PACE, []);
+            $context->trackdata()
+                ->set(Trackdata::PACE, []);
 
             return;
         }
 
-        $context->trackdata()->setTheoreticalPace($this->getGradeAdjustedPace($context));
+        $context->trackdata()
+            ->setTheoreticalPace($this->getGradeAdjustedPace($context));
 	}
 
-	/**
-	 * @param Activity\Context $context
-	 * @return array
-	 */
-	protected function getGradeAdjustedPace(Activity\Context $context)
+    /**
+     * @return array
+     */
+    protected function getGradeAdjustedPace(Activity\Context $context)
     {
         $algorithm = new Minetti();
         $gradient = $this->getGradientSeries($context);
-        $gap = $context->trackdata()->pace();
+        $gap = $context->trackdata()
+            ->pace();
 
         foreach (array_keys($gap) as $i) {
             $gap[$i] *= $algorithm->getTimeFactor($gradient[$i] / 100.0);
@@ -66,7 +68,6 @@ class GradeAdjustedPace extends Pace
     }
 
     /**
-     * @param Activity\Context $context
      * @return array
      */
     protected function getGradientSeries(Activity\Context $context)

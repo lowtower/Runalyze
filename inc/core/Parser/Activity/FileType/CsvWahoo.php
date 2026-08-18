@@ -201,7 +201,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function currentValue(array $possibleColumns): float
     {
         foreach ($possibleColumns as $columnName) {
-            if (isset($this->CurrentHeader[$columnName]) && 0.0 != (float) $this->Row[$this->CurrentHeader[$columnName]]) {
+            if (isset($this->CurrentHeader[$columnName]) && 0.0 !== (float) $this->Row[$this->CurrentHeader[$columnName]]) {
                 return (float) $this->Row[$this->CurrentHeader[$columnName]];
             }
         }

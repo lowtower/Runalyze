@@ -24,11 +24,10 @@ use Ajax;
  * @package Runalyze\Configuration\Category
  */
 class General extends \Runalyze\Configuration\Category {
-	/**
-	 * Internal key
-	 * @return string
-	 */
-	protected function key(): string {
+    /**
+     * Internal key
+     */
+    protected function key(): string {
 		return 'general';
 	}
 
@@ -177,21 +176,28 @@ class General extends \Runalyze\Configuration\Category {
 	 * Register onchange events
 	 */
 	protected function registerOnchangeEvents() {
-		$this->handle('DISTANCE_UNIT_SYSTEM')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
-		$this->handle('ENERGY_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_ALL);
-		$this->handle('DISTANCE_UNIT_SYSTEM')->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
-		$this->handle('WEIGHT_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
-                $this->handle('TEMPERATURE_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-		$this->handle('HEART_RATE_UNIT')->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-                $this->handle('WEEK_START')->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
-		$this->handle('MAINSPORT')->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+		$this->handle('DISTANCE_UNIT_SYSTEM')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+		$this->handle('ENERGY_UNIT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+		$this->handle('DISTANCE_UNIT_SYSTEM')
+		    ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
+		$this->handle('WEIGHT_UNIT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+                $this->handle('TEMPERATURE_UNIT')
+                    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+		$this->handle('HEART_RATE_UNIT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+                $this->handle('WEEK_START')
+                    ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+		$this->handle('MAINSPORT')
+		    ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
 	}
 
-	/**
-	 * Fieldset
-	 * @return \Runalyze\Configuration\Fieldset
-	 */
-	public function Fieldset(): \Runalyze\Configuration\Fieldset {
+    /**
+     * Fieldset
+     */
+    public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('General settings') );
 
 		$Fieldset->addHandle( $this->handle('WEEK_START'), array(

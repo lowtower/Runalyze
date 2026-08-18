@@ -54,33 +54,27 @@ class WeekStart extends \Runalyze\Parameter\Select {
 ));
 	}
 
-	/**
-	 * Is monday?
-	 * @return bool
-	 */
-	public function isMonday(): bool {
+    /**
+     * Is monday?
+     */
+    public function isMonday(): bool {
 		return ($this->value() == self::MONDAY);
 	}
 
-	/**
-	 * Is saturday?
-	 * @return bool
-	 */
-	public function isSaturday(): bool {
+    /**
+     * Is saturday?
+     */
+    public function isSaturday(): bool {
 		return ($this->value() == self::SATURDAY);
 	}
 
-	/**
-	 * Is sunday?
-	 * @return bool
-	 */
-	public function isSunday(): bool {
+    /**
+     * Is sunday?
+     */
+    public function isSunday(): bool {
 		return ($this->value() == self::SUNDAY);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function differenceToMondayInDays(): int {
 		if ($this->value() == self::SATURDAY) {
 			return -2;
@@ -114,7 +108,7 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		}
 
 		if ($this->isSunday() && date('w', $now) == 0) {
-			if (date('W', $now) == 53 || date('W', $now) == date('W', mktime(0, 0, 0, 12, 28, date('Y', $now))))
+			if (date('W', $now) == 53 || date('W', $now) === date('W', mktime(0, 0, 0, 12, 28, date('Y', $now))))
 				return 1;
 
 			return date('W', $now) + 1;
@@ -123,14 +117,12 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		return date('W', $now);
 	}
 
-	/**
-	 * Parameter for `WEEK(date, mode)` in MySQL
-	 * @see http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_week
-	 * @deprecated 3.1.0 Use `mysqlWeek()` instead as it fixes #1941
-	 *
-	 * @return int
-	 */
-	public function mysqlParameter(): int {
+    /**
+     * Parameter for `WEEK(date, mode)` in MySQL
+     * @see http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_week
+     * @deprecated 3.1.0 Use `mysqlWeek()` instead as it fixes #1941
+     */
+    public function mysqlParameter(): int {
 		switch ($this->value()) {
 			case self::SUNDAY:
 				return 6;
@@ -155,17 +147,13 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		return 'WEEK('.$dateString.', 3)';
 	}
 
-	/**
-	 * @param string $dateString
-	 * @return string
-	 */
-	public function mysqlYearWeek($dateString): string {
+    /**
+     * @param string $dateString
+     */
+    public function mysqlYearWeek($dateString): string {
 		return 'YEAR'.$this->mysqlWeek($dateString);
 	}
 
-	/**
-	 * @return string
-	 */
 	public function firstDayOfWeekForStrtotime(): string {
 		switch ($this->value()) {
 			case self::SUNDAY:
@@ -178,9 +166,6 @@ class WeekStart extends \Runalyze\Parameter\Select {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
 	public function lastDayOfWeekForStrtotime(): string {
 		switch ($this->value()) {
 			case self::SUNDAY:

@@ -40,23 +40,20 @@ class BeaufortScale implements ValueInterface
 	    }
 	}
 
-	/**
-	 * Get string
-	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public static function getString(WindSpeed $windSpeed)
+    /**
+     * Get string
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public static function getString(WindSpeed $windSpeed)
 	{
         return (new self($windSpeed))->string();
 	}
 
-	/**
-	 * Get short string
-	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-	 * @return string
-	 */
-	public static function getShortString(WindSpeed $windSpeed): string
+    /**
+     * Get short string
+     */
+    public static function getShortString(WindSpeed $windSpeed): string
 	{
         return (new self($windSpeed))->shortString();
 	}
@@ -73,12 +70,11 @@ class BeaufortScale implements ValueInterface
 		return $this;
 	}
 
-	/**
-	 * Set wind speed
-	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
-	 * @return \Runalyze\Data\Weather\BeaufortScale $this-reference
-	 */
-	public function setFromWindSpeed(WindSpeed $windSpeed)
+    /**
+     * Set wind speed
+     * @return \Runalyze\Data\Weather\BeaufortScale $this-reference
+     */
+    public function setFromWindSpeed(WindSpeed $windSpeed)
 	{
 	    $kmh = $windSpeed->inKilometerPerHour();
 		$this->Btf = 0;
@@ -108,12 +104,11 @@ class BeaufortScale implements ValueInterface
 		return $this->Btf;
 	}
 
-	/**
-	 * String
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function longString(): string
+    /**
+     * String
+     * @codeCoverageIgnore
+     */
+    public function longString(): string
 	{
 		switch ($this->btf) {
 			case 0:
@@ -147,11 +142,10 @@ class BeaufortScale implements ValueInterface
 		}
 	}
 
-	/**
-	 * Short string
-	 * @return string
-	 */
-	public function shortString(): string
+    /**
+     * Short string
+     */
+    public function shortString(): string
 	{
 	    if ($this->isValid()) {
 			return $this->Btf.' btf';
@@ -160,21 +154,19 @@ class BeaufortScale implements ValueInterface
 	    return '';
 	}
 
-	/**
-	 * Label for value
-	 * @return string
-	 * @codeCoverageIgnore
-	 */
-	public function label(): string
+    /**
+     * Label for value
+     * @codeCoverageIgnore
+     */
+    public function label(): string
 	{
 	    return __('Beaufort scale');
 	}
 
-	/**
-	 * Label for value
-	 * @return string
-	 */
-	public function unit(): string
+    /**
+     * Label for value
+     */
+    public function unit(): string
 	{
 	    return 'btf';
 	}
@@ -188,9 +180,6 @@ class BeaufortScale implements ValueInterface
 	    return $this->Btf;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isValid(): bool
 	{
 		return is_numeric($this->Btf) && ($this->Btf >= 0) && ($this->Btf < count($this->UpperLimits));

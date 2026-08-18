@@ -47,9 +47,6 @@ class Configuration
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isDefault(): bool
 	{
 		return false;
@@ -79,9 +76,6 @@ class Configuration
 		$this->ShowAllKeys = false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isEmpty(): bool
 	{
 		return empty($this->Data);
@@ -100,7 +94,7 @@ class Configuration
 		$activeKeys = array();
 
 		foreach ($this->Data as $keyid => $keyData) {
-			if (! (DatasetPrivacyProfile::PRIVATE_KEY == $keyData['privacy'] && \Request::isOnSharedPage()) && $keyData['active'] == 1) {
+			if ((DatasetPrivacyProfile::PRIVATE_KEY != $keyData['privacy'] || ! \Request::isOnSharedPage()) && $keyData['active'] == 1) {
 				$activeKeys[] = $keyid;
 			}
 		}
@@ -117,23 +111,21 @@ class Configuration
 		return array_keys($this->Data);
 	}
 
-	/**
-	 * Does this key exist in configuration?
-	 * @param int $keyid enum, see \Runalyze\Dataset\Keys
-	 * @return bool
-	 */
-	public function exists($keyid): bool
+    /**
+     * Does this key exist in configuration?
+     * @param int $keyid enum, see \Runalyze\Dataset\Keys
+     */
+    public function exists($keyid): bool
 	{
 		return isset($this->Data[$keyid]);
 	}
 
-	/**
-	 * Is this dataset active?
-	 * @param int $keyid enum, see \Runalyze\Dataset\Keys or $this->allKeys()
-	 * @return bool
-	 * @throws \InvalidArgumentException
-	 */
-	public function isActive($keyid): bool
+    /**
+     * Is this dataset active?
+     * @param int $keyid enum, see \Runalyze\Dataset\Keys or $this->allKeys()
+     * @throws \InvalidArgumentException
+     */
+    public function isActive($keyid): bool
 	{
 		if (! isset($this->Data[$keyid])) {
 			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');

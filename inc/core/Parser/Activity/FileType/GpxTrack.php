@@ -106,7 +106,7 @@ class GpxTrack extends AbstractSingleParser
         foreach ($this->Xml->trkseg as $trackSegment) {
             foreach ($trackSegment->trkpt as $point) {
                 if ($i > 0 && ! $lookForPauses) {
-                    $this->LookForPauses = $j == 0;
+                    $this->LookForPauses = $j === 0;
                 }
 
                 $this->parseTrackPoint($point);
@@ -172,7 +172,6 @@ class GpxTrack extends AbstractSingleParser
     }
 
     /**
-     * @param SimpleXMLElement $point
      * @return int
      */
     private function getTimeOfPoint(SimpleXMLElement $point)
@@ -247,7 +246,6 @@ class GpxTrack extends AbstractSingleParser
     }
 
     /**
-     * @param SimpleXMLElement $parentNode
      * @return SimpleXMLElement[]
      */
     protected function getExtensionNodesOf(SimpleXMLElement $parentNode): array {
@@ -255,7 +253,8 @@ class GpxTrack extends AbstractSingleParser
 
         foreach (['gpxtpx', 'ns3', 'ns2'] as $namespace) {
             if (
-                $parentNode->children($namespace, true)->count() > 0 &&
+                $parentNode->children($namespace, true)
+                    ->count() > 0 &&
                 isset($parentNode->children($namespace, true)->TrackPointExtension) &&
                 count($parentNode->children($namespace, true)->TrackPointExtension) > 0
             ) {
@@ -273,10 +272,12 @@ class GpxTrack extends AbstractSingleParser
     protected function parseSpoQExtension()
     {
         if (null !== $this->ExtensionXml && $this->ExtensionXml->children('st', true)->count() > 0) {
-            $activity = $this->ExtensionXml->children('st', true)->activity[0];
+            $activity = $this->ExtensionXml->children('st', true)
+                ->activity[0];
 
             if (isset($activity) && count($activity->children('st', true)) > 0) {
-                $track = $activity->children('st', true)->heartRateTrack[0];
+                $track = $activity->children('st', true)
+                    ->heartRateTrack[0];
 
                 if (isset($track)) {
                     $num = count($this->Container->ContinuousData->Time);

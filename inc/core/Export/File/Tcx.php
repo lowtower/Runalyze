@@ -34,34 +34,25 @@ class Tcx extends AbstractFileExporter
     /** @var array indicators if route has specific data, use const from Trackdata\Entity as array key */
     protected $TrackdataHas = [];
 
-    /**
-     * @return bool
-     */
     public function isPossible(): bool
     {
-        return $this->Context->hasTrackdata() && $this->Context->trackdata()->has(Trackdata\Entity::TIME);
+        return $this->Context->hasTrackdata() && $this->Context->trackdata()
+            ->has(Trackdata\Entity::TIME);
     }
 
     /**
      * Get extension
-     * @return string
      */
     public function extension(): string
     {
         return 'tcx';
     }
 
-    /**
-     * @return string
-     */
     protected function mimeType(): string
     {
         return 'application/tcx+xml';
     }
 
-    /**
-     * @return int
-     */
     public function enum(): int
     {
         return Types::TCX;
@@ -142,7 +133,8 @@ class Tcx extends AbstractFileExporter
      */
     protected function setLaps()
     {
-        $Starttime = $this->Context->activity()->timestamp();
+        $Starttime = $this->Context->activity()
+            ->timestamp();
 
         $Loop = new Trackdata\Loop($this->Context->trackdata());
 
@@ -161,8 +153,10 @@ class Tcx extends AbstractFileExporter
             $Lap->addChild('DistanceMeters', 1000*$Loop->difference(Trackdata\Entity::DISTANCE));
 
             if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {
-                $Lap->addChild('AverageHeartRateBpm')->addChild('Value', $Loop->average(Trackdata\Entity::HEARTRATE));
-                $Lap->addChild('MaximumHeartRateBpm')->addChild('Value', $Loop->max(Trackdata\Entity::HEARTRATE));
+                $Lap->addChild('AverageHeartRateBpm')
+                    ->addChild('Value', $Loop->average(Trackdata\Entity::HEARTRATE));
+                $Lap->addChild('MaximumHeartRateBpm')
+                    ->addChild('Value', $Loop->max(Trackdata\Entity::HEARTRATE));
             }
 
             $Lap->addChild('Intensity', 'Active');
@@ -180,7 +174,8 @@ class Tcx extends AbstractFileExporter
      */
     protected function setTrack()
     {
-        $Starttime = $this->Context->activity()->timestamp();
+        $Starttime = $this->Context->activity()
+            ->timestamp();
         $Trackdata = new Trackdata\Loop($this->Context->trackdata());
 
         if ($this->HasRoute) {
@@ -205,10 +200,6 @@ class Tcx extends AbstractFileExporter
         } while ($Trackdata->nextStep());
     }
 
-    /**
-     * @param \SimpleXMLElement $trackpoint
-     * @param \Runalyze\Model\Route\Loop $routeLoop
-     */
     protected function addRouteDetailsTo(\SimpleXMLElement $trackpoint, Route\Loop $routeLoop)
     {
         if ($this->RouteHas[Route\Entity::GEOHASHES]) {
@@ -222,10 +213,6 @@ class Tcx extends AbstractFileExporter
         }
     }
 
-    /**
-     * @param \SimpleXMLElement $trackpoint
-     * @param \Runalyze\Model\Trackdata\Loop $trackdataLoop
-     */
     protected function addTrackdataDetailsTo(\SimpleXMLElement $trackpoint, Trackdata\Loop $trackdataLoop)
     {
         if ($this->TrackdataHas[Trackdata\Entity::CADENCE]) {
@@ -237,11 +224,13 @@ class Tcx extends AbstractFileExporter
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {
-            $trackpoint->addChild('HeartRateBpm')->addChild('Value', $trackdataLoop->current(Trackdata\Entity::HEARTRATE));
+            $trackpoint->addChild('HeartRateBpm')
+                ->addChild('Value', $trackdataLoop->current(Trackdata\Entity::HEARTRATE));
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::POWER] || $this->TrackdataHas[Trackdata\Entity::PACE]) {
-            $TPX = $trackpoint->addChild('Extensions')->addChild('TPX', '', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2');
+            $TPX = $trackpoint->addChild('Extensions')
+                ->addChild('TPX', '', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2');
 
             if ($this->TrackdataHas[Trackdata\Entity::PACE]) {
                 $TPX->addChild('Speed', $this->convertPaceToSpeed($trackdataLoop->current(Trackdata\Entity::PACE)));
@@ -268,7 +257,6 @@ class Tcx extends AbstractFileExporter
 
     /**
      * Get empty xml
-     * @return string
      */
     protected function emptyXml(): string
     {

@@ -11,7 +11,6 @@ use Runalyze\Util\LocalTime;
 class SportRepository extends EntityRepository
 {
     /**
-     * @param Account $account
      * @return Sport[]
      */
     public function findAllFor(Account $account)
@@ -23,7 +22,6 @@ class SportRepository extends EntityRepository
 
     /**
      * @param int $internalTypeId
-     * @param Account $account
      * @return null|Sport
      */
     public function findInternalIdFor($internalTypeId, Account $account)
@@ -35,7 +33,6 @@ class SportRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @param bool $returnNull
      * @return null|Sport
      */
@@ -52,7 +49,6 @@ class SportRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return Sport[]
      */
     public function findWithDistancesFor(Account $account)
@@ -65,7 +61,6 @@ class SportRepository extends EntityRepository
 
     /**
      * @param int $sportId
-     * @param Account $account
      * @return null|Sport|object
      */
     public function findThisOrAny($sportId, Account $account)
@@ -86,7 +81,7 @@ class SportRepository extends EntityRepository
                 1
             );
 
-            if (is_array($results) && count($results) == 1) {
+            if (is_array($results) && count($results) === 1) {
                 return $results[0];
             }
         }
@@ -109,7 +104,6 @@ class SportRepository extends EntityRepository
     }
 
     /**
-     * @param Account $account
      * @return array internal sport ids
      */
     public function getUsedInternalSportIdsFor(Account $account)
@@ -121,23 +115,18 @@ class SportRepository extends EntityRepository
             ->andWhere($queryBuilder->expr()->isNotNull('s.internalSportId'))
             ->setParameter('account', $account->getId());
 
-        return $queryBuilder->getQuery()->getResult('COLUMN_HYDRATOR');
+        return $queryBuilder->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
     }
 
     /**
      * @param int $internalTypeId
-     * @param Account $account
-     * @return bool
      */
     public function isInternalTypeFree($internalTypeId, Account $account): bool
     {
         return null === $this->findInternalIdFor((int) $internalTypeId, $account);
     }
 
-    /**
-     * @param Account $account
-     * @return array
-     */
     public function getFreeInternalTypes(Account $account): array
     {
         $allTypes = array_flip(SportProfile::getChoices());
@@ -157,7 +146,6 @@ class SportRepository extends EntityRepository
 
     /**
      * @param int|null $timestamp
-     * @param Account $account
      * @param bool $raw if enabled, raw array data is returned
      * @return SportStatistics|array
      */
@@ -183,7 +171,8 @@ class SportRepository extends EntityRepository
         }
 
         if ($raw) {
-            return $queryBuilder->getQuery()->getResult();
+            return $queryBuilder->getQuery()
+                ->getResult();
         }
 
         return new SportStatistics((new LocalTime($timestamp))->toServerTime(), $queryBuilder->getQuery()->getResult());

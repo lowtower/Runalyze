@@ -9,8 +9,6 @@ class Kilogram extends AbstractWeightUnit
     use BaseUnitTrait;
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
     public function getAppendix(): string

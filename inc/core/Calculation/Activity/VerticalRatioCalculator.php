@@ -24,11 +24,10 @@ class VerticalRatioCalculator {
 	 */
 	protected $VerticalRatio = array();
 
-	/**
-	 * Calculator for stride length
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 */
-	public function __construct(Trackdata\Entity $trackdata) {
+    /**
+     * Calculator for stride length
+     */
+    public function __construct(Trackdata\Entity $trackdata) {
 		$this->Trackdata = $trackdata;
 	}
 
@@ -88,13 +87,12 @@ class VerticalRatioCalculator {
 		return round($Series->mean());
 	}
 
-	/**
-	 * Calculate vertical ratio for activity
-	 * Use this method if trackdata is not available
-	 * @param \Runalyze\Model\Activity\Entity $activity
-	 * @return null|int [%o]
-	 */
-	public static function forActivity(Activity\Entity $activity) {
+    /**
+     * Calculate vertical ratio for activity
+     * Use this method if trackdata is not available
+     * @return null|int [%o]
+     */
+    public static function forActivity(Activity\Entity $activity) {
 		if ($activity->verticalOscillation() > 0 && $activity->strideLength() > 0) {
 			return round(100 * $activity->verticalOscillation() / $activity->strideLength());
 		}

@@ -95,7 +95,7 @@ class DataBrowser {
 
 	/**
 	 * Boolean flag: has current view no activities
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $AllDaysEmpty = true;
 
@@ -283,50 +283,45 @@ class DataBrowser {
 		echo Ajax::window('<a class="tab" href="settings/dataset">'.Icon::$CONF.'</a>');
 	}
 
-	/**
-	 * Get link to navigation back
-	 * @return string
-	 */
-	protected function getPrevLink(): string {
+    /**
+     * Get link to navigation back
+     */
+    protected function getPrevLink(): string {
 		$timestamp_array = DataBrowserLinker::prevTimestamps($this->TimestampStart, $this->TimestampEnd);
 
 		return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'), null, $this->SportId);
 	}
 
-	/**
-	 * Get link to navigation forward
-	 * @return string
-	 */
-	protected function getNextLink(): string {
+    /**
+     * Get link to navigation forward
+     */
+    protected function getNextLink(): string {
 		$timestamp_array = DataBrowserLinker::nextTimestamps($this->TimestampStart, $this->TimestampEnd);
 
 		return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'), null, $this->SportId);
 	}
 
-	/**
-	 * Get link to jump to today
-	 * @return string
-	 */
-	protected function getCurrentLink(): string {
+    /**
+     * Get link to jump to today
+     */
+    protected function getCurrentLink(): string {
 		return DataBrowserLinker::link('<i class="fa fa-lg fa-fw fa-circle"></i>', '', '', __('today'), null, $this->SportId);
 	}
 
-	/**
-	 * Get ajax-link for reload this DataBrowser
-	 * @return string
-	 */
-	protected function getRefreshLink(): string {
+    /**
+     * Get ajax-link for reload this DataBrowser
+     */
+    protected function getRefreshLink(): string {
 		$Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
 
 		return str_replace('<a ', '<a id="'.self::REFRESH_BUTTON_ID.'" '.Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
 	}
 
-	/**
-	 * Get link including the selection of one sport.
-	 * @param $active the link was clicked and is active
-	 * @return string
-	 */
-	protected function getSportLink(int $sportId, string $name, string $icon, bool $active): string {
+    /**
+     * Get link including the selection of one sport.
+     * @param $active the link was clicked and is active
+     */
+    protected function getSportLink(int $sportId, string $name, string $icon, bool $active): string {
 		$style = 'padding-left: 2px; padding-right: 2px;';
 		if ($active) {
 			// if this sport is currently selected/active - the link is used for de-selection
@@ -350,11 +345,10 @@ class DataBrowser {
 		}
 	}
 
-	/**
-	 * Get ajax-link for choosing timestamps from calendar
-	 * @return string
-	 */
-	protected function getCalenderLink(): string {
+    /**
+     * Get ajax-link for choosing timestamps from calendar
+     */
+    protected function getCalenderLink(): string {
 		return '<span id="calendar-link" class="link" title="'.__('Calendar').'">'.Icon::$CALENDAR.'</span>';
 	}
 
@@ -369,14 +363,14 @@ class DataBrowser {
 
 		echo '<table>';
 		for($i = 0; $i < 20; $i++) {
-			if($i % 4 == 0) {
+			if($i % 4 === 0) {
 				echo '<tr>';
 			}
 
 			$year = $t->format('Y');
 			echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>' . 
 				DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
-			if($i % 4 == 3) {
+			if($i % 4 === 3) {
 				echo '</tr>';
 			}
 
@@ -402,11 +396,10 @@ class DataBrowser {
 		return Ajax::window('<a href="'.PlotSumData::$URL.'?type=week" '.Ajax::tooltip('', __('Activity per week'), false, true).'>'.Icon::$BARS_SMALL.'</a>');
 	}
 
-	/**
-	 * Get list to shared list
-	 * @return string
-	 */
-	protected function getSharedListLink(): string {
+    /**
+     * Get list to shared list
+     */
+    protected function getSharedListLink(): string {
 		return SharedLinker::getListLinkForCurrentUser();
 	}
 
@@ -426,12 +419,11 @@ class DataBrowser {
 		return ImporterWindow::link();
 	}
 
-	/**
-	 * Get date string for given timestamp
-	 * @param int $timestampInNoTimezone
-	 * @return string
-	 */
-	protected function dateString($timestampInNoTimezone): string {
+    /**
+     * Get date string for given timestamp
+     * @param int $timestampInNoTimezone
+     */
+    protected function dateString($timestampInNoTimezone): string {
 		$localTime = new LocalTime($timestampInNoTimezone);
 		$addLink = '';
 		$weekDay = Time::weekday($localTime->format('w'), true);
@@ -447,13 +439,11 @@ class DataBrowser {
 		return $localTime->format('d.m.').' '.$addLink.' '.$weekDay;
 	}
 
-	/**
-	 * Additional columns that are shown next to date columns
-	 * @param \Runalyze\View\Dataset\Table $table
-	 * @param \Runalyze\Dataset\Context $context
-	 * @return string html string that must contain `$this->AdditionalColumns - 2` columns
-	 */
-	protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
+    /**
+     * Additional columns that are shown next to date columns
+     * @return string html string that must contain `$this->AdditionalColumns - 2` columns
+     */
+    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
 	{
 		return '';
 	}

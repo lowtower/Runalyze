@@ -21,9 +21,6 @@ class BackupReceiver
         $this->container = $container;
     }
 
-    /**
-     * @return string
-     */
     protected function getPathToBackupFiles(): string
     {
         return $this->container->getParameter('data_directory').'/backup-tool/backup/';
@@ -37,7 +34,9 @@ class BackupReceiver
         $fileHandler->setRunalyzeVersion($this->container->getParameter('runalyze_version'));
 
         /** @var Account $account */
-        $account = $this->container->get('doctrine.orm.entity_manager')->getRepository('CoreBundle:Account')->find($message->get('accountid'));
+        $account = $this->container->get('doctrine.orm.entity_manager')
+            ->getRepository('CoreBundle:Account')
+            ->find($message->get('accountid'));
 
         if ('json' == $message->get('export-type')) {
             $Backup = new JsonBackup(
@@ -59,9 +58,11 @@ class BackupReceiver
             $Backup->run();
         }
 
-        $this->container->get('doctrine')->getRepository('CoreBundle:Notification')->save(
-            Notification::createFromMessage(new BackupReadyMessage(), $account)
-        );
+        $this->container->get('doctrine')
+            ->getRepository('CoreBundle:Notification')
+            ->save(
+                Notification::createFromMessage(new BackupReadyMessage(), $account)
+            );
 	gc_collect_cycles();
     }
 }

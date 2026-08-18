@@ -29,7 +29,8 @@ class ViewController extends Controller
      */
     protected function getTrainingRepository()
     {
-        return $this->getDoctrine()->getRepository('CoreBundle:Training');
+        return $this->getDoctrine()
+            ->getRepository('CoreBundle:Training');
     }
 
     protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
@@ -50,11 +51,14 @@ class ViewController extends Controller
 
         switch ($request->query->get('action')) {
             case 'changePrivacy':
-                $this->getTrainingRepository()->save($activity->togglePrivacy());
-                $this->get('app.legacy_cache')->clearActivityCache($activity);
+                $this->getTrainingRepository()
+                    ->save($activity->togglePrivacy());
+                $this->get('app.legacy_cache')
+                    ->clearActivityCache($activity);
                 break;
             case 'delete':
-                $this->getTrainingRepository()->remove($activity);
+                $this->getTrainingRepository()
+                    ->remove($activity);
 
                 return $this->render('activity/activity_has_been_removed.html.twig');
         }
@@ -79,8 +83,10 @@ class ViewController extends Controller
     {
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
-        $configList = $this->get('app.configuration_manager')->getList();
-        $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
+        $configList = $this->get('app.configuration_manager')
+            ->getList();
+        $activityContext = $this->get('app.activity_context.factory')
+            ->getContext($activity);
 
         return $this->render('activity/vo2max_info.html.twig', [
             'context' => $activityContext,
@@ -116,13 +122,16 @@ class ViewController extends Controller
     {
         if ($request->get('use-calculated-value') == 'true') {
             /** @var Training $activity */
-            $activity = $this->getTrainingRepository()->find($id);
+            $activity = $this->getTrainingRepository()
+                ->find($id);
 
             $this->checkThatEntityBelongsToActivity($activity, $account);
 
-            $activity->getAdapter()->useElevationFromRoute();
+            $activity->getAdapter()
+                ->useElevationFromRoute();
 
-            $this->getTrainingRepository()->save($activity);
+            $this->getTrainingRepository()
+                ->save($activity);
         }
 
         $Frontend = new \Frontend(false, $this->get('security.token_storage'));
@@ -145,7 +154,9 @@ class ViewController extends Controller
      */
     public function timeSeriesInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
     {
-        $trackdata = $this->getDoctrine()->getRepository('CoreBundle:Trackdata')->findByActivity($id, $account);
+        $trackdata = $this->getDoctrine()
+            ->getRepository('CoreBundle:Trackdata')
+            ->findByActivity($id, $account);
 
         if (null === $trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
@@ -154,7 +165,8 @@ class ViewController extends Controller
         $trackdataModel = $trackdata->getLegacyModel();
 
         $paceUnit = PaceEnum::get(
-            $this->getTrainingRepository()->getSpeedUnitFor($id, $account->getId())
+            $this->getTrainingRepository()
+                ->getSpeedUnitFor($id, $account->getId())
         );
 
         $statistics = new TimeSeriesStatistics($trackdataModel);
@@ -173,7 +185,9 @@ class ViewController extends Controller
      */
     public function subSegmentInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
     {
-        $trackdata = $this->getDoctrine()->getRepository('CoreBundle:Trackdata')->findByActivity($id, $account);
+        $trackdata = $this->getDoctrine()
+            ->getRepository('CoreBundle:Trackdata')
+            ->findByActivity($id, $account);
 
         if (null === $trackdata) {
             return $this->render('activity/tool/not_possible.html.twig');
@@ -182,7 +196,8 @@ class ViewController extends Controller
         $trackdataModel = $trackdata->getLegacyModel();
 
         $paceUnit = PaceEnum::get(
-            $this->getTrainingRepository()->getSpeedUnitFor($id, $account->getId())
+            $this->getTrainingRepository()
+                ->getSpeedUnitFor($id, $account->getId())
         );
 
         $statistics = new BestSubSegmentsStatistics($trackdataModel);
@@ -203,7 +218,8 @@ class ViewController extends Controller
      */
     public function climbScoreAction(Training $activity, ?Account $account = null): \Symfony\Component\HttpFoundation\Response
     {
-        $activityContext = $this->get('app.activity_context.factory')->getContext($activity);
+        $activityContext = $this->get('app.activity_context.factory')
+            ->getContext($activity);
 
         if (! $activity->isPublic() && $account === null) {
             throw $this->createNotFoundException('No activity found.');
@@ -214,31 +230,38 @@ class ViewController extends Controller
         }
 
         if (
-            $activity->hasRoute() && null !== $activity->getRoute()->getElevationsCorrected() &&
-            $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()
+            $activity->hasRoute() && null !== $activity->getRoute()
+                ->getElevationsCorrected() &&
+            $activity->hasTrackdata() && null !== $activity->getTrackdata()
+                ->getDistance()
         ) {
             $numDistance = count($activity->getTrackdata()->getDistance());
             $numElevations = count($activity->getRoute()->getElevationsCorrected());
 
             if ($numElevations > $numDistance) {
-                $activity->getRoute()->setElevationsCorrected(array_slice($activity->getRoute()->getElevationsCorrected(), 0, $numDistance));
+                $activity->getRoute()
+                    ->setElevationsCorrected(array_slice($activity->getRoute()->getElevationsCorrected(), 0, $numDistance));
             }
         }
 
         if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
-            $activity->getRoute()->setElevationsCorrected((new StepwiseElevationProfileFixer(
-                5,
-                StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
-            ))->fixStepwiseElevations(
-                $activity->getRoute()->getElevationsCorrected(),
-                $activity->getTrackdata()->getDistance()
-            ));
+            $activity->getRoute()
+                ->setElevationsCorrected((new StepwiseElevationProfileFixer(
+                    5,
+                    StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE
+                ))->fixStepwiseElevations(
+                    $activity->getRoute()
+                        ->getElevationsCorrected(),
+                    $activity->getTrackdata()
+                        ->getDistance()
+                ));
         }
 
         return $this->render('activity/tool/climb_score.html.twig', [
             'context' => $activityContext,
             'decorator' => new ActivityDecorator($activityContext),
-            'paceUnit' => $activity->getSport()->getSpeedUnit()
+            'paceUnit' => $activity->getSport()
+                ->getSpeedUnit()
         ]);
     }
 }

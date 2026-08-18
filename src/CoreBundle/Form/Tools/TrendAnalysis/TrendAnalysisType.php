@@ -48,7 +48,8 @@ class TrendAnalysisType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()->getUser() : null;
+        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+            ->getUser() : null;
 
         if (! ($account instanceof Account)) {
             throw new \RuntimeException('Trend analysis type must have a valid account token.');
@@ -115,7 +116,8 @@ class TrendAnalysisType extends AbstractType
                 'choice_attr' => function($type, $key, $index) {
                     /** @var Type $type */
                     return [
-                        'data-sportid' => $type->getSport()->getId()
+                        'data-sportid' => $type->getSport()
+                            ->getId()
                     ];
                 }
             ])
@@ -176,9 +178,6 @@ class TrendAnalysisType extends AbstractType
         ]);
     }
 
-    /**
-     * @return string
-     */
     protected function getQueryValueEnumForVO2max(): string
     {
         if ($this->ConfigurationManager->getList()->useVO2maxCorrectionForElevation()) {

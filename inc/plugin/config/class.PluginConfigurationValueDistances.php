@@ -47,26 +47,26 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 		$this->Value = $this->roundAndTransformValues($this->Value, $transformValues, true);
 	}
 
-	/**
-	 * Get value as string
-	 * @param bool $transformValues
-	 * @return string
-	 */
-	public function valueAsString($transformValues = false): string {
+    /**
+     * Get value as string
+     * @param bool $transformValues
+     */
+    public function valueAsString($transformValues = false): string {
 		$values = $this->roundAndTransformValues($this->Value, $transformValues, false);
 
 		return implode(', ', $values);
 	}
 
-	/**
-	 * @param array $values
-	 * @param bool $transformValues
-	 * @param bool $toKm
-	 * @return array
-	 */
-	protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false) {
+    /**
+     * @param bool $transformValues
+     * @param bool $toKm
+     * @return array
+     */
+    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false) {
 		if ($transformValues) {
-			$factor = $toKm ? $this->unitSystem()->distanceToKmFactor() : $this->unitSystem()->distanceToPreferredUnitFactor();
+			$factor = $toKm ? $this->unitSystem()
+			    ->distanceToKmFactor() : $this->unitSystem()
+			    ->distanceToPreferredUnitFactor();
 
 			return array_map(function($val) use ($factor){
 				return round($val * $factor, self::PRECISION);
@@ -87,11 +87,10 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 		}
 	}
 
-	/**
-	 * Display row for config form
-	 * @return FormularInput
-	 */
-	public function getFormField(): \FormularInput {
+    /**
+     * Display row for config form
+     */
+    public function getFormField(): \FormularInput {
 		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
 		$Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);

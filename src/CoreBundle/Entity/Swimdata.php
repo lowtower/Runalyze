@@ -60,7 +60,6 @@ class Swimdata implements AccountRelatedEntityInterface
 
 
     /**
-     * @param array|null $stroke
      * @return $this
      */
     public function setStroke(?array $stroke = null)
@@ -78,16 +77,12 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this->stroke;
     }
 
-    /**
-     * @return bool
-     */
     public function hasStrokes(): bool
     {
         return null !== $this->stroke;
     }
 
     /**
-     * @param array|null $strokeType
      * @return $this
      */
     public function setStroketype(?array $strokeType = null)
@@ -105,9 +100,6 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this->stroketype;
     }
 
-    /**
-     * @return bool
-     */
     public function hasStrokeTypes(): bool
     {
         return null !== $this->stroketype;
@@ -133,7 +125,6 @@ class Swimdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Account $account
      * @return $this
      */
     public function setAccount(Account $account)
@@ -152,7 +143,6 @@ class Swimdata implements AccountRelatedEntityInterface
     }
 
     /**
-     * @param Training $activity
      * @return $this
      */
     public function setActivity(Training $activity)
@@ -170,9 +160,6 @@ class Swimdata implements AccountRelatedEntityInterface
         return $this->activity;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return (

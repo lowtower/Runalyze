@@ -52,9 +52,6 @@ class SportProfile extends AbstractEnum implements InterfaceChoosable
     /** @var int */
     const HIIT_CARDIO = 13;
 
-    /**
-     * @return array
-     */
     public static function getChoices(): array
     {
         $choices = [];

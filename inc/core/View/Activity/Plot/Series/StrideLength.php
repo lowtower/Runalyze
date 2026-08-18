@@ -35,13 +35,12 @@ class StrideLength extends ActivityPointSeries {
 		$this->setManualAverage($context->activity()->strideLength());
 	}
 
-	/**
-	 * Init data
-	 * @param \Runalyze\Model\Trackdata\Entity $trackdata
-	 * @param string|bool $key
-	 * @param bool $fillGaps try to fill gaps (zero values)
-	 */
-	protected function initData(Trackdata $trackdata, $key = false, $fillGaps = false) {
+    /**
+     * Init data
+     * @param string|bool $key
+     * @param bool $fillGaps try to fill gaps (zero values)
+     */
+    protected function initData(Trackdata $trackdata, $key = false, $fillGaps = false) {
 		$Collector = new DataCollectorForStrideLength($trackdata);
 
 		$this->Data = $Collector->data();

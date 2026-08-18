@@ -26,7 +26,6 @@ class TrimpCalculator
     }
 
     /**
-     * @param Training $activity
      * @param int $gender enum, see \Runalyze\Profile\Athlete\Gender
      * @param int $heartRateMaximum [bpm]
      * @param int $heartRateResting [bpm]
@@ -46,7 +45,6 @@ class TrimpCalculator
     }
 
     /**
-     * @param Training $activity
      * @return array
      */
     protected function getHeartRateHistogram(Training $activity)
@@ -56,13 +54,13 @@ class TrimpCalculator
         }
 
         return [
-            $activity->getAdapter()->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS()
+            $activity->getAdapter()
+                ->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS()
         ];
     }
 
     /**
      * @param int|null $value
-     * @param Training $activity
      */
     protected function checkIfValueIsOutOfRange(&$value, Training $activity)
     {

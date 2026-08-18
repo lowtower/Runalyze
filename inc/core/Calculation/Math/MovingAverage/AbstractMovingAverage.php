@@ -38,7 +38,6 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     /**
      * AbstractMovingAverage constructor
      * @param array $data data to average
-     * @param array $indexData
      * @param bool $indexDataIsAscending set to false if index is not ascending
      */
     public function __construct(array $data, array $indexData = [], $indexDataIsAscending = true)

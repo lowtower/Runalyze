@@ -12,19 +12,17 @@ $PLUGINKEY = 'RunalyzePluginPanel_Sportler';
  * @package Runalyze\Plugins\Panels
  */
 class RunalyzePluginPanel_Sportler extends PluginPanel {
-	/**
-	 * Name
-	 * @return string
-	 */
-	final public function name(): string {
+    /**
+     * Name
+     */
+    final public function name(): string {
 		return __('Body values');
 	}
 
-	/**
-	 * Description
-	 * @return string
-	 */
-	final public function description(): string {
+    /**
+     * Description
+     */
+    final public function description(): string {
 		return __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.');
 	}
 
@@ -112,7 +110,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 
 		$NumberOfFirstValues = count($FirstValues);
 		foreach ($FirstValues as &$Value) {
-			$Value->defineAsFloatingBlock( ($NumberOfFirstValues == 2) ? 'w50' : 'w33');
+			$Value->defineAsFloatingBlock( ($NumberOfFirstValues === 2) ? 'w50' : 'w33');
 			$Code .= $Value->getCode();
 		}
 

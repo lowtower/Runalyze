@@ -18,9 +18,6 @@ class Version20170328101217 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -39,9 +36,6 @@ class Version20170328101217 extends AbstractMigration implements ContainerAwareI
         $this->addSql('ALTER TABLE `'.$prefix.'sport` MODIFY `speed` tinyint unsigned NOT NULL DEFAULT 6');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

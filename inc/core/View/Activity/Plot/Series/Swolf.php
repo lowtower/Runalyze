@@ -25,7 +25,7 @@ class Swolf extends ActivityPointSeries {
 	/**
 	 * Create series
 	 * @var \Runalyze\View\Activity\Context
-	 * @var boolean [optional]
+	 * @var bool [optional]
 	 */
 	public function __construct(Activity\Context $context) {
 		$this->initOptions();
@@ -36,7 +36,7 @@ class Swolf extends ActivityPointSeries {
 	/**
 	 * Init data
 	 * @var \Runalyze\View\Activity\Context
-	 * @var boolean
+	 * @var bool
 	 */
 	protected function initDataWithSwimdata(Activity\Context $context) {
 		if (! $context->hasSwimdata()) {
@@ -75,13 +75,12 @@ class Swolf extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Add to plot
-	 * @param \Plot $Plot
-	 * @param int $yAxis
-	 * @param boolean $addAnnotations [optional]
-	 */
-	public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
+    /**
+     * Add to plot
+     * @param int $yAxis
+     * @param bool $addAnnotations [optional]
+     */
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
 		if (empty($this->Data)) {
 			return;
 		}

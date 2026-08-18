@@ -17,9 +17,6 @@ class Version20221123203500 extends AbstractMigration implements ContainerAwareI
         $this->container = $container;
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
@@ -32,9 +29,6 @@ class Version20221123203500 extends AbstractMigration implements ContainerAwareI
                                 where pulse_avg > 0 and pulse_avg_active is null and (splits is null or splits not like \'%-R%\')');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');

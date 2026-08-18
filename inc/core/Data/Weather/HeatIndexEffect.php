@@ -53,7 +53,6 @@ class HeatIndexEffect extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
@@ -77,7 +76,6 @@ class HeatIndexEffect extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @codeCoverageIgnore
      */
     public static function colorFor($enum): string
@@ -98,7 +96,6 @@ class HeatIndexEffect extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
@@ -122,7 +119,6 @@ class HeatIndexEffect extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @codeCoverageIgnore
      */
     public static function icon($enum): string
@@ -134,7 +130,6 @@ class HeatIndexEffect extends AbstractEnum
 
     /**
      * @param int $enum internal enum
-     * @return string
      * @codeCoverageIgnore
      */
     public static function fontIconName($enum): string

@@ -16,7 +16,6 @@ use Helper;
 
 class Data extends \Runalyze\Configuration\Category
 {
-    /** @return string */
     protected function key(): string
     {
         return 'data';
@@ -52,7 +51,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateStartTime($starttime)
     {
-        $this->object('START_TIME')->set($starttime);
+        $this->object('START_TIME')
+            ->set($starttime);
         $this->updateValue($this->handle('START_TIME'));
     }
 
@@ -76,7 +76,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateHRmax($heartrate)
     {
-        $this->object('HF_MAX')->set($heartrate);
+        $this->object('HF_MAX')
+            ->set($heartrate);
         $this->updateValue($this->handle('HF_MAX'));
     }
 
@@ -93,7 +94,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateHRrest($heartrate)
     {
-        $this->object('HF_REST')->set($heartrate);
+        $this->object('HF_REST')
+            ->set($heartrate);
         $this->updateValue($this->handle('HF_REST'));
     }
 
@@ -122,7 +124,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateVO2maxShape($shape)
     {
-        $this->object('VO2MAX_FORM')->set($shape);
+        $this->object('VO2MAX_FORM')
+            ->set($shape);
         $this->updateValue($this->handle('VO2MAX_FORM'));
     }
 
@@ -151,7 +154,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateVO2maxCorrector($factor)
     {
-        $this->object('VO2MAX_CORRECTOR')->set($factor);
+        $this->object('VO2MAX_CORRECTOR')
+            ->set($factor);
         $this->updateValue($this->handle('VO2MAX_CORRECTOR'));
     }
 
@@ -168,7 +172,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateBasicEndurance($basicEndurance)
     {
-        $this->object('BASIC_ENDURANCE')->set($basicEndurance);
+        $this->object('BASIC_ENDURANCE')
+            ->set($basicEndurance);
         $this->updateValue($this->handle('BASIC_ENDURANCE'));
     }
 
@@ -185,7 +190,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateMaxATL($atl)
     {
-        $this->object('MAX_ATL')->set($atl);
+        $this->object('MAX_ATL')
+            ->set($atl);
         $this->updateValue($this->handle('MAX_ATL'));
     }
 
@@ -202,7 +208,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateMaxCTL($ctl)
     {
-        $this->object('MAX_CTL')->set($ctl);
+        $this->object('MAX_CTL')
+            ->set($ctl);
         $this->updateValue($this->handle('MAX_CTL'));
     }
 
@@ -219,7 +226,8 @@ class Data extends \Runalyze\Configuration\Category
      */
     public function updateMaxTrimp($trimp)
     {
-        $this->object('MAX_TRIMP')->set($trimp);
+        $this->object('MAX_TRIMP')
+            ->set($trimp);
         $this->updateValue($this->handle('MAX_TRIMP'));
     }
 

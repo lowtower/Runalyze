@@ -59,8 +59,11 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->Data->setVerticalOscillation([110, 110, 110, 110]);
 
         $this->Data->setActivity(new Training());
-        $this->Data->getActivity()->setRoute(new Route());
-        $this->Data->getActivity()->getRoute()->setElevationsCorrected([0, 50, 100, 50]);
+        $this->Data->getActivity()
+            ->setRoute(new Route());
+        $this->Data->getActivity()
+            ->getRoute()
+            ->setElevationsCorrected([0, 50, 100, 50]);
 
         $this->assertEquals([111, 111, 111, 111], $this->Data->getStrideLength());
         $this->assertEquals([99, 99, 99, 99], $this->Data->getVerticalRatio());
@@ -73,13 +76,16 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->Data->setDistance(range(0.0, 3.0, 0.05));
 
         $this->Data->setActivity(new Training());
-        $this->Data->getActivity()->setRoute(new Route());
-        $this->Data->getActivity()->getRoute()->setElevationsCorrected(
-            array_fill(0, 10, 0) +
-            array_fill(10, 20, 50) +
-            array_fill(30, 20, 100) +
-            array_fill(50, 11, 50)
-        );
+        $this->Data->getActivity()
+            ->setRoute(new Route());
+        $this->Data->getActivity()
+            ->getRoute()
+            ->setElevationsCorrected(
+                array_fill(0, 10, 0) +
+                        array_fill(10, 20, 50) +
+                        array_fill(30, 20, 100) +
+                        array_fill(50, 11, 50)
+            );
 
         $gradeAdjustedPace = $this->Data->getGradeAdjustedPace();
         $gradient = $this->Data->getGradient();
