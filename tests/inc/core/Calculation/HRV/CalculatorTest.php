@@ -95,6 +95,10 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             Entity::DATA => explode('|', '56909|17|18340|8193|16|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|0|0|0|0|54921|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0'),
         ]));
         $Calculator->calculate();
+
+        $mean = $Calculator->mean();
+        $this->assertIsFloat((float) $mean, 'mean() should return a float value');
+        $this->assertGreaterThanOrEqual(0, $mean);
     }
 
     /**

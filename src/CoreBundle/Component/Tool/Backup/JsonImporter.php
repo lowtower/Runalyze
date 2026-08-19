@@ -253,9 +253,9 @@ class JsonImporter
     }
 
     /**
-     * @return \PDOStatement
+     * @param 'runalyze_conf'|'runalyze_dataset'|'runalyze_plugin'|'runalyze_plugin_conf' $tableName
      */
-    private function prepareUpdateStatement(string $tableName)
+    private function prepareUpdateStatement(string $tableName): \PDOStatement
     {
         switch ($tableName) {
             case 'runalyze_conf':
@@ -275,6 +275,8 @@ class JsonImporter
 
             case 'runalyze_plugin_conf':
                 return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin_conf` SET `value`=? WHERE `pluginid`=? AND `config`=?');
+            default:
+                throw new \LogicException('Unhandled table name');
         }
     }
 

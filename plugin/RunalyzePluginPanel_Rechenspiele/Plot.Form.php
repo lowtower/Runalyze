@@ -21,8 +21,13 @@ $CTLs = [];
 $VO2MAXs = [];
 $TRIMPs = [];
 $VO2MAXsday = [];
+$TSBs = [];
+$showInPercent = false;
+$index = null;
 $maxTrimp = 0;
 
+/** @var string $timerange */
+/** @var string $perfmodel */
 $All = 1 * ($timerange == 'all'); // 0 or 1
 $lastHalf = 1 * ($timerange == 'lasthalf');
 $lastYear = 1 * ($timerange == 'lastyear');

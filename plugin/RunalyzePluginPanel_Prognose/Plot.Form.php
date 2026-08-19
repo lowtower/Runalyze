@@ -220,7 +220,7 @@ if ($Prognosis !== [] && max($Prognosis) > 1000 * 3600) {
 
 $Plot->setTitle(__('Prognosis trend') . ' ' . Distance::format($distance));
 
-if ($DataFailed || empty($Data)) {
+if ($DataFailed) {
     $Plot->raiseError(__('No data available.'));
 }
 

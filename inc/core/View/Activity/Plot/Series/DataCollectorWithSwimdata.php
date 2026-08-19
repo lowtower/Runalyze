@@ -67,7 +67,6 @@ class DataCollectorWithSwimdata extends DataCollector
 
     /**
      * Get next step for plot data
-     * @return bool
      */
     protected function move()
     {

@@ -17,16 +17,71 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Exporter->isPossible());
     }
 
-    public function testFileCreationForOutdoorActivity()
+    public function testFileCreationForOutdoorActivity(): void
     {
         $Exporter = new Tcx(FakeContext::outdoorContext());
         $Exporter->createFileWithoutDirectDownload();
+
+        $content = $Exporter->fileContent();
+
+        $this->assertNotSame('', $content);
+        $this->assertStringContainsString('<TrainingCenterDatabase', $content);
+
+        $xml = new \SimpleXMLElement($content);
+        $Activity = $xml->Activities->Activity;
+
+        // outdoorContext() has distance of 2.0 km -> at least one lap
+        $this->assertGreaterThan(0, count($Activity->Lap));
+
+        // at least one trackpoint should exist over all laps
+        $trackpointCount = 0;
+        foreach ($Activity->Lap as $Lap) {
+            $trackpointCount += count($Lap->Track->Trackpoint);
+        }
+
+        $this->assertGreaterThan(0, $trackpointCount);
+
+        // outdoorContext() provides HEARTRATE, CADENCE, GEOHASHES, ELEVATIONS_ORIGINAL -> each once expected in content
+        // pace is derived from Distance+Time -> Extensions/TPX/Speed are created
+        $this->assertStringContainsString('<HeartRateBpm>', $content);
+        $this->assertStringContainsString('<Cadence>', $content);
+        $this->assertStringContainsString('<Position>', $content);
+        $this->assertStringContainsString('<AltitudeMeters>', $content);
+        $this->assertStringContainsString('<Extensions>', $content);
+        $this->assertStringContainsString('ns3:Speed', $content);
+
+        // no power-sensor in the fixture
+        $this->assertStringNotContainsString('ns3:Watts', $content);
     }
 
-    public function testFileCreationForIndoorActivity()
+    public function testFileCreationForIndoorActivity(): void
     {
         $Exporter = new Tcx(FakeContext::indoorContext());
         $Exporter->createFileWithoutDirectDownload();
+
+        $content = $Exporter->fileContent();
+
+        $this->assertNotSame('', $content);
+        $this->assertStringContainsString('<TrainingCenterDatabase', $content);
+
+        $xml = new \SimpleXMLElement($content);
+        $Activity = $xml->Activities->Activity;
+
+        $this->assertGreaterThan(0, count($Activity->Lap));
+
+        $trackpointCount = 0;
+        foreach ($Activity->Lap as $Lap) {
+            $trackpointCount += count($Lap->Track->Trackpoint);
+        }
+
+        $this->assertGreaterThan(0, $trackpointCount);
+
+        // indoorContext() provides HEARTRATE, but no route, no cadence
+        $this->assertStringContainsString('<HeartRateBpm>', $content);
+        $this->assertStringNotContainsString('<Position>', $content);
+        $this->assertStringNotContainsString('<AltitudeMeters>', $content);
+        $this->assertStringNotContainsString('<Cadence>', $content);
+        $this->assertStringNotContainsString('<Extensions>', $content);
     }
 
     public function testMinimalExampleWithOnlyTime()

@@ -37,11 +37,12 @@ class WindChillFactor implements ValueInterface
      *
      * Attention: No calculation will be done!
      * @param float|string|null $temperature [°C]
-     * @return \Runalyze\Data\Weather\WindChillFactor $this-reference
      */
-    public function set($temperature)
+    public function set($temperature): self
     {
         $this->AdjustedTemperature->set($temperature);
+
+        return $this;
     }
 
     /**

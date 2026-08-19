@@ -7,21 +7,28 @@ class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
     public function testThatDescriptionCanBeCalledForAllLevels()
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
-            HeatIndexEffect::description($level);
+            $description = HeatIndexEffect::description($level);
+            $this->assertIsString($description, "Description for level {$level} should be a string.");
+            $this->assertNotEmpty($description, "Description for level {$level} should not be empty.");
         }
     }
 
     public function testThatLabelCanBeCalledForAllLevels()
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
-            HeatIndexEffect::label($level);
+            $label = HeatIndexEffect::label($level);
+            $this->assertIsString($label, "Label for level {$level} should be a string.");
+            $this->assertNotEmpty($label, "Label for level {$level} should not be empty.");
         }
     }
 
     public function testThatIconCanBeCalledForAllLevels()
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
-            HeatIndexEffect::icon($level);
+            $icon = HeatIndexEffect::icon($level);
+            $this->assertIsString($icon, "Icon for level {$level} should be a string.");
+            $this->assertStringContainsString('<i', $icon, "Icon for level {$level} should contain an <i> tag.");
+            $this->assertStringContainsString('fa', $icon, "Icon for level {$level} should contain a FontAwesome class.");
         }
     }
 

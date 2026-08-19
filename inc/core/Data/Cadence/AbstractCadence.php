@@ -60,7 +60,7 @@ abstract class AbstractCadence
      */
     final public function asStringWithTooltip()
     {
-        return Ajax::tooltip($this->asString(), $this->Value . ' ' . $this->unitExplanation());
+        return \Ajax::tooltip($this->asString(), $this->Value . ' ' . $this->unitExplanation());
     }
 
     /**

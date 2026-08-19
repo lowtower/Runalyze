@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Elevation\Strategy;
 
 /**
@@ -11,7 +13,7 @@ class ReumannWitkamTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\RuntimeException::class);
         // This algorithm ist not implemented
-        $DP = new ReumannWitkam([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], 0);
+        $DP = new ReumannWitkam([0, 2, 4, 6, 5, 7, 4, 8, 10, 0]);
         $DP->runSmoothing();
     }
 }

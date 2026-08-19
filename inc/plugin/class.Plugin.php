@@ -420,17 +420,18 @@ abstract class Plugin
      * Get link for the config-window
      * @param string $name [optional], default: settings-icon
      * @param string $add_param [optional] additional parameter starting with '&...'
-     * @return string
      */
-    final public function getConfigLink($name = '', $add_param = '')
+    final public function getConfigLink($name = '', $add_param = ''): ?string
     {
         if ($name == '') {
             $name = Icon::$CONF;
         }
 
-        if (! empty($this->Configuration()->objects())) {
-            return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
+        if (empty($this->Configuration()->objects())) {
+            return null;
         }
+
+        return Ajax::window('<a href="' . self::$CONFIG_URL . '?id=' . $this->id() . $add_param . '">' . $name . '</a>', 'small');
     }
 
     /**

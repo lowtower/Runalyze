@@ -34,9 +34,9 @@ class JsonBackupAnalyzer
 
         while (! $reader->eof()) {
             $line = trim($reader->readLine());
+            $tableName = substr($line, 10, -2);
 
             if (substr($line, 0, 8) == '{"TABLE"') {
-                $tableName = substr($line, 10, -2);
                 $this->NumberOf[$tableName] = 0;
             } elseif ($line !== '' && $line[0] == '{' && isset($this->NumberOf[$tableName])) {
                 $this->NumberOf[$tableName]++;

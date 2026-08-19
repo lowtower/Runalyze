@@ -23,9 +23,16 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondData = new ContinuousData();
     }
 
-    public function testThatMergeWorksWithEmptyObjects()
+    public function testThatMergeWorksWithEmptyObjects(): void
     {
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge();
+
+        foreach ($this->FirstData->getPropertyNamesOfArrays() as $property) {
+            $this->assertEmpty(
+                $this->FirstData->{$property},
+                sprintf('Property "%s" should remain empty after merging two empty objects.', $property)
+            );
+        }
     }
 
     public function testWithDifferentArraySizes()

@@ -15,12 +15,12 @@ class UnitSystemTest extends \PHPUnit\Framework\TestCase
     {
         $unitSystem = new UnitSystem(new RunalyzeConfigurationList());
 
-        $unitSystem->getDistanceUnit();
-        $unitSystem->getEnergyUnit();
-        $unitSystem->getHeartRateUnit();
-        $unitSystem->getPaceUnit();
-        $unitSystem->getTemperatureUnit();
-        $unitSystem->getWeightUnit();
+        $this->assertInstanceOf(\Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit::class, $unitSystem->getDistanceUnit());
+        $this->assertInstanceOf(\Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit::class, $unitSystem->getEnergyUnit());
+        $this->assertInstanceOf(\Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit::class, $unitSystem->getHeartRateUnit());
+        $this->assertInstanceOf(\Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit::class, $unitSystem->getPaceUnit());
+        $this->assertInstanceOf(\Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit::class, $unitSystem->getTemperatureUnit());
+        $this->assertInstanceOf(\Runalyze\Metrics\Weight\Unit\AbstractWeightUnit::class, $unitSystem->getWeightUnit());
     }
 
     public function testThatPaceUnitCanBeSet()

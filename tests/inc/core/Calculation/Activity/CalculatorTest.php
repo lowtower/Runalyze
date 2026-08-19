@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Model;
@@ -16,7 +18,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
             Model\Activity\Entity::DISTANCE => 10,
             Model\Activity\Entity::TIME_IN_SECONDS => 3000,
             Model\Activity\Entity::HR_AVG => 150,
-        ], null, null));
+        ]));
 
         $this->assertGreaterThan(0, $Calculator->estimateVO2maxByTime());
         $this->assertGreaterThan(0, $Calculator->estimateVO2maxByHeartRate());

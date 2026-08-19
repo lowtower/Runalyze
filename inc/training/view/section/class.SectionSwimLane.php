@@ -18,7 +18,7 @@ class SectionSwimLane extends TrainingViewSectionTabbedPlot
     protected function setHeaderAndRows()
     {
 
-        $this->appendRowTabbedPlot(new SectionSwimLaneRow($this->Context, __('Lanes')));
+        $this->appendRowTabbedPlot(new SectionSwimLaneRow($this->Context));
         $this->Header = __('Lanes');
 
     }

@@ -23,9 +23,11 @@ class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondData = new WeatherData();
     }
 
-    public function testThatMergeWorksWithEmptyObjects()
+    public function testThatMergeWorksWithEmptyObjects(): void
     {
         (new WeatherDataMerger($this->FirstData, $this->SecondData))->merge();
+
+        $this->assertTrue($this->FirstData->isEmpty());
     }
 
     public function testMergingWithSomeData()

@@ -1,0 +1,139 @@
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$AccountID\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$AdditionalColumns\.$#'
+            identifier: property.protected
+            count: 4
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$AllDaysEmpty\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$DatasetConfig\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$DatasetQuery\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$DayCount\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$Days\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$Factory\.$#'
+            identifier: property.protected
+            count: 2
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$SportId\.$#'
+            identifier: property.protected
+            count: 2
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$Sports\.$#'
+            identifier: property.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$TimestampEnd\.$#'
+            identifier: property.protected
+            count: 2
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Access to protected property DataBrowser\:\:\$TimestampStart\.$#'
+            identifier: property.protected
+            count: 2
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method codeForAdditionalColumnsForActivity\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method dateString\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 2
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method displayHoverLinks\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method displayIconLinks\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method displayNavigationLinks\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method displayTitle\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method getSportLink\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Call to protected method getYearLinks\(\) of class DataBrowser\.$#'
+            identifier: method.protected
+            count: 1
+            path: inc/tpl/tpl.DataBrowser.php
+
+        -
+            message: '#^Constant RUNALYZE_DATE not found\.$#'
+            identifier: constant.notFound
+            count: 1
+            path: inc/tpl/tpl.Frontend.header.php
+
+        -
+            message: '#^Constant RUNALYZE_VERSION not found\.$#'
+            identifier: constant.notFound
+            count: 3
+            path: inc/tpl/tpl.Frontend.header.php
+
+        -
+            message: '#^Variable \$this might not be defined\.$#'
+            identifier: variable.undefined
+            count: 1
+            path: lib/jquery.form.include.php

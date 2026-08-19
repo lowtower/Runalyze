@@ -10,7 +10,11 @@ class ClimbProfileTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyConstructor()
     {
-        new ClimbProfile();
+        $profile = new ClimbProfile();
+        $this->assertInstanceOf(ClimbProfile::class, $profile);
+        $this->assertCount(0, $profile);
+        $this->assertEmpty($profile->getDistances());
+        $this->assertEmpty($profile->getElevations());
     }
 
     public function testCount()

@@ -56,7 +56,7 @@ class Timezone implements InterfaceChoosable
      * Get list of timezones for showing up a list (with identifier as key)
      * @return array [id => pretty string], internal id's from enum und strings with offset
      */
-    public static function listTimezones()
+    public static function listTimezones(): array
     {
         $timezones = [];
         $timezoneList = TimezoneEnum::getMapping();
@@ -86,8 +86,9 @@ class Timezone implements InterfaceChoosable
      * @param int[]|string[] $timezoneEnum [timezone_id => enum]
      * @return array [timezone_id => "(UTC+XX:XX) Timezone/Name - HH:MM"]
      */
-    private static function listPrettyTimezones(array $timezoneOffsets, array $timezoneEnum)
+    private static function listPrettyTimezones(array $timezoneOffsets, array $timezoneEnum): array
     {
+        $timezoneList = [];
         foreach ($timezoneOffsets as $offset => $timezones) {
             foreach ($timezones as $timezone) {
                 $offsetPrefix = $offset < 0 ? '-' : '+';

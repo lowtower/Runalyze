@@ -35,9 +35,13 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 
     public function testTSBclosure()
     {
-        new MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
+        $Calc = new MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
             return new TsbModel($array);
         }, []);
+
+        $this->assertEquals(0, $Calc->maxFitness());
+        $this->assertEquals(0, $Calc->maxFatigue());
+        $this->assertEquals(0, $Calc->maxTrimp());
     }
 
     public function testFakeModel()

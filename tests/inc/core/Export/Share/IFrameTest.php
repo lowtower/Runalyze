@@ -31,6 +31,9 @@ class IFrameTest extends \PHPUnit\Framework\TestCase
         $Sharer = new IFrame(FakeContext::emptyContext());
         $Sharer->display();
 
-        ob_end_clean();
+        $output = ob_get_clean();
+
+        $this->assertNotEmpty($output, 'Output should not be empty after displaying the IFrame.');
+        $this->assertStringContainsString('<iframe', $output, 'Output should contain an iframe tag.');
     }
 }

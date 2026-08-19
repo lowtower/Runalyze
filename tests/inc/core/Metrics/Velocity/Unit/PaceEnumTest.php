@@ -9,7 +9,8 @@ class PaceEnumTest extends \PHPUnit\Framework\TestCase
     public function testThatAllUnitsCanBeConstructed()
     {
         foreach (PaceEnum::getEnum() as $unit) {
-            PaceEnum::get($unit);
+            $paceUnit = PaceEnum::get($unit);
+            $this->assertInstanceOf(\Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit::class, $paceUnit, "Unit for {$unit} should be an instance of AbstractPaceUnit.");
         }
     }
 }

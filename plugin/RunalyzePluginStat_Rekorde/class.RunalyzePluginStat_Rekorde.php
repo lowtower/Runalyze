@@ -143,12 +143,14 @@ class RunalyzePluginStat_Rekorde extends PluginStat
             return;
         }
 
+        $i = 0;
         // Years
         if ($this->year == -1) {
             echo '<tr class="r"><td class="c b">' . __('per year') . '</td>';
             foreach ($this->years as $i => $year) {
                 $link = DataBrowserLinker::yearLink(Distance::format($year['km']), $year['time'], false);
                 echo '<td class="small"><span title="' . $year['year'] . '">' . $link . '</span></td>';
+                $i++;
             }
 
             for (; $i < 9; $i++) {
@@ -163,6 +165,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         foreach ($this->months as $i => $month) {
             $link = DataBrowserLinker::monthLink(Distance::format($month['km']), $month['time'], false);
             echo '<td class="small"><span title="' . Time::month($month['month']) . ' ' . $month['year'] . '">' . $link . '</span></td>';
+            $i++;
         }
 
         for (; $i < 9; $i++) {
@@ -176,6 +179,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
         foreach ($this->weeks as $i => $week) {
             $link = DataBrowserLinker::weekLink(Distance::format($week['km']), $week['time'], false);
             echo '<td class="small"><span title="' . __('Week') . ' ' . $week['week'] . ' ' . $week['year'] . '">' . $link . '</span></td>';
+            $i++;
         }
 
         for (; $i < 9; $i++) {

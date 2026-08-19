@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Account;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
@@ -23,7 +22,7 @@ class Registration
     protected $Account;
 
     /**
-     * @var ObjectManager
+     * @var \Doctrine\Persistence\ObjectManager
      */
     protected $em;
 
@@ -32,7 +31,7 @@ class Registration
      */
     protected $specialVars;
 
-    public function __construct(ObjectManager $em, Account $account)
+    public function __construct(\Doctrine\Persistence\ObjectManager $em, Account $account)
     {
         $this->em = $em;
         $this->Account = $account;

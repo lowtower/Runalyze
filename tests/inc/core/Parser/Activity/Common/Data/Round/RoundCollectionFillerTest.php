@@ -53,6 +53,8 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
         $filler = new RoundCollectionFiller($collection);
         $filler->fillDistancesFromArray([1, 2, 3], [0.01, 0.02, 0.03]);
         $filler->fillTimesFromArray([1, 2, 3], [0.01, 0.02, 0.03]);
+
+        $this->assertCount(0, $collection, 'Empty collection should remain empty after filling with empty data');
     }
 
     public function testWithTooShortDistanceArray()

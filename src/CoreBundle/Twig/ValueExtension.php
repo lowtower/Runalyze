@@ -17,7 +17,7 @@ use Runalyze\Metrics\Velocity\Unit\AbstractPaceInTimeFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 
-class ValueExtension extends \Twig_Extension
+class ValueExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var UnitSystem
@@ -40,7 +40,7 @@ class ValueExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Twig_SimpleFunction[]
+     * @return \Twig\TwigFunction[]
      *
      * @codeCoverageIgnore
      */
@@ -51,22 +51,22 @@ class ValueExtension extends \Twig_Extension
         ];
 
         return [
-            new \Twig_SimpleFunction('value', [$this, 'value'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('distance', [$this, 'distance'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('elevation', [$this, 'elevation'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('strideLength', [$this, 'strideLength'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('energy', [$this, 'energy'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('heartRate', [$this, 'heartRate'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('heartRatePercentMaximum', [$this, 'heartRatePercentMaximum'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('heartRateComparison', [$this, 'heartRateComparison'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('pace', [$this, 'pace'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('paceComparison', [$this, 'paceComparison'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('temperature', [$this, 'temperature'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('weight', [$this, 'weight'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('vo2max', [$this, 'vo2max'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('vo2maxFor', [$this, 'vo2maxFor'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('jsFormatter', [$this, 'jsFormatter'], $safeHtmlOptions),
-            new \Twig_SimpleFunction('jsTransformer', [$this, 'jsTransformer'], $safeHtmlOptions),
+            new \Twig\TwigFunction('value', [$this, 'value'], $safeHtmlOptions),
+            new \Twig\TwigFunction('distance', [$this, 'distance'], $safeHtmlOptions),
+            new \Twig\TwigFunction('elevation', [$this, 'elevation'], $safeHtmlOptions),
+            new \Twig\TwigFunction('strideLength', [$this, 'strideLength'], $safeHtmlOptions),
+            new \Twig\TwigFunction('energy', [$this, 'energy'], $safeHtmlOptions),
+            new \Twig\TwigFunction('heartRate', [$this, 'heartRate'], $safeHtmlOptions),
+            new \Twig\TwigFunction('heartRatePercentMaximum', [$this, 'heartRatePercentMaximum'], $safeHtmlOptions),
+            new \Twig\TwigFunction('heartRateComparison', [$this, 'heartRateComparison'], $safeHtmlOptions),
+            new \Twig\TwigFunction('pace', [$this, 'pace'], $safeHtmlOptions),
+            new \Twig\TwigFunction('paceComparison', [$this, 'paceComparison'], $safeHtmlOptions),
+            new \Twig\TwigFunction('temperature', [$this, 'temperature'], $safeHtmlOptions),
+            new \Twig\TwigFunction('weight', [$this, 'weight'], $safeHtmlOptions),
+            new \Twig\TwigFunction('vo2max', [$this, 'vo2max'], $safeHtmlOptions),
+            new \Twig\TwigFunction('vo2maxFor', [$this, 'vo2maxFor'], $safeHtmlOptions),
+            new \Twig\TwigFunction('jsFormatter', [$this, 'jsFormatter'], $safeHtmlOptions),
+            new \Twig\TwigFunction('jsTransformer', [$this, 'jsTransformer'], $safeHtmlOptions),
         ];
     }
 

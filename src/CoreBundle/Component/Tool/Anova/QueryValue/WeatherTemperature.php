@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Metrics\Cadence\Unit\AbstractCadenceUnit;
+use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 
 class WeatherTemperature extends AbstractOneColumnValue
 {
@@ -14,10 +14,7 @@ class WeatherTemperature extends AbstractOneColumnValue
         return 'temperature';
     }
 
-    /**
-     * @return AbstractCadenceUnit
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): AbstractTemperatureUnit
     {
         return $unitSystem->getTemperatureUnit();
     }

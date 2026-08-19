@@ -267,7 +267,7 @@ class HTML
 
     /**
      * Get ' checked' if boolean value is true
-     * @param bool $value
+     * @param bool|null $value
      * @param mixed $value_to_be_checked [optional]
      */
     public static function Checked($value, $value_to_be_checked = null): string
@@ -276,7 +276,7 @@ class HTML
             $value = ($value == $value_to_be_checked);
         }
 
-        if ($value === null || ! isset($value)) {
+        if (! isset($value) || $value === null) {
             $value = false;
         }
 

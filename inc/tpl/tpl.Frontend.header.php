@@ -1,3 +1,7 @@
+<?php
+
+/** @var \Frontend $this */
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,8 +33,13 @@
 	<span id="menu-link" onclick="$('#headline').toggleClass('menu-expanded');"><i class="fa fa-fw fa-bars"></i></span>
 	<a class="tab logo" href="<?php echo System::getFullDomain(); ?>" title="Runalyze">Runalyze</a>
 
-	<?php if ($this instanceof \Symfony\Component\DependencyInjection\ContainerAwareInterface && $this->get('security.authorization_checker')->isGranted('ROLE_USER')) { ?>
-        <?php $username = $this->get('security.token_storage')->getToken()->getUser()->getUsername(); ?>
+    <?php if (method_exists($this, 'get') && $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $auth */
+        $auth = $this->get('security.authorization_checker');
+        $username = $this->get('security.token_storage')
+            ->getToken()
+            ->getUser()
+            ->getUsername(); ?>
         <div class="headline-menu right">
             <div class="submenu-label">
                 <?php echo $username ?>&nbsp;<i class="fa fa-fw fa-lg fa-user"></i>
@@ -66,7 +75,7 @@
                         ->generate('glossary-index'); ?>"><i class="fa fa-fw fa-book"></i>&nbsp;<?php _e('Glossary'); ?></a></li>
                 <li><a href="https://help.runalyze.com"><i class="fa fa-fw fa-book"></i>&nbsp;<?php _e('Documentation'); ?></a></li>
                 <li class="separator"></li>
-                <?php if (! empty($this->getParameter('feedback_mail'))) { ?>
+                <?php if (method_exists($this, 'getParameter') && ! empty($this->getParameter('feedback_mail'))) { ?>
                 <li><a class="window" href="<?php echo $this->get('router')
                     ->generate('feedback'); ?>"><i class="fa fa-fw fa-cogs"></i>&nbsp;<?php _e('Feedback'); ?></a></li>
                 <?php } ?>

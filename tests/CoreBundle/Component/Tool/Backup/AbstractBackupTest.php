@@ -40,5 +40,7 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
     public function testThatBackupQueriesDoWork()
     {
         $this->Backup->run();
+
+        $this->assertFileExists(__DIR__ . self::TESTFILE, 'Backup file should exist after running backup');
     }
 }

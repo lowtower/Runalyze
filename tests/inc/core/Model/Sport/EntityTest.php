@@ -44,6 +44,11 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     public function testPaceUnitForEmptySport()
     {
         $Sport = new Entity([]);
-        $Sport->legacyPaceUnit();
+        $paceUnit = $Sport->legacyPaceUnit();
+        $this->assertInstanceOf(
+            \Runalyze\Activity\PaceUnit\KmPerHour::class,
+            $paceUnit,
+            'legacyPaceUnit() should return a KmPerHour instance for empty sport'
+        );
     }
 }

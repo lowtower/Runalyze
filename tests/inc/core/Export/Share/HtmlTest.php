@@ -11,7 +11,7 @@ use Runalyze\View\Activity\FakeContext;
  */
 class HtmlTest extends \PHPUnit\Framework\TestCase
 {
-    public function checkThatItsAlwaysPossible()
+    public function testThatItsAlwaysPossible(): void
     {
         $this->assertTrue((new Html(FakeContext::onlyWithActivity(
             new Activity\Entity([
@@ -26,15 +26,17 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         )))->isPossible());
     }
 
-    public function testThatCodeCanBeCreated()
+    public function testThatCodeCanBeCreated(): void
     {
-        ob_start();
-
         foreach (FakeContext::examplaryContexts() as $context) {
             $Sharer = new Html($context);
-            $Sharer->display();
-        }
 
-        ob_end_clean();
+            ob_start();
+            $Sharer->display();
+            $output = ob_get_clean();
+
+            $this->assertIsString($output);
+            $this->assertNotSame('', $output, 'Html::display() should produce non-empty output.');
+        }
     }
 }

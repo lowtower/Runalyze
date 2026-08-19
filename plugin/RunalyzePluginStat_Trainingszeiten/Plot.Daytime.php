@@ -6,17 +6,29 @@
  * @package Runalyze\Plugins\Stats
  */
 
+/** @var RunalyzePluginStat_Trainingszeiten $this */
+
 use Runalyze\Util\LocalTime;
+
+if (! ($this instanceof RunalyzePluginStat_Trainingszeiten)) {
+    die('Not allowed.');
+}
 
 $titleCenter = __('Activity [in h] by day time');
 $xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 $yAxis = [];
 
+// TODO: refactor (see Plot.Bestzeit.php)
+// @phpstan-ignore property.protected (called only per include from this class, $this is bound)
 if ($this->sportid > 0) {
+    // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
     $Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
     $Sports = SportFactory::AllSports();
 }
+
+// @phpstan-ignore-next-line method.protected (called only per include from this class, $this is bound)
+$YearDependence = $this->getYearDependenceForQuery();
 
 $Query = DB::getInstance()->prepare(
     'SELECT time, s
@@ -25,7 +37,7 @@ $Query = DB::getInstance()->prepare(
 		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		`sportid`=:id AND
 		(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0)
-		' . $this->getYearDependenceForQuery() . '
+		' . $YearDependence . '
 	'
 );
 

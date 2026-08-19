@@ -9,7 +9,8 @@ class HeartRateEnumTest extends \PHPUnit\Framework\TestCase
     public function testThatAllUnitsCanBeConstructed()
     {
         foreach (HeartRateEnum::getEnum() as $unit) {
-            HeartRateEnum::get($unit, 200, 60);
+            $heartRateUnit = HeartRateEnum::get($unit, 200, 60);
+            $this->assertInstanceOf(\Runalyze\Metrics\HeartRate\Unit\AbstractHeartRateUnit::class, $heartRateUnit, "Unit for {$unit} should be an instance of AbstractHeartRateUnit.");
         }
     }
 

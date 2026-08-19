@@ -28,6 +28,14 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
     {
         parent::setUp();
 
+        $tokenStorage = new TokenStorage();
+        $tokenStorage->setToken(
+            new PreAuthenticatedToken(
+                $this->getDefaultAccount(),
+                'foo',
+                'bar'
+            )
+        );
         $this->Container = new ActivityDataContainer();
         $this->Converter = new ActivityDataContainerToActivityContextConverter(
             $this->EntityManager->getRepository('CoreBundle:Sport'),
@@ -35,9 +43,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
             $this->EntityManager->getRepository('CoreBundle:Equipment'),
             new ConfigurationManager(
                 $this->EntityManager->getRepository('CoreBundle:Conf'),
-                new TokenStorage(
-                    new PreAuthenticatedToken($this->getDefaultAccount(), 'foo', 'bar')
-                )
+                $tokenStorage
             ),
             $this->getDefaultAccount()
         );

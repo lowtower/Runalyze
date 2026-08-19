@@ -12,8 +12,27 @@ class KernelsTest extends \PHPUnit\Framework\TestCase
 
     public function testAllConstructors()
     {
+        $expectedClasses = [
+            Kernels::UNIFORM => \Runalyze\Calculation\Math\MovingAverage\Kernel\Uniform::class,
+            Kernels::TRIANGULAR => \Runalyze\Calculation\Math\MovingAverage\Kernel\Triangular::class,
+            Kernels::EPANECHNIKOV => \Runalyze\Calculation\Math\MovingAverage\Kernel\Epanechnikov::class,
+            Kernels::QUARTIC => \Runalyze\Calculation\Math\MovingAverage\Kernel\Quartic::class,
+            Kernels::TRIWEIGHT => \Runalyze\Calculation\Math\MovingAverage\Kernel\Triweight::class,
+            Kernels::TRICUBE => \Runalyze\Calculation\Math\MovingAverage\Kernel\Tricube::class,
+            Kernels::GAUSSIAN => \Runalyze\Calculation\Math\MovingAverage\Kernel\Gaussian::class,
+            Kernels::COSINE => \Runalyze\Calculation\Math\MovingAverage\Kernel\Cosine::class,
+            Kernels::LOGISTIC => \Runalyze\Calculation\Math\MovingAverage\Kernel\Logistic::class,
+        ];
+
         foreach (Kernels::getEnum() as $kernelid) {
-            Kernels::get($kernelid, 5.0);
+            $kernel = Kernels::get($kernelid, 5.0);
+            $expectedClass = $expectedClasses[$kernelid];
+
+            $this->assertInstanceOf(
+                $expectedClass,
+                $kernel,
+                "Kernel for ID {$kernelid} should be an instance of {$expectedClass}"
+            );
         }
     }
 

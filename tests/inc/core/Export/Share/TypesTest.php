@@ -10,12 +10,14 @@ use Runalyze\View\Activity\Context;
  */
 class TypesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testAllConstructors()
+    public function testAllConstructors(): void
     {
         $context = new Context(0, 0);
 
         foreach (Types::getEnum() as $typeid) {
-            Types::get($typeid, $context);
+            $instance = Types::get($typeid, $context);
+
+            $this->assertInstanceOf(AbstractSharer::class, $instance, sprintf('Types::get(%d) did not return an instance of AbstractSharer.', $typeid));
         }
     }
 }

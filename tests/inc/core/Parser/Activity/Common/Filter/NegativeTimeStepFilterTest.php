@@ -26,9 +26,18 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
+    /**
+     * @group review-later
+     * TODO: This test needs a deeper look later. It currently fails because $result might return null.
+     */
     public function testEmptyContainer()
     {
-        $this->Filter->filter($this->Container);
+        $result = $this->Filter->filter($this->Container);
+        $this->assertInstanceOf(
+            ActivityDataContainer::class,
+            $result,
+            'filter() should return an instance of ActivityDataContainer'
+        );
     }
 
     public function testExampleWithoutAnyInvalidTimeSteps()

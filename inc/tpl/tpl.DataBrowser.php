@@ -1,5 +1,7 @@
 <?php
 
+/** @var \DataBrowser $this */
+
 use Runalyze\Util\LocalTime;
 
 ?>

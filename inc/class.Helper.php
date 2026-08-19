@@ -75,7 +75,7 @@ class Helper
      */
     public static function Unknown($var, $string = '?')
     {
-        if ($var === null || ! isset($var)) {
+        if (! isset($var) || $var === null) {
             return $string;
         }
 

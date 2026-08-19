@@ -18,7 +18,11 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $Configuration = new DefaultConfiguration();
 
         foreach ($Configuration->allKeys() as $keyid) {
-            Keys::get($keyid)->stringFor($Context);
+            $stringValue = Keys::get($keyid)->stringFor($Context);
+            $this->assertTrue(
+                is_string($stringValue) || $stringValue === null,
+                'stringFor() should return a string or null for key ' . $keyid
+            );
         }
     }
 

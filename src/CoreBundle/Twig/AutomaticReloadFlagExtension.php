@@ -7,7 +7,7 @@ namespace Runalyze\Bundle\CoreBundle\Twig;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
-class AutomaticReloadFlagExtension extends \Twig_Extension
+class AutomaticReloadFlagExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @return string
@@ -20,14 +20,14 @@ class AutomaticReloadFlagExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Twig_SimpleFunction[]
+     * @return \Twig\TwigFunction[]
      *
      * @codeCoverageIgnore
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('automaticJavaScriptReload', [$this, 'automaticJavaScriptReload']),
+            new \Twig\TwigFunction('automaticJavaScriptReload', [$this, 'automaticJavaScriptReload']),
         ];
     }
 

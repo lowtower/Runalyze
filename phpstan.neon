@@ -1,0 +1,19 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 1
+    phpVersion: 70433
+
+    bootstrapFiles:
+        - inc/class.Helper.php
+        - inc/system/define.consts.php
+
+    paths:
+        - app
+        - inc
+        - lib
+        - plugin
+        - src
+        - tests
+        - web

@@ -29,7 +29,7 @@ class Version20170130000000 extends AbstractMigration implements ContainerAwareI
         $sql = $bernardSchema->toSql($this->connection->getDatabasePlatform());
 
         foreach ($sql as $query) {
-            $this->connection->exec($query);
+            $this->connection->executeStatement($query);
         }
 
     }

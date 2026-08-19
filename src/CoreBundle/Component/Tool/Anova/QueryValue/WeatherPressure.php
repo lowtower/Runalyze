@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Metrics\Cadence\Unit\AbstractCadenceUnit;
 use Runalyze\Metrics\Common\Unit\Simple;
 
 class WeatherPressure extends AbstractOneColumnValue
@@ -15,10 +14,7 @@ class WeatherPressure extends AbstractOneColumnValue
         return 'pressure';
     }
 
-    /**
-     * @return AbstractCadenceUnit
-     */
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Simple
+    public function getValueUnit(UnitSystem $unitSystem): Simple
     {
         return new Simple('hpa');
     }

@@ -33,9 +33,12 @@ class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
         $object->getDistribution('bar');
     }
 
-    public function testOnlyTimeSeriesGiven()
+    public function testOnlyTimeSeriesGiven(): void
     {
         $object = new MultipleTimeSeries();
         $object->generateDistributionsFor([], [1, 2, 3]);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $object->getDistribution('anything');
     }
 }

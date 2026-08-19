@@ -9,7 +9,12 @@ class WeightEnumTest extends \PHPUnit\Framework\TestCase
     public function testThatAllUnitsCanBeConstructed()
     {
         foreach (WeightEnum::getEnum() as $unit) {
-            WeightEnum::get($unit);
+            $weightUnit = WeightEnum::get($unit);
+            $this->assertInstanceOf(
+                \Runalyze\Metrics\Weight\Unit\AbstractWeightUnit::class,
+                $weightUnit,
+                "Unit for {$unit} should be an instance of AbstractWeightUnit."
+            );
         }
     }
 }

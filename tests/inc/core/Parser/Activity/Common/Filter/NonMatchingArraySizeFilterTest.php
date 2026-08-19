@@ -28,7 +28,8 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyContainer()
     {
-        $this->Filter->filter($this->Container);
+        $result = $this->Filter->filter($this->Container);
+        $this->assertNull($result, 'filter() should return null for empty container');
     }
 
     public function testExampleWithoutAnyNonMatchingArraySizes()

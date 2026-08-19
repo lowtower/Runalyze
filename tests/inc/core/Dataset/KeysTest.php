@@ -25,10 +25,11 @@ class KeysTest extends \PHPUnit\Framework\TestCase
             $KeyObject = Keys::get($key);
 
             if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
-                SummaryMode::query(
+                $result = SummaryMode::query(
                     $KeyObject->summaryMode(),
                     $KeyObject->column()
                 );
+                $this->assertNotSame('', $result, sprintf('SummaryMode::query() returned an empty string for key "%s" (mode "%s") — the summary mode is likely not handled in SummaryMode::query().', $key, $KeyObject->summaryMode()));
             }
         }
     }

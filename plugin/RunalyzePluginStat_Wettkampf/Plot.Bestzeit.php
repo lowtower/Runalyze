@@ -1,5 +1,7 @@
 <?php
 
+/** @var RunalyzePluginStat_Wettkampf $this */
+
 /**
  * Draw personal bests for a given distance
  * Call:   include Plot.Bestzeit.php
@@ -19,6 +21,8 @@ $trend = str_replace('&nbsp;', ' ', sprintf(__('Trend over %s'), (new Distance($
 $titleCenter = str_replace('&nbsp;', ' ', sprintf(__('Result overs %s'), (new Distance($distance))->stringAuto(true, 1)));
 $timeFormat = '%M:%S';
 
+// TODO: refactor
+// @phpstan-ignore property.protected (Plot.Bestzeit.php is called only per include from this class, $this ist bound)
 $competitions = $this->RaceContainer->races($distance);
 
 if (! empty($competitions)) {

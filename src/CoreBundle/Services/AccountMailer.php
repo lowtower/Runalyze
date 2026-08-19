@@ -13,7 +13,7 @@ class AccountMailer
     protected $Mailer;
 
     /**
-     * @var \Twig_Environment
+     * @var \Twig\Environment
      */
     protected $Twig;
 
@@ -27,7 +27,7 @@ class AccountMailer
      */
     protected $Sender = [];
 
-    public function __construct(\Swift_Mailer $mailer, \Twig_Environment $twig, TranslatorInterface $translator)
+    public function __construct(\Swift_Mailer $mailer, \Twig\Environment $twig, TranslatorInterface $translator)
     {
         $this->Mailer = $mailer;
         $this->Twig = $twig;

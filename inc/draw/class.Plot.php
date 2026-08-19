@@ -528,7 +528,6 @@ class Plot
      * @param string $position
      * @param bool $align
      * @param int $alignTo
-     * @return int
      */
     public function addYAxis($i, $position, $align = true, $alignTo = 1)
     {

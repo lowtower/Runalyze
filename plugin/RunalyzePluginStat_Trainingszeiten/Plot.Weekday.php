@@ -6,7 +6,13 @@
  * @package Runalyze\Plugins\Stats
  */
 
+/** @var RunalyzePluginStat_Trainingszeiten $this */
+
 use Runalyze\Util\Time;
+
+if (! ($this instanceof RunalyzePluginStat_Trainingszeiten)) {
+    die('Not allowed.');
+}
 
 $titleCenter = __('Activity [in h] by weekday');
 $yAxis = [];
@@ -16,11 +22,17 @@ for ($w = 1; $w <= 7; $w++) {
     $xAxis[] = [$w - 1, Time::weekday($w, true)];
 }
 
+// TODO: refactor (see Plot.Bestzeit.php)
+// @phpstan-ignore property.protected (called only per include from this class, $this is bound)
 if ($this->sportid > 0) {
+    // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
     $Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
     $Sports = SportFactory::AllSports();
 }
+
+// @phpstan-ignore-next-line method.protected (called only per include from this class, $this is bound)
+$YearDependence = $this->getYearDependenceForQuery();
 
 $Query = DB::getInstance()->prepare(
     'SELECT
@@ -30,7 +42,7 @@ $Query = DB::getInstance()->prepare(
 	WHERE
 		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		`sportid`=:id
-		' . $this->getYearDependenceForQuery() . '
+		' . $YearDependence . '
 	GROUP BY `day`
 	ORDER BY ((`day`+6)%7) ASC'
 );

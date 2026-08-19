@@ -53,9 +53,17 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(3.140, $this->Data->Distance[2], 0.001);
     }
 
-    public function testClearingEmptyArraysIfAllArraysAreAlreadyEmpty()
+    public function testClearingEmptyArraysIfAllArraysAreAlreadyEmpty(): void
     {
+        $this->assertEmpty($this->Data->Distance);
+        $this->assertEmpty($this->Data->HeartRate);
+        $this->assertEmpty($this->Data->Altitude);
+
         $this->Adapter->clearEmptyArrays();
+
+        $this->assertEmpty($this->Data->Distance);
+        $this->assertEmpty($this->Data->HeartRate);
+        $this->assertEmpty($this->Data->Altitude);
     }
 
     public function testClearingEmptyArrays()

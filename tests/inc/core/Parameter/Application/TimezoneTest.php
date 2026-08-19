@@ -15,13 +15,18 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty(Timezone::getMapping());
     }
 
-    public function testThatMappingIsCompleteAndValid()
+    public function testThatMappingIsCompleteAndValid(): void
     {
+        $enums = Timezone::getEnum();
+        $this->assertNotEmpty($enums, 'Timezone::getEnum() should not be empty.');
+
         // We can't be sure which timezone database version is used
         $unknownTimezones = [];
 
-        foreach (Timezone::getEnum() as $enum) {
+        foreach ($enums as $enum) {
             $identifier = Timezone::getFullNameByEnum($enum);
+
+            $this->assertNotSame('', $identifier, sprintf('Timezone::getFullNameByEnum(%d) returned an empty string.', $enum));
 
             try {
                 new \DateTimeZone($identifier);

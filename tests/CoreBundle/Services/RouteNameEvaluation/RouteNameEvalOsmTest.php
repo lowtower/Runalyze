@@ -21,7 +21,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->underTest = new RouteNameEvalOsm('', '', new Client());
-        $this->coll = $this->getMockBuilder(OsmCsvDataCollection::class)->disableOriginalConstructor()->getMock();
+        $this->coll = $this->createMock(OsmCsvDataCollection::class);
     }
 
     private function getSportRunning(): Sport

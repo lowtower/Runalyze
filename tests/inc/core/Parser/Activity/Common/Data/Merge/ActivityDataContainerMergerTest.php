@@ -27,7 +27,12 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
 
     public function testThatMergeWorksWithEmptyObjects()
     {
-        new ActivityDataContainerMerger($this->FirstContainer, $this->SecondContainer);
+        $merger = new ActivityDataContainerMerger($this->FirstContainer, $this->SecondContainer);
+        $this->assertInstanceOf(
+            ActivityDataContainerMerger::class,
+            $merger,
+            'Constructor should return an instance of ActivityDataContainerMerger'
+        );
     }
 
     public function testThatObjectsAreCloned()

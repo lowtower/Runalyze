@@ -2,7 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Twig;
 
-class HtmlExtension extends \Twig_Extension
+class HtmlExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @return string
@@ -15,29 +15,29 @@ class HtmlExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Twig_SimpleFilter[]
+     * @return \Twig\TwigFilter[]
      *
      * @codeCoverageIgnore
      */
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('info', [$this, 'info'], [
+            new \Twig\TwigFilter('info', [$this, 'info'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFilter('error', [$this, 'error'], [
+            new \Twig\TwigFilter('error', [$this, 'error'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFilter('warning', [$this, 'warning'], [
+            new \Twig\TwigFilter('warning', [$this, 'warning'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFilter('okay', [$this, 'okay'], [
+            new \Twig\TwigFilter('okay', [$this, 'okay'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFilter('nbsp', [$this, 'nbsp'], [
+            new \Twig\TwigFilter('nbsp', [$this, 'nbsp'], [
                 'is_safe' => ['html'],
             ]),
-            new \Twig_SimpleFilter('nonbsp', [$this, 'nonbsp'], [
+            new \Twig\TwigFilter('nonbsp', [$this, 'nonbsp'], [
                 'is_safe' => ['html'],
             ]),
         ];

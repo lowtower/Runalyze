@@ -9,7 +9,8 @@ class TemperatureEnumTest extends \PHPUnit\Framework\TestCase
     public function testThatAllUnitsCanBeConstructed()
     {
         foreach (TemperatureEnum::getEnum() as $unit) {
-            TemperatureEnum::get($unit);
+            $temperatureUnit = TemperatureEnum::get($unit);
+            $this->assertInstanceOf(\Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit::class, $temperatureUnit, "Unit for {$unit} should be an instance of AbstractTemperatureUnit.");
         }
     }
 }

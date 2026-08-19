@@ -6,7 +6,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
-class ConfigurationExtension extends \Twig_Extension
+class ConfigurationExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var ConfigurationManager
@@ -29,16 +29,16 @@ class ConfigurationExtension extends \Twig_Extension
     }
 
     /**
-     * @return \Twig_SimpleFunction[]
+     * @return \Twig\TwigFunction[]
      *
      * @codeCoverageIgnore
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('configVar', [$this, 'configVar']),
-            new \Twig_SimpleFunction('config', [$this, 'config']),
-            new \Twig_SimpleFunction('unitSystem', [$this, 'unitSystem']),
+            new \Twig\TwigFunction('configVar', [$this, 'configVar']),
+            new \Twig\TwigFunction('config', [$this, 'config']),
+            new \Twig\TwigFunction('unitSystem', [$this, 'unitSystem']),
         ];
     }
 

@@ -113,26 +113,48 @@
         "lint:fix": "vendor/bin/ecs check --fix",
         "rector": "vendor/bin/rector process --dry-run",
         "rector:fix": "vendor/bin/rector process",
-        "analyze": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan analyse",
         "fix": [
-            "@lint:fix",
-            "@rector:fix"
+            "@rector:fix",
+            "@lint:fix"
         ],
-        "test:setup":    "bash docker/setup-test-db.sh",
-        "test":          "php vendor/bin/phpunit          -c phpunit.xml.dist",
-        "test:dev":      "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
-        "test:import":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
+        "qa": [
+            "@rector",
+            "@lint",
+            "@analyse"
+        ],
+        "cache:prod:clear": "php bin/console cache:clear --env=prod --no-warmup",
+        "cache:prod:warmup": "php bin/console cache:warmup --env=prod",
+        "cache:dev:clear": "php bin/console cache:clear --env=dev --no-warmup",
+        "cache:dev:warmup": "php bin/console cache:warmup --env=dev",
+        "cache:test:clear": "php bin/console cache:clear --env=test --no-warmup",
+        "cache:test:warmup": "php bin/console cache:warmup --env=test",
+        "cache:clear":  [
+            "@cache:prod:clear",
+            "@cache:dev:clear",
+            "@cache:test:clear"
+        ],
+        "cache:warmup": [
+            "@cache:prod:warmup",
+            "@cache:dev:warmup",
+            "@cache:test:warmup"
+        ],
+        "test:setup": "bash docker/setup-test-db.sh",
+        "test": "php vendor/bin/phpunit -c phpunit.xml.dist",
+        "test:dev": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --exclude-group dependsOnSRTM,dependsOnTimezoneDatabase",
+        "test:import": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group import",
         "test:doctrine": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresDoctrine",
-        "test:kernel":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
-        "test:client":   "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
-        "test:default":  "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
+        "test:kernel": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresKernel",
+        "test:client": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group requiresClient",
+        "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
+            "@cache:test:clear",
             "@test:setup",
             "@test"
         ],
-        "test:coverage-html":   "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html   var/coverage",
+        "test:coverage-html": "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-html var/coverage",
         "test:coverage-clover": "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover var/logs/clover.xml",
-        "test:coverage-text":   "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
+        "test:coverage-text": "php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
         "test:coverage": [
             "@test:coverage-html",
             "@test:coverage-clover"

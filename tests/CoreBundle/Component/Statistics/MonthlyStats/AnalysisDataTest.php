@@ -29,9 +29,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTrainingRepositoryMock(array $results = []): \PHPUnit\Framework\MockObject\MockObject
     {
-        $repository = $this->getMockBuilder(TrainingRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $repository = $this->createMock(TrainingRepository::class);
         $repository->method('getMonthlyStatsFor')
             ->willReturn($results);
 

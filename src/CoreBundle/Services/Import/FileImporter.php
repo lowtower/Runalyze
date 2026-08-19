@@ -13,7 +13,7 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataContainerMerger;
 use Runalyze\Parser\Activity\Common\ParserInterface;
 use Runalyze\Parser\Activity\Converter\FitConverter;
 use Runalyze\Parser\Activity\Converter\KmzConverter;
-use Runalyze\Parser\Activity\Converter\TTbinConverter;
+use Runalyze\Parser\Activity\Converter\TtbinConverter;
 use Runalyze\Parser\Activity\Converter\ZipConverter;
 use Runalyze\Parser\Activity\FileExtensionToParserMapping;
 use Runalyze\Parser\Common\FileContentAwareParserInterface;
@@ -66,7 +66,7 @@ class FileImporter implements LoggerAwareInterface
      */
     public function __construct(
         FitConverter $fitConverter,
-        TTbinConverter $ttbinConverter,
+        TtbinConverter $ttbinConverter,
         $directoryForFailedImports = null,
         ?LoggerInterface $logger = null
     ) {

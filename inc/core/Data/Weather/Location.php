@@ -97,14 +97,13 @@ class Location
         return $this->Longitude;
     }
 
-    /**
-     * @return string
-     */
-    public function geohash()
+    public function geohash(): ?string
     {
-        if ($this->hasPosition()) {
-            return (new Geohash())->encode(new Coordinate([(float) $this->lat(), (float) $this->lon()]), 12)->getGeohash();
+        if (! $this->hasPosition()) {
+            return null;
         }
+
+        return (new Geohash())->encode(new Coordinate([(float) $this->lat(), (float) $this->lon()]), 12)->getGeohash();
     }
 
     /**

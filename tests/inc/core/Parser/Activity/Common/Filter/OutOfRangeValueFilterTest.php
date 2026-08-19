@@ -26,9 +26,24 @@ class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $this->Filter->filter($this->Container);
+
+        $checkedProperties = [
+            'ActivityData' => ['Duration', 'Distance', 'EnergyConsumption', 'RPE', 'AvgHeartRate', 'MaxHeartRate', 'AvgHeartRateActive', 'AvgRespirationRate', 'MaxRespirationRate'],
+            'FitDetails' => ['VO2maxEstimate', 'TrainingEffectBenefit', 'TrainingEffect', 'AnaerobicTrainingEffect', 'PerformanceCondition', 'PerformanceConditionEnd', 'SelfEvaluationFeeling', 'SelfEvaluationPerceivedEffort'],
+            'WeatherData' => ['Temperature', 'WindSpeed', 'WindDirection', 'Humidity', 'AirPressure'],
+        ];
+
+        foreach ($checkedProperties as $group => $properties) {
+            foreach ($properties as $property) {
+                $this->assertNull(
+                    $this->Container->{$group}->{$property},
+                    sprintf('%s->%s should remain null for an empty container.', $group, $property)
+                );
+            }
+        }
     }
 
     public function testExampleWithSomeOutOfRangeValues()

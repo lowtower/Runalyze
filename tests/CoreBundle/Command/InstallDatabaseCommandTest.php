@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
-use Doctrine\DBAL\Driver\PDOConnection;
 use Runalyze\Bundle\CoreBundle\Command\InstallDatabaseCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -51,13 +50,12 @@ class InstallDatabaseCommandTest extends KernelTestCase
     {
         if ($this->Connection !== null) {
             $stmt = $this->Connection->executeQuery('SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"');
-            $stmt->setFetchMode(PDOConnection::FETCH_COLUMN, 0);
-            $tables = $stmt->fetchAll();
+            $tables = $stmt->fetchFirstColumn();
 
             if (! empty($tables)) {
-                $this->Connection->exec('SET foreign_key_checks = 0');
+                $this->Connection->executeStatement('SET foreign_key_checks = 0');
                 $this->Connection->executeQuery('DROP TABLE `' . implode('`, `', $tables) . '`');
-                $this->Connection->exec('SET foreign_key_checks = 1');
+                $this->Connection->executeStatement('SET foreign_key_checks = 1');
             }
         }
     }
@@ -71,7 +69,7 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
 
-        $this->assertEquals(24, $this->Connection->query(
+        $this->assertEquals(24, $this->Connection->executeQuery(
             'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"'
         )->rowCount());
 

@@ -9,7 +9,8 @@ class EnergyEnumTest extends \PHPUnit\Framework\TestCase
     public function testThatAllUnitsCanBeConstructed()
     {
         foreach (EnergyEnum::getEnum() as $unit) {
-            EnergyEnum::get($unit);
+            $energyUnit = EnergyEnum::get($unit);
+            $this->assertInstanceOf(\Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit::class, $energyUnit, "Unit for {$unit} should be an instance of AbstractEnergyUnit.");
         }
     }
 }

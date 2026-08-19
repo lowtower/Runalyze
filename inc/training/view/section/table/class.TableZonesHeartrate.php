@@ -158,15 +158,16 @@ class TableZonesHeartrate extends TableZonesAbstract
     /**
      * @param int $bpm
      * @param array $zones
-     * @return int
      */
-    private function zoneFor($bpm, $zones)
+    private function zoneFor($bpm, $zones): ?int
     {
         foreach ($zones as $key => $value) {
             if ($bpm >= $value['hr']) {
                 return $key;
             }
         }
+
+        return null;
     }
 
     private function getZones(int $minHr, int $maxHr, int $hrMaxUser, string $footerHintMaxHr)

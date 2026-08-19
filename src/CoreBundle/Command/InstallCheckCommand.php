@@ -172,7 +172,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         $prefix = $this->getContainer()
             ->getParameter('database_prefix');
 
-        if ($connection->query('SHOW TABLES LIKE "' . $prefix . '%"')->rowCount() !== 0) {
+        if ($connection->executeQuery('SHOW TABLES LIKE "' . $prefix . '%"')->rowCount() !== 0) {
             return self::ERROR;
         }
 

@@ -264,7 +264,7 @@ class PluginFactory
      */
     public function installPlugin($Pluginkey)
     {
-        $Plugin = new $Pluginkey(Plugin::$INSTALLER_ID);
+        $Plugin = new $Pluginkey(PluginInstaller::ID);
         $Plugin->key = $Pluginkey;
 
         return $Plugin->install();

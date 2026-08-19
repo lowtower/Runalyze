@@ -162,7 +162,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         /** @var Account $account */
         $account = $this
             ->getMockBuilder(Account::class)
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $account
@@ -182,7 +182,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $repository = $this
             ->getMockBuilder(TrainingRepository::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getStartTime', 'calculateVO2maxShape', 'calculateMarathonShape'])
+            ->onlyMethods(['getStartTime', 'calculateVO2maxShape', 'calculateMarathonShape'])
             ->getMock();
 
         $repository
@@ -212,7 +212,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $repository = $this
             ->getMockBuilder(RaceresultRepository::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getEffectiveVO2maxCorrectionFactor'])
+            ->onlyMethods(['getEffectiveVO2maxCorrectionFactor'])
             ->getMock();
 
         $repository
@@ -232,7 +232,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()
-            ->setMethods(['findByAccount', 'findByAccountAndKey', 'save'])
+            ->onlyMethods(['findByAccount', 'findByAccountAndKey', 'save'])
             ->getMock();
 
         $repository
