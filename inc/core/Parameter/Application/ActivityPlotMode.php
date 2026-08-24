@@ -47,20 +47,20 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select
 	}
 
     public function showSeperated(): bool {
-		return ($this->value() == self::SEPERATED);
+		return $this->value() == self::SEPERATED;
 	}
 
     /**
      * Show pace and heart rate
      */
     public function showPaceAndHR(): bool {
-		return ($this->value() == self::PACE_HR);
+		return $this->value() == self::PACE_HR;
 	}
 
     /**
      * Show pace and heart rate and elevation
      */
     public function showCollection(): bool {
-		return ($this->value() == self::PACE_HR_ELEVATION);
+		return $this->value() == self::PACE_HR_ELEVATION;
 	}
 }

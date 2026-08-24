@@ -7,8 +7,8 @@
 
 namespace Runalyze;
 
-use \DateTimeZone;
 use \DateTime;
+use \DateTimeZone;
 use \DB;
 use Runalyze\Parameter\Application\Timezone as TimezoneEnum;
 use Runalyze\Util\InterfaceChoosable;

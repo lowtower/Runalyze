@@ -192,7 +192,7 @@ class Entity extends Model\Entity
 	}
 
     public function officiallyMeasured(): bool {
-		return ($this->Data[self::OFFICIALLY_MEASURED] == 1);
+		return $this->Data[self::OFFICIALLY_MEASURED] == 1;
 	}
 
 	/**

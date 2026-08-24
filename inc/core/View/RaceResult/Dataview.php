@@ -7,11 +7,11 @@
 
 namespace Runalyze\View\RaceResult;
 
-use Runalyze\Model;
-use Runalyze\Configuration;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
+use Runalyze\Configuration;
+use Runalyze\Model;
 use Runalyze\View\Tooltip;
 use SportFactory;
 

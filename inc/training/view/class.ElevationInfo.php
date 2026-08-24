@@ -5,11 +5,11 @@
  * @package Runalyze\DataObjects\Training\View
  */
 
+use Runalyze\Activity\Elevation;
 use Runalyze\Calculation;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\ElevationMethod;
 use Runalyze\View\Activity\Context;
-use Runalyze\Activity\Elevation;
 
 /**
  * Display elevation info for a training

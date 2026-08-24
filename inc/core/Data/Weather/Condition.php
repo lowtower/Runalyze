@@ -50,7 +50,7 @@ class Condition
 
 	public function isUnknown(): bool
 	{
-		return ($this->identifier == WeatherConditionProfile::UNKNOWN);
+		return $this->identifier == WeatherConditionProfile::UNKNOWN;
 	}
 
 	/**

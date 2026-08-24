@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 namespace Runalyze\View\Icon;
 
+use Runalyze\Data\Weather\BeaufortScale;
 use Runalyze\Data\Weather\WindDegree;
 use Runalyze\Data\Weather\WindSpeed;
-use Runalyze\Data\Weather\BeaufortScale;
 
 /**
  * Wind icon

@@ -7,13 +7,13 @@
 
 namespace Runalyze\View\Activity\Plot;
 
-use Runalyze\View\Activity;
-use Runalyze\View\Plot\Series as PlotSeries;
-use Runalyze\Parameter\Application\ElevationMethod;
 use Runalyze\Calculation;
 use Runalyze\Configuration;
 use Runalyze\Model\Trackdata;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Parameter\Application\ElevationMethod;
+use Runalyze\View\Activity;
+use Runalyze\View\Plot\Series as PlotSeries;
 
 /**
  * Plot for: Elevation algorithms

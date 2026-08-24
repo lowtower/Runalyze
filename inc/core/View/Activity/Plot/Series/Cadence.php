@@ -7,11 +7,11 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
+use \Plot;
+use Runalyze\Configuration;
 use Runalyze\Data;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
-use Runalyze\Configuration;
-use \Plot;
 
 /**
  * Plot for: Cadence

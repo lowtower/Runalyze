@@ -2,8 +2,8 @@
 
 namespace Runalyze\Export\Share;
 
-use Runalyze\View\Activity\FakeContext;
 use Runalyze\Model\Activity;
+use Runalyze\View\Activity\FakeContext;
 
 /**
  * @group dependsOn

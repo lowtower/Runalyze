@@ -2,9 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class InstallCheckCommand extends ContainerAwareCommand
 {

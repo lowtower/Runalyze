@@ -5,10 +5,10 @@
  * @package Runalyze\Plugins\Stats
  */
 
-use Runalyze\Model\Activity;
-use Runalyze\View\Activity\Linker;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Elevation;
+use Runalyze\Model\Activity;
+use Runalyze\View\Activity\Linker;
 
 $PLUGINKEY = 'RunalyzePluginStat_Hoehenmeter';
 /**
@@ -65,9 +65,9 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
 			echo '<tr><td colspan="13" class="l"><em>' . __('No routes found.') . '</em></td></tr>';
 
 		foreach ($this->ElevationData as $y => $Data) {
-			echo('
+			echo '
 				<tr>
-					<td class="b l">' . $y . '</td>');
+					<td class="b l">' . $y . '</td>';
 			$summarized = 0;
 			for ($m = 1; $m <= 12; $m++) {
 				if (isset($Data[$m]) && $Data[$m]['elevation'] > 0) {

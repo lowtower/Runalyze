@@ -7,16 +7,16 @@
 
 namespace Runalyze\View\Window\Laps;
 
-use Runalyze\Configuration;
-use Runalyze\Data\Laps\Calculator;
-use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\View\Activity\Context;
+use Request;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
-use Runalyze\Data\Laps\Laps;
+use Runalyze\Configuration;
+use Runalyze\Data\Laps\Calculator;
 use Runalyze\Data\Laps\Lap;
+use Runalyze\Data\Laps\Laps;
+use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Parameter\Application\PaceUnit;
-use Request;
+use Runalyze\View\Activity\Context;
 
 /**
  * Window for detailed laps info
@@ -170,15 +170,15 @@ class Window
 			return false;
 		}
 
-		return ($this->handmadeLapsTimeDiffers() && $this->handmadeLapsDistanceDiffers());
+		return $this->handmadeLapsTimeDiffers() && $this->handmadeLapsDistanceDiffers();
 	}
 
 	protected function handmadeLapsTimeDiffers(): bool {
-		return (abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME);
+		return abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME;
 	}
 
 	protected function handmadeLapsDistanceDiffers(): bool {
-		return (abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE);
+		return abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE;
 	}
 
 	/**

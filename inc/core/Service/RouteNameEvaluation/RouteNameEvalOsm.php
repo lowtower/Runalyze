@@ -2,15 +2,15 @@
 
 namespace Runalyze\Service\RouteNameEvaluation;
 
-use Runalyze\Bundle\CoreBundle\Entity\Route;
-use Runalyze\Bundle\CoreBundle\Entity\Sport;
-use Runalyze\Profile\Sport\SportProfile;
-use League\Geotools\Geohash\Geohash;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use League\Geotools\Geohash\Geohash;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Route;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Profile\Sport\SportProfile;
 
 /**
  * Implementation for the OSM route evaluation.
@@ -263,7 +263,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         // special case "hüttenwandern" without peaks
         if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
             && $peak === [] && $hut !== [] && ! $hutSet) {
-            $routes = array_merge($routes, $hut); ;
+            $routes = array_merge($routes, $hut); 
             $hutSet = true;
         }
 

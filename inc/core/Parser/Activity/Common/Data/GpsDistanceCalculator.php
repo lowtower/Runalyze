@@ -39,6 +39,6 @@ class GpsDistanceCalculator
 			return 0.0;
         }
 
-		return ($miles * 1.609344);
+		return $miles * 1.609344;
 	}
 }

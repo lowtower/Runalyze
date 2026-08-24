@@ -3,11 +3,11 @@
 namespace Runalyze\Bundle\CoreBundle\Command;
 
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -124,12 +124,12 @@ class MailingCommand extends ContainerAwareCommand
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return (
+        return 
             $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
             $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
-        );
+        ;
     }
 
     /**
@@ -196,6 +196,6 @@ class MailingCommand extends ContainerAwareCommand
      */
     protected function validateLifetime($lifetime): bool
     {
-        return ($lifetime === null || ctype_digit($lifetime));
+        return $lifetime === null || ctype_digit($lifetime);
     }
 }

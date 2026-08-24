@@ -7,13 +7,13 @@
 
 namespace Runalyze\Configuration\Category;
 
+use FormularInput;
 use Runalyze\Configuration\Fieldset;
-use Runalyze\Parameter\Boolean;
-use Runalyze\Parameter\Textline;
-use Runalyze\Parameter\Set;
 use Runalyze\Parameter\Application\ActivityCreationMode;
 use Runalyze\Parameter\Application\DatabaseOrder;
-use FormularInput;
+use Runalyze\Parameter\Boolean;
+use Runalyze\Parameter\Set;
+use Runalyze\Parameter\Textline;
 
 /**
  * Configuration category: Activity form

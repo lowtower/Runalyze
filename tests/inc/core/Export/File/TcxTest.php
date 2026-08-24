@@ -5,8 +5,8 @@ namespace Runalyze\Export\File;
 use Runalyze\Model\Activity;
 use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
-use Runalyze\View\Activity\FakeContext;
 use Runalyze\Parser\Activity\FileType\Tcx as TcxParser;
+use Runalyze\View\Activity\FakeContext;
 
 class TcxTest extends \PHPUnit\Framework\TestCase
 {

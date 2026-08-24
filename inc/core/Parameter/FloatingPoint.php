@@ -64,6 +64,6 @@ class FloatingPoint extends \Runalyze\Parameter
 	}
 
 	public function isEmpty(): bool {
-		return ($this->value() === null);
+		return $this->value() === null;
 	}
 }

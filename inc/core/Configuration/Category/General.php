@@ -7,15 +7,15 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Configuration\Fieldset;
-use Runalyze\Parameter\SelectRow;
-use Runalyze\Parameter\Application\HeartRateUnit;
-use Runalyze\Parameter\Application\DistanceUnitSystem;
-use Runalyze\Parameter\Application\WeekStart;
-use Runalyze\Parameter\Application\TemperatureUnit;
-use Runalyze\Parameter\Application\WeightUnit;
-use Runalyze\Parameter\Application\EnergyUnit;
 use Ajax;
+use Runalyze\Configuration\Fieldset;
+use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Parameter\Application\EnergyUnit;
+use Runalyze\Parameter\Application\HeartRateUnit;
+use Runalyze\Parameter\Application\TemperatureUnit;
+use Runalyze\Parameter\Application\WeekStart;
+use Runalyze\Parameter\Application\WeightUnit;
+use Runalyze\Parameter\SelectRow;
 
 /**
  * Configuration category: General

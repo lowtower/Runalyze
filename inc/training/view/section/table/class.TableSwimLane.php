@@ -5,12 +5,12 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\Model\Trackdata;
-use Runalyze\Model\Swimdata;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Data\Stroketype;
 use Runalyze\Model\Activity\Splits;
+use Runalyze\Model\Swimdata;
+use Runalyze\Model\Trackdata;
 
 /**
  * Display swim lanes

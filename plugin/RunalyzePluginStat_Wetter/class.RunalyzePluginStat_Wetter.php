@@ -7,9 +7,9 @@
 $PLUGINKEY = 'RunalyzePluginStat_Wetter';
 
 use Runalyze\Activity\Temperature;
-use Runalyze\Util\LocalTime;
-use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Data\Weather\Humidity;
+use Runalyze\Data\Weather\WindSpeed;
+use Runalyze\Util\LocalTime;
 
 /**
  * Class: RunalyzePluginStat_Wetter

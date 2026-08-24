@@ -84,6 +84,6 @@ abstract class AbstractStrategy
 		$slope = ($line2y - $line1y) / ($line2x - $line1x);
         $passThroughY = -$line1x * $slope + $line1y;
 
-		return (abs(($slope * $pointX) - $pointY + $passThroughY)) / (sqrt($slope * $slope + 1));
+		return abs(($slope * $pointX) - $pointY + $passThroughY) / (sqrt($slope * $slope + 1));
 	}
 }

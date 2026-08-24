@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Service\WeatherForecast\Strategy;
 
-use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
+use Runalyze\Service\WeatherForecast\Location;
 
 class DatabaseCache implements StrategyInterface
 {

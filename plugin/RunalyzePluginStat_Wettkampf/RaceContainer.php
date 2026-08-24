@@ -7,8 +7,8 @@
 
 namespace Runalyze\Plugin\Statistic\Races;
 
-use PDO;
 use DB;
+use PDO;
 
 /**
  * Race container

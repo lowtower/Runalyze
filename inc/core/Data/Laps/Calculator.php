@@ -10,10 +10,10 @@ namespace Runalyze\Data\Laps;
 use Runalyze\Activity\Duration;
 use Runalyze\Calculation;
 use Runalyze\Configuration;
-use Runalyze\Model\Route;
-use Runalyze\Model\Trackdata;
-use Runalyze\Model\Swimdata;
 use Runalyze\Model\Activity;
+use Runalyze\Model\Route;
+use Runalyze\Model\Swimdata;
+use Runalyze\Model\Trackdata;
 
 /**
  * Calculate laps from trackdata/route

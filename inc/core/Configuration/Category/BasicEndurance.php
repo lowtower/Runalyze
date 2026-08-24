@@ -7,12 +7,12 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Calculation\BasicEndurance as CalculationBasicEndurance;
-use Runalyze\Configuration\Messages;
-use Runalyze\Configuration\Fieldset;
-use Runalyze\Parameter\Integer;
-use Runalyze\Parameter\FloatingPoint;
 use FormularUnit;
+use Runalyze\Calculation\BasicEndurance as CalculationBasicEndurance;
+use Runalyze\Configuration\Fieldset;
+use Runalyze\Configuration\Messages;
+use Runalyze\Parameter\FloatingPoint;
+use Runalyze\Parameter\Integer;
 
 /**
  * Configuration category: basic endurance

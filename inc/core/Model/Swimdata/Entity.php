@@ -98,7 +98,7 @@ class Entity extends Model\Entity implements Model\Loopable
      * @param string $key
      */
     public function isArray($key): bool {
-		return ($key != self::ACTIVITYID && $key != self::POOL_LENGTH);
+		return $key != self::ACTIVITYID && $key != self::POOL_LENGTH;
 	}
 
     /**

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Metrics\Cadence;
 
-use Runalyze\Metrics\Common\AbstractMetric;
 use Runalyze\Metrics\Cadence\Unit\RoundsPerMinute;
+use Runalyze\Metrics\Common\AbstractMetric;
 
 class Cadence extends AbstractMetric
 {

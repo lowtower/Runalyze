@@ -5,14 +5,14 @@
  * @package Runalyze\Plugins\Panels
  */
 
-use Runalyze\Configuration;
-use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
-use Runalyze\Calculation\Prognosis;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
+use Runalyze\Calculation\BasicEndurance;
+use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
+use Runalyze\Calculation\Prognosis;
+use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 use Runalyze\Util\LocalTime;
 

@@ -7,8 +7,8 @@
 
 namespace Runalyze\Data\Laps;
 
-use Runalyze\Activity\Duration;
 use Runalyze\Activity\Distance;
+use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\LapIntensity;
 use Runalyze\Activity\Pace;
@@ -200,7 +200,7 @@ class Lap
 	}
 
 	public function hasTrackValues(): bool {
-		return ($this->TrackDurationAtEnd !== null);
+		return $this->TrackDurationAtEnd !== null;
 	}
 
 	public function isActive(): bool {
@@ -208,7 +208,7 @@ class Lap
 	}
 
 	public function hasHR(): bool {
-		return ($this->HRavg !== null);
+		return $this->HRavg !== null;
 	}
 
 	/**
@@ -226,7 +226,7 @@ class Lap
 	}
 
 	public function hasElevation(): bool {
-		return ($this->ElevationUp !== false);
+		return $this->ElevationUp !== false;
 	}
 
 	/**

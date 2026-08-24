@@ -128,7 +128,7 @@ class WindSpeed implements ValueInterface
      */
     public function isUnknown(): bool
     {
-        return ($this->KilometerPerHour === null);
+        return $this->KilometerPerHour === null;
     }
 
     /**

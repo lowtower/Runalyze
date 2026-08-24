@@ -7,9 +7,9 @@
 
 namespace Runalyze\Configuration;
 
+use Ajax;
 use Runalyze\Parameter;
 use Runalyze\Parameter\SelectRow;
-use Ajax;
 
 /**
  * Configuration handle

@@ -5,12 +5,12 @@
  * @package Runalyze\Plugins\Panels
  */
 
-use Runalyze\Configuration;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\PersonalBest;
 use Runalyze\Calculation\Prognosis;
+use Runalyze\Configuration;
 
 $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
 /**
@@ -215,7 +215,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
      * Are there not enough competitions?
      */
     protected function thereAreNotEnoughCompetitions(): bool {
-		return ($this->NumberOfPBs == 0);
+		return $this->NumberOfPBs == 0;
 	}
 
 	public function getDistances(): array {

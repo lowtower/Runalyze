@@ -52,6 +52,6 @@ abstract class PaceAxisLimit extends \Runalyze\Parameter\Select
 	 * @return bool
 	 */
 	final public function automatic() {
-		return ($this->value() == self::AUTO);
+		return $this->value() == self::AUTO;
 	}
 }

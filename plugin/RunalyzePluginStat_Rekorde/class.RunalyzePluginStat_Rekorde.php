@@ -5,12 +5,12 @@
  * @package Runalyze\Plugins\Stats
  */
 
-use Runalyze\Configuration;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
-use Runalyze\Util\Time;
+use Runalyze\Configuration;
 use Runalyze\Model\Sport;
+use Runalyze\Util\Time;
 
 $PLUGINKEY = 'RunalyzePluginStat_Rekorde';
 /**

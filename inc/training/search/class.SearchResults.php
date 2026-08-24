@@ -11,10 +11,10 @@ use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Energy;
 use Runalyze\Activity\Pace;
 use Runalyze\Activity\StrideLength;
-use Runalyze\Configuration;
-use Runalyze\Util\LocalTime;
 use Runalyze\Activity\Temperature;
+use Runalyze\Configuration;
 use Runalyze\Data\Weather\WindSpeed;
+use Runalyze\Util\LocalTime;
 
 /**
  * Search results

@@ -55,7 +55,7 @@ class DuplicateFinder
             throw new \InvalidArgumentException('Activity id must be numerical.');
         }
 
-	    return ($this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1);
+	    return $this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1;
     }
 
     /**

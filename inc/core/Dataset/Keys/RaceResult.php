@@ -8,10 +8,10 @@ declare(strict_types=1);
  */
 namespace Runalyze\Dataset\Keys;
 
+use Runalyze\Activity;
 use Runalyze\Dataset\Context;
 use Runalyze\Model;
 use Runalyze\View;
-use Runalyze\Activity;
 
 /**
  * Dataset key: Race Result

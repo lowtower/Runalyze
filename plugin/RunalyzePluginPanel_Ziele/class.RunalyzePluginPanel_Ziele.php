@@ -85,7 +85,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			if ($isFirst) {
 				$Code = '<li class="with-submenu"><span class="link">' . $timeset['name'] . '</span>' . $Code;
 				$isFirst = false;
-			};
+			}
 		}
 
 //		$(this).closest("li.with-submenu").find("span").text($(this).text())

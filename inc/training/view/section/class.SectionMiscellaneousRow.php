@@ -7,17 +7,17 @@
 
 use Runalyze\Activity as runActivity;
 use Runalyze\Activity\Duration;
-use Runalyze\Activity\Temperature;
 use Runalyze\Activity\Pace;
+use Runalyze\Activity\Temperature;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
 use Runalyze\Model\Trackdata;
+use Runalyze\Model\Trackdata\Pauses;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View;
 use Runalyze\View\Activity;
 use Runalyze\View\Activity\Box;
-use Runalyze\Model\Trackdata\Pauses;
 
 /**
  * Row: Miscellaneous

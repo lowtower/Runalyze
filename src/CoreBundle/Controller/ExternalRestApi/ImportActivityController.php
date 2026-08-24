@@ -2,17 +2,17 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-//use Symfony\Component\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Uploads the files with this REST API and call the "runalyze:activity:bulk-import" to import the files.

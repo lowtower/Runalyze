@@ -5,9 +5,9 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 use Runalyze\Calculation\Activity\HrZonesCalculator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class HrZoneBoundType extends AbstractType implements DataTransformerInterface
 {

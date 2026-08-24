@@ -5,8 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Component\Activity;
 use Runalyze\Bundle\CoreBundle\Services\Import\DuplicateFinder;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherDataToActivityConverter;
 use Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast;
-use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Parameter\Application\Timezone;
+use Runalyze\Service\RouteNameEvaluation\RouteNameEval;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Util\LocalTime;
 

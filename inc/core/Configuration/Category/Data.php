@@ -2,16 +2,16 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Configuration;
-use Runalyze\Parameter\Integer;
-use Runalyze\Parameter\FloatingPoint;
-use Runalyze\Calculation\Performance;
-use Runalyze\Calculation\BasicEndurance;
-use Runalyze\Calculation\JD;
-use Runalyze\Sports\Performance\Model\TsbModel;
-use SessionAccountHandler;
 use DB;
 use Helper;
+use Runalyze\Calculation\BasicEndurance;
+use Runalyze\Calculation\JD;
+use Runalyze\Calculation\Performance;
+use Runalyze\Configuration;
+use Runalyze\Parameter\FloatingPoint;
+use Runalyze\Parameter\Integer;
+use Runalyze\Sports\Performance\Model\TsbModel;
+use SessionAccountHandler;
 
 class Data extends \Runalyze\Configuration\Category
 {

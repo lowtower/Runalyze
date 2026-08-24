@@ -7,10 +7,10 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
-use Runalyze\Model\Trackdata\Entity as Trackdata;
-use Runalyze\View\Activity;
 use Runalyze\Configuration;
+use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\View\Activity;
 
 /**
  * Plot for: stride length

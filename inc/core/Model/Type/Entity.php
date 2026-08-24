@@ -101,14 +101,14 @@ class Entity extends Model\EntityWithID
      * Uses short mode?
      */
     public function usesShortMode(): bool {
-		return ($this->Data[self::SHORT] == 1);
+		return $this->Data[self::SHORT] == 1;
 	}
 
     /**
      * Inherits short mode from sport type?
      */
     public function inheritsShortMode(): bool {
-		return ($this->Data[self::SHORT] == 2);
+		return $this->Data[self::SHORT] == 2;
 	}
 
 	/**
@@ -123,6 +123,6 @@ class Entity extends Model\EntityWithID
      * Is quality session?
      */
     public function isQualitySession(): bool {
-		return ($this->Data[self::QUALITY_SESSION] == 1);
+		return $this->Data[self::QUALITY_SESSION] == 1;
 	}
 }

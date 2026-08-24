@@ -122,7 +122,7 @@ class Athlete
 
     public function knowsGender(): bool
     {
-        return ($this->Gender !== Gender::NONE && $this->Gender !== null);
+        return $this->Gender !== Gender::NONE && $this->Gender !== null;
     }
 
     public function isMale(): bool
@@ -137,31 +137,31 @@ class Athlete
 
     public function knowsMaximalHeartRate(): bool
     {
-        return ($this->maximalHR !== null);
+        return $this->maximalHR !== null;
     }
 
     public function knowsRestingHeartRate(): bool
     {
-        return ($this->restingHR !== null);
+        return $this->restingHR !== null;
     }
 
     public function knowsWeight(): bool
     {
-        return ($this->weight !== null);
+        return $this->weight !== null;
     }
 
     public function knowsBirthyear(): bool
     {
-        return ($this->birthyear !== null);
+        return $this->birthyear !== null;
     }
 
     public function knowsAge(): bool
     {
-        return ($this->birthyear !== null);
+        return $this->birthyear !== null;
     }
 
     public function knowsEffectiveVO2max(): bool
     {
-        return ($this->vo2max !== 0.0);
+        return $this->vo2max !== 0.0;
     }
 }

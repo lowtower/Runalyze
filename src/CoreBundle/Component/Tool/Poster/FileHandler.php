@@ -35,7 +35,7 @@ class FileHandler
         $finder->files()
             ->name($account->getId() . '-*')
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-                return ($b->getMTime() - $a->getMTime());
+                return $b->getMTime() - $a->getMTime();
             })
             ->in($this->pathToImages());
 

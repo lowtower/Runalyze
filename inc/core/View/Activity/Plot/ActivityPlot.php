@@ -7,8 +7,8 @@
 
 namespace Runalyze\View\Activity\Plot;
 
-use Runalyze\View\Activity;
 use Plot;
+use Runalyze\View\Activity;
 
 /**
  * Plot for activity data
@@ -127,7 +127,7 @@ abstract class ActivityPlot
 			}
 		}
 
-		return (count($this->Data) >= 2 || $this->Plot->Data !== []);
+		return count($this->Data) >= 2 || $this->Plot->Data !== [];
 	}
 
 	private function initPlot() {

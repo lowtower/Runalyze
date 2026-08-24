@@ -5,11 +5,11 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Distance;
+use Runalyze\Activity\Elevation;
 use Runalyze\Configuration;
-use Runalyze\Model\Trackdata;
 use Runalyze\Data\Laps\Laps;
+use Runalyze\Model\Trackdata;
 
 /**
  * Table: computed laps

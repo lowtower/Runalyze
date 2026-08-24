@@ -2,9 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class MaintenanceListener
 {

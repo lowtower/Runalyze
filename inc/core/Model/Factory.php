@@ -7,8 +7,8 @@
 
 namespace Runalyze\Model;
 
-use DB;
 use Cache;
+use DB;
 
 /**
  * Model factory

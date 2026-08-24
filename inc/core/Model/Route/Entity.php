@@ -7,10 +7,10 @@
 
 namespace Runalyze\Model\Route;
 
-use Runalyze\Model;
-use League\Geotools\Geohash\Geohash;
 use \League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geohash\Geohash;
 use Runalyze\Calculation\Route\GeohashLine;
+use Runalyze\Model;
 
 /**
  * Route entity
@@ -677,7 +677,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * Is in routenet?
      */
     public function inRoutenet(): bool {
-		return ($this->Data[self::IN_ROUTENET] == 1);
+		return $this->Data[self::IN_ROUTENET] == 1;
 	}
 
 	/**
@@ -700,6 +700,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		if (is_nan($miles))
 			return 0;
 
-		return ($miles * 1.609344);
+		return $miles * 1.609344;
 	}
 }

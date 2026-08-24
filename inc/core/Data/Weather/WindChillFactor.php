@@ -7,8 +7,8 @@
 
 namespace Runalyze\Data\Weather;
 
-use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Activity\Pace;
+use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Activity\ValueInterface;
 
 /**

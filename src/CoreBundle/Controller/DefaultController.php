@@ -4,11 +4,11 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

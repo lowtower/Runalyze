@@ -39,7 +39,7 @@ class TotalCycles extends AbstractKey
      */
     public function label(): string
 	{
-		return ('Total cycles');
+		return 'Total cycles';
 	}
 
     /**

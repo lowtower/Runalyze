@@ -69,7 +69,7 @@ class RunalyzeRoundArray extends Type
         $duration = Duration::format($round->getDuration());
 
         $intensity = $round->getIntensity();
-        return ($intensity->getValue()) . $distance . '|' . $duration;
+        return $intensity->getValue() . $distance . '|' . $duration;
     }
 
     /**

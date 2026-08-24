@@ -2,11 +2,11 @@
 
 namespace Runalyze\Calculation\Activity;
 
-use Runalyze\Calculation\JD;
 use Runalyze\Calculation\Elevation;
+use Runalyze\Calculation\JD;
 use Runalyze\Calculation\Trimp;
-use Runalyze\Context;
 use Runalyze\Configuration;
+use Runalyze\Context;
 use Runalyze\Model;
 
 class Calculator
@@ -39,12 +39,12 @@ class Calculator
 
     protected function knowsTrackdata(): bool
     {
-        return ($this->Trackdata !== null);
+        return $this->Trackdata !== null;
     }
 
     protected function knowsRoute(): bool
     {
-        return ($this->Route !== null);
+        return $this->Route !== null;
     }
 
     /**

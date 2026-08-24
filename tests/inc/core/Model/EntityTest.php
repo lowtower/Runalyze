@@ -16,11 +16,11 @@ class ObjectWithArrays_MockTester extends Entity
 	}
 
 	public function isArray($key): bool {
-		return ($key == 'b');
+		return $key == 'b';
 	}
 
 	protected function canSet($key): bool {
-		return ($key != 'c');
+		return $key != 'c';
 	}
 }
 

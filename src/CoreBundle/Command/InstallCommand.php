@@ -2,11 +2,11 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class InstallCommand extends ContainerAwareCommand
 {
@@ -45,7 +45,7 @@ class InstallCommand extends ContainerAwareCommand
                 'Steps to skip',
                 ['']
             );
-        ;
+
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)

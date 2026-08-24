@@ -6,8 +6,8 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Metrics\Temperature\Unit\AbstractTemperatureUnit;
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class TemperatureType extends AbstractUnitBasedType
 {

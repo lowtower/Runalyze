@@ -7,8 +7,8 @@
 
 use Runalyze\Configuration;
 use Runalyze\Data\Weather\Humidity;
-use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Data\Weather\Pressure;
+use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Dataset;
 
 /**

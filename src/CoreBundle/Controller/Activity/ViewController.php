@@ -3,12 +3,12 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Model\Activity;

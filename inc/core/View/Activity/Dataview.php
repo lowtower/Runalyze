@@ -2,40 +2,40 @@
 
 namespace Runalyze\View\Activity;
 
-use Runalyze\Activity\PerformanceCondition;
-use Runalyze\Activity\Temperature;
-use Runalyze\Activity\FitTrainingEffectBenefit;
-use Runalyze\Activity\TrainingEffect;
+use Ajax;
+use HTML;
 use Runalyze\Activity\AnaerobicTrainingEffect;
-use Runalyze\Configuration;
-use Runalyze\Data\Cadence;
-use Runalyze\Data\Weather\WindChillFactor;
-use Runalyze\Data\Weather\HeatIndex;
-use Runalyze\Model\Activity;
-use Runalyze\Model\Factory;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Energy;
+use Runalyze\Activity\FitTrainingEffectBenefit;
 use Runalyze\Activity\GroundcontactBalance;
 use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\Pace;
+use Runalyze\Activity\PerformanceCondition;
 use Runalyze\Activity\StrideLength;
+use Runalyze\Activity\Temperature;
+use Runalyze\Activity\TrainingEffect;
 use Runalyze\Activity\VerticalRatio;
 use Runalyze\Calculation\Activity\GradeAdjustedPaceCalculator;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
 use Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector;
-use Runalyze\View\Icon\EffectiveVO2maxIcon;
+use Runalyze\Configuration;
 use Runalyze\Context as GeneralContext;
-use Runalyze\Util\Time;
+use Runalyze\Data\Cadence;
+use Runalyze\Data\Weather\HeatIndex;
+use Runalyze\Data\Weather\WindChillFactor;
+use Runalyze\Model\Activity;
+use Runalyze\Model\Factory;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
+use Runalyze\View\Icon\EffectiveVO2maxIcon;
 use Runalyze\View\RpeColor;
 use Runalyze\View\Stresscolor;
+use SearchLink;
 use SessionAccountHandler;
 use SportFactory;
-use SearchLink;
-use Ajax;
-use HTML;
 
 class Dataview
 {

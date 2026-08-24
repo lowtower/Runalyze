@@ -3,10 +3,10 @@
  * Window for routenet
  * @package Runalyze\Plugins\Stats
  */
-use Runalyze\View\Leaflet;
+use Runalyze\Activity\Distance;
 use Runalyze\Model;
 use Runalyze\Util\LocalTime;
-use Runalyze\Activity\Distance;
+use Runalyze\View\Leaflet;
 
 require __DIR__ . '/class.RunalyzePluginStat_Strecken.php';
 

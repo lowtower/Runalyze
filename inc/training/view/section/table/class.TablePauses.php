@@ -5,10 +5,10 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
-use Runalyze\Model\Trackdata\Pauses;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
+use Runalyze\Model\Trackdata\Pauses;
+use Runalyze\View\Activity\Context;
 
 /**
  * Display pauses

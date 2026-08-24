@@ -6,13 +6,13 @@
  * @package Runalyze\Plugins\Panels
  */
 
-use Runalyze\Configuration;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Calculation\JD;
+use Runalyze\Configuration;
 use Runalyze\Sports\Performance\Model\BanisterModel;
 use Runalyze\Sports\Performance\Model\TsbModel;
-use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
 
 $DataFailed = false;
 $BasicEndurance = [];

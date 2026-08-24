@@ -5,8 +5,8 @@
  * @package Runalyze\Plot
  */
 
-use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
 
 /**
  * Plot week data

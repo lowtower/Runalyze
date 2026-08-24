@@ -3,8 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Service;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Parameter\Application\Timezone;
+use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Service\WeatherForecast\Location;

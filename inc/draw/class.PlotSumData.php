@@ -5,9 +5,9 @@
  * @package Runalyze\Plot
  */
 
+use Runalyze\Activity\Distance;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Configuration;
-use Runalyze\Activity\Distance;
 
 /**
  * Plot sum data
@@ -640,7 +640,7 @@ abstract class PlotSumData extends Plot
 	 * @return bool
 	 */
 	protected function showsTarget() {
-		return ($this->Sport->isRunning() && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance);
+		return $this->Sport->isRunning() && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance;
 	}
 
 	/**

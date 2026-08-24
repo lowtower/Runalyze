@@ -7,9 +7,9 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
+use Plot;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
-use Plot;
 
 /**
  * Plot for: ground contact balance

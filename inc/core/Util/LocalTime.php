@@ -193,7 +193,7 @@ class LocalTime extends \DateTime
      */
     public function isToday(): bool
     {
-        return (date('d.m.Y') == $this->format('d.m.Y'));
+        return date('d.m.Y') == $this->format('d.m.Y');
     }
 
     /**

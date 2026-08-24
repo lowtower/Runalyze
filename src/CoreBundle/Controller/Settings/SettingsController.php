@@ -2,24 +2,24 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Dataset;
+use Runalyze\Bundle\CoreBundle\Form\Settings\AccountType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangeMailType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangePasswordType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\DatasetCollectionType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Configuration;
+use Runalyze\Dataset as RunalyzeDataset;
 use Runalyze\Dataset\DefaultConfiguration;
+use Runalyze\Dataset\Keys;
+use Runalyze\Language;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Runalyze\Bundle\CoreBundle\Form\Settings\AccountType;
-use Runalyze\Configuration;
-use Runalyze\Language;
-use Runalyze\Dataset as RunalyzeDataset;
-use Runalyze\Dataset\Keys;
 
 class SettingsController extends Controller
 {

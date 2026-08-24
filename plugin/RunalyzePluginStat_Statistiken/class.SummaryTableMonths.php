@@ -5,8 +5,8 @@
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
  */
 
-use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
 
 /**
  * Summary table for dataset/data browser

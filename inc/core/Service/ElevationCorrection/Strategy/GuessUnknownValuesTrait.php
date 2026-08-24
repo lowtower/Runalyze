@@ -26,7 +26,7 @@ trait GuessUnknownValuesTrait
 
         while ($i < $numberOfPoints && $altitudes[$i] === $unknownValue) {
             $i++;
-        };
+        }
 
         $lastKnown = $i < $numberOfPoints ? $altitudes[$i] : null;
 

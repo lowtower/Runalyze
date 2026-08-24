@@ -40,7 +40,7 @@ class ActivityPlotPrecision extends \Runalyze\Parameter\Select
      * Break by distance?
      */
     public function byDistance(): bool {
-		return (substr($this->value(), -1) == 'm');
+		return substr($this->value(), -1) == 'm';
 	}
 
     /**
@@ -54,7 +54,7 @@ class ActivityPlotPrecision extends \Runalyze\Parameter\Select
      * Break by number of points?
      */
     public function byPoints(): bool {
-		return (substr($this->value(), -6) == 'points');
+		return substr($this->value(), -6) == 'points';
 	}
 
     public function numberOfPoints(): int {

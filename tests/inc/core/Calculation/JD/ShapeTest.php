@@ -2,8 +2,8 @@
 
 namespace Runalyze\Calculation\JD;
 
-use Runalyze\Configuration\Category;
 use PDO;
+use Runalyze\Configuration\Category;
 
 class ShapeFake extends Shape
 {

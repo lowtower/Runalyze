@@ -4,18 +4,18 @@ namespace Runalyze\Bundle\CoreBundle\Command;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
-use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 /**
  * Internal class represents a maximal zone-target heart-rate.

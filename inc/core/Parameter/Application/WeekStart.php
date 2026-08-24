@@ -59,21 +59,21 @@ class WeekStart extends \Runalyze\Parameter\Select
      * Is monday?
      */
     public function isMonday(): bool {
-		return ($this->value() == self::MONDAY);
+		return $this->value() == self::MONDAY;
 	}
 
     /**
      * Is saturday?
      */
     public function isSaturday(): bool {
-		return ($this->value() == self::SATURDAY);
+		return $this->value() == self::SATURDAY;
 	}
 
     /**
      * Is sunday?
      */
     public function isSunday(): bool {
-		return ($this->value() == self::SUNDAY);
+		return $this->value() == self::SUNDAY;
 	}
 
 	public function differenceToMondayInDays(): int {

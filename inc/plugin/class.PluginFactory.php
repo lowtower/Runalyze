@@ -119,7 +119,7 @@ class PluginFactory
 	public function newInstance($pluginkey) {
 		foreach (self::Plugins() as $plugin) {
 			if ($plugin['key'] == $pluginkey) {
-				return (new $pluginkey($plugin['id']));
+				return new $pluginkey($plugin['id']);
 			}
 		}
 

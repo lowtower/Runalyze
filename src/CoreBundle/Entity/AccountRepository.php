@@ -3,8 +3,8 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 class AccountRepository extends EntityRepository implements UserLoaderInterface
 {

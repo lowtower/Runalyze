@@ -5,8 +5,8 @@
  * @package Runalyze\Data\Sport
  */
 
-use Runalyze\Configuration;
 use Runalyze\Activity\Pace;
+use Runalyze\Configuration;
 
 /**
  * @deprecated

@@ -2,11 +2,11 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class InstallFilesystemCommand extends ContainerAwareCommand
 {

@@ -7,10 +7,10 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
-use Runalyze\Model\Trackdata\Entity as Trackdata;
+use Runalyze\Configuration;
 use Runalyze\Model\Route\Entity as Route;
 use Runalyze\Model\Route\Loop;
-use Runalyze\Configuration;
+use Runalyze\Model\Trackdata\Entity as Trackdata;
 
 /**
  * Collect data from trackdata

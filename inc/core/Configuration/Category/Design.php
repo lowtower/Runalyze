@@ -7,9 +7,9 @@
 
 namespace Runalyze\Configuration\Category;
 
+use Ajax;
 use Runalyze\Configuration\Fieldset;
 use Runalyze\Parameter\SelectFile;
-use Ajax;
 
 /**
  * Configuration category: Design

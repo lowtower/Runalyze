@@ -7,9 +7,9 @@
 
 use Runalyze\Configuration;
 use Runalyze\Export;
+use Runalyze\Model;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Linker;
-use Runalyze\Model;
 
 /**
  * Display a training

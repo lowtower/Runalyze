@@ -5,8 +5,8 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Linker;
 use Runalyze\View\Activity;
+use Runalyze\View\Activity\Linker;
 
 /**
  * Row: Laps (computed)

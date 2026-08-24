@@ -202,7 +202,7 @@ abstract class Plugin
 	 * @return bool
 	 */
 	final public function isActive() {
-		return ($this->active == self::ACTIVE);
+		return $this->active == self::ACTIVE;
 	}
 
 	/**
@@ -210,7 +210,7 @@ abstract class Plugin
 	 * @return bool
 	 */
 	final public function isInActive() {
-		return ($this->active == self::ACTIVE_NOT);
+		return $this->active == self::ACTIVE_NOT;
 	}
 
 	/**
@@ -218,7 +218,7 @@ abstract class Plugin
 	 * @return bool
 	 */
 	final public function isHidden() {
-		return ($this->active == self::ACTIVE_VARIOUS);
+		return $this->active == self::ACTIVE_VARIOUS;
 	}
 
 	/**
@@ -327,14 +327,14 @@ abstract class Plugin
 	 * @return bool
 	 */
 	final protected function showsAllYears() {
-		return ($this->year == -1);
+		return $this->year == -1;
 	}
 
 	/**
 	 * @return bool
 	 */
 	final protected function showsSpecificYear() {
-		return (! in_array($this->year, [-1, 6, 12]));
+		return ! in_array($this->year, [-1, 6, 12]);
 	}
 
 	/**
@@ -348,14 +348,14 @@ abstract class Plugin
 	 * @return bool
 	 */
 	final protected function showsLast6Months() {
-		return ($this->year == 6);
+		return $this->year == 6;
 	}
 
 	/**
 	 * @return bool
 	 */
 	final protected function showsLast12Months() {
-		return ($this->year == 12);
+		return $this->year == 12;
 	}
 
 	/**

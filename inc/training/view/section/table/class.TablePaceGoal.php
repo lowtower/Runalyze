@@ -5,11 +5,11 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Activity\Context;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\Parameter\Application\PaceUnit;
+use Runalyze\View\Activity\Context;
 
 /**
  * Display PaceGoal / PacePro.

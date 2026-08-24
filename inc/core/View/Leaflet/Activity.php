@@ -7,14 +7,14 @@
 
 namespace Runalyze\View\Leaflet;
 
-use Runalyze\View\Leaflet\Route as LeafletRoute;
-use Runalyze\Model\Route;
-use Runalyze\Model\Trackdata;
-use Runalyze\Configuration;
+use League\Geotools\Geotools;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
-use League\Geotools\Geotools;
+use Runalyze\Configuration;
+use Runalyze\Model\Route;
+use Runalyze\Model\Trackdata;
+use Runalyze\View\Leaflet\Route as LeafletRoute;
 
 /**
  * Leaflet route for an activity

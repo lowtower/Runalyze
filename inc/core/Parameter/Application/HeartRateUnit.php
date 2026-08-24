@@ -50,20 +50,20 @@ class HeartRateUnit extends \Runalyze\Parameter\Select
      * Is bpm?
      */
     public function isBPM(): bool {
-		return ($this->value() == self::BPM);
+		return $this->value() == self::BPM;
 	}
 
     /**
      * Is HRmax?
      */
     public function isHRmax(): bool {
-		return ($this->value() == self::HRMAX);
+		return $this->value() == self::HRMAX;
 	}
 
     /**
      * Is HRreserve?
      */
     public function isHRreserve(): bool {
-		return ($this->value() == self::HRRESERVE);
+		return $this->value() == self::HRRESERVE;
 	}
 }

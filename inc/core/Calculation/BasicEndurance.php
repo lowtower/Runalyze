@@ -2,10 +2,10 @@
 
 namespace Runalyze\Calculation;
 
+use DB;
 use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 use Runalyze\Util\Time;
-use DB;
 
 /**
  * This class can calculated a value for the basic endurance.

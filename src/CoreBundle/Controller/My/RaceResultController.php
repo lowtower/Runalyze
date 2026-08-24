@@ -6,11 +6,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 

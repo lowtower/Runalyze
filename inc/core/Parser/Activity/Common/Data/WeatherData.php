@@ -52,7 +52,7 @@ class WeatherData
 
     public function isEmpty(): bool
     {
-        return (
+        return 
             $this->Condition == '' &&
             $this->InternalConditionId === null &&
             $this->Temperature === null &&
@@ -60,6 +60,6 @@ class WeatherData
             $this->WindDirection === null &&
             $this->Humidity === null &&
             $this->AirPressure === null
-        );
+        ;
     }
 }

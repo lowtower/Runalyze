@@ -2,8 +2,8 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter;
 
-use Symfony\Component\Process\Process;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 
 class InkscapeConverter extends AbstractSvgToPngConverter
 {

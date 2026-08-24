@@ -7,8 +7,8 @@
 
 use Runalyze\Configuration;
 use Runalyze\View\Activity;
-use Runalyze\View\Activity\Linker;
 use Runalyze\View\Activity\Box;
+use Runalyze\View\Activity\Linker;
 
 /**
  * Row: Route

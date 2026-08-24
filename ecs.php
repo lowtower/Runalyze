@@ -45,7 +45,7 @@ return ECSConfig::configure()
 
     ->withSets([
         #SetList::PSR_12,
-        #SetList::CLEAN_CODE,
+        SetList::CLEAN_CODE,
         SetList::ARRAY,
         #SetList::COMMON,
         #SetList::COMMENTS,

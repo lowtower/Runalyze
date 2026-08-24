@@ -2,8 +2,8 @@
 
 namespace Runalyze\Calculation\JD;
 
-use Runalyze\Configuration;
 use PDO;
+use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 
 class Shape

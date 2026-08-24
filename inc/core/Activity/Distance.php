@@ -328,7 +328,7 @@ class Distance implements ValueInterface
      */
     public function isNegative(): bool
 	{
-		return ($this->Kilometer < 0);
+		return $this->Kilometer < 0;
 	}
 
     /**
@@ -336,6 +336,6 @@ class Distance implements ValueInterface
      */
     public function isZero(): bool
 	{
-		return ($this->Kilometer == 0);
+		return $this->Kilometer == 0;
 	}
 }

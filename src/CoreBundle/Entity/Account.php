@@ -5,13 +5,13 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
+use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
+use Runalyze\Model\Account\UserRole;
 use Runalyze\Parameter\Application\Timezone;
+use Runalyze\Profile\Athlete\Gender;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Runalyze\Model\Account\UserRole;
-use Runalyze\Profile\Athlete\Gender;
-use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"}), @ORM\UniqueConstraint(name="mail", columns={"mail"})})

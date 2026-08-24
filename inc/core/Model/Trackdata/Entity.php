@@ -7,10 +7,10 @@
 
 namespace Runalyze\Model\Trackdata;
 
-use Runalyze\Model;
 use Runalyze\Calculation\Activity\PaceCalculator;
 use Runalyze\Calculation\Activity\VerticalRatioCalculator;
 use Runalyze\Calculation\StrideLength;
+use Runalyze\Model;
 
 /**
  * Trackdata entity.
@@ -347,7 +347,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      * @param string $key
      */
     public function isArray($key): bool {
-		return ($key != self::PAUSES && $key != self::ACTIVITYID);
+		return $key != self::PAUSES && $key != self::ACTIVITYID;
 	}
 
     /**
@@ -406,7 +406,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      * @param string $key
      */
     protected function ignoreNonEmptyValue($key): bool {
-		return ($key == self::ACTIVITYID);
+		return $key == self::ACTIVITYID;
 	}
 
 	public function clear() {

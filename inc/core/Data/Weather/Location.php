@@ -6,8 +6,8 @@
  */
 
 namespace Runalyze\Data\Weather;
-use League\Geotools\Geohash\Geohash;
 use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geohash\Geohash;
 /**
  * Weather location
  *
@@ -125,18 +125,18 @@ class Location
      * Is position set?
      */
     public function hasPosition(): bool {
-		return (
+		return 
 			$this->Latitude !== null &&
 			$this->Longitude !== null &&
 			($this->Latitude != 0 || $this->Longitude != 0)
-		);
+		;
 	}
 
     /**
      * Has location name?
      */
     public function hasLocationName(): bool {
-		return ((string) $this->LocationName !== '');
+		return (string) $this->LocationName !== '';
 	}
 
     /**

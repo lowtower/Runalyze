@@ -9,8 +9,8 @@ namespace Runalyze\View\Activity;
 
 use Request;
 use Runalyze\Configuration;
-use Runalyze\Model\Factory;
 use Runalyze\Model\Activity;
+use Runalyze\Model\Factory;
 
 /**
  * Activity context
@@ -184,7 +184,7 @@ class Context
 		}
 
 		if ($RoutePrivacy->showRace()) {
-			return (! $this->hasRaceResult());
+			return ! $this->hasRaceResult();
 		}
 
 		return true;

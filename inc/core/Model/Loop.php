@@ -116,7 +116,7 @@ abstract class Loop
 	 */
 	public function isAtEnd()
 	{
-		return ($this->Index >= $this->TotalSize - 1);
+		return $this->Index >= $this->TotalSize - 1;
 	}
 
 	/**

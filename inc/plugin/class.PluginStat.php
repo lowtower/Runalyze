@@ -5,8 +5,8 @@
  * @package Runalyze\Plugin
  */
 
-use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
 
 /**
  * Abstract plugin class for statistics
@@ -312,7 +312,7 @@ abstract class PluginStat extends Plugin
 	 * @return string
 	 */
 	protected function getSportString() {
-		return ($this->sportid == -1 ? __('All') : SportFactory::name($this->sportid));
+		return $this->sportid == -1 ? __('All') : SportFactory::name($this->sportid);
 	}
 
 	/**
@@ -383,7 +383,7 @@ abstract class PluginStat extends Plugin
 		$Factory = new PluginFactory();
 		$array = $Factory->variousPlugins();
 
-		return ($array !== []);
+		return $array !== [];
 	}
 
 	/**

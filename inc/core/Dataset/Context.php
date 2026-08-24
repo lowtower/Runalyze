@@ -147,7 +147,7 @@ class Context
 
 	public function hasSport(): bool
 	{
-		return ($this->Sport !== null);
+		return $this->Sport !== null;
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Context
 
 	public function hasType(): bool
 	{
-		return ($this->Type !== null);
+		return $this->Type !== null;
 	}
 
 	/**

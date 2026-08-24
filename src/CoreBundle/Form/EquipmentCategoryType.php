@@ -3,9 +3,9 @@
 namespace Runalyze\Bundle\CoreBundle\Form;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\EquipmentType as EntityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
-use Runalyze\Bundle\CoreBundle\Entity\EquipmentType as EntityEquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\Type\DistanceType;
 use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

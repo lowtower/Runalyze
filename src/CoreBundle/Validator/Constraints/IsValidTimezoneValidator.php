@@ -2,9 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle\Validator\Constraints;
 
+use Runalyze\Parameter\Application\Timezone;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Runalyze\Parameter\Application\Timezone;
 
 class IsValidTimezoneValidator extends ConstraintValidator
 {

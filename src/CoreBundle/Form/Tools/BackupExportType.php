@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Form\Tools;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class BackupExportType extends AbstractType
 {
@@ -21,6 +21,5 @@ class BackupExportType extends AbstractType
                 ],
             ]);
 
-        ;
     }
 }

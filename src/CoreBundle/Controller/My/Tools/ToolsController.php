@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
+use Bernard\Message\DefaultMessage;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\AnovaDataQuery;
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobGeneral;
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobLoop;
@@ -22,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Bernard\Message\DefaultMessage;
 
 class ToolsController extends Controller
 {

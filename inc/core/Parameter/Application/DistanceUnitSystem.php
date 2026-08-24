@@ -100,12 +100,12 @@ class DistanceUnitSystem extends \Runalyze\Parameter\Select
 
 	public function isMetric(): bool
 	{
-		return ($this->value() == self::METRIC);
+		return $this->value() == self::METRIC;
 	}
 
 	public function isImperial(): bool
 	{
-		return ($this->value() == self::IMPERIAL);
+		return $this->value() == self::IMPERIAL;
 	}
 
 	/**

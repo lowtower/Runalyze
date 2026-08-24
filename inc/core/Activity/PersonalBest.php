@@ -7,8 +7,8 @@
 
 namespace Runalyze\Activity;
 
-use PDO;
 use DB;
+use PDO;
 
 /**
  * Personal Bests
@@ -223,7 +223,7 @@ class PersonalBest
      * Does a personal best exist for this distance?
      */
     public function exists(): bool {
-		return ($this->Time !== false);
+		return $this->Time !== false;
 	}
 
 	/**
@@ -235,7 +235,7 @@ class PersonalBest
 	}
 
 	public function knowsActivity(): bool {
-		return ($this->ActivityID !== null);
+		return $this->ActivityID !== null;
 	}
 
 	/**

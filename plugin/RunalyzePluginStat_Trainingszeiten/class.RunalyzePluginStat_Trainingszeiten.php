@@ -7,8 +7,8 @@
 $PLUGINKEY = 'RunalyzePluginStat_Trainingszeiten';
 
 use Runalyze\Model\Activity;
-use Runalyze\View\Activity\Linker;
 use Runalyze\View\Activity\Dataview;
+use Runalyze\View\Activity\Linker;
 
 /**
  * Plugin "Trainingszeiten"

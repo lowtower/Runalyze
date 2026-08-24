@@ -7,9 +7,9 @@
 
 namespace Runalyze\View\Activity\Box;
 
-use Runalyze\View\Activity\Context;
-use Runalyze\Model\Trackdata;
 use Runalyze\Calculation\Distribution\TrackdataAverages;
+use Runalyze\Model\Trackdata;
+use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for Thb

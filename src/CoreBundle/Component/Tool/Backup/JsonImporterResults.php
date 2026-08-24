@@ -78,11 +78,11 @@ class JsonImporterResults
 	public function hasResultsFor($tableName)
     {
 		if (isset($this->Results[$tableName])) {
-			return (
+			return 
 				$this->Results[$tableName]['delete'] > 0 ||
 				$this->Results[$tableName]['update'] > 0 ||
 				$this->Results[$tableName]['insert'] > 0
-			);
+			;
 		}
 
         return false;

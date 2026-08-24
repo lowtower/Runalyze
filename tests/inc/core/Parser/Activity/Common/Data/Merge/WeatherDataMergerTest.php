@@ -2,8 +2,8 @@
 
 namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 
-use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Parser\Activity\Common\Data\Merge\WeatherDataMerger;
+use Runalyze\Parser\Activity\Common\Data\WeatherData;
 
 class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
 {

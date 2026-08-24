@@ -3,13 +3,13 @@
 namespace Runalyze\Bundle\CoreBundle\Queue\Receiver;
 
 use Bernard\Message\DefaultMessage;
+use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\BackupReadyMessage;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackup;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\SqlBackup;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\BackupReadyMessage;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BackupReceiver
 {

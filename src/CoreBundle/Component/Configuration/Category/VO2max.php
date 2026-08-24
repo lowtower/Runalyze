@@ -25,7 +25,7 @@ class VO2max extends AbstractCategory
 
     public function useCorrectionForElevation(): bool
     {
-        return ($this->Variables['VO2MAX_USE_CORRECTION_FOR_ELEVATION'] == 'true');
+        return $this->Variables['VO2MAX_USE_CORRECTION_FOR_ELEVATION'] == 'true';
     }
 
     /**

@@ -7,10 +7,10 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Configuration\Fieldset;
-use Runalyze\Parameter\Boolean;
-use Runalyze\Parameter\Application\DataBrowserMode;
 use Ajax;
+use Runalyze\Configuration\Fieldset;
+use Runalyze\Parameter\Application\DataBrowserMode;
+use Runalyze\Parameter\Boolean;
 
 /**
  * Configuration category: Data browser

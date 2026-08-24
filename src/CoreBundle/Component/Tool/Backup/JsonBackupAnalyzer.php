@@ -69,7 +69,7 @@ class JsonBackupAnalyzer
 
 	public function versionIsOkay(): bool
     {
-		return (self::extractMajorAndMinorVersion($this->RunalyzeVersion) === self::extractMajorAndMinorVersion($this->VersionString));
+		return self::extractMajorAndMinorVersion($this->RunalyzeVersion) === self::extractMajorAndMinorVersion($this->VersionString);
 	}
 
 	public function fileVersion(): string
@@ -86,7 +86,7 @@ class JsonBackupAnalyzer
 		$Expected = $this->expectedTables();
 		$Found = array_keys($this->NumberOf);
 
-		return (sort($Expected) === sort($Found));
+		return sort($Expected) === sort($Found);
 	}
 
 	/**

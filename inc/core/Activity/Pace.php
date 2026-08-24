@@ -137,7 +137,7 @@ class Pace
     }
 
 	public function isEmpty(): bool {
-		return ($this->Distance <= 0 || $this->Time <= 0);
+		return $this->Distance <= 0 || $this->Time <= 0;
 	}
 
 	/**

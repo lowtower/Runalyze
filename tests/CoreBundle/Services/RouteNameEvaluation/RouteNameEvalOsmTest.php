@@ -2,12 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 
-use Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm;
-use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
-use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
+use GuzzleHttp\Client;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Profile\Sport\SportProfile;
-use GuzzleHttp\Client;
+use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
+use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
+use Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm;
 
 /**
  * Test for RouteNameEvalOsm.
@@ -210,7 +210,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         // create place array with over 255 length
         for($i = 0; $i < 8; $i++) {
             $a[] = str_repeat($i, 32);
-        };
+        }
 
         $this->coll->method('getNames')
             ->will($this->returnValueMap(

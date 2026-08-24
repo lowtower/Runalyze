@@ -7,13 +7,13 @@
 
 namespace Runalyze\Data;
 
-use Runalyze\Data\Weather\Temperature;
 use Runalyze\Data\Weather\Condition;
-use Runalyze\Data\Weather\WindSpeed;
-use Runalyze\Data\Weather\WindDegree;
 use Runalyze\Data\Weather\Humidity;
 use Runalyze\Data\Weather\Pressure;
 use Runalyze\Data\Weather\Sources;
+use Runalyze\Data\Weather\Temperature;
+use Runalyze\Data\Weather\WindDegree;
+use Runalyze\Data\Weather\WindSpeed;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 
 /**
@@ -165,7 +165,7 @@ class Weather
 	}
 
 	public function sourceIsKnown(): bool {
-		return ($this->SourceId !== null);
+		return $this->SourceId !== null;
 	}
 
     /**
@@ -186,14 +186,14 @@ class Weather
      * Is the weather-data empty?
      */
     public function isEmpty(): bool {
-		return (
+		return 
 			$this->Temperature->isUnknown() &&
 			$this->Condition->isUnknown() &&
 			$this->WindSpeed->isUnknown() &&
 			$this->WindDegree->isUnknown() &&
 			$this->Humidity->isUnknown() &&
 			$this->Pressure->isUnknown()
-		);
+		;
 	}
 
 	/**

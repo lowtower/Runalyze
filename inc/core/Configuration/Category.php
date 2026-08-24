@@ -7,10 +7,10 @@
 
 namespace Runalyze\Configuration;
 
-use Runalyze\Parameter;
 use DB;
-use SharedLinker;
 use FrontendShared;
+use Runalyze\Parameter;
+use SharedLinker;
 
 /**
  * Configuration category

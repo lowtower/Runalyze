@@ -7,10 +7,10 @@
 
 namespace Runalyze\Model\Activity\Splits;
 
-use Runalyze\Model\StringObject;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\LapIntensity;
 use Runalyze\Activity\Pace;
+use Runalyze\Model\StringObject;
 use Runalyze\Parameter\Application\PaceUnit;
 
 /**
@@ -103,7 +103,7 @@ class Split extends StringObject
      * Is empty
      */
     public function isEmpty(): bool {
-		return ($this->Distance <= 0 && $this->Time <= 0);
+		return $this->Distance <= 0 && $this->Time <= 0;
 	}
 
 	/**

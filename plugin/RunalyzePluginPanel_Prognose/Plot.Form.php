@@ -6,10 +6,10 @@
  * @package Runalyze\Plugins\Panels
  */
 
+use Runalyze\Activity\Distance;
 use Runalyze\Calculation\BasicEndurance;
 use Runalyze\Calculation\JD;
 use Runalyze\Configuration;
-use Runalyze\Activity\Distance;
 use Runalyze\Sports\Running\Prognosis;
 use Runalyze\Util\LocalTime;
 

@@ -7,11 +7,11 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Configuration\Messages;
-use Runalyze\Configuration\Fieldset;
-use Runalyze\Parameter\Integer;
-use Runalyze\Parameter\Boolean;
 use Ajax;
+use Runalyze\Configuration\Fieldset;
+use Runalyze\Configuration\Messages;
+use Runalyze\Parameter\Boolean;
+use Runalyze\Parameter\Integer;
 
 /**
  * Configuration category: Trimp

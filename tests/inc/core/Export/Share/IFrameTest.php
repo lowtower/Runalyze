@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Export\Share;
 
-use Runalyze\View\Activity\FakeContext;
 use Runalyze\Model\Activity;
+use Runalyze\View\Activity\FakeContext;
 
 class IFrameTest extends \PHPUnit\Framework\TestCase
 {

@@ -30,7 +30,7 @@ class Epanechnikov extends AbstractKernel
     protected function atTransformed($u)
     {
         if ($u >= -1.0 && $u <= 1.0) {
-            return (1 - $u * $u);
+            return 1 - $u * $u;
         }
 
         return 0.0;

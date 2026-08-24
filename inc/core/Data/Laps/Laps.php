@@ -7,10 +7,10 @@
 
 namespace Runalyze\Data\Laps;
 
-use Runalyze\Model\Trackdata;
+use Runalyze\Model\Activity\Splits;
 use Runalyze\Model\Route;
 use Runalyze\Model\Swimdata;
-use Runalyze\Model\Activity\Splits;
+use Runalyze\Model\Trackdata;
 
 /**
  * Object of laps

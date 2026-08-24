@@ -2,10 +2,10 @@
 
 namespace Runalyze\Tests\Service\WeatherForecast\Strategy;
 
+use Psr\Log\LoggerInterface;
+use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\MeteostatNet;
-use Runalyze\Profile\Weather\WeatherConditionProfile;
-use Psr\Log\LoggerInterface;
 
 class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 {

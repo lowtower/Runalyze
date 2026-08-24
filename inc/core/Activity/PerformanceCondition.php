@@ -130,6 +130,6 @@ class PerformanceCondition implements ValueInterface
 
     public function isKnown(): bool
     {
-        return ($this->Value !== null);
+        return $this->Value !== null;
     }
 }

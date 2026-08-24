@@ -7,8 +7,8 @@
 
 namespace Runalyze\View\Activity\Box;
 
-use Runalyze\View\Activity\Context;
 use Runalyze\Activity;
+use Runalyze\View\Activity\Context;
 
 /**
  * Boxed value for energy

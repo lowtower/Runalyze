@@ -44,14 +44,14 @@ class TemperatureUnit extends \Runalyze\Parameter\Select
      * Is celsius?
      */
     public function isCelsius(): bool {
-		return ($this->value() == self::CELSIUS);
+		return $this->value() == self::CELSIUS;
 	}
 
     /**
      * Is fahrenheit?
      */
     public function isFahrenheit(): bool {
-		return ($this->value() == self::FAHRENHEIT);
+		return $this->value() == self::FAHRENHEIT;
 	}
 
 	/**

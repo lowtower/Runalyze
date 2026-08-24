@@ -102,10 +102,10 @@ class Round
 
     public function isEqualTo(self $other): bool
     {
-        return (
+        return 
             $this->Duration == $other->getDuration() &&
             $this->Distance == $other->getDistance() &&
             $this->Intensity->isEqualTo($other->getIntensity())
-        );
+        ;
     }
 }

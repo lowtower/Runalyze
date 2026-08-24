@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Settings;
 
+use Runalyze\Language;
+use Runalyze\Profile\Athlete\Gender;
+use Runalyze\Timezone;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Runalyze\Timezone;
-use Runalyze\Language;
-use Runalyze\Profile\Athlete\Gender;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountType extends AbstractType
 {

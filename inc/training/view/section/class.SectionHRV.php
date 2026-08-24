@@ -23,9 +23,9 @@ class SectionHRV extends TrainingViewSectionTabbedPlot
      * Has the training all required data?
      */
     protected function hasRequiredData(): bool {
-		return (
+		return 
 			$this->Context->hasHRV()
-		);
+		;
 	}
 
     /**

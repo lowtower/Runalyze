@@ -102,10 +102,10 @@ class FilenameHandler
      */
     static public function validateFileExtension($completeFilename): bool
     {
-        return (
+        return 
             substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT ||
             substr($completeFilename, -strlen(self::SQL_FORMAT)) === self::SQL_FORMAT
-        );
+        ;
     }
 
     /**

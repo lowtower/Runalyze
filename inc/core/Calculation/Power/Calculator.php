@@ -3,8 +3,8 @@
 namespace Runalyze\Calculation\Power;
 
 use Runalyze\Mathematics\Distribution\TimeSeries;
-use Runalyze\Model\Trackdata;
 use Runalyze\Model\Route;
+use Runalyze\Model\Trackdata;
 
 /**
  * Calculate virtual power
@@ -74,7 +74,7 @@ class Calculator
 	}
 
 	protected function knowsRoute(): bool {
-		return ($this->Route !== null);
+		return $this->Route !== null;
 	}
 
 	/**

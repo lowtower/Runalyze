@@ -2,8 +2,8 @@
 
 namespace Runalyze\Calculation;
 
-use Runalyze\Configuration;
 use DB;
+use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 
 /**

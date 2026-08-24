@@ -5,8 +5,8 @@
  * @package Runalyze\DataBrowser
  */
 
-use Runalyze\Util\LocalTime;
 use Runalyze\Dataset;
+use Runalyze\Util\LocalTime;
 use Runalyze\View;
 
 /**

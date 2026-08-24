@@ -6,8 +6,8 @@
  * @package Runalyze\Plugins\Stats
  */
 
-use Runalyze\Util\Time;
 use Runalyze\Activity\Temperature;
+use Runalyze\Util\Time;
 
 $Temperature = new Temperature();
 

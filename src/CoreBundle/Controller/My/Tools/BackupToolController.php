@@ -96,7 +96,7 @@ class BackupToolController extends Controller
                 return $fileHandler->validateInternalFilename($file->getFilename());
             })
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-                return ($b->getMTime() - $a->getMTime());
+                return $b->getMTime() - $a->getMTime();
             });
 
         return $this->render('tools/backup/export.html.twig', [

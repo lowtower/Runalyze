@@ -11,8 +11,8 @@ use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\TrimpCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\VO2maxCalculator;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup;
-use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Profile\FitSdk\StrokeTypeProfile;
+use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 use Runalyze\Util\LocalTime;
 
@@ -156,10 +156,10 @@ class ActivityAdapter
      */
     public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape): bool
     {
-        return (
+        return 
             $this->isRunning() &&
             $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
-        );
+        ;
     }
 
     /**
@@ -167,12 +167,12 @@ class ActivityAdapter
      */
     public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape): bool
     {
-        return (
+        return 
             $this->isRunning() &&
             $this->Activity->getUseVO2max() &&
             $this->Activity->getVO2max() > 0.0 &&
             $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
-        );
+        ;
     }
 
     public function calculateEnergyConsumptionIfEmpty()
@@ -338,14 +338,14 @@ class ActivityAdapter
 
     protected function canCalculateClimbScore(): bool
     {
-        return (
+        return 
             $this->Activity->getRoute() !== null &&
             $this->Activity->getRoute()
                 ->hasElevations() &&
             $this->Activity->getTrackdata() !== null &&
             $this->Activity->getTrackdata()
                 ->hasDistance()
-        );
+        ;
     }
 
     protected function temporarilyFixStepwiseElevationsInRoute()

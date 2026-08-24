@@ -2,9 +2,9 @@
 
 namespace Runalyze\Bundle\CoreBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Runalyze\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideServiceCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Bundles are auto configured as Twig paths, public resources etc.

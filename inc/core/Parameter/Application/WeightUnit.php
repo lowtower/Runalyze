@@ -50,21 +50,21 @@ class WeightUnit extends \Runalyze\Parameter\Select
      * Is kg?
      */
     public function isKG(): bool {
-		return ($this->value() == self::KG);
+		return $this->value() == self::KG;
 	}
 
     /**
      * Is pounds?
      */
     public function isPounds(): bool {
-		return ($this->value() == self::POUNDS);
+		return $this->value() == self::POUNDS;
 	}
 
     /**
      * Is stones?
      */
     public function isStones(): bool {
-		return ($this->value() == self::STONES);
+		return $this->value() == self::STONES;
 	}
 
 	/**

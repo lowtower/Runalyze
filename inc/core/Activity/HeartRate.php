@@ -154,6 +154,6 @@ class HeartRate
      * Is the athlete known?
      */
     protected function knowsAthlete(): bool {
-		return ($this->Athlete !== null);
+		return $this->Athlete !== null;
 	}
 }

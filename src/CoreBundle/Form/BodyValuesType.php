@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Runalyze\Bundle\CoreBundle\Form\Type\WeightType;
+use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
 use Runalyze\Bundle\CoreBundle\Form\Type\PercentageType;
-use Runalyze\Bundle\CoreBundle\Form\Type\DurationType;
+use Runalyze\Bundle\CoreBundle\Form\Type\WeightType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BodyValuesType extends AbstractType
 {

@@ -241,14 +241,14 @@ class Duration
      * Is duration negative?
      */
     public function isNegative(): bool {
-		return ($this->Time < 0);
+		return $this->Time < 0;
 	}
 
     /**
      * Is duration zero?
      */
     public function isZero(): bool {
-		return ($this->Time == 0);
+		return $this->Time == 0;
 	}
 
     /**

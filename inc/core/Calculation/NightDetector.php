@@ -69,12 +69,12 @@ class NightDetector
 
     public function isKnown(): bool
     {
-        return ($this->Value !== null);
+        return $this->Value !== null;
     }
 
     public function isNight(): bool
     {
-        return ($this->Value == 1);
+        return $this->Value == 1;
     }
 
     /**

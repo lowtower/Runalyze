@@ -7,10 +7,10 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
+use \Plot;
+use Runalyze\Configuration;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity\Context;
-use Runalyze\Configuration;
-use \Plot;
 
 /**
  * Activity series

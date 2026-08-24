@@ -2,15 +2,15 @@
 
 namespace Runalyze\Configuration\Category;
 
-use Runalyze\Configuration\Messages;
+use Ajax;
+use FormularUnit;
+use Helper;
 use Runalyze\Configuration\Fieldset;
+use Runalyze\Configuration\Messages;
 use Runalyze\Parameter\Boolean;
 use Runalyze\Parameter\FloatingPoint;
-use Runalyze\Parameter\Textline;
 use Runalyze\Parameter\Integer;
-use Ajax;
-use Helper;
-use FormularUnit;
+use Runalyze\Parameter\Textline;
 
 class VO2max extends \Runalyze\Configuration\Category
 {
@@ -57,7 +57,7 @@ class VO2max extends \Runalyze\Configuration\Category
 
     public function useManualFactor(): bool
     {
-        return ($this->get('VO2MAX_MANUAL_CORRECTOR') !== null);
+        return $this->get('VO2MAX_MANUAL_CORRECTOR') !== null;
     }
 
     public function manualValue(): float
@@ -67,7 +67,7 @@ class VO2max extends \Runalyze\Configuration\Category
 
     public function useManualValue(): bool
     {
-        return ($this->manualValue() > 0.0);
+        return $this->manualValue() > 0.0;
     }
 
     /**

@@ -52,12 +52,12 @@ class RouteListener
 
     protected function hasChangedElevations(PreUpdateEventArgs $args): bool
     {
-        return (
+        return 
             $args->hasChangedField('elevationsCorrected') || (
                 $args->hasChangedField('elevationsOriginal') &&
                 $args->getNewValue('elevationsCorrected') === null
             )
-        );
+        ;
     }
 
     protected function calculateElevation(Route $route)

@@ -7,9 +7,9 @@
 
 namespace Runalyze\Dataset\Keys;
 
-use Runalyze\View\Stresscolor;
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\SummaryMode;
+use Runalyze\View\Stresscolor;
 
 /**
  * Dataset key: Distance

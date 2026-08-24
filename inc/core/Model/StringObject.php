@@ -42,6 +42,6 @@ abstract class StringObject
 	 * @return bool
 	 */
 	public function isEmpty() {
-		return ($this->asString() == '');
+		return $this->asString() == '';
 	}
 }

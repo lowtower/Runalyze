@@ -293,7 +293,7 @@ class ActivityListener
     {
         $days = $this->getNumberOfDaysToConsiderForEffectiveVO2maxShape($activity->getAccount());
 
-        return ((
+        return (
             (
                 $args->hasChangedField('useVO2max') ||
                 $args->hasChangedField('vo2max') ||
@@ -308,7 +308,7 @@ class ActivityListener
                 $activity->getUseVO2max() &&
                 $activity->getVO2max() > 0.0
             )
-        ));
+        );
     }
 
     protected function updateRequiresMarathonShapeCalculation(Training $activity, PreUpdateEventArgs $args): bool
@@ -330,16 +330,16 @@ class ActivityListener
 
     protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
-        return (
+        return 
             $activity->hasRaceresult() &&
             $args->hasChangedField('vo2max') ||
             $args->hasChangedField('vo2maxByTime')
-        );
+        ;
     }
 
     protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
-        return (
+        return 
             (! $activity->hasTrackdata() || ! $activity->getTrackdata()->hasHeartrate()) && (
                 $args->hasChangedField('pulseAvg') ||
                 $args->hasChangedField('s') ||
@@ -350,12 +350,12 @@ class ActivityListener
                     )
                 )
             )
-        );
+        ;
     }
 
     protected function updateRequiresVO2maxCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
-        return ((
+        return (
             $activity->getAdapter()
                 ->isRunning() && (
                     $args->hasChangedField('pulseAvg') ||
@@ -364,7 +364,7 @@ class ActivityListener
                 )
         ) || (
             $args->hasChangedField('sport')
-        ));
+        );
     }
 
     /**
@@ -383,10 +383,10 @@ class ActivityListener
         $ageOfNewDate = (new LocalTime($args->getNewValue('time')))->diff($now, true)
             ->days;
 
-        return (
+        return 
             ($ageOfOldDate <= $numberOfDays && $ageOfNewDate > $numberOfDays) ||
             ($ageOfOldDate > $numberOfDays && $ageOfNewDate <= $numberOfDays)
-        );
+        ;
     }
 
     protected function addStatisticsToEquipment(Training $activity)

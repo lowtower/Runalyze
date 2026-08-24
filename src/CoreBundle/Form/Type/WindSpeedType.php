@@ -5,8 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Form\Type;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit;
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class WindSpeedType extends AbstractUnitBasedType
 {

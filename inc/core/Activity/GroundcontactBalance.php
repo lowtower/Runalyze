@@ -116,6 +116,6 @@ class GroundcontactBalance implements ValueInterface
 
 	public function isKnown(): bool
 	{
-		return ($this->BasisPoint > 0);
+		return $this->BasisPoint > 0;
 	}
 }

@@ -4,8 +4,8 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup;
 
 use Runalyze\Calculation\Activity\Calculator;
 use Runalyze\Model\Activity;
-use Runalyze\Model\Trackdata;
 use Runalyze\Model\Route;
+use Runalyze\Model\Trackdata;
 
 class JobLoop extends Job
 {

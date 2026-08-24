@@ -2,12 +2,12 @@
 
 namespace Runalyze\Parser\Activity\Common\Data;
 
+use Runalyze\Activity;
+use Runalyze\Data\RPE;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollectionFiller;
 use Runalyze\Parser\Activity\Common\Filter\FilterCollection;
-use Runalyze\Activity;
-use Runalyze\Data\RPE;
 
 class ActivityDataContainer
 {

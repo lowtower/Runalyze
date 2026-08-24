@@ -5,10 +5,10 @@
  * @package Runalyze\DataObjects\Training\View
  */
 
-use Runalyze\Activity\Pace;
 use Runalyze\Activity\HeartRate;
-use Runalyze\Calculation\Distribution\TimeSeriesForTrackdata;
+use Runalyze\Activity\Pace;
 use Runalyze\Calculation\Activity\PaceSmoother;
+use Runalyze\Calculation\Distribution\TimeSeriesForTrackdata;
 use Runalyze\Model\Trackdata;
 
 /**

@@ -92,12 +92,12 @@ class Bock implements PrognosisInterface
      */
     public function areValuesValid(): bool
     {
-        return (
+        return 
             ($this->K > self::K_LOWER_BOUND) &&
             ($this->K < self::K_UPPER_BOUND) &&
             ($this->E > self::E_LOWER_BOUND) &&
             ($this->E < self::E_UPPER_BOUND)
-        );
+        ;
     }
 
     public function getSeconds($distance)

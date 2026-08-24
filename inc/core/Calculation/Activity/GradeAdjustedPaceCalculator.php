@@ -7,10 +7,10 @@
 
 namespace Runalyze\Calculation\Activity;
 
-use Runalyze\Model\Trackdata;
-use Runalyze\View\Activity;
 use Runalyze\Calculation;
+use Runalyze\Model\Trackdata;
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
+use Runalyze\View\Activity;
 
 /**
  * Calculate pace with grade adjustment based on Minetti.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
-use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 
 return RectorConfig::configure()

@@ -79,6 +79,6 @@ abstract class AbstractTimeUnit extends AbstractUnit
 	 */
 	public function compare($firstPaceInSecondsPerKm, $secondPaceInSecondsPerKm)
 	{
-		return ($secondPaceInSecondsPerKm - $firstPaceInSecondsPerKm);
+		return $secondPaceInSecondsPerKm - $firstPaceInSecondsPerKm;
 	}
 }

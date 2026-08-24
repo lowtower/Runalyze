@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
-use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 use Runalyze\Activity\Distance;
+use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 
 class DistanceType extends AbstractUnitBasedType
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Calculation\Route;
 
-use Runalyze\Model;
 use Runalyze\Calculation\Math\MovingAverage\Kernel;
+use Runalyze\Model;
 
 class GradientTest extends \PHPUnit\Framework\TestCase
 {

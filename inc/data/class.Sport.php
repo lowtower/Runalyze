@@ -45,13 +45,13 @@ class Sport
 	 * @return bool
 	 */
 	public function usesDistance(): bool {
-		return ($this->data['distances'] == 1);
+		return $this->data['distances'] == 1;
 	}
 
     /**
      * Checks if this sport is set as "Running"
      */
     public function isRunning(): bool {
-	    return ($this->data['internal_sport_id'] == \Runalyze\Profile\Sport\SportProfile::RUNNING);
+	    return $this->data['internal_sport_id'] == \Runalyze\Profile\Sport\SportProfile::RUNNING;
 	}
 }

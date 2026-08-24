@@ -7,10 +7,10 @@
 
 namespace Runalyze\View\Activity\Plot;
 
+use Helper;
 use Runalyze\Activity\Pace as PaceObject;
 use Runalyze\Configuration;
 use Runalyze\View\Activity;
-use Helper;
 
 /**
  * Plot for: Laps

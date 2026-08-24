@@ -100,7 +100,7 @@ class Entity extends Model\EntityWithID
      * Allows multiple values
      */
     public function allowsMultipleValues(): bool {
-		return ($this->Data[self::INPUT] == self::CHOICE_MULTIPLE);
+		return $this->Data[self::INPUT] == self::CHOICE_MULTIPLE;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Entity extends Model\EntityWithID
      * Is a maximal distance set?
      */
     public function hasMaxDistance(): bool {
-		return ($this->Data[self::MAX_KM] > 0);
+		return $this->Data[self::MAX_KM] > 0;
 	}
 
 	/**
@@ -130,6 +130,6 @@ class Entity extends Model\EntityWithID
      * Is a maximal duration set?
      */
     public function hasMaxDuration(): bool {
-		return ($this->Data[self::MAX_TIME] > 0);
+		return $this->Data[self::MAX_TIME] > 0;
 	}
 }

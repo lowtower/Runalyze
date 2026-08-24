@@ -348,7 +348,7 @@ class Route implements AccountRelatedEntityInterface
         $longitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (double) $value; }, $longitudes);
 
         $this->areMinMaxSynchronized = false;
-        $this->geohashes = []; ;
+        $this->geohashes = []; 
 
         for ($i = 0; $i < $size; ++$i) {
             $this->geohashes[] = (new Geohash())->encode(
@@ -610,13 +610,13 @@ class Route implements AccountRelatedEntityInterface
 
     public function isEmpty(): bool
     {
-        return (
+        return 
             $this->name == '' &&
             $this->cities == '' &&
             ($this->geohashes === null || empty($this->geohashes)) &&
             ($this->elevationsOriginal === null || empty($this->elevationsOriginal)) &&
             ($this->elevationsCorrected === null || empty($this->elevationsCorrected))
-        );
+        ;
     }
 
     /**

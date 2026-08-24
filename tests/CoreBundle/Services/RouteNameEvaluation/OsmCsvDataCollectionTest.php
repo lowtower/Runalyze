@@ -121,7 +121,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
               'way|Kellerleitensteig||||||||yes|hiking|' . PHP_EOL .
               'node|Garmisch||town||||||||' . PHP_EOL .
               'way|Kramersteig||||||||yes|hiking|' . PHP_EOL .
-              'way|Kramerplateauweg||||||||yes|hiking|'; ;
+              'way|Kramerplateauweg||||||||yes|hiking|'; 
         $eval = new OsmCsvDataCollection($in);
 
         $this->assertEquals(['Kramerspitz', 'Königsstand'], $eval->getNames(OsmCsvData::$CAT_PEAK));

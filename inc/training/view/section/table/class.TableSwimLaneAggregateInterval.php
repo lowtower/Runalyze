@@ -5,14 +5,14 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\Model\Trackdata;
-use Runalyze\Model\Swimdata;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
-use Runalyze\Data\Stroketype;
 use Runalyze\Activity\Pace;
-use Runalyze\Parameter\Application\PaceUnit;
+use Runalyze\Data\Stroketype;
 use Runalyze\Model\Activity\Splits;
+use Runalyze\Model\Swimdata;
+use Runalyze\Model\Trackdata;
+use Runalyze\Parameter\Application\PaceUnit;
 
 /**
  * Display swim lanes in details of 100m intervals.

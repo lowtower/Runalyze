@@ -7,11 +7,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class CreateNotificationCommand extends ContainerAwareCommand
@@ -76,13 +76,13 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return (
+        return 
             $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/notifications/.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
             $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.') &&
             $this->checkValidation($this->validateLifetime($input->getOption('lifetime')), $output, 'Lifetime must be an integer.')
-        );
+        ;
     }
 
     /**
@@ -147,7 +147,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function validateLifetime($lifetime): bool
     {
-        return ($lifetime === null || ctype_digit($lifetime));
+        return $lifetime === null || ctype_digit($lifetime);
     }
 
     /**

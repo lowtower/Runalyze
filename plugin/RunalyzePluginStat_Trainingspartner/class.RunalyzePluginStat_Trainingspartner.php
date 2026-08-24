@@ -67,18 +67,18 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat
 		echo '<tbody>';
 
 		if ($this->Partner === [])
-			echo('
+			echo '
 				<tr>
 					<td class="b">0x</td>
 					<td><em>' . __('You have only trained on your own.') . '</em></td>
-				</tr>');
+				</tr>';
 		else {
 			$row_num = INFINITY;
 			$i = 0;
 
 			foreach ($this->Partner as $name => $name_num) {
 				if ($row_num == $name_num)
-					echo(', ');
+					echo ', ';
 				else {
 					if ($name_num != 1 && $row_num != INFINITY)
 						echo '</td></tr>';

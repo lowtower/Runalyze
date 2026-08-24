@@ -7,9 +7,9 @@
 
 namespace Runalyze\Configuration;
 
+use Ajax;
 use ConfigTabs;
 use HTML;
-use Ajax;
 
 /**
  * Configuration messages

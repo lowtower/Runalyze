@@ -26,7 +26,8 @@ class SectionSwimLane extends TrainingViewSectionTabbedPlot
 	 * @return bool
 	 */
 	protected function hasRequiredData() {
-		return ($this->Context->swimdata()->has(Swimdata\Entity::STROKE));
+		return $this->Context->swimdata()
+		    ->has(Swimdata\Entity::STROKE);
 	}
 
     /**

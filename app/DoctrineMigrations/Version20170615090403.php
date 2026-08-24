@@ -2,8 +2,8 @@
 
 namespace Runalyze\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\ClimbScoreCalculator;
 use Runalyze\Bundle\CoreBundle\Bridge\Activity\Calculation\FlatOrHillyAnalyzer;
@@ -89,7 +89,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
                         $activity->getId(),
                         $e->getMessage()
                     ));
-                };
+                }
 
                 $activity->getRoute()
                     ->setElevationsCorrected($oldElevations);

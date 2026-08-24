@@ -5,8 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Adapter\TrackDataAdapter;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
-use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Model;
+use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 /**
  * @ORM\Table(name="trackdata")
@@ -883,7 +883,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function isEmpty(): bool
     {
-        return (
+        return 
             ($this->time === null && empty($this->time)) &&
             ($this->distance === null && empty($this->distance)) &&
             ($this->heartrate === null && empty($this->heartrate)) &&
@@ -908,7 +908,7 @@ class Trackdata implements AccountRelatedEntityInterface
             ($this->performanceCondition === null && empty($this->performanceCondition)) &&
             ($this->respirationRate === null && empty($this->respirationRate)) &&
             $this->pauses->isEmpty()
-        );
+        ;
     }
 
     public function getLegacyModel(): \Runalyze\Model\Trackdata\Entity

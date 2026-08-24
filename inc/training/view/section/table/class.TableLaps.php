@@ -5,9 +5,9 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-use Runalyze\View\Splits;
 use Runalyze\Model\Trackdata;
 use Runalyze\Util\StringReader;
+use Runalyze\View\Splits;
 
 /**
  * Table: laps

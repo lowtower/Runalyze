@@ -5,23 +5,23 @@
  * @package Runalyze\Plugins\Stats
  */
 
+use Runalyze\Activity\Distance;
+use Runalyze\Activity\Duration;
+use Runalyze\Activity\PersonalBest;
 use Runalyze\AgeGrade\Lookup;
 use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
 use Runalyze\Configuration;
+use Runalyze\Data\Weather;
 use Runalyze\Model\Activity;
-use Runalyze\Model\RaceResult;
 use Runalyze\Model\Factory;
-use Runalyze\View\Activity\Linker;
+use Runalyze\Model\RaceResult;
+use Runalyze\Plugin\Statistic\Races\RaceContainer;
+use Runalyze\Profile\Athlete\Gender;
 use Runalyze\View;
+use Runalyze\View\Activity\Linker;
 use Runalyze\View\Icon;
 use Runalyze\View\Tooltip;
-use Runalyze\Activity\Distance;
-use Runalyze\Activity\Duration;
-use Runalyze\Data\Weather;
-use Runalyze\Activity\PersonalBest;
-use Runalyze\Profile\Athlete\Gender;
-use Runalyze\Plugin\Statistic\Races\RaceContainer;
 
 $PLUGINKEY = 'RunalyzePluginStat_Wettkampf';
 /**
@@ -567,6 +567,6 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * @param int $id
      */
     public function isFunCompetition($id): bool {
-		return (in_array($id, $this->Configuration()->value('fun_ids')));
+		return in_array($id, $this->Configuration()->value('fun_ids'));
 	}
 }

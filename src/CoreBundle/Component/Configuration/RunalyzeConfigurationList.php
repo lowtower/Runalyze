@@ -237,7 +237,7 @@ class RunalyzeConfigurationList extends ConfigurationList
 
     public function useVO2maxCorrectionForElevation(): bool
     {
-        return ($this->Variables['vo2max.VO2MAX_USE_CORRECTION_FOR_ELEVATION'] == 'true');
+        return $this->Variables['vo2max.VO2MAX_USE_CORRECTION_FOR_ELEVATION'] == 'true';
     }
 
     public function getCurrentVO2maxShape(): float

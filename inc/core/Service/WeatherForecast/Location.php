@@ -2,8 +2,8 @@
 
 namespace Runalyze\Service\WeatherForecast;
 
-use League\Geotools\Geohash\Geohash;
 use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geohash\Geohash;
 
 class Location
 {
@@ -162,11 +162,11 @@ class Location
      */
     public function hasPosition(): bool
     {
-        return (
+        return 
             $this->Latitude !== null &&
             $this->Longitude !== null &&
             ($this->Latitude != 0.0 || $this->Longitude != 0.0)
-        );
+        ;
     }
 
     public function hasLocationName(): bool

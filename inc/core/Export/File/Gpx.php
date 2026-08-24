@@ -31,7 +31,8 @@ class Gpx extends AbstractFileExporter
 
     public function isPossible(): bool
     {
-        return ($this->Context->hasRoute() && $this->Context->route()->hasPositionData());
+        return $this->Context->hasRoute() && $this->Context->route()
+            ->hasPositionData();
     }
 
     /**

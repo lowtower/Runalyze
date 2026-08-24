@@ -7,16 +7,16 @@
 
 namespace Runalyze\View\Activity;
 
-use Runalyze\Model\Activity;
+use Ajax;
+use DataBrowserLinker;
+use DB;
+use Icon;
 use Runalyze\Activity\Duration;
+use Runalyze\Model\Activity;
 use Runalyze\Util\LocalTime;
 use SessionAccountHandler;
-use DataBrowserLinker;
 use SharedLinker;
 use System;
-use Icon;
-use Ajax;
-use DB;
 
 /**
  * Linker for activities

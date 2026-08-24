@@ -30,11 +30,11 @@ class ContinuousDataAdapter
 
     protected function distancesShouldBeCalculated(): bool
     {
-        return (
+        return 
             $this->ContinuousData->Distance === [] &&
             $this->ContinuousData->Latitude !== [] &&
             $this->ContinuousData->Longitude !== []
-        );
+        ;
     }
 
     /**

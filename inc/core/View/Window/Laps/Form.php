@@ -7,13 +7,13 @@
 
 namespace Runalyze\View\Window\Laps;
 
-use Request;
+use Ajax;
 use Formular;
+use FormularCheckbox;
 use FormularFieldset;
 use FormularInput;
 use FormularUnit;
-use FormularCheckbox;
-use Ajax;
+use Request;
 use Runalyze\Configuration;
 
 /**

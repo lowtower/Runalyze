@@ -23,7 +23,7 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
      * Get value as string
      */
     public function valueAsString(): string {
-		return ($this->Value ? '1' : '0');
+		return $this->Value ? '1' : '0';
 	}
 
 	public function setValueFromPost() {

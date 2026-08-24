@@ -8,8 +8,8 @@
 use Runalyze\Configuration;
 use Runalyze\Dataset;
 use Runalyze\Model\Factory;
-use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
+use Runalyze\Util\Time;
 use Runalyze\View;
 
 /**

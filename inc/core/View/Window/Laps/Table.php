@@ -7,18 +7,18 @@
 
 namespace Runalyze\View\Window\Laps;
 
+use Ajax;
+use FormularFieldset;
+use Helper;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Elevation;
 use Runalyze\Activity\Pace;
 use Runalyze\Data\Laps\Laps;
 use Runalyze\Model\Activity;
 use Runalyze\Model\Swimdata;
-use Runalyze\View\Activity\Dataview;
-use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
-use Ajax;
-use Helper;
-use FormularFieldset;
+use Runalyze\Profile\Sport\SportProfile;
+use Runalyze\View\Activity\Dataview;
 
 /**
  * Display table for laps

@@ -2,13 +2,13 @@
 
 namespace Runalyze\Migrations;
 
-use Doctrine\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
+use Runalyze\Calculation\Route\GeohashLine;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Runalyze\Calculation\Route\GeohashLine;
 
 /**
  * refactoring geohashes in route table
