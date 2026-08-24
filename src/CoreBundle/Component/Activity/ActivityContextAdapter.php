@@ -58,7 +58,7 @@ class ActivityContextAdapter
     public function guessWeatherConditions($defaultLocationName, $account)
     {
         // #TSC if not outside, no weather needed
-        if(! $this->Context->getSport()->getOutside()) {
+        if (! $this->Context->getSport()->getOutside()) {
             return;
         }
 
@@ -68,7 +68,7 @@ class ActivityContextAdapter
         // #TSC set the time to the mid of the activity
         $time = new LocalTime($this->Context->getActivity()->getTime());
         // we add here the elapsed time, not the duration; half this time to set the mid of the activity
-        $time->add(new \DateInterval('PT' . round($this->Context->getActivity()->getElapsedTime() / 2 ) . 'S'));
+        $time->add(new \DateInterval('PT' . round($this->Context->getActivity()->getElapsedTime() / 2) . 'S'));
 
         $location->setDateTime($time);
 
@@ -85,7 +85,7 @@ class ActivityContextAdapter
         $location->setTimezone($timezoneName);
 
         // if we have no valid location-object, no forecast is meaningful
-        if(! $location->isValid()) {
+        if (! $location->isValid()) {
             return;
         }
 
@@ -100,17 +100,18 @@ class ActivityContextAdapter
     /**
      * #TSC get details of the route and set it on the relevant activity fields.
      */
-    public function guessRouteDetails(): bool {
+    public function guessRouteDetails(): bool
+    {
         $activity = $this->Context->getActivity();
-        if($activity->hasRoute() && $activity->getRoute()->hasGeohashes()) {
+        if ($activity->hasRoute() && $activity->getRoute()->hasGeohashes()) {
             $result = $this->RouteNameEval->evaluate($activity->getSport(), $activity->getRoute(), $activity->getDistance());
 
-            if($result != null) {
+            if ($result != null) {
                 // set the name not directly on route, because on Training there is also a "route(name)" attribute
                 $activity->setRouteName($result->getNames());
                 $activity->setNotes($result->appendNotes($activity->getNotes()));
                 return true;
-            }    
+            }
         }
 
         return false;

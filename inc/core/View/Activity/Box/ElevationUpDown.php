@@ -19,17 +19,17 @@ use Runalyze\Configuration;
 class ElevationUpDown extends AbstractBox
 {
     public function __construct(\Runalyze\View\Activity\Context $Context)
-	{
-		if ($Context->hasRoute()) {
-			$upDown = '+' . ElevationBase::format($Context->route()->elevationUp(), false) . '/-' . ElevationBase::format($Context->route()->elevationDown(), false);
-		} else {
-			$upDown = '+' . ElevationBase::format($Context->activity()->elevation(), false) . '/-' . ElevationBase::format($Context->activity()->elevation(), false);
-		}
+    {
+        if ($Context->hasRoute()) {
+            $upDown = '+' . ElevationBase::format($Context->route()->elevationUp(), false) . '/-' . ElevationBase::format($Context->route()->elevationDown(), false);
+        } else {
+            $upDown = '+' . ElevationBase::format($Context->activity()->elevation(), false) . '/-' . ElevationBase::format($Context->activity()->elevation(), false);
+        }
 
-		parent::__construct(
-		    $upDown,
-		    Configuration::General()->distanceUnitSystem()->elevationUnit(),
-		    __('Elevation up/down')
-		);
-	}
+        parent::__construct(
+            $upDown,
+            Configuration::General()->distanceUnitSystem()->elevationUnit(),
+            __('Elevation up/down')
+        );
+    }
 }

@@ -6,20 +6,20 @@ namespace Runalyze\Parameter;
 
 class FloatingPointTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSetFromString()
-	{
-		$object = new FloatingPoint(3.14);
+    public function testSetFromString()
+    {
+        $object = new FloatingPoint(3.14);
 
-		$this->assertEquals(3.14, $object->value());
-		$this->assertEquals('3.14', $object->valueAsString());
+        $this->assertEquals(3.14, $object->value());
+        $this->assertEquals('3.14', $object->valueAsString());
 
-		$object->set(5);
-		$this->assertEquals(5, $object->value());
-		$this->assertEquals('5', $object->valueAsString());
+        $object->set(5);
+        $this->assertEquals(5, $object->value());
+        $this->assertEquals('5', $object->valueAsString());
 
-		$object->setFromString('17');
-		$this->assertEquals(17, $object->value() );
-	}
+        $object->setFromString('17');
+        $this->assertEquals(17, $object->value());
+    }
 
     public function testMinMaxOptions()
     {

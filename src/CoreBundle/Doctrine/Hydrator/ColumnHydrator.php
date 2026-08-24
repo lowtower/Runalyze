@@ -6,6 +6,7 @@ namespace Runalyze\Bundle\CoreBundle\Doctrine\Hydrator;
 
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 use PDO;
+
 class ColumnHydrator extends AbstractHydrator
 {
     /**

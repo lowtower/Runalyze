@@ -24,78 +24,78 @@ class Splits extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::SPLITS;
-	}
+    {
+        return \Runalyze\Dataset\Keys::SPLITS;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'splits';
-	}
+    {
+        return 'splits';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Splits');
-	}
+    {
+        return __('Splits');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Splits are shown as clock icon with all lap times as tooltip. ' .
-			'They are shown only if there are handmade laps, ' .
-			'i.e. there are active and inactive laps, or if it was a race. '
-		);
-	}
+    {
+        return __(
+            'Splits are shown as clock icon with all lap times as tooltip. ' .
+            'They are shown only if there are handmade laps, ' .
+            'i.e. there are active and inactive laps, or if it was a race. '
+        );
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if (! $context->activity()->splits()->isEmpty()) {
-			if (
-				$context->activity()
-				    ->splits()
-				    ->hasActiveAndInactiveLaps() ||
-				round($context->activity()->splits()->totalDistance()) !== round($context->activity()->distance())
-			) {
-				$Icon = new Icon( Icon::CLOCK );
-				$Icon->setTooltip($this->stringForActiveLaps($context->activity()->splits()));
+    {
+        if (! $context->activity()->splits()->isEmpty()) {
+            if (
+                $context->activity()
+                    ->splits()
+                    ->hasActiveAndInactiveLaps() ||
+                round($context->activity()->splits()->totalDistance()) !== round($context->activity()->distance())
+            ) {
+                $Icon = new Icon(Icon::CLOCK);
+                $Icon->setTooltip($this->stringForActiveLaps($context->activity()->splits()));
 
                 if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
                     return '<a class="window large" data-size="big" href="activity/' . $context->activity()->id() . '/splits-info">' . $Icon->code() . '</a>';
                 }
 
                 return $Icon->code();
-			}
-		}
+            }
+        }
 
-		return '';
-	}
+        return '';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     protected function stringForActiveLaps(Entity $Splits): string
-	{
-		$laps = [];
-		$onlyActiveSplits = $Splits->hasActiveAndInactiveLaps();
+    {
+        $laps = [];
+        $onlyActiveSplits = $Splits->hasActiveAndInactiveLaps();
 
-		foreach ($Splits->asArray() as $Split) {
-			if (! $onlyActiveSplits || $Split->isActive()) {
-				$laps[] = Activity\Duration::format($Split->time());
-			}
-		}
+        foreach ($Splits->asArray() as $Split) {
+            if (! $onlyActiveSplits || $Split->isActive()) {
+                $laps[] = Activity\Duration::format($Split->time());
+            }
+        }
 
-		return str_replace('&nbsp;', ' ', implode(' / ', $laps));
-	}
+        return str_replace('&nbsp;', ' ', implode(' / ', $laps));
+    }
 }

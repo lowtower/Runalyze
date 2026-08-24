@@ -30,8 +30,7 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
         RaceresultRepository $repository,
         ConfigurationManager $manager,
         ConfigurationUpdater $updater
-    )
-    {
+    ) {
         $this->RaceResultRepository = $repository;
         $this->ConfigurationManager = $manager;
         $this->ConfigurationUpdater = $updater;

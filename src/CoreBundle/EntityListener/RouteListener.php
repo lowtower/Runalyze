@@ -24,8 +24,7 @@ class RouteListener
     public function __construct(
         ConfigurationManager $configurationManager,
         ElevationCorrection $elevationCorrection
-    )
-    {
+    ) {
         $this->ConfigurationManager = $configurationManager;
         $this->ElevationCorrection = $elevationCorrection;
     }
@@ -33,7 +32,7 @@ class RouteListener
     public function prePersist(Route $route, LifecycleEventArgs $args)
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
-        if ($route->getElevationsCorrected() === null 
+        if ($route->getElevationsCorrected() === null
             && ! $route->getAltitudeBarometric()
             && $this->userWantsElevationsToBeCorrected($route->getAccount())) {
             $route->getAdapter()
@@ -52,7 +51,7 @@ class RouteListener
 
     protected function hasChangedElevations(PreUpdateEventArgs $args): bool
     {
-        return 
+        return
             $args->hasChangedField('elevationsCorrected') || (
                 $args->hasChangedField('elevationsOriginal') &&
                 $args->getNewValue('elevationsCorrected') === null

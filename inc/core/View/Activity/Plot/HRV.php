@@ -19,21 +19,23 @@ use Runalyze\View\Activity;
  */
 class HRV extends ActivityPlot
 {
-	/**
-	 * Use standard x-axis?
-	 * @var bool
-	 */
-	protected $useStandardXaxis = false;
+    /**
+     * Use standard x-axis?
+     * @var bool
+     */
+    protected $useStandardXaxis = false;
 
-	protected function setKey() {
-		$this->key = 'hrv';
-	}
+    protected function setKey()
+    {
+        $this->key = 'hrv';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\HRVwithoutAnomalies($context)
-		);
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\HRVwithoutAnomalies($context)
+        );
 
-		$this->Plot->PlotOptions['allowSelection'] = false;
-	}
+        $this->Plot->PlotOptions['allowSelection'] = false;
+    }
 }

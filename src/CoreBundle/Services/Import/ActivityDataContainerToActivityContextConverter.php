@@ -28,12 +28,12 @@ class ActivityDataContainerToActivityContextConverter
      * @var int number of decimals
      */
     // #TSC change to a precision of 3 not meaninful, because the database has only 2
-    const DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
+    public const DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
 
     /**
      * @var int number of decimals
      */
-    const DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
+    public const DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
 
     /**
      * @var SportRepository
@@ -66,8 +66,7 @@ class ActivityDataContainerToActivityContextConverter
         EquipmentRepository $equipmentRepository,
         ConfigurationManager $configurationManager,
         ?Account $account = null
-    )
-    {
+    ) {
         $this->SportRepository = $sportRepository;
         $this->TypeRepository = $typeRepository;
         $this->EquipmentRepository = $equipmentRepository;
@@ -135,7 +134,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setCreatorDetails($metadata->getCreatorDetails());
 
         // TSC: set the uploaded-file name
-        if(! empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) != 0) {
+        if (! empty($metadata->getDescription()) && substr_compare($metadata->getDescription(), $metadata->getUploadedFilename(), 0) != 0) {
             // description exists and is not the same as the filename, so set existing description and filename as title
             $activity->setTitle($metadata->getDescription() . ' / ' . $metadata->getUploadedFilename());
         } else {

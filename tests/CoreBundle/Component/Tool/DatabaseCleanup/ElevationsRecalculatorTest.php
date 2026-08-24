@@ -9,21 +9,21 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\ElevationsRecalcul
  */
 class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
     /**
      * @var int
      */
     protected $AccountId = 1;
 
-	protected function setUp(): void
+    protected function setUp(): void
     {
-		$this->PDO = new \PDO('sqlite::memory:');
-		$this->PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-		$this->PDO->exec('CREATE TABLE IF NOT EXISTS `runalyze_route` (
+        $this->PDO = new \PDO('sqlite::memory:');
+        $this->PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->PDO->exec('CREATE TABLE IF NOT EXISTS `runalyze_route` (
 			`accountid` int,
 			`id` int,
 			`elevation` smallint,
@@ -33,52 +33,52 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 			`elevations_corrected` text
 			);
 		');
-	}
+    }
 
-	protected function tearDown(): void
+    protected function tearDown(): void
     {
-		$this->PDO->exec('DROP TABLE `runalyze_route`');
-	}
+        $this->PDO->exec('DROP TABLE `runalyze_route`');
+    }
 
-	public function testSimpleRecalculations()
+    public function testSimpleRecalculations()
     {
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 1,   0,   0,  0, "100|200|150", "")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 2, 100, 100, 50, "100|200|150", "")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 3,   0,   0,  0, "", "150|200|100")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 4, 100,   0,  0, "", "")');
+        $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 1,   0,   0,  0, "100|200|150", "")');
+        $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 2, 100, 100, 50, "100|200|150", "")');
+        $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 3,   0,   0,  0, "", "150|200|100")');
+        $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 4, 100,   0,  0, "", "")');
 
-		$Job = new ElevationsRecalculator($this->PDO, $this->AccountId, 'runalyze_');
-		$Job->run();
+        $Job = new ElevationsRecalculator($this->PDO, $this->AccountId, 'runalyze_');
+        $Job->run();
 
-		$Fetch = $this->PDO->prepare('SELECT `elevation`, `elevation_up`, `elevation_down` FROM `runalyze_route` WHERE `id`=:id');
-		$Fetch->setFetchMode(\PDO::FETCH_NUM);
+        $Fetch = $this->PDO->prepare('SELECT `elevation`, `elevation_up`, `elevation_down` FROM `runalyze_route` WHERE `id`=:id');
+        $Fetch->setFetchMode(\PDO::FETCH_NUM);
 
-		$this->assertEquals(2, $Job->numberOfRoutes());
+        $this->assertEquals(2, $Job->numberOfRoutes());
 
-		$Fetch->execute([
-		    ':id' => 1,
-		]);
-		$this->assertEquals([100, 100, 50], $Fetch->fetch());
+        $Fetch->execute([
+            ':id' => 1,
+        ]);
+        $this->assertEquals([100, 100, 50], $Fetch->fetch());
 
-		$Fetch->execute([
-		    ':id' => 2,
-		]);
-		$this->assertEquals([100, 100, 50], $Fetch->fetch());
+        $Fetch->execute([
+            ':id' => 2,
+        ]);
+        $this->assertEquals([100, 100, 50], $Fetch->fetch());
 
-		$Fetch->execute([
-		    ':id' => 3,
-		]);
-		$this->assertEquals([100,  50, 100], $Fetch->fetch());
+        $Fetch->execute([
+            ':id' => 3,
+        ]);
+        $this->assertEquals([100,  50, 100], $Fetch->fetch());
 
-		$Fetch->execute([
-		    ':id' => 4,
-		]);
-		$this->assertEquals([100,   0,   0], $Fetch->fetch());
+        $Fetch->execute([
+            ':id' => 4,
+        ]);
+        $this->assertEquals([100,   0,   0], $Fetch->fetch());
 
-		$this->assertEquals([
-		    1 => [100, 100, 50],
-		    2 => [100, 100, 50],
-		    3 => [100, 50, 100],
-		], $Job->results());
-	}
+        $this->assertEquals([
+            1 => [100, 100, 50],
+            2 => [100, 100, 50],
+            3 => [100, 50, 100],
+        ], $Job->results());
+    }
 }

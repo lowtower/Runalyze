@@ -9,32 +9,34 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityPlotModeTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\ActivityPlotMode
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\ActivityPlotMode
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new ActivityPlotMode();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new ActivityPlotMode();
+    }
 
-	public function testShowCollection() {
-		$this->assertTrue( $this->object->showSeperated() );
-		$this->assertFalse( $this->object->showPaceAndHR() );
-		$this->assertFalse( $this->object->showCollection() );
+    public function testShowCollection()
+    {
+        $this->assertTrue($this->object->showSeperated());
+        $this->assertFalse($this->object->showPaceAndHR());
+        $this->assertFalse($this->object->showCollection());
 
-		$this->object->set( ActivityPlotMode::PACE_HR );
-		$this->assertFalse( $this->object->showSeperated() );
-		$this->assertTrue( $this->object->showPaceAndHR() );
-		$this->assertFalse( $this->object->showCollection() );
+        $this->object->set(ActivityPlotMode::PACE_HR);
+        $this->assertFalse($this->object->showSeperated());
+        $this->assertTrue($this->object->showPaceAndHR());
+        $this->assertFalse($this->object->showCollection());
 
-		$this->object->set( ActivityPlotMode::PACE_HR_ELEVATION );
-		$this->assertFalse( $this->object->showSeperated() );
-		$this->assertFalse( $this->object->showPaceAndHR() );
-		$this->assertTrue( $this->object->showCollection() );
-	}
+        $this->object->set(ActivityPlotMode::PACE_HR_ELEVATION);
+        $this->assertFalse($this->object->showSeperated());
+        $this->assertFalse($this->object->showPaceAndHR());
+        $this->assertTrue($this->object->showCollection());
+    }
 }

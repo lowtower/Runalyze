@@ -11,54 +11,58 @@
  */
 class FormularInputNumber extends FormularInput
 {
-	/**
-	 * Minimum
-	 * @var int
-	 */
-	protected $min;
+    /**
+     * Minimum
+     * @var int
+     */
+    protected $min;
 
-	/**
-	 * Maximum
-	 * @var int
-	 */
-	protected $max;
+    /**
+     * Maximum
+     * @var int
+     */
+    protected $max;
 
-	/**
-	 * Prepare for beeing displayed
-	 */
-	protected function prepareForDisplay() {
-		$this->addAttribute('type', 'number');
-		$this->addAttribute('name', $this->name);
-		$this->addAttribute('value', $this->value);
-		$this->setId($this->name);
+    /**
+     * Prepare for beeing displayed
+     */
+    protected function prepareForDisplay()
+    {
+        $this->addAttribute('type', 'number');
+        $this->addAttribute('name', $this->name);
+        $this->addAttribute('value', $this->value);
+        $this->setId($this->name);
 
-		$this->addMinMax();
-	}
+        $this->addMinMax();
+    }
 
-	/**
-	 * Add min/max to tag
-	 */
-	protected function addMinMax() {
-		if ($this->min !== null) {
-			$this->addAttribute('min', (int) $this->min);
-		}
+    /**
+     * Add min/max to tag
+     */
+    protected function addMinMax()
+    {
+        if ($this->min !== null) {
+            $this->addAttribute('min', (int) $this->min);
+        }
 
-		if ($this->max !== null) {
-			$this->addAttribute('max', (int) $this->max);
-		}
-	}
+        if ($this->max !== null) {
+            $this->addAttribute('max', (int) $this->max);
+        }
+    }
 
-	/**
-	 * @param int $min
-	 */
-	public function setMin($min) {
-		$this->min = $min;
-	}
+    /**
+     * @param int $min
+     */
+    public function setMin($min)
+    {
+        $this->min = $min;
+    }
 
-	/**
-	 * @param int $max
-	 */
-	public function setMax($max) {
-		$this->max = $max;
-	}
+    /**
+     * @param int $max
+     */
+    public function setMax($max)
+    {
+        $this->max = $max;
+    }
 }

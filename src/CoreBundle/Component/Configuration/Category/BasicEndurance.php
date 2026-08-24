@@ -9,7 +9,7 @@ class BasicEndurance extends AbstractCategory
     /**
      * @var float [ml/kg/min]
      */
-    const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
+    public const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     public function getDefaultVariables(): array
     {

@@ -19,20 +19,20 @@ use Runalyze\Model\Trackdata;
  */
 class TrackdataAverages
 {
-	/**
-	 * @var \Runalyze\Model\Trackdata\Entity
-	 */
-	protected $Trackdata;
+    /**
+     * @var \Runalyze\Model\Trackdata\Entity
+     */
+    protected $Trackdata;
 
-	/**
-	 * @var string[] enums of requested keys
-	 */
-	protected $Keys;
+    /**
+     * @var string[] enums of requested keys
+     */
+    protected $Keys;
 
-	/**
-	 * @var array ['key' => mean]
-	 */
-	protected $Averages = [];
+    /**
+     * @var array ['key' => mean]
+     */
+    protected $Averages = [];
 
     /**
      * @var bool
@@ -51,16 +51,16 @@ class TrackdataAverages
      * @throws \InvalidArgumentException
      */
     public function __construct(Trackdata\Entity $trackdata, array $keys, $ignoreZeros = true, $keysThatAllowZero = false)
-	{
-		$this->Trackdata = $trackdata;
-		$this->Keys = $keys;
+    {
+        $this->Trackdata = $trackdata;
+        $this->Keys = $keys;
         $this->IgnoreZeros = $ignoreZeros;
         $this->KeysThatAllowZero = ($keysThatAllowZero !== false) ? $keysThatAllowZero : $this->defaultKeysThatAllowZero();
 
         $this->checkData();
-		$this->prepareData();
-		$this->collectData();
-	}
+        $this->prepareData();
+        $this->collectData();
+    }
 
     /**
      * @return array<int, string>
@@ -86,34 +86,34 @@ class TrackdataAverages
         }
     }
 
-	/**
-	 * Remove keys without data and set their average to null
-	 */
-	protected function prepareData()
-	{
-		foreach ($this->Keys as $i => $key) {
-			if (! $this->Trackdata->has($key)) {
-				$this->Averages[$key] = null;
+    /**
+     * Remove keys without data and set their average to null
+     */
+    protected function prepareData()
+    {
+        foreach ($this->Keys as $i => $key) {
+            if (! $this->Trackdata->has($key)) {
+                $this->Averages[$key] = null;
                 unset($this->Keys[$i]);
-			}
-		}
-	}
+            }
+        }
+    }
 
-	protected function collectData()
-	{
-		$time = $this->Trackdata->get(Trackdata\Entity::TIME);
-		$weightedSums = [];
+    protected function collectData()
+    {
+        $time = $this->Trackdata->get(Trackdata\Entity::TIME);
+        $weightedSums = [];
         $timeInZero = [];
         $rawdata = [];
         $lastTime = 0;
 
-		foreach ($this->Keys as $key) {
+        foreach ($this->Keys as $key) {
             $weightedSums[$key] = 0;
             $timeInZero[$key] = 0;
-			$rawdata[$key] = $this->Trackdata->get($key);
-		}
+            $rawdata[$key] = $this->Trackdata->get($key);
+        }
 
-		foreach ($time as $timeIndex => $currentTime) {
+        foreach ($time as $timeIndex => $currentTime) {
             $timeDiff = $currentTime - $lastTime;
 
             foreach ($this->Keys as $key) {
@@ -125,7 +125,7 @@ class TrackdataAverages
             }
 
             $lastTime = $currentTime;
-		}
+        }
 
         foreach ($this->Keys as $key) {
             if ($this->IgnoreZeros && ! in_array($key, $this->KeysThatAllowZero) && $timeInZero[$key] < $lastTime) {
@@ -134,7 +134,7 @@ class TrackdataAverages
                 $this->Averages[$key] = $weightedSums[$key] / $lastTime;
             }
         }
-	}
+    }
 
     /**
      * @param string $key
@@ -150,11 +150,11 @@ class TrackdataAverages
         return $this->Averages[$key];
     }
 
-	/**
-	 * @return array[] array('key' => mean), mean can be null if array was empty
-	 */
-	public function averages()
+    /**
+     * @return array[] array('key' => mean), mean can be null if array was empty
+     */
+    public function averages()
     {
-		return $this->Averages;
-	}
+        return $this->Averages;
+    }
 }

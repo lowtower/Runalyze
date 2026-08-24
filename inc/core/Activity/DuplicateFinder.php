@@ -18,7 +18,7 @@ class DuplicateFinder
     /**
      * @var string
      */
-    const COLUMN_WITH_ID = 'activity_id';
+    public const COLUMN_WITH_ID = 'activity_id';
 
     /**
      * @var \PDO
@@ -35,8 +35,8 @@ class DuplicateFinder
      */
     public function __construct(PDO $pdo, $accountId)
     {
-	    $this->PDO = $pdo;
-	    $this->AccountId = (int) $accountId;
+        $this->PDO = $pdo;
+        $this->AccountId = (int) $accountId;
     }
 
     /*
@@ -55,7 +55,7 @@ class DuplicateFinder
             throw new \InvalidArgumentException('Activity id must be numerical.');
         }
 
-	    return $this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1;
+        return $this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1;
     }
 
     /**

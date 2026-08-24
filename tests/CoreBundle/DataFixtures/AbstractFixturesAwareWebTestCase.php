@@ -169,8 +169,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         $duration = 3600,
         $distance = null,
         ?Sport $sport = null
-    )
-    {
+    ) {
         return (new Training())
             ->setS($duration)
             ->setTime($timestamp ?: time())

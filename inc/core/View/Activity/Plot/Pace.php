@@ -19,18 +19,20 @@ use Runalyze\View\Activity;
  */
 class Pace extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'pace';
-	}
+    protected function setKey()
+    {
+        $this->key = 'pace';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$CumulativeSeries = new Series\PaceCumulativeAverage($context);
-		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
+    protected function initData(Activity\Context $context)
+    {
+        $CumulativeSeries = new Series\PaceCumulativeAverage($context);
+        $GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
 
-		$this->addSeries(new Series\Pace($context));
-		$this->addSeries($CumulativeSeries, 1, false);
-		$this->addSeries($GradeAdjustedPaceSeries, 1, false);
+        $this->addSeries(new Series\Pace($context));
+        $this->addSeries($CumulativeSeries, 1, false);
+        $this->addSeries($GradeAdjustedPaceSeries, 1, false);
 
-		$this->Plot->Options['legend']['hidden'] = [$CumulativeSeries->label(), $GradeAdjustedPaceSeries->label()];
-	}
+        $this->Plot->Options['legend']['hidden'] = [$CumulativeSeries->label(), $GradeAdjustedPaceSeries->label()];
+    }
 }

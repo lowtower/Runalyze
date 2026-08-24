@@ -15,41 +15,48 @@
  */
 class DB
 {
-	/**
-	 * Private PDO instance
-	 * @var PDO
-	 */
-	private static $PDO;
+    /**
+     * Private PDO instance
+     * @var PDO
+     */
+    private static $PDO;
 
-	private function __construct() {}
+    private function __construct()
+    {
+    }
 
-	/**
-	 * Private clone
-	 */
-	private function __clone() {}
+    /**
+     * Private clone
+     */
+    private function __clone()
+    {
+    }
 
-	/**
-	 * Create connection
-	 * @param string $host
-	 * @param string $port
-	 * @param string $user
-	 * @param string $password
-	 * @param string $database
-	 */
-	public static function connect($host, $port, $user, $password, $database) {
-		self::$PDO = new PDOforRunalyze('mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . ';charset=utf8', $user, $password);
-		self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-	}
+    /**
+     * Create connection
+     * @param string $host
+     * @param string $port
+     * @param string $user
+     * @param string $password
+     * @param string $database
+     */
+    public static function connect($host, $port, $user, $password, $database)
+    {
+        self::$PDO = new PDOforRunalyze('mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . ';charset=utf8', $user, $password);
+        self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    }
 
-	/**
-	 * Returns DB instance or create initial connection
-	 * @return PDOforRunalyze
-	 */
-	public static function getInstance() {
-		if (! self::$PDO)
-			throw new RuntimeException('No active database connection.');
+    /**
+     * Returns DB instance or create initial connection
+     * @return PDOforRunalyze
+     */
+    public static function getInstance()
+    {
+        if (! self::$PDO) {
+            throw new RuntimeException('No active database connection.');
+        }
 
-		return self::$PDO;
-	}
+        return self::$PDO;
+    }
 }

@@ -24,19 +24,19 @@ class PluginController extends AbstractPluginsAwareController
         echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
         if ($Installer->install()) {
-        	$Factory = new \PluginFactory();
-        	$Plugin = $Factory->newInstance($Pluginkey);
+            $Factory = new \PluginFactory();
+            $Plugin = $Factory->newInstance($Pluginkey);
 
-        	echo \HTML::okay(__('The plugin has been successfully installed.'));
+            echo \HTML::okay(__('The plugin has been successfully installed.'));
 
-        	echo '<ul class="blocklist"><li>';
-        	echo $Plugin->getConfigLink(\Icon::$CONF . ' ' . __('Configuration'));
-        	echo '</li></ul>';
+            echo '<ul class="blocklist"><li>';
+            echo $Plugin->getConfigLink(\Icon::$CONF . ' ' . __('Configuration'));
+            echo '</li></ul>';
 
-        	\Ajax::setReloadFlag(\Ajax::$RELOAD_ALL);
-        	echo \Ajax::getReloadCommand();
+            \Ajax::setReloadFlag(\Ajax::$RELOAD_ALL);
+            echo \Ajax::getReloadCommand();
         } else {
-        	echo \HTML::error(__('There was a problem, the plugin could not be installed.'));
+            echo \HTML::error(__('There was a problem, the plugin could not be installed.'));
         }
 
         echo '<ul class="blocklist"><li>';
@@ -67,10 +67,10 @@ class PluginController extends AbstractPluginsAwareController
         $Factory = new \PluginFactory();
 
         if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-        	$Plugin = $Factory->newInstanceFor( $_GET['id'] );
-        	$Plugin->displayConfigWindow();
+            $Plugin = $Factory->newInstanceFor($_GET['id']);
+            $Plugin->displayConfigWindow();
         } else {
-        	echo '<em>' . __('Something went wrong ...') . '</em>';
+            echo '<em>' . __('Something went wrong ...') . '</em>';
         }
 
         return new Response();

@@ -13,12 +13,12 @@ class ClimbFinder
     /**
      * @var float [-]
      */
-    const EPSILON_DEFAULT = 1.1;
+    public const EPSILON_DEFAULT = 1.1;
 
     /**
      * @var float [m]
      */
-    const EPSILON_FOR_CLIMB_PROFILE = 0.1;
+    public const EPSILON_FOR_CLIMB_PROFILE = 0.1;
 
     /**
      * @param float $epsilon

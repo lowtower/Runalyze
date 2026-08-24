@@ -182,7 +182,8 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      * 4. 3=150, 4=90,  5=150  => +1
      * 5. 4=90,  5=150, 6=462  =>  - ...
      */
-    public function hasIntervalRounds(): bool {
+    public function hasIntervalRounds(): bool
+    {
         $intDetect = 3;
         $precS = 1; // round duration/seconds
         $precD = 2; // round distance/km
@@ -198,11 +199,11 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
                 $nextR2 = $this->Elements[$i + 2]; // next-next lap
                 // first check: we not in auto laping (=duration or distance is always the same for every lap)
                 // second check: if the next-next is the same (duration or distance)
-                if ((round($thisR->getDuration(), $precS) !== round($nextR1->getDuration(), $precS) 
+                if ((round($thisR->getDuration(), $precS) !== round($nextR1->getDuration(), $precS)
                         && round($thisR->getDistance(), $precD) !== round($nextR1->getDistance(), $precD))
-                    && (round($thisR->getDuration(), $precS) === round($nextR2->getDuration(), $precS) 
+                    && (round($thisR->getDuration(), $precS) === round($nextR2->getDuration(), $precS)
                         || round($thisR->getDistance(), $precD) === round($nextR2->getDistance(), $precD))
-                    ) {
+                ) {
                     $intCount++;
                     if ($intCount === $intDetect) {
                         // if we found 3x consensus we have at least 3 same (interval-)laps with min 2 same (recovery-)lap
@@ -218,8 +219,9 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * #TSC check if the rounds has inactive/ruhe rounds.
      */
-    public function hasInactiveRounds(): bool {
-        return count(array_filter($this->Elements, function($v, $k): bool {
+    public function hasInactiveRounds(): bool
+    {
+        return count(array_filter($this->Elements, function ($v, $k): bool {
             return ! $v->IsActive();
         }, ARRAY_FILTER_USE_BOTH)) > 0;
     }

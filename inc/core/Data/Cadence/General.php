@@ -20,30 +20,34 @@ class General extends AbstractCadence
     /**
      * @codeCoverageIgnore
      */
-    public function label(): string {
-		return __('Cadence');
-	}
+    public function label(): string
+    {
+        return __('Cadence');
+    }
 
     /**
      * @codeCoverageIgnore
      */
-    public function unitAsString(): string {
-		return 'rpm';
-	}
+    public function unitAsString(): string
+    {
+        return 'rpm';
+    }
 
     /**
      * Explanation for unit
      * @codeCoverageIgnore
      */
-    protected function unitExplanation(): string {
-		return __('rpm = rotations per minute');
-	}
+    protected function unitExplanation(): string
+    {
+        return __('rpm = rotations per minute');
+    }
 
-	/**
-	 * @return string enum
-	 * @codeCoverageIgnore
-	 */
-	public function formularUnit() {
-		return \FormularUnit::$RPM;
-	}
+    /**
+     * @return string enum
+     * @codeCoverageIgnore
+     */
+    public function formularUnit()
+    {
+        return \FormularUnit::$RPM;
+    }
 }

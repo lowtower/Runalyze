@@ -54,8 +54,7 @@ class RecalculationManager
         ConfigurationUpdater $updater,
         TrainingRepository $trainingRepository,
         RaceresultRepository $raceresultRepository
-    )
-    {
+    ) {
         $this->ConfigurationManager = $manager;
         $this->ConfigurationUpdater = $updater;
         $this->TrainingRepository = $trainingRepository;

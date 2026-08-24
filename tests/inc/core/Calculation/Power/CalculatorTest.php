@@ -12,88 +12,93 @@ use Runalyze\Model\Trackdata;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @see http://www.gribble.org/cycling/power_v_speed.html
-	 */
-	public function testEmptyExample() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([]),
-		    new Route\Entity([])
-		);
-		$Calculator->calculate();
+    /**
+     * @see http://www.gribble.org/cycling/power_v_speed.html
+     */
+    public function testEmptyExample()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([]),
+            new Route\Entity([])
+        );
+        $Calculator->calculate();
 
-		$this->assertEquals(0, $Calculator->average());
-		$this->assertEmpty($Calculator->powerData());
-	}
+        $this->assertEquals(0, $Calculator->average());
+        $this->assertEmpty($Calculator->powerData());
+    }
 
-	/**
-	 * Flat Road, 20 mph:  Total Power = 26 +108 = 134 watts
-	 */
-	public function testFastExampleFromUltracycle() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-		        Trackdata\Entity::DISTANCE => [0.0892, 2 * 0.0892, 3 * 0.0892, 4 * 0.0892, 5 * 0.0892, 6 * 0.0892],
-		        Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
-		    ])
-		);
-		$Calculator->calculate(75, 1.0);
+    /**
+     * Flat Road, 20 mph:  Total Power = 26 +108 = 134 watts
+     */
+    public function testFastExampleFromUltracycle()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::DISTANCE => [0.0892, 2 * 0.0892, 3 * 0.0892, 4 * 0.0892, 5 * 0.0892, 6 * 0.0892],
+                Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
+            ])
+        );
+        $Calculator->calculate(75, 1.0);
 
-		$this->assertEqualsWithDelta(134, $Calculator->average(), 1);
-	}
+        $this->assertEqualsWithDelta(134, $Calculator->average(), 1);
+    }
 
-	/**
-	 * Flat Road, 5 mph: Total Power = 6.5 + 1.7 = 8.2 watts
-	 */
-	public function testSlowExampleFromUltracycle() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-		        Trackdata\Entity::DISTANCE => [0.0223, 2 * 0.0223, 3 * 0.0223, 4 * 0.0223, 5 * 0.0223, 6 * 0.0223],
-		        Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
-		    ])
-		);
-		$Calculator->calculate(75, 1.0);
+    /**
+     * Flat Road, 5 mph: Total Power = 6.5 + 1.7 = 8.2 watts
+     */
+    public function testSlowExampleFromUltracycle()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::DISTANCE => [0.0223, 2 * 0.0223, 3 * 0.0223, 4 * 0.0223, 5 * 0.0223, 6 * 0.0223],
+                Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
+            ])
+        );
+        $Calculator->calculate(75, 1.0);
 
-		$this->assertEqualsWithDelta(8, $Calculator->average(), 1);
-	}
+        $this->assertEqualsWithDelta(8, $Calculator->average(), 1);
+    }
 
-	/**
-	 * Climb, 5 mph, 12% grade: Total Power = 6.5 + 1.7 + 196 = 204 watts
-	 */
-	public function testClimbExampleFromUltracycle() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-		        Trackdata\Entity::DISTANCE => [0.0223, 2 * 0.0223, 3 * 0.0223, 4 * 0.0223, 5 * 0.0223, 6 * 0.0223],
-		        Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
-		    ]),
-		    new Route\Entity([
-		        // Remark: 0.0223 is in km, but elevation in m
-		        Route\Entity::ELEVATIONS_ORIGINAL => [100, 100 + 0.12 * 22.3, 100 + 2 * 0.12 * 22.3, 100 + 3 * 0.12 * 22.3, 100 + 4 * 0.12 * 22.3, 100 + 5 * 0.12 * 22.3],
-		    ])
-		);
-		$Calculator->calculate(75, 1.0);
+    /**
+     * Climb, 5 mph, 12% grade: Total Power = 6.5 + 1.7 + 196 = 204 watts
+     */
+    public function testClimbExampleFromUltracycle()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::DISTANCE => [0.0223, 2 * 0.0223, 3 * 0.0223, 4 * 0.0223, 5 * 0.0223, 6 * 0.0223],
+                Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
+            ]),
+            new Route\Entity([
+                // Remark: 0.0223 is in km, but elevation in m
+                Route\Entity::ELEVATIONS_ORIGINAL => [100, 100 + 0.12 * 22.3, 100 + 2 * 0.12 * 22.3, 100 + 3 * 0.12 * 22.3, 100 + 4 * 0.12 * 22.3, 100 + 5 * 0.12 * 22.3],
+            ])
+        );
+        $Calculator->calculate(75, 1.0);
 
-		$this->assertEquals(205, $Calculator->average());
-		$this->assertEquals(
-		    [205, 205, 205, 205, 205, 205],
-		    $Calculator->powerData()
-		);
-	}
+        $this->assertEquals(205, $Calculator->average());
+        $this->assertEquals(
+            [205, 205, 205, 205, 205, 205],
+            $Calculator->powerData()
+        );
+    }
 
-	public function testChangingValues() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-		        Trackdata\Entity::DISTANCE => [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
-		        Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
-		    ]),
-		    new Route\Entity([
-		        Route\Entity::ELEVATIONS_ORIGINAL => [0, 1, 3, 8, 3, 3],
-		    ])
-		);
-		$Calculator->calculate(75, 1.0);
+    public function testChangingValues()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::DISTANCE => [0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                Trackdata\Entity::TIME => [10, 20, 30, 40, 50, 60],
+            ]),
+            new Route\Entity([
+                Route\Entity::ELEVATIONS_ORIGINAL => [0, 1, 3, 8, 3, 3],
+            ])
+        );
+        $Calculator->calculate(75, 1.0);
 
-		$this->assertEquals(
-		    [256, 330, 550, 0, 183, 183],
-		    $Calculator->powerData()
-		);
-	}
+        $this->assertEquals(
+            [256, 330, 550, 0, 183, 183],
+            $Calculator->powerData()
+        );
+    }
 }

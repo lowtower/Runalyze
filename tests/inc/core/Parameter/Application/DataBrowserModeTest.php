@@ -9,25 +9,27 @@ namespace Runalyze\Parameter\Application;
  */
 class DataBrowserModeTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\DataBrowserMode
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\DataBrowserMode
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new DataBrowserMode();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new DataBrowserMode();
+    }
 
-	public function testMode() {
-		$this->assertTrue( $this->object->showWeek() );
-		$this->assertFalse( $this->object->showMonth() );
+    public function testMode()
+    {
+        $this->assertTrue($this->object->showWeek());
+        $this->assertFalse($this->object->showMonth());
 
-		$this->object->set( DataBrowserMode::MONTH );
-		$this->assertFalse( $this->object->showWeek() );
-		$this->assertTrue( $this->object->showMonth() );
-	}
+        $this->object->set(DataBrowserMode::MONTH);
+        $this->assertFalse($this->object->showWeek());
+        $this->assertTrue($this->object->showMonth());
+    }
 }

@@ -43,7 +43,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
             return 1;
         }
 
-        if (! ($input->getOption('force'))  ) {
+        if (! ($input->getOption('force'))) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
@@ -76,7 +76,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return 
+        return
             $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/notifications/.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
@@ -214,8 +214,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $lastActionAfter,
         $registrationBefore,
         $registrationAfter
-    )
-    {
+    ) {
         $prefix = $this->getContainer()
             ->getParameter('database_prefix');
         $accountWhere = $this->getWhereToFindRelevantAccounts($lang, $excludeLang, $lastActionBefore, $lastActionAfter, $registrationBefore, $registrationAfter);
@@ -250,8 +249,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $lastActionAfter,
         $registrationBefore,
         $registrationAfter
-    ): string
-    {
+    ): string {
         $whereCondition = [];
         $exclude = false;
 

@@ -30,7 +30,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
     /**
      * @var string
      */
-    const URL = 'https://api.darksky.net/forecast/';
+    public const URL = 'https://api.darksky.net/forecast/';
 
     /**
      * @var string

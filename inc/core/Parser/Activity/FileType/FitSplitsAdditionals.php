@@ -3,7 +3,7 @@
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
-use Runalyze\Profile\Mapping\FitSdkExercise; 
+use Runalyze\Profile\Mapping\FitSdkExercise;
 
 /**
  * Parser for parsing the FIT details for the laps/splits and store it as JSON.
@@ -18,14 +18,16 @@ class FitSplitsAdditionals
     // every element is one lap/round with a sub-array of key/values
     private $data = [];
 
-    public function hasData(): bool {
+    public function hasData(): bool
+    {
         return ! empty($this->data) && ! empty($this->getUniqueKeys());
     }
 
     /**
      * gets the splits-additional as a JSON structure.
      */
-    public function getFinishedSplitsAdditional(): ?array {
+    public function getFinishedSplitsAdditional(): ?array
+    {
         // #TSC: Save additional infos of splits (f.e. strong-training) as JSON
         if ($this->hasData()) {
             $all['keys'] = $this->getUniqueKeys();
@@ -40,7 +42,8 @@ class FitSplitsAdditionals
      * #TSC read the sets of a strength-training as "normal" laps
      * @param array<string, mixed> $values
      */
-    public function getSetRoundAndCollect(array &$values): ?Round {
+    public function getSetRoundAndCollect(array &$values): ?Round
+    {
         $round = null;
 
         // duration in seconds
@@ -54,19 +57,19 @@ class FitSplitsAdditionals
                 $active
             );
 
-            if($active) {
+            if ($active) {
                 $set = [];
-                if(isset($values['category'])) {
+                if (isset($values['category'])) {
                     // category and sub-category can be a array of 3 values (seperated by ,)
                     $cat = $values['category'][1];
-                    if(isset($values['category_subtype'])) {
+                    if (isset($values['category_subtype'])) {
                         $sub = $values['category_subtype'][1];
                     } else {
                         $sub = null;
                     }
 
                     // init the mapper the first time
-                    if($this->fitExcerciseMapping == null) {
+                    if ($this->fitExcerciseMapping == null) {
                         $this->fitExcerciseMapping = new FitSdkExercise();
                     }
 
@@ -74,11 +77,11 @@ class FitSplitsAdditionals
                     $set['excercise'] = $this->fitExcerciseMapping->getFullMapping($cat, $sub);
                 }
 
-                if(isset($values['repetitions'])) {
+                if (isset($values['repetitions'])) {
                     $set['repetitions'] = (int) ($values['repetitions'][0]);
                 }
 
-                if(isset($values['weight']) && $values['weight'][0] > 0) {
+                if (isset($values['weight']) && $values['weight'][0] > 0) {
                     $set['weight'] = (int) ($values['weight'][0]) / 16;
                 }
 
@@ -86,7 +89,7 @@ class FitSplitsAdditionals
             } else {
                 // its a rest, use a empty element
                 $this->data[] = json_decode('{}');
-            }          
+            }
         }
 
         return $round;
@@ -96,10 +99,11 @@ class FitSplitsAdditionals
      * #TSC collect additional informations of the lap.
      * @param array<string, mixed> $values
      */
-    public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null) {
+    public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null)
+    {
         $i = [];
 
-        if($isActiveLap && $isSwimming) {
+        if ($isActiveLap && $isSwimming) {
             if (isset($values['total_strokes']) && $values['total_strokes'][0] > 0) {
                 $i['FIT strokes'] = (int) ($values['total_strokes'][0]);
             }
@@ -113,19 +117,20 @@ class FitSplitsAdditionals
             $i = array_merge($i, $adds);
         }
 
-        if($i !== []) {
+        if ($i !== []) {
             $this->data[] = $i;
         } else {
             // its a rest, use a empty element
             $this->data[] = json_decode('{}');
-        }    
+        }
     }
 
-    private function getUniqueKeys(): array {
+    private function getUniqueKeys(): array
+    {
         $keys = [];
         $counter = count($this->data);
-        for($i = 0; $i < $counter; $i++) {
-            foreach($this->data[$i] as $key => $value){
+        for ($i = 0; $i < $counter; $i++) {
+            foreach ($this->data[$i] as $key => $value) {
                 $keys[] = $key;
             }
         }

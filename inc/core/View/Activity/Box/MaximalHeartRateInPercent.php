@@ -36,18 +36,18 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
      * @return string
      */
     protected function value(HeartRate $heartRate)
-	{
+    {
         if ($heartRate->inBPM() > 0 && $heartRate->canShowInHRmax()) {
             return $heartRate->inPercent();
         }
 
         return '-';
-	}
+    }
 
     protected function unit(): string
-	{
+    {
         return '&#37;';
-	}
+    }
 
     public function addWarningIfMaximalHeartRateIsExceeded(HeartRate $heartRate)
     {

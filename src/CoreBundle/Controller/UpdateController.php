@@ -43,10 +43,10 @@ class UpdateController extends Controller
 
         $content = $output->fetch();
 
-		$updateAvailable = true;
-		if (substr_count($content, 'Already at latest version') === 1) {
-		    $updateAvailable = false;
-		}
+        $updateAvailable = true;
+        if (substr_count($content, 'Already at latest version') === 1) {
+            $updateAvailable = false;
+        }
 
         return $this->render('system/update.html.twig', [
             'updateAvailable' => $updateAvailable,
@@ -69,13 +69,13 @@ class UpdateController extends Controller
 
         $content = $output->fetch();
 
-		if (strpos($content, 'Could not find any migrations to execute.') || strpos($content, 'No migrations to execute.')) {
-		    $migrationStatus = 'uptodate';
-		} elseif (strpos($content, 'migrations executed')) {
-		    $migrationStatus = 'executed';
-		} else {
-		    $migrationStatus = false;
-		}
+        if (strpos($content, 'Could not find any migrations to execute.') || strpos($content, 'No migrations to execute.')) {
+            $migrationStatus = 'uptodate';
+        } elseif (strpos($content, 'migrations executed')) {
+            $migrationStatus = 'executed';
+        } else {
+            $migrationStatus = false;
+        }
 
         return $this->render('system/update_start.html.twig', [
             'migrationStatus' => $migrationStatus,

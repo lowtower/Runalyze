@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class GroundContact extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'groundcontact';
-	}
+    protected function setKey()
+    {
+        $this->key = 'groundcontact';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\GroundContact($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\GroundContact($context)
+        );
+    }
 }

@@ -50,9 +50,9 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
         if ($this->getEnvironment() === 'dev') {
             $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml', '/_wdt');
             $routes->import('@WebProfilerBundle/Resources/config/routing/profiler.xml', '/_profiler');
-    	    $routes->import('@TwigBundle/Resources/config/routing/errors.xml', '/_error');
+            $routes->import('@TwigBundle/Resources/config/routing/errors.xml', '/_error');
             $routes->add('/_trans', '@JMSTranslationBundle/Controller/TranslateController');
-    	}
+        }
 
         $routes->import('@CoreBundle/Controller', '/', 'annotation');
         $routes->import('@GlossaryBundle/Controller', '/glossary', 'annotation');

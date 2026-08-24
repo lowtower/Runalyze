@@ -18,707 +18,713 @@ use Runalyze\Model;
  */
 class Entity extends Model\EntityWithID
 {
-	/**
-	 * Key: timestamp
-	 * @var string
-	 */
-	const TIMESTAMP = 'time';
+    /**
+     * Key: timestamp
+     * @var string
+     */
+    public const TIMESTAMP = 'time';
 
-	/**
-	 * Key: timezone offset [minutes]
-	 * @var string
-	 */
-	const TIMEZONE_OFFSET = 'timezone_offset';
+    /**
+     * Key: timezone offset [minutes]
+     * @var string
+     */
+    public const TIMEZONE_OFFSET = 'timezone_offset';
 
-	/**
-	 * Key: timestamp created
-	 * @var string
-	 */
-	const TIMESTAMP_CREATED = 'created';
+    /**
+     * Key: timestamp created
+     * @var string
+     */
+    public const TIMESTAMP_CREATED = 'created';
 
-	/**
-	 * Key: timestamp last edit
-	 * @var string
-	 */
-	const TIMESTAMP_EDITED = 'edited';
+    /**
+     * Key: timestamp last edit
+     * @var string
+     */
+    public const TIMESTAMP_EDITED = 'edited';
 
-	/**
-	 * Key: sportid
-	 * @var string
-	 */
-	const SPORTID = 'sportid';
+    /**
+     * Key: sportid
+     * @var string
+     */
+    public const SPORTID = 'sportid';
 
-	/**
-	 * Key: typeid
-	 * @var string
-	 */
-	const TYPEID = 'typeid';
+    /**
+     * Key: typeid
+     * @var string
+     */
+    public const TYPEID = 'typeid';
 
-	/**
-	 * Key: is public
-	 * @var string
-	 */
-	const IS_PUBLIC = 'is_public';
+    /**
+     * Key: is public
+     * @var string
+     */
+    public const IS_PUBLIC = 'is_public';
 
-	/**
-	 * Key: is track
-	 * @var string
-	 */
-	const IS_TRACK = 'is_track';
+    /**
+     * Key: is track
+     * @var string
+     */
+    public const IS_TRACK = 'is_track';
 
-	/**
-	 * Key: has training goal
-	 * @var string
-	 */
-	const WITH_GOAL = 'with_goal';
+    /**
+     * Key: has training goal
+     * @var string
+     */
+    public const WITH_GOAL = 'with_goal';
 
-	/**
-	 * Key: distance
-	 * @var string
-	 */
-	const DISTANCE = 'distance';
+    /**
+     * Key: distance
+     * @var string
+     */
+    public const DISTANCE = 'distance';
 
-	/**
-	 * Key: time in seconds
-	 * @var string
-	 */
-	const TIME_IN_SECONDS = 's';
+    /**
+     * Key: time in seconds
+     * @var string
+     */
+    public const TIME_IN_SECONDS = 's';
 
-	/**
-	 * Key: elapsed time
-	 * @var string
-	 */
-	const ELAPSED_TIME = 'elapsed_time';
+    /**
+     * Key: elapsed time
+     * @var string
+     */
+    public const ELAPSED_TIME = 'elapsed_time';
 
-	/**
-	 * Key: elevation
-	 * @var string
-	 */
-	const ELEVATION = 'elevation';
+    /**
+     * Key: elevation
+     * @var string
+     */
+    public const ELEVATION = 'elevation';
 
     /**
      * Key: climb score
      * @var string
      */
-    const CLIMB_SCORE = 'climb_score';
+    public const CLIMB_SCORE = 'climb_score';
 
     /**
      * Key: percentage hilly
      * @var string
      */
-    const PERCENTAGE_HILLY = 'percentage_hilly';
+    public const PERCENTAGE_HILLY = 'percentage_hilly';
 
-	/**
-	 * Key: energy
-	 * @var string
-	 */
-	const ENERGY = 'kcal';
+    /**
+     * Key: energy
+     * @var string
+     */
+    public const ENERGY = 'kcal';
 
-	/**
-	 * Key: energy in rest
-	 * @var string
-	 */
-	const ENERGY_REST = 'kcal_rest';
+    /**
+     * Key: energy in rest
+     * @var string
+     */
+    public const ENERGY_REST = 'kcal_rest';
 
-	/**
-	 * Key: average heart rate
-	 * @var string
-	 */
-	const HR_AVG = 'pulse_avg';
+    /**
+     * Key: average heart rate
+     * @var string
+     */
+    public const HR_AVG = 'pulse_avg';
 
-	/**
-	 * Key: maximal heart rate
-	 * @var string
-	 */
-	const HR_MAX = 'pulse_max';
+    /**
+     * Key: maximal heart rate
+     * @var string
+     */
+    public const HR_MAX = 'pulse_max';
 
-	/**
-	 * Key: average heart rate active rounds
-	 * @var string
-	 */
-	const HR_AVG_ACTIVE = 'pulse_avg_active';
+    /**
+     * Key: average heart rate active rounds
+     * @var string
+     */
+    public const HR_AVG_ACTIVE = 'pulse_avg_active';
 
-	/**
-	 * Key: max heart rate for the user while the activity is done (the general max HR, not the activity one)
-	 * @var string
-	 */
-	const MAX_HR_USER = 'max_hr_user';
+    /**
+     * Key: max heart rate for the user while the activity is done (the general max HR, not the activity one)
+     * @var string
+     */
+    public const MAX_HR_USER = 'max_hr_user';
 
-	/**
-	 * Key: lower bounds of the hr zones while the activity is done
-	 * @var string
-	 */
-	const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+    /**
+     * Key: lower bounds of the hr zones while the activity is done
+     * @var string
+     */
+    public const HR_ZONE_BOUNDS = 'hr_zone_bounds';
 
-	/**
-	 * Key: vo2max
-	 * @var string
-	 */
-	const VO2MAX = 'vo2max';
+    /**
+     * Key: vo2max
+     * @var string
+     */
+    public const VO2MAX = 'vo2max';
 
-	/**
-	 * Key: vo2max by time
-	 * @var string
-	 */
-	const VO2MAX_BY_TIME = 'vo2max_by_time';
+    /**
+     * Key: vo2max by time
+     * @var string
+     */
+    public const VO2MAX_BY_TIME = 'vo2max_by_time';
 
-	/**
-	 * Key: vo2max with elevation
-	 * @var string
-	 */
-	const VO2MAX_WITH_ELEVATION = 'vo2max_with_elevation';
+    /**
+     * Key: vo2max with elevation
+     * @var string
+     */
+    public const VO2MAX_WITH_ELEVATION = 'vo2max_with_elevation';
 
-	/**
-	 * Key: use vo2max
-	 * @var string
-	 */
-	const USE_VO2MAX = 'use_vo2max';
+    /**
+     * Key: use vo2max
+     * @var string
+     */
+    public const USE_VO2MAX = 'use_vo2max';
 
-	/**
-	 * Key: vo2max estimate from fit file
-	 * @var string
-	 */
-	const FIT_VO2MAX_ESTIMATE = 'fit_vo2max_estimate';
+    /**
+     * Key: vo2max estimate from fit file
+     * @var string
+     */
+    public const FIT_VO2MAX_ESTIMATE = 'fit_vo2max_estimate';
 
-	/**
-	 * Key: recovery time from fit file
-	 * @var string
-	 */
-	const FIT_RECOVERY_TIME = 'fit_recovery_time';
+    /**
+     * Key: recovery time from fit file
+     * @var string
+     */
+    public const FIT_RECOVERY_TIME = 'fit_recovery_time';
 
-	/**
-	 * Key: hrv analysis score from fit file
-	 * @var string
-	 */
-	const FIT_HRV_ANALYSIS = 'fit_hrv_analysis';
+    /**
+     * Key: hrv analysis score from fit file
+     * @var string
+     */
+    public const FIT_HRV_ANALYSIS = 'fit_hrv_analysis';
 
-	/**
-	 * Key: total training effect benefit from fit file
-	 * @var string
-	 */
-	const FIT_TRAINING_EFFECT_BENEFIT = 'fit_training_effect_benefit';
+    /**
+     * Key: total training effect benefit from fit file
+     * @var string
+     */
+    public const FIT_TRAINING_EFFECT_BENEFIT = 'fit_training_effect_benefit';
 
-	/**
-	 * Key: total training effect from fit file
-	 * @var string
-	 */
-	const FIT_TRAINING_EFFECT = 'fit_training_effect';
+    /**
+     * Key: total training effect from fit file
+     * @var string
+     */
+    public const FIT_TRAINING_EFFECT = 'fit_training_effect';
 
-	/**
-	 * Key: total anaerobic training effect from fit file
-	 * @var string
-	 */
-	const FIT_ANAEROBIC_TRAINING_EFFECT = 'fit_anaerobic_training_effect';
-
-	/**
-	 * Key: performance condition from fit file
-	 * @var string
-	 */
-	const FIT_PERFORMANCE_CONDITION = 'fit_performance_condition';
+    /**
+     * Key: total anaerobic training effect from fit file
+     * @var string
+     */
+    public const FIT_ANAEROBIC_TRAINING_EFFECT = 'fit_anaerobic_training_effect';
 
     /**
      * Key: performance condition from fit file
      * @var string
      */
-    const FIT_PERFORMANCE_CONDITION_END = 'fit_performance_condition_end';
+    public const FIT_PERFORMANCE_CONDITION = 'fit_performance_condition';
+
+    /**
+     * Key: performance condition from fit file
+     * @var string
+     */
+    public const FIT_PERFORMANCE_CONDITION_END = 'fit_performance_condition_end';
 
     /**
      * Key: lactate threshold heart rate file
      * @var string
      */
-    const FIT_LACTATE_THRESHOLD_HR = 'fit_lactate_threshold_hr';
+    public const FIT_LACTATE_THRESHOLD_HR = 'fit_lactate_threshold_hr';
 
     /**
      * Key: lactate threshold pace (in m/s) file
      * @var string
      */
-    const FIT_LACTATE_THRESHOLD_PACE = 'fit_lactate_threshold_pace_ms';
+    public const FIT_LACTATE_THRESHOLD_PACE = 'fit_lactate_threshold_pace_ms';
 
     /**
      * Key: fit total ascent
      * @var string
      */
-    const FIT_TOTAL_ASCENT = 'fit_total_ascent';
+    public const FIT_TOTAL_ASCENT = 'fit_total_ascent';
 
     /**
      * Key: fit total descent
      * @var string
      */
-    const FIT_TOTAL_DESCENT = 'fit_total_descent';
+    public const FIT_TOTAL_DESCENT = 'fit_total_descent';
 
     /**
      * Key: fit_self_evaluation_feeling
      * @var string
      */
-    const FIT_SELF_ELEVATION_FEELING = 'fit_self_evaluation_feeling';
+    public const FIT_SELF_ELEVATION_FEELING = 'fit_self_evaluation_feeling';
 
     /**
      * Key: fit_self_evaluation_perceived_effort
      * @var string
      */
-    const FIT_SELF_ELEVATION_PERCEIVED_EFFORT = 'fit_self_evaluation_perceived_effort';
+    public const FIT_SELF_ELEVATION_PERCEIVED_EFFORT = 'fit_self_evaluation_perceived_effort';
 
     /**
      * Key: fit_load_peak
      * @var string
      */
-    const FIT_LOAD_PEAK = 'fit_load_peak';
+    public const FIT_LOAD_PEAK = 'fit_load_peak';
 
     /**
      * Key: fit_run_time
      * @var string
      */
-    const FIT_RUN_TIME = 'fit_run_time';
+    public const FIT_RUN_TIME = 'fit_run_time';
 
     /**
      * Key: fit_walk_time
      * @var string
      */
-    const FIT_WALK_TIME = 'fit_walk_time';
+    public const FIT_WALK_TIME = 'fit_walk_time';
 
     /**
      * Key: fit_stand_time
      * @var string
      */
-    const FIT_STAND_TIME = 'fit_stand_time';
+    public const FIT_STAND_TIME = 'fit_stand_time';
 
     /**
      * Key: for every HR_ZONE_BOUNDS the times in seconds
      * @var string
      */
-    const FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
+    public const FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
 
     /**
      * Key: sweat loss in ml
      * @var string
      */
-    const FIT_SWEAT_LOSS = 'fit_sweat_loss';
+    public const FIT_SWEAT_LOSS = 'fit_sweat_loss';
 
     /**
      * Key: avg_respiration_rate
      * @var string
      */
-    const AVG_RESPIRATION_RATE = 'avg_respiration_rate';
+    public const AVG_RESPIRATION_RATE = 'avg_respiration_rate';
 
     /**
      * Key: max_respiration_rate
      * @var string
      */
-    const MAX_RESPIRATION_RATE = 'max_respiration_rate';
+    public const MAX_RESPIRATION_RATE = 'max_respiration_rate';
 
-	/**
-	 * Key: RPE
-	 * @var string
-	 */
-	const RPE = 'rpe';
+    /**
+     * Key: RPE
+     * @var string
+     */
+    public const RPE = 'rpe';
 
-	/**
-	 * Key: trimp
-	 * @var string
-	 */
-	const TRIMP = 'trimp';
+    /**
+     * Key: trimp
+     * @var string
+     */
+    public const TRIMP = 'trimp';
 
-	/**
-	 * Key: cadence
-	 * @var string
-	 */
-	const CADENCE = 'cadence';
-
-	/**
-	 * Key: power
-	 * @var string
-	 */
-	const POWER = 'power';
+    /**
+     * Key: cadence
+     * @var string
+     */
+    public const CADENCE = 'cadence';
 
     /**
      * Key: power
      * @var string
      */
-    const IS_POWER_CALCULATED = 'is_power_calculated';
+    public const POWER = 'power';
 
-	/**
-	 * Key: stride length
-	 * @var string
-	 */
-	const STRIDE_LENGTH = 'stride_length';
+    /**
+     * Key: power
+     * @var string
+     */
+    public const IS_POWER_CALCULATED = 'is_power_calculated';
 
-	/**
-	 * Key: total_strokes
-	 * @var string
-	 */
-	const TOTAL_STROKES = 'total_strokes';
+    /**
+     * Key: stride length
+     * @var string
+     */
+    public const STRIDE_LENGTH = 'stride_length';
 
-	/**
-	 * Key: SWOLF
-	 * @var string
-	 */
-	const SWOLF = 'swolf';
+    /**
+     * Key: total_strokes
+     * @var string
+     */
+    public const TOTAL_STROKES = 'total_strokes';
 
-	/**
-	 * Key: total_cycles
-	 * @var ing
-	 */
-	const TOTAL_CYCLES = 'total_cycles';
+    /**
+     * Key: SWOLF
+     * @var string
+     */
+    public const SWOLF = 'swolf';
 
-	/**
-	 * Key: ground contact time
-	 * @var string
-	 */
-	const GROUNDCONTACT = 'groundcontact';
+    /**
+     * Key: total_cycles
+     * @var ing
+     */
+    public const TOTAL_CYCLES = 'total_cycles';
 
-	/**
-	 * Key: vertical oscillation
-	 * @var string
-	 */
-	const VERTICAL_OSCILLATION = 'vertical_oscillation';
+    /**
+     * Key: ground contact time
+     * @var string
+     */
+    public const GROUNDCONTACT = 'groundcontact';
 
-	/**
-	 * Key: ground contact time balance
-	 * @var string
-	 */
-	const GROUNDCONTACT_BALANCE = 'groundcontact_balance';
+    /**
+     * Key: vertical oscillation
+     * @var string
+     */
+    public const VERTICAL_OSCILLATION = 'vertical_oscillation';
 
-	/**
-	 * Key: vertical ratio
-	 * @var string
-	 */
-	const VERTICAL_RATIO = 'vertical_ratio';
+    /**
+     * Key: ground contact time balance
+     * @var string
+     */
+    public const GROUNDCONTACT_BALANCE = 'groundcontact_balance';
+
+    /**
+     * Key: vertical ratio
+     * @var string
+     */
+    public const VERTICAL_RATIO = 'vertical_ratio';
 
     /**
      * @var string
      */
-    const AVG_IMPACT_GS_LEFT = 'avg_impact_gs_left';
+    public const AVG_IMPACT_GS_LEFT = 'avg_impact_gs_left';
 
     /**
      * @var string
      */
-    const AVG_IMPACT_GS_RIGHT = 'avg_impact_gs_right';
+    public const AVG_IMPACT_GS_RIGHT = 'avg_impact_gs_right';
 
     /**
      * @var string
      */
-    const AVG_BRAKING_GS_LEFT = 'avg_braking_gs_left';
+    public const AVG_BRAKING_GS_LEFT = 'avg_braking_gs_left';
 
     /**
      * @var string
      */
-    const AVG_BRAKING_GS_RIGHT = 'avg_braking_gs_right';
+    public const AVG_BRAKING_GS_RIGHT = 'avg_braking_gs_right';
 
     /**
      * @var string
      */
-    const AVG_FOOTSTRIKE_TYPE_LEFT = 'avg_footstrike_type_left';
+    public const AVG_FOOTSTRIKE_TYPE_LEFT = 'avg_footstrike_type_left';
 
     /**
      * @var string
      */
-    const AVG_FOOTSTRIKE_TYPE_RIGHT = 'avg_footstrike_type_right';
+    public const AVG_FOOTSTRIKE_TYPE_RIGHT = 'avg_footstrike_type_right';
 
     /**
      * @var string
      */
-    const AVG_PRONATION_EXCURSION_LEFT = 'avg_pronation_excursion_left';
+    public const AVG_PRONATION_EXCURSION_LEFT = 'avg_pronation_excursion_left';
 
     /**
      * @var string
      */
-    const AVG_PRONATION_EXCURSION_RIGHT = 'avg_pronation_excursion_right';
+    public const AVG_PRONATION_EXCURSION_RIGHT = 'avg_pronation_excursion_right';
 
-	/**
-	 * Key: temperature
-	 * @var string
-	 */
-	const TEMPERATURE = 'temperature';
+    /**
+     * Key: temperature
+     * @var string
+     */
+    public const TEMPERATURE = 'temperature';
 
-	/**
-	 * Key: wind speed
-	 * @var string
-	 */
-	const WINDSPEED = 'wind_speed';
+    /**
+     * Key: wind speed
+     * @var string
+     */
+    public const WINDSPEED = 'wind_speed';
 
-	/**
-	 * Key: wind degree
-	 * @var string
-	 */
-	const WINDDEG = 'wind_deg';
+    /**
+     * Key: wind degree
+     * @var string
+     */
+    public const WINDDEG = 'wind_deg';
 
-	/**
-	 * Key: humidity
-	 * @var string
-	 */
-	const HUMIDITY = 'humidity';
+    /**
+     * Key: humidity
+     * @var string
+     */
+    public const HUMIDITY = 'humidity';
 
-	/**
-	 * Key: pressure
-	 * @var string
-	 */
-	const PRESSURE = 'pressure';
+    /**
+     * Key: pressure
+     * @var string
+     */
+    public const PRESSURE = 'pressure';
 
-	/**
-	 * Key: weather id
-	 * @var string
-	 */
-	const WEATHERID = 'weatherid';
+    /**
+     * Key: weather id
+     * @var string
+     */
+    public const WEATHERID = 'weatherid';
 
-	/**
-	 * Key: weather source
-	 * @var string
-	 */
-	const WEATHER_SOURCE = 'weather_source';
+    /**
+     * Key: weather source
+     * @var string
+     */
+    public const WEATHER_SOURCE = 'weather_source';
 
-	/**
-	 * Key: is night
-	 * @var string
-	 */
-	const IS_NIGHT = 'is_night';
+    /**
+     * Key: is night
+     * @var string
+     */
+    public const IS_NIGHT = 'is_night';
 
-	/**
-	 * Key: route id
-	 * @var string
-	 */
-	const ROUTEID = 'routeid';
+    /**
+     * Key: route id
+     * @var string
+     */
+    public const ROUTEID = 'routeid';
 
-	/**
-	 * Key: route
-	 * @var string
-	 * @deprecated
-	 */
-	const ROUTE = 'route';
+    /**
+     * Key: route
+     * @var string
+     * @deprecated
+     */
+    public const ROUTE = 'route';
 
-	/**
-	 * Key: splits
-	 * @var string
-	 */
-	const SPLITS = 'splits';
+    /**
+     * Key: splits
+     * @var string
+     */
+    public const SPLITS = 'splits';
 
-	/**
-	 * Key: splits_additional
-	 * @var string
-	 */
-	const SPLITS_ADDITIONAL = 'splits_additional';
+    /**
+     * Key: splits_additional
+     * @var string
+     */
+    public const SPLITS_ADDITIONAL = 'splits_additional';
 
-	/**
-	 * Key: pace_goal
-	 * @var string
-	 */
-	const PACE_GOAL = 'pace_goal';
+    /**
+     * Key: pace_goal
+     * @var string
+     */
+    public const PACE_GOAL = 'pace_goal';
 
-	/**
-	 * Key: title
-	 * @var string
-	 */
-	const TITLE = 'title';
+    /**
+     * Key: title
+     * @var string
+     */
+    public const TITLE = 'title';
 
-	/**
-	 * Key: partner
-	 * @var string
-	 */
-	const PARTNER = 'partner';
+    /**
+     * Key: partner
+     * @var string
+     */
+    public const PARTNER = 'partner';
 
-	/**
-	 * Key: notes
-	 * @var string
-	 */
-	const NOTES = 'notes';
+    /**
+     * Key: notes
+     * @var string
+     */
+    public const NOTES = 'notes';
 
-	/**
-	 * Key: creator
-	 * @var string
-	 */
-	const CREATOR = 'creator';
+    /**
+     * Key: creator
+     * @var string
+     */
+    public const CREATOR = 'creator';
 
-	/**
-	 * Key: creator details
-	 * @var string
-	 */
-	const CREATOR_DETAILS = 'creator_details';
+    /**
+     * Key: creator details
+     * @var string
+     */
+    public const CREATOR_DETAILS = 'creator_details';
 
-	/**
-	 * Key: activity id
-	 * @var string
-	 */
-	const ACTIVITY_ID = 'activity_id';
+    /**
+     * Key: activity id
+     * @var string
+     */
+    public const ACTIVITY_ID = 'activity_id';
 
-	/**
-	 * Weather
-	 * @var \Runalyze\Data\Weather
-	 */
-	protected $Weather;
+    /**
+     * Weather
+     * @var \Runalyze\Data\Weather
+     */
+    protected $Weather;
 
-	/**
-	 * Splits
-	 * @var \Runalyze\Model\Activity\Splits\Entity
-	 */
-	protected $Splits;
+    /**
+     * Splits
+     * @var \Runalyze\Model\Activity\Splits\Entity
+     */
+    protected $Splits;
 
-	/**
-	 * Splits-additional
-	 * @var array
-	 */
-	protected $SplitsAdditional;
+    /**
+     * Splits-additional
+     * @var array
+     */
+    protected $SplitsAdditional;
 
-	/**
-	 * Partner
-	 * @var \Runalyze\Model\Activity\Partner
-	 */
-	protected $Partner;
+    /**
+     * Partner
+     * @var \Runalyze\Model\Activity\Partner
+     */
+    protected $Partner;
 
-	/**
-	 * Pace-Goal
-	 * @var array
-	 */
-	protected $PaceGoal;
+    /**
+     * Pace-Goal
+     * @var array
+     */
+    protected $PaceGoal;
 
-	/**
-	 * Clone object
-	 */
-	public function __clone() {
-		$this->cloneInternalObjects();
-	}
+    /**
+     * Clone object
+     */
+    public function __clone()
+    {
+        $this->cloneInternalObjects();
+    }
 
     /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties(): array {
-		return [
-		    self::TIMESTAMP,
-		    self::TIMEZONE_OFFSET,
-		    self::TIMESTAMP_CREATED,
-		    self::TIMESTAMP_EDITED,
-		    self::SPORTID,
-		    self::TYPEID,
-		    self::IS_PUBLIC,
-		    self::IS_TRACK,
-		    self::WITH_GOAL,
-		    self::DISTANCE,
-		    self::TIME_IN_SECONDS,
-		    self::ELAPSED_TIME,
-		    self::ELEVATION,
-		    self::CLIMB_SCORE,
-		    self::PERCENTAGE_HILLY,
-		    self::ENERGY,
-		    self::ENERGY_REST,
-		    self::HR_AVG,
-		    self::HR_MAX,
-		    self::HR_AVG_ACTIVE,
-		    self::MAX_HR_USER,
-		    self::HR_ZONE_BOUNDS,
-		    self::VO2MAX,
-		    self::VO2MAX_BY_TIME,
-		    self::VO2MAX_WITH_ELEVATION,
-		    self::USE_VO2MAX,
-		    self::FIT_VO2MAX_ESTIMATE,
-		    self::FIT_RECOVERY_TIME,
-		    self::FIT_HRV_ANALYSIS,
-		    self::FIT_TRAINING_EFFECT_BENEFIT,
-		    self::FIT_TRAINING_EFFECT,
-		    self::FIT_ANAEROBIC_TRAINING_EFFECT,
-		    self::FIT_PERFORMANCE_CONDITION,
-		    self::FIT_PERFORMANCE_CONDITION_END,
-		    self::FIT_LACTATE_THRESHOLD_HR,
-		    self::FIT_LACTATE_THRESHOLD_PACE,
-		    self::FIT_TOTAL_ASCENT,
-		    self::FIT_TOTAL_DESCENT,
-		    self::FIT_SELF_ELEVATION_FEELING,
-		    self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT,
-		    self::FIT_LOAD_PEAK,
-		    self::FIT_RUN_TIME,
-		    self::FIT_WALK_TIME,
-		    self::FIT_STAND_TIME,
-		    self::FIT_SECONDS_HR_ZONES,
-		    self::FIT_SWEAT_LOSS,
-		    self::AVG_RESPIRATION_RATE,
-		    self::MAX_RESPIRATION_RATE,
-		    self::RPE,
-		    self::TRIMP,
-		    self::CADENCE,
-		    self::POWER,
-		    self::IS_POWER_CALCULATED,
-		    self::STRIDE_LENGTH,
-		    self::SWOLF,
-		    self::TOTAL_STROKES,
-		    self::TOTAL_CYCLES,
-		    self::GROUNDCONTACT,
-		    self::VERTICAL_OSCILLATION,
-		    self::GROUNDCONTACT_BALANCE,
-		    self::VERTICAL_RATIO,
-		    self::AVG_IMPACT_GS_LEFT,
-		    self::AVG_IMPACT_GS_RIGHT,
-		    self::AVG_BRAKING_GS_LEFT,
-		    self::AVG_BRAKING_GS_RIGHT,
-		    self::AVG_FOOTSTRIKE_TYPE_LEFT,
-		    self::AVG_FOOTSTRIKE_TYPE_RIGHT,
-		    self::AVG_PRONATION_EXCURSION_LEFT,
-		    self::AVG_PRONATION_EXCURSION_RIGHT,
-		    self::TEMPERATURE,
-		    self::WINDSPEED,
-		    self::WINDDEG,
-		    self::HUMIDITY,
-		    self::PRESSURE,
-		    self::WEATHERID,
-		    self::WEATHER_SOURCE,
-		    self::IS_NIGHT,
-		    self::ROUTEID,
-		    self::ROUTE,
-		    self::SPLITS,
-		    self::SPLITS_ADDITIONAL,
-		    self::TITLE,
-		    self::PARTNER,
-		    self::NOTES,
-		    self::CREATOR,
-		    self::CREATOR_DETAILS,
-		    self::ACTIVITY_ID,
-		    self::PACE_GOAL,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::TIMESTAMP,
+            self::TIMEZONE_OFFSET,
+            self::TIMESTAMP_CREATED,
+            self::TIMESTAMP_EDITED,
+            self::SPORTID,
+            self::TYPEID,
+            self::IS_PUBLIC,
+            self::IS_TRACK,
+            self::WITH_GOAL,
+            self::DISTANCE,
+            self::TIME_IN_SECONDS,
+            self::ELAPSED_TIME,
+            self::ELEVATION,
+            self::CLIMB_SCORE,
+            self::PERCENTAGE_HILLY,
+            self::ENERGY,
+            self::ENERGY_REST,
+            self::HR_AVG,
+            self::HR_MAX,
+            self::HR_AVG_ACTIVE,
+            self::MAX_HR_USER,
+            self::HR_ZONE_BOUNDS,
+            self::VO2MAX,
+            self::VO2MAX_BY_TIME,
+            self::VO2MAX_WITH_ELEVATION,
+            self::USE_VO2MAX,
+            self::FIT_VO2MAX_ESTIMATE,
+            self::FIT_RECOVERY_TIME,
+            self::FIT_HRV_ANALYSIS,
+            self::FIT_TRAINING_EFFECT_BENEFIT,
+            self::FIT_TRAINING_EFFECT,
+            self::FIT_ANAEROBIC_TRAINING_EFFECT,
+            self::FIT_PERFORMANCE_CONDITION,
+            self::FIT_PERFORMANCE_CONDITION_END,
+            self::FIT_LACTATE_THRESHOLD_HR,
+            self::FIT_LACTATE_THRESHOLD_PACE,
+            self::FIT_TOTAL_ASCENT,
+            self::FIT_TOTAL_DESCENT,
+            self::FIT_SELF_ELEVATION_FEELING,
+            self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT,
+            self::FIT_LOAD_PEAK,
+            self::FIT_RUN_TIME,
+            self::FIT_WALK_TIME,
+            self::FIT_STAND_TIME,
+            self::FIT_SECONDS_HR_ZONES,
+            self::FIT_SWEAT_LOSS,
+            self::AVG_RESPIRATION_RATE,
+            self::MAX_RESPIRATION_RATE,
+            self::RPE,
+            self::TRIMP,
+            self::CADENCE,
+            self::POWER,
+            self::IS_POWER_CALCULATED,
+            self::STRIDE_LENGTH,
+            self::SWOLF,
+            self::TOTAL_STROKES,
+            self::TOTAL_CYCLES,
+            self::GROUNDCONTACT,
+            self::VERTICAL_OSCILLATION,
+            self::GROUNDCONTACT_BALANCE,
+            self::VERTICAL_RATIO,
+            self::AVG_IMPACT_GS_LEFT,
+            self::AVG_IMPACT_GS_RIGHT,
+            self::AVG_BRAKING_GS_LEFT,
+            self::AVG_BRAKING_GS_RIGHT,
+            self::AVG_FOOTSTRIKE_TYPE_LEFT,
+            self::AVG_FOOTSTRIKE_TYPE_RIGHT,
+            self::AVG_PRONATION_EXCURSION_LEFT,
+            self::AVG_PRONATION_EXCURSION_RIGHT,
+            self::TEMPERATURE,
+            self::WINDSPEED,
+            self::WINDDEG,
+            self::HUMIDITY,
+            self::PRESSURE,
+            self::WEATHERID,
+            self::WEATHER_SOURCE,
+            self::IS_NIGHT,
+            self::ROUTEID,
+            self::ROUTE,
+            self::SPLITS,
+            self::SPLITS_ADDITIONAL,
+            self::TITLE,
+            self::PARTNER,
+            self::NOTES,
+            self::CREATOR,
+            self::CREATOR_DETAILS,
+            self::ACTIVITY_ID,
+            self::PACE_GOAL,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
     /**
      * Is the property an array?
      * @param string $key
      */
-    public function isArray($key): bool {
-		return $key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES;
-	}
+    public function isArray($key): bool
+    {
+        return $key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES;
+    }
 
     /**
      * Can set key?
      * @param string $key
      */
-    protected function canSet($key): bool {
-		switch ($key) {
-			case self::TEMPERATURE:
-			case self::WINDSPEED:
-			case self::WINDDEG:
-			case self::HUMIDITY:
-			case self::PRESSURE:
-			case self::WEATHERID:
-			case self::WEATHER_SOURCE:
-			case self::PARTNER:
-			case self::SPLITS:
-				return false;
-		}
+    protected function canSet($key): bool
+    {
+        switch ($key) {
+            case self::TEMPERATURE:
+            case self::WINDSPEED:
+            case self::WINDDEG:
+            case self::HUMIDITY:
+            case self::PRESSURE:
+            case self::WEATHERID:
+            case self::WEATHER_SOURCE:
+            case self::PARTNER:
+            case self::SPLITS:
+                return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
     /**
      * Can be null?
      * @param string $key
      */
-    protected function canBeNull($key): bool {
-		switch ($key) {
+    protected function canBeNull($key): bool
+    {
+        switch ($key) {
             case self::TYPEID:
             case self::TIMESTAMP_CREATED:
             case self::TIMESTAMP_EDITED:
-			case self::TIMEZONE_OFFSET:
+            case self::TIMEZONE_OFFSET:
             case self::DISTANCE:
             case self::ELAPSED_TIME:
             case self::ELEVATION:
@@ -729,8 +735,8 @@ class Entity extends Model\EntityWithID
             case self::HR_AVG:
             case self::HR_MAX:
             case self::HR_AVG_ACTIVE:
-			case self::MAX_HR_USER:
-			case self::HR_ZONE_BOUNDS:
+            case self::MAX_HR_USER:
+            case self::HR_ZONE_BOUNDS:
             case self::VO2MAX:
             case self::VO2MAX_BY_TIME:
             case self::VO2MAX_WITH_ELEVATION:
@@ -748,12 +754,12 @@ class Entity extends Model\EntityWithID
             case self::FIT_TOTAL_DESCENT:
             case self::FIT_SELF_ELEVATION_FEELING:
             case self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT:
-			case self::FIT_LOAD_PEAK:
-			case self::FIT_RUN_TIME:
-			case self::FIT_WALK_TIME:
-			case self::FIT_STAND_TIME:
-			case self::FIT_SECONDS_HR_ZONES:
-			case self::FIT_SWEAT_LOSS:
+            case self::FIT_LOAD_PEAK:
+            case self::FIT_RUN_TIME:
+            case self::FIT_WALK_TIME:
+            case self::FIT_STAND_TIME:
+            case self::FIT_SECONDS_HR_ZONES:
+            case self::FIT_SWEAT_LOSS:
             case self::AVG_RESPIRATION_RATE:
             case self::MAX_RESPIRATION_RATE:
             case self::RPE:
@@ -777,37 +783,39 @@ class Entity extends Model\EntityWithID
             case self::AVG_FOOTSTRIKE_TYPE_RIGHT:
             case self::AVG_PRONATION_EXCURSION_LEFT:
             case self::AVG_PRONATION_EXCURSION_RIGHT:
-			case self::TEMPERATURE:
-			case self::WINDSPEED:
-			case self::WINDDEG:
-			case self::HUMIDITY:
-			case self::PRESSURE:
-			case self::WEATHER_SOURCE:
-			case self::IS_NIGHT:
-			case self::NOTES:
-			case self::CREATOR_DETAILS:
+            case self::TEMPERATURE:
+            case self::WINDSPEED:
+            case self::WINDDEG:
+            case self::HUMIDITY:
+            case self::PRESSURE:
+            case self::WEATHER_SOURCE:
+            case self::IS_NIGHT:
+            case self::NOTES:
+            case self::CREATOR_DETAILS:
             case self::ROUTEID:
-			case self::ACTIVITY_ID:
-			case self::PACE_GOAL:
-				return true;
-		}
+            case self::ACTIVITY_ID:
+            case self::PACE_GOAL:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function synchronize() {
-		parent::synchronize();
+    public function synchronize()
+    {
+        parent::synchronize();
 
-		$this->ensureNullIfEmpty(self::ACTIVITY_ID);
-		$this->ensureNullIfEmpty(self::IS_NIGHT, true);
+        $this->ensureNullIfEmpty(self::ACTIVITY_ID);
+        $this->ensureNullIfEmpty(self::IS_NIGHT, true);
         $this->ensureNullIfEmpty(self::CLIMB_SCORE, true);
         $this->ensureNullIfEmpty(self::PERCENTAGE_HILLY, true);
         $this->ensureAllNullOrNumericValues();
-		$this->ensureAllNumericValues();
-		$this->synchronizeObjects();
-	}
+        $this->ensureAllNumericValues();
+        $this->synchronizeObjects();
+    }
 
-	protected function ensureAllNullOrNumericValues() {
+    protected function ensureAllNullOrNumericValues()
+    {
         $this->ensureNullIfEmpty([
             self::TYPEID,
             self::TIMESTAMP_CREATED,
@@ -870,270 +878,305 @@ class Entity extends Model\EntityWithID
         ], true, true);
     }
 
-	/**
-	 * Ensure that numeric fields get numeric values
-	 */
-	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue([
-		    self::SPORTID,
-		    self::TIMESTAMP,
-		    self::IS_PUBLIC,
-		    self::IS_TRACK,
-		    self::TIME_IN_SECONDS,
-		    self::USE_VO2MAX,
-		]);
-	}
+    /**
+     * Ensure that numeric fields get numeric values
+     */
+    protected function ensureAllNumericValues()
+    {
+        $this->ensureNumericValue([
+            self::SPORTID,
+            self::TIMESTAMP,
+            self::IS_PUBLIC,
+            self::IS_TRACK,
+            self::TIME_IN_SECONDS,
+            self::USE_VO2MAX,
+        ]);
+    }
 
-	protected function synchronizeObjects() {
-		$this->Data[self::TEMPERATURE] = $this->weather()->temperature()->value();
-		$this->Data[self::WINDSPEED] = $this->weather()->windSpeed()->value();
-		$this->Data[self::WINDDEG] = $this->weather()->windDegree()->value();
-		$this->Data[self::HUMIDITY] = $this->weather()->humidity()->value();
-		$this->Data[self::PRESSURE] = $this->weather()->pressure()->value();
-		$this->Data[self::WEATHERID] = $this->weather()->condition()->id();
-		$this->Data[self::WEATHER_SOURCE] = $this->weather()->source();
-		$this->Data[self::SPLITS] = $this->splits()->asString();
-		$this->Data[self::PARTNER] = $this->partner()->asString();
-	}
+    protected function synchronizeObjects()
+    {
+        $this->Data[self::TEMPERATURE] = $this->weather()->temperature()->value();
+        $this->Data[self::WINDSPEED] = $this->weather()->windSpeed()->value();
+        $this->Data[self::WINDDEG] = $this->weather()->windDegree()->value();
+        $this->Data[self::HUMIDITY] = $this->weather()->humidity()->value();
+        $this->Data[self::PRESSURE] = $this->weather()->pressure()->value();
+        $this->Data[self::WEATHERID] = $this->weather()->condition()->id();
+        $this->Data[self::WEATHER_SOURCE] = $this->weather()->source();
+        $this->Data[self::SPLITS] = $this->splits()->asString();
+        $this->Data[self::PARTNER] = $this->partner()->asString();
+    }
 
-	/**
-	 * @return int
-	 */
-	public function timestamp() {
-		return $this->Data[self::TIMESTAMP];
-	}
+    /**
+     * @return int
+     */
+    public function timestamp()
+    {
+        return $this->Data[self::TIMESTAMP];
+    }
 
-	public function knowsTimezoneOffset(): bool {
-		return $this->Data[self::TIMEZONE_OFFSET] !== null;
-	}
+    public function knowsTimezoneOffset(): bool
+    {
+        return $this->Data[self::TIMEZONE_OFFSET] !== null;
+    }
 
-	/**
-	 * @return int|null offset in minutes or null if unknown
-	 */
-	public function timezoneOffset() {
-		return $this->Data[self::TIMEZONE_OFFSET];
-	}
+    /**
+     * @return int|null offset in minutes or null if unknown
+     */
+    public function timezoneOffset()
+    {
+        return $this->Data[self::TIMEZONE_OFFSET];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function sportid() {
-		return $this->Data[self::SPORTID];
-	}
+    /**
+     * @return int
+     */
+    public function sportid()
+    {
+        return $this->Data[self::SPORTID];
+    }
 
-	/**
-	 * @return null|int
-	 */
-	public function typeid() {
-		return $this->Data[self::TYPEID];
-	}
+    /**
+     * @return null|int
+     */
+    public function typeid()
+    {
+        return $this->Data[self::TYPEID];
+    }
 
     /**
      * Is public?
      */
-    public function isPublic(): bool {
-		return $this->Data[self::IS_PUBLIC] == 1;
-	}
+    public function isPublic(): bool
+    {
+        return $this->Data[self::IS_PUBLIC] == 1;
+    }
 
     /**
      * On track?
      */
-    public function isTrack(): bool {
-		return $this->Data[self::IS_TRACK] == 1;
-	}
+    public function isTrack(): bool
+    {
+        return $this->Data[self::IS_TRACK] == 1;
+    }
 
     /**
      * has training goal
      */
-    public function withGoal(): bool {
-		return $this->Data[self::WITH_GOAL] == 1;
-	}
+    public function withGoal(): bool
+    {
+        return $this->Data[self::WITH_GOAL] == 1;
+    }
 
-	/**
-	 * @return null|float [km]
-	 */
-	public function distance() {
-		return $this->Data[self::DISTANCE];
-	}
+    /**
+     * @return null|float [km]
+     */
+    public function distance()
+    {
+        return $this->Data[self::DISTANCE];
+    }
 
-	/**
-	 * Time in seconds
-	 * @return int [s]
-	 */
-	public function duration() {
-		return $this->Data[self::TIME_IN_SECONDS];
-	}
+    /**
+     * Time in seconds
+     * @return int [s]
+     */
+    public function duration()
+    {
+        return $this->Data[self::TIME_IN_SECONDS];
+    }
 
-	/**
-	 * @return null|int [s]
-	 */
-	public function elapsedTime() {
-		return $this->Data[self::ELAPSED_TIME];
-	}
+    /**
+     * @return null|int [s]
+     */
+    public function elapsedTime()
+    {
+        return $this->Data[self::ELAPSED_TIME];
+    }
 
-	/**
-	 * @return null|int [m]
-	 */
-	public function elevation() {
-		return $this->Data[self::ELEVATION];
-	}
+    /**
+     * @return null|int [m]
+     */
+    public function elevation()
+    {
+        return $this->Data[self::ELEVATION];
+    }
 
     /**
      * @return null|float [0.0 .. 1.0]
      */
-    public function climbScore() {
+    public function climbScore()
+    {
         return $this->Data[self::CLIMB_SCORE];
     }
 
     /**
      * @return null|float [0.00 .. 1.00]
      */
-    public function percentageHilly() {
+    public function percentageHilly()
+    {
         return $this->Data[self::PERCENTAGE_HILLY];
     }
 
-	/**
-	 * @return null|int [kcal]
-	 */
-	public function energy() {
-		return $this->Data[self::ENERGY];
-	}
+    /**
+     * @return null|int [kcal]
+     */
+    public function energy()
+    {
+        return $this->Data[self::ENERGY];
+    }
 
-	/**
-	 * #TSC
-	 * @return null|int [kcal]
-	 */
-	public function energyInRest() {
-		return $this->Data[self::ENERGY_REST];
-	}
+    /**
+     * #TSC
+     * @return null|int [kcal]
+     */
+    public function energyInRest()
+    {
+        return $this->Data[self::ENERGY_REST];
+    }
 
-	/**
-	 * Average heart rate
-	 * @return null|int [bpm]
-	 */
-	public function hrAvg() {
-		return $this->Data[self::HR_AVG];
-	}
+    /**
+     * Average heart rate
+     * @return null|int [bpm]
+     */
+    public function hrAvg()
+    {
+        return $this->Data[self::HR_AVG];
+    }
 
-	/**
-	 * Maximal heart rate
-	 * @return null|int [bpm]
-	 */
-	public function hrMax() {
-		return $this->Data[self::HR_MAX];
-	}
+    /**
+     * Maximal heart rate
+     * @return null|int [bpm]
+     */
+    public function hrMax()
+    {
+        return $this->Data[self::HR_MAX];
+    }
 
-	/**
-	 * Average heart rate active rounds
-	 * @return null|int [bpm]
-	 */
-	public function hrAvgActive() {
-		return $this->Data[self::HR_AVG_ACTIVE];
-	}
+    /**
+     * Average heart rate active rounds
+     * @return null|int [bpm]
+     */
+    public function hrAvgActive()
+    {
+        return $this->Data[self::HR_AVG_ACTIVE];
+    }
 
-	/**
-	 * Average max heart rate of the user (general, not while this activity)
-	 * @return null|int [bpm]
-	 */
-	public function maxHrUser() {
-		return $this->Data[self::MAX_HR_USER];
-	}
+    /**
+     * Average max heart rate of the user (general, not while this activity)
+     * @return null|int [bpm]
+     */
+    public function maxHrUser()
+    {
+        return $this->Data[self::MAX_HR_USER];
+    }
 
-	/**
-	 * Average lower bounds of the hr zones
-	 * @return null|array [bpm]
-	 */
-	public function hrZoneBounds() {
-		return $this->Data[self::HR_ZONE_BOUNDS];
-	}
+    /**
+     * Average lower bounds of the hr zones
+     * @return null|array [bpm]
+     */
+    public function hrZoneBounds()
+    {
+        return $this->Data[self::HR_ZONE_BOUNDS];
+    }
 
-	/**
-	 * @return null|float [ml/kg/min]
-	 */
-	public function vo2maxByHeartRate() {
-		return $this->Data[self::VO2MAX];
-	}
+    /**
+     * @return null|float [ml/kg/min]
+     */
+    public function vo2maxByHeartRate()
+    {
+        return $this->Data[self::VO2MAX];
+    }
 
-	/**
-	 * @return null|float [ml/kg/min]
-	 */
-	public function vo2maxByTime() {
-		return $this->Data[self::VO2MAX_BY_TIME];
-	}
+    /**
+     * @return null|float [ml/kg/min]
+     */
+    public function vo2maxByTime()
+    {
+        return $this->Data[self::VO2MAX_BY_TIME];
+    }
 
-	/**
-	 * @return null|float [ml/kg/min]
-	 */
-	public function vo2maxWithElevation() {
-		return $this->Data[self::VO2MAX_WITH_ELEVATION];
-	}
+    /**
+     * @return null|float [ml/kg/min]
+     */
+    public function vo2maxWithElevation()
+    {
+        return $this->Data[self::VO2MAX_WITH_ELEVATION];
+    }
 
-	public function usesVO2max(): bool {
-		return $this->Data[self::USE_VO2MAX] == 1;
-	}
+    public function usesVO2max(): bool
+    {
+        return $this->Data[self::USE_VO2MAX] == 1;
+    }
 
-	/**
-	 * VO2max estimate from fit file
-	 * @return null|float [ml/kg/min]
-	 */
-	public function fitVO2maxEstimate() {
-		return $this->Data[self::FIT_VO2MAX_ESTIMATE];
-	}
+    /**
+     * VO2max estimate from fit file
+     * @return null|float [ml/kg/min]
+     */
+    public function fitVO2maxEstimate()
+    {
+        return $this->Data[self::FIT_VO2MAX_ESTIMATE];
+    }
 
-	/**
-	 * Recovery time advisor from fit file
-	 * @return null|int [min]
-	 */
-	public function fitRecoveryTime() {
-		return $this->Data[self::FIT_RECOVERY_TIME];
-	}
+    /**
+     * Recovery time advisor from fit file
+     * @return null|int [min]
+     */
+    public function fitRecoveryTime()
+    {
+        return $this->Data[self::FIT_RECOVERY_TIME];
+    }
 
-	/**
-	 * HRV analysis score from fit file
-	 * @return null|int
-	 */
-	public function fitHRVscore() {
-		return $this->Data[self::FIT_HRV_ANALYSIS];
-	}
+    /**
+     * HRV analysis score from fit file
+     * @return null|int
+     */
+    public function fitHRVscore()
+    {
+        return $this->Data[self::FIT_HRV_ANALYSIS];
+    }
 
-	/**
-	 * Total training effect benefit
-	 * 1=Recovery, 2=Base, 3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
-	 * @return null|int
-	 */
-	public function fitTrainingEffectBenefit() {
-		return $this->Data[self::FIT_TRAINING_EFFECT_BENEFIT];
-	}
+    /**
+     * Total training effect benefit
+     * 1=Recovery, 2=Base, 3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
+     * @return null|int
+     */
+    public function fitTrainingEffectBenefit()
+    {
+        return $this->Data[self::FIT_TRAINING_EFFECT_BENEFIT];
+    }
 
-	/**
-	 * Total training effect
-	 * @return null|float
-	 */
-	public function fitTrainingEffect() {
-		return $this->Data[self::FIT_TRAINING_EFFECT];
-	}
+    /**
+     * Total training effect
+     * @return null|float
+     */
+    public function fitTrainingEffect()
+    {
+        return $this->Data[self::FIT_TRAINING_EFFECT];
+    }
 
-	/**
-	 * Total anaerobic training effect
-	 * @return null|float
-	 */
-	public function fitAnaerobicTrainingEffect() {
-		return $this->Data[self::FIT_ANAEROBIC_TRAINING_EFFECT];
-	}
+    /**
+     * Total anaerobic training effect
+     * @return null|float
+     */
+    public function fitAnaerobicTrainingEffect()
+    {
+        return $this->Data[self::FIT_ANAEROBIC_TRAINING_EFFECT];
+    }
 
-	/**
-	 * Performance condition
-	 * @return null|int
-	 */
-	public function fitPerformanceCondition() {
-		return $this->Data[self::FIT_PERFORMANCE_CONDITION];
-	}
+    /**
+     * Performance condition
+     * @return null|int
+     */
+    public function fitPerformanceCondition()
+    {
+        return $this->Data[self::FIT_PERFORMANCE_CONDITION];
+    }
 
     /**
      * Ending performance condition
      * @return null|int
      */
-    public function fitPerformanceConditionEnd() {
+    public function fitPerformanceConditionEnd()
+    {
         return $this->Data[self::FIT_PERFORMANCE_CONDITION_END];
     }
 
@@ -1141,7 +1184,8 @@ class Entity extends Model\EntityWithID
      * Lactate threshold HR
      * @return null|int
      */
-    public function fitLactateThresholdHR() {
+    public function fitLactateThresholdHR()
+    {
         return $this->Data[self::FIT_LACTATE_THRESHOLD_HR];
     }
 
@@ -1149,21 +1193,24 @@ class Entity extends Model\EntityWithID
      * Lactate threshold pace (in m/s)
      * @return null|float
      */
-    public function fitLactateThresholdPace() {
+    public function fitLactateThresholdPace()
+    {
         return $this->Data[self::FIT_LACTATE_THRESHOLD_PACE];
     }
 
     /**
      * @return null|int
      */
-    public function fitTotalAscent() {
+    public function fitTotalAscent()
+    {
         return $this->Data[self::FIT_TOTAL_ASCENT];
     }
 
     /**
      * @return null|int
      */
-    public function fitTotalDescent() {
+    public function fitTotalDescent()
+    {
         return $this->Data[self::FIT_TOTAL_DESCENT];
     }
 
@@ -1171,7 +1218,8 @@ class Entity extends Model\EntityWithID
      * fit fitSelfEvaluationFeeling
      * @return null|int
      */
-    public function fitSelfEvaluationFeeling() {
+    public function fitSelfEvaluationFeeling()
+    {
         return $this->Data[self::FIT_SELF_ELEVATION_FEELING];
     }
 
@@ -1179,7 +1227,8 @@ class Entity extends Model\EntityWithID
      * fit fitSelfEvaluationPerceivedEffort
      * @return null|int
      */
-    public function fitSelfEvaluationPerceivedEffort() {
+    public function fitSelfEvaluationPerceivedEffort()
+    {
         return $this->Data[self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT];
     }
 
@@ -1187,181 +1236,205 @@ class Entity extends Model\EntityWithID
      * fit fitLoadPeak
      * @return null|int
      */
-    public function fitLoadPeak() {
+    public function fitLoadPeak()
+    {
         return $this->Data[self::FIT_LOAD_PEAK];
     }
 
-	/**
-	 * fit RWD run time #TSC
-	 * @return null|int [s]
-	 */
-	public function fitRunTime() {
-		return $this->Data[self::FIT_RUN_TIME];
-	}
+    /**
+     * fit RWD run time #TSC
+     * @return null|int [s]
+     */
+    public function fitRunTime()
+    {
+        return $this->Data[self::FIT_RUN_TIME];
+    }
 
-	/**
-	 * fit RWD walk time #TSC
-	 * @return null|int [s]
-	 */
-	public function fitWalkTime() {
-		return $this->Data[self::FIT_WALK_TIME];
-	}
+    /**
+     * fit RWD walk time #TSC
+     * @return null|int [s]
+     */
+    public function fitWalkTime()
+    {
+        return $this->Data[self::FIT_WALK_TIME];
+    }
 
-	/**
-	 * fit RWD run time #TSC
-	 * @return null|int [s]
-	 */
-	public function fitStandTime() {
-		return $this->Data[self::FIT_STAND_TIME];
-	}
+    /**
+     * fit RWD run time #TSC
+     * @return null|int [s]
+     */
+    public function fitStandTime()
+    {
+        return $this->Data[self::FIT_STAND_TIME];
+    }
 
-	/**
-	 * Average seconds in the HR zones of hrZoneBounds()
-	 * @return null|array [bpm]
-	 */
-	public function fitSecondsInHrZones() {
-		return $this->Data[self::FIT_SECONDS_HR_ZONES];
-	}
+    /**
+     * Average seconds in the HR zones of hrZoneBounds()
+     * @return null|array [bpm]
+     */
+    public function fitSecondsInHrZones()
+    {
+        return $this->Data[self::FIT_SECONDS_HR_ZONES];
+    }
 
     /**
      * sweat loss (Schweissverbrauch in ml)
      * @return null|int
      */
-    public function fitSweetLoss() {
+    public function fitSweetLoss()
+    {
         return $this->Data[self::FIT_SWEAT_LOSS];
     }
 
     /**
      * @return null|int
      */
-    public function avgRespirationRate() {
+    public function avgRespirationRate()
+    {
         return $this->Data[self::AVG_RESPIRATION_RATE];
     }
 
     /**
      * @return null|int
      */
-    public function maxRespirationRate() {
+    public function maxRespirationRate()
+    {
         return $this->Data[self::MAX_RESPIRATION_RATE];
     }
 
-	/**
-	 * @return null|int
-	 */
-	public function rpe() {
-		return $this->Data[self::RPE];
-	}
-
-	/**
-	 * @return null|int
-	 */
-	public function trimp() {
-		return $this->Data[self::TRIMP];
-	}
-
-	/**
-	 * @return null|int [rpm]
-	 */
-	public function cadence() {
-		return $this->Data[self::CADENCE];
-	}
-
-	/**
-	 * @return null|int [W]
-	 */
-	public function power() {
-		return $this->Data[self::POWER];
-	}
-
-	/**
-	 * @return null|bool
-	 */
-	public function isPowerCalculated() {
-	    return $this->Data[self::IS_POWER_CALCULATED] === null ? null : $this->Data[self::IS_POWER_CALCULATED] == 1;
+    /**
+     * @return null|int
+     */
+    public function rpe()
+    {
+        return $this->Data[self::RPE];
     }
 
-	/**
-	 * @return null|int [cm]
-	 */
-	public function strideLength() {
-		return $this->Data[self::STRIDE_LENGTH];
-	}
+    /**
+     * @return null|int
+     */
+    public function trimp()
+    {
+        return $this->Data[self::TRIMP];
+    }
 
-	/**
-	 * @return null|int
-	 */
-	public function totalStrokes() {
-		return $this->Data[self::TOTAL_STROKES];
-	}
+    /**
+     * @return null|int [rpm]
+     */
+    public function cadence()
+    {
+        return $this->Data[self::CADENCE];
+    }
 
-	/**
-	 * @return null|int
-	 */
-	public function swolf() {
-		return $this->Data[self::SWOLF];
-	}
+    /**
+     * @return null|int [W]
+     */
+    public function power()
+    {
+        return $this->Data[self::POWER];
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function isPowerCalculated()
+    {
+        return $this->Data[self::IS_POWER_CALCULATED] === null ? null : $this->Data[self::IS_POWER_CALCULATED] == 1;
+    }
+
+    /**
+     * @return null|int [cm]
+     */
+    public function strideLength()
+    {
+        return $this->Data[self::STRIDE_LENGTH];
+    }
+
+    /**
+     * @return null|int
+     */
+    public function totalStrokes()
+    {
+        return $this->Data[self::TOTAL_STROKES];
+    }
+
+    /**
+     * @return null|int
+     */
+    public function swolf()
+    {
+        return $this->Data[self::SWOLF];
+    }
 
     /**
      * #TSC
      * @return null|int
      */
-    public function totalCycles() {
+    public function totalCycles()
+    {
         return $this->Data[self::TOTAL_CYCLES];
     }
 
-	/**
-	 * @return null|int [ms]
-	 */
-	public function groundcontact() {
-		return $this->Data[self::GROUNDCONTACT];
-	}
+    /**
+     * @return null|int [ms]
+     */
+    public function groundcontact()
+    {
+        return $this->Data[self::GROUNDCONTACT];
+    }
 
-	/**
-	 * @return null|int [mm]
-	 */
-	public function verticalOscillation() {
-		return $this->Data[self::VERTICAL_OSCILLATION];
-	}
+    /**
+     * @return null|int [mm]
+     */
+    public function verticalOscillation()
+    {
+        return $this->Data[self::VERTICAL_OSCILLATION];
+    }
 
-	/**
-	 * Ground contact time balance
-	 * @return null|int [%oo]
-	 */
-	public function groundContactBalance() {
-		return $this->Data[self::GROUNDCONTACT_BALANCE];
-	}
+    /**
+     * Ground contact time balance
+     * @return null|int [%oo]
+     */
+    public function groundContactBalance()
+    {
+        return $this->Data[self::GROUNDCONTACT_BALANCE];
+    }
 
-	/**
-	 * Ground contact time balance
-	 * @return null|int [%]
-	 */
-	public function groundContactBalanceLeft() {
-		return $this->Data[self::GROUNDCONTACT_BALANCE];
-	}
+    /**
+     * Ground contact time balance
+     * @return null|int [%]
+     */
+    public function groundContactBalanceLeft()
+    {
+        return $this->Data[self::GROUNDCONTACT_BALANCE];
+    }
 
-	/**
-	 * Ground contact time balance
-	 * @return null|int [%]
-	 */
-	public function groundContactBalanceRight() {
-	    if ($this->Data[self::GROUNDCONTACT_BALANCE] === null) {
-	        return null;
+    /**
+     * Ground contact time balance
+     * @return null|int [%]
+     */
+    public function groundContactBalanceRight()
+    {
+        if ($this->Data[self::GROUNDCONTACT_BALANCE] === null) {
+            return null;
         }
 
-		return 10000 - $this->Data[self::GROUNDCONTACT_BALANCE];
-	}
+        return 10000 - $this->Data[self::GROUNDCONTACT_BALANCE];
+    }
 
-	/**
-	 * @return null|int [%o]
-	 */
-	public function verticalRatio() {
-		return $this->Data[self::VERTICAL_RATIO];
-	}
+    /**
+     * @return null|int [%o]
+     */
+    public function verticalRatio()
+    {
+        return $this->Data[self::VERTICAL_RATIO];
+    }
 
     /**
      * @return float|null [ms] can be negative for walking
      */
-    public function flightTime() {
+    public function flightTime()
+    {
         if ($this->Data[self::CADENCE] > 0 && $this->Data[self::GROUNDCONTACT] > 0) {
             return 30000.0 / $this->Data[self::CADENCE] - $this->Data[self::GROUNDCONTACT];
         }
@@ -1372,7 +1445,8 @@ class Entity extends Model\EntityWithID
     /**
      * @return float|null [%] can be negative for walking
      */
-    public function flightRatio() {
+    public function flightRatio()
+    {
         if ($this->Data[self::CADENCE] > 0 && $this->Data[self::GROUNDCONTACT] > 0) {
             return 1.0 - $this->Data[self::CADENCE] * $this->Data[self::GROUNDCONTACT] / 30000.0;
         }
@@ -1383,159 +1457,179 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|float [G]
      */
-    public function impactGsLeft() {
+    public function impactGsLeft()
+    {
         return $this->Data[self::AVG_IMPACT_GS_LEFT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function impactGsRight() {
+    public function impactGsRight()
+    {
         return $this->Data[self::AVG_IMPACT_GS_RIGHT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function brakingGsLeft() {
+    public function brakingGsLeft()
+    {
         return $this->Data[self::AVG_BRAKING_GS_LEFT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function brakingGsRight() {
+    public function brakingGsRight()
+    {
         return $this->Data[self::AVG_BRAKING_GS_RIGHT];
     }
 
     /**
      * @return null|int [°]
      */
-    public function footstrikeTypeLeft() {
+    public function footstrikeTypeLeft()
+    {
         return $this->Data[self::AVG_FOOTSTRIKE_TYPE_LEFT];
     }
 
     /**
      * @return null|int [°]
      */
-    public function footstrikeTypeRight() {
+    public function footstrikeTypeRight()
+    {
         return $this->Data[self::AVG_FOOTSTRIKE_TYPE_RIGHT];
     }
 
     /**
      * @return null|float [°]
      */
-    public function pronationExcursionLeft() {
+    public function pronationExcursionLeft()
+    {
         return $this->Data[self::AVG_PRONATION_EXCURSION_LEFT];
     }
 
     /**
      * @return null|float [°]
      */
-    public function pronationExcursionRight() {
+    public function pronationExcursionRight()
+    {
         return $this->Data[self::AVG_PRONATION_EXCURSION_RIGHT];
     }
 
-	/**
-	 * @return \Runalyze\Data\Weather
-	 */
-	public function weather() {
-		if ($this->Weather === null) {
-			$this->Weather = new Weather(
-			    new Weather\Temperature($this->Data[self::TEMPERATURE]),
-			    new Weather\Condition($this->Data[self::WEATHERID]),
-			    new Weather\WindSpeed($this->Data[self::WINDSPEED]),
-			    new Weather\WindDegree($this->Data[self::WINDDEG]),
-			    new Weather\Humidity($this->Data[self::HUMIDITY]),
-			    new Weather\Pressure($this->Data[self::PRESSURE])
-			);
-			$this->Weather->setSource($this->Data[self::WEATHER_SOURCE]);
-		}
+    /**
+     * @return \Runalyze\Data\Weather
+     */
+    public function weather()
+    {
+        if ($this->Weather === null) {
+            $this->Weather = new Weather(
+                new Weather\Temperature($this->Data[self::TEMPERATURE]),
+                new Weather\Condition($this->Data[self::WEATHERID]),
+                new Weather\WindSpeed($this->Data[self::WINDSPEED]),
+                new Weather\WindDegree($this->Data[self::WINDDEG]),
+                new Weather\Humidity($this->Data[self::HUMIDITY]),
+                new Weather\Pressure($this->Data[self::PRESSURE])
+            );
+            $this->Weather->setSource($this->Data[self::WEATHER_SOURCE]);
+        }
 
-		return $this->Weather;
-	}
+        return $this->Weather;
+    }
 
-	public function isNight(): bool {
-		return $this->Data[self::IS_NIGHT] == 1;
-	}
+    public function isNight(): bool
+    {
+        return $this->Data[self::IS_NIGHT] == 1;
+    }
 
-	public function knowsIfItIsNight(): bool {
-		return $this->Data[self::IS_NIGHT] !== null;
-	}
+    public function knowsIfItIsNight(): bool
+    {
+        return $this->Data[self::IS_NIGHT] !== null;
+    }
 
-	/**
-	 * Splits
-	 * @return \Runalyze\Model\Activity\Splits\Entity
-	 */
-	public function splits() {
-		if ($this->Splits === null) {
-			$this->Splits = new Splits\Entity($this->Data[self::SPLITS]);
-		}
+    /**
+     * Splits
+     * @return \Runalyze\Model\Activity\Splits\Entity
+     */
+    public function splits()
+    {
+        if ($this->Splits === null) {
+            $this->Splits = new Splits\Entity($this->Data[self::SPLITS]);
+        }
 
-		return $this->Splits;
-	}
+        return $this->Splits;
+    }
 
     /**
      * @return array<string, mixed>
      */
-    public function splitsAdditional() {
-		// #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
-		return json_decode($this->Data[self::SPLITS_ADDITIONAL], true);
-	}
+    public function splitsAdditional()
+    {
+        // #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
+        return json_decode($this->Data[self::SPLITS_ADDITIONAL], true);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function title() {
-		return $this->Data[self::TITLE];
-	}
+    /**
+     * @return string
+     */
+    public function title()
+    {
+        return $this->Data[self::TITLE];
+    }
 
-	/**
-	 * @return \Runalyze\Model\Activity\Partner
-	 */
-	public function partner() {
-		if ($this->Partner === null) {
-			$this->Partner = new Partner($this->Data[self::PARTNER]);
-		}
+    /**
+     * @return \Runalyze\Model\Activity\Partner
+     */
+    public function partner()
+    {
+        if ($this->Partner === null) {
+            $this->Partner = new Partner($this->Data[self::PARTNER]);
+        }
 
-		return $this->Partner;
-	}
+        return $this->Partner;
+    }
 
     /**
      * PaceGoal #TSC
      * @return array<string, mixed>
      */
-    public function paceGoal() {
-		// #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
-		return json_decode($this->Data[self::PACE_GOAL], true);
-	}
+    public function paceGoal()
+    {
+        // #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
+        return json_decode($this->Data[self::PACE_GOAL], true);
+    }
 
-	/**
-	 * Notes
-	 * @return string
-	 */
-	public function notes() {
-		return $this->Data[self::NOTES];
-	}
+    /**
+     * Notes
+     * @return string
+     */
+    public function notes()
+    {
+        return $this->Data[self::NOTES];
+    }
 
-	public function unsetRunningValues() {
-		$this->set(self::VO2MAX_BY_TIME, null);
-		$this->set(self::VO2MAX, null);
-		$this->set(self::VO2MAX_WITH_ELEVATION, null);
-	}
+    public function unsetRunningValues()
+    {
+        $this->set(self::VO2MAX_BY_TIME, null);
+        $this->set(self::VO2MAX, null);
+        $this->set(self::VO2MAX_WITH_ELEVATION, null);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function creator() {
-		return $this->Data[self::CREATOR];
-	}
+    /**
+     * @return string
+     */
+    public function creator()
+    {
+        return $this->Data[self::CREATOR];
+    }
 
-	/**
-	 * creatorDetails
-	 * @return string
-	 */
-	public function creatorDetails() {
-		return $this->Data[self::CREATOR_DETAILS];
-	}
+    /**
+     * creatorDetails
+     * @return string
+     */
+    public function creatorDetails()
+    {
+        return $this->Data[self::CREATOR_DETAILS];
+    }
 }

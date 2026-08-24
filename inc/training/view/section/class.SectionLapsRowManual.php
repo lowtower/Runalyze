@@ -16,31 +16,35 @@ use Runalyze\View\Activity\Linker;
  */
 class SectionLapsRowManual extends TrainingViewSectionRow
 {
-	protected function setPlot() {
-		$this->Plot = new Activity\Plot\LapsManual($this->Context);
-	}
+    protected function setPlot()
+    {
+        $this->Plot = new Activity\Plot\LapsManual($this->Context);
+    }
 
-	protected function setContent() {
-		$this->withShadow = true;
-		$this->addInfoLink();
-		$this->addTable();
-	}
+    protected function setContent()
+    {
+        $this->withShadow = true;
+        $this->addInfoLink();
+        $this->addTable();
+    }
 
-	/**
-	 * Add: table
-	 */
-	protected function addTable() {
-		$Table = new TableLaps($this->Context);
-		$this->Code = $Table->getCode();
-	}
+    /**
+     * Add: table
+     */
+    protected function addTable()
+    {
+        $Table = new TableLaps($this->Context);
+        $this->Code = $Table->getCode();
+    }
 
-	protected function addInfoLink() {
-		// #TSC for implementing Strength-training, why not allow the show more lap-details like HR
-		if (! Request::isOnSharedPage()) {
-			$Linker = new Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="' . $Linker->urlToRoundsInfo() . '">' . __('More details about your laps') . '</a>', 'big');
+    protected function addInfoLink()
+    {
+        // #TSC for implementing Strength-training, why not allow the show more lap-details like HR
+        if (! Request::isOnSharedPage()) {
+            $Linker = new Linker($this->Context->activity());
+            $InfoLink = Ajax::window('<a href="' . $Linker->urlToRoundsInfo() . '">' . __('More details about your laps') . '</a>', 'big');
 
-			$this->Header = HTML::info( $InfoLink );
-		}
-	}
+            $this->Header = HTML::info($InfoLink);
+        }
+    }
 }

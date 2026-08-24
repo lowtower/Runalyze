@@ -12,27 +12,27 @@ final class QueryGroups extends AbstractEnum
     /**
      * @var string
      */
-    const MONTH = 'month';
+    public const MONTH = 'month';
 
     /**
      * @var int
      */
-    const YEAR = 'year';
+    public const YEAR = 'year';
 
     /**
      * @var int
      */
-    const SPORT = 'sport';
+    public const SPORT = 'sport';
 
     /**
      * @var int
      */
-    const TYPE = 'type';
+    public const TYPE = 'type';
 
     /**
      * @var int
      */
-    const EQUIPMENT_TYPE = 'equipment';
+    public const EQUIPMENT_TYPE = 'equipment';
 
     public static function getEnumForEquipmentType(\Runalyze\Bundle\CoreBundle\Entity\EquipmentType $equipmentType): string
     {

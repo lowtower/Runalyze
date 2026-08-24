@@ -32,344 +32,371 @@ $PLUGINKEY = 'RunalyzePluginStat_Wettkampf';
  */
 class RunalyzePluginStat_Wettkampf extends PluginStat
 {
-	/**
-	 * @var array
-	 */
-	private $PBdistances = [];
+    /**
+     * @var array
+     */
+    private $PBdistances = [];
 
-	/**
-	 * @var \Runalyze\Plugin\Statistic\Races\RaceContainer
-	 */
-	protected $RaceContainer;
+    /**
+     * @var \Runalyze\Plugin\Statistic\Races\RaceContainer
+     */
+    protected $RaceContainer;
 
-	/**
-	 * @var null|\Runalyze\AgeGrade\Lookup
-	 */
-	protected $AgeGradeLookup;
+    /**
+     * @var null|\Runalyze\AgeGrade\Lookup
+     */
+    protected $AgeGradeLookup;
 
-    final public function name(): string {
-		return __('Race results');
-	}
+    final public function name(): string
+    {
+        return __('Race results');
+    }
 
-    final public function description(): string {
-		return __('Personal bests and everything else related to your competitions.');
-	}
+    final public function description(): string
+    {
+        return __('Personal bests and everything else related to your competitions.');
+    }
 
-	protected function displayLongDescription() {
-		echo HTML::p(
-		    __('This plugin lists all your competitions. It shows you a summary of all race results and ' .
-				'of your personal bests (over all distances with at least two results).')
-		);
-		echo HTML::p(
-		    __('In addition, it plots the trend of your results over a specific distance.' .
-				"If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.")
-		);
-	}
+    protected function displayLongDescription()
+    {
+        echo HTML::p(
+            __('This plugin lists all your competitions. It shows you a summary of all race results and ' .
+                'of your personal bests (over all distances with at least two results).')
+        );
+        echo HTML::p(
+            __('In addition, it plots the trend of your results over a specific distance.' .
+                "If you do a race just for fun, you can mark it as a 'fun race' to ignore it in the plot.")
+        );
+    }
 
-	protected function initConfiguration() {
-		$Configuration = new PluginConfiguration($this->id());
-		$Configuration->addValue( new PluginConfigurationValueDistance('main_distance', __('Main distance'), '', 10) );
-		$Configuration->addValue( new PluginConfigurationValueDistances('pb_distances', __('Distances for yearly comparison'), '', [1, 3, 5, 10, 21.1, 42.2]) );
-		$Configuration->addValue( new PluginConfigurationValueHiddenArray('fun_ids', '', '', []) );
+    protected function initConfiguration()
+    {
+        $Configuration = new PluginConfiguration($this->id());
+        $Configuration->addValue(new PluginConfigurationValueDistance('main_distance', __('Main distance'), '', 10));
+        $Configuration->addValue(new PluginConfigurationValueDistances('pb_distances', __('Distances for yearly comparison'), '', [1, 3, 5, 10, 21.1, 42.2]));
+        $Configuration->addValue(new PluginConfigurationValueHiddenArray('fun_ids', '', '', []));
 
-		$this->setConfiguration($Configuration);
-	}
+        $this->setConfiguration($Configuration);
+    }
 
-	protected function setOwnNavigation() {
-		$LinkList = '';
-		$LinkList .= '<li>' . Ajax::change(__('Personal bests'), 'statistics-inner', '#personal-bests', 'triggered') . '</li>';
-		$LinkList .= '<li>' . Ajax::change(__('All race results'), 'statistics-inner', '#all-competitions') . '</li>';
+    protected function setOwnNavigation()
+    {
+        $LinkList = '';
+        $LinkList .= '<li>' . Ajax::change(__('Personal bests'), 'statistics-inner', '#personal-bests', 'triggered') . '</li>';
+        $LinkList .= '<li>' . Ajax::change(__('All race results'), 'statistics-inner', '#all-competitions') . '</li>';
 
-		$this->setToolbarNavigationLinks([$LinkList]);
-	}
+        $this->setToolbarNavigationLinks([$LinkList]);
+    }
 
-	/**
-	 * Init data
-	 */
-	protected function prepareForDisplay() {
-		$this->setSportsNavigation();
-		$this->setOwnNavigation();
-		$this->initAgeGradeLookup();
-		$this->loadRaces();
-	}
+    /**
+     * Init data
+     */
+    protected function prepareForDisplay()
+    {
+        $this->setSportsNavigation();
+        $this->setOwnNavigation();
+        $this->initAgeGradeLookup();
+        $this->loadRaces();
+    }
 
-	protected function initAgeGradeLookup() {
-		$athlete = \Runalyze\Context::Athlete();
+    protected function initAgeGradeLookup()
+    {
+        $athlete = \Runalyze\Context::Athlete();
 
-		if (Configuration::General()->runningSport() == $this->sportid && $athlete->knowsGender() && $athlete->knowsAge()) {
-			$table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
-			$this->AgeGradeLookup = new Lookup($table, $athlete->age());
-		}
-	}
+        if (Configuration::General()->runningSport() == $this->sportid && $athlete->knowsGender() && $athlete->knowsAge()) {
+            $table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
+            $this->AgeGradeLookup = new Lookup($table, $athlete->age());
+        }
+    }
 
-	protected function knowsAgeGrade(): bool {
-		return $this->AgeGradeLookup !== null;
-	}
+    protected function knowsAgeGrade(): bool
+    {
+        return $this->AgeGradeLookup !== null;
+    }
 
-	protected function loadRaces() {
-		require_once __DIR__ . '/RaceContainer.php';
+    protected function loadRaces()
+    {
+        require_once __DIR__ . '/RaceContainer.php';
 
-		$this->RaceContainer = new RaceContainer($this->sportid);
-		$this->RaceContainer->fetchData();
-	}
+        $this->RaceContainer = new RaceContainer($this->sportid);
+        $this->RaceContainer->fetchData();
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		$this->handleGetData();
-		$this->displayDivs();
-	}
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        $this->handleGetData();
+        $this->displayDivs();
+    }
 
-	/**
-	 * Get table for year comparison - not to use within this plugin!
-	 * @return string
-	 */
-	public function getYearComparisonTable() {
-		ob_start();
-		$this->loadRaces();
-		$this->displayPersonalBestYears();
-		return ob_get_clean();
-	}
+    /**
+     * Get table for year comparison - not to use within this plugin!
+     * @return string
+     */
+    public function getYearComparisonTable()
+    {
+        ob_start();
+        $this->loadRaces();
+        $this->displayPersonalBestYears();
+        return ob_get_clean();
+    }
 
-	/**
-	 * Display all divs
-	 */
-	private function displayDivs() {
-		echo HTML::clearBreak();
+    /**
+     * Display all divs
+     */
+    private function displayDivs()
+    {
+        echo HTML::clearBreak();
 
-		echo '<div id="personal-bests" class="change">';
-		$this->displayPersonalBests();
-		echo '</div>';
+        echo '<div id="personal-bests" class="change">';
+        $this->displayPersonalBests();
+        echo '</div>';
 
-		echo '<div id="all-competitions" class="change" style="display:none;">';
-		$this->displayAllCompetitions();
-		$this->displayWeatherStatistics();
-		echo '</div>';
-	}
+        echo '<div id="all-competitions" class="change" style="display:none;">';
+        $this->displayAllCompetitions();
+        $this->displayWeatherStatistics();
+        echo '</div>';
+    }
 
-	private function displayAllCompetitions() {
-		$this->displayTableStart('all-competitions-table');
+    private function displayAllCompetitions()
+    {
+        $this->displayTableStart('all-competitions-table');
 
-		foreach ($this->RaceContainer->allRaces() as $data) {
-			$this->displayWkTr($data);
-		}
-
-		if (! isset($data)) {
-			$this->displayEmptyTr( __('There are no races.') );
-		}
-
-		$this->displayTableEnd('all-competitions-table');
-	}
-
-	/**
-	 * Display all personal bests
-	 */
-	private function displayPersonalBests() {
-		$this->displayTableStart('pb-table');
-		$this->displayPersonalBestsTRs();
-		$this->displayTableEnd('pb-table');
-		$this->displayHintForPersonalBests();
-
-		if (Configuration::General()->runningSport() == $this->sportid) {
-		    $this->displayLinkToPerformanceChart();
+        foreach ($this->RaceContainer->allRaces() as $data) {
+            $this->displayWkTr($data);
         }
 
-		if (! empty($this->PBdistances)) {
-			$this->displayPersonalBestsImages();
-		}
+        if (! isset($data)) {
+            $this->displayEmptyTr(__('There are no races.'));
+        }
 
-		$this->displayPersonalBestYears();
-	}
+        $this->displayTableEnd('all-competitions-table');
+    }
 
-	private function displayHintForPersonalBests() {
-		echo HTML::info(
-		    __('This list shows all distances selected for yearly comparison or with at least two results.') . '<br>' .
-			__('Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.')
-		);
-	}
+    /**
+     * Display all personal bests
+     */
+    private function displayPersonalBests()
+    {
+        $this->displayTableStart('pb-table');
+        $this->displayPersonalBestsTRs();
+        $this->displayTableEnd('pb-table');
+        $this->displayHintForPersonalBests();
 
-	private function displayLinkToPerformanceChart() {
-	    echo '<div class="c blocklist blocklist-width-auto margin-top">
+        if (Configuration::General()->runningSport() == $this->sportid) {
+            $this->displayLinkToPerformanceChart();
+        }
+
+        if (! empty($this->PBdistances)) {
+            $this->displayPersonalBestsImages();
+        }
+
+        $this->displayPersonalBestYears();
+    }
+
+    private function displayHintForPersonalBests()
+    {
+        echo HTML::info(
+            __('This list shows all distances selected for yearly comparison or with at least two results.') . '<br>' .
+            __('Distances have to match exactly, especially 21.10 km and 42.20 km for (half-)marathons.')
+        );
+    }
+
+    private function displayLinkToPerformanceChart()
+    {
+        echo '<div class="c blocklist blocklist-width-auto margin-top">
             <a class="window" href="my/raceresult/performance-chart"><i class="fa fa-fw fa-dashboard"></i> <strong>' . __('Performance chart') . '</strong></a>
         </div>';
     }
 
-	/**
-	 * Display all table-rows for personal bests
-	 */
-	private function displayPersonalBestsTRs() {
-		$this->PBdistances = [];
-		$AllDistances = $this->RaceContainer->distances();
-		sort($AllDistances);
+    /**
+     * Display all table-rows for personal bests
+     */
+    private function displayPersonalBestsTRs()
+    {
+        $this->PBdistances = [];
+        $AllDistances = $this->RaceContainer->distances();
+        sort($AllDistances);
 
-		foreach ($AllDistances as $distance) {
-			$Races = $this->RaceContainer->races((float) $distance);
+        foreach ($AllDistances as $distance) {
+            $Races = $this->RaceContainer->races((float) $distance);
 
-			if (count($Races) > 1 || in_array($distance, $this->Configuration()->value('pb_distances'))) {
-				$this->PBdistances[] = $distance;
+            if (count($Races) > 1 || in_array($distance, $this->Configuration()->value('pb_distances'))) {
+                $this->PBdistances[] = $distance;
 
-				$PB = PHP_INT_MAX;
-				$PBdata = [];
+                $PB = PHP_INT_MAX;
+                $PBdata = [];
 
-				foreach ($Races as $data) {
-					if ($data['official_time'] < $PB) {
-						$PBdata = $data;
-						$PB = $data['official_time'];
-					}
-				}
+                foreach ($Races as $data) {
+                    if ($data['official_time'] < $PB) {
+                        $PBdata = $data;
+                        $PB = $data['official_time'];
+                    }
+                }
 
-				$this->displayWKTr($PBdata);
-			}
-		}
+                $this->displayWKTr($PBdata);
+            }
+        }
 
-		if (empty($this->PBdistances)) {
-			$this->displayEmptyTr('<em>' . __('There are no race results for the given distances.') . '</em>');
-		}
-	}
+        if (empty($this->PBdistances)) {
+            $this->displayEmptyTr('<em>' . __('There are no race results for the given distances.') . '</em>');
+        }
+    }
 
-	/**
-	 * Display all image-links for personal bests
-	 */
-	private function displayPersonalBestsImages() {
-		$display_km = $this->PBdistances[0];
-		if (in_array($this->Configuration()->value('main_distance'), $this->PBdistances))
-			$display_km = $this->Configuration()
-			    ->value('main_distance');
+    /**
+     * Display all image-links for personal bests
+     */
+    private function displayPersonalBestsImages()
+    {
+        $display_km = $this->PBdistances[0];
+        if (in_array($this->Configuration()->value('main_distance'), $this->PBdistances)) {
+            $display_km = $this->Configuration()
+                ->value('main_distance');
+        }
 
-		$SubLinks = [];
-		foreach ($this->PBdistances as $km) {
-			$name = (new Distance($km))->stringAuto(true, 1);
-			$SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit' . ($km * 1000));
-		}
+        $SubLinks = [];
+        foreach ($this->PBdistances as $km) {
+            $name = (new Distance($km))->stringAuto(true, 1);
+            $SubLinks[] = Ajax::flotChange($name, 'bestzeitenFlots', 'bestzeit' . ($km * 1000));
+        }
 
-		$Links = [[
-		    'tag' => '<span class="link">' . (new Distance($display_km))->stringAuto(true, 1) . '</span>',
-		    'subs' => $SubLinks,
-		]];
+        $Links = [[
+            'tag' => '<span class="link">' . (new Distance($display_km))->stringAuto(true, 1) . '</span>',
+            'subs' => $SubLinks,
+        ]];
 
-		echo '<div class="databox" style="float:none;padding:0;width:490px;margin:20px auto;">';
-		echo '<div class="panel-heading">';
-		echo '<div class="panel-menu">';
-		echo Ajax::toolbarNavigation($Links);
-		echo '</div>';
-		echo '<h1>' . __('Results trend') . '</h1>';
-		echo '</div>';
-		echo '<div class="panel-content">';
+        echo '<div class="databox" style="float:none;padding:0;width:490px;margin:20px auto;">';
+        echo '<div class="panel-heading">';
+        echo '<div class="panel-menu">';
+        echo Ajax::toolbarNavigation($Links);
+        echo '</div>';
+        echo '<h1>' . __('Results trend') . '</h1>';
+        echo '</div>';
+        echo '<div class="panel-content">';
 
-		echo '<div id="bestzeitenFlots" class="flot-changeable" style="position:relative;width:482px;height:192px;">';
-		foreach ($this->PBdistances as $km) {
-			echo Plot::getInnerDivFor('bestzeit' . ($km * 1000), 480, 190, $km != $display_km);
-			$_GET['km'] = $km;
-			include __DIR__ . '/Plot.Bestzeit.php';
-		}
+        echo '<div id="bestzeitenFlots" class="flot-changeable" style="position:relative;width:482px;height:192px;">';
+        foreach ($this->PBdistances as $km) {
+            echo Plot::getInnerDivFor('bestzeit' . ($km * 1000), 480, 190, $km != $display_km);
+            $_GET['km'] = $km;
+            include __DIR__ . '/Plot.Bestzeit.php';
+        }
 
-		echo '</div>';
+        echo '</div>';
 
-		echo '</div>';
-		echo '</div>';
-	}
+        echo '</div>';
+        echo '</div>';
+    }
 
-	/**
-	 * Display comparison for all years for personal bests
-	 */
-	private function displayPersonalBestYears() {
-		$year = [];
-		$dists = [];
-		$kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()
-		    ->value('pb_distances') : [3, 5, 10, 21.1, 42.2];
-		foreach ($kms as $km)
-			$dists[(string) $km] = [
-			    'sum' => 0,
-			    'pb' => INFINITY,
-			];
+    /**
+     * Display comparison for all years for personal bests
+     */
+    private function displayPersonalBestYears()
+    {
+        $year = [];
+        $dists = [];
+        $kms = (is_array($this->Configuration()->value('pb_distances'))) ? $this->Configuration()
+            ->value('pb_distances') : [3, 5, 10, 21.1, 42.2];
+        foreach ($kms as $km) {
+            $dists[(string) $km] = [
+                'sum' => 0,
+                'pb' => INFINITY,
+            ];
+        }
 
-		if ($this->RaceContainer->num() == 0)
-			return;
+        if ($this->RaceContainer->num() == 0) {
+            return;
+        }
 
-		foreach ($this->RaceContainer->allRaces() as $wk) {
-			$wk['y'] = date('Y', $wk['time']);
+        foreach ($this->RaceContainer->allRaces() as $wk) {
+            $wk['y'] = date('Y', $wk['time']);
 
-			if (! isset($year[$wk['y']])) {
-				$year[$wk['y']] = $dists;
-				$year[$wk['y']]['sum'] = 0;
-				$year['sum'] = 0;
-			}
+            if (! isset($year[$wk['y']])) {
+                $year[$wk['y']] = $dists;
+                $year[$wk['y']]['sum'] = 0;
+                $year['sum'] = 0;
+            }
 
-			$year[$wk['y']]['sum']++;
-			foreach($kms as $km)
-				if ($km == $wk['official_distance']) {
-					$year[$wk['y']][(string) $km]['sum']++;
-					if ($wk['official_time'] < $year[$wk['y']][(string) $km]['pb'])
-						$year[$wk['y']][(string) $km]['pb'] = $wk['official_time'];
-				}
-		}
+            $year[$wk['y']]['sum']++;
+            foreach ($kms as $km) {
+                if ($km == $wk['official_distance']) {
+                    $year[$wk['y']][(string) $km]['sum']++;
+                    if ($wk['official_time'] < $year[$wk['y']][(string) $km]['pb']) {
+                        $year[$wk['y']][(string) $km]['pb'] = $wk['official_time'];
+                    }
+                }
+            }
+        }
 
-		echo '<table class="fullwidth zebra-style">';
-		echo '<thead>';
-		echo '<tr>';
-		echo '<th></th>';
+        echo '<table class="fullwidth zebra-style">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th></th>';
 
-		$Years = array_keys($year);
-		sort($Years);
+        $Years = array_keys($year);
+        sort($Years);
 
-		foreach ($Years as $y)
-			if ($y != 'sum')
-				echo '<th>' . $y . '</th>';
+        foreach ($Years as $y) {
+            if ($y != 'sum') {
+                echo '<th>' . $y . '</th>';
+            }
+        }
 
-		echo '</tr>';
-		echo '</thead>';
-		echo '<tbody>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
 
-		PersonalBest::activateStaticCache();
-		PersonalBest::lookupDistances($kms, $this->sportid);
+        PersonalBest::activateStaticCache();
+        PersonalBest::lookupDistances($kms, $this->sportid);
 
-		foreach ($kms as $km) {
-			echo '<tr class="r"><td class="b">' . (new Distance($km))->stringAuto(true, 1) . '</td>';
+        foreach ($kms as $km) {
+            echo '<tr class="r"><td class="b">' . (new Distance($km))->stringAuto(true, 1) . '</td>';
 
-			foreach ($Years as $key) {
-				$y = $year[$key];
+            foreach ($Years as $key) {
+                $y = $year[$key];
 
-				if ($key != 'sum') {
-					if ($y[(string) $km]['sum'] != 0) {
-						$PB = new PersonalBest($km, $this->sportid);
-						$distance = Duration::format($y[(string) $km]['pb']);
+                if ($key != 'sum') {
+                    if ($y[(string) $km]['sum'] != 0) {
+                        $PB = new PersonalBest($km, $this->sportid);
+                        $distance = Duration::format($y[(string) $km]['pb']);
 
-						if ($PB->seconds() == $y[(string) $km]['pb']) {
-							$distance = '<strong>' . $distance . '</strong>';
-						}
+                        if ($PB->seconds() == $y[(string) $km]['pb']) {
+                            $distance = '<strong>' . $distance . '</strong>';
+                        }
 
-						echo '<td>' . $distance . ' <small>' . $y[(string) $km]['sum'] . 'x</small></td>';
-					} else {
-						echo '<td><em><small>---</small></em></td>';
-					}
-				}
-			}
+                        echo '<td>' . $distance . ' <small>' . $y[(string) $km]['sum'] . 'x</small></td>';
+                    } else {
+                        echo '<td><em><small>---</small></em></td>';
+                    }
+                }
+            }
 
-			echo '</tr>';
-		}
+            echo '</tr>';
+        }
 
-		$icon = (new Icon(Icon::INFO))->code();
-		$tooltip = new Tooltip(__('This includes races of all distances, not only those selected for yearly comparison.'));
-		$tooltip->setPosition(Tooltip::POSITION_RIGHT);
-		$tooltip->wrapAround($icon);
+        $icon = (new Icon(Icon::INFO))->code();
+        $tooltip = new Tooltip(__('This includes races of all distances, not only those selected for yearly comparison.'));
+        $tooltip->setPosition(Tooltip::POSITION_RIGHT);
+        $tooltip->wrapAround($icon);
 
-		echo '<tr class="top-spacer no-zebra r">';
-		echo '<td class="b">' . __('In total') . ' ' . $icon . '</td>';
+        echo '<tr class="top-spacer no-zebra r">';
+        echo '<td class="b">' . __('In total') . ' ' . $icon . '</td>';
 
-		foreach ($Years as $key) {
-			if ($key != 'sum') {
-				echo '<td>' . $year[$key]['sum'] . 'x</td>';
-			}
-		}
+        foreach ($Years as $key) {
+            if ($key != 'sum') {
+                echo '<td>' . $year[$key]['sum'] . 'x</td>';
+            }
+        }
 
-		echo '</tr>';
-		echo '</tbody>';
-		echo '</table>';
-	}
+        echo '</tr>';
+        echo '</tbody>';
+        echo '</table>';
+    }
 
-    private function displayTableStart(string $id) {
-		echo '<table class="fullwidth zebra-style" id="' . $id . '">
+    private function displayTableStart(string $id)
+    {
+        echo '<table class="fullwidth zebra-style" id="' . $id . '">
 				<thead>
 					<tr class="c">
 						<th class="{sorter: false}" colspan="' . ($this->knowsAgeGrade() ? 7 : 6) . '">' . __('Official distance & time') . '</th>
@@ -383,7 +410,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 						<th colspan="2">' . __('Name') . '</th>
 						<th class="{sorter: \'distance\'}">' . __('Distance') . '</th>
 						<th class="{sorter: \'resulttime\'}">' . __('Time') . '</th>
-						' . ($this->knowsAgeGrade() ? '<th>' . Ajax::tooltip(__('Age grade') . (new \Runalyze\View\Icon(Runalyze\View\Icon::INFO))->code(), __('Your result in proportion to the world best performance in your age/gender.') ) . '</th>' : '') . '
+						' . ($this->knowsAgeGrade() ? '<th>' . Ajax::tooltip(__('Age grade') . (new \Runalyze\View\Icon(Runalyze\View\Icon::INFO))->code(), __('Your result in proportion to the world best performance in your age/gender.')) . '</th>' : '') . '
 						<th>' . __('Pace') . '</th>
 						<th ' . (new Tooltip(__('Heart rate')))->attributes() . '>' . __('HR') . '</th>
 						<th class="{sorter: \'temperature\'}">' . __('Weather') . '</th>
@@ -394,35 +421,36 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 					</tr>
 				</thead>
 				<tbody>';
-	}
+    }
 
     /**
      * Display table-row for a competition
      * @param array<string, mixed> $data
      */
-    private function displayWKTr(array $data) {
-		$Activity = new Activity\Entity($data);
+    private function displayWKTr(array $data)
+    {
+        $Activity = new Activity\Entity($data);
 
-		$Linker = new Linker($Activity);
-		$RaceResult = new RaceResult\Entity($data);
-		$RaceResultView = new View\RaceResult\Dataview($RaceResult);
+        $Linker = new Linker($Activity);
+        $RaceResult = new RaceResult\Entity($data);
+        $RaceResultView = new View\RaceResult\Dataview($RaceResult);
 
-		if ($this->knowsAgeGrade() && $this->AgeGradeLookup->getMinimalDistance() <= $RaceResult->officialDistance()) {
-			$ageGrade = $this->AgeGradeLookup->getAgeGrade(
-			    $RaceResult->officialDistance(),
-			    $RaceResult->officialTime(),
-			    date('Y') - date('Y', $Activity->timestamp())
-			);
-			$ageGradeString = number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37;';
-			$ageGradeTooltip = __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
-				__('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>' .
-				'<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>';
-		} else {
-			$ageGradeString = '-';
-			$ageGradeTooltip = '';
-		}
+        if ($this->knowsAgeGrade() && $this->AgeGradeLookup->getMinimalDistance() <= $RaceResult->officialDistance()) {
+            $ageGrade = $this->AgeGradeLookup->getAgeGrade(
+                $RaceResult->officialDistance(),
+                $RaceResult->officialTime(),
+                date('Y') - date('Y', $Activity->timestamp())
+            );
+            $ageGradeString = number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37;';
+            $ageGradeTooltip = __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
+                __('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>' .
+                '<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>';
+        } else {
+            $ageGradeString = '-';
+            $ageGradeTooltip = '';
+        }
 
-		echo '<tr class="r">
+        echo '<tr class="r">
 				<td>' . $this->getEditIconForRaceResult($data['id']) . '</td>
 				<td class="c small">' . $Linker->weekLink() . '</a></td>
 				<td>' . $this->getEditIconForActivity($data['id']) . '</td>
@@ -438,135 +466,144 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
 				<td>' . $RaceResultView->placementGenderWithTooltip() . '</td>
 				<td>' . $this->getIconForCompetition($data['id']) . '</td>
 			</tr>';
-	}
+    }
 
-	/**
-	 * Display an empty table-row
-	 * @param string $text [optional]
-	 */
-	private function displayEmptyTr(string $text = '') {
-		echo '<tr class="a"><td colspan="11">' . $text . '</td></tr>';
-	}
+    /**
+     * Display an empty table-row
+     * @param string $text [optional]
+     */
+    private function displayEmptyTr(string $text = '')
+    {
+        echo '<tr class="a"><td colspan="11">' . $text . '</td></tr>';
+    }
 
-    private function displayTableEnd(string $id) {
-		echo '</tbody>';
-		echo '</table>';
+    private function displayTableEnd(string $id)
+    {
+        echo '</tbody>';
+        echo '</table>';
 
-		if ($this->RaceContainer->num() < 5) {
-			echo HTML::info(__(
-			    "You can mark any activity as race by checking the respective checkbox in the activity's form."
-			));
-		}
+        if ($this->RaceContainer->num() < 5) {
+            echo HTML::info(__(
+                "You can mark any activity as race by checking the respective checkbox in the activity's form."
+            ));
+        }
 
-		Ajax::createTablesorterFor('#' . $id, true);
-	}
+        Ajax::createTablesorterFor('#' . $id, true);
+    }
 
-	/**
-	 * Display statistics for weather
-	 */
-	private function displayWeatherStatistics() {
-		$Condition = new Weather\Condition(0);
-		$Strings = [];
+    /**
+     * Display statistics for weather
+     */
+    private function displayWeatherStatistics()
+    {
+        $Condition = new Weather\Condition(0);
+        $Strings = [];
 
-		$Weather = DB::getInstance()->query('SELECT SUM(1) as num, tr.weatherid FROM `' . PREFIX . 'raceresult` r LEFT JOIN `' . PREFIX . 'training` tr ON tr.id=r.activity_id WHERE tr.`weatherid`!=' . \Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN . ' AND r.`accountid` = ' . SessionAccountHandler::getId() . ' GROUP BY tr.`weatherid` ORDER BY tr.`weatherid` ASC')->fetchAll();
+        $Weather = DB::getInstance()->query('SELECT SUM(1) as num, tr.weatherid FROM `' . PREFIX . 'raceresult` r LEFT JOIN `' . PREFIX . 'training` tr ON tr.id=r.activity_id WHERE tr.`weatherid`!=' . \Runalyze\Profile\Weather\WeatherConditionProfile::UNKNOWN . ' AND r.`accountid` = ' . SessionAccountHandler::getId() . ' GROUP BY tr.`weatherid` ORDER BY tr.`weatherid` ASC')->fetchAll();
 
-		foreach ($Weather as $W) {
-			$Condition->set($W['weatherid']);
-			$Strings[] = $W['num'] . 'x ' . $Condition->icon()->code();
-		}
+        foreach ($Weather as $W) {
+            $Condition->set($W['weatherid']);
+            $Strings[] = $W['num'] . 'x ' . $Condition->icon()->code();
+        }
 
-		if ($Strings !== []) {
-			echo '<strong>' . __('Weather statistics') . ':</strong> ';
-			echo implode(', ', $Strings);
-			echo '<br><br>';
-		}
-	}
+        if ($Strings !== []) {
+            echo '<strong>' . __('Weather statistics') . ':</strong> ';
+            echo implode(', ', $Strings);
+            echo '<br><br>';
+        }
+    }
 
     /**
      * Get edit icon for this competition
      * @param int $id ID of the training
      */
-    private function getEditIconForActivity($id): string {
-		$SportIcon = (new Factory())->sport($this->sportid)
-		    ->icon()
-		    ->code();
-		$url = (new Linker(new Runalyze\Model\Activity\Entity([
-		    'id' => $id,
-		])))->editUrl();
-		$code = Ajax::window('<a href="' . $url . '">' . $SportIcon . '</a>', 'small');
+    private function getEditIconForActivity($id): string
+    {
+        $SportIcon = (new Factory())->sport($this->sportid)
+            ->icon()
+            ->code();
+        $url = (new Linker(new Runalyze\Model\Activity\Entity([
+            'id' => $id,
+        ])))->editUrl();
+        $code = Ajax::window('<a href="' . $url . '">' . $SportIcon . '</a>', 'small');
 
-		$Tooltip = new Tooltip(__('Edit the activity'));
-		$Tooltip->wrapAround($code);
+        $Tooltip = new Tooltip(__('Edit the activity'));
+        $Tooltip->wrapAround($code);
 
-		return $code;
-	}
+        return $code;
+    }
 
-	/**
-	 * Get edit icon for this competition
-	 * @param int $id ID of the training
-	 * @return string
-	 */
-	private function getEditIconForRaceResult($id) {
-		$code = (new Icon('fa-pencil'))->code();
+    /**
+     * Get edit icon for this competition
+     * @param int $id ID of the training
+     * @return string
+     */
+    private function getEditIconForRaceResult($id)
+    {
+        $code = (new Icon('fa-pencil'))->code();
 
-		$Tooltip = new Tooltip(__('Edit the race result details'));
-		$Tooltip->setPosition(Tooltip::POSITION_RIGHT);
-		$Tooltip->wrapAround($code);
+        $Tooltip = new Tooltip(__('Edit the race result details'));
+        $Tooltip->setPosition(Tooltip::POSITION_RIGHT);
+        $Tooltip->wrapAround($code);
 
-		return Ajax::window('<a href="my/raceresult/' . $id . '">' . $code . '</a>');
-	}
+        return Ajax::window('<a href="my/raceresult/' . $id . '">' . $code . '</a>');
+    }
 
-	/**
-	 * Get linked icon for this competition
-	 * @param int $id ID of the training
-	 * @return string
-	 */
-	private function getIconForCompetition($id) {
-		if ($this->isFunCompetition($id)) {
-			$tag = 'nofun';
-			$icon = new Icon( Icon::CLOCK_GRAY );
-			$icon->setTooltip( __("Fun race | Click to mark this activity as a 'normal race'.") );
-		} else {
-			$tag = 'fun';
-			$icon = new Icon( Icon::CLOCK );
-			$icon->setTooltip( __("Race | Click to mark this activity as a 'fun race'.") );
-		}
+    /**
+     * Get linked icon for this competition
+     * @param int $id ID of the training
+     * @return string
+     */
+    private function getIconForCompetition($id)
+    {
+        if ($this->isFunCompetition($id)) {
+            $tag = 'nofun';
+            $icon = new Icon(Icon::CLOCK_GRAY);
+            $icon->setTooltip(__("Fun race | Click to mark this activity as a 'normal race'."));
+        } else {
+            $tag = 'fun';
+            $icon = new Icon(Icon::CLOCK);
+            $icon->setTooltip(__("Race | Click to mark this activity as a 'fun race'."));
+        }
 
-		return $this->getInnerLink($icon->code(), 0, 0, $tag . '-' . $id);
-	}
+        return $this->getInnerLink($icon->code(), 0, 0, $tag . '-' . $id);
+    }
 
-	/**
-	 * Handle data from get-variables
-	 */
-	private function handleGetData() {
-		if (isset($_GET['dat']) && (string) $_GET['dat'] !== '') {
-			$parts = explode('-', $_GET['dat']);
-			$tag = $parts[0];
-			$id = $parts[1];
+    /**
+     * Handle data from get-variables
+     */
+    private function handleGetData()
+    {
+        if (isset($_GET['dat']) && (string) $_GET['dat'] !== '') {
+            $parts = explode('-', $_GET['dat']);
+            $tag = $parts[0];
+            $id = $parts[1];
 
-			$FunIDs = $this->Configuration()
-			    ->value('fun_ids');
+            $FunIDs = $this->Configuration()
+                ->value('fun_ids');
 
-			if ($tag === 'fun' && is_numeric($id)) {
-				$FunIDs[] = $id;
-			} elseif ($tag === 'nofun' && is_numeric($id)) {
-				if (($index = array_search($id, $FunIDs, true)) !== FALSE)
-					unset($FunIDs[$index]);
-			}
+            if ($tag === 'fun' && is_numeric($id)) {
+                $FunIDs[] = $id;
+            } elseif ($tag === 'nofun' && is_numeric($id)) {
+                if (($index = array_search($id, $FunIDs, true)) !== false) {
+                    unset($FunIDs[$index]);
+                }
+            }
 
-			$this->Configuration()
-			    ->object('fun_ids')
-			    ->setValue($FunIDs);
-			$this->Configuration()
-			    ->update('fun_ids');
-		}
-	}
+            $this->Configuration()
+                ->object('fun_ids')
+                ->setValue($FunIDs);
+            $this->Configuration()
+                ->update('fun_ids');
+        }
+    }
 
     /**
      * Is this competition just for fun?
      * @param int $id
      */
-    public function isFunCompetition($id): bool {
-		return in_array($id, $this->Configuration()->value('fun_ids'));
-	}
+    public function isFunCompetition($id): bool
+    {
+        return in_array($id, $this->Configuration()->value('fun_ids'));
+    }
 }

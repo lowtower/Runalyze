@@ -139,7 +139,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function getAllFileNames(): array
     {
-        return array_map(function(\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
+        return array_map(function (\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
             /** @var FileImportResult $element */
             return $element->getFileName();
         }, $this->Elements);
@@ -152,7 +152,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     {
         return array_values(
             array_unique(
-                array_map(function(\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
+                array_map(function (\Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult $element) {
                     /** @var FileImportResult $element */
                     return $element->getOriginalFileName();
                 }, $this->Elements)

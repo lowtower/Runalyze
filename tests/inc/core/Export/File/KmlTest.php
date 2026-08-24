@@ -12,9 +12,9 @@ use Runalyze\View\Activity\FakeContext;
  */
 class KmlTest extends \PHPUnit\Framework\TestCase
 {
-	public function testFileCreationForOutdoorActivity()
-	{
-		$Exporter = new Kml(FakeContext::outdoorContext());
-		$Exporter->createFileWithoutDirectDownload();
-	}
+    public function testFileCreationForOutdoorActivity()
+    {
+        $Exporter = new Kml(FakeContext::outdoorContext());
+        $Exporter->createFileWithoutDirectDownload();
+    }
 }

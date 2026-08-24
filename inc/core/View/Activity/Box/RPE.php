@@ -19,16 +19,16 @@ use Runalyze\View\Activity\Context;
 class RPE extends AbstractBox
 {
     public function __construct(Context $Context)
-	{
+    {
 
-		parent::__construct(
-		    $Context->dataview()
-		        ->rpe(true),
-		    '',
-		    __('RPE'),
-		    '',
-		    'rpe'
-		);
-		$this->defineAsFloatingBlock('w50');
-	}
+        parent::__construct(
+            $Context->dataview()
+                ->rpe(true),
+            '',
+            __('RPE'),
+            '',
+            'rpe'
+        );
+        $this->defineAsFloatingBlock('w50');
+    }
 }

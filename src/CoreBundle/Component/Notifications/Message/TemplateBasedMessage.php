@@ -12,7 +12,7 @@ class TemplateBasedMessage implements MessageInterface
     /**
      * @var string base path relative to root
      */
-    const BASE_PATH = '../../../../../data/views/notifications/';
+    public const BASE_PATH = '../../../../../data/views/notifications/';
 
     /**
      * @var string

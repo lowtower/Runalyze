@@ -12,23 +12,26 @@
  */
 class SectionComposite extends TrainingViewSectionTabbedPlot
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Composite data');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Composite data');
 
-		$this->appendRowTabbedPlot( new SectionCompositeRow($this->Context) );
-	}
+        $this->appendRowTabbedPlot(new SectionCompositeRow($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return true;
-	}
+    protected function hasRequiredData(): bool
+    {
+        return true;
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'composite';
-	}
+    protected function cssId(): string
+    {
+        return 'composite';
+    }
 }

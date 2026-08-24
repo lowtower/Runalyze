@@ -58,11 +58,11 @@ class FitlogActivity extends AbstractSingleParser
         }
 
         if (! empty($this->Xml->Duration['TotalSeconds'])) {
-            $this->Container->ActivityData->Duration = round((double) $this->Xml->Duration['TotalSeconds']);
+            $this->Container->ActivityData->Duration = round((float) $this->Xml->Duration['TotalSeconds']);
         }
 
         if (! empty($this->Xml->Distance['TotalMeters'])) {
-            $this->Container->ActivityData->Distance = round((double) $this->Xml->Distance['TotalMeters']) / 1000;
+            $this->Container->ActivityData->Distance = round((float) $this->Xml->Distance['TotalMeters']) / 1000;
         }
 
         if (! empty($this->Xml->Calories['TotalCal'])) {
@@ -98,8 +98,8 @@ class FitlogActivity extends AbstractSingleParser
     protected function parseTrackPoint(SimpleXMLElement $point)
     {
         if (! empty($point['lat'])) {
-            $this->Container->ContinuousData->Latitude[] = round((double) $point['lat'], 7);
-            $this->Container->ContinuousData->Longitude[] = round((double) $point['lon'], 7);
+            $this->Container->ContinuousData->Latitude[] = round((float) $point['lat'], 7);
+            $this->Container->ContinuousData->Longitude[] = round((float) $point['lon'], 7);
         } elseif (count($this->Container->ContinuousData->Latitude)) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);

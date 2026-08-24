@@ -11,7 +11,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class MeteostatNet extends AbstractSource
 {
-	public function getInternalProfileEnum(): int
+    public function getInternalProfileEnum(): int
     {
         return WeatherSourceProfile::METEOSTAT_NET;
     }

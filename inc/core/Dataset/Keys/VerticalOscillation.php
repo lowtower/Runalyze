@@ -22,56 +22,56 @@ class VerticalOscillation extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::VERTICAL_OSCILLATION;
-	}
+    {
+        return \Runalyze\Dataset\Keys::VERTICAL_OSCILLATION;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'vertical_oscillation';
-	}
+    {
+        return 'vertical_oscillation';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Vertical oscillation');
-	}
+    {
+        return __('Vertical oscillation');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Vertical oscillation is your vertical motion of your torso measured in centimeters');
-	}
+    {
+        return __('Vertical oscillation is your vertical motion of your torso measured in centimeters');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->verticalOscillation();
-	}
+    {
+        return $context->dataview()
+            ->verticalOscillation();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

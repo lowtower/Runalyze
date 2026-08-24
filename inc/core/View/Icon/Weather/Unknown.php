@@ -16,14 +16,16 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Unknown extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
 
-	}
+    }
 
-    public function code(): string {
-		return '<i class="weather"></i>';
-	}
+    public function code(): string
+    {
+        return '<i class="weather"></i>';
+    }
 }

@@ -89,8 +89,8 @@ class Stroketype
         return '';
     }
 
-    public function isBreak(): bool {
+    public function isBreak(): bool
+    {
         return $this->Identifier == StrokeTypeProfile::BREAK;
     }
 }
-

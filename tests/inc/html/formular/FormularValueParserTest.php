@@ -6,46 +6,50 @@
  */
 class FormularValueParserTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var FormularValueParser
-	 */
-	protected $object;
+    /**
+     * @var FormularValueParser
+     */
+    protected $object;
 
-	protected function setUp(): void {
-		$this->object = new FormularValueParser();
-		$_POST = [];
-	}
+    protected function setUp(): void
+    {
+        $this->object = new FormularValueParser();
+        $_POST = [];
+    }
 
-	protected function tearDown(): void {
-		$_POST = [];
-	}
+    protected function tearDown(): void
+    {
+        $_POST = [];
+    }
 
-	public function testValidatePostPARSERDATE() {
-		$Parser = FormularValueParser::$PARSER_DATE;
-		$_POST = [
-		    'empty' => '',
-		    'text' => 'test',
-		    'int' => '27',
-		    'd.m' => '1.1.',
-		    'd.m.Y' => '13.4.10',
-		    'date' => '13.4.2010',
-		];
+    public function testValidatePostPARSERDATE()
+    {
+        $Parser = FormularValueParser::$PARSER_DATE;
+        $_POST = [
+            'empty' => '',
+            'text' => 'test',
+            'int' => '27',
+            'd.m' => '1.1.',
+            'd.m.Y' => '13.4.10',
+            'date' => '13.4.2010',
+        ];
 
-		$this->assertTrue( $this->object->validatePost('empty', $Parser) !== true );
-		$this->assertTrue( $this->object->validatePost('text', $Parser) !== true );
-		$this->assertTrue( $this->object->validatePost('int', $Parser) !== true );
-		$this->assertTrue( $this->object->validatePost('d.m', $Parser) );
-		$this->assertTrue( $this->object->validatePost('d.m.Y', $Parser) );
-		$this->assertTrue( $this->object->validatePost('date', $Parser) );
+        $this->assertTrue($this->object->validatePost('empty', $Parser) !== true);
+        $this->assertTrue($this->object->validatePost('text', $Parser) !== true);
+        $this->assertTrue($this->object->validatePost('int', $Parser) !== true);
+        $this->assertTrue($this->object->validatePost('d.m', $Parser));
+        $this->assertTrue($this->object->validatePost('d.m.Y', $Parser));
+        $this->assertTrue($this->object->validatePost('date', $Parser));
 
-		$this->assertEquals( $_POST['d.m'], mktime(0, 0, 0, 1, 1, date('Y')) );
-		$this->assertEquals( $_POST['d.m.Y'], mktime(0, 0, 0, 4, 13, 2010) );
-		$this->assertEquals( $_POST['date'], mktime(0, 0, 0, 4, 13, 2010) );
-	}
+        $this->assertEquals($_POST['d.m'], mktime(0, 0, 0, 1, 1, date('Y')));
+        $this->assertEquals($_POST['d.m.Y'], mktime(0, 0, 0, 4, 13, 2010));
+        $this->assertEquals($_POST['date'], mktime(0, 0, 0, 4, 13, 2010));
+    }
 
-	public function testParse() {
-		$date = time();
-		$this->object->parse($date, FormularValueParser::$PARSER_DATE);
-		$this->assertEquals($date, date('d.m.Y'));
-	}
+    public function testParse()
+    {
+        $date = time();
+        $this->object->parse($date, FormularValueParser::$PARSER_DATE);
+        $this->assertEquals($date, date('d.m.Y'));
+    }
 }

@@ -17,23 +17,25 @@ use Runalyze\Model\StringArrayObject;
  */
 class Partner extends StringArrayObject
 {
-	/**
-	 * Separator
-	 * @var string
-	 */
-	const SEPARATOR = ',';
+    /**
+     * Separator
+     * @var string
+     */
+    public const SEPARATOR = ',';
 
-	/**
-	 * @param string $string
-	 */
-	public function fromString($string) {
-		$this->Elements = array_map('trim', explode(self::SEPARATOR, $string));
-	}
+    /**
+     * @param string $string
+     */
+    public function fromString($string)
+    {
+        $this->Elements = array_map('trim', explode(self::SEPARATOR, $string));
+    }
 
     /**
      * As string
      */
-    public function asString(): string {
-		return implode(self::SEPARATOR . ' ', $this->Elements);
-	}
+    public function asString(): string
+    {
+        return implode(self::SEPARATOR . ' ', $this->Elements);
+    }
 }

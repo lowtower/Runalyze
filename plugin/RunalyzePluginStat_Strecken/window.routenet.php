@@ -29,11 +29,11 @@ $routesLimit = RunalyzePluginStat_Strecken::MAX_ROUTES_ON_NET * $positioninterva
 $Conditions = '';
 
 if ($sport > 0) {
-	$Conditions .= ' AND `' . PREFIX . 'training`.`sportid`=' . $sport;
+    $Conditions .= ' AND `' . PREFIX . 'training`.`sportid`=' . $sport;
 }
 
 if ($year > 0) {
-	$Conditions .= ' AND `' . PREFIX . "training`.`time` BETWEEN UNIX_TIMESTAMP('" . (int) $year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $year + 1) . "-01-01')-1";
+    $Conditions .= ' AND `' . PREFIX . "training`.`time` BETWEEN UNIX_TIMESTAMP('" . (int) $year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $year + 1) . "-01-01')-1";
 }
 
 // #TSC the route-name is limited to 50 chars and then a "..." will concated
@@ -65,33 +65,33 @@ $count = 0;
 $countPoints = 0;
 
 while ($RouteData = $Routes->fetch()) {
-	// only the first 4 "columns" are relevant for the GPS positions itself
-	$Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData, 0, 4), $positioninterval);
+    // only the first 4 "columns" are relevant for the GPS positions itself
+    $Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData, 0, 4), $positioninterval);
 
-	if ($RouteData['min'] !== null && $RouteData['max'] !== null) {
-		$MinCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['min'])->getCoordinate();
-		$MaxCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['max'])->getCoordinate();
+    if ($RouteData['min'] !== null && $RouteData['max'] !== null) {
+        $MinCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['min'])->getCoordinate();
+        $MaxCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['max'])->getCoordinate();
 
-		$minLat = $MinCoordinate->getLatitude() != 0 ? min($minLat, $MinCoordinate->getLatitude()) : $minLat;
-		$minLng = $MinCoordinate->getLongitude() != 0 ? min($minLng, $MinCoordinate->getLongitude()) : $minLng;
-		$maxLat = $MaxCoordinate->getLatitude() != 0 ? max($maxLat, $MaxCoordinate->getLatitude()) : $maxLat;
-		$maxLng = $MaxCoordinate->getLongitude() != 0 ? max($maxLng, $MaxCoordinate->getLongitude()) : $maxLng;
-	}
+        $minLat = $MinCoordinate->getLatitude() != 0 ? min($minLat, $MinCoordinate->getLatitude()) : $minLat;
+        $minLng = $MinCoordinate->getLongitude() != 0 ? min($minLng, $MinCoordinate->getLongitude()) : $minLng;
+        $maxLat = $MaxCoordinate->getLatitude() != 0 ? max($maxLat, $MaxCoordinate->getLatitude()) : $maxLat;
+        $maxLng = $MaxCoordinate->getLongitude() != 0 ? max($maxLng, $MaxCoordinate->getLongitude()) : $maxLng;
+    }
 
-	$Path = new Leaflet\Activity('route-' . $RouteData['id'], $Route, null, false);
-	// #TSC set hoverable to mark the route if activated and show the tooltip
-	$Path->addOption('hoverable', true);
-	$Path->addOption('autofit', false);
-	$Path->addOption('tooltip', getTooltipText($RouteData['time'], $RouteData['routename'], $RouteData['distance'], $RouteData['sporticon']));
+    $Path = new Leaflet\Activity('route-' . $RouteData['id'], $Route, null, false);
+    // #TSC set hoverable to mark the route if activated and show the tooltip
+    $Path->addOption('hoverable', true);
+    $Path->addOption('autofit', false);
+    $Path->addOption('tooltip', getTooltipText($RouteData['time'], $RouteData['routename'], $RouteData['distance'], $RouteData['sporticon']));
 
-	$Map->addRoute($Path);
+    $Map->addRoute($Path);
 
-	$count++;
-	$countPoints += $Route->num();
+    $count++;
+    $countPoints += $Route->num();
 }
 
 if (! isset($Route)) {
-	echo HTML::error(__('There are no routes matching the criterias.'));
+    echo HTML::error(__('There are no routes matching the criterias.'));
 }
 
 $Map->setBounds([
@@ -102,22 +102,23 @@ $Map->setBounds([
 ]);
 $Map->display();
 
-function getTooltipText($time, $routename, $distance, $sporticon): string {
-	$tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . (new LocalTime($time))->format('d.m.Y H:i');
-	if(! empty($routename)) {
-		$tt .= '<br/>';
-		$tt .= '<strong>' . __('Course') . ':</strong> ' . $routename;
-	}
-	if($distance > 0) {
-		$tt .= '<br/>';
-		$tt .= '<strong>' . __('Distance') . ':</strong> ' . Distance::format($distance, true, Distance::$DefaultDecimalsSplitTable);
-	}
-	return $tt;
+function getTooltipText($time, $routename, $distance, $sporticon): string
+{
+    $tt = '<strong><i class="' . $sporticon . '"></i> ' . __('Date') . ':</strong> ' . (new LocalTime($time))->format('d.m.Y H:i');
+    if (! empty($routename)) {
+        $tt .= '<br/>';
+        $tt .= '<strong>' . __('Course') . ':</strong> ' . $routename;
+    }
+    if ($distance > 0) {
+        $tt .= '<br/>';
+        $tt .= '<strong>' . __('Distance') . ':</strong> ' . Distance::format($distance, true, Distance::$DefaultDecimalsSplitTable);
+    }
+    return $tt;
 }
 ?>
 
 <p class="info">
-	<?php echo sprintf( __('The map contains your %s most recent routes matching the criterias.') . ' Nummer der Positions-Punkte ist %d.', $count, $countPoints); ?>
-	<?php echo sprintf( __('More routes are not possible at the moment due to performance issues.') . ' Limit %s.', $routesLimit); ?>
+	<?php echo sprintf(__('The map contains your %s most recent routes matching the criterias.') . ' Nummer der Positions-Punkte ist %d.', $count, $countPoints); ?>
+	<?php echo sprintf(__('More routes are not possible at the moment due to performance issues.') . ' Limit %s.', $routesLimit); ?>
 </p>
 </div>

@@ -14,101 +14,108 @@ use Runalyze\Configuration;
  */
 class PluginConfigurationValueDistances extends PluginConfigurationValueArray
 {
-	/**
-	 * @var int
-	 */
-	const PRECISION = 2;
+    /**
+     * @var int
+     */
+    public const PRECISION = 2;
 
-	/**
-	 * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
-	 */
-	protected $UnitSystem;
+    /**
+     * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
+     */
+    protected $UnitSystem;
 
-	/**
-	 * Construct
-	 * @param string $Key
-	 * @param string $Label [optional]
-	 * @param string $Tooltip [optional]
-	 * @param string $DefaultValue [optional]
-	 */
-	public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '') {
-		parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
+    /**
+     * Construct
+     * @param string $Key
+     * @param string $Label [optional]
+     * @param string $Tooltip [optional]
+     * @param string $DefaultValue [optional]
+     */
+    public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '')
+    {
+        parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
-		$this->DefaultValue = $this->roundAndTransformValues($this->DefaultValue, true, false);
-	}
+        $this->DefaultValue = $this->roundAndTransformValues($this->DefaultValue, true, false);
+    }
 
-	/**
-	 * Has to be overwritten in subclasses.
-	 * @param string $Value
-	 * @param bool $transformValues
-	 */
-	public function setValueFromString($Value, $transformValues = false) {
-		parent::setValueFromString($Value);
+    /**
+     * Has to be overwritten in subclasses.
+     * @param string $Value
+     * @param bool $transformValues
+     */
+    public function setValueFromString($Value, $transformValues = false)
+    {
+        parent::setValueFromString($Value);
 
-		$this->Value = $this->roundAndTransformValues($this->Value, $transformValues, true);
-	}
+        $this->Value = $this->roundAndTransformValues($this->Value, $transformValues, true);
+    }
 
     /**
      * Get value as string
      * @param bool $transformValues
      */
-    public function valueAsString($transformValues = false): string {
-		$values = $this->roundAndTransformValues($this->Value, $transformValues, false);
+    public function valueAsString($transformValues = false): string
+    {
+        $values = $this->roundAndTransformValues($this->Value, $transformValues, false);
 
-		return implode(', ', $values);
-	}
+        return implode(', ', $values);
+    }
 
     /**
      * @param bool $transformValues
      * @param bool $toKm
      */
-    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false): array {
-		if ($transformValues) {
-			$factor = $toKm ? $this->unitSystem()
-			    ->distanceToKmFactor() : $this->unitSystem()
-			    ->distanceToPreferredUnitFactor();
+    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false): array
+    {
+        if ($transformValues) {
+            $factor = $toKm ? $this->unitSystem()
+                ->distanceToKmFactor() : $this->unitSystem()
+                ->distanceToPreferredUnitFactor();
 
-			return array_map(function($val) use ($factor): float{
-				return round($val * $factor, self::PRECISION);
-			}, $values);
-		}
+            return array_map(function ($val) use ($factor): float {
+                return round($val * $factor, self::PRECISION);
+            }, $values);
+        }
 
-		return array_map(function($val){
-			return round($val, self::PRECISION);
-		}, $values);
-	}
+        return array_map(function ($val) {
+            return round($val, self::PRECISION);
+        }, $values);
+    }
 
-	public function setValueFromPost() {
-		if (isset($_POST[$this->Key])) {
-			$this->setValueFromString($_POST[$this->Key], true);
-		}
-	}
+    public function setValueFromPost()
+    {
+        if (isset($_POST[$this->Key])) {
+            $this->setValueFromString($_POST[$this->Key], true);
+        }
+    }
 
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularInput {
-		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
-		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
-		$Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);
+    public function getFormField(): \FormularInput
+    {
+        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
+        $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
+        $Field->addAttribute('maxlength', PluginConfigurationValue::MAXLENGTH);
 
-		if ($this->unitSystem()->isImperial()) {
-			$Field->setUnit(FormularUnit::$MILES);
-		} else {
-			$Field->setUnit(FormularUnit::$KM);
-		}
+        if ($this->unitSystem()->isImperial()) {
+            $Field->setUnit(FormularUnit::$MILES);
+        } else {
+            $Field->setUnit(FormularUnit::$KM);
+        }
 
-		return $Field;
-	}
+        return $Field;
+    }
 
-	/**
-	 * @return \Runalyze\Parameter\Application\DistanceUnitSystem
-	 */
-	protected function unitSystem() {
-		if ($this->UnitSystem === null) {
-			$this->UnitSystem = Configuration::General()->distanceUnitSystem();
-		}
+    /**
+     * @return \Runalyze\Parameter\Application\DistanceUnitSystem
+     */
+    protected function unitSystem()
+    {
+        if ($this->UnitSystem === null) {
+            $this->UnitSystem = Configuration::General()->distanceUnitSystem();
+        }
 
-		return $this->UnitSystem;
-	}
+        return $this->UnitSystem;
+    }
 }

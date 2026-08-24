@@ -18,32 +18,34 @@ use Runalyze\View\Activity;
  */
 class TimeSeries extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgba(255,255,255,0)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgba(255,255,255,0)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::TIME);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::TIME);
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Time');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Time');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = 'time';
-		$this->UnitDecimals = 0;
+        $this->UnitString = 'time';
+        $this->UnitDecimals = 0;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = false;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = false;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 }

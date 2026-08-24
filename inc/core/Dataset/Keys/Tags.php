@@ -17,76 +17,76 @@ use Runalyze\Dataset\Context;
  */
 class Tags extends AbstractKey
 {
-	/**
-	 * @var string
-	 */
-	const CONCAT_TAGIDS_KEY = 'concat_tags';
+    /**
+     * @var string
+     */
+    public const CONCAT_TAGIDS_KEY = 'concat_tags';
 
     /**
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::TAGS;
-	}
+    {
+        return \Runalyze\Dataset\Keys::TAGS;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return '';
-	}
+    {
+        return '';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Tags');
-	}
+    {
+        return __('Tags');
+    }
 
-	public function requiresJoin(): bool
-	{
-		return true;
-	}
+    public function requiresJoin(): bool
+    {
+        return true;
+    }
 
-	/**
-	 * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
-	 */
-	public function joinDefinition(): array
-	{
-		return [
-    'column' => self::CONCAT_TAGIDS_KEY,
-		    'join' => 'LEFT JOIN `' . PREFIX . 'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
-		    'field' => "GROUP_CONCAT(`atag`.`tagid` SEPARATOR ',') AS `" . self::CONCAT_TAGIDS_KEY . '`',
-];
-	}
+    /**
+     * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
+     */
+    public function joinDefinition(): array
+    {
+        return [
+            'column' => self::CONCAT_TAGIDS_KEY,
+            'join' => 'LEFT JOIN `' . PREFIX . 'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
+            'field' => "GROUP_CONCAT(`atag`.`tagid` SEPARATOR ',') AS `" . self::CONCAT_TAGIDS_KEY . '`',
+        ];
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		$string = '';
+    {
+        $string = '';
 
-		if ($context->hasData(self::CONCAT_TAGIDS_KEY) && $context->data(self::CONCAT_TAGIDS_KEY) != '') {
-			$ids = explode(',', $context->data(self::CONCAT_TAGIDS_KEY));
-			$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
+        if ($context->hasData(self::CONCAT_TAGIDS_KEY) && $context->data(self::CONCAT_TAGIDS_KEY) != '') {
+            $ids = explode(',', $context->data(self::CONCAT_TAGIDS_KEY));
+            $Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
 
-			foreach (array_unique($ids) as $id) {
-				$string .= '#' . $Factory->tag($id)->tag() . ' ';
-			}
-		}
+            foreach (array_unique($ids) as $id) {
+                $string .= '#' . $Factory->tag($id)->tag() . ' ';
+            }
+        }
 
-		return $string;
-	}
+        return $string;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

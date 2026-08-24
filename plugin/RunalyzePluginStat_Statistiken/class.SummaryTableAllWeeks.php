@@ -15,14 +15,15 @@ use Runalyze\Util\LocalTime;
  */
 class SummaryTableAllWeeks extends SummaryTable10Weeks
 {
-	/**
-	 * Prepare summary
-	 */
-	protected function prepare() {
-		parent::prepare();
+    /**
+     * Prepare summary
+     */
+    protected function prepare()
+    {
+        parent::prepare();
 
-		$this->Title = sprintf(__('All training weeks %s'), $this->Year);
-		$this->TimeEnd = ($this->Year == date('Y')) ? (new LocalTime())->weekend() : LocalTime::fromString('31.12.' . $this->Year . ' 01:00:00')->weekend();
-		$this->TimeStart = LocalTime::fromString('01.01.' . $this->Year . ' 01:00:00')->weekstart();
-	}
+        $this->Title = sprintf(__('All training weeks %s'), $this->Year);
+        $this->TimeEnd = ($this->Year == date('Y')) ? (new LocalTime())->weekend() : LocalTime::fromString('31.12.' . $this->Year . ' 01:00:00')->weekend();
+        $this->TimeStart = LocalTime::fromString('01.01.' . $this->Year . ' 01:00:00')->weekstart();
+    }
 }

@@ -16,26 +16,28 @@ namespace Runalyze\View\Icon;
  */
 class SportIcon extends \Runalyze\View\Icon
 {
-	/**
-	 * Filename
-	 * @var string
-	 */
-	protected $Filename;
+    /**
+     * Filename
+     * @var string
+     */
+    protected $Filename;
 
-	/**
-	 * Sport icon
-	 * @param string $filename
-	 */
-	public function __construct($filename) {
-		parent::__construct('');
+    /**
+     * Sport icon
+     * @param string $filename
+     */
+    public function __construct($filename)
+    {
+        parent::__construct('');
 
-		$this->Filename = $filename;
-	}
+        $this->Filename = $filename;
+    }
 
-	/**
-	 * Display
-	 */
-	public function code(): string {
-		return '<i class="' . $this->Filename . '"' . $this->tooltipAttributes() . '></i>';
-	}
+    /**
+     * Display
+     */
+    public function code(): string
+    {
+        return '<i class="' . $this->Filename . '"' . $this->tooltipAttributes() . '></i>';
+    }
 }

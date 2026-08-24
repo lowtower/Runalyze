@@ -12,68 +12,75 @@
  */
 abstract class TrainingViewSectionTabbed extends TrainingViewSection
 {
-	/**
-	 * All tabbed rows
-	 * @var TrainingViewSectionRowAbstract[]
-	 */
-	protected $RowsTabbed = [];
+    /**
+     * All tabbed rows
+     * @var TrainingViewSectionRowAbstract[]
+     */
+    protected $RowsTabbed = [];
 
-	/**
-	 * All tabbed rows: Title
-	 * @var string[]
-	 */
-	protected $RowsTabbedTitle = [];
+    /**
+     * All tabbed rows: Title
+     * @var string[]
+     */
+    protected $RowsTabbedTitle = [];
 
     /**
      * Append row
      * @param string $Title
      */
-    final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, $Title) {
-		$this->RowsTabbed[] = $Row;
-		$this->RowsTabbedTitle[] = $Title;
-	}
+    final protected function appendRowTabbed(TrainingViewSectionRowAbstract $Row, $Title)
+    {
+        $this->RowsTabbed[] = $Row;
+        $this->RowsTabbedTitle[] = $Title;
+    }
 
-	final public function display() {
-		if (! empty($this->Header) && ($this->RowsTabbed !== [] || $this->Rows !== [])) {
-			$this->displayHeader();
-			$this->displayContent();
-		}
-	}
+    final public function display()
+    {
+        if (! empty($this->Header) && ($this->RowsTabbed !== [] || $this->Rows !== [])) {
+            $this->displayHeader();
+            $this->displayContent();
+        }
+    }
 
-	private function displayHeader() {
-		echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-		$this->displayChangeMenu();
-		echo '<h2>' . $this->Header . '</h2>';
-		echo '</div>';
-	}
+    private function displayHeader()
+    {
+        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
+        $this->displayChangeMenu();
+        echo '<h2>' . $this->Header . '</h2>';
+        echo '</div>';
+    }
 
-	private function displayChangeMenu() {
-		if (count($this->RowsTabbedTitle) <= 1)
-			return;
+    private function displayChangeMenu()
+    {
+        if (count($this->RowsTabbedTitle) <= 1) {
+            return;
+        }
 
-		echo '<div class="change-menu">';
+        echo '<div class="change-menu">';
 
-		foreach ($this->RowsTabbedTitle as $i => $Title)
-			echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $i);
+        foreach ($this->RowsTabbedTitle as $i => $Title) {
+            echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $i);
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
-	private function displayContent() {
-		echo '<div id="training-view-tabbed-' . $this->cssId() . '">';
+    private function displayContent()
+    {
+        echo '<div id="training-view-tabbed-' . $this->cssId() . '">';
 
-		foreach ($this->RowsTabbed as $i => $Row) {
-			echo '<div class="change" id="training-view-tabbed-' . $this->cssId() . '-' . $i . '"' . ($i != 0 ? ' style="display:none;"' : '') . '>';
-			$Row->display();
-			echo '</div>';
-		}
+        foreach ($this->RowsTabbed as $i => $Row) {
+            echo '<div class="change" id="training-view-tabbed-' . $this->cssId() . '-' . $i . '"' . ($i != 0 ? ' style="display:none;"' : '') . '>';
+            $Row->display();
+            echo '</div>';
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	abstract protected function cssId();
+    /**
+     * CSS-ID
+     * @return string
+     */
+    abstract protected function cssId();
 }

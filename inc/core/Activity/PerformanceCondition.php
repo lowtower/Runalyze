@@ -20,50 +20,50 @@ namespace Runalyze\Activity;
  */
 class PerformanceCondition implements ValueInterface
 {
-	/**
-	 * @var int
-	 */
-	const BASELINE = 100;
+    /**
+     * @var int
+     */
+    public const BASELINE = 100;
 
     /**
      * @var int
      */
-    const LOWER_LIMIT = 80;
+    public const LOWER_LIMIT = 80;
 
     /**
      * @var int
      */
-    const UPPER_LIMIT = 120;
+    public const UPPER_LIMIT = 120;
 
-	/**
-	 * @var int|null
-	 */
-	protected $Value;
+    /**
+     * @var int|null
+     */
+    protected $Value;
 
-	/**
-	 * @param int|null $value
-	 * @return string
-	 */
-	public static function format($value)
+    /**
+     * @param int|null $value
+     * @return string
+     */
+    public static function format($value)
     {
         return (new self($value))->string();
-	}
+    }
 
-	/**
-	 * @param int|null $value
-	 */
-	public function __construct($value = null)
+    /**
+     * @param int|null $value
+     */
+    public function __construct($value = null)
     {
-		$this->set($value);
-	}
+        $this->set($value);
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
     {
-		return __('Performance condition');
-	}
+        return __('Performance condition');
+    }
 
     /**
      * @codeCoverageIgnore
@@ -78,32 +78,32 @@ class PerformanceCondition implements ValueInterface
      */
     public function unit(): string
     {
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Set training effect
-	 * @param int|null|string $value
-	 * @return \Runalyze\Activity\PerformanceCondition $this-reference
-	 * @throws \InvalidArgumentException
-	 */
-	public function set($value): self
+    /**
+     * Set training effect
+     * @param int|null|string $value
+     * @return \Runalyze\Activity\PerformanceCondition $this-reference
+     * @throws \InvalidArgumentException
+     */
+    public function set($value): self
     {
-        if ($value === null || (int) $value < self::LOWER_LIMIT || (int) $value > self::UPPER_LIMIT ) {
+        if ($value === null || (int) $value < self::LOWER_LIMIT || (int) $value > self::UPPER_LIMIT) {
             $this->Value = null;
         } else {
-    		$this->Value = (int) $value;
+            $this->Value = (int) $value;
         }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Format training effect as string
-	 * @param bool $withUnit [optional] show unit?
-	 * @return string
-	 */
-	public function string($withUnit = true)
+    /**
+     * Format training effect as string
+     * @param bool $withUnit [optional] show unit?
+     * @return string
+     */
+    public function string($withUnit = true)
     {
         if (! $this->isKnown()) {
             return '';
@@ -117,16 +117,16 @@ class PerformanceCondition implements ValueInterface
             $baselineValue = '&plusmn;0';
         }
 
-		return $baselineValue;
-	}
+        return $baselineValue;
+    }
 
-	/**
-	 * @return int|null
-	 */
-	public function value()
+    /**
+     * @return int|null
+     */
+    public function value()
     {
-		return $this->Value;
-	}
+        return $this->Value;
+    }
 
     public function isKnown(): bool
     {

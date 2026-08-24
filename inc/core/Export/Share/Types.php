@@ -18,30 +18,30 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-	/**
-	 * @var int
-	 */
-	const TWITTER = 1;
+    /**
+     * @var int
+     */
+    public const TWITTER = 1;
 
-	/**
-	 * @var int
-	 */
-	const FACEBOOK = 2;
+    /**
+     * @var int
+     */
+    public const FACEBOOK = 2;
 
-	/**
-	 * @var int
-	 */
-	const GOOGLE_PLUS = 3;
+    /**
+     * @var int
+     */
+    public const GOOGLE_PLUS = 3;
 
-	/**
-	 * @var int
-	 */
-	const HTML = 4;
+    /**
+     * @var int
+     */
+    public const HTML = 4;
 
-	/**
-	 * @var int
-	 */
-	const IFRAME = 5;
+    /**
+     * @var int
+     */
+    public const IFRAME = 5;
 
     /**
      * Get sharer
@@ -50,30 +50,30 @@ final class Types extends AbstractEnum
      * @throws \InvalidArgumentException
      */
     public static function get($typeid, Context $context)
-	{
-		$classNames = self::classNamesArray();
+    {
+        $classNames = self::classNamesArray();
 
-		if (! isset($classNames[$typeid])) {
-			throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
-		}
+        if (! isset($classNames[$typeid])) {
+            throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
+        }
 
-		$className = 'Runalyze\\Export\\Share\\' . $classNames[$typeid];
+        $className = 'Runalyze\\Export\\Share\\' . $classNames[$typeid];
 
-		return new $className($context);
-	}
+        return new $className($context);
+    }
 
     /**
      * Get array with class names
      * @return array<int, string>
      */
     private static function classNamesArray(): array
-	{
-		return [
-    self::TWITTER => 'Twitter',
-		    self::FACEBOOK => 'Facebook',
-		    self::GOOGLE_PLUS => 'GooglePlus',
-		    self::HTML => 'Html',
-		    self::IFRAME => 'IFrame',
-];
-	}
+    {
+        return [
+            self::TWITTER => 'Twitter',
+            self::FACEBOOK => 'Facebook',
+            self::GOOGLE_PLUS => 'GooglePlus',
+            self::HTML => 'Html',
+            self::IFRAME => 'IFrame',
+        ];
+    }
 }

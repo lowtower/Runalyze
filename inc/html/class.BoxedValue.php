@@ -12,71 +12,71 @@
  */
 class BoxedValue
 {
-	/**
-	 * HTML class: surrounding div
-	 * @var string
-	 */
-	public static $SURROUNDING_DIV = 'boxed-values';
+    /**
+     * HTML class: surrounding div
+     * @var string
+     */
+    public static $SURROUNDING_DIV = 'boxed-values';
 
-	/**
-	 * HTML class: container floating outer div
-	 * @var string
-	 */
-	public static $CONTAINER_FLOATING_OUTER_DIV = 'boxed-value-outer';
+    /**
+     * HTML class: container floating outer div
+     * @var string
+     */
+    public static $CONTAINER_FLOATING_OUTER_DIV = 'boxed-value-outer';
 
-	/**
-	 * HTML class: container div
-	 * @var string
-	 */
-	public static $CONTAINER_DIV = 'boxed-value-container';
+    /**
+     * HTML class: container div
+     * @var string
+     */
+    public static $CONTAINER_DIV = 'boxed-value-container';
 
-	/**
-	 * HTML class: container div with icon
-	 * @var string
-	 */
-	public static $CONTAINER_DIV_WITH_ICON = 'boxed-value-container with-icon';
+    /**
+     * HTML class: container div with icon
+     * @var string
+     */
+    public static $CONTAINER_DIV_WITH_ICON = 'boxed-value-container with-icon';
 
-	/**
-	 * HTML class: value div
-	 * @var string
-	 */
-	public static $VALUE_DIV = 'boxed-value';
+    /**
+     * HTML class: value div
+     * @var string
+     */
+    public static $VALUE_DIV = 'boxed-value';
 
-	/**
-	 * HTML class: unit div
-	 * @var string
-	 */
-	public static $VALUE_UNIT_DIV = 'boxed-value-unit';
+    /**
+     * HTML class: unit div
+     * @var string
+     */
+    public static $VALUE_UNIT_DIV = 'boxed-value-unit';
 
-	/**
-	 * HTML class: info div
-	 * @var string
-	 */
-	public static $VALUE_INFO_DIV = 'boxed-value-info';
+    /**
+     * HTML class: info div
+     * @var string
+     */
+    public static $VALUE_INFO_DIV = 'boxed-value-info';
 
-	/**
-	 * Value
-	 * @var string
-	 */
-	protected $Value = '';
+    /**
+     * Value
+     * @var string
+     */
+    protected $Value = '';
 
-	/**
-	 * Icon
-	 * @var string
-	 */
-	protected $Icon = '';
+    /**
+     * Icon
+     * @var string
+     */
+    protected $Icon = '';
 
-	/**
-	 * Unit
-	 * @var string
-	 */
-	protected $Unit = '';
+    /**
+     * Unit
+     * @var string
+     */
+    protected $Unit = '';
 
-	/**
-	 * Info
-	 * @var string
-	 */
-	protected $Info = '';
+    /**
+     * Info
+     * @var string
+     */
+    protected $Info = '';
 
     /**
      * Glossary
@@ -84,195 +84,218 @@ class BoxedValue
      */
     protected $Glossary = '';
 
-	/**
-	 * Additional classes
-	 * @var string
-	 */
-	protected $AdditionalClasses = '';
+    /**
+     * Additional classes
+     * @var string
+     */
+    protected $AdditionalClasses = '';
 
-	/**
-	 * Flag: as floating block
-	 * @var bool
-	 */
-	protected $AsFloatingBlock = false;
+    /**
+     * Flag: as floating block
+     * @var bool
+     */
+    protected $AsFloatingBlock = false;
 
-	/**
-	 * Class: as floating block
-	 * e.g. "w10", "w25", "w33", "w50"
-	 * @var string
-	 */
-	protected $AsFloatingBlockClass = '';
+    /**
+     * Class: as floating block
+     * e.g. "w10", "w25", "w33", "w50"
+     * @var string
+     */
+    protected $AsFloatingBlockClass = '';
 
-	/**
-	 * Fixed width
-	 * @var string
-	 */
-	protected $AsFloatingBlockWidth = '';
+    /**
+     * Fixed width
+     * @var string
+     */
+    protected $AsFloatingBlockWidth = '';
 
-	/**
-	 * @param string $Value [optional]
-	 * @param string $Unit [optional]
-	 * @param string $Info [optional]
-	 * @param string $Icon [optional]
-	 * @param string $Glossary [optional]
-	 */
-	public function __construct($Value = '', $Unit = '', $Info = '', $Icon = '', $Glossary = '') {
-		$this->setValue($Value);
-		$this->setUnit($Unit);
-		$this->setInfo($Info);
-		$this->setIcon($Icon);
-		$this->setGlossary($Glossary);
-	}
+    /**
+     * @param string $Value [optional]
+     * @param string $Unit [optional]
+     * @param string $Info [optional]
+     * @param string $Icon [optional]
+     * @param string $Glossary [optional]
+     */
+    public function __construct($Value = '', $Unit = '', $Info = '', $Icon = '', $Glossary = '')
+    {
+        $this->setValue($Value);
+        $this->setUnit($Unit);
+        $this->setInfo($Info);
+        $this->setIcon($Icon);
+        $this->setGlossary($Glossary);
+    }
 
-	/**
-	 * @param string $Value
-	 */
-	public function setValue($Value) {
-		$this->Value = $Value;
-	}
+    /**
+     * @param string $Value
+     */
+    public function setValue($Value)
+    {
+        $this->Value = $Value;
+    }
 
-	/**
-	 * @param string $Unit
-	 */
-	public function setUnit($Unit) {
-		$this->Unit = $Unit;
-	}
+    /**
+     * @param string $Unit
+     */
+    public function setUnit($Unit)
+    {
+        $this->Unit = $Unit;
+    }
 
-	/**
-	 * @param string $Icon
-	 */
-	public function setIcon($Icon) {
-		$this->Icon = $Icon;
-	}
+    /**
+     * @param string $Icon
+     */
+    public function setIcon($Icon)
+    {
+        $this->Icon = $Icon;
+    }
 
-	/**
-	 * @param string $Info
-	 */
-	public function setInfo($Info) {
-		$this->Info = $Info;
-	}
+    /**
+     * @param string $Info
+     */
+    public function setInfo($Info)
+    {
+        $this->Info = $Info;
+    }
 
     /**
      * @param string $Glossary
      */
-    public function setGlossary($Glossary) {
+    public function setGlossary($Glossary)
+    {
         $this->Glossary = $Glossary;
     }
 
-	/**
-	 * @param string $Class
-	 */
-	public function addClass($Class) {
-		if (empty($this->AdditionalClasses))
-			$this->AdditionalClasses .= ' ';
+    /**
+     * @param string $Class
+     */
+    public function addClass($Class)
+    {
+        if (empty($this->AdditionalClasses)) {
+            $this->AdditionalClasses .= ' ';
+        }
 
-		$this->AdditionalClasses .= $Class;
-	}
+        $this->AdditionalClasses .= $Class;
+    }
 
-	/**
-	 * Multiple classes can be set, e.g. "w100 flexible-height".
-	 *
-	 * @param string $widthClass e.g. "w25", "w33", "w50"
-	 */
-	public function defineAsFloatingBlock($widthClass) {
-		$this->AsFloatingBlock = true;
-		$this->AsFloatingBlockClass = $widthClass;
-	}
+    /**
+     * Multiple classes can be set, e.g. "w100 flexible-height".
+     *
+     * @param string $widthClass e.g. "w25", "w33", "w50"
+     */
+    public function defineAsFloatingBlock($widthClass)
+    {
+        $this->AsFloatingBlock = true;
+        $this->AsFloatingBlockClass = $widthClass;
+    }
 
-	/**
-	 * Define as floating block
-	 * @param int $numberOfBlocks
-	 */
-	public function defineAsFloatingBlockWithFixedWidth($numberOfBlocks) {
-		$this->AsFloatingBlock = true;
-		$this->AsFloatingBlockWidth = round(100 / $numberOfBlocks, 2) . '%';
-	}
+    /**
+     * Define as floating block
+     * @param int $numberOfBlocks
+     */
+    public function defineAsFloatingBlockWithFixedWidth($numberOfBlocks)
+    {
+        $this->AsFloatingBlock = true;
+        $this->AsFloatingBlockWidth = round(100 / $numberOfBlocks, 2) . '%';
+    }
 
-	public function display() {
-		echo $this->getCode();
-	}
+    public function display()
+    {
+        echo $this->getCode();
+    }
 
-    public function getCode(): string {
-		$Code = '';
+    public function getCode(): string
+    {
+        $Code = '';
 
-		if ($this->AsFloatingBlock) {
-			if ($this->AsFloatingBlockWidth)
-				$Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . '" style="width:' . $this->AsFloatingBlockWidth . ';">';
-			else
-				$Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . ' ' . $this->AsFloatingBlockClass . '">';
-		}
+        if ($this->AsFloatingBlock) {
+            if ($this->AsFloatingBlockWidth) {
+                $Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . '" style="width:' . $this->AsFloatingBlockWidth . ';">';
+            } else {
+                $Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . ' ' . $this->AsFloatingBlockClass . '">';
+            }
+        }
 
-		$Code .= '<div class="' . $this->getDivClass() . '">';
-		$Code .= $this->getDivForIcon();
-		$Code .= $this->getDivForValue();
-		$Code .= $this->getDivForInfo();
-		$Code .= '</div>';
+        $Code .= '<div class="' . $this->getDivClass() . '">';
+        $Code .= $this->getDivForIcon();
+        $Code .= $this->getDivForValue();
+        $Code .= $this->getDivForInfo();
+        $Code .= '</div>';
 
-		if ($this->AsFloatingBlock)
-			$Code .= '</div>';
+        if ($this->AsFloatingBlock) {
+            $Code .= '</div>';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
     /**
      * Get class
      */
-    protected function getDivClass(): string {
-		$Class = empty($this->Icon) ? self::$CONTAINER_DIV : self::$CONTAINER_DIV_WITH_ICON;
+    protected function getDivClass(): string
+    {
+        $Class = empty($this->Icon) ? self::$CONTAINER_DIV : self::$CONTAINER_DIV_WITH_ICON;
 
-		return $Class . $this->AdditionalClasses;
-	}
+        return $Class . $this->AdditionalClasses;
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getDivForIcon() {
-		return $this->Icon;
-	}
+    /**
+     * @return string
+     */
+    protected function getDivForIcon()
+    {
+        return $this->Icon;
+    }
 
-    protected function getDivForValue(): string {
-		$Code = '<div class="' . self::$VALUE_DIV . '">';
-		$Code .= $this->Value;
-		$Code .= $this->getDivForUnit();
+    protected function getDivForValue(): string
+    {
+        $Code = '<div class="' . self::$VALUE_DIV . '">';
+        $Code .= $this->Value;
+        $Code .= $this->getDivForUnit();
 
-		return $Code . '</div>';
-	}
+        return $Code . '</div>';
+    }
 
-    protected function getDivForUnit(): string {
-		if (empty($this->Unit))
-			return '';
+    protected function getDivForUnit(): string
+    {
+        if (empty($this->Unit)) {
+            return '';
+        }
 
-		$Code = ' <div class="' . self::$VALUE_UNIT_DIV . '">';
-		$Code .= str_replace(' ', '&nbsp;', $this->Unit);
+        $Code = ' <div class="' . self::$VALUE_UNIT_DIV . '">';
+        $Code .= str_replace(' ', '&nbsp;', $this->Unit);
 
-		return $Code . '</div>';
-	}
+        return $Code . '</div>';
+    }
 
-    protected function getDivForInfo(): string {
-		if (empty($this->Info))
-			return '';
+    protected function getDivForInfo(): string
+    {
+        if (empty($this->Info)) {
+            return '';
+        }
 
-		$Code = '<div class="' . self::$VALUE_INFO_DIV . '">';
-		if (! empty($this->Glossary)) {
+        $Code = '<div class="' . self::$VALUE_INFO_DIV . '">';
+        if (! empty($this->Glossary)) {
             $Code .= '<a class="window left" href="glossary/' . $this->Glossary . '"><i class="fa fa-question-circle-o"></i></a>';
         }
 
         $Code .= str_replace(' ', '&nbsp;', $this->Info);
 
-		return $Code . '</div>';
-	}
-
-	/**
-	 * @param string $ValuesString
-	 */
-	public static function wrapValues($ValuesString) {
-		echo self::getWrappedValues($ValuesString);
-	}
+        return $Code . '</div>';
+    }
 
     /**
      * @param string $ValuesString
      */
-    public static function getWrappedValues($ValuesString): string {
-		return '<div class="' . self::$SURROUNDING_DIV . '">' . $ValuesString . '</div>';
-	}
+    public static function wrapValues($ValuesString)
+    {
+        echo self::getWrappedValues($ValuesString);
+    }
+
+    /**
+     * @param string $ValuesString
+     */
+    public static function getWrappedValues($ValuesString): string
+    {
+        return '<div class="' . self::$SURROUNDING_DIV . '">' . $ValuesString . '</div>';
+    }
 }

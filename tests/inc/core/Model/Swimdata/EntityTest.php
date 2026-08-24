@@ -11,48 +11,52 @@ use Runalyze\Model\Trackdata;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-	protected function simpleObject(): \Runalyze\Model\Swimdata\Entity {
-		return new Entity([
-    Entity::POOL_LENGTH => 2500,
-		    Entity::STROKE => [25, 20, 15, 20],
-		    Entity::STROKETYPE => [2, 2, 2, 2],
-]);
-	}
+    protected function simpleObject(): \Runalyze\Model\Swimdata\Entity
+    {
+        return new Entity([
+            Entity::POOL_LENGTH => 2500,
+            Entity::STROKE => [25, 20, 15, 20],
+            Entity::STROKETYPE => [2, 2, 2, 2],
+        ]);
+    }
 
-	public function testEmptyObject() {
-		$T = new Entity();
+    public function testEmptyObject()
+    {
+        $T = new Entity();
 
-		$this->assertFalse($T->has(Entity::STROKE));
-		$this->assertFalse($T->has(Entity::STROKETYPE));
-		$this->assertFalse($T->has(Entity::SWOLF));
-		$this->assertFalse($T->has(Entity::SWOLFCYCLES));
-	}
+        $this->assertFalse($T->has(Entity::STROKE));
+        $this->assertFalse($T->has(Entity::STROKETYPE));
+        $this->assertFalse($T->has(Entity::SWOLF));
+        $this->assertFalse($T->has(Entity::SWOLFCYCLES));
+    }
 
-	public function testSimpleObject() {
-		$T = $this->simpleObject();
+    public function testSimpleObject()
+    {
+        $T = $this->simpleObject();
 
-		$this->assertEquals(2500, $T->poollength());
-		$this->assertEquals([25, 20, 15, 20], $T->stroke());
-		$this->assertEquals([2, 2, 2, 2], $T->stroketype());
-		$this->assertEquals([], $T->swolf());
-		$this->assertEquals([], $T->swolfcycles());
-	}
+        $this->assertEquals(2500, $T->poollength());
+        $this->assertEquals([25, 20, 15, 20], $T->stroke());
+        $this->assertEquals([2, 2, 2, 2], $T->stroketype());
+        $this->assertEquals([], $T->swolf());
+        $this->assertEquals([], $T->swolfcycles());
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1864
-	 */
-	public function testFillingDistanceArray() {
-		foreach ([29, 30, 31, 39, 40, 41] as $num) {
-			$Swim = new Entity([
-			    Entity::POOL_LENGTH => 5000,
-			    Entity::STROKE => array_fill(0, $num, 25),
-			]);
-			$Track = new Trackdata\Entity([
-			    Trackdata\Entity::TIME => range(0, $num - 1),
-			]);
-			$Swim->fillDistanceArray($Track);
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1864
+     */
+    public function testFillingDistanceArray()
+    {
+        foreach ([29, 30, 31, 39, 40, 41] as $num) {
+            $Swim = new Entity([
+                Entity::POOL_LENGTH => 5000,
+                Entity::STROKE => array_fill(0, $num, 25),
+            ]);
+            $Track = new Trackdata\Entity([
+                Trackdata\Entity::TIME => range(0, $num - 1),
+            ]);
+            $Swim->fillDistanceArray($Track);
 
-			$this->assertEqualsWithDelta($num * 0.05, $Track->totalDistance(), 0.0001);
-		}
-	}
+            $this->assertEqualsWithDelta($num * 0.05, $Track->totalDistance(), 0.0001);
+        }
+    }
 }

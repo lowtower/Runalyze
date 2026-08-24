@@ -21,184 +21,184 @@ use Runalyze\Util\Time;
  */
 class MonthwiseTable
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	/**
-	 * @var int
-	 */
-	protected $AccountID;
+    /**
+     * @var int
+     */
+    protected $AccountID;
 
-	/**
-	 * @var int
-	 */
-	protected $EquipmentTypeID;
+    /**
+     * @var int
+     */
+    protected $EquipmentTypeID;
 
-	/**
-	 * @var string
-	 */
-	protected $DependencyQuery = '';
+    /**
+     * @var string
+     */
+    protected $DependencyQuery = '';
 
-	/**
-	 * @var string
-	 */
-	protected $GroupByQuery = '';
+    /**
+     * @var string
+     */
+    protected $GroupByQuery = '';
 
-	/**
-	 * @var string
-	 */
-	protected $OrderByQuery = '';
+    /**
+     * @var string
+     */
+    protected $OrderByQuery = '';
 
-	/**
-	 * @var int
-	 */
-	protected $MonthOffsetForHeader = -1;
+    /**
+     * @var int
+     */
+    protected $MonthOffsetForHeader = -1;
 
     /**
      * @param int $accountId
      * @param int $equipmentTypeId
      */
     public function __construct(\PDO $pdo, $accountId, $equipmentTypeId = 0)
-	{
-		$this->PDO = $pdo;
-		$this->AccountID = $accountId;
-		$this->EquipmentTypeID = $equipmentTypeId;
-	}
+    {
+        $this->PDO = $pdo;
+        $this->AccountID = $accountId;
+        $this->EquipmentTypeID = $equipmentTypeId;
+    }
 
-	/**
-	 * @param string $query
-	 */
-	public function setDependency($query)
-	{
-		$this->DependencyQuery = $query;
-	}
+    /**
+     * @param string $query
+     */
+    public function setDependency($query)
+    {
+        $this->DependencyQuery = $query;
+    }
 
-	/**
-	 * @param string $query
-	 */
-	public function setGroupBy($query)
-	{
-		$this->GroupByQuery = $query;
-	}
+    /**
+     * @param string $query
+     */
+    public function setGroupBy($query)
+    {
+        $this->GroupByQuery = $query;
+    }
 
-	/**
-	 * @param string $query
-	 */
-	public function setOrderBy($query)
-	{
-		$this->OrderByQuery = $query;
-	}
+    /**
+     * @param string $query
+     */
+    public function setOrderBy($query)
+    {
+        $this->OrderByQuery = $query;
+    }
 
-	/**
-	 * @param int $offset
-	 */
-	public function setMonthOffset($offset)
-	{
-		$this->MonthOffsetForHeader = $offset;
-	}
+    /**
+     * @param int $offset
+     */
+    public function setMonthOffset($offset)
+    {
+        $this->MonthOffsetForHeader = $offset;
+    }
 
-	/**
-	 * @throws \RuntimeException
-	 */
-	protected function checkSettings()
-	{
-		if (empty($this->GroupByQuery) || empty($this->OrderByQuery)) {
-			throw new \RuntimeException('Group by and order by queries must be set.');
-		}
-	}
+    /**
+     * @throws \RuntimeException
+     */
+    protected function checkSettings()
+    {
+        if (empty($this->GroupByQuery) || empty($this->OrderByQuery)) {
+            throw new \RuntimeException('Group by and order by queries must be set.');
+        }
+    }
 
-	/**
-	 * Display table
-	 */
-	public function display()
-	{
-		$this->displayHead();
-		$this->displayBody();
-		$this->displayFoot();
-	}
+    /**
+     * Display table
+     */
+    public function display()
+    {
+        $this->displayHead();
+        $this->displayBody();
+        $this->displayFoot();
+    }
 
-	/**
-	 * Display table head
-	 */
-	protected function displayHead()
-	{
-		echo '<table class="fullwidth zebra-style r">';
-		echo '<thead>';
-		echo '<th></th>';
+    /**
+     * Display table head
+     */
+    protected function displayHead()
+    {
+        echo '<table class="fullwidth zebra-style r">';
+        echo '<thead>';
+        echo '<th></th>';
 
-		for ($i = 1; $i <= 12; $i++) {
-			echo '<th width="7.5%">' . Time::month(($i + $this->MonthOffsetForHeader) % 12 + 1, true) . '</th>';
-		}
+        for ($i = 1; $i <= 12; $i++) {
+            echo '<th width="7.5%">' . Time::month(($i + $this->MonthOffsetForHeader) % 12 + 1, true) . '</th>';
+        }
 
-		echo '</thead>';
-		echo '<tbody>';
-	}
+        echo '</thead>';
+        echo '<tbody>';
+    }
 
-	/**
-	 * Display table body
-	 */
-	protected function displayBody()
-	{
-		$this->displayBodyForData($this->generateDataForAverageTemperature());
-		$this->displayBodyForData($this->generateDataForWeatherConditions());
-		$this->displayBodyForData($this->generateDataForEquipment());
-	}
+    /**
+     * Display table body
+     */
+    protected function displayBody()
+    {
+        $this->displayBodyForData($this->generateDataForAverageTemperature());
+        $this->displayBodyForData($this->generateDataForWeatherConditions());
+        $this->displayBodyForData($this->generateDataForEquipment());
+    }
 
-	protected function displayBodyForData(array $rows)
-	{
-		$isFirst = true;
-		$mentionEmptyData = (count($rows) === 1);
+    protected function displayBodyForData(array $rows)
+    {
+        $isFirst = true;
+        $mentionEmptyData = (count($rows) === 1);
 
-		foreach ($rows as $name => $rowData) {
-			echo '<tr' . ($isFirst ? ' class="top-spacer"' : '') . '>';
-			echo '<td>' . $name . '</td>';
+        foreach ($rows as $name => $rowData) {
+            echo '<tr' . ($isFirst ? ' class="top-spacer"' : '') . '>';
+            echo '<td>' . $name . '</td>';
 
-			if (empty($rowData)) {
-				echo '<td colspan="12" class="c">' . ($mentionEmptyData ? '<em>' . __('No data found.') . '</em>' : '') . '</td>';
-			} else {
-				for ($i = 1; $i <= 12; ++$i) {
-					echo '<td>' . ($rowData[$i] ?? '') . '</td>';
-				}
-			}
+            if (empty($rowData)) {
+                echo '<td colspan="12" class="c">' . ($mentionEmptyData ? '<em>' . __('No data found.') . '</em>' : '') . '</td>';
+            } else {
+                for ($i = 1; $i <= 12; ++$i) {
+                    echo '<td>' . ($rowData[$i] ?? '') . '</td>';
+                }
+            }
 
-			echo '</tr>';
+            echo '</tr>';
 
-			$isFirst = false;
-		}
-	}
+            $isFirst = false;
+        }
+    }
 
-	/**
-	 * Display table footer
-	 */
-	protected function displayFoot()
-	{
-		echo '</table>';
-	}
+    /**
+     * Display table footer
+     */
+    protected function displayFoot()
+    {
+        echo '</table>';
+    }
 
-	protected function generateDataForAverageTemperature(): array
-	{
-		$Temperature = new Temperature();
-		$Statement = $this->createStatementToFetchAverageTemperatures();
-		$data = [];
+    protected function generateDataForAverageTemperature(): array
+    {
+        $Temperature = new Temperature();
+        $Statement = $this->createStatementToFetchAverageTemperatures();
+        $data = [];
 
-		while ($row = $Statement->fetch()) {
-			$data[$row['m']] = $Temperature->format(round($row['temp']));
-		}
+        while ($row = $Statement->fetch()) {
+            $data[$row['m']] = $Temperature->format(round($row['temp']));
+        }
 
-		return [
-		    $Temperature->unit() => $data,
-		];
-	}
+        return [
+            $Temperature->unit() => $data,
+        ];
+    }
 
-	/**
-	 * @return \PDOStatement
-	 */
-	protected function createStatementToFetchAverageTemperatures()
-	{
-		return $this->PDO->query(
-		    'SELECT
+    /**
+     * @return \PDOStatement
+     */
+    protected function createStatementToFetchAverageTemperatures()
+    {
+        return $this->PDO->query(
+            'SELECT
 				AVG(`temperature`) as `temp`,
 				' . $this->GroupByQuery . ' as `m`
 			FROM `' . PREFIX . 'training`
@@ -209,41 +209,41 @@ class MonthwiseTable
 			GROUP BY ' . $this->GroupByQuery . '
 			ORDER BY ' . $this->OrderByQuery . ' ASC
 			LIMIT 12'
-		);
-	}
+        );
+    }
 
-	protected function generateDataForWeatherConditions(): array
-	{
-		$Rows = [];
-		$Condition = new Weather\Condition(0);
-		$Statement = $this->createStatementToFetchWeatherConditions();
+    protected function generateDataForWeatherConditions(): array
+    {
+        $Rows = [];
+        $Condition = new Weather\Condition(0);
+        $Statement = $this->createStatementToFetchWeatherConditions();
 
-		foreach (Weather\Condition::completeList() as $id) {
-			if ($id == WeatherConditionProfile::UNKNOWN) {
-				continue;
-			}
+        foreach (Weather\Condition::completeList() as $id) {
+            if ($id == WeatherConditionProfile::UNKNOWN) {
+                continue;
+            }
 
-			$Statement->execute([$id]);
-			$Condition->set($id);
-			$rowData = [];
+            $Statement->execute([$id]);
+            $Condition->set($id);
+            $rowData = [];
 
-			foreach ($Statement->fetchAll() as $data) {
-				$rowData[$data['m']] = $data['num'] . 'x';
-			}
+            foreach ($Statement->fetchAll() as $data) {
+                $rowData[$data['m']] = $data['num'] . 'x';
+            }
 
-			$Rows[$Condition->icon()->code()] = $rowData;
-		}
+            $Rows[$Condition->icon()->code()] = $rowData;
+        }
 
-		return $Rows;
-	}
+        return $Rows;
+    }
 
-	/**
-	 * @return \PDOStatement
-	 */
-	protected function createStatementToFetchWeatherConditions()
-	{
-		return $this->PDO->prepare(
-		    'SELECT
+    /**
+     * @return \PDOStatement
+     */
+    protected function createStatementToFetchWeatherConditions()
+    {
+        return $this->PDO->prepare(
+            'SELECT
 				SUM(1) as `num`,
 				' . $this->GroupByQuery . ' as `m`
 			FROM `' . PREFIX . 'training`
@@ -254,42 +254,42 @@ class MonthwiseTable
 			GROUP BY ' . $this->GroupByQuery . '
 			ORDER BY ' . $this->OrderByQuery . ' ASC
 			LIMIT 12'
-		);
-	}
+        );
+    }
 
-	protected function generateDataForEquipment(): array
-	{
-		if ($this->EquipmentTypeID == 0) {
-			return [];
-		}
+    protected function generateDataForEquipment(): array
+    {
+        if ($this->EquipmentTypeID == 0) {
+            return [];
+        }
 
-		$RowsByID = [];
-		$Rows = [];
-		$Factory = new Factory($this->AccountID);
-		$Statement = $this->createStatementToFetchEquipment();
+        $RowsByID = [];
+        $Rows = [];
+        $Factory = new Factory($this->AccountID);
+        $Statement = $this->createStatementToFetchEquipment();
 
-		while ($data = $Statement->fetch()) {
-			if (! isset($RowsByID[$data['equipmentid']])) {
-				$RowsByID[$data['equipmentid']] = [];
-			}
+        while ($data = $Statement->fetch()) {
+            if (! isset($RowsByID[$data['equipmentid']])) {
+                $RowsByID[$data['equipmentid']] = [];
+            }
 
-			$RowsByID[$data['equipmentid']][$data['m']] = $data['num'] . 'x';
-		}
+            $RowsByID[$data['equipmentid']][$data['m']] = $data['num'] . 'x';
+        }
 
-		foreach ($RowsByID as $id => $rowData) {
-			$Rows[$Factory->equipment($id)->name()] = $rowData;
-		}
+        foreach ($RowsByID as $id => $rowData) {
+            $Rows[$Factory->equipment($id)->name()] = $rowData;
+        }
 
-		return $Rows;
-	}
+        return $Rows;
+    }
 
-	/**
-	 * @return \PDOStatement
-	 */
-	protected function createStatementToFetchEquipment()
-	{
-		return $this->PDO->query(
-		    'SELECT
+    /**
+     * @return \PDOStatement
+     */
+    protected function createStatementToFetchEquipment()
+    {
+        return $this->PDO->query(
+            'SELECT
 				SUM(IF(`eq`.`activityid` = `' . PREFIX . 'training`.`id`, 1,0)) as `num`,
 				`eq`.`equipmentid`,
 				' . $this->GroupByQuery . ' as `m`
@@ -302,6 +302,6 @@ class MonthwiseTable
 				' . $this->DependencyQuery . '
 			GROUP BY `eq`.`equipmentid`, ' . $this->GroupByQuery . ' HAVING `num` != 0
 			ORDER BY `eq`.`equipmentid` ASC, ' . $this->OrderByQuery . ' ASC'
-		);
-	}
+        );
+    }
 }

@@ -10,7 +10,7 @@ class PipeDelimitedArray extends Type
     /**
      * @var string
      */
-    const PIPE_ARRAY = 'pipe_array';
+    public const PIPE_ARRAY = 'pipe_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

@@ -15,170 +15,179 @@ use Runalyze\Dataset;
  */
 abstract class SummaryTable
 {
-	/**
-	 * @var int
-	 */
-	protected $AccountID;
+    /**
+     * @var int
+     */
+    protected $AccountID;
 
-	/**
-	 * @var \Runalyze\Dataset\Query
-	 */
-	protected $DatasetQuery;
+    /**
+     * @var \Runalyze\Dataset\Query
+     */
+    protected $DatasetQuery;
 
-	/**
-	 * @var \Runalyze\View\Dataset\Table
-	 */
-	protected $DatasetTable;
+    /**
+     * @var \Runalyze\View\Dataset\Table
+     */
+    protected $DatasetTable;
 
-	/**
-	 * Compare kilometers
-	 * @var bool
-	 */
-	protected $CompareKilometers = false;
+    /**
+     * Compare kilometers
+     * @var bool
+     */
+    protected $CompareKilometers = false;
 
-	/**
-	 * Sport id
-	 * @var int sportid - if nothing is selected than -1
-	 */
-	protected $Sportid;
+    /**
+     * Sport id
+     * @var int sportid - if nothing is selected than -1
+     */
+    protected $Sportid;
 
-	/**
-	 * Year
-	 * @var int
-	 */
-	protected $Year;
+    /**
+     * Year
+     * @var int
+     */
+    protected $Year;
 
-	/**
-	 * Title
-	 * @var string
-	 */
-	protected $Title = '';
+    /**
+     * Title
+     * @var string
+     */
+    protected $Title = '';
 
-	/**
-	 * Timerange to group for one row
-	 * @var int
-	 */
-	protected $Timerange = 0;
+    /**
+     * Timerange to group for one row
+     * @var int
+     */
+    protected $Timerange = 0;
 
-	/**
-	 * First timestamp to consider
-	 * @var int
-	 */
-	protected $TimeStart = 0;
+    /**
+     * First timestamp to consider
+     * @var int
+     */
+    protected $TimeStart = 0;
 
-	/**
-	 * Last timestamp to consider
-	 * @var int
-	 */
-	protected $TimeEnd = 0;
+    /**
+     * Last timestamp to consider
+     * @var int
+     */
+    protected $TimeEnd = 0;
 
-	/**
-	 * Additional columns
-	 * @var int
-	 */
-	protected $AdditionalColumns = 0;
+    /**
+     * Additional columns
+     * @var int
+     */
+    protected $AdditionalColumns = 0;
 
     /**
      * Construct summary table
      * @param int $sportid
      * @param int $year
      */
-    public function __construct(Dataset\Configuration $datasetConfig, $sportid, $year) {
-		$this->AccountID = SessionAccountHandler::getId();
-		$this->DatasetQuery = new Dataset\Query($datasetConfig, DB::getInstance(), $this->AccountID);
-		$this->DatasetTable = new Runalyze\View\Dataset\Table($datasetConfig);
+    public function __construct(Dataset\Configuration $datasetConfig, $sportid, $year)
+    {
+        $this->AccountID = SessionAccountHandler::getId();
+        $this->DatasetQuery = new Dataset\Query($datasetConfig, DB::getInstance(), $this->AccountID);
+        $this->DatasetTable = new Runalyze\View\Dataset\Table($datasetConfig);
 
-		$this->Sportid = $sportid;
-		$this->Year = $year;
-	}
+        $this->Sportid = $sportid;
+        $this->Year = $year;
+    }
 
-	/**
-	 * @param bool $flag
-	 */
-	public function compareKilometers($flag = true) {
-		$this->CompareKilometers = $flag;
-	}
+    /**
+     * @param bool $flag
+     */
+    public function compareKilometers($flag = true)
+    {
+        $this->CompareKilometers = $flag;
+    }
 
-	/**
-	 * Prepare summary
-	 */
-	abstract protected function prepare();
+    /**
+     * Prepare summary
+     */
+    abstract protected function prepare();
 
-	/**
-	 * Head for row
-	 * @param int $index
-	 * @return string
-	 */
-	abstract protected function rowHead($index);
+    /**
+     * Head for row
+     * @param int $index
+     * @return string
+     */
+    abstract protected function rowHead($index);
 
-	/**
-	 * @param array $data
-	 */
-	protected function displayAdditionalColumns($data) {}
+    /**
+     * @param array $data
+     */
+    protected function displayAdditionalColumns($data)
+    {
+    }
 
-	/**
-	 * @throws Exception
-	 */
-	private function checkPreparation() {
-		if ($this->Timerange == 0 || ($this->TimeStart == 0 && $this->TimeEnd == 0)) {
-			throw new Exception('Timerange, -start and -end have to be properly defined.');
-		}
-	}
+    /**
+     * @throws Exception
+     */
+    private function checkPreparation()
+    {
+        if ($this->Timerange == 0 || ($this->TimeStart == 0 && $this->TimeEnd == 0)) {
+            throw new Exception('Timerange, -start and -end have to be properly defined.');
+        }
+    }
 
-	public function display() {
-		$this->prepare();
-		$this->checkPreparation();
+    public function display()
+    {
+        $this->prepare();
+        $this->checkPreparation();
 
-		$this->displayTableHeader();
-		$this->displayTableBody();
-		$this->displayTableFooter();
+        $this->displayTableHeader();
+        $this->displayTableBody();
+        $this->displayTableFooter();
 
-	}
+    }
 
-	protected function displayTableHeader() {
-		echo '<table class="r fullwidth zebra-style">';
-		echo '<thead><tr><th colspan="' . ($this->DatasetTable->numColumns() + 2 + $this->AdditionalColumns) . '">' . $this->Title . '</th></tr></thead>';
-		echo '<tbody>';
-	}
+    protected function displayTableHeader()
+    {
+        echo '<table class="r fullwidth zebra-style">';
+        echo '<thead><tr><th colspan="' . ($this->DatasetTable->numColumns() + 2 + $this->AdditionalColumns) . '">' . $this->Title . '</th></tr></thead>';
+        echo '<tbody>';
+    }
 
-	protected function displayTableBody() {
-		$maxIndex = ceil(($this->TimeEnd - $this->TimeStart) / $this->Timerange) - 1;
-		$CompleteData = [];
-		$CompleteResult = $this->DatasetQuery->fetchSummaryForTimerange($this->Sportid, $this->Timerange, $this->TimeStart, $this->TimeEnd);
-		$Context = new Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
-		$hiddenKeys = [
-		    Dataset\Keys::SPORT,
-		];
+    protected function displayTableBody()
+    {
+        $maxIndex = ceil(($this->TimeEnd - $this->TimeStart) / $this->Timerange) - 1;
+        $CompleteData = [];
+        $CompleteResult = $this->DatasetQuery->fetchSummaryForTimerange($this->Sportid, $this->Timerange, $this->TimeStart, $this->TimeEnd);
+        $Context = new Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
+        $hiddenKeys = [
+            Dataset\Keys::SPORT,
+        ];
 
-		foreach ($CompleteResult as $Data) {
-			$CompleteData[$Data['timerange']] = $Data;
-		}
+        foreach ($CompleteResult as $Data) {
+            $CompleteData[$Data['timerange']] = $Data;
+        }
 
-		for ($index = 0; $index <= $maxIndex; ++$index) {
-			echo '<tr><td class="l"><span class="b">' . $this->rowHead($index) . '</span></td>';
+        for ($index = 0; $index <= $maxIndex; ++$index) {
+            echo '<tr><td class="l"><span class="b">' . $this->rowHead($index) . '</span></td>';
 
-			if (isset($CompleteData[$index]) && ! empty($CompleteData[$index])) {
-				echo '<td class="small">' . $CompleteData[$index]['num'] . 'x</td>';
+            if (isset($CompleteData[$index]) && ! empty($CompleteData[$index])) {
+                echo '<td class="small">' . $CompleteData[$index]['num'] . 'x</td>';
 
-				$this->displayAdditionalColumns($CompleteData[$index]);
+                $this->displayAdditionalColumns($CompleteData[$index]);
 
-				if ($this->CompareKilometers) {
-					$value = isset($CompleteData[$index + 1]) ? $CompleteData[$index + 1]['distance'] : 0;
-					$CompleteData[$index][Dataset\Keys\Distance::KEY_DISTANCE_COMPARISON] = $value;
-				}
+                if ($this->CompareKilometers) {
+                    $value = isset($CompleteData[$index + 1]) ? $CompleteData[$index + 1]['distance'] : 0;
+                    $CompleteData[$index][Dataset\Keys\Distance::KEY_DISTANCE_COMPARISON] = $value;
+                }
 
-				$Context->setActivityData($CompleteData[$index]);
-				echo $this->DatasetTable->codeForColumns($Context, $hiddenKeys);
-			} else {
-				echo HTML::emptyTD($this->DatasetTable->numColumns() + 1 + $this->AdditionalColumns, '<em>' . __('No activities') . '</em>', 'c small');
-			}
+                $Context->setActivityData($CompleteData[$index]);
+                echo $this->DatasetTable->codeForColumns($Context, $hiddenKeys);
+            } else {
+                echo HTML::emptyTD($this->DatasetTable->numColumns() + 1 + $this->AdditionalColumns, '<em>' . __('No activities') . '</em>', 'c small');
+            }
 
-			echo '</tr>';
-		}
-	}
+            echo '</tr>';
+        }
+    }
 
-	protected function displayTableFooter() {
-		echo '</tbody>';
-		echo '</table>';
-	}
+    protected function displayTableFooter()
+    {
+        echo '</tbody>';
+        echo '</table>';
+    }
 }

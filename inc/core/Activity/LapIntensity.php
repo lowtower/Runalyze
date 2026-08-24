@@ -21,16 +21,16 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class LapIntensity extends AbstractEnum
 {
-	/**
-	 * For compatibility reasons active has an empty value.
-	 * @var string
-	 */
-	private const ACTIVE = '';
+    /**
+     * For compatibility reasons active has an empty value.
+     * @var string
+     */
+    private const ACTIVE = '';
 
-	/**
-	 * @var string
-	 */
-	private const REST = 'R';
+    /**
+     * @var string
+     */
+    private const REST = 'R';
 
     /**
      * @var string
@@ -72,26 +72,31 @@ class LapIntensity extends AbstractEnum
      */
     private static $INST_REST;
 
-    public function __construct(string $value) {
+    public function __construct(string $value)
+    {
         $this->Value = $value;
     }
 
     /**
      * @return string
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->Value;
     }
 
-    public function isActive(): bool {
+    public function isActive(): bool
+    {
         return $this->Value == self::ACTIVE;
     }
 
-    public function isNotRest(): bool {
+    public function isNotRest(): bool
+    {
         return ! $this->isRest();
     }
 
-    public function isRest(): bool {
+    public function isRest(): bool
+    {
         return $this->Value == self::REST;
     }
 
@@ -110,7 +115,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6 ) {
+        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
         }
 
@@ -193,7 +198,8 @@ class LapIntensity extends AbstractEnum
      *
      * @return LapIntensity
      */
-    public static function getInstanceActive() {
+    public static function getInstanceActive()
+    {
         if (self::$INST_ACTIVE === null) {
             self::$INST_ACTIVE = new self(self::ACTIVE);
         }
@@ -206,7 +212,8 @@ class LapIntensity extends AbstractEnum
      *
      * @return LapIntensity
      */
-    public static function getInstanceRest() {
+    public static function getInstanceRest()
+    {
         if (self::$INST_REST === null) {
             self::$INST_REST = new self(self::REST);
         }
@@ -217,7 +224,8 @@ class LapIntensity extends AbstractEnum
     /**
      * Gets a RECOVERY.
      */
-    public static function getInstanceRecovery(): self {
+    public static function getInstanceRecovery(): self
+    {
         return new self(self::RECOVERY);
     }
 }

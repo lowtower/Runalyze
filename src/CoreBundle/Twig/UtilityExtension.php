@@ -86,7 +86,8 @@ class UtilityExtension extends \Twig_Extension
         return number_format($bytes / pow(1024, $I = floor(log($bytes, 1024))), ($I >= 1) ? 2 : 0, '.', '') . ' ' . $FS[$I];
     }
 
-    public function md5($value): string {
+    public function md5($value): string
+    {
         return md5($value);
     }
 }

@@ -11,20 +11,22 @@
  */
 class FormularInputHidden extends FormularInput
 {
-	/**
-	 * Prepare for beeing displayed
-	 */
-	protected function prepareForDisplay() {
-		$this->addAttribute('type', 'hidden');
-		$this->addAttribute('name', $this->name);
-		$this->addAttribute('value', $this->value);
-		$this->setId($this->name);
-	}
+    /**
+     * Prepare for beeing displayed
+     */
+    protected function prepareForDisplay()
+    {
+        $this->addAttribute('type', 'hidden');
+        $this->addAttribute('name', $this->name);
+        $this->addAttribute('value', $this->value);
+        $this->setId($this->name);
+    }
 
     /**
      * Display this field
      */
-    protected function getFieldCode(): string {
-		return '<input ' . $this->attributes() . '>';
-	}
+    protected function getFieldCode(): string
+    {
+        return '<input ' . $this->attributes() . '>';
+    }
 }

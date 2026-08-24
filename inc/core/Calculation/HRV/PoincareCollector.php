@@ -19,50 +19,53 @@ use Runalyze\Model\HRV\Entity;
  */
 class PoincareCollector
 {
-	/**
-	 * @var \Runalyze\Model\HRV\Entity
-	 */
-	protected $Object;
+    /**
+     * @var \Runalyze\Model\HRV\Entity
+     */
+    protected $Object;
 
-	/**
-	 * Filter: maximal difference to include in plot
-	 * @var int
-	 */
-	protected $Filter = 0;
+    /**
+     * Filter: maximal difference to include in plot
+     * @var int
+     */
+    protected $Filter = 0;
 
-	/**
-	 * Plot data
-	 * @var array
-	 */
-	protected $PlotData = [];
+    /**
+     * Plot data
+     * @var array
+     */
+    protected $PlotData = [];
 
     /**
      * Calculator for hrv statistics
      * @param int $filter [optional] maximal difference to include in plot
      */
-    public function __construct(Entity $hrvObject, $filter = 200) {
-		$this->Object = $hrvObject;
-		$this->Filter = $filter;
+    public function __construct(Entity $hrvObject, $filter = 200)
+    {
+        $this->Object = $hrvObject;
+        $this->Filter = $filter;
 
-		$this->collectPlotData();
-	}
+        $this->collectPlotData();
+    }
 
-	protected function collectPlotData() {
-		$data = $this->Object->data();
-		$num = $this->Object->num();
+    protected function collectPlotData()
+    {
+        $data = $this->Object->data();
+        $num = $this->Object->num();
 
-		for ($i = 1; $i < $num; ++$i) {
-			if (abs($data[$i - 1] - $data[$i]) < $this->Filter) {
-				$this->PlotData[(string) $data[$i - 1]] = $data[$i];
-			}
-		}
-	}
+        for ($i = 1; $i < $num; ++$i) {
+            if (abs($data[$i - 1] - $data[$i]) < $this->Filter) {
+                $this->PlotData[(string) $data[$i - 1]] = $data[$i];
+            }
+        }
+    }
 
-	/**
-	 * Plot data
-	 * @return array
-	 */
-	public function data() {
-		return $this->PlotData;
-	}
+    /**
+     * Plot data
+     * @return array
+     */
+    public function data()
+    {
+        return $this->PlotData;
+    }
 }

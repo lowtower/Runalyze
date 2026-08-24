@@ -106,8 +106,8 @@ class PwxWorkout extends AbstractSingleParser
         }
 
         $this->Container->ContinuousData->Time[] = (int) $log->timeoffset;
-        $this->Container->ContinuousData->Latitude[] = (! empty($log->lat)) ? (double) $log->lat : null;
-        $this->Container->ContinuousData->Longitude[] = (! empty($log->lon)) ? (double) $log->lon : null;
+        $this->Container->ContinuousData->Latitude[] = (! empty($log->lat)) ? (float) $log->lat : null;
+        $this->Container->ContinuousData->Longitude[] = (! empty($log->lon)) ? (float) $log->lon : null;
         $this->Container->ContinuousData->Altitude[] = (! empty($log->alt)) ? round((int) $log->alt) : null;
         $this->Container->ContinuousData->HeartRate[] = (! empty($log->hr)) ? round((int) $log->hr) : null;
         $this->Container->ContinuousData->Distance[] = (! empty($log->dist)) ? (float) $log->dist / 1000 : null;

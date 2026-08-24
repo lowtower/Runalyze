@@ -14,11 +14,13 @@ class RouteNameEvalFactory
     /**
      * @param a $routeNameEvalOsm implementation
      */
-    public function __construct(RouteNameEvalOsm $routeNameEvalOsm) {
+    public function __construct(RouteNameEvalOsm $routeNameEvalOsm)
+    {
         $this->RouteNameEval = $routeNameEvalOsm;
     }
 
-    public function getInstance(): RouteNameEval {
+    public function getInstance(): RouteNameEval
+    {
         return $this->RouteNameEval;
     }
 }

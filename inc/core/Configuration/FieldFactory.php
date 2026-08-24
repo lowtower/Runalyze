@@ -23,71 +23,78 @@ class FieldFactory
      * @param array<string, mixed> $options
      * @return \FormularField
      */
-    public function FieldFor(Handle $Handle, array $options = []) {
-		$options = array_merge([
-		    'label' => $Handle->key(),
-		    'tooltip' => '',
-		    'unit' => '',
-		    'size' => '',
-		    'css' => '',
-		    'layout' => '',
-		], $options);
+    public function FieldFor(Handle $Handle, array $options = [])
+    {
+        $options = array_merge([
+            'label' => $Handle->key(),
+            'tooltip' => '',
+            'unit' => '',
+            'size' => '',
+            'css' => '',
+            'layout' => '',
+        ], $options);
 
-		$label = ! empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];
+        $label = ! empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];
 
-		$Field = $this->createFieldFor($Handle, $label);
-		$this->setAttributesToField($Field, $options);
+        $Field = $this->createFieldFor($Handle, $label);
+        $this->setAttributesToField($Field, $options);
 
-		return $Field;
-	}
+        return $Field;
+    }
 
     /**
      * Create a field
      * @param string $label
      * @return \FormularField
      */
-    private function createFieldFor(Handle $Handle, $label) {
-		$Parameter = $Handle->object();
-		$Class = 'FormularInput';
+    private function createFieldFor(Handle $Handle, $label)
+    {
+        $Parameter = $Handle->object();
+        $Class = 'FormularInput';
 
-		if ($Parameter instanceof SelectRow) {
-			$Field = new \FormularSelectDb($Handle->key(), $label, $Handle->value());
-			$Field->loadOptionsFrom($Parameter->table(), $Parameter->column());
+        if ($Parameter instanceof SelectRow) {
+            $Field = new \FormularSelectDb($Handle->key(), $label, $Handle->value());
+            $Field->loadOptionsFrom($Parameter->table(), $Parameter->column());
 
-			return $Field;
-		}
+            return $Field;
+        }
 
-		if ($Parameter instanceof Select) {
-			$Field = new \FormularSelectBox($Handle->key(), $label, $Handle->value());
-			$Field->setOptions($Parameter->options());
+        if ($Parameter instanceof Select) {
+            $Field = new \FormularSelectBox($Handle->key(), $label, $Handle->value());
+            $Field->setOptions($Parameter->options());
 
-			return $Field;
-		}
+            return $Field;
+        }
 
-		if ($Parameter instanceof Boolean) {
-			$Field = new \FormularCheckbox($Handle->key(), $label, $Handle->value());
-			$Field->addHiddenSentValue();
+        if ($Parameter instanceof Boolean) {
+            $Field = new \FormularCheckbox($Handle->key(), $label, $Handle->value());
+            $Field->addHiddenSentValue();
 
-			return $Field;
-		}
+            return $Field;
+        }
 
-		return new $Class($Handle->key(), $label, $Handle->object()->valueAsString());
-	}
+        return new $Class($Handle->key(), $label, $Handle->object()->valueAsString());
+    }
 
     /**
      * @param array<string, mixed> $options
      */
-    private function setAttributesToField(\FormularField $Field, array &$options) {
-		if (! empty($options['unit']))
-			$Field->setUnit($options['unit']);
+    private function setAttributesToField(\FormularField $Field, array &$options)
+    {
+        if (! empty($options['unit'])) {
+            $Field->setUnit($options['unit']);
+        }
 
-		if (! empty($options['size']))
-			$Field->setSize($options['size']);
+        if (! empty($options['size'])) {
+            $Field->setSize($options['size']);
+        }
 
-		if (! empty($options['css']))
-			$Field->addLayoutClass($options['css']);
+        if (! empty($options['css'])) {
+            $Field->addLayoutClass($options['css']);
+        }
 
-		if (! empty($options['layout']))
-			$Field->setLayout($options['layout']);
-	}
+        if (! empty($options['layout'])) {
+            $Field->setLayout($options['layout']);
+        }
+    }
 }

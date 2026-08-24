@@ -13,7 +13,7 @@ class NightDetector
     /**
      * @var float
      */
-    const ZENITH = 90.833333333333;
+    public const ZENITH = 90.833333333333;
 
     /**
      * @var null|int null: unknown, 0: at sunlight, 1: at night

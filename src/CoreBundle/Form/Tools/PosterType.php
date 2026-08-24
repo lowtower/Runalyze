@@ -34,8 +34,7 @@ class PosterType extends AbstractType
         SportRepository $sportRepository,
         TrainingRepository $trainingRepository,
         TokenStorage $tokenStorage
-    )
-    {
+    ) {
         $this->SportRepository = $sportRepository;
         $this->TrainingRepository = $trainingRepository;
         $this->TokenStorage = $tokenStorage;
@@ -73,7 +72,7 @@ class PosterType extends AbstractType
             ])
             ->add('year', ChoiceType::class, [
                 'choices' => $this->TrainingRepository->getActiveYearsFor($this->getAccount(), null, 2),
-                'choice_label' => function($year, $key, $index) {
+                'choice_label' => function ($year, $key, $index) {
                     return $year;
                 },
             ])
@@ -85,7 +84,7 @@ class PosterType extends AbstractType
             ])
             ->add('sport', ChoiceType::class, [
                 'choices' => $this->SportRepository->findWithDistancesFor($this->getAccount()),
-                'choice_label' => function($sport, $key, $index) {
+                'choice_label' => function ($sport, $key, $index) {
                     /** @var Sport $sport */
                     return $sport->getName();
                 },

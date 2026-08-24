@@ -15,34 +15,38 @@ use Runalyze\View\Activity\Context;
  */
 class SectionMiscellaneous extends TrainingViewSectionTabbedPlot
 {
-	/**
-	 * @var bool
-	 */
-	protected $showCadence;
+    /**
+     * @var bool
+     */
+    protected $showCadence;
 
-	public function __construct(?Context $Context = null, $showCadence = true) {
-		$this->showCadence = $showCadence;
+    public function __construct(?Context $Context = null, $showCadence = true)
+    {
+        $this->showCadence = $showCadence;
 
-		parent::__construct($Context);
-	}
+        parent::__construct($Context);
+    }
 
-	protected function setHeaderAndRows() {
-		$this->Header = __('Miscellaneous');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Miscellaneous');
 
-		$this->appendRowTabbedPlot( new SectionMiscellaneousRow($this->Context, $this->showCadence) );
-	}
+        $this->appendRowTabbedPlot(new SectionMiscellaneousRow($this->Context, $this->showCadence));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return true;
-	}
+    protected function hasRequiredData(): bool
+    {
+        return true;
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'misc';
-	}
+    protected function cssId(): string
+    {
+        return 'misc';
+    }
 }

@@ -16,5 +16,5 @@ namespace Runalyze\Parameter;
  */
 class Textline extends \Runalyze\Parameter
 {
-	// No individual methods
+    // No individual methods
 }

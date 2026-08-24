@@ -17,11 +17,12 @@ class OsmCsvDataCollection
      * @param string $csvLines Overpass lines seperated with |
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $csvLines) {
+    public function __construct(string $csvLines)
+    {
         $lines = explode(PHP_EOL, $csvLines);
 
-        foreach($lines as &$l) {
-            if(substr($l, 0, 6) !== '@type' . OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
+        foreach ($lines as &$l) {
+            if (substr($l, 0, 6) !== '@type' . OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
                 $this->data[] = new OsmCsvData($l);
             }
         }
@@ -30,10 +31,11 @@ class OsmCsvDataCollection
         $this->fillOrderedNames();
     }
 
-    protected function sort() {
-        usort($this->data, function($a, $b): int {
+    protected function sort()
+    {
+        usort($this->data, function ($a, $b): int {
             $r = $a->order <=> $b->order;
-            if($r !== 0) {
+            if ($r !== 0) {
                 return $r;
             }
 
@@ -42,19 +44,21 @@ class OsmCsvDataCollection
         });
     }
 
-    public function hasNames(): bool {
+    public function hasNames(): bool
+    {
         return ! empty($this->data);
     }
 
     /**
      * fills the internal array which map the names to a category.
      */
-    protected function fillOrderedNames() {
-        foreach($this->data as &$e) {
+    protected function fillOrderedNames()
+    {
+        foreach ($this->data as &$e) {
             $n = empty($e->nameDe) ? $e->name : $e->nameDe;
 
             // if this name is not already in the list, add it
-            if(! array_key_exists($n, $this->names)) {
+            if (! array_key_exists($n, $this->names)) {
                 $this->names[$n] = $e->category;
             }
         }
@@ -63,8 +67,9 @@ class OsmCsvDataCollection
     /**
      * get (already sorted) names of a category.
      */
-    public function getNames(string $category): array {
-        return array_keys(array_filter($this->names, function($v, $k) use ($category): bool {
+    public function getNames(string $category): array
+    {
+        return array_keys(array_filter($this->names, function ($v, $k) use ($category): bool {
             return $v == $category;
         }, ARRAY_FILTER_USE_BOTH));
     }

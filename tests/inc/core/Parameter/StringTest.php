@@ -9,29 +9,31 @@ namespace Runalyze\Parameter;
  */
 class ParameterStringTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Textline
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Textline
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Textline('');
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Textline('');
+    }
 
-	public function testAsString() {
-		$this->assertEquals( '', $this->object->value() );
-		$this->assertEquals( '', $this->object->valueAsString() );
+    public function testAsString()
+    {
+        $this->assertEquals('', $this->object->value());
+        $this->assertEquals('', $this->object->valueAsString());
 
-		$this->object->set('foo');
-		$this->assertEquals( 'foo', $this->object->value() );
-		$this->assertEquals( 'foo', $this->object->valueAsString() );
+        $this->object->set('foo');
+        $this->assertEquals('foo', $this->object->value());
+        $this->assertEquals('foo', $this->object->valueAsString());
 
-		$this->object->set('bar');
-		$this->assertEquals( 'bar', $this->object->value() );
-		$this->assertEquals( 'bar', $this->object->valueAsString() );
-	}
+        $this->object->set('bar');
+        $this->assertEquals('bar', $this->object->value());
+        $this->assertEquals('bar', $this->object->valueAsString());
+    }
 }

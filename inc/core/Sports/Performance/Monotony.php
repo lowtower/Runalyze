@@ -12,27 +12,27 @@ class Monotony
     /**
      * @var float Maximum
      */
-    const MAX = 10.0;
+    public const MAX = 10.0;
 
     /**
      * @var float Minimum
      */
-    const MIN = 0.0;
+    public const MIN = 0.0;
 
     /**
      * @var float Warning
      */
-    const WARNING = 1.5;
+    public const WARNING = 1.5;
 
     /**
      * @var float Critical value
      */
-    const CRITICAL = 2;
+    public const CRITICAL = 2;
 
     /**
      * @var int Number of days
      */
-    const DAYS = 7;
+    public const DAYS = 7;
 
     /**
      * @var array

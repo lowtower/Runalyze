@@ -6,25 +6,25 @@ use Runalyze\Calculation;
 
 class ElevationsRecalculator
 {
-	/**
-	 * @var int
-	 */
-	protected $NumberOfRoutes = 0;
+    /**
+     * @var int
+     */
+    protected $NumberOfRoutes = 0;
 
-	/**
-	 * @var array calculated elevations
-	 */
-	protected $Results = [];
+    /**
+     * @var array calculated elevations
+     */
+    protected $Results = [];
 
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	/**
-	 * @var int
-	 */
-	protected $AccountID;
+    /**
+     * @var int
+     */
+    protected $AccountID;
 
     /**
      * @var string
@@ -38,63 +38,63 @@ class ElevationsRecalculator
      */
     public function __construct(\PDO $database, $accountId, $databasePrefix)
     {
-		$this->PDO = $database;
-		$this->AccountID = $accountId;
+        $this->PDO = $database;
+        $this->AccountID = $accountId;
         $this->DatabasePrefix = $databasePrefix;
-	}
+    }
 
-	/**
-	 * Run recalculations
-	 */
-	public function run()
+    /**
+     * Run recalculations
+     */
+    public function run()
     {
-		$Query = $this->getQuery();
-		$Update = $this->prepareUpdate();
+        $Query = $this->getQuery();
+        $Update = $this->prepareUpdate();
 
-		while ($Data = $Query->fetch()) {
-			$Elevation = \Runalyze\Model\Entity::explode($Data['elevations']);
-			$Calculator = new Calculation\Elevation\Calculator($Elevation);
-			$Calculator->calculate();
+        while ($Data = $Query->fetch()) {
+            $Elevation = \Runalyze\Model\Entity::explode($Data['elevations']);
+            $Calculator = new Calculation\Elevation\Calculator($Elevation);
+            $Calculator->calculate();
 
-			if ($Calculator->totalElevation() != $Data['elevation'] || $Calculator->elevationUp() != $Data['elevation_up']) {
-				$Update->bindValue(':id', $Data['id']);
-				$Update->bindValue(':elevation', $Calculator->totalElevation());
-				$Update->bindValue(':elevation_up', $Calculator->elevationUp());
-				$Update->bindValue(':elevation_down', $Calculator->elevationDown());
-				$Update->execute();
+            if ($Calculator->totalElevation() != $Data['elevation'] || $Calculator->elevationUp() != $Data['elevation_up']) {
+                $Update->bindValue(':id', $Data['id']);
+                $Update->bindValue(':elevation', $Calculator->totalElevation());
+                $Update->bindValue(':elevation_up', $Calculator->elevationUp());
+                $Update->bindValue(':elevation_down', $Calculator->elevationDown());
+                $Update->execute();
 
-				$this->NumberOfRoutes++;
-			}
+                $this->NumberOfRoutes++;
+            }
 
-			$this->Results[$Data['id']] = [$Calculator->totalElevation(), $Calculator->elevationUp(), $Calculator->elevationDown()];
-		}
-	}
+            $this->Results[$Data['id']] = [$Calculator->totalElevation(), $Calculator->elevationUp(), $Calculator->elevationDown()];
+        }
+    }
 
-	/**
-	 * Prepare statement
-	 * @return \PDOStatement
-	 */
-	protected function prepareUpdate()
+    /**
+     * Prepare statement
+     * @return \PDOStatement
+     */
+    protected function prepareUpdate()
     {
-		$Set = [
-		    '`elevation` = :elevation',
-		    '`elevation_up` = :elevation_up',
-		    '`elevation_down` = :elevation_down',
-		];
+        $Set = [
+            '`elevation` = :elevation',
+            '`elevation_up` = :elevation_up',
+            '`elevation_down` = :elevation_down',
+        ];
 
-		$Query = 'UPDATE `' . $this->DatabasePrefix . 'route` SET ' . implode(',', $Set) . ' WHERE `id`=:id AND `accountid`="' . (int) $this->AccountID . '"';
+        $Query = 'UPDATE `' . $this->DatabasePrefix . 'route` SET ' . implode(',', $Set) . ' WHERE `id`=:id AND `accountid`="' . (int) $this->AccountID . '"';
 
-		return $this->PDO->prepare($Query);
-	}
+        return $this->PDO->prepare($Query);
+    }
 
-	/**
-	 * Get query statement
-	 * @return \PDOStatement statement to fetch routes with respective elevations
-	 */
-	protected function getQuery()
+    /**
+     * Get query statement
+     * @return \PDOStatement statement to fetch routes with respective elevations
+     */
+    protected function getQuery()
     {
-		return $this->PDO->query(
-		    'SELECT
+        return $this->PDO->query(
+            'SELECT
 				`id`,
 				`elevation`,
 				`elevation_up`,
@@ -107,22 +107,22 @@ class ElevationsRecalculator
 			WHERE
 				`accountid`="' . (int) $this->AccountID . '" AND
 				(`elevations_original`!="" OR `elevations_corrected`!="")'
-		);
-	}
+        );
+    }
 
-	/**
-	 * @return int number of routes that have been touched
-	 */
-	public function numberOfRoutes()
+    /**
+     * @return int number of routes that have been touched
+     */
+    public function numberOfRoutes()
     {
-		return $this->NumberOfRoutes;
-	}
+        return $this->NumberOfRoutes;
+    }
 
-	/**
-	 * @return array 'activityid' => array('total', 'up', 'down')
-	 */
-	public function results()
+    /**
+     * @return array 'activityid' => array('total', 'up', 'down')
+     */
+    public function results()
     {
-		return $this->Results;
-	}
+        return $this->Results;
+    }
 }

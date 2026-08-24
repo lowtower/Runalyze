@@ -18,47 +18,47 @@ use Runalyze\View\Activity;
  */
 class PaceCumulativeAverage extends Pace
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(200,200,255)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(200,200,255)';
 
-	/**
-	 * @var bool
-	 */
-	protected $adjustAxis = false;
+    /**
+     * @var bool
+     */
+    protected $adjustAxis = false;
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context)
-	{
-		$internalContext = clone $context;
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $internalContext = clone $context;
 
-		$this->adjustTrackdata($internalContext);
+        $this->adjustTrackdata($internalContext);
 
-		parent::__construct($internalContext);
-	}
+        parent::__construct($internalContext);
+    }
 
-	protected function initOptions()
-	{
-		parent::initOptions();
+    protected function initOptions()
+    {
+        parent::initOptions();
 
-		$this->Label = __('Moving average');
-		$this->Color = self::COLOR;
-	}
+        $this->Label = __('Moving average');
+        $this->Color = self::COLOR;
+    }
 
-	/**
-	 * Calculate cumulative moving average
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected function adjustTrackdata(Activity\Context $context)
-	{
-		$MovingAverage = new MovingAverage\Cumulative($context->trackdata()->pace(), $context->trackdata()->distance());
-		$MovingAverage->calculate();
+    /**
+     * Calculate cumulative moving average
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected function adjustTrackdata(Activity\Context $context)
+    {
+        $MovingAverage = new MovingAverage\Cumulative($context->trackdata()->pace(), $context->trackdata()->distance());
+        $MovingAverage->calculate();
 
-		$context->trackdata()
-		    ->setTheoreticalPace($MovingAverage->movingAverage());
-	}
+        $context->trackdata()
+            ->setTheoreticalPace($MovingAverage->movingAverage());
+    }
 }

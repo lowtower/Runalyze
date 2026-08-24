@@ -26,7 +26,7 @@ class RecalculationTaskCollection
 
     public function runAllTasks()
     {
-        usort($this->Tasks, function(RecalculationTaskInterface $a, RecalculationTaskInterface $b): int {
+        usort($this->Tasks, function (RecalculationTaskInterface $a, RecalculationTaskInterface $b): int {
             if ($a->getOrder() == $b->getOrder()) {
                 return 0;
             }

@@ -9,10 +9,10 @@ use Runalyze\Model;
 
 class Gradient
 {
-	/**
-	 * @var array
-	 */
-	protected $Elevation = [];
+    /**
+     * @var array
+     */
+    protected $Elevation = [];
 
     /**
      * @var array
@@ -29,12 +29,12 @@ class Gradient
      */
     protected $MovingAverageKernel;
 
-	public function __construct(array $elevation = [], array $distance = [])
+    public function __construct(array $elevation = [], array $distance = [])
     {
         if ($elevation !== [] && $distance !== []) {
             $this->setData($elevation, $distance);
         }
-	}
+    }
 
     /**
      * @throws \InvalidArgumentException

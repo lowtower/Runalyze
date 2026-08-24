@@ -146,8 +146,8 @@ class GpxTrack extends AbstractSingleParser
         }
 
         if (! empty($point['lat'])) {
-            $lat = round((double) $point['lat'], 7);
-            $lon = round((double) $point['lon'], 7);
+            $lat = round((float) $point['lat'], 7);
+            $lon = round((float) $point['lon'], 7);
         } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $lat = end($this->Container->ContinuousData->Latitude);
             $lon = end($this->Container->ContinuousData->Longitude);
@@ -266,7 +266,8 @@ class GpxTrack extends AbstractSingleParser
     /**
      * @return SimpleXMLElement[]
      */
-    protected function getExtensionNodesOf(SimpleXMLElement $parentNode): array {
+    protected function getExtensionNodesOf(SimpleXMLElement $parentNode): array
+    {
         $childNodes = [];
 
         foreach (['gpxtpx', 'ns3', 'ns2'] as $namespace) {

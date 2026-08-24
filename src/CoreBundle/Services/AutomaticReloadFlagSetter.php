@@ -9,37 +9,37 @@ class AutomaticReloadFlagSetter
     /**
      * @var string
      */
-    const FLASH_BAG_KEY = 'ajax.reload.command';
+    public const FLASH_BAG_KEY = 'ajax.reload.command';
 
     /**
      * @var int enum
      */
-    const FLAG_DATA_BROWSER = 1;
+    public const FLAG_DATA_BROWSER = 1;
 
     /**
      * @var int enum
      */
-    const FLAG_TRAINING = 2;
+    public const FLAG_TRAINING = 2;
 
     /**
      * @var int enum
      */
-    const FLAG_TRAINING_AND_DATA_BROWSER = 3;
+    public const FLAG_TRAINING_AND_DATA_BROWSER = 3;
 
     /**
      * @var int enum
      */
-    const FLAG_PLUGINS = 4;
+    public const FLAG_PLUGINS = 4;
 
     /**
      * @var int enum
      */
-    const FLAG_ALL = 5;
+    public const FLAG_ALL = 5;
 
     /**
      * @var int enum
      */
-    const FLAG_PAGE = 6;
+    public const FLAG_PAGE = 6;
 
     /**
      * @var FlashBagInterface

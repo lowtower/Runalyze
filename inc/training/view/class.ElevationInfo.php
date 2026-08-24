@@ -19,48 +19,50 @@ use Runalyze\View\Activity\Context;
  */
 class ElevationInfo
 {
-	/**
-	 * Training object
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * Training object
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	/**
-	 * Lowest point
-	 * @var int
-	 */
-	protected $lowestPoint = 0;
+    /**
+     * Lowest point
+     * @var int
+     */
+    protected $lowestPoint = 0;
 
-	/**
-	 * Highest point
-	 * @var int
-	 */
-	protected $highestPoint = 0;
+    /**
+     * Highest point
+     * @var int
+     */
+    protected $highestPoint = 0;
 
-	/**
-	 * Manual elevation
-	 * @var int
-	 */
-	protected $manualElevation = 0;
+    /**
+     * Manual elevation
+     * @var int
+     */
+    protected $manualElevation = 0;
 
-	/**
-	 * Calculated elevation
-	 * @var int
-	 */
-	protected $calculatedElevation = 0;
+    /**
+     * Calculated elevation
+     * @var int
+     */
+    protected $calculatedElevation = 0;
 
-	public function __construct(Context $context) {
-		$this->Context = $context;
-	}
+    public function __construct(Context $context)
+    {
+        $this->Context = $context;
+    }
 
-	public function display() {
-		echo '<div class="panel-heading">';
-		$this->displayHeader();
-		echo '</div>';
+    public function display()
+    {
+        echo '<div class="panel-heading">';
+        $this->displayHeader();
+        echo '</div>';
 
-		echo '<div class="panel-content">';
+        echo '<div class="panel-content">';
 
-		if ($this->Context->hasRoute()) {
+        if ($this->Context->hasRoute()) {
             $this->calculateValues();
 
             $this->displayStandardValues();
@@ -73,33 +75,36 @@ class ElevationInfo
             $this->displayNoRouteAvailable();
         }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
-	protected function calculateValues() {
-		$this->lowestPoint = min( $this->Context->route()->elevations() );
-		$this->highestPoint = max( $this->Context->route()->elevations() );
+    protected function calculateValues()
+    {
+        $this->lowestPoint = min($this->Context->route()->elevations());
+        $this->highestPoint = max($this->Context->route()->elevations());
 
-		$this->manualElevation = $this->Context->activity()
-		    ->elevation();
-		$this->calculatedElevation = $this->Context->route()
-		    ->elevation();
-	}
+        $this->manualElevation = $this->Context->activity()
+            ->elevation();
+        $this->calculatedElevation = $this->Context->route()
+            ->elevation();
+    }
 
-	protected function displayHeader() {
-		echo HTML::h1( sprintf( __('Elevation calculation for: %s'), $this->Context->dataview()->titleWithComment() ) );
-	}
+    protected function displayHeader()
+    {
+        echo HTML::h1(sprintf(__('Elevation calculation for: %s'), $this->Context->dataview()->titleWithComment()));
+    }
 
-	protected function displayStandardValues() {
-		if ($this->manualElevation != $this->calculatedElevation) {
-			$Linker = new Runalyze\View\Activity\Linker($this->Context->activity());
-			$useCalculatedValueLink = Ajax::window('<a class="small as-input" href="' . $Linker->urlToElevationInfo('use-calculated-value=true') . '">&raquo; ' . __('apply data') . '</a>', 'normal');
-		} else {
-			$useCalculatedValueLink = '';
-		}
+    protected function displayStandardValues()
+    {
+        if ($this->manualElevation != $this->calculatedElevation) {
+            $Linker = new Runalyze\View\Activity\Linker($this->Context->activity());
+            $useCalculatedValueLink = Ajax::window('<a class="small as-input" href="' . $Linker->urlToElevationInfo('use-calculated-value=true') . '">&raquo; ' . __('apply data') . '</a>', 'normal');
+        } else {
+            $useCalculatedValueLink = '';
+        }
 
-		$Fieldset = new FormularFieldset( __('General data') );
-		$html = '
+        $Fieldset = new FormularFieldset(__('General data'));
+        $html = '
 			<div class="w50">
 				<label>' . Ajax::tooltip(__('manual value'), __('If you did not insert a value by hand, this value has been calculated.')) . '</label>
 				<span class="as-input">' . Elevation::format($this->manualElevation) . '</span>
@@ -109,7 +114,7 @@ class ElevationInfo
 				<span class="as-input">' . Elevation::format($this->lowestPoint) . '</span>
 			</div>
 			<div class="w50">
-				<label>' . Ajax::tooltip(__('calculated value'), __('This value is calculated with your current configuration. The saved value may be outdated.') ) . '</label>
+				<label>' . Ajax::tooltip(__('calculated value'), __('This value is calculated with your current configuration. The saved value may be outdated.')) . '</label>
 				<span class="as-input">' . Elevation::format($this->calculatedElevation) . '</span> ' . $useCalculatedValueLink . '
 			</div>
 			<div class="w50">
@@ -125,171 +130,179 @@ class ElevationInfo
 				<span class="as-input">+' . Elevation::format($this->Context->route()->elevationUp()) . ' / -' . Elevation::format($this->Context->route()->elevationDown()) . '</span>
 			</div>
 		';
-		// #TSC if the original FIT values available, add it
-		if ($this->Context->activity()->fitTotalAscent() > 0 || $this->Context->activity()->fitTotalDescent() != 0) {
-			$html .= '
+        // #TSC if the original FIT values available, add it
+        if ($this->Context->activity()->fitTotalAscent() > 0 || $this->Context->activity()->fitTotalDescent() != 0) {
+            $html .= '
 			<div class="w50">
 			</div>
 			<div class="w50">
 				<label>' . __('Up/Down') . ' (FIT original)</label>
 				<span class="as-input">+' . Elevation::format($this->Context->activity()->fitTotalAscent()) .
-								    ' / -' . Elevation::format($this->Context->activity()->fitTotalDescent()) . '</span>
+                                    ' / -' . Elevation::format($this->Context->activity()->fitTotalDescent()) . '</span>
 			</div>';
-		}
+        }
 
-		$Fieldset->setHtmlCode($html);
-		$Fieldset->display();
-	}
+        $Fieldset->setHtmlCode($html);
+        $Fieldset->display();
+    }
 
-	protected function displayDifferentAlgorithms() {
-		if (! $this->Context->route()->hasElevations()) {
-			return;
-		}
+    protected function displayDifferentAlgorithms()
+    {
+        if (! $this->Context->route()->hasElevations()) {
+            return;
+        }
 
-		$Code = $this->getDifferentAlgorithmsFor($this->Context->route()->elevations());
-		$Code .= '<p class="small info">' . __('You can choose the algorithm and threshold in the configuration window.') . '</p>';
+        $Code = $this->getDifferentAlgorithmsFor($this->Context->route()->elevations());
+        $Code .= '<p class="small info">' . __('You can choose the algorithm and threshold in the configuration window.') . '</p>';
 
-		$Fieldset = new FormularFieldset( __('Elevation data for different algorithms/thresholds') );
-		$Fieldset->setHtmlCode($Code);
-		$Fieldset->display();
-	}
+        $Fieldset = new FormularFieldset(__('Elevation data for different algorithms/thresholds'));
+        $Fieldset->setHtmlCode($Code);
+        $Fieldset->display();
+    }
 
-	protected function displayDifferentAlgorithmsWithOriginalData() {
-		if (! $this->Context->route()->hasOriginalElevations() || ! $this->Context->route()->elevationsCorrected()) {
-			return;
-		}
+    protected function displayDifferentAlgorithmsWithOriginalData()
+    {
+        if (! $this->Context->route()->hasOriginalElevations() || ! $this->Context->route()->elevationsCorrected()) {
+            return;
+        }
 
-		$Fieldset = new FormularFieldset( __('Elevation data for different algorithms/thresholds (based on original data)') );
-		$Fieldset->setId('table-with-original-data');
-		$Fieldset->setCollapsed();
-		$Fieldset->setHtmlCode( $this->getDifferentAlgorithmsFor($this->Context->route()->elevationsOriginal()) );
-		$Fieldset->display();
-	}
+        $Fieldset = new FormularFieldset(__('Elevation data for different algorithms/thresholds (based on original data)'));
+        $Fieldset->setId('table-with-original-data');
+        $Fieldset->setCollapsed();
+        $Fieldset->setHtmlCode($this->getDifferentAlgorithmsFor($this->Context->route()->elevationsOriginal()));
+        $Fieldset->display();
+    }
 
     /**
      * @param array $array
      */
-    protected function getDifferentAlgorithmsFor($array): string {
-		$Method = new ElevationMethod();
-		$Calculator = new Calculation\Elevation\Calculator($array);
-		$TresholdRange = range(1, 10);
-		$Algorithms = [
-		    [ElevationMethod::NONE, false],
-		    [ElevationMethod::THRESHOLD, true],
-		    [ElevationMethod::DOUGLAS_PEUCKER, true],
-		    // array(ElevationMethod::REUMANN_WITKAM, false)
-		];
+    protected function getDifferentAlgorithmsFor($array): string
+    {
+        $Method = new ElevationMethod();
+        $Calculator = new Calculation\Elevation\Calculator($array);
+        $TresholdRange = range(1, 10);
+        $Algorithms = [
+            [ElevationMethod::NONE, false],
+            [ElevationMethod::THRESHOLD, true],
+            [ElevationMethod::DOUGLAS_PEUCKER, true],
+            // array(ElevationMethod::REUMANN_WITKAM, false)
+        ];
 
-		$Code = '<table class="fullwidth zebra-style small">';
-		$Code .= '<thead>';
-		$Code .= '<tr><th class="r">' . __('Threshold') . ':</th>';
-		foreach ($TresholdRange as $t)
-			$Code .= '<th>' . $t . '</th>';
+        $Code = '<table class="fullwidth zebra-style small">';
+        $Code .= '<thead>';
+        $Code .= '<tr><th class="r">' . __('Threshold') . ':</th>';
+        foreach ($TresholdRange as $t) {
+            $Code .= '<th>' . $t . '</th>';
+        }
 
-		$Code .= '</tr>';
-		$Code .= '</thead>';
-		$Code .= '<tbody>';
+        $Code .= '</tr>';
+        $Code .= '</thead>';
+        $Code .= '<tbody>';
 
-		foreach ($Algorithms as $Algorithm) {
-			$Method->set($Algorithm[0]);
-			$Calculator->setMethod($Method);
-			$Code .= '<tr><td class="b">' . $Method->valueAsLongString() . '</td>';
+        foreach ($Algorithms as $Algorithm) {
+            $Method->set($Algorithm[0]);
+            $Calculator->setMethod($Method);
+            $Code .= '<tr><td class="b">' . $Method->valueAsLongString() . '</td>';
 
-			if ($Algorithm[1]) {
-				foreach ($TresholdRange as $t) {
-					$highlight = (Configuration::ActivityView()->elevationMinDiff() == $t) && (Configuration::ActivityView()->elevationMethod()->value() == $Algorithm[0]) ? ' highlight' : '';
-					$Calculator->setThreshold($t);
-					$Calculator->calculate();
-					$Code .= '<td class="r' . $highlight . '">' . Elevation::format($Calculator->totalElevation()) . '</td>';
-				}
-			} else {
-				$Calculator->calculate();
-				$Code .= '<td class="c' . (Configuration::ActivityView()->elevationMethod()->value() == $Algorithm[0] ? ' highlight' : '') . '" colspan="' . count($TresholdRange) . '">' . Elevation::format($Calculator->totalElevation()) . '</td>';
-			}
+            if ($Algorithm[1]) {
+                foreach ($TresholdRange as $t) {
+                    $highlight = (Configuration::ActivityView()->elevationMinDiff() == $t) && (Configuration::ActivityView()->elevationMethod()->value() == $Algorithm[0]) ? ' highlight' : '';
+                    $Calculator->setThreshold($t);
+                    $Calculator->calculate();
+                    $Code .= '<td class="r' . $highlight . '">' . Elevation::format($Calculator->totalElevation()) . '</td>';
+                }
+            } else {
+                $Calculator->calculate();
+                $Code .= '<td class="c' . (Configuration::ActivityView()->elevationMethod()->value() == $Algorithm[0] ? ' highlight' : '') . '" colspan="' . count($TresholdRange) . '">' . Elevation::format($Calculator->totalElevation()) . '</td>';
+            }
 
-			$Code .= '</tr>';
-		}
+            $Code .= '</tr>';
+        }
 
-		$Code .= '</tbody>';
+        $Code .= '</tbody>';
 
-		return $Code . '</table>';
-	}
+        return $Code . '</table>';
+    }
 
-	protected function displayElevationCorrection() {
-		$Url = (new Runalyze\View\Activity\Linker($this->Context->activity()))->urlToElevationCorrection();
-		$Fieldset = new FormularFieldset( __('Elevation correction') );
-		$Links = [];
+    protected function displayElevationCorrection()
+    {
+        $Url = (new Runalyze\View\Activity\Linker($this->Context->activity()))->urlToElevationCorrection();
+        $Fieldset = new FormularFieldset(__('Elevation correction'));
+        $Links = [];
 
-		if ($this->Context->route()->elevationsCorrected()) {
-			$textInfo = __('Elevation data has been corrected.') . ($this->Context->route()->elevationsSource() != '' ? ' (' . $this->Context->route()->elevationsSource() . ')' : '');
-			$rawLinks = $this->getLinksForCorrectionStrategies();
-		} else {
-			$textInfo = __('Elevation data has not been corrected.');
-			$rawLinks = [
-			    '' => __('correct now'),
-			];
-		}
+        if ($this->Context->route()->elevationsCorrected()) {
+            $textInfo = __('Elevation data has been corrected.') . ($this->Context->route()->elevationsSource() != '' ? ' (' . $this->Context->route()->elevationsSource() . ')' : '');
+            $rawLinks = $this->getLinksForCorrectionStrategies();
+        } else {
+            $textInfo = __('Elevation data has not been corrected.');
+            $rawLinks = [
+                '' => __('correct now'),
+            ];
+        }
 
-		// #TSC add info about barometric device
-		if ($this->Context->route()->altitudeBarometric()) {
-			$textInfo .= '&nbsp;&nbsp;Die Orginal Höhendaten basieren auf einer barometrischen Messung.';
-		}
+        // #TSC add info about barometric device
+        if ($this->Context->route()->altitudeBarometric()) {
+            $textInfo .= '&nbsp;&nbsp;Die Orginal Höhendaten basieren auf einer barometrischen Messung.';
+        }
 
-		foreach ($rawLinks as $urlAppendix => $text) {
-			$Links[] = '<a class="ajax" target="gps-results" href="' . $Url . $urlAppendix . '"><strong>&raquo; ' . $text . '</strong></a>';
-		}
+        foreach ($rawLinks as $urlAppendix => $text) {
+            $Links[] = '<a class="ajax" target="gps-results" href="' . $Url . $urlAppendix . '"><strong>&raquo; ' . $text . '</strong></a>';
+        }
 
-		$Fieldset->setHtmlCode(
-		    '<p class="info block" id="gps-results">' . $textInfo . '</p>
+        $Fieldset->setHtmlCode(
+            '<p class="info block" id="gps-results">' . $textInfo . '</p>
 			<p class="info block">' . implode('<br>', $Links) . '</p>'
-		);
+        );
 
-		$Fieldset->display();
-	}
+        $Fieldset->display();
+    }
 
     /**
      * @return array<string, string>
      */
-    protected function getLinksForCorrectionStrategies(): array {
-		return [
-		    '?strategy=GeoTIFF' => sprintf(__('correct again using %s'), __('srtm files')),
-		    '?strategy=Geonames' => sprintf(__('correct again using %s'), 'geonames.org'),
-		    '?strategy=GoogleMaps' => sprintf(__('correct again using %s'), 'maps.google.com'),
-		    '?strategy=none' => __('remove corrected elevation data'),
-		];
-	}
+    protected function getLinksForCorrectionStrategies(): array
+    {
+        return [
+            '?strategy=GeoTIFF' => sprintf(__('correct again using %s'), __('srtm files')),
+            '?strategy=Geonames' => sprintf(__('correct again using %s'), 'geonames.org'),
+            '?strategy=GoogleMaps' => sprintf(__('correct again using %s'), 'maps.google.com'),
+            '?strategy=none' => __('remove corrected elevation data'),
+        ];
+    }
 
-	protected function displayPlot() {
-		$Plot = new Runalyze\View\Activity\Plot\ElevationAlgorithms($this->Context);
+    protected function displayPlot()
+    {
+        $Plot = new Runalyze\View\Activity\Plot\ElevationAlgorithms($this->Context);
 
-		echo '<fieldset>';
-		echo '<legend>' . __('Compare algorithms') . '</legend>';
-		echo '<div id="plot-' . $Plot->getKey() . '" class="plot-container">';
-		$Plot->display();
-		echo '</div>';
-		echo '</fieldset>';
-	}
+        echo '<fieldset>';
+        echo '<legend>' . __('Compare algorithms') . '</legend>';
+        echo '<div id="plot-' . $Plot->getKey() . '" class="plot-container">';
+        $Plot->display();
+        echo '</div>';
+        echo '</fieldset>';
+    }
 
-	/**
-	 * Display elevation correction
-	 */
-	protected function displayInformation() {
-		$Fieldset = new FormularFieldset( __('Note for elevation data') );
-		$Fieldset->setId('general-information');
-		$Fieldset->setCollapsed();
-		$Fieldset->addInfo(
-		    __('The calculation of elevation data is very difficult - there is not one single solution. ' .
-					'Bad gps data can be corrected via srtm-data but these are only available in a 90x90m grid and not always perfectly accurate. ' .
-					'In addition, every platform uses another algorithm to determine the elevation value (for up-/downwards). ' .
-					'We give you therefore the possibility to choose algorithm and threshold such that the values fit your experience.')
-		);
+    /**
+     * Display elevation correction
+     */
+    protected function displayInformation()
+    {
+        $Fieldset = new FormularFieldset(__('Note for elevation data'));
+        $Fieldset->setId('general-information');
+        $Fieldset->setCollapsed();
+        $Fieldset->addInfo(
+            __('The calculation of elevation data is very difficult - there is not one single solution. ' .
+                    'Bad gps data can be corrected via srtm-data but these are only available in a 90x90m grid and not always perfectly accurate. ' .
+                    'In addition, every platform uses another algorithm to determine the elevation value (for up-/downwards). ' .
+                    'We give you therefore the possibility to choose algorithm and threshold such that the values fit your experience.')
+        );
 
-		$Fieldset->display();
-	}
+        $Fieldset->display();
+    }
 
     protected function displayNoRouteAvailable()
     {
-        $Fieldset = new FormularFieldset( __('Problem') );
+        $Fieldset = new FormularFieldset(__('Problem'));
         $Fieldset->setId('problem');
         $Fieldset->addError(
             __('No elevation data available.')

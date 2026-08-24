@@ -21,17 +21,17 @@ class FitActivity extends AbstractSingleParser
     /**
      * @var int [s]
      */
-    const TIME_LIMIT_FOR_TIME_JUMP = 3600;
+    public const TIME_LIMIT_FOR_TIME_JUMP = 3600;
 
     /**
      * @var string
      */
-    const APP_ID_RUNSCRIBE_LIGHT = '80,32,146,179,176,221,69,173,137,179,71,42,178,6,10,182';
+    public const APP_ID_RUNSCRIBE_LIGHT = '80,32,146,179,176,221,69,173,137,179,71,42,178,6,10,182';
 
     /**
      * @var string
      */
-    const APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
+    public const APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
 
     /**
      * @var array
@@ -255,13 +255,13 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC: set the temporary collected/calculated values of swimming if we have "valid" values collected
         if ($this->IsSwimming) {
-            if(array_sum($this->SwimHeartrate) > 0) {
+            if (array_sum($this->SwimHeartrate) > 0) {
                 $this->Container->ContinuousData->HeartRate = $this->SwimHeartrate;
             } else {
                 $this->Container->ContinuousData->HeartRate = [];
             }
 
-            if(array_sum($this->SwimTemperature) > 0) {
+            if (array_sum($this->SwimTemperature) > 0) {
                 $this->Container->ContinuousData->Temperature = $this->SwimTemperature;
             } else {
                 $this->Container->ContinuousData->Temperature = [];
@@ -274,12 +274,12 @@ class FitActivity extends AbstractSingleParser
         }
 
         // #TSC: Save additional infos of splits (f.e. strong-training) as JSON
-        if($this->fitSplitsAdditionals->hasData()) {
+        if ($this->fitSplitsAdditionals->hasData()) {
             $this->Container->ActivityData->SplitsAdditional = $this->fitSplitsAdditionals->getFinishedSplitsAdditional();
         }
 
         // #TSC: if the training has a "goal", mark it
-        if($this->fitWorkoutStep->hasCustomTarget() || $this->Container->ActivityData->PaceGoal) {
+        if ($this->fitWorkoutStep->hasCustomTarget() || $this->Container->ActivityData->PaceGoal) {
             $this->Container->ActivityData->WithGoal = true;
         }
     }
@@ -326,7 +326,7 @@ class FitActivity extends AbstractSingleParser
 
         $devFieldName = str_replace(['"', ' '], ['', '_'], $this->Values['field_name'][0]);
         $fieldName = $this->Values['developer_data_index'][0] . '_' . $this->Values['field_definition_number'][0] . '_' . $devFieldName;
-        $fieldName = preg_replace_callback('/(\W)/i', function(array $char): string {
+        $fieldName = preg_replace_callback('/(\W)/i', function (array $char): string {
             return sprintf('_%02x_', ord($char[0]));
         }, preg_replace('/(\s+)/i', '_', $fieldName));
 
@@ -571,7 +571,7 @@ class FitActivity extends AbstractSingleParser
         $this->mapDeveloperFieldsToNativeFieldsFor($this->DeveloperFieldMappingForSession);
 
         // #TSC swiming or STRENGTH_TRAINING have a "special" belastungs-time
-        if (($this->IsSwimming 
+        if (($this->IsSwimming
                 || $this->Container->Metadata->getInternalSportId() == \Runalyze\Profile\Sport\SportProfile::STRENGTH_TRAINING
                 || $this->Container->Metadata->getInternalSportId() == \Runalyze\Profile\Sport\SportProfile::HIIT_CARDIO)
                 && isset($this->Values['total_active_time'])) {
@@ -690,7 +690,7 @@ class FitActivity extends AbstractSingleParser
         // #TSC: set original sport-name to notes
         if (isset($this->Values['name'])) {
             $v = 'Profile: ' . substr($this->Values['name'][0], 1, -1);
-            if(! empty($this->Container->Metadata->getNotes())) {
+            if (! empty($this->Container->Metadata->getNotes())) {
                 $v = $v . "\n" . $this->Container->Metadata->getNotes();
             }
 
@@ -851,7 +851,8 @@ class FitActivity extends AbstractSingleParser
      * read data from battery block.
      * #TSC
      */
-    protected function readBattery() {
+    protected function readBattery()
+    {
         // set temperature of battery; besser als gar nichts ;-) will stored every 5 minutes on a Fenix 6
         if (isset($this->Values['temperature'])) {
             $this->batteryTemperature[] = (int) $this->Values['temperature'][0];
@@ -862,7 +863,8 @@ class FitActivity extends AbstractSingleParser
      * TSC: list of devices which support Performance Condition
      * Mapping number to device see https://github.com/Runalyze/devices/blob/master/src/Mapping/GarminFitSdkMapping.php
      */
-    protected function hasPerformanceCondition($creator): bool {
+    protected function hasPerformanceCondition($creator): bool
+    {
         return substr($creator, 0, 5) === 'fr630' || $creator == '2156' || $creator == '2310' || $creator == '2311' ||                             // GARMIN_FORERUNNER_630
             substr($creator, 0, 5) === 'fr645' || $creator == '2886' || $creator == '3003' || $creator == '2888' || $creator == '3004' ||       // GARMIN_FORERUNNER_645
             substr($creator, 0, 5) === 'fr935' || $creator == '2691' || $creator == '2833' ||                                                   // GARMIN_FORERUNNER_935
@@ -947,16 +949,16 @@ class FitActivity extends AbstractSingleParser
         $this->Container->ContinuousData->Longitude[] = isset($this->Values['position_long']) ? substr($this->Values['position_long'][1], 0, -4) : null;
 
         // TSC: check if altitude baro is not yet set; try to set it one time
-        if($this->Container->ContinuousData->IsAltitudeDataBarometric === null) {
+        if ($this->Container->ContinuousData->IsAltitudeDataBarometric === null) {
             // TSC: check if "enhanced_altitude" is existing - if true => reading alti by Baro!
-            if(isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0) {
+            if (isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0) {
                 $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
-            } else if(isset($this->Values['altitude']) && $this->Values['altitude'][0] != 0) {
+            } elseif (isset($this->Values['altitude']) && $this->Values['altitude'][0] != 0) {
                 $this->Container->ContinuousData->IsAltitudeDataBarometric = false;
             }
         }
 
-        if($this->Container->ContinuousData->IsAltitudeDataBarometric) {
+        if ($this->Container->ContinuousData->IsAltitudeDataBarometric) {
             $this->Container->ContinuousData->Altitude[] = isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0 ? substr($this->Values['enhanced_altitude'][1], 0, -4) : null;
         } else {
             $this->Container->ContinuousData->Altitude[] = isset($this->Values['altitude']) && $this->Values['altitude'][0] != 0 ? substr($this->Values['altitude'][1], 0, -4) : null;
@@ -1103,9 +1105,9 @@ class FitActivity extends AbstractSingleParser
     protected function readSet()
     {
         $round = $this->fitSplitsAdditionals->getSetRoundAndCollect($this->Values);
-        if($round !== null) {
+        if ($round !== null) {
             $this->Container->Rounds->add($round);
-        }   
+        }
     }
 
     // "NAME=length" is a swim lane
@@ -1115,7 +1117,7 @@ class FitActivity extends AbstractSingleParser
             foreach ($this->Container->ContinuousData->getPropertyNamesOfArrays() as $key) {
                 // TSC: do not delete here heart-rate and temperature
                 // before the first lap is reading the both values are already written
-                if($key != 'Temperature' && $key != 'HeartRate') {
+                if ($key != 'Temperature' && $key != 'HeartRate') {
                     $this->Container->ContinuousData->{$key} = [];
                 }
             }
@@ -1127,7 +1129,7 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC: if there is a rest/pause-lap ("length_type=0=idle" means nothink happens in this interval), set the BREAK-type
         $stroketype = isset($this->Values['swim_stroke']) ? (int) $this->Values['swim_stroke'][0] : null;
-        if($stroketype == null && isset($this->Values['length_type']) && $this->Values['length_type'][0] == '0') {
+        if ($stroketype == null && isset($this->Values['length_type']) && $this->Values['length_type'][0] == '0') {
             $this->Container->ContinuousData->StrokeType[] = StrokeTypeProfile::BREAK;
         } else {
             $this->Container->ContinuousData->StrokeType[] = $stroketype;
@@ -1145,7 +1147,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // #TSC: calculate the heart-rate / temp for this lane
-        if(isset($this->Values['start_time'][0]) && isset($this->Values['total_timer_time'][0])) {
+        if (isset($this->Values['start_time'][0]) && isset($this->Values['total_timer_time'][0])) {
             $this->setSwimAdditionalInfos();
         }
     }
@@ -1156,37 +1158,38 @@ class FitActivity extends AbstractSingleParser
      * so we must "map" per time of the start-/stop-time of the lane and the "NAME=record" timestamps with "NAME=record" belongs to which lane ans build the average.
      * #TSC
      */
-    protected function setSwimAdditionalInfos() {
+    protected function setSwimAdditionalInfos()
+    {
         // get start- and end-time of this lane
         $startTime = (int) $this->Values['start_time'][0];
         $endTime = (int) ($startTime + round(((int) $this->Values['total_timer_time'][0]) / 1000));
 
         // get the relevant records-times for this lane (inside the start/end-time)
-        $recordTimes = array_filter($this->RecordTime, function($v, $k) use ($startTime, $endTime): bool {
+        $recordTimes = array_filter($this->RecordTime, function ($v, $k) use ($startTime, $endTime): bool {
             return isset($v) && $v >= $startTime && $v <= $endTime;
         }, ARRAY_FILTER_USE_BOTH);
 
         // get the indexes of recordTimes to find the corresponing heartrate and temperature
         $heartsVal = [];
         $tempVal = [];
-        forEach(array_keys($recordTimes) as &$i) {
-            if(isset($this->Container->ContinuousData->HeartRate[$i])) {
+        foreach (array_keys($recordTimes) as &$i) {
+            if (isset($this->Container->ContinuousData->HeartRate[$i])) {
                 $heartsVal[] = $this->Container->ContinuousData->HeartRate[$i];
             }
 
-            if(isset($this->Container->ContinuousData->Temperature[$i])) {
+            if (isset($this->Container->ContinuousData->Temperature[$i])) {
                 $tempVal[] = $this->Container->ContinuousData->Temperature[$i];
             }
         }
 
         // calculate the avg of the current lane
-        if(count($heartsVal) > 0) {
+        if (count($heartsVal) > 0) {
             $this->SwimHeartrate[] = round(array_sum($heartsVal) / count($heartsVal));
         } else {
             $this->SwimHeartrate[] = null;
         }
 
-        if(count($tempVal) > 0) {
+        if (count($tempVal) > 0) {
             $this->SwimTemperature[] = round(array_sum($tempVal) / count($tempVal));
         } else {
             $this->SwimTemperature[] = null;
@@ -1200,7 +1203,7 @@ class FitActivity extends AbstractSingleParser
 
             foreach ($values as $value) {
                 if ($value !== '65535') {
-                    $this->Container->RRIntervals[] = 1000 * (double) substr($value, 0, -2);
+                    $this->Container->RRIntervals[] = 1000 * (float) substr($value, 0, -2);
                 }
             }
         }
@@ -1242,7 +1245,8 @@ class FitActivity extends AbstractSingleParser
      * is lap active or pause/rest.
      * primary for swimming.
      */
-    protected function isActiveLap(): bool {
+    protected function isActiveLap(): bool
+    {
         // this is for lap and StrokeTypeProfile::BREAK (for lanes) can't be used here
         return ! ($this->IsSwimming && isset($this->Values['total_distance']) && $this->Values['total_distance'][0] == '0' && isset($this->Values['total_strokes']) && $this->Values['total_strokes'][0] == '0');
     }
@@ -1260,7 +1264,7 @@ class FitActivity extends AbstractSingleParser
             $n = rtrim($n, '"');
 
             $v = 'Workout name: ' . $n;
-            if(! empty($this->Container->Metadata->getNotes())) {
+            if (! empty($this->Container->Metadata->getNotes())) {
                 $v = $this->Container->Metadata->getNotes() . "\n" . $v;
             }
 
@@ -1285,7 +1289,7 @@ class FitActivity extends AbstractSingleParser
 
         // pace-pro
         if ($split_type == 0
-            && isset($this->Values['total_distance']) 
+            && isset($this->Values['total_distance'])
             && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
             // init value
             if ($this->Container->ActivityData->PaceGoal === null) {
@@ -1345,7 +1349,7 @@ class FitActivity extends AbstractSingleParser
             // the zones: example "104,129,144,153,160,182"
             if (isset($this->Values['hr_zone_high_boundary'])) {
                 $zones = explode(',', $this->Values['hr_zone_high_boundary'][1]);
-                if(count($zones) > 0) {
+                if (count($zones) > 0) {
                     $this->Container->ActivityData->HeartRateZoneBounds = $zones;
                 }
             }
@@ -1357,9 +1361,9 @@ class FitActivity extends AbstractSingleParser
                 $str = str_replace(' s', '', $str);
 
                 $zones = explode(',', $str);
-                if(count($zones) > 0) {
+                if (count($zones) > 0) {
                     // round to ganzzahl
-                    foreach($zones as &$v) {
+                    foreach ($zones as &$v) {
                         $v = round($v);
                     }
 

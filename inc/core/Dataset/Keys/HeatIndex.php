@@ -46,9 +46,9 @@ class HeatIndex extends AbstractKey
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('HI');
-	}
+    {
+        return __('HI');
+    }
 
     /**
      * @codeCoverageIgnore

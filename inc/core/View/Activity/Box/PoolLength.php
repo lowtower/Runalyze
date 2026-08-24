@@ -19,9 +19,9 @@ use Runalyze\View\Activity\Context;
 class PoolLength extends ValueBox
 {
     public function __construct(Context $Context)
-	{
-		parent::__construct(
-		    new Activity\PoolLength($Context->swimdata()->poollength())
-		);
-	}
+    {
+        parent::__construct(
+            new Activity\PoolLength($Context->swimdata()->poollength())
+        );
+    }
 }

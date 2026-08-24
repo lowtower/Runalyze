@@ -9,63 +9,67 @@ use Runalyze\Model\Trackdata\Entity;
  */
 class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleStepSmoothing() {
-		$Smoother = new PaceSmoother(new Entity([
-    Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
-		    Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-]), false);
+    public function testSimpleStepSmoothing()
+    {
+        $Smoother = new PaceSmoother(new Entity([
+            Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
+            Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        ]), false);
 
-		$this->assertEquals([
-		    8, 4, 3, 15, // , 6 - the last one will be ignored for MODE_STEP
-		], $Smoother->smooth(2, PaceSmoother::MODE_STEP));
-	}
+        $this->assertEquals([
+            8, 4, 3, 15, // , 6 - the last one will be ignored for MODE_STEP
+        ], $Smoother->smooth(2, PaceSmoother::MODE_STEP));
+    }
 
-	public function testSmoothingByDistance() {
-		$Smoother = new PaceSmoother(new Entity([
-		    Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
-		    Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-		]), false);
+    public function testSmoothingByDistance()
+    {
+        $Smoother = new PaceSmoother(new Entity([
+            Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
+            Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        ]), false);
 
-		$this->assertEquals([
-		    8, 4, 3, 15, 6,
-		], $Smoother->smooth(2, PaceSmoother::MODE_DISTANCE));
-	}
+        $this->assertEquals([
+            8, 4, 3, 15, 6,
+        ], $Smoother->smooth(2, PaceSmoother::MODE_DISTANCE));
+    }
 
-	public function testSmoothingByTime() {
-		$Smoother = new PaceSmoother(new Entity([
-		    Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
-		    Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-		]), false);
+    public function testSmoothingByTime()
+    {
+        $Smoother = new PaceSmoother(new Entity([
+            Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
+            Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        ]), false);
 
-		$this->assertEquals([
-		    round(20 / 3), 20 / 4, 20, 6,
-		], $Smoother->smooth(18, PaceSmoother::MODE_TIME));
-	}
+        $this->assertEquals([
+            round(20 / 3), 20 / 4, 20, 6,
+        ], $Smoother->smooth(18, PaceSmoother::MODE_TIME));
+    }
 
-	public function testKeepingArraySize() {
-		$arraySizes = range(15, 35);
-		$stepSizes = range(2, 11);
-		$modes = [
-		    'step' => PaceSmoother::MODE_STEP,
-		    'time' => PaceSmoother::MODE_TIME,
-		    'distance' => PaceSmoother::MODE_DISTANCE,
-		];
+    public function testKeepingArraySize()
+    {
+        $arraySizes = range(15, 35);
+        $stepSizes = range(2, 11);
+        $modes = [
+            'step' => PaceSmoother::MODE_STEP,
+            'time' => PaceSmoother::MODE_TIME,
+            'distance' => PaceSmoother::MODE_DISTANCE,
+        ];
 
-		foreach ($arraySizes as $arraySize) {
-			$Smoother = new PaceSmoother(new Entity([
-			    Entity::TIME => range(0, $arraySize - 1),
-			    Entity::DISTANCE => range(0, $arraySize - 1),
-			]), true);
+        foreach ($arraySizes as $arraySize) {
+            $Smoother = new PaceSmoother(new Entity([
+                Entity::TIME => range(0, $arraySize - 1),
+                Entity::DISTANCE => range(0, $arraySize - 1),
+            ]), true);
 
-			foreach ($stepSizes as $stepSize) {
-				foreach ($modes as $name => $mode) {
-					$this->assertEquals(
-					    $arraySize,
-					    count($Smoother->smooth($stepSize, $mode)),
-					    'Wrong array size for mode = ' . $name . ', arraySize = ' . $arraySize . ' and stepSize = ' . $stepSize
-					);
-				}
-			}
-		}
-	}
+            foreach ($stepSizes as $stepSize) {
+                foreach ($modes as $name => $mode) {
+                    $this->assertEquals(
+                        $arraySize,
+                        count($Smoother->smooth($stepSize, $mode)),
+                        'Wrong array size for mode = ' . $name . ', arraySize = ' . $arraySize . ' and stepSize = ' . $stepSize
+                    );
+                }
+            }
+        }
+    }
 }

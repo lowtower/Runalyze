@@ -14,18 +14,20 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Changeable extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setBaseClass('weather-basecloud');
-		$this->setLayerClass('weather-drizzle weather-sunny');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setBaseClass('weather-basecloud');
+        $this->setLayerClass('weather-drizzle weather-sunny');
+    }
 
-	/**
-	 * Set weather icon as night
-	 */
-	public function setAsNight() {
-		$this->Layer = str_replace('weather-sunny', 'weather-night', $this->Layer);
-	}
+    /**
+     * Set weather icon as night
+     */
+    public function setAsNight()
+    {
+        $this->Layer = str_replace('weather-sunny', 'weather-night', $this->Layer);
+    }
 }

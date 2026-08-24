@@ -19,185 +19,201 @@ use Runalyze\Model;
  */
 class Entity extends Model\EntityWithID
 {
-	/**
-	 * Key: name
-	 * @var string
-	 */
-	const NAME = 'name';
+    /**
+     * Key: name
+     * @var string
+     */
+    public const NAME = 'name';
 
-	/**
-	 * Key: typeid
-	 * @var string
-	 */
-	const TYPEID = 'typeid';
+    /**
+     * Key: typeid
+     * @var string
+     */
+    public const TYPEID = 'typeid';
 
-	/**
-	 * Key: notes
-	 * @var string
-	 */
-	const NOTES = 'notes';
+    /**
+     * Key: notes
+     * @var string
+     */
+    public const NOTES = 'notes';
 
-	/**
-	 * Key: distance
-	 * @var string
-	 */
-	const DISTANCE = 'distance';
+    /**
+     * Key: distance
+     * @var string
+     */
+    public const DISTANCE = 'distance';
 
-	/**
-	 * Key: duration
-	 * @var string
-	 */
-	const TIME = 'time';
+    /**
+     * Key: duration
+     * @var string
+     */
+    public const TIME = 'time';
 
-	/**
-	 * Key: additional distance
-	 * @var string
-	 */
-	const ADDITIONAL_KM = 'additional_km';
+    /**
+     * Key: additional distance
+     * @var string
+     */
+    public const ADDITIONAL_KM = 'additional_km';
 
-	/**
-	 * Key: start date
-	 * @var string
-	 */
-	const DATE_START = 'date_start';
+    /**
+     * Key: start date
+     * @var string
+     */
+    public const DATE_START = 'date_start';
 
-	/**
-	 * Key: end date
-	 * @var string
-	 */
-	const DATE_END = 'date_end';
+    /**
+     * Key: end date
+     * @var string
+     */
+    public const DATE_END = 'date_end';
 
     /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties(): array {
-		return [
-		    self::NAME,
-		    self::TYPEID,
-		    self::NOTES,
-		    self::DISTANCE,
-		    self::TIME,
-		    self::ADDITIONAL_KM,
-		    self::DATE_START,
-		    self::DATE_END,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::NAME,
+            self::TYPEID,
+            self::NOTES,
+            self::DISTANCE,
+            self::TIME,
+            self::ADDITIONAL_KM,
+            self::DATE_START,
+            self::DATE_END,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
     /**
      * Can be null?
      * @param string $key
      */
-    protected function canBeNull($key): bool {
-		switch ($key) {
-			case self::DATE_START:
-			case self::DATE_END:
-				return true;
-		}
+    protected function canBeNull($key): bool
+    {
+        switch ($key) {
+            case self::DATE_START:
+            case self::DATE_END:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function synchronize() {
-		parent::synchronize();
+    public function synchronize()
+    {
+        parent::synchronize();
 
-		$this->ensureAllNumericValues();
-	}
+        $this->ensureAllNumericValues();
+    }
 
-	/**
-	 * Ensure that numeric fields get numeric values
-	 */
-	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue([
-		    self::DISTANCE,
-		    self::TIME,
-		    self::ADDITIONAL_KM,
-		]);
-	}
+    /**
+     * Ensure that numeric fields get numeric values
+     */
+    protected function ensureAllNumericValues()
+    {
+        $this->ensureNumericValue([
+            self::DISTANCE,
+            self::TIME,
+            self::ADDITIONAL_KM,
+        ]);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function name() {
-		return $this->Data[self::NAME];
-	}
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->Data[self::NAME];
+    }
 
-	/**
-	 * Equipment type id
-	 * @return int
-	 */
-	public function typeid() {
-		return $this->Data[self::TYPEID];
-	}
+    /**
+     * Equipment type id
+     * @return int
+     */
+    public function typeid()
+    {
+        return $this->Data[self::TYPEID];
+    }
 
-	/**
-	 * Notes
-	 * @return string
-	 */
-	public function notes() {
-		return $this->Data[self::NOTES];
-	}
+    /**
+     * Notes
+     * @return string
+     */
+    public function notes()
+    {
+        return $this->Data[self::NOTES];
+    }
 
-	/**
-	 * @return int [km]
-	 */
-	public function distance() {
-		return $this->Data[self::DISTANCE];
-	}
+    /**
+     * @return int [km]
+     */
+    public function distance()
+    {
+        return $this->Data[self::DISTANCE];
+    }
 
-	/**
-	 * @return int [s]
-	 */
-	public function duration() {
-		return $this->Data[self::TIME];
-	}
+    /**
+     * @return int [s]
+     */
+    public function duration()
+    {
+        return $this->Data[self::TIME];
+    }
 
-	/**
-	 * @return int [km]
-	 */
-	public function additionalDistance() {
-		return $this->Data[self::ADDITIONAL_KM];
-	}
+    /**
+     * @return int [km]
+     */
+    public function additionalDistance()
+    {
+        return $this->Data[self::ADDITIONAL_KM];
+    }
 
-	/**
-	 * @return int [km]
-	 */
-	public function totalDistance() {
-		return $this->Data[self::DISTANCE] + $this->Data[self::ADDITIONAL_KM];
-	}
+    /**
+     * @return int [km]
+     */
+    public function totalDistance()
+    {
+        return $this->Data[self::DISTANCE] + $this->Data[self::ADDITIONAL_KM];
+    }
 
-	/**
-	 * @return string Y-m-d
-	 */
-	public function startDate() {
-		return $this->Data[self::DATE_START];
-	}
+    /**
+     * @return string Y-m-d
+     */
+    public function startDate()
+    {
+        return $this->Data[self::DATE_START];
+    }
 
     /**
      * Has this equipment a start date?
      */
-    public function hasStartDate(): bool {
-		return $this->Data[self::DATE_START] !== null;
-	}
+    public function hasStartDate(): bool
+    {
+        return $this->Data[self::DATE_START] !== null;
+    }
 
-	/**
-	 * @return string Y-m-d
-	 */
-	public function endDate() {
-		return $this->Data[self::DATE_END];
-	}
+    /**
+     * @return string Y-m-d
+     */
+    public function endDate()
+    {
+        return $this->Data[self::DATE_END];
+    }
 
     /**
      * Is this equipment still in use?
      */
-    public function isInUse(): bool {
-		return $this->Data[self::DATE_END] === null;
-	}
+    public function isInUse(): bool
+    {
+        return $this->Data[self::DATE_END] === null;
+    }
 }

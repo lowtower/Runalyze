@@ -22,69 +22,69 @@ class FitVO2maxEstimate extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FIT_VO2MAX_ESTIMATE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::FIT_VO2MAX_ESTIMATE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'fit_vo2max_estimate';
-	}
+    {
+        return 'fit_vo2max_estimate';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return 'VO<sub>2</sub>max ' . __('(by file)');
-	}
+    {
+        return 'VO<sub>2</sub>max ' . __('(by file)');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return 'VO<sub>2</sub>max ' . __('(file)');
-	}
+    {
+        return 'VO<sub>2</sub>max ' . __('(file)');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __("Garmin's newer devices have an integrated VO2max estimation.") . ' ' .
-			__('This value refers to your estimated VO2max at the start of the activity.');
-	}
+    {
+        return __("Garmin's newer devices have an integrated VO2max estimation.") . ' ' .
+            __('This value refers to your estimated VO2max at the start of the activity.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->isRunning()) {
-			return $context->dataview()
-			    ->fitVO2maxEstimate();
-		}
+    {
+        if ($context->isRunning()) {
+            return $context->dataview()
+                ->fitVO2maxEstimate();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

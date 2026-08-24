@@ -10,108 +10,116 @@
  */
 class ConfigTabs
 {
-	/**
-	 * URL for config-window
-	 * @var string
-	 */
-	public static $CONFIG_URL = 'settings';
+    /**
+     * URL for config-window
+     * @var string
+     */
+    public static $CONFIG_URL = 'settings';
 
-	/**
-	 * HTML-ID for div
-	 * @var string
-	 */
-	public static $TABS_ID = 'config-tabs';
+    /**
+     * HTML-ID for div
+     * @var string
+     */
+    public static $TABS_ID = 'config-tabs';
 
-	/**
-	 * Messages to show after submit
-	 * @var array
-	 */
-	private static $Messages = [];
+    /**
+     * Messages to show after submit
+     * @var array
+     */
+    private static $Messages = [];
 
-	/**
-	 * Internal array with all tabs
-	 * @var array
-	 */
-	protected $Tabs = [];
+    /**
+     * Internal array with all tabs
+     * @var array
+     */
+    protected $Tabs = [];
 
-	/**
-	 * Default key
-	 * @var string
-	 */
-	protected $defaultKey = '';
+    /**
+     * Default key
+     * @var string
+     */
+    protected $defaultKey = '';
 
-	/**
-	 * Add message after submit
-	 * @param string $HTMLcode HTML::info() or HTML::text() or HTML::warning() or HTML::error()
-	 */
-	public static function addMessage($HTMLcode) {
-		self::$Messages[] = $HTMLcode;
-	}
+    /**
+     * Add message after submit
+     * @param string $HTMLcode HTML::info() or HTML::text() or HTML::warning() or HTML::error()
+     */
+    public static function addMessage($HTMLcode)
+    {
+        self::$Messages[] = $HTMLcode;
+    }
 
     /**
      * Add a tab and set it as the default one
      */
-    public function addDefaultTab(ConfigTab $Tab) {
-		$this->defaultKey = $Tab->getKey();
-		$this->addTab($Tab);
-	}
+    public function addDefaultTab(ConfigTab $Tab)
+    {
+        $this->defaultKey = $Tab->getKey();
+        $this->addTab($Tab);
+    }
 
-    public function addTab(ConfigTab $Tab) {
-		$this->Tabs[$Tab->getKey()] = $Tab;
-	}
+    public function addTab(ConfigTab $Tab)
+    {
+        $this->Tabs[$Tab->getKey()] = $Tab;
+    }
 
-	/**
-	 * Display tabs
-	 */
-	public function display() {
-		if (Request::param('form') == 'true') {
-			$this->Tabs[$this->getCurrentKey()]->parsePostData();
+    /**
+     * Display tabs
+     */
+    public function display()
+    {
+        if (Request::param('form') == 'true') {
+            $this->Tabs[$this->getCurrentKey()]->parsePostData();
 
-			$SubmitInfo = '<p class="okay"><em>' . __('The settings have been saved.') . '</em></p>';
+            $SubmitInfo = '<p class="okay"><em>' . __('The settings have been saved.') . '</em></p>';
 
-			if (! empty(self::$Messages))
-				$SubmitInfo .= implode('', self::$Messages);
+            if (! empty(self::$Messages)) {
+                $SubmitInfo .= implode('', self::$Messages);
+            }
 
-			echo '<div class="panel-heading" id="submit-info">' . $SubmitInfo . '</div>';
-			echo Ajax::getReloadCommand();
-		}
+            echo '<div class="panel-heading" id="submit-info">' . $SubmitInfo . '</div>';
+            echo Ajax::getReloadCommand();
+        }
 
-		if ($this->hasToShowDiv()) {
-			echo '<div id="' . self::$TABS_ID . '">';
-		}
+        if ($this->hasToShowDiv()) {
+            echo '<div id="' . self::$TABS_ID . '">';
+        }
 
-		$this->displayCurrentTab();
+        $this->displayCurrentTab();
 
-		if ($this->hasToShowDiv()) {
-			echo '</div>';
-		}
-	}
+        if ($this->hasToShowDiv()) {
+            echo '</div>';
+        }
+    }
 
     /**
      * Has to show surrounding div and navigation?
      */
-    private function hasToShowDiv(): bool {
-		return Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true';
-	}
+    private function hasToShowDiv(): bool
+    {
+        return Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true';
+    }
 
-	protected function displayCurrentTab() {
-		$CurrentKey = $this->getCurrentKey();
+    protected function displayCurrentTab()
+    {
+        $CurrentKey = $this->getCurrentKey();
 
-		if (isset($this->Tabs[$CurrentKey])) {
-			$this->Tabs[$CurrentKey]->display();
-		}
-	}
+        if (isset($this->Tabs[$CurrentKey])) {
+            $this->Tabs[$CurrentKey]->display();
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getCurrentKey() {
-		$CurrentKey = Request::param('key');
+    /**
+     * @return string
+     */
+    protected function getCurrentKey()
+    {
+        $CurrentKey = Request::param('key');
 
-		if (empty($CurrentKey)) {
-			return $this->defaultKey;
-		}
+        if (empty($CurrentKey)) {
+            return $this->defaultKey;
+        }
 
-		return $CurrentKey;
-	}
+        return $CurrentKey;
+    }
 }

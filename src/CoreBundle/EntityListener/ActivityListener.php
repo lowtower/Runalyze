@@ -47,8 +47,7 @@ class ActivityListener
         SportRepository $sportRepository,
         EquipmentRepository $equipmentRepository,
         TimezoneLookup $timezoneLookup
-    )
-    {
+    ) {
         $this->RecalculationManager = $recalculationManager;
         $this->ConfigurationManager = $configurationManager;
         $this->SportRepository = $sportRepository;
@@ -330,7 +329,7 @@ class ActivityListener
 
     protected function updateRequiresEffectiveVO2maxCorrectionFactorCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
-        return 
+        return
             $activity->hasRaceresult() &&
             $args->hasChangedField('vo2max') ||
             $args->hasChangedField('vo2maxByTime')
@@ -339,7 +338,7 @@ class ActivityListener
 
     protected function updateRequiresTrimpCalculation(Training $activity, PreUpdateEventArgs $args): bool
     {
-        return 
+        return
             (! $activity->hasTrackdata() || ! $activity->getTrackdata()->hasHeartrate()) && (
                 $args->hasChangedField('pulseAvg') ||
                 $args->hasChangedField('s') ||
@@ -383,7 +382,7 @@ class ActivityListener
         $ageOfNewDate = (new LocalTime($args->getNewValue('time')))->diff($now, true)
             ->days;
 
-        return 
+        return
             ($ageOfOldDate <= $numberOfDays && $ageOfNewDate > $numberOfDays) ||
             ($ageOfOldDate > $numberOfDays && $ageOfNewDate <= $numberOfDays)
         ;

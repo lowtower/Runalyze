@@ -61,7 +61,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             }
         }
 
-        $handledIds = array_map(function(Equipment $equipment) {
+        $handledIds = array_map(function (Equipment $equipment) {
             return $equipment->getId();
         }, array_merge($newEquipment, $removedEquipment));
 

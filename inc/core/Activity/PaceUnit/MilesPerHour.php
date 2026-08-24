@@ -22,17 +22,17 @@ class MilesPerHour extends AbstractDecimalUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::MILES_PER_H;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::MILES_PER_H;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '&nbsp;mph';
-	}
+    {
+        return '&nbsp;mph';
+    }
 
     /**
      * Dividend to transform 's/km' to current unit
@@ -43,7 +43,7 @@ class MilesPerHour extends AbstractDecimalUnit
      * @throws \RuntimeException
      */
     public function dividendForUnit(): float
-	{
-		return 3600 * DistanceUnitSystem::MILE_MULTIPLIER;
-	}
+    {
+        return 3600 * DistanceUnitSystem::MILE_MULTIPLIER;
+    }
 }

@@ -22,17 +22,17 @@ class MinPerMile extends AbstractTimeUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_MILE;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_MILE;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '/mi';
-	}
+    {
+        return '/mi';
+    }
 
     /**
      * Factor to transform 's/km' to current unit
@@ -43,7 +43,7 @@ class MinPerMile extends AbstractTimeUnit
      * @throws \RuntimeException
      */
     public function factorForUnit(): float
-	{
-		return 1 / DistanceUnitSystem::MILE_MULTIPLIER;
-	}
+    {
+        return 1 / DistanceUnitSystem::MILE_MULTIPLIER;
+    }
 }

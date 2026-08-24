@@ -23,68 +23,68 @@ class Gradient extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::GRADIENT;
-	}
+    {
+        return \Runalyze\Dataset\Keys::GRADIENT;
+    }
 
     /**
      * Database key
      */
     public function column(): array
-	{
-		return ['elevation', 'distance'];
-	}
+    {
+        return ['elevation', 'distance'];
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Gradient');
-	}
+    {
+        return __('Gradient');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Grad.');
-	}
+    {
+        return __('Grad.');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('The gradient describes the ratio of elevation gain (or less) and distance. Dividing total elevation by total distance gives this value.');
-	}
+    {
+        return __('The gradient describes the ratio of elevation gain (or less) and distance. Dividing total elevation by total distance gives this value.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->activity()->elevation() > 0 && $context->activity()->distance() > 0) {
-			return $context->dataview()
-			    ->gradientInPercent();
-		}
+    {
+        if ($context->activity()->elevation() > 0 && $context->activity()->distance() > 0) {
+            return $context->dataview()
+                ->gradientInPercent();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::NO;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::NO;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

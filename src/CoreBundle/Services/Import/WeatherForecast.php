@@ -31,8 +31,7 @@ class WeatherForecast
         // #TSC - new weather source
         MeteostatNet $meteostatNet,
         DatabaseCacheInterface $databaseCache
-    )
-    {
+    ) {
         $this->StrategyCollection = new StrategyCollection();
         $this->StrategyCollection->add($cache);
         $this->StrategyCollection->add($darkSky);

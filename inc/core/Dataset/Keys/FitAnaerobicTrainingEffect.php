@@ -23,61 +23,61 @@ class FitAnaerobicTrainingEffect extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FIT_ANAEROBIC_TRAINING_EFFECT;
-	}
+    {
+        return \Runalyze\Dataset\Keys::FIT_ANAEROBIC_TRAINING_EFFECT;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'fit_anaerobic_training_effect';
-	}
+    {
+        return 'fit_anaerobic_training_effect';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
+    {
         // #TSC: label on the dataview-configuration screen
-		return __('Anaerob Training Effect') . ' ' . __('(by file)');
-	}
+        return __('Anaerob Training Effect') . ' ' . __('(by file)');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
+    {
         // #TSC: short-label for main-table
-		return __('ATE');
-	}
+        return __('ATE');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) ' .
-			'to rate the impact of anaerobic exercise on your body.'
-		);
-	}
+    {
+        return __(
+            'Anaerobic Training Effect is an indicator between 0.0 (none) and 5.0 (overreaching) ' .
+            'to rate the impact of anaerobic exercise on your body.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->fitAnaerobicTrainingEffect();
-	}
+    {
+        return $context->dataview()
+            ->fitAnaerobicTrainingEffect();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

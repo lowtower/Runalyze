@@ -17,37 +17,37 @@ namespace Runalyze\Dataset\Keys;
  */
 abstract class AbstractEquipment extends AbstractKey
 {
-	/**
-	 * @var string
-	 */
-	const CONCAT_EQUIPMENT_KEY = 'concat_equipment';
+    /**
+     * @var string
+     */
+    public const CONCAT_EQUIPMENT_KEY = 'concat_equipment';
 
-	/**
-	 * Database key
-	 * @return string
-	 */
-	public function column()
-	{
-		return '';
-	}
+    /**
+     * Database key
+     * @return string
+     */
+    public function column()
+    {
+        return '';
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function requiresJoin()
-	{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function requiresJoin()
+    {
+        return true;
+    }
 
-	/**
-	 * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
-	 */
-	public function joinDefinition()
-	{
-		return [
-    'column' => self::CONCAT_EQUIPMENT_KEY,
-		    'join' => 'LEFT JOIN `' . PREFIX . 'activity_equipment` AS `aeqp` ON `t`.`id` = `aeqp`.`activityid`',
-		    'field' => "GROUP_CONCAT(`aeqp`.`equipmentid` SEPARATOR ',') AS `" . self::CONCAT_EQUIPMENT_KEY . '`',
-];
-	}
+    /**
+     * @return array array('column' => '...', 'join' => 'LEFT JOIN ...', 'field' => '`x`.`y`)
+     */
+    public function joinDefinition()
+    {
+        return [
+            'column' => self::CONCAT_EQUIPMENT_KEY,
+            'join' => 'LEFT JOIN `' . PREFIX . 'activity_equipment` AS `aeqp` ON `t`.`id` = `aeqp`.`activityid`',
+            'field' => "GROUP_CONCAT(`aeqp`.`equipmentid` SEPARATOR ',') AS `" . self::CONCAT_EQUIPMENT_KEY . '`',
+        ];
+    }
 }

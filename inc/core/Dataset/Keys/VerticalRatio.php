@@ -22,56 +22,56 @@ class VerticalRatio extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::VERTICAL_RATIO;
-	}
+    {
+        return \Runalyze\Dataset\Keys::VERTICAL_RATIO;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'vertical_ratio';
-	}
+    {
+        return 'vertical_ratio';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Vertical ratio');
-	}
+    {
+        return __('Vertical ratio');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Vertical ratio is the ratio of vertical oscillation to stride length.');
-	}
+    {
+        return __('Vertical ratio is the ratio of vertical oscillation to stride length.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->verticalRatio();
-	}
+    {
+        return $context->dataview()
+            ->verticalRatio();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

@@ -9,93 +9,93 @@ use PDO;
  */
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	/**
-	 * @var \Runalyze\Dataset\Configuration
-	 */
-	protected $Configuration;
+    /**
+     * @var \Runalyze\Dataset\Configuration
+     */
+    protected $Configuration;
 
-	protected function setUp(): void
-	{
-		$this->PDO = new PDO('sqlite::memory:');
-		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->PDO->exec('CREATE TEMP TABLE `' . PREFIX . 'dataset` ( `accountid` INTEGER, `keyid` INTEGER, `position` INTEGER, `active` INTEGER, `style` VARCHAR(10), `privacy` INTEGER )');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 1, 7, 1, "", 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 2, 2, 1, "test", 1)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 3, 9, 0, "", 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(1, 4, 3, 1, "", 0)');
+    protected function setUp(): void
+    {
+        $this->PDO = new PDO('sqlite::memory:');
+        $this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->PDO->exec('CREATE TEMP TABLE `' . PREFIX . 'dataset` ( `accountid` INTEGER, `keyid` INTEGER, `position` INTEGER, `active` INTEGER, `style` VARCHAR(10), `privacy` INTEGER )');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 1, 7, 1, "", 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 2, 2, 1, "test", 1)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 3, 9, 0, "", 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(1, 4, 3, 1, "", 0)');
 
-		$this->Configuration = new Configuration($this->PDO, 0);
-	}
+        $this->Configuration = new Configuration($this->PDO, 0);
+    }
 
-	protected function tearDown(): void
-	{
-		$this->PDO->exec('DROP TABLE `' . PREFIX . 'dataset`');
-	}
+    protected function tearDown(): void
+    {
+        $this->PDO->exec('DROP TABLE `' . PREFIX . 'dataset`');
+    }
 
-	public function testEmptiness()
-	{
-		$this->assertFalse($this->Configuration->isEmpty());
+    public function testEmptiness()
+    {
+        $this->assertFalse($this->Configuration->isEmpty());
 
-		$this->assertTrue((new Configuration($this->PDO, 2, false))->isEmpty());
-	}
+        $this->assertTrue((new Configuration($this->PDO, 2, false))->isEmpty());
+    }
 
-	public function testFallbackToDefault()
-	{
-		$this->assertFalse((new Configuration($this->PDO, 42))->isEmpty());
-	}
+    public function testFallbackToDefault()
+    {
+        $this->assertFalse((new Configuration($this->PDO, 42))->isEmpty());
+    }
 
-	public function testExistance()
-	{
-		$this->assertFalse($this->Configuration->exists(0));
-		$this->assertTrue($this->Configuration->exists(1));
-		$this->assertTrue($this->Configuration->exists(2));
-		$this->assertTrue($this->Configuration->exists(3));
-		$this->assertFalse($this->Configuration->exists(4));
-		$this->assertFalse($this->Configuration->exists(5));
-	}
+    public function testExistance()
+    {
+        $this->assertFalse($this->Configuration->exists(0));
+        $this->assertTrue($this->Configuration->exists(1));
+        $this->assertTrue($this->Configuration->exists(2));
+        $this->assertTrue($this->Configuration->exists(3));
+        $this->assertFalse($this->Configuration->exists(4));
+        $this->assertFalse($this->Configuration->exists(5));
+    }
 
-	public function testInvalidKeyForActive()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		$this->Configuration->isActive(5);
-	}
+    public function testInvalidKeyForActive()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->Configuration->isActive(5);
+    }
 
-	public function testInvalidKeyForStyle()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		$this->Configuration->getStyle(5);
-	}
+    public function testInvalidKeyForStyle()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->Configuration->getStyle(5);
+    }
 
-	public function testAllKeys()
-	{
-		$this->assertEquals(
-		    [2, 1, 3],
-		    $this->Configuration->allKeys()
-		);
-	}
+    public function testAllKeys()
+    {
+        $this->assertEquals(
+            [2, 1, 3],
+            $this->Configuration->allKeys()
+        );
+    }
 
-	public function testActiveKeys()
-	{
-		$this->assertEquals(
-		    [2, 1],
-		    $this->Configuration->activeKeys()
-		);
-	}
+    public function testActiveKeys()
+    {
+        $this->assertEquals(
+            [2, 1],
+            $this->Configuration->activeKeys()
+        );
+    }
 
-	public function testKeySpecificMethods()
-	{
-		$this->assertEquals(true, $this->Configuration->isActive(1));
-		$this->assertEquals(true, $this->Configuration->isActive(2));
-		$this->assertEquals(false, $this->Configuration->isActive(3));
+    public function testKeySpecificMethods()
+    {
+        $this->assertEquals(true, $this->Configuration->isActive(1));
+        $this->assertEquals(true, $this->Configuration->isActive(2));
+        $this->assertEquals(false, $this->Configuration->isActive(3));
 
-		$this->assertEquals('', $this->Configuration->getStyle(1));
-		$this->assertEquals('test', $this->Configuration->getStyle(2));
-		$this->assertEquals('', $this->Configuration->getStyle(3));
+        $this->assertEquals('', $this->Configuration->getStyle(1));
+        $this->assertEquals('test', $this->Configuration->getStyle(2));
+        $this->assertEquals('', $this->Configuration->getStyle(3));
 
         $this->assertEquals(0, $this->Configuration->getPrivacy(1));
         $this->assertEquals(1, $this->Configuration->getPrivacy(2));

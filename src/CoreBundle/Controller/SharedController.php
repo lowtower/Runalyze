@@ -98,7 +98,8 @@ class SharedController extends Controller
     /**
      * @Route("/athlete/{username}", name="shared-athlete")
      */
-    public function sharedUserAction($username, Request $request): \Symfony\Component\HttpFoundation\Response {
+    public function sharedUserAction($username, Request $request): \Symfony\Component\HttpFoundation\Response
+    {
         /** @var null|Account $account */
         $account = $this->getDoctrine()
             ->getRepository('CoreBundle:Account')
@@ -143,7 +144,8 @@ class SharedController extends Controller
     /**
      * @Route("/athlete/{username}/feed", name="shared-athlete-feed")
      */
-    public function publicUserFeedAction($username): \Symfony\Component\HttpFoundation\Response {
+    public function publicUserFeedAction($username): \Symfony\Component\HttpFoundation\Response
+    {
         /** @var null|Account $account */
         $account = $this->getDoctrine()
             ->getRepository('CoreBundle:Account')

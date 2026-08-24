@@ -43,8 +43,7 @@ class TrendAnalysisType extends AbstractType
         TypeRepository $typeRepository,
         TokenStorage $tokenStorage,
         ConfigurationManager $configurationManager
-    )
-    {
+    ) {
         $this->SportRepository = $sportRepository;
         $this->TypeRepository = $typeRepository;
         $this->TokenStorage = $tokenStorage;
@@ -92,7 +91,7 @@ class TrendAnalysisType extends AbstractType
             ->add('sport', ChoiceType::class, [
                 'multiple' => true,
                 'choices' => $this->SportRepository->findAllFor($this->getAccount()),
-                'choice_label' => function($sport, $key, $index) {
+                'choice_label' => function ($sport, $key, $index) {
                     /** @var Sport $sport */
                     return $sport->getName();
                 },
@@ -101,7 +100,7 @@ class TrendAnalysisType extends AbstractType
                     'data-placeholder' => __('Choose sport(s)'),
                     'class' => 'chosen-select full-size',
                 ],
-                'choice_attr' => function($sport, $key, $index): array {
+                'choice_attr' => function ($sport, $key, $index): array {
                     /** @var Sport $sport */
                     return [
                         'data-id' => $sport->getId(),
@@ -112,7 +111,7 @@ class TrendAnalysisType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'choices' => $this->TypeRepository->findAllFor($this->getAccount()),
-                'choice_label' => function($type, $key, $index) {
+                'choice_label' => function ($type, $key, $index) {
                     /** @var Type $type */
                     return $type->getName();
                 },
@@ -121,7 +120,7 @@ class TrendAnalysisType extends AbstractType
                     'data-placeholder' => __('Choose activity type(s)'),
                     'class' => 'chosen-select full-size',
                 ],
-                'choice_attr' => function($type, $key, $index): array {
+                'choice_attr' => function ($type, $key, $index): array {
                     /** @var Type $type */
                     return [
                         'data-sportid' => $type->getSport()

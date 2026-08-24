@@ -30,25 +30,25 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    const TIMEOUT = 180;
+    public const TIMEOUT = 180;
 
-    const EARTH = 6378.137;
+    public const EARTH = 6378.137;
 
-    const PI = 3.1415926535898;
+    public const PI = 3.1415926535898;
 
-    const METER_IN_DEGREE = (1 / ((2 * self::PI / 360) * self::EARTH)) / 1000;
+    public const METER_IN_DEGREE = (1 / ((2 * self::PI / 360) * self::EARTH)) / 1000;
 
     // size of lat/lng elements in the around for node,way,relation
     // with 600 the request tooks longer and do not run in timeouts
-    const AROUND_POS_LIMIT = 600;
+    public const AROUND_POS_LIMIT = 600;
 
     // extend the bounding-box of the min/max of the geohashes
-    const BOX_CORR = 30.0;
+    public const BOX_CORR = 30.0;
 
     // configuration for the around-radius
-    const RADIUS_LIMIT = 40.0;
+    public const RADIUS_LIMIT = 40.0;
 
-    const RADIUS_DEFAULT = 20.0;
+    public const RADIUS_DEFAULT = 20.0;
 
     /**
      * @var string
@@ -69,7 +69,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
      * @param string $url
      * @param string $proxy
      */
-    public function __construct($url, $proxy, Client $client, ?LoggerInterface $logger = null) {
+    public function __construct($url, $proxy, Client $client, ?LoggerInterface $logger = null)
+    {
         $this->Url = $url;
         $this->Proxy = $proxy;
         $this->HttpClient = $client;
@@ -81,17 +82,18 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
      *
      * @throws Exception
      */
-    public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult {
-        if(! empty($this->Url)) {
+    public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult
+    {
+        if (! empty($this->Url)) {
             // needed to use min/max position
             $route->synchronizeMinMaxGeohashIfRequired();
 
             $osmPayload = $this->createOsmPayload($route, $distance);
 
             $csvResponse = $this->request($route->getId(), $osmPayload);
-            if($csvResponse != null) {
+            if ($csvResponse != null) {
                 $coll = new OsmCsvDataCollection($csvResponse);
-                if($coll->hasNames()) {
+                if ($coll->hasNames()) {
                     return $this->createResult($sport, $coll);
                 }
 
@@ -103,7 +105,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
     }
 
     // routeId can be null in case of new import
-    private function request(?int $routeId, string $payload): string {
+    private function request(?int $routeId, string $payload): string
+    {
         $this->logger->debug(sprintf('RouteNameEvalOsm: Request for routeId=%d to url=%s with payload: %s', $routeId, $this->Url, $payload));
 
         $param = [
@@ -114,14 +117,14 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
             ],
             // , 'debug' => True
         ];
-        if(! empty($this->Proxy)) {
+        if (! empty($this->Proxy)) {
             $param['proxy'] = $this->Proxy;
         }
 
         try {
             $response = $this->HttpClient->request('POST', $this->Url, $param);
             $statusCode = $response->getStatusCode();
-            if($statusCode != 200) {
+            if ($statusCode != 200) {
                 $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
                 throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
             }
@@ -143,16 +146,17 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         }
     }
 
-	private function createOsmPayload(Route $route, float $distance): string {
+    private function createOsmPayload(Route $route, float $distance): string
+    {
         // [0]=lat [1]=lon
         $coordinates = $route->getLatitudesAndLongitudes();
 
         $size = count($coordinates[0]);
-		$dist = $distance * 1000; // km to meter
+        $dist = $distance * 1000; // km to meter
 
         // based on the count of coordinates, the distance (in meter) and the default-"radius of nodes" calculate "which" coordinates should use
         $radius = self::RADIUS_DEFAULT;
-		$step = $size / $dist * $radius;
+        $step = $size / $dist * $radius;
 
         // but limit it to max coordinates limit
         if ($size / $step > self::AROUND_POS_LIMIT) {
@@ -161,10 +165,10 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
             // if we run in limit, extend the default-value of radius to the radius-limit
             $radius = $dist / self::AROUND_POS_LIMIT;
-            if($radius > self::RADIUS_LIMIT) {
+            if ($radius > self::RADIUS_LIMIT) {
                 $radius = self::RADIUS_LIMIT;
-            }  
-		}
+            }
+        }
 
         $this->logger->info(sprintf(
             "RouteNameEvalOsm: geo count %d; dist m %d; step %.2f around-element-size %d around-radius %.2f \n",
@@ -177,64 +181,67 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
         // out is CSV (it's smaller than XML or JSON)
         // we generate the csv-output with TAB and replace it later
-		$osm = '[out:csv(::type,name,"name:de",place,traffic_sign,tourism,landuse,natural,ele,hiking,sac_scale,amenity;true;"\t")]';
+        $osm = '[out:csv(::type,name,"name:de",place,traffic_sign,tourism,landuse,natural,ele,hiking,sac_scale,amenity;true;"\t")]';
         $osm .= sprintf('[timeout:%d]', self::TIMEOUT);
 
         // set a (bounding)box for better performance
-		$geoMin = (new Geohash())->decode($route->getMin())
-		    ->getCoordinate();
-		$geoMax = (new Geohash())->decode($route->getMax())
-		    ->getCoordinate();
+        $geoMin = (new Geohash())->decode($route->getMin())
+            ->getCoordinate();
+        $geoMax = (new Geohash())->decode($route->getMax())
+            ->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
-		$osm .= sprintf(
-		    '[bbox:%.6f,%.6f,%.6f,%.6f];',
-		    $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR * -1),
-		    $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR * -1),
-		    $this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),
-		    $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
-		);
+        $osm .= sprintf(
+            '[bbox:%.6f,%.6f,%.6f,%.6f];',
+            $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR * -1),
+            $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR * -1),
+            $this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),
+            $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
+        );
 
         // build the "around" lat/lon
         // we add always the first and last coordinate; then every n (=calculated) coord will be used (to reduce) the amount
         $aroundpos = $coordinates[0][0] . ',' . $coordinates[1][0]; // add the first
-		for ($i = 0; $i < $size; $i += $step) {
-            if($coordinates[0][$i] != 0 && $coordinates[1][$i] != 0) {
+        for ($i = 0; $i < $size; $i += $step) {
+            if ($coordinates[0][$i] != 0 && $coordinates[1][$i] != 0) {
                 $aroundpos .= ',' . $coordinates[0][$i] . ',' . $coordinates[1][$i];
             }
-		}
+        }
 
         $aroundpos .= ',' . $coordinates[0][$size - 1] . ',' . $coordinates[1][$size - 1]; // add the last one
 
         // only use node, way, relation with a "name"-tag
-		$osm .= sprintf('node(around:%.2f,%s)["name"]->.named_node;', $radius, $aroundpos);
-		$osm .= sprintf('way(around:%.2f,%s)["name"]->.named_way;', $radius, $aroundpos);
-		$osm .= sprintf('relation(around:%.2f,%s)["name"]->.named_rel;', $radius, $aroundpos);
+        $osm .= sprintf('node(around:%.2f,%s)["name"]->.named_node;', $radius, $aroundpos);
+        $osm .= sprintf('way(around:%.2f,%s)["name"]->.named_way;', $radius, $aroundpos);
+        $osm .= sprintf('relation(around:%.2f,%s)["name"]->.named_rel;', $radius, $aroundpos);
 
         // set filters
-		$node = 'node.named_node["place"];node.named_node["natural"~"peak|saddle"];node.named_node["traffic_sign"="city_limit"];node.named_node["tourism"~"information|alpine_hut|wilderness_hut"];node.named_node["amenity"="restaurant"];';
-		$way = 'way.named_way["landuse"="forest"];way.named_way["natural"="wood"];way.named_way["traffic_sign"="city_limit"];';
-		$way .= 'way.named_way["hiking"="yes"];way.named_way["sac_scale"];way.named_way["tourism"~"information|alpine_hut|wilderness_hut"];way.named_way["amenity"="restaurant"];';
-		$rel = 'relation.named_rel["landuse"="forest"];relation.named_rel["natural"~"wood|water"];';
+        $node = 'node.named_node["place"];node.named_node["natural"~"peak|saddle"];node.named_node["traffic_sign"="city_limit"];node.named_node["tourism"~"information|alpine_hut|wilderness_hut"];node.named_node["amenity"="restaurant"];';
+        $way = 'way.named_way["landuse"="forest"];way.named_way["natural"="wood"];way.named_way["traffic_sign"="city_limit"];';
+        $way .= 'way.named_way["hiking"="yes"];way.named_way["sac_scale"];way.named_way["tourism"~"information|alpine_hut|wilderness_hut"];way.named_way["amenity"="restaurant"];';
+        $rel = 'relation.named_rel["landuse"="forest"];relation.named_rel["natural"~"wood|water"];';
 
         // set filters in the final "union"
         $osm .= sprintf('(%s%s%s);out qt;', $node, $way, $rel);
 
         return $osm;
-	}
+    }
 
-	private function addLatitude($lat, float $add): float {
-		return $lat + ($add * self::METER_IN_DEGREE);
-	}
+    private function addLatitude($lat, float $add): float
+    {
+        return $lat + ($add * self::METER_IN_DEGREE);
+    }
 
-	private function addLongitude($lon, $lat, float $add): float {
-		return $lon + ($add * self::METER_IN_DEGREE) / cos($lat * (self::PI / 180));
-	}
+    private function addLongitude($lon, $lat, float $add): float
+    {
+        return $lon + ($add * self::METER_IN_DEGREE) / cos($lat * (self::PI / 180));
+    }
 
     /**
      * create the result object.
      * based on the found categories it's priorizied which informations is a "route" or a "info" in the notes attribute.
      */
-    public function createResult(Sport $sport, OsmCsvDataCollection $coll): ?RouteNameEvalResult {
+    public function createResult(Sport $sport, OsmCsvDataCollection $coll): ?RouteNameEvalResult
+    {
         $hutSet = false;
         $waySet = false;
         $infoSet = false;
@@ -247,12 +254,12 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
         // first peaks and places (orte) will be the route
         $routes = array_merge($peak, $place);
-        if($routes === []) {
+        if ($routes === []) {
             // ...or use huts and ways
             $routes = array_merge($hut, $way);
             $hutSet = $hut !== [];
             $waySet = $way !== [];
-            if($routes === []) {
+            if ($routes === []) {
                 // anywhere empty, use at least the info category :-(
                 $routes = $info;
                 $infoSet = $info !== [];
@@ -261,26 +268,26 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
         // if we hiking, but no peak is set, but huts available...
         // special case "hüttenwandern" without peaks
-        if(($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
+        if (($sport->getInternalSportId() == SportProfile::MOUNTAINEERING || $sport->getInternalSportId() == SportProfile::CROSS_COUNTRY_SKIING)
             && $peak === [] && $hut !== [] && ! $hutSet) {
-            $routes = array_merge($routes, $hut); 
+            $routes = array_merge($routes, $hut);
             $hutSet = true;
         }
 
         $notes = '';
-        if(! $hutSet && $hut !== []) {
+        if (! $hutSet && $hut !== []) {
             $notes .= 'Verpflegung: ' . implode(', ', $hut) . PHP_EOL;
         }
 
-        if(! $waySet && $way !== []) {
+        if (! $waySet && $way !== []) {
             $notes .= 'Wege: ' . implode(', ', $way) . PHP_EOL;
         }
 
-        if(! $infoSet && $info !== []) {
+        if (! $infoSet && $info !== []) {
             $notes .= 'Info: ' . implode(', ', $info) . PHP_EOL;
         }
 
-        if($routes !== [] || ! empty($notes)) {
+        if ($routes !== [] || ! empty($notes)) {
             $r = implode(' - ', array_slice($routes, 0, $this->limitRoute($routes)));
             return new RouteNameEvalResult($r, $notes);
         }
@@ -292,8 +299,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
      * limit the array to only show "full" names of the elements in the available 255 chars.
      * @param array<int, mixed> $element
      */
-    private function limitRoute(array $element): int {
-        if($element === []) {
+    private function limitRoute(array $element): int
+    {
+        if ($element === []) {
             return 0;
         }
 
@@ -301,9 +309,9 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         $i = 0;
         do {
             $len += strlen($element[$i]) + 3; // "+3" means " - "
-        } while(++$i < count($element) && $len <= 255); // route attribute is limited to 255 chars
+        } while (++$i < count($element) && $len <= 255); // route attribute is limited to 255 chars
 
-        if($len >= 255) {
+        if ($len >= 255) {
             return $i - 1;
         }
 

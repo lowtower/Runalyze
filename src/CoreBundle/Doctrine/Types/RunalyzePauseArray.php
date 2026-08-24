@@ -12,7 +12,7 @@ class RunalyzePauseArray extends Type
     /**
      * @var string
      */
-    const RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
+    public const RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

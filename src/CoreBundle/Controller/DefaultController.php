@@ -112,16 +112,16 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function loginAction(Request $request)
     {
-    	if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-    	    return $this->redirect($this->generateUrl('dashboard'));
-    	}
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('login/ajax_not_logged_in.html.twig');
         }
 
-    	$authenticationUtils = $this->get('security.authentication_utils');
-    	$error = $authenticationUtils->getLastAuthenticationError();
+        $authenticationUtils = $this->get('security.authentication_utils');
+        $error = $authenticationUtils->getLastAuthenticationError();
 
         return $this->render('login/form.html.twig', [
             'error' => $error,

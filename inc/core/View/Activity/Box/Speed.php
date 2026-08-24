@@ -19,20 +19,20 @@ use Runalyze\Configuration;
 class Speed extends AbstractBox
 {
     public function __construct(\Runalyze\View\Activity\Context $Context)
-	{
-		$Pace = clone $Context->dataview()
-		    ->pace();
+    {
+        $Pace = clone $Context->dataview()
+            ->pace();
 
-		if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-			$Pace->setUnit(new PaceUnit\MilesPerHour());
-		} else {
-			$Pace->setUnit(new PaceUnit\KmPerHour());
-		}
+        if (Configuration::General()->distanceUnitSystem()->isImperial()) {
+            $Pace->setUnit(new PaceUnit\MilesPerHour());
+        } else {
+            $Pace->setUnit(new PaceUnit\KmPerHour());
+        }
 
-		parent::__construct(
-		    $Pace->value(),
-		    $Pace->appendix(),
-		    __('avg.') . ' ' . __('Speed')
-		);
-	}
+        parent::__construct(
+            $Pace->value(),
+            $Pace->appendix(),
+            __('avg.') . ' ' . __('Speed')
+        );
+    }
 }

@@ -16,17 +16,19 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Sunny extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setBaseClass('weather-sun');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setBaseClass('weather-sun');
+    }
 
-	 /**
-	  * Set weather icon as night
-	  */
-	 public function setAsNight() {
-	 	$this->setBaseClass('weather-moon');
-	 }
+    /**
+     * Set weather icon as night
+     */
+    public function setAsNight()
+    {
+        $this->setBaseClass('weather-moon');
+    }
 }

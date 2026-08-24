@@ -11,7 +11,7 @@ class TinyIntType extends SmallIntType
     /**
      * @var string
      */
-    const TINYINT = 'tinyint';
+    public const TINYINT = 'tinyint';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

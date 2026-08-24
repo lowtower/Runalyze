@@ -15,25 +15,25 @@ namespace Runalyze\Activity;
  */
 class TrainingEffect implements ValueInterface
 {
-	/**
-	 * @var float
-	 */
-	const LOWER_LIMIT = 0.0;
+    /**
+     * @var float
+     */
+    public const LOWER_LIMIT = 0.0;
 
-	/**
-	 * @var float
-	 */
-	const UPPER_LIMIT = 5.0;
+    /**
+     * @var float
+     */
+    public const UPPER_LIMIT = 5.0;
 
     /**
      * @var int
      */
-    const DECIMALS = 1;
+    public const DECIMALS = 1;
 
-	/**
-	 * @var float|null
-	 */
-	protected $Value;
+    /**
+     * @var float|null
+     */
+    protected $Value;
 
     /**
      * @param float|null $value
@@ -41,83 +41,85 @@ class TrainingEffect implements ValueInterface
     public static function format($value): string
     {
         return (new self($value))->string();
-	}
+    }
 
-	/**
-	 * @param float|null $value
-	 */
-	public function __construct($value = null)
+    /**
+     * @param float|null $value
+     */
+    public function __construct($value = null)
     {
-		$this->set($value);
-	}
+        $this->set($value);
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
     {
-		// #TSC: Add Aerobic-prefix
-		return __('(Aerob) Training Effect');
-	}
+        // #TSC: Add Aerobic-prefix
+        return __('(Aerob) Training Effect');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function unit(): string
     {
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Set training effect
-	 * @param float|null|string $value
-	 * @return \Runalyze\Activity\TrainingEffect $this-reference
-	 * @throws \InvalidArgumentException
-	 */
-	public function set($value): self {
+    /**
+     * Set training effect
+     * @param float|null|string $value
+     * @return \Runalyze\Activity\TrainingEffect $this-reference
+     * @throws \InvalidArgumentException
+     */
+    public function set($value): self
+    {
         if ($value === null) {
             $this->Value = null;
 
             return $this;
         }
 
-		if (is_string($value)) {
-			$value = str_replace(',', '.', trim($value));
-		}
+        if (is_string($value)) {
+            $value = str_replace(',', '.', trim($value));
+        }
 
         if (! is_numeric($value)) {
             throw new \InvalidArgumentException('Training Effect must be a number, not ' . $value);
         }
 
-		$value = (float) $value;
-		if ($value < self::LOWER_LIMIT || $value > self::UPPER_LIMIT) {
-			throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
-		}
+        $value = (float) $value;
+        if ($value < self::LOWER_LIMIT || $value > self::UPPER_LIMIT) {
+            throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
+        }
 
-		$this->Value = $value;
+        $this->Value = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Format training effect as string
      * @param bool $withUnit [optional] show unit?
      */
-    public function string($withUnit = true): string {
+    public function string($withUnit = true): string
+    {
         if (! $this->isKnown()) {
             return '';
         }
 
-		return number_format($this->Value, self::DECIMALS);
-	}
+        return number_format($this->Value, self::DECIMALS);
+    }
 
-	/**
-	 * @return float|null
-	 */
-	public function value()
+    /**
+     * @return float|null
+     */
+    public function value()
     {
-		return $this->Value;
-	}
+        return $this->Value;
+    }
 
     /**
      * @return float

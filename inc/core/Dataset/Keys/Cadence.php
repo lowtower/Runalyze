@@ -24,54 +24,54 @@ class Cadence extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::CADENCE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::CADENCE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'cadence';
-	}
+    {
+        return 'cadence';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Cadence');
-	}
+    {
+        return __('Cadence');
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		if ($context->activity()->cadence() > 0) {
-			return $context->dataview()
-			    ->cadence()
-			    ->asString();
-		}
+    {
+        if ($context->activity()->cadence() > 0) {
+            return $context->dataview()
+                ->cadence()
+                ->asString();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

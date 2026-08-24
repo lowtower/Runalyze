@@ -8,15 +8,15 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 interface SourceInterface
 {
-	/**
-	 * @return int
-	 */
-	public function getInternalProfileEnum();
+    /**
+     * @return int
+     */
+    public function getInternalProfileEnum();
 
-	/**
-	 * @return bool
-	 */
-	public function requiresAttribution();
+    /**
+     * @return bool
+     */
+    public function requiresAttribution();
 
     /**
      * @param bool $withLink
@@ -32,13 +32,13 @@ interface SourceInterface
      */
     public function getAttributionLabel(TranslatorInterface $translator);
 
-	/**
-	 * @return string|null
-	 */
-	public function getAttributionUrl();
+    /**
+     * @return string|null
+     */
+    public function getAttributionUrl();
 
-	/**
-	 * @return bool
-	 */
-	public function hasAttributionUrl();
+    /**
+     * @return bool
+     */
+    public function hasAttributionUrl();
 }

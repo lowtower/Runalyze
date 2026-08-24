@@ -15,88 +15,93 @@ use Runalyze\Model\Trackdata;
  */
 class VerticalRatioCalculator
 {
-	/**
-	 * @var \Runalyze\Model\Trackdata\Entity
-	 */
-	protected $Trackdata;
+    /**
+     * @var \Runalyze\Model\Trackdata\Entity
+     */
+    protected $Trackdata;
 
-	/**
-	 * @var array
-	 */
-	protected $VerticalRatio = [];
+    /**
+     * @var array
+     */
+    protected $VerticalRatio = [];
 
     /**
      * Calculator for stride length
      */
-    public function __construct(Trackdata\Entity $trackdata) {
-		$this->Trackdata = $trackdata;
-	}
+    public function __construct(Trackdata\Entity $trackdata)
+    {
+        $this->Trackdata = $trackdata;
+    }
 
-	/**
-	 * Calculate vertical ratio array
-	 * @return array [%o]
-	 */
-	public function calculate() {
-		if (
-			! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-			! $this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
-		) {
-			return [];
-		}
+    /**
+     * Calculate vertical ratio array
+     * @return array [%o]
+     */
+    public function calculate()
+    {
+        if (
+            ! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
+            ! $this->Trackdata->has(Trackdata\Entity::STRIDE_LENGTH)
+        ) {
+            return [];
+        }
 
-		$Oscillation = $this->Trackdata->verticalOscillation();
-		$StrideLength = $this->Trackdata->strideLength();
-		$Size = $this->Trackdata->num();
+        $Oscillation = $this->Trackdata->verticalOscillation();
+        $StrideLength = $this->Trackdata->strideLength();
+        $Size = $this->Trackdata->num();
 
-		$this->VerticalRatio = [];
+        $this->VerticalRatio = [];
 
-		for ($i = 0; $i < $Size; ++$i) {
-			if ($StrideLength[$i] > 0 && is_numeric($Oscillation[$i])) {
-				$this->VerticalRatio[] = round(100 * $Oscillation[$i] / $StrideLength[$i]);
-			} else {
-				$this->VerticalRatio[] = null;
-			}
-		}
+        for ($i = 0; $i < $Size; ++$i) {
+            if ($StrideLength[$i] > 0 && is_numeric($Oscillation[$i])) {
+                $this->VerticalRatio[] = round(100 * $Oscillation[$i] / $StrideLength[$i]);
+            } else {
+                $this->VerticalRatio[] = null;
+            }
+        }
 
-		return $this->VerticalRatio;
-	}
+        return $this->VerticalRatio;
+    }
 
-	/**
-	 * @return array [%o]
-	 */
-	public function verticalRatioData() {
-	    return $this->VerticalRatio;
-	}
+    /**
+     * @return array [%o]
+     */
+    public function verticalRatioData()
+    {
+        return $this->VerticalRatio;
+    }
 
-	/**
-	 * Calculate average Vertical Ratio
-	 * @return null|int [%o]
-	 */
-	public function average() {
-		if ($this->VerticalRatio === []) {
-			return null;
-		}
+    /**
+     * Calculate average Vertical Ratio
+     * @return null|int [%o]
+     */
+    public function average()
+    {
+        if ($this->VerticalRatio === []) {
+            return null;
+        }
 
-		if (! $this->Trackdata->has(Trackdata\Entity::TIME)) {
-			return round(array_sum($this->VerticalRatio) / $this->Trackdata->num());
-		}
+        if (! $this->Trackdata->has(Trackdata\Entity::TIME)) {
+            return round(array_sum($this->VerticalRatio) / $this->Trackdata->num());
+        }
 
-		$Series = new TimeSeries($this->VerticalRatio, $this->Trackdata->time());
-		$Series->calculateStatistic();
+        $Series = new TimeSeries($this->VerticalRatio, $this->Trackdata->time());
+        $Series->calculateStatistic();
 
-		return round($Series->mean());
-	}
+        return round($Series->mean());
+    }
 
     /**
      * Calculate vertical ratio for activity
      * Use this method if trackdata is not available
      * @return null|int [%o]
      */
-    public static function forActivity(Activity\Entity $activity) {
-		if ($activity->verticalOscillation() > 0 && $activity->strideLength() > 0) {
-			return round(100 * $activity->verticalOscillation() / $activity->strideLength());
-		}
+    public static function forActivity(Activity\Entity $activity)
+    {
+        if ($activity->verticalOscillation() > 0 && $activity->strideLength() > 0) {
+            return round(100 * $activity->verticalOscillation() / $activity->strideLength());
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

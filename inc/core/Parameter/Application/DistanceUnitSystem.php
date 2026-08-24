@@ -18,132 +18,132 @@ use Runalyze\Activity\StrideLength;
  */
 class DistanceUnitSystem extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Metric system (km, m, cm)
-	 * @var string
-	 */
-	const METRIC = 'metric';
+    /**
+     * Metric system (km, m, cm)
+     * @var string
+     */
+    public const METRIC = 'metric';
 
-	/**
-	 * Imperial system (miles, feet, yards)
-	 * @var string
-	 */
-	const IMPERIAL = 'imperial';
+    /**
+     * Imperial system (miles, feet, yards)
+     * @var string
+     */
+    public const IMPERIAL = 'imperial';
 
-	/**
-	 * Factor: km => miles
-	 * @var float
-	 */
-	const MILE_MULTIPLIER = 0.621371192;
+    /**
+     * Factor: km => miles
+     * @var float
+     */
+    public const MILE_MULTIPLIER = 0.621371192;
 
-	/**
-	 * Factor: km => yards
-	 * @var float
-	 */
-	const YARD_MULTIPLIER = 1093.6133;
+    /**
+     * Factor: km => yards
+     * @var float
+     */
+    public const YARD_MULTIPLIER = 1093.6133;
 
-	/**
-	 * Factor: km => feet
-	 * @var float
-	 */
-	const FEET_MULTIPLIER = 3280.84;
+    /**
+     * Factor: km => feet
+     * @var float
+     */
+    public const FEET_MULTIPLIER = 3280.84;
 
-	/**
-	 * Unit: km
-	 * @var string
-	 */
-	const KM = 'km';
+    /**
+     * Unit: km
+     * @var string
+     */
+    public const KM = 'km';
 
-	/**
-	 * Unit: meter
-	 * @var string
-	 */
-	const METER = 'm';
+    /**
+     * Unit: meter
+     * @var string
+     */
+    public const METER = 'm';
 
-	/**
-	 * Unit: cm
-	 * @var string
-	 */
-	const CM = 'cm';
+    /**
+     * Unit: cm
+     * @var string
+     */
+    public const CM = 'cm';
 
-	/**
-	 * Unit: miles
-	 * @var string
-	 */
-	const MILES = 'mi';
+    /**
+     * Unit: miles
+     * @var string
+     */
+    public const MILES = 'mi';
 
-	/**
-	 * Unit: yards
-	 * @var string
-	 */
-	const YARDS = 'yd';
+    /**
+     * Unit: yards
+     * @var string
+     */
+    public const YARDS = 'yd';
 
-	/**
-	 * Unit: feet
-	 * @var string
-	 */
-	const FEET = 'ft';
+    /**
+     * Unit: feet
+     * @var string
+     */
+    public const FEET = 'ft';
 
-	/**
-	 * Construct
-	 * @param string $default from class enum
-	 */
-	public function __construct($default = self::METRIC)
-	{
-		parent::__construct($default, [
-    'options' => [
-		        self::METRIC => __('Metric units'),
-		        self::IMPERIAL => __('Imperial units'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     * @param string $default from class enum
+     */
+    public function __construct($default = self::METRIC)
+    {
+        parent::__construct($default, [
+            'options' => [
+                self::METRIC => __('Metric units'),
+                self::IMPERIAL => __('Imperial units'),
+            ],
+        ]);
+    }
 
-	public function isMetric(): bool
-	{
-		return $this->value() == self::METRIC;
-	}
+    public function isMetric(): bool
+    {
+        return $this->value() == self::METRIC;
+    }
 
-	public function isImperial(): bool
-	{
-		return $this->value() == self::IMPERIAL;
-	}
+    public function isImperial(): bool
+    {
+        return $this->value() == self::IMPERIAL;
+    }
 
-	/**
-	 * @return float
-	 */
-	public function distanceToKmFactor()
-	{
-		if ($this->isImperial()) {
-			return 1 / self::MILE_MULTIPLIER;
-		}
+    /**
+     * @return float
+     */
+    public function distanceToKmFactor()
+    {
+        if ($this->isImperial()) {
+            return 1 / self::MILE_MULTIPLIER;
+        }
 
-		return 1;
-	}
+        return 1;
+    }
 
-	/**
-	 * @return float
-	 */
-	public function distanceToPreferredUnitFactor()
-	{
-		if ($this->isImperial()) {
-			return self::MILE_MULTIPLIER;
-		}
+    /**
+     * @return float
+     */
+    public function distanceToPreferredUnitFactor()
+    {
+        if ($this->isImperial()) {
+            return self::MILE_MULTIPLIER;
+        }
 
-		return 1;
-	}
+        return 1;
+    }
 
-	public function distanceUnit(): string
-	{
-		return (new Distance(0, $this))->unit();
-	}
+    public function distanceUnit(): string
+    {
+        return (new Distance(0, $this))->unit();
+    }
 
-	public function elevationUnit(): string
-	{
-		return (new Elevation(0, $this))->unit();
-	}
+    public function elevationUnit(): string
+    {
+        return (new Elevation(0, $this))->unit();
+    }
 
-	public function strideLengthUnit(): string
-	{
-		return (new StrideLength(0, $this))->unit();
-	}
+    public function strideLengthUnit(): string
+    {
+        return (new StrideLength(0, $this))->unit();
+    }
 }

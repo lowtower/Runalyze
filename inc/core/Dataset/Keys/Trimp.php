@@ -22,51 +22,51 @@ class Trimp extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::TRIMP;
-	}
+    {
+        return \Runalyze\Dataset\Keys::TRIMP;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'trimp';
-	}
+    {
+        return 'trimp';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('TRIMP');
-	}
+    {
+        return __('TRIMP');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Trimp values are colored based on their value, ' .
-			'slightly transparent for low values and dark red for high values.'
-		);
-	}
+    {
+        return __(
+            'Trimp values are colored based on their value, ' .
+            'slightly transparent for low values and dark red for high values.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->trimp();
-	}
+    {
+        return $context->dataview()
+            ->trimp();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::SUM;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::SUM;
+    }
 }

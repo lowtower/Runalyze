@@ -17,184 +17,198 @@ use Runalyze\Parameter\Application\TemperatureUnit;
  */
 class Temperature implements ValueInterface
 {
-	/**
-	 * Default number of decimals
-	 * @var int
-	 */
-	public static $DefaultDecimals = 0;
+    /**
+     * Default number of decimals
+     * @var int
+     */
+    public static $DefaultDecimals = 0;
 
-	/**
-	 * Temperature [°C]
-	 * @var float|null
-	 */
-	protected $Temperature;
+    /**
+     * Temperature [°C]
+     * @var float|null
+     */
+    protected $Temperature;
 
-	/**
-	 * Preferred unit
-	 * @var \Runalyze\Parameter\Application\TemperatureUnit
-	 */
-	protected $PreferredUnit;
+    /**
+     * Preferred unit
+     * @var \Runalyze\Parameter\Application\TemperatureUnit
+     */
+    protected $PreferredUnit;
 
     /**
      * @param float|null $temperature [°C]
      * @param bool $withUnit [optional] with or without unit
      * @param int $decimals [optional] number of decimals
      */
-    public static function format($temperature, $withUnit = true, $decimals = false): string {
-		return (new self($temperature))->string($withUnit, $decimals);
-	}
+    public static function format($temperature, $withUnit = true, $decimals = false): string
+    {
+        return (new self($temperature))->string($withUnit, $decimals);
+    }
 
-	/**
-	 * @param float|null $temperature [°C]
-	 */
-	public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null) {
-		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
+    /**
+     * @param float|null $temperature [°C]
+     */
+    public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null)
+    {
+        $this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
 
-		$this->set($temperature);
-	}
+        $this->set($temperature);
+    }
 
-	public function label(): string {
-		return __('Temperature');
-	}
+    public function label(): string
+    {
+        return __('Temperature');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function unit() {
-		return $this->PreferredUnit->unit();
-	}
+    /**
+     * @return string
+     */
+    public function unit()
+    {
+        return $this->PreferredUnit->unit();
+    }
 
-	/**
-	 * Set temperature
-	 * @param float|string|null $temperature [°C]
-	 * @return \Runalyze\Activity\Temperature $this-reference
-	 */
-	public function set($temperature): self {
-		if ($temperature === null || $temperature === '') {
-			$this->Temperature = null;
-		} else {
-			$this->Temperature = round((float) str_replace(',', '.', $temperature), 2);
-		}
+    /**
+     * Set temperature
+     * @param float|string|null $temperature [°C]
+     * @return \Runalyze\Activity\Temperature $this-reference
+     */
+    public function set($temperature): self
+    {
+        if ($temperature === null || $temperature === '') {
+            $this->Temperature = null;
+        } else {
+            $this->Temperature = round((float) str_replace(',', '.', $temperature), 2);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set temperature in Fahrenheit
-	 * @param float|string|null $temperature [°F]
-	 * @return \Runalyze\Activity\Temperature $this-reference
-	 */
-	public function setFahrenheit($temperature): self {
-		if ($temperature === null || $temperature === '') {
-			$this->Temperature = null;
-		} else {
-			$this->Temperature = round(((float) str_replace(',', '.', $temperature) - 32) / 1.8, 2);
-		}
+    /**
+     * Set temperature in Fahrenheit
+     * @param float|string|null $temperature [°F]
+     * @return \Runalyze\Activity\Temperature $this-reference
+     */
+    public function setFahrenheit($temperature): self
+    {
+        if ($temperature === null || $temperature === '') {
+            $this->Temperature = null;
+        } else {
+            $this->Temperature = round(((float) str_replace(',', '.', $temperature) - 32) / 1.8, 2);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param float|string|null $temperature [mixed unit]
-	 * @return \Runalyze\Activity\Temperature $this-reference
-	 */
-	public function setInPreferredUnit($temperature): self {
-		if ($this->PreferredUnit->isFahrenheit()) {
-			$this->setFahrenheit($temperature);
-		} else {
-			$this->set($temperature);
-		}
+    /**
+     * @param float|string|null $temperature [mixed unit]
+     * @return \Runalyze\Activity\Temperature $this-reference
+     */
+    public function setInPreferredUnit($temperature): self
+    {
+        if ($this->PreferredUnit->isFahrenheit()) {
+            $this->setFahrenheit($temperature);
+        } else {
+            $this->set($temperature);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Format temperature as string
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
      */
-    public function string($withUnit = true, $decimals = false): string {
-		if ($this->PreferredUnit->isFahrenheit()) {
-			return $this->stringFahrenheit($withUnit, $decimals);
-		}
+    public function string($withUnit = true, $decimals = false): string
+    {
+        if ($this->PreferredUnit->isFahrenheit()) {
+            return $this->stringFahrenheit($withUnit, $decimals);
+        }
 
-		return $this->stringCelsius($withUnit, $decimals);
-	}
+        return $this->stringCelsius($withUnit, $decimals);
+    }
 
-	/**
-	 * @return float|null [°C]
-	 */
-	public function value() {
-		return $this->Temperature;
-	}
+    /**
+     * @return float|null [°C]
+     */
+    public function value()
+    {
+        return $this->Temperature;
+    }
 
-	/**
-	 * Temperature
-	 * @return float|null [°C]
-	 */
-	public function celsius() {
-		return $this->Temperature;
-	}
+    /**
+     * @return float|null [°C]
+     */
+    public function celsius()
+    {
+        return $this->Temperature;
+    }
 
-	/**
-	 * Temperature in fahrenheit
-	 * @return float|null [°F]
-	 */
-	public function fahrenheit() {
-		if ($this->isEmpty()) {
-			return null;
-		}
+    /**
+     * Temperature in fahrenheit
+     * @return float|null [°F]
+     */
+    public function fahrenheit()
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
 
-		return $this->Temperature * 1.8 + 32;
-	}
+        return $this->Temperature * 1.8 + 32;
+    }
 
     /**
      * Is temperature empty?
      */
-    public function isEmpty(): bool {
-		return $this->Temperature === null;
-	}
+    public function isEmpty(): bool
+    {
+        return $this->Temperature === null;
+    }
 
-	/**
-	 * @return float|null [mixed unit]
-	 */
-	public function valueInPreferredUnit() {
-		if ($this->PreferredUnit->isFahrenheit()) {
-			return $this->fahrenheit();
-		}
+    /**
+     * @return float|null [mixed unit]
+     */
+    public function valueInPreferredUnit()
+    {
+        if ($this->PreferredUnit->isFahrenheit()) {
+            return $this->fahrenheit();
+        }
 
-		return $this->celsius();
-	}
+        return $this->celsius();
+    }
 
-	/**
-	 * String: as °C
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string with unit
-	 */
-	public function stringCelsius($withUnit = true, $decimals = false): string {
-		if ($this->isEmpty()) {
-			return '';
-		}
+    /**
+     * String: as °C
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     * @return string with unit
+     */
+    public function stringCelsius($withUnit = true, $decimals = false): string
+    {
+        if ($this->isEmpty()) {
+            return '';
+        }
 
-		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
+        $decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->Temperature, $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::CELSIUS : '');
-	}
+        return number_format($this->Temperature, $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::CELSIUS : '');
+    }
 
-	/**
-	 * String: as fahrenheit
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string with unit
-	 */
-	public function stringFahrenheit($withUnit = true, $decimals = false): string {
-		if ($this->isEmpty()) {
-			return '';
-		}
+    /**
+     * String: as fahrenheit
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     * @return string with unit
+     */
+    public function stringFahrenheit($withUnit = true, $decimals = false): string
+    {
+        if ($this->isEmpty()) {
+            return '';
+        }
 
-		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
+        $decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->fahrenheit(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::FAHRENHEIT : '');
-	}
+        return number_format($this->fahrenheit(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::FAHRENHEIT : '');
+    }
 }

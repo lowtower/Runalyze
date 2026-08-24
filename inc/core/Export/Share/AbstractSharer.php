@@ -38,7 +38,8 @@ abstract class AbstractSharer extends AbstractExporter
     /**
      * Get text for sharing
      */
-    final protected function text() {
+    final protected function text()
+    {
         $Text = __('I did sport: ');
 
         if ($this->Context->activity()->distance() > 0) {
@@ -68,17 +69,19 @@ abstract class AbstractSharer extends AbstractExporter
     /**
      * @return string
      */
-    final protected function publicURL() {
+    final protected function publicURL()
+    {
         $Linker = new Linker($this->Context->activity());
 
-	return $Linker->publicUrl();
+        return $Linker->publicUrl();
     }
 
     /**
      * @param string $text
      * @return string
      */
-    final protected function externalLink($text = '') {
+    final protected function externalLink($text = '')
+    {
         if (empty($text)) {
             $text = $this->name();
         }
@@ -90,7 +93,8 @@ abstract class AbstractSharer extends AbstractExporter
      * Get error for localhost
      * @return string
      */
-    final protected function errorForLocalhost() {
+    final protected function errorForLocalhost()
+    {
         if (System::isAtLocalhost()) {
             return HTML::error(
                 __('Runalyze is running on a local server.') . ' ' .

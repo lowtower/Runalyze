@@ -11,259 +11,279 @@
  */
 class PluginFactory
 {
-	/**
-	 * @var string
-	 */
-	const CACHE_KEY = 'plugins';
+    /**
+     * @var string
+     */
+    public const CACHE_KEY = 'plugins';
 
-	/**
-	 * Array with all keys
-	 * @var array|null
-	 */
-	private static $Plugins;
+    /**
+     * Array with all keys
+     * @var array|null
+     */
+    private static $Plugins;
 
-	/**
-	 * Array with complete plugin data
-	 * @return array
-	 */
-	private static function Plugins() {
-		if (self::$Plugins === null) {
-			self::$Plugins = self::fetchAllPlugins();
-		}
+    /**
+     * Array with complete plugin data
+     * @return array
+     */
+    private static function Plugins()
+    {
+        if (self::$Plugins === null) {
+            self::$Plugins = self::fetchAllPlugins();
+        }
 
-		return self::$Plugins;
-	}
+        return self::$Plugins;
+    }
 
-	/**
-	 * Cache all from Table plugin for a user
-	 */
-	private static function fetchAllPlugins() {
-		$data = Cache::get(self::CACHE_KEY);
+    /**
+     * Cache all from Table plugin for a user
+     */
+    private static function fetchAllPlugins()
+    {
+        $data = Cache::get(self::CACHE_KEY);
 
-		if ($data === null) {
-			$data = self::fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
-			Cache::set(self::CACHE_KEY, $data, '3600');
-		}
+        if ($data === null) {
+            $data = self::fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
+            Cache::set(self::CACHE_KEY, $data, '3600');
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	public static function clearCache() {
-		self::$Plugins = null;
-		Cache::delete(self::CACHE_KEY);
-	}
+    public static function clearCache()
+    {
+        self::$Plugins = null;
+        Cache::delete(self::CACHE_KEY);
+    }
 
     /**
      * Fetch complete list from database
      * @param int $accountID
      * @return array
      */
-    private static function fetchAllPluginsFrom(PDO $PDO, $accountID) {
-		return $PDO->query(
-		    'SELECT * FROM `' . PREFIX . 'plugin` ' .
-			'WHERE `accountid`=' . $accountID . ' ' .
-			'ORDER BY `order` ASC'
-		)->fetchAll();
-	}
+    private static function fetchAllPluginsFrom(PDO $PDO, $accountID)
+    {
+        return $PDO->query(
+            'SELECT * FROM `' . PREFIX . 'plugin` ' .
+            'WHERE `accountid`=' . $accountID . ' ' .
+            'ORDER BY `order` ASC'
+        )->fetchAll();
+    }
 
-	/**
-	 * @param int $id
-	 * @return array
-	 */
-	public static function dataFor($id) {
-		foreach (self::Plugins() as $data) {
-			if ($data['id'] == $id) {
-				return $data;
-			}
-		}
+    /**
+     * @param int $id
+     * @return array
+     */
+    public static function dataFor($id)
+    {
+        foreach (self::Plugins() as $data) {
+            if ($data['id'] == $id) {
+                return $data;
+            }
+        }
 
-		return [];
-	}
+        return [];
+    }
 
-	public static function allIDs(): array {
-		$IDs = [];
+    public static function allIDs(): array
+    {
+        $IDs = [];
 
-		foreach (self::Plugins() as $data) {
-			$IDs[] = $data['id'];
-		}
+        foreach (self::Plugins() as $data) {
+            $IDs[] = $data['id'];
+        }
 
-		return $IDs;
-	}
+        return $IDs;
+    }
 
-	/**
-	 * Complete plugin data
-	 * @param string|bool $type [optional]
-	 * @return array
-	 */
-	public function completeData($type = false) {
-		if ($type === false) {
-			return self::Plugins();
-		}
+    /**
+     * Complete plugin data
+     * @param string|bool $type [optional]
+     * @return array
+     */
+    public function completeData($type = false)
+    {
+        if ($type === false) {
+            return self::Plugins();
+        }
 
-		$plugins = self::Plugins();
-		foreach ($plugins as $k => $plugin) {
-			if ($plugin['type'] != PluginType::string($type)) {
-				unset($plugins[$k]);
-			}
-		}
+        $plugins = self::Plugins();
+        foreach ($plugins as $k => $plugin) {
+            if ($plugin['type'] != PluginType::string($type)) {
+                unset($plugins[$k]);
+            }
+        }
 
-		return $plugins;
-	}
+        return $plugins;
+    }
 
-	/**
-	 * New instance for key
-	 * @param string $pluginkey
-	 * @return Plugin
-	 * @throws \InvalidArgumentException
-	 */
-	public function newInstance($pluginkey) {
-		foreach (self::Plugins() as $plugin) {
-			if ($plugin['key'] == $pluginkey) {
-				return new $pluginkey($plugin['id']);
-			}
-		}
+    /**
+     * New instance for key
+     * @param string $pluginkey
+     * @return Plugin
+     * @throws \InvalidArgumentException
+     */
+    public function newInstance($pluginkey)
+    {
+        foreach (self::Plugins() as $plugin) {
+            if ($plugin['key'] == $pluginkey) {
+                return new $pluginkey($plugin['id']);
+            }
+        }
 
-		throw new InvalidArgumentException('Plugin with key "' . $pluginkey . '" is not installed.');
-	}
+        throw new InvalidArgumentException('Plugin with key "' . $pluginkey . '" is not installed.');
+    }
 
-	/**
-	 * New instance for id
-	 * @param int $id
-	 * @return Plugin
-	 */
-	public function newInstanceFor($id) {
-		return $this->newInstance( self::keyFor((int) $id) );
-	}
+    /**
+     * New instance for id
+     * @param int $id
+     * @return Plugin
+     */
+    public function newInstanceFor($id)
+    {
+        return $this->newInstance(self::keyFor((int) $id));
+    }
 
-	/**
-	 * New instance for key
-	 * @param string $Pluginkey
-	 * @return Plugin
-	 */
-	public function newInstallerInstance($Pluginkey): object {
-		return new $Pluginkey( PluginInstaller::ID );
-	}
+    /**
+     * New instance for key
+     * @param string $Pluginkey
+     * @return Plugin
+     */
+    public function newInstallerInstance($Pluginkey): object
+    {
+        return new $Pluginkey(PluginInstaller::ID);
+    }
 
     /**
      * Is the plugin already installed?
      * @param string $key
      */
-    public function isInstalled($key): bool {
-		return in_array($key, $this->allPlugins());
-	}
+    public function isInstalled($key): bool
+    {
+        return in_array($key, $this->allPlugins());
+    }
 
-	/**
-	 * Get all plugins
-	 * @param mixed $type [optional] false or enum
-	 * @return array array with plugin keys
-	 */
-	public function allPlugins($type = false): array {
-		return $this->getPlugins($type);
-	}
+    /**
+     * Get all plugins
+     * @param mixed $type [optional] false or enum
+     * @return array array with plugin keys
+     */
+    public function allPlugins($type = false): array
+    {
+        return $this->getPlugins($type);
+    }
 
-	/**
-	 * Get all active plugins
-	 * @param mixed $type [optional] false or enum
-	 * @return array array with plugin keys
-	 */
-	public function activePlugins($type = false): array {
-		return $this->getPlugins($type, Plugin::ACTIVE);
-	}
+    /**
+     * Get all active plugins
+     * @param mixed $type [optional] false or enum
+     * @return array array with plugin keys
+     */
+    public function activePlugins($type = false): array
+    {
+        return $this->getPlugins($type, Plugin::ACTIVE);
+    }
 
-	/**
-	 * Get all inactive plugins
-	 * @param mixed $type [optional] false or enum
-	 * @return array array with plugin keys
-	 */
-	public function inactivePlugins($type = false): array {
-		return $this->getPlugins($type, Plugin::ACTIVE_NOT);
-	}
+    /**
+     * Get all inactive plugins
+     * @param mixed $type [optional] false or enum
+     * @return array array with plugin keys
+     */
+    public function inactivePlugins($type = false): array
+    {
+        return $this->getPlugins($type, Plugin::ACTIVE_NOT);
+    }
 
-	/**
-	 * Get all various plugins
-	 * @return array array with plugin keys
-	 */
-	public function variousPlugins(): array {
-		return $this->getPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
-	}
+    /**
+     * Get all various plugins
+     * @return array array with plugin keys
+     */
+    public function variousPlugins(): array
+    {
+        return $this->getPlugins(PluginType::STAT, Plugin::ACTIVE_VARIOUS);
+    }
 
-	/**
-	 * Get all enabled panels
-	 * @return array array with plugin keys
-	 */
-	public function enabledPanels(): array {
-		$keys = [];
+    /**
+     * Get all enabled panels
+     * @return array array with plugin keys
+     */
+    public function enabledPanels(): array
+    {
+        $keys = [];
 
-		foreach (self::Plugins() as $plugin) {
-			if ($plugin['type'] == PluginType::string(PluginType::PANEL) && $plugin['active'] != Plugin::ACTIVE_NOT) {
-				$keys[] = $plugin['key'];
-			}
-		}
+        foreach (self::Plugins() as $plugin) {
+            if ($plugin['type'] == PluginType::string(PluginType::PANEL) && $plugin['active'] != Plugin::ACTIVE_NOT) {
+                $keys[] = $plugin['key'];
+            }
+        }
 
-		return $keys;
-	}
+        return $keys;
+    }
 
-	/**
-	 * @param mixed $type [optional] false or enum
-	 * @param mixed $active [optional] false or enum
-	 * @return array array with plugin keys
-	 */
-	protected function getPlugins($type = false, $active = false): array {
-		$keys = [];
+    /**
+     * @param mixed $type [optional] false or enum
+     * @param mixed $active [optional] false or enum
+     * @return array array with plugin keys
+     */
+    protected function getPlugins($type = false, $active = false): array
+    {
+        $keys = [];
 
-		foreach (self::Plugins() as $plugin) {
-			if (($type === false || $plugin['type'] == PluginType::string($type)) && ($active === false || $plugin['active'] == $active)) {
-				$keys[] = $plugin['key'];
-			}
-		}
+        foreach (self::Plugins() as $plugin) {
+            if (($type === false || $plugin['type'] == PluginType::string($type)) && ($active === false || $plugin['active'] == $active)) {
+                $keys[] = $plugin['key'];
+            }
+        }
 
-		return $keys;
-	}
+        return $keys;
+    }
 
     /**
      * Get uninstalled plugins
      */
-    public function notInstalledPlugins(): array {
-		$plugins = [];
-		$dir = opendir(FRONTEND_PATH . '../plugin/');
+    public function notInstalledPlugins(): array
+    {
+        $plugins = [];
+        $dir = opendir(FRONTEND_PATH . '../plugin/');
 
-		while ($file = readdir($dir)) {
-			if ($file[0] != '.' && is_dir(FRONTEND_PATH . '../plugin/' . $file) && ! $this->isInstalled($file)) {
-				$plugins[] = [
-				    'key' => $file,
-				];
-			}
-		}
+        while ($file = readdir($dir)) {
+            if ($file[0] != '.' && is_dir(FRONTEND_PATH . '../plugin/' . $file) && ! $this->isInstalled($file)) {
+                $plugins[] = [
+                    'key' => $file,
+                ];
+            }
+        }
 
-		closedir($dir);
+        closedir($dir);
 
-		return $plugins;
-	}
+        return $plugins;
+    }
 
-	/**
-	 * Install a new plugin
-	 * @param string $Pluginkey
-	 */
-	public function installPlugin($Pluginkey) {
-		$Plugin = new $Pluginkey( Plugin::$INSTALLER_ID );
-		$Plugin->key = $Pluginkey;
+    /**
+     * Install a new plugin
+     * @param string $Pluginkey
+     */
+    public function installPlugin($Pluginkey)
+    {
+        $Plugin = new $Pluginkey(Plugin::$INSTALLER_ID);
+        $Plugin->key = $Pluginkey;
 
-		return $Plugin->install();
-	}
+        return $Plugin->install();
+    }
 
-	/**
-	 * Get the PLUGINKEY for a given ID from database
-	 * @param int $id
-	 * @return string
-	 * @throws \InvalidArgumentException
-	 */
-	public static function keyFor($id) {
-		foreach (self::Plugins() as $plugin) {
-			if ($id == $plugin['id']) {
-				return $plugin['key'];
-			}
-		}
+    /**
+     * Get the PLUGINKEY for a given ID from database
+     * @param int $id
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public static function keyFor($id)
+    {
+        foreach (self::Plugins() as $plugin) {
+            if ($id == $plugin['id']) {
+                return $plugin['key'];
+            }
+        }
 
-		throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
-	}
+        throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
+    }
 }

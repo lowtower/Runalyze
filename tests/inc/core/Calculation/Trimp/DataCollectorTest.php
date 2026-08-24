@@ -9,55 +9,59 @@ namespace Runalyze\Calculation\Trimp;
  */
 class DataCollectorTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSingleValueWithoutDuration() {
-		$Collector = new DataCollector(
-		    [140]
-		);
+    public function testSingleValueWithoutDuration()
+    {
+        $Collector = new DataCollector(
+            [140]
+        );
 
-		$this->assertEquals([
-		    140 => 1,
-		], $Collector->result());
-	}
+        $this->assertEquals([
+            140 => 1,
+        ], $Collector->result());
+    }
 
-	public function testSingleValueWithDuration() {
-		$Collector = new DataCollector(
-		    [150],
-		    [60]
-		);
+    public function testSingleValueWithDuration()
+    {
+        $Collector = new DataCollector(
+            [150],
+            [60]
+        );
 
-		$this->assertEquals([
-		    150 => 60,
-		], $Collector->result());
-	}
+        $this->assertEquals([
+            150 => 60,
+        ], $Collector->result());
+    }
 
-	public function testArrayWithoutDuration() {
-		$Collector = new DataCollector(
-		    [140, 145, 140, 150, 160, 175, 190, 150, 145, 140]
-		);
+    public function testArrayWithoutDuration()
+    {
+        $Collector = new DataCollector(
+            [140, 145, 140, 150, 160, 175, 190, 150, 145, 140]
+        );
 
-		$this->assertEquals([
-		    140 => 3,
-		    145 => 2,
-		    150 => 2,
-		    160 => 1,
-		    175 => 1,
-		    190 => 1,
-		], $Collector->result());
-	}
+        $this->assertEquals([
+            140 => 3,
+            145 => 2,
+            150 => 2,
+            160 => 1,
+            175 => 1,
+            190 => 1,
+        ], $Collector->result());
+    }
 
-	public function testArrayWithDuration() {
-		$Collector = new DataCollector(
-		    [140, 145, 140, 150, 160, 175, 190, 150, 145, 140],
-		    [60, 90, 100, 140, 170, 190, 200, 230, 290, 300]
-		);
+    public function testArrayWithDuration()
+    {
+        $Collector = new DataCollector(
+            [140, 145, 140, 150, 160, 175, 190, 150, 145, 140],
+            [60, 90, 100, 140, 170, 190, 200, 230, 290, 300]
+        );
 
-		$this->assertEquals([
-		    140 => 80,
-		    145 => 90,
-		    150 => 70,
-		    160 => 30,
-		    175 => 20,
-		    190 => 10,
-		], $Collector->result());
-	}
+        $this->assertEquals([
+            140 => 80,
+            145 => 90,
+            150 => 70,
+            160 => 30,
+            175 => 20,
+            190 => 10,
+        ], $Collector->result());
+    }
 }

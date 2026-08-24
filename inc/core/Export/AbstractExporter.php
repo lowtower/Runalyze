@@ -19,15 +19,15 @@ use Runalyze\View\Activity\Context;
  */
 abstract class AbstractExporter
 {
-	/**
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
     public function __construct(Context $context)
     {
-		$this->Context = $context;
-	}
+        $this->Context = $context;
+    }
 
     /**
      * @return string

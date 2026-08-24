@@ -31,7 +31,7 @@ class BasicEndurance
     /**
      * @var float [ml/kg/min]
      */
-    const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
+    public const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     /**
      * @var float [ml/kg/min]
@@ -226,8 +226,9 @@ class BasicEndurance
      */
     public function asArray($timestamp = 0, array $data = []): array
     {
-        if ($timestamp == 0)
+        if ($timestamp == 0) {
             $timestamp = time();
+        }
 
         // If you change the algorithm, remember to change *info* in 'RunalyzePluginPanel_Rechenspiele'.
         $DataSum = $data !== [] ? $data : DB::getInstance()->query($this->getQuery($timestamp))->fetch();
@@ -356,11 +357,13 @@ class BasicEndurance
     {
         $diff = Time::diffInDays(START_TIME);
 
-        if ($diff > $this->DAYS_FOR_WEEK_KM)
+        if ($diff > $this->DAYS_FOR_WEEK_KM) {
             return $this->DAYS_FOR_WEEK_KM;
+        }
 
-        if ($diff < $this->DAYS_FOR_WEEK_KM_MIN)
+        if ($diff < $this->DAYS_FOR_WEEK_KM_MIN) {
             return $this->DAYS_FOR_WEEK_KM_MIN;
+        }
 
         return $diff;
     }
@@ -389,10 +392,11 @@ class BasicEndurance
     public static function getConst()
     {
         if (self::$CONST_VALUE === false) {
-            if (Configuration::Data()->basicEndurance() != 0)
+            if (Configuration::Data()->basicEndurance() != 0) {
                 self::$CONST_VALUE = Configuration::Data()->basicEndurance();
-            else
+            } else {
                 self::recalculateValue();
+            }
         }
 
         return self::$CONST_VALUE;

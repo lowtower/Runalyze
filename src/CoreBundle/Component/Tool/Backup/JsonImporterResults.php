@@ -4,109 +4,109 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class JsonImporterResults
 {
-	/**
-	 * @var array
-	 */
-	protected $Results = [];
+    /**
+     * @var array
+     */
+    protected $Results = [];
 
-	/**
-	 * @param string $tableName
-	 * @param int $counter
-	 */
-	public function addUpdates($tableName, $counter)
+    /**
+     * @param string $tableName
+     * @param int $counter
+     */
+    public function addUpdates($tableName, $counter)
     {
-		$this->add($tableName, $counter, 'update');
-	}
+        $this->add($tableName, $counter, 'update');
+    }
 
-	/**
-	 * @param string $tableName
-	 * @param int $counter
-	 */
-	public function addDeletes($tableName, $counter)
+    /**
+     * @param string $tableName
+     * @param int $counter
+     */
+    public function addDeletes($tableName, $counter)
     {
-		$this->add($tableName, $counter, 'delete');
-	}
+        $this->add($tableName, $counter, 'delete');
+    }
 
-	/**
-	 * @param string $tableName
-	 * @param int $counter
-	 */
-	public function addInserts($tableName, $counter)
+    /**
+     * @param string $tableName
+     * @param int $counter
+     */
+    public function addInserts($tableName, $counter)
     {
-		$this->add($tableName, $counter, 'insert');
-	}
+        $this->add($tableName, $counter, 'insert');
+    }
 
-	/**
-	 * Increase internal counter
-	 * @param string $tableName
-	 * @param int $counter
-	 * @param string $key
-	 */
-	protected function add($tableName, $counter, $key)
+    /**
+     * Increase internal counter
+     * @param string $tableName
+     * @param int $counter
+     * @param string $key
+     */
+    protected function add($tableName, $counter, $key)
     {
-		if (! isset($this->Results[$tableName])) {
-			$this->Results[$tableName] = [
-			    'update' => 0,
-			    'delete' => 0,
-			    'insert' => 0,
-			];
-		}
+        if (! isset($this->Results[$tableName])) {
+            $this->Results[$tableName] = [
+                'update' => 0,
+                'delete' => 0,
+                'insert' => 0,
+            ];
+        }
 
-		$this->Results[$tableName][$key] += $counter;
-	}
+        $this->Results[$tableName][$key] += $counter;
+    }
 
-	/**
-	 * Get internal counter
-	 * @param string $tableName
-	 * @param string $key
-	 * @return int
-	 */
-	protected function get($tableName, $key)
+    /**
+     * Get internal counter
+     * @param string $tableName
+     * @param string $key
+     * @return int
+     */
+    protected function get($tableName, $key)
     {
-		if (isset($this->Results[$tableName])) {
-			return $this->Results[$tableName][$key];
-		}
+        if (isset($this->Results[$tableName])) {
+            return $this->Results[$tableName][$key];
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
-	/**
-	 * Are there results?
-	 * @param string $tableName
-	 * @return bool
-	 */
-	public function hasResultsFor($tableName)
+    /**
+     * Are there results?
+     * @param string $tableName
+     * @return bool
+     */
+    public function hasResultsFor($tableName)
     {
-		if (isset($this->Results[$tableName])) {
-			return 
-				$this->Results[$tableName]['delete'] > 0 ||
-				$this->Results[$tableName]['update'] > 0 ||
-				$this->Results[$tableName]['insert'] > 0
-			;
-		}
+        if (isset($this->Results[$tableName])) {
+            return
+                $this->Results[$tableName]['delete'] > 0 ||
+                $this->Results[$tableName]['update'] > 0 ||
+                $this->Results[$tableName]['insert'] > 0
+            ;
+        }
 
         return false;
-	}
+    }
 
     /**
      * Get complete string
      */
     public function completeString(): string
     {
-		$Rows = [];
+        $Rows = [];
 
-		foreach ($this->tables() as $tableName => $String) {
-			if ($this->hasResultsFor($tableName)) {
-				$Rows[] = $this->stringFor($tableName, $String);
-			}
-		}
+        foreach ($this->tables() as $tableName => $String) {
+            if ($this->hasResultsFor($tableName)) {
+                $Rows[] = $this->stringFor($tableName, $String);
+            }
+        }
 
-		if ($Rows === []) {
-			return 'Nothing changed.';
-		}
+        if ($Rows === []) {
+            return 'Nothing changed.';
+        }
 
-		return implode('<br>', $Rows);
-	}
+        return implode('<br>', $Rows);
+    }
 
     /**
      * Get result string
@@ -114,10 +114,10 @@ class JsonImporterResults
      */
     protected function stringFor($tableName, string $string): string
     {
-		$format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
+        $format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
 
-		return sprintf($format, $string, $this->Results[$tableName]['delete'], $this->Results[$tableName]['update'], $this->Results[$tableName]['insert']);
-	}
+        return sprintf($format, $string, $this->Results[$tableName]['delete'], $this->Results[$tableName]['update'], $this->Results[$tableName]['insert']);
+    }
 
     /**
      * Tables with string
@@ -125,27 +125,27 @@ class JsonImporterResults
      */
     protected function tables(): array
     {
-		return [
-		    'runalyze_conf' => __('Configuration'),
-		    'runalyze_dataset' => __('Dataset'),
-		    'runalyze_plugin' => __('Plugin'),
-		    'runalyze_plugin_conf' => __('Plugin configuration'),
-		    'runalyze_sport' => __('Sports'),
-		    'runalyze_type' => __('Activity types'),
-		    'runalyze_user' => __('Body data'),
-		    'runalyze_training' => __('Activities'),
-		    'runalyze_trackdata' => __('Trackdata'),
-		    'runalyze_swimdata' => __('Swimdata'),
-		    'runalyze_route' => __('Routes'),
-		    'runalyze_hrv' => __('HRV data'),
-		    'runalyze_equipment' => __('Equipment'),
-		    'runalyze_equipment_type' => __('Equipment types'),
-		    'runalyze_equipment_sport' => __('Relation: equipment types to sports'),
-		    'runalyze_equipment_spor' => __('Relation: equipment to sports'),
-		    'runalyze_activity_equipment' => __('Relation: equipment to activities'),
-		    'runalyze_tag' => __('Tags'),
-		    'runalyze_activtiy_tag' => __('Relation: tag to activities'),
-		    'runalyze_raceresult' => __('Race results'),
-		];
-	}
+        return [
+            'runalyze_conf' => __('Configuration'),
+            'runalyze_dataset' => __('Dataset'),
+            'runalyze_plugin' => __('Plugin'),
+            'runalyze_plugin_conf' => __('Plugin configuration'),
+            'runalyze_sport' => __('Sports'),
+            'runalyze_type' => __('Activity types'),
+            'runalyze_user' => __('Body data'),
+            'runalyze_training' => __('Activities'),
+            'runalyze_trackdata' => __('Trackdata'),
+            'runalyze_swimdata' => __('Swimdata'),
+            'runalyze_route' => __('Routes'),
+            'runalyze_hrv' => __('HRV data'),
+            'runalyze_equipment' => __('Equipment'),
+            'runalyze_equipment_type' => __('Equipment types'),
+            'runalyze_equipment_sport' => __('Relation: equipment types to sports'),
+            'runalyze_equipment_spor' => __('Relation: equipment to sports'),
+            'runalyze_activity_equipment' => __('Relation: equipment to activities'),
+            'runalyze_tag' => __('Tags'),
+            'runalyze_activtiy_tag' => __('Relation: tag to activities'),
+            'runalyze_raceresult' => __('Race results'),
+        ];
+    }
 }

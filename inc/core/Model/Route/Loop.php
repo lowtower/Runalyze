@@ -6,6 +6,7 @@
  */
 
 namespace Runalyze\Model\Route;
+
 use League\Geotools\Geohash\Geohash;
 
 /**
@@ -16,82 +17,90 @@ use League\Geotools\Geohash\Geohash;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-	/**
-	 * Object
-	 * @var \Runalyze\Model\Route\Entity
-	 */
-	protected $Object;
+    /**
+     * Object
+     * @var \Runalyze\Model\Route\Entity
+     */
+    protected $Object;
 
     /**
      * Construct
      */
-    public function __construct(Entity $object) {
-		parent::__construct($object);
-	}
+    public function __construct(Entity $object)
+    {
+        parent::__construct($object);
+    }
 
-	/**
-	 * Current latitude
-	 * @return float
-	 */
-	public function latitude() {
-		return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLatitude();
-	}
+    /**
+     * Current latitude
+     * @return float
+     */
+    public function latitude()
+    {
+        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLatitude();
+    }
 
-	/**
-	 * Current longitude
-	 * @return float
-	 */
-	public function longitude() {
-		return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLongitude();
-	}
+    /**
+     * Current longitude
+     * @return float
+     */
+    public function longitude()
+    {
+        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLongitude();
+    }
 
-	/**
-	 * Current geohash
-	 * @return string
-	 */
-	public function geohash() {
-		return $this->current(Entity::GEOHASHES);
-	}
+    /**
+     * Current geohash
+     * @return string
+     */
+    public function geohash()
+    {
+        return $this->current(Entity::GEOHASHES);
+    }
 
-	/**
-	 * @return \League\Geotools\Coordinate\CoordinateInterface
-	 */
-	public function coordinate() {
-		return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate();
-	}
+    /**
+     * @return \League\Geotools\Coordinate\CoordinateInterface
+     */
+    public function coordinate()
+    {
+        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate();
+    }
 
-	/**
-	 * Calculate distance of current step from latitude/longitude
-	 * @return float
-	 */
-	public function calculatedStepDistance() {
-	    $LastGeohash = (new Geohash())->decode($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
-	    $IndexGeohash = (new Geohash())->decode($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
+    /**
+     * Calculate distance of current step from latitude/longitude
+     * @return float
+     */
+    public function calculatedStepDistance()
+    {
+        $LastGeohash = (new Geohash())->decode($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
+        $IndexGeohash = (new Geohash())->decode($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
 
-	    return Entity::gpsDistance(
-	        $LastGeohash->getLatitude(),
-	        $LastGeohash->getLongitude(),
-	        $IndexGeohash->getLatitude(),
-	        $IndexGeohash->getLongitude()
-	    );
-	}
+        return Entity::gpsDistance(
+            $LastGeohash->getLatitude(),
+            $LastGeohash->getLongitude(),
+            $IndexGeohash->getLatitude(),
+            $IndexGeohash->getLongitude()
+        );
+    }
 
-	/**
-	 * @return array
-	 */
-	public function sliceElevation() {
-		if ($this->Object->hasCorrectedElevations()) {
-			return $this->slice(Entity::ELEVATIONS_CORRECTED);
-		}
+    /**
+     * @return array
+     */
+    public function sliceElevation()
+    {
+        if ($this->Object->hasCorrectedElevations()) {
+            return $this->slice(Entity::ELEVATIONS_CORRECTED);
+        }
 
-		if ($this->Object->hasOriginalElevations()) {
-			return $this->slice(Entity::ELEVATIONS_ORIGINAL);
-		}
+        if ($this->Object->hasOriginalElevations()) {
+            return $this->slice(Entity::ELEVATIONS_ORIGINAL);
+        }
 
-		return [];
-	}
+        return [];
+    }
 
-	protected function createNewObject(array $data): \Runalyze\Model\Route\Entity {
-		return new Entity($data);
-	}
+    protected function createNewObject(array $data): \Runalyze\Model\Route\Entity
+    {
+        return new Entity($data);
+    }
 }

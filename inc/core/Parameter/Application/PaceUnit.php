@@ -15,69 +15,69 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class PaceUnit extends AbstractEnum
 {
-	/**
-	 * Speed unit km/h
-	 * @var int
-	 */
-	const KM_PER_H = 0;
+    /**
+     * Speed unit km/h
+     * @var int
+     */
+    public const KM_PER_H = 0;
 
-	/**
-	 * Speed unit mph
-	 * @var int
-	 */
-	const MILES_PER_H = 1;
+    /**
+     * Speed unit mph
+     * @var int
+     */
+    public const MILES_PER_H = 1;
 
-	/**
-	 * Speed unit min/km
-	 * @var int
-	 */
-	const MIN_PER_KM = 2;
+    /**
+     * Speed unit min/km
+     * @var int
+     */
+    public const MIN_PER_KM = 2;
 
-	/**
-	 * Speed unit min/mile
-	 * @var int
-	 */
-	const MIN_PER_MILE = 3;
+    /**
+     * Speed unit min/mile
+     * @var int
+     */
+    public const MIN_PER_MILE = 3;
 
-	/**
-	 * Speed unit m/s
-	 * @var int
-	 */
-	const M_PER_S = 4;
+    /**
+     * Speed unit m/s
+     * @var int
+     */
+    public const M_PER_S = 4;
 
-	/**
-	 * Speed unit min/100m
-	 * @var int
-	 */
-	const MIN_PER_100M = 5;
+    /**
+     * Speed unit min/100m
+     * @var int
+     */
+    public const MIN_PER_100M = 5;
 
-	/**
-	 * Speed unit min/100y
-	 * @var int
-	 */
-	const MIN_PER_100Y = 6;
+    /**
+     * Speed unit min/100y
+     * @var int
+     */
+    public const MIN_PER_100Y = 6;
 
-	/**
-	 * Speed unit min/500m
-	 * @var int
-	 */
-	const MIN_PER_500M = 7;
+    /**
+     * Speed unit min/500m
+     * @var int
+     */
+    public const MIN_PER_500M = 7;
 
-	/**
-	 * Speed unit min/500y
-	 * @var int
-	 */
-	const MIN_PER_500Y = 8;
+    /**
+     * Speed unit min/500y
+     * @var int
+     */
+    public const MIN_PER_500Y = 8;
 
-	/**
-	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected $UnitObject;
+    /**
+     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected $UnitObject;
 
     /**
      * @param int $id id from internal enum
      */
-    static public function stringFor($id): string
+    public static function stringFor($id): string
     {
         switch ($id) {
             case self::KM_PER_H:
@@ -103,7 +103,8 @@ class PaceUnit extends AbstractEnum
         }
     }
 
-    static public function getChoices(): array {
+    public static function getChoices(): array
+    {
         return [
             self::stringFor(self::KM_PER_H) => self::KM_PER_H,
             self::stringFor(self::MILES_PER_H) => self::MILES_PER_H,
@@ -117,51 +118,51 @@ class PaceUnit extends AbstractEnum
         ];
     }
 
-	/**
-	 * Set value
-	 * @param mixed $id new value
-	 * @throws \InvalidArgumentException
-	 */
-	public function set($id)
-	{
-		$this->UnitObject = $this->getNewPaceUnitObject($id);
-	}
+    /**
+     * Set value
+     * @param mixed $id new value
+     * @throws \InvalidArgumentException
+     */
+    public function set($id)
+    {
+        $this->UnitObject = $this->getNewPaceUnitObject($id);
+    }
 
-	/**
-	 * @param int $id
-	 * @return \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected function getNewPaceUnitObject($id)
-	{
-		switch ($id) {
-			case self::KM_PER_H:
+    /**
+     * @param int $id
+     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected function getNewPaceUnitObject($id)
+    {
+        switch ($id) {
+            case self::KM_PER_H:
             default:
                 return new PaceUnitObject\KmPerHour();
-			case self::MILES_PER_H:
-				return new PaceUnitObject\MilesPerHour();
-			case self::MIN_PER_KM:
-				return new PaceUnitObject\MinPerKilometer();
-			case self::MIN_PER_MILE:
-				return new PaceUnitObject\MinPerMile();
-			case self::M_PER_S:
-				return new PaceUnitObject\MeterPerSecond();
-			case self::MIN_PER_100M:
-				return new PaceUnitObject\MinPer100m();
-			case self::MIN_PER_100Y:
-				return new PaceUnitObject\MinPer100y();
-			case self::MIN_PER_500M:
-				return new PaceUnitObject\MinPer500m();
-			case self::MIN_PER_500Y:
-				return new PaceUnitObject\MinPer500y();
-		}
-	}
+            case self::MILES_PER_H:
+                return new PaceUnitObject\MilesPerHour();
+            case self::MIN_PER_KM:
+                return new PaceUnitObject\MinPerKilometer();
+            case self::MIN_PER_MILE:
+                return new PaceUnitObject\MinPerMile();
+            case self::M_PER_S:
+                return new PaceUnitObject\MeterPerSecond();
+            case self::MIN_PER_100M:
+                return new PaceUnitObject\MinPer100m();
+            case self::MIN_PER_100Y:
+                return new PaceUnitObject\MinPer100y();
+            case self::MIN_PER_500M:
+                return new PaceUnitObject\MinPer500m();
+            case self::MIN_PER_500Y:
+                return new PaceUnitObject\MinPer500y();
+        }
+    }
 
-	/**
-	 * Unit object
-	 * @return \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	public function object()
-	{
-		return $this->UnitObject;
-	}
+    /**
+     * Unit object
+     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    public function object()
+    {
+        return $this->UnitObject;
+    }
 }

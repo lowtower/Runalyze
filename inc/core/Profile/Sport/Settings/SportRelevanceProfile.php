@@ -12,12 +12,12 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @var int
      */
-    const ALTERNATIVE_SPORT = 0;
+    public const ALTERNATIVE_SPORT = 0;
 
     /**
      * @var int
      */
-    const MAIN_SPORT = 1;
+    public const MAIN_SPORT = 1;
 
     /**
      * @param int $id id from internal enum

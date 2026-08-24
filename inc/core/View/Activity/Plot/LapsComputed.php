@@ -20,74 +20,77 @@ use Runalyze\View\Activity;
  */
 class LapsComputed extends Laps
 {
-	/**
-	 * Set key and title for this plot
-	 */
-	protected function setKey() {
-		$this->key = 'laps_computed';
-		$this->title = __('Computed Laps');
-	}
+    /**
+     * Set key and title for this plot
+     */
+    protected function setKey()
+    {
+        $this->key = 'laps_computed';
+        $this->title = __('Computed Laps');
+    }
 
-    protected function loadData(Activity\Context $context) {
-		if (! $context->trackdata()->has(Trackdata\Entity::DISTANCE) || ! $context->trackdata()->has(Trackdata\Entity::TIME)) {
-			$this->Plot->raiseError( __('No GPS-data available. Can\\\'t compute laps.') );
-			return;
-		}
+    protected function loadData(Activity\Context $context)
+    {
+        if (! $context->trackdata()->has(Trackdata\Entity::DISTANCE) || ! $context->trackdata()->has(Trackdata\Entity::TIME)) {
+            $this->Plot->raiseError(__('No GPS-data available. Can\\\'t compute laps.'));
+            return;
+        }
 
-		$laps = $this->computeRounds($context);
-		$num = $laps->num();
-		$Pace = new PaceObject(0, 1);
-		$Pace->setUnit($this->PaceUnit);
+        $laps = $this->computeRounds($context);
+        $num = $laps->num();
+        $Pace = new PaceObject(0, 1);
+        $Pace->setUnit($this->PaceUnit);
 
-		foreach ($laps->objects() as $i => $lap) {
-			$km = $i + 1;
-			if ($num < 30) {
-				$label = $km;
-			} elseif ($num < 50) {
-				$label = ($km % 2 === 1 && $km > 0) ? $km : '';
-			} elseif ($num < 100) {
-				$label = ($km % 5 === 0 && $km > 0) ? $km : '';
-			} else {
-				$label = ($km % 10 === 0 && $km > 0) ? $km : '';
-			}
+        foreach ($laps->objects() as $i => $lap) {
+            $km = $i + 1;
+            if ($num < 30) {
+                $label = $km;
+            } elseif ($num < 50) {
+                $label = ($km % 2 === 1 && $km > 0) ? $km : '';
+            } elseif ($num < 100) {
+                $label = ($km % 5 === 0 && $km > 0) ? $km : '';
+            } else {
+                $label = ($km % 10 === 0 && $km > 0) ? $km : '';
+            }
 
-			$this->Labels[$i] = [$i, $label];
-			$Pace->setDistance($lap->distance()->kilometer())
-			    ->setTime($lap->duration()->seconds());
+            $this->Labels[$i] = [$i, $label];
+            $Pace->setDistance($lap->distance()->kilometer())
+                ->setTime($lap->duration()->seconds());
 
-			if ($this->PaceUnit->isTimeFormat()) {
-				$this->Data[$i] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
-			} else {
-				$this->Data[$i] = (float) str_replace(',', '.', $Pace->value());
-			}
-		}
+            if ($this->PaceUnit->isTimeFormat()) {
+                $this->Data[$i] = 1000 * round($Pace->secondsPerKm() * $this->PaceUnit->factorForUnit());
+            } else {
+                $this->Data[$i] = (float) str_replace(',', '.', $Pace->value());
+            }
+        }
 
-		$avgPace = new PaceObject($context->activity()->duration(), $context->activity()->distance());
-		$this->achievedPace = $avgPace->secondsPerKm();
-		$this->Plot->Data[] = [
-		    'label' => $this->title,
-		    'data' => $this->Data,
-		];
-	}
+        $avgPace = new PaceObject($context->activity()->duration(), $context->activity()->distance());
+        $this->achievedPace = $avgPace->secondsPerKm();
+        $this->Plot->Data[] = [
+            'label' => $this->title,
+            'data' => $this->Data,
+        ];
+    }
 
-	protected function computeRounds(Activity\Context $context): \Runalyze\Data\Laps\Laps {
-		$singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
-		$totalDistance = $context->trackdata()
-		    ->totalDistance();
+    protected function computeRounds(Activity\Context $context): \Runalyze\Data\Laps\Laps
+    {
+        $singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
+        $totalDistance = $context->trackdata()
+            ->totalDistance();
 
-		if ($totalDistance < 2 * $singleDistance) {
-			$Distances = [$singleDistance];
-		} else {
-			$Distances = range($singleDistance, $totalDistance, $singleDistance);
+        if ($totalDistance < 2 * $singleDistance) {
+            $Distances = [$singleDistance];
+        } else {
+            $Distances = range($singleDistance, $totalDistance, $singleDistance);
 
-			if ($Distances === false) {
-				$Distances = [$singleDistance];
-			}
-		}
+            if ($Distances === false) {
+                $Distances = [$singleDistance];
+            }
+        }
 
-		$laps = new \Runalyze\Data\Laps\Laps();
-		$laps->calculateFrom($Distances, $context->trackdata());
+        $laps = new \Runalyze\Data\Laps\Laps();
+        $laps->calculateFrom($Distances, $context->trackdata());
 
-		return $laps;
-	}
+        return $laps;
+    }
 }

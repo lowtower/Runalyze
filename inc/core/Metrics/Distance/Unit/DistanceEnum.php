@@ -14,30 +14,30 @@ class DistanceEnum extends AbstractEnum
     /**
      * @var int
      */
-    const KILOMETER = 0;
+    public const KILOMETER = 0;
 
     /**
      * @var int
      */
-    const MILES = 1;
+    public const MILES = 1;
 
     /**
      * @var int
      */
-    const METER = 2;
+    public const METER = 2;
 
     /**
      * @var int
      */
-    const YARDS = 3;
+    public const YARDS = 3;
 
     /**
      * @var int
      */
-    const CENTIMETER = 4;
+    public const CENTIMETER = 4;
 
     /**
      * @var int
      */
-    const FEET = 5;
+    public const FEET = 5;
 }

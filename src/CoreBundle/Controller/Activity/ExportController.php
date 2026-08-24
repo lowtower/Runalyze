@@ -17,7 +17,8 @@ class ExportController extends Controller
      * @Route("/activity/{id}/export/social/{typeid}", requirements={"id" = "\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function exporterExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response {
+    public function exporterExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response
+    {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
         if (Share\Types::isValidValue((int) $typeid)) {
@@ -36,7 +37,8 @@ class ExportController extends Controller
      * @Route("/activity/{id}/export/file/{typeid}", requirements={"id" = "\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function fileExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response {
+    public function fileExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response
+    {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
         if (File\Types::isValidValue((int) $typeid)) {

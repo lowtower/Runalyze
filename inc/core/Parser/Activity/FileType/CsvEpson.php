@@ -86,7 +86,8 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
     /**
      * @param string $line
      */
-    protected function readTrainingResult($line) {
+    protected function readTrainingResult($line)
+    {
         if (substr($line, 0, 13) == 'TrainingName,') {
             $this->Container->Metadata->setDescription(substr($line, 13));
         } elseif (substr($line, 0, 5) == 'Memo,') {
@@ -138,7 +139,8 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
     /**
      * @param string $line
      */
-    protected function readTrainingData($line) {
+    protected function readTrainingData($line)
+    {
         if ($this->TmpData === []) {
             $this->TmpData = explode(',', $line);
         } else {
@@ -157,7 +159,8 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
     /**
      * @var string
      */
-    protected function readGpsData($line) {
+    protected function readGpsData($line)
+    {
         $parts = explode(',', $line);
 
         if (count($parts) === 2) {

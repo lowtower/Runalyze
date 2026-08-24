@@ -11,7 +11,7 @@ class GeohashArray extends Type
     /**
      * @var string
      */
-    const GEOHASH_ARRAY = 'geohash_array';
+    public const GEOHASH_ARRAY = 'geohash_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

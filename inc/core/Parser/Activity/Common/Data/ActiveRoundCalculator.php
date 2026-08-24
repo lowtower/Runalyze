@@ -17,17 +17,18 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  */
 class ActiveRoundCalculator
 {
-	protected $continuousData;
+    protected $continuousData;
 
     protected $activeIdx;
 
-	public function __construct(ContinuousData $continuousData, RoundCollection $rounds) {
-		$this->continuousData = $continuousData;
+    public function __construct(ContinuousData $continuousData, RoundCollection $rounds)
+    {
+        $this->continuousData = $continuousData;
 
-        if (! $rounds->isEmpty() ) {
+        if (! $rounds->isEmpty()) {
             $this->init($rounds);
         }
-	}
+    }
 
     /**
      * builds the activeIdx array this is corresponding with the other ContinuousData arrays.
@@ -52,7 +53,8 @@ class ActiveRoundCalculator
      * 974                  2       946,02
      * ...
      */
-    protected function init(RoundCollection $rounds) {
+    protected function init(RoundCollection $rounds)
+    {
         $time = $this->continuousData->Time;
         $len = count($time);
 
@@ -65,7 +67,7 @@ class ActiveRoundCalculator
 
         $roundTimeStart = 0.0;
         $timeIdx = 0;
-        foreach($rounds as $round) {
+        foreach ($rounds as $round) {
             // find the start of the inactive round
             if (! $round->isActive()) {
                 // Find the first track point after the beginning of the inactive round.
@@ -107,7 +109,8 @@ class ActiveRoundCalculator
     /**
      * returns the avg heart-rate of all active rounds.
      */
-    public function calcAvgHeartRate() {
+    public function calcAvgHeartRate()
+    {
         $hr = $this->continuousData->HeartRate;
 
         if (empty($this->activeIdx) || empty($hr)) {
@@ -116,7 +119,7 @@ class ActiveRoundCalculator
 
         $activeHeartRates = [];
 
-        foreach($this->activeIdx as $key => $isActive) {
+        foreach ($this->activeIdx as $key => $isActive) {
             if ($isActive && array_key_exists($key, $hr) && $hr[$key] !== null && is_numeric($hr[$key])) {
                 $activeHeartRates[] = $hr[$key];
             }

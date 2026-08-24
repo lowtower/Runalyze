@@ -11,22 +11,24 @@
  */
 class PluginConfigurationValueInt extends PluginConfigurationValue
 {
-	/**
-	 * Has to be overwritten in subclasses.
-	 * @param string $Value
-	 */
-	public function setValueFromString($Value) {
-		$this->Value = (int) $Value;
-	}
+    /**
+     * Has to be overwritten in subclasses.
+     * @param string $Value
+     */
+    public function setValueFromString($Value)
+    {
+        $this->Value = (int) $Value;
+    }
 
-	/**
-	 * Display row for config form
-	 * @return FormularField
-	 */
-	public function getFormField(): \FormularInput {
-		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
-		$Field->setSize( FormularInput::$SIZE_SMALL );
+    /**
+     * Display row for config form
+     * @return FormularField
+     */
+    public function getFormField(): \FormularInput
+    {
+        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
+        $Field->setSize(FormularInput::$SIZE_SMALL);
 
-		return $Field;
-	}
+        return $Field;
+    }
 }

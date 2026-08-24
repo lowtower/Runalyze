@@ -18,7 +18,8 @@ use Runalyze\View\Leaflet;
  */
 class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
 {
-    protected function addMap() {
+    protected function addMap()
+    {
         if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
             $Map = new Leaflet\Map('map-' . $this->Context->activity()->id());
             $Map->addRoute(
@@ -34,241 +35,256 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
         }
     }
 
-	/**
-	 * Set plot
-	 */
-	protected function setRightContent() {
-        if (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst())
+    /**
+     * Set plot
+     */
+    protected function setRightContent()
+    {
+        if (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst()) {
             $this->addMap();
+        }
 
-		$this->addRightContent('plot', __('Composite plot'), $this->getPlot());
+        $this->addRightContent('plot', __('Composite plot'), $this->getPlot());
 
-		if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::PACE)) {
-			$Table = new TableZonesPace($this->Context);
-			$Code = $Table->getCode();
+        if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::PACE)) {
+            $Table = new TableZonesPace($this->Context);
+            $Code = $Table->getCode();
 
-			$this->addRightContent('zones-pace', __('Pace zones'), $Code);
-		}
+            $this->addRightContent('zones-pace', __('Pace zones'), $Code);
+        }
 
-		if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::HEARTRATE)) {
-			$Table = new TableZonesHeartrate($this->Context);
-			$Code = $Table->getCode();
+        if ($this->Context->trackdata()->has(\Runalyze\Model\Trackdata\Entity::HEARTRATE)) {
+            $Table = new TableZonesHeartrate($this->Context);
+            $Code = $Table->getCode();
 
-			$this->addRightContent('zones-hr', __('Heart rate zones'), $Code);
-		}
-	}
+            $this->addRightContent('zones-hr', __('Heart rate zones'), $Code);
+        }
+    }
 
-	/**
-	 * @return \Runalyze\View\Activity\Plot\ActivityPlot
-	 */
-	protected function getPlot() {
-		if (Configuration::ActivityView()->plotMode()->showCollection()) {
-			return new Activity\Plot\PaceAndHeartrateAndElevation($this->Context);
-		}
+    /**
+     * @return \Runalyze\View\Activity\Plot\ActivityPlot
+     */
+    protected function getPlot()
+    {
+        if (Configuration::ActivityView()->plotMode()->showCollection()) {
+            return new Activity\Plot\PaceAndHeartrateAndElevation($this->Context);
+        }
 
-		return new Activity\Plot\PaceAndHeartrate($this->Context);
-	}
+        return new Activity\Plot\PaceAndHeartrate($this->Context);
+    }
 
-	protected function setContent() {
-		$showElevation = Configuration::ActivityView()->plotMode()->showCollection();
+    protected function setContent()
+    {
+        $showElevation = Configuration::ActivityView()->plotMode()->showCollection();
 
         if (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst()) {
             $this->BoxedValues[] = new Box\Distance($this->Context);
             $this->BoxedValues[] = new BoxedValue($this->Context->dataview()->duration()->string(), '', __('Time'));
         }
 
-		$this->addAveragePace();
-		$this->addCalculations();
+        $this->addAveragePace();
+        $this->addCalculations();
 
-		$this->addAverageHeartrate();
-		$this->addMaximalHeartrate();
-		$this->addCaloriesAndTrimp();
+        $this->addAverageHeartrate();
+        $this->addMaximalHeartrate();
+        $this->addCaloriesAndTrimp();
 
-		// #TSC: add effects
-		$this->addFitTrainingEffect();
-		$this->addFitAnaerobicTrainingEffect();
+        // #TSC: add effects
+        $this->addFitTrainingEffect();
+        $this->addFitAnaerobicTrainingEffect();
 
-		if ($showElevation) {
-			$this->addElevation();
-		}
+        if ($showElevation) {
+            $this->addElevation();
+        }
 
-		if (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst()) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->elapsedTime(), '', __('Elapsed time'));
-		}
+        if (Configuration::ActivityView()->plotMode()->showCollection() && Configuration::ActivityView()->mapFirst()) {
+            $this->BoxedValues[] = new BoxedValue($this->Context->dataview()->elapsedTime(), '', __('Elapsed time'));
+        }
 
-		foreach ($this->BoxedValues as &$Value) {
-			$Value->defineAsFloatingBlock('w50');
-		}
+        foreach ($this->BoxedValues as &$Value) {
+            $Value->defineAsFloatingBlock('w50');
+        }
 
-		if ($showElevation) {
-			$this->addCourse();
-		}
+        if ($showElevation) {
+            $this->addCourse();
+        }
 
-		$this->addVO2maxInfoLink();
+        $this->addVO2maxInfoLink();
 
-		if ($showElevation && $this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
-			$this->addElevationInfoLink();
-		}
-	}
+        if ($showElevation && $this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
+            $this->addElevationInfoLink();
+        }
+    }
 
-	/**
-	 * Add: average pace
-	 */
-	protected function addAveragePace() {
-		if ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
-			$Pace = $this->Context->dataview()
-			    ->pace();
+    /**
+     * Add: average pace
+     */
+    protected function addAveragePace()
+    {
+        if ($this->Context->activity()->distance() > 0 && $this->Context->activity()->duration() > 0) {
+            $Pace = $this->Context->dataview()
+                ->pace();
 
-			if ($Pace->unit()->isDecimalFormat()) {
-				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);
-				$this->BoxedValues[] = new Activity\Box\PaceAlternative($this->Context);
-			} else {
-				$this->BoxedValues[] = new Activity\Box\Pace($this->Context);
-				$this->BoxedValues[] = new Activity\Box\Speed($this->Context);
-			}
+            if ($Pace->unit()->isDecimalFormat()) {
+                $this->BoxedValues[] = new Activity\Box\Pace($this->Context);
+                $this->BoxedValues[] = new Activity\Box\PaceAlternative($this->Context);
+            } else {
+                $this->BoxedValues[] = new Activity\Box\Pace($this->Context);
+                $this->BoxedValues[] = new Activity\Box\Speed($this->Context);
+            }
 
-			// #TSC show also GAP
-			if (Activity\Box\GradeAdjustedPace::hasPace($this->Context)) {
-				$this->BoxedValues[] = new Activity\Box\GradeAdjustedPace($this->Context);
-			}
-		}
-	}
+            // #TSC show also GAP
+            if (Activity\Box\GradeAdjustedPace::hasPace($this->Context)) {
+                $this->BoxedValues[] = new Activity\Box\GradeAdjustedPace($this->Context);
+            }
+        }
+    }
 
-	/**
-	 * Add: vo2max
-	 */
-	protected function addCalculations() {
-		if ($this->Context->dataview()->vo2max()->value() > 0) {
-			$this->BoxedValues[] = new BoxedValue(Helper::Unknown($this->Context->dataview()->vo2max()->value(), '-'), '', 'VO<sub>2</sub>max', $this->Context->dataview()->effectiveVO2maxIcon());
-		}
-	}
+    /**
+     * Add: vo2max
+     */
+    protected function addCalculations()
+    {
+        if ($this->Context->dataview()->vo2max()->value() > 0) {
+            $this->BoxedValues[] = new BoxedValue(Helper::Unknown($this->Context->dataview()->vo2max()->value(), '-'), '', 'VO<sub>2</sub>max', $this->Context->dataview()->effectiveVO2maxIcon());
+        }
+    }
 
-	/**
-	 * Add info link
-	 */
-	protected function addVO2maxInfoLink() {
-		if (! Request::isOnSharedPage() && $this->Context->dataview()->vo2max()->value() > 0) {
-			$Linker = new Activity\Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="' . $Linker->urlToVO2maxinfo() . '">' . __('More about VO<sub>2</sub>max calculation') . '</a>', 'small');
+    /**
+     * Add info link
+     */
+    protected function addVO2maxInfoLink()
+    {
+        if (! Request::isOnSharedPage() && $this->Context->dataview()->vo2max()->value() > 0) {
+            $Linker = new Activity\Linker($this->Context->activity());
+            $InfoLink = Ajax::window('<a href="' . $Linker->urlToVO2maxinfo() . '">' . __('More about VO<sub>2</sub>max calculation') . '</a>', 'small');
 
-			$this->Footer .= HTML::info( $InfoLink );
-		}
-	}
+            $this->Footer .= HTML::info($InfoLink);
+        }
+    }
 
-	/**
-	 * Add: average heartrate
-	 */
-	protected function addAverageHeartrate() {
-		if ($this->Context->activity()->hrAvg() > 0) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.') . ' ' . __('Heart rate'));
+    /**
+     * Add: average heartrate
+     */
+    protected function addAverageHeartrate()
+    {
+        if ($this->Context->activity()->hrAvg() > 0) {
+            $this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.') . ' ' . __('Heart rate'));
 
-			if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
-				$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.') . ' ' . __('Heart rate'));
-			}
-		}
+            if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
+                $this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.') . ' ' . __('Heart rate'));
+            }
+        }
 
-		// #TSC: also show active-HR (without rests) in the combined view
-		$hr = $this->Context->activity()
-		    ->hrAvgActive();
-		if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; ' . __('Heart rate') . ' active');
-		}
-	}
+        // #TSC: also show active-HR (without rests) in the combined view
+        $hr = $this->Context->activity()
+            ->hrAvgActive();
+        if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
+            $this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; ' . __('Heart rate') . ' active');
+        }
+    }
 
-	/**
-	 * Add: average heartrate
-	 */
-	protected function addMaximalHeartrate() {
-		if ($this->Context->activity()->hrMax() > 0) {
-			$this->BoxedValues[] = new Box\MaximalHeartRateInBPM($this->Context->dataview()->hrMax());
+    /**
+     * Add: average heartrate
+     */
+    protected function addMaximalHeartrate()
+    {
+        if ($this->Context->activity()->hrMax() > 0) {
+            $this->BoxedValues[] = new Box\MaximalHeartRateInBPM($this->Context->dataview()->hrMax());
 
-			if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
-				$this->BoxedValues[] = new Box\MaximalHeartRateInPercent($this->Context->dataview()->hrMax(), ! Request::isOnSharedPage());
-			}
-		}
-	}
+            if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
+                $this->BoxedValues[] = new Box\MaximalHeartRateInPercent($this->Context->dataview()->hrMax(), ! Request::isOnSharedPage());
+            }
+        }
+    }
 
-	/**
-	 * Add: calories/trimp
-	 */
-	protected function addCaloriesAndTrimp() {
-		if ($this->Context->activity()->energy() > 0 || $this->Context->activity()->trimp() > 0) {
-			$this->BoxedValues[] = new Box\Energy($this->Context);
-			$this->BoxedValues[] = new Box\Trimp($this->Context);
-		}
-	}
+    /**
+     * Add: calories/trimp
+     */
+    protected function addCaloriesAndTrimp()
+    {
+        if ($this->Context->activity()->energy() > 0 || $this->Context->activity()->trimp() > 0) {
+            $this->BoxedValues[] = new Box\Energy($this->Context);
+            $this->BoxedValues[] = new Box\Trimp($this->Context);
+        }
+    }
 
-	/**
-	 * Add: elevation
-	 */
-	protected function addElevation() {
-		if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
-			if ($this->Context->activity()->distance() > 0 && (! Configuration::ActivityView()->plotMode()->showCollection() || ! Configuration::ActivityView()->mapFirst())) {
-				$this->BoxedValues[] = new Box\Distance($this->Context);
-			}
+    /**
+     * Add: elevation
+     */
+    protected function addElevation()
+    {
+        if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
+            if ($this->Context->activity()->distance() > 0 && (! Configuration::ActivityView()->plotMode()->showCollection() || ! Configuration::ActivityView()->mapFirst())) {
+                $this->BoxedValues[] = new Box\Distance($this->Context);
+            }
 
-			// TODO: Calculated elevation?
+            // TODO: Calculated elevation?
 
-			if ($this->Context->activity()->elevation() > 0) {
-				// #TSC: show elevation only if available
-				$this->BoxedValues[] = new Box\Elevation($this->Context);
+            if ($this->Context->activity()->elevation() > 0) {
+                // #TSC: show elevation only if available
+                $this->BoxedValues[] = new Box\Elevation($this->Context);
 
-				if ($this->Context->activity()->distance() > 0) {
-					$this->BoxedValues[] = new Box\Gradient($this->Context);
-				}
+                if ($this->Context->activity()->distance() > 0) {
+                    $this->BoxedValues[] = new Box\Gradient($this->Context);
+                }
 
-				$this->BoxedValues[] = new Box\ElevationUpDown($this->Context);
-			}
-		}
-	}
+                $this->BoxedValues[] = new Box\ElevationUpDown($this->Context);
+            }
+        }
+    }
 
-	/**
-	 * Add: course
-	 */
-	protected function addCourse() {
-		if ($this->Context->hasRoute() && (string) $this->Context->route()->name() !== '') {
-			$PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
-			$PathBox->defineAsFloatingBlock('w100 flexible-height');
+    /**
+     * Add: course
+     */
+    protected function addCourse()
+    {
+        if ($this->Context->hasRoute() && (string) $this->Context->route()->name() !== '') {
+            $PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
+            $PathBox->defineAsFloatingBlock('w100 flexible-height');
 
-			$this->BoxedValues[] = $PathBox;
-		}
-	}
+            $this->BoxedValues[] = $PathBox;
+        }
+    }
 
-	/**
-	 * Add info link
-	 */
-	protected function addElevationInfoLink() {
-		if (! Request::isOnSharedPage()) {
-			$Linker = new Activity\Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="' . $Linker->urlToElevationInfo() . '">' . __('More about elevation') . '</a>', 'normal');
-			$this->Footer .= HTML::info( $InfoLink );
-		}
+    /**
+     * Add info link
+     */
+    protected function addElevationInfoLink()
+    {
+        if (! Request::isOnSharedPage()) {
+            $Linker = new Activity\Linker($this->Context->activity());
+            $InfoLink = Ajax::window('<a href="' . $Linker->urlToElevationInfo() . '">' . __('More about elevation') . '</a>', 'normal');
+            $this->Footer .= HTML::info($InfoLink);
+        }
 
-		if ($this->Context->route()->hasCorrectedElevations()) {
-			$this->Footer .= HTML::info( __('Elevation data were corrected.') );
-		} elseif ($this->Context->route()->hasOriginalElevations() && Configuration::ActivityForm()->correctElevation()) {
-			$this->Footer .= HTML::warning( __('Elevation data are not corrected.') );
-		}
+        if ($this->Context->route()->hasCorrectedElevations()) {
+            $this->Footer .= HTML::info(__('Elevation data were corrected.'));
+        } elseif ($this->Context->route()->hasOriginalElevations() && Configuration::ActivityForm()->correctElevation()) {
+            $this->Footer .= HTML::warning(__('Elevation data are not corrected.'));
+        }
 
-		// TODO: Add link to correct them now!
-	}
+        // TODO: Add link to correct them now!
+    }
 
-	/**
-	 * Add: FitTrainingEffect
-	 */
-	protected function addFitTrainingEffect() {
-	    if ($this->Context->activity()->fitTrainingEffect() > 0) {
-		$this->BoxedValues[] = new Box\FitTrainingEffect($this->Context);
-	    }
-	}
+    /**
+     * Add: FitTrainingEffect
+     */
+    protected function addFitTrainingEffect()
+    {
+        if ($this->Context->activity()->fitTrainingEffect() > 0) {
+            $this->BoxedValues[] = new Box\FitTrainingEffect($this->Context);
+        }
+    }
 
-	/**
-	 * Add: FitAnaerobicTrainingEffect
-	 * #TSC: new Anaerobic
-	 */
-	protected function addFitAnaerobicTrainingEffect() {
-	    if ($this->Context->activity()->fitAnaerobicTrainingEffect() > 0) {
+    /**
+     * Add: FitAnaerobicTrainingEffect
+     * #TSC: new Anaerobic
+     */
+    protected function addFitAnaerobicTrainingEffect()
+    {
+        if ($this->Context->activity()->fitAnaerobicTrainingEffect() > 0) {
             $this->BoxedValues[] = new Box\FitAnaerobicTrainingEffect($this->Context);
-	    }
-	}
+        }
+    }
 }

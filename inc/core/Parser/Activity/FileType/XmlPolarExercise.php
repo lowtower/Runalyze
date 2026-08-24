@@ -47,7 +47,7 @@ class XmlPolarExercise extends AbstractSingleParser
     protected function parseOptionalValues()
     {
         if (isset($this->Xml->result->distance)) {
-            $this->Container->ActivityData->Distance = (double) $this->Xml->result->distance / 1000;
+            $this->Container->ActivityData->Distance = (float) $this->Xml->result->distance / 1000;
         }
 
         if (isset($this->Xml->result->duration)) {
@@ -77,10 +77,10 @@ class XmlPolarExercise extends AbstractSingleParser
         if (isset($this->Xml->result->laps)) {
             foreach ($this->Xml->result->laps->lap as $lap) {
                 if (isset($lap->distance)) {
-                    $distance = round(((double) $lap->distance) / 1000, 3);
+                    $distance = round(((float) $lap->distance) / 1000, 3);
                     $seconds = $this->stringToDuration((string) $lap->duration);
 
-                    if (($seconds / (double) $lap->distance) < 0.06) {
+                    if (($seconds / (float) $lap->distance) < 0.06) {
                         $seconds *= 60;
                     }
 
@@ -115,7 +115,7 @@ class XmlPolarExercise extends AbstractSingleParser
                         break;
 
                     case 'DISTANCE':
-                        $this->Container->ContinuousData->Distance = array_map(function(string $m) {
+                        $this->Container->ContinuousData->Distance = array_map(function (string $m) {
                             return $m / 1000;
                         }, $data);
                         break;

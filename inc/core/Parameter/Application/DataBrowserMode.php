@@ -16,35 +16,38 @@ namespace Runalyze\Parameter\Application;
  */
 class DataBrowserMode extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Month
-	 * @var string
-	 */
-	const WEEK = 'week';
+    /**
+     * Month
+     * @var string
+     */
+    public const WEEK = 'week';
 
-	/**
-	 * Week
-	 * @var string
-	 */
-	const MONTH = 'month';
+    /**
+     * Week
+     * @var string
+     */
+    public const MONTH = 'month';
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		parent::__construct(self::WEEK, [
-    'options' => [
-		        self::WEEK => __('Week view'),
-		        self::MONTH => __('Month view'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct(self::WEEK, [
+            'options' => [
+                self::WEEK => __('Week view'),
+                self::MONTH => __('Month view'),
+            ],
+        ]);
+    }
 
-    public function showWeek(): bool {
-		return $this->value() == self::WEEK;
-	}
+    public function showWeek(): bool
+    {
+        return $this->value() == self::WEEK;
+    }
 
-    public function showMonth(): bool {
-		return $this->value() == self::MONTH;
-	}
+    public function showMonth(): bool
+    {
+        return $this->value() == self::MONTH;
+    }
 }

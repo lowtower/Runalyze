@@ -47,7 +47,7 @@ class MailingCommand extends ContainerAwareCommand
 
         $accounts = $this->buildQuery($input);
 
-        if (! ($input->getOption('force'))  ) {
+        if (! ($input->getOption('force'))) {
             $helper = $this->getHelper('question');
             $output->writeln(sprintf('<info>%u mail(s) will be sent.</info>', count($accounts)));
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
@@ -59,7 +59,7 @@ class MailingCommand extends ContainerAwareCommand
 
         $mailer = $this->getContainer()
             ->get('app.mailer.account');
-        foreach($accounts as $account) {
+        foreach ($accounts as $account) {
             /** Account $account */
             $mailer->sendMailTo($account, $input->getOption('subject'), $this->customMailDirectory . $input->getArgument('template'), [
                 'account' => $account,
@@ -75,7 +75,8 @@ class MailingCommand extends ContainerAwareCommand
     /**
      * @return array
      */
-    private function buildQuery(InputInterface $input) {
+    private function buildQuery(InputInterface $input)
+    {
         $repository = $this->getContainer()
             ->get('doctrine')
             ->getRepository('CoreBundle:Account');
@@ -91,15 +92,15 @@ class MailingCommand extends ContainerAwareCommand
         }
 
         if ($input->getOption('last-action-before')) {
-             $query->andWhere('a.lastaction < ' . (int) $input->getOption('last-action-before'));
+            $query->andWhere('a.lastaction < ' . (int) $input->getOption('last-action-before'));
         }
 
         if ($input->getOption('registration-after')) {
-             $query->andWhere('a.registerdate > ' . (int) $input->getOption('registration-after'));
+            $query->andWhere('a.registerdate > ' . (int) $input->getOption('registration-after'));
         }
 
         if ($input->getOption('registration-before')) {
-             $query->andWhere('a.registerdate < ' . (int) $input->getOption('registration-before'));
+            $query->andWhere('a.registerdate < ' . (int) $input->getOption('registration-before'));
         }
 
         $lang = $input->getOption('lang');
@@ -109,7 +110,7 @@ class MailingCommand extends ContainerAwareCommand
             $lang = $input->getOption('exclude-lang');
         }
 
-        if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang')) ) {
+        if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang'))) {
             $query->andWhere('a.language ' . ($exclude ? 'NOT' : '') . " IN ('" . implode('", "', $lang) . "')");
         }
 
@@ -124,7 +125,7 @@ class MailingCommand extends ContainerAwareCommand
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return 
+        return
             $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
             $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&

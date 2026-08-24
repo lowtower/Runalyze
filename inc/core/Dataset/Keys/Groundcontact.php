@@ -22,56 +22,56 @@ class Groundcontact extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::GROUNDCONTACT;
-	}
+    {
+        return \Runalyze\Dataset\Keys::GROUNDCONTACT;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'groundcontact';
-	}
+    {
+        return 'groundcontact';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Ground contact time');
-	}
+    {
+        return __('Ground contact time');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Groundcontact');
-	}
+    {
+        return __('Groundcontact');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->groundcontact();
-	}
+    {
+        return $context->dataview()
+            ->groundcontact();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

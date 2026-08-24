@@ -11,28 +11,29 @@
  */
 class FormularSelectDb extends FormularSelectBox
 {
-	/**
-	 * @var array
-	 */
-	public static $OptionsCache = [];
+    /**
+     * @var array
+     */
+    public static $OptionsCache = [];
 
-	/**
-	 * Load options from database
-	 * @param string $Table
-	 * @param string $Label
-	 */
-	public function loadOptionsFrom($Table, $Label) {
-		if (! isset(self::$OptionsCache[$Table . '.' . $Label])) {
-			self::$OptionsCache[$Table . '.' . $Label] = DB::getInstance()->query(
-			    'SELECT `id`, `' . $Label . '` as `value` ' .
-				'FROM `' . PREFIX . $Table . '` ' .
-				'WHERE `accountid`=' . \SessionAccountHandler::getId() . ' ' .
-				'ORDER BY `id` ASC'
-			)->fetchAll();
-		}
+    /**
+     * Load options from database
+     * @param string $Table
+     * @param string $Label
+     */
+    public function loadOptionsFrom($Table, $Label)
+    {
+        if (! isset(self::$OptionsCache[$Table . '.' . $Label])) {
+            self::$OptionsCache[$Table . '.' . $Label] = DB::getInstance()->query(
+                'SELECT `id`, `' . $Label . '` as `value` ' .
+                'FROM `' . PREFIX . $Table . '` ' .
+                'WHERE `accountid`=' . \SessionAccountHandler::getId() . ' ' .
+                'ORDER BY `id` ASC'
+            )->fetchAll();
+        }
 
-		foreach (self::$OptionsCache[$Table . '.' . $Label] as $Option) {
-			$this->addOption($Option['id'], $Option['value']);
-		}
-	}
+        foreach (self::$OptionsCache[$Table . '.' . $Label] as $Option) {
+            $this->addOption($Option['id'], $Option['value']);
+        }
+    }
 }

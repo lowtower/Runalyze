@@ -8,13 +8,13 @@ use Runalyze\Mathematics\DataAnalysis\ConstantSegmentFinder;
 
 class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 {
-	public function testInvalidIndexData()
+    public function testInvalidIndexData()
     {
         $this->expectException(\InvalidArgumentException::class);
         new ConstantSegmentFinder([1, 2, 3], [1, 2, 3, 4, 5]);
-	}
+    }
 
-	public function testEmptyData()
+    public function testEmptyData()
     {
         $finder = new ConstantSegmentFinder([]);
 

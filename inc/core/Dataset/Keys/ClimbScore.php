@@ -8,35 +8,35 @@ use Runalyze\Dataset\Context;
 
 class ClimbScore extends AbstractKey
 {
-	public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::CLIMB_SCORE;
-	}
+    public function id(): int
+    {
+        return \Runalyze\Dataset\Keys::CLIMB_SCORE;
+    }
 
-	public function column(): string
-	{
-		return 'climb_score';
-	}
+    public function column(): string
+    {
+        return 'climb_score';
+    }
 
-	public function label(): string
-	{
-		return __('Climb Score');
-	}
+    public function label(): string
+    {
+        return __('Climb Score');
+    }
 
-	public function shortLabel(): string
-	{
-		return __('CS');
-	}
+    public function shortLabel(): string
+    {
+        return __('CS');
+    }
 
-	public function description(): string
-	{
-		return __(
-		    '' // TODO
-		);
-	}
+    public function description(): string
+    {
+        return __(
+            '' // TODO
+        );
+    }
 
-	public function stringFor(Context $context)
-	{
+    public function stringFor(Context $context)
+    {
         if (! $context->activity()->isPublic() && \Request::isOnSharedPage() || $context->activity()->id() <= 0) {
             return $context->dataview()
                 ->climbScore();

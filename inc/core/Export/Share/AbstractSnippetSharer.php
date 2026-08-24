@@ -20,7 +20,7 @@ abstract class AbstractSnippetSharer extends AbstractSharer
     /**
      * @var string
      */
-    const URL = 'activity/{id}/export/social/{enum}';
+    public const URL = 'activity/{id}/export/social/{enum}';
 
     /**
      * @return string

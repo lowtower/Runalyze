@@ -14,21 +14,22 @@ declare(strict_types=1);
  */
 abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbstract
 {
-	/**
-	 * Content
-	 * @var string
-	 */
-	protected $Content = '';
+    /**
+     * Content
+     * @var string
+     */
+    protected $Content = '';
 
-	/**
-	 * CSS-id
-	 * @var string
-	 */
-	protected $id = '';
+    /**
+     * CSS-id
+     * @var string
+     */
+    protected $id = '';
 
-	final public function display() {
-		echo '<div class="training-row fullwidth" id="' . $this->id . '">';
-		echo $this->Content;
-		echo '</div>';
-	}
+    final public function display()
+    {
+        echo '<div class="training-row fullwidth" id="' . $this->id . '">';
+        echo $this->Content;
+        echo '</div>';
+    }
 }

@@ -17,144 +17,144 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class SummaryMode extends AbstractEnum
 {
-	/**
-	 * NO: This value can't be summarized.
-	 * @var int
-	 */
-	const NO = 0;
+    /**
+     * NO: This value can't be summarized.
+     * @var int
+     */
+    public const NO = 0;
 
-	/**
-	 * AVG: This value will be summarized by its average.
-	 * @var int
-	 */
-	const AVG = 1;
+    /**
+     * AVG: This value will be summarized by its average.
+     * @var int
+     */
+    public const AVG = 1;
 
-	/**
-	 * SUM: This value will be summarized by its sum.
-	 * @var int
-	 */
-	const SUM = 2;
+    /**
+     * SUM: This value will be summarized by its sum.
+     * @var int
+     */
+    public const SUM = 2;
 
-	/**
-	 * MAX: This value will be summarized by its maximum.
-	 * @var int
-	 */
-	const MAX = 3;
+    /**
+     * MAX: This value will be summarized by its maximum.
+     * @var int
+     */
+    public const MAX = 3;
 
-	/**
-	 * MIN: This value will be summarized by its maximum.
-	 * @var int
-	 */
-	const MIN = 4;
+    /**
+     * MIN: This value will be summarized by its maximum.
+     * @var int
+     */
+    public const MIN = 4;
 
-	/**
-	 * AVG_WITHOUT_NULL: This value will be summarized by its average ignoring nulls.
-	 * @var int
-	 */
-	const AVG_WITHOUT_NULL = 5;
+    /**
+     * AVG_WITHOUT_NULL: This value will be summarized by its average ignoring nulls.
+     * @var int
+     */
+    public const AVG_WITHOUT_NULL = 5;
 
-	/**
-	 * VO2MAX: take only the average of activities with `use_vo2max` and respect elevation correction
-	 * @var int
-	 */
-	const VO2MAX = 6;
+    /**
+     * VO2MAX: take only the average of activities with `use_vo2max` and respect elevation correction
+     * @var int
+     */
+    public const VO2MAX = 6;
 
-	/**
-	 * AVG_WITH_ZERO: This value will not ignore zeros.
-	 * @var int
-	 */
-	const AVG_WITH_ZERO = 7;
+    /**
+     * AVG_WITH_ZERO: This value will not ignore zeros.
+     * @var int
+     */
+    public const AVG_WITH_ZERO = 7;
 
-	/**
-	 * @param int $mode int from internal enum
-	 * @param string $key key of database column
-	 * @return string query part to select column
-	 */
-	public static function query($mode, $key): string
-	{
-		switch ($mode) {
-			case self::AVG:
-				return self::queryForAvg($key);
-			case self::SUM:
-				return self::queryForSum($key);
-			case self::MAX:
-				return self::queryForMax($key);
-			case self::MIN:
-				return self::queryForMin($key);
-			case self::AVG_WITHOUT_NULL:
-				return self::queryForAvgWithoutNull($key);
-			case self::VO2MAX:
-				return self::queryForVO2max($key);
-			case self::AVG_WITH_ZERO:
-				return self::queryForAvgWithZero($key);
-			default:
-				return '';
-		}
-	}
+    /**
+     * @param int $mode int from internal enum
+     * @param string $key key of database column
+     * @return string query part to select column
+     */
+    public static function query($mode, $key): string
+    {
+        switch ($mode) {
+            case self::AVG:
+                return self::queryForAvg($key);
+            case self::SUM:
+                return self::queryForSum($key);
+            case self::MAX:
+                return self::queryForMax($key);
+            case self::MIN:
+                return self::queryForMin($key);
+            case self::AVG_WITHOUT_NULL:
+                return self::queryForAvgWithoutNull($key);
+            case self::VO2MAX:
+                return self::queryForVO2max($key);
+            case self::AVG_WITH_ZERO:
+                return self::queryForAvgWithZero($key);
+            default:
+                return '';
+        }
+    }
 
     /**
      * @param string $key
      */
     public static function queryForAvg($key): string
-	{
-	    if (is_array($key)) {
-	        return implode(', ', array_map([self::class, 'queryForAvg'], $key));
+    {
+        if (is_array($key)) {
+            return implode(', ', array_map([self::class, 'queryForAvg'], $key));
         }
 
-		return 'SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/SUM(`s`*(`' . $key . '` != 0)) as `' . $key . '`';
-	}
+        return 'SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/SUM(`s`*(`' . $key . '` != 0)) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     private static function queryForSum($key): string
-	{
-		return 'SUM(`' . $key . '`) as `' . $key . '`';
-	}
+    {
+        return 'SUM(`' . $key . '`) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     private static function queryForMax($key): string
-	{
-		return 'MAX(`' . $key . '`) as `' . $key . '`';
-	}
+    {
+        return 'MAX(`' . $key . '`) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     private static function queryForMin($key): string
-	{
-		return 'MIN(`' . $key . '`) as `' . $key . '`';
-	}
+    {
+        return 'MIN(`' . $key . '`) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     private static function queryForAvgWithoutNull($key): string
-	{
-		return 'AVG(NULLIF(`' . $key . '`,0)) as `' . $key . '`';
-	}
+    {
+        return 'AVG(NULLIF(`' . $key . '`,0)) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     public static function queryForAvgWithZero($key): string
-	{
-	    if (is_array($key)) {
-	        return implode(', ', array_map([self::class, 'queryForAvgWithZero'], $key));
+    {
+        if (is_array($key)) {
+            return implode(', ', array_map([self::class, 'queryForAvgWithZero'], $key));
         }
 
-		return 'SUM(`s`*`' . $key . '`)/SUM(`s`) as `' . $key . '`';
-	}
+        return 'SUM(`s`*`' . $key . '`)/SUM(`s`) as `' . $key . '`';
+    }
 
     /**
      * @param string $key
      */
     private static function queryForVO2max($key): string
-	{
-		$Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
+    {
+        $Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
 
-		return 'SUM(IF(`use_vo2max`=1 AND `vo2max`>0,' . $Sum . ',0))/SUM(IF(`use_vo2max`=1 AND `vo2max`>0,`s`,0)) as `' . $key . '`';
-	}
+        return 'SUM(IF(`use_vo2max`=1 AND `vo2max`>0,' . $Sum . ',0))/SUM(IF(`use_vo2max`=1 AND `vo2max`>0,`s`,0)) as `' . $key . '`';
+    }
 }

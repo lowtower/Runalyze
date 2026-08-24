@@ -17,7 +17,8 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class CompletorForTime extends Completor
 {
-    public function mode(): string {
-		return parent::MODE_TIME;
-	}
+    public function mode(): string
+    {
+        return parent::MODE_TIME;
+    }
 }

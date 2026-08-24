@@ -15,59 +15,65 @@ namespace Runalyze\Util\File;
  */
 class GZipReader
 {
-	/**
-	 * Resource for file
-	 * @var resource
-	 */
-	protected $Resource;
+    /**
+     * Resource for file
+     * @var resource
+     */
+    protected $Resource;
 
-	/**
-	 * @param string $fileName
-	 * @throws \RuntimeException
-	 */
-	public function __construct($fileName) {
-		if (is_readable($fileName)) {
-			$this->Resource = gzopen($fileName, 'r');
-		}
+    /**
+     * @param string $fileName
+     * @throws \RuntimeException
+     */
+    public function __construct($fileName)
+    {
+        if (is_readable($fileName)) {
+            $this->Resource = gzopen($fileName, 'r');
+        }
 
-		if (! $this->Resource) {
-			throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for reading.');
-		}
-	}
+        if (! $this->Resource) {
+            throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for reading.');
+        }
+    }
 
-	/**
-	 * Destructor
-	 */
-	public function __destruct() {
-		if ($this->isOpen()) {
-			$this->close();
-		}	
-	}
+    /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        if ($this->isOpen()) {
+            $this->close();
+        }
+    }
 
-	/**
-	 * Read one line
-	 */
-	public function readLine() {
-		return gzgets($this->Resource);
-	}
+    /**
+     * Read one line
+     */
+    public function readLine()
+    {
+        return gzgets($this->Resource);
+    }
 
     /**
      * End of file?
      */
-    public function eof(): bool {
-		return gzeof($this->Resource);
-	}
+    public function eof(): bool
+    {
+        return gzeof($this->Resource);
+    }
 
     /**
      * Is file open?
      */
-    protected function isOpen(): bool {
-		return $this->Resource !== null;
-	}
+    protected function isOpen(): bool
+    {
+        return $this->Resource !== null;
+    }
 
-	public function close() {
-		gzclose($this->Resource);
+    public function close()
+    {
+        gzclose($this->Resource);
 
-		$this->Resource = null;
-	}
+        $this->Resource = null;
+    }
 }

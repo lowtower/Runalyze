@@ -7,17 +7,17 @@ class FilenameHandler
     /**
      * @var string
      */
-    const FILENAME_PREFIX = 'runalyze-backup';
+    public const FILENAME_PREFIX = 'runalyze-backup';
 
     /**
      * @var string
      */
-    const JSON_FORMAT = 'json.gz';
+    public const JSON_FORMAT = 'json.gz';
 
     /**
      * @var string
      */
-    const SQL_FORMAT = 'sql.gz';
+    public const SQL_FORMAT = 'sql.gz';
 
     /**
      * @var int
@@ -100,9 +100,9 @@ class FilenameHandler
     /**
      * @param string $completeFilename
      */
-    static public function validateFileExtension($completeFilename): bool
+    public static function validateFileExtension($completeFilename): bool
     {
-        return 
+        return
             substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT ||
             substr($completeFilename, -strlen(self::SQL_FORMAT)) === self::SQL_FORMAT
         ;
@@ -111,7 +111,7 @@ class FilenameHandler
     /**
      * @param string $completeFilename
      */
-    static public function validateImportFileExtension($completeFilename): bool
+    public static function validateImportFileExtension($completeFilename): bool
     {
         return substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT;
     }

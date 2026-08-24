@@ -11,69 +11,77 @@
  */
 class FormularCheckbox extends FormularField
 {
-	/**
-	 * Boolean flag: label is on the right side
-	 * @var bool
-	 */
-	private $labelOnRight = false;
+    /**
+     * Boolean flag: label is on the right side
+     * @var bool
+     */
+    private $labelOnRight = false;
 
-	/**
-	 * Boolean flag: add hidden field with '..._sent'
-	 * @var bool
-	 */
-	private $addHiddenSent = false;
+    /**
+     * Boolean flag: add hidden field with '..._sent'
+     * @var bool
+     */
+    private $addHiddenSent = false;
 
-	/**
-	 * Construct a new field
-	 * @param string $name
-	 * @param string $label
-	 * @param string $value optional, default: loading from $_POST
-	 */
-	public function __construct($name, $label, $value = '') {
-		parent::__construct($name, $label, $value);
+    /**
+     * Construct a new field
+     * @param string $name
+     * @param string $label
+     * @param string $value optional, default: loading from $_POST
+     */
+    public function __construct($name, $label, $value = '')
+    {
+        parent::__construct($name, $label, $value);
 
-		$this->setParser(FormularValueParser::$PARSER_BOOL);
-	}
+        $this->setParser(FormularValueParser::$PARSER_BOOL);
+    }
 
-	/**
-	 * Prepare for beeing displayed
-	 */
-	protected function prepareForDisplay() {
-		$this->addAttribute('type', 'checkbox');
-		$this->addAttribute('name', $this->name);
-		$this->setId($this->name);
+    /**
+     * Prepare for beeing displayed
+     */
+    protected function prepareForDisplay()
+    {
+        $this->addAttribute('type', 'checkbox');
+        $this->addAttribute('name', $this->name);
+        $this->setId($this->name);
 
-		if ($this->value)
-			$this->addAttribute('checked', 'checked');
-	}
+        if ($this->value) {
+            $this->addAttribute('checked', 'checked');
+        }
+    }
 
-	/**
-	 * Set label to the right side
-	 */
-	public function setLabelToRight() {
-		$this->labelOnRight = true;
-	}
+    /**
+     * Set label to the right side
+     */
+    public function setLabelToRight()
+    {
+        $this->labelOnRight = true;
+    }
 
-	/**
-	 * Add hidden value for sent-flag
-	 */
-	public function addHiddenSentValue() {
-		$this->addHiddenSent = true;
-	}
+    /**
+     * Add hidden value for sent-flag
+     */
+    public function addHiddenSentValue()
+    {
+        $this->addHiddenSent = true;
+    }
 
     /**
      * Display this field
      */
-    protected function getFieldCode(): string {
-		$label = '<label class="checkable" for="' . $this->name . '">' . $this->label . '</label>';
-		$input = '<input ' . $this->attributes() . '>';
+    protected function getFieldCode(): string
+    {
+        $label = '<label class="checkable" for="' . $this->name . '">' . $this->label . '</label>';
+        $input = '<input ' . $this->attributes() . '>';
 
-		if ($this->addHiddenSent)
-			$input .= HTML::hiddenInput($this->name . '_sent', 'true');
+        if ($this->addHiddenSent) {
+            $input .= HTML::hiddenInput($this->name . '_sent', 'true');
+        }
 
-		if ($this->labelOnRight)
-			return $input . ' ' . $label;
+        if ($this->labelOnRight) {
+            return $input . ' ' . $label;
+        }
 
-		return $label . ' ' . $input;
-	}
+        return $label . ' ' . $input;
+    }
 }

@@ -22,48 +22,48 @@ class ElapsedTime extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::ELAPSED_TIME;
-	}
+    {
+        return \Runalyze\Dataset\Keys::ELAPSED_TIME;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'elapsed_time';
-	}
+    {
+        return 'elapsed_time';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Elapsed time');
-	}
+    {
+        return __('Elapsed time');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Elapsed time is the difference between end and start of your activity including pauses.');
-	}
+    {
+        return __('Elapsed time is the difference between end and start of your activity including pauses.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->elapsedTime();
-	}
+    {
+        return $context->dataview()
+            ->elapsedTime();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::SUM;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::SUM;
+    }
 }

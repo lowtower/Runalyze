@@ -19,108 +19,120 @@ use Runalyze\Dataset;
  */
 class SearchFormular extends Formular
 {
-	/**
-	 * Fieldset
-	 * @var FormularFieldset
-	 */
-	protected $Fieldset;
+    /**
+     * Fieldset
+     * @var FormularFieldset
+     */
+    protected $Fieldset;
 
-	/**
-	 * Prepare display
-	 */
-	protected function prepareForDisplayInSublcass() {
-		$this->setId('search');
-		$this->addCSSclass('ajax');
+    /**
+     * Prepare display
+     */
+    protected function prepareForDisplayInSublcass()
+    {
+        $this->setId('search');
+        $this->addCSSclass('ajax');
 
-		$this->setDefaultValues();
-		$this->initGeneralFieldset();
-		$this->initConditions();
-		$this->addFieldSendToMultiEditor();
-		$this->addResultsPerPageField();
-		$this->addSubmitBlock();
-		$this->addPager();
-		$this->addFieldset($this->Fieldset);
+        $this->setDefaultValues();
+        $this->initGeneralFieldset();
+        $this->initConditions();
+        $this->addFieldSendToMultiEditor();
+        $this->addResultsPerPageField();
+        $this->addSubmitBlock();
+        $this->addPager();
+        $this->addFieldset($this->Fieldset);
 
-		$this->setSubmitButtonsCentered();
-	}
+        $this->setSubmitButtonsCentered();
+    }
 
-	protected function setDefaultValues() {
-		if (! isset($_POST['sportid']))
-			$_POST['sportid'] = array_keys(SportFactory::AllSports());
+    protected function setDefaultValues()
+    {
+        if (! isset($_POST['sportid'])) {
+            $_POST['sportid'] = array_keys(SportFactory::AllSports());
+        }
 
-		if (! isset($_POST['date-from']))
-			$_POST['date-from'] = date('d.m.Y', START_TIME);
+        if (! isset($_POST['date-from'])) {
+            $_POST['date-from'] = date('d.m.Y', START_TIME);
+        }
 
-		if (! isset($_POST['date-to']))
-			$_POST['date-to'] = date('d.m.Y');
-	}
+        if (! isset($_POST['date-to'])) {
+            $_POST['date-to'] = date('d.m.Y');
+        }
+    }
 
-	/**
-	 * Init general fieldsets
-	 */
-	protected function initGeneralFieldset() {
-		$this->Fieldset = new FormularFieldset( __('Search activities') );
+    /**
+     * Init general fieldsets
+     */
+    protected function initGeneralFieldset()
+    {
+        $this->Fieldset = new FormularFieldset(__('Search activities'));
 
-		$this->addFieldSport();
-		$this->addFieldTimeRange();
-		$this->addFieldSort();
+        $this->addFieldSport();
+        $this->addFieldTimeRange();
+        $this->addFieldSort();
 
-		$this->Fieldset->setLayoutForFields( FormularFieldset::$LAYOUT_FIELD_W50_IN_W33 );
-	}
+        $this->Fieldset->setLayoutForFields(FormularFieldset::$LAYOUT_FIELD_W50_IN_W33);
+    }
 
-	/**
-	 * Add block with submit button
-	 */
-	protected function addSubmitBlock() {
-		$Field = new FormularSubmit(__('Search'), 'submit');
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 . ' c' );
+    /**
+     * Add block with submit button
+     */
+    protected function addSubmitBlock()
+    {
+        $Field = new FormularSubmit(__('Search'), 'submit');
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33 . ' c');
 
-		$this->Fieldset->addField($Field);
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-	/**
-	 * Add hidden page value
-	 */
-	private function addPager() {
-		$this->addHiddenValue('page', 1);
-	}
+    /**
+     * Add hidden page value
+     */
+    private function addPager()
+    {
+        $this->addHiddenValue('page', 1);
+    }
 
-	/**
-	 * Add field: time range
-	 */
-	private function addFieldTimeRange() {
-		$Field = new FormularInputSearchTimeRange('search_time_range', __('Time range'));
-		$this->Fieldset->addField( $Field );
-	}
+    /**
+     * Add field: time range
+     */
+    private function addFieldTimeRange()
+    {
+        $Field = new FormularInputSearchTimeRange('search_time_range', __('Time range'));
+        $this->Fieldset->addField($Field);
+    }
 
-	/**
-	 * Add field: sort
-	 */
-	private function addFieldSort() {
-		$Field = new FormularSelectSearchSort('search_sort', __('Sorting'));
-		$this->Fieldset->addField( $Field );
-	}
+    /**
+     * Add field: sort
+     */
+    private function addFieldSort()
+    {
+        $Field = new FormularSelectSearchSort('search_sort', __('Sorting'));
+        $this->Fieldset->addField($Field);
+    }
 
-	/**
-	 * Add field: send to multi editor
-	 */
-	private function addFieldSendToMultiEditor() {
-		$Label = Ajax::tooltip(
-		    __('Send to multi editor'),
-		    sprintf(__('Our multi editor is limited to a maximum of %d activities.'), SearchResults::MAX_LIMIT_FOR_MULTI_EDITOR),
-		    'atRight'
-		);
+    /**
+     * Add field: send to multi editor
+     */
+    private function addFieldSendToMultiEditor()
+    {
+        $Label = Ajax::tooltip(
+            __('Send to multi editor'),
+            sprintf(__('Our multi editor is limited to a maximum of %d activities.'), SearchResults::MAX_LIMIT_FOR_MULTI_EDITOR),
+            'atRight'
+        );
 
-		$Field = new FormularCheckbox('send-to-multi-editor', $Label);
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
+        $Field = new FormularCheckbox('send-to-multi-editor', $Label);
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
 
-		$this->Fieldset->addField( $Field );
-	}
+        $this->Fieldset->addField($Field);
+    }
 
     /**
      * Add field results per page
      */
-    private function addResultsPerPageField() {
+    private function addResultsPerPageField()
+    {
         $Field = new FormularSelectBox('resultsPerPage', __('Results per page'), 20);
         $Field->setOptions([
             10 => 10,
@@ -129,221 +141,240 @@ class SearchFormular extends Formular
             100 => 100,
             200 => 200,
         ]);
-        $Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
 
         $this->Fieldset->addField($Field);
     }
 
-	/**
-	 * Add field: sport
-	 */
-	private function addFieldSport() {
-		$Field = new FormularSelectDb('sportid', __('Sport') . $this->shortLinksForSportField());
-		$Field->loadOptionsFrom('sport', 'name');
-		$Field->addCSSclass('chosen-select full-size');
-		$Field->setMultiple();
-		$Field->addAttribute('data-placeholder', __('Choose sport(s)'));
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W100_IN_W33 );
+    /**
+     * Add field: sport
+     */
+    private function addFieldSport()
+    {
+        $Field = new FormularSelectDb('sportid', __('Sport') . $this->shortLinksForSportField());
+        $Field->loadOptionsFrom('sport', 'name');
+        $Field->addCSSclass('chosen-select full-size');
+        $Field->setMultiple();
+        $Field->addAttribute('data-placeholder', __('Choose sport(s)'));
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W100_IN_W33);
 
-		$this->Fieldset->addField( $Field );
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-	protected function shortLinksForSportField(): string {
-		$code = '<span class="link chosen-select-all" data-target="sportid">' . __('all') . '</span>';
-		$code .= ' | ';
-		$code .= '<span class="link chosen-select-none" data-target="sportid">' . __('none') . '</span>';
+    protected function shortLinksForSportField(): string
+    {
+        $code = '<span class="link chosen-select-all" data-target="sportid">' . __('all') . '</span>';
+        $code .= ' | ';
+        $code .= '<span class="link chosen-select-none" data-target="sportid">' . __('none') . '</span>';
 
-		return '<span class="right small">' . $code . '&nbsp;</span>';
-	}
+        return '<span class="right small">' . $code . '&nbsp;</span>';
+    }
 
-	/**
-	 * Add field: notes
-	 */
-	private function addFieldNotes() {
-		$Field = new FormularInput('notes', __('Notes'));
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W100_IN_W33 );
-		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
+    /**
+     * Add field: notes
+     */
+    private function addFieldNotes()
+    {
+        $Field = new FormularInput('notes', __('Notes'));
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W100_IN_W33);
+        $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
 
-		$this->Fieldset->addField( $Field );
-		$this->Fieldset->addField( new FormularInputHidden('opt[notes]', '', 'like') );
-	}
+        $this->Fieldset->addField($Field);
+        $this->Fieldset->addField(new FormularInputHidden('opt[notes]', '', 'like'));
+    }
 
-	/**
-	 * Init conditions fieldset
-	 */
-	protected function initConditions() {
-		$this->addConditionFieldWithChosen('typeid', 'type', 'name', __('Type'), __('Choose activity type(s)'));
-		$this->addConditionFieldWithChosen('weatherid', 'weather', 'name', __('Weather'), __('Choose weather conditions'));
-		$this->addConditionFieldWithChosen('equipmentid', 'equipment', 'name', __('Equipment'), __('Choose equipment'));
-		$this->addConditionFieldWithChosen('tagid', 'tag', 'tag', __('Tag'), __('Choose tag'));
+    /**
+     * Init conditions fieldset
+     */
+    protected function initConditions()
+    {
+        $this->addConditionFieldWithChosen('typeid', 'type', 'name', __('Type'), __('Choose activity type(s)'));
+        $this->addConditionFieldWithChosen('weatherid', 'weather', 'name', __('Weather'), __('Choose weather conditions'));
+        $this->addConditionFieldWithChosen('equipmentid', 'equipment', 'name', __('Equipment'), __('Choose equipment'));
+        $this->addConditionFieldWithChosen('tagid', 'tag', 'tag', __('Tag'), __('Choose tag'));
 
-		$this->addFieldNotes();
+        $this->addFieldNotes();
 
-		// Currently there's a fixed 3-column layout
-		// We try to order the fields column-wise, not row-wise
-		$this->addNumericConditionField('distance', __('Distance'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->distanceUnit());
-		$this->addNumericConditionField('elevation', __('Elevation'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->elevationUnit());
-		$this->addStringConditionField('route', __('Route'), FormularInput::$SIZE_MIDDLE);
+        // Currently there's a fixed 3-column layout
+        // We try to order the fields column-wise, not row-wise
+        $this->addNumericConditionField('distance', __('Distance'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->distanceUnit());
+        $this->addNumericConditionField('elevation', __('Elevation'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->elevationUnit());
+        $this->addStringConditionField('route', __('Route'), FormularInput::$SIZE_MIDDLE);
 
-		$this->addDurationField('s', __('Duration'));
-		$this->addNumericConditionField('gradient', __('Gradient'), FormularInput::$SIZE_SMALL, FormularUnit::$PERCENT);
-		$this->addStringConditionField('title', __('Title'), FormularInput::$SIZE_MIDDLE);
+        $this->addDurationField('s', __('Duration'));
+        $this->addNumericConditionField('gradient', __('Gradient'), FormularInput::$SIZE_SMALL, FormularUnit::$PERCENT);
+        $this->addStringConditionField('title', __('Title'), FormularInput::$SIZE_MIDDLE);
 
-		$this->addNumericConditionField('pace', __('Pace'), FormularInput::$SIZE_SMALL, FormularUnit::$PACE);
-		$this->addNumericConditionField('cadence', __('Cadence'), FormularInput::$SIZE_SMALL, FormularUnit::$SPM);
-		$this->addStringConditionField('partner', __('Partner'), FormularInput::$SIZE_MIDDLE);
+        $this->addNumericConditionField('pace', __('Pace'), FormularInput::$SIZE_SMALL, FormularUnit::$PACE);
+        $this->addNumericConditionField('cadence', __('Cadence'), FormularInput::$SIZE_SMALL, FormularUnit::$SPM);
+        $this->addStringConditionField('partner', __('Partner'), FormularInput::$SIZE_MIDDLE);
 
-		$this->addNumericConditionField('pulse_avg', __('avg. HR'), FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
-		$this->addNumericConditionField('stride_length', __('Stride length'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->strideLengthUnit());
-		$this->addBooleanField('is_public', __('Is public'));
+        $this->addNumericConditionField('pulse_avg', __('avg. HR'), FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
+        $this->addNumericConditionField('stride_length', __('Stride length'), FormularInput::$SIZE_SMALL, Configuration::General()->distanceUnitSystem()->strideLengthUnit());
+        $this->addBooleanField('is_public', __('Is public'));
 
-		$this->addNumericConditionField('pulse_max', __('max. HR'), FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
-		$this->addNumericConditionFIeld('power', __('Power'), FormularInput::$SIZE_SMALL, FormularUnit::$POWER);
-		$this->addBooleanField('is_race', __('Is race'));
+        $this->addNumericConditionField('pulse_max', __('max. HR'), FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
+        $this->addNumericConditionFIeld('power', __('Power'), FormularInput::$SIZE_SMALL, FormularUnit::$POWER);
+        $this->addBooleanField('is_race', __('Is race'));
 
-		// #TSC add pulse active rounds
-		$this->addNumericConditionField('pulse_avg_active', __('avg. HR') . ' active', FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
-		$this->addNumericConditionField(Configuration::VO2max()->useElevationCorrection() ? 'vo2max_with_elevation' : 'vo2max', 'VO2max', FormularInput::$SIZE_SMALL);
-		$this->addNumericConditionField('vertical_oscillation', __('Vertical oscillation'), FormularInput::$SIZE_SMALL, FormularUnit::$CM);
+        // #TSC add pulse active rounds
+        $this->addNumericConditionField('pulse_avg_active', __('avg. HR') . ' active', FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
+        $this->addNumericConditionField(Configuration::VO2max()->useElevationCorrection() ? 'vo2max_with_elevation' : 'vo2max', 'VO2max', FormularInput::$SIZE_SMALL);
+        $this->addNumericConditionField('vertical_oscillation', __('Vertical oscillation'), FormularInput::$SIZE_SMALL, FormularUnit::$CM);
 
-		$this->addBooleanField('use_vo2max', __('Uses VO2max'));
-		$this->addNumericConditionField('trimp', __('TRIMP'), FormularInput::$SIZE_SMALL);
-		$this->addNumericConditionField('vertical_ratio', __('Vertical ratio'), FormularInput::$SIZE_SMALL, FormularUnit::$PERCENT);
+        $this->addBooleanField('use_vo2max', __('Uses VO2max'));
+        $this->addNumericConditionField('trimp', __('TRIMP'), FormularInput::$SIZE_SMALL);
+        $this->addNumericConditionField('vertical_ratio', __('Vertical ratio'), FormularInput::$SIZE_SMALL, FormularUnit::$PERCENT);
 
-		$this->addBooleanField('is_track', __('Track'));
-		$this->addNumericConditionField('rpe', __('RPE'), FormularInput::$SIZE_SMALL);
-		$this->addNumericConditionField('groundcontact', __('Ground contact'), FormularInput::$SIZE_SMALL, FormularUnit::$MS);
+        $this->addBooleanField('is_track', __('Track'));
+        $this->addNumericConditionField('rpe', __('RPE'), FormularInput::$SIZE_SMALL);
+        $this->addNumericConditionField('groundcontact', __('Ground contact'), FormularInput::$SIZE_SMALL, FormularUnit::$MS);
 
-		$this->addNumericConditionField('temperature', __('Temperature'), FormularInput::$SIZE_SMALL, Configuration::General()->temperatureUnit()->unit());
+        $this->addNumericConditionField('temperature', __('Temperature'), FormularInput::$SIZE_SMALL, Configuration::General()->temperatureUnit()->unit());
         $this->addNumericConditionField('kcal', __('Energy'), FormularInput::$SIZE_SMALL, Configuration::General()->energyUnit()->unit());
-		$this->addNumericConditionField('groundcontact_balance', __('Ground Contact Balance'), FormularInput::$SIZE_SMALL, 'L' . FormularUnit::$PERCENT);
+        $this->addNumericConditionField('groundcontact_balance', __('Ground Contact Balance'), FormularInput::$SIZE_SMALL, 'L' . FormularUnit::$PERCENT);
 
-		$this->addNumericConditionField('wind_speed', __('Wind Speed'), FormularInput::$SIZE_SMALL, (new WindSpeed())->unit());
+        $this->addNumericConditionField('wind_speed', __('Wind Speed'), FormularInput::$SIZE_SMALL, (new WindSpeed())->unit());
         $this->addNumericConditionField('fit_performance_condition', __('Performance condition'), FormularInput::$SIZE_SMALL);
-		$this->addNumericConditionField('fit_training_effect', __('(Aerob) Training Effect'), FormularInput::$SIZE_SMALL);
+        $this->addNumericConditionField('fit_training_effect', __('(Aerob) Training Effect'), FormularInput::$SIZE_SMALL);
 
-		$this->addNumericConditionField('humidity', __('Humidity'), FormularInput::$SIZE_SMALL, (new Humidity())->unit());
-		// #TSC change label from "Dataset\Keys::get(Dataset\Keys::FIT_VO2MAX_ESTIMATE)->label()" to static-string to avoid layout problems
-		$this->addNumericConditionField('fit_vo2max_estimate', 'VO2max (laut Datei)', FormularInput::$SIZE_SMALL);
-		$this->addNumericConditionField('fit_recovery_time', Dataset\Keys::get(Dataset\Keys::FIT_RECOVERY_TIME)->label(), FormularInput::$SIZE_SMALL, 'h');
+        $this->addNumericConditionField('humidity', __('Humidity'), FormularInput::$SIZE_SMALL, (new Humidity())->unit());
+        // #TSC change label from "Dataset\Keys::get(Dataset\Keys::FIT_VO2MAX_ESTIMATE)->label()" to static-string to avoid layout problems
+        $this->addNumericConditionField('fit_vo2max_estimate', 'VO2max (laut Datei)', FormularInput::$SIZE_SMALL);
+        $this->addNumericConditionField('fit_recovery_time', Dataset\Keys::get(Dataset\Keys::FIT_RECOVERY_TIME)->label(), FormularInput::$SIZE_SMALL, 'h');
 
-		$this->addNumericConditionField('pressure', __('Pressure'), FormularInput::$SIZE_SMALL, (new Pressure())->unit());
+        $this->addNumericConditionField('pressure', __('Pressure'), FormularInput::$SIZE_SMALL, (new Pressure())->unit());
         $this->addNumericConditionField('climb_score', __('Climb Score'), FormularInput::$SIZE_SMALL);
         $this->addNumericConditionField('percentage_hilly', __('Percentage Hilly'), FormularInput::$SIZE_SMALL, '%');
 
-		$this->addNumericConditionField('avg_respiration_rate', 'Respiration rate', FormularInput::$SIZE_SMALL, 'brpm');
+        $this->addNumericConditionField('avg_respiration_rate', 'Respiration rate', FormularInput::$SIZE_SMALL, 'brpm');
 
-		// Currently missing/not supported:
-		// elapsed_time, fit_hrv_analysis, total_strokes, swolf, wind_deg, is_night
-	}
+        // Currently missing/not supported:
+        // elapsed_time, fit_hrv_analysis, total_strokes, swolf, wind_deg, is_night
+    }
 
-    private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder) {
-		if ($table === 'weather') {
-			$Field = new TrainingSelectWeather($name, $label);
-		} else {
-			$Field = new FormularSelectDb($name, $label);
-			$Field->loadOptionsFrom($table, $key);
-		}
+    private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder)
+    {
+        if ($table === 'weather') {
+            $Field = new TrainingSelectWeather($name, $label);
+        } else {
+            $Field = new FormularSelectDb($name, $label);
+            $Field->loadOptionsFrom($table, $key);
+        }
 
-		$Field->addCSSclass('chosen-select full-size');
-		$Field->setMultiple();
-		$Field->addAttribute('data-placeholder', $placeholder);
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W50_IN_W33 );
+        $Field->addCSSclass('chosen-select full-size');
+        $Field->setMultiple();
+        $Field->addAttribute('data-placeholder', $placeholder);
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W50_IN_W33);
 
-		$this->Fieldset->addField( $Field );
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-	/**
-	 * @param string $key
-	 * @param string $label
-	 * @param string $size
-	 * @param string $unit
-	 */
-	protected function addNumericConditionField($key, $label, $size = '', $unit = '') {
-		$this->addConditionField($key, $label, $size, $unit, 'numeric');
-	}
+    /**
+     * @param string $key
+     * @param string $label
+     * @param string $size
+     * @param string $unit
+     */
+    protected function addNumericConditionField($key, $label, $size = '', $unit = '')
+    {
+        $this->addConditionField($key, $label, $size, $unit, 'numeric');
+    }
 
-	/**
-	 * @param string $key
-	 * @param string $label
-	 * @param string $size
-	 * @param string $unit
-	 */
-	protected function addStringConditionField($key, $label, $size = '', $unit = '') {
-		$this->addConditionField($key, $label, $size, $unit, 'string');
-	}
+    /**
+     * @param string $key
+     * @param string $label
+     * @param string $size
+     * @param string $unit
+     */
+    protected function addStringConditionField($key, $label, $size = '', $unit = '')
+    {
+        $this->addConditionField($key, $label, $size, $unit, 'string');
+    }
 
-	/**
-	 * Add standard condition field
-	 * @param string $key
-	 * @param string $label
-	 * @param string $size
-	 * @param string $unit
-	 * @param string $type options: all | numeric | string
-	 */
-	private function addConditionField($key, $label, $size = '', $unit = '', string $type = 'all') {
-		$Field = new FormularInputWithEqualityOption($key, $label);
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
+    /**
+     * Add standard condition field
+     * @param string $key
+     * @param string $label
+     * @param string $size
+     * @param string $unit
+     * @param string $type options: all | numeric | string
+     */
+    private function addConditionField($key, $label, $size = '', $unit = '', string $type = 'all')
+    {
+        $Field = new FormularInputWithEqualityOption($key, $label);
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
 
-		if (! empty($size))
-			$Field->setSize($size);
+        if (! empty($size)) {
+            $Field->setSize($size);
+        }
 
-		if (! empty($unit))
-			$Field->setUnit($unit);
+        if (! empty($unit)) {
+            $Field->setUnit($unit);
+        }
 
-		if ($type === 'numeric') {
-			$Field->setNumericOptions();
-		} elseif ($type === 'string') {
-			$Field->setStringOptions();
-		}
+        if ($type === 'numeric') {
+            $Field->setNumericOptions();
+        } elseif ($type === 'string') {
+            $Field->setStringOptions();
+        }
 
-		$this->Fieldset->addField($Field);
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-	/**
-	 * @param string $key
-	 * @param string $label
-	 */
-	protected function addDurationField($key, $label) {
-		$Field = new FormularInputWithEqualityOption($key, $label);
-		$Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
-		$Field->setSize(FormularInput::$SIZE_SMALL);
-		$Field->setParser(FormularValueParser::$PARSER_TIME, [
-		    'hide-empty' => true,
-		]);
-		$Field->addAttribute('placeholder', 'h:mm:ss');
-		$Field->setNumericOptions();
+    /**
+     * @param string $key
+     * @param string $label
+     */
+    protected function addDurationField($key, $label)
+    {
+        $Field = new FormularInputWithEqualityOption($key, $label);
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
+        $Field->setSize(FormularInput::$SIZE_SMALL);
+        $Field->setParser(FormularValueParser::$PARSER_TIME, [
+            'hide-empty' => true,
+        ]);
+        $Field->addAttribute('placeholder', 'h:mm:ss');
+        $Field->setNumericOptions();
 
-		$this->Fieldset->addField($Field);
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-    private function addBooleanField(string $key, string $label) {
-		$Field = new FormularSelectBox($key, $label);
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
-		$Field->setOptions([
-		    '' => '',
-		    '1' => __('Yes'),
-		    '0' => __('No'),
-		]);
+    private function addBooleanField(string $key, string $label)
+    {
+        $Field = new FormularSelectBox($key, $label);
+        $Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
+        $Field->setOptions([
+            '' => '',
+            '1' => __('Yes'),
+            '0' => __('No'),
+        ]);
 
-		$this->Fieldset->addField($Field);
-	}
+        $this->Fieldset->addField($Field);
+    }
 
-	public static function transformOldParamsToNewParams() {
-		if (isset($_POST['val']) && is_array($_POST['val']))
-			foreach ($_POST['val'] as $key => $value)
-				$_POST[$key] = $value;
+    public static function transformOldParamsToNewParams()
+    {
+        if (isset($_POST['val']) && is_array($_POST['val'])) {
+            foreach ($_POST['val'] as $key => $value) {
+                $_POST[$key] = $value;
+            }
+        }
 
-		if (isset($_POST['time-gt']))
-			$_POST['date-from'] = $_POST['time-gt'];
+        if (isset($_POST['time-gt'])) {
+            $_POST['date-from'] = $_POST['time-gt'];
+        }
 
-		if (isset($_POST['time-lt']))
-			$_POST['date-to'] = $_POST['time-lt'];
+        if (isset($_POST['time-lt'])) {
+            $_POST['date-to'] = $_POST['time-lt'];
+        }
 
-		if (isset($_POST['order']))
-			$_POST['search-sort-by'] = $_POST['order'];
+        if (isset($_POST['order'])) {
+            $_POST['search-sort-by'] = $_POST['order'];
+        }
 
-		if (isset($_POST['sort']))
-			$_POST['search-sort-order'] = $_POST['sort'];
-	}
+        if (isset($_POST['sort'])) {
+            $_POST['search-sort-order'] = $_POST['sort'];
+        }
+    }
 }

@@ -8,12 +8,12 @@ use Runalyze\View\Activity;
 
 class ImpactGs extends ActivityPlot
 {
-	protected function setKey()
+    protected function setKey()
     {
-		$this->key = 'impact_gs';
-	}
+        $this->key = 'impact_gs';
+    }
 
-	protected function initData(Activity\Context $context)
+    protected function initData(Activity\Context $context)
     {
         $this->addSeries(new Series\ImpactGs($context, true), 1);
         $this->addSeries(new Series\ImpactGs($context, false), 1);

@@ -12,17 +12,19 @@
  */
 class SectionRouteOnlyMap extends SectionRoute
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Course');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Course');
 
-		$this->appendRow( new SectionRouteRowMap($this->Context) );
-	}
+        $this->appendRow(new SectionRouteRowMap($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return $this->Context->hasRoute() && $this->Context->route()
-		    ->hasPositionData();
-	}
+    protected function hasRequiredData(): bool
+    {
+        return $this->Context->hasRoute() && $this->Context->route()
+            ->hasPositionData();
+    }
 }

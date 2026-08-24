@@ -20,36 +20,38 @@ use Runalyze\View\Activity;
  */
 class DistanceSeries extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgba(255,255,255,0)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgba(255,255,255,0)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::DISTANCE);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::DISTANCE);
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Distance');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Distance');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = Configuration::General()->distanceUnitSystem()->distanceUnit();
-		$this->UnitDecimals = 2;
+        $this->UnitString = Configuration::General()->distanceUnitSystem()->distanceUnit();
+        $this->UnitDecimals = 2;
 
-		if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-			$this->UnitFactor = DistanceUnitSystem::MILE_MULTIPLIER;
-		}
+        if (Configuration::General()->distanceUnitSystem()->isImperial()) {
+            $this->UnitFactor = DistanceUnitSystem::MILE_MULTIPLIER;
+        }
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = false;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = false;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 }

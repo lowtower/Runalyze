@@ -8,40 +8,40 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 final class UserRole extends AbstractEnum
 {
-	/**
-	 * @var int
-	 */
-	const ROLE_USER = 1;
+    /**
+     * @var int
+     */
+    public const ROLE_USER = 1;
 
-	/**
-	 * @var int
-	 */
-	const ROLE_ADMIN = 2;
+    /**
+     * @var int
+     */
+    public const ROLE_ADMIN = 2;
 
-	/**
-	 * @param int $roleId int from internal enum
-	 * @return string role name
-	 * @throws \InvalidArgumentException
-	 */
-	public static function getRoleName($roleId): string
-	{
-		$roleNames = self::roleNamesArray();
+    /**
+     * @param int $roleId int from internal enum
+     * @return string role name
+     * @throws \InvalidArgumentException
+     */
+    public static function getRoleName($roleId): string
+    {
+        $roleNames = self::roleNamesArray();
 
-		if (! isset($roleNames[$roleId])) {
-			throw new \InvalidArgumentException('Invalid type id "' . $roleId . '".');
-		}
+        if (! isset($roleNames[$roleId])) {
+            throw new \InvalidArgumentException('Invalid type id "' . $roleId . '".');
+        }
 
-		return $roleNames[$roleId];
-	}
+        return $roleNames[$roleId];
+    }
 
     /**
      * @return array<int, string> [int(enum) => 'role name']
      */
     private static function roleNamesArray(): array
-	{
-		return [
-    self::ROLE_USER => 'ROLE_USER',
-		    self::ROLE_ADMIN => 'ROLE_ADMIN',
-];
-	}
+    {
+        return [
+            self::ROLE_USER => 'ROLE_USER',
+            self::ROLE_ADMIN => 'ROLE_ADMIN',
+        ];
+    }
 }

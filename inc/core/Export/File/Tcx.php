@@ -222,7 +222,7 @@ class Tcx extends AbstractFileExporter
     protected function addTrackdataDetailsTo(\SimpleXMLElement $trackpoint, Trackdata\Loop $trackdataLoop)
     {
         if ($this->TrackdataHas[Trackdata\Entity::CADENCE]) {
-            $trackpoint->addChild('Cadence', $trackdataLoop->current (Trackdata\Entity::CADENCE));
+            $trackpoint->addChild('Cadence', $trackdataLoop->current(Trackdata\Entity::CADENCE));
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::DISTANCE]) {

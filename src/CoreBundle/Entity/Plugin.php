@@ -14,27 +14,27 @@ class Plugin implements AccountRelatedEntityInterface
     /**
      * @var int
      */
-    const STATE_INACTIVE = 0;
+    public const STATE_INACTIVE = 0;
 
     /**
      * @var int
      */
-    const STATE_ACTIVE = 1;
+    public const STATE_ACTIVE = 1;
 
     /**
      * @var int
      */
-    const STATE_HIDDEN = 2;
+    public const STATE_HIDDEN = 2;
 
     /**
      * @var string
      */
-    const TYPE_STAT = 'stat';
+    public const TYPE_STAT = 'stat';
 
     /**
      * @var string
      */
-    const TYPE_PANEL = 'panel';
+    public const TYPE_PANEL = 'panel';
 
     /**
      * @var int

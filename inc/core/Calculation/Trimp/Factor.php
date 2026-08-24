@@ -26,47 +26,50 @@ use Runalyze\Profile\Athlete\Gender;
  */
 class Factor
 {
-	/**
-	 * Gender
-	 * @int
-	 */
-	protected $Gender;
+    /**
+     * Gender
+     * @int
+     */
+    protected $Gender;
 
-	/**
-	 * Construct
-	 * @param int $Gender
-	 */
-	public function __construct($Gender) {
-		$this->Gender = $Gender;
-	}
+    /**
+     * Construct
+     * @param int $Gender
+     */
+    public function __construct($Gender)
+    {
+        $this->Gender = $Gender;
+    }
 
     /**
      * Base factor
      */
-    public function A(): float {
-		if ($this->Gender == Gender::MALE) {
-			return 0.64;
-		}
+    public function A(): float
+    {
+        if ($this->Gender == Gender::MALE) {
+            return 0.64;
+        }
 
-		if ($this->Gender == GENDER::FEMALE) {
-			return 0.821776;
-		}
+        if ($this->Gender == GENDER::FEMALE) {
+            return 0.821776;
+        }
 
         return 0.725215;
-	}
+    }
 
     /**
      * Exponent factor
      */
-    public function B(): float {
-		if ($this->Gender == Gender::MALE) {
-			return 1.92;
-		}
+    public function B(): float
+    {
+        if ($this->Gender == Gender::MALE) {
+            return 1.92;
+        }
 
-		if ($this->Gender == Gender::FEMALE) {
-			return 1.67;
-		}
+        if ($this->Gender == Gender::FEMALE) {
+            return 1.67;
+        }
 
         return 1.795;
-	}
+    }
 }

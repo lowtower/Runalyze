@@ -16,5 +16,5 @@ namespace Runalyze\Parameter\Application;
  */
 class PaceAxisMinimum extends PaceAxisLimit
 {
-	// No further methods
+    // No further methods
 }

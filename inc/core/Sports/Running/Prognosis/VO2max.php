@@ -17,12 +17,12 @@ class VO2max implements PrognosisInterface
     /**
      * @var int Values below are considered invalid
      */
-    const REASONABLE_VO2MAX_MINIMUM = 15;
+    public const REASONABLE_VO2MAX_MINIMUM = 15;
 
     /**
      * @var int Values above are considered invalid
      */
-    const REASONABLE_VO2MAX_MAXIMUM = 90;
+    public const REASONABLE_VO2MAX_MAXIMUM = 90;
 
     /**
      * @var float [ml/kg/min]

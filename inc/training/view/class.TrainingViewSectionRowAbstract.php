@@ -17,18 +17,19 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TrainingViewSectionRowAbstract
 {
-	/**
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	public function __construct(?Context $Context = null) {
-		$this->Context = $Context;
+    public function __construct(?Context $Context = null)
+    {
+        $this->Context = $Context;
 
-		$this->setContent();
-	}
+        $this->setContent();
+    }
 
-	abstract protected function setContent();
+    abstract protected function setContent();
 
-	abstract public function display();
+    abstract public function display();
 }

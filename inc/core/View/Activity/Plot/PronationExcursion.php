@@ -8,12 +8,12 @@ use Runalyze\View\Activity;
 
 class PronationExcursion extends ActivityPlot
 {
-	protected function setKey()
+    protected function setKey()
     {
-		$this->key = 'pronation_excursion';
-	}
+        $this->key = 'pronation_excursion';
+    }
 
-	protected function initData(Activity\Context $context)
+    protected function initData(Activity\Context $context)
     {
         $this->addSeries(new Series\PronationExcursion($context, true), 1);
         $this->addSeries(new Series\PronationExcursion($context, false), 1);

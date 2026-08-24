@@ -883,7 +883,7 @@ class Trackdata implements AccountRelatedEntityInterface
 
     public function isEmpty(): bool
     {
-        return 
+        return
             ($this->time === null && empty($this->time)) &&
             ($this->distance === null && empty($this->distance)) &&
             ($this->heartrate === null && empty($this->heartrate)) &&

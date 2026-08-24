@@ -19,112 +19,121 @@ use Runalyze\Parameter\Application\PaceUnit as PaceUnitOption;
  */
 class Pace
 {
-	/**
-	 * Default speed (km/h)
-	 * @var int
-	 */
-	const STANDARD = PaceUnitOption::KM_PER_H;
+    /**
+     * Default speed (km/h)
+     * @var int
+     */
+    public const STANDARD = PaceUnitOption::KM_PER_H;
 
-	/**
-	 * Time [s]
-	 * @var int
-	 */
-	protected $Time;
+    /**
+     * Time [s]
+     * @var int
+     */
+    protected $Time;
 
-	/**
-	 * Distance [km]
-	 * @var float
-	 */
-	protected $Distance;
+    /**
+     * Distance [km]
+     * @var float
+     */
+    protected $Distance;
 
-	/**
-	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected $UnitObject;
+    /**
+     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected $UnitObject;
 
-	/**
-	 * Create pace
-	 * @param int $time [s]
-	 * @param float $distance [optional] [km]
-	 * @param int $legacyPaceUnitEnum [optional]
-	 */
-	public function __construct($time, $distance = 1.0, $legacyPaceUnitEnum = self::STANDARD) {
-		$this->Time = $time;
-		$this->Distance = $distance;
+    /**
+     * Create pace
+     * @param int $time [s]
+     * @param float $distance [optional] [km]
+     * @param int $legacyPaceUnitEnum [optional]
+     */
+    public function __construct($time, $distance = 1.0, $legacyPaceUnitEnum = self::STANDARD)
+    {
+        $this->Time = $time;
+        $this->Distance = $distance;
 
-		$this->setLegacyUnitEnum($legacyPaceUnitEnum);
-	}
+        $this->setLegacyUnitEnum($legacyPaceUnitEnum);
+    }
 
-	/**
-	 * Read pace from min/km
-	 * @param string $string see Duration::fromString()
-	 */
-	public function fromMinPerKm($string) {
-		$Duration = new Duration($string);
+    /**
+     * Read pace from min/km
+     * @param string $string see Duration::fromString()
+     */
+    public function fromMinPerKm($string)
+    {
+        $Duration = new Duration($string);
 
-		$this->setTime($Duration->seconds())
-		    ->setDistance(1);
-	}
+        $this->setTime($Duration->seconds())
+            ->setDistance(1);
+    }
 
-	/**
-	 * @param int $time [s]
-	 * @return \Runalyze\Activity\Pace $this-reference
-	 */
-	public function setTime($time): self {
-		$this->Time = $time;
+    /**
+     * @param int $time [s]
+     * @return \Runalyze\Activity\Pace $this-reference
+     */
+    public function setTime($time): self
+    {
+        $this->Time = $time;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param float $distance [km]
-	 * @return \Runalyze\Activity\Pace $this-reference
-	 */
-	public function setDistance($distance): self {
-		$this->Distance = $distance;
+    /**
+     * @param float $distance [km]
+     * @return \Runalyze\Activity\Pace $this-reference
+     */
+    public function setDistance($distance): self
+    {
+        $this->Distance = $distance;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Unit object
-	 * @return \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	public function unit() {
-		return $this->UnitObject;
-	}
+    /**
+     * Unit object
+     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    public function unit()
+    {
+        return $this->UnitObject;
+    }
 
-	/**
-	 * Enum for pace unit
-	 *
-	 * This is for example what is saved in sports configuration.
-	 *
-	 * @return string
-	 */
-	public function unitEnum() {
-		return $this->UnitObject->unit();
-	}
+    /**
+     * Enum for pace unit
+     *
+     * This is for example what is saved in sports configuration.
+     *
+     * @return string
+     */
+    public function unitEnum()
+    {
+        return $this->UnitObject->unit();
+    }
 
-    public function setUnit(PaceUnit\AbstractUnit $Unit) {
-		$this->UnitObject = $Unit;
-	}
+    public function setUnit(PaceUnit\AbstractUnit $Unit)
+    {
+        $this->UnitObject = $Unit;
+    }
 
-	/**
-	 * Set unit
-	 * @param int $legacyPaceUnitEnum
-	 */
-	public function setLegacyUnitEnum($legacyPaceUnitEnum) {
-		$Option = new PaceUnitOption();
-		$Option->set($legacyPaceUnitEnum);
+    /**
+     * Set unit
+     * @param int $legacyPaceUnitEnum
+     */
+    public function setLegacyUnitEnum($legacyPaceUnitEnum)
+    {
+        $Option = new PaceUnitOption();
+        $Option->set($legacyPaceUnitEnum);
 
-		$this->UnitObject = $Option->object();
-	}
+        $this->UnitObject = $Option->object();
+    }
 
     /**
      * Set unit
      * @param int $unitEnum
      */
-    public function setNewUnitEnum($unitEnum) {
+    public function setNewUnitEnum($unitEnum)
+    {
         $this->UnitObject = (new LegacyUnitConverter())->getLegacyPaceUnit($unitEnum);
     }
 
@@ -132,74 +141,84 @@ class Pace
      * Set unit
      * @param int $unitEnum
      */
-    public function setUnitEnum($unitEnum) {
+    public function setUnitEnum($unitEnum)
+    {
         // TODO: remove
     }
 
-	public function isEmpty(): bool {
-		return $this->Distance <= 0 || $this->Time <= 0;
-	}
+    public function isEmpty(): bool
+    {
+        return $this->Distance <= 0 || $this->Time <= 0;
+    }
 
-	/**
-	 * @return float
-	 */
-	public function secondsPerKm() {
-		return ($this->Distance > 0) ? ($this->Time / $this->Distance) : 0;
-	}
+    /**
+     * @return float
+     */
+    public function secondsPerKm()
+    {
+        return ($this->Distance > 0) ? ($this->Time / $this->Distance) : 0;
+    }
 
-	/**
-	 * As string, without unit
-	 * @return string e.g. '12,5', '4:51'
-	 */
-	public function value() {
-		return $this->UnitObject->format($this->secondsPerKm());
-	}
+    /**
+     * As string, without unit
+     * @return string e.g. '12,5', '4:51'
+     */
+    public function value()
+    {
+        return $this->UnitObject->format($this->secondsPerKm());
+    }
 
-    public function valueWithAppendix(): string {
-		return $this->value() . $this->appendix();
-	}
+    public function valueWithAppendix(): string
+    {
+        return $this->value() . $this->appendix();
+    }
 
-	/**
-	 * Get appendix
-	 * @return string
-	 */
-	public function appendix() {
-		return $this->UnitObject->appendix();
-	}
+    /**
+     * Get appendix
+     * @return string
+     */
+    public function appendix()
+    {
+        return $this->UnitObject->appendix();
+    }
 
-	/**
-	 * @param string $UnitEnum
-	 * @return string
-	 */
-	public function asUnitEnum($UnitEnum) {
-		$Option = new PaceUnitOption();
-		$Option->set($UnitEnum);
+    /**
+     * @param string $UnitEnum
+     * @return string
+     */
+    public function asUnitEnum($UnitEnum)
+    {
+        $Option = new PaceUnitOption();
+        $Option->set($UnitEnum);
 
-		return $this->asUnit($Option->object());
-	}
+        return $this->asUnit($Option->object());
+    }
 
     /**
      * @return string
      */
-    public function asUnit(PaceUnit\AbstractUnit $Unit) {
-		return $Unit->format($this->secondsPerKm());
-	}
+    public function asUnit(PaceUnit\AbstractUnit $Unit)
+    {
+        return $Unit->format($this->secondsPerKm());
+    }
 
-	/**
-	 * As: km/h
-	 * @return string
-	 */
-	public function asKmPerHour() {
-		return $this->asUnit(new PaceUnit\KmPerHour());
-	}
+    /**
+     * As: km/h
+     * @return string
+     */
+    public function asKmPerHour()
+    {
+        return $this->asUnit(new PaceUnit\KmPerHour());
+    }
 
-	/**
-	 * As: min/km
-	 * @return string
-	 */
-	public function asMinPerKm() {
-		return $this->asUnit(new PaceUnit\MinPerKilometer());
-	}
+    /**
+     * As: min/km
+     * @return string
+     */
+    public function asMinPerKm()
+    {
+        return $this->asUnit(new PaceUnit\MinPerKilometer());
+    }
 
     /**
      * Compare
@@ -207,41 +226,43 @@ class Pace
      * @param bool $raw [optional]
      * @throws \InvalidArgumentException
      */
-    public function compareTo(self $other, $raw = false): string {
-		if ($this->unitEnum() != $other->unitEnum()) {
-			throw new \InvalidArgumentException('Pace objects must have the same unit.');
-		}
+    public function compareTo(self $other, $raw = false): string
+    {
+        if ($this->unitEnum() != $other->unitEnum()) {
+            throw new \InvalidArgumentException('Pace objects must have the same unit.');
+        }
 
-		if ($this->secondsPerKm() == 0 || $other->secondsPerKm() == 0) {
-			return '';
-		}
+        if ($this->secondsPerKm() == 0 || $other->secondsPerKm() == 0) {
+            return '';
+        }
 
-		$comparisonInSecondsPerKm = $this->UnitObject->compare($this->secondsPerKm(), $other->secondsPerKm());
-		$isPositive = ($comparisonInSecondsPerKm >= 0);
+        $comparisonInSecondsPerKm = $this->UnitObject->compare($this->secondsPerKm(), $other->secondsPerKm());
+        $isPositive = ($comparisonInSecondsPerKm >= 0);
 
-		if ($comparisonInSecondsPerKm == 0 && $this->UnitObject->isTimeFormat()) {
-			return $this->formatComparison('0:00', $isPositive, $raw);
-		}
+        if ($comparisonInSecondsPerKm == 0 && $this->UnitObject->isTimeFormat()) {
+            return $this->formatComparison('0:00', $isPositive, $raw);
+        }
 
-		return $this->formatComparison($this->UnitObject->format(abs($comparisonInSecondsPerKm)), $isPositive, $raw);
-	}
+        return $this->formatComparison($this->UnitObject->format(abs($comparisonInSecondsPerKm)), $isPositive, $raw);
+    }
 
     /**
      * @param string $string e.g. '0:27' or '1,4'
      * @param bool $isPositive
      * @param bool $raw [optional]
      */
-    protected function formatComparison($string, $isPositive, $raw = false): string {
-		$class = ($isPositive) ? 'plus' : 'minus';
-		$sign = ($isPositive) ? '+' : '-';
+    protected function formatComparison($string, $isPositive, $raw = false): string
+    {
+        $class = ($isPositive) ? 'plus' : 'minus';
+        $sign = ($isPositive) ? '+' : '-';
 
-		if ($raw) {
-			return $sign . $string;
-		}
+        if ($raw) {
+            return $sign . $string;
+        }
 
-		/**
-		 * @codeCoverageIgnore
-		 */
-		return '<span class="' . $class . '">' . $sign . $string . $this->appendix() . '</span>';
-	}
+        /**
+         * @codeCoverageIgnore
+         */
+        return '<span class="' . $class . '">' . $sign . $string . $this->appendix() . '</span>';
+    }
 }

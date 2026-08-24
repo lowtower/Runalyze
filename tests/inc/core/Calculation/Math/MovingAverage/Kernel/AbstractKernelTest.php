@@ -6,7 +6,10 @@ class AbstractKernelTest_MockTester extends AbstractKernel
 {
     protected $DefaultWidth = 1.0;
 
-    protected function atTransformed($difference) { return $difference; }
+    protected function atTransformed($difference)
+    {
+        return $difference;
+    }
 }
 
 class AbstractKernelTest extends \PHPUnit\Framework\TestCase

@@ -20,114 +20,114 @@ use Runalyze\Profile\Sport\SportProfile;
  */
 class Pace extends AbstractKey
 {
-	// #TSC minimum- and maximum-values in "km/h" to bound the pace bar
-	const P_MIN_MAX = [
-    // km/h values means: pace between 12min/km - 3:20min/km
-	    SportProfile::RUNNING => [
-	        'min' => 5,
-	        'max' => 18,
-	    ],
-	    // km/h values means: pace between 3min/100m - 1:20min/100
-	    SportProfile::SWIMMING => [
-	        'min' => 2,
-	        'max' => 4.5,
-	    ],
-	    // 10 - 32 km/h
-	    SportProfile::CYCLING => [
-	        'min' => 10,
-	        'max' => 32,
-	    ],
-];
+    // #TSC minimum- and maximum-values in "km/h" to bound the pace bar
+    public const P_MIN_MAX = [
+        // km/h values means: pace between 12min/km - 3:20min/km
+        SportProfile::RUNNING => [
+            'min' => 5,
+            'max' => 18,
+        ],
+        // km/h values means: pace between 3min/100m - 1:20min/100
+        SportProfile::SWIMMING => [
+            'min' => 2,
+            'max' => 4.5,
+        ],
+        // 10 - 32 km/h
+        SportProfile::CYCLING => [
+            'min' => 10,
+            'max' => 32,
+        ],
+    ];
 
-	/**
-	 * @var string
-	 */
-	const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
+    /**
+     * @var string
+     */
+    public const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
 
     /**
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::PACE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::PACE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return '';
-	}
+    {
+        return '';
+    }
 
-	public function isInDatabase(): bool
-	{
-		return false;
-	}
+    public function isInDatabase(): bool
+    {
+        return false;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Pace');
-	}
+    {
+        return __('Pace');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		$pace = $this->getPace($context);
-		if ($pace === null) {
-			return '';
-		}
+    {
+        $pace = $this->getPace($context);
+        if ($pace === null) {
+            return '';
+        }
 
         return $pace->valueWithAppendix();
-	}
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 
     /**
      * @return \Runalyze\Activity\Pace
      */
     private function getPace(Context $context)
-	{
-		if ($context->activity()->distance() > 0) {
-			if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY))  {
-				if ($context->data(self::DURATION_SUM_WITH_DISTANCE_KEY) > 0) {
-					return new Activity\Pace(
-					    $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
-					    $context->activity()
-					        ->distance(),
-					    $context->hasSport() ? $context->sport()
-					        ->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
-					);
-				}
+    {
+        if ($context->activity()->distance() > 0) {
+            if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY)) {
+                if ($context->data(self::DURATION_SUM_WITH_DISTANCE_KEY) > 0) {
+                    return new Activity\Pace(
+                        $context->data(self::DURATION_SUM_WITH_DISTANCE_KEY),
+                        $context->activity()
+                            ->distance(),
+                        $context->hasSport() ? $context->sport()
+                            ->getLegacyPaceUnitEnum() : Activity\Pace::STANDARD
+                    );
+                }
 
-				return null;
-			}
+                return null;
+            }
 
-			return $context->dataview()
-			    ->pace();
-		}
+            return $context->dataview()
+                ->pace();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
     /**
      * returns a value dependend CSS class and style.
@@ -135,34 +135,34 @@ class Pace extends AbstractKey
      * @return array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
-	{
-		if (! array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
-			return null;
-		}
+    {
+        if (! array_key_exists($context->Sport()->getInternalProfileEnum(), self::P_MIN_MAX)) {
+            return null;
+        }
 
-		$pace = $this->getPace($context);
-		if ($pace !== null) {
-			$minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
+        $pace = $this->getPace($context);
+        if ($pace !== null) {
+            $minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
 
-			$kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour
-			$v = round(100 * ($kmh - $minMax['min']) / ($minMax['max'] - $minMax['min']));
+            $kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour
+            $v = round(100 * ($kmh - $minMax['min']) / ($minMax['max'] - $minMax['min']));
 
-			// we must differ between time-base (lower is better) and decimal-based (higher is faster) representaion
-			if ($pace->unit()->isTimeFormat()) {
-				// time-base (lower is better): example: running pace like 5 minutes for 1 kilometer (=5:00min/km)
-				$class = 'bar gray';
-				$v = 100 - $v;
-			} else {
-				// decimal-base (more km is better): example: cycling 20 km in one hour (=20km/h)
-				$class = 'bar blue';
-			}
+            // we must differ between time-base (lower is better) and decimal-based (higher is faster) representaion
+            if ($pace->unit()->isTimeFormat()) {
+                // time-base (lower is better): example: running pace like 5 minutes for 1 kilometer (=5:00min/km)
+                $class = 'bar gray';
+                $v = 100 - $v;
+            } else {
+                // decimal-base (more km is better): example: cycling 20 km in one hour (=20km/h)
+                $class = 'bar blue';
+            }
 
-			return [
-    'class' => $class,
-			    'style' => '--perc: ' . $v . '%;',
-];
-		}
+            return [
+                'class' => $class,
+                'style' => '--perc: ' . $v . '%;',
+            ];
+        }
 
         return null;
-	}
+    }
 }

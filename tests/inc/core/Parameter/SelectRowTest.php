@@ -9,31 +9,34 @@ namespace Runalyze\Parameter;
  */
 class ParameterSelectRowTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\SelectRow
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\SelectRow
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new SelectRow('foo', [
-    'table' => 'table',
-		    'column' => 'col',
-]);
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new SelectRow('foo', [
+            'table' => 'table',
+            'column' => 'col',
+        ]);
+    }
 
-	public function testSet() {
-		$this->assertEquals('foo', $this->object->value());
+    public function testSet()
+    {
+        $this->assertEquals('foo', $this->object->value());
 
-		$this->object->set(1);
-		$this->assertEquals( 1, $this->object->value() );
-	}
+        $this->object->set(1);
+        $this->assertEquals(1, $this->object->value());
+    }
 
-	public function testTableAndColumn() {
-		$this->assertEquals('table', $this->object->table());
-		$this->assertEquals('col', $this->object->column());
-	}
+    public function testTableAndColumn()
+    {
+        $this->assertEquals('table', $this->object->table());
+        $this->assertEquals('col', $this->object->column());
+    }
 }

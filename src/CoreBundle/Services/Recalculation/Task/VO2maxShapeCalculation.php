@@ -31,8 +31,7 @@ class VO2maxShapeCalculation implements RecalculationTaskInterface
         TrainingRepository $repository,
         ConfigurationManager $manager,
         ConfigurationUpdater $updater
-    )
-    {
+    ) {
         $this->TrainingRepository = $repository;
         $this->ConfigurationManager = $manager;
         $this->ConfigurationUpdater = $updater;

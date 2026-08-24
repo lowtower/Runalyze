@@ -13,7 +13,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
     /**
      * @var string
      */
-    const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
+    public const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
     protected function configure()
     {

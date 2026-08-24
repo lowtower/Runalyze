@@ -20,17 +20,17 @@ class KmPerHour extends AbstractDecimalUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::KM_PER_H;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::KM_PER_H;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '&nbsp;km/h';
-	}
+    {
+        return '&nbsp;km/h';
+    }
 
     /**
      * Dividend to transform 's/km' to current unit
@@ -41,7 +41,7 @@ class KmPerHour extends AbstractDecimalUnit
      * @throws \RuntimeException
      */
     public function dividendForUnit(): int
-	{
-		return 3600;
-	}
+    {
+        return 3600;
+    }
 }

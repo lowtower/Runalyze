@@ -20,199 +20,199 @@ use Runalyze\View\Activity\Linker;
  */
 class Context
 {
-	/**
-	 * Factory
-	 * @var \Runalyze\Model\Factory
-	 */
-	protected $Factory;
+    /**
+     * Factory
+     * @var \Runalyze\Model\Factory
+     */
+    protected $Factory;
 
-	/**
-	 * Activity
-	 * @var \Runalyze\Model\Activity\Entity
-	 */
-	protected $Activity;
+    /**
+     * Activity
+     * @var \Runalyze\Model\Activity\Entity
+     */
+    protected $Activity;
 
-	/**
-	 * @var array
-	 */
-	protected $ActivityData = [];
+    /**
+     * @var array
+     */
+    protected $ActivityData = [];
 
-	/**
-	 * Sport
-	 * @var \Runalyze\Model\Sport\Entity
-	 */
-	protected $Sport;
+    /**
+     * Sport
+     * @var \Runalyze\Model\Sport\Entity
+     */
+    protected $Sport;
 
-	/**
-	 * Type
-	 * @var \Runalyze\Model\Type\Entity
-	 */
-	protected $Type;
+    /**
+     * Type
+     * @var \Runalyze\Model\Type\Entity
+     */
+    protected $Type;
 
-	/**
-	 * Dataview
-	 * @var \Runalyze\View\Activity\Dataview
-	 */
-	protected $Dataview;
+    /**
+     * Dataview
+     * @var \Runalyze\View\Activity\Dataview
+     */
+    protected $Dataview;
 
-	/**
-	 * Activity linker
-	 * @var \Runalyze\View\Activity\Linker
-	 */
-	protected $Linker;
+    /**
+     * Activity linker
+     * @var \Runalyze\View\Activity\Linker
+     */
+    protected $Linker;
 
-	/**
-	 * @var bool
-	 */
-	protected $IsRunning = false;
+    /**
+     * @var bool
+     */
+    protected $IsRunning = false;
 
-	/**
-	 * Construct dataset context for activity
-	 * @param array|\Runalyze\Model\Activity\Entity $dataOrObject
-	 * @param int $accountID
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct($dataOrObject, $accountID)
-	{
-		$this->Factory = new Model\Factory($accountID);
+    /**
+     * Construct dataset context for activity
+     * @param array|\Runalyze\Model\Activity\Entity $dataOrObject
+     * @param int $accountID
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($dataOrObject, $accountID)
+    {
+        $this->Factory = new Model\Factory($accountID);
 
-		if (is_array($dataOrObject)) {
-			$this->setActivityData($dataOrObject);
-		} elseif ($dataOrObject instanceof Model\Activity\Entity) {
-			$this->setActivity($dataOrObject);
-		} else {
-			throw new \InvalidArgumentException('Provided data must be an array or activity object.');
-		}
-	}
+        if (is_array($dataOrObject)) {
+            $this->setActivityData($dataOrObject);
+        } elseif ($dataOrObject instanceof Model\Activity\Entity) {
+            $this->setActivity($dataOrObject);
+        } else {
+            throw new \InvalidArgumentException('Provided data must be an array or activity object.');
+        }
+    }
 
-	/**
-	 * @param \Runalyze\Model\Activity\Entity $object activity object
-	 */
-	public function setActivity(Model\Activity\Entity $object)
-	{
-		$this->Activity = $object;
-		$this->Dataview = new Dataview($object);
-		$this->Linker = new Linker($object);
-		$this->Sport = $this->Activity->sportid() > 0 ? $this->Factory->sport($this->Activity->sportid()) : null;
-		$this->Type = $this->Activity->typeid() > 0 ? $this->Factory->type($this->Activity->typeid()) : null;
-		$this->ActivityData = $this->Activity->completeData();
-		$this->IsRunning = $this->hasSport() && $this->Sport->getInternalProfileEnum() == SportProfile::RUNNING;
-	}
+    /**
+     * @param \Runalyze\Model\Activity\Entity $object activity object
+     */
+    public function setActivity(Model\Activity\Entity $object)
+    {
+        $this->Activity = $object;
+        $this->Dataview = new Dataview($object);
+        $this->Linker = new Linker($object);
+        $this->Sport = $this->Activity->sportid() > 0 ? $this->Factory->sport($this->Activity->sportid()) : null;
+        $this->Type = $this->Activity->typeid() > 0 ? $this->Factory->type($this->Activity->typeid()) : null;
+        $this->ActivityData = $this->Activity->completeData();
+        $this->IsRunning = $this->hasSport() && $this->Sport->getInternalProfileEnum() == SportProfile::RUNNING;
+    }
 
-	/**
-	 * @param array $data activity data
-	 * @throws \InvalidArgumentException
-	 */
-	public function setActivityData(array $data)
-	{
-		if ($data === []) {
-			throw new \InvalidArgumentException('Provided data must not be empty.');
-		}
+    /**
+     * @param array $data activity data
+     * @throws \InvalidArgumentException
+     */
+    public function setActivityData(array $data)
+    {
+        if ($data === []) {
+            throw new \InvalidArgumentException('Provided data must not be empty.');
+        }
 
-		$this->setActivity( new Model\Activity\Entity($data) );
-		$this->ActivityData = $data;
-	}
+        $this->setActivity(new Model\Activity\Entity($data));
+        $this->ActivityData = $data;
+    }
 
-	/**
-	 * @return \Runalyze\Model\Factory
-	 */
-	public function factory()
-	{
-		return $this->Factory;
-	}
+    /**
+     * @return \Runalyze\Model\Factory
+     */
+    public function factory()
+    {
+        return $this->Factory;
+    }
 
-	/**
-	 * @return \Runalyze\Model\Activity\Entity
-	 */
-	public function activity()
-	{
-		return $this->Activity;
-	}
+    /**
+     * @return \Runalyze\Model\Activity\Entity
+     */
+    public function activity()
+    {
+        return $this->Activity;
+    }
 
-	/**
-	 * @return \Runalyze\View\Activity\Dataview
-	 */
-	public function dataview()
-	{
-		return $this->Dataview;
-	}
+    /**
+     * @return \Runalyze\View\Activity\Dataview
+     */
+    public function dataview()
+    {
+        return $this->Dataview;
+    }
 
-	/**
-	 * @return \Runalyze\View\Activity\Linker
-	 */
-	public function linker()
-	{
-		return $this->Linker;
-	}
+    /**
+     * @return \Runalyze\View\Activity\Linker
+     */
+    public function linker()
+    {
+        return $this->Linker;
+    }
 
-	public function hasSport(): bool
-	{
-		return $this->Sport !== null;
-	}
+    public function hasSport(): bool
+    {
+        return $this->Sport !== null;
+    }
 
-	/**
-	 * @return \Runalyze\Model\Sport\Entity
-	 */
-	public function sport()
-	{
-		return $this->Sport;
-	}
+    /**
+     * @return \Runalyze\Model\Sport\Entity
+     */
+    public function sport()
+    {
+        return $this->Sport;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isRunning()
-	{
-		return $this->IsRunning;
-	}
+    /**
+     * @return bool
+     */
+    public function isRunning()
+    {
+        return $this->IsRunning;
+    }
 
-	public function hasType(): bool
-	{
-		return $this->Type !== null;
-	}
+    public function hasType(): bool
+    {
+        return $this->Type !== null;
+    }
 
-	/**
-	 * @return \Runalyze\Model\Type\Entity
-	 */
-	public function type()
-	{
-		return $this->Type;
-	}
+    /**
+     * @return \Runalyze\Model\Type\Entity
+     */
+    public function type()
+    {
+        return $this->Type;
+    }
 
     /**
      * @param string $key
      */
     public function hasData($key): bool
-	{
-		return isset($this->ActivityData[$key]);
-	}
+    {
+        return isset($this->ActivityData[$key]);
+    }
 
-	/**
-	 * Get additional data that is not in the activity object
-	 * @param string $key
-	 * @param bool $returnNullForUnknownKeys set to true to not throw an exception for unknown keys
-	 * @return mixed
-	 * @throws \InvalidArgumentException
-	 */
-	public function data($key, $returnNullForUnknownKeys = false)
-	{
-		if (! isset($this->ActivityData[$key])) {
-			if ($returnNullForUnknownKeys) {
-				return null;
-			}
+    /**
+     * Get additional data that is not in the activity object
+     * @param string $key
+     * @param bool $returnNullForUnknownKeys set to true to not throw an exception for unknown keys
+     * @return mixed
+     * @throws \InvalidArgumentException
+     */
+    public function data($key, $returnNullForUnknownKeys = false)
+    {
+        if (! isset($this->ActivityData[$key])) {
+            if ($returnNullForUnknownKeys) {
+                return null;
+            }
 
-			throw new \InvalidArgumentException('Provided key "' . $key . '" does not exist in activity data.');
-		}
+            throw new \InvalidArgumentException('Provided key "' . $key . '" does not exist in activity data.');
+        }
 
-		return $this->ActivityData[$key];
-	}
+        return $this->ActivityData[$key];
+    }
 
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 */
-	public function setData($key, $value)
-	{
-		$this->ActivityData[$key] = $value;
-	}
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setData($key, $value)
+    {
+        $this->ActivityData[$key] = $value;
+    }
 }

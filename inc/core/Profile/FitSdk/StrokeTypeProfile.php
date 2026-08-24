@@ -8,38 +8,38 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 class StrokeTypeProfile extends AbstractEnum
 {
-	/**
-	 * @var int
-	 */
-	const FREESTYLE = 0;
-
-	/**
-	 * @var int
-	 */
-	const BACK = 1;
+    /**
+     * @var int
+     */
+    public const FREESTYLE = 0;
 
     /**
      * @var int
      */
-    const BREAST = 2;
+    public const BACK = 1;
 
     /**
      * @var int
      */
-    const BUTTERFLY = 3;
+    public const BREAST = 2;
 
     /**
      * @var int
      */
-    const DRILL = 4;
+    public const BUTTERFLY = 3;
 
     /**
      * @var int
      */
-    const MIXED = 5;
+    public const DRILL = 4;
 
     /**
      * @var int
      */
-    const BREAK = 99;
+    public const MIXED = 5;
+
+    /**
+     * @var int
+     */
+    public const BREAK = 99;
 }

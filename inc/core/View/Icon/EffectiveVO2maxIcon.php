@@ -9,32 +9,32 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
     /**
      * @var string
      */
-    const BASE_CLASS = 'vo2max-icon small';
+    public const BASE_CLASS = 'vo2max-icon small';
 
     /**
      * @var string
      */
-    const DIRECTION_UP = 'fa-arrow-up';
+    public const DIRECTION_UP = 'fa-arrow-up';
 
     /**
      * @var string
      */
-    const DIRECTION_UP_HALF = 'fa-arrow-up  fa-rotate-45';
+    public const DIRECTION_UP_HALF = 'fa-arrow-up  fa-rotate-45';
 
     /**
      * @var string
      */
-    const DIRECTION_RIGHT = 'fa-arrow-right';
+    public const DIRECTION_RIGHT = 'fa-arrow-right';
 
     /**
      * @var string
      */
-    const DIRECTION_DOWN_HALF = 'fa-arrow-right  fa-rotate-45';
+    public const DIRECTION_DOWN_HALF = 'fa-arrow-right  fa-rotate-45';
 
     /**
      * @var string
      */
-    const DIRECTION_DOWN = 'fa-arrow-down';
+    public const DIRECTION_DOWN = 'fa-arrow-down';
 
     /**
      * @var bool

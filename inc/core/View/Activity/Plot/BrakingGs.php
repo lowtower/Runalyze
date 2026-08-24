@@ -8,12 +8,12 @@ use Runalyze\View\Activity;
 
 class BrakingGs extends ActivityPlot
 {
-	protected function setKey()
+    protected function setKey()
     {
-		$this->key = 'braking_gs';
-	}
+        $this->key = 'braking_gs';
+    }
 
-	protected function initData(Activity\Context $context)
+    protected function initData(Activity\Context $context)
     {
         $this->addSeries(new Series\BrakingGs($context, true), 1);
         $this->addSeries(new Series\BrakingGs($context, false), 1);

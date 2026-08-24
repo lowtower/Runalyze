@@ -7,7 +7,7 @@
 
 namespace Runalyze\View\Activity\Plot\Series;
 
-use \Plot;
+use Plot;
 
 /**
  * Activity series with points
@@ -17,32 +17,33 @@ use \Plot;
  */
 abstract class ActivityPointSeries extends ActivitySeries
 {
-	const COLOR_PERFECT = '#8E44AD';
+    public const COLOR_PERFECT = '#8E44AD';
 
-	const COLOR_GREAT = '#2980B9';
+    public const COLOR_GREAT = '#2980B9';
 
-	const COLOR_GOOD = '#27AE60';
+    public const COLOR_GOOD = '#27AE60';
 
-	const COLOR_OKAY = '#E67E22';
+    public const COLOR_OKAY = '#E67E22';
 
-	const COLOR_BAD = '#E74C3C';
+    public const COLOR_BAD = '#E74C3C';
 
-	/**
-	 * @var int
-	 */
-	protected $PointSize = 2;
+    /**
+     * @var int
+     */
+    protected $PointSize = 2;
 
     /**
      * Add to plot
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
-		parent::addTo($Plot, $yAxis, $addAnnotations);
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true)
+    {
+        parent::addTo($Plot, $yAxis, $addAnnotations);
 
-		$Plot->showPoints($this->PointSize);
-		$Plot->smoothing(false);
-	}
+        $Plot->showPoints($this->PointSize);
+        $Plot->smoothing(false);
+    }
 
     /**
      * Set thresholds for point colors
@@ -51,13 +52,14 @@ abstract class ActivityPointSeries extends ActivitySeries
      * @param float $good points above this limit will be colored as 'good'
      * @param float $okay points above this limit will be colored as 'okay'
      */
-    protected function setColorThresholdsAbove(Plot $Plot, $perfect, $great, $good, $okay) {
-		$Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
-			. '[' . $perfect . ', ' . $great . ', ' . $good . ', ' . $okay . '], '
-			. '["' . self::COLOR_PERFECT . '", "' . self::COLOR_GREAT . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_OKAY . '"], '
-			. '"' . self::COLOR_BAD . '")',
-		];
-	}
+    protected function setColorThresholdsAbove(Plot $Plot, $perfect, $great, $good, $okay)
+    {
+        $Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
+            . '[' . $perfect . ', ' . $great . ', ' . $good . ', ' . $okay . '], '
+            . '["' . self::COLOR_PERFECT . '", "' . self::COLOR_GREAT . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_OKAY . '"], '
+            . '"' . self::COLOR_BAD . '")',
+        ];
+    }
 
     /**
      * Set thresholds for point colors
@@ -66,11 +68,12 @@ abstract class ActivityPointSeries extends ActivitySeries
      * @param float $good points below this limit will be colored as 'good'
      * @param float $okay points below this limit will be colored as 'okay'
      */
-    protected function setColorThresholdsBelow(Plot $Plot, $perfect, $great, $good, $okay) {
-		$Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
-			. '[' . $okay . ', ' . $good . ', ' . $great . ', ' . $perfect . '], '
-			. '["' . self::COLOR_BAD . '", "' . self::COLOR_OKAY . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_GREAT . '"], '
-			. '"' . self::COLOR_PERFECT . '")',
-		];
-	}
+    protected function setColorThresholdsBelow(Plot $Plot, $perfect, $great, $good, $okay)
+    {
+        $Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
+            . '[' . $okay . ', ' . $good . ', ' . $great . ', ' . $perfect . '], '
+            . '["' . self::COLOR_BAD . '", "' . self::COLOR_OKAY . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_GREAT . '"], '
+            . '"' . self::COLOR_PERFECT . '")',
+        ];
+    }
 }

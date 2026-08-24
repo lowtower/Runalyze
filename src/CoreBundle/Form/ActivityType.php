@@ -58,8 +58,7 @@ class ActivityType extends AbstractType
     public function __construct(
         TokenStorage $tokenStorage,
         TagRepository $tagRepository
-    )
-    {
+    ) {
         $this->TokenStorage = $tokenStorage;
         $this->TagRepository = $tagRepository;
     }
@@ -217,7 +216,7 @@ class ActivityType extends AbstractType
                 'required' => false,
             ])
         ;
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var Training $activity */
             $activity = $event->getData();
 
@@ -262,7 +261,7 @@ class ActivityType extends AbstractType
             }
 
             $tags = $data['tag'];
-            foreach($tags as $key => $tag) {
+            foreach ($tags as $key => $tag) {
                 if (! is_numeric($tag)) {
                     $tagElement = (new Tag())->setTag($tag)
                         ->setAccount($this->getAccount());

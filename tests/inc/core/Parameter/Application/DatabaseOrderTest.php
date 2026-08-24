@@ -9,150 +9,155 @@ namespace Runalyze\Parameter\Application;
  */
 class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\DatabaseOrder
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\DatabaseOrder
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new DatabaseOrder();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new DatabaseOrder();
+    }
 
-	public function testAsQuery() {
-		$this->object->set( DatabaseOrder::ASC );
-		$this->assertEquals('ORDER BY `id` ASC', $this->object->asQuery());
+    public function testAsQuery()
+    {
+        $this->object->set(DatabaseOrder::ASC);
+        $this->assertEquals('ORDER BY `id` ASC', $this->object->asQuery());
 
-		$this->object->set( DatabaseOrder::DESC );
-		$this->assertEquals('ORDER BY `id` DESC', $this->object->asQuery());
+        $this->object->set(DatabaseOrder::DESC);
+        $this->assertEquals('ORDER BY `id` DESC', $this->object->asQuery());
 
-		$this->object->set( DatabaseOrder::ALPHA );
-		$this->assertEquals('ORDER BY `name` ASC', $this->object->asQuery());
-	}
+        $this->object->set(DatabaseOrder::ALPHA);
+        $this->assertEquals('ORDER BY `name` ASC', $this->object->asQuery());
+    }
 
-	public function testAscendingOrdering() {
-		$array = [
-    '3' => [
-		        'id' => 3,
-		    ],
-		    '5' => [
-		        'id' => 5,
-		    ],
-		    '2' => [
-		        'id' => 2,
-		    ],
-		    '1' => [
-		        'id' => 1,
-		    ],
-		    '4' => [
-		        'id' => 4,
-		    ],
-];
+    public function testAscendingOrdering()
+    {
+        $array = [
+            '3' => [
+                'id' => 3,
+            ],
+            '5' => [
+                'id' => 5,
+            ],
+            '2' => [
+                'id' => 2,
+            ],
+            '1' => [
+                'id' => 1,
+            ],
+            '4' => [
+                'id' => 4,
+            ],
+        ];
 
-		$this->object->set( DatabaseOrder::ASC );
-		$this->object->sort($array);
+        $this->object->set(DatabaseOrder::ASC);
+        $this->object->sort($array);
 
-		$this->assertEquals([
-    '1' => [
-		        'id' => 1,
-		    ],
-		    '2' => [
-		        'id' => 2,
-		    ],
-		    '3' => [
-		        'id' => 3,
-		    ],
-		    '4' => [
-		        'id' => 4,
-		    ],
-		    '5' => [
-		        'id' => 5,
-		    ],
-], $array);
-	}
+        $this->assertEquals([
+            '1' => [
+                'id' => 1,
+            ],
+            '2' => [
+                'id' => 2,
+            ],
+            '3' => [
+                'id' => 3,
+            ],
+            '4' => [
+                'id' => 4,
+            ],
+            '5' => [
+                'id' => 5,
+            ],
+        ], $array);
+    }
 
-	public function testDescendingOrdering() {
-		$array = [
-    '3' => [
-		        'id' => 3,
-		    ],
-		    '5' => [
-		        'id' => 5,
-		    ],
-		    '2' => [
-		        'id' => 2,
-		    ],
-		    '1' => [
-		        'id' => 1,
-		    ],
-		    '4' => [
-		        'id' => 4,
-		    ],
-];
+    public function testDescendingOrdering()
+    {
+        $array = [
+            '3' => [
+                'id' => 3,
+            ],
+            '5' => [
+                'id' => 5,
+            ],
+            '2' => [
+                'id' => 2,
+            ],
+            '1' => [
+                'id' => 1,
+            ],
+            '4' => [
+                'id' => 4,
+            ],
+        ];
 
-		$this->object->set( DatabaseOrder::DESC );
-		$this->object->sort($array);
+        $this->object->set(DatabaseOrder::DESC);
+        $this->object->sort($array);
 
-		$this->assertEquals([
-    '5' => [
-		        'id' => 5,
-		    ],
-		    '4' => [
-		        'id' => 4,
-		    ],
-		    '3' => [
-		        'id' => 3,
-		    ],
-		    '2' => [
-		        'id' => 2,
-		    ],
-		    '1' => [
-		        'id' => 1,
-		    ],
-], $array);
-	}
+        $this->assertEquals([
+            '5' => [
+                'id' => 5,
+            ],
+            '4' => [
+                'id' => 4,
+            ],
+            '3' => [
+                'id' => 3,
+            ],
+            '2' => [
+                'id' => 2,
+            ],
+            '1' => [
+                'id' => 1,
+            ],
+        ], $array);
+    }
 
-	public function testAlphabeticalOrdering() {
-		$array = [
-    'f' => [
-		        'name' => 'Foo',
-		    ],
-		    'v' => [
-		        'name' => 'Value',
-		    ],
-		    't' => [
-		        'name' => 'Test',
-		    ],
-		    'b' => [
-		        'name' => 'Bar',
-		    ],
-		    'n' => [
-		        'name' => 'Name',
-		    ],
-];
+    public function testAlphabeticalOrdering()
+    {
+        $array = [
+            'f' => [
+                'name' => 'Foo',
+            ],
+            'v' => [
+                'name' => 'Value',
+            ],
+            't' => [
+                'name' => 'Test',
+            ],
+            'b' => [
+                'name' => 'Bar',
+            ],
+            'n' => [
+                'name' => 'Name',
+            ],
+        ];
 
-		$this->object->set( DatabaseOrder::ALPHA );
-		$this->object->sort($array);
+        $this->object->set(DatabaseOrder::ALPHA);
+        $this->object->sort($array);
 
-		$this->assertEquals([
-    'b' => [
-		        'name' => 'Bar',
-		    ],
-		    'f' => [
-		        'name' => 'Foo',
-		    ],
-		    'n' => [
-		        'name' => 'Name',
-		    ],
-		    't' => [
-		        'name' => 'Test',
-		    ],
-		    'v' => [
-		        'name' => 'Value',
-		    ],
-], $array);
-	}
+        $this->assertEquals([
+            'b' => [
+                'name' => 'Bar',
+            ],
+            'f' => [
+                'name' => 'Foo',
+            ],
+            'n' => [
+                'name' => 'Name',
+            ],
+            't' => [
+                'name' => 'Test',
+            ],
+            'v' => [
+                'name' => 'Value',
+            ],
+        ], $array);
+    }
 }

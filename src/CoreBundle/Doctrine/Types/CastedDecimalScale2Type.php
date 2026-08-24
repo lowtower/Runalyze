@@ -10,7 +10,7 @@ class CastedDecimalScale2Type extends DecimalType
     /**
      * @var string
      */
-    const CASTED_DECIMAL_2 = 'casted_decimal_2';
+    public const CASTED_DECIMAL_2 = 'casted_decimal_2';
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {

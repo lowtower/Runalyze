@@ -77,7 +77,7 @@ class GeneratePoster
         $builder->setWorkingDirectory($this->pathToRepository())
             ->run();
 
-        if(! $builder->isSuccessful()) {
+        if (! $builder->isSuccessful()) {
             throw new ProcessFailedException($builder);
         }
 

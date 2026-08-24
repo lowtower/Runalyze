@@ -19,17 +19,17 @@ use Runalyze\View\Activity;
  */
 class HRVdifferences extends HRV
 {
-	protected function setKey()
+    protected function setKey()
     {
-		$this->key = 'hrv-sd';
-	}
+        $this->key = 'hrv-sd';
+    }
 
     protected function initData(Activity\Context $context)
     {
-		$this->addSeries(
-		    new Series\HRVdifferencesWithoutAnomalies($context)
-		);
+        $this->addSeries(
+            new Series\HRVdifferencesWithoutAnomalies($context)
+        );
 
-		$this->Plot->PlotOptions['allowSelection'] = false;
-	}
+        $this->Plot->PlotOptions['allowSelection'] = false;
+    }
 }

@@ -28,7 +28,7 @@ class ActivityMatcherController extends Controller
         }
 
         $duplicateFinder = $this->get('app.activity_duplicate_finder');
-        $ignoredActivityIds = array_map(function($v) {
+        $ignoredActivityIds = array_map(function ($v) {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
             } catch (\Exception $exception) {

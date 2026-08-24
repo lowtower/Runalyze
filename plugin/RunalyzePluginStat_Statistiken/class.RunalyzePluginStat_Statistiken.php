@@ -19,164 +19,180 @@ $PLUGINKEY = 'RunalyzePluginStat_Statistiken';
  */
 class RunalyzePluginStat_Statistiken extends PluginStat
 {
-	/**
-	 * Sport
-	 * @var array
-	 */
-	protected $Sport = [];
+    /**
+     * Sport
+     * @var array
+     */
+    protected $Sport = [];
 
-	/**
-	 * Dataset for converting and showing data
-	 * @var \Runalyze\Dataset\Configuration
-	 */
-	protected $DatasetConfig;
+    /**
+     * Dataset for converting and showing data
+     * @var \Runalyze\Dataset\Configuration
+     */
+    protected $DatasetConfig;
 
-    final public function name(): string {
-		return __('Statistics');
-	}
+    final public function name(): string
+    {
+        return __('Statistics');
+    }
 
-    final public function description(): string {
-		return __('Monthly and weekly summaries for all sports');
-	}
+    final public function description(): string
+    {
+        return __('Monthly and weekly summaries for all sports');
+    }
 
-	/**
-	 * Set navigation
-	 */
-	protected function setOwnNavigation() {
-		$LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
-		$LinkList .= '<li' . ($this->dat == '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('General overview'), $this->sportid, $this->year, '') . '</li>';
-		$LinkList .= '<li' . ($this->dat == 'allWeeks' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks') . '</li>';
+    /**
+     * Set navigation
+     */
+    protected function setOwnNavigation()
+    {
+        $LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
+        $LinkList .= '<li' . ($this->dat == '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('General overview'), $this->sportid, $this->year, '') . '</li>';
+        $LinkList .= '<li' . ($this->dat == 'allWeeks' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks') . '</li>';
 
-		$LinkList .= '</ul></li>';
+        $LinkList .= '</ul></li>';
 
-		$this->setToolbarNavigationLinks([$LinkList]);
-	}
+        $this->setToolbarNavigationLinks([$LinkList]);
+    }
 
-	private function getAnalysisType(): string {
-		$types = [
-		    '' => __('General overview'),
-		    'allWeeks' => __('All training weeks'),
-		];
-		return $types[$this->dat];
-	}
+    private function getAnalysisType(): string
+    {
+        $types = [
+            '' => __('General overview'),
+            'allWeeks' => __('All training weeks'),
+        ];
+        return $types[$this->dat];
+    }
 
-	/**
-	 * Init some class variables
-	 */
-	private function initVariables() {
-		$this->Sport = SportFactory::DataFor($this->sportid);
-		$this->DatasetConfig = new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId());
+    /**
+     * Init some class variables
+     */
+    private function initVariables()
+    {
+        $this->Sport = SportFactory::DataFor($this->sportid);
+        $this->DatasetConfig = new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId());
 
-		require_once __DIR__ . '/class.SummaryTable.php';
-		require_once __DIR__ . '/class.SummaryTable10Weeks.php';
-		require_once __DIR__ . '/class.SummaryTableAllWeeks.php';
-		require_once __DIR__ . '/class.SummaryTableAllYears.php';
-		require_once __DIR__ . '/class.SummaryTableMonths.php';
-	}
+        require_once __DIR__ . '/class.SummaryTable.php';
+        require_once __DIR__ . '/class.SummaryTable10Weeks.php';
+        require_once __DIR__ . '/class.SummaryTableAllWeeks.php';
+        require_once __DIR__ . '/class.SummaryTableAllYears.php';
+        require_once __DIR__ . '/class.SummaryTableMonths.php';
+    }
 
-    protected function defaultYear(): int {
-		return 6;
-	}
+    protected function defaultYear(): int
+    {
+        return 6;
+    }
 
-	/**
-	 * Init data
-	 */
-	protected function prepareForDisplay() {
-		if (! $this->showsSpecificYear() && $this->dat = 'allWeeks') {
-			$this->dat = '';
-		}
+    /**
+     * Init data
+     */
+    protected function prepareForDisplay()
+    {
+        if (! $this->showsSpecificYear() && $this->dat = 'allWeeks') {
+            $this->dat = '';
+        }
 
-		$this->initVariables();
+        $this->initVariables();
 
-		$this->setSportsNavigation(true, true);
-		$this->setYearsNavigation(true, true, true);
-		$this->setOwnNavigation();
+        $this->setSportsNavigation(true, true);
+        $this->setYearsNavigation(true, true, true);
+        $this->setOwnNavigation();
 
-		$this->setHeaderWithSportAndYear();
-	}
+        $this->setHeaderWithSportAndYear();
+    }
 
-	protected function displayLongDescription() {
-		echo HTML::p(
-		    __('This plugin shows summaries for all weeks, months or years to compare your overall training.')
-		);
-	}
+    protected function displayLongDescription()
+    {
+        echo HTML::p(
+            __('This plugin shows summaries for all weeks, months or years to compare your overall training.')
+        );
+    }
 
-	protected function initConfiguration() {
-		$Configuration = new PluginConfiguration($this->id());
-		$Configuration->addValue( new PluginConfigurationValueBool('compare_weeks', __('Compare kilometers per week'), '', true) );
-		$Configuration->addValue( new PluginConfigurationValueBool('show_streak', __('Show streak'), '', true) );
-		$Configuration->addValue( new PluginConfigurationValueInt('show_streak_days', __('Minimum number of days to show a streak (0 for always)'), '', 10) );
+    protected function initConfiguration()
+    {
+        $Configuration = new PluginConfiguration($this->id());
+        $Configuration->addValue(new PluginConfigurationValueBool('compare_weeks', __('Compare kilometers per week'), '', true));
+        $Configuration->addValue(new PluginConfigurationValueBool('show_streak', __('Show streak'), '', true));
+        $Configuration->addValue(new PluginConfigurationValueInt('show_streak_days', __('Minimum number of days to show a streak (0 for always)'), '', 10));
 
-		$this->setConfiguration($Configuration);
-	}
+        $this->setConfiguration($Configuration);
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		if ($this->wantToShowAllWeeks()) {
-			$this->displayWeekTable(true);
-		} else {
-			$this->displayYearTable();
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        if ($this->wantToShowAllWeeks()) {
+            $this->displayWeekTable(true);
+        } else {
+            $this->displayYearTable();
 
-			if ($this->Configuration()->value('show_streak'))
-				$this->displayStreak();
+            if ($this->Configuration()->value('show_streak')) {
+                $this->displayStreak();
+            }
 
-			$this->displayWeekTable();
-		}
-	}
+            $this->displayWeekTable();
+        }
+    }
 
     /**
      * Boolean flag: Show all weeks?
      */
-    private function wantToShowAllWeeks(): bool {
-		return $this->dat == 'allWeeks';
-	}
+    private function wantToShowAllWeeks(): bool
+    {
+        return $this->dat == 'allWeeks';
+    }
 
-	/**
-	 * Display table with data for each month
-	 */
-	private function displayYearTable() {
-		if ($this->year == -1) {
-			$SummaryTable = new SummaryTableAllYears($this->DatasetConfig, $this->sportid, $this->year);
-		} else {
-			$SummaryTable = new SummaryTableMonths($this->DatasetConfig, $this->sportid, $this->year);
+    /**
+     * Display table with data for each month
+     */
+    private function displayYearTable()
+    {
+        if ($this->year == -1) {
+            $SummaryTable = new SummaryTableAllYears($this->DatasetConfig, $this->sportid, $this->year);
+        } else {
+            $SummaryTable = new SummaryTableMonths($this->DatasetConfig, $this->sportid, $this->year);
 
-			if ($this->year == 6) {
-				$SummaryTable->setMode(SummaryTableMonths::MODE_LAST_6);
-			} elseif ($this->year == 12) {
-				$SummaryTable->setMode(SummaryTableMonths::MODE_LAST_12);
-			} else {
-				$SummaryTable->setMode(SummaryTableMonths::MODE_YEAR);
-			}
-		}
+            if ($this->year == 6) {
+                $SummaryTable->setMode(SummaryTableMonths::MODE_LAST_6);
+            } elseif ($this->year == 12) {
+                $SummaryTable->setMode(SummaryTableMonths::MODE_LAST_12);
+            } else {
+                $SummaryTable->setMode(SummaryTableMonths::MODE_YEAR);
+            }
+        }
 
-		$SummaryTable->compareKilometers($this->Configuration()->value('compare_weeks'));
-		$SummaryTable->display();
-	}
+        $SummaryTable->compareKilometers($this->Configuration()->value('compare_weeks'));
+        $SummaryTable->display();
+    }
 
     /**
      * Display table with last week-statistics
      */
-    private function displayWeekTable(bool $showAllWeeks = false) {
-		if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks)
-			return;
+    private function displayWeekTable(bool $showAllWeeks = false)
+    {
+        if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks) {
+            return;
+        }
 
-		if ($showAllWeeks) {
-			$SummaryTable = new SummaryTableAllWeeks($this->DatasetConfig, $this->sportid, $this->year);
-		} else {
-			$SummaryTable = new SummaryTable10Weeks($this->DatasetConfig, $this->sportid, $this->year);
-		}
+        if ($showAllWeeks) {
+            $SummaryTable = new SummaryTableAllWeeks($this->DatasetConfig, $this->sportid, $this->year);
+        } else {
+            $SummaryTable = new SummaryTable10Weeks($this->DatasetConfig, $this->sportid, $this->year);
+        }
 
-		$SummaryTable->compareKilometers($this->Configuration()->value('compare_weeks'));
-		$SummaryTable->display();
-	}
+        $SummaryTable->compareKilometers($this->Configuration()->value('compare_weeks'));
+        $SummaryTable->display();
+    }
 
-	/**
-	 * Display days of streakrunning
-	 */
-	private function displayStreak() {
-		$Query = '
+    /**
+     * Display days of streakrunning
+     */
+    private function displayStreak()
+    {
+        $Query = '
 			SELECT
 				`time`,
 				DATE(FROM_UNIXTIME(`time`)) as `day`
@@ -185,57 +201,58 @@ class RunalyzePluginStat_Statistiken extends PluginStat
 			GROUP BY DATE(FROM_UNIXTIME(`time`))
 			ORDER BY `day` DESC';
 
-		$Request = DB::getInstance()->query($Query);
+        $Request = DB::getInstance()->query($Query);
 
-		$IsStreak = true;
-		$FirstDay = true;
-		$NumDays = 0;
-		$LastTime = time();
-		$LastDay = date('Y-m-d');
-		$Text = '';
+        $IsStreak = true;
+        $FirstDay = true;
+        $NumDays = 0;
+        $LastTime = time();
+        $LastDay = date('Y-m-d');
+        $Text = '';
 
-		while ($IsStreak) {
-			$Day = $Request->fetch();
-			if (! $Day) {
-				break;
-			}
+        while ($IsStreak) {
+            $Day = $Request->fetch();
+            if (! $Day) {
+                break;
+            }
 
-			if ($FirstDay) {
-				if ($Day['day'] != $LastDay) {
-					if (Time::diffOfDates($Day['day'], $LastDay) === 1) {
-						$Text = __('If you run today: ');
-						$NumDays++;
-					} else {
-						$IsStreak = false;
-					}
-				}
+            if ($FirstDay) {
+                if ($Day['day'] != $LastDay) {
+                    if (Time::diffOfDates($Day['day'], $LastDay) === 1) {
+                        $Text = __('If you run today: ');
+                        $NumDays++;
+                    } else {
+                        $IsStreak = false;
+                    }
+                }
 
-				$FirstDay = false;
-			}
+                $FirstDay = false;
+            }
 
-			if ($IsStreak) {
-				if (Time::diffOfDates($Day['day'], $LastDay) <= 1) {
-					$NumDays++;
-					$LastDay = $Day['day'];
-					$LastTime = $Day['time'];
-				} else {
-					$IsStreak = false;
-				}
-			}
-		}
+            if ($IsStreak) {
+                if (Time::diffOfDates($Day['day'], $LastDay) <= 1) {
+                    $NumDays++;
+                    $LastDay = $Day['day'];
+                    $LastTime = $Day['time'];
+                } else {
+                    $IsStreak = false;
+                }
+            }
+        }
 
-		if ($NumDays >= $this->Configuration()->value('show_streak_days')) {
-			if ($NumDays === 0) {
-				$Text .= __("You don't have a streak. Go out and start one!");
-				$LastTraining = DB::getInstance()->query('SELECT time FROM `' . PREFIX . 'training` WHERE `sportid`=' . Configuration::General()->runningSport() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT 1')->fetch();
+        if ($NumDays >= $this->Configuration()->value('show_streak_days')) {
+            if ($NumDays === 0) {
+                $Text .= __("You don't have a streak. Go out and start one!");
+                $LastTraining = DB::getInstance()->query('SELECT time FROM `' . PREFIX . 'training` WHERE `sportid`=' . Configuration::General()->runningSport() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT 1')->fetch();
 
-				if (isset($LastTraining['time']))
-					$Text .= ' ' . sprintf( __('Your last run was on %s'), \Runalyze\Util\LocalTime::date('d.m.Y', $LastTraining['time']));
-			} else {
-				$Text .= sprintf( _n('%d day of running since %s', '%d days of running since %s', $NumDays), $NumDays, \Runalyze\Util\LocalTime::date('d.m.Y', $LastTime) );
-			}
+                if (isset($LastTraining['time'])) {
+                    $Text .= ' ' . sprintf(__('Your last run was on %s'), \Runalyze\Util\LocalTime::date('d.m.Y', $LastTraining['time']));
+                }
+            } else {
+                $Text .= sprintf(_n('%d day of running since %s', '%d days of running since %s', $NumDays), $NumDays, \Runalyze\Util\LocalTime::date('d.m.Y', $LastTime));
+            }
 
-			echo '<p class="text c"><em>' . $Text . '</em></p>';
-		}
-	}
+            echo '<p class="text c"><em>' . $Text . '</em></p>';
+        }
+    }
 }

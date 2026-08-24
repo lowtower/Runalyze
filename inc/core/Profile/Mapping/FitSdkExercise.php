@@ -9,9 +9,9 @@ namespace Runalyze\Profile\Mapping;
  */
 class FitSdkExercise
 {
-    const CAT_UNKNOWN = 65534;
+    public const CAT_UNKNOWN = 65534;
 
-    const UNUSED = 65535;
+    public const UNUSED = 65535;
 
     /**
      * Retrieve all mappings (can be 3).
@@ -19,30 +19,31 @@ class FitSdkExercise
      *
      * @return string or null
      */
-    public function getFullMapping(string $categorys, ?string $subtypes = null): ?string {
+    public function getFullMapping(string $categorys, ?string $subtypes = null): ?string
+    {
         $result = [];
 
         $cat = array_map('intval', explode(',', $categorys));
         $sub = array_map('intval', explode(',', $subtypes));
 
         // if the sub array has not the same size as the main-category, ignore it
-        if(count($cat) !== count($sub)) {
+        if (count($cat) !== count($sub)) {
             $sub = null;
         }
 
         foreach ($cat as $i => &$c) {
-            if($sub != null) {
+            if ($sub != null) {
                 $r = $this->getMapping($c, $sub[$i]);
             } else {
                 $r = $this->getMapping($c);
             }
 
-            if($r != null) {
+            if ($r != null) {
                 $result[] = $r;
             }
         }
 
-        if($result === []) {
+        if ($result === []) {
             return 'unknown';
         }
 
@@ -56,12 +57,13 @@ class FitSdkExercise
      *
      * @return string or null
      */
-    public function getMapping(int $category, ?int $subtype = null): ?string {
+    public function getMapping(int $category, ?int $subtype = null): ?string
+    {
         $cat = $this->getCategoryName($category);
 
-        if($cat != null && ! empty($subtype)) {
+        if ($cat != null && ! empty($subtype)) {
             $sub = $this->getSubCategoryName($cat, $subtype);
-            if($sub != null) {
+            if ($sub != null) {
                 return $sub;
             }
         }
@@ -69,17 +71,19 @@ class FitSdkExercise
         return $cat;
     }
 
-    private function getCategoryName(int $category): ?string {
-        if($category !== self::CAT_UNKNOWN && $category !== self::UNUSED && array_key_exists($category, $this->categorys)) {
+    private function getCategoryName(int $category): ?string
+    {
+        if ($category !== self::CAT_UNKNOWN && $category !== self::UNUSED && array_key_exists($category, $this->categorys)) {
             return $this->categorys[$category];
         }
 
         return null;
     }
 
-    private function getSubCategoryName(string $cat, int $subtype): ?string {
+    private function getSubCategoryName(string $cat, int $subtype): ?string
+    {
         $id = $cat . '#' . strval($subtype);
-        if(array_key_exists($id, $this->subCategorys)) {
+        if (array_key_exists($id, $this->subCategorys)) {
             return $this->subCategorys[$id];
         }
 

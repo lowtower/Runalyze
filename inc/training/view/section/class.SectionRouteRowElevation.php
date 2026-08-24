@@ -18,51 +18,55 @@ use Runalyze\View\Activity\Linker;
  */
 class SectionRouteRowElevation extends TrainingViewSectionRow
 {
-	protected function setPlot() {
-		$this->Plot = new Activity\Plot\Elevation($this->Context);
-	}
+    protected function setPlot()
+    {
+        $this->Plot = new Activity\Plot\Elevation($this->Context);
+    }
 
-	protected function setContent() {
-		$this->addElevation();
+    protected function setContent()
+    {
+        $this->addElevation();
         $this->addClimbScore();
 
-		foreach ($this->BoxedValues as &$Value) {
-			$Value->defineAsFloatingBlock('w50');
-		}
+        foreach ($this->BoxedValues as &$Value) {
+            $Value->defineAsFloatingBlock('w50');
+        }
 
-		if ($this->Context->hasRoute()) {
-			$this->addCourse();
+        if ($this->Context->hasRoute()) {
+            $this->addCourse();
 
-			if ($this->Context->route()->hasElevations()) {
-				$this->addInfoLink();
-			}
-		}
-	}
+            if ($this->Context->route()->hasElevations()) {
+                $this->addInfoLink();
+            }
+        }
+    }
 
-	/**
-	 * Add: elevation
-	 */
-	protected function addElevation() {
-		if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
-			if ($this->Context->activity()->distance() > 0) {
-				$this->BoxedValues[] = new Box\Distance($this->Context);
-			}
+    /**
+     * Add: elevation
+     */
+    protected function addElevation()
+    {
+        if ($this->Context->activity()->distance() > 0 || $this->Context->activity()->elevation() > 0) {
+            if ($this->Context->activity()->distance() > 0) {
+                $this->BoxedValues[] = new Box\Distance($this->Context);
+            }
 
-			$this->BoxedValues[] = new Box\Elevation($this->Context);
+            $this->BoxedValues[] = new Box\Elevation($this->Context);
 
-			// TODO: Calculated elevation?
+            // TODO: Calculated elevation?
 
-			if ($this->Context->activity()->elevation() > 0) {
-				if ($this->Context->activity()->distance() > 0) {
-					$this->BoxedValues[] = new Box\Gradient($this->Context);
-				}
+            if ($this->Context->activity()->elevation() > 0) {
+                if ($this->Context->activity()->distance() > 0) {
+                    $this->BoxedValues[] = new Box\Gradient($this->Context);
+                }
 
-				$this->BoxedValues[] = new Box\ElevationUpDown($this->Context);
-			}
-		}
-	}
+                $this->BoxedValues[] = new Box\ElevationUpDown($this->Context);
+            }
+        }
+    }
 
-    protected function addClimbScore() {
+    protected function addClimbScore()
+    {
         if ($this->Context->activity()->climbScore() !== null) {
             $this->BoxedValues[] = new BoxedValue(
                 number_format($this->Context->activity()->climbScore(), 1),
@@ -78,19 +82,21 @@ class SectionRouteRowElevation extends TrainingViewSectionRow
         }
     }
 
-	/**
-	 * Add: course
-	 */
-	protected function addCourse() {
-		if ((string) $this->Context->route()->name() !== '') {
-			$PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
-			$PathBox->defineAsFloatingBlock('w100 flexible-height');
+    /**
+     * Add: course
+     */
+    protected function addCourse()
+    {
+        if ((string) $this->Context->route()->name() !== '') {
+            $PathBox = new BoxedValue($this->Context->route()->name(), '', __('Course'));
+            $PathBox->defineAsFloatingBlock('w100 flexible-height');
 
-			$this->BoxedValues[] = $PathBox;
-		}
-	}
+            $this->BoxedValues[] = $PathBox;
+        }
+    }
 
-	protected function addInfoLink() {
+    protected function addInfoLink()
+    {
         $this->Footer = '';
 
         $Linker = new Linker($this->Context->activity());
@@ -99,16 +105,16 @@ class SectionRouteRowElevation extends TrainingViewSectionRow
             $this->Footer .= HTML::info(Ajax::window('<a href="' . $Linker->urlToClimbScore() . '">' . __('Climb Score view') . '</a>', 'normal'));
         }
 
-		if (! Request::isOnSharedPage()) {
+        if (! Request::isOnSharedPage()) {
             $this->Footer .= HTML::info(Ajax::window('<a href="' . $Linker->urlToElevationInfo() . '">' . __('More about elevation') . '</a>', 'normal'));
-		}
+        }
 
-		if ($this->Context->route()->hasCorrectedElevations()) {
-			$this->Footer .= HTML::info( __('Elevation data were corrected.') );
-		} elseif ($this->Context->route()->hasOriginalElevations() && Configuration::ActivityForm()->correctElevation()) {
-			$this->Footer .= HTML::warning( __('Elevation data are not corrected.') );
-		}
+        if ($this->Context->route()->hasCorrectedElevations()) {
+            $this->Footer .= HTML::info(__('Elevation data were corrected.'));
+        } elseif ($this->Context->route()->hasOriginalElevations() && Configuration::ActivityForm()->correctElevation()) {
+            $this->Footer .= HTML::warning(__('Elevation data are not corrected.'));
+        }
 
-		// TODO: Add link to correct them now!
-	}
+        // TODO: Add link to correct them now!
+    }
 }

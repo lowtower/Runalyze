@@ -13,43 +13,45 @@ declare(strict_types=1);
  */
 abstract class PluginType
 {
-	/**
-	 * @var int Enum: Stat
-	 */
-	const STAT = 0;
+    /**
+     * @var int Enum: Stat
+     */
+    public const STAT = 0;
 
-	/**
-	 * @var int Enum: Panel
-	 */
-	const PANEL = 1;
+    /**
+     * @var int Enum: Panel
+     */
+    public const PANEL = 1;
 
-	/**
-	 * @param int $Type enum
-	 * @return string
-	 */
-	public static function string($Type) {
-		switch ($Type) {
-			case self::PANEL:
-				return 'panel';
+    /**
+     * @param int $Type enum
+     * @return string
+     */
+    public static function string($Type)
+    {
+        switch ($Type) {
+            case self::PANEL:
+                return 'panel';
 
-			case self::STAT:
-			default:
-			return 'stat';
-		}
-	}
+            case self::STAT:
+            default:
+                return 'stat';
+        }
+    }
 
-	/**
-	 * @param int $Type enum
-	 * @return string
-	 */
-	public static function readableString($Type) {
-		switch ($Type) {
-			case self::PANEL:
-				return __('Panel');
+    /**
+     * @param int $Type enum
+     * @return string
+     */
+    public static function readableString($Type)
+    {
+        switch ($Type) {
+            case self::PANEL:
+                return __('Panel');
 
-			case self::STAT:
-			default:
-			return __('Statistics');
-		}
-	}
+            case self::STAT:
+            default:
+                return __('Statistics');
+        }
+    }
 }

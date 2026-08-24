@@ -20,8 +20,8 @@ class Xml extends AbstractMultipleParserWithSubParser implements FileContentAwar
         } elseif ($this->isRunningAheadFile()) {
             throw new UnsupportedFileException('Support for xml-files from RunningAHEAD has been dropped.');
         } else {
-        	throw new UnsupportedFileException();
-		}
+            throw new UnsupportedFileException();
+        }
     }
 
     protected function isRunningAheadFile(): bool

@@ -12,17 +12,17 @@ abstract class AbstractModel
     /**
      * @var int
      */
-    const FITNESS = 0;
+    public const FITNESS = 0;
 
     /**
      * @var int
      */
-    const FATIGUE = 1;
+    public const FATIGUE = 1;
 
     /**
      * @var int
      */
-    const PERFORMANCE = 2;
+    public const PERFORMANCE = 2;
 
     /**
      * @var array

@@ -23,86 +23,89 @@ use Runalyze\View\Activity;
  */
 class Pace extends ActivitySeries
 {
-	/**
-	 * How many outliers should be cutted away?
-	 * @var int
-	 */
-	private static $CUT_OUTLIER_PERCENTAGE = 10;
+    /**
+     * How many outliers should be cutted away?
+     * @var int
+     */
+    private static $CUT_OUTLIER_PERCENTAGE = 10;
 
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(0,0,136)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(0,0,136)';
 
-	/**
-	 * @var bool
-	 */
-	protected $isRunning;
+    /**
+     * @var bool
+     */
+    protected $isRunning;
 
-	/**
-	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected $paceUnit;
+    /**
+     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected $paceUnit;
 
-	/**
-	 * @var string
-	 */
-	protected $paceUnitEnum;
+    /**
+     * @var string
+     */
+    protected $paceUnitEnum;
 
-	/**
-	 * @var bool
-	 */
-	protected $adjustAxis = true;
+    /**
+     * @var bool
+     */
+    protected $adjustAxis = true;
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->paceUnit = $context->sport()
-		    ->legacyPaceUnit();
-		$this->paceUnitEnum = $context->sport()
-		    ->getLegacyPaceUnitEnum();
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->paceUnit = $context->sport()
+            ->legacyPaceUnit();
+        $this->paceUnitEnum = $context->sport()
+            ->getLegacyPaceUnitEnum();
 
-		$this->isRunning = ($context->sport()->getInternalProfileEnum() == SportProfile::RUNNING);
+        $this->isRunning = ($context->sport()->getInternalProfileEnum() == SportProfile::RUNNING);
 
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::PACE);
-		$this->manipulateData();
-	}
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::PACE);
+        $this->manipulateData();
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Pace');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Pace');
+        $this->Color = self::COLOR;
 
-		$pace = new \Runalyze\Activity\Pace(0, 1);
-		$pace->setUnit($this->paceUnit);
+        $pace = new \Runalyze\Activity\Pace(0, 1);
+        $pace->setUnit($this->paceUnit);
 
-		$this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
-		$this->UnitDecimals = 1;
+        $this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = false;
+        $this->TickSize = false;
 
-		$this->ShowAverage = false;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = false;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 
-	protected function manipulateData() {
-		if ($this->paceUnit->isTimeFormat()) {
-			$factor = $this->paceUnit->factorForUnit();
+    protected function manipulateData()
+    {
+        if ($this->paceUnit->isTimeFormat()) {
+            $factor = $this->paceUnit->factorForUnit();
 
-			$this->Data = array_map(function($v) use ($factor){
-				return ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor);
-			}, $this->Data);
-		} else {
-			$dividend = $this->paceUnit->dividendForUnit();
+            $this->Data = array_map(function ($v) use ($factor) {
+                return ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor);
+            }, $this->Data);
+        } else {
+            $dividend = $this->paceUnit->dividendForUnit();
 
-			$this->Data = array_map(function($v) use ($dividend){
-				return ($v == 0) ? 0 : round($dividend / $v, 1);
-			}, $this->Data);
-		}
-	}
+            $this->Data = array_map(function ($v) use ($dividend) {
+                return ($v == 0) ? 0 : round($dividend / $v, 1);
+            }, $this->Data);
+        }
+    }
 
     /**
      * Add to plot
@@ -110,86 +113,86 @@ class Pace extends ActivitySeries
      * @param bool $addAnnotations [optional]
      */
     public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
-	{
-		if (empty($this->Data)) {
-			return;
-		}
+    {
+        if (empty($this->Data)) {
+            return;
+        }
 
-		parent::addTo($Plot, $yAxis, $addAnnotations);
+        parent::addTo($Plot, $yAxis, $addAnnotations);
 
-		if ($this->paceUnit->isTimeFormat() && $this->adjustAxis) {
-			$this->adjustAxis($Plot, $yAxis);
-		}
-	}
+        if ($this->paceUnit->isTimeFormat() && $this->adjustAxis) {
+            $this->adjustAxis($Plot, $yAxis);
+        }
+    }
 
     /**
      * @param int $yAxis
      */
     protected function adjustAxis(\Plot $Plot, $yAxis)
-	{
-		$Plot->setYAxisTimeFormat('%M:%S', $yAxis);
+    {
+        $Plot->setYAxisTimeFormat('%M:%S', $yAxis);
 
-		$min = min($this->Data);
-		$max = max($this->Data);
+        $min = min($this->Data);
+        $max = max($this->Data);
 
-		$setLimits = false;
-		$autoscale = true;
+        $setLimits = false;
+        $autoscale = true;
 
-		if (Configuration::ActivityView()->ignorePaceOutliers() && ($max - $min) > 2 * 60 * 1000) {
-			$setLimits = true;
-			$autoscale = false;
-			$num = count($this->Data);
-			$sorted = $this->Data;
-			sort($sorted);
-			$min = 10 * 1000 * floor($sorted[round((self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num)] / 10 / 1000);
-			$max = 10 * 1000 * ceil($sorted[round((1 - self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num) - 1] / 10 / 1000);
-		}
+        if (Configuration::ActivityView()->ignorePaceOutliers() && ($max - $min) > 2 * 60 * 1000) {
+            $setLimits = true;
+            $autoscale = false;
+            $num = count($this->Data);
+            $sorted = $this->Data;
+            sort($sorted);
+            $min = 10 * 1000 * floor($sorted[round((self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num)] / 10 / 1000);
+            $max = 10 * 1000 * ceil($sorted[round((1 - self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num) - 1] / 10 / 1000);
+        }
 
-		if ($max > 50 * 60 * 1000) {
-			$setLimits = true;
-			$max = 50 * 60 * 1000;
-		}
+        if ($max > 50 * 60 * 1000) {
+            $setLimits = true;
+            $max = 50 * 60 * 1000;
+        }
 
-		$LimitMin = Configuration::ActivityView()->paceYaxisMinimum();
-		$LimitMax = Configuration::ActivityView()->paceYaxisMaximum();
+        $LimitMin = Configuration::ActivityView()->paceYaxisMinimum();
+        $LimitMax = Configuration::ActivityView()->paceYaxisMaximum();
 
-		if (Configuration::ActivityView()->paceAxisType()->valueAsString() == PaceAxisType::AS_SPEED) {
-			$min = $LimitMin->automatic() ? $min : $LimitMin->value() * 1000;
-			$max = $LimitMax->automatic() ? $max : $LimitMax->value() * 1000;
+        if (Configuration::ActivityView()->paceAxisType()->valueAsString() == PaceAxisType::AS_SPEED) {
+            $min = $LimitMin->automatic() ? $min : $LimitMin->value() * 1000;
+            $max = $LimitMax->automatic() ? $max : $LimitMax->value() * 1000;
 
-			$this->setYAxisForReversePace($Plot, $yAxis, $min, $max, ! $LimitMin->automatic(), ! $LimitMax->automatic());
-		} else {
-			if (! $LimitMin->automatic() || ! $LimitMax->automatic()) {
-				$setLimits = true;
-				$autoscale = false;
+            $this->setYAxisForReversePace($Plot, $yAxis, $min, $max, ! $LimitMin->automatic(), ! $LimitMax->automatic());
+        } else {
+            if (! $LimitMin->automatic() || ! $LimitMax->automatic()) {
+                $setLimits = true;
+                $autoscale = false;
 
-				if (! $LimitMin->automatic() && $min < 1000 * $LimitMin->value()) {
-					$min = 1000 * $LimitMin->value();
-				} else {
-					$min = 60 * 1000 * floor($min / 60 / 1000);
-				}
+                if (! $LimitMin->automatic() && $min < 1000 * $LimitMin->value()) {
+                    $min = 1000 * $LimitMin->value();
+                } else {
+                    $min = 60 * 1000 * floor($min / 60 / 1000);
+                }
 
-				if (! $LimitMax->automatic() && $max > 1000 * $LimitMax->value()) {
-					$max = 1000 * $LimitMax->value();
-				} else {
-					$max = 60 * 1000 * floor($max / 60 / 1000);
-				}
-			}
+                if (! $LimitMax->automatic() && $max > 1000 * $LimitMax->value()) {
+                    $max = 1000 * $LimitMax->value();
+                } else {
+                    $max = 60 * 1000 * floor($max / 60 / 1000);
+                }
+            }
 
-			if ($setLimits) {
-				$Plot->setYLimits($yAxis, $min, $max, $autoscale);
-			}
-		}
+            if ($setLimits) {
+                $Plot->setYLimits($yAxis, $min, $max, $autoscale);
+            }
+        }
 
-		switch (Configuration::ActivityView()->paceAxisType()->valueAsString()) {
-			case PaceAxisType::AS_SPEED:
-				$Plot->setYAxisPaceReverse($yAxis);
-				break;
-			case PaceAxisType::REVERSE:
-				$Plot->setYAxisReverse($yAxis);
-				break;
-		}
-	}
+        switch (Configuration::ActivityView()->paceAxisType()->valueAsString()) {
+            case PaceAxisType::AS_SPEED:
+                $Plot->setYAxisPaceReverse($yAxis);
+                break;
+            case PaceAxisType::REVERSE:
+                $Plot->setYAxisReverse($yAxis);
+                break;
+        }
+    }
 
     /**
      * @param int $yAxis
@@ -197,40 +200,40 @@ class Pace extends ActivitySeries
      * @param int $dataMax
      */
     private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax)
-	{
-		if ($this->paceUnitEnum == PaceUnit::MIN_PER_MILE) {
-			$ticks = [240, 300, 360, 450, 600, 900, 3600];
-		} else if ($this->paceUnitEnum == PaceUnit::MIN_PER_100M || $this->paceUnitEnum == PaceUnit::MIN_PER_100Y) {
-			$ticks = [10, 60, 120, 180, 240, 720];
-		} else if ($this->paceUnitEnum == PaceUnit::MIN_PER_500M || $this->paceUnitEnum == PaceUnit::MIN_PER_500Y) {
-			$ticks = [60, 120, 180, 240, 720];
-		} else { // defaults to min/km;
-			$ticks = [120, 180, 240, 300, 360, 480, 600, 3600];
-		}
+    {
+        if ($this->paceUnitEnum == PaceUnit::MIN_PER_MILE) {
+            $ticks = [240, 300, 360, 450, 600, 900, 3600];
+        } elseif ($this->paceUnitEnum == PaceUnit::MIN_PER_100M || $this->paceUnitEnum == PaceUnit::MIN_PER_100Y) {
+            $ticks = [10, 60, 120, 180, 240, 720];
+        } elseif ($this->paceUnitEnum == PaceUnit::MIN_PER_500M || $this->paceUnitEnum == PaceUnit::MIN_PER_500Y) {
+            $ticks = [60, 120, 180, 240, 720];
+        } else { // defaults to min/km;
+            $ticks = [120, 180, 240, 300, 360, 480, 600, 3600];
+        }
 
-		$ticks = array_map(function($v): int{
-			return $v * 1000;
-		}, $ticks);
+        $ticks = array_map(function ($v): int {
+            return $v * 1000;
+        }, $ticks);
 
-		$firstIndex = 0;
-		$lastIndex = count($ticks) - 1;
+        $firstIndex = 0;
+        $lastIndex = count($ticks) - 1;
 
-		foreach ($ticks as $i => $tick) {
-			if ($tick <= $dataMin) {
-				$firstIndex = $i;
-			}
+        foreach ($ticks as $i => $tick) {
+            if ($tick <= $dataMin) {
+                $firstIndex = $i;
+            }
 
-			if ($tick < $dataMax) {
-				$lastIndex = $i + 1;
-			}
-		}
+            if ($tick < $dataMax) {
+                $lastIndex = $i + 1;
+            }
+        }
 
-		$lastIndex = min($lastIndex, count($ticks) - 1);
-		$min = $forceMin ? $dataMin : $ticks[$firstIndex];
-		$max = $forceMax ? $dataMax : $ticks[$lastIndex];
-		$ticks = array_slice($ticks, max(0, $firstIndex - 1), max(1, $lastIndex - $firstIndex + 1));
+        $lastIndex = min($lastIndex, count($ticks) - 1);
+        $min = $forceMin ? $dataMin : $ticks[$firstIndex];
+        $max = $forceMax ? $dataMax : $ticks[$lastIndex];
+        $ticks = array_slice($ticks, max(0, $firstIndex - 1), max(1, $lastIndex - $firstIndex + 1));
 
-		$plot->setYLimits($yAxis, $min, $max, false);
-		$plot->setYAxisLabels($yAxis, $ticks);
-	}
+        $plot->setYLimits($yAxis, $min, $max, false);
+        $plot->setYAxisLabels($yAxis, $ticks);
+    }
 }

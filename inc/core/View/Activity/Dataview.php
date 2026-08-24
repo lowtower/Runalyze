@@ -206,8 +206,9 @@ class Dataview
 
     public function elapsedTime(): string
     {
-        if ($this->Activity->elapsedTime() < $this->Activity->duration())
+        if ($this->Activity->elapsedTime() < $this->Activity->duration()) {
             return '-:--:--';
+        }
 
         return Duration::format($this->Activity->elapsedTime());
     }
@@ -273,7 +274,7 @@ class Dataview
         $GaPaceCalculator = new GradeAdjustedPaceCalculator($context);
         $adjTime = $GaPaceCalculator->getAdjustedTime();
 
-        return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): \Runalyze\Activity\Pace{
+        return $this->object($this->GAPace, function (Activity\Entity $Activity) use (&$adjTime): \Runalyze\Activity\Pace {
             return new Pace($adjTime, $Activity->distance(), SportFactory::getSpeedUnitFor($Activity->sportid()));
         });
     }
@@ -416,8 +417,9 @@ class Dataview
      */
     public function power(): string
     {
-        if ($this->Activity->power() > 0)
+        if ($this->Activity->power() > 0) {
             return round($this->Activity->power()) . '&nbsp;W';
+        }
 
         return '';
     }
@@ -427,8 +429,9 @@ class Dataview
      */
     public function groundcontact(): string
     {
-        if ($this->Activity->groundcontact() > 0)
+        if ($this->Activity->groundcontact() > 0) {
             return round($this->Activity->groundcontact()) . '&nbsp;ms';
+        }
 
         return '';
     }
@@ -450,8 +453,9 @@ class Dataview
      */
     public function verticalOscillation(): string
     {
-        if ($this->Activity->verticalOscillation() > 0)
+        if ($this->Activity->verticalOscillation() > 0) {
             return number_format($this->Activity->verticalOscillation() / 10, 1) . '&nbsp;cm';
+        }
 
         return '';
     }
@@ -575,8 +579,9 @@ class Dataview
      */
     public function gradientInPercent(): string
     {
-        if ($this->Activity->distance() == 0)
+        if ($this->Activity->distance() == 0) {
             return '-';
+        }
 
         return round($this->Activity->elevation() / $this->Activity->distance() / 10, 2) . '&nbsp;&#37;';
     }

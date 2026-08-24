@@ -151,7 +151,7 @@ class SportController extends Controller
             throw $this->createNotFoundException();
         }
 
-        if ($type->getTrainings()->count() == NULL) {
+        if ($type->getTrainings()->count() == null) {
             $em = $this->getDoctrine()
                 ->getManager();
             $em->remove($type);

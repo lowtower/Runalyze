@@ -16,10 +16,11 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Fair extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setLayerClass('weather-cloudy weather-sunny');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setLayerClass('weather-cloudy weather-sunny');
+    }
 }

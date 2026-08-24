@@ -26,8 +26,9 @@ $Query = '
 
 $Data = DB::getInstance()->query($Query)->fetchAll();
 
-foreach ($Data as $dat)
-	$Temperatures[$dat['time']] = $Temperature->format((int) $dat['temp'], false);
+foreach ($Data as $dat) {
+    $Temperatures[$dat['time']] = $Temperature->format((int) $dat['temp'], false);
+}
 
 $Plot = new Plot('year' . $Year, 780, 240);
 $Plot->Data[] = [
@@ -47,7 +48,8 @@ $Plot->addMarkingArea('y', -99, 0);
 $Plot->showPoints(2);
 $Plot->smoothing(false);
 
-if(empty($Data))
-	$Plot->raiseError( __('No data available.') );
+if (empty($Data)) {
+    $Plot->raiseError(__('No data available.'));
+}
 
 $Plot->outputJavaScript();

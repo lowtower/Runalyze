@@ -49,20 +49,20 @@ abstract class AbstractPluginsAwareController extends Controller
         $content = '';
 
         try {
-        	$plugin = $factory->newInstanceFor($pluginId);
+            $plugin = $factory->newInstanceFor($pluginId);
         } catch (\Exception $exception) {
             $plugin = null;
 
-        	echo \HTML::error(__('The plugin could not be found.'));
+            echo \HTML::error(__('The plugin could not be found.'));
         }
 
         if ($plugin !== null) {
-        	if ($plugin instanceof \RunalyzePluginPanel_Sports) {
-        	    return $this->getResponseForSportsPanel($account, $plugin);
-        	}
+            if ($plugin instanceof \RunalyzePluginPanel_Sports) {
+                return $this->getResponseForSportsPanel($account, $plugin);
+            }
 
-        	if ($plugin instanceof \RunalyzePluginStat_MonthlyStats) {
-        	    return $this->getResponseForMonthlyStats($request, $account, $pluginId);
+            if ($plugin instanceof \RunalyzePluginStat_MonthlyStats) {
+                return $this->getResponseForMonthlyStats($request, $account, $pluginId);
             }
 
             if ($plugin instanceof \PluginPanel) {
@@ -71,7 +71,7 @@ abstract class AbstractPluginsAwareController extends Controller
 
             ob_start();
             $plugin->display();
-        	$content = ob_get_clean();
+            $content = ob_get_clean();
         }
 
         return (new Response())->setContent($content);

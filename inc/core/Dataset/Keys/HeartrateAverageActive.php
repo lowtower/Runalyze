@@ -22,63 +22,63 @@ class HeartrateAverageActive extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::HEARTRATE_AVG_ACTIVE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::HEARTRATE_AVG_ACTIVE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'pulse_avg_active';
-	}
+    {
+        return 'pulse_avg_active';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return '&#216; ' . __('Heart rate') . ' active rounds';
-	}
+    {
+        return '&#216; ' . __('Heart rate') . ' active rounds';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return '&#216;  ' . __('HR') . ' act';
-	}
+    {
+        return '&#216;  ' . __('HR') . ' act';
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->activity()->hrAvgActive() > 0) {
-			return $context->dataview()
-			    ->hrAvgActive()
-			    ->string();
-		}
+    {
+        if ($context->activity()->hrAvgActive() > 0) {
+            return $context->dataview()
+                ->hrAvgActive()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 
     /**
      * returns a value dependend CSS class and style.
@@ -86,7 +86,7 @@ class HeartrateAverageActive extends AbstractKey
      * @return array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
-	{
-		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrAvgActive());
-	}
+    {
+        return HeartrateAverage::hrBarCssStyle($context->dataview()->hrAvgActive());
+    }
 }

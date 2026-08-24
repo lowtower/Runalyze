@@ -12,22 +12,22 @@ class JobLoop extends Job
     /**
      * @var string
      */
-    const ELEVATION = 'activityElevation';
+    public const ELEVATION = 'activityElevation';
 
     /**
      * @var string
      */
-    const ELEVATION_OVERWRITE = 'activityElevationOverwrite';
+    public const ELEVATION_OVERWRITE = 'activityElevationOverwrite';
 
     /**
      * @var string
      */
-    const VO2MAX = 'activityVO2max';
+    public const VO2MAX = 'activityVO2max';
 
     /**
      * @var string
      */
-    const TRIMP = 'activityTrimp';
+    public const TRIMP = 'activityTrimp';
 
     /**
      * @var array

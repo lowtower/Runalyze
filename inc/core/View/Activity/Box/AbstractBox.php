@@ -17,5 +17,5 @@ namespace Runalyze\View\Activity\Box;
  */
 abstract class AbstractBox extends \BoxedValue
 {
-	// So far, there's nothing in here.
+    // So far, there's nothing in here.
 }

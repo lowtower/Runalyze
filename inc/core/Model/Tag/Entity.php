@@ -20,33 +20,36 @@ use Runalyze\Model;
  */
 class Entity extends Model\EntityWithID
 {
-	/**
-	 * Key: tag
-	 * @var string
-	 */
-	const TAG = 'tag';
+    /**
+     * Key: tag
+     * @var string
+     */
+    public const TAG = 'tag';
 
     /**
      * All properties
      * @return array<int, string>
      */
-    static public function allDatabaseProperties(): array {
-		return [
-		    self::TAG,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::TAG,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
-	/**
-	 * @return string
-	 */
-	public function tag() {
-		return $this->Data[self::TAG];
-	}
+    /**
+     * @return string
+     */
+    public function tag()
+    {
+        return $this->Data[self::TAG];
+    }
 }

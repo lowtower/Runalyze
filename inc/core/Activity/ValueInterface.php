@@ -17,34 +17,34 @@ namespace Runalyze\Activity;
  */
 interface ValueInterface
 {
-	/**
-	 * Label for value
-	 * @return string
-	 */
-	public function label();
+    /**
+     * Label for value
+     * @return string
+     */
+    public function label();
 
-	/**
-	 * @return string
-	 */
-	public function unit();
+    /**
+     * @return string
+     */
+    public function unit();
 
-	/**
-	 * Set value
-	 * @param mixed $value
-	 * @return \Runalyze\Activity\ValueInterface $this-reference
-	 */
-	public function set($value);
+    /**
+     * Set value
+     * @param mixed $value
+     * @return \Runalyze\Activity\ValueInterface $this-reference
+     */
+    public function set($value);
 
-	/**
-	 * Get value
-	 * @return mixed
-	 */
-	public function value();
+    /**
+     * Get value
+     * @return mixed
+     */
+    public function value();
 
-	/**
-	 * Format value as string
-	 * @param bool $withUnit
-	 * @return string
-	 */
-	public function string($withUnit = true);
+    /**
+     * Format value as string
+     * @param bool $withUnit
+     * @return string
+     */
+    public function string($withUnit = true);
 }

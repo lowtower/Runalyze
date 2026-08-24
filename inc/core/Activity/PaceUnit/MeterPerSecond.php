@@ -20,17 +20,17 @@ class MeterPerSecond extends AbstractDecimalUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::M_PER_S;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::M_PER_S;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '&nbsp;m/s';
-	}
+    {
+        return '&nbsp;m/s';
+    }
 
     /**
      * Dividend to transform 's/km' to current unit
@@ -41,7 +41,7 @@ class MeterPerSecond extends AbstractDecimalUnit
      * @throws \RuntimeException
      */
     public function dividendForUnit(): int
-	{
-		return 1000;
-	}
+    {
+        return 1000;
+    }
 }

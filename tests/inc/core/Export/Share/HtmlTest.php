@@ -11,30 +11,30 @@ use Runalyze\View\Activity\FakeContext;
  */
 class HtmlTest extends \PHPUnit\Framework\TestCase
 {
-	public function checkThatItsAlwaysPossible()
-	{
-		$this->assertTrue((new Html(FakeContext::onlyWithActivity(
-		    new Activity\Entity([
-		        Activity\Entity::IS_PUBLIC => false,
-		    ])
-		)))->isPossible());
+    public function checkThatItsAlwaysPossible()
+    {
+        $this->assertTrue((new Html(FakeContext::onlyWithActivity(
+            new Activity\Entity([
+                Activity\Entity::IS_PUBLIC => false,
+            ])
+        )))->isPossible());
 
-		$this->assertTrue((new Html(FakeContext::onlyWithActivity(
-		    new Activity\Entity([
-		        Activity\Entity::IS_PUBLIC => true,
-		    ])
-		)))->isPossible());
-	}
+        $this->assertTrue((new Html(FakeContext::onlyWithActivity(
+            new Activity\Entity([
+                Activity\Entity::IS_PUBLIC => true,
+            ])
+        )))->isPossible());
+    }
 
     public function testThatCodeCanBeCreated()
     {
         ob_start();
 
-		foreach (FakeContext::examplaryContexts() as $context) {
-			$Sharer = new Html($context);
-			$Sharer->display();
-		}
+        foreach (FakeContext::examplaryContexts() as $context) {
+            $Sharer = new Html($context);
+            $Sharer->display();
+        }
 
-		ob_end_clean();
+        ob_end_clean();
     }
 }

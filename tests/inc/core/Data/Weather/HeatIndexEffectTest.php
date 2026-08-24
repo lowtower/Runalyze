@@ -4,33 +4,33 @@ use Runalyze\Data\Weather\HeatIndexEffect;
 
 class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
 {
-	public function testThatDescriptionCanBeCalledForAllLevels()
-	{
-		foreach (HeatIndexEffect::getEnum() as $level) {
-			HeatIndexEffect::description($level);
-		}
-	}
+    public function testThatDescriptionCanBeCalledForAllLevels()
+    {
+        foreach (HeatIndexEffect::getEnum() as $level) {
+            HeatIndexEffect::description($level);
+        }
+    }
 
-	public function testThatLabelCanBeCalledForAllLevels()
-	{
-		foreach (HeatIndexEffect::getEnum() as $level) {
-			HeatIndexEffect::label($level);
-		}
-	}
+    public function testThatLabelCanBeCalledForAllLevels()
+    {
+        foreach (HeatIndexEffect::getEnum() as $level) {
+            HeatIndexEffect::label($level);
+        }
+    }
 
-	public function testThatIconCanBeCalledForAllLevels()
-	{
-		foreach (HeatIndexEffect::getEnum() as $level) {
-			HeatIndexEffect::icon($level);
-		}
-	}
+    public function testThatIconCanBeCalledForAllLevels()
+    {
+        foreach (HeatIndexEffect::getEnum() as $level) {
+            HeatIndexEffect::icon($level);
+        }
+    }
 
-	public function testSomeLevels()
-	{
-		$this->assertEquals(HeatIndexEffect::NO_EFFECT, HeatIndexEffect::levelFor(79));
-		$this->assertEquals(HeatIndexEffect::CAUTION, HeatIndexEffect::levelFor(90));
-		$this->assertEquals(HeatIndexEffect::EXTREME_CAUTION, HeatIndexEffect::levelFor(91));
-		$this->assertEquals(HeatIndexEffect::DANGER, HeatIndexEffect::levelFor(105));
-		$this->assertEquals(HeatIndexEffect::EXTREME_DANGER, HeatIndexEffect::levelFor(140));
-	}
+    public function testSomeLevels()
+    {
+        $this->assertEquals(HeatIndexEffect::NO_EFFECT, HeatIndexEffect::levelFor(79));
+        $this->assertEquals(HeatIndexEffect::CAUTION, HeatIndexEffect::levelFor(90));
+        $this->assertEquals(HeatIndexEffect::EXTREME_CAUTION, HeatIndexEffect::levelFor(91));
+        $this->assertEquals(HeatIndexEffect::DANGER, HeatIndexEffect::levelFor(105));
+        $this->assertEquals(HeatIndexEffect::EXTREME_DANGER, HeatIndexEffect::levelFor(140));
+    }
 }

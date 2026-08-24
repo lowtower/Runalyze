@@ -9,32 +9,34 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityRoutePrivacyTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\ActivityRoutePrivacy
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\ActivityRoutePrivacy
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new ActivityRoutePrivacy();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new ActivityRoutePrivacy();
+    }
 
-	public function testValues() {
-		$this->assertEquals( true, $this->object->showAlways() );
-		$this->assertEquals( false, $this->object->showNever() );
-		$this->assertEquals( false, $this->object->showRace() );
+    public function testValues()
+    {
+        $this->assertEquals(true, $this->object->showAlways());
+        $this->assertEquals(false, $this->object->showNever());
+        $this->assertEquals(false, $this->object->showRace());
 
-		$this->object->set( ActivityRoutePrivacy::NEVER );
-		$this->assertEquals( false, $this->object->showAlways() );
-		$this->assertEquals( true, $this->object->showNever() );
-		$this->assertEquals( false, $this->object->showRace() );
+        $this->object->set(ActivityRoutePrivacy::NEVER);
+        $this->assertEquals(false, $this->object->showAlways());
+        $this->assertEquals(true, $this->object->showNever());
+        $this->assertEquals(false, $this->object->showRace());
 
-		$this->object->set( ActivityRoutePrivacy::RACE );
-		$this->assertEquals( false, $this->object->showAlways() );
-		$this->assertEquals( false, $this->object->showNever() );
-		$this->assertEquals( true, $this->object->showRace() );
-	}
+        $this->object->set(ActivityRoutePrivacy::RACE);
+        $this->assertEquals(false, $this->object->showAlways());
+        $this->assertEquals(false, $this->object->showNever());
+        $this->assertEquals(true, $this->object->showRace());
+    }
 }

@@ -18,50 +18,53 @@ use Runalyze\View\Activity;
  */
 class PerformanceCondition extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(100,0,200)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(100,0,200)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::PERFORMANCE_CONDITION);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::PERFORMANCE_CONDITION);
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Leistungszustand');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Leistungszustand');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = '';
-		$this->UnitDecimals = 1;
+        $this->UnitString = '';
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = 5; // default bounds
-		$this->TickDecimals = 0; // count fractional digits
+        $this->TickSize = 5; // default bounds
+        $this->TickDecimals = 0; // count fractional digits
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 
     /**
      * Add to plot
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
-		if (! empty($this->Data)) {
+        if (! empty($this->Data)) {
             // #TSC different colored areas based on the garmin-connect documentation help
-			$Plot->addMarkingArea('y' . $yAxis, 10.5, 20.5, 'rgba( 50, 255, 50, 0.30)'); // excellent
-			$Plot->addMarkingArea('y' . $yAxis, 1.5, 10.5, 'rgba( 50, 255, 50, 0.15)'); // good
-			$Plot->addMarkingArea('y' . $yAxis, 1.5, -1.5, 'rgba(255, 255, 50, 0.10)'); // normal / initial state
-			$Plot->addMarkingArea('y' . $yAxis, -1.5, -10.5, 'rgba(255,  50, 50, 0.15)'); // sufficient
-			$Plot->addMarkingArea('y' . $yAxis, -10.5, -20.5, 'rgba(255,  50, 50, 0.30)'); // bad
-		}
-	}
+            $Plot->addMarkingArea('y' . $yAxis, 10.5, 20.5, 'rgba( 50, 255, 50, 0.30)'); // excellent
+            $Plot->addMarkingArea('y' . $yAxis, 1.5, 10.5, 'rgba( 50, 255, 50, 0.15)'); // good
+            $Plot->addMarkingArea('y' . $yAxis, 1.5, -1.5, 'rgba(255, 255, 50, 0.10)'); // normal / initial state
+            $Plot->addMarkingArea('y' . $yAxis, -1.5, -10.5, 'rgba(255,  50, 50, 0.15)'); // sufficient
+            $Plot->addMarkingArea('y' . $yAxis, -10.5, -20.5, 'rgba(255,  50, 50, 0.30)'); // bad
+        }
+    }
 }

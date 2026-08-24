@@ -9,7 +9,7 @@ abstract class AbstractEnergyCostAlgorithm implements AlgorithmInterface
     /**
      * @var float
      */
-    const TIME_ADJUSTMENT_EXPONENT = 0.83;
+    public const TIME_ADJUSTMENT_EXPONENT = 0.83;
 
     abstract public function getEnergyCost($gradientInPercent);
 

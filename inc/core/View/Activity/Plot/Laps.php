@@ -20,102 +20,104 @@ use Runalyze\View\Activity;
  */
 abstract class Laps extends ActivityPlot
 {
-	/**
-	 * Demanded pace in s/km
-	 * @var int
-	 */
-	protected $demandedPace = 0;
+    /**
+     * Demanded pace in s/km
+     * @var int
+     */
+    protected $demandedPace = 0;
 
-	/**
-	 * Achieved pace in s/km
-	 * @var int
-	 */
-	protected $achievedPace = 0;
+    /**
+     * Achieved pace in s/km
+     * @var int
+     */
+    protected $achievedPace = 0;
 
-	/**
-	 * @var array
-	 */
-	protected $Labels = [];
+    /**
+     * @var array
+     */
+    protected $Labels = [];
 
-	/**
-	 * @var bool
-	 */
-	protected $SplitsAreNotComplete;
+    /**
+     * @var bool
+     */
+    protected $SplitsAreNotComplete;
 
-	/**
-	 * @var string
-	 */
-	protected $title;
+    /**
+     * @var string
+     */
+    protected $title;
 
-	/**
-	 * Unit
-	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected $PaceUnit;
+    /**
+     * Unit
+     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected $PaceUnit;
 
     abstract protected function loadData(Activity\Context $context);
 
-    protected function initData(Activity\Context $context) {
-		$this->PaceUnit = $context->sport()
-		    ->legacyPaceUnit();
+    protected function initData(Activity\Context $context)
+    {
+        $this->PaceUnit = $context->sport()
+            ->legacyPaceUnit();
 
-		$this->SplitsAreNotComplete = $this->splitsAreNotComplete($context);
-		$this->loadData($context);
+        $this->SplitsAreNotComplete = $this->splitsAreNotComplete($context);
+        $this->loadData($context);
 
-		if ($this->Data !== [] && $this->PaceUnit->isTimeFormat()) {
-			$min = Helper::floorFor(min($this->Data), 30000);
-			$max = Helper::ceilFor(max($this->Data), 30000);
+        if ($this->Data !== [] && $this->PaceUnit->isTimeFormat()) {
+            $min = Helper::floorFor(min($this->Data), 30000);
+            $max = Helper::ceilFor(max($this->Data), 30000);
 
-			$this->Plot->setYAxisTimeFormat('%M:%S');
-		} else if($this->Data !== []) {
-			$min = floor(min($this->Data));
-			$max = ceil(max($this->Data));
+            $this->Plot->setYAxisTimeFormat('%M:%S');
+        } elseif ($this->Data !== []) {
+            $min = floor(min($this->Data));
+            $max = ceil(max($this->Data));
 
-			$Pace = new PaceObject(0, 1);
-			$Pace->setUnit($this->PaceUnit);
-			$this->Plot->addYUnit(1, str_replace('&nbsp;', '', $Pace->appendix()), 1);
-		} else {
-			// #TSC if we have no distance data set nothing => will result in "no data" notice
-			return;
-		}
+            $Pace = new PaceObject(0, 1);
+            $Pace->setUnit($this->PaceUnit);
+            $this->Plot->addYUnit(1, str_replace('&nbsp;', '', $Pace->appendix()), 1);
+        } else {
+            // #TSC if we have no distance data set nothing => will result in "no data" notice
+            return;
+        }
 
-		if (Configuration::ActivityView()->startSplitsAtZero()) {
-			$min = 0;
-		}
+        if (Configuration::ActivityView()->startSplitsAtZero()) {
+            $min = 0;
+        }
 
-		$this->Plot->setYLimits(1, $min, $max, false);
-		$this->Plot->setXLabels($this->Labels);
-		$this->Plot->showBars(true);
+        $this->Plot->setYLimits(1, $min, $max, false);
+        $this->Plot->setXLabels($this->Labels);
+        $this->Plot->showBars(true);
 
-		$this->Plot->setYTicks(1, null);
-		$this->Plot->Options['xaxis']['show'] = true; // force to show xaxis-labels, even if no time or distance array is given
+        $this->Plot->setYTicks(1, null);
+        $this->Plot->Options['xaxis']['show'] = true; // force to show xaxis-labels, even if no time or distance array is given
 
-		$this->addAnnotations();
-	}
+        $this->addAnnotations();
+    }
 
-	protected function addAnnotations() {
-		if ($this->demandedPace > 0) {
-			$demandedPace = $this->PaceUnit->rawValue($this->demandedPace);
+    protected function addAnnotations()
+    {
+        if ($this->demandedPace > 0) {
+            $demandedPace = $this->PaceUnit->rawValue($this->demandedPace);
 
-			if ($this->PaceUnit->isTimeFormat()) {
-				$demandedPace *= 1000;
-			}
+            if ($this->PaceUnit->isTimeFormat()) {
+                $demandedPace *= 1000;
+            }
 
-			$this->Plot->addThreshold('y', round($demandedPace), 'rgb(180,0,0)');
-			// $this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
-		}
+            $this->Plot->addThreshold('y', round($demandedPace), 'rgb(180,0,0)');
+            // $this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
+        }
 
-		if ($this->achievedPace > 0) {
-			$achievedPace = $this->PaceUnit->rawValue($this->achievedPace);
+        if ($this->achievedPace > 0) {
+            $achievedPace = $this->PaceUnit->rawValue($this->achievedPace);
 
-			if ($this->PaceUnit->isTimeFormat()) {
-				$achievedPace *= 1000;
-			}
+            if ($this->PaceUnit->isTimeFormat()) {
+                $achievedPace *= 1000;
+            }
 
-			$this->Plot->addThreshold('y', round($achievedPace), 'rgb(0,180,0)');
-			$this->Plot->addAnnotation(0, round($achievedPace), __('avg:') . ' ' . $this->PaceUnit->format($this->achievedPace), -40, -7);
-		}
-	}
+            $this->Plot->addThreshold('y', round($achievedPace), 'rgb(0,180,0)');
+            $this->Plot->addAnnotation(0, round($achievedPace), __('avg:') . ' ' . $this->PaceUnit->format($this->achievedPace), -40, -7);
+        }
+    }
 
     /**
      * Splits are not complete
@@ -123,16 +125,17 @@ abstract class Laps extends ActivityPlot
      *
      * @return bool
      */
-    protected function splitsAreNotComplete(Activity\Context $context) {
-		if ($context->activity()->splits()->isEmpty() || $context->activity()->splits()->totalDistance() <= 0) {
-			return false;
-		}
+    protected function splitsAreNotComplete(Activity\Context $context)
+    {
+        if ($context->activity()->splits()->isEmpty() || $context->activity()->splits()->totalDistance() <= 0) {
+            return false;
+        }
 
-		if ($context->activity()->splits()->hasActiveAndInactiveLaps()) {
-			return true;
-		}
+        if ($context->activity()->splits()->hasActiveAndInactiveLaps()) {
+            return true;
+        }
 
         return abs($context->activity()->splits()->totalDistance() - $context->activity()->distance()) > 0.02 * $context->activity()
             ->distance();
-	}
+    }
 }

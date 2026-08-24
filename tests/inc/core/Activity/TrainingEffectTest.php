@@ -18,11 +18,11 @@ class TrainingEffectTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(5.0, $effect->value());
     }
 
-	public function testInvalidValueTooSmall()
-	{
+    public function testInvalidValueTooSmall()
+    {
         $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(-0.1);
-	}
+    }
 
     public function testInvalidValueTooBig()
     {

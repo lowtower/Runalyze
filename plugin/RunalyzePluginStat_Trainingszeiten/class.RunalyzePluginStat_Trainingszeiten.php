@@ -18,68 +18,79 @@ use Runalyze\View\Activity\Linker;
  */
 class RunalyzePluginStat_Trainingszeiten extends PluginStat
 {
-	protected $dataIsMissing = false;
+    protected $dataIsMissing = false;
 
-    final public function name(): string {
-		return __('Training times');
-	}
+    final public function name(): string
+    {
+        return __('Training times');
+    }
 
-    final public function description(): string {
-		return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
-	}
+    final public function description(): string
+    {
+        return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
+    }
 
-	protected function initConfiguration() {
-		$Configuration = new PluginConfiguration($this->id());
-		$Configuration->addValue( new PluginConfigurationValueBool('show_extreme_times', __('Show nightly activities'), '', true) );
+    protected function initConfiguration()
+    {
+        $Configuration = new PluginConfiguration($this->id());
+        $Configuration->addValue(new PluginConfigurationValueBool('show_extreme_times', __('Show nightly activities'), '', true));
 
-		$this->setConfiguration($Configuration);
-	}
+        $this->setConfiguration($Configuration);
+    }
 
-	/**
-	 * Prepare
-	 */
-	protected function prepareForDisplay() {
-		$this->setYearsNavigation(true, true, true);
-		$this->setSportsNavigation(true, true);
+    /**
+     * Prepare
+     */
+    protected function prepareForDisplay()
+    {
+        $this->setYearsNavigation(true, true, true);
+        $this->setSportsNavigation(true, true);
 
-		$this->setHeaderWithSportAndYear();
-	}
+        $this->setHeaderWithSportAndYear();
+    }
 
-    protected function defaultSport(): int {
-		return -1;
-	}
+    protected function defaultSport(): int
+    {
+        return -1;
+    }
 
-    protected function titleForAllYears(): string {
-		return __('Total');
-	}
+    protected function titleForAllYears(): string
+    {
+        return __('Total');
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		if (! $this->dataIsMissing)
-			$this->displayImages();
-		else
-			echo HTML::em( __('No data available.') );
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        if (! $this->dataIsMissing) {
+            $this->displayImages();
+        } else {
+            echo HTML::em(__('No data available.'));
+        }
 
-		if ($this->Configuration()->value('show_extreme_times'))
-			$this->displayTable();
-	}
+        if ($this->Configuration()->value('show_extreme_times')) {
+            $this->displayTable();
+        }
+    }
 
-	/**
-	 * Display the images
-	 */
-	private function displayTable() {
-		if ($this->sportid > 0) {
-			$sports_not_short = $this->sportid . ',';
-		} else {
-			$sports_not_short = '';
-			$sports = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'sport` WHERE `accountid`=' . SessionAccountHandler::getId() . ' AND `short`=0')->fetchAll();
-			foreach ($sports as $sport)
-				$sports_not_short .= $sport['id'] . ',';
-		}
+    /**
+     * Display the images
+     */
+    private function displayTable()
+    {
+        if ($this->sportid > 0) {
+            $sports_not_short = $this->sportid . ',';
+        } else {
+            $sports_not_short = '';
+            $sports = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'sport` WHERE `accountid`=' . SessionAccountHandler::getId() . ' AND `short`=0')->fetchAll();
+            foreach ($sports as $sport) {
+                $sports_not_short .= $sport['id'] . ',';
+            }
+        }
 
-		$nights = DB::getInstance()->query('SELECT * FROM (
+        $nights = DB::getInstance()->query('SELECT * FROM (
 			SELECT
 				id,
 				time,
@@ -103,53 +114,56 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
 			(`H`+12)%24 ASC,
 			`MIN` ASC')->fetchAll();
 
-		if (empty($nights)) {
-			$this->dataIsMissing = true;
-			return;
-		}
+        if (empty($nights)) {
+            $this->dataIsMissing = true;
+            return;
+        }
 
-		echo '<table class="fullwidth zebra-style">';
-		echo '<thead><tr class="b c"><th colspan="8">' . __('Nightly activities') . '</th></tr></thead>';
-		echo '<tbody>';
+        echo '<table class="fullwidth zebra-style">';
+        echo '<thead><tr class="b c"><th colspan="8">' . __('Nightly activities') . '</th></tr></thead>';
+        echo '<tbody>';
 
-		foreach ($nights as $i => $data) {
-			$Activity = new Activity\Entity($data);
-			$Linker = new Linker($Activity);
-			$View = new Dataview($Activity);
+        foreach ($nights as $i => $data) {
+            $Activity = new Activity\Entity($data);
+            $Linker = new Linker($Activity);
+            $View = new Dataview($Activity);
 
-			if ($i % 2 === 0)
-				echo '<tr">';
+            if ($i % 2 === 0) {
+                echo '<tr">';
+            }
 
-			echo '<td class="b">' . $View->daytime() . '</td>
+            echo '<td class="b">' . $View->daytime() . '</td>
 				<td>' . $Linker->linkWithSportIcon() . '</td>
 				<td>' . $View->distanceOrDuration() . ' ' . SportFactory::name($Activity->sportid()) . '</td>
 				<td>' . $Linker->weekLink() . '</td>';
 
-			if ($i % 2 === 1)
-				echo '</tr>';
-		}
+            if ($i % 2 === 1) {
+                echo '</tr>';
+            }
+        }
 
-		echo '</tbody></table>';
+        echo '</tbody></table>';
 
-		// TODO: Find a better description.
-		echo '<p class="text">';
-		echo __('2 a.m. is considered as <em>most extreme</em> time for a training. ');
-		echo __('The 20 trainings being nearest to that time are listed.');
-		echo '</p>';
-	}
+        // TODO: Find a better description.
+        echo '<p class="text">';
+        echo __('2 a.m. is considered as <em>most extreme</em> time for a training. ');
+        echo __('The 20 trainings being nearest to that time are listed.');
+        echo '</p>';
+    }
 
-	private function displayImages() {
-		echo '<div style="max-width:750px;margin:0 auto;">';
-		echo '<span class="right">';
-		echo Plot::getDivFor('weekday', 350, 190);
-		echo '</span>';
-		echo '<span class="left">';
-		echo Plot::getDivFor('daytime', 350, 190);
-		echo '</span>';
-		echo HTML::clearBreak();
-		echo '</div>';
+    private function displayImages()
+    {
+        echo '<div style="max-width:750px;margin:0 auto;">';
+        echo '<span class="right">';
+        echo Plot::getDivFor('weekday', 350, 190);
+        echo '</span>';
+        echo '<span class="left">';
+        echo Plot::getDivFor('daytime', 350, 190);
+        echo '</span>';
+        echo HTML::clearBreak();
+        echo '</div>';
 
-		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Daytime.php';
-		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Weekday.php';
-	}
+        include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Daytime.php';
+        include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Weekday.php';
+    }
 }

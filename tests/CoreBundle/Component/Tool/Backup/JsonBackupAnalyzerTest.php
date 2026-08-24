@@ -9,7 +9,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
     /**
      * @var string
      */
-    const CURRENT_VERSION = '4.3.0';
+    public const CURRENT_VERSION = '4.3.0';
 
     /**
      * @var string

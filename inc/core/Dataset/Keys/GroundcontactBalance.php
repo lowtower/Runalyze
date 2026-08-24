@@ -22,64 +22,64 @@ class GroundcontactBalance extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::GROUNDCONTACT_BALANCE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::GROUNDCONTACT_BALANCE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'groundcontact_balance';
-	}
+    {
+        return 'groundcontact_balance';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Ground contact balance');
-	}
+    {
+        return __('Ground contact balance');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('GCB');
-	}
+    {
+        return __('GCB');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Ground contact time balance measures your running symmetry.');
-	}
+    {
+        return __('Ground contact time balance measures your running symmetry.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->groundcontactBalance();
-	}
+    {
+        return $context->dataview()
+            ->groundcontactBalance();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

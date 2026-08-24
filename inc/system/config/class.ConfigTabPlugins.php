@@ -10,55 +10,59 @@
  */
 class ConfigTabPlugins extends ConfigTab
 {
-	/**
-	 * Set key and title for form
-	 */
-	protected function setKeyAndTitle() {
-		$this->key = 'config_tab_plugins';
-		$this->title = __('Plugins');
-	}
+    /**
+     * Set key and title for form
+     */
+    protected function setKeyAndTitle()
+    {
+        $this->key = 'config_tab_plugins';
+        $this->title = __('Plugins');
+    }
 
     /**
      * Get URL
      */
-    public static function getExternalUrl(): string {
-		return ConfigTabs::$CONFIG_URL . '?key=config_tab_plugins&external=true';
-	}
+    public static function getExternalUrl(): string
+    {
+        return ConfigTabs::$CONFIG_URL . '?key=config_tab_plugins&external=true';
+    }
 
-	/**
-	 * Set all fieldsets and fields
-	 */
-	public function setFieldsetsAndFields() {
-		$Panels = new FormularFieldset( __('Panels') );
-		$Panels->addInfo( __('Panels are small statistics always shown on the right side.') );
-		$Panels->setHtmlCode($this->getCodeFor( PluginType::PANEL ));
-		$Panels->setCollapsed();
+    /**
+     * Set all fieldsets and fields
+     */
+    public function setFieldsetsAndFields()
+    {
+        $Panels = new FormularFieldset(__('Panels'));
+        $Panels->addInfo(__('Panels are small statistics always shown on the right side.'));
+        $Panels->setHtmlCode($this->getCodeFor(PluginType::PANEL));
+        $Panels->setCollapsed();
 
-		$Stats = new FormularFieldset( __('Statistics') );
-		$Stats->addInfo( __('Normal statistics are shown below the activitiy log.') );
-		$Stats->setHtmlCode($this->getCodeFor( PluginType::STAT ));
+        $Stats = new FormularFieldset(__('Statistics'));
+        $Stats->addInfo(__('Normal statistics are shown below the activitiy log.'));
+        $Stats->setHtmlCode($this->getCodeFor(PluginType::STAT));
 
-		$Install = new FormularFieldset( __('Install a new plugin') );
-		$Install->addInfo( __('New plugins can be installed here.') );
-		$Install->setHtmlCode($this->getCodeForInstall());
-		$Install->setCollapsed();
+        $Install = new FormularFieldset(__('Install a new plugin'));
+        $Install->addInfo(__('New plugins can be installed here.'));
+        $Install->setHtmlCode($this->getCodeForInstall());
+        $Install->setCollapsed();
 
-		$this->Formular->addFieldset($Panels);
-		$this->Formular->addFieldset($Stats);
-		$this->Formular->addFieldset($Install);
-		$this->Formular->allowOnlyOneOpenedFieldset();
-	}
+        $this->Formular->addFieldset($Panels);
+        $this->Formular->addFieldset($Stats);
+        $this->Formular->addFieldset($Install);
+        $this->Formular->allowOnlyOneOpenedFieldset();
+    }
 
-    private function getCodeFor(int $PluginType): string {
-		$Factory = new PluginFactory();
-		$Plugins = $Factory->completeData($PluginType);
-		usort($Plugins, $this->pluginOrderFunction());
+    private function getCodeFor(int $PluginType): string
+    {
+        $Factory = new PluginFactory();
+        $Plugins = $Factory->completeData($PluginType);
+        usort($Plugins, $this->pluginOrderFunction());
 
-		if ($Plugins === []) {
-			return HTML::info(__('No plugins available.'));
-		}
+        if ($Plugins === []) {
+            return HTML::info(__('No plugins available.'));
+        }
 
-		$Code = '
+        $Code = '
 			<table class="zebra-style fullwidth more-padding">
 				<thead>
 					<tr class="top b">
@@ -69,17 +73,17 @@ class ConfigTabPlugins extends ConfigTab
 				</thead>
 				<tbody>';
 
-		foreach ($Plugins as $pos => $Data) {
-			$Plugin = $Factory->newInstance($Data['key']);
+        foreach ($Plugins as $pos => $Data) {
+            $Plugin = $Factory->newInstance($Data['key']);
 
-			if ($Plugin === false) {
-				$Code .= '
+            if ($Plugin === false) {
+                $Code .= '
 					<tr class="unimportant">
 						<td class="b">' . $Plugin->key() . '</td>
 						<td colspan="4">' . __('The plugin cannot be found.') . '</td>
 					</tr>';
-			} else {
-				$Code .= '
+            } else {
+                $Code .= '
 					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
 						<td>' . $Plugin->getConfigLink() . '</td>
 						<td class="b">' . $Plugin->name() . '</td>
@@ -95,14 +99,14 @@ class ConfigTabPlugins extends ConfigTab
 							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'down\')">' . Icon::$DOWN . '</span>
 						</td>
 					</tr>';
-			}
-		}
+            }
+        }
 
-		$Code .= '
+        $Code .= '
 				</tbody>
 			</table>';
 
-		$Code .= Ajax::wrapJS('
+        $Code .= Ajax::wrapJS('
 			function pluginMove(id, way) {
 				var pos = parseInt($("input[name=\'plugin_order_"+id+"\']").val()),
 					tr = $("#"+id+"_tr");
@@ -123,54 +127,56 @@ class ConfigTabPlugins extends ConfigTab
 			}
 		');
 
-		switch($PluginType) {
-			case 'panel':
-				$Code .= HTML::info(__('* Hidden plugins only show their headings.'));
-				break;
-			case 'stat':
-				$Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'."));
-				break;
-			default:
-				$Code .= '';
-		}
+        switch ($PluginType) {
+            case 'panel':
+                $Code .= HTML::info(__('* Hidden plugins only show their headings.'));
+                break;
+            case 'stat':
+                $Code .= HTML::info(__("* Hidden plugins are grouped as 'Miscellaneous'."));
+                break;
+            default:
+                $Code .= '';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
-	/**
-	 * @return \Closure
-	 */
-	protected function pluginOrderFunction() {
-		return function(array $a, array $b): int{
-			if ($a['active'] == $b['active']) {
-				if ($a['order'] == $b['order']) {
-					return ($a['id'] > $b['id']) ? 1 : -1;
-				}
+    /**
+     * @return \Closure
+     */
+    protected function pluginOrderFunction()
+    {
+        return function (array $a, array $b): int {
+            if ($a['active'] == $b['active']) {
+                if ($a['order'] == $b['order']) {
+                    return ($a['id'] > $b['id']) ? 1 : -1;
+                }
 
-				return ($a['order'] > $b['order']) ? 1 : -1;
-			}
+                return ($a['order'] > $b['order']) ? 1 : -1;
+            }
 
-			if ($a['active'] == 0) {
-				return 1;
-			}
+            if ($a['active'] == 0) {
+                return 1;
+            }
 
-			if ($b['active'] == 0) {
-				return -1;
-			}
+            if ($b['active'] == 0) {
+                return -1;
+            }
 
-			return ($a['active'] > $b['active']) ? 1 : -1;
-		};
-	}
+            return ($a['active'] > $b['active']) ? 1 : -1;
+        };
+    }
 
-    private function getCodeForInstall(): string {
-		$Factory = new PluginFactory();
-		$Plugins = $Factory->notInstalledPlugins();
+    private function getCodeForInstall(): string
+    {
+        $Factory = new PluginFactory();
+        $Plugins = $Factory->notInstalledPlugins();
 
-		if ($Plugins === []) {
-			return HTML::fileBlock( __('There are no new plugins to install.') );
-		}
+        if ($Plugins === []) {
+            return HTML::fileBlock(__('There are no new plugins to install.'));
+        }
 
-		$Code = '
+        $Code = '
 			<table class="fullwidth zebra-style more-padding">
 				<thead>
 					<tr class="b">
@@ -180,64 +186,67 @@ class ConfigTabPlugins extends ConfigTab
 				</thead>
 				<tbody>';
 
-		foreach ($Plugins as $Data) {
-			$Plugin = $Factory->newInstallerInstance($Data['key']);
+        foreach ($Plugins as $Data) {
+            $Plugin = $Factory->newInstallerInstance($Data['key']);
 
-			$Code .= '
+            $Code .= '
 				<tr>
 					<td>' . Icon::$ADD . '</td>
 					<td class="b">' . PluginInstaller::link($Plugin->key(), $Plugin->name()) . '</td>
 					<td>' . $Plugin->description() . '</td>
 					<td colspan="2">' . PluginType::readableString($Plugin->type()) . '</td>
 				</tr>';
-		}
+        }
 
-		return $Code . '
+        return $Code . '
 				</tbody>
 			</table>';
-	}
+    }
 
-	/**
-	 * Parse all post values
-	 */
-	public function parsePostData() {
-		$PreparedUpdate = $this->prepareUpdateStatement();
-		$Factory = new PluginFactory();
+    /**
+     * Parse all post values
+     */
+    public function parsePostData()
+    {
+        $PreparedUpdate = $this->prepareUpdateStatement();
+        $Factory = new PluginFactory();
 
-		foreach ($Factory->completeData() as $Plugin) {
-			$id = $Plugin['id'];
+        foreach ($Factory->completeData() as $Plugin) {
+            $id = $Plugin['id'];
 
-			if (isset($_POST['plugin_modus_' . $id]) && isset($_POST['plugin_order_' . $id])) {
-				$this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_' . $id], (int) $_POST['plugin_order_' . $id]);
-			}
-		}
+            if (isset($_POST['plugin_modus_' . $id]) && isset($_POST['plugin_order_' . $id])) {
+                $this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_' . $id], (int) $_POST['plugin_order_' . $id]);
+            }
+        }
 
-		$Factory->clearCache();
-	}
+        $Factory->clearCache();
+    }
 
-	/**
-	 * @return \PDOStatement
-	 */
-	protected function prepareUpdateStatement() {
-		return DB::getInstance()->prepare(
-		    'UPDATE `' . PREFIX . 'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
-		);
-	}
+    /**
+     * @return \PDOStatement
+     */
+    protected function prepareUpdateStatement()
+    {
+        return DB::getInstance()->prepare(
+            'UPDATE `' . PREFIX . 'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
+        );
+    }
 
     /**
      * @param array<string, mixed> $Plugin
      * @param int $newModus
      * @param int $newOrder
      */
-    protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder) {
-		if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
-			$update->execute([
-			    ':active' => $newModus,
-			    ':order' => $newOrder,
-			    ':id' => $Plugin['id'],
-			]);
+    protected function updatePlugin(\PDOStatement $update, array $Plugin, $newModus, $newOrder)
+    {
+        if ($Plugin['active'] != $newModus || $Plugin['order'] != $newOrder) {
+            $update->execute([
+                ':active' => $newModus,
+                ':order' => $newOrder,
+                ':id' => $Plugin['id'],
+            ]);
 
-			Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
-		}
-	}
+            Ajax::setReloadFlag(Ajax::$RELOAD_ALL);
+        }
+    }
 }

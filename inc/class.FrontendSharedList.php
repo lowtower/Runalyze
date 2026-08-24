@@ -7,8 +7,8 @@ declare(strict_types=1);
  */
 class FrontendSharedList extends FrontendShared
 {
-	protected function initSessionAccountHandler()
+    protected function initSessionAccountHandler()
     {
-		SessionAccountHandler::setAccountFromRequest();
-	}
+        SessionAccountHandler::setAccountFromRequest();
+    }
 }

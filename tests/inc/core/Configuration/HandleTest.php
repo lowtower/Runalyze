@@ -11,30 +11,34 @@ use Runalyze\Parameter\Integer;
  */
 class ConfigurationHandleTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Configuration\Handle
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Configuration\Handle
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Handle('key', new Integer(42));
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Handle('key', new Integer(42));
+    }
 
-	public function testKey() {
-		$this->assertEquals('key', $this->object->key());
-	}
+    public function testKey()
+    {
+        $this->assertEquals('key', $this->object->key());
+    }
 
-	public function testObject() {
-		$this->object->object()
-		    ->set(1337);
-		$this->assertEquals(1337, $this->object->object()->value());
-	}
+    public function testObject()
+    {
+        $this->object->object()
+            ->set(1337);
+        $this->assertEquals(1337, $this->object->object()->value());
+    }
 
-	public function testValue() {
-		$this->assertEquals(42, $this->object->value());
-	}
+    public function testValue()
+    {
+        $this->assertEquals(42, $this->object->value());
+    }
 }

@@ -92,7 +92,7 @@ class BackupToolController extends Controller
         $finder
             ->files()
             ->in($this->getPathToBackupFiles())
-            ->filter(function(\SplFileInfo $file) use ($fileHandler): bool {
+            ->filter(function (\SplFileInfo $file) use ($fileHandler): bool {
                 return $fileHandler->validateInternalFilename($file->getFilename());
             })
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {

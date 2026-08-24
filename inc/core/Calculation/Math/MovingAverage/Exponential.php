@@ -41,7 +41,7 @@ class Exponential extends AbstractMovingAverage
      */
     public function calculateWithIndexData()
     {
-        $tau = - 1 / log(1 - $this->Alpha);
+        $tau = -1 / log(1 - $this->Alpha);
         $avg = $this->Data[0];
         $this->MovingAverage[] = $avg;
 

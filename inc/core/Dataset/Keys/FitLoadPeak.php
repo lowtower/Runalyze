@@ -23,59 +23,59 @@ class FitLoadPeak extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FIT_LOAD_PEAK;
-	}
+    {
+        return \Runalyze\Dataset\Keys::FIT_LOAD_PEAK;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'fit_load_peak';
-	}
+    {
+        return 'fit_load_peak';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Training load peak');
-	}
+    {
+        return __('Training load peak');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Load');
-	}
+    {
+        return __('Load');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Die Belastung eines Trainings ist ein numerischer Wert, der angibt, inwieweit sich das Training auf den Körper auswirkt.'
-		);
-	}
+    {
+        return __(
+            'Die Belastung eines Trainings ist ein numerischer Wert, der angibt, inwieweit sich das Training auf den Körper auswirkt.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		return $context->activity()
-		    ->fitLoadPeak();
-	}
+    {
+        return $context->activity()
+            ->fitLoadPeak();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

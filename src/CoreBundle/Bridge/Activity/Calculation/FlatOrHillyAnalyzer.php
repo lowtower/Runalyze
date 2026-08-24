@@ -10,7 +10,7 @@ class FlatOrHillyAnalyzer
     /**
      * @var float
      */
-    const DEFAULT_GRADIENT_THRESHOLD = 0.02;
+    public const DEFAULT_GRADIENT_THRESHOLD = 0.02;
 
     /**
      * @param float $threshold

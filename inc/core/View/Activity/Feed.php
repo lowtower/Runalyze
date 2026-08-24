@@ -148,7 +148,7 @@ class Feed
             $content .= '<br><a href="' . $this->UrlGenerator->generate('shared-activity', [
                 'activityHash' => base_convert((int) $activity->getId(), 10, 35),
             ], UrlGeneratorInterface::ABSOLUTE_URL);
-	        $content .= '?utm_medium=feed&utm_campaign=feed">' . $this->Translator->trans('View full activity') . '</a>';
+            $content .= '?utm_medium=feed&utm_campaign=feed">' . $this->Translator->trans('View full activity') . '</a>';
         }
 
         return $content;

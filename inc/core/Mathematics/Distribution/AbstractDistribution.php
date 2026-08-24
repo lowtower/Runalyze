@@ -13,42 +13,42 @@ abstract class AbstractDistribution
     /**
      * @var string
      */
-    const NUM = 'num';
+    public const NUM = 'num';
 
     /**
      * @var string
      */
-    const MIN = 'min';
+    public const MIN = 'min';
 
     /**
      * @var string
      */
-    const MAX = 'max';
+    public const MAX = 'max';
 
     /**
      * @var string
      */
-    const MEAN = 'mean';
+    public const MEAN = 'mean';
 
     /**
      * @var string
      */
-    const MEDIAN = 'median';
+    public const MEDIAN = 'median';
 
     /**
      * @var string
      */
-    const QUANTILES = 'quantiles';
+    public const QUANTILES = 'quantiles';
 
     /**
      * @var string
      */
-    const MODE = 'mode';
+    public const MODE = 'mode';
 
     /**
      * @var string
      */
-    const VARIANCE = 'var';
+    public const VARIANCE = 'var';
 
     /**
      * @var array

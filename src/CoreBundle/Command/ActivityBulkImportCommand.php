@@ -25,13 +25,14 @@ class MaxZoneHR
 {
     private $import;
 
-     // is import allowed by configuration
+    // is import allowed by configuration
     public $MaxHR = 0;
 
-     // max HR of all imported activities
+    // max HR of all imported activities
     public $Time; // timestamp of the first highest HR
 
-    public function __construct($account, $container) {
+    public function __construct($account, $container)
+    {
         // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()
         // so read the conf via repository
         $repository = $container->get('doctrine')
@@ -45,19 +46,21 @@ class MaxZoneHR
         $this->import = $bool->value();
     }
 
-    public function collect($activity, $container) {
+    public function collect($activity, $container)
+    {
         // used this HR if
         // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
         // 2. its the main sport (in normal cases 'running')
         // 3. a MaxZoneHR is in the import/FIT and its the highest of all the imported
-        if($this->import && $activity->getSport()->isMain() &&
+        if ($this->import && $activity->getSport()->isMain() &&
             isset($container->ActivityData->MaxHeartRateUser) && $container->ActivityData->MaxHeartRateUser > $this->MaxHR) {
             $this->MaxHR = $container->ActivityData->MaxHeartRateUser;
             $this->Time = $container->Metadata->getTimestamp();
         }
     }
 
-    public function isCollected(): bool {
+    public function isCollected(): bool
+    {
         return $this->MaxHR > 0;
     }
 }
@@ -132,11 +135,11 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $sport = $input->getOption('sport');
         $this->moveFolder = $input->getOption('move');
 
-        if(! empty($sport)) {
+        if (! empty($sport)) {
             $output->writeln('<info>using sport=' . $sport . '</info>');
         }
 
-        if(! empty($this->moveFolder)) {
+        if (! empty($this->moveFolder)) {
             $output->writeln('<info>move imported files to ' . $this->moveFolder . '</info>');
         }
 
@@ -179,7 +182,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             foreach ($result->getContainer() as $container) {
 
                 // #TSC override the sportname to set the sport profile
-                if(! empty($sport)) {
+                if (! empty($sport)) {
                     $container->Metadata->setSportName($sport);
                 }
 
@@ -211,7 +214,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             }
         }
 
-        if($maxZoneHR->isCollected()) {
+        if ($maxZoneHR->isCollected()) {
             $this->checkStoreMaxZoneHR($user, $output, $maxZoneHR);
         }
 
@@ -231,16 +234,16 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
     /**
      * TSC: move the imported file to a specified folder under path-argument.
-     */ 
+     */
     private function moveFile(string $path, string $importedFilename, OutputInterface $output)
     {
-        if(! empty($this->moveFolder)) {
+        if (! empty($this->moveFolder)) {
             $path_parts = pathinfo($importedFilename);
             $source = $path . '/' . $path_parts['basename'];
             $moveTo = $path . '/' . $this->moveFolder . '/' . $path_parts['basename'];
             echo 'moveTo:' . $moveTo;
 
-            if(! rename($source, $moveTo)) {
+            if (! rename($source, $moveTo)) {
                 $output->writeln('<fg=red>Cant move to ' . $moveTo . '</>');
             }
         }
@@ -262,16 +265,17 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      * this is only build for "single-choice" equipments of the account.
      * if there are more sports assigned, every sport/equipment combination is stored in the array.
      */
-    private function createEquiqmentArray(Account $account, OutputInterface $output) {
+    private function createEquiqmentArray(Account $account, OutputInterface $output)
+    {
         $accountEquipment = $account->getEquipment();
 
         // build a array where first index is the sports-id
         $this->sportEquipment = [];
         $output->writeln('Use account equipments for automatic-equipment-mapping of ' . $account->getUsername() . ':');
         foreach ($accountEquipment as $eqp) {
-            if($eqp->getType()->getInput() == EquipmentType::CHOICE_SINGLE) {
+            if ($eqp->getType()->getInput() == EquipmentType::CHOICE_SINGLE) {
                 // use only the sports from the equipment (for the bulk import)
-                foreach($eqp->getSport() as $sport) {
+                foreach ($eqp->getSport() as $sport) {
                     $idx = $sport->getId();
                     $this->sportEquipment[$idx][] = $eqp;
 
@@ -287,7 +291,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      * this means, that the equipments stored in the sportEquipment array are searched for relevant equipment that
      * fits to the activity date. if there more than one equipment found within ONE type/category, the mapping is ignored.
      */
-    private function setEquipmentIfPossible(Training $activity, OutputInterface $output) {
+    private function setEquipmentIfPossible(Training $activity, OutputInterface $output)
+    {
         $actDate = $activity->getDateTime();
         $sportId = $activity->getSport()
             ->getId();
@@ -302,21 +307,21 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         if (isset($this->sportEquipment[$sportId])) {
             // got to all equipments for this sport
             // its possible that several equipments exists with different time-ranges
-            foreach($this->sportEquipment[$sportId] as $eqp) {
+            foreach ($this->sportEquipment[$sportId] as $eqp) {
 
                 // set the end-date to time 23:59 for the compare
                 $endDate = null;
-                if($eqp->getDateEnd() !== null) {
+                if ($eqp->getDateEnd() !== null) {
                     $endDate = clone $eqp->getDateEnd();
                     $endDate->setTime(23, 59, 59);
                 }
 
-                if(($eqp->getDateStart() === null || $eqp->getDateStart() < $actDate) && ($endDate === null || $actDate <= $endDate)) {
+                if (($eqp->getDateStart() === null || $eqp->getDateStart() < $actDate) && ($endDate === null || $actDate <= $endDate)) {
                     // the date fits
                     $equipments[$eqp->getId()] = $eqp;
 
                     // store if this type already selected (to avoid multiple mappings of the same category)
-                    if(! array_key_exists($eqp->getType()->getId(), $typeUnique)) {
+                    if (! array_key_exists($eqp->getType()->getId(), $typeUnique)) {
                         $typeUnique[$eqp->getType()->getId()] = true;
                     } else {
                         $typeUnique[$eqp->getType()->getId()] = false;
@@ -325,14 +330,14 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             }
         }
 
-        foreach($equipments as $v) {
+        foreach ($equipments as $v) {
             // add every equipment, if it not "unique"
-            if($typeUnique[$v->getType()->getId()]) {
+            if ($typeUnique[$v->getType()->getId()]) {
                 $activity->addEquipment($v);
             } else {
-                $output->writeln('<fg=yellow>more than one active equipment found for activity-date=' . $actDate->format('Y-m-d H:i') . 
+                $output->writeln('<fg=yellow>more than one active equipment found for activity-date=' . $actDate->format('Y-m-d H:i') .
                     ': category=' . $v->getType()->getName() . ' and equipment=' . $v->getId() . '/' . $v->getName() .
-                    '; mapping canceled for this category!</>');    
+                    '; mapping canceled for this category!</>');
             }
         }
     }
@@ -341,7 +346,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      * #TSC
      * Check if the reported max pulse differs from the current one. If yes, create new "User" entity.
      */
-    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, \Runalyze\Bundle\CoreBundle\Command\MaxZoneHR $maxZoneHR) {
+    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, \Runalyze\Bundle\CoreBundle\Command\MaxZoneHR $maxZoneHR)
+    {
         // same logic as BodyValuesController.addAction
         $repository = $this->getContainer()
             ->get('doctrine')
@@ -349,7 +355,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $oldUser = $repository->getLatestEntryFor($account);
 
         // if new max differs from the stored one
-        if($oldUser !== null && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
+        if ($oldUser !== null && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
             // clone current user and create a new one
             $newuser = $oldUser->cloneObjectForForm();
             $newuser->setTime($maxZoneHR->Time);

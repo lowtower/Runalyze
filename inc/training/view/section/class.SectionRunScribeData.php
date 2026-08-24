@@ -2,21 +2,21 @@
 
 class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 {
-	protected function setHeaderAndRows()
+    protected function setHeaderAndRows()
     {
-		$this->Header = 'RunScribe <a target="_blank" href="https://runscribe.com/metrics/"><i class="fa fa-question-circle-o"></i></a>';
+        $this->Header = 'RunScribe <a target="_blank" href="https://runscribe.com/metrics/"><i class="fa fa-question-circle-o"></i></a>';
 
-		$this->appendRowTabbedPlot(new SectionRunScribeDataRow($this->Context));
-	}
+        $this->appendRowTabbedPlot(new SectionRunScribeDataRow($this->Context));
+    }
 
-	protected function hasRequiredData(): bool
+    protected function hasRequiredData(): bool
     {
-		return $this->Context->hasTrackdata() && $this->Context->trackdata()
-		    ->hasRunScribeData();
-	}
+        return $this->Context->hasTrackdata() && $this->Context->trackdata()
+            ->hasRunScribeData();
+    }
 
-	protected function cssId(): string
+    protected function cssId(): string
     {
-		return 'runscribe';
-	}
+        return 'runscribe';
+    }
 }

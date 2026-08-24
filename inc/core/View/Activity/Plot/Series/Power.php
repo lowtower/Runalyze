@@ -18,33 +18,35 @@ use Runalyze\View\Activity;
  */
 class Power extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(0,136,0)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(0,136,0)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::POWER);
-		$this->setManualAverage($context->activity()->power());
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::POWER);
+        $this->setManualAverage($context->activity()->power());
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Power');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Power');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = 'W';
-		$this->UnitDecimals = 0;
+        $this->UnitString = 'W';
+        $this->UnitDecimals = 0;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 }

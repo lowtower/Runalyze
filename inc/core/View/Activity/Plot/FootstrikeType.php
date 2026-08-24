@@ -8,12 +8,12 @@ use Runalyze\View\Activity;
 
 class FootstrikeType extends ActivityPlot
 {
-	protected function setKey()
+    protected function setKey()
     {
-		$this->key = 'footstrike_type';
-	}
+        $this->key = 'footstrike_type';
+    }
 
-	protected function initData(Activity\Context $context)
+    protected function initData(Activity\Context $context)
     {
         $this->addSeries(new Series\FootstrikeType($context, true), 1);
         $this->addSeries(new Series\FootstrikeType($context, false), 1);

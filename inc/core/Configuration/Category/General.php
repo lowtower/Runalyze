@@ -27,191 +27,211 @@ class General extends \Runalyze\Configuration\Category
     /**
      * Internal key
      */
-    protected function key(): string {
-		return 'general';
-	}
+    protected function key(): string
+    {
+        return 'general';
+    }
 
-	protected function createHandles() {
+    protected function createHandles()
+    {
         $this->createWeekStart();
-		$this->createDistanceUnitSystem();
-		$this->createWeightUnit();
-		$this->createEnergyUnit();
+        $this->createDistanceUnitSystem();
+        $this->createWeightUnit();
+        $this->createEnergyUnit();
         $this->createTemperatureUnit();
-		$this->createHeartRateUnit();
-		$this->createMainSport();
-		$this->createRunningSport();
-	}
+        $this->createHeartRateUnit();
+        $this->createMainSport();
+        $this->createRunningSport();
+    }
 
-	/**
-	 * Create: Beginning of the week
-	 */
-	protected function createWeekStart() {
-		$this->createHandle('WEEK_START', new WeekStart());
-	}
+    /**
+     * Create: Beginning of the week
+     */
+    protected function createWeekStart()
+    {
+        $this->createHandle('WEEK_START', new WeekStart());
+    }
 
-	/**
-	 * @return \Runalyze\Parameter\Application\WeekStart
-	 */
-	public function weekStart() {
-		return $this->object('WEEK_START');
-	}
+    /**
+     * @return \Runalyze\Parameter\Application\WeekStart
+     */
+    public function weekStart()
+    {
+        return $this->object('WEEK_START');
+    }
 
-	/**
-	 * Create: DISTANCE_UNIT_SYSTEM
-	 */
-	protected function createDistanceUnitSystem() {
-		$this->createHandle('DISTANCE_UNIT_SYSTEM', new DistanceUnitSystem());
-	}
+    /**
+     * Create: DISTANCE_UNIT_SYSTEM
+     */
+    protected function createDistanceUnitSystem()
+    {
+        $this->createHandle('DISTANCE_UNIT_SYSTEM', new DistanceUnitSystem());
+    }
 
-	/**
-	 * Unit system for distances
-	 * @return \Runalyze\Parameter\Application\DistanceUnitSystem
-	 */
-	public function distanceUnitSystem() {
-		return $this->object('DISTANCE_UNIT_SYSTEM');
-	}
+    /**
+     * Unit system for distances
+     * @return \Runalyze\Parameter\Application\DistanceUnitSystem
+     */
+    public function distanceUnitSystem()
+    {
+        return $this->object('DISTANCE_UNIT_SYSTEM');
+    }
 
-	/**
-	 * Create: WeightUnit
-	 */
-	protected function createWeightUnit() {
-		$this->createHandle('WEIGHT_UNIT', new WeightUnit());
-	}
+    /**
+     * Create: WeightUnit
+     */
+    protected function createWeightUnit()
+    {
+        $this->createHandle('WEIGHT_UNIT', new WeightUnit());
+    }
 
-	/**
-	 * @return \Runalyze\Parameter\Application\WeightUnit
-	 */
-	public function weightUnit() {
-		return $this->object('WEIGHT_UNIT');
-	}
+    /**
+     * @return \Runalyze\Parameter\Application\WeightUnit
+     */
+    public function weightUnit()
+    {
+        return $this->object('WEIGHT_UNIT');
+    }
 
-	/**
-	 * Create: EnergyUnit
-	 */
-	protected function createEnergyUnit() {
-		$this->createHandle('ENERGY_UNIT', new EnergyUnit());
-	}
+    /**
+     * Create: EnergyUnit
+     */
+    protected function createEnergyUnit()
+    {
+        $this->createHandle('ENERGY_UNIT', new EnergyUnit());
+    }
 
-	/**
-	 * @return \Runalyze\Parameter\Application\EnergyUnit
-	 */
-	public function energyUnit() {
-		return $this->object('ENERGY_UNIT');
-	}
+    /**
+     * @return \Runalyze\Parameter\Application\EnergyUnit
+     */
+    public function energyUnit()
+    {
+        return $this->object('ENERGY_UNIT');
+    }
 
-	/**
-	 * Create: TemperatureUnit
-	 */
-	protected function createTemperatureUnit() {
-		$this->createHandle('TEMPERATURE_UNIT', new TemperatureUnit());
-	}
+    /**
+     * Create: TemperatureUnit
+     */
+    protected function createTemperatureUnit()
+    {
+        $this->createHandle('TEMPERATURE_UNIT', new TemperatureUnit());
+    }
 
-	/**
-	 * @return \Runalyze\Parameter\Application\TemperatureUnit
-	 */
-	public function temperatureUnit() {
-		return $this->object('TEMPERATURE_UNIT');
-	}
+    /**
+     * @return \Runalyze\Parameter\Application\TemperatureUnit
+     */
+    public function temperatureUnit()
+    {
+        return $this->object('TEMPERATURE_UNIT');
+    }
 
-	/**
-	 * Create: HEART_RATE_UNIT
-	 */
-	protected function createHeartRateUnit() {
-		$this->createHandle('HEART_RATE_UNIT', new HeartRateUnit());
-	}
+    /**
+     * Create: HEART_RATE_UNIT
+     */
+    protected function createHeartRateUnit()
+    {
+        $this->createHandle('HEART_RATE_UNIT', new HeartRateUnit());
+    }
 
-	/**
-	 * @return HeartRateUnit
-	 */
-	public function heartRateUnit() {
-		return $this->object('HEART_RATE_UNIT');
-	}
+    /**
+     * @return HeartRateUnit
+     */
+    public function heartRateUnit()
+    {
+        return $this->object('HEART_RATE_UNIT');
+    }
 
-	/**
-	 * Create: MAINSPORT
-	 */
-	protected function createMainSport() {
-		$this->createHandle('MAINSPORT', new SelectRow(1, [
-    'table' => 'sport',
-		    'column' => 'name',
-]));
-	}
+    /**
+     * Create: MAINSPORT
+     */
+    protected function createMainSport()
+    {
+        $this->createHandle('MAINSPORT', new SelectRow(1, [
+            'table' => 'sport',
+            'column' => 'name',
+        ]));
+    }
 
-	/**
-	 * @return int
-	 */
-	public function mainSport() {
-		return $this->get('MAINSPORT');
-	}
+    /**
+     * @return int
+     */
+    public function mainSport()
+    {
+        return $this->get('MAINSPORT');
+    }
 
-	/**
-	 * Create: RUNNINGSPORT
-	 */
-	protected function createRunningSport() {
-		$this->createHandle('RUNNINGSPORT', new SelectRow(1, [
-    'table' => 'sport',
-		    'column' => 'name',
-]));
-	}
+    /**
+     * Create: RUNNINGSPORT
+     */
+    protected function createRunningSport()
+    {
+        $this->createHandle('RUNNINGSPORT', new SelectRow(1, [
+            'table' => 'sport',
+            'column' => 'name',
+        ]));
+    }
 
-	/**
-	 * @return int
-	 */
-	public function runningSport() {
-		return $this->get('RUNNINGSPORT');
-	}
+    /**
+     * @return int
+     */
+    public function runningSport()
+    {
+        return $this->get('RUNNINGSPORT');
+    }
 
-	protected function registerOnchangeEvents() {
-		$this->handle('DISTANCE_UNIT_SYSTEM')
-		    ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
-		$this->handle('ENERGY_UNIT')
-		    ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
-		$this->handle('DISTANCE_UNIT_SYSTEM')
-		    ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
-		$this->handle('WEIGHT_UNIT')
-		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
-                $this->handle('TEMPERATURE_UNIT')
-                    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-		$this->handle('HEART_RATE_UNIT')
-		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
-                $this->handle('WEEK_START')
-                    ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
-		$this->handle('MAINSPORT')
-		    ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
-	}
+    protected function registerOnchangeEvents()
+    {
+        $this->handle('DISTANCE_UNIT_SYSTEM')
+            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+        $this->handle('ENERGY_UNIT')
+            ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
+        $this->handle('DISTANCE_UNIT_SYSTEM')
+            ->registerOnchangeEvent(\Runalyze\Configuration\Messages::class . '::adjustPacesInSportsConfiguration');
+        $this->handle('WEIGHT_UNIT')
+            ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
+        $this->handle('TEMPERATURE_UNIT')
+            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+        $this->handle('HEART_RATE_UNIT')
+            ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
+        $this->handle('WEEK_START')
+            ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+        $this->handle('MAINSPORT')
+            ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
+    }
 
-    public function Fieldset(): \Runalyze\Configuration\Fieldset {
-		$Fieldset = new Fieldset( __('General settings') );
+    public function Fieldset(): \Runalyze\Configuration\Fieldset
+    {
+        $Fieldset = new Fieldset(__('General settings'));
 
-		$Fieldset->addHandle( $this->handle('WEEK_START'), [
-		    'label' => __('Beginning of the week'),
-		]);
+        $Fieldset->addHandle($this->handle('WEEK_START'), [
+            'label' => __('Beginning of the week'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('DISTANCE_UNIT_SYSTEM'), [
-		    'label' => __('Unit system for distances'),
-		    'tooltip' => __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.'),
-		]);
+        $Fieldset->addHandle($this->handle('DISTANCE_UNIT_SYSTEM'), [
+            'label' => __('Unit system for distances'),
+            'tooltip' => __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('WEIGHT_UNIT'), [
-		    'label' => __('Weight unit'),
-		]);
+        $Fieldset->addHandle($this->handle('WEIGHT_UNIT'), [
+            'label' => __('Weight unit'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('ENERGY_UNIT'), [
-		    'label' => __('Energy unit'),
-		]);	
+        $Fieldset->addHandle($this->handle('ENERGY_UNIT'), [
+            'label' => __('Energy unit'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('TEMPERATURE_UNIT'), [
-		    'label' => __('Temperature unit'),
-		]);
+        $Fieldset->addHandle($this->handle('TEMPERATURE_UNIT'), [
+            'label' => __('Temperature unit'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('HEART_RATE_UNIT'), [
-		    'label' => __('Heart rate unit'),
-		]);
+        $Fieldset->addHandle($this->handle('HEART_RATE_UNIT'), [
+            'label' => __('Heart rate unit'),
+        ]);
 
-		$Fieldset->addHandle( $this->handle('MAINSPORT'), [
-		    'label' => __('Main sport'),
-		]);
+        $Fieldset->addHandle($this->handle('MAINSPORT'), [
+            'label' => __('Main sport'),
+        ]);
 
-		return $Fieldset;
-	}
+        return $Fieldset;
+    }
 }

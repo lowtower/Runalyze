@@ -18,43 +18,45 @@ use Runalyze\View\Activity;
  */
 class HRVPoincare extends ActivityPlot
 {
-	/**
-	 * Use standard x-axis?
-	 * @var bool
-	 */
-	protected $useStandardXaxis = false;
+    /**
+     * Use standard x-axis?
+     * @var bool
+     */
+    protected $useStandardXaxis = false;
 
-	/**
-	 * @var int
-	 */
-	protected $PointSize = 1;
+    /**
+     * @var int
+     */
+    protected $PointSize = 1;
 
-	protected function setKey() {
-		$this->key = 'hrvpoincare';
-	}
+    protected function setKey()
+    {
+        $this->key = 'hrvpoincare';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$Collector = new PoincareCollector($context->hrv());
-		$this->Data = $Collector->data();
+    protected function initData(Activity\Context $context)
+    {
+        $Collector = new PoincareCollector($context->hrv());
+        $this->Data = $Collector->data();
 
-		if ($this->Data === []) {
-			return;
-		}
+        if ($this->Data === []) {
+            return;
+        }
 
-		$this->Plot->Data[] = [
-		    'label' => __('R-R interval') . ' n+1',
-		    'color' => 'rgb(0,0,0)',
-		    'data' => $Collector->data(),
-		];
+        $this->Plot->Data[] = [
+            'label' => __('R-R interval') . ' n+1',
+            'color' => 'rgb(0,0,0)',
+            'data' => $Collector->data(),
+        ];
 
-		// TODO: ensure symmetric x-/y-axis
+        // TODO: ensure symmetric x-/y-axis
 
-		$this->Plot->addYUnit(1, 'ms');
-		$this->Plot->setXUnit('ms');
-		$this->Plot->setXLabel(__('R-R interval') . ' n');
-		$this->Plot->smoothing(false);
-		$this->Plot->showPoints();
+        $this->Plot->addYUnit(1, 'ms');
+        $this->Plot->setXUnit('ms');
+        $this->Plot->setXLabel(__('R-R interval') . ' n');
+        $this->Plot->smoothing(false);
+        $this->Plot->showPoints();
 
-		$this->Plot->PlotOptions['allowSelection'] = false;
-	}
+        $this->Plot->PlotOptions['allowSelection'] = false;
+    }
 }

@@ -28,12 +28,12 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
     /**
      * @var string
      */
-    const URL = 'http://api.openweathermap.org/data/2.5/weather';
+    public const URL = 'http://api.openweathermap.org/data/2.5/weather';
 
     /**
      * @var string
      */
-    const URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
+    public const URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
 
     /**
      * @var string
@@ -158,7 +158,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         if (! $location->isOlderThan(7200)) {
             try {
                 $headers = [];
-                if(! empty($this->Proxy)) {
+                if (! empty($this->Proxy)) {
                     $headers['proxy'] = $this->Proxy;
                 }
 

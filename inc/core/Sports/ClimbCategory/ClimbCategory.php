@@ -9,37 +9,37 @@ class ClimbCategory
     /**
      * @var int
      */
-    const CATEGORY_HC = 0;
+    public const CATEGORY_HC = 0;
 
     /**
      * @var int
      */
-    const CATEGORY_1 = 1;
+    public const CATEGORY_1 = 1;
 
     /**
      * @var int
      */
-    const CATEGORY_2 = 2;
+    public const CATEGORY_2 = 2;
 
     /**
      * @var int
      */
-    const CATEGORY_3 = 3;
+    public const CATEGORY_3 = 3;
 
     /**
      * @var int
      */
-    const CATEGORY_4 = 4;
+    public const CATEGORY_4 = 4;
 
     /**
      * @var int
      */
-    const CATEGORY_5 = 5;
+    public const CATEGORY_5 = 5;
 
     /**
      * @var int
      */
-    const CATEGORY_NONE = 6;
+    public const CATEGORY_NONE = 6;
 
     /**
      * @param int $category

@@ -15,12 +15,12 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var int only one equipment object can be used at once
      */
-    const CHOICE_SINGLE = 0;
+    public const CHOICE_SINGLE = 0;
 
     /**
      * @var int multiple equipment objects can be used at once
      */
-    const CHOICE_MULTIPLE = 1;
+    public const CHOICE_MULTIPLE = 1;
 
     /**
      * @var int

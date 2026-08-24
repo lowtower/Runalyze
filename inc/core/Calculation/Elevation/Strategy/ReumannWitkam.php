@@ -18,11 +18,11 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class ReumannWitkam extends AbstractStrategy
 {
-	/**
-	 * Smooth data
-	 */
-	public function runSmoothing()
-	{
-		throw new \RuntimeException('Not implemented.');
-	}
+    /**
+     * Smooth data
+     */
+    public function runSmoothing()
+    {
+        throw new \RuntimeException('Not implemented.');
+    }
 }

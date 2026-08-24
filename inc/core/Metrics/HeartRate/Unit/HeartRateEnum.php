@@ -9,17 +9,17 @@ class HeartRateEnum extends AbstractEnum
     /**
      * @var int
      */
-    const BEATS_PER_MINUTE = 0;
+    public const BEATS_PER_MINUTE = 0;
 
     /**
      * @var int
      */
-    const PERCENT_MAXIMUM = 1;
+    public const PERCENT_MAXIMUM = 1;
 
     /**
      * @var int
      */
-    const PERCENT_RESERVE = 2;
+    public const PERCENT_RESERVE = 2;
 
     /**
      * @param int $enum from internal enum

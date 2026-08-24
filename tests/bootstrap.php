@@ -9,11 +9,13 @@
 
 error_reporting(E_ALL);
 
-if (! defined('RUNALYZE_TEST'))
-	define('RUNALYZE_TEST', true);
+if (! defined('RUNALYZE_TEST')) {
+    define('RUNALYZE_TEST', true);
+}
 
-if (! defined('FRONTEND_PATH'))
-	define('FRONTEND_PATH', dirname(__FILE__) . '/../inc/');
+if (! defined('FRONTEND_PATH')) {
+    define('FRONTEND_PATH', dirname(__FILE__) . '/../inc/');
+}
 
 define('TESTS_ROOT', __DIR__);
 
@@ -25,32 +27,41 @@ $testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
 putenv('TZ=' . $testTimezone);
 date_default_timezone_set($testTimezone);
 
-if (! defined('NL'))
-	define('NL', "\n");
+if (! defined('NL')) {
+    define('NL', "\n");
+}
 
-if (! defined('NBSP'))
-	define('NBSP', '&nbsp;');
+if (! defined('NBSP')) {
+    define('NBSP', '&nbsp;');
+}
 
-if (! defined('PREFIX'))
-	define('PREFIX', 'runalyze_');
+if (! defined('PREFIX')) {
+    define('PREFIX', 'runalyze_');
+}
 
-if (! defined('PERL_PATH'))
-	define('PERL_PATH', '/usr/bin/perl');
+if (! defined('PERL_PATH')) {
+    define('PERL_PATH', '/usr/bin/perl');
+}
 
-if (! defined('TTBIN_PATH'))
-	define('TTBIN_PATH', FRONTEND_PATH . '../call/perl/ttbincnv');
+if (! defined('TTBIN_PATH')) {
+    define('TTBIN_PATH', FRONTEND_PATH . '../call/perl/ttbincnv');
+}
 
-if (! defined('DATA_DIRECTORY'))
+if (! defined('DATA_DIRECTORY')) {
     define('DATA_DIRECTORY', FRONTEND_PATH . '../data');
+}
 
-if (! defined('GEONAMES_USERNAME'))
-	define('GEONAMES_USERNAME', 'runalyze');
+if (! defined('GEONAMES_USERNAME')) {
+    define('GEONAMES_USERNAME', 'runalyze');
+}
 
-if (! defined('SQLITE_MOD_SPATIALITE'))
-	define('SQLITE_MOD_SPATIALITE', getenv('SQLITE_MOD_SPATIALITE') ?: 'mod_spatialite.so');
+if (! defined('SQLITE_MOD_SPATIALITE')) {
+    define('SQLITE_MOD_SPATIALITE', getenv('SQLITE_MOD_SPATIALITE') ?: 'mod_spatialite.so');
+}
 
-if (! defined('DAY_IN_S'))
-	define('DAY_IN_S', 86400);
+if (! defined('DAY_IN_S')) {
+    define('DAY_IN_S', 86400);
+}
 
 $_SERVER['REQUEST_URI'] = '/runalyze/index.php';
 $_SERVER['SCRIPT_NAME'] = '/runalyze/index.php';
@@ -91,40 +102,46 @@ try {
     $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     $detectedTimezone = $lookup->getTimezoneForCoordinate(13.41, 52.52);
 
-	define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
+    define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
 } catch (\Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException $timezoneLookupException) {
-	define('RUNALYZE_TEST_TZ_LOOKUP', false);
+    define('RUNALYZE_TEST_TZ_LOOKUP', false);
 }
 
 // Language functions
 if (! function_exists('__')) {
-	function __($text, $domain = 'runalyze') {
-		return $text;
-	}
+    function __($text, $domain = 'runalyze')
+    {
+        return $text;
+    }
 }
 
 if (! function_exists('_e')) {
-	function _e($text, $domain = 'runalyze') {
-		echo $text;
-	}
+    function _e($text, $domain = 'runalyze')
+    {
+        echo $text;
+    }
 }
 
 if (! function_exists('_n')) {
-	function _n($msg1, $msg2, $n, $domain = 'runalyze') {
-		if ($n == 1)
-			return $msg1;
+    function _n($msg1, $msg2, $n, $domain = 'runalyze')
+    {
+        if ($n == 1) {
+            return $msg1;
+        }
 
-		return $msg2;
-	}
+        return $msg2;
+    }
 }
 
 if (! function_exists('_ne')) {
-	function _ne($msg1, $msg2, $n, $domain = 'runalyze') {
-		if ($n == 1)
-			echo $msg1;
+    function _ne($msg1, $msg2, $n, $domain = 'runalyze')
+    {
+        if ($n == 1) {
+            echo $msg1;
+        }
 
-		echo $msg2;
-	}
+        echo $msg2;
+    }
 }
 
 // Clear cache

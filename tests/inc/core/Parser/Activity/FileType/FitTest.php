@@ -52,15 +52,15 @@ class FitTest extends AbstractActivityParserTestCase
     {
         $container = $container ?: $this->Container;
 
-		$num = count($container->ContinuousData->Time);
+        $num = count($container->ContinuousData->Time);
 
-		for ($i = 2; $i < $num; ++$i) {
-		    $this->assertGreaterThan(
-		        $container->ContinuousData->Time[$i - 1],
-		        $container->ContinuousData->Time[$i],
-		        sprintf('Time array is not continuously increasing at index %u', $i)
-		    );
-		}
+        for ($i = 2; $i < $num; ++$i) {
+            $this->assertGreaterThan(
+                $container->ContinuousData->Time[$i - 1],
+                $container->ContinuousData->Time[$i],
+                sprintf('Time array is not continuously increasing at index %u', $i)
+            );
+        }
     }
 
     public function testStandardFile()
@@ -85,8 +85,8 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertFalse($this->Container->Rounds->isEmpty());
     }
 
-	public function testFenix2File()
-	{
+    public function testFenix2File()
+    {
         $this->convertAndParse('fit/Fenix-2.fit');
 
         $this->assertEquals(975, $this->Container->ActivityData->Duration);
@@ -110,12 +110,12 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertFalse($this->Container->Rounds->isEmpty());
 
-		$this->assertEquals(53, $this->Container->FitDetails->VO2maxEstimate);
-		$this->assertEquals(816, $this->Container->FitDetails->RecoveryTime);
-	}
+        $this->assertEquals(53, $this->Container->FitDetails->VO2maxEstimate);
+        $this->assertEquals(816, $this->Container->FitDetails->RecoveryTime);
+    }
 
-	public function testFenix2FileWithPauses()
-	{
+    public function testFenix2FileWithPauses()
+    {
         $this->convertAndParse('fit/Fenix-2-pauses.fit');
 
         $this->assertEquals(2810, $this->Container->ActivityData->Duration);
@@ -124,8 +124,8 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEqualsWithDelta(2810, end($this->Container->ContinuousData->Time), 2);
 
-		$this->assertEquals(65, $this->Container->FitDetails->VO2maxEstimate);
-		$this->assertEquals(932, $this->Container->FitDetails->RecoveryTime);
+        $this->assertEquals(65, $this->Container->FitDetails->VO2maxEstimate);
+        $this->assertEquals(932, $this->Container->FitDetails->RecoveryTime);
 
         $this->checkExpectedPauseData([
             [267, 14, 144, 130],
@@ -135,10 +135,10 @@ class FitTest extends AbstractActivityParserTestCase
             [2804, 51, 136, 100],
             [2970, 9, 150, 144],
         ], 1);
-	}
+    }
 
-	public function testFenix2FileWithNegativeTime()
-	{
+    public function testFenix2FileWithNegativeTime()
+    {
         $this->convertAndParse('fit/Fenix-2-negative-times.fit');
 
         $this->assertEquals('2014-08-28 09:32', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
@@ -146,10 +146,10 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertGreaterThanOrEqual(0, min($this->Container->ContinuousData->Time));
-	}
+    }
 
-	public function testOtherStartEventsInFR920()
-	{
+    public function testOtherStartEventsInFR920()
+    {
         $this->convertAndParse('fit/FR920-additional-start-events.fit');
 
         $this->assertEquals(1, $this->NumberOfActivities);
@@ -159,10 +159,10 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertGreaterThanOrEqual(0, min($this->Container->ContinuousData->Time));
         $this->assertEquals(2 * 3600 + 47 * 60 + 22, end($this->Container->ContinuousData->Time));
-	}
+    }
 
-	public function testMultisessionFile()
-	{
+    public function testMultisessionFile()
+    {
         $this->convertAndParse('fit/Multisession.fit');
 
         $this->assertEquals(2, $this->NumberOfActivities);
@@ -177,10 +177,10 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(1118, $this->Container[1]->ActivityData->ElapsedTime);
         $this->assertEqualsWithDelta(3.746, $this->Container[1]->ActivityData->Distance, 0.001);
         $this->assertEqualsWithDelta(1001, end($this->Container[1]->ContinuousData->Time), 2);
-	}
+    }
 
-	public function testSimplePauseExample()
-	{
+    public function testSimplePauseExample()
+    {
         $this->convertAndParse('fit/HRV-example.fit');
 
         $this->assertEquals(60, $this->Container->ActivityData->Duration);
@@ -193,23 +193,23 @@ class FitTest extends AbstractActivityParserTestCase
         $this->checkExpectedPauseData([
             [41, 69, 100, 69],
         ]);
-	}
+    }
 
-	public function testSimpleSwimmingFileFromFR910XT()
-	{
+    public function testSimpleSwimmingFileFromFR910XT()
+    {
         $this->convertAndParse('fit/swim-25m-lane.fit');
 
         $this->assertEquals('2015-06-17 07:34', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2116, $this->Container->ActivityData->Duration);
         $this->assertEquals(2354, $this->Container->ActivityData->ElapsedTime);
         $this->assertEquals(1.95, $this->Container->ActivityData->Distance);
 
-		$this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
-		$this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
-		$this->assertEquals(890, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
+        $this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
+        $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
+        $this->assertEquals(890, $this->Container->ActivityData->TotalStrokes);
+        $this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Strokes);
@@ -217,24 +217,24 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEmpty($this->Container->ContinuousData->Distance);
 
-		$this->assertNotEquals(0, $this->Container->ContinuousData->Time[0]);
-	}
+        $this->assertNotEquals(0, $this->Container->ContinuousData->Time[0]);
+    }
 
-	public function testSwimmingFileFromFenix3()
-	{
+    public function testSwimmingFileFromFenix3()
+    {
         $this->convertAndParse('fit/swim-fenix-50m.fit');
 
         $this->assertEquals('2015-07-18 08:29', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3272, $this->Container->ActivityData->Duration);
         $this->assertEquals(3817, $this->Container->ActivityData->ElapsedTime);
         $this->assertEquals(2.05, $this->Container->ActivityData->Distance);
 
-		$this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
-		$this->assertEquals(5000, $this->Container->ActivityData->PoolLength);
-		$this->assertEquals(1750, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEqualsWithDelta(32, $this->Container->ActivityData->AvgCadence, 0.5);
+        $this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
+        $this->assertEquals(5000, $this->Container->ActivityData->PoolLength);
+        $this->assertEquals(1750, $this->Container->ActivityData->TotalStrokes);
+        $this->assertEqualsWithDelta(32, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Strokes);
@@ -246,10 +246,10 @@ class FitTest extends AbstractActivityParserTestCase
             [68, 68 + 80, 68 + 80 + 69, 68 + 80 + 69 + 86, 68 + 80 + 69 + 86 + 82, 68 + 80 + 69 + 86 + 82 + 91, 68 + 80 + 69 + 86 + 82 + 91 + 90, 68 + 80 + 69 + 86 + 82 + 91 + 90 + 98],
             array_slice($this->Container->ContinuousData->Time, 0, 8)
         );
-	}
+    }
 
-	public function testOutdoorSwimmingFileFromFR910XT()
-	{
+    public function testOutdoorSwimmingFileFromFR910XT()
+    {
         $this->convertAndParse('fit/swim-outdoor.fit');
 
         if (RUNALYZE_TEST_TZ_LOOKUP) {
@@ -257,46 +257,46 @@ class FitTest extends AbstractActivityParserTestCase
         }
 
         $this->assertEquals(RUNALYZE_TEST_TZ_LOOKUP ? '2011-10-15 14:31' : '2011-10-15 21:31', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(RUNALYZE_TEST_TZ_LOOKUP ? -300 : 120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(RUNALYZE_TEST_TZ_LOOKUP ? -300 : 120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(1007, $this->Container->ActivityData->Duration);
         $this->assertEquals(1007, $this->Container->ActivityData->ElapsedTime);
         $this->assertEqualsWithDelta(0.985, $this->Container->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
-		$this->assertNull($this->Container->ActivityData->PoolLength);
-		$this->assertEquals(424, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
+        $this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
+        $this->assertNull($this->Container->ActivityData->PoolLength);
+        $this->assertEquals(424, $this->Container->ActivityData->TotalStrokes);
+        $this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
-	}
+    }
 
-	public function testFileWithHRVData()
-	{
+    public function testFileWithHRVData()
+    {
         $this->convertAndParse('fit/HRV-example.fit');
 
         $this->assertEquals('2015-06-13 11:03', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertNotEmpty($this->Container->RRIntervals);
 
         $this->assertEmpty($this->Container->ContinuousData->Distance);
-	}
+    }
 
-	public function testFileWithPowerDataFromEdge810()
-	{
+    public function testFileWithPowerDataFromEdge810()
+    {
         $this->convertAndParse('fit/with-power.fit');
 
         $this->assertEquals('2015-07-29 15:23', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3600 + 18 * 60 + 9, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(39.023, $this->Container->ActivityData->Distance, 0.001);
-		$this->assertEquals('edge810', $this->Container->Metadata->getCreator());
+        $this->assertEquals('edge810', $this->Container->Metadata->getCreator());
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -308,33 +308,33 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
         $this->assertNotEmpty($this->Container->ContinuousData->Power);
 
-		$this->assertEquals(47.64, $this->Container->FitDetails->VO2maxEstimate);
-	}
+        $this->assertEquals(47.64, $this->Container->FitDetails->VO2maxEstimate);
+    }
 
-	public function testMultisportTriathlonFileFromFenix3()
-	{
+    public function testMultisportTriathlonFileFromFenix3()
+    {
         $this->convertAndParse('fit/multisport-triathlon-fenix3.fit');
 
         $this->assertEquals(5, $this->NumberOfActivities);
 
-		$this->assertEquals('swimming', $this->Container[0]->Metadata->getSportName());
+        $this->assertEquals('swimming', $this->Container[0]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 09:13', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
         $this->assertEquals(2033, $this->Container[0]->ActivityData->Duration);
         $this->assertEqualsWithDelta(1.526, $this->Container[0]->ActivityData->Distance, 0.001);
         $this->assertNotEmpty($this->Container[0]->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container[0]->ContinuousData->Cadence);
 
-		$this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
+        $this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 09:48', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
         $this->assertEquals(165, $this->Container[1]->ActivityData->Duration);
         $this->assertEqualsWithDelta(165, end($this->Container[1]->ContinuousData->Time), 1);
         $this->assertEqualsWithDelta(0.367, $this->Container[1]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
+        $this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 09:51', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
         $this->assertEquals(4455, $this->Container[2]->ActivityData->Duration);
         $this->assertEqualsWithDelta(4451, end($this->Container[2]->ContinuousData->Time), 5);
         $this->assertEqualsWithDelta(40.261, $this->Container[2]->ActivityData->Distance, 0.001);
@@ -342,16 +342,16 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container[2]->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container[2]->ContinuousData->Altitude);
 
-		$this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
+        $this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 11:05', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container[3]->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container[3]->Metadata->getTimezoneOffset());
         $this->assertEquals(109, $this->Container[3]->ActivityData->Duration);
         $this->assertEqualsWithDelta(109, end($this->Container[3]->ContinuousData->Time), 1);
         $this->assertEqualsWithDelta(0.419, $this->Container[3]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
+        $this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 11:07', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container[4]->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container[4]->Metadata->getTimezoneOffset());
         $this->assertEquals(2381, $this->Container[4]->ActivityData->Duration);
         $this->assertEqualsWithDelta(2381, end($this->Container[4]->ContinuousData->Time), 5);
         $this->assertEqualsWithDelta(9.317, $this->Container[4]->ActivityData->Distance, 0.001);
@@ -361,50 +361,50 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container[4]->ContinuousData->Altitude);
         $this->assertNotEmpty($this->Container[4]->ContinuousData->GroundContactTime);
         $this->assertNotEmpty($this->Container[4]->ContinuousData->VerticalOscillation);
-	}
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1991
-	 */
-	public function testMultisessionThatStopsDirectlyAfterTransition()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1991
+     */
+    public function testMultisessionThatStopsDirectlyAfterTransition()
+    {
         $this->convertAndParse('fit/Multisession-stop-after-transition.fit', true, false);
 
         $this->assertEquals(5, $this->NumberOfActivities);
 
-		$this->assertEquals('running', $this->Container[0]->Metadata->getSportName());
+        $this->assertEquals('running', $this->Container[0]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 09:44', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(1134, $this->Container[0]->ActivityData->Duration);
         $this->assertEqualsWithDelta(4.460, $this->Container[0]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
+        $this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(130, $this->Container[1]->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.266, $this->Container[1]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
+        $this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:05', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(2692, $this->Container[2]->ActivityData->Duration);
         $this->assertEqualsWithDelta(23.572, $this->Container[2]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
+        $this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:50', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
         $this->assertEquals(134, $this->Container[3]->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.193, $this->Container[3]->ActivityData->Distance, 0.001);
 
-		$this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
+        $this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:52', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
         $this->assertEquals(544, $this->Container[4]->ActivityData->Duration);
         $this->assertEqualsWithDelta(2.083, $this->Container[4]->ActivityData->Distance, 0.001);
-	}
+    }
 
-	public function testOsynceTimeProblem()
-	{
+    public function testOsynceTimeProblem()
+    {
         $this->convertAndParse('fit/osynce-stop-bug.fit');
 
         $this->assertEquals('2015-11-04 17:06', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
-		$this->assertEquals('osynce', $this->Container->Metadata->getCreator());
+        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals('osynce', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(2826, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(2826, end($this->Container->ContinuousData->Time), 1);
@@ -419,15 +419,15 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
 
-		$this->checkThatTimeIsStrictIncreasing();
-	}
+        $this->checkThatTimeIsStrictIncreasing();
+    }
 
-	public function testNewRunningDynamicsFromFenix3()
-	{
+    public function testNewRunningDynamicsFromFenix3()
+    {
         $this->convertAndParse('fit/with-new-dynamics.fit');
 
         $this->assertEquals('2015-11-21 09:25', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(8270, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(23.509, $this->Container->ActivityData->Distance, 0.001);
@@ -440,14 +440,14 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEqualsWithDelta(5199, $this->Container->ActivityData->AvgGroundContactBalance, 0.5);
         $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
-	}
+    }
 
-	public function testDataFromFR70WithCompressedSpeedDistance()
-	{
+    public function testDataFromFR70WithCompressedSpeedDistance()
+    {
         $this->convertAndParse('fit/FR70-intervals.fit');
 
         $this->assertEquals('2013-05-27 08:52', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3163, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(6.240, $this->Container->ActivityData->Distance, 0.001);
@@ -466,18 +466,18 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertNull($this->Container->FitDetails->TotalAscent);
         $this->assertNull($this->Container->FitDetails->TotalDescent);
-	}
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1798
-	 */
-	public function testDataFromFR630WithFurtherRunningDataLikeLactateThreshold()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1798
+     */
+    public function testDataFromFR630WithFurtherRunningDataLikeLactateThreshold()
+    {
         $this->convertAndParse('fit/FR630-with-lth.fit');
 
         $this->assertEquals('2015-11-27 21:02', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
-		$this->assertEquals('fr630', $this->Container->Metadata->getCreator());
+        $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals('fr630', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(819, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(2.029, $this->Container->ActivityData->Distance, 0.001);
@@ -491,20 +491,20 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->FitDetails->HrvAnalysis);
 
         // New values for later on:
-		//  - lactate threshold: 163 bpm / 2.583 m/s
+        //  - lactate threshold: 163 bpm / 2.583 m/s
         $this->assertEquals(163, $this->Container->FitDetails->LactateThresholdHR);
 
         $this->assertEquals(22, $this->Container->FitDetails->TotalAscent);
         $this->assertEquals(38, $this->Container->FitDetails->TotalDescent);
-	}
+    }
 
-	public function testDataFromFR265WithFurtherRunningDataLikeSelfEvaluationFeeling()
-	{
+    public function testDataFromFR265WithFurtherRunningDataLikeSelfEvaluationFeeling()
+    {
         $this->convertAndParse('fit/FR265-with-self-evaluation.fit');
 
         $this->assertEquals('2026-08-02 16:39', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
-		$this->assertEquals(4257, $this->Container->Metadata->getCreator());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(4257, $this->Container->Metadata->getCreator());
 
         $this->assertEquals(2724, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(6.753, $this->Container->ActivityData->Distance, 0.001);
@@ -522,16 +522,16 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertSame(SelfEvaluationFeeling::VERY_STRONG, SelfEvaluationFeeling::fromFitToEnum(5));
     }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1886
-	 */
-	public function testDataFromSuuntoAmbitPeakWithoutFinalLap()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1886
+     */
+    public function testDataFromSuuntoAmbitPeakWithoutFinalLap()
+    {
         $this->convertAndParse('fit/Suunto-Ambit-3-Peak-without-final-lap.fit');
 
         $this->assertEquals('2016-06-29 17:43', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
-		$this->assertEquals('suunto', $this->Container->Metadata->getCreator());
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals('suunto', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(4961, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(15.220, $this->Container->ActivityData->Distance, 0.001);
@@ -539,31 +539,31 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(22, $this->Container->Rounds->count());
         $this->assertEquals(4961, $this->Container->Rounds->getTotalDuration());
         $this->assertEquals(15.220, $this->Container->Rounds->getTotalDistance());
-	}
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1917
-	 */
-	public function testThatIrregularTimestampsAreIgnored()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1917
+     */
+    public function testThatIrregularTimestampsAreIgnored()
+    {
         $this->convertAndParse('fit/One-second-jump-to-past.fit');
 
-		$this->assertEquals('fenix2', $this->Container->Metadata->getCreator());
+        $this->assertEquals('fenix2', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(7115, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(42.801, $this->Container->ActivityData->Distance, 0.001);
 
         $this->checkThatTimeIsStrictIncreasing();
-	}
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1919
-	 */
-	public function testDeveloperFieldsFromDisabledMoxy()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1919
+     */
+    public function testDeveloperFieldsFromDisabledMoxy()
+    {
         $this->convertAndParse('fit/Fenix-3-with-inactive-Moxy.fit');
 
-		$this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
+        $this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(1401, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(3.60, $this->Container->ActivityData->Distance, 0.01);
@@ -579,16 +579,16 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactTime);
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactBalance);
         $this->assertNotEmpty($this->Container->ContinuousData->VerticalOscillation);
-	}
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1919
-	 */
-	public function testDeveloperFieldsFromStryd()
-	{
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1919
+     */
+    public function testDeveloperFieldsFromStryd()
+    {
         $this->convertAndParse('fit/FR920xt-with-Stryd.fit');
 
-		$this->assertEquals('fr920xt', $this->Container->Metadata->getCreator());
+        $this->assertEquals('fr920xt', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(1931, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(7.255, $this->Container->ActivityData->Distance, 0.001);
@@ -605,7 +605,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactTime);
         $this->assertNotEmpty($this->Container->ContinuousData->VerticalOscillation);
-	}
+    }
 
     public function testDeveloperFieldsFromMoxy()
     {
@@ -656,27 +656,27 @@ class FitTest extends AbstractActivityParserTestCase
         );
     }
 
-	public function testThatBadTrainingEffectValuesAreIgnored()
-	{
+    public function testThatBadTrainingEffectValuesAreIgnored()
+    {
         $this->convertAndParse('fit/Zwift-bad-training-effect.fit');
 
         $this->assertEquals(2764, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(16.721, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNull($this->Container->FitDetails->TrainingEffect);
-	}
+    }
 
-	public function testDeveloperFieldsInSwimFileFromDaniel()
-	{
+    public function testDeveloperFieldsInSwimFileFromDaniel()
+    {
         $this->convertAndParse('fit/swim-via-iq.fit');
 
         $this->assertEquals(83, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.15, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
-	}
+    }
 
-	public function testDeveloperFieldsInPoolSwimFileFromDaniel()
-	{
+    public function testDeveloperFieldsInPoolSwimFileFromDaniel()
+    {
         $this->convertAndParse('fit/swim-pool-via-iq.fit');
 
         $this->assertEquals(2095, $this->Container->ActivityData->Duration);
@@ -694,10 +694,10 @@ class FitTest extends AbstractActivityParserTestCase
             [0, 0.15],
             [0, 0.10],
         ], 500);
-	}
+    }
 
-	public function testDeveloperFieldsInNewFormatFromMoxy()
-	{
+    public function testDeveloperFieldsInNewFormatFromMoxy()
+    {
         $this->convertAndParse('fit/moxy-float.fit');
 
         $this->assertNotEmpty($this->Container->ContinuousData->MuscleOxygenation);
@@ -714,7 +714,7 @@ class FitTest extends AbstractActivityParserTestCase
             [0, 1309, 1309, 1310, 1310, 1310, 1310, 1311, 1311, 1314],
             array_slice($this->Container->ContinuousData->TotalHaemoglobin, 0, 10)
         );
-	}
+    }
 
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2066

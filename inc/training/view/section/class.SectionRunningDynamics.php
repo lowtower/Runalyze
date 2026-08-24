@@ -15,30 +15,33 @@ use Runalyze\Model\Trackdata;
  */
 class SectionRunningDynamics extends TrainingViewSectionTabbedPlot
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Running Dynamics') . ' <a class="window" href="glossary/run-dynamics"><i class="fa fa-question-circle-o"></i></a>';
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Running Dynamics') . ' <a class="window" href="glossary/run-dynamics"><i class="fa fa-question-circle-o"></i></a>';
 
-		$this->appendRowTabbedPlot( new SectionRunningDynamicsRow($this->Context) );
-	}
+        $this->appendRowTabbedPlot(new SectionRunningDynamicsRow($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return 
-			$this->Context->trackdata()
-			    ->has(Trackdata\Entity::CADENCE) ||
-			$this->Context->trackdata()
-			    ->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
-			$this->Context->trackdata()
-			    ->has(Trackdata\Entity::GROUNDCONTACT)
-		;
-	}
+    protected function hasRequiredData(): bool
+    {
+        return
+            $this->Context->trackdata()
+                ->has(Trackdata\Entity::CADENCE) ||
+            $this->Context->trackdata()
+                ->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
+            $this->Context->trackdata()
+                ->has(Trackdata\Entity::GROUNDCONTACT)
+        ;
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'runningdynamics';
-	}
+    protected function cssId(): string
+    {
+        return 'runningdynamics';
+    }
 }

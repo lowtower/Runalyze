@@ -20,17 +20,17 @@ class MinPer100m extends AbstractTimeUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_100M;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_100M;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '/100m';
-	}
+    {
+        return '/100m';
+    }
 
     /**
      * Factor to transform 's/km' to current unit
@@ -41,7 +41,7 @@ class MinPer100m extends AbstractTimeUnit
      * @throws \RuntimeException
      */
     public function factorForUnit(): float
-	{
-		return 0.1;
-	}
+    {
+        return 0.1;
+    }
 }

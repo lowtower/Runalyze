@@ -11,10 +11,12 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
  */
 class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
     }
 
-    public function testAppendNotesExistingNull() {
+    public function testAppendNotesExistingNull()
+    {
         $r = new RouteNameEvalResult('thename', 'thenote');
 
         $note = $r->appendNotes(null);
@@ -22,7 +24,8 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes but eval-note is empty -> use only existing one
-    public function testAppendNotesExistNewNoteEmpty() {
+    public function testAppendNotesExistNewNoteEmpty()
+    {
         $r = new RouteNameEvalResult('thename', '');
 
         $note = $r->appendNotes('x');
@@ -30,7 +33,8 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // no existing notes exists -> set evaluation note as new
-    public function testAppendNotesExistIsEmpty() {
+    public function testAppendNotesExistIsEmpty()
+    {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 
         $note = $r->appendNotes('');
@@ -38,38 +42,42 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes exists, but no evaluation note -> append evaluation note to the end
-    public function testAppendNotesExistNotEmpty01() {
+    public function testAppendNotesExistNotEmpty01()
+    {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes");
 
         $note = $r->appendNotes("Alread\nhas some\n");
 
-        $this->assertEquals("Alread\nhas some\n\n" . 
+        $this->assertEquals("Alread\nhas some\n\n" .
             RouteNameEvalResult::NOTES_START . "\nmulti\nline\nnotes\n" . RouteNameEvalResult::NOTES_END, $note);
     }
 
     // existing notes exists, but no evaluation note -> append evaluation note to the end
-    public function testAppendNotesExistNotEmpty02() {
+    public function testAppendNotesExistNotEmpty02()
+    {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes");
 
         $note = $r->appendNotes("Alread\nhas some");
 
-        $this->assertEquals("Alread\nhas some\n\n" . 
+        $this->assertEquals("Alread\nhas some\n\n" .
             RouteNameEvalResult::NOTES_START . "\nmulti\nline\nnotes\n" . RouteNameEvalResult::NOTES_END, $note);
     }
 
     // existing notes with existing evaluation not exists -> replace eval note
-    public function testAppendNotesExist01() {
+    public function testAppendNotesExist01()
+    {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 
         $note = $r->appendNotes("Alread\nhas some\n" .
             RouteNameEvalResult::NOTES_START . "old-existing-info\n" . RouteNameEvalResult::NOTES_END);
 
-        $this->assertEquals("Alread\nhas some\n" . 
+        $this->assertEquals("Alread\nhas some\n" .
             RouteNameEvalResult::NOTES_START . "\nmulti\nline\nnotes\n" . RouteNameEvalResult::NOTES_END, $note);
     }
 
     // existing notes with existing evaluation not exists; with further text after the eval note -> replace eval note
-    public function testAppendNotesExist02() {
+    public function testAppendNotesExist02()
+    {
         $r = new RouteNameEvalResult('thename', 'new');
 
         $note = $r->appendNotes("Alread\n" .
@@ -77,13 +85,14 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
             'end text');
 
         // check also a PHP_EOL is added to the eval-note!
-        $this->assertEquals("Alread\n" . 
+        $this->assertEquals("Alread\n" .
             RouteNameEvalResult::NOTES_START . "\nnew\n" . RouteNameEvalResult::NOTES_END .
             'end text', $note);
     }
 
     // existing notes with existing evaluation exists -> replace eval note
-    public function testAppendNotesExist03() {
+    public function testAppendNotesExist03()
+    {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 
         $note = $r->appendNotes(RouteNameEvalResult::NOTES_START . "old-existing-info\n" . RouteNameEvalResult::NOTES_END);

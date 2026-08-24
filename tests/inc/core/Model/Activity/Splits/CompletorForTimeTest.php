@@ -9,20 +9,21 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class CompletorForTimeTest extends \PHPUnit\Framework\TestCase
 {
-	public function testCompletor() {
-		$Splits = new Entity([
-		    new Split(1.0, 0),
-		    new Split(1.3, 0),
-		]);
+    public function testCompletor()
+    {
+        $Splits = new Entity([
+            new Split(1.0, 0),
+            new Split(1.3, 0),
+        ]);
 
-		$Completor = new CompletorForTime(
-		    $Splits,
-		    [100, 200, 300, 400, 550, 650],
-		    [0.3, 0.6, 1.0, 1.4, 1.9, 2.3]
-		);
-		$Completor->completeSplits();
+        $Completor = new CompletorForTime(
+            $Splits,
+            [100, 200, 300, 400, 550, 650],
+            [0.3, 0.6, 1.0, 1.4, 1.9, 2.3]
+        );
+        $Completor->completeSplits();
 
-		$this->assertEquals(300, $Splits->at(0)->time());
-		$this->assertEquals(350, $Splits->at(1)->time());
-	}
+        $this->assertEquals(300, $Splits->at(0)->time());
+        $this->assertEquals(350, $Splits->at(1)->time());
+    }
 }

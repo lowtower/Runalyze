@@ -8,7 +8,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class DatabaseCache extends AbstractSource
 {
-	public function getInternalProfileEnum(): int
+    public function getInternalProfileEnum(): int
     {
         return WeatherSourceProfile::DATABASE_CACHE;
     }

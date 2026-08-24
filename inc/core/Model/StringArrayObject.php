@@ -18,102 +18,112 @@ namespace Runalyze\Model;
  */
 abstract class StringArrayObject extends StringObject
 {
-	/**
-	 * Single elements
-	 * @var mixed
-	 */
-	protected $Elements = [];
+    /**
+     * Single elements
+     * @var mixed
+     */
+    protected $Elements = [];
 
-	/**
-	 * Construct
-	 * @param mixed $data string or array
-	 */
-	public function __construct($data = '') {
-		if (is_array($data)) {
-			$this->fromArray($data);
-		} elseif (! empty($data)) {
-			parent::__construct($data);
-		}
-	}
+    /**
+     * Construct
+     * @param mixed $data string or array
+     */
+    public function __construct($data = '')
+    {
+        if (is_array($data)) {
+            $this->fromArray($data);
+        } elseif (! empty($data)) {
+            parent::__construct($data);
+        }
+    }
 
-	/**
-	 * @param array[] $data array of elements
-	 */
-	public function fromArray(array $data) {
-		$this->Elements = $data;
-	}
+    /**
+     * @param array[] $data array of elements
+     */
+    public function fromArray(array $data)
+    {
+        $this->Elements = $data;
+    }
 
-	/**
-	 * As array
-	 * @return array
-	 */
-	public function asArray() {
-		return $this->Elements;
-	}
+    /**
+     * As array
+     * @return array
+     */
+    public function asArray()
+    {
+        return $this->Elements;
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function fromString($string) {
-		$json = json_decode($string, true);
+    /**
+     * @param string $string
+     */
+    public function fromString($string)
+    {
+        $json = json_decode($string, true);
 
-		if (is_array($json)) {
-			$this->fromArray($json);
-		} else {
-			$this->clear();
-		}
-	}
+        if (is_array($json)) {
+            $this->fromArray($json);
+        } else {
+            $this->clear();
+        }
+    }
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	public function asString() {
-		if ($this->isEmpty()) {
-			return '';
-		}
+    /**
+     * As string
+     * @return string
+     */
+    public function asString()
+    {
+        if ($this->isEmpty()) {
+            return '';
+        }
 
-		return json_encode($this->asArray(), JSON_HEX_QUOT);
-	}
+        return json_encode($this->asArray(), JSON_HEX_QUOT);
+    }
 
-	public function clear() {
-		$this->Elements = [];
-	}
+    public function clear()
+    {
+        $this->Elements = [];
+    }
 
-	/**
-	 * Number of pauses
-	 * @return int
-	 */
-	public function num() {
-		return count($this->Elements);
-	}
+    /**
+     * Number of pauses
+     * @return int
+     */
+    public function num()
+    {
+        return count($this->Elements);
+    }
 
-	/**
-	 * Is empty
-	 * @return bool
-	 */
-	public function isEmpty() {
-		return $this->num() == 0;
-	}
+    /**
+     * Is empty
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->num() == 0;
+    }
 
-	/**
-	 * @param mixed $element
-	 */
-	public function add($element) {
-		$this->Elements[] = $element;
-	}
+    /**
+     * @param mixed $element
+     */
+    public function add($element)
+    {
+        $this->Elements[] = $element;
+    }
 
-	/**
-	 * Get pause
-	 * @param int $index
-	 * @return mixed
-	 * @throws \InvalidArgumentException
-	 */
-	public function at($index) {
-		if (! isset($this->Elements[$index])) {
-			throw new \InvalidArgumentException('Unknown object index.');
-		}
+    /**
+     * Get pause
+     * @param int $index
+     * @return mixed
+     * @throws \InvalidArgumentException
+     */
+    public function at($index)
+    {
+        if (! isset($this->Elements[$index])) {
+            throw new \InvalidArgumentException('Unknown object index.');
+        }
 
-		return $this->Elements[$index];
-	}
+        return $this->Elements[$index];
+    }
 }

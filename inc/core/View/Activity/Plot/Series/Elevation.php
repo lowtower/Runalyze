@@ -20,124 +20,131 @@ use Runalyze\View\Activity;
  */
 class Elevation extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(227,217,187)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(227,217,187)';
 
-	/**
-	 * @var bool
-	 */
-	protected $ShowAsFilledLine = true;
+    /**
+     * @var bool
+     */
+    protected $ShowAsFilledLine = true;
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 * @var bool [optional]
-	 */
-	public function __construct(Activity\Context $context, $forceOriginal = false) {
-		$this->initOptions();
-		$this->initDataWithRoute($context, $forceOriginal);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     * @var bool [optional]
+     */
+    public function __construct(Activity\Context $context, $forceOriginal = false)
+    {
+        $this->initOptions();
+        $this->initDataWithRoute($context, $forceOriginal);
+    }
 
-	/**
-	 * Init data
-	 * @var \Runalyze\View\Activity\Context
-	 * @var bool
-	 */
-	protected function initDataWithRoute(Activity\Context $context, $forceOriginal) {
-		if (! $context->hasRoute()) {
-			$this->Data = [];
-			return;
-		}
+    /**
+     * Init data
+     * @var \Runalyze\View\Activity\Context
+     * @var bool
+     */
+    protected function initDataWithRoute(Activity\Context $context, $forceOriginal)
+    {
+        if (! $context->hasRoute()) {
+            $this->Data = [];
+            return;
+        }
 
-		$key = $context->route()
-		    ->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
+        $key = $context->route()
+            ->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
 
-		if (! $context->route()->has($key)) {
-			$this->Data = [];
-			return;
-		}
+        if (! $context->route()->has($key)) {
+            $this->Data = [];
+            return;
+        }
 
-		$Collector = new DataCollectorWithRoute($context->trackdata(), $key, $context->route());
-		$this->Data = $Collector->data();
-		$this->XAxis = $Collector->xAxis();
+        $Collector = new DataCollectorWithRoute($context->trackdata(), $key, $context->route());
+        $this->Data = $Collector->data();
+        $this->XAxis = $Collector->xAxis();
 
-		$this->manipulateData();
-	}
+        $this->manipulateData();
+    }
 
-	/**
-	 * Manipulate data for correct unit
-	 */
-	protected function manipulateData() {
-		$UnitSystem = Configuration::General()->distanceUnitSystem();
+    /**
+     * Manipulate data for correct unit
+     */
+    protected function manipulateData()
+    {
+        $UnitSystem = Configuration::General()->distanceUnitSystem();
 
-		if ($UnitSystem->isImperial()) {
-			$this->Data = array_map(function($value): float {
-				return round($value * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
-			}, $this->Data);
-		}
-	}
+        if ($UnitSystem->isImperial()) {
+            $this->Data = array_map(function ($value): float {
+                return round($value * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
+            }, $this->Data);
+        }
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Elevation');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Elevation');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = Configuration::General()->distanceUnitSystem()->elevationUnit();
-		$this->UnitDecimals = 0;
+        $this->UnitString = Configuration::General()->distanceUnitSystem()->elevationUnit();
+        $this->UnitDecimals = 0;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = false;
-		$this->ShowMaximum = true;
-		$this->ShowMinimum = true;
-	}
+        $this->ShowAverage = false;
+        $this->ShowMaximum = true;
+        $this->ShowMinimum = true;
+    }
 
     /**
      * Add to plot
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
-		if (empty($this->Data)) {
-			return;
-		}
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    {
+        if (empty($this->Data)) {
+            return;
+        }
 
-		parent::addTo($Plot, $yAxis, $addAnnotations);
+        parent::addTo($Plot, $yAxis, $addAnnotations);
 
-		$min = min($this->Data);
-		$max = max($this->Data);
+        $min = min($this->Data);
+        $max = max($this->Data);
 
-		if ($max - $min <= 50) {
-			$minLimit = $min - 20;
-			$maxLimit = $max + 20;
-		} else {
-			$minLimit = $min;
-			$maxLimit = $max;
-		}
+        if ($max - $min <= 50) {
+            $minLimit = $min - 20;
+            $maxLimit = $max + 20;
+        } else {
+            $minLimit = $min;
+            $maxLimit = $max;
+        }
 
-		$Plot->setYLimits($yAxis, $minLimit, $maxLimit, true);
+        $Plot->setYLimits($yAxis, $minLimit, $maxLimit, true);
 
-		if ($this->ShowAsFilledLine) {
-			$Plot->setLinesFilled([$yAxis - 1]);
-		}
-	}
+        if ($this->ShowAsFilledLine) {
+            $Plot->setLinesFilled([$yAxis - 1]);
+        }
+    }
 
     /**
      * @return array<int, mixed> array($min, $max)
      */
-    public function limits(): array {
-		return [
-		    min($this->Data),
-		    max($this->Data),
-		];
-	}
+    public function limits(): array
+    {
+        return [
+            min($this->Data),
+            max($this->Data),
+        ];
+    }
 
-	/**
-	 * @param bool $flag
-	 */
-	public function showAsFilledLine($flag = true) {
-		$this->ShowAsFilledLine = $flag;
-	}
+    /**
+     * @param bool $flag
+     */
+    public function showAsFilledLine($flag = true)
+    {
+        $this->ShowAsFilledLine = $flag;
+    }
 }

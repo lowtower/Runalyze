@@ -17,27 +17,29 @@ use Runalyze\View\Activity;
  */
 class PaceAndHeartrateAndElevation extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'pacehrelevation';
-	}
+    protected function setKey()
+    {
+        $this->key = 'pacehrelevation';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$Gradient = new Series\Gradient($context);
-		/** @var \Runalyze\View\Plot\Series[] $allSeries */
-		$allSeries = [
-		    new Series\Elevation($context),
-		    $Gradient,
-		    new Series\Heartrate($context),
-		    new Series\Pace($context),
-		];
+    protected function initData(Activity\Context $context)
+    {
+        $Gradient = new Series\Gradient($context);
+        /** @var \Runalyze\View\Plot\Series[] $allSeries */
+        $allSeries = [
+            new Series\Elevation($context),
+            $Gradient,
+            new Series\Heartrate($context),
+            new Series\Pace($context),
+        ];
 
-		$this->addMultipleSeries($allSeries);
+        $this->addMultipleSeries($allSeries);
 
-		// #TSC add GAP, but not via addMultipleSeries, bacause yAxis must the same as the Pace series
-		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
-		$this->addSeries($GradeAdjustedPaceSeries, 4, false);
+        // #TSC add GAP, but not via addMultipleSeries, bacause yAxis must the same as the Pace series
+        $GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
+        $this->addSeries($GradeAdjustedPaceSeries, 4, false);
 
-		$this->Plot->Options['legend']['hidden'] = [$Gradient->label(), $GradeAdjustedPaceSeries->label()]; // hide by default
+        $this->Plot->Options['legend']['hidden'] = [$Gradient->label(), $GradeAdjustedPaceSeries->label()]; // hide by default
 
-	}
+    }
 }

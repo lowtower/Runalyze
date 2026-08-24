@@ -23,60 +23,60 @@ class Type extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::TYPE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::TYPE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'typeid';
-	}
+    {
+        return 'typeid';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Activity type');
-	}
+    {
+        return __('Activity type');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Type');
-	}
+    {
+        return __('Type');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'The activity type is shown with its abbreviation. ' .
-			'It is bold if the type is marked as quality session.'
-		);
-	}
+    {
+        return __(
+            'The activity type is shown with its abbreviation. ' .
+            'It is bold if the type is marked as quality session.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		if ($context->hasType()) {
-			if ($context->type()->isQualitySession()) {
-				return '<strong>' . $context->type()->abbreviation() . '</strong>';
-			}
+    {
+        if ($context->hasType()) {
+            if ($context->type()->isQualitySession()) {
+                return '<strong>' . $context->type()->abbreviation() . '</strong>';
+            }
 
-			return $context->type()
-			    ->abbreviation();
-		}
+            return $context->type()
+                ->abbreviation();
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

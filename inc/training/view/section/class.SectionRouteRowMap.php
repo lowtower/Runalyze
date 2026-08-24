@@ -15,20 +15,21 @@ use Runalyze\View\Leaflet;
  */
 class SectionRouteRowMap extends TrainingViewSectionRowFullwidth
 {
-	protected function setContent() {
-		$this->id = 'training-map';
+    protected function setContent()
+    {
+        $this->id = 'training-map';
 
-		if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
-			$Map = new Leaflet\Map('map-' . $this->Context->activity()->id());
-			$Map->addRoute(
-			    new Leaflet\Activity(
-			        'route-' . $this->Context->activity()->id(),
-			        $this->Context->route(),
-			        $this->Context->trackdata()
-			    )
-			);
+        if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
+            $Map = new Leaflet\Map('map-' . $this->Context->activity()->id());
+            $Map->addRoute(
+                new Leaflet\Activity(
+                    'route-' . $this->Context->activity()->id(),
+                    $this->Context->route(),
+                    $this->Context->trackdata()
+                )
+            );
 
-			$this->Content = $Map->code();
-		}
-	}
+            $this->Content = $Map->code();
+        }
+    }
 }

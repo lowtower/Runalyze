@@ -14,21 +14,21 @@ class WeatherSourceProfile extends AbstractEnum
     /**
      * @var int
      */
-    const OPEN_WEATHER_MAP = 1;
+    public const OPEN_WEATHER_MAP = 1;
 
     /**
      * @var int
      */
-    const DATABASE_CACHE = 2;
+    public const DATABASE_CACHE = 2;
 
     /**
      * @var int
      */
-    const DARK_SKY = 3;
+    public const DARK_SKY = 3;
 
     // #TSC
     /**
      * @var int
      */
-    const METEOSTAT_NET = 4;
+    public const METEOSTAT_NET = 4;
 }

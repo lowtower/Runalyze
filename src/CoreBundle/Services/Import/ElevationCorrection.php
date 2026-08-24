@@ -10,22 +10,21 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class ElevationCorrection
 {
-	/**
-	 * @var StrategyCollection
-	 */
-	protected $StrategyCollection;
+    /**
+     * @var StrategyCollection
+     */
+    protected $StrategyCollection;
 
-	/**
-	 * @var null|StrategyInterface
-	 */
-	protected $LastSuccessfulStrategy;
+    /**
+     * @var null|StrategyInterface
+     */
+    protected $LastSuccessfulStrategy;
 
-	public function __construct(
-	    GeoTiff $geoTiff,
-	    Geonames $geonames,
-	    GoogleMaps $googleMaps
-	)
-    {
+    public function __construct(
+        GeoTiff $geoTiff,
+        Geonames $geonames,
+        GoogleMaps $googleMaps
+    ) {
         $this->StrategyCollection = new StrategyCollection();
         $this->StrategyCollection->add($geoTiff);
         $this->StrategyCollection->add($geonames);

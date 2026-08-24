@@ -15,18 +15,21 @@ use Runalyze\Configuration;
  */
 class RunalyzePluginStat_MonthlyStats extends PluginStat
 {
-    final public function name(): string {
-		return __('Monthly Stats');
-	}
+    final public function name(): string
+    {
+        return __('Monthly Stats');
+    }
 
-    final public function description(): string {
-		return sprintf(__('How many %s/hours did you do per month'), Configuration::General()->distanceUnitSystem()->distanceUnit());
-	}
+    final public function description(): string
+    {
+        return sprintf(__('How many %s/hours did you do per month'), Configuration::General()->distanceUnitSystem()->distanceUnit());
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		// deprecated, see Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController::getResponseForMonthlyStats
-	}
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        // deprecated, see Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController::getResponseForMonthlyStats
+    }
 }

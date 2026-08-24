@@ -21,52 +21,52 @@ class Humidity extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::HUMIDITY;
-	}
+    {
+        return \Runalyze\Dataset\Keys::HUMIDITY;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'humidity';
-	}
+    {
+        return 'humidity';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Humidity');
-	}
+    {
+        return __('Humidity');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if (
-			! $context->activity()
-			    ->weather()
-			    ->humidity()
-			    ->isUnknown() &&
-			(! $context->hasSport() || $context->sport()->isOutside())
-		) {
-			return $context->activity()
-			    ->weather()
-			    ->humidity()
-			    ->string();
-		}
+    {
+        if (
+            ! $context->activity()
+                ->weather()
+                ->humidity()
+                ->isUnknown() &&
+            (! $context->hasSport() || $context->sport()->isOutside())
+        ) {
+            return $context->activity()
+                ->weather()
+                ->humidity()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

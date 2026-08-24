@@ -41,8 +41,8 @@ class TcxCourse extends AbstractSingleParser
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
         if (! empty($trackPoint->Position)) {
-            $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
-            $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
+            $this->Container->ContinuousData->Latitude[] = (float) $trackPoint->Position->LatitudeDegrees;
+            $this->Container->ContinuousData->Longitude[] = (float) $trackPoint->Position->LongitudeDegrees;
         } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);

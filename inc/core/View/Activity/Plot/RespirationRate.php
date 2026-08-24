@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class RespirationRate extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'respirationrate';
-	}
+    protected function setKey()
+    {
+        $this->key = 'respirationrate';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\RespirationRate($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\RespirationRate($context)
+        );
+    }
 }

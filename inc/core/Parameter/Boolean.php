@@ -15,14 +15,16 @@ namespace Runalyze\Parameter;
  */
 class Boolean extends \Runalyze\Parameter
 {
-	/**
-	 * @param string $valueAsString new value
-	 */
-	public function setFromString($valueAsString) {
-		$this->set( ($valueAsString == 'true') );
-	}
+    /**
+     * @param string $valueAsString new value
+     */
+    public function setFromString($valueAsString)
+    {
+        $this->set(($valueAsString == 'true'));
+    }
 
-    public function valueAsString(): string {
-		return $this->value() ? 'true' : 'false';
-	}
+    public function valueAsString(): string
+    {
+        return $this->value() ? 'true' : 'false';
+    }
 }

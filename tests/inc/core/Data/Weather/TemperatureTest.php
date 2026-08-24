@@ -9,82 +9,88 @@ namespace Runalyze\Data\Weather;
  */
 class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
-	public function testIsUnknown() {
-		$Temp = new Temperature();
+    public function testIsUnknown()
+    {
+        $Temp = new Temperature();
 
-		$this->assertTrue($Temp->isUnknown());
-		$this->assertEquals(null, $Temp->value());
-	}
+        $this->assertTrue($Temp->isUnknown());
+        $this->assertEquals(null, $Temp->value());
+    }
 
-	public function testIsUnknownWithUnit() {
-		$Temp = new Temperature(null, Temperature::KELVIN);
+    public function testIsUnknownWithUnit()
+    {
+        $Temp = new Temperature(null, Temperature::KELVIN);
 
-		$this->assertTrue($Temp->isUnknown());
-		$this->assertEquals(null, $Temp->value());
-	}
+        $this->assertTrue($Temp->isUnknown());
+        $this->assertEquals(null, $Temp->value());
+    }
 
-	public function testCelsius() {
-		$Temp = new Temperature(17);
-		$this->assertEquals(17, $Temp->value());
-		$this->assertEquals('&deg;C', $Temp->unit());
-		$this->assertEquals('17&nbsp;&deg;C', $Temp->asString());
-		$this->assertFalse($Temp->isUnknown());
+    public function testCelsius()
+    {
+        $Temp = new Temperature(17);
+        $this->assertEquals(17, $Temp->value());
+        $this->assertEquals('&deg;C', $Temp->unit());
+        $this->assertEquals('17&nbsp;&deg;C', $Temp->asString());
+        $this->assertFalse($Temp->isUnknown());
 
-		$TempNegative = new Temperature(-5, Temperature::CELSIUS);
-		$this->assertEquals(-5, $TempNegative->value());
-		$this->assertEquals('&deg;C', $TempNegative->unit());
-		$this->assertEquals('-5&nbsp;&deg;C', $TempNegative->asString());
-		$this->assertFalse($TempNegative->isUnknown());
-	}
+        $TempNegative = new Temperature(-5, Temperature::CELSIUS);
+        $this->assertEquals(-5, $TempNegative->value());
+        $this->assertEquals('&deg;C', $TempNegative->unit());
+        $this->assertEquals('-5&nbsp;&deg;C', $TempNegative->asString());
+        $this->assertFalse($TempNegative->isUnknown());
+    }
 
-	public function testFahrenheit() {
-		$Temp = new Temperature(68, Temperature::FAHRENHEIT);
+    public function testFahrenheit()
+    {
+        $Temp = new Temperature(68, Temperature::FAHRENHEIT);
 
-		$this->assertEquals(68, $Temp->value());
-		$this->assertEquals('&deg;F', $Temp->unit());
-		$this->assertEquals('68&nbsp;&deg;F', $Temp->asString());
-		$this->assertFalse($Temp->isUnknown());
+        $this->assertEquals(68, $Temp->value());
+        $this->assertEquals('&deg;F', $Temp->unit());
+        $this->assertEquals('68&nbsp;&deg;F', $Temp->asString());
+        $this->assertFalse($Temp->isUnknown());
 
-		$Temp->toCelsius();
+        $Temp->toCelsius();
 
-		$this->assertEquals(20, $Temp->value());
-		$this->assertEquals('&deg;C', $Temp->unit());
-		$this->assertEquals('20&nbsp;&deg;C', $Temp->asString());
-		$this->assertFalse($Temp->isUnknown());
+        $this->assertEquals(20, $Temp->value());
+        $this->assertEquals('&deg;C', $Temp->unit());
+        $this->assertEquals('20&nbsp;&deg;C', $Temp->asString());
+        $this->assertFalse($Temp->isUnknown());
 
-		$Temp->toFahrenheit();
+        $Temp->toFahrenheit();
 
-		$this->assertEquals(68, $Temp->value());
-	}
+        $this->assertEquals(68, $Temp->value());
+    }
 
-	public function testKelvin() {
-		$Temp = new Temperature(300, Temperature::KELVIN);
+    public function testKelvin()
+    {
+        $Temp = new Temperature(300, Temperature::KELVIN);
 
-		$this->assertEquals(300, $Temp->value());
-		$this->assertEquals('K', $Temp->unit());
-		$this->assertEquals('300&nbsp;K', $Temp->asString());
-		$this->assertFalse($Temp->isUnknown());
+        $this->assertEquals(300, $Temp->value());
+        $this->assertEquals('K', $Temp->unit());
+        $this->assertEquals('300&nbsp;K', $Temp->asString());
+        $this->assertFalse($Temp->isUnknown());
 
-		$Temp->toCelsius();
-		$this->assertEquals('27&nbsp;&deg;C', $Temp->asString());
+        $Temp->toCelsius();
+        $this->assertEquals('27&nbsp;&deg;C', $Temp->asString());
 
-		$Temp->setTemperature(7);
-		$Temp->toKelvin();
-		$this->assertEquals(280.15, $Temp->value());
-	}
+        $Temp->setTemperature(7);
+        $Temp->toKelvin();
+        $this->assertEquals(280.15, $Temp->value());
+    }
 
-	public function testDynamicUnit() {
-		$Temp = new Temperature();
-		$Temp->setTemperature(20, Temperature::CELSIUS);
-		$this->assertEquals('20&nbsp;&deg;C', $Temp->asString());
-		$Temp->toFahrenheit();
-		$this->assertEquals('68&nbsp;&deg;F', $Temp->asString());
+    public function testDynamicUnit()
+    {
+        $Temp = new Temperature();
+        $Temp->setTemperature(20, Temperature::CELSIUS);
+        $this->assertEquals('20&nbsp;&deg;C', $Temp->asString());
+        $Temp->toFahrenheit();
+        $this->assertEquals('68&nbsp;&deg;F', $Temp->asString());
 
-		$Temp->setTemperature(32);
-		$this->assertEquals('32&nbsp;&deg;F', $Temp->asString());
-		$Temp->toCelsius();
-		$this->assertEquals('0&nbsp;&deg;C', $Temp->asString());
+        $Temp->setTemperature(32);
+        $this->assertEquals('32&nbsp;&deg;F', $Temp->asString());
+        $Temp->toCelsius();
+        $this->assertEquals('0&nbsp;&deg;C', $Temp->asString());
 
-		$this->assertFalse($Temp->isUnknown());
-	}
+        $this->assertFalse($Temp->isUnknown());
+    }
 }

@@ -18,32 +18,34 @@ use Runalyze\View\Activity;
  */
 class RespirationRate extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(100,0,200)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(100,0,200)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::RESPIRATION_RATE);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::RESPIRATION_RATE);
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Atemfrequenz');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Atemfrequenz');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = 'brpm';
-		$this->UnitDecimals = 1;
+        $this->UnitString = 'brpm';
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = true;
-		$this->ShowMinimum = true;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = true;
+        $this->ShowMinimum = true;
+    }
 }

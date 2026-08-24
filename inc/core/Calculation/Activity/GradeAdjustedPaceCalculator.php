@@ -28,25 +28,25 @@ use Runalyze\View\Activity;
  */
 class GradeAdjustedPaceCalculator
 {
-	/**
-	 * @var \Runalyze\Model\Trackdata\Entity
-	 */
-	protected $Trackdata;
+    /**
+     * @var \Runalyze\Model\Trackdata\Entity
+     */
+    protected $Trackdata;
 
     /**
      * @var \Runalyze\Model\Route\Entity
      */
     protected $Route;
 
-	/**
-	 * @var \Runalyze\Model\Trackdata\Loop
-	 */
-	protected $Loop;
+    /**
+     * @var \Runalyze\Model\Trackdata\Loop
+     */
+    protected $Loop;
 
-	/**
-	 * @var int|float
-	 */
-	protected $StepSize = 1;
+    /**
+     * @var int|float
+     */
+    protected $StepSize = 1;
 
     /**
      * the result: grade adjusted time
@@ -60,13 +60,14 @@ class GradeAdjustedPaceCalculator
     /**
      * Calculate the pace
      */
-    public function __construct(Activity\Context $context) {
+    public function __construct(Activity\Context $context)
+    {
         $trackdata = $context->trackdata();
 
-		$this->Trackdata = $trackdata;
-		$this->Loop = new Trackdata\Loop($trackdata);
+        $this->Trackdata = $trackdata;
+        $this->Loop = new Trackdata\Loop($trackdata);
         $this->Route = $context->route();
-	}
+    }
 
     /**
      * get the gradient series from elevation/distance as numbers from -90 to +90.
@@ -84,10 +85,11 @@ class GradeAdjustedPaceCalculator
         return $gradient->getSeries();
     }
 
-	/**
-	 * Calculate the pace
-	 */
-	protected function calculate() {
+    /**
+     * Calculate the pace
+     */
+    protected function calculate()
+    {
         // calculate the grade adjusted pace
         $algorithm = new Minetti();
         $gradient = $this->getGradientSeries();
@@ -105,20 +107,21 @@ class GradeAdjustedPaceCalculator
 
             // factorize the time-point...and summarize it
             $gapTime += $this->Loop->difference(Trackdata\Entity::TIME) * $f;
-		}
+        }
 
         // save
         $this->time = $gapTime;
     }
 
-	/**
-	 * @return the grade adjusted pace
-	 */
-	public function getAdjustedTime() {
+    /**
+     * @return the grade adjusted pace
+     */
+    public function getAdjustedTime()
+    {
         if ($this->time === null) {
             $this->calculate();
         }
 
-		return $this->time;
-	}
+        return $this->time;
+    }
 }

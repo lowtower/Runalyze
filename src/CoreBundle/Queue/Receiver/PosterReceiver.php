@@ -86,8 +86,7 @@ class PosterReceiver
         $dataDir,
         $rsvgPath,
         $inkscapePath
-    )
-    {
+    ) {
         $this->Logger = $logger;
         $this->AccountRepository = $accountRepository;
         $this->SportRepository = $sportRepository;
@@ -167,7 +166,7 @@ class PosterReceiver
         );
 
         $this->GenerateJsonData->deleteGeneratedFiles();
-	gc_collect_cycles();
+        gc_collect_cycles();
     }
 
     /**

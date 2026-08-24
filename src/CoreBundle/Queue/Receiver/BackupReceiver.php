@@ -65,6 +65,6 @@ class BackupReceiver
             ->save(
                 Notification::createFromMessage(new BackupReadyMessage(), $account)
             );
-	gc_collect_cycles();
+        gc_collect_cycles();
     }
 }

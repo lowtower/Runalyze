@@ -4,35 +4,41 @@ namespace Runalyze\Model;
 
 class Object_MockTester extends Entity
 {
-	public function properties(): array {
-		return ['a', 'b', 'c'];
-	}
+    public function properties(): array
+    {
+        return ['a', 'b', 'c'];
+    }
 }
 
 class ObjectWithArrays_MockTester extends Entity
 {
-	public function properties(): array {
-		return  ['a', 'b', 'c'];
-	}
+    public function properties(): array
+    {
+        return ['a', 'b', 'c'];
+    }
 
-	public function isArray($key): bool {
-		return $key == 'b';
-	}
+    public function isArray($key): bool
+    {
+        return $key == 'b';
+    }
 
-	protected function canSet($key): bool {
-		return $key != 'c';
-	}
+    protected function canSet($key): bool
+    {
+        return $key != 'c';
+    }
 }
 
 class ObjectWithEmptyNumerics_MockTester extends Entity
 {
-	public function properties(): array {
-		return  ['int', 'string'];
-	}
+    public function properties(): array
+    {
+        return ['int', 'string'];
+    }
 
-	public function synchronize($default = 0) {
-		$this->ensureNumericValue('int', $default);
-	}
+    public function synchronize($default = 0)
+    {
+        $this->ensureNumericValue('int', $default);
+    }
 }
 
 /**
@@ -40,129 +46,141 @@ class ObjectWithEmptyNumerics_MockTester extends Entity
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-	public function testStaticArrayMethods() {
-		$TestArray = [1, 2, 3];
-		$this->assertEquals( $TestArray, Entity::explode(Entity::implode($TestArray)) );
-	}
+    public function testStaticArrayMethods()
+    {
+        $TestArray = [1, 2, 3];
+        $this->assertEquals($TestArray, Entity::explode(Entity::implode($TestArray)));
+    }
 
-	public function testSimpleObject() {
-		$O = new Object_MockTester([
-		    'a' => 1,
-		    'b' => '',
-		    'c' => true,
-		]);
+    public function testSimpleObject()
+    {
+        $O = new Object_MockTester([
+            'a' => 1,
+            'b' => '',
+            'c' => true,
+        ]);
 
-		$this->assertEquals(1, $O->get('a'));
-		$this->assertEquals('', $O->get('b'));
-		$this->assertEquals(true, $O->get('c'));
+        $this->assertEquals(1, $O->get('a'));
+        $this->assertEquals('', $O->get('b'));
+        $this->assertEquals(true, $O->get('c'));
 
-		$this->assertEquals(true, $O->has('a'));
-		$this->assertEquals(false, $O->has('b'));
-		$this->assertEquals(true, $O->has('c'));
+        $this->assertEquals(true, $O->has('a'));
+        $this->assertEquals(false, $O->has('b'));
+        $this->assertEquals(true, $O->has('c'));
 
-		$this->assertEquals([
-		    'a' => 1,
-		    'b' => '',
-		    'c' => true,
-		], $O->completeData());
+        $this->assertEquals([
+            'a' => 1,
+            'b' => '',
+            'c' => true,
+        ], $O->completeData());
 
-		$this->assertEquals(0, $O->num());
-	}
+        $this->assertEquals(0, $O->num());
+    }
 
-	public function testSimpleObjectWithArray() {
-		$O = new ObjectWithArrays_MockTester([
-		    'a' => 1,
-		    'b' => [1, 2, 3],
-		    'c' => true,
-		]);
+    public function testSimpleObjectWithArray()
+    {
+        $O = new ObjectWithArrays_MockTester([
+            'a' => 1,
+            'b' => [1, 2, 3],
+            'c' => true,
+        ]);
 
-		$this->assertEquals([1, 2, 3], $O->get('b'));
-		$this->assertTrue($O->has('b'));
-		$this->assertEquals(3, $O->num());
+        $this->assertEquals([1, 2, 3], $O->get('b'));
+        $this->assertTrue($O->has('b'));
+        $this->assertEquals(3, $O->num());
 
-		$O->set('b', []);
-		$this->assertFalse($O->has('b'));
-		$this->assertEquals(0, $O->num());
-	}
+        $O->set('b', []);
+        $this->assertFalse($O->has('b'));
+        $this->assertEquals(0, $O->num());
+    }
 
-	public function testClearing() {
-		$O = new ObjectWithArrays_MockTester([
-		    'a' => 1,
-		    'b' => [1, 2, 3],
-		    'c' => true,
-		]);
+    public function testClearing()
+    {
+        $O = new ObjectWithArrays_MockTester([
+            'a' => 1,
+            'b' => [1, 2, 3],
+            'c' => true,
+        ]);
 
-		$O->clear();
+        $O->clear();
 
-		$this->assertEmpty($O->get('a'));
-		$this->assertEmpty($O->get('b'));
-		$this->assertEmpty($O->get('c'));
+        $this->assertEmpty($O->get('a'));
+        $this->assertEmpty($O->get('b'));
+        $this->assertEmpty($O->get('c'));
 
-		$this->assertTrue($O->isEmpty());
-	}
+        $this->assertTrue($O->isEmpty());
+    }
 
-	public function testSimpleObjectWithArrayAsString() {
-		$O = new ObjectWithArrays_MockTester([
-		    'b' => '1' . Entity::ARRAY_SEPARATOR . '2' . Entity::ARRAY_SEPARATOR . '3',
-		]);
+    public function testSimpleObjectWithArrayAsString()
+    {
+        $O = new ObjectWithArrays_MockTester([
+            'b' => '1' . Entity::ARRAY_SEPARATOR . '2' . Entity::ARRAY_SEPARATOR . '3',
+        ]);
 
-		$this->assertEquals([1, 2, 3], $O->get('b'));
-	}
+        $this->assertEquals([1, 2, 3], $O->get('b'));
+    }
 
-	public function testDefaultValues() {
-		$O = new ObjectWithArrays_MockTester();
+    public function testDefaultValues()
+    {
+        $O = new ObjectWithArrays_MockTester();
 
-		$this->assertEquals('', $O->get('a'));
-		$this->assertEquals([], $O->get('b'));
-		$this->assertEquals('', $O->get('c'));
+        $this->assertEquals('', $O->get('a'));
+        $this->assertEquals([], $O->get('b'));
+        $this->assertEquals('', $O->get('c'));
 
-		$this->assertTrue($O->isEmpty());
-	}
+        $this->assertTrue($O->isEmpty());
+    }
 
-	public function testHasException() {
-		$this->expectException(\InvalidArgumentException::class);
-		$O = new Object_MockTester();
-		$O->has('foo');
-	}
+    public function testHasException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $O = new Object_MockTester();
+        $O->has('foo');
+    }
 
-	public function testGetException() {
-		$this->expectException(\InvalidArgumentException::class);
-		$O = new Object_MockTester();
-		$O->get('foo');
-	}
+    public function testGetException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $O = new Object_MockTester();
+        $O->get('foo');
+    }
 
-	public function testSetException() {
-		$this->expectException(\InvalidArgumentException::class);
-		$O = new Object_MockTester();
-		$O->set('foo', 'bar');
-	}
+    public function testSetException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $O = new Object_MockTester();
+        $O->set('foo', 'bar');
+    }
 
-	public function testInvalidSetException() {
-		$this->expectException(\InvalidArgumentException::class);
-		$O = new ObjectWithArrays_MockTester();
-		$O->set('c', 'd');
-	}
+    public function testInvalidSetException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $O = new ObjectWithArrays_MockTester();
+        $O->set('c', 'd');
+    }
 
-	public function testArraySetException() {
-		$this->expectException(\RuntimeException::class);
-		$O = new ObjectWithArrays_MockTester();
-		$O->set('b', 'no-array');
-	}
+    public function testArraySetException()
+    {
+        $this->expectException(\RuntimeException::class);
+        $O = new ObjectWithArrays_MockTester();
+        $O->set('b', 'no-array');
+    }
 
-	public function testEnsuringNumericalValues() {
-		$O = new ObjectWithEmptyNumerics_MockTester();
-		$this->assertEquals('', $O->get('int'));
+    public function testEnsuringNumericalValues()
+    {
+        $O = new ObjectWithEmptyNumerics_MockTester();
+        $this->assertEquals('', $O->get('int'));
 
-		$O->synchronize();
-		$this->assertEquals(0, $O->get('int'));
-		$this->assertEquals('', $O->get('string'));
+        $O->synchronize();
+        $this->assertEquals(0, $O->get('int'));
+        $this->assertEquals('', $O->get('string'));
 
-		$O->set('int', 3.14);
-		$O->synchronize();
-		$this->assertEquals(3.14, $O->get('int'));
+        $O->set('int', 3.14);
+        $O->synchronize();
+        $this->assertEquals(3.14, $O->get('int'));
 
-		$O->set('int', '');
-		$O->synchronize(1);
-		$this->assertEquals(1, $O->get('int'));
-	}
+        $O->set('int', '');
+        $O->synchronize(1);
+        $this->assertEquals(1, $O->get('int'));
+    }
 }

@@ -16,240 +16,254 @@ use DateTimeZone;
  */
 class Duration
 {
-	/**
-	 * @var string
-	 */
-	const FORMAT_AUTO = 'auto';
+    /**
+     * @var string
+     */
+    public const FORMAT_AUTO = 'auto';
 
-	/**
-	 * @var string
-	 */
-	const FORMAT_COMPETITION = 'auto-competition';
+    /**
+     * @var string
+     */
+    public const FORMAT_COMPETITION = 'auto-competition';
 
-	/**
-	 * @var string
-	 */
-	const FORMAT_WITH_DAYS = 'z\d H:i:s';
+    /**
+     * @var string
+     */
+    public const FORMAT_WITH_DAYS = 'z\d H:i:s';
 
-	/**
-	 * @var string
-	 */
-	const FORMAT_WITH_HOURS = 'G:i:s';
+    /**
+     * @var string
+     */
+    public const FORMAT_WITH_HOURS = 'G:i:s';
 
-	/**
-	 * Decimal point
-	 * @var string
-	 */
-	public static $DECIMAL_POINT = ',';
+    /**
+     * Decimal point
+     * @var string
+     */
+    public static $DECIMAL_POINT = ',';
 
-	/**
-	 * Time [s]
-	 * @var float
-	 */
-	protected $Time;
+    /**
+     * Time [s]
+     * @var float
+     */
+    protected $Time;
 
     /**
      * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
      */
-    public static function format($input): string {
-		$Object = new self($input);
+    public static function format($input): string
+    {
+        $Object = new self($input);
 
-		return $Object->string();
-	}
+        return $Object->string();
+    }
 
-	/**
-	 * Create duration
-	 * @param float|string|int $input [optional] seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
-	 */
-	public function __construct($input = 0) {
-		if (is_numeric($input)) {
-			$this->fromSeconds($input);
-		} else {
-			$this->fromString($input);
-		}
-	}
+    /**
+     * Create duration
+     * @param float|string|int $input [optional] seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
+     */
+    public function __construct($input = 0)
+    {
+        if (is_numeric($input)) {
+            $this->fromSeconds($input);
+        } else {
+            $this->fromString($input);
+        }
+    }
 
-	/**
-	 * Set duration from seconds
-	 * @param float $seconds
-	 * @throws \InvalidArgumentException
-	 * @return \Runalyze\Activity\Duration $this-reference
-	 */
-	public function fromSeconds($seconds): self {
-		if (! is_numeric($seconds)) {
-			throw new \InvalidArgumentException('Parameter $seconds must be of numeric type.');
-		}
+    /**
+     * Set duration from seconds
+     * @param float $seconds
+     * @throws \InvalidArgumentException
+     * @return \Runalyze\Activity\Duration $this-reference
+     */
+    public function fromSeconds($seconds): self
+    {
+        if (! is_numeric($seconds)) {
+            throw new \InvalidArgumentException('Parameter $seconds must be of numeric type.');
+        }
 
-		$this->Time = $seconds;
+        $this->Time = $seconds;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param string $string format: "[[[z\d ]H:]i:]s[(.|,)u]"
-	 * @return \Runalyze\Activity\Duration $this-reference
-	 */
-	public function fromString($string): self {
-		$this->Time = 0;
+    /**
+     * @param string $string format: "[[[z\d ]H:]i:]s[(.|,)u]"
+     * @return \Runalyze\Activity\Duration $this-reference
+     */
+    public function fromString($string): self
+    {
+        $this->Time = 0;
 
-		// #TSC - fix: only set duration if soming exists in the string
-		if ((string) $string !== '') {
-			$split = explode('.', str_replace(',', '.', $string));
+        // #TSC - fix: only set duration if soming exists in the string
+        if ((string) $string !== '') {
+            $split = explode('.', str_replace(',', '.', $string));
 
-			if (isset($split[1])) {
-				$this->Time += (float) ('0.' . $split[1]);
-			}
+            if (isset($split[1])) {
+                $this->Time += (float) ('0.' . $split[1]);
+            }
 
-			$splitDays = explode('d ', $split[0]);
+            $splitDays = explode('d ', $split[0]);
 
-			if (isset($splitDays[1])) {
-				$this->Time += 86400 * $splitDays[0];
-				$splitDays[0] = $splitDays[1];
-			}
+            if (isset($splitDays[1])) {
+                $this->Time += 86400 * $splitDays[0];
+                $splitDays[0] = $splitDays[1];
+            }
 
-			$parts = explode(':', $splitDays[0]);
-			$num = count($parts);
+            $parts = explode(':', $splitDays[0]);
+            $num = count($parts);
 
-			foreach ($parts as $i => $part) {
-				$this->Time += (int) $part * pow(60, $num - $i - 1);
-			}
-		}
+            foreach ($parts as $i => $part) {
+                $this->Time += (int) $part * pow(60, $num - $i - 1);
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Seconds
-	 * @return float
-	 */
-	public function seconds() {
-		return $this->Time;
-	}
+    /**
+     * Seconds
+     * @return float
+     */
+    public function seconds()
+    {
+        return $this->Time;
+    }
 
     /**
      * Format duration as string
      * @param string $format [optional] format accepted by date()
      * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
      */
-    public function string($format = self::FORMAT_AUTO, $decimals = 2): string {
-		if ($format == self::FORMAT_AUTO) {
-			return $this->autoString($decimals);
-		}
+    public function string($format = self::FORMAT_AUTO, $decimals = 2): string
+    {
+        if ($format == self::FORMAT_AUTO) {
+            return $this->autoString($decimals);
+        }
 
-		if ($format == self::FORMAT_COMPETITION) {
-			return $this->autoCompetitionString($decimals);
-		}
+        if ($format == self::FORMAT_COMPETITION) {
+            return $this->autoCompetitionString($decimals);
+        }
 
-		return $this->formatString($format, $decimals);
-	}
+        return $this->formatString($format, $decimals);
+    }
 
     /**
      * Auto format as string
      * @param int $decimals [optional]
      */
-    protected function autoString($decimals = 2): string {
-		$fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT . 'u' : '';
+    protected function autoString($decimals = 2): string
+    {
+        $fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT . 'u' : '';
 
-		if ($this->Time >= 86400) {
-			return $this->formatString(self::FORMAT_WITH_DAYS);
-		}
+        if ($this->Time >= 86400) {
+            return $this->formatString(self::FORMAT_WITH_DAYS);
+        }
 
-		if ($this->Time >= 3600) {
-			return $this->formatString(self::FORMAT_WITH_HOURS);
-		}
+        if ($this->Time >= 3600) {
+            return $this->formatString(self::FORMAT_WITH_HOURS);
+        }
 
-		if ($this->Time < 60) {
-			return '0:' . $this->formatString('s' . $fraction, $decimals);
-		}
+        if ($this->Time < 60) {
+            return '0:' . $this->formatString('s' . $fraction, $decimals);
+        }
 
-		return ltrim($this->formatString('i:s' . $fraction, $decimals), '0');
-	}
+        return ltrim($this->formatString('i:s' . $fraction, $decimals), '0');
+    }
 
     /**
      * Format for competition results
      * @param int $decimals [optional]
      */
-    protected function autoCompetitionString($decimals = 2): string {
-		if ($this->Time >= 60 || $this->Time == 0) {
-			return $this->autoString($decimals);
-		}
+    protected function autoCompetitionString($decimals = 2): string
+    {
+        if ($this->Time >= 60 || $this->Time == 0) {
+            return $this->autoString($decimals);
+        }
 
-		return ltrim($this->formatString('s' . self::$DECIMAL_POINT . 'u', $decimals), '0') . 's';
-	}
+        return ltrim($this->formatString('s' . self::$DECIMAL_POINT . 'u', $decimals), '0') . 's';
+    }
 
     /**
      * Format with DateTime object
      * @param string $format
      * @param int $decimals
      */
-    protected function formatString($format, $decimals = 2): string {
-		if (substr($format, -1) == 'u') {
-			$fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
-			return $this->formatString(substr($format, 0, -1)) . $fraction;
-		}
+    protected function formatString($format, $decimals = 2): string
+    {
+        if (substr($format, -1) == 'u') {
+            $fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
+            return $this->formatString(substr($format, 0, -1)) . $fraction;
+        }
 
-		$time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
+        $time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
 
-		if ($time === false) {
-			throw new \InvalidArgumentException("Can't format time (t = " . ((int) round($this->Time)) . ').');
-		}
+        if ($time === false) {
+            throw new \InvalidArgumentException("Can't format time (t = " . ((int) round($this->Time)) . ').');
+        }
 
-		if ($format == self::FORMAT_WITH_HOURS) {
-			/* we need to compute the hours ourselves, since DateTime outputs %G as [0..24) */
-			$sec = $time->format('U');
-			$s = $sec % 60;
-			$m = (($sec - $s) / 60) % 60;
-			$h = floor($sec / 3600);
-			return $h . ':' . substr('0' . $m, -2) . ':' . substr('0' . $s, -2);
-		}
+        if ($format == self::FORMAT_WITH_HOURS) {
+            /* we need to compute the hours ourselves, since DateTime outputs %G as [0..24) */
+            $sec = $time->format('U');
+            $s = $sec % 60;
+            $m = (($sec - $s) / 60) % 60;
+            $h = floor($sec / 3600);
+            return $h . ':' . substr('0' . $m, -2) . ':' . substr('0' . $s, -2);
+        }
 
         return $time->format($format);
-	}
+    }
 
-	/**
-	 * Multiply time
-	 * @param float $factor
-	 * @return \Runalyze\Activity\Duration $this-reference
-	 */
-	public function multiply($factor): self {
-		$this->Time *= $factor;
+    /**
+     * Multiply time
+     * @param float $factor
+     * @return \Runalyze\Activity\Duration $this-reference
+     */
+    public function multiply($factor): self
+    {
+        $this->Time *= $factor;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Add another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function add(self $object): self {
-		$this->Time += $object->seconds();
+    public function add(self $object): self
+    {
+        $this->Time += $object->seconds();
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Subtract another duration
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function subtract(self $object): self {
-		$this->Time -= $object->seconds();
+    public function subtract(self $object): self
+    {
+        $this->Time -= $object->seconds();
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Is duration negative?
      */
-    public function isNegative(): bool {
-		return $this->Time < 0;
-	}
+    public function isNegative(): bool
+    {
+        return $this->Time < 0;
+    }
 
     /**
      * Is duration zero?
      */
-    public function isZero(): bool {
-		return $this->Time == 0;
-	}
+    public function isZero(): bool
+    {
+        return $this->Time == 0;
+    }
 
     /**
      * Compare
@@ -257,33 +271,35 @@ class Duration
      * @param bool $raw [optional]
      * @throws \InvalidArgumentException
      */
-    public function compareTo(self $other, $invert = false, $raw = false): string {
-		if ($this->seconds() == 0 || $other->seconds() == 0) {
-			return '';
-		}
+    public function compareTo(self $other, $invert = false, $raw = false): string
+    {
+        if ($this->seconds() == 0 || $other->seconds() == 0) {
+            return '';
+        }
 
-		$CompareTime = new self(round(abs($this->seconds() - $other->seconds())));
-		$isPositive = ! $invert ? $this->seconds() > $other->seconds() : $this->seconds() <= $other->seconds();
+        $CompareTime = new self(round(abs($this->seconds() - $other->seconds())));
+        $isPositive = ! $invert ? $this->seconds() > $other->seconds() : $this->seconds() <= $other->seconds();
 
-		return $this->formatComparison($CompareTime->string(), $isPositive, $raw);
-	}
+        return $this->formatComparison($CompareTime->string(), $isPositive, $raw);
+    }
 
     /**
      * @param string $string e.g. '0:27'
      * @param bool $isPositive
      * @param bool $raw [optional]
      */
-    protected function formatComparison($string, $isPositive, $raw = false): string {
-		$class = ($isPositive) ? 'plus' : 'minus';
-		$sign = ($isPositive) ? '+' : '-';
+    protected function formatComparison($string, $isPositive, $raw = false): string
+    {
+        $class = ($isPositive) ? 'plus' : 'minus';
+        $sign = ($isPositive) ? '+' : '-';
 
-		if ($raw) {
-			return $sign . $string;
-		}
+        if ($raw) {
+            return $sign . $string;
+        }
 
-		/**
-		 * @codeCoverageIgnore
-		 */
-		return '<span class="' . $class . '">' . $sign . $string . '</span>';
-	}
+        /**
+         * @codeCoverageIgnore
+         */
+        return '<span class="' . $class . '">' . $sign . $string . '</span>';
+    }
 }

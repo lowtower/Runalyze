@@ -11,13 +11,14 @@
  */
 class FormularInputDate extends FormularInput
 {
-	/**
-	 * Prepare for beeing displayed
-	 */
-	protected function prepareForDisplay() {
-		$this->setUnit( Icon::$CALENDAR );
-		$this->addCSSclass('pick-a-date');
+    /**
+     * Prepare for beeing displayed
+     */
+    protected function prepareForDisplay()
+    {
+        $this->setUnit(Icon::$CALENDAR);
+        $this->addCSSclass('pick-a-date');
 
-		parent::prepareForDisplay();
-	}
+        parent::prepareForDisplay();
+    }
 }

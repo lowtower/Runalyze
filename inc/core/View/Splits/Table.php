@@ -21,263 +21,279 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class Table
 {
-	/**
-	 * @var \Runalyze\Model\Activity\Splits\Entity
-	 */
-	protected $Splits;
+    /**
+     * @var \Runalyze\Model\Activity\Splits\Entity
+     */
+    protected $Splits;
 
-	/**
-	 * Halfs of a competition to display
-	 * @var array
-	 */
-	protected $Halfs = [];
+    /**
+     * Halfs of a competition to display
+     * @var array
+     */
+    protected $Halfs = [];
 
-	/**
-	 * Demanded pace
-	 * @var \Runalyze\Activity\Pace
-	 */
-	protected $demandedPace;
+    /**
+     * Demanded pace
+     * @var \Runalyze\Activity\Pace
+     */
+    protected $demandedPace;
 
-	/**
-	 * Achieved pace
-	 * @var \Runalyze\Activity\Pace
-	 */
-	protected $achievedPace;
+    /**
+     * Achieved pace
+     * @var \Runalyze\Activity\Pace
+     */
+    protected $achievedPace;
 
-	/**
-	 * Achieved pace (active rounds)
-	 * @var \Runalyze\Activity\Pace
-	 */
-	protected $achievedPaceActive;
+    /**
+     * Achieved pace (active rounds)
+     * @var \Runalyze\Activity\Pace
+     */
+    protected $achievedPaceActive;
 
-	/**
-	 * @var string enum
-	 */
-	protected $PaceUnit;
+    /**
+     * @var string enum
+     */
+    protected $PaceUnit;
 
-	/**
-	 * Code
-	 * @var string
-	 */
-	protected $Code = '';
+    /**
+     * Code
+     * @var string
+     */
+    protected $Code = '';
 
     /**
      * @param int $legacyPaceUnitEnum enum
      */
-    public function __construct(Splits\Entity $splits, $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM) {
-		$this->Splits = $splits;
-		$this->PaceUnit = $legacyPaceUnitEnum;
+    public function __construct(Splits\Entity $splits, $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM)
+    {
+        $this->Splits = $splits;
+        $this->PaceUnit = $legacyPaceUnitEnum;
 
-		$this->init();
-	}
+        $this->init();
+    }
 
-	public function display() {
-		echo $this->code();
-	}
+    public function display()
+    {
+        echo $this->code();
+    }
 
-	/**
-	 * @return string
-	 */
-	public function code() {
-		$this->setCode();
+    /**
+     * @return string
+     */
+    public function code()
+    {
+        $this->setCode();
 
-		return $this->Code;
-	}
+        return $this->Code;
+    }
 
-	private function init() {
-		$this->achievedPace = new Pace($this->Splits->totalTime(), $this->Splits->totalDistance(), $this->PaceUnit);
+    private function init()
+    {
+        $this->achievedPace = new Pace($this->Splits->totalTime(), $this->Splits->totalDistance(), $this->PaceUnit);
 
-		if ($this->Splits->hasActiveAndInactiveLaps()) {
-			$timeActive = 0;
-			$distanceActive = 0;
+        if ($this->Splits->hasActiveAndInactiveLaps()) {
+            $timeActive = 0;
+            $distanceActive = 0;
 
-			foreach ($this->Splits->asArray() as $Split) {
-				if ($Split->isActive()) {
-					$timeActive += $Split->time();
-					$distanceActive += $Split->distance();
-				}
-			}
+            foreach ($this->Splits->asArray() as $Split) {
+                if ($Split->isActive()) {
+                    $timeActive += $Split->time();
+                    $distanceActive += $Split->distance();
+                }
+            }
 
-			$this->achievedPaceActive = new Pace($timeActive, $distanceActive, $this->PaceUnit);
-		} else {
-			$this->achievedPaceActive = new Pace(0, 0, $this->PaceUnit);
-		}
+            $this->achievedPaceActive = new Pace($timeActive, $distanceActive, $this->PaceUnit);
+        } else {
+            $this->achievedPaceActive = new Pace(0, 0, $this->PaceUnit);
+        }
 
-		$this->demandedPace = new Pace(0, 0, $this->PaceUnit);
-	}
+        $this->demandedPace = new Pace(0, 0, $this->PaceUnit);
+    }
 
-	/**
-	 * @param int $demandedPace
-	 */
-	public function setDemandedPace($demandedPace) {
-		$this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
-	}
+    /**
+     * @param int $demandedPace
+     */
+    public function setDemandedPace($demandedPace)
+    {
+        $this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
+    }
 
-    public function setHalfsOfCompetition(array $Halfs) {
-		$this->Halfs = $Halfs;
-	}
+    public function setHalfsOfCompetition(array $Halfs)
+    {
+        $this->Halfs = $Halfs;
+    }
 
-	/**
-	 * Display
-	 */
-	public function setCode() {
-		$this->Code = '';
+    /**
+     * Display
+     */
+    public function setCode()
+    {
+        $this->Code = '';
 
-		$this->setTableHeader();
-		$hasDistance = $this->setSplits();
-		$this->setInstruction();
-		// #TSC: if we have no distance/pace, not necessary
-		if ($hasDistance) {
-			$this->setAverage();
-			$this->setHalfsOfCompetitionToCode();
-		}
+        $this->setTableHeader();
+        $hasDistance = $this->setSplits();
+        $this->setInstruction();
+        // #TSC: if we have no distance/pace, not necessary
+        if ($hasDistance) {
+            $this->setAverage();
+            $this->setHalfsOfCompetitionToCode();
+        }
 
-		$this->setTableFooter();
-	}
+        $this->setTableFooter();
+    }
 
-	private function setTableHeader() {
-		$this->Code .= '<table class="fullwidth zebra-style"><tbody>';
+    private function setTableHeader()
+    {
+        $this->Code .= '<table class="fullwidth zebra-style"><tbody>';
 
-		$this->Code .= '<thead>';
-		$this->Code .= '<tr class="r">';
-		$this->Code .= '<th></th>';
-		$this->Code .= '<th>' . __('Distance') . '</th>';
-		$this->Code .= '<th>' . __('Time') . '</th>';
-		$this->Code .= '<th>' . __('Pace') . '</th>';
-		$this->Code .= '<th>' . __('diff') . '</th>';
-		$this->Code .= '</tr>';
-		$this->Code .= '</thead>';
-	}
+        $this->Code .= '<thead>';
+        $this->Code .= '<tr class="r">';
+        $this->Code .= '<th></th>';
+        $this->Code .= '<th>' . __('Distance') . '</th>';
+        $this->Code .= '<th>' . __('Time') . '</th>';
+        $this->Code .= '<th>' . __('Pace') . '</th>';
+        $this->Code .= '<th>' . __('diff') . '</th>';
+        $this->Code .= '</tr>';
+        $this->Code .= '</thead>';
+    }
 
-	private function setSplits() {
-		$i = 0;
-		$seperated = false;
-		$hasDistance = false;
+    private function setSplits()
+    {
+        $i = 0;
+        $seperated = false;
+        $hasDistance = false;
 
-		$showOnlyActive = $this->Splits->hasActiveAndInactiveLaps() && $this->Splits->hasActiveLaps(2);
+        $showOnlyActive = $this->Splits->hasActiveAndInactiveLaps() && $this->Splits->hasActiveLaps(2);
 
-		foreach ($this->Splits->asArray() as $Split) {
-			$PaceObj = $Split->pace($this->PaceUnit);
+        foreach ($this->Splits->asArray() as $Split) {
+            $PaceObj = $Split->pace($this->PaceUnit);
 
-			if ($showOnlyActive && ! $Split->isActive()) {
-				if (! $seperated && ($i > 0)) { // && ($i < $num_active)) {
-					$this->Code .= '<tr class="space-line"><td colspan="5"></td></tr>';
-					$this->Code .= '<tr class="space-line zebra-corrector"><td colspan="5"></td></tr>';
-					$seperated = true;
-				}
+            if ($showOnlyActive && ! $Split->isActive()) {
+                if (! $seperated && ($i > 0)) { // && ($i < $num_active)) {
+                    $this->Code .= '<tr class="space-line"><td colspan="5"></td></tr>';
+                    $this->Code .= '<tr class="space-line zebra-corrector"><td colspan="5"></td></tr>';
+                    $seperated = true;
+                }
 
-				continue;
-			}
+                continue;
+            }
 
             $seperated = false;
 
-			// #TSC hide distance&pace if not available
-			if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
-				$hasDistance = true;
-			}
+            // #TSC hide distance&pace if not available
+            if ($Split->distance() > 0 || ! $PaceObj->isEmpty()) {
+                $hasDistance = true;
+            }
 
-			$this->Code .= '<tr class="r">';
-			$this->Code .= '<td class="c">' . (++$i) . '.</td>';
-			$this->Code .= '<td>' . ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') . '</td>';
-			$this->Code .= '<td>' . Duration::format($Split->time()) . '</td>';
-			$this->Code .= '<td>' . ($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() : '') . '</small></td>';
-			$this->Code .= '<td>' . ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') . '</td>';
-			$this->Code .= '</tr>';
-		}
+            $this->Code .= '<tr class="r">';
+            $this->Code .= '<td class="c">' . (++$i) . '.</td>';
+            $this->Code .= '<td>' . ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') . '</td>';
+            $this->Code .= '<td>' . Duration::format($Split->time()) . '</td>';
+            $this->Code .= '<td>' . ($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() : '') . '</small></td>';
+            $this->Code .= '<td>' . ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') . '</td>';
+            $this->Code .= '</tr>';
+        }
 
-		$this->Code .= '</tbody><tbody class="top-spacer">';
+        $this->Code .= '</tbody><tbody class="top-spacer">';
 
-		return $hasDistance;
-	}
+        return $hasDistance;
+    }
 
     /**
      * Get td for pace difference
      * @param bool $compareOnlyToDemanded [optional] default false
      */
-    private function tdForPaceDifference(Pace $Pace, bool $compareOnlyToDemanded = false): string {
-		if (
-			($compareOnlyToDemanded && ($this->demandedPace->isEmpty())) ||
-			($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())
-		)
-			return '';
+    private function tdForPaceDifference(Pace $Pace, bool $compareOnlyToDemanded = false): string
+    {
+        if (
+            ($compareOnlyToDemanded && ($this->demandedPace->isEmpty())) ||
+            ($this->achievedPaceActive->isEmpty()) && ($this->achievedPace->isEmpty())
+        ) {
+            return '';
+        }
 
-		if (! $this->demandedPace->isEmpty()) {
-			return $Pace->compareTo($this->demandedPace);
-		}
+        if (! $this->demandedPace->isEmpty()) {
+            return $Pace->compareTo($this->demandedPace);
+        }
 
-		if (! $this->achievedPaceActive->isEmpty()) {
-			return $Pace->compareTo($this->achievedPaceActive);
-		}
+        if (! $this->achievedPaceActive->isEmpty()) {
+            return $Pace->compareTo($this->achievedPaceActive);
+        }
 
-		return $Pace->compareTo($this->achievedPace);
-	}
+        return $Pace->compareTo($this->achievedPace);
+    }
 
-	private function setInstruction() {
-		if ($this->demandedPace->isEmpty())
-			return;
+    private function setInstruction()
+    {
+        if ($this->demandedPace->isEmpty()) {
+            return;
+        }
 
-		$this->Code .= '
+        $this->Code .= '
 			<tr class="small r no-zebra">
 				<td colspan="3">' . __('Goal') . ': </td>
 					<td>' . $this->demandedPace->valueWithAppendix() . '</td>
 				<td></td>
 			</tr>';
-	}
+    }
 
-	private function setAverage() {
-		if (! $this->achievedPaceActive->isEmpty()) {
-			$this->Code .= '
+    private function setAverage()
+    {
+        if (! $this->achievedPaceActive->isEmpty()) {
+            $this->Code .= '
 				<tr class="small r no-zebra">
 					<td colspan="3">' . __('Average (active)') . ': </td>
 					<td>' . $this->achievedPaceActive->valueWithAppendix() . '</td>
 					<td>' . $this->tdForPaceDifference($this->achievedPaceActive, true) . '</td>
 				</tr>';
-		}
+        }
 
-		$this->Code .= '
+        $this->Code .= '
 			<tr class="small r no-zebra">
 				<td colspan="3">' . __('Average (total)') . ': </td>
 					<td>' . $this->achievedPace->valueWithAppendix() . '</td>
 				<td></td>
 			</tr>';
-	}
+    }
 
-	/**
-	 * Set halfs of competition
-	 */
-	private function setHalfsOfCompetitionToCode() {
-		if ($this->Halfs === []) {
-			return;
-		}
+    /**
+     * Set halfs of competition
+     */
+    private function setHalfsOfCompetitionToCode()
+    {
+        if ($this->Halfs === []) {
+            return;
+        }
 
-		$this->Code .= '<tr class="no-zebra"><td colspan="5">&nbsp;</td></tr>';
-		$this->Code .= '<tr class="b bottom-spacer no-zebra"><td colspan="5">' . __('1st/2nd Half') . '</td></tr>';
+        $this->Code .= '<tr class="no-zebra"><td colspan="5">&nbsp;</td></tr>';
+        $this->Code .= '<tr class="b bottom-spacer no-zebra"><td colspan="5">' . __('1st/2nd Half') . '</td></tr>';
 
-		$totalTime = 0;
-		$totalDist = 0;
+        $totalTime = 0;
+        $totalDist = 0;
 
-		foreach ($this->Halfs as $Half) {
-			$totalTime += $Half['s'];
-			$totalDist += $Half['km'];
-		}
+        foreach ($this->Halfs as $Half) {
+            $totalTime += $Half['s'];
+            $totalDist += $Half['km'];
+        }
 
-		$TotalPace = new Pace($totalTime, $totalDist, $this->PaceUnit);
+        $TotalPace = new Pace($totalTime, $totalDist, $this->PaceUnit);
 
-		for ($i = 0, $num = count($this->Halfs); $i < $num; $i++) {
-			$Pace = new Pace($this->Halfs[$i]['s'], $this->Halfs[$i]['km'], $this->PaceUnit);
+        for ($i = 0, $num = count($this->Halfs); $i < $num; $i++) {
+            $Pace = new Pace($this->Halfs[$i]['s'], $this->Halfs[$i]['km'], $this->PaceUnit);
 
-			$this->Code .= '<tr class="r">
+            $this->Code .= '<tr class="r">
 								<td></td>
 								<td>' . Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable) . '</td>
 								<td>' . Duration::format($this->Halfs[$i]['s']) . '</td>
 								<td>' . $Pace->valueWithAppendix() . '</td>
 								<td>' . $Pace->compareTo($TotalPace) . '</td>
 							</tr>';
-		}
-	}
+        }
+    }
 
-	private function setTableFooter() {
-		$this->Code .= '</tbody>';
-		$this->Code .= '</table>';
-	}
+    private function setTableFooter()
+    {
+        $this->Code .= '</tbody>';
+        $this->Code .= '</table>';
+    }
 }

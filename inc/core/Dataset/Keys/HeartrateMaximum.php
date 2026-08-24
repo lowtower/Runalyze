@@ -22,63 +22,63 @@ class HeartrateMaximum extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::HEARTRATE_MAX;
-	}
+    {
+        return \Runalyze\Dataset\Keys::HEARTRATE_MAX;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'pulse_max';
-	}
+    {
+        return 'pulse_max';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('max.') . ' ' . __('Heart rate');
-	}
+    {
+        return __('max.') . ' ' . __('Heart rate');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return 'max. ' . __('HR');
-	}
+    {
+        return 'max. ' . __('HR');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->activity()->hrMax() > 0) {
-			return $context->dataview()
-			    ->hrMax()
-			    ->string();
-		}
+    {
+        if ($context->activity()->hrMax() > 0) {
+            return $context->dataview()
+                ->hrMax()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::MAX;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::MAX;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 
     /**
      * returns a value dependend CSS class and style.
@@ -86,7 +86,7 @@ class HeartrateMaximum extends AbstractKey
      * @return array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
-	{
-		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrMax(), 'bar red');
-	}
+    {
+        return HeartrateAverage::hrBarCssStyle($context->dataview()->hrMax(), 'bar red');
+    }
 }

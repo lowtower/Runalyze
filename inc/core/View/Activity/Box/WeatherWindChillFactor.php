@@ -19,10 +19,10 @@ use Runalyze\View\Activity\Context;
 class WeatherWindChillFactor extends ValueBox
 {
     public function __construct(Context $Context)
-	{
-		parent::__construct(
-		    $Context->dataview()
-		        ->windChillFactor()
-		);
-	}
+    {
+        parent::__construct(
+            $Context->dataview()
+                ->windChillFactor()
+        );
+    }
 }

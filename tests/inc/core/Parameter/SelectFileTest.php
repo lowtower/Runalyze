@@ -6,63 +6,63 @@ namespace Runalyze\Parameter;
 
 class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\SelectFile
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\SelectFile
+     */
+    protected $object;
 
-	protected function setUp(): void
+    protected function setUp(): void
     {
-		$this->object = new SelectFile('path/to/file.jpg', [
-    'folder' => 'dir/',
-		    'extensions' => ['jpg', 'png', 'gif'],
-		    'filename_only' => false,
-]);
-	}
+        $this->object = new SelectFile('path/to/file.jpg', [
+            'folder' => 'dir/',
+            'extensions' => ['jpg', 'png', 'gif'],
+            'filename_only' => false,
+        ]);
+    }
 
-	public function testSet()
+    public function testSet()
     {
-		$this->assertEquals('path/to/file.jpg', $this->object->value());
+        $this->assertEquals('path/to/file.jpg', $this->object->value());
 
-		$this->object->set('another/path/to/file.png');
-		$this->assertEquals('another/path/to/file.png', $this->object->value());
-	}
+        $this->object->set('another/path/to/file.png');
+        $this->assertEquals('another/path/to/file.png', $this->object->value());
+    }
 
-	public function testWrongExtension()
+    public function testWrongExtension()
     {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->object->set('path/to/file.php');
-	}
+        $this->expectException(\InvalidArgumentException::class);
+        $this->object->set('path/to/file.php');
+    }
 
-	public function testWrongPath()
+    public function testWrongPath()
     {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->object->set('../private/file.jpg');
-	}
+        $this->expectException(\InvalidArgumentException::class);
+        $this->object->set('../private/file.jpg');
+    }
 
-	public function testRootPath()
+    public function testRootPath()
     {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->object->set('/usr/file.jpg');
-	}
+        $this->expectException(\InvalidArgumentException::class);
+        $this->object->set('/usr/file.jpg');
+    }
 
-	public function testNoExtension()
+    public function testNoExtension()
     {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->object->set('/bin/shell');
-	}
+        $this->expectException(\InvalidArgumentException::class);
+        $this->object->set('/bin/shell');
+    }
 
-	public function testUppercaseVariantsAllowed()
+    public function testUppercaseVariantsAllowed()
     {
-		$this->object->set('another/path/to/file.PNG');
-	}
+        $this->object->set('another/path/to/file.PNG');
+    }
 
-	public function testUppercaseVariantsDisallowed()
+    public function testUppercaseVariantsDisallowed()
     {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->object->allowUppercaseVariants(false);
-		$this->object->set('another/path/to/file.PNG');
-	}
+        $this->expectException(\InvalidArgumentException::class);
+        $this->object->allowUppercaseVariants(false);
+        $this->object->set('another/path/to/file.PNG');
+    }
 
     public function testFilenameOnly()
     {

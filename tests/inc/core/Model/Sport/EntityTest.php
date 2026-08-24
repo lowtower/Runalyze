@@ -12,36 +12,38 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleObject() {
-		$Sport = new Entity([
-    Entity::NAME => 'Sport name',
-		    Entity::SHORT => 0,
-		    Entity::CALORIES_PER_HOUR => 700,
-		    Entity::HR_AVG => 140,
-		    Entity::HAS_DISTANCES => 1,
-		    Entity::PACE_UNIT => PaceEnum::METER_PER_SECOND,
-		    Entity::HAS_POWER => 0,
-		    Entity::IS_OUTSIDE => 1,
-		    Entity::DEFAULT_TYPEID => 2,
-]);
+    public function testSimpleObject()
+    {
+        $Sport = new Entity([
+            Entity::NAME => 'Sport name',
+            Entity::SHORT => 0,
+            Entity::CALORIES_PER_HOUR => 700,
+            Entity::HR_AVG => 140,
+            Entity::HAS_DISTANCES => 1,
+            Entity::PACE_UNIT => PaceEnum::METER_PER_SECOND,
+            Entity::HAS_POWER => 0,
+            Entity::IS_OUTSIDE => 1,
+            Entity::DEFAULT_TYPEID => 2,
+        ]);
 
-		$this->assertEquals('Sport name', $Sport->name());
-		$this->assertEquals(700, $Sport->caloriesPerHour());
-		$this->assertEquals(140, $Sport->avgHR());
-		$this->assertEquals(PaceUnit::M_PER_S, $Sport->getLegacyPaceUnitEnum());
-		$this->assertEquals(2, $Sport->defaultTypeID());
-		$this->assertTrue($Sport->hasDistances());
-		$this->assertTrue($Sport->isOutside());
+        $this->assertEquals('Sport name', $Sport->name());
+        $this->assertEquals(700, $Sport->caloriesPerHour());
+        $this->assertEquals(140, $Sport->avgHR());
+        $this->assertEquals(PaceUnit::M_PER_S, $Sport->getLegacyPaceUnitEnum());
+        $this->assertEquals(2, $Sport->defaultTypeID());
+        $this->assertTrue($Sport->hasDistances());
+        $this->assertTrue($Sport->isOutside());
 
-		$this->assertFalse($Sport->usesShortDisplay());
-		$this->assertFalse($Sport->hasPower());
-	}
+        $this->assertFalse($Sport->usesShortDisplay());
+        $this->assertFalse($Sport->hasPower());
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1585
-	 */
-	public function testPaceUnitForEmptySport() {
-		$Sport = new Entity([]);
-		$Sport->legacyPaceUnit();
-	}
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1585
+     */
+    public function testPaceUnitForEmptySport()
+    {
+        $Sport = new Entity([]);
+        $Sport->legacyPaceUnit();
+    }
 }

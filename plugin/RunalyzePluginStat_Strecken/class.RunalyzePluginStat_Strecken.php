@@ -15,101 +15,110 @@ use Runalyze\Activity\Distance;
  */
 class RunalyzePluginStat_Strecken extends PluginStat
 {
-	/**
-	 * City sperator
-	 */
-	const CITY_SEPERATOR = ' - ';
+    /**
+     * City sperator
+     */
+    public const CITY_SEPERATOR = ' - ';
 
-	/**
-	 * Maximum number of routes on routenet.
-	 * #TSC set the max value from 50 to 250; must set to your preference regarding concurrent user, memory...
-	 * @var int
-	 */
-	const MAX_ROUTES_ON_NET = 250;
+    /**
+     * Maximum number of routes on routenet.
+     * #TSC set the max value from 50 to 250; must set to your preference regarding concurrent user, memory...
+     * @var int
+     */
+    public const MAX_ROUTES_ON_NET = 250;
 
-	/**
-	 * Array with all cities
-	 * @var array
-	 */
-	protected $Cities = [];
+    /**
+     * Array with all cities
+     * @var array
+     */
+    protected $Cities = [];
 
-    final public function name(): string {
-		return __('Routes');
-	}
+    final public function name(): string
+    {
+        return __('Routes');
+    }
 
-    final public function description(): string {
-		return __('Some statistics for your most frequent routes.');
-	}
+    final public function description(): string
+    {
+        return __('Some statistics for your most frequent routes.');
+    }
 
-	protected function displayLongDescription() {
-		echo HTML::p(
-		    __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'" .
-				'This way the plugin will be able to count how often you visit each city or place.')
-		);
-	}
+    protected function displayLongDescription()
+    {
+        echo HTML::p(
+            __("The input field 'route' expects different places separted by a '-', e.g. 'City A - City B'" .
+                'This way the plugin will be able to count how often you visit each city or place.')
+        );
+    }
 
-	protected function initConfiguration() {
-		$Configuration = new PluginConfiguration($this->id());
-		$Configuration->addValue( new PluginConfigurationValueBool('analyze_cities', __('Show visited cities'), '', true) );
+    protected function initConfiguration()
+    {
+        $Configuration = new PluginConfiguration($this->id());
+        $Configuration->addValue(new PluginConfigurationValueBool('analyze_cities', __('Show visited cities'), '', true));
 
-		$this->setConfiguration($Configuration);
-	}
+        $this->setConfiguration($Configuration);
+    }
 
-	/**
-	 * Init data
-	 */
-	protected function prepareForDisplay() {
-		$text = __('Open route network');
-		$Link = Ajax::window('<a class="" href="plugin/' . $this->key() . '/window.routenet.php?sport=' . $this->sportid . '&y=' . $this->year . '"><i class="fa fa-map-marker"></i> ' . $text . '</a>', 'big');
+    /**
+     * Init data
+     */
+    protected function prepareForDisplay()
+    {
+        $text = __('Open route network');
+        $Link = Ajax::window('<a class="" href="plugin/' . $this->key() . '/window.routenet.php?sport=' . $this->sportid . '&y=' . $this->year . '"><i class="fa fa-map-marker"></i> ' . $text . '</a>', 'big');
 
-		$this->setToolbarNavigationLinks(['<li>' . $Link . '</li>']);
-		$this->setYearsNavigation(true, true, true);
-		$this->setSportsNavigation(true, true);
+        $this->setToolbarNavigationLinks(['<li>' . $Link . '</li>']);
+        $this->setYearsNavigation(true, true, true);
+        $this->setSportsNavigation(true, true);
 
-		$this->setHeaderWithSportAndYear();
+        $this->setHeaderWithSportAndYear();
 
-		if ($this->Configuration()->value('analyze_cities')) {
-			$this->initCities();
-		}
-	}
+        if ($this->Configuration()->value('analyze_cities')) {
+            $this->initCities();
+        }
+    }
 
-    protected function defaultSport(): int {
-		return -1;
-	}
+    protected function defaultSport(): int
+    {
+        return -1;
+    }
 
-    protected function titleForAllYears(): string {
-		return __('All years');
-	}
+    protected function titleForAllYears(): string
+    {
+        return __('All years');
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		$this->displayRoutes();
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        $this->displayRoutes();
 
-		if ($this->Configuration()->value('analyze_cities')) {
-			$this->displayCities();
+        if ($this->Configuration()->value('analyze_cities')) {
+            $this->displayCities();
 
-			echo HTML::clearBreak();
-			echo HTML::clearBreak();
+            echo HTML::clearBreak();
+            echo HTML::clearBreak();
 
-			$this->displayLonelyCities();
-		}
-	}
+            $this->displayLonelyCities();
+        }
+    }
 
-	private function displayRoutes() {
-		if ($this->Configuration()->value('analyze_cities')) {
-			echo '<table style="width:70%;" class="left zebra-style">';
-		} else {
-			echo '<table style="width:100%;" class="zebra-style">';		
-		}
+    private function displayRoutes()
+    {
+        if ($this->Configuration()->value('analyze_cities')) {
+            echo '<table style="width:70%;" class="left zebra-style">';
+        } else {
+            echo '<table style="width:100%;" class="zebra-style">';
+        }
 
-		echo '<thead><tr><th colspan="3">' . __('Most frequent routes') . '</th></tr></thead>';
-		echo '<tbody class="r">';
+        echo '<thead><tr><th colspan="3">' . __('Most frequent routes') . '</th></tr></thead>';
+        echo '<tbody class="r">';
 
-		$i = 0;
-		$statement = DB::getInstance()->query(
-		    '
+        $i = 0;
+        $statement = DB::getInstance()->query(
+            '
 			SELECT
 				`' . PREFIX . 'route`.`name`,
 				SUM(`' . PREFIX . 'training`.`distance`) as `km`,
@@ -120,145 +129,152 @@ class RunalyzePluginStat_Strecken extends PluginStat
 			GROUP BY `name`
 			ORDER BY `num` DESC
 			LIMIT 10'
-		);
+        );
 
-		while ($data = $statement->fetch()) {
-			echo '<tr>
+        while ($data = $statement->fetch()) {
+            echo '<tr>
 					<td>' . $data['num'] . 'x</td>
 					<td class="l">' . SearchLink::to('route', $data['name'], Helper::Cut($data['name'], 100)) . '</td>
 					<td>' . Distance::format($data['km']) . '</td>
 				</tr>';
 
-			$i++;
-		}
+            $i++;
+        }
 
-		echo '</tbody>';
-		echo '</table>';
-	}
+        echo '</tbody>';
+        echo '</table>';
+    }
 
-	/**
-	 * Display most visited cities
-	 */
-	private function displayCities() {
-		echo '<table style="width:25%;" class="right zebra-style">';
-		echo '<thead><tr><th colspan="2">' . __('Most frequent places') . '</th></tr></thead>';
-		echo '<tbody>';
+    /**
+     * Display most visited cities
+     */
+    private function displayCities()
+    {
+        echo '<table style="width:25%;" class="right zebra-style">';
+        echo '<thead><tr><th colspan="2">' . __('Most frequent places') . '</th></tr></thead>';
+        echo '<tbody>';
 
-		$i = 1;
+        $i = 1;
 
-		if ($this->Cities === []) {
-			echo HTML::emptyTD(2, HTML::em( __('There are no routes.') ));
-		}
+        if ($this->Cities === []) {
+            echo HTML::emptyTD(2, HTML::em(__('There are no routes.')));
+        }
 
-		foreach ($this->Cities as $city => $num) {
-			$i++;
-			echo '<tr class="a' . ($i % 2 + 1) . '">
+        foreach ($this->Cities as $city => $num) {
+            $i++;
+            echo '<tr class="a' . ($i % 2 + 1) . '">
 					<td>' . $num . 'x</td>
 					<td>' . SearchLink::to('route', $city, $city, 'like') . '</td>
 				</tr>';
 
-			if ($i === 11) {
-				break;
-			}
-		}
+            if ($i === 11) {
+                break;
+            }
+        }
 
-		echo '</tbody>';
-		echo '</table>';
-	}
+        echo '</tbody>';
+        echo '</table>';
+    }
 
-	/**
-	 * Display less visited cities
-	 */
-	private function displayLonelyCities() {
-		echo '<table class="margin-5 fullwidth zebra-style">';
-		echo '<thead><tr><th colspan="2">' . __('Rare places') . '</th></tr></thead>';
-		echo '<tbody>';
+    /**
+     * Display less visited cities
+     */
+    private function displayLonelyCities()
+    {
+        echo '<table class="margin-5 fullwidth zebra-style">';
+        echo '<thead><tr><th colspan="2">' . __('Rare places') . '</th></tr></thead>';
+        echo '<tbody>';
 
-		$num_x = 0;
-		$LonelyCities = array_reverse($this->Cities);
+        $num_x = 0;
+        $LonelyCities = array_reverse($this->Cities);
 
-		foreach ($LonelyCities as $city => $num) {
-			if ($num_x <= 4) {
-				if ($num_x != $num) {
-					if ($num != 1)
-						echo '</td></tr>';
+        foreach ($LonelyCities as $city => $num) {
+            if ($num_x <= 4) {
+                if ($num_x != $num) {
+                    if ($num != 1) {
+                        echo '</td></tr>';
+                    }
 
-					$num_x = $num;
-					echo '<tr><td class="b">' . $num . 'x</td><td>';
-				} else
-					echo ', ';
+                    $num_x = $num;
+                    echo '<tr><td class="b">' . $num . 'x</td><td>';
+                } else {
+                    echo ', ';
+                }
 
-				echo SearchLink::to('route', $city, $city, 'like');
-			}
-			else {
-				echo '</td></tr>';
-				break;
-			}
-		}
+                echo SearchLink::to('route', $city, $city, 'like');
+            } else {
+                echo '</td></tr>';
+                break;
+            }
+        }
 
-		echo '
+        echo '
 			<tr class="no-zebra">
 				<td colspan="2" class="c">
-					' . sprintf( __('You have visited %s different places.'), count($this->Cities) ) . '
+					' . sprintf(__('You have visited %s different places.'), count($this->Cities)) . '
 				</td>
 			</tr>
 		</tbody>
 		</table>
 
 		<p class="c"><em>' . __("Everything seperated by a ' - ' is considered as an individual place.") . '</em></p>';
-	}
+    }
 
-	/**
-	 * Initialize internal array for all cities
-	 */
-	private function initCities() {
-		$this->Cities = [];
-		$statement = DB::getInstance()->query($this->fetchCitiesQuery());
+    /**
+     * Initialize internal array for all cities
+     */
+    private function initCities()
+    {
+        $this->Cities = [];
+        $statement = DB::getInstance()->query($this->fetchCitiesQuery());
 
-		while ($string = $statement->fetch(PDO::FETCH_COLUMN)) {
-			$cities = explode(' - ', $string);
-			foreach ($cities as $city) {
-				$city = trim($city);
+        while ($string = $statement->fetch(PDO::FETCH_COLUMN)) {
+            $cities = explode(' - ', $string);
+            foreach ($cities as $city) {
+                $city = trim($city);
 
-				if (! isset($this->Cities[$city]))
-					$this->Cities[$city] = 1;
-				else
-					$this->Cities[$city]++;
-			}
-		}
+                if (! isset($this->Cities[$city])) {
+                    $this->Cities[$city] = 1;
+                } else {
+                    $this->Cities[$city]++;
+                }
+            }
+        }
 
-		array_multisort($this->Cities, SORT_DESC);
-	}
+        array_multisort($this->Cities, SORT_DESC);
+    }
 
     /**
      * Query to fetch cities
      */
-    private function fetchCitiesQuery(): string {
-		if ($this->sportid <= 0 && $this->year <= 0) {
-			return 'SELECT `cities` FROM `' . PREFIX . 'route` WHERE `cities`!=""';
-		}
+    private function fetchCitiesQuery(): string
+    {
+        if ($this->sportid <= 0 && $this->year <= 0) {
+            return 'SELECT `cities` FROM `' . PREFIX . 'route` WHERE `cities`!=""';
+        }
 
-		$Query = 'SELECT `' . PREFIX . 'route`.`cities` FROM `' . PREFIX . 'training`';
-		$Query .= ' RIGHT JOIN `' . PREFIX . 'route` ON `' . PREFIX . 'training`.`routeid` = `' . PREFIX . 'route`.`id`';
-		$Query .= ' WHERE ';
-		$Query .= '`' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId();
-		$Query .= $this->getSportAndYearDependenceForQuery();
+        $Query = 'SELECT `' . PREFIX . 'route`.`cities` FROM `' . PREFIX . 'training`';
+        $Query .= ' RIGHT JOIN `' . PREFIX . 'route` ON `' . PREFIX . 'training`.`routeid` = `' . PREFIX . 'route`.`id`';
+        $Query .= ' WHERE ';
+        $Query .= '`' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId();
+        $Query .= $this->getSportAndYearDependenceForQuery();
 
-		return $Query . ' AND `routeid`!=0 AND `cities`!=""';
-	}
+        return $Query . ' AND `routeid`!=0 AND `cities`!=""';
+    }
 
     /**
      * @param int $sportid
      * @param int $year
      */
-    public static function panelMenuForRoutenet($positioninterval, $sportid, $year): string {
-		$Code = '<div class="panel-menu"><ul>';
-		$Code .= '<li class="with-submenu"><span class="link">Position interval</span><ul class="submenu">' . self::submenuForPositionInterval($positioninterval, $sportid, $year) . '</ul></li>';
-		$Code .= '<li class="with-submenu"><span class="link">' . __('Choose sport') . '</span><ul class="submenu">' . self::submenuForSport($positioninterval, $sportid, $year) . '</ul></li>';
-		$Code .= '<li class="with-submenu"><span class="link">' . __('Choose year') . '</span><ul class="submenu">' . self::submenuForYear($positioninterval, $sportid, $year) . '</ul></li>';
+    public static function panelMenuForRoutenet($positioninterval, $sportid, $year): string
+    {
+        $Code = '<div class="panel-menu"><ul>';
+        $Code .= '<li class="with-submenu"><span class="link">Position interval</span><ul class="submenu">' . self::submenuForPositionInterval($positioninterval, $sportid, $year) . '</ul></li>';
+        $Code .= '<li class="with-submenu"><span class="link">' . __('Choose sport') . '</span><ul class="submenu">' . self::submenuForSport($positioninterval, $sportid, $year) . '</ul></li>';
+        $Code .= '<li class="with-submenu"><span class="link">' . __('Choose year') . '</span><ul class="submenu">' . self::submenuForYear($positioninterval, $sportid, $year) . '</ul></li>';
 
-		return $Code . '</ul></div>';
-	}
+        return $Code . '</ul></div>';
+    }
 
     /**
      * Submenu for position interval #TSC.
@@ -266,31 +282,33 @@ class RunalyzePluginStat_Strecken extends PluginStat
      * @param int $sportid
      * @param int $year
      */
-    private static function submenuForPositionInterval($positioninterval, $sportid, $year): string {
-		$i = 1;
-		$Code = '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $i, $sportid, $year) . '</li>';
-		for($i++; $i <= 5; $i++) {
-			$Code .= '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet($i, $i, $sportid, $year) . '</li>';
-		}
+    private static function submenuForPositionInterval($positioninterval, $sportid, $year): string
+    {
+        $i = 1;
+        $Code = '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $i, $sportid, $year) . '</li>';
+        for ($i++; $i <= 5; $i++) {
+            $Code .= '<li' . ($positioninterval == $i ? ' class="active"' : '') . '>' . self::linkToRoutenet($i, $i, $sportid, $year) . '</li>';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
     /**
      * @param int $positioninterval
      * @param int $sportid
      * @param int $year
      */
-    private static function submenuForSport($positioninterval, $sportid, $year): string {
-		$Code = '<li' . ($sportid == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $positioninterval, -1, $year) . '</li>';
+    private static function submenuForSport($positioninterval, $sportid, $year): string
+    {
+        $Code = '<li' . ($sportid == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All'), $positioninterval, -1, $year) . '</li>';
 
-		$Sports = SportFactory::NamesAsArray();
-		foreach ($Sports as $id => $name) {
-			$Code .= '<li' . ($id == $sportid ? ' class="active"' : '') . '>' . self::linkToRoutenet($name, $positioninterval, $id, $year) . '</li>';
-		}
+        $Sports = SportFactory::NamesAsArray();
+        foreach ($Sports as $id => $name) {
+            $Code .= '<li' . ($id == $sportid ? ' class="active"' : '') . '>' . self::linkToRoutenet($name, $positioninterval, $id, $year) . '</li>';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
     /**
      * Submenu for sport
@@ -298,25 +316,27 @@ class RunalyzePluginStat_Strecken extends PluginStat
      * @param int $sportid
      * @param int $year
      */
-    private static function submenuForYear($positioninterval, $sportid, $year): string {
-		$Code = '<li' . ($year == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1) . '</li>';
+    private static function submenuForYear($positioninterval, $sportid, $year): string
+    {
+        $Code = '<li' . ($year == -1 ? ' class="active"' : '') . '>' . self::linkToRoutenet(__('All years'), $positioninterval, $sportid, -1) . '</li>';
 
-		for ($y = date('Y'); $y >= START_YEAR; $y--) {
-			$Code .= '<li' . ($y == $year ? ' class="active"' : '') . '>' . self::linkToRoutenet($y, $positioninterval, $sportid, $y) . '</li>';
-		}
+        for ($y = date('Y'); $y >= START_YEAR; $y--) {
+            $Code .= '<li' . ($y == $year ? ' class="active"' : '') . '>' . self::linkToRoutenet($y, $positioninterval, $sportid, $y) . '</li>';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
-	/**
-	 * Internal link to routenet
-	 * @param string $text
-	 * @param int $positioninterval
-	 * @param int $sportid
-	 * @param int $year
-	 * @return string
-	 */
-	private static function linkToRoutenet($text, $positioninterval, $sportid, $year) {
-		return Ajax::window('<a class="" href="plugin/RunalyzePluginStat_Strecken/window.routenet.php?posint=' . $positioninterval . '&sport=' . $sportid . '&y=' . $year . '">' . $text . '</a>', 'big');
-	}
+    /**
+     * Internal link to routenet
+     * @param string $text
+     * @param int $positioninterval
+     * @param int $sportid
+     * @param int $year
+     * @return string
+     */
+    private static function linkToRoutenet($text, $positioninterval, $sportid, $year)
+    {
+        return Ajax::window('<a class="" href="plugin/RunalyzePluginStat_Strecken/window.routenet.php?posint=' . $positioninterval . '&sport=' . $sportid . '&y=' . $year . '">' . $text . '</a>', 'big');
+    }
 }

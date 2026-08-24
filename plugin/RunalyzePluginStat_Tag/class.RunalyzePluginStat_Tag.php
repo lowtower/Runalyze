@@ -14,142 +14,151 @@ $PLUGINKEY = 'RunalyzePluginStat_Tag';
  */
 class RunalyzePluginStat_Tag extends PluginStat
 {
-	/**
-	 * @var int
-	 */
-	protected $TagId;
+    /**
+     * @var int
+     */
+    protected $TagId;
 
-	/**
-	 * @var array array(id => 'tag')
-	 */
-	protected $AllTags = [];
+    /**
+     * @var array array(id => 'tag')
+     */
+    protected $AllTags = [];
 
-	/**
-	 * @var array array(year => array(month => num))
-	 */
-	protected $TagData = [];
+    /**
+     * @var array array(year => array(month => num))
+     */
+    protected $TagData = [];
 
-    final public function name(): string {
-		return __('Tag analysis');
-	}
+    final public function name(): string
+    {
+        return __('Tag analysis');
+    }
 
-    final public function description(): string {
-		return __('How often have you tagged your activities with tag x?');
-	}
+    final public function description(): string
+    {
+        return __('How often have you tagged your activities with tag x?');
+    }
 
-	protected function initConfiguration() {
-		$this->AllTags = [];
-		$AllTags = DB::getInstance()->query('SELECT `id`, `tag` FROM `' . PREFIX . 'tag` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `tag` ASC')->fetchAll();
+    protected function initConfiguration()
+    {
+        $this->AllTags = [];
+        $AllTags = DB::getInstance()->query('SELECT `id`, `tag` FROM `' . PREFIX . 'tag` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `tag` ASC')->fetchAll();
 
-		foreach ($AllTags as $data) {
-			$this->AllTags[$data['id']] = $data['tag'];
-		}
+        foreach ($AllTags as $data) {
+            $this->AllTags[$data['id']] = $data['tag'];
+        }
 
-		$Tags = new PluginConfigurationValueSelect('tag', __('Tag to analyze'));
-		$Tags->setOptions($this->AllTags);
+        $Tags = new PluginConfigurationValueSelect('tag', __('Tag to analyze'));
+        $Tags->setOptions($this->AllTags);
 
-		$Configuration = new PluginConfiguration($this->id());
-		$Configuration->addValue($Tags);
+        $Configuration = new PluginConfiguration($this->id());
+        $Configuration->addValue($Tags);
 
-		if (isset($_GET['dat']) && isset($this->AllTags[$_GET['dat']])) {
-			$Configuration->object('tag')
-			    ->setValue($_GET['dat']);
-			$Configuration->update('tag');
-			Cache::delete(PluginConfiguration::CACHE_KEY);
-		}
+        if (isset($_GET['dat']) && isset($this->AllTags[$_GET['dat']])) {
+            $Configuration->object('tag')
+                ->setValue($_GET['dat']);
+            $Configuration->update('tag');
+            Cache::delete(PluginConfiguration::CACHE_KEY);
+        }
 
-		$this->setConfiguration($Configuration);
-		$this->TagId = (int) $this->Configuration()
-		    ->value('tag');
-	}
+        $this->setConfiguration($Configuration);
+        $this->TagId = (int) $this->Configuration()
+            ->value('tag');
+    }
 
-	/**
-	 * @return int year, can be -1 for no year/comparison of all years
-	 */
-	protected function defaultYear(): int {
-		return -1;
-	}
+    /**
+     * @return int year, can be -1 for no year/comparison of all years
+     */
+    protected function defaultYear(): int
+    {
+        return -1;
+    }
 
-	/**
-	 * Init data
-	 */
-	protected function prepareForDisplay() {
-		$this->setSportsNavigation(true, true);
-		$this->setToolbarNavigationLinks($this->getToolbarNavigationLinks());
-		$this->initData();
+    /**
+     * Init data
+     */
+    protected function prepareForDisplay()
+    {
+        $this->setSportsNavigation(true, true);
+        $this->setToolbarNavigationLinks($this->getToolbarNavigationLinks());
+        $this->initData();
 
-		$this->setHeaderWithSportAndYear();
-	}
+        $this->setHeaderWithSportAndYear();
+    }
 
-	/**
-	 * @return array
-	 */
-	private function getToolbarNavigationLinks() {
-		if ($this->AllTags === []) {
-			return '';
-		}
+    /**
+     * @return array
+     */
+    private function getToolbarNavigationLinks()
+    {
+        if ($this->AllTags === []) {
+            return '';
+        }
 
-		$LinkList = [];
-		$LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTags[$this->TagId] . '</span><ul class="submenu">';
+        $LinkList = [];
+        $LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTags[$this->TagId] . '</span><ul class="submenu">';
 
-		foreach ($this->AllTags as $id => $name) {
-			$active = ($id == $this->TagId);
-		    $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
-		}
+        foreach ($this->AllTags as $id => $name) {
+            $active = ($id == $this->TagId);
+            $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
+        }
 
-		$LinkList[] = '</ul></li>';
+        $LinkList[] = '</ul></li>';
 
-		return $LinkList;
-	}
+        return $LinkList;
+    }
 
-	/**
-	 * @see PluginStat::displayContent()
-	 */
-	protected function displayContent() {
-		if (! isset($this->AllTags[$this->TagId])) {
-			echo '<p class="warning"><em>' . __('Please choose a tag.') . '</em></p>';
-		} else {
-			$this->displayData();
-		}
-	}
+    /**
+     * @see PluginStat::displayContent()
+     */
+    protected function displayContent()
+    {
+        if (! isset($this->AllTags[$this->TagId])) {
+            echo '<p class="warning"><em>' . __('Please choose a tag.') . '</em></p>';
+        } else {
+            $this->displayData();
+        }
+    }
 
-	/**
-	 * Display the table with summed data for every month
-	 */
-	private function displayData() {
-		echo '<p><strong>' . __('Tag') . ': ' . $this->AllTags[$this->TagId] . '</p>';
-		echo '<table class="fullwidth zebra-style r">';
-		echo '<thead>' . HTML::monthTr(8, 1) . '</thead>';
-		echo '<tbody>';
+    /**
+     * Display the table with summed data for every month
+     */
+    private function displayData()
+    {
+        echo '<p><strong>' . __('Tag') . ': ' . $this->AllTags[$this->TagId] . '</p>';
+        echo '<table class="fullwidth zebra-style r">';
+        echo '<thead>' . HTML::monthTr(8, 1) . '</thead>';
+        echo '<tbody>';
 
-		if ($this->TagData === []) {
-			echo '<tr><td colspan="13" class="c"><em>' . __('No activities found.') . '</em></td></tr>';
-		}
+        if ($this->TagData === []) {
+            echo '<tr><td colspan="13" class="c"><em>' . __('No activities found.') . '</em></td></tr>';
+        }
 
-		foreach ($this->TagData as $y => $Data) {
-			echo '<tr><td class="b l">' . $y . '</td>';
+        foreach ($this->TagData as $y => $Data) {
+            echo '<tr><td class="b l">' . $y . '</td>';
 
-			for ($m = 1; $m <= 12; $m++) {
-				if (isset($Data[$m]) && $Data[$m] > 0) {
-					echo '<td>' . $Data[$m] . 'x</td>';
-				} else {
-					echo HTML::emptyTD();
-				}
-			}
+            for ($m = 1; $m <= 12; $m++) {
+                if (isset($Data[$m]) && $Data[$m] > 0) {
+                    echo '<td>' . $Data[$m] . 'x</td>';
+                } else {
+                    echo HTML::emptyTD();
+                }
+            }
 
-			echo '</tr>';
-		}
+            echo '</tr>';
+        }
 
-		echo '</tbody></table>';
-	}
+        echo '</tbody></table>';
+    }
 
-	/**
-	 * Initialize $this->TagData
-	 */
-	private function initData() {
-		if ($this->TagId > 0) {
-			$Statement = DB::getInstance()->query(
-			    'SELECT
+    /**
+     * Initialize $this->TagData
+     */
+    private function initData()
+    {
+        if ($this->TagId > 0) {
+            $Statement = DB::getInstance()->query(
+                'SELECT
 					SUM(1) as `num`,
 					YEAR(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `year`,
 					MONTH(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `month`
@@ -161,11 +170,11 @@ class RunalyzePluginStat_Tag extends PluginStat
 					' . $this->getSportAndYearDependenceForQuery(true) . '
 				GROUP BY `year` DESC, `month` ASC
 				'
-			);
+            );
 
-			while ($data = $Statement->fetch()) {
-					$this->TagData[$data['year']][$data['month']] = $data['num'];
-			}
-	    }
-	}
+            while ($data = $Statement->fetch()) {
+                $this->TagData[$data['year']][$data['month']] = $data['num'];
+            }
+        }
+    }
 }

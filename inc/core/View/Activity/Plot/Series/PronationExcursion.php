@@ -12,25 +12,25 @@ class PronationExcursion extends ActivitySeries
      */
     public function __construct(Activity\Context $context, $isLeft = true)
     {
-		$this->initOptions($isLeft);
-		$this->initData($context->trackdata(), $isLeft ? Trackdata::PRONATION_EXCURSION_LEFT : Trackdata::PRONATION_EXCURSION_RIGHT);
-		$this->manipulateData();
-	}
+        $this->initOptions($isLeft);
+        $this->initData($context->trackdata(), $isLeft ? Trackdata::PRONATION_EXCURSION_LEFT : Trackdata::PRONATION_EXCURSION_RIGHT);
+        $this->manipulateData();
+    }
 
-	protected function manipulateData()
+    protected function manipulateData()
     {
-		$this->Data = array_filter($this->Data);
-	}
+        $this->Data = array_filter($this->Data);
+    }
 
-	protected function initOptions($isLeft)
+    protected function initOptions($isLeft)
     {
-		$this->Label = __('Pronation excursion') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
-		$this->Color = $isLeft ? 'rgb(234,46,195)' : 'rgb(183,0,144)';
+        $this->Label = __('Pronation excursion') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
+        $this->Color = $isLeft ? 'rgb(234,46,195)' : 'rgb(183,0,144)';
 
-		$this->UnitString = '°';
-		$this->UnitDecimals = 1;
+        $this->UnitString = '°';
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = 1;
-		$this->TickDecimals = 0;
-	}
+        $this->TickSize = 1;
+        $this->TickDecimals = 0;
+    }
 }

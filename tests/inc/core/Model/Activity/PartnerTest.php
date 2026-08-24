@@ -9,20 +9,22 @@ namespace Runalyze\Model\Activity;
  */
 class PartnerTest extends \PHPUnit\Framework\TestCase
 {
-	public function testStringConstructor() {
-		$Partner = new Partner('Max, Moritz');
+    public function testStringConstructor()
+    {
+        $Partner = new Partner('Max, Moritz');
 
-		$this->assertEquals(2, $Partner->num());
-		$this->assertEquals('Max', $Partner->at(0));
-		$this->assertEquals('Moritz', $Partner->at(1));
-		$this->assertEquals(['Max', 'Moritz'], $Partner->asArray());
-	}
+        $this->assertEquals(2, $Partner->num());
+        $this->assertEquals('Max', $Partner->at(0));
+        $this->assertEquals('Moritz', $Partner->at(1));
+        $this->assertEquals(['Max', 'Moritz'], $Partner->asArray());
+    }
 
-	public function testTrimming() {
-		$Partner = new Partner(' Max,   Moritz,Martina');
+    public function testTrimming()
+    {
+        $Partner = new Partner(' Max,   Moritz,Martina');
 
-		$this->assertEquals(3, $Partner->num());
-		$this->assertEquals('Moritz', $Partner->at(1));
-		$this->assertEquals('Max, Moritz, Martina', $Partner->asString());
-	}
+        $this->assertEquals(3, $Partner->num());
+        $this->assertEquals('Moritz', $Partner->at(1));
+        $this->assertEquals('Max, Moritz, Martina', $Partner->asString());
+    }
 }

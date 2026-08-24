@@ -16,17 +16,19 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Foggy extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setLayerClass('weather-mist');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setLayerClass('weather-mist');
+    }
 
-	/**
-	 * Set weather icon as night
-	 */
-	public function setAsNight() {
-		// Not possible
-	}
+    /**
+     * Set weather icon as night
+     */
+    public function setAsNight()
+    {
+        // Not possible
+    }
 }

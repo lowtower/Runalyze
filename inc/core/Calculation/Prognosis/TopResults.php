@@ -14,15 +14,15 @@ use Runalyze\Configuration;
  */
 class TopResults
 {
-	/**
-	 * Get top results (according to vo2max_by_time)
-	 * @param int $numberOfResults number of results to return
-	 * @param float $minimalDistanceRequired in km
-	 * @return array
-	 */
-	public function getTopResults($numberOfResults = 1, $minimalDistanceRequired = 3.0)
+    /**
+     * Get top results (according to vo2max_by_time)
+     * @param int $numberOfResults number of results to return
+     * @param float $minimalDistanceRequired in km
+     * @return array
+     */
+    public function getTopResults($numberOfResults = 1, $minimalDistanceRequired = 3.0)
     {
-		$Query = '
+        $Query = '
 			SELECT
 				`time`, `distance`, `s`, `vo2max_by_time`
 			FROM (
@@ -40,9 +40,10 @@ class TopResults
 			ORDER BY `vo2max_by_time` DESC
 		';
 
-		if ($numberOfResults <= 1)
-			return DB::getInstance()->query($Query)->fetch();
+        if ($numberOfResults <= 1) {
+            return DB::getInstance()->query($Query)->fetch();
+        }
 
-		return DB::getInstance()->query($Query . ' LIMIT ' . $numberOfResults)->fetchAll();
-	}
+        return DB::getInstance()->query($Query . ' LIMIT ' . $numberOfResults)->fetchAll();
+    }
 }

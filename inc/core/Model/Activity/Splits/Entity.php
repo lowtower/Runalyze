@@ -17,168 +17,179 @@ use Runalyze\Model\StringArrayObject;
  */
 class Entity extends StringArrayObject
 {
-	/**
-	 * Separator
-	 * @var string
-	 */
-	const SEPARATOR = '-';
+    /**
+     * Separator
+     * @var string
+     */
+    public const SEPARATOR = '-';
 
-	/**
-	 * Single objects
-	 * @var \Runalyze\Model\Activity\Splits\Split[]
-	 */
-	protected $Elements = [];
+    /**
+     * Single objects
+     * @var \Runalyze\Model\Activity\Splits\Split[]
+     */
+    protected $Elements = [];
 
-	/**
-	 * Clone object
-	 */
-	public function __clone() {
-		foreach ($this->Elements as $i => $split) {
-			$this->Elements[$i] = clone $split;
-		}
-	}
+    /**
+     * Clone object
+     */
+    public function __clone()
+    {
+        foreach ($this->Elements as $i => $split) {
+            $this->Elements[$i] = clone $split;
+        }
+    }
 
-	/**
-	 * @param \Runalyze\Model\Activity\Splits\Split[] $splits
-	 * @throws \InvalidArgumentException
-	 */
-	public function fromArray(array $splits) {
-		$this->clear();
+    /**
+     * @param \Runalyze\Model\Activity\Splits\Split[] $splits
+     * @throws \InvalidArgumentException
+     */
+    public function fromArray(array $splits)
+    {
+        $this->clear();
 
-		foreach ($splits as $split) {
-			if (! ($split instanceof Split)) {
-				throw new \InvalidArgumentException('Array must consist of Split-objects only.');
-			}
+        foreach ($splits as $split) {
+            if (! ($split instanceof Split)) {
+                throw new \InvalidArgumentException('Array must consist of Split-objects only.');
+            }
 
-			if (! $split->isEmpty()) {
-				$this->add($split);
-			}
-		}
-	}
+            if (! $split->isEmpty()) {
+                $this->add($split);
+            }
+        }
+    }
 
-	/**
-	 * As array
-	 * @return \Runalyze\Model\Activity\Splits\Split[]
-	 */
-	public function asArray() {
-		return $this->Elements;
-	}
+    /**
+     * As array
+     * @return \Runalyze\Model\Activity\Splits\Split[]
+     */
+    public function asArray()
+    {
+        return $this->Elements;
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function fromString($string) {
-		$this->clear();
+    /**
+     * @param string $string
+     */
+    public function fromString($string)
+    {
+        $this->clear();
 
-		$strings = explode(self::SEPARATOR, $string);
-		foreach ($strings as $splitString) {
-			$Split = new Split();
-			$Split->fromString($splitString);
+        $strings = explode(self::SEPARATOR, $string);
+        foreach ($strings as $splitString) {
+            $Split = new Split();
+            $Split->fromString($splitString);
 
-			if (! $Split->isEmpty()) {
-				$this->add($Split);
-			}
-		}
-	}
+            if (! $Split->isEmpty()) {
+                $this->add($Split);
+            }
+        }
+    }
 
     /**
      * As string
      */
-    public function asString(): string {
-		$array = [];
+    public function asString(): string
+    {
+        $array = [];
 
-		foreach ($this->Elements as $Split) {
-			$array[] = $Split->asString();
-		}
+        foreach ($this->Elements as $Split) {
+            $array[] = $Split->asString();
+        }
 
-		return implode(self::SEPARATOR, $array);
-	}
+        return implode(self::SEPARATOR, $array);
+    }
 
-	/**
-	 * Add split
-	 * @param \Runalyze\Model\Activity\Splits\Split $split
-	 * @throws \InvalidArgumentException
-	 */
-	public function add($split) {
-		if (! ($split) instanceof Split) {
-			throw new \InvalidArgumentException("Element to add has to be of type 'Split'.");
-		}
+    /**
+     * Add split
+     * @param \Runalyze\Model\Activity\Splits\Split $split
+     * @throws \InvalidArgumentException
+     */
+    public function add($split)
+    {
+        if (! ($split) instanceof Split) {
+            throw new \InvalidArgumentException("Element to add has to be of type 'Split'.");
+        }
 
-		parent::add($split);
-	}
+        parent::add($split);
+    }
 
-	/**
-	 * Get split
-	 * @param int $index
-	 * @return \Runalyze\Model\Activity\Splits\Split
-	 * @throws \InvalidArgumentException
-	 */
-	public function at($index) {
-		return parent::at($index);
-	}
+    /**
+     * Get split
+     * @param int $index
+     * @return \Runalyze\Model\Activity\Splits\Split
+     * @throws \InvalidArgumentException
+     */
+    public function at($index)
+    {
+        return parent::at($index);
+    }
 
-	/**
-	 * Get total time
-	 * @return int
-	 */
-	public function totalTime() {
-		$time = 0;
+    /**
+     * Get total time
+     * @return int
+     */
+    public function totalTime()
+    {
+        $time = 0;
 
-		foreach ($this->Elements as $split) {
-			$time += $split->time();
-		}
+        foreach ($this->Elements as $split) {
+            $time += $split->time();
+        }
 
-		return $time;
-	}
+        return $time;
+    }
 
-	/**
-	 * Get total distance
-	 * @return float
-	 */
-	public function totalDistance() {
-		$distance = 0;
+    /**
+     * Get total distance
+     * @return float
+     */
+    public function totalDistance()
+    {
+        $distance = 0;
 
-		foreach ($this->Elements as $split) {
-			$distance += $split->distance();
-		}
+        foreach ($this->Elements as $split) {
+            $distance += $split->distance();
+        }
 
-		return $distance;
-	}
+        return $distance;
+    }
 
     /**
      * Is at least one lap active?
      * @param int $num
      */
-    public function hasActiveLaps($num = 1): bool {
-		$count = 0;
+    public function hasActiveLaps($num = 1): bool
+    {
+        $count = 0;
 
-		foreach ($this->Elements as $split) {
-			if ($split->isActive()) {
-				$count++;
+        foreach ($this->Elements as $split) {
+            if ($split->isActive()) {
+                $count++;
 
-				if ($count == $num) {
-					return true;
-				}
-			}
-		}
+                if ($count == $num) {
+                    return true;
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Are there active and inactive laps?
      */
-    public function hasActiveAndInactiveLaps(): bool {
-		$active = null;
+    public function hasActiveAndInactiveLaps(): bool
+    {
+        $active = null;
 
-		foreach ($this->Elements as $split) {
-			if ($active === null) {
-				$active = $split->isActive();
-			} elseif ($active != $split->isActive()) {
-				return true;
-			}
-		}
+        foreach ($this->Elements as $split) {
+            if ($active === null) {
+                $active = $split->isActive();
+            } elseif ($active != $split->isActive()) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

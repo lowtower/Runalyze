@@ -17,22 +17,24 @@ use Runalyze\Model\Activity\Splits;
  */
 class SplitsReader
 {
-	/**
-	 * @var \Runalyze\Data\Laps\Laps
-	 */
-	protected $Laps;
+    /**
+     * @var \Runalyze\Data\Laps\Laps
+     */
+    protected $Laps;
 
-	public function __construct(Laps $object) {
-		$this->Laps = $object;
-	}
+    public function __construct(Laps $object)
+    {
+        $this->Laps = $object;
+    }
 
-	public function readFrom(Splits\Entity $Splits) {
-		foreach ($Splits->asArray() as $Split) {
-			$this->Laps->add(new Lap(
-			    $Split->time(),
-			    $Split->distance(),
-			    $Split->getIntensity()
-			));
-		}
-	}
+    public function readFrom(Splits\Entity $Splits)
+    {
+        foreach ($Splits->asArray() as $Split) {
+            $this->Laps->add(new Lap(
+                $Split->time(),
+                $Split->distance(),
+                $Split->getIntensity()
+            ));
+        }
+    }
 }

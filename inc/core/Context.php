@@ -21,48 +21,51 @@ use SessionAccountHandler;
  */
 class Context
 {
-	/**
-	 * Objects
-	 * @var array
-	 */
-	private static $Objects = [];
+    /**
+     * Objects
+     * @var array
+     */
+    private static $Objects = [];
 
-	/**
-	 * @return \Runalyze\Athlete
-	 */
-	public static function Athlete() {
-		if (! isset(self::$Objects['athlete'])) {
-			self::$Objects['athlete'] = new Athlete(
-			    SessionAccountHandler::getGender(),
-			    Configuration::Data()->HRmax(),
-			    Configuration::Data()->HRrest(),
-			    null,
-			    SessionAccountHandler::getBirthYear(),
-			    Configuration::Data()->vo2max()
-			);
-		}
+    /**
+     * @return \Runalyze\Athlete
+     */
+    public static function Athlete()
+    {
+        if (! isset(self::$Objects['athlete'])) {
+            self::$Objects['athlete'] = new Athlete(
+                SessionAccountHandler::getGender(),
+                Configuration::Data()->HRmax(),
+                Configuration::Data()->HRrest(),
+                null,
+                SessionAccountHandler::getBirthYear(),
+                Configuration::Data()->vo2max()
+            );
+        }
 
-		return self::$Objects['athlete'];
-	}
+        return self::$Objects['athlete'];
+    }
 
-	/**
-	 * Athlete
-	 * @return \Runalyze\Model\Factory
-	 */
-	public static function Factory() {
-		if (! isset(self::$Objects['factory'])) {
-			self::$Objects['factory'] = new Model\Factory(
-			    SessionAccountHandler::getId()
-			);
-		}
+    /**
+     * Athlete
+     * @return \Runalyze\Model\Factory
+     */
+    public static function Factory()
+    {
+        if (! isset(self::$Objects['factory'])) {
+            self::$Objects['factory'] = new Model\Factory(
+                SessionAccountHandler::getId()
+            );
+        }
 
-		return self::$Objects['factory'];
-	}
+        return self::$Objects['factory'];
+    }
 
-	/**
-	 * Clear internal cache
-	 */
-	public static function reset() {
-		self::$Objects = [];
-	}
+    /**
+     * Clear internal cache
+     */
+    public static function reset()
+    {
+        self::$Objects = [];
+    }
 }

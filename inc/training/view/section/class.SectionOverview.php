@@ -12,16 +12,18 @@
  */
 class SectionOverview extends TrainingViewSection
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Overview');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Overview');
 
-		$this->appendRow( new SectionOverviewRow($this->Context) );
-	}
+        $this->appendRow(new SectionOverviewRow($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return true;
-	}
+    protected function hasRequiredData(): bool
+    {
+        return true;
+    }
 }

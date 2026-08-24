@@ -17,110 +17,110 @@ use Runalyze\Profile\View\DatasetPrivacyProfile;
  */
 class Configuration
 {
-	/**
-	 * Complete data from database, sorted by position
-	 * @var array array('keyid' => array('active' => 0/1, 'style' => '...'), ...)
-	 */
-	protected $Data;
+    /**
+     * Complete data from database, sorted by position
+     * @var array array('keyid' => array('active' => 0/1, 'style' => '...'), ...)
+     */
+    protected $Data;
 
-	/**
-	 * @var bool
-	 */
-	protected $ShowAllKeys = false;
+    /**
+     * @var bool
+     */
+    protected $ShowAllKeys = false;
 
-	/**
-	 * Load dataset configuration from database
-	 * @param \PDO $pdo database connection
-	 * @param int $accountID accountid
-	 * @param bool $fallbackToDefault
-	 */
-	public function __construct(\PDO $pdo, $accountID, $fallbackToDefault = true)
-	{
-		if ($this->Data === null) {
-			$completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `' . PREFIX . 'dataset` WHERE `accountid`="' . $accountID . '" ORDER BY `position` ASC')->fetchAll();
+    /**
+     * Load dataset configuration from database
+     * @param \PDO $pdo database connection
+     * @param int $accountID accountid
+     * @param bool $fallbackToDefault
+     */
+    public function __construct(\PDO $pdo, $accountID, $fallbackToDefault = true)
+    {
+        if ($this->Data === null) {
+            $completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `' . PREFIX . 'dataset` WHERE `accountid`="' . $accountID . '" ORDER BY `position` ASC')->fetchAll();
 
-			if (empty($completeData) && $fallbackToDefault) {
-				$this->Data = (new DefaultConfiguration())->data();
-			} else {
-				foreach ($completeData as $data) {
-					$this->Data[$data['keyid']] = $data;
-				}
-			}
-		}
-	}
+            if (empty($completeData) && $fallbackToDefault) {
+                $this->Data = (new DefaultConfiguration())->data();
+            } else {
+                foreach ($completeData as $data) {
+                    $this->Data[$data['keyid']] = $data;
+                }
+            }
+        }
+    }
 
-	public function isDefault(): bool
-	{
-		return false;
-	}
+    public function isDefault(): bool
+    {
+        return false;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function data()
-	{
-		return $this->Data;
-	}
+    /**
+     * @return array
+     */
+    public function data()
+    {
+        return $this->Data;
+    }
 
-	/**
-	 * Set internal flag to activate all keys
-	 */
-	public function activateAllKeys()
-	{
-		$this->ShowAllKeys = true;
-	}
+    /**
+     * Set internal flag to activate all keys
+     */
+    public function activateAllKeys()
+    {
+        $this->ShowAllKeys = true;
+    }
 
-	/**
-	 * Remove internal flag to activate all keys
-	 */
-	public function deactivateAllKeys()
-	{
-		$this->ShowAllKeys = false;
-	}
+    /**
+     * Remove internal flag to activate all keys
+     */
+    public function deactivateAllKeys()
+    {
+        $this->ShowAllKeys = false;
+    }
 
-	public function isEmpty(): bool
-	{
-		return empty($this->Data);
-	}
+    public function isEmpty(): bool
+    {
+        return empty($this->Data);
+    }
 
-	/**
-	 * Get all active keys
-	 * @return array active keys in dataset, sorted by position
-	 */
-	public function activeKeys(): array
-	{
-		if ($this->ShowAllKeys) {
-			return $this->allKeys();
-		}
+    /**
+     * Get all active keys
+     * @return array active keys in dataset, sorted by position
+     */
+    public function activeKeys(): array
+    {
+        if ($this->ShowAllKeys) {
+            return $this->allKeys();
+        }
 
-		$activeKeys = [];
+        $activeKeys = [];
 
-		foreach ($this->Data as $keyid => $keyData) {
-			if (($keyData['privacy'] != DatasetPrivacyProfile::PRIVATE_KEY || ! \Request::isOnSharedPage()) && $keyData['active'] == 1) {
-				$activeKeys[] = $keyid;
-			}
-		}
+        foreach ($this->Data as $keyid => $keyData) {
+            if (($keyData['privacy'] != DatasetPrivacyProfile::PRIVATE_KEY || ! \Request::isOnSharedPage()) && $keyData['active'] == 1) {
+                $activeKeys[] = $keyid;
+            }
+        }
 
-		return $activeKeys;
-	}
+        return $activeKeys;
+    }
 
-	/**
-	 * Get all keys
-	 * @return array all keys in dataset, sorted by position
-	 */
-	public function allKeys(): array
-	{
-		return array_keys($this->Data);
-	}
+    /**
+     * Get all keys
+     * @return array all keys in dataset, sorted by position
+     */
+    public function allKeys(): array
+    {
+        return array_keys($this->Data);
+    }
 
     /**
      * Does this key exist in configuration?
      * @param int $keyid enum, see \Runalyze\Dataset\Keys
      */
     public function exists($keyid): bool
-	{
-		return isset($this->Data[$keyid]);
-	}
+    {
+        return isset($this->Data[$keyid]);
+    }
 
     /**
      * Is this dataset active?
@@ -128,28 +128,28 @@ class Configuration
      * @throws \InvalidArgumentException
      */
     public function isActive($keyid): bool
-	{
-		if (! isset($this->Data[$keyid])) {
-			throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
-		}
+    {
+        if (! isset($this->Data[$keyid])) {
+            throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
+        }
 
-		return ($this->Data[$keyid]['active'] == 1) || $this->ShowAllKeys;
-	}
+        return ($this->Data[$keyid]['active'] == 1) || $this->ShowAllKeys;
+    }
 
-	/**
-	 * Get CSS inline style for dataset
-	 * @param int $keyid enum, see \Runalyze\Dataset\Keys or $this->allKeys()
-	 * @return string
-	 * @throws \InvalidArgumentException
-	 */
-	public function getStyle($keyid)
-	{
-		if (! isset($this->Data[$keyid])) {
-			throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
-		}
+    /**
+     * Get CSS inline style for dataset
+     * @param int $keyid enum, see \Runalyze\Dataset\Keys or $this->allKeys()
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function getStyle($keyid)
+    {
+        if (! isset($this->Data[$keyid])) {
+            throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
+        }
 
-		return $this->Data[$keyid]['style'];
-	}
+        return $this->Data[$keyid]['style'];
+    }
 
     /**
      * Get privacy for dataset

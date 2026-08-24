@@ -56,7 +56,8 @@ class CallController extends Controller
      * @Route("/settings", name="settings")
      * @Security("has_role('ROLE_USER')")
      */
-    public function windowConfigAction(Request $request): \Symfony\Component\HttpFoundation\Response {
+    public function windowConfigAction(Request $request): \Symfony\Component\HttpFoundation\Response
+    {
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
         $ConfigTabs = new \ConfigTabs();
         $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
@@ -78,19 +79,19 @@ class CallController extends Controller
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
         switch ($_GET['key']) {
-        	case 'garmin-ignore':
-        		\Runalyze\Configuration::ActivityForm()->ignoreActivityID($_GET['value']);
-        		break;
+            case 'garmin-ignore':
+                \Runalyze\Configuration::ActivityForm()->ignoreActivityID($_GET['value']);
+                break;
 
-        	case 'leaflet-layer':
-        		\Runalyze\Configuration::ActivityView()->updateLayer($_GET['value']);
-        		break;
+            case 'leaflet-layer':
+                \Runalyze\Configuration::ActivityView()->updateLayer($_GET['value']);
+                break;
 
-        	default:
-        		if (substr($_GET['key'], 0, 5) == 'show-') {
-        			$key = substr($_GET['key'], 5);
-        			\Runalyze\Configuration::ActivityForm()->update($key, $_GET['value']);
-        		}
+            default:
+                if (substr($_GET['key'], 0, 5) == 'show-') {
+                    $key = substr($_GET['key'], 5);
+                    \Runalyze\Configuration::ActivityForm()->update($key, $_GET['value']);
+                }
         }
 
         return new Response();
@@ -106,19 +107,19 @@ class CallController extends Controller
         $showResults = ! empty($_POST);
 
         if (isset($_GET['get']) && $_GET['get'] == 'true') {
-        	$_POST = array_merge($_POST, $_GET);
-        	$showResults = true;
+            $_POST = array_merge($_POST, $_GET);
+            $showResults = true;
 
-        	\SearchFormular::transformOldParamsToNewParams();
+            \SearchFormular::transformOldParamsToNewParams();
         }
 
         if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
-        	echo '<div class="panel-heading">';
-        	echo '<h1>' . __('Search for activities') . '</h1>';
-        	echo '</div>';
+            echo '<div class="panel-heading">';
+            echo '<h1>' . __('Search for activities') . '</h1>';
+            echo '</div>';
 
-        	$Formular = new \SearchFormular($this->generateUrl('my-search'));
-        	$Formular->display();
+            $Formular = new \SearchFormular($this->generateUrl('my-search'));
+            $Formular->display();
         }
 
         $Results = new \SearchResults($showResults);
@@ -137,11 +138,12 @@ class CallController extends Controller
     /**
      * @return \PlotSumData
      */
-    protected function getPlotSumData() {
+    protected function getPlotSumData()
+    {
         $Request = Request::createFromGlobals();
 
         if ($Request->query->get('y') === null) {
-        	$_GET['y'] = \PlotSumData::LAST_12_MONTHS;
+            $_GET['y'] = \PlotSumData::LAST_12_MONTHS;
         }
 
         return $Request->query->get('type', 'month') == 'week' ? new \PlotWeekSumData() : new \PlotMonthSumData();

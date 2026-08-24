@@ -12,28 +12,32 @@
  */
 
 use Runalyze\Model\Swimdata;
+
 class SectionSwimLane extends TrainingViewSectionTabbedPlot
 {
-	protected function setHeaderAndRows() {
+    protected function setHeaderAndRows()
+    {
 
-                $this->appendRowTabbedPlot(new SectionSwimLaneRow($this->Context, __('Lanes')));
-                $this->Header = __('Lanes');
+        $this->appendRowTabbedPlot(new SectionSwimLaneRow($this->Context, __('Lanes')));
+        $this->Header = __('Lanes');
 
-	}
+    }
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	protected function hasRequiredData() {
-		return $this->Context->swimdata()
-		    ->has(Swimdata\Entity::STROKE);
-	}
+    /**
+     * Has the training all required data?
+     * @return bool
+     */
+    protected function hasRequiredData()
+    {
+        return $this->Context->swimdata()
+            ->has(Swimdata\Entity::STROKE);
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'swim-laps';
-	}
+    protected function cssId(): string
+    {
+        return 'swim-laps';
+    }
 }

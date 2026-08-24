@@ -29,9 +29,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ImportActivityController extends Controller
 {
-    const IMPORT_CMD = 'runalyze:activity:bulk-import';
+    public const IMPORT_CMD = 'runalyze:activity:bulk-import';
 
-    const SUCCESS_MSG = 'successfully imported';
+    public const SUCCESS_MSG = 'successfully imported';
 
     /**
      * import as REST api.
@@ -46,7 +46,8 @@ class ImportActivityController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method("POST")
      */
-    public function postImportActivity(Request $request, Account $account) {
+    public function postImportActivity(Request $request, Account $account)
+    {
         $result = '';
 
         $resultCode = Response::HTTP_OK; // 200
@@ -70,7 +71,7 @@ class ImportActivityController extends Controller
         $allfilesCount = count($allfiles);
 
         $uploadDir = $this->createUploadDir($username);
-        if($uploadDir != null) {
+        if ($uploadDir != null) {
             $result = $result . 'Storing ' . $allfilesCount . ' uploaded files to temp folder ' . $uploadDir . '.' . PHP_EOL;
 
             try {
@@ -80,7 +81,7 @@ class ImportActivityController extends Controller
 
                 // if not all files processed "successfully" document it and send HTTP state 202
                 $notSuccessful = $allfilesCount - substr_count($processFilesResult, self::SUCCESS_MSG);
-                if($notSuccessful !== 0) {
+                if ($notSuccessful !== 0) {
                     $result = $result . 'WARNING: ' . $notSuccessful . ' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
@@ -98,20 +99,22 @@ class ImportActivityController extends Controller
         ]);
     }
 
-    private function createUploadDir($username) {
+    private function createUploadDir($username)
+    {
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $username . '_' . microtime(true);
-        if(mkdir($tmpDir)) {
+        if (mkdir($tmpDir)) {
             return $tmpDir;
         }
 
         return null;
     }
 
-    private function processFiles($username, $uploadDir, $allfiles): string {
+    private function processFiles($username, $uploadDir, $allfiles): string
+    {
         $result = '';
 
         // move from tmp-name (/tmp/phpOZLwMG) to the tmp-upload-folder (in error case an exception is thrown)
-        foreach($allfiles as $v) {
+        foreach ($allfiles as $v) {
             $v->move($uploadDir, $v->getClientOriginalName());
         }
 
@@ -123,22 +126,23 @@ class ImportActivityController extends Controller
 
         // cleanup: remove uploaded files
         $result = $result . 'Cleanup temp folder and uploaded files.' . PHP_EOL;
-        foreach($allfiles as $v) {
+        foreach ($allfiles as $v) {
             $f = $uploadDir . DIRECTORY_SEPARATOR . $v->getClientOriginalName();
-            if(! unlink($f)) {
+            if (! unlink($f)) {
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;
             }
         }
 
         // cleanup: remove temp created folder
-        if(! rmdir($uploadDir)) {
+        if (! rmdir($uploadDir)) {
             $result = $result . 'WARNING: Can not remove upload-folder ' . $uploadDir . PHP_EOL;
         }
 
         return $result . PHP_EOL;
     }
 
-    private function processImport($username, $uploadDir) {
+    private function processImport($username, $uploadDir)
+    {
         $kernel = $this->get('kernel');
         $application = new Application($kernel);
         $application->setAutoExit(false);

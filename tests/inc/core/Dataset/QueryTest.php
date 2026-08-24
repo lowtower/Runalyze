@@ -10,231 +10,231 @@ use DB;
  */
 class QueryTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	/**
-	 * @var \Runalyze\Dataset\Query
-	 */
-	protected $Query;
+    /**
+     * @var \Runalyze\Dataset\Query
+     */
+    protected $Query;
 
-	/**
-	 * @var int
-	 */
-	protected $Running;
+    /**
+     * @var int
+     */
+    protected $Running;
 
-	protected function setUp(): void
-	{
-		$this->PDO = DB::getInstance();
-		$this->Query = new Query(new DefaultConfiguration(), $this->PDO, 1);
-		$this->Running = \Runalyze\Configuration::General()->runningSport();
-	}
+    protected function setUp(): void
+    {
+        $this->PDO = DB::getInstance();
+        $this->Query = new Query(new DefaultConfiguration(), $this->PDO, 1);
+        $this->Running = \Runalyze\Configuration::General()->runningSport();
+    }
 
-	protected function tearDown(): void
-	{
-		$this->PDO->exec('DELETE FROM `runalyze_training`');
-	}
+    protected function tearDown(): void
+    {
+        $this->PDO->exec('DELETE FROM `runalyze_training`');
+    }
 
     /**
      * @param array<string, int>|array<string, string>|array<string, bool> $data
      */
     protected function insertActivity(array $data)
-	{
-		if (! isset($data['accountid'])) {
-			$data['accountid'] = 1;
-		}
+    {
+        if (! isset($data['accountid'])) {
+            $data['accountid'] = 1;
+        }
 
-		if (! isset($data['sportid'])) {
-			$data['sportid'] = $this->Running;
-		}
+        if (! isset($data['sportid'])) {
+            $data['sportid'] = $this->Running;
+        }
 
-		if (! isset($data['is_public'])) {
-			$data['is_public'] = 1;
-		}
+        if (! isset($data['is_public'])) {
+            $data['is_public'] = 1;
+        }
 
-		$this->PDO->query('INSERT INTO `runalyze_training` (`' . implode('`, `', array_keys($data)) . '`) VALUES ("' . implode('", "', $data) . '")');
-	}
+        $this->PDO->query('INSERT INTO `runalyze_training` (`' . implode('`, `', array_keys($data)) . '`) VALUES ("' . implode('", "', $data) . '")');
+    }
 
-	public function testThatMethodsWorkForDefaultConfiguration()
-	{
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    's' => 100,
-]);
+    public function testThatMethodsWorkForDefaultConfiguration()
+    {
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            's' => 100,
+        ]);
 
-		$this->assertIsArray($this->Query->statementToFetchActivities(0, time())->fetchAll());
-		$this->assertIsArray($this->Query->fetchSummaryForSport($this->Running));
-		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running));
+        $this->assertIsArray($this->Query->statementToFetchActivities(0, time())->fetchAll());
+        $this->assertIsArray($this->Query->fetchSummaryForSport($this->Running));
+        $this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running));
 
-		$this->Query->showOnlyPublicActivities();
-		$this->assertIsArray($this->Query->fetchSummaryForSport($this->Running, time() - 366 * DAY_IN_S, time()));
-		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 31 * DAY_IN_S));
-		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 366 * DAY_IN_S, time() - 2 * DAY_IN_S, time() + 366 * DAY_IN_S));
-	}
+        $this->Query->showOnlyPublicActivities();
+        $this->assertIsArray($this->Query->fetchSummaryForSport($this->Running, time() - 366 * DAY_IN_S, time()));
+        $this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 31 * DAY_IN_S));
+        $this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 366 * DAY_IN_S, time() - 2 * DAY_IN_S, time() + 366 * DAY_IN_S));
+    }
 
-	public function testThatSelectQueriesAreValid()
-	{
-		$this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectAllKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
-		$this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectActiveKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
-	}
+    public function testThatSelectQueriesAreValid()
+    {
+        $this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectAllKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
+        $this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectActiveKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
+    }
 
-	public function testTimerangeAndPrivacyForSingleActivities()
-	{
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    'is_public' => '0',
-		    's' => 600,
-]);
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    'is_public' => '1',
-		    's' => 300,
-]);
-		$this->insertActivity([
-    'time' => time() + DAY_IN_S,
-		    'is_public' => '1',
-		    's' => 100,
-]);
+    public function testTimerangeAndPrivacyForSingleActivities()
+    {
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            'is_public' => '0',
+            's' => 600,
+        ]);
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            'is_public' => '1',
+            's' => 300,
+        ]);
+        $this->insertActivity([
+            'time' => time() + DAY_IN_S,
+            'is_public' => '1',
+            's' => 100,
+        ]);
 
-		$this->Query->showOnlyPublicActivities();
-		$allActivities = $this->Query->statementToFetchActivities(0, time())
-		    ->fetchAll();
+        $this->Query->showOnlyPublicActivities();
+        $allActivities = $this->Query->statementToFetchActivities(0, time())
+            ->fetchAll();
 
-		$this->assertEquals(1, count($allActivities));
-		$this->assertEquals(300, $allActivities[0]['s']);
-	}
+        $this->assertEquals(1, count($allActivities));
+        $this->assertEquals(300, $allActivities[0]['s']);
+    }
 
-	public function testDurationSumWithDistance()
-	{
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    's' => 900,
-		    'distance' => 0,
-]);
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    's' => 600,
-		    'distance' => 2,
-]);
+    public function testDurationSumWithDistance()
+    {
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            's' => 900,
+            'distance' => 0,
+        ]);
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            's' => 600,
+            'distance' => 2,
+        ]);
 
-		$Context = new Context($this->Query->fetchSummaryForSport($this->Running), 1);
+        $Context = new Context($this->Query->fetchSummaryForSport($this->Running), 1);
 
-		$this->assertEquals(600, $Context->data(Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY));
-	}
+        $this->assertEquals(600, $Context->data(Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY));
+    }
 
-	public function testSummary()
-	{
-		$this->insertActivity([
-    'time' => time() - DAY_IN_S,
-		    's' => 100,
-		    'sportid' => 1,
-]);
-		$this->insertActivity([
-    'time' => time() - 5 * DAY_IN_S,
-		    's' => 200,
-		    'sportid' => 2,
-]);
-		$this->insertActivity([
-    'time' => time() - 5 * DAY_IN_S,
-		    's' => 123,
-		    'sportid' => 2,
-]);
-		$this->insertActivity([
-    'time' => time() - 9 * DAY_IN_S,
-		    's' => 500,
-		    'sportid' => 3,
-]);
+    public function testSummary()
+    {
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            's' => 100,
+            'sportid' => 1,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 5 * DAY_IN_S,
+            's' => 200,
+            'sportid' => 2,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 5 * DAY_IN_S,
+            's' => 123,
+            'sportid' => 2,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 9 * DAY_IN_S,
+            's' => 500,
+            'sportid' => 3,
+        ]);
 
-		$summary = [
-		    $this->Query->fetchSummaryForSport(1),
-		    $this->Query->fetchSummaryForSport(2),
-		    $this->Query->fetchSummaryForSport(3),
-		];
+        $summary = [
+            $this->Query->fetchSummaryForSport(1),
+            $this->Query->fetchSummaryForSport(2),
+            $this->Query->fetchSummaryForSport(3),
+        ];
 
-		$this->assertEquals([1, 2, 1], array_map(function (array $data) { return $data['num']; }, $summary));
-		$this->assertEquals([100, 323, 500], array_map(function (array $data) { return $data['s']; }, $summary));
-	}
+        $this->assertEquals([1, 2, 1], array_map(function (array $data) { return $data['num']; }, $summary));
+        $this->assertEquals([100, 323, 500], array_map(function (array $data) { return $data['s']; }, $summary));
+    }
 
-	public function testSummaryForWeekTimerange()
-	{
-		$this->insertActivity([
-		    'time' => time() - DAY_IN_S,
-		    's' => 100,
-		]);
-		$this->insertActivity([
-		    'time' => time() - 5 * DAY_IN_S,
-		    's' => 200,
-		]);
-		$this->insertActivity([
-		    'time' => time() - 5 * DAY_IN_S,
-		    's' => 123,
-		    'sportid' => $this->Running + 1,
-		]);
-		$this->insertActivity([
-		    'time' => time() - 9 * DAY_IN_S,
-		    's' => 500,
-		]);
+    public function testSummaryForWeekTimerange()
+    {
+        $this->insertActivity([
+            'time' => time() - DAY_IN_S,
+            's' => 100,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 5 * DAY_IN_S,
+            's' => 200,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 5 * DAY_IN_S,
+            's' => 123,
+            'sportid' => $this->Running + 1,
+        ]);
+        $this->insertActivity([
+            'time' => time() - 9 * DAY_IN_S,
+            's' => 500,
+        ]);
 
-		$summary = $this->Query->fetchSummaryForTimerange($this->Running);
+        $summary = $this->Query->fetchSummaryForTimerange($this->Running);
 
-		$this->assertEquals(2, count($summary));
-		$this->assertEquals(300, $summary[0]['s']);
-		$this->assertEquals(500, $summary[1]['s']);
-	}
+        $this->assertEquals(2, count($summary));
+        $this->assertEquals(300, $summary[0]['s']);
+        $this->assertEquals(500, $summary[1]['s']);
+    }
 
-	public function testSummaryForMonthTimerange()
-	{
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 6, 15, 2015),
-		    's' => 100,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 6, 1, 2015),
-		    's' => 200,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 6, 12, 2015),
-		    's' => 123,
-		    'sportid' => $this->Running + 1,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 5, 31, 2015),
-		    's' => 500,
-		]);
+    public function testSummaryForMonthTimerange()
+    {
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 6, 15, 2015),
+            's' => 100,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 6, 1, 2015),
+            's' => 200,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 6, 12, 2015),
+            's' => 123,
+            'sportid' => $this->Running + 1,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 5, 31, 2015),
+            's' => 500,
+        ]);
 
-		$summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::MONTH_TIMERANGE);
+        $summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::MONTH_TIMERANGE);
 
-		$this->assertEquals(2, count($summary));
-		$this->assertEquals(300, $summary[0]['s']);
-		$this->assertEquals(500, $summary[1]['s']);
-	}
+        $this->assertEquals(2, count($summary));
+        $this->assertEquals(300, $summary[0]['s']);
+        $this->assertEquals(500, $summary[1]['s']);
+    }
 
-	public function testSummaryForYearTimerange()
-	{
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 6, 15, 2015),
-		    's' => 100,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 1, 1, 2015),
-		    's' => 200,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 12, 31, 2014),
-		    's' => 123,
-		    'sportid' => $this->Running + 1,
-		]);
-		$this->insertActivity([
-		    'time' => mktime(12, 0, 0, 12, 31, 2014),
-		    's' => 500,
-		]);
+    public function testSummaryForYearTimerange()
+    {
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 6, 15, 2015),
+            's' => 100,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 1, 1, 2015),
+            's' => 200,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 12, 31, 2014),
+            's' => 123,
+            'sportid' => $this->Running + 1,
+        ]);
+        $this->insertActivity([
+            'time' => mktime(12, 0, 0, 12, 31, 2014),
+            's' => 500,
+        ]);
 
-		$summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::YEAR_TIMERANGE);
+        $summary = $this->Query->fetchSummaryForTimerange($this->Running, Query::YEAR_TIMERANGE);
 
-		$this->assertEquals(2, count($summary));
-		$this->assertEquals(300, $summary[0]['s']);
-		$this->assertEquals(500, $summary[1]['s']);
-	}
+        $this->assertEquals(2, count($summary));
+        $this->assertEquals(300, $summary[0]['s']);
+        $this->assertEquals(500, $summary[1]['s']);
+    }
 }

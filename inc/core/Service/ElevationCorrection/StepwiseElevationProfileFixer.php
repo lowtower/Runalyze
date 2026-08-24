@@ -7,29 +7,29 @@ class StepwiseElevationProfileFixer
     /**
      * @var int
      */
-    const METHOD_FIXED_GROUP_SIZE = 0;
+    public const METHOD_FIXED_GROUP_SIZE = 0;
 
     /**
      * @var int
      */
-    const METHOD_VARIABLE_GROUP_SIZE = 1;
+    public const METHOD_VARIABLE_GROUP_SIZE = 1;
 
     /**
      * @var int
      */
     protected $Method;
 
-	/**
-	 * @var int
-	 */
-	protected $NumberOfGroupedPoints;
+    /**
+     * @var int
+     */
+    protected $NumberOfGroupedPoints;
 
-	/**
-	 * @var int
-	 */
-	protected $MidpointIndexOfConstantGroup;
+    /**
+     * @var int
+     */
+    protected $MidpointIndexOfConstantGroup;
 
-	public function __construct($numberOfGroupedPoints = 5, $method = self::METHOD_FIXED_GROUP_SIZE)
+    public function __construct($numberOfGroupedPoints = 5, $method = self::METHOD_FIXED_GROUP_SIZE)
     {
         $this->NumberOfGroupedPoints = $numberOfGroupedPoints;
         $this->MidpointIndexOfConstantGroup = (int) floor(($numberOfGroupedPoints - 1) / 2);

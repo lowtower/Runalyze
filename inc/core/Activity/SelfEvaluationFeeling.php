@@ -18,30 +18,30 @@ class SelfEvaluationFeeling extends AbstractEnum
 {
     // respect the order by number!
 
-	/**
-	 * @var int
-	 */
-	const VERY_WEAK = 1; // sehr schwach
-
-	/**
-	 * @var int
-	 */
-	const WEAK = 2; // schwach
+    /**
+     * @var int
+     */
+    public const VERY_WEAK = 1; // sehr schwach
 
     /**
      * @var int
      */
-    const NORMAL = 3; // normal
+    public const WEAK = 2; // schwach
 
     /**
      * @var int
      */
-    const STRONG = 4; // stark
+    public const NORMAL = 3; // normal
 
     /**
      * @var int
      */
-    const VERY_STRONG = 5; // sehr stark
+    public const STRONG = 4; // stark
+
+    /**
+     * @var int
+     */
+    public const VERY_STRONG = 5; // sehr stark
 
     /**
      * Converts the value from the FIT file to an enum.
@@ -52,7 +52,7 @@ class SelfEvaluationFeeling extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 100 ) {
+        if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 100) {
             throw new \InvalidArgumentException(sprintf('Provided evaluation effort %s is invalid.', $fitValue));
         }
 

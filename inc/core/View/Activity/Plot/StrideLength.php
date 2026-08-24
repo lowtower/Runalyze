@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class StrideLength extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'stridelength';
-	}
+    protected function setKey()
+    {
+        $this->key = 'stridelength';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\StrideLength($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\StrideLength($context)
+        );
+    }
 }

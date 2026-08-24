@@ -15,86 +15,86 @@ use Runalyze\Configuration;
  */
 abstract class PlotSumData extends Plot
 {
-	/**
-	 * Key as year for last 6 months
-	 * @var string
-	 */
-	const LAST_6_MONTHS = 'last6months';
+    /**
+     * Key as year for last 6 months
+     * @var string
+     */
+    public const LAST_6_MONTHS = 'last6months';
 
-	/**
-	 * Key as year for last 12 months
-	 * @var string
-	 */
-	const LAST_12_MONTHS = 'last12months';
+    /**
+     * Key as year for last 12 months
+     * @var string
+     */
+    public const LAST_12_MONTHS = 'last12months';
 
-	/**
-	 * @var string
-	 */
-	const ANALYSIS_DEFAULT = 'kmorh';
+    /**
+     * @var string
+     */
+    public const ANALYSIS_DEFAULT = 'kmorh';
 
-	/**
-	 * @var string
-	 */
-	const ANALYSIS_TRIMP = 'trimp';
+    /**
+     * @var string
+     */
+    public const ANALYSIS_TRIMP = 'trimp';
 
-	/**
-	 * URL to window
-	 * @var string
-	 */
-	public static $URL = 'call/window.plotSumData.php';
+    /**
+     * URL to window
+     * @var string
+     */
+    public static $URL = 'call/window.plotSumData.php';
 
-	/**
-	 * URL to shared window
-	 * @var string
-	 */
-	public static $URL_SHARED = 'call/window.plotSumData.shared.php';
+    /**
+     * URL to shared window
+     * @var string
+     */
+    public static $URL_SHARED = 'call/window.plotSumData.shared.php';
 
-	/**
-	 * Year
-	 * @var string
-	 */
-	protected $Year = '';
+    /**
+     * Year
+     * @var string
+     */
+    protected $Year = '';
 
-	/**
-	 * Sport
-	 * @var Sport
-	 */
-	protected $Sport;
+    /**
+     * Sport
+     * @var Sport
+     */
+    protected $Sport;
 
-	/**
-	 * Raw data from database
-	 * @var array
-	 */
-	protected $RawData = [];
+    /**
+     * Raw data from database
+     * @var array
+     */
+    protected $RawData = [];
 
-	/**
-	 * First week/month/etc.
-	 * @var int
-	 */
-	protected $timerStart = 0;
+    /**
+     * First week/month/etc.
+     * @var int
+     */
+    protected $timerStart = 0;
 
-	/**
-	 * Last week/month/etc.
-	 * @var int
-	 */
-	protected $timerEnd = 0;
+    /**
+     * Last week/month/etc.
+     * @var int
+     */
+    protected $timerEnd = 0;
 
-	/**
-	 * Show distance instead of time?
-	 * @var bool
-	 */
-	protected $usesDistance = false;
+    /**
+     * Show distance instead of time?
+     * @var bool
+     */
+    protected $usesDistance = false;
 
-	/**
-	 * Which analysis to show
-	 * @var string
-	 */
-	protected $Analysis;
+    /**
+     * Which analysis to show
+     * @var string
+     */
+    protected $Analysis;
 
-	/**
-	 * @var mixed
-	 */
-	protected $ParamSportId;
+    /**
+     * @var mixed
+     */
+    protected $ParamSportId;
 
     /**
      * @var mixed
@@ -111,177 +111,189 @@ abstract class PlotSumData extends Plot
      */
     protected $ParamType;
 
-	public function __construct() {
-	    $this->ParamSportId = Request::param('sportid');
+    public function __construct()
+    {
+        $this->ParamSportId = Request::param('sportid');
         $this->ParamYear = Request::param('y');
         $this->ParamGroup = Request::param('group');
         $this->ParamType = Request::param('type');
 
-		$sportid = (string) $this->ParamSportId !== '' ? $this->ParamSportId : Configuration::General()->runningSport();
+        $sportid = (string) $this->ParamSportId !== '' ? $this->ParamSportId : Configuration::General()->runningSport();
 
-		$this->Year = $this->getRequestedYear();
-		$this->Sport = new Sport($sportid);
+        $this->Year = $this->getRequestedYear();
+        $this->Sport = new Sport($sportid);
 
-		parent::__construct($this->getCSSid(), 800, 500);
+        parent::__construct($this->getCSSid(), 800, 500);
 
-		$this->init();
-		$this->addAverage();
-		$this->addTarget();
-	}
+        $this->init();
+        $this->addAverage();
+        $this->addTarget();
+    }
 
-	/**
-	 * Get requested year/key
-	 * @return int|string
-	 */
-	protected function getRequestedYear() {
-		if ($this->ParamYear == self::LAST_12_MONTHS || $this->ParamYear == self::LAST_6_MONTHS) {
-			return $this->ParamYear;
-		}
+    /**
+     * Get requested year/key
+     * @return int|string
+     */
+    protected function getRequestedYear()
+    {
+        if ($this->ParamYear == self::LAST_12_MONTHS || $this->ParamYear == self::LAST_6_MONTHS) {
+            return $this->ParamYear;
+        }
 
-		return (int) $this->ParamYear;
-	}
+        return (int) $this->ParamYear;
+    }
 
-	final public function display() {
-		$this->displayHeader();
-		$this->displayContent();
-	}
+    final public function display()
+    {
+        $this->displayHeader();
+        $this->displayContent();
+    }
 
-	private function displayHeader() {
-		echo '<div class="panel-heading">';
-		echo '<div class="panel-menu">';
-		echo $this->getNavigationMenu();
-		echo '</div>';
-		echo HTML::h1( $this->getTitle() . ' ' . $this->getTitleAppendix() );
-		echo '</div>';
-	}
+    private function displayHeader()
+    {
+        echo '<div class="panel-heading">';
+        echo '<div class="panel-menu">';
+        echo $this->getNavigationMenu();
+        echo '</div>';
+        echo HTML::h1($this->getTitle() . ' ' . $this->getTitleAppendix());
+        echo '</div>';
+    }
 
-	private function displayContent() {
-		echo '<div class="panel-content">';
-		$this->outputDiv();
-		$this->outputJavaScript();
-		$this->displayInfos();
-		echo '</div>';
-	}
+    private function displayContent()
+    {
+        echo '<div class="panel-content">';
+        $this->outputDiv();
+        $this->outputJavaScript();
+        $this->displayInfos();
+        echo '</div>';
+    }
 
-	/**
-	 * Get navigation
-	 */
-	private function getNavigationMenu(): string {
-		$Menus = [
-		    $this->getMenuLinksForGrouping(),
-		    $this->getMenuLinksForAnalysis(),
-		    $this->getMenuLinksForSports(),
-		    $this->getMenuLinksForYears(),
-		];
+    /**
+     * Get navigation
+     */
+    private function getNavigationMenu(): string
+    {
+        $Menus = [
+            $this->getMenuLinksForGrouping(),
+            $this->getMenuLinksForAnalysis(),
+            $this->getMenuLinksForSports(),
+            $this->getMenuLinksForYears(),
+        ];
 
-		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
-			unset($Menus[0]);
+        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+            unset($Menus[0]);
+        }
 
-		$Code = '<ul>';
+        $Code = '<ul>';
 
-		foreach ($Menus as $Menu) {
-			$Code .= '<li class="with-submenu"><span class="link">' . $Menu['title'] . '</span><ul class="submenu">';
-			$Code .= implode('', $Menu['links']);
-			$Code .= '</ul></li>';
-		}
+        foreach ($Menus as $Menu) {
+            $Code .= '<li class="with-submenu"><span class="link">' . $Menu['title'] . '</span><ul class="submenu">';
+            $Code .= implode('', $Menu['links']);
+            $Code .= '</ul></li>';
+        }
 
-		return $Code . '</ul>';
-	}
+        return $Code . '</ul>';
+    }
 
     /**
      * @return array<string, string|string[]>
      */
-    private function getMenuLinksForGrouping(): array {
-		if ($this->ParamGroup == '') {
-			$Current = __('Total');
-		} else {
-			$Current = __('By type');
-		}
+    private function getMenuLinksForGrouping(): array
+    {
+        if ($this->ParamGroup == '') {
+            $Current = __('Total');
+        } else {
+            $Current = __('By type');
+        }
 
-		$Links = [];
-		$Links[] = $this->link( __('Total'), $this->Year, $this->ParamSportId, '', $this->ParamGroup == '');
-		$Links[] = $this->link( __('By type'), $this->Year, $this->ParamSportId, 'types', $this->ParamGroup == 'types');
+        $Links = [];
+        $Links[] = $this->link(__('Total'), $this->Year, $this->ParamSportId, '', $this->ParamGroup == '');
+        $Links[] = $this->link(__('By type'), $this->Year, $this->ParamSportId, 'types', $this->ParamGroup == 'types');
 
-		return [
-		    'title' => $Current,
-		    'links' => $Links,
-		];
-	}
+        return [
+            'title' => $Current,
+            'links' => $Links,
+        ];
+    }
 
     /**
      * @return array<string, string|string[]>
      */
-    private function getMenuLinksForAnalysis(): array {
-		if ($this->Analysis == self::ANALYSIS_DEFAULT) {
-			$Current = __('Distance/Duration');
-		} else {
-			$Current = __('TRIMP');
-		}
+    private function getMenuLinksForAnalysis(): array
+    {
+        if ($this->Analysis == self::ANALYSIS_DEFAULT) {
+            $Current = __('Distance/Duration');
+        } else {
+            $Current = __('TRIMP');
+        }
 
-		$Links = [
-		    $this->link( __('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
-		    $this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP),
-		];
+        $Links = [
+            $this->link(__('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
+            $this->link(__('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP),
+        ];
 
-		return [
-		    'title' => $Current,
-		    'links' => $Links,
-		];
-	}
+        return [
+            'title' => $Current,
+            'links' => $Links,
+        ];
+    }
 
     /**
      * @return array<string, mixed>
      */
-    private function getMenuLinksForSports(): array {
-		$CurrentId = $this->Sport->id();
-		$Current = __('All sports');
-		$Links = [
-		    $this->link( __('All sports'), $this->Year, 0, 'sport', $this->ParamGroup == 'sport'),
-		    $this->link( __('Main sports'), $this->Year, 0, 'mainsport', $this->ParamGroup == 'mainsport'),
-		];
+    private function getMenuLinksForSports(): array
+    {
+        $CurrentId = $this->Sport->id();
+        $Current = __('All sports');
+        $Links = [
+            $this->link(__('All sports'), $this->Year, 0, 'sport', $this->ParamGroup == 'sport'),
+            $this->link(__('Main sports'), $this->Year, 0, 'mainsport', $this->ParamGroup == 'mainsport'),
+        ];
 
-		$SportGroup = $this->ParamGroup == 'sport' ? 'types' : $this->ParamGroup;
-		$Sports = SportFactory::NamesAsArray();
+        $SportGroup = $this->ParamGroup == 'sport' ? 'types' : $this->ParamGroup;
+        $Sports = SportFactory::NamesAsArray();
 
-		foreach ($Sports as $id => $name) {
-			if ($CurrentId == $id) {
-				$Current = $name;
-			}
+        foreach ($Sports as $id => $name) {
+            if ($CurrentId == $id) {
+                $Current = $name;
+            }
 
-			$Links[] = $this->link($name, $this->Year, $id, $SportGroup, $CurrentId == $id);
-		}
+            $Links[] = $this->link($name, $this->Year, $id, $SportGroup, $CurrentId == $id);
+        }
 
-		return [
-		    'title' => $Current,
-		    'links' => $Links,
-		];
-	}
+        return [
+            'title' => $Current,
+            'links' => $Links,
+        ];
+    }
 
     /**
      * @return array<string, string|\non-empty-list<string>>
      */
-    private function getMenuLinksForYears(): array {
-		if ($this->Year == self::LAST_6_MONTHS) {
-			$Current = __('Last 6 months');
-		} elseif ($this->Year == self::LAST_12_MONTHS) {
-			$Current = __('Last 12 months');
-		} else {
-			$Current = $this->Year;
-		}
+    private function getMenuLinksForYears(): array
+    {
+        if ($this->Year == self::LAST_6_MONTHS) {
+            $Current = __('Last 6 months');
+        } elseif ($this->Year == self::LAST_12_MONTHS) {
+            $Current = __('Last 12 months');
+        } else {
+            $Current = $this->Year;
+        }
 
-		$Links = [
-		    $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_6_MONTHS),
-		    $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_12_MONTHS),
-		];
+        $Links = [
+            $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_6_MONTHS),
+            $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_12_MONTHS),
+        ];
 
-		for ($Y = date('Y'); $Y >= START_YEAR; $Y--)
-			$Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
+        for ($Y = date('Y'); $Y >= START_YEAR; $Y--) {
+            $Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
+        }
 
-		return [
-		    'title' => $Current,
-		    'links' => $Links,
-		];
-	}
+        return [
+            'title' => $Current,
+            'links' => $Links,
+        ];
+    }
 
     /**
      * Link to plot
@@ -291,61 +303,66 @@ abstract class PlotSumData extends Plot
      * @param string $group
      * @return string
      */
-    private function link($text, $year, $sportid, $group, bool $current = false, $analysis = false) {
-		if (! $analysis) {
-			$analysis = $this->Analysis;
-		}
+    private function link($text, $year, $sportid, $group, bool $current = false, $analysis = false)
+    {
+        if (! $analysis) {
+            $analysis = $this->Analysis;
+        }
 
-		if (FrontendShared::$IS_SHOWN)
-			return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType == 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
+        if (FrontendShared::$IS_SHOWN) {
+            return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType == 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
+        }
 
         return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . self::$URL . '?type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
-	}
+    }
 
-	/**
-	 * @return string
-	 */
-	abstract protected function getCSSid();
+    /**
+     * @return string
+     */
+    abstract protected function getCSSid();
 
-	/**
-	 * @return string
-	 */
-	abstract protected function getTitle();
+    /**
+     * @return string
+     */
+    abstract protected function getTitle();
 
-	/**
-	 * @return string
-	 */
-	protected function getTitleAppendix() {
-		if ($this->Year == self::LAST_6_MONTHS) {
-			return __('last 6 months');
-		}
+    /**
+     * @return string
+     */
+    protected function getTitleAppendix()
+    {
+        if ($this->Year == self::LAST_6_MONTHS) {
+            return __('last 6 months');
+        }
 
-		if ($this->Year == self::LAST_12_MONTHS) {
-			return __('last 12 months');
-		}
+        if ($this->Year == self::LAST_12_MONTHS) {
+            return __('last 12 months');
+        }
 
-		return $this->Year;
-	}
+        return $this->Year;
+    }
 
-	/**
-	 * @return array
-	 */
-	abstract protected function getXLabels();
+    /**
+     * @return array
+     */
+    abstract protected function getXLabels();
 
-	private function init() {
-		$this->initData();
-		$this->adjustDataForUnit();
-		$this->setAxis();
-		$this->setOptions();
-	}
+    private function init()
+    {
+        $this->initData();
+        $this->adjustDataForUnit();
+        $this->setAxis();
+        $this->setOptions();
+    }
 
-	protected function adjustDataForUnit() {
-	    if ($this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
-	        $factor = Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor();
+    protected function adjustDataForUnit()
+    {
+        if ($this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
+            $factor = Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor();
 
-	        if ($factor != 1) {
-	            foreach ($this->Data as $index => $plotData) {
-	                $this->Data[$index]['data'] = array_map(function ($v) use ($factor) {
+            if ($factor != 1) {
+                foreach ($this->Data as $index => $plotData) {
+                    $this->Data[$index]['data'] = array_map(function ($v) use ($factor) {
                         return $v * $factor;
                     }, $this->Data[$index]['data']);
                 }
@@ -353,61 +370,66 @@ abstract class PlotSumData extends Plot
         }
     }
 
-	private function setAxis() {
-		$this->setXLabels($this->getXLabels());
-		$this->addYAxis(1, 'left');
+    private function setAxis()
+    {
+        $this->setXLabels($this->getXLabels());
+        $this->addYAxis(1, 'left');
 
-		if ($this->Analysis == self::ANALYSIS_DEFAULT) {
-			if ($this->usesDistance) {
-				$this->addYUnit(1, Configuration::General()->distanceUnitSystem()->distanceUnit());
-				$this->setYTicks(1, 10, 0);
-			} else {
-				$this->addYUnit(1, 'h');
-				$this->setYTicks(1, 1, 0);
-			}
-		}
-	}
+        if ($this->Analysis == self::ANALYSIS_DEFAULT) {
+            if ($this->usesDistance) {
+                $this->addYUnit(1, Configuration::General()->distanceUnitSystem()->distanceUnit());
+                $this->setYTicks(1, 10, 0);
+            } else {
+                $this->addYUnit(1, 'h');
+                $this->setYTicks(1, 1, 0);
+            }
+        }
+    }
 
-	private function setOptions() {
-		$this->showBars(true);
-		$this->setTitle($this->getTitle());
+    private function setOptions()
+    {
+        $this->showBars(true);
+        $this->setTitle($this->getTitle());
 
-		$this->stacked();
-	}
+        $this->stacked();
+    }
 
-	private function initData() {
-		if (time() != START_TIME && (
-		    ($this->Year >= START_YEAR && $this->Year <= date('Y') && time() != START_TIME) ||
-			$this->Year == self::LAST_6_MONTHS ||
-			$this->Year == self::LAST_12_MONTHS
-		)) {
-			$this->defineAnalysis();
-			$this->loadData();
-			$this->setData();
-		} else {
-			$this->raiseError( __('There are no data for this timerange.') );
-		}
-	}
+    private function initData()
+    {
+        if (time() != START_TIME && (
+            ($this->Year >= START_YEAR && $this->Year <= date('Y') && time() != START_TIME) ||
+            $this->Year == self::LAST_6_MONTHS ||
+            $this->Year == self::LAST_12_MONTHS
+        )) {
+            $this->defineAnalysis();
+            $this->loadData();
+            $this->setData();
+        } else {
+            $this->raiseError(__('There are no data for this timerange.'));
+        }
+    }
 
-	private function defineAnalysis() {
-		$request = Request::param('analysis');
+    private function defineAnalysis()
+    {
+        $request = Request::param('analysis');
 
-		if ($request == self::ANALYSIS_TRIMP) {
-			$this->Analysis = self::ANALYSIS_TRIMP;
-		} else {
-			$this->Analysis = self::ANALYSIS_DEFAULT;
-		}
-	}
+        if ($request == self::ANALYSIS_TRIMP) {
+            $this->Analysis = self::ANALYSIS_TRIMP;
+        } else {
+            $this->Analysis = self::ANALYSIS_DEFAULT;
+        }
+    }
 
-	/**
-	 * Init to show year
-	 */
-	private function loadData() {
-		$whereSport = ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
+    /**
+     * Init to show year
+     */
+    private function loadData()
+    {
+        $whereSport = ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
 
-		$this->usesDistance = $this->Sport->usesDistance();
-		if ($this->ParamGroup != 'sport' && $this->ParamGroup != 'mainsport' && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
-			$num = DB::getInstance()->query('
+        $this->usesDistance = $this->Sport->usesDistance();
+        if ($this->ParamGroup != 'sport' && $this->ParamGroup != 'mainsport' && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
+            $num = DB::getInstance()->query('
 				SELECT COUNT(*) FROM `' . PREFIX . 'training`
 				WHERE
 					' . $whereSport . '
@@ -415,12 +437,13 @@ abstract class PlotSumData extends Plot
 				' . $this->whereDate() . '
 			')->fetchColumn();
 
-			if ($num > 0)
-				$this->usesDistance = false;
-		}
+            if ($num > 0) {
+                $this->usesDistance = false;
+            }
+        }
 
-		$this->RawData = DB::getInstance()->query(
-		    '
+        $this->RawData = DB::getInstance()->query(
+            '
 			SELECT
 				`sportid`,
 				`typeid`,
@@ -434,280 +457,305 @@ abstract class PlotSumData extends Plot
 				' . $whereSport . '
 				' . $this->whereDate() . '
 			GROUP BY ' . $this->groupBy() . ', ' . $this->timer()
-		)->fetchAll();
-	}
+        )->fetchAll();
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function whereDate() {
-		if (is_numeric($this->Year)) {
-			return "`time` BETWEEN UNIX_TIMESTAMP('" . (int) $this->Year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->Year + 1) . "-01-01')-1";
-		}
+    /**
+     * @return string
+     */
+    protected function whereDate()
+    {
+        if (is_numeric($this->Year)) {
+            return "`time` BETWEEN UNIX_TIMESTAMP('" . (int) $this->Year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->Year + 1) . "-01-01')-1";
+        }
 
-		if ($this->Year == self::LAST_6_MONTHS) {
-			return '`time` >= ' . $this->beginningOfLast6Months();
-		}
+        if ($this->Year == self::LAST_6_MONTHS) {
+            return '`time` >= ' . $this->beginningOfLast6Months();
+        }
 
         return '`time` >= ' . $this->beginningOfLast12Months();
-	}
+    }
 
-	/**
-	 * @return int
-	 */
-	abstract protected function beginningOfLast6Months();
+    /**
+     * @return int
+     */
+    abstract protected function beginningOfLast6Months();
 
-	/**
-	 * @return int
-	 */
-	abstract protected function beginningOfLast12Months();
+    /**
+     * @return int
+     */
+    abstract protected function beginningOfLast12Months();
 
     /**
      * Sum data for query
      */
-    private function dataSum(): string {
-		if ($this->Analysis == self::ANALYSIS_TRIMP) {
-			return 'SUM(`trimp`)';
-		}
+    private function dataSum(): string
+    {
+        if ($this->Analysis == self::ANALYSIS_TRIMP) {
+            return 'SUM(`trimp`)';
+        }
 
-		if ($this->usesDistance) {
-			return 'SUM(`distance`)';
-		}
+        if ($this->usesDistance) {
+            return 'SUM(`distance`)';
+        }
 
-		return 'SUM(`s`)/3600';
-	}
+        return 'SUM(`s`)/3600';
+    }
 
-	/**
-	 * Timer table for query
-	 * @return string
-	 */
-	abstract protected function timer();
+    /**
+     * Timer table for query
+     * @return string
+     */
+    abstract protected function timer();
 
     /**
      * Group by table for query
      */
-    private function groupBy(): string {
-		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
-			return '`sportid`';
+    private function groupBy(): string
+    {
+        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+            return '`sportid`';
+        }
 
-		if ($this->ParamGroup == 'types')
-			return '`typeid`';
+        if ($this->ParamGroup == 'types') {
+            return '`typeid`';
+        }
 
-		return 'wk';
-	}
+        return 'wk';
+    }
 
-	private function setData() {
-		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
-			$this->setDataForSports();
-		elseif ($this->ParamGroup == 'types')
-			$this->setDataForTypes();
-		else
-			$this->setDataForCompetitionAndTraining();
+    private function setData()
+    {
+        if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') {
+            $this->setDataForSports();
+        } elseif ($this->ParamGroup == 'types') {
+            $this->setDataForTypes();
+        } else {
+            $this->setDataForCompetitionAndTraining();
+        }
 
-		if (empty($this->RawData))
-			$this->setYLimits(1, 0, 10);
-		else
-			$this->setYLimitsFromData();
-	}
+        if (empty($this->RawData)) {
+            $this->setYLimits(1, 0, 10);
+        } else {
+            $this->setYLimitsFromData();
+        }
+    }
 
-	private function setYLimitsFromData() {
-		$values = [];
+    private function setYLimitsFromData()
+    {
+        $values = [];
 
-		foreach ($this->Data as $data) {
-			foreach ($data['data'] as $i => $val)
-				if (! isset($values[$i]))
-					$values[$i] = $val;
-				else
-					$values[$i] += $val;
-		}
-
-		$this->setYLimits(1, 0, Helper::ceilFor(max($values), 10));
-	}
-
-	/**
-	 * Set data to compare training and competition
-	 */
-	private function setDataForSports() {
-		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$Sports = [];
-		$idMapping = [];
-
-		foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
-		    if ($this->ParamGroup == 'mainsport' && ! $Sport->isMainSport()) {
-                $idMapping[$Sport->id()] = -1;
-            } else {
-    			$Sports[$Sport->id()] = [
-    			    'name' => $Sport->name(),
-    			    'data' => $emptyData,
-    			];
-                $idMapping[$Sport->id()] = $Sport->id();
-            }
-		}
-
-		if ($this->ParamGroup == 'mainsport') {
-		    $altId = max(array_keys($Sports)) + 1;
-		    $Sports[$altId] = [
-		        'name' => 'Alternative sports',
-		        'data' => $emptyData,
-		    ];
-
-		    foreach ($idMapping as $from => $to) {
-		        if ($to == -1) {
-		            $idMapping[$from] = $altId;
+        foreach ($this->Data as $data) {
+            foreach ($data['data'] as $i => $val) {
+                if (! isset($values[$i])) {
+                    $values[$i] = $val;
+                } else {
+                    $values[$i] += $val;
                 }
             }
         }
 
-		foreach ($this->RawData as $dat)
-			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd)
-				$Sports[$idMapping[$dat['sportid']]]['data'][$dat['timer'] - $this->timerStart] += $dat['sum'];
+        $this->setYLimits(1, 0, Helper::ceilFor(max($values), 10));
+    }
 
-		foreach ($Sports as $Sport)
-			$this->Data[] = [
-			    'label' => $Sport['name'] ?? '?',
-			    'data' => $Sport['data'],
-			];
-	}
+    /**
+     * Set data to compare training and competition
+     */
+    private function setDataForSports()
+    {
+        $emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+        $Sports = [];
+        $idMapping = [];
 
-	/**
-	 * Set data to compare training and competition
-	 */
-	private function setDataForTypes() {
-		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$Types = [[
-		    'name' => __('without'),
-		    'data' => $emptyData,
-		]];
+        foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
+            if ($this->ParamGroup == 'mainsport' && ! $Sport->isMainSport()) {
+                $idMapping[$Sport->id()] = -1;
+            } else {
+                $Sports[$Sport->id()] = [
+                    'name' => $Sport->name(),
+                    'data' => $emptyData,
+                ];
+                $idMapping[$Sport->id()] = $Sport->id();
+            }
+        }
 
-		foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
-		    $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
-			$Types[$Type->id()] = [
-			    'name' => $name,
-			    'data' => $emptyData,
-			];
-		}
+        if ($this->ParamGroup == 'mainsport') {
+            $altId = max(array_keys($Sports)) + 1;
+            $Sports[$altId] = [
+                'name' => 'Alternative sports',
+                'data' => $emptyData,
+            ];
 
-		foreach ($this->RawData as $dat)
-			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd)
-				$Types[isset($Types[$dat['typeid']]) ? $dat['typeid'] : 0]['data'][$dat['timer'] - $this->timerStart] = $dat['sum'];
+            foreach ($idMapping as $from => $to) {
+                if ($to == -1) {
+                    $idMapping[$from] = $altId;
+                }
+            }
+        }
 
-		foreach ($Types as $Type)
-			$this->Data[] = [
-			    'label' => $Type['name'],
-			    'data' => $Type['data'],
-			];
-	}
+        foreach ($this->RawData as $dat) {
+            if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd) {
+                $Sports[$idMapping[$dat['sportid']]]['data'][$dat['timer'] - $this->timerStart] += $dat['sum'];
+            }
+        }
 
-	/**
-	 * Set data to compare training and competition
-	 */
-	private function setDataForCompetitionAndTraining() {
-		$Kilometers = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$KilometersCompetition = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$hasCompetitions = false;
+        foreach ($Sports as $Sport) {
+            $this->Data[] = [
+                'label' => $Sport['name'] ?? '?',
+                'data' => $Sport['data'],
+            ];
+        }
+    }
 
-		foreach ($this->RawData as $dat) {
-			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd) {
-				if ($dat['wk'] == 1) {
-					$KilometersCompetition[$dat['timer'] - $this->timerStart] = $dat['sum'];
-					$hasCompetitions = true;
-				} else {
-					$Kilometers[$dat['timer'] - $this->timerStart] = $dat['sum'];
-				}
-			}
-		}
+    /**
+     * Set data to compare training and competition
+     */
+    private function setDataForTypes()
+    {
+        $emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+        $Types = [[
+            'name' => __('without'),
+            'data' => $emptyData,
+        ]];
 
-		if ($hasCompetitions) {
-			$this->Data[] = [
-			    'label' => __('Races'),
-			    'data' => $KilometersCompetition,
-			];
-			$this->Data[] = [
-			    'label' => __('Training'),
-			    'data' => $Kilometers,
-			    'color' => '#E68617',
-			];
-		} else {
-			$this->Data[] = [
-			    'label' => $this->Sport->name(),
-			    'data' => $Kilometers,
-			    'color' => '#E68617',
-			];
-		}
-	}
+        foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
+            $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
+            $Types[$Type->id()] = [
+                'name' => $name,
+                'data' => $emptyData,
+            ];
+        }
 
-	/**
-	 * @return bool
-	 */
-	protected function showsTarget() {
-		return $this->Sport->isRunning() && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance;
-	}
+        foreach ($this->RawData as $dat) {
+            if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd) {
+                $Types[isset($Types[$dat['typeid']]) ? $dat['typeid'] : 0]['data'][$dat['timer'] - $this->timerStart] = $dat['sum'];
+            }
+        }
 
-	/**
-	 * Add line for target
-	 */
-	protected function addTarget() {
-		if ($this->showsTarget()) {
-			$BasicEndurance = new BasicEndurance();
-			$BasicEndurance->readSettingsFromConfiguration();
+        foreach ($Types as $Type) {
+            $this->Data[] = [
+                'label' => $Type['name'],
+                'data' => $Type['data'],
+            ];
+        }
+    }
 
-			$target = new Distance($this->factorForWeekKm() * $BasicEndurance->getTargetWeekKm());
-			$labelKeys = array_keys($this->getXLabels());
+    /**
+     * Set data to compare training and competition
+     */
+    private function setDataForCompetitionAndTraining()
+    {
+        $Kilometers = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+        $KilometersCompetition = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+        $hasCompetitions = false;
 
-			$this->addThreshold('y', round($target->valueInPreferredUnit()), '#999');
-			$this->addAnnotation(end($labelKeys), round($target->valueInPreferredUnit()), __('target:') . '&nbsp;' . $target->string(true, 0), 0, -10);
-		}
-	}
+        foreach ($this->RawData as $dat) {
+            if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd) {
+                if ($dat['wk'] == 1) {
+                    $KilometersCompetition[$dat['timer'] - $this->timerStart] = $dat['sum'];
+                    $hasCompetitions = true;
+                } else {
+                    $Kilometers[$dat['timer'] - $this->timerStart] = $dat['sum'];
+                }
+            }
+        }
 
-	/**
-	 * Add line for average
-	 */
-	protected function addAverage() {
-		$avg = $this->getAverage();
+        if ($hasCompetitions) {
+            $this->Data[] = [
+                'label' => __('Races'),
+                'data' => $KilometersCompetition,
+            ];
+            $this->Data[] = [
+                'label' => __('Training'),
+                'data' => $Kilometers,
+                'color' => '#E68617',
+            ];
+        } else {
+            $this->Data[] = [
+                'label' => $this->Sport->name(),
+                'data' => $Kilometers,
+                'color' => '#E68617',
+            ];
+        }
+    }
 
-		if ($this->usesDistance && $this->Analysis == self::ANALYSIS_DEFAULT) {
-			$avgDistance = new Distance($avg);
-			$avg = $avgDistance->valueInPreferredUnit();
-			$string = $avgDistance->string(true, 0);
-		} elseif ($this->Analysis == self::ANALYSIS_DEFAULT) {
-			$string = $avg . ' h';
-		} else {
-			$string = $avg;
-		}
+    /**
+     * @return bool
+     */
+    protected function showsTarget()
+    {
+        return $this->Sport->isRunning() && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance;
+    }
 
-		$this->addThreshold('y', $avg, '#999');
-		$this->addAnnotation(-1, $avg, __('avg:') . '&nbsp;' . $string, 0, -10);
-	}
+    /**
+     * Add line for target
+     */
+    protected function addTarget()
+    {
+        if ($this->showsTarget()) {
+            $BasicEndurance = new BasicEndurance();
+            $BasicEndurance->readSettingsFromConfiguration();
 
-	/**
-	 * @return int
-	 */
-	protected function getAverage() {
-		$sum = 0;
+            $target = new Distance($this->factorForWeekKm() * $BasicEndurance->getTargetWeekKm());
+            $labelKeys = array_keys($this->getXLabels());
 
-		foreach ($this->Data as $series) {
-			foreach ($series['data'] as $value) {
-				$sum += $value;
-			}
-		}
+            $this->addThreshold('y', round($target->valueInPreferredUnit()), '#999');
+            $this->addAnnotation(end($labelKeys), round($target->valueInPreferredUnit()), __('target:') . '&nbsp;' . $target->string(true, 0), 0, -10);
+        }
+    }
 
-		return (int) round($sum / ($this->timerEnd - $this->timerStart + 1));
-	}
+    /**
+     * Add line for average
+     */
+    protected function addAverage()
+    {
+        $avg = $this->getAverage();
 
-	/**
-	 * @return float
-	 */
-	abstract protected function factorForWeekKm();
+        if ($this->usesDistance && $this->Analysis == self::ANALYSIS_DEFAULT) {
+            $avgDistance = new Distance($avg);
+            $avg = $avgDistance->valueInPreferredUnit();
+            $string = $avgDistance->string(true, 0);
+        } elseif ($this->Analysis == self::ANALYSIS_DEFAULT) {
+            $string = $avg . ' h';
+        } else {
+            $string = $avg;
+        }
 
-	/**
-	 * Display additional info
-	 */
-	protected function displayInfos() {
-		if ($this->showsTarget()) {
-			$BasicEndurance = new BasicEndurance();
-			$BasicEndurance->readSettingsFromConfiguration();
+        $this->addThreshold('y', $avg, '#999');
+        $this->addAnnotation(-1, $avg, __('avg:') . '&nbsp;' . $string, 0, -10);
+    }
 
-			echo HTML::info( __('Target is based on current marathon shape calculations.') );
-		}
-	}
+    /**
+     * @return int
+     */
+    protected function getAverage()
+    {
+        $sum = 0;
+
+        foreach ($this->Data as $series) {
+            foreach ($series['data'] as $value) {
+                $sum += $value;
+            }
+        }
+
+        return (int) round($sum / ($this->timerEnd - $this->timerStart + 1));
+    }
+
+    /**
+     * @return float
+     */
+    abstract protected function factorForWeekKm();
+
+    /**
+     * Display additional info
+     */
+    protected function displayInfos()
+    {
+        if ($this->showsTarget()) {
+            $BasicEndurance = new BasicEndurance();
+            $BasicEndurance->readSettingsFromConfiguration();
+
+            echo HTML::info(__('Target is based on current marathon shape calculations.'));
+        }
+    }
 }

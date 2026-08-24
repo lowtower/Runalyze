@@ -16,55 +16,59 @@ namespace Runalyze\Parameter\Application;
  */
 class HeartRateUnit extends \Runalyze\Parameter\Select
 {
-	/**
-	 * BPM
-	 * @var string
-	 */
-	const BPM = 'bpm';
+    /**
+     * BPM
+     * @var string
+     */
+    public const BPM = 'bpm';
 
-	/**
-	 * % HRmax
-	 * @var string
-	 */
-	const HRMAX = 'hfmax';
+    /**
+     * % HRmax
+     * @var string
+     */
+    public const HRMAX = 'hfmax';
 
-	/**
-	 * % HRreserve
-	 * @var string
-	 */
-	const HRRESERVE = 'hfres';
+    /**
+     * % HRreserve
+     * @var string
+     */
+    public const HRRESERVE = 'hfres';
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		parent::__construct(self::HRMAX, [
-    'options' => [
-		        self::BPM => __('absolute value'),
-		        self::HRMAX => __('&#37; HRmax'),
-		        self::HRRESERVE => __('&#37; HRreserve'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct(self::HRMAX, [
+            'options' => [
+                self::BPM => __('absolute value'),
+                self::HRMAX => __('&#37; HRmax'),
+                self::HRRESERVE => __('&#37; HRreserve'),
+            ],
+        ]);
+    }
 
     /**
      * Is bpm?
      */
-    public function isBPM(): bool {
-		return $this->value() == self::BPM;
-	}
+    public function isBPM(): bool
+    {
+        return $this->value() == self::BPM;
+    }
 
     /**
      * Is HRmax?
      */
-    public function isHRmax(): bool {
-		return $this->value() == self::HRMAX;
-	}
+    public function isHRmax(): bool
+    {
+        return $this->value() == self::HRMAX;
+    }
 
     /**
      * Is HRreserve?
      */
-    public function isHRreserve(): bool {
-		return $this->value() == self::HRRESERVE;
-	}
+    public function isHRreserve(): bool
+    {
+        return $this->value() == self::HRRESERVE;
+    }
 }

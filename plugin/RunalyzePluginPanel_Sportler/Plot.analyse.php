@@ -9,33 +9,33 @@ $Factory = new PluginFactory();
 $Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
 
 if ($Plugin->Configuration()->value('plot_timerange') > 0) {
-	$QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
+    $QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
 } else {
-	$QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
+    $QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
 }
 
-$Data = array_reverse( DB::getInstance()->query('SELECT fat,water,muscles,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll());
+$Data = array_reverse(DB::getInstance()->query('SELECT fat,water,muscles,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll());
 $Adiposes = [];
 $Water = [];
 $Muscles = [];
 
 if (count($Data) === 1) {
-	$Data[1] = $Data[0];
+    $Data[1] = $Data[0];
 }
 
 if (! empty($Data)) {
-	foreach ($Data as $D) {
-		$Adiposes[$D['time'] . '000'] = $D['fat'];
-		$Water[$D['time'] . '000'] = $D['water'];
-		$Muscles[$D['time'] . '000'] = $D['muscles'];
-	}
+    foreach ($Data as $D) {
+        $Adiposes[$D['time'] . '000'] = $D['fat'];
+        $Water[$D['time'] . '000'] = $D['water'];
+        $Muscles[$D['time'] . '000'] = $D['muscles'];
+    }
 }
 
 $Labels = array_keys($Water);
 foreach ($Labels as $i => &$value) {
-	if ($i !== 0 && $i !== count($Labels) - 1) {
-		$value = '';
-	}
+    if ($i !== 0 && $i !== count($Labels) - 1) {
+        $value = '';
+    }
 }
 
 $Plot = new Plot('sportler_analyse', 320, 150);
@@ -76,11 +76,11 @@ $Plot->addYUnit(2, '%', 0);
 $Plot->setYTicks(1, 1, 0);
 
 if (empty($Data)) {
-	$Plot->raiseError( __('No data available.') );
+    $Plot->raiseError(__('No data available.'));
 } elseif (min(min($Adiposes), min($Water), min($Muscles)) == 0 || count($Adiposes) <= 1) {
-	$Plot->setZeroPointsToNull();
-	$Plot->lineWithPoints();
-	$Plot->Options['series']['curvedLines']['apply'] = false;
+    $Plot->setZeroPointsToNull();
+    $Plot->lineWithPoints();
+    $Plot->Options['series']['curvedLines']['apply'] = false;
 }
 
-$Plot->outputJavaScript( true );
+$Plot->outputJavaScript(true);

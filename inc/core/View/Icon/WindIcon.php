@@ -23,12 +23,12 @@ class WindIcon extends \Runalyze\View\Icon
     /**
      * @var string
      */
-    const BASE_CLASS = 'windicon';
+    public const BASE_CLASS = 'windicon';
 
     /**
      * @var string
      */
-    const DIRECTION_CLASS = 'windicon-direction';
+    public const DIRECTION_CLASS = 'windicon-direction';
 
     /**
      * @var \Runalyze\Data\Weather\WindSpeed
@@ -49,7 +49,7 @@ class WindIcon extends \Runalyze\View\Icon
     {
         $this->WindSpeed = $windSpeed;
         $this->WindDegree = $windDegree;
-	    $this->BeaufortScale = new BeaufortScale($windSpeed);
+        $this->BeaufortScale = new BeaufortScale($windSpeed);
 
         $this->setDefaultTooltip();
     }
@@ -60,7 +60,7 @@ class WindIcon extends \Runalyze\View\Icon
 
         if (! $this->WindSpeed->isUnknown()) {
             $strings[] = $this->WindSpeed->string();
-	        $strings[] = $this->BeaufortScale->shortString();
+            $strings[] = $this->BeaufortScale->shortString();
         }
 
         if (! $this->WindDegree->isUnknown()) {

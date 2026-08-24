@@ -23,41 +23,44 @@ use Runalyze\Model\Trackdata;
  */
 class PaceCalculator
 {
-	/**
-	 * @var \Runalyze\Calculation\Activity\PaceSmoother
-	 */
-	protected $Smoother;
+    /**
+     * @var \Runalyze\Calculation\Activity\PaceSmoother
+     */
+    protected $Smoother;
 
-	/**
-	 * @var array
-	 */
-	protected $Pace = [];
+    /**
+     * @var array
+     */
+    protected $Pace = [];
 
     /**
      * Calculate pace array
      */
-    public function __construct(Trackdata\Entity $trackdata) {
-		if ($trackdata->has(Trackdata\Entity::TIME) && $trackdata->has(Trackdata\Entity::DISTANCE)) {
-			$this->Smoother = new PaceSmoother($trackdata, true);
-		}
-	}
+    public function __construct(Trackdata\Entity $trackdata)
+    {
+        if ($trackdata->has(Trackdata\Entity::TIME) && $trackdata->has(Trackdata\Entity::DISTANCE)) {
+            $this->Smoother = new PaceSmoother($trackdata, true);
+        }
+    }
 
-	/**
-	 * Calculate pace array
-	 * @return array
-	 */
-	public function calculate() {
-		if ($this->Smoother !== null) {
-			$this->Pace = $this->Smoother->smooth(0.001, PaceSmoother::MODE_DISTANCE);
-		}
+    /**
+     * Calculate pace array
+     * @return array
+     */
+    public function calculate()
+    {
+        if ($this->Smoother !== null) {
+            $this->Pace = $this->Smoother->smooth(0.001, PaceSmoother::MODE_DISTANCE);
+        }
 
-		return $this->Pace;
-	}
+        return $this->Pace;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function result() {
-		return $this->Pace;
-	}
+    /**
+     * @return array
+     */
+    public function result()
+    {
+        return $this->Pace;
+    }
 }

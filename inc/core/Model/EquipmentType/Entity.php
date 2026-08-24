@@ -19,118 +19,128 @@ use Runalyze\Model;
  */
 class Entity extends Model\EntityWithID
 {
-	/**
-	 * @var int enum
-	 */
-	const CHOICE_SINGLE = 0;
+    /**
+     * @var int enum
+     */
+    public const CHOICE_SINGLE = 0;
 
-	/**
-	 * @var int enum
-	 */
-	const CHOICE_MULTIPLE = 1;
+    /**
+     * @var int enum
+     */
+    public const CHOICE_MULTIPLE = 1;
 
-	/**
-	 * Key: name
-	 * @var string
-	 */
-	const NAME = 'name';
+    /**
+     * Key: name
+     * @var string
+     */
+    public const NAME = 'name';
 
-	/**
-	 * Key: input
-	 * @var string
-	 */
-	const INPUT = 'input';
+    /**
+     * Key: input
+     * @var string
+     */
+    public const INPUT = 'input';
 
-	/**
-	 * Key: max distance
-	 * @var string
-	 */
-	const MAX_KM = 'max_km';
+    /**
+     * Key: max distance
+     * @var string
+     */
+    public const MAX_KM = 'max_km';
 
-	/**
-	 * Key: max duration
-	 * @var string
-	 */
-	const MAX_TIME = 'max_time';
+    /**
+     * Key: max duration
+     * @var string
+     */
+    public const MAX_TIME = 'max_time';
 
     /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties(): array {
-		return [
-		    self::NAME,
-		    self::INPUT,
-		    self::MAX_KM,
-		    self::MAX_TIME,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::NAME,
+            self::INPUT,
+            self::MAX_KM,
+            self::MAX_TIME,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
-	public function synchronize() {
-		parent::synchronize();
+    public function synchronize()
+    {
+        parent::synchronize();
 
-		$this->ensureAllNumericValues();
-	}
+        $this->ensureAllNumericValues();
+    }
 
-	/**
-	 * Ensure that numeric fields get numeric values
-	 */
-	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue([
-		    self::INPUT,
-		    self::MAX_KM,
-		    self::MAX_TIME,
-		]);
-	}
+    /**
+     * Ensure that numeric fields get numeric values
+     */
+    protected function ensureAllNumericValues()
+    {
+        $this->ensureNumericValue([
+            self::INPUT,
+            self::MAX_KM,
+            self::MAX_TIME,
+        ]);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function name() {
-		return $this->Data[self::NAME];
-	}
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->Data[self::NAME];
+    }
 
     /**
      * Allows multiple values
      */
-    public function allowsMultipleValues(): bool {
-		return $this->Data[self::INPUT] == self::CHOICE_MULTIPLE;
-	}
+    public function allowsMultipleValues(): bool
+    {
+        return $this->Data[self::INPUT] == self::CHOICE_MULTIPLE;
+    }
 
-	/**
-	 * Maximal distance
-	 * @return int [km]
-	 */
-	public function maxDistance() {
-		return $this->Data[self::MAX_KM];
-	}
+    /**
+     * Maximal distance
+     * @return int [km]
+     */
+    public function maxDistance()
+    {
+        return $this->Data[self::MAX_KM];
+    }
 
     /**
      * Is a maximal distance set?
      */
-    public function hasMaxDistance(): bool {
-		return $this->Data[self::MAX_KM] > 0;
-	}
+    public function hasMaxDistance(): bool
+    {
+        return $this->Data[self::MAX_KM] > 0;
+    }
 
-	/**
-	 * Maximal duration
-	 * @return int [s]
-	 */
-	public function maxDuration() {
-		return $this->Data[self::MAX_TIME];
-	}
+    /**
+     * Maximal duration
+     * @return int [s]
+     */
+    public function maxDuration()
+    {
+        return $this->Data[self::MAX_TIME];
+    }
 
     /**
      * Is a maximal duration set?
      */
-    public function hasMaxDuration(): bool {
-		return $this->Data[self::MAX_TIME] > 0;
-	}
+    public function hasMaxDuration(): bool
+    {
+        return $this->Data[self::MAX_TIME] > 0;
+    }
 }

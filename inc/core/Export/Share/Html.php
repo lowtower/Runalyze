@@ -32,10 +32,10 @@ class Html extends AbstractSnippetSharer
         return true;
     }
 
-	public function name(): string
+    public function name(): string
     {
-	    return __('HTML');
-	}
+        return __('HTML');
+    }
 
     public function display()
     {
@@ -45,21 +45,21 @@ class Html extends AbstractSnippetSharer
         $CodeField->addCSSclass('fullwidth');
         $CodeField->addAttribute('rows', 8);
 
-        $FieldsetCode = new FormularFieldset( __('HTML-Code') );
-        $FieldsetCode->addField( $CodeField );
-        $FieldsetCode->addInfo( __('Add this code to your blog/website.') );
+        $FieldsetCode = new FormularFieldset(__('HTML-Code'));
+        $FieldsetCode->addField($CodeField);
+        $FieldsetCode->addInfo(__('Add this code to your blog/website.'));
 
-        $FieldsetPreview = new FormularFieldset( __('Preview') );
+        $FieldsetPreview = new FormularFieldset(__('Preview'));
         $FieldsetPreview->addBlock($Code);
 
         if (! $this->Context->activity()->isPublic()) {
-            $FieldsetPreview->addWarning( __('Your training is private: There is no link included.') );
+            $FieldsetPreview->addWarning(__('Your training is private: There is no link included.'));
         }
 
         $Formular = new Formular();
         $Formular->addFieldset($FieldsetCode);
         $Formular->addFieldset($FieldsetPreview);
-        $Formular->setLayoutForFields( FormularFieldset::$LAYOUT_FIELD_W100 );
+        $Formular->setLayoutForFields(FormularFieldset::$LAYOUT_FIELD_W100);
         $Formular->display();
     }
 
@@ -70,7 +70,7 @@ class Html extends AbstractSnippetSharer
     {
         $Linker = new Linker($this->Context->activity());
         $TextUrl = $Linker->publicUrl();
-	$Url = $Linker->publicUrl() . '?utm_medium=referral&utm_source=sharehtml';
+        $Url = $Linker->publicUrl() . '?utm_medium=referral&utm_source=sharehtml';
         $Date = $this->Context->dataview()
             ->date();
         $Time = $this->Context->dataview()
@@ -95,17 +95,21 @@ class Html extends AbstractSnippetSharer
             ->string() : '';
         $Spans = '';
 
-        if ($Time != '')
+        if ($Time != '') {
             $Spans .= '<span class="runalyze-emb-time">' . $Time . '</span>';
+        }
 
-        if ($Pace != '')
+        if ($Pace != '') {
             $Spans .= '<span class="runalyze-emb-pace">' . $Pace . '</span>';
+        }
 
-        if ($Heart != '')
+        if ($Heart != '') {
             $Spans .= '<span class="runalyze-emb-heart">' . $Heart . '</span>';
+        }
 
-        if ($Elev != '')
+        if ($Elev != '') {
             $Spans .= '<span class="runalyze-emb-elev">' . $Elev . '</span>';
+        }
 
         $UrlLink = (System::isAtLocalhost() || ! $this->Context->activity()->isPublic()) ? '' : '<a href="' . $Url . '" class="runalyze-emb-share">' . $TextUrl . '</a>';
 

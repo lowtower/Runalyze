@@ -14,10 +14,10 @@ class TemperatureEnum extends AbstractEnum
     /**
      * @var int
      */
-    const CELSIUS = 0;
+    public const CELSIUS = 0;
 
     /**
      * @var int
      */
-    const FAHRENHEIT = 1;
+    public const FAHRENHEIT = 1;
 }

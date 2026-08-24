@@ -12,13 +12,13 @@ use Runalyze\Activity\LapIntensity;
  */
 class FitWorkoutStep
 {
-    const ADD_TARGET_SPEED = 'FIT target speed';
+    public const ADD_TARGET_SPEED = 'FIT target speed';
 
-    const ADD_TARGET_HR = 'FIT target HR';
+    public const ADD_TARGET_HR = 'FIT target HR';
 
-    const ADD_TARGET_CADENCE = 'FIT target cadence';
+    public const ADD_TARGET_CADENCE = 'FIT target cadence';
 
-    const ADD_TARGET_POWER = 'FIT target power';
+    public const ADD_TARGET_POWER = 'FIT target power';
 
     /**
      * @var array array of LapIntensity|null can contain null values
@@ -36,7 +36,8 @@ class FitWorkoutStep
      * has intensity data.
      * @param int $index
      */
-    public function getIntensity($index): ?LapIntensity {
+    public function getIntensity($index): ?LapIntensity
+    {
         return $this->intensitys[$index] ?? null;
     }
 
@@ -44,7 +45,8 @@ class FitWorkoutStep
      * get array for split-additionals.
      * @param int $index
      */
-    public function getSplitAdditionals($index): ?array {
+    public function getSplitAdditionals($index): ?array
+    {
         return ! empty($this->targets[$index]) ? $this->targets[$index] : null;
     }
 
@@ -53,7 +55,8 @@ class FitWorkoutStep
      *
      * @param array<string, mixed> $values
      */
-    public function collectWorkoutstep(array &$values) {
+    public function collectWorkoutstep(array &$values)
+    {
         // intensity (like warmup, cooldown ...)
         if (isset($values['intensity'][0])) {
             $this->intensitys[] = LapIntensity::fromFitToEnum($values['intensity'][0]);
@@ -98,7 +101,8 @@ class FitWorkoutStep
     /**
      * @return bool
      */
-    public function hasCustomTarget() {
+    public function hasCustomTarget()
+    {
         return $this->hasTarget;
     }
 }

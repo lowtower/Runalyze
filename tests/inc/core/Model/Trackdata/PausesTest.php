@@ -7,73 +7,78 @@ namespace Runalyze\Model\Trackdata;
  */
 class PausesTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleExample() {
-		$P1 = new Pause( 60, 10, 120, 100);
-		$P2 = new Pause(120, 10, 120, 100);
+    public function testSimpleExample()
+    {
+        $P1 = new Pause(60, 10, 120, 100);
+        $P2 = new Pause(120, 10, 120, 100);
 
-		$P = new Pauses();
-		$P->add($P1);
-		$P->add($P2);
+        $P = new Pauses();
+        $P->add($P1);
+        $P->add($P2);
 
-		$this->assertFalse($P->isEmpty());
-		$this->assertEquals( 2, $P->num() );
-		$this->assertEquals( $P1, $P->at(0) );
-		$this->assertEquals( $P2, $P->at(1) );
+        $this->assertFalse($P->isEmpty());
+        $this->assertEquals(2, $P->num());
+        $this->assertEquals($P1, $P->at(0));
+        $this->assertEquals($P2, $P->at(1));
 
-		$P->clear();
+        $P->clear();
 
-		$this->assertTrue($P->isEmpty());
-		$this->assertEquals( 0, $P->num() );
-	}
+        $this->assertTrue($P->isEmpty());
+        $this->assertEquals(0, $P->num());
+    }
 
-	public function testArrayTransformation() {
-		$P1 = new Pauses();
-		$P1->add(new Pause( 60, 10, 120, 100));
-		$P1->add(new Pause(120, 10, 120, 100));
+    public function testArrayTransformation()
+    {
+        $P1 = new Pauses();
+        $P1->add(new Pause(60, 10, 120, 100));
+        $P1->add(new Pause(120, 10, 120, 100));
 
-		$P2 = new Pauses();
-		$P2->fromArray($P1->asArray());
+        $P2 = new Pauses();
+        $P2->fromArray($P1->asArray());
 
-		$this->assertEquals( 2, $P2->num() );
-		$this->assertEquals( $P1->asArray(), $P2->asArray() );
+        $this->assertEquals(2, $P2->num());
+        $this->assertEquals($P1->asArray(), $P2->asArray());
 
-		$P3 = new Pauses($P1->asArray());
+        $P3 = new Pauses($P1->asArray());
 
-		$this->assertEquals( 2, $P2->num() );
-		$this->assertEquals( $P1->asArray(), $P3->asArray() );
-	}
+        $this->assertEquals(2, $P2->num());
+        $this->assertEquals($P1->asArray(), $P3->asArray());
+    }
 
-	public function testStringTransformation() {
-		$P1 = new Pauses();
-		$P1->add(new Pause( 60, 10, 120, 100));
-		$P1->add(new Pause(120, 10, 120, 100));
+    public function testStringTransformation()
+    {
+        $P1 = new Pauses();
+        $P1->add(new Pause(60, 10, 120, 100));
+        $P1->add(new Pause(120, 10, 120, 100));
 
-		$P2 = new Pauses();
-		$P2->fromString($P1->asString());
+        $P2 = new Pauses();
+        $P2->fromString($P1->asString());
 
-		$this->assertEquals( 2, $P2->num() );
-		$this->assertEquals( $P1->asString(), $P2->asString() );
+        $this->assertEquals(2, $P2->num());
+        $this->assertEquals($P1->asString(), $P2->asString());
 
-		$P3 = new Pauses($P1->asString());
+        $P3 = new Pauses($P1->asString());
 
-		$this->assertEquals( 2, $P2->num() );
-		$this->assertEquals( $P1->asString(), $P3->asString() );
-	}
+        $this->assertEquals(2, $P2->num());
+        $this->assertEquals($P1->asString(), $P3->asString());
+    }
 
-	public function testEmptyPauses() {
-		$P = new Pauses('');
-		$this->assertEquals( 0, $P->num() );
+    public function testEmptyPauses()
+    {
+        $P = new Pauses('');
+        $this->assertEquals(0, $P->num());
 
-		$P->add(new Pause( 60, 10, 120, 100));
-		$P->fromString('');
+        $P->add(new Pause(60, 10, 120, 100));
+        $P->fromString('');
 
-		$this->assertEquals( 0, $P->num() );
-		$this->assertEquals( '', $P->asString() );
-	}
+        $this->assertEquals(0, $P->num());
+        $this->assertEquals('', $P->asString());
+    }
 
-	public function testException() {
-		$this->expectException(\InvalidArgumentException::class);
-		$P = new Pauses();
-		$P->at(0);
-	}
+    public function testException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $P = new Pauses();
+        $P->at(0);
+    }
 }

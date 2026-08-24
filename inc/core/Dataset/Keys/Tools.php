@@ -60,7 +60,8 @@ class Tools extends AbstractKey
     /**
      * @codeCoverageIgnore
      */
-    public function hasPrivacyOption(): bool {
+    public function hasPrivacyOption(): bool
+    {
         return false;
     }
 

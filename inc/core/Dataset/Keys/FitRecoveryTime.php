@@ -21,59 +21,59 @@ class FitRecoveryTime extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FIT_RECOVERY_TIME;
-	}
+    {
+        return \Runalyze\Dataset\Keys::FIT_RECOVERY_TIME;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'fit_recovery_time';
-	}
+    {
+        return 'fit_recovery_time';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Recovery time') . ' ' . __('(by file)');
-	}
+    {
+        return __('Recovery time') . ' ' . __('(by file)');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Recovery time');
-	}
+    {
+        return __('Recovery time');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Garmin calculates a suggested recovery time based on your ' .
-			'heart rate variability right after the end of your activity.'
-		);
-	}
+    {
+        return __(
+            'Garmin calculates a suggested recovery time based on your ' .
+            'heart rate variability right after the end of your activity.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->fitRecoveryTime();
-	}
+    {
+        return $context->dataview()
+            ->fitRecoveryTime();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

@@ -12,25 +12,25 @@ class BrakingGs extends ActivitySeries
      */
     public function __construct(Activity\Context $context, $isLeft = true)
     {
-		$this->initOptions($isLeft);
-		$this->initData($context->trackdata(), $isLeft ? Trackdata::BRAKING_GS_LEFT : Trackdata::BRAKING_GS_RIGHT);
-		$this->manipulateData();
-	}
+        $this->initOptions($isLeft);
+        $this->initData($context->trackdata(), $isLeft ? Trackdata::BRAKING_GS_LEFT : Trackdata::BRAKING_GS_RIGHT);
+        $this->manipulateData();
+    }
 
-	protected function manipulateData()
+    protected function manipulateData()
     {
-		$this->Data = array_filter($this->Data);
-	}
+        $this->Data = array_filter($this->Data);
+    }
 
-	protected function initOptions($isLeft)
+    protected function initOptions($isLeft)
     {
-		$this->Label = __('Braking Gs') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
-		$this->Color = $isLeft ? 'rgb(241,64,41)' : 'rgb(190,13,0)';
+        $this->Label = __('Braking Gs') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
+        $this->Color = $isLeft ? 'rgb(241,64,41)' : 'rgb(190,13,0)';
 
-		$this->UnitString = 'G';
-		$this->UnitDecimals = 1;
+        $this->UnitString = 'G';
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = 0.2;
-		$this->TickDecimals = 1;
-	}
+        $this->TickSize = 0.2;
+        $this->TickDecimals = 1;
+    }
 }

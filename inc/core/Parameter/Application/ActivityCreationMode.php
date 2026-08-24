@@ -16,55 +16,59 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityCreationMode extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Upload form
-	 * @var string
-	 */
-	const UPLOAD = 'upload';
+    /**
+     * Upload form
+     * @var string
+     */
+    public const UPLOAD = 'upload';
 
-	/**
-	 * Garmin Communicator
-	 * @var string
-	 */
-	const GARMIN = 'garmin';
+    /**
+     * Garmin Communicator
+     * @var string
+     */
+    public const GARMIN = 'garmin';
 
-	/**
-	 * Standard form
-	 * @var string
-	 */
-	const FORM = 'form';
+    /**
+     * Standard form
+     * @var string
+     */
+    public const FORM = 'form';
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		parent::__construct(self::UPLOAD, [
-    'options' => [
-		        self::UPLOAD => __('Upload form'),
-		        self::GARMIN => __('Garmin-Communicator'),
-		        self::FORM => __('Standard form'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct(self::UPLOAD, [
+            'options' => [
+                self::UPLOAD => __('Upload form'),
+                self::GARMIN => __('Garmin-Communicator'),
+                self::FORM => __('Standard form'),
+            ],
+        ]);
+    }
 
     /**
      * Uses upload form
      */
-    public function usesUpload(): bool {
-		return $this->value() == self::UPLOAD;
-	}
+    public function usesUpload(): bool
+    {
+        return $this->value() == self::UPLOAD;
+    }
 
     /**
      * Uses Garmin-Communicator
      */
-    public function usesGarminCommunicator(): bool {
-		return $this->value() == self::GARMIN;
-	}
+    public function usesGarminCommunicator(): bool
+    {
+        return $this->value() == self::GARMIN;
+    }
 
     /**
      * Uses standard form
      */
-    public function usesForm(): bool {
-		return $this->value() == self::FORM;
-	}
+    public function usesForm(): bool
+    {
+        return $this->value() == self::FORM;
+    }
 }

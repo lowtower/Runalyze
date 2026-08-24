@@ -21,160 +21,174 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class Split extends StringObject
 {
-	/**
-	 * Separator
-	 * @var string
-	 */
-	const SEPARATOR = '|';
+    /**
+     * Separator
+     * @var string
+     */
+    public const SEPARATOR = '|';
 
-	/**
-	 * Resting flag
-	 * @var string
-	 */
-	const RESTING = 'R';
+    /**
+     * Resting flag
+     * @var string
+     */
+    public const RESTING = 'R';
 
-	/**
-	 * Distance [km]
-	 * @var float
-	 */
-	protected $Distance = 0;
+    /**
+     * Distance [km]
+     * @var float
+     */
+    protected $Distance = 0;
 
-	/**
-	 * Time [s]
-	 * @var int
-	 */
-	protected $Time = 0;
+    /**
+     * Time [s]
+     * @var int
+     */
+    protected $Time = 0;
 
     /**
      * @var LapIntensity
      */
     protected $Intensity;
 
-	/**
-	 * Construct
-	 * @param string|float $dataOrDistance
-	 * @param int $time [optional]
-	 * @param bool $active [optional]
-	 */
-	public function __construct($dataOrDistance = '', $time = null, $active = true) {
-		if ($time === null) {
-			parent::__construct($dataOrDistance);
-		} else {
-			$this->Distance = (float) $dataOrDistance;
-			$this->Time = (int) $time;
-			if ($active) {
-				$this->Intensity = LapIntensity::getInstanceActive();
-			} else {
-				$this->Intensity = LapIntensity::getInstanceRest();
-			}
-		}
-	}
+    /**
+     * Construct
+     * @param string|float $dataOrDistance
+     * @param int $time [optional]
+     * @param bool $active [optional]
+     */
+    public function __construct($dataOrDistance = '', $time = null, $active = true)
+    {
+        if ($time === null) {
+            parent::__construct($dataOrDistance);
+        } else {
+            $this->Distance = (float) $dataOrDistance;
+            $this->Time = (int) $time;
+            if ($active) {
+                $this->Intensity = LapIntensity::getInstanceActive();
+            } else {
+                $this->Intensity = LapIntensity::getInstanceRest();
+            }
+        }
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function fromString($string) {
-		$intensity = LapIntensity::fromValue(substr($string, 0, 1));
-		if ($intensity !== null) {
-			$this->Intensity = $intensity;
-			$string = substr($string, 1);
-		} else {
-			$this->Intensity = LapIntensity::getInstanceActive();
-		}
+    /**
+     * @param string $string
+     */
+    public function fromString($string)
+    {
+        $intensity = LapIntensity::fromValue(substr($string, 0, 1));
+        if ($intensity !== null) {
+            $this->Intensity = $intensity;
+            $string = substr($string, 1);
+        } else {
+            $this->Intensity = LapIntensity::getInstanceActive();
+        }
 
-		$Duration = new Duration(substr(strrchr($string, self::SEPARATOR), 1));
+        $Duration = new Duration(substr(strrchr($string, self::SEPARATOR), 1));
 
-		$this->Distance = strstr($string, self::SEPARATOR, true);
-		$this->Time = $Duration->seconds();
-	}
+        $this->Distance = strstr($string, self::SEPARATOR, true);
+        $this->Time = $Duration->seconds();
+    }
 
     /**
      * As string
      */
-    public function asString(): string {
-		$string = $this->Intensity->getValue();
-		$string .= $this->distanceAsString();
-		$string .= self::SEPARATOR;
+    public function asString(): string
+    {
+        $string = $this->Intensity->getValue();
+        $string .= $this->distanceAsString();
+        $string .= self::SEPARATOR;
 
-		return $string . $this->timeAsString();
-	}
+        return $string . $this->timeAsString();
+    }
 
     /**
      * Is empty
      */
-    public function isEmpty(): bool {
-		return $this->Distance <= 0 && $this->Time <= 0;
-	}
+    public function isEmpty(): bool
+    {
+        return $this->Distance <= 0 && $this->Time <= 0;
+    }
 
-	/**
-	 * Set kilometer
-	 * @param float $kilometer
-	 */
-	public function setDistance($kilometer) {
-		$this->Distance = $kilometer;
-	}
+    /**
+     * Set kilometer
+     * @param float $kilometer
+     */
+    public function setDistance($kilometer)
+    {
+        $this->Distance = $kilometer;
+    }
 
-	/**
-	 * @param int $seconds
-	 */
-	public function setTime($seconds) {
-		$this->Time = $seconds;
-	}
+    /**
+     * @param int $seconds
+     */
+    public function setTime($seconds)
+    {
+        $this->Time = $seconds;
+    }
 
-	/**
-	 * Set resting flag
-	 * @param bool $flag
-	 */
-	public function setResting($flag = true) {
-		$this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
-	}
+    /**
+     * Set resting flag
+     * @param bool $flag
+     */
+    public function setResting($flag = true)
+    {
+        $this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
+    }
 
-	/**
-	 * @return float
-	 */
-	public function distance() {
-		return $this->Distance;
-	}
+    /**
+     * @return float
+     */
+    public function distance()
+    {
+        return $this->Distance;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function time() {
-		return $this->Time;
-	}
+    /**
+     * @return int
+     */
+    public function time()
+    {
+        return $this->Time;
+    }
 
     /**
      * @param int $legacyPaceUnitEnum [optional]
      */
-    public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace {
-		return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
-	}
+    public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace
+    {
+        return new Pace($this->Time, $this->Distance, $legacyPaceUnitEnum);
+    }
 
-	/**
-	 * @return LapIntensity
-	 */
-	public function getIntensity() {
-		return $this->Intensity;
-	}
+    /**
+     * @return LapIntensity
+     */
+    public function getIntensity()
+    {
+        return $this->Intensity;
+    }
 
     /**
      * Is active?
      */
-    public function isActive(): bool {
-		return $this->Intensity->isNotRest();
-	}
+    public function isActive(): bool
+    {
+        return $this->Intensity->isNotRest();
+    }
 
     /**
      * Format distance
      */
-    private function distanceAsString(): string {
-		return number_format($this->Distance, 3, '.', '');
-	}
+    private function distanceAsString(): string
+    {
+        return number_format($this->Distance, 3, '.', '');
+    }
 
     /**
      * Format time
      */
-    private function timeAsString(): string {
-		return Duration::format($this->Time);
-	}
+    private function timeAsString(): string
+    {
+        return Duration::format($this->Time);
+    }
 }

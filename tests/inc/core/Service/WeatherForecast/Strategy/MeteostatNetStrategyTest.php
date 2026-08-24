@@ -33,7 +33,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
 
-        $this->Strategy = new MeteostatNet('test-api-key', NULL, new \GuzzleHttp\Client(), $logger);
+        $this->Strategy = new MeteostatNet('test-api-key', null, new \GuzzleHttp\Client(), $logger);
 
         $this->GetUrlForMethod = new \ReflectionMethod($this->Strategy, 'getUrlFor');
         $this->GetUrlForMethod->setAccessible(true);
@@ -144,9 +144,9 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
     public function testUnknownWeatherCondition()
     {
-         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [[
-             'coco' => 9999,
-         ]]);
+        $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [[
+            'coco' => 9999,
+        ]]);
 
         $this->assertEquals(WeatherConditionProfile::UNKNOWN, $weather->InternalConditionId);
     }

@@ -4,11 +4,11 @@ namespace Runalyze\Activity;
 
 class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 {
-	public function testInvalidLevelTooSmall()
-	{
+    public function testInvalidLevelTooSmall()
+    {
         $this->expectException(\InvalidArgumentException::class);
         TrainingEffectLevel::levelFor(0.9);
-	}
+    }
 
     public function testInvalidLevelTooBig()
     {

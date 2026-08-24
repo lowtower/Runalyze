@@ -19,75 +19,79 @@ use Runalyze\Model\Trackdata;
  */
 class Calculator
 {
-	/**
-	 * @var \Runalyze\Model\Trackdata\Entity
-	 */
-	protected $Trackdata;
+    /**
+     * @var \Runalyze\Model\Trackdata\Entity
+     */
+    protected $Trackdata;
 
-	/**
-	 * @var array
-	 */
-	protected $Strides = [];
+    /**
+     * @var array
+     */
+    protected $Strides = [];
 
     /**
      * Calculator for stride length
      */
-    public function __construct(Trackdata\Entity $trackdata) {
-		$this->Trackdata = $trackdata;
-	}
+    public function __construct(Trackdata\Entity $trackdata)
+    {
+        $this->Trackdata = $trackdata;
+    }
 
-	/**
-	 * Calculate strides array
-	 * @return array
-	 */
-	public function calculate() {
-		if (
-			! $this->Trackdata->has(Trackdata\Entity::TIME) ||
-			! $this->Trackdata->has(Trackdata\Entity::DISTANCE) ||
-			! $this->Trackdata->has(Trackdata\Entity::CADENCE)
-		) {
-			return [];
-		}
+    /**
+     * Calculate strides array
+     * @return array
+     */
+    public function calculate()
+    {
+        if (
+            ! $this->Trackdata->has(Trackdata\Entity::TIME) ||
+            ! $this->Trackdata->has(Trackdata\Entity::DISTANCE) ||
+            ! $this->Trackdata->has(Trackdata\Entity::CADENCE)
+        ) {
+            return [];
+        }
 
-		$Time = $this->Trackdata->time();
-		$Distance = $this->Trackdata->distance();
-		$Cadence = $this->Trackdata->cadence();
-		$Size = $this->Trackdata->num();
+        $Time = $this->Trackdata->time();
+        $Distance = $this->Trackdata->distance();
+        $Cadence = $this->Trackdata->cadence();
+        $Size = $this->Trackdata->num();
 
-		$this->Strides[] = ($Cadence[0] > 0 && $Time[0] > 0)
-			? round( $Distance[0] * 1000 * 100 / ($Cadence[0] * 2 / 60 * $Time[0]) )
-			: 0;
+        $this->Strides[] = ($Cadence[0] > 0 && $Time[0] > 0)
+            ? round($Distance[0] * 1000 * 100 / ($Cadence[0] * 2 / 60 * $Time[0]))
+            : 0;
 
-		for ($i = 1; $i < $Size; ++$i) {
-			$this->Strides[] = ($Cadence[$i] > 0 && $Time[$i] - $Time[$i - 1] > 0)
-				? round( ($Distance[$i] - $Distance[$i - 1]) * 1000 * 100 / ($Cadence[$i] * 2 / 60 * ($Time[$i] - $Time[$i - 1])) )
-				: 0;
-		}
+        for ($i = 1; $i < $Size; ++$i) {
+            $this->Strides[] = ($Cadence[$i] > 0 && $Time[$i] - $Time[$i - 1] > 0)
+                ? round(($Distance[$i] - $Distance[$i - 1]) * 1000 * 100 / ($Cadence[$i] * 2 / 60 * ($Time[$i] - $Time[$i - 1])))
+                : 0;
+        }
 
-		return $this->Strides;
-	}
+        return $this->Strides;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function stridesData() {
-		return $this->Strides;
-	}
+    /**
+     * @return array
+     */
+    public function stridesData()
+    {
+        return $this->Strides;
+    }
 
-	/**
-	 * Calculate average stride length
-	 * @return null|int [cm]
-	 */
-	public function average() {
-		if ($this->Strides === []) {
-			return null;
-		}
+    /**
+     * Calculate average stride length
+     * @return null|int [cm]
+     */
+    public function average()
+    {
+        if ($this->Strides === []) {
+            return null;
+        }
 
-		$Series = new TimeSeries($this->Strides, $this->Trackdata->time());
-		$Series->calculateStatistic();
+        $Series = new TimeSeries($this->Strides, $this->Trackdata->time());
+        $Series->calculateStatistic();
 
-		return round($Series->mean());
-	}
+        return round($Series->mean());
+    }
 
     /**
      * Calculate stride length for activity
@@ -97,15 +101,16 @@ class Calculator
      *
      * @return null|int [cm]
      */
-    public static function forActivity(Activity\Entity $activity) {
-		if ($activity->cadence() > 0 && $activity->duration() > 0) {
-			$value = round($activity->distance() * 1000 * 100 / ($activity->cadence() * 2 / 60 * $activity->duration()));
+    public static function forActivity(Activity\Entity $activity)
+    {
+        if ($activity->cadence() > 0 && $activity->duration() > 0) {
+            $value = round($activity->distance() * 1000 * 100 / ($activity->cadence() * 2 / 60 * $activity->duration()));
 
-			if ($value <= 255) {
-				return $value;
-			}
-		}
+            if ($value <= 255) {
+                return $value;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

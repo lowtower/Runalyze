@@ -54,8 +54,7 @@ class ActivityContext
         ?Route $route = null,
         ?Hrv $hrv = null,
         ?Raceresult $raceResult = null
-    )
-    {
+    ) {
         $this->Activity = $activity;
         $this->Trackdata = $trackdata;
         $this->Swimdata = $swimdata;
@@ -130,7 +129,8 @@ class ActivityContext
         return $this->RaceResult;
     }
 
-    public function hasTrackdata(): bool {
+    public function hasTrackdata(): bool
+    {
         return $this->Trackdata !== null;
     }
 

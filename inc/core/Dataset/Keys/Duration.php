@@ -22,50 +22,50 @@ class Duration extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::DURATION;
-	}
+    {
+        return \Runalyze\Dataset\Keys::DURATION;
+    }
 
     /**
      * Is this key always shown?
      * @codeCoverageIgnore
      */
     public function mustBeShown(): bool
-	{
-		return true;
-	}
+    {
+        return true;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 's';
-	}
+    {
+        return 's';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Duration');
-	}
+    {
+        return __('Duration');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->duration()
-		    ->string();
-	}
+    {
+        return $context->dataview()
+            ->duration()
+            ->string();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::SUM;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::SUM;
+    }
 }

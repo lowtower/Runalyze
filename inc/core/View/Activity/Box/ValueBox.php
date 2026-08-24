@@ -17,14 +17,14 @@ use Runalyze\Activity;
  */
 class ValueBox extends AbstractBox
 {
-	public function __construct(Activity\ValueInterface $Value, $icon = '', $glossary = '')
-	{
-		parent::__construct(
-		    \Helper::Unknown($Value->string(false), '-'),
-		    $Value->unit(),
-		    $Value->label(),
-		    $icon,
-		    $glossary
-		);
-	}
+    public function __construct(Activity\ValueInterface $Value, $icon = '', $glossary = '')
+    {
+        parent::__construct(
+            \Helper::Unknown($Value->string(false), '-'),
+            $Value->unit(),
+            $Value->label(),
+            $icon,
+            $glossary
+        );
+    }
 }

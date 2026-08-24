@@ -9,28 +9,30 @@ namespace Runalyze\Parameter;
  */
 class ParameterIntegerTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Integer
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Integer
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Integer(0);
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Integer(0);
+    }
 
-	public function testValues() {
-		$this->assertEquals(0, $this->object->value());
-		$this->assertEquals('0', $this->object->valueAsString());
+    public function testValues()
+    {
+        $this->assertEquals(0, $this->object->value());
+        $this->assertEquals('0', $this->object->valueAsString());
 
-		$this->object->set(5);
-		$this->assertEquals(5, $this->object->value());
-		$this->assertEquals('5', $this->object->valueAsString());
+        $this->object->set(5);
+        $this->assertEquals(5, $this->object->value());
+        $this->assertEquals('5', $this->object->valueAsString());
 
-		$this->object->setFromString('17');
-		$this->assertEquals(17, $this->object->value() );
-	}
+        $this->object->setFromString('17');
+        $this->assertEquals(17, $this->object->value());
+    }
 }

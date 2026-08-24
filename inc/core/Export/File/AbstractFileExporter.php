@@ -21,7 +21,7 @@ abstract class AbstractFileExporter extends AbstractExporter
     /**
      * @var string
      */
-    const URL = 'activity/{id}/export/file/{enum}';
+    public const URL = 'activity/{id}/export/file/{enum}';
 
     /**
      * File content to write
@@ -72,7 +72,7 @@ abstract class AbstractFileExporter extends AbstractExporter
     {
         $XML = new \DOMDocument('1.0');
         $XML->preserveWhiteSpace = false;
-        $XML->loadXML( $this->FileContent );
+        $XML->loadXML($this->FileContent);
         $XML->formatOutput = true;
 
         $this->FileContent = $XML->saveXML();
@@ -87,13 +87,13 @@ abstract class AbstractFileExporter extends AbstractExporter
         return $this->FileContent;
     }
 
-	/**
-	 * Create file but don't start download
-	 */
-	final public function createFileWithoutDirectDownload()
-	{
-		$this->createFile();
-	}
+    /**
+     * Create file but don't start download
+     */
+    final public function createFileWithoutDirectDownload()
+    {
+        $this->createFile();
+    }
 
     /**
      * Download content

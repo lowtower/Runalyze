@@ -15,12 +15,12 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class NoSmoothing extends AbstractStrategy
 {
-	/**
-	 * Smooth data
-	 */
-	public function runSmoothing()
-	{
-		$this->SmoothedData = $this->ElevationData;
-		$this->SmoothingIndices = array_keys($this->SmoothedData);
-	}
+    /**
+     * Smooth data
+     */
+    public function runSmoothing()
+    {
+        $this->SmoothedData = $this->ElevationData;
+        $this->SmoothingIndices = array_keys($this->SmoothedData);
+    }
 }

@@ -19,16 +19,16 @@ use Runalyze\View\Activity;
  */
 class HRVdifferencesWithoutAnomalies extends HRVwithoutAnomalies
 {
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context)
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
     {
-		parent::__construct($context);
+        parent::__construct($context);
 
         $this->setDifferencesFromData();
-	}
+    }
 
     protected function setDifferencesFromData()
     {

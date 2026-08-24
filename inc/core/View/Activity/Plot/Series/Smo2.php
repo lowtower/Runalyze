@@ -19,18 +19,19 @@ use Runalyze\View\Activity;
  */
 class Smo2 extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(0,204,0)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(0,204,0)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 * @param int $sensorIndex
-	 */
-	public function __construct(Activity\Context $context, $sensorIndex = 0) {
-		$this->initOptions();
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     * @param int $sensorIndex
+     */
+    public function __construct(Activity\Context $context, $sensorIndex = 0)
+    {
+        $this->initOptions();
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata::SMO2_1;
             $this->Label = __('SmO2') . ' (2)';
@@ -39,20 +40,21 @@ class Smo2 extends ActivitySeries
             $this->Label = __('SmO2');
         }
 
-		$this->initData($context->trackdata(), $trackdataKey);
-	}
+        $this->initData($context->trackdata(), $trackdataKey);
+    }
 
-	protected function initOptions() {
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Color = self::COLOR;
 
-		$this->UnitString = '%';
-		$this->UnitDecimals = 0;
+        $this->UnitString = '%';
+        $this->UnitDecimals = 0;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 }

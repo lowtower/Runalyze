@@ -6,6 +6,7 @@
  */
 
 namespace Runalyze\View\Leaflet;
+
 use League\Geotools\Geotools;
 
 /**
@@ -16,162 +17,176 @@ use League\Geotools\Geotools;
  */
 class Route
 {
-	/**
-	 * ID
-	 * @var string
-	 */
-	protected $id = '';
+    /**
+     * ID
+     * @var string
+     */
+    protected $id = '';
 
-	/**
-	 * JS-marker
-	 * @var string[]
-	 */
-	protected $Marker = [];
+    /**
+     * JS-marker
+     * @var string[]
+     */
+    protected $Marker = [];
 
-	/**
-	 * Paths
-	 * @var array
-	 */
-	protected $Paths = [];
+    /**
+     * Paths
+     * @var array
+     */
+    protected $Paths = [];
 
-	/**
-	 * Infos
-	 *
-	 * Information to be displayed on mouseover.
-	 * First entry has to be distance.
-	 *
-	 * @var array
-	 */
-	protected $Infos = [];
+    /**
+     * Infos
+     *
+     * Information to be displayed on mouseover.
+     * First entry has to be distance.
+     *
+     * @var array
+     */
+    protected $Infos = [];
 
-	/**
-	 * Labels for infos
-	 *
-	 * Labels for `$Infos`. Can be false to hide on mouseover.
-	 *
-	 * @var array
-	 */
-	protected $InfoLabels = [];
+    /**
+     * Labels for infos
+     *
+     * Labels for `$Infos`. Can be false to hide on mouseover.
+     *
+     * @var array
+     */
+    protected $InfoLabels = [];
 
-	/**
-	 * Functions to style info
-	 * @var array
-	 */
-	protected $InfoFunctions = [];
+    /**
+     * Functions to style info
+     * @var array
+     */
+    protected $InfoFunctions = [];
 
-	/**
-	 * Options
-	 * @var array
-	 */
-	protected $Options = [];
+    /**
+     * Options
+     * @var array
+     */
+    protected $Options = [];
 
-	/**
-	 * Construct new route
-	 * @param string $id
-	 */
-	public function __construct($id) {
-		$this->id = $id;
-	}
+    /**
+     * Construct new route
+     * @param string $id
+     */
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * @return int
-	 */
-	final public function id() {
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    final public function id()
+    {
+        return $this->id;
+    }
 
-	public function isEmpty(): bool {
-	    return $this->Paths === [];
+    public function isEmpty(): bool
+    {
+        return $this->Paths === [];
     }
 
     /**
      * Get JS
      */
-    final public function js(): string {
-		$Options = 'segments: ' . json_encode($this->Paths);
+    final public function js(): string
+    {
+        $Options = 'segments: ' . json_encode($this->Paths);
 
-		if (count($this->Paths) === count($this->Infos)) {
-			$Options .= ', segmentsInfoLabels: ' . json_encode($this->InfoLabels);
-			$Options .= ', segmentsInfo: ' . json_encode($this->Infos);
-			$Options .= ', segmentsInfoFunctions: [' . implode(',', $this->InfoFunctions) . ']';
-		}
+        if (count($this->Paths) === count($this->Infos)) {
+            $Options .= ', segmentsInfoLabels: ' . json_encode($this->InfoLabels);
+            $Options .= ', segmentsInfo: ' . json_encode($this->Infos);
+            $Options .= ', segmentsInfoFunctions: [' . implode(',', $this->InfoFunctions) . ']';
+        }
 
-		$Options .= ', markertopush: [' . implode(',', $this->Marker) . ']';
+        $Options .= ', markertopush: [' . implode(',', $this->Marker) . ']';
 
-		foreach ($this->Options as $property => $value) {
-			$Options .= ', ' . $property . ': ' . json_encode($value);
-		}
+        foreach ($this->Options as $property => $value) {
+            $Options .= ', ' . $property . ': ' . json_encode($value);
+        }
 
-		return "RunalyzeLeaflet.Routes.addRoute('" . $this->id . "', {" . $Options . '});';
-	}
+        return "RunalyzeLeaflet.Routes.addRoute('" . $this->id . "', {" . $Options . '});';
+    }
 
-	/**
-	 * @param string $property
-	 * @param mixed $value
-	 */
-	final public function addOption($property, $value) {
-		$this->Options[$property] = $value;
-	}
+    /**
+     * @param string $property
+     * @param mixed $value
+     */
+    final public function addOption($property, $value)
+    {
+        $this->Options[$property] = $value;
+    }
 
     /**
      * Caution: Set infos for all paths or for none!
      *
      * @param array $Info [optional] must be of the same size as $Path
      */
-    final public function addSegment(array $Path, array $Info = []) {
-		if ($Path === [])
-			return;
-
-		$this->Paths[] = $Path;
-
-		if ($Info !== [])
-			$this->Infos[] = $Info;
-	}
-
-	/**
-	 * @param float $Lat
-	 * @param float $Lng
-	 * @param string $Icon JS-icon
-	 * @param string $Tooltip [optional]
-	 */
-	final public function addMarker($Lat, $Lng, $Icon, $Tooltip = '') {
-		$this->Marker[] = 'L.marker([' . $Lat . ',' . $Lng . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
-	}
-
-	/**
-	 * Add marker
-	 * @param string $geohash
-	 * @param string $Icon JS-icon
-	 * @param string $Tooltip [optional]
-	 */
-	final public function addMarkerGeohash($geohash, $Icon, $Tooltip = '') {
-	    if ($geohash == '7zzzzzzzzzzz') {
-	        return;
+    final public function addSegment(array $Path, array $Info = [])
+    {
+        if ($Path === []) {
+            return;
         }
 
-		$coordinate = (new Geotools())->geohash()
-		    ->decode($geohash)
-		    ->getCoordinate();
+        $this->Paths[] = $Path;
 
-		$this->Marker[] = 'L.marker([' . $coordinate->getLatitude() . ',' . $coordinate->getLongitude() . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
-	}
+        if ($Info !== []) {
+            $this->Infos[] = $Info;
+        }
+    }
+
+    /**
+     * @param float $Lat
+     * @param float $Lng
+     * @param string $Icon JS-icon
+     * @param string $Tooltip [optional]
+     */
+    final public function addMarker($Lat, $Lng, $Icon, $Tooltip = '')
+    {
+        $this->Marker[] = 'L.marker([' . $Lat . ',' . $Lng . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
+    }
+
+    /**
+     * Add marker
+     * @param string $geohash
+     * @param string $Icon JS-icon
+     * @param string $Tooltip [optional]
+     */
+    final public function addMarkerGeohash($geohash, $Icon, $Tooltip = '')
+    {
+        if ($geohash == '7zzzzzzzzzzz') {
+            return;
+        }
+
+        $coordinate = (new Geotools())->geohash()
+            ->decode($geohash)
+            ->getCoordinate();
+
+        $this->Marker[] = 'L.marker([' . $coordinate->getLatitude() . ',' . $coordinate->getLongitude() . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
+    }
 
     /**
      * @param int $km
      */
-    final public function distIcon($km): string {
-		return 'RunalyzeLeaflet.Routes.distIcon(' . (int) $km . ')';
-	}
+    final public function distIcon($km): string
+    {
+        return 'RunalyzeLeaflet.Routes.distIcon(' . (int) $km . ')';
+    }
 
-    final public function startIcon(): string {
-		return 'RunalyzeLeaflet.Routes.startIcon()';
-	}
+    final public function startIcon(): string
+    {
+        return 'RunalyzeLeaflet.Routes.startIcon()';
+    }
 
-    final public function endIcon(): string {
-		return 'RunalyzeLeaflet.Routes.endIcon()';
-	}
+    final public function endIcon(): string
+    {
+        return 'RunalyzeLeaflet.Routes.endIcon()';
+    }
 
-    final public function pauseIcon(): string {
-		return 'RunalyzeLeaflet.Routes.pauseIcon()';
-	}
+    final public function pauseIcon(): string
+    {
+        return 'RunalyzeLeaflet.Routes.pauseIcon()';
+    }
 }

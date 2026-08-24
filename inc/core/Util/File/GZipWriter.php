@@ -15,55 +15,60 @@ namespace Runalyze\Util\File;
  */
 class GZipWriter
 {
-	/**
-	 * Resource for file
-	 * @var resource
-	 */
-	protected $Resource;
+    /**
+     * Resource for file
+     * @var resource
+     */
+    protected $Resource;
 
-	/**
-	 * @param string $fileName
-	 * @throws \RuntimeException
-	 */
-	public function __construct($fileName) {
-		$this->Resource = gzopen($fileName, 'wb');
+    /**
+     * @param string $fileName
+     * @throws \RuntimeException
+     */
+    public function __construct($fileName)
+    {
+        $this->Resource = gzopen($fileName, 'wb');
 
-		if (! $this->Resource) {
-			throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for writing.');
-		}
-	}
+        if (! $this->Resource) {
+            throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for writing.');
+        }
+    }
 
-	/**
-	 * Destructor
-	 */
-	public function __destruct() {
-		$this->finish();
-	}
+    /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        $this->finish();
+    }
 
-	/**
-	 * Add string to file
-	 * @param string $string
-	 */
-	public function addToFile($string) {
-		if ($this->isOpen()) {
-			gzwrite($this->Resource, $string);
-		}
-	}
+    /**
+     * Add string to file
+     * @param string $string
+     */
+    public function addToFile($string)
+    {
+        if ($this->isOpen()) {
+            gzwrite($this->Resource, $string);
+        }
+    }
 
     /**
      * Is file open?
      */
-    protected function isOpen(): bool {
-		return $this->Resource !== null;
-	}
+    protected function isOpen(): bool
+    {
+        return $this->Resource !== null;
+    }
 
-	/**
-	 * Finish: close file
-	 */
-	public function finish() {
-		if ($this->isOpen()) {
-			gzclose($this->Resource);
-			$this->Resource = null;
-		}
-	}
+    /**
+     * Finish: close file
+     */
+    public function finish()
+    {
+        if ($this->isOpen()) {
+            gzclose($this->Resource);
+            $this->Resource = null;
+        }
+    }
 }

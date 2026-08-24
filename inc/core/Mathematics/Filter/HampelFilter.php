@@ -23,7 +23,7 @@ class HampelFilter
     /**
      * @var float
      */
-    const STD_ESTIMATE_FACTOR = 1.4826;
+    public const STD_ESTIMATE_FACTOR = 1.4826;
 
     /**
      * @var int

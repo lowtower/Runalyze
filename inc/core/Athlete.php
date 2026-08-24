@@ -53,8 +53,7 @@ class Athlete
         $weight = null,
         $birthyear = null,
         $vo2max = 0.0
-    )
-    {
+    ) {
         $this->Gender = $Gender ?: Gender::NONE;
         $this->maximalHR = $maximalHR;
         $this->restingHR = $restingHR;

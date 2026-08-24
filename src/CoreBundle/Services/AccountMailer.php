@@ -85,7 +85,8 @@ class AccountMailer
         $this->Mailer->send($message);
     }
 
-    protected function customLanguageTemplates($template, $language) {
+    protected function customLanguageTemplates($template, $language)
+    {
         $template = str_replace('html.twig', '', $template);
         try {
             $this->Twig->render($template . $language . '.html.twig');
@@ -97,15 +98,15 @@ class AccountMailer
 
     public function sendActivationLinkTo(Account $account)
     {
-            $this->sendMailTo(
-                $account,
-                $this->Translator->trans('Please activate your RUNALYZE account'),
-                'mail/account/registration.html.twig',
-                [
-                    'username' => $account->getUsername(),
-                    'activationHash' => $account->getActivationHash(),
-                ]
-            );
+        $this->sendMailTo(
+            $account,
+            $this->Translator->trans('Please activate your RUNALYZE account'),
+            'mail/account/registration.html.twig',
+            [
+                'username' => $account->getUsername(),
+                'activationHash' => $account->getActivationHash(),
+            ]
+        );
     }
 
     public function sendRecoverPasswordLinkTo(Account $account)

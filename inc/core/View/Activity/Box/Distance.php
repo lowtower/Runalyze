@@ -19,9 +19,9 @@ use Runalyze\View\Activity\Context;
 class Distance extends ValueBox
 {
     public function __construct(Context $Context)
-	{
-		parent::__construct(
-		    new Activity\Distance($Context->activity()->distance())
-		);
-	}
+    {
+        parent::__construct(
+            new Activity\Distance($Context->activity()->distance())
+        );
+    }
 }

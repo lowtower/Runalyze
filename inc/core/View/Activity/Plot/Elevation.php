@@ -17,17 +17,19 @@ use Runalyze\View\Activity;
  */
 class Elevation extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'elevation';
-	}
+    protected function setKey()
+    {
+        $this->key = 'elevation';
+    }
 
-    protected function initData(Activity\Context $context) {
-		/** @var \Runalyze\View\Plot\Series[] $allSeries */
-		$allSeries = [
-		    new Series\Elevation($context),
-		    new Series\Gradient($context),
-		];
+    protected function initData(Activity\Context $context)
+    {
+        /** @var \Runalyze\View\Plot\Series[] $allSeries */
+        $allSeries = [
+            new Series\Elevation($context),
+            new Series\Gradient($context),
+        ];
 
-		$this->addMultipleSeries($allSeries);
-	}
+        $this->addMultipleSeries($allSeries);
+    }
 }

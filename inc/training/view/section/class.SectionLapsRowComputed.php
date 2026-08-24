@@ -16,30 +16,34 @@ use Runalyze\View\Activity\Linker;
  */
 class SectionLapsRowComputed extends TrainingViewSectionRow
 {
-	protected function setPlot() {
-		$this->Plot = new Activity\Plot\LapsComputed($this->Context);
-	}
+    protected function setPlot()
+    {
+        $this->Plot = new Activity\Plot\LapsComputed($this->Context);
+    }
 
-	protected function setContent() {
-		$this->withShadow = true;
-		$this->addInfoLink();
-		$this->addTable();
-	}
+    protected function setContent()
+    {
+        $this->withShadow = true;
+        $this->addInfoLink();
+        $this->addTable();
+    }
 
-	/**
-	 * Add: table
-	 */
-	protected function addTable() {
-		$Table = new TableLapsComputed($this->Context);
-		$this->Code = $Table->getCode();
-	}
+    /**
+     * Add: table
+     */
+    protected function addTable()
+    {
+        $Table = new TableLapsComputed($this->Context);
+        $this->Code = $Table->getCode();
+    }
 
-	protected function addInfoLink() {
-		if (! Request::isOnSharedPage()) {
-			$Linker = new Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="' . $Linker->urlToRoundsInfo() . '">' . __('More details about your laps') . '</a>', 'big');
+    protected function addInfoLink()
+    {
+        if (! Request::isOnSharedPage()) {
+            $Linker = new Linker($this->Context->activity());
+            $InfoLink = Ajax::window('<a href="' . $Linker->urlToRoundsInfo() . '">' . __('More details about your laps') . '</a>', 'big');
 
-			$this->Header = HTML::info( $InfoLink );
-		}
-	}
+            $this->Header = HTML::info($InfoLink);
+        }
+    }
 }

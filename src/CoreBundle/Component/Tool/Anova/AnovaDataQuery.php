@@ -115,7 +115,7 @@ class AnovaDataQuery
     protected function addSportConditionToQuery(QueryBuilder $queryBuilder)
     {
         $queryBuilder->andWhere($queryBuilder->expr()->in('t.sport', ':sports'));
-        $queryBuilder->setParameter(':sports', array_map(function(Sport $sport) {
+        $queryBuilder->setParameter(':sports', array_map(function (Sport $sport) {
             return $sport->getId();
         }, $this->AnovaData->getSport()));
     }
@@ -126,7 +126,7 @@ class AnovaDataQuery
 
         if (! empty($types)) {
             $queryBuilder->andWhere($queryBuilder->expr()->in('t.type', ':types'));
-            $queryBuilder->setParameter(':types', array_map(function(Type $type) {
+            $queryBuilder->setParameter(':types', array_map(function (Type $type) {
                 return $type->getId();
             }, $types));
         }

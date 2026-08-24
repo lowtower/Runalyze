@@ -12,57 +12,57 @@ use Runalyze\Parameter\Application\WeightUnit;
  */
 class WeightTest extends \PHPUnit\Framework\TestCase
 {
-	public function testConstructor()
-	{
-		$this->assertEquals('75.0', (new Weight(75, new WeightUnit(WeightUnit::KG)))->string(false, 1));
-		$this->assertEquals('165.3', (new Weight(75, new WeightUnit(WeightUnit::POUNDS)))->string(false, 1));
-		$this->assertEquals('11.8', (new Weight(75, new WeightUnit(WeightUnit::STONES)))->string(false, 1));
-	}
+    public function testConstructor()
+    {
+        $this->assertEquals('75.0', (new Weight(75, new WeightUnit(WeightUnit::KG)))->string(false, 1));
+        $this->assertEquals('165.3', (new Weight(75, new WeightUnit(WeightUnit::POUNDS)))->string(false, 1));
+        $this->assertEquals('11.8', (new Weight(75, new WeightUnit(WeightUnit::STONES)))->string(false, 1));
+    }
 
-	public function testSettingInPreferredUnit()
-	{
-		$this->assertEqualsWithDelta(10, (new Weight(0, new WeightUnit(WeightUnit::KG)))->setInPreferredUnit(10)->kg(), 0.1);
-		$this->assertEqualsWithDelta(4.54, (new Weight(0, new WeightUnit(WeightUnit::POUNDS)))->setInPreferredUnit(10)->kg(), 0.1);
-		$this->assertEqualsWithDelta(63.5, (new Weight(0, new WeightUnit(WeightUnit::STONES)))->setInPreferredUnit(10)->kg(), 0.1);
-	}
+    public function testSettingInPreferredUnit()
+    {
+        $this->assertEqualsWithDelta(10, (new Weight(0, new WeightUnit(WeightUnit::KG)))->setInPreferredUnit(10)->kg(), 0.1);
+        $this->assertEqualsWithDelta(4.54, (new Weight(0, new WeightUnit(WeightUnit::POUNDS)))->setInPreferredUnit(10)->kg(), 0.1);
+        $this->assertEqualsWithDelta(63.5, (new Weight(0, new WeightUnit(WeightUnit::STONES)))->setInPreferredUnit(10)->kg(), 0.1);
+    }
 
-	public function testFromKilograms()
-	{
-		$Weight = new Weight();
-		$Weight->set(10);
+    public function testFromKilograms()
+    {
+        $Weight = new Weight();
+        $Weight->set(10);
 
-		$this->assertEquals(10.00, $Weight->kg());
-		$this->assertEqualsWithDelta(22.04, $Weight->pounds(), 0.01);
-		$this->assertEqualsWithDelta(1.57, $Weight->stones(), 0.01);
-	}
+        $this->assertEquals(10.00, $Weight->kg());
+        $this->assertEqualsWithDelta(22.04, $Weight->pounds(), 0.01);
+        $this->assertEqualsWithDelta(1.57, $Weight->stones(), 0.01);
+    }
 
-	public function testFromPounds()
-	{
-		$Weight = new Weight();
-		$Weight->setPounds(10);
+    public function testFromPounds()
+    {
+        $Weight = new Weight();
+        $Weight->setPounds(10);
 
-		$this->assertEquals(10.00, $Weight->pounds());
-		$this->assertEqualsWithDelta(4.54, $Weight->kg(), 0.01);
-		$this->assertEqualsWithDelta(0.71, $Weight->stones(), 0.01);
-	}
+        $this->assertEquals(10.00, $Weight->pounds());
+        $this->assertEqualsWithDelta(4.54, $Weight->kg(), 0.01);
+        $this->assertEqualsWithDelta(0.71, $Weight->stones(), 0.01);
+    }
 
-	public function testFromStones()
-	{
-		$Weight = new Weight();
-		$Weight->setStones(10);
+    public function testFromStones()
+    {
+        $Weight = new Weight();
+        $Weight->setStones(10);
 
-		$this->assertEquals(10.00, $Weight->stones());
-		$this->assertEqualsWithDelta(63.50, $Weight->kg(), 0.01);
-		$this->assertEqualsWithDelta(140.0, $Weight->pounds(), 0.01);
-	}
+        $this->assertEquals(10.00, $Weight->stones());
+        $this->assertEqualsWithDelta(63.50, $Weight->kg(), 0.01);
+        $this->assertEqualsWithDelta(140.0, $Weight->pounds(), 0.01);
+    }
 
-	public function testStaticMethod()
-	{
-		Configuration::General()->weightUnit()->set(WeightUnit::KG);
-		$unit = '&nbsp;' . Configuration::General()->weightUnit()->unit();
+    public function testStaticMethod()
+    {
+        Configuration::General()->weightUnit()->set(WeightUnit::KG);
+        $unit = '&nbsp;' . Configuration::General()->weightUnit()->unit();
 
-		$this->assertEquals('10.0' . $unit, Weight::format(10, true, 1));
-		$this->assertEquals('12.346' . $unit, Weight::format(12.3456, true, 3));
-		$this->assertEquals('12.3', Weight::format(12.3456, false, 1));
-	}
+        $this->assertEquals('10.0' . $unit, Weight::format(10, true, 1));
+        $this->assertEquals('12.346' . $unit, Weight::format(12.3456, true, 3));
+        $this->assertEquals('12.3', Weight::format(12.3456, false, 1));
+    }
 }

@@ -21,121 +21,132 @@ use Runalyze\Parameter\Integer;
  */
 class BasicEndurance extends \Runalyze\Configuration\Category
 {
-	/**
-	 * Flag: recalculation triggered?
-	 * @var bool
-	 */
-	private static $TRIGGERED = false;
+    /**
+     * Flag: recalculation triggered?
+     * @var bool
+     */
+    private static $TRIGGERED = false;
 
     /**
      * Internal key
      */
-    protected function key(): string {
-		return 'basic-endurance';
-	}
+    protected function key(): string
+    {
+        return 'basic-endurance';
+    }
 
-	protected function createHandles() {
-		$this->createHandle('BE_MIN_KM_FOR_LONGJOG', new Integer(13));
-		$this->createHandle('BE_DAYS_FOR_LONGJOGS', new Integer(70));
-		$this->createHandle('BE_DAYS_FOR_WEEK_KM', new Integer(182));
-		$this->createHandle('BE_DAYS_FOR_WEEK_KM_MIN', new Integer(70));
-		$this->createHandle('BE_PERCENTAGE_WEEK_KM', new FloatingPoint(0.67));
-	}
+    protected function createHandles()
+    {
+        $this->createHandle('BE_MIN_KM_FOR_LONGJOG', new Integer(13));
+        $this->createHandle('BE_DAYS_FOR_LONGJOGS', new Integer(70));
+        $this->createHandle('BE_DAYS_FOR_WEEK_KM', new Integer(182));
+        $this->createHandle('BE_DAYS_FOR_WEEK_KM_MIN', new Integer(70));
+        $this->createHandle('BE_PERCENTAGE_WEEK_KM', new FloatingPoint(0.67));
+    }
 
-	/**
-	 * @return int
-	 */
-	public function minKmForLongjog() {
-		return $this->get('BE_MIN_KM_FOR_LONGJOG');
-	}
+    /**
+     * @return int
+     */
+    public function minKmForLongjog()
+    {
+        return $this->get('BE_MIN_KM_FOR_LONGJOG');
+    }
 
-	/**
-	 * Days for longjogs
-	 * @return int
-	 */
-	public function daysForLongjogs() {
-		return $this->get('BE_DAYS_FOR_LONGJOGS');
-	}
+    /**
+     * Days for longjogs
+     * @return int
+     */
+    public function daysForLongjogs()
+    {
+        return $this->get('BE_DAYS_FOR_LONGJOGS');
+    }
 
-	/**
-	 * Days for week km
-	 * @return int
-	 */
-	public function daysForWeekKm() {
-		return $this->get('BE_DAYS_FOR_WEEK_KM');
-	}
+    /**
+     * Days for week km
+     * @return int
+     */
+    public function daysForWeekKm()
+    {
+        return $this->get('BE_DAYS_FOR_WEEK_KM');
+    }
 
-	/**
-	 * Days for week km (min)
-	 * @return int
-	 */
-	public function daysForWeekKmMin() {
-		return $this->get('BE_DAYS_FOR_WEEK_KM_MIN');
-	}
+    /**
+     * Days for week km (min)
+     * @return int
+     */
+    public function daysForWeekKmMin()
+    {
+        return $this->get('BE_DAYS_FOR_WEEK_KM_MIN');
+    }
 
-	/**
-	 * @return float
-	 */
-	public function percentageWeekKm() {
-		return $this->get('BE_PERCENTAGE_WEEK_KM');
-	}
+    /**
+     * @return float
+     */
+    public function percentageWeekKm()
+    {
+        return $this->get('BE_PERCENTAGE_WEEK_KM');
+    }
 
-	/**
-	 * @return float
-	 */
-	public function percentageLongjogs() {
-		return 1 - $this->percentageWeekKm();
-	}
+    /**
+     * @return float
+     */
+    public function percentageLongjogs()
+    {
+        return 1 - $this->percentageWeekKm();
+    }
 
-    public function Fieldset(): \Runalyze\Configuration\Fieldset {
-		$Fieldset = new Fieldset( __('Marathon shape') );
-		$Fieldset->addHandle( $this->handle('BE_MIN_KM_FOR_LONGJOG'), [
-    'label' => __('Minimal distance for longjogs'),
-		    'tooltip' => __('Every run above this distance will be rated.'),
-		    'unit' => FormularUnit::$KM,
-]);
-		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_LONGJOGS'), [
-    'label' => __('Days for longjogs'),
-		    'tooltip' => __('Number of days to look at for longjog goal.'),
-]);
-		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_WEEK_KM'), [
-    'label' => __('Days for week kilometer'),
-		    'tooltip' => __('Number of days to look at for weekly kilometer goal.'),
-]);
-		$Fieldset->addHandle( $this->handle('BE_DAYS_FOR_WEEK_KM_MIN'), [
-    'label' => __('Days for week kilometer (minimum)'),
-		    'tooltip' => __('This value will be used if not enough data is available.'),
-]);
-		$Fieldset->addHandle( $this->handle('BE_PERCENTAGE_WEEK_KM'), [
-    'label' => __('Factor for week kilometers'),
-		    'tooltip' => __('Percentage as value between 0.00 and 1.00.'),
-]);
+    public function Fieldset(): \Runalyze\Configuration\Fieldset
+    {
+        $Fieldset = new Fieldset(__('Marathon shape'));
+        $Fieldset->addHandle($this->handle('BE_MIN_KM_FOR_LONGJOG'), [
+            'label' => __('Minimal distance for longjogs'),
+            'tooltip' => __('Every run above this distance will be rated.'),
+            'unit' => FormularUnit::$KM,
+        ]);
+        $Fieldset->addHandle($this->handle('BE_DAYS_FOR_LONGJOGS'), [
+            'label' => __('Days for longjogs'),
+            'tooltip' => __('Number of days to look at for longjog goal.'),
+        ]);
+        $Fieldset->addHandle($this->handle('BE_DAYS_FOR_WEEK_KM'), [
+            'label' => __('Days for week kilometer'),
+            'tooltip' => __('Number of days to look at for weekly kilometer goal.'),
+        ]);
+        $Fieldset->addHandle($this->handle('BE_DAYS_FOR_WEEK_KM_MIN'), [
+            'label' => __('Days for week kilometer (minimum)'),
+            'tooltip' => __('This value will be used if not enough data is available.'),
+        ]);
+        $Fieldset->addHandle($this->handle('BE_PERCENTAGE_WEEK_KM'), [
+            'label' => __('Factor for week kilometers'),
+            'tooltip' => __('Percentage as value between 0.00 and 1.00.'),
+        ]);
 
-		return $Fieldset;
-	}
+        return $Fieldset;
+    }
 
-	protected function registerOnchangeEvents() {
-		$this->handle('BE_MIN_KM_FOR_LONGJOG')
-		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_LONGJOGS')
-		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM')
-		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_DAYS_FOR_WEEK_KM_MIN')
-		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
-		$this->handle('BE_PERCENTAGE_WEEK_KM')
-		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
-	}
+    protected function registerOnchangeEvents()
+    {
+        $this->handle('BE_MIN_KM_FOR_LONGJOG')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('BE_DAYS_FOR_LONGJOGS')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('BE_DAYS_FOR_WEEK_KM')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('BE_DAYS_FOR_WEEK_KM_MIN')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+        $this->handle('BE_PERCENTAGE_WEEK_KM')
+            ->registerOnchangeEvent(self::class . '::triggerRecalculation');
+    }
 
-	public static function triggerRecalculation() {
-		if (! self::$TRIGGERED) {
-			self::$TRIGGERED = true;
+    public static function triggerRecalculation()
+    {
+        if (! self::$TRIGGERED) {
+            self::$TRIGGERED = true;
 
-			$oldValue = CalculationBasicEndurance::getConst();
-			CalculationBasicEndurance::recalculateValue();
-			$newValue = CalculationBasicEndurance::getConst();
+            $oldValue = CalculationBasicEndurance::getConst();
+            CalculationBasicEndurance::recalculateValue();
+            $newValue = CalculationBasicEndurance::getConst();
 
-			Messages::addValueRecalculated(__('Marathon shape'), $newValue . ' &#37;', $oldValue . ' &#37;');
-		}
-	}
+            Messages::addValueRecalculated(__('Marathon shape'), $newValue . ' &#37;', $oldValue . ' &#37;');
+        }
+    }
 }

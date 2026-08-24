@@ -14,10 +14,10 @@ namespace Runalyze\Parameter;
  */
 class SelectFile extends Select
 {
-	/**
-	 * @var bool
-	 */
-	protected $UseFallback = false;
+    /**
+     * @var bool
+     */
+    protected $UseFallback = false;
 
     /**
      * Boolean flag: allow uppercase variants of file extensions
@@ -25,96 +25,103 @@ class SelectFile extends Select
      */
     protected $AllowUppercaseVariants = true;
 
-	/**
-	 * Construct
-	 * @param string $default
-	 * @param array $options [optional]
-	 */
-	public function __construct($default, $options = []) {
-		$options = array_merge(
-		    [
-		        'folder' => '',
-		        'extensions' => [],
-		        'filename_only' => true,
-		    ],
-		    $options
-		);
+    /**
+     * Construct
+     * @param string $default
+     * @param array $options [optional]
+     */
+    public function __construct($default, $options = [])
+    {
+        $options = array_merge(
+            [
+                'folder' => '',
+                'extensions' => [],
+                'filename_only' => true,
+            ],
+            $options
+        );
 
-		parent::__construct($default, $options);
-	}
+        parent::__construct($default, $options);
+    }
 
-	/**
-	 * Allowed file extensions
-	 * @return array
-	 */
-	public function extensions() {
-		return $this->Options['extensions'];
-	}
+    /**
+     * Allowed file extensions
+     * @return array
+     */
+    public function extensions()
+    {
+        return $this->Options['extensions'];
+    }
 
-	/**
-	 * @param bool $flag
-	 */
-	public function allowUppercaseVariants($flag = true) {
-		$this->AllowUppercaseVariants = $flag;
-	}
+    /**
+     * @param bool $flag
+     */
+    public function allowUppercaseVariants($flag = true)
+    {
+        $this->AllowUppercaseVariants = $flag;
+    }
 
-	/**
-	 * Set value
-	 * @param mixed $value new value
-	 * @throws \InvalidArgumentException
-	 */
-	public function set($value) {
-		if ($this->Options['filename_only']) {
-			$value = basename($value);
-		}
+    /**
+     * Set value
+     * @param mixed $value new value
+     * @throws \InvalidArgumentException
+     */
+    public function set($value)
+    {
+        if ($this->Options['filename_only']) {
+            $value = basename($value);
+        }
 
-		parent::set($value);
-	}
+        parent::set($value);
+    }
 
     /**
      * File allowed?
      * @param string $fileName
      */
-    protected function valueIsAllowed($fileName): bool {
-		$firstChar = substr($fileName, 0, 1);
-		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
+    protected function valueIsAllowed($fileName): bool
+    {
+        $firstChar = substr($fileName, 0, 1);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-		if ($firstChar == '.' || $firstChar == '/')
-			return false;
+        if ($firstChar == '.' || $firstChar == '/') {
+            return false;
+        }
 
-		if ($this->AllowUppercaseVariants) {
-			$extension = strtolower($extension);
-		}
+        if ($this->AllowUppercaseVariants) {
+            $extension = strtolower($extension);
+        }
 
         return in_array($extension, $this->Options['extensions']);
-	}
+    }
 
     /**
      * Options
      */
-    public function options(): array {
-		$Options = [];
-		$Folder = $this->Options['folder'];
+    public function options(): array
+    {
+        $Options = [];
+        $Folder = $this->Options['folder'];
 
-		if (! is_array($Folder)) {
-			$Folder = [$Folder];
-		}
+        if (! is_array($Folder)) {
+            $Folder = [$Folder];
+        }
 
-		foreach ($Folder as $Fold) {
-			$handle = opendir(FRONTEND_PATH . '../' . $Fold);
-			if ($handle) {
-				if ($this->Options['filename_only']) {
-					$Fold = '';
-				}
+        foreach ($Folder as $Fold) {
+            $handle = opendir(FRONTEND_PATH . '../' . $Fold);
+            if ($handle) {
+                if ($this->Options['filename_only']) {
+                    $Fold = '';
+                }
 
-				while (false !== ($file = readdir($handle))) {
-					if ($this->valueIsAllowed($file)) {
-						$Options[$Fold . $file] = $file;
-					}
-				}
-			}
-		}
+                while (false !== ($file = readdir($handle))) {
+                    if ($this->valueIsAllowed($file)) {
+                        $Options[$Fold . $file] = $file;
+                    }
+                }
+            }
+        }
 
-		return $Options;
-	}
+        return $Options;
+    }
 }

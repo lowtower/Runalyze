@@ -15,10 +15,11 @@ namespace Runalyze\Parameter;
  */
 class Integer extends \Runalyze\Parameter
 {
-	/**
-	 * @param string $valueAsString new value
-	 */
-	public function setFromString($valueAsString) {
-		$this->set((int) $valueAsString);
-	}
+    /**
+     * @param string $valueAsString new value
+     */
+    public function setFromString($valueAsString)
+    {
+        $this->set((int) $valueAsString);
+    }
 }

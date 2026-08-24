@@ -28,7 +28,7 @@ class WeatherController extends Controller
         $location = $this->getLocationForRequest($request, $account);
 
         // #TSC: if no location is given, cancel
-        if(! $location->hasPosition()) {
+        if (! $location->hasPosition()) {
             return null;
         }
 

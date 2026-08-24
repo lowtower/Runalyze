@@ -11,7 +11,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected $ContinuousData;
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->ContinuousData = new ContinuousData();
 
         // create 10 samples
@@ -19,7 +20,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->ContinuousData->HeartRate = range(80, 170, 10);
     }
 
-    public function testBreakInMiddle() {
+    public function testBreakInMiddle()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       t
         // 1    2       90      1       t
@@ -42,7 +44,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(128, $underTest->calcAvgHeartRate());
     }
 
-    public function testBreakSmallDiffsTimeAndRounds() {
+    public function testBreakSmallDiffsTimeAndRounds()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       t
         // 1    2       90      1       t
@@ -65,7 +68,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(128, $underTest->calcAvgHeartRate());
     }
 
-    public function testBreakOneTimeSmallDiffsTimeAndRounds() {
+    public function testBreakOneTimeSmallDiffsTimeAndRounds()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       t
         // 1    2       90      1       t
@@ -88,7 +92,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(126, $underTest->calcAvgHeartRate());
     }
 
-    public function testBreakStartEnd() {
+    public function testBreakStartEnd()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       f       break
         // 1    2       90      1       f       break
@@ -111,7 +116,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(115, $underTest->calcAvgHeartRate());
     }
 
-    public function test2RoundsOnlyBreak() {
+    public function test2RoundsOnlyBreak()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       f
         // 1    2       90      1       f
@@ -133,7 +139,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($underTest->calcAvgHeartRate());
     }
 
-    public function testOneRoundOnlyBreak() {
+    public function testOneRoundOnlyBreak()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       f
         // 1    2       90      1       f
@@ -154,7 +161,8 @@ class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($underTest->calcAvgHeartRate());
     }
 
-    public function testOneBreakAtEnd() {
+    public function testOneBreakAtEnd()
+    {
         // idx  time    hr      round   active
         // 0    1       80      1       t
         // 1    2       90      1       t

@@ -18,148 +18,157 @@ use Runalyze\View\Activity;
  */
 abstract class ActivityPlot
 {
-	/**
-	 * @var int
-	 */
-	protected $WIDTH = 600;
+    /**
+     * @var int
+     */
+    protected $WIDTH = 600;
 
-	/**
-	 * @var int
-	 */
-	protected $HEIGHT = 190;
+    /**
+     * @var int
+     */
+    protected $HEIGHT = 190;
 
-	/**
-	 * Plot
-	 * @var \Plot
-	 */
-	protected $Plot;
+    /**
+     * Plot
+     * @var \Plot
+     */
+    protected $Plot;
 
-	/**
-	 * Use standard x-axis?
-	 * @var bool
-	 */
-	protected $useStandardXaxis = true;
+    /**
+     * Use standard x-axis?
+     * @var bool
+     */
+    protected $useStandardXaxis = true;
 
-	/**
-	 * Key
-	 * @var string
-	 */
-	protected $key = '';
+    /**
+     * Key
+     * @var string
+     */
+    protected $key = '';
 
-	/**
-	 * Data
-	 * @var array
-	 */
-	protected $Data = [];
+    /**
+     * Data
+     * @var array
+     */
+    protected $Data = [];
 
-	/**
-	 * CSS id
-	 * @var string
-	 */
-	protected $id;
+    /**
+     * CSS id
+     * @var string
+     */
+    protected $id;
 
-	abstract protected function setKey();
+    abstract protected function setKey();
 
     abstract protected function initData(Activity\Context $context);
 
     /**
      * Construct
      */
-    public function __construct(Activity\Context $context) {
-		$this->setKey();
-		$this->setID($context->activity()->id());
-		$this->initPlot();
-		$this->initData($context);
+    public function __construct(Activity\Context $context)
+    {
+        $this->setKey();
+        $this->setID($context->activity()->id());
+        $this->initPlot();
+        $this->initData($context);
 
-		if (! $this->dataIsAvailable()) {
-			$this->Plot->raiseError( __('No plot available.') );
-		}
-	}
+        if (! $this->dataIsAvailable()) {
+            $this->Plot->raiseError(__('No plot available.'));
+        }
+    }
 
-    final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true) {
-		$series->addTo($this->Plot, $yAxis, $addAnnotations);
-	}
+    final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true)
+    {
+        $series->addTo($this->Plot, $yAxis, $addAnnotations);
+    }
 
-	/**
-	 * @param \Runalyze\View\Plot\Series[] $series
-	 */
-	protected function addMultipleSeries(array $series) {
-		$yaxis = 1;
+    /**
+     * @param \Runalyze\View\Plot\Series[] $series
+     */
+    protected function addMultipleSeries(array $series)
+    {
+        $yaxis = 1;
 
-		foreach ($series as $object) {
-			if ($object instanceof \Runalyze\View\Plot\Series && ! $object->isEmpty()) {
-				$this->addSeries($object, $yaxis, false);
-				$yaxis++;
-			}
-		}
-	}
+        foreach ($series as $object) {
+            if ($object instanceof \Runalyze\View\Plot\Series && ! $object->isEmpty()) {
+                $this->addSeries($object, $yaxis, false);
+                $yaxis++;
+            }
+        }
+    }
 
-	/**
-	 * @param int $index natural index starting by 1 (for y-axis) and using the 0-indexed version for series
-	 */
-	public function hideYAxisAndSeries($index)
-	{
-		$this->hideYAxis($index);
-		$this->hideSeries($index - 1);
-	}
+    /**
+     * @param int $index natural index starting by 1 (for y-axis) and using the 0-indexed version for series
+     */
+    public function hideYAxisAndSeries($index)
+    {
+        $this->hideYAxis($index);
+        $this->hideSeries($index - 1);
+    }
 
-	/**
-	 * @param int $yAxis
-	 */
-	protected function hideYAxis($yAxis)
-	{
-		$this->Plot->hideYAxis($yAxis);
-	}
+    /**
+     * @param int $yAxis
+     */
+    protected function hideYAxis($yAxis)
+    {
+        $this->Plot->hideYAxis($yAxis);
+    }
 
-	/**
-	 * @param int $series
-	 */
-	protected function hideSeries($series)
-	{
-		$this->Plot->setLineWidth($series, 0);
-		$this->Plot->setShadowSize($series, 0);
-	}
+    /**
+     * @param int $series
+     */
+    protected function hideSeries($series)
+    {
+        $this->Plot->setLineWidth($series, 0);
+        $this->Plot->setShadowSize($series, 0);
+    }
 
-    private function dataIsAvailable(): bool {
-		foreach ($this->Plot->Data as $key => $Data) {
-			if (! isset($Data['data']) || empty($Data['data'])) {
-				unset($this->Plot->Data[$key]);
-			}
-		}
+    private function dataIsAvailable(): bool
+    {
+        foreach ($this->Plot->Data as $key => $Data) {
+            if (! isset($Data['data']) || empty($Data['data'])) {
+                unset($this->Plot->Data[$key]);
+            }
+        }
 
-		return count($this->Data) >= 2 || $this->Plot->Data !== [];
-	}
+        return count($this->Data) >= 2 || $this->Plot->Data !== [];
+    }
 
-	private function initPlot() {
-		$this->Plot = new Plot($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
-	}
+    private function initPlot()
+    {
+        $this->Plot = new Plot($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
+    }
 
-	/**
-	 * @param int $id
-	 */
-	private function setID($id) {
-		$this->id = $this->key . '_' . $id;
-	}
+    /**
+     * @param int $id
+     */
+    private function setID($id)
+    {
+        $this->id = $this->key . '_' . $id;
+    }
 
-	/**
-	 * @return string
-	 */
-	final public function getKey() {
-		return $this->key;
-	}
+    /**
+     * @return string
+     */
+    final public function getKey()
+    {
+        return $this->key;
+    }
 
-	/**
-	 * @return string
-	 */
-	final protected function getCSSid() {
-		return $this->id;
-	}
+    /**
+     * @return string
+     */
+    final protected function getCSSid()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Output JS
-	 */
-	final public function display() {
-		echo Plot::getInnerDivFor($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
-		$this->Plot->outputJavaScript();
-	}
+    /**
+     * Output JS
+     */
+    final public function display()
+    {
+        echo Plot::getInnerDivFor($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
+        $this->Plot->outputJavaScript();
+    }
 }

@@ -21,7 +21,7 @@ use Runalyze\View\Activity\Context;
 class Smo2 extends AbstractBox
 {
     public function __construct(Context $Context, $sensorIndex = 0)
-	{
+    {
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata\Entity::SMO2_1;
             $label = _('SmO2') . ' (2)';
@@ -31,11 +31,11 @@ class Smo2 extends AbstractBox
         }
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
-		parent::__construct(
-		    round($value->average($trackdataKey), 2),
-		    '%',
-		    $label
-		);
-		$this->defineAsFloatingBlock('w50');
-	}
+        parent::__construct(
+            round($value->average($trackdataKey), 2),
+            '%',
+            $label
+        );
+        $this->defineAsFloatingBlock('w50');
+    }
 }

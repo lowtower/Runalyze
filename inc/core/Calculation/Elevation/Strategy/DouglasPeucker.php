@@ -16,47 +16,47 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class DouglasPeucker extends AbstractStrategy
 {
-	/**
-	 * Distance (in x direction) between two points
-	 * @var int
-	 */
-	const DISTANCE_BETWEEN_POINTS = 50;
+    /**
+     * Distance (in x direction) between two points
+     * @var int
+     */
+    public const DISTANCE_BETWEEN_POINTS = 50;
 
-	/**
-	 * Epsilon
-	 * @var float|int
-	 */
-	protected $Epsilon = 0;
+    /**
+     * Epsilon
+     * @var float|int
+     */
+    protected $Epsilon = 0;
 
     /**
      * Construct
      * @param float|int $epsilon [optional]
      */
     public function __construct(array $elevation, $epsilon = 0)
-	{
-		parent::__construct($elevation);
+    {
+        parent::__construct($elevation);
 
-		$this->setEpsilon($epsilon);
-	}
+        $this->setEpsilon($epsilon);
+    }
 
-	/**
-	 * @param float $epsilon
-	 */
-	public function setEpsilon($epsilon)
-	{
-		$this->Epsilon = $epsilon;
-	}
+    /**
+     * @param float $epsilon
+     */
+    public function setEpsilon($epsilon)
+    {
+        $this->Epsilon = $epsilon;
+    }
 
-	/**
-	 * Smooth data
-	 */
-	public function runSmoothing()
-	{
-		$this->SmoothingIndices = [0, count($this->ElevationData) - 1];
-		$this->SmoothedData = $this->smoothPart($this->ElevationData);
+    /**
+     * Smooth data
+     */
+    public function runSmoothing()
+    {
+        $this->SmoothingIndices = [0, count($this->ElevationData) - 1];
+        $this->SmoothedData = $this->smoothPart($this->ElevationData);
 
-		sort($this->SmoothingIndices);
-	}
+        sort($this->SmoothingIndices);
+    }
 
     /**
      * Smooth part of line
@@ -64,36 +64,36 @@ class DouglasPeucker extends AbstractStrategy
      * @param int $offset
      */
     protected function smoothPart(array $data, $offset = 0): array
-	{
-		$maxDist = 0;
-		$index = 0;
-		$num = count($data);
+    {
+        $maxDist = 0;
+        $index = 0;
+        $num = count($data);
 
-		for ($i = 1; $i < ($num - 1); $i++) {
-			$dist = $this->perpendicularDistance(
-			    self::DISTANCE_BETWEEN_POINTS * $i,
-			    $data[$i],
-			    self::DISTANCE_BETWEEN_POINTS * 0,
-			    $data[0],
-			    self::DISTANCE_BETWEEN_POINTS * ($num - 1),
-			    $data[$num - 1]
-			);
+        for ($i = 1; $i < ($num - 1); $i++) {
+            $dist = $this->perpendicularDistance(
+                self::DISTANCE_BETWEEN_POINTS * $i,
+                $data[$i],
+                self::DISTANCE_BETWEEN_POINTS * 0,
+                $data[0],
+                self::DISTANCE_BETWEEN_POINTS * ($num - 1),
+                $data[$num - 1]
+            );
 
-			if ($dist > $maxDist) {
-				$index = $i;
-				$maxDist = $dist;
-			}
-		}
+            if ($dist > $maxDist) {
+                $index = $i;
+                $maxDist = $dist;
+            }
+        }
 
-		if ($maxDist > $this->Epsilon) {
-			$this->SmoothingIndices[] = $offset + $index;
+        if ($maxDist > $this->Epsilon) {
+            $this->SmoothingIndices[] = $offset + $index;
 
-			$recResults1 = $this->smoothPart(array_slice($data, 0, $index + 1), $offset);
-			$recResults2 = $this->smoothPart(array_slice($data, $index, $num - $index), $offset + $index);
+            $recResults1 = $this->smoothPart(array_slice($data, 0, $index + 1), $offset);
+            $recResults2 = $this->smoothPart(array_slice($data, $index, $num - $index), $offset + $index);
 
-			return array_merge(array_slice($recResults1, 0, count($recResults1) - 1), array_slice($recResults2, 0, count($recResults2)));
-		}
+            return array_merge(array_slice($recResults1, 0, count($recResults1) - 1), array_slice($recResults2, 0, count($recResults2)));
+        }
 
-		return [$data[0], $data[$num - 1]];
-	}
+        return [$data[0], $data[$num - 1]];
+    }
 }

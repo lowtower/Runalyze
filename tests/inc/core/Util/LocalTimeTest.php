@@ -48,12 +48,12 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(time(), (new LocalTime(time()))->getTimestamp(), 1);
     }
 
-	public function testThatServerTimezoneIsIgnored()
-	{
-		$this->assertEquals(date('d.m.Y H:i'), LocalTime::fromServerTime(time())->format('d.m.Y H:i'));
+    public function testThatServerTimezoneIsIgnored()
+    {
+        $this->assertEquals(date('d.m.Y H:i'), LocalTime::fromServerTime(time())->format('d.m.Y H:i'));
         $this->assertEquals('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
         $this->assertEquals('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
-	}
+    }
 
     public function testThatCurrentHourKeepsCurrentHourWithDSTchange()
     {

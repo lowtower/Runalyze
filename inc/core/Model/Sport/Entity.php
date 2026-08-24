@@ -21,249 +21,272 @@ use Runalyze\View\Icon\SportIcon;
  */
 class Entity extends Model\EntityWithID implements ProfileInterface
 {
-	/**
-	 * Key: name
-	 * @var string
-	 */
-	const NAME = 'name';
+    /**
+     * Key: name
+     * @var string
+     */
+    public const NAME = 'name';
 
-	/**
-	 * Key: img
-	 * @var string
-	 */
-	const IMAGE = 'img';
+    /**
+     * Key: img
+     * @var string
+     */
+    public const IMAGE = 'img';
 
-	/**
-	 * Key: short display
-	 * @var string
-	 */
-	const SHORT = 'short';
+    /**
+     * Key: short display
+     * @var string
+     */
+    public const SHORT = 'short';
 
-	/**
-	 * Key: kcal/h
-	 * @var string
-	 */
-	const CALORIES_PER_HOUR = 'kcal';
+    /**
+     * Key: kcal/h
+     * @var string
+     */
+    public const CALORIES_PER_HOUR = 'kcal';
 
-	/**
-	 * Key: average heart rate
-	 * @var string
-	 */
-	const HR_AVG = 'HFavg';
+    /**
+     * Key: average heart rate
+     * @var string
+     */
+    public const HR_AVG = 'HFavg';
 
-	/**
-	 * Key: pace unit
-	 * @var string
-	 */
-	const PACE_UNIT = 'speed';
+    /**
+     * Key: pace unit
+     * @var string
+     */
+    public const PACE_UNIT = 'speed';
 
-	/**
-	 * Key: has distances
-	 * @var string
-	 */
-	const HAS_DISTANCES = 'distances';
+    /**
+     * Key: has distances
+     * @var string
+     */
+    public const HAS_DISTANCES = 'distances';
 
-	/**
-	 * Key: has power
-	 * @var string
-	 */
-	const HAS_POWER = 'power';
+    /**
+     * Key: has power
+     * @var string
+     */
+    public const HAS_POWER = 'power';
 
-	/**
-	 * Key: is outside
-	 * @var string
-	 */
-	const IS_OUTSIDE = 'outside';
+    /**
+     * Key: is outside
+     * @var string
+     */
+    public const IS_OUTSIDE = 'outside';
 
-	/**
-	 * Key: lower bounds of the hr zones while the activity is done
-	 * @var string
-	 */
-	const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+    /**
+     * Key: lower bounds of the hr zones while the activity is done
+     * @var string
+     */
+    public const HR_ZONE_BOUNDS = 'hr_zone_bounds';
 
-	/**
-	 * Key: id of main equipment (used for dataset)
-	 * @var string
-	 */
-	const MAIN_EQUIPMENTTYPEID = 'main_equipmenttypeid';
+    /**
+     * Key: id of main equipment (used for dataset)
+     * @var string
+     */
+    public const MAIN_EQUIPMENTTYPEID = 'main_equipmenttypeid';
 
-	/**
-	 * Key: id of default sport type (used for multi import/automatic upload)
-	 * @var string
-	 */
-	const DEFAULT_TYPEID = 'default_typeid';
+    /**
+     * Key: id of default sport type (used for multi import/automatic upload)
+     * @var string
+     */
+    public const DEFAULT_TYPEID = 'default_typeid';
 
-	/**
-	 * @var string
-	 */
-	const IS_MAIN = 'is_main';
+    /**
+     * @var string
+     */
+    public const IS_MAIN = 'is_main';
 
-	/**
-	 * @var string
-	 */
-	const INTERNAL_SPORT_ID = 'internal_sport_id';
+    /**
+     * @var string
+     */
+    public const INTERNAL_SPORT_ID = 'internal_sport_id';
 
     /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties(): array {
-		return [
-		    self::NAME,
-		    self::IMAGE,
-		    self::SHORT,
-		    self::CALORIES_PER_HOUR,
-		    self::HR_AVG,
-		    self::HAS_DISTANCES,
-		    self::PACE_UNIT,
-		    self::HAS_POWER,
-		    self::IS_OUTSIDE,
-		    self::HR_ZONE_BOUNDS,
-		    self::MAIN_EQUIPMENTTYPEID,
-		    self::DEFAULT_TYPEID,
-		    self::IS_MAIN,
-		    self::INTERNAL_SPORT_ID,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::NAME,
+            self::IMAGE,
+            self::SHORT,
+            self::CALORIES_PER_HOUR,
+            self::HR_AVG,
+            self::HAS_DISTANCES,
+            self::PACE_UNIT,
+            self::HAS_POWER,
+            self::IS_OUTSIDE,
+            self::HR_ZONE_BOUNDS,
+            self::MAIN_EQUIPMENTTYPEID,
+            self::DEFAULT_TYPEID,
+            self::IS_MAIN,
+            self::INTERNAL_SPORT_ID,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
     /**
      * Is the property an array?
      * @param string $key
      */
-    public function isArray($key): bool {
-		return $key == self::HR_ZONE_BOUNDS;
-	}
+    public function isArray($key): bool
+    {
+        return $key == self::HR_ZONE_BOUNDS;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function name() {
-		return $this->Data[self::NAME];
-	}
-
-    public function getName() {
+    /**
+     * @return string
+     */
+    public function name()
+    {
         return $this->Data[self::NAME];
     }
 
-    public function getInternalProfileEnum() {
+    public function getName()
+    {
+        return $this->Data[self::NAME];
+    }
+
+    public function getInternalProfileEnum()
+    {
         return $this->Data[self::INTERNAL_SPORT_ID] ?: SportProfile::GENERIC;
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function icon(): \Runalyze\View\Icon\SportIcon {
-		return new SportIcon($this->Data[self::IMAGE]);
-	}
+    public function icon(): \Runalyze\View\Icon\SportIcon
+    {
+        return new SportIcon($this->Data[self::IMAGE]);
+    }
 
-	public function getIconClass() {
+    public function getIconClass()
+    {
         return $this->Data[self::IMAGE];
     }
 
     /**
      * Uses short display?
      */
-    public function usesShortDisplay(): bool {
-		return $this->Data[self::SHORT] == 1;
-	}
+    public function usesShortDisplay(): bool
+    {
+        return $this->Data[self::SHORT] == 1;
+    }
 
-	/**
-	 * Calories per hour
-	 * @return int
-	 */
-	public function caloriesPerHour() {
-		return $this->Data[self::CALORIES_PER_HOUR];
-	}
-
-    public function getCaloriesPerHour() {
+    /**
+     * Calories per hour
+     * @return int
+     */
+    public function caloriesPerHour()
+    {
         return $this->Data[self::CALORIES_PER_HOUR];
     }
 
-	/**
-	 * Average heartrate
-	 * @return int
-	 */
-	public function avgHR() {
-		return $this->Data[self::HR_AVG];
-	}
+    public function getCaloriesPerHour()
+    {
+        return $this->Data[self::CALORIES_PER_HOUR];
+    }
 
-    public function getAverageHeartRate() {
+    /**
+     * Average heartrate
+     * @return int
+     */
+    public function avgHR()
+    {
         return $this->Data[self::HR_AVG];
     }
 
-	/**
-	 * Pace unit
-	 * @return \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	public function legacyPaceUnit() {
+    public function getAverageHeartRate()
+    {
+        return $this->Data[self::HR_AVG];
+    }
+
+    /**
+     * Pace unit
+     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    public function legacyPaceUnit()
+    {
         return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT]);
-	}
+    }
 
-	/**
-	 * Pace unit
-	 * @return int see \Runalyze\Activity\Pace or \Runalyze\Parameter\Application\PaceUnit
-	 */
-	public function getLegacyPaceUnitEnum() {
-		return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
-	}
+    /**
+     * Pace unit
+     * @return int see \Runalyze\Activity\Pace or \Runalyze\Parameter\Application\PaceUnit
+     */
+    public function getLegacyPaceUnitEnum()
+    {
+        return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
+    }
 
-    public function getPaceUnitEnum() {
+    public function getPaceUnitEnum()
+    {
         return $this->Data[self::PACE_UNIT];
     }
 
     /**
      * Has distances?
      */
-    public function hasDistances(): bool {
-		return $this->Data[self::HAS_DISTANCES] == 1;
-	}
+    public function hasDistances(): bool
+    {
+        return $this->Data[self::HAS_DISTANCES] == 1;
+    }
 
     /**
      * Has power?
      */
-    public function hasPower(): bool {
-		return $this->Data[self::HAS_POWER] == 1;
-	}
+    public function hasPower(): bool
+    {
+        return $this->Data[self::HAS_POWER] == 1;
+    }
 
     /**
      * Is this sport outside?
      */
-    public function isOutside(): bool {
-		return $this->Data[self::IS_OUTSIDE] == 1;
-	}
+    public function isOutside(): bool
+    {
+        return $this->Data[self::IS_OUTSIDE] == 1;
+    }
 
-	/**
-	 * Average lower bounds of the hr zones
-	 * @return null|array [bpm]
-	 */
-	public function hrZoneBounds() {
-		return $this->Data[self::HR_ZONE_BOUNDS];
-	}
+    /**
+     * Average lower bounds of the hr zones
+     * @return null|array [bpm]
+     */
+    public function hrZoneBounds()
+    {
+        return $this->Data[self::HR_ZONE_BOUNDS];
+    }
 
-	/**
-	 * ID of main equipment type
-	 * @return int
-	 */
-	public function mainEquipmentTypeID() {
-		return $this->Data[self::MAIN_EQUIPMENTTYPEID];
-	}
+    /**
+     * ID of main equipment type
+     * @return int
+     */
+    public function mainEquipmentTypeID()
+    {
+        return $this->Data[self::MAIN_EQUIPMENTTYPEID];
+    }
 
-	/**
-	 * ID of default type
-	 * @return int
-	 */
-	public function defaultTypeID() {
-		return $this->Data[self::DEFAULT_TYPEID];
-	}
+    /**
+     * ID of default type
+     * @return int
+     */
+    public function defaultTypeID()
+    {
+        return $this->Data[self::DEFAULT_TYPEID];
+    }
 
-    public function isMainSport(): bool {
+    public function isMainSport(): bool
+    {
         return $this->Data[self::IS_MAIN] == 1;
     }
 }

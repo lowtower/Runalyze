@@ -7,27 +7,29 @@ namespace Runalyze\Parameter\Application;
  */
 class TemperatureUnitTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\Temperature
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\Temperature
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new TemperatureUnit();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new TemperatureUnit();
+    }
 
-	public function testHasTemperature() {
+    public function testHasTemperature()
+    {
 
-		$this->object->set(TemperatureUnit::CELSIUS );
-		$this->assertTrue( $this->object->isCelsius() );
-		$this->assertFalse( $this->object->isFahrenheit() );
+        $this->object->set(TemperatureUnit::CELSIUS);
+        $this->assertTrue($this->object->isCelsius());
+        $this->assertFalse($this->object->isFahrenheit());
 
-		$this->object->set( TemperatureUnit::FAHRENHEIT );
-		$this->assertFalse( $this->object->isCelsius() );
-		$this->assertTrue( $this->object->isFahrenheit() );
-	}
+        $this->object->set(TemperatureUnit::FAHRENHEIT);
+        $this->assertFalse($this->object->isCelsius());
+        $this->assertTrue($this->object->isFahrenheit());
+    }
 }

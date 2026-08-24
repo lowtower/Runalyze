@@ -17,210 +17,226 @@ use Runalyze\Parameter\Application\WeightUnit;
  */
 class Weight implements ValueInterface
 {
-	/**
-	 * Default poun d multiplier
-	 * @var float
-	 */
-	const POUNDS_MULTIPLIER = 2.204622;
+    /**
+     * Default poun d multiplier
+     * @var float
+     */
+    public const POUNDS_MULTIPLIER = 2.204622;
 
-	/**
-	 * Default stone multiplier
-	 * @var float
-	 */
-	const STONES_MULTIPLIER = 0.157473;
+    /**
+     * Default stone multiplier
+     * @var float
+     */
+    public const STONES_MULTIPLIER = 0.157473;
 
-	/**
-	 * Default number of decimals
-	 * @var int
-	 */
-	public static $DefaultDecimals = 1;
+    /**
+     * Default number of decimals
+     * @var int
+     */
+    public static $DefaultDecimals = 1;
 
-	/**
-	 * Weight [kg]
-	 * @var float
-	 */
-	protected $Weight;
+    /**
+     * Weight [kg]
+     * @var float
+     */
+    protected $Weight;
 
-	/**
-	 * Preferred unit
-	 * @var \Runalyze\Parameter\Application\WeightUnit
-	 */
-	protected $PreferredUnit;
+    /**
+     * Preferred unit
+     * @var \Runalyze\Parameter\Application\WeightUnit
+     */
+    protected $PreferredUnit;
 
     /**
      * @param float $weight [kg]
      * @param bool $withUnit [optional] with or without unit
      * @param int $decimals [optional] number of decimals
      */
-    public static function format($weight, $withUnit = true, $decimals = false): string {
-		return (new self($weight))->string($withUnit, $decimals);
-	}
+    public static function format($weight, $withUnit = true, $decimals = false): string
+    {
+        return (new self($weight))->string($withUnit, $decimals);
+    }
 
-	/**
-	 * @param float $weight [kg]
-	 */
-	public function __construct($weight = 0, ?WeightUnit $preferredUnit = null) {
-		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\WeightUnit) ? $preferredUnit : Configuration::General()->weightUnit();
+    /**
+     * @param float $weight [kg]
+     */
+    public function __construct($weight = 0, ?WeightUnit $preferredUnit = null)
+    {
+        $this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\WeightUnit) ? $preferredUnit : Configuration::General()->weightUnit();
 
-		$this->set($weight);
-	}
+        $this->set($weight);
+    }
 
-	public function label(): string {
-		return __('Weight');
-	}
+    public function label(): string
+    {
+        return __('Weight');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function unit() {
-		return $this->PreferredUnit->unit();
-	}
+    /**
+     * @return string
+     */
+    public function unit()
+    {
+        return $this->PreferredUnit->unit();
+    }
 
-	/**
-	 * Set weight
-	 * @param float $weight [kg]
-	 * @return \Runalyze\Activity\Weight $this-reference
-	 */
-	public function set($weight): self {
-		$this->Weight = (float) str_replace(',', '.', $weight);
+    /**
+     * Set weight
+     * @param float $weight [kg]
+     * @return \Runalyze\Activity\Weight $this-reference
+     */
+    public function set($weight): self
+    {
+        $this->Weight = (float) str_replace(',', '.', $weight);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set weight in pounds
-	 * @param float $weight [pounds]
-	 * @return \Runalyze\Activity\Weight $this-reference
-	 */
-	public function setPounds($weight): self {
-		$this->Weight = (float) str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
+    /**
+     * Set weight in pounds
+     * @param float $weight [pounds]
+     * @return \Runalyze\Activity\Weight $this-reference
+     */
+    public function setPounds($weight): self
+    {
+        $this->Weight = (float) str_replace(',', '.', $weight) / self::POUNDS_MULTIPLIER;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set weight in stones
-	 * @param float $weight [stones]
-	 * @return \Runalyze\Activity\Weight $this-reference
-	 */
-	public function setStones($weight): self {
-		$this->Weight = (float) str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
+    /**
+     * Set weight in stones
+     * @param float $weight [stones]
+     * @return \Runalyze\Activity\Weight $this-reference
+     */
+    public function setStones($weight): self
+    {
+        $this->Weight = (float) str_replace(',', '.', $weight) / self::STONES_MULTIPLIER;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param float $weight [mixed unit]
-	 * @return \Runalyze\Activity\Weight $this-reference
-	 */
-	public function setInPreferredUnit($weight): self {
-		if ($this->PreferredUnit->isPounds()) {
-			$this->setPounds($weight);
-		} elseif ($this->PreferredUnit->isStones()) {
-			$this->setStones($weight);
-		} else {
-			$this->set($weight);
-		}
+    /**
+     * @param float $weight [mixed unit]
+     * @return \Runalyze\Activity\Weight $this-reference
+     */
+    public function setInPreferredUnit($weight): self
+    {
+        if ($this->PreferredUnit->isPounds()) {
+            $this->setPounds($weight);
+        } elseif ($this->PreferredUnit->isStones()) {
+            $this->setStones($weight);
+        } else {
+            $this->set($weight);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Format weight as string
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
      */
-    public function string($withUnit = true, $decimals = false): string {
-		if ($this->PreferredUnit->isPounds()) {
-			return $this->stringPounds($withUnit, $decimals);
-		}
+    public function string($withUnit = true, $decimals = false): string
+    {
+        if ($this->PreferredUnit->isPounds()) {
+            return $this->stringPounds($withUnit, $decimals);
+        }
 
-		if ($this->PreferredUnit->isStones()) {
-			return $this->stringStones($withUnit, $decimals);
-		}
+        if ($this->PreferredUnit->isStones()) {
+            return $this->stringStones($withUnit, $decimals);
+        }
 
-		return $this->stringKG($withUnit, $decimals);
-	}
+        return $this->stringKG($withUnit, $decimals);
+    }
 
-	/**
-	 * @return float [kg]
-	 */
-	public function value() {
-		return $this->Weight;
-	}
+    /**
+     * @return float [kg]
+     */
+    public function value()
+    {
+        return $this->Weight;
+    }
 
-	/**
-	 * Weight
-	 * @return float [kg]
-	 */
-	public function kg() {
-		return $this->Weight;
-	}
+    /**
+     * @return float [kg]
+     */
+    public function kg()
+    {
+        return $this->Weight;
+    }
 
-	/**
-	 * Weight in pounds
-	 * @return float [lbs]
-	 */
-	public function pounds(): float {
-		return $this->Weight * self::POUNDS_MULTIPLIER;
-	}
+    /**
+     * Weight in pounds
+     * @return float [lbs]
+     */
+    public function pounds(): float
+    {
+        return $this->Weight * self::POUNDS_MULTIPLIER;
+    }
 
-	/**
-	 * Weight in stones
-	 * @return float [st]
-	 */
-	public function stones(): float {
-		return $this->Weight * self::STONES_MULTIPLIER;
-	}
+    /**
+     * Weight in stones
+     * @return float [st]
+     */
+    public function stones(): float
+    {
+        return $this->Weight * self::STONES_MULTIPLIER;
+    }
 
-	/**
-	 * @return float [mixed unit]
-	 */
-	public function valueInPreferredUnit() {
-		if ($this->PreferredUnit->isPounds()) {
-			return $this->pounds();
-		}
+    /**
+     * @return float [mixed unit]
+     */
+    public function valueInPreferredUnit()
+    {
+        if ($this->PreferredUnit->isPounds()) {
+            return $this->pounds();
+        }
 
-		if ($this->PreferredUnit->isStones()) {
-			return $this->stones();
-		}
+        if ($this->PreferredUnit->isStones()) {
+            return $this->stones();
+        }
 
-		return $this->kg();
-	}
+        return $this->kg();
+    }
 
-	/**
-	 * String: as kg
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string with unit
-	 */
-	public function stringKG($withUnit = true, $decimals = false): string {
-		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
+    /**
+     * String: as kg
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     * @return string with unit
+     */
+    public function stringKG($withUnit = true, $decimals = false): string
+    {
+        $decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->Weight, $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::KG : '');
-	}
+        return number_format($this->Weight, $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::KG : '');
+    }
 
-	/**
-	 * String: as pounds
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string with unit
-	 */
-	public function stringPounds($withUnit = true, $decimals = false): string {
-		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
+    /**
+     * String: as pounds
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     * @return string with unit
+     */
+    public function stringPounds($withUnit = true, $decimals = false): string
+    {
+        $decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->pounds(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::POUNDS : '');
-	}
+        return number_format($this->pounds(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::POUNDS : '');
+    }
 
-	/**
-	 * String: as stone
-	 * @param bool $withUnit [optional] show unit?
-	 * @param bool|int $decimals [optional] number of decimals
-	 * @return string with unit
-	 */
-	public function stringStones($withUnit = true, $decimals = false): string {
-		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
+    /**
+     * String: as stone
+     * @param bool $withUnit [optional] show unit?
+     * @param bool|int $decimals [optional] number of decimals
+     * @return string with unit
+     */
+    public function stringStones($withUnit = true, $decimals = false): string
+    {
+        $decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->stones(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::STONES : '');
-	}
+        return number_format($this->stones(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . WeightUnit::STONES : '');
+    }
 }

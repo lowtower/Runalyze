@@ -20,56 +20,59 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
  */
 class DataCollectorWithSwimdata extends DataCollector
 {
-	/**
-	 * @var \Runalyze\Model\Swimdata\Loop;
-	 */
-	protected $LoopSwimdata;
+    /**
+     * @var \Runalyze\Model\Swimdata\Loop;
+     */
+    protected $LoopSwimdata;
 
     /**
      * Construct collector
      * @param int $key
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata) {
-		if (! $swimdata->has($key)) {
-			throw new \InvalidArgumentException('Swimdata has no data for "' . $key . '".');
-		}
+    public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata)
+    {
+        if (! $swimdata->has($key)) {
+            throw new \InvalidArgumentException('Swimdata has no data for "' . $key . '".');
+        }
 
-		$this->Key = $key;
-		$this->Precision = Configuration::ActivityView()->plotPrecision();
-		$this->KnowsDistance = $trackdata->has(Trackdata::DISTANCE);
+        $this->Key = $key;
+        $this->Precision = Configuration::ActivityView()->plotPrecision();
+        $this->KnowsDistance = $trackdata->has(Trackdata::DISTANCE);
 
-		$this->init($trackdata);
-		$this->LoopSwimdata = new Loop($swimdata);
-		$this->collect();
-	}
+        $this->init($trackdata);
+        $this->LoopSwimdata = new Loop($swimdata);
+        $this->collect();
+    }
 
-	/**
-	 * Collect data
-	 */
-	protected function collect() {
-		do {
-			$this->move();
+    /**
+     * Collect data
+     */
+    protected function collect()
+    {
+        do {
+            $this->move();
 
-			$value = $this->LoopSwimdata->average($this->Key);
+            $value = $this->LoopSwimdata->average($this->Key);
 
-			if ($this->XAxis == self::X_AXIS_DISTANCE) {
-				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
-			} else {
-				$this->Data[] = $value;
-			}
-		} while (! $this->Loop->isAtEnd());
-	}
+            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+                $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
+            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+                $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
+            } else {
+                $this->Data[] = $value;
+            }
+        } while (! $this->Loop->isAtEnd());
+    }
 
-	/**
-	 * Get next step for plot data
-	 * @return bool
-	 */
-	protected function move() {
-		parent::move();
+    /**
+     * Get next step for plot data
+     * @return bool
+     */
+    protected function move()
+    {
+        parent::move();
 
-		$this->LoopSwimdata->goToIndex( $this->Loop->index() );
-	}
+        $this->LoopSwimdata->goToIndex($this->Loop->index());
+    }
 }

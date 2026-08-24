@@ -11,32 +11,32 @@ class AnalysisSelection extends Selection
     /**
      * @var string
      */
-    const DISTANCE = 'km';
+    public const DISTANCE = 'km';
 
     /**
      * @var string
      */
-    const TIME = 's';
+    public const TIME = 's';
 
     /**
      * @var string
      */
-    const ELEVATION = 'em';
+    public const ELEVATION = 'em';
 
     /**
      * @var string
      */
-    const ENERGY = 'kcal';
+    public const ENERGY = 'kcal';
 
     /**
      * @var string
      */
-    const TRIMP = 'trimp';
+    public const TRIMP = 'trimp';
 
     /**
      * @var string
      */
-    const NUMBER = 'n';
+    public const NUMBER = 'n';
 
     /**
      * @param mixed $currentKey

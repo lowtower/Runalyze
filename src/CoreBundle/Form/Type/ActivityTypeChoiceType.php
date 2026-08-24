@@ -22,14 +22,14 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                     $this->getAccount()
                         ->getActivityTypes()
                 ),
-            'choice_label' => function($type, $key, $index) {
+            'choice_label' => function ($type, $key, $index) {
                 /** @var Type $type */
                 return $type->getName();
             },
             'choice_value' => function (?Type $type = null) {
                 return $type ? $type->getId() : '';
             },
-            'choice_attr' => function($type, $key, $index): array {
+            'choice_attr' => function ($type, $key, $index): array {
                 /** @var Type $type */
                 return [
                     'data-sport' => $type->getSport()

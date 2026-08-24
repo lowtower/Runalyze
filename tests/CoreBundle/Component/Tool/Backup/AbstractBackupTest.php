@@ -15,7 +15,7 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
     /**
      * @var string
      */
-    const TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';
+    public const TESTFILE = '/../../../../../data/backup-tool/backup/test.json.gz';
 
     /**
      * @var AbstractBackup

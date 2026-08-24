@@ -9,39 +9,40 @@ use Runalyze\Util\InterfaceChoosable;
 
 class Gender extends AbstractEnum implements InterfaceChoosable
 {
-	/**
-	 * @var int
-	 */
-	const NONE = 0;
+    /**
+     * @var int
+     */
+    public const NONE = 0;
 
-	/**
-	 * @var int
-	 */
-	const MALE = 1;
+    /**
+     * @var int
+     */
+    public const MALE = 1;
 
-	/**
-	 * @var int
-	 */
-	const FEMALE = 2;
+    /**
+     * @var int
+     */
+    public const FEMALE = 2;
 
     /**
      * @param int $id id from internal enum
      */
-    static public function stringFor($id): string
-	{
-		switch ($id) {
+    public static function stringFor($id): string
+    {
+        switch ($id) {
             case self::NONE:
-				return __('not set');
-			case self::MALE:
-				return __('male');
-			case self::FEMALE:
-				return __('female');
-			default:
-				throw new \InvalidArgumentException('Invalid gender id "' . $id . '".');
-		}
-	}
+                return __('not set');
+            case self::MALE:
+                return __('male');
+            case self::FEMALE:
+                return __('female');
+            default:
+                throw new \InvalidArgumentException('Invalid gender id "' . $id . '".');
+        }
+    }
 
-    static public function getChoices(): array {
+    public static function getChoices(): array
+    {
         return [
             self::stringFor(self::NONE) => self::NONE,
             self::stringFor(self::MALE) => self::MALE,

@@ -18,13 +18,13 @@ use Runalyze\Activity\HeartRate;
 abstract class MaximalHeartRate extends AbstractBox
 {
     public function __construct(HeartRate $heartRate)
-	{
-		parent::__construct(
-		    $this->value($heartRate),
-		    $this->unit(),
-		    $this->label()
-		);
-	}
+    {
+        parent::__construct(
+            $this->value($heartRate),
+            $this->unit(),
+            $this->label()
+        );
+    }
 
     /**
      * @return string
@@ -36,11 +36,11 @@ abstract class MaximalHeartRate extends AbstractBox
      */
     abstract protected function unit();
 
-	/**
-	 * @return string
-	 */
-	protected function label()
-	{
-		return __('max.') . ' ' . __('Heart rate');
-	}
+    /**
+     * @return string
+     */
+    protected function label()
+    {
+        return __('max.') . ' ' . __('Heart rate');
+    }
 }

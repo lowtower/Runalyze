@@ -6,9 +6,10 @@ namespace Runalyze\Model;
 
 class EntityWithID_MockTester extends EntityWithID
 {
-	public function properties(): array {
-		return ['foo'];
-	}
+    public function properties(): array
+    {
+        return ['foo'];
+    }
 }
 
 /**
@@ -16,30 +17,32 @@ class EntityWithID_MockTester extends EntityWithID
  */
 class EntityWithIDTest extends \PHPUnit\Framework\TestCase
 {
-	public function testConstructorWithoutID() {
-		$O = new EntityWithID_MockTester([
-		    'foo' => 'bar',
-		]);
+    public function testConstructorWithoutID()
+    {
+        $O = new EntityWithID_MockTester([
+            'foo' => 'bar',
+        ]);
 
-		$this->assertFalse( $O->hasID() );
-		$this->assertNull( $O->id() );
+        $this->assertFalse($O->hasID());
+        $this->assertNull($O->id());
 
-		$this->assertEquals( [
-		    'foo' => 'bar',
-		], $O->completeData() );
-	}
+        $this->assertEquals([
+            'foo' => 'bar',
+        ], $O->completeData());
+    }
 
-	public function testConstructorWithID() {
-		$O = new EntityWithID_MockTester([
-		    'foo' => 'bar',
-		    'id' => 1,
-		]);
+    public function testConstructorWithID()
+    {
+        $O = new EntityWithID_MockTester([
+            'foo' => 'bar',
+            'id' => 1,
+        ]);
 
-		$this->assertTrue( $O->hasID() );
-		$this->assertEquals( 1, $O->id() );
+        $this->assertTrue($O->hasID());
+        $this->assertEquals(1, $O->id());
 
-		$this->assertEquals( [
-		    'foo' => 'bar',
-		], $O->completeData() );
-	}
+        $this->assertEquals([
+            'foo' => 'bar',
+        ], $O->completeData());
+    }
 }

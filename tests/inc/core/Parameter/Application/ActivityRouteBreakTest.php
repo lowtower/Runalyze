@@ -9,22 +9,24 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityRouteBreakTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\ActivityRouteBreak
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\ActivityRouteBreak
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new ActivityRouteBreak();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new ActivityRouteBreak();
+    }
 
-	public function testNever() {
-		$this->assertFalse( $this->object->never() );
-		$this->object->set( ActivityRouteBreak::NO_BREAK );
-		$this->assertTrue( $this->object->never() );
-	}
+    public function testNever()
+    {
+        $this->assertFalse($this->object->never());
+        $this->object->set(ActivityRouteBreak::NO_BREAK);
+        $this->assertTrue($this->object->never());
+    }
 }

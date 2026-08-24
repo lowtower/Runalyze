@@ -17,130 +17,148 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TableZonesAbstract
 {
-	/**
-	 * @var int [s]
-	 */
-	const MINIMUM_TIME_IN_ZONE = 10;
+    /**
+     * @var int [s]
+     */
+    public const MINIMUM_TIME_IN_ZONE = 10;
 
-	/**
-	 * Context
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * Context
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	/**
-	 * Data
-	 * @var array
-	 */
-	protected $Data = [];
+    /**
+     * Data
+     * @var array
+     */
+    protected $Data = [];
 
-	private $TitlePercent = ''; // #TSC
+    private $TitlePercent = ''; // #TSC
 
-    public function __construct(Context $context) {
-		$this->Context = $context;
+    public function __construct(Context $context)
+    {
+        $this->Context = $context;
 
-		if ($this->Context->trackdata()->has(Runalyze\Model\Trackdata\Entity::TIME)) {
-			$this->initData();
-			$this->convertData();
-		}
-	}
+        if ($this->Context->trackdata()->has(Runalyze\Model\Trackdata\Entity::TIME)) {
+            $this->initData();
+            $this->convertData();
+        }
+    }
 
-	/**
-	 * Get title for average
-	 * @return string
-	 */
-	public function titleForAverage() { return ''; }
+    /**
+     * Get title for average
+     * @return string
+     */
+    public function titleForAverage()
+    {
+        return '';
+    }
 
     /**
      * Show average?
      */
-    private function showAverage(): bool { return $this->titleForAverage() != ''; }
+    private function showAverage(): bool
+    {
+        return $this->titleForAverage() != '';
+    }
 
-	abstract protected function initData();
+    abstract protected function initData();
 
-	/**
-	 * Get hint for footer #TSC
-	 * @return string
-	 */
-	public function footerHint() { return null; }
+    /**
+     * Get hint for footer #TSC
+     * @return string
+     */
+    public function footerHint()
+    {
+        return null;
+    }
 
-	private function convertData() {
-		$totalTime = 0;
-		$totalDist = 0;
+    private function convertData()
+    {
+        $totalTime = 0;
+        $totalDist = 0;
 
-		foreach ($this->Data as $Info) {
- 			$totalTime += $Info['time'];
-			$totalDist += $Info['distance'];
-		}
+        foreach ($this->Data as $Info) {
+            $totalTime += $Info['time'];
+            $totalDist += $Info['distance'];
+        }
 
-		foreach ($this->Data as $i => $Info) {
-			if ($totalTime > 0) {
-				$percentage = round(100 * $Info['time'] / $totalTime, 1);
-				$this->TitlePercent = 'Time';
-			} elseif ($totalDist > 0) {
-				$percentage = round(100 * $Info['distance'] / $totalDist, 1);
-				$this->TitlePercent = 'Distance';
-			} else {
-				$percentage = '-';
-			}
+        foreach ($this->Data as $i => $Info) {
+            if ($totalTime > 0) {
+                $percentage = round(100 * $Info['time'] / $totalTime, 1);
+                $this->TitlePercent = 'Time';
+            } elseif ($totalDist > 0) {
+                $percentage = round(100 * $Info['distance'] / $totalDist, 1);
+                $this->TitlePercent = 'Distance';
+            } else {
+                $percentage = '-';
+            }
 
-			$this->Data[$i]['percentage'] = $percentage;
-			$this->Data[$i]['time'] = $totalTime > 0 ? Duration::format($Info['time']) : '-';
-			$this->Data[$i]['distance'] = $totalDist > 0 ? Distance::format($Info['distance']) : '-';
-		}
-	}
+            $this->Data[$i]['percentage'] = $percentage;
+            $this->Data[$i]['time'] = $totalTime > 0 ? Duration::format($Info['time']) : '-';
+            $this->Data[$i]['distance'] = $totalDist > 0 ? Distance::format($Info['distance']) : '-';
+        }
+    }
 
-	/**
-	 * Display
-	 * @return string
-	 */
-	final public function getCode() {
-		if ($this->Data === [])
-			return '';
+    /**
+     * Display
+     * @return string
+     */
+    final public function getCode()
+    {
+        if ($this->Data === []) {
+            return '';
+        }
 
-		$Code = '<table class="fullwidth bar-chart-table">';
-		$Code .= '<thead><tr>';
-		$Code .= '<th>' . __('Zone') . '</th>';
-		$Code .= '<th style="text-align: left;">% ' . __($this->TitlePercent) . '</th>'; // #TSC set the table column title
-		$Code .= '<th>' . __('Time') . '</th>';
-		$Code .= '<th>' . __('Distance') . '</th>';
-		if ($this->showAverage()) $Code .= '<th>' . $this->titleForAverage() . '</th>';
+        $Code = '<table class="fullwidth bar-chart-table">';
+        $Code .= '<thead><tr>';
+        $Code .= '<th>' . __('Zone') . '</th>';
+        $Code .= '<th style="text-align: left;">% ' . __($this->TitlePercent) . '</th>'; // #TSC set the table column title
+        $Code .= '<th>' . __('Time') . '</th>';
+        $Code .= '<th>' . __('Distance') . '</th>';
+        if ($this->showAverage()) {
+            $Code .= '<th>' . $this->titleForAverage() . '</th>';
+        }
 
-		$Code .= '</tr></thead>';
+        $Code .= '</tr></thead>';
 
-		$Code .= '<tbody>';
-		$Code .= $this->getDataCode();
-		$Code .= '</tbody>';
-		$Code .= '</table>';
+        $Code .= '<tbody>';
+        $Code .= $this->getDataCode();
+        $Code .= '</tbody>';
+        $Code .= '</table>';
 
-		if (! empty($this->footerHint())) {
-			$Code .= HTML::info($this->footerHint());
-		}
+        if (! empty($this->footerHint())) {
+            $Code .= HTML::info($this->footerHint());
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
     /**
      * Display data
      */
-    private function getDataCode(): string {
-		$Code = '';
+    private function getDataCode(): string
+    {
+        $Code = '';
 
-		foreach ($this->Data as $Info) {
-			$Code .= '<tr>';
-			$Code .= '<td class="bar-chart-label">' . $Info['zone'] . '</td>';
+        foreach ($this->Data as $Info) {
+            $Code .= '<tr>';
+            $Code .= '<td class="bar-chart-label">' . $Info['zone'] . '</td>';
 
-			// #TSC support of colors for the percent bar
-			$stylecolor = array_key_exists('color', $Info) ? 'background:' . $Info['color'] . ';' : '';
-			$Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:' . $Info['percentage'] . '%;' . $stylecolor . '"></span> <span class="bar-chart-text">' . $Info['percentage'] . ' &#37;</span></td>';
+            // #TSC support of colors for the percent bar
+            $stylecolor = array_key_exists('color', $Info) ? 'background:' . $Info['color'] . ';' : '';
+            $Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:' . $Info['percentage'] . '%;' . $stylecolor . '"></span> <span class="bar-chart-text">' . $Info['percentage'] . ' &#37;</span></td>';
 
-			$Code .= '<td>' . $Info['time'] . '</td>';
-			$Code .= '<td>' . $Info['distance'] . '</td>';
-			if ($this->showAverage()) $Code .= '<td>' . $Info['average'] . '</td>';
+            $Code .= '<td>' . $Info['time'] . '</td>';
+            $Code .= '<td>' . $Info['distance'] . '</td>';
+            if ($this->showAverage()) {
+                $Code .= '<td>' . $Info['average'] . '</td>';
+            }
 
-			$Code .= '</tr>';
-		}
+            $Code .= '</tr>';
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 }

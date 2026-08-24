@@ -19,22 +19,24 @@ use Runalyze\View\Activity;
  */
 class PaceAndHeartrate extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'pacehr';
-	}
+    protected function setKey()
+    {
+        $this->key = 'pacehr';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$allSeries = [
-		    new Series\Pace($context),
-		    new Series\Heartrate($context),
-		];
+    protected function initData(Activity\Context $context)
+    {
+        $allSeries = [
+            new Series\Pace($context),
+            new Series\Heartrate($context),
+        ];
 
-		$this->addMultipleSeries($allSeries);
+        $this->addMultipleSeries($allSeries);
 
-		// #TSC add GAP, but not via addMultipleSeries, bacause yAxis must the same as the Pace series
-		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
-		$this->addSeries($GradeAdjustedPaceSeries, 1, false);
+        // #TSC add GAP, but not via addMultipleSeries, bacause yAxis must the same as the Pace series
+        $GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);
+        $this->addSeries($GradeAdjustedPaceSeries, 1, false);
 
-		$this->Plot->Options['legend']['hidden'] = [$GradeAdjustedPaceSeries->label()]; // hide GAP by default
-	}
+        $this->Plot->Options['legend']['hidden'] = [$GradeAdjustedPaceSeries->label()]; // hide GAP by default
+    }
 }

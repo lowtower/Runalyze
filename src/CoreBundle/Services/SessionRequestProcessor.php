@@ -33,4 +33,3 @@ class SessionRequestProcessor
         return $record;
     }
 }
-

@@ -19,18 +19,19 @@ use Runalyze\Profile\Sport\SportProfile;
 class GradeAdjustedPace extends AbstractBox
 {
     public function __construct(\Runalyze\View\Activity\Context $context)
-	{
-		$Pace = $context->dataview()
-		    ->GApace($context);
+    {
+        $Pace = $context->dataview()
+            ->GApace($context);
 
-		parent::__construct(
-		    $Pace->value(),
-		    $Pace->appendix(),
-		    __('avg.') . ' ' . ($Pace->unit()->isTimeFormat() ? 'GAP' : 'GAP Speed')
-		);
-	}
+        parent::__construct(
+            $Pace->value(),
+            $Pace->appendix(),
+            __('avg.') . ' ' . ($Pace->unit()->isTimeFormat() ? 'GAP' : 'GAP Speed')
+        );
+    }
 
-    public static function hasPace(\Runalyze\View\Activity\Context $context): bool {
+    public static function hasPace(\Runalyze\View\Activity\Context $context): bool
+    {
         return $context->sport()
             ->getInternalProfileEnum() == SportProfile::RUNNING
             && $context->hasRoute() && $context->route()

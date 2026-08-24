@@ -9,36 +9,40 @@ namespace Runalyze\Calculation\Elevation;
  */
 class DistanceModifierTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleModification() {
-		$Modifier = new DistanceModifier(10, 200, 100);
-		$Modifier->setCorrectionValues(+2, -1);
+    public function testSimpleModification()
+    {
+        $Modifier = new DistanceModifier(10, 200, 100);
+        $Modifier->setCorrectionValues(+2, -1);
 
-		$this->assertEquals(0.3, $Modifier->additionalDistance());
-		$this->assertEquals(10.3, $Modifier->correctedDistance());
-	}
+        $this->assertEquals(0.3, $Modifier->additionalDistance());
+        $this->assertEquals(10.3, $Modifier->correctedDistance());
+    }
 
-	public function testNoModification() {
-		$Modifier = new DistanceModifier(10);
+    public function testNoModification()
+    {
+        $Modifier = new DistanceModifier(10);
 
-		$this->assertEquals(0.0, $Modifier->additionalDistance());
-		$this->assertEquals(10.0, $Modifier->correctedDistance());
-	}
+        $this->assertEquals(0.0, $Modifier->additionalDistance());
+        $this->assertEquals(10.0, $Modifier->correctedDistance());
+    }
 
-	public function testNegativeModification() {
-		$Modifier = new DistanceModifier(10, 200, 500);
-		$Modifier->setCorrectionValues(+2, -1);
+    public function testNegativeModification()
+    {
+        $Modifier = new DistanceModifier(10, 200, 500);
+        $Modifier->setCorrectionValues(+2, -1);
 
-		$this->assertEquals(-0.1, $Modifier->additionalDistance());
-		$this->assertEquals(9.9, $Modifier->correctedDistance());
-	}
+        $this->assertEquals(-0.1, $Modifier->additionalDistance());
+        $this->assertEquals(9.9, $Modifier->correctedDistance());
+    }
 
-	public function testConfigurationSettings() {
-		$VO2maxConfig = new \Runalyze\Configuration\Category\VO2max();
-		$Modifier = new DistanceModifier(10, 100, 100, $VO2maxConfig);
+    public function testConfigurationSettings()
+    {
+        $VO2maxConfig = new \Runalyze\Configuration\Category\VO2max();
+        $Modifier = new DistanceModifier(10, 100, 100, $VO2maxConfig);
 
-		$addition = 0.1 * $VO2maxConfig->correctionForPositiveElevation() + 0.1 * $VO2maxConfig->correctionForNegativeElevation();
+        $addition = 0.1 * $VO2maxConfig->correctionForPositiveElevation() + 0.1 * $VO2maxConfig->correctionForNegativeElevation();
 
-		$this->assertEquals($addition, $Modifier->additionalDistance());
-		$this->assertEquals(10 + $addition, $Modifier->correctedDistance());
-	}
+        $this->assertEquals($addition, $Modifier->additionalDistance());
+        $this->assertEquals(10 + $addition, $Modifier->correctedDistance());
+    }
 }

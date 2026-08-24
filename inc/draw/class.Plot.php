@@ -14,71 +14,73 @@ use Runalyze\Configuration;
  */
 class Plot
 {
-	/**
-	 * CSS-ID for displaying this plot
-	 * @var string
-	 */
-	private $cssID = '';
+    /**
+     * CSS-ID for displaying this plot
+     * @var string
+     */
+    private $cssID = '';
 
-	/**
-	 * Width of the image
-	 * @var mixed
-	 */
-	private $width = false;
+    /**
+     * Width of the image
+     * @var mixed
+     */
+    private $width = false;
 
-	/**
-	 * Height of the image
-	 * @var int
-	 */
-	private $height = false;
+    /**
+     * Height of the image
+     * @var int
+     */
+    private $height = false;
 
-	/**
-	 * Internal Data, is public for direct access
-	 * @var array
-	 */
-	public $Data = [];
+    /**
+     * Internal Data, is public for direct access
+     * @var array
+     */
+    public $Data = [];
 
-	/**
-	 * Array for all options for FLOT
-	 * @var array
-	 */
-	public $Options = [];
+    /**
+     * Array for all options for FLOT
+     * @var array
+     */
+    public $Options = [];
 
-	/**
-	 * Options only used by Runalyze's plot handler
-	 * @var array
-	 */
-	public $PlotOptions = [];
+    /**
+     * Options only used by Runalyze's plot handler
+     * @var array
+     */
+    public $PlotOptions = [];
 
-	/**
-	 * Array containing annotations for this plot
-	 * @var array
-	 */
-	private $Annotations = [];
+    /**
+     * Array containing annotations for this plot
+     * @var array
+     */
+    private $Annotations = [];
 
-	/**
-	 * Error string
-	 * @var string
-	 */
-	private $ErrorString = '';
+    /**
+     * Error string
+     * @var string
+     */
+    private $ErrorString = '';
 
-	/**
-	 * @param string $cssID
-	 * @param mixed $width
-	 * @param mixed $height
-	 */
-	public function __construct($cssID, $width = 480, $height = 190) {
-		$this->width = $width;
-		$this->height = $height;
-		$this->cssID = $cssID;
-	}
+    /**
+     * @param string $cssID
+     * @param mixed $width
+     * @param mixed $height
+     */
+    public function __construct($cssID, $width = 480, $height = 190)
+    {
+        $this->width = $width;
+        $this->height = $height;
+        $this->cssID = $cssID;
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function raiseError($string) {
-		$this->ErrorString = $string;
-	}
+    /**
+     * @param string $string
+     */
+    public function raiseError($string)
+    {
+        $this->ErrorString = $string;
+    }
 
     /**
      * Get standard div for a special plot
@@ -86,9 +88,10 @@ class Plot
      * @param int $width
      * @param int $height
      */
-    public static function getDivFor($id, $width, $height): string {
-		return '<div style="position:relative;width:' . $width . 'px;height:' . $height . 'px;margin:0 auto;">' . self::getInnerDivFor($id, $width, $height) . '</div>';
-	}
+    public static function getDivFor($id, $width, $height): string
+    {
+        return '<div style="position:relative;width:' . $width . 'px;height:' . $height . 'px;margin:0 auto;">' . self::getInnerDivFor($id, $width, $height) . '</div>';
+    }
 
     /**
      * Get standard div for a special plot
@@ -98,314 +101,354 @@ class Plot
      * @param bool $hidden
      * @param string $class
      */
-    public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string {
-		return '<div class="flot ' . Ajax::$IMG_WAIT . ' ' . $class . ($hidden ? ' flot-hide' : '') . '" id="' . $id . '" style="width:' . $width . 'px;height:' . $height . 'px;position:absolute;"></div>';
-	}
+    public static function getInnerDivFor($id, $width, $height, $hidden = false, $class = ''): string
+    {
+        return '<div class="flot ' . Ajax::$IMG_WAIT . ' ' . $class . ($hidden ? ' flot-hide' : '') . '" id="' . $id . '" style="width:' . $width . 'px;height:' . $height . 'px;position:absolute;"></div>';
+    }
 
-	/**
-	 * Get a div for this plot
-	 */
-	public function getDiv(): string {
-		return self::getDivFor($this->cssID, $this->width, $this->height);
-	}
+    /**
+     * Get a div for this plot
+     */
+    public function getDiv(): string
+    {
+        return self::getDivFor($this->cssID, $this->width, $this->height);
+    }
 
-	public function outputDiv() {
-		echo $this->getDiv();
-	}
+    public function outputDiv()
+    {
+        echo $this->getDiv();
+    }
 
-	/**
-	 * @param bool $removeOldPlot
-	 */
-	public function outputJavaScript($removeOldPlot = false) {
-		if ($removeOldPlot)
-			echo Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
+    /**
+     * @param bool $removeOldPlot
+     */
+    public function outputJavaScript($removeOldPlot = false)
+    {
+        if ($removeOldPlot) {
+            echo Ajax::wrapJS('RunalyzePlot.remove("' . $this->cssID . '");');
+        }
 
-		$this->convertData();
+        $this->convertData();
 
-		$bindedCode = ((string) $this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
+        $bindedCode = ((string) $this->ErrorString !== '') ? $this->getJSForError() : $this->getMainJS();
 
-		echo Ajax::wrapJS('RunalyzePlot.preparePlot("' . $this->cssID . '","' . $this->width . '","' . $this->height . '",function(){' . $bindedCode . '});');
-	}
+        echo Ajax::wrapJS('RunalyzePlot.preparePlot("' . $this->cssID . '","' . $this->width . '","' . $this->height . '",function(){' . $bindedCode . '});');
+    }
 
     /**
      * Get main functionalities for this plot
      */
-    private function getMainJS(): string {
-		$encodedData = json_encode($this->Data);
+    private function getMainJS(): string
+    {
+        $encodedData = json_encode($this->Data);
 
-		if ($encodedData === false) {
-			$this->ErrorString = sprintf(
-			    '%s (%s: %u)',
-			    __('There is an unknown problem with this plot.'),
-			    __('Error code'),
-			    json_last_error()
-			);
+        if ($encodedData === false) {
+            $this->ErrorString = sprintf(
+                '%s (%s: %u)',
+                __('There is an unknown problem with this plot.'),
+                __('Error code'),
+                json_last_error()
+            );
 
-			return $this->getJSForError();
-		}
+            return $this->getJSForError();
+        }
 
-		return 'RunalyzePlot.addPlot("' . $this->cssID . '", ' .
-				$encodedData . ', ' .
-				Ajax::json_encode_jsfunc($this->Options) . ', ' .
-				json_encode($this->PlotOptions) . ', ' .
-				json_encode($this->Annotations) . ');';
-	}
+        return 'RunalyzePlot.addPlot("' . $this->cssID . '", ' .
+                $encodedData . ', ' .
+                Ajax::json_encode_jsfunc($this->Options) . ', ' .
+                json_encode($this->PlotOptions) . ', ' .
+                json_encode($this->Annotations) . ');';
+    }
 
     /**
      * Get code for an error
      */
-    private function getJSForError(): string {
-		return '$("#' . $this->cssID . '").append(\'<div class="flot-error"><span>' . $this->ErrorString . "</span></div>');";
-	}
+    private function getJSForError(): string
+    {
+        return '$("#' . $this->cssID . '").append(\'<div class="flot-error"><span>' . $this->ErrorString . "</span></div>');";
+    }
 
-	/**
-	 * Convert internal data to correct array for JSON
-	 */
-	private function convertData() {
-		foreach ($this->Data as $i => $Data) {
-			$Points = [];
-			foreach ($Data['data'] as $x => $y) {
-				$Points[] = [$x, $y];
-			}
+    /**
+     * Convert internal data to correct array for JSON
+     */
+    private function convertData()
+    {
+        foreach ($this->Data as $i => $Data) {
+            $Points = [];
+            foreach ($Data['data'] as $x => $y) {
+                $Points[] = [$x, $y];
+            }
 
-			$this->Data[$i]['data'] = $Points;
-		}
+            $this->Data[$i]['data'] = $Points;
+        }
 
-		if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply']))
-			$this->Options['series']['curvedLines']['apply'] = true;
+        if (Configuration::ActivityView()->smoothCurves() && ! isset($this->Options['series']['curvedLines']['apply'])) {
+            $this->Options['series']['curvedLines']['apply'] = true;
+        }
 
-		if ($this->Data === [] && (string) $this->ErrorString === '')
-			$this->raiseError('Es sind keine Daten vorhanden.');
-	}
+        if ($this->Data === [] && (string) $this->ErrorString === '') {
+            $this->raiseError('Es sind keine Daten vorhanden.');
+        }
+    }
 
-	/**
-	 * Set title to plot
-	 * @param string $title
-	 * @param string $position
-	 */
-	public function setTitle($title, $position = 'center') {
-		// Titles currently not supported anymore
-	}
+    /**
+     * Set title to plot
+     * @param string $title
+     * @param string $position
+     */
+    public function setTitle($title, $position = 'center')
+    {
+        // Titles currently not supported anymore
+    }
 
-	/**
-	 * Add an annotation to plot
-	 * @param float $x
-	 * @param float $y
-	 * @param string $text
-	 * @param float $toX relative repositioning in px
-	 * @param float $toY relative repositioning in px
-	 */
-	public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0) {
-		$this->Annotations[] = [
-		    'x' => $x,
-		    'y' => $y,
-		    'text' => $text,
-		    'toX' => $toX,
-		    'toY' => $toY,
-		];
-	}
+    /**
+     * Add an annotation to plot
+     * @param float $x
+     * @param float $y
+     * @param string $text
+     * @param float $toX relative repositioning in px
+     * @param float $toY relative repositioning in px
+     */
+    public function addAnnotation($x, $y, $text, $toX = 0, $toY = 0)
+    {
+        $this->Annotations[] = [
+            'x' => $x,
+            'y' => $y,
+            'text' => $text,
+            'toX' => $toX,
+            'toY' => $toY,
+        ];
+    }
 
-	/**
-	 * Clear all annotations
-	 */
-	public function clearAnnotations() {
-		$this->Annotations = [];
-	}
+    /**
+     * Clear all annotations
+     */
+    public function clearAnnotations()
+    {
+        $this->Annotations = [];
+    }
 
-	/**
-	 * Use chart for a line with steps
-	 */
-	public function lineWithSteps() {
-		$this->Options['series']['lines']['steps'] = true;
-	}
+    /**
+     * Use chart for a line with steps
+     */
+    public function lineWithSteps()
+    {
+        $this->Options['series']['lines']['steps'] = true;
+    }
 
-	/**
-	 * Use chart for a line with steps
-	 */
-	public function lineWithPoints() {
-		$this->Options['series']['lines']['show'] = true;
-		$this->Options['series']['points']['show'] = true;
-	}
+    /**
+     * Use chart for a line with steps
+     */
+    public function lineWithPoints()
+    {
+        $this->Options['series']['lines']['show'] = true;
+        $this->Options['series']['points']['show'] = true;
+    }
 
-	/**
-	 * Use chart for points
-	 * @param int $size
-	 */
-	public function showPoints($size = -1) {
-		$this->Options['series']['points']['show'] = true;
+    /**
+     * Use chart for points
+     * @param int $size
+     */
+    public function showPoints($size = -1)
+    {
+        $this->Options['series']['points']['show'] = true;
 
-		if ($size != -1)
-			$this->Options['series']['points']['lineWidth'] = $size;
-	}
+        if ($size != -1) {
+            $this->Options['series']['points']['lineWidth'] = $size;
+        }
+    }
 
     /**
      * Show series as points
      * @param int $series
      */
-    public function showAsPoints($series) {
+    public function showAsPoints($series)
+    {
         $this->Data[$series]['points']['show'] = true;
     }
 
-	/**
-	 * Set line width for series
-	 * @param int $series
-	 * @param int $width
-	 */
-	public function setLineWidth($series, $width) {
-		$this->Data[$series]['lines']['lineWidth'] = $width;
-	}
+    /**
+     * Set line width for series
+     * @param int $series
+     * @param int $width
+     */
+    public function setLineWidth($series, $width)
+    {
+        $this->Data[$series]['lines']['lineWidth'] = $width;
+    }
 
-	/**
-	 * Set shadow width for series
-	 * @param int $series
-	 * @param int $size
-	 */
-	public function setShadowSize($series, $size) {
-		$this->Data[$series]['shadowSize'] = $size;
-	}
+    /**
+     * Set shadow width for series
+     * @param int $series
+     * @param int $size
+     */
+    public function setShadowSize($series, $size)
+    {
+        $this->Data[$series]['shadowSize'] = $size;
+    }
 
-	/**
-	 * Show specific series as bars
-	 * @param int $series
-	 */
-	public function showAsBars($series, $barWidth = 0, $lineWidth = 0) {
-		$this->Data[$series]['bars']['show'] = true;
+    /**
+     * Show specific series as bars
+     * @param int $series
+     */
+    public function showAsBars($series, $barWidth = 0, $lineWidth = 0)
+    {
+        $this->Data[$series]['bars']['show'] = true;
 
-		if ($barWidth > 0)
-			$this->Data[$series]['bars']['barWidth'] = $barWidth;
+        if ($barWidth > 0) {
+            $this->Data[$series]['bars']['barWidth'] = $barWidth;
+        }
 
-		if ($lineWidth > 0)
-			$this->Data[$series]['bars']['lineWidth'] = $lineWidth;
-	}
+        if ($lineWidth > 0) {
+            $this->Data[$series]['bars']['lineWidth'] = $lineWidth;
+        }
+    }
 
-	/**
-	 * Use chart for bar-plot
-	 * @param bool $withPadding Only useful if ticks are set
-	 */
-	public function showBars($withPadding = false) {
-		$this->Options['series']['bars']['show'] = true;
+    /**
+     * Use chart for bar-plot
+     * @param bool $withPadding Only useful if ticks are set
+     */
+    public function showBars($withPadding = false)
+    {
+        $this->Options['series']['bars']['show'] = true;
 
-		if ($withPadding) {
-			$maxLength = 0;
-			foreach ($this->Data as $data)
-				if (count($data['data']) > $maxLength)
-					$maxLength = count($data['data']);
+        if ($withPadding) {
+            $maxLength = 0;
+            foreach ($this->Data as $data) {
+                if (count($data['data']) > $maxLength) {
+                    $maxLength = count($data['data']);
+                }
+            }
 
-			$this->Options['xaxis']['min'] = -1;
-			$this->Options['xaxis']['max'] = $maxLength;
-		}
-	}
+            $this->Options['xaxis']['min'] = -1;
+            $this->Options['xaxis']['max'] = $maxLength;
+        }
+    }
 
-	/**
-	 * Use stacked lines/bars
-	 */
-	public function stacked() {
-		$this->Options['series']['stack'] = 'stack';
-		$this->Options['series']['lines']['fill'] = true;
-	}
+    /**
+     * Use stacked lines/bars
+     */
+    public function stacked()
+    {
+        $this->Options['series']['stack'] = 'stack';
+        $this->Options['series']['lines']['fill'] = true;
+    }
 
-	/**
-	 * @param string $axis
-	 * @param float $from
-	 * @param string $color
-	 * @param int $lineWidth
-	 */
-	public function addThreshold($axis, $from, $color = '#000', $lineWidth = 1) {
-		$this->Options['grid']['markings'][] = [
-		    'color' => $color,
-		    'lineWidth' => $lineWidth,
-		    $axis . 'axis' => [
-		        'from' => $from,
-		        'to' => $from,
-		    ],
-		];
-	}
+    /**
+     * @param string $axis
+     * @param float $from
+     * @param string $color
+     * @param int $lineWidth
+     */
+    public function addThreshold($axis, $from, $color = '#000', $lineWidth = 1)
+    {
+        $this->Options['grid']['markings'][] = [
+            'color' => $color,
+            'lineWidth' => $lineWidth,
+            $axis . 'axis' => [
+                'from' => $from,
+                'to' => $from,
+            ],
+        ];
+    }
 
-	/**
-	 * @param string $axis
-	 * @param float $from
-	 * @param float $to
-	 * @param string $color
-	 */
-	public function addMarkingArea($axis, $from, $to, $color = 'rgba(255,255,255,0.2)') {
-		$this->Options['grid']['markings'][] = [
-		    'color' => $color,
-		    $axis . 'axis' => [
-		        'from' => $from,
-		        'to' => $to,
-		    ],
-		];
-	}
+    /**
+     * @param string $axis
+     * @param float $from
+     * @param float $to
+     * @param string $color
+     */
+    public function addMarkingArea($axis, $from, $to, $color = 'rgba(255,255,255,0.2)')
+    {
+        $this->Options['grid']['markings'][] = [
+            'color' => $color,
+            $axis . 'axis' => [
+                'from' => $from,
+                'to' => $to,
+            ],
+        ];
+    }
 
-	/**
-	 * Set the margin for the whole grid
-	 * @param int $margin
-	 */
-	public function setMarginForGrid($margin) {
-		$this->Options['grid']['minBorderMargin'] = $margin;
-	}
+    /**
+     * Set the margin for the whole grid
+     * @param int $margin
+     */
+    public function setMarginForGrid($margin)
+    {
+        $this->Options['grid']['minBorderMargin'] = $margin;
+    }
 
     /**
      * Put grid above data
      */
-    public function setGridAboveData() {
+    public function setGridAboveData()
+    {
         $this->Options['grid']['aboveData'] = true;
     }
 
-	/**
-	 * Set legend as table (not in one line as default)
-	 * @param string $position
-	 */
-	public function setLegendAsTable($position = 'nw') {
-		$this->Options['legend']['noColumns'] = 1;
-		$this->Options['legend']['position'] = $position;
-	}
+    /**
+     * Set legend as table (not in one line as default)
+     * @param string $position
+     */
+    public function setLegendAsTable($position = 'nw')
+    {
+        $this->Options['legend']['noColumns'] = 1;
+        $this->Options['legend']['position'] = $position;
+    }
 
-	/**
-	 * Set specific lines to be filled
-	 * @param array $keys
-	 */
-	public function setLinesFilled($keys = [], $opacity = 0.7) {
-		if (empty($keys))
-			$keys = array_keys($this->Data);
+    /**
+     * Set specific lines to be filled
+     * @param array $keys
+     */
+    public function setLinesFilled($keys = [], $opacity = 0.7)
+    {
+        if (empty($keys)) {
+            $keys = array_keys($this->Data);
+        }
 
-		foreach ($keys as $key)
-			$this->Data[$key]['lines']['fill'] = $opacity;
-	}
+        foreach ($keys as $key) {
+            $this->Data[$key]['lines']['fill'] = $opacity;
+        }
+    }
 
-	/**
-	 * Set smoothing
-	 * @var bool
-	 * @var bool [optional]
-	 */
-	public function smoothing($flag = true, $fit = null) {
-		$this->Options['series']['curvedLines']['apply'] = $flag;
-		$this->Options['series']['curvedLines']['monotonicFit'] = true;
+    /**
+     * Set smoothing
+     * @var bool
+     * @var bool [optional]
+     */
+    public function smoothing($flag = true, $fit = null)
+    {
+        $this->Options['series']['curvedLines']['apply'] = $flag;
+        $this->Options['series']['curvedLines']['monotonicFit'] = true;
 
-		if ($fit !== null)
-			$this->Options['series']['curvedLines']['monotonicFit'] = $fit;
-	}
+        if ($fit !== null) {
+            $this->Options['series']['curvedLines']['monotonicFit'] = $fit;
+        }
+    }
 
-	/**
-	 * Hide labels on xaxis
-	 */
-	public function hideXLabels() {
-		$this->Options['xaxis']['show'] = false;
-	}
+    /**
+     * Hide labels on xaxis
+     */
+    public function hideXLabels()
+    {
+        $this->Options['xaxis']['show'] = false;
+    }
 
-	/**
-	 * Set labels on xaxis
-	 * @param array $array
-	 */
-	public function setXLabels($array) {
-		$this->Options['xaxis']['ticks'] = $array;
-	}
+    /**
+     * Set labels on xaxis
+     * @param array $array
+     */
+    public function setXLabels($array)
+    {
+        $this->Options['xaxis']['ticks'] = $array;
+    }
 
-	/**
-	 * Set axis-mode to time
-	 */
-	public function setXAxisAsTime() {
-		$this->Options['xaxis']['mode'] = 'time';
+    /**
+     * Set axis-mode to time
+     */
+    public function setXAxisAsTime()
+    {
+        $this->Options['xaxis']['mode'] = 'time';
         $this->Options['xaxis']['monthNames'] = [
             __('Jan'),
             __('Feb'),
@@ -421,222 +464,248 @@ class Plot
             __('Dec'),
         ];
 
-	}
+    }
 
-	/**
-	 * Set axis-mode to time with specific format
-	 * @param string $format
-	 */
-	public function setXAxisTimeFormat($format) {
-		$this->setXAxisAsTime();
-		$this->Options['xaxis']['timeformat'] = $format;
-	}
+    /**
+     * Set axis-mode to time with specific format
+     * @param string $format
+     */
+    public function setXAxisTimeFormat($format)
+    {
+        $this->setXAxisAsTime();
+        $this->Options['xaxis']['timeformat'] = $format;
+    }
 
-	/**
-	 * Set x-axis limits to a specific year
-	 * @param int $Year
-	 */
-	public function setXAxisLimitedTo($Year) {
-		$this->Options['xaxis']['min'] = mktime(1, 0, 0, 1, 1, $Year) . '000';
-		$this->Options['xaxis']['max'] = mktime(1, 0, 0, 1, 0, $Year + 1) . '000';
-	}
+    /**
+     * Set x-axis limits to a specific year
+     * @param int $Year
+     */
+    public function setXAxisLimitedTo($Year)
+    {
+        $this->Options['xaxis']['min'] = mktime(1, 0, 0, 1, 1, $Year) . '000';
+        $this->Options['xaxis']['max'] = mktime(1, 0, 0, 1, 0, $Year + 1) . '000';
+    }
 
-	/**
-	 * Set maximum of x-axis as today
-	 */
-	public function setXAxisMaxToToday() {
-		$this->Options['xaxis']['max'] = time() . '000';
-	}
+    /**
+     * Set maximum of x-axis as today
+     */
+    public function setXAxisMaxToToday()
+    {
+        $this->Options['xaxis']['max'] = time() . '000';
+    }
 
-	/**
-	 * Set axis-mode to time
-	 * @param int $axis [optional]
-	 */
-	public function setYAxisAsTime($axis = false) {
-		if ($axis === false)
-			$this->Options['yaxis']['mode'] = 'time';
-		else
-			$this->Options['yaxes'][$axis - 1]['mode'] = 'time';
-	}
+    /**
+     * Set axis-mode to time
+     * @param int $axis [optional]
+     */
+    public function setYAxisAsTime($axis = false)
+    {
+        if ($axis === false) {
+            $this->Options['yaxis']['mode'] = 'time';
+        } else {
+            $this->Options['yaxes'][$axis - 1]['mode'] = 'time';
+        }
+    }
 
-	/**
-	 * Set axis-mode to time with specific format
-	 * @param string $format
-	 * @param int $axis [optional]
-	 */
-	public function setYAxisTimeFormat($format, $axis = false) {
-		$this->setYAxisAsTime($axis);
+    /**
+     * Set axis-mode to time with specific format
+     * @param string $format
+     * @param int $axis [optional]
+     */
+    public function setYAxisTimeFormat($format, $axis = false)
+    {
+        $this->setYAxisAsTime($axis);
 
-		if ($axis === false)
-			$this->Options['yaxis']['timeformat'] = $format;
-		else
-			$this->Options['yaxes'][$axis - 1]['timeformat'] = $format;
-	}
+        if ($axis === false) {
+            $this->Options['yaxis']['timeformat'] = $format;
+        } else {
+            $this->Options['yaxes'][$axis - 1]['timeformat'] = $format;
+        }
+    }
 
-	/**
-	 * @param int $i
-	 * @param string $position
-	 * @param bool $align
-	 * @param int $alignTo
-	 * @return int
-	 */
-	public function addYAxis($i, $position, $align = true, $alignTo = 1) {
-		$this->Options['yaxes'][$i - 1]['position'] = $position;
+    /**
+     * @param int $i
+     * @param string $position
+     * @param bool $align
+     * @param int $alignTo
+     * @return int
+     */
+    public function addYAxis($i, $position, $align = true, $alignTo = 1)
+    {
+        $this->Options['yaxes'][$i - 1]['position'] = $position;
 
-		if ($position == 'right' && $align)
-			$this->Options['yaxes'][$i - 1]['alignTicksWithAxis'] = $alignTo;
-	}
+        if ($position == 'right' && $align) {
+            $this->Options['yaxes'][$i - 1]['alignTicksWithAxis'] = $alignTo;
+        }
+    }
 
-	/**
-	 * @param int $i
-	 */
-	public function hideYAxis($i) {
-		$this->Options['yaxes'][$i - 1]['show'] = false;
-	}
+    /**
+     * @param int $i
+     */
+    public function hideYAxis($i)
+    {
+        $this->Options['yaxes'][$i - 1]['show'] = false;
+    }
 
-	/**
-	 * Add unit to y axis
-	 * @param int $i
-	 * @param string $unit
-	 * @param int $roundTo
-	 * @param float $factor
-	 */
-	public function addYUnit($i, $unit, $roundTo = 2, $factor = 1) {
-		if ($factor != 1) {
-			$this->Options['yaxes'][$i - 1]['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
-		} else {
-			$this->Options['yaxes'][$i - 1]['tickFormatter'] = 'function (v) { return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
-		}
-	}
+    /**
+     * Add unit to y axis
+     * @param int $i
+     * @param string $unit
+     * @param int $roundTo
+     * @param float $factor
+     */
+    public function addYUnit($i, $unit, $roundTo = 2, $factor = 1)
+    {
+        if ($factor != 1) {
+            $this->Options['yaxes'][$i - 1]['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
+        } else {
+            $this->Options['yaxes'][$i - 1]['tickFormatter'] = 'function (v) { return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
+        }
+    }
 
-	/**
-	 * Add unit to x axis
-	 * @param string $unit
-	 * @param int $roundTo
-	 */
-	public function setXUnit($unit, $roundTo = 2) {
-		$this->Options['xaxis']['tickFormatter'] = 'function (v) { return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
-	}
+    /**
+     * Add unit to x axis
+     * @param string $unit
+     * @param int $roundTo
+     */
+    public function setXUnit($unit, $roundTo = 2)
+    {
+        $this->Options['xaxis']['tickFormatter'] = 'function (v) { return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
+    }
 
-	/**
-	 * @param string $string
-	 */
-	public function setXLabel($string) {
-		$this->Options['xaxis']['label'] = $string;
-	}
+    /**
+     * @param string $string
+     */
+    public function setXLabel($string)
+    {
+        $this->Options['xaxis']['label'] = $string;
+    }
 
-	/**
-	 * Add unit to x axis
-	 * @param float $factor
-	 * @param string $unit
-	 * @param int $roundTo
-	 */
-	public function setXUnitFactor($factor, $unit, $roundTo = 2) {
-		$this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
-	}
+    /**
+     * Add unit to x axis
+     * @param float $factor
+     * @param string $unit
+     * @param int $roundTo
+     */
+    public function setXUnitFactor($factor, $unit, $roundTo = 2)
+    {
+        $this->Options['xaxis']['tickFormatter'] = 'function (v) { v = v * ' . $factor . '; return ' . $this->jsRoundUnit($roundTo) . " + ' " . $unit . "'; }";
+    }
 
     /**
      * JS function to round
      * @param int $roundTo
      */
-    private function jsRoundUnit($roundTo): string {
-		if ($roundTo == 0)
-			return 'Math.round(v)';
+    private function jsRoundUnit($roundTo): string
+    {
+        if ($roundTo == 0) {
+            return 'Math.round(v)';
+        }
 
-		return 'Math.round(v * Math.pow(10,' . $roundTo . ')) / Math.pow(10,' . $roundTo . ')';
-	}
+        return 'Math.round(v * Math.pow(10,' . $roundTo . ')) / Math.pow(10,' . $roundTo . ')';
+    }
 
-	/**
-	 * Set size for ticks on y-axis
-	 * @param int $axis
-	 * @param int $tickSize
-	 * @param bool $decimals
-	 */
-	public function setYTicks($axis, $tickSize, $decimals = false) {
-		$this->Options['yaxes'][$axis - 1]['minTickSize'] = $tickSize;
+    /**
+     * Set size for ticks on y-axis
+     * @param int $axis
+     * @param int $tickSize
+     * @param bool $decimals
+     */
+    public function setYTicks($axis, $tickSize, $decimals = false)
+    {
+        $this->Options['yaxes'][$axis - 1]['minTickSize'] = $tickSize;
 
-		if ($tickSize === null)
-			unset($this->Options['yaxes'][$axis - 1]['minTickSize']);
+        if ($tickSize === null) {
+            unset($this->Options['yaxes'][$axis - 1]['minTickSize']);
+        }
 
-		if ($decimals !== false)
-			$this->Options['yaxes'][$axis - 1]['tickDecimals'] = $decimals;
-	}
+        if ($decimals !== false) {
+            $this->Options['yaxes'][$axis - 1]['tickDecimals'] = $decimals;
+        }
+    }
 
-	/**
-	 * Set limits to y-axis
-	 * @param int $axis
-	 * @param mixed $min
-	 * @param mixed $max
-	 * @param bool $autoscale
-	 * @param mixed $factor
-	 */
-	public function setYLimits($axis, $min, $max, $autoscale = false, $factor = 'auto') {
-		if ($autoscale) {
-			$diff = $max - $min;
-			if ($factor == 'auto') {
-				$factor = pow(10, round(log10($diff)) - 1);
+    /**
+     * Set limits to y-axis
+     * @param int $axis
+     * @param mixed $min
+     * @param mixed $max
+     * @param bool $autoscale
+     * @param mixed $factor
+     */
+    public function setYLimits($axis, $min, $max, $autoscale = false, $factor = 'auto')
+    {
+        if ($autoscale) {
+            $diff = $max - $min;
+            if ($factor == 'auto') {
+                $factor = pow(10, round(log10($diff)) - 1);
 
-				if ($factor > 10)
-					$factor = 10;
-			}
+                if ($factor > 10) {
+                    $factor = 10;
+                }
+            }
 
-			$minScaled = $min > 0 ? max(0, $min / $factor - 0.02 * $diff) : $min / $factor - 0.02 * $diff;
-			$min = floor($minScaled) * $factor;
-			$max = ceil($max / $factor + 0.02 * $diff) * $factor;
+            $minScaled = $min > 0 ? max(0, $min / $factor - 0.02 * $diff) : $min / $factor - 0.02 * $diff;
+            $min = floor($minScaled) * $factor;
+            $max = ceil($max / $factor + 0.02 * $diff) * $factor;
 
-			$this->setYTicks($axis, $factor);
-		}
+            $this->setYTicks($axis, $factor);
+        }
 
-		$this->Options['yaxes'][$axis - 1]['min'] = $min;
-		$this->Options['yaxes'][$axis - 1]['max'] = $max;
-	}
+        $this->Options['yaxes'][$axis - 1]['min'] = $min;
+        $this->Options['yaxes'][$axis - 1]['max'] = $max;
+    }
 
-	/**
-	 * @param int $axis
-	 * @param array $ticks
-	 */
-	public function setYAxisLabels($axis, $ticks) {
-		$this->Options['yaxes'][$axis - 1]['ticks'] = $ticks;
-	}
+    /**
+     * @param int $axis
+     * @param array $ticks
+     */
+    public function setYAxisLabels($axis, $ticks)
+    {
+        $this->Options['yaxes'][$axis - 1]['ticks'] = $ticks;
+    }
 
-	/**
-	 * Set y axis to reverse
-	 * @param int $axis
-	 */
-	public function setYAxisReverse($axis) {
-		$this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return -v;}';
-		$this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return -v;}';
-	}
+    /**
+     * Set y axis to reverse
+     * @param int $axis
+     */
+    public function setYAxisReverse($axis)
+    {
+        $this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return -v;}';
+        $this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return -v;}';
+    }
 
-	/**
-	 * Set y axis to reverse pace scale
-	 * @param int $axis
-	 */
-	public function setYAxisPaceReverse($axis) {
-		$this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return 1/(v);}';
-		$this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return 1/v;}';
-	}
+    /**
+     * Set y axis to reverse pace scale
+     * @param int $axis
+     */
+    public function setYAxisPaceReverse($axis)
+    {
+        $this->Options['yaxes'][$axis - 1]['transform'] = 'function(v){return 1/(v);}';
+        $this->Options['yaxes'][$axis - 1]['inverseTransform'] = 'function(v){return 1/v;}';
+    }
 
-	/**
-	 * Set all zero points to null
-	 */
-	public function setZeroPointsToNull() {
-		foreach ($this->Data as $series => $data) {
-			$this->Data[$series]['data'] = array_map('PLOT__setZeroToNullMapper', $data['data']);
-		}
-	}
+    /**
+     * Set all zero points to null
+     */
+    public function setZeroPointsToNull()
+    {
+        foreach ($this->Data as $series => $data) {
+            $this->Data[$series]['data'] = array_map('PLOT__setZeroToNullMapper', $data['data']);
+        }
+    }
 
     /**
      * Correct special characters like umlaute to unicode-HTML
      * @param string $string
      */
-    public static function correctSpecialChars($string): string {
-		$string = utf8_encode($string);
-		$encrypted = ['ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü'];
-		$correct = ['&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;'];
+    public static function correctSpecialChars($string): string
+    {
+        $string = utf8_encode($string);
+        $encrypted = ['ß',      'Ä',      'Ö',      'Ü',      'ä',      'ö',      'ü'];
+        $correct = ['&#223;', '&#196;', '&#214;', '&#220;', '&#228;', '&#246;', '&#252;'];
 
-		return str_replace($encrypted, $correct, $string);
-	}
+        return str_replace($encrypted, $correct, $string);
+    }
 
     /**
      * Get JavaScript-timestamp for a day of a year
@@ -644,25 +713,28 @@ class Plot
      * @param int $day
      * @param int $hour
      */
-    public static function dayOfYearToJStime($year, $day, $hour = 12): string {
-		return mktime($hour, 0, 0, 1, $day, $year) . '000';
-	}
+    public static function dayOfYearToJStime($year, $day, $hour = 12): string
+    {
+        return mktime($hour, 0, 0, 1, $day, $year) . '000';
+    }
 
     /**
      * Correct all values as JS-timestamps
      * @param array $array
      */
-    public static function correctValuesForTime($array): array {
-		return array_map('PLOT__correctValuesMapperForTime', $array);
-	}
+    public static function correctValuesForTime($array): array
+    {
+        return array_map('PLOT__correctValuesMapperForTime', $array);
+    }
 
     /**
      * Correct all pace-values to km/h
      * @param array $array
      */
-    public static function correctValuesFromPaceToKmh($array): array {
-		return array_map('PLOT__correctValuesMapperFromPaceToKmh', $array);
-	}
+    public static function correctValuesFromPaceToKmh($array): array
+    {
+        return array_map('PLOT__correctValuesMapperFromPaceToKmh', $array);
+    }
 }
 
 /**
@@ -671,8 +743,9 @@ class Plot
  * Correct php-timestamps to JS-timestamps
  * @param mixed $v
  */
-function PLOT__correctValuesMapperForTime($v): float {
-	return round($v * 1000);
+function PLOT__correctValuesMapperForTime($v): float
+{
+    return round($v * 1000);
 }
 
 /**
@@ -680,11 +753,13 @@ function PLOT__correctValuesMapperForTime($v): float {
  * @param mixed $v
  * @return mixed
  */
-function PLOT__correctValuesMapperFromPaceToKmh($v) {
-	if ($v == 0)
-		return 0;
+function PLOT__correctValuesMapperFromPaceToKmh($v)
+{
+    if ($v == 0) {
+        return 0;
+    }
 
-	return round(3600 / $v, 2);
+    return round(3600 / $v, 2);
 }
 
 /**
@@ -692,9 +767,11 @@ function PLOT__correctValuesMapperFromPaceToKmh($v) {
  * @param mixed $v
  * @return mixed
  */
-function PLOT__setZeroToNullMapper($v) {
-	if ($v == 0)
-		return null;
+function PLOT__setZeroToNullMapper($v)
+{
+    if ($v == 0) {
+        return null;
+    }
 
-	return $v;
+    return $v;
 }

@@ -24,38 +24,39 @@ class Daytime extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::DAYTIME;
-	}
+    {
+        return \Runalyze\Dataset\Keys::DAYTIME;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'time';
-	}
+    {
+        return 'time';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Daytime');
-	}
+    {
+        return __('Daytime');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Time');
-	}
+    {
+        return __('Time');
+    }
 
     /**
      * @codeCoverageIgnore
      */
-    public function defaultPrivacy(): int {
+    public function defaultPrivacy(): int
+    {
         return DatasetPrivacyProfile::PRIVATE_KEY;
     }
 
@@ -63,25 +64,25 @@ class Daytime extends AbstractKey
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Exact daytime of the activity. (the date itself is always shown)');
-	}
+    {
+        return __('Exact daytime of the activity. (the date itself is always shown)');
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		return $context->dataview()
-		    ->daytime();
-	}
+    {
+        return $context->dataview()
+            ->daytime();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'c';
-	}
+    {
+        return 'c';
+    }
 }

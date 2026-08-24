@@ -16,12 +16,12 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
     /**
      * @var string
      */
-    const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
+    public const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
     /**
      * @var string
      */
-    const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
+    public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
     /**
      * @var bool
@@ -97,7 +97,8 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
      * @throws UnexpectedContentException
      * @throws UnsupportedFileException
      */
-    protected function throwErrorForFirstLine($line) {
+    protected function throwErrorForFirstLine($line)
+    {
         $message = 'Reading *.fit-file failed. First line was "' . $line . '".';
 
         if (substr($line, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {

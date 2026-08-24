@@ -11,33 +11,36 @@ use Runalyze\Model\Trackdata\Entity;
  */
 class PaceCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	public function testNoDistanceGiven() {
-		$Calculator = new PaceCalculator(new Entity([
-    Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
-]));
+    public function testNoDistanceGiven()
+    {
+        $Calculator = new PaceCalculator(new Entity([
+            Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
+        ]));
 
-		$this->assertEquals([], $Calculator->calculate());
-	}
+        $this->assertEquals([], $Calculator->calculate());
+    }
 
-	public function testNothingSpecialToDo() {
-		$Calculator = new PaceCalculator(new Entity([
-		    Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
-		    Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-		]));
+    public function testNothingSpecialToDo()
+    {
+        $Calculator = new PaceCalculator(new Entity([
+            Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
+            Entity::DISTANCE => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        ]));
 
-		$this->assertEquals([
-		    7, 7, 9, 4, 4, 1, 5, 10, 20, 6,
-		], $Calculator->calculate());
-	}
+        $this->assertEquals([
+            7, 7, 9, 4, 4, 1, 5, 10, 20, 6,
+        ], $Calculator->calculate());
+    }
 
-	public function testSmoothPaceForRuntasticData() {
-		$Calculator = new PaceCalculator(new Entity([
-		    Entity::TIME => [0, 25, 27, 31, 32, 35, 37, 39, 45, 50],
-		    Entity::DISTANCE => [0.0, 0.0, 0.0, 0.052, 0.052, 0.052, 0.052, 0.052, 0.071, 0.085],
-		]));
+    public function testSmoothPaceForRuntasticData()
+    {
+        $Calculator = new PaceCalculator(new Entity([
+            Entity::TIME => [0, 25, 27, 31, 32, 35, 37, 39, 45, 50],
+            Entity::DISTANCE => [0.0, 0.0, 0.0, 0.052, 0.052, 0.052, 0.052, 0.052, 0.071, 0.085],
+        ]));
 
-		$this->assertEquals([
-		    596, 596, 596, 596, 737, 737, 737, 737, 737, 357,
-		], $Calculator->calculate());
-	}
+        $this->assertEquals([
+            596, 596, 596, 596, 737, 737, 737, 737, 737, 357,
+        ], $Calculator->calculate());
+    }
 }

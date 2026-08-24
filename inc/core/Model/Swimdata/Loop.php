@@ -17,44 +17,49 @@ namespace Runalyze\Model\Swimdata;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-	/**
-	 * Object
-	 * @var \Runalyze\Model\Swimdata\Entity
-	 */
-	protected $Object;
+    /**
+     * Object
+     * @var \Runalyze\Model\Swimdata\Entity
+     */
+    protected $Object;
 
     /**
      * Construct
      */
-    public function __construct(Entity $object) {
-		parent::__construct($object);
-	}
+    public function __construct(Entity $object)
+    {
+        parent::__construct($object);
+    }
 
-	/**
-	 * Current stroke
-	 * @return int
-	 */
-	public function stroke() {
-		return $this->current(Entity::STROKE);
-	}
+    /**
+     * Current stroke
+     * @return int
+     */
+    public function stroke()
+    {
+        return $this->current(Entity::STROKE);
+    }
 
-	/**
-	 * Current stroke
-	 * @return int
-	 */
-	public function stroketype() {
-		return $this->current(Entity::STROKETYPE);
-	}
+    /**
+     * Current stroke
+     * @return int
+     */
+    public function stroketype()
+    {
+        return $this->current(Entity::STROKETYPE);
+    }
 
-	/**
-	 * Current swolf
-	 * @return int
-	 */
-	public function swolf() {
-		return $this->current(Entity::SWOLF);
-	}
+    /**
+     * Current swolf
+     * @return int
+     */
+    public function swolf()
+    {
+        return $this->current(Entity::SWOLF);
+    }
 
-	protected function createNewObject(array $data): \Runalyze\Model\Swimdata\Entity {
-		return new Entity($data);
-	}
+    protected function createNewObject(array $data): \Runalyze\Model\Swimdata\Entity
+    {
+        return new Entity($data);
+    }
 }

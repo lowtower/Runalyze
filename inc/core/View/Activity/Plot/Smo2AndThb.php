@@ -19,11 +19,13 @@ use Runalyze\View\Activity;
  */
 class Smo2AndThb extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'smo2andthb';
-	}
+    protected function setKey()
+    {
+        $this->key = 'smo2andthb';
+    }
 
-    protected function initData(Activity\Context $context) {
+    protected function initData(Activity\Context $context)
+    {
         $this->addSeries(new Series\Smo2($context), 1);
         $this->addSeries(new Series\Smo2($context, 1), 1, false);
         $this->addSeries(new Series\Thb($context), 2);

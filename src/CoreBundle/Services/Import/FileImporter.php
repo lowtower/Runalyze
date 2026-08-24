@@ -69,8 +69,7 @@ class FileImporter implements LoggerAwareInterface
         TTbinConverter $ttbinConverter,
         $directoryForFailedImports = null,
         ?LoggerInterface $logger = null
-    )
-    {
+    ) {
         $this->ParserMapping = new FileExtensionToParserMapping();
         $this->Converter = [$fitConverter, $ttbinConverter, new KmzConverter()];
         $this->ZipConverter = new ZipConverter($this->getSupportedFileExtensions());

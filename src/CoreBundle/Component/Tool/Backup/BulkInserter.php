@@ -4,15 +4,15 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class BulkInserter
 {
-	/**
-	 * @var \PDOStatement
-	 */
-	protected $Statement;
+    /**
+     * @var \PDOStatement
+     */
+    protected $Statement;
 
-	/**
-	 * @var \PDOforRunalyze
-	 */
-	protected $DB;
+    /**
+     * @var \PDOforRunalyze
+     */
+    protected $DB;
 
     /**
      * Start new bulk insert
@@ -22,10 +22,10 @@ class BulkInserter
      */
     public function __construct($tableName, array $columns, $accountID, $databasePrefix)
     {
-		$this->DB = \DB::getInstance();
+        $this->DB = \DB::getInstance();
 
-		$this->prepareStatement($tableName, $columns, $accountID, $databasePrefix);
-	}
+        $this->prepareStatement($tableName, $columns, $accountID, $databasePrefix);
+    }
 
     /**
      * @param string $tableName
@@ -34,31 +34,31 @@ class BulkInserter
      */
     protected function prepareStatement($tableName, array $columns, $accountID, $databasePrefix)
     {
-		$tableName = str_replace('runalyze_', $databasePrefix, $tableName);
-		$PreparedColumns = '`' . implode('`,`', $columns) . '`';
-		$PreparedValues = implode(',', array_fill(0, count($columns), '?'));
+        $tableName = str_replace('runalyze_', $databasePrefix, $tableName);
+        $PreparedColumns = '`' . implode('`,`', $columns) . '`';
+        $PreparedValues = implode(',', array_fill(0, count($columns), '?'));
 
-		if (
+        if (
             $accountID !== false &&
             $tableName != $databasePrefix . 'equipment_sport' &&
             $tableName != $databasePrefix . 'equipment_spor' &&
             $tableName != $databasePrefix . 'activity_equipment' &&
             $tableName != $databasePrefix . 'activity_tag'
         ) {
-			$PreparedColumns .= ',`accountid`';
-			$PreparedValues .= ',' . $accountID;
-		}
+            $PreparedColumns .= ',`accountid`';
+            $PreparedValues .= ',' . $accountID;
+        }
 
-		$this->Statement = $this->DB->prepare('INSERT INTO `' . $tableName . '` (' . $PreparedColumns . ') VALUES (' . $PreparedValues . ')');
-	}
+        $this->Statement = $this->DB->prepare('INSERT INTO `' . $tableName . '` (' . $PreparedColumns . ') VALUES (' . $PreparedValues . ')');
+    }
 
     /**
      * @return int last inserted ID
      */
     public function insert(array $values)
     {
-		$this->Statement->execute($values);
+        $this->Statement->execute($values);
 
-		return $this->DB->lastInsertId();
-	}
+        return $this->DB->lastInsertId();
+    }
 }

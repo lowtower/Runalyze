@@ -21,50 +21,50 @@ class Weather extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::WEATHER;
-	}
+    {
+        return \Runalyze\Dataset\Keys::WEATHER;
+    }
 
     /**
      * Database key
      */
     public function column(): array
-	{
-		return ['weatherid', 'is_night', 'temperature', 'wind_speed', 'wind_deg', 'humidity', 'pressure'];
-	}
+    {
+        return ['weatherid', 'is_night', 'temperature', 'wind_speed', 'wind_deg', 'humidity', 'pressure'];
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Weather');
-	}
+    {
+        return __('Weather');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return '';
-	}
+    {
+        return '';
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if (! $context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
-			$icon = $context->activity()
-			    ->weather()
-			    ->condition()
-			    ->icon();
+    {
+        if (! $context->activity()->weather()->condition()->isUnknown() && ($context->hasSport() && $context->sport()->isOutside())) {
+            $icon = $context->activity()
+                ->weather()
+                ->condition()
+                ->icon();
             $weather = $context->activity()
                 ->weather();
 
-			if ($context->activity()->isNight()) {
-				$icon->setAsNight();
-			}
+            if ($context->activity()->isNight()) {
+                $icon->setAsNight();
+            }
 
             $TooltipCode = '';
 
@@ -90,8 +90,8 @@ class Weather extends AbstractKey
 
             $icon->setTooltip($TooltipCode);
             return $icon->code();
-		}
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

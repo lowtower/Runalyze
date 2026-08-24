@@ -52,7 +52,7 @@ class QueueConsumeCommand extends ContainerAwareCommand
 
         foreach ($this->BernardOptions as $option) {
             if ($input->getOption($option) !== null && $input->getOption($option) !== false) {
-               $arguments['--' . $option] = $input->getOption($option);
+                $arguments['--' . $option] = $input->getOption($option);
             }
         }
 

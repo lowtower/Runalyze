@@ -13,17 +13,17 @@ class PosterGeneratedMessage implements MessageInterface
     /**
      * @var int all posters succeeded
      */
-    const STATE_SUCCESS = 0;
+    public const STATE_SUCCESS = 0;
 
     /**
      * @var int only some posters have been generated
      */
-    const STATE_PARTIAL = 1;
+    public const STATE_PARTIAL = 1;
 
     /**
      * @var int no poster generated
      */
-    const STATE_FAILED = 2;
+    public const STATE_FAILED = 2;
 
     /**
      * @var int see self::STATE_...

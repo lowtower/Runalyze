@@ -11,72 +11,78 @@ use Runalyze\Parameter\Application\ElevationMethod;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	public function testEmptyArray() {
-		$Calculator = new Calculator([]);
-		$Calculator->calculate();
+    public function testEmptyArray()
+    {
+        $Calculator = new Calculator([]);
+        $Calculator->calculate();
 
-		$this->assertEquals(0, $Calculator->totalElevation());
-		$this->assertEquals(0, $Calculator->elevationUp());
-		$this->assertEquals(0, $Calculator->elevationDown());
-	}
+        $this->assertEquals(0, $Calculator->totalElevation());
+        $this->assertEquals(0, $Calculator->elevationUp());
+        $this->assertEquals(0, $Calculator->elevationDown());
+    }
 
-	public function testValuesSimple() {
-		$Method = new ElevationMethod();
-		$Method->set(ElevationMethod::NONE);
+    public function testValuesSimple()
+    {
+        $Method = new ElevationMethod();
+        $Method->set(ElevationMethod::NONE);
 
-		$Calc = new Calculator([0, 10, 17, 14, 20, 3, 11, 0], $Method, 0);
-		$Calc->calculate();
+        $Calc = new Calculator([0, 10, 17, 14, 20, 3, 11, 0], $Method, 0);
+        $Calc->calculate();
 
-		$this->assertEquals( 31, $Calc->totalElevation() );
-		$this->assertEquals( 31, $Calc->elevationUp() );
-		$this->assertEquals( 31, $Calc->elevationDown() );
-	}
+        $this->assertEquals(31, $Calc->totalElevation());
+        $this->assertEquals(31, $Calc->elevationUp());
+        $this->assertEquals(31, $Calc->elevationDown());
+    }
 
-	public function testValuesOnlyUp() {
-		$Method = new ElevationMethod();
-		$Method->set(ElevationMethod::NONE);
+    public function testValuesOnlyUp()
+    {
+        $Method = new ElevationMethod();
+        $Method->set(ElevationMethod::NONE);
 
-		$Calc = new Calculator([0, 10, 17, 20, 35], $Method, 0);
-		$Calc->calculate();
+        $Calc = new Calculator([0, 10, 17, 20, 35], $Method, 0);
+        $Calc->calculate();
 
-		$this->assertEquals( 35, $Calc->totalElevation() );
-		$this->assertEquals( 35, $Calc->elevationUp() );
-		$this->assertEquals( 0, $Calc->elevationDown() );
-	}
+        $this->assertEquals(35, $Calc->totalElevation());
+        $this->assertEquals(35, $Calc->elevationUp());
+        $this->assertEquals(0, $Calc->elevationDown());
+    }
 
-	public function testValuesOnlyDown() {
-		$Method = new ElevationMethod();
-		$Method->set(ElevationMethod::NONE);
+    public function testValuesOnlyDown()
+    {
+        $Method = new ElevationMethod();
+        $Method->set(ElevationMethod::NONE);
 
-		$Calc = new Calculator([0, -10, -17, -20, -35], $Method, 0);
-		$Calc->calculate();
+        $Calc = new Calculator([0, -10, -17, -20, -35], $Method, 0);
+        $Calc->calculate();
 
-		$this->assertEquals( 35, $Calc->totalElevation() );
-		$this->assertEquals( 0, $Calc->elevationUp() );
-		$this->assertEquals( 35, $Calc->elevationDown() );
-	}
+        $this->assertEquals(35, $Calc->totalElevation());
+        $this->assertEquals(0, $Calc->elevationUp());
+        $this->assertEquals(35, $Calc->elevationDown());
+    }
 
-	public function testAlgorithmTreshold() {
-		$Method = new ElevationMethod();
-		$Method->set(ElevationMethod::THRESHOLD);
+    public function testAlgorithmTreshold()
+    {
+        $Method = new ElevationMethod();
+        $Method->set(ElevationMethod::THRESHOLD);
 
-		$Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
-		$Calc->calculate();
+        $Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
+        $Calc->calculate();
 
-		$this->assertEquals(10, $Calc->totalElevation());
-		$this->assertEquals(10, $Calc->elevationUp());
-		$this->assertEquals(10, $Calc->elevationDown());
-	}
+        $this->assertEquals(10, $Calc->totalElevation());
+        $this->assertEquals(10, $Calc->elevationUp());
+        $this->assertEquals(10, $Calc->elevationDown());
+    }
 
-	public function testAlgorithmDouglasPeucker() {
-		$Method = new ElevationMethod();
-		$Method->set(ElevationMethod::DOUGLAS_PEUCKER);
+    public function testAlgorithmDouglasPeucker()
+    {
+        $Method = new ElevationMethod();
+        $Method->set(ElevationMethod::DOUGLAS_PEUCKER);
 
-		$Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
-		$Calc->calculate();
+        $Calc = new Calculator([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], $Method, 2);
+        $Calc->calculate();
 
-		$this->assertEquals(13, $Calc->totalElevation());
-		$this->assertEquals(13, $Calc->elevationUp());
-		$this->assertEquals(13, $Calc->elevationDown());
-	}
+        $this->assertEquals(13, $Calc->totalElevation());
+        $this->assertEquals(13, $Calc->elevationUp());
+        $this->assertEquals(13, $Calc->elevationDown());
+    }
 }

@@ -11,27 +11,27 @@ class InstallCheckCommand extends ContainerAwareCommand
     /**
      * @var string
      */
-    const REQUIRED_PHP_VERSION = '5.5.9';
+    public const REQUIRED_PHP_VERSION = '5.5.9';
 
     /**
      * @var int exit code
      */
-    const CHECK_FAILED = 1;
+    public const CHECK_FAILED = 1;
 
     /**
      * @var int bit flag for return code
      */
-    const OKAY = 0x00;
+    public const OKAY = 0x00;
 
     /**
      * @var int bit flag for return code
      */
-    const WARNING = 0x01;
+    public const WARNING = 0x01;
 
     /**
      * @var int bit flag for return code
      */
-    const ERROR = 0x10;
+    public const ERROR = 0x10;
 
     /**
      * @var int current return code

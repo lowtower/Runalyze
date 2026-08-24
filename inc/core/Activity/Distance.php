@@ -20,41 +20,41 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class Distance implements ValueInterface
 {
-	/**
-	 * Seperator for decimals
-	 * @var string
-	 */
-	public static $DecimalSeparator = ',';
+    /**
+     * Seperator for decimals
+     * @var string
+     */
+    public static $DecimalSeparator = ',';
 
-	/**
-	 * Seperator for thousands
-	 * @var string
-	 */
-	public static $ThousandsSeparator = '.';
+    /**
+     * Seperator for thousands
+     * @var string
+     */
+    public static $ThousandsSeparator = '.';
 
-	/**
-	 * Default number of decimals
-	 * **If you change this, also change the test src/CoreBundle/Form/Type/DistanceType.php**
-	 * @var int
-	 */
-	public static $DefaultDecimals = 3;
+    /**
+     * Default number of decimals
+     * **If you change this, also change the test src/CoreBundle/Form/Type/DistanceType.php**
+     * @var int
+     */
+    public static $DefaultDecimals = 3;
 
-	/**
-	 * For the split overview table use precision 2 for better "overview".
-	 * @var int
-	 */
-	public static $DefaultDecimalsSplitTable = 2;
+    /**
+     * For the split overview table use precision 2 for better "overview".
+     * @var int
+     */
+    public static $DefaultDecimalsSplitTable = 2;
 
-	/**
-	 * Distance [km]
-	 * @var float
-	 */
-	protected $Kilometer;
+    /**
+     * Distance [km]
+     * @var float
+     */
+    protected $Kilometer;
 
-	/**
-	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-	 */
-	protected $UnitSystem;
+    /**
+     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
+     */
+    protected $UnitSystem;
 
     /**
      * @param float $km [km]
@@ -62,137 +62,137 @@ class Distance implements ValueInterface
      * @param int $decimals [optional] number of decimals
      */
     public static function format($km, $withUnit = true, $decimals = false): string
-	{
-		return (new self($km))->string($withUnit, $decimals);
-	}
+    {
+        return (new self($km))->string($withUnit, $decimals);
+    }
 
-	/**
-	 * @param float $km
-	 */
-	public function __construct($km = 0, ?DistanceUnitSystem $unitSystem = null)
-	{
-		$this->Kilometer = $km;
-		$this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
-	}
+    /**
+     * @param float $km
+     */
+    public function __construct($km = 0, ?DistanceUnitSystem $unitSystem = null)
+    {
+        $this->Kilometer = $km;
+        $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+    }
 
     /**
      * Label for distance
      */
     public function label(): string
-	{
-		return __('Distance');
-	}
+    {
+        return __('Distance');
+    }
 
-	/**
-	 * Set distance
-	 * @param float $km [km]
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function set($km): self
-	{
-		$this->Kilometer = (float) str_replace(',', '.', $km);
+    /**
+     * Set distance
+     * @param float $km [km]
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function set($km): self
+    {
+        $this->Kilometer = (float) str_replace(',', '.', $km);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set distance in miles
-	 * @param float $miles [mi]
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function setMiles($miles): self
-	{
-		$this->Kilometer = (float) str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
+    /**
+     * Set distance in miles
+     * @param float $miles [mi]
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function setMiles($miles): self
+    {
+        $this->Kilometer = (float) str_replace(',', '.', $miles) / DistanceUnitSystem::MILE_MULTIPLIER;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param float $distance [mixed unit]
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function setInPreferredUnit($distance): self
-	{
-		if ($this->UnitSystem->isImperial()) {
-			$this->setMiles($distance);
-		} else {
-			$this->set($distance);
-		}
+    /**
+     * @param float $distance [mixed unit]
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function setInPreferredUnit($distance): self
+    {
+        if ($this->UnitSystem->isImperial()) {
+            $this->setMiles($distance);
+        } else {
+            $this->set($distance);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get distance
-	 * @return float [km]
-	 */
-	public function value()
-	{
-		return $this->Kilometer;
-	}
+    /**
+     * Get distance
+     * @return float [km]
+     */
+    public function value()
+    {
+        return $this->Kilometer;
+    }
 
-	/**
-	 * @return float [km]
-	 */
-	public function kilometer()
-	{
-		return $this->Kilometer;
-	}
+    /**
+     * @return float [km]
+     */
+    public function kilometer()
+    {
+        return $this->Kilometer;
+    }
 
-	/**
-	 * @return int [m]
-	 */
-	public function meter(): float
-	{
-		return round($this->Kilometer * 1000);
-	}
+    /**
+     * @return int [m]
+     */
+    public function meter(): float
+    {
+        return round($this->Kilometer * 1000);
+    }
 
-	/**
-	 * Miles
-	 * @return float [miles]
-	 */
-	public function miles(): float
-	{
-		return $this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER;
-	}
+    /**
+     * Miles
+     * @return float [miles]
+     */
+    public function miles(): float
+    {
+        return $this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER;
+    }
 
-	/**
-	 * Yards
-	 * @return int [yards]
-	 */
-	public function yards(): float
-	{
-		return round($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER);
-	}
+    /**
+     * Yards
+     * @return int [yards]
+     */
+    public function yards(): float
+    {
+        return round($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER);
+    }
 
-	/**
-	 * @return int [feet]
-	 */
-	public function feet(): float
-	{
-		return round($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER);
-	}
+    /**
+     * @return int [feet]
+     */
+    public function feet(): float
+    {
+        return round($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER);
+    }
 
     public function unit(): string
-	{
-		if ($this->UnitSystem->isImperial()) {
-			return DistanceUnitSystem::MILES;
-		}
+    {
+        if ($this->UnitSystem->isImperial()) {
+            return DistanceUnitSystem::MILES;
+        }
 
-		return DistanceUnitSystem::KM;
-	}
+        return DistanceUnitSystem::KM;
+    }
 
-	/**
-	 * @return float [mixed unit]
-	 */
-	public function valueInPreferredUnit()
-	{
-		if ($this->UnitSystem->isImperial()) {
-			return $this->miles();
-		}
+    /**
+     * @return float [mixed unit]
+     */
+    public function valueInPreferredUnit()
+    {
+        if ($this->UnitSystem->isImperial()) {
+            return $this->miles();
+        }
 
-		return $this->kilometer();
-	}
+        return $this->kilometer();
+    }
 
     /**
      * Format distance as string
@@ -200,13 +200,13 @@ class Distance implements ValueInterface
      * @param int $decimals [optional] number of decimals
      */
     public function string($withUnit = true, $decimals = false): string
-	{
-		if ($this->UnitSystem->isImperial()) {
-			return $this->stringMiles($withUnit, $decimals);
-		}
+    {
+        if ($this->UnitSystem->isImperial()) {
+            return $this->stringMiles($withUnit, $decimals);
+        }
 
-		return $this->stringKilometer($withUnit, $decimals);
-	}
+        return $this->stringKilometer($withUnit, $decimals);
+    }
 
     /**
      * Format distance with auto detection for track distances shown in meter
@@ -214,128 +214,128 @@ class Distance implements ValueInterface
      * @param int $decimals [optional] number of decimals
      */
     public function stringAuto($withUnit = true, $decimals = false): string
-	{
-		if ($this->Kilometer <= 1.0 || $this->Kilometer == 1.5 || $this->Kilometer == 3.0) {
-			return $this->stringMeter($withUnit, $decimals);
-		}
+    {
+        if ($this->Kilometer <= 1.0 || $this->Kilometer == 1.5 || $this->Kilometer == 3.0) {
+            return $this->stringMeter($withUnit, $decimals);
+        }
 
-		if ($this->Kilometer == 5.0 || $this->Kilometer == 10.0) {
-			return $this->stringKilometer($withUnit, $decimals);
-		}
+        if ($this->Kilometer == 5.0 || $this->Kilometer == 10.0) {
+            return $this->stringKilometer($withUnit, $decimals);
+        }
 
-		return $this->string($withUnit, $decimals);
-	}
+        return $this->string($withUnit, $decimals);
+    }
 
-	/**
-	 * String: as kilometer
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional]
-	 * @return string with unit
-	 */
-	public function stringKilometer($withUnit = true, $decimals = false): string
-	{
-		if ($decimals === false) {
-			$decimals = self::$DefaultDecimals;
-		}
+    /**
+     * String: as kilometer
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional]
+     * @return string with unit
+     */
+    public function stringKilometer($withUnit = true, $decimals = false): string
+    {
+        if ($decimals === false) {
+            $decimals = self::$DefaultDecimals;
+        }
 
-		return number_format($this->Kilometer, $decimals, self::$DecimalSeparator, self::$ThousandsSeparator) . ($withUnit ? '&nbsp;' . DistanceUnitSystem::KM : '');
-	}
+        return number_format($this->Kilometer, $decimals, self::$DecimalSeparator, self::$ThousandsSeparator) . ($withUnit ? '&nbsp;' . DistanceUnitSystem::KM : '');
+    }
 
-	/**
-	 * String: as meter
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional]
-	 * @return string with unit
-	 */
-	public function stringMeter($withUnit = true, $decimals = false): string
-	{
-		return number_format($this->Kilometer * 1000, 0, '', '.') . ($withUnit ? DistanceUnitSystem::METER : '');
-	}
+    /**
+     * String: as meter
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional]
+     * @return string with unit
+     */
+    public function stringMeter($withUnit = true, $decimals = false): string
+    {
+        return number_format($this->Kilometer * 1000, 0, '', '.') . ($withUnit ? DistanceUnitSystem::METER : '');
+    }
 
-	/**
-	 * String: as feet
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional]
-	 * @return string with unit
-	 */
-	public function stringFeet($withUnit = true, $decimals = false): string
-	{
-		return number_format($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
-	}
+    /**
+     * String: as feet
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional]
+     * @return string with unit
+     */
+    public function stringFeet($withUnit = true, $decimals = false): string
+    {
+        return number_format($this->Kilometer * DistanceUnitSystem::FEET_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
+    }
 
-	/**
-	 * String: as yards
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional]
-	 * @return string with unit
-	 */
-	public function stringYards($withUnit = true, $decimals = false): string
-	{
-		return number_format($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::YARDS : '');
-	}
+    /**
+     * String: as yards
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional]
+     * @return string with unit
+     */
+    public function stringYards($withUnit = true, $decimals = false): string
+    {
+        return number_format($this->Kilometer * DistanceUnitSystem::YARD_MULTIPLIER, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::YARDS : '');
+    }
 
-	/**
-	 * String: as miles
-	 * @param bool $withUnit [optional]
-	 * @param int $decimals [optional]
-	 * @return string with unit
-	 */
-	public function stringMiles($withUnit = true, $decimals = false): string
-	{
-		if ($decimals === false) {
-			$decimals = self::$DefaultDecimals;
-		}
+    /**
+     * String: as miles
+     * @param bool $withUnit [optional]
+     * @param int $decimals [optional]
+     * @return string with unit
+     */
+    public function stringMiles($withUnit = true, $decimals = false): string
+    {
+        if ($decimals === false) {
+            $decimals = self::$DefaultDecimals;
+        }
 
-		return number_format($this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER, $decimals, '.', ',') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::MILES : '');
-	}
+        return number_format($this->Kilometer * DistanceUnitSystem::MILE_MULTIPLIER, $decimals, '.', ',') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::MILES : '');
+    }
 
-	/**
-	 * Multiply distance
-	 * @param float $factor
-	 * @return \Runalyze\Activity\Distance $this-reference
-	 */
-	public function multiply($factor): self
-	{
-		$this->Kilometer *= $factor;
+    /**
+     * Multiply distance
+     * @param float $factor
+     * @return \Runalyze\Activity\Distance $this-reference
+     */
+    public function multiply($factor): self
+    {
+        $this->Kilometer *= $factor;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Add another distance
      * @return \Runalyze\Activity\Distance $this-reference
      */
     public function add(self $object): self
-	{
-		$this->Kilometer += $object->kilometer();
+    {
+        $this->Kilometer += $object->kilometer();
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Subtract another distance
      * @return \Runalyze\Activity\Distance $this-reference
      */
     public function subtract(self $object): self
-	{
-		$this->Kilometer -= $object->kilometer();
+    {
+        $this->Kilometer -= $object->kilometer();
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Is distance negative?
      */
     public function isNegative(): bool
-	{
-		return $this->Kilometer < 0;
-	}
+    {
+        return $this->Kilometer < 0;
+    }
 
     /**
      * Is distance zero?
      */
     public function isZero(): bool
-	{
-		return $this->Kilometer == 0;
-	}
+    {
+        return $this->Kilometer == 0;
+    }
 }

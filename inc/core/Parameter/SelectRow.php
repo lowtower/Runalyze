@@ -14,47 +14,51 @@ namespace Runalyze\Parameter;
  */
 class SelectRow extends Select
 {
-	/**
-	 * @var bool
-	 */
-	protected $UseFallback = false;
+    /**
+     * @var bool
+     */
+    protected $UseFallback = false;
 
-	/**
-	 * Construct
-	 * @param string $default
-	 * @param array $options [optional]
-	 */
-	public function __construct($default, $options = []) {
-		$options = array_merge(
-		    [
-		        'table' => '',
-		        'column' => '',
-		    ],
-		    $options
-		);
+    /**
+     * Construct
+     * @param string $default
+     * @param array $options [optional]
+     */
+    public function __construct($default, $options = [])
+    {
+        $options = array_merge(
+            [
+                'table' => '',
+                'column' => '',
+            ],
+            $options
+        );
 
-		parent::__construct($default, $options);
-	}
+        parent::__construct($default, $options);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function table() {
-		return $this->Options['table'];
-	}
+    /**
+     * @return string
+     */
+    public function table()
+    {
+        return $this->Options['table'];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function column() {
-		return $this->Options['column'];
-	}
+    /**
+     * @return string
+     */
+    public function column()
+    {
+        return $this->Options['column'];
+    }
 
     /**
      * Value allowed?
      * @param string $value
      */
-    protected function valueIsAllowed($value): bool {
-		return true;
-	}
+    protected function valueIsAllowed($value): bool
+    {
+        return true;
+    }
 }

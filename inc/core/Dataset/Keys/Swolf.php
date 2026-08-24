@@ -24,41 +24,41 @@ class Swolf extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::SWOLF;
-	}
+    {
+        return \Runalyze\Dataset\Keys::SWOLF;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'swolf';
-	}
+    {
+        return 'swolf';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Swolf');
-	}
+    {
+        return __('Swolf');
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		return $context->activity()
-		    ->swolf();
-	}
+    {
+        return $context->activity()
+            ->swolf();
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 }

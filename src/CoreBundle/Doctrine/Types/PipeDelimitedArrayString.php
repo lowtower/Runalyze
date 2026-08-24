@@ -9,7 +9,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
     /**
      * @var string
      */
-    const PIPE_ARRAY = 'pipe_array_str';
+    public const PIPE_ARRAY = 'pipe_array_str';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -18,8 +18,10 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
         }
 
         // #TSC i use the pipe_array also with string, so remove here | in a array element to avoid problems
-        foreach($value as &$v) {
-            if (is_string($v)) $v = str_replace('|', ' ', $v);
+        foreach ($value as &$v) {
+            if (is_string($v)) {
+                $v = str_replace('|', ' ', $v);
+            }
         }
 
         return implode('|', $value);

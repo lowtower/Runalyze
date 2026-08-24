@@ -6,15 +6,17 @@ namespace Runalyze\Model;
 
 class StringObject_MockTester extends StringObject
 {
-	protected $String;
+    protected $String;
 
-	public function fromString($string) {
-		$this->String = $string;
-	}
+    public function fromString($string)
+    {
+        $this->String = $string;
+    }
 
-	public function asString() {
-		return $this->String;
-	}
+    public function asString()
+    {
+        return $this->String;
+    }
 }
 
 /**
@@ -22,27 +24,30 @@ class StringObject_MockTester extends StringObject
  */
 class StringObjectTest extends \PHPUnit\Framework\TestCase
 {
-	public function testConstructor() {
-		$String = new StringObject_MockTester('foo');
+    public function testConstructor()
+    {
+        $String = new StringObject_MockTester('foo');
 
-		$this->assertEquals('foo', $String->asString());
-	}
+        $this->assertEquals('foo', $String->asString());
+    }
 
-	public function testSimpleStringObject() {
-		$String = new StringObject_MockTester();
-		$String->fromString('foo');
+    public function testSimpleStringObject()
+    {
+        $String = new StringObject_MockTester();
+        $String->fromString('foo');
 
-		$this->assertEquals('foo', $String->asString());
-		$this->assertFalse($String->isEmpty());
-	}
+        $this->assertEquals('foo', $String->asString());
+        $this->assertFalse($String->isEmpty());
+    }
 
-	public function testEmptyObject() {
-		$String = new StringObject_MockTester();
+    public function testEmptyObject()
+    {
+        $String = new StringObject_MockTester();
 
-		$this->assertTrue($String->isEmpty());
-		$String->fromString('foo');
-		$this->assertFalse($String->isEmpty());
-		$String->fromString('');
-		$this->assertTrue($String->isEmpty());
-	}
+        $this->assertTrue($String->isEmpty());
+        $String->fromString('foo');
+        $this->assertFalse($String->isEmpty());
+        $String->fromString('');
+        $this->assertTrue($String->isEmpty());
+    }
 }

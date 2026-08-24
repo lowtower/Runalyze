@@ -19,42 +19,42 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Sources extends AbstractEnum
 {
-	/**
-	 * @var int
-	 */
-	const OPENWEATHERMAP = 1;
-
-	/**
-	 * @var int
-	 */
-	const DBWEATHERCACHE = 2;
+    /**
+     * @var int
+     */
+    public const OPENWEATHERMAP = 1;
 
     /**
      * @var int
      */
-    const DARKSKY = 3;
+    public const DBWEATHERCACHE = 2;
 
     /**
      * @var int
      */
-    const METEOSTAT_NET = 4;
+    public const DARKSKY = 3;
+
+    /**
+     * @var int
+     */
+    public const METEOSTAT_NET = 4;
 
     /**
      * @param int $sourceId id from internal enum
      */
-    static public function stringFor($sourceId): string
-	{
-		switch ($sourceId) {
+    public static function stringFor($sourceId): string
+    {
+        switch ($sourceId) {
             case self::DARKSKY:
                 return '<a href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a>';
-			case self::OPENWEATHERMAP:
-				return '<a href="http://openweathermap.org/" target="_blank">openweathermap.org</a>';
-			case self::METEOSTAT_NET:
-				return '<a href="https://meteostat.net/" target="_blank">meteostat.net</a>';
-			case self::DBWEATHERCACHE:
-				return __('internal database');
-			default:
-				throw new \InvalidArgumentException('Invalid source id');
-		}
-	}
+            case self::OPENWEATHERMAP:
+                return '<a href="http://openweathermap.org/" target="_blank">openweathermap.org</a>';
+            case self::METEOSTAT_NET:
+                return '<a href="https://meteostat.net/" target="_blank">meteostat.net</a>';
+            case self::DBWEATHERCACHE:
+                return __('internal database');
+            default:
+                throw new \InvalidArgumentException('Invalid source id');
+        }
+    }
 }

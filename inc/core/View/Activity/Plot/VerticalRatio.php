@@ -20,13 +20,15 @@ use Runalyze\View\Activity;
  */
 class VerticalRatio extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'verticalRatio';
-	}
+    protected function setKey()
+    {
+        $this->key = 'verticalRatio';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\VerticalRatio($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\VerticalRatio($context)
+        );
+    }
 }

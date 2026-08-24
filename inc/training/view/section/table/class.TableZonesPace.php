@@ -19,104 +19,110 @@ use Runalyze\Model\Trackdata;
  */
 class TableZonesPace extends TableZonesAbstract
 {
-	/**
-	 * Step size to smooth pace date
-	 * @var int
-	 */
-	const STEP_SIZE = 10;
+    /**
+     * Step size to smooth pace date
+     * @var int
+     */
+    public const STEP_SIZE = 10;
 
-	/**
-	 * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-	 */
-	protected $PaceUnit;
+    /**
+     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
+     */
+    protected $PaceUnit;
 
     /**
      * Get title for average
      */
-    public function titleForAverage(): string { return __('avg.') . '&nbsp;' . __('HR'); }
+    public function titleForAverage(): string
+    {
+        return __('avg.') . '&nbsp;' . __('HR');
+    }
 
-	protected function initData() {
-		$this->PaceUnit = $this->Context->sport()
-		    ->legacyPaceUnit();
+    protected function initData()
+    {
+        $this->PaceUnit = $this->Context->sport()
+            ->legacyPaceUnit();
 
-		$Zones = $this->computeZones();
-		$Pace = new Pace(0, 1);
-		$Pace->setUnit($this->PaceUnit);
+        $Zones = $this->computeZones();
+        $Pace = new Pace(0, 1);
+        $Pace->setUnit($this->PaceUnit);
 
-		$HR = new HeartRate(0, Runalyze\Context::Athlete());
+        $HR = new HeartRate(0, Runalyze\Context::Athlete());
 
-		foreach ($Zones as $paceInSeconds => $Info) {
-			if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE) {
-				$Pace->setTime($paceInSeconds);
-				$HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
+        foreach ($Zones as $paceInSeconds => $Info) {
+            if ($Info['time'] > parent::MINIMUM_TIME_IN_ZONE) {
+                $Pace->setTime($paceInSeconds);
+                $HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
 
-				$this->Data[] = [
-    'zone' => $paceInSeconds == 0 ? __('faster') : '&gt; ' . $Pace->valueWithAppendix(),
-				    'time' => $Info['time'],
-				    'distance' => $Info['distance'],
-				    'average' => $HR->asBPM() > 0 ? $HR->string() : '-',
-];
-			}
-		}
-	}
+                $this->Data[] = [
+                    'zone' => $paceInSeconds == 0 ? __('faster') : '&gt; ' . $Pace->valueWithAppendix(),
+                    'time' => $Info['time'],
+                    'distance' => $Info['distance'],
+                    'average' => $HR->asBPM() > 0 ? $HR->string() : '-',
+                ];
+            }
+        }
+    }
 
-	protected function computeZones(): array {
-		// TODO
-		// - move this a calculation class
-		// - make zones configurable
-		$Zones = [];
-		$SmoothTrackdata = clone $this->Context->trackdata();
-		$Smoother = new PaceSmoother($SmoothTrackdata, true);
-		$SmoothTrackdata->set(Trackdata\Entity::PACE, $Smoother->smooth(self::STEP_SIZE, PaceSmoother::MODE_STEP));
-		$hasHR = $this->Context->trackdata()
-		    ->has(Trackdata\Entity::HEARTRATE);
+    protected function computeZones(): array
+    {
+        // TODO
+        // - move this a calculation class
+        // - make zones configurable
+        $Zones = [];
+        $SmoothTrackdata = clone $this->Context->trackdata();
+        $Smoother = new PaceSmoother($SmoothTrackdata, true);
+        $SmoothTrackdata->set(Trackdata\Entity::PACE, $Smoother->smooth(self::STEP_SIZE, PaceSmoother::MODE_STEP));
+        $hasHR = $this->Context->trackdata()
+            ->has(Trackdata\Entity::HEARTRATE);
 
-		$Distribution = new TimeSeriesForTrackdata(
-		    $SmoothTrackdata,
-		    Trackdata\Entity::PACE,
-		    [Trackdata\Entity::DISTANCE],
-		    $hasHR ? [Trackdata\Entity::HEARTRATE] : []
-		);
-		$Data = $Distribution->data();
+        $Distribution = new TimeSeriesForTrackdata(
+            $SmoothTrackdata,
+            Trackdata\Entity::PACE,
+            [Trackdata\Entity::DISTANCE],
+            $hasHR ? [Trackdata\Entity::HEARTRATE] : []
+        );
+        $Data = $Distribution->data();
 
-		foreach ($Distribution->histogram() as $paceInSeconds => $seconds) {
-			$pace = $this->zoneFor($paceInSeconds);
+        foreach ($Distribution->histogram() as $paceInSeconds => $seconds) {
+            $pace = $this->zoneFor($paceInSeconds);
 
-			if (! isset($Zones[$pace])) {
-				$Zones[$pace] = [
-				    'time' => $seconds,
-				    'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],
-				    'hr' => $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0,
-				];
-			} else {
-				$Zones[$pace]['time'] += $seconds;
-				$Zones[$pace]['distance'] += $Data[$paceInSeconds][Trackdata\Entity::DISTANCE];
-				$Zones[$pace]['hr'] += $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0;
-			}
-		}
+            if (! isset($Zones[$pace])) {
+                $Zones[$pace] = [
+                    'time' => $seconds,
+                    'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],
+                    'hr' => $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0,
+                ];
+            } else {
+                $Zones[$pace]['time'] += $seconds;
+                $Zones[$pace]['distance'] += $Data[$paceInSeconds][Trackdata\Entity::DISTANCE];
+                $Zones[$pace]['hr'] += $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0;
+            }
+        }
 
-		ksort($Zones, SORT_NUMERIC);
+        ksort($Zones, SORT_NUMERIC);
 
-		return $Zones;
-	}
+        return $Zones;
+    }
 
-	/**
-	 * @param int $paceInSeconds
-	 * @return int
-	 */
-	protected function zoneFor($paceInSeconds) {
-		if ($paceInSeconds == 0) {
-			return 0;
-		}
+    /**
+     * @param int $paceInSeconds
+     * @return int
+     */
+    protected function zoneFor($paceInSeconds)
+    {
+        if ($paceInSeconds == 0) {
+            return 0;
+        }
 
-		if ($this->PaceUnit->isDecimalFormat()) {
-			$dividend = $this->PaceUnit->dividendForUnit();
+        if ($this->PaceUnit->isDecimalFormat()) {
+            $dividend = $this->PaceUnit->dividendForUnit();
 
-			return $paceInSeconds > $dividend ? 0 : $dividend / floor($dividend / $paceInSeconds);
-		}
+            return $paceInSeconds > $dividend ? 0 : $dividend / floor($dividend / $paceInSeconds);
+        }
 
-		$factor = $this->PaceUnit->factorForUnit();
+        $factor = $this->PaceUnit->factorForUnit();
 
-		return round(30 * floor($factor * $paceInSeconds / 30) / $factor);
-	}
+        return round(30 * floor($factor * $paceInSeconds / 30) / $factor);
+    }
 }

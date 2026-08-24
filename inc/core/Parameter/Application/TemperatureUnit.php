@@ -15,62 +15,67 @@ namespace Runalyze\Parameter\Application;
  */
 class TemperatureUnit extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Celsius
-	 * @var string
-	 */
-	const CELSIUS = '°C';
+    /**
+     * Celsius
+     * @var string
+     */
+    public const CELSIUS = '°C';
 
-	/**
-	 * Fahrenheit
-	 * @var string
-	 */
-	const FAHRENHEIT = '°F';
+    /**
+     * Fahrenheit
+     * @var string
+     */
+    public const FAHRENHEIT = '°F';
 
-	/**
-	 * Construct
-	 * @param string $default
-	 */
-	public function __construct($default = self::CELSIUS) {
-		parent::__construct($default, [
-    'options' => [
-		        self::CELSIUS => __('Celsius (°C)'),
-		        self::FAHRENHEIT => __('Fahrenheit (°F)'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     * @param string $default
+     */
+    public function __construct($default = self::CELSIUS)
+    {
+        parent::__construct($default, [
+            'options' => [
+                self::CELSIUS => __('Celsius (°C)'),
+                self::FAHRENHEIT => __('Fahrenheit (°F)'),
+            ],
+        ]);
+    }
 
     /**
      * Is celsius?
      */
-    public function isCelsius(): bool {
-		return $this->value() == self::CELSIUS;
-	}
+    public function isCelsius(): bool
+    {
+        return $this->value() == self::CELSIUS;
+    }
 
     /**
      * Is fahrenheit?
      */
-    public function isFahrenheit(): bool {
-		return $this->value() == self::FAHRENHEIT;
-	}
+    public function isFahrenheit(): bool
+    {
+        return $this->value() == self::FAHRENHEIT;
+    }
 
-	/**
-	 * Get current user temperature unit
-	 * @return string
-	 */
-	public function unit() {
-		return $this->value();
-	}
+    /**
+     * Get current user temperature unit
+     * @return string
+     */
+    public function unit()
+    {
+        return $this->value();
+    }
 
-	/**
-	 * @param float $celsius [°C]
-	 * @return float [°C|°F]
-	 */
-	public function celsiusToUnit($celsius) {
-		if ($this->isFahrenheit()) {
-			return $celsius * 1.8 + 32;
-		}
+    /**
+     * @param float $celsius [°C]
+     * @return float [°C|°F]
+     */
+    public function celsiusToUnit($celsius)
+    {
+        if ($this->isFahrenheit()) {
+            return $celsius * 1.8 + 32;
+        }
 
-		return $celsius;
-	}
+        return $celsius;
+    }
 }

@@ -18,30 +18,32 @@ namespace Runalyze\Model;
  */
 abstract class StringObject
 {
-	/**
-	 * Construct
-	 * @param string $data string
-	 */
-	public function __construct($data = '') {
-		$this->fromString($data);
-	}
+    /**
+     * Construct
+     * @param string $data string
+     */
+    public function __construct($data = '')
+    {
+        $this->fromString($data);
+    }
 
-	/**
-	 * @param string $string
-	 */
-	abstract public function fromString($string);
+    /**
+     * @param string $string
+     */
+    abstract public function fromString($string);
 
-	/**
-	 * As string
-	 * @return string
-	 */
-	abstract public function asString();
+    /**
+     * As string
+     * @return string
+     */
+    abstract public function asString();
 
-	/**
-	 * Is empty
-	 * @return bool
-	 */
-	public function isEmpty() {
-		return $this->asString() == '';
-	}
+    /**
+     * Is empty
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->asString() == '';
+    }
 }

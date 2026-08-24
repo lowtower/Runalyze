@@ -11,25 +11,28 @@
  */
 class FormularTextarea extends FormularField
 {
-	/**
-	 * Prepare for beeing displayed
-	 */
-	protected function prepareForDisplay() {
-		$this->addAttribute('name', $this->name);
-	}
+    /**
+     * Prepare for beeing displayed
+     */
+    protected function prepareForDisplay()
+    {
+        $this->addAttribute('name', $this->name);
+    }
 
     /**
      * Display this field
      */
-    protected function getFieldCode(): string {
-		return '<label for="' . $this->name . '">' . $this->label . '</label> <textarea ' . $this->attributes() . '>' . $this->value . '</textarea>';
-	}
+    protected function getFieldCode(): string
+    {
+        return '<label for="' . $this->name . '">' . $this->label . '</label> <textarea ' . $this->attributes() . '>' . $this->value . '</textarea>';
+    }
 
-	/**
-	 * Size size for this textarea field
-	 * @param string $size
-	 */
-	public function setSize($size) {
-		$this->addCSSclass($size);
-	}
+    /**
+     * Size size for this textarea field
+     * @param string $size
+     */
+    public function setSize($size)
+    {
+        $this->addCSSclass($size);
+    }
 }

@@ -11,7 +11,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     /**
      * @var int
      */
-    const MIN_MAX_TOLERANCE = 2;
+    public const MIN_MAX_TOLERANCE = 2;
 
     public function filter(ActivityDataContainer $container, $strict = false)
     {

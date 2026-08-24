@@ -28,7 +28,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
     /**
      * @var string
      */
-    const URL = 'https://meteostat.p.rapidapi.com/point/hourly';
+    public const URL = 'https://meteostat.p.rapidapi.com/point/hourly';
 
     /**
      * @var string
@@ -142,7 +142,7 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
                     'x-rapidapi-key' => $this->ApiKey,
                 ],
             ];
-            if(! empty($this->Proxy)) {
+            if (! empty($this->Proxy)) {
                 $headers['proxy'] = $this->Proxy;
             }
 
@@ -172,14 +172,15 @@ class MeteostatNet implements StrategyInterface, LoggerAwareInterface
         return [];
     }
 
-    protected function getDataElementOfTime($time, $data) {
+    protected function getDataElementOfTime($time, $data)
+    {
         // get activity-time in string-format
         $ymdhms = $time->format('Y-m-d H:i:s');
         $this->logger->debug(sprintf('searching data elements with date %s', $ymdhms));
 
         // the array is sorted from 00:00 to 23:00; do the reverse and select the right
         foreach (array_reverse($data) as &$value) {
-            if(isset($value['time']) && $ymdhms >= $value['time']) {
+            if (isset($value['time']) && $ymdhms >= $value['time']) {
                 $this->logger->debug(sprintf('found data elements for time %s >%s<', $ymdhms, print_r($value, true)));
                 return $value;
             }

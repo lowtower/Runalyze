@@ -11,143 +11,156 @@
  */
 class PluginConfigurationValue
 {
-	/**
-	 * Max length
-	 * @var int
-	 */
-	const MAXLENGTH = 255;
+    /**
+     * Max length
+     * @var int
+     */
+    public const MAXLENGTH = 255;
 
-	/**
-	 * Key
-	 * @var string
-	 */
-	protected $Key;
+    /**
+     * Key
+     * @var string
+     */
+    protected $Key;
 
-	/**
-	 * Value
-	 * @var mixed
-	 */
-	protected $Value;
+    /**
+     * Value
+     * @var mixed
+     */
+    protected $Value;
 
-	/**
-	 * Default value
-	 * @var mixed
-	 */
-	protected $DefaultValue;
+    /**
+     * Default value
+     * @var mixed
+     */
+    protected $DefaultValue;
 
-	/**
-	 * Label
-	 * @var string
-	 */
-	protected $Label;
+    /**
+     * Label
+     * @var string
+     */
+    protected $Label;
 
-	/**
-	 * Tooltip
-	 * @var string
-	 */
-	protected $Tooltip;
+    /**
+     * Tooltip
+     * @var string
+     */
+    protected $Tooltip;
 
-	/**
-	 * Construct
-	 * @param string $Key
-	 * @param string $Label [optional]
-	 * @param string $Tooltip [optional]
-	 * @param string $DefaultValue [optional]
-	 */
-	public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '') {
-		$this->Key = $Key;
-		$this->Label = $Label;
-		$this->Tooltip = $Tooltip;
-		$this->DefaultValue = $DefaultValue;
-	}
+    /**
+     * Construct
+     * @param string $Key
+     * @param string $Label [optional]
+     * @param string $Tooltip [optional]
+     * @param string $DefaultValue [optional]
+     */
+    public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '')
+    {
+        $this->Key = $Key;
+        $this->Label = $Label;
+        $this->Tooltip = $Tooltip;
+        $this->DefaultValue = $DefaultValue;
+    }
 
-	/**
-	 * @return string
-	 */
-	final public function key() {
-		return $this->Key;
-	}
+    /**
+     * @return string
+     */
+    final public function key()
+    {
+        return $this->Key;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	final public function value() {
-		return $this->Value;
-	}
+    /**
+     * @return mixed
+     */
+    final public function value()
+    {
+        return $this->Value;
+    }
 
-	/**
-	 * @param string $Label
-	 */
-	final public function setLabel($Label) {
-		$this->Label = $Label;
-	}
+    /**
+     * @param string $Label
+     */
+    final public function setLabel($Label)
+    {
+        $this->Label = $Label;
+    }
 
-	/**
-	 * @param string $Tooltip
-	 */
-	final public function setTooltip($Tooltip) {
-		$this->Tooltip = $Tooltip;
-	}
+    /**
+     * @param string $Tooltip
+     */
+    final public function setTooltip($Tooltip)
+    {
+        $this->Tooltip = $Tooltip;
+    }
 
-	/**
-	 * Label for form field
-	 * @return string
-	 */
-	final protected function formLabel() {
-		if (! empty($this->Tooltip)) {
-			return Ajax::tooltip($this->Label, $this->Tooltip, true);
-		}
+    /**
+     * Label for form field
+     * @return string
+     */
+    final protected function formLabel()
+    {
+        if (! empty($this->Tooltip)) {
+            return Ajax::tooltip($this->Label, $this->Tooltip, true);
+        }
 
-		return $this->Label;
-	}
+        return $this->Label;
+    }
 
-	/**
-	 * @param mixed $Value
-	 */
-	final public function setValue($Value) {
-		$this->Value = $Value;
-	}
+    /**
+     * @param mixed $Value
+     */
+    final public function setValue($Value)
+    {
+        $this->Value = $Value;
+    }
 
-	/**
-	 * @param mixed $Value
-	 */
-	final public function setDefaultValue($Value) {
-		$this->DefaultValue = $Value;
-	}
+    /**
+     * @param mixed $Value
+     */
+    final public function setDefaultValue($Value)
+    {
+        $this->DefaultValue = $Value;
+    }
 
-	final public function setDefaultValueAsValue() {
-		$this->Value = $this->DefaultValue;
-	}
+    final public function setDefaultValueAsValue()
+    {
+        $this->Value = $this->DefaultValue;
+    }
 
-	/**
-	 * Has to be overwritten in subclasses.
-	 * @param string $Value
-	 */
-	public function setValueFromString($Value) {
-		$this->Value = $Value;
-	}
+    /**
+     * Has to be overwritten in subclasses.
+     * @param string $Value
+     */
+    public function setValueFromString($Value)
+    {
+        $this->Value = $Value;
+    }
 
-	/**
-	 * Get value as string
-	 * @return string
-	 */
-	public function valueAsString() {
-		return $this->value();
-	}
+    /**
+     * Get value as string
+     * @return string
+     */
+    public function valueAsString()
+    {
+        return $this->value();
+    }
 
-	public function setValueFromPost() {
-		if (isset($_POST[$this->Key])) {
-			$this->setValueFromString($_POST[$this->Key]);
-		}
-	}
+    public function setValueFromPost()
+    {
+        if (isset($_POST[$this->Key])) {
+            $this->setValueFromString($_POST[$this->Key]);
+        }
+    }
 
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularField {
-		$Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
-		$Field->setSize( FormularInput::$SIZE_MIDDLE );
+    public function getFormField(): \FormularField
+    {
+        $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
+        $Field->setSize(FormularInput::$SIZE_MIDDLE);
 
-		return $Field;
-	}
+        return $Field;
+    }
 }

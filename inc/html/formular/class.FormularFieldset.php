@@ -14,316 +14,357 @@ use Runalyze\Configuration;
  */
 class FormularFieldset extends HtmlTag
 {
-	public static $LAYOUT_FIELD_W100 = 'w100 block';
+    public static $LAYOUT_FIELD_W100 = 'w100 block';
 
-	public static $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
+    public static $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
 
-	public static $LAYOUT_FIELD_W100_IN_W50 = 'w100 with50erLabel';
+    public static $LAYOUT_FIELD_W100_IN_W50 = 'w100 with50erLabel';
 
-	public static $LAYOUT_FIELD_W100_IN_W33 = 'w100 with33erLabel';
+    public static $LAYOUT_FIELD_W100_IN_W33 = 'w100 with33erLabel';
 
-	public static $LAYOUT_FIELD_W50_IN_W33 = 'w50 with33erLabel';
+    public static $LAYOUT_FIELD_W50_IN_W33 = 'w50 with33erLabel';
 
-	public static $LAYOUT_FIELD_W50 = 'w50';
+    public static $LAYOUT_FIELD_W50 = 'w50';
 
-	public static $LAYOUT_FIELD_W50_AS_W100 = 'w50 marginr50';
+    public static $LAYOUT_FIELD_W50_AS_W100 = 'w50 marginr50';
 
-	public static $LAYOUT_FIELD_W33 = 'w33';
+    public static $LAYOUT_FIELD_W33 = 'w33';
 
-	public static $LAYOUT_FIELD_W25 = 'w25';
+    public static $LAYOUT_FIELD_W25 = 'w25';
 
-	public static $LAYOUT_FIELD_INLINE = 'inline';
+    public static $LAYOUT_FIELD_INLINE = 'inline';
 
-	public static $LAYOUT_FIELD_SMALL = 'small';
+    public static $LAYOUT_FIELD_SMALL = 'small';
 
-	public static $LAYOUT_FIELD_SMALL_INLINE = 'inline small';
+    public static $LAYOUT_FIELD_SMALL_INLINE = 'inline small';
 
-	/**
-	 * Title for this fieldset, if empty, no header is shown
-	 * @var string
-	 */
-	protected $title = '';
+    /**
+     * Title for this fieldset, if empty, no header is shown
+     * @var string
+     */
+    protected $title = '';
 
-	/**
-	 * Array with all fields
-	 * @var array
-	 */
-	protected $fields = [];
+    /**
+     * Array with all fields
+     * @var array
+     */
+    protected $fields = [];
 
-	/**
-	 * Boolean flag: collapsed
-	 * @var bool
-	 */
-	protected $collapsed = false;
+    /**
+     * Boolean flag: collapsed
+     * @var bool
+     */
+    protected $collapsed = false;
 
-	/**
-	 * Array with extra messages to display below the fields
-	 * @var array
-	 */
-	private $messages = [];
+    /**
+     * Array with extra messages to display below the fields
+     * @var array
+     */
+    private $messages = [];
 
-	/**
-	 * Individual HTML code
-	 * @var string
-	 */
-	private $HtmlCode = '';
+    /**
+     * Individual HTML code
+     * @var string
+     */
+    private $HtmlCode = '';
 
-	/**
-	 * @var string
-	 */
-	private $HtmlCodeBeforeFields = '';
+    /**
+     * @var string
+     */
+    private $HtmlCodeBeforeFields = '';
 
-	/**
-	 * Boolean flag: only one opened fieldset allowed
-	 * @var bool
-	 */
-	private $allowOnlyOneOpenedFieldset = false;
+    /**
+     * Boolean flag: only one opened fieldset allowed
+     * @var bool
+     */
+    private $allowOnlyOneOpenedFieldset = false;
 
-	/**
-	 * Name of configuration value to save current status (collapsed or not)
-	 * @var string
-	 */
-	private $confValueToSaveStatus = '';
+    /**
+     * Name of configuration value to save current status (collapsed or not)
+     * @var string
+     */
+    private $confValueToSaveStatus = '';
 
-	/**
-	 * Constructor for a new fieldset
-	 * @param string $title [optional]
-	 */
-	public function __construct($title = '') {
-		if (! empty($title))
-			$this->setTitle($title);
-	}
+    /**
+     * Constructor for a new fieldset
+     * @param string $title [optional]
+     */
+    public function __construct($title = '')
+    {
+        if (! empty($title)) {
+            $this->setTitle($title);
+        }
+    }
 
-	/**
-	 * Set title for this fieldset
-	 * @param string $title
-	 */
-	final public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * Set title for this fieldset
+     * @param string $title
+     */
+    final public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * Set this fieldset as collapsed
-	 */
-	final public function setCollapsed() {
-		$this->collapsed = true;
-	}
+    /**
+     * Set this fieldset as collapsed
+     */
+    final public function setCollapsed()
+    {
+        $this->collapsed = true;
+    }
 
-	/**
-	 * Set conf value to save current status
-	 * @param string $confValue
-	 */
-	final public function setConfValueToSaveStatus($confValue) {
-		$this->confValueToSaveStatus = $confValue;
+    /**
+     * Set conf value to save current status
+     * @param string $confValue
+     */
+    final public function setConfValueToSaveStatus($confValue)
+    {
+        $this->confValueToSaveStatus = $confValue;
 
-		if (! Configuration::ActivityForm()->show($confValue))
-			$this->setCollapsed();
-	}
+        if (! Configuration::ActivityForm()->show($confValue)) {
+            $this->setCollapsed();
+        }
+    }
 
-	/**
-	 * Set a specific layout for all fields
-	 */
-	final public function setLayoutForFields($layout) {
-		foreach ($this->fields as &$Field)
-			if (is_object($Field))
-				$Field->setLayoutIfEmpty($layout);
-	}
+    /**
+     * Set a specific layout for all fields
+     */
+    final public function setLayoutForFields($layout)
+    {
+        foreach ($this->fields as &$Field) {
+            if (is_object($Field)) {
+                $Field->setLayoutIfEmpty($layout);
+            }
+        }
+    }
 
-	/**
-	 * For toggle-function: only one opened fieldset
-	 */
-	final public function allowOnlyOneOpenedFieldset() {
-		$this->allowOnlyOneOpenedFieldset = true;
-	}
+    /**
+     * For toggle-function: only one opened fieldset
+     */
+    final public function allowOnlyOneOpenedFieldset()
+    {
+        $this->allowOnlyOneOpenedFieldset = true;
+    }
 
-	/**
-	 * Add a given field to this fieldset
-	 * @param null|FormularField $Field
-	 */
-	final public function addField($Field) {
-		if ($Field !== null)
-			$this->fields[] = $Field;
-	}
+    /**
+     * Add a given field to this fieldset
+     * @param null|FormularField $Field
+     */
+    final public function addField($Field)
+    {
+        if ($Field !== null) {
+            $this->fields[] = $Field;
+        }
+    }
 
-	/**
-	 * Add given fields to this fieldset
-	 * @param FormularField[] $Fields
-	 */
-	final public function addFields(array $Fields) {
-		foreach ($Fields as $Field) {
-			$this->fields[] = $Field;
-		}
-	}
+    /**
+     * Add given fields to this fieldset
+     * @param FormularField[] $Fields
+     */
+    final public function addFields(array $Fields)
+    {
+        foreach ($Fields as $Field) {
+            $this->fields[] = $Field;
+        }
+    }
 
-	final public function validateAllFields() {
-		foreach ($this->fields as &$Field)
-			$Field->validate();
-	}
+    final public function validateAllFields()
+    {
+        foreach ($this->fields as &$Field) {
+            $Field->validate();
+        }
+    }
 
-	/**
-	 * Display this fieldset
-	 */
-	public function display() {
-		if ($this->collapsed)
-			$this->addCSSclass('collapsed');
+    /**
+     * Display this fieldset
+     */
+    public function display()
+    {
+        if ($this->collapsed) {
+            $this->addCSSclass('collapsed');
+        }
 
-		if (empty($this->title))
-			$this->addCSSclass('without-legend');
+        if (empty($this->title)) {
+            $this->addCSSclass('without-legend');
+        }
 
-		echo '<fieldset ' . $this->attributes() . '>';
+        echo '<fieldset ' . $this->attributes() . '>';
 
-		$this->displayLegend();
-		$this->displayHtmlCodeBeforeFields();
-		$this->displayFields();
-		$this->displayMessages();
-		$this->displayHtmlCode();
+        $this->displayLegend();
+        $this->displayHtmlCodeBeforeFields();
+        $this->displayFields();
+        $this->displayMessages();
+        $this->displayHtmlCode();
 
-		echo '</fieldset>';
-	}
+        echo '</fieldset>';
+    }
 
-	/**
-	 * Display all fields
-	 */
-	private function displayLegend() {
-		if (! empty($this->title))
-			echo '<legend onclick="' . $this->getLegendOnclick() . '">' . $this->title . '</legend>';
-	}
+    /**
+     * Display all fields
+     */
+    private function displayLegend()
+    {
+        if (! empty($this->title)) {
+            echo '<legend onclick="' . $this->getLegendOnclick() . '">' . $this->title . '</legend>';
+        }
+    }
 
     /**
      * Get onclick attribute for legend
      */
-    private function getLegendOnclick(): string {
-		$onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
+    private function getLegendOnclick(): string
+    {
+        $onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
 
-		return "Runalyze.toggleFieldset(this, '" . $this->Id . "', " . $onlyOne . ", '" . $this->confValueToSaveStatus . "')";
-	}
+        return "Runalyze.toggleFieldset(this, '" . $this->Id . "', " . $onlyOne . ", '" . $this->confValueToSaveStatus . "')";
+    }
 
-	/**
-	 * Display all fields
-	 */
-	private function displayFields() {
-		foreach ($this->fields as $Field)
-			if (is_object($Field))
-				$Field->display();
-			else
-				echo '<div class="w50"></div>';
-	}
+    /**
+     * Display all fields
+     */
+    private function displayFields()
+    {
+        foreach ($this->fields as $Field) {
+            if (is_object($Field)) {
+                $Field->display();
+            } else {
+                echo '<div class="w50"></div>';
+            }
+        }
+    }
 
-	/**
-	 * Set individual HTML code
-	 * @param string $Code
-	 */
-	public function setHtmlCode($Code) {
-		$this->HtmlCode = $Code;
-	}
+    /**
+     * Set individual HTML code
+     * @param string $Code
+     */
+    public function setHtmlCode($Code)
+    {
+        $this->HtmlCode = $Code;
+    }
 
-	/**
-	 * Display individual html code
-	 */
-	private function displayHtmlCode() {
-		if (! empty($this->HtmlCode))
-			echo '<div>' . $this->HtmlCode . '</div>';
-	}
+    /**
+     * Display individual html code
+     */
+    private function displayHtmlCode()
+    {
+        if (! empty($this->HtmlCode)) {
+            echo '<div>' . $this->HtmlCode . '</div>';
+        }
+    }
 
     /**
      * @param string $code
      */
-    public function setHtmlCodeBeforeFields($code) {
+    public function setHtmlCodeBeforeFields($code)
+    {
         $this->HtmlCodeBeforeFields = $code;
     }
 
-    private function displayHtmlCodeBeforeFields() {
-        if (! empty($this->HtmlCodeBeforeFields))
+    private function displayHtmlCodeBeforeFields()
+    {
+        if (! empty($this->HtmlCodeBeforeFields)) {
             echo '<div>' . $this->HtmlCodeBeforeFields . '</div>';
+        }
     }
 
-	/**
-	 * Display all messages
-	 */
-	private function displayMessages() {
-		echo '<div class="fieldset-messages">';
+    /**
+     * Display all messages
+     */
+    private function displayMessages()
+    {
+        echo '<div class="fieldset-messages">';
 
-		foreach ($this->messages as $message) {
-			if ($message['type'] == 'block')
-				echo '<div>' . $message['message'] . '</div>';
-			else
-				echo '<p class="' . $message['type'] . '">' . $message['message'] . '</p>';
-		}
+        foreach ($this->messages as $message) {
+            if ($message['type'] == 'block') {
+                echo '<div>' . $message['message'] . '</div>';
+            } else {
+                echo '<p class="' . $message['type'] . '">' . $message['message'] . '</p>';
+            }
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
     /**
      * @param string $message
      */
-    private function addMessage($message, string $type) {
-		$this->messages[] = [
-		    'type' => $type,
-		    'message' => $message,
-		];
-	}
+    private function addMessage($message, string $type)
+    {
+        $this->messages[] = [
+            'type' => $type,
+            'message' => $message,
+        ];
+    }
 
-	/**
-	 * Add okay to fieldset
-	 * @param string $message
-	 */
-	final public function addOkay($message) {
-		$this->addMessage($message, 'okay');
-	}
+    /**
+     * Add okay to fieldset
+     * @param string $message
+     */
+    final public function addOkay($message)
+    {
+        $this->addMessage($message, 'okay');
+    }
 
-	/**
-	 * Add warning to fieldset
-	 * @param string $message
-	 */
-	final public function addWarning($message) {
-		$this->addMessage($message, 'warning');
-	}
+    /**
+     * Add warning to fieldset
+     * @param string $message
+     */
+    final public function addWarning($message)
+    {
+        $this->addMessage($message, 'warning');
+    }
 
-	/**
-	 * Add error to fieldset
-	 * @param string $message
-	 */
-	final public function addError($message) {
-		$this->addMessage($message, 'error');
-	}
+    /**
+     * Add error to fieldset
+     * @param string $message
+     */
+    final public function addError($message)
+    {
+        $this->addMessage($message, 'error');
+    }
 
-	/**
-	 * Add info to fieldset
-	 * @param string $message
-	 */
-	final public function addInfo($message) {
-		$this->addMessage($message, 'info');
-	}
+    /**
+     * Add info to fieldset
+     * @param string $message
+     */
+    final public function addInfo($message)
+    {
+        $this->addMessage($message, 'info');
+    }
 
-	/**
-	 * Add small info to fieldset
-	 * @param string $message
-	 */
-	final public function addSmallInfo($message) {
-		$this->addMessage($message, 'info small');
-	}
+    /**
+     * Add small info to fieldset
+     * @param string $message
+     */
+    final public function addSmallInfo($message)
+    {
+        $this->addMessage($message, 'info small');
+    }
 
-	/**
-	 * Add block to fieldset
-	 * @param string $message
-	 */
-	final public function addBlock($message) {
-		$this->addMessage($message, 'block');
-	}
+    /**
+     * Add block to fieldset
+     * @param string $message
+     */
+    final public function addBlock($message)
+    {
+        $this->addMessage($message, 'block');
+    }
 
-	/**
-	 * Add text to fieldset
-	 * @param string $message
-	 */
-	final public function addText($message) {
-		$this->addMessage($message, 'text');
-	}
+    /**
+     * Add text to fieldset
+     * @param string $message
+     */
+    final public function addText($message)
+    {
+        $this->addMessage($message, 'text');
+    }
 
-	/**
-	 * Add block to fieldset
-	 * @param string $message
-	 */
-	final public function addFileBlock($message) {
-		$this->addMessage($message, 'file');
-	}
+    /**
+     * Add block to fieldset
+     * @param string $message
+     */
+    final public function addFileBlock($message)
+    {
+        $this->addMessage($message, 'file');
+    }
 }

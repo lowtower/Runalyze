@@ -11,51 +11,54 @@ use Runalyze\Profile\Athlete\Gender;
  */
 class AthleteTest extends \PHPUnit\Framework\TestCase
 {
-	public function testEmpty() {
-		$Athlete = new Athlete();
+    public function testEmpty()
+    {
+        $Athlete = new Athlete();
 
-		$this->assertFalse( $Athlete->knowsGender() );
-		$this->assertFalse( $Athlete->knowsMaximalHeartRate() );
-		$this->assertFalse( $Athlete->knowsRestingHeartRate() );
-		$this->assertFalse( $Athlete->knowsAge() );
-        $this->assertFalse( $Athlete->knowsBirthyear() );
-        $this->assertFalse( $Athlete->knowsWeight() );
-		$this->assertFalse( $Athlete->knowsEffectiveVO2max() );
-	}
+        $this->assertFalse($Athlete->knowsGender());
+        $this->assertFalse($Athlete->knowsMaximalHeartRate());
+        $this->assertFalse($Athlete->knowsRestingHeartRate());
+        $this->assertFalse($Athlete->knowsAge());
+        $this->assertFalse($Athlete->knowsBirthyear());
+        $this->assertFalse($Athlete->knowsWeight());
+        $this->assertFalse($Athlete->knowsEffectiveVO2max());
+    }
 
-	public function testGenderAndHRmax() {
+    public function testGenderAndHRmax()
+    {
 
-		$Athlete = new Athlete(Gender::MALE, 210);
+        $Athlete = new Athlete(Gender::MALE, 210);
 
-		$this->assertTrue( $Athlete->knowsGender() );
-		$this->assertTrue( $Athlete->knowsMaximalHeartRate() );
-		$this->assertFalse( $Athlete->knowsRestingHeartRate() );
-		$this->assertFalse( $Athlete->knowsAge() );
-        $this->assertFalse( $Athlete->knowsBirthyear() );
-        $this->assertFalse( $Athlete->knowsWeight() );
+        $this->assertTrue($Athlete->knowsGender());
+        $this->assertTrue($Athlete->knowsMaximalHeartRate());
+        $this->assertFalse($Athlete->knowsRestingHeartRate());
+        $this->assertFalse($Athlete->knowsAge());
+        $this->assertFalse($Athlete->knowsBirthyear());
+        $this->assertFalse($Athlete->knowsWeight());
 
-		$this->assertEquals( Gender::MALE, $Athlete->gender() );
-		$this->assertEquals( 210, $Athlete->maximalHR() );
-	}
+        $this->assertEquals(Gender::MALE, $Athlete->gender());
+        $this->assertEquals(210, $Athlete->maximalHR());
+    }
 
-	public function testAllProperties() {
+    public function testAllProperties()
+    {
 
-		$Athlete = new Athlete(Gender::MALE, 210, 45, 70, 1993, 60);
+        $Athlete = new Athlete(Gender::MALE, 210, 45, 70, 1993, 60);
 
-		$this->assertTrue( $Athlete->knowsGender() );
-		$this->assertTrue( $Athlete->knowsMaximalHeartRate() );
-		$this->assertTrue( $Athlete->knowsRestingHeartRate() );
-		$this->assertTrue( $Athlete->knowsAge() );
-        $this->assertTrue( $Athlete->knowsBirthyear() );
-        $this->assertTrue( $Athlete->knowsWeight() );
-		$this->assertTrue( $Athlete->knowsEffectiveVO2max() );
+        $this->assertTrue($Athlete->knowsGender());
+        $this->assertTrue($Athlete->knowsMaximalHeartRate());
+        $this->assertTrue($Athlete->knowsRestingHeartRate());
+        $this->assertTrue($Athlete->knowsAge());
+        $this->assertTrue($Athlete->knowsBirthyear());
+        $this->assertTrue($Athlete->knowsWeight());
+        $this->assertTrue($Athlete->knowsEffectiveVO2max());
 
-		$this->assertEquals( GENDER::MALE, $Athlete->gender() );
-		$this->assertEquals( 210, $Athlete->maximalHR() );
-		$this->assertEquals( 45, $Athlete->restingHR() );
-		$this->assertEquals( 70, $Athlete->weight() );
-        $this->assertEquals( 1993, $Athlete->birthyear() );
-		$this->assertEquals( date('Y') - 1993, $Athlete->age() );
-		$this->assertEquals( 60, $Athlete->vo2max() );
-	}
+        $this->assertEquals(GENDER::MALE, $Athlete->gender());
+        $this->assertEquals(210, $Athlete->maximalHR());
+        $this->assertEquals(45, $Athlete->restingHR());
+        $this->assertEquals(70, $Athlete->weight());
+        $this->assertEquals(1993, $Athlete->birthyear());
+        $this->assertEquals(date('Y') - 1993, $Athlete->age());
+        $this->assertEquals(60, $Athlete->vo2max());
+    }
 }

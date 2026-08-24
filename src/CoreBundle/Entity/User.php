@@ -103,7 +103,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      */
     private $account;
 
-    public function __clone() {
+    public function __clone()
+    {
         $this->id = null;
         $this->notes = '';
     }

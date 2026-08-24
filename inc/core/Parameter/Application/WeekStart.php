@@ -22,160 +22,173 @@ use Runalyze\Util\LocalTime;
  */
 class WeekStart extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Monday
-	 * @var int
-	 */
-	const MONDAY = 1;
+    /**
+     * Monday
+     * @var int
+     */
+    public const MONDAY = 1;
 
-	/**
-	 * Saturday
-	 * @var int
-	 */
-	const SATURDAY = 6;
+    /**
+     * Saturday
+     * @var int
+     */
+    public const SATURDAY = 6;
 
-	/**
-	 * Sunday
-	 * @var int
-	 */
-	const SUNDAY = 0;
+    /**
+     * Sunday
+     * @var int
+     */
+    public const SUNDAY = 0;
 
-	/**
-	 * Construct
-	 * @param int|string $default
-	 */
-	public function __construct($default = self::MONDAY) {
-		parent::__construct($default, [
-    'options' => [
-		        self::MONDAY => __('Monday'),
-		        // Saturday is not supported by MySQL as first day of the week
-		        // self::SATURDAY		=>	__('Saturday'),
-		        self::SUNDAY => __('Sunday'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     * @param int|string $default
+     */
+    public function __construct($default = self::MONDAY)
+    {
+        parent::__construct($default, [
+            'options' => [
+                self::MONDAY => __('Monday'),
+                // Saturday is not supported by MySQL as first day of the week
+                // self::SATURDAY		=>	__('Saturday'),
+                self::SUNDAY => __('Sunday'),
+            ],
+        ]);
+    }
 
     /**
      * Is monday?
      */
-    public function isMonday(): bool {
-		return $this->value() == self::MONDAY;
-	}
+    public function isMonday(): bool
+    {
+        return $this->value() == self::MONDAY;
+    }
 
     /**
      * Is saturday?
      */
-    public function isSaturday(): bool {
-		return $this->value() == self::SATURDAY;
-	}
+    public function isSaturday(): bool
+    {
+        return $this->value() == self::SATURDAY;
+    }
 
     /**
      * Is sunday?
      */
-    public function isSunday(): bool {
-		return $this->value() == self::SUNDAY;
-	}
+    public function isSunday(): bool
+    {
+        return $this->value() == self::SUNDAY;
+    }
 
-	public function differenceToMondayInDays(): int {
-		if ($this->value() == self::SATURDAY) {
-			return -2;
-		}
+    public function differenceToMondayInDays(): int
+    {
+        if ($this->value() == self::SATURDAY) {
+            return -2;
+        }
 
-		if ($this->value() == self::SUNDAY) {
-			return -1;
-		}
+        if ($this->value() == self::SUNDAY) {
+            return -1;
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
-	/**
-	 * Get current week start
-	 * @return string
-	 */
-	public function unit() {
-		return $this->value();
-	}
+    /**
+     * Get current week start
+     * @return string
+     */
+    public function unit()
+    {
+        return $this->value();
+    }
 
-	/**
-	 * @param int|bool $now
-	 * @param bool $transformToServerTime
-	 * @return int
-	 */
-	public function phpWeek($now = false, $transformToServerTime = false) {
-		if ($now === false) {
-			$now = time();
-		} elseif ($transformToServerTime) {
-			$now = (new LocalTime($now))->toServerTimestamp();
-		}
+    /**
+     * @param int|bool $now
+     * @param bool $transformToServerTime
+     * @return int
+     */
+    public function phpWeek($now = false, $transformToServerTime = false)
+    {
+        if ($now === false) {
+            $now = time();
+        } elseif ($transformToServerTime) {
+            $now = (new LocalTime($now))->toServerTimestamp();
+        }
 
-		if ($this->isSunday() && date('w', $now) == 0) {
-			if (date('W', $now) == 53 || date('W', $now) === date('W', mktime(0, 0, 0, 12, 28, date('Y', $now))))
-				return 1;
+        if ($this->isSunday() && date('w', $now) == 0) {
+            if (date('W', $now) == 53 || date('W', $now) === date('W', mktime(0, 0, 0, 12, 28, date('Y', $now)))) {
+                return 1;
+            }
 
-			return date('W', $now) + 1;
-		}
+            return date('W', $now) + 1;
+        }
 
-		return date('W', $now);
-	}
+        return date('W', $now);
+    }
 
     /**
      * Parameter for `WEEK(date, mode)` in MySQL
      * @see http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_week
      * @deprecated 3.1.0 Use `mysqlWeek()` instead as it fixes #1941
      */
-    public function mysqlParameter(): int {
-		switch ($this->value()) {
-			case self::SUNDAY:
-				return 6;
-			case self::MONDAY:
-			default:
-				return 3;
-		}
-	}
+    public function mysqlParameter(): int
+    {
+        switch ($this->value()) {
+            case self::SUNDAY:
+                return 6;
+            case self::MONDAY:
+            default:
+                return 3;
+        }
+    }
 
-	/**
-	 * Fixed version to get correct mysql week
-	 * @see https://github.com/Runalyze/Runalyze/issues/1941
-	 *
-	 * @param string $dateString
-	 * @return string Query part to select correct week number
-	 */
-	public function mysqlWeek($dateString): string {
-		if ($this->isSunday()) {
-			return 'WEEK(DATE_ADD(' . $dateString . ', INTERVAL 1 DAY), 3)';
-		}
+    /**
+     * Fixed version to get correct mysql week
+     * @see https://github.com/Runalyze/Runalyze/issues/1941
+     *
+     * @param string $dateString
+     * @return string Query part to select correct week number
+     */
+    public function mysqlWeek($dateString): string
+    {
+        if ($this->isSunday()) {
+            return 'WEEK(DATE_ADD(' . $dateString . ', INTERVAL 1 DAY), 3)';
+        }
 
-		return 'WEEK(' . $dateString . ', 3)';
-	}
+        return 'WEEK(' . $dateString . ', 3)';
+    }
 
     /**
      * @param string $dateString
      */
-    public function mysqlYearWeek($dateString): string {
-		return 'YEAR' . $this->mysqlWeek($dateString);
-	}
+    public function mysqlYearWeek($dateString): string
+    {
+        return 'YEAR' . $this->mysqlWeek($dateString);
+    }
 
-	public function firstDayOfWeekForStrtotime(): string {
-		switch ($this->value()) {
-			case self::SUNDAY:
-				return 'sunday';
-			case self::SATURDAY:
-				return 'saturday';
-			case self::MONDAY:
-			default:
-				return 'monday';
-		}
-	}
+    public function firstDayOfWeekForStrtotime(): string
+    {
+        switch ($this->value()) {
+            case self::SUNDAY:
+                return 'sunday';
+            case self::SATURDAY:
+                return 'saturday';
+            case self::MONDAY:
+            default:
+                return 'monday';
+        }
+    }
 
-	public function lastDayOfWeekForStrtotime(): string {
-		switch ($this->value()) {
-			case self::SUNDAY:
-				return 'saturday';
-			case self::SATURDAY:
-				return 'friday';
-			case self::MONDAY:
-			default:
-				return 'sunday';
-		}
-	}
+    public function lastDayOfWeekForStrtotime(): string
+    {
+        switch ($this->value()) {
+            case self::SUNDAY:
+                return 'saturday';
+            case self::SATURDAY:
+                return 'friday';
+            case self::MONDAY:
+            default:
+                return 'sunday';
+        }
+    }
 }

@@ -17,7 +17,8 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class CompletorForDistance extends Completor
 {
-    public function mode(): string {
-		return parent::MODE_DISTANCE;
-	}
+    public function mode(): string
+    {
+        return parent::MODE_DISTANCE;
+    }
 }

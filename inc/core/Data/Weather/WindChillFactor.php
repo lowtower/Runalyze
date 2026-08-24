@@ -62,14 +62,14 @@ class WindChillFactor implements ValueInterface
         // so if not numeric: replace , with . and convert
         // if there are problems, the (float) cast is robust :-)
         if ($activitySpeed instanceof \Runalyze\Activity\Pace) {
-			if (is_numeric($activitySpeed->asKmPerHour())) {
-				// if numeric use direct
-				$actSpeed = $activitySpeed->asKmPerHour();
-			} else {
-				// if string try to "convert"
-				$akm = str_replace(',', '.', $activitySpeed->asKmPerHour());
-				$actSpeed = (float) $akm;
-			}
+            if (is_numeric($activitySpeed->asKmPerHour())) {
+                // if numeric use direct
+                $actSpeed = $activitySpeed->asKmPerHour();
+            } else {
+                // if string try to "convert"
+                $akm = str_replace(',', '.', $activitySpeed->asKmPerHour());
+                $actSpeed = (float) $akm;
+            }
 
             $kmh = $windSpeed->inKilometerPerHour() + $actSpeed;
         }
@@ -129,7 +129,8 @@ class WindChillFactor implements ValueInterface
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
      */
-    public function string($withUnit = true, $decimals = 0): string {
+    public function string($withUnit = true, $decimals = 0): string
+    {
         return $this->AdjustedTemperature->string($withUnit, $decimals);
     }
 }

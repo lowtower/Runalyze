@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class PerformanceCondition extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'performancecondition';
-	}
+    protected function setKey()
+    {
+        $this->key = 'performancecondition';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\PerformanceCondition($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\PerformanceCondition($context)
+        );
+    }
 }

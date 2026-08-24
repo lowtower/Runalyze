@@ -12,12 +12,12 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
     /**
      * @var string
      */
-    const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
+    public const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
     /**
      * @var string
      */
-    const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
+    public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
     /**
      * @var string

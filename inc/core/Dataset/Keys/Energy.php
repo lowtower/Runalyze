@@ -23,61 +23,61 @@ class Energy extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::ENERGY;
-	}
+    {
+        return \Runalyze\Dataset\Keys::ENERGY;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'kcal';
-	}
+    {
+        return 'kcal';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Energy');
-	}
+    {
+        return __('Energy');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('Energy values are taken from your device or calculated by a simple formula.');
-	}
+    {
+        return __('Energy values are taken from your device or calculated by a simple formula.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->activity()->energy() > 0) {
-			return $context->dataview()
-			    ->energy()
-			    ->string();
-		}
+    {
+        if ($context->activity()->energy() > 0) {
+            return $context->dataview()
+                ->energy()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::SUM;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::SUM;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

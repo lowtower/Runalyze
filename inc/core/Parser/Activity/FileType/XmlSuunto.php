@@ -205,8 +205,9 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         if (! empty($sample->UTC)) {
             $lastTimestamp = $this->strtotime((string) $sample->UTC);
 
-            if ($lastTimestamp > $this->Container->Metadata->getTimestamp())
+            if ($lastTimestamp > $this->Container->Metadata->getTimestamp()) {
                 $this->Container->ActivityData->ElapsedTime = $lastTimestamp - $this->Container->Metadata->getTimestamp();
+            }
         }
     }
 

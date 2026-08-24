@@ -5,7 +5,7 @@ use Runalyze\View\Activity;
 
 class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
 {
-	protected function setContent()
+    protected function setContent()
     {
         $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsLeft(), 1), 'G', __('Impact') . ' (' . __('left') . ')');
         $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsRight(), 1), 'G', __('Impact') . ' (' . __('right') . ')');
@@ -22,7 +22,7 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
         foreach ($this->BoxedValues as $boxedValue) {
             $boxedValue->defineAsFloatingBlock('w50');
         }
-	}
+    }
 
     /**
      * @param mixed $value
@@ -57,12 +57,12 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
         return $value . ' / ' . $type;
     }
 
-	protected function setRightContent()
+    protected function setRightContent()
     {
-		if ($this->Context->trackdata()->has(Trackdata\Entity::IMPACT_GS_LEFT) || $this->Context->trackdata()->has(Trackdata\Entity::IMPACT_GS_RIGHT)) {
-			$Plot = new Activity\Plot\ImpactGs($this->Context);
-			$this->addRightContent('impact_gs', __('Impact Gs'), $Plot);
-		}
+        if ($this->Context->trackdata()->has(Trackdata\Entity::IMPACT_GS_LEFT) || $this->Context->trackdata()->has(Trackdata\Entity::IMPACT_GS_RIGHT)) {
+            $Plot = new Activity\Plot\ImpactGs($this->Context);
+            $this->addRightContent('impact_gs', __('Impact Gs'), $Plot);
+        }
 
         if ($this->Context->trackdata()->has(Trackdata\Entity::BRAKING_GS_LEFT) || $this->Context->trackdata()->has(Trackdata\Entity::BRAKING_GS_RIGHT)) {
             $Plot = new Activity\Plot\BrakingGs($this->Context);
@@ -78,5 +78,5 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
             $Plot = new Activity\Plot\PronationExcursion($this->Context);
             $this->addRightContent('pronation_excursion', __('Pronation excursion'), $Plot);
         }
-	}
+    }
 }

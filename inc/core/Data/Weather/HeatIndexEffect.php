@@ -14,27 +14,27 @@ class HeatIndexEffect extends AbstractEnum
     /**
      * @var int
      */
-    const NO_EFFECT = 0;
+    public const NO_EFFECT = 0;
 
     /**
      * @var int
      */
-    const CAUTION = 1;
+    public const CAUTION = 1;
 
     /**
      * @var int
      */
-    const EXTREME_CAUTION = 2;
+    public const EXTREME_CAUTION = 2;
 
     /**
      * @var int
      */
-    const DANGER = 3;
+    public const DANGER = 3;
 
     /**
      * @var int
      */
-    const EXTREME_DANGER = 4;
+    public const EXTREME_DANGER = 4;
 
     /**
      * @param float $value value (in Fahrenheit)

@@ -18,25 +18,25 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-	/**
-	 * @var int
-	 */
-	const TCX = 1;
+    /**
+     * @var int
+     */
+    public const TCX = 1;
 
-	/**
-	 * @var int
-	 */
-	const GPX = 2;
+    /**
+     * @var int
+     */
+    public const GPX = 2;
 
-	/**
-	 * @var int
-	 */
-	const KML = 3;
+    /**
+     * @var int
+     */
+    public const KML = 3;
 
-	/**
-	 * @var int
-	 */
-	const FITLOG = 4;
+    /**
+     * @var int
+     */
+    public const FITLOG = 4;
 
     /**
      * Get exporter
@@ -45,29 +45,29 @@ final class Types extends AbstractEnum
      * @throws \InvalidArgumentException
      */
     public static function get($typeid, Context $context)
-	{
-		$classNames = self::classNamesArray();
+    {
+        $classNames = self::classNamesArray();
 
-		if (! isset($classNames[$typeid])) {
-			throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
-		}
+        if (! isset($classNames[$typeid])) {
+            throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
+        }
 
-		$className = 'Runalyze\\Export\\File\\' . $classNames[$typeid];
+        $className = 'Runalyze\\Export\\File\\' . $classNames[$typeid];
 
-		return new $className($context);
-	}
+        return new $className($context);
+    }
 
     /**
      * Get array with class names
      * @return array<int, string>
      */
     private static function classNamesArray(): array
-	{
-		return [
-    self::TCX => 'Tcx',
-		    self::GPX => 'Gpx',
-		    self::KML => 'Kml',
-		    self::FITLOG => 'Fitlog',
-];
-	}
+    {
+        return [
+            self::TCX => 'Tcx',
+            self::GPX => 'Gpx',
+            self::KML => 'Kml',
+            self::FITLOG => 'Fitlog',
+        ];
+    }
 }

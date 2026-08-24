@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class Swolf extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'swolf';
-	}
+    protected function setKey()
+    {
+        $this->key = 'swolf';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\Swolf($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\Swolf($context)
+        );
+    }
 }

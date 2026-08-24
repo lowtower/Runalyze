@@ -14,131 +14,140 @@ namespace Runalyze\Model\Trackdata;
  */
 class Pause
 {
-	/**
-	 * Key: time
-	 */
-	const TIME = 'time';
+    /**
+     * Key: time
+     */
+    public const TIME = 'time';
 
-	/**
-	 * Key: duration
-	 */
-	const DURATION = 'duration';
+    /**
+     * Key: duration
+     */
+    public const DURATION = 'duration';
 
-	/**
-	 * Key: heart rate start
-	 */
-	const HR_START = 'hr-start';
+    /**
+     * Key: heart rate start
+     */
+    public const HR_START = 'hr-start';
 
-	/**
-	 * Key: heart rate end
-	 */
-	const HR_END = 'hr-end';
+    /**
+     * Key: heart rate end
+     */
+    public const HR_END = 'hr-end';
 
-	/**
-	 * Timestamp
-	 * Relative to activity
-	 * @var int
-	 */
-	protected $Time = 0;
+    /**
+     * Timestamp
+     * Relative to activity
+     * @var int
+     */
+    protected $Time = 0;
 
-	/**
-	 * Duration
-	 * @var int
-	 */
-	protected $Duration = 0;
+    /**
+     * Duration
+     * @var int
+     */
+    protected $Duration = 0;
 
-	/**
-	 * HR start
-	 * @var int
-	 */
-	protected $HRstart;
+    /**
+     * HR start
+     * @var int
+     */
+    protected $HRstart;
 
-	/**
-	 * HR end
-	 * @var int
-	 */
-	protected $HRend;
+    /**
+     * HR end
+     * @var int
+     */
+    protected $HRend;
 
-	/**
-	 * Construct
-	 * @param int $time
-	 * @param int $duration
-	 * @param int $hrStart
-	 * @param int $hrEnd
-	 */
-	public function __construct($time = 0, $duration = 0, $hrStart = null, $hrEnd = null) {
-		$this->Time = $time;
-		$this->Duration = $duration;
-		$this->HRstart = $hrStart;
-		$this->HRend = $hrEnd;
-	}
+    /**
+     * Construct
+     * @param int $time
+     * @param int $duration
+     * @param int $hrStart
+     * @param int $hrEnd
+     */
+    public function __construct($time = 0, $duration = 0, $hrStart = null, $hrEnd = null)
+    {
+        $this->Time = $time;
+        $this->Duration = $duration;
+        $this->HRstart = $hrStart;
+        $this->HRend = $hrEnd;
+    }
 
     /**
      * Set data from array
      * @param array<string, mixed> $data
      */
-    public function fromArray(array $data) {
-		$this->Time = $data[self::TIME] ?? 0;
-		$this->Duration = $data[self::DURATION] ?? 0;
-		$this->HRstart = $data[self::HR_START] ?? null;
-		$this->HRend = $data[self::HR_END] ?? null;
-	}
+    public function fromArray(array $data)
+    {
+        $this->Time = $data[self::TIME] ?? 0;
+        $this->Duration = $data[self::DURATION] ?? 0;
+        $this->HRstart = $data[self::HR_START] ?? null;
+        $this->HRend = $data[self::HR_END] ?? null;
+    }
 
     /**
      * As array
      * @return array<string, int>
      */
-    public function asArray(): array {
-		return [
-    self::TIME => $this->Time,
-		    self::DURATION => $this->Duration,
-		    self::HR_START => $this->HRstart,
-		    self::HR_END => $this->HRend,
-];
-	}
+    public function asArray(): array
+    {
+        return [
+            self::TIME => $this->Time,
+            self::DURATION => $this->Duration,
+            self::HR_START => $this->HRstart,
+            self::HR_END => $this->HRend,
+        ];
+    }
 
     /**
      * Has heart rate info?
      */
-    public function hasHeartRateInfo(): bool {
-		return $this->HRstart !== null && $this->HRend !== null;
-	}
+    public function hasHeartRateInfo(): bool
+    {
+        return $this->HRstart !== null && $this->HRend !== null;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function time() {
-		return $this->Time;
-	}
+    /**
+     * @return int
+     */
+    public function time()
+    {
+        return $this->Time;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function duration() {
-		return $this->Duration;
-	}
+    /**
+     * @return int
+     */
+    public function duration()
+    {
+        return $this->Duration;
+    }
 
-	/**
-	 * Heart rate at start
-	 * @return int
-	 */
-	public function hrStart() {
-		return $this->HRstart;
-	}
+    /**
+     * Heart rate at start
+     * @return int
+     */
+    public function hrStart()
+    {
+        return $this->HRstart;
+    }
 
-	/**
-	 * Heart rate at end
-	 * @return int
-	 */
-	public function hrEnd() {
-		return $this->HRend;
-	}
+    /**
+     * Heart rate at end
+     * @return int
+     */
+    public function hrEnd()
+    {
+        return $this->HRend;
+    }
 
-	/**
-	 * Heart rate difference
-	 * @return int A negative value indicates an increase
-	 */
-	public function hrDiff() {
-		return $this->HRstart - $this->HRend;
-	}
+    /**
+     * Heart rate difference
+     * @return int A negative value indicates an increase
+     */
+    public function hrDiff()
+    {
+        return $this->HRstart - $this->HRend;
+    }
 }

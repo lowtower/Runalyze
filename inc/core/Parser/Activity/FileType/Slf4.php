@@ -26,7 +26,7 @@ class Slf4 extends Slf3
 
     protected function parseLogEntries()
     {
-        if (! isset($this->Xml->Entries->Entry) ) {
+        if (! isset($this->Xml->Entries->Entry)) {
             if ($this->Xml->GeneralInformation->trainingTime) {
                 $this->Container->ActivityData->Duration = (int) $this->Xml->GeneralInformation->trainingTime / 100;
                 $this->Container->ActivityData->Distance = (float) $this->Xml->GeneralInformation->distance / 1000;

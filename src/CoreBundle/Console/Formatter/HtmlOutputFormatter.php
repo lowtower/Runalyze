@@ -9,7 +9,7 @@ class HtmlOutputFormatter extends OutputFormatter
     /**
      * @var string
      */
-    const CLI_COLORS_PATTERN = '/\033\[(([\d+];?)*)m(.*?)\033\[(([\d+];?)*)m/i';
+    public const CLI_COLORS_PATTERN = '/\033\[(([\d+];?)*)m(.*?)\033\[(([\d+];?)*)m/i';
 
     /**
      * @var string[]

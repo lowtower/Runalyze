@@ -18,45 +18,45 @@ class FitTrainingEffectBenefit extends AbstractEnum
 {
     // respect the order by number!
 
-	/**
-	 * @var int
-	 */
-	const RECOVERY = 1; // Erholung
-
-	/**
-	 * @var int
-	 */
-	const BASE = 2; // Basis
+    /**
+     * @var int
+     */
+    public const RECOVERY = 1; // Erholung
 
     /**
      * @var int
      */
-    const PACE = 3; // Tempo
+    public const BASE = 2; // Basis
 
     /**
      * @var int
      */
-    const THRESHOLD = 4; // Schwelle
+    public const PACE = 3; // Tempo
 
     /**
      * @var int
      */
-    const VO2MAX = 5; // VO2Max
+    public const THRESHOLD = 4; // Schwelle
 
     /**
      * @var int
      */
-    const ANAEROBIC = 6; // Anaerobic
+    public const VO2MAX = 5; // VO2Max
 
     /**
      * @var int
      */
-    const SPRINT = 7; // Sprint
+    public const ANAEROBIC = 6; // Anaerobic
+
+    /**
+     * @var int
+     */
+    public const SPRINT = 7; // Sprint
 
     /**
      * @var array
      */
-    const COLORS = [
+    public const COLORS = [
         '#0aa476', // 1 green
         '#0aa476', // 2
         '#f27019', // 3 orange
@@ -75,7 +75,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function fromFitToEnum($fitValue)
     {
-        if (! is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7 ) {
+        if (! is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7) {
             throw new \InvalidArgumentException(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
         }
 

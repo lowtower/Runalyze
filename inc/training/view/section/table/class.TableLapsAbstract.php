@@ -17,34 +17,36 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TableLapsAbstract
 {
-	/**
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	/**
-	 * @var \Runalyze\Data\Laps\Laps
-	 */
-	protected $Laps;
+    /**
+     * @var \Runalyze\Data\Laps\Laps
+     */
+    protected $Laps;
 
-	/**
-	 * Code
-	 * @var string
-	 */
-	protected $Code = '';
+    /**
+     * Code
+     * @var string
+     */
+    protected $Code = '';
 
-	public function __construct(Context $context) {
-		$this->Context = $context;
+    public function __construct(Context $context)
+    {
+        $this->Context = $context;
 
-		$this->setCode();
-	}
+        $this->setCode();
+    }
 
-	abstract protected function setCode();
+    abstract protected function setCode();
 
-	/**
-	 * @return string
-	 */
-	final public function getCode() {
-		return $this->Code;
-	}
+    /**
+     * @return string
+     */
+    final public function getCode()
+    {
+        return $this->Code;
+    }
 }

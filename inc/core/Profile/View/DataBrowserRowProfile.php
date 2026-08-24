@@ -12,22 +12,22 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @var int
      */
-    const COMPLETE_ROW = 0;
+    public const COMPLETE_ROW = 0;
 
     /**
      * @var int
      */
-    const ONLY_ICON = 1;
+    public const ONLY_ICON = 1;
 
     /**
      * @var int
      */
-    const INHERIT_FROM_PARENT = 2;
+    public const INHERIT_FROM_PARENT = 2;
 
     /**
      * @param int $id id from internal enum
      */
-    static public function stringFor($id): string
+    public static function stringFor($id): string
     {
         switch ($id) {
             case self::COMPLETE_ROW:
@@ -41,7 +41,8 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
         }
     }
 
-    static public function getChoices(): array {
+    public static function getChoices(): array
+    {
         return [
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
             self::stringFor(self::ONLY_ICON) => self::ONLY_ICON,
@@ -49,7 +50,8 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
         ];
     }
 
-    static public function getChoicesWithoutParent(): array {
+    public static function getChoicesWithoutParent(): array
+    {
         return [
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
             self::stringFor(self::ONLY_ICON) => self::ONLY_ICON,

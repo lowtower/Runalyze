@@ -13,9 +13,9 @@ $xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 
 $yAxis = [];
 
 if ($this->sportid > 0) {
-	$Sports = [SportFactory::DataFor((int) $this->sportid)];
+    $Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
-	$Sports = SportFactory::AllSports();
+    $Sports = SportFactory::AllSports();
 }
 
 $Query = DB::getInstance()->prepare(
@@ -30,39 +30,41 @@ $Query = DB::getInstance()->prepare(
 );
 
 foreach ($Sports as $sport) {
-	$id = $sport['name'];
-	$yAxis[$id] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $id = $sport['name'];
+    $yAxis[$id] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-	$Query->execute([
-	    ':id' => $sport['id'],
-	]);
-	$data = $Query->fetchAll();
+    $Query->execute([
+        ':id' => $sport['id'],
+    ]);
+    $data = $Query->fetchAll();
 
-	foreach ($data as $dat) {
-		$time = (new LocalTime($dat['time']))->toServerTimestamp();
-		$starttime = getdate($time);
-		$endtime = getdate($time + $dat['s']);
+    foreach ($data as $dat) {
+        $time = (new LocalTime($dat['time']))->toServerTimestamp();
+        $starttime = getdate($time);
+        $endtime = getdate($time + $dat['s']);
 
-		$yAxis[$id][$starttime['hours']] += (60 - $starttime['minutes']) / 60;
-		$yAxis[$id][$endtime['hours']] += $endtime['minutes'] / 60;
+        $yAxis[$id][$starttime['hours']] += (60 - $starttime['minutes']) / 60;
+        $yAxis[$id][$endtime['hours']] += $endtime['minutes'] / 60;
 
-		if ($starttime['hours'] == $endtime['hours'])
-			--$yAxis[$id][$starttime['hours']];
+        if ($starttime['hours'] == $endtime['hours']) {
+            --$yAxis[$id][$starttime['hours']];
+        }
 
-		for ($i = $starttime['hours'] + 1; $i < $endtime['hours']; $i++)
-			++$yAxis[$id][$i];
-	}
+        for ($i = $starttime['hours'] + 1; $i < $endtime['hours']; $i++) {
+            ++$yAxis[$id][$i];
+        }
+    }
 }
 
 $Plot = new Plot('daytime', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = [
-	    'label' => $key,
-	    'data' => $data,
-	];
-	$max += max($data);
+    $Plot->Data[] = [
+        'label' => $key,
+        'data' => $data,
+    ];
+    $max += max($data);
 }
 
 $Plot->setLegendAsTable();
@@ -76,12 +78,16 @@ $Plot->showBars(true);
 $Plot->stacked();
 
 $error = true;
-foreach ($yAxis as $t)
-	foreach ($t as $e)
-		if ($e != '0')
-			$error = false;
+foreach ($yAxis as $t) {
+    foreach ($t as $e) {
+        if ($e != '0') {
+            $error = false;
+        }
+    }
+}
 
-if ($error)
-	$Plot->raiseError( __('No data available.') );
+if ($error) {
+    $Plot->raiseError(__('No data available.'));
+}
 
 $Plot->outputJavaScript();

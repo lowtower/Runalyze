@@ -20,10 +20,10 @@ use Runalyze\View\Activity\Context;
 class Energy extends ValueBox
 {
     public function __construct(Context $Context)
-	{
-		parent::__construct(
-		    new Activity\Energy($Context->activity()->energy())
-		);
+    {
+        parent::__construct(
+            new Activity\Energy($Context->activity()->energy())
+        );
 
-	}
+    }
 }

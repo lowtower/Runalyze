@@ -77,7 +77,7 @@ class TrackDataAdapter
 
         for ($i = 0; $i < $num; ++$i) {
             $strideLength[] = ($cadence[$i] > 0 && $pace[$i] > 0)
-                ? (int) round( 1000 * 100 / ($cadence[$i] * 2 * $pace[$i] / 60))
+                ? (int) round(1000 * 100 / ($cadence[$i] * 2 * $pace[$i] / 60))
                 : 0;
         }
 

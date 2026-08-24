@@ -12,12 +12,12 @@ class ClimbScoreCalculator
     /**
      * @var float [m/m]
      */
-    const CLIMB_GRADIENT_THRESHOLD = 0.02;
+    public const CLIMB_GRADIENT_THRESHOLD = 0.02;
 
     /**
      * @var float [km]
      */
-    const CLIMB_DISTANCE_THRESHOLD = 0.1;
+    public const CLIMB_DISTANCE_THRESHOLD = 0.1;
 
     public function calculateFor(Training $activity): \Runalyze\Sports\ClimbScore\ClimbScore
     {

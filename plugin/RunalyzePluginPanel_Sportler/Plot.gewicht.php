@@ -14,42 +14,46 @@ $Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
 $Wunschgewicht = $Plugin->Configuration()
     ->value('wunschgewicht');
 
-if ($Plugin->Configuration()->value('plot_timerange') > 0)
-	$QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
-else
-	$QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
+if ($Plugin->Configuration()->value('plot_timerange') > 0) {
+    $QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
+} else {
+    $QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
+}
 
-$Data = array_reverse( DB::getInstance()->query('SELECT weight,pulse_rest,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll() );
+$Data = array_reverse(DB::getInstance()->query('SELECT weight,pulse_rest,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll());
 $Weights = [];
 $HRrests = [];
 
-if (count($Data) === 1)
-	$Data[1] = $Data[0];
+if (count($Data) === 1) {
+    $Data[1] = $Data[0];
+}
 
 if (! empty($Data)) {
-	foreach ($Data as $D) {
-		$Weights[$D['time'] . '000'] = $Weight->set($D['weight'])->valueInPreferredUnit();
-		$HRrests[$D['time'] . '000'] = (int) $D['pulse_rest'];
-	}
+    foreach ($Data as $D) {
+        $Weights[$D['time'] . '000'] = $Weight->set($D['weight'])->valueInPreferredUnit();
+        $HRrests[$D['time'] . '000'] = (int) $D['pulse_rest'];
+    }
 }
 
 $Labels = array_keys($Weights);
-foreach ($Labels as $i => &$value)
-	if ($i !== 0 && $i !== count($Labels) - 1)
-		$value = '';
+foreach ($Labels as $i => &$value) {
+    if ($i !== 0 && $i !== count($Labels) - 1) {
+        $value = '';
+    }
+}
 
 $Plot = new Plot('sportler_weights', 320, 150);
-	$Plot->Data[] = [
-	    'label' => __('Weight'),
-	    'color' => '#008',
-	    'data' => $Weights,
-	];
-	$Plot->Data[] = [
-	    'label' => __('Resting HR'),
-	    'color' => '#800',
-	    'data' => $HRrests,
-	    'yaxis' => 2,
-	];
+$Plot->Data[] = [
+    'label' => __('Weight'),
+    'color' => '#008',
+    'data' => $Weights,
+];
+$Plot->Data[] = [
+    'label' => __('Resting HR'),
+    'color' => '#800',
+    'data' => $HRrests,
+    'yaxis' => 2,
+];
 
 $Plot->setMarginForGrid(5);
 
@@ -68,16 +72,16 @@ $Plot->addYUnit(2, 'bpm', 0);
 $Plot->setYTicks(2, 1, 0);
 
 if ($Wunschgewicht > 1) {
-	$Plot->addThreshold('y1', $Wunschgewicht);
-	$Plot->addMarkingArea('y1', $Wunschgewicht, 0);
+    $Plot->addThreshold('y1', $Wunschgewicht);
+    $Plot->addMarkingArea('y1', $Wunschgewicht, 0);
 }
 
 if (empty($Data)) {
-	$Plot->raiseError( __('No data available.') );
+    $Plot->raiseError(__('No data available.'));
 } elseif (min(min($Weights), min($HRrests)) == 0 || count($Weights) <= 1) {
-	$Plot->setZeroPointsToNull();
-	$Plot->lineWithPoints();
-	$Plot->Options['series']['curvedLines']['apply'] = false;
+    $Plot->setZeroPointsToNull();
+    $Plot->lineWithPoints();
+    $Plot->Options['series']['curvedLines']['apply'] = false;
 }
 
-$Plot->outputJavaScript( true );
+$Plot->outputJavaScript(true);

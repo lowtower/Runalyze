@@ -453,7 +453,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @param int $bytes
      * @return string hash of length 2*$bytes
      */
-    public static function getRandomHash($bytes = 16): string {
+    public static function getRandomHash($bytes = 16): string
+    {
         return bin2hex(openssl_random_pseudo_bytes($bytes));
     }
 
@@ -731,33 +732,33 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      */
     public function unserialize($serialized)
     {
-         [
-             $this->id,
-             $this->username,
-             $this->password,
-             $this->salt,
-             $this->activationHash,
-             $this->language
-         ] = unserialize($serialized);
+        [
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            $this->activationHash,
+            $this->language
+        ] = unserialize($serialized);
     }
 
     public function isAccountNonExpired()
     {
-	    return true;
+        return true;
     }
 
     public function isAccountNonLocked()
     {
-	    return true;
+        return true;
     }
 
     public function isCredentialsNonExpired()
     {
-	    return true;
+        return true;
     }
 
     public function isEnabled()
     {
-	    return empty($this->getActivationHash());
+        return empty($this->getActivationHash());
     }
 }

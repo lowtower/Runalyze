@@ -14,7 +14,7 @@ class SportSelectionFactory
     /**
      * @var string
      */
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * @var SportRepository
@@ -30,8 +30,7 @@ class SportSelectionFactory
         SportRepository $sportRepository,
         ConfigurationManager $configurationManager,
         TokenStorage $tokenStorage
-    )
-    {
+    ) {
         $this->SportRepository = $sportRepository;
         $this->ConfigurationManager = $configurationManager;
         $this->TokenStorage = $tokenStorage;

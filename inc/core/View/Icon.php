@@ -20,86 +20,92 @@ namespace Runalyze\View;
  */
 class Icon
 {
-	/**
-	 * @var string
-	 */
-	const INFO = 'fa-info-circle';
+    /**
+     * @var string
+     */
+    public const INFO = 'fa-info-circle';
 
-	/**
-	 * @var string
-	 */
-	const CLOCK = 'fa-clock-o';
+    /**
+     * @var string
+     */
+    public const CLOCK = 'fa-clock-o';
 
-	/**
-	 * @var string
-	 */
-	const CLOCK_GRAY = 'fa-clock-o unimportant';
+    /**
+     * @var string
+     */
+    public const CLOCK_GRAY = 'fa-clock-o unimportant';
 
-	/**
-	 * @var string
-	 */
-	const HEART = 'fa-heart';
+    /**
+     * @var string
+     */
+    public const HEART = 'fa-heart';
 
-	/**
-	 * @var string
-	 */
-	const MAP_ARROW = 'fa-location-arrow';
+    /**
+     * @var string
+     */
+    public const MAP_ARROW = 'fa-location-arrow';
 
-	/**
-	 * Key to identfiy FontAwesome icon
-	 * @see http://fontawesome.io/icons/
-	 * @var string
-	 */
-	protected $FontAwesomeName;
+    /**
+     * Key to identfiy FontAwesome icon
+     * @see http://fontawesome.io/icons/
+     * @var string
+     */
+    protected $FontAwesomeName;
 
-	/**
-	 * Text for tooltip
-	 * @var string
-	 */
-	protected $Tooltip;
+    /**
+     * Text for tooltip
+     * @var string
+     */
+    protected $Tooltip;
 
-	/**
-	 * Construct new icon
-	 * @param string $fontAwesomeName [optional] class const
-	 */
-	public function __construct($fontAwesomeName) {
-		$this->FontAwesomeName = $fontAwesomeName;
-	}
+    /**
+     * Construct new icon
+     * @param string $fontAwesomeName [optional] class const
+     */
+    public function __construct($fontAwesomeName)
+    {
+        $this->FontAwesomeName = $fontAwesomeName;
+    }
 
-	/**
-	 * @param string $tooltip
-	 */
-	public function setTooltip($tooltip) {
-		$this->Tooltip = $tooltip;
-	}
+    /**
+     * @param string $tooltip
+     */
+    public function setTooltip($tooltip)
+    {
+        $this->Tooltip = $tooltip;
+    }
 
-	final public function display() {
-		echo $this->code();
-	}
+    final public function display()
+    {
+        echo $this->code();
+    }
 
     /**
      * Get code
      */
-    public function code(): string {
-		return '<i class="fa fa-fw ' . $this->FontAwesomeName . '"' . $this->tooltipAttributes() . '></i>';
-	}
+    public function code(): string
+    {
+        return '<i class="fa fa-fw ' . $this->FontAwesomeName . '"' . $this->tooltipAttributes() . '></i>';
+    }
 
-    protected function tooltipAttributes(): string {
-		if (! empty($this->Tooltip)) {
-			$Tooltip = new Tooltip($this->Tooltip);
-			return ' ' . $Tooltip->attributes();
-		}
+    protected function tooltipAttributes(): string
+    {
+        if (! empty($this->Tooltip)) {
+            $Tooltip = new Tooltip($this->Tooltip);
+            return ' ' . $Tooltip->attributes();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @param string $code
-	 */
-	protected function addTooltipToCode(&$code) {
-		if (! empty($this->Tooltip)) {
-			$Tooltip = new Tooltip($this->Tooltip);
-			$Tooltip->wrapAround($code);
-		}
-	}
+    /**
+     * @param string $code
+     */
+    protected function addTooltipToCode(&$code)
+    {
+        if (! empty($this->Tooltip)) {
+            $Tooltip = new Tooltip($this->Tooltip);
+            $Tooltip->wrapAround($code);
+        }
+    }
 }

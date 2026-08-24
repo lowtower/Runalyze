@@ -17,100 +17,110 @@ use Runalyze\Configuration;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-	/**
-	 * Object
-	 * @var \Runalyze\Model\Trackdata\Entity
-	 */
-	protected $Object;
+    /**
+     * Object
+     * @var \Runalyze\Model\Trackdata\Entity
+     */
+    protected $Object;
 
     /**
      * Construct
      */
-    public function __construct(Entity $object) {
-		parent::__construct($object);
-	}
+    public function __construct(Entity $object)
+    {
+        parent::__construct($object);
+    }
 
-	/**
-	 * Current time
-	 * @return int
-	 */
-	public function time() {
-		return $this->current(Entity::TIME);
-	}
+    /**
+     * Current time
+     * @return int
+     */
+    public function time()
+    {
+        return $this->current(Entity::TIME);
+    }
 
-	/**
-	 * Current distance
-	 * @return float
-	 */
-	public function distance() {
-		return $this->current(Entity::DISTANCE);
-	}
+    /**
+     * Current distance
+     * @return float
+     */
+    public function distance()
+    {
+        return $this->current(Entity::DISTANCE);
+    }
 
-	/**
-	 * Move Distance
-	 * @return bool
-	 */
-	public function nextDistance() {
-		if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-			return $this->nextMile();
-		}
+    /**
+     * Move Distance
+     * @return bool
+     */
+    public function nextDistance()
+    {
+        if (Configuration::General()->distanceUnitSystem()->isImperial()) {
+            return $this->nextMile();
+        }
 
-		return $this->nextKilometer();
-	}
+        return $this->nextKilometer();
+    }
 
-	/**
-	 * Alias for <code>moveDistance(1.0)</code>
-	 * @return bool
-	 */
-	public function nextKilometer() {
-		$this->moveDistance(1.0);
+    /**
+     * Alias for <code>moveDistance(1.0)</code>
+     * @return bool
+     */
+    public function nextKilometer()
+    {
+        $this->moveDistance(1.0);
 
-		return $this->isAtEnd();
-	}
+        return $this->isAtEnd();
+    }
 
-	/**
-	 * Alias for <code>moveDistance(1.60934)</code>
-	 * @return bool
-	 */
-	public function nextMile() {
-		$this->moveDistance(1.60934);
+    /**
+     * Alias for <code>moveDistance(1.60934)</code>
+     * @return bool
+     */
+    public function nextMile()
+    {
+        $this->moveDistance(1.60934);
 
-		return $this->isAtEnd();
-	}
+        return $this->isAtEnd();
+    }
 
-	/**
-	 * Move for time
-	 * @param int $seconds
-	 * @throws \RuntimeException for negative values or if time is empty
-	 */
-	public function moveTime($seconds) {
-		$this->move(Entity::TIME, $seconds);
-	}
+    /**
+     * Move for time
+     * @param int $seconds
+     * @throws \RuntimeException for negative values or if time is empty
+     */
+    public function moveTime($seconds)
+    {
+        $this->move(Entity::TIME, $seconds);
+    }
 
-	/**
-	 * @param int $seconds
-	 * @throws \RuntimeException for negative values or if time is empty
-	 */
-	public function moveToTime($seconds) {
-		$this->moveTo(Entity::TIME, $seconds);
-	}
+    /**
+     * @param int $seconds
+     * @throws \RuntimeException for negative values or if time is empty
+     */
+    public function moveToTime($seconds)
+    {
+        $this->moveTo(Entity::TIME, $seconds);
+    }
 
-	/**
-	 * Move for distance
-	 * @param float $kilometer
-	 * @throws \RuntimeException for negative values or if distance is empty
-	 */
-	public function moveDistance($kilometer) {
-		$this->move(Entity::DISTANCE, $kilometer);
-	}
+    /**
+     * Move for distance
+     * @param float $kilometer
+     * @throws \RuntimeException for negative values or if distance is empty
+     */
+    public function moveDistance($kilometer)
+    {
+        $this->move(Entity::DISTANCE, $kilometer);
+    }
 
-	/**
-	 * @param float $kilometer
-	 * @throws \RuntimeException for negative values or if distance is empty
-	 */
-	public function moveToDistance($kilometer) {
-		$this->moveTo(Entity::DISTANCE, $kilometer);
-	}
+    /**
+     * @param float $kilometer
+     * @throws \RuntimeException for negative values or if distance is empty
+     */
+    public function moveToDistance($kilometer)
+    {
+        $this->moveTo(Entity::DISTANCE, $kilometer);
+    }
 
     /**
      * @param string $key
@@ -192,9 +202,10 @@ class Loop extends \Runalyze\Model\Loop
         return $totalDistance > 0 ? $totalTime / $totalDistance : 0;
     }
 
-	protected function createNewObject(array $data): \Runalyze\Model\Trackdata\Entity {
-		return new Entity($data);
-	}
+    protected function createNewObject(array $data): \Runalyze\Model\Trackdata\Entity
+    {
+        return new Entity($data);
+    }
 
     /**
      * @param int|float $seconds
@@ -212,23 +223,23 @@ class Loop extends \Runalyze\Model\Loop
         $this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
     }
 
-	/**
-	 * Move to the recorded time closest to the target.
-	 *
-	 * @param int|float $seconds
-	 */
-	public function moveToTimeNearest($seconds)
-	{
-		$this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_NEAREST);
-	}
+    /**
+     * Move to the recorded time closest to the target.
+     *
+     * @param int|float $seconds
+     */
+    public function moveToTimeNearest($seconds)
+    {
+        $this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_NEAREST);
+    }
 
-	/**
-	 * Move to the recorded distance closest to the target.
-	 *
-	 * @param int|float $kilometer
-	 */
-	public function moveToDistanceNearest($kilometer)
-	{
-		$this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_NEAREST);
-	}
+    /**
+     * Move to the recorded distance closest to the target.
+     *
+     * @param int|float $kilometer
+     */
+    public function moveToDistanceNearest($kilometer)
+    {
+        $this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_NEAREST);
+    }
 }

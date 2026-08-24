@@ -2,25 +2,25 @@
 
 class FrontendSharedStatistics
 {
-	public function getTabForComparisonOfYears(): string
+    public function getTabForComparisonOfYears(): string
     {
-		$Content = '';
-		$Factory = new PluginFactory();
+        $Content = '';
+        $Factory = new PluginFactory();
 
-		if ($Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
-			/** @var RunalyzePluginStat_Wettkampf $Plugin */
-			$Plugin = $Factory->newInstance('RunalyzePluginStat_Wettkampf');
-			$Content .= ($Plugin->getYearComparisonTable());
-		}
+        if ($Factory->isInstalled('RunalyzePluginStat_Wettkampf')) {
+            /** @var RunalyzePluginStat_Wettkampf $Plugin */
+            $Plugin = $Factory->newInstance('RunalyzePluginStat_Wettkampf');
+            $Content .= ($Plugin->getYearComparisonTable());
+        }
 
-		if ($Content === '') {
-			return '<em>' . __('No data available.') . '</em>';
-		}
+        if ($Content === '') {
+            return '<em>' . __('No data available.') . '</em>';
+        }
 
-		return $Content;
-	}
+        return $Content;
+    }
 
-	public function getYearComparisonTable(): \SummaryTableAllYears
+    public function getYearComparisonTable(): \SummaryTableAllYears
     {
         require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';
         require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTableAllYears.php';

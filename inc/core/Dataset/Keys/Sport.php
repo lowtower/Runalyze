@@ -21,62 +21,62 @@ class Sport extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::SPORT;
-	}
+    {
+        return \Runalyze\Dataset\Keys::SPORT;
+    }
 
     /**
      * Is this key always shown?
      * @codeCoverageIgnore
      */
     public function mustBeShown(): bool
-	{
-		return true;
-	}
+    {
+        return true;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'sportid';
-	}
+    {
+        return 'sportid';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Sport');
-	}
+    {
+        return __('Sport');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return '';
-	}
+    {
+        return '';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __('The sports icon is shown.');
-	}
+    {
+        return __('The sports icon is shown.');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->hasSport()) {
-			return $context->sport()
-			    ->icon()
-			    ->code();
-		}
+    {
+        if ($context->hasSport()) {
+            return $context->sport()
+                ->icon()
+                ->code();
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

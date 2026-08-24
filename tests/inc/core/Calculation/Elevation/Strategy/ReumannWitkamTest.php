@@ -7,10 +7,11 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class ReumannWitkamTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleArray() {
+    public function testSimpleArray()
+    {
         $this->expectException(\RuntimeException::class);
-		// This algorithm ist not implemented
-		$DP = new ReumannWitkam([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], 0);
-		$DP->runSmoothing();
-	}
+        // This algorithm ist not implemented
+        $DP = new ReumannWitkam([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], 0);
+        $DP->runSmoothing();
+    }
 }

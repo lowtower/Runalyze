@@ -11,37 +11,37 @@ class JobGeneral extends Job
     /**
      * @var string
      */
-    const INTERNALS = 'internals';
+    public const INTERNALS = 'internals';
 
     /**
      * @var string
      */
-    const EQUIPMENT = 'equipment';
+    public const EQUIPMENT = 'equipment';
 
     /**
      * @var string
      */
-    const VO2MAX = 'vo2max';
+    public const VO2MAX = 'vo2max';
 
     /**
      * @var string
      */
-    const VO2MAX_CORRECTOR = 'vo2maxCorrector';
+    public const VO2MAX_CORRECTOR = 'vo2maxCorrector';
 
     /**
      * @var string
      */
-    const ENDURANCE = 'endurance';
+    public const ENDURANCE = 'endurance';
 
     /**
      * @var string
      */
-    const MAX_TRIMP = 'trimp';
+    public const MAX_TRIMP = 'trimp';
 
     /**
      * @var string
      */
-    const CACHECLEAN = 'cacheclean';
+    public const CACHECLEAN = 'cacheclean';
 
     public function run()
     {

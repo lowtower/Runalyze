@@ -12,24 +12,27 @@
  */
 class SectionHeartrate extends TrainingViewSectionTabbedPlot
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Heartrate data');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Heartrate data');
 
-		$this->appendRowTabbedPlot( new SectionHeartrateRow($this->Context) );
-	}
+        $this->appendRowTabbedPlot(new SectionHeartrateRow($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		return $this->Context->activity()
-		    ->hrAvg() > 0;
-	}
+    protected function hasRequiredData(): bool
+    {
+        return $this->Context->activity()
+            ->hrAvg() > 0;
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'heartrate';
-	}
+    protected function cssId(): string
+    {
+        return 'heartrate';
+    }
 }

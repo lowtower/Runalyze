@@ -21,60 +21,60 @@ class AirPressure extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::AIR_PRESSURE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::AIR_PRESSURE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'pressure';
-	}
+    {
+        return 'pressure';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Air pressure');
-	}
+    {
+        return __('Air pressure');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Pressure');
-	}
+    {
+        return __('Pressure');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if (
-			! $context->activity()
-			    ->weather()
-			    ->pressure()
-			    ->isUnknown() &&
-			(! $context->hasSport() || $context->sport()->isOutside())
-		) {
-			return $context->activity()
-			    ->weather()
-			    ->pressure()
-			    ->string();
-		}
+    {
+        if (
+            ! $context->activity()
+                ->weather()
+                ->pressure()
+                ->isUnknown() &&
+            (! $context->hasSport() || $context->sport()->isOutside())
+        ) {
+            return $context->activity()
+                ->weather()
+                ->pressure()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

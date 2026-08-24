@@ -20,245 +20,264 @@ use Runalyze\Model;
  */
 class Entity extends Model\Entity
 {
-	/**
-	 * Key: official_distance
-	 * @var string
-	 */
-	const OFFICIAL_DISTANCE = 'official_distance';
+    /**
+     * Key: official_distance
+     * @var string
+     */
+    public const OFFICIAL_DISTANCE = 'official_distance';
 
-	/**
-	 * Key: official_time
-	 * @var string
-	 */
-	const OFFICIAL_TIME = 'official_time';
+    /**
+     * Key: official_time
+     * @var string
+     */
+    public const OFFICIAL_TIME = 'official_time';
 
-	/**
-	 * Key: offically_measured
-	 * @var string
-	 */
-	const OFFICIALLY_MEASURED = 'officially_measured';
+    /**
+     * Key: offically_measured
+     * @var string
+     */
+    public const OFFICIALLY_MEASURED = 'officially_measured';
 
-	/**
-	 * Key: name
-	 * @var string
-	 */
-	const NAME = 'name';
+    /**
+     * Key: name
+     * @var string
+     */
+    public const NAME = 'name';
 
-	/**
-	 * Key: place_total
-	 * @var string
-	 */
-	const PLACE_TOTAL = 'place_total';
+    /**
+     * Key: place_total
+     * @var string
+     */
+    public const PLACE_TOTAL = 'place_total';
 
-	/**
-	 * Key: place_gender
-	 * @var string
-	 */
-	const PLACE_GENDER = 'place_gender';
+    /**
+     * Key: place_gender
+     * @var string
+     */
+    public const PLACE_GENDER = 'place_gender';
 
-	/**
-	 * Key: place_ageclass
-	 * @var string
-	 */
-	const PLACE_AGECLASS = 'place_ageclass';
+    /**
+     * Key: place_ageclass
+     * @var string
+     */
+    public const PLACE_AGECLASS = 'place_ageclass';
 
-	/**
-	 * Key: participants_total
-	 * @var string
-	 */
-	const PARTICIPANTS_TOTAL = 'participants_total';
+    /**
+     * Key: participants_total
+     * @var string
+     */
+    public const PARTICIPANTS_TOTAL = 'participants_total';
 
-	/**
-	 * Key: participants_gender
-	 * @var string
-	 */
-	const PARTICIPANTS_GENDER = 'participants_gender';
+    /**
+     * Key: participants_gender
+     * @var string
+     */
+    public const PARTICIPANTS_GENDER = 'participants_gender';
 
-	/**
-	 * Key: participants_ageclass
-	 * @var string
-	 */
-	const PARTICIPANTS_AGECLASS = 'participants_ageclass';
+    /**
+     * Key: participants_ageclass
+     * @var string
+     */
+    public const PARTICIPANTS_AGECLASS = 'participants_ageclass';
 
-	/**
-	 * Key: activity id
-	 * @var string
-	 */
-	const ACTIVITY_ID = 'activity_id';
+    /**
+     * Key: activity id
+     * @var string
+     */
+    public const ACTIVITY_ID = 'activity_id';
 
-	/**
-	 * Key: account id
-	 * @var string
-	 */
-	const ACCOUNTID = 'accountid';
+    /**
+     * Key: account id
+     * @var string
+     */
+    public const ACCOUNTID = 'accountid';
 
     /**
      * All properties
      * @return array<int, string>
      */
-    static public function allDatabaseProperties(): array {
-		return [
-		    self::OFFICIAL_DISTANCE,
-		    self::OFFICIAL_TIME,
-		    self::OFFICIALLY_MEASURED,
-		    self::NAME,
-		    self::PLACE_TOTAL,
-		    self::PLACE_GENDER,
-		    self::PLACE_AGECLASS,
-		    self::PARTICIPANTS_TOTAL,
-		    self::PARTICIPANTS_GENDER,
-		    self::PARTICIPANTS_AGECLASS,
-		    self::ACTIVITY_ID,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::OFFICIAL_DISTANCE,
+            self::OFFICIAL_TIME,
+            self::OFFICIALLY_MEASURED,
+            self::NAME,
+            self::PLACE_TOTAL,
+            self::PLACE_GENDER,
+            self::PLACE_AGECLASS,
+            self::PARTICIPANTS_TOTAL,
+            self::PARTICIPANTS_GENDER,
+            self::PARTICIPANTS_AGECLASS,
+            self::ACTIVITY_ID,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allDatabaseProperties();
-	}
+    public function properties(): array
+    {
+        return static::allDatabaseProperties();
+    }
 
-	/**
-	 * Ensure that numeric fields get numeric values
-	 */
-	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue([
-		    self::OFFICIAL_DISTANCE,
-		    self::OFFICIAL_TIME,
-		    self::OFFICIALLY_MEASURED,
-		    self::ACTIVITY_ID,
-		]);
-	}
+    /**
+     * Ensure that numeric fields get numeric values
+     */
+    protected function ensureAllNumericValues()
+    {
+        $this->ensureNumericValue([
+            self::OFFICIAL_DISTANCE,
+            self::OFFICIAL_TIME,
+            self::OFFICIALLY_MEASURED,
+            self::ACTIVITY_ID,
+        ]);
+    }
 
-	public function synchronize() {
-		parent::synchronize();
+    public function synchronize()
+    {
+        parent::synchronize();
 
-		$this->ensureAllNullValues();
-		$this->ensureAllNumericValues();
-	}
+        $this->ensureAllNullValues();
+        $this->ensureAllNumericValues();
+    }
 
-	/**
-	 * Ensure that place/participants are null if empty
-	 */
-	protected function ensureAllNullValues() {
-		$this->ensureNullIfEmpty(self::PLACE_TOTAL, true);
-		$this->ensureNullIfEmpty(self::PLACE_GENDER, true);
-		$this->ensureNullIfEmpty(self::PLACE_AGECLASS, true);
-		$this->ensureNullIfEmpty(self::PARTICIPANTS_TOTAL, true);
-		$this->ensureNullIfEmpty(self::PARTICIPANTS_GENDER, true);
-		$this->ensureNullIfEmpty(self::PARTICIPANTS_AGECLASS, true);
-	}
+    /**
+     * Ensure that place/participants are null if empty
+     */
+    protected function ensureAllNullValues()
+    {
+        $this->ensureNullIfEmpty(self::PLACE_TOTAL, true);
+        $this->ensureNullIfEmpty(self::PLACE_GENDER, true);
+        $this->ensureNullIfEmpty(self::PLACE_AGECLASS, true);
+        $this->ensureNullIfEmpty(self::PARTICIPANTS_TOTAL, true);
+        $this->ensureNullIfEmpty(self::PARTICIPANTS_GENDER, true);
+        $this->ensureNullIfEmpty(self::PARTICIPANTS_AGECLASS, true);
+    }
 
     /**
      * Can be null?
      * @param string $key
      */
-    protected function canBeNull($key): bool {
-		switch ($key) {
-			case self::PLACE_TOTAL:
-			case self::PLACE_GENDER:
-			case self::PLACE_AGECLASS:
-			case self::PARTICIPANTS_TOTAL:
-			case self::PARTICIPANTS_GENDER:
-			case self::PARTICIPANTS_AGECLASS:
-				return true;
-		}
+    protected function canBeNull($key): bool
+    {
+        switch ($key) {
+            case self::PLACE_TOTAL:
+            case self::PLACE_GENDER:
+            case self::PLACE_AGECLASS:
+            case self::PARTICIPANTS_TOTAL:
+            case self::PARTICIPANTS_GENDER:
+            case self::PARTICIPANTS_AGECLASS:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function setDefaultValuesFromActivity(Model\Activity\Entity $activity) {
-		$this->set(self::OFFICIAL_DISTANCE, $activity->distance());
-		$this->set(self::OFFICIAL_TIME, $activity->duration());
-		$this->set(self::NAME, $activity->title());
+    public function setDefaultValuesFromActivity(Model\Activity\Entity $activity)
+    {
+        $this->set(self::OFFICIAL_DISTANCE, $activity->distance());
+        $this->set(self::OFFICIAL_TIME, $activity->duration());
+        $this->set(self::NAME, $activity->title());
 
-		if ($activity->isTrack()) {
-			$this->set(self::OFFICIALLY_MEASURED, true);
-		}
-	}
+        if ($activity->isTrack()) {
+            $this->set(self::OFFICIALLY_MEASURED, true);
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function officialDistance() {
-		return $this->Data[self::OFFICIAL_DISTANCE];
-	}
+    /**
+     * @return string
+     */
+    public function officialDistance()
+    {
+        return $this->Data[self::OFFICIAL_DISTANCE];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function officialTime() {
-		return $this->Data[self::OFFICIAL_TIME];
-	}
+    /**
+     * @return string
+     */
+    public function officialTime()
+    {
+        return $this->Data[self::OFFICIAL_TIME];
+    }
 
-    public function officiallyMeasured(): bool {
-		return $this->Data[self::OFFICIALLY_MEASURED] == 1;
-	}
+    public function officiallyMeasured(): bool
+    {
+        return $this->Data[self::OFFICIALLY_MEASURED] == 1;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function name() {
-		return $this->Data[self::NAME];
-	}
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->Data[self::NAME];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function placeTotal() {
-		return $this->Data[self::PLACE_TOTAL];
-	}
+    /**
+     * @return string
+     */
+    public function placeTotal()
+    {
+        return $this->Data[self::PLACE_TOTAL];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function placeGender() {
-		return $this->Data[self::PLACE_GENDER];
-	}
+    /**
+     * @return string
+     */
+    public function placeGender()
+    {
+        return $this->Data[self::PLACE_GENDER];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function placeAgeclass() {
-		return $this->Data[self::PLACE_AGECLASS];
-	}
+    /**
+     * @return string
+     */
+    public function placeAgeclass()
+    {
+        return $this->Data[self::PLACE_AGECLASS];
+    }
 
-	/**
-	 * participants total
-	 * @return string
-	 */
-	public function participantsTotal() {
-		return $this->Data[self::PARTICIPANTS_TOTAL];
-	}
+    /**
+     * participants total
+     * @return string
+     */
+    public function participantsTotal()
+    {
+        return $this->Data[self::PARTICIPANTS_TOTAL];
+    }
 
-	/**
-	 * participants gender
-	 * @return string
-	 */
-	public function participantsGender() {
-		return $this->Data[self::PARTICIPANTS_GENDER];
-	}
+    /**
+     * participants gender
+     * @return string
+     */
+    public function participantsGender()
+    {
+        return $this->Data[self::PARTICIPANTS_GENDER];
+    }
 
-	/**
-	 * participants ageclass
-	 * @return string
-	 */
-	public function participantsAgeclass() {
-		return $this->Data[self::PARTICIPANTS_AGECLASS];
-	}
+    /**
+     * participants ageclass
+     * @return string
+     */
+    public function participantsAgeclass()
+    {
+        return $this->Data[self::PARTICIPANTS_AGECLASS];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function activityId() {
-		return $this->Data[self::ACTIVITY_ID];
-	}
+    /**
+     * @return string
+     */
+    public function activityId()
+    {
+        return $this->Data[self::ACTIVITY_ID];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function accountId() {
-		return $this->Data[self::ACCOUNTID];
-	}
+    /**
+     * @return string
+     */
+    public function accountId()
+    {
+        return $this->Data[self::ACCOUNTID];
+    }
 }

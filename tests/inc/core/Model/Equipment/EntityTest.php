@@ -9,25 +9,26 @@ namespace Runalyze\Model\Equipment;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSimpleObject() {
-		$Equipment = new Entity([
-    Entity::NAME => 'Equipment name',
-		    Entity::NOTES => 'Here are some notes',
-		    Entity::DISTANCE => 123.45,
-		    Entity::ADDITIONAL_KM => 50,
-		    Entity::DATE_START => '2015-01-01',
-		    Entity::DATE_END => null,
-]);
+    public function testSimpleObject()
+    {
+        $Equipment = new Entity([
+            Entity::NAME => 'Equipment name',
+            Entity::NOTES => 'Here are some notes',
+            Entity::DISTANCE => 123.45,
+            Entity::ADDITIONAL_KM => 50,
+            Entity::DATE_START => '2015-01-01',
+            Entity::DATE_END => null,
+        ]);
 
-		$this->assertEquals('Equipment name', $Equipment->name());
-		$this->assertEquals('Here are some notes', $Equipment->notes());
-		$this->assertTrue($Equipment->hasStartDate());
-		$this->assertEquals('2015-01-01', $Equipment->startDate());
-		$this->assertTrue($Equipment->isInUse());
-		$this->assertEquals(null, $Equipment->endDate());
+        $this->assertEquals('Equipment name', $Equipment->name());
+        $this->assertEquals('Here are some notes', $Equipment->notes());
+        $this->assertTrue($Equipment->hasStartDate());
+        $this->assertEquals('2015-01-01', $Equipment->startDate());
+        $this->assertTrue($Equipment->isInUse());
+        $this->assertEquals(null, $Equipment->endDate());
 
-		$this->assertEquals(123.45, $Equipment->distance());
-		$this->assertEquals(50, $Equipment->additionalDistance());
-		$this->assertEquals(173.45, $Equipment->totalDistance());
-	}
+        $this->assertEquals(123.45, $Equipment->distance());
+        $this->assertEquals(50, $Equipment->additionalDistance());
+        $this->assertEquals(173.45, $Equipment->totalDistance());
+    }
 }

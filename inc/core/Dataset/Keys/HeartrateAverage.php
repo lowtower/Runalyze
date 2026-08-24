@@ -19,80 +19,80 @@ use Runalyze\Dataset\SummaryMode;
  */
 class HeartrateAverage extends AbstractKey
 {
-	// default bound for heart-rate if no user/Athlete configuration exists
-	const HR_MIN = 40;
+    // default bound for heart-rate if no user/Athlete configuration exists
+    public const HR_MIN = 40;
 
-	const HR_MAX = 220;
+    public const HR_MAX = 220;
 
     /**
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::HEARTRATE_AVG;
-	}
+    {
+        return \Runalyze\Dataset\Keys::HEARTRATE_AVG;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'pulse_avg';
-	}
+    {
+        return 'pulse_avg';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('avg.') . ' ' . __('Heart rate');
-	}
+    {
+        return __('avg.') . ' ' . __('Heart rate');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('avg.') . ' ' . __('HR');
-	}
+    {
+        return __('avg.') . ' ' . __('HR');
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		if ($context->activity()->hrAvg() > 0) {
-			return $context->dataview()
-			    ->hrAvg()
-			    ->string();
-		}
+    {
+        if ($context->activity()->hrAvg() > 0) {
+            return $context->dataview()
+                ->hrAvg()
+                ->string();
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::AVG;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::AVG;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function defaultCssStyle(): string
-	{
-		return 'font-style:italic;';
-	}
+    {
+        return 'font-style:italic;';
+    }
 
     /**
      * returns a value dependend CSS class and style.
@@ -100,9 +100,9 @@ class HeartrateAverage extends AbstractKey
      * @return array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
-	{
-		return self::hrBarCssStyle($context->dataview()->hrAvg());
-	}
+    {
+        return self::hrBarCssStyle($context->dataview()->hrAvg());
+    }
 
     /**
      * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
@@ -110,19 +110,19 @@ class HeartrateAverage extends AbstractKey
      * @return array with key "class" and "style"
      */
     public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
-	{
-		$hrBpm = $hr->inBPM();
-		$hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;
-		$hrMax = $hr->getHRmax() ? $hr->getHRmax() : self::HR_MAX;
+    {
+        $hrBpm = $hr->inBPM();
+        $hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;
+        $hrMax = $hr->getHRmax() ? $hr->getHRmax() : self::HR_MAX;
 
-		if (isset($hr) && $hrBpm > 0) {
-			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
-			return [
-    'class' => $class,
-			    'style' => '--perc: ' . $v . '%;',
-];
-		}
+        if (isset($hr) && $hrBpm > 0) {
+            $v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
+            return [
+                'class' => $class,
+                'style' => '--perc: ' . $v . '%;',
+            ];
+        }
 
         return null;
-	}
+    }
 }

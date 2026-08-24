@@ -30,8 +30,7 @@ class Calculator
         Model\Activity\Entity $activity,
         ?Model\Trackdata\Entity $trackdata = null,
         ?Model\Route\Entity $route = null
-    )
-    {
+    ) {
         $this->Activity = $activity;
         $this->Trackdata = $trackdata;
         $this->Route = $route;

@@ -20,314 +20,315 @@ $PLUGINKEY = 'RunalyzePluginPanel_Ziele';
  */
 class RunalyzePluginPanel_Ziele extends PluginPanel
 {
-	/**
-	 * All lines
-	 * @var array
-	 */
-	private $Lines = [];
+    /**
+     * All lines
+     * @var array
+     */
+    private $Lines = [];
 
     final public function name(): string
-	{
-		return __('Goals');
-	}
+    {
+        return __('Goals');
+    }
 
     final public function description(): string
-	{
-		return __('Set your own goals for different time ranges and compare your current performance with them.');
-	}
+    {
+        return __('Set your own goals for different time ranges and compare your current performance with them.');
+    }
 
-	protected function displayLongDescription()
-	{
-		echo HTML::p(__('This plugin tracks your distances for chosen time ranges.'));
-		echo HTML::p(__('You can set a goal (value &gt; 0) for every time range. If it is set, you will see how much you have to run to reach it.'));
-		echo HTML::p(__('A virtual Pace Bunny <em>reaches</em> the goal with a steady performance - you can see how far you are ahead or behind.'));
-		echo HTML::p(__('Note: &quot;Saison&quot; refers to the current season in the german &quot;kmspiel&quot;.'));
-	}
+    protected function displayLongDescription()
+    {
+        echo HTML::p(__('This plugin tracks your distances for chosen time ranges.'));
+        echo HTML::p(__('You can set a goal (value &gt; 0) for every time range. If it is set, you will see how much you have to run to reach it.'));
+        echo HTML::p(__('A virtual Pace Bunny <em>reaches</em> the goal with a steady performance - you can see how far you are ahead or behind.'));
+        echo HTML::p(__('Note: &quot;Saison&quot; refers to the current season in the german &quot;kmspiel&quot;.'));
+    }
 
-	protected function initConfiguration()
-	{
-		$Configuration = new PluginConfiguration($this->id());
+    protected function initConfiguration()
+    {
+        $Configuration = new PluginConfiguration($this->id());
 
-		foreach ($this->getTimeset() as $i => $timeset) {
-			$ShowHint = sprintf(__('Show a prognosis for the current %s'), $timeset['name']);
-			$GoalHint = sprintf(__('Current time range: %s to %s'), $timeset['start']->format('d.m.Y'), $timeset['end']->format('d.m.Y'));
+        foreach ($this->getTimeset() as $i => $timeset) {
+            $ShowHint = sprintf(__('Show a prognosis for the current %s'), $timeset['name']);
+            $GoalHint = sprintf(__('Current time range: %s to %s'), $timeset['start']->format('d.m.Y'), $timeset['end']->format('d.m.Y'));
 
-			if (isset($timeset['note'])) {
-				$ShowHint .= '<br>' . $timeset['note'];
-				$GoalHint .= '<br>' . $timeset['note'];
-			}
+            if (isset($timeset['note'])) {
+                $ShowHint .= '<br>' . $timeset['note'];
+                $GoalHint .= '<br>' . $timeset['note'];
+            }
 
-			$ShowGoal = new PluginConfigurationValueBool('ziel_show_' . $i, sprintf(__('%s: show'), $timeset['name']), $ShowHint, true);
-			$Goal = new PluginConfigurationValueInt('ziel_' . $i, sprintf(__('%s: goal'), $timeset['name']), $GoalHint, 0);
+            $ShowGoal = new PluginConfigurationValueBool('ziel_show_' . $i, sprintf(__('%s: show'), $timeset['name']), $ShowHint, true);
+            $Goal = new PluginConfigurationValueInt('ziel_' . $i, sprintf(__('%s: goal'), $timeset['name']), $GoalHint, 0);
 
-			$Configuration->addValue($ShowGoal);
-			$Configuration->addValue($Goal);
-		}
+            $Configuration->addValue($ShowGoal);
+            $Configuration->addValue($Goal);
+        }
 
-		$showDetails = new PluginConfigurationValueBool('details', __('Show details'), '', true);
-		$Configuration->addValue($showDetails);
-		$this->setConfiguration($Configuration);
-	}
+        $showDetails = new PluginConfigurationValueBool('details', __('Show details'), '', true);
+        $Configuration->addValue($showDetails);
+        $this->setConfiguration($Configuration);
+    }
 
-	/**
-	 * Method for getting the right symbol(s)
-	 * @see PluginPanel::getRightSymbol()
-	 */
-	protected function getRightSymbol(): string
-	{
-		$isFirst = true;
-		$Code = '<ul class="submenu">';
-		foreach ($this->getTimeset() as $i => $timeset) {
-			if (! $this->Configuration()->value('ziel_show_' . $i))
-				continue;
+    /**
+     * Method for getting the right symbol(s)
+     * @see PluginPanel::getRightSymbol()
+     */
+    protected function getRightSymbol(): string
+    {
+        $isFirst = true;
+        $Code = '<ul class="submenu">';
+        foreach ($this->getTimeset() as $i => $timeset) {
+            if (! $this->Configuration()->value('ziel_show_' . $i)) {
+                continue;
+            }
 
-			$Code .= '<li>' . Ajax::change($timeset['name'], 'bunny', '#bunny_' . $i) . '</li>';
-			if ($isFirst) {
-				$Code = '<li class="with-submenu"><span class="link">' . $timeset['name'] . '</span>' . $Code;
-				$isFirst = false;
-			}
-		}
+            $Code .= '<li>' . Ajax::change($timeset['name'], 'bunny', '#bunny_' . $i) . '</li>';
+            if ($isFirst) {
+                $Code = '<li class="with-submenu"><span class="link">' . $timeset['name'] . '</span>' . $Code;
+                $isFirst = false;
+            }
+        }
 
-//		$(this).closest("li.with-submenu").find("span").text($(this).text())
+        //		$(this).closest("li.with-submenu").find("span").text($(this).text())
 
-		$Code .= '</ul>';
-		$Code .= '</li>';
+        $Code .= '</ul>';
+        $Code .= '</li>';
 
-		return '<ul>' . $Code . '</ul>';
-	}
+        return '<ul>' . $Code . '</ul>';
+    }
 
-	/**
-	 * @see PluginPanel::displayContent()
-	 */
-	protected function displayContent()
-	{
-		echo '<div id="bunny">';
+    /**
+     * @see PluginPanel::displayContent()
+     */
+    protected function displayContent()
+    {
+        echo '<div id="bunny">';
 
-		$isFirst = true;
-		foreach ($this->getTimeset() as $i => $timeset) {
-			if (! $this->Configuration()->value('ziel_show_' . $i))
-				continue;
+        $isFirst = true;
+        foreach ($this->getTimeset() as $i => $timeset) {
+            if (! $this->Configuration()->value('ziel_show_' . $i)) {
+                continue;
+            }
 
-			echo '<div id="bunny_' . $i . '" class="change"' . ($isFirst ? '' : ' style="display:none;"') . '>';
-			$this->showTimeset($timeset, $this->Configuration()->value('ziel_' . $i));
-			echo HTML::clearBreak();
-			echo '</div>';
+            echo '<div id="bunny_' . $i . '" class="change"' . ($isFirst ? '' : ' style="display:none;"') . '>';
+            $this->showTimeset($timeset, $this->Configuration()->value('ziel_' . $i));
+            echo HTML::clearBreak();
+            echo '</div>';
 
-			$isFirst = false;
-		}
+            $isFirst = false;
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
     /**
      * @param array<string, mixed> $Timeset
      * @param int $goal
      */
     private function showTimeset(array &$Timeset, $goal)
-	{
-		$this->clearLines();
+    {
+        $this->clearLines();
 
-		$showDetails = $this->Configuration()
-		    ->value('details');
+        $showDetails = $this->Configuration()
+            ->value('details');
 
-		// Some Numbers we need
-		$start = $Timeset['start'];
-		$now = new DateTime(date('Y-m-d'));
-		$end = $Timeset['end'];
-		$days = 1 + (int) date_diff($start, $now)
-		    ->format('%a');
-		$dauer = 1 + (int) date_diff($start, $end)
-		    ->format('%a');
-		$rest = $dauer - $days;
+        // Some Numbers we need
+        $start = $Timeset['start'];
+        $now = new DateTime(date('Y-m-d'));
+        $end = $Timeset['end'];
+        $days = 1 + (int) date_diff($start, $now)
+            ->format('%a');
+        $dauer = 1 + (int) date_diff($start, $end)
+            ->format('%a');
+        $rest = $dauer - $days;
 
-		$dat = $this->fetchDataSince($start->getTimestamp());
-		if ($dat['distanz_sum'] > 0) {
-			$this->addHeadline(__('Current'), $dat['distanz_sum'], $dat['anzahl'], true);
-			if ($showDetails) {
-				$this->addLine(__('avg.') . ' ' . __('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
+        $dat = $this->fetchDataSince($start->getTimestamp());
+        if ($dat['distanz_sum'] > 0) {
+            $this->addHeadline(__('Current'), $dat['distanz_sum'], $dat['anzahl'], true);
+            if ($showDetails) {
+                $this->addLine(__('avg.') . ' ' . __('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
 
-				if ($days > 7)
-					$this->addLine(__('avg.') . ' ' . __('Week'), $days > 0 ? 7 * $dat['distanz_sum'] / $days : 0, $dat['anzahl'] / $days * 7);
+                if ($days > 7) {
+                    $this->addLine(__('avg.') . ' ' . __('Week'), $days > 0 ? 7 * $dat['distanz_sum'] / $days : 0, $dat['anzahl'] / $days * 7);
+                }
 
-				if ($days > 0)
-					$this->addHeadline(__('Prognosis'), $dat['distanz_sum'] / $days * $dauer, $dat['anzahl'] / $days * $dauer);
-			}
-		}
+                if ($days > 0) {
+                    $this->addHeadline(__('Prognosis'), $dat['distanz_sum'] / $days * $dauer, $dat['anzahl'] / $days * $dauer);
+                }
+            }
+        }
 
-		if ($goal > 0) {
-			$this->addHeadline(__('Goal'), $goal);
-			if ($dat['distanz_sum'] < $goal) {
-				$togo = $goal - $dat['distanz_sum'];
-				$this->addLine(sprintf(__('%d days left'), $rest), $togo);
-				if ($showDetails) {
+        if ($goal > 0) {
+            $this->addHeadline(__('Goal'), $goal);
+            if ($dat['distanz_sum'] < $goal) {
+                $togo = $goal - $dat['distanz_sum'];
+                $this->addLine(sprintf(__('%d days left'), $rest), $togo);
+                if ($showDetails) {
 
-					$this->addLine(__('avg.') . ' ' . __('Day'), $rest > 0 ? $togo / $rest : 0);
+                    $this->addLine(__('avg.') . ' ' . __('Day'), $rest > 0 ? $togo / $rest : 0);
 
-					if ($rest > 7)
-						$this->addLine(__('avg.') . ' ' . __('Week'), 7 * $togo / $rest);
-				}
-			} else {
-				$this->addLine(__('Goal reached.'));
-			}
+                    if ($rest > 7) {
+                        $this->addLine(__('avg.') . ' ' . __('Week'), 7 * $togo / $rest);
+                    }
+                }
+            } else {
+                $this->addLine(__('Goal reached.'));
+            }
 
-			$diff = $goal / $dauer * $days - $dat['distanz_sum'];
+            $diff = $goal / $dauer * $days - $dat['distanz_sum'];
 
-			if ($showDetails) {
+            if ($showDetails) {
 
-				$this->addHeadline(__('Pace Bunny'), $goal / $dauer * $days);
-				$this->addLine(__('avg.') . ' ' . __('Day'), $goal / $dauer);
+                $this->addHeadline(__('Pace Bunny'), $goal / $dauer * $days);
+                $this->addLine(__('avg.') . ' ' . __('Day'), $goal / $dauer);
 
-				if ($diff > 0)
-					$this->addLine(__('Behind'), abs($diff));
-				else
-					$this->addLine(__('Ahead'), abs($diff));
+                if ($diff > 0) {
+                    $this->addLine(__('Behind'), abs($diff));
+                } else {
+                    $this->addLine(__('Ahead'), abs($diff));
+                }
 
-				$this->addHeadline(__('Head 2 Head'));
-			}
+                $this->addHeadline(__('Head 2 Head'));
+            }
 
-			$this->addBar(__('Me'), $dat['distanz_sum'], $goal, $diff > 0 ? '#f99' : '#9f9');
-			$this->addBar(__('Pace&nbsp;Bunny'), $goal / $dauer * ($days - 1), $goal, '#ccf', $goal / $dauer, '#ddf');
-		}
+            $this->addBar(__('Me'), $dat['distanz_sum'], $goal, $diff > 0 ? '#f99' : '#9f9');
+            $this->addBar(__('Pace&nbsp;Bunny'), $goal / $dauer * ($days - 1), $goal, '#ccf', $goal / $dauer, '#ddf');
+        }
 
-		foreach ($this->Lines as $Line)
-			$this->showLineOrBar($Line);
+        foreach ($this->Lines as $Line) {
+            $this->showLineOrBar($Line);
+        }
 
-		echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
-	}
+        echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
+    }
 
-	private
-	function clearLines()
-	{
-		$this->Lines = [];
-	}
-
-    /**
-     * @param float $distance
-     * @param int $num
-     */
-    private
-	function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false)
-	{
-		$this->Lines[] = [
-		    'name' => $name,
-		    'lvl' => 1,
-		    'sep' => ! $noTopBorder,
-		    'km' => $distance,
-		    'anz' => $num,
-		];
-	}
+    private function clearLines()
+    {
+        $this->Lines = [];
+    }
 
     /**
      * @param float $distance
      * @param int $num
      */
-    private
-	function addLine(string $name, $distance = 0, $num = 0)
-	{
-		$this->Lines[] = [
-		    'name' => $name,
-		    'lvl' => 2,
-		    'km' => $distance,
-		    'anz' => $num,
-		];
-	}
+    private function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false)
+    {
+        $this->Lines[] = [
+            'name' => $name,
+            'lvl' => 1,
+            'sep' => ! $noTopBorder,
+            'km' => $distance,
+            'anz' => $num,
+        ];
+    }
+
+    /**
+     * @param float $distance
+     * @param int $num
+     */
+    private function addLine(string $name, $distance = 0, $num = 0)
+    {
+        $this->Lines[] = [
+            'name' => $name,
+            'lvl' => 2,
+            'km' => $distance,
+            'anz' => $num,
+        ];
+    }
 
     /**
      * @param float $val
      * @param float $max
      */
-    private
-	function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null)
-	{
-		$this->Lines[] = [
-		    'name' => $name,
-		    'type' => 'bar',
-		    'val' => $val,
-		    'max' => $max,
-		    'color' => $color,
-		    'add' => $add,
-		    'addcolor' => $addcolor,
-		];
-	}
+    private function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null)
+    {
+        $this->Lines[] = [
+            'name' => $name,
+            'type' => 'bar',
+            'val' => $val,
+            'max' => $max,
+            'color' => $color,
+            'add' => $add,
+            'addcolor' => $addcolor,
+        ];
+    }
 
     /**
      * @param array<string, mixed> $Array
      */
-    private
-	function showLineOrBar(array &$Array)
-	{
-		if (isset($Array['type']) && $Array['type'] == 'bar')
-			$this->showBar($Array);
-		else
-			$this->showLine($Array);
-	}
+    private function showLineOrBar(array &$Array)
+    {
+        if (isset($Array['type']) && $Array['type'] == 'bar') {
+            $this->showBar($Array);
+        } else {
+            $this->showLine($Array);
+        }
+    }
 
     /**
      * @param array<string, mixed> $Bar
      */
-    private
-	function showBar(array &$Bar)
-	{
-		$percentage = min(100, 100 * $Bar['val'] / $Bar['max']);
-		$addPercentage = $Bar['add'] ? 100 * $Bar['add'] / $Bar['max'] : 0;
-		$sumPercentage = $percentage + $addPercentage;
+    private function showBar(array &$Bar)
+    {
+        $percentage = min(100, 100 * $Bar['val'] / $Bar['max']);
+        $addPercentage = $Bar['add'] ? 100 * $Bar['add'] / $Bar['max'] : 0;
+        $sumPercentage = $percentage + $addPercentage;
 
-		echo '<div style="padding-left:5px; padding-right:7px; padding-bottom:2px">' .
-			'<div style="border: 1px solid black; padding: 1px; background-color: transparent; width: 100%; height: 15px">' .
-			'<span style="position: absolute; right: 15px">' . round($sumPercentage, 1) . '%&nbsp;</span>' .
-			'<span style="position: absolute; left: 15px">' . $Bar['name'] . '</span>' .
-			'<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;</div>' .
+        echo '<div style="padding-left:5px; padding-right:7px; padding-bottom:2px">' .
+            '<div style="border: 1px solid black; padding: 1px; background-color: transparent; width: 100%; height: 15px">' .
+            '<span style="position: absolute; right: 15px">' . round($sumPercentage, 1) . '%&nbsp;</span>' .
+            '<span style="position: absolute; left: 15px">' . $Bar['name'] . '</span>' .
+            '<div class="progress_bar" style="float: left; background-color:' . $Bar['color'] . '; width:' . round($percentage) . '%;">&nbsp;</div>' .
 
-			($Bar['add'] ? '<div id="progress_bar_add" style="float: left; background-color:' . $Bar['addcolor'] . '; width:' . round($addPercentage) . '%;">&nbsp;</div>' : '') .
-			'</div>' .
-			'</div>';
-	}
+            ($Bar['add'] ? '<div id="progress_bar_add" style="float: left; background-color:' . $Bar['addcolor'] . '; width:' . round($addPercentage) . '%;">&nbsp;</div>' : '') .
+            '</div>' .
+            '</div>';
+    }
 
     /**
      * @param array<string, mixed> $Line
      */
-    private
-	function showLine(array &$Line)
-	{
-		$span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : 0;
-		$p_format = isset($Line['sep']) && $Line['sep'] ? ' style="border-top:1px solid #ccc;"' : '';
+    private function showLine(array &$Line)
+    {
+        $span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : 0;
+        $p_format = isset($Line['sep']) && $Line['sep'] ? ' style="border-top:1px solid #ccc;"' : '';
 
-		$NumberOfActivities = isset($Line['anz']) && $Line['anz'] > 0 ? '<small><small>(' . round($Line['anz'], 1) . 'x)</small></small>' : '';
-		$Distance = isset($Line['km']) && $Line['km'] > 0 ? '<span ' . ($Line['lvl'] == 1 ? $span_format : '') . '>' . Distance::format($Line['km'], true, 1) . '</span>' : '';
+        $NumberOfActivities = isset($Line['anz']) && $Line['anz'] > 0 ? '<small><small>(' . round($Line['anz'], 1) . 'x)</small></small>' : '';
+        $Distance = isset($Line['km']) && $Line['km'] > 0 ? '<span ' . ($Line['lvl'] == 1 ? $span_format : '') . '>' . Distance::format($Line['km'], true, 1) . '</span>' : '';
 
-		echo '<p' . $p_format . '>' .
-			'<span class="right">' .
-			$NumberOfActivities . ' ' . $Distance .
-			'</span>' .
-			'<span' . $span_format . '>' . $Line['name'] . '</span>' .
-			'</p>';
-	}
+        echo '<p' . $p_format . '>' .
+            '<span class="right">' .
+            $NumberOfActivities . ' ' . $Distance .
+            '</span>' .
+            '<span' . $span_format . '>' . $Line['name'] . '</span>' .
+            '</p>';
+    }
 
     /**
      * Get style for level
      * @param int $level
      */
-    private
-	function getLevelStyle($level): string
-	{
-		if ($level == 1)
-			return ' style="font-weight:bold;"';
+    private function getLevelStyle($level): string
+    {
+        if ($level == 1) {
+            return ' style="font-weight:bold;"';
+        }
 
-		if ($level == 2)
-			return ' style="padding-left: 10px;"';
+        if ($level == 2) {
+            return ' style="padding-left: 10px;"';
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * Fetch data
-	 * @param int $timestamp
-	 * @return array
-	 */
-	private
-	function fetchDataSince($timestamp)
-	{
-		$Data = DB::getInstance()->query('
+    /**
+     * Fetch data
+     * @param int $timestamp
+     * @return array
+     */
+    private function fetchDataSince($timestamp)
+    {
+        $Data = DB::getInstance()->query('
 			SELECT
 				`sportid`,
 				COUNT(`id`) as `anzahl`,
@@ -341,70 +342,70 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			GROUP BY `sportid`
 			ORDER BY `distanz_sum` DESC, `dauer_sum` DESC
 		')->fetch();
-		if (! is_array($Data))
-			return [
-			    'anzahl' => 0,
-			    'distanz_sum' => 0,
-			    'dauer_sum' => 0,
-			];
+        if (! is_array($Data)) {
+            return [
+                'anzahl' => 0,
+                'distanz_sum' => 0,
+                'dauer_sum' => 0,
+            ];
+        }
 
-		return $Data;
-	}
+        return $Data;
+    }
 
-	/**
-	 * Get the timeset as array for this panel
-	 */
-	private
-	function getTimeset(): array
-	{
-		$timeset = [];
+    /**
+     * Get the timeset as array for this panel
+     */
+    private function getTimeset(): array
+    {
+        $timeset = [];
 
-		// km-Spiel Saisonen
-		$kmstart = new DateTime();
-		$kmstart->setTime(0, 0, 0);
+        // km-Spiel Saisonen
+        $kmstart = new DateTime();
+        $kmstart->setTime(0, 0, 0);
 
-		$kmend = new DateTime();
-		$kmend->setTime(0, 0, 0);
+        $kmend = new DateTime();
+        $kmend->setTime(0, 0, 0);
 
-		$now = new DateTime('now');
-		$kmstart->setISODate(date('Y'), 27, 1);
+        $now = new DateTime('now');
+        $kmstart->setISODate(date('Y'), 27, 1);
 
-		if ($kmstart > $now) {
-			$kmstart->setISODate(date('Y'), 1, 1);
-			$kmend->setISODate(date('Y'), 26, 7);
-		} else {
-			$weeks = date('W', strtotime(date('Y') . '-12-31'));
-			$kmend->setISODate(date('Y'), $weeks == 53 ? 53 : 52, 7);
-		}
+        if ($kmstart > $now) {
+            $kmstart->setISODate(date('Y'), 1, 1);
+            $kmend->setISODate(date('Y'), 26, 7);
+        } else {
+            $weeks = date('W', strtotime(date('Y') . '-12-31'));
+            $kmend->setISODate(date('Y'), $weeks == 53 ? 53 : 52, 7);
+        }
 
-		// Zeitraeume fuer die Prognosen.
-		$timeset['woche'] = [
-		    'name' => __('Week'),
-		    'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),
-		    'end' => (new DateTime())->setTimestamp(Time::weekend(time())),
-		];
-		$timeset['mon'] = [
-		    'name' => __('Month'),
-		    'start' => new DateTime(date('Y-m-01')),
-		    'end' => new DateTime(date('Y-m-t')),
-		];
-		$timeset['hj'] = [
-		    'name' => __('Half-Year'),
-		    'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
-		    'end' => new DateTime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
-		];
-		$timeset['saison'] = [
-		    'name' => __('Season'),
-		    'start' => $kmstart,
-		    'end' => $kmend,
-		    'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'),
-		];
-		$timeset['jahr'] = [
-		    'name' => __('Year'),
-		    'start' => new DateTime(date('Y-01-01')),
-		    'end' => new DateTime(date('Y-12-31')),
-		];
+        // Zeitraeume fuer die Prognosen.
+        $timeset['woche'] = [
+            'name' => __('Week'),
+            'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),
+            'end' => (new DateTime())->setTimestamp(Time::weekend(time())),
+        ];
+        $timeset['mon'] = [
+            'name' => __('Month'),
+            'start' => new DateTime(date('Y-m-01')),
+            'end' => new DateTime(date('Y-m-t')),
+        ];
+        $timeset['hj'] = [
+            'name' => __('Half-Year'),
+            'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
+            'end' => new DateTime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
+        ];
+        $timeset['saison'] = [
+            'name' => __('Season'),
+            'start' => $kmstart,
+            'end' => $kmend,
+            'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'),
+        ];
+        $timeset['jahr'] = [
+            'name' => __('Year'),
+            'start' => new DateTime(date('Y-01-01')),
+            'end' => new DateTime(date('Y-12-31')),
+        ];
 
-		return $timeset;
-	}
+        return $timeset;
+    }
 }

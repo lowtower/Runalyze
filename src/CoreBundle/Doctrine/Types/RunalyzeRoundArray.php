@@ -14,7 +14,7 @@ class RunalyzeRoundArray extends Type
     /**
      * @var string
      */
-    const RUNALYZE_ROUND_ARRAY = 'runalyze_round_array';
+    public const RUNALYZE_ROUND_ARRAY = 'runalyze_round_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
@@ -82,7 +82,7 @@ class RunalyzeRoundArray extends Type
         $data = $intensity !== null ? substr($data, 1) : $data;
 
         $duration = (new Duration(substr(strrchr($data, '|'), 1)))->seconds();
-        $distance = (double) strstr($data, '|', true);
+        $distance = (float) strstr($data, '|', true);
 
         $r = new Round($distance, $duration);
         if ($intensity !== null) {

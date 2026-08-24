@@ -12,52 +12,55 @@ use Runalyze\Model\Trackdata;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSingleValue() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-        Trackdata\Entity::TIME => [60],
-		        Trackdata\Entity::DISTANCE => [0.180],
-		        Trackdata\Entity::CADENCE => [90],
-    ])
-		);
-		$Calculator->calculate();
+    public function testSingleValue()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [60],
+                Trackdata\Entity::DISTANCE => [0.180],
+                Trackdata\Entity::CADENCE => [90],
+            ])
+        );
+        $Calculator->calculate();
 
-		$this->assertEquals( 100, $Calculator->average());
-	}
+        $this->assertEquals(100, $Calculator->average());
+    }
 
-	public function testSimpleArray() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-        Trackdata\Entity::TIME => [30, 60, 90, 120, 150],
-		        Trackdata\Entity::DISTANCE => [0.09, 0.18, 0.30, 0.48, 0.55],
-		        Trackdata\Entity::CADENCE => [90, 100, 100, 90, 70],
-    ])
-		);
-		$Calculator->calculate();
+    public function testSimpleArray()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [30, 60, 90, 120, 150],
+                Trackdata\Entity::DISTANCE => [0.09, 0.18, 0.30, 0.48, 0.55],
+                Trackdata\Entity::CADENCE => [90, 100, 100, 90, 70],
+            ])
+        );
+        $Calculator->calculate();
 
-		$this->assertEquals( 122, $Calculator->average());
-		$this->assertEquals(
-		    [100, 90, 120, 200, 100],
-		    $Calculator->stridesData()
-		);
-	}
+        $this->assertEquals(122, $Calculator->average());
+        $this->assertEquals(
+            [100, 90, 120, 200, 100],
+            $Calculator->stridesData()
+        );
+    }
 
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1951
-	 */
-	public function testTooBigValue() {
-		$Calculator = new Calculator(
-		    new Trackdata\Entity([
-		        Trackdata\Entity::TIME => [60],
-		        Trackdata\Entity::DISTANCE => [0.180],
-		        Trackdata\Entity::CADENCE => [90],
-		    ])
-		);
-		$Calculator->calculate();
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1951
+     */
+    public function testTooBigValue()
+    {
+        $Calculator = new Calculator(
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [60],
+                Trackdata\Entity::DISTANCE => [0.180],
+                Trackdata\Entity::CADENCE => [90],
+            ])
+        );
+        $Calculator->calculate();
 
-		$this->assertEquals(0, Calculator::forActivity(new Activity\Entity([
-		    Activity\Entity::DISTANCE => 75,
-		    Activity\Entity::TIME_IN_SECONDS => 7200,
-		])));
-	}
+        $this->assertEquals(0, Calculator::forActivity(new Activity\Entity([
+            Activity\Entity::DISTANCE => 75,
+            Activity\Entity::TIME_IN_SECONDS => 7200,
+        ])));
+    }
 }

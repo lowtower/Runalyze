@@ -8,48 +8,48 @@ use Runalyze\Mathematics\Numerics\Bisection;
 
 class BisectionTest extends \PHPUnit\Framework\TestCase
 {
-	public function testPerfectStartPoint()
+    public function testPerfectStartPoint()
     {
-		$Bisection = new Bisection(5, 0, 10, function($x){
-			return $x;
-		});
+        $Bisection = new Bisection(5, 0, 10, function ($x) {
+            return $x;
+        });
 
-		$this->assertEquals(5, $Bisection->findValue());
-	}
+        $this->assertEquals(5, $Bisection->findValue());
+    }
 
-	public function testNotEnoughIterations()
+    public function testNotEnoughIterations()
     {
-		$Bisection = new Bisection(1, 0, 10, function($x){
-			return $x;
-		});
+        $Bisection = new Bisection(1, 0, 10, function ($x) {
+            return $x;
+        });
 
-		$Bisection->setIterations(4);
-		$Bisection->setEpsilon(0.01);
+        $Bisection->setIterations(4);
+        $Bisection->setEpsilon(0.01);
 
-		$this->assertEquals(0.9375, $Bisection->findValue());
-	}
+        $this->assertEquals(0.9375, $Bisection->findValue());
+    }
 
-	public function testSimpleApproximation()
+    public function testSimpleApproximation()
     {
-		$Bisection = new Bisection(1, 0, 10, function($x){
-			return $x;
-		});
+        $Bisection = new Bisection(1, 0, 10, function ($x) {
+            return $x;
+        });
 
-		$Bisection->setIterations(100);
-		$Bisection->setEpsilon(0.01);
+        $Bisection->setIterations(100);
+        $Bisection->setEpsilon(0.01);
 
-		$this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
-	}
+        $this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
+    }
 
-	public function testCubicFunction()
+    public function testCubicFunction()
     {
-		$Bisection = new Bisection(7, -50, 20, function($x){
-			return $x * $x * $x + 6;
-		});
+        $Bisection = new Bisection(7, -50, 20, function ($x) {
+            return $x * $x * $x + 6;
+        });
 
-		$Bisection->setIterations(100);
-		$Bisection->setEpsilon(0.01);
+        $Bisection->setIterations(100);
+        $Bisection->setEpsilon(0.01);
 
-		$this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
-	}
+        $this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
+    }
 }

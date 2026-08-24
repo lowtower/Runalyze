@@ -4,10 +4,10 @@ namespace Runalyze\Parameter\Application;
 
 class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\WeekStart
-	 */
-	protected $Object;
+    /**
+     * @var \Runalyze\Parameter\Application\WeekStart
+     */
+    protected $Object;
 
     /**
      * @var \PDO
@@ -27,13 +27,13 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         '3 January 2016' => [53, 1],
     ];
 
-	protected function setUp(): void
+    protected function setUp(): void
     {
-		$this->Object = new WeekStart();
+        $this->Object = new WeekStart();
         $this->PDO = \DB::getInstance();
-	}
+    }
 
-	public function testNoneSet()
+    public function testNoneSet()
     {
         $this->assertTrue($this->Object->isMonday());
         $this->assertEquals(1, $this->Object->value());
@@ -41,38 +41,39 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Object->isSunday());
     }
 
-    public function testMonday() {
-		$this->Object->set(WeekStart::MONDAY);
+    public function testMonday()
+    {
+        $this->Object->set(WeekStart::MONDAY);
 
         $this->assertEquals(1, $this->Object->value());
-		$this->assertTrue($this->Object->isMonday());
-		$this->assertFalse($this->Object->isSaturday());
+        $this->assertTrue($this->Object->isMonday());
+        $this->assertFalse($this->Object->isSaturday());
         $this->assertFalse($this->Object->isSunday());
     }
 
     public function testSunday()
     {
-		$this->Object->set(WeekStart::SUNDAY);
+        $this->Object->set(WeekStart::SUNDAY);
 
         $this->assertEquals(0, $this->Object->value());
-		$this->assertFalse($this->Object->isMonday());
-		$this->assertFalse($this->Object->isSaturday());
+        $this->assertFalse($this->Object->isMonday());
+        $this->assertFalse($this->Object->isSaturday());
         $this->assertTrue($this->Object->isSunday());
-	}
+    }
 
-	public function testWeekNumberForMonday()
+    public function testWeekNumberForMonday()
     {
-		$this->Object->set(WeekStart::MONDAY);
+        $this->Object->set(WeekStart::MONDAY);
 
         $this->runTestsForTestData(0);
-	}
+    }
 
-	public function testWeekNumberForSunday()
+    public function testWeekNumberForSunday()
     {
-		$this->Object->set(WeekStart::SUNDAY);
+        $this->Object->set(WeekStart::SUNDAY);
 
         $this->runTestsForTestData(1);
-	}
+    }
 
     protected function runTestsForTestData($expectedWeekIndex)
     {

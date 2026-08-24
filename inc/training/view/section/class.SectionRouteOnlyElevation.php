@@ -12,17 +12,19 @@
  */
 class SectionRouteOnlyElevation extends SectionRoute
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Elevation data');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Elevation data');
 
-        $this->appendRow( new SectionRouteRowElevation($this->Context) );
-	}
+        $this->appendRow(new SectionRouteRowElevation($this->Context));
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
+    protected function hasRequiredData(): bool
+    {
         return $this->Context->activity()
             ->elevation() > 0;
-	}
+    }
 }

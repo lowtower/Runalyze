@@ -20,58 +20,58 @@ class FitTrainingEffectBenefit extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FIT_TRAINING_EFFECT_BENEFIT;
-	}
+    {
+        return \Runalyze\Dataset\Keys::FIT_TRAINING_EFFECT_BENEFIT;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'fit_training_effect_benefit';
-	}
+    {
+        return 'fit_training_effect_benefit';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Training effect benefit');
-	}
+    {
+        return __('Training effect benefit');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('TEB');
-	}
+    {
+        return __('TEB');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Nutzen der Aktivität für das Training.'
-		);
-	}
+    {
+        return __(
+            'Nutzen der Aktivität für das Training.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      */
     public function stringFor(Context $context): string
-	{
-		return $context->dataview()
-		    ->fitTrainingEffectBenefit();
-	}
+    {
+        return $context->dataview()
+            ->fitTrainingEffectBenefit();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

@@ -17,17 +17,17 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Exporter->isPossible());
     }
 
-	public function testFileCreationForOutdoorActivity()
-	{
-		$Exporter = new Tcx(FakeContext::outdoorContext());
-		$Exporter->createFileWithoutDirectDownload();
-	}
+    public function testFileCreationForOutdoorActivity()
+    {
+        $Exporter = new Tcx(FakeContext::outdoorContext());
+        $Exporter->createFileWithoutDirectDownload();
+    }
 
-	public function testFileCreationForIndoorActivity()
-	{
-		$Exporter = new Tcx(FakeContext::indoorContext());
-		$Exporter->createFileWithoutDirectDownload();
-	}
+    public function testFileCreationForIndoorActivity()
+    {
+        $Exporter = new Tcx(FakeContext::indoorContext());
+        $Exporter->createFileWithoutDirectDownload();
+    }
 
     public function testMinimalExampleWithOnlyTime()
     {

@@ -6,29 +6,29 @@ use Runalyze\Dataset\Context;
 
 class FlightRatio extends AbstractKey
 {
-	public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::FLIGHT_RATIO;
-	}
+    public function id(): int
+    {
+        return \Runalyze\Dataset\Keys::FLIGHT_RATIO;
+    }
 
-	public function column(): array
-	{
-		return ['cadence', 'groundcontact'];
-	}
+    public function column(): array
+    {
+        return ['cadence', 'groundcontact'];
+    }
 
-	public function label(): string
-	{
-		return __('Flight ratio');
-	}
+    public function label(): string
+    {
+        return __('Flight ratio');
+    }
 
-	public function stringFor(Context $context): string
-	{
-	    return $context->dataview()
-	        ->flightRatio();
-	}
+    public function stringFor(Context $context): string
+    {
+        return $context->dataview()
+            ->flightRatio();
+    }
 
-	public function cssClass(): string
-	{
-		return 'small';
-	}
+    public function cssClass(): string
+    {
+        return 'small';
+    }
 }

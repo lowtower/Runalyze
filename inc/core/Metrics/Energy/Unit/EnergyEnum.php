@@ -14,10 +14,10 @@ class EnergyEnum extends AbstractEnum
     /**
      * @var int
      */
-    const KILOCALORIES = 0;
+    public const KILOCALORIES = 0;
 
     /**
      * @var int
      */
-    const KILOJOULES = 1;
+    public const KILOJOULES = 1;
 }

@@ -19,18 +19,19 @@ use Runalyze\View\Activity;
  */
 class Thb extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = '#ffa500';
+    /**
+     * @var string
+     */
+    public const COLOR = '#ffa500';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 * @param int $sensorIndex
-	 */
-	public function __construct(Activity\Context $context, $sensorIndex = 0) {
-		$this->initOptions();
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     * @param int $sensorIndex
+     */
+    public function __construct(Activity\Context $context, $sensorIndex = 0)
+    {
+        $this->initOptions();
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata::THB_1;
             $this->Label = _('THb') . ' (2)';
@@ -39,11 +40,12 @@ class Thb extends ActivitySeries
             $this->Label = _('THb');
         }
 
-		$this->initData($context->trackdata(), $trackdataKey);
+        $this->initData($context->trackdata(), $trackdataKey);
         $this->manipulateData();
-	}
+    }
 
-    protected function manipulateData() {
+    protected function manipulateData()
+    {
         $this->Data = array_map([$this, 'correctUnit'], $this->Data);
         $this->Data = array_filter($this->Data);
     }
@@ -52,21 +54,23 @@ class Thb extends ActivitySeries
      * Change value by internal factor
      * @param int $value
      */
-    protected function correctUnit($value): float {
+    protected function correctUnit($value): float
+    {
         return 0.01 * $value;
     }
 
-	protected function initOptions() {
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Color = self::COLOR;
 
-		$this->UnitString = 'g/dL';
-		$this->UnitDecimals = 2;
+        $this->UnitString = 'g/dL';
+        $this->UnitDecimals = 2;
 
-		$this->TickSize = 1;
-		$this->TickDecimals = 2;
+        $this->TickSize = 1;
+        $this->TickDecimals = 2;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 }

@@ -15,25 +15,25 @@ namespace Runalyze\Activity;
  */
 class AnaerobicTrainingEffect implements ValueInterface
 {
-	/**
-	 * @var float
-	 */
-	const LOWER_LIMIT = 0.0;
+    /**
+     * @var float
+     */
+    public const LOWER_LIMIT = 0.0;
 
-	/**
-	 * @var float
-	 */
-	const UPPER_LIMIT = 5.0;
+    /**
+     * @var float
+     */
+    public const UPPER_LIMIT = 5.0;
 
     /**
      * @var int
      */
-    const DECIMALS = 1;
+    public const DECIMALS = 1;
 
-	/**
-	 * @var float|null
-	 */
-	protected $Value;
+    /**
+     * @var float|null
+     */
+    protected $Value;
 
     /**
      * @param float|null $value
@@ -41,15 +41,15 @@ class AnaerobicTrainingEffect implements ValueInterface
     public static function format($value): string
     {
         return (new self($value))->string();
-	}
+    }
 
-	/**
-	 * @param float|null $value
-	 */
-	public function __construct($value = null)
+    /**
+     * @param float|null $value
+     */
+    public function __construct($value = null)
     {
-		$this->set($value);
-	}
+        $this->set($value);
+    }
 
     /**
      * @codeCoverageIgnore
@@ -57,16 +57,16 @@ class AnaerobicTrainingEffect implements ValueInterface
     public function label(): string
     {
         // #TSC: this label is shown on the statistic heart-rate "box"
-		return __('Anaerob Training Effect');
-	}
+        return __('Anaerob Training Effect');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function unit(): string
     {
-		return '';
-	}
+        return '';
+    }
 
     /**
      * Set training effect
@@ -74,7 +74,8 @@ class AnaerobicTrainingEffect implements ValueInterface
      * @return \Runalyze\Activity\AnaerobicTrainingEffect $this-reference
      * @throws \InvalidArgumentException
      */
-    public function set($value): self {
+    public function set($value): self
+    {
         if ($value === null) {
             $this->Value = null;
             return $this;
@@ -102,21 +103,22 @@ class AnaerobicTrainingEffect implements ValueInterface
      * Format training effect as string
      * @param bool $withUnit [optional] show unit?
      */
-    public function string($withUnit = true): string {
+    public function string($withUnit = true): string
+    {
         if (! $this->isKnown()) {
             return '';
         }
 
-		return number_format($this->Value, self::DECIMALS);
-	}
+        return number_format($this->Value, self::DECIMALS);
+    }
 
-	/**
-	 * @return float|null
-	 */
-	public function value()
+    /**
+     * @return float|null
+     */
+    public function value()
     {
-		return $this->Value;
-	}
+        return $this->Value;
+    }
 
     /**
      * @return float

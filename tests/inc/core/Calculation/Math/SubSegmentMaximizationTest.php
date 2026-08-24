@@ -6,11 +6,11 @@ namespace Runalyze\Calculation\Math;
 
 class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
 {
-	public function testEmptyInput()
+    public function testEmptyInput()
     {
         $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([], [], []);
-	}
+    }
 
     public function testNoSegmentLengths()
     {

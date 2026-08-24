@@ -23,59 +23,59 @@ class TotalCycles extends AbstractKey
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::TOTAL_CYCLES;
-	}
+    {
+        return \Runalyze\Dataset\Keys::TOTAL_CYCLES;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'total_cycles';
-	}
+    {
+        return 'total_cycles';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return 'Total cycles';
-	}
+    {
+        return 'Total cycles';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function shortLabel(): string
-	{
-		return __('Cycles');
-	}
+    {
+        return __('Cycles');
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function description(): string
-	{
-		return __(
-		    'Wiederholungen insgesamt.'
-		);
-	}
+    {
+        return __(
+            'Wiederholungen insgesamt.'
+        );
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		return $context->activity()
-		    ->totalCycles();
-	}
+    {
+        return $context->activity()
+            ->totalCycles();
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function cssClass(): string
-	{
-		return 'small';
-	}
+    {
+        return 'small';
+    }
 }

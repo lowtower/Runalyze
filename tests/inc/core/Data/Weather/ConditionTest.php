@@ -1,6 +1,7 @@
 <?php
 
 namespace Runalyze\Data\Weather;
+
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 
 /**
@@ -8,52 +9,57 @@ use Runalyze\Profile\Weather\WeatherConditionProfile;
  */
 class ConditionTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var Condition
-	 */
-	protected $object;
+    /**
+     * @var Condition
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Condition(0);
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Condition(0);
+    }
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown(): void {
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown(): void
+    {
 
-	}
+    }
 
-	/**
-	 * @covers Runalyze\Data\Weather\Condition::completeList
-	 * @covers Runalyze\Data\Weather\Condition::icon
-	 * @covers Runalyze\Data\Weather\Condition::id
-	 * @covers Runalyze\Data\Weather\Condition::set
-	 * @covers Runalyze\Data\Weather\Condition::string
-	 */
-	public function testConditions() {
-		foreach (Condition::completeList() as $id) {
-			$this->object->set($id);
+    /**
+     * @covers Runalyze\Data\Weather\Condition::completeList
+     * @covers Runalyze\Data\Weather\Condition::icon
+     * @covers Runalyze\Data\Weather\Condition::id
+     * @covers Runalyze\Data\Weather\Condition::set
+     * @covers Runalyze\Data\Weather\Condition::string
+     */
+    public function testConditions()
+    {
+        foreach (Condition::completeList() as $id) {
+            $this->object->set($id);
 
-			$this->assertEquals($id, $this->object->id());
-			$this->assertInstanceOf(\Runalyze\View\Icon::class, $this->object->icon());
-			$this->assertNotEmpty($this->object->string());
-		}
-	}
+            $this->assertEquals($id, $this->object->id());
+            $this->assertInstanceOf(\Runalyze\View\Icon::class, $this->object->icon());
+            $this->assertNotEmpty($this->object->string());
+        }
+    }
 
-	public function testUnknown() {
-		$this->object->set(WeatherConditionProfile::UNKNOWN);
+    public function testUnknown()
+    {
+        $this->object->set(WeatherConditionProfile::UNKNOWN);
 
-		$this->assertTrue($this->object->isUnknown());
-	}
+        $this->assertTrue($this->object->isUnknown());
+    }
 
-	public function testWrongId() {
-		$this->object->set('foobar');
-		$this->assertTrue($this->object->isUnknown());
-	}
+    public function testWrongId()
+    {
+        $this->object->set('foobar');
+        $this->assertTrue($this->object->isUnknown());
+    }
 }

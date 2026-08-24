@@ -4,56 +4,56 @@ namespace Runalyze\Dataset;
 
 class KeysTest extends \PHPUnit\Framework\TestCase
 {
-	public function testAllIDs()
-	{
-		foreach (Keys::getEnum() as $id) {
-			$this->assertEquals($id, Keys::get($id)->id());
-		}
-	}
+    public function testAllIDs()
+    {
+        foreach (Keys::getEnum() as $id) {
+            $this->assertEquals($id, Keys::get($id)->id());
+        }
+    }
 
-	public function testThatIDsAreUnique()
-	{
-		$this->assertEquals(
-		    Keys::getEnum(),
-		    array_unique(Keys::getEnum())
-		);
-	}
+    public function testThatIDsAreUnique()
+    {
+        $this->assertEquals(
+            Keys::getEnum(),
+            array_unique(Keys::getEnum())
+        );
+    }
 
-	public function testThatSummaryWorksForAllKeys()
-	{
-		foreach (Keys::getEnum() as $key) {
-			$KeyObject = Keys::get($key);
+    public function testThatSummaryWorksForAllKeys()
+    {
+        foreach (Keys::getEnum() as $key) {
+            $KeyObject = Keys::get($key);
 
-			if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
-				SummaryMode::query(
-				    $KeyObject->summaryMode(),
-				    $KeyObject->column()
-				);
-			}
-		}
-	}
+            if ($KeyObject->isInDatabase() && $KeyObject->isShownInSummary()) {
+                SummaryMode::query(
+                    $KeyObject->summaryMode(),
+                    $KeyObject->column()
+                );
+            }
+        }
+    }
 
-	public function testThatLabelIsNeverEmpty()
-	{
-		foreach (Keys::getEnum() as $id) {
-			$this->assertNotEmpty(Keys::get($id)->label());
-		}
-	}
+    public function testThatLabelIsNeverEmpty()
+    {
+        foreach (Keys::getEnum() as $id) {
+            $this->assertNotEmpty(Keys::get($id)->label());
+        }
+    }
 
-	public function testEmptyKeysForValuesNotInDatabase()
-	{
-		foreach (Keys::getEnum() as $id) {
-			$Key = Keys::get($id);
+    public function testEmptyKeysForValuesNotInDatabase()
+    {
+        foreach (Keys::getEnum() as $id) {
+            $Key = Keys::get($id);
 
-			if (! $Key->isInDatabase()) {
-				$this->assertEquals('', $Key->column());
-			}
-		}
-	}
+            if (! $Key->isInDatabase()) {
+                $this->assertEquals('', $Key->column());
+            }
+        }
+    }
 
-	public function testInvalidKeyForGet()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		Keys::get('key-ids-are-integers');
-	}
+    public function testInvalidKeyForGet()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Keys::get('key-ids-are-integers');
+    }
 }

@@ -21,90 +21,96 @@ use Runalyze\Configuration;
  */
 class DistanceModifier
 {
-	/**
-	 * Distance to add for 1m positive elevation
-	 * @var int
-	 */
-	protected $PositiveCorrector = 0;
+    /**
+     * Distance to add for 1m positive elevation
+     * @var int
+     */
+    protected $PositiveCorrector = 0;
 
-	/**
-	 * Distance to add for 1m negative elevation
-	 * @var int
-	 */
-	protected $NegativeCorrector = 0;
+    /**
+     * Distance to add for 1m negative elevation
+     * @var int
+     */
+    protected $NegativeCorrector = 0;
 
-	/**
-	 * Distance
-	 * @var float
-	 */
-	protected $Distance;
+    /**
+     * Distance
+     * @var float
+     */
+    protected $Distance;
 
-	/**
-	 * Elevation up
-	 * @var int
-	 */
-	protected $Up;
+    /**
+     * Elevation up
+     * @var int
+     */
+    protected $Up;
 
-	/**
-	 * Elevation down
-	 * @var int
-	 */
-	protected $Down;
+    /**
+     * Elevation down
+     * @var int
+     */
+    protected $Down;
 
-	/**
-	 * Construct
-	 *
-	 *@param float $distance [optional] [km]
-	 * @param int $up [optional] [m]
-	 * @param int $down [optional] [m]
-	 * @param \Runalyze\Configuration\Category\VO2max $config [optional]
-	 */
-	public function __construct($distance = 0, $up = 0, $down = 0, ?Configuration\Category\VO2max $config = null) {
-		if ($config instanceof \Runalyze\Configuration\Category\VO2max) {
-			$this->setCorrectionValues($config->correctionForPositiveElevation(), $config->correctionForNegativeElevation());
-		}
+    /**
+     * Construct
+     *
+     *@param float $distance [optional] [km]
+     * @param int $up [optional] [m]
+     * @param int $down [optional] [m]
+     * @param \Runalyze\Configuration\Category\VO2max $config [optional]
+     */
+    public function __construct($distance = 0, $up = 0, $down = 0, ?Configuration\Category\VO2max $config = null)
+    {
+        if ($config instanceof \Runalyze\Configuration\Category\VO2max) {
+            $this->setCorrectionValues($config->correctionForPositiveElevation(), $config->correctionForNegativeElevation());
+        }
 
-		$this->setDistance($distance);
-		$this->setElevation($up, $down);
-	}
+        $this->setDistance($distance);
+        $this->setElevation($up, $down);
+    }
 
-	/**
-	 * Distance
-	 * @param float $distance [km]
-	 */
-	public function setDistance($distance) {
-		$this->Distance = $distance;
-	}
+    /**
+     * Distance
+     * @param float $distance [km]
+     */
+    public function setDistance($distance)
+    {
+        $this->Distance = $distance;
+    }
 
-	/**
-	 * @param int $up [m]
-	 * @param int $down [m]
-	 */
-	public function setElevation($up, $down) {
-		$this->Up = $up;
-		$this->Down = $down;
-	}
+    /**
+     * @param int $up [m]
+     * @param int $down [m]
+     */
+    public function setElevation($up, $down)
+    {
+        $this->Up = $up;
+        $this->Down = $down;
+    }
 
-	/**
-	 * @param int $positiveCorrection
-	 * @param int $negativeCorrection [m]
-	 */
-	public function setCorrectionValues($positiveCorrection, $negativeCorrection) {
-		$this->PositiveCorrector = $positiveCorrection;
-		$this->NegativeCorrector = $negativeCorrection;
-	}
+    /**
+     * @param int $positiveCorrection
+     * @param int $negativeCorrection [m]
+     */
+    public function setCorrectionValues($positiveCorrection, $negativeCorrection)
+    {
+        $this->PositiveCorrector = $positiveCorrection;
+        $this->NegativeCorrector = $negativeCorrection;
+    }
 
-	/**
-	 * @return float [km]
-	 */
-	public function additionalDistance() {
-		return ($this->PositiveCorrector * (int) $this->Up + $this->NegativeCorrector * (int) $this->Down) / 1000;
-	}
+    /**
+     * @return float [km]
+     */
+    public function additionalDistance()
+    {
+        return ($this->PositiveCorrector * (int) $this->Up + $this->NegativeCorrector * (int) $this->Down) / 1000;
+    }
 
-	/**
-	 * @return float [km]
-	 */
-	public function correctedDistance() {
-		return $this->Distance + $this->additionalDistance();
-	}
+    /**
+     * @return float [km]
+     */
+    public function correctedDistance()
+    {
+        return $this->Distance + $this->additionalDistance();
+    }
 }

@@ -14,15 +14,15 @@ class WeightEnum extends AbstractEnum
     /**
      * @var int
      */
-    const KILOGRAM = 0;
+    public const KILOGRAM = 0;
 
     /**
      * @var int
      */
-    const POUNDS = 1;
+    public const POUNDS = 1;
 
     /**
      * @var int
      */
-    const STONES = 2;
+    public const STONES = 2;
 }

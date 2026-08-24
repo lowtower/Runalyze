@@ -15,12 +15,12 @@ class Weathercache
     /**
      * @var int
      */
-    const GEOHASH_PRECISION_DATABASE = 5;
+    public const GEOHASH_PRECISION_DATABASE = 5;
 
     /**
      * @var int
      */
-    const GEOHASH_PRECISION_LOOKUP = 4;
+    public const GEOHASH_PRECISION_LOOKUP = 4;
 
     /**
      * @var string

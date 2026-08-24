@@ -44,14 +44,14 @@ return ECSConfig::configure()
 #    ->withDocblockLevel(24)             # max level 24
 
     ->withSets([
-        # SetList::PSR_12,
+        SetList::PSR_12,
         SetList::CLEAN_CODE,
         SetList::ARRAY,
         SetList::COMMON,
-        # SetList::COMMENTS,
+        SetList::COMMENTS,
         SetList::CONTROL_STRUCTURES,
         SetList::DOCBLOCK,
-        # SetList::NAMESPACES,
+        SetList::NAMESPACES,
         SetList::SPACES,
         # SetList::DOCTRINE_ANNOTATIONS,
     ])

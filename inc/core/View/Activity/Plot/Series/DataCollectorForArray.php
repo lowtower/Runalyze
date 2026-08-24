@@ -19,7 +19,8 @@ class DataCollectorForArray extends DataCollector
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, array $data, $interpolateData = true) {
+    public function __construct(Trackdata $trackdata, array $data, $interpolateData = true)
+    {
         if (count($data) !== $trackdata->num()) {
             throw new \InvalidArgumentException('Provided data must be of same size as trackdata.');
         }
@@ -27,29 +28,29 @@ class DataCollectorForArray extends DataCollector
         $this->RawData = $data;
         $this->InterpolateData = $interpolateData;
 
-		parent::__construct($trackdata, Trackdata::DISTANCE);
-	}
+        parent::__construct($trackdata, Trackdata::DISTANCE);
+    }
 
-	protected function collect()
+    protected function collect()
     {
-		do {
-			$this->move();
+        do {
+            $this->move();
 
             if ($this->InterpolateData) {
                 $value = array_sum(
                     array_slice($this->RawData, $this->Loop->lastIndex(), $this->Loop->currentStepSize())
                 ) / $this->Loop->currentStepSize();
             } else {
-    			$value = $this->RawData[$this->Loop->index()];
+                $value = $this->RawData[$this->Loop->index()];
             }
 
-			if ($this->XAxis == self::X_AXIS_DISTANCE) {
-				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
-			} else {
-				$this->Data[] = $value;
-			}
-		} while (! $this->Loop->isAtEnd());
-	}
+            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+                $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
+            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+                $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
+            } else {
+                $this->Data[] = $value;
+            }
+        } while (! $this->Loop->isAtEnd());
+    }
 }

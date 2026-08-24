@@ -9,58 +9,64 @@ namespace Runalyze\Parameter;
  */
 class ParameterSelectTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Select
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Select
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Select('a', [
-    'options' => [
-		        'a' => 'one',
-		        'b' => 'two',
-		        'c' => 'three',
-		    ],
-]);
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Select('a', [
+            'options' => [
+                'a' => 'one',
+                'b' => 'two',
+                'c' => 'three',
+            ],
+        ]);
+    }
 
-	public function testSet() {
-		$this->assertEquals('a', $this->object->value());
-		$this->assertEquals('a', $this->object->valueAsString());
+    public function testSet()
+    {
+        $this->assertEquals('a', $this->object->value());
+        $this->assertEquals('a', $this->object->valueAsString());
 
-		$this->object->set('c');
-		$this->assertEquals('c', $this->object->value());
-		$this->assertEquals('c', $this->object->valueAsString());
-	}
+        $this->object->set('c');
+        $this->assertEquals('c', $this->object->value());
+        $this->assertEquals('c', $this->object->valueAsString());
+    }
 
-	public function testLongString() {
-		$this->assertEquals('one', $this->object->valueAsLongString());
+    public function testLongString()
+    {
+        $this->assertEquals('one', $this->object->valueAsLongString());
 
-		$this->object->set('c');
-		$this->assertEquals('three', $this->object->valueAsLongString());
-	}
+        $this->object->set('c');
+        $this->assertEquals('three', $this->object->valueAsLongString());
+    }
 
-	public function testOptions() {
-		$this->assertEquals( [
-    'a' => 'one',
-		    'b' => 'two',
-		    'c' => 'three',
-], $this->object->options() );
-	}
+    public function testOptions()
+    {
+        $this->assertEquals([
+            'a' => 'one',
+            'b' => 'two',
+            'c' => 'three',
+        ], $this->object->options());
+    }
 
-	public function testInvalidOption() {
-		$this->object->set('foobar');
+    public function testInvalidOption()
+    {
+        $this->object->set('foobar');
 
-		$this->assertEquals('a', $this->object->value());
-	}
+        $this->assertEquals('a', $this->object->value());
+    }
 
-	public function testWithoutOptions() {
-		$Object = new Select('');
-		$this->assertEquals( '', $Object->value() );
-		$this->assertEquals( '', $Object->valueAsString() );
-	}
+    public function testWithoutOptions()
+    {
+        $Object = new Select('');
+        $this->assertEquals('', $Object->value());
+        $this->assertEquals('', $Object->valueAsString());
+    }
 }

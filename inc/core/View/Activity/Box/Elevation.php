@@ -18,10 +18,10 @@ use Runalyze\View\Activity\Context;
 class Elevation extends ValueBox
 {
     public function __construct(Context $Context)
-	{
-		parent::__construct(
-		    $Context->dataview()
-		        ->elevation()
-		);
-	}
+    {
+        parent::__construct(
+            $Context->dataview()
+                ->elevation()
+        );
+    }
 }

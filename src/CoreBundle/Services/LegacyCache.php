@@ -12,34 +12,35 @@ class LegacyCache
      */
     public static $cache;
 
-	/**
-	 * @param string $path
-	 */
-	public function __construct($path)
+    /**
+     * @param string $path
+     */
+    public function __construct($path)
     {
-		\phpFastCache::setup('storage', 'files');
+        \phpFastCache::setup('storage', 'files');
         \phpFastCache::setup('path', $path);
         \phpFastCache::setup('securityKey', 'cache');
 
-		self::$cache = new \phpFastCache();
-	}
+        self::$cache = new \phpFastCache();
+    }
 
-	/**
-	 * @param string $keyword
-	 * @param string|bool $accountId
-	 * @return bool
-	 */
-	public function delete($keyword, $accountId = false) {
-	    $accountId = $accountId === false ? '' : (string) $accountId;
+    /**
+     * @param string $keyword
+     * @param string|bool $accountId
+     * @return bool
+     */
+    public function delete($keyword, $accountId = false)
+    {
+        $accountId = $accountId === false ? '' : (string) $accountId;
 
-	    if (self::$cache->isExisting($keyword . $accountId)) {
+        if (self::$cache->isExisting($keyword . $accountId)) {
             return self::$cache->delete($keyword . $accountId);
         }
 
         return false;
-	}
+    }
 
-	public function clearActivityCache(Training $activity)
+    public function clearActivityCache(Training $activity)
     {
         $accountId = $activity->getAccount()
             ->getId();

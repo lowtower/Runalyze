@@ -9,7 +9,7 @@ class ContinuousDataAdapter
     /**
      * @var int
      */
-    const RPM_LIMIT_FOR_CORRECTION = 130;
+    public const RPM_LIMIT_FOR_CORRECTION = 130;
 
     /**
      * @var ContinuousData
@@ -30,7 +30,7 @@ class ContinuousDataAdapter
 
     protected function distancesShouldBeCalculated(): bool
     {
-        return 
+        return
             $this->ContinuousData->Distance === [] &&
             $this->ContinuousData->Latitude !== [] &&
             $this->ContinuousData->Longitude !== []
@@ -66,12 +66,12 @@ class ContinuousDataAdapter
             $size = count($this->ContinuousData->Latitude);
             // search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && $this->ContinuousData->Latitude[$firstNotNull] === null) {
+            while ($firstNotNull < $size && $this->ContinuousData->Latitude[$firstNotNull] === null) {
                 $firstNotNull++;
             }
 
-            if($firstNotNull > 0 && $firstNotNull < $size) {
-                for($i = 0; $i < $firstNotNull; $i++) {
+            if ($firstNotNull > 0 && $firstNotNull < $size) {
+                for ($i = 0; $i < $firstNotNull; $i++) {
                     $this->ContinuousData->Latitude[$i] = $this->ContinuousData->Latitude[$firstNotNull];
                     $this->ContinuousData->Longitude[$i] = $this->ContinuousData->Longitude[$firstNotNull];
                 }
@@ -94,7 +94,7 @@ class ContinuousDataAdapter
 
             // search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && $values[$firstNotNull] === null) {
+            while ($firstNotNull < $size && $values[$firstNotNull] === null) {
                 $firstNotNull++;
             }
 
@@ -104,7 +104,7 @@ class ContinuousDataAdapter
             }
 
             if ($firstNotNull > 0) {
-                for($i = 0; $i < $firstNotNull; $i++) {
+                for ($i = 0; $i < $firstNotNull; $i++) {
                     $values[$i] = $values[$firstNotNull];
                 }
             }
@@ -114,8 +114,8 @@ class ContinuousDataAdapter
             // we have set previously the beginning with values so idx0 must have a value!
             $notNull = $values[$firstNotNull];
             // now search from start-to-end and set the last not null to the nulls
-            for($i = $firstNotNull; $i < $size; $i++) {
-                if($values[$i] === null) {
+            for ($i = $firstNotNull; $i < $size; $i++) {
+                if ($values[$i] === null) {
                     $values[$i] = $notNull;
                 } else {
                     $notNull = $values[$i];
@@ -134,8 +134,8 @@ class ContinuousDataAdapter
         if ($values !== []) {
             $size = count($values);
 
-            for($i = 0; $i < $size; $i++) {
-                if($values[$i] === null) {
+            for ($i = 0; $i < $size; $i++) {
+                if ($values[$i] === null) {
                     $values[$i] = 0;
                 }
             }

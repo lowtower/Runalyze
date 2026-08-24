@@ -16,11 +16,12 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Snowing extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setBaseClass('weather-basecloud');
-		$this->setLayerClass('weather-snowy');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setBaseClass('weather-basecloud');
+        $this->setLayerClass('weather-snowy');
+    }
 }

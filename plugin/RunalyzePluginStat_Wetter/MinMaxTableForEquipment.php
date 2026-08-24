@@ -17,52 +17,52 @@ use Runalyze\Activity\Temperature;
  */
 class MinMaxTableForEquipment
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	/**
-	 * @var int
-	 */
-	protected $AccountID;
+    /**
+     * @var int
+     */
+    protected $AccountID;
 
-	/**
-	 * @var int
-	 */
-	protected $EquipmentTypeID;
+    /**
+     * @var int
+     */
+    protected $EquipmentTypeID;
 
-	/**
-	 * @var string
-	 */
-	protected $DependencyQuery = '';
+    /**
+     * @var string
+     */
+    protected $DependencyQuery = '';
 
     /**
      * @param int $accountId
      * @param int $equipmentTypeId
      */
     public function __construct(\PDO $pdo, $accountId, $equipmentTypeId)
-	{
-		$this->PDO = $pdo;
-		$this->AccountID = $accountId;
-		$this->EquipmentTypeID = $equipmentTypeId;
-	}
+    {
+        $this->PDO = $pdo;
+        $this->AccountID = $accountId;
+        $this->EquipmentTypeID = $equipmentTypeId;
+    }
 
-	/**
-	 * @param string $query
-	 */
-	public function setDependency($query)
-	{
-		$this->DependencyQuery = $query;
-	}
+    /**
+     * @param string $query
+     */
+    public function setDependency($query)
+    {
+        $this->DependencyQuery = $query;
+    }
 
-	/**
-	 * @return \PDOStatement
-	 */
-	protected function createStatement()
-	{
-		return $this->PDO->query(
-		    'SELECT
+    /**
+     * @return \PDOStatement
+     */
+    protected function createStatement()
+    {
+        return $this->PDO->query(
+            'SELECT
 				AVG(`temperature`) as `avg`,
 				MAX(`temperature`) as `max`,
 				MIN(`temperature`) as `min`,
@@ -78,72 +78,72 @@ class MinMaxTableForEquipment
 				`temperature` IS NOT NULL
 				' . $this->DependencyQuery . '
 			GROUP BY `eq`.`equipmentid`'
-		);
-	}
+        );
+    }
 
-	/**
-	 * Display table
-	 */
-	public function display()
-	{
-		$this->displayHead();
-		$this->displayBody();
-		$this->displayFoot();
-	}
+    /**
+     * Display table
+     */
+    public function display()
+    {
+        $this->displayHead();
+        $this->displayBody();
+        $this->displayFoot();
+    }
 
-	/**
-	 * Display table head
-	 */
-	protected function displayHead()
-	{
-		echo '<table class="fullwidth zebra-style">' .
-			'<thead><tr>' .
-				'<th></th>' .
-				'<th>' . __('Temperatures') . '</th>' .
-				'<th>' . __('avg.') . '</th>' .
-				'<th colspan="2"></th>' .
-				'<th>' . __('Temperatures') . '</th>' .
-				'<th>' . __('avg.') . '</th>' .
-				'<th colspan="2"></th>' .
-				'<th>' . __('Temperatures') . '</th>' .
-				'<th>' . __('avg.') . '</th>' .
-			'</tr></thead>';
-	}
+    /**
+     * Display table head
+     */
+    protected function displayHead()
+    {
+        echo '<table class="fullwidth zebra-style">' .
+            '<thead><tr>' .
+                '<th></th>' .
+                '<th>' . __('Temperatures') . '</th>' .
+                '<th>' . __('avg.') . '</th>' .
+                '<th colspan="2"></th>' .
+                '<th>' . __('Temperatures') . '</th>' .
+                '<th>' . __('avg.') . '</th>' .
+                '<th colspan="2"></th>' .
+                '<th>' . __('Temperatures') . '</th>' .
+                '<th>' . __('avg.') . '</th>' .
+            '</tr></thead>';
+    }
 
-	/**
-	 * Display table body
-	 */
-	protected function displayBody()
-	{
-		echo '<tbody><tr class="r">';
+    /**
+     * Display table body
+     */
+    protected function displayBody()
+    {
+        echo '<tbody><tr class="r">';
 
-		$Statement = $this->createStatement();
-		$i = 0;
+        $Statement = $this->createStatement();
+        $i = 0;
 
-		while ($data = $Statement->fetch()) {
-			echo ($i % 3 === 0) ? '<tr class="r">' : '<td>&nbsp;&nbsp;</td>';
+        while ($data = $Statement->fetch()) {
+            echo ($i % 3 === 0) ? '<tr class="r">' : '<td>&nbsp;&nbsp;</td>';
 
-			echo '<td class="l">' . $data['name'] . '</td>';
-			echo '<td>' . (Temperature::format($data['min'], true)) . ' ' . __('to') . ' ' . (Temperature::format($data['max'], true)) . '</td>';
-			echo '<td>' . (Temperature::format(round($data['avg']), true)) . '</td>';
+            echo '<td class="l">' . $data['name'] . '</td>';
+            echo '<td>' . (Temperature::format($data['min'], true)) . ' ' . __('to') . ' ' . (Temperature::format($data['max'], true)) . '</td>';
+            echo '<td>' . (Temperature::format(round($data['avg']), true)) . '</td>';
 
-			echo (++$i % 3 === 0) ? '</tr>' : '';
-		}
+            echo (++$i % 3 === 0) ? '</tr>' : '';
+        }
 
-		if ($i % 3 !== 0) {
-			echo '<td colspan="' . (3 * (3 - $i % 3)) . '">&nbsp;</td></tr>';
-		} elseif ($i === 0) {
-			echo '<td colspan="11" class="c"><em>' . __('No data found.') . '</em></td>';
-		}
+        if ($i % 3 !== 0) {
+            echo '<td colspan="' . (3 * (3 - $i % 3)) . '">&nbsp;</td></tr>';
+        } elseif ($i === 0) {
+            echo '<td colspan="11" class="c"><em>' . __('No data found.') . '</em></td>';
+        }
 
-		echo '</tbody>';
-	}
+        echo '</tbody>';
+    }
 
-	/**
-	 * Display table footer
-	 */
-	protected function displayFoot()
-	{
-		echo '</table>';
-	}
+    /**
+     * Display table footer
+     */
+    protected function displayFoot()
+    {
+        echo '</table>';
+    }
 }

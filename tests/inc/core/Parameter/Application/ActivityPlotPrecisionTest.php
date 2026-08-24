@@ -9,28 +9,30 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\ActivityPlotPrecision
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\ActivityPlotPrecision
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new ActivityPlotPrecision();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new ActivityPlotPrecision();
+    }
 
-	public function testAssigns() {
-		$this->object->set('100m');
-		$this->assertTrue( $this->object->byDistance() );
-		$this->assertFalse( $this->object->byPoints() );
-		$this->assertEquals( 100, $this->object->distanceStep() );
+    public function testAssigns()
+    {
+        $this->object->set('100m');
+        $this->assertTrue($this->object->byDistance());
+        $this->assertFalse($this->object->byPoints());
+        $this->assertEquals(100, $this->object->distanceStep());
 
-		$this->object->set('200points');
-		$this->assertFalse( $this->object->byDistance() );
-		$this->assertTrue( $this->object->byPoints() );
-		$this->assertEquals( 200, $this->object->numberOfPoints() );
-	}
+        $this->object->set('200points');
+        $this->assertFalse($this->object->byDistance());
+        $this->assertTrue($this->object->byPoints());
+        $this->assertEquals(200, $this->object->numberOfPoints());
+    }
 }

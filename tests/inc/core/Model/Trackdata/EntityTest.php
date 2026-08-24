@@ -7,175 +7,190 @@ namespace Runalyze\Model\Trackdata;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-	protected function simpleObjectByStrings(): \Runalyze\Model\Trackdata\Entity {
-		$P = new Pauses();
-		$P->add(new Pause(20, 10, 140, 120));
+    protected function simpleObjectByStrings(): \Runalyze\Model\Trackdata\Entity
+    {
+        $P = new Pauses();
+        $P->add(new Pause(20, 10, 140, 120));
 
-		return new Entity([
-    Entity::ACTIVITYID => 1,
-		    Entity::TIME => '20' . Entity::ARRAY_SEPARATOR . '40',
-		    Entity::DISTANCE => '0.1' . Entity::ARRAY_SEPARATOR . '0.2',
-		    Entity::HEARTRATE => '140' . Entity::ARRAY_SEPARATOR . '120',
-		    Entity::PAUSES => $P->asString(),
-]);
-	}
+        return new Entity([
+            Entity::ACTIVITYID => 1,
+            Entity::TIME => '20' . Entity::ARRAY_SEPARATOR . '40',
+            Entity::DISTANCE => '0.1' . Entity::ARRAY_SEPARATOR . '0.2',
+            Entity::HEARTRATE => '140' . Entity::ARRAY_SEPARATOR . '120',
+            Entity::PAUSES => $P->asString(),
+        ]);
+    }
 
-	public function testEmptyObject() {
-		$T = new Entity();
+    public function testEmptyObject()
+    {
+        $T = new Entity();
 
-		foreach ($T->properties() as $key) {
-			$this->assertFalse($T->has($key));
-		}
+        foreach ($T->properties() as $key) {
+            $this->assertFalse($T->has($key));
+        }
 
-		$this->assertEquals(0, $T->num());
-		$this->assertFalse($T->hasPauses());
-		$this->assertTrue($T->pauses()->isEmpty());
-	}
+        $this->assertEquals(0, $T->num());
+        $this->assertFalse($T->hasPauses());
+        $this->assertTrue($T->pauses()->isEmpty());
+    }
 
-	public function testClearing() {
-		$T = $this->simpleObjectByStrings();
-		$T->clear();
+    public function testClearing()
+    {
+        $T = $this->simpleObjectByStrings();
+        $T->clear();
 
-		foreach ($T->properties() as $key) {
-			$this->assertFalse($T->has($key));
-		}
+        foreach ($T->properties() as $key) {
+            $this->assertFalse($T->has($key));
+        }
 
-		$this->assertEquals(0, $T->num());
-		$this->assertFalse($T->hasPauses());
-	}
+        $this->assertEquals(0, $T->num());
+        $this->assertFalse($T->hasPauses());
+    }
 
-	public function testCreationWithString() {
-		$T = $this->simpleObjectByStrings();
+    public function testCreationWithString()
+    {
+        $T = $this->simpleObjectByStrings();
 
-		$this->assertEquals(1, $T->activityID());
-		$this->assertEquals([20, 40], $T->time());
-		$this->assertEquals([0.1, 0.2], $T->distance());
-		$this->assertEquals([140, 120], $T->heartRate());
+        $this->assertEquals(1, $T->activityID());
+        $this->assertEquals([20, 40], $T->time());
+        $this->assertEquals([0.1, 0.2], $T->distance());
+        $this->assertEquals([140, 120], $T->heartRate());
 
-		$this->assertEquals(2, $T->num());
-		$this->assertTrue($T->hasPauses());
-		$this->assertEquals(1, $T->pauses()->num());
-		$this->assertEquals(20, $T->pauses()->at(0)->hrDiff());
+        $this->assertEquals(2, $T->num());
+        $this->assertTrue($T->hasPauses());
+        $this->assertEquals(1, $T->pauses()->num());
+        $this->assertEquals(20, $T->pauses()->at(0)->hrDiff());
 
-		$this->assertEquals(40, $T->totalTime());
-		$this->assertEquals(0.2, $T->totalDistance());
-	}
+        $this->assertEquals(40, $T->totalTime());
+        $this->assertEquals(0.2, $T->totalDistance());
+    }
 
-	public function testCreatingWithArrays() {
-		$T = new Entity([
-		    Entity::CADENCE => [180, 185],
-		    Entity::POWER => [200, 250],
-		    Entity::TEMPERATURE => [25, 24],
-		    Entity::GROUNDCONTACT => [200, 250],
-		    Entity::VERTICAL_OSCILLATION => [8.0, 7.5],
-		    Entity::GROUNDCONTACT_BALANCE => [6500, 6430],
-		]);
+    public function testCreatingWithArrays()
+    {
+        $T = new Entity([
+            Entity::CADENCE => [180, 185],
+            Entity::POWER => [200, 250],
+            Entity::TEMPERATURE => [25, 24],
+            Entity::GROUNDCONTACT => [200, 250],
+            Entity::VERTICAL_OSCILLATION => [8.0, 7.5],
+            Entity::GROUNDCONTACT_BALANCE => [6500, 6430],
+        ]);
 
-		$this->assertEquals(2, $T->num());
-		$this->assertEquals([180, 185], $T->cadence());
-		$this->assertEquals([200, 250], $T->power());
-		$this->assertEquals([25,  24], $T->temperature());
-		$this->assertEquals([200, 250], $T->groundcontact());
-		$this->assertEquals([6500, 6430], $T->groundContactBalance());
-	}
+        $this->assertEquals(2, $T->num());
+        $this->assertEquals([180, 185], $T->cadence());
+        $this->assertEquals([200, 250], $T->power());
+        $this->assertEquals([25,  24], $T->temperature());
+        $this->assertEquals([200, 250], $T->groundcontact());
+        $this->assertEquals([6500, 6430], $T->groundContactBalance());
+    }
 
-	public function testWrongArraySizes() {
+    public function testWrongArraySizes()
+    {
         $this->expectException(\RuntimeException::class);
-		new Entity([
-		    Entity::TIME => [1, 2, 3],
-		    Entity::DISTANCE => [0.01, 0.03],
-		]);
-	}
+        new Entity([
+            Entity::TIME => [1, 2, 3],
+            Entity::DISTANCE => [0.01, 0.03],
+        ]);
+    }
 
-	public function testWrongArraySizeViaSet() {
+    public function testWrongArraySizeViaSet()
+    {
         $this->expectException(\RuntimeException::class);
-		$T = new Entity([
-		    Entity::TIME => [1, 2, 3],
-		]);
+        $T = new Entity([
+            Entity::TIME => [1, 2, 3],
+        ]);
 
-		$T->set(Entity::DISTANCE, [0.01, 0.03]);
-	}
+        $T->set(Entity::DISTANCE, [0.01, 0.03]);
+    }
 
-	public function testSettingPausesDirectly() {
+    public function testSettingPausesDirectly()
+    {
         $this->expectException(\InvalidArgumentException::class);
-		$P = new Pauses();
+        $P = new Pauses();
 
-		$T = new Entity();
-		$T->set(Entity::PAUSES, $P->asString());
-	}
+        $T = new Entity();
+        $T->set(Entity::PAUSES, $P->asString());
+    }
 
-	public function testDirectAccess() {
-		$T = new Entity([
-		    Entity::TIME => [1, 2, 3, 5, 10, 20],
-		]);
+    public function testDirectAccess()
+    {
+        $T = new Entity([
+            Entity::TIME => [1, 2, 3, 5, 10, 20],
+        ]);
 
-		$this->assertEquals( 1, $T->at(0, Entity::TIME));
-		$this->assertEquals( 2, $T->at(1, Entity::TIME));
-		$this->assertEquals( 3, $T->at(2, Entity::TIME));
-		$this->assertEquals( 5, $T->at(3, Entity::TIME));
-		$this->assertEquals(10, $T->at(4, Entity::TIME));
-		$this->assertEquals(20, $T->at(5, Entity::TIME));
-	}
+        $this->assertEquals(1, $T->at(0, Entity::TIME));
+        $this->assertEquals(2, $T->at(1, Entity::TIME));
+        $this->assertEquals(3, $T->at(2, Entity::TIME));
+        $this->assertEquals(5, $T->at(3, Entity::TIME));
+        $this->assertEquals(10, $T->at(4, Entity::TIME));
+        $this->assertEquals(20, $T->at(5, Entity::TIME));
+    }
 
-	public function testInvalidAccessIndex() {
+    public function testInvalidAccessIndex()
+    {
         $this->expectException(\OutOfBoundsException::class);
-		$T = new Entity([
-		    Entity::TIME => [1],
-		]);
+        $T = new Entity([
+            Entity::TIME => [1],
+        ]);
 
-		$T->at(2, Entity::TIME);
-	}
+        $T->at(2, Entity::TIME);
+    }
 
-	public function testInvalidAccessKey() {
+    public function testInvalidAccessKey()
+    {
         $this->expectException(\OutOfBoundsException::class);
-		$T = new Entity([
-		    Entity::TIME => [1],
-		]);
+        $T = new Entity([
+            Entity::TIME => [1],
+        ]);
 
-		$T->at(0, Entity::DISTANCE);
-	}
+        $T->at(0, Entity::DISTANCE);
+    }
 
-	public function testDefectActivitiesFromHRMandGPXimport() {
-		$T = new Entity([
-		    Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
-		    Entity::TIME => [10, 20, 30, 40],
-		    Entity::HEARTRATE => [120, 125, 130, 135, 140],
-		]);
+    public function testDefectActivitiesFromHRMandGPXimport()
+    {
+        $T = new Entity([
+            Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
+            Entity::TIME => [10, 20, 30, 40],
+            Entity::HEARTRATE => [120, 125, 130, 135, 140],
+        ]);
 
-		$this->assertEquals(4, $T->num());
-	}
+        $this->assertEquals(4, $T->num());
+    }
 
-	public function testDefectActivitiesFromSpoQgpx() {
-		$T = new Entity([
-		    Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
-		    Entity::TIME => [10, 20, 30, 40],
-		    Entity::HEARTRATE => [130, 135, 140],
-		]);
+    public function testDefectActivitiesFromSpoQgpx()
+    {
+        $T = new Entity([
+            Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
+            Entity::TIME => [10, 20, 30, 40],
+            Entity::HEARTRATE => [130, 135, 140],
+        ]);
 
-		$this->assertEquals(4, $T->num());
-	}
+        $this->assertEquals(4, $T->num());
+    }
 
-	public function testEmptyArrays() {
-		$T = new Entity([
-		    Entity::DISTANCE => [0, 0, 0, 0],
-		    Entity::TIME => [10, 20, 30, 40],
-		    Entity::HEARTRATE => [0, 0, 0, 0],
-		    Entity::CADENCE => [90, 85, 87, 89],
-		    Entity::TEMPERATURE => [-2, -1, -1, 0],
-		]);
+    public function testEmptyArrays()
+    {
+        $T = new Entity([
+            Entity::DISTANCE => [0, 0, 0, 0],
+            Entity::TIME => [10, 20, 30, 40],
+            Entity::HEARTRATE => [0, 0, 0, 0],
+            Entity::CADENCE => [90, 85, 87, 89],
+            Entity::TEMPERATURE => [-2, -1, -1, 0],
+        ]);
 
-		$this->assertTrue($T->has(Entity::TIME));
-		$this->assertTrue($T->has(Entity::CADENCE));
-		$this->assertTrue($T->has(Entity::TEMPERATURE));
-		$this->assertFalse($T->has(Entity::DISTANCE));
-		$this->assertFalse($T->has(Entity::HEARTRATE));
-	}
+        $this->assertTrue($T->has(Entity::TIME));
+        $this->assertTrue($T->has(Entity::CADENCE));
+        $this->assertTrue($T->has(Entity::TEMPERATURE));
+        $this->assertFalse($T->has(Entity::DISTANCE));
+        $this->assertFalse($T->has(Entity::HEARTRATE));
+    }
 
-	public function testEmptyWithActivityID() {
-		$T = new Entity([
-		    Entity::ACTIVITYID => 42,
-		]);
+    public function testEmptyWithActivityID()
+    {
+        $T = new Entity([
+            Entity::ACTIVITYID => 42,
+        ]);
 
-		$this->assertTrue($T->isEmpty());
-	}
+        $this->assertTrue($T->isEmpty());
+    }
 }

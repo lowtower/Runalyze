@@ -17,86 +17,96 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TrainingViewSection
 {
-	/**
-	 * Header
-	 * @var string
-	 */
-	protected $Header = '';
+    /**
+     * Header
+     * @var string
+     */
+    protected $Header = '';
 
-	/**
-	 * All rows
-	 * @var TrainingViewSectionRowAbstract[]
-	 */
-	protected $Rows = [];
+    /**
+     * All rows
+     * @var TrainingViewSectionRowAbstract[]
+     */
+    protected $Rows = [];
 
-	/**
-	 * Is first?
-	 * @var bool
-	 */
-	protected $isFirst = false;
+    /**
+     * Is first?
+     * @var bool
+     */
+    protected $isFirst = false;
 
-	/**
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	public function __construct(?Context $Context = null) {
-		$this->Context = $Context;
+    public function __construct(?Context $Context = null)
+    {
+        $this->Context = $Context;
 
-		if ($this->hasRequiredData())
-			$this->setHeaderAndRows();
-	}
+        if ($this->hasRequiredData()) {
+            $this->setHeaderAndRows();
+        }
+    }
 
-	abstract protected function setHeaderAndRows();
+    abstract protected function setHeaderAndRows();
 
-	/**
-	 * Has the training all required data?
-	 * @return bool
-	 */
-	abstract protected function hasRequiredData();
+    /**
+     * Has the training all required data?
+     * @return bool
+     */
+    abstract protected function hasRequiredData();
 
-	/**
-	 * @param string $header
-	 */
-	final protected function setHeader($header) {
-		$this->Header = $header;
-	}
+    /**
+     * @param string $header
+     */
+    final protected function setHeader($header)
+    {
+        $this->Header = $header;
+    }
 
-    final protected function appendRow(TrainingViewSectionRowAbstract $Row) {
-		$this->Rows[] = $Row;
-	}
+    final protected function appendRow(TrainingViewSectionRowAbstract $Row)
+    {
+        $this->Rows[] = $Row;
+    }
 
-	final public function setAsFirst() {
-		$this->isFirst = true;
-	}
+    final public function setAsFirst()
+    {
+        $this->isFirst = true;
+    }
 
-	/**
-	 * Is this section empty?
-	 * @return bool
-	 */
-	final public function isEmpty() {
-		return empty($this->Header) || $this->Rows === [];
-	}
+    /**
+     * Is this section empty?
+     * @return bool
+     */
+    final public function isEmpty()
+    {
+        return empty($this->Header) || $this->Rows === [];
+    }
 
-	public function display() {
-		if (! $this->isEmpty()) {
-			$this->displayHeader();
-			$this->displayContent();
-		}
-	}
+    public function display()
+    {
+        if (! $this->isEmpty()) {
+            $this->displayHeader();
+            $this->displayContent();
+        }
+    }
 
-	private function displayHeader() {
-		echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-		echo '<h2>' . $this->Header . '</h2>';
-		echo '</div>';
-	}
+    private function displayHeader()
+    {
+        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
+        echo '<h2>' . $this->Header . '</h2>';
+        echo '</div>';
+    }
 
-	private function displayContent() {
-		echo '<div>';
+    private function displayContent()
+    {
+        echo '<div>';
 
-		foreach ($this->Rows as $Row)
-			$Row->display();
+        foreach ($this->Rows as $Row) {
+            $Row->display();
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 }

@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class Stroke extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'stroke';
-	}
+    protected function setKey()
+    {
+        $this->key = 'stroke';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\Stroke($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\Stroke($context)
+        );
+    }
 }

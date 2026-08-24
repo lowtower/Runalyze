@@ -9,7 +9,7 @@ class RaceresultRepository extends EntityRepository
     /**
      * @var int
      */
-    const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
+    public const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
     /**
      * @param int $activityId
@@ -104,7 +104,7 @@ class RaceresultRepository extends EntityRepository
             return 1.0;
         }
 
-        return max(array_map(function($v): float {
+        return max(array_map(function ($v): float {
             return (float) $v;
         }, $result));
     }

@@ -10,7 +10,7 @@ namespace Runalyze\Service\RouteNameEvaluation;
 class OsmCsvData
 {
     // seperator for the fields in a line
-    const SEPERATOR = '|';
+    public const SEPERATOR = '|';
 
     // internal categories
     public static $CAT_PEAK = 'peak';
@@ -136,9 +136,10 @@ class OsmCsvData
      * @param string $csvLine Overpass line seperated with |
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $csvLine) {
+    public function __construct(string $csvLine)
+    {
         $arr = explode(self::SEPERATOR, $csvLine);
-        if(count($arr) != self::$fieldCount) {
+        if (count($arr) != self::$fieldCount) {
             throw new \InvalidArgumentException('Invalid attributes in Overpass result line ' . $csvLine);
         }
 
@@ -150,60 +151,78 @@ class OsmCsvData
     /**
      * @param array<int, mixed> $arr
      */
-    protected function setFields(array $arr) {
+    protected function setFields(array $arr)
+    {
         $this->type = $arr[0];
         $this->name = $this->cleanNameChar($arr[1]);
         $this->nameDe = $arr[2] ? $this->cleanNameChar($arr[2]) : null;
 
         $this->natural = $arr[7] ? $arr[7] : null;
         $this->elevation = $arr[8] ? $arr[8] : null;
-        if(! empty($this->natural)) return;
+        if (! empty($this->natural)) {
+            return;
+        }
 
         $this->place = $arr[3] ? $arr[3] : null;
-        if(! empty($this->place)) return;
+        if (! empty($this->place)) {
+            return;
+        }
 
         $this->trafficSign = $arr[4] ? $arr[4] : null;
-        if(! empty($this->trafficSign)) return;
+        if (! empty($this->trafficSign)) {
+            return;
+        }
 
         $this->tourism = $arr[5] ? $arr[5] : null;
-        if(! empty($this->tourism)) return;
+        if (! empty($this->tourism)) {
+            return;
+        }
 
         $this->landuse = $arr[6] ? $arr[6] : null;
-        if(! empty($this->landuse)) return;
+        if (! empty($this->landuse)) {
+            return;
+        }
 
         $this->amenity = $arr[11] ? $arr[11] : null;
-        if(! empty($this->amenity)) return;
+        if (! empty($this->amenity)) {
+            return;
+        }
 
         $this->hiking = $arr[9] ? $arr[9] : null;
-        if(! empty($this->hiking)) return;
+        if (! empty($this->hiking)) {
+            return;
+        }
 
         $this->sacScale = $arr[10] ? $arr[10] : null;
     }
 
-    protected function cleanNameChar(string $text): string {
+    protected function cleanNameChar(string $text): string
+    {
         return str_replace('-', ' ', $text);
     }
 
-    protected function setCategory() {
-        if(! empty($this->natural) && ($this->natural == 'peak' || $this->natural == 'saddle')) {
+    protected function setCategory()
+    {
+        if (! empty($this->natural) && ($this->natural == 'peak' || $this->natural == 'saddle')) {
             $this->category = self::$CAT_PEAK;
-        } else if(! empty($this->place) || ! empty($this->trafficSign) ||
+        } elseif (! empty($this->place) || ! empty($this->trafficSign) ||
             ! empty($this->landuse) || $this->natural == 'wood' || $this->natural == 'water') {
             $this->category = self::$CAT_PLACE;
-        } else if($this->tourism == 'alpine_hut' || $this->tourism == 'wilderness_hut' || $this->amenity == 'restaurant') {
+        } elseif ($this->tourism == 'alpine_hut' || $this->tourism == 'wilderness_hut' || $this->amenity == 'restaurant') {
             $this->category = self::$CAT_HUT;
-        } else if($this->tourism == 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
+        } elseif ($this->tourism == 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
             $this->category = self::$CAT_WAY;
-        } else if($this->tourism == 'information') {
+        } elseif ($this->tourism == 'information') {
             $this->category = self::$CAT_INFO;
         }
     }
 
-    protected function setOrder() {
+    protected function setOrder()
+    {
         $o = '';
 
         // peak/saddle
-        if($this->category == self::$CAT_PEAK) {
+        if ($this->category == self::$CAT_PEAK) {
             // high must be substract, so if it higher it is upper in the sort
             $ele = ! empty($this->elevation) ? 9999 - $this->elevation : 9999;
             $o .= sprintf('pk1.hi%04d.', $ele);
@@ -230,13 +249,14 @@ class OsmCsvData
         $this->order = $o;
     }
 
-    protected function getPlaceOrder(): int {
-        if(empty($this->place) || ! array_key_exists($this->place, self::$placeOrder)) {
+    protected function getPlaceOrder(): int
+    {
+        if (empty($this->place) || ! array_key_exists($this->place, self::$placeOrder)) {
             return 9; // always at the end when sorting
         }
 
         $num = self::$placeOrder[$this->place];
-        if(empty($num)) {
+        if (empty($num)) {
             return 9; // always at the end when sorting
         } else {
             return $num;

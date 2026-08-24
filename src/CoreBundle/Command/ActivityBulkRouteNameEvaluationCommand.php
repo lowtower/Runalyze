@@ -17,9 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
 {
-    private $override = False;
+    private $override = false;
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('runalyze:activity:bulk-routeval')
             ->setDescription('Bulk update of trainings route-name evaluation')
@@ -32,7 +33,8 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
     /**
      * @return TrainingRepository
      */
-    protected function getTrainingRepository() {
+    protected function getTrainingRepository()
+    {
         return $this->getContainer()
             ->get('doctrine')
             ->getRepository('CoreBundle:Training');
@@ -41,7 +43,8 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
     /**
      * @return null|int null or 0 if everything went fine, or an error code
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $repository = $this->getContainer()
             ->get('doctrine')
             ->getRepository('CoreBundle:Account');
@@ -56,7 +59,7 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
             return 1;
         }
 
-        if(empty($this->getContainer()->getParameter('osm_overpass_url'))) {
+        if (empty($this->getContainer()->getParameter('osm_overpass_url'))) {
             $output->writeln('<fg=red>Set parameter osm_overpass_url</>');
             return 1;
         }
@@ -67,19 +70,20 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
             $activity = $this->processActivity($output, $activityId, $user);
             $activityId = $this->getTrainingRepository()
                 ->getIdOfNextActivity($activity);
-        } while($nexted === 1 && $activityId != null);
+        } while ($nexted === 1 && $activityId != null);
 
         $output->writeln('');
         $output->writeln('Done.');
         return null;
     }
 
-    protected function processActivity(OutputInterface &$output, int $activityId, Account $user): Training {
+    protected function processActivity(OutputInterface &$output, int $activityId, Account $user): Training
+    {
         $activity = $this->getTrainingRepository()
             ->findForAccount($activityId, $user);
 
-        if($activity->hasRoute()) {
-            if(empty($activity->getRouteName()) || $this->override) {
+        if ($activity->hasRoute()) {
+            if (empty($activity->getRouteName()) || $this->override) {
                 $contextAdapterFactory = $this->getContainer()
                     ->get('app.activity_context_adapter_factory');
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
@@ -87,17 +91,17 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
 
                 $updated = $contextAdapter->guessRouteDetails();
 
-                if($updated) {
+                if ($updated) {
                     $this->getTrainingRepository()
                         ->save($activity);
 
-                    $output->writeln('<fg=green>successfully updated id=' . $activityId . ' / ' . $activity->getTitle() . 
+                    $output->writeln('<fg=green>successfully updated id=' . $activityId . ' / ' . $activity->getTitle() .
                         ' / ' . $activity->getRouteName() . '</>');
                 } else {
                     $output->writeln('<fg=yellow>skip id=' . $activityId . ' / ' . $activity->getTitle() . '</>');
                 }
 
-            } else {                
+            } else {
                 $output->writeln('<fg=yellow>skip id=' . $activityId . ' / ' . $activity->getTitle() . '</>');
             }
         }

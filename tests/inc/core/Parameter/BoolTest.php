@@ -7,31 +7,33 @@ namespace Runalyze\Parameter;
  */
 class ParameterBooleanTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Booleanean
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Booleanean
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new Boolean(true);
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new Boolean(true);
+    }
 
-	public function testValues() {
-		$this->assertEquals( true, $this->object->value() );
-		$this->assertEquals( 'true', $this->object->valueAsString() );
+    public function testValues()
+    {
+        $this->assertEquals(true, $this->object->value());
+        $this->assertEquals('true', $this->object->valueAsString());
 
-		$this->object->set(false);
+        $this->object->set(false);
 
-		$this->assertEquals( false, $this->object->value() );
-		$this->assertEquals( 'false', $this->object->valueAsString() );
+        $this->assertEquals(false, $this->object->value());
+        $this->assertEquals('false', $this->object->valueAsString());
 
-		$this->object->setFromString('true');
+        $this->object->setFromString('true');
 
-		$this->assertEquals( true, $this->object->value() );
-		$this->assertEquals( 'true', $this->object->valueAsString() );
-	}
+        $this->assertEquals(true, $this->object->value());
+        $this->assertEquals('true', $this->object->valueAsString());
+    }
 }

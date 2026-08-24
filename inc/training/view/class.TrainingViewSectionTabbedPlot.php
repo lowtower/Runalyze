@@ -12,64 +12,72 @@
  */
 abstract class TrainingViewSectionTabbedPlot extends TrainingViewSection
 {
-	/**
-	 * All menus
-	 * @var array
-	 */
-	protected $Links = [];
+    /**
+     * All menus
+     * @var array
+     */
+    protected $Links = [];
 
     /**
      * Append row
      */
-    final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row) {
-		$this->Rows[] = $Row;
-		$this->Links += $Row->getLinks();
+    final protected function appendRowTabbedPlot(TrainingViewSectionRowTabbedPlot $Row)
+    {
+        $this->Rows[] = $Row;
+        $this->Links += $Row->getLinks();
 
-		$Row->setCSSid( $this->cssId() );
-	}
+        $Row->setCSSid($this->cssId());
+    }
 
-	final public function display() {
-		if (! $this->isEmpty()) {
-			$this->displayHeader();
-			$this->displayContent();
-		}
-	}
+    final public function display()
+    {
+        if (! $this->isEmpty()) {
+            $this->displayHeader();
+            $this->displayContent();
+        }
+    }
 
-	private function displayHeader() {
-		echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
-		$this->displayChangeMenu();
-		echo '<h2>' . $this->Header . '</h2>';
-		echo '</div>';
-	}
+    private function displayHeader()
+    {
+        echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
+        $this->displayChangeMenu();
+        echo '<h2>' . $this->Header . '</h2>';
+        echo '</div>';
+    }
 
-	private function displayChangeMenu() {
-		if (count($this->Links) <= 1)
-			return;
+    private function displayChangeMenu()
+    {
+        if (count($this->Links) <= 1) {
+            return;
+        }
 
-		echo '<div class="change-menu">';
+        echo '<div class="change-menu">';
 
-		foreach ($this->Links as $key => $Title)
-			echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $key);
+        foreach ($this->Links as $key => $Title) {
+            echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $key);
+        }
 
-		if (count($this->Links) > 1) {
-			echo Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
-		}
+        if (count($this->Links) > 1) {
+            echo Ajax::change('<i class="fa fa-fw fa-bars"></i> ' . __('All'), 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId());
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
-	private function displayContent() {
-		echo '<div>';
+    private function displayContent()
+    {
+        echo '<div>';
 
-		foreach ($this->Rows as $Row)
-			$Row->display();
+        foreach ($this->Rows as $Row) {
+            $Row->display();
+        }
 
-		echo '</div>';
-	}
+        echo '</div>';
+    }
 
-	/**
-	 * CSS-ID
-	 * @return string
-	 */
-	abstract protected function cssId();
+    /**
+     * CSS-ID
+     * @return string
+     */
+    abstract protected function cssId();
 }

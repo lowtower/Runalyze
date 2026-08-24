@@ -90,8 +90,9 @@ class Configuration
      */
     private static function loadAccountID()
     {
-        if (defined('RUNALYZE_TEST'))
+        if (defined('RUNALYZE_TEST')) {
             return null;
+        }
 
         return \SessionAccountHandler::getId();
     }

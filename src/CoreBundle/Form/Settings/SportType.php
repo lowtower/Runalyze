@@ -54,8 +54,7 @@ class SportType extends AbstractType
         SportRepository $sportRepository,
         EquipmentTypeRepository $equipmentTypeRepository,
         TokenStorage $tokenStorage
-    )
-    {
+    ) {
         $this->TypeRepository = $typeRepository;
         $this->SportRepository = $sportRepository;
         $this->EquipmentTypeRepository = $equipmentTypeRepository;

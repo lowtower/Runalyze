@@ -11,65 +11,72 @@
  */
 abstract class HtmlTag
 {
-	/**
-	 * ID, must be unique
-	 * @var string
-	 */
-	protected $Id = '';
+    /**
+     * ID, must be unique
+     * @var string
+     */
+    protected $Id = '';
 
-	/**
-	 * Css-classes
-	 * @var array
-	 */
-	protected $cssClasses = [];
+    /**
+     * Css-classes
+     * @var array
+     */
+    protected $cssClasses = [];
 
-	/**
-	 * All attributes
-	 * @var array
-	 */
-	protected $attributes = [];
+    /**
+     * All attributes
+     * @var array
+     */
+    protected $attributes = [];
 
-	/**
-	 * @param string $id
-	 */
-	public function setId($id) {
-		$this->Id = $id;
-	}
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->Id = $id;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getId() {
+    /**
+     * @return string
+     */
+    public function getId()
+    {
         return $this->Id;
     }
 
-	/**
-	 * Add a css-class
-	 * @param string $class
-	 */
-	public function addCSSclass($class) {
-		$this->cssClasses[] = $class;
-	}
+    /**
+     * Add a css-class
+     * @param string $class
+     */
+    public function addCSSclass($class)
+    {
+        $this->cssClasses[] = $class;
+    }
 
-	/**
-	 * @param string $name
-	 * @param string $value
-	 */
-	public function addAttribute($name, $value) {
-		$this->attributes[] = $name . '="' . htmlspecialchars($value) . '"';
-	}
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function addAttribute($name, $value)
+    {
+        $this->attributes[] = $name . '="' . htmlspecialchars($value) . '"';
+    }
 
-	/**
-	 * Get string for all attributes
-	 * @return string
-	 */
-	public function attributes() {
-		if (! empty($this->Id))
-			$this->addAttribute('id', $this->Id);
+    /**
+     * Get string for all attributes
+     * @return string
+     */
+    public function attributes()
+    {
+        if (! empty($this->Id)) {
+            $this->addAttribute('id', $this->Id);
+        }
 
-		if (! empty($this->cssClasses))
-			$this->addAttribute('class', implode(' ', $this->cssClasses));
+        if (! empty($this->cssClasses)) {
+            $this->addAttribute('class', implode(' ', $this->cssClasses));
+        }
 
-		return implode(' ', $this->attributes);
-	}
+        return implode(' ', $this->attributes);
+    }
 }

@@ -1012,7 +1012,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setS($s): self
     {
-        $this->s = (double) $s;
+        $this->s = (float) $s;
 
         return $this;
     }

@@ -7,21 +7,23 @@ use Runalyze\Configuration\Category;
 
 class ShapeFake extends Shape
 {
-	public function calculate() {
-		$this->Value = 50;
-	}
+    public function calculate()
+    {
+        $this->Value = 50;
+    }
 }
 
 class CategoryFake extends Category\VO2max
 {
-	public function __construct($vo2maxDays = 30, $elevationCorrector = false) {
-		parent::__construct();
+    public function __construct($vo2maxDays = 30, $elevationCorrector = false)
+    {
+        parent::__construct();
 
-		$this->object('VO2MAX_DAYS')
-		    ->set($vo2maxDays);
-		$this->object('VO2MAX_USE_CORRECTION_FOR_ELEVATION')
-		    ->set($elevationCorrector);
-	}
+        $this->object('VO2MAX_DAYS')
+            ->set($vo2maxDays);
+        $this->object('VO2MAX_USE_CORRECTION_FOR_ELEVATION')
+            ->set($elevationCorrector);
+    }
 }
 
 /**
@@ -29,15 +31,16 @@ class CategoryFake extends Category\VO2max
  */
 class ShapeTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \PDO
-	 */
-	protected $PDO;
+    /**
+     * @var \PDO
+     */
+    protected $PDO;
 
-	protected function setUp(): void {
-		$this->PDO = new PDO('sqlite::memory:');
-		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->PDO->exec('CREATE TABLE IF NOT EXISTS `' . PREFIX . 'training` (
+    protected function setUp(): void
+    {
+        $this->PDO = new PDO('sqlite::memory:');
+        $this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->PDO->exec('CREATE TABLE IF NOT EXISTS `' . PREFIX . 'training` (
 			`accountid` int(10),
 			`sportid` int(10),
 			`time` int(10),
@@ -48,85 +51,94 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
 			);
 		');
 
-		LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
-	}
+        LegacyEffectiveVO2maxCorrector::setGlobalFactor(1.0);
+    }
 
-	protected function tearDown(): void {
-		$this->PDO->exec('DROP TABLE `' . PREFIX . 'training`');
-	}
+    protected function tearDown(): void
+    {
+        $this->PDO->exec('DROP TABLE `' . PREFIX . 'training`');
+    }
 
-	public function testWithoutData() {
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
-		$Shape->calculate();
+    public function testWithoutData()
+    {
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
+        $Shape->calculate();
 
-		$this->assertEquals(0, $Shape->value());
-	}
+        $this->assertEquals(0, $Shape->value());
+    }
 
-	public function testSimpleCalculation() {
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 80, 80)');
+    public function testSimpleCalculation()
+    {
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 80, 80)');
 
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
-		$Shape->calculate();
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
+        $Shape->calculate();
 
-		$this->assertEquals(62.5, $Shape->value());
-	}
+        $this->assertEquals(62.5, $Shape->value());
+    }
 
-	public function testSimpleCalculationWithElevation() {
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 80, 80)');
+    public function testSimpleCalculationWithElevation()
+    {
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 80, 80)');
 
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake(5, true));
-		$Shape->calculate();
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake(5, true));
+        $Shape->calculate();
 
-		$this->assertEquals(70, $Shape->value());
-	}
+        $this->assertEquals(70, $Shape->value());
+    }
 
-	public function testIDs() {
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 2, ' . time() . ', 1, 1, 80, 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(2, 1, ' . time() . ', 1, 1, 80, 0)');
+    public function testIDs()
+    {
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 2, ' . time() . ', 1, 1, 80, 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(2, 1, ' . time() . ', 1, 1, 80, 0)');
 
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
-		$Shape->calculate();
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
+        $Shape->calculate();
 
-		$this->assertEquals(50, $Shape->value());
-	}
+        $this->assertEquals(50, $Shape->value());
+    }
 
-	public function testVO2maxDays() {
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . (time() - 10 * DAY_IN_S) . ', 1, 1, 80, 0)');
+    public function testVO2maxDays()
+    {
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . (time() - 10 * DAY_IN_S) . ', 1, 1, 80, 0)');
 
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake(5));
-		$Shape->calculate();
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake(5));
+        $Shape->calculate();
 
-		$this->assertEquals(50, $Shape->value());
-	}
+        $this->assertEquals(50, $Shape->value());
+    }
 
-	public function testUseFlag() {
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
-		$this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 0, 80, 0)');
+    public function testUseFlag()
+    {
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
+        $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 0, 80, 0)');
 
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
-		$Shape->calculate();
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
+        $Shape->calculate();
 
-		$this->assertEquals(50, $Shape->value());
-	}
+        $this->assertEquals(50, $Shape->value());
+    }
 
-	public function testCallWithoutCalculation() {
-		$this->expectException(\RuntimeException::class);
-		$Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
-		$Shape->value();
-	}
+    public function testCallWithoutCalculation()
+    {
+        $this->expectException(\RuntimeException::class);
+        $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
+        $Shape->value();
+    }
 
-	public function testCorrector() {
-		$Shape = new ShapeFake($this->PDO, 1, 1, new CategoryFake());
-		$Shape->setCorrector(new LegacyEffectiveVO2maxCorrector(0.9));
-		$Shape->calculate();
+    public function testCorrector()
+    {
+        $Shape = new ShapeFake($this->PDO, 1, 1, new CategoryFake());
+        $Shape->setCorrector(new LegacyEffectiveVO2maxCorrector(0.9));
+        $Shape->calculate();
 
-		$this->assertEquals(50, $Shape->uncorrectedValue());
-		$this->assertEquals(45, $Shape->value());
-	}
+        $this->assertEquals(50, $Shape->uncorrectedValue());
+        $this->assertEquals(45, $Shape->value());
+    }
 }

@@ -47,8 +47,7 @@ class AnalysisData
         AnalysisSelection $analysisSelection,
         TrainingRepository $trainingRepository,
         Account $account
-    )
-    {
+    ) {
         $this->SportSelection = $sportSelection;
         $this->AnalysisSelection = $analysisSelection;
 

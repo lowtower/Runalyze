@@ -175,4 +175,3 @@ class Dataset implements AccountRelatedEntityInterface
         return (bool) DatasetPrivacyProfile::PUBLIC_KEY == $this->privacy;
     }
 }
-

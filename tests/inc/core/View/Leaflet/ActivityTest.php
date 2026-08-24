@@ -8,12 +8,12 @@ use Runalyze\View\Activity\FakeContext;
 
 class ActivityTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @see https://github.com/Runalyze/Runalyze/issues/1805
-	 */
-	public function testThatMapWorksWithPausesButWithoutTimeArray()
+    /**
+     * @see https://github.com/Runalyze/Runalyze/issues/1805
+     */
+    public function testThatMapWorksWithPausesButWithoutTimeArray()
     {
-		$Context = FakeContext::outdoorContext();
+        $Context = FakeContext::outdoorContext();
         $Context->trackdata()
             ->set(Entity::TIME, []);
         $Context->trackdata()
@@ -21,5 +21,5 @@ class ActivityTest extends \PHPUnit\Framework\TestCase
             ->add(new Pause(123, 10));
 
         new Activity('test', $Context->route(), $Context->trackdata(), true);
-	}
+    }
 }

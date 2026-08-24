@@ -15,35 +15,38 @@ use Runalyze\Model\Trackdata;
  */
 class SectionLaps extends TrainingViewSectionTabbed
 {
-	protected function setHeaderAndRows() {
-		$this->Header = __('Laps');
+    protected function setHeaderAndRows()
+    {
+        $this->Header = __('Laps');
 
-		if (! $this->Context->activity()->splits()->isEmpty()) {
-			$this->appendRowTabbed( new SectionLapsRowManual($this->Context), __('Manual Laps') );
-		}
+        if (! $this->Context->activity()->splits()->isEmpty()) {
+            $this->appendRowTabbed(new SectionLapsRowManual($this->Context), __('Manual Laps'));
+        }
 
-		if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME)) {
-			$this->appendRowTabbed( new SectionLapsRowComputed($this->Context), __('Computed Laps') );
-		}
+        if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME)) {
+            $this->appendRowTabbed(new SectionLapsRowComputed($this->Context), __('Computed Laps'));
+        }
 
-		if ($this->Context->activity()->paceGoal()) {
-			$this->appendRowTabbed( new SectionLapsRowPaceGoal($this->Context), __('Pace Goal') );
-		}
-	}
+        if ($this->Context->activity()->paceGoal()) {
+            $this->appendRowTabbed(new SectionLapsRowPaceGoal($this->Context), __('Pace Goal'));
+        }
+    }
 
     /**
      * Has the training all required data?
      */
-    protected function hasRequiredData(): bool {
-		// #TSC only splits are needed as required-data, if the splits()->totalDistance() is 0, anyway show laps
-		return (! $this->Context->activity()->splits()->isEmpty())
-			|| ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME));
-	}
+    protected function hasRequiredData(): bool
+    {
+        // #TSC only splits are needed as required-data, if the splits()->totalDistance() is 0, anyway show laps
+        return (! $this->Context->activity()->splits()->isEmpty())
+            || ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME));
+    }
 
     /**
      * CSS-ID
      */
-    protected function cssId(): string {
-		return 'laps';
-	}
+    protected function cssId(): string
+    {
+        return 'laps';
+    }
 }

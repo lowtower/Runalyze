@@ -12,13 +12,14 @@ $titleCenter = __('Activity [in h] by weekday');
 $yAxis = [];
 $xAxis = [];
 
-for ($w = 1; $w <= 7; $w++)
-	$xAxis[] = [$w - 1, Time::weekday($w, true)];
+for ($w = 1; $w <= 7; $w++) {
+    $xAxis[] = [$w - 1, Time::weekday($w, true)];
+}
 
 if ($this->sportid > 0) {
-	$Sports = [SportFactory::DataFor((int) $this->sportid)];
+    $Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
-	$Sports = SportFactory::AllSports();
+    $Sports = SportFactory::AllSports();
 }
 
 $Query = DB::getInstance()->prepare(
@@ -36,27 +37,28 @@ $Query = DB::getInstance()->prepare(
 
 // TODO: Should be possible with one query?
 foreach ($Sports as $sport) {
-	$id = $sport['name'];
-	$yAxis[$id] = [0, 0, 0, 0, 0, 0, 0];
+    $id = $sport['name'];
+    $yAxis[$id] = [0, 0, 0, 0, 0, 0, 0];
 
-	$Query->execute([
-	    ':id' => $sport['id'],
-	]);
-	$data = $Query->fetchAll();
+    $Query->execute([
+        ':id' => $sport['id'],
+    ]);
+    $data = $Query->fetchAll();
 
-	foreach ($data as $dat)
-		$yAxis[$id][($dat['day'] + 6) % 7] = $dat['value'] / 3600;
+    foreach ($data as $dat) {
+        $yAxis[$id][($dat['day'] + 6) % 7] = $dat['value'] / 3600;
+    }
 }
 
 $Plot = new Plot('weekday', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = [
-	    'label' => $key,
-	    'data' => $data,
-	];
-	$max += max($data);
+    $Plot->Data[] = [
+        'label' => $key,
+        'data' => $data,
+    ];
+    $max += max($data);
 }
 
 $Plot->setLegendAsTable();
@@ -71,12 +73,16 @@ $Plot->showBars(true);
 $Plot->stacked();
 
 $error = true;
-foreach($yAxis as $t) 
-	foreach($t as $e) 
-		if($e != '0') 
-			$error = false;
+foreach ($yAxis as $t) {
+    foreach ($t as $e) {
+        if ($e != '0') {
+            $error = false;
+        }
+    }
+}
 
-if($error)
-	$Plot->raiseError( __('No data available.') );
+if ($error) {
+    $Plot->raiseError(__('No data available.'));
+}
 
 $Plot->outputJavaScript();

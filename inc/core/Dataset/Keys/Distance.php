@@ -19,85 +19,87 @@ use Runalyze\View\Stresscolor;
  */
 class Distance extends AbstractKey
 {
-	/**
-	 * @var string
-	 */
-	const KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
+    /**
+     * @var string
+     */
+    public const KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
 
     /**
      * Enum id
      */
     public function id(): int
-	{
-		return \Runalyze\Dataset\Keys::DISTANCE;
-	}
+    {
+        return \Runalyze\Dataset\Keys::DISTANCE;
+    }
 
     /**
      * Database key
      */
     public function column(): string
-	{
-		return 'distance';
-	}
+    {
+        return 'distance';
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function label(): string
-	{
-		return __('Distance');
-	}
+    {
+        return __('Distance');
+    }
 
     /**
      * Get string to display this dataset value
      * @return string
      */
     public function stringFor(Context $context)
-	{
-		if ($context->hasData(self::KEY_DISTANCE_COMPARISON)) {
-			return $context->dataview()
-			    ->distance() .
-				$this->distanceComparison($context->activity()->distance(), $context->data(self::KEY_DISTANCE_COMPARISON));
-		}
+    {
+        if ($context->hasData(self::KEY_DISTANCE_COMPARISON)) {
+            return $context->dataview()
+                ->distance() .
+                $this->distanceComparison($context->activity()->distance(), $context->data(self::KEY_DISTANCE_COMPARISON));
+        }
 
-		return $context->dataview()
-		    ->distance();
-	}
+        return $context->dataview()
+            ->distance();
+    }
 
     /**
      * Compare distance to last set
      * @param float $currentDistance [km]
      * @param float $previousDistance [km]
      */
-    protected function distanceComparison($currentDistance, $previousDistance): string {
-		$Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
-		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage) . '&nbsp;&#37;' : '-';
+    protected function distanceComparison($currentDistance, $previousDistance): string
+    {
+        $Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
+        $String = ($Percentage != 0) ? sprintf('%+d', $Percentage) . '&nbsp;&#37;' : '-';
 
-		$Stress = new Stresscolor($Percentage);
-		$Stress->scale(0, 30);
+        $Stress = new Stresscolor($Percentage);
+        $Stress->scale(0, 30);
 
-		return ' <small style="display:inline-block;width:55px;color:#' . $Stress->rgb() . '">' . $String . '</small>';
-	}
+        return ' <small style="display:inline-block;width:55px;color:#' . $Stress->rgb() . '">' . $String . '</small>';
+    }
 
-	/**
-	 * Get percentage of last distance
-	 * @param float $currentDistance [km]
-	 * @param float $previousDistance [km]
-	 * @return int
-	 */
-	protected function distanceComparisonPercentage($currentDistance, $previousDistance) {
-		if ($previousDistance == 0) {
-			return 0;
-		}
+    /**
+     * Get percentage of last distance
+     * @param float $currentDistance [km]
+     * @param float $previousDistance [km]
+     * @return int
+     */
+    protected function distanceComparisonPercentage($currentDistance, $previousDistance)
+    {
+        if ($previousDistance == 0) {
+            return 0;
+        }
 
-		return round(100 * ($currentDistance - $previousDistance) / $previousDistance, 1);
-	}
+        return round(100 * ($currentDistance - $previousDistance) / $previousDistance, 1);
+    }
 
-	/**
-	 * @return int see \Runalyze\Dataset\SummaryMode for enum
-	 */
-	public function summaryMode(): int
-	{
-		return SummaryMode::SUM;
-	}
+    /**
+     * @return int see \Runalyze\Dataset\SummaryMode for enum
+     */
+    public function summaryMode(): int
+    {
+        return SummaryMode::SUM;
+    }
 }

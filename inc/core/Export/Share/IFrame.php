@@ -28,12 +28,12 @@ class IFrame extends AbstractSnippetSharer
     /**
      * @var int
      */
-    const DEFAULT_WIDTH = 500;
+    public const DEFAULT_WIDTH = 500;
 
     /**
      * @var int
      */
-    const DEFAULT_HEIGHT = 500;
+    public const DEFAULT_HEIGHT = 500;
 
     public function enum(): int
     {
@@ -46,10 +46,10 @@ class IFrame extends AbstractSnippetSharer
             ->isPublic();
     }
 
-	public function name(): string
+    public function name(): string
     {
-	    return __('Widget');
-	}
+        return __('Widget');
+    }
 
     /**
      * Current width
@@ -75,32 +75,32 @@ class IFrame extends AbstractSnippetSharer
         $CodeField->addCSSclass('fullwidth');
         $CodeField->addAttribute('rows', 3);
 
-        $FieldsetCode = new FormularFieldset( __('HTML-Code') );
+        $FieldsetCode = new FormularFieldset(__('HTML-Code'));
 
         if (System::isAtLocalhost()) {
-            $FieldsetCode->addError( __('Runalyze runs on a local server. Only people in your local network will be able to see the training.') );
+            $FieldsetCode->addError(__('Runalyze runs on a local server. Only people in your local network will be able to see the training.'));
         }
 
-        $FieldsetCode->addField( $CodeField );
-        $FieldsetCode->addInfo( __('Add this code to your blog/website.') );
+        $FieldsetCode->addField($CodeField);
+        $FieldsetCode->addInfo(__('Add this code to your blog/website.'));
 
         $WidthField = new FormularInputNumber('width', __('Width'), $this->width());
-        $WidthField->setLayout( FormularFieldset::$LAYOUT_FIELD_W50 );
+        $WidthField->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
         $WidthField->setMin(200);
         $WidthField->setMax(600);
 
         $HeightField = new FormularInputNumber('height', __('Height'), $this->height());
-        $HeightField->setLayout( FormularFieldset::$LAYOUT_FIELD_W50 );
+        $HeightField->setLayout(FormularFieldset::$LAYOUT_FIELD_W50);
         $HeightField->setMin(200);
         $HeightField->setMax(600);
 
-        $SubmitField = new FormularSubmit( __('Change size'), '' );
+        $SubmitField = new FormularSubmit(__('Change size'), '');
 
-        $FieldsetCode->addField( $WidthField );
-        $FieldsetCode->addField( $HeightField );
-        $FieldsetCode->addField( $SubmitField );
+        $FieldsetCode->addField($WidthField);
+        $FieldsetCode->addField($HeightField);
+        $FieldsetCode->addField($SubmitField);
 
-        $FieldsetPreview = new FormularFieldset( __('Preview') );
+        $FieldsetPreview = new FormularFieldset(__('Preview'));
         $FieldsetPreview->addBlock($Code);
 
         $Formular = new Formular($this->url());
@@ -108,7 +108,7 @@ class IFrame extends AbstractSnippetSharer
         $Formular->addCSSclass('no-automatic-reload');
         $Formular->addFieldset($FieldsetCode);
         $Formular->addFieldset($FieldsetPreview);
-        $Formular->setLayoutForFields( FormularFieldset::$LAYOUT_FIELD_W100 );
+        $Formular->setLayoutForFields(FormularFieldset::$LAYOUT_FIELD_W100);
         $Formular->display();
     }
 

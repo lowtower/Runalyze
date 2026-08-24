@@ -93,7 +93,7 @@ class WindSpeed implements ValueInterface
     {
         $this->KilometerPerHour = $meterPerSecond * 3.6;
 
-	return $this;
+        return $this;
     }
 
     /**

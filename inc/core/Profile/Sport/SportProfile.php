@@ -13,72 +13,72 @@ class SportProfile extends AbstractEnum implements InterfaceChoosable
     /**
      * @var int
      */
-    const GENERIC = 0;
+    public const GENERIC = 0;
 
     /**
      * @var int
      */
-    const RUNNING = 1;
+    public const RUNNING = 1;
 
     /**
      * @var int
      */
-    const CYCLING = 2;
+    public const CYCLING = 2;
 
     /**
      * @var int
      */
-    const SWIMMING = 3;
+    public const SWIMMING = 3;
 
     /**
      * @var int
      */
-    const ROWING = 4;
+    public const ROWING = 4;
 
     /**
      * @var int
      */
-    const HIKING = 5;
+    public const HIKING = 5;
 
     /**
      * @var int
      */
-    const MOUNTAINEERING = 6;
+    public const MOUNTAINEERING = 6;
 
     /**
      * @var int
      */
-    const SNOW_SHOEING = 7;
+    public const SNOW_SHOEING = 7;
 
     /**
      * @var int
      */
-    const CROSS_COUNTRY_SKIING = 8;
+    public const CROSS_COUNTRY_SKIING = 8;
 
     /**
      * @var int
      */
-    const BOULDERING = 9;
+    public const BOULDERING = 9;
 
     /**
      * @var int
      */
-    const CLIMBING_INDOOR = 10;
+    public const CLIMBING_INDOOR = 10;
 
     /**
      * @var int
      */
-    const STRENGTH_TRAINING = 11;
+    public const STRENGTH_TRAINING = 11;
 
     /**
      * @var int
      */
-    const E_MTB_MOUNTAIN = 12;
+    public const E_MTB_MOUNTAIN = 12;
 
     /**
      * @var int
      */
-    const HIIT_CARDIO = 13;
+    public const HIIT_CARDIO = 13;
 
     public static function getChoices(): array
     {

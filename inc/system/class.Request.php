@@ -11,72 +11,84 @@
  */
 class Request
 {
-	/**
-	 * Get requested URI
-	 * @return string
-	 */
-	public static function Uri() {
-		return $_SERVER['REQUEST_URI'] ?? '';
-	}
+    /**
+     * Get requested URI
+     * @return string
+     */
+    public static function Uri()
+    {
+        return $_SERVER['REQUEST_URI'] ?? '';
+    }
 
     /**
      * Is the user on a shared page?
      */
-    public static function isOnSharedPage(): bool {
-		return SharedLinker::isOnSharedPage();
-	}
+    public static function isOnSharedPage(): bool
+    {
+        return SharedLinker::isOnSharedPage();
+    }
 
     /**
      * Was the request an AJAX-request?
      * Be careful: Does not work if a file is sent via jQuery!
      */
-    public static function isAjax(): bool {
-		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-	}
+    public static function isAjax(): bool
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    }
 
     /**
      * Is request HTTPS?
      */
-    public static function isHttps(): bool {
-		return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
-	}
+    public static function isHttps(): bool
+    {
+        return isset($_SERVER['HTTPS']) && ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+    }
 
     /**
      * Get protocol (http/https)
      */
-    public static function getProtocol(): string {
-		if (self::isHttps())
-			return 'https';
+    public static function getProtocol(): string
+    {
+        if (self::isHttps()) {
+            return 'https';
+        }
 
-		return 'http';
-	}
+        return 'http';
+    }
 
-	/**
-	 * Get ID send as post or get
-	 * @return mixed
-	 */
-	public static function sendId() {
-		if (isset($_GET['id']))
-			return $_GET['id'];
+    /**
+     * Get ID send as post or get
+     * @return mixed
+     */
+    public static function sendId()
+    {
+        if (isset($_GET['id'])) {
+            return $_GET['id'];
+        }
 
-		if (isset($_POST['id']))
-			return $_POST['id'];
+        if (isset($_POST['id'])) {
+            return $_POST['id'];
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Get parameter send via GET or POST
-	 * @param string $key
-	 * @return string
-	 */
-	public static function param($key) {
-		if (isset($_GET[$key]))
-			return $_GET[$key];
+    /**
+     * Get parameter send via GET or POST
+     * @param string $key
+     * @return string
+     */
+    public static function param($key)
+    {
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
 
-		if (isset($_POST[$key]))
-			return $_POST[$key];
+        if (isset($_POST[$key])) {
+            return $_POST[$key];
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

@@ -18,70 +18,74 @@ use Runalyze\View\Activity;
  */
 class Stroke extends ActivityPointSeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(41,128,185)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(41,128,185)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 * @var bool [optional]
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initDataWithSwimdata($context);
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     * @var bool [optional]
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initDataWithSwimdata($context);
+    }
 
-	/**
-	 * Init data
-	 * @var \Runalyze\View\Activity\Context
-	 * @var bool
-	 */
-	protected function initDataWithSwimdata(Activity\Context $context) {
-		if (! $context->hasSwimdata()) {
-			$this->Data = [];
-			return;
-		}
+    /**
+     * Init data
+     * @var \Runalyze\View\Activity\Context
+     * @var bool
+     */
+    protected function initDataWithSwimdata(Activity\Context $context)
+    {
+        if (! $context->hasSwimdata()) {
+            $this->Data = [];
+            return;
+        }
 
-		$key = Swimdata::STROKE;
+        $key = Swimdata::STROKE;
 
-		if (! $context->swimdata()->has($key)) {
-			$this->Data = [];
-			return;
-		}
+        if (! $context->swimdata()->has($key)) {
+            $this->Data = [];
+            return;
+        }
 
-		$Collector = new DataCollectorWithSwimdata($context->trackdata(), $key, $context->swimdata());
+        $Collector = new DataCollectorWithSwimdata($context->trackdata(), $key, $context->swimdata());
 
-		$this->Data = $Collector->data();
-		$this->XAxis = $Collector->xAxis();
-	}
+        $this->Data = $Collector->data();
+        $this->XAxis = $Collector->xAxis();
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Stroke');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Stroke');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = _('strokes');
-		$this->UnitDecimals = 0;
+        $this->UnitString = _('strokes');
+        $this->UnitDecimals = 0;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 
     /**
      * Add to plot
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true) {
-		if (empty($this->Data)) {
-			return;
-		}
+    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    {
+        if (empty($this->Data)) {
+            return;
+        }
 
-		parent::addTo($Plot, $yAxis, $addAnnotations);
-	}
+        parent::addTo($Plot, $yAxis, $addAnnotations);
+    }
 }

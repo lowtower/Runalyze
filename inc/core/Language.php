@@ -6,6 +6,7 @@
  */
 
 namespace Runalyze;
+
 use Runalyze\Util\InterfaceChoosable;
 use Symfony\Component\Yaml\Yaml;
 
@@ -19,12 +20,12 @@ class Language implements InterfaceChoosable
     /**
      * @var string
      */
-    const GET_KEY = 'lang';
+    public const GET_KEY = 'lang';
 
     /**
      * @var string
      */
-    const COOKIE_KEY = 'lang';
+    public const COOKIE_KEY = 'lang';
 
     /**
      * Locale dir
@@ -63,7 +64,8 @@ class Language implements InterfaceChoosable
         $this->setDomain($domain);
     }
 
-    public static function getChoices(): array {
+    public static function getChoices(): array
+    {
         $languages = [];
 
         foreach (self::availableLanguages() as $name => $lang) {
@@ -272,7 +274,7 @@ class Language implements InterfaceChoosable
             if (strlen($k) > 2) {
                 $gen_lang = substr($k, 0, 2);
 
-                if (! isset ($matches[$gen_lang])) {
+                if (! isset($matches[$gen_lang])) {
                     $matches[$gen_lang] = $v - 0.001;
                 }
             }

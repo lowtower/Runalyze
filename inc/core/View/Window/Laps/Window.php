@@ -26,339 +26,356 @@ use Runalyze\View\Activity\Context;
  */
 class Window
 {
-	/**
-	 * @var float
-	 */
-	const HANDMADE_LIMIT_TIME = 10;
+    /**
+     * @var float
+     */
+    public const HANDMADE_LIMIT_TIME = 10;
 
-	/**
-	 * @var float
-	 */
-	const HANDMADE_LIMIT_DISTANCE = 0.2;
+    /**
+     * @var float
+     */
+    public const HANDMADE_LIMIT_DISTANCE = 0.2;
 
-	/**
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	protected $Context;
+    /**
+     * @var \Runalyze\View\Activity\Context
+     */
+    protected $Context;
 
-	/**
-	 * @var \Runalyze\Data\Laps\Laps
-	 */
-	protected $Laps;
+    /**
+     * @var \Runalyze\Data\Laps\Laps
+     */
+    protected $Laps;
 
-	/**
-	 * Lap distance
-	 * @var mixed
-	 */
-	protected $LapDistance = 0;
+    /**
+     * Lap distance
+     * @var mixed
+     */
+    protected $LapDistance = 0;
 
-	/**
-	 * Lap time
-	 * @var mixed
-	 */
-	protected $LapTime = 0;
+    /**
+     * Lap time
+     * @var mixed
+     */
+    protected $LapTime = 0;
 
-	/**
-	 * Demanded time
-	 * @var \Runalyze\Activity\Duration
-	 */
-	protected $DemandedTime;
+    /**
+     * Demanded time
+     * @var \Runalyze\Activity\Duration
+     */
+    protected $DemandedTime;
 
-	/**
-	 * Demanded pace
-	 * @var \Runalyze\Activity\Pace
-	 */
-	protected $DemandedPace;
+    /**
+     * Demanded pace
+     * @var \Runalyze\Activity\Pace
+     */
+    protected $DemandedPace;
 
-	/**
-	 * Manual distances
-	 * @var array
-	 */
-	protected $ManualDistances = [];
+    /**
+     * Manual distances
+     * @var array
+     */
+    protected $ManualDistances = [];
 
-	/**
-	 * Manual times
-	 * @var array
-	 */
-	protected $ManualTimes = [];
+    /**
+     * Manual times
+     * @var array
+     */
+    protected $ManualTimes = [];
 
-	public function __construct(Context $context) {
-		$this->Context = $context;
+    public function __construct(Context $context)
+    {
+        $this->Context = $context;
 
-		$this->prepareProperties();
-		$this->readPropertiesFromRequest();
-		$this->constructLaps();
-	}
+        $this->prepareProperties();
+        $this->readPropertiesFromRequest();
+        $this->constructLaps();
+    }
 
-	/**
-	 * Prepare internal properties
-	 */
-	protected function prepareProperties() {
-		$this->DemandedTime = new Duration();
-		$this->DemandedPace = new Pace(0, 1);
-		$this->DemandedPace->setLegacyUnitEnum(PaceUnit::MIN_PER_KM);
+    /**
+     * Prepare internal properties
+     */
+    protected function prepareProperties()
+    {
+        $this->DemandedTime = new Duration();
+        $this->DemandedPace = new Pace(0, 1);
+        $this->DemandedPace->setLegacyUnitEnum(PaceUnit::MIN_PER_KM);
 
-		if (isset($_POST['distance'])) {
-			$_POST['distance'] = str_replace(',', '.', $_POST['distance']);
-		} elseif ($this->Context->activity()->splits()->isEmpty()) {
-			$_POST['distance'] = 1;
-		}
-	}
+        if (isset($_POST['distance'])) {
+            $_POST['distance'] = str_replace(',', '.', $_POST['distance']);
+        } elseif ($this->Context->activity()->splits()->isEmpty()) {
+            $_POST['distance'] = 1;
+        }
+    }
 
-	/**
-	 * @param float $valueInPreferredUnit
-	 * @return float [km]
-	 */
-	protected function distanceToKm($valueInPreferredUnit) {
-		if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-			return $valueInPreferredUnit / DistanceUnitSystem::MILE_MULTIPLIER;
-		}
+    /**
+     * @param float $valueInPreferredUnit
+     * @return float [km]
+     */
+    protected function distanceToKm($valueInPreferredUnit)
+    {
+        if (Configuration::General()->distanceUnitSystem()->isImperial()) {
+            return $valueInPreferredUnit / DistanceUnitSystem::MILE_MULTIPLIER;
+        }
 
-		return $valueInPreferredUnit;
-	}
+        return $valueInPreferredUnit;
+    }
 
-	/**
-	 * Read request
-	 */
-	protected function readPropertiesFromRequest() {
-		if ((float) Request::param('distance') > 0) {
-			$this->LapDistance = min($this->Context->trackdata()->totalDistance(), $this->distanceToKm((float) Request::param('distance')));
-		}
+    /**
+     * Read request
+     */
+    protected function readPropertiesFromRequest()
+    {
+        if ((float) Request::param('distance') > 0) {
+            $this->LapDistance = min($this->Context->trackdata()->totalDistance(), $this->distanceToKm((float) Request::param('distance')));
+        }
 
-		if ((string) Request::param('time') !== '') {
-			$Time = new Duration(Request::param('time'));
-			$this->LapTime = min($this->Context->trackdata()->totalTime(), $Time->seconds());
-		}
+        if ((string) Request::param('time') !== '') {
+            $Time = new Duration(Request::param('time'));
+            $this->LapTime = min($this->Context->trackdata()->totalTime(), $Time->seconds());
+        }
 
-		if ((string) Request::param('demanded-time') !== '') {
-			$this->DemandedTime->fromString(Request::param('demanded-time'));
+        if ((string) Request::param('demanded-time') !== '') {
+            $this->DemandedTime->fromString(Request::param('demanded-time'));
 
-			if ($this->LapDistance > 0) {
-				$this->DemandedPace->setTime( $this->DemandedTime->seconds() / $this->LapDistance );
-			}
-		} elseif ($this->LapDistance > 0) {
-			$this->DemandedTime->fromSeconds( $this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance );
-			$this->DemandedPace->setTime( $this->DemandedTime->seconds() / $this->LapDistance );
-		}
+            if ($this->LapDistance > 0) {
+                $this->DemandedPace->setTime($this->DemandedTime->seconds() / $this->LapDistance);
+            }
+        } elseif ($this->LapDistance > 0) {
+            $this->DemandedTime->fromSeconds($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance);
+            $this->DemandedPace->setTime($this->DemandedTime->seconds() / $this->LapDistance);
+        }
 
-		if ((string) Request::param('demanded-pace') !== '') {
-			$this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
-			$this->DemandedTime->fromSeconds( $this->LapDistance * $this->DemandedPace->secondsPerKm() );
-		} elseif ($this->DemandedPace->secondsPerKm() == 0) {
-			$this->DemandedPace = $this->Context->dataview()
-			    ->pace();
-		}
+        if ((string) Request::param('demanded-pace') !== '') {
+            $this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
+            $this->DemandedTime->fromSeconds($this->LapDistance * $this->DemandedPace->secondsPerKm());
+        } elseif ($this->DemandedPace->secondsPerKm() == 0) {
+            $this->DemandedPace = $this->Context->dataview()
+                ->pace();
+        }
 
-		if ((string) Request::param('manual-distances') !== '') {
-			$this->ManualDistances = Calculator::getDistancesFromString(Request::param('manual-distances'));
+        if ((string) Request::param('manual-distances') !== '') {
+            $this->ManualDistances = Calculator::getDistancesFromString(Request::param('manual-distances'));
 
-			if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-				$this->ManualDistances = array_map([$this, 'distanceToKm'], $this->ManualDistances);
-			}
-		}
+            if (Configuration::General()->distanceUnitSystem()->isImperial()) {
+                $this->ManualDistances = array_map([$this, 'distanceToKm'], $this->ManualDistances);
+            }
+        }
 
-		if ((string) Request::param('manual-times') !== '') {
-			$this->ManualTimes = Calculator::getTimesFromString(Request::param('manual-times'));
-		}
-	}
+        if ((string) Request::param('manual-times') !== '') {
+            $this->ManualTimes = Calculator::getTimesFromString(Request::param('manual-times'));
+        }
+    }
 
-	/**
-	 * @return bool
-	 */
-	protected function handmadeLapsDiffer() {
-		if ($this->Context->activity()->splits()->isEmpty()) {
-			return false;
-		}
+    /**
+     * @return bool
+     */
+    protected function handmadeLapsDiffer()
+    {
+        if ($this->Context->activity()->splits()->isEmpty()) {
+            return false;
+        }
 
-		return $this->handmadeLapsTimeDiffers() && $this->handmadeLapsDistanceDiffers();
-	}
+        return $this->handmadeLapsTimeDiffers() && $this->handmadeLapsDistanceDiffers();
+    }
 
-	protected function handmadeLapsTimeDiffers(): bool {
-		return abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME;
-	}
+    protected function handmadeLapsTimeDiffers(): bool
+    {
+        return abs($this->Context->trackdata()->totalTime() - $this->Context->activity()->splits()->totalTime()) > self::HANDMADE_LIMIT_TIME;
+    }
 
-	protected function handmadeLapsDistanceDiffers(): bool {
-		return abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE;
-	}
+    protected function handmadeLapsDistanceDiffers(): bool
+    {
+        return abs($this->Context->trackdata()->totalDistance() - $this->Context->activity()->splits()->totalDistance()) > self::HANDMADE_LIMIT_DISTANCE;
+    }
 
-	/**
-	 * Calculate values
-	 */
-	protected function constructLaps() {
-		$this->Laps = new Laps();
-		$this->Laps->enableCalculationOfAdditionalValues();
+    /**
+     * Calculate values
+     */
+    protected function constructLaps()
+    {
+        $this->Laps = new Laps();
+        $this->Laps->enableCalculationOfAdditionalValues();
 
-		if (
-			empty($this->ManualDistances) && $this->LapDistance == 0 &&
-			empty($this->ManualTimes) && $this->LapTime == 0 &&
-			! $this->Context->activity()
-			    ->splits()
-			    ->isEmpty()
-		) {
-			$this->constructLapsFromSplits();
-		} else {
-			$this->constructLapsFromTrackdata();
-		}
-	}
+        if (
+            empty($this->ManualDistances) && $this->LapDistance == 0 &&
+            empty($this->ManualTimes) && $this->LapTime == 0 &&
+            ! $this->Context->activity()
+                ->splits()
+                ->isEmpty()
+        ) {
+            $this->constructLapsFromSplits();
+        } else {
+            $this->constructLapsFromTrackdata();
+        }
+    }
 
-	/**
-	 * Construct laps from splits object
-	 */
-	protected function constructLapsFromSplits() {
-		if ($this->handmadeLapsDiffer() && ! Request::param('calculate-for-splits')) {
-			$this->Laps->readFrom($this->Context->activity()->splits());
-			return;
-		}
+    /**
+     * Construct laps from splits object
+     */
+    protected function constructLapsFromSplits()
+    {
+        if ($this->handmadeLapsDiffer() && ! Request::param('calculate-for-splits')) {
+            $this->Laps->readFrom($this->Context->activity()->splits());
+            return;
+        }
 
-		if ($this->handmadeLapsTimeDiffers()) {
-			$this->constructLapsFromSplitsDistances();
-		} else {
-			$this->constructLapsFromSplitsTimes();
-		}
+        if ($this->handmadeLapsTimeDiffers()) {
+            $this->constructLapsFromSplitsDistances();
+        } else {
+            $this->constructLapsFromSplitsTimes();
+        }
 
-		$num = $this->Laps->num();
+        $num = $this->Laps->num();
 
-		foreach ($this->Context->activity()->splits()->asArray() as $i => $split) {
-			if ($i < $num) {
-				$this->Laps->at($i)
-				    ->setMode($split->getIntensity());
-			}
-		}
-	}
+        foreach ($this->Context->activity()->splits()->asArray() as $i => $split) {
+            if ($i < $num) {
+                $this->Laps->at($i)
+                    ->setMode($split->getIntensity());
+            }
+        }
+    }
 
-	/**
-	 * Construct laps from splits object by distances
-	 */
-	protected function constructLapsFromSplitsDistances() {
-		$Distances = [];
-		$sum = 0;
+    /**
+     * Construct laps from splits object by distances
+     */
+    protected function constructLapsFromSplitsDistances()
+    {
+        $Distances = [];
+        $sum = 0;
 
-		foreach ($this->Context->activity()->splits()->asArray() as $split) {
-			$Distances[] = $split->distance() + $sum;
-			$sum += $split->distance();
-		}
+        foreach ($this->Context->activity()->splits()->asArray() as $split) {
+            $Distances[] = $split->distance() + $sum;
+            $sum += $split->distance();
+        }
 
-		$this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
-	}
+        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
+    }
 
-	/**
-	 * Construct laps from splits object by times
-	 */
-	protected function constructLapsFromSplitsTimes() {
-		$Times = [];
-		$sum = 0;
+    /**
+     * Construct laps from splits object by times
+     */
+    protected function constructLapsFromSplitsTimes()
+    {
+        $Times = [];
+        $sum = 0;
 
-		foreach ($this->Context->activity()->splits()->asArray() as $split) {
-			$Times[] = $split->time() + $sum;
-			$sum += $split->time();
-		}
+        foreach ($this->Context->activity()->splits()->asArray() as $split) {
+            $Times[] = $split->time() + $sum;
+            $sum += $split->time();
+        }
 
-		$this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route(), $this->Context->swimdata());
-	}
+        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route(), $this->Context->swimdata());
+    }
 
-	protected function constructLapsFromTrackdata() {
-		if (! empty($this->ManualTimes) || $this->LapTime != 0) {
-			$this->constructLapsFromTrackdataByTimes();
-		} else {
-			$this->constructLapsFromTrackdataByDistances();
-		}
-	}
+    protected function constructLapsFromTrackdata()
+    {
+        if (! empty($this->ManualTimes) || $this->LapTime != 0) {
+            $this->constructLapsFromTrackdataByTimes();
+        } else {
+            $this->constructLapsFromTrackdataByDistances();
+        }
+    }
 
-	protected function constructLapsFromTrackdataByTimes() {
-		$Times = $this->ManualTimes;
+    protected function constructLapsFromTrackdataByTimes()
+    {
+        $Times = $this->ManualTimes;
 
-		if (empty($Times)) {
-			if ($this->LapTime == 0) {
-				$this->LapTime = 300;
-			}
+        if (empty($Times)) {
+            if ($this->LapTime == 0) {
+                $this->LapTime = 300;
+            }
 
-			$LastStep = $this->LapTime * floor($this->Context->trackdata()->totalTime() / $this->LapTime);
+            $LastStep = $this->LapTime * floor($this->Context->trackdata()->totalTime() / $this->LapTime);
 
-			if ($LastStep <= $this->LapTime) {
-				$Times = [$this->LapTime];
-			} else {
-				$Times = range($this->LapTime, $LastStep, $this->LapTime);
-			}
-		}
+            if ($LastStep <= $this->LapTime) {
+                $Times = [$this->LapTime];
+            } else {
+                $Times = range($this->LapTime, $LastStep, $this->LapTime);
+            }
+        }
 
-		$this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route());
-	}
+        $this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route());
+    }
 
-	protected function constructLapsFromTrackdataByDistances() {
-		$Distances = $this->ManualDistances;
+    protected function constructLapsFromTrackdataByDistances()
+    {
+        $Distances = $this->ManualDistances;
 
-		if (empty($Distances)) {
-			if ($this->LapDistance == 0) {
-				$this->LapDistance = 1;
-			}
+        if (empty($Distances)) {
+            if ($this->LapDistance == 0) {
+                $this->LapDistance = 1;
+            }
 
-			$LastStep = $this->LapDistance * floor($this->Context->trackdata()->totalDistance() / $this->LapDistance);
+            $LastStep = $this->LapDistance * floor($this->Context->trackdata()->totalDistance() / $this->LapDistance);
 
-			if ($LastStep <= $this->LapDistance) {
-				$Distances = [$this->LapDistance];
-			} else {
-				$Distances = range($this->LapDistance, $LastStep, $this->LapDistance);
-			}
-		}
+            if ($LastStep <= $this->LapDistance) {
+                $Distances = [$this->LapDistance];
+            } else {
+                $Distances = range($this->LapDistance, $LastStep, $this->LapDistance);
+            }
+        }
 
-		$this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
-	}
+        $this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
+    }
 
-	public function display() {
-		echo '<div class="panel-heading">';
-		echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';
-		echo '</div>';
+    public function display()
+    {
+        echo '<div class="panel-heading">';
+        echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';
+        echo '</div>';
 
-		// #TSC allow scrollbar if width is to small
-		echo '<div class="panel-content" style="overflow-x: auto;">';
-		$this->displayForm();
-		$this->displayTable();
-		echo '</div>';
-	}
+        // #TSC allow scrollbar if width is to small
+        echo '<div class="panel-content" style="overflow-x: auto;">';
+        $this->displayForm();
+        $this->displayTable();
+        echo '</div>';
+    }
 
-	/**
-	 * Display formular
-	 */
-	protected function displayForm() {
-		$Form = new Form();
+    /**
+     * Display formular
+     */
+    protected function displayForm()
+    {
+        $Form = new Form();
 
-		if (! $this->Context->activity()->splits()->isEmpty()) {
-			if ($this->handmadeLapsDiffer()) {
-				$Form->activateHandmadeDifference();
-			}
+        if (! $this->Context->activity()->splits()->isEmpty()) {
+            if ($this->handmadeLapsDiffer()) {
+                $Form->activateHandmadeDifference();
+            }
 
-			$Form->activateHandmadeInfo();
-		}
+            $Form->activateHandmadeInfo();
+        }
 
-		$Form->display();
-	}
+        $Form->display();
+    }
 
-	/**
-	 * Display rounds
-	 */
-	protected function displayTable() {
-		$this->DemandedPace->setUnit($this->Context->sport()->legacyPaceUnit());
+    /**
+     * Display rounds
+     */
+    protected function displayTable()
+    {
+        $this->DemandedPace->setUnit($this->Context->sport()->legacyPaceUnit());
 
-		$Table = new Table(
-		    $this->Laps,
-		    $this->DemandedTime,
-		    $this->DemandedPace,
-		    $this->Context->sport()
-		        ->getInternalProfileEnum(),
-		    $this->Context->activity()
-		        ->splitsAdditional()
-		);
+        $Table = new Table(
+            $this->Laps,
+            $this->DemandedTime,
+            $this->DemandedPace,
+            $this->Context->sport()
+                ->getInternalProfileEnum(),
+            $this->Context->activity()
+                ->splitsAdditional()
+        );
 
-		if ($this->LapDistance > 0) {
-			$Table->setAverage(
-			    $this->Context->dataview()
-			        ->pace(),
-			    new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
-			);
-		} else {
-			$Table->setAverage($this->Context->dataview()->pace());
-		}
+        if ($this->LapDistance > 0) {
+            $Table->setAverage(
+                $this->Context->dataview()
+                    ->pace(),
+                new Duration($this->Context->trackdata()->totalTime() / $this->Context->trackdata()->totalDistance() * $this->LapDistance)
+            );
+        } else {
+            $Table->setAverage($this->Context->dataview()->pace());
+        }
 
-		$Table->display();
-	}
+        $Table->display();
+    }
 }

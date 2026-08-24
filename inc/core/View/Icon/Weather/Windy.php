@@ -16,17 +16,19 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Windy extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setLayerClass('weather-windy');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setLayerClass('weather-windy');
+    }
 
     /**
      * Set weather icon as night
      */
-    public function setAsNight() {
+    public function setAsNight()
+    {
         // Not possible
     }
 }

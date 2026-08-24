@@ -28,7 +28,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $mapIdFunction = function($object) {
+        $mapIdFunction = function ($object) {
             /** @var object $object */
             return $object->getId();
         };
@@ -46,14 +46,14 @@ class SportChoiceType extends AbstractTokenStorageAwareType
 
         $resolver->setDefaults([
             'choices' => $allSports,
-            'choice_label' => function($sport, $key, $index) {
+            'choice_label' => function ($sport, $key, $index) {
                 /** @var Sport $sport */
                 return $sport->getName();
             },
             'choice_value' => function (?Sport $sport = null) {
                 return $sport ? $sport->getId() : '';
             },
-            'choice_attr' => function($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
+            'choice_attr' => function ($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 /** @var Sport $sport */
                 $sportId = $sport->getId();
                 $availableEquipmentTypes = [];

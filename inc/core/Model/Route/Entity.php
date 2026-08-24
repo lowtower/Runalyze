@@ -7,7 +7,7 @@
 
 namespace Runalyze\Model\Route;
 
-use \League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Calculation\Route\GeohashLine;
 use Runalyze\Model;
@@ -26,137 +26,138 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 {
     use Model\Common\WithNullableArraysTrait;
 
-	/**
-	 * Cities separator
-	 * @var string
-	 */
-	const CITIES_SEPARATOR = ' - ';
+    /**
+     * Cities separator
+     * @var string
+     */
+    public const CITIES_SEPARATOR = ' - ';
 
-	/**
-	 * @var int
-	 */
-	const PATH_GEOHASH_PRECISION = 12;
+    /**
+     * @var int
+     */
+    public const PATH_GEOHASH_PRECISION = 12;
 
-	/**
-	 * @var int
-	 */
-	const BOUNDARIES_GEOHASH_PRECISION = 10;
+    /**
+     * @var int
+     */
+    public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
-	/**
-	 * Key: name
-	 * @var string
-	 */
-	const NAME = 'name';
+    /**
+     * Key: name
+     * @var string
+     */
+    public const NAME = 'name';
 
-	/**
-	 * Key: cities
-	 * @var string
-	 */
-	const CITIES = 'cities';
+    /**
+     * Key: cities
+     * @var string
+     */
+    public const CITIES = 'cities';
 
-	/**
-	 * Key: distance
-	 * @var string
-	 */
-	const DISTANCE = 'distance';
+    /**
+     * Key: distance
+     * @var string
+     */
+    public const DISTANCE = 'distance';
 
-	/**
-	 * Key: elevation
-	 * @var string
-	 */
-	const ELEVATION = 'elevation';
+    /**
+     * Key: elevation
+     * @var string
+     */
+    public const ELEVATION = 'elevation';
 
-	/**
-	 * Key: elevation up
-	 * @var string
-	 */
-	const ELEVATION_UP = 'elevation_up';
+    /**
+     * Key: elevation up
+     * @var string
+     */
+    public const ELEVATION_UP = 'elevation_up';
 
-	/**
-	 * Key: elevation down
-	 * @var string
-	 */
-	const ELEVATION_DOWN = 'elevation_down';
+    /**
+     * Key: elevation down
+     * @var string
+     */
+    public const ELEVATION_DOWN = 'elevation_down';
 
-	/**
-	 * Key: geohash
-	 * @var string
-	 */
-	const GEOHASHES = 'geohashes';
+    /**
+     * Key: geohash
+     * @var string
+     */
+    public const GEOHASHES = 'geohashes';
 
-	/**
-	 * Key: elevations original
-	 * @var string
-	 */
-	const ELEVATIONS_ORIGINAL = 'elevations_original';
+    /**
+     * Key: elevations original
+     * @var string
+     */
+    public const ELEVATIONS_ORIGINAL = 'elevations_original';
 
-	/**
-	 * Key: elevations corrected
-	 * @var string
-	 */
-	const ELEVATIONS_CORRECTED = 'elevations_corrected';
+    /**
+     * Key: elevations corrected
+     * @var string
+     */
+    public const ELEVATIONS_CORRECTED = 'elevations_corrected';
 
-	/**
-	 * Key: elevations source
-	 * @var string
-	 */
-	const ELEVATIONS_SOURCE = 'elevations_source';
+    /**
+     * Key: elevations source
+     * @var string
+     */
+    public const ELEVATIONS_SOURCE = 'elevations_source';
 
-	/**
-	 * Key: elevations source
-	 * @var string
-	 */
-	const ALTITUDE_BAROMETRIC = 'altitude_barometric';
+    /**
+     * Key: elevations source
+     * @var string
+     */
+    public const ALTITUDE_BAROMETRIC = 'altitude_barometric';
 
-	/**
-	 * Key: startpoint in geohash
-	 * @var string
-	 */
-	const STARTPOINT = 'startpoint';
+    /**
+     * Key: startpoint in geohash
+     * @var string
+     */
+    public const STARTPOINT = 'startpoint';
 
-	/**
-	 * Key: endpoint in geohash
-	 * @var string
-	 */
-	const ENDPOINT = 'endpoint';
+    /**
+     * Key: endpoint in geohash
+     * @var string
+     */
+    public const ENDPOINT = 'endpoint';
 
-	/**
-	 * Key: minimal longitude & latitude in geohash
-	 * @var string
-	 */
-	const MIN = 'min';
+    /**
+     * Key: minimal longitude & latitude in geohash
+     * @var string
+     */
+    public const MIN = 'min';
 
-	/**
-	 * Key: maximal longitude & latitude in geohash
-	 * @var string
-	 */
-	const MAX = 'max';
+    /**
+     * Key: maximal longitude & latitude in geohash
+     * @var string
+     */
+    public const MAX = 'max';
 
-	/**
-	 * Key: in routenet
-	 * @var string
-	 */
-	const IN_ROUTENET = 'in_routenet';
+    /**
+     * Key: in routenet
+     * @var string
+     */
+    public const IN_ROUTENET = 'in_routenet';
 
     /**
      * Key: lock
      * @var string
      */
-    const LOCK = 'lock';
+    public const LOCK = 'lock';
 
-	/**
-	 * Flag: ensure arrays to be equally sized
-	 * @var bool
-	 */
-	protected $checkArraySizes = true;
+    /**
+     * Flag: ensure arrays to be equally sized
+     * @var bool
+     */
+    protected $checkArraySizes = true;
 
     /**
      * Construct
      */
-    public function __construct(array $data = []) {
+    public function __construct(array $data = [])
+    {
         parent::__construct($data);
 
-        if ($this->hasGeohashes() && ! empty($this->Data[self::GEOHASHES] )) {
+        if ($this->hasGeohashes() && ! empty($this->Data[self::GEOHASHES])) {
             $this->Data[self::GEOHASHES] = GeohashLine::extend($this->Data[self::GEOHASHES]);
         }
     }
@@ -168,214 +169,226 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      *
      * @param int $positioninterval
      */
-    public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self {
+    public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self
+    {
         $e = new self($data);
 
-		// remove points so every x position is keeped
-        if ($positioninterval > 1 && $e->hasGeohashes() && ! empty($e->Data[self::GEOHASHES] )) {
-			// use a loop based on the original array to avoid a "copy"
-			$i = count($e->Data[self::GEOHASHES]);
-			while ($i > 0) {
-				for ($y = 1; $i > 0 && $y < $positioninterval; $y++) {
-					unset($e->Data[self::GEOHASHES][--$i]);
-				}
+        // remove points so every x position is keeped
+        if ($positioninterval > 1 && $e->hasGeohashes() && ! empty($e->Data[self::GEOHASHES])) {
+            // use a loop based on the original array to avoid a "copy"
+            $i = count($e->Data[self::GEOHASHES]);
+            while ($i > 0) {
+                for ($y = 1; $i > 0 && $y < $positioninterval; $y++) {
+                    unset($e->Data[self::GEOHASHES][--$i]);
+                }
 
-				$i--;
-			}
+                $i--;
+            }
 
             $e->Data[self::GEOHASHES] = array_values($e->Data[self::GEOHASHES]);
-			// reset also the count
-			$e->numberOfPoints = count($e->Data[self::GEOHASHES]);
-			// the other data (like min/max or evaluation) must be indentical and must not be changed
-		}
+            // reset also the count
+            $e->numberOfPoints = count($e->Data[self::GEOHASHES]);
+            // the other data (like min/max or evaluation) must be indentical and must not be changed
+        }
 
-		return $e;
+        return $e;
     }
 
-	/**
-	 * @throws \RuntimeException
-	 */
-	protected function checkArraySizes() {
-		foreach ($this->properties() as $key) {
-			if ($this->isArray($key)) {
-				try {
-					$count = count($this->Data[$key]);
+    /**
+     * @throws \RuntimeException
+     */
+    protected function checkArraySizes()
+    {
+        foreach ($this->properties() as $key) {
+            if ($this->isArray($key)) {
+                try {
+                    $count = count($this->Data[$key]);
 
-					if ($key == self::ELEVATIONS_CORRECTED && $this->numberOfPoints > 0 && $count > $this->numberOfPoints) {
-						$this->Data[$key] = array_slice($this->Data[$key], 0, $this->numberOfPoints);
-					} else {
-						$this->checkArraySize( $count );
-					}
-				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage() . ' (for ' . $key . ')', $E->getCode(), $E);
-				}
-			}
-		}
-	}
+                    if ($key == self::ELEVATIONS_CORRECTED && $this->numberOfPoints > 0 && $count > $this->numberOfPoints) {
+                        $this->Data[$key] = array_slice($this->Data[$key], 0, $this->numberOfPoints);
+                    } else {
+                        $this->checkArraySize($count);
+                    }
+                } catch (\RuntimeException $E) {
+                    throw new \RuntimeException($E->getMessage() . ' (for ' . $key . ')', $E->getCode(), $E);
+                }
+            }
+        }
+    }
 
     /**
      * @return array<int, string>
      */
-    public static function allProperties(): array {
-		return [
-		    self::NAME,
-		    self::CITIES,
-		    self::DISTANCE,
-		    self::ELEVATION,
-		    self::ELEVATION_UP,
-		    self::ELEVATION_DOWN,
-		    self::GEOHASHES,
-		    self::ELEVATIONS_ORIGINAL,
-		    self::ELEVATIONS_CORRECTED,
-		    self::ELEVATIONS_SOURCE,
-		    self::ALTITUDE_BAROMETRIC,
-		    self::STARTPOINT,
-		    self::ENDPOINT,
-		    self::MIN,
-		    self::MAX,
-		    self::IN_ROUTENET,
-		    self::LOCK,
-		];
-	}
+    public static function allProperties(): array
+    {
+        return [
+            self::NAME,
+            self::CITIES,
+            self::DISTANCE,
+            self::ELEVATION,
+            self::ELEVATION_UP,
+            self::ELEVATION_DOWN,
+            self::GEOHASHES,
+            self::ELEVATIONS_ORIGINAL,
+            self::ELEVATIONS_CORRECTED,
+            self::ELEVATIONS_SOURCE,
+            self::ALTITUDE_BAROMETRIC,
+            self::STARTPOINT,
+            self::ENDPOINT,
+            self::MIN,
+            self::MAX,
+            self::IN_ROUTENET,
+            self::LOCK,
+        ];
+    }
 
     /**
      * All properties
      * @return array<int, string>
      */
-    public static function allDatabaseProperties(): array {
-		return [
-		    self::NAME,
-		    self::CITIES,
-		    self::DISTANCE,
-		    self::ELEVATION,
-		    self::ELEVATION_UP,
-		    self::ELEVATION_DOWN,
-		    self::GEOHASHES,
-		    self::ELEVATIONS_ORIGINAL,
-		    self::ELEVATIONS_CORRECTED,
-		    self::ELEVATIONS_SOURCE,
-		    self::ALTITUDE_BAROMETRIC,
-		    self::STARTPOINT,
-		    self::ENDPOINT,
-		    self::MIN,
-		    self::MAX,
-		    self::IN_ROUTENET,
-		];
-	}
+    public static function allDatabaseProperties(): array
+    {
+        return [
+            self::NAME,
+            self::CITIES,
+            self::DISTANCE,
+            self::ELEVATION,
+            self::ELEVATION_UP,
+            self::ELEVATION_DOWN,
+            self::GEOHASHES,
+            self::ELEVATIONS_ORIGINAL,
+            self::ELEVATIONS_CORRECTED,
+            self::ELEVATIONS_SOURCE,
+            self::ALTITUDE_BAROMETRIC,
+            self::STARTPOINT,
+            self::ENDPOINT,
+            self::MIN,
+            self::MAX,
+            self::IN_ROUTENET,
+        ];
+    }
 
     /**
      * Properties
      */
-    public function properties(): array {
-		return static::allProperties();
-	}
+    public function properties(): array
+    {
+        return static::allProperties();
+    }
 
     /**
      * Is the property an array?
      * @param string $key
      */
-    public function isArray($key): bool {
-		switch ($key) {
-			case self::ELEVATIONS_ORIGINAL:
-			case self::ELEVATIONS_CORRECTED:
-			case self::GEOHASHES:
-				return true;
-		}
+    public function isArray($key): bool
+    {
+        switch ($key) {
+            case self::ELEVATIONS_ORIGINAL:
+            case self::ELEVATIONS_CORRECTED:
+            case self::GEOHASHES:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Can be null?
      * @param string $key
      */
-    protected function canBeNull($key): bool {
-		switch ($key) {
-			case self::ELEVATIONS_ORIGINAL:
-			case self::ELEVATIONS_CORRECTED:
-			case self::ALTITUDE_BAROMETRIC:
-			case self::GEOHASHES:
-			case self::STARTPOINT:
-			case self::ENDPOINT:
-			case self::MIN:
-			case self::MAX:
-				return true;
-		}
+    protected function canBeNull($key): bool
+    {
+        switch ($key) {
+            case self::ELEVATIONS_ORIGINAL:
+            case self::ELEVATIONS_CORRECTED:
+            case self::ALTITUDE_BAROMETRIC:
+            case self::GEOHASHES:
+            case self::STARTPOINT:
+            case self::ENDPOINT:
+            case self::MIN:
+            case self::MAX:
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Synchronize internal models
-	 */
-	public function synchronize() {
-		parent::synchronize();
+    /**
+     * Synchronize internal models
+     */
+    public function synchronize()
+    {
+        parent::synchronize();
 
-		$this->ensureAllNumericValues();
-		$this->synchronizeStartAndEndpoint();
+        $this->ensureAllNumericValues();
+        $this->synchronizeStartAndEndpoint();
 
-		if (! $this->hasCorrectedElevations()) {
-			$this->set(self::ELEVATIONS_SOURCE, '');
-		}
-	}
+        if (! $this->hasCorrectedElevations()) {
+            $this->set(self::ELEVATIONS_SOURCE, '');
+        }
+    }
 
-	/**
-	 * Ensure that numeric fields get numeric values
-	 */
-	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue([
-		    self::DISTANCE,
-		    self::ELEVATION,
-		    self::ELEVATION_UP,
-		    self::ELEVATION_DOWN,
-		    self::ALTITUDE_BAROMETRIC,
-		    self::IN_ROUTENET,
-		]);
-	}
+    /**
+     * Ensure that numeric fields get numeric values
+     */
+    protected function ensureAllNumericValues()
+    {
+        $this->ensureNumericValue([
+            self::DISTANCE,
+            self::ELEVATION,
+            self::ELEVATION_UP,
+            self::ELEVATION_DOWN,
+            self::ALTITUDE_BAROMETRIC,
+            self::IN_ROUTENET,
+        ]);
+    }
 
-	/**
-	 * Set array
-	 * @param string $key
-	 * @param mixed $value
-	 * @throws \InvalidArgumentException
-	 * @throws \RuntimeException
-	 */
-	public function set($key, $value) {
-		parent::set($key, $value);
+    /**
+     * Set array
+     * @param string $key
+     * @param mixed $value
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
+    public function set($key, $value)
+    {
+        parent::set($key, $value);
 
         if ($key == self::GEOHASHES) {
             $this->setMinMaxFromGeohashes($value);
         }
-	}
+    }
 
     public function setGeohashesWithoutMinMaxRecalculation(array $geohashes)
     {
         $this->Data[self::GEOHASHES] = $geohashes;
     }
 
-	public function setMinMaxFromGeohashes(?array $geohashes = null) {
-	    if ($geohashes === null) {
-	        $this->setMinMaxToNull();
+    public function setMinMaxFromGeohashes(?array $geohashes = null)
+    {
+        if ($geohashes === null) {
+            $this->setMinMaxToNull();
 
-	        return;
+            return;
         }
 
-		$latitudes = [];
-		$longitudes = [];
+        $latitudes = [];
+        $longitudes = [];
 
-		foreach ($geohashes as $geohash) {
-			$coordinate = (new Geohash())->decode($geohash)
-			    ->getCoordinate();
-			$latitudes[] = round($coordinate->getLatitude(), 6);
-			$longitudes[] = round($coordinate->getLongitude(), 6);
-		}
+        foreach ($geohashes as $geohash) {
+            $coordinate = (new Geohash())->decode($geohash)
+                ->getCoordinate();
+            $latitudes[] = round($coordinate->getLatitude(), 6);
+            $longitudes[] = round($coordinate->getLongitude(), 6);
+        }
 
-		$this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
-	}
+        $this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
+    }
 
-	public function forceToSetMinMaxFromGeohashes() {
-	    $this->setMinMaxFromGeohashes($this->Data[self::GEOHASHES]);
-	}
+    public function forceToSetMinMaxFromGeohashes()
+    {
+        $this->setMinMaxFromGeohashes($this->Data[self::GEOHASHES]);
+    }
 
     /**
      * Set geohashes from latitudes/longitudes
@@ -383,323 +396,357 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * @param array<int, mixed> $longitudes
      * @throws \InvalidArgumentException
      */
-    public function setLatitudesLongitudes(array $latitudes, array $longitudes) {
-		$size = count($latitudes);
+    public function setLatitudesLongitudes(array $latitudes, array $longitudes)
+    {
+        $size = count($latitudes);
 
-		if ($size !== count($longitudes)) {
-			throw new \InvalidArgumentException('Latitude & Longitude Array cannot have different lenghts');
-		}
+        if ($size !== count($longitudes)) {
+            throw new \InvalidArgumentException('Latitude & Longitude Array cannot have different lenghts');
+        }
 
-		$latitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $latitudes);
-		$longitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $longitudes);
+        $latitudes = array_map(function ($value) { return ($value == '') ? 0 : (float) $value; }, $latitudes);
+        $longitudes = array_map(function ($value) { return ($value == '') ? 0 : (float) $value; }, $longitudes);
 
-		$geohashes = [];
+        $geohashes = [];
 
-		for ($i = 0; $i < $size; ++$i) {
-			$geohashes[] = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION)->getGeohash();
-		}
+        for ($i = 0; $i < $size; ++$i) {
+            $geohashes[] = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION)->getGeohash();
+        }
 
-		$this->Data[self::GEOHASHES] = $geohashes;
-		$this->handleNewArraySize($size);
+        $this->Data[self::GEOHASHES] = $geohashes;
+        $this->handleNewArraySize($size);
 
-		$this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
-	}
+        $this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
+    }
 
-	/**
-	 * create latitude and longitude array
-	 * @return array Array with coordiantes: ['lat' => array, 'lng' => array]
-	 */
-	public function latitudesAndLongitudesFromGeohash(): array {
-		$Coordinates = [];
-		$Geohashes = $this->Data[self::GEOHASHES];
-		$size = count($this->Data[self::GEOHASHES]);
+    /**
+     * create latitude and longitude array
+     * @return array Array with coordiantes: ['lat' => array, 'lng' => array]
+     */
+    public function latitudesAndLongitudesFromGeohash(): array
+    {
+        $Coordinates = [];
+        $Geohashes = $this->Data[self::GEOHASHES];
+        $size = count($this->Data[self::GEOHASHES]);
 
-		for ($i = 0; $i < $size; $i++) {
-			$geo = (new Geohash())->decode($Geohashes[$i])->getCoordinate();
-			$Coordinates['lat'][] = round($geo->getLatitude(), 6);
-			$Coordinates['lng'][] = round($geo->getLongitude(), 6);
-		}
+        for ($i = 0; $i < $size; $i++) {
+            $geo = (new Geohash())->decode($Geohashes[$i])->getCoordinate();
+            $Coordinates['lat'][] = round($geo->getLatitude(), 6);
+            $Coordinates['lng'][] = round($geo->getLongitude(), 6);
+        }
 
-		return $Coordinates;
-	}
+        return $Coordinates;
+    }
 
-	/**
-	 * get latitudes array from geohashes
-	 * @return array latitudes
-	 */
-	public function latitudesFromGeohash() {
-		return $this->latitudesAndLongitudesFromGeohash()['lat'];
-	}
+    /**
+     * get latitudes array from geohashes
+     * @return array latitudes
+     */
+    public function latitudesFromGeohash()
+    {
+        return $this->latitudesAndLongitudesFromGeohash()['lat'];
+    }
 
-	/**
-	 * get longitudes array from geohashes
-	 * @return array longitudes
-	 */
-	public function longitudesFromGeohash() {
-		return $this->latitudesAndLongitudesFromGeohash()['lng'];
-	}
+    /**
+     * get longitudes array from geohashes
+     * @return array longitudes
+     */
+    public function longitudesFromGeohash()
+    {
+        return $this->latitudesAndLongitudesFromGeohash()['lng'];
+    }
 
     /**
      * @param float[]|bool[]|int[] $latitudes
      * @param float[]|bool[]|int[] $longitudes
      */
-    protected function setMinMaxFromLatitudesLongitudes(array $latitudes, array $longitudes) {
-		$latitudes = array_filter($latitudes);
-		$longitudes = array_filter($longitudes);
+    protected function setMinMaxFromLatitudesLongitudes(array $latitudes, array $longitudes)
+    {
+        $latitudes = array_filter($latitudes);
+        $longitudes = array_filter($longitudes);
 
-		if ($latitudes !== [] && $longitudes !== []) {
-			$MinCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
-			$this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+        if ($latitudes !== [] && $longitudes !== []) {
+            $MinCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
+            $this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
-			$MaxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
-			$this->Data[self::MAX] = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
-		} else {
-			$this->setMinMaxToNull();
-		}
-	}
+            $MaxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
+            $this->Data[self::MAX] = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+        } else {
+            $this->setMinMaxToNull();
+        }
+    }
 
-	/**
-	 * Set min/max to null
-	 */
-	protected function setMinMaxToNull() {
-		$this->Data[self::MIN] = null;
-		$this->Data[self::MAX] = null;
-	}
+    /**
+     * Set min/max to null
+     */
+    protected function setMinMaxToNull()
+    {
+        $this->Data[self::MIN] = null;
+        $this->Data[self::MAX] = null;
+    }
 
-	/**
-	 * Synchronize start- and endpoint
-	 */
-	protected function synchronizeStartAndEndpoint() {
-		$this->Data[self::STARTPOINT] = $this->findStartpoint();
-		$this->Data[self::ENDPOINT] = $this->findEndpoint();
+    /**
+     * Synchronize start- and endpoint
+     */
+    protected function synchronizeStartAndEndpoint()
+    {
+        $this->Data[self::STARTPOINT] = $this->findStartpoint();
+        $this->Data[self::ENDPOINT] = $this->findEndpoint();
 
-		if ($this->Data[self::STARTPOINT] === null) {
-			$this->Data[self::GEOHASHES] = [];
-		}
-	}
+        if ($this->Data[self::STARTPOINT] === null) {
+            $this->Data[self::GEOHASHES] = [];
+        }
+    }
 
-	/**
-	 * @return string|null
-	 */
-	protected function findStartpoint() {
-		return $this->findFirstNonNullGeohash($this->Data[self::GEOHASHES]);
-	}
+    /**
+     * @return string|null
+     */
+    protected function findStartpoint()
+    {
+        return $this->findFirstNonNullGeohash($this->Data[self::GEOHASHES]);
+    }
 
-	/**
-	 * @return string|null
-	 */
-	protected function findEndpoint() {
-		return $this->findFirstNonNullGeohash(array_reverse($this->Data[self::GEOHASHES]));
-	}
+    /**
+     * @return string|null
+     */
+    protected function findEndpoint()
+    {
+        return $this->findFirstNonNullGeohash(array_reverse($this->Data[self::GEOHASHES]));
+    }
 
     /**
      * @return null|string
      */
-    protected function findFirstNonNullGeohash(array $geohashes) {
-		$nullGeohash = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+    protected function findFirstNonNullGeohash(array $geohashes)
+    {
+        $nullGeohash = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
-		foreach ($geohashes as $geohash) {
-			$geohash = substr($geohash, 0, self::BOUNDARIES_GEOHASH_PRECISION);
+        foreach ($geohashes as $geohash) {
+            $geohash = substr($geohash, 0, self::BOUNDARIES_GEOHASH_PRECISION);
 
-			if ($geohash != $nullGeohash) {
-				return $geohash;
-			}
-		}
+            if ($geohash != $nullGeohash) {
+                return $geohash;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Number of points
-	 * @return int
-	 */
-	public function num() {
-		return $this->numberOfPoints;
-	}
+    /**
+     * Number of points
+     * @return int
+     */
+    public function num()
+    {
+        return $this->numberOfPoints;
+    }
 
-	/**
-	 * Value at
-	 *
-	 * Remark: This method may throw index offsets.
-	 * @param int $index
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function at($index, $key) {
-		return $this->Data[$key][$index];
-	}
+    /**
+     * Value at
+     *
+     * Remark: This method may throw index offsets.
+     * @param int $index
+     * @param string $key
+     * @return mixed
+     */
+    public function at($index, $key)
+    {
+        return $this->Data[$key][$index];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function name() {
-		return $this->Data[self::NAME];
-	}
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->Data[self::NAME];
+    }
 
     /**
      * Cities as array
      */
-    public function citiesAsArray(): array {
-		return explode(self::CITIES_SEPARATOR, $this->Data[self::CITIES]);
-	}
+    public function citiesAsArray(): array
+    {
+        return explode(self::CITIES_SEPARATOR, $this->Data[self::CITIES]);
+    }
 
-	/**
-	 * @return float
-	 */
-	public function distance() {
-		return $this->Data[self::DISTANCE];
-	}
+    /**
+     * @return float
+     */
+    public function distance()
+    {
+        return $this->Data[self::DISTANCE];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function elevation() {
-		return $this->Data[self::ELEVATION];
-	}
+    /**
+     * @return int
+     */
+    public function elevation()
+    {
+        return $this->Data[self::ELEVATION];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function elevationUp() {
-		return $this->Data[self::ELEVATION_UP];
-	}
+    /**
+     * @return int
+     */
+    public function elevationUp()
+    {
+        return $this->Data[self::ELEVATION_UP];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function elevationDown() {
-		return $this->Data[self::ELEVATION_DOWN];
-	}
+    /**
+     * @return int
+     */
+    public function elevationDown()
+    {
+        return $this->Data[self::ELEVATION_DOWN];
+    }
 
-	/**
-	 * Geohashes
-	 * @return array
-	 */
-	public function geohashes() {
-		return $this->Data[self::GEOHASHES];
-	}
+    /**
+     * Geohashes
+     * @return array
+     */
+    public function geohashes()
+    {
+        return $this->Data[self::GEOHASHES];
+    }
 
-	/**
-	 * Has position data?
-	 * @return bool
-	 */
-	public function hasPositionData() {
-		return $this->has(self::GEOHASHES);
-	}
+    /**
+     * Has position data?
+     * @return bool
+     */
+    public function hasPositionData()
+    {
+        return $this->has(self::GEOHASHES);
+    }
 
-	/**
-	 * Has geohash data?
-	 * @return bool
-	 */
-	public function hasGeohashes() {
-		return $this->has(self::GEOHASHES);
-	}
+    /**
+     * Has geohash data?
+     * @return bool
+     */
+    public function hasGeohashes()
+    {
+        return $this->has(self::GEOHASHES);
+    }
 
-	/**
-	 * Original elevations
-	 * @return array
-	 */
-	public function elevationsOriginal() {
-		return $this->Data[self::ELEVATIONS_ORIGINAL];
-	}
+    /**
+     * Original elevations
+     * @return array
+     */
+    public function elevationsOriginal()
+    {
+        return $this->Data[self::ELEVATIONS_ORIGINAL];
+    }
 
-	/**
-	 * Corrected elevations
-	 * @return array
-	 */
-	public function elevationsCorrected() {
-		return $this->Data[self::ELEVATIONS_CORRECTED];
-	}
+    /**
+     * Corrected elevations
+     * @return array
+     */
+    public function elevationsCorrected()
+    {
+        return $this->Data[self::ELEVATIONS_CORRECTED];
+    }
 
-	/**
-	 * Strategy name of elevation correction
-	 * @return string
-	 */
-	public function elevationsSource() {
-		return $this->Data[self::ELEVATIONS_SOURCE];
-	}
+    /**
+     * Strategy name of elevation correction
+     * @return string
+     */
+    public function elevationsSource()
+    {
+        return $this->Data[self::ELEVATIONS_SOURCE];
+    }
 
-	/**
-	 * Barometric device
-	 * @return string
-	 */
-	public function altitudeBarometric() {
-		return $this->Data[self::ALTITUDE_BAROMETRIC];
-	}
+    /**
+     * Barometric device
+     * @return string
+     */
+    public function altitudeBarometric()
+    {
+        return $this->Data[self::ALTITUDE_BAROMETRIC];
+    }
 
-	/**
-	 * @return lat|lng
-	 */
-	public function min() {
-		$geohash = $this->Data[self::MIN];
-		return (new Geohash())->decode($geohash)
-		    ->getCoordinate();
-	}
+    /**
+     * @return lat|lng
+     */
+    public function min()
+    {
+        $geohash = $this->Data[self::MIN];
+        return (new Geohash())->decode($geohash)
+            ->getCoordinate();
+    }
 
-	/**
-	 * @return lat|lng
-	 */
-	public function max() {
-		$geohash = $this->Data[self::MAX];
-		return (new Geohash())->decode($geohash)
-		    ->getCoordinate();
-	}
+    /**
+     * @return lat|lng
+     */
+    public function max()
+    {
+        $geohash = $this->Data[self::MAX];
+        return (new Geohash())->decode($geohash)
+            ->getCoordinate();
+    }
 
-	/**
-	 * Elevations array (corrected or original)
-	 * @return array
-	 */
-	public function elevations() {
-		if ($this->hasCorrectedElevations()) {
-			return $this->elevationsCorrected();
-		}
+    /**
+     * Elevations array (corrected or original)
+     * @return array
+     */
+    public function elevations()
+    {
+        if ($this->hasCorrectedElevations()) {
+            return $this->elevationsCorrected();
+        }
 
-		if ($this->hasOriginalElevations()) {
-			return $this->elevationsOriginal();
-		}
+        if ($this->hasOriginalElevations()) {
+            return $this->elevationsOriginal();
+        }
 
-		return [];
-	}
+        return [];
+    }
 
-	public function hasElevations(): bool {
-		return $this->hasOriginalElevations() || $this->hasCorrectedElevations();
-	}
+    public function hasElevations(): bool
+    {
+        return $this->hasOriginalElevations() || $this->hasCorrectedElevations();
+    }
 
-	public function hasOriginalElevations(): bool {
-		return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && ! empty($this->Data[self::ELEVATIONS_ORIGINAL]);
-	}
+    public function hasOriginalElevations(): bool
+    {
+        return isset($this->Data[self::ELEVATIONS_ORIGINAL]) && ! empty($this->Data[self::ELEVATIONS_ORIGINAL]);
+    }
 
-	public function hasCorrectedElevations(): bool {
-		return isset($this->Data[self::ELEVATIONS_CORRECTED]) && ! empty($this->Data[self::ELEVATIONS_CORRECTED]);
-	}
+    public function hasCorrectedElevations(): bool
+    {
+        return isset($this->Data[self::ELEVATIONS_CORRECTED]) && ! empty($this->Data[self::ELEVATIONS_CORRECTED]);
+    }
 
     /**
      * Is in routenet?
      */
-    public function inRoutenet(): bool {
-		return $this->Data[self::IN_ROUTENET] == 1;
-	}
+    public function inRoutenet(): bool
+    {
+        return $this->Data[self::IN_ROUTENET] == 1;
+    }
 
-	/**
-	 * Calculate distance between two coordinates
-	 * @param float $lat1
-	 * @param float $lon1
-	 * @param float $lat2
-	 * @param float $lon2
-	 * @return float
-	 */
-	public static function gpsDistance($lat1, $lon1, $lat2, $lon2) {
-		$rad1 = deg2rad($lat1);
-		$rad2 = deg2rad($lat2);
-		$dist = sin($rad1) * sin($rad2) + cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
-		$dist = acos($dist);
-		$dist = rad2deg($dist);
+    /**
+     * Calculate distance between two coordinates
+     * @param float $lat1
+     * @param float $lon1
+     * @param float $lat2
+     * @param float $lon2
+     * @return float
+     */
+    public static function gpsDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $rad1 = deg2rad($lat1);
+        $rad2 = deg2rad($lat2);
+        $dist = sin($rad1) * sin($rad2) + cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
 
-		$miles = $dist * 60 * 1.1515;
+        $miles = $dist * 60 * 1.1515;
 
-		if (is_nan($miles))
-			return 0;
+        if (is_nan($miles)) {
+            return 0;
+        }
 
-		return $miles * 1.609344;
-	}
+        return $miles * 1.609344;
+    }
 }

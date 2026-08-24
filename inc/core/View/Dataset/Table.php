@@ -20,116 +20,118 @@ use Runalyze\View\Tooltip;
  */
 class Table
 {
-	/**
-	 * @var \Runalyze\Dataset\Configuration
-	 */
-	protected $Configuration;
+    /**
+     * @var \Runalyze\Dataset\Configuration
+     */
+    protected $Configuration;
 
-	/**
-	 * @var array
-	 */
-	protected $ActiveKeys = [];
+    /**
+     * @var array
+     */
+    protected $ActiveKeys = [];
 
-	/**
-	 * Boolean flag to automatically set distance comparison
-	 * @var bool
-	 */
-	protected $AutomaticDistanceComparison = false;
+    /**
+     * Boolean flag to automatically set distance comparison
+     * @var bool
+     */
+    protected $AutomaticDistanceComparison = false;
 
-	/**
-	 * @var float [km]
-	 */
-	protected $LastDistance = 0;
+    /**
+     * @var float [km]
+     */
+    protected $LastDistance = 0;
 
-	public function __construct(Configuration $configuration)
-	{
-		$this->Configuration = $configuration;
-		$this->ActiveKeys = $this->Configuration->activeKeys();
+    public function __construct(Configuration $configuration)
+    {
+        $this->Configuration = $configuration;
+        $this->ActiveKeys = $this->Configuration->activeKeys();
 
-		Keys::keepInstances();
-	}
+        Keys::keepInstances();
+    }
 
-	/**
-	 * This does only work, if <code>codeForColumns()</code> is called in
-	 * respective order.
-	 */
-	public function activateAutomaticDistanceComparison()
-	{
-		$this->AutomaticDistanceComparison = true;
-	}
+    /**
+     * This does only work, if <code>codeForColumns()</code> is called in
+     * respective order.
+     */
+    public function activateAutomaticDistanceComparison()
+    {
+        $this->AutomaticDistanceComparison = true;
+    }
 
-	public function numColumns(): int
-	{
-		return count($this->ActiveKeys);
-	}
+    public function numColumns(): int
+    {
+        return count($this->ActiveKeys);
+    }
 
     /**
      * @param string $icon optional icon instead of text
      */
     public function codeForColumnLabels($icon = false): string
-	{
-		$Tooltip = new Tooltip('');
-		$Code = '';
-		foreach ($this->ActiveKeys as $keyid) {
-			$Key = Keys::get($keyid);
-			$Header = $icon ?: $Key->shortLabel();
+    {
+        $Tooltip = new Tooltip('');
+        $Code = '';
+        foreach ($this->ActiveKeys as $keyid) {
+            $Key = Keys::get($keyid);
+            $Header = $icon ?: $Key->shortLabel();
 
             $Tooltip->setText($Key->label());
             $Tooltip->wrapAround($Header);
 
             $Code .= '<td>' . $Header . '</td>';
-		}
+        }
 
         return $Code;
-	}
+    }
 
-	public function codeForColumns(Context $context, array $hiddenKeys = []): string
-	{
-		$Code = '';
+    public function codeForColumns(Context $context, array $hiddenKeys = []): string
+    {
+        $Code = '';
 
-		if ($this->AutomaticDistanceComparison) {
-			$context->setData(Keys\Distance::KEY_DISTANCE_COMPARISON, $this->LastDistance);
-			$this->LastDistance = $context->activity()
-			    ->distance();
-		}
+        if ($this->AutomaticDistanceComparison) {
+            $context->setData(Keys\Distance::KEY_DISTANCE_COMPARISON, $this->LastDistance);
+            $this->LastDistance = $context->activity()
+                ->distance();
+        }
 
-		foreach ($this->ActiveKeys as $keyid) {
-			if (in_array($keyid, $hiddenKeys)) {
-				$Code .= '<td></td>';
-			} else {
-				$Key = Keys::get($keyid);
+        foreach ($this->ActiveKeys as $keyid) {
+            if (in_array($keyid, $hiddenKeys)) {
+                $Code .= '<td></td>';
+            } else {
+                $Key = Keys::get($keyid);
 
-				// css style via class
-				$class = ($Key->cssClass() != '') ? $Key->cssClass() : '';
-				// css style from the configuration
-				$style = ($this->Configuration->getStyle($keyid) != '') ? $this->Configuration->getStyle($keyid) : '';
-				// css class&style depending on values
-				$valueClassStyle = $Key->valueDependendCssStyle($context);
-				if ($valueClassStyle !== null) {
-					$class = $class . ' ' . $valueClassStyle['class'];
-					$style .= $valueClassStyle['style'];
-				}
+                // css style via class
+                $class = ($Key->cssClass() != '') ? $Key->cssClass() : '';
+                // css style from the configuration
+                $style = ($this->Configuration->getStyle($keyid) != '') ? $this->Configuration->getStyle($keyid) : '';
+                // css class&style depending on values
+                $valueClassStyle = $Key->valueDependendCssStyle($context);
+                if ($valueClassStyle !== null) {
+                    $class = $class . ' ' . $valueClassStyle['class'];
+                    $style .= $valueClassStyle['style'];
+                }
 
-				$class = ($class !== '') ? ' class="' . $class . '"' : '';
-				$style = ($style !== '') ? ' style="' . $style . '"' : '';
+                $class = ($class !== '') ? ' class="' . $class . '"' : '';
+                $style = ($style !== '') ? ' style="' . $style . '"' : '';
 
-				$Code .= '<td' . $class . $style . '>' . $Key->stringFor($context) . '</td>';
-			}
-		}
+                $Code .= '<td' . $class . $style . '>' . $Key->stringFor($context) . '</td>';
+            }
+        }
 
-		return $Code;
-	}
+        return $Code;
+    }
 
-	public function codeForPublicIcon(Context $context): string {
-		if ($context->activity()->isPublic()) {
-			return \HTML::td(\Icon::$ADD_SMALL_GREEN, 'link');
-		}
+    public function codeForPublicIcon(Context $context): string
+    {
+        if ($context->activity()->isPublic()) {
+            return \HTML::td(\Icon::$ADD_SMALL_GREEN, 'link');
+        }
 
-		return '<td></td>';
-	}
+        return '<td></td>';
+    }
 
-    public function codeForShortLink(Context $context): string {
-		return $context->linker()
-		    ->codeWithSportIcon(Tooltip::POSITION_RIGHT);
-	}
+    public function codeForShortLink(Context $context): string
+    {
+        return $context->linker()
+            ->codeWithSportIcon(Tooltip::POSITION_RIGHT);
+    }
 }

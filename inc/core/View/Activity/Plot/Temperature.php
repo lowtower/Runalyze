@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class Temperature extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'temperature';
-	}
+    protected function setKey()
+    {
+        $this->key = 'temperature';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\Temperature($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\Temperature($context)
+        );
+    }
 }

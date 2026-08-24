@@ -7,7 +7,7 @@
 
 namespace Runalyze\View\Plot;
 
-use \Plot;
+use Plot;
 use Runalyze\View\Activity\Plot\ActivityPlot;
 
 /**
@@ -18,183 +18,194 @@ use Runalyze\View\Activity\Plot\ActivityPlot;
  */
 class Series
 {
-	/**
-	 * @var string
-	 */
-	protected $Label;
+    /**
+     * @var string
+     */
+    protected $Label;
 
-	/**
-	 * @var string
-	 */
-	protected $Color;
+    /**
+     * @var string
+     */
+    protected $Color;
 
-	/**
-	 * @var array
-	 */
-	protected $Data;
+    /**
+     * @var array
+     */
+    protected $Data;
 
-	/**
-	 * @var string
-	 */
-	protected $UnitString = '';
+    /**
+     * @var string
+     */
+    protected $UnitString = '';
 
-	/**
-	 * @var int
-	 */
-	protected $UnitDecimals = 0;
+    /**
+     * @var int
+     */
+    protected $UnitDecimals = 0;
 
-	/**
-	 * @var float
-	 */
-	protected $UnitFactor = 1;
+    /**
+     * @var float
+     */
+    protected $UnitFactor = 1;
 
-	/**
-	 * @var int
-	 */
-	protected $TickSize = false;
+    /**
+     * @var int
+     */
+    protected $TickSize = false;
 
-	/**
-	 * @var int
-	 */
-	protected $TickDecimals = 0;
+    /**
+     * @var int
+     */
+    protected $TickDecimals = 0;
 
-	/**
-	 * @var bool
-	 */
-	protected $ShowAverage = false;
+    /**
+     * @var bool
+     */
+    protected $ShowAverage = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $ShowMaximum = false;
+    /**
+     * @var bool
+     */
+    protected $ShowMaximum = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $ShowMinimum = false;
+    /**
+     * @var bool
+     */
+    protected $ShowMinimum = false;
 
-	/**
-	 * Manual average
-	 * A manual average can be used instead of calculating the average of the series
-	 * @var mixed
-	 */
-	protected $ManualAverage = false;
+    /**
+     * Manual average
+     * A manual average can be used instead of calculating the average of the series
+     * @var mixed
+     */
+    protected $ManualAverage = false;
 
-	/**
-	 * @var null|int
-	 */
-	protected $YAxis;
+    /**
+     * @var null|int
+     */
+    protected $YAxis;
 
-	/**
-	 * @param string $label
-	 */
-	public function setLabel($label) {
-		$this->Label = $label;
-	}
+    /**
+     * @param string $label
+     */
+    public function setLabel($label)
+    {
+        $this->Label = $label;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function label() {
-		return $this->Label;
-	}
+    /**
+     * @return string
+     */
+    public function label()
+    {
+        return $this->Label;
+    }
 
-	/**
-	 * @param string $color
-	 */
-	public function setColor($color) {
-		$this->Color = $color;
-	}
+    /**
+     * @param string $color
+     */
+    public function setColor($color)
+    {
+        $this->Color = $color;
+    }
 
-    public function setData(array $data) {
-		$this->Data = $data;
-	}
+    public function setData(array $data)
+    {
+        $this->Data = $data;
+    }
 
-	public function isEmpty(): bool {
-		return empty($this->Data);
-	}
+    public function isEmpty(): bool
+    {
+        return empty($this->Data);
+    }
 
     /**
      * Set properties
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true) {
-		if (empty($this->Data)) {
-			return;
-		}
+    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true)
+    {
+        if (empty($this->Data)) {
+            return;
+        }
 
-		$this->YAxis = $yAxis;
+        $this->YAxis = $yAxis;
 
-		if ($this->UnitString == 'time') {
-			foreach ($this->Data as $k => $v)
-				$this->Data[$k] = $v * '1000';
-		}
+        if ($this->UnitString == 'time') {
+            foreach ($this->Data as $k => $v) {
+                $this->Data[$k] = $v * '1000';
+            }
+        }
 
-		$Plot->Data[] = [
-    'label' => $this->Label,
-		    'color' => $this->Color,
-		    'data' => $this->Data,
-		    'yaxis' => $yAxis,
-];
+        $Plot->Data[] = [
+            'label' => $this->Label,
+            'color' => $this->Color,
+            'data' => $this->Data,
+            'yaxis' => $yAxis,
+        ];
 
-		if ($this->UnitString != '') {
-			if ($this->UnitString == 'time') {
-				$Plot->setYAxisAsTime($yAxis);
-				$Plot->setYAxisTimeFormat('%H:%M:%S', $yAxis);
-			} else
-				$Plot->addYUnit($yAxis, $this->UnitString, $this->UnitDecimals);
-		}
+        if ($this->UnitString != '') {
+            if ($this->UnitString == 'time') {
+                $Plot->setYAxisAsTime($yAxis);
+                $Plot->setYAxisTimeFormat('%H:%M:%S', $yAxis);
+            } else {
+                $Plot->addYUnit($yAxis, $this->UnitString, $this->UnitDecimals);
+            }
+        }
 
-		if ($this->TickSize !== false) {
-			$Plot->setYTicks($yAxis, $this->TickSize, $this->TickDecimals);
-		}
+        if ($this->TickSize !== false) {
+            $Plot->setYTicks($yAxis, $this->TickSize, $this->TickDecimals);
+        }
 
-		if ($addAnnotations && $this->ShowAverage && ! empty($this->Data)) {
-			$avg = $this->avg();
+        if ($addAnnotations && $this->ShowAverage && ! empty($this->Data)) {
+            $avg = $this->avg();
 
-			$Plot->addThreshold('y' . $yAxis, $avg, 'rgba(0,0,0,0.5)');
-			$Plot->addAnnotation(0, $avg, __('avg:') . ' ' . $avg . ' ' . $this->UnitString);
-		}
+            $Plot->addThreshold('y' . $yAxis, $avg, 'rgba(0,0,0,0.5)');
+            $Plot->addAnnotation(0, $avg, __('avg:') . ' ' . $avg . ' ' . $this->UnitString);
+        }
 
-		if ($addAnnotations && $this->ShowMaximum) {
-			$max = max($this->Data);
-			$maxX = array_keys($this->Data, $max);
+        if ($addAnnotations && $this->ShowMaximum) {
+            $max = max($this->Data);
+            $maxX = array_keys($this->Data, $max);
 
-			$Plot->addAnnotation($maxX[0], round($max), round($max) . $this->UnitString);
-		}
+            $Plot->addAnnotation($maxX[0], round($max), round($max) . $this->UnitString);
+        }
 
-		if ($addAnnotations && $this->ShowMinimum) {
-			$min = min($this->Data);
-			$minX = array_keys($this->Data, $min);
+        if ($addAnnotations && $this->ShowMinimum) {
+            $min = min($this->Data);
+            $minX = array_keys($this->Data, $min);
 
-			$Plot->addAnnotation($minX[0], round($min), round($min) . $this->UnitString);
-		}
-	}
+            $Plot->addAnnotation($minX[0], round($min), round($min) . $this->UnitString);
+        }
+    }
 
-	public function hideIn(ActivityPlot $plot) {
-		if ($this->YAxis !== null) {
-			$plot->hideYAxisAndSeries($this->YAxis);
-		}
-	}
+    public function hideIn(ActivityPlot $plot)
+    {
+        if ($this->YAxis !== null) {
+            $plot->hideYAxisAndSeries($this->YAxis);
+        }
+    }
 
-	/**
-	 * Average
-	 * @param int $decimals [optional]
-	 * @return int|float
-	 */
-	protected function avg($decimals = 0) {
-		if ($this->ManualAverage !== false) {
-			return $this->ManualAverage;
-		}
+    /**
+     * Average
+     * @param int $decimals [optional]
+     * @return int|float
+     */
+    protected function avg($decimals = 0)
+    {
+        if ($this->ManualAverage !== false) {
+            return $this->ManualAverage;
+        }
 
-		return round( array_sum($this->Data) / count($this->Data), $decimals );
-	}
+        return round(array_sum($this->Data) / count($this->Data), $decimals);
+    }
 
-	/**
-	 * @param int|float $value
-	 */
-	protected function setManualAverage($value) {
-		$this->ManualAverage = $value;
-	}
+    /**
+     * @param int|float $value
+     */
+    protected function setManualAverage($value)
+    {
+        $this->ManualAverage = $value;
+    }
 }

@@ -24,8 +24,7 @@ class ActivityContextAdapterFactory
         WeatherForecast $weatherForecast,
         DuplicateFinder $duplicateFinder,
         RouteNameEvalFactory $routeNameEvalFactory
-    )
-    {
+    ) {
         $this->WeatherForecast = $weatherForecast;
         $this->DuplicateFinder = $duplicateFinder;
         $this->RouteNameEval = $routeNameEvalFactory->getInstance();

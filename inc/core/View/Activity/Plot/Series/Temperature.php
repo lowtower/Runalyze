@@ -19,52 +19,56 @@ use Runalyze\View\Activity;
  */
 class Temperature extends ActivitySeries
 {
-	/**
-	 * @var string
-	 */
-	const COLOR = 'rgb(100,0,200)';
+    /**
+     * @var string
+     */
+    public const COLOR = 'rgb(100,0,200)';
 
-	/**
-	 * Create series
-	 * @var \Runalyze\View\Activity\Context
-	 */
-	public function __construct(Activity\Context $context) {
-		$this->initOptions();
-		$this->initData($context->trackdata(), Trackdata::TEMPERATURE);
-		$this->manipulateData();
-	}
+    /**
+     * Create series
+     * @var \Runalyze\View\Activity\Context
+     */
+    public function __construct(Activity\Context $context)
+    {
+        $this->initOptions();
+        $this->initData($context->trackdata(), Trackdata::TEMPERATURE);
+        $this->manipulateData();
+    }
 
-	protected function initOptions() {
-		$this->Label = __('Temperature');
-		$this->Color = self::COLOR;
+    protected function initOptions()
+    {
+        $this->Label = __('Temperature');
+        $this->Color = self::COLOR;
 
-		$this->UnitString = Configuration::General()->temperatureUnit()->unit();
-		$this->UnitDecimals = 1;
+        $this->UnitString = Configuration::General()->temperatureUnit()->unit();
+        $this->UnitDecimals = 1;
 
-		$this->TickSize = 10;
-		$this->TickDecimals = 0;
+        $this->TickSize = 10;
+        $this->TickDecimals = 0;
 
-		$this->ShowAverage = true;
-		$this->ShowMaximum = false;
-		$this->ShowMinimum = false;
-	}
+        $this->ShowAverage = true;
+        $this->ShowMaximum = false;
+        $this->ShowMinimum = false;
+    }
 
-    protected function manipulateData() {
+    protected function manipulateData()
+    {
         $temperatureUnit = Configuration::General()->temperatureUnit();
 
         if ($temperatureUnit->isFahrenheit()) {
-            $this->Data = array_map(function($value): float {
+            $this->Data = array_map(function ($value): float {
                 return round($value * 1.8 + 32.0, 1);
             }, $this->Data);
         }
     }
 
-	/**
-	 * Average
-	 * @param int $decimals [optional]
-	 * @return int
-	 */
-	protected function avg($decimals = 1) {
-		return parent::avg($decimals);
-	}
+    /**
+     * Average
+     * @param int $decimals [optional]
+     * @return int
+     */
+    protected function avg($decimals = 1)
+    {
+        return parent::avg($decimals);
+    }
 }

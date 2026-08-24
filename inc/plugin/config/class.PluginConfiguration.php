@@ -11,171 +11,183 @@
  */
 class PluginConfiguration
 {
-	/**
-	 * @var string
-	 */
-	const CACHE_KEY = 'PluginConf';
+    /**
+     * @var string
+     */
+    public const CACHE_KEY = 'PluginConf';
 
-	/**
-	 * Values
-	 * @var PluginConfigurationValue[]
-	 */
-	protected $Values = [];
+    /**
+     * Values
+     * @var PluginConfigurationValue[]
+     */
+    protected $Values = [];
 
-	/**
-	 * Plugin id
-	 * @var int
-	 */
-	protected $PluginID;
+    /**
+     * Plugin id
+     * @var int
+     */
+    protected $PluginID;
 
-	/**
-	 * Catched values?
-	 * @var bool
-	 */
-	private $CatchedValues = false;
+    /**
+     * Catched values?
+     * @var bool
+     */
+    private $CatchedValues = false;
 
-	/**
-	 * @param int $PluginID
-	 */
-	public function __construct($PluginID) {
-		$this->PluginID = $PluginID;
-	}
+    /**
+     * @param int $PluginID
+     */
+    public function __construct($PluginID)
+    {
+        $this->PluginID = $PluginID;
+    }
 
-	/**
-	 * Catch values if not done yet
-	 */
-	final public function catchValuesFromDatabaseIfNotDoneYet() {
-		if (! $this->CatchedValues) {
-			$this->catchValuesFromDatabase();
+    /**
+     * Catch values if not done yet
+     */
+    final public function catchValuesFromDatabaseIfNotDoneYet()
+    {
+        if (! $this->CatchedValues) {
+            $this->catchValuesFromDatabase();
 
-			$this->CatchedValues = true;
-		}
-	}
+            $this->CatchedValues = true;
+        }
+    }
 
-	/**
-	 * Catch values
-	 */
-	final public function catchValuesFromDatabase() {
-		$ResultFromDB = Cache::get(self::CACHE_KEY);
+    /**
+     * Catch values
+     */
+    final public function catchValuesFromDatabase()
+    {
+        $ResultFromDB = Cache::get(self::CACHE_KEY);
 
-		if ($ResultFromDB === null) {
-			$ResultFromDB = DB::getInstance()->query(
-			    'SELECT `pluginid`,`config`,`value` ' .
-				'FROM `' . PREFIX . 'plugin_conf` ' .
-				'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
-			)->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
+        if ($ResultFromDB === null) {
+            $ResultFromDB = DB::getInstance()->query(
+                'SELECT `pluginid`,`config`,`value` ' .
+                'FROM `' . PREFIX . 'plugin_conf` ' .
+                'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
+            )->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
-			Cache::set(self::CACHE_KEY, $ResultFromDB, '60');
-		}
+            Cache::set(self::CACHE_KEY, $ResultFromDB, '60');
+        }
 
-		$this->checkValuesFromDatabase($ResultFromDB);
-	}
+        $this->checkValuesFromDatabase($ResultFromDB);
+    }
 
     /**
      * Check values
      * @param array<int, mixed> $ResultFromDB
      */
-    private function checkValuesFromDatabase(array $ResultFromDB) {
-		$ValuesFromDB = [];
+    private function checkValuesFromDatabase(array $ResultFromDB)
+    {
+        $ValuesFromDB = [];
 
-		if (isset($ResultFromDB[$this->PluginID])) {
-			foreach ($ResultFromDB[$this->PluginID] as $Result) {
-				$ValuesFromDB[$Result['config']] = $Result['value'];
-			}
-		}
+        if (isset($ResultFromDB[$this->PluginID])) {
+            foreach ($ResultFromDB[$this->PluginID] as $Result) {
+                $ValuesFromDB[$Result['config']] = $Result['value'];
+            }
+        }
 
-		foreach ($this->Values as $Value) {
-			if (isset($ValuesFromDB[$Value->key()])) {
-				$Value->setValueFromString($ValuesFromDB[$Value->key()]);
-			} else {
-				$Value->setDefaultValueAsValue();
+        foreach ($this->Values as $Value) {
+            if (isset($ValuesFromDB[$Value->key()])) {
+                $Value->setValueFromString($ValuesFromDB[$Value->key()]);
+            } else {
+                $Value->setDefaultValueAsValue();
 
-				$this->insertValueToDatabase($Value);
-			}
-		}
-	}
+                $this->insertValueToDatabase($Value);
+            }
+        }
+    }
 
-    private function insertValueToDatabase(PluginConfigurationValue $Value) {
-		DB::getInstance()->insert(
-		    'plugin_conf',
-		    [
-		        'pluginid',
-		        'config',
-		        'value',
-		    ],
-		    [
-		        $this->PluginID,
-		        $Value->key(),
-		        $Value->valueAsString(),
-		    ]
-		);
+    private function insertValueToDatabase(PluginConfigurationValue $Value)
+    {
+        DB::getInstance()->insert(
+            'plugin_conf',
+            [
+                'pluginid',
+                'config',
+                'value',
+            ],
+            [
+                $this->PluginID,
+                $Value->key(),
+                $Value->valueAsString(),
+            ]
+        );
 
-		Cache::delete(self::CACHE_KEY);
-	}
+        Cache::delete(self::CACHE_KEY);
+    }
 
-	final public function updateFromPost() {
-		foreach ($this->Values as $Value) {
-			$Value->setValueFromPost();
+    final public function updateFromPost()
+    {
+        foreach ($this->Values as $Value) {
+            $Value->setValueFromPost();
 
-			$this->update($Value->key());
-		}
+            $this->update($Value->key());
+        }
 
-		Cache::delete(self::CACHE_KEY);
-	}
+        Cache::delete(self::CACHE_KEY);
+    }
 
-	/**
-	 * @param string $key
-	 */
-	final public function update($key) {
-		if (isset($this->Values[$key])) {
-			DB::getInstance()->updateWhere(
-			    'plugin_conf',
-			    '`pluginid`=' . (int) $this->PluginID . ' AND `config`="' . $key . '"',
-			    'value',
-			    $this->Values[$key]->valueAsString()
-			);
-		}
-	}
+    /**
+     * @param string $key
+     */
+    final public function update($key)
+    {
+        if (isset($this->Values[$key])) {
+            DB::getInstance()->updateWhere(
+                'plugin_conf',
+                '`pluginid`=' . (int) $this->PluginID . ' AND `config`="' . $key . '"',
+                'value',
+                $this->Values[$key]->valueAsString()
+            );
+        }
+    }
 
-    final public function addValue(PluginConfigurationValue $Value) {
-		$this->Values[$Value->key()] = $Value;
-	}
+    final public function addValue(PluginConfigurationValue $Value)
+    {
+        $this->Values[$Value->key()] = $Value;
+    }
 
-	/**
-	 * Object for value
-	 * @param string $key
-	 * @return PluginConfigurationValue
-	 * @throws InvalidArgumentException
-	 */
-	final public function object($key) {
-		if (isset($this->Values[$key])) {
-			return $this->Values[$key];
-		}
+    /**
+     * Object for value
+     * @param string $key
+     * @return PluginConfigurationValue
+     * @throws InvalidArgumentException
+     */
+    final public function object($key)
+    {
+        if (isset($this->Values[$key])) {
+            return $this->Values[$key];
+        }
 
-		throw new InvalidArgumentException('There is no value for "' . $key . '".');
-	}
+        throw new InvalidArgumentException('There is no value for "' . $key . '".');
+    }
 
-	/**
-	 * All objects
-	 * @return PluginConfigurationValue[]
-	 */
-	final public function objects() {
-		return $this->Values;
-	}
+    /**
+     * All objects
+     * @return PluginConfigurationValue[]
+     */
+    final public function objects()
+    {
+        return $this->Values;
+    }
 
     /**
      * Is empty?
      */
-    final public function isEmpty(): bool {
-		return $this->Values === [];
-	}
+    final public function isEmpty(): bool
+    {
+        return $this->Values === [];
+    }
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
-	final public function value($key) {
-		return $this->object($key)
-		    ->value();
-	}
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    final public function value($key)
+    {
+        return $this->object($key)
+            ->value();
+    }
 }

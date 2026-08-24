@@ -22,17 +22,17 @@ class MinPer500y extends AbstractTimeUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_500Y;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_500Y;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '/500y';
-	}
+    {
+        return '/500y';
+    }
 
     /**
      * Factor to transform 's/km' to current unit
@@ -43,7 +43,7 @@ class MinPer500y extends AbstractTimeUnit
      * @throws \RuntimeException
      */
     public function factorForUnit(): float
-	{
-		return 500 / DistanceUnitSystem::YARD_MULTIPLIER;
-	}
+    {
+        return 500 / DistanceUnitSystem::YARD_MULTIPLIER;
+    }
 }

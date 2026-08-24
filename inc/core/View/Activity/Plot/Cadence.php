@@ -19,13 +19,15 @@ use Runalyze\View\Activity;
  */
 class Cadence extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'cadence';
-	}
+    protected function setKey()
+    {
+        $this->key = 'cadence';
+    }
 
-    protected function initData(Activity\Context $context) {
-		$this->addSeries(
-		    new Series\Cadence($context)
-		);
-	}
+    protected function initData(Activity\Context $context)
+    {
+        $this->addSeries(
+            new Series\Cadence($context)
+        );
+    }
 }

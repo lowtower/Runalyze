@@ -10,98 +10,104 @@
  */
 abstract class ConfigTab
 {
-	/**
-	 * HTML-Form
-	 * @var Formular
-	 */
-	protected $Formular;
+    /**
+     * HTML-Form
+     * @var Formular
+     */
+    protected $Formular;
 
-	/**
-	 * Title
-	 * @var string
-	 */
-	protected $title = '';
+    /**
+     * Title
+     * @var string
+     */
+    protected $title = '';
 
-	/**
-	 * Key used as form-id
-	 * @var string
-	 */
-	protected $key = '';
+    /**
+     * Key used as form-id
+     * @var string
+     */
+    protected $key = '';
 
-	/**
-	 * Model factory
-	 * @var \Runalyze\Model\Factory
-	 */
-	protected $Model;
+    /**
+     * Model factory
+     * @var \Runalyze\Model\Factory
+     */
+    protected $Model;
 
-	/**
-	 * Set key and title for form
-	 */
-	abstract protected function setKeyAndTitle();
+    /**
+     * Set key and title for form
+     */
+    abstract protected function setKeyAndTitle();
 
-	/**
-	 * Set all fieldsets and fields
-	 */
-	abstract public function setFieldsetsAndFields();
+    /**
+     * Set all fieldsets and fields
+     */
+    abstract public function setFieldsetsAndFields();
 
-	/**
-	 * Parse all post values
-	 */
-	abstract public function parsePostData();
+    /**
+     * Parse all post values
+     */
+    abstract public function parsePostData();
 
-	/**
-	 * Construct new tab
-	 */
-	public function __construct() {
-		$this->Model = new Runalyze\Model\Factory(SessionAccountHandler::getId());
+    /**
+     * Construct new tab
+     */
+    public function __construct()
+    {
+        $this->Model = new Runalyze\Model\Factory(SessionAccountHandler::getId());
 
-		$this->setKeyAndTitle();
-	}
+        $this->setKeyAndTitle();
+    }
 
-	/**
-	 * @return string
-	 */
-	final public function getKey() {
-		return $this->key;
-	}
+    /**
+     * @return string
+     */
+    final public function getKey()
+    {
+        return $this->key;
+    }
 
-	/**
-	 * @return string
-	 */
-	final public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @return string
+     */
+    final public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Display formular
-	 */
-	final public function display() {
-		echo '<div class="panel-heading">';
-		echo '<h1>' . $this->title . '</h1>';
-		echo '</div>';
-		echo '<div class="panel-content">';
-		$this->displayFormular();
-		echo '</div>';
-	}
+    /**
+     * Display formular
+     */
+    final public function display()
+    {
+        echo '<div class="panel-heading">';
+        echo '<h1>' . $this->title . '</h1>';
+        echo '</div>';
+        echo '<div class="panel-content">';
+        $this->displayFormular();
+        echo '</div>';
+    }
 
-	private function displayFormular() {
-		$this->Formular = new Formular($this->getUrl() . '&form=true');
+    private function displayFormular()
+    {
+        $this->Formular = new Formular($this->getUrl() . '&form=true');
 
-		$this->setFieldsetsAndFields();
+        $this->setFieldsetsAndFields();
 
-		$this->Formular->setId($this->key);
-		$this->Formular->addCSSclass('ajax');
-		$this->Formular->addCSSclass('no-automatic-reload');
-		$this->Formular->addHiddenValue('configTabKey', $this->key);
-		$this->Formular->addSubmitButton(__('Save'));
-		$this->Formular->display();
-	}
+        $this->Formular->setId($this->key);
+        $this->Formular->addCSSclass('ajax');
+        $this->Formular->addCSSclass('no-automatic-reload');
+        $this->Formular->addHiddenValue('configTabKey', $this->key);
+        $this->Formular->addSubmitButton(__('Save'));
+        $this->Formular->display();
+    }
 
-	/**
-	 * Get URL to this tab
-	 * @return string
-	 */
-	final public function getUrl() {
-		return 'settings?key=' . $this->key;
-	}
+    /**
+     * Get URL to this tab
+     * @return string
+     */
+    final public function getUrl()
+    {
+        return 'settings?key=' . $this->key;
+    }
 }

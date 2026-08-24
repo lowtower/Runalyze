@@ -102,4 +102,3 @@ class PluginConf
         return $this->plugin;
     }
 }
-

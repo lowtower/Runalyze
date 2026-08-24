@@ -9,28 +9,28 @@ use Runalyze\View\Activity\FakeContext;
 
 class IFrameTest extends \PHPUnit\Framework\TestCase
 {
-	public function checkFeasibility()
-	{
-		$this->assertFalse((new IFrame(FakeContext::onlyWithActivity(
-		    new Activity\Entity([
-		        Activity\Entity::IS_PUBLIC => false,
-		    ])
-		)))->isPossible());
+    public function checkFeasibility()
+    {
+        $this->assertFalse((new IFrame(FakeContext::onlyWithActivity(
+            new Activity\Entity([
+                Activity\Entity::IS_PUBLIC => false,
+            ])
+        )))->isPossible());
 
-		$this->assertTrue((new IFrame(FakeContext::onlyWithActivity(
-		    new Activity\Entity([
-		        Activity\Entity::IS_PUBLIC => true,
-		    ])
-		)))->isPossible());
-	}
+        $this->assertTrue((new IFrame(FakeContext::onlyWithActivity(
+            new Activity\Entity([
+                Activity\Entity::IS_PUBLIC => true,
+            ])
+        )))->isPossible());
+    }
 
     public function testThatCodeCanBeCreated()
     {
         ob_start();
 
-		$Sharer = new IFrame(FakeContext::emptyContext());
-		$Sharer->display();
+        $Sharer = new IFrame(FakeContext::emptyContext());
+        $Sharer->display();
 
-		ob_end_clean();
+        ob_end_clean();
     }
 }

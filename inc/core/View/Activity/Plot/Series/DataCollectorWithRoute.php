@@ -20,56 +20,59 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
  */
 class DataCollectorWithRoute extends DataCollector
 {
-	/**
-	 * @var \Runalyze\Model\Route\Loop;
-	 */
-	protected $LoopRoute;
+    /**
+     * @var \Runalyze\Model\Route\Loop;
+     */
+    protected $LoopRoute;
 
     /**
      * Construct collector
      * @param int $key
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, $key, Route $route) {
-		if (! $route->has($key)) {
-			throw new \InvalidArgumentException('Route has no data for "' . $key . '".');
-		}
+    public function __construct(Trackdata $trackdata, $key, Route $route)
+    {
+        if (! $route->has($key)) {
+            throw new \InvalidArgumentException('Route has no data for "' . $key . '".');
+        }
 
-		$this->Key = $key;
-		$this->Precision = Configuration::ActivityView()->plotPrecision();
-		$this->KnowsDistance = $trackdata->has(Trackdata::DISTANCE);
+        $this->Key = $key;
+        $this->Precision = Configuration::ActivityView()->plotPrecision();
+        $this->KnowsDistance = $trackdata->has(Trackdata::DISTANCE);
 
-		$this->init($trackdata);
-		$this->LoopRoute = new Loop($route);
-		$this->collect();
-	}
+        $this->init($trackdata);
+        $this->LoopRoute = new Loop($route);
+        $this->collect();
+    }
 
-	/**
-	 * Collect data
-	 */
-	protected function collect() {
-		do {
-			$this->move();
+    /**
+     * Collect data
+     */
+    protected function collect()
+    {
+        do {
+            $this->move();
 
-			$value = $this->LoopRoute->average($this->Key);
+            $value = $this->LoopRoute->average($this->Key);
 
-			if ($this->XAxis == self::X_AXIS_DISTANCE) {
-				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
-			} else {
-				$this->Data[] = $value;
-			}
-		} while (! $this->Loop->isAtEnd());
-	}
+            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+                $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
+            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+                $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
+            } else {
+                $this->Data[] = $value;
+            }
+        } while (! $this->Loop->isAtEnd());
+    }
 
-	/**
-	 * Get next step for plot data
-	 * @return bool
-	 */
-	protected function move() {
-		parent::move();
+    /**
+     * Get next step for plot data
+     * @return bool
+     */
+    protected function move()
+    {
+        parent::move();
 
-		$this->LoopRoute->goToIndex( $this->Loop->index() );
-	}
+        $this->LoopRoute->goToIndex($this->Loop->index());
+    }
 }

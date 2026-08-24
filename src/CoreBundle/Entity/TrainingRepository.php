@@ -66,7 +66,8 @@ class TrainingRepository extends EntityRepository
     /**
      * @return null|int
      */
-    public function getIdOfNextActivity(Training $activity) {
+    public function getIdOfNextActivity(Training $activity)
+    {
         return $this->createQueryBuilder('t')
             ->select('t.id')
             ->where('(t.time > :time AND t.id != :id)')
@@ -85,7 +86,8 @@ class TrainingRepository extends EntityRepository
     /**
      * @return null|int
      */
-    public function getIdOfPreviousActivity(Training $activity) {
+    public function getIdOfPreviousActivity(Training $activity)
+    {
         return $this->createQueryBuilder('t')
             ->select('t.id')
             ->where('(t.time < :time AND t.id != :id)')

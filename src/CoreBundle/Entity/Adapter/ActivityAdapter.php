@@ -156,7 +156,7 @@ class ActivityAdapter
      */
     public function isRelevantForCurrentMarathonShape($numberOfDaysToConsiderForShape): bool
     {
-        return 
+        return
             $this->isRunning() &&
             $this->isNotOlderThanXDays($numberOfDaysToConsiderForShape)
         ;
@@ -167,7 +167,7 @@ class ActivityAdapter
      */
     public function isRelevantForCurrentEffectiveVO2maxShape($numberOfDaysToConsiderForShape): bool
     {
-        return 
+        return
             $this->isRunning() &&
             $this->Activity->getUseVO2max() &&
             $this->Activity->getVO2max() > 0.0 &&
@@ -306,7 +306,7 @@ class ActivityAdapter
 
             if ($totalTime > 0 && $numberOfPoints > 0) {
                 $swolf = (int) round(($this->Activity->getTotalStrokes() + $totalTime) / $numberOfPoints);
-           }
+            }
         }
 
         $this->Activity->setSwolf($swolf);
@@ -338,7 +338,7 @@ class ActivityAdapter
 
     protected function canCalculateClimbScore(): bool
     {
-        return 
+        return
             $this->Activity->getRoute() !== null &&
             $this->Activity->getRoute()
                 ->hasElevations() &&

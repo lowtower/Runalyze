@@ -9,21 +9,22 @@ namespace Runalyze\Model\Route;
  */
 class LoopTest extends \PHPUnit\Framework\TestCase
 {
-	public function testRouteLoop() {
-		$Loop = new Loop(new Entity([
-    Entity::GEOHASHES => ['u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxf6b7s9', 'u1xjhxffrhw4'],
-]));
+    public function testRouteLoop()
+    {
+        $Loop = new Loop(new Entity([
+            Entity::GEOHASHES => ['u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxf6b7s9', 'u1xjhxffrhw4'],
+        ]));
 
-		$Loop->nextStep();
-		$this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());
-		$this->assertEqualsWithDelta(0.02279247104384903, $Loop->calculatedStepDistance(), 0.2);
+        $Loop->nextStep();
+        $this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());
+        $this->assertEqualsWithDelta(0.02279247104384903, $Loop->calculatedStepDistance(), 0.2);
 
-		$Loop->setStepSize(2);
-		$Loop->nextStep();
-		$this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());
-		$this->assertEquals(0.0, $Loop->calculatedStepDistance());
+        $Loop->setStepSize(2);
+        $Loop->nextStep();
+        $this->assertEquals('u1xjhxf6b7s9', $Loop->geohash());
+        $this->assertEquals(0.0, $Loop->calculatedStepDistance());
 
-		$Loop->nextStep();
-		$this->assertTrue($Loop->isAtEnd());
-	}
+        $Loop->nextStep();
+        $this->assertTrue($Loop->isAtEnd());
+    }
 }

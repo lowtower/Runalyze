@@ -17,24 +17,26 @@ use Runalyze\View\Activity;
  */
 class Power extends ActivityPlot
 {
-	protected function setKey() {
-		$this->key = 'power';
-	}
+    protected function setKey()
+    {
+        $this->key = 'power';
+    }
 
-    protected function initData(Activity\Context $context) {
-		/** @var \Runalyze\View\Plot\Series[] $allSeries */
-		$allSeries = [
-		    new Series\Elevation($context),
-		    new Series\Gradient($context),
-		    new Series\Power($context),
-		    new Series\TimeSeries($context),
-		    new Series\DistanceSeries($context),
-		];
+    protected function initData(Activity\Context $context)
+    {
+        /** @var \Runalyze\View\Plot\Series[] $allSeries */
+        $allSeries = [
+            new Series\Elevation($context),
+            new Series\Gradient($context),
+            new Series\Power($context),
+            new Series\TimeSeries($context),
+            new Series\DistanceSeries($context),
+        ];
 
-		$this->addMultipleSeries($allSeries);
+        $this->addMultipleSeries($allSeries);
 
-		$allSeries[1]->hideIn($this);
-		$allSeries[3]->hideIn($this);
-		$allSeries[4]->hideIn($this);
-	}
+        $allSeries[1]->hideIn($this);
+        $allSeries[3]->hideIn($this);
+        $allSeries[4]->hideIn($this);
+    }
 }

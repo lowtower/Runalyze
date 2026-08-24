@@ -20,12 +20,12 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var int
      */
-    const PATH_GEOHASH_PRECISION = 12;
+    public const PATH_GEOHASH_PRECISION = 12;
 
     /**
      * @var int
      */
-    const BOUNDARIES_GEOHASH_PRECISION = 10;
+    public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
     /**
      * @var int
@@ -344,11 +344,11 @@ class Route implements AccountRelatedEntityInterface
             throw new \InvalidArgumentException('Latitude and longitude array must be of same length.');
         }
 
-        $latitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (double) $value; }, $latitudes);
-        $longitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (double) $value; }, $longitudes);
+        $latitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (float) $value; }, $latitudes);
+        $longitudes = array_map(function ($value): float { return ($value == '') ? 0.0 : (float) $value; }, $longitudes);
 
         $this->areMinMaxSynchronized = false;
-        $this->geohashes = []; 
+        $this->geohashes = [];
 
         for ($i = 0; $i < $size; ++$i) {
             $this->geohashes[] = (new Geohash())->encode(
@@ -610,7 +610,7 @@ class Route implements AccountRelatedEntityInterface
 
     public function isEmpty(): bool
     {
-        return 
+        return
             $this->name == '' &&
             $this->cities == '' &&
             ($this->geohashes === null || empty($this->geohashes)) &&

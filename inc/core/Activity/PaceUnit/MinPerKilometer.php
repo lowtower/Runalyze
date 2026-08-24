@@ -20,17 +20,17 @@ class MinPerKilometer extends AbstractTimeUnit
      * @codeCoverageIgnore
      */
     public function unit(): int
-	{
-		return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_KM;
-	}
+    {
+        return \Runalyze\Parameter\Application\PaceUnit::MIN_PER_KM;
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function appendix(): string
-	{
-		return '/km';
-	}
+    {
+        return '/km';
+    }
 
     /**
      * Factor to transform 's/km' to current unit
@@ -41,7 +41,7 @@ class MinPerKilometer extends AbstractTimeUnit
      * @throws \RuntimeException
      */
     public function factorForUnit(): int
-	{
-		return 1;
-	}
+    {
+        return 1;
+    }
 }

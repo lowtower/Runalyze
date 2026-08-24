@@ -9,22 +9,23 @@ namespace Runalyze\Model\Swimdata;
  */
 class LoopTest extends \PHPUnit\Framework\TestCase
 {
-	public function testSwimdataLoop() {
-		$Loop = new Loop(new Entity([
-    Entity::STROKE => [25, 20, 15, 20],
-		    Entity::STROKETYPE => [2, 2, 2, 2],
-]));
+    public function testSwimdataLoop()
+    {
+        $Loop = new Loop(new Entity([
+            Entity::STROKE => [25, 20, 15, 20],
+            Entity::STROKETYPE => [2, 2, 2, 2],
+        ]));
 
-		$Loop->nextStep();
-		$this->assertEquals(20, $Loop->stroke());
-		$this->assertEquals(2, $Loop->stroketype());
+        $Loop->nextStep();
+        $this->assertEquals(20, $Loop->stroke());
+        $this->assertEquals(2, $Loop->stroketype());
 
-		$Loop->setStepSize(2);
-		$Loop->nextStep();
-		$this->assertEquals(20, $Loop->stroke());
-		$this->assertEquals(2, $Loop->stroketype());
+        $Loop->setStepSize(2);
+        $Loop->nextStep();
+        $this->assertEquals(20, $Loop->stroke());
+        $this->assertEquals(2, $Loop->stroketype());
 
-		$Loop->nextStep();
-		$this->assertTrue($Loop->isAtEnd());
-	}
+        $Loop->nextStep();
+        $this->assertTrue($Loop->isAtEnd());
+    }
 }

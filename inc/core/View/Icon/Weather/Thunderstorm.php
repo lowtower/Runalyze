@@ -16,11 +16,12 @@ namespace Runalyze\View\Icon\Weather;
  */
 class Thunderstorm extends \Runalyze\View\Icon\WeatherIcon
 {
-	/**
-	 * Display
-	 */
-	protected function setLayer() {
-		$this->setBaseClass('weather-basethundercloud');
-		$this->setLayerClass('weather-thunder');
-	}
+    /**
+     * Display
+     */
+    protected function setLayer()
+    {
+        $this->setBaseClass('weather-basethundercloud');
+        $this->setLayerClass('weather-thunder');
+    }
 }

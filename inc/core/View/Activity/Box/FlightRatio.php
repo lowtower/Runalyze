@@ -8,15 +8,15 @@ use Runalyze\View\Activity\Context;
 
 class FlightRatio extends AbstractBox
 {
-	public function __construct(Context $context)
-	{
-	    $flightRatio = $context->activity()
-	        ->flightRatio();
+    public function __construct(Context $context)
+    {
+        $flightRatio = $context->activity()
+            ->flightRatio();
 
-		parent::__construct(
-		    $flightRatio !== null ? number_format(100 * $flightRatio, 1) : '-',
-		    '&#37;',
-		    __('Flight ratio')
-		);
-	}
+        parent::__construct(
+            $flightRatio !== null ? number_format(100 * $flightRatio, 1) : '-',
+            '&#37;',
+            __('Flight ratio')
+        );
+    }
 }

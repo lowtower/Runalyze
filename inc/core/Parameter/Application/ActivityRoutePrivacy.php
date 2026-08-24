@@ -16,49 +16,53 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityRoutePrivacy extends \Runalyze\Parameter\Select
 {
-	/**
-	 * Show route: never
-	 * @var string
-	 */
-	const NEVER = 'never';
+    /**
+     * Show route: never
+     * @var string
+     */
+    public const NEVER = 'never';
 
-	/**
-	 * Show route: for races
-	 * @var string
-	 */
-	const RACE = 'race';
+    /**
+     * Show route: for races
+     * @var string
+     */
+    public const RACE = 'race';
 
-	/**
-	 * Show route: always
-	 * @var string
-	 */
-	const ALWAYS = 'always';
+    /**
+     * Show route: always
+     * @var string
+     */
+    public const ALWAYS = 'always';
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		parent::__construct(self::ALWAYS, [
-    'options' => [
-		        self::NEVER => __('never'),
-		        self::RACE => __('only for race results'),
-		        self::ALWAYS => __('always'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct(self::ALWAYS, [
+            'options' => [
+                self::NEVER => __('never'),
+                self::RACE => __('only for race results'),
+                self::ALWAYS => __('always'),
+            ],
+        ]);
+    }
 
-    public function showNever(): bool {
-		return $this->value() == self::NEVER;
-	}
+    public function showNever(): bool
+    {
+        return $this->value() == self::NEVER;
+    }
 
     /**
      * Show only for races
      */
-    public function showRace(): bool {
-		return $this->value() == self::RACE;
-	}
+    public function showRace(): bool
+    {
+        return $this->value() == self::RACE;
+    }
 
-    public function showAlways(): bool {
-		return $this->value() == self::ALWAYS;
-	}
+    public function showAlways(): bool
+    {
+        return $this->value() == self::ALWAYS;
+    }
 }

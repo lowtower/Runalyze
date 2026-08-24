@@ -7,7 +7,7 @@ class RpeColor
     /**
      * @var array
      */
-    const LEVEL_COLORS = [
+    public const LEVEL_COLORS = [
         '#225ea8', // 1
         '#41b6c4', // 2
         '#41b6c4', // 3
@@ -20,18 +20,18 @@ class RpeColor
         '#e31a1c',  // 10
     ];
 
-	/**
-	 * @var int|null
-	 */
-	protected $Value;
+    /**
+     * @var int|null
+     */
+    protected $Value;
 
-	/**
-	 * @param int|null $value
-	 */
-	public function __construct($value = null)
+    /**
+     * @param int|null $value
+     */
+    public function __construct($value = null)
     {
-		$this->setValue($value);
-	}
+        $this->setValue($value);
+    }
 
     /**
      * @param int|null $value
@@ -44,8 +44,8 @@ class RpeColor
             $this->Value = (int) $value;
         }
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * @return int|null
@@ -55,24 +55,24 @@ class RpeColor
         return $this->Value;
     }
 
-	public function borderColor(): string
+    public function borderColor(): string
     {
-        if($this->Value != null) {
+        if ($this->Value != null) {
             return self::LEVEL_COLORS[$this->Value - 1];
         }
 
         return 'transparent';
-	}
+    }
 
     /**
      * @codeCoverageIgnore
      */
     public function string(): string
     {
-	    if ($this->Value === null) {
-	        return '';
+        if ($this->Value === null) {
+            return '';
         }
 
         return '<span class="rpe-icon" style="border-color:' . $this->borderColor() . ';">' . $this->Value . '</span>';
-	}
+    }
 }

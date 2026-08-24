@@ -18,73 +18,76 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
  */
 class DatabaseOrder extends \Runalyze\Parameter\Select
 {
-	/**
-	 * ID: ascending
-	 * @var string
-	 */
-	const ASC = 'id-asc';
+    /**
+     * ID: ascending
+     * @var string
+     */
+    public const ASC = 'id-asc';
 
-	/**
-	 * ID: descending
-	 * @var string
-	 */
-	const DESC = 'id-desc';
+    /**
+     * ID: descending
+     * @var string
+     */
+    public const DESC = 'id-desc';
 
-	/**
-	 * Alphabetical
-	 * @var string
-	 */
-	const ALPHA = 'alpha';
+    /**
+     * Alphabetical
+     * @var string
+     */
+    public const ALPHA = 'alpha';
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		parent::__construct(self::ASC, [
-    'options' => [
-		        self::ASC => __('id (oldest first)'),
-		        self::DESC => __('id (latest first)'),
-		        self::ALPHA => __('alphabetical'),
-		    ],
-]);
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct(self::ASC, [
+            'options' => [
+                self::ASC => __('id (oldest first)'),
+                self::DESC => __('id (latest first)'),
+                self::ALPHA => __('alphabetical'),
+            ],
+        ]);
+    }
 
     /**
      * As mysql query-string
      */
-    public function asQuery(): string {
-		switch ($this->value()) {
-			case self::ALPHA:
-				return 'ORDER BY `name` ASC';
-			case self::DESC:
-				return 'ORDER BY `id` DESC';
-			case self::ASC:
-			default:
-				return 'ORDER BY `id` ASC';
-		}
-	}
+    public function asQuery(): string
+    {
+        switch ($this->value()) {
+            case self::ALPHA:
+                return 'ORDER BY `name` ASC';
+            case self::DESC:
+                return 'ORDER BY `id` DESC';
+            case self::ASC:
+            default:
+                return 'ORDER BY `id` ASC';
+        }
+    }
 
     /**
      * Sort data
      */
-    public function sort(array &$data) {
-		$key = ($this->value() == self::ALPHA) ? 'name' : 'id';
-		$desc = ($this->value() == self::DESC) ? -1 : 1;
+    public function sort(array &$data)
+    {
+        $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
+        $desc = ($this->value() == self::DESC) ? -1 : 1;
 
-		uasort($data, function(array $a, array $b) use ($key, $desc): int {
-			if ($a[$key] == $b[$key]) {
-				return 0;
-			}
+        uasort($data, function (array $a, array $b) use ($key, $desc): int {
+            if ($a[$key] == $b[$key]) {
+                return 0;
+            }
 
-			if ($a[$key] < $b[$key]) {
-				return -1 * $desc;
-			}
+            if ($a[$key] < $b[$key]) {
+                return -1 * $desc;
+            }
 
-			return $desc;
-		});
-	}
+            return $desc;
+        });
+    }
 
-	public function sortCollection(Collection $collection): \Doctrine\Common\Collections\ArrayCollection
+    public function sortCollection(Collection $collection): \Doctrine\Common\Collections\ArrayCollection
     {
         $key = ($this->value() == self::ALPHA) ? 'name' : 'id';
         $desc = ($this->value() == self::DESC) ? -1 : 1;

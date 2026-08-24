@@ -17,43 +17,47 @@ namespace Runalyze\Model;
  */
 abstract class EntityWithID extends Entity
 {
-	/**
-	 * ID
-	 * @var int
-	 */
-	protected $ID;
+    /**
+     * ID
+     * @var int
+     */
+    protected $ID;
 
     /**
      * Construct
      */
-    public function __construct(array $data = []) {
-		parent::__construct($data);
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
 
-		if (isset($data['id'])) {
-			$this->ID = $data['id'];
-		}
-	}
+        if (isset($data['id'])) {
+            $this->ID = $data['id'];
+        }
+    }
 
-	/**
-	 * Has ID?
-	 * @return bool
-	 */
-	public function hasID() {
-		return $this->ID !== null;
-	}
+    /**
+     * Has ID?
+     * @return bool
+     */
+    public function hasID()
+    {
+        return $this->ID !== null;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function id() {
-		return $this->ID;
-	}
+    /**
+     * @return int
+     */
+    public function id()
+    {
+        return $this->ID;
+    }
 
-	/**
-	 * Use this method only if you know what you're doing!
-	 * @param int $id
-	 */
-	public function setID($id) {
-		$this->ID = $id;
-	}
+    /**
+     * Use this method only if you know what you're doing!
+     * @param int $id
+     */
+    public function setID($id)
+    {
+        $this->ID = $id;
+    }
 }

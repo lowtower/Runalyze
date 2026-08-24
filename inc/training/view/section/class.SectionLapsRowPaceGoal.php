@@ -16,12 +16,13 @@
  */
 class SectionLapsRowPaceGoal extends SectionLapsRowComputed
 {
-	/**
-	 * Display right content / PaceGoal table.
-	 */
-	protected function displayPlot() {
-		$Table = new TablePaceGoal($this->Context);
+    /**
+     * Display right content / PaceGoal table.
+     */
+    protected function displayPlot()
+    {
+        $Table = new TablePaceGoal($this->Context);
 
-		echo $Table->getCode();
-	}
+        echo $Table->getCode();
+    }
 }

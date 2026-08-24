@@ -20,80 +20,85 @@ namespace Runalyze\View;
  */
 class Tooltip
 {
-	/**
-	 * @var string
-	 */
-	const POSITION_LEFT = 'atLeft';
+    /**
+     * @var string
+     */
+    public const POSITION_LEFT = 'atLeft';
 
-	/**
-	 * @var string
-	 */
-	const POSITION_RIGHT = 'atRight';
+    /**
+     * @var string
+     */
+    public const POSITION_RIGHT = 'atRight';
 
-	/**
-	 * @var string
-	 */
-	const ATTRIBUTE_REL = 'tooltip';
+    /**
+     * @var string
+     */
+    public const ATTRIBUTE_REL = 'tooltip';
 
-	/**
-	 * Attribute to be used for the content
-	 * @var string
-	 */
-	const ATTRIBUTE = 'title';
+    /**
+     * Attribute to be used for the content
+     * @var string
+     */
+    public const ATTRIBUTE = 'title';
 
-	/**
-	 * Text for tooltip
-	 * @var string
-	 */
-	protected $text;
+    /**
+     * Text for tooltip
+     * @var string
+     */
+    protected $text;
 
-	/**
-	 * Position
-	 * @var string
-	 */
-	protected $position = '';
+    /**
+     * Position
+     * @var string
+     */
+    protected $position = '';
 
-	/**
-	 * Construct new tooltip
-	 * @param string $text
-	 */
-	public function __construct($text) {
-		$this->text = $text;
-	}
+    /**
+     * Construct new tooltip
+     * @param string $text
+     */
+    public function __construct($text)
+    {
+        $this->text = $text;
+    }
 
-	/**
-	 * @param string $text
-	 */
-	public function setText($text) {
-		$this->text = $text;
-	}
+    /**
+     * @param string $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
 
-	/**
-	 * @param string $position
-	 */
-	public function setPosition($position) {
-		$this->position = $position;
-	}
+    /**
+     * @param string $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
 
-	/**
-	 * @param string $code
-	 */
-	public function wrapAround(&$code) {
-		$code = '<span ' . $this->attributes() . '>' . $code . '</span>';
-	}
+    /**
+     * @param string $code
+     */
+    public function wrapAround(&$code)
+    {
+        $code = '<span ' . $this->attributes() . '>' . $code . '</span>';
+    }
 
     /**
      * Get attributes
      */
-    public function attributes(): string {
-		$Attributes = [];
-		$Attributes[] = 'rel="' . self::ATTRIBUTE_REL . '"';
-		$Attributes[] = self::ATTRIBUTE . '="' . str_replace('&amp;', '&', htmlspecialchars($this->text)) . '"';
+    public function attributes(): string
+    {
+        $Attributes = [];
+        $Attributes[] = 'rel="' . self::ATTRIBUTE_REL . '"';
+        $Attributes[] = self::ATTRIBUTE . '="' . str_replace('&amp;', '&', htmlspecialchars($this->text)) . '"';
 
-		if (! empty($this->position)) {
-			$Attributes[] = 'class="' . $this->position . '"';
-		}
+        if (! empty($this->position)) {
+            $Attributes[] = 'class="' . $this->position . '"';
+        }
 
-		return implode(' ', $Attributes);
-	}
+        return implode(' ', $Attributes);
+    }
 }

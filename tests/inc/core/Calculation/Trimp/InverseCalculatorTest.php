@@ -10,37 +10,39 @@ use Runalyze\Profile\Athlete\Gender;
  */
 class InverseCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
-	 */
-	public function testReferenceExample() {
+    /**
+     * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
+     */
+    public function testReferenceExample()
+    {
 
-		// Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
-		// Since we're using HRmax, we have to adapt the data
-		$Trimp = new InverseCalculator(new Athlete(
-		    Gender::MALE,
-		    160,
-		    0
-		), 90, 32 );
+        // Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
+        // Since we're using HRmax, we have to adapt the data
+        $Trimp = new InverseCalculator(new Athlete(
+            Gender::MALE,
+            160,
+            0
+        ), 90, 32);
 
-		$this->assertEqualsWithDelta( 30 * 60, $Trimp->value(), 0.01 * 30 * 60 );
-	}
+        $this->assertEqualsWithDelta(30 * 60, $Trimp->value(), 0.01 * 30 * 60);
+    }
 
-	public function testViaTrimp() {
-		$Athlete = new Athlete(null, 205, 45);
+    public function testViaTrimp()
+    {
+        $Athlete = new Athlete(null, 205, 45);
 
-		for ($i = 0; $i < 10; ++$i) {
-			$hr = mt_rand(45, 205);
-			$t = mt_rand(60, 3600);
+        for ($i = 0; $i < 10; ++$i) {
+            $hr = mt_rand(45, 205);
+            $t = mt_rand(60, 3600);
 
-			$Trimp = new Calculator($Athlete, [
-			    $hr => $t,
-			]);
+            $Trimp = new Calculator($Athlete, [
+                $hr => $t,
+            ]);
 
-			if ($Trimp->value() > 0) {
-				$Inverse = new InverseCalculator($Athlete, $hr, $Trimp->value() );
-				$this->assertEqualsWithDelta( $t, $Inverse->value(), 0.01 * $t, sprintf('Inverse check failed for %us at %ubpm.', $t, $hr));
-			}
-		}
-	}
+            if ($Trimp->value() > 0) {
+                $Inverse = new InverseCalculator($Athlete, $hr, $Trimp->value());
+                $this->assertEqualsWithDelta($t, $Inverse->value(), 0.01 * $t, sprintf('Inverse check failed for %us at %ubpm.', $t, $hr));
+            }
+        }
+    }
 }

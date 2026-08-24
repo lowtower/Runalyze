@@ -9,33 +9,35 @@ namespace Runalyze\Parameter\Application;
  */
 class ActivityCreationModeTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * @var \Runalyze\Parameter\Application\ActivityCreationMode
-	 */
-	protected $object;
+    /**
+     * @var \Runalyze\Parameter\Application\ActivityCreationMode
+     */
+    protected $object;
 
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp(): void {
-		$this->object = new ActivityCreationMode();
-	}
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp(): void
+    {
+        $this->object = new ActivityCreationMode();
+    }
 
-	public function testModes() {
-		$this->object->set( ActivityCreationMode::UPLOAD );
-		$this->assertEquals(true, $this->object->usesUpload());
-		$this->assertEquals(false, $this->object->usesGarminCommunicator());
-		$this->assertEquals(false, $this->object->usesForm());
+    public function testModes()
+    {
+        $this->object->set(ActivityCreationMode::UPLOAD);
+        $this->assertEquals(true, $this->object->usesUpload());
+        $this->assertEquals(false, $this->object->usesGarminCommunicator());
+        $this->assertEquals(false, $this->object->usesForm());
 
-		$this->object->set( ActivityCreationMode::GARMIN );
-		$this->assertEquals(false, $this->object->usesUpload());
-		$this->assertEquals(true, $this->object->usesGarminCommunicator());
-		$this->assertEquals(false, $this->object->usesForm());
+        $this->object->set(ActivityCreationMode::GARMIN);
+        $this->assertEquals(false, $this->object->usesUpload());
+        $this->assertEquals(true, $this->object->usesGarminCommunicator());
+        $this->assertEquals(false, $this->object->usesForm());
 
-		$this->object->set( ActivityCreationMode::FORM );
-		$this->assertEquals(false, $this->object->usesUpload());
-		$this->assertEquals(false, $this->object->usesGarminCommunicator());
-		$this->assertEquals(true, $this->object->usesForm());
-	}
+        $this->object->set(ActivityCreationMode::FORM);
+        $this->assertEquals(false, $this->object->usesUpload());
+        $this->assertEquals(false, $this->object->usesGarminCommunicator());
+        $this->assertEquals(true, $this->object->usesForm());
+    }
 }

@@ -157,7 +157,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             ((int) $lap->DistanceMeters === 0 && (int) $lap->TotalTimeSeconds > 10) ||
             (
                 isset($lap->Track[0]) && count($lap->Track[0]->Trackpoint) > 5 &&
-                (double) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (double) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
+                (float) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (float) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
             )
         );
     }
@@ -206,7 +206,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             $tooSlow = false;
         }
 
-        if ((empty($trackPoint->DistanceMeters) && ! $this->IsWithoutDistance ) || $noMove || $tooSlow) {
+        if ((empty($trackPoint->DistanceMeters) && ! $this->IsWithoutDistance) || $noMove || $tooSlow) {
             $ignored = false;
 
             if ($trackPoint->children()->count() == 1 || $noMove || $tooSlow) {
@@ -259,8 +259,8 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $this->Container->ContinuousData->HeartRate[] = (! empty($trackPoint->HeartRateBpm)) ? round($trackPoint->HeartRateBpm->Value) : null;
 
         if (! empty($trackPoint->Position)) {
-            $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
-            $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
+            $this->Container->ContinuousData->Latitude[] = (float) $trackPoint->Position->LatitudeDegrees;
+            $this->Container->ContinuousData->Longitude[] = (float) $trackPoint->Position->LongitudeDegrees;
         } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);
             $this->Container->ContinuousData->Longitude[] = end($this->Container->ContinuousData->Longitude);
@@ -340,8 +340,8 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         return $currentDistance + GpsDistanceCalculator::gpsDistance(
             $currentLatitude,
             $currentLongitude,
-            (double) $trackPoint->Position->LatitudeDegrees,
-            (double) $trackPoint->Position->LongitudeDegrees
+            (float) $trackPoint->Position->LatitudeDegrees,
+            (float) $trackPoint->Position->LongitudeDegrees
         );
     }
 }

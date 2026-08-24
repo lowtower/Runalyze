@@ -23,8 +23,8 @@ class MaintenanceListener
         $maintenance = $this->container->hasParameter('maintenance') ? $this->container->getParameter('maintenance') : false;
 
         $debug = in_array($this->container->get('kernel')->getEnvironment(), ['test', 'dev']);
-	    $request = $event->getRequest();
-	    $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
+        $request = $event->getRequest();
+        $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
 
         if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
             $engine = $this->container->get('templating');

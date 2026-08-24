@@ -133,24 +133,24 @@ class EditController extends Controller
         ]);
     }
 
-   /**
-    * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id" = "\d+"})
-    * @Security("has_role('ROLE_USER')")
-    * @ParamConverter("activity", class="CoreBundle:Training")
-    */
-   public function deleteAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
-   {
-       $activityId = $activity->getId();
+    /**
+     * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id" = "\d+"})
+     * @Security("has_role('ROLE_USER')")
+     * @ParamConverter("activity", class="CoreBundle:Training")
+     */
+    public function deleteAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
+    {
+        $activityId = $activity->getId();
 
-       $this->checkThatEntityBelongsToActivity($activity, $account);
+        $this->checkThatEntityBelongsToActivity($activity, $account);
 
-       $this->getTrainingRepository()
-           ->remove($activity);
+        $this->getTrainingRepository()
+            ->remove($activity);
 
         return $this->render('activity/activity_has_been_removed.html.twig', [
             'multiEditorId' => (int) $activityId,
         ]);
-   }
+    }
 
     /**
      * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id" = "\d+"})
