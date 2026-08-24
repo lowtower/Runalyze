@@ -15,7 +15,6 @@ use Runalyze\Dataset as RunalyzeDataset;
 use Runalyze\Dataset\DefaultConfiguration;
 use Runalyze\Dataset\Keys;
 use Runalyze\Language;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -154,9 +153,8 @@ class SettingsController extends Controller
     }
 
     /**
-     * @Route("/settings/dataset", name="settings-dataset-update")
+     * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
      * @Security("has_role('ROLE_USER')")
-     * @Method("POST")
      */
     public function datasetPostAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -187,9 +185,8 @@ class SettingsController extends Controller
     }
 
     /**
-     * @Route("/settings/dataset", name="settings-dataset")
+     * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
-     * @Method("GET")
      */
     public function datasetAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
     {

@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,9 +41,8 @@ class ImportActivityController extends Controller
      * - call the existing command "runalyze:activity:bulk-import"
      * - cleanup: remove uploaded files and tmp-folder
      *
-     * @Route("/api/import/activity")
+     * @Route("/api/import/activity", methods={"POST"})
      * @Security("has_role('ROLE_USER')")
-     * @Method("POST")
      */
     public function postImportActivity(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {

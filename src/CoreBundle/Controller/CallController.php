@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,8 +37,7 @@ class CallController extends Controller
     }
 
     /**
-     * @Route("/call/savePng.php")
-     * @Method("POST")
+     * @Route("/call/savePng.php", methods={"POST"})
      * @Security("has_role('ROLE_USER')")
      */
     public function savePngAction(): \Symfony\Component\HttpFoundation\Response
@@ -70,9 +68,8 @@ class CallController extends Controller
     }
 
     /**
-     * @Route("/call/ajax.change.Config.php")
+     * @Route("/call/ajax.change.Config.php", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
-     * @Method({"GET"})
      */
     public function ajaxChanceConfigAction(): \Symfony\Component\HttpFoundation\Response
     {
