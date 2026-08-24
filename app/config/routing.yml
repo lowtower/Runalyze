@@ -1,0 +1,3 @@
+controllers:
+    resource: ../../src/Runalyze/Bundle/CoreBundle/Controller/
+    type: annotation
