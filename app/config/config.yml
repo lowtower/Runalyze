@@ -112,11 +112,12 @@ doctrine:
                 #round: DoctrineExtensions\Query\Sqlite\Round
 
 doctrine_migrations:
-    dir_name: "%kernel.root_dir%/DoctrineMigrations"
-    namespace: Runalyze\Migrations
-    table_name: '%database_prefix%migration_versions'
-    column_name: 'version'
-    name: RUNALYZE Migrations
+    migrations_paths:
+        'Runalyze\Migrations': '%kernel.root_dir%/DoctrineMigrations'
+    storage:
+        table_storage:
+            table_name: '%database_prefix%migration_versions'
+            version_column_name: 'version'
 
 monolog:
     channels: ['queue', 'console', 'external_services', 'activity_uploads']
