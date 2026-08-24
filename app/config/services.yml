@@ -270,12 +270,14 @@ services:
   app.privacy_guard:
     class: Runalyze\Bundle\CoreBundle\Services\PrivacyGuard
     arguments: ["@security.token_storage", "@app.configuration_manager"]
-  app.activity_context.factory:
-    class: Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory
+  Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory:
     arguments: ["@doctrine.orm.entity_manager"]
-  app.configuration_manager:
-    class: Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager
+  app.activity_context.factory:
+    alias: Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory
+  Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager:
     arguments: ["@app.repository.conf", "@security.token_storage"]
+  app.configuration_manager:
+    alias: Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager
   app.configuration_updater:
     class: Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater
     arguments: ["@app.repository.conf", "@app.configuration_manager"]
