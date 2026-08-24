@@ -2,42 +2,40 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Phpfastcache\CacheManager;
+use Phpfastcache\Config\ConfigurationOption;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class LegacyCache
 {
-    /**
-     * @var \phpFastCache
-     */
-    public static $cache;
+    private ExtendedCacheItemPoolInterface $cache;
 
-    /**
-     * @param string $path
-     */
-    public function __construct($path)
+    public function __construct(string $path)
     {
-        \phpFastCache::setup('storage', 'files');
-        \phpFastCache::setup('path', $path);
-        \phpFastCache::setup('securityKey', 'cache');
+        CacheManager::setDefaultConfig(
+            new ConfigurationOption([
+                'path' => $path,
+            ])
+        );
 
-        self::$cache = new \phpFastCache();
+        $this->cache = CacheManager::getInstance('files');
     }
 
     /**
-     * @param string $keyword
      * @param string|bool $accountId
-     * @return bool
      */
-    public function delete($keyword, $accountId = false)
+    public function delete(string $keyword, $accountId = false): bool
     {
         $accountId = $accountId === false ? '' : (string) $accountId;
+        $key = $keyword . $accountId;
 
-        if (self::$cache->isExisting($keyword . $accountId)) {
-            return self::$cache->delete($keyword . $accountId);
+        if (! $this->cache->hasItem($key)) {
+            return false;
         }
 
-        return false;
+        return $this->cache->deleteItem($key);
     }
 
     public function clearActivityCache(Training $activity)

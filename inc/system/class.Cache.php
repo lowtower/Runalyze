@@ -5,6 +5,11 @@
  * @author Michael Pohl
  * @package Runalyze\System
  */
+
+use Phpfastcache\CacheManager;
+use Phpfastcache\Config\ConfigurationOption;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
+
 class Cache
 {
     /**
@@ -30,72 +35,72 @@ class Cache
      */
     public $footer_sent = true;
 
-    /**
-     * @var \phpFastCache
-     */
-    public static $cache;
+    public static ExtendedCacheItemPoolInterface $cache;
 
-    /**
-     * Prohibit creating an object from outside
-     */
     public function __construct()
     {
-        phpFastCache::setup('storage', 'files');
-        phpFastCache::setup('path', FRONTEND_PATH . '../' . self::PATH);
-        phpFastCache::setup('securityKey', 'cache');
-        self::$cache = new phpFastCache();
+        CacheManager::setDefaultConfig(new ConfigurationOption([
+            'path' => FRONTEND_PATH . '../' . self::PATH,
+        ]));
+
+        self::$cache = CacheManager::getInstance('files');
     }
 
     /**
      * Get Cache
      */
-    public static function set($keyword, $data, $time, $nousercache = 0)
+    public static function set(string $keyword, $data, $time, int $nousercache = 0)
     {
-        if ($nousercache == 0) {
-            $key = $keyword . SessionAccountHandler::getId();
-            self::$cache->set($key, $data, $time);
-        } else {
-            self::$cache->set($keyword, $data, $time);
-        }
+        $key = ($nousercache === 0)
+            ? $keyword . SessionAccountHandler::getId()
+            : $keyword;
+
+        $item = self::$cache->getItem($key);
+        $item->set($data)
+            ->expiresAfter($time);
+        self::$cache->save($item);
     }
 
     /**
      * Set Cache
      */
-    public static function get($keyword, $nousercache = 0)
+    public static function get(string $keyword, int $nousercache = 0)
     {
-        if ($nousercache == 0 && ! in_array($keyword, self::$ignoreKeywords)) {
+        if ($nousercache === 0 && ! in_array($keyword, self::$ignoreKeywords)) {
+
             $key = $keyword . SessionAccountHandler::getId();
-            $cachedobj = self::$cache->getinfo($key);
-            $lastcacheclean = self::$LASTCLEAN;
-            if ($lastcacheclean === null) {
-                $lastcacheclean = self::$cache->get('LASTCLEAN' . SessionAccountHandler::getId());
-                $lastcacheclean = $lastcacheclean ?: 0;
-                self::$LASTCLEAN = $lastcacheclean;
+            $item = self::$cache->getItem($key);
+
+            if (! $item->isHit()) {
+                return null;
             }
 
-            if (isset($cachedobj['write_time']) && $cachedobj['write_time'] > $lastcacheclean) {
-                return $cachedobj['value'];
+            if (self::$LASTCLEAN === null) {
+                $lastItem = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());
+                self::$LASTCLEAN = $lastItem->isHit() ? $lastItem->get() : 0;
             }
 
-            return null;
+            return $item->get();
         }
 
-        return self::$cache->get($keyword);
+        $item = self::$cache->getItem($keyword);
+        return $item->isHit() ? $item->get() : null;
     }
 
     /**
      * Delete from cache
      */
-    public static function delete($keyword, $nousercache = 0)
+    public static function delete(string $keyword, int $nousercache = 0)
     {
-        if (! in_array($keyword, self::$ignoreKeywords)) {
-            if ($nousercache == 0) {
-                return self::$cache->delete($keyword . SessionAccountHandler::getId());
-            }
-
-            return self::$cache->delete($keyword);
+        if (in_array($keyword, self::$ignoreKeywords)) {
+            return null;
         }
+
+        $key = ($nousercache === 0)
+            ? $keyword . SessionAccountHandler::getId()
+            : $keyword;
+
+        return self::$cache->deleteItem($key);
     }
 
     /**
@@ -106,21 +111,23 @@ class Cache
         self::$LASTCLEAN = time();
 
         if (SessionAccountHandler::getId() === null) {
-            self::$cache->clean();
+            self::$cache->clear();
         } else {
-            self::$cache->set('LASTCLEAN' . SessionAccountHandler::getId(), self::$LASTCLEAN);
+            $item = self::$cache->getItem('LASTCLEAN' . SessionAccountHandler::getId());
+            $item->set(self::$LASTCLEAN);
+            self::$cache->save($item);
         }
     }
 
     /**
      * is existing?
      */
-    public static function is($keyword, $nousercache = 0)
+    public static function is(string $keyword, int $nousercache = 0)
     {
-        if ($nousercache == 0) {
-            return self::$cache->isExisting($keyword . SessionAccountHandler::getId());
-        }
+        $key = ($nousercache === 0)
+            ? $keyword . SessionAccountHandler::getId()
+            : $keyword;
 
-        return self::$cache->isExisting($keyword);
+        return self::$cache->hasItem($key);
     }
 }
