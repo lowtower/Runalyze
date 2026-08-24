@@ -6,10 +6,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExportController extends Controller
 {

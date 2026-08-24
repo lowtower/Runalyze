@@ -4,15 +4,15 @@ namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-// use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+// use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Uploads the files with this REST API and call the "runalyze:activity:bulk-import" to import the files.
@@ -46,7 +46,7 @@ class ImportActivityController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method("POST")
      */
-    public function postImportActivity(Request $request, Account $account)
+    public function postImportActivity(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $result = '';
 

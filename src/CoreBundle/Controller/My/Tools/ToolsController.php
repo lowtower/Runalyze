@@ -18,11 +18,11 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ToolsController extends Controller
 {

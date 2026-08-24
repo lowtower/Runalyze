@@ -15,12 +15,12 @@ use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Util\LocalTime;
 use Runalyze\Util\ServerParams;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CreateController extends Controller
 {

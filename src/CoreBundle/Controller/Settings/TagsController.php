@@ -7,10 +7,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\TagType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/settings/tags")

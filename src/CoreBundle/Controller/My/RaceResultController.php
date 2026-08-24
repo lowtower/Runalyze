@@ -9,10 +9,10 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/my/raceresult")

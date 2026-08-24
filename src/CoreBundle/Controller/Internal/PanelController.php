@@ -4,11 +4,11 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Util\LocalTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/_internal/panel")
