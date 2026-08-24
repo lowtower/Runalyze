@@ -117,6 +117,13 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     private $mainEquipmenttype;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Equipment", mappedBy="sport")
+     */
+    private $equipment;
+
+    /**
      * @var Type|null
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type")
@@ -181,6 +188,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
         $this->equipmentType = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->trainings = new ArrayCollection();
+        $this->equipment = new ArrayCollection();
     }
 
     public function setDataFrom(ProfileInterface $profile): self
@@ -429,6 +437,14 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     public function getMainEquipmenttype()
     {
         return $this->mainEquipmenttype;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEquipment()
+    {
+        return $this->equipment;
     }
 
     public function setDefaultType(?Type $defaultType = null): self
