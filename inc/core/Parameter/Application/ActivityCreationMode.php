@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::ActivityCreationMode
  * @package Runalyze\Parameter\Application
  */
+
 namespace Runalyze\Parameter\Application;
 
 /**

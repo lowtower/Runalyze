@@ -28,8 +28,8 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
     public function testNoModelInClosure()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new MaximumCalculator(function (): \StdClass {
-            return new \StdClass();
+        new MaximumCalculator(function (): \stdClass {
+            return new \stdClass();
         }, []);
     }
 

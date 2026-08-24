@@ -164,13 +164,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function shouldReturnAbsoluteDistances()
 	{
-		//given
+		// given
 		$distanceStr = '1,2.5,3';
 
-		//when
+		// when
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
-		//then
+		// then
 		$this->assertEquals($distanceArr, [1, 2.5, 3]);
 	}
 
@@ -179,13 +179,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function shouldTreatDistancesAsIntervalsWithPlus()
 	{
-		//given
+		// given
 		$distanceStr = '+1,2.5,3';
 
-		//when
+		// when
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
-		//then
+		// then
 		$this->assertEquals($distanceArr, [1, 3.5, 6.5]);
 	}
 
@@ -194,13 +194,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function shouldReturnEmptyWhenNotSorted()
 	{
-		//given
+		// given
 		$distanceStr = '1,3,2.5';
 
-		//when
+		// when
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
-		//then
+		// then
 		$this->assertEquals($distanceArr, []);
 	}
 

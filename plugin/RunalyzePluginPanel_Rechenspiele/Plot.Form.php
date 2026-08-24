@@ -23,7 +23,7 @@ $TRIMPs = [];
 $VO2MAXsday = [];
 $maxTrimp = 0;
 
-$All = 1 * ($timerange == 'all'); //0 or 1
+$All = 1 * ($timerange == 'all'); // 0 or 1
 $lastHalf = 1 * ($timerange == 'lasthalf');
 $lastYear = 1 * ($timerange == 'lastyear');
 $Year = $All || $lastHalf || $lastYear ? date('Y') : (int) $timerange;

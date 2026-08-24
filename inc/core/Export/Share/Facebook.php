@@ -55,7 +55,7 @@ class Facebook extends AbstractSocialSharer
         }
 
         return 'https://www.facebook.com/dialog/feed?app_id=' . self::$APP_ID . '&link=' . $url . '&picture=' . $image . '&name=' . $title . '&caption=' . $url . '&description=' . $text . '&redirect_uri=http://www.facebook.com';
-        //$FbUrl = 'https://facebook.com/sharer.php?s=100&amp;p[url]='.$url.'&amp;p[title]='.$title.'&amp;p[summary]='.$text.'&amp;p[images][0]='.$image;
+        // $FbUrl = 'https://facebook.com/sharer.php?s=100&amp;p[url]='.$url.'&amp;p[title]='.$title.'&amp;p[summary]='.$text.'&amp;p[images][0]='.$image;
     }
 
     public function name(): string

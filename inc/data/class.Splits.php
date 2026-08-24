@@ -199,10 +199,10 @@ class Splits
 	 */
 	private function cleanArray() {
 		foreach ($this->asArray as $key => $split) {
-			//if ($split['km'] <= 0)
-			//if ($split['km'] <= 0 || empty($split['time']))
+			// if ($split['km'] <= 0)
+			// if ($split['km'] <= 0 || empty($split['time']))
 			//	unset($this->asArray[$key]);
-			//else
+			// else
 			$this->asArray[$key]['km'] = $this->formatKM($split['km']);
 
 			if (substr($split['time'], -1) == 's') {

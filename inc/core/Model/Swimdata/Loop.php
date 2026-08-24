@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Loop
  * @package Runalyze\Model\Swimdata
  */
+
 namespace Runalyze\Model\Swimdata;
 
 /**

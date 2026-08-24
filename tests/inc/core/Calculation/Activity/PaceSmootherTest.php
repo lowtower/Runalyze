@@ -16,7 +16,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 ]), false);
 
 		$this->assertEquals([
-		    8, 4, 3, 15, //, 6 - the last one will be ignored for MODE_STEP
+		    8, 4, 3, 15, // , 6 - the last one will be ignored for MODE_STEP
 		], $Smoother->smooth(2, PaceSmoother::MODE_STEP));
 	}
 

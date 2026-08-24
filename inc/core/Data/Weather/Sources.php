@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Sources
  * @package Runalyze
  */
+
 namespace Runalyze\Data\Weather;
 
 use Runalyze\Common\Enum\AbstractEnum;

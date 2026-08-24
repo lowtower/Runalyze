@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::ElevationMethod
  * @package Runalyze\Parameter\Application
  */
+
 namespace Runalyze\Parameter\Application;
 
 /**
@@ -47,8 +48,8 @@ class ElevationMethod extends \Runalyze\Parameter\Select
     'options' => [
 		        self::NONE => __('no smoothing'),
 		        self::THRESHOLD => __('Threshold method'),
-		        self::DOUGLAS_PEUCKER => __('Douglas-Peucker-Algorithm'), //,
-		        //self::REUMANN_WITKAM	=> __('Reumann-Witkam-Algorithm')
+		        self::DOUGLAS_PEUCKER => __('Douglas-Peucker-Algorithm'), // ,
+		        // self::REUMANN_WITKAM	=> __('Reumann-Witkam-Algorithm')
 		    ],
 ]);
 	}

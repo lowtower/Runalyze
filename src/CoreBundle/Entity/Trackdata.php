@@ -940,7 +940,7 @@ class Trackdata implements AccountRelatedEntityInterface
             Model\Trackdata\Entity::RESPIRATION_RATE => $this->respirationRate,
 
             // Legacy model does still use the pauses object
-            //Model\Trackdata\Entity::PAUSES => $this->pauses
+            // Model\Trackdata\Entity::PAUSES => $this->pauses
         ]);
     }
 

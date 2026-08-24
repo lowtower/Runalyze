@@ -49,7 +49,7 @@ class WeekStart extends \Runalyze\Parameter\Select
     'options' => [
 		        self::MONDAY => __('Monday'),
 		        // Saturday is not supported by MySQL as first day of the week
-		        //self::SATURDAY		=>	__('Saturday'),
+		        // self::SATURDAY		=>	__('Saturday'),
 		        self::SUNDAY => __('Sunday'),
 		    ],
 ]);

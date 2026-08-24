@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Form
  * @package Runalyze\Configuration
  */
+
 namespace Runalyze\Configuration;
 
 /**

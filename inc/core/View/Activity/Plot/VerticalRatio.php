@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::VerticalRatio
  * @package Runalyze\View\Activity\Plot
  */
+
 namespace Runalyze\View\Activity\Plot;
 
 use Runalyze\View\Activity;

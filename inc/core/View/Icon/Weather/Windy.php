@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Windy
  * @package Runalyze\View\Icon\Weather
  */
+
 namespace Runalyze\View\Icon\Weather;
 
 /**

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::SharedLink
  * @package Runalyze
  */
+
 namespace Runalyze\Dataset\Keys;
 
 use Icon;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::WeatherIcon
  * @package Runalyze\View\Icon
  */
+
 namespace Runalyze\View\Icon;
 
 /**

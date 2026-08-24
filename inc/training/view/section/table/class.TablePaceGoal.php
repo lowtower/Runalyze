@@ -94,7 +94,7 @@ class TablePaceGoal
 
 			$this->Code .= '<tr class="r">';
 
-			//var_dump($split);
+			// var_dump($split);
 			$this->Code .= '<td>' . $count++ . '</td>';
 			$this->Code .= '<td><i>' . $this->formatDistance($split['pp_dist_m']) . '</i></td>'; // goal
 			$this->Code .= '<td>' . $this->formatDistance($split['dist_m']) . '</td>';

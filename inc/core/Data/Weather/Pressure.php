@@ -47,7 +47,6 @@ class Pressure implements ValueInterface
         return $this;
     }
 
-    #
     /**
      * Label for value
      */

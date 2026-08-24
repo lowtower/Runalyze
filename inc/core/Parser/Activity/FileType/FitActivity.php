@@ -975,7 +975,7 @@ class FitActivity extends AbstractSingleParser
 
         $this->Container->ContinuousData->Time[] = $time;
 
-        //Running Dynamics
+        // Running Dynamics
         $this->Container->ContinuousData->GroundContactTime[] = isset($this->Values['stance_time']) ? round($this->Values['stance_time'][0] / 10) : (
             isset($this->Values['stance_time_left']) && isset($this->Values['stance_time_right']) ? round(($this->Values['stance_time_left'][0] + $this->Values['stance_time_right'][0]) / 2 / 10) : null
         );

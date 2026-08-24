@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::MaximalHeartRateInBPM
  * @package Runalyze\View\Activity\Box
  */
+
 namespace Runalyze\View\Activity\Box;
 
 use Runalyze\Activity\HeartRate;

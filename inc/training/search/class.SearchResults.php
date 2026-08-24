@@ -664,8 +664,6 @@ class SearchResults
 		echo '</table>';
 	}
 
-	/*
-	 */
 	protected function displayHeader() {
 		if ($this->Page != 1) {
 			echo '<span id="search-back" class="link">' . Icon::$BACK . '</span>';

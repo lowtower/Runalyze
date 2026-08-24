@@ -5,7 +5,7 @@
  * @author Hannes Christiansen
  * @package Runalyze\PHPUnit
  */
-//ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../php/PEAR');
+// ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../php/PEAR');
 
 error_reporting(E_ALL);
 

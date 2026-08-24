@@ -102,7 +102,7 @@ abstract class Laps extends ActivityPlot
 			}
 
 			$this->Plot->addThreshold('y', round($demandedPace), 'rgb(180,0,0)');
-			//$this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
+			// $this->Plot->addAnnotation(count($Data)-1, round($demandedPace), 'Soll: '.$this->PaceUnit->format($this->demandedPace), -10, -7);
 		}
 
 		if ($this->achievedPace > 0) {

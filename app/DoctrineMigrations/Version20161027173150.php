@@ -24,14 +24,14 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        //Table: conf
+        // Table: conf
         $prefix = $this->container->getParameter('database_prefix');
         $this->addSql('DELETE FROM `' . $prefix . "conf` WHERE `accountid` = '-1'");
         $this->addSql('ALTER TABLE `' . $prefix . 'conf`
                   MODIFY `id` int(10) unsigned auto_increment NOT NULL,
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
-        //Table: plugin
+        // Table: plugin
         $this->addSql('DELETE FROM `' . $prefix . "plugin` WHERE `accountid` = '-1'");
         $this->addSql('UPDATE `' . $prefix . 'plugin` SET `order`= 0 WHERE `order` < 0');
 
@@ -40,7 +40,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `order` tinyint unsigned NOT NULL DEFAULT 0,
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
-        //Table: equipment_type
+        // Table: equipment_type
         $this->addSql('UPDATE `' . $prefix . "equipment_type` SET `max_km` = 0 WHERE `max_km` > '16777215'");
         $this->addSql('UPDATE `' . $prefix . "equipment_type` SET `max_time` = 0 WHERE `max_time` > '16777215'");
 
@@ -51,7 +51,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `' . $prefix . 'equipment_type` SET `max_km` = NULL WHERE `max_km`= 0');
         $this->addSql('UPDATE `' . $prefix . 'equipment_type` SET `max_time` = NULL WHERE `max_time`= 0');
 
-        //Table: type
+        // Table: type
         $this->addSql('DELETE FROM `' . $prefix . "type` WHERE `accountid` = '-1'");
         $this->addSql('DELETE FROM `' . $prefix . 'type` WHERE `sportid` = 0');
         $this->addSql('ALTER TABLE `' . $prefix . 'type`
@@ -59,7 +59,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `sportid` int(10) unsigned NOT NULL,
                   MODIFY `accountid` int(10) unsigned NOT NULL');
 
-        //Table: user
+        // Table: user
         $this->addSql('DELETE FROM `' . $prefix . "user` WHERE `accountid` = '-1'");
         $this->addSql('UPDATE `' . $prefix . 'user` SET `pulse_rest` = 0 WHERE `pulse_rest` > 255');
         $this->addSql('UPDATE `' . $prefix . 'user` SET `pulse_max` = 0 WHERE `pulse_max` > 255');
@@ -82,7 +82,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE `' . $prefix . "user` SET `muscles` = NULL WHERE `muscles`= '0.0'");
         $this->addSql('UPDATE `' . $prefix . 'user` SET `sleep_duration` = NULL WHERE `sleep_duration`= 0');
 
-        //Table account
+        // Table account
         $this->addSql('ALTER TABLE `' . $prefix . 'account`
                   MODIFY `registerdate` int(10) unsigned DEFAULT NULL,
                   MODIFY `lastaction` int(10) unsigned DEFAULT NULL,
@@ -100,7 +100,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
 
         $this->addSql('UPDATE `' . $prefix . 'sport` SET `HFavg` = 120 WHERE `HFavg` >= 255');
 
-        //Table sport
+        // Table sport
         $this->addSql('ALTER TABLE `' . $prefix . 'sport`
                   MODIFY `accountid` int(10) unsigned NOT NULL,
                   MODIFY `short` tinyint(1) unsigned  NOT NULL DEFAULT 0,
@@ -111,7 +111,7 @@ class Version20161027173150 extends AbstractMigration implements ContainerAwareI
                   MODIFY `outside` tinyint(1) unsigned NOT NULL DEFAULT 0
                   ');
 
-        //Table account
+        // Table account
         $this->addSql('ALTER TABLE `' . $prefix . 'training` 
                         MODIFY `elapsed_time` int(6) DEFAULT NULL,
                         MODIFY `elevation` int(5) DEFAULT NULL,

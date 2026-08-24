@@ -64,7 +64,7 @@ class ContinuousDataAdapter
     {
         if ($this->ContinuousData->Latitude !== []) {
             $size = count($this->ContinuousData->Latitude);
-            //search for the index with the first NOT NULL value
+            // search for the index with the first NOT NULL value
             $firstNotNull = 0;
             while($firstNotNull < $size && $this->ContinuousData->Latitude[$firstNotNull] === null) {
                 $firstNotNull++;

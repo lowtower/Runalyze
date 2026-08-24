@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::ParserException
  * @package Runalyze\Import\Exception
  */
+
 namespace Runalyze\Import\Exception;
 
 /**

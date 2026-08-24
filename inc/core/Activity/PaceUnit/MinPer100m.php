@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::MinPer100m
  * @package Runalyze\Activity\PaceUnit
  */
+
 namespace Runalyze\Activity\PaceUnit;
 
 /**

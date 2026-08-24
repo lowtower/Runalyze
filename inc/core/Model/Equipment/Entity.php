@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Entity
  * @package Runalyze\Model\Equipment
  */
+
 namespace Runalyze\Model\Equipment;
 
 use Runalyze\Model;

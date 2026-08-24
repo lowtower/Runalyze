@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::PaceCalculator
  * @package Runalyze\Calculation\Activity
  */
+
 namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Model\Trackdata;

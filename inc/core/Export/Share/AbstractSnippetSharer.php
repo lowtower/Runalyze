@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::AbstractSnippetSharer
  * @package Runalyze\Export\Share
  */
+
 namespace Runalyze\Export\Share;
 
 /**

@@ -29,13 +29,13 @@ return ECSConfig::configure()
 
     // add sets - group of rules, from easiest to more complex ones
     // uncomment one, apply one, commit, PR, merge and repeat
-    //->withSets([
+    // ->withSets([
     //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::SPACES,
     //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::NAMESPACES,
     //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::DOCBLOCKS,
     //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::ARRAYS,
     //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::COMMENTS,
-    //])
+    // ])
 
     // ...but first: take it step by step
 #    ->withSpacesLevel(22)               # max level 22
@@ -44,16 +44,16 @@ return ECSConfig::configure()
 #    ->withDocblockLevel(24)             # max level 24
 
     ->withSets([
-        #SetList::PSR_12,
+        # SetList::PSR_12,
         SetList::CLEAN_CODE,
         SetList::ARRAY,
-        #SetList::COMMON,
-        #SetList::COMMENTS,
+        SetList::COMMON,
+        # SetList::COMMENTS,
         SetList::CONTROL_STRUCTURES,
         SetList::DOCBLOCK,
-        #SetList::NAMESPACES,
+        # SetList::NAMESPACES,
         SetList::SPACES,
-        #SetList::DOCTRINE_ANNOTATIONS,
+        # SetList::DOCTRINE_ANNOTATIONS,
     ])
 
     ->withSkip([

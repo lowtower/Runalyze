@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::Map
  * @package Runalyze\View\Leaflet
  */
+
 namespace Runalyze\View\Leaflet;
 
 use Runalyze\Configuration;

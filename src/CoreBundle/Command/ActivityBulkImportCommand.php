@@ -114,7 +114,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             return 1;
         }
 
-        #TSC create equipment array for automatic mapping
+        # TSC create equipment array for automatic mapping
         $this->createEquiqmentArray($user, $output);
 
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());

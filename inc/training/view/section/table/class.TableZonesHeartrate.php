@@ -70,7 +70,7 @@ class TableZonesHeartrate extends TableZonesAbstract
 				    'time' => $Info['time'],
 				    'distance' => $Info['distance'],
 				    'average' => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
-				    'color' => $Info['color'], #TSC support for colors
+				    'color' => $Info['color'], # TSC support for colors
 ];
 			}
 		}

@@ -728,8 +728,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return ! $this->Pauses->isEmpty();
 	}
 
-	/*
-	 */
 	public function calculatePaceArray() {
 		if (! $this->has(self::PACE)) {
 			$PaceCalculator = new PaceCalculator($this);
@@ -739,8 +737,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		}
 	}
 
-	/*
-	 */
 	protected function calculateStrideLengthArray() {
 		if (! $this->has(self::STRIDE_LENGTH)) {
 			$StridesCalculator = new StrideLength\Calculator($this);
@@ -750,8 +746,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		}
 	}
 
-	/*
-	 */
 	protected function calculateVerticalRatioArray() {
 		if (! $this->has(self::VERTICAL_RATIO)) {
 			$RatioCalculator = new VerticalRatioCalculator($this);

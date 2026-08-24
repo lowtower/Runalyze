@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains class::AbstractUnit
  * @package Runalyze\Activity\PaceUnit
  */
+
 namespace Runalyze\Activity\PaceUnit;
 
 /**

@@ -386,12 +386,12 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$timeset['mon'] = [
 		    'name' => __('Month'),
 		    'start' => new DateTime(date('Y-m-01')),
-		    'end' => new Datetime(date('Y-m-t')),
+		    'end' => new DateTime(date('Y-m-t')),
 		];
 		$timeset['hj'] = [
 		    'name' => __('Half-Year'),
 		    'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
-		    'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
+		    'end' => new DateTime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
 		];
 		$timeset['saison'] = [
 		    'name' => __('Season'),
@@ -402,7 +402,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$timeset['jahr'] = [
 		    'name' => __('Year'),
 		    'start' => new DateTime(date('Y-01-01')),
-		    'end' => new Datetime(date('Y-12-31')),
+		    'end' => new DateTime(date('Y-12-31')),
 		];
 
 		return $timeset;

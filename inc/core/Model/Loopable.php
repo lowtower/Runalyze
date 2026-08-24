@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains interface::Loopable
  * @package Runalyze\Model
  */
+
 namespace Runalyze\Model;
 
 /**

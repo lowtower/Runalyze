@@ -68,6 +68,6 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->assertEquals('Rennrad', $this->Container[4]->Metadata->getSportName());
 
         // #TSC ignore this assert because null returns; import of sportstracker is not my focus
-        //$this->assertEqualsWithDelta(19.0, $this->Container[4]->WeatherData->Temperature, 0.5);
+        // $this->assertEqualsWithDelta(19.0, $this->Container[4]->WeatherData->Temperature, 0.5);
     }
 }

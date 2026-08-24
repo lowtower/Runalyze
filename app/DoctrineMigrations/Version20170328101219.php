@@ -33,12 +33,12 @@ class Version20170328101219 extends AbstractMigration implements ContainerAwareI
         $this->addSql('UPDATE IGNORE `' . $prefix . 'sport` SET internal_sport_id=' . SportProfile::ROWING . ' WHERE `name` IN ("Rower", "Rudern")');
         $this->addSql('UPDATE IGNORE `' . $prefix . 'sport` SET internal_sport_id=' . SportProfile::HIKING . ' WHERE `name` IN ("Hiking", "Wandern")');
 
-        //Running: Hardlopen, Laufen, Laufband, Course à pied, Corsa, córrer, Bieganie, Carrera a pie
-        //Gymnastik: Gimnasia, Gimnàstica, Gimnastyka, Ginnastica, Gymnastics, Gymnastiek, Gymnastik, Gymnastique
-        //SKIING - Ski, Skifahren, Skiing, Skitour
-        //CROSS_COUNTRY_SKIING - Skilanglauf,Langlaufen,Langlauf
+        // Running: Hardlopen, Laufen, Laufband, Course à pied, Corsa, córrer, Bieganie, Carrera a pie
+        // Gymnastik: Gimnasia, Gimnàstica, Gimnastyka, Ginnastica, Gymnastics, Gymnastiek, Gymnastik, Gymnastique
+        // SKIING - Ski, Skifahren, Skiing, Skitour
+        // CROSS_COUNTRY_SKIING - Skilanglauf,Langlaufen,Langlauf
         // Tennis
-        //? Walken, Walking, Trekking, Spazieren, Skaten,Klettern, Kajak, Inline, Gehen,Bergwandern, Bergsteigen
+        // ? Walken, Walking, Trekking, Spazieren, Skaten,Klettern, Kajak, Inline, Gehen,Bergwandern, Bergsteigen
     }
 
     public function down(Schema $schema): void

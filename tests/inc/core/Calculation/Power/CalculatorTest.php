@@ -43,7 +43,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Flat Road, 5 mph: Total Power = 6.5 + 1.7 = 8.2 watts
-	 **/
+	 */
 	public function testSlowExampleFromUltracycle() {
 		$Calculator = new Calculator(
 		    new Trackdata\Entity([

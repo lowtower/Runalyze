@@ -177,7 +177,7 @@ class ElevationInfo
 		    [ElevationMethod::NONE, false],
 		    [ElevationMethod::THRESHOLD, true],
 		    [ElevationMethod::DOUGLAS_PEUCKER, true],
-		    //array(ElevationMethod::REUMANN_WITKAM, false)
+		    // array(ElevationMethod::REUMANN_WITKAM, false)
 		];
 
 		$Code = '<table class="fullwidth zebra-style small">';
