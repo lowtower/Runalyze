@@ -20,14 +20,11 @@ use Runalyze\Calculation\Distribution\TrackdataAverages;
  */
 class Smo2 extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context, $sensorIndex = 0)
 	{
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata\Entity::SMO2_1;
-            $label = _('SmO2'). ' (2)';
+            $label = _('SmO2') . ' (2)';
         } else {
             $trackdataKey = Trackdata\Entity::SMO2_0;
             $label = _('SmO2');

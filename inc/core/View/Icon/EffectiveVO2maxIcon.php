@@ -6,28 +6,44 @@ use Runalyze\Configuration;
 
 class EffectiveVO2maxIcon extends \Runalyze\View\Icon
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const BASE_CLASS = 'vo2max-icon small';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_UP = 'fa-arrow-up';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_UP_HALF = 'fa-arrow-up  fa-rotate-45';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_RIGHT = 'fa-arrow-right';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_DOWN_HALF = 'fa-arrow-right  fa-rotate-45';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_DOWN = 'fa-arrow-down';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsTransparent = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Direction = '';
 
     /**
@@ -38,7 +54,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
     {
         parent::__construct(self::BASE_CLASS);
 
-        if (null !== $value) {
+        if ($value !== null) {
             $this->setDirectionBasedOn($value, $currentShape);
             $this->setTooltipFor($value);
         }
@@ -49,7 +65,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
      */
     protected function setTooltipFor($value)
     {
-        $this->setTooltip('VO<sub>2</sub>max: '.number_format($value, 2));
+        $this->setTooltip('VO<sub>2</sub>max: ' . number_format($value, 2));
     }
 
     /**
@@ -59,7 +75,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
     protected function setDirectionBasedOn($value, $currentShape)
     {
         // TODO
-        if (null === $currentShape) {
+        if ($currentShape === null) {
             $currentShape = Configuration::Data()->vo2max();
         }
 
@@ -110,7 +126,7 @@ class EffectiveVO2maxIcon extends \Runalyze\View\Icon
 
     public function code(): string
     {
-        $this->FontAwesomeName = self::BASE_CLASS.' '.$this->Direction;
+        $this->FontAwesomeName = self::BASE_CLASS . ' ' . $this->Direction;
 
         if ($this->IsTransparent) {
             $this->FontAwesomeName .= ' unimportant';

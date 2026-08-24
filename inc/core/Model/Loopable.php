@@ -14,7 +14,8 @@ namespace Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-interface Loopable {
+interface Loopable
+{
 	/**
 	 * Number of points
 	 * @return int

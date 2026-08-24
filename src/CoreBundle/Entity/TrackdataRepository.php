@@ -16,7 +16,7 @@ class TrackdataRepository extends EntityRepository
     {
         return $this->findOneBy([
             'activity' => $activityId,
-            'account' => $account
+            'account' => $account,
         ]);
     }
 

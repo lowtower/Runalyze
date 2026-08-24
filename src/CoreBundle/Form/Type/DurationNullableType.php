@@ -23,7 +23,7 @@ class DurationNullableType extends DurationType
     {
         $value = parent::reverseTransform($duration);
 
-        if (0 == $value) {
+        if ($value == 0) {
             return null;
         }
 

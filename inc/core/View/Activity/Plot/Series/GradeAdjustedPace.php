@@ -10,13 +10,19 @@ use Runalyze\View\Activity;
 
 class GradeAdjustedPace extends Pace
 {
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const COLOR = 'rgb(100,184,100)';
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $adjustAxis = false;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $KernelWidth = 20;
 
 	public function __construct(Activity\Context $context)
@@ -32,7 +38,7 @@ class GradeAdjustedPace extends Pace
 	{
 		parent::initOptions();
 
-		$this->Label = __('Grade adjusted pace').' (beta)';
+		$this->Label = __('Grade adjusted pace') . ' (beta)';
 		$this->Color = self::COLOR;
 	}
 

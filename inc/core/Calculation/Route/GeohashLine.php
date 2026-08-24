@@ -9,13 +9,13 @@ class GeohashLine
 {
     public static function extend(array $geolineHashes): array
     {
-        $geohashes = array();
+        $geohashes = [];
 
         foreach ($geolineHashes as $hash) {
             if (empty($hash)) {
                 $geohashes[] = end($geohashes) ?: '7zzzzzzzzzzz';
             } else {
-                $geohashes[] = substr(end($geohashes), 0, 12 - strlen($hash)).$hash;
+                $geohashes[] = substr(end($geohashes), 0, 12 - strlen($hash)) . $hash;
             }
         }
 
@@ -25,7 +25,7 @@ class GeohashLine
     public static function shorten(array $geolineHashes): array
     {
         $last = '';
-        $newgeoline = array();
+        $newgeoline = [];
 
         foreach ($geolineHashes as $hash) {
             if ($last == $hash) {

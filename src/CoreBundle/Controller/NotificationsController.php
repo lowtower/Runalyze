@@ -31,7 +31,7 @@ class NotificationsController extends Controller
             'notifications' => $this->getNotificationsRepository()
                 ->findAll($account),
             'router' => $this->get('router'),
-            'translator' => $this->get('translator.default')
+            'translator' => $this->get('translator.default'),
         ]);
     }
 }

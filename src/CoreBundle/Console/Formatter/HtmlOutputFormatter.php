@@ -6,7 +6,9 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class HtmlOutputFormatter extends OutputFormatter
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const CLI_COLORS_PATTERN = '/\033\[(([\d+];?)*)m(.*?)\033\[(([\d+];?)*)m/i';
 
     /**
@@ -34,9 +36,6 @@ class HtmlOutputFormatter extends OutputFormatter
         '8' => 'visibility:hidden',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function format($message)
     {
         $formatted = parent::format($message);

@@ -18,7 +18,6 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 class MinPer500y extends AbstractTimeUnit
 {
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): int
@@ -27,7 +26,6 @@ class MinPer500y extends AbstractTimeUnit
 	}
 
     /**
-     * Appendix
      * @codeCoverageIgnore
      */
     public function appendix(): string

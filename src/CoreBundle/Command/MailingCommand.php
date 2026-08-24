@@ -13,7 +13,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class MailingCommand extends ContainerAwareCommand
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $customMailDirectory = '/mail/custom/';
 
     protected function configure()
@@ -60,7 +62,7 @@ class MailingCommand extends ContainerAwareCommand
         foreach($accounts as $account) {
             /** Account $account */
             $mailer->sendMailTo($account, $input->getOption('subject'), $this->customMailDirectory . $input->getArgument('template'), [
-                'account' => $account
+                'account' => $account,
             ]);
         }
 
@@ -85,19 +87,19 @@ class MailingCommand extends ContainerAwareCommand
         $query->andWhere('a.allowMails = 1');
 
         if ($input->getOption('last-action-after')) {
-            $query->andWhere('a.lastaction > '.(int) $input->getOption('last-action-after'));
+            $query->andWhere('a.lastaction > ' . (int) $input->getOption('last-action-after'));
         }
 
         if ($input->getOption('last-action-before')) {
-             $query->andWhere('a.lastaction < '.(int) $input->getOption('last-action-before'));
+             $query->andWhere('a.lastaction < ' . (int) $input->getOption('last-action-before'));
         }
 
         if ($input->getOption('registration-after')) {
-             $query->andWhere('a.registerdate > '.(int) $input->getOption('registration-after'));
+             $query->andWhere('a.registerdate > ' . (int) $input->getOption('registration-after'));
         }
 
         if ($input->getOption('registration-before')) {
-             $query->andWhere('a.registerdate < '.(int) $input->getOption('registration-before'));
+             $query->andWhere('a.registerdate < ' . (int) $input->getOption('registration-before'));
         }
 
         $lang = $input->getOption('lang');
@@ -108,11 +110,11 @@ class MailingCommand extends ContainerAwareCommand
         }
 
         if (! empty($input->getOption('lang')) || ! empty($input->getOption('exclude-lang')) ) {
-            $query->andWhere('a.language '.($exclude ? 'NOT' : '')." IN ('".implode('", "', $lang)."')");
+            $query->andWhere('a.language ' . ($exclude ? 'NOT' : '') . " IN ('" . implode('", "', $lang) . "')");
         }
 
         if (! empty($input->getOption('account'))) {
-            $query->andWhere('a.id IN ('.implode(', ', $input->getOption('account')).')');
+            $query->andWhere('a.id IN (' . implode(', ', $input->getOption('account')) . ')');
         }
 
         return $query->getQuery()
@@ -152,7 +154,7 @@ class MailingCommand extends ContainerAwareCommand
     protected function validateTemplate($templateName)
     {
         $source = $this->getContainer()
-            ->getParameter('data_directory').'/views'.$this->customMailDirectory.$templateName;
+            ->getParameter('data_directory') . '/views' . $this->customMailDirectory . $templateName;
         if ((new Filesystem())->exists($source)) {
             return true;
         }
@@ -194,7 +196,6 @@ class MailingCommand extends ContainerAwareCommand
      */
     protected function validateLifetime($lifetime): bool
     {
-        return (null === $lifetime || ctype_digit($lifetime));
+        return ($lifetime === null || ctype_digit($lifetime));
     }
-
 }

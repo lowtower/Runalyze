@@ -51,7 +51,6 @@ class SportController extends Controller
             ->getRepository('CoreBundle:Training');
     }
 
-
     /**
      * @Route("", name="settings-sports")
      */
@@ -63,7 +62,7 @@ class SportController extends Controller
             'hasTrainings' => array_flip($this->getTrainingRepository()->getSportsWithTraining($account)),
             'freeInternalTypes' => $this->getSportRepository()
                 ->getFreeInternalTypes($account),
-            'calendarView' => new DataBrowserRowProfile()
+            'calendarView' => new DataBrowserRowProfile(),
         ]);
     }
 
@@ -79,8 +78,8 @@ class SportController extends Controller
 
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-add', [
-                'sportid' => $sportid
-            ])
+                'sportid' => $sportid,
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -91,13 +90,13 @@ class SportController extends Controller
             $this->get('app.automatic_reload_flag_setter')
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
             return $this->redirectToRoute('sport-edit', [
-                'id' => $sportid
+                'id' => $sportid,
             ]);
         }
 
         return $this->render('settings/sport/form-type.html.twig', [
             'form' => $form->createView(),
-            'sport_id' => $sportid
+            'sport_id' => $sportid,
         ]);
     }
 
@@ -113,8 +112,8 @@ class SportController extends Controller
 
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
             'action' => $this->generateUrl('sport-type-edit', [
-                'id' => $type->getId()
-            ])
+                'id' => $type->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -125,14 +124,14 @@ class SportController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-type-edit', [
-                'id' => $type->getId()
+                'id' => $type->getId(),
             ]);
         }
 
         return $this->render('settings/sport/form-type.html.twig', [
             'form' => $form->createView(),
             'sport_id' => $type->getSport()
-                ->getId()
+                ->getId(),
         ]);
     }
 
@@ -161,7 +160,7 @@ class SportController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
         } else {
-            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.').' '.$this->get('translator')->trans('You have activities associated with this type.'));
+            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.') . ' ' . $this->get('translator')->trans('You have activities associated with this type.'));
         }
 
         return $this->redirect($this->generateUrl('settings-sports'));
@@ -177,18 +176,18 @@ class SportController extends Controller
         $sport = new Sport();
         $sport->setAccount($account);
 
-        if (null !== $internalType && $this->getSportRepository()->isInternalTypeFree($internalType, $account)) {
+        if ($internalType !== null && $this->getSportRepository()->isInternalTypeFree($internalType, $account)) {
             $sport->setDataFrom(SportProfile::get($internalType));
             $this->getSportRepository()
                 ->save($sport);
 
             return $this->redirectToRoute('sport-edit', [
-                'id' => $sport->getId()
+                'id' => $sport->getId(),
             ]);
         }
 
         $form = $this->createForm(Form\Settings\SportType::class, $sport, [
-            'action' => $this->generateUrl('sport-add')
+            'action' => $this->generateUrl('sport-add'),
         ]);
         $form->handleRequest($request);
 
@@ -199,12 +198,12 @@ class SportController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
-                'id' => $sport->getId()
+                'id' => $sport->getId(),
             ]);
         }
 
         return $this->render('settings/sport/form-sport.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -220,8 +219,8 @@ class SportController extends Controller
 
         $form = $this->createForm(Form\Settings\SportType::class, $sport, [
             'action' => $this->generateUrl('sport-edit', [
-                'id' => $sport->getId()
-            ])
+                'id' => $sport->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -232,7 +231,7 @@ class SportController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
 
             return $this->redirectToRoute('sport-edit', [
-                'id' => $sport->getId()
+                'id' => $sport->getId(),
             ]);
         }
 
@@ -255,7 +254,7 @@ class SportController extends Controller
             $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
 
             return $this->redirect($this->generateUrl('sport-edit', [
-                'id' => $sport->getId()
+                'id' => $sport->getId(),
             ]));
         }
 
@@ -263,14 +262,14 @@ class SportController extends Controller
             throw $this->createNotFoundException();
         }
 
-        if (0 == $sport->getTrainings()->count()) {
+        if ($sport->getTrainings()->count() == 0) {
             $this->getSportRepository()
                 ->remove($sport);
             $this->get('app.automatic_reload_flag_setter')
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
             $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
         } else {
-            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.').' '.$this->get('translator')->trans('You have activities associated with this type.'));
+            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.') . ' ' . $this->get('translator')->trans('You have activities associated with this type.'));
         }
 
         return $this->redirect($this->generateUrl('settings-sports'));

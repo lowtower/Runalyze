@@ -11,10 +11,14 @@ use Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection;
 
 class RouteListener
 {
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var ElevationCorrection */
+    /**
+     * @var ElevationCorrection
+     */
     protected $ElevationCorrection;
 
     public function __construct(
@@ -29,7 +33,7 @@ class RouteListener
     public function prePersist(Route $route, LifecycleEventArgs $args)
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
-        if (null === $route->getElevationsCorrected() 
+        if ($route->getElevationsCorrected() === null 
             && ! $route->getAltitudeBarometric()
             && $this->userWantsElevationsToBeCorrected($route->getAccount())) {
             $route->getAdapter()
@@ -51,7 +55,7 @@ class RouteListener
         return (
             $args->hasChangedField('elevationsCorrected') || (
                 $args->hasChangedField('elevationsOriginal') &&
-                null === $args->getNewValue('elevationsCorrected')
+                $args->getNewValue('elevationsCorrected') === null
             )
         );
     }

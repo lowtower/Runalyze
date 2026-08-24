@@ -12,30 +12,31 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularFieldset extends HtmlTag {
-	public static $LAYOUT_FIELD_W100          = 'w100 block';
+class FormularFieldset extends HtmlTag
+{
+	public static $LAYOUT_FIELD_W100 = 'w100 block';
 
 	public static $LAYOUT_FIELD_W100_CHECKBOX = 'w100 checkbox-first';
 
-	public static $LAYOUT_FIELD_W100_IN_W50   = 'w100 with50erLabel';
+	public static $LAYOUT_FIELD_W100_IN_W50 = 'w100 with50erLabel';
 
-	public static $LAYOUT_FIELD_W100_IN_W33   = 'w100 with33erLabel';
+	public static $LAYOUT_FIELD_W100_IN_W33 = 'w100 with33erLabel';
 
-	public static $LAYOUT_FIELD_W50_IN_W33    = 'w50 with33erLabel';
+	public static $LAYOUT_FIELD_W50_IN_W33 = 'w50 with33erLabel';
 
-	public static $LAYOUT_FIELD_W50           = 'w50';
+	public static $LAYOUT_FIELD_W50 = 'w50';
 
-	public static $LAYOUT_FIELD_W50_AS_W100   = 'w50 marginr50';
+	public static $LAYOUT_FIELD_W50_AS_W100 = 'w50 marginr50';
 
-	public static $LAYOUT_FIELD_W33           = 'w33';
+	public static $LAYOUT_FIELD_W33 = 'w33';
 
-	public static $LAYOUT_FIELD_W25           = 'w25';
+	public static $LAYOUT_FIELD_W25 = 'w25';
 
-	public static $LAYOUT_FIELD_INLINE        = 'inline';
+	public static $LAYOUT_FIELD_INLINE = 'inline';
 
-	public static $LAYOUT_FIELD_SMALL         = 'small';
+	public static $LAYOUT_FIELD_SMALL = 'small';
 
-	public static $LAYOUT_FIELD_SMALL_INLINE  = 'inline small';
+	public static $LAYOUT_FIELD_SMALL_INLINE = 'inline small';
 
 	/**
 	 * Title for this fieldset, if empty, no header is shown
@@ -47,7 +48,7 @@ class FormularFieldset extends HtmlTag {
 	 * Array with all fields
 	 * @var array
 	 */
-	protected $fields = array();
+	protected $fields = [];
 
 	/**
 	 * Boolean flag: collapsed
@@ -59,7 +60,7 @@ class FormularFieldset extends HtmlTag {
 	 * Array with extra messages to display below the fields
 	 * @var array
 	 */
-	private $messages = array();
+	private $messages = [];
 
 	/**
 	 * Individual HTML code
@@ -67,7 +68,9 @@ class FormularFieldset extends HtmlTag {
 	 */
 	private $HtmlCode = '';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	private $HtmlCodeBeforeFields = '';
 
 	/**
@@ -138,7 +141,7 @@ class FormularFieldset extends HtmlTag {
 	 * @param null|FormularField $Field
 	 */
 	final public function addField($Field) {
-		if (null !== $Field)
+		if ($Field !== null)
 			$this->fields[] = $Field;
 	}
 
@@ -152,9 +155,6 @@ class FormularFieldset extends HtmlTag {
 		}
 	}
 
-	/**
-	 * Validate all fields
-	 */
 	final public function validateAllFields() {
 		foreach ($this->fields as &$Field)
 			$Field->validate();
@@ -170,7 +170,7 @@ class FormularFieldset extends HtmlTag {
 		if (empty($this->title))
 			$this->addCSSclass('without-legend');
 
-		echo '<fieldset '.$this->attributes().'>';
+		echo '<fieldset ' . $this->attributes() . '>';
 
 		$this->displayLegend();
 		$this->displayHtmlCodeBeforeFields();
@@ -186,7 +186,7 @@ class FormularFieldset extends HtmlTag {
 	 */
 	private function displayLegend() {
 		if (! empty($this->title))
-			echo '<legend onclick="'.$this->getLegendOnclick().'">'.$this->title.'</legend>';
+			echo '<legend onclick="' . $this->getLegendOnclick() . '">' . $this->title . '</legend>';
 	}
 
     /**
@@ -195,7 +195,7 @@ class FormularFieldset extends HtmlTag {
     private function getLegendOnclick(): string {
 		$onlyOne = $this->allowOnlyOneOpenedFieldset ? 'true' : 'false';
 
-		return "Runalyze.toggleFieldset(this, '".$this->Id."', ".$onlyOne.", '".$this->confValueToSaveStatus."')";
+		return "Runalyze.toggleFieldset(this, '" . $this->Id . "', " . $onlyOne . ", '" . $this->confValueToSaveStatus . "')";
 	}
 
 	/**
@@ -222,7 +222,7 @@ class FormularFieldset extends HtmlTag {
 	 */
 	private function displayHtmlCode() {
 		if (! empty($this->HtmlCode))
-			echo '<div>'.$this->HtmlCode.'</div>';
+			echo '<div>' . $this->HtmlCode . '</div>';
 	}
 
     /**
@@ -234,7 +234,7 @@ class FormularFieldset extends HtmlTag {
 
     private function displayHtmlCodeBeforeFields() {
         if (! empty($this->HtmlCodeBeforeFields))
-            echo '<div>'.$this->HtmlCodeBeforeFields.'</div>';
+            echo '<div>' . $this->HtmlCodeBeforeFields . '</div>';
     }
 
 	/**
@@ -245,23 +245,22 @@ class FormularFieldset extends HtmlTag {
 
 		foreach ($this->messages as $message) {
 			if ($message['type'] == 'block')
-				echo '<div>'.$message['message'].'</div>';
+				echo '<div>' . $message['message'] . '</div>';
 			else
-				echo '<p class="'.$message['type'].'">'.$message['message'].'</p>';
+				echo '<p class="' . $message['type'] . '">' . $message['message'] . '</p>';
 		}
 
 		echo '</div>';
 	}
 
     /**
-     * Add message
      * @param string $message
      */
     private function addMessage($message, string $type) {
-		$this->messages[] = array(
+		$this->messages[] = [
 		    'type' => $type,
-		    'message' => $message
-		);
+		    'message' => $message,
+		];
 	}
 
 	/**

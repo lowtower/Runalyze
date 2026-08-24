@@ -22,27 +22,27 @@ class RegistrationType extends AbstractType
             ->add('username', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('mail', EmailType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('plainPassword', PasswordType::class, [
                 'required' => true,
-                'label' => 'Password'
+                'label' => 'Password',
             ])
             ->add('termsAccepted', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false,
                 'constraints' => new IsTrue([
-                    'message' => 'You have to accept our terms of use'
+                    'message' => 'You have to accept our terms of use',
                 ]),
-                'label' => 'Accept our terms of use'
+                'label' => 'Accept our terms of use',
             ])
             ->add('textTimezone', HiddenType::class, [
                 'mapped' => false,
-                'required' => false
+                'required' => false,
             ])
         ;
     }
@@ -50,7 +50,7 @@ class RegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
         ]);
     }
 }

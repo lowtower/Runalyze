@@ -20,7 +20,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Activity
  */
-class PaceCalculator {
+class PaceCalculator
+{
 	/**
 	 * @var \Runalyze\Calculation\Activity\PaceSmoother
 	 */
@@ -29,7 +30,7 @@ class PaceCalculator {
 	/**
 	 * @var array
 	 */
-	protected $Pace = array();
+	protected $Pace = [];
 
     /**
      * Calculate pace array
@@ -45,7 +46,7 @@ class PaceCalculator {
 	 * @return array
 	 */
 	public function calculate() {
-		if (null !== $this->Smoother) {
+		if ($this->Smoother !== null) {
 			$this->Pace = $this->Smoother->smooth(0.001, PaceSmoother::MODE_DISTANCE);
 		}
 

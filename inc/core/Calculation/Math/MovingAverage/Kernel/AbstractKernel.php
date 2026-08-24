@@ -16,20 +16,27 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 abstract class AbstractKernel
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     private $TransformationFactor;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $Width;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $DefaultWidth = 2.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $NormalizationFactor = 1.0;
 
     /**
-     * AbstractKernel constructor
      * @param float $width
      * @throws \InvalidArgumentException
      */
@@ -78,7 +85,7 @@ abstract class AbstractKernel
     final public function valuesAt(array $differences, $normalized = false)
     {
         $values = array_map(
-            array($this, 'atTransformed'),
+            [$this, 'atTransformed'],
             array_map(function($v) {
                 return $this->TransformationFactor * $v;
             }, $differences)

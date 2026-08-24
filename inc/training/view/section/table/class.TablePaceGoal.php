@@ -18,7 +18,8 @@ use Runalyze\Parameter\Application\PaceUnit;
  * @author codeproducer
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TablePaceGoal {
+class TablePaceGoal
+{
 	public $distance;
 
     // Tolerance in % between stored running values and run-values from the plan; if the diff is higher than the tolerance, a warning is shown
@@ -40,7 +41,6 @@ class TablePaceGoal {
 	}
 
 	/**
-	 * Get code
 	 * @return string
 	 */
 	public function getCode() {
@@ -59,17 +59,17 @@ class TablePaceGoal {
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';
 		$this->Code .= '<th class="r">#</th>';
-		$this->Code .= '<th class="r"><i>'. __('Distance') .' '. __('Goal') .'</i></th>';
-		$this->Code .= '<th class="r">'. __('Distance') .'</th>';
-		$this->Code .= '<th class="r">'. __('Distance') .' &sum;</th>';
+		$this->Code .= '<th class="r"><i>' . __('Distance') . ' ' . __('Goal') . '</i></th>';
+		$this->Code .= '<th class="r">' . __('Distance') . '</th>';
+		$this->Code .= '<th class="r">' . __('Distance') . ' &sum;</th>';
 
-		$this->Code .= '<th class="r"><i>'. __('Time') .' '. __('Goal') .'</i></th>';
-		$this->Code .= '<th class="r">'. __('Time') . '</th>';
-		$this->Code .= '<th class="r">'. __('Time') . ' &Delta; ' . $this->GreenTooltip . '</th>';
+		$this->Code .= '<th class="r"><i>' . __('Time') . ' ' . __('Goal') . '</i></th>';
+		$this->Code .= '<th class="r">' . __('Time') . '</th>';
+		$this->Code .= '<th class="r">' . __('Time') . ' &Delta; ' . $this->GreenTooltip . '</th>';
 
-		$this->Code .= '<th class="r"><i>'. __('Pace') .' '. __('Goal') .'</i></th>';
-		$this->Code .= '<th class="r">'. __('Pace').'</th>';
-		$this->Code .= '<th class="r" style="padding-right: 20px;">'. __('Pace') . ' &Delta; ' . $this->GreenTooltip . '</th>';
+		$this->Code .= '<th class="r"><i>' . __('Pace') . ' ' . __('Goal') . '</i></th>';
+		$this->Code .= '<th class="r">' . __('Pace') . '</th>';
+		$this->Code .= '<th class="r" style="padding-right: 20px;">' . __('Pace') . ' &Delta; ' . $this->GreenTooltip . '</th>';
 
 		$this->Code .= '</tr></thead>';
 
@@ -95,22 +95,22 @@ class TablePaceGoal {
 			$this->Code .= '<tr class="r">';
 
 			//var_dump($split);
-			$this->Code .= '<td>'. $count++ .'</td>';
-			$this->Code .= '<td><i>'. $this->formatDistance($split['pp_dist_m']) .'</i></td>'; // goal
-			$this->Code .= '<td>'. $this->formatDistance($split['dist_m']) .'</td>';
-			$this->Code .= '<td>'. $this->formatDistance($sum_dist_m) .'</td>';
+			$this->Code .= '<td>' . $count++ . '</td>';
+			$this->Code .= '<td><i>' . $this->formatDistance($split['pp_dist_m']) . '</i></td>'; // goal
+			$this->Code .= '<td>' . $this->formatDistance($split['dist_m']) . '</td>';
+			$this->Code .= '<td>' . $this->formatDistance($sum_dist_m) . '</td>';
 
 			$durationGoal->fromSeconds($split['pp_t_s']);
-			$this->Code .= '<td><i>'. $durationGoal->string() .'</i></td>'; // goal
+			$this->Code .= '<td><i>' . $durationGoal->string() . '</i></td>'; // goal
 			$durationRun->fromSeconds($split['t_s']);
-			$this->Code .= '<td>'. $durationRun->string() .'</td>';
-			$this->Code .= '<td>'. $durationGoal->compareTo($durationRun) .'</td>';
+			$this->Code .= '<td>' . $durationRun->string() . '</td>';
+			$this->Code .= '<td>' . $durationGoal->compareTo($durationRun) . '</td>';
 
 			$this->setPace($paceGoal, $split['pp_dist_m'], $split['pp_t_s']);
-			$this->Code .= '<td><i>'. $paceGoal->valueWithAppendix() .'</i></td>'; // goal
+			$this->Code .= '<td><i>' . $paceGoal->valueWithAppendix() . '</i></td>'; // goal
 			$this->setPace($paceRun, $split['dist_m'], $split['t_s']);
-			$this->Code .= '<td>'. $paceRun->valueWithAppendix() .'</td>';
-			$this->Code .= '<td style="padding-right: 20px;">'. $paceRun->compareTo($paceGoal) .'</td>';
+			$this->Code .= '<td>' . $paceRun->valueWithAppendix() . '</td>';
+			$this->Code .= '<td style="padding-right: 20px;">' . $paceRun->compareTo($paceGoal) . '</td>';
 
 			$this->Code .= '</tr>';
 		}
@@ -121,21 +121,21 @@ class TablePaceGoal {
 		$this->Code .= '<tbody>';
 		$this->Code .= '<tr class="r" style="border-top: 1px solid #666;">';
 		$this->Code .= '<td></td>';
-		$this->Code .= '<td><i>'. $this->formatDistance($sum_pp_dist_m) .'</i></td>'; // goal
-		$this->Code .= '<td>'. $this->formatDistance($sum_dist_m) .'</td>';
-		$this->Code .= '<td>'. $this->formatDistance($sum_dist_m) .'</td>';
+		$this->Code .= '<td><i>' . $this->formatDistance($sum_pp_dist_m) . '</i></td>'; // goal
+		$this->Code .= '<td>' . $this->formatDistance($sum_dist_m) . '</td>';
+		$this->Code .= '<td>' . $this->formatDistance($sum_dist_m) . '</td>';
 
 		$durationGoal->fromSeconds($sum_pp_t_s);
-		$this->Code .= '<td><i>'. $durationGoal->string() .'</i></td>'; // goal
+		$this->Code .= '<td><i>' . $durationGoal->string() . '</i></td>'; // goal
 		$durationRun->fromSeconds($sum_t_s);
-		$this->Code .= '<td>'. $durationRun->string() .'</td>';
-		$this->Code .= '<td>'. $durationGoal->compareTo($durationRun) .'</td>';
+		$this->Code .= '<td>' . $durationRun->string() . '</td>';
+		$this->Code .= '<td>' . $durationGoal->compareTo($durationRun) . '</td>';
 
 		$this->setPace($paceGoal, $sum_pp_dist_m, $sum_pp_t_s);
-		$this->Code .= '<td><i>'. $paceGoal->valueWithAppendix() .'</i></td>'; // goal
+		$this->Code .= '<td><i>' . $paceGoal->valueWithAppendix() . '</i></td>'; // goal
 		$this->setPace($paceRun, $sum_dist_m, $sum_t_s);
-		$this->Code .= '<td>'. $paceRun->valueWithAppendix() .'</td>';
-		$this->Code .= '<td style="padding-right: 20px;">'. $paceRun->compareTo($paceGoal) .'</td>';
+		$this->Code .= '<td>' . $paceRun->valueWithAppendix() . '</td>';
+		$this->Code .= '<td style="padding-right: 20px;">' . $paceRun->compareTo($paceGoal) . '</td>';
 
 		$this->Code .= '</tr></tbody>';
 
@@ -145,8 +145,8 @@ class TablePaceGoal {
 		$diffTime = round(abs(100 / $sum_t_s * $activityTimeS - 100), 1);
 		$diffDist = round(abs(100 / $sum_dist_m * $activityDistanceM - 100), 1);
 		if ($diffTime >= $this->TolerancePercent || $diffDist >= $this->TolerancePercent) {
-			$this->Code .= HTML::warning('Your activity distance ('.$this->formatDistance($activityDistanceM).', '.$diffDist.'%) and/or '.
-				'duration ('.Duration::format($activityTimeS).', '.$diffTime.'%) differ more than '.$this->TolerancePercent.'% from your goal values. ' .
+			$this->Code .= HTML::warning('Your activity distance (' . $this->formatDistance($activityDistanceM) . ', ' . $diffDist . '%) and/or ' .
+				'duration (' . Duration::format($activityTimeS) . ', ' . $diffTime . '%) differ more than ' . $this->TolerancePercent . '% from your goal values. ' .
 				'Maybe you have changed your activity data after the import and the Pace-Goal values are out-dated.');
 		}
 

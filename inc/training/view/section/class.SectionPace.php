@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionPace extends TrainingViewSectionTabbedPlot {
-	/**
-	 * Set header and rows
-	 */
+class SectionPace extends TrainingViewSectionTabbedPlot
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Pace data');
 

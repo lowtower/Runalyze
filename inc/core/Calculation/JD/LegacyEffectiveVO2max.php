@@ -10,13 +10,19 @@ use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
  */
 class LegacyEffectiveVO2max
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     private static $Precision = 2;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $Value;
 
-    /** @var \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector */
+    /**
+     * @var \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector
+     */
     protected $Corrector;
 
     /**
@@ -96,7 +102,7 @@ class LegacyEffectiveVO2max
      */
     public function exactValue()
     {
-        if (null !== $this->Corrector) {
+        if ($this->Corrector !== null) {
             return $this->Corrector->factor() * $this->Value;
         }
 

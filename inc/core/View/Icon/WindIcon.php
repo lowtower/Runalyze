@@ -19,24 +19,31 @@ use Runalyze\Data\Weather\BeaufortScale;
  */
 class WindIcon extends \Runalyze\View\Icon
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const BASE_CLASS = 'windicon';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const DIRECTION_CLASS = 'windicon-direction';
 
-    /** @var \Runalyze\Data\Weather\WindSpeed */
+    /**
+     * @var \Runalyze\Data\Weather\WindSpeed
+     */
     protected $WindSpeed;
 
-    /** @var \Runalyze\Data\Weather\WindDegree */
+    /**
+     * @var \Runalyze\Data\Weather\WindDegree
+     */
     protected $WindDegree;
 
-    /** @var \Runalyze\Data\Weather\BeaufortScale */
+    /**
+     * @var \Runalyze\Data\Weather\BeaufortScale
+     */
     protected $BeaufortScale;
 
-    /**
-     * WindIcon constructor.
-     */
     public function __construct(WindSpeed $windSpeed, WindDegree $windDegree)
     {
         $this->WindSpeed = $windSpeed;
@@ -46,9 +53,6 @@ class WindIcon extends \Runalyze\View\Icon
         $this->setDefaultTooltip();
     }
 
-    /**
-     * Set default tooltip
-     */
     public function setDefaultTooltip()
     {
         $strings = [];
@@ -63,7 +67,7 @@ class WindIcon extends \Runalyze\View\Icon
         }
 
         if (! empty($strings)) {
-            $this->setTooltip(__('Wind').': '.implode(', ', $strings));
+            $this->setTooltip(__('Wind') . ': ' . implode(', ', $strings));
         }
     }
 
@@ -76,10 +80,10 @@ class WindIcon extends \Runalyze\View\Icon
             return '';
         }
 
-        $code = '<span class="'.self::BASE_CLASS.'"'.$this->tooltipAttributes().'>';
+        $code = '<span class="' . self::BASE_CLASS . '"' . $this->tooltipAttributes() . '>';
 
         if (! $this->WindDegree->isUnknown()) {
-            $code .= '<span class="'.self::DIRECTION_CLASS.'" style="transform:rotate('.$this->WindDegree->value().'deg);"></span> ';
+            $code .= '<span class="' . self::DIRECTION_CLASS . '" style="transform:rotate(' . $this->WindDegree->value() . 'deg);"></span> ';
         }
 
         $code .= $this->WindSpeed->isUnknown() ? '?' : $this->BeaufortScale->string(false);

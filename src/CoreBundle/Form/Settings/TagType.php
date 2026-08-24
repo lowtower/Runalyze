@@ -15,7 +15,7 @@ class TagType extends AbstractType
     {
         $builder
             ->add('tag', TextType::class, [
-                'required' => true
+                'required' => true,
             ])
         ;
     }
@@ -23,7 +23,7 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Tag::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Tag::class,
         ]);
     }
 }

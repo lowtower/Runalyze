@@ -11,17 +11,12 @@ $PLUGINKEY = 'RunalyzePluginPanel_Sportler';
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
-class RunalyzePluginPanel_Sportler extends PluginPanel {
-    /**
-     * Name
-     */
+class RunalyzePluginPanel_Sportler extends PluginPanel
+{
     final public function name(): string {
 		return __('Body values');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.');
 	}
@@ -35,16 +30,10 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 		$this->removePanelContentPadding = true;
 	}
 
-	/**
-	 * Display long description
-	 */
 	protected function displayLongDescription() {
 		echo HTML::p( __('Show body values: weight, resting heart rate and values like fat-, water- and muscles-percentage.') );
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
 		$Configuration = new PluginConfiguration($this->id());
 		$Configuration->addValue( new PluginConfigurationValueInt('wunschgewicht', __('Desired body weight'), '', 0) );
@@ -60,14 +49,13 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 	 */
 	protected function getRightSymbol(): string {
 		$Links = '';
-		$Links .= '<li>'.Ajax::window('<a href="my/body-values/add" '.Ajax::tooltip('', __('Add data'), true, true).'>'.Icon::$ADD.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="my/body-values/table" '.Ajax::tooltip('', __('Show table'), true, true).'>'.Icon::$TABLE.'</a>').'</li>';
+		$Links .= '<li>' . Ajax::window('<a href="my/body-values/add" ' . Ajax::tooltip('', __('Add data'), true, true) . '>' . Icon::$ADD . '</a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="my/body-values/table" ' . Ajax::tooltip('', __('Show table'), true, true) . '>' . Icon::$TABLE . '</a>') . '</li>';
 
-		return '<ul>'.$Links.'</ul>';
+		return '<ul>' . $Links . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent() {
@@ -79,7 +67,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 	 */
 	protected function displayContentInNewDesign() {
 		$Code = '';
-		$userData = DB::getInstance()->query('SELECT `weight`, `pulse_rest`, `pulse_max`, `fat`, `water`, `muscles` FROM `'.PREFIX.'user` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `time` DESC LIMIT 1')->fetch();
+		$userData = DB::getInstance()->query('SELECT `weight`, `pulse_rest`, `pulse_max`, `fat`, `water`, `muscles` FROM `' . PREFIX . 'user` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `time` DESC LIMIT 1')->fetch();
 
 		if (! is_array($userData)) {
 		    $userData = [
@@ -88,7 +76,7 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 		        'pulse_max' => 0,
 		        'fat' => 0.0,
 		        'water' => 0.0,
-		        'muscles' => 0.0
+		        'muscles' => 0.0,
     ];
         }
 
@@ -99,8 +87,8 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 			$Code .= $topBox->getCode();
 		}
 
-		$FirstValues = array();
-		$SecondValues = array();
+		$FirstValues = [];
+		$SecondValues = [];
 
         $Weight = new Weight($userData['weight']);
 		$FirstValues[] = new BoxedValue(Helper::Unknown($Weight->string(false), '-'), $Weight->unit(), __('Weight'));
@@ -135,7 +123,6 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
             $Code .= $Value->getCode();
         }
 
-
 		if (! empty($Code)) {
 			BoxedValue::wrapValues($Code);
 		}
@@ -143,9 +130,6 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
 		$this->displayPlots();
 	}
 
-	/**
-	 * Display plots
-	 */
 	protected function displayPlots() {
 		echo '<div class="panel-content">';
         echo '<div class="flot-menu flot-menu-inline">';
@@ -154,14 +138,13 @@ class RunalyzePluginPanel_Sportler extends PluginPanel {
         echo '</div>';
 
 		echo '<div id="sportler_flots" class="flot-changeable" style="position:relative;width:320px;height:150px;margin:0 auto;">
-				<div class="flot '.Ajax::$IMG_WAIT.(false ? ' flot-hide' : '').'" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
-				<div class="flot '.Ajax::$IMG_WAIT.(true ? ' flot-hide' : '').'" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
+				<div class="flot ' . Ajax::$IMG_WAIT . (false ? ' flot-hide' : '') . '" id="sportler_weights" style="width:320px;height:150px;position:absolute;"></div>
+				<div class="flot ' . Ajax::$IMG_WAIT . (true ? ' flot-hide' : '') . '" id="sportler_analyse" style="width:320px;height:150px;position:absolute;"></div>
 			</div>';
 
-		include FRONTEND_PATH.'../plugin/'.$this->key().'/Plot.gewicht.php';
-		include FRONTEND_PATH.'../plugin/'.$this->key().'/Plot.analyse.php';
+		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.gewicht.php';
+		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.analyse.php';
 
 		echo '</div>';
 	}
-
 }

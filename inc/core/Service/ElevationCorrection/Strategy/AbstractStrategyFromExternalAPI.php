@@ -16,10 +16,14 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
 {
     use LoggerAwareTrait;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $PointsPerCall = 20;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $HttpClient;
 
     public function __construct(Client $client, ?LoggerInterface $logger = null)
@@ -48,7 +52,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
     protected function collectGroupWiseAltitudes(array $latitudes, array $longitudes)
     {
         $numberOfPoints = count($latitudes);
-        $pointsToGroup  = $this->PointsToGroup * ceil($numberOfPoints / 1000);
+        $pointsToGroup = $this->PointsToGroup * ceil($numberOfPoints / 1000);
         $latitudesForRequest = [];
         $longitudesForRequest = [];
         $altitudes = [];
@@ -92,7 +96,7 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
             }
         } catch (RequestException $requestException) {
             $this->logger->warning('Elevation request failed.', [
-                'exception' => $requestException
+                'exception' => $requestException,
             ]);
 
             throw new NoResponseException($requestException->getMessage(), $requestException->getCode(), $requestException);

@@ -17,14 +17,14 @@ class Version20171104230413 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'trackdata` ADD `lock` tinyint(1) unsigned NOT NULL DEFAULT 0');
-        $this->addSql('UPDATE `'.$prefix.'trackdata` SET `lock` = 1 WHERE `distance` IS NOT NULL OR `cadence` IS NOT NULL OR `heartrate` IS NOT NULL');
-        $this->addSql('UPDATE `'.$prefix.'route` SET `lock` = 1 WHERE `elevations_corrected` IS NOT NULL');
+        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` ADD `lock` tinyint(1) unsigned NOT NULL DEFAULT 0');
+        $this->addSql('UPDATE `' . $prefix . 'trackdata` SET `lock` = 1 WHERE `distance` IS NOT NULL OR `cadence` IS NOT NULL OR `heartrate` IS NOT NULL');
+        $this->addSql('UPDATE `' . $prefix . 'route` SET `lock` = 1 WHERE `elevations_corrected` IS NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'trackdata` DROP `lock`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` DROP `lock`');
     }
 }

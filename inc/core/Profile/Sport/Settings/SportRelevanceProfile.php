@@ -9,10 +9,14 @@ use Runalyze\Util\InterfaceChoosable;
 
 class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const ALTERNATIVE_SPORT = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const MAIN_SPORT = 1;
 
     /**
@@ -26,15 +30,15 @@ class SportRelevanceProfile extends AbstractEnum implements InterfaceChoosable
             case self::MAIN_SPORT:
                 return __('Main Sport');
             default:
-                throw new \InvalidArgumentException('Invalid sport relevance id "'.$id.'".');
+                throw new \InvalidArgumentException('Invalid sport relevance id "' . $id . '".');
         }
     }
 
     public static function getChoices(): array
     {
-        return array(
+        return [
             self::stringFor(self::ALTERNATIVE_SPORT) => self::ALTERNATIVE_SPORT,
-            self::stringFor(self::MAIN_SPORT) => self::MAIN_SPORT
-        );
+            self::stringFor(self::MAIN_SPORT) => self::MAIN_SPORT,
+        ];
     }
 }

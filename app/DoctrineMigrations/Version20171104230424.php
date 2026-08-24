@@ -19,13 +19,19 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
 {
     use ContainerAwareTrait;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $LogFixes = false;
 
-    /** @var NegativeTimeStepFilter */
+    /**
+     * @var NegativeTimeStepFilter
+     */
     protected $NegativeTimeStepFilter;
 
-    /** @var NegativeDistanceStepFilter */
+    /**
+     * @var NegativeDistanceStepFilter
+     */
     protected $NegativeDistanceStepFilter;
 
     public function isTransactional(): bool
@@ -191,7 +197,7 @@ class Version20171104230424 extends AbstractMigration implements ContainerAwareI
         if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && $route->hasElevations()) {
             $elevationsCorrected = $route->getElevationsCorrected();
 
-            if (null !== $elevationsCorrected) {
+            if ($elevationsCorrected !== null) {
                 $numElevations = count($elevationsCorrected);
 
                 if ($numElevations > $expectedSize) {

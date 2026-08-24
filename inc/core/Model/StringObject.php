@@ -16,7 +16,8 @@ namespace Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-abstract class StringObject {
+abstract class StringObject
+{
 	/**
 	 * Construct
 	 * @param string $data string
@@ -26,7 +27,6 @@ abstract class StringObject {
 	}
 
 	/**
-	 * From string
 	 * @param string $string
 	 */
 	abstract public function fromString($string);

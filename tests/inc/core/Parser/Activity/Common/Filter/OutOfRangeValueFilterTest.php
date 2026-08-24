@@ -10,10 +10,14 @@ use Runalyze\Parser\Activity\Common\Filter\OutOfRangeValueFilter;
 
 class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var OutOfRangeValueFilter */
+    /**
+     * @var OutOfRangeValueFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

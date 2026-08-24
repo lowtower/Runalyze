@@ -52,8 +52,8 @@ class TagsController extends Controller
 
         $form = $this->createForm(TagType::class, $tag, [
             'action' => $this->generateUrl('settings-tags-edit', [
-                'id' => $tag->getId()
-            ])
+                'id' => $tag->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -65,7 +65,7 @@ class TagsController extends Controller
         }
 
         return $this->render('settings/tag/form.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

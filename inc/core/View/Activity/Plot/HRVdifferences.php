@@ -18,17 +18,11 @@ use Runalyze\View\Activity;
  */
 class HRVdifferences extends HRV
 {
-	/**
-	 * Set key
-	 */
 	protected function setKey()
     {
 		$this->key = 'hrv-sd';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context)
     {
 		$this->addSeries(

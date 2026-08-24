@@ -10,7 +10,9 @@ use Runalyze\Parser\Activity\Converter\TtbinConverter;
 
 class FileImporterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileImporter */
+    /**
+     * @var FileImporter
+     */
     protected $Importer;
 
     protected function setUp(): void
@@ -54,7 +56,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         $results = $this->Importer->importFiles([
             'none.fit',
             'foobar.zip',
-            'test.csv'
+            'test.csv',
         ]);
 
         $this->assertCount(3, $results);
@@ -71,8 +73,8 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
     public function testMergingHrmAndGpx()
     {
         $results = $this->Importer->importFiles([
-            TESTS_ROOT.'/testfiles/hrm/12010401.gpx',
-            TESTS_ROOT.'/testfiles/hrm/12010401.hrm'
+            TESTS_ROOT . '/testfiles/hrm/12010401.gpx',
+            TESTS_ROOT . '/testfiles/hrm/12010401.hrm',
         ]);
 
         $this->assertCount(1, $results);

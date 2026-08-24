@@ -12,7 +12,7 @@ class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
         $object = new MultipleTimeSeries();
         $object->generateDistributionsFor([
             'foo' => [10, 15, 10, 15, 10],
-            'bar' => [1, 2, 3, 2, 1]
+            'bar' => [1, 2, 3, 2, 1],
         ], [1, 2, 8, 9, 10]);
 
         $this->assertInstanceOf(EmpiricalDistribution::class, $object->getDistribution('foo'));
@@ -25,7 +25,7 @@ class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
     {
         $object = new MultipleTimeSeries();
         $object->generateDistributionsFor([
-            'foo' => [10, 20, 15]
+            'foo' => [10, 20, 15],
         ], [1, 2, 3]);
 
         $this->expectException(\InvalidArgumentException::class);

@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 /**
- * Hrv
- *
  * @ORM\Table(name="hrv")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\HrvRepository")
  */

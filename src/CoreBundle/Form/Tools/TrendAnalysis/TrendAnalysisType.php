@@ -18,16 +18,24 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class TrendAnalysisType extends AbstractType
 {
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TypeRepository */
+    /**
+     * @var TypeRepository
+     */
     protected $TypeRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function __construct(
@@ -66,20 +74,20 @@ class TrendAnalysisType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'pick-a-date small-size'
+                    'class' => 'pick-a-date small-size',
                 ],
                 'model_timezone' => 'UTC',
-                'view_timezone' => 'UTC'
+                'view_timezone' => 'UTC',
             ])
             ->add('dateTo', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'pick-a-date small-size'
+                    'class' => 'pick-a-date small-size',
                 ],
                 'model_timezone' => 'UTC',
-                'view_timezone' => 'UTC'
+                'view_timezone' => 'UTC',
             ])
             ->add('sport', ChoiceType::class, [
                 'multiple' => true,
@@ -91,14 +99,14 @@ class TrendAnalysisType extends AbstractType
                 'choice_translation_domain' => false,
                 'attr' => [
                     'data-placeholder' => __('Choose sport(s)'),
-                    'class' => 'chosen-select full-size'
+                    'class' => 'chosen-select full-size',
                 ],
                 'choice_attr' => function($sport, $key, $index): array {
                     /** @var Sport $sport */
                     return [
-                        'data-id' => $sport->getId()
+                        'data-id' => $sport->getId(),
                     ];
-                }
+                },
             ])
             ->add('type', ChoiceType::class, [
                 'required' => false,
@@ -111,15 +119,15 @@ class TrendAnalysisType extends AbstractType
                 'choice_translation_domain' => false,
                 'attr' => [
                     'data-placeholder' => __('Choose activity type(s)'),
-                    'class' => 'chosen-select full-size'
+                    'class' => 'chosen-select full-size',
                 ],
                 'choice_attr' => function($type, $key, $index): array {
                     /** @var Type $type */
                     return [
                         'data-sportid' => $type->getSport()
-                            ->getId()
+                            ->getId(),
                     ];
-                }
+                },
             ])
             ->add('valueToLookAt', ChoiceType::class, [
                 'choices' => [
@@ -134,14 +142,14 @@ class TrendAnalysisType extends AbstractType
                         'Effective VO2max' => $this->getQueryValueEnumForVO2max(),
                         'Climb Score' => QueryValues::CLIMB_SCORE,
                         'Percentage hilly' => QueryValues::PERCENTAGE_HILLY,
-                        'RPE' => QueryValues::RPE
+                        'RPE' => QueryValues::RPE,
                     ],
                     'Running dynamics' => [
                         'Ground contact time' => QueryValues::GROUND_CONTACT_TIME,
                         'Ground contact balance' => QueryValues::GROUND_CONTACT_BALANCE,
                         'Vertical oscillation' => QueryValues::VERTICAL_OSCILLATION,
                         'Flight time' => QueryValues::FLIGHT_TIME,
-                        'Flight ratio' => QueryValues::FLIGHT_RATIO
+                        'Flight ratio' => QueryValues::FLIGHT_RATIO,
                     ],
                     'RunScribe' => [
                         'Impact Gs (left)' => QueryValues::IMPACT_GS_LEFT,
@@ -159,14 +167,14 @@ class TrendAnalysisType extends AbstractType
                         'Performance condition (end)' => QueryValues::FIT_PERFORMANCE_CONDITION_END,
                         'Recovery time' => QueryValues::FIT_RECOVERY_TIME,
                         'Training effect' => QueryValues::FIT_TRAINING_EFFECT,
-                        'VO2max estimate' => QueryValues::FIT_VO2MAX_ESTIMATE
+                        'VO2max estimate' => QueryValues::FIT_VO2MAX_ESTIMATE,
                     ],
                     'Weather' => [
                         'Temperature' => QueryValues::WEATHER_TEMPERATURE,
                         'Humidity' => QueryValues::WEATHER_HUMIDITY,
-                        'Pressure' => QueryValues::WEATHER_PRESSURE
-                    ]
-                ]
+                        'Pressure' => QueryValues::WEATHER_PRESSURE,
+                    ],
+                ],
             ])
         ;
     }
@@ -174,7 +182,7 @@ class TrendAnalysisType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => TrendAnalysisData::class
+            'data_class' => TrendAnalysisData::class,
         ]);
     }
 

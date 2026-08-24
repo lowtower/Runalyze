@@ -5,12 +5,12 @@
  * @package Runalyze\System
  */
 /**
- * Request
  * @author Hannes Christiansen
  * @package Runalyze\System
  * @deprecated since v3.1
  */
-class Request {
+class Request
+{
 	/**
 	 * Get requested URI
 	 * @return string

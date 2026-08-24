@@ -21,25 +21,27 @@ use Runalyze\Profile\Sport\SportProfile;
 class Pace extends AbstractKey
 {
 	// #TSC minimum- and maximum-values in "km/h" to bound the pace bar
-	const P_MIN_MAX = array(
+	const P_MIN_MAX = [
     // km/h values means: pace between 12min/km - 3:20min/km
-	    SportProfile::RUNNING => array(
+	    SportProfile::RUNNING => [
 	        'min' => 5,
-	        'max' => 18
-	    ),
+	        'max' => 18,
+	    ],
 	    // km/h values means: pace between 3min/100m - 1:20min/100
-	    SportProfile::SWIMMING => array(
+	    SportProfile::SWIMMING => [
 	        'min' => 2,
-	        'max' => 4.5
-	    ),
+	        'max' => 4.5,
+	    ],
 	    // 10 - 32 km/h
-	    SportProfile::CYCLING => array(
+	    SportProfile::CYCLING => [
 	        'min' => 10,
-	        'max' => 32
-	    ),
-);
+	        'max' => 32,
+	    ],
+];
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const DURATION_SUM_WITH_DISTANCE_KEY = 's_sum_with_distance';
 
     /**
@@ -77,7 +79,7 @@ class Pace extends AbstractKey
     public function stringFor(Context $context): string
 	{
 		$pace = $this->getPace($context);
-		if (null === $pace) {
+		if ($pace === null) {
 			return '';
 		}
 
@@ -101,7 +103,6 @@ class Pace extends AbstractKey
 	}
 
     /**
-     * Get pace
      * @return \Runalyze\Activity\Pace
      */
     private function getPace(Context $context)
@@ -140,7 +141,7 @@ class Pace extends AbstractKey
 		}
 
 		$pace = $this->getPace($context);
-		if (null !== $pace) {
+		if ($pace !== null) {
 			$minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
 
 			$kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour
@@ -156,10 +157,10 @@ class Pace extends AbstractKey
 				$class = 'bar blue';
 			}
 
-			return array(
+			return [
     'class' => $class,
-			    'style' => '--perc: ' . $v . '%;'
-);
+			    'style' => '--perc: ' . $v . '%;',
+];
 		}
 
         return null;

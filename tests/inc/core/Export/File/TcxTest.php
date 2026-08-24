@@ -32,14 +32,14 @@ class TcxTest extends \PHPUnit\Framework\TestCase
     public function testMinimalExampleWithOnlyTime()
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
-            new Activity\Entity(array(
+            new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
                 Activity\Entity::TIMESTAMP_CREATED => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
-            )),
-            new Trackdata\Entity(array(
-                Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600)
-            ))
+                Activity\Entity::TIME_IN_SECONDS => 600,
+            ]),
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [100, 200, 300, 400, 500, 600],
+            ])
         ));
         $Exporter->createFileWithoutDirectDownload();
 
@@ -56,15 +56,15 @@ class TcxTest extends \PHPUnit\Framework\TestCase
     public function testMinimalExampleWithTimeAndHeartrate()
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
-            new Activity\Entity(array(
+            new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
                 Activity\Entity::TIMESTAMP_CREATED => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
-            )),
-            new Trackdata\Entity(array(
-                Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
-                Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160)
-            ))
+                Activity\Entity::TIME_IN_SECONDS => 600,
+            ]),
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [100, 200, 300, 400, 500, 600],
+                Trackdata\Entity::HEARTRATE => [120, 130, 140, 140, 150, 160],
+            ])
         ));
         $Exporter->createFileWithoutDirectDownload();
 
@@ -80,18 +80,18 @@ class TcxTest extends \PHPUnit\Framework\TestCase
     public function testMinimalExampleWithCompleteTrackdata()
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
-            new Activity\Entity(array(
+            new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
                 Activity\Entity::TIMESTAMP_CREATED => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
-            )),
-            new Trackdata\Entity(array(
-                Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
-                Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160),
-                Trackdata\Entity::DISTANCE => array(0.4, 0.8, 1.2, 1.6, 2.0, 2.4),
-                Trackdata\Entity::CADENCE => array(90, 90, 90, 90, 90, 90),
-                Trackdata\Entity::POWER => array(100, 150, 150, 200, 150, 100)
-            ))
+                Activity\Entity::TIME_IN_SECONDS => 600,
+            ]),
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [100, 200, 300, 400, 500, 600],
+                Trackdata\Entity::HEARTRATE => [120, 130, 140, 140, 150, 160],
+                Trackdata\Entity::DISTANCE => [0.4, 0.8, 1.2, 1.6, 2.0, 2.4],
+                Trackdata\Entity::CADENCE => [90, 90, 90, 90, 90, 90],
+                Trackdata\Entity::POWER => [100, 150, 150, 200, 150, 100],
+            ])
         ));
         $Exporter->createFileWithoutDirectDownload();
 
@@ -110,18 +110,18 @@ class TcxTest extends \PHPUnit\Framework\TestCase
     public function testMinimalExampleWithOnlyElevationForRoute()
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
-            new Activity\Entity(array(
+            new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
                 Activity\Entity::TIMESTAMP_CREATED => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
-            )),
-            new Trackdata\Entity(array(
-                Trackdata\Entity::TIME => array(100, 200, 300, 400, 500, 600),
-                Trackdata\Entity::HEARTRATE => array(120, 130, 140, 140, 150, 160)
-            )),
-            new Route\Entity(array(
-                Route\Entity::ELEVATIONS_ORIGINAL => array(230, 235, 232, 235, 225, 230)
-            ))
+                Activity\Entity::TIME_IN_SECONDS => 600,
+            ]),
+            new Trackdata\Entity([
+                Trackdata\Entity::TIME => [100, 200, 300, 400, 500, 600],
+                Trackdata\Entity::HEARTRATE => [120, 130, 140, 140, 150, 160],
+            ]),
+            new Route\Entity([
+                Route\Entity::ELEVATIONS_ORIGINAL => [230, 235, 232, 235, 225, 230],
+            ])
         ));
         $Exporter->createFileWithoutDirectDownload();
 

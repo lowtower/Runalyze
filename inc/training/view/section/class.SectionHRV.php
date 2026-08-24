@@ -11,12 +11,10 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionHRV extends TrainingViewSectionTabbedPlot {
-	/**
-	 * Set header and rows
-	 */
+class SectionHRV extends TrainingViewSectionTabbedPlot
+{
 	protected function setHeaderAndRows() {
-		$this->Header = __('Heart rate variability').' <a class="window" href="glossary/hrv"><i class="fa fa-question-circle-o"></i></a>';
+		$this->Header = __('Heart rate variability') . ' <a class="window" href="glossary/hrv"><i class="fa fa-question-circle-o"></i></a>';
 
 		$this->appendRowTabbedPlot( new SectionHRVRow($this->Context) );
 	}

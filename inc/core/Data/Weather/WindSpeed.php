@@ -35,7 +35,6 @@ class WindSpeed implements ValueInterface
     /**
      * Wind speed
      * @param float|null $kilometerPerHour [km/h]
-     * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
      */
     public function __construct($kilometerPerHour = null, ?DistanceUnitSystem $unitSystem = null)
     {
@@ -129,11 +128,10 @@ class WindSpeed implements ValueInterface
      */
     public function isUnknown(): bool
     {
-        return (null === $this->KilometerPerHour);
+        return ($this->KilometerPerHour === null);
     }
 
     /**
-     * Value
      * @return null|float [km/h]
      */
     public function value()
@@ -159,9 +157,6 @@ class WindSpeed implements ValueInterface
         return $this->KilometerPerHour * DistanceUnitSystem::MILE_MULTIPLIER;
     }
 
-    /**
-     * Unit
-     */
     public function unit(): string
     {
         if ($this->UnitSystem->isImperial()) {
@@ -172,7 +167,6 @@ class WindSpeed implements ValueInterface
     }
 
     /*
-     * String
      * @return string
      */
     public function string($withUnit = true, $decimals = 0): string
@@ -181,6 +175,6 @@ class WindSpeed implements ValueInterface
             return '';
         }
 
-        return number_format($this->valueInPreferredUnit(), $decimals).($withUnit ? '&nbsp;'.$this->unit() : '');
+        return number_format($this->valueInPreferredUnit(), $decimals) . ($withUnit ? '&nbsp;' . $this->unit() : '');
     }
 }

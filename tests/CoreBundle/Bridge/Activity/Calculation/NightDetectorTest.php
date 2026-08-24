@@ -11,10 +11,14 @@ use Runalyze\Util\LocalTime;
 
 class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var NightDetector */
+    /**
+     * @var NightDetector
+     */
     protected $Detector;
 
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     protected function setUp(): void
@@ -75,7 +79,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(
                 $data[2],
                 $this->Detector->isActivityAtNight($this->Activity),
-                'Tried to test '.$data[0].' at '.implode('/', $data[1])
+                'Tried to test ' . $data[0] . ' at ' . implode('/', $data[1])
             );
         }
     }

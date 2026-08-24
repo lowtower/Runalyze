@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class TcxTest extends AbstractActivityParserTestCase
 {
-    /** @var Tcx */
+    /**
+     * @var Tcx
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -45,7 +47,7 @@ class TcxTest extends AbstractActivityParserTestCase
             [19, 1, 73, 71],
             [3676, 92, 143, 110],
             [3720, 11, 125, 126],
-            [6176, 20, 140, 133]
+            [6176, 20, 140, 133],
         ]);
     }
 
@@ -149,7 +151,7 @@ class TcxTest extends AbstractActivityParserTestCase
 
         foreach ($this->Container->ContinuousData->Distance as $i => $km) {
             if ($i > 0) {
-                $this->assertTrue($km >= $this->Container->ContinuousData->Distance[$i-1], 'Distance is decreasing');
+                $this->assertTrue($km >= $this->Container->ContinuousData->Distance[$i - 1], 'Distance is decreasing');
             }
         }
     }

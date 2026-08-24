@@ -25,7 +25,8 @@ use Symfony\Component\Yaml\Yaml;
  * @author Hannes Christiansen
  * @package Runalyze\Frontend
  */
-class Frontend {
+class Frontend
+{
 	/**
 	 * Symfony token storage for user
 	 * @var null|\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage
@@ -36,13 +37,11 @@ class Frontend {
 	 * Yaml Configuration
 	 * @var array
 	 */
-	protected $yamlConfig = array();
+	protected $yamlConfig = [];
 
 	protected $HideFooter = false;
 
 	/**
-	 * Constructor
-	 *
 	 * Constructing a new Frontend includes all files and sets the correct header.
 	 * Runalyze is not usable without setting up the environment with this class.
 	 *
@@ -69,12 +68,9 @@ class Frontend {
     		$this->displayFooter();
 	}
 
-	/**
-	 * Init system
-	 */
 	private function initSystem() {
 		define('RUNALYZE', true);
-		define('FRONTEND_PATH', dirname(__FILE__).'/');
+		define('FRONTEND_PATH', dirname(__FILE__) . '/');
 
 		$this->setAutoloader();
 		$this->initCache();
@@ -89,7 +85,7 @@ class Frontend {
 	 * Set up Autloader
 	 */
 	private function setAutoloader() {
-		require_once FRONTEND_PATH.'../vendor/autoload.php';
+		require_once FRONTEND_PATH . '../vendor/autoload.php';
 	}
 
 	/**
@@ -97,10 +93,10 @@ class Frontend {
 	 */
 	private function initConfig() {
 		$this->yamlConfig = array_merge(
-		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/config.yml'))['parameters'],
-		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/expert_config.yml'))['parameters'],
-		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../app/config/default_config.yml'))['parameters'],
-		    Yaml::parse(file_get_contents(FRONTEND_PATH.'/../data/config.yml'))['parameters']
+		    Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/expert_config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/default_config.yml'))['parameters'],
+		    Yaml::parse(file_get_contents(FRONTEND_PATH . '/../data/config.yml'))['parameters']
 		);
 
         define('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
@@ -118,7 +114,7 @@ class Frontend {
 	    define('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
         define('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
         define('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
-        define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH.'/../app', $this->yamlConfig['data_directory']));
+        define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../app', $this->yamlConfig['data_directory']));
         define('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
         define('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
 	}
@@ -135,12 +131,12 @@ class Frontend {
 	 * Setup Language
 	 */
 	private function initCache() {
-		require_once FRONTEND_PATH.'/system/class.Cache.php';
+		require_once FRONTEND_PATH . '/system/class.Cache.php';
 
 		try {
 			new Cache();
 		} catch (Exception $exception) {
-			die('Cache directory "./'.Cache::PATH.'/cache/" must be writable.');
+			die('Cache directory "./' . Cache::PATH . '/cache/" must be writable.');
 		}
 	}
 
@@ -148,13 +144,13 @@ class Frontend {
 	 * Init constants
 	 */
 	private function defineConsts() {
-		require_once FRONTEND_PATH.'system/define.consts.php';
+		require_once FRONTEND_PATH . 'system/define.consts.php';
 
 		Configuration::loadAll();
 
 		\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector::setGlobalFactor( Configuration::Data()->vo2maxCorrectionFactor() );
 
-		require_once FRONTEND_PATH.'class.Helper.php';
+		require_once FRONTEND_PATH . 'class.Helper.php';
 	}
 
 	/**
@@ -166,26 +162,23 @@ class Frontend {
 		DB::connect($this->yamlConfig['database_host'], $this->yamlConfig['database_port'], $this->yamlConfig['database_user'], $this->yamlConfig['database_password'], $this->yamlConfig['database_name']);
 	}
 
-	/**
-	 * Init SessionAccountHandler
-	 */
 	protected function initSessionAccountHandler() {
 		new SessionAccountHandler();
 
-		if (null !== $this->symfonyToken && $this->symfonyToken->getToken()->getUser() != 'anon.') {
+		if ($this->symfonyToken !== null && $this->symfonyToken->getToken()->getUser() != 'anon.') {
 		    /** @var \Runalyze\Bundle\CoreBundle\Entity\Account $user */
 		    $user = $this->symfonyToken->getToken()
 		        ->getUser();
 
-		    SessionAccountHandler::setAccount(array(
+		    SessionAccountHandler::setAccount([
 		        'id' => $user->getId(),
 		        'username' => $user->getUsername(),
 		        'language' => $user->getLanguage(),
 		        'timezone' => $user->getTimezone(),
 		        'mail' => $user->getMail(),
 		        'gender' => $user->getGender(),
-		        'birthyear' => $user->getBirthyear()
-		    ));
+		        'birthyear' => $user->getBirthyear(),
+		    ]);
 		}
 	}
 

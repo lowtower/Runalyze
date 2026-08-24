@@ -13,25 +13,39 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
 {
     use FileContentAwareParserTrait;
 
-    /** @var string first column label of current block */
+    /**
+     * @var string first column label of current block
+     */
     protected $CurrentBlock = '';
 
-    /** @var array column labels for current block */
+    /**
+     * @var array column labels for current block
+     */
     protected $CurrentHeader = [];
 
-    /** @var array values in current row */
+    /**
+     * @var array values in current row
+     */
     protected $Row = [];
 
-    /** @var array [[dist, duration], ...] */
+    /**
+     * @var array [[dist, duration], ...]
+     */
     protected $TempSplits = [];
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseTime = 0;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseStart = 0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsPaused = false;
 
     public function parse()
@@ -88,11 +102,11 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
         $this->CurrentBlock = $columnLabels[0];
         $this->CurrentHeader = array_flip($columnLabels);
 
-        if ('interval' == $this->CurrentBlock) {
+        if ($this->CurrentBlock == 'interval') {
             if (! isset($this->CurrentHeader['runningtime'])) {
                 throw new UnsupportedFileException("'interval' rows must specify at least 'runningtime'.");
             }
-        } elseif ('time' == $this->CurrentBlock) {
+        } elseif ($this->CurrentBlock == 'time') {
             if (! isset($this->CurrentHeader['paused'])) {
                 throw new UnsupportedFileException("'time' rows must specify at least 'paused'.");
             }
@@ -102,12 +116,12 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function parseDeviceLine()
     {
         if (
-            'Year' == $this->Row[0] &&
-            'Month' == $this->Row[2] &&
-            'Day' == $this->Row[4] &&
-            'Hour' == $this->Row[6] &&
-            'Minute' == $this->Row[8] &&
-            'Second' == $this->Row[10]
+            $this->Row[0] == 'Year' &&
+            $this->Row[2] == 'Month' &&
+            $this->Row[4] == 'Day' &&
+            $this->Row[6] == 'Hour' &&
+            $this->Row[8] == 'Minute' &&
+            $this->Row[10] == 'Second'
         ) {
             $this->Container->Metadata->interpretTimestampAsServerTime(
                 mktime(
@@ -127,7 +141,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
         if (count($this->TempSplits) < (int) $this->Row[0]) {
             $this->TempSplits[] = [
                 $this->currentValue(['gpsdist', 'wheeldist', 'stridedist', 'manualdist']) / 1000,
-                (int) $this->Row[$this->CurrentHeader['runningtime']]
+                (int) $this->Row[$this->CurrentHeader['runningtime']],
             ];
         }
     }
@@ -142,13 +156,13 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function parseTrackLine()
     {
         if (! $this->IsPaused) {
-            if ('1' == $this->Row[$this->CurrentHeader['paused']]) {
+            if ($this->Row[$this->CurrentHeader['paused']] == '1') {
                 $this->startNewPause();
             } else {
                 $this->parseActiveTrackLine();
             }
         } else {
-            if ('0' == $this->Row[$this->CurrentHeader['paused']]) {
+            if ($this->Row[$this->CurrentHeader['paused']] == '0') {
                 $this->finishCurrentPause();
                 $this->parseActiveTrackLine();
             }
@@ -201,7 +215,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
     protected function currentValue(array $possibleColumns): float
     {
         foreach ($possibleColumns as $columnName) {
-            if (isset($this->CurrentHeader[$columnName]) && 0.0 !== (float) $this->Row[$this->CurrentHeader[$columnName]]) {
+            if (isset($this->CurrentHeader[$columnName]) && (float) $this->Row[$this->CurrentHeader[$columnName]] !== 0.0) {
                 return (float) $this->Row[$this->CurrentHeader[$columnName]];
             }
         }

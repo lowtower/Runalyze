@@ -7,13 +7,19 @@ namespace Runalyze;
  */
 class Configuration
 {
-    /** @var \Runalyze\Configuration\Category[] */
-    private static $Categories = array();
+    /**
+     * @var \Runalyze\Configuration\Category[]
+     */
+    private static $Categories = [];
 
-    /** @var array|null */
+    /**
+     * @var array|null
+     */
     private static $ValuesFromDB;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     private static $AccountID;
 
     /**
@@ -52,30 +58,30 @@ class Configuration
     public static function resetConfiguration($accountid = 'auto')
     {
         if ($accountid !== 'auto' && ! is_numeric($accountid)) {
-            throw new \InvalidArgumentException('Invalid accountid: '.$accountid);
+            throw new \InvalidArgumentException('Invalid accountid: ' . $accountid);
         }
 
         if ($accountid === 'auto') {
-            if (null === self::$AccountID) {
+            if (self::$AccountID === null) {
                 throw new \InvalidArgumentException('Configuration does not know any accountid.');
             }
 
             $accountid = self::$AccountID;
         }
 
-        \DB::getInstance()->exec('DELETE FROM `'.PREFIX.'conf` WHERE `accountid`="'.$accountid.'" AND `category` != "general" AND `category` != "data"');
+        \DB::getInstance()->exec('DELETE FROM `' . PREFIX . 'conf` WHERE `accountid`="' . $accountid . '" AND `category` != "general" AND `category` != "data"');
 
         self::initAllCategories();
     }
 
     private static function fetchAllValues()
     {
-        self::$Categories = array();
+        self::$Categories = [];
 
         if (self::$AccountID !== null) {
-            self::$ValuesFromDB = \DB::getInstance()->query('SELECT `key`,`value`,`category` FROM '.PREFIX.'conf WHERE `accountid`="'.self::$AccountID.'"')->fetchAll();
+            self::$ValuesFromDB = \DB::getInstance()->query('SELECT `key`,`value`,`category` FROM ' . PREFIX . 'conf WHERE `accountid`="' . self::$AccountID . '"')->fetchAll();
         } else {
-            self::$ValuesFromDB = array();
+            self::$ValuesFromDB = [];
         }
     }
 
@@ -96,7 +102,7 @@ class Configuration
     private static function get(string $categoryName)
     {
         if (! isset(self::$Categories[$categoryName])) {
-            $className = 'Runalyze\\Configuration\\Category\\'.$categoryName;
+            $className = 'Runalyze\\Configuration\\Category\\' . $categoryName;
             $Category = new $className();
             $Category->setUserID(self::$AccountID, self::$ValuesFromDB);
 
@@ -185,5 +191,4 @@ class Configuration
     {
         return self::get('BasicEndurance');
     }
-
 }

@@ -13,7 +13,8 @@ namespace Runalyze\Data\Cadence;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */
-class Unit {
+class Unit
+{
 	/**
 	 * @var int
 	 */
@@ -25,14 +26,13 @@ class Unit {
 	const RUNNING = 2;
 
     /**
-     * Complete list
      * @return array<int, int>
      */
     public static function completeList(): array {
-		return array(
+		return [
 		    self::GENERAL,
-		    self::RUNNING
-		);
+		    self::RUNNING,
+		];
 	}
 
 	/**

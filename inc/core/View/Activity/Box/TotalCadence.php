@@ -16,9 +16,6 @@ use Runalyze\Profile\Sport\SportProfile;
  */
 class TotalCadence extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		$TotalCadence = $Context->dataview()

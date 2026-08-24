@@ -54,13 +54,13 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
             [
                 'year' => 2006,
                 'month' => 7,
-                'value' => 42.0
+                'value' => 42.0,
             ],
             [
                 'year' => 2009,
                 'month' => 1,
-                'value' => 3.14
-            ]
+                'value' => 3.14,
+            ],
         ]);
 
         $this->assertFalse($data->isEmpty());

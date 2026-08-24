@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$CHMOD_FOLDERS = array(
+$CHMOD_FOLDERS = [
     'data/backup-tool/import/',
     'data/backup-tool/backup/',
     'data/cache',
@@ -10,5 +10,5 @@ $CHMOD_FOLDERS = array(
     'data/log/',
     'data/sessions/',
     'var/cache/',
-    'var/logs/'
-);
+    'var/logs/',
+];

@@ -13,19 +13,29 @@ class GeneratePoster
 {
     public $Python3Path;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Parameter = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $KernelRootDir;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Python3path;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Filename;
 
     /**
@@ -41,12 +51,12 @@ class GeneratePoster
 
     protected function pathToRepository(): string
     {
-        return $this->KernelRootDir.'/../vendor/runalyze/gpxtrackposter/';
+        return $this->KernelRootDir . '/../vendor/runalyze/gpxtrackposter/';
     }
 
     protected function pathToSvgDirectory(): string
     {
-        return $this->KernelRootDir.'/../var/poster/';
+        return $this->KernelRootDir . '/../var/poster/';
     }
 
     /**
@@ -55,7 +65,7 @@ class GeneratePoster
      */
     protected function generateRandomFileName($athlete, $year)
     {
-        $this->Filename = md5($athlete.$year.strtotime('now')).'.svg';
+        $this->Filename = md5($athlete . $year . strtotime('now')) . '.svg';
     }
 
     /**
@@ -63,7 +73,7 @@ class GeneratePoster
      */
     public function generate(): string
     {
-        $builder = new Process($this->Python3Path.' create_poster.py '.implode(' ', $this->Parameter));
+        $builder = new Process($this->Python3Path . ' create_poster.py ' . implode(' ', $this->Parameter));
         $builder->setWorkingDirectory($this->pathToRepository())
             ->run();
 
@@ -71,7 +81,7 @@ class GeneratePoster
             throw new ProcessFailedException($builder);
         }
 
-        return $this->pathToSvgDirectory().$this->Filename;
+        return $this->pathToSvgDirectory() . $this->Filename;
     }
 
     /**
@@ -84,21 +94,21 @@ class GeneratePoster
     {
         $this->generateRandomFileName($account->getUsername(), $year);
 
-        $this->Parameter[] = '--json-dir '.$jsonDir;
-        $this->Parameter[] = '--athlete '.$account->getUsername();
-        $this->Parameter[] = '--year '.(int) $year;
-        $this->Parameter[] = '--output '.$this->pathToSvgDirectory().$this->Filename;
-        $this->Parameter[] = '--type '.$type;
-        $this->Parameter[] = '--title '.escapeshellarg($title);
-        $this->Parameter[] = '--background-color  '.escapeshellarg($backgroundColor);
-        $this->Parameter[] = '--track-color '.escapeshellarg($trackColor);
-        $this->Parameter[] = '--text-color '.escapeshellarg($textColor);
-        $this->Parameter[] = '--special-color '.escapeshellarg($raceColor);
+        $this->Parameter[] = '--json-dir ' . $jsonDir;
+        $this->Parameter[] = '--athlete ' . $account->getUsername();
+        $this->Parameter[] = '--year ' . (int) $year;
+        $this->Parameter[] = '--output ' . $this->pathToSvgDirectory() . $this->Filename;
+        $this->Parameter[] = '--type ' . $type;
+        $this->Parameter[] = '--title ' . escapeshellarg($title);
+        $this->Parameter[] = '--background-color  ' . escapeshellarg($backgroundColor);
+        $this->Parameter[] = '--track-color ' . escapeshellarg($trackColor);
+        $this->Parameter[] = '--text-color ' . escapeshellarg($textColor);
+        $this->Parameter[] = '--special-color ' . escapeshellarg($raceColor);
 
         $this->addStatsParameter($account, $sport, $year);
 
-        if ((new Filesystem())->exists($jsonDir.'/special.params')) {
-            $this->Parameter[] = file_get_contents($jsonDir.'/special.params');
+        if ((new Filesystem())->exists($jsonDir . '/special.params')) {
+            $this->Parameter[] = file_get_contents($jsonDir . '/special.params');
         }
     }
 
@@ -111,10 +121,10 @@ class GeneratePoster
             ->getArrayResult();
         $data = $stats[0];
 
-        $this->Parameter[] = '--stat-num '.(int) $data['num'];
-        $this->Parameter[] = '--stat-total '.(float) $data['total_distance'];
-        $this->Parameter[] = '--stat-min '.(float) $data['min_distance'];
-        $this->Parameter[] = '--stat-max '.(float) $data['max_distance'];
+        $this->Parameter[] = '--stat-num ' . (int) $data['num'];
+        $this->Parameter[] = '--stat-total ' . (float) $data['total_distance'];
+        $this->Parameter[] = '--stat-min ' . (float) $data['min_distance'];
+        $this->Parameter[] = '--stat-max ' . (float) $data['max_distance'];
     }
 
     /**
@@ -128,6 +138,6 @@ class GeneratePoster
     public function deleteSvg()
     {
         $filesystem = new Filesystem();
-        $filesystem->remove($this->pathToSvgDirectory().$this->Filename);
+        $filesystem->remove($this->pathToSvgDirectory() . $this->Filename);
     }
 }

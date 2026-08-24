@@ -16,22 +16,20 @@ use Runalyze\View\Leaflet;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
-    /**
-     * Add map
-     */
+class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot
+{
     protected function addMap() {
         if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
-            $Map = new Leaflet\Map('map-'.$this->Context->activity()->id());
+            $Map = new Leaflet\Map('map-' . $this->Context->activity()->id());
             $Map->addRoute(
                 new Leaflet\Activity(
-                    'route-'.$this->Context->activity()->id(),
+                    'route-' . $this->Context->activity()->id(),
                     $this->Context->route(),
                     $this->Context->trackdata()
                 )
             );
 
-            $this->TopContent = '<div id="training-map"">'.$Map->code().'</div>';
+            $this->TopContent = '<div id="training-map"">' . $Map->code() . '</div>';
             $this->big = true;
         }
     }
@@ -61,7 +59,6 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	}
 
 	/**
-	 * Get plot
 	 * @return \Runalyze\View\Activity\Plot\ActivityPlot
 	 */
 	protected function getPlot() {
@@ -72,9 +69,6 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 		return new Activity\Plot\PaceAndHeartrate($this->Context);
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$showElevation = Configuration::ActivityView()->plotMode()->showCollection();
 
@@ -155,7 +149,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	protected function addVO2maxInfoLink() {
 		if (! Request::isOnSharedPage() && $this->Context->dataview()->vo2max()->value() > 0) {
 			$Linker = new Activity\Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="'.$Linker->urlToVO2maxinfo().'">'.__('More about VO<sub>2</sub>max calculation').'</a>', 'small');
+			$InfoLink = Ajax::window('<a href="' . $Linker->urlToVO2maxinfo() . '">' . __('More about VO<sub>2</sub>max calculation') . '</a>', 'small');
 
 			$this->Footer .= HTML::info( $InfoLink );
 		}
@@ -166,10 +160,10 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addAverageHeartrate() {
 		if ($this->Context->activity()->hrAvg() > 0) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.').' '.__('Heart rate'));
+			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.') . ' ' . __('Heart rate'));
 
 			if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
-				$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.').' '.__('Heart rate'));
+				$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.') . ' ' . __('Heart rate'));
 			}
 		}
 
@@ -177,7 +171,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 		$hr = $this->Context->activity()
 		    ->hrAvgActive();
 		if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; '.__('Heart rate').' active');
+			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; ' . __('Heart rate') . ' active');
 		}
 	}
 
@@ -246,7 +240,7 @@ class SectionCompositeRow extends TrainingViewSectionRowTabbedPlot {
 	protected function addElevationInfoLink() {
 		if (! Request::isOnSharedPage()) {
 			$Linker = new Activity\Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="'.$Linker->urlToElevationInfo().'">'.__('More about elevation').'</a>', 'normal');
+			$InfoLink = Ajax::window('<a href="' . $Linker->urlToElevationInfo() . '">' . __('More about elevation') . '</a>', 'normal');
 			$this->Footer .= HTML::info( $InfoLink );
 		}
 

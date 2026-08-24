@@ -27,13 +27,19 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const URL = 'https://api.darksky.net/forecast/';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $ApiKey;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $HttpClient;
 
     /**
@@ -119,7 +125,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
         if ($location->hasPosition()) {
             $url = sprintf(
                 '%s/%s,%s,%s',
-                self::URL.$this->ApiKey,
+                self::URL . $this->ApiKey,
                 (string) $location->getLatitude(),
                 (string) $location->getLongitude(),
                 $location->hasDateTime() ? (string) $location->getTimestamp() : time()
@@ -134,7 +140,7 @@ class DarkSky implements StrategyInterface, LoggerAwareInterface
                 }
             } catch (RequestException $e) {
                 $this->logger->warning('DarkSky API request failed.', [
-                    'exception' => $e
+                    'exception' => $e,
                 ]);
             }
         }

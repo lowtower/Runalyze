@@ -9,10 +9,14 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 class AutomaticReloadFlagSetterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FlashBag */
+    /**
+     * @var FlashBag
+     */
     protected $FlashBag;
 
-    /** @var AutomaticReloadFlagSetter */
+    /**
+     * @var AutomaticReloadFlagSetter
+     */
     protected $FlagSetter;
 
     protected function setUp(): void

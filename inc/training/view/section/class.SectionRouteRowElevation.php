@@ -16,17 +16,12 @@ use Runalyze\View\Activity\Box;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionRouteRowElevation extends TrainingViewSectionRow {
-	/**
-	 * Set plot
-	 */
+class SectionRouteRowElevation extends TrainingViewSectionRow
+{
 	protected function setPlot() {
 		$this->Plot = new Activity\Plot\Elevation($this->Context);
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->addElevation();
         $this->addClimbScore();
@@ -68,7 +63,7 @@ class SectionRouteRowElevation extends TrainingViewSectionRow {
 	}
 
     protected function addClimbScore() {
-        if (null !== $this->Context->activity()->climbScore()) {
+        if ($this->Context->activity()->climbScore() !== null) {
             $this->BoxedValues[] = new BoxedValue(
                 number_format($this->Context->activity()->climbScore(), 1),
                 '',
@@ -95,20 +90,17 @@ class SectionRouteRowElevation extends TrainingViewSectionRow {
 		}
 	}
 
-	/**
-	 * Add info link
-	 */
 	protected function addInfoLink() {
         $this->Footer = '';
 
         $Linker = new Linker($this->Context->activity());
 
-        if (null !== $this->Context->activity()->climbScore()) {
-            $this->Footer .= HTML::info(Ajax::window('<a href="'.$Linker->urlToClimbScore().'">'.__('Climb Score view').'</a>', 'normal'));
+        if ($this->Context->activity()->climbScore() !== null) {
+            $this->Footer .= HTML::info(Ajax::window('<a href="' . $Linker->urlToClimbScore() . '">' . __('Climb Score view') . '</a>', 'normal'));
         }
 
 		if (! Request::isOnSharedPage()) {
-            $this->Footer .= HTML::info(Ajax::window('<a href="'.$Linker->urlToElevationInfo().'">'.__('More about elevation').'</a>', 'normal'));
+            $this->Footer .= HTML::info(Ajax::window('<a href="' . $Linker->urlToElevationInfo() . '">' . __('More about elevation') . '</a>', 'normal'));
 		}
 
 		if ($this->Context->route()->hasCorrectedElevations()) {

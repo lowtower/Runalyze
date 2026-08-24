@@ -20,7 +20,8 @@ use Runalyze\Util\LocalTime;
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Parameter\Application
  */
-class WeekStart extends \Runalyze\Parameter\Select {
+class WeekStart extends \Runalyze\Parameter\Select
+{
 	/**
 	 * Monday
 	 * @var int
@@ -44,14 +45,14 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 * @param int|string $default
 	 */
 	public function __construct($default = self::MONDAY) {
-		parent::__construct($default, array(
-    'options'		=> array(
-		        self::MONDAY		=>	__('Monday'),
+		parent::__construct($default, [
+    'options' => [
+		        self::MONDAY => __('Monday'),
 		        // Saturday is not supported by MySQL as first day of the week
 		        //self::SATURDAY		=>	__('Saturday'),
-		        self::SUNDAY	=>	__('Sunday')
-		    )
-));
+		        self::SUNDAY => __('Sunday'),
+		    ],
+]);
 	}
 
     /**
@@ -141,17 +142,17 @@ class WeekStart extends \Runalyze\Parameter\Select {
 	 */
 	public function mysqlWeek($dateString): string {
 		if ($this->isSunday()) {
-			return 'WEEK(DATE_ADD('.$dateString.', INTERVAL 1 DAY), 3)';
+			return 'WEEK(DATE_ADD(' . $dateString . ', INTERVAL 1 DAY), 3)';
 		}
 
-		return 'WEEK('.$dateString.', 3)';
+		return 'WEEK(' . $dateString . ', 3)';
 	}
 
     /**
      * @param string $dateString
      */
     public function mysqlYearWeek($dateString): string {
-		return 'YEAR'.$this->mysqlWeek($dateString);
+		return 'YEAR' . $this->mysqlWeek($dateString);
 	}
 
 	public function firstDayOfWeekForStrtotime(): string {

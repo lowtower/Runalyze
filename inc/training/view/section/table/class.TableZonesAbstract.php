@@ -15,7 +15,8 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TableZonesAbstract {
+abstract class TableZonesAbstract
+{
 	/**
 	 * @var int [s]
 	 */
@@ -31,12 +32,10 @@ abstract class TableZonesAbstract {
 	 * Data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
 	private $TitlePercent = ''; // #TSC
-    /**
-     * Constructor
-     */
+
     public function __construct(Context $context) {
 		$this->Context = $context;
 
@@ -57,9 +56,6 @@ abstract class TableZonesAbstract {
      */
     private function showAverage(): bool { return $this->titleForAverage() != ''; }
 
-	/**
-	 * Init data
-	 */
 	abstract protected function initData();
 
 	/**
@@ -68,9 +64,6 @@ abstract class TableZonesAbstract {
 	 */
 	public function footerHint() { return null; }
 
-	/**
-	 * Convert data
-	 */
 	private function convertData() {
 		$totalTime = 0;
 		$totalDist = 0;
@@ -92,8 +85,8 @@ abstract class TableZonesAbstract {
 			}
 
 			$this->Data[$i]['percentage'] = $percentage;
-			$this->Data[$i]['time']       = $totalTime > 0 ? Duration::format($Info['time']) : '-';
-			$this->Data[$i]['distance']   = $totalDist > 0 ? Distance::format($Info['distance']) : '-';
+			$this->Data[$i]['time'] = $totalTime > 0 ? Duration::format($Info['time']) : '-';
+			$this->Data[$i]['distance'] = $totalDist > 0 ? Distance::format($Info['distance']) : '-';
 		}
 	}
 
@@ -107,11 +100,11 @@ abstract class TableZonesAbstract {
 
 		$Code = '<table class="fullwidth bar-chart-table">';
 		$Code .= '<thead><tr>';
-		$Code .= '<th>'.__('Zone').'</th>';
-		$Code .= '<th style="text-align: left;">% '.__($this->TitlePercent).'</th>'; // #TSC set the table column title
-		$Code .= '<th>'.__('Time').'</th>';
-		$Code .= '<th>'.__('Distance').'</th>';
-		if ($this->showAverage()) $Code .= '<th>'.$this->titleForAverage().'</th>';
+		$Code .= '<th>' . __('Zone') . '</th>';
+		$Code .= '<th style="text-align: left;">% ' . __($this->TitlePercent) . '</th>'; // #TSC set the table column title
+		$Code .= '<th>' . __('Time') . '</th>';
+		$Code .= '<th>' . __('Distance') . '</th>';
+		if ($this->showAverage()) $Code .= '<th>' . $this->titleForAverage() . '</th>';
 
 		$Code .= '</tr></thead>';
 
@@ -135,15 +128,15 @@ abstract class TableZonesAbstract {
 
 		foreach ($this->Data as $Info) {
 			$Code .= '<tr>';
-			$Code .= '<td class="bar-chart-label">'.$Info['zone'].'</td>';
+			$Code .= '<td class="bar-chart-label">' . $Info['zone'] . '</td>';
 
 			// #TSC support of colors for the percent bar
-			$stylecolor = array_key_exists('color', $Info) ? 'background:'.$Info['color'].';' : '';
-			$Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:'.$Info['percentage'].'%;'.$stylecolor.'"></span> <span class="bar-chart-text">'.$Info['percentage'].' &#37;</span></td>';
+			$stylecolor = array_key_exists('color', $Info) ? 'background:' . $Info['color'] . ';' : '';
+			$Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:' . $Info['percentage'] . '%;' . $stylecolor . '"></span> <span class="bar-chart-text">' . $Info['percentage'] . ' &#37;</span></td>';
 
-			$Code .= '<td>'.$Info['time'].'</td>';
-			$Code .= '<td>'.$Info['distance'].'</td>';
-			if ($this->showAverage()) $Code .= '<td>'.$Info['average'].'</td>';
+			$Code .= '<td>' . $Info['time'] . '</td>';
+			$Code .= '<td>' . $Info['distance'] . '</td>';
+			if ($this->showAverage()) $Code .= '<td>' . $Info['average'] . '</td>';
 
 			$Code .= '</tr>';
 		}

@@ -9,19 +9,29 @@ use Runalyze\Model\Route;
 
 class JobLoop extends Job
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const ELEVATION = 'activityElevation';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const ELEVATION_OVERWRITE = 'activityElevationOverwrite';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const VO2MAX = 'activityVO2max';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const TRIMP = 'activityTrimp';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $ElevationResults = [];
 
     public function run()
@@ -40,7 +50,7 @@ class JobLoop extends Job
 
     protected function runRouteLoop()
     {
-        require_once __DIR__.'/ElevationsRecalculator.php';
+        require_once __DIR__ . '/ElevationsRecalculator.php';
 
         $Recalculator = new ElevationsRecalculator($this->PDO, $this->AccountId, $this->DatabasePrefix);
         $Recalculator->run();
@@ -95,15 +105,15 @@ class JobLoop extends Job
 
         return new Calculator(
             new Activity\Entity($data),
-            new Trackdata\Entity(array(
+            new Trackdata\Entity([
                 Trackdata\Entity::TIME => $data['trackdata_time'],
-                Trackdata\Entity::HEARTRATE => $data['trackdata_heartrate']
-            )),
-            new Route\Entity(array(
+                Trackdata\Entity::HEARTRATE => $data['trackdata_heartrate'],
+            ]),
+            new Route\Entity([
                 Route\Entity::ELEVATION => $elevations[0],
                 Route\Entity::ELEVATION_UP => $elevations[1],
-                Route\Entity::ELEVATION_DOWN => $elevations[2]
-            ))
+                Route\Entity::ELEVATION_DOWN => $elevations[2],
+            ])
         );
     }
 
@@ -118,10 +128,10 @@ class JobLoop extends Job
         }
 
         if (isset($data['elevation']) && isset($data['elevation_up']) && isset($data['elevation_down'])) {
-            return array($data['elevation'], $data['elevation_up'], $data['elevation_down']);
+            return [$data['elevation'], $data['elevation_up'], $data['elevation_down']];
         }
 
-        return array($data['training_elevation'], $data['training_elevation'], $data['training_elevation']);
+        return [$data['training_elevation'], $data['training_elevation'], $data['training_elevation']];
     }
 
     /**
@@ -132,10 +142,10 @@ class JobLoop extends Job
         $Set = $this->updateSet();
 
         foreach ($Set as $i => $key) {
-            $Set[$i] = '`'.$key.'`=:'.$key;
+            $Set[$i] = '`' . $key . '`=:' . $key;
         }
 
-        $Query = 'UPDATE `'.$this->DatabasePrefix.'training` SET '.implode(',', $Set).' WHERE `id`=:id LIMIT 1';
+        $Query = 'UPDATE `' . $this->DatabasePrefix . 'training` SET ' . implode(',', $Set) . ' WHERE `id`=:id LIMIT 1';
 
         return $this->PDO->prepare($Query);
     }
@@ -145,7 +155,7 @@ class JobLoop extends Job
      */
     protected function updateSet(): array
     {
-        $Set = array();
+        $Set = [];
 
         if ($this->isRequested(self::ELEVATION) && $this->isRequested(self::ELEVATION_OVERWRITE)) {
             $Set[] = 'elevation';
@@ -171,23 +181,23 @@ class JobLoop extends Job
     {
         return $this->PDO->query(
             'SELECT
-				`'.$this->DatabasePrefix.'training`.`id`,
-				`'.$this->DatabasePrefix.'training`.`routeid`,
-				`'.$this->DatabasePrefix.'training`.`sportid`,
-				`'.$this->DatabasePrefix.'training`.`typeid`,
-				`'.$this->DatabasePrefix.'training`.`distance`,
-				`'.$this->DatabasePrefix.'training`.`s`,
-				`'.$this->DatabasePrefix.'training`.`pulse_avg`,
-				`'.$this->DatabasePrefix.'training`.`elevation` as `training_elevation`,
-				`'.$this->DatabasePrefix.'route`.`elevation`,
-				`'.$this->DatabasePrefix.'route`.`elevation_up`,
-				`'.$this->DatabasePrefix.'route`.`elevation_down`,
-				`'.$this->DatabasePrefix.'trackdata`.`time` as `trackdata_time`,
-				`'.$this->DatabasePrefix.'trackdata`.`heartrate` as `trackdata_heartrate`
-			FROM `'.$this->DatabasePrefix.'training`
-			LEFT JOIN `'.$this->DatabasePrefix.'trackdata` ON `'.$this->DatabasePrefix.'trackdata`.`activityid` = `'.$this->DatabasePrefix.'training`.`id`
-			LEFT JOIN `'.$this->DatabasePrefix.'route` ON `'.$this->DatabasePrefix.'route`.`id` = `'.$this->DatabasePrefix.'training`.`routeid`
-			WHERE `'.$this->DatabasePrefix.'training`.`accountid` = '.$this->AccountId
+				`' . $this->DatabasePrefix . 'training`.`id`,
+				`' . $this->DatabasePrefix . 'training`.`routeid`,
+				`' . $this->DatabasePrefix . 'training`.`sportid`,
+				`' . $this->DatabasePrefix . 'training`.`typeid`,
+				`' . $this->DatabasePrefix . 'training`.`distance`,
+				`' . $this->DatabasePrefix . 'training`.`s`,
+				`' . $this->DatabasePrefix . 'training`.`pulse_avg`,
+				`' . $this->DatabasePrefix . 'training`.`elevation` as `training_elevation`,
+				`' . $this->DatabasePrefix . 'route`.`elevation`,
+				`' . $this->DatabasePrefix . 'route`.`elevation_up`,
+				`' . $this->DatabasePrefix . 'route`.`elevation_down`,
+				`' . $this->DatabasePrefix . 'trackdata`.`time` as `trackdata_time`,
+				`' . $this->DatabasePrefix . 'trackdata`.`heartrate` as `trackdata_heartrate`
+			FROM `' . $this->DatabasePrefix . 'training`
+			LEFT JOIN `' . $this->DatabasePrefix . 'trackdata` ON `' . $this->DatabasePrefix . 'trackdata`.`activityid` = `' . $this->DatabasePrefix . 'training`.`id`
+			LEFT JOIN `' . $this->DatabasePrefix . 'route` ON `' . $this->DatabasePrefix . 'route`.`id` = `' . $this->DatabasePrefix . 'training`.`routeid`
+			WHERE `' . $this->DatabasePrefix . 'training`.`accountid` = ' . $this->AccountId
         );
     }
 }

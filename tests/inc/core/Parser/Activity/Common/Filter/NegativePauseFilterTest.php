@@ -11,10 +11,14 @@ use Runalyze\Parser\Activity\Common\Filter\NegativePauseFilter;
 
 class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var NegativePauseFilter */
+    /**
+     * @var NegativePauseFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

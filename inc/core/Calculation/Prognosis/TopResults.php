@@ -28,11 +28,11 @@ class TopResults
 			FROM (
 				SELECT
 					`time`, `distance`, `s`, `vo2max_by_time`
-				FROM `'.PREFIX.'training`
+				FROM `' . PREFIX . 'training`
 				WHERE
-					`accountid`='.\SessionAccountHandler::getId().' AND
-					`sportid`='.Configuration::General()->runningSport().'
-					AND `distance` >= "'.$minimalDistanceRequired.'"
+					`accountid`=' . \SessionAccountHandler::getId() . ' AND
+					`sportid`=' . Configuration::General()->runningSport() . '
+					AND `distance` >= "' . $minimalDistanceRequired . '"
 				ORDER BY `vo2max_by_time` DESC
 				LIMIT 20
 			) as `tmp`
@@ -43,6 +43,6 @@ class TopResults
 		if ($numberOfResults <= 1)
 			return DB::getInstance()->query($Query)->fetch();
 
-		return DB::getInstance()->query($Query.' LIMIT '.$numberOfResults)->fetchAll();
+		return DB::getInstance()->query($Query . ' LIMIT ' . $numberOfResults)->fetchAll();
 	}
 }

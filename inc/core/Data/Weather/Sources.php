@@ -18,16 +18,24 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Sources extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const OPENWEATHERMAP = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DBWEATHERCACHE = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const DARKSKY = 3;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const METEOSTAT_NET = 4;
 
     /**

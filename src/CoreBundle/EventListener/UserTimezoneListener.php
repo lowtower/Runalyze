@@ -8,7 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class UserTimezoneListener
 {
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     private $token;
 
     public function __construct(TokenStorage $token)

@@ -12,7 +12,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-abstract class Plugin {
+abstract class Plugin
+{
 	/**
 	 * Enum: inactive
 	 * @var int
@@ -122,7 +123,7 @@ abstract class Plugin {
 		}
 
 		if (! is_numeric($id) || $id <= 0) {
-			throw new RuntimeException('Invalid id "'.$id.'" given to create a plugin.');
+			throw new RuntimeException('Invalid id "' . $id . '" given to create a plugin.');
 		}
 
 		$this->initConfiguration();
@@ -131,8 +132,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Init configuration
-	 *
 	 * May be used in subclass to set own configuration.
 	 * Make sure to add all values to the configuration object
 	 * before using <code>$this->setConfiguration($Configuration);</code>.
@@ -143,9 +142,6 @@ abstract class Plugin {
 		$this->setConfiguration($Configuration);
 	}
 
-    /**
-     * Set configuration
-     */
     protected function setConfiguration(PluginConfiguration $Configuration) {
 		$this->Configuration = $Configuration;
 	}
@@ -172,7 +168,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * ID
 	 * @return int
 	 */
 	final public function id() {
@@ -180,19 +175,16 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	abstract public function name();
 
 	/**
-	 * Description
 	 * @return string
 	 */
 	abstract public function description();
 
 	/**
-	 * Type
 	 * @return int
 	 */
 	abstract public function type();
@@ -230,7 +222,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Order
 	 * @return int
 	 */
 	final public function order() {
@@ -289,17 +280,17 @@ abstract class Plugin {
 			return false;
 		}
 
-		$this->id = DB::getInstance()->insert('plugin', array(
+		$this->id = DB::getInstance()->insert('plugin', [
 		    'key',
 		    'type',
 		    'active',
 		    'order',
-		), array(
+		], [
 		    $this->key(),
 		    $this->typeString(),
 		    '1',
 		    '99',
-		));
+		]);
 
 		return true;
 	}
@@ -313,12 +304,12 @@ abstract class Plugin {
 		}
 
         $data = PluginFactory::dataFor($this->id());
-		$this->key     = $data['key'];
-		$this->active  = $data['active'];
-		$this->order   = $data['order'];
+		$this->key = $data['key'];
+		$this->active = $data['active'];
+		$this->order = $data['order'];
 		$this->sportid = $this->defaultSport();
-		$this->year    = $this->defaultYear();
-		$this->dat     = '';
+		$this->year = $this->defaultYear();
+		$this->dat = '';
 
 		if (isset($_GET['sport']))
 			if (is_numeric($_GET['sport']))
@@ -368,8 +359,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Default sport
-	 *
 	 * May be overwritten in subclass.
 	 * Default setting: Configuration::General()->mainSport()
 	 *
@@ -380,8 +369,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Default year
-	 *
 	 * May be overwritten in subclass.
 	 * Default setting: current year
 	 *
@@ -392,7 +379,6 @@ abstract class Plugin {
 	}
 
 	/**
-	 * Title for all years
 	 * @return string
 	 */
 	protected function titleForAllYears() {
@@ -420,7 +406,7 @@ abstract class Plugin {
 	 * @return string
 	 */
 	final public function getReloadLink() {
-		return '<span class="link" onclick="Runalyze.reloadPlugin(\''.$this->id().'\');">'.Icon::$REFRESH_SMALL.'</span>';
+		return '<span class="link" onclick="Runalyze.reloadPlugin(\'' . $this->id() . '\');">' . Icon::$REFRESH_SMALL . '</span>';
 	}
 
 	/**

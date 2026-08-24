@@ -7,12 +7,9 @@
 
 namespace Runalyze;
 
-
 use SessionAccountHandler;
 
 /**
- * Context
- *
  * Currently a static container of widely used objects.
  *
  * This static container is used over a real dependency injection container
@@ -22,15 +19,15 @@ use SessionAccountHandler;
  * @author Hannes Christiansen
  * @package Runalyze
  */
-class Context {
+class Context
+{
 	/**
 	 * Objects
 	 * @var array
 	 */
-	private static $Objects = array();
+	private static $Objects = [];
 
 	/**
-	 * Athlete
 	 * @return \Runalyze\Athlete
 	 */
 	public static function Athlete() {
@@ -66,6 +63,6 @@ class Context {
 	 * Clear internal cache
 	 */
 	public static function reset() {
-		self::$Objects = array();
+		self::$Objects = [];
 	}
 }

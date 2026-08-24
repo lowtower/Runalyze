@@ -6,13 +6,19 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Availability
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $RsvgPath;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $InkscapePath;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Python3Path;
 
     /**
@@ -39,7 +45,6 @@ class Availability
     {
         return (new Filesystem())->exists($this->InkscapePath);
     }
-
 
     /**
      * @return bool

@@ -33,22 +33,22 @@ class UploadController extends Controller
 
             try {
                 $file->move(
-                    $this->getParameter('data_directory').'/import',
+                    $this->getParameter('data_directory') . '/import',
                     $newFileName
                 );
 
                 return new JsonResponse([
-                    'success' => true
+                    'success' => true,
                 ]);
             } catch (FileException $e) {
                 return new JsonResponse([
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
 
         return new JsonResponse([
-            'error' => 'No file given.'
+            'error' => 'No file given.',
         ]);
     }
 
@@ -60,12 +60,12 @@ class UploadController extends Controller
     {
         if (! $request->request->has('activityId') || ! $request->request->has('data')) {
             return new JsonResponse([
-                'error' => 'No data given.'
+                'error' => 'No data given.',
             ]);
         }
 
         $filesystem = new Filesystem();
-        $fileName = $request->request->get('activityId').'.tcx';
+        $fileName = $request->request->get('activityId') . '.tcx';
 
         if (class_exists('Normalizer')) {
             $fileName = \Normalizer::normalize($fileName);
@@ -73,16 +73,16 @@ class UploadController extends Controller
 
         try {
             $filesystem->appendToFile(
-                $this->getParameter('data_directory').'/import/'.$fileName,
+                $this->getParameter('data_directory') . '/import/' . $fileName,
                 $request->request->get('data')
             );
 
             return new JsonResponse([
-                'success' => true
+                'success' => true,
             ]);
         } catch (FileException $fileException) {
             return new JsonResponse([
-                'error' => $fileException->getMessage()
+                'error' => $fileException->getMessage(),
             ]);
         }
     }

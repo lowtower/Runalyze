@@ -7,10 +7,14 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
 class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TinyIntType */
+    /**
+     * @var TinyIntType
+     */
     protected $Type;
 
-    /** @var AbstractPlatform */
+    /**
+     * @var AbstractPlatform
+     */
     protected $PlatformMock;
 
     protected function setUp(): void

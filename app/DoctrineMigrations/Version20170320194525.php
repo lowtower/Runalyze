@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20170320194525 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,7 +23,7 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('CREATE TABLE IF NOT EXISTS `'.$prefix.'notification` (
+        $this->addSql('CREATE TABLE IF NOT EXISTS `' . $prefix . 'notification` (
                           `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
                           `messageType`  tinyint unsigned NOT NULL,
                           `createdAt` INT UNSIGNED NOT NULL,
@@ -32,13 +34,13 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
                           INDEX IDX_F99B51889B6B5FBA (account_id),
                           PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB
                         ');
-        $this->addSql('ALTER TABLE '.$prefix.'notification ADD CONSTRAINT FK_F99B51889B6B5FBA FOREIGN KEY (account_id) REFERENCES '.$prefix.'account (id)');
+        $this->addSql('ALTER TABLE ' . $prefix . 'notification ADD CONSTRAINT FK_F99B51889B6B5FBA FOREIGN KEY (account_id) REFERENCES ' . $prefix . 'account (id)');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('DROP TABLE `'.$prefix.'notification`');
+        $this->addSql('DROP TABLE `' . $prefix . 'notification`');
     }
 }

@@ -16,7 +16,8 @@ use Cache;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-class Factory {
+class Factory
+{
 	/**
 	 * Database
 	 * @var \PDOforRunalyze
@@ -33,13 +34,13 @@ class Factory {
 	 * Array with tablenames that should be cached statically
 	 * @var array
 	 */
-	protected $UseStaticCacheAndFullFetch = array();
+	protected $UseStaticCacheAndFullFetch = [];
 
 	/**
 	 * Static cache to not read file-cache every time
 	 * @var array
 	 */
-	public static $StaticCache = array();
+	public static $StaticCache = [];
 
 	/**
 	 * Factory
@@ -48,24 +49,23 @@ class Factory {
 	public function __construct($accountID = null) {
 		$this->DB = DB::getInstance();
 		$this->AccountID = $accountID;
-		$this->UseStaticCacheAndFullFetch = array(
+		$this->UseStaticCacheAndFullFetch = [
 		    'sport' => true,
 		    'type' => true,
 		    'equipment' => true,
 		    'equipment_type' => true,
-		    'tag' => true
-		);
+		    'tag' => true,
+		];
 	}
 
     /**
      * Has account id?
      */
     protected function hasAccountID(): bool {
-		return null !== $this->AccountID;
+		return $this->AccountID !== null;
 	}
 
     /**
-     * Activity
      * @param int $activityid
      */
     public function activity($activityid): \Runalyze\Model\Activity\Entity {
@@ -75,7 +75,6 @@ class Factory {
 	}
 
     /**
-     * Trackdata
      * @param int $activityid
      */
     public function trackdata($activityid): \Runalyze\Model\Trackdata\Entity {
@@ -85,7 +84,6 @@ class Factory {
 	}
 
     /**
-     * Swimdata
      * @param int $activityid
      */
     public function swimdata($activityid): \Runalyze\Model\Swimdata\Entity {
@@ -95,7 +93,6 @@ class Factory {
 	}
 
     /**
-     * Route
      * @param int $routeid
      */
     public function route($routeid): \Runalyze\Model\Route\Entity {
@@ -105,7 +102,6 @@ class Factory {
 	}
 
     /**
-     * HRV
      * @param int $activityid
      */
     public function hrv($activityid): \Runalyze\Model\HRV\Entity {
@@ -115,7 +111,6 @@ class Factory {
 	}
 
     /**
-     * RaceResult
      * @param int $activityid
      */
     public function raceResult($activityid): \Runalyze\Model\RaceResult\Entity {
@@ -125,7 +120,6 @@ class Factory {
 	}
 
     /**
-     * Type
      * @param int $typeid
      */
     public function type($typeid): \Runalyze\Model\Type\Entity {
@@ -133,7 +127,6 @@ class Factory {
 		    $this->arrayByPK('type', $typeid)
 		);
 	}
-
 
 	/**
 	 * All type objects
@@ -146,13 +139,12 @@ class Factory {
 	}
 
 	/**
-	 * Types for sport
 	 * @param int $sportid
 	 * @return \Runalyze\Model\Type\Entity[]
 	 */
 	public function typeForSport($sportid): array {
 		$Types = $this->allTypes();
-		$SportTypes = array();
+		$SportTypes = [];
 
 		foreach ($Types as $Type) {
 			if ($Type->sportid() == $sportid) {
@@ -164,7 +156,6 @@ class Factory {
 	}
 
     /**
-     * Sport
      * @param int $sportid
      */
     public function sport($sportid): \Runalyze\Model\Sport\Entity {
@@ -184,7 +175,6 @@ class Factory {
 	}
 
     /**
-     * Equipment type
      * @param int $equipmentTypeid
      */
     public function equipmentType($equipmentTypeid): \Runalyze\Model\EquipmentType\Entity {
@@ -194,7 +184,6 @@ class Factory {
 	}
 
     /**
-     * Equipment
      * @param int $equipmentid
      */
     public function equipment($equipmentid): \Runalyze\Model\Equipment\Entity {
@@ -204,15 +193,14 @@ class Factory {
 	}
 
 	/**
-	 * Equipment for activity
 	 * @param int $activityid
 	 * @param bool $onlyIDs [optional]
 	 * @return int[]|\Runalyze\Model\Equipment\Entity[]
 	 */
 	public function equipmentForActivity($activityid, $onlyIDs = false) {
-		$Equipment = array();
+		$Equipment = [];
 
-		$IDs = $this->DB->query('SELECT `equipmentid` FROM `'.PREFIX.'activity_equipment` WHERE `activityid`="'.$activityid.'"')->fetchAll(\PDO::FETCH_COLUMN);
+		$IDs = $this->DB->query('SELECT `equipmentid` FROM `' . PREFIX . 'activity_equipment` WHERE `activityid`="' . $activityid . '"')->fetchAll(\PDO::FETCH_COLUMN);
 
 		if ($onlyIDs) {
 			return $IDs;
@@ -226,7 +214,6 @@ class Factory {
 	}
 
     /**
-     * Tag
      * @param int $tagid
      */
     public function tag($tagid): \Runalyze\Model\Tag\Entity {
@@ -246,15 +233,14 @@ class Factory {
 	}
 
 	/**
-	 * tags for activity
 	 * @param int $activityid
 	 * @param bool $onlyIDs [optional]
 	 * @return int[]|\Runalyze\Model\Tag\Entity[]
 	 */
 	public function tagForActivity($activityid, $onlyIDs = false) {
-		$Tag = array();
+		$Tag = [];
 
-		$IDs = $this->DB->query('SELECT `tagid` FROM `'.PREFIX.'activity_tag` WHERE `activityid`="'.$activityid.'"')->fetchAll(\PDO::FETCH_COLUMN);
+		$IDs = $this->DB->query('SELECT `tagid` FROM `' . PREFIX . 'activity_tag` WHERE `activityid`="' . $activityid . '"')->fetchAll(\PDO::FETCH_COLUMN);
 
 		if ($onlyIDs) {
 			return $IDs;
@@ -301,17 +287,16 @@ class Factory {
 			return self::$StaticCache[$tablename][$id];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
-	 * Fetch static cache
 	 * @param string $tablename
 	 */
 	protected function fetchStaticCache($tablename) {
 		$pk = $this->primaryKey($tablename);
 		$allData = $this->fetch($tablename, 0, true);
-		self::$StaticCache[$tablename] = array();
+		self::$StaticCache[$tablename] = [];
 
 		foreach ($allData as $data) {
 			self::$StaticCache[$tablename][$data[$pk]] = $data;
@@ -326,26 +311,25 @@ class Factory {
 	 * @return array
 	 */
 	protected function arrayByPKfromCache($tablename, $id, $cachetime) {
-		$data = Cache::get($tablename.$id);
+		$data = Cache::get($tablename . $id);
 
-		if (null === $data) {
+		if ($data === null) {
 			$data = $this->fetch($tablename, $id);
 
-			Cache::set($tablename.$id, $data, $cachetime);
+			Cache::set($tablename . $id, $data, $cachetime);
 		}
 
 		return $data;
 	}
 
 	/**
-	 * All data
 	 * @param string $tablename
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
 	protected function allData($tablename) {
 		if (! isset($this->UseStaticCacheAndFullFetch[$tablename])) {
-			throw new \InvalidArgumentException('The table "'.$tablename.'" does not provide a full fetch');
+			throw new \InvalidArgumentException('The table "' . $tablename . '" does not provide a full fetch');
 		}
 
 		if (! isset(self::$StaticCache[$tablename])) {
@@ -356,12 +340,11 @@ class Factory {
 	}
 
     /**
-     * All objects
      * @param string $tablename
      * @return \Runalyze\Model\Entity[]
      */
     public function allObjects($tablename, \Closure $constructor): array {
-		$allObjects = array();
+		$allObjects = [];
 		$allData = $this->allData($tablename);
 
 		foreach ($allData as $data) {
@@ -372,7 +355,6 @@ class Factory {
 	}
 
 	/**
-	 * Clear cache
 	 * @param string|bool $tablename
 	 * @param int|bool $id can be empty if the table uses a full fetch and static cache
 	 * @throws \InvalidArgumentException
@@ -391,9 +373,9 @@ class Factory {
 				unset(self::$StaticCache[$tablename]);
 			}
 		} elseif ($id) {
-			Cache::delete($tablename.$id);
+			Cache::delete($tablename . $id);
 		} else {
-			throw new \InvalidArgumentException('Argument $id must be set, the table "'.$tablename.'" does not use a static cache.');
+			throw new \InvalidArgumentException('Argument $id must be set, the table "' . $tablename . '" does not use a static cache.');
 		}
 	}
 
@@ -406,16 +388,16 @@ class Factory {
 	 */
 	protected function fetch($tablename, $id, $fullFetch = false) {
 		$field = $this->primaryKey($tablename);
-		$AndAccountID = $this->hasAccountID() && $this->tableHasAccountid($tablename) ? 'AND `accountid`='.(int) $this->AccountID : '';
+		$AndAccountID = $this->hasAccountID() && $this->tableHasAccountid($tablename) ? 'AND `accountid`=' . (int) $this->AccountID : '';
 
 		if ($fullFetch) {
-			$result = $this->DB->query('SELECT * FROM `'.PREFIX.$tablename.'` WHERE 1 '.$AndAccountID.' '.$this->orderBy($tablename))->fetchAll();
+			$result = $this->DB->query('SELECT * FROM `' . PREFIX . $tablename . '` WHERE 1 ' . $AndAccountID . ' ' . $this->orderBy($tablename))->fetchAll();
 		} else {
-			$result = $this->DB->query('SELECT * FROM `'.PREFIX.$tablename.'` WHERE `'.$field.'`='.(int) $id.' '.$AndAccountID.' LIMIT 1')->fetch();
+			$result = $this->DB->query('SELECT * FROM `' . PREFIX . $tablename . '` WHERE `' . $field . '`=' . (int) $id . ' ' . $AndAccountID . ' LIMIT 1')->fetch();
 		}
 
 		if (! is_array($result)) {
-			return array();
+			return [];
 		}
 
 		return $result;

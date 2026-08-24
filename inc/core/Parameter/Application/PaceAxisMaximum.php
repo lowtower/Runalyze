@@ -13,6 +13,7 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class PaceAxisMaximum extends PaceAxisLimit {
+class PaceAxisMaximum extends PaceAxisLimit
+{
 	// No further methods
 }

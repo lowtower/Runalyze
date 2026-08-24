@@ -9,7 +9,8 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalResult;
 /**
  * Testcase for RouteNameEvalResult.
  */
-class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase {
+class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
+{
     protected function setUp(): void {
     }
 
@@ -89,5 +90,4 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals(RouteNameEvalResult::NOTES_START . "\nmulti\nline\nnotes\n" . RouteNameEvalResult::NOTES_END, $note);
     }
-
 }

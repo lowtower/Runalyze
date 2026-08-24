@@ -36,10 +36,10 @@ class CleanupBackupCommand extends ContainerAwareCommand
         $finder
             ->files()
             ->name('*.gz')
-            ->in($this->getContainer()->getParameter('data_directory').'/backup-tool/backup')
+            ->in($this->getContainer()->getParameter('data_directory') . '/backup-tool/backup')
             ->date(sprintf('until %s days ago', $days));
 
-        $deleted= $finder->count();
+        $deleted = $finder->count();
 
         foreach ($finder as $file) {
             $filesystem->remove($file);

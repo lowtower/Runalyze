@@ -36,10 +36,10 @@ class CleanupPostersCommand extends ContainerAwareCommand
         $finder
             ->files()
             ->name('*.png')
-            ->in($this->getContainer()->getParameter('data_directory').'/poster/')
+            ->in($this->getContainer()->getParameter('data_directory') . '/poster/')
             ->date(sprintf('until %s days ago', $days));
 
-        $deleted= $finder->count();
+        $deleted = $finder->count();
 
         foreach ($finder as $file) {
             $filesystem->remove($file);

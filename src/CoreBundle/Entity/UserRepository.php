@@ -13,9 +13,9 @@ class UserRepository extends EntityRepository
     public function findAllFor(Account $account)
     {
         return $this->findBy([
-            'account' => $account->getId()
+            'account' => $account->getId(),
         ], [
-            'time' => 'DESC'
+            'time' => 'DESC',
         ]);
     }
 

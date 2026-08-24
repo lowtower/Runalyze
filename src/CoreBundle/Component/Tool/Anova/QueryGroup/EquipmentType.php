@@ -9,7 +9,9 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaData;
 
 class EquipmentType implements QueryGroupInterface
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $EquipmentTypeId;
 
     public function __construct($id)

@@ -14,7 +14,9 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 {
     use XmlParserTrait;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseInSeconds = 0;
 
     public function parse()
@@ -71,7 +73,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
     protected function parseLaps()
     {
         if (! empty($this->Xml->Laps)) {
-            $readEnergyConsumption = null === $this->Container->ActivityData->EnergyConsumption;
+            $readEnergyConsumption = $this->Container->ActivityData->EnergyConsumption === null;
 
             foreach ($this->Xml->Laps->Lap as $lap) {
                 $this->parseLap($lap, $readEnergyConsumption);
@@ -98,7 +100,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
 
         if (! empty($this->Xml->GeneralInformation)) {
             foreach ($this->Xml->GeneralInformation->attributes() as $key => $value) {
-                $string .= $key.': '.($value)."\n";
+                $string .= $key . ': ' . ($value) . "\n";
             }
         }
 

@@ -73,7 +73,7 @@ abstract class AbstractDecimalUnit extends AbstractUnit
 	public function format($secondsPerKm)
 	{
 		if ($secondsPerKm == 0) {
-			return '0'.self::$DecimalSeparator.'0';
+			return '0' . self::$DecimalSeparator . '0';
 		}
 
 		return number_format($this->rawValue($secondsPerKm), self::$Decimals, self::$DecimalSeparator, '');

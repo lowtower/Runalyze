@@ -36,7 +36,7 @@ class Month implements QueryGroupInterface
             9 => __('September'),
             10 => __('October'),
             11 => __('November'),
-            12 => __('December')
+            12 => __('December'),
         ], $anovaData->getDateFrom(), $anovaData->getDateTo());
     }
 

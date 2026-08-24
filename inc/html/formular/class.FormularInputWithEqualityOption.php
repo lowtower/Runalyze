@@ -9,19 +9,20 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularInputWithEqualityOption extends FormularInput {
+class FormularInputWithEqualityOption extends FormularInput
+{
 	/**
 	 * @var array
 	 */
-	protected $Options = array(
-    'eq'	=> '=',
-	    'gt'	=> '&gt;',
-	    'ge'	=> '&ge;',
-	    'le'	=> '&le;',
-	    'lt'	=> '&lt;',
-	    'ne'	=> '&ne;',
-	    'like'	=> '&asymp;'
-);
+	protected $Options = [
+    'eq' => '=',
+	    'gt' => '&gt;',
+	    'ge' => '&ge;',
+	    'le' => '&le;',
+	    'lt' => '&lt;',
+	    'ne' => '&ne;',
+	    'like' => '&asymp;',
+];
 
 	/**
 	 * Allow only valid operators for numeric values
@@ -34,11 +35,11 @@ class FormularInputWithEqualityOption extends FormularInput {
 	 * Allow only valid operators for strings
 	 */
 	public function setStringOptions() {
-		$this->Options = array(
-    'eq'	=> '=',
-		    'ne'	=> '&ne;',
-		    'like'	=> '&asymp;'
-);
+		$this->Options = [
+    'eq' => '=',
+		    'ne' => '&ne;',
+		    'like' => '&asymp;',
+];
 	}
 
     /**
@@ -47,10 +48,10 @@ class FormularInputWithEqualityOption extends FormularInput {
     protected function getFieldCode(): string {
 		$selected = isset($_POST['opt']) && isset($_POST['opt'][$this->name]) ? $_POST['opt'][$this->name] : 'eq';
 
-		$label  = '<label>'.$this->label.'</label>';
-		$input  = HTML::selectBox('opt['.$this->name.']', $this->Options, $selected);
-		$input .= $this->wrapInputTagForUnit('<input '.$this->attributes().'>');
+		$label = '<label>' . $this->label . '</label>';
+		$input = HTML::selectBox('opt[' . $this->name . ']', $this->Options, $selected);
+		$input .= $this->wrapInputTagForUnit('<input ' . $this->attributes() . '>');
 
-		return $label.' '.$input;
+		return $label . ' ' . $input;
 	}
 }

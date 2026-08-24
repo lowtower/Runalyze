@@ -20,7 +20,7 @@ class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => LapIntensity::getAll(),
             'choice_label' => function($intensity, $key, $index) {
                 /** @var LapIntensity $intensity */
@@ -28,8 +28,8 @@ class ActivityLapIntensityChoiceType extends AbstractTokenStorageAwareType
             },
             'choice_value' => function (?LapIntensity $intensity = null) {
                 return $intensity ? $intensity->getValue() : '';
-            }
-        ));
+            },
+        ]);
     }
 
     public function getParent()

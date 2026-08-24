@@ -9,28 +9,44 @@ namespace Runalyze\Sports\Performance\Model;
  */
 abstract class AbstractModel
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const FITNESS = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const FATIGUE = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PERFORMANCE = 2;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Trimp = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Fitness = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Fatigue = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Performance = [];
 
-    /** @var array array('from' => int, 'to' => int) */
+    /**
+     * @var array array('from' => int, 'to' => int)
+     */
     protected $Range = [];
 
     /**
@@ -49,10 +65,10 @@ abstract class AbstractModel
      */
     final public function setRange($from, $to)
     {
-        $this->Range = array(
+        $this->Range = [
             'from' => $from,
-            'to' => $to
-        );
+            'to' => $to,
+        ];
     }
 
     final public function calculate()
@@ -95,7 +111,7 @@ abstract class AbstractModel
         return [
             self::FITNESS => $this->Fitness,
             self::FATIGUE => $this->Fatigue,
-            self::PERFORMANCE => $this->Performance
+            self::PERFORMANCE => $this->Performance,
         ];
     }
 

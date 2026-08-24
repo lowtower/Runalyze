@@ -11,7 +11,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
     public function testSingleWorkout()
     {
         $Model = new BanisterModel([
-            0 => 1000
+            0 => 1000,
         ], 42, 7, 1, 2);
         $Model->calculate();
 
@@ -28,7 +28,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
             2 => 40,
             5 => 60,
             6 => 30,
-            7 => 100
+            7 => 100,
         ], 42, 7, 1, 2);
         $Model->calculate();
 
@@ -72,7 +72,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
     public function testFutureFitness()
     {
         $Model = new BanisterModel([
-            0 => 1000
+            0 => 1000,
         ], 42, 7, 1, 2);
         $Model->setRange(0, 100);
         $Model->calculate();
@@ -88,7 +88,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
     public function testFutureFatigue()
     {
         $Model = new BanisterModel([
-            0 => 1000
+            0 => 1000,
         ], 42, 7, 1, 2);
         $Model->setRange(0, 30);
         $Model->calculate();

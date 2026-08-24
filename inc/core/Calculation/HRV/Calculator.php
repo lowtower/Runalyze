@@ -15,7 +15,8 @@ use Runalyze\Model\HRV\Entity;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\HRV
  */
-class Calculator {
+class Calculator
+{
 	/**
 	 * @var \Runalyze\Model\HRV\Entity
 	 */
@@ -25,7 +26,7 @@ class Calculator {
 	 * 5 min sub intervals
 	 * @var array
 	 */
-	protected $SubIntervals = array();
+	protected $SubIntervals = [];
 
 	/**
 	 * @var int
@@ -108,7 +109,7 @@ class Calculator {
     public function __construct(Entity $hrvObject, $filterThreshold = 0.75, $absoluteThreshold = 2000) {
 		$this->Object = clone $hrvObject;
 
-		if (null !== $filterThreshold && $this->Object->num() > 0) {
+		if ($filterThreshold !== null && $this->Object->num() > 0) {
 			$this->filterByThreshold($filterThreshold, $absoluteThreshold);
 		}
 	}
@@ -131,20 +132,20 @@ class Calculator {
 		$num = count($oldData);
 
 		for ($i = 1; $i < $num; ++$i) {
-			$ratioPreceding = $oldData[$i] / $oldData[$i-1];
-			$ratioFollowing = ($i < $num - 1) ? $oldData[$i] / $oldData[$i+1] : 1;
+			$ratioPreceding = $oldData[$i] / $oldData[$i - 1];
+			$ratioFollowing = ($i < $num - 1) ? $oldData[$i] / $oldData[$i + 1] : 1;
 
 			if (
 				$oldData[$i] < $absoluteThreshold && (
-				    (max($ratioPreceding, 1/$ratioPreceding) <= 1 + $filterThreshold) ||
-					(max($ratioFollowing, 1/$ratioFollowing) <= 1 + $filterThreshold)
+				    (max($ratioPreceding, 1 / $ratioPreceding) <= 1 + $filterThreshold) ||
+					(max($ratioFollowing, 1 / $ratioFollowing) <= 1 + $filterThreshold)
 				)
 			) {
 				$newData[] = $oldData[$i];
 			}
 		}
 
-		$this->PercentageAnomalies = ($num - count($newData))/$num;
+		$this->PercentageAnomalies = ($num - count($newData)) / $num;
 
 		$this->Object->set(Entity::DATA, $newData);
 	}
@@ -265,9 +266,6 @@ class Calculator {
 		}
 	}
 
-	/**
-	 * Calculate SDNN based on mean
-	 */
 	protected function calculateSDNNbasedOnMean() {
 		$sum = 0;
 
@@ -286,7 +284,7 @@ class Calculator {
 		$this->CurrentSubIntervalNum++;
 		$this->CurrentSubIntervalSum += $ms;
 
-		if ($this->CurrentSubIntervalSum > 5*60*1000) {
+		if ($this->CurrentSubIntervalSum > 5 * 60 * 1000) {
 			$this->SubIntervals[] = $this->CurrentSubIntervalSum / $this->CurrentSubIntervalNum;
 
 			$this->CurrentSubIntervalNum = 0;

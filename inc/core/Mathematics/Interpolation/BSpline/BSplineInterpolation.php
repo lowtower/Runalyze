@@ -17,28 +17,44 @@ namespace Runalyze\Mathematics\Interpolation\BSpline;
  */
 class BSplineInterpolation
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Degree;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumPoints = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Dimension = 0;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Points = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Coordinates = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Weights = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Knots = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Domain = [];
 
     /**
@@ -77,7 +93,7 @@ class BSplineInterpolation
             $knots = range(0, $this->NumPoints + $this->Degree);
         }
 
-        if (1 === $this->Dimension) {
+        if ($this->Dimension === 1) {
             $points = array_map(function ($v): array {
                 return [$v];
             }, $points);
@@ -183,7 +199,7 @@ class BSplineInterpolation
      */
     protected function remapPartialValue($t)
     {
-        $low  = $this->Knots[$this->Domain[0]];
+        $low = $this->Knots[$this->Domain[0]];
         $high = $this->Knots[$this->Domain[1]];
 
         return max($low, min($high, $t * ($high - $low) + $low));

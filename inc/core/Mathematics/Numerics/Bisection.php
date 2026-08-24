@@ -6,28 +6,44 @@ namespace Runalyze\Mathematics\Numerics;
 
 class Bisection
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $MaxIterations = 100;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	protected $Epsilon = 0.01;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	protected $Lower;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	protected $Current;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	protected $Upper;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	protected $Target;
 
-	/** @var \Closure */
+	/**
+	 * @var \Closure
+	 */
 	protected $Function;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $decreasingFactor;
 
     /**
@@ -42,7 +58,7 @@ class Bisection
 		$this->Upper = $upperBound;
 		$this->Function = $function;
 
-		$this->Current = ($this->Lower + $this->Upper)/2;
+		$this->Current = ($this->Lower + $this->Upper) / 2;
 		$this->decreasingFactor = ($this->Function->__invoke($this->Lower) > $this->Function->__invoke($this->Upper)) ? -1 : 1;
 	}
 
@@ -74,13 +90,13 @@ class Bisection
 				break;
 			}
 
-			if ($this->decreasingFactor*$value > $this->Target*$this->decreasingFactor ) {
+			if ($this->decreasingFactor * $value > $this->Target * $this->decreasingFactor ) {
 				$this->Upper = $this->Current;
 			} else {
 				$this->Lower = $this->Current;
 			}
 
-			$this->Current = ($this->Lower + $this->Upper)/2;
+			$this->Current = ($this->Lower + $this->Upper) / 2;
 		}
 
 		return $this->Current;

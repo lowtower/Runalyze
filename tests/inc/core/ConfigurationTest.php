@@ -12,18 +12,20 @@ use DB;
  */
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
 	protected function setUp(): void
 	{
 		$this->PDO = DB::getInstance();
-		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
+		$this->PDO->exec('DELETE FROM `' . PREFIX . 'conf`');
 	}
 
 	protected function tearDown(): void
 	{
-		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
+		$this->PDO->exec('DELETE FROM `' . PREFIX . 'conf`');
 	}
 
 	public function testThatResettingRequiresAccountId()
@@ -44,9 +46,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 		Configuration::loadAll(0);
 		Configuration::loadAll(1);
 
-		$this->PDO->exec('UPDATE `'.PREFIX.'conf` SET `value`="12345" WHERE `key`="PLZ" AND `accountid`=0');
-		$this->PDO->exec('UPDATE `'.PREFIX.'conf` SET `value`="42" WHERE `key`="VO2MAX_FORM" AND `accountid`=0');
-		$this->PDO->exec('UPDATE `'.PREFIX.'conf` SET `value`="56789" WHERE `key`="PLZ" AND `accountid`=1');
+		$this->PDO->exec('UPDATE `' . PREFIX . 'conf` SET `value`="12345" WHERE `key`="PLZ" AND `accountid`=0');
+		$this->PDO->exec('UPDATE `' . PREFIX . 'conf` SET `value`="42" WHERE `key`="VO2MAX_FORM" AND `accountid`=0');
+		$this->PDO->exec('UPDATE `' . PREFIX . 'conf` SET `value`="56789" WHERE `key`="PLZ" AND `accountid`=1');
 
 		Configuration::loadAll(0);
 
@@ -63,5 +65,4 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals('56789', Configuration::ActivityForm()->weatherLocation());
 	}
-
 }

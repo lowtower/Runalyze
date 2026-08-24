@@ -19,28 +19,44 @@ use Runalyze\Model\Trackdata;
  */
 class Kml extends AbstractFileExporter
 {
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $XML;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $CurrentPath = '';
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentPauseIndex = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentPauseTime = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumPauses = 0;
 
-    /** @var \Runalyze\Model\Route\Loop */
+    /**
+     * @var \Runalyze\Model\Route\Loop
+     */
     protected $RouteLoop;
 
-    /** @var \Runalyze\Model\Trackdata\Loop */
+    /**
+     * @var \Runalyze\Model\Trackdata\Loop
+     */
     protected $TrackdataLoop;
 
-    /** @var \Runalyze\Model\Trackdata\Pauses */
+    /**
+     * @var \Runalyze\Model\Trackdata\Pauses
+     */
     protected $Pauses;
 
     public function isPossible(): bool
@@ -81,9 +97,6 @@ class Kml extends AbstractFileExporter
         $this->formatFileContentAsXML();
     }
 
-    /**
-     * Set general info
-     */
     protected function setGeneralInfo()
     {
         $this->XML->Folder->name = $this->nameForKml();
@@ -91,9 +104,6 @@ class Kml extends AbstractFileExporter
         $this->XML->Folder->Placemark->Style->geomColor = self::rgbToKmlColor( '#FF5500' );
     }
 
-    /**
-     * Set track
-     */
     protected function setTrack()
     {
         $this->prepareLoop();
@@ -109,9 +119,6 @@ class Kml extends AbstractFileExporter
         $this->addCurrentPathToXml();
     }
 
-    /**
-     * Prepare loop
-     */
     protected function prepareLoop()
     {
         $this->RouteLoop = new Route\Loop($this->Context->route());
@@ -131,9 +138,6 @@ class Kml extends AbstractFileExporter
         return ($this->CurrentPauseIndex < $this->NumPauses) && ($this->CurrentPauseTime < $this->TrackdataLoop->time());
     }
 
-    /**
-     * Set pause to xml
-     */
     protected function setPauseToXml()
     {
         $this->addCurrentPathToXml();
@@ -148,7 +152,7 @@ class Kml extends AbstractFileExporter
     protected function addCoordinateToCurrentPath(CoordinateInterface $coordinate)
     {
         if (abs($coordinate->getLatitude()) > 1e-5 || abs($coordinate->getLongitude()) > 1e-5) {
-            $this->CurrentPath .= $coordinate->getLongitude().','.$coordinate->getLatitude().NL;
+            $this->CurrentPath .= $coordinate->getLongitude() . ',' . $coordinate->getLatitude() . NL;
         }
     }
 
@@ -169,7 +173,7 @@ class Kml extends AbstractFileExporter
     protected function nameForKml(): string
     {
         return $this->Context->dataview()
-            ->date('Y-m-d').': '.$this->Context->dataview()->titleWithComment();
+            ->date('Y-m-d') . ': ' . $this->Context->dataview()->titleWithComment();
     }
 
     /**
@@ -204,6 +208,6 @@ class Kml extends AbstractFileExporter
             $rgb = substr($rgb, 1);
         }
 
-        return 'ff'.substr($rgb, 4, 2).substr($rgb, 2, 2).substr($rgb, 0, 2);
+        return 'ff' . substr($rgb, 4, 2) . substr($rgb, 2, 2) . substr($rgb, 0, 2);
     }
 }

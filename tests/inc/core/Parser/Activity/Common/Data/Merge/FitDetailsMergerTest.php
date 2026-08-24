@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\Merge\FitDetailsMerger;
 
 class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FitDetails */
+    /**
+     * @var FitDetails
+     */
     protected $FirstDetails;
 
-    /** @var FitDetails */
+    /**
+     * @var FitDetails
+     */
     protected $SecondDetails;
 
     protected function setUp(): void

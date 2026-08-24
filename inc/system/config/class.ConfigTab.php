@@ -5,11 +5,11 @@
  * @package Runalyze\System\Config
  */
 /**
- * ConfigTab
  * @author Hannes Christiansen
  * @package Runalyze\System\Config
  */
-abstract class ConfigTab {
+abstract class ConfigTab
+{
 	/**
 	 * HTML-Form
 	 * @var Formular
@@ -59,7 +59,6 @@ abstract class ConfigTab {
 	}
 
 	/**
-	 * Get key
 	 * @return string
 	 */
 	final public function getKey() {
@@ -67,7 +66,6 @@ abstract class ConfigTab {
 	}
 
 	/**
-	 * Get title
 	 * @return string
 	 */
 	final public function getTitle() {
@@ -79,18 +77,15 @@ abstract class ConfigTab {
 	 */
 	final public function display() {
 		echo '<div class="panel-heading">';
-		echo '<h1>'.$this->title.'</h1>';
+		echo '<h1>' . $this->title . '</h1>';
 		echo '</div>';
 		echo '<div class="panel-content">';
 		$this->displayFormular();
 		echo '</div>';
 	}
 
-	/**
-	 * Display formular
-	 */
 	private function displayFormular() {
-		$this->Formular = new Formular($this->getUrl().'&form=true');
+		$this->Formular = new Formular($this->getUrl() . '&form=true');
 
 		$this->setFieldsetsAndFields();
 
@@ -107,6 +102,6 @@ abstract class ConfigTab {
 	 * @return string
 	 */
 	final public function getUrl() {
-		return 'settings?key='.$this->key;
+		return 'settings?key=' . $this->key;
 	}
 }

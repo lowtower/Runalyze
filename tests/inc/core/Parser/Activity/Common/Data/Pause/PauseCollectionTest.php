@@ -7,7 +7,9 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var PauseCollection */
+    /**
+     * @var PauseCollection
+     */
     protected $Collection;
 
     protected function setUp(): void
@@ -19,7 +21,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
     {
         $this->Collection = new PauseCollection([
             new Pause(100, 10),
-            new Pause(242, 17)
+            new Pause(242, 17),
         ]);
 
         $this->assertEquals(2, $this->Collection->count());
@@ -63,7 +65,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
         new PauseCollection([
             new Pause(100, 10),
-            'foobar'
+            'foobar',
         ]);
     }
 

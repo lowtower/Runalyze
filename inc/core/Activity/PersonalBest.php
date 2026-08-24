@@ -16,7 +16,8 @@ use DB;
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
-class PersonalBest {
+class PersonalBest
+{
 	/**
 	 * @var \PDO;
 	 */
@@ -50,7 +51,7 @@ class PersonalBest {
 	/**
 	 * @var array distance => pb
 	 */
-	public static $PBs = array();
+	public static $PBs = [];
 
 	/**
 	 * @var bool
@@ -69,7 +70,7 @@ class PersonalBest {
 	 */
 	public static function deactivateStaticCache() {
 		self::$USE_STATIC_CACHE = false;
-		self::$PBs = array();
+		self::$PBs = [];
 	}
 
 	/**
@@ -115,19 +116,19 @@ class PersonalBest {
 		$distances = array_filter($distances, 'is_numeric');
 
 		if ($withDetails) {
-			return 'SELECT r.activity_id, tr.time, r.`official_distance`, MIN(r.`official_time`) as `pb` FROM `'.PREFIX.'raceresult` as r '.
-				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id`= r.`activity_id` '.
-				'WHERE r.`accountid`='.\SessionAccountHandler::getId().' '.
-				'AND r.`official_distance` IN('.implode(',', $distances).') '.
-				'AND tr.`sportid`='.$sportid.' '.
+			return 'SELECT r.activity_id, tr.time, r.`official_distance`, MIN(r.`official_time`) as `pb` FROM `' . PREFIX . 'raceresult` as r ' .
+				'LEFT JOIN `' . PREFIX . 'training` as tr ON tr.`id`= r.`activity_id` ' .
+				'WHERE r.`accountid`=' . \SessionAccountHandler::getId() . ' ' .
+				'AND r.`official_distance` IN(' . implode(',', $distances) . ') ' .
+				'AND tr.`sportid`=' . $sportid . ' ' .
 				'GROUP BY r.`official_distance`';
 		}
 
-		return 'SELECT r.activity_id, r.`official_distance`, MIN(r.`official_time`) as `pb` FROM `'.PREFIX.'raceresult` as r '.
-				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id`= r.`activity_id` '.
-				'WHERE r.`accountid`='.\SessionAccountHandler::getId().' '.
-				'AND r.`official_distance` IN('.implode(',', $distances).') '.
-				'AND tr.`sportid`='.$sportid.' '.
+		return 'SELECT r.activity_id, r.`official_distance`, MIN(r.`official_time`) as `pb` FROM `' . PREFIX . 'raceresult` as r ' .
+				'LEFT JOIN `' . PREFIX . 'training` as tr ON tr.`id`= r.`activity_id` ' .
+				'WHERE r.`accountid`=' . \SessionAccountHandler::getId() . ' ' .
+				'AND r.`official_distance` IN(' . implode(',', $distances) . ') ' .
+				'AND tr.`sportid`=' . $sportid . ' ' .
 				'GROUP BY r.`official_distance`';
 	}
 
@@ -167,11 +168,11 @@ class PersonalBest {
 			}
 		} else {
 			$this->Time = $this->PDO->query(
-			    'SELECT MIN(r.`official_time`), r.`activity_id` FROM `'.PREFIX.'raceresult` as r '.
-				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id`= r.`activity_id`'.
-				'WHERE r.`accountid`='.\SessionAccountHandler::getId().'  '.
-				'AND r.`official_distance`="'.$this->Distance.'"'.
-				'AND tr.`sportid`='.$this->SportId
+			    'SELECT MIN(r.`official_time`), r.`activity_id` FROM `' . PREFIX . 'raceresult` as r ' .
+				'LEFT JOIN `' . PREFIX . 'training` as tr ON tr.`id`= r.`activity_id`' .
+				'WHERE r.`accountid`=' . \SessionAccountHandler::getId() . '  ' .
+				'AND r.`official_distance`="' . $this->Distance . '"' .
+				'AND tr.`sportid`=' . $this->SportId
 			)->fetchColumn();
 
 			if ($this->Time === null) {
@@ -192,11 +193,11 @@ class PersonalBest {
 			$Data = self::$PBs[(float) $this->Distance];
 		} else {
 			$Data = $this->PDO->query(
-			    'SELECT r.`activity_id`, r.`official_time` as pb, tr.`time` FROM `'.PREFIX.'raceresult` as r '.
-				'LEFT JOIN `'.PREFIX.'training` as tr ON tr.`id` = r.`activity_id` '.
-				'WHERE r.`accountid`='.\SessionAccountHandler::getId().'  '.
-				'AND r.`official_distance`="'.$this->Distance.'" '.
-				'AND tr.`sportid`='.$this->SportId.' '.
+			    'SELECT r.`activity_id`, r.`official_time` as pb, tr.`time` FROM `' . PREFIX . 'raceresult` as r ' .
+				'LEFT JOIN `' . PREFIX . 'training` as tr ON tr.`id` = r.`activity_id` ' .
+				'WHERE r.`accountid`=' . \SessionAccountHandler::getId() . '  ' .
+				'AND r.`official_distance`="' . $this->Distance . '" ' .
+				'AND tr.`sportid`=' . $this->SportId . ' ' .
 				'ORDER BY r.`official_time` ASC LIMIT 1'
 			)->fetch();
 		}
@@ -222,7 +223,7 @@ class PersonalBest {
      * Does a personal best exist for this distance?
      */
     public function exists(): bool {
-		return (false !== $this->Time);
+		return ($this->Time !== false);
 	}
 
 	/**
@@ -234,7 +235,7 @@ class PersonalBest {
 	}
 
 	public function knowsActivity(): bool {
-		return (null !== $this->ActivityID);
+		return ($this->ActivityID !== null);
 	}
 
 	/**

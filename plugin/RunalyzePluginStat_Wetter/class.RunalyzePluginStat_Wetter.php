@@ -16,44 +16,37 @@ use Runalyze\Data\Weather\Humidity;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_Wetter extends PluginStat {
-	/** @var int */
+class RunalyzePluginStat_Wetter extends PluginStat
+{
+	/**
+	 * @var int
+	 */
 	protected $EquipmentTypeId;
 
-	/** @var array array(id => name) */
-	protected $AllTypes = array();
+	/**
+	 * @var array array(id => name)
+	 */
+	protected $AllTypes = [];
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Weather');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Statistics about weather conditions and temperatures.');
 	}
 
-	/**
-	 * Display long description
-	 */
 	protected function displayLongDescription() {
 		echo HTML::p( __('There is no bad weather, there is only bad clothing.') );
-		echo HTML::p( __('Are you a wimp or a tough runner? '. 
+		echo HTML::p( __('Are you a wimp or a tough runner? ' . 
 						'Have a look at these statistics about the weather conditions.') );
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
-		$this->AllTypes = array(
-		    0 => __('none')
-		);
-		$AllTypes = DB::getInstance()->query('SELECT `id`, `name` FROM `'.PREFIX.'equipment_type` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `name` ASC')->fetchAll();
+		$this->AllTypes = [
+		    0 => __('none'),
+		];
+		$AllTypes = DB::getInstance()->query('SELECT `id`, `name` FROM `' . PREFIX . 'equipment_type` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `name` ASC')->fetchAll();
 
 		foreach ($AllTypes as $data) {
 			$this->AllTypes[$data['id']] = $data['name'];
@@ -82,15 +75,15 @@ class RunalyzePluginStat_Wetter extends PluginStat {
      * @return string[]
      */
     protected function getToolbarNavigationLinks(): array {
-		$LinkList = array();
-		$LinkList[] = '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php">'.Ajax::tooltip(Icon::$LINE_CHART, __('Show temperature plots')).'</a>').'</li>';
+		$LinkList = [];
+		$LinkList[] = '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php">' . Ajax::tooltip(Icon::$LINE_CHART, __('Show temperature plots')) . '</a>') . '</li>';
 
 		if (count($this->AllTypes) > 1) {
-			$LinkList[] = '<li class="with-submenu"><span class="link">'.$this->AllTypes[$this->EquipmentTypeId].'</span><ul class="submenu">';
+			$LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTypes[$this->EquipmentTypeId] . '</span><ul class="submenu">';
 
 			foreach ($this->AllTypes as $id => $name) {
 				$active = ($id == $this->EquipmentTypeId);
-				$LinkList[] = '<li'.($active ? ' class="active"' : '').'>'.$this->getInnerLink($name, false, false, $id).'</li>';
+				$LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
 			}
 		}
 
@@ -105,11 +98,11 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * @return string
 	 */
 	protected function getTimerForOrderingInQuery($addTableName = false) {
-		$time = $addTableName ? '`'.PREFIX.'training`.`time`' : '`time`';
+		$time = $addTableName ? '`' . PREFIX . 'training`.`time`' : '`time`';
 
 		if ($this->showsAllYears()) {
 			// Ensure month-wise data
-			return 'MONTH(FROM_UNIXTIME('.$time.'))';
+			return 'MONTH(FROM_UNIXTIME(' . $time . '))';
 		}
 
 		return parent::getTimerForOrderingInQuery($addTableName);
@@ -127,7 +120,6 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
@@ -139,40 +131,37 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 		}
 	}
 
-	/**
-	 * Display extreme trainings
-	 */
 	protected function displayExtremeTrainings() {
-		$hot  = DB::getInstance()->query('SELECT `temperature`, `id`, `time` FROM `'.PREFIX.'training` WHERE `temperature` IS NOT NULL '.$this->getSportAndYearDependenceForQuery().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `temperature` DESC LIMIT 5')->fetchAll();
-		$cold = DB::getInstance()->query('SELECT `temperature`, `id`, `time` FROM `'.PREFIX.'training` WHERE `temperature` IS NOT NULL '.$this->getSportAndYearDependenceForQuery().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `temperature` ASC LIMIT 5')->fetchAll();
-		$windiest = DB::getInstance()->query('SELECT `wind_speed`, `id`, `time` FROM `'.PREFIX.'training` WHERE `wind_speed` IS NOT NULL '.$this->getSportAndYearDependenceForQuery().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `wind_speed` DESC LIMIT 5')->fetchAll();
-		$maxhumidity = DB::getInstance()->query('SELECT `humidity`, `id`, `time` FROM `'.PREFIX.'training` WHERE `humidity` IS NOT NULL '.$this->getSportAndYearDependenceForQuery().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `humidity` DESC LIMIT 5')->fetchAll();
+		$hot = DB::getInstance()->query('SELECT `temperature`, `id`, `time` FROM `' . PREFIX . 'training` WHERE `temperature` IS NOT NULL ' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `temperature` DESC LIMIT 5')->fetchAll();
+		$cold = DB::getInstance()->query('SELECT `temperature`, `id`, `time` FROM `' . PREFIX . 'training` WHERE `temperature` IS NOT NULL ' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `temperature` ASC LIMIT 5')->fetchAll();
+		$windiest = DB::getInstance()->query('SELECT `wind_speed`, `id`, `time` FROM `' . PREFIX . 'training` WHERE `wind_speed` IS NOT NULL ' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `wind_speed` DESC LIMIT 5')->fetchAll();
+		$maxhumidity = DB::getInstance()->query('SELECT `humidity`, `id`, `time` FROM `' . PREFIX . 'training` WHERE `humidity` IS NOT NULL ' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `humidity` DESC LIMIT 5')->fetchAll();
 
 		foreach ($hot as $i => $h) {
-			$hot[$i] = Temperature::format($h['temperature'], true).' ' .__('on').' '.Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
+			$hot[$i] = Temperature::format($h['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
 		}
 
 		foreach ($cold as $i => $c) {
-			$cold[$i] = Temperature::format($c['temperature'], true).' ' .__('on').' '.Ajax::trainingLink($c['id'], (new LocalTime($c['time']))->format('d.m.Y'));
+			$cold[$i] = Temperature::format($c['temperature'], true) . ' ' . __('on') . ' ' . Ajax::trainingLink($c['id'], (new LocalTime($c['time']))->format('d.m.Y'));
 		}
 
 		foreach ($windiest as $i => $w) {
-			$windiest[$i] = (new WindSpeed($w['wind_speed']))->string().' '.__('on').' '.Ajax::trainingLink($w['id'], (new LocalTime($w['time']))->format('d.m.Y'));
+			$windiest[$i] = (new WindSpeed($w['wind_speed']))->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($w['id'], (new LocalTime($w['time']))->format('d.m.Y'));
 		}
 
 		foreach ($maxhumidity as $i => $h) {
-			$maxhumidity[$i] = (new Humidity($h['humidity']))->string().' '.__('on').' '.Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
+			$maxhumidity[$i] = (new Humidity($h['humidity']))->string() . ' ' . __('on') . ' ' . Ajax::trainingLink($h['id'], (new LocalTime($h['time']))->format('d.m.Y'));
 		}
 
 		echo '<p>';
-		echo '<strong>'.__('Hottest activities').':</strong> ';
-		echo (empty($hot) ? __('none') : implode(', ', $hot)).'<br>';
-		echo (empty($hot) ? __('none') : '<strong>'.__('Coldest activities')).':</strong> ';
-		echo implode(', ', $cold).'<br>';
-		echo '<strong>'.__('Most windy activities').':</strong> ';
-		echo (empty($windiest) ? __('none') : implode(', ', $windiest)).'<br>';
-		echo '<strong>'.__('Highest humidity activities').':</strong> ';
-		echo (empty($maxhumidity) ? __('none') : implode(', ', $maxhumidity)).'<br>';
+		echo '<strong>' . __('Hottest activities') . ':</strong> ';
+		echo (empty($hot) ? __('none') : implode(', ', $hot)) . '<br>';
+		echo (empty($hot) ? __('none') : '<strong>' . __('Coldest activities')) . ':</strong> ';
+		echo implode(', ', $cold) . '<br>';
+		echo '<strong>' . __('Most windy activities') . ':</strong> ';
+		echo (empty($windiest) ? __('none') : implode(', ', $windiest)) . '<br>';
+		echo '<strong>' . __('Highest humidity activities') . ':</strong> ';
+		echo (empty($maxhumidity) ? __('none') : implode(', ', $maxhumidity)) . '<br>';
 		echo '</p>';
 	}
 
@@ -184,7 +173,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Display table for clothes
 	 */
 	protected function displayMonthwiseTable() {
-		require_once __DIR__.'/MonthwiseTable.php';
+		require_once __DIR__ . '/MonthwiseTable.php';
 
 		$num = $this->showsLast6Months() ? 6 : 12;
 		$offset = $this->showsTimeRange() ? date('m') - $num - 1 + 12 : -1;
@@ -205,7 +194,7 @@ class RunalyzePluginStat_Wetter extends PluginStat {
 	 * Display table for clothes
 	 */
 	protected function displayEquipmentTable() {
-		require_once __DIR__.'/MinMaxTableForEquipment.php';
+		require_once __DIR__ . '/MinMaxTableForEquipment.php';
 
 		$Table = new \Runalyze\Plugin\Stat\Wetter\MinMaxTableForEquipment(
 		    DB::getInstance(),

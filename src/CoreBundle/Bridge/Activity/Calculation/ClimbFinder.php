@@ -10,10 +10,14 @@ use Runalyze\Mathematics\PointReduction\RamerDouglasPeucker;
 
 class ClimbFinder
 {
-    /** @var float [-] */
+    /**
+     * @var float [-]
+     */
     const EPSILON_DEFAULT = 1.1;
 
-    /** @var float [m] */
+    /**
+     * @var float [m]
+     */
     const EPSILON_FOR_CLIMB_PROFILE = 0.1;
 
     /**
@@ -22,7 +26,7 @@ class ClimbFinder
      */
     public function findClimbsFor(Training $activity, $epsilon = self::EPSILON_DEFAULT)
     {
-        if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()) {
+        if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && $activity->getTrackdata()->getDistance() !== null) {
             $distances = $activity->getTrackdata()
                 ->getDistance();
             $elevations = $activity->getRoute()

@@ -25,19 +25,29 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const URL = 'http://api.openweathermap.org/data/2.5/weather';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const URL_HISTORICAL = 'http://api.openweathermap.org/data/2.5/history';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $ApiKey;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Proxy;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $HttpClient;
 
     /**
@@ -164,7 +174,7 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
                 }
             } catch (RequestException $e) {
                 $this->logger->warning('OpenWeatherMap API request failed.', [
-                    'exception' => $e
+                    'exception' => $e,
                 ]);
             }
         }
@@ -177,10 +187,10 @@ class OpenWeatherMap implements StrategyInterface, LoggerAwareInterface
         $parameter = [];
 
         if ($location->hasPosition()) {
-            $parameter[] = 'lat='.$location->getLatitude();
-            $parameter[] = 'lon='.$location->getLongitude();
+            $parameter[] = 'lat=' . $location->getLatitude();
+            $parameter[] = 'lon=' . $location->getLongitude();
         } else {
-            $parameter[] = 'q='.$location->getLocationName();
+            $parameter[] = 'q=' . $location->getLocationName();
         }
 
         return sprintf(

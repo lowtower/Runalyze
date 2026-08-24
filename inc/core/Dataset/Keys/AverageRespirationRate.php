@@ -39,7 +39,7 @@ class AverageRespirationRate extends AbstractKey
      */
     public function label(): string
 	{
-		return __('Avg respiration rate').' '.__('(by file)');
+		return __('Avg respiration rate') . ' ' . __('(by file)');
 	}
 
     /**
@@ -56,7 +56,7 @@ class AverageRespirationRate extends AbstractKey
     public function description(): string
 	{
 		return __(
-		    'Die Atemfrequenz ist ein Messwert für die Anzahl der Atemzüge pro Minute (brpm) während des Tages. '.
+		    'Die Atemfrequenz ist ein Messwert für die Anzahl der Atemzüge pro Minute (brpm) während des Tages. ' .
 			'Ein Atemzug umfasst sowohl das Einatmen als auch das Ausatmen.'
 		);
 	}

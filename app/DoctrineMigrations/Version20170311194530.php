@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20170311194530 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,13 +23,13 @@ class Version20170311194530 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'training` CHANGE COLUMN `comment` `title` TEXT');
+        $this->addSql('ALTER TABLE `' . $prefix . 'training` CHANGE COLUMN `comment` `title` TEXT');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'training` CHANGE COLUMN `title` `comment` TEXT');
+        $this->addSql('ALTER TABLE `' . $prefix . 'training` CHANGE COLUMN `title` `comment` TEXT');
     }
 }

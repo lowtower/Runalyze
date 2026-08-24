@@ -7,7 +7,9 @@ use Runalyze\Parameter\Application\WeekStart;
 
 class LocalTimeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DefaultTimezone;
 
     protected function setUp(): void
@@ -22,7 +24,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
-        putenv('TZ='.$this->DefaultTimezone);
+        putenv('TZ=' . $this->DefaultTimezone);
         date_default_timezone_set($this->DefaultTimezone);
 
         parent::tearDown();
@@ -82,7 +84,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('12:34:56 +00:00', $Object->format('H:i:s P'));
         $this->assertEquals('12:34:56 +03:00', $Object->toServerTime()->format('H:i:s P'));
         $this->assertNotEquals($Object->getTimestamp(), $Object->toServerTimestamp());
-        $this->assertEquals($Object->getTimestamp() - 3*3600, $Object->toServerTimestamp());
+        $this->assertEquals($Object->getTimestamp() - 3 * 3600, $Object->toServerTimestamp());
     }
 
     public function testMonthStartAndEnd()
@@ -95,23 +97,23 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
                 '2014-01-01 00:00:00',
                 '2014-01-15 12:34:56',
                 '2014-01-31 23:45:43',
-            ]
+            ],
         ], [
             'start' => '2016-02-01 00:00:00',
             'end' => '2016-02-29 23:59:59',
-            'input' => ['2016-02-28']
+            'input' => ['2016-02-28'],
         ], [
             'start' => '2017-03-01 00:00:00',
             'end' => '2017-03-31 23:59:59',
-            'input' => ['2017-03-05']
-        ]
+            'input' => ['2017-03-05'],
+        ],
         ];
 
         foreach ($testArray as $setup) {
             foreach ($setup['input'] as $input) {
                 $date = LocalTime::fromString($input);
-                $this->assertEquals($setup['start'], $date->monthStart(true)->format('Y-m-d H:i:s'), 'Input was "'.$input.'"');
-                $this->assertEquals($setup['end'], $date->monthEnd(true)->format('Y-m-d H:i:s'), 'Input was "'.$input.'"');
+                $this->assertEquals($setup['start'], $date->monthStart(true)->format('Y-m-d H:i:s'), 'Input was "' . $input . '"');
+                $this->assertEquals($setup['end'], $date->monthEnd(true)->format('Y-m-d H:i:s'), 'Input was "' . $input . '"');
             }
         }
     }
@@ -121,23 +123,23 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $testArray = [[
             'start' => '2016-01-01 00:00:00',
             'end' => '2016-12-31 23:59:59',
-            'input' => ['2016-01-01', '2016-02-29', '2016-06-21', '2016-12-30']
+            'input' => ['2016-01-01', '2016-02-29', '2016-06-21', '2016-12-30'],
         ], [
             'start' => '2017-01-01 00:00:00',
             'end' => '2017-12-31 23:59:59',
-            'input' => ['2017-03-14', '2017-05-21', '2017-08-01', '2017-11-12']
+            'input' => ['2017-03-14', '2017-05-21', '2017-08-01', '2017-11-12'],
         ], [
             'start' => '2001-01-01 00:00:00',
             'end' => '2001-12-31 23:59:59',
-            'input' => ['2001-02-03', '2001-04-25', '2001-06-18', '2001-12-31']
-        ]
+            'input' => ['2001-02-03', '2001-04-25', '2001-06-18', '2001-12-31'],
+        ],
         ];
 
         foreach ($testArray as $setup) {
             foreach ($setup['input'] as $input) {
                 $date = LocalTime::fromString($input);
-                $this->assertEquals($setup['start'], $date->yearStart(true)->format('Y-m-d H:i:s'), 'Input was "'.$input.'"');
-                $this->assertEquals($setup['end'], $date->yearEnd(true)->format('Y-m-d H:i:s'), 'Input was "'.$input.'"');
+                $this->assertEquals($setup['start'], $date->yearStart(true)->format('Y-m-d H:i:s'), 'Input was "' . $input . '"');
+                $this->assertEquals($setup['end'], $date->yearEnd(true)->format('Y-m-d H:i:s'), 'Input was "' . $input . '"');
             }
         }
     }
@@ -179,5 +181,4 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertTrue(LocalTime::fromServerTime(time())->isToday());
     }
-
 }

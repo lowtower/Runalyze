@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class TimeSeries extends ActivitySeries {
+class TimeSeries extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -31,9 +32,6 @@ class TimeSeries extends ActivitySeries {
 		$this->initData($context->trackdata(), Trackdata::TIME);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Time');
 		$this->Color = self::COLOR;

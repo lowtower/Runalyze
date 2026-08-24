@@ -7,7 +7,9 @@ use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 
 class ConsoleExceptionListener
 {
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $Logger;
 
     public function __construct(LoggerInterface $logger)
@@ -29,8 +31,8 @@ class ConsoleExceptionListener
             $command->getName()
         );
 
-        $this->Logger->error($message, array(
-            'exception' => $exception
-        ));
+        $this->Logger->error($message, [
+            'exception' => $exception,
+        ]);
     }
 }

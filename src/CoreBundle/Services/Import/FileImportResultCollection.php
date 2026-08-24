@@ -4,10 +4,14 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
 {
-    /** @var FileImportResult[] */
+    /**
+     * @var FileImportResult[]
+     */
     protected $Elements = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentOffset = 0;
 
     /**
@@ -74,7 +78,7 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
             throw new \InvalidArgumentException('FileImportResultCollection does only accept instances of FileImportResult as elements.');
         }
 
-        if (null === $offset) {
+        if ($offset === null) {
             $this->Elements[] = $value;
         } else {
             $this->Elements[$offset] = $value;

@@ -15,7 +15,8 @@ use \Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-abstract class ActivityPointSeries extends ActivitySeries {
+abstract class ActivityPointSeries extends ActivitySeries
+{
 	const COLOR_PERFECT = '#8E44AD';
 
 	const COLOR_GREAT = '#2980B9';
@@ -51,11 +52,11 @@ abstract class ActivityPointSeries extends ActivitySeries {
      * @param float $okay points above this limit will be colored as 'okay'
      */
     protected function setColorThresholdsAbove(Plot $Plot, $perfect, $great, $good, $okay) {
-		$Plot->Options['hooks']['draw'] = array('RunalyzePlot.flotHookColorPoints('
-			. '['.$perfect.', '.$great.', '.$good.', '.$okay.'], '
-			. '["'.self::COLOR_PERFECT.'", "'.self::COLOR_GREAT.'", "'.self::COLOR_GOOD.'", "'.self::COLOR_OKAY.'"], '
-			. '"'.self::COLOR_BAD.'")'
-		);
+		$Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
+			. '[' . $perfect . ', ' . $great . ', ' . $good . ', ' . $okay . '], '
+			. '["' . self::COLOR_PERFECT . '", "' . self::COLOR_GREAT . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_OKAY . '"], '
+			. '"' . self::COLOR_BAD . '")',
+		];
 	}
 
     /**
@@ -66,10 +67,10 @@ abstract class ActivityPointSeries extends ActivitySeries {
      * @param float $okay points below this limit will be colored as 'okay'
      */
     protected function setColorThresholdsBelow(Plot $Plot, $perfect, $great, $good, $okay) {
-		$Plot->Options['hooks']['draw'] = array('RunalyzePlot.flotHookColorPoints('
-			. '['.$okay.', '.$good.', '.$great.', '.$perfect.'], '
-			. '["'.self::COLOR_BAD.'", "'.self::COLOR_OKAY.'", "'.self::COLOR_GOOD.'", "'.self::COLOR_GREAT.'"], '
-			. '"'.self::COLOR_PERFECT.'")'
-		);
+		$Plot->Options['hooks']['draw'] = ['RunalyzePlot.flotHookColorPoints('
+			. '[' . $okay . ', ' . $good . ', ' . $great . ', ' . $perfect . '], '
+			. '["' . self::COLOR_BAD . '", "' . self::COLOR_OKAY . '", "' . self::COLOR_GOOD . '", "' . self::COLOR_GREAT . '"], '
+			. '"' . self::COLOR_PERFECT . '")',
+		];
 	}
 }

@@ -4,25 +4,39 @@ namespace Runalyze\Parser\Activity\Common\Data\Pause;
 
 class Pause
 {
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $TimeIndex;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $Duration;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     protected $HeartRateAtStart;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     protected $HeartRateAtEnd;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     protected $HeartRateAtRecovery;
 
-    /** @var int|null [s] */
+    /**
+     * @var int|null [s]
+     */
     protected $TimeUntilRecovery;
 
-    /** @var int|null relative to current baseline */
+    /**
+     * @var int|null relative to current baseline
+     */
     protected $PerformanceCondition;
 
     /**
@@ -65,7 +79,7 @@ class Pause
 
     public function hasHeartRateDetails(): bool
     {
-        return null !== $this->HeartRateAtStart && null !== $this->HeartRateAtEnd;
+        return $this->HeartRateAtStart !== null && $this->HeartRateAtEnd !== null;
     }
 
     /**
@@ -94,7 +108,7 @@ class Pause
 
     public function hasRecoveryDetails(): bool
     {
-        return null !== $this->HeartRateAtRecovery && null !== $this->TimeUntilRecovery;
+        return $this->HeartRateAtRecovery !== null && $this->TimeUntilRecovery !== null;
     }
 
     /**
@@ -137,7 +151,7 @@ class Pause
 
     public function hasPerformanceCondition(): bool
     {
-        return null !== $this->PerformanceCondition;
+        return $this->PerformanceCondition !== null;
     }
 
     /**

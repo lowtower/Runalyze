@@ -26,5 +26,4 @@ class VerticalRatioTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(5.5, $Ratio->inPercent());
 		$this->assertEquals(55, $Ratio->value());
 	}
-
 }

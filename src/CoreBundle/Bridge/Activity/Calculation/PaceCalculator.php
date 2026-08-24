@@ -15,7 +15,7 @@ class PaceCalculator
         if ($trackData->hasTime() && $trackData->hasDistance()) {
             $legacyTrackData = new Entity([
                 Entity::TIME => $trackData->getTime(),
-                Entity::DISTANCE => $trackData->getDistance()
+                Entity::DISTANCE => $trackData->getDistance(),
             ]);
 
             $smoother = new PaceSmoother($legacyTrackData, true);

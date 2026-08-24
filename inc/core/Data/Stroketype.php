@@ -6,7 +6,9 @@ use Runalyze\Profile\FitSdk\StrokeTypeProfile;
 
 class Stroketype
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Identifier;
 
     /**

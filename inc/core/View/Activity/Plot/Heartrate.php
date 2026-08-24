@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Heartrate extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Heartrate extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'heartrate';
+		$this->key = 'heartrate';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\Heartrate($context)

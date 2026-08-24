@@ -12,19 +12,29 @@ use Runalyze\Metrics\Energy\Unit\Kilojoules;
  */
 class HeartRateBasedEstimator
 {
-    /** @var Athlete */
+    /**
+     * @var Athlete
+     */
     protected $Athlete;
 
-    /** @var float [kg] */
+    /**
+     * @var float [kg]
+     */
     const DEFAULT_WEIGHT_MALE = 75.0;
 
-    /** @var float [kg] */
+    /**
+     * @var float [kg]
+     */
     const DEFAULT_WEIGHT_FEMALE = 65.0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const DEFAULT_AGE = 35;
 
-    /** @var Energy */
+    /**
+     * @var Energy
+     */
     protected $Energy;
 
     public function __construct(Athlete $athlete)

@@ -17,7 +17,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SportTypeType extends AbstractType
 {
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(TokenStorage $tokenStorage)
@@ -46,36 +48,36 @@ class SportTypeType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('abbr', TextType::class, [
                 'required' => true,
-                'label' => 'Abbreviation'
+                'label' => 'Abbreviation',
             ])
             ->add('hrAvg', HeartRateType::class, [
                 'attr' => [
                     'min' => 40,
-                    'max' => 255
+                    'max' => 255,
                 ],
                 'required' => false,
-                'label' => 'avg. HR'
+                'label' => 'avg. HR',
             ])
             ->add('qualitySession', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Quality session'
+                'label' => 'Quality session',
             ])
             ->add('displayMode', ChoiceType::class, [
                 'choices' => DataBrowserRowProfile::getChoices(),
                 'choice_translation_domain' => false,
-                'label' => 'Calendar view'
+                'label' => 'Calendar view',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Type::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Type::class,
         ]);
     }
 }

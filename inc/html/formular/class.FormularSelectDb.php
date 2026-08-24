@@ -9,11 +9,12 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularSelectDb extends FormularSelectBox {
+class FormularSelectDb extends FormularSelectBox
+{
 	/**
 	 * @var array
 	 */
-	public static $OptionsCache = array();
+	public static $OptionsCache = [];
 
 	/**
 	 * Load options from database
@@ -21,16 +22,16 @@ class FormularSelectDb extends FormularSelectBox {
 	 * @param string $Label
 	 */
 	public function loadOptionsFrom($Table, $Label) {
-		if (! isset(self::$OptionsCache[$Table.'.'.$Label])) {
-			self::$OptionsCache[$Table.'.'.$Label] = DB::getInstance()->query(
-			    'SELECT `id`, `'.$Label.'` as `value` '.
-				'FROM `'.PREFIX.$Table.'` '.
-				'WHERE `accountid`='.\SessionAccountHandler::getId().' '.
+		if (! isset(self::$OptionsCache[$Table . '.' . $Label])) {
+			self::$OptionsCache[$Table . '.' . $Label] = DB::getInstance()->query(
+			    'SELECT `id`, `' . $Label . '` as `value` ' .
+				'FROM `' . PREFIX . $Table . '` ' .
+				'WHERE `accountid`=' . \SessionAccountHandler::getId() . ' ' .
 				'ORDER BY `id` ASC'
 			)->fetchAll();
 		}
 
-		foreach (self::$OptionsCache[$Table.'.'.$Label] as $Option) {
+		foreach (self::$OptionsCache[$Table . '.' . $Label] as $Option) {
 			$this->addOption($Option['id'], $Option['value']);
 		}
 	}

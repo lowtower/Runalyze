@@ -13,7 +13,8 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\DataBrowser
  */
-class DataBrowserLinker {
+class DataBrowserLinker
+{
 	/**
 	 * Get a ajax-link to a specified DataBrowser
 	 * @param string $name Name to be displayed as link
@@ -28,8 +29,8 @@ class DataBrowserLinker {
 		if (FrontendShared::$IS_SHOWN)
 			return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '');
 
-		$href = 'call/call.DataBrowser.display.php?start='.$startTimestampInNoTimezone.'&end='.$endTimestampInNoTimezone;
-		if (null !== $sportid) {
+		$href = 'call/call.DataBrowser.display.php?start=' . $startTimestampInNoTimezone . '&end=' . $endTimestampInNoTimezone;
+		if ($sportid !== null) {
 			$href = $href . '&sport=' . $sportid; // #TSC add sport selection criteria
 		}
 
@@ -97,30 +98,30 @@ class DataBrowserLinker {
 		$start = new LocalTime(is_numeric($startTimestampInNoTimezone) ? $startTimestampInNoTimezone : null);
 		$end = new LocalTime(is_numeric($endTimestampInNoTimezone) ? $endTimestampInNoTimezone : null);
 
-		$date = array();
+		$date = [];
 		$factor = $getPrev ? -1 : 1;
 		$diff_in_days = round(($end->getTimestamp() - $start->getTimestamp()) / 86400);
 		$start_month = $start->format('m');
-		$start_day   = $start->format('d');
-		$start_year  = $start->format('Y');
-		$end_month   = $end->format('m');
-		$end_day     = $end->format('d');
-		$end_year    = $end->format('Y');
+		$start_day = $start->format('d');
+		$start_year = $start->format('Y');
+		$end_month = $end->format('m');
+		$end_day = $end->format('d');
+		$end_year = $end->format('Y');
 
-		if (360 < $diff_in_days && $diff_in_days < 370) {
-			$start_year  += $factor;
-			$end_year    += $factor;
-		} elseif (28 <= $diff_in_days && $diff_in_days <= 31) {
+		if ($diff_in_days > 360 && $diff_in_days < 370) {
+			$start_year += $factor;
+			$end_year += $factor;
+		} elseif ($diff_in_days >= 28 && $diff_in_days <= 31) {
 			$start_month += $factor;
-			$end_month   += $factor;
+			$end_month += $factor;
 
 			if ($start_day == 1 && $end_day != 0) {
 				$end_month = $start_month + 1;
 				$end_day = 0;
 			}
 		} else {
-			$start_day   += $diff_in_days*$factor;
-			$end_day     += $diff_in_days*$factor;
+			$start_day += $diff_in_days * $factor;
+			$end_day += $diff_in_days * $factor;
 		}
 
 		$date['start'] = $start->setDate($start_year, $start_month, $start_day)->setTime(0, 0, 0)->getTimestamp();

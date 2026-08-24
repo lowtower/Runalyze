@@ -16,13 +16,19 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class TrendAnalysisDataQuery
 {
-    /** @var TrendAnalysisData */
+    /**
+     * @var TrendAnalysisData
+     */
     protected $TrendAnalysisData;
 
-    /** @var QueryValueInterface */
+    /**
+     * @var QueryValueInterface
+     */
     protected $QueryValue;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Values = [];
 
     public function __construct(TrendAnalysisData $trendAnalysisData)
@@ -38,7 +44,7 @@ class TrendAnalysisDataQuery
     {
         $sports = $this->TrendAnalysisData->getSport();
 
-        if (1 === count($sports)) {
+        if (count($sports) === 1) {
             $unitSystem->setPaceUnitFromSport(array_shift($sports));
         }
 
@@ -103,5 +109,4 @@ class TrendAnalysisDataQuery
             }, $types));
         }
     }
-
 }

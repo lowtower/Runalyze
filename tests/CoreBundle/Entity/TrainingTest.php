@@ -8,7 +8,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class TrainingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     protected function setUp(): void

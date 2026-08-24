@@ -50,7 +50,7 @@ class SportIconProfile implements InterfaceChoosable
             'icons8-WindSurfing',
             'icons8-Tennis',
             'icons8-Free-Swimming',
-            'icons8-Bouldern'
+            'icons8-Bouldern',
         ];
 
         foreach ($iconClasses as $class) {

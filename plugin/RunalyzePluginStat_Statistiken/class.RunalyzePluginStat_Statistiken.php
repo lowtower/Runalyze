@@ -17,12 +17,13 @@ $PLUGINKEY = 'RunalyzePluginStat_Statistiken';
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_Statistiken extends PluginStat {
+class RunalyzePluginStat_Statistiken extends PluginStat
+{
 	/**
 	 * Sport
 	 * @var array
 	 */
-	protected $Sport = array();
+	protected $Sport = [];
 
 	/**
 	 * Dataset for converting and showing data
@@ -30,16 +31,10 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 */
 	protected $DatasetConfig;
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Statistics');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Monthly and weekly summaries for all sports');
 	}
@@ -48,19 +43,19 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	 * Set navigation
 	 */
 	protected function setOwnNavigation() {
-		$LinkList  = '<li class="with-submenu"><span class="link">'.$this->getAnalysisType().'</span><ul class="submenu">';
-		$LinkList .= '<li'.('' == $this->dat ? ' class="active"' : '').'>'.$this->getInnerLink(__('General overview'), $this->sportid, $this->year, '').'</li>';
-		$LinkList .= '<li'.('allWeeks' == $this->dat ? ' class="active"' : '').'>'.$this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks').'</li>';
+		$LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
+		$LinkList .= '<li' . ($this->dat == '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('General overview'), $this->sportid, $this->year, '') . '</li>';
+		$LinkList .= '<li' . ($this->dat == 'allWeeks' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks') . '</li>';
 
 		$LinkList .= '</ul></li>';
 
-		$this->setToolbarNavigationLinks(array($LinkList));
+		$this->setToolbarNavigationLinks([$LinkList]);
 	}
 
 	private function getAnalysisType(): string {
 		$types = [
 		    '' => __('General overview'),
-		    'allWeeks' => __('All training weeks')
+		    'allWeeks' => __('All training weeks'),
 		];
 		return $types[$this->dat];
 	}
@@ -79,9 +74,6 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		require_once __DIR__ . '/class.SummaryTableMonths.php';
 	}
 
-    /**
-     * Default year
-     */
     protected function defaultYear(): int {
 		return 6;
 	}
@@ -103,18 +95,12 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		$this->setHeaderWithSportAndYear();
 	}
 
-	/**
-	 * Display long description
-	 */
 	protected function displayLongDescription() {
 		echo HTML::p(
 		    __('This plugin shows summaries for all weeks, months or years to compare your overall training.')
 		);
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
 		$Configuration = new PluginConfiguration($this->id());
 		$Configuration->addValue( new PluginConfigurationValueBool('compare_weeks', __('Compare kilometers per week'), '', true) );
@@ -125,7 +111,6 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
@@ -195,8 +180,8 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 			SELECT
 				`time`,
 				DATE(FROM_UNIXTIME(`time`)) as `day`
-			FROM `'.PREFIX.'training`
-			WHERE `sportid`='.Configuration::General()->runningSport().' AND `accountid`='.SessionAccountHandler::getId().'
+			FROM `' . PREFIX . 'training`
+			WHERE `sportid`=' . Configuration::General()->runningSport() . ' AND `accountid`=' . SessionAccountHandler::getId() . '
 			GROUP BY DATE(FROM_UNIXTIME(`time`))
 			ORDER BY `day` DESC';
 
@@ -204,9 +189,9 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 
 		$IsStreak = true;
 		$FirstDay = true;
-		$NumDays  = 0;
+		$NumDays = 0;
 		$LastTime = time();
-		$LastDay  = date('Y-m-d');
+		$LastDay = date('Y-m-d');
 		$Text = '';
 
 		while ($IsStreak) {
@@ -231,7 +216,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 			if ($IsStreak) {
 				if (Time::diffOfDates($Day['day'], $LastDay) <= 1) {
 					$NumDays++;
-					$LastDay  = $Day['day'];
+					$LastDay = $Day['day'];
 					$LastTime = $Day['time'];
 				} else {
 					$IsStreak = false;
@@ -242,15 +227,15 @@ class RunalyzePluginStat_Statistiken extends PluginStat {
 		if ($NumDays >= $this->Configuration()->value('show_streak_days')) {
 			if ($NumDays === 0) {
 				$Text .= __("You don't have a streak. Go out and start one!");
-				$LastTraining = DB::getInstance()->query('SELECT time FROM `'.PREFIX.'training` WHERE `sportid`='.Configuration::General()->runningSport().' AND accountid = '.SessionAccountHandler::getId().' ORDER BY `time` DESC LIMIT 1')->fetch();
+				$LastTraining = DB::getInstance()->query('SELECT time FROM `' . PREFIX . 'training` WHERE `sportid`=' . Configuration::General()->runningSport() . ' AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT 1')->fetch();
 
 				if (isset($LastTraining['time']))
-					$Text .= ' '.sprintf( __('Your last run was on %s'), \Runalyze\Util\LocalTime::date('d.m.Y', $LastTraining['time']));
+					$Text .= ' ' . sprintf( __('Your last run was on %s'), \Runalyze\Util\LocalTime::date('d.m.Y', $LastTraining['time']));
 			} else {
 				$Text .= sprintf( _n('%d day of running since %s', '%d days of running since %s', $NumDays), $NumDays, \Runalyze\Util\LocalTime::date('d.m.Y', $LastTime) );
 			}
 
-			echo '<p class="text c"><em>'.$Text.'</em></p>';
+			echo '<p class="text c"><em>' . $Text . '</em></p>';
 		}
 	}
 }

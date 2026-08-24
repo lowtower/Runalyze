@@ -15,7 +15,8 @@ use Runalyze\Activity\Duration;
  * @author Hannes Christiansen
  * @package Runalyze\Util
  */
-class StringReader {
+class StringReader
+{
 	/**
 	 * @var string
 	 */
@@ -50,8 +51,8 @@ class StringReader {
 	 * @return int Pace in s/km, 0 if nothing found
 	 */
 	public function findDemandedPace($searchPattern = ' in ', $timePattern = '(\d+[:\d+]*)') {
-		$matches = array();
-		preg_match('/'.$searchPattern.$timePattern.'/', $this->String, $matches);
+		$matches = [];
+		preg_match('/' . $searchPattern . $timePattern . '/', $this->String, $matches);
 
 		if (isset($matches[1])) {
 			return (new Duration($matches[1]))->seconds();

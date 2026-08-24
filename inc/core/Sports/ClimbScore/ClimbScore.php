@@ -15,7 +15,9 @@ namespace Runalyze\Sports\ClimbScore;
  */
 class ClimbScore
 {
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $Score;
 
     public function __construct($score = null)
@@ -43,7 +45,7 @@ class ClimbScore
 
     public function isKnown(): bool
     {
-        return null !== $this->Score;
+        return $this->Score !== null;
     }
 
     /**

@@ -29,7 +29,7 @@ class PanelController extends Controller
             'weekStatistics' => $sportRepository->getSportStatisticsSince($today->weekstart(), $account, true),
             'monthStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), $today->format('m'), 1)->getTimestamp(), $account, true),
             'yearStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), 1, 1)->getTimestamp(), $account, true),
-            'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account, true)
+            'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account, true),
         ]);
     }
 }

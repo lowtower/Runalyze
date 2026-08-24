@@ -2,13 +2,12 @@
 
 namespace Runalyze\Model\Common;
 
-
 trait WithNullableArraysTrait
 {
     public function ensureArraysToBeNotNull()
     {
         foreach (static::allDatabaseProperties() as $key) {
-            if ($this->isArray($key) && null === $this->get($key)) {
+            if ($this->isArray($key) && $this->get($key) === null) {
                 $this->set($key, []);
             }
         }

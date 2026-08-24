@@ -16,7 +16,8 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Equipment
  */
-class Entity extends Model\EntityWithID {
+class Entity extends Model\EntityWithID
+{
 	/**
 	 * Key: name
 	 * @var string
@@ -70,7 +71,7 @@ class Entity extends Model\EntityWithID {
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::TYPEID,
 		    self::NOTES,
@@ -78,8 +79,8 @@ class Entity extends Model\EntityWithID {
 		    self::TIME,
 		    self::ADDITIONAL_KM,
 		    self::DATE_START,
-		    self::DATE_END
-		);
+		    self::DATE_END,
+		];
 	}
 
     /**
@@ -103,9 +104,6 @@ class Entity extends Model\EntityWithID {
 		return false;
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 		parent::synchronize();
 
@@ -116,15 +114,14 @@ class Entity extends Model\EntityWithID {
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
+		$this->ensureNumericValue([
 		    self::DISTANCE,
 		    self::TIME,
-		    self::ADDITIONAL_KM
-		));
+		    self::ADDITIONAL_KM,
+		]);
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	public function name() {
@@ -148,7 +145,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Distance
 	 * @return int [km]
 	 */
 	public function distance() {
@@ -156,7 +152,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Duration
 	 * @return int [s]
 	 */
 	public function duration() {
@@ -164,7 +159,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Additional distance
 	 * @return int [km]
 	 */
 	public function additionalDistance() {
@@ -172,7 +166,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Total distance
 	 * @return int [km]
 	 */
 	public function totalDistance() {
@@ -180,7 +173,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Start date
 	 * @return string Y-m-d
 	 */
 	public function startDate() {
@@ -191,11 +183,10 @@ class Entity extends Model\EntityWithID {
      * Has this equipment a start date?
      */
     public function hasStartDate(): bool {
-		return (null !== $this->Data[self::DATE_START]);
+		return ($this->Data[self::DATE_START] !== null);
 	}
 
 	/**
-	 * End date
 	 * @return string Y-m-d
 	 */
 	public function endDate() {
@@ -206,6 +197,6 @@ class Entity extends Model\EntityWithID {
      * Is this equipment still in use?
      */
     public function isInUse(): bool {
-		return (null === $this->Data[self::DATE_END]);
+		return ($this->Data[self::DATE_END] === null);
 	}
 }

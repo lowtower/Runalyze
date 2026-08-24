@@ -15,10 +15,8 @@ use Runalyze\Util\StringReader;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TableLaps extends TableLapsAbstract {
-	/**
-	 * Set code
-	 */
+class TableLaps extends TableLapsAbstract
+{
 	protected function setCode() {
 		$Reader = new StringReader($this->Context->activity()->title());
 
@@ -35,10 +33,10 @@ class TableLaps extends TableLapsAbstract {
 	}
 
 	protected function computeHalfs(): array {
-		$Halfs = array();
+		$Halfs = [];
 
 		$Loop = new Trackdata\Loop($this->Context->trackdata());
-		$Loop->moveToDistance( $this->Context->trackdata()->totalDistance()/2 );
+		$Loop->moveToDistance( $this->Context->trackdata()->totalDistance() / 2 );
 		$Halfs[] = $this->halfFromLoop($Loop);
 
 		$Loop->moveToDistance( $this->Context->trackdata()->totalDistance() );
@@ -51,9 +49,9 @@ class TableLaps extends TableLapsAbstract {
      * @return array<string, float>
      */
     protected function halfFromLoop(Trackdata\Loop $Loop): array {
-		return array(
+		return [
 		    's' => $Loop->difference(Trackdata\Entity::TIME),
-		    'km' => $Loop->difference(Trackdata\Entity::DISTANCE)
-		);
+		    'km' => $Loop->difference(Trackdata\Entity::DISTANCE),
+		];
 	}
 }

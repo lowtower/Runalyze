@@ -14,7 +14,9 @@ use FormularUnit;
 
 class VO2max extends \Runalyze\Configuration\Category
 {
-    /** @var bool Flag: recalculation triggered? */
+    /**
+     * @var bool Flag: recalculation triggered?
+     */
     private static $TRIGGERED = false;
 
     protected function key(): string
@@ -28,7 +30,7 @@ class VO2max extends \Runalyze\Configuration\Category
         $this->createHandle('VO2MAX_MANUAL_CORRECTOR', new FloatingPoint(null, [
             'min' => 0.50,
             'max' => 2.00,
-            'null' => true
+            'null' => true,
         ]));
         $this->createHandle('VO2MAX_MANUAL_VALUE', new Textline(''));
 
@@ -55,7 +57,7 @@ class VO2max extends \Runalyze\Configuration\Category
 
     public function useManualFactor(): bool
     {
-        return (null !== $this->get('VO2MAX_MANUAL_CORRECTOR'));
+        return ($this->get('VO2MAX_MANUAL_CORRECTOR') !== null);
     }
 
     public function manualValue(): float
@@ -119,38 +121,38 @@ class VO2max extends \Runalyze\Configuration\Category
     {
         $Fieldset = new Fieldset(__('VO<sub>2</sub>max estimation'));
 
-        $Fieldset->addHandle($this->handle('VO2MAX_DAYS'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_DAYS'), [
             'label' => __('Time constant length for VO<sub>2</sub>max'),
-            'tooltip' => __('Time constant length for VO<sub>2</sub>max rolling average')
-        ));
+            'tooltip' => __('Time constant length for VO<sub>2</sub>max rolling average'),
+        ]);
 
-        $Fieldset->addHandle($this->handle('VO2MAX_MANUAL_CORRECTOR'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_MANUAL_CORRECTOR'), [
             'label' => __('Manual correction factor'),
             'tooltip' => __('Manual correction factor (e.g. 0.9), if the automatic factor does not fit. Can be left empty.')
-                .'<br>'.sprintf(__('Value must be between %s and %s.'), '0.50', '2.00')
-        ));
+                . '<br>' . sprintf(__('Value must be between %s and %s.'), '0.50', '2.00'),
+        ]);
 
-        $Fieldset->addHandle($this->handle('VO2MAX_MANUAL_VALUE'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_MANUAL_VALUE'), [
             'label' => __('Use fixed VO<sub>2</sub>max value'),
-            'tooltip' => __('Fixed VO<sub>2</sub>max value (e.g. 55), if the estimation does not fit. Can be left empty.')
-        ));
+            'tooltip' => __('Fixed VO<sub>2</sub>max value (e.g. 55), if the estimation does not fit. Can be left empty.'),
+        ]);
 
-        $Fieldset->addHandle($this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_USE_CORRECTION_FOR_ELEVATION'), [
             'label' => __('Adapt for elevation'),
-            'tooltip' => __('The distance can be corrected by a formula from Peter Greif to adapt for elevation.')
-        ));
+            'tooltip' => __('The distance can be corrected by a formula from Peter Greif to adapt for elevation.'),
+        ]);
 
-        $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_POSITIVE_ELEVATION'), [
             'label' => __('Correction per positive elevation'),
-            'tooltip' => __('Add for each meter upwards X meter to the distance.').' ('.__('Only for VO2max estimation').')',
-            'unit' => FormularUnit::$M
-        ));
+            'tooltip' => __('Add for each meter upwards X meter to the distance.') . ' (' . __('Only for VO2max estimation') . ')',
+            'unit' => FormularUnit::$M,
+        ]);
 
-        $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION'), array(
+        $Fieldset->addHandle($this->handle('VO2MAX_CORRECTION_NEGATIVE_ELEVATION'), [
             'label' => __('Correction per negative elevation'),
-            'tooltip' => __('Add for each meter downwards X meter to the distance.').' ('.__('Only for VO2max estimation').')',
-            'unit' => FormularUnit::$M
-        ));
+            'tooltip' => __('Add for each meter downwards X meter to the distance.') . ' (' . __('Only for VO2max estimation') . ')',
+            'unit' => FormularUnit::$M,
+        ]);
 
         return $Fieldset;
     }

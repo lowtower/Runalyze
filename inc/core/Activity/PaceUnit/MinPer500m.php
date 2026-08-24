@@ -16,7 +16,6 @@ namespace Runalyze\Activity\PaceUnit;
 class MinPer500m extends AbstractTimeUnit
 {
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): int
@@ -25,7 +24,6 @@ class MinPer500m extends AbstractTimeUnit
 	}
 
     /**
-     * Appendix
      * @codeCoverageIgnore
      */
     public function appendix(): string

@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20180118193118 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,7 +23,7 @@ class Version20180118193118 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'training`
+        $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `avg_impact_gs_left` FLOAT DEFAULT NULL AFTER `vertical_ratio`,
                                 ADD `avg_impact_gs_right` FLOAT DEFAULT NULL AFTER `avg_impact_gs_left`,
                                 ADD `avg_braking_gs_left` FLOAT DEFAULT NULL AFTER `avg_impact_gs_right`,
@@ -36,7 +38,7 @@ class Version20180118193118 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'training`
+        $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `avg_impact_gs_left`,
                                 DROP `avg_impact_gs_right`,
                                 DROP `avg_braking_gs_left`,

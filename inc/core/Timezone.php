@@ -58,7 +58,7 @@ class Timezone implements InterfaceChoosable
      */
     public static function listTimezones()
     {
-        $timezones = array();
+        $timezones = [];
         $timezoneList = TimezoneEnum::getMapping();
         foreach ($timezoneList as $key => $timezone) {
             $timezones[$key] = $timezone;
@@ -67,7 +67,7 @@ class Timezone implements InterfaceChoosable
         $timezoneList = array_flip($timezoneList);
 
         $currentTime = new DateTime();
-        $timezone_offsets = array();
+        $timezone_offsets = [];
         foreach ($timezones as $timezone) {
             try {
                 $timezone_offsets[(new DateTimeZone($timezone))->getOffset($currentTime)][] = $timezone;
@@ -93,11 +93,11 @@ class Timezone implements InterfaceChoosable
                 $offsetPrefix = $offset < 0 ? '-' : '+';
                 $offsetFormatted = gmdate('H:i', abs($offset));
 
-                $prettyOffset = 'UTC'.$offsetPrefix.$offsetFormatted;
+                $prettyOffset = 'UTC' . $offsetPrefix . $offsetFormatted;
 
                 $currentTime = (new DateTime(null, new DateTimeZone($timezone)))->format('g:i A');
-                $timezoneId = constant(\Runalyze\Parameter\Application\Timezone::class . '::'.strtoupper($timezoneEnum[$timezone]));
-                $timezoneList[$timezoneId] = '('.$prettyOffset.') '.str_replace('_', '', $timezone).' - '.$currentTime;
+                $timezoneId = constant(\Runalyze\Parameter\Application\Timezone::class . '::' . strtoupper($timezoneEnum[$timezone]));
+                $timezoneList[$timezoneId] = '(' . $prettyOffset . ') ' . str_replace('_', '', $timezone) . ' - ' . $currentTime;
             }
         }
 

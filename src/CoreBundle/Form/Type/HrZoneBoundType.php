@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Runalyze\Calculation\Activity\HrZonesCalculator;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,7 +11,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class HrZoneBoundType extends AbstractType implements DataTransformerInterface
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsRequired = false;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -48,7 +49,7 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
      */
     public function reverseTransform($zone)
     {
-        if (null === $zone) {
+        if ($zone === null) {
             if ($this->IsRequired) {
                 throw new TransformationFailedException('Zone cannot be empty');
             }

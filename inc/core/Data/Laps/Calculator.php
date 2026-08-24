@@ -31,12 +31,12 @@ class Calculator
 	/**
 	 * @var array
 	 */
-	protected $Distances = array();
+	protected $Distances = [];
 
 	/**
 	 * @var array
 	 */
-	protected $Times = array();
+	protected $Times = [];
 
 	/**
 	 * @var \Runalyze\Model\Trackdata\Loop
@@ -85,7 +85,7 @@ class Calculator
 		}
 
 		$this->Distances = $lapDistances;
-		$this->Times = array();
+		$this->Times = [];
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Calculator
 			throw new \InvalidArgumentException('Calculator needs sorted array of times');
 		}
 
-		$this->Distances = array();
+		$this->Distances = [];
 		$this->Times = $lapTimes;
 	}
 
@@ -129,7 +129,7 @@ class Calculator
 	{
 		foreach ($this->Distances as $i => $kilometer) {
 			// Ignore empty splits
-			if ($i == 0 && $kilometer > 0 || $this->Distances[$i-1] < $kilometer) {
+			if ($i == 0 && $kilometer > 0 || $this->Distances[$i - 1] < $kilometer) {
 				$this->moveToDistance($kilometer);
 				$this->readLap();
 			}
@@ -175,7 +175,7 @@ class Calculator
 			$distanceArr = explode(',', $distanceStr);
 		}
 
-		if (! self::isSorted($distanceArr)) return array();
+		if (! self::isSorted($distanceArr)) return [];
 
 		return $distanceArr;
 	}
@@ -206,7 +206,7 @@ class Calculator
 
 		if (! self::isSorted($times))
 		{
-			return array();
+			return [];
 		}
 
 		return $times;
@@ -225,9 +225,6 @@ class Calculator
 		}, $timeStrings);
 	}
 
-	/**
-	 * Read lap
-	 */
 	protected function readLap()
 	{
 		$Lap = new Lap(
@@ -262,11 +259,11 @@ class Calculator
 			return;
 		}
 
-		$AdditionalData = array();
+		$AdditionalData = [];
 		$SlicedTrackdata = $this->TrackdataLoop->sliceObject();
 		$this->addTrackdataAveragesToDataFrom($SlicedTrackdata, $AdditionalData);
 
-		if(null !== $this->SwimdataLoop) {
+		if($this->SwimdataLoop !== null) {
 			$SlicedSwimdata = $this->SwimdataLoop->sliceObject();
 			$this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
 		}
@@ -280,15 +277,15 @@ class Calculator
      * @param array<string, mixed> $AdditionalData
      */
     protected function addTrackdataAveragesToDataFrom(Trackdata\Entity $Object, array &$AdditionalData) {
-		$KeysToAverage = array(
+		$KeysToAverage = [
 		    Activity\Entity::CADENCE => Trackdata\Entity::CADENCE,
 		    Activity\Entity::STRIDE_LENGTH => Trackdata\Entity::STRIDE_LENGTH,
 		    Activity\Entity::GROUNDCONTACT => Trackdata\Entity::GROUNDCONTACT,
 		    Activity\Entity::GROUNDCONTACT_BALANCE => Trackdata\Entity::GROUNDCONTACT_BALANCE,
 		    Activity\Entity::VERTICAL_OSCILLATION => Trackdata\Entity::VERTICAL_OSCILLATION,
 		    Activity\Entity::VERTICAL_RATIO => Trackdata\Entity::VERTICAL_RATIO,
-		    Activity\Entity::POWER => Trackdata\Entity::POWER
-		);
+		    Activity\Entity::POWER => Trackdata\Entity::POWER,
+		];
 
 		$NewLoop = new Trackdata\Loop($Object);
 		$NewLoop->goToEnd();
@@ -305,11 +302,11 @@ class Calculator
      * @param array<string, mixed> $AdditionalData
      */
     protected function addSwimmdataAveragesToDataFrom(Swimdata\Entity $Object, array &$AdditionalData) {
-		$KeysToAverage = array(
+		$KeysToAverage = [
 		    Swimdata\Entity::STROKE => Swimdata\Entity::STROKE,
 		    Swimdata\Entity::SWOLF => Swimdata\Entity::SWOLF,
-		    Swimdata\Entity::SWOLFCYCLES => Swimdata\Entity::SWOLFCYCLES
-		);
+		    Swimdata\Entity::SWOLFCYCLES => Swimdata\Entity::SWOLFCYCLES,
+		];
 
 		$NewLoop = new Swimdata\Loop($Object);
 
@@ -403,11 +400,11 @@ class Calculator
 	{
 		$this->TrackdataLoop->moveToDistance($kilometer);
 
-		if (null !== $this->RouteLoop) {
+		if ($this->RouteLoop !== null) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
 
-		if (null !== $this->SwimdataLoop) {
+		if ($this->SwimdataLoop !== null) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
 	}
@@ -423,27 +420,24 @@ class Calculator
 			$this->TrackdataLoop->moveToTime($seconds);
 		}
 
-		if (null !== $this->RouteLoop) {
+		if ($this->RouteLoop !== null) {
 			$this->RouteLoop->goToIndex($this->TrackdataLoop->index());
 		}
 
-		if (null !== $this->SwimdataLoop) {
+		if ($this->SwimdataLoop !== null) {
 			$this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
 		}
 	}
 
-	/**
-	 * Go to end.
-	 */
 	protected function goToEnd()
 	{
 		$this->TrackdataLoop->goToEnd();
 
-		if (null !== $this->RouteLoop) {
+		if ($this->RouteLoop !== null) {
 			$this->RouteLoop->goToEnd();
 		}
 
-		if (null !== $this->SwimdataLoop) {
+		if ($this->SwimdataLoop !== null) {
 			$this->SwimdataLoop->goToEnd();
 		}
 	}

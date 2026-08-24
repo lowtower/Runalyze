@@ -6,11 +6,12 @@ namespace Runalyze\Service\RouteNameEvaluation;
  * Represents all result line from a Overpass response.
  * #TSC
  */
-class OsmCsvDataCollection {
-    protected $data = array();
+class OsmCsvDataCollection
+{
+    protected $data = [];
 
     // array with key=<name> and value=<category>
-    protected $names = array();
+    protected $names = [];
 
     /**
      * @param string $csvLines Overpass lines seperated with |
@@ -20,7 +21,7 @@ class OsmCsvDataCollection {
         $lines = explode(PHP_EOL, $csvLines);
 
         foreach($lines as &$l) {
-            if(substr($l, 0, 6) !== '@type'.OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
+            if(substr($l, 0, 6) !== '@type' . OsmCsvData::SEPERATOR && $l !== '') { // ignore header-line
                 $this->data[] = new OsmCsvData($l);
             }
         }

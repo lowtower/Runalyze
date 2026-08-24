@@ -19,19 +19,29 @@ use Runalyze\Util\LocalTime;
  */
 class Tcx extends AbstractFileExporter
 {
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $XML;
 
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $Activity;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $HasRoute = false;
 
-    /** @var array indicators if route has specific data, use const from Route\Entity as array key */
+    /**
+     * @var array indicators if route has specific data, use const from Route\Entity as array key
+     */
     protected $RouteHas = [];
 
-    /** @var array indicators if route has specific data, use const from Trackdata\Entity as array key */
+    /**
+     * @var array indicators if route has specific data, use const from Trackdata\Entity as array key
+     */
     protected $TrackdataHas = [];
 
     public function isPossible(): bool
@@ -119,9 +129,6 @@ class Tcx extends AbstractFileExporter
         return LocalTime::date('c', $time);
     }
 
-    /**
-     * Set general info
-     */
     protected function setGeneralInfo()
     {
         $this->Activity->addChild('Id', $this->timeToString($this->Context->activity()->timestamp()));
@@ -149,7 +156,7 @@ class Tcx extends AbstractFileExporter
             $Lap = $this->Activity->addChild('Lap');
             $Lap->addAttribute('StartTime', $this->timeToString($Starttime + $Loop->time() - $TimeInSeconds));
             $Lap->addChild('TotalTimeSeconds', $TimeInSeconds);
-            $Lap->addChild('DistanceMeters', 1000*$Loop->difference(Trackdata\Entity::DISTANCE));
+            $Lap->addChild('DistanceMeters', 1000 * $Loop->difference(Trackdata\Entity::DISTANCE));
 
             if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {
                 $Lap->addChild('AverageHeartRateBpm')
@@ -219,7 +226,7 @@ class Tcx extends AbstractFileExporter
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::DISTANCE]) {
-            $trackpoint->addChild('DistanceMeters', 1000*$trackdataLoop->distance());
+            $trackpoint->addChild('DistanceMeters', 1000 * $trackdataLoop->distance());
         }
 
         if ($this->TrackdataHas[Trackdata\Entity::HEARTRATE]) {

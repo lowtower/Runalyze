@@ -22,7 +22,7 @@ class Calculator
 	 * Elevation points
 	 * @var array
 	 */
-	protected $ElevationPoints = array();
+	protected $ElevationPoints = [];
 
 	/**
 	 * Elevation method
@@ -46,7 +46,7 @@ class Calculator
 	 * Up/down points
 	 * @var array
 	 */
-	protected $UpDownPoints = array();
+	protected $UpDownPoints = [];
 
 	/**
 	 * Elevation up
@@ -61,8 +61,6 @@ class Calculator
 	protected $Down = 0;
 
     /**
-     * Constructor
-     *
      * If no options are set, the current configuration settings are used.
      *
      * @param \Runalyze\Parameter\Application\ElevationMethod|null $Method [optional]
@@ -72,11 +70,10 @@ class Calculator
 	{
 		$this->ElevationPoints = $ElevationPoints;
 		$this->Method = $Method instanceof \Runalyze\Parameter\Application\ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
-		$this->Threshold = null !== $Threshold ? $Threshold : Configuration::ActivityView()->elevationMinDiff();
+		$this->Threshold = $Threshold !== null ? $Threshold : Configuration::ActivityView()->elevationMinDiff();
 	}
 
 	/**
-	 * Set threshold
 	 * @param int $threshold
 	 */
 	public function setThreshold($threshold)
@@ -84,9 +81,6 @@ class Calculator
 		$this->Threshold = $threshold;
 	}
 
-    /**
-     * Set method
-     */
     public function setMethod(ElevationMethod $Method)
 	{
 		$this->Method = $Method;
@@ -118,9 +112,6 @@ class Calculator
 		return $this->Down;
 	}
 
-	/**
-	 * Calculate
-	 */
 	public function calculate()
 	{
 		$this->chooseStrategy();
@@ -133,9 +124,6 @@ class Calculator
 		}
 	}
 
-	/**
-	 * Choose strategy
-	 */
 	protected function chooseStrategy()
 	{
 		if ($this->Method->usesThreshold()) {
@@ -149,9 +137,6 @@ class Calculator
 		}
 	}
 
-	/**
-	 * Run strategy
-	 */
 	protected function runStrategy()
 	{
 		if ($this->Strategy instanceof Strategy\AbstractStrategy) {
@@ -162,10 +147,10 @@ class Calculator
 		}
 
 		$num = count($smoothedData);
-		$this->UpDownPoints = array();
+		$this->UpDownPoints = [];
 
 		for ($i = 1; $i < $num; ++$i) {
-			$this->UpDownPoints[$i-1] = $smoothedData[$i] - $smoothedData[$i-1];
+			$this->UpDownPoints[$i - 1] = $smoothedData[$i] - $smoothedData[$i - 1];
 		}
 	}
 

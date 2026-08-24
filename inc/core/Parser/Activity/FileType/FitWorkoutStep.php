@@ -10,7 +10,8 @@ use Runalyze\Activity\LapIntensity;
  * laps in the FIT file has a reference to a "workout_step".
  * #TSC
  */
-class FitWorkoutStep {
+class FitWorkoutStep
+{
     const ADD_TARGET_SPEED = 'FIT target speed';
 
     const ADD_TARGET_HR = 'FIT target HR';
@@ -19,10 +20,14 @@ class FitWorkoutStep {
 
     const ADD_TARGET_POWER = 'FIT target power';
 
-    /** @var array array of LapIntensity|null can contain null values */
+    /**
+     * @var array array of LapIntensity|null can contain null values
+     */
     protected $intensitys = [];
 
-    /** @var array low/high of a target */
+    /**
+     * @var array low/high of a target
+     */
     protected $targets = [];
 
     protected $hasTarget = false;

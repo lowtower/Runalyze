@@ -13,7 +13,8 @@ use Runalyze\View\Activity\Box;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
+class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot
+{
 	/**
 	 * Set plot
 	 */
@@ -33,9 +34,6 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->addAverageHeartrate();
 		$this->addMaximalHeartrate();
@@ -53,10 +51,10 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected function addAverageHeartrate() {
 		if ($this->Context->activity()->hrAvg() > 0) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.').' '.__('Heart rate'));
+			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inBPM(), 'bpm', __('avg.') . ' ' . __('Heart rate'));
 
 			if ($this->Context->dataview()->hrMax()->canShowInHRmax()) {
-				$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.').' '.__('Heart rate'));
+				$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvg()->inPercent(), '&#37;', __('avg.') . ' ' . __('Heart rate'));
 			}
 		}
 	}
@@ -81,7 +79,7 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 		$hr = $this->Context->activity()
 		    ->hrAvgActive();
 		if ($hr > 0 && $hr != $this->Context->activity()->hrAvg()) {
-			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; '.__('Heart rate').' active');
+			$this->BoxedValues[] = new BoxedValue($this->Context->dataview()->hrAvgActive()->inBPM(), 'bpm', '&#216; ' . __('Heart rate') . ' active');
 		}
 	}
 

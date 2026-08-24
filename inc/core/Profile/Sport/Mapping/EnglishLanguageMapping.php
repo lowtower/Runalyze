@@ -7,7 +7,9 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class EnglishLanguageMapping implements ToInternalMappingInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Mapping = [
         'run' => SportProfile::RUNNING,
         'running' => SportProfile::RUNNING,
@@ -25,7 +27,7 @@ class EnglishLanguageMapping implements ToInternalMappingInterface
         'bouldering' => SportProfile::BOULDERING,
         'e-mtb' => SportProfile::E_MTB_MOUNTAIN,
         'hiit' => SportProfile::HIIT_CARDIO,
-        'cardio' => SportProfile::HIIT_CARDIO
+        'cardio' => SportProfile::HIIT_CARDIO,
     ];
 
     public function toInternal($value)

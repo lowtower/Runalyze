@@ -4,10 +4,14 @@ namespace Runalyze\Parser\Activity\Common\Data\Round;
 
 class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 {
-    /** @var Round[] */
+    /**
+     * @var Round[]
+     */
     protected $Elements = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentOffset = 0;
 
     /**
@@ -82,7 +86,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
             throw new \InvalidArgumentException('Round collection does only accept instances of Round as elements.');
         }
 
-        if (null === $offset) {
+        if ($offset === null) {
             $this->Elements[] = $value;
         } else {
             $this->Elements[$offset] = $value;

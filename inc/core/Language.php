@@ -16,10 +16,14 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Language implements InterfaceChoosable
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const GET_KEY = 'lang';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const COOKIE_KEY = 'lang';
 
     /**
@@ -41,7 +45,6 @@ class Language implements InterfaceChoosable
     private static $AVAILABLE_LANGUAGES;
 
     /**
-     * Constructor
      * @param string $language [optional]
      * @param string $domain [optional]
      */
@@ -70,12 +73,9 @@ class Language implements InterfaceChoosable
         return $languages;
     }
 
-    /**
-     * Set locale dir
-     */
     protected function setLocaleDir()
     {
-        self::$LOCALE_DIR = __DIR__.'/../../vendor/runalyze/translations/gettext';
+        self::$LOCALE_DIR = __DIR__ . '/../../vendor/runalyze/translations/gettext';
     }
 
     /**
@@ -111,7 +111,6 @@ class Language implements InterfaceChoosable
     }
 
     /**
-     * Set domain
      * @param string $domain
      */
     protected function setDomain($domain)
@@ -122,17 +121,14 @@ class Language implements InterfaceChoosable
         textdomain($domain);
     }
 
-    /**
-     * Read available languages
-     */
     private static function readAvailableLanguages()
     {
         $languages = [];
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../../app/config/languages.yml'));
+        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../app/config/languages.yml'));
 
         if (is_array($config) && isset($config['parameters']) && isset($config['parameters']['locales'])) {
             foreach ($config['parameters']['locales'] as $short => $lang) {
-                $languages[$short] = array($lang['name'], $lang['locale']);
+                $languages[$short] = [$lang['name'], $lang['locale']];
             }
         }
 
@@ -140,12 +136,11 @@ class Language implements InterfaceChoosable
     }
 
     /**
-     * Available languages
      * @return array
      */
     public static function availableLanguages()
     {
-        if (null === self::$AVAILABLE_LANGUAGES) {
+        if (self::$AVAILABLE_LANGUAGES === null) {
             self::readAvailableLanguages();
         }
 
@@ -182,13 +177,12 @@ class Language implements InterfaceChoosable
     }
 
     /**
-     * Get browser language
      * @param string $default
      * @return string
      */
     protected function getBrowserLanguage(array $supported, $default = 'en')
     {
-        $supp = array();
+        $supp = [];
 
         foreach ($supported as $lang => $isSupported) {
             if ($isSupported) {
@@ -206,7 +200,7 @@ class Language implements InterfaceChoosable
                 $supp
             );
 
-            if (null !== $match) {
+            if ($match !== null) {
                 return $match;
             }
         }
@@ -250,7 +244,7 @@ class Language implements InterfaceChoosable
      */
     protected function sortAccept($header): array
     {
-        $matches = array();
+        $matches = [];
 
         foreach (explode(',', $header) as $option) {
             $option = array_map('trim', explode(';', $option));

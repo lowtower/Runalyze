@@ -13,7 +13,9 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\BackupReadyMessag
 
 class BackupReceiver
 {
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -23,7 +25,7 @@ class BackupReceiver
 
     protected function getPathToBackupFiles(): string
     {
-        return $this->container->getParameter('data_directory').'/backup-tool/backup/';
+        return $this->container->getParameter('data_directory') . '/backup-tool/backup/';
     }
 
     public function userBackup(DefaultMessage $message)
@@ -38,9 +40,9 @@ class BackupReceiver
             ->getRepository('CoreBundle:Account')
             ->find($message->get('accountid'));
 
-        if ('json' == $message->get('export-type')) {
+        if ($message->get('export-type') == 'json') {
             $Backup = new JsonBackup(
-                $this->getPathToBackupFiles().$fileHandler->generateInternalFilename(FilenameHandler::JSON_FORMAT),
+                $this->getPathToBackupFiles() . $fileHandler->generateInternalFilename(FilenameHandler::JSON_FORMAT),
                 $message->get('accountid'),
                 \DB::getInstance(),
                 $this->container->getParameter('database_prefix'),
@@ -49,7 +51,7 @@ class BackupReceiver
             $Backup->run();
         } else {
             $Backup = new SqlBackup(
-                $this->getPathToBackupFiles().$fileHandler->generateInternalFilename(FilenameHandler::SQL_FORMAT),
+                $this->getPathToBackupFiles() . $fileHandler->generateInternalFilename(FilenameHandler::SQL_FORMAT),
                 $message->get('accountid'),
                 \DB::getInstance(),
                 $this->container->getParameter('database_prefix'),

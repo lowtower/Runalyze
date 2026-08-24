@@ -18,7 +18,8 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration\Category
  */
-class Trimp extends \Runalyze\Configuration\Category {
+class Trimp extends \Runalyze\Configuration\Category
+{
     /**
      * Flag: recalculation triggered?
      * @var bool
@@ -32,9 +33,6 @@ class Trimp extends \Runalyze\Configuration\Category {
 		return 'trimp';
 	}
 
-	/**
-	 * Create handles
-	 */
 	protected function createHandles() {
 		$this->createHandle('ATL_DAYS', new Integer(7));
 		$this->createHandle('CTL_DAYS', new Integer(42));
@@ -74,9 +72,6 @@ class Trimp extends \Runalyze\Configuration\Category {
 		return $this->get('TSB_IN_PERCENT');
 	}
 
-	/**
-	 * Register onchange events
-	 */
 	protected function registerOnchangeEvents() {
 		$this->handle('ATL_DAYS')
 		    ->registerOnchangeEvent(self::class . '::triggerRecalculation');
@@ -94,41 +89,35 @@ class Trimp extends \Runalyze\Configuration\Category {
 		    ->registerOnchangeFlag(Ajax::$RELOAD_PLUGINS);
 	}
 
-    /**
-     * Fieldset
-     */
     public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('TRIMP') );
 
-		$Fieldset->addHandle( $this->handle('ATL_DAYS'), array(
-    'label'		=> __('Days for ATL'),
-		    'tooltip'	=> __('Number of days for ATL time constant')
-));
+		$Fieldset->addHandle( $this->handle('ATL_DAYS'), [
+    'label' => __('Days for ATL'),
+		    'tooltip' => __('Number of days for ATL time constant'),
+]);
 
-		$Fieldset->addHandle( $this->handle('CTL_DAYS'), array(
-    'label'		=> __('Days for CTL'),
-		    'tooltip'	=> __('Number of days for CTL time constant')
-));
+		$Fieldset->addHandle( $this->handle('CTL_DAYS'), [
+    'label' => __('Days for CTL'),
+		    'tooltip' => __('Number of days for CTL time constant'),
+]);
 
-		$Fieldset->addHandle( $this->handle('TRIMP_MODEL_IN_PERCENT'), array(
-    'label'		=> __('Show ATL/CTL in percent of your maximum'),
-		    'tooltip'	=> __('By default ATL/CTL are scaled based on your historical maximum. '.
-		    				'This can lead to wrong assumptions if you were overtrained. '.
-		    				'Deactivate this option in that case.')
-));
+		$Fieldset->addHandle( $this->handle('TRIMP_MODEL_IN_PERCENT'), [
+    'label' => __('Show ATL/CTL in percent of your maximum'),
+		    'tooltip' => __('By default ATL/CTL are scaled based on your historical maximum. ' .
+		    				'This can lead to wrong assumptions if you were overtrained. ' .
+		    				'Deactivate this option in that case.'),
+]);
 
-		$Fieldset->addHandle( $this->handle('TSB_IN_PERCENT'), array(
-    'label'		=> __('Show TSB in percent of ATL/CTL'),
-		    'tooltip'	=> __('The scale of TSB values depends on your ATL/CTL. '.
-		    				'You can display TSB as percentage of your current ATL/CTL to keep consistency.')
-));
+		$Fieldset->addHandle( $this->handle('TSB_IN_PERCENT'), [
+    'label' => __('Show TSB in percent of ATL/CTL'),
+		    'tooltip' => __('The scale of TSB values depends on your ATL/CTL. ' .
+		    				'You can display TSB as percentage of your current ATL/CTL to keep consistency.'),
+]);
 
 		return $Fieldset;
 	}
 
-	/**
-	 * Trigger recalculation
-	 */
 	public static function triggerRecalculation() {
 		if (! self::$TRIGGERED) {
 			self::$TRIGGERED = true;

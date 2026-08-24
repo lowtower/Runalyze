@@ -56,7 +56,6 @@ class OpenTab extends AbstractKey
 		return '';
 	}
 
-
     /**
      * @codeCoverageIgnore
      */
@@ -82,7 +81,7 @@ class OpenTab extends AbstractKey
 		$id = $context->activity()
 		    ->id();
         if ($id > 0) {
-            return '<a href="/dashboard?id=' . $id . '#statistics-scrolltag" target="_blank" onclick="event.stopPropagation()">' . $this->getCodeForIcon() .'</a>';
+            return '<a href="/dashboard?id=' . $id . '#statistics-scrolltag" target="_blank" onclick="event.stopPropagation()">' . $this->getCodeForIcon() . '</a>';
         }
 
         return '';

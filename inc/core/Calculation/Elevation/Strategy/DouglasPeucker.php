@@ -40,7 +40,6 @@ class DouglasPeucker extends AbstractStrategy
 	}
 
 	/**
-	 * Set epsilon
 	 * @param float $epsilon
 	 */
 	public function setEpsilon($epsilon)
@@ -53,7 +52,7 @@ class DouglasPeucker extends AbstractStrategy
 	 */
 	public function runSmoothing()
 	{
-		$this->SmoothingIndices = array(0, count($this->ElevationData)-1);
+		$this->SmoothingIndices = [0, count($this->ElevationData) - 1];
 		$this->SmoothedData = $this->smoothPart($this->ElevationData);
 
 		sort($this->SmoothingIndices);
@@ -72,12 +71,12 @@ class DouglasPeucker extends AbstractStrategy
 
 		for ($i = 1; $i < ($num - 1); $i++) {
 			$dist = $this->perpendicularDistance(
-			    self::DISTANCE_BETWEEN_POINTS*$i,
+			    self::DISTANCE_BETWEEN_POINTS * $i,
 			    $data[$i],
-			    self::DISTANCE_BETWEEN_POINTS*0,
+			    self::DISTANCE_BETWEEN_POINTS * 0,
 			    $data[0],
-			    self::DISTANCE_BETWEEN_POINTS*($num-1),
-			    $data[$num-1]
+			    self::DISTANCE_BETWEEN_POINTS * ($num - 1),
+			    $data[$num - 1]
 			);
 
 			if ($dist > $maxDist) {
@@ -95,6 +94,6 @@ class DouglasPeucker extends AbstractStrategy
 			return array_merge(array_slice($recResults1, 0, count($recResults1) - 1), array_slice($recResults2, 0, count($recResults2)));
 		}
 
-		return array($data[0], $data[$num-1]);
+		return [$data[0], $data[$num - 1]];
 	}
 }

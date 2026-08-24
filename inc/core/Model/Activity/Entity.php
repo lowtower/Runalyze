@@ -16,7 +16,8 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity
  */
-class Entity extends Model\EntityWithID {
+class Entity extends Model\EntityWithID
+{
 	/**
 	 * Key: timestamp
 	 * @var string
@@ -580,7 +581,7 @@ class Entity extends Model\EntityWithID {
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::TIMESTAMP,
 		    self::TIMEZONE_OFFSET,
 		    self::TIMESTAMP_CREATED,
@@ -668,8 +669,8 @@ class Entity extends Model\EntityWithID {
 		    self::CREATOR,
 		    self::CREATOR_DETAILS,
 		    self::ACTIVITY_ID,
-		    self::PACE_GOAL
-		);
+		    self::PACE_GOAL,
+		];
 	}
 
     /**
@@ -794,9 +795,6 @@ class Entity extends Model\EntityWithID {
 		return false;
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 		parent::synchronize();
 
@@ -868,7 +866,7 @@ class Entity extends Model\EntityWithID {
             self::AVG_FOOTSTRIKE_TYPE_RIGHT,
             self::AVG_PRONATION_EXCURSION_LEFT,
             self::AVG_PRONATION_EXCURSION_RIGHT,
-            self::ROUTEID
+            self::ROUTEID,
         ], true, true);
     }
 
@@ -876,14 +874,14 @@ class Entity extends Model\EntityWithID {
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
+		$this->ensureNumericValue([
 		    self::SPORTID,
 		    self::TIMESTAMP,
 		    self::IS_PUBLIC,
 		    self::IS_TRACK,
 		    self::TIME_IN_SECONDS,
-		    self::USE_VO2MAX
-		));
+		    self::USE_VO2MAX,
+		]);
 	}
 
 	protected function synchronizeObjects() {
@@ -899,7 +897,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Timestamp
 	 * @return int
 	 */
 	public function timestamp() {
@@ -907,7 +904,7 @@ class Entity extends Model\EntityWithID {
 	}
 
 	public function knowsTimezoneOffset(): bool {
-		return (null !== $this->Data[self::TIMEZONE_OFFSET]);
+		return ($this->Data[self::TIMEZONE_OFFSET] !== null);
 	}
 
 	/**
@@ -918,7 +915,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Sportid
 	 * @return int
 	 */
 	public function sportid() {
@@ -926,7 +922,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Typeid
 	 * @return null|int
 	 */
 	public function typeid() {
@@ -955,7 +950,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Distance
 	 * @return null|float [km]
 	 */
 	public function distance() {
@@ -971,7 +965,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Elapsed time
 	 * @return null|int [s]
 	 */
 	public function elapsedTime() {
@@ -979,7 +972,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Elevation
 	 * @return null|int [m]
 	 */
 	public function elevation() {
@@ -1001,7 +993,6 @@ class Entity extends Model\EntityWithID {
     }
 
 	/**
-	 * Energy
 	 * @return null|int [kcal]
 	 */
 	public function energy() {
@@ -1009,7 +1000,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Energy in rest
 	 * #TSC
 	 * @return null|int [kcal]
 	 */
@@ -1164,7 +1154,6 @@ class Entity extends Model\EntityWithID {
     }
 
     /**
-     * fit total ascent
      * @return null|int
      */
     public function fitTotalAscent() {
@@ -1172,7 +1161,6 @@ class Entity extends Model\EntityWithID {
     }
 
     /**
-     * fit total Descent
      * @return null|int
      */
     public function fitTotalDescent() {
@@ -1244,7 +1232,6 @@ class Entity extends Model\EntityWithID {
     }
 
     /**
-     * avgRespirationRate
      * @return null|int
      */
     public function avgRespirationRate() {
@@ -1252,7 +1239,6 @@ class Entity extends Model\EntityWithID {
     }
 
     /**
-     * maxRespirationRate
      * @return null|int
      */
     public function maxRespirationRate() {
@@ -1267,7 +1253,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * TRIMP
 	 * @return null|int
 	 */
 	public function trimp() {
@@ -1275,7 +1260,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Cadence
 	 * @return null|int [rpm]
 	 */
 	public function cadence() {
@@ -1283,7 +1267,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Power
 	 * @return null|int [W]
 	 */
 	public function power() {
@@ -1294,11 +1277,10 @@ class Entity extends Model\EntityWithID {
 	 * @return null|bool
 	 */
 	public function isPowerCalculated() {
-	    return null === $this->Data[self::IS_POWER_CALCULATED] ? null : 1 == $this->Data[self::IS_POWER_CALCULATED];
+	    return $this->Data[self::IS_POWER_CALCULATED] === null ? null : $this->Data[self::IS_POWER_CALCULATED] == 1;
     }
 
 	/**
-	 * Stride length
 	 * @return null|int [cm]
 	 */
 	public function strideLength() {
@@ -1306,7 +1288,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Total strokes
 	 * @return null|int
 	 */
 	public function totalStrokes() {
@@ -1314,7 +1295,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Swolf
 	 * @return null|int
 	 */
 	public function swolf() {
@@ -1322,7 +1302,6 @@ class Entity extends Model\EntityWithID {
 	}
 
     /**
-     * total cycles
      * #TSC
      * @return null|int
      */
@@ -1331,7 +1310,6 @@ class Entity extends Model\EntityWithID {
     }
 
 	/**
-	 * Ground contact
 	 * @return null|int [ms]
 	 */
 	public function groundcontact() {
@@ -1339,7 +1317,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Vertical oscillation
 	 * @return null|int [mm]
 	 */
 	public function verticalOscillation() {
@@ -1367,7 +1344,7 @@ class Entity extends Model\EntityWithID {
 	 * @return null|int [%]
 	 */
 	public function groundContactBalanceRight() {
-	    if (null === $this->Data[self::GROUNDCONTACT_BALANCE]) {
+	    if ($this->Data[self::GROUNDCONTACT_BALANCE] === null) {
 	        return null;
         }
 
@@ -1375,7 +1352,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Vertical ratio
 	 * @return null|int [%o]
 	 */
 	public function verticalRatio() {
@@ -1461,11 +1437,10 @@ class Entity extends Model\EntityWithID {
     }
 
 	/**
-	 * Weather
 	 * @return \Runalyze\Data\Weather
 	 */
 	public function weather() {
-		if (null === $this->Weather) {
+		if ($this->Weather === null) {
 			$this->Weather = new Weather(
 			    new Weather\Temperature($this->Data[self::TEMPERATURE]),
 			    new Weather\Condition($this->Data[self::WEATHERID]),
@@ -1485,7 +1460,7 @@ class Entity extends Model\EntityWithID {
 	}
 
 	public function knowsIfItIsNight(): bool {
-		return (null !== $this->Data[self::IS_NIGHT]);
+		return ($this->Data[self::IS_NIGHT] !== null);
 	}
 
 	/**
@@ -1493,7 +1468,7 @@ class Entity extends Model\EntityWithID {
 	 * @return \Runalyze\Model\Activity\Splits\Entity
 	 */
 	public function splits() {
-		if (null === $this->Splits) {
+		if ($this->Splits === null) {
 			$this->Splits = new Splits\Entity($this->Data[self::SPLITS]);
 		}
 
@@ -1501,7 +1476,6 @@ class Entity extends Model\EntityWithID {
 	}
 
     /**
-     * SplitsAdditional
      * @return array<string, mixed>
      */
     public function splitsAdditional() {
@@ -1510,7 +1484,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Title
 	 * @return string
 	 */
 	public function title() {
@@ -1518,11 +1491,10 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Partner
 	 * @return \Runalyze\Model\Activity\Partner
 	 */
 	public function partner() {
-		if (null === $this->Partner) {
+		if ($this->Partner === null) {
 			$this->Partner = new Partner($this->Data[self::PARTNER]);
 		}
 
@@ -1546,9 +1518,6 @@ class Entity extends Model\EntityWithID {
 		return $this->Data[self::NOTES];
 	}
 
-	/**
-	 * Unset running values
-	 */
 	public function unsetRunningValues() {
 		$this->set(self::VO2MAX_BY_TIME, null);
 		$this->set(self::VO2MAX, null);
@@ -1556,7 +1525,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * creator
 	 * @return string
 	 */
 	public function creator() {

@@ -33,7 +33,6 @@ class Threshold extends AbstractStrategy
 	}
 
 	/**
-	 * Set epsilon
 	 * @param float $epsilon
 	 */
 	public function setEpsilon($epsilon)
@@ -48,18 +47,18 @@ class Threshold extends AbstractStrategy
 	{
 		$i = 0;
 		$max = count($this->ElevationData);
-		$this->SmoothedData = array($this->ElevationData[0]);
-		$this->SmoothingIndices = array(0);
+		$this->SmoothedData = [$this->ElevationData[0]];
+		$this->SmoothingIndices = [0];
 
-		while ($i+1 < $max) {
+		while ($i + 1 < $max) {
 			$lastPoint = end($this->SmoothedData);
 
 			// Due to performance reasons this is not clean code
 			if (
 				(abs($lastPoint - $this->ElevationData[$i]) > $this->Epsilon) &&
 				(
-				    ($this->ElevationData[$i] > $lastPoint && $this->ElevationData[$i+1] <= $this->ElevationData[$i]) ||
-					($this->ElevationData[$i] < $lastPoint && $this->ElevationData[$i+1] >= $this->ElevationData[$i])
+				    ($this->ElevationData[$i] > $lastPoint && $this->ElevationData[$i + 1] <= $this->ElevationData[$i]) ||
+					($this->ElevationData[$i] < $lastPoint && $this->ElevationData[$i + 1] >= $this->ElevationData[$i])
 				)
 			) {
 				$this->SmoothingIndices[] = $i;

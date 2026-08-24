@@ -4,13 +4,19 @@ namespace Runalyze\Mathematics\PointReduction;
 
 abstract class AbstractPointReductionAlgorithm
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $ReducedX = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $ReducedY = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $ReducedIndices = [];
 
     /**
@@ -55,7 +61,7 @@ abstract class AbstractPointReductionAlgorithm
         $slope = ($line2y - $line1y) / ($line2x - $line1x);
         $passThroughY = -$line1x * $slope + $line1y;
 
-        return (abs(($slope * $pointX) - $pointY + $passThroughY)) / (sqrt($slope*$slope + 1));
+        return (abs(($slope * $pointX) - $pointY + $passThroughY)) / (sqrt($slope * $slope + 1));
     }
 
     /**
@@ -71,7 +77,7 @@ abstract class AbstractPointReductionAlgorithm
     {
         $lineLength = self::pointDistance($line1x, $line1y, $line2x, $line2y);
 
-        if (0 == $lineLength) {
+        if ($lineLength == 0) {
             return self::pointDistance($pointX, $pointY, $line1x, $line1y);
         }
 

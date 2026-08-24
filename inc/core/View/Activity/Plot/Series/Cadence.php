@@ -11,7 +11,6 @@ use Runalyze\Data;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
 use Runalyze\Configuration;
-
 use \Plot;
 
 /**
@@ -20,7 +19,8 @@ use \Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Cadence extends ActivityPointSeries {
+class Cadence extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -46,9 +46,6 @@ class Cadence extends ActivityPointSeries {
 		$this->setManualAverage($cadence->useFactor($context->activity()->cadence()));
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Color = self::COLOR;
 
@@ -62,17 +59,11 @@ class Cadence extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-    /**
-     * Init strings
-     */
     protected function initStrings(Data\Cadence\AbstractCadence $cadence) {
 		$this->Label = $cadence->label();
 		$this->UnitString = $cadence->unitAsString();
 	}
 
-    /**
-     * Manipulate data
-     */
     protected function manipulateData(Data\Cadence\AbstractCadence $cadence) {
 		$cadence->manipulateArray($this->Data);
 	}

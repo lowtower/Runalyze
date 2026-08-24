@@ -9,28 +9,32 @@ use PDO;
  */
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-	/** @var \Runalyze\Dataset\Configuration */
+	/**
+	 * @var \Runalyze\Dataset\Configuration
+	 */
 	protected $Configuration;
 
 	protected function setUp(): void
 	{
 		$this->PDO = new PDO('sqlite::memory:');
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$this->PDO->exec('CREATE TEMP TABLE `'.PREFIX.'dataset` ( `accountid` INTEGER, `keyid` INTEGER, `position` INTEGER, `active` INTEGER, `style` VARCHAR(10), `privacy` INTEGER )');
-		$this->PDO->exec('INSERT INTO `'.PREFIX.'dataset` VALUES(0, 1, 7, 1, "", 0)');
-		$this->PDO->exec('INSERT INTO `'.PREFIX.'dataset` VALUES(0, 2, 2, 1, "test", 1)');
-		$this->PDO->exec('INSERT INTO `'.PREFIX.'dataset` VALUES(0, 3, 9, 0, "", 0)');
-		$this->PDO->exec('INSERT INTO `'.PREFIX.'dataset` VALUES(1, 4, 3, 1, "", 0)');
+		$this->PDO->exec('CREATE TEMP TABLE `' . PREFIX . 'dataset` ( `accountid` INTEGER, `keyid` INTEGER, `position` INTEGER, `active` INTEGER, `style` VARCHAR(10), `privacy` INTEGER )');
+		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 1, 7, 1, "", 0)');
+		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 2, 2, 1, "test", 1)');
+		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(0, 3, 9, 0, "", 0)');
+		$this->PDO->exec('INSERT INTO `' . PREFIX . 'dataset` VALUES(1, 4, 3, 1, "", 0)');
 
 		$this->Configuration = new Configuration($this->PDO, 0);
 	}
 
 	protected function tearDown(): void
 	{
-		$this->PDO->exec('DROP TABLE `'.PREFIX.'dataset`');
+		$this->PDO->exec('DROP TABLE `' . PREFIX . 'dataset`');
 	}
 
 	public function testEmptiness()
@@ -70,7 +74,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	public function testAllKeys()
 	{
 		$this->assertEquals(
-		    array(2, 1, 3),
+		    [2, 1, 3],
 		    $this->Configuration->allKeys()
 		);
 	}
@@ -78,7 +82,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 	public function testActiveKeys()
 	{
 		$this->assertEquals(
-		    array(2, 1),
+		    [2, 1],
 		    $this->Configuration->activeKeys()
 		);
 	}
@@ -96,5 +100,4 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $this->Configuration->getPrivacy(1));
         $this->assertEquals(1, $this->Configuration->getPrivacy(2));
     }
-
 }

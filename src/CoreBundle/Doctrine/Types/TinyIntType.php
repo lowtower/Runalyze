@@ -8,7 +8,9 @@ use Doctrine\DBAL\Types\SmallIntType;
 
 class TinyIntType extends SmallIntType
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const TINYINT = 'tinyint';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)

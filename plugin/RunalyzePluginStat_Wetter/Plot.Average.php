@@ -11,14 +11,14 @@ use Runalyze\Activity\Temperature;
 
 $Temperature = new Temperature();
 
-$Months       = array();
-$Temperatures = array();
+$Months = [];
+$Temperatures = [];
 
 for ($m = 1; $m <= 12; $m++) {
-	$Months[] = array($m-1, Time::month($m, true));
+	$Months[] = [$m - 1, Time::month($m, true)];
 
 	for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++)
-		$Temperatures[$y] = array(null, null, null, null, null, null, null, null, null, null, null, null);
+		$Temperatures[$y] = [null, null, null, null, null, null, null, null, null, null, null, null];
 }
 
 $Query = '
@@ -26,9 +26,9 @@ $Query = '
 		YEAR(FROM_UNIXTIME(`time`)) as `y`,
 		MONTH(FROM_UNIXTIME(`time`)) as `m`,
 		AVG(`temperature`) as `temp`
-	FROM `'.PREFIX.'training`
+	FROM `' . PREFIX . 'training`
 	WHERE
-		`accountid`='.SessionAccountHandler::getId().' AND
+		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		!ISNULL(`temperature`)
 	GROUP BY `y`, `m`
 	ORDER BY `y` ASC, `m` ASC';
@@ -41,10 +41,10 @@ $Plot = new Plot('average', 780, 240);
 
 for ($y = START_YEAR, $n = date('Y'); $y <= $n; $y++) {
 	if (min($Temperatures[$y]) !== null || max($Temperatures[$y]) !== null)
-		$Plot->Data[] = array(
+		$Plot->Data[] = [
 		    'label' => $y,
-		    'data' => $Temperatures[$y]
-		);
+		    'data' => $Temperatures[$y],
+		];
 }
 
 $Plot->setMarginForGrid(5);
@@ -57,6 +57,5 @@ $Plot->addThreshold('y', 0);
 $Plot->addMarkingArea('y', -99, 0);
 $Plot->lineWithPoints();
 $Plot->smoothing(false);
-
 
 $Plot->outputJavaScript();

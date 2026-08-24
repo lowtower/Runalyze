@@ -39,7 +39,7 @@ class HeartrateMaximum extends AbstractKey
      */
     public function label(): string
 	{
-		return __('max.').' '.__('Heart rate');
+		return __('max.') . ' ' . __('Heart rate');
 	}
 
     /**
@@ -47,7 +47,7 @@ class HeartrateMaximum extends AbstractKey
      */
     public function shortLabel(): string
 	{
-		return 'max. '.__('HR');
+		return 'max. ' . __('HR');
 	}
 
     /**

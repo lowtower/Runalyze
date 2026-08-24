@@ -9,10 +9,14 @@ use Runalyze\Util\InterfaceChoosable;
 
 class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const PRIVATE_KEY = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PUBLIC_KEY = 1;
 
     /**
@@ -26,15 +30,14 @@ class DatasetPrivacyProfile extends AbstractEnum implements InterfaceChoosable
             case self::PUBLIC_KEY:
                 return __('public');
             default:
-                throw new \InvalidArgumentException('Invalid databrowser row id "'.$id.'".');
+                throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".');
         }
     }
 
     static public function getChoices(): array {
-        return array(
+        return [
             self::stringFor(self::PRIVATE_KEY) => self::PRIVATE_KEY,
-            self::stringFor(self::PUBLIC_KEY) => self::PUBLIC_KEY
-        );
+            self::stringFor(self::PUBLIC_KEY) => self::PUBLIC_KEY,
+        ];
     }
-
 }

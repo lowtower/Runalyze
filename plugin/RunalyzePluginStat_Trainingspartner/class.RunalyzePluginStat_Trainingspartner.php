@@ -10,12 +10,13 @@ $PLUGINKEY = 'RunalyzePluginStat_Trainingspartner';
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_Trainingspartner extends PluginStat {
+class RunalyzePluginStat_Trainingspartner extends PluginStat
+{
 	/**
 	 * Array for all trainingspartner
 	 * @var array
 	 */
-	protected $Partner = array();
+	protected $Partner = [];
 
 	/**
 	 * Number of trainings without partner
@@ -29,16 +30,10 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	 */
 	protected $TrainingsTotal = 0;
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Training partner');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('How often did you train with whom?');
 	}
@@ -55,34 +50,27 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 		$this->initTrainingspartner();
 	}
 
-    /**
-     * Default sport
-     */
     protected function defaultSport(): int {
 		return -1;
 	}
 
-    /**
-     * Title for all years
-     */
     protected function titleForAllYears(): string {
 		return __('All years');
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
 		echo '<table class="fullwidth zebra-style">';
-		echo '<thead><tr><th colspan="2">'.__('All training partners').'</th></tr></thead>';
+		echo '<thead><tr><th colspan="2">' . __('All training partners') . '</th></tr></thead>';
 		echo '<tbody>';
 
 		if ($this->Partner === [])
 			echo('
 				<tr>
 					<td class="b">0x</td>
-					<td><em>'.__('You have only trained on your own.').'</em></td>
+					<td><em>' . __('You have only trained on your own.') . '</em></td>
 				</tr>');
 		else {
 			$row_num = INFINITY;
@@ -97,7 +85,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 
 					$row_num = $name_num;
 					$i++;
-					echo '<tr><td class="b">'.$row_num.'x</td><td>';
+					echo '<tr><td class="b">' . $row_num . 'x</td><td>';
 				}
 
 				echo SearchLink::to('partner', $name, $name, 'like');
@@ -111,7 +99,7 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 
 		echo '<p class="text">';
 		echo sprintf( __('You have trained <strong>%sx</strong> in total and out of that <strong>%sx</strong> with a training partner, '), $this->TrainingsTotal, $this->TrainingsWithPartner );
-		echo sprintf( __('that are <strong>%s</strong> &#37;.'), $this->TrainingsTotal == 0 ? 0 : round(100*$this->TrainingsWithPartner/$this->TrainingsTotal) );
+		echo sprintf( __('that are <strong>%s</strong> &#37;.'), $this->TrainingsTotal == 0 ? 0 : round(100 * $this->TrainingsWithPartner / $this->TrainingsTotal) );
 		echo '</p>';
 	}
 
@@ -119,13 +107,13 @@ class RunalyzePluginStat_Trainingspartner extends PluginStat {
 	 * Init all trainingspartner
 	 */
 	protected function initTrainingspartner() {
-		$Query = 'SELECT `partner` FROM `'.PREFIX.'training` WHERE `accountid`='.SessionAccountHandler::getId().' AND `partner`!=""';
+		$Query = 'SELECT `partner` FROM `' . PREFIX . 'training` WHERE `accountid`=' . SessionAccountHandler::getId() . ' AND `partner`!=""';
 		$Query .= $this->getSportAndYearDependenceForQuery();
 
 		$trainings = DB::getInstance()->query($Query)->fetchAll();
 
 		$this->TrainingsWithPartner = count($trainings);
-		$this->TrainingsTotal = DB::getInstance()->query('SELECT COUNT(*) FROM `'.PREFIX.'training` WHERE 1'.$this->getSportAndYearDependenceForQuery().' AND accountid = '.SessionAccountHandler::getId())->fetchColumn();
+		$this->TrainingsTotal = DB::getInstance()->query('SELECT COUNT(*) FROM `' . PREFIX . 'training` WHERE 1' . $this->getSportAndYearDependenceForQuery() . ' AND accountid = ' . SessionAccountHandler::getId())->fetchColumn();
 
 		if (empty($trainings))
 			return;

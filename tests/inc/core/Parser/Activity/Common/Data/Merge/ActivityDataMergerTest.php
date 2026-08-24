@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataMerger;
 
 class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     protected $FirstData;
 
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     protected $SecondData;
 
     protected function setUp(): void

@@ -16,17 +16,18 @@ use DB;
  * @author Hannes Christiansen
  * @package Runalyze\Plugin\Statistic\Races
  */
-class RaceContainer {
+class RaceContainer
+{
 	/**
 	 * Data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
 	/**
 	 * @var array
 	 */
-	protected $DistanceIDs = array();
+	protected $DistanceIDs = [];
 
 	/**
 	 * @var \PDO
@@ -47,9 +48,6 @@ class RaceContainer {
 		$this->SportId = $sportId;
 	}
 
-	/**
-	 * Fetch data
-	 */
 	public function fetchData() {
 		$this->Data = $this->fetchDataFromDB();
 
@@ -66,9 +64,9 @@ class RaceContainer {
 				r.`place_total`, r.`place_gender`, r.`place_ageclass`,
 				r.`participants_total`,	r.`participants_gender`, r.`participants_ageclass`,
 				tr.`id`, tr.`time`,	tr.`sportid`, tr.`typeid`, tr.`title`, tr.`distance`,	tr.`s`,	tr.`is_track`, tr.`pulse_avg`, tr.`pulse_max`, tr.`weatherid`, tr.`temperature`
-			FROM `'.PREFIX.'raceresult` as r
-			LEFT JOIN `'.PREFIX.'training` as tr ON r.`activity_id` = tr.`id`
-			WHERE r.`accountid`='.\SessionAccountHandler::getId().' AND tr.`sportid`='.$this->SportId.'
+			FROM `' . PREFIX . 'raceresult` as r
+			LEFT JOIN `' . PREFIX . 'training` as tr ON r.`activity_id` = tr.`id`
+			WHERE r.`accountid`=' . \SessionAccountHandler::getId() . ' AND tr.`sportid`=' . $this->SportId . '
 			ORDER BY tr.`time` DESC'
 		)->fetchAll();
 	}
@@ -89,10 +87,10 @@ class RaceContainer {
      */
     public function races($distance): array {
 		if (! isset($this->DistanceIDs[(string) (float) $distance])) {
-			return array();
+			return [];
 		}
 
-		$races = array();
+		$races = [];
 
 		foreach ($this->DistanceIDs[(string) (float) $distance] as $id) {
 			$races[] = $this->Data[$id];
@@ -105,15 +103,12 @@ class RaceContainer {
 		return array_keys($this->DistanceIDs);
 	}
 
-	/**
-	 * Index distances
-	 */
 	protected function indexDistances() {
 		foreach ($this->Data as $index => $data) {
 			$dist = (float) $data['official_distance'];
 
 			if (! isset($this->DistanceIDs[(string) $dist])) {
-				$this->DistanceIDs[(string) $dist] = array($index);
+				$this->DistanceIDs[(string) $dist] = [$index];
 			} else {
 				$this->DistanceIDs[(string) $dist][] = $index;
 			}

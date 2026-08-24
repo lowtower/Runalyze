@@ -10,13 +10,19 @@ use Runalyze\Model\Activity;
  */
 class LegacyEffectiveVO2maxCorrector
 {
-    /** @var int Number of (best) races to look at */
+    /**
+     * @var int Number of (best) races to look at
+     */
     const DB_LOOKUP_LIMIT = 3;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     private static $GlobalFactor = 1.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $Factor;
 
     /**
@@ -59,15 +65,15 @@ class LegacyEffectiveVO2maxCorrector
             'SELECT MAX(`factor`) AS `factor`
 			FROM (
 				SELECT `vo2max_by_time`*1.0/`vo2max` AS `factor` 
-				FROM `'.PREFIX.'raceresult` r
-				LEFT JOIN `'.PREFIX.'training` tr ON r.activity_id = tr.id
+				FROM `' . PREFIX . 'raceresult` r
+				LEFT JOIN `' . PREFIX . 'training` tr ON r.activity_id = tr.id
 				    WHERE
-					tr.`sportid` = '.(int) $sportid.' AND
+					tr.`sportid` = ' . (int) $sportid . ' AND
 					tr.`vo2max` > 0 AND
 					tr.`use_vo2max` = 1 AND
-					r.`accountid` = '.(int) $accountid.'
+					r.`accountid` = ' . (int) $accountid . '
 				ORDER BY  tr.`vo2max_by_time` DESC 
-				LIMIT '.self::DB_LOOKUP_LIMIT.'
+				LIMIT ' . self::DB_LOOKUP_LIMIT . '
 			) AS T
 			LIMIT 1'
         )->fetchColumn();

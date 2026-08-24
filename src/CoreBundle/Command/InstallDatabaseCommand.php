@@ -10,7 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallDatabaseCommand extends ContainerAwareCommand
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const DATABASE_STRUCTURE_FILE = 'inc/install/structure.sql';
 
     protected function configure()
@@ -48,7 +50,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
     protected function importDatabaseStructure()
     {
         $fileName = $this->getContainer()
-            ->getParameter('kernel.root_dir').'/../'.self::DATABASE_STRUCTURE_FILE;
+            ->getParameter('kernel.root_dir') . '/../' . self::DATABASE_STRUCTURE_FILE;
         $queries = $this->getSqlFileAsArray($fileName, $this->getContainer()->getParameter('database_prefix'));
 
         /** @var \Doctrine\DBAL\Connection $em */
@@ -89,14 +91,14 @@ class InstallDatabaseCommand extends ContainerAwareCommand
      */
     public function getSqlFileAsArray($filename, $databasePrefix, $removeDelimiter = true): array
     {
-        $MRK = array('DELIMITER', 'USE', 'SET', 'LOCK', 'SHOW', 'DROP', 'GRANT', 'ALTER', 'UNLOCK', 'CREATE', 'INSERT', 'UPDATE', 'DELETE', 'REVOKE', 'REPLACE', 'RENAME', 'TRUNCATE');
+        $MRK = ['DELIMITER', 'USE', 'SET', 'LOCK', 'SHOW', 'DROP', 'GRANT', 'ALTER', 'UNLOCK', 'CREATE', 'INSERT', 'UPDATE', 'DELETE', 'REVOKE', 'REPLACE', 'RENAME', 'TRUNCATE'];
         $SQL = @file($filename);
-        $query  = '';
-        $array = array();
+        $query = '';
+        $array = [];
         $inDelimiter = false;
 
         if (! is_array($SQL)) {
-            $SQL = array();
+            $SQL = [];
         }
 
         foreach ($SQL as $line) {
@@ -106,10 +108,10 @@ class InstallDatabaseCommand extends ContainerAwareCommand
             if ($inDelimiter) {
                 if (mb_substr($line, 0, 9) === 'DELIMITER') {
                     $inDelimiter = false;
-                    $query .= $removeDelimiter ? '' : ' '.$line;
+                    $query .= $removeDelimiter ? '' : ' ' . $line;
                     $array[] = $query;
                 } elseif (trim($line) !== '//') {
-                    $query .= ' '.$line;
+                    $query .= ' ' . $line;
                 }
             } else {
                 $AA = explode(' ', $line);
@@ -121,7 +123,7 @@ class InstallDatabaseCommand extends ContainerAwareCommand
                         $query = $line;
                     }
                 } elseif (strlen($query) > 1) {
-                    $query .= ' '.$line;
+                    $query .= ' ' . $line;
                 }
 
                 $x = strlen($query) - 1;

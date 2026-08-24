@@ -11,13 +11,19 @@ use Runalyze\Parser\Common\FileTypeConverterInterface;
 
 abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCase
 {
-    /** @var null|ActivityDataContainer|ActivityDataContainer[] */
+    /**
+     * @var null|ActivityDataContainer|ActivityDataContainer[]
+     */
     protected $Container;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumberOfActivities = 0;
 
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     protected $FilesToClear = [];
 
     protected function tearDown(): void
@@ -34,7 +40,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function pathToTestFiles()
     {
-        return TESTS_ROOT.'/testfiles/';
+        return TESTS_ROOT . '/testfiles/';
     }
 
     /**
@@ -44,7 +50,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function convertAndParseFile(FileTypeConverterInterface $converter, FileContentAwareParserInterface $parser, $file, array $expectedOutputFiles, $completeAfterwards = true)
     {
-        $outputFile = $converter->convertFile($this->pathToTestFiles().$file);
+        $outputFile = $converter->convertFile($this->pathToTestFiles() . $file);
 
         if (! is_array($outputFile)) {
             $outputFile = [$outputFile];
@@ -79,7 +85,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         }
 
         $this->NumberOfActivities = count($tmpContainer);
-        $this->Container = 1 === $this->NumberOfActivities ? $tmpContainer[0] : $tmpContainer;
+        $this->Container = $this->NumberOfActivities === 1 ? $tmpContainer[0] : $tmpContainer;
     }
 
     /**
@@ -88,7 +94,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected function parseFile(FileContentAwareParserInterface $parser, $file, $completeAfterwards = true)
     {
-        $this->parseFileContent($parser, file_get_contents($this->pathToTestFiles().$file), $completeAfterwards);
+        $this->parseFileContent($parser, file_get_contents($this->pathToTestFiles() . $file), $completeAfterwards);
     }
 
     /**
@@ -129,7 +135,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
             }
         }
 
-        if (1 == $this->NumberOfActivities) {
+        if ($this->NumberOfActivities == 1) {
             $this->Container = $this->Container[0];
         }
     }
@@ -154,8 +160,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->assertEquals(count($expectedRounds), $container->Rounds->count());
 
         foreach ($expectedRounds as $i => $expectedRoundData) {
-            $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #'.$i.' has wrong duration.');
-            $this->assertEqualsWithDelta($expectedRoundData[1], $container->Rounds[$i]->getDistance(), $deltaDistance, 'Round #'.$i.' has wrong distance.');
+            $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #' . $i . ' has wrong duration.');
+            $this->assertEqualsWithDelta($expectedRoundData[1], $container->Rounds[$i]->getDistance(), $deltaDistance, 'Round #' . $i . ' has wrong distance.');
         }
     }
 
@@ -168,12 +174,12 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->assertEquals(count($expectedPauses), $this->Container->Pauses->count());
 
         foreach ($expectedPauses as $i => $expectedPauseData) {
-            $this->assertEqualsWithDelta($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), $deltaDuration, 'Pause #'.$i.' has wrong time index.');
-            $this->assertEqualsWithDelta($expectedPauseData[1], $this->Container->Pauses[$i]->getDuration(), $deltaDuration, 'Pause #'.$i.' has wrong duration.');
+            $this->assertEqualsWithDelta($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), $deltaDuration, 'Pause #' . $i . ' has wrong time index.');
+            $this->assertEqualsWithDelta($expectedPauseData[1], $this->Container->Pauses[$i]->getDuration(), $deltaDuration, 'Pause #' . $i . ' has wrong duration.');
 
             if (isset($expectedPauseData[2]) && isset($expectedPauseData[3])) {
-                $this->assertEquals($expectedPauseData[2], $this->Container->Pauses[$i]->getHeartRateAtStart(), 'Pause #'.$i.' has wrong heart rate at start.');
-                $this->assertEquals($expectedPauseData[3], $this->Container->Pauses[$i]->getHeartRateAtEnd(), 'Pause #'.$i.' has wrong heart rate at end.');
+                $this->assertEquals($expectedPauseData[2], $this->Container->Pauses[$i]->getHeartRateAtStart(), 'Pause #' . $i . ' has wrong heart rate at start.');
+                $this->assertEquals($expectedPauseData[3], $this->Container->Pauses[$i]->getHeartRateAtEnd(), 'Pause #' . $i . ' has wrong heart rate at end.');
             }
         }
     }
@@ -213,7 +219,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
             return false;
         }
 
-        $lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+        $lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
         $timezoneName = $lookup->getTimezoneForCoordinate($longitude, $latitude);
         if ($timezoneName === null) {
             return false;

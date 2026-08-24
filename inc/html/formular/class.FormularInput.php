@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularInput extends FormularField {
+class FormularInput extends FormularField
+{
 	/**
 	 * Size: full inline
 	 * @var string
@@ -79,9 +80,6 @@ class FormularInput extends FormularField {
 		$this->labelOnRight = true;
 	}
 
-	/**
-	 * Hide label
-	 */
 	public function hideLabel() {
 		$this->hideLabel = true;
 	}
@@ -132,7 +130,6 @@ class FormularInput extends FormularField {
 	}
 
 	/**
-	 * Set placeholder
 	 * @param string $text
 	 */
 	public function setPlaceholder($text) {
@@ -143,16 +140,16 @@ class FormularInput extends FormularField {
      * Display this field
      */
     protected function getFieldCode(): string {
-		$label = '<label for="'.$this->name.'">'.$this->label.'</label>';
-		$input = $this->wrapInputTagForUnit('<input '.$this->attributes().'>');
+		$label = '<label for="' . $this->name . '">' . $this->label . '</label>';
+		$input = $this->wrapInputTagForUnit('<input ' . $this->attributes() . '>');
 
 		if ($this->hideLabel)
 			$label = '';
 
 		if ($this->labelOnRight)
-			return $input.' '.$label;
+			return $input . ' ' . $label;
 
-		return $label.' '.$input;
+		return $label . ' ' . $input;
 	}
 
 	/**
@@ -164,6 +161,6 @@ class FormularInput extends FormularField {
 		if (empty($this->unit))
 			return $inputTag;
 
-		return '<span class="input-with-unit">'.$inputTag.'<label for="'.$this->name.'" class="input-unit">'.$this->unit.'</label></span>';
+		return '<span class="input-with-unit">' . $inputTag . '<label for="' . $this->name . '" class="input-unit">' . $this->unit . '</label></span>';
 	}
 }

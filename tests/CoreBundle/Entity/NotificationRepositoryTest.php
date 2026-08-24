@@ -12,10 +12,14 @@ use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
  */
 class NotificationRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var NotificationRepository */
+    /**
+     * @var NotificationRepository
+     */
     protected $NotificationRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void
@@ -38,7 +42,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
             $account
         );
 
-        if (null !== $createdAt) {
+        if ($createdAt !== null) {
             $notification->setCreatedAt($createdAt);
             $notification->setExpirationAt($expirationAt);
         }

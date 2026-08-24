@@ -18,19 +18,29 @@ class SelfEvaluationFeeling extends AbstractEnum
 {
     // respect the order by number!
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const VERY_WEAK = 1; // sehr schwach
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WEAK = 2; // schwach
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const NORMAL = 3; // normal
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const STRONG = 4; // stark
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const VERY_STRONG = 5; // sehr stark
 
     /**

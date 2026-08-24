@@ -8,8 +8,6 @@ use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 /**
- * Notification
- *
  * @ORM\Table(name="notification")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\NotificationRepository")
  */
@@ -129,11 +127,11 @@ class Notification implements AccountRelatedEntityInterface
      */
     public function setLifetime($lifetime = null): self
     {
-        if (null === $lifetime) {
+        if ($lifetime === null) {
             $this->expirationAt = null;
         } else {
             $this->expirationAt = (new \DateTime())->setTimestamp($this->createdAt)
-                ->modify('+'.(int) $lifetime.' days')->getTimestamp();
+                ->modify('+' . (int) $lifetime . ' days')->getTimestamp();
         }
 
         return $this;

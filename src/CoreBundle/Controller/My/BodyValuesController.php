@@ -42,7 +42,7 @@ class BodyValuesController extends Controller
             ->setCurrentTimestamp();
 
         $form = $this->createForm(BodyValuesType::class, $user, [
-            'action' => $this->generateUrl('body-values-add')
+            'action' => $this->generateUrl('body-values-add'),
         ]);
         $form->handleRequest($request);
 
@@ -56,7 +56,7 @@ class BodyValuesController extends Controller
 
         return $this->render('my/body-values/form.html.twig', [
             'form' => $form->createView(),
-            'isNew' => true
+            'isNew' => true,
         ]);
     }
 
@@ -73,8 +73,8 @@ class BodyValuesController extends Controller
 
         $form = $this->createForm(BodyValuesType::class, $user, [
             'action' => $this->generateUrl('body-values-edit', [
-                'id' => $user->getId()
-            ])
+                'id' => $user->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -87,7 +87,7 @@ class BodyValuesController extends Controller
         }
 
         return $this->render('my/body-values/form.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -121,7 +121,7 @@ class BodyValuesController extends Controller
                 ->getList()
                 ->getUnitSystem()
                 ->getWeightUnit(),
-            'unitHeartRate' => new BeatsPerMinute()
+            'unitHeartRate' => new BeatsPerMinute(),
         ]);
     }
 }

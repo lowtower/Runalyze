@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
+class ActivityRoutePrivacy extends \Runalyze\Parameter\Select
+{
 	/**
 	 * Show route: never
 	 * @var string
@@ -36,18 +37,15 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::ALWAYS, array(
-    'options'		=> array(
-		        self::NEVER			=> __('never'),
-		        self::RACE			=> __('only for race results'),
-		        self::ALWAYS		=> __('always')
-		    )
-));
+		parent::__construct(self::ALWAYS, [
+    'options' => [
+		        self::NEVER => __('never'),
+		        self::RACE => __('only for race results'),
+		        self::ALWAYS => __('always'),
+		    ],
+]);
 	}
 
-    /**
-     * Show never
-     */
     public function showNever(): bool {
 		return ($this->value() == self::NEVER);
 	}
@@ -59,9 +57,6 @@ class ActivityRoutePrivacy extends \Runalyze\Parameter\Select {
 		return ($this->value() == self::RACE);
 	}
 
-    /**
-     * Show always
-     */
     public function showAlways(): bool {
 		return ($this->value() == self::ALWAYS);
 	}

@@ -10,7 +10,9 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FitSdkMapping */
+    /**
+     * @var FitSdkMapping
+     */
     protected $Mapping;
 
     protected function setUp(): void

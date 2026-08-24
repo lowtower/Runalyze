@@ -7,17 +7,19 @@ use Doctrine\DBAL\Types\DecimalType;
 
 class CastedDecimalScale2Type extends DecimalType
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const CASTED_DECIMAL_2 = 'casted_decimal_2';
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return (null === $value) ? null : (float) $value;
+        return ($value === null) ? null : (float) $value;
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return (null === $value) ? null : sprintf('%.2f', $value);
+        return ($value === null) ? null : sprintf('%.2f', $value);
     }
 
     public function getName()

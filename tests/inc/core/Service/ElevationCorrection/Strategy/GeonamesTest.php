@@ -15,7 +15,7 @@ class GeonamesTest extends \PHPUnit\Framework\TestCase
     public function testEmptyResponse()
     {
         $geonames = new Geonames('foobar', $this->getMockForResponses([
-            new Response(200, [], '')
+            new Response(200, [], ''),
         ]));
 
         $this->assertNull($geonames->loadAltitudeData([49.444], [7.769]));
@@ -24,7 +24,7 @@ class GeonamesTest extends \PHPUnit\Framework\TestCase
     public function testLimitExceededResponse()
     {
         $geonames = new Geonames('foobar', $this->getMockForResponses([
-            new Response(200, [], '{"status":{"message":"the daily limit of 30000 credits for demo has been exceeded. Please use an application specific account. Do not use the demo account for your application.","value":18}}')
+            new Response(200, [], '{"status":{"message":"the daily limit of 30000 credits for demo has been exceeded. Please use an application specific account. Do not use the demo account for your application.","value":18}}'),
         ]));
 
         $this->assertNull($geonames->loadAltitudeData([49.444], [7.769]));
@@ -36,7 +36,7 @@ class GeonamesTest extends \PHPUnit\Framework\TestCase
     public function testSimpleResponse()
     {
         $geonames = new Geonames('foobar', $this->getMockForResponses([
-            new Response(200, [], '{"geonames":[{"srtm3":206,"lng":"10.2","lat":"50.01"},{"srtm3":239,"lng":"11.2","lat":"51.01"}],"numDistinctTiles":"2","credits":"0.44000000000000006","numDistinctPositions":"2"}')
+            new Response(200, [], '{"geonames":[{"srtm3":206,"lng":"10.2","lat":"50.01"},{"srtm3":239,"lng":"11.2","lat":"51.01"}],"numDistinctTiles":"2","credits":"0.44000000000000006","numDistinctPositions":"2"}'),
         ]));
         $geonames->setPointsToGroup(1);
 

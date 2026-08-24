@@ -17,9 +17,6 @@ use Runalyze\Activity\HeartRate;
  */
 abstract class MaximalHeartRate extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(HeartRate $heartRate)
 	{
 		parent::__construct(
@@ -44,6 +41,6 @@ abstract class MaximalHeartRate extends AbstractBox
 	 */
 	protected function label()
 	{
-		return __('max.').' '.__('Heart rate');
+		return __('max.') . ' ' . __('Heart rate');
 	}
 }

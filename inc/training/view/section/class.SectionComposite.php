@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionComposite extends TrainingViewSectionTabbedPlot {
-	/**
-	 * Set header and rows
-	 */
+class SectionComposite extends TrainingViewSectionTabbedPlot
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Composite data');
 

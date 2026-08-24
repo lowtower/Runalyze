@@ -12,10 +12,14 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 
 class AccountLastActionListener
 {
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $token;
 
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     protected $em;
 
     public function __construct(TokenStorage $token, EntityManager $manager)

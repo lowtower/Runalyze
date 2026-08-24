@@ -9,16 +9,24 @@ namespace Runalyze\Sports\Performance\Model;
  */
 class TsbModel extends AbstractModel
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $DaysForCtl;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $DaysForAtl;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $LambdaCTL;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $LambdaATL;
 
     /**

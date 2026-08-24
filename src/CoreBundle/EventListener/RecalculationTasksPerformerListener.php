@@ -7,7 +7,9 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
 class RecalculationTasksPerformerListener
 {
-    /** @var RecalculationManager */
+    /**
+     * @var RecalculationManager
+     */
     protected $Manager;
 
     public function __construct(RecalculationManager $manager)

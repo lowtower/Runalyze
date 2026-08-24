@@ -9,11 +9,11 @@
 use Runalyze\Util\LocalTime;
 
 $titleCenter = __('Activity [in h] by day time');
-$xAxis       = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
-$yAxis       = array();
+$xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+$yAxis = [];
 
 if ($this->sportid > 0) {
-	$Sports = array(SportFactory::DataFor((int) $this->sportid));
+	$Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
 	$Sports = SportFactory::AllSports();
 }
@@ -22,7 +22,7 @@ $Query = DB::getInstance()->prepare(
     'SELECT time, s
 	FROM `' . PREFIX . 'training`
 	WHERE
-		`accountid`='.SessionAccountHandler::getId().' AND
+		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		`sportid`=:id AND
 		(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0)
 		' . $this->getYearDependenceForQuery() . '
@@ -31,11 +31,11 @@ $Query = DB::getInstance()->prepare(
 
 foreach ($Sports as $sport) {
 	$id = $sport['name'];
-	$yAxis[$id] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	$yAxis[$id] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-	$Query->execute(array(
-	    ':id' => $sport['id']
-	));
+	$Query->execute([
+	    ':id' => $sport['id'],
+	]);
 	$data = $Query->fetchAll();
 
 	foreach ($data as $dat) {
@@ -58,10 +58,10 @@ $Plot = new Plot('daytime', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = array(
+	$Plot->Data[] = [
 	    'label' => $key,
-	    'data' => $data
-	);
+	    'data' => $data,
+	];
 	$max += max($data);
 }
 
@@ -83,6 +83,5 @@ foreach ($yAxis as $t)
 
 if ($error)
 	$Plot->raiseError( __('No data available.') );
-
 
 $Plot->outputJavaScript();

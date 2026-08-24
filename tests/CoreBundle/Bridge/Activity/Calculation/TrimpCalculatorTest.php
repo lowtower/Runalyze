@@ -9,10 +9,14 @@ use Runalyze\Profile\Athlete\Gender;
 
 class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TrimpCalculator */
+    /**
+     * @var TrimpCalculator
+     */
     protected $Calculator;
 
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     protected function setUp(): void

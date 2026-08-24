@@ -6,13 +6,19 @@ use SimpleXMLElement;
 
 class TcxActivityRuntastic extends TcxActivity
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentIndex = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $LastActiveIndex = 0;
 
-    /** @var int [bpm] */
+    /**
+     * @var int [bpm]
+     */
     protected $LastValidHR = 0;
 
     protected function parseGeneralValues()

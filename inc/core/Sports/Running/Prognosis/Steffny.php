@@ -14,7 +14,9 @@ namespace Runalyze\Sports\Running\Prognosis;
  */
 class Steffny implements PrognosisInterface
 {
-    /** @var float [s/km] */
+    /**
+     * @var float [s/km]
+     */
     protected $ReferencePaceFor10k = 0.0;
 
     /**
@@ -28,7 +30,7 @@ class Steffny implements PrognosisInterface
 
     public function areValuesValid(): bool
     {
-        return 150 < $this->ReferencePaceFor10k;
+        return $this->ReferencePaceFor10k > 150;
     }
 
     /**

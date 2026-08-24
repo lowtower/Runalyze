@@ -8,7 +8,9 @@ use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 
 class PauseTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Pause */
+    /**
+     * @var Pause
+     */
     protected $Pause;
 
     protected function setUp(): void

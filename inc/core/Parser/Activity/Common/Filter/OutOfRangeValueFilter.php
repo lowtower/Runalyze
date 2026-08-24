@@ -10,7 +10,9 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class OutOfRangeValueFilter extends AbstractFilter
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $Strict;
 
     public function filter(ActivityDataContainer $container, $strict = false)
@@ -72,8 +74,8 @@ class OutOfRangeValueFilter extends AbstractFilter
     {
         if (
             $default !== $value && (
-                (null !== $maximum && $value > $maximum) ||
-                (null !== $minimum && $value < $minimum)
+                ($maximum !== null && $value > $maximum) ||
+                ($minimum !== null && $value < $minimum)
             )
         ) {
             if ($this->Strict) {

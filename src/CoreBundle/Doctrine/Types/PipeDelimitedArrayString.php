@@ -6,7 +6,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class PipeDelimitedArrayString extends PipeDelimitedArray
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const PIPE_ARRAY = 'pipe_array_str';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -25,7 +27,7 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || '' === trim($value)) {
+        if ($value === null || trim($value) === '') {
             return null;
         }
 

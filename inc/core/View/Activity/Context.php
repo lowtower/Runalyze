@@ -18,7 +18,8 @@ use Runalyze\Model\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity
  */
-class Context {
+class Context
+{
 	/**
 	 * @var \Runalyze\Model\Activity\Entity
 	 */
@@ -153,11 +154,11 @@ class Context {
 	}
 
 	public function hasRoute(): bool {
-		return null !== $this->Route;
+		return $this->Route !== null;
 	}
 
 	public function hasSwimdata(): bool {
-		return null !== $this->Swimdata;
+		return $this->Swimdata !== null;
 	}
 
 	public function hasHRV(): bool {
@@ -167,7 +168,6 @@ class Context {
 	public function hasRaceResult(): bool {
 		return ! $this->RaceResult->isEmpty();
 	}
-
 
 	/**
 	 * @return bool
@@ -189,5 +189,4 @@ class Context {
 
 		return true;
 	}
-
 }

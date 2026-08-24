@@ -35,5 +35,4 @@ class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 		$Balance->set(5050);
 		$this->assertTrue($Balance->isKnown());
 	}
-
 }

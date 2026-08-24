@@ -8,16 +8,24 @@ use Runalyze\Model;
 
 class VO2maxAnalysis
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $VO2maxFactor;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountId;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $RunningSportId;
 
-    /** @var Configuration\Category\VO2max */
+    /**
+     * @var Configuration\Category\VO2max
+     */
     protected $VO2maxConfig;
 
     public function __construct(Configuration\Category\VO2max $vo2maxConfig)
@@ -64,11 +72,11 @@ class VO2maxAnalysis
 				`tr`.`pulse_max`,
 				`tr`.`vo2max`,
 				`tr`.`vo2max_by_time`
-			FROM `'.PREFIX.'raceresult` `r` LEFT JOIN `'.PREFIX.'training` `tr` ON `tr`.`id` = `r`.`activity_id`
+			FROM `' . PREFIX . 'raceresult` `r` LEFT JOIN `' . PREFIX . 'training` `tr` ON `tr`.`id` = `r`.`activity_id`
 			WHERE
 				`tr`.`pulse_avg` !=0 AND
-				`tr`.`sportid` = '.$this->RunningSportId.' AND
-				`r`.`accountid` = '.$this->AccountId.'
+				`tr`.`sportid` = ' . $this->RunningSportId . ' AND
+				`r`.`accountid` = ' . $this->AccountId . '
 			ORDER BY `tr`.`time` DESC';
     }
 

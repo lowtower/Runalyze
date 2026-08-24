@@ -21,7 +21,7 @@ class PluginController extends AbstractPluginsAwareController
 
         $Installer = new \PluginInstaller($Pluginkey);
 
-        echo '<h1>'.__('Install').' '.$Pluginkey.'</h1>';
+        echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
         if ($Installer->install()) {
         	$Factory = new \PluginFactory();
@@ -30,7 +30,7 @@ class PluginController extends AbstractPluginsAwareController
         	echo \HTML::okay(__('The plugin has been successfully installed.'));
 
         	echo '<ul class="blocklist"><li>';
-        	echo $Plugin->getConfigLink(\Icon::$CONF.' '.__('Configuration'));
+        	echo $Plugin->getConfigLink(\Icon::$CONF . ' ' . __('Configuration'));
         	echo '</li></ul>';
 
         	\Ajax::setReloadFlag(\Ajax::$RELOAD_ALL);
@@ -40,7 +40,7 @@ class PluginController extends AbstractPluginsAwareController
         }
 
         echo '<ul class="blocklist"><li>';
-        echo \Ajax::window('<a href="'.\ConfigTabPlugins::getExternalUrl().'">'.\Icon::$TABLE.' '.__('back to list').'</a>');
+        echo \Ajax::window('<a href="' . \ConfigTabPlugins::getExternalUrl() . '">' . \Icon::$TABLE . ' ' . __('back to list') . '</a>');
         echo '</li></ul>';
 
         return new Response();
@@ -70,7 +70,7 @@ class PluginController extends AbstractPluginsAwareController
         	$Plugin = $Factory->newInstanceFor( $_GET['id'] );
         	$Plugin->displayConfigWindow();
         } else {
-        	echo '<em>'.__('Something went wrong ...').'</em>';
+        	echo '<em>' . __('Something went wrong ...') . '</em>';
         }
 
         return new Response();

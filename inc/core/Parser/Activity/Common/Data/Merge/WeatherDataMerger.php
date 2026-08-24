@@ -6,10 +6,14 @@ use Runalyze\Parser\Activity\Common\Data\WeatherData;
 
 class WeatherDataMerger implements MergerInterface
 {
-    /** @var WeatherData */
+    /**
+     * @var WeatherData
+     */
     protected $ResultingData;
 
-    /** @var WeatherData */
+    /**
+     * @var WeatherData
+     */
     protected $DataToMerge;
 
     public function __construct(WeatherData $firstData, WeatherData $secondData)
@@ -21,7 +25,7 @@ class WeatherDataMerger implements MergerInterface
     public function merge()
     {
         foreach ($this->getPropertiesToMerge() as $property) {
-            if (null === $this->ResultingData->{$property} || '' === $this->ResultingData->{$property}) {
+            if ($this->ResultingData->{$property} === null || $this->ResultingData->{$property} === '') {
                 $this->ResultingData->{$property} = $this->DataToMerge->{$property};
             }
         }
@@ -39,7 +43,7 @@ class WeatherDataMerger implements MergerInterface
             'WindSpeed',
             'WindDirection',
             'Humidity',
-            'AirPressure'
+            'AirPressure',
         ];
     }
 }

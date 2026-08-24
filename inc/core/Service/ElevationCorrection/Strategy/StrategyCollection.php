@@ -6,10 +6,14 @@ namespace Runalyze\Service\ElevationCorrection\Strategy;
 
 class StrategyCollection
 {
-    /** @var StrategyInterface[] */
+    /**
+     * @var StrategyInterface[]
+     */
     protected $Strategies = [];
 
-    /** @var bool|int */
+    /**
+     * @var bool|int
+     */
     protected $LastSuccessfulStrategyIndex = false;
 
     public function add(StrategyInterface $strategy)
@@ -36,7 +40,7 @@ class StrategyCollection
             if ($strategy->isPossible()) {
                 $result = $strategy->loadAltitudeData($latitudes, $longitudes);
 
-                if (null !== $result) {
+                if ($result !== null) {
                     $this->LastSuccessfulStrategyIndex = $index;
 
                     return $result;
@@ -52,7 +56,7 @@ class StrategyCollection
      */
     public function getLastSuccessfulStrategy()
     {
-        if (false !== $this->LastSuccessfulStrategyIndex) {
+        if ($this->LastSuccessfulStrategyIndex !== false) {
             return $this->Strategies[$this->LastSuccessfulStrategyIndex];
         }
 

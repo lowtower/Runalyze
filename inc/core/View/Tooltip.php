@@ -8,8 +8,6 @@
 namespace Runalyze\View;
 
 /**
- * Tooltip
- *
  * Example usage:
  * <pre>
  * $Tooltip = new Tooltip( 'I\'m a tooltip!' );
@@ -20,7 +18,8 @@ namespace Runalyze\View;
  * @author Hannes Christiansen
  * @package Runalyze\View
  */
-class Tooltip {
+class Tooltip
+{
 	/**
 	 * @var string
 	 */
@@ -63,7 +62,6 @@ class Tooltip {
 	}
 
 	/**
-	 * Set text
 	 * @param string $text
 	 */
 	public function setText($text) {
@@ -71,7 +69,6 @@ class Tooltip {
 	}
 
 	/**
-	 * Set position
 	 * @param string $position
 	 */
 	public function setPosition($position) {
@@ -79,23 +76,22 @@ class Tooltip {
 	}
 
 	/**
-	 * Wrap around
 	 * @param string $code
 	 */
 	public function wrapAround(&$code) {
-		$code = '<span '.$this->attributes().'>'.$code.'</span>';
+		$code = '<span ' . $this->attributes() . '>' . $code . '</span>';
 	}
 
     /**
      * Get attributes
      */
     public function attributes(): string {
-		$Attributes = array();
-		$Attributes[] = 'rel="'.self::ATTRIBUTE_REL.'"';
-		$Attributes[] = self::ATTRIBUTE.'="'.str_replace('&amp;', '&', htmlspecialchars($this->text)).'"';
+		$Attributes = [];
+		$Attributes[] = 'rel="' . self::ATTRIBUTE_REL . '"';
+		$Attributes[] = self::ATTRIBUTE . '="' . str_replace('&amp;', '&', htmlspecialchars($this->text)) . '"';
 
 		if (! empty($this->position)) {
-			$Attributes[] = 'class="'.$this->position.'"';
+			$Attributes[] = 'class="' . $this->position . '"';
 		}
 
 		return implode(' ', $Attributes);

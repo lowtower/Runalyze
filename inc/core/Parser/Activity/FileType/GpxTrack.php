@@ -9,31 +9,49 @@ use SimpleXMLElement;
 
 class GpxTrack extends AbstractSingleParser
 {
-    /** @var int factor to guess pauses */
+    /**
+     * @var int factor to guess pauses
+     */
     public static $PAUSE_FACTOR_FROM_AVERAGE_INTERVAL = 10;
 
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $LastTimestamp = 0;
 
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $ExtensionXml;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $LookForPauses = false;
 
-    /** @var int [s] gaps larger than this value will be recognized as pause if activated */
+    /**
+     * @var int [s] gaps larger than this value will be recognized as pause if activated
+     */
     protected $LimitForPauses = 0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $WasPaused = false;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseDuration = 0;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     protected $LastValidHeartRate;
 
     public function __construct(SimpleXMLElement $track)
@@ -90,7 +108,7 @@ class GpxTrack extends AbstractSingleParser
         for ($seg = 0; $seg < $numSegments; ++$seg) {
             $numPoints = count($this->Xml->trkseg[$seg]->trkpt);
             $totalPoints += $numPoints;
-            $totalTime += strtotime((string) $this->Xml->trkseg[$seg]->trkpt[$numPoints-1]->time) - strtotime((string) $this->Xml->trkseg[$seg]->trkpt[0]->time);
+            $totalTime += strtotime((string) $this->Xml->trkseg[$seg]->trkpt[$numPoints - 1]->time) - strtotime((string) $this->Xml->trkseg[$seg]->trkpt[0]->time);
         }
 
         $this->LimitForPauses = round(self::$PAUSE_FACTOR_FROM_AVERAGE_INTERVAL * $totalTime / $totalPoints);
@@ -128,11 +146,11 @@ class GpxTrack extends AbstractSingleParser
         }
 
         if (! empty($point['lat'])) {
-            $lat  = round((double) $point['lat'], 7);
-            $lon  = round((double) $point['lon'], 7);
+            $lat = round((double) $point['lat'], 7);
+            $lon = round((double) $point['lon'], 7);
         } elseif ($this->Container->ContinuousData->Latitude !== []) {
-            $lat  = end($this->Container->ContinuousData->Latitude);
-            $lon  = end($this->Container->ContinuousData->Longitude);
+            $lat = end($this->Container->ContinuousData->Latitude);
+            $lon = end($this->Container->ContinuousData->Longitude);
         } else {
             return;
         }
@@ -201,8 +219,8 @@ class GpxTrack extends AbstractSingleParser
     private function parseExtensionValues(SimpleXMLElement $point)
     {
         $currentNum = count($this->Container->ContinuousData->Time);
-        $bpm  = null;
-        $rpm  = null;
+        $bpm = null;
+        $rpm = null;
         $temp = null;
         $altitude = null;
 
@@ -240,7 +258,7 @@ class GpxTrack extends AbstractSingleParser
         $this->Container->ContinuousData->Cadence[] = $rpm;
         $this->Container->ContinuousData->Temperature[] = $temp;
 
-        if (0 == $this->Container->ContinuousData->Altitude[$currentNum - 1]) {
+        if ($this->Container->ContinuousData->Altitude[$currentNum - 1] == 0) {
             $this->Container->ContinuousData->Altitude[$currentNum - 1] = $altitude;
         }
     }
@@ -271,7 +289,7 @@ class GpxTrack extends AbstractSingleParser
 
     protected function parseSpoQExtension()
     {
-        if (null !== $this->ExtensionXml && $this->ExtensionXml->children('st', true)->count() > 0) {
+        if ($this->ExtensionXml !== null && $this->ExtensionXml->children('st', true)->count() > 0) {
             $activity = $this->ExtensionXml->children('st', true)
                 ->activity[0];
 

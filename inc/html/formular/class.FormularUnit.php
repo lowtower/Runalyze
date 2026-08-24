@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @deprecated since v4.3
  */
-class FormularUnit {
+class FormularUnit
+{
 	/**
 	 * Unit: percent
 	 * @var string

@@ -8,7 +8,9 @@ use Runalyze\Mathematics\Scale\TwoPartPercental;
 
 class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TwoPartPercental */
+    /**
+     * @var TwoPartPercental
+     */
     protected $Scale;
 
     protected function setUp(): void

@@ -4,7 +4,9 @@ namespace Runalyze\View;
 
 class RpeColor
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     const LEVEL_COLORS = [
         '#225ea8', // 1
         '#41b6c4', // 2
@@ -15,10 +17,12 @@ class RpeColor
         '#fecc5c', // 7
         '#fd8d3c', // 8
         '#fd8d3c', // 9
-        '#e31a1c'  // 10
+        '#e31a1c',  // 10
     ];
 
-	/** @var int|null */
+	/**
+	 * @var int|null
+	 */
 	protected $Value;
 
 	/**
@@ -65,10 +69,10 @@ class RpeColor
      */
     public function string(): string
     {
-	    if (null === $this->Value) {
+	    if ($this->Value === null) {
 	        return '';
         }
 
-        return '<span class="rpe-icon" style="border-color:'.$this->borderColor().';">'.$this->Value.'</span>';
+        return '<span class="rpe-icon" style="border-color:' . $this->borderColor() . ';">' . $this->Value . '</span>';
 	}
 }

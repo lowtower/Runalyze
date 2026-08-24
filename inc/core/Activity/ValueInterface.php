@@ -14,7 +14,8 @@ namespace Runalyze\Activity;
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @package Runalyze\Activity
  */
-interface ValueInterface {
+interface ValueInterface
+{
 	/**
 	 * Label for value
 	 * @return string
@@ -22,7 +23,6 @@ interface ValueInterface {
 	public function label();
 
 	/**
-	 * Unit
 	 * @return string
 	 */
 	public function unit();

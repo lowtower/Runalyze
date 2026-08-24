@@ -14,7 +14,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
     {
         $collection = new RoundCollection([
             new Round(0.0, 100),
-            new Round(0.0, 120)
+            new Round(0.0, 120),
         ]);
 
         $filler = new RoundCollectionFiller($collection);
@@ -32,7 +32,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
     {
         $collection = new RoundCollection([
             new Round(0.4, 0),
-            new Round(0.5, 0)
+            new Round(0.5, 0),
         ]);
 
         $filler = new RoundCollectionFiller($collection);
@@ -59,7 +59,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
     {
         $collection = new RoundCollection([
             new Round(0.4, 0),
-            new Round(0.4, 0)
+            new Round(0.4, 0),
         ]);
 
         $filler = new RoundCollectionFiller($collection);

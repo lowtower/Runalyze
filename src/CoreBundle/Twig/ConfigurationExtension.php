@@ -8,7 +8,9 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
 class ConfigurationExtension extends \Twig_Extension
 {
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function __construct(ConfigurationManager $configurationManager)
@@ -33,11 +35,11 @@ class ConfigurationExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('configVar', array($this, 'configVar')),
-            new \Twig_SimpleFunction('config', array($this, 'config')),
-            new \Twig_SimpleFunction('unitSystem', array($this, 'unitSystem'))
-        );
+        return [
+            new \Twig_SimpleFunction('configVar', [$this, 'configVar']),
+            new \Twig_SimpleFunction('config', [$this, 'config']),
+            new \Twig_SimpleFunction('unitSystem', [$this, 'unitSystem']),
+        ];
     }
 
     /**

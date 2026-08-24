@@ -18,13 +18,16 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Elevation extends ActivitySeries {
+class Elevation extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
 	const COLOR = 'rgb(227,217,187)';
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $ShowAsFilledLine = true;
 
 	/**
@@ -44,7 +47,7 @@ class Elevation extends ActivitySeries {
 	 */
 	protected function initDataWithRoute(Activity\Context $context, $forceOriginal) {
 		if (! $context->hasRoute()) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
@@ -52,7 +55,7 @@ class Elevation extends ActivitySeries {
 		    ->hasCorrectedElevations() && ! $forceOriginal ? Route::ELEVATIONS_CORRECTED : Route::ELEVATIONS_ORIGINAL;
 
 		if (! $context->route()->has($key)) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
@@ -76,9 +79,6 @@ class Elevation extends ActivitySeries {
 		}
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Elevation');
 		$this->Color = self::COLOR;
@@ -120,7 +120,7 @@ class Elevation extends ActivitySeries {
 		$Plot->setYLimits($yAxis, $minLimit, $maxLimit, true);
 
 		if ($this->ShowAsFilledLine) {
-			$Plot->setLinesFilled(array($yAxis - 1));
+			$Plot->setLinesFilled([$yAxis - 1]);
 		}
 	}
 
@@ -128,10 +128,10 @@ class Elevation extends ActivitySeries {
      * @return array<int, mixed> array($min, $max)
      */
     public function limits(): array {
-		return array(
+		return [
 		    min($this->Data),
-		    max($this->Data)
-		);
+		    max($this->Data),
+		];
 	}
 
 	/**

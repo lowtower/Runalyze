@@ -44,11 +44,11 @@ class CreateController extends Controller
             ->getActivityForm()
             ->get('TRAINING_CREATE_MODE');
 
-        if ('garmin' == $defaultUploadMode) {
+        if ($defaultUploadMode == 'garmin') {
             return $this->forward('CoreBundle:Activity\Create:communicator');
         }
 
-        if ('form' == $defaultUploadMode) {
+        if ($defaultUploadMode == 'form') {
             return $this->forward('CoreBundle:Activity\Create:new');
         }
 
@@ -82,21 +82,21 @@ class CreateController extends Controller
     public function uploadAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
         $importResult = null;
-        $importDir = $this->getParameter('data_directory').'/import/';
+        $importDir = $this->getParameter('data_directory') . '/import/';
 
         if ($request->query->has('file')) {
             $importer = $this->get('app.file_importer');
-            $importResult = $importer->importSingleFile($importDir.$request->query->get('file'));
+            $importResult = $importer->importSingleFile($importDir . $request->query->get('file'));
         } elseif ($request->query->has('files')) {
             $importer = $this->get('app.file_importer');
             $importResult = $importer->importFiles(
                 array_map(function ($file) use ($importDir): string {
-                    return $importDir.$file;
+                    return $importDir . $file;
                 }, explode(';', $request->query->get('files')))
             );
         }
 
-        if (null !== $importResult) {
+        if ($importResult !== null) {
             return $this->getResponseForImportResults($importResult, $account, $request);
         }
 
@@ -118,14 +118,14 @@ class CreateController extends Controller
 
         $numActivities = $results->getTotalNumberOfActivities();
 
-        if (1 == $numActivities) {
+        if ($numActivities == 1) {
             return $this->getResponseForNewSingleActivity(
                 $this->containerToActivity($results[0]->getContainer()[0], $account),
                 $request
             );
         }
 
-        if (1 < $numActivities) {
+        if ($numActivities > 1) {
             return $this->getResponseForMultipleNewActivities($results, $request, $account);
         }
 
@@ -141,7 +141,7 @@ class CreateController extends Controller
         $maxFileSize = min($serverParams->getPostMaxSizeInBytes(), $serverParams->getUploadMaxFilesize());
 
         return $this->render('activity/import_upload.html.twig', [
-            'maxFileSize' => $maxFileSize < PHP_INT_MAX ? $maxFileSize : false
+            'maxFileSize' => $maxFileSize < PHP_INT_MAX ? $maxFileSize : false,
         ]);
     }
 
@@ -175,14 +175,14 @@ class CreateController extends Controller
         }
 
         $form = $this->createForm(MultiImporterType::class, $activityHashes, [
-            'action' => $this->generateUrl('activity-multi-importer')
+            'action' => $this->generateUrl('activity-multi-importer'),
         ]);
         $form->handleRequest($request);
 
         return $this->render('activity/multi_importer.html.twig', [
             'form' => $form->createView(),
             'errors' => $errors,
-            'previews' => $previews
+            'previews' => $previews,
         ]);
     }
 
@@ -193,7 +193,7 @@ class CreateController extends Controller
     public function multiImporterAction(Request $request, Account $account)
     {
         $form = $this->createForm(MultiImporterType::class, [], [
-            'action' => $this->generateUrl('activity-multi-importer')
+            'action' => $this->generateUrl('activity-multi-importer'),
         ]);
         $form->handleRequest($request);
 
@@ -232,7 +232,7 @@ class CreateController extends Controller
 
             if ($form->get('show_multi_editor')->getData()) {
                 return $this->redirectToRoute('multi-editor', [
-                    'ids' => implode(',', $activityIds)
+                    'ids' => implode(',', $activityIds),
                 ]);
             }
 
@@ -266,7 +266,7 @@ class CreateController extends Controller
     protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, $setCache = true)
     {
         $form = $this->createForm(ActivityType::class, $activity, [
-            'action' => $this->generateUrl('activity-new')
+            'action' => $this->generateUrl('activity-new'),
         ]);
         $form->handleRequest($request);
 
@@ -293,7 +293,7 @@ class CreateController extends Controller
             'isNew' => true,
             'isDuplicate' => $this->get('app.activity_duplicate_finder')
                 ->isPossibleDuplicate($activity),
-            'isPowerLocked' => null !== $activity->isPowerCalculated()
+            'isPowerLocked' => $activity->isPowerCalculated() !== null,
         ]);
     }
 
@@ -302,7 +302,7 @@ class CreateController extends Controller
         $activity = $this->get('app.activity_context.cache')
             ->get($form->get('temporaryHash')->getData(), $newActivity, true);
 
-        if ('' != $activity->getRouteName()) {
+        if ($activity->getRouteName() != '') {
             if (! $activity->hasRoute()) {
                 $activity->setRoute((new EntityRoute())->setAccount($activity->getAccount()));
             }
@@ -310,7 +310,7 @@ class CreateController extends Controller
             $activity->getRoute()
                 ->setName($activity->getRouteName());
 
-            if (0 !== (int) $activity->getElevation() && 0 == $activity->getRoute()->getElevation()) {
+            if ((int) $activity->getElevation() !== 0 && $activity->getRoute()->getElevation() == 0) {
                 $activity->getRoute()
                     ->setElevation($activity->getElevation());
             }
@@ -336,7 +336,7 @@ class CreateController extends Controller
         $activity->setSport($this->getMainSport($account));
         $activity->setPublic(! $activity->getSport()->getDefaultPrivacy());
 
-        if (null !== $activity->getSport()) {
+        if ($activity->getSport() !== null) {
             $activity->setType($activity->getSport()->getDefaultType());
         }
 
@@ -356,7 +356,7 @@ class CreateController extends Controller
             ->getRepository('CoreBundle:Sport')
             ->findThisOrAny($mainSportId, $account);
 
-        if (null === $sport || $account->getId() != $sport->getAccount()->getId()) {
+        if ($sport === null || $account->getId() != $sport->getAccount()->getId()) {
             return null;
         }
 

@@ -43,7 +43,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('findByAccount'))
+            ->setMethods(['findByAccount'])
             ->getMock();
 
         $repository

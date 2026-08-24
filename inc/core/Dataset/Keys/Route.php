@@ -17,10 +17,14 @@ use Runalyze\Dataset\Context;
  */
 class Route extends AbstractKey
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DEFAULT_CUT = 20;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const ROUTE_NAME_KEY = 'route_name';
 
     /**
@@ -49,11 +53,11 @@ class Route extends AbstractKey
 	 */
 	public function joinDefinition(): array
 	{
-		return array(
+		return [
     'column' => self::ROUTE_NAME_KEY,
-		    'join' => 'LEFT JOIN `'.PREFIX.'route` AS `route` ON `t`.`routeid` = `route`.id',
-		    'field' => '`route`.`name` AS `'.self::ROUTE_NAME_KEY.'`'
-);
+		    'join' => 'LEFT JOIN `' . PREFIX . 'route` AS `route` ON `t`.`routeid` = `route`.id',
+		    'field' => '`route`.`name` AS `' . self::ROUTE_NAME_KEY . '`',
+];
 	}
 
     /**

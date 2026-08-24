@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularCheckbox extends FormularField {
+class FormularCheckbox extends FormularField
+{
 	/**
 	 * Boolean flag: label is on the right side
 	 * @var bool
@@ -64,15 +65,15 @@ class FormularCheckbox extends FormularField {
      * Display this field
      */
     protected function getFieldCode(): string {
-		$label = '<label class="checkable" for="'.$this->name.'">'.$this->label.'</label>';
-		$input = '<input '.$this->attributes().'>';
+		$label = '<label class="checkable" for="' . $this->name . '">' . $this->label . '</label>';
+		$input = '<input ' . $this->attributes() . '>';
 
 		if ($this->addHiddenSent)
-			$input .= HTML::hiddenInput($this->name.'_sent', 'true');
+			$input .= HTML::hiddenInput($this->name . '_sent', 'true');
 
 		if ($this->labelOnRight)
-			return $input.' '.$label;
+			return $input . ' ' . $label;
 
-		return $label.' '.$input;
+		return $label . ' ' . $input;
 	}
 }

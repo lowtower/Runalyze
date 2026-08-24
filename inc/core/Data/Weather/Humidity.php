@@ -10,8 +10,6 @@ namespace Runalyze\Data\Weather;
 use Runalyze\Activity\ValueInterface;
 
 /**
- * Humidity
- *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Data\Weather
@@ -41,7 +39,7 @@ class Humidity implements ValueInterface
      */
     public function set($percent): self
     {
-        if (null !== $percent && (! is_numeric($percent) || $percent < 0 || $percent > 100)) {
+        if ($percent !== null && (! is_numeric($percent) || $percent < 0 || $percent > 100)) {
             throw new \InvalidArgumentException('Humidity must be a numeric value between 0 and 100.');
         }
 
@@ -67,7 +65,6 @@ class Humidity implements ValueInterface
     }
 
     /**
-     * Value
      * @return null|int
      */
     public function value()
@@ -85,7 +82,7 @@ class Humidity implements ValueInterface
             return '';
         }
 
-        return round($this->Percent).($withUnit ? '&nbsp;'.$this->unit() : '');
+        return round($this->Percent) . ($withUnit ? '&nbsp;' . $this->unit() : '');
     }
 
     /**
@@ -93,6 +90,6 @@ class Humidity implements ValueInterface
      */
     public function isUnknown(): bool
     {
-        return (null === $this->Percent);
+        return ($this->Percent === null);
     }
 }

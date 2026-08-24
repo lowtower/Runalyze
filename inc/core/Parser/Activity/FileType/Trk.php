@@ -11,16 +11,24 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
 {
     use FileContentAwareParserTrait;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsStarted = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsPaused = false;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $StartTime = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $PauseInSeconds = 0;
 
     public function parse()
@@ -70,7 +78,7 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
 
         $latitude = floatval($values[2]);
         $longitude = floatval($values[3]);
-        $time = strtotime($values[4].' '.$values[5].' UTC') - $this->StartTime - $this->PauseInSeconds;
+        $time = strtotime($values[4] . ' ' . $values[5] . ' UTC') - $this->StartTime - $this->PauseInSeconds;
 
         if (! $this->IsStarted) {
             $this->IsStarted = true;
@@ -78,7 +86,7 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
             $time = 0;
         }
 
-        if ('N' == $values[6] && $time > 0) {
+        if ($values[6] == 'N' && $time > 0) {
             $this->IsPaused = true;
 
             if ($time == end($this->Container->ContinuousData->Time)) {

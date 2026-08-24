@@ -6,10 +6,14 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 class SportStatistics
 {
-    /** @var SportStatistic[] */
+    /**
+     * @var SportStatistic[]
+     */
     protected $Sports = [];
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     */
     protected $StartDate;
 
     public function __construct(\DateTime $startDate, array $queryResult)

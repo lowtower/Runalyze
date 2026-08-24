@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-abstract class FormularField extends HtmlTag {
+abstract class FormularField extends HtmlTag
+{
 	/**
 	 * CSS-class if validation failed
 	 * @var string
@@ -20,13 +21,13 @@ abstract class FormularField extends HtmlTag {
 	 * Array with all failed keys
 	 * @var array
 	 */
-	private static $FAILED_KEYS = array();
+	private static $FAILED_KEYS = [];
 
 	/**
 	 * Array with all validation failures
 	 * @var array
 	 */
-	private static $VALIDATION_FAILURES = array();
+	private static $VALIDATION_FAILURES = [];
 
 	/**
 	 * Name
@@ -56,7 +57,7 @@ abstract class FormularField extends HtmlTag {
 	 * CSS classes for layout
 	 * @var array
 	 */
-	protected $layoutClasses = array();
+	protected $layoutClasses = [];
 
 	/**
 	 * Enum from FormularValueParser
@@ -68,7 +69,7 @@ abstract class FormularField extends HtmlTag {
 	 * Array with options for parser
 	 * @var array
 	 */
-	protected $parserOptions = array();
+	protected $parserOptions = [];
 
 	/**
 	 * Field is prepared for being displayed
@@ -77,7 +78,6 @@ abstract class FormularField extends HtmlTag {
 	private $prepared = false;
 
 	/**
-	 * Set key as failed
 	 * @param string $key
 	 */
 	public static function setKeyAsFailed($key) {
@@ -94,7 +94,6 @@ abstract class FormularField extends HtmlTag {
 	}
 
 	/**
-	 * Add validation failure
 	 * @param string $failure
 	 */
 	public static function addValidationFailure($failure) {
@@ -127,8 +126,8 @@ abstract class FormularField extends HtmlTag {
 			$this->value = $_POST[$name];
 		elseif (substr($name, -1) == ']') {
 			$posOfBracket = strpos($name, '[');
-			$mainName     = substr($name, 0, $posOfBracket);
-			$key          = substr($name, $posOfBracket + 1, -1);
+			$mainName = substr($name, 0, $posOfBracket);
+			$key = substr($name, $posOfBracket + 1, -1);
 
 			if (isset($_POST[$mainName][$key]))
 				$this->value = $_POST[$mainName][$key];
@@ -167,7 +166,7 @@ abstract class FormularField extends HtmlTag {
 	 * @param string $layout
 	 */
 	public function addLayout($layout) {
-		$this->layout .= ' '.$layout;
+		$this->layout .= ' ' . $layout;
 	}
 
 	/**
@@ -179,11 +178,10 @@ abstract class FormularField extends HtmlTag {
 	}
 
 	/**
-	 * Set parser
 	 * @param string $parser
 	 * @param array $options
 	 */
-	public function setParser($parser, $options = array()) {
+	public function setParser($parser, $options = []) {
 		$this->parser = $parser;
 		$this->parserOptions = $options;
 	}
@@ -212,7 +210,7 @@ abstract class FormularField extends HtmlTag {
 
 		if ($validation !== true) {
 			self::setKeyAsFailed($this->name);
-			self::addValidationFailure(is_string($validation) ? $validation : __('Your input is not allowed.').' ('.$this->name.')');
+			self::addValidationFailure(is_string($validation) ? $validation : __('Your input is not allowed.') . ' (' . $this->name . ')');
 		}
 
 		return $validation;
@@ -242,7 +240,7 @@ abstract class FormularField extends HtmlTag {
 	 */
 	final protected function getSurroundedByLayoutDiv($Content) {
 		if (! empty($this->layout))
-			return '<div class="'.$this->layout.' '.implode(' ', $this->layoutClasses).'">'.$Content.'</div>';
+			return '<div class="' . $this->layout . ' ' . implode(' ', $this->layoutClasses) . '">' . $Content . '</div>';
 
 		return $Content;
 	}

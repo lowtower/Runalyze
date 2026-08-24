@@ -7,7 +7,9 @@ use Runalyze\Parser\Common\FileTypeConverterInterface;
 
 class ZipConverter implements FileTypeConverterInterface
 {
-    /** @var array|null */
+    /**
+     * @var array|null
+     */
     protected $AcceptedFileExtensions;
 
     public function __construct(?array $acceptedFileExtensions = null)
@@ -44,12 +46,12 @@ class ZipConverter implements FileTypeConverterInterface
 
         $inputFileNames = $this->getFileNamesFrom($archive);
         $outputFileNames = array_map(function($file) use ($inputFile): string {
-            return $inputFile.'.'.$file;
+            return $inputFile . '.' . $file;
         }, $inputFileNames);
 
         if ($extractFiles) {
             foreach ($inputFileNames as $i => $currentFile) {
-                copy('zip://'.$inputFile.'#'.$currentFile, $outputFileNames[$i]);
+                copy('zip://' . $inputFile . '#' . $currentFile, $outputFileNames[$i]);
             }
         }
 
@@ -64,7 +66,7 @@ class ZipConverter implements FileTypeConverterInterface
      */
     protected function tryToOpenArchive(\ZipArchive $archive, $inputFile)
     {
-        if (true !== $archive->open($inputFile)) {
+        if ($archive->open($inputFile) !== true) {
             throw new UnsupportedFileException("Can't open zip file.");
         }
     }
@@ -82,7 +84,7 @@ class ZipConverter implements FileTypeConverterInterface
 
             if (
                 is_array($pathinfo) && isset($pathinfo['dirname']) && isset($pathinfo['extension']) &&
-                '.' == $pathinfo['dirname'] && '.' != substr($currentFile, 0, 1) &&
+                $pathinfo['dirname'] == '.' && substr($currentFile, 0, 1) != '.' &&
                 $this->isFileExtensionAllowed($pathinfo['extension'])
             ) {
                 $files[] = $currentFile;

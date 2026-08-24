@@ -8,7 +8,9 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class NonMatchingArraySizeFilter extends AbstractFilter
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const MIN_MAX_TOLERANCE = 2;
 
     public function filter(ActivityDataContainer $container, $strict = false)
@@ -57,7 +59,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
             $sizesHaveBeenFixed ? 'Non-matching' : 'Unrecoverable non-matching',
             $sizesHaveBeenFixed ? 'fixed' : 'detected',
             implode(', ', array_map(function ($key, int $size): string {
-                return $key.': '.$size;
+                return $key . ': ' . $size;
             }, array_keys($arraySizes), $arraySizes))
         );
     }
@@ -98,7 +100,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      */
     protected function areAllElementsEqual(array $data): bool
     {
-        return 1 === count(array_unique($data));
+        return count(array_unique($data)) === 1;
     }
 
     /**

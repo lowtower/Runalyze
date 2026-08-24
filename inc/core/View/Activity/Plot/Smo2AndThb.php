@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Smo2AndThb extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Smo2AndThb extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'smo2andthb';
+		$this->key = 'smo2andthb';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
         $this->addSeries(new Series\Smo2($context), 1);
         $this->addSeries(new Series\Smo2($context, 1), 1, false);

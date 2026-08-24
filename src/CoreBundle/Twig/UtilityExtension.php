@@ -21,11 +21,11 @@ class UtilityExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('duration', array($this, 'duration')),
-            new \Twig_SimpleFilter('filesize', array($this, 'filesizeAsString')),
-            new \Twig_SimpleFilter('md5', array($this, 'md5'))
-        );
+        return [
+            new \Twig_SimpleFilter('duration', [$this, 'duration']),
+            new \Twig_SimpleFilter('filesize', [$this, 'filesizeAsString']),
+            new \Twig_SimpleFilter('md5', [$this, 'md5']),
+        ];
     }
 
     /**
@@ -36,9 +36,9 @@ class UtilityExtension extends \Twig_Extension
      */
     public function duration($seconds, $decimals = 0, $decimalPoint = ',')
     {
-        $fraction = (round($seconds) !== round($seconds, $decimals) && $decimals > 0) ? $decimalPoint.'u' : '';
+        $fraction = (round($seconds) !== round($seconds, $decimals) && $decimals > 0) ? $decimalPoint . 'u' : '';
 
-        if ($seconds>= 86400) {
+        if ($seconds >= 86400) {
             return $this->formatDuration($seconds, 'z\d H:i:s');
         }
 
@@ -47,10 +47,10 @@ class UtilityExtension extends \Twig_Extension
         }
 
         if ($seconds < 60) {
-            return '0:'.$this->formatDuration($seconds, 's'.$fraction, $decimals);
+            return '0:' . $this->formatDuration($seconds, 's' . $fraction, $decimals);
         }
 
-        return ltrim($this->formatDuration($seconds, 'i:s'.$fraction, $decimals), '0');
+        return ltrim($this->formatDuration($seconds, 'i:s' . $fraction, $decimals), '0');
     }
 
     /**
@@ -64,7 +64,7 @@ class UtilityExtension extends \Twig_Extension
             $time = \DateTime::createFromFormat('!U', (int) floor($seconds), new \DateTimeZone('UTC'));
             $fraction = str_pad(round(fmod($seconds, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
 
-            return $time->format(substr($format, 0, -1)).$fraction;
+            return $time->format(substr($format, 0, -1)) . $fraction;
         }
 
         $time = \DateTime::createFromFormat('!U', (int) round($seconds), new \DateTimeZone('UTC'));
@@ -81,13 +81,12 @@ class UtilityExtension extends \Twig_Extension
             return '0 B';
         }
 
-        $FS = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $FS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        return number_format($bytes / pow(1024, $I = floor(log($bytes, 1024))), ($I >= 1) ? 2 : 0, '.', '').' '.$FS[$I];
+        return number_format($bytes / pow(1024, $I = floor(log($bytes, 1024))), ($I >= 1) ? 2 : 0, '.', '') . ' ' . $FS[$I];
     }
 
     public function md5($value): string {
         return md5($value);
     }
-
 }

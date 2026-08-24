@@ -8,16 +8,24 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 
 class EquipmentStatistic
 {
-    /** @var Equipment */
+    /**
+     * @var Equipment
+     */
     protected $Equipment;
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $NumberOfActivities;
 
-    /** @var null|float [s/km] */
+    /**
+     * @var null|float [s/km]
+     */
     protected $MaximalPace;
 
-    /** @var null|float [km] */
+    /**
+     * @var null|float [km]
+     */
     protected $MaximalDistance;
 
     public function __construct(Equipment $equipment)

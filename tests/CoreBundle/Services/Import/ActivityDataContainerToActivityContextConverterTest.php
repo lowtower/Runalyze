@@ -14,10 +14,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  */
 class ActivityDataContainerToActivityContextConverterTest extends AbstractFixturesAwareWebTestCase
 {
-    /** @var ActivityDataContainerToActivityContextConverter */
+    /**
+     * @var ActivityDataContainerToActivityContextConverter
+     */
     protected $Converter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void
@@ -78,7 +82,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
             ->getDefaultType();
         $defaultType = $this->EntityManager->getRepository('CoreBundle:Type')
             ->findBy([
-                'name' => 'Fartlek'
+                'name' => 'Fartlek',
             ])[0];
         $this->getDefaultAccountsRunningSport()
             ->setDefaultType($defaultType);

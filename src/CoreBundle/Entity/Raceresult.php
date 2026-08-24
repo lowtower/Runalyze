@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 /**
- * Raceresult
- *
  * @ORM\Table(name="raceresult")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository")
  * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener"})

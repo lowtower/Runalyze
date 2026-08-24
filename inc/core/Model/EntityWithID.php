@@ -14,7 +14,8 @@ namespace Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-abstract class EntityWithID extends Entity {
+abstract class EntityWithID extends Entity
+{
 	/**
 	 * ID
 	 * @var int
@@ -24,7 +25,7 @@ abstract class EntityWithID extends Entity {
     /**
      * Construct
      */
-    public function __construct(array $data = array()) {
+    public function __construct(array $data = []) {
 		parent::__construct($data);
 
 		if (isset($data['id'])) {
@@ -37,11 +38,10 @@ abstract class EntityWithID extends Entity {
 	 * @return bool
 	 */
 	public function hasID() {
-		return null !== $this->ID;
+		return $this->ID !== null;
 	}
 
 	/**
-	 * ID
 	 * @return int
 	 */
 	public function id() {
@@ -49,7 +49,6 @@ abstract class EntityWithID extends Entity {
 	}
 
 	/**
-	 * Set ID
 	 * Use this method only if you know what you're doing!
 	 * @param int $id
 	 */

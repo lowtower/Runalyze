@@ -13,7 +13,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Version20230101190000 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -25,24 +27,22 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-
-        $this->addSql('CREATE TABLE IF NOT EXISTS `'.$prefix.'equipment_spor` (
+        $this->addSql('CREATE TABLE IF NOT EXISTS `' . $prefix . 'equipment_spor` (
                 `sportid` int(10) unsigned NOT NULL,
                 `equipment_id` int(10) unsigned NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
-
-        $this->addSql('ALTER TABLE `'.$prefix.'equipment_spor`
+        $this->addSql('ALTER TABLE `' . $prefix . 'equipment_spor`
             ADD PRIMARY KEY (`sportid`,`equipment_id`), ADD KEY `equipment_id` (`equipment_id`)');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'equipment_spor`
-            ADD CONSTRAINT `'.$prefix.'equipment_spor_ibfk_1` FOREIGN KEY (`sportid`) REFERENCES `'.$prefix.'sport` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-            ADD CONSTRAINT `'.$prefix.'equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `'.$prefix.'equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
+        $this->addSql('ALTER TABLE `' . $prefix . 'equipment_spor`
+            ADD CONSTRAINT `' . $prefix . 'equipment_spor_ibfk_1` FOREIGN KEY (`sportid`) REFERENCES `' . $prefix . 'sport` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `' . $prefix . 'equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `' . $prefix . 'equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('DROP TABLE `'.$prefix.'equipment_spor`');
+        $this->addSql('DROP TABLE `' . $prefix . 'equipment_spor`');
     }
 }

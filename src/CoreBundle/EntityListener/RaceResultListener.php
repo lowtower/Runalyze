@@ -8,7 +8,9 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
 class RaceResultListener
 {
-    /** @var RecalculationManager */
+    /**
+     * @var RecalculationManager
+     */
     protected $RecalculationManager;
 
     public function __construct(RecalculationManager $manager)

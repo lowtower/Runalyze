@@ -7,16 +7,24 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class AccountMailer
 {
-    /** @var \Swift_Mailer */
+    /**
+     * @var \Swift_Mailer
+     */
     protected $Mailer;
 
-    /** @var \Twig_Environment */
+    /**
+     * @var \Twig_Environment
+     */
     protected $Twig;
 
-    /** @var TranslatorInterface */
+    /**
+     * @var TranslatorInterface
+     */
     protected $Translator;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Sender = [];
 
     public function __construct(\Swift_Mailer $mailer, \Twig_Environment $twig, TranslatorInterface $translator)
@@ -33,7 +41,7 @@ class AccountMailer
     public function setFrom($senderMail, $senderName)
     {
         $this->Sender = [
-            $senderMail => $senderName
+            $senderMail => $senderName,
         ];
     }
 
@@ -47,7 +55,7 @@ class AccountMailer
         $template = $this->customLanguageTemplates($template, $account->getLanguage());
         $message = (new \Swift_Message($subject))
             ->setTo([
-                $account->getMail() => $account->getUsername()
+                $account->getMail() => $account->getUsername(),
             ])
             ->setFrom($this->Sender);
         $message->setBody($this->Twig->render($template, $templateData), 'text/html');
@@ -61,30 +69,29 @@ class AccountMailer
      */
     public function sendCustomFeedbackToSystem(Account $account, $mailTo, $customText)
     {
-        $subject = 'RUNALYZE - '.$this->Translator->trans('Customer feedback');
-        $content = 'Username: '.$account->getUsername()."\n";
-        $content .= 'Mail: '.$account->getMail()."\n";
-        $content .= 'Message:'."\n".$customText;
+        $subject = 'RUNALYZE - ' . $this->Translator->trans('Customer feedback');
+        $content = 'Username: ' . $account->getUsername() . "\n";
+        $content .= 'Mail: ' . $account->getMail() . "\n";
+        $content .= 'Message:' . "\n" . $customText;
 
         $message = (new \Swift_Message($subject))
             ->setTo($mailTo)
             ->setFrom($this->Sender)
             ->setReplyTo([
-                $account->getMail() => $account->getUsername()
+                $account->getMail() => $account->getUsername(),
             ]);
         $message->setBody($content, 'text/plain');
 
         $this->Mailer->send($message);
     }
 
-
     protected function customLanguageTemplates($template, $language) {
         $template = str_replace('html.twig', '', $template);
         try {
-            $this->Twig->render($template.$language.'.html.twig');
-            return $template.$language.'.html.twig';
+            $this->Twig->render($template . $language . '.html.twig');
+            return $template . $language . '.html.twig';
         } catch (\Exception $exception) {
-            return $template.'html.twig';
+            return $template . 'html.twig';
         }
     }
 
@@ -96,7 +103,7 @@ class AccountMailer
                 'mail/account/registration.html.twig',
                 [
                     'username' => $account->getUsername(),
-                    'activationHash' => $account->getActivationHash()
+                    'activationHash' => $account->getActivationHash(),
                 ]
             );
     }
@@ -109,7 +116,7 @@ class AccountMailer
             'mail/account/recoverPassword.html.twig',
             [
                 'username' => $account->getUsername(),
-                'changepw_hash' => $account->getChangepwHash()
+                'changepw_hash' => $account->getChangepwHash(),
             ]
         );
     }
@@ -122,7 +129,7 @@ class AccountMailer
             'mail/account/deleteAccountRequest.html.twig',
             [
                 'username' => $account->getUsername(),
-                'deletion_hash' => $account->getDeletionHash()
+                'deletion_hash' => $account->getDeletionHash(),
             ]
         );
     }

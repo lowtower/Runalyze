@@ -24,26 +24,40 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class ActivityDataContainerToActivityContextConverter
 {
-    /** @var int number of decimals */
+    /**
+     * @var int number of decimals
+     */
     // #TSC change to a precision of 3 not meaninful, because the database has only 2
     const DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
 
-    /** @var int number of decimals */
+    /**
+     * @var int number of decimals
+     */
     const DISTANCE_PRECISION_FOR_TRACK_DATA = 5;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TypeRepository */
+    /**
+     * @var TypeRepository
+     */
     protected $TypeRepository;
 
-    /** @var EquipmentRepository */
+    /**
+     * @var EquipmentRepository
+     */
     protected $EquipmentRepository;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     public function __construct(
@@ -66,9 +80,6 @@ class ActivityDataContainerToActivityContextConverter
         $this->Account = $account;
     }
 
-    /**
-     * @param Account $account
-     */
     public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Entity\Training
     {
         if ($account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
@@ -88,9 +99,6 @@ class ActivityDataContainerToActivityContextConverter
         return $activity;
     }
 
-    /**
-     * @param Account $account
-     */
     public function getContextFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
         $activity = $this->getActivityFor($container, $account);
@@ -146,11 +154,11 @@ class ActivityDataContainerToActivityContextConverter
         $sport = null;
         $internalId = $this->getInternalSportIdFrom($metadata);
 
-        if (null !== $internalId) {
+        if ($internalId !== null) {
             $sport = $this->SportRepository->findInternalIdFor($internalId, $this->Account);
         }
 
-        if (null === $sport) {
+        if ($sport === null) {
             $sport = $this->SportRepository->findThisOrAny(
                 $this->ConfigurationManager->getList($this->Account)
                     ->getGeneral()
@@ -159,11 +167,11 @@ class ActivityDataContainerToActivityContextConverter
             );
         }
 
-        if (null !== $sport) {
+        if ($sport !== null) {
             $activity->setSport($sport);
             $activity->setPublic(! $sport->getDefaultPrivacy());
 
-            if (null !== $sport->getDefaultType()) {
+            if ($sport->getDefaultType() !== null) {
                 $activity->setType($sport->getDefaultType());
             }
         }
@@ -171,14 +179,14 @@ class ActivityDataContainerToActivityContextConverter
 
     protected function getInternalSportIdFrom(Metadata $metadata)
     {
-        if (null !== $metadata->getInternalSportId()) {
+        if ($metadata->getInternalSportId() !== null) {
             return $metadata->getInternalSportId();
         }
 
-        if ('' != $metadata->getSportName()) {
+        if ($metadata->getSportName() != '') {
             $internalId = (new EnglishLanguageMapping())->toInternal($metadata->getSportName());
 
-            if (SportProfile::GENERIC != $internalId) {
+            if ($internalId != SportProfile::GENERIC) {
                 return $internalId;
             }
         }
@@ -192,10 +200,10 @@ class ActivityDataContainerToActivityContextConverter
 
         // #TSC: first set a possible type from the typeName (can be interval or from the evaluation)
         $typeName = $metadata->getTypeName();
-        if ('' != $typeName) {
+        if ($typeName != '') {
             $type = $this->TypeRepository->findByNameFor($typeName, $this->Account, $activity->getSport());
             // #TSC if the name not found, try it with the short-cut
-            if (null === $type) {
+            if ($type === null) {
                 $type = $this->TypeRepository->findByShortCutFor($typeName, $this->Account, $activity->getSport());
             }
         }
@@ -205,7 +213,7 @@ class ActivityDataContainerToActivityContextConverter
             $type = $this->TypeRepository->findByNameFor($metadata->getWorkoutName(), $this->Account, $activity->getSport());
         }
 
-        if (null !== $type) {
+        if ($type !== null) {
             $activity->setType($type);
         }
     }
@@ -264,11 +272,11 @@ class ActivityDataContainerToActivityContextConverter
      */
     protected function getRoundedValue($value, $precision = 0)
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
         }
 
-        if (0 == $precision) {
+        if ($precision == 0) {
             return (int) round($value);
         }
 
@@ -313,7 +321,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $trackData = $this->getTrackdataFor($container);
 
-        if (null !== $trackData) {
+        if ($trackData !== null) {
             $activity->setTrackdata($trackData);
 
             if ($trackData->hasPower()) {
@@ -379,7 +387,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $swimData = $this->getSwimdataFor($container);
 
-        if (null !== $swimData) {
+        if ($swimData !== null) {
             $activity->setSwimdata($swimData);
         }
     }
@@ -405,7 +413,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $route = $this->getRouteFor($container);
 
-        if (null !== $route) {
+        if ($route !== null) {
             $activity->setRoute($route);
         }
     }
@@ -444,7 +452,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $hrv = $this->getHrvFor($container);
 
-        if (null !== $hrv) {
+        if ($hrv !== null) {
             $activity->setHrv($hrv);
         }
     }
@@ -468,7 +476,7 @@ class ActivityDataContainerToActivityContextConverter
     {
         $raceResult = $this->getRaceResultFor($container);
 
-        if (null !== $raceResult) {
+        if ($raceResult !== null) {
             $raceResult->fillFromActivity($activity);
             $activity->setRaceresult($raceResult);
         }

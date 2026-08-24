@@ -8,7 +8,6 @@
 namespace Runalyze\View\Activity\Plot;
 
 use Runalyze\View\Activity;
-
 use Plot;
 
 /**
@@ -17,7 +16,8 @@ use Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-abstract class ActivityPlot {
+abstract class ActivityPlot
+{
 	/**
 	 * @var int
 	 */
@@ -50,7 +50,7 @@ abstract class ActivityPlot {
 	 * Data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
 	/**
 	 * CSS id
@@ -58,14 +58,8 @@ abstract class ActivityPlot {
 	 */
 	protected $id;
 
-	/**
-	 * Set key
-	 */
 	abstract protected function setKey();
 
-    /**
-     * Init data
-     */
     abstract protected function initData(Activity\Context $context);
 
     /**
@@ -82,9 +76,6 @@ abstract class ActivityPlot {
 		}
 	}
 
-    /**
-     * Add series
-     */
     final protected function addSeries(\Runalyze\View\Plot\Series $series, int $yAxis = 1, bool $addAnnotations = true) {
 		$series->addTo($this->Plot, $yAxis, $addAnnotations);
 	}
@@ -129,9 +120,6 @@ abstract class ActivityPlot {
 		$this->Plot->setShadowSize($series, 0);
 	}
 
-    /**
-     * Data is available
-     */
     private function dataIsAvailable(): bool {
 		foreach ($this->Plot->Data as $key => $Data) {
 			if (! isset($Data['data']) || empty($Data['data'])) {
@@ -142,23 +130,18 @@ abstract class ActivityPlot {
 		return (count($this->Data) >= 2 || $this->Plot->Data !== []);
 	}
 
-	/**
-	 * Init Plot
-	 */
 	private function initPlot() {
 		$this->Plot = new Plot($this->getCSSid(), $this->WIDTH, $this->HEIGHT);
 	}
 
 	/**
-	 * Set ID
 	 * @param int $id
 	 */
 	private function setID($id) {
-		$this->id = $this->key.'_'.$id;
+		$this->id = $this->key . '_' . $id;
 	}
 
 	/**
-	 * Get key
 	 * @return string
 	 */
 	final public function getKey() {
@@ -166,7 +149,6 @@ abstract class ActivityPlot {
 	}
 
 	/**
-	 * Get CSS id
 	 * @return string
 	 */
 	final protected function getCSSid() {

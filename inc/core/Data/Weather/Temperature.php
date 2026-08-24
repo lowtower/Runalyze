@@ -8,13 +8,12 @@
 namespace Runalyze\Data\Weather;
 
 /**
- * Temperature
- *
  * @deprecated since 3.1.0
  * @author Hannes Christiansen
  * @package Runalyze\Data\Weather
  */
-class Temperature {
+class Temperature
+{
 	/**
 	 * @var int
 	 */
@@ -52,12 +51,11 @@ class Temperature {
 	}
 
 	/**
-	 * Set temperature
 	 * @param float|null $value
 	 * @param int|null $unit
 	 */
 	public function setTemperature($value, $unit = null) {
-		if (null !== $unit) {
+		if ($unit !== null) {
 			$this->unit = $unit;
 		}
 
@@ -77,7 +75,7 @@ class Temperature {
 
 		switch ($unit) {
 			case self::FAHRENHEIT:
-				return ($value - 32)/1.8;
+				return ($value - 32) / 1.8;
 			case self::KELVIN:
 				return $value - 273.15;
 		}
@@ -92,13 +90,13 @@ class Temperature {
 	 * @return float
 	 */
 	protected function fromCelsiusTo($value, $unit) {
-		if (null === $value) {
+		if ($value === null) {
 			return null;
 		}
 
 		switch ($unit) {
 			case self::FAHRENHEIT:
-				return $value*1.8 + 32;
+				return $value * 1.8 + 32;
 			case self::KELVIN:
 				return $value + 273.15;
 		}
@@ -138,11 +136,10 @@ class Temperature {
      * Temperature unknown?
      */
     public function isUnknown(): bool {
-		return null === $this->inCelsius;
+		return $this->inCelsius === null;
 	}
 
 	/**
-	 * Value
 	 * @return null|int
 	 */
 	public function value() {
@@ -153,7 +150,7 @@ class Temperature {
      * As string
      */
     public function asString(): string {
-		return $this->asStringWithoutUnit().'&nbsp;'.$this->unit();
+		return $this->asStringWithoutUnit() . '&nbsp;' . $this->unit();
 	}
 
 	/**
@@ -169,9 +166,6 @@ class Temperature {
 		return round($this->value());
 	}
 
-    /**
-     * Unit
-     */
     public function unit(): string {
 		switch ($this->unit) {
 			case self::CELSIUS:

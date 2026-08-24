@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Power extends ActivitySeries {
+class Power extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -32,9 +33,6 @@ class Power extends ActivitySeries {
 		$this->setManualAverage($context->activity()->power());
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Power');
 		$this->Color = self::COLOR;

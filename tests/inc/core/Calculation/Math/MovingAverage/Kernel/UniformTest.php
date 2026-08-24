@@ -11,9 +11,9 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $Kernel = new Uniform(2);
 
         $this->assertEquals([
-            0, 0, 1, 1, 1, 1, 1, 0, 0, 0
+            0, 0, 1, 1, 1, 1, 1, 0, 0, 0,
         ], $Kernel->valuesAt([
-            -2, -1.1, -1, -0.5, 0.0, 0.9, 1.0, 1.01, 1.5, 42
+            -2, -1.1, -1, -0.5, 0.0, 0.9, 1.0, 1.01, 1.5, 42,
         ]));
     }
 }

@@ -3,7 +3,11 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveDeadVarThisFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return ECSConfig::configure()
     ->withPaths([
@@ -34,8 +38,32 @@ return ECSConfig::configure()
     //])
 
     // ...but first: take it step by step
-    ->withSpacesLevel(22)               # max level 22
-    ->withArrayLevel(15)                # max level 15
-    ->withControlStructuresLevel(21)    # max level 21
-    ->withDocblockLevel(24)             # max level 24
+#    ->withSpacesLevel(22)               # max level 22
+#    ->withArrayLevel(15)                # max level 15
+#    ->withControlStructuresLevel(21)    # max level 21
+#    ->withDocblockLevel(24)             # max level 24
+
+    ->withSets([
+        #SetList::PSR_12,
+        #SetList::CLEAN_CODE,
+        SetList::ARRAY,
+        #SetList::COMMON,
+        #SetList::COMMENTS,
+        SetList::CONTROL_STRUCTURES,
+        SetList::DOCBLOCK,
+        #SetList::NAMESPACES,
+        SetList::SPACES,
+        #SetList::DOCTRINE_ANNOTATIONS,
+    ])
+
+    ->withSkip([
+        GeneralPhpdocAnnotationRemoveFixer::class,
+        PhpdocNoPackageFixer::class,
+        RemoveDeadVarThisFixer::class => [
+            __DIR__ . '/inc/tpl/*.php',
+            __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Daytime.php',
+            __DIR__ . '/plugin/RunalyzePluginStat_Trainingszeiten/Plot.Weekday.php',
+            __DIR__ . '/plugin/RunalyzePluginStat_Wettkampf/Plot.Bestzeit.php',
+        ],
+    ])
 ;

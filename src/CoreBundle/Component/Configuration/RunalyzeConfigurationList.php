@@ -6,13 +6,19 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\AbstractCategory
 
 class RunalyzeConfigurationList extends ConfigurationList
 {
-    /** @var array ['key' => 'className'] */
+    /**
+     * @var array ['key' => 'className']
+     */
     protected $CategoryMap = [];
 
-    /** @var AbstractCategory[] */
+    /**
+     * @var AbstractCategory[]
+     */
     protected $CategoryPool = [];
 
-    /** @var UnitSystem|null */
+    /**
+     * @var UnitSystem|null
+     */
     protected $UnitSystem;
 
     public function __construct(array $variables = [])
@@ -68,7 +74,7 @@ class RunalyzeConfigurationList extends ConfigurationList
             $category = new $className();
 
             foreach ($category->getDefaultVariables() as $key => $defaultValue) {
-                $this->Variables[$categoryKey.'.'.$key] = $defaultValue;
+                $this->Variables[$categoryKey . '.' . $key] = $defaultValue;
             }
         }
     }
@@ -81,7 +87,7 @@ class RunalyzeConfigurationList extends ConfigurationList
     {
         if (! isset($this->CategoryPool[$categoryName])) {
             if (! isset($this->CategoryMap[$categoryName])) {
-                throw new \InvalidArgumentException('Unknown category key "'.$categoryName.'".');
+                throw new \InvalidArgumentException('Unknown category key "' . $categoryName . '".');
             }
 
             if (! class_exists($this->CategoryMap[$categoryName]) || ! is_subclass_of($this->CategoryMap[$categoryName], AbstractCategory::class)) {
@@ -197,7 +203,7 @@ class RunalyzeConfigurationList extends ConfigurationList
      */
     public function getUnitSystem()
     {
-        if (null === $this->UnitSystem) {
+        if ($this->UnitSystem === null) {
             $this->UnitSystem = new UnitSystem($this);
         }
 
@@ -231,7 +237,7 @@ class RunalyzeConfigurationList extends ConfigurationList
 
     public function useVO2maxCorrectionForElevation(): bool
     {
-        return ('true' == $this->Variables['vo2max.VO2MAX_USE_CORRECTION_FOR_ELEVATION']);
+        return ($this->Variables['vo2max.VO2MAX_USE_CORRECTION_FOR_ELEVATION'] == 'true');
     }
 
     public function getCurrentVO2maxShape(): float

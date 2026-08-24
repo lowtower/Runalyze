@@ -14,7 +14,8 @@ use Runalyze\View;
  * @author Hannes Christiansen
  * @package Runalyze\DataBrowser
  */
-class DataBrowserShared extends DataBrowser {
+class DataBrowserShared extends DataBrowser
+{
 	/**
 	 * Number of additional columns
 	 * @var int
@@ -27,7 +28,9 @@ class DataBrowserShared extends DataBrowser {
 	 */
 	protected $ShowPublicLink = true;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $ShowEditLink = false;
 
 	/**
@@ -47,7 +50,7 @@ class DataBrowserShared extends DataBrowser {
 	 */
 	protected function initTimestamps() {
 		$this->TimestampStart = isset($_GET['start']) && is_numeric($_GET['start']) ? $_GET['start'] : LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
-		$this->TimestampEnd   = isset($_GET['end']) && is_numeric($_GET['end']) ? $_GET['end'] : LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
+		$this->TimestampEnd = isset($_GET['end']) && is_numeric($_GET['end']) ? $_GET['end'] : LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
 
 		$this->DayCount = round(($this->TimestampEnd - $this->TimestampStart) / 86400);
 	}
@@ -67,18 +70,12 @@ class DataBrowserShared extends DataBrowser {
 		echo $this->getWeekKmLink();
 	}
 
-	/**
-	 * Display hover links
-	 */
 	protected function displayHoverLinks() {
 		echo $this->getRefreshLink();
 	}
 
-    /**
-     * Get base url
-     */
     public static function getBaseUrl(): string {
-		return 'athlete/'.Request::param('user').'';
+		return 'athlete/' . Request::param('user') . '';
 	}
 
 	/**
@@ -90,23 +87,20 @@ class DataBrowserShared extends DataBrowser {
 	 * @return string HTML-link
 	 */
 	public static function getLink($name, $start, $end, $title = ''): string {
-		$href = self::getBaseUrl().'?start='.$start.'&end='.$end;
+		$href = self::getBaseUrl() . '?start=' . $start . '&end=' . $end;
 
 		return Ajax::link($name, 'publicList', $href, '', $title);
 	}
 
-    /**
-     * Get URL for month km
-     */
     public static function getUrlForMonthKm(): string {
-		return self::getBaseUrl().'?type=month';
+		return self::getBaseUrl() . '?type=month';
 	}
 
     /**
      * Get URL for month km
      */
     public static function getUrlForWeekKm(): string {
-		return self::getBaseUrl().'?type=week';
+		return self::getBaseUrl() . '?type=week';
 	}
 
 	/**
@@ -114,7 +108,7 @@ class DataBrowserShared extends DataBrowser {
 	 * @return string
 	 */
 	protected function getMonthKmLink() {
-		return Ajax::window('<a href="'.self::getUrlForMonthKm().'">'.Ajax::tooltip(Icon::$BARS_BIG, __('Activity per month')).'</a>');
+		return Ajax::window('<a href="' . self::getUrlForMonthKm() . '">' . Ajax::tooltip(Icon::$BARS_BIG, __('Activity per month')) . '</a>');
 	}
 
 	/**
@@ -122,7 +116,7 @@ class DataBrowserShared extends DataBrowser {
 	 * @return string
 	 */
 	protected function getWeekKmLink() {
-		return Ajax::window('<a href="'.self::getUrlForWeekKm().'">'.Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')).'</a>');
+		return Ajax::window('<a href="' . self::getUrlForWeekKm() . '">' . Ajax::tooltip(Icon::$BARS_SMALL, __('Activity per week')) . '</a>');
 	}
 
     /**

@@ -15,7 +15,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Trackdata
  */
-class Loop extends \Runalyze\Model\Loop {
+class Loop extends \Runalyze\Model\Loop
+{
 	/**
 	 * Object
 	 * @var \Runalyze\Model\Trackdata\Entity
@@ -58,8 +59,6 @@ class Loop extends \Runalyze\Model\Loop {
 	}
 
 	/**
-	 * Next kilometer
-	 *
 	 * Alias for <code>moveDistance(1.0)</code>
 	 * @return bool
 	 */
@@ -70,8 +69,6 @@ class Loop extends \Runalyze\Model\Loop {
 	}
 
 	/**
-	 * Next mile
-	 *
 	 * Alias for <code>moveDistance(1.60934)</code>
 	 * @return bool
 	 */
@@ -91,7 +88,6 @@ class Loop extends \Runalyze\Model\Loop {
 	}
 
 	/**
-	 * Move to time
 	 * @param int $seconds
 	 * @throws \RuntimeException for negative values or if time is empty
 	 */
@@ -109,7 +105,6 @@ class Loop extends \Runalyze\Model\Loop {
 	}
 
 	/**
-	 * Move to distance
 	 * @param float $kilometer
 	 * @throws \RuntimeException for negative values or if distance is empty
 	 */
@@ -124,7 +119,7 @@ class Loop extends \Runalyze\Model\Loop {
     public function average($key)
     {
         if ($this->LastIndex < $this->Index && $this->Object->has(Entity::TIME) && $this->Object->has($key)) {
-            if (Entity::PACE == $key) {
+            if ($key == Entity::PACE) {
                 return $this->Object->hasTheoreticalPace() ? $this->averageTheoreticalPace() : $this->averagePace();
             }
 
@@ -148,7 +143,7 @@ class Loop extends \Runalyze\Model\Loop {
             }
 
             if ($sum !== null) {
-                if (0 == $totalTime) {
+                if ($totalTime == 0) {
                     return $sum / ($this->Index - $this->LastIndex);
                 }
 

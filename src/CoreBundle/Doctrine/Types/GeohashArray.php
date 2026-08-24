@@ -8,7 +8,9 @@ use Runalyze\Calculation\Route\GeohashLine;
 
 class GeohashArray extends Type
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const GEOHASH_ARRAY = 'geohash_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
@@ -27,7 +29,7 @@ class GeohashArray extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || '' === trim($value)) {
+        if ($value === null || trim($value) === '') {
             return null;
         }
 

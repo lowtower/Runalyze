@@ -38,17 +38,17 @@ class ActivityForm extends AbstractCategory
      */
     public function fieldSetIsCollapsed($key): bool
     {
-        return isset($this->Variables['FORMULAR_SHOW_'.$key]) && 'true' !== $this->Variables['FORMULAR_SHOW_'.$key];
+        return isset($this->Variables['FORMULAR_SHOW_' . $key]) && $this->Variables['FORMULAR_SHOW_' . $key] !== 'true';
     }
 
     public function isAutomaticElevationCorrectionActivated(): bool
     {
-        return 'true' === $this->Variables['TRAINING_DO_ELEVATION'];
+        return $this->Variables['TRAINING_DO_ELEVATION'] === 'true';
     }
 
     public function isAutomaticWeatherForecastActivated(): bool
     {
-        return 'true' === $this->Variables['TRAINING_LOAD_WEATHER'];
+        return $this->Variables['TRAINING_LOAD_WEATHER'] === 'true';
     }
 
     /**
@@ -61,12 +61,12 @@ class ActivityForm extends AbstractCategory
 
     public function isComputingEnergyActivated(): bool
     {
-        return 'true' === $this->Variables['COMPUTE_KCAL'];
+        return $this->Variables['COMPUTE_KCAL'] === 'true';
     }
 
     public function isAutomaticPauseDetectionActivated(): bool
     {
-        return 'true' === $this->Variables['DETECT_PAUSES'];
+        return $this->Variables['DETECT_PAUSES'] === 'true';
     }
 
     public function getDatabaseOrderForSport(): \Runalyze\Parameter\Application\DatabaseOrder

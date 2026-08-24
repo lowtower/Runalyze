@@ -6,16 +6,18 @@ namespace Runalyze\Parameter;
 
 class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \Runalyze\Parameter\SelectFile */
+	/**
+	 * @var \Runalyze\Parameter\SelectFile
+	 */
 	protected $object;
 
 	protected function setUp(): void
     {
-		$this->object = new SelectFile('path/to/file.jpg', array(
+		$this->object = new SelectFile('path/to/file.jpg', [
     'folder' => 'dir/',
-		    'extensions' => array('jpg', 'png', 'gif'),
-		    'filename_only' => false
-));
+		    'extensions' => ['jpg', 'png', 'gif'],
+		    'filename_only' => false,
+]);
 	}
 
 	public function testSet()
@@ -64,11 +66,11 @@ class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 
     public function testFilenameOnly()
     {
-        $select = new SelectFile('file.jpg', array(
+        $select = new SelectFile('file.jpg', [
             'folder' => 'dir/',
-            'extensions' => array('jpg', 'png', 'gif'),
-            'filename_only' => true
-        ));
+            'extensions' => ['jpg', 'png', 'gif'],
+            'filename_only' => true,
+        ]);
 
         $this->assertEquals('file.jpg', $select->value());
     }

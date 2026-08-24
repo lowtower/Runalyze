@@ -12,13 +12,19 @@ use Runalyze\Util\LocalTime;
 
 class ActivityContextAdapter
 {
-    /** @var ActivityContext */
+    /**
+     * @var ActivityContext
+     */
     protected $Context;
 
-    /** @var WeatherForecast */
+    /**
+     * @var WeatherForecast
+     */
     protected $WeatherForecast;
 
-    /** @var DuplicateFinder */
+    /**
+     * @var DuplicateFinder
+     */
     protected $DuplicateFinder;
 
     protected $RouteNameEval;
@@ -43,7 +49,7 @@ class ActivityContextAdapter
     {
         $fullClassName = get_class($object);
 
-        return substr($fullClassName, strrpos($fullClassName, '\\')+1);
+        return substr($fullClassName, strrpos($fullClassName, '\\') + 1);
     }
 
     /**
@@ -62,7 +68,7 @@ class ActivityContextAdapter
         // #TSC set the time to the mid of the activity
         $time = new LocalTime($this->Context->getActivity()->getTime());
         // we add here the elapsed time, not the duration; half this time to set the mid of the activity
-        $time->add(new \DateInterval('PT'. round($this->Context->getActivity()->getElapsedTime() / 2 ).'S'));
+        $time->add(new \DateInterval('PT' . round($this->Context->getActivity()->getElapsedTime() / 2 ) . 'S'));
 
         $location->setDateTime($time);
 
@@ -85,7 +91,7 @@ class ActivityContextAdapter
 
         $weather = $this->WeatherForecast->loadForecast($location);
 
-        if (null !== $weather) {
+        if ($weather !== null) {
             $converter = new WeatherDataToActivityConverter();
             $converter->setActivityWeatherDataFor($this->Context->getActivity(), $weather);
         }

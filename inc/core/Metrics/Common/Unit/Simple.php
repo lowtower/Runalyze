@@ -11,7 +11,9 @@ class Simple implements UnitInterface
 {
     use BaseUnitTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Appendix;
 
     /**

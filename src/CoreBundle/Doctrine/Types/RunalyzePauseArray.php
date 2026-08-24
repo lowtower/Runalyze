@@ -9,7 +9,9 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class RunalyzePauseArray extends Type
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const RUNALYZE_PAUSE_ARRAY = 'runalyze_pause_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
@@ -46,7 +48,7 @@ class RunalyzePauseArray extends Type
     {
         $collection = new PauseCollection();
 
-        if ($value !== null && '' !== trim($value)) {
+        if ($value !== null && trim($value) !== '') {
             $pauses = json_decode($value, true);
 
             if (is_array($pauses)) {
@@ -68,9 +70,9 @@ class RunalyzePauseArray extends Type
             'hr-end' => $pause->getHeartRateAtEnd(),
             'hr-rec' => $pause->getHeartRateAtRecovery(),
             'time-rec' => $pause->getTimeUntilRecovery(),
-            'pc' => $pause->getPerformanceCondition()
+            'pc' => $pause->getPerformanceCondition(),
         ], function ($value): bool {
-            return null !== $value;
+            return $value !== null;
         });
     }
 
@@ -81,7 +83,7 @@ class RunalyzePauseArray extends Type
     {
         $data = array_merge([
             'time' => 0,
-            'duration' => 0
+            'duration' => 0,
         ], $data);
         $pause = new Pause($data['time'], $data['duration']);
 

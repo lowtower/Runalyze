@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class ActivityPlotMode extends \Runalyze\Parameter\Select {
+class ActivityPlotMode extends \Runalyze\Parameter\Select
+{
 	/**
 	 * All seperated
 	 * @var string
@@ -36,18 +37,15 @@ class ActivityPlotMode extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::SEPERATED, array(
-    'options'		=> array(
-		        self::SEPERATED			=> __('all separated'),
-		        self::PACE_HR			=> __('Pace / Heart rate'),
-		        self::PACE_HR_ELEVATION	=> __('Pace / Heart rate / Elevation')
-		    )
-));
+		parent::__construct(self::SEPERATED, [
+    'options' => [
+		        self::SEPERATED => __('all separated'),
+		        self::PACE_HR => __('Pace / Heart rate'),
+		        self::PACE_HR_ELEVATION => __('Pace / Heart rate / Elevation'),
+		    ],
+]);
 	}
 
-    /**
-     * Show seperated
-     */
     public function showSeperated(): bool {
 		return ($this->value() == self::SEPERATED);
 	}

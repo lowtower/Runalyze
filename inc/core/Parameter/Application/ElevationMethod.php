@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class ElevationMethod extends \Runalyze\Parameter\Select {
+class ElevationMethod extends \Runalyze\Parameter\Select
+{
 	/**
 	 * None
 	 * @var string
@@ -42,14 +43,14 @@ class ElevationMethod extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::THRESHOLD, array(
-    'options'		=> array(
-		        self::NONE				=> __('no smoothing'),
-		        self::THRESHOLD			=> __('Threshold method'),
-		        self::DOUGLAS_PEUCKER	=> __('Douglas-Peucker-Algorithm')//,
+		parent::__construct(self::THRESHOLD, [
+    'options' => [
+		        self::NONE => __('no smoothing'),
+		        self::THRESHOLD => __('Threshold method'),
+		        self::DOUGLAS_PEUCKER => __('Douglas-Peucker-Algorithm'), //,
 		        //self::REUMANN_WITKAM	=> __('Reumann-Witkam-Algorithm')
-		    )
-));
+		    ],
+]);
 	}
 
     /**

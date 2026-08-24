@@ -11,13 +11,19 @@ use Runalyze\Util\LocalTime;
 
 class RaceAnalysis
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $VO2maxFactor;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $VO2maxShape;
 
-    /** @var Model\Activity\Entity */
+    /**
+     * @var Model\Activity\Entity
+     */
     protected $Activity;
 
     /**

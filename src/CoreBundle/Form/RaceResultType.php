@@ -21,29 +21,29 @@ class RaceResultType extends AbstractType
         $placeOrParticipantsOptions = [
             'attr' => [
                 'min' => 1,
-                'class'=> 'small-size'
+                'class' => 'small-size',
             ],
-            'required' => false
+            'required' => false,
         ];
 
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('official_time', DurationType::class, [
                 'required' => true,
                 'attr' => [
-                    'class' => 'small-size'
-                ]
+                    'class' => 'small-size',
+                ],
             ])
             ->add('official_distance', DistanceType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'small-size'
-                ]
+                    'class' => 'small-size',
+                ],
             ])
             ->add('officially_measured', CheckboxType::class, [
                 'required' => false,
@@ -59,7 +59,7 @@ class RaceResultType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Raceresult::class
+            'data_class' => Raceresult::class,
         ]);
     }
 }

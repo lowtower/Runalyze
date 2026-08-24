@@ -15,7 +15,8 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSection {
+abstract class TrainingViewSection
+{
 	/**
 	 * Header
 	 * @var string
@@ -26,7 +27,7 @@ abstract class TrainingViewSection {
 	 * All rows
 	 * @var TrainingViewSectionRowAbstract[]
 	 */
-	protected $Rows = array();
+	protected $Rows = [];
 
 	/**
 	 * Is first?
@@ -39,10 +40,6 @@ abstract class TrainingViewSection {
 	 */
 	protected $Context;
 
-	/**
-	 * Constructor
-	 * @param \Runalyze\View\Activity\Context $Context
-	 */
 	public function __construct(?Context $Context = null) {
 		$this->Context = $Context;
 
@@ -50,9 +47,6 @@ abstract class TrainingViewSection {
 			$this->setHeaderAndRows();
 	}
 
-	/**
-	 * Set header and rows
-	 */
 	abstract protected function setHeaderAndRows();
 
 	/**
@@ -62,23 +56,16 @@ abstract class TrainingViewSection {
 	abstract protected function hasRequiredData();
 
 	/**
-	 * Set header
 	 * @param string $header
 	 */
 	final protected function setHeader($header) {
 		$this->Header = $header;
 	}
 
-    /**
-     * Append row
-     */
     final protected function appendRow(TrainingViewSectionRowAbstract $Row) {
 		$this->Rows[] = $Row;
 	}
 
-	/**
-	 * Set as first
-	 */
 	final public function setAsFirst() {
 		$this->isFirst = true;
 	}
@@ -91,9 +78,6 @@ abstract class TrainingViewSection {
 		return empty($this->Header) || $this->Rows === [];
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		if (! $this->isEmpty()) {
 			$this->displayHeader();
@@ -101,18 +85,12 @@ abstract class TrainingViewSection {
 		}
 	}
 
-	/**
-	 * Display header
-	 */
 	private function displayHeader() {
-		echo '<div class="panel-heading'.(! $this->isFirst ? ' panel-inner-heading' : '').'">';
-		echo '<h2>'.$this->Header.'</h2>';
+		echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
+		echo '<h2>' . $this->Header . '</h2>';
 		echo '</div>';
 	}
 
-	/**
-	 * Display content
-	 */
 	private function displayContent() {
 		echo '<div>';
 

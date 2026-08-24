@@ -20,16 +20,16 @@ class HumidityType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'scale' => 0,
             'type' => 'fractional',
             'compound' => false,
-        ));
+        ]);
 
-        $resolver->setAllowedValues('type', array(
+        $resolver->setAllowedValues('type', [
             'fractional',
             'integer',
-        ));
+        ]);
 
         $resolver->setAllowedTypes('scale', 'int');
     }

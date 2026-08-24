@@ -6,13 +6,19 @@ use Runalyze\Bundle\CoreBundle\Component\VariablesContainerTrait;
 
 class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var object */
+    /**
+     * @var object
+     */
     protected $Object;
 
-    /** @var \ReflectionMethod */
+    /**
+     * @var \ReflectionMethod
+     */
     protected $GetMethod;
 
-    /** @var \ReflectionMethod */
+    /**
+     * @var \ReflectionMethod
+     */
     protected $SetMethod;
 
     protected function setUp(): void

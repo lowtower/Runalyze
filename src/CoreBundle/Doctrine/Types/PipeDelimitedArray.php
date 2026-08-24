@@ -7,7 +7,9 @@ use Doctrine\DBAL\Types\Type;
 
 class PipeDelimitedArray extends Type
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const PIPE_ARRAY = 'pipe_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
@@ -26,7 +28,7 @@ class PipeDelimitedArray extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || '' === trim($value)) {
+        if ($value === null || trim($value) === '') {
             return null;
         }
 

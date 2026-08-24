@@ -9,7 +9,9 @@ use PDO;
  */
 class SummaryModeTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
 	protected function setUp(): void
@@ -26,7 +28,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 
 	protected function fetchResult($mode)
 	{
-		return $this->PDO->query('SELECT '.SummaryMode::query($mode, 'value').' FROM `testtable`')->fetchColumn();
+		return $this->PDO->query('SELECT ' . SummaryMode::query($mode, 'value') . ' FROM `testtable`')->fetchColumn();
 	}
 
     /**
@@ -35,7 +37,7 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
     protected function insertData(array $dataArrays)
 	{
 		foreach ($dataArrays as $data) {
-			$this->PDO->exec('INSERT INTO `testtable` VALUES ('.$data[0].', '.$data[1].')');
+			$this->PDO->exec('INSERT INTO `testtable` VALUES (' . $data[0] . ', ' . $data[1] . ')');
 		}
 	}
 
@@ -85,5 +87,4 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(5, $this->fetchResult(SummaryMode::AVG));
 	}
-
 }

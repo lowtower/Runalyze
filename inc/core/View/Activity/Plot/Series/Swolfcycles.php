@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Swolfcycles extends ActivityPointSeries {
+class Swolfcycles extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -39,14 +40,14 @@ class Swolfcycles extends ActivityPointSeries {
 	 */
 	protected function initDataWithSwimdata(Activity\Context $context) {
 		if (! $context->hasSwimdata()) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
 		$key = Swimdata::SWOLFCYCLES;
 
 		if (! $context->swimdata()->has($key)) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
@@ -56,9 +57,6 @@ class Swolfcycles extends ActivityPointSeries {
 		$this->XAxis = $Collector->xAxis();
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Swolf');
 		$this->Color = self::COLOR;

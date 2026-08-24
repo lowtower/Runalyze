@@ -10,7 +10,9 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
 class TrackDataAdapter
 {
-    /** @var Trackdata */
+    /**
+     * @var Trackdata
+     */
     protected $TrackData;
 
     public function __construct(Trackdata $trackData)
@@ -26,7 +28,7 @@ class TrackDataAdapter
 
     public function calculateGradient()
     {
-        if (null !== $this->TrackData->getActivity() && $this->TrackData->getActivity()->hasRoute()) {
+        if ($this->TrackData->getActivity() !== null && $this->TrackData->getActivity()->hasRoute()) {
             $calculator = new GradientCalculator();
             $calculator->calculateFor(
                 $this->TrackData,
@@ -47,7 +49,7 @@ class TrackDataAdapter
             $pace = $this->TrackData->getPace();
             $gradient = $this->TrackData->getGradient();
 
-            if (null !== $gradient) {
+            if ($gradient !== null) {
                 $algorithm = new Minetti();
                 $gradeAdjustedPace = $pace;
 

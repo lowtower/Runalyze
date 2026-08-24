@@ -29,7 +29,7 @@ class GpsDistanceCalculator
     {
 		$rad1 = deg2rad($lat1);
 		$rad2 = deg2rad($lat2);
-		$dist = sin($rad1) * sin($rad2) +  cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
+		$dist = sin($rad1) * sin($rad2) + cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
 		$dist = acos($dist);
 		$dist = rad2deg($dist);
 

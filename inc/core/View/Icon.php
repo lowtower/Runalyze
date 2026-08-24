@@ -8,8 +8,6 @@
 namespace Runalyze\View;
 
 /**
- * Icon
- *
  * Example usage:
  * <pre>
  * $Icon = new Icon( Icon::INFO );
@@ -20,7 +18,8 @@ namespace Runalyze\View;
  * @author Hannes Christiansen
  * @package Runalyze\View
  */
-class Icon {
+class Icon
+{
 	/**
 	 * @var string
 	 */
@@ -68,16 +67,12 @@ class Icon {
 	}
 
 	/**
-	 * Set tooltip
 	 * @param string $tooltip
 	 */
 	public function setTooltip($tooltip) {
 		$this->Tooltip = $tooltip;
 	}
 
-	/**
-	 * Display
-	 */
 	final public function display() {
 		echo $this->code();
 	}
@@ -86,23 +81,19 @@ class Icon {
      * Get code
      */
     public function code(): string {
-		return '<i class="fa fa-fw '.$this->FontAwesomeName.'"'.$this->tooltipAttributes().'></i>';
+		return '<i class="fa fa-fw ' . $this->FontAwesomeName . '"' . $this->tooltipAttributes() . '></i>';
 	}
 
-    /**
-     * Tooltip attributes
-     */
     protected function tooltipAttributes(): string {
 		if (! empty($this->Tooltip)) {
 			$Tooltip = new Tooltip($this->Tooltip);
-			return ' '.$Tooltip->attributes();
+			return ' ' . $Tooltip->attributes();
 		}
 
 		return '';
 	}
 
 	/**
-	 * Add tooltip to code
 	 * @param string $code
 	 */
 	protected function addTooltipToCode(&$code) {

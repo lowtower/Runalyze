@@ -8,36 +8,58 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 class WeatherConditionProfile extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const UNKNOWN = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SUNNY = 2;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FAIR = 3;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const CLOUDY = 4;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const CHANGEABLE = 5;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const RAINY = 6;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SNOWING = 7;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HEAVYRAIN = 8;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FOGGY = 9;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const THUNDERSTORM = 10;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WINDY = 11;
 }

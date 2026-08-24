@@ -7,37 +7,59 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityPreview
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $ActivityId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Title;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     */
     protected $DateTime;
 
-    /** @var int|float [s] */
+    /**
+     * @var int|float [s]
+     */
     protected $Duration;
 
-    /** @var float|null [km] */
+    /**
+     * @var float|null [km]
+     */
     protected $Distance;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $SportName = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $SportIcon = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $HasHeartRate;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $HasRoute;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $HasRounds;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsPossibleDuplicate;
 
     public function __construct(Training $activity, $isPossibleDuplicate = false)
@@ -56,7 +78,7 @@ class ActivityPreview
         $this->ActivityId = $activity->getId();
         $this->Duration = $activity->getS();
         $this->Distance = $activity->getDistance();
-        $this->HasHeartRate = null !== $activity->getPulseAvg();
+        $this->HasHeartRate = $activity->getPulseAvg() !== null;
         $this->HasRoute = $activity->hasRoute();
         $this->HasRounds = ! $activity->getSplits()
             ->isEmpty();
@@ -128,7 +150,7 @@ class ActivityPreview
 
     public function hasDistance(): bool
     {
-        return null !== $this->Distance;
+        return $this->Distance !== null;
     }
 
     /**

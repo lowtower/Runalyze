@@ -10,7 +10,9 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class RouteAdapter
 {
-    /** @var Route */
+    /**
+     * @var Route
+     */
     protected $Route;
 
     public function __construct(Route $route)
@@ -24,10 +26,10 @@ class RouteAdapter
     public function correctElevation(ElevationCorrection $elevationCorrection, ?StrategyInterface $strategy = null): bool
     {
         if ($this->Route->hasGeohashes()) {
-            list($latitudes, $longitudes) = $this->Route->getLatitudesAndLongitudes();
+            [$latitudes, $longitudes] = $this->Route->getLatitudesAndLongitudes();
             $altitudeData = $elevationCorrection->loadAltitudeData($latitudes, $longitudes, $strategy);
 
-            if (null !== $altitudeData) {
+            if ($altitudeData !== null) {
                 $this->Route->setElevationsCorrected($altitudeData);
                 $this->Route->setElevationsSource($this->getStrategyName($elevationCorrection->getLastSuccessfulStrategy()));
 
@@ -60,12 +62,12 @@ class RouteAdapter
      */
     protected function getStrategyName($object)
     {
-        if (null === $object) {
+        if ($object === null) {
             return null;
         }
 
         $fullClassName = get_class($object);
 
-        return substr($fullClassName, strrpos($fullClassName, '\\')+1);
+        return substr($fullClassName, strrpos($fullClassName, '\\') + 1);
     }
 }

@@ -6,10 +6,14 @@ use Runalyze\Parser\Activity\Common\Data\FitDetails;
 
 class FitDetailsMerger implements MergerInterface
 {
-    /** @var FitDetails */
+    /**
+     * @var FitDetails
+     */
     protected $ResultingDetails;
 
-    /** @var FitDetails */
+    /**
+     * @var FitDetails
+     */
     protected $DetailsToMerge;
 
     public function __construct(FitDetails $firstDetails, FitDetails $secondDetails)
@@ -21,7 +25,7 @@ class FitDetailsMerger implements MergerInterface
     public function merge()
     {
         foreach ($this->getPropertiesToMerge() as $property) {
-            if (null === $this->ResultingDetails->{$property}) {
+            if ($this->ResultingDetails->{$property} === null) {
                 $this->ResultingDetails->{$property} = $this->DetailsToMerge->{$property};
             }
         }
@@ -38,7 +42,7 @@ class FitDetailsMerger implements MergerInterface
             'HrvAnalysis',
             'TrainingEffect',
             'PerformanceCondition',
-            'PerformanceConditionEnd'
+            'PerformanceConditionEnd',
         ];
     }
 }

@@ -16,7 +16,6 @@ use Runalyze\Model\Swimdata;
 use Runalyze\View\Activity\Dataview;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
-
 use Ajax;
 use Helper;
 use FormularFieldset;
@@ -27,7 +26,8 @@ use FormularFieldset;
  * @author Hannes Christiansen
  * @package Runalyze\View\Window\Laps
  */
-class Table {
+class Table
+{
 	/**
 	 * @var string
 	 */
@@ -73,7 +73,7 @@ class Table {
 	/**
 	 * @var array
 	 */
-	protected $AdditionalKeys = array();
+	protected $AdditionalKeys = [];
 
 	/**
 	 * @var array
@@ -81,12 +81,13 @@ class Table {
 	 */
 	protected $splitsAdditional;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	private $showIntensity = false;
 
     /**
      * @param int $internalSportProfileEnum
-     * @param array $splitsAdditional
      */
     public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, $internalSportProfileEnum, ?array $splitsAdditional = null)
 	{
@@ -106,7 +107,7 @@ class Table {
 	}
 
 	protected function defineAdditionalKeys($isRunning) {
-		$additionalKeys = array();
+		$additionalKeys = [];
 		foreach ($this->Laps->objects() as $lap) {
 			$additionalKeys = array_merge($additionalKeys, $lap->additionalValues());
 		}
@@ -114,20 +115,17 @@ class Table {
 		$this->AdditionalKeys = array_keys($additionalKeys);
 
 		if (! $isRunning) {
-			$this->AdditionalKeys = array_diff($this->AdditionalKeys, array(
+			$this->AdditionalKeys = array_diff($this->AdditionalKeys, [
 			    Activity\Entity::GROUNDCONTACT,
 			    Activity\Entity::GROUNDCONTACT_BALANCE,
 			    Activity\Entity::VERTICAL_OSCILLATION,
 			    Activity\Entity::VERTICAL_RATIO,
 			    Activity\Entity::STRIDE_LENGTH,
-			    Activity\Entity::VO2MAX
-			));
+			    Activity\Entity::VO2MAX,
+			]);
 		}
 	}
 
-    /**
-     * @param \Runalyze\Activity\Duration $time
-     */
     public function setAverage(Pace $pace, ?Duration $time = null) {
 		$this->AveragePace = $pace;
 		$this->AverageTime = $time;
@@ -139,32 +137,32 @@ class Table {
 	public function display() {
 		$Fieldset = new FormularFieldset( __('Laps') );
 		$Fieldset->setId('rounds');
-		$Fieldset->setHtmlCode( $this->tableHeader().$this->tableBody().$this->tableFooter() );
+		$Fieldset->setHtmlCode( $this->tableHeader() . $this->tableBody() . $this->tableFooter() );
 		$Fieldset->display();
 
-		Ajax::createTablesorterFor('#'.self::CSS_ID, true);
+		Ajax::createTablesorterFor('#' . self::CSS_ID, true);
 	}
 
 	protected function tableHeader(): string {
 		// #TSC make width as possible with 100%
-		return '<table class="fullwidth zebra-style zebra-blue" id="'.self::CSS_ID.'" style="width: 100%">'.
-				'<thead>'.
-					'<tr>'.
-						'<th class="{sorter: \'order\'}">#</th>'.
-						($this->showIntensity ? '<th class="{sorter: \'type\'}">'.__('Type').'</th>' : '') .
-						'<th class="{sorter: \'distance\'}">'.__('Distance').'</th>'.
-						'<th class="{sorter: \'resulttime\'}">'.__('Time').'</th>'.
-						'<th class="{sorter: \'distance\'}">'.__('Lap').'</th>'.
-						'<th class="{sorter: \'resulttime\'}">'.__('Duration').'</th>'.
-						($this->DemandedTime->isZero() ? '' : '<th>'.__('Diff.').'</th>').
-						'<th>'.__('Pace').'</th>'.
-                        ($this->DemandedPace->isEmpty() ? '' : '<th>'.__('Diff.').'</th>').
-						'<th>'.__('avg.').' '.__('HR').'</th>'.
-						'<th>'.__('max.').' '.__('HR').'</th>'.
-						'<th class="{sorter: false}">'.__('elevation').'</th>'.
-						$this->tableHeaderForAdditionalKeys().
-						$this->tableHeaderForSplitsAdditional().
-					'</tr>'.
+		return '<table class="fullwidth zebra-style zebra-blue" id="' . self::CSS_ID . '" style="width: 100%">' .
+				'<thead>' .
+					'<tr>' .
+						'<th class="{sorter: \'order\'}">#</th>' .
+						($this->showIntensity ? '<th class="{sorter: \'type\'}">' . __('Type') . '</th>' : '') .
+						'<th class="{sorter: \'distance\'}">' . __('Distance') . '</th>' .
+						'<th class="{sorter: \'resulttime\'}">' . __('Time') . '</th>' .
+						'<th class="{sorter: \'distance\'}">' . __('Lap') . '</th>' .
+						'<th class="{sorter: \'resulttime\'}">' . __('Duration') . '</th>' .
+						($this->DemandedTime->isZero() ? '' : '<th>' . __('Diff.') . '</th>') .
+						'<th>' . __('Pace') . '</th>' .
+                        ($this->DemandedPace->isEmpty() ? '' : '<th>' . __('Diff.') . '</th>') .
+						'<th>' . __('avg.') . ' ' . __('HR') . '</th>' .
+						'<th>' . __('max.') . ' ' . __('HR') . '</th>' .
+						'<th class="{sorter: false}">' . __('elevation') . '</th>' .
+						$this->tableHeaderForAdditionalKeys() .
+						$this->tableHeaderForSplitsAdditional() .
+					'</tr>' .
 				'</thead>';
 	}
 
@@ -172,7 +170,7 @@ class Table {
 		$Code = '';
 
 		foreach ($this->AdditionalKeys as $key) {
-			$Code .= '<th class="small">'.$this->labelForAdditionalValue($key).'</th>';
+			$Code .= '<th class="small">' . $this->labelForAdditionalValue($key) . '</th>';
 		}
 
 		return $Code;
@@ -189,7 +187,7 @@ class Table {
 		// parse the json and select all keys
 		if(! empty($this->splitsAdditional)) {
 			foreach($this->splitsAdditional['keys'] as $key){
-				$Code .= '<th class="small">'. ucfirst($key) .'</th>';
+				$Code .= '<th class="small">' . ucfirst($key) . '</th>';
 			}
 		}
 
@@ -214,21 +212,21 @@ class Table {
 		$Lap->pace()
 		    ->setUnit($this->DemandedPace->unit());
 
-		return '<tr class="c '.($Lap->isActive() ? '' : 'unimportant').'">'.
-				'<td class="small">'.($Lap->isActive() ? ($this->IndexActive++).'.' : '('.($this->IndexResting++).'.)').'</td>'.
+		return '<tr class="c ' . ($Lap->isActive() ? '' : 'unimportant') . '">' .
+				'<td class="small">' . ($Lap->isActive() ? ($this->IndexActive++) . '.' : '(' . ($this->IndexResting++) . '.)') . '</td>' .
 				($this->showIntensity ? '<td>' . __($Lap->getMode()->getLabel()) . '</td>' : '') .
-				'<td>'.($Lap->hasTrackValues() ? $Lap->trackDistance()->string() : '-').'</td>'.
-				'<td>'.($Lap->hasTrackValues() ? $Lap->trackDuration()->string() : '-').'</td>'.
-				'<td>'.$Lap->distance()->string().'</td>'.
-				'<td>'.$Lap->duration()->string().'</td>'.
-				($this->DemandedTime->isZero() ? '' : '<td>'.$Lap->duration()->compareTo($this->DemandedTime, true).'</td>').
-				'<td>'.$Lap->pace()->valueWithAppendix().'</td>'.
-				($this->DemandedPace->isEmpty() ? '' : '<td>'.$Lap->pace()->compareTo($this->DemandedPace).'</td>').
-				'<td>'.($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-').'</td>'.
-				'<td>'.($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-').'</td>'.
-				'<td>'.($Lap->hasElevation() ? '+'.Elevation::format($Lap->elevationUp(), false).'/-'.Elevation::format($Lap->elevationDown(), false) : '-').'</td>'.
-				$this->additionalTableCellsFor($Lap).
-				$this->splitsAdditionalCells($i).
+				'<td>' . ($Lap->hasTrackValues() ? $Lap->trackDistance()->string() : '-') . '</td>' .
+				'<td>' . ($Lap->hasTrackValues() ? $Lap->trackDuration()->string() : '-') . '</td>' .
+				'<td>' . $Lap->distance()->string() . '</td>' .
+				'<td>' . $Lap->duration()->string() . '</td>' .
+				($this->DemandedTime->isZero() ? '' : '<td>' . $Lap->duration()->compareTo($this->DemandedTime, true) . '</td>') .
+				'<td>' . $Lap->pace()->valueWithAppendix() . '</td>' .
+				($this->DemandedPace->isEmpty() ? '' : '<td>' . $Lap->pace()->compareTo($this->DemandedPace) . '</td>') .
+				'<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRavg()->string(), '-') : '-') . '</td>' .
+				'<td>' . ($Lap->hasHR() ? Helper::Unknown($Lap->HRmax()->string(), '-') : '-') . '</td>' .
+				'<td>' . ($Lap->hasElevation() ? '+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) : '-') . '</td>' .
+				$this->additionalTableCellsFor($Lap) .
+				$this->splitsAdditionalCells($i) .
 			'</tr>';
 	}
 
@@ -251,46 +249,46 @@ class Table {
 		foreach ($this->AdditionalKeys as $key) {
 			switch ($key) {
 				case Activity\Entity::CADENCE:
-					$Code .= '<td>'.$View->cadence()->asString().'</td>';
+					$Code .= '<td>' . $View->cadence()->asString() . '</td>';
 					break;
 
 				case Activity\Entity::GROUNDCONTACT:
-					$Code .= '<td>'.$View->groundcontact().'</td>';
+					$Code .= '<td>' . $View->groundcontact() . '</td>';
 					break;
 
 				case Activity\Entity::GROUNDCONTACT_BALANCE:
-					$Code .= '<td>'.$View->groundcontactBalance().'</td>';
+					$Code .= '<td>' . $View->groundcontactBalance() . '</td>';
 					break;
 
 				case Activity\Entity::VERTICAL_OSCILLATION:
-					$Code .= '<td>'.$View->verticalOscillation().'</td>';
+					$Code .= '<td>' . $View->verticalOscillation() . '</td>';
 					break;
 
 				case Activity\Entity::VERTICAL_RATIO:
-					$Code .= '<td>'.$View->verticalRatio().'</td>';
+					$Code .= '<td>' . $View->verticalRatio() . '</td>';
 					break;
 
 				case Activity\Entity::STRIDE_LENGTH:
-					$Code .= '<td>'.$View->strideLength()->string().'</td>';
+					$Code .= '<td>' . $View->strideLength()->string() . '</td>';
 					break;
 
 				case Activity\Entity::VO2MAX:
-					$Code .= '<td>'.$View->vo2max()->value().'</td>';
+					$Code .= '<td>' . $View->vo2max()->value() . '</td>';
 					break;
 
 				case Activity\Entity::POWER:
-					$Code .= '<td>'.$View->power().'</td>';
+					$Code .= '<td>' . $View->power() . '</td>';
 					break;
 
 				case Swimdata\Entity::STROKE: // #TSC new info from swimming; i'm not using the $View for this
-					$Code .= '<td>'. round($Lap->additionalValues()[$key], 1) .'</td>';
+					$Code .= '<td>' . round($Lap->additionalValues()[$key], 1) . '</td>';
 					break;
 
 				case Activity\Entity::TOTAL_STROKES: // #TSC new info from swimming
 				case Swimdata\Entity::SWOLF:
 				case Swimdata\Entity::SWOLFCYCLES:
 				case 'lanes':
-					$Code .= '<td>'. round($Lap->additionalValues()[$key]) .'</td>';
+					$Code .= '<td>' . round($Lap->additionalValues()[$key]) . '</td>';
 					break;
 
 				default:
@@ -325,7 +323,7 @@ class Table {
 			case 'lanes':
 				return '# ' . __('Lanes');
 			case Swimdata\Entity::STROKE:
-				return '&#8709; ' .  __('Strokes') . '/' . __('Track');
+				return '&#8709; ' . __('Strokes') . '/' . __('Track');
 			case Activity\Entity::TOTAL_STROKES:
 				return __('Total strokes');
 			case Swimdata\Entity::SWOLF:
@@ -366,13 +364,13 @@ class Table {
 				if (strpos($key, FitWorkoutStep::ADD_TARGET_SPEED) !== false) {
 					// if additional is a pace-unit
 					$pace->setDistance($obj[$key] / 1000); // unit is m/s: set km in this one second
-					$Code .= '<td>'. $pace->valueWithAppendix() .'</td>';
+					$Code .= '<td>' . $pace->valueWithAppendix() . '</td>';
 				} elseif (strpos($key, FitWorkoutStep::ADD_TARGET_HR) !== false) {
 					// if additional is a HR
 					$hr->setBPM($obj[$key]);
-					$Code .= '<td>'. $hr->string() .'</td>';
+					$Code .= '<td>' . $hr->string() . '</td>';
 				} else {
-					$Code .= '<td>'. $obj[$key] .'</td>';
+					$Code .= '<td>' . $obj[$key] . '</td>';
 				}
 			} else {
 				$Code .= '<td></td>';
@@ -383,13 +381,13 @@ class Table {
 	}
 
 	protected function tableFooter(): string {
-		$Code  = '<tbody>';
-		$Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">'.__('Average').':</td>';
-		$Code .= '<td class="c">'.($this->AverageTime !== null ? $this->AverageTime->string() : '').'</td>';
+		$Code = '<tbody>';
+		$Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">' . __('Average') . ':</td>';
+		$Code .= '<td class="c">' . ($this->AverageTime !== null ? $this->AverageTime->string() : '') . '</td>';
 		$Code .= ($this->DemandedTime->isZero() ? '' : '<td></td>');
-		$Code .= '<td class="c">'.($this->AveragePace !== null ? $this->AveragePace->valueWithAppendix() : '').'</td>';
+		$Code .= '<td class="c">' . ($this->AveragePace !== null ? $this->AveragePace->valueWithAppendix() : '') . '</td>';
 		$Code .= ($this->DemandedPace->isEmpty() ? '' : '<td></td>');
-		$Code .= '<td colspan="'.(3 + count($this->AdditionalKeys)).'"></td>';
+		$Code .= '<td colspan="' . (3 + count($this->AdditionalKeys)) . '"></td>';
 		$Code .= '</tr>';
 		$Code .= '</tbody>';
 		$Code .= '</table>';
@@ -402,7 +400,7 @@ class Table {
 			return '';
 		}
 
-		$Code  = '<p class="checkbox-first">';
+		$Code = '<p class="checkbox-first">';
 		$Code .= '<label>';
 		$Code .= '<input type="checkbox" name="toggle-active-splits" id="toggle-active-splits" checked> ';
 		$Code .= __('Show inactive splits');
@@ -410,8 +408,8 @@ class Table {
 		$Code .= '</p>';
 
 		return $Code . Ajax::wrapJS(
-		    '$("#toggle-active-splits").click(function(){'.
-				'$("#'.self::CSS_ID.' tr.unimportant").toggle();'.
+		    '$("#toggle-active-splits").click(function(){' .
+				'$("#' . self::CSS_ID . ' tr.unimportant").toggle();' .
 			'});'
 		);
 	}

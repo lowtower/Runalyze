@@ -38,7 +38,7 @@ class SharedController extends Controller
             ->getRepository('CoreBundle:Training')
             ->find((int) base_convert((string) $activityHash, 35, 10));
 
-        if (null === $activity || ! $activity->isPublic()) {
+        if ($activity === null || ! $activity->isPublic()) {
             return $this->render('shared/invalid_activity.html.twig');
         }
 
@@ -59,17 +59,17 @@ class SharedController extends Controller
         $hasRoute = $activityContext->canShowMap() && $this->get('app.privacy_guard')
             ->isMapVisible($activity, $activityContext->getRaceResult());
 
-        if ('iframe' == $request->query->get('mode')) {
+        if ($request->query->get('mode') == 'iframe') {
             return $this->render('shared/widget/iframe/base.html.twig', [
                 'username' => $activity->getAccount()
                     ->getUsername(),
                 'hasPublicList' => $publicList,
                 'context' => $activityContext,
                 'route' => $hasRoute ? new \Runalyze\View\Leaflet\Activity(
-                    'route-'.$activity->getId(),
+                    'route-' . $activity->getId(),
                     $activityContextLegacy->route(),
                     $activityContextLegacy->trackdata()
-                ) : false
+                ) : false,
             ]);
         }
 
@@ -81,7 +81,7 @@ class SharedController extends Controller
             'activityUrl' => (new Linker($activityContextLegacy->activity()))->publicUrl(),
             'activityHasRoute' => $hasRoute,
             'metaTitle' => (new Facebook($activityContextLegacy))->metaTitle(),
-            'view' => new \TrainingView($activityContextLegacy)
+            'view' => new \TrainingView($activityContextLegacy),
         ]);
     }
 
@@ -90,9 +90,9 @@ class SharedController extends Controller
      */
     public function oldSharedUserAction($username): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->redirect($this->generateUrl('shared-athlete', array(
-            'username' => $username
-        )), 301);
+        return $this->redirect($this->generateUrl('shared-athlete', [
+            'username' => $username,
+        ]), 301);
     }
 
     /**
@@ -107,7 +107,7 @@ class SharedController extends Controller
             ->getList($account)
             ->getPrivacy();
 
-        if (null === $account || ! $privacy->isListPublic()) {
+        if ($account === null || ! $privacy->isListPublic()) {
             return $this->render('shared/invalid_athlete.html.twig');
         }
 
@@ -118,7 +118,7 @@ class SharedController extends Controller
         if (isset($_GET['type'])) {
             return $this->render('shared/athlete/base_plot_sum_data.html.twig', [
                 'username' => $username,
-                'plot' => $this->getPlotSumData()
+                'plot' => $this->getPlotSumData(),
             ]);
         }
 
@@ -132,12 +132,11 @@ class SharedController extends Controller
             $legacyStatistics = null;
         }
 
-
         return $this->render('shared/athlete/base.html.twig', [
             'account' => $account,
             'accountStatistics' => $accountStatistics,
             'legacyStatistics' => $legacyStatistics,
-            'dataBrowser' => new \DataBrowserShared()
+            'dataBrowser' => new \DataBrowserShared(),
         ]);
     }
 
@@ -154,21 +153,21 @@ class SharedController extends Controller
             ->getPrivacy();
 
         $feed = $this->get('app.activity.feed');
-        $feed->setFeedTitle('RUNALYZE athlete '.$username)
+        $feed->setFeedTitle('RUNALYZE athlete ' . $username)
             ->setFeedUrl($this->generateUrl('shared-athlete-feed', [
-                'username' => $username
+                'username' => $username,
             ], UrlGeneratorInterface::ABSOLUTE_URL))
             ->setSiteUrl($this->generateUrl('shared-athlete', [
-                'username' => $username
+                'username' => $username,
             ], UrlGeneratorInterface::ABSOLUTE_URL))
             ->setFeedAuthor($username);
 
-        if (null === $account || ! $privacy->isListPublic()) {
+        if ($account === null || ! $privacy->isListPublic()) {
             return new Response(
                 $feed->buildFeed(),
                 Response::HTTP_OK,
                 [
-                    'content-type' => 'text/xml'
+                    'content-type' => 'text/xml',
                 ]
             );
         }
@@ -179,7 +178,7 @@ class SharedController extends Controller
             $feed->buildFeed(),
             Response::HTTP_OK,
             [
-                'content-type' => 'text/xml'
+                'content-type' => 'text/xml',
             ]
         );
     }
@@ -191,10 +190,10 @@ class SharedController extends Controller
     {
         $Request = Request::createFromGlobals();
 
-        if (null === $Request->query->get('y')) {
+        if ($Request->query->get('y') === null) {
             $_GET['y'] = \PlotSumData::LAST_12_MONTHS;
         }
 
-        return 'week' == $Request->query->get('type', 'month') ? new \PlotWeekSumData() : new \PlotMonthSumData();
+        return $Request->query->get('type', 'month') == 'week' ? new \PlotWeekSumData() : new \PlotMonthSumData();
     }
 }

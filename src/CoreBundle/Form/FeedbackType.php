@@ -15,24 +15,22 @@ class FeedbackType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('message', TextareaType::class, array(
-                'attr' => array(
-                    'placeholder' => 'Share your feedback here'
-                ),
-                'constraints' => array(
-                    new NotBlank(array(
-                        'message' => 'An empty feedback makes no sense.'
-                    )),
-                )
-            ));
+            ->add('message', TextareaType::class, [
+                'attr' => [
+                    'placeholder' => 'Share your feedback here',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'An empty feedback makes no sense.',
+                    ]),
+                ],
+            ]);
     }
 
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'error_bubbling' => true
-        ));
+        $resolver->setDefaults([
+            'error_bubbling' => true,
+        ]);
     }
-
-
 }

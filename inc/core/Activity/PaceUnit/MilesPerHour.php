@@ -18,7 +18,6 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 class MilesPerHour extends AbstractDecimalUnit
 {
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): int
@@ -27,7 +26,6 @@ class MilesPerHour extends AbstractDecimalUnit
 	}
 
     /**
-     * Appendix
      * @codeCoverageIgnore
      */
     public function appendix(): string

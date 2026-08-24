@@ -16,7 +16,6 @@ namespace Runalyze\Activity\PaceUnit;
 class MinPerKilometer extends AbstractTimeUnit
 {
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): int
@@ -25,7 +24,6 @@ class MinPerKilometer extends AbstractTimeUnit
 	}
 
     /**
-     * Appendix
      * @codeCoverageIgnore
      */
     public function appendix(): string

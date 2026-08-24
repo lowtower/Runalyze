@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20221212190000 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,7 +23,7 @@ class Version20221212190000 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'route`
+        $this->addSql('ALTER TABLE `' . $prefix . 'route`
                                 ADD `altitude_barometric` tinyint(1) unsigned DEFAULT 0 AFTER `elevations_source`;
                                 ');
     }
@@ -29,7 +31,7 @@ class Version20221212190000 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'route`
+        $this->addSql('ALTER TABLE `' . $prefix . 'route`
                                 DROP `altitude_barometric`;
                                 ');
     }

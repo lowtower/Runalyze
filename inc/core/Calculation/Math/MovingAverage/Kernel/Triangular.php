@@ -17,7 +17,9 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Triangular extends AbstractKernel
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $NormalizationFactor = 2.0;
 
     /**
@@ -25,7 +27,7 @@ class Triangular extends AbstractKernel
      */
     protected function atTransformed($u): float
     {
-        if (-1.0 <= $u && $u <= 1.0) {
+        if ($u >= -1.0 && $u <= 1.0) {
             return 1.0 - abs($u);
         }
 

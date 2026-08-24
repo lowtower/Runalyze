@@ -5,37 +5,53 @@ namespace Runalyze\Sports\Performance;
 use Runalyze\Mathematics\Scale;
 
 /**
- * Monotony
- *
  * @see http://fellrnr.com/wiki/Training_Monotony
  */
 class Monotony
 {
-    /** @var float Maximum */
+    /**
+     * @var float Maximum
+     */
     const MAX = 10.0;
 
-    /** @var float Minimum */
+    /**
+     * @var float Minimum
+     */
     const MIN = 0.0;
 
-    /** @var float Warning */
+    /**
+     * @var float Warning
+     */
     const WARNING = 1.5;
 
-    /** @var float Critical value */
+    /**
+     * @var float Critical value
+     */
     const CRITICAL = 2;
 
-    /** @var int Number of days */
+    /**
+     * @var int Number of days
+     */
     const DAYS = 7;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Trimp = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Avg = 0;
 
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $Value;
 
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $MaximumPerDay;
 
     /**
@@ -75,7 +91,7 @@ class Monotony
      */
     public function value(): float
     {
-        if (null === $this->Value) {
+        if ($this->Value === null) {
             throw new \RuntimeException('Monotony has to be calculated first.');
         }
 
@@ -83,8 +99,6 @@ class Monotony
     }
 
     /**
-     * Training strain
-     *
      * We use the Trimp-average instead of the sum to keep this value comparable.
      */
     public function trainingStrain(): float
@@ -102,7 +116,7 @@ class Monotony
      */
     public function trainingStrainAsPercentage(): float
     {
-        if (null === $this->MaximumPerDay) {
+        if ($this->MaximumPerDay === null) {
             throw new \RuntimeException('Maximum per day needs to be set to get a percentage.');
         }
 

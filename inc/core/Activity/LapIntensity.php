@@ -27,38 +27,58 @@ class LapIntensity extends AbstractEnum
 	 */
 	private const ACTIVE = '';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	private const REST = 'R';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const WARMUP = 'W';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const COOLDOWN = 'C';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const RECOVERY = 'Y';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const INTERVAL = 'I';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private const OTHER = 'O';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $Value;
 
-    /** @var LapIntensity */
+    /**
+     * @var LapIntensity
+     */
     private static $INST_ACTIVE;
 
-    /** @var LapIntensity */
+    /**
+     * @var LapIntensity
+     */
     private static $INST_REST;
 
     public function __construct(string $value) {
         $this->Value = $value;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getValue() {
         return $this->Value;
     }
@@ -119,7 +139,7 @@ class LapIntensity extends AbstractEnum
      */
     public static function getAll(): array
     {
-        $r = array();
+        $r = [];
         for ($i = 0; $i <= 6; $i++) {
             $r[] = self::fromFitToEnum($i);
         }
@@ -144,8 +164,6 @@ class LapIntensity extends AbstractEnum
     }
 
     /**
-     * Gets the label.
-     *
      * @return string a label text
      */
     public function getLabel(): string
@@ -176,7 +194,7 @@ class LapIntensity extends AbstractEnum
      * @return LapIntensity
      */
     public static function getInstanceActive() {
-        if (null === self::$INST_ACTIVE) {
+        if (self::$INST_ACTIVE === null) {
             self::$INST_ACTIVE = new self(self::ACTIVE);
         }
 
@@ -189,7 +207,7 @@ class LapIntensity extends AbstractEnum
      * @return LapIntensity
      */
     public static function getInstanceRest() {
-        if (null === self::$INST_REST) {
+        if (self::$INST_REST === null) {
             self::$INST_REST = new self(self::REST);
         }
 

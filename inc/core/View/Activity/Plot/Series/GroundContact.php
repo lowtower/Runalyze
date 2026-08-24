@@ -9,7 +9,6 @@ namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
-
 use \Plot;
 
 /**
@@ -18,7 +17,8 @@ use \Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class GroundContact extends ActivityPointSeries {
+class GroundContact extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -34,9 +34,6 @@ class GroundContact extends ActivityPointSeries {
 		$this->setManualAverage($context->activity()->groundcontact());
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Ground contact');
 		$this->Color = self::COLOR;

@@ -4,22 +4,34 @@ namespace Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb;
 
 class Climb
 {
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $TrackdataStartIndex;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $TrackdataEndIndex;
 
-    /** @var float [km] */
+    /**
+     * @var float [km]
+     */
     protected $Distance;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $Elevation;
 
-    /** @var int|null [m] */
+    /**
+     * @var int|null [m]
+     */
     protected $AltitudeAtTop;
 
-    /** @var ClimbProfile|null */
+    /**
+     * @var ClimbProfile|null
+     */
     protected $ClimbProfile;
 
     /**
@@ -50,7 +62,7 @@ class Climb
 
     public function knowsTrackdataStartIndex(): bool
     {
-        return null !== $this->TrackdataStartIndex;
+        return $this->TrackdataStartIndex !== null;
     }
 
     /**
@@ -63,7 +75,7 @@ class Climb
 
     public function knowsTrackdataEndIndex(): bool
     {
-        return null !== $this->TrackdataEndIndex;
+        return $this->TrackdataEndIndex !== null;
     }
 
     /**
@@ -110,7 +122,7 @@ class Climb
 
     public function knowsAltitudeAtTop(): bool
     {
-        return null !== $this->AltitudeAtTop;
+        return $this->AltitudeAtTop !== null;
     }
 
     public function setClimbProfile(ClimbProfile $profile): self
@@ -130,6 +142,6 @@ class Climb
 
     public function knowsClimbProfile(): bool
     {
-        return null !== $this->ClimbProfile;
+        return $this->ClimbProfile !== null;
     }
 }

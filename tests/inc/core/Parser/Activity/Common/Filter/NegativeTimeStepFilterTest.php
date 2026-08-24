@@ -10,10 +10,14 @@ use Runalyze\Parser\Activity\Common\Filter\NegativeTimeStepFilter;
 
 class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var NegativeTimeStepFilter */
+    /**
+     * @var NegativeTimeStepFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

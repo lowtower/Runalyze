@@ -9,8 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 
 /**
- * Equipment
- *
  * @ORM\Table(name="equipment")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository")
  */
@@ -273,7 +271,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function hasStartDate(): bool
     {
-        return null !== $this->dateStart;
+        return $this->dateStart !== null;
     }
 
     public function setDateEnd(?\DateTime $dateEnd = null): self
@@ -293,7 +291,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
 
     public function isActive(): bool
     {
-        return null === $this->dateEnd;
+        return $this->dateEnd === null;
     }
 
     public function setType(EquipmentType $type): self
@@ -311,9 +309,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this->type;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function addSport(Sport $sport): self
     {
         $this->sport[] = $sport;
@@ -321,9 +316,6 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
         return $this;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function removeSport(Sport $sport)
     {
         $this->sport->removeElement($sport);

@@ -47,7 +47,7 @@ class MainEquipment extends AbstractEquipment
      */
     public function description(): string
 	{
-		return __('You can choose a main equipment type for each sport in your sport configuration. '.
+		return __('You can choose a main equipment type for each sport in your sport configuration. ' .
 				'Equipment objects of this type will be shown with their names.');
 	}
 
@@ -61,7 +61,7 @@ class MainEquipment extends AbstractEquipment
 			$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
 			$mainTypeID = $context->sport()
 			    ->mainEquipmentTypeID();
-			$names = array();
+			$names = [];
 
 			foreach (array_unique($ids) as $id) {
 				$Equipment = $Factory->equipment($id);

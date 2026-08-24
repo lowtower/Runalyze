@@ -40,7 +40,7 @@ class RaceResultController extends Controller
             ->getRepository('CoreBundle:Training')
             ->findForAccount($activityId, $account->getId());
 
-        if (null === $activity) {
+        if ($activity === null) {
             throw $this->createAccessDeniedException();
         }
 
@@ -49,18 +49,18 @@ class RaceResultController extends Controller
             ->findForAccount($activityId, $account->getId());
         $isNew = false;
 
-        if (null === $raceResult) {
+        if ($raceResult === null) {
             $isNew = true;
             $raceResult = new Raceresult();
             $raceResult->setAccount($account);
             $raceResult->fillFromActivity($activity);
         }
 
-        $form = $this->createForm(RaceResultType::class, $raceResult, array(
-            'action' => $this->generateUrl('raceresult-form', array(
-                'activityId' => $activityId
-            ))
-        ));
+        $form = $this->createForm(RaceResultType::class, $raceResult, [
+            'action' => $this->generateUrl('raceresult-form', [
+                'activityId' => $activityId,
+            ]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,7 +74,7 @@ class RaceResultController extends Controller
             'form' => $form->createView(),
             'isNew' => $isNew,
             'activity' => $activity,
-            'unitConverter' => new LegacyUnitConverter()
+            'unitConverter' => new LegacyUnitConverter(),
         ]);
     }
 
@@ -126,7 +126,7 @@ class RaceResultController extends Controller
             'mainDistances' => $distances,
             'mainDistanceTicks' => $distanceTicks,
             'ageStandardTimes' => $ageStandardTimes,
-            'ageStandardVO2max' => $ageStandardVO2max
+            'ageStandardVO2max' => $ageStandardVO2max,
         ]);
     }
 }

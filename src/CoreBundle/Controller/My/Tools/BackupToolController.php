@@ -22,7 +22,7 @@ class BackupToolController extends Controller
 {
     protected function getPathToBackupFiles(): string
     {
-        return $this->getParameter('data_directory').'/backup-tool/backup/';
+        return $this->getParameter('data_directory') . '/backup-tool/backup/';
     }
 
     /**
@@ -38,7 +38,7 @@ class BackupToolController extends Controller
         $filePath = $this->getPathToBackupFiles();
         $internalFilename = $fileHandler->transformPublicToInternalFilename($filename);
 
-        if (! $fileSystem->exists($filePath.$internalFilename)) {
+        if (! $fileSystem->exists($filePath . $internalFilename)) {
             throw $this->createNotFoundException();
         }
 
@@ -46,7 +46,7 @@ class BackupToolController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $response = new BinaryFileResponse($filePath.$internalFilename);
+        $response = new BinaryFileResponse($filePath . $internalFilename);
         $response->trustXSendfileTypeHeader();
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
@@ -80,7 +80,7 @@ class BackupToolController extends Controller
             $this->get('bernard.producer')
                 ->produce(new DefaultMessage('userBackup', [
                     'accountid' => $account->getId(),
-                    'export-type' => $formdata['fileFormat']
+                    'export-type' => $formdata['fileFormat'],
                 ]));
             $this->get('session')
                 ->getFlashBag()
@@ -106,7 +106,7 @@ class BackupToolController extends Controller
             'hasFiles' => $finder->count() > 0,
             'files' => $finder->getIterator(),
             'hasLocks' => ($lockedRoutes || $hasLockedTrainings),
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

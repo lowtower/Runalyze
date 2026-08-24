@@ -17,18 +17,19 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View
  */
-class TrainingView {
+class TrainingView
+{
 	/**
 	 * Sections
 	 * @var TrainingViewSection[]
 	 */
-	protected $Sections = array();
+	protected $Sections = [];
 
 	/**
 	 * Toolbar links
 	 * @var array
 	 */
-	protected $ToolbarLinks = array();
+	protected $ToolbarLinks = [];
 
 	/**
 	 * @var \Runalyze\View\Activity\Context
@@ -42,9 +43,6 @@ class TrainingView {
 		$this->initSections();
 	}
 
-	/**
-	 * Init toolbar links
-	 */
 	private function initToolbarLinks() {
 		$Linker = new Linker($this->Context->activity());
 
@@ -55,24 +53,24 @@ class TrainingView {
 			$this->initEditLinks($Linker);
 		}
 
-		$this->ToolbarLinks[] = Ajax::tooltip($Linker->weekLink(), '<em>'.__('Show week').'</em><br>'.$this->Context->dataview()->weekday().', '.$this->Context->dataview()->dateAndDaytime());
+		$this->ToolbarLinks[] = Ajax::tooltip($Linker->weekLink(), '<em>' . __('Show week') . '</em><br>' . $this->Context->dataview()->weekday() . ', ' . $this->Context->dataview()->dateAndDaytime());
 	}
 
     /**
      * Init social share links
      */
     protected function initShareLinks(Linker $linker) {
-		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-share-alt"></i> '.__('Share').'</span><ul class="submenu">';
+		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-share-alt"></i> ' . __('Share') . '</span><ul class="submenu">';
 
 		if ($this->Context->activity()->isPublic()) {
-			$this->ToolbarLinks[] = '<li><a href="'.$linker->publicUrl().'" target="_blank">'.Icon::$ATTACH.' '.__('Public link').'</a></li>';
+			$this->ToolbarLinks[] = '<li><a href="' . $linker->publicUrl() . '" target="_blank">' . Icon::$ATTACH . ' ' . __('Public link') . '</a></li>';
 		}
 
 		foreach (Export\Share\Types::getEnum() as $typeid) {
 			$Exporter = Export\Share\Types::get($typeid, $this->Context);
 
 			if ($Exporter->isPossible()) {
-				$link = '<li><a href="'.$Exporter->url().'"'.($Exporter->isExternalLink() ? ' target="_blank"' : '').'><i class="fa fa-fw '.$Exporter->iconClass().'"></i> '.$Exporter->name().'</a></li>';
+				$link = '<li><a href="' . $Exporter->url() . '"' . ($Exporter->isExternalLink() ? ' target="_blank"' : '') . '><i class="fa fa-fw ' . $Exporter->iconClass() . '"></i> ' . $Exporter->name() . '</a></li>';
 				$this->ToolbarLinks[] = ! $Exporter->isExternalLink() ? Ajax::window($link) : $link;
 			}
 		}
@@ -84,13 +82,13 @@ class TrainingView {
 	 * Init download links
 	 */
 	protected function initExportLinks() {
-		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-download"></i> '.__('Export').'</span><ul class="submenu">';
+		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-download"></i> ' . __('Export') . '</span><ul class="submenu">';
 
 		foreach (Export\File\Types::getEnum() as $typeid) {
 			$Exporter = Export\File\Types::get($typeid, $this->Context);
 
 			if ($Exporter->isPossible()) {
-				$this->ToolbarLinks[] = '<li><a href="'.$Exporter->url().'"><i class="fa fa-fw '.$Exporter->iconClass().'"></i> '.sprintf(__('as %s'), strtoupper($Exporter->extension())).'</a></li>';
+				$this->ToolbarLinks[] = '<li><a href="' . $Exporter->url() . '"><i class="fa fa-fw ' . $Exporter->iconClass() . '"></i> ' . sprintf(__('as %s'), strtoupper($Exporter->extension())) . '</a></li>';
 			}
 		}
 
@@ -107,42 +105,39 @@ class TrainingView {
 			$this->Context->trackdata()
 			    ->has(Model\Trackdata\Entity::TIME)
 		) {
-			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/splits-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Analyze splits').'</a></li>';
+			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/splits-info"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Analyze splits') . '</a></li>';
 		}
 
 		if ($this->Context->activity()->vo2maxByHeartRate() > 0) {
-			$toolsLinks[] = '<li><a class="window link" data-size="small" href="activity/'.$this->Context->activity()->id().'/vo2max-info"><i class="fa fa-fw fa-calculator"></i> '.__('Show VO<sub>2</sub>max calculation').'</a></li>';
+			$toolsLinks[] = '<li><a class="window link" data-size="small" href="activity/' . $this->Context->activity()->id() . '/vo2max-info"><i class="fa fa-fw fa-calculator"></i> ' . __('Show VO<sub>2</sub>max calculation') . '</a></li>';
 		}
 
 		if ($this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
-			$toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/'.$this->Context->activity()->id().'/elevation-info"><i class="fa fa-fw fa-area-chart"></i> '.__('More about elevation').'</a></li>';
+			$toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/elevation-info"><i class="fa fa-fw fa-area-chart"></i> ' . __('More about elevation') . '</a></li>';
 		}
 
         if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME) && $this->Context->trackdata()->has(Model\Trackdata\Entity::DISTANCE) && $this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
-            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/'.$this->Context->activity()->id().'/climb-score"><i class="fa fa-fw fa-area-chart"></i> '.__('Climb score').'</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/climb-score"><i class="fa fa-fw fa-area-chart"></i> ' . __('Climb score') . '</a></li>';
         }
 
 		if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME)) {
-			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/time-series-info"><i class="fa fa-fw fa-line-chart"></i> '.__('Analyze time series').'</a></li>';
+			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/time-series-info"><i class="fa fa-fw fa-line-chart"></i> ' . __('Analyze time series') . '</a></li>';
 		}
 
 		if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME) && $this->Context->trackdata()->has(Model\Trackdata\Entity::DISTANCE)) {
-			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/'.$this->Context->activity()->id().'/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> '.__('Find best sub segments').'</a></li>';
+			$toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Find best sub segments') . '</a></li>';
 		}
 
 		if ($toolsLinks !== []) {
 			$this->ToolbarLinks = array_merge(
 			    $this->ToolbarLinks,
-			    ['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> '.__('Tools').'</span><ul class="submenu">'],
+			    ['<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-magic"></i> ' . __('Tools') . '</span><ul class="submenu">'],
 			    $toolsLinks,
 			    ['</ul></li>']
 			);
 		}
 	}
 
-    /**
-     * Init edit links
-     */
     protected function initEditLinks(Linker $linker) {
 		if ($this->Context->activity()->isPublic()) {
 			$privacyLabel = __('Make private');
@@ -159,16 +154,13 @@ class TrainingView {
 		}
 
 		$this->ToolbarLinks[] = '<li class="with-submenu"><span class="link"><i class="fa fa-fw fa-wrench"></i></span><ul class="submenu">';
-		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="'.$linker->editUrl().'">'.Icon::$EDIT.' '.__('Edit activity').'</a> ', 'small').'</li>';
-		$this->ToolbarLinks[] = '<li>'.Ajax::window('<a class="link" href="my/raceresult/'.$this->Context->activity()->id().'"><i class="fa fa-fw fa-trophy"></i> '.$raceResultLabel.'</a></li></a> ', 'normal').'</li>';
-		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/'.$this->Context->activity()->id().'?action=changePrivacy"><i class="fa fa-fw '.$privacyIcon.'"></i> '.$privacyLabel.'</a></li>';
-		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/'.$this->Context->activity()->id().'/delete" data-confirm="'.__('Do you really want to delete this activity?').'"><i class="fa fa-fw fa-trash"></i> '.__('Delete activity').'</a></li>';
+		$this->ToolbarLinks[] = '<li>' . Ajax::window('<a class="link" href="' . $linker->editUrl() . '">' . Icon::$EDIT . ' ' . __('Edit activity') . '</a> ', 'small') . '</li>';
+		$this->ToolbarLinks[] = '<li>' . Ajax::window('<a class="link" href="my/raceresult/' . $this->Context->activity()->id() . '"><i class="fa fa-fw fa-trophy"></i> ' . $raceResultLabel . '</a></li></a> ', 'normal') . '</li>';
+		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/' . $this->Context->activity()->id() . '?action=changePrivacy"><i class="fa fa-fw ' . $privacyIcon . '"></i> ' . $privacyLabel . '</a></li>';
+		$this->ToolbarLinks[] = '<li><a class="ajax" target="statistics-inner" href="activity/' . $this->Context->activity()->id() . '/delete" data-confirm="' . __('Do you really want to delete this activity?') . '"><i class="fa fa-fw fa-trash"></i> ' . __('Delete activity') . '</a></li>';
 		$this->ToolbarLinks[] = '</ul></li>';
 	}
 
-	/**
-	 * Init sections
-	 */
 	protected function initSections() {
 
 		if (Configuration::ActivityView()->mapFirst() && Configuration::ActivityView()->plotMode()->showCollection()) {
@@ -242,17 +234,11 @@ class TrainingView {
 		}
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		$this->displayHeader();
 		$this->displaySections();
 	}
 
-	/**
-	 * Display header
-	 */
 	protected function displayHeader() {
 		echo '<div class="panel-heading">';
 
@@ -263,7 +249,7 @@ class TrainingView {
 			$this->displaySharedMenu();
 		}
 
-		echo '<h1>'.$this->Context->dataview()->titleWithComment().'</h1>';
+		echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';
 
 		if (! Request::isOnSharedPage()) {
 			$this->displayReloadLink();
@@ -272,15 +258,12 @@ class TrainingView {
 		echo '</div>';
 	}
 
-	/**
-	 * Display header menu
-	 */
 	protected function displayHeaderMenu() {
 		echo '<div class="panel-menu"><ul>';
 
 		foreach ($this->ToolbarLinks as $link) {
 			if (substr($link, 0, 3) != '<li' && substr($link, 0, 2) != '</') {
-				$link = '<li>'.$link.'</li>';
+				$link = '<li>' . $link . '</li>';
 			}
 
 			echo $link;
@@ -289,15 +272,12 @@ class TrainingView {
 		echo '</ul></div>';
 	}
 
-	/**
-	 * Display shared menu
-	 */
 	protected function displaySharedMenu() {
-		$User = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'account` WHERE `id`="'.(int) SharedLinker::getUserId().'" LIMIT 1')->fetch();
+		$User = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . (int) SharedLinker::getUserId() . '" LIMIT 1')->fetch();
 
-		$this->ToolbarLinks = array();
+		$this->ToolbarLinks = [];
 		$this->ToolbarLinks[] = SharedLinker::getStandardLinkTo( $this->Context->activity()->id(), Icon::$ATTACH );
-		$this->ToolbarLinks[] = '<a href="athlete/'.$User['username'].'" target="_blank">'.Icon::$TABLE.'</a>';
+		$this->ToolbarLinks[] = '<a href="athlete/' . $User['username'] . '" target="_blank">' . Icon::$TABLE . '</a>';
 
 		$this->displayHeaderMenu();
 	}
@@ -322,16 +302,10 @@ class TrainingView {
 		}
 	}
 
-	/**
-	 * Display reload link
-	 */
 	protected function displayReloadLink() {
-		echo '<div class="hover-icons"><span class="link" onclick="Runalyze.Statistics.reload();">'.Icon::$REFRESH_SMALL.'</span></div>';
+		echo '<div class="hover-icons"><span class="link" onclick="Runalyze.Statistics.reload();">' . Icon::$REFRESH_SMALL . '</span></div>';
 	}
 
-	/**
-	 * Display sections
-	 */
 	protected function displaySections() {
 		foreach ($this->Sections as &$Section)
 			$Section->display();
@@ -339,9 +313,6 @@ class TrainingView {
 		$this->initPlots();
 	}
 
-	/**
-	 * Init plots
-	 */
 	protected function initPlots() {
 		echo Ajax::wrapJSforDocumentReady( 'RunalyzePlot.resizeTrainingCharts();' );
 	}

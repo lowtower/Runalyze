@@ -56,7 +56,7 @@ class Type extends AbstractKey
     public function description(): string
 	{
 		return __(
-		    'The activity type is shown with its abbreviation. '.
+		    'The activity type is shown with its abbreviation. ' .
 			'It is bold if the type is marked as quality session.'
 		);
 	}
@@ -69,7 +69,7 @@ class Type extends AbstractKey
 	{
 		if ($context->hasType()) {
 			if ($context->type()->isQualitySession()) {
-				return '<strong>'.$context->type()->abbreviation().'</strong>';
+				return '<strong>' . $context->type()->abbreviation() . '</strong>';
 			}
 
 			return $context->type()

@@ -2,17 +2,18 @@
 
 namespace Runalyze\Model;
 
-class Loopable_MockTester extends Entity implements Loopable {
+class Loopable_MockTester extends Entity implements Loopable
+{
     /**
      * @param array|false $data
      */
     public function __construct($data = false)
 	{
-        if (false === $data) {
-            $data = array(
-                'foo' => array(1, 2, 3, 4, 5),
-                'bar' => array(2, 4, 6, 8, 10)
-            );
+        if ($data === false) {
+            $data = [
+                'foo' => [1, 2, 3, 4, 5],
+                'bar' => [2, 4, 6, 8, 10],
+            ];
         }
 
 		parent::__construct();
@@ -125,15 +126,16 @@ class Loop_MockTest extends Loop
     }
 }
 
-class LoopTest extends \PHPUnit\Framework\TestCase {
+class LoopTest extends \PHPUnit\Framework\TestCase
+{
     /**
      * @param int[] $values
      */
     protected function loopWithFooValues(array $values): \Runalyze\Model\Loop_MockTest
 	{
-		return new Loop_MockTest(new Loopable_MockTester(array(
-		    'foo' => $values
-		)));
+		return new Loop_MockTest(new Loopable_MockTester([
+		    'foo' => $values,
+		]));
 	}
 
 	protected function exampleLoop(): \Runalyze\Model\Loop_MockTest {
@@ -151,12 +153,12 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$Loop->nextStep();
 		$this->assertEquals(4, $Loop->current('foo'));
 		$this->assertEquals(8, $Loop->current('bar'));
-		$this->assertEquals(array(3, 4), $Loop->slice('foo'));
-		$this->assertEquals(array(6, 8), $Loop->slice('bar'));
-		$this->assertEquals(3+4, $Loop->sum('foo'));
+		$this->assertEquals([3, 4], $Loop->slice('foo'));
+		$this->assertEquals([6, 8], $Loop->slice('bar'));
+		$this->assertEquals(3 + 4, $Loop->sum('foo'));
 		$this->assertEquals(8, $Loop->max('bar'));
-		$this->assertEquals(8-4, $Loop->difference('bar'));
-		$this->assertEquals((6+8)/2, $Loop->average('bar'));
+		$this->assertEquals(8 - 4, $Loop->difference('bar'));
+		$this->assertEquals((6 + 8) / 2, $Loop->average('bar'));
 
 		$Loop->nextStep();
 		$this->assertTrue($Loop->isAtEnd());
@@ -173,18 +175,18 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 		$Loop->nextStep();
 
 		$FirstSlice = $Loop->sliceObject();
-		$this->assertEquals(array(1, 2, 3), $FirstSlice->get('foo'));
-		$this->assertEquals(array(2, 4, 6), $FirstSlice->get('bar'));
+		$this->assertEquals([1, 2, 3], $FirstSlice->get('foo'));
+		$this->assertEquals([2, 4, 6], $FirstSlice->get('bar'));
 
 		$Loop->goToEnd();
 		$SecondSlice = $Loop->sliceObject();
-		$this->assertEquals(array(4, 5), $SecondSlice->get('foo'));
-		$this->assertEquals(array(8, 10), $SecondSlice->get('bar'));
+		$this->assertEquals([4, 5], $SecondSlice->get('foo'));
+		$this->assertEquals([8, 10], $SecondSlice->get('bar'));
 	}
 
 	public function testMoveToAtOrAfterUsesFollowingValue()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToAtOrAfter('foo', 610);
 		$this->assertEquals(642, $Loop->current('foo'));
@@ -192,7 +194,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToBeforeOrAtUsesPreviousValue()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToBeforeOrAt('foo', 610);
 		$this->assertEquals(608, $Loop->current('foo'));
@@ -200,7 +202,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToNearestUsesPreviousValueWhenCloser()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToNearest('foo', 610);
 		$this->assertEquals(608, $Loop->current('foo'));
@@ -208,7 +210,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToNearestUsesFollowingValueWhenCloser()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToNearest('foo', 635);
 		$this->assertEquals(642, $Loop->current('foo'));
@@ -216,7 +218,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToNearestKeepsExactMatch()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToNearest('foo', 642);
 		$this->assertEquals(642, $Loop->current('foo'));
@@ -224,7 +226,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToNearestUsesFollowingValueOnTie()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 600, 620, 640));
+		$Loop = $this->loopWithFooValues([0, 600, 620, 640]);
 
 		$Loop->moveToNearest('foo', 610);
 		$this->assertEquals(620, $Loop->current('foo'));
@@ -232,7 +234,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMoveToNearestDoesNotReusePreviousBoundary()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToNearest('foo', 610);
 		$this->assertEquals(608, $Loop->current('foo'));
@@ -252,7 +254,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testDifferenceAfterMoveToNearest()
 	{
-		$Loop = $this->loopWithFooValues(array(0, 569, 608, 642, 680));
+		$Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
 		$Loop->moveToNearest('foo', 610);
 		$this->assertEquals(608, $Loop->difference('foo'));
@@ -270,13 +272,13 @@ class LoopTest extends \PHPUnit\Framework\TestCase {
 
 	public function testMockSupportsCustomProperties()
 	{
-		$object = new Loopable_MockTester(array(
-		    'foo' => array(0, 10, 20)
-		));
+		$object = new Loopable_MockTester([
+		    'foo' => [0, 10, 20],
+		]);
 
 		$this->assertTrue($object->has('foo'));
 		$this->assertFalse($object->has('bar'));
-		$this->assertEquals(array(0, 10, 20), $object->get('foo'));
+		$this->assertEquals([0, 10, 20], $object->get('foo'));
 		$this->assertEquals(3, $object->num());
 		$this->assertEquals(10, $object->at(1, 'foo'));
 	}

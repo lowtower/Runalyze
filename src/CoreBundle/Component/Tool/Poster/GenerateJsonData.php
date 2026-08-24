@@ -12,16 +12,24 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateJsonData
 {
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var RaceresultRepository */
+    /**
+     * @var RaceresultRepository
+     */
     protected $RaceresultRepository;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $KernelRootDir;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Directory;
 
     /**
@@ -36,7 +44,7 @@ class GenerateJsonData
 
     public function getPathToJsonFiles(): string
     {
-        return $this->KernelRootDir.'/../var/tmp/'.$this->Directory;
+        return $this->KernelRootDir . '/../var/tmp/' . $this->Directory;
     }
 
     /**
@@ -44,7 +52,7 @@ class GenerateJsonData
      */
     public function createJsonFilesFor(Account $account, Sport $sport, $year)
     {
-        $this->Directory = md5($account->getId().strtotime('now'));
+        $this->Directory = md5($account->getId() . strtotime('now'));
 
         $filesystem = new Filesystem();
         $filesystem->mkdir($this->getPathToJsonFiles(), 0755);
@@ -60,9 +68,9 @@ class GenerateJsonData
                 'start' => date('Y-m-d H:i:s', $data['time']),
                 'end' => date('Y-m-d H:i:s', $data['time'] + $data['s']),
                 'length' => 1000.0 * (float) $data['distance'],
-                'segments' => $this->getSegmentsFor($data['geohashes'], $data['distance'])
+                'segments' => $this->getSegmentsFor($data['geohashes'], $data['distance']),
             ];
-            $filesystem->dumpFile($this->getPathToJsonFiles().'/'.date('Y-m-d-His', $data['time']).'.json', json_encode($json));
+            $filesystem->dumpFile($this->getPathToJsonFiles() . '/' . date('Y-m-d-His', $data['time']) . '.json', json_encode($json));
             $counter++;
         }
 
@@ -78,12 +86,12 @@ class GenerateJsonData
         $segments = [];
         $segments[] = [];
 
-        if (null === $geohashLine || $geohashLine == '') {
+        if ($geohashLine === null || $geohashLine == '') {
             return $segments;
         }
 
         $loop = new Model\Route\Loop(new Model\Route\Entity([
-            Model\Route\Entity::GEOHASHES => $geohashLine
+            Model\Route\Entity::GEOHASHES => $geohashLine,
         ]));
         $loop->setStepSize(5);
 
@@ -95,7 +103,7 @@ class GenerateJsonData
                 $coordinate = $loop->coordinate();
                 $segments[$currentSegment][] = [
                     'lat' => (float) $coordinate->getLatitude(),
-                    'lng' => (float) $coordinate->getLongitude()
+                    'lng' => (float) $coordinate->getLongitude(),
                 ];
 
                 if ($loop->calculatedStepDistance() > $pauseLimit) {
@@ -119,11 +127,11 @@ class GenerateJsonData
             $argument = '';
 
             foreach ($races as $race) {
-                $argument .= ' --special '.date('Y-m-d-His', $race['time']).'.json';
+                $argument .= ' --special ' . date('Y-m-d-His', $race['time']) . '.json';
             }
 
             $filesystem = new Filesystem();
-            $filesystem->dumpFile($this->getPathToJsonFiles().'/special.params', $argument);
+            $filesystem->dumpFile($this->getPathToJsonFiles() . '/special.params', $argument);
         }
     }
 

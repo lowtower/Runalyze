@@ -9,12 +9,13 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularSelectBox extends FormularField {
+class FormularSelectBox extends FormularField
+{
 	/**
 	 * Array with all possible options
 	 * @var array
 	 */
-	private $options = array();
+	private $options = [];
 
 	/**
 	 * Multiple
@@ -29,9 +30,6 @@ class FormularSelectBox extends FormularField {
 		// No attributes needed, HTML-function used
 	}
 
-	/**
-	 * Set multiple
-	 */
 	public function setMultiple() {
 		$this->multiple = true;
 	}
@@ -42,7 +40,7 @@ class FormularSelectBox extends FormularField {
 	 * @param string $text
 	 * @param array $attributes
 	 */
-	public function addOption($key, $text, $attributes = array()) {
+	public function addOption($key, $text, $attributes = []) {
 		if (! empty($attributes)) {
 			$attributes['text'] = $text;
 			$text = $attributes;
@@ -66,9 +64,9 @@ class FormularSelectBox extends FormularField {
 		if ($this->multiple)
 			$this->addAttribute('multiple', 'multiple');
 
-		$label  = '<label for="'.$this->name.'">'.$this->label.'</label>';
-		$select = HTML::selectBox($this->name.($this->multiple ? '[]' : ''), $this->options, $this->value, $this->name.'" '.$this->attributes());
+		$label = '<label for="' . $this->name . '">' . $this->label . '</label>';
+		$select = HTML::selectBox($this->name . ($this->multiple ? '[]' : ''), $this->options, $this->value, $this->name . '" ' . $this->attributes());
 
-		return $label.$select;
+		return $label . $select;
 	}
 }

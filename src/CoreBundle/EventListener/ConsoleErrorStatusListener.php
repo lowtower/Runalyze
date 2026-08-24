@@ -7,7 +7,9 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 class ConsoleErrorStatusListener
 {
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $Logger;
 
     public function __construct(LoggerInterface $logger)

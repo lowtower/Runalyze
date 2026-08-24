@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */
-abstract class HtmlTag {
+abstract class HtmlTag
+{
 	/**
 	 * ID, must be unique
 	 * @var string
@@ -20,16 +21,15 @@ abstract class HtmlTag {
 	 * Css-classes
 	 * @var array
 	 */
-	protected $cssClasses = array();
+	protected $cssClasses = [];
 
 	/**
 	 * All attributes
 	 * @var array
 	 */
-	protected $attributes = array();
+	protected $attributes = [];
 
 	/**
-	 * Set ID
 	 * @param string $id
 	 */
 	public function setId($id) {
@@ -52,12 +52,11 @@ abstract class HtmlTag {
 	}
 
 	/**
-	 * Add an attribute
 	 * @param string $name
 	 * @param string $value
 	 */
 	public function addAttribute($name, $value) {
-		$this->attributes[] = $name.'="'.htmlspecialchars($value).'"';
+		$this->attributes[] = $name . '="' . htmlspecialchars($value) . '"';
 	}
 
 	/**

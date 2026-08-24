@@ -14,7 +14,9 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class ActivityCacheTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ActivityCache */
+    /**
+     * @var ActivityCache
+     */
     protected $Cache;
 
     protected function setUp(): void

@@ -24,27 +24,18 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	 * All lines
 	 * @var array
 	 */
-	private $Lines = array();
+	private $Lines = [];
 
-    /**
-     * Name
-     */
     final public function name(): string
 	{
 		return __('Goals');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string
 	{
 		return __('Set your own goals for different time ranges and compare your current performance with them.');
 	}
 
-	/**
-	 * Display long description
-	 */
 	protected function displayLongDescription()
 	{
 		echo HTML::p(__('This plugin tracks your distances for chosen time ranges.'));
@@ -53,9 +44,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		echo HTML::p(__('Note: &quot;Saison&quot; refers to the current season in the german &quot;kmspiel&quot;.'));
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration()
 	{
 		$Configuration = new PluginConfiguration($this->id());
@@ -105,11 +93,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		$Code .= '</ul>';
 		$Code .= '</li>';
 
-		return '<ul>'.$Code.'</ul>';
+		return '<ul>' . $Code . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent()
@@ -133,7 +120,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	}
 
     /**
-     * Show timeset
      * @param array<string, mixed> $Timeset
      * @param int $goal
      */
@@ -158,10 +144,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		if ($dat['distanz_sum'] > 0) {
 			$this->addHeadline(__('Current'), $dat['distanz_sum'], $dat['anzahl'], true);
 			if ($showDetails) {
-				$this->addLine(__('avg.').' '.__('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
+				$this->addLine(__('avg.') . ' ' . __('Day'), $days > 0 ? $dat['distanz_sum'] / $days : 0);
 
 				if ($days > 7)
-					$this->addLine(__('avg.').' '.__('Week'), $days > 0 ? 7 * $dat['distanz_sum'] / $days : 0, $dat['anzahl'] / $days * 7);
+					$this->addLine(__('avg.') . ' ' . __('Week'), $days > 0 ? 7 * $dat['distanz_sum'] / $days : 0, $dat['anzahl'] / $days * 7);
 
 				if ($days > 0)
 					$this->addHeadline(__('Prognosis'), $dat['distanz_sum'] / $days * $dauer, $dat['anzahl'] / $days * $dauer);
@@ -175,10 +161,10 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 				$this->addLine(sprintf(__('%d days left'), $rest), $togo);
 				if ($showDetails) {
 
-					$this->addLine(__('avg.').' '.__('Day'), $rest > 0 ? $togo / $rest : 0);
+					$this->addLine(__('avg.') . ' ' . __('Day'), $rest > 0 ? $togo / $rest : 0);
 
 					if ($rest > 7)
-						$this->addLine(__('avg.').' '.__('Week'), 7 * $togo / $rest);
+						$this->addLine(__('avg.') . ' ' . __('Week'), 7 * $togo / $rest);
 				}
 			} else {
 				$this->addLine(__('Goal reached.'));
@@ -189,8 +175,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			if ($showDetails) {
 
 				$this->addHeadline(__('Pace Bunny'), $goal / $dauer * $days);
-				$this->addLine(__('avg.').' '.__('Day'), $goal / $dauer);
-
+				$this->addLine(__('avg.') . ' ' . __('Day'), $goal / $dauer);
 
 				if ($diff > 0)
 					$this->addLine(__('Behind'), abs($diff));
@@ -210,69 +195,62 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
 	}
 
-	/**
-	 * Clear lines
-	 */
 	private
 	function clearLines()
 	{
-		$this->Lines = array();
+		$this->Lines = [];
 	}
 
     /**
-     * Add headline
      * @param float $distance
      * @param int $num
      */
     private
 	function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false)
 	{
-		$this->Lines[] = array(
+		$this->Lines[] = [
 		    'name' => $name,
 		    'lvl' => 1,
 		    'sep' => ! $noTopBorder,
 		    'km' => $distance,
-		    'anz' => $num
-		);
+		    'anz' => $num,
+		];
 	}
 
     /**
-     * Add line
      * @param float $distance
      * @param int $num
      */
     private
 	function addLine(string $name, $distance = 0, $num = 0)
 	{
-		$this->Lines[] = array(
+		$this->Lines[] = [
 		    'name' => $name,
 		    'lvl' => 2,
 		    'km' => $distance,
-		    'anz' => $num
-		);
+		    'anz' => $num,
+		];
 	}
 
     /**
-     * Add bar
      * @param float $val
      * @param float $max
      */
     private
 	function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null)
 	{
-		$this->Lines[] = array(
+		$this->Lines[] = [
 		    'name' => $name,
 		    'type' => 'bar',
 		    'val' => $val,
 		    'max' => $max,
 		    'color' => $color,
 		    'add' => $add,
-		    'addcolor' => $addcolor
-		);
+		    'addcolor' => $addcolor,
+		];
 	}
 
     /**
-     * Show line or bar
      * @param array<string, mixed> $Array
      */
     private
@@ -285,7 +263,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	}
 
     /**
-     * Show bar
      * @param array<string, mixed> $Bar
      */
     private
@@ -307,7 +284,6 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	}
 
     /**
-     * Show line
      * @param array<string, mixed> $Line
      */
     private
@@ -366,11 +342,11 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 			ORDER BY `distanz_sum` DESC, `dauer_sum` DESC
 		')->fetch();
 		if (! is_array($Data))
-			return array(
+			return [
 			    'anzahl' => 0,
 			    'distanz_sum' => 0,
-			    'dauer_sum' => 0
-			);
+			    'dauer_sum' => 0,
+			];
 
 		return $Data;
 	}
@@ -381,7 +357,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 	private
 	function getTimeset(): array
 	{
-		$timeset = array();
+		$timeset = [];
 
 		// km-Spiel Saisonen
 		$kmstart = new DateTime();
@@ -402,32 +378,32 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 		}
 
 		// Zeitraeume fuer die Prognosen.
-		$timeset['woche'] = array(
+		$timeset['woche'] = [
 		    'name' => __('Week'),
 		    'start' => (new DateTime())->setTimestamp(Time::weekstart(time())),
-		    'end' => (new DateTime())->setTimestamp(Time::weekend(time()))
-		);
-		$timeset['mon'] = array(
+		    'end' => (new DateTime())->setTimestamp(Time::weekend(time())),
+		];
+		$timeset['mon'] = [
 		    'name' => __('Month'),
 		    'start' => new DateTime(date('Y-m-01')),
-		    'end' => new Datetime(date('Y-m-t'))
-		);
-		$timeset['hj'] = array(
+		    'end' => new Datetime(date('Y-m-t')),
+		];
+		$timeset['hj'] = [
 		    'name' => __('Half-Year'),
 		    'start' => new DateTime(date('m') < 7 ? date('Y-01-01') : date('Y-07-01')),
-		    'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31'))
-		);
-		$timeset['saison'] = array(
+		    'end' => new Datetime(date('m') < 7 ? date('Y-06-30') : date('Y-12-31')),
+		];
+		$timeset['saison'] = [
 		    'name' => __('Season'),
 		    'start' => $kmstart,
 		    'end' => $kmend,
-		    'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;')
-		);
-		$timeset['jahr'] = array(
+		    'note' => __('Note: Season means the current season in the german &quot;kmspiel&quot;'),
+		];
+		$timeset['jahr'] = [
 		    'name' => __('Year'),
 		    'start' => new DateTime(date('Y-01-01')),
-		    'end' => new Datetime(date('Y-12-31'))
-		);
+		    'end' => new Datetime(date('Y-12-31')),
+		];
 
 		return $timeset;
 	}

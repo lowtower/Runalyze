@@ -11,19 +11,19 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 {
 	public function testForActivity()
 	{
-		$this->assertEquals(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity(array(
+		$this->assertEquals(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
     Activity\Entity::VERTICAL_OSCILLATION => 53,
-		    Activity\Entity::STRIDE_LENGTH => 100
-))));
+		    Activity\Entity::STRIDE_LENGTH => 100,
+])));
 	}
 
 	public function testSingleValue()
 	{
 		$Calculator = new VerticalRatioCalculator(
-		    new Trackdata\Entity(array(
-        Trackdata\Entity::VERTICAL_OSCILLATION => array(100),
-		        Trackdata\Entity::STRIDE_LENGTH => array(100)
-    ))
+		    new Trackdata\Entity([
+        Trackdata\Entity::VERTICAL_OSCILLATION => [100],
+		        Trackdata\Entity::STRIDE_LENGTH => [100],
+    ])
 		);
 		$Calculator->calculate();
 
@@ -33,18 +33,17 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testSimpleArray()
 	{
 		$Calculator = new VerticalRatioCalculator(
-		    new Trackdata\Entity(array(
-        Trackdata\Entity::VERTICAL_OSCILLATION => array(73, 80, 90, 100, 120),
-		        Trackdata\Entity::STRIDE_LENGTH => array(100, 120, 150, 150, 150)
-    ))
+		    new Trackdata\Entity([
+        Trackdata\Entity::VERTICAL_OSCILLATION => [73, 80, 90, 100, 120],
+		        Trackdata\Entity::STRIDE_LENGTH => [100, 120, 150, 150, 150],
+    ])
 		);
 		$Calculator->calculate();
 
 		$this->assertEquals( 69.0, $Calculator->average());
 		$this->assertEquals(
-		    array(73, 67, 60, 67, 80),
+		    [73, 67, 60, 67, 80],
 		    $Calculator->verticalRatioData()
 		);
 	}
-
 }

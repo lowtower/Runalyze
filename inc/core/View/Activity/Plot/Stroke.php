@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\View\Activity\Plot
  */
-class Stroke extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Stroke extends ActivityPlot
+{
 	protected function setKey() {
 		$this->key = 'stroke';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\Stroke($context)

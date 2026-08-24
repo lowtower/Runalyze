@@ -15,7 +15,9 @@ use Runalyze\Calculation\Route\GeohashLine;
  */
 class Version20161224173160 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)

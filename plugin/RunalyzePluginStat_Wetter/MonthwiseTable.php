@@ -21,25 +21,39 @@ use Runalyze\Util\Time;
  */
 class MonthwiseTable
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $EquipmentTypeID;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $DependencyQuery = '';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $GroupByQuery = '';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $OrderByQuery = '';
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $MonthOffsetForHeader = -1;
 
     /**
@@ -115,7 +129,7 @@ class MonthwiseTable
 		echo '<th></th>';
 
 		for ($i = 1; $i <= 12; $i++) {
-			echo '<th width="7.5%">'.Time::month(($i + $this->MonthOffsetForHeader)%12 + 1, true).'</th>';
+			echo '<th width="7.5%">' . Time::month(($i + $this->MonthOffsetForHeader) % 12 + 1, true) . '</th>';
 		}
 
 		echo '</thead>';
@@ -138,14 +152,14 @@ class MonthwiseTable
 		$mentionEmptyData = (count($rows) === 1);
 
 		foreach ($rows as $name => $rowData) {
-			echo '<tr'.($isFirst ? ' class="top-spacer"' : '').'>';
-			echo '<td>'.$name.'</td>';
+			echo '<tr' . ($isFirst ? ' class="top-spacer"' : '') . '>';
+			echo '<td>' . $name . '</td>';
 
 			if (empty($rowData)) {
-				echo '<td colspan="12" class="c">'.($mentionEmptyData ? '<em>'.__('No data found.').'</em>' : '').'</td>';
+				echo '<td colspan="12" class="c">' . ($mentionEmptyData ? '<em>' . __('No data found.') . '</em>' : '') . '</td>';
 			} else {
 				for ($i = 1; $i <= 12; ++$i) {
-					echo '<td>'.($rowData[$i] ?? '').'</td>';
+					echo '<td>' . ($rowData[$i] ?? '') . '</td>';
 				}
 			}
 
@@ -167,15 +181,15 @@ class MonthwiseTable
 	{
 		$Temperature = new Temperature();
 		$Statement = $this->createStatementToFetchAverageTemperatures();
-		$data = array();
+		$data = [];
 
 		while ($row = $Statement->fetch()) {
 			$data[$row['m']] = $Temperature->format(round($row['temp']));
 		}
 
-		return array(
-		    $Temperature->unit() => $data
-		);
+		return [
+		    $Temperature->unit() => $data,
+		];
 	}
 
 	/**
@@ -186,21 +200,21 @@ class MonthwiseTable
 		return $this->PDO->query(
 		    'SELECT
 				AVG(`temperature`) as `temp`,
-				'.$this->GroupByQuery.' as `m`
-			FROM `'.PREFIX.'training`
+				' . $this->GroupByQuery . ' as `m`
+			FROM `' . PREFIX . 'training`
 			WHERE
-				`accountid`='.\SessionAccountHandler::getId().' AND
+				`accountid`=' . \SessionAccountHandler::getId() . ' AND
 				`temperature` IS NOT NULL
-				'.$this->DependencyQuery.'
-			GROUP BY '.$this->GroupByQuery.'
-			ORDER BY '.$this->OrderByQuery.' ASC
+				' . $this->DependencyQuery . '
+			GROUP BY ' . $this->GroupByQuery . '
+			ORDER BY ' . $this->OrderByQuery . ' ASC
 			LIMIT 12'
 		);
 	}
 
 	protected function generateDataForWeatherConditions(): array
 	{
-		$Rows = array();
+		$Rows = [];
 		$Condition = new Weather\Condition(0);
 		$Statement = $this->createStatementToFetchWeatherConditions();
 
@@ -209,12 +223,12 @@ class MonthwiseTable
 				continue;
 			}
 
-			$Statement->execute(array($id));
+			$Statement->execute([$id]);
 			$Condition->set($id);
-			$rowData = array();
+			$rowData = [];
 
 			foreach ($Statement->fetchAll() as $data) {
-				$rowData[$data['m']] = $data['num'].'x';
+				$rowData[$data['m']] = $data['num'] . 'x';
 			}
 
 			$Rows[$Condition->icon()->code()] = $rowData;
@@ -231,14 +245,14 @@ class MonthwiseTable
 		return $this->PDO->prepare(
 		    'SELECT
 				SUM(1) as `num`,
-				'.$this->GroupByQuery.' as `m`
-			FROM `'.PREFIX.'training`
+				' . $this->GroupByQuery . ' as `m`
+			FROM `' . PREFIX . 'training`
 			WHERE
-				`accountid`='.\SessionAccountHandler::getId().' AND
+				`accountid`=' . \SessionAccountHandler::getId() . ' AND
 				`weatherid` = ?
-				'.$this->DependencyQuery.'
-			GROUP BY '.$this->GroupByQuery.'
-			ORDER BY '.$this->OrderByQuery.' ASC
+				' . $this->DependencyQuery . '
+			GROUP BY ' . $this->GroupByQuery . '
+			ORDER BY ' . $this->OrderByQuery . ' ASC
 			LIMIT 12'
 		);
 	}
@@ -246,20 +260,20 @@ class MonthwiseTable
 	protected function generateDataForEquipment(): array
 	{
 		if ($this->EquipmentTypeID == 0) {
-			return array();
+			return [];
 		}
 
-		$RowsByID = array();
-		$Rows = array();
+		$RowsByID = [];
+		$Rows = [];
 		$Factory = new Factory($this->AccountID);
 		$Statement = $this->createStatementToFetchEquipment();
 
 		while ($data = $Statement->fetch()) {
 			if (! isset($RowsByID[$data['equipmentid']])) {
-				$RowsByID[$data['equipmentid']] = array();
+				$RowsByID[$data['equipmentid']] = [];
 			}
 
-			$RowsByID[$data['equipmentid']][$data['m']] = $data['num'].'x';
+			$RowsByID[$data['equipmentid']][$data['m']] = $data['num'] . 'x';
 		}
 
 		foreach ($RowsByID as $id => $rowData) {
@@ -276,18 +290,18 @@ class MonthwiseTable
 	{
 		return $this->PDO->query(
 		    'SELECT
-				SUM(IF(`eq`.`activityid` = `'.PREFIX.'training`.`id`, 1,0)) as `num`,
+				SUM(IF(`eq`.`activityid` = `' . PREFIX . 'training`.`id`, 1,0)) as `num`,
 				`eq`.`equipmentid`,
-				'.$this->GroupByQuery.' as `m`
-			FROM `'.PREFIX.'activity_equipment` AS `eq`
-			LEFT JOIN `'.PREFIX.'training` ON `'.PREFIX.'training`.`id` = `eq`.`activityid`
-            LEFT JOIN `'.PREFIX.'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
+				' . $this->GroupByQuery . ' as `m`
+			FROM `' . PREFIX . 'activity_equipment` AS `eq`
+			LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `eq`.`activityid`
+            LEFT JOIN `' . PREFIX . 'equipment` AS `eqp` ON `eq`.`equipmentid` = `eqp`.`id`
 			WHERE
-				`'.PREFIX.'training`.`accountid` = '.$this->AccountID.' AND
-				`eqp`.`typeid` = '.$this->EquipmentTypeID.'
-				'.$this->DependencyQuery.'
-			GROUP BY `eq`.`equipmentid`, '.$this->GroupByQuery.' HAVING `num` != 0
-			ORDER BY `eq`.`equipmentid` ASC, '.$this->OrderByQuery.' ASC'
+				`' . PREFIX . 'training`.`accountid` = ' . $this->AccountID . ' AND
+				`eqp`.`typeid` = ' . $this->EquipmentTypeID . '
+				' . $this->DependencyQuery . '
+			GROUP BY `eq`.`equipmentid`, ' . $this->GroupByQuery . ' HAVING `num` != 0
+			ORDER BY `eq`.`equipmentid` ASC, ' . $this->OrderByQuery . ' ASC'
 		);
 	}
 }

@@ -13,7 +13,8 @@ namespace Runalyze\Model\Activity\Splits;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */
-abstract class Completor {
+abstract class Completor
+{
 	/**
 	 * Mode: time
 	 * @var string
@@ -54,14 +55,10 @@ abstract class Completor {
 	}
 
 	/**
-	 * Mode
 	 * @return string
 	 */
 	abstract public function mode();
 
-	/**
-	 * Complete splits
-	 */
 	public function completeSplits() {
 		$totalDistance = 0;
 		$totalTime = 0;
@@ -72,7 +69,7 @@ abstract class Completor {
 			if ($this->mode() == self::MODE_DISTANCE) {
 				$s = $split->time();
 
-				while ($i < $size-1 && $s > $this->Time[$i] - $totalTime) {
+				while ($i < $size - 1 && $s > $this->Time[$i] - $totalTime) {
 					$i++;
 				}
 
@@ -80,14 +77,14 @@ abstract class Completor {
 			} else {
 				$dist = $split->distance();
 
-				while ($i < $size-1 && $dist > $this->Distance[$i] - $totalDistance) {
+				while ($i < $size - 1 && $dist > $this->Distance[$i] - $totalDistance) {
 					$i++;
 				}
 
 				$split->setTime($this->Time[$i] - $totalTime);
 			}
 
-			$totalTime     = $this->Time[$i];
+			$totalTime = $this->Time[$i];
 			$totalDistance = $this->Distance[$i];
 		}
 	}

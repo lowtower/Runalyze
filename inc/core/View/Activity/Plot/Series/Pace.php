@@ -15,14 +15,14 @@ use Runalyze\Parameter\Application\PaceUnit;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\View\Activity;
 
-
 /**
  * Plot for: Pace
  *
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Pace extends ActivitySeries {
+class Pace extends ActivitySeries
+{
 	/**
 	 * How many outliers should be cutted away?
 	 * @var int
@@ -49,7 +49,9 @@ class Pace extends ActivitySeries {
 	 */
 	protected $paceUnitEnum;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $adjustAxis = true;
 
 	/**
@@ -69,9 +71,6 @@ class Pace extends ActivitySeries {
 		$this->manipulateData();
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Pace');
 		$this->Color = self::COLOR;
@@ -89,21 +88,18 @@ class Pace extends ActivitySeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Manipulate data
-	 */
 	protected function manipulateData() {
 		if ($this->paceUnit->isTimeFormat()) {
 			$factor = $this->paceUnit->factorForUnit();
 
 			$this->Data = array_map(function($v) use ($factor){
-				return ($v == 0) ? 3600*1000 : 1000*round($v*$factor);
+				return ($v == 0) ? 3600 * 1000 : 1000 * round($v * $factor);
 			}, $this->Data);
 		} else {
 			$dividend = $this->paceUnit->dividendForUnit();
 
 			$this->Data = array_map(function($v) use ($dividend){
-				return ($v == 0) ? 0 : round($dividend/$v, 1);
+				return ($v == 0) ? 0 : round($dividend / $v, 1);
 			}, $this->Data);
 		}
 	}
@@ -135,7 +131,6 @@ class Pace extends ActivitySeries {
 
 		$min = min($this->Data);
 		$max = max($this->Data);
-
 
 		$setLimits = false;
 		$autoscale = true;
@@ -214,7 +209,7 @@ class Pace extends ActivitySeries {
 		}
 
 		$ticks = array_map(function($v): int{
-			return $v*1000;
+			return $v * 1000;
 		}, $ticks);
 
 		$firstIndex = 0;

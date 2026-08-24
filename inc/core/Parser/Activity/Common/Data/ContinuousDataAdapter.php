@@ -6,10 +6,14 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class ContinuousDataAdapter
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const RPM_LIMIT_FOR_CORRECTION = 130;
 
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $ContinuousData;
 
     public function __construct(ContinuousData $continuousData)
@@ -62,13 +66,13 @@ class ContinuousDataAdapter
             $size = count($this->ContinuousData->Latitude);
             //search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && null === $this->ContinuousData->Latitude[$firstNotNull]) {
+            while($firstNotNull < $size && $this->ContinuousData->Latitude[$firstNotNull] === null) {
                 $firstNotNull++;
             }
 
             if($firstNotNull > 0 && $firstNotNull < $size) {
                 for($i = 0; $i < $firstNotNull; $i++) {
-                    $this->ContinuousData->Latitude[$i]  = $this->ContinuousData->Latitude[$firstNotNull];
+                    $this->ContinuousData->Latitude[$i] = $this->ContinuousData->Latitude[$firstNotNull];
                     $this->ContinuousData->Longitude[$i] = $this->ContinuousData->Longitude[$firstNotNull];
                 }
             }
@@ -90,7 +94,7 @@ class ContinuousDataAdapter
 
             // search for the index with the first NOT NULL value
             $firstNotNull = 0;
-            while($firstNotNull < $size && null === $values[$firstNotNull]) {
+            while($firstNotNull < $size && $values[$firstNotNull] === null) {
                 $firstNotNull++;
             }
 
@@ -111,7 +115,7 @@ class ContinuousDataAdapter
             $notNull = $values[$firstNotNull];
             // now search from start-to-end and set the last not null to the nulls
             for($i = $firstNotNull; $i < $size; $i++) {
-                if(null === $values[$i]) {
+                if($values[$i] === null) {
                     $values[$i] = $notNull;
                 } else {
                     $notNull = $values[$i];
@@ -131,7 +135,7 @@ class ContinuousDataAdapter
             $size = count($values);
 
             for($i = 0; $i < $size; $i++) {
-                if(null === $values[$i]) {
+                if($values[$i] === null) {
                     $values[$i] = 0;
                 }
             }
@@ -143,26 +147,26 @@ class ContinuousDataAdapter
         foreach ($this->ContinuousData->getPropertyNamesOfArraysThatShouldNotContainZeros() as $key) {
             if (! empty($this->ContinuousData->{$key})) {
                 foreach ($this->ContinuousData->{$key} as $i => $value) {
-                    if (0 == $value) {
+                    if ($value == 0) {
                         $this->ContinuousData->{$key}[$i] = null;
                     }
                 }
             }
         }
 
-        if ($this->ContinuousData->Distance !== [] && 0 == end($this->ContinuousData->Distance)) {
+        if ($this->ContinuousData->Distance !== [] && end($this->ContinuousData->Distance) == 0) {
             $this->ContinuousData->Distance = [];
         }
 
-        if ($this->ContinuousData->Altitude !== [] && 0 == $this->ContinuousData->Altitude[0] && 0 == min($this->ContinuousData->Altitude) && 0 == max($this->ContinuousData->Altitude)) {
+        if ($this->ContinuousData->Altitude !== [] && $this->ContinuousData->Altitude[0] == 0 && min($this->ContinuousData->Altitude) == 0 && max($this->ContinuousData->Altitude) == 0) {
             $this->ContinuousData->Altitude = [];
         }
 
-        if ($this->ContinuousData->Latitude !== [] && 0 == $this->ContinuousData->Latitude[0] && 0 == min($this->ContinuousData->Latitude) && 0 == max($this->ContinuousData->Latitude)) {
+        if ($this->ContinuousData->Latitude !== [] && $this->ContinuousData->Latitude[0] == 0 && min($this->ContinuousData->Latitude) == 0 && max($this->ContinuousData->Latitude) == 0) {
             $this->ContinuousData->Latitude = [];
         }
 
-        if ($this->ContinuousData->Longitude !== [] && 0 == $this->ContinuousData->Longitude[0] && 0 == min($this->ContinuousData->Longitude) && 0 == max($this->ContinuousData->Longitude)) {
+        if ($this->ContinuousData->Longitude !== [] && $this->ContinuousData->Longitude[0] == 0 && min($this->ContinuousData->Longitude) == 0 && max($this->ContinuousData->Longitude) == 0) {
             $this->ContinuousData->Longitude = [];
         }
     }
@@ -177,7 +181,7 @@ class ContinuousDataAdapter
             if (! empty($this->ContinuousData->{$key})) {
                 $arrayKeysWithData[] = $key;
 
-                if (null === $arraySize) {
+                if ($arraySize === null) {
                     $arraySize = count($this->ContinuousData->{$key});
                 }
             }
@@ -266,7 +270,7 @@ class ContinuousDataAdapter
         $temperatures = array_filter(
             $this->ContinuousData->Temperature,
             function ($temperature): bool {
-                return null !== $temperature;
+                return $temperature !== null;
             }
         );
         if ($temperatures === []) {

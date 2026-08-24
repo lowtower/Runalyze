@@ -13,15 +13,19 @@ use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
  */
 class GeoTiffTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var GeoTiff */
+    /**
+     * @var GeoTiff
+     */
     protected $GeoTiff;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $SrtmRoot;
 
     protected function setUp(): void
     {
-        $this->SrtmRoot = TESTS_ROOT.'/../data/srtm';
+        $this->SrtmRoot = TESTS_ROOT . '/../data/srtm';
         $this->GeoTiff = new GeoTiff(
             new Reader(
                 new SRTM4Provider(
@@ -38,9 +42,9 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
      */
     protected function checkExistenceOf(string $srtmFile)
     {
-        $result = file_exists($this->SrtmRoot.'/'.$srtmFile);
+        $result = file_exists($this->SrtmRoot . '/' . $srtmFile);
 
-        if (false === $result) {
+        if ($result === false) {
             $this->markTestSkipped(sprintf('%s is not available for testing.', $srtmFile));
         }
 

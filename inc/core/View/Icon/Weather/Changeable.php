@@ -12,7 +12,8 @@ namespace Runalyze\View\Icon\Weather;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon\Weather
  */
-class Changeable extends \Runalyze\View\Icon\WeatherIcon {
+class Changeable extends \Runalyze\View\Icon\WeatherIcon
+{
 	/**
 	 * Display
 	 */

@@ -17,7 +17,8 @@ use Runalyze\View\Activity;
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Thb extends ActivitySeries {
+class Thb extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -32,7 +33,7 @@ class Thb extends ActivitySeries {
 		$this->initOptions();
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata::THB_1;
-            $this->Label = _('THb').' (2)';
+            $this->Label = _('THb') . ' (2)';
         } else {
             $trackdataKey = Trackdata::THB_0;
             $this->Label = _('THb');
@@ -42,11 +43,8 @@ class Thb extends ActivitySeries {
         $this->manipulateData();
 	}
 
-    /**
-     * Manipulate data
-     */
     protected function manipulateData() {
-        $this->Data = array_map(array($this, 'correctUnit'), $this->Data);
+        $this->Data = array_map([$this, 'correctUnit'], $this->Data);
         $this->Data = array_filter($this->Data);
     }
 
@@ -55,12 +53,9 @@ class Thb extends ActivitySeries {
      * @param int $value
      */
     protected function correctUnit($value): float {
-        return 0.01*$value;
+        return 0.01 * $value;
     }
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Color = self::COLOR;
 

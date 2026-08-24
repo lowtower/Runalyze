@@ -17,36 +17,31 @@ use Runalyze\Data\Laps\Laps;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TableLapsComputed extends TableLapsAbstract {
+class TableLapsComputed extends TableLapsAbstract
+{
 	/**
 	 * Data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
-	/**
-	 * Set code
-	 */
 	protected function setCode() {
 		$this->constructLaps();
 		$this->setDataToCode();
 	}
 
-	/**
-	 * Construct laps
-	 */
 	protected function constructLaps() {
 		$singleDistance = Configuration::General()->distanceUnitSystem()->distanceToKmFactor();
 		$totalDistance = $this->Context->trackdata()
 		    ->totalDistance();
 
-		if ($totalDistance < 2*$singleDistance) {
-			$Distances = array($singleDistance);
+		if ($totalDistance < 2 * $singleDistance) {
+			$Distances = [$singleDistance];
 		} else {
 			$Distances = range($singleDistance, $totalDistance, $singleDistance);
 
-			if (false === $Distances) {
-				$Distances = array($singleDistance);
+			if ($Distances === false) {
+				$Distances = [$singleDistance];
 			}
 		}
 
@@ -65,12 +60,12 @@ class TableLapsComputed extends TableLapsAbstract {
 
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';
-		$this->Code .= '<th>'.__('Distance').'</th>';
-		$this->Code .= '<th>'.__('Time').'</th>';
-		$this->Code .= '<th>'.__('Pace').'</th>';
-		if ($showCellForHeartrate) $this->Code .= '<th>'.__('avg.').' '.__('bpm').'</th>';
+		$this->Code .= '<th>' . __('Distance') . '</th>';
+		$this->Code .= '<th>' . __('Time') . '</th>';
+		$this->Code .= '<th>' . __('Pace') . '</th>';
+		if ($showCellForHeartrate) $this->Code .= '<th>' . __('avg.') . ' ' . __('bpm') . '</th>';
 
-		if ($showCellForElevation) $this->Code .= '<th>'.__('elev.').'</th>';
+		if ($showCellForElevation) $this->Code .= '<th>' . __('elev.') . '</th>';
 
 		$this->Code .= '</tr></thead>';
 
@@ -83,12 +78,12 @@ class TableLapsComputed extends TableLapsAbstract {
 			    ->setUnit($unit);
 
 			$this->Code .= '<tr class="r">';
-			$this->Code .= '<td>'.$Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable).'</td>';
-			$this->Code .= '<td>'.$Lap->trackDuration()->string().'</td>';
-			$this->Code .= '<td>'.$Lap->pace()->value().'<small>'.$Lap->pace()->appendix().'</small></td>';
-			if ($showCellForHeartrate) $this->Code .= '<td>'.$Lap->HRavg()->inBPM().'<small>bpm</small></td>';
+			$this->Code .= '<td>' . $Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable) . '</td>';
+			$this->Code .= '<td>' . $Lap->trackDuration()->string() . '</td>';
+			$this->Code .= '<td>' . $Lap->pace()->value() . '<small>' . $Lap->pace()->appendix() . '</small></td>';
+			if ($showCellForHeartrate) $this->Code .= '<td>' . $Lap->HRavg()->inBPM() . '<small>bpm</small></td>';
 
-			if ($showCellForElevation) $this->Code .= '<td class="c">+'.Elevation::format($Lap->elevationUp(), false).'/-'.Elevation::format($Lap->elevationDown(), false).'</td>';
+			if ($showCellForElevation) $this->Code .= '<td class="c">+' . Elevation::format($Lap->elevationUp(), false) . '/-' . Elevation::format($Lap->elevationDown(), false) . '</td>';
 
 			$this->Code .= '</tr>';
 		}

@@ -6,7 +6,9 @@ namespace Runalyze\Parser\Activity\Common\Data\Round;
 
 class RoundCollectionFiller
 {
-    /** @var RoundCollection */
+    /**
+     * @var RoundCollection
+     */
     protected $Rounds;
 
     public function __construct(RoundCollection &$rounds)

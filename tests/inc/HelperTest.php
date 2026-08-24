@@ -6,7 +6,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
 {
 	public function testArrayTrim()
 	{
-		$this->assertEquals( array('a', 'b', 'c', 'd', 1), Helper::arrayTrim(array(' a', 'b ', ' c ', 'd', 1)) );
+		$this->assertEquals( ['a', 'b', 'c', 'd', 1], Helper::arrayTrim([' a', 'b ', ' c ', 'd', 1]) );
 	}
 
 	public function testFloorFor()

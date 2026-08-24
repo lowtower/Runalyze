@@ -8,7 +8,9 @@ use Runalyze\Metrics\Energy\Unit\AbstractEnergyUnit;
 
 class EnergyType extends AbstractUnitBasedType
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $ViewPrecision = 0;
 
     public function __construct(AbstractEnergyUnit $energyUnit)

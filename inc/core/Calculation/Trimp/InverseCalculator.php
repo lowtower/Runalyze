@@ -19,7 +19,8 @@ namespace Runalyze\Calculation\Trimp;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */
-class InverseCalculator {
+class InverseCalculator
+{
 	/**
 	 * Athlete
 	 * @var \Runalyze\Athlete
@@ -69,7 +70,6 @@ class InverseCalculator {
 	}
 
 	/**
-	 * Value
 	 * @return int
 	 */
 	public function value() {

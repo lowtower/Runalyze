@@ -21,26 +21,26 @@ class HtmlExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('info', array($this, 'info'), array(
-                'is_safe' => array('html')
-            )),
-            new \Twig_SimpleFilter('error', array($this, 'error'), array(
-                'is_safe' => array('html')
-            )),
-            new \Twig_SimpleFilter('warning', array($this, 'warning'), array(
-                'is_safe' => array('html')
-            )),
-            new \Twig_SimpleFilter('okay', array($this, 'okay'), array(
-                'is_safe' => array('html')
-            )),
-            new \Twig_SimpleFilter('nbsp', array($this, 'nbsp'), array(
-                'is_safe' => array('html')
-            )),
-            new \Twig_SimpleFilter('nonbsp', array($this, 'nonbsp'), array(
-                'is_safe' => array('html')
-            )),
-        );
+        return [
+            new \Twig_SimpleFilter('info', [$this, 'info'], [
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('error', [$this, 'error'], [
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('warning', [$this, 'warning'], [
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('okay', [$this, 'okay'], [
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('nbsp', [$this, 'nbsp'], [
+                'is_safe' => ['html'],
+            ]),
+            new \Twig_SimpleFilter('nonbsp', [$this, 'nonbsp'], [
+                'is_safe' => ['html'],
+            ]),
+        ];
     }
 
     /**
@@ -50,7 +50,7 @@ class HtmlExtension extends \Twig_Extension
      */
     public function info($string): string
     {
-        return '<p class="info">'.$string.'</p>';
+        return '<p class="info">' . $string . '</p>';
     }
 
     /**
@@ -60,7 +60,7 @@ class HtmlExtension extends \Twig_Extension
      */
     public function error($string): string
     {
-        return '<p class="error">'.$string.'</p>';
+        return '<p class="error">' . $string . '</p>';
     }
 
     /**
@@ -70,7 +70,7 @@ class HtmlExtension extends \Twig_Extension
      */
     public function warning($string): string
     {
-        return '<p class="warning">'.$string.'</p>';
+        return '<p class="warning">' . $string . '</p>';
     }
 
     /**
@@ -80,7 +80,7 @@ class HtmlExtension extends \Twig_Extension
      */
     public function okay($string): string
     {
-        return '<p class="okay">'.$string.'</p>';
+        return '<p class="okay">' . $string . '</p>';
     }
 
     /**

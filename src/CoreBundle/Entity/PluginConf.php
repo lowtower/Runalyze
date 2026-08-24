@@ -87,9 +87,6 @@ class PluginConf
         return $this->value;
     }
 
-    /**
-     * @param Plugin $plugin
-     */
     public function setPlugin(\Runalyze\Bundle\CoreBundle\Entity\Plugin $plugin): self
     {
         $this->plugin = $plugin;

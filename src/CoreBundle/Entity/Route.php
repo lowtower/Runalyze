@@ -10,8 +10,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Calculation\Route\GeohashLine;
 
 /**
- * Route
- *
  * @ORM\Table(name="route")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\RouteRepository")
  * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\RouteListener"})
@@ -19,10 +17,14 @@ use Runalyze\Calculation\Route\GeohashLine;
  */
 class Route implements AccountRelatedEntityInterface
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const PATH_GEOHASH_PRECISION = 12;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const BOUNDARIES_GEOHASH_PRECISION = 10;
 
     /**
@@ -163,10 +165,14 @@ class Route implements AccountRelatedEntityInterface
      */
     private $lock = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $areMinMaxSynchronized = true;
 
-    /** @var RouteAdapter */
+    /**
+     * @var RouteAdapter
+     */
     private $Adapter;
 
     /**
@@ -323,7 +329,7 @@ class Route implements AccountRelatedEntityInterface
 
     public function hasGeohashes(): bool
     {
-        return null !== $this->geohashes;
+        return $this->geohashes !== null;
     }
 
     /**
@@ -361,7 +367,7 @@ class Route implements AccountRelatedEntityInterface
     {
         $coordinates = [[], []];
 
-        if (null !== $this->geohashes) {
+        if ($this->geohashes !== null) {
             $size = count($this->geohashes);
 
             for ($i = 0; $i < $size; $i++) {
@@ -431,7 +437,7 @@ class Route implements AccountRelatedEntityInterface
      */
     public function getElevations()
     {
-        if (null !== $this->elevationsCorrected) {
+        if ($this->elevationsCorrected !== null) {
             return $this->elevationsCorrected;
         }
 
@@ -440,17 +446,17 @@ class Route implements AccountRelatedEntityInterface
 
     public function hasElevations(): bool
     {
-        return null !== $this->elevationsCorrected || null !== $this->elevationsOriginal;
+        return $this->elevationsCorrected !== null || $this->elevationsOriginal !== null;
     }
 
     public function hasOriginalElevations(): bool
     {
-        return null !== $this->elevationsOriginal;
+        return $this->elevationsOriginal !== null;
     }
 
     public function hasCorrectedElevations(): bool
     {
-        return null !== $this->elevationsCorrected;
+        return $this->elevationsCorrected !== null;
     }
 
     /**
@@ -605,11 +611,11 @@ class Route implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return (
-            '' == $this->name &&
-            '' == $this->cities &&
-            (null === $this->geohashes || empty($this->geohashes)) &&
-            (null === $this->elevationsOriginal || empty($this->elevationsOriginal)) &&
-            (null === $this->elevationsCorrected || empty($this->elevationsCorrected))
+            $this->name == '' &&
+            $this->cities == '' &&
+            ($this->geohashes === null || empty($this->geohashes)) &&
+            ($this->elevationsOriginal === null || empty($this->elevationsOriginal)) &&
+            ($this->elevationsCorrected === null || empty($this->elevationsCorrected))
         );
     }
 
@@ -626,7 +632,7 @@ class Route implements AccountRelatedEntityInterface
      */
     public function getAdapter()
     {
-        if (null === $this->Adapter) {
+        if ($this->Adapter === null) {
             $this->Adapter = new RouteAdapter($this);
         }
 
@@ -642,7 +648,7 @@ class Route implements AccountRelatedEntityInterface
         $this->setStartEndGeohashes();
         $this->synchronizeMinMaxGeohashIfRequired();
 
-        if (null === $this->elevationsCorrected) {
+        if ($this->elevationsCorrected === null) {
             $this->elevationsSource = '';
         }
     }
@@ -676,11 +682,11 @@ class Route implements AccountRelatedEntityInterface
 
     public function setStartEndGeohashes()
     {
-        if (null !== $this->geohashes) {
+        if ($this->geohashes !== null) {
             $this->startpoint = GeohashLine::findFirstNonNullGeohash($this->geohashes, self::BOUNDARIES_GEOHASH_PRECISION);
             $this->endpoint = GeohashLine::findFirstNonNullGeohash(array_reverse($this->geohashes), self::BOUNDARIES_GEOHASH_PRECISION);
 
-            if (null === $this->startpoint) {
+            if ($this->startpoint === null) {
                 $this->geohashes = null;
             }
         } else {

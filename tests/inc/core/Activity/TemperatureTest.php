@@ -42,10 +42,10 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
 	public function testStaticMethod()
 	{
 		Configuration::General()->temperatureUnit()->set(TemperatureUnit::CELSIUS);
-		$unit = '&nbsp;'.Configuration::General()->TemperatureUnit()->unit();
+		$unit = '&nbsp;' . Configuration::General()->TemperatureUnit()->unit();
 
-		$this->assertEquals('10.0'.$unit, Temperature::format(10, true, 1));
-		$this->assertEquals('12.35'.$unit, Temperature::format(12.3456, true, 2));
+		$this->assertEquals('10.0' . $unit, Temperature::format(10, true, 1));
+		$this->assertEquals('12.35' . $unit, Temperature::format(12.3456, true, 2));
 	}
 
 	public function testEmptyTemperature()

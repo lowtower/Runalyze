@@ -18,16 +18,24 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TCX = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GPX = 2;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const KML = 3;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FITLOG = 4;
 
     /**
@@ -41,10 +49,10 @@ final class Types extends AbstractEnum
 		$classNames = self::classNamesArray();
 
 		if (! isset($classNames[$typeid])) {
-			throw new \InvalidArgumentException('Invalid type id "'.$typeid.'".');
+			throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
 		}
 
-		$className = 'Runalyze\\Export\\File\\'.$classNames[$typeid];
+		$className = 'Runalyze\\Export\\File\\' . $classNames[$typeid];
 
 		return new $className($context);
 	}
@@ -55,11 +63,11 @@ final class Types extends AbstractEnum
      */
     private static function classNamesArray(): array
 	{
-		return array(
+		return [
     self::TCX => 'Tcx',
 		    self::GPX => 'Gpx',
 		    self::KML => 'Kml',
 		    self::FITLOG => 'Fitlog',
-);
+];
 	}
 }

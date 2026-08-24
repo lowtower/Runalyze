@@ -10,12 +10,11 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 
 /**
- * HeartRate
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
-class HeartRate {
+class HeartRate
+{
 	/**
 	 * Value [bpm]
 	 * @var int
@@ -35,7 +34,6 @@ class HeartRate {
 	protected $PreferredUnit;
 
     /**
-     * Constructor
      * @param int $valueInBPM
      */
     public function __construct($valueInBPM, ?\Runalyze\Athlete $Athlete = null) {
@@ -71,7 +69,7 @@ class HeartRate {
      * As bpm
      */
     public function asBPM(): string {
-		return $this->inBPM().'&nbsp;bpm';
+		return $this->inBPM() . '&nbsp;bpm';
 	}
 
     /**
@@ -79,7 +77,7 @@ class HeartRate {
      * Check first 'canShowInHRMax'!
      */
     public function asHRmax(): string {
-		return $this->inHRmax().'&nbsp;&#37;';
+		return $this->inHRmax() . '&nbsp;&#37;';
 	}
 
     /**
@@ -87,7 +85,7 @@ class HeartRate {
      * Check first 'canShowInHRMax'!
      */
     public function asHRrest(): string {
-		return $this->inHRrest().'&nbsp;&#37;';
+		return $this->inHRrest() . '&nbsp;&#37;';
 	}
 
     /**
@@ -156,6 +154,6 @@ class HeartRate {
      * Is the athlete known?
      */
     protected function knowsAthlete(): bool {
-		return (null !== $this->Athlete);
+		return ($this->Athlete !== null);
 	}
 }

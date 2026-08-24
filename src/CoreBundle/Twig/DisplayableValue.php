@@ -6,19 +6,29 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class DisplayableValue
 {
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $Value;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Unit;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $DefaultDecimals;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DefaultDecimalPoint;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DefaultThousandsSeparator;
 
     /**
@@ -58,7 +68,7 @@ class DisplayableValue
      */
     public function getWithUnit($decimals = false, $decimalPoint = false, $thousandsSeparator = false): string
     {
-        return $this->getValue($decimals, $decimalPoint, $thousandsSeparator).'&nbsp;'.$this->getUnit();
+        return $this->getValue($decimals, $decimalPoint, $thousandsSeparator) . '&nbsp;' . $this->getUnit();
     }
 
     /**
@@ -70,9 +80,9 @@ class DisplayableValue
     {
         return number_format(
             $this->Value,
-            false === $decimals ? $this->DefaultDecimals : $decimals,
-            false === $decimalPoint ? $this->DefaultDecimalPoint : $decimalPoint,
-            false === $thousandsSeparator ? $this->DefaultThousandsSeparator : $thousandsSeparator
+            $decimals === false ? $this->DefaultDecimals : $decimals,
+            $decimalPoint === false ? $this->DefaultDecimalPoint : $decimalPoint,
+            $thousandsSeparator === false ? $this->DefaultThousandsSeparator : $thousandsSeparator
         );
     }
 
@@ -101,6 +111,6 @@ class DisplayableValue
 
     public function isZero(): bool
     {
-        return 0 == $this->Value;
+        return $this->Value == 0;
     }
 }

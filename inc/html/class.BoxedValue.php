@@ -10,7 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */
-class BoxedValue {
+class BoxedValue
+{
 	/**
 	 * HTML class: surrounding div
 	 * @var string
@@ -109,7 +110,6 @@ class BoxedValue {
 	protected $AsFloatingBlockWidth = '';
 
 	/**
-	 * Constructor
 	 * @param string $Value [optional]
 	 * @param string $Unit [optional]
 	 * @param string $Info [optional]
@@ -125,7 +125,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Set value
 	 * @param string $Value
 	 */
 	public function setValue($Value) {
@@ -133,7 +132,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Set unit
 	 * @param string $Unit
 	 */
 	public function setUnit($Unit) {
@@ -141,7 +139,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Set icon
 	 * @param string $Icon
 	 */
 	public function setIcon($Icon) {
@@ -149,7 +146,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Set info
 	 * @param string $Info
 	 */
 	public function setInfo($Info) {
@@ -157,7 +153,6 @@ class BoxedValue {
 	}
 
     /**
-     * Set glossary
      * @param string $Glossary
      */
     public function setGlossary($Glossary) {
@@ -165,7 +160,6 @@ class BoxedValue {
     }
 
 	/**
-	 * Add class
 	 * @param string $Class
 	 */
 	public function addClass($Class) {
@@ -176,8 +170,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Define as floating block
-	 *
 	 * Multiple classes can be set, e.g. "w100 flexible-height".
 	 *
 	 * @param string $widthClass e.g. "w25", "w33", "w50"
@@ -193,30 +185,24 @@ class BoxedValue {
 	 */
 	public function defineAsFloatingBlockWithFixedWidth($numberOfBlocks) {
 		$this->AsFloatingBlock = true;
-		$this->AsFloatingBlockWidth = round(100/$numberOfBlocks, 2).'%';
+		$this->AsFloatingBlockWidth = round(100 / $numberOfBlocks, 2) . '%';
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		echo $this->getCode();
 	}
 
-    /**
-     * Get code
-     */
     public function getCode(): string {
 		$Code = '';
 
 		if ($this->AsFloatingBlock) {
 			if ($this->AsFloatingBlockWidth)
-				$Code .= '<div class="'.self::$CONTAINER_FLOATING_OUTER_DIV.'" style="width:'.$this->AsFloatingBlockWidth.';">';
+				$Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . '" style="width:' . $this->AsFloatingBlockWidth . ';">';
 			else
-				$Code .= '<div class="'.self::$CONTAINER_FLOATING_OUTER_DIV.' '.$this->AsFloatingBlockClass.'">';
+				$Code .= '<div class="' . self::$CONTAINER_FLOATING_OUTER_DIV . ' ' . $this->AsFloatingBlockClass . '">';
 		}
 
-		$Code .= '<div class="'.$this->getDivClass().'">';
+		$Code .= '<div class="' . $this->getDivClass() . '">';
 		$Code .= $this->getDivForIcon();
 		$Code .= $this->getDivForValue();
 		$Code .= $this->getDivForInfo();
@@ -238,47 +224,37 @@ class BoxedValue {
 	}
 
 	/**
-	 * Get div for icon
 	 * @return string
 	 */
 	protected function getDivForIcon() {
 		return $this->Icon;
 	}
 
-    /**
-     * Get div for value
-     */
     protected function getDivForValue(): string {
-		$Code = '<div class="'.self::$VALUE_DIV.'">';
+		$Code = '<div class="' . self::$VALUE_DIV . '">';
 		$Code .= $this->Value;
 		$Code .= $this->getDivForUnit();
 
 		return $Code . '</div>';
 	}
 
-    /**
-     * Get div for unit
-     */
     protected function getDivForUnit(): string {
 		if (empty($this->Unit))
 			return '';
 
-		$Code = ' <div class="'.self::$VALUE_UNIT_DIV.'">';
+		$Code = ' <div class="' . self::$VALUE_UNIT_DIV . '">';
 		$Code .= str_replace(' ', '&nbsp;', $this->Unit);
 
 		return $Code . '</div>';
 	}
 
-    /**
-     * Get div for info
-     */
     protected function getDivForInfo(): string {
 		if (empty($this->Info))
 			return '';
 
-		$Code = '<div class="'.self::$VALUE_INFO_DIV.'">';
+		$Code = '<div class="' . self::$VALUE_INFO_DIV . '">';
 		if (! empty($this->Glossary)) {
-            $Code .= '<a class="window left" href="glossary/'.$this->Glossary.'"><i class="fa fa-question-circle-o"></i></a>';
+            $Code .= '<a class="window left" href="glossary/' . $this->Glossary . '"><i class="fa fa-question-circle-o"></i></a>';
         }
 
         $Code .= str_replace(' ', '&nbsp;', $this->Info);
@@ -287,7 +263,6 @@ class BoxedValue {
 	}
 
 	/**
-	 * Wrap values
 	 * @param string $ValuesString
 	 */
 	public static function wrapValues($ValuesString) {
@@ -295,10 +270,9 @@ class BoxedValue {
 	}
 
     /**
-     * Get wrapped values
      * @param string $ValuesString
      */
     public static function getWrappedValues($ValuesString): string {
-		return '<div class="'.self::$SURROUNDING_DIV.'">'.$ValuesString.'</div>';
+		return '<div class="' . self::$SURROUNDING_DIV . '">' . $ValuesString . '</div>';
 	}
 }

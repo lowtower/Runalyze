@@ -7,7 +7,9 @@ use Runalyze\Metrics\Common\Unit\None;
 
 class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AbstractUnitBasedType */
+    /**
+     * @var AbstractUnitBasedType
+     */
     protected $Type;
 
     protected function setUp(): void

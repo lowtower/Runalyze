@@ -16,7 +16,8 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration\Category
  */
-class Design extends \Runalyze\Configuration\Category {
+class Design extends \Runalyze\Configuration\Category
+{
     /**
      * Internal key
      */
@@ -24,50 +25,37 @@ class Design extends \Runalyze\Configuration\Category {
 		return 'design';
 	}
 
-	/**
-	 * Create handles
-	 */
 	protected function createHandles() {
-		$this->createHandle('DESIGN_BG_FILE', new SelectFile('web/assets/v2.x/img/backgrounds/runalyze.jpg', array(
+		$this->createHandle('DESIGN_BG_FILE', new SelectFile('web/assets/v2.x/img/backgrounds/runalyze.jpg', [
     'folder' => 'web/assets/v2.x/img/backgrounds/',
-		    'extensions' => array('jpg', 'png', 'gif', 'jpeg', 'svg', 'tiff', 'bmp')
-)));
+		    'extensions' => ['jpg', 'png', 'gif', 'jpeg', 'svg', 'tiff', 'bmp'],
+]));
 	}
 
 	/**
-	 * Background image
 	 * @return string path without leading 'web/'
 	 */
 	public function backgroundImage(): string {
-		return 'assets/v2.x/img/backgrounds/'.basename($this->get('DESIGN_BG_FILE'));
+		return 'assets/v2.x/img/backgrounds/' . basename($this->get('DESIGN_BG_FILE'));
 	}
 
-	/**
-	 * Register onchange events
-	 */
 	protected function registerOnchangeEvents() {
 		$this->handle('DESIGN_BG_FILE')
 		    ->registerOnchangeEvent(self::class . '::setBackgroundImageToBody');
 	}
 
-    /**
-     * Fieldset
-     */
     public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Design') );
-		$Fieldset->addHandle( $this->handle('DESIGN_BG_FILE'), array(
-		    'label'		=> __('Background image')
-		));
+		$Fieldset->addHandle( $this->handle('DESIGN_BG_FILE'), [
+		    'label' => __('Background image'),
+		]);
 
 		return $Fieldset;
 	}
 
-	/**
-	 * Set background image to body
-	 */
 	public static function setBackgroundImageToBody() {
 		$url = \Runalyze\Configuration::Design()->backgroundImage();
 
-		echo Ajax::wrapJSasFunction('$("body").css("background-image","url(\''.$url.'\')");');
+		echo Ajax::wrapJSasFunction('$("body").css("background-image","url(\'' . $url . '\')");');
 	}
 }

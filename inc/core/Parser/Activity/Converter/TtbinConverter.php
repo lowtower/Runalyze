@@ -8,7 +8,9 @@ use Runalyze\Parser\Common\AbstractShellBasedFileTypeConverter;
 
 class TtbinConverter extends AbstractShellBasedFileTypeConverter
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $PathToConverter;
 
     /**
@@ -26,7 +28,7 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
 
     public function getConvertedFileName($inputFile): string
     {
-        return $inputFile.'.tcx';
+        return $inputFile . '.tcx';
     }
 
     protected function buildCommand($inputFile, $outputFile): string
@@ -37,14 +39,14 @@ class TtbinConverter extends AbstractShellBasedFileTypeConverter
     protected function checkFirstLineOfOutput($firstLine)
     {
         if (strpos($firstLine, 'ttbincnv') !== false) {
-            $message = 'Executing ttbincnv did not work: '.$firstLine;
-            $message .= NL.NL.'You may need to compile ttbincnv for your environment.';
+            $message = 'Executing ttbincnv did not work: ' . $firstLine;
+            $message .= NL . NL . 'You may need to compile ttbincnv for your environment.';
 
             throw new InstallationSpecificException($message);
         }
 
         if (substr($firstLine, 0, 1) != '<') {
-            throw new UnexpectedContentException('Parsing your *.ttbin-file failed: '.$firstLine);
+            throw new UnexpectedContentException('Parsing your *.ttbin-file failed: ' . $firstLine);
         }
     }
 }

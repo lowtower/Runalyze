@@ -13,7 +13,8 @@ use Runalyze\Model\Trackdata;
  * @author Michael Pohl
  * @package Runalyze\Calculation\Activity
  */
-class VerticalRatioCalculator {
+class VerticalRatioCalculator
+{
 	/**
 	 * @var \Runalyze\Model\Trackdata\Entity
 	 */
@@ -22,7 +23,7 @@ class VerticalRatioCalculator {
 	/**
 	 * @var array
 	 */
-	protected $VerticalRatio = array();
+	protected $VerticalRatio = [];
 
     /**
      * Calculator for stride length
@@ -47,7 +48,7 @@ class VerticalRatioCalculator {
 		$StrideLength = $this->Trackdata->strideLength();
 		$Size = $this->Trackdata->num();
 
-		$this->VerticalRatio = array();
+		$this->VerticalRatio = [];
 
 		for ($i = 0; $i < $Size; ++$i) {
 			if ($StrideLength[$i] > 0 && is_numeric($Oscillation[$i])) {
@@ -59,7 +60,6 @@ class VerticalRatioCalculator {
 
 		return $this->VerticalRatio;
 	}
-
 
 	/**
 	 * @return array [%o]

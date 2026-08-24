@@ -17,19 +17,19 @@ class InkscapeConverter extends AbstractSvgToPngConverter
 
     public function setHeight($height)
     {
-        $this->Parameter[] = '-h '.(int) $height;
+        $this->Parameter[] = '-h ' . (int) $height;
     }
 
     public function setWidth($width)
     {
-        $this->Parameter[] = '-w '.(int) $width;
+        $this->Parameter[] = '-w ' . (int) $width;
     }
 
     public function callConverter($source, $target)
     {
         if ((new Filesystem())->exists($source)) {
             // with Debian 11 bullseye/Inkscape v1.0.2 the parameters has changed
-            $builder = new Process($this->Command.' -z -o '.$target.' '.implode(' ', $this->Parameter).' '.$source);
+            $builder = new Process($this->Command . ' -z -o ' . $target . ' ' . implode(' ', $this->Parameter) . ' ' . $source);
             return $builder->run();
         }
 

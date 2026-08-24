@@ -8,13 +8,14 @@ use Runalyze\Model;
  * @group dependsOn
  * @group dependsOnOldFactory
  */
-class CalculatorTest extends \PHPUnit\Framework\TestCase {
+class CalculatorTest extends \PHPUnit\Framework\TestCase
+{
 	public function testGeneralFunctionality() {
-		$Calculator = new Calculator(new Model\Activity\Entity(array(
+		$Calculator = new Calculator(new Model\Activity\Entity([
     Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
-		    Model\Activity\Entity::HR_AVG => 150
-), null, null));
+		    Model\Activity\Entity::HR_AVG => 150,
+], null, null));
 
 		$this->assertGreaterThan(0, $Calculator->estimateVO2maxByTime());
 		$this->assertGreaterThan(0, $Calculator->estimateVO2maxByHeartRate());
@@ -34,26 +35,26 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testCalculationsWithElevation() {
-		$Activity = new Model\Activity\Entity(array(
+		$Activity = new Model\Activity\Entity([
     Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
 		    Model\Activity\Entity::HR_AVG => 150,
-		    Model\Activity\Entity::ELEVATION => 100
-));
+		    Model\Activity\Entity::ELEVATION => 100,
+]);
 
 		$CalculatorOnlyActivity = new Calculator($Activity);
-		$CalculatorOnlyElevation = new Calculator($Activity, null, new Model\Route\Entity(array(
-		    Model\Route\Entity::ELEVATION => 500
-		)));
-		$CalculatorUpAndDown = new Calculator($Activity, null, new Model\Route\Entity(array(
+		$CalculatorOnlyElevation = new Calculator($Activity, null, new Model\Route\Entity([
+		    Model\Route\Entity::ELEVATION => 500,
+		]));
+		$CalculatorUpAndDown = new Calculator($Activity, null, new Model\Route\Entity([
 		    Model\Route\Entity::ELEVATION_UP => 500,
-		    Model\Route\Entity::ELEVATION_DOWN => 100
-		)));
-		$CalculatorOnlyDown = new Calculator($Activity, null, new Model\Route\Entity(array(
+		    Model\Route\Entity::ELEVATION_DOWN => 100,
+		]));
+		$CalculatorOnlyDown = new Calculator($Activity, null, new Model\Route\Entity([
 		    Model\Route\Entity::ELEVATION => 500,
 		    Model\Route\Entity::ELEVATION_UP => 0,
-		    Model\Route\Entity::ELEVATION_DOWN => 500
-		)));
+		    Model\Route\Entity::ELEVATION_DOWN => 500,
+		]));
 
 		$this->assertGreaterThan(
 		    $CalculatorOnlyElevation->estimateVO2maxByHeartRateWithElevation(),
@@ -87,35 +88,34 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testCalculationsWithTrackdata() {
-		$Activity = new Model\Activity\Entity(array(
+		$Activity = new Model\Activity\Entity([
 		    Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
-		    Model\Activity\Entity::HR_AVG => 150
-		));
+		    Model\Activity\Entity::HR_AVG => 150,
+		]);
 
 		$CalculatorOnlyActivity = new Calculator($Activity);
-		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity(array(
-		    Model\Trackdata\Entity::TIME => array(1500, 3000),
-		    Model\Trackdata\Entity::HEARTRATE => array(125, 175)
-		)));
+		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity([
+		    Model\Trackdata\Entity::TIME => [1500, 3000],
+		    Model\Trackdata\Entity::HEARTRATE => [125, 175],
+		]));
 
 		$this->assertGreaterThan($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
 	}
 
 	public function testCalculationWithEmptyHeartrateArray() {
-		$Activity = new Model\Activity\Entity(array(
+		$Activity = new Model\Activity\Entity([
 		    Model\Activity\Entity::DISTANCE => 10,
 		    Model\Activity\Entity::TIME_IN_SECONDS => 3000,
-		    Model\Activity\Entity::HR_AVG => 150
-		));
+		    Model\Activity\Entity::HR_AVG => 150,
+		]);
 
 		$CalculatorOnlyActivity = new Calculator($Activity);
-		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity(array(
-		    Model\Trackdata\Entity::TIME => array(1500, 3000),
-		    Model\Trackdata\Entity::HEARTRATE => array(0, 0)
-		)));
+		$CalculatorWithTrackdata = new Calculator($Activity, new Model\Trackdata\Entity([
+		    Model\Trackdata\Entity::TIME => [1500, 3000],
+		    Model\Trackdata\Entity::HEARTRATE => [0, 0],
+		]));
 
 		$this->assertEquals($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
 	}
-
 }

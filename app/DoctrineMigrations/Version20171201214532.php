@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20171201214532 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -20,13 +22,13 @@ class Version20171201214532 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'dataset` ADD `privacy` tinyint(3) unsigned NOT NULL DEFAULT 1 AFTER `position`');
-        $this->addSql('UPDATE `'.$prefix.'dataset` SET `privacy` = 0 WHERE `keyid`= 3');
+        $this->addSql('ALTER TABLE `' . $prefix . 'dataset` ADD `privacy` tinyint(3) unsigned NOT NULL DEFAULT 1 AFTER `position`');
+        $this->addSql('UPDATE `' . $prefix . 'dataset` SET `privacy` = 0 WHERE `keyid`= 3');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'dataset` DROP COLUMN `privacy`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'dataset` DROP COLUMN `privacy`');
     }
 }

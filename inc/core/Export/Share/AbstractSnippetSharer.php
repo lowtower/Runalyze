@@ -16,7 +16,9 @@ namespace Runalyze\Export\Share;
  */
 abstract class AbstractSnippetSharer extends AbstractSharer
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const URL = 'activity/{id}/export/social/{enum}';
 
     /**
@@ -52,9 +54,6 @@ abstract class AbstractSnippetSharer extends AbstractSharer
      */
     abstract public function enum();
 
-    /**
-     * Display
-     */
     abstract public function display();
 
     /**

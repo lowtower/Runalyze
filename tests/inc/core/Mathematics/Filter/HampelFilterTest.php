@@ -6,7 +6,9 @@ use Runalyze\Mathematics\Filter\HampelFilter;
 
 class HampelFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var HampelFilter */
+    /**
+     * @var HampelFilter
+     */
     protected $Filter;
 
     protected function setUp(): void

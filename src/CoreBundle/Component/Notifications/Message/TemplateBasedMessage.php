@@ -9,16 +9,24 @@ use Symfony\Component\Yaml\Yaml;
 
 class TemplateBasedMessage implements MessageInterface
 {
-    /** @var string base path relative to root */
+    /**
+     * @var string base path relative to root
+     */
     const BASE_PATH = '../../../../../data/views/notifications/';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $TemplateName;
 
-    /** @var null|int [days] */
+    /**
+     * @var null|int [days]
+     */
     protected $Lifetime;
 
-    /** @var null|array */
+    /**
+     * @var null|array
+     */
     protected $TemplateContent;
 
     /**
@@ -29,8 +37,8 @@ class TemplateBasedMessage implements MessageInterface
      */
     public function __construct($templateName, $lifetime = null)
     {
-        if (! file_exists(__DIR__.'/'.self::BASE_PATH.$templateName)) {
-            throw new \InvalidArgumentException(sprintf('Given template "%s" cannot be found in "%s".', $templateName, __DIR__.'/'.self::BASE_PATH));
+        if (! file_exists(__DIR__ . '/' . self::BASE_PATH . $templateName)) {
+            throw new \InvalidArgumentException(sprintf('Given template "%s" cannot be found in "%s".', $templateName, __DIR__ . '/' . self::BASE_PATH));
         }
 
         $this->TemplateName = $templateName;
@@ -75,8 +83,8 @@ class TemplateBasedMessage implements MessageInterface
 
     protected function loadTemplateIfNotDoneYet()
     {
-        if (null === $this->TemplateContent) {
-            $this->TemplateContent = Yaml::parse(file_get_contents(__DIR__.'/'.self::BASE_PATH.$this->TemplateName));
+        if ($this->TemplateContent === null) {
+            $this->TemplateContent = Yaml::parse(file_get_contents(__DIR__ . '/' . self::BASE_PATH . $this->TemplateName));
         }
     }
 
@@ -84,7 +92,7 @@ class TemplateBasedMessage implements MessageInterface
     {
         $this->loadTemplateIfNotDoneYet();
 
-        return isset($this->TemplateContent['internal']) || (isset($this->TemplateContent['link']) && 'http' != substr($this->TemplateContent['link'], 0, 4));
+        return isset($this->TemplateContent['internal']) || (isset($this->TemplateContent['link']) && substr($this->TemplateContent['link'], 0, 4) != 'http');
     }
 
     public function getWindowSizeForInternalLink()

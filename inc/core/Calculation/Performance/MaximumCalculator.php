@@ -6,13 +6,19 @@ use Runalyze\Sports\Performance\Model\AbstractModel;
 
 class MaximumCalculator
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaxFitness = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaxFatigue = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaxTrimp = 0;
 
     /**

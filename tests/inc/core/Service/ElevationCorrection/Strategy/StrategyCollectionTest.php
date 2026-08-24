@@ -7,7 +7,9 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var StrategyCollection */
+    /**
+     * @var StrategyCollection
+     */
     protected $Collection;
 
     protected function setUp(): void

@@ -6,17 +6,22 @@ namespace Runalyze\Service\RouteNameEvaluation;
  * Result of the route-name evaluation to be used/stored on the training/activity.
  * #TSC
  */
-class RouteNameEvalResult {
+class RouteNameEvalResult
+{
     const NOTES_START = 'Strecken-Info>>';
 
     const NOTES_END = '<<Strecken-Info';
 
     const NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $names = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $notes = '';
 
     public function __construct(string $names, string $notes) {
@@ -38,8 +43,6 @@ class RouteNameEvalResult {
 
     /**
      * Appends or replace the existing note with the new notes text based on pre-/suffix.
-     *
-     * @param string $existingNote
      */
     public function appendNotes(?string $existingNote): string {
         if(empty($this->notes)) {

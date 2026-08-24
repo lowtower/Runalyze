@@ -8,8 +8,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * User
- *
  * @ORM\Table(name="user", indexes={@ORM\Index(name="accountid_time", columns={"accountid", "time"})})
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\UserRepository")
  * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\UserListener"})

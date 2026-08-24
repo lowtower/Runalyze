@@ -7,10 +7,14 @@ use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 
 class ConfigurationUpdater
 {
-    /** @var ConfRepository */
+    /**
+     * @var ConfRepository
+     */
     protected $Repository;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $Manager;
 
     public function __construct(ConfRepository $repository, ?ConfigurationManager $manager = null)
@@ -27,7 +31,7 @@ class ConfigurationUpdater
     {
         $this->Repository->updateOrInsert($account, 'data', $configName, $value);
         $this->Manager->getList($account)
-            ->set('data.'.$configName, $value);
+            ->set('data.' . $configName, $value);
     }
 
     /**
@@ -108,7 +112,7 @@ class ConfigurationUpdater
 
         foreach ($values as $key => $value) {
             $this->Repository->updateOrInsert($account, 'privacy', $key, $value);
-            $list->set('privacy.'.$key, $value);
+            $list->set('privacy.' . $key, $value);
         }
     }
 }

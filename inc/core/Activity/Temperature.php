@@ -11,13 +11,12 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
 /**
- * Temperature
- *
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Activity
  */
-class Temperature implements ValueInterface {
+class Temperature implements ValueInterface
+{
 	/**
 	 * Default number of decimals
 	 * @var int
@@ -37,7 +36,6 @@ class Temperature implements ValueInterface {
 	protected $PreferredUnit;
 
     /**
-     * Format
      * @param float|null $temperature [°C]
      * @param bool $withUnit [optional] with or without unit
      * @param int $decimals [optional] number of decimals
@@ -48,7 +46,6 @@ class Temperature implements ValueInterface {
 
 	/**
 	 * @param float|null $temperature [°C]
-	 * @param \Runalyze\Parameter\Application\TemperatureUnit $preferredUnit
 	 */
 	public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null) {
 		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
@@ -61,7 +58,6 @@ class Temperature implements ValueInterface {
 	}
 
 	/**
-	 * Unit
 	 * @return string
 	 */
 	public function unit() {
@@ -74,7 +70,7 @@ class Temperature implements ValueInterface {
 	 * @return \Runalyze\Activity\Temperature $this-reference
 	 */
 	public function set($temperature): self {
-		if (null === $temperature || $temperature === '') {
+		if ($temperature === null || $temperature === '') {
 			$this->Temperature = null;
 		} else {
 			$this->Temperature = round((float) str_replace(',', '.', $temperature), 2);
@@ -89,10 +85,10 @@ class Temperature implements ValueInterface {
 	 * @return \Runalyze\Activity\Temperature $this-reference
 	 */
 	public function setFahrenheit($temperature): self {
-		if (null === $temperature || $temperature === '') {
+		if ($temperature === null || $temperature === '') {
 			$this->Temperature = null;
 		} else {
-			$this->Temperature = round(((float) str_replace(',', '.', $temperature)-32)/1.8, 2);
+			$this->Temperature = round(((float) str_replace(',', '.', $temperature) - 32) / 1.8, 2);
 		}
 
 		return $this;
@@ -156,7 +152,7 @@ class Temperature implements ValueInterface {
      * Is temperature empty?
      */
     public function isEmpty(): bool {
-		return (null === $this->Temperature);
+		return ($this->Temperature === null);
 	}
 
 	/**
@@ -183,7 +179,7 @@ class Temperature implements ValueInterface {
 
 		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->Temperature, $decimals, '.', '').($withUnit ? '&nbsp;'.TemperatureUnit::CELSIUS : '');
+		return number_format($this->Temperature, $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::CELSIUS : '');
 	}
 
 	/**
@@ -199,6 +195,6 @@ class Temperature implements ValueInterface {
 
 		$decimals = ($decimals === false) ? self::$DefaultDecimals : $decimals;
 
-		return number_format($this->fahrenheit(), $decimals, '.', '').($withUnit ? '&nbsp;'.TemperatureUnit::FAHRENHEIT : '');
+		return number_format($this->fahrenheit(), $decimals, '.', '') . ($withUnit ? '&nbsp;' . TemperatureUnit::FAHRENHEIT : '');
 	}
 }

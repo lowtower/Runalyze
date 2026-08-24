@@ -12,7 +12,8 @@ namespace Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class Fieldset extends \FormularFieldset {
+class Fieldset extends \FormularFieldset
+{
 	/**
 	 * Field factory
 	 * @var \Runalyze\Configuration\FieldFactory
@@ -29,10 +30,7 @@ class Fieldset extends \FormularFieldset {
 		$this->Factory = new FieldFactory();
 	}
 
-    /**
-     * Add handle
-     */
-    public function addHandle(Handle $Handle, array $options = array()) {
+    public function addHandle(Handle $Handle, array $options = []) {
 		$this->addField( $this->Factory->FieldFor($Handle, $options) );
 	}
 }

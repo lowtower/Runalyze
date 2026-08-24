@@ -11,10 +11,14 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var PowerCalculator */
+    /**
+     * @var PowerCalculator
+     */
     protected $Calculator;
 
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     protected function setUp(): void
@@ -30,13 +34,13 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Activity->getSport()
             ->setInternalSportId(SportProfile::CYCLING);
 
-        if (null !== $elevation) {
+        if ($elevation !== null) {
             $this->Activity->setRoute(new Route());
             $this->Activity->getRoute()
                 ->setElevationsCorrected($elevation);
         }
 
-        if (null !== $distance) {
+        if ($distance !== null) {
             $this->Activity->setTrackdata(new Trackdata());
             $this->Activity->getTrackdata()
                 ->setDistance($distance);

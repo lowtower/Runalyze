@@ -12,15 +12,13 @@ use Runalyze\Util\LocalTime;
  * Plot week data
  * @package Runalyze\Plot
  */
-class PlotWeekSumData extends PlotSumData {
+class PlotWeekSumData extends PlotSumData
+{
 	/**
 	 * @var \Runalyze\Parameter\Application\WeekStart
 	 */
 	protected $WeekStart;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct() {
 		$this->timerStart = 1;
 		$this->WeekStart = Runalyze\Configuration::General()->weekStart();
@@ -40,37 +38,28 @@ class PlotWeekSumData extends PlotSumData {
 		parent::__construct();
 	}
 
-    /**
-     * Get CSS id
-     */
     protected function getCSSid(): string {
-		return 'weekKM'.$this->Year.'_'.$this->Sport->id();
+		return 'weekKM' . $this->Year . '_' . $this->Sport->id();
 	}
 
-    /**
-     * Get title
-     */
     protected function getTitle(): string {
 		return __('Weekly chart:');
 	}
 
-    /**
-     * Get X labels
-     */
     protected function getXLabels(): array {
-		$weeks = array();
+		$weeks = [];
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? 0 : $this->WeekStart->phpWeek() - $this->timerEnd;
 		$yearDiff = $add == 0 ? 0 : date('Y') - $this->Year;
 
 		for ($w = $this->timerStart; $w <= $this->timerEnd; $w++) {
-			$time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime().' -'.($this->timerEnd - $w + $add).' weeks -'.$yearDiff.' years');
+			$time = strtotime($this->WeekStart->lastDayOfWeekForStrtotime() . ' -' . ($this->timerEnd - $w + $add) . ' weeks -' . $yearDiff . ' years');
 			$string = (date('d', $time) <= 7 || $w == $this->timerStart) ? Time::month(date('m', $time), true) : '';
 
 			if ($string !== '' && date('m', $time) == 1) {
-				$string .= " '".date('y', $time);
+				$string .= " '" . date('y', $time);
 			}
 
-			$weeks[] = array($w-$this->timerStart, $string);
+			$weeks[] = [$w - $this->timerStart, $string];
 		}
 
 		return $weeks;
@@ -82,7 +71,7 @@ class PlotWeekSumData extends PlotSumData {
 	 */
 	protected function timer() {
 		if ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) {
-			return '(('.$this->WeekStart->mysqlWeek('FROM_UNIXTIME(`time`)').' + '.$this->timerEnd.' - '.$this->WeekStart->phpWeek().' - 1)%'.$this->timerEnd.' + 1)';
+			return '((' . $this->WeekStart->mysqlWeek('FROM_UNIXTIME(`time`)') . ' + ' . $this->timerEnd . ' - ' . $this->WeekStart->phpWeek() . ' - 1)%' . $this->timerEnd . ' + 1)';
 		}
 
 		return $this->WeekStart->mysqlWeek('FROM_UNIXTIME(`time`)');
@@ -97,7 +86,7 @@ class PlotWeekSumData extends PlotSumData {
                 ->setTime(23, 59, 59)
                 ->getTimestamp();
 
-            return '`time` BETWEEN '.$dateStart.' AND '.$dateEnd;
+            return '`time` BETWEEN ' . $dateStart . ' AND ' . $dateEnd;
         }
 
         return parent::whereDate();
@@ -113,10 +102,10 @@ class PlotWeekSumData extends PlotSumData {
 
 	protected function beginningOfTimerange(): int {
 		if ($this->WeekStart->isSunday() && date('w') != 0) {
-			return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.$this->timerEnd.' weeks 00:00')->getTimestamp();
+			return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime() . ' -' . $this->timerEnd . ' weeks 00:00')->getTimestamp();
 		}
 
-		return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime().' -'.($this->timerEnd - 1).' weeks 00:00')->getTimestamp();
+		return LocalTime::fromString($this->WeekStart->firstDayOfWeekForStrtotime() . ' -' . ($this->timerEnd - 1) . ' weeks 00:00')->getTimestamp();
 	}
 
 	protected function factorForWeekKm(): int {

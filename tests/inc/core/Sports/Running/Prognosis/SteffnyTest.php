@@ -8,7 +8,9 @@ use Runalyze\Sports\Running\Prognosis\Steffny;
 
 class SteffnyTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Steffny */
+    /**
+     * @var Steffny
+     */
     protected $Steffny;
 
     protected function setUp(): void
@@ -53,7 +55,6 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(20 * 60, $this->Steffny->getSeconds(5.0), 1);
         $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
-
         $this->Steffny->setReferenceResult(10.1, 41 * 60 + 25);
         $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
 
@@ -84,24 +85,24 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
      */
     public function testHalfmarathonTable()
     {
-        $Requirements = array(
-            array([62, 30], [2, 18, 0]),
-            array([60, 0], [2, 12, 30]),
-            array([57, 30], [2, 7, 0]),
-            array([55, 0], [2, 1, 30]),
-            array([52, 30], [1, 56, 0]),
-            array([50, 0], [1, 50, 30]),
-            array([47, 30], [1, 45, 0]),
-            array([45, 0], [1, 39, 30]),
-            array([42, 30], [1, 34, 0]),
-            array([40, 0], [1, 28, 30]),
-            array([37, 30], [1, 23, 0]),
-            array([35, 0], [1, 17, 30]),
-            array([32, 30], [1, 12, 0]),
-            array([30, 0], [1, 6, 30]),
-            array([27, 30], [1, 1, 0]),
-            array([26, 30], [0, 58, 34])
-        );
+        $Requirements = [
+            [[62, 30], [2, 18, 0]],
+            [[60, 0], [2, 12, 30]],
+            [[57, 30], [2, 7, 0]],
+            [[55, 0], [2, 1, 30]],
+            [[52, 30], [1, 56, 0]],
+            [[50, 0], [1, 50, 30]],
+            [[47, 30], [1, 45, 0]],
+            [[45, 0], [1, 39, 30]],
+            [[42, 30], [1, 34, 0]],
+            [[40, 0], [1, 28, 30]],
+            [[37, 30], [1, 23, 0]],
+            [[35, 0], [1, 17, 30]],
+            [[32, 30], [1, 12, 0]],
+            [[30, 0], [1, 6, 30]],
+            [[27, 30], [1, 1, 0]],
+            [[26, 30], [0, 58, 34]],
+        ];
 
         foreach ($Requirements as $Requirement) {
             $this->Steffny->setReferenceFrom10kTime($Requirement[0][0] * 60.0 + $Requirement[0][1]);
@@ -119,24 +120,24 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
      */
     public function testMarathonTable()
     {
-        $Requirements = array(
-            array([62, 30], [4, 55, 0]),
-            array([60, 0], [4, 40, 0]),
-            array([57, 30], [4, 28, 20]),
-            array([55, 0], [4, 16, 40]),
-            array([52, 30], [4, 5, 0]),
-            array([50, 0], [3, 53, 20]),
-            array([47, 30], [3, 41, 40]),
-            array([45, 0], [3, 30, 0]),
-            array([42, 30], [3, 18, 20]),
-            array([40, 0], [3, 6, 40]),
-            array([37, 30], [2, 55, 0]),
-            array([35, 0], [2, 43, 20]),
-            array([32, 30], [2, 31, 40]),
-            array([30, 0], [2, 20, 0]),
-            array([27, 30], [2, 8, 20]),
-            array([26, 30], [2, 3, 39])
-        );
+        $Requirements = [
+            [[62, 30], [4, 55, 0]],
+            [[60, 0], [4, 40, 0]],
+            [[57, 30], [4, 28, 20]],
+            [[55, 0], [4, 16, 40]],
+            [[52, 30], [4, 5, 0]],
+            [[50, 0], [3, 53, 20]],
+            [[47, 30], [3, 41, 40]],
+            [[45, 0], [3, 30, 0]],
+            [[42, 30], [3, 18, 20]],
+            [[40, 0], [3, 6, 40]],
+            [[37, 30], [2, 55, 0]],
+            [[35, 0], [2, 43, 20]],
+            [[32, 30], [2, 31, 40]],
+            [[30, 0], [2, 20, 0]],
+            [[27, 30], [2, 8, 20]],
+            [[26, 30], [2, 3, 39]],
+        ];
 
         foreach ($Requirements as $Requirement) {
             $this->Steffny->setReferenceFrom10kTime($Requirement[0][0] * 60.0 + $Requirement[0][1]);

@@ -24,7 +24,7 @@ class BrakingGs extends ActivitySeries
 
 	protected function initOptions($isLeft)
     {
-		$this->Label = __('Braking Gs').' ('.($isLeft ? __('left') : __('right')).')';
+		$this->Label = __('Braking Gs') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
 		$this->Color = $isLeft ? 'rgb(241,64,41)' : 'rgb(190,13,0)';
 
 		$this->UnitString = 'G';

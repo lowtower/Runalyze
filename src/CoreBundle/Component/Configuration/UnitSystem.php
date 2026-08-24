@@ -15,13 +15,19 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 class UnitSystem
 {
-    /** @var RunalyzeConfigurationList */
+    /**
+     * @var RunalyzeConfigurationList
+     */
     protected $Configuration;
 
-    /** @var AbstractPaceUnit */
+    /**
+     * @var AbstractPaceUnit
+     */
     protected $PaceUnit;
 
-    /** @var LegacyUnitConverter */
+    /**
+     * @var LegacyUnitConverter
+     */
     protected $LegacyUnitConverter;
 
     public function __construct(RunalyzeConfigurationList $config)
@@ -66,7 +72,7 @@ class UnitSystem
      */
     public function getDistanceUnit()
     {
-        if (DistanceUnitSystem::IMPERIAL === $this->Configuration->get('general.DISTANCE_UNIT_SYSTEM')) {
+        if ($this->Configuration->get('general.DISTANCE_UNIT_SYSTEM') === DistanceUnitSystem::IMPERIAL) {
             return new Distance\Unit\Miles();
         }
 
@@ -78,7 +84,7 @@ class UnitSystem
      */
     public function getElevationUnit()
     {
-        if (DistanceUnitSystem::IMPERIAL === $this->Configuration->get('general.DISTANCE_UNIT_SYSTEM')) {
+        if ($this->Configuration->get('general.DISTANCE_UNIT_SYSTEM') === DistanceUnitSystem::IMPERIAL) {
             return new Distance\Unit\Feet();
         }
 
@@ -90,7 +96,7 @@ class UnitSystem
      */
     public function getStrideLengthUnit()
     {
-        if (DistanceUnitSystem::IMPERIAL === $this->Configuration->get('general.DISTANCE_UNIT_SYSTEM')) {
+        if ($this->Configuration->get('general.DISTANCE_UNIT_SYSTEM') === DistanceUnitSystem::IMPERIAL) {
             return new Distance\Unit\Feet();
         }
 
@@ -147,7 +153,7 @@ class UnitSystem
      */
     public function getWindSpeedUnit()
     {
-        if (DistanceUnitSystem::IMPERIAL === $this->Configuration->get('general.DISTANCE_UNIT_SYSTEM')) {
+        if ($this->Configuration->get('general.DISTANCE_UNIT_SYSTEM') === DistanceUnitSystem::IMPERIAL) {
             return new MilesPerHour();
         }
 

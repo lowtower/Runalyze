@@ -8,7 +8,9 @@ use Runalyze\Sports\ClimbScore\ClimbScore;
 
 class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ClimbScore */
+    /**
+     * @var ClimbScore
+     */
     protected $Score;
 
     protected function setUp(): void

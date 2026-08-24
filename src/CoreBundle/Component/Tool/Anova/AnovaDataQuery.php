@@ -19,16 +19,24 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class AnovaDataQuery
 {
-    /** @var AnovaData */
+    /**
+     * @var AnovaData
+     */
     protected $AnovaData;
 
-    /** @var QueryGroupInterface */
+    /**
+     * @var QueryGroupInterface
+     */
     protected $QueryGroup;
 
-    /** @var QueryValueInterface */
+    /**
+     * @var QueryValueInterface
+     */
     protected $QueryValue;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Groups = [];
 
     public function __construct(AnovaData $anovaData)
@@ -46,7 +54,7 @@ class AnovaDataQuery
         foreach ($groups as $id => $label) {
             $this->Groups[(int) $id] = [
                 'label' => $label,
-                'data' => []
+                'data' => [],
             ];
         }
     }
@@ -58,7 +66,7 @@ class AnovaDataQuery
     {
         $sports = $this->AnovaData->getSport();
 
-        if (1 === count($sports)) {
+        if (count($sports) === 1) {
             $unitSystem->setPaceUnitFromSport(array_shift($sports));
         }
 

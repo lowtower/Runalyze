@@ -18,9 +18,6 @@ use Runalyze\Configuration;
  */
 class PaceAlternative extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		$Pace = clone $Context->dataview()
@@ -35,7 +32,7 @@ class PaceAlternative extends AbstractBox
 		parent::__construct(
 		    $Pace->value(),
 		    $Pace->appendix(),
-		    __('avg.').' '.__('Pace')
+		    __('avg.') . ' ' . __('Pace')
 		);
 	}
 }

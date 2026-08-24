@@ -11,7 +11,9 @@ abstract class AbstractSingleParser implements ParserInterface, LoggerAwareInter
 {
     use LoggerAwareTrait;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     public function __construct()

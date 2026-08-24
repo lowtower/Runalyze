@@ -9,10 +9,14 @@ use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
 class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $FirstContainer;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $SecondContainer;
 
     protected function setUp(): void

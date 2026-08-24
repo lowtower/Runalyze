@@ -10,10 +10,14 @@ use Runalyze\Parser\Activity\Common\Filter\InvalidRRIntervalFilter;
 
 class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var InvalidRRIntervalFilter */
+    /**
+     * @var InvalidRRIntervalFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

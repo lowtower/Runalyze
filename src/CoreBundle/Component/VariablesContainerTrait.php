@@ -6,7 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Component;
 
 trait VariablesContainerTrait
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Variables = [];
 
     /**
@@ -25,7 +27,7 @@ trait VariablesContainerTrait
     public function get($key)
     {
         if (! isset($this->Variables[$key])) {
-            throw new \InvalidArgumentException('Provided key "'.$key.'" does not exist in this container.');
+            throw new \InvalidArgumentException('Provided key "' . $key . '" does not exist in this container.');
         }
 
         return $this->Variables[$key];

@@ -24,32 +24,32 @@ class ChangePasswordType extends AbstractType
                 'mapped' => false,
                 'empty_data' => null,
                 'constraints' => new UserPassword([
-                    'message' => 'Please enter your current password'
+                    'message' => 'Please enter your current password',
                 ]),
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => [
                     'attr' => [
-                        'class' => 'password-field'
-                    ]
+                        'class' => 'password-field',
+                    ],
                 ],
                 'required' => false,
-                'first_options'  => [
-                    'label' => 'New password'
+                'first_options' => [
+                    'label' => 'New password',
                 ],
                 'second_options' => [
-                    'label' => 'Repeat password'
+                    'label' => 'Repeat password',
                 ],
-                'empty_data'  => null,
+                'empty_data' => null,
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 8
+                        'min' => 8,
                     ]),
                 ],
             ])
@@ -59,7 +59,7 @@ class ChangePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
         ]);
     }
 }

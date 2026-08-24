@@ -11,7 +11,9 @@ use Runalyze\Util\LocalTime;
  */
 class FitlogTest extends AbstractActivityParserTestCase
 {
-    /** @var Fitlog */
+    /**
+     * @var Fitlog
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -72,7 +74,7 @@ class FitlogTest extends AbstractActivityParserTestCase
             [340, 1.0],
             [355, 1.0],
             [332, 1.0],
-            [39, 0.087]
+            [39, 0.087],
         ]);
     }
 
@@ -112,7 +114,7 @@ class FitlogTest extends AbstractActivityParserTestCase
 
         $this->checkExpectedPauseData([
             [1408, 33, 150, 112],
-            [1771, 228, 150, 108]
+            [1771, 228, 150, 108],
         ]);
 
         $this->assertEqualsWithDelta(4384, $this->Container->Rounds->getTotalDuration(), 30);

@@ -12,8 +12,11 @@ use Runalyze\Dataset\Keys;
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularSelectSearchSort extends FormularField {
-	/** @var array */
+class FormularSelectSearchSort extends FormularField
+{
+	/**
+	 * @var array
+	 */
 	protected $SortByOptions = [];
 
     /**
@@ -27,7 +30,7 @@ class FormularSelectSearchSort extends FormularField {
      * Get code for displaying the field
      */
     protected function getFieldCode(): string {
-		$code  = '<label>'.$this->label.'</label>';
+		$code = '<label>' . $this->label . '</label>';
 		$code .= '<div class="full-size left">';
 
 		$this->addOptionsFor([
@@ -55,14 +58,14 @@ class FormularSelectSearchSort extends FormularField {
 		    Keys::VERTICAL_RATIO,
 		    ['flight_time', __('Flight time')],
 		    ['flight_ratio', __('Flight ratio')],
-		    ['avg_impact_gs_left', __('Impact Gs').' ('.__('left').')'],
-		    ['avg_impact_gs_right', __('Impact Gs').' ('.__('right').')'],
-		    ['avg_braking_gs_left', __('Braking Gs').' ('.__('left').')'],
-		    ['avg_braking_gs_right', __('Braking Gs').' ('.__('right').')'],
-		    ['avg_footstrike_type_left', __('Footstrike type').' ('.__('left').')'],
-		    ['avg_footstrike_type_right', __('Footstrike type').' ('.__('right').')'],
-		    ['avg_pronation_excursion_left', __('Pronation excursion').' ('.__('left').')'],
-		    ['avg_pronation_excursion_right', __('Pronation excursion').' ('.__('right').')'],
+		    ['avg_impact_gs_left', __('Impact Gs') . ' (' . __('left') . ')'],
+		    ['avg_impact_gs_right', __('Impact Gs') . ' (' . __('right') . ')'],
+		    ['avg_braking_gs_left', __('Braking Gs') . ' (' . __('left') . ')'],
+		    ['avg_braking_gs_right', __('Braking Gs') . ' (' . __('right') . ')'],
+		    ['avg_footstrike_type_left', __('Footstrike type') . ' (' . __('left') . ')'],
+		    ['avg_footstrike_type_right', __('Footstrike type') . ' (' . __('right') . ')'],
+		    ['avg_pronation_excursion_left', __('Pronation excursion') . ' (' . __('left') . ')'],
+		    ['avg_pronation_excursion_right', __('Pronation excursion') . ' (' . __('right') . ')'],
 		    Keys::TOTAL_STROKES,
 		    Keys::SWOLF,
 		    Keys::FIT_VO2MAX_ESTIMATE,
@@ -75,14 +78,14 @@ class FormularSelectSearchSort extends FormularField {
 		    ['wind_speed', __('Wind speed')],
 		    ['wind_deg', __('Wind direction')],
 		    Keys::HUMIDITY,
-		    Keys::AIR_PRESSURE
+		    Keys::AIR_PRESSURE,
 		]);
 
 		$code .= HTML::selectBox('search-sort-by', $this->SortByOptions);
-		$code .= HTML::selectBox('search-sort-order', array(
+		$code .= HTML::selectBox('search-sort-order', [
 		    'DESC' => __('descending'),
-		    'ASC' => __('ascending')
-		));
+		    'ASC' => __('ascending'),
+		]);
 
 		return $code . '</div>';
 	}

@@ -4,19 +4,29 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class FilenameHandler
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const FILENAME_PREFIX = 'runalyze-backup';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const JSON_FORMAT = 'json.gz';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const SQL_FORMAT = 'sql.gz';
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $RunalyzeVersion = 'x';
 
     /**
@@ -58,7 +68,7 @@ class FilenameHandler
      */
     public function isValidImportExtension($extension): bool
     {
-        return self::JSON_FORMAT === $extension;
+        return $extension === self::JSON_FORMAT;
     }
 
     /**
@@ -82,7 +92,7 @@ class FilenameHandler
      */
     protected function validateInternalPrefix($internalFilename): bool
     {
-        $expectedPrefix = $this->AccountId.'-'.self::FILENAME_PREFIX;
+        $expectedPrefix = $this->AccountId . '-' . self::FILENAME_PREFIX;
 
         return substr($internalFilename, 0, strlen($expectedPrefix)) === $expectedPrefix;
     }
@@ -112,7 +122,7 @@ class FilenameHandler
      */
     public function generatePublicFilename($internalFilename)
     {
-        return substr($internalFilename, strlen($this->AccountId.'-'.self::FILENAME_PREFIX));
+        return substr($internalFilename, strlen($this->AccountId . '-' . self::FILENAME_PREFIX));
     }
 
     /**
@@ -128,6 +138,6 @@ class FilenameHandler
      */
     public function transformPublicToInternalFilename($publicFilename): string
     {
-        return $this->AccountId.'-'.self::FILENAME_PREFIX.'-'.$publicFilename;
+        return $this->AccountId . '-' . self::FILENAME_PREFIX . '-' . $publicFilename;
     }
 }

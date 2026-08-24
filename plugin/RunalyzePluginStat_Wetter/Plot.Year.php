@@ -8,19 +8,19 @@
 use Runalyze\Activity\Temperature;
 
 $Temperature = new Temperature();
-$Year         = (int) $_GET['y'];
-$Temperatures = array();
+$Year = (int) $_GET['y'];
+$Temperatures = [];
 
 $Query = '
 	SELECT
 		time*1000 as time,
 		DAYOFYEAR(FROM_UNIXTIME(`time`)) as `d`,
 		AVG(`temperature`) as `temp`
-	FROM `'.PREFIX.'training`
+	FROM `' . PREFIX . 'training`
 	WHERE
-		`accountid`='.SessionAccountHandler::getId().' AND
+		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		!ISNULL(`temperature`) AND
-		`time` BETWEEN UNIX_TIMESTAMP(\''.$Year."-01-01') AND UNIX_TIMESTAMP('".($Year+1).'-01-01\')-1
+		`time` BETWEEN UNIX_TIMESTAMP(\'' . $Year . "-01-01') AND UNIX_TIMESTAMP('" . ($Year + 1) . '-01-01\')-1
 	GROUP BY `d`
 	ORDER BY `d` ASC';
 
@@ -29,11 +29,11 @@ $Data = DB::getInstance()->query($Query)->fetchAll();
 foreach ($Data as $dat)
 	$Temperatures[$dat['time']] = $Temperature->format((int) $dat['temp'], false);
 
-$Plot = new Plot('year'.$Year, 780, 240);
-$Plot->Data[] = array(
-    'label' => __('Temperatures').' '.$Year,
-    'data' => $Temperatures
-);
+$Plot = new Plot('year' . $Year, 780, 240);
+$Plot->Data[] = [
+    'label' => __('Temperatures') . ' ' . $Year,
+    'data' => $Temperatures,
+];
 
 $Plot->setMarginForGrid(5);
 $Plot->setXAxisAsTime();

@@ -16,7 +16,8 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model\EquipmentType
  */
-class Entity extends Model\EntityWithID {
+class Entity extends Model\EntityWithID
+{
 	/**
 	 * @var int enum
 	 */
@@ -56,12 +57,12 @@ class Entity extends Model\EntityWithID {
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::INPUT,
 		    self::MAX_KM,
-		    self::MAX_TIME
-		);
+		    self::MAX_TIME,
+		];
 	}
 
     /**
@@ -71,9 +72,6 @@ class Entity extends Model\EntityWithID {
 		return static::allDatabaseProperties();
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 		parent::synchronize();
 
@@ -84,15 +82,14 @@ class Entity extends Model\EntityWithID {
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
+		$this->ensureNumericValue([
 		    self::INPUT,
 		    self::MAX_KM,
-		    self::MAX_TIME
-		));
+		    self::MAX_TIME,
+		]);
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	public function name() {

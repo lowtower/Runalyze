@@ -35,7 +35,7 @@ class Context
 	/**
 	 * @var array
 	 */
-	protected $ActivityData = array();
+	protected $ActivityData = [];
 
 	/**
 	 * Sport
@@ -86,7 +86,6 @@ class Context
 	}
 
 	/**
-	 * Set activity
 	 * @param \Runalyze\Model\Activity\Entity $object activity object
 	 */
 	public function setActivity(Model\Activity\Entity $object)
@@ -101,7 +100,6 @@ class Context
 	}
 
 	/**
-	 * Set activity data
 	 * @param array $data activity data
 	 * @throws \InvalidArgumentException
 	 */
@@ -149,7 +147,7 @@ class Context
 
 	public function hasSport(): bool
 	{
-		return (null !== $this->Sport);
+		return ($this->Sport !== null);
 	}
 
 	/**
@@ -170,7 +168,7 @@ class Context
 
 	public function hasType(): bool
 	{
-		return (null !== $this->Type);
+		return ($this->Type !== null);
 	}
 
 	/**
@@ -203,7 +201,7 @@ class Context
 				return null;
 			}
 
-			throw new \InvalidArgumentException('Provided key "'.$key.'" does not exist in activity data.');
+			throw new \InvalidArgumentException('Provided key "' . $key . '" does not exist in activity data.');
 		}
 
 		return $this->ActivityData[$key];

@@ -50,16 +50,16 @@ class AccountController extends Controller
         /** @var Account|null $account */
         $account = $this->getAccountRepository()
             ->findOneBy([
-                'deletionHash' => $hash
+                'deletionHash' => $hash,
             ]);
 
-        if (null === $account) {
+        if ($account === null) {
             return $this->render('account/delete/problem.html.twig');
         }
 
         return $this->render('account/delete/please_confirm.html.twig', [
             'deletionHash' => $hash,
-            'username' => $account->getUsername()
+            'username' => $account->getUsername(),
         ]);
     }
 
@@ -70,13 +70,13 @@ class AccountController extends Controller
     {
         /** @var Account|null $account */
         $account = $this->getAccountRepository()
-            ->findOneBy(array(
-                'changepwHash' => $hash
-            ));
+            ->findOneBy([
+                'changepwHash' => $hash,
+            ]);
 
-        if (null === $account) {
+        if ($account === null) {
             return $this->render('account/recover/hash_invalid.html.twig', [
-                'recoverHash' => $hash
+                'recoverHash' => $hash,
             ]);
         }
 
@@ -99,7 +99,7 @@ class AccountController extends Controller
 
         return $this->render('account/recover/form_new_password.html.twig', [
             'recoverHash' => $hash,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -112,8 +112,8 @@ class AccountController extends Controller
             ->add('username', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])->getForm();
         $form->handleRequest($request);
 
@@ -121,10 +121,10 @@ class AccountController extends Controller
             /** @var Account|null $account */
             $account = $this->getAccountRepository()
                 ->loadUserByUsername([
-                    $request->request->get($form->getName())['username']
+                    $request->request->get($form->getName())['username'],
                 ]);
 
-            if (null === $account) {
+            if ($account === null) {
                 $form->get('username')
                     ->addError(new FormError($this->get('translator')->trans('The username is not known.')));
             } else {
@@ -140,7 +140,7 @@ class AccountController extends Controller
         }
 
         return $this->render('account/recover/form_send_mail.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -154,10 +154,10 @@ class AccountController extends Controller
             return $this->render('account/activate/success.html.twig');
         }
 
-        if (null !== $username && null != $this->getAccountRepository()->loadUserByUsername($username)) {
+        if ($username !== null && $this->getAccountRepository()->loadUserByUsername($username) != null) {
             return $this->render('account/activate/success.html.twig', [
                 'username' => $username,
-                'alreadyActivated' => true
+                'alreadyActivated' => true,
             ]);
         }
 

@@ -10,10 +10,14 @@ use Symfony\Component\Form\FormInterface;
 
 class WindSpeedType extends AbstractUnitBasedType
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $ViewPrecision = 0;
 
-    /** @var AbstractPaceInDecimalFormatUnit */
+    /**
+     * @var AbstractPaceInDecimalFormatUnit
+     */
     protected $ModelUnit;
 
     public function __construct(AbstractPaceInDecimalFormatUnit $velocityUnit)
@@ -33,28 +37,28 @@ class WindSpeedType extends AbstractUnitBasedType
 
     public function transform($value)
     {
-        if (null !== $value) {
-            if (0 === (int) $value) {
+        if ($value !== null) {
+            if ((int) $value === 0) {
                 return 0;
             }
 
             $value = $this->ModelUnit->toBaseUnit((int) $value);
         }
 
-        return null === $value ? null : (int) round($this->Unit->fromBaseUnit($value));
+        return $value === null ? null : (int) round($this->Unit->fromBaseUnit($value));
     }
 
     public function reverseTransform($value)
     {
-        if (null !== $value) {
-            if (0 === (int) $value) {
+        if ($value !== null) {
+            if ((int) $value === 0) {
                 return 0;
             }
 
             $value = $this->Unit->toBaseUnit((int) $value);
         }
 
-        return null === $value ? null : (int) round($this->ModelUnit->fromBaseUnit($value));
+        return $value === null ? null : (int) round($this->ModelUnit->fromBaseUnit($value));
     }
 
     public function getParent(): string

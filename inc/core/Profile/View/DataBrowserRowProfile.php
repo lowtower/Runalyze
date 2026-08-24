@@ -9,13 +9,19 @@ use Runalyze\Util\InterfaceChoosable;
 
 class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const COMPLETE_ROW = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const ONLY_ICON = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const INHERIT_FROM_PARENT = 2;
 
     /**
@@ -31,22 +37,22 @@ class DataBrowserRowProfile extends AbstractEnum implements InterfaceChoosable
             case self::INHERIT_FROM_PARENT:
                 return __('Inherit from sport');
             default:
-                throw new \InvalidArgumentException('Invalid databrowser row id "'.$id.'".');
+                throw new \InvalidArgumentException('Invalid databrowser row id "' . $id . '".');
         }
     }
 
     static public function getChoices(): array {
-        return array(
+        return [
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
             self::stringFor(self::ONLY_ICON) => self::ONLY_ICON,
-            self::stringFor(self::INHERIT_FROM_PARENT) => self::INHERIT_FROM_PARENT
-        );
+            self::stringFor(self::INHERIT_FROM_PARENT) => self::INHERIT_FROM_PARENT,
+        ];
     }
 
     static public function getChoicesWithoutParent(): array {
-        return array(
+        return [
             self::stringFor(self::COMPLETE_ROW) => self::COMPLETE_ROW,
-            self::stringFor(self::ONLY_ICON) => self::ONLY_ICON
-        );
+            self::stringFor(self::ONLY_ICON) => self::ONLY_ICON,
+        ];
     }
 }

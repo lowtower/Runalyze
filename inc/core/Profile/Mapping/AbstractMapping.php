@@ -4,10 +4,14 @@ namespace Runalyze\Profile\Mapping;
 
 abstract class AbstractMapping implements ToInternalMappingInterface, ToExternalMappingInterface
 {
-    /** @var int[]|string[] */
+    /**
+     * @var int[]|string[]
+     */
     protected $Mapping = [];
 
-    /** @var int[]|string[] */
+    /**
+     * @var int[]|string[]
+     */
     protected $FlippedMapping = [];
 
     public function __construct()

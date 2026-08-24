@@ -14,10 +14,14 @@ use Runalyze\Util\LocalTime;
 
 class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
-    /** @var ActivityAdapter */
+    /**
+     * @var ActivityAdapter
+     */
     protected $Adapter;
 
     protected function setUp(): void
@@ -123,7 +127,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
             ->setStroketype([
                 StrokeTypeProfile::BREAK,
                 StrokeTypeProfile::BREAK,
-                StrokeTypeProfile::BREAK
+                StrokeTypeProfile::BREAK,
             ]);
 
         $this->Adapter->calculateSwolf();

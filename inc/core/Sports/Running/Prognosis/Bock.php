@@ -13,25 +13,39 @@ namespace Runalyze\Sports\Running\Prognosis;
  */
 class Bock implements PrognosisInterface
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     const MINIMAL_DISTANCE_FOR_REFERENCE_RESULT = 3.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     const K_LOWER_BOUND = 132.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     const K_UPPER_BOUND = 1800.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     const E_LOWER_BOUND = 1.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     const E_UPPER_BOUND = 2.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $K = 0.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $E = 1.0;
 
     /**
@@ -46,8 +60,6 @@ class Bock implements PrognosisInterface
     }
 
     /**
-     * Set from results
-     *
      * Set constants K and e from given results (should not be too similar in distance).
      * The documented version does not work. Log-version is from source-code.
      *
@@ -66,7 +78,7 @@ class Bock implements PrognosisInterface
         }
 
         if ($distance1 > $distance2) {
-            list($distance1, $time1, $distance2, $time2) = array($distance2, $time2, $distance1, $time1);
+            [$distance1, $time1, $distance2, $time2] = [$distance2, $time2, $distance1, $time1];
         }
 
         $this->E = log($time2 / $time1) / log($distance2 / $distance1);
@@ -95,13 +107,17 @@ class Bock implements PrognosisInterface
         return ($distance > 3.0) ? round($seconds) : $seconds;
     }
 
-    /** @return float */
+    /**
+     * @return float
+     */
     public function getK()
     {
         return $this->K;
     }
 
-    /** @return float */
+    /**
+     * @return float
+     */
     public function getE()
     {
         return $this->E;

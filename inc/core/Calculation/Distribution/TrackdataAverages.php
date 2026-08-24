@@ -19,7 +19,9 @@ use Runalyze\Model\Trackdata;
  */
 class TrackdataAverages
 {
-	/** @var \Runalyze\Model\Trackdata\Entity */
+	/**
+	 * @var \Runalyze\Model\Trackdata\Entity
+	 */
 	protected $Trackdata;
 
 	/**
@@ -32,14 +34,17 @@ class TrackdataAverages
 	 */
 	protected $Averages = [];
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IgnoreZeros = true;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $KeysThatAllowZero;
 
     /**
-     * Constructor
      * @param string[] $keys enums
      * @param bool $ignoreZeros by default 0s are ignored for mean
      * @param array|bool $keysThatAllowZero some keys may allow 0s, by default: cadence, temperature
@@ -63,7 +68,7 @@ class TrackdataAverages
     protected function defaultKeysThatAllowZero(): array
     {
         return [
-            Trackdata\Entity::TEMPERATURE
+            Trackdata\Entity::TEMPERATURE,
         ];
     }
 
@@ -94,9 +99,6 @@ class TrackdataAverages
 		}
 	}
 
-	/**
-	 * Collect data
-	 */
 	protected function collectData()
 	{
 		$time = $this->Trackdata->get(Trackdata\Entity::TIME);
@@ -142,7 +144,7 @@ class TrackdataAverages
     public function average($key)
     {
         if (! array_key_exists($key, $this->Averages)) {
-            throw new \InvalidArgumentException('No average calculated for "'.$key.'".');
+            throw new \InvalidArgumentException('No average calculated for "' . $key . '".');
         }
 
         return $this->Averages[$key];

@@ -12,22 +12,34 @@ use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 
 class AnalysisData
 {
-    /** @var int|float */
+    /**
+     * @var int|float
+     */
     protected $Maximum = 1;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Data = [];
 
-    /** @var Selection */
+    /**
+     * @var Selection
+     */
     protected $SportSelection;
 
-    /** @var AnalysisSelection */
+    /**
+     * @var AnalysisSelection
+     */
     protected $AnalysisSelection;
 
-    /** @var DisplayableValue */
+    /**
+     * @var DisplayableValue
+     */
     protected $DefaultValue;
 
-    /** @var null|ValueExtension */
+    /**
+     * @var null|ValueExtension
+     */
     protected $ValueExtension;
 
     public function __construct(
@@ -90,7 +102,7 @@ class AnalysisData
      */
     protected function getSportId()
     {
-        if (! $this->SportSelection->hasCurrentKey() || SportSelectionFactory::ALL == $this->SportSelection->getCurrentKey()) {
+        if (! $this->SportSelection->hasCurrentKey() || $this->SportSelection->getCurrentKey() == SportSelectionFactory::ALL) {
             return null;
         }
 
@@ -139,7 +151,7 @@ class AnalysisData
      */
     public function getValue($year, $month)
     {
-        if (null === $this->ValueExtension) {
+        if ($this->ValueExtension === null) {
             throw new \RuntimeException('Value extension must be set');
         }
 

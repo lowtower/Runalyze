@@ -10,16 +10,24 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class PosterGeneratedMessage implements MessageInterface
 {
-    /** @var int all posters succeeded */
+    /**
+     * @var int all posters succeeded
+     */
     const STATE_SUCCESS = 0;
 
-    /** @var int only some posters have been generated */
+    /**
+     * @var int only some posters have been generated
+     */
     const STATE_PARTIAL = 1;
 
-    /** @var int no poster generated */
+    /**
+     * @var int no poster generated
+     */
     const STATE_FAILED = 2;
 
-    /** @var int see self::STATE_... */
+    /**
+     * @var int see self::STATE_...
+     */
     protected $State = 0;
 
     public function __construct($state = self::STATE_SUCCESS)
@@ -56,7 +64,7 @@ class PosterGeneratedMessage implements MessageInterface
 
     public function hasLink(): bool
     {
-        return self::STATE_FAILED != $this->State;
+        return $this->State != self::STATE_FAILED;
     }
 
     public function getLink(RouterInterface $router)

@@ -9,16 +9,24 @@ use Runalyze\Model;
 
 class Gradient
 {
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $Elevation = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Distance = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Gradient = [];
 
-    /** @var AbstractKernel|null */
+    /**
+     * @var AbstractKernel|null
+     */
     protected $MovingAverageKernel;
 
 	public function __construct(array $elevation = [], array $distance = [])
@@ -82,7 +90,7 @@ class Gradient
 
     protected function applyMovingAverage(array &$elevation)
     {
-        if (null !== $this->MovingAverageKernel) {
+        if ($this->MovingAverageKernel !== null) {
             $movingAverage = new WithKernel($elevation);
             $movingAverage->setKernel($this->MovingAverageKernel);
             $movingAverage->calculate();

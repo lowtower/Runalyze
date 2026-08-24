@@ -14,13 +14,19 @@ use Runalyze\Profile\Sport\SportProfile;
  */
 class SportRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void

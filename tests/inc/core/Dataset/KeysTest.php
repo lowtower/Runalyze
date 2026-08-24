@@ -56,5 +56,4 @@ class KeysTest extends \PHPUnit\Framework\TestCase
 		$this->expectException(\InvalidArgumentException::class);
 		Keys::get('key-ids-are-integers');
 	}
-
 }

@@ -11,34 +11,54 @@ use Runalyze\Data\RPE;
 
 class ActivityDataContainer
 {
-    /** @var Metadata */
+    /**
+     * @var Metadata
+     */
     public $Metadata;
 
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     public $ActivityData;
 
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     public $ContinuousData;
 
-    /** @var ContinuousDataAdapter */
+    /**
+     * @var ContinuousDataAdapter
+     */
     protected $ContinuousDataAdapter;
 
-    /** @var RoundCollection */
+    /**
+     * @var RoundCollection
+     */
     public $Rounds;
 
-    /** @var PauseCollection */
+    /**
+     * @var PauseCollection
+     */
     public $Pauses;
 
-    /** @var PauseCollection */
+    /**
+     * @var PauseCollection
+     */
     public $PausesToApply;
 
-    /** @var FitDetails */
+    /**
+     * @var FitDetails
+     */
     public $FitDetails;
 
-    /** @var WeatherData */
+    /**
+     * @var WeatherData
+     */
     public $WeatherData;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     public $RRIntervals = [];
 
     public function __construct()
@@ -101,7 +121,7 @@ class ActivityDataContainer
         } else {
             // second calc the avg from the temp's
             $averageTemperature = $this->ContinuousDataAdapter->getAverageTemperature();
-            if (null !== $averageTemperature) {
+            if ($averageTemperature !== null) {
                 $this->WeatherData->Temperature = $averageTemperature;
             }
         }
@@ -158,7 +178,6 @@ class ActivityDataContainer
                     $this->ContinuousData->Distance
                 );
             }
-
 
             // #TSC check if rounds includes intervals
             // check that the type belongs to sport "running" not needed here; will be checked further in ActivityDataContainerToActivityContextConverter.tryToSetTypeFor

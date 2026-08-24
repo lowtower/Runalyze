@@ -26,7 +26,7 @@ class KernelsTest extends \PHPUnit\Framework\TestCase
             $Kernel = Kernels::get($kernelid, 2.0);
             $sum = array_sum($Kernel->valuesAt($x, true));
 
-            $this->assertEqualsWithDelta(1.0, $sum / $num, 0.02, 'Kernel with id "'.$kernelid.'" is not normalized, sum is '.$sum);
+            $this->assertEqualsWithDelta(1.0, $sum / $num, 0.02, 'Kernel with id "' . $kernelid . '" is not normalized, sum is ' . $sum);
         }
     }
 }

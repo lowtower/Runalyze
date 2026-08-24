@@ -4,10 +4,14 @@ namespace Runalyze\Bundle\CoreBundle\Services\Recalculation;
 
 class RecalculationTaskCollection
 {
-    /** @var RecalculationTaskInterface[] */
+    /**
+     * @var RecalculationTaskInterface[]
+     */
     protected $Tasks = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NextTaskIndex = 0;
 
     /**

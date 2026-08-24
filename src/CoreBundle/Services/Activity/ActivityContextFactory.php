@@ -8,7 +8,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityContextFactory
 {
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     protected $EntityManager;
 
     public function __construct(EntityManager $em)
@@ -41,8 +43,8 @@ class ActivityContextFactory
         $activity = $this->EntityManager->getRepository('CoreBundle:Training')
             ->findForAccount($activityId, $accountId);
 
-        if (null === $activity) {
-            throw new \InvalidArgumentException('Unknown activity (id = '.$activityId.').');
+        if ($activity === null) {
+            throw new \InvalidArgumentException('Unknown activity (id = ' . $activityId . ').');
         }
 
         return $this->getContext($activity);

@@ -15,23 +15,18 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Elevation extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Elevation extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'elevation';
+		$this->key = 'elevation';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
-		$allSeries = array(
+		$allSeries = [
 		    new Series\Elevation($context),
-		    new Series\Gradient($context)
-		);
+		    new Series\Gradient($context),
+		];
 
 		$this->addMultipleSeries($allSeries);
 	}

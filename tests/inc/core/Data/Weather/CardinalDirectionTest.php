@@ -28,12 +28,12 @@ class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
             'S' => [157.5, 180, 202.4],
             'SW' => [202.5, 230, 247.4],
             'W' => [247.5, 260, 292.4],
-            'NW' => [292.5, 310, 337.4]
+            'NW' => [292.5, 310, 337.4],
         ];
 
         foreach ($directionsToTest as $string => $values) {
             foreach ($values as $degrees) {
-                $this->assertEquals($string, CardinalDirection::getDirection($degrees), 'Mismatch for '.$degrees.'°');
+                $this->assertEquals($string, CardinalDirection::getDirection($degrees), 'Mismatch for ' . $degrees . '°');
             }
         }
     }

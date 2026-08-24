@@ -22,7 +22,7 @@ class AgeGradeLookup
     {
         $account = $account ?: $this->getUser();
 
-        return null !== $account && $account->knowsGender() && $account->knowsBirthYear();
+        return $account !== null && $account->knowsGender() && $account->knowsBirthYear();
     }
 
     /**

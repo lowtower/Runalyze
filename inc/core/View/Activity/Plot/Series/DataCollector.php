@@ -17,7 +17,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class DataCollector {
+class DataCollector
+{
 	/**
 	 * @var int
 	 */
@@ -57,7 +58,7 @@ class DataCollector {
 	/**
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
 	/**
 	 * @var \Runalyze\Parameter\Application\ActivityPlotPrecision
@@ -76,7 +77,7 @@ class DataCollector {
      */
     public function __construct(Trackdata $trackdata, $key) {
 		if (! $trackdata->has($key)) {
-			throw new \InvalidArgumentException('Trackdata has no data for "'.$key.'".');
+			throw new \InvalidArgumentException('Trackdata has no data for "' . $key . '".');
 		}
 
 		$this->Key = $key;
@@ -88,7 +89,6 @@ class DataCollector {
 	}
 
 	/**
-	 * Data
 	 * @return array
 	 */
 	public function data() {
@@ -127,7 +127,7 @@ class DataCollector {
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

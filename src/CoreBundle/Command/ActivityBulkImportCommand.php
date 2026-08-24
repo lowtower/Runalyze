@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
@@ -22,7 +21,8 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
  * Internal class represents a maximal zone-target heart-rate.
  * #TSC
  */
-class MaxZoneHR {
+class MaxZoneHR
+{
     private $import;
 
      // is import allowed by configuration
@@ -40,7 +40,7 @@ class MaxZoneHR {
         $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new \Runalyze\Parameter\Boolean(false);
-        $bool->setFromString(null === $conf ? '' : $conf->getValue());
+        $bool->setFromString($conf === null ? '' : $conf->getValue());
 
         $this->import = $bool->value();
     }
@@ -67,11 +67,13 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
     // move files after import to "this"-folder
     private $moveFolder;
 
-    /** @var array */
-    protected $FailedImports = array();
+    /**
+     * @var array
+     */
+    protected $FailedImports = [];
 
     // 2 dim-array with 1-Idx=sportId & 2-Idx=Equipment
-    private $sportEquipment = array();
+    private $sportEquipment = [];
 
     protected function configure()
     {
@@ -106,7 +108,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             ->getRepository('CoreBundle:Account');
         $user = $repository->loadUserByUsername($input->getArgument('username'));
 
-        if (null === $user) {
+        if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
 
             return 1;
@@ -146,15 +148,15 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         foreach ($it as $fileinfo) {
             $file = $fileinfo->getFilename();
 
-            if (! is_file($path.'/'.$file)) {
+            if (! is_file($path . '/' . $file)) {
                 continue;
             }
 
             // TSC: do not use "'bulk-import'.uniqid()" for bulk uploads, because the filename is set in the activity title
             // $filename = 'bulk-import'.uniqid().$file;
             $filename = $file;
-            $fs->copy($path.'/'.$file, $dataDirectory.'/import/'.$filename);
-            $files[] = $dataDirectory.'/import/'.$filename;
+            $fs->copy($path . '/' . $file, $dataDirectory . '/import/' . $filename);
+            $files[] = $dataDirectory . '/import/' . $filename;
         }
 
         asort($files);
@@ -188,7 +190,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
                 $contextAdapter = $contextAdapterFactory->getAdapterFor($context);
-                $output->writeln('<info>'.$result->getOriginalFileName().'</info>');
+                $output->writeln('<info>' . $result->getOriginalFileName() . '</info>');
 
                 if ($contextAdapter->isPossibleDuplicate()) {
                     $output->writeln('<fg=yellow> ... is a duplicate</>');
@@ -218,7 +220,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $output->writeln('<fg=red>Failed imports:</>');
 
             foreach ($this->FailedImports as $fileName => $message) {
-                $output->writeln('<fg=red> - '.$fileName.': '.$message.'</>');
+                $output->writeln('<fg=red> - ' . $fileName . ': ' . $message . '</>');
             }
         }
 
@@ -235,8 +237,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         if(! empty($this->moveFolder)) {
             $path_parts = pathinfo($importedFilename);
             $source = $path . '/' . $path_parts['basename'];
-            $moveTo = $path . '/' . $this->moveFolder. '/' . $path_parts['basename'];
-            echo 'moveTo:'.$moveTo;
+            $moveTo = $path . '/' . $this->moveFolder . '/' . $path_parts['basename'];
+            echo 'moveTo:' . $moveTo;
 
             if(! rename($source, $moveTo)) {
                 $output->writeln('<fg=red>Cant move to ' . $moveTo . '</>');
@@ -265,7 +267,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
         // build a array where first index is the sports-id
         $this->sportEquipment = [];
-        $output->writeln('Use account equipments for automatic-equipment-mapping of '.$account->getUsername().':');
+        $output->writeln('Use account equipments for automatic-equipment-mapping of ' . $account->getUsername() . ':');
         foreach ($accountEquipment as $eqp) {
             if($eqp->getType()->getInput() == EquipmentType::CHOICE_SINGLE) {
                 // use only the sports from the equipment (for the bulk import)
@@ -273,7 +275,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                     $idx = $sport->getId();
                     $this->sportEquipment[$idx][] = $eqp;
 
-                    $output->writeln('- ' . $eqp->getType()->getName() . ':'.$eqp->getName(). ' -> sport='.$idx.'/'.$sport->getName());
+                    $output->writeln('- ' . $eqp->getType()->getName() . ':' . $eqp->getName() . ' -> sport=' . $idx . '/' . $sport->getName());
                 }
             }
         }
@@ -291,10 +293,10 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             ->getId();
 
         // use equipmentId as key
-        $equipments = array();
+        $equipments = [];
 
         // use typeId(categoryId) as key
-        $typeUnique = array();
+        $typeUnique = [];
 
         // are there equipments for this (activity) sport?
         if (isset($this->sportEquipment[$sportId])) {
@@ -347,7 +349,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $oldUser = $repository->getLatestEntryFor($account);
 
         // if new max differs from the stored one
-        if(null !== $oldUser && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
+        if($oldUser !== null && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
             // clone current user and create a new one
             $newuser = $oldUser->cloneObjectForForm();
             $newuser->setTime($maxZoneHR->Time);
@@ -355,7 +357,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $newuser->setNotes('New max pulse is set while importing main-sports activity.');
             $repository->save($newuser, $account);
 
-            $output->writeln('<fg=yellow>Max heart-rate of user is changed from ' . $oldUser->getPulseMax() .' to ' . $maxZoneHR->MaxHR . '</>');
+            $output->writeln('<fg=yellow>Max heart-rate of user is changed from ' . $oldUser->getPulseMax() . ' to ' . $maxZoneHR->MaxHR . '</>');
         }
     }
 }

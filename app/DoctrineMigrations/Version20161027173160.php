@@ -7,13 +7,14 @@ use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * database cleanup
  */
 class Version20161027173160 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -25,8 +26,8 @@ class Version20161027173160 extends AbstractMigration implements ContainerAwareI
     {
         //Table: conf
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('DELETE FROM `'.$prefix.'equipment` WHERE `typeid` = 0');
-        $this->addSql('ALTER TABLE `'.$prefix.'equipment`
+        $this->addSql('DELETE FROM `' . $prefix . 'equipment` WHERE `typeid` = 0');
+        $this->addSql('ALTER TABLE `' . $prefix . 'equipment`
                   MODIFY `typeid` int(10) unsigned NOT NULL');
 
     }

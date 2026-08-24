@@ -9,8 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 use Runalyze\Profile\View\DataBrowserRowProfile;
 
 /**
- * Type
- *
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\TypeRepository")
  */
@@ -133,9 +131,6 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
         return $this->abbr;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function setSport(Sport $sport): self
     {
         $this->sport = $sport;
@@ -175,7 +170,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
             return ! $this->sport->getShort();
         }
 
-        return DataBrowserRowProfile::COMPLETE_ROW == $this->displayMode;
+        return $this->displayMode == DataBrowserRowProfile::COMPLETE_ROW;
     }
 
     /**
@@ -187,12 +182,12 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
             return $this->sport->getShort();
         }
 
-        return DataBrowserRowProfile::ONLY_ICON == $this->displayMode;
+        return $this->displayMode == DataBrowserRowProfile::ONLY_ICON;
     }
 
     public function inheritsDisplayMode(): bool
     {
-        return DataBrowserRowProfile::INHERIT_FROM_PARENT == $this->displayMode;
+        return $this->displayMode == DataBrowserRowProfile::INHERIT_FROM_PARENT;
     }
 
     /**
@@ -233,7 +228,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
 
     public function setAccount(Account $account): self
     {
-        $this->account= $account;
+        $this->account = $account;
 
         return $this;
     }

@@ -13,15 +13,16 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
  */
-class SummaryTable10Weeks extends SummaryTable {
+class SummaryTable10Weeks extends SummaryTable
+{
 	/**
 	 * Prepare summary
 	 */
 	protected function prepare() {
 		$this->Title = __('Last 10 training weeks');
-		$this->Timerange = 7*DAY_IN_S;
+		$this->Timerange = 7 * DAY_IN_S;
 		$this->TimeEnd = (new LocalTime())->weekend();
-		$this->TimeStart = $this->TimeEnd - 10*$this->Timerange;
+		$this->TimeStart = $this->TimeEnd - 10 * $this->Timerange;
 	}
 
     /**
@@ -29,12 +30,12 @@ class SummaryTable10Weeks extends SummaryTable {
      * @param int $index
      */
     protected function rowHead($index): string {
-		$time  = $this->TimeEnd - ($index + 0.5)*7*DAY_IN_S;
+		$time = $this->TimeEnd - ($index + 0.5) * 7 * DAY_IN_S;
 		$start = (new LocalTime($time))->weekstart(true);
-		$end   = (new LocalTime($time))->weekend(true);
-		$week  = Icon::$CALENDAR.' '.__('Week').' '.$start->week();
+		$end = (new LocalTime($time))->weekend(true);
+		$week = Icon::$CALENDAR . ' ' . __('Week') . ' ' . $start->week();
 
-		return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', null, $this->Sportid > 0 ? $this->Sportid : null).
-				'</span>&nbsp;&nbsp;&nbsp;<span class="small">'.$start->format('d.m').' - '.$end->format('d.m');
+		return DataBrowserLinker::link($week, $start->getTimestamp(), $end->getTimestamp(), '', null, $this->Sportid > 0 ? $this->Sportid : null) .
+				'</span>&nbsp;&nbsp;&nbsp;<span class="small">' . $start->format('d.m') . ' - ' . $end->format('d.m');
 	}
 }

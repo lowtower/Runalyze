@@ -50,7 +50,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
             $this->logger->warning(sprintf('GoogleMaps request failed: %s', $json['error_message']));
         }
 
-        if (isset($json['status']) && 'OVER_QUERY_LIMIT' == $json['status']) {
+        if (isset($json['status']) && $json['status'] == 'OVER_QUERY_LIMIT') {
             throw new OverQueryLimitException($json['error_message']);
         }
 
@@ -71,7 +71,7 @@ class GoogleMaps extends AbstractStrategyFromExternalAPI
         $coordinates = [];
 
         for ($i = 0; $i < $numberOfCoordinates; $i++) {
-            $coordinates[] = $latitudes[$i].','.$longitudes[$i];
+            $coordinates[] = $latitudes[$i] . ',' . $longitudes[$i];
         }
 
         return sprintf(

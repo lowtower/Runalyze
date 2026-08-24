@@ -15,7 +15,8 @@ use Runalyze\Model\Activity\Splits;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Laps
  */
-class SplitsReader {
+class SplitsReader
+{
 	/**
 	 * @var \Runalyze\Data\Laps\Laps
 	 */

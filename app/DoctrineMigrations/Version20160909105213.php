@@ -12,7 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Version20160909105213 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -23,7 +25,7 @@ class Version20160909105213 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('DELETE FROM `'.$prefix.'plugin` WHERE `type`="tool"');
+        $this->addSql('DELETE FROM `' . $prefix . 'plugin` WHERE `type`="tool"');
     }
 
     public function down(Schema $schema): void

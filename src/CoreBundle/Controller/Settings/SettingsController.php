@@ -41,9 +41,9 @@ class SettingsController extends Controller
         $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
         $currentLanguage = $account->getLanguage();
-        $form = $this->createForm(AccountType::class, $account, array(
-            'action' => $this->generateUrl('settings-account')
-        ));
+        $form = $this->createForm(AccountType::class, $account, [
+            'action' => $this->generateUrl('settings-account'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,7 +76,7 @@ class SettingsController extends Controller
 
         return $this->render('settings/account.html.twig', [
             'form' => $form->createView(),
-            'language' => $account->getLanguage()
+            'language' => $account->getLanguage(),
         ]);
     }
 
@@ -86,9 +86,9 @@ class SettingsController extends Controller
      */
     public function settingsPasswordAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
-        $form = $this->createForm(ChangePasswordType::class, $account, array(
-            'action' => $this->generateUrl('settings-password')
-        ));
+        $form = $this->createForm(ChangePasswordType::class, $account, [
+            'action' => $this->generateUrl('settings-password'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -112,9 +112,9 @@ class SettingsController extends Controller
      */
     public function settingsMailAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
-        $form = $this->createForm(ChangeMailType::class, $account, array(
-            'action' => $this->generateUrl('settings-mail')
-        ));
+        $form = $this->createForm(ChangeMailType::class, $account, [
+            'action' => $this->generateUrl('settings-mail'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -124,7 +124,7 @@ class SettingsController extends Controller
         }
 
         return $this->render('settings/account-mail.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -167,7 +167,7 @@ class SettingsController extends Controller
             ->findAllFor($account);
 
         $form = $this->createForm(DatasetCollectionType::class, [
-            'datasets' => $dataset
+            'datasets' => $dataset,
         ]);
         $form->handleRequest($request);
 
@@ -212,10 +212,10 @@ class SettingsController extends Controller
         }
 
         $form = $this->createForm(DatasetCollectionType::class, [
-            'datasets' => $dataset
-        ], array(
+            'datasets' => $dataset,
+        ], [
             'action' => $this->generateUrl('settings-dataset'),
-        ));
+        ]);
         $form->handleRequest($request);
 
         return $this->render('settings/dataset.html.twig', [
@@ -224,7 +224,7 @@ class SettingsController extends Controller
             'missingKeys' => $missingKeyObjects,
             'defaultConfiguration' => (new DefaultConfiguration())->data(),
             'numberOfExistingKeys' => $numberOfExistingKeys,
-            'context' => new RunalyzeDataset\Context($this->getExampleTraining($account), $account->getId())
+            'context' => new RunalyzeDataset\Context($this->getExampleTraining($account), $account->getId()),
         ]);
     }
 
@@ -236,7 +236,7 @@ class SettingsController extends Controller
         $configuration = $this->get('app.configuration_manager')
             ->getList();
 
-        return array(
+        return [
             'id' => 0,
             'sportid' => $configuration->getGeneral()
                 ->getRunningSport(),
@@ -307,8 +307,8 @@ class SettingsController extends Controller
             'fit_training_effect_benefit' => 1, // #TSC Recovery
             'with_goal' => '1',
             Keys\Tags::CONCAT_TAGIDS_KEY => $this->exampleTagID($account),
-            Keys\CompleteEquipment::CONCAT_EQUIPMENT_KEY => $this->exampleEquipmentIDs($account)
-        );
+            Keys\CompleteEquipment::CONCAT_EQUIPMENT_KEY => $this->exampleEquipmentIDs($account),
+        ];
     }
 
     protected function exampleTagID(Account $account): string
@@ -316,7 +316,7 @@ class SettingsController extends Controller
         $tag = $this->getDoctrine()
             ->getRepository('CoreBundle:Tag')
             ->findBy([
-                'account' => $account->getId()
+                'account' => $account->getId(),
             ], null, 1);
 
         if ($tag) {
@@ -332,7 +332,7 @@ class SettingsController extends Controller
         $equipment = $this->getDoctrine()
             ->getRepository('CoreBundle:Equipment')
             ->findBy([
-                'account' => $account->getId()
+                'account' => $account->getId(),
             ], null, 2);
 
         if (is_array($equipment)) {

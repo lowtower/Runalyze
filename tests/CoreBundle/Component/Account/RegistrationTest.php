@@ -18,13 +18,19 @@ class RegistrationTest extends WebTestCase
 {
     use FixturesTrait;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $Client;
 
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     protected $EntityManager;
 
-    /** @var AccountRepository */
+    /**
+     * @var AccountRepository
+     */
     protected $AccountRepository;
 
     protected function setUp(): void

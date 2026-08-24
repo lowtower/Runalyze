@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValue {
+class PluginConfigurationValue
+{
 	/**
 	 * Max length
 	 * @var int
@@ -61,7 +62,6 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Key
 	 * @return string
 	 */
 	final public function key() {
@@ -69,7 +69,6 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Value
 	 * @return mixed
 	 */
 	final public function value() {
@@ -77,7 +76,6 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Set label
 	 * @param string $Label
 	 */
 	final public function setLabel($Label) {
@@ -85,7 +83,6 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Set tooltip
 	 * @param string $Tooltip
 	 */
 	final public function setTooltip($Tooltip) {
@@ -105,7 +102,6 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Set value
 	 * @param mixed $Value
 	 */
 	final public function setValue($Value) {
@@ -113,23 +109,17 @@ class PluginConfigurationValue {
 	}
 
 	/**
-	 * Set default value
 	 * @param mixed $Value
 	 */
 	final public function setDefaultValue($Value) {
 		$this->DefaultValue = $Value;
 	}
 
-	/**
-	 * Set default value as value
-	 */
 	final public function setDefaultValueAsValue() {
 		$this->Value = $this->DefaultValue;
 	}
 
 	/**
-	 * Set value from string
-	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */
@@ -145,9 +135,6 @@ class PluginConfigurationValue {
 		return $this->value();
 	}
 
-	/**
-	 * Set value from post
-	 */
 	public function setValueFromPost() {
 		if (isset($_POST[$this->Key])) {
 			$this->setValueFromString($_POST[$this->Key]);

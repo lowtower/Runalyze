@@ -13,7 +13,8 @@ use Runalyze\Configuration;
  * @package Runalyze\System
  * @deprecated since v3.1
  */
-class SharedLinker {
+class SharedLinker
+{
 	/**
 	 * URL base for shared activities
 	 * @var string
@@ -39,11 +40,11 @@ class SharedLinker {
      * @param string $text [optional]
      */
     public static function getStandardLinkTo($trainingID, $text = null): string {
-		if (null === $text) {
+		if ($text === null) {
 			$text = Icon::$ATTACH;
 		}
 
-		return '<a href="'.self::getUrlFor($trainingID).'" target="_blank">'.$text.'</a>';
+		return '<a href="' . self::getUrlFor($trainingID) . '" target="_blank">' . $text . '</a>';
 	}
 
     /**
@@ -51,12 +52,12 @@ class SharedLinker {
      * @param string $text [optional]
      */
     public static function getListLinkForCurrentUser($text = null): string {
-        if (null === $text) {
+        if ($text === null) {
             $text = '<i class="fa fa-fw fa-id-card-o"></i>';
         }
 
 		if (! Configuration::Privacy()->listIsPublic()) {
-            return '<a class=window tab" href="settings?key=config_tab_general" '.Ajax::tooltip('', __('You can activate your public athlete page at <em>Configuration->Privacy</em>'), false, true).'>'.$text.'</a>';
+            return '<a class=window tab" href="settings?key=config_tab_general" ' . Ajax::tooltip('', __('You can activate your public athlete page at <em>Configuration->Privacy</em>'), false, true) . '>' . $text . '</a>';
 		}
 
         return '<a href="athlete/' . SessionAccountHandler::getUsername() . '" target="_blank" ' . Ajax::tooltip('', __('Your public athlete page'), false, true) . '>' . $text . '</a>';
@@ -70,17 +71,16 @@ class SharedLinker {
 	}
 
 	/**
-	 * Get user ID
 	 * @return int
 	 */
 	public static function getUserId() {
 		if (self::$USER_ID <= 0) {
 			if ((string) Request::param('user') !== '') {
-                $Data = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'account` WHERE `username`='.DB::getInstance()->escape(Request::param('user')).' LIMIT 1')->fetch();
+                $Data = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `username`=' . DB::getInstance()->escape(Request::param('user')) . ' LIMIT 1')->fetch();
 				self::$USER_ID = $Data['id'];
 			} elseif ((string) Request::param('url') !== '') {
 				DB::getInstance()->stopAddingAccountID();
-				$Data = DB::getInstance()->query('SELECT `accountid` FROM `'.PREFIX.'training` WHERE id="'.self::getTrainingId().'" LIMIT 1')->fetch();
+				$Data = DB::getInstance()->query('SELECT `accountid` FROM `' . PREFIX . 'training` WHERE id="' . self::getTrainingId() . '" LIMIT 1')->fetch();
 				DB::getInstance()->startAddingAccountID();
 
 				self::$USER_ID = $Data['accountid'];
@@ -100,7 +100,7 @@ class SharedLinker {
      * @param int $trainingID
      */
     public static function getUrlFor($trainingID): string {
-		return self::$URL.self::idToUrl($trainingID);
+		return self::$URL . self::idToUrl($trainingID);
 	}
 
     /**

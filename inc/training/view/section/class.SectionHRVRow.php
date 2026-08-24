@@ -17,10 +17,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionHRVRow extends TrainingViewSectionRowTabbedPlot {
-	/**
-	 * Set content
-	 */
+class SectionHRVRow extends TrainingViewSectionRowTabbedPlot
+{
 	protected function setContent() {
 		$this->addBoxesForHRVstatistics();
 	}
@@ -49,17 +47,17 @@ class SectionHRVRow extends TrainingViewSectionRowTabbedPlot {
 		$Calculator = new Calculator($this->Context->hrv());
 		$Calculator->calculate();
 
-		$boxes = array(
+		$boxes = [
 		    new BoxedValue(number_format(log($Calculator->RMSSD()), 1), '', 'lnRMSSD'),
-		    new BoxedValue(round($Calculator->mean()), 'ms', __('avg.').' '.__('R-R interval')),
+		    new BoxedValue(round($Calculator->mean()), 'ms', __('avg.') . ' ' . __('R-R interval')),
 		    new BoxedValue(round($Calculator->RMSSD()), 'ms', 'RMSSD'),
 		    new BoxedValue(round($Calculator->SDSD()), 'ms', 'SDSD'),
 		    new BoxedValue(round($Calculator->SDNN()), 'ms', 'SDNN'),
 		    new BoxedValue($Calculator->SDANN() > 0 ? round($Calculator->SDANN()) : '-', 'ms', '5 min-SDANN'),
-		    new BoxedValue(number_format($Calculator->pNN50()*100, 1), '%', 'pNN50'),
-		    new BoxedValue(number_format($Calculator->pNN20()*100, 1), '%', 'pNN20'),
-		    new BoxedValue(number_format($Calculator->percentageAnomalies()*100, 1), '%', __('Anomalies'))
-		);
+		    new BoxedValue(number_format($Calculator->pNN50() * 100, 1), '%', 'pNN50'),
+		    new BoxedValue(number_format($Calculator->pNN20() * 100, 1), '%', 'pNN20'),
+		    new BoxedValue(number_format($Calculator->percentageAnomalies() * 100, 1), '%', __('Anomalies')),
+		];
 
 		// #TSC add respiration rate if available (its not direct a HRV value)
 		if ($this->Context->activity()->avgRespirationRate() > 0) {

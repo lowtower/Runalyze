@@ -19,10 +19,14 @@ use Runalyze\Util\LocalTime;
  */
 class Gpx extends AbstractFileExporter
 {
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $XML;
 
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $Track;
 
     public function isPossible(): bool
@@ -53,7 +57,7 @@ class Gpx extends AbstractFileExporter
      */
     protected function createFile()
     {
-        $this->XML   = new \SimpleXMLElement($this->emptyXml());
+        $this->XML = new \SimpleXMLElement($this->emptyXml());
         $this->Track = $this->XML->trk->trkseg;
 
         $this->setTrack();

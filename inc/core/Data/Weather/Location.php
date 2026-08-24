@@ -14,7 +14,8 @@ use League\Geotools\Coordinate\Coordinate;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Weather
  */
-class Location {
+class Location
+{
 	/**
 	 * Latitude
 	 * @var float|null
@@ -40,7 +41,6 @@ class Location {
 	protected $LocationName = '';
 
 	/**
-	 * Set position
 	 * @param float $latitude
 	 * @param float $longitude
 	 */
@@ -50,7 +50,6 @@ class Location {
 	}
 
 	/**
-	 * Set geohash
 	 * @param string $geohash
 	 */
 	public function setGeohash($geohash) {
@@ -68,7 +67,6 @@ class Location {
 	}
 
 	/**
-	 * Set location name
 	 * @param string $location
 	 */
 	public function setLocationName($location) {
@@ -92,12 +90,11 @@ class Location {
 	}
 
 	/**
-	 * Geohash
 	 * @return string
 	 */
 	public function geohash() {
 	    if ($this->hasPosition()) {
-			return (new Geohash())->encode(new Coordinate(array((float) $this->lat(), (float) $this->lon())), 12)->getGeohash();
+			return (new Geohash())->encode(new Coordinate([(float) $this->lat(), (float) $this->lon()]), 12)->getGeohash();
 	    }
 	}
 
@@ -129,8 +126,8 @@ class Location {
      */
     public function hasPosition(): bool {
 		return (
-			null !== $this->Latitude &&
-			null !== $this->Longitude &&
+			$this->Latitude !== null &&
+			$this->Longitude !== null &&
 			($this->Latitude != 0 || $this->Longitude != 0)
 		);
 	}
@@ -146,7 +143,7 @@ class Location {
      * Is position set?
      */
     public function hasDateTime(): bool {
-		return null !== $this->DateTime;
+		return $this->DateTime !== null;
 	}
 
 	/**

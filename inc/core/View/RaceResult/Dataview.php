@@ -13,10 +13,7 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Pace;
 use Runalyze\View\Tooltip;
-
-
 use SportFactory;
-
 
 /**
  * Race result dataview
@@ -26,12 +23,11 @@ use SportFactory;
  */
 class Dataview
 {
-	/** @var \Runalyze\Model\RaceResult\Entity */
+	/**
+	 * @var \Runalyze\Model\RaceResult\Entity
+	 */
 	protected $RaceResult;
 
-    /**
-     * Constructor
-     */
     public function __construct(Model\RaceResult\Entity $RaceResult)
 	{
 		$this->RaceResult = $RaceResult;
@@ -44,7 +40,7 @@ class Dataview
      */
     public function officialDistance($decimals = null, $isTrack = false): string
 	{
-		if (null === $decimals) {
+		if ($decimals === null) {
 			$decimals = Configuration::ActivityView()->decimals();
 		}
 
@@ -160,15 +156,15 @@ class Dataview
 	 */
 	public function placementWithTooltip($place, $participants, $sprintfString, $unknownString = '-')
 	{
-		if (null === $place) {
+		if ($place === null) {
 			return $unknownString;
 		}
 
-		$placeString = $place.'.';
+		$placeString = $place . '.';
 
-		if (null !== $participants) {
+		if ($participants !== null) {
 
-			$Tooltip = new Tooltip(sprintf($sprintfString, $participants).' '.sprintf(__('(first %u%%)'), 100*$place/$participants));
+			$Tooltip = new Tooltip(sprintf($sprintfString, $participants) . ' ' . sprintf(__('(first %u%%)'), 100 * $place / $participants));
 			$Tooltip->wrapAround($placeString);
 		}
 
@@ -184,12 +180,12 @@ class Dataview
 	 */
 	protected function placementWithParticipants($place, $participants, $unknownString = '-')
 	{
-		if (null === $place) {
+		if ($place === null) {
 			return $unknownString;
 		}
 
-		if (null === $participants) {
-			return $place.'.';
+		if ($participants === null) {
+			return $place . '.';
 		}
 
 		return sprintf('%u. of %u', $place, $participants);

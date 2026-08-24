@@ -20,13 +20,19 @@ namespace Runalyze\Mathematics\Filter;
  */
 class HampelFilter
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     const STD_ESTIMATE_FACTOR = 1.4826;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $WindowWidth;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $SigmaFactor;
 
     /**

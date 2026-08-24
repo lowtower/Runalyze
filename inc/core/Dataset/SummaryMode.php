@@ -98,10 +98,10 @@ final class SummaryMode extends AbstractEnum
     public static function queryForAvg($key): string
 	{
 	    if (is_array($key)) {
-	        return implode(', ', array_map(array(self::class, 'queryForAvg'), $key));
+	        return implode(', ', array_map([self::class, 'queryForAvg'], $key));
         }
 
-		return 'SUM(`s`*`'.$key.'`*(`'.$key.'` != 0))/SUM(`s`*(`'.$key.'` != 0)) as `'.$key.'`';
+		return 'SUM(`s`*`' . $key . '`*(`' . $key . '` != 0))/SUM(`s`*(`' . $key . '` != 0)) as `' . $key . '`';
 	}
 
     /**
@@ -109,7 +109,7 @@ final class SummaryMode extends AbstractEnum
      */
     private static function queryForSum($key): string
 	{
-		return 'SUM(`'.$key.'`) as `'.$key.'`';
+		return 'SUM(`' . $key . '`) as `' . $key . '`';
 	}
 
     /**
@@ -117,7 +117,7 @@ final class SummaryMode extends AbstractEnum
      */
     private static function queryForMax($key): string
 	{
-		return 'MAX(`'.$key.'`) as `'.$key.'`';
+		return 'MAX(`' . $key . '`) as `' . $key . '`';
 	}
 
     /**
@@ -125,7 +125,7 @@ final class SummaryMode extends AbstractEnum
      */
     private static function queryForMin($key): string
 	{
-		return 'MIN(`'.$key.'`) as `'.$key.'`';
+		return 'MIN(`' . $key . '`) as `' . $key . '`';
 	}
 
     /**
@@ -133,7 +133,7 @@ final class SummaryMode extends AbstractEnum
      */
     private static function queryForAvgWithoutNull($key): string
 	{
-		return 'AVG(NULLIF(`'.$key.'`,0)) as `'.$key.'`';
+		return 'AVG(NULLIF(`' . $key . '`,0)) as `' . $key . '`';
 	}
 
     /**
@@ -142,10 +142,10 @@ final class SummaryMode extends AbstractEnum
     public static function queryForAvgWithZero($key): string
 	{
 	    if (is_array($key)) {
-	        return implode(', ', array_map(array(self::class, 'queryForAvgWithZero'), $key));
+	        return implode(', ', array_map([self::class, 'queryForAvgWithZero'], $key));
         }
 
-		return 'SUM(`s`*`'.$key.'`)/SUM(`s`) as `'.$key.'`';
+		return 'SUM(`s`*`' . $key . '`)/SUM(`s`) as `' . $key . '`';
 	}
 
     /**
@@ -155,6 +155,6 @@ final class SummaryMode extends AbstractEnum
 	{
 		$Sum = \Runalyze\Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`)*`s`' : '`vo2max`*`s`';
 
-		return 'SUM(IF(`use_vo2max`=1 AND `vo2max`>0,'.$Sum.',0))/SUM(IF(`use_vo2max`=1 AND `vo2max`>0,`s`,0)) as `'.$key.'`';
+		return 'SUM(IF(`use_vo2max`=1 AND `vo2max`>0,' . $Sum . ',0))/SUM(IF(`use_vo2max`=1 AND `vo2max`>0,`s`,0)) as `' . $key . '`';
 	}
 }

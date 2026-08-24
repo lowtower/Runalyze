@@ -8,11 +8,11 @@
 namespace Runalyze;
 
 /**
- * Parameter
  * @author Hannes Christiansen
  * @package Runalyze
  */
-abstract class Parameter {
+abstract class Parameter
+{
 	/**
 	 * Max length
 	 * @var int
@@ -29,14 +29,14 @@ abstract class Parameter {
 	 * Options
 	 * @var array
 	 */
-	protected $Options = array();
+	protected $Options = [];
 
 	/**
 	 * Construct
 	 * @param mixed $default
 	 * @param array $options [optional]
 	 */
-	public function __construct($default, $options = array()) {
+	public function __construct($default, $options = []) {
 		$this->Value = $default;
 		$this->Options = array_merge($this->Options, $options);
 	}
@@ -50,7 +50,6 @@ abstract class Parameter {
 	}
 
 	/**
-	 * Set from string
 	 * @param string $valueAsString new value
 	 */
 	public function setFromString($valueAsString) {
@@ -58,7 +57,6 @@ abstract class Parameter {
 	}
 
 	/**
-	 * Value
 	 * @return mixed
 	 */
 	final public function value() {
@@ -66,7 +64,6 @@ abstract class Parameter {
 	}
 
 	/**
-	 * Value as string
 	 * @return string
 	 */
 	public function valueAsString() {

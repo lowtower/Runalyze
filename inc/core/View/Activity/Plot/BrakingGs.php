@@ -10,7 +10,7 @@ class BrakingGs extends ActivityPlot
 {
 	protected function setKey()
     {
-		$this->key   = 'braking_gs';
+		$this->key = 'braking_gs';
 	}
 
 	protected function initData(Activity\Context $context)

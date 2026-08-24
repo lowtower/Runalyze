@@ -20,7 +20,8 @@ use Runalyze\Context;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Laps
  */
-class Lap {
+class Lap
+{
 	/**
 	 * @var \Runalyze\Activity\Duration
 	 */
@@ -75,7 +76,7 @@ class Lap {
 	/**
 	 * @var array
 	 */
-	protected $AdditionalValues = array();
+	protected $AdditionalValues = [];
 
 	/**
 	 * @var \Runalyze\Athlete
@@ -177,7 +178,7 @@ class Lap {
 	 * @return \Runalyze\Activity\Pace
 	 */
 	public function pace() {
-		if (null === $this->LapPace) {
+		if ($this->LapPace === null) {
 			$this->LapPace = new Pace($this->LapDuration->seconds(), $this->LapDistance->kilometer());
 		}
 
@@ -199,7 +200,7 @@ class Lap {
 	}
 
 	public function hasTrackValues(): bool {
-		return (null !== $this->TrackDurationAtEnd);
+		return ($this->TrackDurationAtEnd !== null);
 	}
 
 	public function isActive(): bool {
@@ -207,7 +208,7 @@ class Lap {
 	}
 
 	public function hasHR(): bool {
-		return (null !== $this->HRavg);
+		return ($this->HRavg !== null);
 	}
 
 	/**
@@ -225,7 +226,7 @@ class Lap {
 	}
 
 	public function hasElevation(): bool {
-		return (false !== $this->ElevationUp);
+		return ($this->ElevationUp !== false);
 	}
 
 	/**

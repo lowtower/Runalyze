@@ -15,7 +15,8 @@ use Runalyze\Model\StringArrayObject;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity
  */
-class Partner extends StringArrayObject {
+class Partner extends StringArrayObject
+{
 	/**
 	 * Separator
 	 * @var string
@@ -23,7 +24,6 @@ class Partner extends StringArrayObject {
 	const SEPARATOR = ',';
 
 	/**
-	 * From string
 	 * @param string $string
 	 */
 	public function fromString($string) {
@@ -34,7 +34,6 @@ class Partner extends StringArrayObject {
      * As string
      */
     public function asString(): string {
-		return implode(self::SEPARATOR.' ', $this->Elements);
+		return implode(self::SEPARATOR . ' ', $this->Elements);
 	}
-
 }

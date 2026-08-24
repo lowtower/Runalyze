@@ -13,7 +13,9 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
  */
 class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void
@@ -38,5 +40,4 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 
         $this->assertStatusCode(200, $client);
     }
-
 }

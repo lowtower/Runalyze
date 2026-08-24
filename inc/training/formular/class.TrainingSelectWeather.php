@@ -12,7 +12,8 @@ use \Runalyze\Data\Weather\Condition;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\Formular
  */
-class TrainingSelectWeather extends FormularSelectBox {
+class TrainingSelectWeather extends FormularSelectBox
+{
 	/**
 	 * Construct new input field for: weather
 	 * @param string $name

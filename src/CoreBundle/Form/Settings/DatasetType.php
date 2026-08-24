@@ -19,20 +19,20 @@ class DatasetType extends AbstractType
     {
         $builder
             ->add('active', CheckboxType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('privacy', CheckboxType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('position', IntegerType::class, [
                 'attr' => [
-                    'class' => 'dataset-position'
-                ]
+                    'class' => 'dataset-position',
+                ],
             ])
             ->add('keyId', HiddenType::class)
             ->add('style', TextType::class, [
                 'required' => false,
-                'empty_data' => ''
+                'empty_data' => '',
             ]);
     }
 

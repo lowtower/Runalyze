@@ -5,11 +5,11 @@
  * @package Runalyze\System\Config
  */
 /**
- * ConfigTabPlugins
  * @author Hannes Christiansen
  * @package Runalyze\System\Config
  */
-class ConfigTabPlugins extends ConfigTab {
+class ConfigTabPlugins extends ConfigTab
+{
 	/**
 	 * Set key and title for form
 	 */
@@ -22,7 +22,7 @@ class ConfigTabPlugins extends ConfigTab {
      * Get URL
      */
     public static function getExternalUrl(): string {
-		return ConfigTabs::$CONFIG_URL.'?key=config_tab_plugins&external=true';
+		return ConfigTabs::$CONFIG_URL . '?key=config_tab_plugins&external=true';
 	}
 
 	/**
@@ -49,9 +49,6 @@ class ConfigTabPlugins extends ConfigTab {
 		$this->Formular->allowOnlyOneOpenedFieldset();
 	}
 
-    /**
-     * Get code for
-     */
     private function getCodeFor(int $PluginType): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->completeData($PluginType);
@@ -65,9 +62,9 @@ class ConfigTabPlugins extends ConfigTab {
 			<table class="zebra-style fullwidth more-padding">
 				<thead>
 					<tr class="top b">
-						<th colspan="3">'.PluginType::readableString($PluginType).'</th>
-						<th>'.__('Mode').'</th>
-						<th>'.__('Order').'</th>
+						<th colspan="3">' . PluginType::readableString($PluginType) . '</th>
+						<th>' . __('Mode') . '</th>
+						<th>' . __('Order') . '</th>
 					</tr>
 				</thead>
 				<tbody>';
@@ -78,24 +75,24 @@ class ConfigTabPlugins extends ConfigTab {
 			if ($Plugin === false) {
 				$Code .= '
 					<tr class="unimportant">
-						<td class="b">'.$Plugin->key().'</td>
-						<td colspan="4">'.__('The plugin cannot be found.').'</td>
+						<td class="b">' . $Plugin->key() . '</td>
+						<td colspan="4">' . __('The plugin cannot be found.') . '</td>
 					</tr>';
 			} else {
 				$Code .= '
-					<tr id="'.$Plugin->id().'_tr" class="a'.($Plugin->isInActive() ? ' unimportant' : '').'">
-						<td>'.$Plugin->getConfigLink().'</td>
-						<td class="b">'.$Plugin->name().'</td>
-						<td>'.$Plugin->description().'</td>
-						<td><select name="plugin_modus_'.$Plugin->id().'">
-								<option value="'.Plugin::ACTIVE.'"'.HTML::Selected($Plugin->isActive()).'>'.__('enabled').'</option>
-								<option value="'.Plugin::ACTIVE_VARIOUS.'"'.HTML::Selected($Plugin->isHidden()).'>'.__('hidden*').'</option>
-								<option value="'.Plugin::ACTIVE_NOT.'"'.HTML::Selected($Plugin->isInActive()).'>'.__('not enabled').'</option>
+					<tr id="' . $Plugin->id() . '_tr" class="a' . ($Plugin->isInActive() ? ' unimportant' : '') . '">
+						<td>' . $Plugin->getConfigLink() . '</td>
+						<td class="b">' . $Plugin->name() . '</td>
+						<td>' . $Plugin->description() . '</td>
+						<td><select name="plugin_modus_' . $Plugin->id() . '">
+								<option value="' . Plugin::ACTIVE . '"' . HTML::Selected($Plugin->isActive()) . '>' . __('enabled') . '</option>
+								<option value="' . Plugin::ACTIVE_VARIOUS . '"' . HTML::Selected($Plugin->isHidden()) . '>' . __('hidden*') . '</option>
+								<option value="' . Plugin::ACTIVE_NOT . '"' . HTML::Selected($Plugin->isInActive()) . '>' . __('not enabled') . '</option>
 							</select></td>
 						<td style="white-space:nowrap;">
-							<input class="plugin-position" type="text" name="plugin_order_'.$Plugin->id().'" size="3" value="'.($pos + 1).'">
-							<span class="link" onclick="pluginMove('.$Plugin->id().', \'up\')">'.Icon::$UP.'</span>
-							<span class="link" onclick="pluginMove('.$Plugin->id().', \'down\')">'.Icon::$DOWN.'</span>
+							<input class="plugin-position" type="text" name="plugin_order_' . $Plugin->id() . '" size="3" value="' . ($pos + 1) . '">
+							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'up\')">' . Icon::$UP . '</span>
+							<span class="link" onclick="pluginMove(' . $Plugin->id() . ', \'down\')">' . Icon::$DOWN . '</span>
 						</td>
 					</tr>';
 			}
@@ -165,9 +162,6 @@ class ConfigTabPlugins extends ConfigTab {
 		};
 	}
 
-    /**
-     * Get code for install
-     */
     private function getCodeForInstall(): string {
 		$Factory = new PluginFactory();
 		$Plugins = $Factory->notInstalledPlugins();
@@ -180,8 +174,8 @@ class ConfigTabPlugins extends ConfigTab {
 			<table class="fullwidth zebra-style more-padding">
 				<thead>
 					<tr class="b">
-						<th colspan="3">'.__('Plugin').'</th>
-						<th colspan="2">'.__('Type').'</th>
+						<th colspan="3">' . __('Plugin') . '</th>
+						<th colspan="2">' . __('Type') . '</th>
 					</tr>
 				</thead>
 				<tbody>';
@@ -191,10 +185,10 @@ class ConfigTabPlugins extends ConfigTab {
 
 			$Code .= '
 				<tr>
-					<td>'.Icon::$ADD.'</td>
-					<td class="b">'.PluginInstaller::link($Plugin->key(), $Plugin->name()).'</td>
-					<td>'.$Plugin->description().'</td>
-					<td colspan="2">'.PluginType::readableString($Plugin->type()).'</td>
+					<td>' . Icon::$ADD . '</td>
+					<td class="b">' . PluginInstaller::link($Plugin->key(), $Plugin->name()) . '</td>
+					<td>' . $Plugin->description() . '</td>
+					<td colspan="2">' . PluginType::readableString($Plugin->type()) . '</td>
 				</tr>';
 		}
 
@@ -213,8 +207,8 @@ class ConfigTabPlugins extends ConfigTab {
 		foreach ($Factory->completeData() as $Plugin) {
 			$id = $Plugin['id'];
 
-			if (isset($_POST['plugin_modus_'.$id]) && isset($_POST['plugin_order_'.$id])) {
-				$this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_'.$id], (int) $_POST['plugin_order_'.$id]);
+			if (isset($_POST['plugin_modus_' . $id]) && isset($_POST['plugin_order_' . $id])) {
+				$this->updatePlugin($PreparedUpdate, $Plugin, (int) $_POST['plugin_modus_' . $id], (int) $_POST['plugin_order_' . $id]);
 			}
 		}
 
@@ -226,7 +220,7 @@ class ConfigTabPlugins extends ConfigTab {
 	 */
 	protected function prepareUpdateStatement() {
 		return DB::getInstance()->prepare(
-		    'UPDATE `'.PREFIX.'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
+		    'UPDATE `' . PREFIX . 'plugin` SET `active` = :active, `order` = :order WHERE `id` = :id'
 		);
 	}
 
@@ -240,7 +234,7 @@ class ConfigTabPlugins extends ConfigTab {
 			$update->execute([
 			    ':active' => $newModus,
 			    ':order' => $newOrder,
-			    ':id' => $Plugin['id']
+			    ':id' => $Plugin['id'],
 			]);
 
 			Ajax::setReloadFlag(Ajax::$RELOAD_ALL);

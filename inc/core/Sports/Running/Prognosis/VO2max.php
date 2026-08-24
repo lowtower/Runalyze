@@ -14,16 +14,24 @@ use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
  */
 class VO2max implements PrognosisInterface
 {
-    /** @var int Values below are considered invalid */
+    /**
+     * @var int Values below are considered invalid
+     */
     const REASONABLE_VO2MAX_MINIMUM = 15;
 
-    /** @var int Values above are considered invalid */
+    /**
+     * @var int Values above are considered invalid
+     */
     const REASONABLE_VO2MAX_MAXIMUM = 90;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $EffectiveVO2max = 0.0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $AdjustForMarathonShape = false;
 
     /**
@@ -82,7 +90,7 @@ class VO2max implements PrognosisInterface
 
     public function areValuesValid(): bool
     {
-        return self::REASONABLE_VO2MAX_MINIMUM <= $this->EffectiveVO2max && $this->EffectiveVO2max <= self::REASONABLE_VO2MAX_MAXIMUM;
+        return $this->EffectiveVO2max >= self::REASONABLE_VO2MAX_MINIMUM && $this->EffectiveVO2max <= self::REASONABLE_VO2MAX_MAXIMUM;
     }
 
     public function getSeconds($distance)
@@ -147,8 +155,6 @@ class VO2max implements PrognosisInterface
     }
 
     /**
-     * Get adjustment factor
-     *
      * Get a factor between 0 and 1 (in fact between 0.6 and 1) for adjusting
      * the VO2max to the given distance based on used marathon shape value.
      *

@@ -13,16 +13,16 @@ if (! defined('RUNALYZE_TEST'))
 	define('RUNALYZE_TEST', true);
 
 if (! defined('FRONTEND_PATH'))
-	define('FRONTEND_PATH', dirname(__FILE__).'/../inc/');
+	define('FRONTEND_PATH', dirname(__FILE__) . '/../inc/');
 
 define('TESTS_ROOT', __DIR__);
 
-require_once FRONTEND_PATH.'../app/autoload.php';
+require_once FRONTEND_PATH . '../app/autoload.php';
 
-require_once FRONTEND_PATH.'system/define.consts.php';
+require_once FRONTEND_PATH . 'system/define.consts.php';
 
 $testTimezone = getenv('TEST_TIMEZONE') ?: 'Europe/Berlin';
-putenv('TZ='.$testTimezone);
+putenv('TZ=' . $testTimezone);
 date_default_timezone_set($testTimezone);
 
 if (! defined('NL'))
@@ -38,10 +38,10 @@ if (! defined('PERL_PATH'))
 	define('PERL_PATH', '/usr/bin/perl');
 
 if (! defined('TTBIN_PATH'))
-	define('TTBIN_PATH', FRONTEND_PATH.'../call/perl/ttbincnv');
+	define('TTBIN_PATH', FRONTEND_PATH . '../call/perl/ttbincnv');
 
 if (! defined('DATA_DIRECTORY'))
-    define('DATA_DIRECTORY', FRONTEND_PATH.'../data');
+    define('DATA_DIRECTORY', FRONTEND_PATH . '../data');
 
 if (! defined('GEONAMES_USERNAME'))
 	define('GEONAMES_USERNAME', 'runalyze');
@@ -79,16 +79,16 @@ DB::getInstance()->exec('INSERT INTO `runalyze_account` (`username`,`mail`) VALU
 DB::getInstance()->exec('UPDATE `runalyze_account` SET `id`=0 WHERE `username`="zero"');
 
 // Login
-SessionAccountHandler::setAccount(array(
+SessionAccountHandler::setAccount([
     'id' => 0,
     'username' => 'runalyze',
     'language' => 'de',
     'timezone' => '43',
     'mail' => 'noreply@runalyze.com',
-));
+]);
 // Define RUNALYZE_TEST_TZ_LOOKUP
 try {
-    $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+    $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     $detectedTimezone = $lookup->getTimezoneForCoordinate(13.41, 52.52);
 
 	define('RUNALYZE_TEST_TZ_LOOKUP', $detectedTimezone === 'Europe/Berlin');
@@ -128,7 +128,7 @@ if (! function_exists('_ne')) {
 }
 
 // Clear cache
-require_once FRONTEND_PATH.'system/class.Cache.php';
+require_once FRONTEND_PATH . 'system/class.Cache.php';
 new Cache();
 Cache::clean();
 
@@ -136,7 +136,7 @@ Cache::clean();
 Helper::Unknown('');
 
 // Load test helper
-require_once FRONTEND_PATH.'../tests/fake/FakeContext.php';
+require_once FRONTEND_PATH . '../tests/fake/FakeContext.php';
 
 // Add doctrine types (required for test cases that do not use the kernel)
 \Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType::TINYINT, \Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType::class);

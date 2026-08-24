@@ -7,12 +7,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 trait TokenStorageAwareServiceTrait
 {
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     protected function knowsUser(): bool
     {
-        return null !== $this->TokenStorage->getToken() && $this->TokenStorage->getToken()
+        return $this->TokenStorage->getToken() !== null && $this->TokenStorage->getToken()
             ->getUser() instanceof Account;
     }
 

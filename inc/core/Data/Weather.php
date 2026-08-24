@@ -17,12 +17,11 @@ use Runalyze\Data\Weather\Sources;
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 
 /**
- * Weather
- *
  * @author Hannes Christiansen
  * @package Runalyze\Data
  */
-class Weather {
+class Weather
+{
 	/**
 	 * Temperature
 	 * @var \Runalyze\Data\Weather\Temperature
@@ -66,9 +65,6 @@ class Weather {
 	 */
 	protected $SourceId;
 
-    /**
-     * Weather
-     */
     public function __construct(Temperature $Temperature, Condition $Condition, WindSpeed $WindSpeed, WindDegree $WindDegree, Humidity $Humidity, Pressure $Pressure) {
 		$this->Temperature = $Temperature;
 		$this->Condition = $Condition;
@@ -95,7 +91,7 @@ class Weather {
 	 * @throws \InvalidArgumentException
 	 */
 	public function setSource($sourceId) {
-		if (null !== $sourceId) {
+		if ($sourceId !== null) {
 			$sourceId = (int) $sourceId;
 
 			if (! Sources::isValidValue($sourceId)) {
@@ -107,7 +103,6 @@ class Weather {
 	}
 
 	/**
-	 * Temperature
 	 * @return \Runalyze\Data\Weather\Temperature
 	 */
 	public function temperature() {
@@ -115,7 +110,6 @@ class Weather {
 	}
 
 	/**
-	 * Condition
 	 * @return \Runalyze\Data\Weather\Condition
 	 */
 	public function condition() {
@@ -123,7 +117,6 @@ class Weather {
 	}
 
 	/**
-	 * Wind Speed
 	 * @return \Runalyze\Data\Weather\WindSpeed
 	 */
 	public function windSpeed() {
@@ -131,7 +124,6 @@ class Weather {
 	}
 
 	/**
-	 * Wind Degree
 	 * @return \Runalyze\Data\Weather\WindDegree
 	 */
 	public function windDegree() {
@@ -139,7 +131,6 @@ class Weather {
 	}
 
 	/**
-	 * Humidity
 	 * @return \Runalyze\Data\Weather\Humidity
 	 */
 	public function humidity() {
@@ -147,7 +138,6 @@ class Weather {
 	}
 
 	/**
-	 * Pressure
 	 * @return \Runalyze\Data\Weather\Pressure
 	 */
 	public function pressure() {
@@ -175,12 +165,10 @@ class Weather {
 	}
 
 	public function sourceIsKnown(): bool {
-		return (null !== $this->SourceId);
+		return ($this->SourceId !== null);
 	}
 
     /**
-     * Full string
-     *
      * Complete string for the weather conditions with icon, name and temperature.
      * @param bool $isNight
      */
@@ -191,7 +179,7 @@ class Weather {
 			$icon->setAsNight();
 		}
 
-		return $icon->code().' '.$this->Condition->string().' '.__('at').' '.$this->Temperature->asString();
+		return $icon->code() . ' ' . $this->Condition->string() . ' ' . __('at') . ' ' . $this->Temperature->asString();
 	}
 
     /**

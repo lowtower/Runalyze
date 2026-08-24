@@ -11,7 +11,9 @@ use Runalyze\Util\LocalTime;
  */
 class XmlSuuntoTest extends AbstractActivityParserTestCase
 {
-    /** @var XmlSuunto */
+    /**
+     * @var XmlSuunto
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -78,7 +80,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
 
         $this->checkExpectedRoundData([
             [333, 1.002],
-            [316, 1.000]
+            [316, 1.000],
         ]);
     }
 }

@@ -29,7 +29,8 @@ namespace Runalyze\Calculation\Trimp;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */
-class Calculator {
+class Calculator
+{
 	/**
 	 * Default HR max
 	 * @int
@@ -77,8 +78,6 @@ class Calculator {
 	}
 
 	/**
-	 * Calculate
-	 *
 	 * Calculation is done for HR in [bpm] and time is transformed from [s] to [min].
 	 */
 	protected function calculate() {
@@ -97,7 +96,6 @@ class Calculator {
 	}
 
 	/**
-	 * Value
 	 * @return int
 	 */
 	public function value() {

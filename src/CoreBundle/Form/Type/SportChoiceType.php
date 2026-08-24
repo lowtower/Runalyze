@@ -14,7 +14,9 @@ class SportChoiceType extends AbstractTokenStorageAwareType
 {
     use ConfigurationManagerAwareTrait;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
     public function __construct(TokenStorage $tokenStorage, SportRepository $sportRepository)
@@ -42,7 +44,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
             ->toArray();
         $sportToEquipmentCategoryRelations = $this->SportRepository->findEquipmentCategoryIdsFor($sportIds);
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $allSports,
             'choice_label' => function($sport, $key, $index) {
                 /** @var Sport $sport */
@@ -72,11 +74,11 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                         ->getId() : '',
                     'data-equipment-types' => json_encode($availableEquipmentTypes),
                     'data-privacy' => $sport->getDefaultPrivacy() ? '1' : '0',
-                    'data-power' => $sport->getPower() ? '1' : '0'
+                    'data-power' => $sport->getPower() ? '1' : '0',
                 ];
             },
-            'choice_translation_domain' => false
-        ));
+            'choice_translation_domain' => false,
+        ]);
     }
 
     public function getParent()

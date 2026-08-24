@@ -69,23 +69,23 @@ class Weather extends AbstractKey
             $TooltipCode = '';
 
             if ($context->hasData('temperature')) {
-                $TooltipCode .= __('Temperature').': '.$weather->temperature()->asString().'<br>';
+                $TooltipCode .= __('Temperature') . ': ' . $weather->temperature()->asString() . '<br>';
             }
 
             if ($context->hasData('humidity')) {
-                $TooltipCode .= __('Humidity').': '.$weather->humidity()->string().'<br>';
+                $TooltipCode .= __('Humidity') . ': ' . $weather->humidity()->string() . '<br>';
             }
 
             if ($context->hasData('pressure')) {
-                $TooltipCode .= __('Pressure').': '.$weather->pressure()->string().'<br>';
+                $TooltipCode .= __('Pressure') . ': ' . $weather->pressure()->string() . '<br>';
             }
 
             if ($context->hasData('wind_speed')) {
-                $TooltipCode .= __('Wind Speed').': '.$weather->windSpeed()->string().'<br>';
+                $TooltipCode .= __('Wind Speed') . ': ' . $weather->windSpeed()->string() . '<br>';
             }
 
             if ($context->hasData('wind_deg')) {
-                $TooltipCode .= __('Wind Degree').': '.$weather->windDegree()->string().'<br>';
+                $TooltipCode .= __('Wind Degree') . ': ' . $weather->windDegree()->string() . '<br>';
             }
 
             $icon->setTooltip($TooltipCode);

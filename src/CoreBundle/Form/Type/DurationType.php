@@ -11,7 +11,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class DurationType extends AbstractType implements DataTransformerInterface
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsRequired = false;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -37,7 +39,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
      */
     public function transform($duration)
     {
-        return null === $duration ? '0:00' : Duration::format($duration);
+        return $duration === null ? '0:00' : Duration::format($duration);
     }
 
     /**
@@ -47,7 +49,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
      */
     public function reverseTransform($duration)
     {
-        if (null === $duration) {
+        if ($duration === null) {
             if ($this->IsRequired) {
                 throw new TransformationFailedException('Duration cannot be empty');
             }

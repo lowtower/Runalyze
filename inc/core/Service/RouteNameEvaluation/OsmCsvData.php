@@ -7,7 +7,8 @@ namespace Runalyze\Service\RouteNameEvaluation;
  * We use the Overpass CSV export (not JSON or XML). So the response is smaller and easier to parse.
  * #TSC
  */
-class OsmCsvData {
+class OsmCsvData
+{
     // seperator for the fields in a line
     const SEPERATOR = '|';
 
@@ -27,7 +28,7 @@ class OsmCsvData {
     /**
      * Used for internal order of the "place"; 1 is higher than 8 or 9; 9 if not "known" by this logic
      */
-    protected static $placeOrder = array(
+    protected static $placeOrder = [
         'city' => 1,
         'borough' => 2,
         'suburb' => 3,
@@ -36,8 +37,8 @@ class OsmCsvData {
         'town' => 5,
         'village' => 6,
         'hamlet' => 7,
-        'isolated_dwelling' => 8
-    );
+        'isolated_dwelling' => 8,
+    ];
 
     /**
      * @var string
@@ -46,10 +47,14 @@ class OsmCsvData {
      */
     public $type;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $nameDe;
 
     /**

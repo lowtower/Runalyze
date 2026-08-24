@@ -4,22 +4,34 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup;
 
 abstract class Job
 {
-    /** @var string[] */
-    private $Messages = array();
+    /**
+     * @var string[]
+     */
+    private $Messages = [];
 
-    /** @var array */
-    private $RequestData = array();
+    /**
+     * @var array
+     */
+    private $RequestData = [];
 
-    /** @var \PDO */
+    /**
+     * @var \PDO
+     */
     protected $PDO;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DatabasePrefix;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $RunningSportId;
 
     /**
@@ -43,7 +55,7 @@ abstract class Job
      */
     protected function isRequested($enum)
     {
-        return isset($this->RequestData[$enum]) && true === $this->RequestData[$enum];
+        return isset($this->RequestData[$enum]) && $this->RequestData[$enum] === true;
     }
 
     /**
@@ -52,8 +64,6 @@ abstract class Job
     abstract public function run();
 
     /**
-     * Add message
-     *
      * @param string $string
      */
     final protected function addMessage($string)

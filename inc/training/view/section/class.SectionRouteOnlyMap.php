@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionRouteOnlyMap extends SectionRoute {
-	/**
-	 * Set header and rows
-	 */
+class SectionRouteOnlyMap extends SectionRoute
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Course');
 

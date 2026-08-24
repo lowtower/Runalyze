@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Stroke extends ActivityPointSeries {
+class Stroke extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -39,14 +40,14 @@ class Stroke extends ActivityPointSeries {
 	 */
 	protected function initDataWithSwimdata(Activity\Context $context) {
 		if (! $context->hasSwimdata()) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
 		$key = Swimdata::STROKE;
 
 		if (! $context->swimdata()->has($key)) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
@@ -56,9 +57,6 @@ class Stroke extends ActivityPointSeries {
 		$this->XAxis = $Collector->xAxis();
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Stroke');
 		$this->Color = self::COLOR;

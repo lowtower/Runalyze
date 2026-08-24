@@ -16,7 +16,8 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Type
  */
-class Entity extends Model\EntityWithID {
+class Entity extends Model\EntityWithID
+{
 	/**
 	 * Key: name
 	 * @var string
@@ -58,14 +59,14 @@ class Entity extends Model\EntityWithID {
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::ABBREVIATION,
 		    self::SPORTID,
 		    self::SHORT,
 		    self::HR_AVG,
-		    self::QUALITY_SESSION
-		);
+		    self::QUALITY_SESSION,
+		];
 	}
 
     /**
@@ -76,7 +77,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	public function name() {
@@ -84,7 +84,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Abbreviation
 	 * @return string
 	 */
 	public function abbreviation() {
@@ -92,7 +91,6 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Sportid
 	 * @return int
 	 */
 	public function sportid() {

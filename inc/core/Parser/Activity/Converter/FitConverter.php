@@ -9,16 +9,24 @@ use Runalyze\Parser\Common\AbstractShellBasedFileTypeConverter;
 
 class FitConverter extends AbstractShellBasedFileTypeConverter
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $PathToPerl;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $PathToFitPerlScript;
 
     /**
@@ -38,7 +46,7 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
 
     public function getConvertedFileName($inputFile): string
     {
-        return $inputFile.'temp';
+        return $inputFile . 'temp';
     }
 
     protected function buildCommand($inputFile, $outputFile): string
@@ -49,14 +57,14 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
     protected function checkFirstLineOfOutput($firstLine)
     {
         if (trim($firstLine) !== 'SUCCESS') {
-            $message = 'Reading *.fit-file failed. First line was "'.$firstLine.'".';
+            $message = 'Reading *.fit-file failed. First line was "' . $firstLine . '".';
 
             if (substr($firstLine, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {
                 throw new UnexpectedContentException($message);
             }
 
             if (substr($firstLine, 0, strlen(self::PERL_GENERAL_MESSAGE_START)) == self::PERL_GENERAL_MESSAGE_START) {
-                $message .= PHP_EOL.PHP_EOL.'See https://github.com/Runalyze/Runalyze/issues/1701';
+                $message .= PHP_EOL . PHP_EOL . 'See https://github.com/Runalyze/Runalyze/issues/1701';
 
                 throw new InstallationSpecificException($message);
             }

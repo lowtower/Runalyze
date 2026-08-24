@@ -13,7 +13,7 @@ class Sha256SaltedEncoder implements PasswordEncoderInterface
      */
     public function encodePassword($raw, $salt)
     {
-        return hash('sha256', trim($raw).$salt); // Custom function for password encrypt
+        return hash('sha256', trim($raw) . $salt); // Custom function for password encrypt
     }
 
     /**

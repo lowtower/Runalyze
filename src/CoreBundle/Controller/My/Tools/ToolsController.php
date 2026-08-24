@@ -34,14 +34,14 @@ class ToolsController extends Controller
     {
         $prefix = $this->getParameter('database_prefix');
 
-        $defaultData = array();
+        $defaultData = [];
         $form = $this->createForm(DatabaseCleanupType::class, $defaultData);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && null !== $form->getData()['mode']) {
+        if ($form->isSubmitted() && $form->isValid() && $form->getData()['mode'] !== null) {
             $Frontend = new \Frontend(true, $this->get('security.token_storage'));
 
-            if ('general' === $form->getData()['mode']) {
+            if ($form->getData()['mode'] === 'general') {
                 $job = new JobGeneral($form->getData(), \DB::getInstance(), $account->getId(), $prefix);
             } else {
                 $job = new JobLoop($form->getData(), \DB::getInstance(), $account->getId(), $prefix);
@@ -50,12 +50,12 @@ class ToolsController extends Controller
             $job->run();
 
             return $this->render('tools/database_cleanup/results.html.twig', [
-                'messages' => $job->messages()
+                'messages' => $job->messages(),
             ]);
         }
 
         return $this->render('tools/database_cleanup/form.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -75,7 +75,7 @@ class ToolsController extends Controller
             'currentVo2max' => $config->getCurrentVO2maxShape(),
             'vo2maxVelocity' => new VO2maxVelocity(),
             'paceUnit' => $config->getUnitSystem()
-                ->getPaceUnit($running)
+                ->getPaceUnit($running),
         ]);
     }
 
@@ -101,7 +101,7 @@ class ToolsController extends Controller
                 ->getCurrentVO2maxShape(),
             'prognosis' => new VO2max(),
             'distances' => [1.0, 3.0, 5.0, 10.0, 21.1, 42.2, 50],
-            'vo2maxValues' => range(30.0, 80.0)
+            'vo2maxValues' => range(30.0, 80.0),
         ]);
     }
 
@@ -127,7 +127,7 @@ class ToolsController extends Controller
 
         return $this->render('tools/vo2max_analysis.html.twig', [
             'races' => $races,
-            'vo2maxFactor' => $correctionFactor
+            'vo2maxFactor' => $correctionFactor,
         ]);
     }
 
@@ -140,14 +140,14 @@ class ToolsController extends Controller
         $data = AnovaData::getDefault($this->getDoctrine()->getRepository('CoreBundle:Sport')->findAllFor($account), []);
 
         $form = $this->createForm(AnovaType::class, $data, [
-            'action' => $this->generateUrl('tools-anova')
+            'action' => $this->generateUrl('tools-anova'),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if (! $form->isValid()) {
                 return new JsonResponse([
-                    'status' => 'There was a problem.'
+                    'status' => 'There was a problem.',
                 ]);
             }
 
@@ -164,12 +164,12 @@ class ToolsController extends Controller
                         ->getRepository('CoreBundle:Training'),
                     $account,
                     $unitSystem
-                )
+                ),
             ]);
         }
 
         return $this->render('tools/anova/base.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -182,14 +182,14 @@ class ToolsController extends Controller
         $data = TrendAnalysisData::getDefault($this->getDoctrine()->getRepository('CoreBundle:Sport')->findAllFor($account), []);
 
         $form = $this->createForm(TrendAnalysisType::class, $data, [
-            'action' => $this->generateUrl('tools-trend-analysis')
+            'action' => $this->generateUrl('tools-trend-analysis'),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if (! $form->isValid()) {
                 return new JsonResponse([
-                    'status' => 'There was a problem.'
+                    'status' => 'There was a problem.',
                 ]);
             }
 
@@ -205,12 +205,12 @@ class ToolsController extends Controller
                         ->getRepository('CoreBundle:Training'),
                     $account,
                     $unitSystem
-                )
+                ),
             ]);
         }
 
         return $this->render('tools/trend-analysis/base.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -227,7 +227,7 @@ class ToolsController extends Controller
         $form = $this->createForm(PosterType::class, [
             'postertype' => ['heatmap'],
             'year' => date('Y') - 1,
-            'title' => ' '
+            'title' => ' ',
         ]);
         $form->handleRequest($request);
 
@@ -240,7 +240,7 @@ class ToolsController extends Controller
             if ($numberOfActivities <= 1) {
                 $this->addFlash('error', $this->get('translator')->trans('There are not enough activities to generate a poster. Please change your selection.'));
             } else {
-                $message = new DefaultMessage('posterGenerator', array(
+                $message = new DefaultMessage('posterGenerator', [
                     'accountid' => $account->getId(),
                     'year' => $formdata['year'],
                     'types' => $formdata['postertype'],
@@ -251,14 +251,14 @@ class ToolsController extends Controller
                     'trackColor' => $formdata['trackColor'],
                     'textColor' => $formdata['textColor'],
                     'raceColor' => $formdata['raceColor'],
-                ));
+                ]);
                 $this->get('bernard.producer')
                     ->produce($message);
 
                 return $this->render('tools/poster_success.html.twig', [
                     'posterStoragePeriod' => $this->getParameter('poster_storage_period'),
                     'listing' => $this->get('app.poster.filehandler')
-                        ->getFileList($account)
+                        ->getFileList($account),
                 ]);
             }
         }
@@ -267,7 +267,7 @@ class ToolsController extends Controller
             'form' => $form->createView(),
             'posterStoragePeriod' => $this->getParameter('poster_storage_period'),
             'listing' => $this->get('app.poster.filehandler')
-                ->getFileList($account)
+                ->getFileList($account),
         ]);
     }
 
@@ -289,7 +289,7 @@ class ToolsController extends Controller
     {
         return $this->render('tools/tools_list.html.twig', [
             'posterAvailable' => $this->get('app.poster.availability')
-                ->isAvailable()
+                ->isAvailable(),
         ]);
     }
 }

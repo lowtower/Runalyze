@@ -18,7 +18,6 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 class Cosine extends AbstractKernel
 {
     /**
-     * @inheritDoc
      * @param float $width
      */
     public function __construct($width)
@@ -33,7 +32,7 @@ class Cosine extends AbstractKernel
      */
     protected function atTransformed($u): float
     {
-        if (-1.0 <= $u && $u <= 1.0) {
+        if ($u >= -1.0 && $u <= 1.0) {
             return cos($u * M_PI / 2.0);
         }
 

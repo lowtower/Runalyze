@@ -17,7 +17,8 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration\Category
  */
-class DataBrowser extends \Runalyze\Configuration\Category {
+class DataBrowser extends \Runalyze\Configuration\Category
+{
     /**
      * Internal key
      */
@@ -25,9 +26,6 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		return 'data-browser';
 	}
 
-	/**
-	 * Create handles
-	 */
 	protected function createHandles() {
 		$this->createHandle('DB_DISPLAY_MODE', new DataBrowserMode());
 		$this->createHandle('DB_SHOW_DATASET_LABELS', new Boolean(true));
@@ -37,7 +35,6 @@ class DataBrowser extends \Runalyze\Configuration\Category {
     }
 
 	/**
-	 * Mode
 	 * @return DataBrowserMode
 	 */
 	public function mode() {
@@ -53,7 +50,6 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 	}
 
 	/**
-	 * Show create link
 	 * @return bool
 	 */
 	public function showCreateLink() {
@@ -76,9 +72,6 @@ class DataBrowser extends \Runalyze\Configuration\Category {
         return $this->get('DB_REVERSE_MODE');
     }
 
-	/**
-	 * Register onchange events
-	 */
 	protected function registerOnchangeEvents() {
 		$this->handle('DB_SHOW_DATASET_LABELS')
 		    ->registerOnchangeFlag(Ajax::$RELOAD_DATABROWSER);
@@ -93,34 +86,31 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 		    ->registerOnchangeEvent(self::class . '::showNewTimerangeInDB');
 	}
 
-    /**
-     * Fieldset
-     */
     public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('Calendar view') );
 
-		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), array(
-    'label'		=> __('Calendar: mode'),
-		    'tooltip'	=> __('Default mode for the calendar')
-));
+		$Fieldset->addHandle( $this->handle('DB_DISPLAY_MODE'), [
+    'label' => __('Calendar: mode'),
+		    'tooltip' => __('Default mode for the calendar'),
+]);
 
-		$Fieldset->addHandle( $this->handle('DB_SHOW_DATASET_LABELS'), array(
-		    'label'		=> __('Calendar: show labels for dataset')
-		));
+		$Fieldset->addHandle( $this->handle('DB_SHOW_DATASET_LABELS'), [
+		    'label' => __('Calendar: show labels for dataset'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('DB_SHOW_ACTIVE_DAYS_ONLY'), array(
-		    'label'		=> __('Calendar: show days with activities only')
-		));
+		$Fieldset->addHandle( $this->handle('DB_SHOW_ACTIVE_DAYS_ONLY'), [
+		    'label' => __('Calendar: show days with activities only'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('DB_SHOW_CREATELINK_FOR_DAYS'), array(
-		    'label'		=> __('Calendar: create button'),
-		    'tooltip'	=> __('Add a link for every day to create a new activity.')
-		));
+		$Fieldset->addHandle( $this->handle('DB_SHOW_CREATELINK_FOR_DAYS'), [
+		    'label' => __('Calendar: create button'),
+		    'tooltip' => __('Add a link for every day to create a new activity.'),
+		]);
 
-        $Fieldset->addHandle( $this->handle('DB_REVERSE_MODE'), array(
-            'label'		=> __('Calendar').': '.__('reverse order'),
-            'tooltip'	=> __('Show days in reverse orders')
-        ));
+        $Fieldset->addHandle( $this->handle('DB_REVERSE_MODE'), [
+            'label' => __('Calendar') . ': ' . __('reverse order'),
+            'tooltip' => __('Show days in reverse orders'),
+        ]);
 
 		return $Fieldset;
 	}
@@ -133,6 +123,6 @@ class DataBrowser extends \Runalyze\Configuration\Category {
 
 		$rel = $mode->showMonth() ? 'month-link' : 'week-link';
 
-		echo Ajax::wrapJSasFunction('$("#data-browser .panel-heading a[rel=\''.$rel.'\']").click();');
+		echo Ajax::wrapJSasFunction('$("#data-browser .panel-heading a[rel=\'' . $rel . '\']").click();');
 	}
 }

@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class TrkTest extends AbstractActivityParserTestCase
 {
-    /** @var Trk */
+    /**
+     * @var Trk
+     */
     protected $Parser;
 
     protected function setUp(): void

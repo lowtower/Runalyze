@@ -12,7 +12,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\Parameter\Application
  */
-class WeightUnit extends \Runalyze\Parameter\Select {
+class WeightUnit extends \Runalyze\Parameter\Select
+{
 	/**
 	 * KG
 	 * @var string
@@ -36,13 +37,13 @@ class WeightUnit extends \Runalyze\Parameter\Select {
 	 * @param string $default
 	 */
 	public function __construct($default = self::KG) {
-		parent::__construct($default, array(
-    'options'		=> array(
-		        self::KG		=> __('kilograms'),
-		        self::POUNDS	=> __('pounds'),
-		        self::STONES	=> __('stones')
-		    )
-));
+		parent::__construct($default, [
+    'options' => [
+		        self::KG => __('kilograms'),
+		        self::POUNDS => __('pounds'),
+		        self::STONES => __('stones'),
+		    ],
+]);
 	}
 
     /**

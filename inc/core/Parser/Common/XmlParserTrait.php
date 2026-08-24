@@ -6,7 +6,9 @@ use Runalyze\Import\Exception\UnsupportedFileException;
 
 trait XmlParserTrait
 {
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $Xml;
 
     public function setXml(\SimpleXMLElement $xml)
@@ -29,7 +31,7 @@ trait XmlParserTrait
             LIBXML_PARSEHUGE
         );
 
-        if (false === $this->Xml) {
+        if ($this->Xml === false) {
             $errors = libxml_get_errors();
 
             throw new UnsupportedFileException($errors[0]->message);

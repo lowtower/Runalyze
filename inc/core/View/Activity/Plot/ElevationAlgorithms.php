@@ -21,28 +21,27 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class ElevationAlgorithms extends ActivityPlot {
+class ElevationAlgorithms extends ActivityPlot
+{
 	/**
 	 * @var \Runalyze\View\Activity\Context
 	 */
 	protected $Context;
 
-	/** @var int|bool */
+	/**
+	 * @var int|bool
+	 */
 	protected $Min = false;
 
-	/** @var int|bool */
+	/**
+	 * @var int|bool
+	 */
 	protected $Max = false;
 
-	/**
-	 * Set key
-	 */
 	protected function setKey() {
-		$this->key   = 'elevation-algorithms';
+		$this->key = 'elevation-algorithms';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->Context = $context;
 
@@ -56,9 +55,9 @@ class ElevationAlgorithms extends ActivityPlot {
 		$this->addSeries($this->seriesForDouglasPeucker(), 1, false);
 
 		foreach (array_keys($this->Plot->Data) as $key) {
-			$this->Plot->Data[$key]['curvedLines'] = array(
-			    'apply' => false
-			);
+			$this->Plot->Data[$key]['curvedLines'] = [
+			    'apply' => false,
+			];
 		}
 
 		$this->setAxisLimits();
@@ -124,7 +123,7 @@ class ElevationAlgorithms extends ActivityPlot {
 		$Calculator->setThreshold($threshold);
 		$Calculator->calculate();
 
-		$Data = array();
+		$Data = [];
 		$Points = $Calculator->strategy()
 		    ->smoothedData();
 		$Indices = $Calculator->strategy()
@@ -146,7 +145,7 @@ class ElevationAlgorithms extends ActivityPlot {
 			if ($hasDistances) {
 				$Data[(string) $Distances[$index]] = $Points[$i];
 			} else {
-				$Data[$Times[$index].'000'] = $Points[$i];
+				$Data[$Times[$index] . '000'] = $Points[$i];
 			}
 		}
 
@@ -168,7 +167,7 @@ class ElevationAlgorithms extends ActivityPlot {
 			}, $data);
 		}
 
-		$this->updateLimits(array(min($data), max($data)));
+		$this->updateLimits([min($data), max($data)]);
 	}
 
     /**

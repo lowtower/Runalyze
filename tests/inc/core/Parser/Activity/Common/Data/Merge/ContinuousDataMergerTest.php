@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ContinuousDataMerger;
 
 class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $FirstData;
 
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $SecondData;
 
     protected function setUp(): void

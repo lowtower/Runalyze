@@ -14,37 +14,59 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
 {
     use StrtotimeWithLocalTimezoneOffsetTrait;
 
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Header;
 
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $CurrentLatitude;
 
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $CurrentLongitude;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $CurrentTime = 0;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $CurrentDistance = 0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $UseRRIntervalsForHeartRate = false;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $LastRRIndex = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $CurrentRRIndex = -1;
 
-    /** @var float [s] */
+    /**
+     * @var float [s]
+     */
     protected $RRSum = 0.0;
 
-    /** @var float [s] */
+    /**
+     * @var float [s]
+     */
     protected $RRSumForNextSample = 0.0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumRRIntervals = 0;
 
     use XmlParserTrait {
@@ -64,9 +86,9 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
      */
     protected function addRootElement($fileContent): string
     {
-        $fileContent = substr($fileContent, strpos($fileContent, '>')+1);
+        $fileContent = substr($fileContent, strpos($fileContent, '>') + 1);
 
-        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>".$fileContent.'</root>';
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>" . $fileContent . '</root>';
     }
 
     public function parse()
@@ -192,7 +214,6 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     {
         $this->addRoundIfAvailableFrom($sample);
         $this->readCurrentLocationFrom($sample);
-
 
         if ((string) $sample->SampleType === 'periodic') {
             $this->parsePeriodicSample($sample);

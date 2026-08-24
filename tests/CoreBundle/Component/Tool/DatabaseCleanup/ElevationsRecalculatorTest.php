@@ -9,10 +9,14 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\ElevationsRecalcul
  */
 class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountId = 1;
 
 	protected function setUp(): void
@@ -38,10 +42,10 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 
 	public function testSimpleRecalculations()
     {
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES('.$this->AccountId.', 1,   0,   0,  0, "100|200|150", "")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES('.$this->AccountId.', 2, 100, 100, 50, "100|200|150", "")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES('.$this->AccountId.', 3,   0,   0,  0, "", "150|200|100")');
-		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES('.$this->AccountId.', 4, 100,   0,  0, "", "")');
+		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 1,   0,   0,  0, "100|200|150", "")');
+		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 2, 100, 100, 50, "100|200|150", "")');
+		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 3,   0,   0,  0, "", "150|200|100")');
+		$this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 4, 100,   0,  0, "", "")');
 
 		$Job = new ElevationsRecalculator($this->PDO, $this->AccountId, 'runalyze_');
 		$Job->run();
@@ -51,30 +55,30 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(2, $Job->numberOfRoutes());
 
-		$Fetch->execute(array(
-		    ':id' => 1
-		));
-		$this->assertEquals(array(100, 100, 50), $Fetch->fetch());
+		$Fetch->execute([
+		    ':id' => 1,
+		]);
+		$this->assertEquals([100, 100, 50], $Fetch->fetch());
 
-		$Fetch->execute(array(
-		    ':id' => 2
-		));
-		$this->assertEquals(array(100, 100, 50), $Fetch->fetch());
+		$Fetch->execute([
+		    ':id' => 2,
+		]);
+		$this->assertEquals([100, 100, 50], $Fetch->fetch());
 
-		$Fetch->execute(array(
-		    ':id' => 3
-		));
-		$this->assertEquals(array(100,  50, 100), $Fetch->fetch());
+		$Fetch->execute([
+		    ':id' => 3,
+		]);
+		$this->assertEquals([100,  50, 100], $Fetch->fetch());
 
-		$Fetch->execute(array(
-		    ':id' => 4
-		));
-		$this->assertEquals(array(100,   0,   0), $Fetch->fetch());
+		$Fetch->execute([
+		    ':id' => 4,
+		]);
+		$this->assertEquals([100,   0,   0], $Fetch->fetch());
 
-		$this->assertEquals(array(
-		    1 => array(100, 100, 50),
-		    2 => array(100, 100, 50),
-		    3 => array(100, 50, 100)
-		), $Job->results());
+		$this->assertEquals([
+		    1 => [100, 100, 50],
+		    2 => [100, 100, 50],
+		    3 => [100, 50, 100],
+		], $Job->results());
 	}
 }

@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class HeartRateUnit extends \Runalyze\Parameter\Select {
+class HeartRateUnit extends \Runalyze\Parameter\Select
+{
 	/**
 	 * BPM
 	 * @var string
@@ -36,13 +37,13 @@ class HeartRateUnit extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::HRMAX, array(
-    'options'		=> array(
-		        self::BPM		=> __('absolute value'),
-		        self::HRMAX		=> __('&#37; HRmax'),
-		        self::HRRESERVE	=> __('&#37; HRreserve')
-		    )
-));
+		parent::__construct(self::HRMAX, [
+    'options' => [
+		        self::BPM => __('absolute value'),
+		        self::HRMAX => __('&#37; HRmax'),
+		        self::HRRESERVE => __('&#37; HRreserve'),
+		    ],
+]);
 	}
 
     /**

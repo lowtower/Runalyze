@@ -8,10 +8,14 @@ use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
 
 class VO2maxCalculationDetailsDecorator
 {
-    /** @var ActivityContext */
+    /**
+     * @var ActivityContext
+     */
     protected $Context;
 
-    /** @var RunalyzeConfigurationList */
+    /**
+     * @var RunalyzeConfigurationList
+     */
     protected $ConfigurationList;
 
     public function __construct(ActivityContext $context, RunalyzeConfigurationList $configurationList)

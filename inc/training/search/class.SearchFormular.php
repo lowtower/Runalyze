@@ -17,7 +17,8 @@ use Runalyze\Dataset;
  * @author Hannes Christiansen
  * @package Runalyze\Search
  */
-class SearchFormular extends Formular {
+class SearchFormular extends Formular
+{
 	/**
 	 * Fieldset
 	 * @var FormularFieldset
@@ -43,9 +44,6 @@ class SearchFormular extends Formular {
 		$this->setSubmitButtonsCentered();
 	}
 
-	/**
-	 * Set default values
-	 */
 	protected function setDefaultValues() {
 		if (! isset($_POST['sportid']))
 			$_POST['sportid'] = array_keys(SportFactory::AllSports());
@@ -75,7 +73,7 @@ class SearchFormular extends Formular {
 	 */
 	protected function addSubmitBlock() {
 		$Field = new FormularSubmit(__('Search'), 'submit');
-		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33.' c' );
+		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 . ' c' );
 
 		$this->Fieldset->addField($Field);
 	}
@@ -129,7 +127,7 @@ class SearchFormular extends Formular {
             20 => 20,
             50 => 50,
             100 => 100,
-            200 => 200
+            200 => 200,
         ]);
         $Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
 
@@ -140,7 +138,7 @@ class SearchFormular extends Formular {
 	 * Add field: sport
 	 */
 	private function addFieldSport() {
-		$Field = new FormularSelectDb('sportid', __('Sport').$this->shortLinksForSportField());
+		$Field = new FormularSelectDb('sportid', __('Sport') . $this->shortLinksForSportField());
 		$Field->loadOptionsFrom('sport', 'name');
 		$Field->addCSSclass('chosen-select full-size');
 		$Field->setMultiple();
@@ -151,11 +149,11 @@ class SearchFormular extends Formular {
 	}
 
 	protected function shortLinksForSportField(): string {
-		$code = '<span class="link chosen-select-all" data-target="sportid">'.__('all').'</span>';
+		$code = '<span class="link chosen-select-all" data-target="sportid">' . __('all') . '</span>';
 		$code .= ' | ';
-		$code .= '<span class="link chosen-select-none" data-target="sportid">'.__('none').'</span>';
+		$code .= '<span class="link chosen-select-none" data-target="sportid">' . __('none') . '</span>';
 
-		return '<span class="right small">'.$code.'&nbsp;</span>';
+		return '<span class="right small">' . $code . '&nbsp;</span>';
 	}
 
 	/**
@@ -204,7 +202,7 @@ class SearchFormular extends Formular {
 		$this->addBooleanField('is_race', __('Is race'));
 
 		// #TSC add pulse active rounds
-		$this->addNumericConditionField('pulse_avg_active', __('avg. HR').' active', FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
+		$this->addNumericConditionField('pulse_avg_active', __('avg. HR') . ' active', FormularInput::$SIZE_SMALL, FormularUnit::$BPM);
 		$this->addNumericConditionField(Configuration::VO2max()->useElevationCorrection() ? 'vo2max_with_elevation' : 'vo2max', 'VO2max', FormularInput::$SIZE_SMALL);
 		$this->addNumericConditionField('vertical_oscillation', __('Vertical oscillation'), FormularInput::$SIZE_SMALL, FormularUnit::$CM);
 
@@ -218,7 +216,7 @@ class SearchFormular extends Formular {
 
 		$this->addNumericConditionField('temperature', __('Temperature'), FormularInput::$SIZE_SMALL, Configuration::General()->temperatureUnit()->unit());
         $this->addNumericConditionField('kcal', __('Energy'), FormularInput::$SIZE_SMALL, Configuration::General()->energyUnit()->unit());
-		$this->addNumericConditionField('groundcontact_balance', __('Ground Contact Balance'), FormularInput::$SIZE_SMALL, 'L'. FormularUnit::$PERCENT);
+		$this->addNumericConditionField('groundcontact_balance', __('Ground Contact Balance'), FormularInput::$SIZE_SMALL, 'L' . FormularUnit::$PERCENT);
 
 		$this->addNumericConditionField('wind_speed', __('Wind Speed'), FormularInput::$SIZE_SMALL, (new WindSpeed())->unit());
         $this->addNumericConditionField('fit_performance_condition', __('Performance condition'), FormularInput::$SIZE_SMALL);
@@ -239,9 +237,6 @@ class SearchFormular extends Formular {
 		// elapsed_time, fit_hrv_analysis, total_strokes, swolf, wind_deg, is_night
 	}
 
-    /**
-     * Add condition field with chosen
-     */
     private function addConditionFieldWithChosen(string $name, string $table, string $key, string $label, string $placeholder) {
 		if ($table === 'weather') {
 			$Field = new TrainingSelectWeather($name, $label);
@@ -313,33 +308,27 @@ class SearchFormular extends Formular {
 		$Field = new FormularInputWithEqualityOption($key, $label);
 		$Field->setLayout(FormularFieldset::$LAYOUT_FIELD_W33);
 		$Field->setSize(FormularInput::$SIZE_SMALL);
-		$Field->setParser(FormularValueParser::$PARSER_TIME, array(
-		    'hide-empty' => true
-		));
+		$Field->setParser(FormularValueParser::$PARSER_TIME, [
+		    'hide-empty' => true,
+		]);
 		$Field->addAttribute('placeholder', 'h:mm:ss');
 		$Field->setNumericOptions();
 
 		$this->Fieldset->addField($Field);
 	}
 
-    /**
-     * Add boolean field
-     */
     private function addBooleanField(string $key, string $label) {
 		$Field = new FormularSelectBox($key, $label);
 		$Field->setLayout( FormularFieldset::$LAYOUT_FIELD_W33 );
-		$Field->setOptions(array(
+		$Field->setOptions([
 		    '' => '',
 		    '1' => __('Yes'),
-		    '0' => __('No')
-		));
+		    '0' => __('No'),
+		]);
 
 		$this->Fieldset->addField($Field);
 	}
 
-	/**
-	 * Transform old params to new params
-	 */
 	public static function transformOldParamsToNewParams() {
 		if (isset($_POST['val']) && is_array($_POST['val']))
 			foreach ($_POST['val'] as $key => $value)

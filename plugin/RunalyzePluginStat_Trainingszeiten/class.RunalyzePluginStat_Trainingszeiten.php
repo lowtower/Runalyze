@@ -16,26 +16,18 @@ use Runalyze\View\Activity\Dataview;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_Trainingszeiten extends PluginStat {
+class RunalyzePluginStat_Trainingszeiten extends PluginStat
+{
 	protected $dataIsMissing = false;
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Training times');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Plot all your activity times by daytime/weekday and list your nightly activities.');
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
 		$Configuration = new PluginConfiguration($this->id());
 		$Configuration->addValue( new PluginConfigurationValueBool('show_extreme_times', __('Show nightly activities'), '', true) );
@@ -53,22 +45,15 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 		$this->setHeaderWithSportAndYear();
 	}
 
-    /**
-     * Default sport
-     */
     protected function defaultSport(): int {
 		return -1;
 	}
 
-    /**
-     * Title for all years
-     */
     protected function titleForAllYears(): string {
 		return __('Total');
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
@@ -86,12 +71,12 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 	 */
 	private function displayTable() {
 		if ($this->sportid > 0) {
-			$sports_not_short = $this->sportid.',';
+			$sports_not_short = $this->sportid . ',';
 		} else {
 			$sports_not_short = '';
-			$sports = DB::getInstance()->query('SELECT `id` FROM `'.PREFIX.'sport` WHERE `accountid`='.SessionAccountHandler::getId().' AND `short`=0')->fetchAll();
+			$sports = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'sport` WHERE `accountid`=' . SessionAccountHandler::getId() . ' AND `short`=0')->fetchAll();
 			foreach ($sports as $sport)
-				$sports_not_short .= $sport['id'].',';
+				$sports_not_short .= $sport['id'] . ',';
 		}
 
 		$nights = DB::getInstance()->query('SELECT * FROM (
@@ -104,12 +89,12 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 				is_track,
 				HOUR(FROM_UNIXTIME(`time`)) as `H`,
 				MINUTE(FROM_UNIXTIME(`time`)) as `MIN`
-			FROM `'.PREFIX.'training`
+			FROM `' . PREFIX . 'training`
 			WHERE
-				`sportid` IN('.substr($sports_not_short, 0, -1).') AND
-                                `accountid` = '.SessionAccountHandler::getId().' AND
+				`sportid` IN(' . substr($sports_not_short, 0, -1) . ') AND
+                                `accountid` = ' . SessionAccountHandler::getId() . ' AND
 				(HOUR(FROM_UNIXTIME(`time`))!=0 OR MINUTE(FROM_UNIXTIME(`time`))!=0) 
-				'.$this->getYearDependenceForQuery().'
+				' . $this->getYearDependenceForQuery() . '
 			ORDER BY
 				ABS(12-(`H`+10)%24-`MIN`/60) ASC,
 				`MIN` DESC LIMIT 20
@@ -124,7 +109,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 		}
 
 		echo '<table class="fullwidth zebra-style">';
-		echo '<thead><tr class="b c"><th colspan="8">'.__('Nightly activities').'</th></tr></thead>';
+		echo '<thead><tr class="b c"><th colspan="8">' . __('Nightly activities') . '</th></tr></thead>';
 		echo '<tbody>';
 
 		foreach ($nights as $i => $data) {
@@ -135,10 +120,10 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 			if ($i % 2 === 0)
 				echo '<tr">';
 
-			echo '<td class="b">'.$View->daytime().'</td>
-				<td>'.$Linker->linkWithSportIcon().'</td>
-				<td>'.$View->distanceOrDuration().' '.SportFactory::name($Activity->sportid()).'</td>
-				<td>'.$Linker->weekLink().'</td>';
+			echo '<td class="b">' . $View->daytime() . '</td>
+				<td>' . $Linker->linkWithSportIcon() . '</td>
+				<td>' . $View->distanceOrDuration() . ' ' . SportFactory::name($Activity->sportid()) . '</td>
+				<td>' . $Linker->weekLink() . '</td>';
 
 			if ($i % 2 === 1)
 				echo '</tr>';
@@ -153,9 +138,6 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 		echo '</p>';
 	}
 
-	/**
-	 * Display the images
-	 */
 	private function displayImages() {
 		echo '<div style="max-width:750px;margin:0 auto;">';
 		echo '<span class="right">';
@@ -167,7 +149,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat {
 		echo HTML::clearBreak();
 		echo '</div>';
 
-		include FRONTEND_PATH.'../plugin/'.$this->key().'/Plot.Daytime.php';
-		include FRONTEND_PATH.'../plugin/'.$this->key().'/Plot.Weekday.php';
+		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Daytime.php';
+		include FRONTEND_PATH . '../plugin/' . $this->key() . '/Plot.Weekday.php';
 	}
 }

@@ -7,7 +7,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class DurationTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var DurationType */
+    /**
+     * @var DurationType
+     */
     protected $Type;
 
     protected function setUp(): void

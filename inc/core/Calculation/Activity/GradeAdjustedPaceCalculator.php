@@ -26,7 +26,8 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
  * @author codeproducer
  * @package Runalyze\Calculation\Activity
  */
-class GradeAdjustedPaceCalculator {
+class GradeAdjustedPaceCalculator
+{
 	/**
 	 * @var \Runalyze\Model\Trackdata\Entity
 	 */
@@ -71,7 +72,6 @@ class GradeAdjustedPaceCalculator {
      * get the gradient series from elevation/distance as numbers from -90 to +90.
      * same as GradeAdjustedPace.php.
      *
-     * @param Activity\Context $context
      * @return array
      */
     protected function getGradientSeries()
@@ -104,7 +104,7 @@ class GradeAdjustedPaceCalculator {
             $f = $algorithm->getTimeFactor($gradient[$i] / 100.0);
 
             // factorize the time-point...and summarize it
-            $gapTime +=  $this->Loop->difference(Trackdata\Entity::TIME) * $f;
+            $gapTime += $this->Loop->difference(Trackdata\Entity::TIME) * $f;
 		}
 
         // save

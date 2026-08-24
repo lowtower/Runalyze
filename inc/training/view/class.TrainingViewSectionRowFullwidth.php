@@ -12,7 +12,8 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbstract {
+abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbstract
+{
 	/**
 	 * Content
 	 * @var string
@@ -25,11 +26,8 @@ abstract class TrainingViewSectionRowFullwidth extends TrainingViewSectionRowAbs
 	 */
 	protected $id = '';
 
-	/**
-	 * Display
-	 */
 	final public function display() {
-		echo '<div class="training-row fullwidth" id="'.$this->id.'">';
+		echo '<div class="training-row fullwidth" id="' . $this->id . '">';
 		echo $this->Content;
 		echo '</div>';
 	}

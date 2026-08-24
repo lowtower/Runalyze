@@ -16,21 +16,22 @@ use Runalyze\Parameter\SelectRow;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class FieldFactory {
+class FieldFactory
+{
     /**
      * Add field
      * @param array<string, mixed> $options
      * @return \FormularField
      */
-    public function FieldFor(Handle $Handle, array $options = array()) {
-		$options = array_merge(array(
-		    'label'		=> $Handle->key(),
-		    'tooltip'	=> '',
-		    'unit'		=> '',
-		    'size'		=> '',
-		    'css'		=> '',
-		    'layout'	=> ''
-		), $options);
+    public function FieldFor(Handle $Handle, array $options = []) {
+		$options = array_merge([
+		    'label' => $Handle->key(),
+		    'tooltip' => '',
+		    'unit' => '',
+		    'size' => '',
+		    'css' => '',
+		    'layout' => '',
+		], $options);
 
 		$label = ! empty($options['tooltip']) ? \Ajax::tooltip($options['label'], $options['tooltip']) : $options['label'];
 
@@ -74,7 +75,6 @@ class FieldFactory {
 	}
 
     /**
-     * Set attributes to field
      * @param array<string, mixed> $options
      */
     private function setAttributesToField(\FormularField $Field, array &$options) {

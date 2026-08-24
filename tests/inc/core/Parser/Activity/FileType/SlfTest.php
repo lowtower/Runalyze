@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class SlfTest extends AbstractActivityParserTestCase
 {
-    /** @var Slf */
+    /**
+     * @var Slf
+     */
     protected $Parser;
 
     protected function setUp(): void

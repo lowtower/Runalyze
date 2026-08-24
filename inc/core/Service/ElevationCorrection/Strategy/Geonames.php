@@ -23,7 +23,9 @@ class Geonames extends AbstractStrategyFromExternalAPI
 {
     use GuessUnknownValuesTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $GeonamesUsername;
 
     /**
@@ -57,7 +59,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
     {
         $response = $this->tryToLoadJsonFromUrl($this->getUrlFor($latitudes, $longitudes));
 
-        $elevationData = array();
+        $elevationData = [];
         $responseLength = count($response['geonames']);
 
         for ($i = 0; $i < $responseLength; $i++) {
@@ -74,7 +76,7 @@ class Geonames extends AbstractStrategyFromExternalAPI
                 $this->logger->warning(sprintf('Geonames request failed: %s', $json['status']['message']));
             }
 
-            if (10 === (int) $json['status']['value']) {
+            if ((int) $json['status']['value'] === 10) {
                 throw new StrategyException('Invalid user id for geonames.');
             }
 

@@ -16,6 +16,6 @@ class FitRecoveryTime extends AbstractOneColumnValue
 
     public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Factorial
     {
-        return new Factorial('h', 1/60, 0);
+        return new Factorial('h', 1 / 60, 0);
     }
 }

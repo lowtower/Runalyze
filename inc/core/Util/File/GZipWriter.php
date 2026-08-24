@@ -13,7 +13,8 @@ namespace Runalyze\Util\File;
  * @author Hannes Christiansen
  * @package Runalyze\Util\File
  */
-class GZipWriter {
+class GZipWriter
+{
 	/**
 	 * Resource for file
 	 * @var resource
@@ -21,7 +22,6 @@ class GZipWriter {
 	protected $Resource;
 
 	/**
-	 * Constructor
 	 * @param string $fileName
 	 * @throws \RuntimeException
 	 */
@@ -29,7 +29,7 @@ class GZipWriter {
 		$this->Resource = gzopen($fileName, 'wb');
 
 		if (! $this->Resource) {
-			throw new \RuntimeException('The file "'.$fileName.'" couldn\'t be opened for writing.');
+			throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for writing.');
 		}
 	}
 
@@ -54,7 +54,7 @@ class GZipWriter {
      * Is file open?
      */
     protected function isOpen(): bool {
-		return null !== $this->Resource;
+		return $this->Resource !== null;
 	}
 
 	/**

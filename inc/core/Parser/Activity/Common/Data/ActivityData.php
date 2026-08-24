@@ -12,118 +12,194 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class ActivityData
 {
-    /** @var int|float|null [s] */
+    /**
+     * @var int|float|null [s]
+     */
     public $Duration;
 
-    /** @var int|null [s] */
+    /**
+     * @var int|null [s]
+     */
     public $ElapsedTime;
 
-    /** @var float|null [km] */
+    /**
+     * @var float|null [km]
+     */
     public $Distance;
 
-    /** @var int|null [m] */
+    /**
+     * @var int|null [m]
+     */
     public $Elevation;
 
-    /** @var int|null [m] */
+    /**
+     * @var int|null [m]
+     */
     public $ElevationAscent;
 
-    /** @var int|null [m] */
+    /**
+     * @var int|null [m]
+     */
     public $ElevationDescent;
 
-    /** @var int|null [kcal] */
+    /**
+     * @var int|null [kcal]
+     */
     public $EnergyConsumption;
 
-    /** @var int|null [kcal] */
+    /**
+     * @var int|null [kcal]
+     */
     public $EnergyInRest;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     public $Trimp;
 
-    /** @var int|null [6 .. 20] */
+    /**
+     * @var int|null [6 .. 20]
+     */
     public $RPE;
 
-    /** @var int|float|null [W] */
+    /**
+     * @var int|float|null [W]
+     */
     public $AvgPower;
 
-    /** @var int|null [W] */
+    /**
+     * @var int|null [W]
+     */
     public $MaxPower;
 
-    /** @var int|float|null [bpm] */
+    /**
+     * @var int|float|null [bpm]
+     */
     public $AvgHeartRate;
 
-    /** @var int|float|null [bpm] */
+    /**
+     * @var int|float|null [bpm]
+     */
     public $AvgHeartRateActive;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     public $MaxHeartRate;
 
-    /** @var int|null [bpm] */
+    /**
+     * @var int|null [bpm]
+     */
     public $MaxHeartRateUser;
 
-    /** @var array|null [bpm] */
+    /**
+     * @var array|null [bpm]
+     */
     public $HeartRateZoneBounds;
 
-    /** @var int|float|null [rpm] */
+    /**
+     * @var int|float|null [rpm]
+     */
     public $AvgCadence;
 
-    /** @var int|float|null [ms] */
+    /**
+     * @var int|float|null [ms]
+     */
     public $AvgGroundContactTime;
 
-    /** @var int|float|null [%ooL] */
+    /**
+     * @var int|float|null [%ooL]
+     */
     public $AvgGroundContactBalance;
 
-    /** @var int|float|null [mm] */
+    /**
+     * @var int|float|null [mm]
+     */
     public $AvgVerticalOscillation;
 
-    /** @var int|float|null [G] */
+    /**
+     * @var int|float|null [G]
+     */
     public $AvgImpactGsLeft;
 
-    /** @var int|float|null [G] */
+    /**
+     * @var int|float|null [G]
+     */
     public $AvgImpactGsRight;
 
-    /** @var int|float|null [G] */
+    /**
+     * @var int|float|null [G]
+     */
     public $AvgBrakingGsLeft;
 
-    /** @var int|float|null [G] */
+    /**
+     * @var int|float|null [G]
+     */
     public $AvgBrakingGsRight;
 
-    /** @var int|null [°] */
+    /**
+     * @var int|null [°]
+     */
     public $AvgFootstrikeTypeLeft;
 
-    /** @var int|null [°] */
+    /**
+     * @var int|null [°]
+     */
     public $AvgFootstrikeTypeRight;
 
-    /** @var int|null [°] */
+    /**
+     * @var int|null [°]
+     */
     public $AvgPronationExcursionLeft;
 
-    /** @var int|null [°] */
+    /**
+     * @var int|null [°]
+     */
     public $AvgPronationExcursionRight;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     public $PoolLength;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     public $TotalStrokes;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     public $TotalCycles;
 
-    /** @var int|null [grad] #TSC: add temperature here */
+    /**
+     * @var int|null [grad] #TSC: add temperature here
+     */
     public $AvgTemperature;
 
-    /** @var int|null [-] #TSC: added */
+    /**
+     * @var int|null [-] #TSC: added
+     */
     public $AvgRespirationRate;
 
-    /** @var int|null [-] #TSC: added */
+    /**
+     * @var int|null [-] #TSC: added
+     */
     public $MaxRespirationRate;
 
-    /** @var array|null [-] #TSC: added */
+    /**
+     * @var array|null [-] #TSC: added
+     */
     public $SplitsAdditional;
 
-    /** @var array|null [-] #TSC: added */
+    /**
+     * @var array|null [-] #TSC: added
+     */
     public $PaceGoal;
 
-    /** @var bool #TSC */
+    /**
+     * @var bool #TSC
+     */
     public $WithGoal = false;
 
     /**
@@ -169,7 +245,7 @@ class ActivityData
             'MaxRespirationRate',
             'SplitsAdditional',
             'PaceGoal',
-            'WithGoal'
+            'WithGoal',
         ];
     }
 
@@ -182,22 +258,22 @@ class ActivityData
 
     public function completeTotalValuesFromContinuousData(ContinuousData $data)
     {
-        if (null === $this->Duration) {
+        if ($this->Duration === null) {
             $this->Duration = $data->getTotalDuration();
         }
 
-        if (null === $this->Distance) {
+        if ($this->Distance === null) {
             $this->Distance = $data->getTotalDistance();
         }
     }
 
     public function completeMaximalValuesFromContinuousData(ContinuousData $data)
     {
-        if (null === $this->MaxHeartRate) {
+        if ($this->MaxHeartRate === null) {
             $this->MaxHeartRate = $data->getMaximalHeartRate();
         }
 
-        if (null === $this->MaxPower) {
+        if ($this->MaxPower === null) {
             $this->MaxPower = $data->getMaximalPower();
         }
     }
@@ -225,7 +301,7 @@ class ActivityData
                     Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT,
                     Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT,
                     Trackdata\Entity::PRONATION_EXCURSION_LEFT,
-                    Trackdata\Entity::PRONATION_EXCURSION_RIGHT
+                    Trackdata\Entity::PRONATION_EXCURSION_RIGHT,
                 ]
             );
         } catch (\InvalidArgumentException $invalidArgumentException) {
@@ -251,72 +327,72 @@ class ActivityData
 
     public function completeStandardAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if (null === $this->AvgPower) {
+        if ($this->AvgPower === null) {
             $this->AvgPower = $averages->average(Trackdata\Entity::POWER);
         }
 
-        if (null === $this->AvgHeartRate) {
+        if ($this->AvgHeartRate === null) {
             $this->AvgHeartRate = $averages->average(Trackdata\Entity::HEARTRATE);
         }
 
-        if (null === $this->AvgCadence) {
+        if ($this->AvgCadence === null) {
             $this->AvgCadence = $averages->average(Trackdata\Entity::CADENCE);
         }
     }
 
     public function completeRunningDynamicsAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if (null === $this->AvgGroundContactTime) {
+        if ($this->AvgGroundContactTime === null) {
             $this->AvgGroundContactTime = $averages->average(Trackdata\Entity::GROUNDCONTACT);
         }
 
-        if (null === $this->AvgVerticalOscillation) {
+        if ($this->AvgVerticalOscillation === null) {
             $this->AvgVerticalOscillation = $averages->average(Trackdata\Entity::VERTICAL_OSCILLATION);
         }
 
-        if (null === $this->AvgGroundContactBalance) {
+        if ($this->AvgGroundContactBalance === null) {
             $this->AvgGroundContactBalance = $averages->average(Trackdata\Entity::GROUNDCONTACT_BALANCE);
         }
     }
 
     public function completeRunScribeDataAverageValuesFromAverages(TrackdataAverages $averages)
     {
-        if (null === $this->AvgImpactGsLeft) {
+        if ($this->AvgImpactGsLeft === null) {
             $this->AvgImpactGsLeft = $averages->average(Trackdata\Entity::IMPACT_GS_LEFT);
         }
 
-        if (null === $this->AvgImpactGsRight) {
+        if ($this->AvgImpactGsRight === null) {
             $this->AvgImpactGsRight = $averages->average(Trackdata\Entity::IMPACT_GS_RIGHT);
         }
 
-        if (null === $this->AvgBrakingGsLeft) {
+        if ($this->AvgBrakingGsLeft === null) {
             $this->AvgBrakingGsLeft = $averages->average(Trackdata\Entity::BRAKING_GS_LEFT);
         }
 
-        if (null === $this->AvgBrakingGsRight) {
+        if ($this->AvgBrakingGsRight === null) {
             $this->AvgBrakingGsRight = $averages->average(Trackdata\Entity::BRAKING_GS_RIGHT);
         }
 
-        if (null === $this->AvgFootstrikeTypeLeft) {
+        if ($this->AvgFootstrikeTypeLeft === null) {
             $this->AvgFootstrikeTypeLeft = $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_LEFT);
         }
 
-        if (null === $this->AvgFootstrikeTypeRight) {
+        if ($this->AvgFootstrikeTypeRight === null) {
             $this->AvgFootstrikeTypeRight = $averages->average(Trackdata\Entity::FOOTSTRIKE_TYPE_RIGHT);
         }
 
-        if (null === $this->AvgPronationExcursionLeft) {
+        if ($this->AvgPronationExcursionLeft === null) {
             $this->AvgPronationExcursionLeft = $averages->average(Trackdata\Entity::PRONATION_EXCURSION_LEFT);
         }
 
-        if (null === $this->AvgPronationExcursionRight) {
+        if ($this->AvgPronationExcursionRight === null) {
             $this->AvgPronationExcursionRight = $averages->average(Trackdata\Entity::PRONATION_EXCURSION_RIGHT);
         }
     }
 
     public function completeFromPauses(PauseCollection $pauses)
     {
-        if (null === $this->ElapsedTime && null !== $this->Duration) {
+        if ($this->ElapsedTime === null && $this->Duration !== null) {
             $this->ElapsedTime = $this->Duration + $pauses->getTotalDuration();
         }
     }
@@ -324,11 +400,11 @@ class ActivityData
     public function completeFromRounds(RoundCollection $rounds)
     {
         if (! $rounds->isEmpty()) {
-            if (null === $this->Duration) {
+            if ($this->Duration === null) {
                 $this->Duration = $rounds->getTotalDuration();
             }
 
-            if (null === $this->Distance) {
+            if ($this->Distance === null) {
                 $this->Distance = $rounds->getTotalDistance();
             }
         }

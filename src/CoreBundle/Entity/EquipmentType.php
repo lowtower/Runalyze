@@ -7,17 +7,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 /**
- * EquipmentType
- *
  * @ORM\Table(name="equipment_type")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository")
  */
 class EquipmentType implements AccountRelatedEntityInterface
 {
-    /** @var int only one equipment object can be used at once */
+    /**
+     * @var int only one equipment object can be used at once
+     */
     const CHOICE_SINGLE = 0;
 
-    /** @var int multiple equipment objects can be used at once */
+    /**
+     * @var int multiple equipment objects can be used at once
+     */
     const CHOICE_MULTIPLE = 1;
 
     /**
@@ -141,7 +143,7 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     public function allowsMultipleValues(): bool
     {
-        return self::CHOICE_MULTIPLE === $this->input;
+        return $this->input === self::CHOICE_MULTIPLE;
     }
 
     /**
@@ -164,7 +166,7 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     public function hasMaximalDistance(): bool
     {
-        return null !== $this->maxKm && $this->maxKm > 0;
+        return $this->maxKm !== null && $this->maxKm > 0;
     }
 
     /**
@@ -187,7 +189,7 @@ class EquipmentType implements AccountRelatedEntityInterface
 
     public function hasMaximalDuration(): bool
     {
-        return null !== $this->maxTime && $this->maxTime > 0;
+        return $this->maxTime !== null && $this->maxTime > 0;
     }
 
     public function setAccount(Account $account): self
@@ -205,9 +207,6 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function addSport(Sport $sport): self
     {
         $this->sport[] = $sport;
@@ -215,9 +214,6 @@ class EquipmentType implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function removeSport(Sport $sport)
     {
         $this->sport->removeElement($sport);

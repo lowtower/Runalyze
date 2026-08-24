@@ -15,13 +15,14 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
  */
-class SummaryTableAllYears extends SummaryTable {
+class SummaryTableAllYears extends SummaryTable
+{
 	/**
 	 * Prepare summary
 	 */
 	protected function prepare() {
 		$this->Title = __('All years');
-		$this->Timerange = 366*DAY_IN_S;
+		$this->Timerange = 366 * DAY_IN_S;
 		$this->TimeEnd = (new LocalTime())->yearEnd();
 		$this->TimeStart = (new LocalTime(START_TIME))->yearStart();
 		$this->AdditionalColumns = 1 * ($this->Sportid == Configuration::General()->runningSport());
@@ -32,13 +33,12 @@ class SummaryTableAllYears extends SummaryTable {
      * @param int $index
      */
     protected function rowHead($index): string {
-		$timestampInMiddelOfYear = $this->TimeEnd - ($index + 0.5)*366*DAY_IN_S;
+		$timestampInMiddelOfYear = $this->TimeEnd - ($index + 0.5) * 366 * DAY_IN_S;
 
 		return DataBrowserLinker::yearLink(date('Y', $timestampInMiddelOfYear), $timestampInMiddelOfYear, $this->Sportid > 0 ? $this->Sportid : null);
 	}
 
 	/**
-	 * Display additional columns
 	 * @param array $data
 	 */
 	protected function displayAdditionalColumns($data) {
@@ -47,7 +47,7 @@ class SummaryTableAllYears extends SummaryTable {
 
 			if ((int) $data['timerange'] === 0) {
 				$now = new LocalTime();
-				$weekFactor  = ((int) $now->format('z') + 1) / 7;
+				$weekFactor = ((int) $now->format('z') + 1) / 7;
 				$monthFactor = ((int) $now->format('z') + 1) / 30.4;
 			} else {
                 $numberOfDaysInYear = date('z', mktime(0, 0, 0, 12, 31, (int) $data['timerange'] + START_YEAR)) + 1;
@@ -62,14 +62,14 @@ class SummaryTableAllYears extends SummaryTable {
             }
 
 			if ($data['distance'] > 0) {
-				$weekString = Distance::format($data['distance']/$weekFactor, true, 0).__('/week');
-				$monthString = Distance::format($data['distance']/$monthFactor, true, 0).__('/month');
+				$weekString = Distance::format($data['distance'] / $weekFactor, true, 0) . __('/week');
+				$monthString = Distance::format($data['distance'] / $monthFactor, true, 0) . __('/month');
 			} else {
 				$weekString = NBSP;
 				$monthString = NBSP;
 			}
 
-			echo '<td class="small">'.$weekString.'<br>'.$monthString.'</td>';
+			echo '<td class="small">' . $weekString . '<br>' . $monthString . '</td>';
 		}
 	}
 }

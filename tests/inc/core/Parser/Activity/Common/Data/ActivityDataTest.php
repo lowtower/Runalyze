@@ -11,7 +11,9 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class ActivityDataTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     protected $Data;
 
     protected function setUp(): void
@@ -132,7 +134,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->Duration = 123;
         $this->Data->completeFromPauses(new PauseCollection([
             new Pause(20, 17),
-            new Pause(112, 42)
+            new Pause(112, 42),
         ]));
 
         $this->assertEquals(182, $this->Data->ElapsedTime);
@@ -143,7 +145,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->Duration = 123;
         $this->Data->ElapsedTime = 125;
         $this->Data->completeFromPauses(new PauseCollection([
-            new Pause(17, 3)
+            new Pause(17, 3),
         ]));
 
         $this->assertEquals(125, $this->Data->ElapsedTime);
@@ -162,7 +164,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->completeFromRounds(new RoundCollection([
             new Round(0.4, 61),
             new Round(0.4, 68),
-            new Round(0.2, 32)
+            new Round(0.2, 32),
         ]));
 
         $this->assertEquals(161, $this->Data->Duration);
@@ -174,7 +176,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data->Duration = 127;
         $this->Data->Distance = 0.8;
         $this->Data->completeFromRounds(new RoundCollection([
-            new Round(0.2, 32)
+            new Round(0.2, 32),
         ]));
 
         $this->assertEquals(127, $this->Data->Duration);

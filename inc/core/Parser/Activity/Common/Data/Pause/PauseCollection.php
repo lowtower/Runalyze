@@ -4,7 +4,9 @@ namespace Runalyze\Parser\Activity\Common\Data\Pause;
 
 class PauseCollection implements \Countable, \ArrayAccess
 {
-    /** @var Pause[] */
+    /**
+     * @var Pause[]
+     */
     protected $Elements = [];
 
     /**
@@ -78,7 +80,7 @@ class PauseCollection implements \Countable, \ArrayAccess
             throw new \InvalidArgumentException('Pause collection does only accept instances of Pause as elements.');
         }
 
-        if (null === $offset) {
+        if ($offset === null) {
             $this->Elements[] = $value;
         } else {
             $this->Elements[$offset] = $value;

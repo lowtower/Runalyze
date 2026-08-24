@@ -17,7 +17,7 @@ class BussoModelTest extends \PHPUnit\Framework\TestCase
             2 => 40,
             5 => 60,
             6 => 30,
-            7 => 100
+            7 => 100,
         ];
 
         $Banister = new BanisterModel($data, 42, 7, 1, 2);

@@ -21,7 +21,7 @@ class Hours extends AbstractTimeUnit implements FormattableUnitInterface
 
     public function getFactorFromBaseUnit(): float
     {
-        return 1/3600;
+        return 1 / 3600;
     }
 
     public function getDecimals(): int

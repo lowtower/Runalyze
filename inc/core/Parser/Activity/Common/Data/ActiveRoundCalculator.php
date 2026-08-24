@@ -15,7 +15,8 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  * @author #TSC
  * @package Runalyze\Calculation\Activity
  */
-class ActiveRoundCalculator {
+class ActiveRoundCalculator
+{
 	protected $continuousData;
 
     protected $activeIdx;
@@ -58,7 +59,7 @@ class ActiveRoundCalculator {
         // fill array with true's
         $this->activeIdx = array_fill(0, $len, true);
 
-        if (0 === $len) {
+        if ($len === 0) {
             return;
         }
 
@@ -116,7 +117,7 @@ class ActiveRoundCalculator {
         $activeHeartRates = [];
 
         foreach($this->activeIdx as $key => $isActive) {
-            if ($isActive && array_key_exists($key, $hr) && null !== $hr[$key] && is_numeric($hr[$key])) {
+            if ($isActive && array_key_exists($key, $hr) && $hr[$key] !== null && is_numeric($hr[$key])) {
                 $activeHeartRates[] = $hr[$key];
             }
         }

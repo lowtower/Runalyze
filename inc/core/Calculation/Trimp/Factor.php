@@ -11,8 +11,6 @@ namespace Runalyze\Calculation\Trimp;
 use Runalyze\Profile\Athlete\Gender;
 
 /**
- * Factor
- *
  * Based on experiments there are different constants for men (1.92)
  * and women (1.67). The base factor (in general 0.64) is adapted for women
  * and unknown gender to get a normalized value which has the same range
@@ -25,7 +23,8 @@ use Runalyze\Profile\Athlete\Gender;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Trimp
  */
-class Factor {
+class Factor
+{
 	/**
 	 * Gender
 	 * @int
@@ -44,11 +43,11 @@ class Factor {
      * Base factor
      */
     public function A(): float {
-		if (Gender::MALE == $this->Gender) {
+		if ($this->Gender == Gender::MALE) {
 			return 0.64;
 		}
 
-		if (GENDER::FEMALE == $this->Gender) {
+		if ($this->Gender == GENDER::FEMALE) {
 			return 0.821776;
 		}
 
@@ -59,11 +58,11 @@ class Factor {
      * Exponent factor
      */
     public function B(): float {
-		if (Gender::MALE == $this->Gender) {
+		if ($this->Gender == Gender::MALE) {
 			return 1.92;
 		}
 
-		if (Gender::FEMALE == $this->Gender) {
+		if ($this->Gender == Gender::FEMALE) {
 			return 1.67;
 		}
 

@@ -18,13 +18,14 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class Messages {
+class Messages
+{
 	/**
 	 * Hint: use cleanup tool
 	 */
 	public static function useCleanup() {
 		// TODO: provide a link for the tool
-		$link = '<em>'.__('Database cleanup').'</em>';
+		$link = '<em>' . __('Database cleanup') . '</em>';
 		self::addWarning( sprintf(__('You can now use the %s to recalculate the concerning values.'), $link) );
 	}
 
@@ -32,7 +33,7 @@ class Messages {
 	 * Hint: change sports configuration
 	 */
 	public static function adjustPacesInSportsConfiguration() {
-		$link = Ajax::window('<a href="'.ConfigTabs::$CONFIG_URL.'?key=config_tab_sports">'.__('sports configuration').'</a>');
+		$link = Ajax::window('<a href="' . ConfigTabs::$CONFIG_URL . '?key=config_tab_sports">' . __('sports configuration') . '</a>');
 
 		self::addWarning(
 		    sprintf( __('You may want to adjust pace units in %s. They are not changed automatically.'), $link )
@@ -51,16 +52,10 @@ class Messages {
 		);
 	}
 
-    /**
-     * Add warning
-     */
     private static function addWarning(string $message) {
 		ConfigTabs::addMessage(HTML::warning($message));
 	}
 
-    /**
-     * Add info
-     */
     private static function addInfo(string $message) {
 		ConfigTabs::addMessage(HTML::info($message));
 	}

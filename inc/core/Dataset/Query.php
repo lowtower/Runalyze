@@ -17,29 +17,45 @@ use Runalyze\Util\LocalTime;
  */
 class Query
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const YEAR_TIMERANGE = 31622400; // 366 * 86400
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const MONTH_TIMERANGE = 2678400; // 31 * 86400
 
-	/** @var \Runalyze\Dataset\Configuration */
+	/**
+	 * @var \Runalyze\Dataset\Configuration
+	 */
 	protected $Configuration;
 
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $ShowOnlyPublicActivites = false;
 
-	/** @var array */
-	protected $AdditionalColumns = array();
+	/**
+	 * @var array
+	 */
+	protected $AdditionalColumns = [];
 
-	/** @var array array('table' => array('field' => ..., 'join' => ...)) */
-	protected $JoinTables = array();
+	/**
+	 * @var array array('table' => array('field' => ..., 'join' => ...))
+	 */
+	protected $JoinTables = [];
 
     /**
      * @param int $accountID
@@ -69,26 +85,26 @@ class Query
 	{
 		$this->resetJoins();
 
-		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
+		$whereSport = $sportId === null ? '' : '`t`.`sportid` = ' . $sportId . ' AND ';
 
 		return $this->PDO->query(
 		    'SELECT
 				`t`.`id`,
 				`t`.`time`,
-				`t`.`s` as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
+				`t`.`s` as `' . Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY . '`,
 				DATE(FROM_UNIXTIME(`t`.`time`)) as `date`,
 				IF(r.activity_id IS NULL, 0, 1) as `is_race`,
-				'.($allKeys ? $this->queryToSelectAllKeys() : $this->queryToSelectActiveKeys()).'
-				'.$this->queryToSelectJoinedFields().'
-			FROM `'.PREFIX.'training` AS `t`
-			LEFT JOIN `'.PREFIX.'raceresult` AS `r` ON `t`.`id` = `r`.`activity_id`
-			'.$this->queryToJoinTables().'
+				' . ($allKeys ? $this->queryToSelectAllKeys() : $this->queryToSelectActiveKeys()) . '
+				' . $this->queryToSelectJoinedFields() . '
+			FROM `' . PREFIX . 'training` AS `t`
+			LEFT JOIN `' . PREFIX . 'raceresult` AS `r` ON `t`.`id` = `r`.`activity_id`
+			' . $this->queryToJoinTables() . '
 			WHERE
-				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-				`t`.`accountid` = '.(int) $this->AccountID.' AND
+				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
+				`t`.`accountid` = ' . (int) $this->AccountID . ' AND
 				' . $whereSport . '
-				'.$this->wherePrivacyIsOkay().'
-			'.$this->queryToGroupByActivity().'
+				' . $this->wherePrivacyIsOkay() . '
+			' . $this->queryToGroupByActivity() . '
 			ORDER BY `time` ASC'
 		);
 	}
@@ -103,30 +119,27 @@ class Query
 	public function statementToFetchActivitySports($timeStart, $timeEnd, ? int $sportIdSelected)
 	{
 		// this is needed to ensure, that the current selected sportId is included
-		$addSelected = null === $sportIdSelected ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
+		$addSelected = $sportIdSelected === null ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
 
 		// the query counts the activities group by sport and than limit the result; so the x most recent sports are selected
 		return $this->PDO->query(
 		    'SELECT id, name, img FROM
 				(SELECT s.id, s.name, s.img, count(*) AS c
-				FROM '.PREFIX.'sport AS s
-				JOIN '.PREFIX.'training AS t ON s.id = t.sportid
+				FROM ' . PREFIX . 'sport AS s
+				JOIN ' . PREFIX . 'training AS t ON s.id = t.sportid
 				WHERE
-					'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-					t.accountid = '.(int) $this->AccountID.' AND
-					'.$this->wherePrivacyIsOkay().'
+					' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
+					t.accountid = ' . (int) $this->AccountID . ' AND
+					' . $this->wherePrivacyIsOkay() . '
 				GROUP BY s.id, s.name, s.img ORDER BY c DESC LIMIT 7) AS sub
 			' . $addSelected . '
 			ORDER BY id ASC'
 		);
 	}
 
-	/**
-	 * Reset joins
-	 */
 	public function resetJoins()
 	{
-		$this->JoinTables = array();
+		$this->JoinTables = [];
 	}
 
 	public function queryToSelectJoinedFields(): string
@@ -134,7 +147,7 @@ class Query
 		$query = '';
 
 		foreach ($this->JoinTables as $joinData) {
-			$query .= ', '.$joinData['field'];
+			$query .= ', ' . $joinData['field'];
 		}
 
 		return $query;
@@ -145,7 +158,7 @@ class Query
 		$query = '';
 
 		foreach ($this->JoinTables as $joinData) {
-			$query .= $joinData['join'].' ';
+			$query .= $joinData['join'] . ' ';
 		}
 
 		return $query;
@@ -172,15 +185,15 @@ class Query
 		    'SELECT
 				`time`,
 				`sportid`,
-				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
+				SUM(IF(`distance`>0,`s`,0)) as `' . Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY . '`,
 				SUM(1) as `num`,
-				'.$this->queryToSummarizeActiveKeys().'
-			FROM `'.PREFIX.'training` AS `t`
+				' . $this->queryToSummarizeActiveKeys() . '
+			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				`sportid` = '.(int) $sportid.' AND
-				`accountid` = '.(int) $this->AccountID.' AND
-				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-				'.$this->wherePrivacyIsOkay().'
+				`sportid` = ' . (int) $sportid . ' AND
+				`accountid` = ' . (int) $this->AccountID . ' AND
+				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
+				' . $this->wherePrivacyIsOkay() . '
 			GROUP BY `sportid`
 			LIMIT 1'
 		)->fetch();
@@ -193,21 +206,21 @@ class Query
      */
     public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId = null)
 	{
-		$whereSport = null === $sportId ? '' : '`t`.`sportid` = '.$sportId.' AND ';
+		$whereSport = $sportId === null ? '' : '`t`.`sportid` = ' . $sportId . ' AND ';
 
 		return $this->PDO->query(
 		    'SELECT
 				`time`,
 				`sportid`,
-				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
+				SUM(IF(`distance`>0,`s`,0)) as `' . Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY . '`,
 				SUM(1) as `num`,
-				'.$this->queryToSummarizeActiveKeys().'
-			FROM `'.PREFIX.'training` AS `t`
+				' . $this->queryToSummarizeActiveKeys() . '
+			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				`accountid` = '.(int) $this->AccountID.' AND
-				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
+				`accountid` = ' . (int) $this->AccountID . ' AND
+				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
 				' . $whereSport . '
-				'.$this->wherePrivacyIsOkay().'
+				' . $this->wherePrivacyIsOkay() . '
 			GROUP BY `sportid`'
 		)->fetchAll();
 	}
@@ -224,19 +237,19 @@ class Query
 	{
 		$Query = '
 		        SELECT
-				'.(((int) $sportid > 0) ? '`sportid`' : '0').',
-				SUM(IF(`distance`>0,`s`,0)) as `'.Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY.'`,
+				' . (((int) $sportid > 0) ? '`sportid`' : '0') . ',
+				SUM(IF(`distance`>0,`s`,0)) as `' . Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY . '`,
 				SUM(1) as `num`,
-				'.$this->queryToSummarizeActiveKeys().',
-				'.$this->queryToSelectTimerange($timerange, $timeEnd, 'timerange').'
-			FROM `'.PREFIX.'training` AS `t`
+				' . $this->queryToSummarizeActiveKeys() . ',
+				' . $this->queryToSelectTimerange($timerange, $timeEnd, 'timerange') . '
+			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				'.(((int) $sportid > 0) ? '`sportid` = '.(int) $sportid.' AND' : ''). '
-				`accountid` = '.(int) $this->AccountID.' AND
-				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
-				'.$this->wherePrivacyIsOkay().'
+				' . (((int) $sportid > 0) ? '`sportid` = ' . (int) $sportid . ' AND' : '') . '
+				`accountid` = ' . (int) $this->AccountID . ' AND
+				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
+				' . $this->wherePrivacyIsOkay() . '
 				GROUP BY `timerange`
-				'.(((int) $sportid > 0) ? ', `sportid`' : '').'
+				' . (((int) $sportid > 0) ? ', `sportid`' : '') . '
 				ORDER BY `timerange` ASC';
 
 		return $this->PDO->query($Query)
@@ -245,7 +258,7 @@ class Query
 
 	protected function queryToSummarizeActiveKeys(): string
 	{
-		$columnSelects = array();
+		$columnSelects = [];
 
 		foreach ($this->Configuration->activeKeys() as $key) {
 			$KeyObject = Keys::get($key);
@@ -262,7 +275,6 @@ class Query
 	}
 
     /**
-     * Query to select all keys
      * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
      */
     public function queryToSelectAllKeys(): string
@@ -273,7 +285,6 @@ class Query
 	}
 
     /**
-     * Query to select active keys
      * Hint: You must use "... FROM `'.PREFIX.'training` AS `t` ..."
      */
     public function queryToSelectActiveKeys(): string
@@ -285,7 +296,7 @@ class Query
 
 	protected function queryToSelectKeys(array $arrayOfKeys): string
 	{
-		return $arrayOfKeys === [] ? '1' : '`t`.`'.implode('`, `t`.`', $arrayOfKeys).'`';
+		return $arrayOfKeys === [] ? '1' : '`t`.`' . implode('`, `t`.`', $arrayOfKeys) . '`';
 	}
 
     protected function collectColumnsForKeys(array $keys): array
@@ -319,7 +330,7 @@ class Query
 
 	protected function defaultColumns(): array
 	{
-		return array_merge(array('sportid', 'time', 'use_vo2max', 'is_track', 'typeid'), $this->AdditionalColumns);
+		return array_merge(['sportid', 'time', 'use_vo2max', 'is_track', 'typeid'], $this->AdditionalColumns);
 	}
 
 	public function setAdditionalColumns(array $columns)
@@ -337,14 +348,14 @@ class Query
 		$timeEnd = $timeEnd ?: LocalTime::now();
 
 		if ($timerange == self::YEAR_TIMERANGE) {
-			return LocalTime::date('Y', $timeEnd).' - YEAR(FROM_UNIXTIME(`t`.`time`)) as `'.$asColumn.'`';
+			return LocalTime::date('Y', $timeEnd) . ' - YEAR(FROM_UNIXTIME(`t`.`time`)) as `' . $asColumn . '`';
 		}
 
 		if ($timerange == self::MONTH_TIMERANGE) {
-			return LocalTime::date('m', $timeEnd).' - MONTH(FROM_UNIXTIME(`t`.`time`)) + 12*('.LocalTime::date('Y', $timeEnd).' - YEAR(FROM_UNIXTIME(`t`.`time`))) as `'.$asColumn.'`';
+			return LocalTime::date('m', $timeEnd) . ' - MONTH(FROM_UNIXTIME(`t`.`time`)) + 12*(' . LocalTime::date('Y', $timeEnd) . ' - YEAR(FROM_UNIXTIME(`t`.`time`))) as `' . $asColumn . '`';
 		}
 
-		return 'FLOOR(('.$timeEnd.'-`t`.`time`)/('.$timerange.')) as `'.$asColumn.'`';
+		return 'FLOOR((' . $timeEnd . '-`t`.`time`)/(' . $timerange . ')) as `' . $asColumn . '`';
 	}
 
     /**
@@ -355,7 +366,7 @@ class Query
 	{
 		$timeEnd = $timeEnd ?: LocalTime::now();
 
-		return '`t`.`time` BETWEEN '.($timeStart - 10).' AND '.($timeEnd - 10);
+		return '`t`.`time` BETWEEN ' . ($timeStart - 10) . ' AND ' . ($timeEnd - 10);
 	}
 
     /**

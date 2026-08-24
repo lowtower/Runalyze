@@ -57,7 +57,7 @@ class SharedLink extends AbstractKey
     public function description(): string
 	{
 		return __(
-		    'You can decide for each activity whether it is visible for '.
+		    'You can decide for each activity whether it is visible for ' .
 			'everybody or not. If it is public a linked icon is shown.'
 		);
 	}
@@ -68,7 +68,7 @@ class SharedLink extends AbstractKey
     public function stringFor(Context $context): string
 	{
 		if ($context->activity()->isPublic()) {
-			return '<a href="'.$context->linker()->publicUrl().'" target="_blank">'.Icon::$ATTACH.'</a>';
+			return '<a href="' . $context->linker()->publicUrl() . '" target="_blank">' . Icon::$ATTACH . '</a>';
 		}
 
 		return '';

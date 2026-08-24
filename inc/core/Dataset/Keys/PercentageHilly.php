@@ -42,6 +42,6 @@ class PercentageHilly extends AbstractKey
                 ->percentageHilly();
         }
 
-        return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->percentageHilly().'</a>';
+        return '<a class="window" href="activity/' . $context->activity()->id() . '/climb-score">' . $context->dataview()->percentageHilly() . '</a>';
 	}
 }

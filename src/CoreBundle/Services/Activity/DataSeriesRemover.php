@@ -10,88 +10,144 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class DataSeriesRemover
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_TIME = 'time';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_DISTANCE = 'distance';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_HEART_RATE = 'heartRate';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_CADENCE = 'cadence';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_POWER = 'power';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_VERTICAL_OSCILLATION = 'verticalOscillation';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_GROUND_CONTACT_TIME = 'groundContactTime';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_GROUND_CONTACT_BALANCE = 'groundContactBalance';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_IMPACT_GS_LEFT = 'impact_gs_left';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_IMPACT_GS_RIGHT = 'impact_gs_right';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_BRAKING_GS_LEFT = 'braking_gs_left';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_BRAKING_GS_RIGHT = 'braking_gs_right';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_FOOTSTRIKE_TYPE_LEFT = 'footstrike_type_left';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_FOOTSTRIKE_TYPE_RIGHT = 'footstrike_type_right';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_PRONATION_EXCURSION_LEFT = 'pronation_excursion_left';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_PRONATION_EXCURSION_RIGHT = 'pronation_excursion_right';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_PERFOMANCE_CONDITION = 'performance_condition';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_RESPIRATION_RATE = 'respiration_rate';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_MUSCLE_OXYGENATION = 'smo2';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_MUSCLE_OXYGENATION_2 = 'smo2_2';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_TOTAL_HAEMOGLOBIN = 'thb';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_TOTAL_HAEMOGLOBIN_2 = 'thb_2';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_TRACKDATA_TEMPERATURE = 'temperature';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_ROUTE_GEOHASHES = 'geohashes';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_ROUTE_ELEVATION_ORIGINAL = 'elevationOriginal';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_ROUTE_ELEVATION_CORRECTED = 'elevationCorrected';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const KEY_HRV = 'hrv';
 
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     protected $EntityManager;
 
     public function __construct(EntityManager $em)
@@ -443,7 +499,7 @@ class DataSeriesRemover
         }
 
         return [
-            'HRV' => self::KEY_HRV
+            'HRV' => self::KEY_HRV,
         ];
     }
 }

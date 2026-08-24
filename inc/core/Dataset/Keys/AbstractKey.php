@@ -58,11 +58,11 @@ abstract class AbstractKey
      */
     public function joinDefinition()
 	{
-		return array(
+		return [
     'column' => '',
 		    'join' => '',
-		    'field' => ''
-);
+		    'field' => '',
+];
 	}
 
 	/**

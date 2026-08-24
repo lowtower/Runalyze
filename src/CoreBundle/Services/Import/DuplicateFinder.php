@@ -9,7 +9,9 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 
 class DuplicateFinder
 {
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
     public function __construct(TrainingRepository $repository)

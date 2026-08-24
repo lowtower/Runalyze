@@ -14,7 +14,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20170615090403 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -65,7 +67,7 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
                 $oldElevations = $activity->getRoute()
                     ->getElevationsCorrected();
 
-                if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
+                if ($activity->getRoute()->getElevationsCorrected() !== null && $activity->getTrackdata()->getDistance() !== null) {
                     $activity->getRoute()
                         ->setElevationsCorrected((new StepwiseElevationProfileFixer(
                             5,
@@ -124,10 +126,10 @@ class Version20170615090403 extends AbstractMigration implements ContainerAwareI
     protected function correctSizeOfCorrectedElevationsIfRequired(Training $activity)
     {
         if (
-            $activity->hasRoute() && null !== $activity->getRoute()
-                ->getElevationsCorrected() &&
-            $activity->hasTrackdata() && null !== $activity->getTrackdata()
-                ->getDistance()
+            $activity->hasRoute() && $activity->getRoute()
+                ->getElevationsCorrected() !== null &&
+            $activity->hasTrackdata() && $activity->getTrackdata()
+                ->getDistance() !== null
         ) {
             $numDistance = count($activity->getTrackdata()->getDistance());
             $numElevations = count($activity->getRoute()->getElevationsCorrected());

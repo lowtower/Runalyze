@@ -20,20 +20,27 @@ namespace Runalyze\Activity;
  */
 class PerformanceCondition implements ValueInterface
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const BASELINE = 100;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const LOWER_LIMIT = 80;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const UPPER_LIMIT = 120;
 
-	/** @var int|null */
+	/**
+	 * @var int|null
+	 */
 	protected $Value;
 
 	/**
-	 * Format
 	 * @param int|null $value
 	 * @return string
 	 */
@@ -67,7 +74,6 @@ class PerformanceCondition implements ValueInterface
     }
 
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): string
@@ -83,7 +89,7 @@ class PerformanceCondition implements ValueInterface
 	 */
 	public function set($value): self
     {
-        if (null === $value || (int) $value < self::LOWER_LIMIT || self::UPPER_LIMIT < (int) $value ) {
+        if ($value === null || (int) $value < self::LOWER_LIMIT || (int) $value > self::UPPER_LIMIT ) {
             $this->Value = null;
         } else {
     		$this->Value = (int) $value;
@@ -106,7 +112,7 @@ class PerformanceCondition implements ValueInterface
         $baselineValue = $this->Value - self::BASELINE;
 
         if ($baselineValue > 0) {
-            $baselineValue = '+'.$baselineValue;
+            $baselineValue = '+' . $baselineValue;
         } elseif ($baselineValue == 0) {
             $baselineValue = '&plusmn;0';
         }
@@ -124,6 +130,6 @@ class PerformanceCondition implements ValueInterface
 
     public function isKnown(): bool
     {
-        return (null !== $this->Value);
+        return ($this->Value !== null);
     }
 }

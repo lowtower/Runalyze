@@ -15,9 +15,6 @@ namespace Runalyze\View\Activity\Box;
  */
 class Pace extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		$Pace = $Context->dataview()
@@ -26,7 +23,7 @@ class Pace extends AbstractBox
 		parent::__construct(
 		    $Pace->value(),
 		    $Pace->appendix(),
-		    __('avg.').' '.($Pace->unit()->isTimeFormat() ? __('Pace') : __('Speed'))
+		    __('avg.') . ' ' . ($Pace->unit()->isTimeFormat() ? __('Pace') : __('Speed'))
 		);
 	}
 }

@@ -11,12 +11,11 @@ use DateTime;
 use DateTimeZone;
 
 /**
- * Duration
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
-class Duration {
+class Duration
+{
 	/**
 	 * @var string
 	 */
@@ -50,7 +49,6 @@ class Duration {
 	protected $Time;
 
     /**
-     * Format
      * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
      */
     public static function format($input): string {
@@ -88,7 +86,6 @@ class Duration {
 	}
 
 	/**
-	 * From string
 	 * @param string $string format: "[[[z\d ]H:]i:]s[(.|,)u]"
 	 * @return \Runalyze\Activity\Duration $this-reference
 	 */
@@ -100,7 +97,7 @@ class Duration {
 			$split = explode('.', str_replace(',', '.', $string));
 
 			if (isset($split[1])) {
-				$this->Time += (float) ('0.'.$split[1]);
+				$this->Time += (float) ('0.' . $split[1]);
 			}
 
 			$splitDays = explode('d ', $split[0]);
@@ -151,7 +148,7 @@ class Duration {
      * @param int $decimals [optional]
      */
     protected function autoString($decimals = 2): string {
-		$fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT.'u' : '';
+		$fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT . 'u' : '';
 
 		if ($this->Time >= 86400) {
 			return $this->formatString(self::FORMAT_WITH_DAYS);
@@ -162,10 +159,10 @@ class Duration {
 		}
 
 		if ($this->Time < 60) {
-			return '0:'.$this->formatString('s'.$fraction, $decimals);
+			return '0:' . $this->formatString('s' . $fraction, $decimals);
 		}
 
-		return ltrim($this->formatString('i:s'.$fraction, $decimals), '0');
+		return ltrim($this->formatString('i:s' . $fraction, $decimals), '0');
 	}
 
     /**
@@ -177,7 +174,7 @@ class Duration {
 			return $this->autoString($decimals);
 		}
 
-		return ltrim($this->formatString('s'.self::$DECIMAL_POINT.'u', $decimals), '0').'s';
+		return ltrim($this->formatString('s' . self::$DECIMAL_POINT . 'u', $decimals), '0') . 's';
 	}
 
     /**
@@ -188,22 +185,22 @@ class Duration {
     protected function formatString($format, $decimals = 2): string {
 		if (substr($format, -1) == 'u') {
 			$fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
-			return $this->formatString(substr($format, 0, -1)).$fraction;
+			return $this->formatString(substr($format, 0, -1)) . $fraction;
 		}
 
 		$time = DateTime::createFromFormat('!U', (int) round($this->Time, $decimals), new DateTimeZone('UTC'));
 
 		if ($time === false) {
-			throw new \InvalidArgumentException("Can't format time (t = ".((int) round($this->Time)).').');
+			throw new \InvalidArgumentException("Can't format time (t = " . ((int) round($this->Time)) . ').');
 		}
 
 		if ($format == self::FORMAT_WITH_HOURS) {
 			/* we need to compute the hours ourselves, since DateTime outputs %G as [0..24) */
 			$sec = $time->format('U');
-			$s=$sec % 60;
-			$m=(($sec-$s) / 60) % 60;
-			$h=floor($sec / 3600);
-			return $h.':'.substr('0'.$m, -2).':'.substr('0'.$s, -2);
+			$s = $sec % 60;
+			$m = (($sec - $s) / 60) % 60;
+			$h = floor($sec / 3600);
+			return $h . ':' . substr('0' . $m, -2) . ':' . substr('0' . $s, -2);
 		}
 
         return $time->format($format);
@@ -272,7 +269,6 @@ class Duration {
 	}
 
     /**
-     * Format comparison
      * @param string $string e.g. '0:27'
      * @param bool $isPositive
      * @param bool $raw [optional]
@@ -282,12 +278,12 @@ class Duration {
 		$sign = ($isPositive) ? '+' : '-';
 
 		if ($raw) {
-			return $sign.$string;
+			return $sign . $string;
 		}
 
 		/**
 		 * @codeCoverageIgnore
 		 */
-		return '<span class="'.$class.'">'.$sign.$string.'</span>';
+		return '<span class="' . $class . '">' . $sign . $string . '</span>';
 	}
 }

@@ -4,16 +4,24 @@ namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
 class TimezoneLookup
 {
-    /** @var string sqlite-file with time zone database */
+    /**
+     * @var string sqlite-file with time zone database
+     */
     protected $PathToTimeZoneDatabase;
 
-    /** @var string depends on os, linux default: mod_spatialite.so */
+    /**
+     * @var string depends on os, linux default: mod_spatialite.so
+     */
     protected $SpatialiteExtensionName;
 
-    /** @var \SQLite3|null|false */
+    /**
+     * @var \SQLite3|null|false
+     */
     protected $SQLite;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $SilentExceptions = false;
 
     /**
@@ -64,7 +72,7 @@ class TimezoneLookup
     public function getTimezoneForCoordinate($longitude, $latitude)
     {
         if ($this->isPossible() && is_numeric($longitude) && is_numeric($latitude)) {
-            $query = $this->SQLite->query('SELECT `tzid` FROM `tz_world` WHERE ST_Contains(`geometry`, MakePoint('.$longitude.', '.$latitude.'))');
+            $query = $this->SQLite->query('SELECT `tzid` FROM `tz_world` WHERE ST_Contains(`geometry`, MakePoint(' . $longitude . ', ' . $latitude . '))');
 
             if (! is_bool($query)) {
                 $result = $query->fetchArray();
@@ -83,7 +91,7 @@ class TimezoneLookup
      */
     protected function getSQLite()
     {
-        if (null === $this->SQLite) {
+        if ($this->SQLite === null) {
             $this->tryToConnectToSQLite();
             $this->checkSpatialiteExtension();
         }

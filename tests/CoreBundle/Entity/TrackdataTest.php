@@ -9,7 +9,9 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class TrackdataTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Trackdata */
+    /**
+     * @var Trackdata
+     */
     protected $Data;
 
     protected function setUp(): void

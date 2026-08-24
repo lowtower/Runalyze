@@ -19,9 +19,11 @@ class BeaufortScale implements ValueInterface
 {
     public $btf;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $UpperLimits = [
-        1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX
+        1, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118, PHP_INT_MAX,
     ];
 
 	/**
@@ -33,7 +35,6 @@ class BeaufortScale implements ValueInterface
 
 	/**
 	 * Wind condition
-	 * @param \Runalyze\Data\Weather\WindSpeed $windSpeed
 	 */
 	public function __construct(?WindSpeed $windSpeed = null)
 	{
@@ -43,7 +44,6 @@ class BeaufortScale implements ValueInterface
 	}
 
     /**
-     * Get string
      * @return string
      * @codeCoverageIgnore
      */
@@ -52,9 +52,6 @@ class BeaufortScale implements ValueInterface
         return (new self($windSpeed))->string();
 	}
 
-    /**
-     * Get short string
-     */
     public static function getShortString(WindSpeed $windSpeed): string
 	{
         return (new self($windSpeed))->shortString();
@@ -93,7 +90,6 @@ class BeaufortScale implements ValueInterface
 	}
 
 	/**
-	 * String
 	 * @param bool $withUnit
 	 * @return string
 	 */
@@ -114,43 +110,40 @@ class BeaufortScale implements ValueInterface
 	{
 		switch ($this->btf) {
 			case 0:
-				return '0 btf ('.__('Calm').')';
+				return '0 btf (' . __('Calm') . ')';
 			case 1:
-				return '1 btf ('.__('Light air').')';
+				return '1 btf (' . __('Light air') . ')';
 			case 2:
-				return '2 btf ('.__('Light breeze').')';
+				return '2 btf (' . __('Light breeze') . ')';
 			case 3:
-				return '3 btf ('.__('Gentle breeze').')';
+				return '3 btf (' . __('Gentle breeze') . ')';
 			case 4:
-				return '4 btf ('.__('Moderate breeze').')';
+				return '4 btf (' . __('Moderate breeze') . ')';
 			case 5:
-				return '5 btf ('.__('Fresh breeze').')';
+				return '5 btf (' . __('Fresh breeze') . ')';
 			case 6:
-				return '6 btf ('.__('Strong breeze').')';
+				return '6 btf (' . __('Strong breeze') . ')';
 			case 7:
-				return '7 btf ('.__('High wind').')';
+				return '7 btf (' . __('High wind') . ')';
 			case 8:
-				return '8 btf ('.__('Fresh gale').')';
+				return '8 btf (' . __('Fresh gale') . ')';
 			case 9:
-				return '9 btf ('.__('Strong gale').')';
+				return '9 btf (' . __('Strong gale') . ')';
 			case 10:
-				return '10 btf ('.__('Whole gale').')';
+				return '10 btf (' . __('Whole gale') . ')';
 			case 11:
-				return '11 btf ('.__('Violent storm').')';
+				return '11 btf (' . __('Violent storm') . ')';
 			case 12:
-				return '12 btf ('.__('Hurricane force').')';
+				return '12 btf (' . __('Hurricane force') . ')';
 			default:
 				return __('unknown');
 		}
 	}
 
-    /**
-     * Short string
-     */
     public function shortString(): string
 	{
 	    if ($this->isValid()) {
-			return $this->Btf.' btf';
+			return $this->Btf . ' btf';
 	    }
 
 	    return '';
@@ -174,7 +167,6 @@ class BeaufortScale implements ValueInterface
 	}
 
 	/**
-	 * Value
 	 * @return int|null
 	 */
 	public function value()

@@ -11,19 +11,29 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
  */
 class Plugin implements AccountRelatedEntityInterface
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const STATE_INACTIVE = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const STATE_ACTIVE = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const STATE_HIDDEN = 2;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const TYPE_STAT = 'stat';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const TYPE_PANEL = 'panel';
 
     /**
@@ -118,12 +128,12 @@ class Plugin implements AccountRelatedEntityInterface
 
     public function isStatistic(): bool
     {
-        return self::TYPE_STAT == $this->type;
+        return $this->type == self::TYPE_STAT;
     }
 
     public function isPanel(): bool
     {
-        return self::TYPE_PANEL == $this->type;
+        return $this->type == self::TYPE_PANEL;
     }
 
     /**
@@ -157,17 +167,17 @@ class Plugin implements AccountRelatedEntityInterface
 
     public function isInactive(): bool
     {
-        return self::STATE_INACTIVE == $this->active;
+        return $this->active == self::STATE_INACTIVE;
     }
 
     public function isActive(): bool
     {
-        return self::STATE_ACTIVE == $this->active;
+        return $this->active == self::STATE_ACTIVE;
     }
 
     public function isHidden(): bool
     {
-        return self::STATE_HIDDEN == $this->active;
+        return $this->active == self::STATE_HIDDEN;
     }
 
     /**

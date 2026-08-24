@@ -12,8 +12,11 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
-	/** @var int */
+class PluginConfigurationValueDistances extends PluginConfigurationValueArray
+{
+	/**
+	 * @var int
+	 */
 	const PRECISION = 2;
 
 	/**
@@ -35,8 +38,6 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 	}
 
 	/**
-	 * Set value from string
-	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 * @param bool $transformValues
@@ -77,9 +78,6 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 		}, $values);
 	}
 
-	/**
-	 * Set value from post
-	 */
 	public function setValueFromPost() {
 		if (isset($_POST[$this->Key])) {
 			$this->setValueFromString($_POST[$this->Key], true);
@@ -107,7 +105,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray {
 	 * @return \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected function unitSystem() {
-		if (null === $this->UnitSystem) {
+		if ($this->UnitSystem === null) {
 			$this->UnitSystem = Configuration::General()->distanceUnitSystem();
 		}
 

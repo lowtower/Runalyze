@@ -13,7 +13,8 @@ namespace Runalyze\View\Icon\Weather;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon\Weather
  */
-class Heavyrain extends \Runalyze\View\Icon\WeatherIcon {
+class Heavyrain extends \Runalyze\View\Icon\WeatherIcon
+{
 	/**
 	 * Display
 	 */

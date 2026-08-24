@@ -31,7 +31,7 @@ class Derivative
             throw new InvalidArgumentException('Input arrays must be of same size.');
         }
 
-        if (0 === $num) {
+        if ($num === 0) {
             throw new InvalidArgumentException('Input arrays must not be empty.');
         }
 

@@ -2,10 +2,11 @@
 
 namespace Runalyze\Parser\Activity;
 
-
 class FileExtensionToParserMapping
 {
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     const MAPPING = [
         'csv' => FileType\Csv::class,
         'fitlog' => FileType\Fitlog::class,
@@ -21,7 +22,7 @@ class FileExtensionToParserMapping
         'sml' => FileType\Sml::class,
         'tcx' => FileType\Tcx::class,
         'trk' => FileType\Trk::class,
-        'xml' => FileType\Xml::class
+        'xml' => FileType\Xml::class,
     ];
 
     /**

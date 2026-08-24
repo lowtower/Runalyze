@@ -17,17 +17,12 @@ use Runalyze\View\Activity;
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Plot
  */
-class VerticalRatio extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class VerticalRatio extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'verticalRatio';
+		$this->key = 'verticalRatio';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\VerticalRatio($context)

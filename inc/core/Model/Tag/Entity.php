@@ -17,23 +17,22 @@ use Runalyze\Model;
  * @author Michael Pohl
  * @package Runalyze\Model\Tag
  */
-class Entity extends Model\EntityWithID {
+class Entity extends Model\EntityWithID
+{
 	/**
 	 * Key: tag
 	 * @var string
 	 */
 	const TAG = 'tag';
 
-
-
     /**
      * All properties
      * @return array<int, string>
      */
     static public function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::TAG,
-		);
+		];
 	}
 
     /**
@@ -44,11 +43,9 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
-	 * Tag
 	 * @return string
 	 */
 	public function tag() {
 		return $this->Data[self::TAG];
 	}
-
 }

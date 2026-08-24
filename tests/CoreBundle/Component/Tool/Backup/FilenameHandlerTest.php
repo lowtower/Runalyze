@@ -46,15 +46,15 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testValidateFileExtension()
     {
-        $this->assertTrue(FilenameHandler::validateFileExtension('foobar.'.FilenameHandler::JSON_FORMAT));
-        $this->assertTrue(FilenameHandler::validateFileExtension('foobar.'.FilenameHandler::SQL_FORMAT));
+        $this->assertTrue(FilenameHandler::validateFileExtension('foobar.' . FilenameHandler::JSON_FORMAT));
+        $this->assertTrue(FilenameHandler::validateFileExtension('foobar.' . FilenameHandler::SQL_FORMAT));
         $this->assertFalse(FilenameHandler::validateFileExtension('foobar.txt'));
     }
 
     public function testValidateImportFileExtension()
     {
-        $this->assertTrue(FilenameHandler::validateImportFileExtension('foobar.'.FilenameHandler::JSON_FORMAT));
-        $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.'.FilenameHandler::SQL_FORMAT));
+        $this->assertTrue(FilenameHandler::validateImportFileExtension('foobar.' . FilenameHandler::JSON_FORMAT));
+        $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.' . FilenameHandler::SQL_FORMAT));
         $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.txt'));
     }
 }

@@ -59,10 +59,10 @@ class WeightTest extends \PHPUnit\Framework\TestCase
 	public function testStaticMethod()
 	{
 		Configuration::General()->weightUnit()->set(WeightUnit::KG);
-		$unit = '&nbsp;'.Configuration::General()->weightUnit()->unit();
+		$unit = '&nbsp;' . Configuration::General()->weightUnit()->unit();
 
-		$this->assertEquals('10.0'.$unit, Weight::format(10, true, 1));
-		$this->assertEquals('12.346'.$unit, Weight::format(12.3456, true, 3));
+		$this->assertEquals('10.0' . $unit, Weight::format(10, true, 1));
+		$this->assertEquals('12.346' . $unit, Weight::format(12.3456, true, 3));
 		$this->assertEquals('12.3', Weight::format(12.3456, false, 1));
 	}
 }

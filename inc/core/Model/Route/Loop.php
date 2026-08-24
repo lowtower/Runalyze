@@ -14,7 +14,8 @@ use League\Geotools\Geohash\Geohash;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Route
  */
-class Loop extends \Runalyze\Model\Loop {
+class Loop extends \Runalyze\Model\Loop
+{
 	/**
 	 * Object
 	 * @var \Runalyze\Model\Route\Entity
@@ -87,7 +88,7 @@ class Loop extends \Runalyze\Model\Loop {
 			return $this->slice(Entity::ELEVATIONS_ORIGINAL);
 		}
 
-		return array();
+		return [];
 	}
 
 	protected function createNewObject(array $data): \Runalyze\Model\Route\Entity {

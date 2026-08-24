@@ -16,7 +16,7 @@ class SportRepository extends EntityRepository
     public function findAllFor(Account $account)
     {
         return $this->findBy([
-            'account' => $account->getId()
+            'account' => $account->getId(),
         ]);
     }
 
@@ -28,7 +28,7 @@ class SportRepository extends EntityRepository
     {
         return $this->findOneBy([
             'account' => $account->getId(),
-            'internalSportId' => (int) $internalTypeId
+            'internalSportId' => (int) $internalTypeId,
         ]);
     }
 
@@ -40,7 +40,7 @@ class SportRepository extends EntityRepository
     {
         $sport = $this->findInternalIdFor(SportProfile::RUNNING, $account);
 
-        if (null === $sport && ! $returnNull) {
+        if ($sport === null && ! $returnNull) {
             $sport = new Sport();
             $sport->setDataFrom(new Running());
         }
@@ -55,7 +55,7 @@ class SportRepository extends EntityRepository
     {
         return $this->findBy([
             'account' => $account->getId(),
-            'distances' => true
+            'distances' => true,
         ]);
     }
 
@@ -68,14 +68,14 @@ class SportRepository extends EntityRepository
         /** @var null|Sport $requestedSport */
         $requestedSport = $this->find($sportId);
 
-        if (null !== $requestedSport && $requestedSport->getAccount()->getId() != $account->getId()) {
+        if ($requestedSport !== null && $requestedSport->getAccount()->getId() != $account->getId()) {
             $requestedSport = null;
         }
 
-        if (null === $requestedSport) {
+        if ($requestedSport === null) {
             $results = $this->findBy(
                 [
-                    'account' => $account->getId()
+                    'account' => $account->getId(),
                 ],
                 null,
                 1
@@ -124,7 +124,7 @@ class SportRepository extends EntityRepository
      */
     public function isInternalTypeFree($internalTypeId, Account $account): bool
     {
-        return null === $this->findInternalIdFor((int) $internalTypeId, $account);
+        return $this->findInternalIdFor((int) $internalTypeId, $account) === null;
     }
 
     public function getFreeInternalTypes(Account $account): array
@@ -165,7 +165,7 @@ class SportRepository extends EntityRepository
             ->orderBy('distance', 'DESC')
             ->addOrderBy('time_in_s', 'DESC');
 
-        if (null !== $timestamp) {
+        if ($timestamp !== null) {
             $queryBuilder->andWhere('t.time > :startTime');
             $queryBuilder->setParameter(':startTime', $timestamp);
         }

@@ -42,5 +42,4 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
 		$this->assertFalse($this->object->isPounds());
 		$this->assertTrue($this->object->isStones());
 	}
-
 }

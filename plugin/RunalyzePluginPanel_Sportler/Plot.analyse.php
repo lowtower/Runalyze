@@ -9,15 +9,15 @@ $Factory = new PluginFactory();
 $Plugin = $Factory->newInstance('RunalyzePluginPanel_Sportler');
 
 if ($Plugin->Configuration()->value('plot_timerange') > 0) {
-	$QueryEnd = 'WHERE `time` > '.(time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')).' AND `accountid` = '.SessionAccountHandler::getId().' ORDER BY `time` DESC';
+	$QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
 } else {
-	$QueryEnd = 'WHERE `accountid` = '.SessionAccountHandler::getId().' ORDER BY `time` DESC LIMIT '.((int) $Plugin->Configuration()->value('plot_points'));
+	$QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
 }
 
-$Data     = array_reverse( DB::getInstance()->query('SELECT fat,water,muscles,time FROM `'.PREFIX.'user` '.$QueryEnd)->fetchAll());
-$Adiposes = array();
-$Water    = array();
-$Muscles  = array();
+$Data = array_reverse( DB::getInstance()->query('SELECT fat,water,muscles,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll());
+$Adiposes = [];
+$Water = [];
+$Muscles = [];
 
 if (count($Data) === 1) {
 	$Data[1] = $Data[0];
@@ -25,9 +25,9 @@ if (count($Data) === 1) {
 
 if (! empty($Data)) {
 	foreach ($Data as $D) {
-		$Adiposes[$D['time'].'000'] = $D['fat'];
-		$Water[$D['time'].'000']    = $D['water'];
-		$Muscles[$D['time'].'000']  = $D['muscles'];
+		$Adiposes[$D['time'] . '000'] = $D['fat'];
+		$Water[$D['time'] . '000'] = $D['water'];
+		$Muscles[$D['time'] . '000'] = $D['muscles'];
 	}
 }
 
@@ -40,23 +40,23 @@ foreach ($Labels as $i => &$value) {
 
 $Plot = new Plot('sportler_analyse', 320, 150);
 
-$Plot->Data[] = array(
-    'label' => __('Fat').'',
+$Plot->Data[] = [
+    'label' => __('Fat') . '',
     'color' => '#800',
-    'data' => $Adiposes
-);
-$Plot->Data[] = array(
+    'data' => $Adiposes,
+];
+$Plot->Data[] = [
     'label' => __('Water'),
     'color' => '#008',
     'data' => $Water,
-    'yaxis' => 2
-);
-$Plot->Data[] = array(
+    'yaxis' => 2,
+];
+$Plot->Data[] = [
     'label' => __('Muscles'),
     'color' => '#080',
     'data' => $Muscles,
-    'yaxis' => 2
-);
+    'yaxis' => 2,
+];
 
 $Plot->setMarginForGrid(5);
 

@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
 
 class NightDetector
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     const ZENITH = 90.833333333333;
 
     /**
@@ -67,12 +69,12 @@ class NightDetector
 
     public function isKnown(): bool
     {
-        return (null !== $this->Value);
+        return ($this->Value !== null);
     }
 
     public function isNight(): bool
     {
-        return (1 == $this->Value);
+        return ($this->Value == 1);
     }
 
     /**

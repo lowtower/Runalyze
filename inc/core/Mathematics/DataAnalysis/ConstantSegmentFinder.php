@@ -6,29 +6,41 @@ namespace Runalyze\Mathematics\DataAnalysis;
 
 class ConstantSegmentFinder
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Data;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $DataSize;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $IndexData;
 
-    /** @var int|float */
+    /**
+     * @var int|float
+     */
     protected $ConstantDelta = 0;
 
-    /** @var int|float */
+    /**
+     * @var int|float
+     */
     protected $MinimumIndexDiff = 1;
 
-    /** @var int|float|null */
+    /**
+     * @var int|float|null
+     */
     protected $MaximumIndexDiff;
 
     public function __construct(array $data, array $indexData = [])
     {
         $this->Data = $data;
         $this->DataSize = count($data);
-        $this->IndexData = $indexData === [] && 0 < $this->DataSize ? range(0, $this->DataSize - 1) : $indexData;
+        $this->IndexData = $indexData === [] && $this->DataSize > 0 ? range(0, $this->DataSize - 1) : $indexData;
 
         if (count($this->IndexData) !== $this->DataSize) {
             throw new \InvalidArgumentException('Size of $indexData must match size of $data.');
@@ -64,7 +76,7 @@ class ConstantSegmentFinder
      */
     public function findConstantSegments(): array
     {
-        if (0 == $this->DataSize) {
+        if ($this->DataSize == 0) {
             return [];
         }
 
@@ -82,10 +94,10 @@ class ConstantSegmentFinder
                 continue;
             }
 
-            $maxIndexDiffIsReached = null !== $this->MaximumIndexDiff && $this->IndexData[$i - 1] - $this->IndexData[$currentStartIndex] >= $this->MaximumIndexDiff;
+            $maxIndexDiffIsReached = $this->MaximumIndexDiff !== null && $this->MaximumIndexDiff <= $this->IndexData[$i - 1] - $this->IndexData[$currentStartIndex];
 
             if ($maxIndexDiffIsReached || $value > $currentMin + $this->ConstantDelta || $value < $currentMax - $this->ConstantDelta) {
-                if ($maxIndexDiffIsReached || $this->IndexData[$i - 1] - $this->IndexData[$currentStartIndex] >= $this->MinimumIndexDiff) {
+                if ($maxIndexDiffIsReached || $this->MinimumIndexDiff <= $this->IndexData[$i - 1] - $this->IndexData[$currentStartIndex]) {
                     $segments[] = [$currentStartIndex, $i - 1];
                 } else {
                     $i = $currentStartIndex + 1;
@@ -101,7 +113,7 @@ class ConstantSegmentFinder
             }
         }
 
-        if ($currentStartIndex < $this->DataSize - 1 && $this->IndexData[$this->DataSize - 1] - $this->IndexData[$currentStartIndex] >= $this->MinimumIndexDiff) {
+        if ($currentStartIndex < $this->DataSize - 1 && $this->MinimumIndexDiff <= $this->IndexData[$this->DataSize - 1] - $this->IndexData[$currentStartIndex]) {
             $segments[] = [$currentStartIndex, $this->DataSize - 1];
         }
 

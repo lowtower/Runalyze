@@ -17,7 +17,9 @@ use Runalyze\Dataset\Context;
  */
 class TrainingPartner extends AbstractKey
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DEFAULT_CUT = 20;
 
     /**

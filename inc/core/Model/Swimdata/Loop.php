@@ -14,7 +14,8 @@ namespace Runalyze\Model\Swimdata;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\Model\Swimdata
  */
-class Loop extends \Runalyze\Model\Loop {
+class Loop extends \Runalyze\Model\Loop
+{
 	/**
 	 * Object
 	 * @var \Runalyze\Model\Swimdata\Entity

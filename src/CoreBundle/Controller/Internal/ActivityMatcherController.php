@@ -49,12 +49,12 @@ class ActivityMatcherController extends Controller
             }
 
             $matches[$id] = [
-                'match' => $possibleDuplicate || in_array($id, $ignoredActivityIds)
+                'match' => $possibleDuplicate || in_array($id, $ignoredActivityIds),
             ];
         }
 
         return new JsonResponse([
-            'matches' => $matches
+            'matches' => $matches,
         ]);
     }
 
@@ -67,7 +67,7 @@ class ActivityMatcherController extends Controller
     private function parserStrtotime($string): int
     {
         if (substr($string, -1) == 'Z') {
-            return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1).' UTC'))->getTimestamp();
+            return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
         }
 
         return LocalTime::fromString($string)->getTimestamp();

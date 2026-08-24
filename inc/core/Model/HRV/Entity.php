@@ -16,7 +16,8 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model\HRV
  */
-class Entity extends Model\EntityWithID implements Model\Loopable {
+class Entity extends Model\EntityWithID implements Model\Loopable
+{
 	/**
 	 * Key: acitivityid
 	 * @var string
@@ -30,14 +31,13 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	const DATA = 'data';
 
     /**
-     * All properties
      * @return array<int, string>
      */
     public static function allProperties(): array {
-		return array(
+		return [
 		    self::ACTIVITYID,
-		    self::DATA
-		);
+		    self::DATA,
+		];
 	}
 
     /**
@@ -93,7 +93,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable {
 	}
 
 	/**
-	 * Data
 	 * @return array unit: [ms]
 	 */
 	public function data() {

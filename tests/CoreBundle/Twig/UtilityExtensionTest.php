@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Twig\UtilityExtension;
 
 class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var UtilityExtension */
+    /**
+     * @var UtilityExtension
+     */
     protected $Utility;
 
     protected function setUp(): void

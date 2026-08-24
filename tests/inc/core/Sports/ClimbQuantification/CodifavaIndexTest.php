@@ -6,7 +6,9 @@ use Runalyze\Sports\ClimbQuantification\CodifavaIndex;
 
 class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CodifavaIndex */
+    /**
+     * @var CodifavaIndex
+     */
     protected $Codifava;
 
     protected function setUp(): void

@@ -9,13 +9,19 @@ class Factorial extends Simple implements FormattableUnitInterface
 {
     use UnitConversionByFactorTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Appendix;
 
-    /** @var int|float */
+    /**
+     * @var int|float
+     */
     protected $Factor;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Decimals;
 
     /**
@@ -28,7 +34,7 @@ class Factorial extends Simple implements FormattableUnitInterface
         parent::__construct($appendix);
 
         $this->Factor = $factor;
-        $this->Decimals = $decimals ?: max(0, ceil(log10(1/$factor)));
+        $this->Decimals = $decimals ?: max(0, ceil(log10(1 / $factor)));
     }
 
     /**

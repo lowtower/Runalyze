@@ -13,10 +13,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot {
-	/**
-	 * Constructor
-	 */
+class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot
+{
 	public function __construct(?Activity\Context $Context = null) {
 		parent::__construct($Context);
 
@@ -42,9 +40,6 @@ class SectionSwimLaneRow extends TrainingViewSectionRowTabbedPlot {
 			}
         }
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->withShadow = true;
 		$this->addTable();

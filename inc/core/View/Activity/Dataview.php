@@ -31,7 +31,6 @@ use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
 use Runalyze\View\RpeColor;
 use Runalyze\View\Stresscolor;
-
 use SessionAccountHandler;
 use SportFactory;
 use SearchLink;
@@ -42,43 +41,69 @@ class Dataview
 {
     public $GAPace;
 
-    /** @var null|\Runalyze\Model\Activity\Entity */
+    /**
+     * @var null|\Runalyze\Model\Activity\Entity
+     */
     protected $Activity;
 
-    /** @var null|\Runalyze\Activity\Duration */
+    /**
+     * @var null|\Runalyze\Activity\Duration
+     */
     protected $Duration;
 
-    /** @var null|\Runalyze\Activity\Energy */
+    /**
+     * @var null|\Runalyze\Activity\Energy
+     */
     protected $Energy;
 
-    /** @var null|\Runalyze\Activity\HeartRate */
+    /**
+     * @var null|\Runalyze\Activity\HeartRate
+     */
     protected $HRmax;
 
-    /** @var null|\Runalyze\Activity\HeartRate */
+    /**
+     * @var null|\Runalyze\Activity\HeartRate
+     */
     protected $HRavg;
 
-    /** @var null|\Runalyze\Activity\HeartRate */
+    /**
+     * @var null|\Runalyze\Activity\HeartRate
+     */
     protected $HRavgActive;
 
-    /** @var null|\Runalyze\Activity\Pace */
+    /**
+     * @var null|\Runalyze\Activity\Pace
+     */
     protected $Pace;
 
-    /** @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2max */
+    /**
+     * @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2max
+     */
     protected $VO2max;
 
-    /** @var null|\Runalyze\Data\Cadence\AbstractCadence */
+    /**
+     * @var null|\Runalyze\Data\Cadence\AbstractCadence
+     */
     protected $Cadence;
 
-    /** @var null|\Runalyze\Activity\StrideLength */
+    /**
+     * @var null|\Runalyze\Activity\StrideLength
+     */
     protected $StrideLength;
 
-    /** @var null|\Runalyze\Activity\Elevation */
+    /**
+     * @var null|\Runalyze\Activity\Elevation
+     */
     protected $Elevation;
 
-    /** @var null|\Runalyze\Data\Weather\WindChillFactor */
+    /**
+     * @var null|\Runalyze\Data\Weather\WindChillFactor
+     */
     protected $WindChillFactor;
 
-    /** @var null|HeatIndex */
+    /**
+     * @var null|HeatIndex
+     */
     protected $HeatIndex;
 
     public function __construct(Activity\Entity $activity)
@@ -92,7 +117,7 @@ class Dataview
      */
     protected function object(&$value, \Closure $constructor)
     {
-        if (null === $value) {
+        if ($value === null) {
             $value = $constructor($this->Activity);
         }
 
@@ -121,7 +146,7 @@ class Dataview
     public function titleWithComment()
     {
         if ($this->Activity->title() != '') {
-            return $this->titleByTypeOrSport().': '.$this->Activity->title();
+            return $this->titleByTypeOrSport() . ': ' . $this->Activity->title();
         }
 
         return $this->titleByTypeOrSport();
@@ -157,7 +182,7 @@ class Dataview
 
     public function dateAndDaytime(): string
     {
-        return $this->date().' '.$this->daytime();
+        return $this->date() . ' ' . $this->daytime();
     }
 
     public function weekday(): string
@@ -192,7 +217,7 @@ class Dataview
      */
     public function distance($decimals = null): string
     {
-        if (null === $decimals) {
+        if ($decimals === null) {
             $decimals = Configuration::ActivityView()->decimals();
         }
 
@@ -312,10 +337,10 @@ class Dataview
             $hours = $this->Activity->fitRecoveryTime() / 60;
 
             if ($hours > 72) {
-                return round($hours / 24).'d';
+                return round($hours / 24) . 'd';
             }
 
-            return round($hours).'h';
+            return round($hours) . 'h';
         }
 
         return '';
@@ -325,9 +350,9 @@ class Dataview
     {
         if ($this->Activity->fitHRVscore() > 0) {
             $hue = 128 - 64 * ($this->Activity->fitHRVscore() / 1000);
-            $tooltip = Ajax::tooltip('', __('HRV score').': '.round($this->Activity->fitHRVscore()), false, true);
+            $tooltip = Ajax::tooltip('', __('HRV score') . ': ' . round($this->Activity->fitHRVscore()), false, true);
 
-            return '<i class="fa fa-fw fa-dot-circle-o" style="color:hsl('.min(128, max(0, round($hue))).',74%,44%);" '.$tooltip.'></i>';
+            return '<i class="fa fa-fw fa-dot-circle-o" style="color:hsl(' . min(128, max(0, round($hue))) . ',74%,44%);" ' . $tooltip . '></i>';
         }
 
         return '';
@@ -360,8 +385,8 @@ class Dataview
 
     public function fitPerformanceCondition(): string
     {
-        $start = null !== $this->Activity->fitPerformanceCondition() ? $this->fitPerformanceConditionStart() : '0';
-        $end = null !== $this->Activity->fitPerformanceConditionEnd() ? $this->fitPerformanceConditionEnd() : '0';
+        $start = $this->Activity->fitPerformanceCondition() !== null ? $this->fitPerformanceConditionStart() : '0';
+        $end = $this->Activity->fitPerformanceConditionEnd() !== null ? $this->fitPerformanceConditionEnd() : '0';
 
         if ($start !== '0' || $end !== '0') {
             return $this->formatTwoPartValue($start, $end);
@@ -392,7 +417,7 @@ class Dataview
     public function power(): string
     {
         if ($this->Activity->power() > 0)
-            return round($this->Activity->power()).'&nbsp;W';
+            return round($this->Activity->power()) . '&nbsp;W';
 
         return '';
     }
@@ -403,7 +428,7 @@ class Dataview
     public function groundcontact(): string
     {
         if ($this->Activity->groundcontact() > 0)
-            return round($this->Activity->groundcontact()).'&nbsp;ms';
+            return round($this->Activity->groundcontact()) . '&nbsp;ms';
 
         return '';
     }
@@ -426,7 +451,7 @@ class Dataview
     public function verticalOscillation(): string
     {
         if ($this->Activity->verticalOscillation() > 0)
-            return number_format($this->Activity->verticalOscillation() / 10, 1).'&nbsp;cm';
+            return number_format($this->Activity->verticalOscillation() / 10, 1) . '&nbsp;cm';
 
         return '';
     }
@@ -444,8 +469,8 @@ class Dataview
     {
         $flightTime = $this->Activity->flightTime();
 
-        if (null !== $flightTime) {
-            return round($flightTime).'&nbsp;ms';
+        if ($flightTime !== null) {
+            return round($flightTime) . '&nbsp;ms';
         }
 
         return '';
@@ -455,8 +480,8 @@ class Dataview
     {
         $flightRatio = $this->Activity->flightRatio();
 
-        if (null !== $flightRatio) {
-            return number_format(100 * $flightRatio, 1, '.', '').'&nbsp;%';
+        if ($flightRatio !== null) {
+            return number_format(100 * $flightRatio, 1, '.', '') . '&nbsp;%';
         }
 
         return '';
@@ -490,8 +515,8 @@ class Dataview
     protected function formatRunScribeValues($left, $right, $precision = 1): string
     {
         return $this->formatTwoPartValue(
-            null !== $left ? number_format($left, $precision) : '-',
-            null !== $right ? number_format($right, $precision) : '-'
+            $left !== null ? number_format($left, $precision) : '-',
+            $right !== null ? number_format($right, $precision) : '-'
         );
     }
 
@@ -553,7 +578,7 @@ class Dataview
         if ($this->Activity->distance() == 0)
             return '-';
 
-        return round($this->Activity->elevation() / $this->Activity->distance() / 10, 2).'&nbsp;&#37;';
+        return round($this->Activity->elevation() / $this->Activity->distance() / 10, 2) . '&nbsp;&#37;';
     }
 
     /**
@@ -596,7 +621,7 @@ class Dataview
             return $this->partner();
         }
 
-        $links = array();
+        $links = [];
 
         foreach ($this->Activity->partner()->asArray() as $partner) {
             $links[] = SearchLink::to('partner', $partner, $partner, 'like');
@@ -657,7 +682,7 @@ class Dataview
 
     public function climbScore(): string
     {
-        if (null !== $this->Activity->climbScore()) {
+        if ($this->Activity->climbScore() !== null) {
             return number_format($this->Activity->climbScore(), 1);
         }
 
@@ -666,8 +691,8 @@ class Dataview
 
     public function percentageHilly(): string
     {
-        if (null !== $this->Activity->percentageHilly()) {
-            return (100 * $this->Activity->percentageHilly()).'&nbsp;&#37;';
+        if ($this->Activity->percentageHilly() !== null) {
+            return (100 * $this->Activity->percentageHilly()) . '&nbsp;&#37;';
         }
 
         return '';
@@ -684,6 +709,6 @@ class Dataview
             return '';
         }
 
-        return $leftString.'/'.$rightString;
+        return $leftString . '/' . $rightString;
     }
 }

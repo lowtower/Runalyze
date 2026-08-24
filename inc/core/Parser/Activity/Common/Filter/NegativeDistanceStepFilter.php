@@ -7,7 +7,9 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class NegativeDistanceStepFilter extends AbstractFilter
 {
-    /** @var float [km] */
+    /**
+     * @var float [km]
+     */
     protected $LimitForDistanceDifferenceToFix;
 
     /**
@@ -28,7 +30,7 @@ class NegativeDistanceStepFilter extends AbstractFilter
             if ($container->ContinuousData->Distance[$i] < $container->ContinuousData->Distance[$i - 1]) {
                 if (! $strict && (
                     $container->ContinuousData->Distance[$i] == 0 ||
-                    $container->ContinuousData->Distance[$i - 1] - $container->ContinuousData->Distance[$i] <= $this->LimitForDistanceDifferenceToFix ||
+                    $this->LimitForDistanceDifferenceToFix >= $container->ContinuousData->Distance[$i - 1] - $container->ContinuousData->Distance[$i] ||
                     ($i < $numberOfPoints - 1 && $container->ContinuousData->Distance[$i - 1] < $container->ContinuousData->Distance[$i + 1])
                 )) {
                     $container->ContinuousData->Distance[$i] = $container->ContinuousData->Distance[$i - 1];

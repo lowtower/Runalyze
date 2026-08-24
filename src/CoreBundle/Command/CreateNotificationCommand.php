@@ -147,7 +147,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function validateLifetime($lifetime): bool
     {
-        return (null === $lifetime || ctype_digit($lifetime));
+        return ($lifetime === null || ctype_digit($lifetime));
     }
 
     /**
@@ -156,7 +156,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
      */
     protected function createNotification($template, $lifetime): \Runalyze\Bundle\CoreBundle\Entity\Notification
     {
-        if (null !== $lifetime) {
+        if ($lifetime !== null) {
             $lifetime = (int) $lifetime;
         }
 
@@ -185,7 +185,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         foreach ($accountIds as $id) {
             $account = $accountRepository->find($id);
 
-            if (null !== $account) {
+            if ($account !== null) {
                 $accountsNotification = clone $notification;
                 $accountsNotification->setAccount($account);
 
@@ -223,15 +223,15 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $statement = $this->getContainer()
             ->get('doctrine.dbal.default_connection')
             ->prepare(
-                'INSERT INTO `'.$prefix.'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) '.
-                        'SELECT ?, ?, ?, ?, `a`.`id` FROM `'.$prefix.'account` AS `a` WHERE '.$accountWhere
+                'INSERT INTO `' . $prefix . 'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) ' .
+                        'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere
             );
 
         $statement->execute([
             $notification->getMessageType(),
             $notification->getCreatedAt(),
             $notification->getExpirationAt(),
-            $notification->getData()
+            $notification->getData(),
         ]);
 
         return $statement->rowCount();
@@ -256,19 +256,19 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $exclude = false;
 
         if ($lastActionAfter) {
-            $whereCondition[] = '`a`.`lastaction` > '.(int) $lastActionAfter;
+            $whereCondition[] = '`a`.`lastaction` > ' . (int) $lastActionAfter;
         }
 
         if ($lastActionBefore) {
-            $whereCondition[] = '`a`.`lastaction` < '.(int) $lastActionBefore;
+            $whereCondition[] = '`a`.`lastaction` < ' . (int) $lastActionBefore;
         }
 
         if ($registrationAfter) {
-            $whereCondition[] = '`a`.`registerdate` > '.(int) $registrationAfter;
+            $whereCondition[] = '`a`.`registerdate` > ' . (int) $registrationAfter;
         }
 
         if ($registrationBefore) {
-            $whereCondition[] = '`a`.`registerdate` < '.(int) $registrationBefore;
+            $whereCondition[] = '`a`.`registerdate` < ' . (int) $registrationBefore;
 
         }
 
@@ -278,7 +278,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         }
 
         if ($lang !== []) {
-            $whereCondition[] = '`a`.`language` '.($exclude ? 'NOT' : '').' IN ("'.implode('", "', $lang).'")';
+            $whereCondition[] = '`a`.`language` ' . ($exclude ? 'NOT' : '') . ' IN ("' . implode('", "', $lang) . '")';
         }
 
         if ($whereCondition !== []) {

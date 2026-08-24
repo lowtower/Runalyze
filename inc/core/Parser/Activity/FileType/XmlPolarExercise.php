@@ -10,7 +10,9 @@ use SimpleXMLElement;
 
 class XmlPolarExercise extends AbstractSingleParser
 {
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
     public function __construct(SimpleXMLElement $exercise)

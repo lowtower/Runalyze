@@ -10,16 +10,24 @@ class StartTimeCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var ConfigurationUpdater */
+    /**
+     * @var ConfigurationUpdater
+     */
     protected $ConfigurationUpdater;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $ForceRecalculation = false;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $NewStartTime;
 
     public function __construct(TrainingRepository $repository, ConfigurationUpdater $updater)
@@ -38,18 +46,18 @@ class StartTimeCalculation implements RecalculationTaskInterface
      */
     public function setNewStartTime($timestamp)
     {
-        if (null === $this->NewStartTime || $timestamp < $this->NewStartTime) {
+        if ($this->NewStartTime === null || $timestamp < $this->NewStartTime) {
             $this->NewStartTime = $timestamp;
         }
     }
 
     public function run()
     {
-        if (null === $this->Account) {
+        if ($this->Account === null) {
             return;
         }
 
-        if ($this->ForceRecalculation || null === $this->NewStartTime) {
+        if ($this->ForceRecalculation || $this->NewStartTime === null) {
             $this->NewStartTime = $this->TrainingRepository->getStartTime($this->Account);
         }
 

@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionRoute extends TrainingViewSection {
-	/**
-	 * Set header and rows
-	 */
+class SectionRoute extends TrainingViewSection
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Course and elevation data');
 

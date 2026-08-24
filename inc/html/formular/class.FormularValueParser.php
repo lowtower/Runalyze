@@ -10,7 +10,8 @@ use Runalyze\Activity\Duration;
 /**
  * @deprecated since v4.3
  */
-class FormularValueParser {
+class FormularValueParser
+{
 	/**
 	 * Parser: timestamp <=> date-string
 	 * @var string
@@ -36,8 +37,8 @@ class FormularValueParser {
      * @param array<string, mixed> $parserOptions
      * @return bool
      */
-    public static function validatePost($key, $parser, array $parserOptions = array()) {
-		if (null === $parser)
+    public static function validatePost($key, $parser, array $parserOptions = []) {
+		if ($parser === null)
 			return true;
 
 		if (isset($parserOptions['null']) && $parserOptions['null']) {
@@ -65,8 +66,8 @@ class FormularValueParser {
      * @param mixed $value
      * @param string $parser
      */
-    public static function parse(&$value, $parser, array $parserOptions = array()) {
-		if (null === $parser)
+    public static function parse(&$value, $parser, array $parserOptions = []) {
+		if ($parser === null)
 			return;
 
 		switch ($parser) {
@@ -96,7 +97,7 @@ class FormularValueParser {
 	 */
 	private static function validateDate($key) {
 		$dateParts = self::removeEmptyValues(explode('.', $_POST[$key]));
-		$numParts  = count($dateParts);
+		$numParts = count($dateParts);
 
 		if ($numParts === 3) {
 			$_POST[$key] = mktime(0, 0, 0, (int) $dateParts[1], (int) $dateParts[0], (int) $dateParts[2]);

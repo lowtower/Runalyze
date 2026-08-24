@@ -31,7 +31,7 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         }
 
         if ($unknownTimezones !== []) {
-            $this->markTestSkipped('Unknown timezones: '.implode(', ', $unknownTimezones));
+            $this->markTestSkipped('Unknown timezones: ' . implode(', ', $unknownTimezones));
         }
     }
 
@@ -50,5 +50,4 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
         Timezone::getEnumByOriginalName('Horsehead_Nebula/Magrathea');
     }
-
 }

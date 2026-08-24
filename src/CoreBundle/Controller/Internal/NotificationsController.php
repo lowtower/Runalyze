@@ -75,7 +75,7 @@ class NotificationsController extends Controller
                 'link' => $message->hasLink() ? $message->getLink($router) : '',
                 'text' => $message->getText($translator),
                 'size' => $message->isLinkInternal() ? $message->getWindowSizeForInternalLink() : 'external',
-                'createdAt' => $notification->getCreatedAt()
+                'createdAt' => $notification->getCreatedAt(),
             ];
         }
 

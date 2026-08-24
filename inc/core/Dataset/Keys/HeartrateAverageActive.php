@@ -39,7 +39,7 @@ class HeartrateAverageActive extends AbstractKey
      */
     public function label(): string
 	{
-		return '&#216; '.__('Heart rate').' active rounds';
+		return '&#216; ' . __('Heart rate') . ' active rounds';
 	}
 
     /**
@@ -47,7 +47,7 @@ class HeartrateAverageActive extends AbstractKey
      */
     public function shortLabel(): string
 	{
-		return '&#216;  '.__('HR').' act';
+		return '&#216;  ' . __('HR') . ' act';
 	}
 
     /**

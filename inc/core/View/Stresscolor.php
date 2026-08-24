@@ -8,12 +8,11 @@
 namespace Runalyze\View;
 
 /**
- * Stresscolor
- *
  * @author Hannes Christiansen
  * @package Runalyze\View
  */
-class Stresscolor {
+class Stresscolor
+{
 	/**
 	 * Value
 	 * @var float
@@ -68,13 +67,13 @@ class Stresscolor {
 	}
 
 	public function rgb(): string {
-		$hex = dechex(200 - 2*$this->value());
+		$hex = dechex(200 - 2 * $this->value());
 
 		if (strlen($hex) === 1) {
-			$hex = '0'.$hex;
+			$hex = '0' . $hex;
 		}
 
-		return 'c8'.$hex.$hex;
+		return 'c8' . $hex . $hex;
 	}
 
     /**
@@ -91,6 +90,6 @@ class Stresscolor {
 			$text = $this->Value;
 		}
 
-		return '<span style="color:#'.$this->rgb().';">'.$text.'</span>';
+		return '<span style="color:#' . $this->rgb() . ';">' . $text . '</span>';
 	}
 }

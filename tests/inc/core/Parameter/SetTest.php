@@ -2,37 +2,38 @@
 
 namespace Runalyze\Parameter;
 
-class ParameterSetTest extends \PHPUnit\Framework\TestCase {
+class ParameterSetTest extends \PHPUnit\Framework\TestCase
+{
 	/**
 	 * @var \Runalyze\Parameter\Set
 	 */
 	protected $object;
 
 	protected function setUp(): void {
-		$this->object = new Set(array());
+		$this->object = new Set([]);
 	}
 
 	public function testArrayToString() {
-		$this->assertEquals(array(), $this->object->value());
+		$this->assertEquals([], $this->object->value());
 		$this->assertEquals('', $this->object->valueAsString());
 
-		$this->object->set(array('a', 'b', 'c'));
-		$this->assertEquals(array('a', 'b', 'c'), $this->object->value());
+		$this->object->set(['a', 'b', 'c']);
+		$this->assertEquals(['a', 'b', 'c'], $this->object->value());
 		$this->assertEquals('a,b,c', $this->object->valueAsString());
 
 		$this->object->setFromString('1,2,3');
-		$this->assertEquals(array('1', '2', '3'), $this->object->value() );
+		$this->assertEquals(['1', '2', '3'], $this->object->value() );
 	}
 
 	public function testAppend() {
-		$this->assertEquals(array(), $this->object->value());
+		$this->assertEquals([], $this->object->value());
 		$this->assertEquals('', $this->object->valueAsString());
 
 		$this->object->append('one');
-		$this->assertEquals(array('one'), $this->object->value());
+		$this->assertEquals(['one'], $this->object->value());
 
 		$this->object->append('two');
-		$this->assertEquals(array('one', 'two'), $this->object->value());
+		$this->assertEquals(['one', 'two'], $this->object->value());
 	}
 
 	public function testMaxLength() {
@@ -46,5 +47,4 @@ class ParameterSetTest extends \PHPUnit\Framework\TestCase {
 		$this->object->setFromString($this->object->valueAsString());
 		$this->assertEquals(['foo'], $this->object->value());
 	}
-
 }

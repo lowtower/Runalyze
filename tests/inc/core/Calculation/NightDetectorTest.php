@@ -59,7 +59,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(
                 $data[2],
                 (new NightDetector(strtotime($data[0]), new Coordinate($data[1])))->isNight(),
-                'Tried to test '.$data[0].' at '.implode('/', $data[1])
+                'Tried to test ' . $data[0] . ' at ' . implode('/', $data[1])
             );
         }
     }
@@ -70,13 +70,13 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $Context = FakeContext::withDefaultSport(
             new Activity\Entity([
                 Activity\Entity::TIMESTAMP => LocalTime::fromString('2016-01-13 08:00:00')->getTimestamp(),
-                Activity\Entity::TIME_IN_SECONDS => 0
+                Activity\Entity::TIME_IN_SECONDS => 0,
             ]),
             new Trackdata\Entity([]),
             new Route\Entity([
                 Route\Entity::GEOHASHES => [
-                    (new Geohash())->encode(new Coordinate([49.44, 7.45]))->getGeohash()
-                ]
+                    (new Geohash())->encode(new Coordinate([49.44, 7.45]))->getGeohash(),
+                ],
             ])
         );
         $Context->route()
@@ -94,7 +94,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $Context = FakeContext::onlyWithActivity(
             new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
+                Activity\Entity::TIME_IN_SECONDS => 600,
             ])
         );
         $Detector = new NightDetector();
@@ -109,10 +109,10 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $Detector->setFromEntities(
             new Activity\Entity([
                 Activity\Entity::TIMESTAMP => time(),
-                Activity\Entity::TIME_IN_SECONDS => 600
+                Activity\Entity::TIME_IN_SECONDS => 600,
             ]),
             new Route\Entity([
-                Route\Entity::DISTANCE => 10
+                Route\Entity::DISTANCE => 10,
             ])
         );
 

@@ -15,7 +15,7 @@ class SwimdataRepository extends EntityRepository
     public function findByActivity($activityId)
     {
         return $this->findOneBy([
-            'activity' => $activityId
+            'activity' => $activityId,
         ]);
     }
 }

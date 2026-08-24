@@ -9,7 +9,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FlatOrHillyAnalyzer */
+    /**
+     * @var FlatOrHillyAnalyzer
+     */
     protected $Analyzer;
 
     protected function setUp(): void

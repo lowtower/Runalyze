@@ -21,7 +21,8 @@ use Runalyze\Calculation\StrideLength;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Trackdata
  */
-class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNullableArraysInterface {
+class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNullableArraysInterface
+{
     use Model\Common\WithNullableArraysTrait;
 
 	/**
@@ -209,7 +210,9 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	 */
 	protected $checkArraySizes = true;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $hasTheoreticalPace = false;
 
 	/**
@@ -222,7 +225,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * Construct
      */
-    public function __construct(array $data = array()) {
+    public function __construct(array $data = []) {
 		parent::__construct($data);
 
 		$this->calculatePaceArray();
@@ -232,7 +235,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/**
-	 * Check array sizes
 	 * @throws \RuntimeException
 	 */
 	protected function checkArraySizes() {
@@ -242,13 +244,13 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 					// #TSC temp & perf-cond can have only 0 values in the array, so exclude it
 					if ($key != self::TEMPERATURE && $key != self::PERFORMANCE_CONDITION &&
 						! empty($this->Data[$key]) && max($this->Data[$key]) == 0) {
-						$this->Data[$key] = array();
+						$this->Data[$key] = [];
 					}
 
 					// TODO: Move all these fixes to a new script to correct defect activities
 					if ($key == self::TIME && ! empty($this->Data[$key]) && min($this->Data[$key]) < 0) {
 						$this->TimeHasBeenRemoved = true;
-						$this->Data[$key] = array();
+						$this->Data[$key] = [];
 					}
 
 					$count = count($this->Data[$key]);
@@ -267,15 +269,12 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 						$this->checkArraySize( $count );
 					}
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
+					throw new \RuntimeException($E->getMessage() . ' (for ' . $key . ')', $E->getCode(), $E);
 				}
 			}
 		}
 	}
 
-	/**
-	 * Fix distance array
-	 */
 	protected function fixDistanceArray() {
 		foreach ($this->Data[self::DISTANCE] as $i => $dist) {
 			if ($i > 0 && $dist == 0) {
@@ -284,16 +283,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		}
 	}
 
-	/**
-	 * Read pauses
-	 */
 	protected function readPauses() {
 		$this->Pauses = new Pauses($this->Data[self::PAUSES]);
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 	    if ($this->Pauses->isEmpty()) {
 	        $this->Data[self::PAUSES] = null;
@@ -303,11 +296,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
     /**
-     * All databaseproperties
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::ACTIVITYID,
 		    self::TIME,
 		    self::DISTANCE,
@@ -332,8 +324,8 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		    self::PRONATION_EXCURSION_RIGHT,
 		    self::PERFORMANCE_CONDITION,
 		    self::RESPIRATION_RATE,
-		    self::PAUSES
-		);
+		    self::PAUSES,
+		];
 	}
 
     /**
@@ -341,11 +333,11 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
      */
     public function properties(): array {
 		return array_merge(
-		    array(
+		    [
 		        self::PACE,
 		        self::STRIDE_LENGTH,
-		        self::VERTICAL_RATIO
-		    ),
+		        self::VERTICAL_RATIO,
+		    ],
 		    static::allDatabaseProperties()
 		);
 	}
@@ -417,9 +409,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 		return ($key == self::ACTIVITYID);
 	}
 
-	/**
-	 * Clear
-	 */
 	public function clear() {
 		parent::clear();
 
@@ -468,7 +457,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/**
-	 * Total time
 	 * @return int
 	 */
 	public function totalTime() {
@@ -476,7 +464,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 			return 0;
 		}
 
-		return $this->Data[self::TIME][$this->numberOfPoints-1];
+		return $this->Data[self::TIME][$this->numberOfPoints - 1];
 	}
 
 	/**
@@ -488,11 +476,10 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/**
-	 * Total distance
 	 * @return int
 	 */
 	public function totalDistance() {
-		return $this->Data[self::DISTANCE][$this->numberOfPoints-1];
+		return $this->Data[self::DISTANCE][$this->numberOfPoints - 1];
 	}
 
 	/**
@@ -742,7 +729,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/*
-	 * Calculate pace array
 	 */
 	public function calculatePaceArray() {
 		if (! $this->has(self::PACE)) {
@@ -754,7 +740,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/*
-	 * Calculate stride length array
 	 */
 	protected function calculateStrideLengthArray() {
 		if (! $this->has(self::STRIDE_LENGTH)) {
@@ -766,7 +751,6 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 	}
 
 	/*
-	 * Calculate vertical ratio array
 	 */
 	protected function calculateVerticalRatioArray() {
 		if (! $this->has(self::VERTICAL_RATIO)) {

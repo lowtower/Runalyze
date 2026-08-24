@@ -13,24 +13,19 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionMiscellaneous extends TrainingViewSectionTabbedPlot {
+class SectionMiscellaneous extends TrainingViewSectionTabbedPlot
+{
 	/**
 	 * @var bool
 	 */
 	protected $showCadence;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(?Context $Context = null, $showCadence = true) {
 		$this->showCadence = $showCadence;
 
 		parent::__construct($Context);
 	}
 
-	/**
-	 * Set header and rows
-	 */
 	protected function setHeaderAndRows() {
 		$this->Header = __('Miscellaneous');
 

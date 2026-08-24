@@ -7,7 +7,9 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RoundCollection */
+    /**
+     * @var RoundCollection
+     */
     protected $Collection;
 
     protected function setUp(): void
@@ -19,7 +21,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
     {
         $this->Collection = new RoundCollection([
             new Round(1.0, 285),
-            new Round(1.0, 260)
+            new Round(1.0, 260),
         ]);
 
         $this->assertEquals(2, $this->Collection->count());
@@ -75,7 +77,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
         new RoundCollection([
             new Round(1.0, 255),
-            'foobar'
+            'foobar',
         ]);
     }
 

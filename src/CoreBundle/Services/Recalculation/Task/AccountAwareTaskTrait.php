@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 
 trait AccountAwareTaskTrait
 {
-    /** @var Account|null */
+    /**
+     * @var Account|null
+     */
     protected $Account;
 
     public function setAccount(Account $account)

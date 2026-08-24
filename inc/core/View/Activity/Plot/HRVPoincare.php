@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class HRVPoincare extends ActivityPlot {
+class HRVPoincare extends ActivityPlot
+{
 	/**
 	 * Use standard x-axis?
 	 * @var bool
@@ -28,16 +29,10 @@ class HRVPoincare extends ActivityPlot {
 	 */
 	protected $PointSize = 1;
 
-	/**
-	 * Set key
-	 */
 	protected function setKey() {
 		$this->key = 'hrvpoincare';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$Collector = new PoincareCollector($context->hrv());
 		$this->Data = $Collector->data();
@@ -46,17 +41,17 @@ class HRVPoincare extends ActivityPlot {
 			return;
 		}
 
-		$this->Plot->Data[] = array(
-		    'label' => __('R-R interval').' n+1',
+		$this->Plot->Data[] = [
+		    'label' => __('R-R interval') . ' n+1',
 		    'color' => 'rgb(0,0,0)',
-		    'data' => $Collector->data()
-		);
+		    'data' => $Collector->data(),
+		];
 
 		// TODO: ensure symmetric x-/y-axis
 
 		$this->Plot->addYUnit(1, 'ms');
 		$this->Plot->setXUnit('ms');
-		$this->Plot->setXLabel(__('R-R interval').' n');
+		$this->Plot->setXLabel(__('R-R interval') . ' n');
 		$this->Plot->smoothing(false);
 		$this->Plot->showPoints();
 

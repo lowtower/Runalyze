@@ -15,7 +15,8 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
+abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract
+{
 	/**
 	 * Plot
 	 * @var \Runalyze\View\Activity\Plot\ActivityPlot
@@ -26,7 +27,7 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 	 * Boxed values
 	 * @var BoxedValue[]
 	 */
-	protected $BoxedValues = array();
+	protected $BoxedValues = [];
 
 	/**
 	 * Additional code
@@ -58,23 +59,14 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 	 */
 	protected $big = false;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(?Context $Context = null) {
 		parent::__construct($Context);
 
 		$this->setPlot();
 	}
 
-	/**
-	 * Set plot
-	 */
 	abstract protected function setPlot();
 
-	/**
-	 * Display
-	 */
 	final public function display() {
 		if (\Runalyze\Configuration::ActivityView()->showSectionsFullheight()) {
 			$this->big = true;
@@ -93,21 +85,18 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 		echo '</div>';
 	}
 
-	/**
-	 * Display info
-	 */
 	protected function displayInfo() {
 		$class = $this->big ? 'fullheight'
 				: ($this->withShadow ? 'with-shadow' : '');
 
-		echo '<div class="training-row-info '.$class.'">';
+		echo '<div class="training-row-info ' . $class . '">';
 
 		if ($this->BoxedValues !== []) {
 			$this->displayBoxedValues();
 		}
 
 		if (! empty($this->Header)) {
-			echo '<div class="panel-content">'.$this->Header.'</div>';
+			echo '<div class="panel-content">' . $this->Header . '</div>';
 		}
 
 		if (! empty($this->Code)) {
@@ -115,15 +104,12 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 		}
 
 		if (! empty($this->Footer)) {
-			echo '<div class="panel-content">'.$this->Footer.'</div>';
+			echo '<div class="panel-content">' . $this->Footer . '</div>';
 		}
 
 		echo '</div>';
 	}
 
-	/**
-	 * Display boxed values
-	 */
 	protected function displayBoxedValues() {
 		$Code = '';
 
@@ -134,14 +120,11 @@ abstract class TrainingViewSectionRow extends TrainingViewSectionRowAbstract {
 		BoxedValue::wrapValues($Code);
 	}
 
-	/**
-	 * Display plot
-	 */
 	protected function displayPlot() {
 		echo '<div class="training-row-plot">';
 
-		if (null !== $this->Plot) {
-			echo '<div id="plot-'.$this->Plot->getKey().'" class="plot-container">';
+		if ($this->Plot !== null) {
+			echo '<div id="plot-' . $this->Plot->getKey() . '" class="plot-container">';
 			$this->Plot->display();
 			echo '</div>';
 		}

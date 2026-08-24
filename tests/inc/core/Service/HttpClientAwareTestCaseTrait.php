@@ -16,7 +16,7 @@ trait HttpClientAwareTestCaseTrait
         $handler = HandlerStack::create($mock);
 
         return new Client([
-            'handler' => $handler
+            'handler' => $handler,
         ]);
     }
 }

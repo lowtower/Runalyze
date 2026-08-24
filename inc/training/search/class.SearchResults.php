@@ -22,7 +22,8 @@ use Runalyze\Data\Weather\WindSpeed;
  * @author Hannes Christiansen
  * @package Runalyze\Search
  */
-class SearchResults {
+class SearchResults
+{
 	/**
 	 * @var int
 	 */
@@ -32,13 +33,17 @@ class SearchResults {
 	 * Allowed keys to search for
 	 * @var array
 	 */
-	protected $AllowedKeys = array();
+	protected $AllowedKeys = [];
 
-	/** @var array */
-	protected $KeysThatShouldIgnoreNull = array();
+	/**
+	 * @var array
+	 */
+	protected $KeysThatShouldIgnoreNull = [];
 
-	/** @var array */
-	protected $KeysThatShouldIgnoreZero = array();
+	/**
+	 * @var array
+	 */
+	protected $KeysThatShouldIgnoreZero = [];
 
 	/**
 	 * Colspan
@@ -50,7 +55,7 @@ class SearchResults {
 	 * Trainings
 	 * @var array
 	 */
-	protected $Trainings = array();
+	protected $Trainings = [];
 
 	/**
 	 * Total number of trainings
@@ -76,20 +81,27 @@ class SearchResults {
 	 */
 	protected $ResultsPerPage;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-	/** @var \PDOforRunalyze */
+	/**
+	 * @var \PDOforRunalyze
+	 */
 	protected $DB;
 
-	/** @var \Runalyze\Dataset\Configuration */
+	/**
+	 * @var \Runalyze\Dataset\Configuration
+	 */
 	protected $DatasetConfig;
 
-	/** @var \Runalyze\Dataset\Query */
+	/**
+	 * @var \Runalyze\Dataset\Query
+	 */
 	protected $DatasetQuery;
 
 	/**
-	 * Constructor
 	 * @param bool $withResults
 	 */
 	public function __construct($withResults = true) {
@@ -108,14 +120,12 @@ class SearchResults {
 	}
 
 	/**
-	 * Set allowed keys
-	 *
 	 * These keys are valid for 'sort by' and for any condition.
 	 * `sportid` and `time` are valid anyway, they don't need to be set here.
 	 */
 	protected function setAllowedKeys() {
 		// Keys are sorted as in structure.sql
-		$this->AllowedKeys = array(
+		$this->AllowedKeys = [
 		    'typeid',
 		    'is_public',
 		    'is_track',
@@ -168,8 +178,8 @@ class SearchResults {
 		    'title',
 		    'partner',
 		    'notes',
-		    'avg_respiration_rate'
-		);
+		    'avg_respiration_rate',
+		];
 	}
 
 	/**
@@ -196,7 +206,7 @@ class SearchResults {
 		    'wind_deg',
 		    'humidity',
 		    'pressure',
-		    'avg_respiration_rate'
+		    'avg_respiration_rate',
 		];
 	}
 
@@ -221,13 +231,10 @@ class SearchResults {
 		    'groundcontact',
 		    'groundcontact_balance',
 		    'vertical_oscillation',
-		    'vertical_ratio'
+		    'vertical_ratio',
 		];
 	}
 
-	/**
-	 * Init dataset
-	 */
 	protected function initDataset() {
 		$this->AccountID = SessionAccountHandler::getId();
 		$this->DB = DB::getInstance();
@@ -238,16 +245,13 @@ class SearchResults {
 		$this->Colspan = 2 + count($this->DatasetConfig->allKeys());
 	}
 
-	/**
-	 * Search trainings
-	 */
 	protected function searchTrainings() {
 		$where = $this->getWhere();
 
-		$this->TotalNumberOfTrainings = DB::getInstance()->query('SELECT COUNT(*) FROM `'.PREFIX.'training` AS `t` '.$this->joinRaceResultIfRequired().' '.$where.' LIMIT 1')->fetchColumn();
+		$this->TotalNumberOfTrainings = DB::getInstance()->query('SELECT COUNT(*) FROM `' . PREFIX . 'training` AS `t` ' . $this->joinRaceResultIfRequired() . ' ' . $where . ' LIMIT 1')->fetchColumn();
 		$this->Page = (int) Request::param('page');
 
-		if (($this->Page-1)*$this->ResultsPerPage > $this->TotalNumberOfTrainings)
+		if (($this->Page - 1) * $this->ResultsPerPage > $this->TotalNumberOfTrainings)
 			$this->Page--;
 
 		$this->DatasetQuery->resetJoins();
@@ -256,18 +260,18 @@ class SearchResults {
 		    'SELECT DISTINCT
 				`t`.`id`,
 				`t`.`time`
-				'.(
+				' . (
 		        $this->multiEditorRequested() ? '' :
-					', '.$this->DatasetQuery->queryToSelectAllKeys().' '.
+					', ' . $this->DatasetQuery->queryToSelectAllKeys() . ' ' .
 					$this->DatasetQuery->queryToSelectJoinedFields()
-		    ).'
-				'.$this->columnFromRaceResultIfRequired().'
-			FROM `'.PREFIX.'training` AS `t`
-			'.$this->joinRaceResultIfRequired().'
-			'.$this->DatasetQuery->queryToJoinTables().'
-			'.$where.' '.
-			$this->DatasetQuery->queryToGroupByActivity().
-			$this->getOrder().$this->getLimit()
+		    ) . '
+				' . $this->columnFromRaceResultIfRequired() . '
+			FROM `' . PREFIX . 'training` AS `t`
+			' . $this->joinRaceResultIfRequired() . '
+			' . $this->DatasetQuery->queryToJoinTables() . '
+			' . $where . ' ' .
+			$this->DatasetQuery->queryToGroupByActivity() .
+			$this->getOrder() . $this->getLimit()
 		)->fetchAll();
 	}
 
@@ -281,17 +285,14 @@ class SearchResults {
 
 	protected function joinRaceResultIfRequired(): string {
 		if (isset($_POST['is_race']) && $_POST['is_race'] != '') {
-			return 'LEFT JOIN `'.PREFIX.'raceresult` AS `rr` ON `t`.`id` = `rr`.`activity_id`';
+			return 'LEFT JOIN `' . PREFIX . 'raceresult` AS `rr` ON `t`.`id` = `rr`.`activity_id`';
 		}
 
 		return '';
 	}
 
-    /**
-     * Get where
-     */
     protected function getWhere(): string {
-		$conditions = array('`t`.`accountid`="'.$this->AccountID.'"');
+		$conditions = ['`t`.`accountid`="' . $this->AccountID . '"'];
 
 		$this->addSpecialConditions($conditions);
 
@@ -312,7 +313,7 @@ class SearchResults {
 
 		$this->addConditionsForOrder($conditions);
 
-		return $this->getEquipmentCondition().$this->getTagCondition().' WHERE '.implode(' AND ', array_unique($conditions));
+		return $this->getEquipmentCondition() . $this->getTagCondition() . ' WHERE ' . implode(' AND ', array_unique($conditions));
 	}
 
     /**
@@ -351,18 +352,18 @@ class SearchResults {
 		$sign = $this->signForKey('pace');
 
 		$conditions[] = '`t`.`distance` > 0';
-		$conditions[] = ($sign === '=' ? 'ROUND(`t`.`s`/`t`.`distance`)' : '`t`.`s`/`t`.`distance`').' '.$sign.' '.DB::getInstance()->escape($value);
+		$conditions[] = ($sign === '=' ? 'ROUND(`t`.`s`/`t`.`distance`)' : '`t`.`s`/`t`.`distance`') . ' ' . $sign . ' ' . DB::getInstance()->escape($value);
 	}
 
     /**
      * @param string[] $conditions
      */
     protected function addGradientCondition(array &$conditions) {
-		$value = 10*(float) str_replace(',', '.', $_POST['gradient']);
+		$value = 10 * (float) str_replace(',', '.', $_POST['gradient']);
 
 		$conditions[] = '`t`.`distance` > 0';
 		$conditions[] = '`t`.`elevation` > 0';
-		$conditions[] = '`t`.`elevation`/`t`.`distance` '.$this->signForKey('gradient').' '.DB::getInstance()->escape($value);
+		$conditions[] = '`t`.`elevation`/`t`.`distance` ' . $this->signForKey('gradient') . ' ' . DB::getInstance()->escape($value);
 	}
 
     /**
@@ -389,7 +390,7 @@ class SearchResults {
 		    $_POST[$key]
 		);
 
-		$conditions[] = '`t`.`'.$key.'` IN('.implode(',', $array).')';
+		$conditions[] = '`t`.`' . $key . '` IN(' . implode(',', $array) . ')';
 	}
 
     /**
@@ -400,17 +401,17 @@ class SearchResults {
 		$sign = (isset($_POST['opt'][$key])) ? $this->signFor($_POST['opt'][$key]) : '=';
 
 		if ($sign === ' LIKE ') {
-			$conditions[] = '`t`.`'.$key.'` '.$sign.' "%'.DB::getInstance()->escape($_POST[$key], false).'%"';
+			$conditions[] = '`t`.`' . $key . '` ' . $sign . ' "%' . DB::getInstance()->escape($_POST[$key], false) . '%"';
 		} else {
 			$value = $this->transformValueForDatabase($key, $_POST[$key]);
 
-			$conditions[] = '`t`.`'.$key.'` '.$sign.' '.DB::getInstance()->escape($value);
+			$conditions[] = '`t`.`' . $key . '` ' . $sign . ' ' . DB::getInstance()->escape($value);
 
 			if ($sign === '<' || $sign === '<=') {
 				if (in_array($key, $this->KeysThatShouldIgnoreZero)) {
-					$conditions[] = '`t`.`'.$key.'` != 0';
+					$conditions[] = '`t`.`' . $key . '` != 0';
 				} elseif (in_array($key, $this->KeysThatShouldIgnoreNull)) {
-					$conditions[] = '`t`.`'.$key.'` IS NOT NULL';
+					$conditions[] = '`t`.`' . $key . '` IS NOT NULL';
 				}
 			}
 		}
@@ -422,7 +423,7 @@ class SearchResults {
 	 * @return float|int
 	 */
 	protected function transformValueForDatabase($key, $value) {
-		if (in_array($key, array('distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'))) {
+		if (in_array($key, ['distance', 'vertical_oscillation', 'vertical_ratio', 'stride_length', 'groundcontact_balance', 'fit_training_effect', 'fit_anaerobic_training_effect', 'kcal'])) {
 			$value = (float) str_replace(',', '.', $value);
 		}
 
@@ -489,7 +490,6 @@ class SearchResults {
 	}
 
     /**
-     * Add time range condition
      * @param string[] $conditions
      */
     protected function addTimeRangeCondition(array &$conditions) {
@@ -498,12 +498,11 @@ class SearchResults {
 			FormularValueParser::validatePost('date-to', FormularValueParser::$PARSER_DATE) &&
 			$_POST['date-to'] > 0
 		) {
-			$conditions[] = '`t`.`time` BETWEEN '.LocalTime::fromServerTime($_POST['date-from'])->getTimestamp().' AND '.(LocalTime::fromServerTime($_POST['date-to'])->getTimestamp()+DAY_IN_S);
+			$conditions[] = '`t`.`time` BETWEEN ' . LocalTime::fromServerTime($_POST['date-from'])->getTimestamp() . ' AND ' . (LocalTime::fromServerTime($_POST['date-to'])->getTimestamp() + DAY_IN_S);
 		}
 	}
 
     /**
-     * Add sport condition
      * @param lowercase-string[] $conditions
      */
     protected function addSportCondition(array &$conditions) {
@@ -515,15 +514,12 @@ class SearchResults {
 			    $_POST['sportid']
 			);
 
-			$conditions[] = '`t`.`sportid` IN('.implode(',', $array).')';
+			$conditions[] = '`t`.`sportid` IN(' . implode(',', $array) . ')';
 		} else {
-			$conditions[] = '`t`.`sportid`="'.(int) $_POST['sportid'].'"';
+			$conditions[] = '`t`.`sportid`="' . (int) $_POST['sportid'] . '"';
 		}
 	}
 
-    /**
-     * Get equipment condition
-     */
     protected function getEquipmentCondition(): string {
 		if (! isset($_POST['equipmentid'])) {
 			return '';
@@ -537,15 +533,12 @@ class SearchResults {
 			    $_POST['equipmentid']
 			);
 
-			return 'INNER JOIN (SELECT `ae`.`activityid` FROM `'.PREFIX.'activity_equipment` AS `ae` WHERE `ae`.`equipmentid` IN('.implode(',', $array).')) AS `suba` ON `suba`.`activityid` = `t`.`id`';
+			return 'INNER JOIN (SELECT `ae`.`activityid` FROM `' . PREFIX . 'activity_equipment` AS `ae` WHERE `ae`.`equipmentid` IN(' . implode(',', $array) . ')) AS `suba` ON `suba`.`activityid` = `t`.`id`';
 		}
 
-		return 'INNER JOIN `'.PREFIX.'activity_equipment` AS `ae` ON `ae`.`activityid` = `t`.`id` AND `ae`.`equipmentid`="'.(int) $_POST['equipmentid'].'"';
+		return 'INNER JOIN `' . PREFIX . 'activity_equipment` AS `ae` ON `ae`.`activityid` = `t`.`id` AND `ae`.`equipmentid`="' . (int) $_POST['equipmentid'] . '"';
 	}
 
-    /**
-     * Get tag condition
-     */
     private function getTagCondition(): string {
 		if (! isset($_POST['tagid'])) {
 			return '';
@@ -559,45 +552,42 @@ class SearchResults {
 			    $_POST['tagid']
 			);
 
-			return 'INNER JOIN (SELECT `at`.`activityid` FROM `'.PREFIX.'activity_tag` AS `at` WHERE `at`.`tagid` IN('.implode(',', $array).')) AS `subb` ON `subb`.`activityid` = `t`.`id`';
+			return 'INNER JOIN (SELECT `at`.`activityid` FROM `' . PREFIX . 'activity_tag` AS `at` WHERE `at`.`tagid` IN(' . implode(',', $array) . ')) AS `subb` ON `subb`.`activityid` = `t`.`id`';
 		}
 
-		return 'INNER JOIN `'.PREFIX.'activity_tag` AS `at` ON `at`.`activityid` = `t`.`id` AND `at`.`tagid`="'.(int) $_POST['tagid'].'"';
+		return 'INNER JOIN `' . PREFIX . 'activity_tag` AS `at` ON `at`.`activityid` = `t`.`id` AND `at`.`tagid`="' . (int) $_POST['tagid'] . '"';
 	}
 
-    /**
-     * Get order
-     */
     protected function getOrder(): string {
 		$order = (! isset($_POST['search-sort-order'])) ? 'DESC' : $this->DB->escape($_POST['search-sort-order'], false);
 
 		if (isset($_POST['search-sort-by'])) {
 			if ($_POST['search-sort-by'] == 'vo2max' && Configuration::VO2max()->useElevationCorrection()) {
-				return ' ORDER BY IF(`t`.`vo2max_with_elevation`>0, `t`.`vo2max_with_elevation`, `t`.`vo2max`) '.$order;
+				return ' ORDER BY IF(`t`.`vo2max_with_elevation`>0, `t`.`vo2max_with_elevation`, `t`.`vo2max`) ' . $order;
 			}
 
 			if ($_POST['search-sort-by'] == 'pace') { // addConditionsForOrder() guarantees that `distance` > 0
-				return ' ORDER BY `t`.`s`/`t`.`distance` '.$order;
+				return ' ORDER BY `t`.`s`/`t`.`distance` ' . $order;
 			}
 
 			if ($_POST['search-sort-by'] == 'gradient') { // addConditionsForOrder() guarantees that `distance` > 0
-				return ' ORDER BY `t`.`elevation`/`t`.`distance` '.$order;
+				return ' ORDER BY `t`.`elevation`/`t`.`distance` ' . $order;
 			}
 
             if ($_POST['search-sort-by'] == 'flight_time') {
-                return ' ORDER BY (30000/`t`.`cadence` - `t`.`groundcontact`) '.$order;
+                return ' ORDER BY (30000/`t`.`cadence` - `t`.`groundcontact`) ' . $order;
             }
 
             if ($_POST['search-sort-by'] == 'flight_ratio') {
-                return ' ORDER BY (1 - `t`.`cadence` * `t`.`groundcontact` / 30000) '.$order;
+                return ' ORDER BY (1 - `t`.`cadence` * `t`.`groundcontact` / 30000) ' . $order;
             }
 
 			if (in_array($_POST['search-sort-by'], $this->AllowedKeys)) {
-				return ' ORDER BY `t`.'.$this->DB->escape($_POST['search-sort-by'], false).' '.$order;
+				return ' ORDER BY `t`.' . $this->DB->escape($_POST['search-sort-by'], false) . ' ' . $order;
 			}
 		}
 
-		return ' ORDER BY `t`.`time` '.$order;
+		return ' ORDER BY `t`.`time` ' . $order;
 	}
 
     /**
@@ -616,31 +606,25 @@ class SearchResults {
             $conditions[] = '`t`.`cadence` > 0';
             $conditions[] = '`t`.`groundcontact` > 0';
 		} elseif (in_array($_POST['search-sort-by'], $this->KeysThatShouldIgnoreZero)) {
-			$conditions[] = '`t`.`'.$_POST['search-sort-by'].'` != 0';
+			$conditions[] = '`t`.`' . $_POST['search-sort-by'] . '` != 0';
 		} elseif (in_array($_POST['search-sort-by'], $this->KeysThatShouldIgnoreNull)) {
-			$conditions[] = '`t`.`'.$_POST['search-sort-by'].'` IS NOT NULL';
+			$conditions[] = '`t`.`' . $_POST['search-sort-by'] . '` IS NOT NULL';
 		}
 	}
 
-    /**
-     * Get limit
-     */
     protected function getLimit(): string {
 		if ($this->multiEditorRequested()) {
-			return ' LIMIT '.self::MAX_LIMIT_FOR_MULTI_EDITOR;
+			return ' LIMIT ' . self::MAX_LIMIT_FOR_MULTI_EDITOR;
 		}
 
 		if ($this->Page <= 0)
 			$this->Page = 1;
 
-		$limit = ($this->Page - 1)*$this->ResultsPerPage;
+		$limit = ($this->Page - 1) * $this->ResultsPerPage;
 
-		return ' LIMIT '.$limit.','.$this->ResultsPerPage;
+		return ' LIMIT ' . $limit . ',' . $this->ResultsPerPage;
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
         echo '<div id="searchResult">';
         $this->displayResults();
@@ -660,9 +644,6 @@ class SearchResults {
         }, $this->Trainings);
     }
 
-	/**
-	 * Display results
-	 */
 	protected function displayResults() {
 		if (! $this->WithResults)
 			return;
@@ -673,7 +654,7 @@ class SearchResults {
 		echo '<p class="c">'; $this->displayHeader(); echo '</p>';
 		echo '<table class="fullwidth zebra-style">';
 		echo '<thead>';
-		echo '<tr style="font-size:.5em;line-height:1;"><td></td>'.$Table->codeForColumnLabels($Icon->code()).'</tr>';
+		echo '<tr style="font-size:.5em;line-height:1;"><td></td>' . $Table->codeForColumnLabels($Icon->code()) . '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
 
@@ -684,17 +665,16 @@ class SearchResults {
 	}
 
 	/*
-	 * Display header
 	 */
 	protected function displayHeader() {
 		if ($this->Page != 1) {
-			echo '<span id="search-back" class="link">'.Icon::$BACK.'</span>';
+			echo '<span id="search-back" class="link">' . Icon::$BACK . '</span>';
 		}
 
-		echo ' '.sprintf( __('Found %s activities'), $this->TotalNumberOfTrainings).' ';
+		echo ' ' . sprintf( __('Found %s activities'), $this->TotalNumberOfTrainings) . ' ';
 
-		if ($this->Page*$this->ResultsPerPage < $this->TotalNumberOfTrainings) {
-			echo '<span id="search-next" class="link">'.Icon::$NEXT.'</span>';
+		if ($this->Page * $this->ResultsPerPage < $this->TotalNumberOfTrainings) {
+			echo '<span id="search-next" class="link">' . Icon::$NEXT . '</span>';
 		}
 
 		$this->connectPagination();
@@ -705,15 +685,15 @@ class SearchResults {
 	 */
 	protected function connectPagination() {
 		echo Ajax::wrapJSforDocumentReady(
-		    '$("#search-back").click(function(){'.
-				'var $i = $("#search input[name=\'page\']");'.
-				'$i.val( parseInt($i.val()) - 1 );'.
-				'$("#search").submit();'.
-			'});'.
-			'$("#search-next").click(function(){'.
-				'var $i = $("#search input[name=\'page\']");'.
-				'$i.val( parseInt($i.val()) + 1 );'.
-				'$("#search").submit();'.
+		    '$("#search-back").click(function(){' .
+				'var $i = $("#search input[name=\'page\']");' .
+				'$i.val( parseInt($i.val()) - 1 );' .
+				'$("#search").submit();' .
+			'});' .
+			'$("#search-next").click(function(){' .
+				'var $i = $("#search input[name=\'page\']");' .
+				'$i.val( parseInt($i.val()) + 1 );' .
+				'$("#search").submit();' .
 			'});'
 		);
 	}
@@ -727,7 +707,7 @@ class SearchResults {
 			$Context->setActivityData($training);
 
 			echo '<tr class="r">';
-			echo '<td class="l"><small>'.$link.'</small></td>';
+			echo '<td class="l"><small>' . $link . '</small></td>';
 			echo $Table->codeForColumns($Context);
 
 			echo '</tr>';

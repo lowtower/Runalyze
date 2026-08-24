@@ -8,7 +8,9 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class ActivityCache
 {
-    /** @var AdapterInterface */
+    /**
+     * @var AdapterInterface
+     */
     protected $Cache;
 
     public function __construct(AdapterInterface $cache)
@@ -34,7 +36,7 @@ class ActivityCache
      */
     public function get($hash, ?Training $activityToMerge = null, $removerAfterwards = false)
     {
-        if (null === $hash || '' == $hash) {
+        if ($hash === null || $hash == '') {
             return $activityToMerge;
         }
 
@@ -133,13 +135,13 @@ class ActivityCache
         $activityToMerge->setPaceGoal($activityFromCache->getPaceGoal()); // #TSC: transfer
         $activityToMerge->setWithGoal($activityFromCache->isWithGoal()); // #TSC: transfer
 
-        if (null !== $activityFromCache->isPowerCalculated()) {
+        if ($activityFromCache->isPowerCalculated() !== null) {
             $activityToMerge->setPower($activityFromCache->getPower());
         }
     }
 
     protected function getRandomHash(?Account $account = null): string
     {
-        return hash('sha256', ($account ? $account->getName() : '').uniqid());
+        return hash('sha256', ($account ? $account->getName() : '') . uniqid());
     }
 }

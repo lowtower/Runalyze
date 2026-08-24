@@ -10,13 +10,19 @@ use Runalyze\Profile\Sport\AbstractSport;
 
 class PowerCalculator
 {
-    /** @var float [kg] */
+    /**
+     * @var float [kg]
+     */
     protected $AthleteWeight = 75.0;
 
-    /** @var float [kg] */
+    /**
+     * @var float [kg]
+     */
     protected $BikeWeight = 0.0;
 
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     /**
@@ -34,23 +40,23 @@ class PowerCalculator
         }
 
         if ($this->canCalculatePower()) {
-            list($powerData, $avgPower) = $this->calculatePower();
+            [$powerData, $avgPower] = $this->calculatePower();
 
             $this->setPowerValues($this->Activity, $powerData, $avgPower);
-        } elseif (true === $this->Activity->isPowerCalculated()) {
+        } elseif ($this->Activity->isPowerCalculated() === true) {
             $this->setPowerValuesToNull($this->Activity);
         }
     }
 
     protected function hasActivityPowerDataFromDevice(): bool
     {
-        return false === $this->Activity->isPowerCalculated();
+        return $this->Activity->isPowerCalculated() === false;
     }
 
     protected function canCalculatePower(): bool
     {
         return (
-            null !== $this->Activity->getSport() &&
+            $this->Activity->getSport() !== null &&
             $this->canCalculatePowerForSport($this->Activity->getSport()->getInternalSport()) &&
             $this->canCalculatePowerForActivity($this->Activity)
         );
@@ -105,10 +111,10 @@ class PowerCalculator
         $calculator = new Calculator(
             new Trackdata\Entity([
                 Trackdata\Entity::TIME => $this->Activity->getTrackdata()->getTime(),
-                Trackdata\Entity::DISTANCE => $this->Activity->getTrackdata()->getDistance()
+                Trackdata\Entity::DISTANCE => $this->Activity->getTrackdata()->getDistance(),
             ]),
             new Route\Entity([
-                Route\Entity::ELEVATIONS_CORRECTED => $this->Activity->getRoute()->getElevations()
+                Route\Entity::ELEVATIONS_CORRECTED => $this->Activity->getRoute()->getElevations(),
             ])
         );
 
@@ -116,7 +122,7 @@ class PowerCalculator
 
         return [
             $calculator->powerData(),
-            $calculator->average()
+            $calculator->average(),
         ];
     }
 }

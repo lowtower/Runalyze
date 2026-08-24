@@ -54,7 +54,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'label' => $category->getName(),
                     'multiple' => ! $isSingleChoice,
                     'expanded' => ! $isSingleChoice,
-                    'required' => false
+                    'required' => false,
                 ]);
             }
         }
@@ -104,7 +104,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     foreach ($subValue as $object) {
                         $equipment[] = $object;
                     }
-                } elseif (null !== $subValue) {
+                } elseif ($subValue !== null) {
                     $equipment[] = $subValue;
                 }
             }
@@ -122,14 +122,14 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             'data-start' => $equipment->getDateStart() ? $equipment->getDateStart()
                 ->format('Y-m-d') : '',
             'data-end' => $equipment->getDateEnd() ? $equipment->getDateEnd()
-                ->format('Y-m-d') : ''
+                ->format('Y-m-d') : '',
         ];
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => null
-        ));
+        $resolver->setDefaults([
+            'data_class' => null,
+        ]);
     }
 }

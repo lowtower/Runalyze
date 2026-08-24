@@ -12,41 +12,30 @@ use Runalyze\Util\LocalTime;
  * Plot month data
  * @package Runalyze\Plot
  */
-class PlotMonthSumData extends PlotSumData {
-	/**
-	 * Constructor
-	 */
+class PlotMonthSumData extends PlotSumData
+{
 	public function __construct() {
 		$this->timerStart = Request::param('y') == parent::LAST_6_MONTHS ? 7 : 1;
-		$this->timerEnd   = 12;
+		$this->timerEnd = 12;
 
 		parent::__construct();
 	}
 
-    /**
-     * Get CSS id
-     */
     protected function getCSSid(): string {
-		return 'monthKM'.$this->Year.'_'.$this->Sport->id();
+		return 'monthKM' . $this->Year . '_' . $this->Sport->id();
 	}
 
-    /**
-     * Get title
-     */
     protected function getTitle(): string {
 		return __('Monthly chart:');
 	}
 
-    /**
-     * Get X labels
-     */
     protected function getXLabels(): array {
-		$months = array();
+		$months = [];
 		$add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? date('m') : 0;
 		$i = 0;
 
 		for ($m = $this->timerStart; $m <= $this->timerEnd; $m++) {
-			$months[] = array($i, Time::month($m + $add, true));
+			$months[] = [$i, Time::month($m + $add, true)];
 			$i++;
 		}
 
@@ -58,11 +47,11 @@ class PlotMonthSumData extends PlotSumData {
      */
     protected function timer(): string {
 		if ($this->Year == parent::LAST_6_MONTHS) {
-			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
+			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - ' . date('m') . ' - 1)%12 + 1)';
 		}
 
 		if ($this->Year == parent::LAST_12_MONTHS) {
-			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - '.date('m').' - 1)%12 + 1)';
+			return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - ' . date('m') . ' - 1)%12 + 1)';
 		}
 
 		return 'MONTH(FROM_UNIXTIME(`time`))';
@@ -77,6 +66,6 @@ class PlotMonthSumData extends PlotSumData {
 	}
 
 	protected function factorForWeekKm(): float {
-		return 365/12/7;
+		return 365 / 12 / 7;
 	}
 }

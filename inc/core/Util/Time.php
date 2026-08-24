@@ -14,7 +14,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Util
  */
-class Time {
+class Time
+{
     /**
      * Absolute difference in days between two timestamps
      * @param int $time_1
@@ -25,7 +26,7 @@ class Time {
 			$time_2 = time();
 		}
 
-		return floor(abs(($time_1 - $time_2)/(3600*24)));
+		return floor(abs(($time_1 - $time_2) / (3600 * 24)));
 	}
 
     /**
@@ -83,7 +84,7 @@ class Time {
      * @codeCoverageIgnore
      */
     public static function weekday($w, $short = false): string {
-		switch ($w%7) {
+		switch ($w % 7) {
 			case 0: return $short ? __('Sun') : __('Sunday');
 			case 1: return $short ? __('Mon') : __('Monday');
 			case 2: return $short ? __('Tue') : __('Tuesday');

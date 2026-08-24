@@ -12,7 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Version20161123211900 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $Prefix;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -22,8 +24,8 @@ class Version20161123211900 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE `'.$this->Prefix.'training` MODIFY `routeid` int(10) unsigned DEFAULT NULL');
-        $this->addSql('UPDATE `'.$this->Prefix.'training` SET `routeid` = NULL WHERE `routeid`= 0');
+        $this->addSql('ALTER TABLE `' . $this->Prefix . 'training` MODIFY `routeid` int(10) unsigned DEFAULT NULL');
+        $this->addSql('UPDATE `' . $this->Prefix . 'training` SET `routeid` = NULL WHERE `routeid`= 0');
     }
 
     public function down(Schema $schema): void

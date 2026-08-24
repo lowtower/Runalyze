@@ -10,10 +10,14 @@ use Runalyze\Parser\Activity\Common\Filter\NonMatchingArraySizeFilter;
 
 class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var NonMatchingArraySizeFilter */
+    /**
+     * @var NonMatchingArraySizeFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

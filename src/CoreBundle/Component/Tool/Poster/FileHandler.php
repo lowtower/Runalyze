@@ -11,7 +11,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class FileHandler
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DataDir;
 
     /**
@@ -24,14 +26,14 @@ class FileHandler
 
     protected function pathToImages(): string
     {
-        return $this->DataDir.'/poster/';
+        return $this->DataDir . '/poster/';
     }
 
     public function getFileList(Account $account): array
     {
         $finder = new Finder();
         $finder->files()
-            ->name($account->getId().'-*')
+            ->name($account->getId() . '-*')
             ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
                 return ($b->getMTime() - $a->getMTime());
             })
@@ -54,15 +56,15 @@ class FileHandler
     public function getPosterDownloadResponse(Account $account, $filename)
     {
         $fs = new Filesystem();
-        $filename = $account->getId().'-'.$filename;
+        $filename = $account->getId() . '-' . $filename;
 
-        if ($fs->exists($this->pathToImages().$filename)) {
+        if ($fs->exists($this->pathToImages() . $filename)) {
             $response = new Response();
             $response->headers->set('Cache-Control', 'private');
             $response->headers->set('Content-type', 'image/png');
-            $response->headers->set('Content-Disposition', 'attachment; filename="'.basename($filename).'";');
-            $response->headers->set('Content-length', filesize($this->pathToImages().$filename));
-            $response->setContent(file_get_contents($this->pathToImages().$filename));
+            $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($filename) . '";');
+            $response->headers->set('Content-length', filesize($this->pathToImages() . $filename));
+            $response->setContent(file_get_contents($this->pathToImages() . $filename));
 
             return $response;
         }

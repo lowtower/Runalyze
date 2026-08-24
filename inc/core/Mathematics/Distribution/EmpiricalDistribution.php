@@ -11,7 +11,9 @@ namespace Runalyze\Mathematics\Distribution;
  */
 class EmpiricalDistribution extends AbstractDistribution
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Histogram = [];
 
     /**

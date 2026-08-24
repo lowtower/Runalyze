@@ -9,7 +9,9 @@ namespace Runalyze\Mathematics\Scale;
  */
 class TwoPartPercental extends Percental
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $InflectionPoint = 50.0;
 
     /**

@@ -17,7 +17,9 @@ use Runalyze\Dataset\Context;
  */
 class Tags extends AbstractKey
 {
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const CONCAT_TAGIDS_KEY = 'concat_tags';
 
     /**
@@ -54,11 +56,11 @@ class Tags extends AbstractKey
 	 */
 	public function joinDefinition(): array
 	{
-		return array(
+		return [
     'column' => self::CONCAT_TAGIDS_KEY,
-		    'join' => 'LEFT JOIN `'.PREFIX.'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
-		    'field' => "GROUP_CONCAT(`atag`.`tagid` SEPARATOR ',') AS `".self::CONCAT_TAGIDS_KEY.'`'
-);
+		    'join' => 'LEFT JOIN `' . PREFIX . 'activity_tag` AS `atag` ON `t`.`id` = `atag`.activityid',
+		    'field' => "GROUP_CONCAT(`atag`.`tagid` SEPARATOR ',') AS `" . self::CONCAT_TAGIDS_KEY . '`',
+];
 	}
 
     /**
@@ -73,7 +75,7 @@ class Tags extends AbstractKey
 			$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
 
 			foreach (array_unique($ids) as $id) {
-				$string .= '#'.$Factory->tag($id)->tag().' ';
+				$string .= '#' . $Factory->tag($id)->tag() . ' ';
 			}
 		}
 

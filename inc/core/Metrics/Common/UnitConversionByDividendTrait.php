@@ -24,7 +24,7 @@ trait UnitConversionByDividendTrait
      */
     final public function fromBaseUnit($valueInBaseUnit)
     {
-        if (0 == $valueInBaseUnit) {
+        if ($valueInBaseUnit == 0) {
             return 0;
         }
 

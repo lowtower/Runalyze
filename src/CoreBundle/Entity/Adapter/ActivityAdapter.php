@@ -18,7 +18,9 @@ use Runalyze\Util\LocalTime;
 
 class ActivityAdapter
 {
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
     public function __construct(Training $activity)
@@ -73,21 +75,21 @@ class ActivityAdapter
 
     public function isRunning(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+        return $this->Activity->getSport() !== null && $this->Activity->getSport()
             ->getInternalSport()
             ->isRunning();
     }
 
     public function isCycling(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+        return $this->Activity->getSport() !== null && $this->Activity->getSport()
             ->getInternalSport()
             ->isCycling();
     }
 
     public function isSwimming(): bool
     {
-        return null !== $this->Activity->getSport() && $this->Activity->getSport()
+        return $this->Activity->getSport() !== null && $this->Activity->getSport()
             ->getInternalSport()
             ->isSwimming();
     }
@@ -101,18 +103,18 @@ class ActivityAdapter
             return $this->Activity->getPulseAvg();
         }
 
-        if (null !== $this->Activity->getType()) {
+        if ($this->Activity->getType() !== null) {
             return $this->Activity->getType()
                 ->getHrAvg();
         }
 
-        return null !== $this->Activity->getSport() ? $this->Activity->getSport()
+        return $this->Activity->getSport() !== null ? $this->Activity->getSport()
             ->getHfavg() : 100;
     }
 
     public function setActivityIdIfEmpty()
     {
-        if (null === $this->Activity->getActivityId()) {
+        if ($this->Activity->getActivityId() === null) {
             $this->Activity->setActivityId((int) floor($this->Activity->getTime() / 60.0) * 60);
         }
     }
@@ -175,7 +177,7 @@ class ActivityAdapter
 
     public function calculateEnergyConsumptionIfEmpty()
     {
-        if (null === $this->Activity->getKcal() || 0 == $this->Activity->getKcal()) {
+        if ($this->Activity->getKcal() === null || $this->Activity->getKcal() == 0) {
             $energyConsumption = $this->Activity->getSport()
                 ->getKcal() * $this->Activity->getS() / 3600.0;
 
@@ -247,7 +249,7 @@ class ActivityAdapter
 
     public function calculateIfActivityWasAtNight()
     {
-        if (null !== $this->Activity->getRoute() && $this->Activity->getRoute()->hasGeohashes()) {
+        if ($this->Activity->getRoute() !== null && $this->Activity->getRoute()->hasGeohashes()) {
             $this->Activity->setNight((new NightDetector())->isActivityAtNight($this->Activity));
         } else {
             $this->Activity->setNight(null);
@@ -262,7 +264,7 @@ class ActivityAdapter
 
     public function calculateTotalNumberOfStrokes()
     {
-        if (null !== $this->Activity->getSwimdata() && $this->Activity->getSwimdata()->hasStrokes()) {
+        if ($this->Activity->getSwimdata() !== null && $this->Activity->getSwimdata()->hasStrokes()) {
             $this->Activity->setTotalStrokes(array_sum($this->Activity->getSwimdata()->getStroke()));
         } else {
             $this->Activity->setTotalStrokes(null);
@@ -272,7 +274,7 @@ class ActivityAdapter
     public function calculateSwolf()
     {
         $swolf = null;
-        if (null !== $this->Activity->getTotalStrokes()) {
+        if ($this->Activity->getTotalStrokes() !== null) {
             $totalTime = 0;
             $numberOfPoints = 0;
 
@@ -280,16 +282,16 @@ class ActivityAdapter
              * Preferred calculation:
              * Use the actual swimming time and ignore break/rest lanes.
              */
-            if (null !== $this->Activity->getS() &&
-                null !== $this->Activity->getSwimdata() &&
+            if ($this->Activity->getS() !== null &&
+                $this->Activity->getSwimdata() !== null &&
                 $this->Activity->getSwimdata()
                     ->hasStrokeTypes()
             ) {
                 $totalTime = $this->Activity->getS();
                 $numberOfPoints = count(array_filter($this->Activity->getSwimdata()->getStroketype(), function ($strokeType): bool {
-                    return StrokeTypeProfile::BREAK != $strokeType;
+                    return $strokeType != StrokeTypeProfile::BREAK;
                 }));
-            } elseif (null !== $this->Activity->getTrackdata() && $this->Activity->getTrackdata()->hasTime()) {
+            } elseif ($this->Activity->getTrackdata() !== null && $this->Activity->getTrackdata()->hasTime()) {
                 /*
                  * Fallback for swimming data without stroke types:
                  * Use the overall time and number of track-data points.
@@ -337,10 +339,10 @@ class ActivityAdapter
     protected function canCalculateClimbScore(): bool
     {
         return (
-            null !== $this->Activity->getRoute() &&
+            $this->Activity->getRoute() !== null &&
             $this->Activity->getRoute()
                 ->hasElevations() &&
-            null !== $this->Activity->getTrackdata() &&
+            $this->Activity->getTrackdata() !== null &&
             $this->Activity->getTrackdata()
                 ->hasDistance()
         );
@@ -351,7 +353,7 @@ class ActivityAdapter
         $backupElevations = $this->Activity->getRoute()
             ->getElevationsCorrected();
 
-        if (null !== $backupElevations) {
+        if ($backupElevations !== null) {
             $this->Activity->getRoute()
                 ->setElevationsCorrected(
                     (new StepwiseElevationProfileFixer(5, StepwiseElevationProfileFixer::METHOD_VARIABLE_GROUP_SIZE))
@@ -379,7 +381,7 @@ class ActivityAdapter
     public function guessTimezoneBasedOnCoordinates(TimezoneLookup $timezoneLookup)
     {
         if (
-            null === $this->Activity->getTimezoneOffset() &&
+            $this->Activity->getTimezoneOffset() === null &&
             $this->Activity->hasRoute() &&
             $this->Activity->getRoute()
                 ->hasGeohashes() &&
@@ -391,7 +393,7 @@ class ActivityAdapter
             $startPoint = $this->Activity->getRoute()
                 ->getStartpoint();
 
-            if (null !== $startPoint) {
+            if ($startPoint !== null) {
                 $coordinate = (new Geohash())->decode($startPoint)
                     ->getCoordinate();
                 $timezone = $timezoneLookup->getTimezoneForCoordinate($coordinate->getLongitude(), $coordinate->getLatitude());
@@ -405,14 +407,14 @@ class ActivityAdapter
      */
     protected function updateTimezoneForActivity($timezone)
     {
-        if (null === $timezone) {
+        if ($timezone === null) {
             return;
         }
 
         $newOffset = (new \DateTime(null, new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())
             ->getOffset() / 60;
 
-        if (null !== $this->Activity->getTimezoneOffset()) {
+        if ($this->Activity->getTimezoneOffset() !== null) {
             $this->Activity->setTime($this->Activity->getTime() + 60 * ($newOffset - $this->Activity->getTimezoneOffset()));
         }
 

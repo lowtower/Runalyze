@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Pace extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Pace extends ActivityPlot
+{
 	protected function setKey() {
 		$this->key = 'pace';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$CumulativeSeries = new Series\PaceCumulativeAverage($context);
 		$GradeAdjustedPaceSeries = new Series\GradeAdjustedPace($context);

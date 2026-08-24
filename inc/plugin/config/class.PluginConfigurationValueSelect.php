@@ -9,16 +9,14 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueSelect extends PluginConfigurationValue {
+class PluginConfigurationValueSelect extends PluginConfigurationValue
+{
 	/**
 	 * Options
 	 * @var array
 	 */
-	protected $Options = array();
+	protected $Options = [];
 
-    /**
-     * Set options
-     */
     public function setOptions(array $Options) {
 		$this->Options = $Options;
 	}

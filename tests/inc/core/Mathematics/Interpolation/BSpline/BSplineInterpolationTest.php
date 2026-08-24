@@ -83,7 +83,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [-1.0,  0.0],
             [-0.5,  0.5],
             [0.5, -0.5],
-            [1.0,  0.0]
+            [1.0,  0.0],
         ]);
 
         $this->assertArraysAreSimilar([
@@ -97,7 +97,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [0.36, -0.28],
             [0.51, -0.33],
             [0.64, -0.32],
-            [0.75, -0.25]
+            [0.75, -0.25],
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.01);
     }
 
@@ -108,7 +108,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [-1.0,  0.0],
             [-0.5,  0.5],
             [0.5, -0.5],
-            [1.0,  0.0]
+            [1.0,  0.0],
         ], [], [0, 0, 0, 1, 2, 2, 2]);
 
         $this->assertArraysAreSimilar([
@@ -122,7 +122,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [0.4, -0.24],
             [0.6, -0.24],
             [0.8, -0.16],
-            [1.0, -0.00]
+            [1.0, -0.00],
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.1);
     }
 
@@ -139,8 +139,8 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [0.5, 0.5],
             [0.5, 0.0],
             [0.5, -0.5],
-            [0.0, -0.5]
-        ], [1, $w, 1, $w, 1, $w, 1, $w, 1], [0, 0, 0, 1/4, 1/4, 1/2, 1/2, 3/4, 3/4, 1, 1, 1]);
+            [0.0, -0.5],
+        ], [1, $w, 1, $w, 1, $w, 1, $w, 1], [0, 0, 0, 1 / 4, 1 / 4, 1 / 2, 1 / 2, 3 / 4, 3 / 4, 1, 1, 1]);
 
         $this->assertArraysAreSimilar([
             [0.0, -0.5],
@@ -153,7 +153,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
             [0.4779, 0.1469],
             [0.4779, -0.1469],
             [0.2906, -0.4069],
-            [0.0, -0.5]
+            [0.0, -0.5],
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.0001);
     }
 

@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 class TypeRepository extends EntityRepository
 {
     /**
-     * @param Sport|null $sport
      * @return Type[]
      */
     public function findAllFor(Account $account, ?Sport $sport = null)
@@ -15,18 +14,17 @@ class TypeRepository extends EntityRepository
         if ($sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport) {
             return $this->findBy([
                 'account' => $account->getId(),
-                'sport' => $sport->getId()
+                'sport' => $sport->getId(),
             ]);
         }
 
         return $this->findBy([
-            'account' => $account->getId()
+            'account' => $account->getId(),
         ]);
     }
 
     /**
      * @param string $typeName
-     * @param Sport|null $sport
      * @return null|Type
      */
     public function findByNameFor($typeName, Account $account, ?Sport $sport = null)
@@ -35,7 +33,7 @@ class TypeRepository extends EntityRepository
         return $this->findOneBy([
             'account' => $account->getId(),
             'name' => (string) $typeName,
-            'sport' => $sport->getId()
+            'sport' => $sport->getId(),
         ]);
     }
 
@@ -43,7 +41,6 @@ class TypeRepository extends EntityRepository
      * #TSC add search for shurt-cut.
      *
      * @param string $shortCut
-     * @param Sport|null $sport
      * @return null|Type
      */
     public function findByShortCutFor($shortCut, Account $account, ?Sport $sport = null)
@@ -51,7 +48,7 @@ class TypeRepository extends EntityRepository
         return $this->findOneBy([
             'account' => $account->getId(),
             'abbr' => (string) $shortCut,
-            'sport' => $sport->getId()
+            'sport' => $sport->getId(),
         ]);
     }
 

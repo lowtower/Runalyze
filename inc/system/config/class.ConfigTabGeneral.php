@@ -8,11 +8,11 @@
 use Runalyze\Configuration;
 
 /**
- * ConfigTabGeneral
  * @author Hannes Christiansen
  * @package Runalyze\System\Config
  */
-class ConfigTabGeneral extends ConfigTab {
+class ConfigTabGeneral extends ConfigTab
+{
 	/**
 	 * Set key and title for form
 	 */
@@ -22,11 +22,10 @@ class ConfigTabGeneral extends ConfigTab {
 	}
 
 	/**
-	 * All categories
 	 * @return \Runalyze\Configuration\Category[]
 	 */
 	private function allCategories(): array {
-		return array(
+		return [
 		    Configuration::General(),
 		    Configuration::ActivityView(),
 		    Configuration::ActivityForm(),
@@ -34,21 +33,21 @@ class ConfigTabGeneral extends ConfigTab {
 		    Configuration::DataBrowser(),
 		    Configuration::VO2max(),
 		    Configuration::Trimp(),
-		    Configuration::BasicEndurance()
-		);
+		    Configuration::BasicEndurance(),
+		];
 	}
 
 	/**
 	 * Set all fieldsets and fields
 	 */
 	public function setFieldsetsAndFields() {
-		$IsFirst    = true;
+		$IsFirst = true;
 		$Categories = $this->allCategories();
 
 		foreach ($Categories as $Category) {
 			$Fieldset = $Category->Fieldset();
 
-			if (null !== $Fieldset) {
+			if ($Fieldset !== null) {
 				if ($IsFirst)
 					$IsFirst = false;
 				else

@@ -4,7 +4,9 @@ namespace Runalyze\Sports\Running\VO2max;
 
 class VO2maxVelocity
 {
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $EffectiveVO2max = 0.0;
 
     /**
@@ -12,7 +14,7 @@ class VO2maxVelocity
      */
     public function __construct($effectiveVO2max = null)
     {
-        if (null !== $effectiveVO2max) {
+        if ($effectiveVO2max !== null) {
             $this->setEffectiveVO2max($effectiveVO2max);
         }
     }

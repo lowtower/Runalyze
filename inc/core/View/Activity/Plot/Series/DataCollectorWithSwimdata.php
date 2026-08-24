@@ -18,7 +18,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class DataCollectorWithSwimdata extends DataCollector {
+class DataCollectorWithSwimdata extends DataCollector
+{
 	/**
 	 * @var \Runalyze\Model\Swimdata\Loop;
 	 */
@@ -31,7 +32,7 @@ class DataCollectorWithSwimdata extends DataCollector {
      */
     public function __construct(Trackdata $trackdata, $key, Swimdata $swimdata) {
 		if (! $swimdata->has($key)) {
-			throw new \InvalidArgumentException('Swimdata has no data for "'.$key.'".');
+			throw new \InvalidArgumentException('Swimdata has no data for "' . $key . '".');
 		}
 
 		$this->Key = $key;
@@ -55,7 +56,7 @@ class DataCollectorWithSwimdata extends DataCollector {
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

@@ -6,10 +6,14 @@ use Runalyze\Parser\Activity\Common\Data\ActivityData;
 
 class ActivityDataMerger implements MergerInterface
 {
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     protected $ResultingData;
 
-    /** @var ActivityData */
+    /**
+     * @var ActivityData
+     */
     protected $DataToMerge;
 
     public function __construct(ActivityData $firstData, ActivityData $secondData)
@@ -21,7 +25,7 @@ class ActivityDataMerger implements MergerInterface
     public function merge()
     {
         foreach ($this->ResultingData->getPropertyNames() as $property) {
-            if (null === $this->ResultingData->{$property}) {
+            if ($this->ResultingData->{$property} === null) {
                 $this->ResultingData->{$property} = $this->DataToMerge->{$property};
             }
         }

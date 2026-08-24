@@ -16,7 +16,8 @@ use Runalyze\View\Activity\Plot\ActivityPlot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Plot
  */
-class Series {
+class Series
+{
 	/**
 	 * @var string
 	 */
@@ -85,7 +86,6 @@ class Series {
 	protected $YAxis;
 
 	/**
-	 * Set label
 	 * @param string $label
 	 */
 	public function setLabel($label) {
@@ -100,16 +100,12 @@ class Series {
 	}
 
 	/**
-	 * Set color
 	 * @param string $color
 	 */
 	public function setColor($color) {
 		$this->Color = $color;
 	}
 
-    /**
-     * Set data
-     */
     public function setData(array $data) {
 		$this->Data = $data;
 	}
@@ -135,12 +131,12 @@ class Series {
 				$this->Data[$k] = $v * '1000';
 		}
 
-		$Plot->Data[] = array(
+		$Plot->Data[] = [
     'label' => $this->Label,
 		    'color' => $this->Color,
 		    'data' => $this->Data,
-		    'yaxis' => $yAxis
-);
+		    'yaxis' => $yAxis,
+];
 
 		if ($this->UnitString != '') {
 			if ($this->UnitString == 'time') {
@@ -157,27 +153,27 @@ class Series {
 		if ($addAnnotations && $this->ShowAverage && ! empty($this->Data)) {
 			$avg = $this->avg();
 
-			$Plot->addThreshold('y'.$yAxis, $avg, 'rgba(0,0,0,0.5)');
-			$Plot->addAnnotation(0, $avg, __('avg:').' '.$avg.' '.$this->UnitString);
+			$Plot->addThreshold('y' . $yAxis, $avg, 'rgba(0,0,0,0.5)');
+			$Plot->addAnnotation(0, $avg, __('avg:') . ' ' . $avg . ' ' . $this->UnitString);
 		}
 
 		if ($addAnnotations && $this->ShowMaximum) {
 			$max = max($this->Data);
 			$maxX = array_keys($this->Data, $max);
 
-			$Plot->addAnnotation($maxX[0], round($max), round($max).$this->UnitString);
+			$Plot->addAnnotation($maxX[0], round($max), round($max) . $this->UnitString);
 		}
 
 		if ($addAnnotations && $this->ShowMinimum) {
 			$min = min($this->Data);
 			$minX = array_keys($this->Data, $min);
 
-			$Plot->addAnnotation($minX[0], round($min), round($min).$this->UnitString);
+			$Plot->addAnnotation($minX[0], round($min), round($min) . $this->UnitString);
 		}
 	}
 
 	public function hideIn(ActivityPlot $plot) {
-		if (null !== $this->YAxis) {
+		if ($this->YAxis !== null) {
 			$plot->hideYAxisAndSeries($this->YAxis);
 		}
 	}
@@ -192,7 +188,7 @@ class Series {
 			return $this->ManualAverage;
 		}
 
-		return round( array_sum($this->Data)/count($this->Data), $decimals );
+		return round( array_sum($this->Data) / count($this->Data), $decimals );
 	}
 
 	/**

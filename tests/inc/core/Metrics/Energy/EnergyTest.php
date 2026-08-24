@@ -6,7 +6,9 @@ use Runalyze\Metrics\Energy\Energy;
 
 class EnergyTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Energy */
+    /**
+     * @var Energy
+     */
     protected $Energy;
 
     protected function setUp(): void

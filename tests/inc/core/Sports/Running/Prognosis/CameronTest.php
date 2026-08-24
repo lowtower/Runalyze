@@ -8,7 +8,9 @@ use Runalyze\Sports\Running\Prognosis\Cameron;
 
 class CameronTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Cameron */
+    /**
+     * @var Cameron
+     */
     protected $Cameron;
 
     protected function setUp(): void

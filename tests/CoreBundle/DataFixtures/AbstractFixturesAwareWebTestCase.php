@@ -17,22 +17,34 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
     use FixturesTrait;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $Client;
 
-    /** @var ReferenceRepository */
+    /**
+     * @var ReferenceRepository
+     */
     protected $Fixtures;
 
-    /** @var array|null */
+    /**
+     * @var array|null
+     */
     protected $FixtureClasses;
 
-    /** @var EntityManager */
+    /**
+     * @var EntityManager
+     */
     protected $EntityManager;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $PreviousPhpTimezone;
 
-    /** @var string|false */
+    /**
+     * @var string|false
+     */
     private $PreviousEnvironmentTimezone;
 
     private function rememberTimezone()
@@ -46,7 +58,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         if ($this->PreviousEnvironmentTimezone === false) {
             putenv('TZ');
         } else {
-            putenv('TZ='.$this->PreviousEnvironmentTimezone);
+            putenv('TZ=' . $this->PreviousEnvironmentTimezone);
         }
 
         date_default_timezone_set($this->PreviousPhpTimezone);
@@ -58,9 +70,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
         $this->rememberTimezone();
 
-        if (null === $this->FixtureClasses) {
+        if ($this->FixtureClasses === null) {
             $this->FixtureClasses = [
-                LoadAccountData::class
+                LoadAccountData::class,
             ];
         }
 
@@ -85,7 +97,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
             $this->restoreTimezone();
         }
 
-        if (null !== $this->EntityManager) {
+        if ($this->EntityManager !== null) {
             $this->EntityManager->close();
             $this->EntityManager = null;
         }

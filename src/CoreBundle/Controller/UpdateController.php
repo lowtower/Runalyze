@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
- * Class UpdateController
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Bundle\CoreBundle\Controller
@@ -29,11 +28,11 @@ class UpdateController extends Controller
             '--em' => $entity_manager,
         ]), $output);
 
-        if ('prod' == $this->get('kernel')->getEnvironment()) {
+        if ($this->get('kernel')->getEnvironment() == 'prod') {
             $application->run(new ArrayInput([
                 'command' => 'cache:clear',
                 '--env' => 'prod',
-                '--no-warmup' => true
+                '--no-warmup' => true,
             ]), $output);
 
             $output->writeln(' To warmup the cache, run `php bin/console cache:clear`.');
@@ -51,7 +50,7 @@ class UpdateController extends Controller
 
         return $this->render('system/update.html.twig', [
             'updateAvailable' => $updateAvailable,
-            'migrationDump' => $content
+            'migrationDump' => $content,
         ]);
     }
 
@@ -80,7 +79,7 @@ class UpdateController extends Controller
 
         return $this->render('system/update_start.html.twig', [
             'migrationStatus' => $migrationStatus,
-            'migrationDump' => $content
+            'migrationDump' => $content,
         ]);
     }
 }

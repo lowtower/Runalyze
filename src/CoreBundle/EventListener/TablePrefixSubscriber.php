@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $prefix = '';
 
     public function __construct($prefix = '')
@@ -24,9 +26,9 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
         $classMetadata = $eventArgs->getClassMetadata();
 
         if (strlen($this->prefix)) {
-            if (0 !== strpos($classMetadata->getTableName(), $this->prefix)) {
+            if (strpos($classMetadata->getTableName(), $this->prefix) !== 0) {
                 $classMetadata->setPrimaryTable([
-                    'name' => $this->prefix.$classMetadata->getTableName()
+                    'name' => $this->prefix . $classMetadata->getTableName(),
                 ]);
             }
         }
@@ -42,8 +44,8 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
 
                 $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
 
-                if (0 !== strpos($mappedTableName, $this->prefix)) {
-                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix.$mappedTableName;
+                if (strpos($mappedTableName, $this->prefix) !== 0) {
+                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
                 }
             }
         }
@@ -54,6 +56,6 @@ class TablePrefixSubscriber implements \Doctrine\Common\EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array('loadClassMetadata');
+        return ['loadClassMetadata'];
     }
 }

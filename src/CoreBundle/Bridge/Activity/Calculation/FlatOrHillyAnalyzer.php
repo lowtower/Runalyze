@@ -7,7 +7,9 @@ use Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb\ClimbProfile;
 
 class FlatOrHillyAnalyzer
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     const DEFAULT_GRADIENT_THRESHOLD = 0.02;
 
     /**
@@ -18,7 +20,7 @@ class FlatOrHillyAnalyzer
     {
         $percentageFlat = null;
 
-        if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && null !== $activity->getTrackdata()->getDistance()) {
+        if ($activity->hasRoute() && $activity->getRoute()->hasElevations() && $activity->hasTrackdata() && $activity->getTrackdata()->getDistance() !== null) {
             $percentageFlat = $this->calculatePercentageFlatForArrays(
                 $activity->getTrackdata()
                     ->getDistance(),
@@ -28,7 +30,7 @@ class FlatOrHillyAnalyzer
             );
         }
 
-        $activity->setPercentageHilly(null !== $percentageFlat ? 1.0 - $percentageFlat : null);
+        $activity->setPercentageHilly($percentageFlat !== null ? 1.0 - $percentageFlat : null);
 
         return $percentageFlat;
     }

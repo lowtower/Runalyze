@@ -11,10 +11,14 @@ namespace Runalyze\Mathematics\Distribution;
  */
 class MultipleTimeSeries
 {
-    /** @var EmpiricalDistribution[] */
+    /**
+     * @var EmpiricalDistribution[]
+     */
     protected $Distributions = [];
 
-    /** @var float[] */
+    /**
+     * @var float[]
+     */
     protected $Quantiles = [];
 
     /**

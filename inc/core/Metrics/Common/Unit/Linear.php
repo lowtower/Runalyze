@@ -7,16 +7,24 @@ use Runalyze\Metrics\Common\UnitInterface;
 
 class Linear implements UnitInterface, FormattableUnitInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Appendix;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Decimals;
 
-    /** @var callable */
+    /**
+     * @var callable
+     */
     protected $TransformationFromBaseUnit;
 
-    /** @var callable */
+    /**
+     * @var callable
+     */
     protected $TransformationToBaseUnit;
 
     /**

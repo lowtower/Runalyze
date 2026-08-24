@@ -20,10 +20,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class EquipmentCategoryType extends AbstractType
 {
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(SportRepository $SportRepository, TokenStorage $tokenStorage)
@@ -54,34 +58,34 @@ class EquipmentCategoryType extends AbstractType
                 'label' => 'Name',
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $equipmentType = $event->getData();
                 $form = $event->getForm();
 
-                if (! $equipmentType || null === $equipmentType->getId()) {
+                if (! $equipmentType || $equipmentType->getId() === null) {
                     $form->add('input', ChoiceType::class, [
                         'choices' => [
                             'Single choice' => EntityEquipmentType::CHOICE_SINGLE,
-                            'Multiple Choice' => EntityEquipmentType::CHOICE_MULTIPLE
+                            'Multiple Choice' => EntityEquipmentType::CHOICE_MULTIPLE,
                         ],
                         'choice_translation_domain' => false,
-                        'label' => 'Mode'
+                        'label' => 'Mode',
                     ]);
                 }
             })
             ->add('maxKm', DistanceType::class, [
                 'label' => 'max. Distance',
-                'required' => false
+                'required' => false,
             ])
             ->add('maxTime', DurationNullableType::class, [
                 'label' => 'max. Time',
                 'required' => false,
                 'attr' => [
-                    'class' => 'medium-size'
-                ]
+                    'class' => 'medium-size',
+                ],
             ])
             ->add('sport', EntityType::class, [
                 'class' => Sport::class,
@@ -90,18 +94,18 @@ class EquipmentCategoryType extends AbstractType
                 'label' => 'Assigned sports',
                 'attr' => [
                     'class' => 'chosen-select full-size',
-                    'data-placeholder' => 'Choose sport(s)'
+                    'data-placeholder' => 'Choose sport(s)',
                 ],
                 'multiple' => true,
                 'required' => true,
-                'expanded' => false
+                'expanded' => false,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class,
         ]);
     }
 }

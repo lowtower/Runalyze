@@ -22,5 +22,4 @@ class ActivityTest extends \PHPUnit\Framework\TestCase
 
         new Activity('test', $Context->route(), $Context->trackdata(), true);
 	}
-
 }

@@ -15,7 +15,7 @@ class FileImportResultCollectionTest extends \PHPUnit\Framework\TestCase
         $collection[] = new FileImportResult([], 'b.foo', 'a.foo');
         $collection[] = new FileImportResult([], 'a.bar', 'b.bar');
         $collection[] = new FileImportResult([
-            new ActivityDataContainer(), new ActivityDataContainer(), new ActivityDataContainer()
+            new ActivityDataContainer(), new ActivityDataContainer(), new ActivityDataContainer(),
         ], 'b.bar', 'b.bar');
         $collection[] = new FileImportResult([], 'c.bar', 'c.bar');
         unset($collection[4]);
@@ -34,7 +34,7 @@ class FileImportResultCollectionTest extends \PHPUnit\Framework\TestCase
             new FileImportResult([], 'a.foo', 'a.foo'),
             new FileImportResult([], 'b.foo', 'a.foo'),
             new FileImportResult([], 'b.bar', 'c.bar'),
-            new FileImportResult([], 'c.bar', 'c.bar')
+            new FileImportResult([], 'c.bar', 'c.bar'),
         ]);
 
         $this->assertEquals(['b.foo', 'b.bar'], $collection->getAllConvertedFileNames());

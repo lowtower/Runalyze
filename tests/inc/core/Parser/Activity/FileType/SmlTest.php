@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class SmlTest extends AbstractActivityParserTestCase
 {
-    /** @var Sml */
+    /**
+     * @var Sml
+     */
     protected $Parser;
 
     protected function setUp(): void

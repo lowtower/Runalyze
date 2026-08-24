@@ -28,10 +28,10 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
             new Runalyze\Bundle\GlossaryBundle\GlossaryBundle(),
         ];
 
-        if ('dev' == $this->getEnvironment()) {
+        if ($this->getEnvironment() == 'dev') {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
-        } elseif ('test' == substr($this->getEnvironment(), 0, 4)) {
+        } elseif (substr($this->getEnvironment(), 0, 4) == 'test') {
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
             $bundles[] = new Liip\TestFixturesBundle\LiipTestFixturesBundle();
@@ -42,7 +42,7 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -71,7 +71,7 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
      */
     public function getCacheDir()
     {
-        return dirname(__DIR__).'/var/cache/'.$this->environment;
+        return dirname(__DIR__) . '/var/cache/' . $this->environment;
     }
 
     /**
@@ -79,6 +79,6 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
      */
     public function getLogDir()
     {
-        return dirname(__DIR__).'/var/logs';
+        return dirname(__DIR__) . '/var/logs';
     }
 }

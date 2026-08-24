@@ -15,7 +15,7 @@ class PluginRepository extends EntityRepository
         return $this->findOneBy([
             'account' => $account,
             'type' => 'panel',
-            'order' => $position
+            'order' => $position,
         ]);
     }
 
@@ -23,7 +23,7 @@ class PluginRepository extends EntityRepository
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() - 1);
 
-        if (null !== $otherPanel) {
+        if ($otherPanel !== null) {
             $otherPanel->moveDown();
 
             $panel->moveUp();
@@ -36,7 +36,7 @@ class PluginRepository extends EntityRepository
     {
         $otherPanel = $this->findPanelByPosition($panel->getAccount(), $panel->getOrder() + 1);
 
-        if (null !== $otherPanel) {
+        if ($otherPanel !== null) {
             $otherPanel->moveUp();
 
             $panel->moveDown();

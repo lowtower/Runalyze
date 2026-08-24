@@ -11,16 +11,24 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
 {
     use XmlParserTrait;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseInSeconds = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $PauseIndex = 0;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $PauseTimes = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $ResumeTimes = [];
 
     public function parse()
@@ -188,9 +196,9 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
             if ($folder['id'] == 'pause_resume') {
                 foreach ($folder->Placemark as $mark) {
                     if ($mark->styleUrl == '#pause') {
-                        $start = strtotime($mark->description.'Z');
+                        $start = strtotime($mark->description . 'Z');
                     } elseif ($mark->styleUrl == '#resume') {
-                        $end = strtotime($mark->description.'Z');
+                        $end = strtotime($mark->description . 'Z');
 
                         $this->ResumeTimes[] = strftime('%T', $end);
                         $this->PauseTimes[] = ($end - $start) % DAY_IN_S;

@@ -13,7 +13,8 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-abstract class PluginStat extends Plugin {
+abstract class PluginStat extends Plugin
+{
 	/**
 	 * Boolean flag: show sports-navigation
 	 * @var bool
@@ -48,7 +49,7 @@ abstract class PluginStat extends Plugin {
 	 * Array of links (each wrapped in a <li>-tag
 	 * @var array
 	 */
-	private $LinkList = array();
+	private $LinkList = [];
 
 	/**
 	 * Header
@@ -56,7 +57,6 @@ abstract class PluginStat extends Plugin {
 	private $Header = '';
 
 	/**
-	 * Type
 	 * @return int
 	 */
 	final public function type() {
@@ -108,7 +108,6 @@ abstract class PluginStat extends Plugin {
 	}
 
 	/**
-	 * Set header
 	 * @param string $Header
 	 */
 	protected function setHeader($Header) {
@@ -119,7 +118,7 @@ abstract class PluginStat extends Plugin {
 	 * Add sport and year (if set) to header
 	 */
 	protected function setHeaderWithSportAndYear() {
-		$HeaderParts = array();
+		$HeaderParts = [];
 
 		if ($this->sportid > 0 && $this->ShowSportsNavigation) {
 			$Sport = new Sport($this->sportid);
@@ -131,7 +130,7 @@ abstract class PluginStat extends Plugin {
 		}
 
 		if (! empty($HeaderParts)) {
-			$this->setHeader($this->name().': '.implode(', ', $HeaderParts));
+			$this->setHeader($this->name() . ': ' . implode(', ', $HeaderParts));
 		}
 	}
 
@@ -144,8 +143,8 @@ abstract class PluginStat extends Plugin {
 		$Query = '';
 
 		if ($this->sportid > 0) {
-			$sport = $addTableName ? '`'.PREFIX.'training`.`sportid`' : '`sportid`';
-			$Query .= ' AND '.$sport.'='.(int) $this->sportid;
+			$sport = $addTableName ? '`' . PREFIX . 'training`.`sportid`' : '`sportid`';
+			$Query .= ' AND ' . $sport . '=' . (int) $this->sportid;
 		}
 
 		return $Query . $this->getYearDependenceForQuery($addTableName);
@@ -158,14 +157,14 @@ abstract class PluginStat extends Plugin {
 	 */
 	protected function getYearDependenceForQuery($addTableName = false) {
 		$Query = '';
-		$time = $addTableName ? '`'.PREFIX.'training`.`time`' : '`time`';
+		$time = $addTableName ? '`' . PREFIX . 'training`.`time`' : '`time`';
 
 		if ($this->showsLast6Months()) {
-			$Query .= ' AND '.$time.' > '.LocalTime::fromString('first day of -5 months 00:00')->getTimestamp();
+			$Query .= ' AND ' . $time . ' > ' . LocalTime::fromString('first day of -5 months 00:00')->getTimestamp();
 		} elseif ($this->showsLast12Months()) {
-			$Query .= ' AND '.$time.' > '.LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
+			$Query .= ' AND ' . $time . ' > ' . LocalTime::fromString('first day of -11 months 00:00')->getTimestamp();
 		} elseif (! $this->showsAllYears()) {
-			$Query .= ' AND '.$time." BETWEEN UNIX_TIMESTAMP('".(int) $this->year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->year+1)."-01-01')-1 ";
+			$Query .= ' AND ' . $time . " BETWEEN UNIX_TIMESTAMP('" . (int) $this->year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->year + 1) . "-01-01')-1 ";
 		}
 
 		return $Query;
@@ -177,17 +176,17 @@ abstract class PluginStat extends Plugin {
 	 * @return string
 	 */
 	protected function getTimerForOrderingInQuery($addTableName = false) {
-		$time = $addTableName ? '`'.PREFIX.'training`.`time`' : '`time`';
+		$time = $addTableName ? '`' . PREFIX . 'training`.`time`' : '`time`';
 
 		if ($this->showsAllYears()) {
-			return 'YEAR(FROM_UNIXTIME('.$time.'))';
+			return 'YEAR(FROM_UNIXTIME(' . $time . '))';
 		}
 
 		if (! $this->showsSpecificYear()) {
-			return 'DATE_FORMAT(FROM_UNIXTIME('.$time.'), "%Y-%m")';
+			return 'DATE_FORMAT(FROM_UNIXTIME(' . $time . '), "%Y-%m")';
 		}
 
-		return 'MONTH(FROM_UNIXTIME('.$time.'))';
+		return 'MONTH(FROM_UNIXTIME(' . $time . '))';
 	}
 
 	/**
@@ -196,21 +195,20 @@ abstract class PluginStat extends Plugin {
 	 * @return string
 	 */
 	protected function getTimerIndexForQuery($addTableName = false) {
-		$time = $addTableName ? '`'.PREFIX.'training`.`time`' : '`time`';
+		$time = $addTableName ? '`' . PREFIX . 'training`.`time`' : '`time`';
 
 		if ($this->showsLast6Months()) {
-			return '((MONTH(FROM_UNIXTIME('.$time.')) + 5 - '.date('m').')%12 + 1)';
+			return '((MONTH(FROM_UNIXTIME(' . $time . ')) + 5 - ' . date('m') . ')%12 + 1)';
 		}
 
 		if ($this->showsLast12Months()) {
-			return '((MONTH(FROM_UNIXTIME('.$time.')) + 11 - '.date('m').')%12 + 1)';
+			return '((MONTH(FROM_UNIXTIME(' . $time . ')) + 11 - ' . date('m') . ')%12 + 1)';
 		}
 
 		return $this->getTimerForOrderingInQuery($addTableName);
 	}
 
     /**
-     * Display header
      * @param string $name
      * @param string $leftMenu
      */
@@ -220,31 +218,28 @@ abstract class PluginStat extends Plugin {
 		}
 
 		if (! empty($leftMenu)) {
-			echo '<div class="icons-left">'.$leftMenu.'</div>';
+			echo '<div class="icons-left">' . $leftMenu . '</div>';
 		}
 
 		if (! empty($rightMenu)) {
-			echo '<div class="panel-menu">'.$rightMenu.'</div>';
+			echo '<div class="panel-menu">' . $rightMenu . '</div>';
 		}
 
-		echo '<h1>'.$name.'</h1>';
-		echo '<div class="hover-icons">'.$this->getConfigLink().$this->getReloadLink().'</div>';
+		echo '<h1>' . $name . '</h1>';
+		echo '<div class="hover-icons">' . $this->getConfigLink() . $this->getReloadLink() . '</div>';
 	}
 
-	/**
-	 * Get navigation
-	 */
 	private function getNavigation(): string {
 		if ($this->ShowSportsNavigation) {
-			$this->LinkList[] = '<li class="with-submenu"><span class="link">'.$this->getSportString().'</span><ul class="submenu">'.$this->getSportLinksAsList().'</ul>';
+			$this->LinkList[] = '<li class="with-submenu"><span class="link">' . $this->getSportString() . '</span><ul class="submenu">' . $this->getSportLinksAsList() . '</ul>';
 		}
 
 		if ($this->ShowYearsNavigation) {
-			$this->LinkList[] = '<li class="with-submenu"><span class="link">'.$this->getYearString().'</span><ul class="submenu">'.$this->getYearLinksAsList($this->ShowCompareYearsLink, $this->ShowTimeRangeLinks).'</ul>';
+			$this->LinkList[] = '<li class="with-submenu"><span class="link">' . $this->getYearString() . '</span><ul class="submenu">' . $this->getYearLinksAsList($this->ShowCompareYearsLink, $this->ShowTimeRangeLinks) . '</ul>';
 		}
 
 		if (! empty($this->LinkList)) {
-			return '<ul>'.implode('', $this->LinkList).'</ul>';
+			return '<ul>' . implode('', $this->LinkList) . '</ul>';
 		}
 
 		return '';
@@ -257,12 +252,12 @@ abstract class PluginStat extends Plugin {
 		$Links = '';
 
 		if ($this->ShowAllSportsLink) {
-			$Links .= '<li'.(-1==$this->sportid ? ' class="active"' : '').'>'.$this->getInnerLink(__('All'), -1, $this->year, $this->dat).'</li>';
+			$Links .= '<li' . ($this->sportid == -1 ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All'), -1, $this->year, $this->dat) . '</li>';
 		}
 
 		$Sports = SportFactory::NamesAsArray();
 		foreach ($Sports as $id => $name) {
-			$Links .= '<li'.($id == $this->sportid ? ' class="active"' : '').'>'.$this->getInnerLink($name, $id, $this->year, $this->dat).'</li>';
+			$Links .= '<li' . ($id == $this->sportid ? ' class="active"' : '') . '>' . $this->getInnerLink($name, $id, $this->year, $this->dat) . '</li>';
 		}
 
 		return $Links;
@@ -277,16 +272,16 @@ abstract class PluginStat extends Plugin {
 		$Links = '';
 
 		if ($CompareYears) {
-			$Links .= '<li'.(-1==$this->year ? ' class="active"' : '').'>'.$this->getInnerLink($this->titleForAllYears(), $this->sportid, -1, $this->dat).'</li>';
+			$Links .= '<li' . ($this->year == -1 ? ' class="active"' : '') . '>' . $this->getInnerLink($this->titleForAllYears(), $this->sportid, -1, $this->dat) . '</li>';
 		}
 
 		if ($TimeRanges) {
-			$Links .= '<li'.(6 == $this->year ? ' class="active"' : '').'>'.$this->getInnerLink(__('Last 6 months'), $this->sportid, 6, $this->dat).'</li>';
-			$Links .= '<li'.(12 == $this->year ? ' class="active"' : '').'>'.$this->getInnerLink(__('Last 12 months'), $this->sportid, 12, $this->dat).'</li>';
+			$Links .= '<li' . ($this->year == 6 ? ' class="active"' : '') . '>' . $this->getInnerLink(__('Last 6 months'), $this->sportid, 6, $this->dat) . '</li>';
+			$Links .= '<li' . ($this->year == 12 ? ' class="active"' : '') . '>' . $this->getInnerLink(__('Last 12 months'), $this->sportid, 12, $this->dat) . '</li>';
 		}
 
 		for ($x = date('Y'); $x >= START_YEAR; $x--) {
-			$Links .= '<li'.($x==$this->year ? ' class="active"' : '').'>'.$this->getInnerLink($x, $this->sportid, $x, $this->dat).'</li>';
+			$Links .= '<li' . ($x == $this->year ? ' class="active"' : '') . '>' . $this->getInnerLink($x, $this->sportid, $x, $this->dat) . '</li>';
 		}
 
 		return $Links;
@@ -331,23 +326,23 @@ abstract class PluginStat extends Plugin {
 		}
 
 		if (! empty($width)) {
-			$width = ' width="'.$width.'"';
+			$width = ' width="' . $width . '"';
 		}
 
 		if ($this->showsAllYears()) {
 			$year = date('Y');
 
 			for ($i = START_YEAR; $i <= $year; $i++) {
-				echo '<th'.$width.'>'.$i.'</th>';
+				echo '<th' . $width . '>' . $i . '</th>';
 			}
 
-			echo '<th>'.__('In total').'</th>';
+			echo '<th>' . __('In total') . '</th>';
 		} else {
 			$num = $this->showsLast6Months() ? 6 : 12;
 			$add = $this->showsTimeRange() ? date('m') - $num - 1 + 12 : -1;
 
 			for ($i = 1; $i <= 12; $i++) {
-				echo '<th'.$width.'>'.Time::month(($i + $add)%12 + 1, true).'</th>';
+				echo '<th' . $width . '>' . Time::month(($i + $add) % 12 + 1, true) . '</th>';
 			}
 		}
 	}
@@ -357,7 +352,7 @@ abstract class PluginStat extends Plugin {
 	 * @return string
 	 */
 	public function getLink() {
-		return '<a rel="statistics" href="'.self::$DISPLAY_URL.'/'.$this->id().'">'.$this->name().'</a>';
+		return '<a rel="statistics" href="' . self::$DISPLAY_URL . '/' . $this->id() . '">' . $this->name() . '</a>';
 	}
 
 	/**
@@ -377,7 +372,7 @@ abstract class PluginStat extends Plugin {
 			$year = $this->year;
 		}
 
-		return Ajax::link($name, 'statistics-inner', self::$DISPLAY_URL.'/'.$this->id().'?sport='.$sport.'&jahr='.$year.'&dat='.$dat);
+		return Ajax::link($name, 'statistics-inner', self::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $sport . '&jahr=' . $year . '&dat=' . $dat);
 	}
 
 	/**

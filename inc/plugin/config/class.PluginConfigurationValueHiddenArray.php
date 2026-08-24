@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray {
+class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray
+{
 	/**
 	 * Display row for config form
 	 * @return FormularField

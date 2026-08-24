@@ -10,10 +10,14 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class ElevationCorrection
 {
-	/** @var StrategyCollection */
+	/**
+	 * @var StrategyCollection
+	 */
 	protected $StrategyCollection;
 
-	/** @var null|StrategyInterface */
+	/**
+	 * @var null|StrategyInterface
+	 */
 	protected $LastSuccessfulStrategy;
 
 	public function __construct(
@@ -52,7 +56,7 @@ class ElevationCorrection
      */
     public function getLastSuccessfulStrategy()
     {
-        if (null !== $this->LastSuccessfulStrategy) {
+        if ($this->LastSuccessfulStrategy !== null) {
             return $this->LastSuccessfulStrategy;
         }
 

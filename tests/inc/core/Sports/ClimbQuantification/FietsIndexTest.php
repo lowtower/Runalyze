@@ -6,7 +6,9 @@ use Runalyze\Sports\ClimbQuantification\FietsIndex;
 
 class FietsIndexTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FietsIndex */
+    /**
+     * @var FietsIndex
+     */
     protected $Fiets;
 
     protected function setUp(): void

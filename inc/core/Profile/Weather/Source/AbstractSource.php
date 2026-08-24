@@ -27,6 +27,6 @@ abstract class AbstractSource implements SourceInterface
 
 	public function hasAttributionUrl()
     {
-        return null !== $this->getAttributionUrl();
+        return $this->getAttributionUrl() !== null;
     }
 }

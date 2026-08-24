@@ -40,6 +40,6 @@ abstract class AbstractMetric
      */
     public function isKnown()
     {
-        return null !== $this->Value;
+        return $this->Value !== null;
     }
 }

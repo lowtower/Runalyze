@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Cadence extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Cadence extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'cadence';
+		$this->key = 'cadence';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\Cadence($context)

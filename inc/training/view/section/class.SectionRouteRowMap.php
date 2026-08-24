@@ -13,18 +13,16 @@ use Runalyze\View\Leaflet;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionRouteRowMap extends TrainingViewSectionRowFullwidth {
-	/**
-	 * Set content
-	 */
+class SectionRouteRowMap extends TrainingViewSectionRowFullwidth
+{
 	protected function setContent() {
 		$this->id = 'training-map';
 
 		if ($this->Context->hasRoute() && $this->Context->route()->hasPositionData() && ! $this->Context->hideMap()) {
-			$Map = new Leaflet\Map('map-'.$this->Context->activity()->id());
+			$Map = new Leaflet\Map('map-' . $this->Context->activity()->id());
 			$Map->addRoute(
 			    new Leaflet\Activity(
-			        'route-'.$this->Context->activity()->id(),
+			        'route-' . $this->Context->activity()->id(),
 			        $this->Context->route(),
 			        $this->Context->trackdata()
 			    )

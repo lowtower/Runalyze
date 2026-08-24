@@ -8,7 +8,6 @@
 namespace Runalyze\Dataset\Keys;
 
 use Runalyze\View\Stresscolor;
-
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\SummaryMode;
 
@@ -20,7 +19,9 @@ use Runalyze\Dataset\SummaryMode;
  */
 class Distance extends AbstractKey
 {
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const KEY_DISTANCE_COMPARISON = 'distance_to_compare_to';
 
     /**
@@ -55,7 +56,7 @@ class Distance extends AbstractKey
 	{
 		if ($context->hasData(self::KEY_DISTANCE_COMPARISON)) {
 			return $context->dataview()
-			    ->distance().
+			    ->distance() .
 				$this->distanceComparison($context->activity()->distance(), $context->data(self::KEY_DISTANCE_COMPARISON));
 		}
 
@@ -70,12 +71,12 @@ class Distance extends AbstractKey
      */
     protected function distanceComparison($currentDistance, $previousDistance): string {
 		$Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
-		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage).'&nbsp;&#37;' : '-';
+		$String = ($Percentage != 0) ? sprintf('%+d', $Percentage) . '&nbsp;&#37;' : '-';
 
 		$Stress = new Stresscolor($Percentage);
 		$Stress->scale(0, 30);
 
-		return ' <small style="display:inline-block;width:55px;color:#'.$Stress->rgb().'">'.$String.'</small>';
+		return ' <small style="display:inline-block;width:55px;color:#' . $Stress->rgb() . '">' . $String . '</small>';
 	}
 
 	/**
@@ -89,7 +90,7 @@ class Distance extends AbstractKey
 			return 0;
 		}
 
-		return round(100*($currentDistance - $previousDistance) / $previousDistance, 1);
+		return round(100 * ($currentDistance - $previousDistance) / $previousDistance, 1);
 	}
 
 	/**

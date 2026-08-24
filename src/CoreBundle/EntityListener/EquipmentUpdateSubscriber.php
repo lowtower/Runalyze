@@ -12,7 +12,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class EquipmentUpdateSubscriber implements EventSubscriber
 {
-    /** @var EquipmentRepository */
+    /**
+     * @var EquipmentRepository
+     */
     protected $EquipmentRepository;
 
     public function getSubscribedEvents()
@@ -75,7 +77,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
         $distanceChange = $args->hasChangedField('distance') ? $args->getNewValue('distance') - $args->getOldValue('distance') : 0.0;
         $unchangedEquipment = [];
 
-        if (0 != $durationChange || 0.0 != $distanceChange) {
+        if ($durationChange != 0 || $distanceChange != 0.0) {
             /** @var Equipment[] $unchangedEquipment */
             $unchangedEquipment = $activity->getEquipment()
                 ->toArray();

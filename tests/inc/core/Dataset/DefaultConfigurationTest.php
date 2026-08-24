@@ -9,7 +9,7 @@ class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 		$allKeys = (new DefaultConfiguration())->allKeys();
 
 		foreach (Keys::getEnum() as $key) {
-			$this->assertTrue(in_array($key, $allKeys), 'Key '.$key.' is missing in default dataset config.');
+			$this->assertTrue(in_array($key, $allKeys), 'Key ' . $key . ' is missing in default dataset config.');
 		}
 	}
 
@@ -18,7 +18,7 @@ class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 		$DefaultConfiguration = new DefaultConfiguration();
 
 		foreach ($DefaultConfiguration->allKeys() as $key) {
-			$this->assertTrue(Keys::isValidValue($key), 'Key '.$key.' is invalid.');
+			$this->assertTrue(Keys::isValidValue($key), 'Key ' . $key . ' is invalid.');
 		}
 	}
 }

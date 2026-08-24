@@ -10,7 +10,7 @@ class PronationExcursion extends ActivityPlot
 {
 	protected function setKey()
     {
-		$this->key   = 'pronation_excursion';
+		$this->key = 'pronation_excursion';
 	}
 
 	protected function initData(Activity\Context $context)

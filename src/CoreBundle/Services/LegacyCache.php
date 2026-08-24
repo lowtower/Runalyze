@@ -7,7 +7,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class LegacyCache
 {
-    /** @var \phpFastCache */
+    /**
+     * @var \phpFastCache
+     */
     public static $cache;
 
 	/**
@@ -28,10 +30,10 @@ class LegacyCache
 	 * @return bool
 	 */
 	public function delete($keyword, $accountId = false) {
-	    $accountId = false === $accountId ? '' : (string) $accountId;
+	    $accountId = $accountId === false ? '' : (string) $accountId;
 
-	    if (self::$cache->isExisting($keyword.$accountId)) {
-            return self::$cache->delete($keyword.$accountId);
+	    if (self::$cache->isExisting($keyword . $accountId)) {
+            return self::$cache->delete($keyword . $accountId);
         }
 
         return false;
@@ -42,27 +44,27 @@ class LegacyCache
         $accountId = $activity->getAccount()
             ->getId();
 
-        if (null !== $activity->getRoute()) {
-            $this->delete('route'.$activity->getRoute()->getId(), $accountId);
+        if ($activity->getRoute() !== null) {
+            $this->delete('route' . $activity->getRoute()->getId(), $accountId);
         }
 
-        if (null !== $activity->getTrackdata()) {
-            $this->delete('trackdata'.$activity->getId(), $accountId);
+        if ($activity->getTrackdata() !== null) {
+            $this->delete('trackdata' . $activity->getId(), $accountId);
         }
 
-        if (null !== $activity->getSwimdata()) {
-            $this->delete('swimdata'.$activity->getId(), $accountId);
+        if ($activity->getSwimdata() !== null) {
+            $this->delete('swimdata' . $activity->getId(), $accountId);
         }
 
-        if (null !== $activity->getHrv()) {
-            $this->delete('hrv'.$activity->getId(), $accountId);
+        if ($activity->getHrv() !== null) {
+            $this->delete('hrv' . $activity->getId(), $accountId);
         }
 
-        if (null !== $activity->getRaceresult()) {
-            $this->delete('raceresult'.$activity->getId(), $accountId);
+        if ($activity->getRaceresult() !== null) {
+            $this->delete('raceresult' . $activity->getId(), $accountId);
         }
 
-        $this->delete('training'.$activity->getId(), $accountId);
+        $this->delete('training' . $activity->getId(), $accountId);
     }
 
     public function clearRaceResultCache(Raceresult $raceResult)
@@ -70,6 +72,6 @@ class LegacyCache
         $accountId = $raceResult->getAccount()
             ->getId();
 
-        $this->delete('raceresult'.$raceResult->getActivity()->getId(), $accountId);
+        $this->delete('raceresult' . $raceResult->getActivity()->getId(), $accountId);
     }
 }

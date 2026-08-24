@@ -16,7 +16,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
     public function testEmptyResponse()
     {
         $darkSky = new OpenWeatherMap('', null, $this->getMockForResponses([
-            new Response(200, [], '')
+            new Response(200, [], ''),
         ]));
 
         $location = new Location();
@@ -43,7 +43,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 				"id":2894003,
 				"name":"Kaiserslautern",
 				"cod":200
-			}')
+			}'),
         ]));
 
         $location = new Location();
@@ -68,7 +68,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $darkSky = new OpenWeatherMap('', null, $this->getMockForResponses([
             new Response(200, [], '{
 				"wind":{"speed":1.76,"deg":359.9}
-			}')
+			}'),
         ]));
 
         $location = new Location();

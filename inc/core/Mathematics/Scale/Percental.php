@@ -9,10 +9,14 @@ namespace Runalyze\Mathematics\Scale;
  */
 class Percental implements ScaleInterface
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $Min = 0.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $Max = 100.0;
 
     /**

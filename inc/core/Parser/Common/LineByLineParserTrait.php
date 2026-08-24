@@ -6,10 +6,14 @@ use Runalyze\Import\Exception\ParserException;
 
 trait LineByLineParserTrait
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $FileName;
 
-    /** @var resource|null */
+    /**
+     * @var resource|null
+     */
     protected $Handle;
 
     /**
@@ -28,7 +32,7 @@ trait LineByLineParserTrait
 
         $this->Handle = @fopen($this->FileName, 'r');
 
-        if (false === $this->Handle) {
+        if ($this->Handle === false) {
             throw new ParserException(sprintf('File "%s" can\'t be opened for reading.', $this->FileName));
         }
 

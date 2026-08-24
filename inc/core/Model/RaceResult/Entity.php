@@ -17,7 +17,8 @@ use Runalyze\Model;
  * @author Michael Pohl
  * @package Runalyze\Model\RaceResult
  */
-class Entity extends Model\Entity {
+class Entity extends Model\Entity
+{
 	/**
 	 * Key: official_distance
 	 * @var string
@@ -58,7 +59,7 @@ class Entity extends Model\Entity {
 	 * Key: place_ageclass
 	 * @var string
 	 */
-	const PLACE_AGECLASS=  'place_ageclass';
+	const PLACE_AGECLASS = 'place_ageclass';
 
 	/**
 	 * Key: participants_total
@@ -95,7 +96,7 @@ class Entity extends Model\Entity {
      * @return array<int, string>
      */
     static public function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::OFFICIAL_DISTANCE,
 		    self::OFFICIAL_TIME,
 		    self::OFFICIALLY_MEASURED,
@@ -106,8 +107,8 @@ class Entity extends Model\Entity {
 		    self::PARTICIPANTS_TOTAL,
 		    self::PARTICIPANTS_GENDER,
 		    self::PARTICIPANTS_AGECLASS,
-		    self::ACTIVITY_ID
-		);
+		    self::ACTIVITY_ID,
+		];
 	}
 
     /**
@@ -121,17 +122,14 @@ class Entity extends Model\Entity {
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
+		$this->ensureNumericValue([
 		    self::OFFICIAL_DISTANCE,
 		    self::OFFICIAL_TIME,
 		    self::OFFICIALLY_MEASURED,
-		    self::ACTIVITY_ID
-		));
+		    self::ACTIVITY_ID,
+		]);
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 		parent::synchronize();
 
@@ -180,7 +178,6 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * official distance
 	 * @return string
 	 */
 	public function officialDistance() {
@@ -188,22 +185,17 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * official time
 	 * @return string
 	 */
 	public function officialTime() {
 		return $this->Data[self::OFFICIAL_TIME];
 	}
 
-    /**
-     * officially measured
-     */
     public function officiallyMeasured(): bool {
 		return ($this->Data[self::OFFICIALLY_MEASURED] == 1);
 	}
 
 	/**
-	 * name
 	 * @return string
 	 */
 	public function name() {
@@ -211,7 +203,6 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * place total
 	 * @return string
 	 */
 	public function placeTotal() {
@@ -219,7 +210,6 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * place gender
 	 * @return string
 	 */
 	public function placeGender() {
@@ -227,7 +217,6 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * place ageclass
 	 * @return string
 	 */
 	public function placeAgeclass() {
@@ -259,7 +248,6 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * activity id
 	 * @return string
 	 */
 	public function activityId() {
@@ -267,11 +255,9 @@ class Entity extends Model\Entity {
 	}
 
 	/**
-	 * account id
 	 * @return string
 	 */
 	public function accountId() {
 		return $this->Data[self::ACCOUNTID];
 	}
-
 }

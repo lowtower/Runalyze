@@ -13,10 +13,14 @@ use Runalyze\Util\LocalTime;
  */
 class FitTest extends AbstractActivityParserTestCase
 {
-    /** @var Fit */
+    /**
+     * @var Fit
+     */
     protected $Parser;
 
-    /** @var FitConverter */
+    /**
+     * @var FitConverter
+     */
     protected $Converter;
 
     protected function setUp(): void
@@ -24,7 +28,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->Parser = new Fit();
         $this->Converter = new FitConverter(
             PERL_PATH,
-            TESTS_ROOT.'/../call/perl/fittorunalyze.pl'
+            TESTS_ROOT . '/../call/perl/fittorunalyze.pl'
         );
     }
 
@@ -35,7 +39,7 @@ class FitTest extends AbstractActivityParserTestCase
      */
     protected function convertAndParse($file, $completeAfterwards = true, $runFilter = true)
     {
-        $outputFile = $this->Converter->convertFile($this->pathToTestFiles().$file);
+        $outputFile = $this->Converter->convertFile($this->pathToTestFiles() . $file);
         $this->FilesToClear[] = $outputFile;
 
         $this->Parser->setFileName($outputFile);
@@ -129,7 +133,7 @@ class FitTest extends AbstractActivityParserTestCase
             [1491, 73, 145, 106],
             [2575, 35, 139, 111],
             [2804, 51, 136, 100],
-            [2970, 9, 150, 144]
+            [2970, 9, 150, 144],
         ], 1);
 	}
 
@@ -138,7 +142,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/Fenix-2-negative-times.fit');
 
         $this->assertEquals('2014-08-28 09:32', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(2*3600 + 35*60 + 21, $this->Container->ActivityData->Duration);
+        $this->assertEquals(2 * 3600 + 35 * 60 + 21, $this->Container->ActivityData->Duration);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertGreaterThanOrEqual(0, min($this->Container->ContinuousData->Time));
@@ -150,11 +154,11 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(1, $this->NumberOfActivities);
 
-        $this->assertEquals(2*3600 + 47*60 + 22, $this->Container->ActivityData->Duration);
+        $this->assertEquals(2 * 3600 + 47 * 60 + 22, $this->Container->ActivityData->Duration);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertGreaterThanOrEqual(0, min($this->Container->ContinuousData->Time));
-        $this->assertEquals(2*3600 + 47*60 + 22, end($this->Container->ContinuousData->Time));
+        $this->assertEquals(2 * 3600 + 47 * 60 + 22, end($this->Container->ContinuousData->Time));
 	}
 
 	public function testMultisessionFile()
@@ -187,7 +191,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(60, end($this->Container->ContinuousData->Time), 2);
 
         $this->checkExpectedPauseData([
-            [41, 69, 100, 69]
+            [41, 69, 100, 69],
         ]);
 	}
 
@@ -239,7 +243,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Distance);
 
         $this->assertEquals(
-            [68, 68+80, 68+80+69, 68+80+69+86, 68+80+69+86+82, 68+80+69+86+82+91, 68+80+69+86+82+91+90, 68+80+69+86+82+91+90+98],
+            [68, 68 + 80, 68 + 80 + 69, 68 + 80 + 69 + 86, 68 + 80 + 69 + 86 + 82, 68 + 80 + 69 + 86 + 82 + 91, 68 + 80 + 69 + 86 + 82 + 91 + 90, 68 + 80 + 69 + 86 + 82 + 91 + 90 + 98],
             array_slice($this->Container->ContinuousData->Time, 0, 8)
         );
 	}
@@ -290,7 +294,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-07-29 15:23', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(3600 + 18*60 + 9, $this->Container->ActivityData->Duration);
+        $this->assertEquals(3600 + 18 * 60 + 9, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(39.023, $this->Container->ActivityData->Distance, 0.001);
 		$this->assertEquals('edge810', $this->Container->Metadata->getCreator());
 
@@ -688,7 +692,7 @@ class FitTest extends AbstractActivityParserTestCase
             [0, 0.25],
             [0, 0.25],
             [0, 0.15],
-            [0, 0.10]
+            [0, 0.10],
         ], 500);
 	}
 

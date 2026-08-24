@@ -12,7 +12,8 @@ use Runalyze\Activity\Duration;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Splits
  */
-class Splits {
+class Splits
+{
 	/**
 	 * Splits as string
 	 * @var string
@@ -23,7 +24,7 @@ class Splits {
 	 * Splits as array
 	 * @var array
 	 */
-	private $asArray = array();
+	private $asArray = [];
 
 	/**
 	 * @var bool
@@ -35,7 +36,7 @@ class Splits {
      * @param string $data [optional]
      * @param array<string, mixed> $options
      */
-    public function __construct($data = '', array $options = array()) {
+    public function __construct($data = '', array $options = []) {
 		if (isset($options['transform-unit']) && $options['transform-unit'] === true) {
 			$this->transformDistanceUnit = true;
 		}
@@ -63,21 +64,20 @@ class Splits {
 	}
 
     /**
-     * Create from array
      * @param array<string, mixed> $array
      */
     private function createFromArray(array $array) {
-		$this->asArray = array();
+		$this->asArray = [];
 		$factor = $this->transformDistanceUnit ? Runalyze\Configuration::General()->distanceUnitSystem()->distanceToKmFactor() : 1;
 
 		// TODO escaping
 		if (isset($array['km']) && isset($array['time']))
 			foreach ($array['km'] as $i => $km)
-				$this->asArray[] = array(
+				$this->asArray[] = [
 				    'km' => $km * $factor,
 				    'time' => $array['time'][$i],
-				    'active' => ! isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i])
-				);
+				    'active' => ! isset($array['active']) || (isset($array['active']) && isset($array['active'][$i]) && $array['active'][$i]),
+				];
 	}
 
     /**
@@ -104,7 +104,6 @@ class Splits {
 	}
 
 	/**
-	 * Add a split
 	 * @param float $km kilometer
 	 * @param int $timeInSeconds seconds
 	 * @param bool $active optional
@@ -114,11 +113,11 @@ class Splits {
 			return;
 		}
 
-		$this->asArray[] = array(
+		$this->asArray[] = [
 		    'km' => $this->formatKM($km),
 		    'time' => $this->formatTime($timeInSeconds),
-		    'active' => $active
-		);
+		    'active' => $active,
+		];
 		$this->arrayToString();
 	}
 
@@ -139,12 +138,9 @@ class Splits {
 		}
 	}
 
-	/**
-	 * Remove single splits
-	 */
 	public function removeSingleSplits() {
 		if (count($this->asArray) === 1) {
-			$this->asArray = array();
+			$this->asArray = [];
 			$this->asString = '';
 		}
 	}
@@ -154,11 +150,11 @@ class Splits {
      * @param bool $restingLaps optional
      */
     public function asReadableString($restingLaps = false): string {
-		$strings = array();
+		$strings = [];
 
 		foreach ($this->asArray as $split)
 			if ($restingLaps || $split['active'])
-				$strings[] = $split['km'].'&nbsp;km&nbsp;'.__('in').'&nbsp;'.$split['time'].(! $split['active'] ? '&nbsp;('.__('Resting').')' : '');
+				$strings[] = $split['km'] . '&nbsp;km&nbsp;' . __('in') . '&nbsp;' . $split['time'] . (! $split['active'] ? '&nbsp;(' . __('Resting') . ')' : '');
 
 		return implode(', ', $strings);
 	}
@@ -178,23 +174,23 @@ class Splits {
 	 * Transform splits from internal string to array
 	 */
 	private function stringToArray() {
-		$this->asArray = array();
-		$splits        = explode('-', str_replace('\r\n', '-', $this->asString));
+		$this->asArray = [];
+		$splits = explode('-', str_replace('\r\n', '-', $this->asString));
 
 		foreach ($splits as $split) {
 			if (substr($split, 0, 1) == 'R') {
 				$active = false;
-				$split  = substr($split, 1);
+				$split = substr($split, 1);
 			} else {
 				$active = true;
 			}
 
 			if (strlen($split) > 3)
-				$this->asArray[] = array(
+				$this->asArray[] = [
 				    'km' => strstr($split, '|', true),
 				    'time' => substr(strrchr($split, '|'), 1),
-				    'active' => $active
-				);
+				    'active' => $active,
+				];
 		}
 	}
 
@@ -234,10 +230,10 @@ class Splits {
 	 * Transform internal array to string
 	 */
 	private function arrayToString() {
-		$strings = array();
+		$strings = [];
 
 		foreach ($this->asArray() as $split)
-			$strings[] = ($split['active'] ? '' : 'R').$split['km'].'|'.$split['time'];
+			$strings[] = ($split['active'] ? '' : 'R') . $split['km'] . '|' . $split['time'];
 
 		$this->asString = implode('-', $strings);
 	}
@@ -247,7 +243,7 @@ class Splits {
      * @param bool $restingLaps optional
      */
     public function timesAsArray($restingLaps = false): array {
-		$times = array();
+		$times = [];
 
 		foreach ($this->asArray as $split) {
 			if ($restingLaps || $split['active']) {
@@ -300,7 +296,7 @@ class Splits {
 		$active = null;
 
 		foreach ($this->asArray as $split) {
-			if (null === $active)
+			if ($active === null)
 				$active = $split['active'];
 			elseif ($active != $split['active'])
 				return true;
@@ -314,7 +310,7 @@ class Splits {
      * @param bool $restingLaps optional
      */
     public function distancesAsArray($restingLaps = false): array {
-		$distances = array();
+		$distances = [];
 
 		foreach ($this->asArray as $split)
 			if ($restingLaps || $split['active'])
@@ -342,12 +338,12 @@ class Splits {
      * @return int[]
      */
     public function pacesAsArray($restingLaps = false): array {
-		$paces = array();
+		$paces = [];
 
 		foreach ($this->asArray as $split) {
 			if ($restingLaps || $split['active']) {
 				$Duration = new Duration($split['time']);
-				$paces[] = $split['km'] > 0 ? (int) round($Duration->seconds()/$split['km']) : 0;
+				$paces[] = $split['km'] > 0 ? (int) round($Duration->seconds() / $split['km']) : 0;
 			}
 		}
 
@@ -384,18 +380,18 @@ class Splits {
 			if ($mode == 'km') {
 				$Duration = new Duration($split['time']);
 
-				while ($i < $size-1 && $Duration->seconds() > $Time[$i] - $totalTime)
+				while ($i < $size - 1 && $Duration->seconds() > $Time[$i] - $totalTime)
 					$i++;
 
 				$split['km'] = $this->formatKM($Distance[$i] - $totalDistance);
 			} else {
-				while ($i < $size-1 && $split['km'] > $Distance[$i] - $totalDistance)
+				while ($i < $size - 1 && $split['km'] > $Distance[$i] - $totalDistance)
 					$i++;
 
 				$split['time'] = $this->formatTime($Time[$i] - $totalTime);
 			}
 
-			$totalTime     = $Time[$i];
+			$totalTime = $Time[$i];
 			$totalDistance = $Distance[$i];
 		}
 

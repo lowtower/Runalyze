@@ -8,7 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MaintenanceListener
 {
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -20,9 +22,9 @@ class MaintenanceListener
     {
         $maintenance = $this->container->hasParameter('maintenance') ? $this->container->getParameter('maintenance') : false;
 
-        $debug = in_array($this->container->get('kernel')->getEnvironment(), array('test', 'dev'));
+        $debug = in_array($this->container->get('kernel')->getEnvironment(), ['test', 'dev']);
 	    $request = $event->getRequest();
-	    $routes = array('update', 'install', 'install_start', 'install_finish', 'update_start', 'admin');
+	    $routes = ['update', 'install', 'install_start', 'install_finish', 'update_start', 'admin'];
 
         if ($maintenance && ! $debug && ! in_array($request->get('_route'), $routes)) {
             $engine = $this->container->get('templating');

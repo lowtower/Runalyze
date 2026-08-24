@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfiguration {
+class PluginConfiguration
+{
 	/**
 	 * @var string
 	 */
@@ -19,7 +20,7 @@ class PluginConfiguration {
 	 * Values
 	 * @var PluginConfigurationValue[]
 	 */
-	protected $Values = array();
+	protected $Values = [];
 
 	/**
 	 * Plugin id
@@ -34,7 +35,6 @@ class PluginConfiguration {
 	private $CatchedValues = false;
 
 	/**
-	 * Constructor
 	 * @param int $PluginID
 	 */
 	public function __construct($PluginID) {
@@ -58,12 +58,12 @@ class PluginConfiguration {
 	final public function catchValuesFromDatabase() {
 		$ResultFromDB = Cache::get(self::CACHE_KEY);
 
-		if (null === $ResultFromDB) {
+		if ($ResultFromDB === null) {
 			$ResultFromDB = DB::getInstance()->query(
-			    'SELECT `pluginid`,`config`,`value` '.
-				'FROM `'.PREFIX.'plugin_conf` '.
-				'WHERE `pluginid` IN ('.implode(',', PluginFactory::allIDs()).')'
-			)->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
+			    'SELECT `pluginid`,`config`,`value` ' .
+				'FROM `' . PREFIX . 'plugin_conf` ' .
+				'WHERE `pluginid` IN (' . implode(',', PluginFactory::allIDs()) . ')'
+			)->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
 			Cache::set(self::CACHE_KEY, $ResultFromDB, '60');
 		}
@@ -76,7 +76,7 @@ class PluginConfiguration {
      * @param array<int, mixed> $ResultFromDB
      */
     private function checkValuesFromDatabase(array $ResultFromDB) {
-		$ValuesFromDB = array();
+		$ValuesFromDB = [];
 
 		if (isset($ResultFromDB[$this->PluginID])) {
 			foreach ($ResultFromDB[$this->PluginID] as $Result) {
@@ -95,30 +95,24 @@ class PluginConfiguration {
 		}
 	}
 
-    /**
-     * Insert value to database
-     */
     private function insertValueToDatabase(PluginConfigurationValue $Value) {
 		DB::getInstance()->insert(
 		    'plugin_conf',
-		    array(
+		    [
 		        'pluginid',
 		        'config',
-		        'value'
-		    ),
-		    array(
+		        'value',
+		    ],
+		    [
 		        $this->PluginID,
 		        $Value->key(),
-		        $Value->valueAsString()
-		    )
+		        $Value->valueAsString(),
+		    ]
 		);
 
 		Cache::delete(self::CACHE_KEY);
 	}
 
-	/**
-	 * Update from post
-	 */
 	final public function updateFromPost() {
 		foreach ($this->Values as $Value) {
 			$Value->setValueFromPost();
@@ -130,23 +124,19 @@ class PluginConfiguration {
 	}
 
 	/**
-	 * Update
 	 * @param string $key
 	 */
 	final public function update($key) {
 		if (isset($this->Values[$key])) {
 			DB::getInstance()->updateWhere(
 			    'plugin_conf',
-			    '`pluginid`='.(int) $this->PluginID.' AND `config`="'.$key.'"',
+			    '`pluginid`=' . (int) $this->PluginID . ' AND `config`="' . $key . '"',
 			    'value',
 			    $this->Values[$key]->valueAsString()
 			);
 		}
 	}
 
-    /**
-     * Add value
-     */
     final public function addValue(PluginConfigurationValue $Value) {
 		$this->Values[$Value->key()] = $Value;
 	}
@@ -162,7 +152,7 @@ class PluginConfiguration {
 			return $this->Values[$key];
 		}
 
-		throw new InvalidArgumentException('There is no value for "'.$key.'".');
+		throw new InvalidArgumentException('There is no value for "' . $key . '".');
 	}
 
 	/**
@@ -181,7 +171,6 @@ class PluginConfiguration {
 	}
 
 	/**
-	 * Value
 	 * @param string $key
 	 * @return mixed
 	 */

@@ -10,31 +10,49 @@ namespace Runalyze\Mathematics\Distribution;
  */
 abstract class AbstractDistribution
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const NUM = 'num';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const MIN = 'min';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const MAX = 'max';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const MEAN = 'mean';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const MEDIAN = 'median';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const QUANTILES = 'quantiles';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const MODE = 'mode';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const VARIANCE = 'var';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private $Statistic = [
         'num' => 0,
         'min' => 0,
@@ -43,7 +61,7 @@ abstract class AbstractDistribution
         'median' => 0,
         'quantiles' => [],
         'mode' => 0,
-        'var' => 0
+        'var' => 0,
     ];
 
     /**
@@ -120,7 +138,7 @@ abstract class AbstractDistribution
         $num = $this->Statistic[self::NUM];
         $currentQuantilesIndex = 0;
         $currentQuantile = array_shift($quantiles);
-        $desiredQuantileIndex = null !== $currentQuantile ? $currentQuantile * $num : $num + 1;
+        $desiredQuantileIndex = $currentQuantile !== null ? $currentQuantile * $num : $num + 1;
         $desiredMedianIndex = $num / 2;
 
         $mean = $this->Statistic[self::MEAN];
@@ -135,11 +153,11 @@ abstract class AbstractDistribution
                 $median = $value;
             }
 
-            while (null !== $currentQuantile && $currentQuantilesIndex >= $desiredQuantileIndex) {
+            while ($currentQuantile !== null && $currentQuantilesIndex >= $desiredQuantileIndex) {
                 $this->Statistic[self::QUANTILES]['p' . $currentQuantile] = $value;
 
                 $currentQuantile = array_shift($quantiles);
-                $desiredQuantileIndex = null !== $currentQuantile ? $currentQuantile * $num : $num + 1;
+                $desiredQuantileIndex = $currentQuantile !== null ? $currentQuantile * $num : $num + 1;
             }
         }
 
@@ -231,7 +249,7 @@ abstract class AbstractDistribution
      */
     final public function coefficientOfVariation()
     {
-        if (0 == $this->Statistic[self::MEAN]) {
+        if ($this->Statistic[self::MEAN] == 0) {
             return false;
         }
 

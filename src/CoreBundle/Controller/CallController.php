@@ -32,9 +32,9 @@ class CallController extends Controller
      */
     public function garminCommunicatorAction(): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('import/garmin_communicator.html.twig', array(
+        return $this->render('import/garmin_communicator.html.twig', [
             'garminAPIKey' => $this->getParameter('garmin_api_key'),
-        ));
+        ]);
     }
 
     /**
@@ -45,7 +45,7 @@ class CallController extends Controller
     public function savePngAction(): \Symfony\Component\HttpFoundation\Response
     {
         header('Content-type: image/png');
-        header('Content-Disposition: attachment; filename='.strtolower(str_replace(' ', '_', $_POST['filename'])));
+        header('Content-Disposition: attachment; filename=' . strtolower(str_replace(' ', '_', $_POST['filename'])));
 
         $encodeData = substr($_POST['image'], strpos($_POST['image'], ',') + 1);
 
@@ -114,7 +114,7 @@ class CallController extends Controller
 
         if (empty($_POST) || Request::createFromGlobals()->query->get('get') == 'true') {
         	echo '<div class="panel-heading">';
-        	echo '<h1>'.__('Search for activities').'</h1>';
+        	echo '<h1>' . __('Search for activities') . '</h1>';
         	echo '</div>';
 
         	$Formular = new \SearchFormular($this->generateUrl('my-search'));
@@ -125,7 +125,7 @@ class CallController extends Controller
 
         if ($showResults && $Results->multiEditorRequested()) {
             return $this->redirectToRoute('multi-editor', [
-                'ids' => implode(',', $Results->getIdsForMultiEditor())
+                'ids' => implode(',', $Results->getIdsForMultiEditor()),
             ]);
         }
 
@@ -140,11 +140,11 @@ class CallController extends Controller
     protected function getPlotSumData() {
         $Request = Request::createFromGlobals();
 
-        if (null === $Request->query->get('y')) {
+        if ($Request->query->get('y') === null) {
         	$_GET['y'] = \PlotSumData::LAST_12_MONTHS;
         }
 
-        return 'week' == $Request->query->get('type', 'month') ? new \PlotWeekSumData() : new \PlotMonthSumData();
+        return $Request->query->get('type', 'month') == 'week' ? new \PlotWeekSumData() : new \PlotMonthSumData();
     }
 
     /**

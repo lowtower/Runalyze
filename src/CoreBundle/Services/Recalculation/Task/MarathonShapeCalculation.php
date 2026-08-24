@@ -12,13 +12,19 @@ class MarathonShapeCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var ConfigurationUpdater */
+    /**
+     * @var ConfigurationUpdater
+     */
     protected $ConfigurationUpdater;
 
     public function __construct(
@@ -34,7 +40,7 @@ class MarathonShapeCalculation implements RecalculationTaskInterface
 
     public function run()
     {
-        if (null === $this->Account) {
+        if ($this->Account === null) {
             return;
         }
 

@@ -15,28 +15,20 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSectionRowAbstract {
+abstract class TrainingViewSectionRowAbstract
+{
 	/**
 	 * @var \Runalyze\View\Activity\Context
 	 */
 	protected $Context;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(?Context $Context = null) {
 		$this->Context = $Context;
 
 		$this->setContent();
 	}
 
-	/**
-	 * Set content
-	 */
 	abstract protected function setContent();
 
-	/**
-	 * Display
-	 */
 	abstract public function display();
 }

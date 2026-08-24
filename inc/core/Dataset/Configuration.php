@@ -23,7 +23,9 @@ class Configuration
 	 */
 	protected $Data;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $ShowAllKeys = false;
 
 	/**
@@ -34,8 +36,8 @@ class Configuration
 	 */
 	public function __construct(\PDO $pdo, $accountID, $fallbackToDefault = true)
 	{
-		if (null === $this->Data) {
-			$completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `'.PREFIX.'dataset` WHERE `accountid`="'.$accountID.'" ORDER BY `position` ASC')->fetchAll();
+		if ($this->Data === null) {
+			$completeData = $pdo->query('SELECT `keyid`, `active`, `style`, `privacy` FROM `' . PREFIX . 'dataset` WHERE `accountid`="' . $accountID . '" ORDER BY `position` ASC')->fetchAll();
 
 			if (empty($completeData) && $fallbackToDefault) {
 				$this->Data = (new DefaultConfiguration())->data();
@@ -91,10 +93,10 @@ class Configuration
 			return $this->allKeys();
 		}
 
-		$activeKeys = array();
+		$activeKeys = [];
 
 		foreach ($this->Data as $keyid => $keyData) {
-			if ((DatasetPrivacyProfile::PRIVATE_KEY != $keyData['privacy'] || ! \Request::isOnSharedPage()) && $keyData['active'] == 1) {
+			if (($keyData['privacy'] != DatasetPrivacyProfile::PRIVATE_KEY || ! \Request::isOnSharedPage()) && $keyData['active'] == 1) {
 				$activeKeys[] = $keyid;
 			}
 		}
@@ -128,7 +130,7 @@ class Configuration
     public function isActive($keyid): bool
 	{
 		if (! isset($this->Data[$keyid])) {
-			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
+			throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
 		}
 
 		return ($this->Data[$keyid]['active'] == 1) || $this->ShowAllKeys;
@@ -143,7 +145,7 @@ class Configuration
 	public function getStyle($keyid)
 	{
 		if (! isset($this->Data[$keyid])) {
-			throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
+			throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
 		}
 
 		return $this->Data[$keyid]['style'];
@@ -158,7 +160,7 @@ class Configuration
     public function getPrivacy($keyid)
     {
         if (! isset($this->Data[$keyid])) {
-            throw new \InvalidArgumentException('Unknown dataset key "'.$keyid.'".');
+            throw new \InvalidArgumentException('Unknown dataset key "' . $keyid . '".');
         }
 
         return $this->Data[$keyid]['privacy'];

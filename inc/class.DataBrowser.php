@@ -13,11 +13,11 @@ use Runalyze\Util\LocalTime;
 use Runalyze\View;
 
 /**
- * DataBrowser
  * @author Hannes Christiansen
  * @package Runalyze\DataBrowser
  */
-class DataBrowser {
+class DataBrowser
+{
 	/**
 	 * CSS-ID for calendar-widget
 	 * @var string
@@ -60,31 +60,49 @@ class DataBrowser {
 	 */
 	protected $Days;
 
-	/** @var array sport ids that are explicitly set as 'only icon' */
+	/**
+	 * @var array sport ids that are explicitly set as 'only icon'
+	 */
 	protected $SportsShort = [];
 
-	/** @var array type ids that are explicitly set as 'only icon' */
+	/**
+	 * @var array type ids that are explicitly set as 'only icon'
+	 */
 	protected $TypesShort = [];
 
-	/** @var array type ids that are explicitly set as 'complete row' */
+	/**
+	 * @var array type ids that are explicitly set as 'complete row'
+	 */
 	protected $TypesNotShort = [];
 
-	/** @var array distinct sports of the activities */
+	/**
+	 * @var array distinct sports of the activities
+	 */
 	protected $Sports = [];
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-	/** @var \PDOforRunalyze */
+	/**
+	 * @var \PDOforRunalyze
+	 */
 	protected $DB;
 
-	/** @var \Runalyze\Dataset\Configuration */
+	/**
+	 * @var \Runalyze\Dataset\Configuration
+	 */
 	protected $DatasetConfig;
 
-	/** @var \Runalyze\Dataset\Query */
+	/**
+	 * @var \Runalyze\Dataset\Query
+	 */
 	protected $DatasetQuery;
 
-	/** @var \Runalyze\Model\Factory */
+	/**
+	 * @var \Runalyze\Model\Factory
+	 */
 	protected $Factory;
 
 	/**
@@ -99,9 +117,6 @@ class DataBrowser {
 	 */
 	protected $AllDaysEmpty = true;
 
-	/**
-	 * Default constructor
-	 */
 	public function __construct() {
 		$this->initInternalObjects();
 		$this->initTimestamps();
@@ -117,7 +132,7 @@ class DataBrowser {
 		$this->DB = DB::getInstance();
 		$this->DatasetConfig = new Dataset\Configuration($this->DB, $this->AccountID);
 		$this->DatasetQuery = new Dataset\Query($this->DatasetConfig, $this->DB, $this->AccountID);
-		$this->DatasetQuery->setAdditionalColumns(array('is_public'));
+		$this->DatasetQuery->setAdditionalColumns(['is_public']);
 
 		$this->Factory = new Factory($this->AccountID);
 	}
@@ -131,14 +146,14 @@ class DataBrowser {
 
 			if ($Mode->showMonth()) {
 				$this->TimestampStart = LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
-				$this->TimestampEnd   = LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
+				$this->TimestampEnd = LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
 			} else {
 				$this->TimestampStart = (new LocalTime())->weekstart();
-				$this->TimestampEnd   = (new LocalTime())->weekend();
+				$this->TimestampEnd = (new LocalTime())->weekend();
 			}
 		} else {
 			$this->TimestampStart = $_GET['start'];
-			$this->TimestampEnd   = $_GET['end'];
+			$this->TimestampEnd = $_GET['end'];
 		}
 
 		$this->DayCount = round(($this->TimestampEnd - $this->TimestampStart) / 86400);
@@ -160,10 +175,10 @@ class DataBrowser {
 		$Statement = $this->DatasetQuery->statementToFetchActivitySports($this->TimestampStart, $this->TimestampEnd, $this->SportId);
 
 		while ($sport = $Statement->fetch()) {
-			$this->Sports[$sport['id']] = array(
+			$this->Sports[$sport['id']] = [
 			    'name' => $sport['name'],
-			    'icon' => $sport['img']
-			);
+			    'icon' => $sport['img'],
+			];
 		}
 	}
 
@@ -183,7 +198,7 @@ class DataBrowser {
 				in_array($Training['typeid'], $this->TypesShort) ||
 				(! in_array($Training['typeid'], $this->TypesNotShort) && in_array($Training['sportid'], $this->SportsShort))
 			) {
-				$this->Days[$w]['shorts'][]    = $Training;
+				$this->Days[$w]['shorts'][] = $Training;
 			} else {
 				$this->Days[$w]['trainings'][] = $Training;
 			}
@@ -200,16 +215,16 @@ class DataBrowser {
 	 * Init array with empty days
 	 */
 	protected function initEmptyDays() {
-		$this->Days = array();
+		$this->Days = [];
 		$date = new LocalTime($this->TimestampStart);
 		$date->setTime(0, 0, 0);
 
-		for ($w = 0; $w <= ($this->DayCount-1); $w++) {
-			$this->Days[] = array(
+		for ($w = 0; $w <= ($this->DayCount - 1); $w++) {
+			$this->Days[] = [
 			    'date' => $date->getTimestamp(),
-			    'shorts' => array(),
-			    'trainings' => array()
-			);
+			    'shorts' => [],
+			    'trainings' => [],
+			];
 
 			$date->add(new \DateInterval('P1D'));
 		}
@@ -219,9 +234,9 @@ class DataBrowser {
 	 * Init $this->sports_short
 	 */
 	protected function initShortModes() {
-		$this->SportsShort = $this->DB->query('SELECT `id` FROM `'.PREFIX.'sport` WHERE `short`=1 AND accountid = '.$this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
-		$this->TypesShort = $this->DB->query('SELECT `id` FROM `'.PREFIX.'type` WHERE `short`=1 AND accountid = '.$this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
-		$this->TypesNotShort = $this->DB->query('SELECT `id` FROM `'.PREFIX.'type` WHERE `short`=0 AND accountid = '.$this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
+		$this->SportsShort = $this->DB->query('SELECT `id` FROM `' . PREFIX . 'sport` WHERE `short`=1 AND accountid = ' . $this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
+		$this->TypesShort = $this->DB->query('SELECT `id` FROM `' . PREFIX . 'type` WHERE `short`=1 AND accountid = ' . $this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
+		$this->TypesNotShort = $this->DB->query('SELECT `id` FROM `' . PREFIX . 'type` WHERE `short`=0 AND accountid = ' . $this->AccountID)->fetchAll(PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -243,17 +258,14 @@ class DataBrowser {
 		echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
 	}
 
-	/**
-	 * Display title
-	 */
 	protected function displayTitle() {
 		$now = (new LocalTime())->getTimestamp();
 		$timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
 		$timeForLinks = new LocalTime($timestampForLinks);
 
-		echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId).', ';
-		echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId).', ';
-		echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true).'. '.__('week'), $timestampForLinks, null, $this->SportId);
+		echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId) . ', ';
+		echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId) . ', ';
+		echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true) . '. ' . __('week'), $timestampForLinks, null, $this->SportId);
 	}
 
 	/**
@@ -261,16 +273,13 @@ class DataBrowser {
 	 */
 	protected function displayIconLinks() {
 		echo '<ul>';
-		echo '<li>'.$this->getSharedListLink().'</li>';
-		echo '<li>'.$this->getMonthKmLink().'</li>';
-		echo '<li>'.$this->getWeekKmLink().'</li>';
-		echo '<li>'.$this->getAddLink().'</li>';
+		echo '<li>' . $this->getSharedListLink() . '</li>';
+		echo '<li>' . $this->getMonthKmLink() . '</li>';
+		echo '<li>' . $this->getWeekKmLink() . '</li>';
+		echo '<li>' . $this->getAddLink() . '</li>';
 		echo '</ul>';
 	}
 
-	/**
-	 * Display hover links
-	 */
 	protected function displayHoverLinks() {
 		echo $this->getConfigLink();
 		echo $this->getRefreshLink();
@@ -280,7 +289,7 @@ class DataBrowser {
 	 * Display config link
 	 */
 	protected function getConfigLink() {
-		echo Ajax::window('<a class="tab" href="settings/dataset">'.Icon::$CONF.'</a>');
+		echo Ajax::window('<a class="tab" href="settings/dataset">' . Icon::$CONF . '</a>');
 	}
 
     /**
@@ -314,7 +323,7 @@ class DataBrowser {
     protected function getRefreshLink(): string {
 		$Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
 
-		return str_replace('<a ', '<a id="'.self::REFRESH_BUTTON_ID.'" '.Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
+		return str_replace('<a ', '<a id="' . self::REFRESH_BUTTON_ID . '" ' . Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
 	}
 
     /**
@@ -326,7 +335,7 @@ class DataBrowser {
 		if ($active) {
 			// if this sport is currently selected/active - the link is used for de-selection
 			return DataBrowserLinker::link(
-			    '<i class="fa fa-fw ' . $icon . '" style="'.$style.' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',
+			    '<i class="fa fa-fw ' . $icon . '" style="' . $style . ' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',
 			    $this->TimestampStart,
 			    $this->TimestampEnd,
 			    __($name),
@@ -335,7 +344,7 @@ class DataBrowser {
 		}
 
         return DataBrowserLinker::link(
-            '<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
+            '<i class="fa fa-lg fa-fw ' . $icon . '" style="' . $style . '"></i>',
             $this->TimestampStart,
             $this->TimestampEnd,
             __($name),
@@ -348,7 +357,7 @@ class DataBrowser {
      * Get ajax-link for choosing timestamps from calendar
      */
     protected function getCalenderLink(): string {
-		return '<span id="calendar-link" class="link" title="'.__('Calendar').'">'.Icon::$CALENDAR.'</span>';
+		return '<span id="calendar-link" class="link" title="' . __('Calendar') . '">' . Icon::$CALENDAR . '</span>';
 	}
 
 	/**
@@ -384,7 +393,7 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getMonthKmLink() {
-		return Ajax::window('<a href="'.PlotSumData::$URL.'?type=month" '.Ajax::tooltip('', __('Activity per month'), false, true).'>'.Icon::$BARS_BIG.'</a>');
+		return Ajax::window('<a href="' . PlotSumData::$URL . '?type=month" ' . Ajax::tooltip('', __('Activity per month'), false, true) . '>' . Icon::$BARS_BIG . '</a>');
 	}
 
 	/**
@@ -392,7 +401,7 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getWeekKmLink() {
-		return Ajax::window('<a href="'.PlotSumData::$URL.'?type=week" '.Ajax::tooltip('', __('Activity per week'), false, true).'>'.Icon::$BARS_SMALL.'</a>');
+		return Ajax::window('<a href="' . PlotSumData::$URL . '?type=week" ' . Ajax::tooltip('', __('Activity per week'), false, true) . '>' . Icon::$BARS_SMALL . '</a>');
 	}
 
     /**
@@ -407,7 +416,7 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getNaviSearchLink() {
-		return Ajax::window('<a href="'.SearchLink::$WINDOW_URL.'" '.Ajax::tooltip('', __('Search for an activity'), false, true).'>'.Icon::$SEARCH.'</a>', 'big');
+		return Ajax::window('<a href="' . SearchLink::$WINDOW_URL . '" ' . Ajax::tooltip('', __('Search for an activity'), false, true) . '>' . Icon::$SEARCH . '</a>', 'big');
 	}
 
 	/**
@@ -432,10 +441,10 @@ class DataBrowser {
 		}
 
 		if ($localTime->isToday()) {
-			$weekDay = '<strong>'.$weekDay.'</strong>';
+			$weekDay = '<strong>' . $weekDay . '</strong>';
 		}
 
-		return $localTime->format('d.m.').' '.$addLink.' '.$weekDay;
+		return $localTime->format('d.m.') . ' ' . $addLink . ' ' . $weekDay;
 	}
 
     /**

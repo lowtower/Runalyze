@@ -32,46 +32,46 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 
 	protected function trackdata(): \Runalyze\Model\Trackdata\Entity
 	{
-		return new Trackdata\Entity(array(
-    Trackdata\Entity::TIME => array(
+		return new Trackdata\Entity([
+    Trackdata\Entity::TIME => [
 		        0, 60, 120, 180, 240, 300,
 		        335, 370,
 		        390, 410, 430,
 		        464, 498,
 		        520, 540, 560,
-		        620, 680, 740, 800, 840
-		    ),
-		    Trackdata\Entity::DISTANCE => array(
+		        620, 680, 740, 800, 840,
+		    ],
+		    Trackdata\Entity::DISTANCE => [
 		        0.0, 0.2, 0.4, 0.6, 0.8, 1.0,
 		        1.2, 1.4,
 		        1.47, 1.54, 1.60,
 		        1.8, 2.0,
 		        2.07, 2.14, 2.20,
-		        2.4, 2.6, 2.8, 3.0, 3.2
-		    ),
-		    Trackdata\Entity::HEARTRATE => array(
+		        2.4, 2.6, 2.8, 3.0, 3.2,
+		    ],
+		    Trackdata\Entity::HEARTRATE => [
 		        100, 120, 125, 130, 133, 135,
 		        150, 175,
 		        170, 165, 160,
 		        180, 190,
 		        185, 180, 175,
-		        170, 160, 150, 140, 130
-		    )
-));
+		        170, 160, 150, 140, 130,
+		    ],
+]);
 	}
 
 	protected function route(): \Runalyze\Model\Route\Entity
 	{
-		return new Route\Entity(array(
-    Route\Entity::ELEVATIONS_ORIGINAL => array(
+		return new Route\Entity([
+    Route\Entity::ELEVATIONS_ORIGINAL => [
 		        100, 100, 110, 120, 115, 115,
 		        115, 115,
 		        115, 115, 115,
 		        115, 115,
 		        115, 115, 115,
-		        115, 115, 120, 110, 100
-		    )
-));
+		        115, 115, 120, 110, 100,
+		    ],
+]);
 	}
 
     /**
@@ -99,14 +99,14 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->object->calculateFrom($this->trackdata(), $this->route());
 
 		$this->assertEquals(6, $this->Laps->num());
-		$this->checkAgainst(array(
-		    array(300, 1.0, 300, 1.0, 129, 135, 20, 5),
-		    array(70, 0.4, 370, 1.4, 163, 175, 0, 0),
-		    array(60, 0.2, 430, 1.6, 165, 170, 0, 0),
-		    array(68, 0.4, 498, 2.0, 185, 190, 0, 0),
-		    array(62, 0.2, 560, 2.2, 180, 185, 0, 0),
-		    array(280, 1.0, 840, 3.2, 151, 170, 5, 20)
-		));
+		$this->checkAgainst([
+		    [300, 1.0, 300, 1.0, 129, 135, 20, 5],
+		    [70, 0.4, 370, 1.4, 163, 175, 0, 0],
+		    [60, 0.2, 430, 1.6, 165, 170, 0, 0],
+		    [68, 0.4, 498, 2.0, 185, 190, 0, 0],
+		    [62, 0.2, 560, 2.2, 180, 185, 0, 0],
+		    [280, 1.0, 840, 3.2, 151, 170, 5, 20],
+		]);
 	}
 
 	public function testWithoutRoute()
@@ -117,21 +117,21 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$this->object->calculateFrom($this->trackdata());
 
 		$this->assertEquals(6, $this->Laps->num());
-		$this->checkAgainst(array(
-		    array(300, 1.0, 300, 1.0, 129, 135, 0, 0),
-		    array(70, 0.4, 370, 1.4, 163, 175, 0, 0),
-		    array(60, 0.2, 430, 1.6, 165, 170, 0, 0),
-		    array(68, 0.4, 498, 2.0, 185, 190, 0, 0),
-		    array(62, 0.2, 560, 2.2, 180, 185, 0, 0),
-		    array(280, 1.0, 840, 3.2, 151, 170, 0, 0)
-		));
+		$this->checkAgainst([
+		    [300, 1.0, 300, 1.0, 129, 135, 0, 0],
+		    [70, 0.4, 370, 1.4, 163, 175, 0, 0],
+		    [60, 0.2, 430, 1.6, 165, 170, 0, 0],
+		    [68, 0.4, 498, 2.0, 185, 190, 0, 0],
+		    [62, 0.2, 560, 2.2, 180, 185, 0, 0],
+		    [280, 1.0, 840, 3.2, 151, 170, 0, 0],
+		]);
 	}
 
 	public function testConsecutiveDistances()
 	{
-		$this->object->setDistances(array(
-		    1.0, 2.0, 3.0
-		));
+		$this->object->setDistances([
+		    1.0, 2.0, 3.0,
+		]);
 		$this->object->calculateFrom($this->trackdata());
 
 		$this->assertEquals(4, $this->Laps->num());
@@ -145,9 +145,9 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 
 	public function testConsecutiveTimes()
 	{
-		$this->object->setTimes(array(
-		    300, 370, 430, 498, 560, 840
-		));
+		$this->object->setTimes([
+		    300, 370, 430, 498, 560, 840,
+		]);
 		$this->object->calculateFrom($this->trackdata());
 
 		$this->assertEquals(6, $this->Laps->num());
@@ -171,7 +171,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
 		//then
-		$this->assertEquals($distanceArr, array(1, 2.5, 3));
+		$this->assertEquals($distanceArr, [1, 2.5, 3]);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
 		//then
-		$this->assertEquals($distanceArr, array(1, 3.5, 6.5));
+		$this->assertEquals($distanceArr, [1, 3.5, 6.5]);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 		$distanceArr = Calculator::getDistancesFromString($distanceStr);
 
 		//then
-		$this->assertEquals($distanceArr, array());
+		$this->assertEquals($distanceArr, []);
 	}
 
 	/**
@@ -209,57 +209,57 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testSpareData()
 	{
-		$this->object->setDistances(array(
-		    1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-		));
+		$this->object->setDistances([
+		    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+		]);
 		$this->object->calculateFrom(
-		    new Trackdata\Entity(array(
-		        Trackdata\Entity::TIME => array(
+		    new Trackdata\Entity([
+		        Trackdata\Entity::TIME => [
 		            0, 150, 300,
 		            450, 600,
 		            800,
 		            1200,
 		            2200,
-		            2750
-		        ),
-		        Trackdata\Entity::DISTANCE => array(
+		            2750,
+		        ],
+		        Trackdata\Entity::DISTANCE => [
 		            0.0, 0.5, 1.0,
 		            1.6, 2.1,
 		            2.8,
 		            4.1,
 		            7.3,
-		            8.9
-		        ),
-		        Trackdata\Entity::HEARTRATE => array(
+		            8.9,
+		        ],
+		        Trackdata\Entity::HEARTRATE => [
 		            150, 150, 150,
 		            150, 150,
 		            150,
 		            150,
 		            150,
-		            150
-		        )
-		    ))
+		            150,
+		        ],
+		    ])
 		);
 
 		$this->assertEquals(10, $this->Laps->num());
-		$this->checkAgainst(array(
-		    array(300, 1.0,  300, 1.0, 150, 150, 0, 0),
-		    array(300, 1.1,  600, 2.1, 150, 150, 0, 0),
-		    array(600, 2.0, 1200, 4.1, 150, 150, 0, 0),
-		    array(0, 0.0, 1200, 4.1,   0,   0, 0, 0),
-		    array(1000, 3.2, 2200, 7.3, 150, 150, 0, 0),
-		    array(0, 0.0, 2200, 7.3,   0,   0, 0, 0),
-		    array(0, 0.0, 2200, 7.3,   0,   0, 0, 0),
-		    array(550, 1.6, 2750, 8.9, 150, 150, 0, 0),
-		    array(0, 0.0, 2750, 8.9,   0,   0, 0, 0),
-		    array(0, 0.0, 2750, 8.9,   0,   0, 0, 0)
-		));
+		$this->checkAgainst([
+		    [300, 1.0,  300, 1.0, 150, 150, 0, 0],
+		    [300, 1.1,  600, 2.1, 150, 150, 0, 0],
+		    [600, 2.0, 1200, 4.1, 150, 150, 0, 0],
+		    [0, 0.0, 1200, 4.1,   0,   0, 0, 0],
+		    [1000, 3.2, 2200, 7.3, 150, 150, 0, 0],
+		    [0, 0.0, 2200, 7.3,   0,   0, 0, 0],
+		    [0, 0.0, 2200, 7.3,   0,   0, 0, 0],
+		    [550, 1.6, 2750, 8.9, 150, 150, 0, 0],
+		    [0, 0.0, 2750, 8.9,   0,   0, 0, 0],
+		    [0, 0.0, 2750, 8.9,   0,   0, 0, 0],
+		]);
 	}
 
 	public function testTimesFromString()
 	{
 		$this->assertEquals(
-		    array(15*60, 45*60 + 30, 3600 + 60 + 1),
+		    [15 * 60, 45 * 60 + 30, 3600 + 60 + 1],
 		    Calculator::getTimesFromString('15:00, 45:30, 1:01:01')
 		);
 	}
@@ -267,9 +267,8 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
 	public function testTimesFromStringWithShortNotationForMinutes()
 	{
 		$this->assertEquals(
-		    array(5*60, 15*60, 20*60),
+		    [5 * 60, 15 * 60, 20 * 60],
 		    Calculator::getTimesFromString("+5', 10', 5'")
 		);
 	}
-
 }

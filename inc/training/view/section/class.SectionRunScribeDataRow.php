@@ -7,17 +7,17 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
 {
 	protected function setContent()
     {
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsLeft(), 1), 'G', __('Impact').' ('.__('left').')');
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsRight(), 1), 'G', __('Impact').' ('.__('right').')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsLeft(), 1), 'G', __('Impact') . ' (' . __('left') . ')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->impactGsRight(), 1), 'G', __('Impact') . ' (' . __('right') . ')');
 
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->brakingGsLeft(), 1), 'G', __('Braking').' ('.__('left').')');
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->brakingGsRight(), 1), 'G', __('Braking').' ('.__('right').')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->brakingGsLeft(), 1), 'G', __('Braking') . ' (' . __('left') . ')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->brakingGsRight(), 1), 'G', __('Braking') . ' (' . __('right') . ')');
 
-        $this->BoxedValues[] = new BoxedValue($this->formatFootstrikeType($this->Context->activity()->footstrikeTypeLeft()), '', __('Footstrike').' ('.__('left').')');
-        $this->BoxedValues[] = new BoxedValue($this->formatFootstrikeType($this->Context->activity()->footstrikeTypeRight()), '', __('Footstrike').' ('.__('right').')');
+        $this->BoxedValues[] = new BoxedValue($this->formatFootstrikeType($this->Context->activity()->footstrikeTypeLeft()), '', __('Footstrike') . ' (' . __('left') . ')');
+        $this->BoxedValues[] = new BoxedValue($this->formatFootstrikeType($this->Context->activity()->footstrikeTypeRight()), '', __('Footstrike') . ' (' . __('right') . ')');
 
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->pronationExcursionLeft(), 1), '&deg;', __('Pronation excursion').' ('.__('left').')');
-        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->pronationExcursionRight(), 1), '&deg;', __('Pronation excursion').' ('.__('right').')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->pronationExcursionLeft(), 1), '&deg;', __('Pronation excursion') . ' (' . __('left') . ')');
+        $this->BoxedValues[] = new BoxedValue($this->formatNumber($this->Context->activity()->pronationExcursionRight(), 1), '&deg;', __('Pronation excursion') . ' (' . __('right') . ')');
 
         foreach ($this->BoxedValues as $boxedValue) {
             $boxedValue->defineAsFloatingBlock('w50');
@@ -33,7 +33,7 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
      */
     protected function formatNumber($value, $precision = 0, $unknown = '-')
     {
-        if (null === $value || 0 == $value) {
+        if ($value === null || $value == 0) {
             return $unknown;
         }
 
@@ -48,13 +48,13 @@ class SectionRunScribeDataRow extends TrainingViewSectionRowTabbedPlot
      */
     protected function formatFootstrikeType($value, $unknown = '-')
     {
-        if (null === $value || 0 == $value) {
+        if ($value === null || $value == 0) {
             return $unknown;
         }
 
         $type = $value >= 12 ? __('Fore-foot') : ($value >= 6 ? __('Mid-foot') : __('Heel'));
 
-        return $value.' / '.$type;
+        return $value . ' / ' . $type;
     }
 
 	protected function setRightContent()

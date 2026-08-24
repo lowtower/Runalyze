@@ -13,6 +13,7 @@ namespace Runalyze\Parameter;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class Textline extends \Runalyze\Parameter {
+class Textline extends \Runalyze\Parameter
+{
 	// No individual methods
 }

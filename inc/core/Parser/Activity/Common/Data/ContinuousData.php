@@ -4,91 +4,149 @@ namespace Runalyze\Parser\Activity\Common\Data;
 
 class ContinuousData
 {
-    /** @var array [s] */
+    /**
+     * @var array [s]
+     */
     public $Time = [];
 
-    /** @var array [km] */
+    /**
+     * @var array [km]
+     */
     public $Distance = [];
 
-    /** @var array [°] */
+    /**
+     * @var array [°]
+     */
     public $Latitude = [];
 
-    /** @var array [°] */
+    /**
+     * @var array [°]
+     */
     public $Longitude = [];
 
-    /** @var array [m] */
+    /**
+     * @var array [m]
+     */
     public $Altitude = [];
 
-    /** @var bool|null */
+    /**
+     * @var bool|null
+     */
     public $IsAltitudeDataBarometric;
 
-    /** @var array [bpm] */
+    /**
+     * @var array [bpm]
+     */
     public $HeartRate = [];
 
-    /** @var array [rpm] */
+    /**
+     * @var array [rpm]
+     */
     public $Cadence = [];
 
-    /** @var array [W] */
+    /**
+     * @var array [W]
+     */
     public $Power = [];
 
-    /** @var array [°C] */
+    /**
+     * @var array [°C]
+     */
     public $Temperature = [];
 
-    /** @var array [ms] */
+    /**
+     * @var array [ms]
+     */
     public $GroundContactTime = [];
 
-    /** @var array [mm] */
+    /**
+     * @var array [mm]
+     */
     public $VerticalOscillation = [];
 
-    /** @var array [%ooL] */
+    /**
+     * @var array [%ooL]
+     */
     public $GroundContactBalance = [];
 
-    /** @var array [%SmO2] */
+    /**
+     * @var array [%SmO2]
+     */
     public $MuscleOxygenation = [];
 
-    /** @var array [%SmO2] */
+    /**
+     * @var array [%SmO2]
+     */
     public $MuscleOxygenation_2 = [];
 
-    /** @var array [100 * g/dL] */
+    /**
+     * @var array [100 * g/dL]
+     */
     public $TotalHaemoglobin = [];
 
-    /** @var array [100 * g/dL] */
+    /**
+     * @var array [100 * g/dL]
+     */
     public $TotalHaemoglobin_2 = [];
 
-    /** @var float[] [G] */
+    /**
+     * @var float[] [G]
+     */
     public $ImpactGsLeft = [];
 
-    /** @var float[] [G] */
+    /**
+     * @var float[] [G]
+     */
     public $ImpactGsRight = [];
 
-    /** @var float[] [G] */
+    /**
+     * @var float[] [G]
+     */
     public $BrakingGsLeft = [];
 
-    /** @var float[] [G] */
+    /**
+     * @var float[] [G]
+     */
     public $BrakingGsRight = [];
 
-    /** @var int[] [°] */
+    /**
+     * @var int[] [°]
+     */
     public $FootstrikeTypeLeft = [];
 
-    /** @var int[] [°] */
+    /**
+     * @var int[] [°]
+     */
     public $FootstrikeTypeRight = [];
 
-    /** @var float[] [°] */
+    /**
+     * @var float[] [°]
+     */
     public $PronationExcursionLeft = [];
 
-    /** @var float[] [°] */
+    /**
+     * @var float[] [°]
+     */
     public $PronationExcursionRight = [];
 
-    /** @var int[] [n] */
+    /**
+     * @var int[] [n]
+     */
     public $PerformanceCondition = [];
 
-    /** @var float[] [pm] */
+    /**
+     * @var float[] [pm]
+     */
     public $RespirationRate = [];
 
-    /** @var array [%ooL] */
+    /**
+     * @var array [%ooL]
+     */
     public $LeftRightBalance = [];
 
-    /** @var array [-] */
+    /**
+     * @var array [-]
+     */
     public $Strokes = [];
 
     /**
@@ -132,7 +190,7 @@ class ContinuousData
             'RespirationRate',
             'LeftRightBalance',
             'Strokes',
-            'StrokeType'
+            'StrokeType',
         ];
     }
 

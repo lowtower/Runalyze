@@ -51,7 +51,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
 
         if ($language !== []) {
             $queryBuilder
-                ->where('u.language '.($excluded ? 'NOT' : '').' IN (:lang)')
+                ->where('u.language ' . ($excluded ? 'NOT' : '') . ' IN (:lang)')
                 ->setParameter('lang', $language, Connection::PARAM_STR_ARRAY);
         }
 
@@ -104,7 +104,7 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
 
     public function existsOneWith(array $criteria): bool
     {
-        return null !== $this->findOneBy($criteria);
+        return $this->findOneBy($criteria) !== null;
     }
 
     /**
@@ -115,10 +115,10 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     {
         /** @var null|Account $account */
         $account = $this->findOneBy([
-            'deletionHash' => $deletionHash
+            'deletionHash' => $deletionHash,
         ]);
 
-        if (null !== $account) {
+        if ($account !== null) {
             $this->_em->remove($account);
             $this->_em->flush();
 
@@ -136,10 +136,10 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     {
         /** @var null|Account $account */
         $account = $this->findOneBy([
-            'activationHash' => $activationHash
+            'activationHash' => $activationHash,
         ]);
 
-        if (null !== $account) {
+        if ($account !== null) {
             $this->save($account->removeActivationHash());
 
             return true;

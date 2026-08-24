@@ -18,16 +18,14 @@ use Runalyze\Model\Activity\Splits;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TableSwimLane extends TableLapsAbstract {
+class TableSwimLane extends TableLapsAbstract
+{
 	/**
 	 * Data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
-	/**
-	 * Set code
-	 */
 	protected function setCode() {
 		$this->setDataToCode();
 	}
@@ -39,11 +37,11 @@ class TableSwimLane extends TableLapsAbstract {
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';
 		$this->Code .= '<th></th>';
-		$this->Code .= '<th>'.__('Distance').'</th>';
-		$this->Code .= '<th>'.__('Time').'</th>';
-		$this->Code .= '<th>'.__('Swolf').'</th>';
-		$this->Code .= '<th>'.__('Strokes').'</th>';
-		$this->Code .= '<th>'.__('Type').'</th>';
+		$this->Code .= '<th>' . __('Distance') . '</th>';
+		$this->Code .= '<th>' . __('Time') . '</th>';
+		$this->Code .= '<th>' . __('Swolf') . '</th>';
+		$this->Code .= '<th>' . __('Strokes') . '</th>';
+		$this->Code .= '<th>' . __('Type') . '</th>';
 		$this->Code .= '</tr></thead>';
 
 		$this->Code .= '<tbody>';
@@ -87,7 +85,7 @@ class TableSwimLane extends TableLapsAbstract {
 				$this->Code .= '<tr class="r unimportant">';
 				$this->Code .= '<td></td>';
 				$this->Code .= '<td></td>';
-				$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
+				$this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
 				$this->Code .= '<td></td>';
 				$this->Code .= '<td></td>';
 
@@ -99,15 +97,15 @@ class TableSwimLane extends TableLapsAbstract {
 					$lane++;
 					$intervalLanes++;
 
-					$this->Code .= '<td>'.$lane.'.</td>';
-					$this->Code .= '<td>'.$Distance->stringMeter().'</td>';
-					$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
-					$this->Code .= '<td>'.$Loop->swolf().'</td>';
-					$this->Code .= '<td>'.$Loop->stroke().'</td>';
+					$this->Code .= '<td>' . $lane . '.</td>';
+					$this->Code .= '<td>' . $Distance->stringMeter() . '</td>';
+					$this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
+					$this->Code .= '<td>' . $Loop->swolf() . '</td>';
+					$this->Code .= '<td>' . $Loop->stroke() . '</td>';
 				} else {
 					$this->Code .= '<td></td>';
 					$this->Code .= '<td></td>';
-					$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
+					$this->Code .= '<td>' . Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)) . '</td>';
 					$this->Code .= '<td></td>';
 					$this->Code .= '<td></td>';
 				}
@@ -116,7 +114,7 @@ class TableSwimLane extends TableLapsAbstract {
 				$strokes += empty($Loop->stroke()) ? 0 : $Loop->stroke();
 			}
 
-			$this->Code .= '<td>'.$Stroketype->shortString().'</td>';
+			$this->Code .= '<td>' . $Stroketype->shortString() . '</td>';
 			$this->Code .= '</tr>';
 
 			$TrackLoop->nextStep();
@@ -137,7 +135,7 @@ class TableSwimLane extends TableLapsAbstract {
      * @return mixed[]
      */
     protected function getTrackloopPauseIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop): array {
-		$result = array();
+		$result = [];
 
 		$time = 0;
 		foreach ($splits->asArray() as $Split) {
@@ -162,11 +160,11 @@ class TableSwimLane extends TableLapsAbstract {
 		$distance = new Distance($Poollength * $intervalLanes);
 		$this->Code .= '<tr class="r unimportant">';
 
-		$this->Code .= '<td>'. $interval.'./'.$intervalLanes. '</td>';
-		$this->Code .= '<td>'. $distance->stringMeter() .'</td>';
+		$this->Code .= '<td>' . $interval . './' . $intervalLanes . '</td>';
+		$this->Code .= '<td>' . $distance->stringMeter() . '</td>';
 		$this->Code .= '<td></td>';
-		$this->Code .= '<td>&#216; '. ($intervalLanes != 0 ? round($swolfs / $intervalLanes) : '-') .'</td>';
-		$this->Code .= '<td>&#216; '. ($intervalLanes != 0 ? round($strokes / $intervalLanes) : '-') .'</td>';
+		$this->Code .= '<td>&#216; ' . ($intervalLanes != 0 ? round($swolfs / $intervalLanes) : '-') . '</td>';
+		$this->Code .= '<td>&#216; ' . ($intervalLanes != 0 ? round($strokes / $intervalLanes) : '-') . '</td>';
 
 		$this->Code .= '<td>Summary</td>';
 		$this->Code .= '</tr>';

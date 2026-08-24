@@ -7,7 +7,8 @@ namespace Runalyze\Service\RouteNameEvaluation;
  * Currently there is only the OSM implementation available.
  * #TSC
  */
-class RouteNameEvalFactory {
+class RouteNameEvalFactory
+{
     protected $RouteNameEval;
 
     /**
@@ -17,9 +18,6 @@ class RouteNameEvalFactory {
         $this->RouteNameEval = $routeNameEvalOsm;
     }
 
-    /**
-     * Gets a instance.
-     */
     public function getInstance(): RouteNameEval {
         return $this->RouteNameEval;
     }

@@ -8,10 +8,14 @@ use Runalyze\View\Activity;
 
 class Gradient extends ActivitySeries
 {
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const COLOR = 'rgb(127,127,127)';
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $KernelWidth;
 
 	/**
@@ -32,7 +36,7 @@ class Gradient extends ActivitySeries
 	protected function initDataWithRoute(Activity\Context $context)
     {
 		if (! $context->hasRoute() || ! $context->route()->hasElevations() || ! $context->hasTrackdata() || ! $context->trackdata()->has(Trackdata\Entity::DISTANCE)) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 
@@ -46,9 +50,6 @@ class Gradient extends ActivitySeries
 		$this->XAxis = $collector->xAxis();
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions()
     {
 		$this->Label = __('Gradient');

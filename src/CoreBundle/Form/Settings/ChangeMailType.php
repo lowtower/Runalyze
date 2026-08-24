@@ -22,11 +22,11 @@ class ChangeMailType extends AbstractType
                 'mapped' => false,
                 'empty_data' => null,
                 'constraints' => new UserPassword([
-                    'message' => 'Please enter your current password'
+                    'message' => 'Please enter your current password',
                 ]),
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('mail', EmailType::class, [
                 'required' => false,
@@ -38,7 +38,7 @@ class ChangeMailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Account::class,
         ]);
     }
 }

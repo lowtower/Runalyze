@@ -10,13 +10,13 @@ class RouteRepository extends EntityRepository
 {
     public function accountHasLockedRoutes(Account $account): bool
     {
-        return null !== $this->createQueryBuilder('r')
+        return $this->createQueryBuilder('r')
             ->select('r.id')
             ->setMaxResults(1)
             ->where('r.account = :accountid AND r.lock = 1')
             ->setParameter('accountid', $account->getId())
             ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR) !== null;
     }
 
     /**
@@ -33,7 +33,7 @@ class RouteRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        if (null !== $result && null !== $result['startpoint']) {
+        if ($result !== null && $result['startpoint'] !== null) {
             return (new Geohash())->decode($result['startpoint'])->getCoordinate();
         }
 

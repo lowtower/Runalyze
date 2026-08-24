@@ -11,19 +11,29 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class HeatIndexEffect extends AbstractEnum
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const NO_EFFECT = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CAUTION = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const EXTREME_CAUTION = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const DANGER = 3;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const EXTREME_DANGER = 4;
 
     /**
@@ -123,9 +133,9 @@ class HeatIndexEffect extends AbstractEnum
      */
     public static function icon($enum): string
     {
-        $Tooltip = new \Runalyze\View\Tooltip(self::label($enum).'<br>'.self::description($enum));
+        $Tooltip = new \Runalyze\View\Tooltip(self::label($enum) . '<br>' . self::description($enum));
 
-        return '<i '.$Tooltip->attributes().' class="fa fa-fw '.self::fontIconName($enum).' atRight" style="color:'.self::colorFor($enum).'"></i>';
+        return '<i ' . $Tooltip->attributes() . ' class="fa fa-fw ' . self::fontIconName($enum) . ' atRight" style="color:' . self::colorFor($enum) . '"></i>';
     }
 
     /**
@@ -144,5 +154,4 @@ class HeatIndexEffect extends AbstractEnum
                 return 'fa-check';
         }
     }
-
 }

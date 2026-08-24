@@ -15,8 +15,6 @@ use Runalyze\Profile\Sport\ProfileInterface;
 use Runalyze\Profile\Sport\SportProfile;
 
 /**
- * Sport
- *
  * @ORM\Table(name="sport", uniqueConstraints={@ORM\UniqueConstraint(name="unique_internal_id", columns={"accountid", "internal_sport_id"})})
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\SportRepository")
  */
@@ -401,7 +399,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      */
     public function setHrZoneBounds($hrZoneBounds): self
     {
-        if (null !== $hrZoneBounds) {
+        if ($hrZoneBounds !== null) {
             $hrZoneBounds = HrZonesCalculator::sortZones($hrZoneBounds);
         }
 
@@ -479,7 +477,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
 
     public function hasInternalSportId(): bool
     {
-        return null !== $this->internalSportId && SportProfile::GENERIC != $this->internalSportId;
+        return $this->internalSportId !== null && $this->internalSportId != SportProfile::GENERIC;
     }
 
     /**
@@ -495,8 +493,8 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      */
     public function getInternalSport()
     {
-        if (null === $this->internalSport) {
-            $id = null === $this->internalSportId ? SportProfile::GENERIC : $this->internalSportId;
+        if ($this->internalSport === null) {
+            $id = $this->internalSportId === null ? SportProfile::GENERIC : $this->internalSportId;
 
             try {
                 $this->internalSport = SportProfile::get($id);

@@ -25,14 +25,14 @@ class CleanupRegistrationsCommand extends ContainerAwareCommand
     {
         $days = $input->getArgument('days') ?: 7;
 
-        $output->writeln('<info>Delete all not activated accounts older than '.$days.' days</info>');
+        $output->writeln('<info>Delete all not activated accounts older than ' . $days . ' days</info>');
         $output->writeln('');
 
         $repository = $this->getContainer()
             ->get('doctrine')
             ->getRepository('CoreBundle:Account');
-        $delete =  $repository->deleteNotActivatedAccounts($days);
-        $output->writeln('<info>'.$delete.' deleted accounts</info>');
+        $delete = $repository->deleteNotActivatedAccounts($days);
+        $output->writeln('<info>' . $delete . ' deleted accounts</info>');
         $output->writeln('');
 
         return 0;

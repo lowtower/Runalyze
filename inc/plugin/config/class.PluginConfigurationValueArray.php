@@ -9,10 +9,9 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueArray extends PluginConfigurationValue {
+class PluginConfigurationValueArray extends PluginConfigurationValue
+{
 	/**
-	 * Set value from string
-	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */
@@ -27,9 +26,6 @@ class PluginConfigurationValueArray extends PluginConfigurationValue {
 		return implode(', ', $this->Value);
 	}
 
-	/**
-	 * Set value from post
-	 */
 	public function setValueFromPost() {
 		if (isset($_POST[$this->Key])) {
 			$this->setValueFromString( $_POST[$this->Key] );

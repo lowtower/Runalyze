@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularInputDate extends FormularInput {
+class FormularInputDate extends FormularInput
+{
 	/**
 	 * Prepare for beeing displayed
 	 */

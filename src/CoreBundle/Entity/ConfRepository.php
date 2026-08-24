@@ -12,7 +12,7 @@ class ConfRepository extends EntityRepository
     public function findByAccount(Account $account)
     {
         return $this->findBy([
-            'account' => $account->getId()
+            'account' => $account->getId(),
         ]);
     }
 
@@ -24,7 +24,7 @@ class ConfRepository extends EntityRepository
     {
         $results = $this->findBy([
             'account' => $account->getId(),
-            'key' => $key
+            'key' => $key,
         ]);
 
         return empty($results) ? null : $results[0];

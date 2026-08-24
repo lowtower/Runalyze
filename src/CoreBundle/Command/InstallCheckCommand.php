@@ -8,48 +8,64 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class InstallCheckCommand extends ContainerAwareCommand
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const REQUIRED_PHP_VERSION = '5.5.9';
 
-    /** @var int exit code */
+    /**
+     * @var int exit code
+     */
     const CHECK_FAILED = 1;
 
-    /** @var int bit flag for return code */
+    /**
+     * @var int bit flag for return code
+     */
     const OKAY = 0x00;
 
-    /** @var int bit flag for return code */
+    /**
+     * @var int bit flag for return code
+     */
     const WARNING = 0x01;
 
-    /** @var int bit flag for return code */
+    /**
+     * @var int bit flag for return code
+     */
     const ERROR = 0x10;
 
-    /** @var int current return code */
+    /**
+     * @var int current return code
+     */
     protected $ReturnCode = 0x00;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Checks = [
         [
             'method' => 'checkPhpVersion',
-            'message' => 'Check PHP version'
+            'message' => 'Check PHP version',
         ],
         [
             'method' => 'prefixIsNotUsed',
             'message' => 'Check that database prefix is not used',
             'hint' => [
                 'There must not exist any tables with the chosen prefix.',
-                'Maybe RUNALYZE is already installed.'
-            ]
+                'Maybe RUNALYZE is already installed.',
+            ],
         ],
         [
             'method' => 'directoriesAreWritable',
             'message' => 'Check that directories for cache, log and import are writable',
             'hint' => [
-                'Respective directories in data/ and var/ must be writable.'
-            ]
-        ]
+                'Respective directories in data/ and var/ must be writable.',
+            ],
+        ],
     ];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DirectoriesThatMustBeWritable = [
         'data/backup-tool/backup/',
         'data/backup-tool/import/',
@@ -61,7 +77,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         'var/logs/',
         'var/poster/',
         'var/queue/',
-        'var/tmp/'
+        'var/tmp/',
     ];
 
     protected function configure()
@@ -90,14 +106,14 @@ class InstallCheckCommand extends ContainerAwareCommand
                 $check['hint'] = ! is_array($check['hint']) ? [$check['hint']] : $check['hint'];
 
                 foreach ($check['hint'] as $hint) {
-                    $output->writeln('    <comment>'.$hint.'</comment>');
+                    $output->writeln('    <comment>' . $hint . '</comment>');
                 }
             }
 
             $output->writeln('');
         }
 
-        $output->writeln('  '.$this->getFinalMessage());
+        $output->writeln('  ' . $this->getFinalMessage());
 
         if ($this->ReturnCode & self::ERROR) {
             return self::CHECK_FAILED;
@@ -139,7 +155,7 @@ class InstallCheckCommand extends ContainerAwareCommand
                 $message = $message ? $message : 'ok';
         }
 
-        return '<'.$tag.'>'.($message ? $message : $tag).'</'.$tag.'>';
+        return '<' . $tag . '>' . ($message ? $message : $tag) . '</' . $tag . '>';
     }
 
     protected function checkPhpVersion(): int
@@ -156,7 +172,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         $prefix = $this->getContainer()
             ->getParameter('database_prefix');
 
-        if (0 !== $connection->query('SHOW TABLES LIKE "'.$prefix.'%"')->rowCount()) {
+        if ($connection->query('SHOW TABLES LIKE "' . $prefix . '%"')->rowCount() !== 0) {
             return self::ERROR;
         }
 
@@ -166,10 +182,10 @@ class InstallCheckCommand extends ContainerAwareCommand
     protected function directoriesAreWritable(): int
     {
         $root = $this->getContainer()
-            ->getParameter('kernel.root_dir').'/../';
+            ->getParameter('kernel.root_dir') . '/../';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
-            if (! is_writable($root.$directory)) {
+            if (! is_writable($root . $directory)) {
                 return self::WARNING;
             }
         }

@@ -49,18 +49,18 @@ class TrainingRepository extends EntityRepository
      */
     public function isPossibleDuplicate(Training $activity)
     {
-        if (null === $activity->getAccount() || ! is_numeric($activity->getAccount()->getId()) || null == $activity->getActivityId()) {
+        if ($activity->getAccount() === null || ! is_numeric($activity->getAccount()->getId()) || $activity->getActivityId() == null) {
             return false;
         }
 
-        return null !== $this->createQueryBuilder('t')
+        return $this->createQueryBuilder('t')
             ->select('1')
             ->where('t.account = :account AND t.activityId = :id')
             ->setParameter('account', $activity->getAccount())
             ->setParameter('id', $activity->getActivityId())
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult() !== null;
     }
 
     /**
@@ -114,13 +114,13 @@ class TrainingRepository extends EntityRepository
             ->setParameter('account', $account->getId())
             ->addGroupBy('year');
 
-        if (null !== $sportid) {
+        if ($sportid !== null) {
             $queryBuilder
                 ->andWhere('t.sport = :sportid')
                 ->setParameter('sportid', $sportid);
         }
 
-        if (null !== $minimumActivities) {
+        if ($minimumActivities !== null) {
             $queryBuilder
                 ->having('COUNT(IDENTITY(t.sport)) >= :minimum')
                 ->setParameter('minimum', $minimumActivities);
@@ -143,14 +143,14 @@ class TrainingRepository extends EntityRepository
             ->where('t.account = :account')
             ->setParameter('account', $account->getId());
 
-        if (null !== $year) {
+        if ($year !== null) {
             $queryBuilder
                 ->andWhere('t.time BETWEEN :startTime and :endTime')
                 ->setParameter('startTime', mktime(0, 0, 0, 1, 1, $year))
                 ->setParameter('endTime', mktime(23, 59, 59, 12, 31, $year));
         }
 
-        if (null !== $sportid) {
+        if ($sportid !== null) {
             $queryBuilder
                 ->andWhere('t.sport = :sportid')
                 ->setParameter('sportid', $sportid);
@@ -227,13 +227,13 @@ class TrainingRepository extends EntityRepository
             ->addGroupBy('year')
             ->addGroupBy('month');
 
-        if (null !== $column) {
-            $queryBuilder->addSelect('SUM(t.'.$column.') AS value');
+        if ($column !== null) {
+            $queryBuilder->addSelect('SUM(t.' . $column . ') AS value');
         } else {
             $queryBuilder->addSelect('SUM(1) AS value');
         }
 
-        if (null !== $sportid) {
+        if ($sportid !== null) {
             $queryBuilder
                 ->andWhere('t.sport = :sportid')
                 ->setParameter('sportid', $sportid);
@@ -252,7 +252,7 @@ class TrainingRepository extends EntityRepository
     {
         return $this->findOneBy([
             'id' => $activityId,
-            'account' => $accountId
+            'account' => $accountId,
         ]);
     }
 
@@ -272,7 +272,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
 
-        if (null !== $dataForAccount) {
+        if ($dataForAccount !== null) {
             $statistics->setNumberOfActivities((int) $dataForAccount['num']);
             $statistics->setTotalDistance((float) $dataForAccount['distance']);
             $statistics->setTotalDuration((float) $dataForAccount['duration']);
@@ -282,7 +282,6 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param Sport $sport
      * @param int $year
      * @return \Doctrine\ORM\Query
      */
@@ -305,13 +304,12 @@ class TrainingRepository extends EntityRepository
                 ':account' => $account->getId(),
                 ':sport' => $sport->getId(),
                 ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year)
+                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
             ])
             ->getQuery();
     }
 
     /**
-     * @param Sport $sport
      * @param int $year
      * @return \Doctrine\ORM\Query
      */
@@ -332,20 +330,20 @@ class TrainingRepository extends EntityRepository
                 ':account' => $account->getId(),
                 ':sport' => $sport->getId(),
                 ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year)
+                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
             ])
             ->getQuery();
     }
 
     public function accountHasLockedTrainings(Account $account): bool
     {
-        return null !== $this->createQueryBuilder('t')
+        return $this->createQueryBuilder('t')
             ->select('t.id')
             ->setMaxResults(1)
             ->where('t.account = :accountid AND t.lock = 1')
             ->setParameter('accountid', $account->getId())
             ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR) !== null;
     }
 
     /**
@@ -420,7 +418,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
 
-        return null === $result ? $result : (int) $result;
+        return $result === null ? $result : (int) $result;
     }
 
     /**
@@ -434,8 +432,8 @@ class TrainingRepository extends EntityRepository
 
         $result = $this->createQueryBuilder('t')
             ->select([
-                'SUM(t.s * t.useVO2max * t.'.$vo2maxColumn.') as value',
-                'SUM(CASE WHEN t.'.$vo2maxColumn.' > 0 THEN t.s * t.useVO2max ELSE 0 END) as ssum',
+                'SUM(t.s * t.useVO2max * t.' . $vo2maxColumn . ') as value',
+                'SUM(CASE WHEN t.' . $vo2maxColumn . ' > 0 THEN t.s * t.useVO2max ELSE 0 END) as ssum',
             ])
             ->where('t.account = :account')
             ->andWhere('t.time BETWEEN :timeStart AND :timeEnd')
@@ -449,7 +447,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        if (null === $result || 0.0 === (float) $result['ssum']) {
+        if ($result === null || (float) $result['ssum'] === 0.0) {
             return 0.0;
         }
 
@@ -467,7 +465,7 @@ class TrainingRepository extends EntityRepository
     {
         $startTimeForLongJogs = $timestamp - $configuration->getDaysToConsiderForLongJogs() * 86400;
         $startTimeForWeeklyMileage = $timestamp - $configuration->getDaysToConsiderForWeeklyMileage() * 86400;
-        $numberOfDaysSinceFirstActivity = null === $timestampOfFirstActivity ? null : \Runalyze\Util\Time::diffInDays($timestampOfFirstActivity, $timestamp);
+        $numberOfDaysSinceFirstActivity = $timestampOfFirstActivity === null ? null : \Runalyze\Util\Time::diffInDays($timestampOfFirstActivity, $timestamp);
         $marathonShape = new MarathonShape($effectiveVO2max, $configuration);
 
         $result = $this->createQueryBuilder('t')
@@ -482,7 +480,7 @@ class TrainingRepository extends EntityRepository
                         * ((t.distance - :minLongJog) / :longJogTarget)
                     ELSE 0
                     END
-                ) as points'
+                ) as points',
             ])
             ->where('t.account = :account')
             ->andWhere('t.time BETWEEN :timeStart AND :timeEnd')
@@ -501,7 +499,7 @@ class TrainingRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
-        if (null === $result) {
+        if ($result === null) {
             return 0.0;
         }
 
@@ -518,23 +516,23 @@ class TrainingRepository extends EntityRepository
             $this->ensureThatSportAndTypeAreManaged($training);
         }
 
-        if (null !== $training->getRoute()) {
+        if ($training->getRoute() !== null) {
             $this->_em->persist($training->getRoute());
         }
 
-        if (null !== $training->getTrackdata()) {
+        if ($training->getTrackdata() !== null) {
             $this->_em->persist($training->getTrackdata());
         }
 
-        if (null !== $training->getSwimdata()) {
+        if ($training->getSwimdata() !== null) {
             $this->_em->persist($training->getSwimdata());
         }
 
-        if (null !== $training->getHrv()) {
+        if ($training->getHrv() !== null) {
             $this->_em->persist($training->getHrv());
         }
 
-        if (null !== $training->getRaceresult()) {
+        if ($training->getRaceresult() !== null) {
             $this->_em->persist($training->getRaceresult());
         }
 
@@ -549,13 +547,13 @@ class TrainingRepository extends EntityRepository
         $sport = $activity->getSport();
         $type = $activity->getType();
 
-        if (null !== $sport && $sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
+        if ($sport !== null && $sport->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($sport)) {
             $activity->setSport(
                 $this->_em->find(Sport::class, $sport->getId())
             );
         }
 
-        if (null !== $type && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
+        if ($type !== null && $type->getId() && ! $this->_em->getUnitOfWork()->isInIdentityMap($type)) {
             $activity->setType(
                 $this->_em->find(Type::class, $type->getId())
             );
@@ -564,7 +562,7 @@ class TrainingRepository extends EntityRepository
 
     public function remove(Training $activity)
     {
-        if (null !== $activity->getRoute()) {
+        if ($activity->getRoute() !== null) {
             $this->_em->remove($activity->getRoute());
         }
 

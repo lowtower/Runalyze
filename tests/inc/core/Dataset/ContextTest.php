@@ -8,12 +8,12 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 {
 	public function testThatAllStringMethodsWork()
 	{
-		$Context = new Context(array(
+		$Context = new Context([
     Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
 		    Activity\Entity::TIME_IN_SECONDS => 3600,
 		    Activity\Entity::DISTANCE => 12.3,
-		    Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY => 42
-), 0);
+		    Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY => 42,
+], 0);
 
 		$Configuration = new DefaultConfiguration();
 
@@ -24,12 +24,12 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 
 	public function testContextFromArrayWithoutSportAndType()
 	{
-		$Context = new Context(array(
+		$Context = new Context([
     Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
 		    Activity\Entity::TIME_IN_SECONDS => 3600,
 		    Activity\Entity::DISTANCE => 12.3,
-		    'more-data' => 42
-), 0);
+		    'more-data' => 42,
+], 0);
 
 		$this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
 		$this->assertEquals(3600, $Context->activity()->duration());
@@ -43,9 +43,9 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 
 	public function testContextFromObject()
 	{
-		$Context = new Context(new Activity\Entity(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015)
-		)), 0);
+		$Context = new Context(new Activity\Entity([
+		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
+		]), 0);
 
 		$this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
 	}
@@ -53,19 +53,19 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 	public function testUnknownData()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		$Context = new Context(new Activity\Entity(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015)
-		)), 0);
+		$Context = new Context(new Activity\Entity([
+		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
+		]), 0);
 
 		$Context->data('non-existing-key');
 	}
 
 	public function testUnknownDataWithNull()
 	{
-		$Context = new Context(new Activity\Entity(array(
+		$Context = new Context(new Activity\Entity([
 		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
-		    'null-data' => null
-		)), 0);
+		    'null-data' => null,
+		]), 0);
 
 		$this->assertNull($Context->data('null-data', true));
 	}
@@ -79,17 +79,17 @@ class ContextTest extends \PHPUnit\Framework\TestCase
 	public function testWrongSetActivityData()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		new Context(array(), 0);
+		new Context([], 0);
 	}
 
 	public function testSettingNewActivityAfterConstructor()
 	{
-		$Context = new Context(new Activity\Entity(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015)
-		)), 0);
-		$Context->setActivityData(array(
-		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 11, 11, 2015)
-		));
+		$Context = new Context(new Activity\Entity([
+		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
+		]), 0);
+		$Context->setActivityData([
+		    Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 11, 11, 2015),
+		]);
 
 		$this->assertEquals('11.11.2015', date('d.m.Y', $Context->activity()->timestamp()));
 	}

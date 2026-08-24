@@ -11,7 +11,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
     {
         $Model = new TsbModel(
             [
-                0 => 1000
+                0 => 1000,
             ],
             42,
             7
@@ -32,7 +32,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
             2 => 40,
             5 => 60,
             6 => 30,
-            7 => 100
+            7 => 100,
         ], 42, 7);
         $Model->calculate();
 
@@ -78,7 +78,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
     public function testFutureFitness()
     {
         $Model = new TsbModel([
-            0 => 1000
+            0 => 1000,
         ], 42, 7);
         $Model->setRange(0, 100);
         $Model->calculate();
@@ -102,7 +102,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
     public function testFutureFatigue()
     {
         $Model = new TsbModel([
-            0 => 1000
+            0 => 1000,
         ], 42, 7);
         $Model->setRange(0, 30);
         $Model->calculate();
@@ -148,7 +148,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals([
-            6.7, 6.6, 6.2, 5.8, 5.4, 4.9, 4.7, 3.7, 2.6, 1.6, 0.7, 0.0, 0.0, 0.0
+            6.7, 6.6, 6.2, 5.8, 5.4, 4.9, 4.7, 3.7, 2.6, 1.6, 0.7, 0.0, 0.0, 0.0,
         ], $restDays);
     }
 }

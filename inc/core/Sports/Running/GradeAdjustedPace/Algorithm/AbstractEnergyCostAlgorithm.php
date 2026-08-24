@@ -6,7 +6,9 @@ use Runalyze\Sports\Running\GradeAdjustedPace\AlgorithmInterface;
 
 abstract class AbstractEnergyCostAlgorithm implements AlgorithmInterface
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     const TIME_ADJUSTMENT_EXPONENT = 0.83;
 
     abstract public function getEnergyCost($gradientInPercent);

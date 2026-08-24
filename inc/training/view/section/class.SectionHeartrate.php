@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionHeartrate extends TrainingViewSectionTabbedPlot {
-	/**
-	 * Set header and rows
-	 */
+class SectionHeartrate extends TrainingViewSectionTabbedPlot
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Heartrate data');
 

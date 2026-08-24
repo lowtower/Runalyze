@@ -10,7 +10,6 @@ namespace Runalyze\View\Activity\Plot\Series;
 use Runalyze\Calculation\Math\MovingAverage;
 use Runalyze\View\Activity;
 
-
 /**
  * Plot for: Pace (with cumulative moving average)
  *
@@ -24,7 +23,9 @@ class PaceCumulativeAverage extends Pace
 	 */
 	const COLOR = 'rgb(200,200,255)';
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $adjustAxis = false;
 
 	/**
@@ -40,9 +41,6 @@ class PaceCumulativeAverage extends Pace
 		parent::__construct($internalContext);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions()
 	{
 		parent::initOptions();

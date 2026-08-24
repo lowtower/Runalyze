@@ -6,10 +6,14 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Converter;
 
 abstract class AbstractSvgToPngConverter
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Parameter = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Command;
 
     /**

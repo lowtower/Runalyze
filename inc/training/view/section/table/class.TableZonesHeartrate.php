@@ -17,7 +17,8 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TableZonesHeartrate extends TableZonesAbstract {
+class TableZonesHeartrate extends TableZonesAbstract
+{
 	/**
 	 * @var int [bpm]
 	 */
@@ -33,9 +34,6 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 */
 	protected $Calculator;
 
-    /**
-     * Constructor
-     */
     public function __construct(Context $context) {
 		$this->Calculator = new HrZonesCalculator($context->activity()->hrZoneBounds(), $context->sport()->hrZoneBounds());
 
@@ -45,7 +43,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
     /**
      * Get title for average
      */
-    public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('Pace'); }
+    public function titleForAverage(): string { return __('avg.') . '&nbsp;' . __('Pace'); }
 
 	/**
 	 * Get hint for footer #TSC
@@ -53,9 +51,6 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	 */
 	public function footerHint() { return $this->footerHint; }
 
-	/**
-	 * Init data
-	 */
 	protected function initData() {
 		$Zones = $this->computeZones();
 		$Pace = new Pace(0, 0);
@@ -70,13 +65,13 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				$perRange = $this->threeNumbers($Info['%start']) . ' -' . $this->threeNumbers($Info['%end']) . ' &#37;';
 				$bpmRange = $this->threeNumbers($Info['#start']) . ' -' . $this->threeNumbers($Info['#end']) . ' bpm';
 
-				$this->Data[] = array(
-    'zone'     => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
-				    'time'     => $Info['time'],
+				$this->Data[] = [
+    'zone' => $Info['text'] . ' ' . $perRange . ' / ' . $bpmRange,
+				    'time' => $Info['time'],
 				    'distance' => $Info['distance'],
-				    'average'  => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
-				    'color'    => $Info['color'] #TSC support for colors
-);
+				    'average' => $Pace->value() > 0 ? $Pace->valueWithAppendix() : '-',
+				    'color' => $Info['color'], #TSC support for colors
+];
 			}
 		}
 	}
@@ -89,23 +84,23 @@ class TableZonesHeartrate extends TableZonesAbstract {
 	}
 
 	protected function computeZones(): array {
-		if (null !== $this->Context->activity()->maxHrUser()) {
+		if ($this->Context->activity()->maxHrUser() !== null) {
 			$hrMax = (int) $this->Context->activity()
 			    ->maxHrUser();
-			$footerHintMaxHr = 'with a maximum users heart-rate of '.$hrMax.' from the activity.';
+			$footerHintMaxHr = 'with a maximum users heart-rate of ' . $hrMax . ' from the activity.';
 		} else {
 			$hrMax = Runalyze\Configuration::Data()->HRmax();
-			$footerHintMaxHr = 'with a maximum users heart-rate of '.$hrMax.' from the users body data.';
+			$footerHintMaxHr = 'with a maximum users heart-rate of ' . $hrMax . ' from the users body data.';
 		}
 
-		$Zones = array();
+		$Zones = [];
 		$hasDistance = $this->Context->trackdata()
 		    ->has(Trackdata\Entity::DISTANCE);
 
 		$Distribution = new TimeSeriesForTrackdata(
 		    $this->Context->trackdata(),
 		    Trackdata\Entity::HEARTRATE,
-		    $hasDistance ? array(Trackdata\Entity::DISTANCE) : array()
+		    $hasDistance ? [Trackdata\Entity::DISTANCE] : []
 		);
 		$Data = $Distribution->data();
 
@@ -124,7 +119,7 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				$startHr = $defaultZones[$z]['hr'];
 				$endHr = $defaultZones[$z + 1]['hr'] - 1; // use the next zone hr as the high bound of this zone
 
-				$Zones[$z] = array(
+				$Zones[$z] = [
 				    'text' => array_key_exists('t', $defaultZones[$z]) ? $defaultZones[$z]['t'] : '',
 				    '#start' => $startHr,
 				    '#end' => $endHr,
@@ -132,8 +127,8 @@ class TableZonesHeartrate extends TableZonesAbstract {
 				    '%end' => round(100 / $hrMax * $endHr),
 				    'time' => 0,
 				    'distance' => 0,
-				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : self::DEFAULT_COLOR
-				);
+				    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : self::DEFAULT_COLOR,
+				];
 			}
 
 			$Zones[$z]['time'] += $seconds;

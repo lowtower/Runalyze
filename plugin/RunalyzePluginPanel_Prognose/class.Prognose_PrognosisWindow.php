@@ -23,8 +23,11 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
-class Prognose_PrognosisWindow {
-	/** @var int */
+class Prognose_PrognosisWindow
+{
+	/**
+	 * @var int
+	 */
 	const DISTANCE_PRECISION = 2;
 
 	/**
@@ -55,13 +58,13 @@ class Prognose_PrognosisWindow {
 	 * Distances
 	 * @var array
 	 */
-	protected $Distances = array();
+	protected $Distances = [];
 
 	/**
 	 * Prognoses as array
 	 * @var array
 	 */
-	protected $Prognoses = array();
+	protected $Prognoses = [];
 
 	/**
 	 * Result table
@@ -73,16 +76,13 @@ class Prognose_PrognosisWindow {
 	 * Info lines
 	 * @var array
 	 */
-	protected $InfoLines = array();
+	protected $InfoLines = [];
 
 	/**
 	 * @var \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected $UnitSystem;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct() {
 		$this->setDefaultValues();
 		$this->readPostData();
@@ -92,9 +92,6 @@ class Prognose_PrognosisWindow {
 		$this->initFormular();
 	}
 
-	/**
-	 * Set default values
-	 */
 	protected function setDefaultValues() {
 		$this->UnitSystem = Configuration::General()->distanceUnitSystem();
 
@@ -117,14 +114,14 @@ class Prognose_PrognosisWindow {
 			$_POST['second-best-result-km'] = ! empty($TopResults) ? $TopResults[1]['distance'] : '10.0';
 			$_POST['second-best-result-time'] = ! empty($TopResults) ? Duration::format($TopResults[1]['s']) : '1:00:00';
 		} else {
-			list($_POST['best-result-km'], $_POST['second-best-result-km']) = $this->distanceValuesToKm([
+			[$_POST['best-result-km'], $_POST['second-best-result-km']] = $this->distanceValuesToKm([
 			    str_replace(',', '.', $_POST['best-result-km']),
-			    str_replace(',', '.', $_POST['second-best-result-km'])
+			    str_replace(',', '.', $_POST['second-best-result-km']),
 			]);
 		}
 
-		$this->InfoLines['vo2max']  = __('Your current effective VO2max:').' '.$CurrentShape.'. ';
-		$this->InfoLines['vo2max'] .= __('Your current marathon shape:').' '.BasicEndurance::getConst().' &#37;.';
+		$this->InfoLines['vo2max'] = __('Your current effective VO2max:') . ' ' . $CurrentShape . '. ';
+		$this->InfoLines['vo2max'] .= __('Your current marathon shape:') . ' ' . BasicEndurance::getConst() . ' &#37;.';
 
 		$ResultLine = empty($TopResults) ? __('none') : sprintf(
 		    __('%s in %s <small>(%s)</small> and %s in %s <small>(%s)</small>'),
@@ -135,15 +132,12 @@ class Prognose_PrognosisWindow {
 		    Duration::format($TopResults[1]['s']),
 		    (new LocalTime($TopResults[1]['time']))->format('d.m.Y')
 		);
-		$this->InfoLines['robert-bock'] = __('Your two best results:').' '.$ResultLine;
+		$this->InfoLines['robert-bock'] = __('Your two best results:') . ' ' . $ResultLine;
 
 		$_POST['best-result-km'] = Distance::format($_POST['best-result-km'], false, self::DISTANCE_PRECISION);
 		$_POST['second-best-result-km'] = Distance::format($_POST['second-best-result-km'], false, self::DISTANCE_PRECISION);
 	}
 
-	/**
-	 * Read post data
-	 */
 	protected function readPostData() {
 	    switch ($_POST['model']) {
             case 'robert-bock':
@@ -253,24 +247,21 @@ class Prognose_PrognosisWindow {
 
 			$DateWithLink = Ajax::trainingLink($PB->activityId(), (new LocalTime( $PB->timestamp() ))->format('d.m.Y'), true);
 
-			$this->Prognoses[] = array(
-			    'distance'	=> (new Distance($km))->stringAuto(),
-			    'prognosis'		=> $Prognosis > 0 ? Duration::format($Prognosis) : '-',
-			    'prognosis-pace'=> $PacePrognosis->valueWithAppendix(),
-			    'prognosis-vo2max'=> $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
-			    'diff'			=> ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds()>$Prognosis ? '+ ' : '- ').Duration::format(abs(round($PB->seconds()-$Prognosis))),
-			    'diff-class'	=> $PB->seconds() > $Prognosis ? 'plus' : 'minus',
-			    'pb'			=> $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
-			    'pb-pace'		=> $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
-			    'pb-vo2max'		=> $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
-			    'pb-date'		=> $PB->seconds() > 0 ? $DateWithLink : '-'
-			);
+			$this->Prognoses[] = [
+			    'distance' => (new Distance($km))->stringAuto(),
+			    'prognosis' => $Prognosis > 0 ? Duration::format($Prognosis) : '-',
+			    'prognosis-pace' => $PacePrognosis->valueWithAppendix(),
+			    'prognosis-vo2max' => $Prognosis > 0 ? $VO2maxprognosis->uncorrectedValue() : '-',
+			    'diff' => ! $PB->exists() || $Prognosis == 0 ? '-' : ($PB->seconds() > $Prognosis ? '+ ' : '- ') . Duration::format(abs(round($PB->seconds() - $Prognosis))),
+			    'diff-class' => $PB->seconds() > $Prognosis ? 'plus' : 'minus',
+			    'pb' => $PB->seconds() > 0 ? Duration::format($PB->seconds()) : '-',
+			    'pb-pace' => $PB->seconds() > 0 ? $PacePB->valueWithAppendix() : '-',
+			    'pb-vo2max' => $PB->seconds() > 0 ? $VO2maxpb->uncorrectedValue() : '-',
+			    'pb-date' => $PB->seconds() > 0 ? $DateWithLink : '-',
+			];
 		}
 	}
 
-	/**
-	 * Fill result table
-	 */
 	protected function fillResultTable() {
 		$this->startResultTable();
 
@@ -283,39 +274,33 @@ class Prognose_PrognosisWindow {
 		$this->finishResultTable();
 	}
 
-	/**
-	 * Start result table
-	 */
 	protected function startResultTable() {
 		$this->ResultTable = '<table class="fullwidth zebra-style"><thead><tr>
-					<th>'.__('Distance').'</th>
-					<th>'.__('Prognosis').'</th>
-					<th class="small">'.__('Pace').'</th>
+					<th>' . __('Distance') . '</th>
+					<th>' . __('Prognosis') . '</th>
+					<th class="small">' . __('Pace') . '</th>
 					<th class="small">VO2max</th>
-					<th>'.__('Difference').'</th>
-					<th>'.__('Personal best').'</th>
-					<th class="small">'.__('Pace').'</th>
+					<th>' . __('Difference') . '</th>
+					<th>' . __('Personal best') . '</th>
+					<th class="small">' . __('Pace') . '</th>
 					<th class="small">VO2max</th>
-					<th class="small">'.__('Date').'</th>
+					<th class="small">' . __('Date') . '</th>
 				</tr></thead><tbody>';
 	}
 
-	/**
-	 * Fill result table with results
-	 */
 	protected function fillResultTableWithResults() {
 		foreach ($this->Prognoses as $Prognosis) {
 			$this->ResultTable .= '
 				<tr class="r">
-					<td class="c">'.$Prognosis['distance'].'</td>
-					<td class="b">'.$Prognosis['prognosis'].'</td>
-					<td class="small">'.$Prognosis['prognosis-pace'].'</td>
-					<td class="small">'.$Prognosis['prognosis-vo2max'].'</td>
-					<td class="small '.$Prognosis['diff-class'].'">'.$Prognosis['diff'].'</td>
-					<td class="b">'.$Prognosis['pb'].'</td>
-					<td class="small">'.$Prognosis['pb-pace'].'</td>
-					<td class="small">'.$Prognosis['pb-vo2max'].'</td>
-					<td class="small">'.$Prognosis['pb-date'].'</td>
+					<td class="c">' . $Prognosis['distance'] . '</td>
+					<td class="b">' . $Prognosis['prognosis'] . '</td>
+					<td class="small">' . $Prognosis['prognosis-pace'] . '</td>
+					<td class="small">' . $Prognosis['prognosis-vo2max'] . '</td>
+					<td class="small ' . $Prognosis['diff-class'] . '">' . $Prognosis['diff'] . '</td>
+					<td class="b">' . $Prognosis['pb'] . '</td>
+					<td class="small">' . $Prognosis['pb-pace'] . '</td>
+					<td class="small">' . $Prognosis['pb-vo2max'] . '</td>
+					<td class="small">' . $Prognosis['pb-date'] . '</td>
 				</tr>';
 		}
 	}
@@ -324,12 +309,9 @@ class Prognose_PrognosisWindow {
 	 * Set invalid message to table
 	 */
 	protected function fillResultTableWithInvalidMessage() {
-		$this->ResultTable .= '<tr class="c"><td colspan="9"><em>'.__('Your input is invalid').'</em></td></tr>';
+		$this->ResultTable .= '<tr class="c"><td colspan="9"><em>' . __('Your input is invalid') . '</em></td></tr>';
 	}
 
-	/**
-	 * Finish result table
-	 */
 	protected function finishResultTable() {
 		$this->ResultTable .= '</tbody></table>';
 
@@ -341,7 +323,7 @@ class Prognose_PrognosisWindow {
 	}
 
 	protected function addHintsForRobertBock(\Runalyze\Sports\Running\Prognosis\Bock $prognosis) {
-		$this->ResultTable .= HTML::info( sprintf( __('The results give the constants K = %f and e = %f.'), $prognosis->getK(), $prognosis->getE()) ).'<br>';
+		$this->ResultTable .= HTML::info( sprintf( __('The results give the constants K = %f and e = %f.'), $prognosis->getK(), $prognosis->getE()) ) . '<br>';
 
 		if (! $this->PrognosisObject->areValuesValid()) {
 			$this->ResultTable .= HTML::warning(sprintf(
@@ -372,9 +354,6 @@ class Prognose_PrognosisWindow {
 		$this->initFieldsetForResults();
 	}
 
-	/**
-	 * Init fieldset for input data
-	 */
 	protected function initFieldsetForInputData() {
 		$this->FieldsetInput = new FormularFieldset( __('Input') );
 
@@ -459,17 +438,11 @@ class Prognose_PrognosisWindow {
 		$this->FieldsetInput->addField($SecondBestResultTime);
 	}
 
-	/**
-	 * Init fieldset for results
-	 */
 	protected function initFieldsetForResults() {
 		$this->FieldsetResult = new FormularFieldset( __('Prognosis'));
 		$this->FieldsetResult->addBlock( $this->ResultTable );
 	}
 
-	/**
-	 * Init formular
-	 */
 	protected function initFormular() {
 		$this->Formular = new Formular();
 		$this->Formular->setId('prognosis-calculator');
@@ -480,9 +453,6 @@ class Prognose_PrognosisWindow {
 		$this->Formular->addSubmitButton( __('Show prognosis'));
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		echo '<div class="panel-heading">';
 		$this->displayHeading();
@@ -492,19 +462,13 @@ class Prognose_PrognosisWindow {
 		echo '</div>';
 	}
 
-	/**
-	 * Display heading
-	 */
 	protected function displayHeading() {
 		echo HTML::h1( __('Prognosis calculator') );
 	}
 
-	/**
-	 * Display formular
-	 */
 	protected function displayFormular() {
 		$this->Formular->display();
 
-		echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-'.$_POST['model'].")').closest('div').hide();");
+		echo Ajax::wrapJSasFunction('$(\'#prognosis-calculator .hide-on-model-change:not(.only-' . $_POST['model'] . ")').closest('div').hide();");
 	}
 }

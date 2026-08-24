@@ -15,7 +15,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Activity
  */
-class PaceSmoother {
+class PaceSmoother
+{
 	/**
 	 * @var int
 	 */
@@ -44,7 +45,7 @@ class PaceSmoother {
 	/**
 	 * @var array
 	 */
-	protected $Smoothed = array();
+	protected $Smoothed = [];
 
 	/**
 	 * @var int
@@ -89,7 +90,7 @@ class PaceSmoother {
 	 * Reset internals
 	 */
 	protected function reset() {
-		$this->Smoothed = array();
+		$this->Smoothed = [];
 		$this->Loop->reset();
 	}
 
@@ -111,9 +112,6 @@ class PaceSmoother {
 		return $this->Smoothed;
 	}
 
-	/**
-	 * Run fast smoothing
-	 */
 	protected function runFastSmoothing() {
 		switch ($this->Mode) {
 			case self::MODE_STEP:
@@ -145,7 +143,7 @@ class PaceSmoother {
 
 		foreach ($distance as $i => $dist) {
 			if ($i != 0 && $i % $this->StepSize === 0) {
-				$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime)/($dist - $lastDist)) : 0;
+				$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime) / ($dist - $lastDist)) : 0;
 
 				if ($this->KeepArraySize) {
 					for ($j = 0; $j < $this->StepSize; ++$j) {
@@ -161,7 +159,7 @@ class PaceSmoother {
 		}
 
 		if ($this->KeepArraySize && ! empty($distance)) {
-			$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime)/($dist - $lastDist)) : 0;
+			$pace = $dist - $lastDist > 0 ? round(($time[$i] - $lastTime) / ($dist - $lastDist)) : 0;
 
 			for ($j = count($this->Smoothed), $num = $this->Trackdata->num(); $j < $num; ++$j) {
 				$this->Smoothed[] = $pace;
@@ -178,7 +176,7 @@ class PaceSmoother {
 		while (! $this->Loop->isAtEnd()) {
 			$this->Loop->move($key, $this->StepSize);
 			$dist = $this->Loop->difference(Trackdata\Entity::DISTANCE);
-			$pace = $dist > 0 ? round($this->Loop->difference(Trackdata\Entity::TIME)/$dist) : 0;
+			$pace = $dist > 0 ? round($this->Loop->difference(Trackdata\Entity::TIME) / $dist) : 0;
 
 			if ($this->KeepArraySize) {
 				$steps = $this->Loop->currentStepSize();

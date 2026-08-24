@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class HRV extends ActivityPointSeries {
+class HRV extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -30,7 +31,7 @@ class HRV extends ActivityPointSeries {
 	/**
 	 * @var array
 	 */
-	protected $XAxisData = array();
+	protected $XAxisData = [];
 
 	/**
 	 * Create series
@@ -78,15 +79,12 @@ class HRV extends ActivityPointSeries {
 				}
 
 				if ($correctTime && abs($time - $totalTime) > 0.01 * $totalTime) {
-					$this->XAxisData = array();
+					$this->XAxisData = [];
 				}
 			}
 		}
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('R-R interval');
 		$this->Color = self::COLOR;

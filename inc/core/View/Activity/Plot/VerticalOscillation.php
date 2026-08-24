@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class VerticalOscillation extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class VerticalOscillation extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'verticaloscillation';
+		$this->key = 'verticaloscillation';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\VerticalOscillation($context)

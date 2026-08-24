@@ -11,12 +11,18 @@ class WeightEnum extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const KILOGRAM = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const POUNDS = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const STONES = 2;
 }

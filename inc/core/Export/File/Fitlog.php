@@ -20,10 +20,14 @@ use SessionAccountHandler;
  */
 class Fitlog extends AbstractFileExporter
 {
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $XML;
 
-    /** @var \SimpleXMLElement */
+    /**
+     * @var \SimpleXMLElement
+     */
     protected $Activity;
 
     public function isPossible(): bool
@@ -74,9 +78,6 @@ class Fitlog extends AbstractFileExporter
         return LocalTime::date('c', (int) $time);
     }
 
-    /**
-     * Set general info
-     */
     protected function setGeneralInfo()
     {
         if ((string) SessionAccountHandler::getName() !== '') {
@@ -86,7 +87,7 @@ class Fitlog extends AbstractFileExporter
         $this->Activity->addAttribute('StartTime', $this->timeToString($this->Context->activity()->timestamp()));
 
         $this->Activity->Duration->addAttribute('TotalSeconds', (int) $this->Context->activity()->duration());
-        $this->Activity->Distance->addAttribute('TotalMeters', 1000*$this->Context->activity()->distance());
+        $this->Activity->Distance->addAttribute('TotalMeters', 1000 * $this->Context->activity()->distance());
         $this->Activity->Calories->addAttribute('TotalCal', $this->Context->activity()->energy());
     }
 

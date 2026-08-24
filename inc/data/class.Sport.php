@@ -3,7 +3,8 @@
 /**
  * @deprecated
  */
-class Sport {
+class Sport
+{
 	/**
 	 * ID for this sport in database
 	 * @var int
@@ -17,16 +18,14 @@ class Sport {
 	private $data;
 
 	/**
-	 * Constructor
 	 * @param int|bool $id
 	 */
 	public function __construct($id = false) {
-		$this->id   = $id;
+		$this->id = $id;
 		$this->data = SportFactory::DataFor($id);
 	}
 
 	/**
-	 * ID
 	 * @return int
 	 */
 	public function id() {
@@ -53,6 +52,6 @@ class Sport {
      * Checks if this sport is set as "Running"
      */
     public function isRunning(): bool {
-	    return (\Runalyze\Profile\Sport\SportProfile::RUNNING == $this->data['internal_sport_id']);
+	    return ($this->data['internal_sport_id'] == \Runalyze\Profile\Sport\SportProfile::RUNNING);
 	}
 }

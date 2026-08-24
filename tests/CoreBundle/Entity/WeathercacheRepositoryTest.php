@@ -13,10 +13,14 @@ use Runalyze\Service\WeatherForecast\Location;
  */
 class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var WeathercacheRepository */
+    /**
+     * @var WeathercacheRepository
+     */
     protected $Repository;
 
-    /** @var Location */
+    /**
+     * @var Location
+     */
     protected $Location;
 
     protected function setUp(): void

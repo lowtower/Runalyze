@@ -22,7 +22,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\View\Window\Laps
  */
-class Form {
+class Form
+{
 	/**
 	 * @var \FormularFieldset
 	 */
@@ -63,7 +64,7 @@ class Form {
      * Field: lap time
      */
     protected function lapTimeField(): \FormularInput {
-		$Field = new FormularInput('time', Ajax::tooltip('<small>'.__('or').':</small> '.__('Lap every ...'), __('Time, after which a new lap should start') ) );
+		$Field = new FormularInput('time', Ajax::tooltip('<small>' . __('or') . ':</small> ' . __('Lap every ...'), __('Time, after which a new lap should start') ) );
 		$Field->setPlaceholder('h:mm:ss');
 		$Field->addCSSclass('c');
 
@@ -75,11 +76,11 @@ class Form {
      */
     protected function distancesField(): \FormularInput {
 		$Field = new FormularInput('manual-distances', Ajax::tooltip(
-		    '<small>'.__('or').':</small> '.__('Manual distances'),
+		    '<small>' . __('or') . ':</small> ' . __('Manual distances'),
 		    __('List with all distances, comma seperated. Put "+" at the beginning to treat distances as intervals.')
 		));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
-		$Field->setPlaceholder( __('e.g.').' 5, 10, 21.1 '.__('or').' +0.4, 0.8, 0.4');
+		$Field->setPlaceholder( __('e.g.') . ' 5, 10, 21.1 ' . __('or') . ' +0.4, 0.8, 0.4');
 		$Field->setUnit(Configuration::General()->distanceUnitSystem()->distanceUnit());
 
 		return $Field;
@@ -90,11 +91,11 @@ class Form {
      */
     protected function timesField(): \FormularInput {
 		$Field = new FormularInput('manual-times', Ajax::tooltip(
-		    '<small>'.__('or').':</small> '.__('Manual times'),
+		    '<small>' . __('or') . ':</small> ' . __('Manual times'),
 		    __('List with all times, comma seperated. Put "+" at the beginning to treat times as intervals.')
 		));
 		$Field->setSize( FormularInput::$SIZE_FULL_INLINE );
-		$Field->setPlaceholder( __('e.g.').' 30:00, 1:00:00 '.__('or')." +15', 30', 15'");
+		$Field->setPlaceholder( __('e.g.') . ' 30:00, 1:00:00 ' . __('or') . " +15', 30', 15'");
 
 		return $Field;
 	}
@@ -114,7 +115,7 @@ class Form {
      * Field: pace goal
      */
     protected function paceField(): \FormularInput {
-		$Field = new FormularInput('demanded-pace', '<small>'.__('or').':</small> '.__('Pace goal') );
+		$Field = new FormularInput('demanded-pace', '<small>' . __('or') . ':</small> ' . __('Pace goal') );
 		$Field->setUnit( FormularUnit::$PACE );
 
 		return $Field;
@@ -139,9 +140,6 @@ class Form {
 		$this->Fieldset->addInfo( __('Leave lap distances empty to use your handmade laps.') );
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		$Formular = new Formular();
 		$Formular->setId('rounds-configurator');
@@ -159,18 +157,18 @@ class Form {
 
 	protected function getJScode(): string {
 		return Ajax::wrapJS(
-		    'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");'.
-			'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");'.
-			'function updateButtonVisibility() {'.
-				'if ($("#rounds-configurator input:text").filter(function() { return this.value != ""; }).length == 0) {'.
-					'buttonCalc.addClass("hide");'.
-					'buttonManual.removeClass("hide");'.
-				'} else {'.
-					'buttonCalc.removeClass("hide");'.
-					'buttonManual.addClass("hide");'.
-				'}'.
-			'}'.
-			'$("#rounds-configurator input[type=text]").change(updateButtonVisibility);'.
+		    'var buttonCalc = $("#rounds-configurator input[name=submit-calculated-laps]");' .
+			'var buttonManual = $("#rounds-configurator input[name=submit-manual-laps]");' .
+			'function updateButtonVisibility() {' .
+				'if ($("#rounds-configurator input:text").filter(function() { return this.value != ""; }).length == 0) {' .
+					'buttonCalc.addClass("hide");' .
+					'buttonManual.removeClass("hide");' .
+				'} else {' .
+					'buttonCalc.removeClass("hide");' .
+					'buttonManual.addClass("hide");' .
+				'}' .
+			'}' .
+			'$("#rounds-configurator input[type=text]").change(updateButtonVisibility);' .
 			'updateButtonVisibility();'
 		);
 	}

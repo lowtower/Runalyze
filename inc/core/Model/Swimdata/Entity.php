@@ -17,7 +17,8 @@ use Runalyze\Profile\FitSdk\StrokeTypeProfile;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\Model\Swimdata
  */
-class Entity extends Model\Entity implements Model\Loopable {
+class Entity extends Model\Entity implements Model\Loopable
+{
 	/**
 	 * Key: activity id
 	 * @var string
@@ -57,24 +58,23 @@ class Entity extends Model\Entity implements Model\Loopable {
     /**
      * Construct
      */
-    public function __construct(array $data = array()) {
+    public function __construct(array $data = []) {
 		parent::__construct($data);
 		$this->checkArraySizes();
 	}
 
     /**
-     * All properties
      * @return array<int, string>
      */
     public static function allProperties(): array {
-		return array(
+		return [
 		    self::ACTIVITYID,
 		    self::STROKE,
 		    self::STROKETYPE,
 		    self::SWOLF,
 		    self::SWOLFCYCLES,
-		    self::POOL_LENGTH
-		);
+		    self::POOL_LENGTH,
+		];
 	}
 
     /**
@@ -108,9 +108,6 @@ class Entity extends Model\Entity implements Model\Loopable {
 		return static::allProperties();
 	}
 
-	/**
-	 * Synchronize
-	 */
 	public function synchronize() {
 		parent::synchronize();
 
@@ -121,9 +118,9 @@ class Entity extends Model\Entity implements Model\Loopable {
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
-		    self::POOL_LENGTH
-		));
+		$this->ensureNumericValue([
+		    self::POOL_LENGTH,
+		]);
 	}
 
 	/**
@@ -147,7 +144,6 @@ class Entity extends Model\Entity implements Model\Loopable {
 	}
 
 	/**
-	 * Activity ID
 	 * @return int
 	 */
 	public function activityID() {
@@ -155,7 +151,6 @@ class Entity extends Model\Entity implements Model\Loopable {
 	}
 
 	/**
-	 * STROKE
 	 * @return array
 	 */
 	public function stroke() {
@@ -163,7 +158,6 @@ class Entity extends Model\Entity implements Model\Loopable {
 	}
 
 	/**
-	 * STROKETYPE
 	 * @return array
 	 */
 	public function stroketype() {
@@ -171,7 +165,6 @@ class Entity extends Model\Entity implements Model\Loopable {
 	}
 
 	/**
-	 * SWOLF
 	 * @return array
 	 */
 	public function swolf() {
@@ -213,7 +206,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 				}
 			} else {
 				// if we have no strokes, fill the array as before; every lane = pool-length
-				$distance = range($length, $this->num()*$length, $length);
+				$distance = range($length, $this->num() * $length, $length);
 			}
 
 			// from meter to kilometer
@@ -233,8 +226,8 @@ class Entity extends Model\Entity implements Model\Loopable {
 			$Loop = new Loop($this);
 
 			$max = $Loop->num();
-			$swolf = array();
-			$swolfcycles = array();
+			$swolf = [];
+			$swolfcycles = [];
 
 			for ($i = 1; $i <= $max; ++$i) {
 				$duration = $TrackLoop->difference(Trackdata\Entity::TIME);
@@ -242,7 +235,7 @@ class Entity extends Model\Entity implements Model\Loopable {
 				// #TSC if we have no stroke for this lane we cant calulate SWOLF
 				if ($Loop->stroke() > 0) {
 					$swolf[] = $duration + $Loop->stroke();
-					$swolfcycles[] = $duration + $Loop->stroke()/2;
+					$swolfcycles[] = $duration + $Loop->stroke() / 2;
 				} else {
 					$swolf[] = null;
 					$swolfcycles[] = null;

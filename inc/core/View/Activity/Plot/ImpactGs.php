@@ -10,7 +10,7 @@ class ImpactGs extends ActivityPlot
 {
 	protected function setKey()
     {
-		$this->key   = 'impact_gs';
+		$this->key = 'impact_gs';
 	}
 
 	protected function initData(Activity\Context $context)

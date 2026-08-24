@@ -12,13 +12,19 @@ class ConfigurationManager
 {
     use TokenStorageAwareServiceTrait;
 
-    /** @var ConfRepository */
+    /**
+     * @var ConfRepository
+     */
     protected $Repository;
 
-    /** @var null|RunalyzeConfigurationList */
+    /**
+     * @var null|RunalyzeConfigurationList
+     */
     protected $CurrentConfigurationList;
 
-    /** @var null|RunalyzeConfigurationList */
+    /**
+     * @var null|RunalyzeConfigurationList
+     */
     protected $DefaultList;
 
     public function __construct(ConfRepository $repository, TokenStorage $tokenStorage)
@@ -34,7 +40,7 @@ class ConfigurationManager
     public function getList(?Account $account = null)
     {
         if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
-            if (null === $this->CurrentConfigurationList) {
+            if ($this->CurrentConfigurationList === null) {
                 $this->setListForCurrentUser();
             }
 
@@ -49,7 +55,7 @@ class ConfigurationManager
         $listData = [];
 
         foreach ($this->Repository->findByAccount($account) as $conf) {
-            $listData[$conf->getCategory().'.'.$conf->getKey()] = $conf->getValue();
+            $listData[$conf->getCategory() . '.' . $conf->getKey()] = $conf->getValue();
         }
 
         $list = new RunalyzeConfigurationList();

@@ -6,7 +6,9 @@ use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 
 class ElevationType extends AbstractUnitBasedType
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $ViewPrecision = 0;
 
     public function __construct(AbstractDistanceUnit $distanceUnit)

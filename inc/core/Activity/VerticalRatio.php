@@ -47,9 +47,6 @@ class VerticalRatio implements ValueInterface
 		return __('Vertical ratio');
 	}
 
-    /**
-     * Unit
-     */
     public function unit(): string
 	{
 		return '%';
@@ -74,7 +71,7 @@ class VerticalRatio implements ValueInterface
 	 */
 	public function setPercent($percent): self
 	{
-		$this->Permille = 10*$percent;
+		$this->Permille = 10 * $percent;
 
 		return $this;
 	}
@@ -94,7 +91,7 @@ class VerticalRatio implements ValueInterface
 	 */
 	public function inPercent()
 	{
-		return $this->Permille/10;
+		return $this->Permille / 10;
 	}
 
     /**
@@ -104,7 +101,7 @@ class VerticalRatio implements ValueInterface
     public function string($withUnit = true): string
 	{
 		if ($this->Permille > 0) {
-			return number_format($this->Permille/10, 1, '.', '').($withUnit ? '&nbsp;%' : '');
+			return number_format($this->Permille / 10, 1, '.', '') . ($withUnit ? '&nbsp;%' : '');
 		}
 
 		return '';

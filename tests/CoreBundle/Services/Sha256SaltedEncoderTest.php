@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 
 class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Sha256SaltedEncoder */
+    /**
+     * @var Sha256SaltedEncoder
+     */
     protected $Encoder;
 
     protected function setUp(): void

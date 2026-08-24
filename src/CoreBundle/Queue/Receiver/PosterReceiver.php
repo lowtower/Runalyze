@@ -23,37 +23,50 @@ use Symfony\Component\Finder\Finder;
 
 class PosterReceiver
 {
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $Logger;
 
-    /** @var AccountRepository */
+    /**
+     * @var AccountRepository
+     */
     protected $AccountRepository;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var NotificationRepository */
+    /**
+     * @var NotificationRepository
+     */
     protected $NotificationRepository;
 
-    /** @var GenerateJsonData */
+    /**
+     * @var GenerateJsonData
+     */
     protected $GenerateJsonData;
 
-    /** @var GeneratePoster */
+    /**
+     * @var GeneratePoster
+     */
     protected $GeneratePoster;
 
-    /** @var FileHandler */
+    /**
+     * @var FileHandler
+     */
     protected $FileHandler;
 
-    /** @var AccountMailer */
+    /**
+     * @var AccountMailer
+     */
     protected $AccountMailer;
 
-    /** @var */
     protected $DataDir;
 
-    /** @var */
     protected $RsvgPath;
 
-    /** @var */
     protected $InkscapePath;
 
     /**
@@ -96,7 +109,7 @@ class PosterReceiver
         /** @var Sport|null $sport */
         $sport = $this->SportRepository->find((int) $message->get('sportid'));
 
-        if (null === $account || null === $sport || $sport->getAccount()->getId() != $account->getId()) {
+        if ($account === null || $sport === null || $sport->getAccount()->getId() != $account->getId()) {
             return;
         }
 
@@ -122,14 +135,14 @@ class PosterReceiver
                     );
 
                     $finalName = $this->FileHandler->buildFinalFileName($account, $sport, $message->get('year'), $type, $message->get('size'));
-                    $finalFile = $this->exportDirectory().$finalName;
+                    $finalFile = $this->exportDirectory() . $finalName;
                     $converter = $this->getConverter($type);
                     $converter->setHeight($message->get('size'));
-                    $hashFinalFile = $this->exportDirectory().md5($finalName) . '.png';
+                    $hashFinalFile = $this->exportDirectory() . md5($finalName) . '.png';
                     $exitCode = $converter->callConverter($this->GeneratePoster->generate(), $hashFinalFile);
 
                     if ($exitCode > 0) {
-                        throw new \Exception('Error while converting with error-code='.$exitCode);
+                        throw new \Exception('Error while converting with error-code=' . $exitCode);
                     }
 
                     $filesystem = new Filesystem();
@@ -142,7 +155,7 @@ class PosterReceiver
                 } catch (\Exception $e) {
                     $this->Logger->error('Poster creation failed', [
                         'type' => $type,
-                        'exception' => $e
+                        'exception' => $e,
                     ]);
                 }
             }
@@ -163,7 +176,7 @@ class PosterReceiver
      */
     protected function getNotificationState($generatedFiles, $requestedFiles): int
     {
-        if (0 == $generatedFiles) {
+        if ($generatedFiles == 0) {
             return PosterGeneratedMessage::STATE_FAILED;
         }
 
@@ -180,7 +193,7 @@ class PosterReceiver
      */
     protected function getConverter($posterType)
     {
-        if ('circular' == $posterType) {
+        if ($posterType == 'circular') {
             return new InkscapeConverter($this->InkscapePath);
         }
 
@@ -189,6 +202,6 @@ class PosterReceiver
 
     protected function exportDirectory(): string
     {
-        return $this->DataDir.'/poster/';
+        return $this->DataDir . '/poster/';
     }
 }

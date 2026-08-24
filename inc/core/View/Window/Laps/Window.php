@@ -16,7 +16,6 @@ use Runalyze\Activity\Pace;
 use Runalyze\Data\Laps\Laps;
 use Runalyze\Data\Laps\Lap;
 use Runalyze\Parameter\Application\PaceUnit;
-
 use Request;
 
 /**
@@ -25,7 +24,8 @@ use Request;
  * @author Hannes Christiansen
  * @package Runalyze\View\Window\Laps
  */
-class Window {
+class Window
+{
 	/**
 	 * @var float
 	 */
@@ -74,13 +74,13 @@ class Window {
 	 * Manual distances
 	 * @var array
 	 */
-	protected $ManualDistances = array();
+	protected $ManualDistances = [];
 
 	/**
 	 * Manual times
 	 * @var array
 	 */
-	protected $ManualTimes = array();
+	protected $ManualTimes = [];
 
 	public function __construct(Context $context) {
 		$this->Context = $context;
@@ -153,7 +153,7 @@ class Window {
 			$this->ManualDistances = Calculator::getDistancesFromString(Request::param('manual-distances'));
 
 			if (Configuration::General()->distanceUnitSystem()->isImperial()) {
-				$this->ManualDistances = array_map(array($this, 'distanceToKm'), $this->ManualDistances);
+				$this->ManualDistances = array_map([$this, 'distanceToKm'], $this->ManualDistances);
 			}
 		}
 
@@ -230,7 +230,7 @@ class Window {
 	 * Construct laps from splits object by distances
 	 */
 	protected function constructLapsFromSplitsDistances() {
-		$Distances = array();
+		$Distances = [];
 		$sum = 0;
 
 		foreach ($this->Context->activity()->splits()->asArray() as $split) {
@@ -245,7 +245,7 @@ class Window {
 	 * Construct laps from splits object by times
 	 */
 	protected function constructLapsFromSplitsTimes() {
-		$Times = array();
+		$Times = [];
 		$sum = 0;
 
 		foreach ($this->Context->activity()->splits()->asArray() as $split) {
@@ -256,9 +256,6 @@ class Window {
 		$this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route(), $this->Context->swimdata());
 	}
 
-	/**
-	 * Construct laps from trackdata
-	 */
 	protected function constructLapsFromTrackdata() {
 		if (! empty($this->ManualTimes) || $this->LapTime != 0) {
 			$this->constructLapsFromTrackdataByTimes();
@@ -267,9 +264,6 @@ class Window {
 		}
 	}
 
-	/**
-	 * Construct laps from trackdata by times
-	 */
 	protected function constructLapsFromTrackdataByTimes() {
 		$Times = $this->ManualTimes;
 
@@ -281,7 +275,7 @@ class Window {
 			$LastStep = $this->LapTime * floor($this->Context->trackdata()->totalTime() / $this->LapTime);
 
 			if ($LastStep <= $this->LapTime) {
-				$Times = array($this->LapTime);
+				$Times = [$this->LapTime];
 			} else {
 				$Times = range($this->LapTime, $LastStep, $this->LapTime);
 			}
@@ -290,9 +284,6 @@ class Window {
 		$this->Laps->calculateFromTimes($Times, $this->Context->trackdata(), $this->Context->route());
 	}
 
-	/**
-	 * Construct laps from trackdata by distances
-	 */
 	protected function constructLapsFromTrackdataByDistances() {
 		$Distances = $this->ManualDistances;
 
@@ -304,7 +295,7 @@ class Window {
 			$LastStep = $this->LapDistance * floor($this->Context->trackdata()->totalDistance() / $this->LapDistance);
 
 			if ($LastStep <= $this->LapDistance) {
-				$Distances = array($this->LapDistance);
+				$Distances = [$this->LapDistance];
 			} else {
 				$Distances = range($this->LapDistance, $LastStep, $this->LapDistance);
 			}
@@ -313,12 +304,9 @@ class Window {
 		$this->Laps->calculateFrom($Distances, $this->Context->trackdata(), $this->Context->route());
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		echo '<div class="panel-heading">';
-		echo '<h1>'.$this->Context->dataview()->titleWithComment().'</h1>';
+		echo '<h1>' . $this->Context->dataview()->titleWithComment() . '</h1>';
 		echo '</div>';
 
 		// #TSC allow scrollbar if width is to small

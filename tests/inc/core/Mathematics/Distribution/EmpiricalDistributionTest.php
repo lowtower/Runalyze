@@ -15,7 +15,7 @@ class EmpiricalDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             10 => 1,
             15 => 2,
-            20 => 1
+            20 => 1,
         ], $dist->histogram());
     }
 }

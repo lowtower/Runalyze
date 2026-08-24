@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Michael Pohl
  * @package Runalyze\Parameter\Application
  */
-class TemperatureUnit extends \Runalyze\Parameter\Select {
+class TemperatureUnit extends \Runalyze\Parameter\Select
+{
 	/**
 	 * Celsius
 	 * @var string
@@ -31,12 +32,12 @@ class TemperatureUnit extends \Runalyze\Parameter\Select {
 	 * @param string $default
 	 */
 	public function __construct($default = self::CELSIUS) {
-		parent::__construct($default, array(
-    'options'		=> array(
-		        self::CELSIUS   => __('Celsius (°C)'),
-		        self::FAHRENHEIT	=> __('Fahrenheit (°F)')
-		    )
-));
+		parent::__construct($default, [
+    'options' => [
+		        self::CELSIUS => __('Celsius (°C)'),
+		        self::FAHRENHEIT => __('Fahrenheit (°F)'),
+		    ],
+]);
 	}
 
     /**

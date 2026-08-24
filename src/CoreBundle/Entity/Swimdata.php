@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 
 /**
- * Swimdata
- *
  * @ORM\Table(name="swimdata")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\SwimdataRepository")
  */
@@ -58,7 +56,6 @@ class Swimdata implements AccountRelatedEntityInterface
      */
     private $activity;
 
-
     public function setStroke(?array $stroke = null): self
     {
         $this->stroke = $stroke;
@@ -76,7 +73,7 @@ class Swimdata implements AccountRelatedEntityInterface
 
     public function hasStrokes(): bool
     {
-        return null !== $this->stroke;
+        return $this->stroke !== null;
     }
 
     public function setStroketype(?array $strokeType = null): self
@@ -96,7 +93,7 @@ class Swimdata implements AccountRelatedEntityInterface
 
     public function hasStrokeTypes(): bool
     {
-        return null !== $this->stroketype;
+        return $this->stroketype !== null;
     }
 
     /**
@@ -150,8 +147,8 @@ class Swimdata implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return (
-            (null === $this->stroke || empty($this->stroke)) &&
-            (null === $this->stroketype || empty($this->stroketype))
+            ($this->stroke === null || empty($this->stroke)) &&
+            ($this->stroketype === null || empty($this->stroketype))
         );
     }
 }

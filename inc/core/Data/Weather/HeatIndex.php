@@ -7,13 +7,11 @@ use Runalyze\Activity\ValueInterface;
 
 class HeatIndex implements ValueInterface
 {
-    /** @var Activity\Temperature */
+    /**
+     * @var Activity\Temperature
+     */
     protected $HeatIndexTemperature;
 
-    /**
-     * @param Activity\Temperature $temperature
-     * @param Humidity $humidity
-     */
     public function __construct(?Activity\Temperature $temperature = null, ?Humidity $humidity = null)
     {
         if ($temperature instanceof \Runalyze\Activity\Temperature && $humidity instanceof \Runalyze\Data\Weather\Humidity) {
@@ -30,7 +28,7 @@ class HeatIndex implements ValueInterface
      */
     public function set($heatIndex): self
     {
-        if (null === $heatIndex) {
+        if ($heatIndex === null) {
             $this->setUnknown();
         } elseif ($heatIndex instanceof Activity\Temperature) {
             $this->HeatIndexTemperature = clone $heatIndex;
@@ -53,7 +51,7 @@ class HeatIndex implements ValueInterface
 
     public function setFrom(Activity\Temperature $temperature, Humidity $humidity)
     {
-        if (null !== $temperature->value() && ! $humidity->isUnknown()) {
+        if ($temperature->value() !== null && ! $humidity->isUnknown()) {
             $this->HeatIndexTemperature = clone $temperature;
             $this->HeatIndexTemperature->setFahrenheit(
                 $this->calculateHeatIndexFor($temperature->fahrenheit(), $humidity->value())
@@ -90,13 +88,13 @@ class HeatIndex implements ValueInterface
         }
 
         return -42.379 +
-            (2.04901523  * $t) +
+            (2.04901523 * $t) +
             (10.14333127 * $h) +
             (-0.22475541 * $t * $h) +
             (-0.00683783 * $t * $t) +
             (-0.05481717 * $h * $h) +
-            (0.00122874  * $t * $t * $h) +
-            (0.00085282  * $t * $h * $h) +
+            (0.00122874 * $t * $t * $h) +
+            (0.00085282 * $t * $h * $h) +
             (-0.00000199 * $t * $t * $h * $h);
     }
 

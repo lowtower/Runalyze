@@ -11,13 +11,12 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\EnergyUnit;
 
 /**
- * Energy
- *
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Activity
  */
-class Energy implements ValueInterface {
+class Energy implements ValueInterface
+{
 	/**
 	 * Default kj multiplier
 	 * @var float
@@ -37,7 +36,6 @@ class Energy implements ValueInterface {
 	protected $PreferredUnit;
 
     /**
-     * Format
      * @param float $energy [kcal]
      * @param bool $withUnit [optional] with or without unit
      */
@@ -47,7 +45,6 @@ class Energy implements ValueInterface {
 
 	/**
 	 * @param float $energy [kcal]
-	 * @param \Runalyze\Parameter\Application\EnergyUnit $preferredUnit
 	 */
 	public function __construct($energy = 0, ?EnergyUnit $preferredUnit = null) {
 		$this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\EnergyUnit) ? $preferredUnit : Configuration::General()->energyUnit();
@@ -60,7 +57,6 @@ class Energy implements ValueInterface {
 	}
 
 	/**
-	 * Unit
 	 * @return string
 	 */
 	public function unit() {
@@ -154,7 +150,7 @@ class Energy implements ValueInterface {
 	 * @return string with unit
 	 */
 	public function stringKcal($withUnit = true): string {
-		return number_format($this->Energy, 0, '.', '').($withUnit ? '&nbsp;'.EnergyUnit::KCAL : '');
+		return number_format($this->Energy, 0, '.', '') . ($withUnit ? '&nbsp;' . EnergyUnit::KCAL : '');
 	}
 
 	/**
@@ -163,6 +159,6 @@ class Energy implements ValueInterface {
 	 * @return string with unit
 	 */
 	public function stringKJ($withUnit = true): string {
-		return number_format($this->kj(), 0, '.', '').($withUnit ? '&nbsp;'.EnergyUnit::KJ : '');
+		return number_format($this->kj(), 0, '.', '') . ($withUnit ? '&nbsp;' . EnergyUnit::KJ : '');
 	}
 }

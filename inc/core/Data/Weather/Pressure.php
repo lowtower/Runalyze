@@ -10,8 +10,6 @@ namespace Runalyze\Data\Weather;
 use Runalyze\Activity\ValueInterface;
 
 /**
- * Pressure
- *
  * @author Hannes Christiansen
  * @author Michael Pohl
  * @package Runalyze\Data\Weather
@@ -19,7 +17,6 @@ use Runalyze\Activity\ValueInterface;
 class Pressure implements ValueInterface
 {
     /**
-     * Pressure
      * @var float [hPa]
      */
     protected $Value;
@@ -41,7 +38,7 @@ class Pressure implements ValueInterface
      */
     public function set($hectoPascals): self
     {
-        if (null !== $hectoPascals && ! is_numeric($hectoPascals)) {
+        if ($hectoPascals !== null && ! is_numeric($hectoPascals)) {
             throw new \InvalidArgumentException('Value must be numerical.');
         }
 
@@ -68,7 +65,6 @@ class Pressure implements ValueInterface
     }
 
     /**
-     * Value
      * @return null|float [hPa]
      */
     public function value()
@@ -86,7 +82,7 @@ class Pressure implements ValueInterface
             return '';
         }
 
-        return round($this->Value).($withUnit ? '&nbsp;'.$this->unit() : '');
+        return round($this->Value) . ($withUnit ? '&nbsp;' . $this->unit() : '');
     }
 
     /**
@@ -94,6 +90,6 @@ class Pressure implements ValueInterface
      */
     public function isUnknown(): bool
     {
-        return (null === $this->Value);
+        return ($this->Value === null);
     }
 }

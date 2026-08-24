@@ -19,7 +19,9 @@ use Runalyze\Activity\ValueInterface;
  */
 class WindChillFactor implements ValueInterface
 {
-    /** @var \Runalyze\Activity\Temperature */
+    /**
+     * @var \Runalyze\Activity\Temperature
+     */
     protected $AdjustedTemperature;
 
     /**
@@ -44,7 +46,6 @@ class WindChillFactor implements ValueInterface
 
     /**
      * Calculate and set adjusted temperature
-     * @param \Runalyze\Activity\Pace $activitySpeed
      * @throws \InvalidArgumentException
      * @see https://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
      */
@@ -99,7 +100,6 @@ class WindChillFactor implements ValueInterface
     }
 
     /**
-     * Value
      * @return float|null [°C]
      */
     public function value()
@@ -108,8 +108,6 @@ class WindChillFactor implements ValueInterface
     }
 
     /**
-     * Value in preferred unit
-     *
      * Uses the same unit as the initially given temperature object.
      * @return float|null [mixed unit]
      */

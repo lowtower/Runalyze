@@ -5,12 +5,9 @@ namespace Runalyze\Service\RouteNameEvaluation;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Profile\Sport\SportProfile;
-
 use League\Geotools\Geohash\Geohash;
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -29,7 +26,8 @@ use Psr\Log\LoggerInterface;
  * in every topic the elements are sorted by alpha
  * #TSC
  */
-class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
+class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
+{
     use LoggerAwareTrait;
 
     const TIMEOUT = 180;
@@ -52,13 +50,19 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
 
     const RADIUS_DEFAULT = 20.0;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Url;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Proxy;
 
-    /** @var Client */
+    /**
+     * @var Client
+     */
     protected $HttpClient;
 
     /**
@@ -107,7 +111,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             'timeout' => self::TIMEOUT,
             'headers' => [
                 'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
-            ]
+            ],
             //, 'debug' => True
         ];
         if(! empty($this->Proxy)) {
@@ -133,7 +137,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             return $repCont;
         } catch (RequestException $requestException) {
             $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', [
-                'exception' => $requestException
+                'exception' => $requestException,
             ]);
             throw new \Exception('Route evaluation result in error: ' . $requestException, $requestException->getCode(), $requestException);
         }
@@ -167,7 +171,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             $size,
             $dist,
             $step,
-            $size/$step,
+            $size / $step,
             $radius
         ));
 
@@ -184,8 +188,8 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
 		$osm .= sprintf(
 		    '[bbox:%.6f,%.6f,%.6f,%.6f];',
-		    $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR*-1),
-		    $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR*-1),
+		    $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR * -1),
+		    $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR * -1),
 		    $this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),
 		    $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
 		);
@@ -193,7 +197,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         // build the "around" lat/lon
         // we add always the first and last coordinate; then every n (=calculated) coord will be used (to reduce) the amount
         $aroundpos = $coordinates[0][0] . ',' . $coordinates[1][0]; // add the first
-		for ($i = 0; $i < $size; $i+=$step) {
+		for ($i = 0; $i < $size; $i += $step) {
             if($coordinates[0][$i] != 0 && $coordinates[1][$i] != 0) {
                 $aroundpos .= ',' . $coordinates[0][$i] . ',' . $coordinates[1][$i];
             }

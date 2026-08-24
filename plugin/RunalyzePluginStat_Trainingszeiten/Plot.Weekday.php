@@ -9,14 +9,14 @@
 use Runalyze\Util\Time;
 
 $titleCenter = __('Activity [in h] by weekday');
-$yAxis       = array();
-$xAxis       = array();
+$yAxis = [];
+$xAxis = [];
 
 for ($w = 1; $w <= 7; $w++)
-	$xAxis[] = array($w-1, Time::weekday($w, true));
+	$xAxis[] = [$w - 1, Time::weekday($w, true)];
 
 if ($this->sportid > 0) {
-	$Sports = array(SportFactory::DataFor((int) $this->sportid));
+	$Sports = [SportFactory::DataFor((int) $this->sportid)];
 } else {
 	$Sports = SportFactory::AllSports();
 }
@@ -25,11 +25,11 @@ $Query = DB::getInstance()->prepare(
     'SELECT
 		SUM(`s`) as `value`,
 		(DAYOFWEEK(FROM_UNIXTIME(`time`))-1) as `day`
-	FROM `'.PREFIX.'training`
+	FROM `' . PREFIX . 'training`
 	WHERE
-		`accountid`='.SessionAccountHandler::getId().' AND
+		`accountid`=' . SessionAccountHandler::getId() . ' AND
 		`sportid`=:id
-		'.$this->getYearDependenceForQuery().'
+		' . $this->getYearDependenceForQuery() . '
 	GROUP BY `day`
 	ORDER BY ((`day`+6)%7) ASC'
 );
@@ -37,25 +37,25 @@ $Query = DB::getInstance()->prepare(
 // TODO: Should be possible with one query?
 foreach ($Sports as $sport) {
 	$id = $sport['name'];
-	$yAxis[$id] = array(0, 0, 0, 0, 0, 0, 0);
+	$yAxis[$id] = [0, 0, 0, 0, 0, 0, 0];
 
-	$Query->execute(array(
-	    ':id' => $sport['id']
-	));
+	$Query->execute([
+	    ':id' => $sport['id'],
+	]);
 	$data = $Query->fetchAll();
 
 	foreach ($data as $dat)
-		$yAxis[$id][($dat['day']+6)%7] = $dat['value']/3600;
+		$yAxis[$id][($dat['day'] + 6) % 7] = $dat['value'] / 3600;
 }
 
 $Plot = new Plot('weekday', 350, 190);
 
 $max = 0;
 foreach ($yAxis as $key => $data) {
-	$Plot->Data[] = array(
+	$Plot->Data[] = [
 	    'label' => $key,
-	    'data' => $data
-	);
+	    'data' => $data,
+	];
 	$max += max($data);
 }
 

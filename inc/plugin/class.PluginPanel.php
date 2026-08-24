@@ -11,7 +11,8 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-abstract class PluginPanel extends Plugin {
+abstract class PluginPanel extends Plugin
+{
 	/**
 	 * Internal flag: Show surrounding div
 	 * @var bool
@@ -37,7 +38,6 @@ abstract class PluginPanel extends Plugin {
 	protected $removePanelContentPadding = false;
 
 	/**
-	 * Type
 	 * @return int
 	 */
 	final public function type() {
@@ -58,19 +58,19 @@ abstract class PluginPanel extends Plugin {
 		if ($this->SurroundingDivIsVisible) {
 			$classes = '';
 			if ($this->dontReloadForConfig) {
-				$classes .= ' '.Plugin::$DONT_RELOAD_FOR_CONFIG_FLAG;
+				$classes .= ' ' . Plugin::$DONT_RELOAD_FOR_CONFIG_FLAG;
 			}
 
 			if ($this->dontReloadForTraining) {
-				$classes .= ' '.Plugin::$DONT_RELOAD_FOR_TRAINING_FLAG;
+				$classes .= ' ' . Plugin::$DONT_RELOAD_FOR_TRAINING_FLAG;
 			}
 
-			echo '<div class="panel'.$classes.'" id="panel-'.$this->id().'">';
+			echo '<div class="panel' . $classes . '" id="panel-' . $this->id() . '">';
 		}
 
 		$this->displayHeader();
 
-		echo '<div class="panel-content'.($this->removePanelContentPadding ? ' nopadding' : '').'"'.($this->isHidden() ? ' style="display:none;"' : '' ).'>';
+		echo '<div class="panel-content' . ($this->removePanelContentPadding ? ' nopadding' : '') . '"' . ($this->isHidden() ? ' style="display:none;"' : '' ) . '>';
 		$this->displayContent();
 		echo '</div>';
 
@@ -83,24 +83,21 @@ abstract class PluginPanel extends Plugin {
 	 * Displays the config container for this panel
 	 */
 	public function getConfigLinks() {
-		$Links = array();
+		$Links = [];
 
 		$Links[] = $this->getConfigLink();
-		$Links[] = '<span class="link up" rel="'.$this->id().'">'.Icon::$UP.'</span>';
-		$Links[] = '<span class="link down" rel="'.$this->id().'">'.Icon::$DOWN.'</span>';
+		$Links[] = '<span class="link up" rel="' . $this->id() . '">' . Icon::$UP . '</span>';
+		$Links[] = '<span class="link down" rel="' . $this->id() . '">' . Icon::$DOWN . '</span>';
 		$Links[] = $this->getReloadLink();
 
 		return implode('', $Links);
 	}
 
-	/**
-	 * Display header
-	 */
 	private function displayHeader() {
 		echo '<div class="panel-heading">';
-		echo '<div class="panel-menu">'.$this->getRightSymbol().'</div>';
-		echo '<h1 class="link clap" rel="'.$this->id().'">'.$this->name().'</h1>';
-		echo '<div class="hover-icons">'.$this->getConfigLinks().'</div>';
+		echo '<div class="panel-menu">' . $this->getRightSymbol() . '</div>';
+		echo '<h1 class="link clap" rel="' . $this->id() . '">' . $this->name() . '</h1>';
+		echo '<div class="hover-icons">' . $this->getConfigLinks() . '</div>';
 		echo '</div>';
 	}
 

@@ -29,9 +29,6 @@ class HRVdifferencesWithoutAnomalies extends HRVwithoutAnomalies
         $this->setDifferencesFromData();
 	}
 
-    /**
-     * Set differences from data
-     */
     protected function setDifferencesFromData()
     {
         $prev = false;
@@ -47,9 +44,6 @@ class HRVdifferencesWithoutAnomalies extends HRVwithoutAnomalies
         }
     }
 
-    /**
-     * Init options
-     */
     protected function initOptions()
     {
         parent::initOptions();

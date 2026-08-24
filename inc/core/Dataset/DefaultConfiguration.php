@@ -22,7 +22,7 @@ class DefaultConfiguration extends Configuration
 	 */
 	public function __construct()
 	{
-		$this->generateDataFor(array(
+		$this->generateDataFor([
     Keys::SETTING => true,
 		    Keys::DAYTIME => false,
 		    Keys::SHARED_LINK => false,
@@ -88,8 +88,8 @@ class DefaultConfiguration extends Configuration
 		    Keys::FIT_LOAD_PEAK => false,
 		    Keys::OPEN_TAB => false,
 		    Keys::FIT_TRAINING_EFFECT_BENEFIT => false,
-		    Keys::WITH_GOAL
-));
+		    Keys::WITH_GOAL,
+]);
 	}
 
 	public function isDefault(): bool
@@ -106,12 +106,12 @@ class DefaultConfiguration extends Configuration
 		foreach ($keysArray as $keyid => $isActive) {
 			$keyObject = Keys::get($keyid);
 
-			$this->Data[$keyid] = array(
+			$this->Data[$keyid] = [
     'active' => $isActive,
 			    'style' => $keyObject->defaultCssStyle(),
 			    'privacy' => $keyObject->defaultPrivacy(),
-			    'privacyOption' => $keyObject->hasPrivacyOption()
-);
+			    'privacyOption' => $keyObject->hasPrivacyOption(),
+];
 		}
 	}
 }

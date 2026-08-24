@@ -14,12 +14,12 @@ class QuarticTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.5625,
             1.0,
-            0.19140625
+            0.19140625,
         ], $Kernel->valuesAt([
             -1.0,
             -0.5,
             0.0,
-            0.75
+            0.75,
         ]));
     }
 
@@ -31,12 +31,12 @@ class QuarticTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.5625,
             1.0,
-            0.4096
+            0.4096,
         ], $Kernel->valuesAt([
             -5.0,
             -2.5,
             0.0,
-            3.0
+            3.0,
         ]), 0.0001);
     }
 }

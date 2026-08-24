@@ -14,10 +14,8 @@ namespace Runalyze\Model\Activity\Splits;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */
-class CompletorForTime extends Completor {
-    /**
-     * Mode
-     */
+class CompletorForTime extends Completor
+{
     public function mode(): string {
 		return parent::MODE_TIME;
 	}

@@ -12,7 +12,9 @@ class PrivacyGuard
 {
     use TokenStorageAwareServiceTrait;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function __construct(TokenStorage $tokenStorage, ConfigurationManager $configurationManager)

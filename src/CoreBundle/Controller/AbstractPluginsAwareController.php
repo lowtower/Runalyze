@@ -30,7 +30,7 @@ abstract class AbstractPluginsAwareController extends Controller
                 ->getContent();
 
             if ($panel instanceof \RunalyzePluginPanel_Sports) {
-                $panelContent = '<div class="panel" id="panel-'.$panel->id().'">'.$panelContent.'</div>';
+                $panelContent = '<div class="panel" id="panel-' . $panel->id() . '">' . $panelContent . '</div>';
             }
 
             $content .= $panelContent;
@@ -56,7 +56,7 @@ abstract class AbstractPluginsAwareController extends Controller
         	echo \HTML::error(__('The plugin could not be found.'));
         }
 
-        if (null !== $plugin) {
+        if ($plugin !== null) {
         	if ($plugin instanceof \RunalyzePluginPanel_Sports) {
         	    return $this->getResponseForSportsPanel($account, $plugin);
         	}
@@ -93,7 +93,7 @@ abstract class AbstractPluginsAwareController extends Controller
             'weekStatistics' => $sportRepository->getSportStatisticsSince($today->weekstart(), $account),
             'monthStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), $today->format('m'), 1)->getTimestamp(), $account),
             'yearStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), 1, 1)->getTimestamp(), $account),
-            'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account)
+            'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account),
         ]);
     }
 
@@ -123,7 +123,7 @@ abstract class AbstractPluginsAwareController extends Controller
 
         return $this->render('my/statistics/monthly-stats/base.html.twig', [
             'pluginId' => $pluginId,
-            'analysisData' => $analysisData
+            'analysisData' => $analysisData,
         ]);
     }
 }

@@ -6,7 +6,9 @@ use Runalyze\Sports\ClimbQuantification\ClimbByBikeIndex;
 
 class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ClimbByBikeIndex */
+    /**
+     * @var ClimbByBikeIndex
+     */
     protected $Cbb;
 
     protected function setUp(): void

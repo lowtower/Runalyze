@@ -40,22 +40,22 @@ use Runalyze\Util\LocalTime;
 
         <input id="calendar-locale" type="hidden" value="<?php
 
-        $days = array(__('Sunday'), __('Monday'), __('Tuesday'), __('Wednesday'), __('Thursday'), __('Friday'), __('Saturday'));
-        $daysMin = array(__('Su'), __('Mo'), __('Tu'), __('We'), __('Th'), __('Fr'), __('Sa'));
-        $daysShort = array(__('Sun'), __('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat'));
-        $months = array(__('January'), __('February'), __('March'), __('April'), __('May'), __('June'),
-            __('July'), __('August'), __('September'), __('October'), __('November'), __('December'));
-        $monthsShort = array(__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May'), __('Jun'), __('Jul'), __('Aug'), __('Sep'), __('Oct'), __('Nov'), __('Dec'), );
-        $weekMin=_('wk');
+        $days = [__('Sunday'), __('Monday'), __('Tuesday'), __('Wednesday'), __('Thursday'), __('Friday'), __('Saturday')];
+        $daysMin = [__('Su'), __('Mo'), __('Tu'), __('We'), __('Th'), __('Fr'), __('Sa')];
+        $daysShort = [__('Sun'), __('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat')];
+        $months = [__('January'), __('February'), __('March'), __('April'), __('May'), __('June'),
+            __('July'), __('August'), __('September'), __('October'), __('November'), __('December')];
+        $monthsShort = [__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May'), __('Jun'), __('Jul'), __('Aug'), __('Sep'), __('Oct'), __('Nov'), __('Dec')];
+        $weekMin = _('wk');
 
-        $locale = array (
+        $locale = [
             'days' => $days,
-            'daysMin'=>$daysMin,
-            'daysShort'=>$daysShort,
+            'daysMin' => $daysMin,
+            'daysShort' => $daysShort,
             'months' => $months,
             'monthsShort' => $monthsShort,
-            'weekMin' => $weekMin
-        );
+            'weekMin' => $weekMin,
+        ];
 
         echo htmlspecialchars(json_encode($locale)) ?>">
 
@@ -111,15 +111,15 @@ foreach ($this->Days as $i => $day) {
 
 	if (! empty($day['trainings'])) {
 		foreach ($day['trainings'] as $t => $Training) {
-			$id       = $Training['id'];
+			$id = $Training['id'];
 			$Sport = $this->Factory->sport($id);
 			$wk_class = ($Training['is_race']) ? ' wk' : '';
 			$trClass = ($t == 0) ? $trClass : '';
 
 			if (FrontendShared::$IS_SHOWN && ! $Training['is_public']) {
-				echo '<tr class="r'.$trClass.' training'.$wk_class.'">';
+				echo '<tr class="r' . $trClass . ' training' . $wk_class . '">';
 			} else {
-				echo '<tr class="r'.$trClass.' training'.$wk_class.'" id="training_'.$id.'" '.Ajax::trainingLinkAsOnclick($id).'>';
+				echo '<tr class="r' . $trClass . ' training' . $wk_class . '" id="training_' . $id . '" ' . Ajax::trainingLinkAsOnclick($id) . '>';
 			}
 
 			if ($t != 0) {
@@ -133,11 +133,11 @@ foreach ($this->Days as $i => $day) {
 					if (FrontendShared::$IS_SHOWN && ! $Context->activity()->isPublic()) {
                         echo $Table->codeForShortLink($Context);
                     } else {
-                        echo '<span class="link" '.Ajax::trainingLinkAsOnclick($Context->activity()->id()).'>'.$Table->codeForShortLink($Context).'</span>';
+                        echo '<span class="link" ' . Ajax::trainingLinkAsOnclick($Context->activity()->id()) . '>' . $Table->codeForShortLink($Context) . '</span>';
                     }
 				}
 
-				echo '</td><td class="l as-small-as-possible">'.$this->dateString($day['date']).'</td>';
+				echo '</td><td class="l as-small-as-possible">' . $this->dateString($day['date']) . '</td>';
 			}
 
 			$Context->setActivityData($Training);
@@ -152,7 +152,7 @@ foreach ($this->Days as $i => $day) {
 		$currentMonth = $month;
 	} elseif (! \Runalyze\Configuration::DataBrowser()->showActiveDaysOnly() || ! empty($day['shorts'])) {
 		echo '
-			<tr class="r'.$trClass.'">
+			<tr class="r' . $trClass . '">
 				<td class="l" style="width:24px;">';
 
 		foreach ($day['shorts'] as $short) {
@@ -161,15 +161,15 @@ foreach ($this->Days as $i => $day) {
             if (FrontendShared::$IS_SHOWN && ! $Context->activity()->isPublic()) {
                 echo $Table->codeForShortLink($Context);
             } else {
-                echo '<span class="link" '.Ajax::trainingLinkAsOnclick($Context->activity()->id()).'>'.$Table->codeForShortLink($Context).'</span>';
+                echo '<span class="link" ' . Ajax::trainingLinkAsOnclick($Context->activity()->id()) . '>' . $Table->codeForShortLink($Context) . '</span>';
             }
 		}
 
 		$cols = $Table->numColumns();
 
 		echo '</td>
-				<td class="l as-small-as-possible">'.$this->dateString($day['date']).'</td>
-				<td colspan="'.($Table->numColumns() + $this->AdditionalColumns - 2).'"></td>
+				<td class="l as-small-as-possible">' . $this->dateString($day['date']) . '</td>
+				<td colspan="' . ($Table->numColumns() + $this->AdditionalColumns - 2) . '"></td>
 			</tr>';
 
 		$currentWeek = $week;
@@ -178,7 +178,7 @@ foreach ($this->Days as $i => $day) {
 }
 
 if ($this->AllDaysEmpty && \Runalyze\Configuration::DataBrowser()->showActiveDaysOnly()) {
-    echo '<tr><td colspan="'.($Table->numColumns() + $this->AdditionalColumns).'"><em>'.__('There are no activities for this time range.').'</em></td></tr>';
+    echo '<tr><td colspan="' . ($Table->numColumns() + $this->AdditionalColumns) . '"><em>' . __('There are no activities for this time range.') . '</em></td></tr>';
 }
 
 echo '</tbody>';
@@ -191,8 +191,8 @@ foreach ($Summary as $data) {
 	$Context->setActivityData($data);
 
 	echo '<tr class="r no-zebra">';
-	echo '<td colspan="'.$this->AdditionalColumns.'"><small>'.$data['num'].'x</small> '.$Sport->name().'</td>';
-	echo $Table->codeForColumns($Context, array(Runalyze\Dataset\Keys::SPORT));
+	echo '<td colspan="' . $this->AdditionalColumns . '"><small>' . $data['num'] . 'x</small> ' . $Sport->name() . '</td>';
+	echo $Table->codeForColumns($Context, [Runalyze\Dataset\Keys::SPORT]);
 	echo '</tr>';
 }
 ?>

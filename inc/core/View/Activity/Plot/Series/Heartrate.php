@@ -17,7 +17,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Heartrate extends ActivitySeries {
+class Heartrate extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -50,9 +51,6 @@ class Heartrate extends ActivitySeries {
 		$this->setManualAverage(round($this->correctUnit($context->activity()->hrAvg())));
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Heartrate');
 		$this->Color = self::COLOR;
@@ -80,16 +78,13 @@ class Heartrate extends ActivitySeries {
 			if (\Runalyze\Context::Athlete()->knowsRestingHeartRate() && Configuration::General()->heartRateUnit()->isHRreserve()) {
 				$this->Factor = false;
 			} else {
-				$this->Factor = 100/$this->HRmax;
+				$this->Factor = 100 / $this->HRmax;
 			}
 		}
 	}
 
-	/**
-	 * Manipulate data
-	 */
 	protected function manipulateData() {
-		$this->Data = array_map(array($this, 'correctUnit'), $this->Data);
+		$this->Data = array_map([$this, 'correctUnit'], $this->Data);
 	}
 
 	/**
@@ -102,7 +97,7 @@ class Heartrate extends ActivitySeries {
 			return 100 * ($value - $this->HRrest) / ($this->HRmax - $this->HRrest);
 		}
 
-		return $this->Factor*$value;
+		return $this->Factor * $value;
 	}
 
     /**
@@ -116,12 +111,12 @@ class Heartrate extends ActivitySeries {
 		$max = $this->showsAsPercentage() ? 100 : $this->HRmax;
 
 		if (! empty($this->Data)) {
-			$Plot->setYLimits($yAxis, 10*floor(min($this->Data)/10), $max);
+			$Plot->setYLimits($yAxis, 10 * floor(min($this->Data) / 10), $max);
 
-			$Plot->addMarkingArea('y'.$yAxis, $max *1, $max *0.9, 'rgba(255,100,100,0.3)');
-			$Plot->addMarkingArea('y'.$yAxis, $max *0.9, $max *0.8, 'rgba(255,100,100,0.2)');
-			$Plot->addMarkingArea('y'.$yAxis, $max *0.8, $max *0.7, 'rgba(255,100,100,0.1)');
-			$Plot->addMarkingArea('y'.$yAxis, $max *0.7, $max *0.6, 'rgba(255,100,100,0.05)');
+			$Plot->addMarkingArea('y' . $yAxis, $max * 1, $max * 0.9, 'rgba(255,100,100,0.3)');
+			$Plot->addMarkingArea('y' . $yAxis, $max * 0.9, $max * 0.8, 'rgba(255,100,100,0.2)');
+			$Plot->addMarkingArea('y' . $yAxis, $max * 0.8, $max * 0.7, 'rgba(255,100,100,0.1)');
+			$Plot->addMarkingArea('y' . $yAxis, $max * 0.7, $max * 0.6, 'rgba(255,100,100,0.05)');
 		}
 	}
 

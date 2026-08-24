@@ -7,7 +7,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 trait TokenStorageAwareTypeTrait
 {
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(TokenStorage $tokenStorage)

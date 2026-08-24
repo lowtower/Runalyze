@@ -12,15 +12,15 @@ use Runalyze\Model\StringArrayObject;
 /**
  * @deprecated since v4.2, use \Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection instead
  */
-class Pauses extends StringArrayObject {
+class Pauses extends StringArrayObject
+{
 	/**
 	 * Single objects
 	 * @var \Runalyze\Model\Trackdata\Pause[]
 	 */
-	protected $Elements = array();
+	protected $Elements = [];
 
 	/**
-	 * From array
 	 * @param array[] $data array of arrays for single pauses
 	 */
 	public function fromArray(array $data) {
@@ -36,7 +36,7 @@ class Pauses extends StringArrayObject {
      * As array
      */
     public function asArray(): array {
-		$Data = array();
+		$Data = [];
 
 		foreach ($this->Elements as $Pause) {
 			$Data[] = $Pause->asArray();

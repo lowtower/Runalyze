@@ -45,7 +45,7 @@ class VO2maxValue extends AbstractKey
     public function description(): string
     {
         return __(
-            'Estimated VO<sub>2</sub>max based on pace and heart rate. '.
+            'Estimated VO<sub>2</sub>max based on pace and heart rate. ' .
             'The value is slightly transparent if it is not used for your VO<sub>2</sub>max shape.'
         );
     }

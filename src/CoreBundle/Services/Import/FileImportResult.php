@@ -7,16 +7,24 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class FileImportResult
 {
-    /** @var ActivityDataContainer[] */
+    /**
+     * @var ActivityDataContainer[]
+     */
     protected $Container;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $FileName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $OriginalFileName;
 
-    /** @var null|\Exception */
+    /**
+     * @var null|\Exception
+     */
     protected $Exception;
 
     /**
@@ -38,7 +46,7 @@ class FileImportResult
      */
     public function getContainer($index = null)
     {
-        if (null !== $index && isset($this->Container[$index])) {
+        if ($index !== null && isset($this->Container[$index])) {
             return $this->Container[$index];
         }
 
@@ -72,7 +80,7 @@ class FileImportResult
 
     public function isFailed(): bool
     {
-        return null !== $this->Exception;
+        return $this->Exception !== null;
     }
 
     /**

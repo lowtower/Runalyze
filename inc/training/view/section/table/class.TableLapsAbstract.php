@@ -15,7 +15,8 @@ use Runalyze\View\Activity\Context;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TableLapsAbstract {
+abstract class TableLapsAbstract
+{
 	/**
 	 * @var \Runalyze\View\Activity\Context
 	 */
@@ -38,13 +39,9 @@ abstract class TableLapsAbstract {
 		$this->setCode();
 	}
 
-	/**
-	 * Set code
-	 */
 	abstract protected function setCode();
 
 	/**
-	 * Get code
 	 * @return string
 	 */
 	final public function getCode() {

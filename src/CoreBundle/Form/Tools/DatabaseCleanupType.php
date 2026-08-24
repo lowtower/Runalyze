@@ -14,7 +14,7 @@ class DatabaseCleanupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $notRequiredOptions = [
-            'required' => false
+            'required' => false,
         ];
 
         $builder
@@ -23,8 +23,8 @@ class DatabaseCleanupType extends AbstractType
                 'data' => 'general',
                 'choices' => [
                     'General cleanup' => 'general',
-                    'Loop through activities' => 'loop'
-                ]
+                    'Loop through activities' => 'loop',
+                ],
             ])
             ->add('internals', CheckboxType::class, $notRequiredOptions)
             ->add('equipment', CheckboxType::class, $notRequiredOptions)

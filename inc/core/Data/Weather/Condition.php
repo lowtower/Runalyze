@@ -7,7 +7,9 @@ use Runalyze\View\Icon\Weather;
 
 class Condition
 {
-	/** @var int see \Runalyze\Profile\Weather\WeatherConditionProfile */
+	/**
+	 * @var int see \Runalyze\Profile\Weather\WeatherConditionProfile
+	 */
 	protected $identifier;
 
 	/**
@@ -48,7 +50,7 @@ class Condition
 
 	public function isUnknown(): bool
 	{
-		return (WeatherConditionProfile::UNKNOWN == $this->identifier);
+		return ($this->identifier == WeatherConditionProfile::UNKNOWN);
 	}
 
 	/**

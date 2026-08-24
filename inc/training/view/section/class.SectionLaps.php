@@ -13,10 +13,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionLaps extends TrainingViewSectionTabbed {
-	/**
-	 * Set header and rows
-	 */
+class SectionLaps extends TrainingViewSectionTabbed
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Laps');
 

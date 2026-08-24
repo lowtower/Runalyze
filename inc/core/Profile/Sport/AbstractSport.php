@@ -6,7 +6,9 @@ use Runalyze\Metrics\LegacyUnitConverter;
 
 abstract class AbstractSport implements ProfileInterface
 {
-    /** @var int enum from SportProfile */
+    /**
+     * @var int enum from SportProfile
+     */
     private $Enum;
 
     /**
@@ -27,7 +29,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     final public function isCustom()
     {
-        return SportProfile::GENERIC == $this->Enum;
+        return $this->Enum == SportProfile::GENERIC;
     }
 
     /**
@@ -35,7 +37,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     final public function isRunning()
     {
-        return SportProfile::RUNNING == $this->Enum;
+        return $this->Enum == SportProfile::RUNNING;
     }
 
     /**
@@ -43,7 +45,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     final public function isCycling()
     {
-        return SportProfile::CYCLING == $this->Enum || SportProfile::E_MTB_MOUNTAIN == $this->Enum;
+        return $this->Enum == SportProfile::CYCLING || $this->Enum == SportProfile::E_MTB_MOUNTAIN;
     }
 
     /**
@@ -51,7 +53,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     final public function isSwimming()
     {
-        return SportProfile::SWIMMING == $this->Enum;
+        return $this->Enum == SportProfile::SWIMMING;
     }
 
     /**

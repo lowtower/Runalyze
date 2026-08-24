@@ -6,10 +6,14 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
 
 class DataCollectorForArray extends DataCollector
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $RawData;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $InterpolateData;
 
     /**
@@ -42,7 +46,7 @@ class DataCollectorForArray extends DataCollector
 			if ($this->XAxis == self::X_AXIS_DISTANCE) {
 				$this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
 			} elseif ($this->XAxis == self::X_AXIS_TIME) {
-				$this->Data[$this->Loop->current(Trackdata::TIME).'000'] = $value;
+				$this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
 			} else {
 				$this->Data[] = $value;
 			}

@@ -9,22 +9,18 @@ declare(strict_types=1);
 namespace Runalyze\Parameter;
 
 /**
- * Boolean
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class Boolean extends \Runalyze\Parameter {
+class Boolean extends \Runalyze\Parameter
+{
 	/**
-	 * Set from string
 	 * @param string $valueAsString new value
 	 */
 	public function setFromString($valueAsString) {
 		$this->set( ($valueAsString == 'true') );
 	}
 
-    /**
-     * Value as string
-     */
     public function valueAsString(): string {
 		return ($this->value() ? 'true' : 'false');
 	}

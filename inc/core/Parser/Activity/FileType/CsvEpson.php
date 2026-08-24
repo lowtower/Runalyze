@@ -11,16 +11,24 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 {
     use FileContentAwareParserTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $CurrentHeader = '';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $TmpData = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $GraphKey = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $GraphString = '';
 
     public function parse()
@@ -121,8 +129,8 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
             }
 
             $this->Container->Metadata->setTimestamp(
-                strtotime($startDay.' '.$startTime.' UTC'),
-                round((strtotime($startDay.' '.$startTime.' UTC') - strtotime($startDay.' '.$startTime)) / 60)
+                strtotime($startDay . ' ' . $startTime . ' UTC'),
+                round((strtotime($startDay . ' ' . $startTime . ' UTC') - strtotime($startDay . ' ' . $startTime)) / 60)
             );
         }
     }
@@ -292,7 +300,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected function createNewArraysFor(array $keys): array
     {
-        $newArrays = array();
+        $newArrays = [];
 
         foreach ($keys as $key) {
             $newArrays[$key] = [];

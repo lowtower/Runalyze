@@ -24,24 +24,16 @@ use Runalyze\View\Tooltip;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
-class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
-    /**
-     * Name
-     */
+class RunalyzePluginPanel_Rechenspiele extends PluginPanel
+{
     final public function name(): string {
 		return __('Calculations');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Calculate experimental values as shape and fatigue based on TRIMP, marathon shape and your VO<sub>2</sub>max shape.');
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
 		$ShowTrimp = new PluginConfigurationValueBool('show_trimpvalues', __('Show: ATL/CTL/TSB'));
 		$ShowTrimp->setTooltip( __('Show actual/chronical training load and stress balance (based on TRIMP)') );
@@ -74,24 +66,23 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 	 */
 	protected function getRightSymbol(): string {
 		$Links = '';
-		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.plot.php" '.Ajax::tooltip('', __('Show shape'), true, true).'>'.Icon::$LINE_CHART.'</a>').'</li>';
-        $Links .= '<li>'.Ajax::window('<a href="my/tools/tables/vo2max-pace" '.Ajax::tooltip('', __('Show training paces'), true, true).'><i class="fa fa-fw fa-tachometer"></i></a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php" '.Ajax::tooltip('', __('How are these values calculated?'), true, true).'>'.Icon::$MAGIC.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="dashboard/help-calculations" '.Ajax::tooltip('', __('Explanations: What are VO2max and TRIMP?'), true, true).'>'.Icon::$INFO.'</a>').'</li>';
+		$Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.plot.php" ' . Ajax::tooltip('', __('Show shape'), true, true) . '>' . Icon::$LINE_CHART . '</a>') . '</li>';
+        $Links .= '<li>' . Ajax::window('<a href="my/tools/tables/vo2max-pace" ' . Ajax::tooltip('', __('Show training paces'), true, true) . '><i class="fa fa-fw fa-tachometer"></i></a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php" ' . Ajax::tooltip('', __('How are these values calculated?'), true, true) . '>' . Icon::$MAGIC . '</a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="dashboard/help-calculations" ' . Ajax::tooltip('', __('Explanations: What are VO2max and TRIMP?'), true, true) . '>' . Icon::$INFO . '</a>') . '</li>';
 
-		return '<ul>'.$Links.'</ul>';
+		return '<ul>' . $Links . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent() {
 		$this->showValues();
 
-		if (0 == Configuration::Data()->vo2max()) {
+		if (Configuration::Data()->vo2max() == 0) {
 			if ($this->Configuration()->value('show_vo2max')) {
-				echo '<p class="error small">'.$this->getNoEffectiveVO2maxDataError().'</p>';
+				echo '<p class="error small">' . $this->getNoEffectiveVO2maxDataError() . '</p>';
 			}
 		}
 
@@ -100,9 +91,6 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		}
 	}
 
-	/**
-	 * Show values
-	 */
 	protected function showValues() {
 		$ModelQuery = new Performance\ModelQuery();
 		$ModelQuery->execute(DB::getInstance());
@@ -115,15 +103,15 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$TSBmodel->calculate();
 
 		$MonotonyQuery = new Performance\ModelQuery();
-		$MonotonyQuery->setRange(time()-(Monotony::DAYS-1)*DAY_IN_S, time());
+		$MonotonyQuery->setRange(time() - (Monotony::DAYS - 1) * DAY_IN_S, time());
 		$MonotonyQuery->execute(DB::getInstance());
 
 		$Monotony = new Monotony($MonotonyQuery->data(), 2 * Configuration::Data()->maxATL());
 		$Monotony->calculate();
 
 		$EffectiveVO2max = Configuration::Data()->vo2max();
-		$ATLmax      = Configuration::Data()->maxATL();
-		$CTLmax      = Configuration::Data()->maxCTL();
+		$ATLmax = Configuration::Data()->maxATL();
+		$CTLmax = Configuration::Data()->maxCTL();
 		$ModelATLmax = $TSBmodel->maxFatigue();
 		$ModelCTLmax = $TSBmodel->maxFitness();
 
@@ -140,100 +128,100 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$ATLabsolute = $TSBmodel->fatigueAt(0);
 		$CTLabsolute = $TSBmodel->fitnessAt(0);
 		$TSBabsolute = $TSBmodel->performanceAt(0);
-		$TrimpValues = array(
-    'ATL'		=> round(100*$ATLabsolute/$ATLmax),
-		    'ATLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$ATLabsolute/$ATLmax).'&nbsp;&#37;' : $ATLabsolute,
-		    'CTL'		=> round(100*$CTLabsolute/$CTLmax),
-		    'CTLstring'	=> Configuration::Trimp()->showInPercent() ? round(100*$CTLabsolute/$CTLmax).'&nbsp;&#37;' : $CTLabsolute,
-		    'TSB'		=> round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute, 1)),
-		    'TSBstring'	=> Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100*$TSBabsolute/max($ATLabsolute, $CTLabsolute))).'&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
-);
+		$TrimpValues = [
+    'ATL' => round(100 * $ATLabsolute / $ATLmax),
+		    'ATLstring' => Configuration::Trimp()->showInPercent() ? round(100 * $ATLabsolute / $ATLmax) . '&nbsp;&#37;' : $ATLabsolute,
+		    'CTL' => round(100 * $CTLabsolute / $CTLmax),
+		    'CTLstring' => Configuration::Trimp()->showInPercent() ? round(100 * $CTLabsolute / $CTLmax) . '&nbsp;&#37;' : $CTLabsolute,
+		    'TSB' => round(100 * $TSBabsolute / max($ATLabsolute, $CTLabsolute, 1)),
+		    'TSBstring' => Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100 * $TSBabsolute / max($ATLabsolute, $CTLabsolute))) . '&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
+];
 		$TSBisPositive = $TrimpValues['TSB'] > 0;
 
 		$maxTrimpToBalanced = ceil($TSBmodel->maxTrimpToBalanced($CTLabsolute, $ATLabsolute));
 		$restDays = ceil($TSBmodel->restDays($CTLabsolute, $ATLabsolute));
 
-		$Values = array(
-		    array(
-		        'show'	=> $this->Configuration()
+		$Values = [
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_vo2max'),
-		        'bars'	=> array(
-		            new ProgressBarSingle(2*round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'value'	=> number_format($EffectiveVO2max, 2).(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
-		        'title'	=> __('Effective VO<sub>2</sub>max'),
-		        'glossary'	=> 'vo2max'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle(2 * round($EffectiveVO2max - 30), ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'value' => number_format($EffectiveVO2max, 2) . ($EffectiveVO2max == 0 ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
+		        'title' => __('Effective VO<sub>2</sub>max'),
+		        'glossary' => 'vo2max',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_basicendurance'),
-		        'bars'	=> array(
-		            new ProgressBarSingle(BasicEndurance::getConst(), ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'value'	=> BasicEndurance::getConst().'&nbsp;&#37;'.(0 == $EffectiveVO2max ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
-		        'title'	=> __('Marathon shape'),
-		        'glossary'	=> 'marathon-shape'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle(BasicEndurance::getConst(), ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'value' => BasicEndurance::getConst() . '&nbsp;&#37;' . ($EffectiveVO2max == 0 ? '&nbsp;<i class="fa fa-fw fa-exclamation-circle"></i>' : ''),
+		        'title' => __('Marathon shape'),
+		        'glossary' => 'marathon-shape',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues'),
-		        'bars'	=> array(
-		            new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $ATLabsolute, $ATLmax, $TrimpValues['ATL']),
-		        'value'	=> $TrimpValues['ATLstring'],
-		        'title'	=> __('Fatigue'),
-		        'small'	=> '(<abbr title="'.__('Acute Training Load').'">ATL</abbr>)',
-		        'glossary'	=> 'atl'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle($TrimpValues['ATL'], ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'bar-tooltip' => sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $ATLabsolute, $ATLmax, $TrimpValues['ATL']),
+		        'value' => $TrimpValues['ATLstring'],
+		        'title' => __('Fatigue'),
+		        'small' => '(<abbr title="' . __('Acute Training Load') . '">ATL</abbr>)',
+		        'glossary' => 'atl',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues'),
-		        'bars'	=> array(
-		            new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'bar-tooltip'	=> sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $CTLabsolute, $CTLmax, $TrimpValues['CTL']),
-		        'value'	=> $TrimpValues['CTLstring'],
-		        'title'	=> __('Fitness&nbsp;level'),
-		        'small'	=> '(<abbr title="'.__('Chronic Training Load').'">CTL</abbr>)',
-		        'glossary'	=> 'ctl'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle($TrimpValues['CTL'], ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'bar-tooltip' => sprintf( __('Current value: %s<br>Maximal value: %s<br>as percentage: %s &#37;'), $CTLabsolute, $CTLmax, $TrimpValues['CTL']),
+		        'value' => $TrimpValues['CTLstring'],
+		        'title' => __('Fitness&nbsp;level'),
+		        'small' => '(<abbr title="' . __('Chronic Training Load') . '">CTL</abbr>)',
+		        'glossary' => 'ctl',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues'),
-		        'bars'	=> array(
-		            new ProgressBarSingle(abs($TrimpValues['TSB'])/2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left'))
-		        ),
-		        'bar-tooltip'	=> 'TSB = CTL - ATL<br>'.sprintf( __('absolute: %s<br>as percentage: %s &#37;'), $CTLabsolute.' - '.$ATLabsolute.' = '.sprintf('%+d', $TSBabsolute), $TrimpValues['TSB']),
-		        'value'	=> $TrimpValues['TSBstring'],
-		        'title'	=> __('Stress Balance'),
-		        'small'	=> '(<abbr title="'.__('Training Stress Balance').'">TSB</abbr>)',
-		        'glossary'	=> 'tsb'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle(abs($TrimpValues['TSB']) / 2, ($TSBisPositive ? ProgressBarSingle::$COLOR_GREEN : ProgressBarSingle::$COLOR_RED), ($TSBisPositive ? 'right' : 'left')),
+		        ],
+		        'bar-tooltip' => 'TSB = CTL - ATL<br>' . sprintf( __('absolute: %s<br>as percentage: %s &#37;'), $CTLabsolute . ' - ' . $ATLabsolute . ' = ' . sprintf('%+d', $TSBabsolute), $TrimpValues['TSB']),
+		        'value' => $TrimpValues['TSBstring'],
+		        'title' => __('Stress Balance'),
+		        'small' => '(<abbr title="' . __('Training Stress Balance') . '">TSB</abbr>)',
+		        'glossary' => 'tsb',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues') && ! $TSBisPositive,
-		        'bars'	=> array(
-		            new ProgressBarSingle(100*$restDays/7, ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'value'	=> $restDays,
-		        'title'	=> __('Rest days'),
-		        'tooltip'	=> __('Rest days needed to reach TSB = 0')
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle(100 * $restDays / 7, ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'value' => $restDays,
+		        'title' => __('Rest days'),
+		        'tooltip' => __('Rest days needed to reach TSB = 0'),
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues') && $TSBisPositive,
-		        'bars'	=> array(
-		            new ProgressBarSingle(100*$maxTrimpToBalanced/1000, ProgressBarSingle::$COLOR_BLUE)
-		        ),
-		        'value'	=> $maxTrimpToBalanced,
-		        'title'	=> __('Easy TRIMP'),
-		        'glossary'	=> 'easy-trimp'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		        'bars' => [
+		            new ProgressBarSingle(100 * $maxTrimpToBalanced / 1000, ProgressBarSingle::$COLOR_BLUE),
+		        ],
+		        'value' => $maxTrimpToBalanced,
+		        'title' => __('Easy TRIMP'),
+		        'glossary' => 'easy-trimp',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues_extra'),
-		        'bars'	=> array(
+		        'bars' => [
 		            new ProgressBarSingle(
 		                $Monotony->valueAsPercentage(),
 		                (
@@ -243,18 +231,18 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		            			: ProgressBarSingle::$COLOR_GREEN
 		            			)
 		                )
-		            )
-		        ),
-		        'bar-tooltip'	=> 'Monotony = avg(Trimp)/stddev(Trimp)',
-		        'value'	=> number_format($Monotony->value(), 2),
-		        'title'	=> __('Monotony'),
-		        'tooltip'	=> __('Monotony<br><small>Monotony of your last seven days.<br>Values below 1.5 are preferable.</small>'),
-		        'glossary'	=> 'monotony'
-		    ),
-		    array(
-		        'show'	=> $this->Configuration()
+		            ),
+		        ],
+		        'bar-tooltip' => 'Monotony = avg(Trimp)/stddev(Trimp)',
+		        'value' => number_format($Monotony->value(), 2),
+		        'title' => __('Monotony'),
+		        'tooltip' => __('Monotony<br><small>Monotony of your last seven days.<br>Values below 1.5 are preferable.</small>'),
+		        'glossary' => 'monotony',
+		    ],
+		    [
+		        'show' => $this->Configuration()
 		            ->value('show_trimpvalues_extra'),
-		        'bars'	=> array(
+		        'bars' => [
 		            new ProgressBarSingle(
 		                $Monotony->trainingStrainAsPercentage(),
 		                (
@@ -263,28 +251,27 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		            		    $Monotony->trainingStrainAsPercentage() >= 50 ? ProgressBarSingle::$COLOR_ORANGE : ProgressBarSingle::$COLOR_GREEN
 		            		)
 		                )
-		            )
-		        ),
-		        'bar-tooltip'	=> 'Training strain = sum(Trimp)*Monotony',
-		        'value'	=> round($Monotony->trainingStrain()),
-		        'title'	=> __('Training strain'),
-		        'tooltip'	=> __('Training strain<br><small>of your last seven days</small>'),
-		        'glossary'	=> 'training-strain'
-		    )
-		);
+		            ),
+		        ],
+		        'bar-tooltip' => 'Training strain = sum(Trimp)*Monotony',
+		        'value' => round($Monotony->trainingStrain()),
+		        'title' => __('Training strain'),
+		        'tooltip' => __('Training strain<br><small>of your last seven days</small>'),
+		        'glossary' => 'training-strain',
+		    ],
+		];
 
 		$this->showTableForValues($Values);
 	}
 
 	/**
-	 * Show table for values
 	 * @param array $Values
 	 */
 	protected function showTableForValues(&$Values) {
 		echo '<table class="fullwidth nomargin">';
 		foreach ($Values as $Value) {
 			if ($Value['show']) {
-				$Label = '<strong>'.str_replace(' ', '&nbsp;', $Value['title']).'</strong>'.(isset($Value['small']) ? '&nbsp;<small>'.$Value['small'].'</small>' : '');
+				$Label = '<strong>' . str_replace(' ', '&nbsp;', $Value['title']) . '</strong>' . (isset($Value['small']) ? '&nbsp;<small>' . $Value['small'] . '</small>' : '');
 				$Text = isset($Value['tooltip']) && $Value['tooltip'] != '' ? Ajax::tooltip($Label, $Value['tooltip']) : $Label;
 
 				$ProgressBar = new ProgressBar();
@@ -302,9 +289,9 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 
 				$Progress = $ProgressBar->getCode();
 
-                $glossaryLink = isset($Value['glossary']) && $Value['glossary'] != '' ? '<a class="window" href="glossary/'.$Value['glossary'].'"><i class="fa fa-question-circle-o"></i></a>' : '';
+                $glossaryLink = isset($Value['glossary']) && $Value['glossary'] != '' ? '<a class="window" href="glossary/' . $Value['glossary'] . '"><i class="fa fa-question-circle-o"></i></a>' : '';
 
-				echo '<tr><td>'.$glossaryLink.'</td><td>'.$Text.'</td><td style="width:99%;vertical-align:middle;">'.$Progress.'</td><td class="r nowrap">'.$Value['value'].'</td></tr>';
+				echo '<tr><td>' . $glossaryLink . '</td><td>' . $Text . '</td><td style="width:99%;vertical-align:middle;">' . $Progress . '</td><td class="r nowrap">' . $Value['value'] . '</td></tr>';
 			}
 		}
 
@@ -325,61 +312,61 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		);
 		$TSBmodel->calculate();
 
-		$maxATL      = Configuration::Data()->maxATL();
-		$maxCTL      = Configuration::Data()->maxCTL();
-		$ATL         = $TSBmodel->fatigueAt(0);
-		$CTL         = $TSBmodel->fitnessAt(0);
-		$TrimpValues = array(
-		    'ATL'	=> round(100*$ATL/$maxATL),
-		    'CTL'	=> round(100*$CTL/$maxCTL),
-		    'TSB'	=> $TSBmodel->performanceAt(0)
-		);
+		$maxATL = Configuration::Data()->maxATL();
+		$maxCTL = Configuration::Data()->maxCTL();
+		$ATL = $TSBmodel->fatigueAt(0);
+		$CTL = $TSBmodel->fitnessAt(0);
+		$TrimpValues = [
+		    'ATL' => round(100 * $ATL / $maxATL),
+		    'CTL' => round(100 * $CTL / $maxCTL),
+		    'TSB' => $TSBmodel->performanceAt(0),
+		];
 
 		$Table = '
 			<table class="fullwidth zebra-style">
 				<thead>
 					<tr>
 						<th></th>
-						<th>'.__('Name').'</th>
-						<th>'.__('in &#37;').'</th>
-						<th>'.__('Time range').'</th>
-						<th>'.__('avg.').' '.__('value/day').'</th>
-						<th>'.__('max. value').'</th>
-						<th class="small">'.__('Description').'</th>
+						<th>' . __('Name') . '</th>
+						<th>' . __('in &#37;') . '</th>
+						<th>' . __('Time range') . '</th>
+						<th>' . __('avg.') . ' ' . __('value/day') . '</th>
+						<th>' . __('max. value') . '</th>
+						<th class="small">' . __('Description') . '</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td class="b">ATL</td>
-						<td>'.__('Acute Training Load').'</td>
-						<td class="c">'.$TrimpValues['ATL'].' &#37;</td>
-						<td class="c small">'.sprintf( __('%s days'), Configuration::Trimp()->daysForATL()).'</td>
-						<td class="c">'.$ATL.'</td>
-						<td class="c">'.$maxATL.'</td>
-						<td class="small">'.__('Training impulse over a short period').'</td>
+						<td>' . __('Acute Training Load') . '</td>
+						<td class="c">' . $TrimpValues['ATL'] . ' &#37;</td>
+						<td class="c small">' . sprintf( __('%s days'), Configuration::Trimp()->daysForATL()) . '</td>
+						<td class="c">' . $ATL . '</td>
+						<td class="c">' . $maxATL . '</td>
+						<td class="small">' . __('Training impulse over a short period') . '</td>
 					</tr>
 					<tr>
 						<td class="b">CTL</td>
-						<td>'.__('Chronical Training Load').'</td>
-						<td class="c">'.$TrimpValues['CTL'].' &#37;</td>
-						<td class="c small">'.sprintf( __('%s days'), Configuration::Trimp()->daysForCTL()).'</td>
-						<td class="c">'.$CTL.'</td>
-						<td class="c">'.$maxCTL.'</td>
-						<td class="small">'.__('Training impulse over a long period').'</td>
+						<td>' . __('Chronical Training Load') . '</td>
+						<td class="c">' . $TrimpValues['CTL'] . ' &#37;</td>
+						<td class="c small">' . sprintf( __('%s days'), Configuration::Trimp()->daysForCTL()) . '</td>
+						<td class="c">' . $CTL . '</td>
+						<td class="c">' . $maxCTL . '</td>
+						<td class="small">' . __('Training impulse over a long period') . '</td>
 					</tr>
 					<tr>
 						<td class="b">TSB</td>
-						<td>'.__('Training Stress Balance').'</td>
-						<td class="c">'.$TrimpValues['TSB'].'</td>
-						<td colspan="3" class="c">'.$CTL.' - '.$ATL.' = '.$TrimpValues['TSB'].'</td>
-						<td class="small">'.__('Current impulse<br>positive: recovery<br>negative: hard training').'
+						<td>' . __('Training Stress Balance') . '</td>
+						<td class="c">' . $TrimpValues['TSB'] . '</td>
+						<td colspan="3" class="c">' . $CTL . ' - ' . $ATL . ' = ' . $TrimpValues['TSB'] . '</td>
+						<td class="small">' . __('Current impulse<br>positive: recovery<br>negative: hard training') . '
 						</td>
 					</tr>
 				</tbody>
 			</table>';
 
 		$Fieldset = new FormularFieldset('ATL/CTL/TSB');
-		$Fieldset->addBlock( __('ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. '.
+		$Fieldset->addBlock( __('ATL/CTL are based on the TRIMP-concept, which adresses an impulse value to every activity. ' .
 								'ATL and CTL are averaged values over a given time range.') );
 		$Fieldset->addBlock($Table);
 		$Fieldset->addInfo( __('see <a href="http://www.netzathleten.de/fitness/richtig-trainieren/item/1481-trainingstagebuch-sinnvoll-oder-nicht" title="Das TRIMP-Konzept">The TRIMP-concept</a> (german, netzathleten.de)') );
@@ -392,15 +379,15 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$Tooltip = new Tooltip('');
 		$EffectiveVO2max = new LegacyEffectiveVO2max(0, new LegacyEffectiveVO2maxCorrector(Configuration::Data()->vo2maxCorrectionFactor()));
 		$vo2maxColumn = Configuration::VO2max()->useElevationCorrection() ? 'IF(`vo2max_with_elevation`>0,`vo2max_with_elevation`,`vo2max`) as `vo2max`' : '`vo2max`';
-		$EffectiveVO2maxValues = DB::getInstance()->query('SELECT `id`,`time`,`distance`,'.$vo2maxColumn.' FROM `'.PREFIX.'training` WHERE time>='.(time() - Configuration::VO2max()->days()*DAY_IN_S).' AND `vo2max`>0 AND `use_vo2max`=1 AND accountid = '.SessionAccountHandler::getId().' ORDER BY time ASC')->fetchAll();
+		$EffectiveVO2maxValues = DB::getInstance()->query('SELECT `id`,`time`,`distance`,' . $vo2maxColumn . ' FROM `' . PREFIX . 'training` WHERE time>=' . (time() - Configuration::VO2max()->days() * DAY_IN_S) . ' AND `vo2max`>0 AND `use_vo2max`=1 AND accountid = ' . SessionAccountHandler::getId() . ' ORDER BY time ASC')->fetchAll();
 
 		if (empty($EffectiveVO2maxValues)) {
-			$Table = '<p class="error">'.$this->getNoEffectiveVO2maxDataError().'</p>';
+			$Table = '<p class="error">' . $this->getNoEffectiveVO2maxDataError() . '</p>';
 		} else {
 			$Table = '<table class="fullwidth zebra-style">
 				<thead>
 					<tr>
-						<th colspan="10">'.sprintf( __('Effective VO<sub>2</sub>max values of the last %s days'), Configuration::VO2max()->days() ).'</th>
+						<th colspan="10">' . sprintf( __('Effective VO<sub>2</sub>max values of the last %s days'), Configuration::VO2max()->days() ) . '</th>
 					</tr>
 				</thead>
 				<tbody class="top-and-bottom-border">';
@@ -409,10 +396,10 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 				if ($i % 10 === 0)
 					$Table .= '<tr>';
 
-				$Tooltip->setText((new LocalTime($Data['time']))->format('d.m.Y').': '.Distance::format($Data['distance']));
+				$Tooltip->setText((new LocalTime($Data['time']))->format('d.m.Y') . ': ' . Distance::format($Data['distance']));
                 $EffectiveVO2max->setValue($Data['vo2max']);
 
-				$Table .= '<td '.$Tooltip->attributes().'>'.Ajax::trainingLink($Data['id'], $EffectiveVO2max->value()).'</td>';
+				$Table .= '<td ' . $Tooltip->attributes() . '>' . Ajax::trainingLink($Data['id'], $EffectiveVO2max->value()) . '</td>';
 
 				if ($i % 10 === 9)
 					$Table .= '</tr>';
@@ -428,8 +415,8 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$Fieldset->addBlock( sprintf( __('The VO<sub>2</sub>max shape is calculated as the average, weighted by time, of estimated VO<sub>2</sub>max values of your activities in the last %s days.'), Configuration::VO2max()->days() ) );
 		$Fieldset->addBlock( sprintf( __('Your current VO<sub>2</sub>max shape: <strong>%s</strong><br>&nbsp;'), Configuration::Data()->vo2max() ) );
 		$Fieldset->addBlock($Table);
-		$Fieldset->addInfo( __('VO<sub>2</sub>max itself is a scientific metric for the maximal oxygen consumption that can be measured in the laboratory.<br>'.
-								'Two runners with equal VO<sub>2</sub>max values do not need to perform equally, as running efficiency plays an additional role. '.
+		$Fieldset->addInfo( __('VO<sub>2</sub>max itself is a scientific metric for the maximal oxygen consumption that can be measured in the laboratory.<br>' .
+								'Two runners with equal VO<sub>2</sub>max values do not need to perform equally, as running efficiency plays an additional role. ' .
 								'To overcome the issue of specifying running efficiency, one can ignore the efficiency and therefore call it effective VO<sub>2</sub>max.') );
 
 		return $Fieldset;
@@ -451,25 +438,25 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 			<table class="fullwidth zebra-style">
 				<tbody class="top-and-bottom-border">
 					<tr>
-						<td><strong>'.__('Current Effective VO<sub>2</sub>max').'</strong> <small>('.__('based on heart rate').')</small></td>
-						<td class="r">'.round(Configuration::Data()->vo2max(), 2).'</td>
+						<td><strong>' . __('Current Effective VO<sub>2</sub>max') . '</strong> <small>(' . __('based on heart rate') . ')</small></td>
+						<td class="r">' . round(Configuration::Data()->vo2max(), 2) . '</td>
 						<td>&nbsp;</td>
-						<td><strong>'.__('Target kilometer per week').'</strong> <small>('.sprintf('%s weeks', round($BasicEndurance->getDaysForWeekKm() / 7)).')</small></td>
-						<td class="r">'.Distance::format($BasicEndurance->getTargetWeekKm(), false, 0).'</td>
-						<td class="small">'.sprintf( __('done by %s&#37;'), round(100*$BEresults['weekkm-percentage']) ).'</td>
-						<td class="small">('.__('avg.').' '.Distance::format(($BEresults['weekkm-result'] / $BasicEndurance->getDaysForWeekKm() * 7), false, 0).')</td>
-						<td class="small">x'.$BasicEndurance->getPercentageForWeekKilometer().'</td>
-						<td rowspan="2" class="bottom-spacer b" style="vertical-align:middle;">= '.round($BEresults['percentage']).'&#37;</td>
+						<td><strong>' . __('Target kilometer per week') . '</strong> <small>(' . sprintf('%s weeks', round($BasicEndurance->getDaysForWeekKm() / 7)) . ')</small></td>
+						<td class="r">' . Distance::format($BasicEndurance->getTargetWeekKm(), false, 0) . '</td>
+						<td class="small">' . sprintf( __('done by %s&#37;'), round(100 * $BEresults['weekkm-percentage']) ) . '</td>
+						<td class="small">(' . __('avg.') . ' ' . Distance::format(($BEresults['weekkm-result'] / $BasicEndurance->getDaysForWeekKm() * 7), false, 0) . ')</td>
+						<td class="small">x' . $BasicEndurance->getPercentageForWeekKilometer() . '</td>
+						<td rowspan="2" class="bottom-spacer b" style="vertical-align:middle;">= ' . round($BEresults['percentage']) . '&#37;</td>
 					</tr>
 					<tr>
-						<td>'.__('<strong>Marathon time</strong> <small>(optimal)</small>').'</td>
-						<td class="r">'.Duration::format($Prognosis->getSeconds(42.195)).'</td>
+						<td>' . __('<strong>Marathon time</strong> <small>(optimal)</small>') . '</td>
+						<td class="r">' . Duration::format($Prognosis->getSeconds(42.195)) . '</td>
 						<td>&nbsp;</td>
-						<td>'.sprintf( __('<strong>Target long run</strong> <small>(%s weeks)</small>'), round($BasicEndurance->getDaysToRecognizeForLongjogs() / 7)).'</td>
-						<td class="r">'.Distance::format($BasicEndurance->getRealTargetLongjogKmPerWeek(), false, 0).'</td>
-						<td class="small">'.sprintf( __('done by %s&#37;'), round(100*$BEresults['longjog-percentage']) ).'</td>
-						<td class="small">('.round($BEresults['longjog-result'], 1).' points)</td>
-						<td class="small">x'.$BasicEndurance->getPercentageForLongjogs().'</td>
+						<td>' . sprintf( __('<strong>Target long run</strong> <small>(%s weeks)</small>'), round($BasicEndurance->getDaysToRecognizeForLongjogs() / 7)) . '</td>
+						<td class="r">' . Distance::format($BasicEndurance->getRealTargetLongjogKmPerWeek(), false, 0) . '</td>
+						<td class="small">' . sprintf( __('done by %s&#37;'), round(100 * $BEresults['longjog-percentage']) ) . '</td>
+						<td class="small">(' . round($BEresults['longjog-result'], 1) . ' points)</td>
+						<td class="small">x' . $BasicEndurance->getPercentageForLongjogs() . '</td>
 					</tr>
 				</tbody>
 			</table>';
@@ -477,22 +464,22 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$LongjogTable = '<table class="fullwidth zebra-style c">
 				<thead>
 					<tr>
-						<th>'.__('Date').'*</th>
-						<th>'.__('Distance').'</th>
-						<th>'.__('Points').'</th>
+						<th>' . __('Date') . '*</th>
+						<th>' . __('Distance') . '</th>
+						<th>' . __('Points') . '</th>
 					</tr>
 				</thead>
 				<tbody>';
 
 		$IgnoredLongjogs = 0;
-		$Longjogs        = DB::getInstance()->query($BasicEndurance->getQuery(0, true))->fetchAll();
+		$Longjogs = DB::getInstance()->query($BasicEndurance->getQuery(0, true))->fetchAll();
 
 		foreach ($Longjogs as $Longjog) {
 			if ($Longjog['points'] >= 0.2)
 				$LongjogTable .= '<tr>
-							<td>'.Ajax::trainingLink($Longjog['id'], (new LocalTime($Longjog['time']))->format('d.m.Y')).'</td>
-							<td>'.Distance::format($Longjog['distance']).'</td>
-							<td>'.round($Longjog['points'], 1).' points</td>
+							<td>' . Ajax::trainingLink($Longjog['id'], (new LocalTime($Longjog['time']))->format('d.m.Y')) . '</td>
+							<td>' . Distance::format($Longjog['distance']) . '</td>
+							<td>' . round($Longjog['points'], 1) . ' points</td>
 						</tr>';
 			else
 				$IgnoredLongjogs++;
@@ -501,38 +488,38 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel {
 		$LongjogTable .= '<tr class="top-spacer no-zebra">
 						<td></td>
 						<td></td>
-						<td class="b">= '.round($BEresults['longjog-result'], 1).' points</td>
+						<td class="b">= ' . round($BEresults['longjog-result'], 1) . ' points</td>
 					</tr>
 				</tbody>
 			</table>';
-		$LongjogTable .= '<p class="small">'.sprintf( __('* %s &quot;long&quot; jogs do not show up, '.
-														'because they have less than 0.2 points.'), $IgnoredLongjogs).'</p>';
-		$LongjogTable .= '<p class="small">'.sprintf(
+		$LongjogTable .= '<p class="small">' . sprintf( __('* %s &quot;long&quot; jogs do not show up, ' .
+														'because they have less than 0.2 points.'), $IgnoredLongjogs) . '</p>';
+		$LongjogTable .= '<p class="small">' . sprintf(
 		    __('* In general, all runs with more than %s are being considered.'),
 		    Distance::format($BasicEndurance->getMinimalDistanceForLongjogs())
-		).'</p>';
+		) . '</p>';
 
 		$Fieldset = new FormularFieldset( __('Marathon shape') );
-		$Fieldset->addBlock( __('Your marathon shape is based on your weekly kilometers and your long jogs.<br>'.
-								'The target is derived from the possible marathon time based on your current shape.').'<br>&nbsp;' );
+		$Fieldset->addBlock( __('Your marathon shape is based on your weekly kilometers and your long jogs.<br>' .
+								'The target is derived from the possible marathon time based on your current shape.') . '<br>&nbsp;' );
 
-		if (0 == Configuration::Data()->vo2max()) {
-			$Fieldset->addBlock('<p class="error">'.$this->getNoEffectiveVO2maxDataError().'</p><br>&nbsp;');
+		if (Configuration::Data()->vo2max() == 0) {
+			$Fieldset->addBlock('<p class="error">' . $this->getNoEffectiveVO2maxDataError() . '</p><br>&nbsp;');
 		}
 
 		$Fieldset->addBlock($GeneralTable);
-		$Fieldset->addBlock( __('The points for your long runs are weighted by time and quadratic in distance. '.
-								'That means, a long jog yesterday gives more points than a long jog two weeks ago '.
-								'and a 30k-jog gives more points than two 20k-jogs.').'<br>&nbsp;' );
+		$Fieldset->addBlock( __('The points for your long runs are weighted by time and quadratic in distance. ' .
+								'That means, a long jog yesterday gives more points than a long jog two weeks ago ' .
+								'and a 30k-jog gives more points than two 20k-jogs.') . '<br>&nbsp;' );
 		$Fieldset->addBlock($LongjogTable);
-		$Fieldset->addBlock( __('The marathon shape is <strong>not</strong> scientifically based.<br>'.
+		$Fieldset->addBlock( __('The marathon shape is <strong>not</strong> scientifically based.<br>' .
 								"It's our own attempt to adjust the prognosis for long distances based on your current endurance.") );
 
 		return $Fieldset;
 	}
 
 	public function getNoEffectiveVO2maxDataError(): string {
-		return __('There are no current activities with an estimated VO<sub>2</sub>max value.').'<br>'.
+		return __('There are no current activities with an estimated VO<sub>2</sub>max value.') . '<br>' .
 			__('VO<sub>2</sub>max can only be estimated for runs with heart rate data.');
 	}
 }

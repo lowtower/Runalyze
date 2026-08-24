@@ -10,7 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */
-class ProgressBar {
+class ProgressBar
+{
 	/**
 	 * HTML class: surrounding div
 	 * @var string
@@ -51,7 +52,7 @@ class ProgressBar {
 	 * Single progress bars
 	 * @var array
 	 */
-	protected $Bars = array();
+	protected $Bars = [];
 
 	/**
 	 * Tooltip
@@ -72,8 +73,6 @@ class ProgressBar {
 	protected $Goal = 0;
 
 	/**
-	 * Constructor
-	 *
 	 * Arguments can be passed to construct a single progress bar.
 	 * Otherwise, addBar($Width, $Color) has to be used.
 	 *
@@ -93,7 +92,6 @@ class ProgressBar {
 	}
 
 	/**
-	 * Add new bar
 	 * @param int $Width in percent between 0 and 100
 	 * @param string $Color
 	 */
@@ -102,7 +100,6 @@ class ProgressBar {
 	}
 
 	/**
-	 * Set tooltip
 	 * @param string $Tooltip
 	 */
 	public function setTooltip($Tooltip) {
@@ -124,34 +121,26 @@ class ProgressBar {
 	}
 
 	/**
-	 * Add class
 	 * @param string $Class
 	 */
 	public function addClass($Class) {
-		$this->AdditionalClasses .= ' '.$Class;
+		$this->AdditionalClasses .= ' ' . $Class;
 	}
 
 	/**
-	 * Set goal line
 	 * @param int $Goal
 	 */
 	public function setGoalLine($Goal) {
 		$this->Goal = max(0, min(100, (int) $Goal));
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		echo $this->getCode();
 	}
 
-    /**
-     * Get code
-     */
     public function getCode(): string {
-		$Code  = '<div class="'.$this->getDivClass().'"'.$this->getTooltip().'>';
-		$Code .= '<div class="'.self::$DIV_INNER.'">';
+		$Code = '<div class="' . $this->getDivClass() . '"' . $this->getTooltip() . '>';
+		$Code .= '<div class="' . self::$DIV_INNER . '">';
 		$Code .= $this->getDivForSingleBars();
 		$Code .= $this->getCodeForGoalLine();
 		$Code .= '</div>';
@@ -163,7 +152,7 @@ class ProgressBar {
      * Get class
      */
     protected function getDivClass(): string {
-		return self::$DIV_CONTAINER.$this->AdditionalClasses;
+		return self::$DIV_CONTAINER . $this->AdditionalClasses;
 	}
 
     /**
@@ -171,7 +160,7 @@ class ProgressBar {
      */
     protected function getTooltip(): string {
 		if (! empty($this->Tooltip))
-			return ' '.Ajax::tooltip('', $this->Tooltip, false, true);
+			return ' ' . Ajax::tooltip('', $this->Tooltip, false, true);
 
 		return '';
 	}
@@ -188,21 +177,15 @@ class ProgressBar {
 		return $Code;
 	}
 
-    /**
-     * Get div for single bar
-     */
     protected function getDivForSingleBar(ProgressBarSingle $SingleBar): string {
-		$Code  = '<div class="'.self::$DIV_BAR.' '.$SingleBar->getClasses().'" style="width:'.$SingleBar->getWidth().'%;">';
+		$Code = '<div class="' . self::$DIV_BAR . ' ' . $SingleBar->getClasses() . '" style="width:' . $SingleBar->getWidth() . '%;">';
 
 		return $Code . '</div>';
 	}
 
-	/**
-	 * Get code for goal line
-	 */
 	protected function getCodeForGoalLine(): string {
 		if ($this->Goal > 0)
-			return '<div class="'.self::$DIV_GOAL.'" style="left:'.$this->Goal.'%;"></div>';
+			return '<div class="' . self::$DIV_GOAL . '" style="left:' . $this->Goal . '%;"></div>';
 
 		return '';
 	}

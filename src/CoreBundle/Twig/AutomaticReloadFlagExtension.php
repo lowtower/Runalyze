@@ -26,9 +26,9 @@ class AutomaticReloadFlagExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('automaticJavaScriptReload', array($this, 'automaticJavaScriptReload')),
-        );
+        return [
+            new \Twig_SimpleFunction('automaticJavaScriptReload', [$this, 'automaticJavaScriptReload']),
+        ];
     }
 
     public function automaticJavaScriptReload(FlashBag $flashBag): string
@@ -40,7 +40,7 @@ class AutomaticReloadFlagExtension extends \Twig_Extension
             AutomaticReloadFlagSetter::FLAG_TRAINING_AND_DATA_BROWSER => 'Runalyze.reloadDataBrowserAndTraining();',
             AutomaticReloadFlagSetter::FLAG_PLUGINS => 'Runalyze.reloadAllPlugins();',
             AutomaticReloadFlagSetter::FLAG_ALL => 'Runalyze.reloadContent();',
-            AutomaticReloadFlagSetter::FLAG_PAGE => 'Runalyze.reloadPage();'
+            AutomaticReloadFlagSetter::FLAG_PAGE => 'Runalyze.reloadPage();',
         ];
 
         if (! empty($reloadFlag) && isset($javaScriptCommands[$reloadFlag[0]])) {

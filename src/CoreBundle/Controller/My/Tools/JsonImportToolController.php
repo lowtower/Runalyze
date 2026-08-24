@@ -20,7 +20,7 @@ class JsonImportToolController extends Controller
 {
     protected function getImportFilePath(): string
     {
-        return $this->getParameter('data_directory').'/backup-tool/import/';
+        return $this->getParameter('data_directory') . '/backup-tool/import/';
     }
 
     /**
@@ -31,15 +31,15 @@ class JsonImportToolController extends Controller
     {
         $backupFile = $request->files->get('qqfile');
 
-        if (null === $backupFile) {
+        if ($backupFile === null) {
             return $this->json([
-                'error' => 'File upload did not work.'
+                'error' => 'File upload did not work.',
             ]);
         }
 
         if (! FilenameHandler::validateImportFileExtension($backupFile->getClientOriginalName())) {
             return $this->json([
-                'error' => 'Wrong file extension.'
+                'error' => 'Wrong file extension.',
             ]);
         }
 
@@ -47,7 +47,7 @@ class JsonImportToolController extends Controller
             $backupFile->move($this->getImportFilePath(), $backupFile->getClientOriginalName());
         } catch (FileException $fileException) {
             return $this->json([
-                'error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $fileException->getMessage()
+                'error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $fileException->getMessage(),
             ]);
         }
 
@@ -56,7 +56,7 @@ class JsonImportToolController extends Controller
             ->set('json-import.file', $backupFile->getClientOriginalName());
 
         return $this->json([
-            'success' => true
+            'success' => true,
         ]);
     }
 
@@ -75,17 +75,17 @@ class JsonImportToolController extends Controller
 
         $filePath = $this->getImportFilePath();
         $filename = $sessionFlashBag->get('json-import.file')[0];
-        $fileInfo = new \SplFileInfo($filePath.$filename);
-        $analyzer = new JsonBackupAnalyzer($filePath.$filename, $this->getParameter('runalyze_version'));
+        $fileInfo = new \SplFileInfo($filePath . $filename);
+        $analyzer = new JsonBackupAnalyzer($filePath . $filename, $this->getParameter('runalyze_version'));
 
         if (! $analyzer->fileIsOkay()) {
-            (new Filesystem())->remove($filePath.$filename);
+            (new Filesystem())->remove($filePath . $filename);
 
             return $this->render('tools/backup/import_bad_file.html.twig', [
                 'file' => $fileInfo,
                 'versionIsOkay' => $analyzer->versionIsOkay(),
                 'runalyzeVersion' => $this->getParameter('runalyze_version'),
-                'runalyzeVersionFile' => $analyzer->fileVersion()
+                'runalyzeVersionFile' => $analyzer->fileVersion(),
             ]);
         }
 
@@ -94,7 +94,7 @@ class JsonImportToolController extends Controller
         return $this->render('tools/backup/import_form.html.twig', [
             'file' => $fileInfo,
             'numActivities' => $analyzer->count('runalyze_training'),
-            'numBodyValues' => $analyzer->count('runalyze_user')
+            'numBodyValues' => $analyzer->count('runalyze_user'),
         ]);
     }
 
@@ -117,7 +117,7 @@ class JsonImportToolController extends Controller
         $filename = $sessionFlashBag->get('json-import.file')[0];
 
         $importer = new JsonImporter(
-            $filePath.$filename,
+            $filePath . $filename,
             \DB::getInstance(),
             $account->getId(),
             $this->getParameter('database_prefix')
@@ -137,7 +137,7 @@ class JsonImportToolController extends Controller
         $importer->importData();
 
         return $this->render('tools/backup/import_finish.html.twig', [
-            'results' => $importer->resultsAsString()
+            'results' => $importer->resultsAsString(),
         ]);
     }
 
@@ -148,7 +148,7 @@ class JsonImportToolController extends Controller
     public function uploadFormAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/backup/upload_form.html.twig', [
-            'runalyzeVersion' => $this->getParameter('runalyze_version')
+            'runalyzeVersion' => $this->getParameter('runalyze_version'),
         ]);
     }
 }

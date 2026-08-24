@@ -13,7 +13,8 @@ use Runalyze\Activity\Distance;
  * Plot sum data
  * @package Runalyze\Plot
  */
-abstract class PlotSumData extends Plot {
+abstract class PlotSumData extends Plot
+{
 	/**
 	 * Key as year for last 6 months
 	 * @var string
@@ -64,7 +65,7 @@ abstract class PlotSumData extends Plot {
 	 * Raw data from database
 	 * @var array
 	 */
-	protected $RawData = array();
+	protected $RawData = [];
 
 	/**
 	 * First week/month/etc.
@@ -90,21 +91,26 @@ abstract class PlotSumData extends Plot {
 	 */
 	protected $Analysis;
 
-	/** @var mixed */
+	/**
+	 * @var mixed
+	 */
 	protected $ParamSportId;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $ParamYear;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $ParamGroup;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $ParamType;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct() {
 	    $this->ParamSportId = Request::param('sportid');
         $this->ParamYear = Request::param('y');
@@ -113,7 +119,7 @@ abstract class PlotSumData extends Plot {
 
 		$sportid = (string) $this->ParamSportId !== '' ? $this->ParamSportId : Configuration::General()->runningSport();
 
-		$this->Year  = $this->getRequestedYear();
+		$this->Year = $this->getRequestedYear();
 		$this->Sport = new Sport($sportid);
 
 		parent::__construct($this->getCSSid(), 800, 500);
@@ -128,24 +134,18 @@ abstract class PlotSumData extends Plot {
 	 * @return int|string
 	 */
 	protected function getRequestedYear() {
-		if (self::LAST_12_MONTHS == $this->ParamYear || self::LAST_6_MONTHS == $this->ParamYear) {
+		if ($this->ParamYear == self::LAST_12_MONTHS || $this->ParamYear == self::LAST_6_MONTHS) {
 			return $this->ParamYear;
 		}
 
 		return (int) $this->ParamYear;
 	}
 
-	/**
-	 * Display
-	 */
 	final public function display() {
 		$this->displayHeader();
 		$this->displayContent();
 	}
 
-	/**
-	 * Display header
-	 */
 	private function displayHeader() {
 		echo '<div class="panel-heading">';
 		echo '<div class="panel-menu">';
@@ -155,9 +155,6 @@ abstract class PlotSumData extends Plot {
 		echo '</div>';
 	}
 
-	/**
-	 * Display content
-	 */
 	private function displayContent() {
 		echo '<div class="panel-content">';
 		$this->outputDiv();
@@ -170,20 +167,20 @@ abstract class PlotSumData extends Plot {
 	 * Get navigation
 	 */
 	private function getNavigationMenu(): string {
-		$Menus = array(
+		$Menus = [
 		    $this->getMenuLinksForGrouping(),
 		    $this->getMenuLinksForAnalysis(),
 		    $this->getMenuLinksForSports(),
-		    $this->getMenuLinksForYears()
-		);
+		    $this->getMenuLinksForYears(),
+		];
 
-		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
+		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
 			unset($Menus[0]);
 
-		$Code  = '<ul>';
+		$Code = '<ul>';
 
 		foreach ($Menus as $Menu) {
-			$Code .= '<li class="with-submenu"><span class="link">'.$Menu['title'].'</span><ul class="submenu">';
+			$Code .= '<li class="with-submenu"><span class="link">' . $Menu['title'] . '</span><ul class="submenu">';
 			$Code .= implode('', $Menu['links']);
 			$Code .= '</ul></li>';
 		}
@@ -192,28 +189,26 @@ abstract class PlotSumData extends Plot {
 	}
 
     /**
-     * Get menu links for grouping
      * @return array<string, string|string[]>
      */
     private function getMenuLinksForGrouping(): array {
-		if ('' == $this->ParamGroup) {
+		if ($this->ParamGroup == '') {
 			$Current = __('Total');
 		} else {
 			$Current = __('By type');
 		}
 
-		$Links = array();
-		$Links[] = $this->link( __('Total'), $this->Year, $this->ParamSportId, '', '' == $this->ParamGroup);
-		$Links[] = $this->link( __('By type'), $this->Year, $this->ParamSportId, 'types', 'types' == $this->ParamGroup);
+		$Links = [];
+		$Links[] = $this->link( __('Total'), $this->Year, $this->ParamSportId, '', $this->ParamGroup == '');
+		$Links[] = $this->link( __('By type'), $this->Year, $this->ParamSportId, 'types', $this->ParamGroup == 'types');
 
 		return [
 		    'title' => $Current,
-		    'links' => $Links
+		    'links' => $Links,
 		];
 	}
 
     /**
-     * Get menu links for analysis
      * @return array<string, string|string[]>
      */
     private function getMenuLinksForAnalysis(): array {
@@ -223,28 +218,27 @@ abstract class PlotSumData extends Plot {
 			$Current = __('TRIMP');
 		}
 
-		$Links = array(
+		$Links = [
 		    $this->link( __('Distance/Duration'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_DEFAULT, self::ANALYSIS_DEFAULT),
-		    $this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP)
-		);
+		    $this->link( __('TRIMP'), $this->Year, $this->ParamSportId, $this->ParamGroup, $this->Analysis == self::ANALYSIS_TRIMP, self::ANALYSIS_TRIMP),
+		];
 
 		return [
 		    'title' => $Current,
-		    'links' => $Links
+		    'links' => $Links,
 		];
 	}
 
     /**
-     * Get menu links for sports
      * @return array<string, mixed>
      */
     private function getMenuLinksForSports(): array {
 		$CurrentId = $this->Sport->id();
 		$Current = __('All sports');
-		$Links = array(
-		    $this->link( __('All sports'), $this->Year, 0, 'sport', 'sport' == $this->ParamGroup),
-		    $this->link( __('Main sports'), $this->Year, 0, 'mainsport', 'mainsport' == $this->ParamGroup)
-		);
+		$Links = [
+		    $this->link( __('All sports'), $this->Year, 0, 'sport', $this->ParamGroup == 'sport'),
+		    $this->link( __('Main sports'), $this->Year, 0, 'mainsport', $this->ParamGroup == 'mainsport'),
+		];
 
 		$SportGroup = $this->ParamGroup == 'sport' ? 'types' : $this->ParamGroup;
 		$Sports = SportFactory::NamesAsArray();
@@ -259,34 +253,33 @@ abstract class PlotSumData extends Plot {
 
 		return [
 		    'title' => $Current,
-		    'links' => $Links
+		    'links' => $Links,
 		];
 	}
 
     /**
-     * Get menu links for years
      * @return array<string, string|\non-empty-list<string>>
      */
     private function getMenuLinksForYears(): array {
-		if (self::LAST_6_MONTHS == $this->Year) {
+		if ($this->Year == self::LAST_6_MONTHS) {
 			$Current = __('Last 6 months');
-		} elseif (self::LAST_12_MONTHS == $this->Year) {
+		} elseif ($this->Year == self::LAST_12_MONTHS) {
 			$Current = __('Last 12 months');
 		} else {
 			$Current = $this->Year;
 		}
 
-		$Links = array(
-		    $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_6_MONTHS == $this->Year),
-		    $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, self::LAST_12_MONTHS == $this->Year)
-		);
+		$Links = [
+		    $this->link(__('Last 6 months'), self::LAST_6_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_6_MONTHS),
+		    $this->link(__('Last 12 months'), self::LAST_12_MONTHS, $this->ParamSportId, $this->ParamGroup, $this->Year == self::LAST_12_MONTHS),
+		];
 
 		for ($Y = date('Y'); $Y >= START_YEAR; $Y--)
 			$Links[] = $this->link($Y, $Y, $this->ParamSportId, $this->ParamGroup, $Y == $this->Year);
 
 		return [
 		    'title' => $Current,
-		    'links' => $Links
+		    'links' => $Links,
 		];
 	}
 
@@ -304,19 +297,17 @@ abstract class PlotSumData extends Plot {
 		}
 
 		if (FrontendShared::$IS_SHOWN)
-			return Ajax::window('<li'.($current ? ' class="active"' : '').'><a href="'.DataBrowserShared::getBaseUrl().'?type='.($this->ParamType=='week' ? 'week' : 'month').'&type='.$this->ParamType.'&y='.$year.'&sportid='.$sportid.'&group='.$group.'&analysis='.$analysis.'">'.$text.'</a></li>');
+			return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . DataBrowserShared::getBaseUrl() . '?type=' . ($this->ParamType == 'week' ? 'week' : 'month') . '&type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
 
-        return Ajax::window('<li'.($current ? ' class="active"' : '').'><a href="'.self::$URL.'?type='.$this->ParamType.'&y='.$year.'&sportid='.$sportid.'&group='.$group.'&analysis='.$analysis.'">'.$text.'</a></li>');
+        return Ajax::window('<li' . ($current ? ' class="active"' : '') . '><a href="' . self::$URL . '?type=' . $this->ParamType . '&y=' . $year . '&sportid=' . $sportid . '&group=' . $group . '&analysis=' . $analysis . '">' . $text . '</a></li>');
 	}
 
 	/**
-	 * Get CSS id
 	 * @return string
 	 */
 	abstract protected function getCSSid();
 
 	/**
-	 * Get title
 	 * @return string
 	 */
 	abstract protected function getTitle();
@@ -337,14 +328,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	/**
-	 * Get X labels
 	 * @return array
 	 */
 	abstract protected function getXLabels();
 
-	/**
-	 * Init
-	 */
 	private function init() {
 		$this->initData();
 		$this->adjustDataForUnit();
@@ -353,10 +340,10 @@ abstract class PlotSumData extends Plot {
 	}
 
 	protected function adjustDataForUnit() {
-	    if (self::ANALYSIS_DEFAULT == $this->Analysis && $this->usesDistance) {
+	    if ($this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
 	        $factor = Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor();
 
-	        if (1 != $factor) {
+	        if ($factor != 1) {
 	            foreach ($this->Data as $index => $plotData) {
 	                $this->Data[$index]['data'] = array_map(function ($v) use ($factor) {
                         return $v * $factor;
@@ -366,9 +353,6 @@ abstract class PlotSumData extends Plot {
         }
     }
 
-	/**
-	 * Set axis
-	 */
 	private function setAxis() {
 		$this->setXLabels($this->getXLabels());
 		$this->addYAxis(1, 'left');
@@ -384,9 +368,6 @@ abstract class PlotSumData extends Plot {
 		}
 	}
 
-	/**
-	 * Set options
-	 */
 	private function setOptions() {
 		$this->showBars(true);
 		$this->setTitle($this->getTitle());
@@ -394,12 +375,9 @@ abstract class PlotSumData extends Plot {
 		$this->stacked();
 	}
 
-	/**
-	 * Init data
-	 */
 	private function initData() {
-		if (START_TIME != time() && (
-		    ($this->Year >= START_YEAR && $this->Year <= date('Y') && START_TIME != time()) ||
+		if (time() != START_TIME && (
+		    ($this->Year >= START_YEAR && $this->Year <= date('Y') && time() != START_TIME) ||
 			$this->Year == self::LAST_6_MONTHS ||
 			$this->Year == self::LAST_12_MONTHS
 		)) {
@@ -411,9 +389,6 @@ abstract class PlotSumData extends Plot {
 		}
 	}
 
-	/**
-	 * Define analysis
-	 */
 	private function defineAnalysis() {
 		$request = Request::param('analysis');
 
@@ -428,16 +403,16 @@ abstract class PlotSumData extends Plot {
 	 * Init to show year
 	 */
 	private function loadData() {
-		$whereSport = ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup) ? '' : '`sportid`='.$this->Sport->id().' AND';
+		$whereSport = ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport') ? '' : '`sportid`=' . $this->Sport->id() . ' AND';
 
 		$this->usesDistance = $this->Sport->usesDistance();
 		if ($this->ParamGroup != 'sport' && $this->ParamGroup != 'mainsport' && $this->Analysis == self::ANALYSIS_DEFAULT && $this->usesDistance) {
 			$num = DB::getInstance()->query('
-				SELECT COUNT(*) FROM `'.PREFIX.'training`
+				SELECT COUNT(*) FROM `' . PREFIX . 'training`
 				WHERE
-					'.$whereSport.'
+					' . $whereSport . '
 					`distance` = 0 AND `s` > 0 AND
-				'.$this->whereDate().'
+				' . $this->whereDate() . '
 			')->fetchColumn();
 
 			if ($num > 0)
@@ -450,15 +425,15 @@ abstract class PlotSumData extends Plot {
 				`sportid`,
 				`typeid`,
 				(r.`official_time` IS NOT NULL )as `wk`,
-				'.$this->dataSum().' as `sum`,
-				'.$this->timer().' as `timer`
-			FROM `'.PREFIX.'training` tr
-			    LEFT JOIN `'.PREFIX.'raceresult` r ON tr.id = r.activity_id
+				' . $this->dataSum() . ' as `sum`,
+				' . $this->timer() . ' as `timer`
+			FROM `' . PREFIX . 'training` tr
+			    LEFT JOIN `' . PREFIX . 'raceresult` r ON tr.id = r.activity_id
 			WHERE
-				`tr`.`accountid` = '.SessionAccountHandler::getId().' AND
-				'.$whereSport.'
-				'.$this->whereDate().'
-			GROUP BY '.$this->groupBy().', '.$this->timer()
+				`tr`.`accountid` = ' . SessionAccountHandler::getId() . ' AND
+				' . $whereSport . '
+				' . $this->whereDate() . '
+			GROUP BY ' . $this->groupBy() . ', ' . $this->timer()
 		)->fetchAll();
 	}
 
@@ -467,14 +442,14 @@ abstract class PlotSumData extends Plot {
 	 */
 	protected function whereDate() {
 		if (is_numeric($this->Year)) {
-			return "`time` BETWEEN UNIX_TIMESTAMP('".(int) $this->Year."-01-01') AND UNIX_TIMESTAMP('".((int) $this->Year+1)."-01-01')-1";
+			return "`time` BETWEEN UNIX_TIMESTAMP('" . (int) $this->Year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->Year + 1) . "-01-01')-1";
 		}
 
 		if ($this->Year == self::LAST_6_MONTHS) {
-			return '`time` >= '.$this->beginningOfLast6Months();
+			return '`time` >= ' . $this->beginningOfLast6Months();
 		}
 
-        return '`time` >= '.$this->beginningOfLast12Months();
+        return '`time` >= ' . $this->beginningOfLast12Months();
 	}
 
 	/**
@@ -512,22 +487,19 @@ abstract class PlotSumData extends Plot {
      * Group by table for query
      */
     private function groupBy(): string {
-		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
+		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
 			return '`sportid`';
 
-		if ('types' == $this->ParamGroup)
+		if ($this->ParamGroup == 'types')
 			return '`typeid`';
 
 		return 'wk';
 	}
 
-	/**
-	 * Set data
-	 */
 	private function setData() {
-		if ('sport' == $this->ParamGroup || 'mainsport' == $this->ParamGroup)
+		if ($this->ParamGroup == 'sport' || $this->ParamGroup == 'mainsport')
 			$this->setDataForSports();
-		elseif ('types' == $this->ParamGroup)
+		elseif ($this->ParamGroup == 'types')
 			$this->setDataForTypes();
 		else
 			$this->setDataForCompetitionAndTraining();
@@ -538,11 +510,8 @@ abstract class PlotSumData extends Plot {
 			$this->setYLimitsFromData();
 	}
 
-	/**
-	 * Set Y limits from data
-	 */
 	private function setYLimitsFromData() {
-		$values = array();
+		$values = [];
 
 		foreach ($this->Data as $data) {
 			foreach ($data['data'] as $i => $val)
@@ -559,31 +528,31 @@ abstract class PlotSumData extends Plot {
 	 * Set data to compare training and competition
 	 */
 	private function setDataForSports() {
-		$emptyData  = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$Sports     = array();
-		$idMapping = array();
+		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+		$Sports = [];
+		$idMapping = [];
 
 		foreach (\Runalyze\Context::Factory()->allSports() as $Sport) {
-		    if ('mainsport' == $this->ParamGroup && ! $Sport->isMainSport()) {
+		    if ($this->ParamGroup == 'mainsport' && ! $Sport->isMainSport()) {
                 $idMapping[$Sport->id()] = -1;
             } else {
-    			$Sports[$Sport->id()] = array(
+    			$Sports[$Sport->id()] = [
     			    'name' => $Sport->name(),
-    			    'data' => $emptyData
-    			);
+    			    'data' => $emptyData,
+    			];
                 $idMapping[$Sport->id()] = $Sport->id();
             }
 		}
 
-		if ('mainsport' == $this->ParamGroup) {
+		if ($this->ParamGroup == 'mainsport') {
 		    $altId = max(array_keys($Sports)) + 1;
 		    $Sports[$altId] = [
 		        'name' => 'Alternative sports',
-		        'data' => $emptyData
+		        'data' => $emptyData,
 		    ];
 
 		    foreach ($idMapping as $from => $to) {
-		        if (-1 == $to) {
+		        if ($to == -1) {
 		            $idMapping[$from] = $altId;
                 }
             }
@@ -591,13 +560,13 @@ abstract class PlotSumData extends Plot {
 
 		foreach ($this->RawData as $dat)
 			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd)
-				$Sports[$idMapping[$dat['sportid']]]['data'][$dat['timer']-$this->timerStart] += $dat['sum'];
+				$Sports[$idMapping[$dat['sportid']]]['data'][$dat['timer'] - $this->timerStart] += $dat['sum'];
 
 		foreach ($Sports as $Sport)
-			$this->Data[] = array(
+			$this->Data[] = [
 			    'label' => $Sport['name'] ?? '?',
-			    'data' => $Sport['data']
-			);
+			    'data' => $Sport['data'],
+			];
 	}
 
 	/**
@@ -605,65 +574,65 @@ abstract class PlotSumData extends Plot {
 	 */
 	private function setDataForTypes() {
 		$emptyData = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
-		$Types     = array(array(
+		$Types = [[
 		    'name' => __('without'),
-		    'data' => $emptyData
-		));
+		    'data' => $emptyData,
+		]];
 
 		foreach (\Runalyze\Context::Factory()->typeForSport($this->Sport->id()) as $Type) {
 		    $name = ($Type->abbreviation() == '') ? $Type->name() : $Type->abbreviation();
-			$Types[$Type->id()] = array(
+			$Types[$Type->id()] = [
 			    'name' => $name,
-			    'data' => $emptyData
-			);
+			    'data' => $emptyData,
+			];
 		}
 
 		foreach ($this->RawData as $dat)
 			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd)
-				$Types[isset($Types[$dat['typeid']]) ? $dat['typeid'] : 0]['data'][$dat['timer']-$this->timerStart] = $dat['sum'];
+				$Types[isset($Types[$dat['typeid']]) ? $dat['typeid'] : 0]['data'][$dat['timer'] - $this->timerStart] = $dat['sum'];
 
 		foreach ($Types as $Type)
-			$this->Data[] = array(
+			$this->Data[] = [
 			    'label' => $Type['name'],
-			    'data' => $Type['data']
-			);
+			    'data' => $Type['data'],
+			];
 	}
 
 	/**
 	 * Set data to compare training and competition
 	 */
 	private function setDataForCompetitionAndTraining() {
-		$Kilometers            = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
+		$Kilometers = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
 		$KilometersCompetition = array_fill(0, $this->timerEnd - $this->timerStart + 1, 0);
 		$hasCompetitions = false;
 
 		foreach ($this->RawData as $dat) {
 			if ($dat['timer'] >= $this->timerStart && $dat['timer'] <= $this->timerEnd) {
 				if ($dat['wk'] == 1) {
-					$KilometersCompetition[$dat['timer']-$this->timerStart] = $dat['sum'];
+					$KilometersCompetition[$dat['timer'] - $this->timerStart] = $dat['sum'];
 					$hasCompetitions = true;
 				} else {
-					$Kilometers[$dat['timer']-$this->timerStart] = $dat['sum'];
+					$Kilometers[$dat['timer'] - $this->timerStart] = $dat['sum'];
 				}
 			}
 		}
 
 		if ($hasCompetitions) {
-			$this->Data[] = array(
+			$this->Data[] = [
 			    'label' => __('Races'),
-			    'data' => $KilometersCompetition
-			);
-			$this->Data[] = array(
+			    'data' => $KilometersCompetition,
+			];
+			$this->Data[] = [
 			    'label' => __('Training'),
 			    'data' => $Kilometers,
-			    'color' => '#E68617'
-			);
+			    'color' => '#E68617',
+			];
 		} else {
-			$this->Data[] = array(
+			$this->Data[] = [
 			    'label' => $this->Sport->name(),
 			    'data' => $Kilometers,
-			    'color' => '#E68617'
-			);
+			    'color' => '#E68617',
+			];
 		}
 	}
 
@@ -686,7 +655,7 @@ abstract class PlotSumData extends Plot {
 			$labelKeys = array_keys($this->getXLabels());
 
 			$this->addThreshold('y', round($target->valueInPreferredUnit()), '#999');
-			$this->addAnnotation(end($labelKeys), round($target->valueInPreferredUnit()), __('target:').'&nbsp;'.$target->string(true, 0), 0, -10);
+			$this->addAnnotation(end($labelKeys), round($target->valueInPreferredUnit()), __('target:') . '&nbsp;' . $target->string(true, 0), 0, -10);
 		}
 	}
 
@@ -696,18 +665,18 @@ abstract class PlotSumData extends Plot {
 	protected function addAverage() {
 		$avg = $this->getAverage();
 
-		if ($this->usesDistance && self::ANALYSIS_DEFAULT == $this->Analysis) {
+		if ($this->usesDistance && $this->Analysis == self::ANALYSIS_DEFAULT) {
 			$avgDistance = new Distance($avg);
 			$avg = $avgDistance->valueInPreferredUnit();
 			$string = $avgDistance->string(true, 0);
-		} elseif (self::ANALYSIS_DEFAULT == $this->Analysis) {
-			$string = $avg.' h';
+		} elseif ($this->Analysis == self::ANALYSIS_DEFAULT) {
+			$string = $avg . ' h';
 		} else {
 			$string = $avg;
 		}
 
 		$this->addThreshold('y', $avg, '#999');
-		$this->addAnnotation(-1, $avg, __('avg:').'&nbsp;'.$string, 0, -10);
+		$this->addAnnotation(-1, $avg, __('avg:') . '&nbsp;' . $string, 0, -10);
 	}
 
 	/**

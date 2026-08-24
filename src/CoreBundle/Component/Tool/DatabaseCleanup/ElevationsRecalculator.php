@@ -6,19 +6,29 @@ use Runalyze\Calculation;
 
 class ElevationsRecalculator
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $NumberOfRoutes = 0;
 
-	/** @var array calculated elevations */
-	protected $Results = array();
+	/**
+	 * @var array calculated elevations
+	 */
+	protected $Results = [];
 
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DatabasePrefix;
 
     /**
@@ -56,7 +66,7 @@ class ElevationsRecalculator
 				$this->NumberOfRoutes++;
 			}
 
-			$this->Results[$Data['id']] = array($Calculator->totalElevation(), $Calculator->elevationUp(), $Calculator->elevationDown());
+			$this->Results[$Data['id']] = [$Calculator->totalElevation(), $Calculator->elevationUp(), $Calculator->elevationDown()];
 		}
 	}
 
@@ -66,13 +76,13 @@ class ElevationsRecalculator
 	 */
 	protected function prepareUpdate()
     {
-		$Set = array(
+		$Set = [
 		    '`elevation` = :elevation',
 		    '`elevation_up` = :elevation_up',
-		    '`elevation_down` = :elevation_down'
-		);
+		    '`elevation_down` = :elevation_down',
+		];
 
-		$Query = 'UPDATE `'.$this->DatabasePrefix.'route` SET '.implode(',', $Set).' WHERE `id`=:id AND `accountid`="'.(int) $this->AccountID.'"';
+		$Query = 'UPDATE `' . $this->DatabasePrefix . 'route` SET ' . implode(',', $Set) . ' WHERE `id`=:id AND `accountid`="' . (int) $this->AccountID . '"';
 
 		return $this->PDO->prepare($Query);
 	}
@@ -93,9 +103,9 @@ class ElevationsRecalculator
 					THEN  `elevations_corrected`
 					ELSE  `elevations_original`
 				END) AS  `elevations`
-			FROM `'.$this->DatabasePrefix.'route`
+			FROM `' . $this->DatabasePrefix . 'route`
 			WHERE
-				`accountid`="'.(int) $this->AccountID.'" AND
+				`accountid`="' . (int) $this->AccountID . '" AND
 				(`elevations_original`!="" OR `elevations_corrected`!="")'
 		);
 	}

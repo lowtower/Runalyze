@@ -14,10 +14,14 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
  */
 class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    /** @var NotificationRepository */
+    /**
+     * @var NotificationRepository
+     */
     protected $NotificationRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void
@@ -59,7 +63,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginAs($this->getEmptyAccount(), 'default');
 
         $client = $this->makeClient();
-        $client->request('GET', '/_internal/notifications/read/'.$id);
+        $client->request('GET', '/_internal/notifications/read/' . $id);
 
         $this->isSuccessful($client->getResponse(), false);
     }
@@ -71,7 +75,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->loginAs($this->getDefaultAccount(), 'default');
 
         $client = $this->makeClient();
-        $client->request('GET', '/_internal/notifications/read/'.$id);
+        $client->request('GET', '/_internal/notifications/read/' . $id);
 
         $this->isSuccessful($client->getResponse());
     }
@@ -98,7 +102,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
                 'link' => 'http://runalyze.com/',
                 'text' => 'foobar',
                 'size' => 'external',
-                'createdAt' => 10
+                'createdAt' => 10,
             ]]),
             $this->fetchContent('/_internal/notifications')
         );

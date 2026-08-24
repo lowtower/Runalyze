@@ -7,19 +7,29 @@ use Runalyze\Model\Trackdata;
 
 class BestSubSegmentsStatistics
 {
-    /** @var Trackdata\Entity */
+    /**
+     * @var Trackdata\Entity
+     */
     protected $Trackdata;
 
-    /** @var SubSegmentMaximization|null */
+    /**
+     * @var SubSegmentMaximization|null
+     */
     protected $DistanceSegments;
 
-    /** @var SubSegmentMaximization|null */
+    /**
+     * @var SubSegmentMaximization|null
+     */
     protected $TimeSegments;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Distances = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Times = [];
 
     /**
@@ -53,8 +63,8 @@ class BestSubSegmentsStatistics
         $distanceAsDeltas = $distance;
 
         for ($i = 1; $i < $num; ++$i) {
-            $timeAsDeltas[$i] = $time[$i] - $time[$i-1];
-            $distanceAsDeltas[$i] = $distance[$i] - $distance[$i-1];
+            $timeAsDeltas[$i] = $time[$i] - $time[$i - 1];
+            $distanceAsDeltas[$i] = $distance[$i] - $distance[$i - 1];
         }
 
         $this->DistanceSegments = new SubSegmentMaximization($timeAsDeltas, $distanceAsDeltas, $this->Distances);

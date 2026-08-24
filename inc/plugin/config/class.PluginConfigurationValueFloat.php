@@ -9,10 +9,9 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueFloat extends PluginConfigurationValue {
+class PluginConfigurationValueFloat extends PluginConfigurationValue
+{
 	/**
-	 * Set value from string
-	 *
 	 * Has to be overwritten in subclasses.
 	 * @param string $Value
 	 */

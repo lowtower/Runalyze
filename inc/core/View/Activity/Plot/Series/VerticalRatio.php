@@ -9,7 +9,6 @@ namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
-
 use \Plot;
 
 /**
@@ -19,7 +18,8 @@ use \Plot;
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Plot\Series
  */
-class VerticalRatio extends ActivityPointSeries {
+class VerticalRatio extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -33,12 +33,9 @@ class VerticalRatio extends ActivityPointSeries {
 		$this->initOptions();
 		$this->initData($context->trackdata(), Trackdata::VERTICAL_RATIO);
 		$this->manipulateData();
-		$this->setManualAverage($context->activity()->verticalRatio()*0.1);
+		$this->setManualAverage($context->activity()->verticalRatio() * 0.1);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Vertical ratio');
 		$this->Color = self::COLOR;
@@ -54,11 +51,8 @@ class VerticalRatio extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Manipulate data
-	 */
 	protected function manipulateData() {
-		$this->Data = array_map(array($this, 'correctUnit'), $this->Data);
+		$this->Data = array_map([$this, 'correctUnit'], $this->Data);
 	}
 
     /**
@@ -66,7 +60,7 @@ class VerticalRatio extends ActivityPointSeries {
      * @param int $value
      */
     protected function correctUnit($value): float {
-		return 0.1*$value;
+		return 0.1 * $value;
 	}
 
     /**

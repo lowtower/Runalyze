@@ -40,7 +40,7 @@ class WindDegree implements ValueInterface
      */
     public function set($degrees): self
     {
-        if (null !== $degrees && ! is_numeric($degrees)) {
+        if ($degrees !== null && ! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');
         }
 
@@ -66,7 +66,6 @@ class WindDegree implements ValueInterface
     }
 
     /**
-     * Value
      * @return null|float
      */
     public function value()
@@ -84,7 +83,7 @@ class WindDegree implements ValueInterface
             return '';
         }
 
-        return round($this->Value).($withUnit ? $this->unit() : '');
+        return round($this->Value) . ($withUnit ? $this->unit() : '');
     }
 
     /**
@@ -92,6 +91,6 @@ class WindDegree implements ValueInterface
      */
     public function isUnknown(): bool
     {
-        return (null === $this->Value);
+        return ($this->Value === null);
     }
 }

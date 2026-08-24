@@ -9,7 +9,9 @@ use Runalyze\Profile\Athlete\Gender;
 
 class AccountTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void

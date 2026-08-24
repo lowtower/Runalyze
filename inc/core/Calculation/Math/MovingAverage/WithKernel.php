@@ -17,7 +17,9 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 class WithKernel extends AbstractMovingAverage
 {
-    /** @var \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel */
+    /**
+     * @var \Runalyze\Calculation\Math\MovingAverage\Kernel\AbstractKernel
+     */
     protected $Kernel;
 
     public function setKernel(Kernel\AbstractKernel $kernel)
@@ -31,7 +33,7 @@ class WithKernel extends AbstractMovingAverage
      */
     protected function checkThatKernelExists()
     {
-        if (null === $this->Kernel) {
+        if ($this->Kernel === null) {
             throw new \RuntimeException('Kernel must be set.');
         }
     }
@@ -48,7 +50,7 @@ class WithKernel extends AbstractMovingAverage
         $this->checkThatKernelExists();
 
         $this->IndexData[-1] = 0;
-        $maxDiff = $this->Kernel->width()/2;
+        $maxDiff = $this->Kernel->width() / 2;
 
         for ($i = 0; $i < $this->Length; ++$i) {
             $upper = 0;
@@ -77,7 +79,7 @@ class WithKernel extends AbstractMovingAverage
     protected function deltasToRespect($currentIndex, $maxDiff): array
     {
         $x = $this->IndexData[$currentIndex];
-        $deltas = array(0);
+        $deltas = [0];
 
         $delta = -1;
         while (
@@ -90,7 +92,7 @@ class WithKernel extends AbstractMovingAverage
         $delta = +1;
         while (
             $currentIndex + $delta < $this->Length &&
-            $this->IndexData[$currentIndex + $delta] - $x <= $maxDiff
+            $maxDiff >= $this->IndexData[$currentIndex + $delta] - $x
         ) {
             $deltas[$delta++] = $this->IndexData[$currentIndex + $delta - 1] - $x;
         }
@@ -137,7 +139,7 @@ class WithKernel extends AbstractMovingAverage
             if ($index < 0) {
                 $prepend[$index] = $this->Data[0];
             } elseif ($index > 0) {
-                $append[$this->Length-1 + $index] = $this->Data[$this->Length-1];
+                $append[$this->Length - 1 + $index] = $this->Data[$this->Length - 1];
             }
         }
 
@@ -156,9 +158,9 @@ class WithKernel extends AbstractMovingAverage
         }
 
         if ($width % 2 === 1) {
-            return range(-($width - 1)/2, ($width - 1)/2);
+            return range(-($width - 1) / 2, ($width - 1) / 2);
         }
 
-        return range(-$width/2, $width/2);
+        return range(-$width / 2, $width / 2);
     }
 }

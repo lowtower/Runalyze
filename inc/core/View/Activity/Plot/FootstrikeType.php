@@ -10,7 +10,7 @@ class FootstrikeType extends ActivityPlot
 {
 	protected function setKey()
     {
-		$this->key   = 'footstrike_type';
+		$this->key = 'footstrike_type';
 	}
 
 	protected function initData(Activity\Context $context)

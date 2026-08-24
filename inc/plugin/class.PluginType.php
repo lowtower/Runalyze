@@ -11,7 +11,8 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-abstract class PluginType {
+abstract class PluginType
+{
 	/**
 	 * @var int Enum: Stat
 	 */
@@ -23,7 +24,6 @@ abstract class PluginType {
 	const PANEL = 1;
 
 	/**
-	 * String
 	 * @param int $Type enum
 	 * @return string
 	 */
@@ -39,7 +39,6 @@ abstract class PluginType {
 	}
 
 	/**
-	 * Readable string
 	 * @param int $Type enum
 	 * @return string
 	 */

@@ -6,12 +6,12 @@
  */
 
 /**
- * System
  * @author Hannes Christiansen
  * @package Runalyze\System
  * @deprecated since v3.1
  */
-class System {
+class System
+{
     /**
      * Get domain where Runalyze is running
      */
@@ -20,30 +20,26 @@ class System {
 			return '';
 		}
 
-		return '//'.$_SERVER['HTTP_HOST'];
+		return '//' . $_SERVER['HTTP_HOST'];
 	}
 
     /**
-     * Get full domain
      * @param bool $onlyToRunalyze
      */
     public static function getFullDomain($onlyToRunalyze = true): string {
 		// TODO: correct handling of /web
 
-		$path = self::getDomain().substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], '/')).'/';
+		$path = self::getDomain() . substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], '/')) . '/';
 
 		if ($onlyToRunalyze) {
-			return str_replace(array('call/', 'inc/', 'tpl/'), array('', '', ''), $path);
+			return str_replace(['call/', 'inc/', 'tpl/'], ['', '', ''], $path);
 		}
 
 		return $path;
 	}
 
-    /**
-     * Get full domain with protocol
-     */
     public static function getFullDomainWithProtocol(): string {
-		return Request::getProtocol().':'.self::getFullDomain();
+		return Request::getProtocol() . ':' . self::getFullDomain();
 	}
 
 	/**

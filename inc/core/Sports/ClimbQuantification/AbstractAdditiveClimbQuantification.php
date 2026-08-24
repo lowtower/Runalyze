@@ -4,7 +4,9 @@ namespace Runalyze\Sports\ClimbQuantification;
 
 abstract class AbstractAdditiveClimbQuantification implements AdditiveClimbQuantificationInterface
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $MaximalGradient = 0.25;
 
     public function getScoreForProfile(array $distancesAndGradients, $altitudeAtTop = 0)

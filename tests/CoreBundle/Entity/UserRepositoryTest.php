@@ -11,10 +11,14 @@ use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
  */
 class UserRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var UserRepository */
+    /**
+     * @var UserRepository
+     */
     protected $UserRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void

@@ -14,7 +14,7 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->getConfigurationList()
                 ->getActivityForm()
                 ->getDatabaseOrderForTypes()
@@ -33,11 +33,11 @@ class ActivityTypeChoiceType extends AbstractTokenStorageAwareType
                 /** @var Type $type */
                 return [
                     'data-sport' => $type->getSport()
-                        ->getId()
+                        ->getId(),
                 ];
             },
-            'choice_translation_domain' => false
-        ));
+            'choice_translation_domain' => false,
+        ]);
     }
 
     public function getParent()

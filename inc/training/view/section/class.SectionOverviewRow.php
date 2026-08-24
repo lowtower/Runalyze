@@ -13,16 +13,14 @@ use Runalyze\View\Activity\Box;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionOverviewRow extends TrainingViewSectionRowFullwidth {
+class SectionOverviewRow extends TrainingViewSectionRowFullwidth
+{
 	/**
 	 * Boxed values
 	 * @var BoxedValue[]
 	 */
-	protected $BoxedValues = array();
+	protected $BoxedValues = [];
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->id = 'training-overview';
 
@@ -30,9 +28,6 @@ class SectionOverviewRow extends TrainingViewSectionRowFullwidth {
 		$this->setBoxedValuesToContent();
 	}
 
-	/**
-	 * Set boxed values to content
-	 */
 	protected function setBoxedValuesToContent() {
 		$NumberOfBoxes = count($this->BoxedValues);
 		$ValuesString = '';
@@ -44,21 +39,18 @@ class SectionOverviewRow extends TrainingViewSectionRowFullwidth {
 		$this->Content = BoxedValue::getWrappedValues($ValuesString);
 	}
 
-	/**
-	 * Set boxed values
-	 */
 	protected function setBoxedValues() {
-		$this->BoxedValues = array(
+		$this->BoxedValues = [
 		    new Box\Distance($this->Context),
 		    new BoxedValue($this->Context->dataview()->duration()->string(), '', __('Time')),
 		    new BoxedValue($this->Context->dataview()->elapsedTime(), '', __('Elapsed time')),
 		    new Box\Pace($this->Context),
-		    new BoxedValue(Helper::Unknown($this->Context->activity()->hrAvg(), '-'), 'bpm', __('avg.').' '.__('Heart rate')),
-		    new BoxedValue(Helper::Unknown($this->Context->activity()->hrMax(), '-'), 'bpm', __('max.').' '.__('Heart rate')),
+		    new BoxedValue(Helper::Unknown($this->Context->activity()->hrAvg(), '-'), 'bpm', __('avg.') . ' ' . __('Heart rate')),
+		    new BoxedValue(Helper::Unknown($this->Context->activity()->hrMax(), '-'), 'bpm', __('max.') . ' ' . __('Heart rate')),
 		    new Box\Energy($this->Context),
 		    new BoxedValue(Helper::Unknown($this->Context->dataview()->vo2max()->value(), '-'), '', 'VO<sub>2</sub>max', $this->Context->dataview()->effectiveVO2maxIcon(), 'vo2max'),
 		    new Box\Trimp($this->Context),
-		    new Box\Elevation($this->Context)
-		);
+		    new Box\Elevation($this->Context),
+		];
 	}
 }

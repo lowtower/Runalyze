@@ -12,36 +12,34 @@ $PLUGINKEY = 'RunalyzePluginStat_Tag';
  * @author Michael Pohl
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_Tag extends PluginStat {
-	/** @var int */
+class RunalyzePluginStat_Tag extends PluginStat
+{
+	/**
+	 * @var int
+	 */
 	protected $TagId;
 
-	/** @var array array(id => 'tag') */
-	protected $AllTags = array();
+	/**
+	 * @var array array(id => 'tag')
+	 */
+	protected $AllTags = [];
 
-	/** @var array array(year => array(month => num)) */
-	protected $TagData = array();
+	/**
+	 * @var array array(year => array(month => num))
+	 */
+	protected $TagData = [];
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Tag analysis');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('How often have you tagged your activities with tag x?');
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
-		$this->AllTags = array();
-		$AllTags = DB::getInstance()->query('SELECT `id`, `tag` FROM `'.PREFIX.'tag` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `tag` ASC')->fetchAll();
+		$this->AllTags = [];
+		$AllTags = DB::getInstance()->query('SELECT `id`, `tag` FROM `' . PREFIX . 'tag` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `tag` ASC')->fetchAll();
 
 		foreach ($AllTags as $data) {
 			$this->AllTags[$data['id']] = $data['tag'];
@@ -66,7 +64,6 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	}
 
 	/**
-	 * Default year
 	 * @return int year, can be -1 for no year/comparison of all years
 	 */
 	protected function defaultYear(): int {
@@ -92,12 +89,12 @@ class RunalyzePluginStat_Tag extends PluginStat {
 			return '';
 		}
 
-		$LinkList = array();
-		$LinkList[] = '<li class="with-submenu"><span class="link">'.$this->AllTags[$this->TagId].'</span><ul class="submenu">';
+		$LinkList = [];
+		$LinkList[] = '<li class="with-submenu"><span class="link">' . $this->AllTags[$this->TagId] . '</span><ul class="submenu">';
 
 		foreach ($this->AllTags as $id => $name) {
 			$active = ($id == $this->TagId);
-		    $LinkList[] = '<li'.($active ? ' class="active"' : '').'>'.$this->getInnerLink($name, false, false, $id).'</li>';
+		    $LinkList[] = '<li' . ($active ? ' class="active"' : '') . '>' . $this->getInnerLink($name, false, false, $id) . '</li>';
 		}
 
 		$LinkList[] = '</ul></li>';
@@ -106,12 +103,11 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {
 		if (! isset($this->AllTags[$this->TagId])) {
-			echo '<p class="warning"><em>'.__('Please choose a tag.').'</em></p>';
+			echo '<p class="warning"><em>' . __('Please choose a tag.') . '</em></p>';
 		} else {
 			$this->displayData();
 		}
@@ -121,21 +117,21 @@ class RunalyzePluginStat_Tag extends PluginStat {
 	 * Display the table with summed data for every month
 	 */
 	private function displayData() {
-		echo '<p><strong>'.__('Tag').': '.$this->AllTags[$this->TagId].'</p>';
+		echo '<p><strong>' . __('Tag') . ': ' . $this->AllTags[$this->TagId] . '</p>';
 		echo '<table class="fullwidth zebra-style r">';
-		echo '<thead>'.HTML::monthTr(8, 1).'</thead>';
+		echo '<thead>' . HTML::monthTr(8, 1) . '</thead>';
 		echo '<tbody>';
 
 		if ($this->TagData === []) {
-			echo '<tr><td colspan="13" class="c"><em>'.__('No activities found.').'</em></td></tr>';
+			echo '<tr><td colspan="13" class="c"><em>' . __('No activities found.') . '</em></td></tr>';
 		}
 
 		foreach ($this->TagData as $y => $Data) {
-			echo '<tr><td class="b l">'.$y.'</td>';
+			echo '<tr><td class="b l">' . $y . '</td>';
 
 			for ($m = 1; $m <= 12; $m++) {
 				if (isset($Data[$m]) && $Data[$m] > 0) {
-					echo '<td>'.$Data[$m].'x</td>';
+					echo '<td>' . $Data[$m] . 'x</td>';
 				} else {
 					echo HTML::emptyTD();
 				}
@@ -147,8 +143,6 @@ class RunalyzePluginStat_Tag extends PluginStat {
 		echo '</tbody></table>';
 	}
 
-
-
 	/**
 	 * Initialize $this->TagData
 	 */
@@ -157,14 +151,14 @@ class RunalyzePluginStat_Tag extends PluginStat {
 			$Statement = DB::getInstance()->query(
 			    'SELECT
 					SUM(1) as `num`,
-					YEAR(FROM_UNIXTIME(`'.PREFIX.'training`.`time`)) as `year`,
-					MONTH(FROM_UNIXTIME(`'.PREFIX.'training`.`time`)) as `month`
-				FROM `'.PREFIX.'activity_tag` as `at`
-				LEFT JOIN `'.PREFIX.'training` ON `'.PREFIX.'training`.`id` = `at`.`activityid`
+					YEAR(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `year`,
+					MONTH(FROM_UNIXTIME(`' . PREFIX . 'training`.`time`)) as `month`
+				FROM `' . PREFIX . 'activity_tag` as `at`
+				LEFT JOIN `' . PREFIX . 'training` ON `' . PREFIX . 'training`.`id` = `at`.`activityid`
 				WHERE
-					`tagid` = '.$this->TagId.' AND
-					`'.PREFIX.'training`.`accountid`='.SessionAccountHandler::getId().'
-					'.$this->getSportAndYearDependenceForQuery(true).'
+					`tagid` = ' . $this->TagId . ' AND
+					`' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . '
+					' . $this->getSportAndYearDependenceForQuery(true) . '
 				GROUP BY `year` DESC, `month` ASC
 				'
 			);

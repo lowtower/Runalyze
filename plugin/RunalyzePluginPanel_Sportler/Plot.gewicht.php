@@ -15,21 +15,21 @@ $Wunschgewicht = $Plugin->Configuration()
     ->value('wunschgewicht');
 
 if ($Plugin->Configuration()->value('plot_timerange') > 0)
-	$QueryEnd = 'WHERE `time` > '.(time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')).' AND `accountid` = '.SessionAccountHandler::getId().' ORDER BY `time` DESC';
+	$QueryEnd = 'WHERE `time` > ' . (time() - DAY_IN_S * (int) $Plugin->Configuration()->value('plot_timerange')) . ' AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC';
 else
-	$QueryEnd = 'WHERE `accountid` = '.SessionAccountHandler::getId().' ORDER BY `time` DESC LIMIT '.((int) $Plugin->Configuration()->value('plot_points'));
+	$QueryEnd = 'WHERE `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC LIMIT ' . ((int) $Plugin->Configuration()->value('plot_points'));
 
-$Data     = array_reverse( DB::getInstance()->query('SELECT weight,pulse_rest,time FROM `'.PREFIX.'user` '.$QueryEnd)->fetchAll() );
-$Weights  = array();
-$HRrests  = array();
+$Data = array_reverse( DB::getInstance()->query('SELECT weight,pulse_rest,time FROM `' . PREFIX . 'user` ' . $QueryEnd)->fetchAll() );
+$Weights = [];
+$HRrests = [];
 
 if (count($Data) === 1)
 	$Data[1] = $Data[0];
 
 if (! empty($Data)) {
 	foreach ($Data as $D) {
-		$Weights[$D['time'].'000'] = $Weight->set($D['weight'])->valueInPreferredUnit();
-		$HRrests[$D['time'].'000'] = (int) $D['pulse_rest'];
+		$Weights[$D['time'] . '000'] = $Weight->set($D['weight'])->valueInPreferredUnit();
+		$HRrests[$D['time'] . '000'] = (int) $D['pulse_rest'];
 	}
 }
 
@@ -39,17 +39,17 @@ foreach ($Labels as $i => &$value)
 		$value = '';
 
 $Plot = new Plot('sportler_weights', 320, 150);
-	$Plot->Data[] = array(
+	$Plot->Data[] = [
 	    'label' => __('Weight'),
 	    'color' => '#008',
-	    'data' => $Weights
-	);
-	$Plot->Data[] = array(
+	    'data' => $Weights,
+	];
+	$Plot->Data[] = [
 	    'label' => __('Resting HR'),
 	    'color' => '#800',
 	    'data' => $HRrests,
-	    'yaxis' => 2
-	);
+	    'yaxis' => 2,
+	];
 
 $Plot->setMarginForGrid(5);
 

@@ -13,16 +13,24 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 {
     use LineByLineParserTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const PERL_FIT_ERROR_MESSAGE_START = 'main::Garmin::FIT';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $ParsingStarted = false;
 
-    /** @var FitActivity */
+    /**
+     * @var FitActivity
+     */
     protected $CurrentSubParser;
 
     public function __construct()
@@ -54,7 +62,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 
     protected function currentContainerIsEmpty(): bool
     {
-        return null !== $this->CurrentSubParser && $this->CurrentSubParser->getActivityDataContainer()
+        return $this->CurrentSubParser !== null && $this->CurrentSubParser->getActivityDataContainer()
             ->ContinuousData->isEmpty();
     }
 
@@ -90,14 +98,14 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
      * @throws UnsupportedFileException
      */
     protected function throwErrorForFirstLine($line) {
-        $message = 'Reading *.fit-file failed. First line was "'.$line.'".';
+        $message = 'Reading *.fit-file failed. First line was "' . $line . '".';
 
         if (substr($line, 0, strlen(self::PERL_FIT_ERROR_MESSAGE_START)) == self::PERL_FIT_ERROR_MESSAGE_START) {
             throw new UnexpectedContentException($message);
         }
 
         if (substr($line, 0, strlen(self::PERL_GENERAL_MESSAGE_START)) == self::PERL_GENERAL_MESSAGE_START) {
-            $message .= NL.NL.'See https://github.com/Runalyze/Runalyze/issues/1701';
+            $message .= NL . NL . 'See https://github.com/Runalyze/Runalyze/issues/1701';
 
             throw new InstallationSpecificException($message);
         }

@@ -26,25 +26,39 @@ class FileImporter implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var \Runalyze\Parser\Common\FileTypeConverterInterface[] */
+    /**
+     * @var \Runalyze\Parser\Common\FileTypeConverterInterface[]
+     */
     protected $Converter = [];
 
-    /** @var ZipConverter */
+    /**
+     * @var ZipConverter
+     */
     protected $ZipConverter;
 
-    /** @var FileExtensionToParserMapping */
+    /**
+     * @var FileExtensionToParserMapping
+     */
     protected $ParserMapping;
 
-    /** @var Filesystem */
+    /**
+     * @var Filesystem
+     */
     protected $Filesystem;
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     protected $DirectoryForFailedImports;
 
-    /** @var ParserException[] */
+    /**
+     * @var ParserException[]
+     */
     protected $ConverterExceptions = [];
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $RemoveFiles = true;
 
     /**
@@ -141,8 +155,8 @@ class FileImporter implements LoggerAwareInterface
         $lookupTable = array_flip($results->getAllFileNames());
 
         foreach ($lookupTable as $fileName => $index) {
-            if (substr($fileName, -4) == '.hrm' && isset($lookupTable[substr($fileName, 0, -4).'.gpx'])) {
-                $matchingIndices[$index] = $lookupTable[substr($fileName, 0, -4).'.gpx'];
+            if (substr($fileName, -4) == '.hrm' && isset($lookupTable[substr($fileName, 0, -4) . '.gpx'])) {
+                $matchingIndices[$index] = $lookupTable[substr($fileName, 0, -4) . '.gpx'];
             }
         }
 
@@ -154,7 +168,7 @@ class FileImporter implements LoggerAwareInterface
     protected function mergeResultsOfRelatedHrmAndGpx(FileImportResultCollection $results, $matchingIndices)
     {
         foreach ($matchingIndices as $firstIndex => $secondIndex) {
-            if (0 == $results[$firstIndex]->getNumberOfActivities() || 0 == $results[$secondIndex]->getNumberOfActivities()) {
+            if ($results[$firstIndex]->getNumberOfActivities() == 0 || $results[$secondIndex]->getNumberOfActivities() == 0) {
                 continue;
             }
 
@@ -184,7 +198,7 @@ class FileImporter implements LoggerAwareInterface
      */
     protected function getFileImportResultFor($fileName, $originalFileName = null): \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult
     {
-        if (null === $originalFileName) {
+        if ($originalFileName === null) {
             $originalFileName = $fileName;
         }
 
@@ -222,7 +236,7 @@ class FileImporter implements LoggerAwareInterface
     {
         $extension = mb_strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        if ('zip' === $extension) {
+        if ($extension === 'zip') {
             $allConvertedFileNames = [];
             $zipFiles = $this->ZipConverter->convertFile($fileName);
 
@@ -266,7 +280,7 @@ class FileImporter implements LoggerAwareInterface
         $fileBasename = pathinfo($fileName, PATHINFO_BASENAME);
         $parserClass = $this->ParserMapping->getParserClassFor($extension);
 
-        if (null === $parserClass) {
+        if ($parserClass === null) {
             throw new UnsupportedFileException('Unsupported file extension.');
         }
 
@@ -324,16 +338,16 @@ class FileImporter implements LoggerAwareInterface
     {
         if ($result->isFailed()) {
             $this->logger->error(sprintf('File upload of %s failed.', $this->getFileNameForLog($result)), [
-                'exception' => $result->getException()
+                'exception' => $result->getException(),
             ]);
 
-            if (null !== $this->DirectoryForFailedImports && '' != $this->DirectoryForFailedImports) {
+            if ($this->DirectoryForFailedImports !== null && $this->DirectoryForFailedImports != '') {
                 try {
-                    $this->Filesystem->rename($result->getOriginalFileName(), $this->DirectoryForFailedImports.'/'.pathinfo($result->getOriginalFileName(), PATHINFO_BASENAME), true);
+                    $this->Filesystem->rename($result->getOriginalFileName(), $this->DirectoryForFailedImports . '/' . pathinfo($result->getOriginalFileName(), PATHINFO_BASENAME), true);
                 } catch (IOException $e) {
                     $this->logger->warning('File cannot be renamed.', [
                         'file' => $result->getOriginalFileName(),
-                        'exception' => $e
+                        'exception' => $e,
                     ]);
                 }
             } else {

@@ -4,7 +4,9 @@ namespace Runalyze\Bundle\CoreBundle\Model\Equipment;
 
 class EquipmentStatistics
 {
-    /** @var EquipmentStatistic[] */
+    /**
+     * @var EquipmentStatistic[]
+     */
     protected $Equipments = [];
 
     public function __construct(array $queryResult)

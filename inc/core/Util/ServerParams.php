@@ -38,19 +38,19 @@ class ServerParams
     {
         $iniMax = strtolower($iniSetting);
 
-        if ('' === $iniMax) {
+        if ($iniMax === '') {
             return null;
         }
 
-        if ('-1' === $iniMax) {
+        if ($iniMax === '-1') {
             return PHP_INT_MAX;
         }
 
         $max = ltrim($iniMax, '+');
 
-        if (0 === strpos($max, '0x')) {
+        if (strpos($max, '0x') === 0) {
             $max = intval($max, 16);
-        } elseif (0 === strpos($max, '0')) {
+        } elseif (strpos($max, '0') === 0) {
             $max = intval($max, 8);
         } else {
             $max = (int) $max;

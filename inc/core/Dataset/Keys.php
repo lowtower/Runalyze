@@ -17,202 +17,334 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Keys extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SPORT = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TYPE = 2;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DAYTIME = 3;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SHARED_LINK = 4;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DISTANCE = 5;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const DURATION = 6;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const PACE = 7;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ELAPSED_TIME = 8;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ELEVATION = 9;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ENERGY = 10;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HEARTRATE_AVG = 11;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HEARTRATE_MAX = 12;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const VO2MAX_ICON = 13;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const VO2MAX_VALUE = 14;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_VO2MAX_ESTIMATE = 15;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_RECOVERY_TIME = 16;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_HRV_ANALYSIS = 17;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TRIMP = 19;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const CADENCE = 20;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const POWER = 21;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SWOLF = 22;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const STRIDE_LENGTH = 23;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GROUNDCONTACT = 24;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const VERTICAL_OSCILLATION = 25;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TEMPERATURE = 26;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WEATHER = 27;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ROUTE = 28;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SPLITS = 29;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TITLE = 30;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TRAININGPARTNER = 31;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TOTAL_STROKES = 32;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const VERTICAL_RATIO = 33;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GROUNDCONTACT_BALANCE = 34;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TAGS = 35;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const COMPLETE_EQUIPMENT = 36;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const MAIN_EQUIPMENT = 37;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WIND = 38;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HUMIDITY = 39;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const AIR_PRESSURE = 40;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WIND_CHILL = 41;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const SETTING = 42;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_TRAINING_EFFECT = 43;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const RPE = 44;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GRADIENT = 45;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_PERFORMANCE_CONDITION = 46;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const RACE_RESULT = 47;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HEAT_INDEX = 48;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const FIT_PERFORMANCE_CONDITION_START = 49;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const FIT_PERFORMANCE_CONDITION_END = 50;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CLIMB_SCORE = 51;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PERCENTAGE_HILLY = 52;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const TOOLS = 53;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const FLIGHT_TIME = 54;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const FLIGHT_RATIO = 55;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const AVG_IMPACT_GS = 56;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const AVG_BRAKING_GS = 57;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const AVG_FOOTSTRIKE_TYPE = 58;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const AVG_PRONATION_EXCURSION = 59;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_ANAEROBIC_TRAINING_EFFECT = 60;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const AVG_RESPIRATION_RATE = 61;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HEARTRATE_AVG_ACTIVE = 62;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TOTAL_CYCLES = 63;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_LOAD_PEAK = 64;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const OPEN_TAB = 65;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FIT_TRAINING_EFFECT_BENEFIT = 66;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const WITH_GOAL = 67;
 
 	/**
@@ -223,7 +355,7 @@ final class Keys extends AbstractEnum
 	/**
 	 * @var array instances of key objects
 	 */
-	private static $Instances = array();
+	private static $Instances = [];
 
 	/**
 	 * @var bool
@@ -246,15 +378,15 @@ final class Keys extends AbstractEnum
 	 */
 	public static function get($keyid)
 	{
-		if (null === self::$ClassNames) {
+		if (self::$ClassNames === null) {
 			self::generateClassNamesArray();
 		}
 
 		if (! isset(self::$ClassNames[$keyid])) {
-			throw new \InvalidArgumentException('Invalid keyid "'.$keyid.'".');
+			throw new \InvalidArgumentException('Invalid keyid "' . $keyid . '".');
 		}
 
-		$className = 'Runalyze\\Dataset\\Keys\\'.self::$ClassNames[$keyid];
+		$className = 'Runalyze\\Dataset\\Keys\\' . self::$ClassNames[$keyid];
 
 		if (self::$KeepInstances) {
 			if (! isset(self::$Instances[$keyid])) {
@@ -272,7 +404,7 @@ final class Keys extends AbstractEnum
 	 */
 	private static function generateClassNamesArray()
 	{
-		self::$ClassNames = array(
+		self::$ClassNames = [
 		    self::SPORT => 'Sport',
 		    self::TYPE => 'Type',
 		    self::DAYTIME => 'Daytime',
@@ -338,7 +470,7 @@ final class Keys extends AbstractEnum
 		    self::FIT_LOAD_PEAK => 'FitLoadPeak',
 		    self::OPEN_TAB => 'OpenTab',
 		    self::FIT_TRAINING_EFFECT_BENEFIT => 'FitTrainingEffectBenefit',
-		    self::WITH_GOAL => 'WithGoal'
-		);
+		    self::WITH_GOAL => 'WithGoal',
+		];
 	}
 }

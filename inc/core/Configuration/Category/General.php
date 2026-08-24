@@ -15,7 +15,6 @@ use Runalyze\Parameter\Application\WeekStart;
 use Runalyze\Parameter\Application\TemperatureUnit;
 use Runalyze\Parameter\Application\WeightUnit;
 use Runalyze\Parameter\Application\EnergyUnit;
-
 use Ajax;
 
 /**
@@ -23,7 +22,8 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration\Category
  */
-class General extends \Runalyze\Configuration\Category {
+class General extends \Runalyze\Configuration\Category
+{
     /**
      * Internal key
      */
@@ -31,9 +31,6 @@ class General extends \Runalyze\Configuration\Category {
 		return 'general';
 	}
 
-	/**
-	 * Create handles
-	 */
 	protected function createHandles() {
         $this->createWeekStart();
 		$this->createDistanceUnitSystem();
@@ -53,7 +50,6 @@ class General extends \Runalyze\Configuration\Category {
 	}
 
 	/**
-	 * WeekStart
 	 * @return \Runalyze\Parameter\Application\WeekStart
 	 */
 	public function weekStart() {
@@ -83,7 +79,6 @@ class General extends \Runalyze\Configuration\Category {
 	}
 
 	/**
-	 * weight Unit
 	 * @return \Runalyze\Parameter\Application\WeightUnit
 	 */
 	public function weightUnit() {
@@ -97,9 +92,7 @@ class General extends \Runalyze\Configuration\Category {
 		$this->createHandle('ENERGY_UNIT', new EnergyUnit());
 	}
 
-
 	/**
-	 * energy Unit
 	 * @return \Runalyze\Parameter\Application\EnergyUnit
 	 */
 	public function energyUnit() {
@@ -114,7 +107,6 @@ class General extends \Runalyze\Configuration\Category {
 	}
 
 	/**
-	 * temperature Unit
 	 * @return \Runalyze\Parameter\Application\TemperatureUnit
 	 */
 	public function temperatureUnit() {
@@ -129,7 +121,6 @@ class General extends \Runalyze\Configuration\Category {
 	}
 
 	/**
-	 * Heart rate unit
 	 * @return HeartRateUnit
 	 */
 	public function heartRateUnit() {
@@ -140,14 +131,13 @@ class General extends \Runalyze\Configuration\Category {
 	 * Create: MAINSPORT
 	 */
 	protected function createMainSport() {
-		$this->createHandle('MAINSPORT', new SelectRow(1, array(
-    'table'			=> 'sport',
-		    'column'		=> 'name'
-)));
+		$this->createHandle('MAINSPORT', new SelectRow(1, [
+    'table' => 'sport',
+		    'column' => 'name',
+]));
 	}
 
 	/**
-	 * Main sport
 	 * @return int
 	 */
 	public function mainSport() {
@@ -158,23 +148,19 @@ class General extends \Runalyze\Configuration\Category {
 	 * Create: RUNNINGSPORT
 	 */
 	protected function createRunningSport() {
-		$this->createHandle('RUNNINGSPORT', new SelectRow(1, array(
-    'table'			=> 'sport',
-		    'column'		=> 'name'
-)));
+		$this->createHandle('RUNNINGSPORT', new SelectRow(1, [
+    'table' => 'sport',
+		    'column' => 'name',
+]));
 	}
 
 	/**
-	 * Running sport
 	 * @return int
 	 */
 	public function runningSport() {
 		return $this->get('RUNNINGSPORT');
 	}
 
-	/**
-	 * Register onchange events
-	 */
 	protected function registerOnchangeEvents() {
 		$this->handle('DISTANCE_UNIT_SYSTEM')
 		    ->registerOnchangeFlag(Ajax::$RELOAD_ALL);
@@ -194,40 +180,37 @@ class General extends \Runalyze\Configuration\Category {
 		    ->registerOnchangeFlag(Ajax::$RELOAD_PAGE);
 	}
 
-    /**
-     * Fieldset
-     */
     public function Fieldset(): \Runalyze\Configuration\Fieldset {
 		$Fieldset = new Fieldset( __('General settings') );
 
-		$Fieldset->addHandle( $this->handle('WEEK_START'), array(
-		    'label'		=> __('Beginning of the week')
-		));
+		$Fieldset->addHandle( $this->handle('WEEK_START'), [
+		    'label' => __('Beginning of the week'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('DISTANCE_UNIT_SYSTEM'), array(
-		    'label'		=> __('Unit system for distances'),
-		    'tooltip'	=> __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.')
-		));
+		$Fieldset->addHandle( $this->handle('DISTANCE_UNIT_SYSTEM'), [
+		    'label' => __('Unit system for distances'),
+		    'tooltip' => __('Changing the unit system for distances does not change pace units. You have to adjust them in sports configuration.'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('WEIGHT_UNIT'), array(
-		    'label'		=> __('Weight unit')
-		));
+		$Fieldset->addHandle( $this->handle('WEIGHT_UNIT'), [
+		    'label' => __('Weight unit'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('ENERGY_UNIT'), array(
-		    'label'		=> __('Energy unit')
-		));	
+		$Fieldset->addHandle( $this->handle('ENERGY_UNIT'), [
+		    'label' => __('Energy unit'),
+		]);	
 
-		$Fieldset->addHandle( $this->handle('TEMPERATURE_UNIT'), array(
-		    'label'		=> __('Temperature unit')
-		));
+		$Fieldset->addHandle( $this->handle('TEMPERATURE_UNIT'), [
+		    'label' => __('Temperature unit'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('HEART_RATE_UNIT'), array(
-		    'label'		=> __('Heart rate unit')
-		));
+		$Fieldset->addHandle( $this->handle('HEART_RATE_UNIT'), [
+		    'label' => __('Heart rate unit'),
+		]);
 
-		$Fieldset->addHandle( $this->handle('MAINSPORT'), array(
-		    'label'		=> __('Main sport')
-		));
+		$Fieldset->addHandle( $this->handle('MAINSPORT'), [
+		    'label' => __('Main sport'),
+		]);
 
 		return $Fieldset;
 	}

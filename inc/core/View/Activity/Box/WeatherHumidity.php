@@ -18,9 +18,6 @@ use Runalyze\View\Activity\Context;
  */
 class WeatherHumidity extends ValueBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context)
 	{
 		parent::__construct(

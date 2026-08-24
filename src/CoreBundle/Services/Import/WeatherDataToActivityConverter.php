@@ -21,9 +21,9 @@ class WeatherDataToActivityConverter
         $activity->setPressure($this->getRoundedValue($weatherData->AirPressure));
         $activity->setWeatherSource($weatherData->Source);
 
-        if (null !== $weatherData->InternalConditionId) {
+        if ($weatherData->InternalConditionId !== null) {
             $activity->setWeatherid($weatherData->InternalConditionId);
-        } elseif ('' != $weatherData->Condition) {
+        } elseif ($weatherData->Condition != '') {
             $activity->setWeatherid((new EnglishTextMapping())->toInternal($weatherData->Condition));
         }
     }
@@ -34,6 +34,6 @@ class WeatherDataToActivityConverter
      */
     protected function getRoundedValue($value)
     {
-        return null !== $value ? (int) round($value) : null;
+        return $value !== null ? (int) round($value) : null;
     }
 }

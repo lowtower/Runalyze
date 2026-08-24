@@ -8,15 +8,19 @@
 namespace Runalyze\Parameter;
 
 /**
- * Select
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class Select extends \Runalyze\Parameter {
-	/** @var bool */
+class Select extends \Runalyze\Parameter
+{
+	/**
+	 * @var bool
+	 */
 	protected $UseFallback = true;
 
-	/** @var mixed */
+	/**
+	 * @var mixed
+	 */
 	protected $Default;
 
 	/**
@@ -24,11 +28,11 @@ class Select extends \Runalyze\Parameter {
 	 * @param string $default
 	 * @param array $options [optional]
 	 */
-	public function __construct($default, $options = array()) {
+	public function __construct($default, $options = []) {
 		$this->Default = $default;
-		$options = array_merge(array(
-		    'options' => array()
-		), $options);
+		$options = array_merge([
+		    'options' => [],
+		], $options);
 
 		parent::__construct($default, $options);
 	}
@@ -44,7 +48,7 @@ class Select extends \Runalyze\Parameter {
 		} elseif ($this->UseFallback) {
 			parent::set($this->Default);
 		} else {
-			throw new \InvalidArgumentException('Invalid option ("'.$value.'") for select value.');
+			throw new \InvalidArgumentException('Invalid option ("' . $value . '") for select value.');
 		}
 	}
 

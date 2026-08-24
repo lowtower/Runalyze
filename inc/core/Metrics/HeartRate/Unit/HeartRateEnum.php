@@ -6,13 +6,19 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 class HeartRateEnum extends AbstractEnum
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const BEATS_PER_MINUTE = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PERCENT_MAXIMUM = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PERCENT_RESERVE = 2;
 
     /**
@@ -25,18 +31,18 @@ class HeartRateEnum extends AbstractEnum
      */
     public static function get($enum, $maximalHeartRate, $restingHeartRate)
     {
-        if (self::BEATS_PER_MINUTE == $enum) {
+        if ($enum == self::BEATS_PER_MINUTE) {
             return new BeatsPerMinute();
         }
 
-        if (self::PERCENT_MAXIMUM == $enum) {
+        if ($enum == self::PERCENT_MAXIMUM) {
             return new PercentMaximum($maximalHeartRate);
         }
 
-        if (self::PERCENT_RESERVE == $enum) {
+        if ($enum == self::PERCENT_RESERVE) {
             return new PercentReserve($maximalHeartRate, $restingHeartRate);
         }
 
-        throw new \InvalidArgumentException('Unknown heart rate unit enum "'.$enum.'".');
+        throw new \InvalidArgumentException('Unknown heart rate unit enum "' . $enum . '".');
     }
 }

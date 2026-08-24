@@ -10,12 +10,13 @@ use Runalyze\Profile\Mapping\FitSdkExercise;
  * Example JSON structure see at end.
  * #TSC
  */
-class FitSplitsAdditionals {
+class FitSplitsAdditionals
+{
     // additional infos for strength-training
     private $fitExcerciseMapping;
 
     // every element is one lap/round with a sub-array of key/values
-    private $data = array();
+    private $data = [];
 
     public function hasData(): bool {
         return ! empty($this->data) && ! empty($this->getUniqueKeys());
@@ -54,7 +55,7 @@ class FitSplitsAdditionals {
             );
 
             if($active) {
-                $set = array();
+                $set = [];
                 if(isset($values['category'])) {
                     // category and sub-category can be a array of 3 values (seperated by ,)
                     $cat = $values['category'][1];
@@ -96,7 +97,7 @@ class FitSplitsAdditionals {
      * @param array<string, mixed> $values
      */
     public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null) {
-        $i = array();
+        $i = [];
 
         if($isActiveLap && $isSwimming) {
             if (isset($values['total_strokes']) && $values['total_strokes'][0] > 0) {
@@ -121,7 +122,7 @@ class FitSplitsAdditionals {
     }
 
     private function getUniqueKeys(): array {
-        $keys = array();
+        $keys = [];
         $counter = count($this->data);
         for($i = 0; $i < $counter; $i++) {
             foreach($this->data[$i] as $key => $value){

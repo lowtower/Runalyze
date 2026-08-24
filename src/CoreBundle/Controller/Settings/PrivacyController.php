@@ -35,9 +35,9 @@ class PrivacyController extends Controller
         $privacy = new PrivacyData();
         $privacy->setDataFrom($privacyConfig);
 
-        $form = $this->createForm(PrivacyType::class, $privacy, array(
-            'action' => $this->generateUrl('settings-privacy')
-        ));
+        $form = $this->createForm(PrivacyType::class, $privacy, [
+            'action' => $this->generateUrl('settings-privacy'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +48,7 @@ class PrivacyController extends Controller
         }
 
         return $this->render('settings/privacy.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

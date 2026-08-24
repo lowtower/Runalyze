@@ -7,37 +7,59 @@ use Runalyze\Util\File\GZipReader;
 
 class JsonImporter
 {
-	/** @var \Runalyze\Util\File\GZipReader */
+	/**
+	 * @var \Runalyze\Util\File\GZipReader
+	 */
 	protected $Reader;
 
-	/** @var \PDOforRunalyze */
+	/**
+	 * @var \PDOforRunalyze
+	 */
 	protected $DB;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountID;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DatabasePrefix;
 
-	/** @var array[table][oldID] = newID */
+	/**
+	 * @var array[table][oldID] = newID
+	 */
 	protected $ReplaceIDs = [];
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $ExistingData = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $InternalSportIds = [];
 
-	/** @var JsonImporterResults */
+	/**
+	 * @var JsonImporterResults
+	 */
 	protected $Results;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $OverwriteConfig = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $OverwriteDataset = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $OverwritePlugins = false;
 
     /**
@@ -108,27 +130,24 @@ class JsonImporter
 	 */
 	private function truncateTable(string $table)
     {
-		$this->Results->addDeletes('runalyze_'.$table, $this->DB->query('DELETE FROM `'.$this->DatabasePrefix.$table.'` WHERE `accountid`="'.$this->AccountID.'"')->rowCount());
+		$this->Results->addDeletes('runalyze_' . $table, $this->DB->query('DELETE FROM `' . $this->DatabasePrefix . $table . '` WHERE `accountid`="' . $this->AccountID . '"')->rowCount());
 	}
 
-	/**
-	 * Read existing data
-	 */
 	private function readExistingData()
     {
 		Configuration::loadAll();
 
 		$Tables = [
-		    'sport'		=> 'name',
-		    'type'		=> 'name',
-		    'plugin'	=> 'key',
-		    'equipment'	=> 'name',
+		    'sport' => 'name',
+		    'type' => 'name',
+		    'plugin' => 'key',
+		    'equipment' => 'name',
 		    'equipment_type' => 'name',
-		    'tag'		=> 'tag'
+		    'tag' => 'tag',
 		];
 
 		foreach ($Tables as $Table => $Column) {
-			$this->ExistingData['runalyze_'.$Table] = [];
+			$this->ExistingData['runalyze_' . $Table] = [];
 			if ($Table === 'sport') {
                 $statement = $this->DB->query('SELECT `id`, `internal_sport_id`, `' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '`');
             } else {
@@ -136,21 +155,21 @@ class JsonImporter
             }
 
 			while ($row = $statement->fetch()) {
-				$this->ExistingData['runalyze_'.$Table][$row[$Column]] = $row['id'];
+				$this->ExistingData['runalyze_' . $Table][$row[$Column]] = $row['id'];
 				if ($Table === 'sport' && ! empty($row['internal_sport_id'])) {
 				    $this->InternalSportIds[$row['internal_sport_id']] = $row['id'];
                 }
 			}
 		}
 
-		$FetchEquipmentSportRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_typeid`) FROM `'.$this->DatabasePrefix.'equipment_sport`');
+		$FetchEquipmentSportRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_typeid`) FROM `' . $this->DatabasePrefix . 'equipment_sport`');
 		$this->ExistingData['runalyze_equipment_sport'] = [];
 
 		while ($Relation = $FetchEquipmentSportRelation->fetchColumn()) {
 			$this->ExistingData['runalyze_equipment_sport'][] = $Relation;
 		}
 
-		$FetchEquipmentSporRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_id`) FROM `'.$this->DatabasePrefix.'equipment_spor`');
+		$FetchEquipmentSporRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_id`) FROM `' . $this->DatabasePrefix . 'equipment_spor`');
 		$this->ExistingData['runalyze_equipment_spor'] = [];
 
 		while ($Relation = $FetchEquipmentSporRelation->fetchColumn()) {
@@ -158,9 +177,6 @@ class JsonImporter
 		}
 	}
 
-	/**
-	 * Read file
-	 */
 	private function readFile()
     {
 		while (! $this->Reader->eof()) {
@@ -174,13 +190,12 @@ class JsonImporter
 	}
 
 	/**
-	 * Read table
 	 * @param string $tableName
 	 */
 	private function readTable($tableName)
     {
         $tableSettings = [
-            'import'	=> [
+            'import' => [
                 'runalyze_sport',
                 'runalyze_type',
                 'runalyze_user',
@@ -196,14 +211,14 @@ class JsonImporter
                 'runalyze_activity_equipment',
                 'runalyze_tag',
                 'runalyze_activity_tag',
-                'runalyze_raceresult'
+                'runalyze_raceresult',
             ],
-            'update'	=> [
-                'runalyze_conf'			=> $this->OverwriteConfig,
-                'runalyze_dataset'		=> $this->OverwriteDataset,
-                'runalyze_plugin'		=> $this->OverwritePlugins,
-                'runalyze_plugin_conf'	=> $this->OverwritePlugins
-            ]
+            'update' => [
+                'runalyze_conf' => $this->OverwriteConfig,
+                'runalyze_dataset' => $this->OverwriteDataset,
+                'runalyze_plugin' => $this->OverwritePlugins,
+                'runalyze_plugin_conf' => $this->OverwritePlugins,
+            ],
         ];
 
 		if (in_array($tableName, $tableSettings['import'])) {
@@ -213,9 +228,6 @@ class JsonImporter
 		}
 	}
 
-    /**
-     * Update table
-     */
     private function updateTable(string $tableName)
     {
 		$line = $this->Reader->readLine();
@@ -241,34 +253,32 @@ class JsonImporter
 	}
 
     /**
-     * Prepare update statement
      * @return \PDOStatement
      */
     private function prepareUpdateStatement(string $tableName)
     {
 		switch ($tableName) {
 			case 'runalyze_conf':
-				return $this->DB->prepare('UPDATE `'.$this->DatabasePrefix.'conf` SET `value`=? WHERE `accountid`='.$this->AccountID.' AND `key`=?');
+				return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'conf` SET `value`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?');
 
 			case 'runalyze_dataset':
 				return $this->DB->prepare('
-						UPDATE `'.$this->DatabasePrefix.'dataset`
+						UPDATE `' . $this->DatabasePrefix . 'dataset`
 						SET
 							`active`=?,
 							`style`=?,
 							`position`=?
-						WHERE `accountid`='.$this->AccountID.' AND `keyid`=?');
+						WHERE `accountid`=' . $this->AccountID . ' AND `keyid`=?');
 
 			case 'runalyze_plugin':
-				return $this->DB->prepare('UPDATE `'.$this->DatabasePrefix.'plugin` SET `active`=?, `order`=? WHERE `accountid`='.$this->AccountID.' AND `key`=?');
+				return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin` SET `active`=?, `order`=? WHERE `accountid`=' . $this->AccountID . ' AND `key`=?');
 
 			case 'runalyze_plugin_conf':
-				return $this->DB->prepare('UPDATE `'.$this->DatabasePrefix.'plugin_conf` SET `value`=? WHERE `pluginid`=? AND `config`=?');
+				return $this->DB->prepare('UPDATE `' . $this->DatabasePrefix . 'plugin_conf` SET `value`=? WHERE `pluginid`=? AND `config`=?');
 		}
 	}
 
     /**
-     * Run prepared statement
      * @param int $id
      * @param array<string, mixed> $row
      */
@@ -276,16 +286,16 @@ class JsonImporter
     {
 		switch ($tableName) {
 			case 'runalyze_conf':
-				$statement->execute(array($row['value'], $row['key']));
+				$statement->execute([$row['value'], $row['key']]);
 				break;
 
 			case 'runalyze_dataset':
-				$statement->execute(array(
+				$statement->execute([
 				    $row['active'],
 				    $row['style'],
 				    $row['position'],
-				    $row['keyid']
-				));
+				    $row['keyid'],
+				]);
 				break;
 
 			case 'runalyze_plugin':
@@ -293,11 +303,11 @@ class JsonImporter
 					$this->ExistingData['runalyze_plugin'][$id] = $this->ExistingData['runalyze_plugin'][$row['key']];
 				}
 
-				$statement->execute(array($row['active'], $row['order'], $row['key']));
+				$statement->execute([$row['active'], $row['order'], $row['key']]);
 				break;
 
 			case 'runalyze_plugin_conf':
-				$statement->execute(array($row['value'], $this->ExistingData['runalyze_plugin'][$row['pluginid']], $row['config']));
+				$statement->execute([$row['value'], $this->ExistingData['runalyze_plugin'][$row['pluginid']], $row['config']]);
 				break;
 
 			default:
@@ -307,9 +317,6 @@ class JsonImporter
 		$this->Results->addUpdates($tableName, $statement->rowCount());
 	}
 
-    /**
-     * Import table
-     */
     private function importTable(string $tableName)
     {
 		$line = $this->Reader->readLine();
@@ -332,15 +339,15 @@ class JsonImporter
 			$columnIds = array_flip($columns);
 			if (in_array(
 			    $tableName,
-			    array(
+			    [
 			        'runalyze_equipment',
 			        'runalyze_equipment_type',
 			        'runalyze_plugin',
 			        'runalyze_route',
 			        'runalyze_type',
 			        'runalyze_sport',
-			        'runalyze_tag'
-			    ),
+			        'runalyze_tag',
+			    ],
 			    true
 			)) {
 			    if ($tableName === 'runalyze_sport' && isset($columnIds['internal_sport_id'])) {
@@ -398,7 +405,7 @@ class JsonImporter
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid]) &&
 			in_array(
-			    $this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid],
+			    $this->ReplaceIDs['runalyze_sport'][$sportid] . '-' . $this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid],
 			    $this->ExistingData['runalyze_equipment_sport']
 			);
     }
@@ -412,13 +419,12 @@ class JsonImporter
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
 			isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
 			in_array(
-			    $this->ReplaceIDs['runalyze_sport'][$sportid].'-'.$this->ReplaceIDs['runalyze_equipment'][$equipmentId],
+			    $this->ReplaceIDs['runalyze_sport'][$sportid] . '-' . $this->ReplaceIDs['runalyze_equipment'][$equipmentId],
 			    $this->ExistingData['runalyze_equipment_spor']
 			);
     }
 
     /**
-     * Correct values
      * @param array<string, mixed> $row
      */
     private function correctValues(string $tableName, array &$row)
@@ -472,7 +478,7 @@ class JsonImporter
 		}
 
 		if (isset($activity['typeid'])) {
-            $activity['typeid']  = $this->correctID('runalyze_type', $activity['typeid']);
+            $activity['typeid'] = $this->correctID('runalyze_type', $activity['typeid']);
 		}
 
 		if (isset($activity['routeid'])) {
@@ -501,14 +507,14 @@ class JsonImporter
 			$configValues = Configuration\Handle::tableHandles();
 
 			foreach ($configValues as $key => $table) {
-				$table = 'runalyze_'.$table;
+				$table = 'runalyze_' . $table;
 
 				if (isset($this->ReplaceIDs[$table])) {
-					$oldValue = $this->DB->query('SELECT `value` FROM `'.$this->DatabasePrefix.'conf` WHERE `key`="'.$key.'" LIMIT 1')->fetchColumn();
+					$oldValue = $this->DB->query('SELECT `value` FROM `' . $this->DatabasePrefix . 'conf` WHERE `key`="' . $key . '" LIMIT 1')->fetchColumn();
 					$newValue = $this->correctID($table, $oldValue);
 
 					if ($newValue != 0) {
-						$this->DB->updateWhere('conf', '`key`="'.$key.'"', 'value', $newValue);
+						$this->DB->updateWhere('conf', '`key`="' . $key . '"', 'value', $newValue);
 					}
 				}
 			}

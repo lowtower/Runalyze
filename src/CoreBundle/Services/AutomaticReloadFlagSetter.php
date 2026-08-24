@@ -6,28 +6,44 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class AutomaticReloadFlagSetter
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const FLASH_BAG_KEY = 'ajax.reload.command';
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_DATA_BROWSER = 1;
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_TRAINING = 2;
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_TRAINING_AND_DATA_BROWSER = 3;
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_PLUGINS = 4;
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_ALL = 5;
 
-    /** @var int enum */
+    /**
+     * @var int enum
+     */
     const FLAG_PAGE = 6;
 
-    /** @var FlashBagInterface */
+    /**
+     * @var FlashBagInterface
+     */
     protected $FlashBag;
 
     public function __construct(FlashBagInterface $flashBag)
@@ -58,7 +74,7 @@ class AutomaticReloadFlagSetter
      */
     protected function mergeFlags(array $flags)
     {
-        if (self::FLAG_DATA_BROWSER == min($flags)) {
+        if (min($flags) == self::FLAG_DATA_BROWSER) {
             if (max($flags) == self::FLAG_PLUGINS) {
                 return self::FLAG_ALL;
             }

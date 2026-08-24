@@ -16,6 +16,6 @@ class KmzConverter extends ZipConverter
 
     protected function isFileExtensionAllowed($extension): bool
     {
-        return 'kml' === mb_strtolower($extension);
+        return mb_strtolower($extension) === 'kml';
     }
 }

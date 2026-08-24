@@ -17,7 +17,8 @@ use FrontendShared;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-abstract class Category {
+abstract class Category
+{
 	/**
 	 * Handles
 	 * @var \Runalyze\Configuration\Handle[]
@@ -32,8 +33,6 @@ abstract class Category {
 	private $UserID;
 
 	/**
-	 * Constructor
-	 *
 	 * To load values from database, make sure to call
 	 * <code>$Category->setUserID($id);</code>
 	 *
@@ -47,7 +46,6 @@ abstract class Category {
 	}
 
 	/**
-	 * Set user ID
 	 * @param int $id
 	 * @param array $data values from database
 	 */
@@ -73,9 +71,6 @@ abstract class Category {
 		return is_numeric($this->UserID);
 	}
 
-    /**
-     * User ID
-     */
     private function userID(): int {
 		return (int) $this->UserID;
 	}
@@ -99,22 +94,15 @@ abstract class Category {
 	 */
 	abstract protected function createHandles();
 
-	/**
-	 * Register onchange events
-	 */
 	protected function registerOnchangeEvents() {}
 
 	/**
-	 * Fieldset
 	 * @return \Runalyze\Configuration\Fieldset
 	 */
 	public function Fieldset() {
 		return null;
 	}
 
-    /**
-     * Add handle
-     */
     final protected function addHandle(Handle $Handle) {
 		$this->Handles[$Handle->key()] = $Handle;
 	}
@@ -149,7 +137,7 @@ abstract class Category {
 			return $this->Handles[$key]->object();
 		}
 
-        throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
+        throw new \InvalidArgumentException('Asked for unknown value key "' . $key . '" in configuration category.');
 	}
 
 	/**
@@ -163,7 +151,7 @@ abstract class Category {
 			return $this->Handles[$key];
 		}
 
-        throw new \InvalidArgumentException('Asked for unknown value key "'.$key.'" in configuration category.');
+        throw new \InvalidArgumentException('Asked for unknown value key "' . $key . '" in configuration category.');
 	}
 
 	/**
@@ -175,25 +163,19 @@ abstract class Category {
 		}
 	}
 
-    /**
-     * Update value
-     */
     final protected function updateValue(Handle $Handle) {
 		if ($this->hasUserID() && ! SharedLinker::isOnSharedPage()) {
-			$where = '`accountid`='.$this->userID();
-			$where .= ' AND `key`='.DB::getInstance()->escape($Handle->key());
+			$where = '`accountid`=' . $this->userID();
+			$where .= ' AND `key`=' . DB::getInstance()->escape($Handle->key());
 
 			DB::getInstance()->updateWhere('conf', $where, 'value', $Handle->object()->valueAsString());
 		}
 	}
 
-    /**
-     * Update value from post
-     */
     private function updateValueFromPost(Handle $Handle) {
 		$key = $Handle->key();
 
-		if (isset($_POST[$key]) || isset($_POST[$key.'_sent'])) {
+		if (isset($_POST[$key]) || isset($_POST[$key . '_sent'])) {
 			$value = $Handle->value();
 
 			if ($Handle->object() instanceof Parameter\Boolean) {
@@ -212,12 +194,11 @@ abstract class Category {
 	}
 
 	/**
-	 * Load values
 	 * @param array $data values from database
 	 */
 	private function loadValues($data = null) {
-		$KeysInDatabase = array();
-		$Values = null === $data ? $this->fetchValues() : $data;
+		$KeysInDatabase = [];
+		$Values = $data === null ? $this->fetchValues() : $data;
 
 		foreach ($Values as $Value) {
 			if (! isset($Value['category']) || $Value['category'] == $this->key()) {
@@ -235,11 +216,10 @@ abstract class Category {
 	}
 
 	/**
-	 * Fetch values
 	 * @return array
 	 */
 	private function fetchValues() {
-		return DB::getInstance()->query('SELECT `key`,`value` FROM '.PREFIX.'conf WHERE `accountid`="'.$this->userID().'" AND `category`="'.$this->key().'"')->fetchAll();
+		return DB::getInstance()->query('SELECT `key`,`value` FROM ' . PREFIX . 'conf WHERE `accountid`="' . $this->userID() . '" AND `category`="' . $this->key() . '"')->fetchAll();
 	}
 
     /**
@@ -260,27 +240,25 @@ abstract class Category {
 	}
 
 	/**
-	 * Delete key from database
 	 * @param string $Key
 	 */
 	private function deleteKeyFromDatabase($Key) {
-		DB::getInstance()->exec('DELETE FROM '.PREFIX.'conf WHERE `accountid`="'.$this->userID().'" AND `category`="'.$this->key().'" AND `key`="'.$Key.'"');
+		DB::getInstance()->exec('DELETE FROM ' . PREFIX . 'conf WHERE `accountid`="' . $this->userID() . '" AND `category`="' . $this->key() . '" AND `key`="' . $Key . '"');
 	}
 
 	/**
-	 * Insert key to database
 	 * @param string $Key
 	 */
 	private function insertKeyToDatabase($Key) {
 		DB::getInstance()->insert(
 		    'conf',
-		    array('key', 'value', 'category', 'accountid'),
-		    array(
+		    ['key', 'value', 'category', 'accountid'],
+		    [
 		        $this->Handles[$Key]->key(),
 		        $this->Handles[$Key]->object()->valueAsString(),
 		        $this->key(),
-		        $this->userID()
-		    )
+		        $this->userID(),
+		    ]
 		);
 	}
 }

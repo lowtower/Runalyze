@@ -14,7 +14,8 @@ namespace Runalyze\Data\Cadence;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */
-class Running extends AbstractCadence {
+class Running extends AbstractCadence
+{
 	/**
 	 * Factor for manipulating value
 	 * @var float
@@ -22,7 +23,6 @@ class Running extends AbstractCadence {
 	protected $Factor = 2;
 
     /**
-     * Label
      * @codeCoverageIgnore
      */
     public function label(): string {
@@ -30,7 +30,6 @@ class Running extends AbstractCadence {
 	}
 
     /**
-     * Unit as string
      * @codeCoverageIgnore
      */
     public function unitAsString(): string {
@@ -46,7 +45,6 @@ class Running extends AbstractCadence {
 	}
 
 	/**
-	 * Formular unit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */

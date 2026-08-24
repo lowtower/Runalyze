@@ -18,7 +18,8 @@ $PLUGINKEY = 'RunalyzePluginPanel_Prognose';
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
-class RunalyzePluginPanel_Prognose extends PluginPanel {
+class RunalyzePluginPanel_Prognose extends PluginPanel
+{
 	/**
 	 * Prognosis
 	 * @var \Runalyze\Sports\Running\Prognosis\PrognosisInterface
@@ -31,56 +32,44 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	 */
 	protected $NumberOfPBs = 0;
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Prognosis');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Predict your race performance on various distances.');
 	}
 
-	/**
-	 * Display long description
-	 */
 	protected function displayLongDescription() {
 		echo HTML::p( __('There are different models that can be used to predict your race performances:') );
-		echo HTML::fileBlock( '<strong>VO2max</strong><br>'.
-					__('Your current effective VO2max is estimated based on the ratio of heart rate and pace. '.
+		echo HTML::fileBlock( '<strong>VO2max</strong><br>' .
+					__('Your current effective VO2max is estimated based on the ratio of heart rate and pace. ' .
 						'This value is equivalent to specific performances.') );
-		echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>".
-					__('Robert Bock uses an individual coefficient for your fatigue over time/distance. '.
-						'This model uses your two best results.').'<br>'.
+		echo HTML::fileBlock("<strong>Robert Bock (CPP, 'Competitive Performance Predictor')</strong><br>" .
+					__('Robert Bock uses an individual coefficient for your fatigue over time/distance. ' .
+						'This model uses your two best results.') . '<br>' .
 						'<small>see <a href="http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html">http://www.robert-bock.de/Sport_0/lauf_7/cpp/cpp.html</a></small>');
-		echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>".
-					__('Herbert Steffny uses fixed factors to transform performances from one distance to another. '.
+		echo HTML::fileBlock("<strong>Herbert Steffny ('Das gro&szlig;e Laufbuch')</strong><br>" .
+					__('Herbert Steffny uses fixed factors to transform performances from one distance to another. ' .
 						'This model uses your best result.') );
-		echo HTML::fileBlock('<strong>David Cameron</strong><br>'.
-					__('David Cameron uses a fixed coefficient for the fatigue over time/distance and slightly different formulas than Robert Bock. '.
-						'This model uses your best result.').'<br>'.
+		echo HTML::fileBlock('<strong>David Cameron</strong><br>' .
+					__('David Cameron uses a fixed coefficient for the fatigue over time/distance and slightly different formulas than Robert Bock. ' .
+						'This model uses your best result.') . '<br>' .
 						'<small>see <a href="http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time">http://www.infobarrel.com/Runners_Math_How_to_Predict_Your_Race_Time</a></small>');
-		echo HTML::info( __('The VO2max model is the only one which considers your current shape. '.
+		echo HTML::info( __('The VO2max model is the only one which considers your current shape. ' .
 							'The other models are based on your previous race results.') );
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
-		$Distances = new PluginConfigurationValueDistances('distances', __('Distances to predict'), '', array(1, 3, 5, 10, 21.1, 42.2));
+		$Distances = new PluginConfigurationValueDistances('distances', __('Distances to predict'), '', [1, 3, 5, 10, 21.1, 42.2]);
 
 		$Model = new PluginConfigurationValueSelect('model', __('Prediction model'));
-		$Model->setOptions( array(
-		    'vo2max'	=> __('Effective VO2max'),
-		    'cpp'		=> 'Robert Bock (CPP)',
-		    'steffny'	=> 'Herbert Steffny',
-		    'cameron'	=> 'David Cameron'
-		) );
+		$Model->setOptions( [
+		    'vo2max' => __('Effective VO2max'),
+		    'cpp' => 'Robert Bock (CPP)',
+		    'steffny' => 'Herbert Steffny',
+		    'cameron' => 'David Cameron',
+		] );
 		$Model->setDefaultValue('vo2max');
 
 		$BasicEndurance = new PluginConfigurationValueBool('use_be', __('Use marathon shape'), __('Use marathon shape factor to adapt prognosis for long distances (VO2max only).'));
@@ -100,15 +89,14 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 	 */
 	protected function getRightSymbol(): string {
 		$Links = '';
-        $Links .= '<li>'.Ajax::window('<a href="my/raceresult/performance-chart" '.Ajax::tooltip('', __('Race results').': '.__('Performance chart'), true, true).'><i class="fa fa-fw fa-dashboard"></i></a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.plot.php" '.Ajax::tooltip('', __('Show prognosis trend'), true, true).'>'.Icon::$LINE_CHART.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="plugin/'.$this->key().'/window.php" '.Ajax::tooltip('', __('Prognosis calculator'), true, true).'>'.Icon::$CALCULATOR.'</a>').'</li>';
+        $Links .= '<li>' . Ajax::window('<a href="my/raceresult/performance-chart" ' . Ajax::tooltip('', __('Race results') . ': ' . __('Performance chart'), true, true) . '><i class="fa fa-fw fa-dashboard"></i></a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.plot.php" ' . Ajax::tooltip('', __('Show prognosis trend'), true, true) . '>' . Icon::$LINE_CHART . '</a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php" ' . Ajax::tooltip('', __('Prognosis calculator'), true, true) . '>' . Icon::$CALCULATOR . '</a>') . '</li>';
 
-		return '<ul>'.$Links.'</ul>';
+		return '<ul>' . $Links . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent() {
@@ -216,10 +204,10 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
 
 		echo '<p>
 				<span class="right">
-					'.sprintf(__('<small>from</small> %s <small>to</small> <strong>%s</strong>'), $PBString, $prognosisString).'
-					<small>('.$pace->valueWithAppendix().')</small>
+					' . sprintf(__('<small>from</small> %s <small>to</small> <strong>%s</strong>'), $PBString, $prognosisString) . '
+					<small>(' . $pace->valueWithAppendix() . ')</small>
 				</span>
-				<strong>'.$Distance->stringAuto(true, 1).'</strong>
+				<strong>' . $Distance->stringAuto(true, 1) . '</strong>
 			</p>';
 	}
 
@@ -227,7 +215,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel {
      * Are there not enough competitions?
      */
     protected function thereAreNotEnoughCompetitions(): bool {
-		return (0 == $this->NumberOfPBs);
+		return ($this->NumberOfPBs == 0);
 	}
 
 	public function getDistances(): array {

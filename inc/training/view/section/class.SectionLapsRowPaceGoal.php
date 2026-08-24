@@ -5,7 +5,6 @@
  * @package Runalyze\DataObjects\Training\View\Section
  */
 
-
 /**
  * Row: Laps PaceGoal / PacePro #TSC
  *
@@ -15,7 +14,8 @@
  * @author codeproducer
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionLapsRowPaceGoal extends SectionLapsRowComputed {
+class SectionLapsRowPaceGoal extends SectionLapsRowComputed
+{
 	/**
 	 * Display right content / PaceGoal table.
 	 */

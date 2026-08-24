@@ -5,7 +5,8 @@
  * @author Michael Pohl
  * @package Runalyze\System
  */
-class Cache {
+class Cache
+{
 	/**
 	 * Path for cache, relative to runalyze root
 	 * @var string
@@ -29,7 +30,9 @@ class Cache {
 	 */
 	public $footer_sent = true;
 
-    /** @var \phpFastCache */
+    /**
+     * @var \phpFastCache
+     */
     public static $cache;
 
 	/**
@@ -37,7 +40,7 @@ class Cache {
 	 */
 	public function __construct() {
 		phpFastCache::setup('storage', 'files');
-		phpFastCache::setup('path', FRONTEND_PATH.'../'.self::PATH);
+		phpFastCache::setup('path', FRONTEND_PATH . '../' . self::PATH);
 		phpFastCache::setup('securityKey', 'cache');
 		self::$cache = new phpFastCache();
 	}
@@ -47,7 +50,7 @@ class Cache {
 	 */
 	public static function set($keyword, $data, $time, $nousercache = 0) {
             if($nousercache == 0) { 
-                $key = $keyword.SessionAccountHandler::getId();
+                $key = $keyword . SessionAccountHandler::getId();
                 self::$cache->set($key, $data, $time);
             } else {
                 self::$cache->set($keyword, $data, $time);
@@ -109,7 +112,7 @@ class Cache {
 	 */
 	public static function is($keyword, $nousercache = 0) {
 		if ($nousercache == 0) { 
-			return self::$cache->isExisting($keyword.SessionAccountHandler::getId());
+			return self::$cache->isExisting($keyword . SessionAccountHandler::getId());
 		}
 
         return self::$cache->isExisting($keyword);

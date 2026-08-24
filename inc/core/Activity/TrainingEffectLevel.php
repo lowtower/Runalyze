@@ -17,19 +17,29 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 class TrainingEffectLevel extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const EASY = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const MAINTAINING = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const IMPROVING = 3;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const HIGHLY_IMPROVING = 4;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const OVERREACHING = 5;
 
     /**
@@ -39,7 +49,7 @@ class TrainingEffectLevel extends AbstractEnum
      */
     public static function levelFor($value): int
     {
-        if (! is_numeric($value) || $value < 1.0 || 5.0 < $value ) {
+        if (! is_numeric($value) || $value < 1.0 || $value > 5.0 ) {
             throw new \InvalidArgumentException(sprintf('Provided training effect %s is invalid.', $value));
         }
 

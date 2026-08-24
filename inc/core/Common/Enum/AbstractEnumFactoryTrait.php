@@ -13,10 +13,14 @@ namespace Runalyze\Common\Enum;
 
 trait AbstractEnumFactoryTrait
 {
-    /** @var array|null */
+    /**
+     * @var array|null
+     */
     private static $ClassNames;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private static $Namespace = '';
 
     /**
@@ -28,16 +32,16 @@ trait AbstractEnumFactoryTrait
      */
     public static function get($enum)
     {
-        if (null === self::$ClassNames) {
+        if (self::$ClassNames === null) {
             self::generateNamespace();
             self::generateClassNamesArray();
         }
 
         if (! isset(self::$ClassNames[$enum])) {
-            throw new \InvalidArgumentException('Invalid enum "'.$enum.'".');
+            throw new \InvalidArgumentException('Invalid enum "' . $enum . '".');
         }
 
-        $className = self::$Namespace.'\\'.self::$ClassNames[$enum];
+        $className = self::$Namespace . '\\' . self::$ClassNames[$enum];
 
         return new $className();
     }

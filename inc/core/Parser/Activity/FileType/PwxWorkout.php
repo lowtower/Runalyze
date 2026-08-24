@@ -10,7 +10,9 @@ use SimpleXMLElement;
 
 class PwxWorkout extends AbstractSingleParser
 {
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
     public function __construct(SimpleXMLElement $workout)
@@ -38,8 +40,6 @@ class PwxWorkout extends AbstractSingleParser
     }
 
     /**
-     * Parse general values
-     *
      * "Time zones that aren't specified are considered undetermined."
      * That means: If the time string has no appendix (no '+01:00' and no 'Z'),
      * the offset must be treated as unknown (to prevent a timestamp change due to a coordinate-based time zone).
@@ -59,9 +59,9 @@ class PwxWorkout extends AbstractSingleParser
         }
 
         if (! empty($this->Xml->device)) {
-            $string = $this->Xml->device->make.', '.($this->Xml->device->model);
+            $string = $this->Xml->device->make . ', ' . ($this->Xml->device->model);
 
-            $this->Container->Metadata->setCreator('', $string.' ('.($this->Xml->device['id']).')');
+            $this->Container->Metadata->setCreator('', $string . ' (' . ($this->Xml->device['id']) . ')');
         }
 
         if (! empty($this->Xml->cmt)) {

@@ -13,7 +13,8 @@ namespace Runalyze\View\Icon\Weather;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon\Weather
  */
-class Foggy extends \Runalyze\View\Icon\WeatherIcon {
+class Foggy extends \Runalyze\View\Icon\WeatherIcon
+{
 	/**
 	 * Display
 	 */

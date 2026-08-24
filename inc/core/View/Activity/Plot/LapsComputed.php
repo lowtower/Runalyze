@@ -18,7 +18,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class LapsComputed extends Laps {
+class LapsComputed extends Laps
+{
 	/**
 	 * Set key and title for this plot
 	 */
@@ -27,9 +28,6 @@ class LapsComputed extends Laps {
 		$this->title = __('Computed Laps');
 	}
 
-    /**
-     * Load data
-     */
     protected function loadData(Activity\Context $context) {
 		if (! $context->trackdata()->has(Trackdata\Entity::DISTANCE) || ! $context->trackdata()->has(Trackdata\Entity::TIME)) {
 			$this->Plot->raiseError( __('No GPS-data available. Can\\\'t compute laps.') );
@@ -53,7 +51,7 @@ class LapsComputed extends Laps {
 				$label = ($km % 10 === 0 && $km > 0) ? $km : '';
 			}
 
-			$this->Labels[$i] = array($i, $label);
+			$this->Labels[$i] = [$i, $label];
 			$Pace->setDistance($lap->distance()->kilometer())
 			    ->setTime($lap->duration()->seconds());
 
@@ -66,10 +64,10 @@ class LapsComputed extends Laps {
 
 		$avgPace = new PaceObject($context->activity()->duration(), $context->activity()->distance());
 		$this->achievedPace = $avgPace->secondsPerKm();
-		$this->Plot->Data[] = array(
+		$this->Plot->Data[] = [
 		    'label' => $this->title,
-		    'data' => $this->Data
-		);
+		    'data' => $this->Data,
+		];
 	}
 
 	protected function computeRounds(Activity\Context $context): \Runalyze\Data\Laps\Laps {
@@ -77,13 +75,13 @@ class LapsComputed extends Laps {
 		$totalDistance = $context->trackdata()
 		    ->totalDistance();
 
-		if ($totalDistance < 2*$singleDistance) {
-			$Distances = array($singleDistance);
+		if ($totalDistance < 2 * $singleDistance) {
+			$Distances = [$singleDistance];
 		} else {
 			$Distances = range($singleDistance, $totalDistance, $singleDistance);
 
-			if (false === $Distances) {
-				$Distances = array($singleDistance);
+			if ($Distances === false) {
+				$Distances = [$singleDistance];
 			}
 		}
 

@@ -11,7 +11,8 @@ namespace Runalyze\Model\Trackdata;
 /**
  * @deprecated since v4.2, use \Runalyze\Parser\Activity\Common\Data\Pause\Pause instead
  */
-class Pause {
+class Pause
+{
 	/**
 	 * Key: time
 	 */
@@ -87,23 +88,22 @@ class Pause {
      * @return array<string, int>
      */
     public function asArray(): array {
-		return array(
+		return [
     self::TIME => $this->Time,
 		    self::DURATION => $this->Duration,
 		    self::HR_START => $this->HRstart,
-		    self::HR_END => $this->HRend
-);
+		    self::HR_END => $this->HRend,
+];
 	}
 
     /**
      * Has heart rate info?
      */
     public function hasHeartRateInfo(): bool {
-		return null !== $this->HRstart && null !== $this->HRend;
+		return $this->HRstart !== null && $this->HRend !== null;
 	}
 
 	/**
-	 * Time
 	 * @return int
 	 */
 	public function time() {
@@ -111,7 +111,6 @@ class Pause {
 	}
 
 	/**
-	 * Duration
 	 * @return int
 	 */
 	public function duration() {

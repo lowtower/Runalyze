@@ -13,13 +13,14 @@ use Runalyze\Util\Time;
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */
-class HTML {
+class HTML
+{
     /**
      * Encode opening and ending tag-character
      * @param string $string
      */
     public static function encodeTags($string): string {
-		return str_replace(array('<', '>'), array('&lt;', '&gt;'), $string);
+		return str_replace(['<', '>'], ['&lt;', '&gt;'], $string);
 	}
 
     /**
@@ -28,10 +29,10 @@ class HTML {
      * @param string $string
      */
     public static function emptyTD($colspan = 0, $string = '&nbsp;', $class = ''): string {
-		$colspan = ($colspan > 0) ? ' colspan="'.$colspan.'"' : '';
-		$class   = ($class != '') ? ' class="'.$class.'"' : '';
+		$colspan = ($colspan > 0) ? ' colspan="' . $colspan . '"' : '';
+		$class = ($class != '') ? ' class="' . $class . '"' : '';
 
-		return '<td'.$colspan.$class.'>'.$string.'</td>';
+		return '<td' . $colspan . $class . '>' . $string . '</td>';
 	}
 
     /**
@@ -39,7 +40,7 @@ class HTML {
      * @param int $colspan colspan for empty TDs
      */
     public static function emptyTR($colspan = 0): string {
-		return '<tr>'.self::emptyTD($colspan).'</tr>';
+		return '<tr>' . self::emptyTD($colspan) . '</tr>';
 	}
 
     /**
@@ -50,12 +51,12 @@ class HTML {
      */
     public static function td($string, $class = '', $style = ''): string {
 		if ($class != '')
-			$class = ' class="'.$class.'"';
+			$class = ' class="' . $class . '"';
 
 		if ($style != '')
-			$style = ' style="'.$style.'"';
+			$style = ' style="' . $style . '"';
 
-		return '<td'.$class.$style.'>'.$string.'</td>';
+		return '<td' . $class . $style . '>' . $string . '</td>';
 	}
 
     /**
@@ -64,17 +65,17 @@ class HTML {
      * @param int $emptyTDs Number of empty td before the month-td
      */
     public static function monthTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
-		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
+		$width = ($fixedWidth > 0) ? ' width="' . $fixedWidth . '%"' : '';
 		$html = '<tr class="b">';
 
 		for ($i = 1; $i <= $emptyTDs; $i++)
-			$html .= '<'.$tag.'></'.$tag.'>';
+			$html .= '<' . $tag . '></' . $tag . '>';
 
 		for ($m = 1; $m <= 12; $m++)
-			$html .= '<'.$tag.$width.'>'.Time::month($m, true).'</'.$tag.'>';
+			$html .= '<' . $tag . $width . '>' . Time::month($m, true) . '</' . $tag . '>';
 
 		if ($withTotal) {
-			$html .= '<'.$tag.$width.'>'.__('Total').'</'.$tag.'>';
+			$html .= '<' . $tag . $width . '>' . __('Total') . '</' . $tag . '>';
 		}
 
 		return $html . '</tr>';
@@ -88,17 +89,17 @@ class HTML {
      */
     public static function yearTR($fixedWidth = 0, $emptyTDs = 1, $tag = 'td', $withTotal = false): string {
 		$year = date('Y');
-		$width = ($fixedWidth > 0) ? ' width="'.$fixedWidth.'%"' : '';
+		$width = ($fixedWidth > 0) ? ' width="' . $fixedWidth . '%"' : '';
 		$html = '<tr class="b">';
 
 		for ($i = 1; $i <= $emptyTDs; $i++)
-			$html .= '<'.$tag.' />';
+			$html .= '<' . $tag . ' />';
 
 		for ($y = START_YEAR; $y <= $year; $y++)
-			$html .= '<'.$tag.$width.'>'.$y.'</'.$tag.'>';
+			$html .= '<' . $tag . $width . '>' . $y . '</' . $tag . '>';
 
 		if ($withTotal) {
-			$html .= '<'.$tag.$width.'>'.__('Total').'</'.$tag.'>';
+			$html .= '<' . $tag . $width . '>' . __('Total') . '</' . $tag . '>';
 		}
 
 		return $html . '</tr>';
@@ -109,7 +110,7 @@ class HTML {
      * @param int $colspan
      */
     public static function spaceTR($colspan): string {
-		return '<tr class="space"><td colspan="'.$colspan.'"></td></tr>';
+		return '<tr class="space"><td colspan="' . $colspan . '"></td></tr>';
 	}
 
     /**
@@ -117,7 +118,7 @@ class HTML {
      * @param string $text
      */
     public static function h1($text): string {
-		return '<h1>'.$text.'</h1>';
+		return '<h1>' . $text . '</h1>';
 	}
 
     /**
@@ -135,10 +136,10 @@ class HTML {
 	 */
 	public static function plusMinus($value, $ignorance = 0) {
 		if ($value > +$ignorance)
-			return '<span class="plus">'.$value.'</span>';
+			return '<span class="plus">' . $value . '</span>';
 
 		if ($value < -$ignorance)
-			return '<span class="minus">'.$value.'</span>';
+			return '<span class="minus">' . $value . '</span>';
 
 		return $value;
 	}
@@ -148,7 +149,7 @@ class HTML {
      * @param string $string
      */
     public static function em($string): string {
-		return '<em>'.$string.'</em>';
+		return '<em>' . $string . '</em>';
 	}
 
     /**
@@ -156,7 +157,7 @@ class HTML {
      * @param string $string
      */
     public static function p($string): string {
-		return '<p class="text">'.$string.'</p>';
+		return '<p class="text">' . $string . '</p>';
 	}
 
     /**
@@ -164,7 +165,7 @@ class HTML {
      * @param string $string
      */
     public static function info($string): string {
-		return '<p class="info">'.$string.'</p>';
+		return '<p class="info">' . $string . '</p>';
 	}
 
     /**
@@ -172,7 +173,7 @@ class HTML {
      * @param string $string
      */
     public static function error($string): string {
-		return '<p class="error">'.$string.'</p>';
+		return '<p class="error">' . $string . '</p>';
 	}
 
     /**
@@ -180,7 +181,7 @@ class HTML {
      * @param string $string
      */
     public static function warning($string): string {
-		return '<p class="warning">'.$string.'</p>';
+		return '<p class="warning">' . $string . '</p>';
 	}
 
     /**
@@ -188,7 +189,7 @@ class HTML {
      * @param string $string
      */
     public static function okay($string): string {
-		return '<p class="okay">'.$string.'</p>';
+		return '<p class="okay">' . $string . '</p>';
 	}
 
     /**
@@ -196,7 +197,7 @@ class HTML {
      * @param string $string
      */
     public static function fileBlock($string): string {
-		return '<p class="file">'.$string.'</p>';
+		return '<p class="file">' . $string . '</p>';
 	}
 
     /**
@@ -216,7 +217,7 @@ class HTML {
 		if ($value == '' && isset($_POST[$name]))
 			$value = $_POST[$name];
 
-		return '<input type="hidden" name="'.$name.'" value="'.$value.'">';
+		return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 	}
 
     /**
@@ -229,9 +230,9 @@ class HTML {
 		if ($checked === -1)
 			$checked = isset($_POST[$name]) && $_POST[$name] != 0;
 
-		$hiddenSent = self::hiddenInput($name.'_sent', 'true');
+		$hiddenSent = self::hiddenInput($name . '_sent', 'true');
 
-		return (! $noHiddenSent ? $hiddenSent : '').'<input type="checkbox" name="'.$name.'"'.self::Checked($checked).'>';
+		return (! $noHiddenSent ? $hiddenSent : '') . '<input type="checkbox" name="' . $name . '"' . self::Checked($checked) . '>';
 	}
 
     /**
@@ -263,10 +264,10 @@ class HTML {
 		if ($selected === false && isset($_POST[$name]))
 			$selected = $_POST[$name];
 
-		$html = '<select name="'.$name.'"'.(! empty($id) ? ' id="'.$id.'"' : '').(! empty($class) ? ' class="'.$class.'"' : '').'>';
+		$html = '<select name="' . $name . '"' . (! empty($id) ? ' id="' . $id . '"' : '') . (! empty($class) ? ' class="' . $class . '"' : '') . '>';
 
 		foreach ($options as $value => $text) {
-			$additionalAttributes = array();
+			$additionalAttributes = [];
 			$displayedText = $text;
 
 			if (is_array($text)) {
@@ -274,14 +275,14 @@ class HTML {
 
 				foreach ($text as $attr => $attrVal) {
 					if ($attr != 'text')
-						$additionalAttributes[] = ' '.$attr.'="'.$attrVal.'"';
+						$additionalAttributes[] = ' ' . $attr . '="' . $attrVal . '"';
 				}
 			}
 
-			$html .= '<option value="'.$value.'"'.self::Selected($value, $selected).implode('', $additionalAttributes).'>'.$displayedText.'</option>';
+			$html .= '<option value="' . $value . '"' . self::Selected($value, $selected) . implode('', $additionalAttributes) . '>' . $displayedText . '</option>';
 		}
 
-		return $html.'</select>';
+		return $html . '</select>';
 	}
 
     /**

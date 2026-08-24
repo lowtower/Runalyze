@@ -8,12 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 //use Symfony\Component\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 
 /**
@@ -56,19 +54,18 @@ class ImportActivityController extends Controller
         $username = $account->getUsername();
 
         /*
-            $request->files->all() are a array of UploadedFile-Objects
-
-            [data1] => Symfony\Component\HttpFoundation\File\UploadedFile Object
-                (
-                    [test:Symfony\Component\HttpFoundation\File\UploadedFile:private] =>
-                    [originalName:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 2020-10-09-15-26-00.fit
-                    [mimeType:Symfony\Component\HttpFoundation\File\UploadedFile:private] => application/octet-stream
-                    [size:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 162129
-                    [error:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 0
-                    [pathName:SplFileInfo:private] => /tmp/phpOZLwMG
-                    [fileName:SplFileInfo:private] => phpOZLwMG
-                )
-        */
+         * $request->files->all() are a array of UploadedFile-Objects
+         * [data1] => Symfony\Component\HttpFoundation\File\UploadedFile Object
+         * (
+         * [test:Symfony\Component\HttpFoundation\File\UploadedFile:private] =>
+         * [originalName:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 2020-10-09-15-26-00.fit
+         * [mimeType:Symfony\Component\HttpFoundation\File\UploadedFile:private] => application/octet-stream
+         * [size:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 162129
+         * [error:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 0
+         * [pathName:SplFileInfo:private] => /tmp/phpOZLwMG
+         * [fileName:SplFileInfo:private] => phpOZLwMG
+         * )
+         */
         $allfiles = $request->files->all();
         $allfilesCount = count($allfiles);
 
@@ -84,7 +81,7 @@ class ImportActivityController extends Controller
                 // if not all files processed "successfully" document it and send HTTP state 202
                 $notSuccessful = $allfilesCount - substr_count($processFilesResult, self::SUCCESS_MSG);
                 if($notSuccessful !== 0) {
-                    $result = $result . 'WARNING: ' . $notSuccessful .' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
+                    $result = $result . 'WARNING: ' . $notSuccessful . ' of ' . $allfilesCount . ' files are NOT imported successfully - please check the above protocol.' . PHP_EOL;
                     $resultCode = Response::HTTP_ACCEPTED; // 202
                 }
             } catch (\Exception $e) {
@@ -97,7 +94,7 @@ class ImportActivityController extends Controller
         }
 
         return new Response($result, $resultCode, [
-            'Content-Type' => 'text/plain'
+            'Content-Type' => 'text/plain',
         ]);
     }
 
@@ -127,7 +124,7 @@ class ImportActivityController extends Controller
         // cleanup: remove uploaded files
         $result = $result . 'Cleanup temp folder and uploaded files.' . PHP_EOL;
         foreach($allfiles as $v) {
-            $f = $uploadDir . DIRECTORY_SEPARATOR .$v->getClientOriginalName();
+            $f = $uploadDir . DIRECTORY_SEPARATOR . $v->getClientOriginalName();
             if(! unlink($f)) {
                 $result = $result . 'WARNING: Can not remove file ' . $f . PHP_EOL;
             }
@@ -150,7 +147,7 @@ class ImportActivityController extends Controller
             'command' => self::IMPORT_CMD,
             //            '--env' => 'prod',
             'username' => $username,
-            'path' => $uploadDir
+            'path' => $uploadDir,
         ]);
 
         // You can use NullOutput() if you don't need the output

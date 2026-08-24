@@ -99,12 +99,12 @@ class PaceUnit extends AbstractEnum
             case self::MIN_PER_500Y:
                 return 'min/500y';
             default:
-                throw new \InvalidArgumentException('Invalid pace unit id "'.$id.'".');
+                throw new \InvalidArgumentException('Invalid pace unit id "' . $id . '".');
         }
     }
 
     static public function getChoices(): array {
-        return array(
+        return [
             self::stringFor(self::KM_PER_H) => self::KM_PER_H,
             self::stringFor(self::MILES_PER_H) => self::MILES_PER_H,
             self::stringFor(self::MIN_PER_KM) => self::MIN_PER_KM,
@@ -113,8 +113,8 @@ class PaceUnit extends AbstractEnum
             self::stringFor(self::MIN_PER_100M) => self::MIN_PER_100M,
             self::stringFor(self::MIN_PER_100Y) => self::MIN_PER_100Y,
             self::stringFor(self::MIN_PER_500M) => self::MIN_PER_500M,
-            self::stringFor(self::MIN_PER_500Y) => self::MIN_PER_500Y
-        );
+            self::stringFor(self::MIN_PER_500Y) => self::MIN_PER_500Y,
+        ];
     }
 
 	/**

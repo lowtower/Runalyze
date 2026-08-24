@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\Metadata;
 
 class MetadataMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Metadata */
+    /**
+     * @var Metadata
+     */
     protected $FirstMetadata;
 
-    /** @var Metadata */
+    /**
+     * @var Metadata
+     */
     protected $SecondMetadata;
 
     protected function setUp(): void

@@ -17,7 +17,8 @@ use Runalyze\View\Activity;
  * @author Michael Pohl
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Smo2 extends ActivitySeries {
+class Smo2 extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -32,7 +33,7 @@ class Smo2 extends ActivitySeries {
 		$this->initOptions();
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata::SMO2_1;
-            $this->Label = __('SmO2').' (2)';
+            $this->Label = __('SmO2') . ' (2)';
         } else {
             $trackdataKey = Trackdata::SMO2_0;
             $this->Label = __('SmO2');
@@ -41,9 +42,6 @@ class Smo2 extends ActivitySeries {
 		$this->initData($context->trackdata(), $trackdataKey);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Color = self::COLOR;
 
@@ -57,5 +55,4 @@ class Smo2 extends ActivitySeries {
 		$this->ShowMaximum = false;
 		$this->ShowMinimum = false;
 	}
-
 }

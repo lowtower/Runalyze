@@ -12,8 +12,11 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
-	/** @var int */
+class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
+{
+	/**
+	 * @var int
+	 */
 	const PRECISION = 1;
 
 	/**
@@ -48,9 +51,6 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 		return round($this->value(), self::PRECISION);
 	}
 
-	/**
-	 * Set value from post
-	 */
 	public function setValueFromPost() {
 		if (isset($_POST[$this->Key])) {
 			$this->Value = (float) $_POST[$this->Key] * $this->unitSystem()->distanceToKmFactor();
@@ -77,7 +77,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat {
 	 * @return \Runalyze\Parameter\Application\DistanceUnitSystem
 	 */
 	protected function unitSystem() {
-		if (null === $this->UnitSystem) {
+		if ($this->UnitSystem === null) {
 			$this->UnitSystem = Configuration::General()->distanceUnitSystem();
 		}
 

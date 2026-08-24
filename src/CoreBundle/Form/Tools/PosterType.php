@@ -15,13 +15,19 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class PosterType extends AbstractType
 {
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(
@@ -58,12 +64,12 @@ class PosterType extends AbstractType
                 'choices' => [
                     'Circular' => 'circular',
                     'Calendar' => 'calendar',
-                    'Grid'     => 'grid',
-                    'Heatmap'  => 'heatmap'
+                    'Grid' => 'grid',
+                    'Heatmap' => 'heatmap',
                 ],
                 'attr' => [
-                    'class' => 'chosen-select full-size'
-                ]
+                    'class' => 'chosen-select full-size',
+                ],
             ])
             ->add('year', ChoiceType::class, [
                 'choices' => $this->TrainingRepository->getActiveYearsFor($this->getAccount(), null, 2),
@@ -74,8 +80,8 @@ class PosterType extends AbstractType
             ->add('title', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'maxlength' => 11
-                ]
+                    'maxlength' => 11,
+                ],
             ])
             ->add('sport', ChoiceType::class, [
                 'choices' => $this->SportRepository->findWithDistancesFor($this->getAccount()),
@@ -91,24 +97,24 @@ class PosterType extends AbstractType
                     'DIN A3' => 5000,
                     'DIN A2' => 7000,
                     'DIN A1' => 10000,
-                    'DIN A0' => 14000
+                    'DIN A0' => 14000,
                 ],
             ])
             ->add('backgroundColor', ColorType::class, [
                 'data' => '#222222',
-                'label' => 'Background'
+                'label' => 'Background',
             ])
             ->add('trackColor', ColorType::class, [
                 'data' => '#4DD2FF',
-                'label' => 'Activity'
+                'label' => 'Activity',
             ])
             ->add('textColor', ColorType::class, [
                 'data' => '#FFFFFF',
-                'label' => 'Text'
+                'label' => 'Text',
             ])
             ->add('raceColor', ColorType::class, [
                 'data' => '#FFFF00',
-                'label' => 'Race'
+                'label' => 'Race',
             ])
         ;
     }

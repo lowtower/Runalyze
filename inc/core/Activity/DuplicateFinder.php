@@ -15,17 +15,22 @@ use PDO;
  */
 class DuplicateFinder
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const COLUMN_WITH_ID = 'activity_id';
 
-    /** @var \PDO */
+    /**
+     * @var \PDO
+     */
     protected $PDO;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountId;
 
     /**
-     * Default constructor
      * @param int $accountId
      */
     public function __construct(PDO $pdo, $accountId)
@@ -42,7 +47,7 @@ class DuplicateFinder
      */
     public function checkForDuplicate($activityId)
     {
-        if (null === $activityId) {
+        if ($activityId === null) {
             return false;
         }
 
@@ -50,7 +55,7 @@ class DuplicateFinder
             throw new \InvalidArgumentException('Activity id must be numerical.');
         }
 
-	    return (1 == $this->PDO->query('SELECT 1 FROM `'.PREFIX.'training` WHERE `'.self::COLUMN_WITH_ID.'` = "'.$activityId.'" AND `accountid` = "'.$this->AccountId.'" LIMIT 1')->fetchColumn());
+	    return ($this->PDO->query('SELECT 1 FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` = "' . $activityId . '" AND `accountid` = "' . $this->AccountId . '" LIMIT 1')->fetchColumn() == 1);
     }
 
     /**
@@ -72,7 +77,7 @@ class DuplicateFinder
                 throw new \InvalidArgumentException('All activity ids must be numerical.');
             }
 
-            $existingIds = $this->PDO->query('SELECT `'.self::COLUMN_WITH_ID.'` FROM `'.PREFIX.'training` WHERE `'.self::COLUMN_WITH_ID.'` IN ('.implode(', ', $activityIds).') AND `accountid` = "'.$this->AccountId.'"')->fetchAll(PDO::FETCH_COLUMN);
+            $existingIds = $this->PDO->query('SELECT `' . self::COLUMN_WITH_ID . '` FROM `' . PREFIX . 'training` WHERE `' . self::COLUMN_WITH_ID . '` IN (' . implode(', ', $activityIds) . ') AND `accountid` = "' . $this->AccountId . '"')->fetchAll(PDO::FETCH_COLUMN);
 
             foreach ($activityIds as $id) {
                 $result[$id] = in_array($id, $existingIds);

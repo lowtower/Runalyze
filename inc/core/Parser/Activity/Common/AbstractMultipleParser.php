@@ -11,7 +11,9 @@ abstract class AbstractMultipleParser implements ParserInterface, LoggerAwareInt
 {
     use LoggerAwareTrait;
 
-    /** @var ActivityDataContainer[] */
+    /**
+     * @var ActivityDataContainer[]
+     */
     protected $Container = [];
 
     public function __construct()

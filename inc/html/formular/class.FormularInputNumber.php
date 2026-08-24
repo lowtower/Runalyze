@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularInputNumber extends FormularInput {
+class FormularInputNumber extends FormularInput
+{
 	/**
 	 * Minimum
 	 * @var int
@@ -38,17 +39,16 @@ class FormularInputNumber extends FormularInput {
 	 * Add min/max to tag
 	 */
 	protected function addMinMax() {
-		if (null !== $this->min) {
+		if ($this->min !== null) {
 			$this->addAttribute('min', (int) $this->min);
 		}
 
-		if (null !== $this->max) {
+		if ($this->max !== null) {
 			$this->addAttribute('max', (int) $this->max);
 		}
 	}
 
 	/**
-	 * Set min
 	 * @param int $min
 	 */
 	public function setMin($min) {
@@ -56,7 +56,6 @@ class FormularInputNumber extends FormularInput {
 	}
 
 	/**
-	 * Set max
 	 * @param int $max
 	 */
 	public function setMax($max) {

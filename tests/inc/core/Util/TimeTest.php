@@ -10,7 +10,8 @@ use Runalyze\Parameter\Application\WeekStart;
 /**
  * Test class for Time
  */
-class TimeTest extends \PHPUnit\Framework\TestCase {
+class TimeTest extends \PHPUnit\Framework\TestCase
+{
 	protected function tearDown(): void {
 		Configuration::General()->weekStart()->set(WeekStart::MONDAY);
 	}
@@ -76,5 +77,4 @@ class TimeTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($end, Time::weekend($today));
 		$this->assertEquals($end, Time::weekend($end));
 	}
-
 }

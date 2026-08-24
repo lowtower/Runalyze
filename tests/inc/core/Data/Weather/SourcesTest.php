@@ -10,5 +10,4 @@ class SourcesTest extends \PHPUnit\Framework\TestCase
 			Sources::stringFor($id);
 		}
 	}
-
 }

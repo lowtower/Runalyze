@@ -17,15 +17,15 @@ class PrivacyType extends AbstractType
         $builder
             ->add('AthletePageActive', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Enable public athlete page'
+                'label' => 'Enable public athlete page',
             ])
             ->add('ShowPrivateInList', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Show private activities in list'
+                'label' => 'Show private activities in list',
             ])
             ->add('ShowStatisticsInList', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Show general statistics'
+                'label' => 'Show general statistics',
             ])
             ->add('MapPrivacy', ChoiceType::class, [
                 'required' => true,
@@ -33,8 +33,8 @@ class PrivacyType extends AbstractType
                 'choices' => [
                     'never' => 'never',
                     'only for race results' => 'race',
-                    'always' => 'always'
-                ]
+                    'always' => 'always',
+                ],
             ])
         ;
     }
@@ -42,7 +42,7 @@ class PrivacyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PrivacyData::class
+            'data_class' => PrivacyData::class,
         ]);
     }
 }

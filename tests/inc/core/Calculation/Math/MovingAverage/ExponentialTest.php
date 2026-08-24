@@ -17,7 +17,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             15,
             22.5,
             21.25,
-            15.625
+            15.625,
         ], $Object->movingAverage());
     }
 
@@ -32,7 +32,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             17.5,
             26.875,
             21.71875,
-            12.9296875
+            12.9296875,
         ], $Object->movingAverage());
     }
 
@@ -47,7 +47,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             12.5,
             16.875,
             17.65625,
-            15.7421875
+            15.7421875,
         ], $Object->movingAverage());
     }
 

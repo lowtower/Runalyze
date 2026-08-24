@@ -15,15 +15,12 @@ namespace Runalyze\View\Activity\Box;
  */
 class Gradient extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		parent::__construct(
 		    \Helper::Unknown(substr($Context->dataview()->gradientInPercent(), 0, -11), '-'),
 		    '&#37;',
-		    __('avg.').' '.__('Gradient')
+		    __('avg.') . ' ' . __('Gradient')
 		);
 	}
 }

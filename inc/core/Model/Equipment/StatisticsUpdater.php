@@ -4,13 +4,19 @@ namespace Runalyze\Model\Equipment;
 
 class StatisticsUpdater
 {
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $AccountId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $DatabasePrefix;
 
     /**
@@ -30,16 +36,16 @@ class StatisticsUpdater
 	public function run()
     {
 		$result = $this->PDO->exec(
-		    'UPDATE `'.$this->DatabasePrefix.'equipment`
+		    'UPDATE `' . $this->DatabasePrefix . 'equipment`
 			CROSS JOIN(
 				SELECT
 					`eqp`.`id` AS `eqpid`,
 					SUM(`tr`.`distance`) AS `km`,
 					SUM(`tr`.`s`) AS `s`
-				FROM `'.$this->DatabasePrefix.'equipment` AS `eqp`
-				LEFT JOIN `'.$this->DatabasePrefix.'activity_equipment` AS `aeqp` ON `eqp`.`id` = `aeqp`.`equipmentid`
-				LEFT JOIN `'.$this->DatabasePrefix.'training` AS `tr` ON `aeqp`.`activityid` = `tr`.`id`
-				WHERE `eqp`.`accountid` = '.$this->AccountId.'
+				FROM `' . $this->DatabasePrefix . 'equipment` AS `eqp`
+				LEFT JOIN `' . $this->DatabasePrefix . 'activity_equipment` AS `aeqp` ON `eqp`.`id` = `aeqp`.`equipmentid`
+				LEFT JOIN `' . $this->DatabasePrefix . 'training` AS `tr` ON `aeqp`.`activityid` = `tr`.`id`
+				WHERE `eqp`.`accountid` = ' . $this->AccountId . '
 				GROUP BY `eqp`.`id`
 			) AS `new`
 			SET

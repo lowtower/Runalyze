@@ -19,10 +19,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class EquipmentType extends AbstractType
 {
-    /** @var EquipmentTypeRepository */
+    /**
+     * @var EquipmentTypeRepository
+     */
     protected $EquipmentRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(EquipmentTypeRepository $equipmentTypeRepository, TokenStorage $tokenStorage)
@@ -56,8 +60,8 @@ class EquipmentType extends AbstractType
                 'label' => 'Name',
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('additionalKm', DistanceType::class, [
                 'label' => 'prev. distance',
@@ -70,11 +74,11 @@ class EquipmentType extends AbstractType
                 'html5' => false,
                 'required' => false,
                 // #TSC: fix if new equip set current date, else use stored date
-                'data' => (null === $equipment->getId() ? new \DateTime('now') : $equipment->getDateStart()),
+                'data' => ($equipment->getId() === null ? new \DateTime('now') : $equipment->getDateStart()),
                 'attr' => [
                     'class' => 'pick-a-date small-size',
-                    'placeholder' => 'dd.mm.YYYY'
-                ]
+                    'placeholder' => 'dd.mm.YYYY',
+                ],
             ])
             ->add('dateEnd', DateType::class, [
                 'label' => 'End of use',
@@ -84,16 +88,16 @@ class EquipmentType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'pick-a-date small-size',
-                    'placeholder' => 'dd.mm.YYYY'
-                ]
+                    'placeholder' => 'dd.mm.YYYY',
+                ],
             ])
             ->add('notes', TextareaType::class, [
                 'label' => 'Notes',
                 'required' => false,
                 'empty_data' => '',
                 'attr' => [
-                    'class' => 'fullwidth'
-                ]
+                    'class' => 'fullwidth',
+                ],
             ])
             // #TSC allow only sports from the type
             ->add('sport', EntityType::class, [
@@ -104,14 +108,14 @@ class EquipmentType extends AbstractType
                 'label' => 'Assigned sports',
                 'attr' => [
                     'class' => 'chosen-select full-size',
-                    'data-placeholder' => 'Choose sport(s)'
+                    'data-placeholder' => 'Choose sport(s)',
                 ],
                 'multiple' => true,
                 'required' => false,
-                'expanded' => false
+                'expanded' => false,
             ]);
 
-        if (null === $equipment->getId()) {
+        if ($equipment->getId() === null) {
             $builder
                 ->add('type', ChoiceType::class, [
                     'choices' => $this->EquipmentRepository->findAllFor($this->getAccount()),
@@ -119,7 +123,7 @@ class EquipmentType extends AbstractType
                     'choice_value' => 'getId',
                     'choice_translation_domain' => false,
                     'label' => 'Category',
-                    'disabled' => true
+                    'disabled' => true,
                 ]);
         }
     }
@@ -127,7 +131,7 @@ class EquipmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Equipment::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Equipment::class,
         ]);
     }
 }

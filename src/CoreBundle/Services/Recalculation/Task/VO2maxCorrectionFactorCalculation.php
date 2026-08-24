@@ -11,13 +11,19 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
 {
     use AccountAwareTaskTrait;
 
-    /** @var RaceresultRepository */
+    /**
+     * @var RaceresultRepository
+     */
     protected $RaceResultRepository;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var ConfigurationUpdater */
+    /**
+     * @var ConfigurationUpdater
+     */
     protected $ConfigurationUpdater;
 
     public function __construct(
@@ -33,7 +39,7 @@ class VO2maxCorrectionFactorCalculation implements RecalculationTaskInterface
 
     public function run()
     {
-        if (null === $this->Account) {
+        if ($this->Account === null) {
             return;
         }
 

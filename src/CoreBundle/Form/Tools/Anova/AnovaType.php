@@ -20,19 +20,29 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class AnovaType extends AbstractType
 {
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var TypeRepository */
+    /**
+     * @var TypeRepository
+     */
     protected $TypeRepository;
 
-    /** @var EquipmentTypeRepository */
+    /**
+     * @var EquipmentTypeRepository
+     */
     protected $EquipmentTypeRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function __construct(
@@ -74,20 +84,20 @@ class AnovaType extends AbstractType
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'pick-a-date small-size'
+                    'class' => 'pick-a-date small-size',
                 ],
                 'model_timezone' => 'UTC',
-                'view_timezone' => 'UTC'
+                'view_timezone' => 'UTC',
             ])
             ->add('dateTo', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'pick-a-date small-size'
+                    'class' => 'pick-a-date small-size',
                 ],
                 'model_timezone' => 'UTC',
-                'view_timezone' => 'UTC'
+                'view_timezone' => 'UTC',
             ])
             ->add('sport', ChoiceType::class, [
                 'multiple' => true,
@@ -99,14 +109,14 @@ class AnovaType extends AbstractType
                 'choice_translation_domain' => false,
                 'attr' => [
                     'data-placeholder' => __('Choose sport(s)'),
-                    'class' => 'chosen-select full-size'
+                    'class' => 'chosen-select full-size',
                 ],
                 'choice_attr' => function($sport, $key, $index): array {
                     /** @var Sport $sport */
                     return [
-                        'data-id' => $sport->getId()
+                        'data-id' => $sport->getId(),
                     ];
-                }
+                },
             ])
             ->add('type', ChoiceType::class, [
                 'required' => false,
@@ -119,28 +129,28 @@ class AnovaType extends AbstractType
                 'choice_translation_domain' => false,
                 'attr' => [
                     'data-placeholder' => __('Choose activity type(s)'),
-                    'class' => 'chosen-select full-size'
+                    'class' => 'chosen-select full-size',
                 ],
                 'choice_attr' => function($type, $key, $index): array {
                     /** @var Type $type */
                     return [
                         'data-sportid' => $type->getSport()
-                            ->getId()
+                            ->getId(),
                     ];
-                }
+                },
             ])
             ->add('valueToGroupBy', ChoiceType::class, [
                 'choices' => [
                     'Time related' => [
                         'Month' => QueryGroups::MONTH,
-                        'Year' => QueryGroups::YEAR
+                        'Year' => QueryGroups::YEAR,
                     ],
                     'General groups' => [
                         'Sport type' => QueryGroups::SPORT,
-                        'Activity type' => QueryGroups::TYPE
+                        'Activity type' => QueryGroups::TYPE,
                     ],
-                    'Equipment types' => $this->getGroupsForSingleChoiceEquipmentTypes()
-                ]
+                    'Equipment types' => $this->getGroupsForSingleChoiceEquipmentTypes(),
+                ],
             ])
             ->add('valueToLookAt', ChoiceType::class, [
                 'choices' => [
@@ -153,14 +163,14 @@ class AnovaType extends AbstractType
                         'Power' => QueryValues::POWER,
                         'Cadence' => QueryValues::CADENCE,
                         'RPE' => QueryValues::RPE,
-                        'Effective VO2max' => $this->getQueryValueEnumForVO2max()
+                        'Effective VO2max' => $this->getQueryValueEnumForVO2max(),
                     ],
                     'Running dynamics' => [
                         'Ground contact time' => QueryValues::GROUND_CONTACT_TIME,
                         'Ground contact balance' => QueryValues::GROUND_CONTACT_BALANCE,
                         'Vertical oscillation' => QueryValues::VERTICAL_OSCILLATION,
                         'Flight time' => QueryValues::FLIGHT_TIME,
-                        'Flight ratio' => QueryValues::FLIGHT_RATIO
+                        'Flight ratio' => QueryValues::FLIGHT_RATIO,
                     ],
                     'RunScribe' => [
                         'Impact Gs (left)' => QueryValues::IMPACT_GS_LEFT,
@@ -175,9 +185,9 @@ class AnovaType extends AbstractType
                     'Weather' => [
                         'Temperature' => QueryValues::WEATHER_TEMPERATURE,
                         'Humidity' => QueryValues::WEATHER_HUMIDITY,
-                        'Pressure' => QueryValues::WEATHER_PRESSURE
-                    ]
-                ]
+                        'Pressure' => QueryValues::WEATHER_PRESSURE,
+                    ],
+                ],
             ])
         ;
     }
@@ -197,7 +207,7 @@ class AnovaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AnovaData::class
+            'data_class' => AnovaData::class,
         ]);
     }
 

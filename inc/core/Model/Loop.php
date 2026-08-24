@@ -62,9 +62,6 @@ abstract class Loop
 		$this->reset();
 	}
 
-	/**
-	 * Count total size
-	 */
 	protected function countTotalSize()
 	{
 		$this->TotalSize = $this->Object->num();
@@ -79,8 +76,6 @@ abstract class Loop
 	}
 
 	/**
-	 * Reset
-	 *
 	 * Sets the internal pointer to the beginning.
 	 * This method does not change the step size.
 	 */
@@ -91,7 +86,6 @@ abstract class Loop
 	}
 
 	/**
-	 * Set step size
 	 * @param int $size
 	 */
 	public function setStepSize($size)
@@ -161,7 +155,6 @@ abstract class Loop
 	}
 
 	/**
-	 * Go to index
 	 * @param int $index
 	 */
 	public function goToIndex($index)
@@ -170,9 +163,6 @@ abstract class Loop
 		$this->Index = $index;
 	}
 
-	/**
-	 * Go to end
-	 */
 	public function goToEnd()
 	{
 		$this->goToIndex($this->TotalSize - 1);
@@ -236,13 +226,13 @@ abstract class Loop
 
 		$previous = $this->Object->at($this->Index - 1, $key);
 
-		if (self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE === $boundaryMode) {
+		if ($boundaryMode === self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE) {
 			$this->Index--;
 			return;
 		}
 
 		if (
-			self::BOUNDARY_NEAREST === $boundaryMode &&
+			$boundaryMode === self::BOUNDARY_NEAREST &&
 			$current - $target > $target - $previous
 		) {
 			$this->Index--;
@@ -352,7 +342,7 @@ abstract class Loop
 			return array_slice($this->Object->get($key), $start, $this->Index - $start + 1);
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -367,7 +357,7 @@ abstract class Loop
 			throw new \RuntimeException('This object cannot be sliced.');
 		}
 
-		$data = array();
+		$data = [];
 
 		foreach ($this->Object->properties() as $key)
 		{

@@ -16,14 +16,12 @@ namespace Runalyze\Activity\PaceUnit;
 abstract class AbstractUnit
 {
 	/**
-	 * Unit
 	 * @return string
 	 * @codeCoverageIgnore
 	 */
 	abstract public function unit();
 
 	/**
-	 * Appendix
 	 * @return string
 	 * @codeCoverageIgnore
 	 */

@@ -48,12 +48,12 @@ class EquipmentController extends Controller
         $equipmentType = $this->getEquipmentTypeRepository()
             ->findOneBy([
                 'id' => $typeid,
-                'account' => $account->getId()
+                'account' => $account->getId(),
             ]);
         $equipmentStatistics = $this->getEquipmentRepository()
             ->getStatisticsForType($typeid, $account);
 
-        if (null === $equipmentType) {
+        if ($equipmentType === null) {
             throw $this->createAccessDeniedException();
         }
 
@@ -61,14 +61,14 @@ class EquipmentController extends Controller
             ->getList()
             ->getUnitSystem();
 
-        if (1 == $equipmentType->getSport()->count()) {
+        if ($equipmentType->getSport()->count() == 1) {
             $unitSystem->setPaceUnitFromSport($equipmentType->getSport()->first());
         }
 
         return $this->render('my/equipment/category/table.html.twig', [
             'unitSystem' => $unitSystem,
             'category' => $equipmentType,
-            'statistics' => $equipmentStatistics
+            'statistics' => $equipmentStatistics,
         ]);
     }
 
@@ -79,7 +79,7 @@ class EquipmentController extends Controller
     {
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()
-                ->findAllFor($account)
+                ->findAllFor($account),
         ]);
     }
 
@@ -93,7 +93,7 @@ class EquipmentController extends Controller
         $equipmentType->setAccount($account);
 
         $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType, [
-            'action' => $this->generateUrl('equipment-category-add')
+            'action' => $this->generateUrl('equipment-category-add'),
         ]);
         $form->handleRequest($request);
 
@@ -104,12 +104,12 @@ class EquipmentController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
-                'id' => $equipmentType->getId()
+                'id' => $equipmentType->getId(),
             ]);
         }
 
         return $this->render('my/equipment/form-category.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -127,8 +127,8 @@ class EquipmentController extends Controller
 
         $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType, [
             'action' => $this->generateUrl('equipment-category-edit', [
-                'id' => $equipmentType->getId()
-            ])
+                'id' => $equipmentType->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -139,14 +139,14 @@ class EquipmentController extends Controller
                 ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
 
             return $this->redirectToRoute('equipment-category-edit', [
-                'id' => $equipmentType->getId()
+                'id' => $equipmentType->getId(),
             ]);
         }
 
         return $this->render('my/equipment/form-category.html.twig', [
             'form' => $form->createView(),
             'equipment' => $this->getEquipmentRepository()
-                ->findByTypeId($equipmentType->getId(), $account)
+                ->findByTypeId($equipmentType->getId(), $account),
         ]);
     }
 
@@ -189,8 +189,8 @@ class EquipmentController extends Controller
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment, [
             'action' => $this->generateUrl('equipment-add', [
-                'id' => $equipmentType->getId()
-            ])
+                'id' => $equipmentType->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -202,13 +202,13 @@ class EquipmentController extends Controller
 
             return $this->redirectToRoute('equipment-category-edit', [
                 'id' => $equipment->getType()
-                    ->getId()
+                    ->getId(),
             ]);
         }
 
         return $this->render('my/equipment/form-equipment.html.twig', [
             'form' => $form->createView(),
-            'category_id' => $equipmentType->getId()
+            'category_id' => $equipmentType->getId(),
         ]);
     }
 
@@ -225,8 +225,8 @@ class EquipmentController extends Controller
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment, [
             'action' => $this->generateUrl('equipment-edit', [
-                'id' => $equipment->getId()
-            ])
+                'id' => $equipment->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -238,14 +238,14 @@ class EquipmentController extends Controller
 
             return $this->redirectToRoute('equipment-category-edit', [
                 'id' => $equipment->getType()
-                    ->getId()
+                    ->getId(),
             ]);
         }
 
         return $this->render('my/equipment/form-equipment.html.twig', [
             'form' => $form->createView(),
             'category_id' => $equipment->getType()
-                ->getId()
+                ->getId(),
         ]);
     }
 
@@ -260,7 +260,7 @@ class EquipmentController extends Controller
 
             return $this->redirectToRoute('equipment-category-edit', [
                 'id' => $equipment->getType()
-                    ->getId()
+                    ->getId(),
             ]);
         }
 
@@ -276,7 +276,7 @@ class EquipmentController extends Controller
 
         return $this->redirectToRoute('equipment-category-edit', [
             'id' => $equipment->getType()
-                ->getId()
+                ->getId(),
         ]);
     }
 }

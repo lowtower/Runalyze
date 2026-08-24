@@ -10,10 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionOverview extends TrainingViewSection {
-	/**
-	 * Set header and rows
-	 */
+class SectionOverview extends TrainingViewSection
+{
 	protected function setHeaderAndRows() {
 		$this->Header = __('Overview');
 

@@ -47,9 +47,6 @@ class GroundcontactBalance implements ValueInterface
 		return __('Groundcontact balance');
 	}
 
-    /**
-     * Unit
-     */
     public function unit(): string
 	{
 		return '%';
@@ -74,7 +71,7 @@ class GroundcontactBalance implements ValueInterface
 	 */
 	public function setPercent($percent): self
 	{
-		$this->BasisPoint = 100*$percent;
+		$this->BasisPoint = 100 * $percent;
 
 		return $this;
 	}
@@ -95,13 +92,13 @@ class GroundcontactBalance implements ValueInterface
     public function string($withUnit = true): string
 	{
 		if ($this->isKnown()) {
-			$string = $this->leftInPercent().'L/'.$this->rightInPercent().'R';
+			$string = $this->leftInPercent() . 'L/' . $this->rightInPercent() . 'R';
 		} else {
 			$string = '-/-';
 		}
 
 		if ($withUnit) {
-			return $string.'&nbsp;%';
+			return $string . '&nbsp;%';
 		}
 
 		return $string;
@@ -109,12 +106,12 @@ class GroundcontactBalance implements ValueInterface
 
 	public function leftInPercent(): string
 	{
-		return number_format($this->BasisPoint/100, 1);
+		return number_format($this->BasisPoint / 100, 1);
 	}
 
 	public function rightInPercent(): string
 	{
-		return number_format(100 - $this->BasisPoint/100, 1);
+		return number_format(100 - $this->BasisPoint / 100, 1);
 	}
 
 	public function isKnown(): bool

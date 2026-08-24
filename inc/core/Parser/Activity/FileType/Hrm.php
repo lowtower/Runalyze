@@ -12,34 +12,54 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
 {
     use FileContentAwareParserTrait;
 
-    /** @var int data of 'Interval' for rr-data */
+    /**
+     * @var int data of 'Interval' for rr-data
+     */
     const RR_DATA_INTERVAL = 238;
 
-    /** @var string|bool */
+    /**
+     * @var string|bool
+     */
     protected $CurrentLine = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $CurrentHeader = '';
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $TotalSplitsTime = 0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $RecordsAltitude = true;
 
-    /** @var bool uses imperial units (miles, mp/h, ft) */
+    /**
+     * @var bool uses imperial units (miles, mp/h, ft)
+     */
     protected $UsesImperialUnits = false;
 
-    /** @var float factor to transform km/h or mph to s/km */
+    /**
+     * @var float factor to transform km/h or mph to s/km
+     */
     protected $PaceFactor = 3600.0;
 
-    /** @var float factor to transform m or ft to m */
+    /**
+     * @var float factor to transform m or ft to m
+     */
     protected $DistanceFactor = 1.0;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $RecordingInterval = 1;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $TotalTime = 0;
 
     public function parse()
@@ -75,7 +95,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
     protected function readParam()
     {
         if (substr($this->CurrentLine, 0, 4) == 'Date') {
-            $this->Container->Metadata->setTimestampAndTimezoneOffsetFrom(substr($this->CurrentLine, 5).' 00:00');
+            $this->Container->Metadata->setTimestampAndTimezoneOffsetFrom(substr($this->CurrentLine, 5) . ' 00:00');
         } elseif (substr($this->CurrentLine, 0, 9) == 'StartTime') {
             $this->Container->Metadata->setTimestamp(
                 $this->Container->Metadata->getTimestamp() + (new Duration(substr($this->CurrentLine, 10)))->seconds(),

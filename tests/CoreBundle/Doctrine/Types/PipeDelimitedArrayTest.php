@@ -8,13 +8,19 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString;
 
 class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var PipeDelimitedArray */
+    /**
+     * @var PipeDelimitedArray
+     */
     protected $TypeNumber;
 
-    /** @var PipeDelimitedArrayString */
+    /**
+     * @var PipeDelimitedArrayString
+     */
     protected $TypeString;
 
-    /** @var AbstractPlatform */
+    /**
+     * @var AbstractPlatform
+     */
     protected $PlatformMock;
 
     protected function setUp(): void

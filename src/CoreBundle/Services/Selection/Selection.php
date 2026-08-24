@@ -4,10 +4,14 @@ namespace Runalyze\Bundle\CoreBundle\Services\Selection;
 
 class Selection
 {
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     protected $List;
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $CurrentKey;
 
     /**

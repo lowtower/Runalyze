@@ -4,13 +4,19 @@ namespace Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb;
 
 class ClimbProfile implements \Countable
 {
-    /** @var float [m] */
+    /**
+     * @var float [m]
+     */
     const DEFAULT_SEGMENT_LENGTH = 0.2;
 
-    /** @var float[] [km] */
+    /**
+     * @var float[] [km]
+     */
     protected $Distances;
 
-    /** @var int[] [m] */
+    /**
+     * @var int[] [m]
+     */
     protected $Elevations;
 
     /**
@@ -104,7 +110,7 @@ class ClimbProfile implements \Countable
         }
 
         while ($currentIndex < $num) {
-            if ($distances[$currentIndex] - $distances[$lastIndex] >= $segmentLength) {
+            if ($segmentLength <= $distances[$currentIndex] - $distances[$lastIndex]) {
                 $profile->addSegment($distances[$currentIndex] - $distances[$lastIndex], $elevations[$currentIndex] - $elevations[$lastIndex]);
                 $lastIndex = $currentIndex;
             }

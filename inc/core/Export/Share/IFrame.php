@@ -25,10 +25,14 @@ use System;
  */
 class IFrame extends AbstractSnippetSharer
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const DEFAULT_WIDTH = 500;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const DEFAULT_HEIGHT = 500;
 
     public function enum(): int
@@ -63,12 +67,9 @@ class IFrame extends AbstractSnippetSharer
         return (isset($_POST['height']) && is_numeric($_POST['height']) ? (int) $_POST['height'] : self::DEFAULT_HEIGHT);
     }
 
-    /**
-     * Display
-     */
     public function display()
     {
-        $Code = str_replace(array("\r", "\n", "\t"), array('', '', ''), $this->codeSnippet());
+        $Code = str_replace(["\r", "\n", "\t"], ['', '', ''], $this->codeSnippet());
 
         $CodeField = new FormularTextarea('code', __('Code'), $Code);
         $CodeField->addCSSclass('fullwidth');
@@ -120,6 +121,6 @@ class IFrame extends AbstractSnippetSharer
             ->set(Activity\Entity::IS_PUBLIC, 1);
         $Linker = new Linker($this->Context->activity());
 
-        return '<iframe style="padding:0;margin:0 auto;display:block;max-width:100%;" src="'.$Linker->publicUrl().'?mode=iframe&amp;utm_medium=referral&amp;utm_source=iframe" width="'.$this->width().'" height="'.$this->height().'"></iframe>';
+        return '<iframe style="padding:0;margin:0 auto;display:block;max-width:100%;" src="' . $Linker->publicUrl() . '?mode=iframe&amp;utm_medium=referral&amp;utm_source=iframe" width="' . $this->width() . '" height="' . $this->height() . '"></iframe>';
     }
 }

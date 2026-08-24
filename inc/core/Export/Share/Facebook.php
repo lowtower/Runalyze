@@ -44,16 +44,16 @@ class Facebook extends AbstractSocialSharer
         // @see https://developers.facebook.com/docs/reference/opengraph/action-type/fitness.runs
         // @see https://developers.facebook.com/docs/reference/opengraph/object-type/fitness.course
 
-        $url   = urlencode($this->publicURL().'?utm_medium=referral&utm_source=facebook');
+        $url = urlencode($this->publicURL() . '?utm_medium=referral&utm_source=facebook');
         $title = urlencode($this->Context->dataview()->titleWithComment());
-        $text  = urlencode($this->text());
-        $image = System::getFullDomainWithProtocol(true).'web/assets/images/runalyze.png';
+        $text = urlencode($this->text());
+        $image = System::getFullDomainWithProtocol(true) . 'web/assets/images/runalyze.png';
 
         if (System::isAtLocalhost()) {
             $image = 'https://runalyze.com/web/assets/images/runalyze.png';
         }
 
-        return 'https://www.facebook.com/dialog/feed?app_id='.self::$APP_ID.'&link='.$url.'&picture='.$image.'&name='.$title.'&caption='.$url.'&description='.$text.'&redirect_uri=http://www.facebook.com';
+        return 'https://www.facebook.com/dialog/feed?app_id=' . self::$APP_ID . '&link=' . $url . '&picture=' . $image . '&name=' . $title . '&caption=' . $url . '&description=' . $text . '&redirect_uri=http://www.facebook.com';
         //$FbUrl = 'https://facebook.com/sharer.php?s=100&amp;p[url]='.$url.'&amp;p[title]='.$title.'&amp;p[summary]='.$text.'&amp;p[images][0]='.$image;
     }
 

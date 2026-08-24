@@ -14,34 +14,29 @@ use Runalyze\Model;
  * @author Felix Gertz
  * @package Runalyze\Plugins\Panels
  */
-class RunalyzePluginPanel_TagsSummary extends PluginPanel {
+class RunalyzePluginPanel_TagsSummary extends PluginPanel
+{
 	/**
 	 * @var array
 	 */
-	protected $AllSports = array();
+	protected $AllSports = [];
 
 	/**
 	 * Timescale in months.
 	 * @var array
 	 */
-	protected $Timescale = array(
+	protected $Timescale = [
 	    '1' => '1',
 	    '3' => '3',
 	    '6' => '6',
 	    '12' => '12',
-	    '24' => '24'
-	);
+	    '24' => '24',
+	];
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Tags summary');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Summarises your tags for the selected sport.');
 	}
@@ -50,9 +45,6 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 
 	protected $timescale;
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
 		$Configuration = new PluginConfiguration($this->id());
 
@@ -112,7 +104,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 
 		foreach ($this->AllSports as $id => $name) {
 			$active = $id == (int) $this->sportid;
-			$SportLinks[] = '<li'.($active ? ' class="active"' : '').'>'.Ajax::link($name, 'panel-'.$this->id(), Plugin::$DISPLAY_URL.'/'.$this->id().'?sport='.$id).'</li>';
+			$SportLinks[] = '<li' . ($active ? ' class="active"' : '') . '>' . Ajax::link($name, 'panel-' . $this->id(), Plugin::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $id) . '</li>';
 
 			if ($active) {
 				$CurrentSport = $name;
@@ -121,27 +113,26 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 
 		foreach (array_keys($this->Timescale) as $timescale) {
 			$active = $timescale == $this->timescale;
-			$name = $timescale.' '.($timescale != 1 ? __('months') : __('month'));
-			$TimescaleLinks[] = '<li'.($active ? ' class="active"' : '').'>'.Ajax::link($name, 'panel-'.$this->id(), Plugin::$DISPLAY_URL.'/'.$this->id().'?tagssummary_timescale='.$timescale).'</li>';
+			$name = $timescale . ' ' . ($timescale != 1 ? __('months') : __('month'));
+			$TimescaleLinks[] = '<li' . ($active ? ' class="active"' : '') . '>' . Ajax::link($name, 'panel-' . $this->id(), Plugin::$DISPLAY_URL . '/' . $this->id() . '?tagssummary_timescale=' . $timescale) . '</li>';
 
 			if ($active) {
 				$CurrentTimescale = $name;
 			}
 		}
 
-		$Links = '<li class="with-submenu"><span class="link">'.$CurrentSport.'</span>';
-		$Links .= '<ul class="submenu">'.implode('', $SportLinks).'</ul>';
+		$Links = '<li class="with-submenu"><span class="link">' . $CurrentSport . '</span>';
+		$Links .= '<ul class="submenu">' . implode('', $SportLinks) . '</ul>';
 		$Links .= '</li>';
 
-		$Links .= '<li class="with-submenu"><span class="link">'.$CurrentTimescale.'</span>';
-		$Links .= '<ul class="submenu">'.implode('', $TimescaleLinks).'</ul>';
+		$Links .= '<li class="with-submenu"><span class="link">' . $CurrentTimescale . '</span>';
+		$Links .= '<ul class="submenu">' . implode('', $TimescaleLinks) . '</ul>';
 		$Links .= '</li>';
 
-		return '<ul>'.$Links.'</ul>';
+		return '<ul>' . $Links . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent() {
@@ -159,12 +150,12 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 	protected function showListFor(Model\Sport\Entity $Sport, $timescale) {
 		$max = 0;
 		$countTagsForSport = DB::getInstance()
-		    ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`'.
-		    	' FROM '.PREFIX.'activity_tag activity_tag'.
-		    	' LEFT JOIN '.PREFIX.'training training ON training.sportid = '.$Sport->id().
-		    	' LEFT JOIN '.PREFIX.'tag tag ON tag.id = activity_tag.tagid'.
-		    	' WHERE training.id = activityid'.
-		    	' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL '.(int) $timescale.' MONTH'.
+		    ->query('SELECT activity_tag.tagid, tag.tag, COUNT(tagid) as `count`' .
+		    	' FROM ' . PREFIX . 'activity_tag activity_tag' .
+		    	' LEFT JOIN ' . PREFIX . 'training training ON training.sportid = ' . $Sport->id() .
+		    	' LEFT JOIN ' . PREFIX . 'tag tag ON tag.id = activity_tag.tagid' .
+		    	' WHERE training.id = activityid' .
+		    	' AND FROM_UNIXTIME(training.time) >= NOW()-INTERVAL ' . (int) $timescale . ' MONTH' .
 		    	' GROUP BY tagid ORDER BY count DESC');
 
 		foreach ($countTagsForSport as $data) {
@@ -173,9 +164,9 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 			}
 
 			echo '<p style="position:relative;">
-				<span class="right">'.$data['count'].'x</span>
-				<strong>'.SearchLink::to('tagid', $data['tagid'], $data['tag']).'</strong>
-				'.$this->getUsageImage((int) $data['count'] / $max).'
+				<span class="right">' . $data['count'] . 'x</span>
+				<strong>' . SearchLink::to('tagid', $data['tagid'], $data['tag']) . '</strong>
+				' . $this->getUsageImage((int) $data['count'] / $max) . '
 			</p>';
 		}
 
@@ -183,9 +174,6 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
 			echo HTML::em( __("You don't have any tags for this sport or timescale.") );
 	}
 
-    /**
-     * Get style
-     */
     protected function getStyle(): string {
 		return '<style type="text/css">.tags-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images/damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
@@ -195,6 +183,6 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel {
      * @param float $percentage [0.0 .. 1.0]
      */
     protected function getUsageImage($percentage): string {
-		return '<span class="tags-usage" style="width:'.round($percentage * 330).'px;"></span>';
+		return '<span class="tags-usage" style="width:' . round($percentage * 330) . 'px;"></span>';
 	}
 }

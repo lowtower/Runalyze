@@ -14,19 +14,19 @@ use Helper;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class FloatingPoint extends \Runalyze\Parameter {
+class FloatingPoint extends \Runalyze\Parameter
+{
 	/**
 	 * Options
 	 * @var array
 	 */
-	protected $Options = array(
+	protected $Options = [
     'min' => false,
 	    'max' => false,
-	    'null' => false
-);
+	    'null' => false,
+];
 
 	/**
-	 * Set from string
 	 * @param string $valueAsString new value
 	 */
 	public function setFromString($valueAsString) {
@@ -42,24 +42,21 @@ class FloatingPoint extends \Runalyze\Parameter {
 	 * @param mixed $value new value
 	 */
 	public function set($value) {
-		if (null === $value && $this->Options['null']) {
+		if ($value === null && $this->Options['null']) {
 			$value = null;
-		} elseif (false !== $this->Options['min'] && $value < $this->Options['min']) {
+		} elseif ($this->Options['min'] !== false && $value < $this->Options['min']) {
 			$value = $this->Options['min'];
-		} elseif (false !== $this->Options['max'] && $value > $this->Options['max']) {
+		} elseif ($this->Options['max'] !== false && $value > $this->Options['max']) {
 			$value = $this->Options['max'];
 		}
 
 		parent::set($value);
 	}
 
-    /**
-     * Value as string
-     */
     public function valueAsString(): string {
 		$value = $this->value();
 
-		if (null === $value && $this->Options['null']) {
+		if ($value === null && $this->Options['null']) {
 			return '';
 		}
 
@@ -67,6 +64,6 @@ class FloatingPoint extends \Runalyze\Parameter {
 	}
 
 	public function isEmpty(): bool {
-		return (null === $this->value());
+		return ($this->value() === null);
 	}
 }

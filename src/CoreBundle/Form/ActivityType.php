@@ -45,12 +45,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ActivityType extends AbstractType
 {
-    /** @var TagRepository */
+    /**
+     * @var TagRepository
+     */
     protected $TagRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
-
 
     public function __construct(
         TokenStorage $tokenStorage,
@@ -81,7 +84,7 @@ class ActivityType extends AbstractType
         $builder
             ->add('temporaryHash', HiddenType::class, [
                 'mapped' => false,
-                'required' => false
+                'required' => false,
             ])
             ->add('time', DateTimeType::class, [
                 'required' => true,
@@ -89,113 +92,113 @@ class ActivityType extends AbstractType
                 'time_widget' => 'single_text',
                 'input' => 'timestamp',
                 'model_timezone' => 'UTC',
-                'view_timezone' => 'UTC'
+                'view_timezone' => 'UTC',
             ])
             ->add('s', DurationType::class, [
                 'required' => true,
-                'label' => 'Duration'
+                'label' => 'Duration',
             ])
             ->add('distance', DistanceType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('elevation', ElevationType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('pace', UnitPlaceholderType::class, [
                 'required' => false,
                 'mapped' => false,
-                'empty_data'  => null,
-                'label' => 'Pace'
+                'empty_data' => null,
+                'label' => 'Pace',
             ])
             ->add('sport', SportChoiceType::class, [
                 'required' => false,
                 'empty_data' => null,
-                'placeholder' => null
+                'placeholder' => null,
             ])
             ->add('type', ActivityTypeChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'select type',
-                'empty_data' => null
+                'empty_data' => null,
             ])
             ->add('cadence', CadenceType::class, [
                 // TODO: label depends on sport
-                'required' => false
+                'required' => false,
             ])
             ->add('use_vo2max', CheckboxType::class, [
                 'required' => false,
-                'label' => 'VO2max for shape'
+                'label' => 'VO2max for shape',
             ])
             ->add('is_public', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Public'
+                'label' => 'Public',
             ])
             ->add('is_track', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Track'
+                'label' => 'Track',
             ])
             ->add('title', TextType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('kcal', EnergyKcalType::class, [
                 'label' => 'Energy',
-                'required' => false
+                'required' => false,
             ])
             ->add('power', PowerType::class, [
                 'label' => 'Power',
-                'required' => false
+                'required' => false,
             ])
             ->add('pulseAvg', HeartRateType::class, [
                 'label' => 'avg. HR',
-                'required' => false
+                'required' => false,
             ])
             ->add('pulseMax', HeartRateType::class, [
                 'label' => 'max. HR',
-                'required' => false
+                'required' => false,
             ])
             ->add('rpe', RpeType::class, [
                 'label' => 'RPE',
-                'required' => false
+                'required' => false,
             ])
             ->add('temperature', TemperatureType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('wind_speed', WindSpeedType::class, [
                 'label' => 'Wind speed',
-                'required' => false
+                'required' => false,
             ])
             ->add('wind_deg', WindDirectionType::class, [
                 'label' => 'Wind degrees',
-                'required' => false
+                'required' => false,
             ])
             ->add('humidity', HumidityType::class, [
                 'label' => 'Humidity',
-                'required' => false
+                'required' => false,
             ])
             ->add('pressure', PressureType::class, [
                 'label' => 'Pressure',
-                'required' => false
+                'required' => false,
             ])
             ->add('weatherid', WeatherConditionType::class, [
                 'required' => false,
                 'label' => 'Weather',
-                'placeholder' => null
+                'placeholder' => null,
             ])
             ->add('weatherSource', HiddenType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('notes', TextareaType::class, [
                 'label' => 'Notes',
                 'required' => false,
                 'attr' => [
-                    'class' => 'fullwidth'
-                ]
+                    'class' => 'fullwidth',
+                ],
             ])
             ->add('routename', TextType::class, [
                 'required' => false,
-                'label' => 'Route'
+                'label' => 'Route',
             ])
             ->add('partner', TextType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('splits', CollectionType::class, [
                 'entry_type' => ActivityRoundType::class,
@@ -203,15 +206,15 @@ class ActivityType extends AbstractType
                 'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ])
             ->add('equipment', ActivityEquipmentType::class)
             ->add('activityId', HiddenType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('next-multi-editor', HiddenType::class, [
                 'mapped' => false,
-                'required' => false
+                'required' => false,
             ])
         ;
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
@@ -223,7 +226,7 @@ class ActivityType extends AbstractType
                     'required' => false,
                     'label' => 'Race',
                     'mapped' => false,
-                    'data' => $activity->hasRaceresult()
+                    'data' => $activity->hasRaceresult(),
                 ]);
 
             $event->getForm()
@@ -234,11 +237,11 @@ class ActivityType extends AbstractType
                     'label' => 'Assigned tags',
                     'attr' => [
                         'class' => 'chosen-select-create full-size',
-                        'data-placeholder' => 'Choose tag(s)'
+                        'data-placeholder' => 'Choose tag(s)',
                     ],
                     'multiple' => true,
                     'expanded' => false,
-                    'required' => false
+                    'required' => false,
                 ]);
 
             $this->setStartCoordinates($event->getForm(), $activity);
@@ -247,7 +250,6 @@ class ActivityType extends AbstractType
                 $this->addDataSeriesRemoverFields($event->getForm(), $activity);
             }
         });
-
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
@@ -279,14 +281,13 @@ class ActivityType extends AbstractType
             $event->getForm()
                 ->setData($activity);
 
-
         });
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Training::class
+            'data_class' => Training::class,
         ]);
     }
 
@@ -295,22 +296,22 @@ class ActivityType extends AbstractType
         $data = '';
 
         if ($activity->hasRoute() && $activity->getRoute()->hasGeohashes()) {
-            if (null === $activity->getRoute()->getStartpoint()) {
+            if ($activity->getRoute()->getStartpoint() === null) {
                 $activity->getRoute()
                     ->setStartEndGeohashes();
             }
 
-            if (null !== $activity->getRoute()->getStartpoint()) {
+            if ($activity->getRoute()->getStartpoint() !== null) {
                 $coordinate = (new Geohash())->decode($activity->getRoute()->getStartpoint())
                     ->getCoordinate();
-                $data = $coordinate->getLatitude().','.$coordinate->getLongitude();
+                $data = $coordinate->getLatitude() . ',' . $coordinate->getLongitude();
             }
         }
 
         $form->add('start-coordinates', HiddenType::class, [
             'mapped' => false,
             'required' => false,
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
@@ -325,7 +326,7 @@ class ActivityType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
             ]);
         }
     }

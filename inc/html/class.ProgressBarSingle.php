@@ -12,7 +12,8 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\HTML
  */
-class ProgressBarSingle {
+class ProgressBarSingle
+{
 	/**
 	 * HTML class: balance positive
 	 * @var string
@@ -92,7 +93,6 @@ class ProgressBarSingle {
 	protected $RightBalanced = false;
 
 	/**
-	 * Constructor
 	 * @param int $Width
 	 * @param string $Color
 	 * @param mixed $LeftOrRight [optional] Can be 'left' or 'right' to set balance
@@ -108,22 +108,15 @@ class ProgressBarSingle {
 			$this->setRightBalanced();
 	}
 
-	/**
-	 * Set left balanced
-	 */
 	public function setLeftBalanced() {
 		$this->LeftBalanced = true;
 	}
 
-	/**
-	 * Set right balanced
-	 */
 	public function setRightBalanced() {
 		$this->RightBalanced = true;
 	}
 
 	/**
-	 * Get width
 	 * @return int
 	 */
 	public function getWidth() {
@@ -131,17 +124,16 @@ class ProgressBarSingle {
 	}
 
 	/**
-	 * Get classes
 	 * @return string
 	 */
 	public function getClasses() {
 		$Class = $this->Color;
 
 		if ($this->LeftBalanced)
-			$Class .= ' '.self::$CLASS_BALANCE_NEGATIVE;
+			$Class .= ' ' . self::$CLASS_BALANCE_NEGATIVE;
 
 		if ($this->RightBalanced)
-			$Class .= ' '.self::$CLASS_BALANCE_POSITIVE;
+			$Class .= ' ' . self::$CLASS_BALANCE_POSITIVE;
 
 		return $Class;
 	}

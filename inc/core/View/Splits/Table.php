@@ -19,7 +19,8 @@ use Runalyze\Parameter\Application\PaceUnit;
  * @author Hannes Christiansen
  * @package Runalyze\View
  */
-class Table {
+class Table
+{
 	/**
 	 * @var \Runalyze\Model\Activity\Splits\Entity
 	 */
@@ -29,7 +30,7 @@ class Table {
 	 * Halfs of a competition to display
 	 * @var array
 	 */
-	protected $Halfs = array();
+	protected $Halfs = [];
 
 	/**
 	 * Demanded pace
@@ -70,15 +71,11 @@ class Table {
 		$this->init();
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		echo $this->code();
 	}
 
 	/**
-	 * Code
 	 * @return string
 	 */
 	public function code() {
@@ -87,9 +84,6 @@ class Table {
 		return $this->Code;
 	}
 
-	/**
-	 * Init
-	 */
 	private function init() {
 		$this->achievedPace = new Pace($this->Splits->totalTime(), $this->Splits->totalDistance(), $this->PaceUnit);
 
@@ -113,16 +107,12 @@ class Table {
 	}
 
 	/**
-	 * Set demanded pace
 	 * @param int $demandedPace
 	 */
 	public function setDemandedPace($demandedPace) {
 		$this->demandedPace = new Pace(round($demandedPace), 1, $this->PaceUnit);
 	}
 
-    /**
-     * Set halfs of competition
-     */
     public function setHalfsOfCompetition(array $Halfs) {
 		$this->Halfs = $Halfs;
 	}
@@ -145,26 +135,20 @@ class Table {
 		$this->setTableFooter();
 	}
 
-	/**
-	 * Set table header
-	 */
 	private function setTableHeader() {
 		$this->Code .= '<table class="fullwidth zebra-style"><tbody>';
 
 		$this->Code .= '<thead>';
 		$this->Code .= '<tr class="r">';
 		$this->Code .= '<th></th>';
-		$this->Code .= '<th>'.__('Distance').'</th>';
-		$this->Code .= '<th>'.__('Time').'</th>';
-		$this->Code .= '<th>'.__('Pace').'</th>';
-		$this->Code .= '<th>'.__('diff').'</th>';
+		$this->Code .= '<th>' . __('Distance') . '</th>';
+		$this->Code .= '<th>' . __('Time') . '</th>';
+		$this->Code .= '<th>' . __('Pace') . '</th>';
+		$this->Code .= '<th>' . __('diff') . '</th>';
 		$this->Code .= '</tr>';
 		$this->Code .= '</thead>';
 	}
 
-	/**
-	 * Set splits
-	 */
 	private function setSplits() {
 		$i = 0;
 		$seperated = false;
@@ -193,11 +177,11 @@ class Table {
 			}
 
 			$this->Code .= '<tr class="r">';
-			$this->Code .= '<td class="c">'.(++$i).'.</td>';
-			$this->Code .= '<td>'. ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') .'</td>';
-			$this->Code .= '<td>'.Duration::format($Split->time()).'</td>';
-			$this->Code .= '<td>'. ($hasDistance ? $PaceObj->value().'<small>'.$PaceObj->appendix() : '') .'</small></td>';
-			$this->Code .= '<td>'. ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') .'</td>';
+			$this->Code .= '<td class="c">' . (++$i) . '.</td>';
+			$this->Code .= '<td>' . ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') . '</td>';
+			$this->Code .= '<td>' . Duration::format($Split->time()) . '</td>';
+			$this->Code .= '<td>' . ($hasDistance ? $PaceObj->value() . '<small>' . $PaceObj->appendix() : '') . '</small></td>';
+			$this->Code .= '<td>' . ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') . '</td>';
 			$this->Code .= '</tr>';
 		}
 
@@ -228,38 +212,32 @@ class Table {
 		return $Pace->compareTo($this->achievedPace);
 	}
 
-	/**
-	 * Set instruction
-	 */
 	private function setInstruction() {
 		if ($this->demandedPace->isEmpty())
 			return;
 
 		$this->Code .= '
 			<tr class="small r no-zebra">
-				<td colspan="3">'.__('Goal').': </td>
-					<td>'.$this->demandedPace->valueWithAppendix().'</td>
+				<td colspan="3">' . __('Goal') . ': </td>
+					<td>' . $this->demandedPace->valueWithAppendix() . '</td>
 				<td></td>
 			</tr>';
 	}
 
-	/**
-	 * Set average
-	 */
 	private function setAverage() {
 		if (! $this->achievedPaceActive->isEmpty()) {
 			$this->Code .= '
 				<tr class="small r no-zebra">
-					<td colspan="3">'.__('Average (active)').': </td>
-					<td>'.$this->achievedPaceActive->valueWithAppendix().'</td>
-					<td>'.$this->tdForPaceDifference($this->achievedPaceActive, true).'</td>
+					<td colspan="3">' . __('Average (active)') . ': </td>
+					<td>' . $this->achievedPaceActive->valueWithAppendix() . '</td>
+					<td>' . $this->tdForPaceDifference($this->achievedPaceActive, true) . '</td>
 				</tr>';
 		}
 
 		$this->Code .= '
 			<tr class="small r no-zebra">
-				<td colspan="3">'.__('Average (total)').': </td>
-					<td>'.$this->achievedPace->valueWithAppendix().'</td>
+				<td colspan="3">' . __('Average (total)') . ': </td>
+					<td>' . $this->achievedPace->valueWithAppendix() . '</td>
 				<td></td>
 			</tr>';
 	}
@@ -273,7 +251,7 @@ class Table {
 		}
 
 		$this->Code .= '<tr class="no-zebra"><td colspan="5">&nbsp;</td></tr>';
-		$this->Code .= '<tr class="b bottom-spacer no-zebra"><td colspan="5">'.__('1st/2nd Half').'</td></tr>';
+		$this->Code .= '<tr class="b bottom-spacer no-zebra"><td colspan="5">' . __('1st/2nd Half') . '</td></tr>';
 
 		$totalTime = 0;
 		$totalDist = 0;
@@ -290,17 +268,14 @@ class Table {
 
 			$this->Code .= '<tr class="r">
 								<td></td>
-								<td>'.Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable).'</td>
-								<td>'.Duration::format($this->Halfs[$i]['s']).'</td>
-								<td>'.$Pace->valueWithAppendix().'</td>
-								<td>'.$Pace->compareTo($TotalPace).'</td>
+								<td>' . Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable) . '</td>
+								<td>' . Duration::format($this->Halfs[$i]['s']) . '</td>
+								<td>' . $Pace->valueWithAppendix() . '</td>
+								<td>' . $Pace->compareTo($TotalPace) . '</td>
 							</tr>';
 		}
 	}
 
-	/**
-	 * set table footer
-	 */
 	private function setTableFooter() {
 		$this->Code .= '</tbody>';
 		$this->Code .= '</table>';

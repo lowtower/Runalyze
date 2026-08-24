@@ -8,10 +8,14 @@ use Runalyze\Common\Enum\AbstractEnum;
 
 final class UserRole extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ROLE_USER = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const ROLE_ADMIN = 2;
 
 	/**
@@ -24,7 +28,7 @@ final class UserRole extends AbstractEnum
 		$roleNames = self::roleNamesArray();
 
 		if (! isset($roleNames[$roleId])) {
-			throw new \InvalidArgumentException('Invalid type id "'.$roleId.'".');
+			throw new \InvalidArgumentException('Invalid type id "' . $roleId . '".');
 		}
 
 		return $roleNames[$roleId];

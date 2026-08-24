@@ -18,7 +18,8 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class DistanceSeries extends ActivitySeries {
+class DistanceSeries extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -33,9 +34,6 @@ class DistanceSeries extends ActivitySeries {
 		$this->initData($context->trackdata(), Trackdata::DISTANCE);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Distance');
 		$this->Color = self::COLOR;

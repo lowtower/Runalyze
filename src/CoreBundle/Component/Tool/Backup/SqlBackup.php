@@ -6,10 +6,10 @@ class SqlBackup extends AbstractBackup
 {
 	protected function startBackup()
     {
-		$this->Writer->addToFile('-- RUNALYZE BACKUP'."\n");
-		$this->Writer->addToFile('-- '."\n");
-		$this->Writer->addToFile('-- Date: '.date('c')."\n");
-		$this->Writer->addToFile('-- Version: '.$this->RunalyzeVersion."\n\n");
+		$this->Writer->addToFile('-- RUNALYZE BACKUP' . "\n");
+		$this->Writer->addToFile('-- ' . "\n");
+		$this->Writer->addToFile('-- Date: ' . date('c') . "\n");
+		$this->Writer->addToFile('-- Version: ' . $this->RunalyzeVersion . "\n\n");
 	}
 
     /**
@@ -25,14 +25,14 @@ class SqlBackup extends AbstractBackup
 					$values .= ',';
                 }
 
-				if (empty($value) && 'YES' == $columnInfo[$i]['Null']) {
+				if (empty($value) && $columnInfo[$i]['Null'] == 'YES') {
                     $values .= 'NULL';
                 } else {
-                    $values .= '"'.addslashes($value).'"';
+                    $values .= '"' . addslashes($value) . '"';
                 }
 			}
 
-			$this->Writer->addToFile('INSERT INTO '.$tableName.' VALUES('.str_replace("\n", '\\n', $values).');'."\n");
+			$this->Writer->addToFile('INSERT INTO ' . $tableName . ' VALUES(' . str_replace("\n", '\\n', $values) . ');' . "\n");
 		}
 	}
 }

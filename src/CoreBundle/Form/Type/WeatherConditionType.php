@@ -11,13 +11,13 @@ class WeatherConditionType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => Condition::completeList(),
             'choice_label' => function ($value, $key, $index): string {
                 return (new Condition($value))->string();
             },
-            'choice_translation_domain' => false
-        ));
+            'choice_translation_domain' => false,
+        ]);
     }
 
     public function getParent()

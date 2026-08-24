@@ -9,10 +9,14 @@ use Runalyze\Calculation\Trimp\DataCollector;
 
 class TrimpCalculator
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaximalTrimp;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaximalTrimpPerHour;
 
     /**
@@ -55,7 +59,7 @@ class TrimpCalculator
 
         return [
             $activity->getAdapter()
-                ->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS()
+                ->getAverageHeartRateWithFallbackToTypeOrSport() => $activity->getS(),
         ];
     }
 
@@ -64,7 +68,7 @@ class TrimpCalculator
      */
     protected function checkIfValueIsOutOfRange(&$value, Training $activity)
     {
-        if (null !== $value) {
+        if ($value !== null) {
             if ($value > $this->MaximalTrimp) {
                 $value = null;
             } elseif ($activity->getS() > 0 && $value / ($activity->getS() / 3600) > $this->MaximalTrimpPerHour) {

@@ -8,19 +8,29 @@ use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 
 class VO2maxCalculator
 {
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
-    /** @var int [bpm] */
+    /**
+     * @var int [bpm]
+     */
     protected $HeartRateMaximum;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $CorrectionForPositiveElevation;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $CorrectionForNegativeElevation;
 
-    /** @var DanielsGilbertFormula */
+    /**
+     * @var DanielsGilbertFormula
+     */
     protected $EstimationFormula;
 
     /**

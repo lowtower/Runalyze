@@ -6,7 +6,9 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $Data;
 
     protected function setUp(): void
@@ -17,7 +19,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
     public function testPropertyAccessByName()
     {
         foreach ($this->Data->getPropertyNamesOfArrays() as $name) {
-            $this->assertTrue(is_array($this->Data->{$name}), 'Can\'t access property "'.$name.'".');
+            $this->assertTrue(is_array($this->Data->{$name}), 'Can\'t access property "' . $name . '".');
         }
     }
 

@@ -16,7 +16,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class RespirationRate extends ActivitySeries {
+class RespirationRate extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -31,10 +32,6 @@ class RespirationRate extends ActivitySeries {
 		$this->initData($context->trackdata(), Trackdata::RESPIRATION_RATE);
 	}
 
-
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Atemfrequenz');
 		$this->Color = self::COLOR;

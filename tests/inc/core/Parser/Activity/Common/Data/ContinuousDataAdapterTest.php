@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousDataAdapter;
 
 class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $Data;
 
-    /** @var ContinuousDataAdapter */
+    /**
+     * @var ContinuousDataAdapter
+     */
     protected $Adapter;
 
     protected function setUp(): void

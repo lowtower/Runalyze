@@ -39,7 +39,7 @@ class SelectionTest extends \PHPUnit\Framework\TestCase
     public function testUnknownCurrentKey()
     {
         $list = new Selection([
-            'foo' => 'bar'
+            'foo' => 'bar',
         ], 'baz');
 
         $this->assertFalse($list->hasCurrentKey());

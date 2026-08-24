@@ -6,13 +6,19 @@ namespace Runalyze\Bundle\CoreBundle\Model\Account;
 
 class AccountStatistics
 {
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $NumberOfActivities;
 
-    /** @var null|float [s] */
+    /**
+     * @var null|float [s]
+     */
     protected $TotalDuration;
 
-    /** @var null|float [km] */
+    /**
+     * @var null|float [km]
+     */
     protected $TotalDistance;
 
     /**

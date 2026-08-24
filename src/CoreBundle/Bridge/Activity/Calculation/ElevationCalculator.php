@@ -8,13 +8,19 @@ use Runalyze\Parameter\Application\ElevationMethod;
 
 class ElevationCalculator
 {
-    /** @var ElevationMethod */
+    /**
+     * @var ElevationMethod
+     */
     protected $ElevationMethod;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $Threshold;
 
-    /** @var Route */
+    /**
+     * @var Route
+     */
     protected $Route;
 
     public function calculateFor(Route $route, ElevationMethod $method, $threshold)

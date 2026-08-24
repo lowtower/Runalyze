@@ -10,7 +10,6 @@ namespace Runalyze\View\Activity\Plot\Series;
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity\Context;
 use Runalyze\Configuration;
-
 use \Plot;
 
 /**
@@ -19,25 +18,25 @@ use \Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-abstract class ActivitySeries extends \Runalyze\View\Plot\Series {
+abstract class ActivitySeries extends \Runalyze\View\Plot\Series
+{
 	/**
 	 * @var int enum
 	 */
 	protected $XAxis = 0;
 
 	/**
-	 * @var \Runalyze\View\Activity\Context $context
+	 * @var \Runalyze\View\Activity\Context
 	 */
 	abstract public function __construct(Context $context);
 
     /**
-     * Init data
      * @param string $key
      * @param bool $fillGaps try to fill gaps (zero values)
      */
     protected function initData(Trackdata $trackdata, $key, $fillGaps = false) {
 		if (! $trackdata->has($key)) {
-			$this->Data = array();
+			$this->Data = [];
 			return;
 		}
 

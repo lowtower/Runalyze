@@ -8,10 +8,14 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory;
 
 class ActivityContextAdapterFactory
 {
-    /** @var WeatherForecast */
+    /**
+     * @var WeatherForecast
+     */
     protected $WeatherForecast;
 
-    /** @var DuplicateFinder */
+    /**
+     * @var DuplicateFinder
+     */
     protected $DuplicateFinder;
 
     protected $RouteNameEval;

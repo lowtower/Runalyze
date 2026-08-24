@@ -16,32 +16,24 @@ use Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Panels
  */
-class RunalyzePluginPanel_Equipment extends PluginPanel {
+class RunalyzePluginPanel_Equipment extends PluginPanel
+{
 	/**
 	 * @var array
 	 */
-	protected $AllTypes = array();
+	protected $AllTypes = [];
 
-    /**
-     * Name
-     */
     final public function name(): string {
 		return __('Equipment');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return __('Display statistics for your equipment.');
 	}
 
-	/**
-	 * Init configuration
-	 */
 	protected function initConfiguration() {
-		$this->AllTypes = DB::getInstance()->query('SELECT `id`, `name` FROM `'.PREFIX.'equipment_type` WHERE `accountid`="'.SessionAccountHandler::getId().'" ORDER BY `name` ASC')->fetchAll();
-		$Options = array();
+		$this->AllTypes = DB::getInstance()->query('SELECT `id`, `name` FROM `' . PREFIX . 'equipment_type` WHERE `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY `name` ASC')->fetchAll();
+		$Options = [];
 
 		foreach ($this->AllTypes as $data) {
 			$Options[$data['id']] = $data['name'];
@@ -72,24 +64,23 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 
 		foreach ($this->AllTypes as $Type) {
 			$active = $Type['id'] == (int) $this->Configuration()->value('type');
-			$TypeLinks[] = '<li'.($active ? ' class="active"' : '').'>'.Ajax::link($Type['name'], 'panel-'.$this->id(), Plugin::$DISPLAY_URL.'/'.$this->id().'?type='.$Type['id']).'</li>';
+			$TypeLinks[] = '<li' . ($active ? ' class="active"' : '') . '>' . Ajax::link($Type['name'], 'panel-' . $this->id(), Plugin::$DISPLAY_URL . '/' . $this->id() . '?type=' . $Type['id']) . '</li>';
 
 			if ($active) {
 				$CurrentType = $Type['name'];
 			}
 		}
 
-		$Links = '<li class="with-submenu"><span class="link">'.$CurrentType.'</span>';
-		$Links .= '<ul class="submenu">'.implode('', $TypeLinks).'</ul>';
+		$Links = '<li class="with-submenu"><span class="link">' . $CurrentType . '</span>';
+		$Links .= '<ul class="submenu">' . implode('', $TypeLinks) . '</ul>';
 		$Links .= '</li>';
-		$Links .= '<li>'.Ajax::window('<a href="my/equipment/overview" '.Ajax::tooltip('', __('Add/Edit equipment'), true, true).'>'.Icon::$ADD.'</a>').'</li>';
-		$Links .= '<li>'.Ajax::window('<a href="my/equipment/category/'.(int) $this->Configuration()->value('type').'/table" '.Ajax::tooltip('', __('Show all equipment'), true, true).'>'.Icon::$TABLE.'</a>', 'big').'</li>';
+		$Links .= '<li>' . Ajax::window('<a href="my/equipment/overview" ' . Ajax::tooltip('', __('Add/Edit equipment'), true, true) . '>' . Icon::$ADD . '</a>') . '</li>';
+		$Links .= '<li>' . Ajax::window('<a href="my/equipment/category/' . (int) $this->Configuration()->value('type') . '/table" ' . Ajax::tooltip('', __('Show all equipment'), true, true) . '>' . Icon::$TABLE . '</a>', 'big') . '</li>';
 
-		return '<ul>'.$Links.'</ul>';
+		return '<ul>' . $Links . '</ul>';
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginPanel::displayContent()
 	 */
 	protected function displayContent() {
@@ -110,7 +101,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		echo '</div>';
 
 		if (! $inuse)
-			echo Ajax::toggle('<a class="right" href="#equipment" name="equipment">'.__('Show/Hide unused equipment').'</a>', 'hiddenequipment');
+			echo Ajax::toggle('<a class="right" href="#equipment" name="equipment">' . __('Show/Hide unused equipment') . '</a>', 'hiddenequipment');
 
 		echo HTML::clearBreak();
 	}
@@ -122,7 +113,7 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 		$max = 0;
 		$showDistance = $EquipmentType->hasMaxDistance();
 		$hasMaxDuration = $showDistance || $EquipmentType->hasMaxDuration();
-		$allEquipment = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'equipment` WHERE `typeid`="'.$EquipmentType->id().'" AND `accountid`="'.SessionAccountHandler::getId().'" ORDER BY ISNULL(`date_end`) DESC, `distance` DESC')->fetchAll();
+		$allEquipment = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'equipment` WHERE `typeid`="' . $EquipmentType->id() . '" AND `accountid`="' . SessionAccountHandler::getId() . '" ORDER BY ISNULL(`date_end`) DESC, `distance` DESC')->fetchAll();
 
 		foreach ($allEquipment as $data) {
 			$Object = new Model\Equipment\Entity($data);
@@ -139,13 +130,13 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 			}
 
 			echo '<p style="position:relative;">
-				<span class="right">'.($showDistance ? $Distance->string() : $Duration->string()).'</span>
-				<strong>'.SearchLink::to('equipmentid', $Object->id(), $Object->name()).'</strong>
-				'.$this->getUsageImage(
+				<span class="right">' . ($showDistance ? $Distance->string() : $Duration->string()) . '</span>
+				<strong>' . SearchLink::to('equipmentid', $Object->id(), $Object->name()) . '</strong>
+				' . $this->getUsageImage(
 			    $showDistance
 						? $Object->totalDistance() / $EquipmentType->maxDistance()
 						: $Object->duration() / ($hasMaxDuration ? $EquipmentType->maxDuration() : max(1, $max))
-			).'
+			) . '
 			</p>';
 		}
 
@@ -156,9 +147,6 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
 			echo '</div>';
 	}
 
-    /**
-     * Get style
-     */
     protected function getStyle(): string {
 		return '<style type="text/css">.equipment-usage { position: absolute; bottom: 0; left: 0; background-image:url(assets/images//damage.png); background-position:left center; height: 2px; max-width: 100%; }</style>';
 	}
@@ -168,6 +156,6 @@ class RunalyzePluginPanel_Equipment extends PluginPanel {
      * @param float $percentage [0.0 .. 1.0]
      */
     protected function getUsageImage($percentage): string {
-		return '<span class="equipment-usage" style="width:'.round($percentage * 330).'px;"></span>';
+		return '<span class="equipment-usage" style="width:' . round($percentage * 330) . 'px;"></span>';
 	}
 }

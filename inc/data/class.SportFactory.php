@@ -11,7 +11,8 @@ use Runalyze\Activity\Pace;
 /**
  * @deprecated
  */
-class SportFactory {
+class SportFactory
+{
 	/**
 	 * All sports as array
 	 * @var array
@@ -39,7 +40,7 @@ class SportFactory {
      * @return array<string, string|int|null>
      */
     private static function defaultArray(): array {
-		return array(
+		return [
     'name' => '?',
 		    'img' => '',
 		    'short' => 0,
@@ -47,11 +48,11 @@ class SportFactory {
 		    'HFavg' => 140,
 		    'distances' => 0,
 		    'speed' => \Runalyze\Metrics\Velocity\Unit\PaceEnum::KILOMETER_PER_HOUR,
-		    'power'	=> 0,
+		    'power' => 0,
 		    'outside' => 0,
 		    'is_main' => 0,
-		    'internal_sport_id' => null
-);
+		    'internal_sport_id' => null,
+];
 	}
 
 	/**
@@ -59,7 +60,7 @@ class SportFactory {
 	 * @return array
 	 */
 	public static function AllSports() {
-		if (null === self::$AllSports) {
+		if (self::$AllSports === null) {
 			self::initAllSports();
 		}
 
@@ -70,7 +71,7 @@ class SportFactory {
 	 * Initialize internal sports-array from database
 	 */
 	private static function initAllSports() {
-		self::$AllSports = array();
+		self::$AllSports = [];
 		$sports = self::cacheAllSports();
 
 		foreach ($sports as $sport) {
@@ -86,8 +87,8 @@ class SportFactory {
 	private static function cacheAllSports() {
 		$sports = Cache::get('sport');
 
-		if (null === $sports) {
-			$sports = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'sport` WHERE `accountid` = "'.(int) SessionAccountHandler::getId().'"')->fetchAll();
+		if ($sports === null) {
+			$sports = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'sport` WHERE `accountid` = "' . (int) SessionAccountHandler::getId() . '"')->fetchAll();
 			Cache::set('sport', $sports, '3600');
 		}
 
@@ -95,8 +96,6 @@ class SportFactory {
 	}
 
 	/**
-	 * Reinit all sports
-	 *
 	 * Use this method after updating sports table
 	 */
 	public static function reInitAllSports() {

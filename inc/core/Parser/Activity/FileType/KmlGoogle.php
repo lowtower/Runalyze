@@ -12,10 +12,14 @@ class KmlGoogle extends AbstractSingleParser implements FileContentAwareParserIn
 {
     use XmlParserTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $CoordinatesXPath = '//coordinates';
 
-    /** @var float [km] */
+    /**
+     * @var float [km]
+     */
     protected $CurrentDistance = 0.0;
 
     /**
@@ -33,7 +37,7 @@ class KmlGoogle extends AbstractSingleParser implements FileContentAwareParserIn
      */
     public function setNamespace($namespace = 'kml')
     {
-        $this->CoordinatesXPath = '//'.(null !== $namespace ? $namespace.':.' : '').'coordinates';
+        $this->CoordinatesXPath = '//' . ($namespace !== null ? $namespace . ':.' : '') . 'coordinates';
     }
 
     public function parse()

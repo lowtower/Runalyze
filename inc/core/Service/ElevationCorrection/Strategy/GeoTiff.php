@@ -8,10 +8,14 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
 {
     use GuessUnknownValuesTrait;
 
-    /** @var Reader */
+    /**
+     * @var Reader
+     */
     protected $Reader;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $UseSmoothing = true;
 
     public function __construct(Reader $reader)

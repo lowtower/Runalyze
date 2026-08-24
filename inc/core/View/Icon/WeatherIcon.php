@@ -16,7 +16,8 @@ namespace Runalyze\View\Icon;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon
  */
-abstract class WeatherIcon extends \Runalyze\View\Icon {
+abstract class WeatherIcon extends \Runalyze\View\Icon
+{
 	/**
 	 * Base layer: cloud
 	 * @var string
@@ -49,9 +50,6 @@ abstract class WeatherIcon extends \Runalyze\View\Icon {
 		}
 	}
 
-	/**
-	 * Set layer
-	 */
 	abstract protected function setLayer();
 
 	/**
@@ -81,10 +79,10 @@ abstract class WeatherIcon extends \Runalyze\View\Icon {
 	 * Display
 	 */
 	public function code(): string {
-		$code = '<i class="weather '.$this->Base.'"'.$this->tooltipAttributes().'>';
+		$code = '<i class="weather ' . $this->Base . '"' . $this->tooltipAttributes() . '>';
 
 		if (! empty($this->Layer)) {
-			$code .= '<i class="'.$this->Layer.'"></i>';
+			$code .= '<i class="' . $this->Layer . '"></i>';
 		}
 
 		return $code . '</i>';

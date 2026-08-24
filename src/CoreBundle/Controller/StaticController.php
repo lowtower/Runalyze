@@ -15,7 +15,7 @@ class StaticController extends Controller
     public function dashboardHelpAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('static/help.html.twig', [
-            'version' => $this->getParameter('RUNALYZE_VERSION')
+            'version' => $this->getParameter('RUNALYZE_VERSION'),
         ]);
     }
 

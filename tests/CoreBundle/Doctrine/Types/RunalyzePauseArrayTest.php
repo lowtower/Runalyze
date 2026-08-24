@@ -9,10 +9,14 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RunalyzePauseArray */
+    /**
+     * @var RunalyzePauseArray
+     */
     protected $Type;
 
-    /** @var AbstractPlatform */
+    /**
+     * @var AbstractPlatform
+     */
     protected $PlatformMock;
 
     protected function setUp(): void
@@ -42,7 +46,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
             new Pause(123, 50),
             (new Pause(234, 10))->setHeartRateDetails(160, 140),
             (new Pause(345, 120))->setRecoveryDetails(120, 90),
-            (new Pause(456, 63))->setPerformanceCondition(-4)
+            (new Pause(456, 63))->setPerformanceCondition(-4),
         ]);
 
         $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);
@@ -60,8 +64,8 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     public function testLegacyExample()
     {
         $collection = $this->Type->convertToPHPValue(
-            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},'.
-            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},'.
+            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
+            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
             '{"time":621,"duration":9,"hr-start":142,"hr-end":140}]',
             $this->PlatformMock
         );
@@ -75,8 +79,8 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
     public function testBrokenExample()
     {
         $collection = $this->Type->convertToPHPValue(
-            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},'.
-            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},'.
+            '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
+            '{"time":339,"duration":49,"hr-start":150,"hr-end":109},' .
             '{"time":621,"duration":9,"hr-sta',
             $this->PlatformMock
         );

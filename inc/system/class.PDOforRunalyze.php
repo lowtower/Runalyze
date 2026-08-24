@@ -13,7 +13,8 @@
  * @package Runalyze\System
  * @deprecated since v3.0
  */
-class PDOforRunalyze extends PDO {
+class PDOforRunalyze extends PDO
+{
 	/**
 	 * Boolean flag: add accountid
 	 * @var bool
@@ -26,22 +27,15 @@ class PDOforRunalyze extends PDO {
 	 */
 	protected $accountID = false;
 
-	/**
-	 * Start adding accountid
-	 */
 	public function startAddingAccountID() {
 		$this->addsAccountID = true;
 	}
 
-	/**
-	 * Stop adding accountid
-	 */
 	public function stopAddingAccountID() {
 		$this->addsAccountID = false;
 	}
 
 	/**
-	 * Set accountid
 	 * @param int $ID
 	 */
 	public function setAccountID($ID) {
@@ -49,7 +43,6 @@ class PDOforRunalyze extends PDO {
 	}
 
 	/**
-	 * Add accountid to statement
 	 * @param string $statement
 	 */
 	protected function addAccountIDtoStatement(&$statement) {
@@ -58,25 +51,25 @@ class PDOforRunalyze extends PDO {
 		}
 
 		if (
-				strpos($statement, PREFIX.'account') === false
-				&& strpos($statement, PREFIX.'plugin_conf') === false
-				&& strpos($statement, PREFIX.'activity_equipment') === false
-				&& strpos($statement, PREFIX.'activity_tag') === false
-				&& strpos($statement, PREFIX.'equipment_sport') === false
-				&& strpos($statement, PREFIX.'equipment_spor') === false
-				&& strpos($statement, PREFIX.'weathercache') === false
-				&& strpos($statement, PREFIX.'raceresult') === false
+				strpos($statement, PREFIX . 'account') === false
+				&& strpos($statement, PREFIX . 'plugin_conf') === false
+				&& strpos($statement, PREFIX . 'activity_equipment') === false
+				&& strpos($statement, PREFIX . 'activity_tag') === false
+				&& strpos($statement, PREFIX . 'equipment_sport') === false
+				&& strpos($statement, PREFIX . 'equipment_spor') === false
+				&& strpos($statement, PREFIX . 'weathercache') === false
+				&& strpos($statement, PREFIX . 'raceresult') === false
 				&& strpos($statement, '`accountid`') === false
 				&& strpos($statement, 'accountid=') === false
 			) {
 			if (strpos($statement, 'WHERE') >= 7) {
-				$statement = str_replace('WHERE', 'WHERE `accountid`='.(int) $this->accountID.' AND ', $statement);
+				$statement = str_replace('WHERE', 'WHERE `accountid`=' . (int) $this->accountID . ' AND ', $statement);
 			} elseif (strpos($statement, 'GROUP BY') >= 7) {
-				$statement = str_replace('GROUP BY', 'WHERE `accountid`='.(int) $this->accountID.' GROUP BY ', $statement);
+				$statement = str_replace('GROUP BY', 'WHERE `accountid`=' . (int) $this->accountID . ' GROUP BY ', $statement);
 			} elseif (strpos($statement, 'ORDER BY') >= 7) {
-				$statement = str_replace('ORDER BY', 'WHERE `accountid`='.(int) $this->accountID.' ORDER BY ', $statement);
+				$statement = str_replace('ORDER BY', 'WHERE `accountid`=' . (int) $this->accountID . ' ORDER BY ', $statement);
 			} else {
-				$statement = $statement.' WHERE `accountid`='.(int) $this->accountID;
+				$statement = $statement . ' WHERE `accountid`=' . (int) $this->accountID;
 			}
 		}
 	}
@@ -91,13 +84,12 @@ class PDOforRunalyze extends PDO {
 		$table = str_replace(PREFIX, '', $table);
 
 		if ($table == 'account' || $table == 'plugin_conf') {
-			return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' LIMIT 1')->fetch();
+			return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' LIMIT 1')->fetch();
 		}
 
-		return $this->query('SELECT * FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' AND `accountid`="'.SessionAccountHandler::getId().'" LIMIT 1')->fetch();
+		return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' AND `accountid`="' . SessionAccountHandler::getId() . '" LIMIT 1')->fetch();
 
         }
-
 
 	/**
 	 * Fetch row by id
@@ -108,7 +100,7 @@ class PDOforRunalyze extends PDO {
 	public function deleteByID($table, $ID) {
 		$table = str_replace(PREFIX, '', $table);
 
-		return $this->query('DELETE FROM `'.PREFIX.$table.'` WHERE `id`='.(int) $ID.' LIMIT 1');
+		return $this->query('DELETE FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' LIMIT 1');
 	}
 
 	/**
@@ -119,7 +111,7 @@ class PDOforRunalyze extends PDO {
 	 * @param mixed   $value  might be an array
 	 */
 	public function update($table, $id, $column, $value) {
-		$this->updateWhere($table, '`id`="'.$id.'" LIMIT 1', $column, $value);
+		$this->updateWhere($table, '`id`="' . $id . '" LIMIT 1', $column, $value);
 	}
 
 	/**
@@ -138,10 +130,10 @@ class PDOforRunalyze extends PDO {
 				$set .= '`' . $col . '`=' . self::escape($value[$i], true, ($col == 'clothes')) . ', ';
 			}
 		} else {
-			$set = '`'.$column.'`='.self::escape($value, true, ($column=='clothes')).', ';
+			$set = '`' . $column . '`=' . self::escape($value, true, ($column == 'clothes')) . ', ';
 		}
 
-		$this->query('UPDATE `'.PREFIX.$table.'` SET '.substr($set, 0, -2).' WHERE '.$where);
+		$this->query('UPDATE `' . PREFIX . $table . '` SET ' . substr($set, 0, -2) . ' WHERE ' . $where);
 	}
 
 	/**
@@ -159,7 +151,7 @@ class PDOforRunalyze extends PDO {
 		// TODO: TEST IT!
 		if (! in_array($table, ['account', 'plugin_conf', 'equipment_sport', 'equipment_spor'], true) && ! in_array('accountid', $columns)) {
 			$columns[] = 'accountid';
-			$values[]  = $this->accountID;
+			$values[] = $this->accountID;
 		}
 
 		foreach ($columns as $k => $v) {
@@ -167,10 +159,10 @@ class PDOforRunalyze extends PDO {
 		}
 
 		$columns = implode(', ', $columns);
-		$values  = implode(', ', self::escape($values));
+		$values = implode(', ', self::escape($values));
 
 		$this->stopAddingAccountID();
-		if (! $this->query('INSERT INTO `'.PREFIX.$table.'` ('.$columns.') VALUES('.$values.')')) {
+		if (! $this->query('INSERT INTO `' . PREFIX . $table . '` (' . $columns . ') VALUES(' . $values . ')')) {
 			$this->startAddingAccountID();
 			return false;
 		}
@@ -214,7 +206,7 @@ class PDOforRunalyze extends PDO {
 
 	/**
 	 * Prepares a statement for execution and returns a statement object
-	 * @link http://php.net/manual/en/pdo.prepare.php
+	 * @see http://php.net/manual/en/pdo.prepare.php
 	 * @param string $statement <p>This must be a valid SQL statement for the target database server.</p>
 	 * @param array $driver_options [optional] <p>
 	 * This array holds one or more key=&gt;value pairs to set
@@ -236,7 +228,7 @@ class PDOforRunalyze extends PDO {
 	 * Emulated prepared statements does not communicate with the database server
 	 * so <b>PDO::prepare</b> does not check the statement.
 	 */
-	public function prepare($statement, $driver_options = array()) {
+	public function prepare($statement, $driver_options = []) {
 		if ($this->addsAccountID) {
 			$this->addAccountIDtoStatement($statement);
 		}
@@ -246,7 +238,7 @@ class PDOforRunalyze extends PDO {
 
 	/**
 	 * Execute an SQL statement and return the number of affected rows
-	 * @link http://php.net/manual/en/pdo.exec.php
+	 * @see http://php.net/manual/en/pdo.exec.php
 	 * @param string $statement <p>The SQL statement to prepare and execute.</p>
 	 * @return int <b>PDO::exec</b> returns the number of rows that were modified
 	 * or deleted by the SQL statement you issued. If no rows were affected,
@@ -262,7 +254,7 @@ class PDOforRunalyze extends PDO {
 
 	/**
 	 * Executes an SQL statement, returning a result set as a PDOStatement object
-	 * @link http://php.net/manual/en/pdo.query.php
+	 * @see http://php.net/manual/en/pdo.query.php
 	 * @param string $statement <p>The SQL statement to prepare and execute.</p>
 	 * @return PDOStatement <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
 	 * on failure.

@@ -10,7 +10,9 @@ use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
  */
 class RouteRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var RouteRepository */
+    /**
+     * @var RouteRepository
+     */
     protected $RouteRepository;
 
     protected function setUp(): void

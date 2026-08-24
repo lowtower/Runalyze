@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20171217215800 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,7 +23,7 @@ class Version20171217215800 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'sport` ADD `default_privacy` TINYINT(1) NOT NULL AFTER `outside`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'sport` ADD `default_privacy` TINYINT(1) NOT NULL AFTER `outside`');
 
     }
 
@@ -29,6 +31,6 @@ class Version20171217215800 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'sport` DROP `default_privacy`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'sport` DROP `default_privacy`');
     }
 }

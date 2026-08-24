@@ -18,19 +18,29 @@ use Runalyze\View\Activity\Context;
  */
 final class Types extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TWITTER = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FACEBOOK = 2;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GOOGLE_PLUS = 3;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const HTML = 4;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const IFRAME = 5;
 
     /**
@@ -44,10 +54,10 @@ final class Types extends AbstractEnum
 		$classNames = self::classNamesArray();
 
 		if (! isset($classNames[$typeid])) {
-			throw new \InvalidArgumentException('Invalid type id "'.$typeid.'".');
+			throw new \InvalidArgumentException('Invalid type id "' . $typeid . '".');
 		}
 
-		$className = 'Runalyze\\Export\\Share\\'.$classNames[$typeid];
+		$className = 'Runalyze\\Export\\Share\\' . $classNames[$typeid];
 
 		return new $className($context);
 	}
@@ -58,12 +68,12 @@ final class Types extends AbstractEnum
      */
     private static function classNamesArray(): array
 	{
-		return array(
+		return [
     self::TWITTER => 'Twitter',
 		    self::FACEBOOK => 'Facebook',
 		    self::GOOGLE_PLUS => 'GooglePlus',
 		    self::HTML => 'Html',
 		    self::IFRAME => 'IFrame',
-);
+];
 	}
 }

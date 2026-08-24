@@ -17,9 +17,6 @@ use Runalyze\View\Activity\Context;
  */
 class Elevation extends ValueBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context)
 	{
 		parent::__construct(

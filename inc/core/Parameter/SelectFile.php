@@ -12,8 +12,11 @@ namespace Runalyze\Parameter;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class SelectFile extends Select {
-	/** @var bool */
+class SelectFile extends Select
+{
+	/**
+	 * @var bool
+	 */
 	protected $UseFallback = false;
 
     /**
@@ -27,13 +30,13 @@ class SelectFile extends Select {
 	 * @param string $default
 	 * @param array $options [optional]
 	 */
-	public function __construct($default, $options = array()) {
+	public function __construct($default, $options = []) {
 		$options = array_merge(
-		    array(
+		    [
 		        'folder' => '',
-		        'extensions' => array(),
-		        'filename_only' => true
-		    ),
+		        'extensions' => [],
+		        'filename_only' => true,
+		    ],
 		    $options
 		);
 
@@ -90,15 +93,15 @@ class SelectFile extends Select {
      * Options
      */
     public function options(): array {
-		$Options = array();
+		$Options = [];
 		$Folder = $this->Options['folder'];
 
 		if (! is_array($Folder)) {
-			$Folder = array($Folder);
+			$Folder = [$Folder];
 		}
 
 		foreach ($Folder as $Fold) {
-			$handle = opendir(FRONTEND_PATH.'../'.$Fold);
+			$handle = opendir(FRONTEND_PATH . '../' . $Fold);
 			if ($handle) {
 				if ($this->Options['filename_only']) {
 					$Fold = '';
@@ -106,7 +109,7 @@ class SelectFile extends Select {
 
 				while (false !== ($file = readdir($handle))) {
 					if ($this->valueIsAllowed($file)) {
-						$Options[$Fold.$file] = $file;
+						$Options[$Fold . $file] = $file;
 					}
 				}
 			}

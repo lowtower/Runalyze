@@ -50,7 +50,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         $Value = new LegacyEffectiveVO2max();
 
-        $Results = array(
+        $Results = [
             30 => 30 * 60 + 40,
             35 => 27 * 60,
             40 => 24 * 60 + 8,
@@ -62,12 +62,12 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             70 => 14 * 60 + 55,
             75 => 14 * 60 + 3,
             80 => 13 * 60 + 18,
-            85 => 12 * 60 + 37
-        );
+            85 => 12 * 60 + 37,
+        ];
 
         foreach ($Results as $vo2max => $seconds) {
             $Value->fromPace(5, $seconds);
-            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 5k, vo2max = '.$vo2max);
+            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 5k, vo2max = ' . $vo2max);
         }
     }
 
@@ -75,7 +75,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         $Value = new LegacyEffectiveVO2max();
 
-        $Results = array(
+        $Results = [
             30 => 63 * 60 + 46,
             35 => 56 * 60 + 3,
             40 => 50 * 60 + 3,
@@ -87,12 +87,12 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             70 => 31 * 60,
             75 => 29 * 60 + 14,
             80 => 27 * 60 + 41,
-            85 => 26 * 60 + 19
-        );
+            85 => 26 * 60 + 19,
+        ];
 
         foreach ($Results as $vo2max => $seconds) {
             $Value->fromPace(10, $seconds);
-            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 10k, vo2max = '.$vo2max);
+            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 10k, vo2max = ' . $vo2max);
         }
     }
 
@@ -100,7 +100,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         $Value = new LegacyEffectiveVO2max();
 
-        $Results = array(
+        $Results = [
             30 => 2 * 60 * 60 + 21 * 60 + 4,
             35 => 2 * 60 * 60 + 4 * 60 + 13,
             40 => 60 * 60 + 50 * 60 + 59,
@@ -112,12 +112,12 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             70 => 60 * 60 + 8 * 60 + 21,
             75 => 60 * 60 + 4 * 60 + 23,
             80 => 60 * 60 + 0 * 60 + 54,
-            85 => 0 * 60 * 60 + 57 * 60 + 50
-        );
+            85 => 0 * 60 * 60 + 57 * 60 + 50,
+        ];
 
         foreach ($Results as $vo2max => $seconds) {
             $Value->fromPace(21.0975, $seconds);
-            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 21.1k, vo2max = '.$vo2max);
+            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 21.1k, vo2max = ' . $vo2max);
         }
     }
 
@@ -125,7 +125,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     {
         $Value = new LegacyEffectiveVO2max();
 
-        $Results = array(
+        $Results = [
             30 => 4 * 60 * 60 + 49 * 60 + 17,
             35 => 4 * 60 * 60 + 16 * 60 + 3,
             40 => 3 * 60 * 60 + 49 * 60 + 45,
@@ -137,12 +137,12 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             70 => 2 * 60 * 60 + 23 * 60 + 10,
             75 => 2 * 60 * 60 + 14 * 60 + 55,
             80 => 2 * 60 * 60 + 7 * 60 + 38,
-            85 => 2 * 60 * 60 + 60 + 10
-        );
+            85 => 2 * 60 * 60 + 60 + 10,
+        ];
 
         foreach ($Results as $vo2max => $seconds) {
             $Value->fromPace(42.195, $seconds);
-            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 42.2k, vo2max = '.$vo2max);
+            $this->assertEqualsWithDelta($vo2max, $Value->value(), 0.1, 'VO2max formula failed for 42.2k, vo2max = ' . $vo2max);
         }
     }
 
@@ -194,7 +194,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
      */
     public function testHRformula()
     {
-        $Table = array(
+        $Table = [
             // % vVO2max => % HRmax
             59 => 65,
             60 => 66,
@@ -237,14 +237,14 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
             97 => 98.5,
             98 => 99,
             99 => 99.5,
-            100 => 100
-        );
+            100 => 100,
+        ];
 
         // since v1.5
         $epsilon1 = 1.25;
         foreach ($Table as $vVO2max => $HR) {
-            $this->assertEqualsWithDelta($HR / 100, LegacyEffectiveVO2max::HRat($vVO2max / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::HRat('.$vVO2max.')[log] failed');
-            $this->assertEqualsWithDelta($vVO2max / 100, LegacyEffectiveVO2max::percentageAt($HR / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::percentageAt('.$HR.')[log] failed');
+            $this->assertEqualsWithDelta($HR / 100, LegacyEffectiveVO2max::HRat($vVO2max / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::HRat(' . $vVO2max . ')[log] failed');
+            $this->assertEqualsWithDelta($vVO2max / 100, LegacyEffectiveVO2max::percentageAt($HR / 100), $epsilon1 / 100, 'LegacyEffectiveVO2max::percentageAt(' . $HR . ')[log] failed');
         }
     }
 }

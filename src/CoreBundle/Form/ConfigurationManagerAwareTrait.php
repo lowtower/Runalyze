@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
 trait ConfigurationManagerAwareTrait
 {
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function setConfigurationManager(ConfigurationManager $manager)

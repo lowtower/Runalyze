@@ -18,7 +18,7 @@ class TimeSeriesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             10 => 1,
             15 => 5,
-            20 => 7
+            20 => 7,
         ], $dist->histogram());
     }
 }

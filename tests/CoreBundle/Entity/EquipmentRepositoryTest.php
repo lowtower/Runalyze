@@ -11,13 +11,19 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
  */
 class EquipmentRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var EquipmentRepository */
+    /**
+     * @var EquipmentRepository
+     */
     protected $EquipmentRepository;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void

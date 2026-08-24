@@ -6,13 +6,19 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 
 class MarathonShape
 {
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $EffectiveVO2max;
 
-    /** @var BasicEndurance */
+    /**
+     * @var BasicEndurance
+     */
     protected $Configuration;
 
     /**

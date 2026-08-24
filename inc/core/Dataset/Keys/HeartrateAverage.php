@@ -45,7 +45,7 @@ class HeartrateAverage extends AbstractKey
      */
     public function label(): string
 	{
-		return __('avg.').' '.__('Heart rate');
+		return __('avg.') . ' ' . __('Heart rate');
 	}
 
     /**
@@ -53,7 +53,7 @@ class HeartrateAverage extends AbstractKey
      */
     public function shortLabel(): string
 	{
-		return __('avg.').' '.__('HR');
+		return __('avg.') . ' ' . __('HR');
 	}
 
     /**
@@ -117,10 +117,10 @@ class HeartrateAverage extends AbstractKey
 
 		if (isset($hr) && $hrBpm > 0) {
 			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
-			return array(
+			return [
     'class' => $class,
-			    'style' => '--perc: ' . $v . '%;'
-);
+			    'style' => '--perc: ' . $v . '%;',
+];
 		}
 
         return null;

@@ -6,7 +6,9 @@ namespace Runalyze\Profile\Weather\Source;
 
 use Symfony\Component\Translation\TranslatorInterface;
 
-/** #TSC new source of meteostat.net */
+/**
+ * #TSC new source of meteostat.net
+ */
 class MeteostatNet extends AbstractSource
 {
 	public function getInternalProfileEnum(): int

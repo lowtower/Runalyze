@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen & Michael Pohl
  * @package Runalyze\View\Activity\Plot
  */
-class Swolf extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Swolf extends ActivityPlot
+{
 	protected function setKey() {
 		$this->key = 'swolf';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\Swolf($context)

@@ -15,17 +15,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class Power extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class Power extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'power';
+		$this->key = 'power';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
 		$allSeries = [
@@ -33,7 +28,7 @@ class Power extends ActivityPlot {
 		    new Series\Gradient($context),
 		    new Series\Power($context),
 		    new Series\TimeSeries($context),
-		    new Series\DistanceSeries($context)
+		    new Series\DistanceSeries($context),
 		];
 
 		$this->addMultipleSeries($allSeries);

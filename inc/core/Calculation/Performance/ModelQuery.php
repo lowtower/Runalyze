@@ -9,17 +9,25 @@ use Runalyze\Util\LocalTime;
  */
 class ModelQuery
 {
-    /** @var null|int [timestamp] */
+    /**
+     * @var null|int [timestamp]
+     */
     protected $From;
 
-    /** @var null|int [timestamp] */
+    /**
+     * @var null|int [timestamp]
+     */
     protected $To;
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $SportId;
 
-    /** @var array */
-    protected $Data = array();
+    /**
+     * @var array
+     */
+    protected $Data = [];
 
     /**
      * @param int|null $from [optional] timestamp
@@ -36,8 +44,8 @@ class ModelQuery
      */
     public function setRange($from, $to)
     {
-        $this->From = (null === $from) ? null : LocalTime::fromServerTime($from)->setTime(0, 0, 0)->getTimestamp();
-        $this->To = (null === $to) ? null : LocalTime::fromServerTime($to)->setTime(23, 59, 50)->getTimestamp();
+        $this->From = ($from === null) ? null : LocalTime::fromServerTime($from)->setTime(0, 0, 0)->getTimestamp();
+        $this->To = ($to === null) ? null : LocalTime::fromServerTime($to)->setTime(23, 59, 50)->getTimestamp();
     }
 
     /**
@@ -58,7 +66,7 @@ class ModelQuery
 
     public function execute(\PDOforRunalyze $DB)
     {
-        $this->Data = array();
+        $this->Data = [];
         $Today = LocalTime::fromString('today 23:59');
 
         $Statement = $DB->query($this->query());
@@ -71,13 +79,13 @@ class ModelQuery
 
     private function query(): string
     {
-        if (null === $this->From && null === $this->To) {
+        if ($this->From === null && $this->To === null) {
             $Where = '1';
         } else {
             $Where = '`time` BETWEEN ' . (int) $this->From . ' AND ' . (int) $this->To;
         }
 
-        if (null !== $this->SportId) {
+        if ($this->SportId !== null) {
             $Where .= ' AND `sportid`=' . (int) $this->SportId;
         }
 

@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class XmlPolarTest extends AbstractActivityParserTestCase
 {
-    /** @var XmlPolar */
+    /**
+     * @var XmlPolar
+     */
     protected $Parser;
 
     protected function setUp(): void

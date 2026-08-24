@@ -24,7 +24,7 @@ class LegacyUnitConverter
     {
         $energyUnitMap = [
             Application\EnergyUnit::KCAL => EnergyEnum::KILOCALORIES,
-            Application\EnergyUnit::KJ => EnergyEnum::KILOJOULES
+            Application\EnergyUnit::KJ => EnergyEnum::KILOJOULES,
         ];
 
         if (isset($energyUnitMap[$legacyEnergyEnum])) {
@@ -45,7 +45,7 @@ class LegacyUnitConverter
         $heartRateUnitMap = [
             Application\HeartRateUnit::BPM => HeartRateEnum::BEATS_PER_MINUTE,
             Application\HeartRateUnit::HRMAX => HeartRateEnum::PERCENT_MAXIMUM,
-            Application\HeartRateUnit::HRRESERVE => HeartRateEnum::PERCENT_RESERVE
+            Application\HeartRateUnit::HRRESERVE => HeartRateEnum::PERCENT_RESERVE,
         ];
 
         if (isset($heartRateUnitMap[$legacyHeartRateEnum])) {
@@ -70,7 +70,7 @@ class LegacyUnitConverter
             Application\PaceUnit::MIN_PER_100M => PaceEnum::SECONDS_PER_100M,
             Application\PaceUnit::MIN_PER_100Y => PaceEnum::SECONDS_PER_100Y,
             Application\PaceUnit::MIN_PER_500M => PaceEnum::SECONDS_PER_500M,
-            Application\PaceUnit::MIN_PER_500Y => PaceEnum::SECONDS_PER_500Y
+            Application\PaceUnit::MIN_PER_500Y => PaceEnum::SECONDS_PER_500Y,
         ];
 
         if (isset($paceUnitMap[$legacyPaceEnum])) {
@@ -98,7 +98,7 @@ class LegacyUnitConverter
             PaceEnum::SECONDS_PER_100M => Application\PaceUnit::MIN_PER_100M,
             PaceEnum::SECONDS_PER_100Y => Application\PaceUnit::MIN_PER_100Y,
             PaceEnum::SECONDS_PER_500M => Application\PaceUnit::MIN_PER_500M,
-            PaceEnum::SECONDS_PER_500Y => Application\PaceUnit::MIN_PER_500Y
+            PaceEnum::SECONDS_PER_500Y => Application\PaceUnit::MIN_PER_500Y,
         ];
 
         if ($returnLegacyEnum) {
@@ -122,7 +122,7 @@ class LegacyUnitConverter
     {
         $temperatureUnitMap = [
             Application\TemperatureUnit::CELSIUS => TemperatureEnum::CELSIUS,
-            Application\TemperatureUnit::FAHRENHEIT => TemperatureEnum::FAHRENHEIT
+            Application\TemperatureUnit::FAHRENHEIT => TemperatureEnum::FAHRENHEIT,
         ];
 
         if (isset($temperatureUnitMap[$legacyTemperatureEnum])) {
@@ -141,7 +141,7 @@ class LegacyUnitConverter
         $weightUnitMap = [
             Application\WeightUnit::KG => WeightEnum::KILOGRAM,
             Application\WeightUnit::POUNDS => WeightEnum::POUNDS,
-            Application\WeightUnit::STONES => WeightEnum::STONES
+            Application\WeightUnit::STONES => WeightEnum::STONES,
         ];
 
         if (isset($weightUnitMap[$legacyWeightEnum])) {

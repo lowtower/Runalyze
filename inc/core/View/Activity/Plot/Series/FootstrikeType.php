@@ -24,7 +24,7 @@ class FootstrikeType extends ActivitySeries
 
 	protected function initOptions($isLeft)
     {
-		$this->Label = __('Footstrike').' ('.($isLeft ? __('left') : __('right')).')';
+		$this->Label = __('Footstrike') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
 		$this->Color = $isLeft ? 'rgb(124,181,236)' : 'rgb(73,130,185)';
 
 		$this->UnitString = '';
@@ -42,8 +42,8 @@ class FootstrikeType extends ActivitySeries
 			$Plot->setYLimits($yAxis, 0, 16.5);
 			$Plot->setYAxisLabels($yAxis, [6, 12]);
 
-			$Plot->addMarkingArea('y'.$yAxis, 6, 12, 'rgba(124,181,236,0.05)');
-			$Plot->addMarkingArea('y'.$yAxis, 12, 16.5, 'rgba(124,181,236,0.15)');
+			$Plot->addMarkingArea('y' . $yAxis, 6, 12, 'rgba(124,181,236,0.05)');
+			$Plot->addMarkingArea('y' . $yAxis, 12, 16.5, 'rgba(124,181,236,0.15)');
 		}
 	}
 }

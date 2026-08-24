@@ -20,7 +20,6 @@ use Runalyze\View\Icon;
 class MaximalHeartRateInPercent extends MaximalHeartRate
 {
     /**
-     * MaximalHeartRateInPercent constructor.
      * @param bool $addWarningIfMaximalHeartRateIsExceeded
      */
     public function __construct(HeartRate $heartRate, $addWarningIfMaximalHeartRateIsExceeded = false)
@@ -55,7 +54,7 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
             // TODO: Using 'minus' is currently a dirty hack to color this icon
             $Icon = new Icon('fa-exclamation-circle minus');
             $Icon->setTooltip(
-                __('This value exceeds your entered maximal heart rate.').'<br>'.
+                __('This value exceeds your entered maximal heart rate.') . '<br>' .
                 __('Please adjust your maximal heart rate.')
             );
 

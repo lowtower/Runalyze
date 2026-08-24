@@ -17,31 +17,49 @@ use Runalyze\Common\Enum\AbstractEnum;
  */
 final class Kernels extends AbstractEnum
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const UNIFORM = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TRIANGULAR = 2;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const EPANECHNIKOV = 3;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const QUARTIC = 4;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TRIWEIGHT = 5;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const TRICUBE = 6;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const GAUSSIAN = 7;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const COSINE = 8;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const LOGISTIC = 9;
 
 	/**
@@ -56,10 +74,10 @@ final class Kernels extends AbstractEnum
 		$classNames = self::classNamesArray();
 
 		if (! isset($classNames[$kernelid])) {
-			throw new \InvalidArgumentException('Invalid kernel id "'.$kernelid.'".');
+			throw new \InvalidArgumentException('Invalid kernel id "' . $kernelid . '".');
 		}
 
-		$className = 'Runalyze\\Calculation\\Math\\MovingAverage\\Kernel\\'.$classNames[$kernelid];
+		$className = 'Runalyze\\Calculation\\Math\\MovingAverage\\Kernel\\' . $classNames[$kernelid];
 
 		return new $className($width);
 	}
@@ -70,7 +88,7 @@ final class Kernels extends AbstractEnum
      */
     private static function classNamesArray(): array
 	{
-		return array(
+		return [
     self::UNIFORM => 'Uniform',
 		    self::TRIANGULAR => 'Triangular',
 		    self::EPANECHNIKOV => 'Epanechnikov',
@@ -79,7 +97,7 @@ final class Kernels extends AbstractEnum
 		    self::TRICUBE => 'Tricube',
 		    self::GAUSSIAN => 'Gaussian',
 		    self::COSINE => 'Cosine',
-		    self::LOGISTIC => 'Logistic'
-);
+		    self::LOGISTIC => 'Logistic',
+];
 	}
 }

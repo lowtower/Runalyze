@@ -9,7 +9,9 @@ use SimpleXMLElement;
 
 class LogbookActivity extends AbstractSingleParser
 {
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
     public function __construct(SimpleXMLElement $activity)
@@ -138,7 +140,7 @@ class LogbookActivity extends AbstractSingleParser
             }
         }
 
-        if ($heartRateMultipliedByTime > 0 && null === $this->Container->ActivityData->AvgHeartRate && $this->Container->ActivityData->Duration > 0) {
+        if ($heartRateMultipliedByTime > 0 && $this->Container->ActivityData->AvgHeartRate === null && $this->Container->ActivityData->Duration > 0) {
             $this->Container->ActivityData->AvgHeartRate = $heartRateMultipliedByTime / $this->Container->ActivityData->Duration;
         }
     }

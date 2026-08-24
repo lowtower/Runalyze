@@ -17,10 +17,14 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 class Logistic extends AbstractKernel
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $DefaultWidth = 10.0;
 
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $NormalizationFactor = 10.0;
 
     /**

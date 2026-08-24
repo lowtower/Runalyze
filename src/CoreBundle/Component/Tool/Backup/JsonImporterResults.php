@@ -4,11 +4,12 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class JsonImporterResults
 {
-	/** @var array */
-	protected $Results = array();
+	/**
+	 * @var array
+	 */
+	protected $Results = [];
 
 	/**
-	 * Add updates
 	 * @param string $tableName
 	 * @param int $counter
 	 */
@@ -18,7 +19,6 @@ class JsonImporterResults
 	}
 
 	/**
-	 * Add deletes
 	 * @param string $tableName
 	 * @param int $counter
 	 */
@@ -28,7 +28,6 @@ class JsonImporterResults
 	}
 
 	/**
-	 * Add inserts
 	 * @param string $tableName
 	 * @param int $counter
 	 */
@@ -46,11 +45,11 @@ class JsonImporterResults
 	protected function add($tableName, $counter, $key)
     {
 		if (! isset($this->Results[$tableName])) {
-			$this->Results[$tableName] = array(
+			$this->Results[$tableName] = [
 			    'update' => 0,
 			    'delete' => 0,
-			    'insert' => 0
-			);
+			    'insert' => 0,
+			];
 		}
 
 		$this->Results[$tableName][$key] += $counter;
@@ -94,7 +93,7 @@ class JsonImporterResults
      */
     public function completeString(): string
     {
-		$Rows = array();
+		$Rows = [];
 
 		foreach ($this->tables() as $tableName => $String) {
 			if ($this->hasResultsFor($tableName)) {
@@ -126,27 +125,27 @@ class JsonImporterResults
      */
     protected function tables(): array
     {
-		return array(
-		    'runalyze_conf'			=> __('Configuration'),
-		    'runalyze_dataset'		=> __('Dataset'),
-		    'runalyze_plugin'		=> __('Plugin'),
-		    'runalyze_plugin_conf'	=> __('Plugin configuration'),
-		    'runalyze_sport'		=> __('Sports'),
-		    'runalyze_type'			=> __('Activity types'),
-		    'runalyze_user'			=> __('Body data'),
-		    'runalyze_training'		=> __('Activities'),
-		    'runalyze_trackdata'	=> __('Trackdata'),
-		    'runalyze_swimdata'     => __('Swimdata'),
-		    'runalyze_route'		=> __('Routes'),
-		    'runalyze_hrv'			=> __('HRV data'),
-		    'runalyze_equipment'			=> __('Equipment'),
-		    'runalyze_equipment_type'		=> __('Equipment types'),
-		    'runalyze_equipment_sport'		=> __('Relation: equipment types to sports'),
-		    'runalyze_equipment_spor'		=> __('Relation: equipment to sports'),
-		    'runalyze_activity_equipment'	=> __('Relation: equipment to activities'),
-		    'runalyze_tag'			=> __('Tags'),
-		    'runalyze_activtiy_tag'		=> __('Relation: tag to activities'),
-		    'runalyze_raceresult'	=> __('Race results')
-		);
+		return [
+		    'runalyze_conf' => __('Configuration'),
+		    'runalyze_dataset' => __('Dataset'),
+		    'runalyze_plugin' => __('Plugin'),
+		    'runalyze_plugin_conf' => __('Plugin configuration'),
+		    'runalyze_sport' => __('Sports'),
+		    'runalyze_type' => __('Activity types'),
+		    'runalyze_user' => __('Body data'),
+		    'runalyze_training' => __('Activities'),
+		    'runalyze_trackdata' => __('Trackdata'),
+		    'runalyze_swimdata' => __('Swimdata'),
+		    'runalyze_route' => __('Routes'),
+		    'runalyze_hrv' => __('HRV data'),
+		    'runalyze_equipment' => __('Equipment'),
+		    'runalyze_equipment_type' => __('Equipment types'),
+		    'runalyze_equipment_sport' => __('Relation: equipment types to sports'),
+		    'runalyze_equipment_spor' => __('Relation: equipment to sports'),
+		    'runalyze_activity_equipment' => __('Relation: equipment to activities'),
+		    'runalyze_tag' => __('Tags'),
+		    'runalyze_activtiy_tag' => __('Relation: tag to activities'),
+		    'runalyze_raceresult' => __('Race results'),
+		];
 	}
 }

@@ -14,7 +14,7 @@ class FrontendSharedStatistics
 		}
 
 		if ($Content === '') {
-			return '<em>'.__('No data available.').'</em>';
+			return '<em>' . __('No data available.') . '</em>';
 		}
 
 		return $Content;
@@ -22,8 +22,8 @@ class FrontendSharedStatistics
 
 	public function getYearComparisonTable(): \SummaryTableAllYears
     {
-        require_once FRONTEND_PATH.'../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';
-        require_once FRONTEND_PATH.'../plugin/RunalyzePluginStat_Statistiken/class.SummaryTableAllYears.php';
+        require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTable.php';
+        require_once FRONTEND_PATH . '../plugin/RunalyzePluginStat_Statistiken/class.SummaryTableAllYears.php';
 
         return new SummaryTableAllYears(
             new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId()),

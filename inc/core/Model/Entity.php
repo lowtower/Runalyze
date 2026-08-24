@@ -16,7 +16,8 @@ namespace Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-abstract class Entity {
+abstract class Entity
+{
 	/**
 	 * Array separator
 	 * @var string
@@ -27,7 +28,7 @@ abstract class Entity {
 	 * Raw data
 	 * @var array
 	 */
-	protected $Data = array();
+	protected $Data = [];
 
 	/**
 	 * Number of data points
@@ -44,7 +45,7 @@ abstract class Entity {
     /**
      * Construct
      */
-    public function __construct(array $data = array()) {
+    public function __construct(array $data = []) {
 		$this->readData($data);
 
 		if ($this->checkArraySizes) {
@@ -65,15 +66,12 @@ abstract class Entity {
 		}
 	}
 
-    /**
-     * Read data
-     */
     final protected function readData(array $data) {
 		foreach ($this->properties() as $key) {
 			if (isset($data[$key]) && $data[$key] !== '') {
 				$this->Data[$key] = $this->isArray($key) && ! is_array($data[$key]) ? self::explode($data[$key]) : $data[$key];
 			} else {
-				$this->Data[$key] = $this->isArray($key) ? array() : ($this->canBeNull($key) ? null : '');
+				$this->Data[$key] = $this->isArray($key) ? [] : ($this->canBeNull($key) ? null : '');
 			}
 		}
 	}
@@ -104,7 +102,6 @@ abstract class Entity {
 	}
 
 	/**
-	 * Check array sizes
 	 * @throws \RuntimeException
 	 */
 	protected function checkArraySizes() {
@@ -115,14 +112,13 @@ abstract class Entity {
 				try {
 					$this->checkArraySize( count($this->Data[$key]) );
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
+					throw new \RuntimeException($E->getMessage() . ' (for ' . $key . ')', $E->getCode(), $E);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Check array size
 	 * @param int $num
 	 * @throws \RuntimeException
 	 */
@@ -132,7 +128,7 @@ abstract class Entity {
 		}
 
 		if ($this->numberOfPoints > 0 && $num != $this->numberOfPoints) {
-			throw new \RuntimeException('Data arrays must be of the same size. ('.$num.' != '.$this->numberOfPoints.')');
+			throw new \RuntimeException('Data arrays must be of the same size. (' . $num . ' != ' . $this->numberOfPoints . ')');
 		}
 
         $this->numberOfPoints = $num;
@@ -156,7 +152,7 @@ abstract class Entity {
 	 */
 	protected function ensureNumericValue($keyOrKeys, $defaultValue = 0) {
 		if (! is_array($keyOrKeys)) {
-			$keyOrKeys = array($keyOrKeys);
+			$keyOrKeys = [$keyOrKeys];
 		}
 
 		foreach ($keyOrKeys as $key) {
@@ -182,12 +178,12 @@ abstract class Entity {
 	 */
 	protected function ensureNullIfEmpty($keyOrKeys, $ensureNumericIfNotEmpty = false, $treatZeroAsNull = false) {
 		if (! is_array($keyOrKeys)) {
-			$keyOrKeys = array($keyOrKeys);
+			$keyOrKeys = [$keyOrKeys];
 		}
 
 		foreach ($keyOrKeys as $key) {
 			if (array_key_exists($key, $this->Data)) {
-				if ($this->Data[$key] === '' || null === $this->Data[$key] || ($treatZeroAsNull && 0 == $this->Data[$key]) || [] === $this->Data[$key]) {
+				if ($this->Data[$key] === '' || $this->Data[$key] === null || ($treatZeroAsNull && $this->Data[$key] == 0) || $this->Data[$key] === []) {
 					$this->Data[$key] = null;
 				} elseif ($ensureNumericIfNotEmpty) {
 					$this->Data[$key] = (float) $this->Data[$key];
@@ -232,26 +228,25 @@ abstract class Entity {
 	 */
 	public function set($key, $value) {
 		if (! array_key_exists($key, $this->Data)) {
-			throw new \InvalidArgumentException('Unkown data index "'.$key.'".');
+			throw new \InvalidArgumentException('Unkown data index "' . $key . '".');
 		}
 
 		if (! $this->canSet($key)) {
-			throw new \InvalidArgumentException('"'.$key.'" can not be set.');
+			throw new \InvalidArgumentException('"' . $key . '" can not be set.');
 		}
 
-		if ($this->isArray($key) && ! is_array($value) && (! $this->canBeNull($key) || null !== $value)) {
-			throw new \RuntimeException('Value "'.$key.'" must be provided as array.');
+		if ($this->isArray($key) && ! is_array($value) && (! $this->canBeNull($key) || $value !== null)) {
+			throw new \RuntimeException('Value "' . $key . '" must be provided as array.');
 		}
 
 		$this->Data[$key] = $value;
 
 		if ($this->isArray($key)) {
-			$this->handleNewArraySize(null === $value ? 0 : count($this->Data[$key]));
+			$this->handleNewArraySize($value === null ? 0 : count($this->Data[$key]));
 		}
 	}
 
 	/**
-	 * Handle a new array size
 	 * @param int $num
 	 */
 	protected function handleNewArraySize($num) {
@@ -272,7 +267,7 @@ abstract class Entity {
 	 */
 	public function get($key) {
 		if (! array_key_exists($key, $this->Data)) {
-			throw new \InvalidArgumentException('Unknown data index "'.$key.'".');
+			throw new \InvalidArgumentException('Unknown data index "' . $key . '".');
 		}
 
 		return $this->Data[$key];
@@ -286,19 +281,16 @@ abstract class Entity {
 	 */
 	public function has($key) {
 		if (! array_key_exists($key, $this->Data)) {
-			throw new \InvalidArgumentException('Unknown data index "'.$key.'".');
+			throw new \InvalidArgumentException('Unknown data index "' . $key . '".');
 		}
 
 		return ! empty($this->Data[$key]);
 	}
 
-	/**
-	 * Clear
-	 */
 	public function clear() {
 		foreach ($this->properties() as $key) {
 			if ($this->isArray($key)) {
-				$this->Data[$key] = array();
+				$this->Data[$key] = [];
 			} else {
 				$this->Data[$key] = '';
 			}

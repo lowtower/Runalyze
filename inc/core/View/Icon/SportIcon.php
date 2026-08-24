@@ -13,7 +13,8 @@ namespace Runalyze\View\Icon;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon
  */
-class SportIcon extends \Runalyze\View\Icon {
+class SportIcon extends \Runalyze\View\Icon
+{
 	/**
 	 * Filename
 	 * @var string
@@ -34,6 +35,6 @@ class SportIcon extends \Runalyze\View\Icon {
 	 * Display
 	 */
 	public function code(): string {
-		return '<i class="'.$this->Filename.'"'.$this->tooltipAttributes().'></i>';
+		return '<i class="' . $this->Filename . '"' . $this->tooltipAttributes() . '></i>';
 	}
 }

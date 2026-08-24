@@ -16,19 +16,29 @@ use Runalyze\Util\LocalTime;
 
 class ActivityListener
 {
-    /** @var RecalculationManager */
+    /**
+     * @var RecalculationManager
+     */
     protected $RecalculationManager;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var EquipmentRepository */
+    /**
+     * @var EquipmentRepository
+     */
     protected $EquipmentRepository;
 
-    /** @var TimezoneLookup */
+    /**
+     * @var TimezoneLookup
+     */
     protected $TimezoneLookup;
 
     public function __construct(
@@ -144,7 +154,7 @@ class ActivityListener
 
     protected function setSportIfEmpty(Training $activity)
     {
-        if (null === $activity->getSport()) {
+        if ($activity->getSport() === null) {
             /** @var Sport $mainSport */
             $mainSport = $this->SportRepository->findThisOrAny(
                 $this->ConfigurationManager->getList($activity->getAccount())
@@ -158,7 +168,7 @@ class ActivityListener
 
     protected function removeTypeIfInvalidForSport(Training $activity)
     {
-        if (null !== $activity->getType() && $activity->getType()->getSport()->getId() != $activity->getSport()->getId()) {
+        if ($activity->getType() !== null && $activity->getType()->getSport()->getId() != $activity->getSport()->getId()) {
             $activity->setType();
         }
     }
@@ -334,7 +344,7 @@ class ActivityListener
                 $args->hasChangedField('pulseAvg') ||
                 $args->hasChangedField('s') ||
                 (
-                    null === $activity->getPulseAvg() && (
+                    $activity->getPulseAvg() === null && (
                         $args->hasChangedField('sport') ||
                         $args->hasChangedField('type')
                     )

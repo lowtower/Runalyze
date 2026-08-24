@@ -42,7 +42,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
 		    [80, 100, 87],
 		    [88, 65, 98],
 		    [98, 50, 113],
-		    [96, 75, 132]
+		    [96, 75, 132],
 		];
 
 		$temp = new Temperature(null, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));

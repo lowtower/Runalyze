@@ -14,8 +14,6 @@ use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Account
- *
  * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"}), @ORM\UniqueConstraint(name="mail", columns={"mail"})})
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\AccountRepository")
  * @UniqueEntity("mail", message="This mail address is already in use")
@@ -348,17 +346,17 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     public function knowsGender(): bool
     {
-        return Gender::NONE !== $this->gender;
+        return $this->gender !== Gender::NONE;
     }
 
     public function isMale(): bool
     {
-        return Gender::MALE == $this->gender;
+        return $this->gender == Gender::MALE;
     }
 
     public function isFemale(): bool
     {
-        return Gender::FEMALE == $this->gender;
+        return $this->gender == Gender::FEMALE;
     }
 
     /**
@@ -381,7 +379,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     public function knowsBirthYear(): bool
     {
-        return null !== $this->birthyear;
+        return $this->birthyear !== null;
     }
 
     /**
@@ -482,7 +480,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      */
     public function setLastAction($lastAction = null): self
     {
-        if (null === $lastAction) {
+        if ($lastAction === null) {
             $lastAction = (new \DateTime())->getTimestamp();
         }
 
@@ -713,30 +711,34 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->equipmentTypes;
     }
 
-    /** @see \Serializable::serialize() */
+    /**
+     * @see \Serializable::serialize()
+     */
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->username,
             $this->password,
             $this->salt,
             $this->activationHash,
-            $this->language
-        ));
+            $this->language,
+        ]);
     }
 
-    /** @see \Serializable::unserialize() */
+    /**
+     * @see \Serializable::unserialize()
+     */
     public function unserialize($serialized)
     {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            $this->salt,
-            $this->activationHash,
-            $this->language
-        ) = unserialize($serialized);
+         [
+             $this->id,
+             $this->username,
+             $this->password,
+             $this->salt,
+             $this->activationHash,
+             $this->language
+         ] = unserialize($serialized);
     }
 
     public function isAccountNonExpired()

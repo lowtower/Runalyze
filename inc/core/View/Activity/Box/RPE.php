@@ -18,9 +18,6 @@ use Runalyze\View\Activity\Context;
  */
 class RPE extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context)
 	{
 

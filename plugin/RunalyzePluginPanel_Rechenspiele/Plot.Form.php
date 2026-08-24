@@ -14,19 +14,19 @@ use Runalyze\Sports\Performance\Model\TsbModel;
 use Runalyze\Util\Time;
 use Runalyze\Util\LocalTime;
 
-$DataFailed     = false;
-$BasicEndurance = array();
-$ATLs           = array();
-$CTLs           = array();
-$VO2MAXs          = array();
-$TRIMPs         = array();
-$VO2MAXsday       = array();
-$maxTrimp=0;
+$DataFailed = false;
+$BasicEndurance = [];
+$ATLs = [];
+$CTLs = [];
+$VO2MAXs = [];
+$TRIMPs = [];
+$VO2MAXsday = [];
+$maxTrimp = 0;
 
-$All      = 1*($timerange == 'all'); //0 or 1
-$lastHalf = 1*($timerange == 'lasthalf');
-$lastYear = 1*($timerange == 'lastyear');
-$Year     = $All || $lastHalf || $lastYear ? date('Y') : (int) $timerange;
+$All = 1 * ($timerange == 'all'); //0 or 1
+$lastHalf = 1 * ($timerange == 'lasthalf');
+$lastYear = 1 * ($timerange == 'lastyear');
+$Year = $All || $lastHalf || $lastYear ? date('Y') : (int) $timerange;
 
 $BasicEnduranceObj = new BasicEndurance();
 $BasicEnduranceObj->readSettingsFromConfiguration();
@@ -38,7 +38,7 @@ $BEkmDays = $BasicEnduranceObj->getDaysForWeekKm();
 $BElongjogsDays = $BasicEnduranceObj->getDaysToRecognizeForLongjogs();
 $MinKmOfLongJogs = $BasicEnduranceObj->getMinimalDistanceForLongjogs();
 
-if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
+if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
 	if ($All) {
 		$StartTime = strtotime('today 00:00', START_TIME);
 		$EndTime = strtotime('today 23:59');
@@ -53,17 +53,17 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 		$EndTime = mktime(23, 59, 0, 12, 31, $Year);
 	}
 
-	$AddDays      = max(3*max($ATLdays, $CTLdays, $VO2MAXdays), $BEkmDays, $BElongjogsDays);
+	$AddDays = max(3 * max($ATLdays, $CTLdays, $VO2MAXdays), $BEkmDays, $BElongjogsDays);
 	$NumberOfDays = Time::diffInDays($StartTime, $EndTime);
-	$StartYear    = date('Y', $StartTime);
-	$EndYear      = date('Y', $EndTime);
+	$StartYear = date('Y', $StartTime);
+	$EndYear = date('Y', $EndTime);
 
-	$EmptyArray    = array_fill(0, $NumberOfDays + $AddDays + 2, 0);
-	$Trimps_raw    = $EmptyArray;
-	$VO2MAXs_raw     = $EmptyArray;
+	$EmptyArray = array_fill(0, $NumberOfDays + $AddDays + 2, 0);
+	$Trimps_raw = $EmptyArray;
+	$VO2MAXs_raw = $EmptyArray;
 	$Durations_raw = $EmptyArray;
 	$Distances_raw = $EmptyArray;
-	$Longjogs_raw  = array_fill(0, $NumberOfDays + $AddDays + 2, array());
+	$Longjogs_raw = array_fill(0, $NumberOfDays + $AddDays + 2, []);
 
 	// Here VO2MAX will be implemented again
 	// Normal functions are too slow, calling them for each day would trigger each time a query
@@ -75,16 +75,16 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 	// Can't cache until we can invalidate it
 	$Statement = DB::getInstance()->query(
 	    'SELECT
-			DATEDIFF(FROM_UNIXTIME(`time`), "'.$StartDay.'") as `index`,
+			DATEDIFF(FROM_UNIXTIME(`time`), "' . $StartDay . '") as `index`,
 			`trimp`,
 			`distance`,
-			'.JD\Shape::mysqlVO2MAXsum($withElevation).' as `vo2max_weighted`,
-			'.JD\Shape::mysqlVO2MAXsumTime($withElevation).' as `vo2max_sum_time`,
-			`sportid` = "'.Configuration::General()->runningSport().'" as `is_running`
-		FROM `'.PREFIX.'training`
+			' . JD\Shape::mysqlVO2MAXsum($withElevation) . ' as `vo2max_weighted`,
+			' . JD\Shape::mysqlVO2MAXsumTime($withElevation) . ' as `vo2max_sum_time`,
+			`sportid` = "' . Configuration::General()->runningSport() . '" as `is_running`
+		FROM `' . PREFIX . 'training`
 		WHERE
-			`accountid`='.\SessionAccountHandler::getId().' AND
-			`time` BETWEEN UNIX_TIMESTAMP("'.$StartDay.'" + INTERVAL -'.$AddDays.' DAY) AND '.$EndTime
+			`accountid`=' . \SessionAccountHandler::getId() . ' AND
+			`time` BETWEEN UNIX_TIMESTAMP("' . $StartDay . '" + INTERVAL -' . $AddDays . ' DAY) AND ' . $EndTime
 	);
 
 	while ($activity = $Statement->fetch()) {
@@ -106,7 +106,7 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 		}
 	}
 
-	$LowestIndex = $AddDays + 1*(! $All);
+	$LowestIndex = $AddDays + 1 * (! $All);
 	$HighestIndex = $LowestIndex + $NumberOfDays;
 
 	if ($perfmodel == 'banister') {
@@ -149,16 +149,16 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 		$ATLs[$index] = 100 * $performanceModel->fatigueAt($d) / $maxATL;
 		$CTLs[$index] = 100 * $performanceModel->fitnessAt($d) / $maxCTL;
 		$TSBs[$index] = 100 * $performanceModel->performanceAt($d) / $maxCTL;
-		$TRIMPs[$index]    = $Trimps_raw[$d];
+		$TRIMPs[$index] = $Trimps_raw[$d];
 
 		if ($maxTrimp < $Trimps_raw[$d]) {
 			$maxTrimp = $Trimps_raw[$d];
 		}
 
-		$VO2MAX_slice      = array_slice($VO2MAXs_raw, $d - $VO2MAXdays, $VO2MAXdays);
+		$VO2MAX_slice = array_slice($VO2MAXs_raw, $d - $VO2MAXdays, $VO2MAXdays);
 		$Durations_slice = array_slice($Durations_raw, $d - $VO2MAXdays, $VO2MAXdays);
-		$VO2MAX_sum        = array_sum($VO2MAX_slice);
-		$Durations_sum   = array_sum($Durations_slice);
+		$VO2MAX_sum = array_sum($VO2MAX_slice);
+		$Durations_sum = array_sum($Durations_slice);
 
 		if (count($VO2MAX_slice) !== 0 && $Durations_sum != 0) {
 			$VO2MAXs[$index] = $vo2maxFactor * ($VO2MAX_sum / $Durations_sum);
@@ -169,14 +169,14 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 
 			for ($i = 0; $i <= $BElongjogsDays; ++$i) {
 				foreach ($Longjogs_raw[$d - $i] as $longjog) {
-					$longJogPoints += 2*(1 - $i/$BElongjogsDays) * pow($longjog - $MinKmOfLongJogs, 2);
+					$longJogPoints += 2 * (1 - $i / $BElongjogsDays) * pow($longjog - $MinKmOfLongJogs, 2);
 				}
 			}
 
 			$longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
 			$BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
 			    'km' => $currentKmSum,
-			    'sum' => $longJogPoints
+			    'sum' => $longJogPoints,
 			])['percentage'];
 		}
 
@@ -188,59 +188,59 @@ if ($Year >= START_YEAR && $Year <= date('Y') && START_TIME != time()) {
 	$DataFailed = true;
 }
 
-$Plot = new Plot('form'.$timerange.$perfmodel, 800, 450);
+$Plot = new Plot('form' . $timerange . $perfmodel, 800, 450);
 
-$Plot->Data[] = array(
+$Plot->Data[] = [
     'label' => __('Fitness (CTL)'),
     'color' => '#008800',
-    'data' => $CTLs
-);
+    'data' => $CTLs,
+];
 
 if ($perfmodel == 'banister') {
-	$Plot->Data[] = array(
+	$Plot->Data[] = [
 	    'label' => 'TSB',
 	    'color' => '#BBBB00',
-	    'data' => $TSBs
-	);
+	    'data' => $TSBs,
+	];
 }
 
-$Plot->Data[] = array(
+$Plot->Data[] = [
     'label' => __('Fatigue (ATL)'),
     'color' => '#CC2222',
-    'data' => $ATLs
-);
-$Plot->Data[] = array(
-    'label' => __('avg.').' VO2max',
+    'data' => $ATLs,
+];
+$Plot->Data[] = [
+    'label' => __('avg.') . ' VO2max',
     'color' => '#000000',
     'data' => $VO2MAXs,
-    'yaxis' => 2
-);
-$Plot->Data[] = array(
+    'yaxis' => 2,
+];
+$Plot->Data[] = [
     'label' => 'TRIMP',
     'color' => '#5555FF',
     'data' => $TRIMPs,
-    'yaxis' => 3
-);
-$Plot->Data[] = array(
+    'yaxis' => 3,
+];
+$Plot->Data[] = [
     'label' => 'VO2max',
     'color' => '#444444',
     'data' => $VO2MAXsday,
-    'yaxis' => 2
-);
-$Plot->Data[] = array(
+    'yaxis' => 2,
+];
+$Plot->Data[] = [
     'label' => __('Marathon shape'),
     'color' => '#CC9322',
     'data' => $BasicEndurance,
-    'yaxis' => 4
-);
+    'yaxis' => 4,
+];
 
 $Plot->setMarginForGrid(5);
-$Plot->setLinesFilled(array(0));
+$Plot->setLinesFilled([0]);
 if ($perfmodel == 'banister') {
-	$Plot->setLinesFilled(array(2), 0.3);
+	$Plot->setLinesFilled([2], 0.3);
 }
 
-$Plot->setLinesFilled(array(1), 0.4);
+$Plot->setLinesFilled([1], 0.4);
 $Plot->setXAxisAsTime();
 
 if (! $All && ! $lastHalf && ! $lastYear)
@@ -257,12 +257,12 @@ $Plot->addYAxis(2, 'right');
 $Plot->setYTicks(2, 1, 1);
 
 $Plot->addYAxis(3, 'right');
-$Plot->setYLimits(3, 0, $maxTrimp*2);
+$Plot->setYLimits(3, 0, $maxTrimp * 2);
 
 $Plot->addYAxis(4, 'right');
 $Plot->addYUnit(4, '%');
 
-$maxBasicEndurance = $BasicEndurance === [] ? 100 : ceil(max($BasicEndurance)/100)*100;
+$maxBasicEndurance = $BasicEndurance === [] ? 100 : ceil(max($BasicEndurance) / 100) * 100;
 $Plot->setYLimits(4, 0, $maxBasicEndurance);
 
 if ($perfmodel == 'banister') {
@@ -276,7 +276,7 @@ if ($perfmodel == 'banister') {
 $Plot->smoothing(false);
 
 if (($lastHalf || $lastYear || ($Year == date('Y'))) && ! $DataFailed) {
-	$Plot->addMarkingArea('x', time().'000', $index, 'rgba(255,255,255,0.3)');
+	$Plot->addMarkingArea('x', time() . '000', $index, 'rgba(255,255,255,0.3)');
 }
 
 $Plot->setGridAboveData();
@@ -284,7 +284,7 @@ $Plot->setGridAboveData();
 if ($All)
 	$Plot->setTitle( __('Shape for all years') );
 else
-	$Plot->setTitle( __('Shape').' '.$Year);
+	$Plot->setTitle( __('Shape') . ' ' . $Year);
 
 if ($DataFailed)
 	$Plot->raiseError( __('No data available.') );

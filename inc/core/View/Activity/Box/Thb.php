@@ -20,14 +20,11 @@ use Runalyze\Calculation\Distribution\TrackdataAverages;
  */
 class Thb extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context, $sensorIndex = 0)
 	{
         if ($sensorIndex == 1) {
             $trackdataKey = Trackdata\Entity::THB_1;
-            $label = _('THb').' (2)';
+            $label = _('THb') . ' (2)';
         } else {
             $trackdataKey = Trackdata\Entity::THB_0;
             $label = _('THb');
@@ -35,7 +32,7 @@ class Thb extends AbstractBox
 
         $value = new TrackdataAverages($Context->trackdata(), [$trackdataKey]);
 		parent::__construct(
-		    round($value->average($trackdataKey)/100, 2),
+		    round($value->average($trackdataKey) / 100, 2),
 		    'g/dL',
 		    $label
 		);

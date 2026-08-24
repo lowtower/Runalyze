@@ -11,7 +11,9 @@ use Runalyze\Util\LocalTime;
  */
 class GpxTest extends AbstractActivityParserTestCase
 {
-    /** @var Gpx */
+    /**
+     * @var Gpx
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -144,7 +146,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->checkExpectedPauseData([
             [339, 233],
             [2296, 428],
-            [2576, 1075]
+            [2576, 1075],
         ]);
     }
 
@@ -236,7 +238,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(5 * 3600 + 17 * 60 + 21, $this->Container->ActivityData->Duration, 10);
 
         $this->checkExpectedPauseData([
-            [13402, 3780]
+            [13402, 3780],
         ]);
     }
 

@@ -2,23 +2,24 @@
 
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Service\WeatherForecast\Location;
 
 /**
- * Weathercache
- *
  * @ORM\Table(name="weathercache")
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository")
  */
 class Weathercache
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const GEOHASH_PRECISION_DATABASE = 5;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const GEOHASH_PRECISION_LOOKUP = 4;
 
     /**

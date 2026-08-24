@@ -16,12 +16,13 @@ namespace Runalyze\Model;
  * @author Hannes Christiansen
  * @package Runalyze\Model
  */
-abstract class StringArrayObject extends StringObject {
+abstract class StringArrayObject extends StringObject
+{
 	/**
 	 * Single elements
 	 * @var mixed
 	 */
-	protected $Elements = array();
+	protected $Elements = [];
 
 	/**
 	 * Construct
@@ -36,7 +37,6 @@ abstract class StringArrayObject extends StringObject {
 	}
 
 	/**
-	 * From array
 	 * @param array[] $data array of elements
 	 */
 	public function fromArray(array $data) {
@@ -52,7 +52,6 @@ abstract class StringArrayObject extends StringObject {
 	}
 
 	/**
-	 * From string
 	 * @param string $string
 	 */
 	public function fromString($string) {
@@ -77,11 +76,8 @@ abstract class StringArrayObject extends StringObject {
 		return json_encode($this->asArray(), JSON_HEX_QUOT);
 	}
 
-	/**
-	 * Clear
-	 */
 	public function clear() {
-		$this->Elements = array();
+		$this->Elements = [];
 	}
 
 	/**
@@ -101,7 +97,6 @@ abstract class StringArrayObject extends StringObject {
 	}
 
 	/**
-	 * Add
 	 * @param mixed $element
 	 */
 	public function add($element) {

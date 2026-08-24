@@ -14,7 +14,8 @@ use Runalyze\Parameter;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class Set extends \Runalyze\Parameter {
+class Set extends \Runalyze\Parameter
+{
 	/**
 	 * Separator
 	 * @var string
@@ -22,7 +23,6 @@ class Set extends \Runalyze\Parameter {
 	const SEPARATOR = ',';
 
     /**
-     * Array to string
      * @return string
      */
     public static function arrayToString(array $array) {
@@ -36,7 +36,7 @@ class Set extends \Runalyze\Parameter {
 			if ($stringLength === 0 && $valueLength <= Parameter::MAX_LENGTH) {
 				$string = $value;
 			} elseif ($stringLength + $separatorLength + $valueLength <= Parameter::MAX_LENGTH) {
-				$string = $value.self::SEPARATOR.$string;
+				$string = $value . self::SEPARATOR . $string;
 				$stringLength += $separatorLength;
 			} else {
 				break;
@@ -53,7 +53,7 @@ class Set extends \Runalyze\Parameter {
      * @param array $options [optional]
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $default, $options = array()) {
+    public function __construct(array $default, $options = []) {
 		if (! is_array($default)) {
 			// Typehint in constructor does not fetch this
 			throw new \InvalidArgumentException('Parameter\Set needs an array as default value.');
@@ -63,13 +63,12 @@ class Set extends \Runalyze\Parameter {
 	}
 
 	/**
-	 * Set from string
 	 * @param string $valueAsString new value
 	 */
 	public function setFromString($valueAsString) {
 		$this->set( ($valueAsString == 'true') );
 
-		$valueAsArray = array();
+		$valueAsArray = [];
 
 		if ((string) $valueAsString !== '') {
 			$valueAsArray = explode(self::SEPARATOR, $valueAsString);
@@ -83,7 +82,6 @@ class Set extends \Runalyze\Parameter {
 	}
 
 	/**
-	 * Value as string
 	 * @return string
 	 */
 	public function valueAsString() {
@@ -91,7 +89,6 @@ class Set extends \Runalyze\Parameter {
 	}
 
 	/**
-	 * Append
 	 * @param mixed $value
 	 */
 	public function append($value) {

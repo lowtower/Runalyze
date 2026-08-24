@@ -18,7 +18,9 @@ use Runalyze\Util\LocalTime;
  */
 abstract class AbstractFileExporter extends AbstractExporter
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const URL = 'activity/{id}/export/file/{enum}';
 
     /**
@@ -98,8 +100,8 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     final public function downloadFile()
     {
-        header('Content-Type: '.$this->mimeType());
-        header('Content-Disposition: attachment; filename='.$this->filename().'');
+        header('Content-Type: ' . $this->mimeType());
+        header('Content-Disposition: attachment; filename=' . $this->filename() . '');
 
         $this->createFile();
 
@@ -119,11 +121,11 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     final public function filename()
     {
-        if (null === $this->Context) {
-            return 'undefined.'.$this->extension();
+        if ($this->Context === null) {
+            return 'undefined.' . $this->extension();
         }
 
-        return self::fileNameStart().LocalTime::date('Y-m-d_H-i', $this->Context->activity()->timestamp()).'_'.$this->Context->activity()->id().'.'.$this->extension();
+        return self::fileNameStart() . LocalTime::date('Y-m-d_H-i', $this->Context->activity()->timestamp()) . '_' . $this->Context->activity()->id() . '.' . $this->extension();
     }
 
     /**
@@ -132,6 +134,6 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     public static function fileNameStart()
     {
-        return \SessionAccountHandler::getId().'-Activity_';
+        return \SessionAccountHandler::getId() . '-Activity_';
     }
 }

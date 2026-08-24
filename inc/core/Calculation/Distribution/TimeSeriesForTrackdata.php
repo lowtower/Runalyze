@@ -10,20 +10,30 @@ use Runalyze\Model\Trackdata;
  */
 class TimeSeriesForTrackdata extends TimeSeries
 {
-    /** @var Trackdata\Entity */
+    /**
+     * @var Trackdata\Entity
+     */
     protected $Trackdata;
 
-    /** @var string enum */
+    /**
+     * @var string enum
+     */
     protected $IndexKey;
 
-    /** @var string[] enums */
+    /**
+     * @var string[] enums
+     */
     protected $SumDifferencesKeys;
 
-    /** @var string[] enums */
+    /**
+     * @var string[] enums
+     */
     protected $AvgValuesKeys;
 
-    /** @var array */
-    protected $Data = array();
+    /**
+     * @var array
+     */
+    protected $Data = [];
 
     /**
      * @param string $indexKey enum
@@ -59,7 +69,7 @@ class TimeSeriesForTrackdata extends TimeSeries
     {
         $data = $this->Trackdata->get($this->IndexKey);
         $time = $this->Trackdata->get(Trackdata\Entity::TIME);
-        $rawdata = array();
+        $rawdata = [];
 
         foreach (array_merge($this->SumDifferencesKeys, $this->AvgValuesKeys) as $key) {
             $rawdata[$key] = $this->Trackdata->get($key);
@@ -67,7 +77,7 @@ class TimeSeriesForTrackdata extends TimeSeries
 
         foreach ($data as $i => $val) {
             if (! isset($this->Data[$val])) {
-                $this->Data[$val] = array();
+                $this->Data[$val] = [];
 
                 foreach (array_merge($this->SumDifferencesKeys, $this->AvgValuesKeys) as $key) {
                     $this->Data[$val][$key] = 0;

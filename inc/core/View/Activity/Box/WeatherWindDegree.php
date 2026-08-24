@@ -17,9 +17,6 @@ use Runalyze\Data\Weather\CardinalDirection;
  */
 class WeatherWindDegree extends AbstractBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(\Runalyze\View\Activity\Context $Context)
 	{
 		$WindDirection = $Context->activity()
@@ -27,7 +24,7 @@ class WeatherWindDegree extends AbstractBox
 		    ->windDegree();
 		$CardinalDirection = CardinalDirection::getDirection($WindDirection->value());
 		parent::__construct(
-		    \Helper::Unknown($CardinalDirection.' / '.$WindDirection->string(false), '-'),
+		    \Helper::Unknown($CardinalDirection . ' / ' . $WindDirection->string(false), '-'),
 		    $WindDirection->unit(),
 		    $WindDirection->label()
 		);

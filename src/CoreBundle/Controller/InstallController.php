@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class InstallController
  * @author Hannes Christiansen <hannes@runalyze.de>
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Bundle\CoreBundle\Controller
@@ -39,9 +38,9 @@ class InstallController extends Controller
         $session->set('installer/possible', $exitCode == 0);
 
         return $this->render('system/install.html.twig', [
-            'output' => '$ php bin/console runalyze:install:check'."\n\n".$output->fetch(),
+            'output' => '$ php bin/console runalyze:install:check' . "\n\n" . $output->fetch(),
             'installationPossible' => $exitCode == 0,
-            'installationSuccessful' => false
+            'installationSuccessful' => false,
         ]);
     }
 
@@ -66,13 +65,13 @@ class InstallController extends Controller
         $input = new StringInput('runalyze:install --skip=check');
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true, new HtmlOutputFormatter(true));
         $exitCode = $app->run($input, $output);
-        $outputString = '$ php bin/console runalyze:install --skip=check'."\n\n".$output->fetch();
+        $outputString = '$ php bin/console runalyze:install --skip=check' . "\n\n" . $output->fetch();
 
         if ($exitCode > 0) {
             return $this->render('system/install.html.twig', [
                 'output' => $outputString,
                 'installationPossible' => false,
-                'installationSuccessful' => false
+                'installationSuccessful' => false,
             ]);
         }
 
@@ -96,7 +95,7 @@ class InstallController extends Controller
         return $this->render('system/install.html.twig', [
             'output' => $session->get('installer/output', ''),
             'installationPossible' => false,
-            'installationSuccessful' => true
+            'installationSuccessful' => true,
         ]);
     }
 }

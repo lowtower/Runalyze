@@ -13,7 +13,8 @@ namespace Runalyze\View\Icon\Weather;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon\Weather
  */
-class Sunny extends \Runalyze\View\Icon\WeatherIcon {
+class Sunny extends \Runalyze\View\Icon\WeatherIcon
+{
 	/**
 	 * Display
 	 */

@@ -17,7 +17,8 @@ use Runalyze\Parameter\Application\PaceUnit as PaceUnitOption;
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Activity
  */
-class Pace {
+class Pace
+{
 	/**
 	 * Default speed (km/h)
 	 * @var int
@@ -66,7 +67,6 @@ class Pace {
 	}
 
 	/**
-	 * Set time
 	 * @param int $time [s]
 	 * @return \Runalyze\Activity\Pace $this-reference
 	 */
@@ -77,7 +77,6 @@ class Pace {
 	}
 
 	/**
-	 * Set distance
 	 * @param float $distance [km]
 	 * @return \Runalyze\Activity\Pace $this-reference
 	 */
@@ -106,9 +105,6 @@ class Pace {
 		return $this->UnitObject->unit();
 	}
 
-    /**
-     * Set unit
-     */
     public function setUnit(PaceUnit\AbstractUnit $Unit) {
 		$this->UnitObject = $Unit;
 	}
@@ -152,7 +148,6 @@ class Pace {
 	}
 
 	/**
-	 * Value
 	 * As string, without unit
 	 * @return string e.g. '12,5', '4:51'
 	 */
@@ -160,11 +155,8 @@ class Pace {
 		return $this->UnitObject->format($this->secondsPerKm());
 	}
 
-    /**
-     * Value with appendix
-     */
     public function valueWithAppendix(): string {
-		return $this->value().$this->appendix();
+		return $this->value() . $this->appendix();
 	}
 
 	/**
@@ -235,7 +227,6 @@ class Pace {
 	}
 
     /**
-     * Format comparison
      * @param string $string e.g. '0:27' or '1,4'
      * @param bool $isPositive
      * @param bool $raw [optional]
@@ -245,12 +236,12 @@ class Pace {
 		$sign = ($isPositive) ? '+' : '-';
 
 		if ($raw) {
-			return $sign.$string;
+			return $sign . $string;
 		}
 
 		/**
 		 * @codeCoverageIgnore
 		 */
-		return '<span class="'.$class.'">'.$sign.$string.$this->appendix().'</span>';
+		return '<span class="' . $class . '">' . $sign . $string . $this->appendix() . '</span>';
 	}
 }

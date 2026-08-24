@@ -9,7 +9,9 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataConverter
 {
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $Data;
 
     public function __construct(ContinuousData $data)
@@ -41,7 +43,7 @@ class ContinuousDataConverter
             Trackdata\Entity::PRONATION_EXCURSION_LEFT => $this->Data->PronationExcursionLeft,
             Trackdata\Entity::PRONATION_EXCURSION_RIGHT => $this->Data->PronationExcursionRight,
             Trackdata\Entity::PERFORMANCE_CONDITION => $this->Data->PerformanceCondition,
-            Trackdata\Entity::RESPIRATION_RATE => $this->Data->RespirationRate
+            Trackdata\Entity::RESPIRATION_RATE => $this->Data->RespirationRate,
         ]);
     }
 
@@ -49,7 +51,7 @@ class ContinuousDataConverter
     {
         $route = new Route\Entity([
             Route\Entity::DISTANCE => $this->Data->Distance,
-            Route\Entity::ELEVATIONS_ORIGINAL => $this->Data->Altitude
+            Route\Entity::ELEVATIONS_ORIGINAL => $this->Data->Altitude,
         ]);
         $route->setLatitudesLongitudes($this->Data->Latitude, $this->Data->Longitude);
 
@@ -60,7 +62,7 @@ class ContinuousDataConverter
     {
         return new Swimdata\Entity([
             Swimdata\Entity::STROKE => $this->Data->Strokes,
-            Swimdata\Entity::STROKETYPE => $this->Data->StrokeType
+            Swimdata\Entity::STROKETYPE => $this->Data->StrokeType,
         ]);
     }
 }

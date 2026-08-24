@@ -5,11 +5,11 @@
  * @package Runalyze\System\Config
  */
 /**
- * ConfigTabs
  * @author Hannes Christiansen
  * @package Runalyze\System\Config
  */
-class ConfigTabs {
+class ConfigTabs
+{
 	/**
 	 * URL for config-window
 	 * @var string
@@ -26,13 +26,13 @@ class ConfigTabs {
 	 * Messages to show after submit
 	 * @var array
 	 */
-	private static $Messages = array();
+	private static $Messages = [];
 
 	/**
 	 * Internal array with all tabs
 	 * @var array
 	 */
-	protected $Tabs = array();
+	protected $Tabs = [];
 
 	/**
 	 * Default key
@@ -56,9 +56,6 @@ class ConfigTabs {
 		$this->addTab($Tab);
 	}
 
-    /**
-     * Add a tab
-     */
     public function addTab(ConfigTab $Tab) {
 		$this->Tabs[$Tab->getKey()] = $Tab;
 	}
@@ -70,17 +67,17 @@ class ConfigTabs {
 		if (Request::param('form') == 'true') {
 			$this->Tabs[$this->getCurrentKey()]->parsePostData();
 
-			$SubmitInfo = '<p class="okay"><em>'.__('The settings have been saved.').'</em></p>';
+			$SubmitInfo = '<p class="okay"><em>' . __('The settings have been saved.') . '</em></p>';
 
 			if (! empty(self::$Messages))
 				$SubmitInfo .= implode('', self::$Messages);
 
-			echo '<div class="panel-heading" id="submit-info">'.$SubmitInfo.'</div>';
+			echo '<div class="panel-heading" id="submit-info">' . $SubmitInfo . '</div>';
 			echo Ajax::getReloadCommand();
 		}
 
 		if ($this->hasToShowDiv()) {
-			echo '<div id="'.self::$TABS_ID.'">';
+			echo '<div id="' . self::$TABS_ID . '">';
 		}
 
 		$this->displayCurrentTab();
@@ -97,9 +94,6 @@ class ConfigTabs {
 		return (Request::param('key') == '' || Request::param('form') == 'true' || Request::param('external') == 'true');
 	}
 
-	/**
-	 * Display current tab
-	 */
 	protected function displayCurrentTab() {
 		$CurrentKey = $this->getCurrentKey();
 
@@ -109,7 +103,6 @@ class ConfigTabs {
 	}
 
 	/**
-	 * Get current key
 	 * @return string
 	 */
 	protected function getCurrentKey() {

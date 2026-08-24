@@ -36,7 +36,6 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     protected $Length = 0;
 
     /**
-     * AbstractMovingAverage constructor
      * @param array $data data to average
      * @param bool $indexDataIsAscending set to false if index is not ascending
      */
@@ -50,7 +49,6 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
     }
 
     /**
-     * Check index data
      * @param bool $indexDataIsAscending set to false if index is not ascending
      */
     protected function checkIndexData($indexDataIsAscending)
@@ -66,9 +64,6 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
         }
     }
 
-    /**
-     * Make index data ascending
-     */
     protected function makeIndexDataAscending()
     {
         $sum = 0;
@@ -127,6 +122,6 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
             return $this->MovingAverage[$index];
         }
 
-        throw new \InvalidArgumentException('Unknown index "'.$index.'" of moving average.');
+        throw new \InvalidArgumentException('Unknown index "' . $index . '" of moving average.');
     }
 }

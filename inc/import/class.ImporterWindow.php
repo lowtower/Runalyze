@@ -3,7 +3,8 @@
 /**
  * @deprecated
  */
-class ImporterWindow {
+class ImporterWindow
+{
 	/**
 	 * URL for window
 	 * @var string
@@ -20,7 +21,7 @@ class ImporterWindow {
 	 * Get link for create window
 	 */
 	public static function link() {
-		return Ajax::window('<a href="'.self::$URL.'">'.Icon::$ADD.' '.__('Add workout').'</a>', 'small');
+		return Ajax::window('<a href="' . self::$URL . '">' . Icon::$ADD . ' ' . __('Add workout') . '</a>', 'small');
 	}
 
 	/**
@@ -30,11 +31,11 @@ class ImporterWindow {
 	 */
 	public static function linkForDate($timestampInServerTime) {
 		if ($timestampInServerTime > time()) {
-			return '<span style="opacity:.25;">'.Icon::$ADD_SMALL.'</span>';
+			return '<span style="opacity:.25;">' . Icon::$ADD_SMALL . '</span>';
 		}
 
 		$date = date('d.m.Y', $timestampInServerTime);
 
-		return Ajax::window('<a href="'.self::$URL_FORM.'?date='.$date.'">'.Icon::$ADD_SMALL.'</a>', 'small');
+		return Ajax::window('<a href="' . self::$URL_FORM . '?date=' . $date . '">' . Icon::$ADD_SMALL . '</a>', 'small');
 	}
 }

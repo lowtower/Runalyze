@@ -23,7 +23,7 @@ class Uniform extends AbstractKernel
      */
     protected function atTransformed($u): float
     {
-        if (-1.0 <= $u && $u <= 1.0) {
+        if ($u >= -1.0 && $u <= 1.0) {
             return 1.0;
         }
 

@@ -29,30 +29,30 @@ $routesLimit = RunalyzePluginStat_Strecken::MAX_ROUTES_ON_NET * $positioninterva
 $Conditions = '';
 
 if ($sport > 0) {
-	$Conditions .= ' AND `'.PREFIX.'training`.`sportid`='.$sport;
+	$Conditions .= ' AND `' . PREFIX . 'training`.`sportid`=' . $sport;
 }
 
 if ($year > 0) {
-	$Conditions .= ' AND `'.PREFIX."training`.`time` BETWEEN UNIX_TIMESTAMP('".(int) $year."-01-01') AND UNIX_TIMESTAMP('".((int) $year+1)."-01-01')-1";
+	$Conditions .= ' AND `' . PREFIX . "training`.`time` BETWEEN UNIX_TIMESTAMP('" . (int) $year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $year + 1) . "-01-01')-1";
 }
 
 // #TSC the route-name is limited to 50 chars and then a "..." will concated
 $Routes = DB::getInstance()->query('
 	SELECT
-		`'.PREFIX.'route`.`id`,
-		`'.PREFIX.'route`.`geohashes`,
-		`'.PREFIX.'route`.`min`,
-		`'.PREFIX.'route`.`max`,
-		`'.PREFIX.'training`.`time`,
-		CONCAT(SUBSTRING(`'.PREFIX.'route`.`name`, 1, 50), CASE WHEN LENGTH(`'.PREFIX.'route`.`name`) > 50 THEN "..." ELSE "" END) as routename,
-		`'.PREFIX.'training`.`distance`,
-		`'.PREFIX.'sport`.`img` as sporticon
-	FROM `'.PREFIX.'training`
-		LEFT JOIN `'.PREFIX.'route` ON `'.PREFIX.'training`.`routeid`=`'.PREFIX.'route`.`id`
-		LEFT JOIN `'.PREFIX.'sport` ON `'.PREFIX.'training`.`sportid`=`'.PREFIX.'sport`.`id`
-	WHERE `'.PREFIX.'training`.`accountid`='.SessionAccountHandler::getId().' AND`'.PREFIX.'route`.`geohashes`!="" '.$Conditions.'
+		`' . PREFIX . 'route`.`id`,
+		`' . PREFIX . 'route`.`geohashes`,
+		`' . PREFIX . 'route`.`min`,
+		`' . PREFIX . 'route`.`max`,
+		`' . PREFIX . 'training`.`time`,
+		CONCAT(SUBSTRING(`' . PREFIX . 'route`.`name`, 1, 50), CASE WHEN LENGTH(`' . PREFIX . 'route`.`name`) > 50 THEN "..." ELSE "" END) as routename,
+		`' . PREFIX . 'training`.`distance`,
+		`' . PREFIX . 'sport`.`img` as sporticon
+	FROM `' . PREFIX . 'training`
+		LEFT JOIN `' . PREFIX . 'route` ON `' . PREFIX . 'training`.`routeid`=`' . PREFIX . 'route`.`id`
+		LEFT JOIN `' . PREFIX . 'sport` ON `' . PREFIX . 'training`.`sportid`=`' . PREFIX . 'sport`.`id`
+	WHERE `' . PREFIX . 'training`.`accountid`=' . SessionAccountHandler::getId() . ' AND`' . PREFIX . 'route`.`geohashes`!="" ' . $Conditions . '
 	ORDER BY `time` DESC
-	LIMIT '.$routesLimit);
+	LIMIT ' . $routesLimit);
 
 $Map = new Leaflet\Map('map-routenet', 600);
 
@@ -68,7 +68,7 @@ while ($RouteData = $Routes->fetch()) {
 	// only the first 4 "columns" are relevant for the GPS positions itself
 	$Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData, 0, 4), $positioninterval);
 
-	if (null !== $RouteData['min'] && null !== $RouteData['max']) {
+	if ($RouteData['min'] !== null && $RouteData['max'] !== null) {
 		$MinCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['min'])->getCoordinate();
 		$MaxCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['max'])->getCoordinate();
 
@@ -78,7 +78,7 @@ while ($RouteData = $Routes->fetch()) {
 		$maxLng = $MaxCoordinate->getLongitude() != 0 ? max($maxLng, $MaxCoordinate->getLongitude()) : $maxLng;
 	}
 
-	$Path = new Leaflet\Activity('route-'.$RouteData['id'], $Route, null, false);
+	$Path = new Leaflet\Activity('route-' . $RouteData['id'], $Route, null, false);
 	// #TSC set hoverable to mark the route if activated and show the tooltip
 	$Path->addOption('hoverable', true);
 	$Path->addOption('autofit', false);
@@ -94,12 +94,12 @@ if (! isset($Route)) {
 	echo HTML::error(__('There are no routes matching the criterias.'));
 }
 
-$Map->setBounds(array(
+$Map->setBounds([
     'lat.min' => $minLat,
     'lat.max' => $maxLat,
     'lng.min' => $minLng,
-    'lng.max' => $maxLng
-));
+    'lng.max' => $maxLng,
+]);
 $Map->display();
 
 function getTooltipText($time, $routename, $distance, $sporticon): string {
@@ -117,7 +117,7 @@ function getTooltipText($time, $routename, $distance, $sporticon): string {
 ?>
 
 <p class="info">
-	<?php echo sprintf( __('The map contains your %s most recent routes matching the criterias.').' Nummer der Positions-Punkte ist %d.', $count, $countPoints); ?>
-	<?php echo sprintf( __('More routes are not possible at the moment due to performance issues.'). ' Limit %s.', $routesLimit); ?>
+	<?php echo sprintf( __('The map contains your %s most recent routes matching the criterias.') . ' Nummer der Positions-Punkte ist %d.', $count, $countPoints); ?>
+	<?php echo sprintf( __('More routes are not possible at the moment due to performance issues.') . ' Limit %s.', $routesLimit); ?>
 </p>
 </div>

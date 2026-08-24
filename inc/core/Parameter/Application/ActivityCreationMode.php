@@ -13,7 +13,8 @@ namespace Runalyze\Parameter\Application;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class ActivityCreationMode extends \Runalyze\Parameter\Select {
+class ActivityCreationMode extends \Runalyze\Parameter\Select
+{
 	/**
 	 * Upload form
 	 * @var string
@@ -36,13 +37,13 @@ class ActivityCreationMode extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::UPLOAD, array(
-    'options'		=> array(
-		        self::UPLOAD	=> __('Upload form'),
-		        self::GARMIN	=> __('Garmin-Communicator'),
-		        self::FORM		=> __('Standard form')
-		    )
-));
+		parent::__construct(self::UPLOAD, [
+    'options' => [
+		        self::UPLOAD => __('Upload form'),
+		        self::GARMIN => __('Garmin-Communicator'),
+		        self::FORM => __('Standard form'),
+		    ],
+]);
 	}
 
     /**

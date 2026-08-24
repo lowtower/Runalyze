@@ -19,7 +19,8 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Elevation
  */
-class DistanceModifier {
+class DistanceModifier
+{
 	/**
 	 * Distance to add for 1m positive elevation
 	 * @var int
@@ -76,7 +77,6 @@ class DistanceModifier {
 	}
 
 	/**
-	 * Set elevation
 	 * @param int $up [m]
 	 * @param int $down [m]
 	 */
@@ -86,7 +86,6 @@ class DistanceModifier {
 	}
 
 	/**
-	 * Set correction values
 	 * @param int $positiveCorrection
 	 * @param int $negativeCorrection [m]
 	 */
@@ -96,15 +95,13 @@ class DistanceModifier {
 	}
 
 	/**
-	 * Additional distance
 	 * @return float [km]
 	 */
 	public function additionalDistance() {
-		return ($this->PositiveCorrector*(int) $this->Up + $this->NegativeCorrector*(int) $this->Down)/1000;
+		return ($this->PositiveCorrector * (int) $this->Up + $this->NegativeCorrector * (int) $this->Down) / 1000;
 	}
 
 	/**
-	 * Corrected distance
 	 * @return float [km]
 	 */
 	public function correctedDistance() {

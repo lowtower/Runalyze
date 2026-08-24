@@ -18,7 +18,8 @@ use Runalyze\Model\Activity\Splits;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Laps
  */
-class Laps {
+class Laps
+{
 	/**
 	 * @var \Runalyze\Data\Laps\Lap[]
 	 */

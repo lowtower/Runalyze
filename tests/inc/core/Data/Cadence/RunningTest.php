@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Data\Cadence;
 
-class RunningTest extends \PHPUnit\Framework\TestCase {
+class RunningTest extends \PHPUnit\Framework\TestCase
+{
 	public function testValue() {
 		$Cadence = new Running(90);
 
@@ -18,11 +19,10 @@ class RunningTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testManipulatingArray() {
-		$array = array(70, 80, 90, 100, 105);
+		$array = [70, 80, 90, 100, 105];
 		$Cadence = new Running();
 		$Cadence->manipulateArray($array);
 
-		$this->assertEquals(array(140, 160, 180, 200, 210), $array);
+		$this->assertEquals([140, 160, 180, 200, 210], $array);
 	}
-
 }

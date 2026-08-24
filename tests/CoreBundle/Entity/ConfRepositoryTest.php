@@ -9,7 +9,9 @@ use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
  */
 class ConfRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var ConfRepository */
+    /**
+     * @var ConfRepository
+     */
     protected $ConfRepository;
 
     protected function setUp(): void

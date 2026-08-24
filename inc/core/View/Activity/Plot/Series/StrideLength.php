@@ -18,7 +18,8 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class StrideLength extends ActivityPointSeries {
+class StrideLength extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -36,7 +37,6 @@ class StrideLength extends ActivityPointSeries {
 	}
 
     /**
-     * Init data
      * @param string|bool $key
      * @param bool $fillGaps try to fill gaps (zero values)
      */
@@ -47,9 +47,6 @@ class StrideLength extends ActivityPointSeries {
 		$this->XAxis = $Collector->xAxis();
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Stride length');
 		$this->Color = self::COLOR;
@@ -65,9 +62,6 @@ class StrideLength extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Manipulate data
-	 */
 	protected function manipulateData() {
 		$UnitSystem = Configuration::General()->distanceUnitSystem();
 

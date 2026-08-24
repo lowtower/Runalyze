@@ -16,17 +16,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class GroundContactBalance extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class GroundContactBalance extends ActivityPlot
+{
 	protected function setKey() {
-		$this->key   = 'groundcontact_balance';
+		$this->key = 'groundcontact_balance';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->addSeries(
 		    new Series\GroundContactBalance($context)

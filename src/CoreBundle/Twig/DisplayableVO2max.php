@@ -6,13 +6,19 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
 
 class DisplayableVO2max extends DisplayableValue
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $UncorrectedValue;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $IconClass;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $LowerLimitsForIcon = [3.0, 1.0, -1.0, -3.0];
 
     /**
@@ -57,7 +63,7 @@ class DisplayableVO2max extends DisplayableValue
         $classes = [
             'vo2max-icon',
             'small',
-            $this->getIconClassFor($this->Value - $configurationList->getCurrentVO2maxShape())
+            $this->getIconClassFor($this->Value - $configurationList->getCurrentVO2maxShape()),
         ];
 
         if (! $valueIsUsedForShape) {

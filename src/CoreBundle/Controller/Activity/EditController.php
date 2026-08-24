@@ -48,8 +48,8 @@ class EditController extends Controller
         $repository = $this->getTrainingRepository();
         $form = $this->createForm(ActivityType::class, $activity, [
             'action' => $this->generateUrl('activity-edit', [
-                'id' => $activity->getId()
-            ])
+                'id' => $activity->getId(),
+            ]),
         ]);
         $form->handleRequest($request);
 
@@ -83,7 +83,7 @@ class EditController extends Controller
             if (is_numeric($nextId)) {
                 return $this->redirectToRoute('activity-edit', [
                     'id' => (int) $nextId,
-                    'multi' => '1'
+                    'multi' => '1',
                 ]);
             }
         }
@@ -102,7 +102,7 @@ class EditController extends Controller
             'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()
                 ->hasGeohashes() && ! $activity->getRoute()
                 ->hasCorrectedElevations(),
-            'isPowerLocked' => null !== $activity->isPowerCalculated()
+            'isPowerLocked' => $activity->isPowerCalculated() !== null,
         ]);
     }
 
@@ -129,7 +129,7 @@ class EditController extends Controller
             ->getPartialEntitiesForPreview($activityIds, $account, 20));
 
         return $this->render('activity/multi_editor_navigation.html.twig', [
-            'previews' => $previews
+            'previews' => $previews,
         ]);
     }
 
@@ -148,7 +148,7 @@ class EditController extends Controller
            ->remove($activity);
 
         return $this->render('activity/activity_has_been_removed.html.twig', [
-            'multiEditorId' => (int) $activityId
+            'multiEditorId' => (int) $activityId,
         ]);
    }
 
@@ -169,7 +169,7 @@ class EditController extends Controller
                 ->getAdapter();
             $strategy = null;
 
-            if ('none' == $request->query->get('strategy')) {
+            if ($request->query->get('strategy') == 'none') {
                 $routeAdapter->removeElevation();
                 $this->addFlash('notice', $translator->trans('Corrected elevation data has been removed.'));
                 $success = true;
@@ -191,7 +191,7 @@ class EditController extends Controller
 
         return $this->render('util/flashmessages_only.html.twig', [
             'reloadActivityOverlay' => $success,
-            'activityId' => $activity->getId()
+            'activityId' => $activity->getId(),
         ]);
     }
 
@@ -226,15 +226,15 @@ class EditController extends Controller
      */
     protected function getElevationCorrectionStrategyFromRequest($string)
     {
-        if ('GeoTIFF' == $string) {
+        if ($string == 'GeoTIFF') {
             return $this->get('app.elevation_correction.geotiff');
         }
 
-        if ('Geonames' == $string) {
+        if ($string == 'Geonames') {
             return $this->get('app.elevation_correction.geonames');
         }
 
-        if ('GoogleMaps' == $string) {
+        if ($string == 'GoogleMaps') {
             return $this->get('app.elevation_correction.google_maps');
         }
 

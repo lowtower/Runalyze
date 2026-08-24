@@ -6,15 +6,19 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 
 class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const CURRENT_VERSION = '4.3.0';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Base;
 
     protected function setUp(): void
     {
-        $this->Base = __DIR__.'/../../../../testfiles/backup/';
+        $this->Base = __DIR__ . '/../../../../testfiles/backup/';
     }
 
     public function testVersionExtraction()
@@ -30,7 +34,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
             '2.6rc' => '2.6',
             '3.0.0-alpha' => '3.0',
             '3.0.1' => '3.0',
-            '45.6-beta' => '45.6'
+            '45.6-beta' => '45.6',
         ];
 
         foreach ($versions as $string => $version) {
@@ -40,7 +44,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForUnknownVersion()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'no-version.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'no-version.json.gz', self::CURRENT_VERSION);
 
         $this->assertFalse($analyzer->fileIsOkay());
         $this->assertFalse($analyzer->versionIsOkay());
@@ -49,7 +53,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForWrongVersion()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'wrong-version.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'wrong-version.json.gz', self::CURRENT_VERSION);
 
         $this->assertFalse($analyzer->fileIsOkay());
         $this->assertFalse($analyzer->versionIsOkay());
@@ -58,7 +62,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForDefaultEmpty()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'default-empty.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'default-empty.json.gz', self::CURRENT_VERSION);
 
         $this->assertTrue($analyzer->fileIsOkay());
         $this->assertTrue($analyzer->versionIsOkay());
@@ -66,7 +70,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForDefaultInsert()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'default-insert.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'default-insert.json.gz', self::CURRENT_VERSION);
 
         $this->assertTrue($analyzer->fileIsOkay());
         $this->assertTrue($analyzer->versionIsOkay());
@@ -74,7 +78,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForDefaultUpdate()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'default-update.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'default-update.json.gz', self::CURRENT_VERSION);
 
         $this->assertTrue($analyzer->fileIsOkay());
         $this->assertTrue($analyzer->versionIsOkay());
@@ -82,7 +86,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 
     public function testVersionExtractionForWithEquipment()
     {
-        $analyzer = new JsonBackupAnalyzer($this->Base.'with-equipment.json.gz', self::CURRENT_VERSION);
+        $analyzer = new JsonBackupAnalyzer($this->Base . 'with-equipment.json.gz', self::CURRENT_VERSION);
 
         $this->assertTrue($analyzer->fileIsOkay());
         $this->assertTrue($analyzer->versionIsOkay());

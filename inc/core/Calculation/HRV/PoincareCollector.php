@@ -16,7 +16,8 @@ use Runalyze\Model\HRV\Entity;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\HRV
  */
-class PoincareCollector {
+class PoincareCollector
+{
 	/**
 	 * @var \Runalyze\Model\HRV\Entity
 	 */
@@ -32,7 +33,7 @@ class PoincareCollector {
 	 * Plot data
 	 * @var array
 	 */
-	protected $PlotData = array();
+	protected $PlotData = [];
 
     /**
      * Calculator for hrv statistics
@@ -45,16 +46,13 @@ class PoincareCollector {
 		$this->collectPlotData();
 	}
 
-	/**
-	 * Collect plot data
-	 */
 	protected function collectPlotData() {
 		$data = $this->Object->data();
 		$num = $this->Object->num();
 
 		for ($i = 1; $i < $num; ++$i) {
-			if (abs($data[$i-1] - $data[$i]) < $this->Filter) {
-				$this->PlotData[(string) $data[$i-1]] = $data[$i];
+			if (abs($data[$i - 1] - $data[$i]) < $this->Filter) {
+				$this->PlotData[(string) $data[$i - 1]] = $data[$i];
 			}
 		}
 	}

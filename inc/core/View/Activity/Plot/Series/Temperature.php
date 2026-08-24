@@ -17,7 +17,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class Temperature extends ActivitySeries {
+class Temperature extends ActivitySeries
+{
 	/**
 	 * @var string
 	 */
@@ -33,10 +34,6 @@ class Temperature extends ActivitySeries {
 		$this->manipulateData();
 	}
 
-
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Temperature');
 		$this->Color = self::COLOR;

@@ -12,12 +12,14 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
  */
 class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TimezoneLookup */
+    /**
+     * @var TimezoneLookup
+     */
     protected $Lookup;
 
     protected function setUp(): void
     {
-        $this->Lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
+        $this->Lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     }
 
     public function testSilenceConstructor()
@@ -40,7 +42,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 
     public function testConstructorWithWrongExtensionName()
     {
-        $lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'non-existant-extension.so');
+        $lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', 'non-existant-extension.so');
 
         $this->expectException(TimezoneLookupException::class);
 
@@ -53,7 +55,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals('Europe/Berlin', $this->Lookup->getTimezoneForCoordinate(13.41, 52.52));
             $this->assertEquals('America/Los_Angeles', $this->Lookup->getTimezoneForCoordinate(-122.420706, 37.776685));
         } catch (TimezoneLookupException $timezoneLookupException) {
-            $this->markTestSkipped('Timezone lookup is not possible: '.$timezoneLookupException->getMessage());
+            $this->markTestSkipped('Timezone lookup is not possible: ' . $timezoneLookupException->getMessage());
         }
     }
 
@@ -62,7 +64,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         try {
             $this->assertNull($this->Lookup->getTimezoneForCoordinate('foo', 'bar'));
         } catch (TimezoneLookupException $timezoneLookupException) {
-            $this->markTestSkipped('Timezone lookup is not possible: '.$timezoneLookupException->getMessage());
+            $this->markTestSkipped('Timezone lookup is not possible: ' . $timezoneLookupException->getMessage());
         }
     }
 }

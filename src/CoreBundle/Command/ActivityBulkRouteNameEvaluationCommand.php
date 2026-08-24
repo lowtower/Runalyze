@@ -15,7 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command to update activities with details of a route.
  */
-class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
+class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
+{
     private $override = False;
 
     protected function configure() {
@@ -49,7 +50,7 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand {
         $nexted = empty($input->getOption('nexted')) ? 0 : 1;
         $this->override = ! empty($input->getOption('override'));
 
-        if (null === $user) {
+        if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
 
             return 1;

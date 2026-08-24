@@ -11,7 +11,9 @@ use Runalyze\Util\LocalTime;
  */
 class CsvTest extends AbstractActivityParserTestCase
 {
-    /** @var Csv */
+    /**
+     * @var Csv
+     */
     protected $Parser;
 
     protected function setUp(): void

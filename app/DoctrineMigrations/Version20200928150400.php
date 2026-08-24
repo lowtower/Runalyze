@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20200928150400 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,7 +23,7 @@ class Version20200928150400 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'training`
+        $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `fit_lactate_threshold_hr` TINYINT(3) UNSIGNED DEFAULT NULL AFTER `fit_performance_condition_end`,
                                 ADD `fit_total_ascent` SMALLINT UNSIGNED DEFAULT NULL AFTER `fit_lactate_threshold_hr`,
                                 ADD `fit_total_descent` SMALLINT UNSIGNED DEFAULT NULL AFTER `fit_total_ascent`;
@@ -31,7 +33,7 @@ class Version20200928150400 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'training`
+        $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `fit_lactate_threshold_hr`,
                                 DROP `fit_total_ascent`,
                                 DROP `fit_total_descent`;

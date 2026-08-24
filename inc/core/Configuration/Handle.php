@@ -16,7 +16,8 @@ use Ajax;
  * @author Hannes Christiansen
  * @package Runalyze\Configuration
  */
-class Handle {
+class Handle
+{
 	/**
 	 * Key
 	 * @var string
@@ -45,7 +46,7 @@ class Handle {
 	 * Array with all values
 	 * @var array
 	 */
-	private static $TableHandles = array();
+	private static $TableHandles = [];
 
 	/**
 	 * All table handles
@@ -69,7 +70,6 @@ class Handle {
 	}
 
 	/**
-	 * Key
 	 * @return string
 	 */
 	final public function key() {
@@ -85,7 +85,6 @@ class Handle {
 	}
 
 	/**
-	 * Value
 	 * @return mixed
 	 */
 	final public function value() {
@@ -93,7 +92,6 @@ class Handle {
 	}
 
 	/**
-	 * Register onchange event
 	 * @param callable $callback
 	 */
 	final public function registerOnchangeEvent($callback) {
@@ -101,7 +99,6 @@ class Handle {
 	}
 
 	/**
-	 * Register onchange flag
 	 * @param string $flag
 	 */
 	final public function registerOnchangeFlag($flag) {

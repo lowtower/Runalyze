@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20221123203500 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -20,11 +22,11 @@ class Version20221123203500 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $table = '`'.$prefix.'training`';
+        $table = '`' . $prefix . 'training`';
 
-        $this->addSql('ALTER TABLE '.$table.'
+        $this->addSql('ALTER TABLE ' . $table . '
                                 ADD `pulse_avg_active` TINYINT(3) UNSIGNED DEFAULT NULL AFTER `pulse_max`');
-        $this->addSql('update '.$prefix.'training 
+        $this->addSql('update ' . $prefix . 'training 
                                 set pulse_avg_active = pulse_avg 
                                 where pulse_avg > 0 and pulse_avg_active is null and (splits is null or splits not like \'%-R%\')');
     }
@@ -32,8 +34,8 @@ class Version20221123203500 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $table = '`'.$prefix.'training`';
-        $this->addSql('ALTER TABLE '.$table.'
+        $table = '`' . $prefix . 'training`';
+        $this->addSql('ALTER TABLE ' . $table . '
                                DROP `pulse_avg_active`;');
     }
 }

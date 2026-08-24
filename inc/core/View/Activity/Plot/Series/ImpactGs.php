@@ -24,7 +24,7 @@ class ImpactGs extends ActivitySeries
 
 	protected function initOptions($isLeft)
     {
-		$this->Label = __('Impact Gs').' ('.($isLeft ? __('left') : __('right')).')';
+		$this->Label = __('Impact Gs') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
 		$this->Color = $isLeft ? 'rgb(98,182,0)' : 'rgb(47,131,0)';
 
 		$this->UnitString = 'G';

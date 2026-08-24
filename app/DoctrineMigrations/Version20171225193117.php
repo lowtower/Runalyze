@@ -9,7 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Version20171225193117 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -21,15 +23,15 @@ class Version20171225193117 extends AbstractMigration implements ContainerAwareI
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('ALTER TABLE `'.$prefix.'raceresult` CHANGE `official_distance` `official_distance` DECIMAL(6,2) NULL DEFAULT NULL');
-        $this->addSql('UPDATE `'.$prefix.'raceresult` SET `official_distance` = NULL WHERE `official_distance` = 0.0');
+        $this->addSql('ALTER TABLE `' . $prefix . 'raceresult` CHANGE `official_distance` `official_distance` DECIMAL(6,2) NULL DEFAULT NULL');
+        $this->addSql('UPDATE `' . $prefix . 'raceresult` SET `official_distance` = NULL WHERE `official_distance` = 0.0');
     }
 
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
 
-        $this->addSql('UPDATE `'.$prefix.'raceresult` SET `official_distance` = 0.0 WHERE `official_distance` IS NULL');
-        $this->addSql('ALTER TABLE `'.$prefix.'raceresult` CHANGE `official_distance` `official_distance` DECIMAL(6,2) NOT NULL');
+        $this->addSql('UPDATE `' . $prefix . 'raceresult` SET `official_distance` = 0.0 WHERE `official_distance` IS NULL');
+        $this->addSql('ALTER TABLE `' . $prefix . 'raceresult` CHANGE `official_distance` `official_distance` DECIMAL(6,2) NOT NULL');
     }
 }

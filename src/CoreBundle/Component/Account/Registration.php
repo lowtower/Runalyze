@@ -17,13 +17,19 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class Registration
 {
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
-    /** @var ObjectManager */
+    /**
+     * @var ObjectManager
+     */
     protected $em;
 
-    /** @var object[] */
+    /**
+     * @var object[]
+     */
     protected $specialVars;
 
     public function __construct(ObjectManager $em, Account $account)
@@ -81,11 +87,11 @@ class Registration
 
     private function setEquipmentData()
     {
-        $equipmentType = array(
-            array(__('Shoes'), 0),
-            array(__('Clothes'), 1),
-            array(__('Bikes'), 0)
-        );
+        $equipmentType = [
+            [__('Shoes'), 0],
+            [__('Clothes'), 1],
+            [__('Bikes'), 0],
+        ];
 
         foreach ($equipmentType as $eqType) {
             $Type = new EquipmentType();
@@ -98,24 +104,24 @@ class Registration
 
     private function setPluginData()
     {
-        $pluginData = array(
-            array('RunalyzePluginPanel_Sports', 'panel', 1, 1),
-            array('RunalyzePluginPanel_Rechenspiele', 'panel', 1, 2),
-            array('RunalyzePluginPanel_Prognose', 'panel', 2, 3),
-            array('RunalyzePluginPanel_Equipment', 'panel', 2, 4),
-            array('RunalyzePluginPanel_Sportler', 'panel', 1, 5),
-            array('RunalyzePluginStat_Analyse', 'stat', 1, 2),
-            array('RunalyzePluginStat_Statistiken', 'stat', 1, 1),
-            array('RunalyzePluginStat_Wettkampf', 'stat', 1, 3),
-            array('RunalyzePluginStat_Wetter', 'stat', 1, 5),
-            array('RunalyzePluginStat_Rekorde', 'stat', 2, 6),
-            array('RunalyzePluginStat_Strecken', 'stat', 2, 7),
-            array('RunalyzePluginStat_Trainingszeiten', 'stat', 2, 8),
-            array('RunalyzePluginStat_Trainingspartner', 'stat', 2, 9),
-            array('RunalyzePluginStat_Hoehenmeter', 'stat', 2, 10),
-            array('RunalyzePluginStat_Tag', 'stat', 1, 11),
-            array('RunalyzePluginPanel_Ziele', 'panel', 0, 6)
-        );
+        $pluginData = [
+            ['RunalyzePluginPanel_Sports', 'panel', 1, 1],
+            ['RunalyzePluginPanel_Rechenspiele', 'panel', 1, 2],
+            ['RunalyzePluginPanel_Prognose', 'panel', 2, 3],
+            ['RunalyzePluginPanel_Equipment', 'panel', 2, 4],
+            ['RunalyzePluginPanel_Sportler', 'panel', 1, 5],
+            ['RunalyzePluginStat_Analyse', 'stat', 1, 2],
+            ['RunalyzePluginStat_Statistiken', 'stat', 1, 1],
+            ['RunalyzePluginStat_Wettkampf', 'stat', 1, 3],
+            ['RunalyzePluginStat_Wetter', 'stat', 1, 5],
+            ['RunalyzePluginStat_Rekorde', 'stat', 2, 6],
+            ['RunalyzePluginStat_Strecken', 'stat', 2, 7],
+            ['RunalyzePluginStat_Trainingszeiten', 'stat', 2, 8],
+            ['RunalyzePluginStat_Trainingspartner', 'stat', 2, 9],
+            ['RunalyzePluginStat_Hoehenmeter', 'stat', 2, 10],
+            ['RunalyzePluginStat_Tag', 'stat', 1, 11],
+            ['RunalyzePluginPanel_Ziele', 'panel', 0, 6],
+        ];
 
         foreach ($pluginData as $pData) {
             $Plugin = new Plugin();
@@ -132,13 +138,13 @@ class Registration
 
     private function setSportData()
     {
-        $sportData = array(
-            array(__('Running'), 'icons8-Running', 0, 880, 140, 1, PaceEnum::SECONDS_PER_KILOMETER, 0, 1, true, SportProfile::RUNNING),
-            array(__('Swimming'), 'icons8-Swimming', 0, 743, 130, 1, PaceEnum::SECONDS_PER_100M, 0, 0, true, SportProfile::SWIMMING),
-            array(__('Biking'), 'icons8-Regular-Biking', 0, 770, 120, 1, PaceEnum::KILOMETER_PER_HOUR, 1, 1, true, SportProfile::CYCLING),
-            array(__('Gymnastics'), 'icons8-Yoga', 1, 280, 100, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null),
-            array(__('Other'), 'icons8-Sports-Mode', 0, 500, 120, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null)
-        );
+        $sportData = [
+            [__('Running'), 'icons8-Running', 0, 880, 140, 1, PaceEnum::SECONDS_PER_KILOMETER, 0, 1, true, SportProfile::RUNNING],
+            [__('Swimming'), 'icons8-Swimming', 0, 743, 130, 1, PaceEnum::SECONDS_PER_100M, 0, 0, true, SportProfile::SWIMMING],
+            [__('Biking'), 'icons8-Regular-Biking', 0, 770, 120, 1, PaceEnum::KILOMETER_PER_HOUR, 1, 1, true, SportProfile::CYCLING],
+            [__('Gymnastics'), 'icons8-Yoga', 1, 280, 100, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null],
+            [__('Other'), 'icons8-Sports-Mode', 0, 500, 120, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null],
+        ];
 
         foreach ($sportData as $sData) {
             $Sport = new Sport();
@@ -163,18 +169,18 @@ class Registration
 
     private function setTypeData()
     {
-        $TypeData = array(
-            array(__('Jogging'), __('JOG'), 143, 0),
-            array(__('Fartlek'), __('FL'), 150, 1),
-            array(__('Interval training'), __('IT'), 165, 1),
-            array(__('Tempo Run'), __('TR'), 165, 1),
-            array(__('Race'), __('RC'), 190, 1),
-            array(__('Regeneration Run'), __('RG'), 128, 0),
-            array(__('Long Slow Distance'), __('LSD'), 150, 1),
-            array(__('Warm-up'), __('WU'), 128, 0),
-            array(__('Pace Goal'), __('PG'), 150, 1),
-            array(__('Grundlagenausdauer'), __('GA'), 130, 0),
-        );
+        $TypeData = [
+            [__('Jogging'), __('JOG'), 143, 0],
+            [__('Fartlek'), __('FL'), 150, 1],
+            [__('Interval training'), __('IT'), 165, 1],
+            [__('Tempo Run'), __('TR'), 165, 1],
+            [__('Race'), __('RC'), 190, 1],
+            [__('Regeneration Run'), __('RG'), 128, 0],
+            [__('Long Slow Distance'), __('LSD'), 150, 1],
+            [__('Warm-up'), __('WU'), 128, 0],
+            [__('Pace Goal'), __('PG'), 150, 1],
+            [__('Grundlagenausdauer'), __('GA'), 130, 0],
+        ];
 
         foreach ($TypeData as $tData) {
             $Type = new Type();
@@ -208,18 +214,18 @@ class Registration
         }
 
         $equipmentType = $this->em->getRepository('CoreBundle:EquipmentType');
-        $equipmentClothes = $equipmentType->findOneBy(array(
+        $equipmentClothes = $equipmentType->findOneBy([
             'name' => __('Clothes'),
-            'account' => $this->Account->getId()
-        ));
-        $equipmentShoes = $equipmentType->findOneBy(array(
+            'account' => $this->Account->getId(),
+        ]);
+        $equipmentShoes = $equipmentType->findOneBy([
             'name' => __('Shoes'),
-            'account' => $this->Account->getId()
-        ));
-        $equipmentBikes = $equipmentType->findOneBy(array(
+            'account' => $this->Account->getId(),
+        ]);
+        $equipmentBikes = $equipmentType->findOneBy([
             'name' => __('Bikes'),
-            'account' => $this->Account->getId()
-        ));
+            'account' => $this->Account->getId(),
+        ]);
 
         $this->specialVars['EQUIPMENT_CLOTHES'] = $equipmentClothes;
         $this->specialVars['EQUIPMENT_SHOES'] = $equipmentShoes;
@@ -229,7 +235,7 @@ class Registration
 
     private function setSpecialVars()
     {
-        $Clothes = array(__('long sleeve'), __('T-shirt'), __('singlet'), __('jacket'), __('long pants'), __('shorts'), __('gloves'), __('hat'));
+        $Clothes = [__('long sleeve'), __('T-shirt'), __('singlet'), __('jacket'), __('long pants'), __('shorts'), __('gloves'), __('hat')];
         foreach ($Clothes as $cloth) {
             $Equipment = new Equipment();
             $Equipment->setAccount($this->Account);
@@ -238,7 +244,7 @@ class Registration
             $this->em->persist($Equipment);
         }
 
-        foreach (array('MAINSPORT', 'RUNNINGSPORT') as $cKey) {
+        foreach (['MAINSPORT', 'RUNNINGSPORT'] as $cKey) {
             $Conf = new Conf();
             $Conf->setAccount($this->Account);
             $Conf->setCategory('general');

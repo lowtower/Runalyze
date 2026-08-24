@@ -14,7 +14,8 @@ use Runalyze\Util\LocalTime;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats\RunalyzePluginStat_Statistiken
  */
-class SummaryTableMonths extends SummaryTable {
+class SummaryTableMonths extends SummaryTable
+{
 	/**
 	 * @var enum
 	 */
@@ -51,19 +52,19 @@ class SummaryTableMonths extends SummaryTable {
 	 * Prepare summary
 	 */
 	protected function prepare() {
-		$this->Timerange = 31*DAY_IN_S;
+		$this->Timerange = 31 * DAY_IN_S;
 
 		switch ($this->Mode) {
 			case self::MODE_LAST_6:
 				$this->Title = __('Last 6 months');
-				$this->TimeEnd = LocalTime::mktime(23, 59, 59, date('m')+1, 0, date('Y'));
-				$this->TimeStart = LocalTime::mktime(0, 0, 1, date('m')-6, 1, date('Y'));
+				$this->TimeEnd = LocalTime::mktime(23, 59, 59, date('m') + 1, 0, date('Y'));
+				$this->TimeStart = LocalTime::mktime(0, 0, 1, date('m') - 6, 1, date('Y'));
 				break;
 
 			case self::MODE_LAST_12:
 				$this->Title = __('Last 12 months');
-				$this->TimeEnd = LocalTime::mktime(23, 59, 59, date('m')+1, 0, date('Y'));
-				$this->TimeStart = LocalTime::mktime(0, 0, 1, date('m')-12, 1, date('Y'));
+				$this->TimeEnd = LocalTime::mktime(23, 59, 59, date('m') + 1, 0, date('Y'));
+				$this->TimeStart = LocalTime::mktime(0, 0, 1, date('m') - 12, 1, date('Y'));
 				break;
 
 			case self::MODE_ALL:
@@ -85,7 +86,7 @@ class SummaryTableMonths extends SummaryTable {
      * @param int $index
      */
     protected function rowHead($index): string {
-		$midOfTimerange = $this->TimeEnd - ($index + 0.5)*31*DAY_IN_S;
+		$midOfTimerange = $this->TimeEnd - ($index + 0.5) * 31 * DAY_IN_S;
 		$month = date('m', $midOfTimerange);
 
 		return DataBrowserLinker::monthLink(Time::month($month), $midOfTimerange, $this->Sportid > 0 ? $this->Sportid : null);

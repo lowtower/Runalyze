@@ -18,12 +18,11 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 class Quartic extends AbstractKernel
 {
     /**
-     * @inheritDoc
      * @param float $width
      */
     public function __construct($width)
     {
-        $this->NormalizationFactor = 30/16;
+        $this->NormalizationFactor = 30 / 16;
 
         parent::__construct($width);
     }
@@ -33,8 +32,8 @@ class Quartic extends AbstractKernel
      */
     protected function atTransformed($u): float
     {
-        if (-1.0 <= $u && $u <= 1.0) {
-            return pow(1 - $u*$u, 2);
+        if ($u >= -1.0 && $u <= 1.0) {
+            return pow(1 - $u * $u, 2);
         }
 
         return 0.0;

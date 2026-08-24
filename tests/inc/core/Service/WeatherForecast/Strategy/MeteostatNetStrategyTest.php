@@ -9,16 +9,24 @@ use Psr\Log\LoggerInterface;
 
 class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \ReflectionMethod */
+    /**
+     * @var \ReflectionMethod
+     */
     protected $GetUrlForMethod;
 
-    /** @var \ReflectionMethod */
+    /**
+     * @var \ReflectionMethod
+     */
     protected $GetDataElementOfTimeMethod;
 
-    /** @var \Runalyze\Service\WeatherForecast\Strategy\MeteostatNet */
+    /**
+     * @var \Runalyze\Service\WeatherForecast\Strategy\MeteostatNet
+     */
     protected $Strategy;
 
-    /** @var \ReflectionMethod */
+    /**
+     * @var \ReflectionMethod
+     */
     protected $GetWeatherDataFromResultMethod;
 
     protected function setUp(): void
@@ -36,7 +44,6 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->GetWeatherDataFromResultMethod = new \ReflectionMethod($this->Strategy, 'getWeatherDataFromResult');
         $this->GetWeatherDataFromResultMethod->setAccessible(true);
     }
-
 
     public function testUrlCreation()
     {
@@ -59,16 +66,16 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $data = [
             [
                 'time' => '2020-10-01 10:00:00',
-                'temp' => 10
+                'temp' => 10,
             ],
             [
                 'time' => '2020-10-01 11:00:00',
-                'temp' => 11
+                'temp' => 11,
             ],
             [
                 'time' => '2020-10-01 12:00:00',
-                'temp' => 12
-            ]
+                'temp' => 12,
+            ],
         ];
         $date = new \DateTime('2020-10-01 11:30:00');
         $result = $this->GetDataElementOfTimeMethod->invokeArgs($this->Strategy, [$date, $data]);
@@ -84,7 +91,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
             'rhum' => 81,
             'wspd' => 12.3,
             'wdir' => 270,
-            'coco' => 1
+            'coco' => 1,
         ];
         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [$current]);
 
@@ -112,8 +119,8 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('lon=10.7', $url);
         $this->assertStringContainsString('tz=Europe/Berlin', $url);
 
-        $hasExpectedStartDate = false !== strpos($url, 'start='.$dateBefore->format('Y-m-d')) || false !== strpos($url, 'start='.$dateAfter->format('Y-m-d'));
-        $hasExpectedEndDate   = false !== strpos($url, 'end='.$dateBefore->format('Y-m-d'))  || false !== strpos($url, 'end='.$dateAfter->format('Y-m-d'));
+        $hasExpectedStartDate = strpos($url, 'start=' . $dateBefore->format('Y-m-d')) !== false || strpos($url, 'start=' . $dateAfter->format('Y-m-d')) !== false;
+        $hasExpectedEndDate = strpos($url, 'end=' . $dateBefore->format('Y-m-d')) !== false || strpos($url, 'end=' . $dateAfter->format('Y-m-d')) !== false;
 
         $this->assertTrue($hasExpectedStartDate);
         $this->assertTrue($hasExpectedEndDate);
@@ -123,11 +130,11 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $data = [
             [
-                'time' => '2020-10-01 10:00:00'
+                'time' => '2020-10-01 10:00:00',
             ],
             [
-                'time' => '2020-10-01 11:00:00'
-            ]
+                'time' => '2020-10-01 11:00:00',
+            ],
         ];
 
         $result = $this->GetDataElementOfTimeMethod->invokeArgs($this->Strategy, [new \DateTime('2020-10-01 09:00:00'), $data]);
@@ -138,7 +145,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     public function testUnknownWeatherCondition()
     {
          $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [[
-             'coco' => 9999
+             'coco' => 9999,
          ]]);
 
         $this->assertEquals(WeatherConditionProfile::UNKNOWN, $weather->InternalConditionId);
@@ -148,7 +155,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
     {
         $current = [
             'temp' => 15.6,
-            'wspd' => 12.6
+            'wspd' => 12.6,
         ];
 
         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [$current]);
@@ -170,15 +177,15 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
 
         $mock = new \GuzzleHttp\Handler\MockHandler([
             new \GuzzleHttp\Psr7\Response(200, [], json_encode([
-                'data' => []
-            ]))
+                'data' => [],
+            ])),
         ]);
 
         $handlerStack = \GuzzleHttp\HandlerStack::create($mock);
         $handlerStack->push($history);
 
         $client = new \GuzzleHttp\Client([
-            'handler' => $handlerStack
+            'handler' => $handlerStack,
         ]);
 
         $strategy = new MeteostatNet('api-key', 'http://proxy.example:8080', $client, $logger);

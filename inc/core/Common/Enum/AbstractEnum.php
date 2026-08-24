@@ -34,7 +34,9 @@ namespace Runalyze\Common\Enum;
  */
 abstract class AbstractEnum
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     private static $ConstantsCache = [];
 
     /**

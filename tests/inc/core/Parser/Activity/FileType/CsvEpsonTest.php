@@ -9,7 +9,9 @@ use Runalyze\Parser\Activity\FileType\CsvEpson;
  */
 class CsvEpsonTest extends AbstractActivityParserTestCase
 {
-    /** @var CsvEpson */
+    /**
+     * @var CsvEpson
+     */
     protected $Parser;
 
     protected function setUp(): void

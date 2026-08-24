@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 
 class RouteTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Route */
+    /**
+     * @var Route
+     */
     protected $Route;
 
     protected function setUp(): void
@@ -35,7 +37,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
     {
         $coordinates = [
             [49.778, 49.781, 49.783],
-            [7.696, 7.694, 7.695]
+            [7.696, 7.694, 7.695],
         ];
 
         $this->Route->setLatitudesAndLongitudes($coordinates[0], $coordinates[1]);

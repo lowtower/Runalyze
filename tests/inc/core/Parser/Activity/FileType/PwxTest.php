@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class PwxTest extends AbstractActivityParserTestCase
 {
-    /** @var Pwx */
+    /**
+     * @var Pwx
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -89,7 +91,7 @@ class PwxTest extends AbstractActivityParserTestCase
 
         $this->checkExpectedPauseData([
             [635, 3, 155, 154],
-            [640, 286, 154, 154]
+            [640, 286, 154, 154],
         ]);
     }
 }

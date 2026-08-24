@@ -6,13 +6,19 @@ use Runalyze\Activity\LapIntensity;
 
 class Round
 {
-    /** @var float [km] */
+    /**
+     * @var float [km]
+     */
     protected $Distance;
 
-    /** @var int|float [s] */
+    /**
+     * @var int|float [s]
+     */
     protected $Duration;
 
-    /** @var LapIntensity */
+    /**
+     * @var LapIntensity
+     */
     protected $Intensity;
 
     /**

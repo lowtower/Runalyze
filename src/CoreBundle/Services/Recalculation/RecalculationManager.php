@@ -14,25 +14,39 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxShapeCalculatio
 
 class RecalculationManager
 {
-    /** @var RecalculationTaskCollection */
+    /**
+     * @var RecalculationTaskCollection
+     */
     protected $Tasks;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $AccountRelatedTaskNames = [];
 
-    /** @var array [accountId => startTime] */
+    /**
+     * @var array [accountId => startTime]
+     */
     protected $CurrentStartTimes = [];
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
-    /** @var ConfigurationUpdater */
+    /**
+     * @var ConfigurationUpdater
+     */
     protected $ConfigurationUpdater;
 
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var RaceresultRepository */
+    /**
+     * @var RaceresultRepository
+     */
     protected $RaceResultRepository;
 
     public function __construct(
@@ -86,7 +100,7 @@ class RecalculationManager
         if (! isset($this->CurrentStartTimes[$account->getId()])) {
             $this->CurrentStartTimes[$account->getId()] = $this->ConfigurationManager->getList($account)->getData()->getStartTime();
 
-            if (0 == $this->CurrentStartTimes[$account->getId()]) {
+            if ($this->CurrentStartTimes[$account->getId()] == 0) {
                 $this->CurrentStartTimes[$account->getId()] = PHP_INT_MAX;
             }
         }

@@ -14,7 +14,8 @@ use Runalyze\Activity\Energy;
  * @author Michael Pohl
  * @package Runalyze\Parameter\Application
  */
-class EnergyUnit extends \Runalyze\Parameter\Select {
+class EnergyUnit extends \Runalyze\Parameter\Select
+{
 	/**
 	 * Kilocalories
 	 * @var string
@@ -32,12 +33,12 @@ class EnergyUnit extends \Runalyze\Parameter\Select {
 	 * @param string $default
 	 */
 	public function __construct($default = self::KCAL) {
-		parent::__construct($default, array(
-    'options'		=> array(
-		        self::KCAL	=> __('Kilocalories'),
-		        self::KJ	=> __('Kilojoules')
-		    )
-));
+		parent::__construct($default, [
+    'options' => [
+		        self::KCAL => __('Kilocalories'),
+		        self::KJ => __('Kilojoules'),
+		    ],
+]);
 	}
 
     /**

@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularSubmit extends FormularField {
+class FormularSubmit extends FormularField
+{
 	/**
 	 * Prepare for beeing displayed
 	 */
@@ -22,6 +23,6 @@ class FormularSubmit extends FormularField {
      * Display this field
      */
     protected function getFieldCode(): string {
-		return '<input '.$this->attributes().'>';
+		return '<input ' . $this->attributes() . '>';
 	}
 }

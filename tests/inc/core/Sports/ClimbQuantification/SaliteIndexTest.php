@@ -6,7 +6,9 @@ use Runalyze\Sports\ClimbQuantification\SaliteIndex;
 
 class SaliteIndexTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SaliteIndex */
+    /**
+     * @var SaliteIndex
+     */
     protected $Salite;
 
     protected function setUp(): void

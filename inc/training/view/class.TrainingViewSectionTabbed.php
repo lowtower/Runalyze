@@ -10,18 +10,19 @@
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSectionTabbed extends TrainingViewSection {
+abstract class TrainingViewSectionTabbed extends TrainingViewSection
+{
 	/**
 	 * All tabbed rows
 	 * @var TrainingViewSectionRowAbstract[]
 	 */
-	protected $RowsTabbed = array();
+	protected $RowsTabbed = [];
 
 	/**
 	 * All tabbed rows: Title
 	 * @var string[]
 	 */
-	protected $RowsTabbedTitle = array();
+	protected $RowsTabbedTitle = [];
 
     /**
      * Append row
@@ -32,9 +33,6 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 		$this->RowsTabbedTitle[] = $Title;
 	}
 
-	/**
-	 * Display
-	 */
 	final public function display() {
 		if (! empty($this->Header) && ($this->RowsTabbed !== [] || $this->Rows !== [])) {
 			$this->displayHeader();
@@ -42,19 +40,13 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 		}
 	}
 
-	/**
-	 * Display header
-	 */
 	private function displayHeader() {
-		echo '<div class="panel-heading'.(! $this->isFirst ? ' panel-inner-heading' : '').'">';
+		echo '<div class="panel-heading' . (! $this->isFirst ? ' panel-inner-heading' : '') . '">';
 		$this->displayChangeMenu();
-		echo '<h2>'.$this->Header.'</h2>';
+		echo '<h2>' . $this->Header . '</h2>';
 		echo '</div>';
 	}
 
-	/**
-	 * Display change menu
-	 */
 	private function displayChangeMenu() {
 		if (count($this->RowsTabbedTitle) <= 1)
 			return;
@@ -62,19 +54,16 @@ abstract class TrainingViewSectionTabbed extends TrainingViewSection {
 		echo '<div class="change-menu">';
 
 		foreach ($this->RowsTabbedTitle as $i => $Title)
-			echo Ajax::change($Title, 'training-view-tabbed-'.$this->cssId(), 'training-view-tabbed-'.$this->cssId().'-'.$i);
+			echo Ajax::change($Title, 'training-view-tabbed-' . $this->cssId(), 'training-view-tabbed-' . $this->cssId() . '-' . $i);
 
 		echo '</div>';
 	}
 
-	/**
-	 * Display content
-	 */
 	private function displayContent() {
-		echo '<div id="training-view-tabbed-'.$this->cssId().'">';
+		echo '<div id="training-view-tabbed-' . $this->cssId() . '">';
 
 		foreach ($this->RowsTabbed as $i => $Row) {
-			echo '<div class="change" id="training-view-tabbed-'.$this->cssId().'-'.$i.'"'.($i != 0 ? ' style="display:none;"' : '').'>';
+			echo '<div class="change" id="training-view-tabbed-' . $this->cssId() . '-' . $i . '"' . ($i != 0 ? ' style="display:none;"' : '') . '>';
 			$Row->display();
 			echo '</div>';
 		}

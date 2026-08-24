@@ -6,23 +6,26 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class QueueConsumeCommand extends ContainerAwareCommand
 {
-    /** @var array Array of all available queues has to be maintained manually */
+    /**
+     * @var array Array of all available queues has to be maintained manually
+     */
     protected $InternalQueues = [
         'user-backup',
-        'poster-generator'
+        'poster-generator',
     ];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $BernardOptions = [
         'max-runtime',
         'max-messages',
         'stop-when-empty',
-        'stop-on-error'
+        'stop-on-error',
     ];
 
     protected function configure()
@@ -42,14 +45,14 @@ class QueueConsumeCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $arguments = array(
+        $arguments = [
             'command' => 'bernard:consume',
             'queue' => $this->InternalQueues,
-        );
+        ];
 
         foreach ($this->BernardOptions as $option) {
-            if (null !== $input->getOption($option) && false !== $input->getOption($option)) {
-               $arguments['--'.$option] = $input->getOption($option);
+            if ($input->getOption($option) !== null && $input->getOption($option) !== false) {
+               $arguments['--' . $option] = $input->getOption($option);
             }
         }
 

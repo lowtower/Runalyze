@@ -13,11 +13,11 @@ use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
 
 /**
- * DatabaseOrder
  * @author Hannes Christiansen
  * @package Runalyze\Parameter\Application
  */
-class DatabaseOrder extends \Runalyze\Parameter\Select {
+class DatabaseOrder extends \Runalyze\Parameter\Select
+{
 	/**
 	 * ID: ascending
 	 * @var string
@@ -40,13 +40,13 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
 	 * Construct
 	 */
 	public function __construct() {
-		parent::__construct(self::ASC, array(
-    'options'		=> array(
-		        self::ASC		=> __('id (oldest first)'),
-		        self::DESC		=> __('id (latest first)'),
-		        self::ALPHA		=> __('alphabetical')
-		    )
-));
+		parent::__construct(self::ASC, [
+    'options' => [
+		        self::ASC => __('id (oldest first)'),
+		        self::DESC => __('id (latest first)'),
+		        self::ALPHA => __('alphabetical'),
+		    ],
+]);
 	}
 
     /**
@@ -92,7 +92,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
         /** @var \ArrayIterator $iterator */
         $iterator = $collection->getIterator();
         $iterator->uasort(function ($a, $b) use ($key, $desc): int {
-            if ('name' === $key && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
+            if ($key === 'name' && $a instanceof NamedEntityInterface && $b instanceof NamedEntityInterface) {
                 if ($a->getName() == $b->getName()) {
                     return 0;
                 }
@@ -100,7 +100,7 @@ class DatabaseOrder extends \Runalyze\Parameter\Select {
                 return ($a->getName() < $b->getName()) ? -1 * $desc : $desc;
             }
 
-            if ('id' === $key && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
+            if ($key === 'id' && $a instanceof IdentifiableEntityInterface && $b instanceof IdentifiableEntityInterface) {
                 if ($a->getId() == $b->getId()) {
                     return 0;
                 }

@@ -12,8 +12,11 @@ namespace Runalyze\Parameter;
  * @author Hannes Christiansen
  * @package Runalyze\Parameter
  */
-class SelectRow extends Select {
-	/** @var bool */
+class SelectRow extends Select
+{
+	/**
+	 * @var bool
+	 */
 	protected $UseFallback = false;
 
 	/**
@@ -21,12 +24,12 @@ class SelectRow extends Select {
 	 * @param string $default
 	 * @param array $options [optional]
 	 */
-	public function __construct($default, $options = array()) {
+	public function __construct($default, $options = []) {
 		$options = array_merge(
-		    array(
+		    [
 		        'table' => '',
-		        'column' => ''
-		    ),
+		        'column' => '',
+		    ],
 		    $options
 		);
 
@@ -34,7 +37,6 @@ class SelectRow extends Select {
 	}
 
 	/**
-	 * Table
 	 * @return string
 	 */
 	public function table() {
@@ -42,7 +44,6 @@ class SelectRow extends Select {
 	}
 
 	/**
-	 * Column
 	 * @return string
 	 */
 	public function column() {

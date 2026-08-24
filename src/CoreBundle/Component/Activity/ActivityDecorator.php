@@ -7,7 +7,9 @@ use Runalyze\Util\LocalTime;
 
 class ActivityDecorator
 {
-    /** @var ActivityContext */
+    /**
+     * @var ActivityContext
+     */
     protected $Context;
 
     public function __construct(ActivityContext $context)
@@ -21,15 +23,15 @@ class ActivityDecorator
      */
     public function getTitle($typeWithSport = false)
     {
-        if (null === $this->Context->getActivity()->getSport()) {
+        if ($this->Context->getActivity()->getSport() === null) {
             return '';
         }
 
-        if ('' != $this->Context->getActivity()->getTitle()) {
+        if ($this->Context->getActivity()->getTitle() != '') {
             return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getTitle());
         }
 
-        if (null !== $this->Context->getActivity()->getType()) {
+        if ($this->Context->getActivity()->getType() !== null) {
             if ($typeWithSport) {
                 return sprintf('%s: %s', $this->Context->getSport()->getName(), $this->Context->getActivity()->getType()->getName());
             }

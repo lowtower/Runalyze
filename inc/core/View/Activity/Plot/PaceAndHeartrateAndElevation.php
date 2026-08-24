@@ -15,17 +15,12 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class PaceAndHeartrateAndElevation extends ActivityPlot {
-	/**
-	 * Set key
-	 */
+class PaceAndHeartrateAndElevation extends ActivityPlot
+{
 	protected function setKey() {
 		$this->key = 'pacehrelevation';
 	}
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$Gradient = new Series\Gradient($context);
 		/** @var \Runalyze\View\Plot\Series[] $allSeries */
@@ -33,7 +28,7 @@ class PaceAndHeartrateAndElevation extends ActivityPlot {
 		    new Series\Elevation($context),
 		    $Gradient,
 		    new Series\Heartrate($context),
-		    new Series\Pace($context)
+		    new Series\Pace($context),
 		];
 
 		$this->addMultipleSeries($allSeries);

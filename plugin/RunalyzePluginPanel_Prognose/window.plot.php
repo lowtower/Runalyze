@@ -19,8 +19,8 @@ if (! isset($_GET['distance'])) {
 $Submenu = '';
 foreach ($distances as $km) {
 	$km = trim($km);
-	$link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance='.$km;
-	$Submenu .= '<li'.($km == $distance ? ' class="active"' : '').'>'.Ajax::window('<a href="'.$link.'">'.((new Distance($km))->stringAuto()).'</a>').'</li>';
+	$link = 'plugin/RunalyzePluginPanel_Prognose/window.plot.php?distance=' . $km;
+	$Submenu .= '<li' . ($km == $distance ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . ((new Distance($km))->stringAuto()) . '</a>') . '</li>';
 }
 ?>
 <div class="panel-heading">
@@ -34,7 +34,7 @@ foreach ($distances as $km) {
 
 <div class="panel-content">
 	<?php
-	echo Plot::getDivFor('formverlauf_'.str_replace('.', '_', $distance), 800, 450);
-	include FRONTEND_PATH.'../plugin/RunalyzePluginPanel_Prognose/Plot.Form.php';
+	echo Plot::getDivFor('formverlauf_' . str_replace('.', '_', $distance), 800, 450);
+	include FRONTEND_PATH . '../plugin/RunalyzePluginPanel_Prognose/Plot.Form.php';
 	?>
 </div>

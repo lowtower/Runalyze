@@ -9,7 +9,6 @@ namespace Runalyze\View\Activity\Plot\Series;
 
 use Runalyze\Model\Trackdata\Entity as Trackdata;
 use Runalyze\View\Activity;
-
 use \Plot;
 
 /**
@@ -18,7 +17,8 @@ use \Plot;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot\Series
  */
-class VerticalOscillation extends ActivityPointSeries {
+class VerticalOscillation extends ActivityPointSeries
+{
 	/**
 	 * @var string
 	 */
@@ -32,12 +32,9 @@ class VerticalOscillation extends ActivityPointSeries {
 		$this->initOptions();
 		$this->initData($context->trackdata(), Trackdata::VERTICAL_OSCILLATION);
 		$this->manipulateData();
-		$this->setManualAverage($context->activity()->verticalOscillation()*0.1);
+		$this->setManualAverage($context->activity()->verticalOscillation() * 0.1);
 	}
 
-	/**
-	 * Init options
-	 */
 	protected function initOptions() {
 		$this->Label = __('Vertical oscillation');
 		$this->Color = self::COLOR;
@@ -53,11 +50,8 @@ class VerticalOscillation extends ActivityPointSeries {
 		$this->ShowMinimum = false;
 	}
 
-	/**
-	 * Manipulate data
-	 */
 	protected function manipulateData() {
-		$this->Data = array_map(array($this, 'correctUnit'), $this->Data);
+		$this->Data = array_map([$this, 'correctUnit'], $this->Data);
 	}
 
     /**
@@ -65,7 +59,7 @@ class VerticalOscillation extends ActivityPointSeries {
      * @param int $value
      */
     protected function correctUnit($value): float {
-		return 0.1*$value;
+		return 0.1 * $value;
 	}
 
     /**

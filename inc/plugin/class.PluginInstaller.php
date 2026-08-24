@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginInstaller {
+class PluginInstaller
+{
 	/**
 	 * Installer id
 	 */
@@ -27,7 +28,6 @@ class PluginInstaller {
 	protected $Key;
 
 	/**
-	 * Constructor
 	 * @param string $Key
 	 */
 	public function __construct($Key) {
@@ -35,8 +35,6 @@ class PluginInstaller {
 	}
 
     /**
-     * Install
-     *
      * To install a new plugin, it is only needed to insert it into the database.
      * Configuration variables will be inserted on the fly.
      */
@@ -44,17 +42,17 @@ class PluginInstaller {
 		$Factory = new PluginFactory();
 		$Plugin = $Factory->newInstallerInstance($this->Key);
 
-		DB::getInstance()->insert('plugin', array(
+		DB::getInstance()->insert('plugin', [
 		    'key',
 		    'type',
 		    'active',
 		    'order',
-		), array(
+		], [
 		    $Plugin->key(),
 		    $Plugin->typeString(),
 		    '1',
 		    '99',
-		));
+		]);
 
 		PluginFactory::clearCache();
 
@@ -71,6 +69,6 @@ class PluginInstaller {
 			$name = Icon::$ADD;
 		}
 
-		return Ajax::window('<a href="'.self::INSTALL_URL.'?key='.$key.'">'.Ajax::tooltip($name, __('Install plugin') ).'</a>');
+		return Ajax::window('<a href="' . self::INSTALL_URL . '?key=' . $key . '">' . Ajax::tooltip($name, __('Install plugin') ) . '</a>');
 	}
 }

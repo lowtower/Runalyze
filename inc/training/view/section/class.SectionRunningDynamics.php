@@ -13,12 +13,10 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionRunningDynamics extends TrainingViewSectionTabbedPlot {
-	/**
-	 * Set header and rows
-	 */
+class SectionRunningDynamics extends TrainingViewSectionTabbedPlot
+{
 	protected function setHeaderAndRows() {
-		$this->Header = __('Running Dynamics').' <a class="window" href="glossary/run-dynamics"><i class="fa fa-question-circle-o"></i></a>';
+		$this->Header = __('Running Dynamics') . ' <a class="window" href="glossary/run-dynamics"><i class="fa fa-question-circle-o"></i></a>';
 
 		$this->appendRowTabbedPlot( new SectionRunningDynamicsRow($this->Context) );
 	}

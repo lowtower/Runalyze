@@ -12,7 +12,9 @@ use Runalyze\Util\LocalTime;
  */
 class KmlTest extends AbstractActivityParserTestCase
 {
-    /** @var Kml */
+    /**
+     * @var Kml
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -121,7 +123,7 @@ class KmlTest extends AbstractActivityParserTestCase
     public function testZippedFile()
     {
         $this->convertAndParseFile(new KmzConverter(), $this->Parser, 'kmz/Baechenstock.kmz', [
-            'kmz/Baechenstock.kmz.doc.kml'
+            'kmz/Baechenstock.kmz.doc.kml',
         ]);
 
         $this->assertEqualsWithDelta(12.896, $this->Container->ActivityData->Distance, 0.001);

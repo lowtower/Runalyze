@@ -32,7 +32,7 @@ class FitSdkMapping extends AbstractMapping
             FitSdk\SportProfile::STRENGTH_TRAINING => SportProfile::STRENGTH_TRAINING,
             FitSdk\SportProfile::E_MTB_MOUNTAIN => SportProfile::E_MTB_MOUNTAIN,
             FitSdk\SportProfile::CARDIO => SportProfile::HIIT_CARDIO,
-            FitSdk\SportProfile::HIIT => SportProfile::HIIT_CARDIO
+            FitSdk\SportProfile::HIIT => SportProfile::HIIT_CARDIO,
         ];
     }
 

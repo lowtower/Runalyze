@@ -14,7 +14,9 @@ class ActivityDataContainerFilter implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var FilterCollection */
+    /**
+     * @var FilterCollection
+     */
     protected $Filter;
 
     public function __construct(?LoggerInterface $logger = null)

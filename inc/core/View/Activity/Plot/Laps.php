@@ -18,7 +18,8 @@ use Helper;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-abstract class Laps extends ActivityPlot {
+abstract class Laps extends ActivityPlot
+{
 	/**
 	 * Demanded pace in s/km
 	 * @var int
@@ -34,7 +35,7 @@ abstract class Laps extends ActivityPlot {
 	/**
 	 * @var array
 	 */
-	protected $Labels = array();
+	protected $Labels = [];
 
 	/**
 	 * @var bool
@@ -52,14 +53,8 @@ abstract class Laps extends ActivityPlot {
 	 */
 	protected $PaceUnit;
 
-    /**
-     * Load data
-     */
     abstract protected function loadData(Activity\Context $context);
 
-    /**
-     * Init data
-     */
     protected function initData(Activity\Context $context) {
 		$this->PaceUnit = $context->sport()
 		    ->legacyPaceUnit();
@@ -98,9 +93,6 @@ abstract class Laps extends ActivityPlot {
 		$this->addAnnotations();
 	}
 
-	/**
-	 * Add annotations
-	 */
 	protected function addAnnotations() {
 		if ($this->demandedPace > 0) {
 			$demandedPace = $this->PaceUnit->rawValue($this->demandedPace);
@@ -121,7 +113,7 @@ abstract class Laps extends ActivityPlot {
 			}
 
 			$this->Plot->addThreshold('y', round($achievedPace), 'rgb(0,180,0)');
-			$this->Plot->addAnnotation(0, round($achievedPace), __('avg:').' '.$this->PaceUnit->format($this->achievedPace), -40, -7);
+			$this->Plot->addAnnotation(0, round($achievedPace), __('avg:') . ' ' . $this->PaceUnit->format($this->achievedPace), -40, -7);
 		}
 	}
 

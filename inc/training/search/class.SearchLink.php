@@ -10,7 +10,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Search
  */
-class SearchLink {
+class SearchLink
+{
 	/**
 	 * Window url
 	 * @var string
@@ -21,14 +22,11 @@ class SearchLink {
 	 * Parameter
 	 * @var array
 	 */
-	protected $Params = array();
+	protected $Params = [];
 
-	/**
-	 * Constructor
-	 */
 	public function __construct() {
-		$this->Params = array();
-		$this->Signs = array();
+		$this->Params = [];
+		$this->Signs = [];
 	}
 
 	/**
@@ -37,11 +35,10 @@ class SearchLink {
 	 * @return string
 	 */
 	final public function link($name) {
-		return Ajax::window('<a href="'.$this->url().'">'.$name.'</a>', 'big');
+		return Ajax::window('<a href="' . $this->url() . '">' . $name . '</a>', 'big');
 	}
 
 	/**
-	 * URL
 	 * @return string url to search window
 	 */
 	final public function url() {
@@ -49,16 +46,16 @@ class SearchLink {
 		foreach ($this->Params as $key => $value) {
 			if (is_array($value)) {
 				foreach ($value as $val)
-					$var .= '&'.$key.'='.$val;
+					$var .= '&' . $key . '=' . $val;
 			} else {
-				$var .= '&'.$key.'='.$value;
+				$var .= '&' . $key . '=' . $value;
 
 				if (isset($this->Signs[$key]))
-					$var .= '&opt['.$key.']='.$this->Signs[$key];
+					$var .= '&opt[' . $key . ']=' . $this->Signs[$key];
 			}
 		}
 
-		return self::$WINDOW_URL.'?get=true'.str_replace(' ', '+', $var);
+		return self::$WINDOW_URL . '?get=true' . str_replace(' ', '+', $var);
 	}
 
 	/**
@@ -68,11 +65,10 @@ class SearchLink {
 	 */
 	public function fromTo($fromTimestamp, $toTimestamp) {
 		$this->Params['date-from'] = date('d.m.Y', $fromTimestamp);
-		$this->Params['date-to']   = date('d.m.Y', $toTimestamp);
+		$this->Params['date-to'] = date('d.m.Y', $toTimestamp);
 	}
 
 	/**
-	 * Add param
 	 * @param string $key key in database
 	 * @param mixed $value may be an array for select types
 	 * @param string $sign [optional] possible signs: is (default), gt, ge, le, lt, ne, like
@@ -85,7 +81,6 @@ class SearchLink {
 	}
 
 	/*+
-	 * Sort by
 	 * @param string $sort key in database
 	 * @param boolean $asc [optional] sort ascending, default false
 	 */
@@ -105,7 +100,7 @@ class SearchLink {
 	 * Parameter signs
 	 * @var array
 	 */
-	protected $Signs = array();
+	protected $Signs = [];
 
 	/**
 	 * URL to search

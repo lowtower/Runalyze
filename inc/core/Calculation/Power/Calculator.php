@@ -12,7 +12,8 @@ use Runalyze\Model\Route;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\Power
  */
-class Calculator {
+class Calculator
+{
 	/**
 	 * Acceleration due to gravity
 	 * @var float [m/s^2]
@@ -56,7 +57,7 @@ class Calculator {
 	/**
 	 * @var array
 	 */
-	protected $Power = array();
+	protected $Power = [];
 
     /**
      * Calculator for activity properties
@@ -73,7 +74,7 @@ class Calculator {
 	}
 
 	protected function knowsRoute(): bool {
-		return (null !== $this->Route);
+		return ($this->Route !== null);
 	}
 
 	/**
@@ -104,16 +105,16 @@ class Calculator {
 			return [];
 		}
 
-		$everyNthPoint  = ceil($this->Size/1000);
-		$n              = $everyNthPoint;
-		$grade          = 0;
-		$calcGrade      = $this->knowsRoute() && $this->Route->hasElevations();
+		$everyNthPoint = ceil($this->Size / 1000);
+		$n = $everyNthPoint;
+		$grade = 0;
+		$calcGrade = $this->knowsRoute() && $this->Route->hasElevations();
 
 		$ArrayTime = $this->Trackdata->time();
 		$ArrayDist = $this->Trackdata->distance();
-		$ArrayElev = $this->knowsRoute() ? $this->Route->elevations() : array();
+		$ArrayElev = $this->knowsRoute() ? $this->Route->elevations() : [];
 
-		$Frl  = $weight * self::GRAVITY * self::CRR;
+		$Frl = $weight * self::GRAVITY * self::CRR;
 		$Fwpr = 0.5 * self::AREA * self::CW * $this->rho();
 		$Fslp = $weight * self::GRAVITY;
 
@@ -123,24 +124,24 @@ class Calculator {
 					$n = $this->Size - $i - 1;
 				}
 
-				$distance = ($ArrayDist[$i+$n] - $ArrayDist[$i]) * 1000;
-				$grade = ($distance == 0 || ! $calcGrade) ? 0 : ($ArrayElev[$i+$n] - $ArrayElev[$i]) / $distance;
+				$distance = ($ArrayDist[$i + $n] - $ArrayDist[$i]) * 1000;
+				$grade = ($distance == 0 || ! $calcGrade) ? 0 : ($ArrayElev[$i + $n] - $ArrayElev[$i]) / $distance;
 			}
 
-			$distance = $ArrayDist[$i+1] - $ArrayDist[$i];
-			$time = $ArrayTime[$i+1] - $ArrayTime[$i];
+			$distance = $ArrayDist[$i + 1] - $ArrayDist[$i];
+			$time = $ArrayTime[$i + 1] - $ArrayTime[$i];
 
 			if ($time > 0) {
 				$Vmps = $distance * 1000 / $time;
-				$Fw   = $Fwpr * $Vmps * $Vmps;
-				$Fsl  = $Fslp * $grade;
+				$Fw = $Fwpr * $Vmps * $Vmps;
+				$Fsl = $Fslp * $grade;
 				$this->Power[] = round(max($powerFactor * ($Frl + $Fw + $Fsl) * $Vmps, 0));
 			} else {
 				$this->Power[] = 0;
 			}
 		}
 
-		$this->Power[] = $this->Power[$this->Size-2]; /* XXX */
+		$this->Power[] = $this->Power[$this->Size - 2]; /* XXX */
 
 		return $this->Power;
 	}

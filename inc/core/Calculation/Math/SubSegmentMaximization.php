@@ -22,40 +22,64 @@ namespace Runalyze\Calculation\Math;
  */
 class SubSegmentMaximization
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Data;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $IndexData;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumData;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $SegmentLengths;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $NumSegmentLengths;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $StartIndex;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $CurrentSum;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $CurrentLength;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DataMax;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DataMaxFromIndex;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DataMaxToIndex;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $InterpolateOverlength = true;
 
     protected $MinimizationFactor = 1;
@@ -87,8 +111,6 @@ class SubSegmentMaximization
     }
 
     /**
-     * Disable interpolation for overlength
-     *
      * Values can be interpolated if segment length does not match exactly.
      *
      * An active interpolation will give a maximum of 400 for a length of 10,
@@ -177,7 +199,7 @@ class SubSegmentMaximization
      */
     public function hasMaximumForLengthIndex($t): bool
     {
-        return PHP_INT_MAX !== abs($this->DataMax[$t]);
+        return abs($this->DataMax[$t]) !== PHP_INT_MAX;
     }
 
     /**

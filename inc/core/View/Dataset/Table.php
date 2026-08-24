@@ -18,12 +18,17 @@ use Runalyze\View\Tooltip;
  * @author Hannes Christiansen
  * @package Runalyze\Dataset
  */
-class Table {
-	/** @var \Runalyze\Dataset\Configuration */
+class Table
+{
+	/**
+	 * @var \Runalyze\Dataset\Configuration
+	 */
 	protected $Configuration;
 
-	/** @var array */
-	protected $ActiveKeys = array();
+	/**
+	 * @var array
+	 */
+	protected $ActiveKeys = [];
 
 	/**
 	 * Boolean flag to automatically set distance comparison
@@ -31,7 +36,9 @@ class Table {
 	 */
 	protected $AutomaticDistanceComparison = false;
 
-	/** @var float [km] */
+	/**
+	 * @var float [km]
+	 */
 	protected $LastDistance = 0;
 
 	public function __construct(Configuration $configuration)
@@ -43,8 +50,6 @@ class Table {
 	}
 
 	/**
-	 * Activate automatic distance comparison
-	 *
 	 * This does only work, if <code>codeForColumns()</code> is called in
 	 * respective order.
 	 */
@@ -78,7 +83,7 @@ class Table {
         return $Code;
 	}
 
-	public function codeForColumns(Context $context, array $hiddenKeys = array()): string
+	public function codeForColumns(Context $context, array $hiddenKeys = []): string
 	{
 		$Code = '';
 
@@ -100,15 +105,15 @@ class Table {
 				$style = ($this->Configuration->getStyle($keyid) != '') ? $this->Configuration->getStyle($keyid) : '';
 				// css class&style depending on values
 				$valueClassStyle = $Key->valueDependendCssStyle($context);
-				if (null !== $valueClassStyle) {
+				if ($valueClassStyle !== null) {
 					$class = $class . ' ' . $valueClassStyle['class'];
 					$style .= $valueClassStyle['style'];
 				}
 
-				$class = ($class !== '') ? ' class="'.$class.'"' : '';
-				$style = ($style !== '') ? ' style="'.$style.'"' : '';
+				$class = ($class !== '') ? ' class="' . $class . '"' : '';
+				$style = ($style !== '') ? ' style="' . $style . '"' : '';
 
-				$Code .= '<td'.$class.$style.'>'.$Key->stringFor($context).'</td>';
+				$Code .= '<td' . $class . $style . '>' . $Key->stringFor($context) . '</td>';
 			}
 		}
 

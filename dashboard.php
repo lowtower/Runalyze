@@ -36,13 +36,13 @@ if (! isset($request) || ! $request->isXmlHttpRequest()) {
 					$Plugin = $Factory->newInstance($key);
 
 					if ($Plugin !== false) {
-						echo '<li'.($i == 0 ? ' class="active"' : '').'>'.$Plugin->getLink().'</li>';
+						echo '<li' . ($i == 0 ? ' class="active"' : '') . '>' . $Plugin->getLink() . '</li>';
 					}
 				}
 
 				if (PluginStat::hasVariousStats()) {
 					echo '<li class="with-submenu">';
-					echo '<a href="#">'.__('Miscellaneous').'</a>';
+					echo '<a href="#">' . __('Miscellaneous') . '</a>';
 					echo '<ul class="submenu">';
 
 					$VariousStats = $Factory->variousPlugins();
@@ -50,7 +50,7 @@ if (! isset($request) || ! $request->isXmlHttpRequest()) {
 						$Plugin = $Factory->newInstance($key);
 
 						if ($Plugin !== false) {
-							echo '<li>'.$Plugin->getLink().'</li>';
+							echo '<li>' . $Plugin->getLink() . '</li>';
 						}
 					}
 

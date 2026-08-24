@@ -26,7 +26,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $dist = $this->getMockWithHistogram([
             10 => 1,
             15 => 2,
-            20 => 1
+            20 => 1,
         ]);
         $dist->calculateStatistic();
 
@@ -46,7 +46,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
             0 => 5,
             80 => 10,
             85 => 10,
-            90 => 15
+            90 => 15,
         ]);
         $dist->calculateStatistic();
 
@@ -90,7 +90,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
             10 => 1,
             20 => 5,
             30 => 2,
-            40 => 2
+            40 => 2,
         ]);
         $dist->calculateStatistic([0.1, 0.2, 0.5, 0.75, 0.8, 0.9]);
 

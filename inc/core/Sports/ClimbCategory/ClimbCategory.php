@@ -6,25 +6,39 @@ class ClimbCategory
 {
     public $Category;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_HC = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_1 = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_2 = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_3 = 3;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_4 = 4;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_5 = 5;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const CATEGORY_NONE = 6;
 
     /**
@@ -51,7 +65,7 @@ class ClimbCategory
 
     public function isClassified(): bool
     {
-        return self::CATEGORY_NONE != $this->Category;
+        return $this->Category != self::CATEGORY_NONE;
     }
 
     public function getString(): string
@@ -78,7 +92,7 @@ class ClimbCategory
             self::CATEGORY_3,
             self::CATEGORY_4,
             self::CATEGORY_5,
-            self::CATEGORY_NONE
+            self::CATEGORY_NONE,
         ];
     }
 

@@ -10,10 +10,14 @@ use SimpleXMLElement;
 
 class FitlogActivity extends AbstractSingleParser
 {
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $StartTimeString = '';
 
     public function __construct(SimpleXMLElement $activity)

@@ -14,12 +14,12 @@ class EpanechnikovTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.75,
             1.0,
-            0.4375
+            0.4375,
         ], $Kernel->valuesAt([
             -1.0,
             -0.5,
             0.0,
-            0.75
+            0.75,
         ]));
     }
 
@@ -31,12 +31,12 @@ class EpanechnikovTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.75,
             1.0,
-            0.64
+            0.64,
         ], $Kernel->valuesAt([
             -5.0,
             -2.5,
             0.0,
-            3.0
+            3.0,
         ]), 0.0001);
     }
 }

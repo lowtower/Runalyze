@@ -4,7 +4,9 @@ namespace Runalyze\Bundle\CoreBundle\Model\Trackdata\Climb;
 
 class ClimbCollection implements \Countable, \ArrayAccess
 {
-    /** @var Climb[] */
+    /**
+     * @var Climb[]
+     */
     protected $Elements = [];
 
     /**

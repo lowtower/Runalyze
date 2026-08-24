@@ -7,13 +7,13 @@ use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Profile\Sport\SportProfile;
-
 use GuzzleHttp\Client;
 
 /**
  * Test for RouteNameEvalOsm.
  */
-class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
+class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
+{
     private $underTest;
 
     private $coll;
@@ -43,7 +43,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, ['aplace']],
                     [OsmCsvData::$CAT_HUT, ['ahut']],
                     [OsmCsvData::$CAT_WAY, ['away']],
-                    [OsmCsvData::$CAT_INFO, ['ainfo']]
+                    [OsmCsvData::$CAT_INFO, ['ainfo']],
                 ]
             ));
 
@@ -61,7 +61,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, []],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, []]
+                    [OsmCsvData::$CAT_INFO, []],
                 ]
             ));
 
@@ -79,7 +79,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2']],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, ['away']],
-                    [OsmCsvData::$CAT_INFO, ['ainfo']]
+                    [OsmCsvData::$CAT_INFO, ['ainfo']],
                 ]
             ));
 
@@ -97,7 +97,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, ['aplace1', 'aplace2']],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, []]
+                    [OsmCsvData::$CAT_INFO, []],
                 ]
             ));
 
@@ -115,7 +115,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, []],
                     [OsmCsvData::$CAT_HUT, ['ahut1', 'ahut2']],
                     [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
-                    [OsmCsvData::$CAT_INFO, ['ainfo']]
+                    [OsmCsvData::$CAT_INFO, ['ainfo']],
                 ]
             ));
 
@@ -134,7 +134,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, []],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, ['away1', 'away2']],
-                    [OsmCsvData::$CAT_INFO, ['ainfo']]
+                    [OsmCsvData::$CAT_INFO, ['ainfo']],
                 ]
             ));
 
@@ -153,7 +153,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, []],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, ['ainfo1', 'ainfo2']]
+                    [OsmCsvData::$CAT_INFO, ['ainfo1', 'ainfo2']],
                 ]
             ));
 
@@ -172,7 +172,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, []],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, []]
+                    [OsmCsvData::$CAT_INFO, []],
                 ]
             ));
 
@@ -189,7 +189,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, ['aplace']],
                     [OsmCsvData::$CAT_HUT, ['ahut']],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, []]
+                    [OsmCsvData::$CAT_INFO, []],
                 ]
             ));
 
@@ -206,7 +206,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testCreateResultLimits() {
-        $a = array();
+        $a = [];
         // create place array with over 255 length
         for($i = 0; $i < 8; $i++) {
             $a[] = str_repeat($i, 32);
@@ -219,7 +219,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
                     [OsmCsvData::$CAT_PLACE, $a],
                     [OsmCsvData::$CAT_HUT, []],
                     [OsmCsvData::$CAT_WAY, []],
-                    [OsmCsvData::$CAT_INFO, []]
+                    [OsmCsvData::$CAT_INFO, []],
                 ]
             ));
 

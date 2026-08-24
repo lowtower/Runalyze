@@ -14,9 +14,9 @@ namespace Runalyze\Data\Cadence;
  * @author Hannes Christiansen
  * @package Runalyze\Data\Cadence
  */
-class General extends AbstractCadence {
+class General extends AbstractCadence
+{
     /**
-     * Label
      * @codeCoverageIgnore
      */
     public function label(): string {
@@ -24,7 +24,6 @@ class General extends AbstractCadence {
 	}
 
     /**
-     * Unit as string
      * @codeCoverageIgnore
      */
     public function unitAsString(): string {
@@ -40,7 +39,6 @@ class General extends AbstractCadence {
 	}
 
 	/**
-	 * Formular unit
 	 * @return string enum
 	 * @codeCoverageIgnore
 	 */

@@ -7,7 +7,8 @@ namespace Runalyze\Profile\Mapping;
  * Created from the Profile.xlsx of the FitSDKRelease_21.101.00.
  * #TSC
  */
-class FitSdkExercise {
+class FitSdkExercise
+{
     const CAT_UNKNOWN = 65534;
 
     const UNUSED = 65535;
@@ -18,8 +19,8 @@ class FitSdkExercise {
      *
      * @return string or null
      */
-    public function getFullMapping(string $categorys, ?string $subtypes=null): ?string {
-        $result = array();
+    public function getFullMapping(string $categorys, ?string $subtypes = null): ?string {
+        $result = [];
 
         $cat = array_map('intval', explode(',', $categorys));
         $sub = array_map('intval', explode(',', $subtypes));
@@ -55,7 +56,7 @@ class FitSdkExercise {
      *
      * @return string or null
      */
-    public function getMapping(int $category, ?int $subtype=null): ?string {
+    public function getMapping(int $category, ?int $subtype = null): ?string {
         $cat = $this->getCategoryName($category);
 
         if($cat != null && ! empty($subtype)) {
@@ -86,7 +87,7 @@ class FitSdkExercise {
     }
 
     // =TEXTKETTE(D2209;" => ";"""";C2209;"""";",")
-    private $categorys = array(
+    private $categorys = [
         0 => 'bench_press',
         1 => 'calf_raise',
         2 => 'cardio',
@@ -120,10 +121,10 @@ class FitSdkExercise {
         30 => 'triceps_extension',
         31 => 'warm_up',
         32 => 'run',
-    );
+    ];
 
     // =VERKETTEN("""";A2244;"#";D2244;"""";" => ";"""";C2244;"""";",")
-    private $subCategorys = array(
+    private $subCategorys = [
         'bench_press#0' => 'alternating_dumbbell_chest_press_on_swiss_ball',
         'bench_press#1' => 'barbell_bench_press',
         'bench_press#2' => 'barbell_board_bench_press',
@@ -1367,5 +1368,5 @@ class FitSdkExercise {
         'run#1' => 'walk',
         'run#2' => 'jog',
         'run#3' => 'sprint',
-    );
+    ];
 }

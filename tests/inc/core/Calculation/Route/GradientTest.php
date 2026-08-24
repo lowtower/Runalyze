@@ -32,7 +32,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         $gradient = new Gradient();
         $gradient->setDataFrom(
             new Model\Route\Entity([
-                Model\Route\Entity::ELEVATIONS_ORIGINAL => [100, 105, 110]
+                Model\Route\Entity::ELEVATIONS_ORIGINAL => [100, 105, 110],
             ]),
             new Model\Trackdata\Entity()
         );
@@ -43,10 +43,10 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         $gradient = new Gradient();
         $gradient->setDataFrom(
             new Model\Route\Entity([
-                Model\Route\Entity::ELEVATIONS_ORIGINAL => [100, 150, 250]
+                Model\Route\Entity::ELEVATIONS_ORIGINAL => [100, 150, 250],
             ]),
             new Model\Trackdata\Entity([
-                Model\Trackdata\Entity::DISTANCE => [1.0, 2.0, 2.5]
+                Model\Trackdata\Entity::DISTANCE => [1.0, 2.0, 2.5],
             ])
         );
         $gradient->calculate();

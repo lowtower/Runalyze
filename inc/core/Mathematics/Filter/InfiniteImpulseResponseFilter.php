@@ -14,13 +14,19 @@ namespace Runalyze\Mathematics\Filter;
  */
 class InfiniteImpulseResponseFilter
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $InputCoefficients = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $OutputCoefficients = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Order = 0;
 
     public function __construct(array $inputCoefficients, array $outputCoefficients)

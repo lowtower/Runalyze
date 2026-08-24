@@ -11,7 +11,9 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RunalyzeRoundArray extends Type
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const RUNALYZE_ROUND_ARRAY = 'runalyze_round_array';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
@@ -48,7 +50,7 @@ class RunalyzeRoundArray extends Type
     {
         $collection = new RoundCollection();
 
-        if ($value !== null && '' !== trim($value)) {
+        if ($value !== null && trim($value) !== '') {
             $rounds = explode('-', $value);
 
             if (is_array($rounds)) {
@@ -67,7 +69,7 @@ class RunalyzeRoundArray extends Type
         $duration = Duration::format($round->getDuration());
 
         $intensity = $round->getIntensity();
-        return ($intensity->getValue()).$distance.'|'.$duration;
+        return ($intensity->getValue()) . $distance . '|' . $duration;
     }
 
     /**
@@ -77,13 +79,13 @@ class RunalyzeRoundArray extends Type
     {
         $intensity = LapIntensity::fromValue(substr($data, 0, 1));
 
-        $data = null !== $intensity ? substr($data, 1) : $data;
+        $data = $intensity !== null ? substr($data, 1) : $data;
 
         $duration = (new Duration(substr(strrchr($data, '|'), 1)))->seconds();
         $distance = (double) strstr($data, '|', true);
 
         $r = new Round($distance, $duration);
-        if (null !== $intensity) {
+        if ($intensity !== null) {
             $r->setIntensity($intensity);
         } else {
             // default is active if no special char exits

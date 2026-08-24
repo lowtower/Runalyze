@@ -11,7 +11,8 @@ declare(strict_types=1);
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularInputSearchTimeRange extends FormularField {
+class FormularInputSearchTimeRange extends FormularField
+{
     /**
      * Validate value
      */
@@ -23,7 +24,7 @@ class FormularInputSearchTimeRange extends FormularField {
      * Get code for displaying the field
      */
     protected function getFieldCode(): string {
-		$code  = '<label>'.$this->label.'</label>';
+		$code = '<label>' . $this->label . '</label>';
 		$code .= '<div class="full-size left">';
 
 		$From = new FormularInputDate('date-from', '');
@@ -32,7 +33,7 @@ class FormularInputSearchTimeRange extends FormularField {
 		$To = new FormularInputDate('date-to', '');
 		$To->hideLabel();
 
-		$code .= $From->getCode().' '.__('to').' '.$To->getCode();
+		$code .= $From->getCode() . ' ' . __('to') . ' ' . $To->getCode();
 
 		return $code . '</div>';
 	}

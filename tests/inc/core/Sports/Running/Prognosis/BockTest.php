@@ -8,7 +8,9 @@ use Runalyze\Sports\Running\Prognosis\Bock;
 
 class BockTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Bock */
+    /**
+     * @var Bock
+     */
     protected $Bock;
 
     protected function setUp(): void

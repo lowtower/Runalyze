@@ -10,24 +10,25 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class Formular extends HtmlTag {
+class Formular extends HtmlTag
+{
 	/**
 	 * Array with all hidden values, keys are names
 	 * @var array
 	 */
-	protected $hiddenValues = array();
+	protected $hiddenValues = [];
 
 	/**
 	 * Array with all fieldsets
 	 * @var FormularFieldset[]
 	 */
-	protected $fieldsets = array();
+	protected $fieldsets = [];
 
 	/**
 	 * Array with all submit buttons, keys are names
 	 * @var array
 	 */
-	protected $submitButtons = array();
+	protected $submitButtons = [];
 
 	/**
 	 * Boolean flag: submit buttons centered
@@ -57,7 +58,7 @@ class Formular extends HtmlTag {
 	 * All failures, beeing displayed above submit-button
 	 * @var array
 	 */
-	protected $failures = array();
+	protected $failures = [];
 
 	/**
 	 * Construct a new formular
@@ -77,7 +78,6 @@ class Formular extends HtmlTag {
 	}
 
 	/**
-	 * Set header
 	 * @param string $string
 	 */
 	public function setHeader($string) {
@@ -85,7 +85,6 @@ class Formular extends HtmlTag {
 	}
 
 	/**
-	 * Add a hidden value
 	 * @param string $name
 	 * @param string $value
 	 */
@@ -101,8 +100,8 @@ class Formular extends HtmlTag {
      * @param bool $opened [optional]
      */
     public function addFieldset(FormularFieldset $Fieldset, $opened = true) {
-	    if ('' == $Fieldset->getId()) {
-    		$Fieldset->setId($this->Id.'_legend_'.count($this->fieldsets));
+	    if ($Fieldset->getId() == '') {
+    		$Fieldset->setId($this->Id . '_legend_' . count($this->fieldsets));
         }
 
 		if (! $opened)
@@ -111,16 +110,12 @@ class Formular extends HtmlTag {
 		$this->fieldsets[] = $Fieldset;
 	}
 
-	/**
-	 * Validate all fieldsets
-	 */
 	final public function validateAllFieldsets() {
 		foreach ($this->fieldsets as &$Fieldset)
 			$Fieldset->validateAllFields();
 	}
 
 	/**
-	 * Add a submit button
 	 * @param string $value
 	 * @param string $name optional, default 'submit'
 	 */
@@ -128,9 +123,6 @@ class Formular extends HtmlTag {
 		$this->submitButtons[$name] = $value;
 	}
 
-	/**
-	 * Set submit buttons centered
-	 */
 	public function setSubmitButtonsCentered() {
 		$this->submitButtonsCentered = true;
 	}
@@ -181,7 +173,7 @@ class Formular extends HtmlTag {
 		$this->prepareForDisplay();
 
 		echo '<div class="panel-content">';
-		echo '<form '.$this->attributes().'>';
+		echo '<form ' . $this->attributes() . '>';
 
 		$this->displayHeader();
 		$this->displayHiddenValues();
@@ -193,47 +185,32 @@ class Formular extends HtmlTag {
 		echo '</div>';
 	}
 
-	/**
-	 * Display header
-	 */
 	protected function displayHeader() {
 		if (! empty($this->header))
-			echo '<h1>'.$this->header.'</h1>';
+			echo '<h1>' . $this->header . '</h1>';
 	}
 
-	/**
-	 * Display hidden Values
-	 */
 	protected function displayHiddenValues() {
 		foreach ($this->hiddenValues as $name => $value)
-			echo '<input type="hidden" name="'.$name.'" value="'.htmlspecialchars($value).'">';
+			echo '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '">';
 	}
 
-	/**
-	 * Display fieldsets
-	 */
 	protected function displayFieldsets() {
 		foreach ($this->fieldsets as $Fieldset)
 			$Fieldset->display();
 	}
 
-	/**
-	 * Display failures
-	 */
 	protected function displayFailures() {
 		foreach ($this->failures as $message)
 			echo HTML::error($message);
 	}
 
-	/**
-	 * Display submit buttons
-	 */
 	protected function displaySubmitButtons() {
 		if ($this->submitButtonsCentered)
 			echo '<div class="c">';
 
 		foreach ($this->submitButtons as $name => $value)
-			echo '<input type="submit" name="'.$name.'" value="'.$value.'">';
+			echo '<input type="submit" name="' . $name . '" value="' . $value . '">';
 
 		if ($this->submitButtonsCentered)
 			echo '</div>';

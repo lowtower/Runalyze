@@ -16,21 +16,21 @@ use Runalyze\View\Activity\Plot\ActivityPlot;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
+abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow
+{
 	/**
 	 * Right content
 	 * @var array
 	 */
-	protected $RightContent = array();
+	protected $RightContent = [];
 
 	/**
 	 * Right content title
 	 * @var array
 	 */
-	protected $RightContentTitle = array();
+	protected $RightContentTitle = [];
 
-
-    protected $TopContent='';
+    protected $TopContent = '';
 
 	/**
 	 * CSS id
@@ -38,9 +38,6 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
 	 */
 	protected $cssID = '';
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(?Context $Context = null) {
 		$this->Context = $Context;
 
@@ -49,25 +46,17 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
 	}
 
 	/**
-	 * Set CSS id
 	 * @param string $cssID
 	 */
 	final public function setCSSid($cssID) {
 		$this->cssID = $cssID;
 	}
 
-	/**
-	 * Set plot
-	 */
 	final protected function setPlot() {}
 
-	/**
-	 * Set right content
-	 */
 	abstract protected function setRightContent();
 
 	/**
-	 * Add right content
 	 * @param string $key
 	 * @param string $title
 	 * @param string $content
@@ -78,28 +67,24 @@ abstract class TrainingViewSectionRowTabbedPlot extends TrainingViewSectionRow {
 	}
 
 	/**
-	 * Get links
 	 * @return array
 	 */
 	final public function getLinks() {
 		return $this->RightContentTitle;
 	}
 
-	/**
-	 * Display plot
-	 */
 	protected function displayPlot() {
-		echo '<div id="training-view-tabbed-'.$this->cssID.'" class="training-row-plot">';
+		echo '<div id="training-view-tabbed-' . $this->cssID . '" class="training-row-plot">';
 
 		$first = true;
 
         echo $this->TopContent;
 
 		foreach ($this->RightContent as $key => $Content) {
-			echo '<div class="change" id="training-view-tabbed-'.$this->cssID.'-'.$key.'"'.(! $first ? ' style="display:none;"' : '').'>';
+			echo '<div class="change" id="training-view-tabbed-' . $this->cssID . '-' . $key . '"' . (! $first ? ' style="display:none;"' : '') . '>';
 
 			if ($Content instanceof ActivityPlot) {
-				echo '<div id="plot-'.$Content->getKey().'" class="plot-container">';
+				echo '<div id="plot-' . $Content->getKey() . '" class="plot-container">';
 				$Content->display();
 				echo '</div>';
 			} else {

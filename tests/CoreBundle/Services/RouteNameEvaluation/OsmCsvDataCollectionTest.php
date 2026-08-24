@@ -5,7 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
-class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase {
+class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
+{
     public function testCsvCollectionEmpty() {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
@@ -47,7 +48,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testHikingCsvCollectionSpieser() {
-        $in =   '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
+        $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
                 'node|Spieser||||||peak|1651|||' . PHP_EOL .
                 'node|Spieser||||information|||1645|yes||' . PHP_EOL .
                 'node|Später Gund||||information|||1503|yes||' . PHP_EOL .

@@ -22,7 +22,7 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'trackdata` ADD `smo2_0` longtext AFTER `groundcontact_balance`, 
+        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` ADD `smo2_0` longtext AFTER `groundcontact_balance`, 
                                 ADD `smo2_1` longtext AFTER `smo2_0`, 
                                 ADD `thb_0` longtext AFTER `smo2_1`, 
                                 ADD `thb_1` longtext AFTER `thb_0`');
@@ -31,6 +31,6 @@ class Version20160912090538 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'trackdata` DROP `smo2_0`, DROP `smo2_1`, DROP `thb_0`, DROP `thb_1`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` DROP `smo2_0`, DROP `smo2_1`, DROP `thb_0`, DROP `thb_1`');
     }
 }

@@ -12,7 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     protected $Container;
 
     public function setContainer(?ContainerInterface $container = null)

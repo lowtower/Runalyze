@@ -90,7 +90,7 @@ class ViewController extends Controller
 
         return $this->render('activity/vo2max_info.html.twig', [
             'context' => $activityContext,
-            'details' => new VO2maxCalculationDetailsDecorator($activityContext, $configList)
+            'details' => new VO2maxCalculationDetailsDecorator($activityContext, $configList),
         ]);
     }
 
@@ -158,7 +158,7 @@ class ViewController extends Controller
             ->getRepository('CoreBundle:Trackdata')
             ->findByActivity($id, $account);
 
-        if (null === $trackdata) {
+        if ($trackdata === null) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -175,7 +175,7 @@ class ViewController extends Controller
         return $this->render('activity/tool/time_series_statistics.html.twig', [
             'statistics' => $statistics,
             'paceAverage' => $trackdataModel->totalPace(),
-            'paceUnit' => $paceUnit
+            'paceUnit' => $paceUnit,
         ]);
     }
 
@@ -189,7 +189,7 @@ class ViewController extends Controller
             ->getRepository('CoreBundle:Trackdata')
             ->findByActivity($id, $account);
 
-        if (null === $trackdata) {
+        if ($trackdata === null) {
             return $this->render('activity/tool/not_possible.html.twig');
         }
 
@@ -208,7 +208,7 @@ class ViewController extends Controller
         return $this->render('activity/tool/best_sub_segments.html.twig', [
             'statistics' => $statistics,
             'distanceArray' => $trackdataModel->distance(),
-            'paceUnit' => $paceUnit
+            'paceUnit' => $paceUnit,
         ]);
     }
 
@@ -230,10 +230,10 @@ class ViewController extends Controller
         }
 
         if (
-            $activity->hasRoute() && null !== $activity->getRoute()
-                ->getElevationsCorrected() &&
-            $activity->hasTrackdata() && null !== $activity->getTrackdata()
-                ->getDistance()
+            $activity->hasRoute() && $activity->getRoute()
+                ->getElevationsCorrected() !== null &&
+            $activity->hasTrackdata() && $activity->getTrackdata()
+                ->getDistance() !== null
         ) {
             $numDistance = count($activity->getTrackdata()->getDistance());
             $numElevations = count($activity->getRoute()->getElevationsCorrected());
@@ -244,7 +244,7 @@ class ViewController extends Controller
             }
         }
 
-        if (null !== $activity->getRoute()->getElevationsCorrected() && null !== $activity->getTrackdata()->getDistance()) {
+        if ($activity->getRoute()->getElevationsCorrected() !== null && $activity->getTrackdata()->getDistance() !== null) {
             $activity->getRoute()
                 ->setElevationsCorrected((new StepwiseElevationProfileFixer(
                     5,
@@ -261,7 +261,7 @@ class ViewController extends Controller
             'context' => $activityContext,
             'decorator' => new ActivityDecorator($activityContext),
             'paceUnit' => $activity->getSport()
-                ->getSpeedUnit()
+                ->getSpeedUnit(),
         ]);
     }
 }

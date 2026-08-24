@@ -8,22 +8,34 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
 class AnalysisSelection extends Selection
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     const DISTANCE = 'km';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const TIME = 's';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const ELEVATION = 'em';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const ENERGY = 'kcal';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const TRIMP = 'trimp';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const NUMBER = 'n';
 
     /**
@@ -37,7 +49,7 @@ class AnalysisSelection extends Selection
             self::ELEVATION => 'by elevation',
             self::ENERGY => 'by energy',
             self::TRIMP => 'by trimp',
-            self::NUMBER => 'by number'
+            self::NUMBER => 'by number',
         ], $currentKey);
     }
 }

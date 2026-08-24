@@ -39,7 +39,7 @@ class FitVO2maxEstimate extends AbstractKey
      */
     public function label(): string
 	{
-		return 'VO<sub>2</sub>max '.__('(by file)');
+		return 'VO<sub>2</sub>max ' . __('(by file)');
 	}
 
     /**
@@ -47,7 +47,7 @@ class FitVO2maxEstimate extends AbstractKey
      */
     public function shortLabel(): string
 	{
-		return 'VO<sub>2</sub>max '.__('(file)');
+		return 'VO<sub>2</sub>max ' . __('(file)');
 	}
 
     /**
@@ -55,7 +55,7 @@ class FitVO2maxEstimate extends AbstractKey
      */
     public function description(): string
 	{
-		return __("Garmin's newer devices have an integrated VO2max estimation.").' '.
+		return __("Garmin's newer devices have an integrated VO2max estimation.") . ' ' .
 			__('This value refers to your estimated VO2max at the start of the activity.');
 	}
 

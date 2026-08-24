@@ -9,10 +9,14 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RunalyzeRoundArray */
+    /**
+     * @var RunalyzeRoundArray
+     */
     protected $Type;
 
-    /** @var AbstractPlatform */
+    /**
+     * @var AbstractPlatform
+     */
     protected $PlatformMock;
 
     protected function setUp(): void
@@ -41,7 +45,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
         $collection = new RoundCollection([
             new Round(1.0, 311, false),
             new Round(1.0, 189, true),
-            new Round(1.0, 267, false)
+            new Round(1.0, 267, false),
         ]);
 
         $newCollection = $this->Type->convertToPHPValue($this->Type->convertToDatabaseValue($collection, $this->PlatformMock), $this->PlatformMock);

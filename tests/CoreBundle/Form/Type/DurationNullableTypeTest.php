@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Form\Type\DurationNullableType;
 
 class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var DurationNullableType */
+    /**
+     * @var DurationNullableType
+     */
     protected $Type;
 
     protected function setUp(): void

@@ -7,19 +7,29 @@ use League\Geotools\Coordinate\Coordinate;
 
 class Location
 {
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $Latitude;
 
-    /** @var float|null */
+    /**
+     * @var float|null
+     */
     protected $Longitude;
 
-    /** @var \DateTime|null */
+    /**
+     * @var \DateTime|null
+     */
     protected $DateTime;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $LocationName = '';
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     protected $Timezone;
 
     /**
@@ -92,7 +102,7 @@ class Location
     public function getCoordinate()
     {
         if ($this->hasPosition()) {
-            return new Coordinate(array((float) $this->getLatitude(), (float) $this->getLongitude()));
+            return new Coordinate([(float) $this->getLatitude(), (float) $this->getLongitude()]);
         }
 
         return null;
@@ -124,7 +134,7 @@ class Location
      */
     public function getTimestamp()
     {
-        if (null === $this->DateTime) {
+        if ($this->DateTime === null) {
             return null;
         }
 
@@ -153,8 +163,8 @@ class Location
     public function hasPosition(): bool
     {
         return (
-            null !== $this->Latitude &&
-            null !== $this->Longitude &&
+            $this->Latitude !== null &&
+            $this->Longitude !== null &&
             ($this->Latitude != 0.0 || $this->Longitude != 0.0)
         );
     }
@@ -166,7 +176,7 @@ class Location
 
     public function hasDateTime(): bool
     {
-        return null !== $this->DateTime;
+        return $this->DateTime !== null;
     }
 
     /**

@@ -8,22 +8,34 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 
 class AnovaData
 {
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     */
     protected $DateFrom;
 
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     */
     protected $DateTo;
 
-    /** @var Sport[] */
+    /**
+     * @var Sport[]
+     */
     protected $Sport = [];
 
-    /** @var Type[] */
+    /**
+     * @var Type[]
+     */
     protected $Type = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $ValueToGroupBy;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $ValueToLookAt;
 
     /**

@@ -14,7 +14,7 @@ class FlightRatio extends AbstractBox
 	        ->flightRatio();
 
 		parent::__construct(
-		    null !== $flightRatio ? number_format(100 * $flightRatio, 1) : '-',
+		    $flightRatio !== null ? number_format(100 * $flightRatio, 1) : '-',
 		    '&#37;',
 		    __('Flight ratio')
 		);

@@ -10,7 +10,9 @@ use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
  */
 class AccountRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var AccountRepository */
+    /**
+     * @var AccountRepository
+     */
     protected $AccountRepository;
 
     protected function setUp(): void
@@ -28,8 +30,8 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
      */
     protected function getNewAccount($username, $mail = ''): \Runalyze\Bundle\CoreBundle\Entity\Account
     {
-        if ('' == $mail) {
-            $mail = $username.'@test.com';
+        if ($mail == '') {
+            $mail = $username . '@test.com';
         }
 
         return (new Account())

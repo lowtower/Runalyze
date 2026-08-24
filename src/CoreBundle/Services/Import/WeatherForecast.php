@@ -14,10 +14,14 @@ use Runalyze\Service\WeatherForecast\Strategy\StrategyInterface;
 
 class WeatherForecast
 {
-    /** @var StrategyCollection */
+    /**
+     * @var StrategyCollection
+     */
     protected $StrategyCollection;
 
-    /** @var DatabaseCacheInterface */
+    /**
+     * @var DatabaseCacheInterface
+     */
     protected $DatabaseCache;
 
     public function __construct(
@@ -45,7 +49,7 @@ class WeatherForecast
     {
         $result = $this->StrategyCollection->tryToLoadForecast($location);
 
-        if (null !== $result) {
+        if ($result !== null) {
             $this->cacheWeatherData($result, $location, $this->StrategyCollection->getLastSuccessfulStrategy());
         }
 

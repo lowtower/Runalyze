@@ -24,7 +24,7 @@ class PronationExcursion extends ActivitySeries
 
 	protected function initOptions($isLeft)
     {
-		$this->Label = __('Pronation excursion').' ('.($isLeft ? __('left') : __('right')).')';
+		$this->Label = __('Pronation excursion') . ' (' . ($isLeft ? __('left') : __('right')) . ')';
 		$this->Color = $isLeft ? 'rgb(234,46,195)' : 'rgb(183,0,144)';
 
 		$this->UnitString = '°';

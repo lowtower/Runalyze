@@ -73,7 +73,7 @@ class RaceResultsController extends Controller
                 'vo2max_with_elevation' => $race->getActivity()
                     ->getVO2maxWithElevation(),
                 'age_grade' => $ageGrade->getPerformance(),
-                'is_fun' => in_array($race->getActivity()->getId(), $funIds)
+                'is_fun' => in_array($race->getActivity()->getId(), $funIds),
             ];
         }
 

@@ -12,8 +12,6 @@ use Runalyze\Util\LocalTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Training
- *
  * @ORM\Table(name="training", indexes={@ORM\Index(name="time", columns={"accountid", "time"}), @ORM\Index(name="sportid", columns={"accountid", "sportid"}), @ORM\Index(name="typeid", columns={"accountid", "typeid"})})
  * @ORM\Entity(repositoryClass="Runalyze\Bundle\CoreBundle\Entity\TrainingRepository")
  * @ORM\EntityListeners({"Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener"})
@@ -771,7 +769,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     private $raceresult;
 
-    /** @var null|ActivityAdapter */
+    /**
+     * @var null|ActivityAdapter
+     */
     private $Adapter;
 
     public function __construct()
@@ -789,9 +789,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->id;
     }
 
-    /**
-     * @param Sport $sport
-     */
     public function setSport(Sport $sport): self
     {
         $this->sport = $sport;
@@ -1051,7 +1048,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setElevation($elevation): self
     {
-        $this->elevation = null === $elevation ? null : (int) $elevation;
+        $this->elevation = $elevation === null ? null : (int) $elevation;
 
         return $this;
     }
@@ -1105,7 +1102,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function getPercentageFlat()
     {
-        return null !== $this->percentageHilly ? 1.0 - $this->percentageHilly : null;
+        return $this->percentageHilly !== null ? 1.0 - $this->percentageHilly : null;
     }
 
     /**
@@ -1594,7 +1591,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this;
     }
 
-
     /**
      * @return null|int [s]
      */
@@ -1780,7 +1776,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setPowerCalculated($flag): self
     {
-        $this->isPowerCalculated = null === $flag ? null : (bool) $flag;
+        $this->isPowerCalculated = $flag === null ? null : (bool) $flag;
 
         return $this;
     }
@@ -1937,7 +1933,6 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->verticalRatio;
     }
 
-
     /**
      * @param null|float $avgImpactGsLeft [G]
      */
@@ -2087,7 +2082,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setTemperature($temperature): self
     {
-        $this->temperature = null === $temperature ? null : (int) $temperature;
+        $this->temperature = $temperature === null ? null : (int) $temperature;
 
         return $this;
     }
@@ -2213,7 +2208,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setWeatherSource($weatherSource): self
     {
-        $this->weatherSource = null === $weatherSource ? null : (int) $weatherSource;
+        $this->weatherSource = $weatherSource === null ? null : (int) $weatherSource;
 
         return $this;
     }
@@ -2253,7 +2248,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     {
         $this->route = $route;
 
-        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && null !== $this->account) {
+        if ($route instanceof \Runalyze\Bundle\CoreBundle\Entity\Route && $this->account !== null) {
             $route->setAccount($this->account);
         }
 
@@ -2270,7 +2265,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function hasRoute(): bool
     {
-        return null !== $this->route;
+        return $this->route !== null;
     }
 
     public function setSplits(RoundCollection $splits): self
@@ -2439,7 +2434,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function setActivityId($activityId): self
     {
-        $this->activityId = null === $activityId ? null : (int) $activityId;
+        $this->activityId = $activityId === null ? null : (int) $activityId;
 
         return $this;
     }
@@ -2517,7 +2512,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         if ($trackData instanceof \Runalyze\Bundle\CoreBundle\Entity\Trackdata) {
             $trackData->setActivity($this);
 
-            if (null !== $this->account) {
+            if ($this->account !== null) {
                 $trackData->setAccount($this->account);
             }
         }
@@ -2533,7 +2528,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function hasTrackdata(): bool
     {
-        return null !== $this->trackdata;
+        return $this->trackdata !== null;
     }
 
     public function setSwimdata(?Swimdata $swimData = null)
@@ -2543,7 +2538,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         if ($swimData instanceof \Runalyze\Bundle\CoreBundle\Entity\Swimdata) {
             $swimData->setActivity($this);
 
-            if (null !== $this->account) {
+            if ($this->account !== null) {
                 $swimData->setAccount($this->account);
             }
         }
@@ -2559,7 +2554,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function hasSwimdata(): bool
     {
-        return null !== $this->swimdata;
+        return $this->swimdata !== null;
     }
 
     public function setHrv(?Hrv $hrv = null)
@@ -2569,7 +2564,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         if ($hrv instanceof \Runalyze\Bundle\CoreBundle\Entity\Hrv) {
             $hrv->setActivity($this);
 
-            if (null !== $this->account) {
+            if ($this->account !== null) {
                 $hrv->setAccount($this->account);
             }
         }
@@ -2585,7 +2580,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function hasHrv(): bool
     {
-        return null !== $this->hrv;
+        return $this->hrv !== null;
     }
 
     public function setRaceresult(?Raceresult $raceResult = null)
@@ -2595,7 +2590,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         if ($raceResult instanceof \Runalyze\Bundle\CoreBundle\Entity\Raceresult) {
             $raceResult->setActivity($this);
 
-            if (null !== $this->account) {
+            if ($this->account !== null) {
                 $raceResult->setAccount($this->account);
             }
         }
@@ -2611,7 +2606,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
 
     public function hasRaceresult(): bool
     {
-        return null !== $this->raceresult;
+        return $this->raceresult !== null;
     }
 
     /**
@@ -2619,7 +2614,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function getAdapter()
     {
-        if (null === $this->Adapter) {
+        if ($this->Adapter === null) {
             $this->Adapter = new ActivityAdapter($this);
         }
 
@@ -2632,7 +2627,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function updateSimpleCalculatedValues()
     {
-        if (0.0 == $this->distance) {
+        if ($this->distance == 0.0) {
             $this->distance = null;
         }
 
@@ -2645,7 +2640,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function useElevationFromRouteIfEmpty()
     {
-        if (null === $this->elevation || 0 == $this->elevation) {
+        if ($this->elevation === null || $this->elevation == 0) {
             $this->getAdapter()
                 ->useElevationFromRoute();
         }

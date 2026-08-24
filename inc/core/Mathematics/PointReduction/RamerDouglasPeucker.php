@@ -8,7 +8,9 @@ namespace Runalyze\Mathematics\PointReduction;
  */
 class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
 {
-    /** @var float */
+    /**
+     * @var float
+     */
     protected $Epsilon;
 
     /**
@@ -23,7 +25,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
         $this->Epsilon = $epsilon;
 
         $this->ReducedIndices = [0, count($x) - 1];
-        list($this->ReducedX, $this->ReducedY) = $this->reducePointSet($x, $y);
+        [$this->ReducedX, $this->ReducedY] = $this->reducePointSet($x, $y);
 
         sort($this->ReducedIndices);
     }
@@ -38,7 +40,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
     {
         $num = count($x);
 
-        list($maxDist, $index) = $this->findMaximalDistanceAndIndexInPointSet($x, $y);
+        [$maxDist, $index] = $this->findMaximalDistanceAndIndexInPointSet($x, $y);
 
         if ($maxDist > $this->Epsilon) {
             $this->ReducedIndices[] = $offset + $index;
@@ -48,7 +50,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
 
         return [
             [$x[0], $x[$num - 1]],
-            [$y[0], $y[$num - 1]]
+            [$y[0], $y[$num - 1]],
         ];
     }
 
@@ -82,12 +84,12 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
      */
     protected function splitAndReducePointSet(array $x, array $y, $index, $offset): array
     {
-        list($firstX, $firstY) = $this->reducePointSet(
+        [$firstX, $firstY] = $this->reducePointSet(
             array_slice($x, 0, $index + 1),
             array_slice($y, 0, $index + 1),
             $offset
         );
-        list($secondX, $secondY) = $this->reducePointSet(
+        [$secondX, $secondY] = $this->reducePointSet(
             array_slice($x, $index),
             array_slice($y, $index),
             $offset + $index
@@ -98,7 +100,7 @@ class RamerDouglasPeucker extends AbstractPointReductionAlgorithm
 
         return [
             array_merge($firstX, $secondX),
-            array_merge($firstY, $secondY)
+            array_merge($firstY, $secondY),
         ];
     }
 }

@@ -42,7 +42,6 @@ class ClimbScore extends AbstractKey
                 ->climbScore();
         }
 
-        return '<a class="window" href="activity/'.$context->activity()->id().'/climb-score">'.$context->dataview()->climbScore().'</a>';
+        return '<a class="window" href="activity/' . $context->activity()->id() . '/climb-score">' . $context->dataview()->climbScore() . '</a>';
     }
-
 }

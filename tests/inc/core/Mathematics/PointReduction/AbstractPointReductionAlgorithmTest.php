@@ -104,7 +104,7 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
 
     public function testDistanceToSomeUnspecificLine()
     {
-        list($line1x, $line1y, $line2x, $line2y) = [1.0, 1.0, 3.0, 2.0];
+        [$line1x, $line1y, $line2x, $line2y] = [1.0, 1.0, 3.0, 2.0];
 
         $this->assertEqualsWithDelta(0.89, AbstractPointReductionAlgorithm::shortestDistance(
             1.0,

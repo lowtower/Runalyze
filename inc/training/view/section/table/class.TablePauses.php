@@ -16,7 +16,8 @@ use Runalyze\Activity\HeartRate;
  * @author codeproducer
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class TablePauses {
+class TablePauses
+{
 	/**
 	 * Code
 	 * @var string
@@ -28,7 +29,6 @@ class TablePauses {
 	}
 
 	/**
-	 * Get code
 	 * @return string
 	 */
 	public function getCode() {
@@ -43,11 +43,11 @@ class TablePauses {
 		$this->Code .= '<table class="fullwidth zebra-style">';
 		$this->Code .= '<thead><tr>';
 		$this->Code .= '<th class="r">#</th>';
-		$this->Code .= '<th class="r">'. __('Time') .'</th>';
-		$this->Code .= '<th class="r">'. __('Duration') .'</th>';
-		$this->Code .= '<th class="r">'. __('Heart rate') . ' (' . __('Start') . ')</th>';
-		$this->Code .= '<th class="r">'. __('Difference').'</th>';
-		$this->Code .= '<th class="r" style="padding-right: 20px;">'. __('Heart rate') . ' (' . __('End') . ')</th>';
+		$this->Code .= '<th class="r">' . __('Time') . '</th>';
+		$this->Code .= '<th class="r">' . __('Duration') . '</th>';
+		$this->Code .= '<th class="r">' . __('Heart rate') . ' (' . __('Start') . ')</th>';
+		$this->Code .= '<th class="r">' . __('Difference') . '</th>';
+		$this->Code .= '<th class="r" style="padding-right: 20px;">' . __('Heart rate') . ' (' . __('End') . ')</th>';
 		$this->Code .= '</tr></thead>';
 
 		// pauses
@@ -62,19 +62,19 @@ class TablePauses {
 
 			$pause = $pauses->at($i);
 
-			$this->Code .= '<td>'. ($i + 1) .'.</td>';
-			$this->Code .= '<td>'. Duration::format($pause->time()) .'</td>';
-			$this->Code .= '<td>'. Duration::format($pause->duration()) .'</td>';
+			$this->Code .= '<td>' . ($i + 1) . '.</td>';
+			$this->Code .= '<td>' . Duration::format($pause->time()) . '</td>';
+			$this->Code .= '<td>' . Duration::format($pause->duration()) . '</td>';
 
 			if ($pause->hasHeartRateInfo()) {
 				$hr->setBPM($pause->HRstart());
-				$this->Code .= '<td>'. ($hr->inBPM() > 0 ? $hr->string() : '-') .'</td>';
+				$this->Code .= '<td>' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';
 
 				$hr->setBPM(- $pause->hrDiff() );
-				$this->Code .= '<td>'. ($hr->inBPM() != 0 ? $hr->string() : '-') .'</td>';
+				$this->Code .= '<td>' . ($hr->inBPM() != 0 ? $hr->string() : '-') . '</td>';
 
 				$hr->setBPM($pause->HRend());
-				$this->Code .= '<td style="padding-right: 20px;">'. ($hr->inBPM() > 0 ? $hr->string() : '-') .'</td>';
+				$this->Code .= '<td style="padding-right: 20px;">' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';
 			} else {
 				$this->Code .= '<td colspan="3"></td>';
 			}
@@ -89,7 +89,7 @@ class TablePauses {
 		$this->Code .= '<tbody>';
 		$this->Code .= '<tr class="r" style="border-top: 1px solid #666;">';
 		$this->Code .= '<td colspan="2"></td>';
-		$this->Code .= '<td>'. Duration::format($allPause) .'</td>';
+		$this->Code .= '<td>' . Duration::format($allPause) . '</td>';
 		$this->Code .= '<td colspan="3" style="padding-right: 20px;"></td>';
 		$this->Code .= '</tr>';
 
@@ -97,7 +97,7 @@ class TablePauses {
 		if ($fullTime > 0) {
 			$this->Code .= '<tr class="r">';
 			$this->Code .= '<td colspan="2"></td>';
-			$this->Code .= '<td>'. round(100 / $fullTime * $allPause) .'% of '. Duration::format($fullTime) .'</td>';
+			$this->Code .= '<td>' . round(100 / $fullTime * $allPause) . '% of ' . Duration::format($fullTime) . '</td>';
 			$this->Code .= '<td colspan="3" style="padding-right: 20px;"></td>';
 			$this->Code .= '</tr>';
 		}

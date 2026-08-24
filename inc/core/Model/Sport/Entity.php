@@ -19,7 +19,8 @@ use Runalyze\View\Icon\SportIcon;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Sport
  */
-class Entity extends Model\EntityWithID implements ProfileInterface {
+class Entity extends Model\EntityWithID implements ProfileInterface
+{
 	/**
 	 * Key: name
 	 * @var string
@@ -92,10 +93,14 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 */
 	const DEFAULT_TYPEID = 'default_typeid';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const IS_MAIN = 'is_main';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	const INTERNAL_SPORT_ID = 'internal_sport_id';
 
     /**
@@ -103,7 +108,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::IMAGE,
 		    self::SHORT,
@@ -117,8 +122,8 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 		    self::MAIN_EQUIPMENTTYPEID,
 		    self::DEFAULT_TYPEID,
 		    self::IS_MAIN,
-		    self::INTERNAL_SPORT_ID
-		);
+		    self::INTERNAL_SPORT_ID,
+		];
 	}
 
     /**
@@ -137,7 +142,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	public function name() {
@@ -153,7 +157,6 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
     }
 
     /**
-     * Icon
      * @codeCoverageIgnore
      */
     public function icon(): \Runalyze\View\Icon\SportIcon {

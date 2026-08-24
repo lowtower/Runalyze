@@ -4,10 +4,14 @@ namespace Runalyze\Mathematics\Filter\Butterworth;
 
 abstract class AbstractButterworthCoefficients
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $InputCoefficients = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $OutputCoefficients = [];
 
     /**

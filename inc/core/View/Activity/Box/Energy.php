@@ -19,9 +19,6 @@ use Runalyze\Activity;
  */
 class Energy extends ValueBox
 {
-    /**
-     * Constructor
-     */
     public function __construct(Context $Context)
 	{
 		parent::__construct(

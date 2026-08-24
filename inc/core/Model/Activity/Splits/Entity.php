@@ -15,7 +15,8 @@ use Runalyze\Model\StringArrayObject;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */
-class Entity extends StringArrayObject {
+class Entity extends StringArrayObject
+{
 	/**
 	 * Separator
 	 * @var string
@@ -26,7 +27,7 @@ class Entity extends StringArrayObject {
 	 * Single objects
 	 * @var \Runalyze\Model\Activity\Splits\Split[]
 	 */
-	protected $Elements = array();
+	protected $Elements = [];
 
 	/**
 	 * Clone object
@@ -38,7 +39,6 @@ class Entity extends StringArrayObject {
 	}
 
 	/**
-	 * From array
 	 * @param \Runalyze\Model\Activity\Splits\Split[] $splits
 	 * @throws \InvalidArgumentException
 	 */
@@ -65,7 +65,6 @@ class Entity extends StringArrayObject {
 	}
 
 	/**
-	 * From string
 	 * @param string $string
 	 */
 	public function fromString($string) {
@@ -86,7 +85,7 @@ class Entity extends StringArrayObject {
      * As string
      */
     public function asString(): string {
-		$array = array();
+		$array = [];
 
 		foreach ($this->Elements as $Split) {
 			$array[] = $Split->asString();
@@ -173,7 +172,7 @@ class Entity extends StringArrayObject {
 		$active = null;
 
 		foreach ($this->Elements as $split) {
-			if (null === $active) {
+			if ($active === null) {
 				$active = $split->isActive();
 			} elseif ($active != $split->isActive()) {
 				return true;

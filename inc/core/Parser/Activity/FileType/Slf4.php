@@ -58,7 +58,7 @@ class Slf4 extends Slf3
     protected function parseLaps()
     {
         if (! empty($this->Xml->Markers)) {
-            $readEnergyConsumption = null === $this->Container->ActivityData->EnergyConsumption;
+            $readEnergyConsumption = $this->Container->ActivityData->EnergyConsumption === null;
 
             foreach ($this->Xml->Markers->Marker as $lap) {
                 $this->parseLap($lap, $readEnergyConsumption);

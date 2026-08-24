@@ -8,19 +8,29 @@ use Runalyze\Bundle\CoreBundle\Entity\Sport;
 
 class SportStatistic
 {
-    /** @var Sport */
+    /**
+     * @var Sport
+     */
     protected $Sport;
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $NumberOfActivities;
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $NumberOfActivitiesWithDistance;
 
-    /** @var null|float */
+    /**
+     * @var null|float
+     */
     protected $TotalDistance;
 
-    /** @var null|float */
+    /**
+     * @var null|float
+     */
     protected $TotalDuration;
 
     public function __construct(Sport $sport)
@@ -43,7 +53,7 @@ class SportStatistic
     public function setNumberOfActivities($numberOfActivities, $numberOfActivitiesWithDistance = null)
     {
         $this->NumberOfActivities = (int) $numberOfActivities;
-        $this->NumberOfActivitiesWithDistance = null !== $numberOfActivitiesWithDistance ? (int) $numberOfActivitiesWithDistance : null;
+        $this->NumberOfActivitiesWithDistance = $numberOfActivitiesWithDistance !== null ? (int) $numberOfActivitiesWithDistance : null;
     }
 
     /**
@@ -56,11 +66,11 @@ class SportStatistic
 
     public function areMostActivitiesWithDistance(): bool
     {
-        if (null !== $this->NumberOfActivitiesWithDistance) {
+        if ($this->NumberOfActivitiesWithDistance !== null) {
             return $this->NumberOfActivitiesWithDistance >= $this->NumberOfActivities / 2.0;
         }
 
-        return null !== $this->TotalDistance && $this->TotalDistance > 0.0;
+        return $this->TotalDistance !== null && $this->TotalDistance > 0.0;
     }
 
     /**
@@ -68,7 +78,7 @@ class SportStatistic
      */
     public function setTotalDistance($kilometer)
     {
-        $this->TotalDistance = null !== $kilometer ? (float) $kilometer : null;
+        $this->TotalDistance = $kilometer !== null ? (float) $kilometer : null;
     }
 
     /**
@@ -81,7 +91,7 @@ class SportStatistic
 
     public function isTotalDistanceKnown(): bool
     {
-        return null !== $this->TotalDistance;
+        return $this->TotalDistance !== null;
     }
 
     /**
@@ -89,7 +99,7 @@ class SportStatistic
      */
     public function setTotalDuration($timeInSeconds)
     {
-        $this->TotalDuration = null !== $timeInSeconds ? (float) $timeInSeconds : null;
+        $this->TotalDuration = $timeInSeconds !== null ? (float) $timeInSeconds : null;
     }
 
     /**
@@ -102,6 +112,6 @@ class SportStatistic
 
     public function isTotalDurationKnown(): bool
     {
-        return null !== $this->TotalDuration;
+        return $this->TotalDuration !== null;
     }
 }

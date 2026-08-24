@@ -29,16 +29,24 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SportType extends AbstractType
 {
-    /** @var TypeRepository */
+    /**
+     * @var TypeRepository
+     */
     protected $TypeRepository;
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var EquipmentTypeRepository */
+    /**
+     * @var EquipmentTypeRepository
+     */
     protected $EquipmentTypeRepository;
 
-    /** @var TokenStorage */
+    /**
+     * @var TokenStorage
+     */
     protected $TokenStorage;
 
     public function __construct(
@@ -76,7 +84,7 @@ class SportType extends AbstractType
         $usedInternalSportIds = $this->SportRepository->getUsedInternalSportIdsFor($this->getAccount());
         $isRunning = $sport->getInternalSportId() == SportProfile::RUNNING;
 
-        if (null !== $sport->getId()) {
+        if ($sport->getId() !== null) {
             $activityTypes = $this->TypeRepository->findAllFor($this->getAccount(), $sport);
             $equipmentTypes = $sport->hasEquipmentTypes() ? $sport->getEquipmentTypes() : [];
         } else {
@@ -89,13 +97,13 @@ class SportType extends AbstractType
                 'label' => 'Name',
                 'required' => true,
                 'attr' => [
-                    'autofocus' => true
-                ]
+                    'autofocus' => true,
+                ],
             ])
             ->add('img', ChoiceType::class, [
                 'choices' => SportIconProfile::getChoices(),
                 'choice_translation_domain' => false,
-                'label' => 'Icon'
+                'label' => 'Icon',
             ])
             ->add('power', CheckboxType::class, [
                 'required' => false,
@@ -105,46 +113,46 @@ class SportType extends AbstractType
             ])
             ->add('distances', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Has a distance'
+                'label' => 'Has a distance',
             ])
             ->add('defaultPrivacy', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Default privacy',
-                'choices' => array(
+                'choices' => [
                     'private' => true,
-                    'public' => false
-                ),
+                    'public' => false,
+                ],
             ])
             ->add('kcal', EnergyKcalType::class, [
                 'attr' => [
                     'min' => 1,
-                    'max' => 10000
+                    'max' => 10000,
                 ],
                 'required' => false,
-                'label' => 'kcal/h'
+                'label' => 'kcal/h',
             ])
             ->add('HFavg', HeartRateType::class, [
                 'attr' => [
                     'min' => 40,
-                    'max' => 255
+                    'max' => 255,
                 ],
                 'required' => false,
-                'label' => 'avg. HR'
+                'label' => 'avg. HR',
             ])
             ->add('speed', ChoiceType::class, [
                 'choices' => PaceEnum::getChoices(),
                 'choice_translation_domain' => false,
-                'label' => 'Speed unit'
+                'label' => 'Speed unit',
             ])
             ->add('short', ChoiceType::class, [
                 'choices' => DataBrowserRowProfile::getChoicesWithoutParent(),
                 'choice_translation_domain' => false,
-                'label' => 'Calendar view'
+                'label' => 'Calendar view',
             ])
             ->add('isMain', ChoiceType::class, [
                 'choices' => SportRelevanceProfile::getChoices(),
                 'choice_translation_domain' => false,
-                'label' => 'Sport relevance'
+                'label' => 'Sport relevance',
             ])
             ->add('hrZoneBounds', CollectionType::class, [
                 'required' => true,
@@ -153,20 +161,20 @@ class SportType extends AbstractType
                 'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ]);
 
-        if (null !== $sport->getId()) {
+        if ($sport->getId() !== null) {
             $builder->add('internalSportId', ChoiceType::class, [
                 'required' => false,
                 'choices' => $this->getFilteredChoicesForInternalSportId($usedInternalSportIds, $sport),
                 'choice_translation_domain' => false,
                 'placeholder' => 'None (custom sport)',
                 'preferred_choices' => function ($val, $key): bool {
-                    return '' == $key;
+                    return $key == '';
                 },
                 'label' => 'Internal sport',
-                'disabled' => $isRunning
+                'disabled' => $isRunning,
             ]);
         }
 
@@ -189,7 +197,7 @@ class SportType extends AbstractType
                 'choice_label' => 'name',
                 'choice_translation_domain' => false,
                 'placeholder' => 'None',
-                'label' => 'Default activity type'
+                'label' => 'Default activity type',
             ]);
         }
     }
@@ -214,7 +222,7 @@ class SportType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Sport::class
+            'data_class' => \Runalyze\Bundle\CoreBundle\Entity\Sport::class,
         ]);
     }
 }

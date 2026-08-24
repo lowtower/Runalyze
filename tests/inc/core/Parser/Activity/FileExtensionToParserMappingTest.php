@@ -8,7 +8,9 @@ use Runalyze\Parser\Activity\FileType\Tcx;
 
 class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileExtensionToParserMapping */
+    /**
+     * @var FileExtensionToParserMapping
+     */
     protected $Mapping;
 
     protected function setUp(): void

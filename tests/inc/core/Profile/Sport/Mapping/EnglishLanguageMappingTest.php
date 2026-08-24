@@ -7,7 +7,9 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var EnglishLanguageMapping */
+    /**
+     * @var EnglishLanguageMapping
+     */
     protected $Mapping;
 
     protected function setUp(): void

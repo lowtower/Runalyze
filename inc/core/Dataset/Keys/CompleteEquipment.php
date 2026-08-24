@@ -57,7 +57,7 @@ class CompleteEquipment extends AbstractEquipment
 		if ($context->hasData(parent::CONCAT_EQUIPMENT_KEY) && $context->data(parent::CONCAT_EQUIPMENT_KEY) != '') {
 			$ids = explode(',', $context->data(parent::CONCAT_EQUIPMENT_KEY));
 			$Factory = new \Runalyze\Model\Factory(\SessionAccountHandler::getId());
-			$names = array();
+			$names = [];
 
 			foreach (array_unique($ids) as $id) {
 				$names[] = $Factory->equipment($id)->name();

@@ -6,7 +6,9 @@ use Doctrine\ORM\EntityRepository;
 
 class RaceresultRepository extends EntityRepository
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const NUMBER_OF_RACES_TO_CONSIDER_FOR_CORRECTION_FACTOR = 3;
 
     /**
@@ -16,7 +18,7 @@ class RaceresultRepository extends EntityRepository
     public function findByActivity($activityId)
     {
         return $this->findOneBy([
-            'activity' => $activityId
+            'activity' => $activityId,
         ]);
     }
 
@@ -29,12 +31,11 @@ class RaceresultRepository extends EntityRepository
     {
         return $this->findOneBy([
             'activity' => $activityId,
-            'account' => $accountId
+            'account' => $accountId,
         ]);
     }
 
     /**
-     * @param Sport $sport
      * @param int $year
      * @return array
      */
@@ -54,7 +55,7 @@ class RaceresultRepository extends EntityRepository
                 ':account' => $account->getId(),
                 ':sport' => $sport->getId(),
                 ':startTime' => mktime(0, 0, 0, 1, 1, $year),
-                ':endTime' => mktime(23, 59, 59, 12, 31, $year)
+                ':endTime' => mktime(23, 59, 59, 12, 31, $year),
             ])
             ->getQuery()
             ->getArrayResult();
@@ -71,7 +72,7 @@ class RaceresultRepository extends EntityRepository
             ->join('r.activity', 'a')
             ->where('r.account = :account')
             ->setParameters([
-                ':account' => $account
+                ':account' => $account,
             ])
             ->getQuery()
             ->getResult();
@@ -86,7 +87,7 @@ class RaceresultRepository extends EntityRepository
         $result = $this->createQueryBuilder('r')
             ->join('r.activity', 't')
             ->select([
-                't.vo2maxByTime * 1.0 / t.vo2max as factor'
+                't.vo2maxByTime * 1.0 / t.vo2max as factor',
             ])
             ->where('r.account = :account')
             ->andWhere('t.sport = :sport')

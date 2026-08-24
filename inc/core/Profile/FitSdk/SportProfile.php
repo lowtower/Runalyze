@@ -110,7 +110,7 @@ class SportProfile extends AbstractEnum
     const HIIT = 62;
 
     // #TSC new to use sub-sport: identified by sport*1000 and the subsport
-    const CLIMBING_INDOOR= 31068;
+    const CLIMBING_INDOOR = 31068;
 
      // sub of ROCK_CLIMBING=31
     const BOULDERING = 31069;

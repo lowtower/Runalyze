@@ -30,13 +30,19 @@ use Runalyze\Mathematics\Distribution\TimeSeries;
  */
 class DataCollector
 {
-    /** @var array [bpm] */
+    /**
+     * @var array [bpm]
+     */
     protected $HeartRate;
 
-    /** @var array [s] ascending */
+    /**
+     * @var array [s] ascending
+     */
     protected $Duration;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Histogram;
 
     /**
@@ -49,7 +55,7 @@ class DataCollector
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $heartRate, array $duration = array())
+    public function __construct(array $heartRate, array $duration = [])
     {
         $this->HeartRate = $heartRate;
         $this->Duration = $duration;

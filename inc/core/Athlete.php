@@ -8,22 +8,34 @@ use Runalyze\Profile\Athlete\Gender;
 
 class Athlete
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Gender;
 
-    /** @var null|int [bpm] */
+    /**
+     * @var null|int [bpm]
+     */
     protected $maximalHR;
 
-    /** @var null|int [bpm] */
+    /**
+     * @var null|int [bpm]
+     */
     protected $restingHR;
 
-    /** @var null|float [kg] */
+    /**
+     * @var null|float [kg]
+     */
     protected $weight;
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     protected $birthyear;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $vo2max = 0.0;
 
     /**
@@ -52,8 +64,6 @@ class Athlete
     }
 
     /**
-     * Gender
-     *
      * @see \Runalyze\Profile\Athlete\Gender
      * @return null|int
      */
@@ -91,7 +101,7 @@ class Athlete
      */
     public function age()
     {
-        return (null !== $this->birthyear) ? date('Y') - $this->birthyear : null;
+        return ($this->birthyear !== null) ? date('Y') - $this->birthyear : null;
     }
 
     /**
@@ -112,46 +122,46 @@ class Athlete
 
     public function knowsGender(): bool
     {
-        return ($this->Gender !== Gender::NONE && null !== $this->Gender);
+        return ($this->Gender !== Gender::NONE && $this->Gender !== null);
     }
 
     public function isMale(): bool
     {
-        return Gender::MALE == $this->Gender;
+        return $this->Gender == Gender::MALE;
     }
 
     public function isFemale(): bool
     {
-        return Gender::FEMALE == $this->Gender;
+        return $this->Gender == Gender::FEMALE;
     }
 
     public function knowsMaximalHeartRate(): bool
     {
-        return (null !== $this->maximalHR);
+        return ($this->maximalHR !== null);
     }
 
     public function knowsRestingHeartRate(): bool
     {
-        return (null !== $this->restingHR);
+        return ($this->restingHR !== null);
     }
 
     public function knowsWeight(): bool
     {
-        return (null !== $this->weight);
+        return ($this->weight !== null);
     }
 
     public function knowsBirthyear(): bool
     {
-        return (null !== $this->birthyear);
+        return ($this->birthyear !== null);
     }
 
     public function knowsAge(): bool
     {
-        return (null !== $this->birthyear);
+        return ($this->birthyear !== null);
     }
 
     public function knowsEffectiveVO2max(): bool
     {
-        return (0.0 !== $this->vo2max);
+        return ($this->vo2max !== 0.0);
     }
 }

@@ -24,10 +24,14 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  */
 class TrainingRepositoryTest extends AbstractRepositoryTestCase
 {
-    /** @var TrainingRepository */
+    /**
+     * @var TrainingRepository
+     */
     protected $TrainingRepository;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     protected $Account;
 
     protected function setUp(): void
@@ -192,7 +196,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'num' => '1',
             'total_distance' => '17.5',
             'min_distance' => '17.5',
-            'max_distance' => '17.5'
+            'max_distance' => '17.5',
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)
             ->getScalarResult()[0]);
 
@@ -200,7 +204,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'num' => '2',
             'total_distance' => '22.5',
             'min_distance' => '10',
-            'max_distance' => '12.5'
+            'max_distance' => '12.5',
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)
             ->getScalarResult()[0]);
 
@@ -208,7 +212,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'num' => '0',
             'total_distance' => null,
             'min_distance' => null,
-            'max_distance' => null
+            'max_distance' => null,
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2015)
             ->getScalarResult()[0]);
 
@@ -216,7 +220,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             'num' => '1',
             'total_distance' => '33.3',
             'min_distance' => '33.3',
-            'max_distance' => '33.3'
+            'max_distance' => '33.3',
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsCyclingSport(), 2016)
             ->getScalarResult()[0]);
     }
@@ -626,7 +630,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $someEquipment = $this->EntityManager->getRepository('CoreBundle:Equipment')
             ->findBy(
                 [
-                    'account' => $this->getDefaultAccount()
+                    'account' => $this->getDefaultAccount(),
                 ],
                 null,
                 3

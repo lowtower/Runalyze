@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginFactory {
+class PluginFactory
+{
 	/**
 	 * @var string
 	 */
@@ -26,7 +27,7 @@ class PluginFactory {
 	 * @return array
 	 */
 	private static function Plugins() {
-		if (null === self::$Plugins) {
+		if (self::$Plugins === null) {
 			self::$Plugins = self::fetchAllPlugins();
 		}
 
@@ -47,9 +48,6 @@ class PluginFactory {
 		return $data;
 	}
 
-	/**
-	 * Clear cache
-	 */
 	public static function clearCache() {
 		self::$Plugins = null;
 		Cache::delete(self::CACHE_KEY);
@@ -62,8 +60,8 @@ class PluginFactory {
      */
     private static function fetchAllPluginsFrom(PDO $PDO, $accountID) {
 		return $PDO->query(
-		    'SELECT * FROM `'.PREFIX.'plugin` '.
-			'WHERE `accountid`='.$accountID.' '.
+		    'SELECT * FROM `' . PREFIX . 'plugin` ' .
+			'WHERE `accountid`=' . $accountID . ' ' .
 			'ORDER BY `order` ASC'
 		)->fetchAll();
 	}
@@ -79,11 +77,11 @@ class PluginFactory {
 			}
 		}
 
-		return array();
+		return [];
 	}
 
 	public static function allIDs(): array {
-		$IDs = array();
+		$IDs = [];
 
 		foreach (self::Plugins() as $data) {
 			$IDs[] = $data['id'];
@@ -125,7 +123,7 @@ class PluginFactory {
 			}
 		}
 
-		throw new InvalidArgumentException('Plugin with key "'.$pluginkey.'" is not installed.');
+		throw new InvalidArgumentException('Plugin with key "' . $pluginkey . '" is not installed.');
 	}
 
 	/**
@@ -194,7 +192,7 @@ class PluginFactory {
 	 * @return array array with plugin keys
 	 */
 	public function enabledPanels(): array {
-		$keys = array();
+		$keys = [];
 
 		foreach (self::Plugins() as $plugin) {
 			if ($plugin['type'] == PluginType::string(PluginType::PANEL) && $plugin['active'] != Plugin::ACTIVE_NOT) {
@@ -206,13 +204,12 @@ class PluginFactory {
 	}
 
 	/**
-	 * Get plugins
 	 * @param mixed $type [optional] false or enum
 	 * @param mixed $active [optional] false or enum
 	 * @return array array with plugin keys
 	 */
 	protected function getPlugins($type = false, $active = false): array {
-		$keys = array();
+		$keys = [];
 
 		foreach (self::Plugins() as $plugin) {
 			if (($type === false || $plugin['type'] == PluginType::string($type)) && ($active === false || $plugin['active'] == $active)) {
@@ -227,14 +224,14 @@ class PluginFactory {
      * Get uninstalled plugins
      */
     public function notInstalledPlugins(): array {
-		$plugins = array();
-		$dir = opendir(FRONTEND_PATH.'../plugin/');
+		$plugins = [];
+		$dir = opendir(FRONTEND_PATH . '../plugin/');
 
 		while ($file = readdir($dir)) {
-			if ($file[0] != '.' && is_dir(FRONTEND_PATH.'../plugin/'.$file) && ! $this->isInstalled($file)) {
-				$plugins[] = array(
-				    'key' => $file
-				);
+			if ($file[0] != '.' && is_dir(FRONTEND_PATH . '../plugin/' . $file) && ! $this->isInstalled($file)) {
+				$plugins[] = [
+				    'key' => $file,
+				];
 			}
 		}
 
@@ -267,6 +264,6 @@ class PluginFactory {
 			}
 		}
 
-		throw new InvalidArgumentException('No plugin found for id "'.$id.'".');
+		throw new InvalidArgumentException('No plugin found for id "' . $id . '".');
 	}
 }

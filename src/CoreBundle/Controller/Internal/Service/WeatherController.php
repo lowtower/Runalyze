@@ -45,18 +45,18 @@ class WeatherController extends Controller
                 'lat' => $location->hasPosition() ? $location->getLatitude() : '',
                 'lng' => $location->hasPosition() ? $location->getLongitude() : '',
                 'date' => $location->hasDateTime() ? $location->getDateTime()
-                    ->format('c') : ''
+                    ->format('c') : '',
             ],
             'source' => [
                 'id' => $weather->Source,
-                'name' => null !== $source ? $source->getAttribution($this->get('translator.default')) : ''
+                'name' => $source !== null ? $source->getAttribution($this->get('translator.default')) : '',
             ],
             'weatherid' => $weather->InternalConditionId,
             'temperature' => $weather->Temperature,
             'wind_speed' => $weather->WindSpeed,
             'wind_deg' => $weather->WindDirection,
             'humidity' => $weather->Humidity,
-            'pressure' => $weather->AirPressure
+            'pressure' => $weather->AirPressure,
         ]);
     }
 
@@ -69,7 +69,7 @@ class WeatherController extends Controller
         } elseif ($request->query->has('latlng')) {
             $latLng = explode(',', $request->query->get('latlng'));
 
-            if (2 === count($latLng)) {
+            if (count($latLng) === 2) {
                 $location->setPosition($latLng[0], $latLng[1]);
             }
         }
@@ -81,7 +81,7 @@ class WeatherController extends Controller
         }
 
         if ($request->query->has('time')) {
-            $location->setDateTime(new \DateTime('@'.$request->query->get('time')));
+            $location->setDateTime(new \DateTime('@' . $request->query->get('time')));
         } elseif ($request->query->has('date')) {
             $location->setDateTime(new \DateTime($request->query->get('date')));
         }

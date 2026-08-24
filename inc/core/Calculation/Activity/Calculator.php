@@ -11,13 +11,19 @@ use Runalyze\Model;
 
 class Calculator
 {
-    /** @var Model\Activity\Entity */
+    /**
+     * @var Model\Activity\Entity
+     */
     protected $Activity;
 
-    /** @var Model\Trackdata\Entity */
+    /**
+     * @var Model\Trackdata\Entity
+     */
     protected $Trackdata;
 
-    /** @var Model\Route\Entity */
+    /**
+     * @var Model\Route\Entity
+     */
     protected $Route;
 
     public function __construct(
@@ -33,12 +39,12 @@ class Calculator
 
     protected function knowsTrackdata(): bool
     {
-        return (null !== $this->Trackdata);
+        return ($this->Trackdata !== null);
     }
 
     protected function knowsRoute(): bool
     {
-        return (null !== $this->Route);
+        return ($this->Route !== null);
     }
 
     /**
@@ -58,7 +64,7 @@ class Calculator
      */
     public function estimateVO2maxByHeartRate($distance = null): string
     {
-        if (null === $distance) {
+        if ($distance === null) {
             $distance = $this->Activity->distance();
         }
 
@@ -110,22 +116,22 @@ class Calculator
             $Collector = new Trimp\DataCollector($this->Trackdata->heartRate(), $this->Trackdata->time());
             $data = $Collector->result();
         } elseif ($this->Activity->hrAvg() > 0) {
-            $data = array(
-                $this->Activity->hrAvg() => $this->Activity->duration()
-            );
+            $data = [
+                $this->Activity->hrAvg() => $this->Activity->duration(),
+            ];
         } else {
             $Factory = Context::Factory();
 
             if ($this->Activity->typeid() > 0) {
-                $data = array(
+                $data = [
                     $Factory->type($this->Activity->typeid())
-                        ->hrAvg() => $this->Activity->duration()
-                );
+                        ->hrAvg() => $this->Activity->duration(),
+                ];
             } else {
-                $data = array(
+                $data = [
                     $Factory->sport($this->Activity->sportid())
-                        ->avgHR() => $this->Activity->duration()
-                );
+                        ->avgHR() => $this->Activity->duration(),
+                ];
             }
         }
 

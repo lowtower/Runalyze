@@ -12,10 +12,14 @@ namespace Runalyze\Sports\Running\Prognosis;
  */
 class Cameron implements PrognosisInterface
 {
-    /** @var float [km] */
+    /**
+     * @var float [km]
+     */
     protected $ReferenceDistance = 0.0;
 
-	/** @var float [s] */
+	/**
+	 * @var float [s]
+	 */
 	protected $ReferenceTime = 0.0;
 
 	/**
@@ -29,7 +33,7 @@ class Cameron implements PrognosisInterface
 
     public function areValuesValid(): bool
     {
-        return 0.0 < $this->ReferenceDistance && 0.0 < $this->ReferenceTime;
+        return $this->ReferenceDistance > 0.0 && $this->ReferenceTime > 0.0;
     }
 
     /**

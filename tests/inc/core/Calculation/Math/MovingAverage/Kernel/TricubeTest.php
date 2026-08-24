@@ -14,12 +14,12 @@ class TricubeTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.669921875,
             1.0,
-            0.193225860595703125
+            0.193225860595703125,
         ], $Kernel->valuesAt([
             -1.0,
             -0.5,
             0.0,
-            0.75
+            0.75,
         ]));
     }
 
@@ -31,12 +31,12 @@ class TricubeTest extends \PHPUnit\Framework\TestCase
             0.0,
             0.669921875,
             1.0,
-            0.481890304
+            0.481890304,
         ], $Kernel->valuesAt([
             -5.0,
             -2.5,
             0.0,
-            3.0
+            3.0,
         ]), 0.0001);
     }
 }

@@ -27,7 +27,7 @@ class WithKernelTest extends \PHPUnit\Framework\TestCase
             34,
             38,
             44,
-            48
+            48,
         ], $Object->movingAverage(), 0.0001);
     }
 
@@ -48,7 +48,7 @@ class WithKernelTest extends \PHPUnit\Framework\TestCase
             26.66666666666666,
             50.0,
             41.66666666666666,
-            41.66666666666666
+            41.66666666666666,
         ], $Object->movingAverage(), 0.0001);
     }
 }

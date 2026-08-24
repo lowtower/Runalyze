@@ -10,10 +10,14 @@ use Runalyze\Parser\Activity\Common\Filter\NegativeDistanceStepFilter;
 
 class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var NegativeDistanceStepFilter */
+    /**
+     * @var NegativeDistanceStepFilter
+     */
     protected $Filter;
 
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $Container;
 
     protected function setUp(): void

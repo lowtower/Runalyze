@@ -7,13 +7,14 @@ use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * route lock
  */
 class Version20161209173160 extends AbstractMigration implements ContainerAwareInterface
 {
-    /** @var ContainerInterface|null */
+    /**
+     * @var ContainerInterface|null
+     */
     private $container;
 
     public function setContainer(?ContainerInterface $container = null)
@@ -24,9 +25,9 @@ class Version20161209173160 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'route`
+        $this->addSql('ALTER TABLE `' . $prefix . 'route`
                   ADD `lock` tinyint(1) unsigned NOT NULL DEFAULT 0');
-        $this->addSql('UPDATE `'.$prefix.'route`
+        $this->addSql('UPDATE `' . $prefix . 'route`
                   SET `lock` = 1 WHERE geohashes != \'\'');
 
     }
@@ -34,6 +35,6 @@ class Version20161209173160 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema): void
     {
         $prefix = $this->container->getParameter('database_prefix');
-        $this->addSql('ALTER TABLE `'.$prefix.'route` DROP `lock`');
+        $this->addSql('ALTER TABLE `' . $prefix . 'route` DROP `lock`');
     }
 }

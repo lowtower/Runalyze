@@ -6,7 +6,9 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class ActivityDataContainerMerger
 {
-    /** @var ActivityDataContainer */
+    /**
+     * @var ActivityDataContainer
+     */
     protected $ResultingContainer;
 
     public function __construct(ActivityDataContainer $firstContainer, ActivityDataContainer $secondContainer)

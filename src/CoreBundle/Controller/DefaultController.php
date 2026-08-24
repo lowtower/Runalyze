@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DefaultController
  * @package Runalyze\Bundle\CoreBundle\Controller
  */
 class DefaultController extends AbstractPluginsAwareController
@@ -104,7 +103,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         return $this->render('register/form.html.twig', [
             'form' => $form->createView(),
-            'num' => $this->collectStatistics()
+            'num' => $this->collectStatistics(),
         ]);
     }
 
@@ -126,7 +125,7 @@ class DefaultController extends AbstractPluginsAwareController
 
         return $this->render('login/form.html.twig', [
             'error' => $error,
-            'num' => $this->collectStatistics()
+            'num' => $this->collectStatistics(),
         ]);
     }
 
@@ -152,15 +151,15 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $repository = $this->getDoctrine()
             ->getRepository('CoreBundle:Account');
-        $numUser =  $repository->getAmountOfActivatedUsers();
+        $numUser = $repository->getAmountOfActivatedUsers();
 
         $repository = $this->getDoctrine()
             ->getRepository('CoreBundle:Training');
-        $numDistance =  $repository->getAmountOfLoggedKilometers();
+        $numDistance = $repository->getAmountOfLoggedKilometers();
 
         return [
             'user' => (int) $numUser,
-            'distance' => Distance::format($numDistance)
+            'distance' => Distance::format($numDistance),
         ];
     }
 
@@ -169,7 +168,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function pluginAction($plugin, $file): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->includeOldScript('../plugin/'.$plugin.'/'.$file);
+        return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
     }
 
     /**
@@ -183,7 +182,7 @@ class DefaultController extends AbstractPluginsAwareController
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
 
-            include $this->getParameter('kernel.root_dir').'/../dashboard.php';
+            include $this->getParameter('kernel.root_dir') . '/../dashboard.php';
 
             return new Response();
         }
@@ -206,15 +205,15 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $repo = $this->getDoctrine()
             ->getRepository('CoreBundle:Account');
-        $account = $repo->findOneBy(array(
-            'mail' => $mail
-        ));
+        $account = $repo->findOneBy([
+            'mail' => $mail,
+        ]);
 
-        if (null !== $account && $hash == md5($account->getUsername())) {
-            return $this->render('account/unsubscribe_info.html.twig', array(
+        if ($account !== null && $hash == md5($account->getUsername())) {
+            return $this->render('account/unsubscribe_info.html.twig', [
                 'mail' => $mail,
-                'hash' => $hash
-            ));
+                'hash' => $hash,
+            ]);
         }
 
         return $this->render('account/unsubscribe_failure.html.twig');
@@ -227,11 +226,11 @@ class DefaultController extends AbstractPluginsAwareController
     {
         $repo = $this->getDoctrine()
             ->getRepository('CoreBundle:Account');
-        $account = $repo->findOneBy(array(
-            'mail' => $mail
-        ));
+        $account = $repo->findOneBy([
+            'mail' => $mail,
+        ]);
 
-        if (null !== $account && $hash == md5($account->getUsername())) {
+        if ($account !== null && $hash == md5($account->getUsername())) {
             $account->setAllowMails(false);
             $repo->save($account);
 
@@ -258,13 +257,13 @@ class DefaultController extends AbstractPluginsAwareController
                 $this->get('app.mailer.account')
                     ->sendCustomFeedbackToSystem($account, $this->getParameter('feedback_mail'), $form->getData()['message']);
                 return $this->render('feedback.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
                 ]);
             }
 
-            return $this->render('feedback.html.twig', array(
-                'form' => $form->createView()
-            ));
+            return $this->render('feedback.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
         throw $this->createNotFoundException();

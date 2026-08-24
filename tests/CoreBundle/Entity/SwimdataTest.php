@@ -6,7 +6,9 @@ use Runalyze\Bundle\CoreBundle\Entity\Swimdata;
 
 class SwimdataTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Swimdata */
+    /**
+     * @var Swimdata
+     */
     protected $Data;
 
     protected function setUp(): void

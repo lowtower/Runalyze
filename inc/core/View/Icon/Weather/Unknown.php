@@ -13,7 +13,8 @@ namespace Runalyze\View\Icon\Weather;
  * @author Hannes Christiansen
  * @package Runalyze\View\Icon\„eather
  */
-class Unknown extends \Runalyze\View\Icon\WeatherIcon {
+class Unknown extends \Runalyze\View\Icon\WeatherIcon
+{
 	/**
 	 * Display
 	 */
@@ -21,9 +22,6 @@ class Unknown extends \Runalyze\View\Icon\WeatherIcon {
 
 	}
 
-    /**
-     * Code
-     */
     public function code(): string {
 		return '<i class="weather"></i>';
 	}

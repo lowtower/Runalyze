@@ -10,10 +10,14 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 
 class UserListener
 {
-    /** @var ConfigurationUpdater */
+    /**
+     * @var ConfigurationUpdater
+     */
     protected $ConfigurationUpdater;
 
-    /** @var UserRepository */
+    /**
+     * @var UserRepository
+     */
     protected $UserRepository;
 
     public function __construct(ConfigurationUpdater $updater, UserRepository $repository)

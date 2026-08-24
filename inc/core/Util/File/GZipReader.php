@@ -13,7 +13,8 @@ namespace Runalyze\Util\File;
  * @author Hannes Christiansen
  * @package Runalyze\Util\File
  */
-class GZipReader {
+class GZipReader
+{
 	/**
 	 * Resource for file
 	 * @var resource
@@ -21,7 +22,6 @@ class GZipReader {
 	protected $Resource;
 
 	/**
-	 * Constructor
 	 * @param string $fileName
 	 * @throws \RuntimeException
 	 */
@@ -31,7 +31,7 @@ class GZipReader {
 		}
 
 		if (! $this->Resource) {
-			throw new \RuntimeException('The file "'.$fileName.'" couldn\'t be opened for reading.');
+			throw new \RuntimeException('The file "' . $fileName . '" couldn\'t be opened for reading.');
 		}
 	}
 
@@ -62,12 +62,9 @@ class GZipReader {
      * Is file open?
      */
     protected function isOpen(): bool {
-		return null !== $this->Resource;
+		return $this->Resource !== null;
 	}
 
-	/**
-	 * Close
-	 */
 	public function close() {;
 		gzclose($this->Resource);
 

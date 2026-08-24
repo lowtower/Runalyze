@@ -12,16 +12,24 @@ use Symfony\Component\Form\FormInterface;
 
 abstract class AbstractUnitBasedType extends AbstractType implements DataTransformerInterface
 {
-    /** @var UnitInterface */
+    /**
+     * @var UnitInterface
+     */
     protected $Unit;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $ViewPrecision = 1;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $MaxViewPrecision;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $ModelPrecision;
 
     public function __construct(UnitInterface $unit)
@@ -45,11 +53,11 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
      */
     public function transform($value)
     {
-        if (null === $value) {
+        if ($value === null) {
             return '';
         }
 
-        $precision = null === $this->MaxViewPrecision ? $this->ViewPrecision : $this->getPrecisionFor($value);
+        $precision = $this->MaxViewPrecision === null ? $this->ViewPrecision : $this->getPrecisionFor($value);
 
         return number_format($this->Unit->fromBaseUnit((float) $value), $precision, '.', '');
     }
@@ -75,13 +83,13 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
      */
     public function reverseTransform($value)
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
         }
 
         $value = $this->Unit->toBaseUnit((float) str_replace(',', '.', $value));
 
-        return null === $this->ModelPrecision ? $value : round($value, $this->ModelPrecision);
+        return $this->ModelPrecision === null ? $value : round($value, $this->ModelPrecision);
     }
 
     public function getParent()
@@ -95,6 +103,6 @@ abstract class AbstractUnitBasedType extends AbstractType implements DataTransfo
 
     public function getViewPrecisionFor($value)
     {
-        return null === $this->MaxViewPrecision ? $this->ViewPrecision : $this->getPrecisionFor($value);
+        return $this->MaxViewPrecision === null ? $this->ViewPrecision : $this->getPrecisionFor($value);
     }
 }

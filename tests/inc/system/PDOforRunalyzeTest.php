@@ -6,7 +6,9 @@
  */
 class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var PDOforRunalyze */
+	/**
+	 * @var PDOforRunalyze
+	 */
 	protected $object;
 
 	protected function setUp(): void
@@ -81,18 +83,18 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdate()
 	{
-		$this->object->insert('training', array('id', 's', 'distance', 'sportid', 'time'), array(1, 600, 1, 0, 1477843525));
-		$this->object->insert('training', array('id', 's', 'distance', 'sportid', 'time'), array(2, 900, 1, 0, 1477843525));
-		$this->object->insert('training', array('id', 's', 'distance', 'sportid', 'time'), array(3, 300, 1, 0, 1477843525));
+		$this->object->insert('training', ['id', 's', 'distance', 'sportid', 'time'], [1, 600, 1, 0, 1477843525]);
+		$this->object->insert('training', ['id', 's', 'distance', 'sportid', 'time'], [2, 900, 1, 0, 1477843525]);
+		$this->object->insert('training', ['id', 's', 'distance', 'sportid', 'time'], [3, 300, 1, 0, 1477843525]);
 
 		$this->object->update('training', 1, 'distance', 2);
-		$this->assertEquals( array(600, 2), $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch(PDO::FETCH_NUM) );
+		$this->assertEquals( [600, 2], $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=1 LIMIT 1')->fetch(PDO::FETCH_NUM) );
 
 		$this->object->update('training', 2, 'distance', 3);
-		$this->assertEquals( array(900, 3), $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')->fetch(PDO::FETCH_NUM) );
+		$this->assertEquals( [900, 3], $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=2 LIMIT 1')->fetch(PDO::FETCH_NUM) );
 
-		$this->object->update('training', 3, array('s', 'distance'), array(150, 0.5));
-		$this->assertEquals( array(150, 0.5), $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=3 LIMIT 1')->fetch(PDO::FETCH_NUM) );
+		$this->object->update('training', 3, ['s', 'distance'], [150, 0.5]);
+		$this->assertEquals( [150, 0.5], $this->object->query('SELECT `s`, `distance` FROM `runalyze_training` WHERE `id`=3 LIMIT 1')->fetch(PDO::FETCH_NUM) );
 
 		$this->object->updateWhere('training', '`distance` > 1', 'title', 'Super weit.');
 		$this->assertEquals( '1,2', $this->object->query('SELECT GROUP_CONCAT(`id`) FROM `runalyze_training` WHERE `title`="Super weit." GROUP BY `accountid`')->fetchColumn() );
@@ -156,6 +158,6 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $this->object->escape(true) );
 		$this->assertEquals( 0, $this->object->escape(false) );
 
-		$this->assertEquals( array(0.123, '\'5\\" OR 1=1\''), $this->object->escape(array(0.123, '5" OR 1=1')));
+		$this->assertEquals( [0.123, '\'5\\" OR 1=1\''], $this->object->escape([0.123, '5" OR 1=1']));
 	}
 }

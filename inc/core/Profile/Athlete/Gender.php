@@ -9,13 +9,19 @@ use Runalyze\Util\InterfaceChoosable;
 
 class Gender extends AbstractEnum implements InterfaceChoosable
 {
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const NONE = 0;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const MALE = 1;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const FEMALE = 2;
 
     /**
@@ -31,15 +37,15 @@ class Gender extends AbstractEnum implements InterfaceChoosable
 			case self::FEMALE:
 				return __('female');
 			default:
-				throw new \InvalidArgumentException('Invalid gender id "'.$id.'".');
+				throw new \InvalidArgumentException('Invalid gender id "' . $id . '".');
 		}
 	}
 
     static public function getChoices(): array {
-        return array(
+        return [
             self::stringFor(self::NONE) => self::NONE,
             self::stringFor(self::MALE) => self::MALE,
-            self::stringFor(self::FEMALE) => self::FEMALE
-        );
+            self::stringFor(self::FEMALE) => self::FEMALE,
+        ];
     }
 }

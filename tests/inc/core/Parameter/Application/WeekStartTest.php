@@ -4,13 +4,19 @@ namespace Runalyze\Parameter\Application;
 
 class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
-	/** @var \Runalyze\Parameter\Application\WeekStart */
+	/**
+	 * @var \Runalyze\Parameter\Application\WeekStart
+	 */
 	protected $Object;
 
-    /** @var \PDO */
+    /**
+     * @var \PDO
+     */
     protected $PDO;
 
-    /** @var array ['date string' => [#week for Monday as start, #week for Sunday as start]] */
+    /**
+     * @var array ['date string' => [#week for Monday as start, #week for Sunday as start]]
+     */
     protected $TestDates = [
         '3 January 2015' => [1, 1],
         '4 January 2015' => [1, 2],
@@ -18,7 +24,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         '1 November 2015' => [44, 45],
         '2 November 2015' => [45, 45],
         '8 November 2015' => [45, 46],
-        '3 January 2016' => [53, 1]
+        '3 January 2016' => [53, 1],
     ];
 
 	protected function setUp(): void
@@ -74,15 +80,14 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(
                 $week[$expectedWeekIndex],
                 $this->Object->phpWeek(strtotime($dateString)),
-                'PHP Week number check failed for "'.$dateString.'".'
+                'PHP Week number check failed for "' . $dateString . '".'
             );
 
             $this->assertEquals(
                 $week[$expectedWeekIndex],
-                $this->PDO->query('SELECT '.$this->Object->mysqlWeek('"'.date('Y-m-d', strtotime($dateString)).'"'))->fetchColumn(),
-                'SQL Week number check failed for "'.$dateString.'".'
+                $this->PDO->query('SELECT ' . $this->Object->mysqlWeek('"' . date('Y-m-d', strtotime($dateString)) . '"'))->fetchColumn(),
+                'SQL Week number check failed for "' . $dateString . '".'
             );
         }
     }
-
 }

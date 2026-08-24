@@ -17,7 +17,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\Calculation\StrideLength
  */
-class Calculator {
+class Calculator
+{
 	/**
 	 * @var \Runalyze\Model\Trackdata\Entity
 	 */
@@ -26,7 +27,7 @@ class Calculator {
 	/**
 	 * @var array
 	 */
-	protected $Strides = array();
+	protected $Strides = [];
 
     /**
      * Calculator for stride length
@@ -58,8 +59,8 @@ class Calculator {
 			: 0;
 
 		for ($i = 1; $i < $Size; ++$i) {
-			$this->Strides[] = ($Cadence[$i] > 0 && $Time[$i] - $Time[$i-1] > 0)
-				? round( ($Distance[$i] - $Distance[$i-1]) * 1000 * 100 / ($Cadence[$i] * 2 / 60 * ($Time[$i] - $Time[$i-1])) )
+			$this->Strides[] = ($Cadence[$i] > 0 && $Time[$i] - $Time[$i - 1] > 0)
+				? round( ($Distance[$i] - $Distance[$i - 1]) * 1000 * 100 / ($Cadence[$i] * 2 / 60 * ($Time[$i] - $Time[$i - 1])) )
 				: 0;
 		}
 

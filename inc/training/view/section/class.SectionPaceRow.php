@@ -13,7 +13,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
+class SectionPaceRow extends TrainingViewSectionRowTabbedPlot
+{
 	/**
 	 * Set plot
 	 */
@@ -36,9 +37,6 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->addAveragePace();
 		$this->addCalculations();
@@ -83,14 +81,11 @@ class SectionPaceRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add info link
-	 */
 	protected function addInfoLink() {
 		if ($this->Context->dataview()->vo2max()->value() > 0) {
 			if (! Request::isOnSharedPage()) {
 				$Linker = new Activity\Linker($this->Context->activity());
-				$InfoLink = Ajax::window('<a href="'.$Linker->urlToVO2maxinfo().'">'.__('More about VO<sub>2</sub>max estimation').'</a>', 'small');
+				$InfoLink = Ajax::window('<a href="' . $Linker->urlToVO2maxinfo() . '">' . __('More about VO<sub>2</sub>max estimation') . '</a>', 'small');
 
 				$this->Footer = HTML::info( $InfoLink );
 			}

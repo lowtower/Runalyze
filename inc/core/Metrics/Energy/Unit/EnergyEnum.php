@@ -11,9 +11,13 @@ class EnergyEnum extends AbstractEnum
 {
     use AbstractEnumFactoryTrait;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const KILOCALORIES = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const KILOJOULES = 1;
 }

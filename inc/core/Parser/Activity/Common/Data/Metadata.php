@@ -6,48 +6,76 @@ use Runalyze\Util\LocalTime;
 
 class Metadata
 {
-    /** @var int|null timestamp in local time, i.e. assuming the activity was in utc */
+    /**
+     * @var int|null timestamp in local time, i.e. assuming the activity was in utc
+     */
     protected $Timestamp;
 
-    /** @var int|null timezone offset in minutes */
+    /**
+     * @var int|null timezone offset in minutes
+     */
     protected $TimezoneOffset;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $SportName = '';
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     protected $InternalSportId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $TypeName = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Creator = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $CreatorDetails = '';
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $ActivityId;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Description = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Notes = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $RouteDescription = '';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $EquipmentNames = [];
 
     // TSC: save the uploaded-filename
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $UploadedFilename = '';
 
     // TSC: only internal for mapping to
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $WorkoutName;
 
     /**
@@ -116,7 +144,7 @@ class Metadata
     public function setTimestampAndTimezoneOffsetWithUtcFixFrom($string)
     {
         if (substr($string, -1) == 'Z') {
-            $localTimestamp = LocalTime::fromServerTime(strtotime(substr($string, 0, -1).' UTC'))->getTimestamp();
+            $localTimestamp = LocalTime::fromServerTime(strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
 
             $this->setTimestamp(
                 $localTimestamp,

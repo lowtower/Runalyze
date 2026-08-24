@@ -1,6 +1,5 @@
 <?php
 
-
 class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 {
 	protected function setHeaderAndRows()

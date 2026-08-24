@@ -10,23 +10,27 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class InstallCommand extends ContainerAwareCommand
 {
-    /** @var \Symfony\Bundle\FrameworkBundle\Console\Application */
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Console\Application
+     */
     protected $Application;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Commands = [
         [
             'command' => 'check',
-            'message' => 'Check requirements'
+            'message' => 'Check requirements',
         ],
         [
             'command' => 'database',
-            'message' => 'Setting up the database'
+            'message' => 'Setting up the database',
         ],
         [
             'command' => 'filesystem',
-            'message' => 'Setting up the file system'
-        ]
+            'message' => 'Setting up the file system',
+        ],
     ];
 
     protected function configure()
@@ -39,7 +43,7 @@ class InstallCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 'Steps to skip',
-                array('')
+                ['']
             );
         ;
     }
@@ -77,7 +81,7 @@ class InstallCommand extends ContainerAwareCommand
 
             if (! $command['skip']) {
                 $subInput = new ArrayInput([
-                    'command' => 'runalyze:install:'.$command['command']
+                    'command' => 'runalyze:install:' . $command['command'],
                 ]);
                 $exitCode = $this->Application->run($subInput, $output);
                 $output->writeln('');

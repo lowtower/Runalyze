@@ -80,7 +80,7 @@ class SwitchUserListener implements ListenerInterface
             return;
         }
 
-        if ('_exit' === $request->get($this->usernameParameter)) {
+        if ($request->get($this->usernameParameter) === '_exit') {
             $this->tokenStorage->setToken($this->attemptExitUser($request));
         } else {
             try {
@@ -113,7 +113,7 @@ class SwitchUserListener implements ListenerInterface
         $token = $this->tokenStorage->getToken();
         $originalToken = $this->getOriginalToken($token);
 
-        if (false !== $originalToken) {
+        if ($originalToken !== false) {
             if ($token->getUsername() === $request->get($this->usernameParameter)) {
                 return $token;
             }
@@ -121,16 +121,16 @@ class SwitchUserListener implements ListenerInterface
             throw new \LogicException(sprintf('You are already switched to "%s" user.', $token->getUsername()));
         }
 
-        if (false === $this->accessDecisionManager->decide($token, array($this->role))) {
+        if ($this->accessDecisionManager->decide($token, [$this->role]) === false) {
             throw new AccessDeniedException();
         }
 
         $username = $request->get($this->usernameParameter);
 
-        if (null !== $this->logger) {
-            $this->logger->info('Attempting to switch to user.', array(
-                'username' => $username
-            ));
+        if ($this->logger !== null) {
+            $this->logger->info('Attempting to switch to user.', [
+                'username' => $username,
+            ]);
         }
 
         $user = $this->provider->loadUserByUsername($username);
@@ -145,7 +145,7 @@ class SwitchUserListener implements ListenerInterface
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), $this->providerKey, $roles);
 
-        if (null !== $this->dispatcher) {
+        if ($this->dispatcher !== null) {
             $switchEvent = new SwitchUserEvent($request, $token->getUser());
             $this->dispatcher->dispatch(SecurityEvents::SWITCH_USER, $switchEvent);
         }
@@ -168,7 +168,7 @@ class SwitchUserListener implements ListenerInterface
             throw new AuthenticationCredentialsNotFoundException('Could not find original Token object.');
         }
 
-        if (null !== $this->dispatcher && $original->getUser() instanceof UserInterface) {
+        if ($this->dispatcher !== null && $original->getUser() instanceof UserInterface) {
             $user = $this->provider->refreshUser($original->getUser());
             $switchEvent = new SwitchUserEvent($request, $user);
             $this->dispatcher->dispatch(SecurityEvents::SWITCH_USER, $switchEvent);

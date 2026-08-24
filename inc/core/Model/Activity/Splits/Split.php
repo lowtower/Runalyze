@@ -19,7 +19,8 @@ use Runalyze\Parameter\Application\PaceUnit;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Activity\Splits
  */
-class Split extends StringObject {
+class Split extends StringObject
+{
 	/**
 	 * Separator
 	 * @var string
@@ -44,7 +45,9 @@ class Split extends StringObject {
 	 */
 	protected $Time = 0;
 
-    /** @var LapIntensity */
+    /**
+     * @var LapIntensity
+     */
     protected $Intensity;
 
 	/**
@@ -54,7 +57,7 @@ class Split extends StringObject {
 	 * @param bool $active [optional]
 	 */
 	public function __construct($dataOrDistance = '', $time = null, $active = true) {
-		if (null === $time) {
+		if ($time === null) {
 			parent::__construct($dataOrDistance);
 		} else {
 			$this->Distance = (float) $dataOrDistance;
@@ -68,12 +71,11 @@ class Split extends StringObject {
 	}
 
 	/**
-	 * From string
 	 * @param string $string
 	 */
 	public function fromString($string) {
 		$intensity = LapIntensity::fromValue(substr($string, 0, 1));
-		if (null !== $intensity) {
+		if ($intensity !== null) {
 			$this->Intensity = $intensity;
 			$string = substr($string, 1);
 		} else {
@@ -90,7 +92,7 @@ class Split extends StringObject {
      * As string
      */
     public function asString(): string {
-		$string  = $this->Intensity->getValue();
+		$string = $this->Intensity->getValue();
 		$string .= $this->distanceAsString();
 		$string .= self::SEPARATOR;
 
@@ -113,7 +115,6 @@ class Split extends StringObject {
 	}
 
 	/**
-	 * Set time
 	 * @param int $seconds
 	 */
 	public function setTime($seconds) {
@@ -129,7 +130,6 @@ class Split extends StringObject {
 	}
 
 	/**
-	 * Distance
 	 * @return float
 	 */
 	public function distance() {
@@ -137,7 +137,6 @@ class Split extends StringObject {
 	}
 
 	/**
-	 * Time
 	 * @return int
 	 */
 	public function time() {
@@ -145,7 +144,6 @@ class Split extends StringObject {
 	}
 
     /**
-     * Pace
      * @param int $legacyPaceUnitEnum [optional]
      */
     public function pace($legacyPaceUnitEnum = PaceUnit::MIN_PER_KM): \Runalyze\Activity\Pace {

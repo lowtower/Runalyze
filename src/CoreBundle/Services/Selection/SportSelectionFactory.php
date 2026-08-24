@@ -11,13 +11,19 @@ class SportSelectionFactory
 {
     use TokenStorageAwareServiceTrait;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const ALL = 'all';
 
-    /** @var SportRepository */
+    /**
+     * @var SportRepository
+     */
     protected $SportRepository;
 
-    /** @var ConfigurationManager */
+    /**
+     * @var ConfigurationManager
+     */
     protected $ConfigurationManager;
 
     public function __construct(
@@ -51,7 +57,7 @@ class SportSelectionFactory
             $sportList[(string) $sport->getId()] = $sport->getName();
         }
 
-        if (null === $param || ! isset($sportList[$param])) {
+        if ($param === null || ! isset($sportList[$param])) {
             $param = (string) $this->ConfigurationManager->getList()
                 ->getGeneral()
                 ->getRunningSport();

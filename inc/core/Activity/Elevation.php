@@ -11,8 +11,6 @@ use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
- * Elevation
- *
  * @author Hannes Christiansen
  * @package Runalyze\Activity
  */
@@ -41,7 +39,6 @@ class Elevation implements ValueInterface
 
 	/**
 	 * @param int $meter
-	 * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
 	 */
 	public function __construct($meter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
@@ -57,9 +54,6 @@ class Elevation implements ValueInterface
 		return __('Elevation');
 	}
 
-    /**
-     * Unit
-     */
     public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
@@ -156,7 +150,7 @@ class Elevation implements ValueInterface
      */
     public function stringMeter($withUnit = true): string
 	{
-		return number_format($this->Meter, 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
+		return number_format($this->Meter, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::METER : '');
 	}
 
     /**
@@ -164,6 +158,6 @@ class Elevation implements ValueInterface
      */
     public function stringFeet($withUnit = true): string
 	{
-		return number_format($this->feet(), 0, '', '.').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
+		return number_format($this->feet(), 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
 	}
 }

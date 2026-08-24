@@ -7,10 +7,14 @@ use Runalyze\Parser\Activity\Common\Data\Merge\WeatherDataMerger;
 
 class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var WeatherData */
+    /**
+     * @var WeatherData
+     */
     protected $FirstData;
 
-    /** @var WeatherData */
+    /**
+     * @var WeatherData
+     */
     protected $SecondData;
 
     protected function setUp(): void

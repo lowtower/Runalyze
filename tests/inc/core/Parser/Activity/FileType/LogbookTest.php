@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class LogbookTest extends AbstractActivityParserTestCase
 {
-    /** @var Logbook */
+    /**
+     * @var Logbook
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -60,7 +62,7 @@ class LogbookTest extends AbstractActivityParserTestCase
             [338, 1.000],
             [337, 1.000],
             [319, 1.000],
-            [296, 0.904]
+            [296, 0.904],
         ], 0, 0.00001);
 
         $this->assertEquals('Rennrad', $this->Container[4]->Metadata->getSportName());

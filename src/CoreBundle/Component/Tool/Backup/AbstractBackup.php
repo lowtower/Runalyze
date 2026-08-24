@@ -7,22 +7,34 @@ use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractBackup
 {
-	/** @var \Runalyze\Util\File\GZipWriter */
+	/**
+	 * @var \Runalyze\Util\File\GZipWriter
+	 */
 	protected $Writer;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountID;
 
-	/** @var \PDO */
+	/**
+	 * @var \PDO
+	 */
 	protected $PDO;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Prefix;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $RunalyzeVersion;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $Filename;
 
     /**
@@ -55,29 +67,29 @@ abstract class AbstractBackup
 		// - training before trackdata/swimdata/hrv
 		// - equipment_Type before equipment_sport before equipment before activity_equipment
 		// - tag before activity_tag
-		$Tables = array(
-		    $this->Prefix.'account',
-		    $this->Prefix.'conf',
-		    $this->Prefix.'dataset',
-		    $this->Prefix.'plugin',
-		    $this->Prefix.'plugin_conf',
-		    $this->Prefix.'sport',
-		    $this->Prefix.'type',
-		    $this->Prefix.'user',
-		    $this->Prefix.'route',
-		    $this->Prefix.'training',
-		    $this->Prefix.'trackdata',
-		    $this->Prefix.'swimdata',
-		    $this->Prefix.'hrv',
-		    $this->Prefix.'equipment_type',
-		    $this->Prefix.'equipment_sport',
-		    $this->Prefix.'equipment',
-		    $this->Prefix.'equipment_spor',
-		    $this->Prefix.'activity_equipment',
-		    $this->Prefix.'tag',
-		    $this->Prefix.'activity_tag',
-		    $this->Prefix.'raceresult'
-		);
+		$Tables = [
+		    $this->Prefix . 'account',
+		    $this->Prefix . 'conf',
+		    $this->Prefix . 'dataset',
+		    $this->Prefix . 'plugin',
+		    $this->Prefix . 'plugin_conf',
+		    $this->Prefix . 'sport',
+		    $this->Prefix . 'type',
+		    $this->Prefix . 'user',
+		    $this->Prefix . 'route',
+		    $this->Prefix . 'training',
+		    $this->Prefix . 'trackdata',
+		    $this->Prefix . 'swimdata',
+		    $this->Prefix . 'hrv',
+		    $this->Prefix . 'equipment_type',
+		    $this->Prefix . 'equipment_sport',
+		    $this->Prefix . 'equipment',
+		    $this->Prefix . 'equipment_spor',
+		    $this->Prefix . 'activity_equipment',
+		    $this->Prefix . 'tag',
+		    $this->Prefix . 'activity_tag',
+		    $this->Prefix . 'raceresult',
+		];
 
 		foreach ($Tables as $TableName) {
 			$this->saveTableRows($TableName);
@@ -100,9 +112,9 @@ abstract class AbstractBackup
 
 	private function saveTableRows(string $tableName)
     {
-		$columnInfo = $this->PDO->query('SHOW COLUMNS FROM '.$tableName)->fetchAll();
+		$columnInfo = $this->PDO->query('SHOW COLUMNS FROM ' . $tableName)->fetchAll();
 
-		$query = 'SELECT * FROM `'.$tableName.'`';
+		$query = 'SELECT * FROM `' . $tableName . '`';
 		$ids = $this->addConditionToQuery($query, $tableName);
 
 		$this->startTableRows($tableName);
@@ -123,24 +135,24 @@ abstract class AbstractBackup
 		$ids = false;
 
 		if ($tableName === $this->Prefix . 'account') {
-			$query .= ' WHERE `id`='.$this->AccountID.' LIMIT 1';
+			$query .= ' WHERE `id`=' . $this->AccountID . ' LIMIT 1';
 		} elseif ($tableName === $this->Prefix . 'plugin_conf') {
 			$ids = $this->fetchPluginIDs();
-			$query .= ' WHERE `pluginid` IN('.implode(',', $ids).')';
+			$query .= ' WHERE `pluginid` IN(' . implode(',', $ids) . ')';
 		} elseif ($tableName === $this->Prefix . 'equipment_sport') {
 			$ids = $this->fetchEquipmentTypeIDs();
-			$query .= ' WHERE `equipment_typeid` IN('.implode(',', $ids).')';
+			$query .= ' WHERE `equipment_typeid` IN(' . implode(',', $ids) . ')';
 		} elseif ($tableName === $this->Prefix . 'equipment_spor') {
 			$ids = $this->fetchEquipmentIDs();
-			$query .= ' WHERE `equipment_id` IN('.implode(',', $ids).')';
+			$query .= ' WHERE `equipment_id` IN(' . implode(',', $ids) . ')';
 		} elseif ($tableName === $this->Prefix . 'activity_equipment') {
 			$ids = $this->fetchEquipmentIDs();
-			$query .= ' WHERE `equipmentid` IN('.implode(',', $ids).')';
+			$query .= ' WHERE `equipmentid` IN(' . implode(',', $ids) . ')';
 		} elseif ($tableName === $this->Prefix . 'activity_tag') {
 			$ids = $this->fetchTagIDs();
-			$query .= ' WHERE `tagid` IN('.implode(',', $ids).')';
+			$query .= ' WHERE `tagid` IN(' . implode(',', $ids) . ')';
 		} else {
-			$query .= ' WHERE `accountid`='.$this->AccountID;
+			$query .= ' WHERE `accountid`=' . $this->AccountID;
 		}
 
 		return $ids;
@@ -158,7 +170,7 @@ abstract class AbstractBackup
 	 */
 	private function fetchPluginIDs()
     {
-		return $this->PDO->query('SELECT `id` FROM `'.$this->Prefix.'plugin` WHERE `accountid`='.$this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
+		return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'plugin` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -166,7 +178,7 @@ abstract class AbstractBackup
 	 */
 	private function fetchEquipmentIDs()
     {
-		return $this->PDO->query('SELECT `id` FROM `'.$this->Prefix.'equipment` WHERE `accountid`='.$this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
+		return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'equipment` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -174,7 +186,7 @@ abstract class AbstractBackup
 	 */
 	private function fetchTagIDs()
     {
-		return $this->PDO->query('SELECT `id` FROM `'.$this->Prefix.'tag` WHERE `accountid`='.$this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
+		return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'tag` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	/**
@@ -182,7 +194,7 @@ abstract class AbstractBackup
 	 */
 	private function fetchEquipmentTypeIDs()
     {
-		return $this->PDO->query('SELECT `id` FROM `'.$this->Prefix.'equipment_type` WHERE `accountid`='.$this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
+		return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'equipment_type` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
     /**

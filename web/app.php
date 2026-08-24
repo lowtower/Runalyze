@@ -7,7 +7,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 // require Composer's autoloader
-require __DIR__.'/../app/autoload.php';
+require __DIR__ . '/../app/autoload.php';
 
 $kernel = new AppKernel('prod', false);
 $request = Request::createFromGlobals();

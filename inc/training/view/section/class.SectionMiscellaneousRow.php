@@ -25,7 +25,8 @@ use Runalyze\Model\Trackdata\Pauses;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
+class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot
+{
 	/**
 	 * Right content: notes
 	 * @var string
@@ -41,18 +42,12 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	 */
 	protected $showCadence = true;
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(?Activity\Context $Context = null, $showCadence = true) {
 		$this->showCadence = $showCadence;
 
 		parent::__construct($Context);
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->setBoxedValues();
 	}
@@ -91,7 +86,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
             $this->Context->trackdata()
                 ->has(Trackdata\Entity::THB_0)) {
             $Plot = new Activity\Plot\Smo2AndThb($this->Context);
-            $this->addRightContent('smo2AndThb', __('SmO2').' / '.__('THb'), $Plot);
+            $this->addRightContent('smo2AndThb', __('SmO2') . ' / ' . __('THb'), $Plot);
         }
 
 		// #TSC pauses
@@ -101,9 +96,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Set boxed values
-	 */
 	protected function setBoxedValues() {
 		$this->addDateAndTime();
 		$this->addRPE();
@@ -117,9 +109,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		$this->addTotalCycles();
 	}
 
-	/**
-	 * Add date and time
-	 */
 	protected function addDateAndTime() {
 		$Date = new BoxedValue($this->Context->dataview()->date(), '', __('Date'));
 
@@ -136,9 +125,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add cadence and power
-	 */
 	protected function addCadenceAndPower() {
 		if ($this->showCadence && $this->Context->activity()->cadence() > 0) {
 			$Cadence = new BoxedValue(Helper::Unknown($this->Context->dataview()->cadence()->value(), '-'), $this->Context->dataview()->cadence()->unitAsString(), $this->Context->dataview()->cadence()->label());
@@ -160,8 +146,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
 		if ($this->Context->activity()->power() > 0) {
 		    $icon = $this->Context->activity()
-		        ->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="'.__('This value has been calculated.').'"></i>' : '';
-			$Power = new BoxedValue($this->Context->activity()->power(), 'W', '&#216; '.__('Power'), $icon);
+		        ->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="' . __('This value has been calculated.') . '"></i>' : '';
+			$Power = new BoxedValue($this->Context->activity()->power(), 'W', '&#216; ' . __('Power'), $icon);
 			$Power->defineAsFloatingBlock('w50');
 
 			$this->BoxedValues[] = $Power;
@@ -193,15 +179,12 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add running dynamics
-	 */
 	protected function addRunningDynamics() {
 		if ($this->Context->activity()->groundcontact() > 0 || $this->Context->activity()->verticalOscillation() > 0) {
 			$Contact = new BoxedValue(Helper::Unknown($this->Context->activity()->groundcontact(), '-'), 'ms', __('Ground contact'));
 			$Contact->defineAsFloatingBlock('w50');
 
-			$Oscillation = new BoxedValue(Helper::Unknown(round($this->Context->activity()->verticalOscillation()/10, 1), '-'), 'cm', __('Vertical oscillation'));
+			$Oscillation = new BoxedValue(Helper::Unknown(round($this->Context->activity()->verticalOscillation() / 10, 1), '-'), 'cm', __('Vertical oscillation'));
 			$Oscillation->defineAsFloatingBlock('w50');
 
 			$this->BoxedValues[] = $Contact;
@@ -209,9 +192,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add weather
-	 */
 	protected function addWeather() {
 		$WeatherObject = $this->Context->activity()
 		    ->weather();
@@ -274,11 +254,8 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add equipment
-	 */
 	protected function addEquipment() {
-		$Types = array();
+		$Types = [];
 		$Factory = new \Runalyze\Model\Factory(SessionAccountHandler::getId());
 		$Equipment = $Factory->equipmentForActivity($this->Context->activity()->id());
 
@@ -288,7 +265,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			if (isset($Types[$Object->typeid()])) {
 				$Types[$Object->typeid()][] = $Link;
 			} else {
-				$Types[$Object->typeid()] = array($Link);
+				$Types[$Object->typeid()] = [$Link];
 			}
 		}
 
@@ -302,16 +279,13 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add tags
-	 */
 	protected function addTags() {
-		$Links = array();
+		$Links = [];
 		$Factory = new \Runalyze\Model\Factory(SessionAccountHandler::getId());
 		$SelectedTags = $Factory->tagForActivity($this->Context->activity()->id());
 
 		foreach ($SelectedTags as $Object) {
-			$Links[] = Request::isOnSharedPage() ? '#'.$Object->tag() : SearchLink::to('tagid', $Object->id(), '#'.$Object->tag());
+			$Links[] = Request::isOnSharedPage() ? '#' . $Object->tag() : SearchLink::to('tagid', $Object->id(), '#' . $Object->tag());
 		}
 
 		if ($Links !== []) {
@@ -322,9 +296,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-	/**
-	 * Add training partner
-	 */
 	protected function addTrainingPartner() {
 		if (! $this->Context->activity()->partner()->isEmpty()) {
 			$TrainingPartner = new BoxedValue($this->Context->dataview()->partnerAsLinks(), '', __('Training partner'));
@@ -334,9 +305,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 		}
 	}
 
-    /**
-     * Add smo2 and thb
-     */
     protected function addSmo2AndThb() {
         if ($this->Context->trackdata()->has(Trackdata\Entity::SMO2_0)) {
             $Smo2_0 = new Box\Smo2($this->Context);
@@ -363,9 +331,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         }
     }
 
-	/**
-	 * Fill notes content
-	 */
 	protected function fillNotesContent() {
 		$this->NotesContent = '<div class="panel-content">';
 
@@ -384,7 +349,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 	protected function fillFitDetailContent() {
 		$this->FitDetails = '<div class="panel-content">';
 
-        $details = '<strong>'.__('FIT data from the file').':</strong><br>';
+        $details = '<strong>' . __('FIT data from the file') . ':</strong><br>';
         $c = 0;
         $this->addToTable($details, 'Total ascent (m):', ($this->Context->activity()->fitTotalAscent() != null ? $this->Context->activity()->fitTotalAscent() : '-'), $c);
         $this->addToTable($details, 'Total desent (m):', ($this->Context->activity()->fitTotalDescent() != null ? $this->Context->activity()->fitTotalDescent() : '-'), $c);
@@ -402,7 +367,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 				$ltp = new Pace($this->Context->activity()->fitLactateThresholdPace(), 1.0, $this->Context->sport() ? $this->Context->sport()->getLegacyPaceUnitEnum() : Pace::STANDARD);
 				// the previous Pace instancing will not work: for 3.22 m/s the result is a pace of 5:22/km; because of the first parameter time is a int!
 				// so use this: example for 3.22m/s: 3,22*3,6=11,592km/h -> 1/11,592km/h=0,0862h/km -> 0,0862×60=5,17min/km -> function needs second/float -> 5,17min/km*60=316,56sec/km
-				$ltp->fromMinPerKm(1/($this->Context->activity()->fitLactateThresholdPace()*3.6)*60*60);
+				$ltp->fromMinPerKm(1 / ($this->Context->activity()->fitLactateThresholdPace() * 3.6) * 60 * 60);
 				$ltp = $ltp->valueWithAppendix();
 			} else {
 				$ltp = '-';
@@ -427,14 +392,14 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
             $c
         );
         $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
-        $this->addToTable($details, $this->getGlossaryLink(__('Training Effect').' benefit:', 'training-effect'), ($this->Context->activity()->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($this->Context->activity()->fitTrainingEffectBenefit()) : '-'), $c);
+        $this->addToTable($details, $this->getGlossaryLink(__('Training Effect') . ' benefit:', 'training-effect'), ($this->Context->activity()->fitTrainingEffectBenefit() != null ? runActivity\FitTrainingEffectBenefit::descriptionFromNum($this->Context->activity()->fitTrainingEffectBenefit()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Aerob training effect:', 'training-effect'), ($this->Context->activity()->fitTrainingEffect() != null ? $this->Context->activity()->fitTrainingEffect() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Anaerob training effect:', 'training-effect'), ($this->Context->activity()->fitAnaerobicTrainingEffect() != null ? $this->Context->activity()->fitAnaerobicTrainingEffect() : '-'), $c);
         $this->addToTable($details, 'Creator:', ($this->Context->activity()->creator() != null ? $this->Context->activity()->creator() : '-'), $c);
         $this->addToTable($details, 'Creator details:', ($this->Context->activity()->creatorDetails() != null ? $this->Context->activity()->creatorDetails() : '-'), $c);
         $this->addToTable($details, 'Avg / max respiration rate (brpm):', ($this->Context->activity()->avgRespirationRate() != null ?
             $this->Context->activity()
-                ->avgRespirationRate() . ' / ' .  $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
+                ->avgRespirationRate() . ' / ' . $this->Context->activity()->maxRespirationRate() : '- / -'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationPerceivedEffort() != null ? $this->Context->activity()->fitSelfEvaluationPerceivedEffort() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($this->Context->activity()->fitSelfEvaluationFeeling()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'), ($this->Context->activity()->fitLoadPeak() != null ? $this->Context->activity()->fitLoadPeak() : '-'), $c);
@@ -442,7 +407,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitWalkTime()), $c);
         $this->addToTable($details, $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitStandTime()), $c);
         $this->addToTable($details, 'Sweat loss (ml):', ($this->Context->activity()->fitSweetLoss() != null ? $this->Context->activity()->fitSweetLoss() : '-'), $c);
-        $this->addToTable($details, __('Energy').' '.__('Resting').' (kcal):', ($this->Context->activity()->energyInRest() != null ? $this->Context->activity()->energyInRest() : '-'), $c);
+        $this->addToTable($details, __('Energy') . ' ' . __('Resting') . ' (kcal):', ($this->Context->activity()->energyInRest() != null ? $this->Context->activity()->energyInRest() : '-'), $c);
 
         $details .= '</tr></table>';
         $this->FitDetails .= HTML::fileBlock($details);
@@ -462,9 +427,6 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         return '-';
     }
 
-	/**
-	 * Add race result
-	 */
 	protected function addRaceResult() {
 		if ($this->Context->hasRaceResult()) {
 			$raceResult = $this->Context->raceResult();
@@ -472,40 +434,37 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 			$ageGrade = null;
 			$ageGradeIcon = '';
 
-			if (\Runalyze\Profile\Sport\SportProfile::RUNNING == $this->Context->sport()->getInternalProfileEnum() && $athlete->knowsGender() && $athlete->knowsAge()) {
-				$table = Gender::FEMALE === $athlete->gender() ? new FemaleTable() : new MaleTable();
+			if ($this->Context->sport()->getInternalProfileEnum() == \Runalyze\Profile\Sport\SportProfile::RUNNING && $athlete->knowsGender() && $athlete->knowsAge()) {
+				$table = $athlete->gender() === Gender::FEMALE ? new FemaleTable() : new MaleTable();
 				$lookup = new Lookup($table, $athlete->age());
 
 				if ($this->Context->raceResult()->officialDistance() >= $lookup->getMinimalDistance()) {
 					$ageGrade = $lookup->getAgeGrade($raceResult->officialDistance(), $raceResult->officialTime(), date('Y') - date('Y', $this->Context->activity()->timestamp()));
 					$ageGradeIcon = new View\Icon('fa-info-circle');
 					$ageGradeIcon->setTooltip(
-					    __('Age standard').': '.Duration::format($ageGrade->getAgeStandard()).', '.
-						__('Open standard').': '.Duration::format($ageGrade->getOpenStandard()).'<br>'.
-						'<small><em>'.sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF').'</em></small>'
+					    __('Age standard') . ': ' . Duration::format($ageGrade->getAgeStandard()) . ', ' .
+						__('Open standard') . ': ' . Duration::format($ageGrade->getOpenStandard()) . '<br>' .
+						'<small><em>' . sprintf(__('via tables by %s'), 'Alan Jones / WMA / USATF') . '</em></small>'
 					);
 				}
 			}
 
 			$RaceResultView = new View\RaceResult\Dataview($raceResult);
 
-			$this->NotesContent .= HTML::info('<strong>'.__('Race Result').':</strong>');
-			$this->NotesContent .= '<ul>'.
-				($raceResult->officialDistance() ? '<li><strong>'.__('Official distance').'</strong>: '.$RaceResultView->officialDistance().'</li>' : '') .
-				($raceResult->officialTime() ? '<li><strong>'.__('Official time').'</strong>: '.$RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION).'</li>' : '').
-				(null !== $ageGrade ? '<li><strong>'.__('Age grade').'</strong>: '.number_format(100 * $ageGrade->getPerformance(), 2).' &#37; '.$ageGradeIcon->code().'</li>' : '').
-				($raceResult->placeTotal() ? '<li><strong>'.__('Place overall').'</strong>: '.$RaceResultView->placementTotalWithParticipants().'</li>' : '') .
-				($raceResult->placeAgeclass() ? '<li><strong>'.__('Place age group').'</strong>: '.$RaceResultView->placementAgeClassWithParticipants().'</li>' : '') .
-				($raceResult->placeGender() ? '<li><strong>'.__('Place gender').'</strong>: '.$RaceResultView->placementGenderWithParticipants().'</li>' : '') .'</ul>';
+			$this->NotesContent .= HTML::info('<strong>' . __('Race Result') . ':</strong>');
+			$this->NotesContent .= '<ul>' .
+				($raceResult->officialDistance() ? '<li><strong>' . __('Official distance') . '</strong>: ' . $RaceResultView->officialDistance() . '</li>' : '') .
+				($raceResult->officialTime() ? '<li><strong>' . __('Official time') . '</strong>: ' . $RaceResultView->officialTime()->string(Duration::FORMAT_COMPETITION) . '</li>' : '') .
+				($ageGrade !== null ? '<li><strong>' . __('Age grade') . '</strong>: ' . number_format(100 * $ageGrade->getPerformance(), 2) . ' &#37; ' . $ageGradeIcon->code() . '</li>' : '') .
+				($raceResult->placeTotal() ? '<li><strong>' . __('Place overall') . '</strong>: ' . $RaceResultView->placementTotalWithParticipants() . '</li>' : '') .
+				($raceResult->placeAgeclass() ? '<li><strong>' . __('Place age group') . '</strong>: ' . $RaceResultView->placementAgeClassWithParticipants() . '</li>' : '') .
+				($raceResult->placeGender() ? '<li><strong>' . __('Place gender') . '</strong>: ' . $RaceResultView->placementGenderWithParticipants() . '</li>' : '') . '</ul>';
 		}
 	}
 
-	/**
-	 * Add notes
-	 */
 	protected function addNotes() {
 		if ($this->Context->activity()->notes() != '') {
-			$Notes = '<strong>'.__('Notes').':</strong><br>'.$this->Context->dataview()->notes();
+			$Notes = '<strong>' . __('Notes') . ':</strong><br>' . $this->Context->dataview()->notes();
 			$this->NotesContent .= HTML::fileBlock($Notes);
 		}
 	}
@@ -518,7 +477,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
             $html .= '</tr><tr>';
         }
 
-        $html .= '<td id="desc">' . $desc  . '</td>';
+        $html .= '<td id="desc">' . $desc . '</td>';
         $html .= '<td id="val">' . $value . '</td>';
 
         $count++;
@@ -556,13 +515,13 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
 			$editedDate = new \DateTime();
 			$editedDate->setTimestamp($edited);
-			$ModificationTime = ($edited == 0) ? '' : '<br>'.sprintf(
+			$ModificationTime = ($edited == 0) ? '' : '<br>' . sprintf(
 			    __('Last modification on <strong>%s</strong> at <strong>%s</strong>.'),
 			    $editedDate->format('d.m.Y'),
 			    $editedDate->format('H:i')
 			);
 
-			$this->NotesContent .= HTML::fileBlock($CreationTime.$ModificationTime);
+			$this->NotesContent .= HTML::fileBlock($CreationTime . $ModificationTime);
 		}
 	    }
 	}

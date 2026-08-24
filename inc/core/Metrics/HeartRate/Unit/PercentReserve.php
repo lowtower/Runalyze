@@ -6,10 +6,14 @@ namespace Runalyze\Metrics\HeartRate\Unit;
 
 class PercentReserve extends AbstractHeartRateUnitInPercent
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $MaximalHeartRate;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $RestingHeartRate;
 
     /**

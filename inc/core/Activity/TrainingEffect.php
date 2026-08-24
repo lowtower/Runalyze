@@ -15,20 +15,27 @@ namespace Runalyze\Activity;
  */
 class TrainingEffect implements ValueInterface
 {
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	const LOWER_LIMIT = 0.0;
 
-	/** @var float */
+	/**
+	 * @var float
+	 */
 	const UPPER_LIMIT = 5.0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const DECIMALS = 1;
 
-	/** @var float|null */
+	/**
+	 * @var float|null
+	 */
 	protected $Value;
 
     /**
-     * Format
      * @param float|null $value
      */
     public static function format($value): string
@@ -54,7 +61,6 @@ class TrainingEffect implements ValueInterface
 	}
 
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): string
@@ -69,7 +75,7 @@ class TrainingEffect implements ValueInterface
 	 * @throws \InvalidArgumentException
 	 */
 	public function set($value): self {
-        if (null === $value) {
+        if ($value === null) {
             $this->Value = null;
 
             return $this;
@@ -84,7 +90,7 @@ class TrainingEffect implements ValueInterface
         }
 
 		$value = (float) $value;
-		if ($value < self::LOWER_LIMIT || self::UPPER_LIMIT < $value) {
+		if ($value < self::LOWER_LIMIT || $value > self::UPPER_LIMIT) {
 			throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s.', self::LOWER_LIMIT, self::UPPER_LIMIT));
 		}
 
@@ -123,7 +129,7 @@ class TrainingEffect implements ValueInterface
 
     public function isKnown(): bool
     {
-        return (null !== $this->Value);
+        return ($this->Value !== null);
     }
 
     /**

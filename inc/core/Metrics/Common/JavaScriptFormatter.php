@@ -11,28 +11,28 @@ class JavaScriptFormatter
         if ($unit instanceof AbstractPaceInTimeFormatUnit) {
             $valueConversion = "Math.floor(Math.round(d)/60) + ':' + (Math.round(d)%60 < 10 ? '0' : '') + Math.round(d)%60";
         } elseif ($unit instanceof FormattableUnitInterface) {
-            $valueConversion = '(d).toFixed('.$unit->getDecimals().')';
+            $valueConversion = '(d).toFixed(' . $unit->getDecimals() . ')';
         } elseif (method_exists($unit, 'getJavaScriptConversion')) {
             $valueConversion = $unit->getJavaScriptConversion();
         } else {
             $valueConversion = 'Math.round(d*100)/100';
         }
 
-        return 'function(d){return '.$valueConversion." + ' ".$unit->getAppendix()."';}";
+        return 'function(d){return ' . $valueConversion . " + ' " . $unit->getAppendix() . "';}";
     }
 
     public static function getTransformer(UnitInterface $unit): string
     {
         if (method_exists($unit, 'getFactorFromBaseUnit')) {
-            $valueConversion = 'd*'.$unit->getFactorFromBaseUnit();
+            $valueConversion = 'd*' . $unit->getFactorFromBaseUnit();
         } elseif (method_exists($unit, 'getDividendFromBaseUnit')) {
-            $valueConversion = 'd==0?0:'.$unit->getDividendFromBaseUnit().'/d';
-        } elseif (1.234 == $unit->toBaseUnit(1.234)) { // check for base units
+            $valueConversion = 'd==0?0:' . $unit->getDividendFromBaseUnit() . '/d';
+        } elseif ($unit->toBaseUnit(1.234) == 1.234) { // check for base units
             $valueConversion = 'd';
         } else {
             throw new \InvalidArgumentException("Unsupported unit. Transformation rule can't be determined.");
         }
 
-        return 'function(d){return '.$valueConversion.';}';
+        return 'function(d){return ' . $valueConversion . ';}';
     }
 }

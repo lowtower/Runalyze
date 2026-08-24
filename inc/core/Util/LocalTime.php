@@ -35,14 +35,14 @@ class LocalTime extends \DateTime
      */
     public function __construct($timestampInNoTimezone = null)
     {
-        if (null === $timestampInNoTimezone) {
+        if ($timestampInNoTimezone === null) {
             parent::__construct(null, new \DateTimeZone('UTC'));
         } else {
             if (! is_numeric($timestampInNoTimezone)) {
                 throw new \InvalidArgumentException('Given timestamp must be numeric.');
             }
 
-            parent::__construct('@'.$timestampInNoTimezone);
+            parent::__construct('@' . $timestampInNoTimezone);
 
             $this->setTimezone(new \DateTimeZone('UTC'));
         }
@@ -104,7 +104,7 @@ class LocalTime extends \DateTime
             }
         }
 
-        $Date->sub(new \DateInterval('P'.$w.'D'));
+        $Date->sub(new \DateInterval('P' . $w . 'D'));
         $Date->setTime(0, 0, 0);
 
         return $asObject ? $Date : $Date->getTimestamp();
@@ -211,7 +211,7 @@ class LocalTime extends \DateTime
      */
     public static function date($format, $timestamp = null): string
     {
-        if (null === $timestamp) {
+        if ($timestamp === null) {
             return self::fromServerTime(time())->format($format);
         }
 

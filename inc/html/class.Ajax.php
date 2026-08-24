@@ -11,7 +11,8 @@
  * @package Runalyze\HTML
  * @deprecated since v3.1
  */
-class Ajax {
+class Ajax
+{
 	/**
 	 * CSS-class for waiter-image
 	 * @var string
@@ -76,32 +77,30 @@ class Ajax {
 	 * Init own JS-library on frontend (direct output)
 	 */
 	public static function initJSlibrary() {
-		$Options = array();
+		$Options = [];
 		$Options['sharedView'] = Request::isOnSharedPage();
 
-		echo self::wrapJS('Runalyze.init('.json_encode($Options).');');
+		echo self::wrapJS('Runalyze.init(' . json_encode($Options) . ');');
 
 		if (defined('NOKIA_HERE_APPID') && NOKIA_HERE_APPID != '' && defined('NOKIA_HERE_TOKEN') && NOKIA_HERE_TOKEN != '') {
-			echo self::wrapJS('Runalyze.Options.setNokiaLayerAuth("'.NOKIA_HERE_APPID.'", "'.NOKIA_HERE_TOKEN.'")');
+			echo self::wrapJS('Runalyze.Options.setNokiaLayerAuth("' . NOKIA_HERE_APPID . '", "' . NOKIA_HERE_TOKEN . '")');
 		}
 
 		if (defined('THUNDERFOREST_API_KEY') && THUNDERFOREST_API_KEY != '') {
-                        echo self::wrapJS('Runalyze.Options.setThunderforestLayerAuth("'.THUNDERFOREST_API_KEY.'")');
+                        echo self::wrapJS('Runalyze.Options.setThunderforestLayerAuth("' . THUNDERFOREST_API_KEY . '")');
                 }
 
 		if (defined('MAPBOX_API_KEY') && MAPBOX_API_KEY != '') {
-				echo self::wrapJS('Runalyze.Options.setMapboxLayerAuth("'.MAPBOX_API_KEY.'")');
+				echo self::wrapJS('Runalyze.Options.setMapboxLayerAuth("' . MAPBOX_API_KEY . '")');
 			}
-
 
 	}
 
 	/**
-	 * Set reload flag
 	 * @param int $Flag
 	 */
 	public static function setReloadFlag($Flag) {
-		$BothFlags = array($Flag, self::$currentReloadFlag);
+		$BothFlags = [$Flag, self::$currentReloadFlag];
 
 		if (min($BothFlags) == self::$RELOAD_DATABROWSER && max($BothFlags) == self::$RELOAD_PLUGINS)
 			self::$currentReloadFlag = self::$RELOAD_ALL;
@@ -119,9 +118,6 @@ class Ajax {
 		self::$RELOAD_PLUGIN_ID = $ID;
 	}
 
-    /**
-     * Get reload command
-     */
     public static function getReloadCommand(): string {
 		switch(self::$currentReloadFlag) {
 			case self::$RELOAD_PAGE:
@@ -129,7 +125,7 @@ class Ajax {
 			case self::$RELOAD_ALL:
 				return self::wrapJS('Runalyze.reloadContent();');
 			case self::$RELOAD_PLUGINS:
-				return self::wrapJS('Runalyze.reloadAllPlugins('.self::$RELOAD_PLUGIN_ID.');');
+				return self::wrapJS('Runalyze.reloadAllPlugins(' . self::$RELOAD_PLUGIN_ID . ');');
 			case self::$RELOAD_DATABROWSER_AND_TRAINING:
 				return self::wrapJS('Runalyze.reloadDataBrowserAndTraining();');
 			case self::$RELOAD_TRAINING:
@@ -149,7 +145,7 @@ class Ajax {
      * @param bool $closeOverlay [optional] Boolean flag: Should the overlay be closed after clicking? (default: false)
      */
     public static function trainingLink($id, $name, $closeOverlay = false, $classes = '', $htmlID = ''): string {
-		return '<a '.(! empty($htmlID) ? 'id="'.$htmlID.'" ' : '').'class="training '.$classes.'" href="activity/'.$id.'" rel="'.$id.'"'.($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '').'>'.$name.'</a>';
+		return '<a ' . (! empty($htmlID) ? 'id="' . $htmlID . '" ' : '') . 'class="training ' . $classes . '" href="activity/' . $id . '" rel="' . $id . '"' . ($closeOverlay ? ' onclick="Runalyze.Overlay.close()"' : '') . '>' . $name . '</a>';
 	}
 
     /**
@@ -158,9 +154,9 @@ class Ajax {
      */
     public static function trainingLinkAsOnclick($id): string {
 		if (FrontendShared::$IS_SHOWN)
-			return 'onclick="Pace.restart();Runalyze.Training.load('.$id.", '".SharedLinker::getUrlFor($id).'\', event)"';
+			return 'onclick="Pace.restart();Runalyze.Training.load(' . $id . ", '" . SharedLinker::getUrlFor($id) . '\', event)"';
 
-		return 'onclick="Pace.restart();Runalyze.Training.load('.$id.', false, event)"';
+		return 'onclick="Pace.restart();Runalyze.Training.load(' . $id . ', false, event)"';
 	}
 
 	/**
@@ -175,12 +171,12 @@ class Ajax {
 		if ($tooltip == '')
 			return $html;
 
-		$class = $atLeft ? is_string($atLeft) ? 'class="'.$atLeft.'"' : 'class="atLeft" ' : '';
+		$class = $atLeft ? is_string($atLeft) ? 'class="' . $atLeft . '"' : 'class="atLeft" ' : '';
 
 		if ($onlyAttributes)
-			return $class.'rel="tooltip" title="'.htmlspecialchars($tooltip).'"';
+			return $class . 'rel="tooltip" title="' . htmlspecialchars($tooltip) . '"';
 
-		return '<span '.$class.'rel="tooltip" title="'.htmlspecialchars($tooltip).'">'.$html.'</span>';
+		return '<span ' . $class . 'rel="tooltip" title="' . htmlspecialchars($tooltip) . '">' . $html . '</span>';
 	}
 
     /**
@@ -192,20 +188,20 @@ class Ajax {
 		if (empty($Links))
 			return '';
 
-		$code = '<ul class="'.$AdditionalClasses.'">';
+		$code = '<ul class="' . $AdditionalClasses . '">';
 
 		foreach ($Links as $Link) {
 			if (is_array($Link) && isset($Link['tag'])) {
 				$hasSubcontainer = isset($Link['subs']) && is_array($Link['subs']);
 
-				$code .= '<li'.($hasSubcontainer ? ' class="with-submenu"' : '').'>';
+				$code .= '<li' . ($hasSubcontainer ? ' class="with-submenu"' : '') . '>';
 				$code .= $Link['tag'];
 
 				if ($hasSubcontainer) {
 					$code .= '<ul class="submenu">';
 
 					foreach ($Link['subs'] as $Sublink)
-						$code .= '<li>'.$Sublink.'</li>';
+						$code .= '<li>' . $Sublink . '</li>';
 
 					$code .= '</ul>';
 				}
@@ -251,12 +247,12 @@ class Ajax {
      */
     public static function change($name, $target, $href, $additional_class = ''): string {
 		if (substr($href, 0, 1) != '#')
-			$href = '#'.$href;
+			$href = '#' . $href;
 
 		if ($additional_class != '')
 			$additional_class .= ' ';
 
-		return '<a class="'.$additional_class.'change" target="'.$target.'" href="'.$href.'">'.$name.'</a>';
+		return '<a class="' . $additional_class . 'change" target="' . $target . '" href="' . $href . '">' . $name . '</a>';
 	}
 
     /**
@@ -268,7 +264,7 @@ class Ajax {
      * @param string $title   title
      */
     public static function link($name, $target, $href, $data = '', $title = '', $onclick = false): string {
-		return '<a class="ajax" href="'.$href.'" target="'.$target.'" rel="'.$data.'"'.(! empty($title) ? ' title="'.$title.'"' : '').' '.(($onclick) ? ' onclick="'.$onclick.'"' : '').'>'.$name.'</a>';
+		return '<a class="ajax" href="' . $href . '" target="' . $target . '" rel="' . $data . '"' . (! empty($title) ? ' title="' . $title . '"' : '') . ' ' . (($onclick) ? ' onclick="' . $onclick . '"' : '') . '>' . $name . '</a>';
 	}
 
     /**
@@ -279,7 +275,7 @@ class Ajax {
      * @param bool $active
      */
     public static function flotChange($text, $divID, $flotID, $active = true): string {
-		return '<span class="link'.($active ? '' : ' unimportant').' flotChanger-'.$divID.' flotChanger-id-'.$flotID.'" onclick="Runalyze.flotChange(\''.$divID."','".$flotID.'\')">'.$text.'</span>';
+		return '<span class="link' . ($active ? '' : ' unimportant') . ' flotChanger-' . $divID . ' flotChanger-id-' . $flotID . '" onclick="Runalyze.flotChange(\'' . $divID . "','" . $flotID . '\')">' . $text . '</span>';
 	}
 
 	/**
@@ -289,9 +285,9 @@ class Ajax {
 	 * @return string
 	 */
 	public static function insertClass($link, $class) {
-		$text = preg_replace('#<a ([^>]*?)class="(.+?)"#i', '<a \\1class="'.$class.' \\2"', $link);
+		$text = preg_replace('#<a ([^>]*?)class="(.+?)"#i', '<a \\1class="' . $class . ' \\2"', $link);
 		if ($text == $link)
-			return str_replace('<a ', '<a class="'.$class.'" ', $text);
+			return str_replace('<a ', '<a class="' . $class . '" ', $text);
 
 		return $text;
 	}
@@ -303,9 +299,9 @@ class Ajax {
 	 * @return string
 	 */
 	public static function insertRel($link, $rel) {
-		$text = preg_replace('#rel="(.+?)"#i', 'rel="'.$rel.'"', $link);
+		$text = preg_replace('#rel="(.+?)"#i', 'rel="' . $rel . '"', $link);
 		if ($text == $link)
-			return str_replace('<a ', '<a rel="'.$rel.'" ', $text);
+			return str_replace('<a ', '<a rel="' . $rel . '" ', $text);
 
 		return $text;
 	}
@@ -317,9 +313,9 @@ class Ajax {
 	 * @return string
 	 */
 	public static function insertDataSize($link, $rel) {
-		$text = preg_replace('#data-size="(.+?)"#i', 'data-size="'.$rel.'"', $link);
+		$text = preg_replace('#data-size="(.+?)"#i', 'data-size="' . $rel . '"', $link);
 		if ($text == $link)
-			return str_replace('<a ', '<a data-size="'.$rel.'" ', $text);
+			return str_replace('<a ', '<a data-size="' . $rel . '" ', $text);
 
 		return $text;
 	}
@@ -329,7 +325,7 @@ class Ajax {
      * @param string $code
      */
     public static function wrapJS($code): string {
-		return '<script>'.$code.'</script>';
+		return '<script>' . $code . '</script>';
 	}
 
     /**
@@ -337,7 +333,7 @@ class Ajax {
      * @param string $code
      */
     public static function wrapJSforDocumentReady($code): string {
-		return self::wrapJS('(function($){$(document).ready(function(){ '.$code.' });})(jQuery);');
+		return self::wrapJS('(function($){$(document).ready(function(){ ' . $code . ' });})(jQuery);');
 	}
 
     /**
@@ -345,7 +341,7 @@ class Ajax {
      * @param string $code
      */
     public static function wrapJSasFunction($code): string {
-		return self::wrapJS('$(function(){ '.$code.' });');
+		return self::wrapJS('$(function(){ ' . $code . ' });');
 	}
 
     /**
@@ -354,25 +350,25 @@ class Ajax {
      * @param int $level
      * @return string
      */
-    public static function json_encode_jsfunc(array $input, $funcs = array(), $level = 0) {
+    public static function json_encode_jsfunc(array $input, $funcs = [], $level = 0) {
 		foreach($input as $key => $value) {
 			if (is_array($value)) {
 				$ret = self::json_encode_jsfunc($value, $funcs, 1);
 				$input[$key] = $ret[0];
 				$funcs = $ret[1];
 			} elseif (substr($value, 0, 8) == 'function' || substr($value, 0, 13) == 'RunalyzePlot.') {
-                  $func_key = '#'.uniqid(rand(), true).'#';
+                  $func_key = '#' . uniqid(rand(), true) . '#';
                   $funcs[$func_key] = $value;
                   $input[$key] = $func_key;
 			}
 		}
 
 		if ($level == 1)
-			return array($input, $funcs);
+			return [$input, $funcs];
 
         $input_json = json_encode($input);
         foreach($funcs as $key => $value)
-				$input_json = str_replace('"'.$key.'"', $value, $input_json);
+				$input_json = str_replace('"' . $key . '"', $value, $input_json);
 
         return $input_json;
 	}
@@ -390,7 +386,7 @@ class Ajax {
 	 * @param bool $reinit [optional]
 	 */
 	public static function createTablesorterFor($selector, $reinit = false) {
-		echo self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterAutosort('.($reinit ? 'true' : '').');');
+		echo self::wrapJSforDocumentReady('$("' . $selector . '").tablesorterAutosort(' . ($reinit ? 'true' : '') . ');');
 	}
 
 	/**
@@ -410,7 +406,7 @@ class Ajax {
     public static function getTablesorterWithPagerFor($selector, $reinit = false): string {
 		$Code = self::getPagerDiv();
 
-		return $Code . self::wrapJSforDocumentReady('$("'.$selector.'").tablesorterWithPager('.($reinit ? 'true' : '').');');
+		return $Code . self::wrapJSforDocumentReady('$("' . $selector . '").tablesorterWithPager(' . ($reinit ? 'true' : '') . ');');
 	}
 
 	/**
@@ -420,18 +416,18 @@ class Ajax {
 		return '
 <div id="pager" class="pager c">
 	<form>
-		<span class="link first">|&laquo; '.__('Start').'</span>
-		<span class="link prev">&laquo; '.__('previous').'</span>
+		<span class="link first">|&laquo; ' . __('Start') . '</span>
+		<span class="link prev">&laquo; ' . __('previous') . '</span>
 		<input type="text" class="pagedisplay">
-		<span class="link next">'.__('next').' &raquo;</span>
-		<span class="link last">'.__('End').' &raquo;|</span>
+		<span class="link next">' . __('next') . ' &raquo;</span>
+		<span class="link last">' . __('End') . ' &raquo;|</span>
 
 		<select class="pagesize">
-			<option value="10">10 '.__('per page').'&nbsp;</option>
-			<option value="20" selected>20 '.__('per page').'&nbsp;</option>
-			<option value="30">30 '.__('per page').'&nbsp;</option>
-			<option value="40">40 '.__('per page').'&nbsp;</option>
-			<option value="50">50 '.__('per page').'&nbsp;</option>
+			<option value="10">10 ' . __('per page') . '&nbsp;</option>
+			<option value="20" selected>20 ' . __('per page') . '&nbsp;</option>
+			<option value="30">30 ' . __('per page') . '&nbsp;</option>
+			<option value="40">40 ' . __('per page') . '&nbsp;</option>
+			<option value="50">50 ' . __('per page') . '&nbsp;</option>
 		</select>
 	</form>
 </div>';

@@ -20,19 +20,19 @@ abstract class AbstractStrategy
 	 * Original elevation data
 	 * @var array
 	 */
-	protected $ElevationData = array();
+	protected $ElevationData = [];
 
 	/**
 	 * Smoothed data
 	 * @var array
 	 */
-	protected $SmoothedData = array();
+	protected $SmoothedData = [];
 
 	/**
 	 * Indices for smoothing
 	 * @var array
 	 */
-	protected $SmoothingIndices = array();
+	protected $SmoothingIndices = [];
 
     /**
      * Construct
@@ -84,6 +84,6 @@ abstract class AbstractStrategy
 		$slope = ($line2y - $line1y) / ($line2x - $line1x);
         $passThroughY = -$line1x * $slope + $line1y;
 
-		return (abs(($slope * $pointX) - $pointY + $passThroughY)) / (sqrt($slope*$slope + 1));
+		return (abs(($slope * $pointX) - $pointY + $passThroughY)) / (sqrt($slope * $slope + 1));
 	}
 }

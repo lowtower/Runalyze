@@ -12,25 +12,39 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 
 class ActivityContext
 {
-    /** @var Training */
+    /**
+     * @var Training
+     */
     protected $Activity;
 
-    /** @var Trackdata|null */
+    /**
+     * @var Trackdata|null
+     */
     protected $Trackdata;
 
-    /** @var Swimdata|null */
+    /**
+     * @var Swimdata|null
+     */
     protected $Swimdata;
 
-    /** @var Route|null */
+    /**
+     * @var Route|null
+     */
     protected $Route;
 
-    /** @var Hrv|null */
+    /**
+     * @var Hrv|null
+     */
     protected $HRV;
 
-    /** @var Raceresult|null */
+    /**
+     * @var Raceresult|null
+     */
     protected $RaceResult;
 
-    /** @var ActivityDecorator */
+    /**
+     * @var ActivityDecorator
+     */
     protected $Decorator;
 
     public function __construct(
@@ -117,27 +131,27 @@ class ActivityContext
     }
 
     public function hasTrackdata(): bool {
-        return null !== $this->Trackdata;
+        return $this->Trackdata !== null;
     }
 
     public function hasRoute(): bool
     {
-        return null !== $this->Route;
+        return $this->Route !== null;
     }
 
     public function hasSwimdata(): bool
     {
-        return null !== $this->Swimdata;
+        return $this->Swimdata !== null;
     }
 
     public function hasHRV(): bool
     {
-        return null !== $this->HRV;
+        return $this->HRV !== null;
     }
 
     public function hasRaceResult(): bool
     {
-        return null !== $this->RaceResult;
+        return $this->RaceResult !== null;
     }
 
     /**

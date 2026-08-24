@@ -8,25 +8,39 @@ use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 
 class WeatherData
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $Condition = '';
 
-    /** @var null|int */
+    /**
+     * @var null|int
+     */
     public $InternalConditionId;
 
-    /** @var null|int|float */
+    /**
+     * @var null|int|float
+     */
     public $Temperature;
 
-    /** @var null|int|float [km/h] */
+    /**
+     * @var null|int|float [km/h]
+     */
     public $WindSpeed;
 
-    /** @var null|int [°] */
+    /**
+     * @var null|int [°]
+     */
     public $WindDirection;
 
-    /** @var null|int [%] */
+    /**
+     * @var null|int [%]
+     */
     public $Humidity;
 
-    /** @var null|int|float [hPa] */
+    /**
+     * @var null|int|float [hPa]
+     */
     public $AirPressure;
 
     /**
@@ -39,13 +53,13 @@ class WeatherData
     public function isEmpty(): bool
     {
         return (
-            '' == $this->Condition &&
-            null === $this->InternalConditionId &&
-            null === $this->Temperature &&
-            null === $this->WindSpeed &&
-            null === $this->WindDirection &&
-            null === $this->Humidity &&
-            null === $this->AirPressure
+            $this->Condition == '' &&
+            $this->InternalConditionId === null &&
+            $this->Temperature === null &&
+            $this->WindSpeed === null &&
+            $this->WindDirection === null &&
+            $this->Humidity === null &&
+            $this->AirPressure === null
         );
     }
 }

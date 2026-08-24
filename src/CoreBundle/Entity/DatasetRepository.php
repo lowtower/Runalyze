@@ -15,10 +15,10 @@ class DatasetRepository extends EntityRepository
     {
         return $this->findBy(
             [
-                'account' => $account->getId()
+                'account' => $account->getId(),
             ],
             [
-                'position' => 'ASC'
+                'position' => 'ASC',
             ]
         );
     }

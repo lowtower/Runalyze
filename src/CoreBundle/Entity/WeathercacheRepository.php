@@ -21,7 +21,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
                 ->select('w')
                 ->where('w.geohash LIKE :geohash')
                 ->andWhere('w.time BETWEEN :starttime AND :endtime')
-                ->setParameter('geohash', substr($location->getGeohash(), 0, Weathercache::GEOHASH_PRECISION_LOOKUP).'%')
+                ->setParameter('geohash', substr($location->getGeohash(), 0, Weathercache::GEOHASH_PRECISION_LOOKUP) . '%')
                 ->setParameter('starttime', $location->getTimestamp() - $timeTolerance)
                 ->setParameter('endtime', $location->getTimestamp() + $timeTolerance)
                 ->orderBy('w.time', 'DESC')
@@ -39,7 +39,7 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
 
     public function cacheWeatherData(WeatherData $data, Location $location)
     {
-        if (null === $this->getCachedWeatherDataFor($location, DatabaseCache::TIME_PRECISION)) {
+        if ($this->getCachedWeatherDataFor($location, DatabaseCache::TIME_PRECISION) === null) {
             $cache = new Weathercache();
             $cache->setWeatherData($data);
             $cache->setLocation($location);

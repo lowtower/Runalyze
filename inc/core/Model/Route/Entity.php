@@ -22,7 +22,8 @@ use Runalyze\Calculation\Route\GeohashLine;
  * @author Hannes Christiansen
  * @package Runalyze\Model\Route
  */
-class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\WithNullableArraysInterface {
+class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\WithNullableArraysInterface
+{
     use Model\Common\WithNullableArraysTrait;
 
 	/**
@@ -152,7 +153,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     /**
      * Construct
      */
-    public function __construct(array $data = array()) {
+    public function __construct(array $data = []) {
         parent::__construct($data);
 
         if ($this->hasGeohashes() && ! empty($this->Data[self::GEOHASHES] )) {
@@ -192,7 +193,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     }
 
 	/**
-	 * Check array sizes
 	 * @throws \RuntimeException
 	 */
 	protected function checkArraySizes() {
@@ -207,18 +207,17 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 						$this->checkArraySize( $count );
 					}
 				} catch(\RuntimeException $E) {
-					throw new \RuntimeException($E->getMessage().' (for '.$key.')', $E->getCode(), $E);
+					throw new \RuntimeException($E->getMessage() . ' (for ' . $key . ')', $E->getCode(), $E);
 				}
 			}
 		}
 	}
 
     /**
-     * All properties
      * @return array<int, string>
      */
     public static function allProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::CITIES,
 		    self::DISTANCE,
@@ -235,8 +234,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		    self::MIN,
 		    self::MAX,
 		    self::IN_ROUTENET,
-		    self::LOCK
-		);
+		    self::LOCK,
+		];
 	}
 
     /**
@@ -244,7 +243,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * @return array<int, string>
      */
     public static function allDatabaseProperties(): array {
-		return array(
+		return [
 		    self::NAME,
 		    self::CITIES,
 		    self::DISTANCE,
@@ -260,8 +259,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		    self::ENDPOINT,
 		    self::MIN,
 		    self::MAX,
-		    self::IN_ROUTENET
-		);
+		    self::IN_ROUTENET,
+		];
 	}
 
     /**
@@ -324,14 +323,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * Ensure that numeric fields get numeric values
 	 */
 	protected function ensureAllNumericValues() {
-		$this->ensureNumericValue(array(
+		$this->ensureNumericValue([
 		    self::DISTANCE,
 		    self::ELEVATION,
 		    self::ELEVATION_UP,
 		    self::ELEVATION_DOWN,
 		    self::ALTITUDE_BAROMETRIC,
-		    self::IN_ROUTENET
-		));
+		    self::IN_ROUTENET,
+		]);
 	}
 
 	/**
@@ -354,18 +353,15 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $this->Data[self::GEOHASHES] = $geohashes;
     }
 
-	/**
-	 * @param array $geohashes
-	 */
 	public function setMinMaxFromGeohashes(?array $geohashes = null) {
-	    if (null === $geohashes) {
+	    if ($geohashes === null) {
 	        $this->setMinMaxToNull();
 
 	        return;
         }
 
-		$latitudes = array();
-		$longitudes = array();
+		$latitudes = [];
+		$longitudes = [];
 
 		foreach ($geohashes as $geohash) {
 			$coordinate = (new Geohash())->decode($geohash)
@@ -397,10 +393,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$latitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $latitudes);
 		$longitudes = array_map(function ($value) { return ($value == '') ? 0 : (double) $value; }, $longitudes);
 
-		$geohashes = array();
+		$geohashes = [];
 
 		for ($i = 0; $i < $size; ++$i) {
-			$geohashes[] = (new Geohash())->encode(new Coordinate(array($latitudes[$i], $longitudes[$i])), self::PATH_GEOHASH_PRECISION)->getGeohash();
+			$geohashes[] = (new Geohash())->encode(new Coordinate([$latitudes[$i], $longitudes[$i]]), self::PATH_GEOHASH_PRECISION)->getGeohash();
 		}
 
 		$this->Data[self::GEOHASHES] = $geohashes;
@@ -414,7 +410,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	 * @return array Array with coordiantes: ['lat' => array, 'lng' => array]
 	 */
 	public function latitudesAndLongitudesFromGeohash(): array {
-		$Coordinates = array();
+		$Coordinates = [];
 		$Geohashes = $this->Data[self::GEOHASHES];
 		$size = count($this->Data[self::GEOHASHES]);
 
@@ -452,10 +448,10 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$longitudes = array_filter($longitudes);
 
 		if ($latitudes !== [] && $longitudes !== []) {
-			$MinCoordinate = new Coordinate(array(min($latitudes), min($longitudes)));
+			$MinCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
 			$this->Data[self::MIN] = (new Geohash())->encode($MinCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
-			$MaxCoordinate = new Coordinate(array(max($latitudes), max($longitudes)));
+			$MaxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
 			$this->Data[self::MAX] = (new Geohash())->encode($MaxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 		} else {
 			$this->setMinMaxToNull();
@@ -477,8 +473,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 		$this->Data[self::STARTPOINT] = $this->findStartpoint();
 		$this->Data[self::ENDPOINT] = $this->findEndpoint();
 
-		if (null === $this->Data[self::STARTPOINT]) {
-			$this->Data[self::GEOHASHES] = array();
+		if ($this->Data[self::STARTPOINT] === null) {
+			$this->Data[self::GEOHASHES] = [];
 		}
 	}
 
@@ -500,7 +496,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * @return null|string
      */
     protected function findFirstNonNullGeohash(array $geohashes) {
-		$nullGeohash = (new Geohash())->encode(new Coordinate(array(0, 0)), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+		$nullGeohash = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
 		foreach ($geohashes as $geohash) {
 			$geohash = substr($geohash, 0, self::BOUNDARIES_GEOHASH_PRECISION);
@@ -534,7 +530,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Name
 	 * @return string
 	 */
 	public function name() {
@@ -549,7 +544,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Distance
 	 * @return float
 	 */
 	public function distance() {
@@ -557,7 +551,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Elevation
 	 * @return int
 	 */
 	public function elevation() {
@@ -565,7 +558,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Elevation up
 	 * @return int
 	 */
 	public function elevationUp() {
@@ -573,7 +565,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	}
 
 	/**
-	 * Elevation down
 	 * @return int
 	 */
 	public function elevationDown() {
@@ -587,7 +578,6 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	public function geohashes() {
 		return $this->Data[self::GEOHASHES];
 	}
-
 
 	/**
 	 * Has position data?
@@ -668,7 +658,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 			return $this->elevationsOriginal();
 		}
 
-		return array();
+		return [];
 	}
 
 	public function hasElevations(): bool {
@@ -701,7 +691,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 	public static function gpsDistance($lat1, $lon1, $lat2, $lon2) {
 		$rad1 = deg2rad($lat1);
 		$rad2 = deg2rad($lat2);
-		$dist = sin($rad1) * sin($rad2) +  cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
+		$dist = sin($rad1) * sin($rad2) + cos($rad1) * cos($rad2) * cos(deg2rad($lon1 - $lon2));
 		$dist = acos($dist);
 		$dist = rad2deg($dist);
 

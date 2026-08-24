@@ -6,14 +6,20 @@ use Runalyze\Util\File\GZipReader;
 
 class JsonBackupAnalyzer
 {
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $VersionString = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $RunalyzeVersion = '';
 
-	/** @var array ['table' => #rows] */
-	protected $NumberOf = array();
+	/**
+	 * @var array ['table' => #rows]
+	 */
+	protected $NumberOf = [];
 
 	/**
 	 * Construct
@@ -72,7 +78,7 @@ class JsonBackupAnalyzer
 			return 'unknown';
 		}
 
-		return 'v'.$this->VersionString;
+		return 'v' . $this->VersionString;
 	}
 
 	protected function expectedTablesAreThere(): bool
@@ -90,14 +96,14 @@ class JsonBackupAnalyzer
     {
 		$Expected = $this->expectedTables();
 		$Found = array_keys($this->NumberOf);
-		$Errors = array();
+		$Errors = [];
 
 		foreach (array_diff($Expected, $Found) as $MissingKey) {
-			$Errors[] = 'Missing table: '.$MissingKey;
+			$Errors[] = 'Missing table: ' . $MissingKey;
 		}
 
 		foreach (array_diff($Found, $Expected) as $AdditionalKey) {
-			$Errors[] = 'Additional table: '.$AdditionalKey;
+			$Errors[] = 'Additional table: ' . $AdditionalKey;
 		}
 
 		return $Errors;
@@ -108,7 +114,7 @@ class JsonBackupAnalyzer
      */
     protected function expectedTables(): array
     {
-		return array(
+		return [
 		    'runalyze_account',
 		    'runalyze_conf',
 		    'runalyze_dataset',
@@ -128,8 +134,8 @@ class JsonBackupAnalyzer
 		    'runalyze_activity_equipment',
 		    'runalyze_activity_tag',
 		    'runalyze_tag',
-		    'runalyze_raceresult'
-		);
+		    'runalyze_raceresult',
+		];
 	}
 
     /**

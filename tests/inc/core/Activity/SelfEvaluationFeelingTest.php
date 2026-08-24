@@ -34,7 +34,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
             [25,  SelfEvaluationFeeling::WEAK],
             [50,  SelfEvaluationFeeling::NORMAL],
             [75,  SelfEvaluationFeeling::STRONG],
-            [100, SelfEvaluationFeeling::VERY_STRONG]
+            [100, SelfEvaluationFeeling::VERY_STRONG],
         ];
     }
 }

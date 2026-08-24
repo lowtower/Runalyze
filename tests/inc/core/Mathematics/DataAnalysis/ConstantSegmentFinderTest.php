@@ -28,7 +28,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([
             [1, 3],
             [5, 6],
-            [7, 8]
+            [7, 8],
         ], $finder->findConstantSegments());
     }
 
@@ -37,7 +37,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         $finder = new ConstantSegmentFinder([1, 2, 2, 2]);
 
         $this->assertEquals([
-            [1, 3]
+            [1, 3],
         ], $finder->findConstantSegments());
     }
 
@@ -48,7 +48,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([
             [0, 3],
-            [5, 7]
+            [5, 7],
         ], $finder->findConstantSegments());
     }
 
@@ -60,7 +60,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([
             [1, 3],
-            [6, 8]
+            [6, 8],
         ], $finder->findConstantSegments());
     }
 
@@ -72,14 +72,14 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([
             [0, 5],
-            [6, 10]
+            [6, 10],
         ], $finder->findConstantSegments());
 
         $finder->setMaximumIndexDiff(3);
 
         $this->assertEquals([
             [0, 3],
-            [6, 9]
+            [6, 9],
         ], $finder->findConstantSegments());
     }
 }

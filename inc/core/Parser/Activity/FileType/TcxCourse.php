@@ -8,7 +8,9 @@ use SimpleXMLElement;
 
 class TcxCourse extends AbstractSingleParser
 {
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
     public function __construct(SimpleXMLElement $activity)
@@ -39,7 +41,7 @@ class TcxCourse extends AbstractSingleParser
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
     {
         if (! empty($trackPoint->Position)) {
-            $this->Container->ContinuousData->Latitude[]  = (double) $trackPoint->Position->LatitudeDegrees;
+            $this->Container->ContinuousData->Latitude[] = (double) $trackPoint->Position->LatitudeDegrees;
             $this->Container->ContinuousData->Longitude[] = (double) $trackPoint->Position->LongitudeDegrees;
         } elseif ($this->Container->ContinuousData->Latitude !== []) {
             $this->Container->ContinuousData->Latitude[] = end($this->Container->ContinuousData->Latitude);

@@ -9,25 +9,20 @@
  * @author Hannes Christiansen
  * @package Runalyze\Plugin
  */
-class PluginConfigurationWindow {
+class PluginConfigurationWindow
+{
 	/**
 	 * Plugin
 	 * @var \Plugin
 	 */
 	protected $Plugin;
 
-    /**
-     * Constructor
-     */
     public function __construct(Plugin $Plugin) {
 		$this->Plugin = $Plugin;
 
 		$this->handlePostData();
 	}
 
-	/**
-	 * Handle post data
-	 */
 	protected function handlePostData() {
 		if (! empty($_POST)) {
 			$this->updateConfiguration();
@@ -35,9 +30,6 @@ class PluginConfigurationWindow {
 		}
 	}
 
-	/**
-	 * Update configuration
-	 */
 	protected function updateConfiguration() {
 		if (isset($_POST['edit']) && $_POST['edit'] == 'true') {
 			$this->Plugin->Configuration()
@@ -45,45 +37,33 @@ class PluginConfigurationWindow {
 		}
 	}
 
-	/**
-	 * Set reload command
-	 */
 	protected function setReloadCommand() {
 		Ajax::setPluginIDtoReload( $this->Plugin->id() );
 		Ajax::setReloadFlag( Ajax::$RELOAD_PLUGINS );
 		echo Ajax::getReloadCommand();
 	}
 
-	/**
-	 * Display
-	 */
 	public function display() {
 		$this->displayHeader();
 		$this->displayForm();
 	}
 
-	/**
-	 * Display header
-	 */
 	protected function displayHeader() {
-		$Links = array();
-		$Links[] = array(
-		    'tag' => Ajax::window('<a href="'.ConfigTabPlugins::getExternalUrl().'">'.__('back to overview').'</a>')
-		);
+		$Links = [];
+		$Links[] = [
+		    'tag' => Ajax::window('<a href="' . ConfigTabPlugins::getExternalUrl() . '">' . __('back to overview') . '</a>'),
+		];
 
 		echo '<div class="panel-heading">';
 		echo '<div class="panel-menu">';
 		echo Ajax::toolbarNavigation($Links);
 		echo '</div>';
-		echo '<h1>'.__('Plugin configuration').': '.$this->Plugin->name().'</h1>';
+		echo '<h1>' . __('Plugin configuration') . ': ' . $this->Plugin->name() . '</h1>';
 		echo '</div>';
 	}
 
-	/**
-	 * Display form
-	 */
 	protected function displayForm() {
-		$Formular = new Formular(Plugin::$CONFIG_URL.'?id='.$this->Plugin->id(), 'post');
+		$Formular = new Formular(Plugin::$CONFIG_URL . '?id=' . $this->Plugin->id(), 'post');
 		$Formular->addCSSclass('ajax');
 		$Formular->addCSSclass('no-automatic-reload');
 		$Formular->addHiddenValue('edit', 'true');
@@ -132,8 +112,8 @@ class PluginConfigurationWindow {
      */
     protected function getFieldsetForActivation(): \FormularFieldset {
 		$activationLink = $this->Plugin->isInActive()
-			? $this->Plugin->getConfigLink( __('Activate plugin'), '&active='.Plugin::ACTIVE)
-			: $this->Plugin->getConfigLink( __('Deactivate plugin'), '&active='.Plugin::ACTIVE_NOT);
+			? $this->Plugin->getConfigLink( __('Activate plugin'), '&active=' . Plugin::ACTIVE)
+			: $this->Plugin->getConfigLink( __('Deactivate plugin'), '&active=' . Plugin::ACTIVE_NOT);
 
 		$Fieldset = new FormularFieldset( __('Activation') );
 		$Fieldset->addInfo( $activationLink );

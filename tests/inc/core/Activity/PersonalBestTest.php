@@ -2,14 +2,14 @@
 
 namespace Runalyze\Activity;
 
-
 use DB;
 
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class PersonalBestTest extends \PHPUnit\Framework\TestCase {
+class PersonalBestTest extends \PHPUnit\Framework\TestCase
+{
 	/**
 	 * @var \PDO
 	 */
@@ -27,18 +27,18 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
+		$this->PDO->exec('DELETE FROM `' . PREFIX . 'training`');
 	}
 
 	protected function insert($dist, $s, $time = 0) {
 		$this->PDO->exec(
-		    'INSERT INTO `'.PREFIX.'training` (`distance`, `s`, `time`, `sportid`, `accountid`) '.
-			'VALUES ('.$dist.', '.$s.', '.$time.', '.self::SPORTID.', 0)'
+		    'INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `time`, `sportid`, `accountid`) ' .
+			'VALUES (' . $dist . ', ' . $s . ', ' . $time . ', ' . self::SPORTID . ', 0)'
 		);
 		$activityId = $this->PDO->lastInsertId();
 		$this->PDO->exec(
-		    'INSERT INTO `'.PREFIX.'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) '.
-			'VALUES ('.$dist.', '.$s.', 0, '.$activityId.')'
+		    'INSERT INTO `' . PREFIX . 'raceresult` (`official_distance`, `official_time`, `accountid`, `activity_id`) ' .
+			'VALUES (' . $dist . ', ' . $s . ', 0, ' . $activityId . ')'
 		);
 		return $activityId;
 	}
@@ -94,7 +94,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$this->insert(5.0, 1100);
 		$this->insert(5.0, 1200);
 
-		$this->assertEquals(3, PersonalBest::lookupDistances(array(1, 3.1, 5), self::SPORTID, $this->PDO));
+		$this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO));
 
 		$PDO = new \PDO('sqlite::memory:');
 
@@ -118,7 +118,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$this->insert(5.0, 1100, $date);
 		$this->insert(5.0, 1200, $date);
 
-		$this->assertEquals(3, PersonalBest::lookupDistances(array(1, 3.1, 5), self::SPORTID, $this->PDO, true));
+		$this->assertEquals(3, PersonalBest::lookupDistances([1, 3.1, 5], self::SPORTID, $this->PDO, true));
 
 		$PDO = new \PDO('sqlite::memory:');
 
@@ -143,7 +143,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$first = $this->insert(1.0, 180, $date1);
 		$this->insert(1.0, 180, $date2);
 
-		$this->assertEquals(1, PersonalBest::lookupDistances(array(1.0), self::SPORTID, $this->PDO, true));
+		$this->assertEquals(1, PersonalBest::lookupDistances([1.0], self::SPORTID, $this->PDO, true));
 
 		$PDO = new \PDO('sqlite::memory:');
 
@@ -153,5 +153,4 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($date1, $PB->timestamp());
 		$this->assertEquals($first, $PB->activityId());
 	}
-
 }

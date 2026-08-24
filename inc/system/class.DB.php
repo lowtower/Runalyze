@@ -13,16 +13,14 @@
  * @package Runalyze\System
  * @deprecated since v3.0
  */
-class DB {
+class DB
+{
 	/**
 	 * Private PDO instance
 	 * @var PDO
 	 */
 	private static $PDO;
 
-	/**
-	 * Private constructor
-	 */
 	private function __construct() {}
 
 	/**
@@ -39,7 +37,7 @@ class DB {
 	 * @param string $database
 	 */
 	public static function connect($host, $port, $user, $password, $database) {
-		self::$PDO = new PDOforRunalyze('mysql:dbname='.$database.';host='.$host.';port='.$port.';charset=utf8', $user, $password);
+		self::$PDO = new PDOforRunalyze('mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . ';charset=utf8', $user, $password);
 		self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 	}

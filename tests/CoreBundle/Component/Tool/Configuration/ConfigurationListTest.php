@@ -9,7 +9,7 @@ class ConfigurationListTest extends \PHPUnit\Framework\TestCase
     public function testSimpleConstructor()
     {
         $list = new ConfigurationList([
-            'foo' => 'bar'
+            'foo' => 'bar',
         ]);
 
         $this->assertEquals('bar', $list->get('foo'));
@@ -19,11 +19,11 @@ class ConfigurationListTest extends \PHPUnit\Framework\TestCase
     {
         $list = new ConfigurationList([
             'foo' => 1,
-            'bar' => 2
+            'bar' => 2,
         ]);
         $list->mergeWith([
             'foo' => 42,
-            'baz' => true
+            'baz' => true,
         ]);
 
         $this->assertEquals(42, $list->get('foo'));

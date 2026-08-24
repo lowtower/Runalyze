@@ -6,10 +6,14 @@ use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 
 class ContinuousDataMerger implements MergerInterface
 {
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $ResultingData;
 
-    /** @var ContinuousData */
+    /**
+     * @var ContinuousData
+     */
     protected $DataToMerge;
 
     public function __construct(ContinuousData $firstData, ContinuousData $secondData)

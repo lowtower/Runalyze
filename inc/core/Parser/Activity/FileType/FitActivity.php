@@ -18,55 +18,89 @@ class FitActivity extends AbstractSingleParser
 {
     use StrtotimeWithLocalTimezoneOffsetTrait;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     const TIME_LIMIT_FOR_TIME_JUMP = 3600;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const APP_ID_RUNSCRIBE_LIGHT = '80,32,146,179,176,221,69,173,137,179,71,42,178,6,10,182';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     const APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Header = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $Values = [];
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $PauseInSeconds = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $TimeJumpsInSeconds = 0;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsSwimming = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsPaused = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $WasPaused = false;
 
-    /** @var int|bool */
+    /**
+     * @var int|bool
+     */
     protected $LastStopTimestamp = false;
 
-    /** @var float [s] */
+    /**
+     * @var float [s]
+     */
     protected $CompressedTotalTime = 0.0;
 
-    /** @var float [16m] */
+    /**
+     * @var float [16m]
+     */
     protected $CompressedTotalDistance16 = 0.0;
 
-    /** @var float [16m] */
+    /**
+     * @var float [16m]
+     */
     protected $CompressedLastDistance16 = 0.0;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $SoftwareVersion = '';
 
-    /** @var int|null Recovery time from undocumented message 140 */
+    /**
+     * @var int|null Recovery time from undocumented message 140
+     */
     protected $RecoveryTimeFallback;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DeveloperFieldMappingForRecord = [
         'Power' => ['power', 1],
         'ContactTime' => ['stance_time', 10],
@@ -84,79 +118,91 @@ class FitActivity extends AbstractSingleParser
         'RS_Pronation_L' => ['pronation_left', 1],
         'RS_Pronation_R' => ['pronation_right', 1],
         'saturated_hemoglobin_percent' => ['smo2_0', 0.1],
-        'total_hemoglobin_conc' => ['thb_0', 1]
+        'total_hemoglobin_conc' => ['thb_0', 1],
     ];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $NativeFieldMappingForRecord = [
         // TODO: native fields aller verwendeten Arrays
         3 => ['heart_rate'],
         4 => [
             'cadence', [
                 'default' => 1,
-                'SPM' => 0.5
+                'SPM' => 0.5,
             ]],
         5 => [
             'distance', [
                 'default' => 1,
-                'm' => 100
+                'm' => 100,
             ]],
         7 => ['power'],
         39 => [
             'vertical_oscillation', [
                 'default' => 1,
-                'Centimeters' => 100
+                'Centimeters' => 100,
             ]],
         40 => [
             'stance_time', [
                 'default' => 1,
-                'Milliseconds' => 10
+                'Milliseconds' => 10,
             ]],
         54 => [['thb_0', 'thb_1'], [
             'default' => 100,
             'base_type' => [
-                'uint16' => 1
-            ]
+                'uint16' => 1,
+            ],
         ]],
         57 => [['smo2_0', 'smo2_1'], [
             'default' => 1,
             'base_type' => [
-                'uint16' => 0.1
-            ]
-        ]]
+                'uint16' => 0.1,
+            ],
+        ]],
     ];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DeveloperFieldMappingForSession = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $NativeFieldMappingForSession = [
         9 => [
             'total_distance', [
                 'default' => 1,
-                'm' => 100
+                'm' => 100,
             ]],
         11 => ['total_calories'],
         44 => [
             'pool_length', [
                 'default' => 1,
-                'm' => 100
+                'm' => 100,
             ]],
     ];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $DeveloperFieldMappingForLap = [];
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $NativeFieldMappingForLap = [
         9 => [
             'total_distance', [
                 'default' => 1,
-                'm' => 100
+                'm' => 100,
             ]],
     ];
 
-    /** @var array [developer_data_index => application_id] */
+    /**
+     * @var array [developer_data_index => application_id]
+     */
     protected $DeveloperDataAppIds = [];
 
     // #TSC: time of a "record" row
@@ -173,7 +219,9 @@ class FitActivity extends AbstractSingleParser
     // additional infos for strength-training
     protected $fitSplitsAdditionals;
 
-    /** @var FitWorkoutStep */
+    /**
+     * @var FitWorkoutStep
+     */
     protected $fitWorkoutStep;
 
     public function __construct()
@@ -193,7 +241,7 @@ class FitActivity extends AbstractSingleParser
      */
     public function finishParsing()
     {
-        if ('suunto' == $this->Container->Metadata->getCreator()) {
+        if ($this->Container->Metadata->getCreator() == 'suunto') {
             $this->Container->ActivityData->Duration = end($this->Container->ContinuousData->Time);
             $this->Container->Rounds->add(new Round(
                 end($this->Container->ContinuousData->Distance) - $this->Container->Rounds->getTotalDistance(),
@@ -201,7 +249,7 @@ class FitActivity extends AbstractSingleParser
             ));
         }
 
-        if (null === $this->Container->FitDetails->RecoveryTime && null !== $this->RecoveryTimeFallback) {
+        if ($this->Container->FitDetails->RecoveryTime === null && $this->RecoveryTimeFallback !== null) {
             $this->Container->FitDetails->RecoveryTime = $this->RecoveryTimeFallback;
         }
 
@@ -222,7 +270,7 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC: set the
         if (empty($this->Container->ActivityData->AvgTemperature) && ! empty($this->batteryTemperature)) {
-            $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature)/count($this->batteryTemperature);
+            $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature) / count($this->batteryTemperature);
         }
 
         // #TSC: Save additional infos of splits (f.e. strong-training) as JSON
@@ -277,7 +325,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         $devFieldName = str_replace(['"', ' '], ['', '_'], $this->Values['field_name'][0]);
-        $fieldName = $this->Values['developer_data_index'][0].'_'.$this->Values['field_definition_number'][0].'_'.$devFieldName;
+        $fieldName = $this->Values['developer_data_index'][0] . '_' . $this->Values['field_definition_number'][0] . '_' . $devFieldName;
         $fieldName = preg_replace_callback('/(\W)/i', function(array $char): string {
             return sprintf('_%02x_', ord($char[0]));
         }, preg_replace('/(\s+)/i', '_', $fieldName));
@@ -319,7 +367,7 @@ class FitActivity extends AbstractSingleParser
 
     protected function adjustFieldDescriptionForDeveloperApp($appId)
     {
-        if (self::APP_ID_RUNSCRIBE_LIGHT == $appId || self::APP_ID_RUNSCRIBE_PLUS == $appId) {
+        if ($appId == self::APP_ID_RUNSCRIBE_LIGHT || $appId == self::APP_ID_RUNSCRIBE_PLUS) {
             $this->adjustFieldDescriptionForRunScribeLight();
         }
     }
@@ -329,7 +377,7 @@ class FitActivity extends AbstractSingleParser
      */
     protected function adjustFieldDescriptionForRunScribeLight()
     {
-        $fieldName = $this->Values['developer_data_index'][0].'_'.$this->Values['field_definition_number'][0].'_';
+        $fieldName = $this->Values['developer_data_index'][0] . '_' . $this->Values['field_definition_number'][0] . '_';
         $resultingFieldNames = [
             0 => 'impact_gs_left',
             1 => 'braking_gs_left',
@@ -339,13 +387,13 @@ class FitActivity extends AbstractSingleParser
             7 => 'braking_gs_right',
             8 => 'fs_type_right',
             9 => 'pronation_right',
-            12 => 'power'
+            12 => 'power',
         ];
 
         if (isset($resultingFieldNames[(int) $this->Values['field_definition_number'][0]])) {
             $this->DeveloperFieldMappingForRecord[$fieldName] = [
                 $resultingFieldNames[(int) $this->Values['field_definition_number'][0]],
-                1.0
+                1.0,
             ];
         }
     }
@@ -355,7 +403,7 @@ class FitActivity extends AbstractSingleParser
      */
     public function parseLine($line)
     {
-        if ('=' == $line[0]) {
+        if ($line[0] == '=') {
             if ($this->Header === []) {
                 $this->setHeaderFrom($line);
             } else {
@@ -364,7 +412,7 @@ class FitActivity extends AbstractSingleParser
                 $this->Header = [];
                 $this->Values = [];
             }
-        } elseif ('-' == $line[0]) {
+        } elseif ($line[0] == '-') {
             $this->addValueFrom($line);
         }
     }
@@ -513,7 +561,7 @@ class FitActivity extends AbstractSingleParser
             if (isset($this->Values['software_version'])) {
                 $this->SoftwareVersion = $this->Values['software_version'][1];
 
-                $this->Container->Metadata->setCreator($this->Container->Metadata->getCreator(), 'firmware '.$this->SoftwareVersion);
+                $this->Container->Metadata->setCreator($this->Container->Metadata->getCreator(), 'firmware ' . $this->SoftwareVersion);
             }
         }
     }
@@ -643,7 +691,7 @@ class FitActivity extends AbstractSingleParser
         if (isset($this->Values['name'])) {
             $v = 'Profile: ' . substr($this->Values['name'][0], 1, -1);
             if(! empty($this->Container->Metadata->getNotes())) {
-                $v = $v . "\n".$this->Container->Metadata->getNotes();
+                $v = $v . "\n" . $this->Container->Metadata->getNotes();
             }
 
             $this->Container->Metadata->setNotes($v);
@@ -660,7 +708,7 @@ class FitActivity extends AbstractSingleParser
         $metadata = $this->Container->Metadata;
 
         // Do not overwrite a sport that has already been identified.
-        if (null !== $metadata->getInternalSportId() && '' !== $metadata->getSportName()
+        if ($metadata->getInternalSportId() !== null && $metadata->getSportName() !== ''
         ) {
             return;
         }
@@ -682,7 +730,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // Fall back to the generic FIT sport mapping.
-        if (null === $internalId) {
+        if ($internalId === null) {
             $internalId = $fitSdkMapping->toInternal($this->Values['sport'][0]);
         }
 
@@ -700,7 +748,7 @@ class FitActivity extends AbstractSingleParser
 
     protected function readUndocumentedUserData()
     {
-        if (isset($this->Values['unknown0']) && 0.0 == $this->Container->FitDetails->VO2maxEstimate) {
+        if (isset($this->Values['unknown0']) && $this->Container->FitDetails->VO2maxEstimate == 0.0) {
             // TSC: used on fenix6
             $this->Container->FitDetails->VO2maxEstimate = round((int) $this->Values['unknown0'][1] * 3.5 / 1024, 2);
         }
@@ -710,7 +758,7 @@ class FitActivity extends AbstractSingleParser
     {
         if (isset($this->Values['performance_condition_end'])) {
             $this->Container->FitDetails->PerformanceConditionEnd = 100 + (float) $this->Values['performance_condition_end'][1];
-            if (null === $this->Container->FitDetails->PerformanceCondition && null !== $this->Container->FitDetails->HrvAnalysis) {
+            if ($this->Container->FitDetails->PerformanceCondition === null && $this->Container->FitDetails->HrvAnalysis !== null) {
                 $this->Container->FitDetails->PerformanceCondition = $this->Container->FitDetails->HrvAnalysis;
                 $this->Container->FitDetails->HrvAnalysis = null;
             }
@@ -899,7 +947,7 @@ class FitActivity extends AbstractSingleParser
         $this->Container->ContinuousData->Longitude[] = isset($this->Values['position_long']) ? substr($this->Values['position_long'][1], 0, -4) : null;
 
         // TSC: check if altitude baro is not yet set; try to set it one time
-        if(null === $this->Container->ContinuousData->IsAltitudeDataBarometric) {
+        if($this->Container->ContinuousData->IsAltitudeDataBarometric === null) {
             // TSC: check if "enhanced_altitude" is existing - if true => reading alti by Baro!
             if(isset($this->Values['enhanced_altitude']) && $this->Values['enhanced_altitude'][0] != 0) {
                 $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
@@ -928,7 +976,7 @@ class FitActivity extends AbstractSingleParser
         $this->Container->ContinuousData->Time[] = $time;
 
         //Running Dynamics
-        $this->Container->ContinuousData->GroundContactTime[] = isset($this->Values['stance_time']) ? round($this->Values['stance_time'][0]/10) : (
+        $this->Container->ContinuousData->GroundContactTime[] = isset($this->Values['stance_time']) ? round($this->Values['stance_time'][0] / 10) : (
             isset($this->Values['stance_time_left']) && isset($this->Values['stance_time_right']) ? round(($this->Values['stance_time_left'][0] + $this->Values['stance_time_right'][0]) / 2 / 10) : null
         );
         $this->Container->ContinuousData->VerticalOscillation[] = isset($this->Values['vertical_oscillation']) ? round($this->Values['vertical_oscillation'][0] / 10) : null;
@@ -1028,7 +1076,7 @@ class FitActivity extends AbstractSingleParser
 
                 // #TSC set more detailed intensity (like warmup or recovery) for this lap
                 $v = $this->fitWorkoutStep->getIntensity($i);
-                if (null !== $v) {
+                if ($v !== null) {
                     // special case: if we have a lap with time and distance and its marked as REST we change it to RECOVERY
                     // if i use Fenix6 with interval created on the device, the laps between the intervals are pause - but i want RECOVERY
                     if ($v->isRest()) {
@@ -1055,7 +1103,7 @@ class FitActivity extends AbstractSingleParser
     protected function readSet()
     {
         $round = $this->fitSplitsAdditionals->getSetRoundAndCollect($this->Values);
-        if(null !== $round) {
+        if($round !== null) {
             $this->Container->Rounds->add($round);
         }   
     }
@@ -1127,19 +1175,19 @@ class FitActivity extends AbstractSingleParser
             }
 
             if(isset($this->Container->ContinuousData->Temperature[$i])) {
-                $tempVal[]   = $this->Container->ContinuousData->Temperature[$i];
+                $tempVal[] = $this->Container->ContinuousData->Temperature[$i];
             }
         }
 
         // calculate the avg of the current lane
         if(count($heartsVal) > 0) {
-            $this->SwimHeartrate[] = round(array_sum($heartsVal)/count($heartsVal));
+            $this->SwimHeartrate[] = round(array_sum($heartsVal) / count($heartsVal));
         } else {
             $this->SwimHeartrate[] = null;
         }
 
         if(count($tempVal) > 0) {
-            $this->SwimTemperature[] = round(array_sum($tempVal)/count($tempVal));
+            $this->SwimTemperature[] = round(array_sum($tempVal) / count($tempVal));
         } else {
             $this->SwimTemperature[] = null;
         }
@@ -1168,11 +1216,11 @@ class FitActivity extends AbstractSingleParser
      */
     protected function getSportNameFor($internalId, $fitSportName = '')
     {
-        if (SportProfile::BOULDERING === $internalId) {
+        if ($internalId === SportProfile::BOULDERING) {
             return 'Bouldering';
         }
 
-        if (SportProfile::CLIMBING_INDOOR === $internalId) {
+        if ($internalId === SportProfile::CLIMBING_INDOOR) {
             return 'Indoor Climbing';
         }
 
@@ -1241,10 +1289,10 @@ class FitActivity extends AbstractSingleParser
             && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
             // init value
             if ($this->Container->ActivityData->PaceGoal === null) {
-                $this->Container->ActivityData->PaceGoal = array();
+                $this->Container->ActivityData->PaceGoal = [];
             }
 
-            $split = array();
+            $split = [];
 
             // real running values
             $split['t_s'] = $total_timer_time_s;

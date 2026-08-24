@@ -4,7 +4,9 @@ namespace Runalyze\Parser\Common;
 
 trait FileContentAwareParserTrait
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $FileContent;
 
     /**

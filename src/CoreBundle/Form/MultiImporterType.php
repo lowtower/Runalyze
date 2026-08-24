@@ -18,7 +18,7 @@ class MultiImporterType extends AbstractType
         $builder->add('show_multi_editor', CheckboxType::class, [
             'required' => false,
             'mapped' => false,
-            'label' => 'Show multi editor afterwards'
+            'label' => 'Show multi editor afterwards',
         ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -52,14 +52,14 @@ class MultiImporterType extends AbstractType
             'multiple' => true,
             'expanded' => true,
             'choices' => $activityHashes,
-            'choice_translation_domain' => false
+            'choice_translation_domain' => false,
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => null
+            'data_class' => null,
         ]);
     }
 }

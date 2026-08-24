@@ -8,22 +8,34 @@ use Runalyze\Util\LocalTime;
 
 class Shape
 {
-    /** @var \PDO */
+    /**
+     * @var \PDO
+     */
     protected $PDO;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $AccountID;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $RunningID;
 
-    /** @var \Runalyze\Configuration\Category\VO2max */
+    /**
+     * @var \Runalyze\Configuration\Category\VO2max
+     */
     protected $Configuration;
 
-    /** @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector */
+    /**
+     * @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector
+     */
     protected $Corrector;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $Value;
 
     /**
@@ -57,13 +69,13 @@ class Shape
 
         $data = $this->PDO->query(
             'SELECT
-				SUM('.self::mysqlVO2maxSumTime($this->Configuration->useElevationCorrection()).') as `ssum`,
-				SUM('.self::mysqlVO2maxSum($this->Configuration->useElevationCorrection()).') as `value`
-			FROM `'.PREFIX.'training`
+				SUM(' . self::mysqlVO2maxSumTime($this->Configuration->useElevationCorrection()) . ') as `ssum`,
+				SUM(' . self::mysqlVO2maxSum($this->Configuration->useElevationCorrection()) . ') as `value`
+			FROM `' . PREFIX . 'training`
 			WHERE
-				`sportid`='.(int) $this->RunningID.' AND
-				`time` BETWEEN '.($time - $this->Configuration->days() * DAY_IN_S).' AND '.$time.' AND
-				`accountid`='.(int) $this->AccountID.'
+				`sportid`=' . (int) $this->RunningID . ' AND
+				`time` BETWEEN ' . ($time - $this->Configuration->days() * DAY_IN_S) . ' AND ' . $time . ' AND
+				`accountid`=' . (int) $this->AccountID . '
 			GROUP BY `sportid`
 			LIMIT 1'
         )->fetch();
@@ -84,7 +96,7 @@ class Shape
      */
     public static function mysqlVO2maxSum($withElevation = false): string
     {
-        return '`'.self::getVO2maxColumn($withElevation).'`*`s`*`use_vo2max`';
+        return '`' . self::getVO2maxColumn($withElevation) . '`*`s`*`use_vo2max`';
     }
 
     /**
@@ -96,7 +108,7 @@ class Shape
      */
     public static function mysqlVO2maxSumTime($withElevation = false): string
     {
-        return '`s`*`use_vo2max`*(`'.self::getVO2maxColumn($withElevation).'` > 0)';
+        return '`s`*`use_vo2max`*(`' . self::getVO2maxColumn($withElevation) . '` > 0)';
     }
 
     /**
@@ -118,7 +130,7 @@ class Shape
      */
     public function value()
     {
-        if (null === $this->Corrector) {
+        if ($this->Corrector === null) {
             $this->Corrector = new LegacyEffectiveVO2maxCorrector();
         }
 
@@ -133,7 +145,7 @@ class Shape
      */
     public function uncorrectedValue()
     {
-        if (null === $this->Value) {
+        if ($this->Value === null) {
             throw new \RuntimeException('The value has to be calculated first.');
         }
 

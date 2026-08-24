@@ -15,7 +15,7 @@ class EquipmentRepository extends EntityRepository
     {
         return $this->findBy([
             'type' => $equipmentTypeId,
-            'account' => $account->getId()
+            'account' => $account->getId(),
         ]);
     }
 
@@ -27,7 +27,7 @@ class EquipmentRepository extends EntityRepository
     {
         return $this->findBy([
             'account' => $account->getId(),
-            'name' => $equipmentName
+            'name' => $equipmentName,
         ]);
     }
 

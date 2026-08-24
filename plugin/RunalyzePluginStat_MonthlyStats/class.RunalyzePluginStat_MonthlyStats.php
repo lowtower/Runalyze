@@ -13,23 +13,17 @@ use Runalyze\Configuration;
  * @author Hannes Christiansen
  * @package Runalyze\Plugins\Stats
  */
-class RunalyzePluginStat_MonthlyStats extends PluginStat {
-    /**
-     * Name
-     */
+class RunalyzePluginStat_MonthlyStats extends PluginStat
+{
     final public function name(): string {
 		return __('Monthly Stats');
 	}
 
-    /**
-     * Description
-     */
     final public function description(): string {
 		return sprintf(__('How many %s/hours did you do per month'), Configuration::General()->distanceUnitSystem()->distanceUnit());
 	}
 
 	/**
-	 * Display the content
 	 * @see PluginStat::displayContent()
 	 */
 	protected function displayContent() {

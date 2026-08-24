@@ -7,10 +7,14 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
 class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var GeohashArray */
+    /**
+     * @var GeohashArray
+     */
     protected $Type;
 
-    /** @var AbstractPlatform */
+    /**
+     * @var AbstractPlatform
+     */
     protected $PlatformMock;
 
     protected function setUp(): void

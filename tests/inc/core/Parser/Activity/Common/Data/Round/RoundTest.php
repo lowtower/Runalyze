@@ -57,7 +57,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
             [true, 1.0, 265, false, 1.0, 265, false],
             [false, 1.0, 265, true, 1.0, 265, false],
             [false, 1.0, 265, false, 1.01, 265, false],
-            [false, 1.0, 264, false, 1.0, 265, false]
+            [false, 1.0, 264, false, 1.0, 265, false],
         ];
     }
 }

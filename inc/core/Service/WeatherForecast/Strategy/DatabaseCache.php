@@ -9,10 +9,14 @@ use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 
 class DatabaseCache implements StrategyInterface
 {
-    /** @var int [s] time range for cache lookup (in seconds) (+/- 30 min) */
+    /**
+     * @var int [s] time range for cache lookup (in seconds) (+/- 30 min)
+     */
     const TIME_PRECISION = 1800;
 
-    /** @var DatabaseCacheInterface */
+    /**
+     * @var DatabaseCacheInterface
+     */
     protected $Cache;
 
     public function __construct(DatabaseCacheInterface $cache)

@@ -20,9 +20,9 @@ class SecurityExceptionListener
             $event->setResponse($response);
         } elseif ($exception instanceof LockedException) {
             $kernel = $event->getKernel();
-            $response  = $kernel->forward('AcmeDemoBundle:AccountStatus:locked', array(
+            $response = $kernel->forward('AcmeDemoBundle:AccountStatus:locked', [
                 'exception' => $exception,
-            ));
+            ]);
 
             $event->setResponse($response);
         }

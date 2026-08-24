@@ -17,34 +17,54 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     use PauseDetectionCapableTrait;
     use StrtotimeWithLocalTimezoneOffsetTrait;
 
-    /** @var SimpleXMLElement */
+    /**
+     * @var SimpleXMLElement
+     */
     protected $Xml;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     private static $IGNORE_NO_MOVE_UNTIL = 1;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseInSeconds = 0;
 
-    /** @var int [m] */
+    /**
+     * @var int [m]
+     */
     protected $LastPoint = 0;
 
-    /** @var float [m] */
+    /**
+     * @var float [m]
+     */
     protected $LastDistance = -1;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $LastPointWasEmpty = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $IsWithoutDistance = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $DistancesAreEmpty = false;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $WasPause = false;
 
-    /** @var int [s] */
+    /**
+     * @var int [s]
+     */
     protected $PauseDuration = 0;
 
     public function __construct(SimpleXMLElement $activity)
@@ -130,11 +150,11 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $this->Container->Rounds->add(new Round(
             round((int) $lap->DistanceMeters) / 1000,
             round((float) $lap->TotalTimeSeconds),
-            'Active' === (string) $lap->Intensity
+            (string) $lap->Intensity === 'Active'
         ));
 
         $this->IsWithoutDistance = (
-            (0 === (int) $lap->DistanceMeters && 10 < (int) $lap->TotalTimeSeconds) ||
+            ((int) $lap->DistanceMeters === 0 && (int) $lap->TotalTimeSeconds > 10) ||
             (
                 isset($lap->Track[0]) && count($lap->Track[0]->Trackpoint) > 5 &&
                 (double) $lap->Track[0]->Trackpoint[0]->DistanceMeters === (double) $lap->Track[0]->Trackpoint[count($lap->Track[0]->Trackpoint) - 2]->DistanceMeters
@@ -152,7 +172,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             }
 
             if (count($track->xpath('./Trackpoint')) > 0) {
-                $this->DistancesAreEmpty = 0 == count($track->xpath('./Trackpoint/DistanceMeters'));
+                $this->DistancesAreEmpty = count($track->xpath('./Trackpoint/DistanceMeters')) == 0;
 
                 if ($this->strtotime((string) $trackPoints['StartTime']) + 8 < $this->strtotime((string) $track->Trackpoint[0]->Time)) {
                     $this->LastPointWasEmpty = true;
@@ -255,7 +275,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     protected function parseExtensionValues(SimpleXMLElement &$point)
     {
         $power = null;
-        $rpm   = null;
+        $rpm = null;
 
         if (! empty($point->Cadence)) {
             $rpm = (int) $point->Cadence;
@@ -313,7 +333,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $currentLatitude = end($this->Container->ContinuousData->Latitude);
         $currentLongitude = end($this->Container->ContinuousData->Longitude);
 
-        if (0 == $currentLatitude && 0 == $currentLongitude) {
+        if ($currentLatitude == 0 && $currentLongitude == 0) {
             return $currentDistance + 0.001;
         }
 

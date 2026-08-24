@@ -32,12 +32,12 @@ class Twitter extends AbstractSocialSharer
     public function url(): string
     {
         if ($this->Context->activity()->isPublic() && ! System::isAtLocalhost()) {
-            $urlPart = 'url='.urlencode($this->publicURL().'?utm_medium=referral&utm_source=twitter').'&';
+            $urlPart = 'url=' . urlencode($this->publicURL() . '?utm_medium=referral&utm_source=twitter') . '&';
         } else {
             $urlPart = '';
         }
 
-        return 'https://twitter.com/intent/tweet?'.$urlPart.'text='.$this->text().'&via=RunalyzeDE';
+        return 'https://twitter.com/intent/tweet?' . $urlPart . 'text=' . $this->text() . '&via=RunalyzeDE';
     }
 
 	public function name(): string

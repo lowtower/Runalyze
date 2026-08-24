@@ -4,19 +4,29 @@ namespace Runalyze\Service\ElevationCorrection;
 
 class StepwiseElevationProfileFixer
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     const METHOD_FIXED_GROUP_SIZE = 0;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const METHOD_VARIABLE_GROUP_SIZE = 1;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $Method;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $NumberOfGroupedPoints;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $MidpointIndexOfConstantGroup;
 
 	public function __construct($numberOfGroupedPoints = 5, $method = self::METHOD_FIXED_GROUP_SIZE)
@@ -29,7 +39,6 @@ class StepwiseElevationProfileFixer
     /**
      * Smooth elevation profile if it's composed of constant groups
      *
-     * @param array $elevations
      * @return array
      */
     public function fixStepwiseElevations(?array $elevations = null, array $distances = [])
@@ -41,7 +50,7 @@ class StepwiseElevationProfileFixer
                 $distances = range(0.0, $numElevations - 1.0);
             }
 
-            if (self::METHOD_FIXED_GROUP_SIZE == $this->Method) {
+            if ($this->Method == self::METHOD_FIXED_GROUP_SIZE) {
                 $midpoints = $this->getMidpointsForFixedGroupSize($numElevations);
             } else {
                 $midpoints = $this->findMidpointsForConstantParts($elevations);
@@ -121,7 +130,7 @@ class StepwiseElevationProfileFixer
         $num = count($elevations);
 
         for ($i = 1; $i < $num; ++$i) {
-            if (0 !== $i % $this->NumberOfGroupedPoints && $elevations[$i] != $elevations[$i - 1]) {
+            if ($i % $this->NumberOfGroupedPoints !== 0 && $elevations[$i] != $elevations[$i - 1]) {
                 return false;
             }
         }

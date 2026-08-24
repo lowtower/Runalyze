@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<link rel="manifest" href="assets/appmanifest.json">
         <?php foreach (\Runalyze\Language::availableLanguages() as $key => $lang_arr) { ?>
-        <link rel="alternate" href="<?php echo System::getFullDomain(true).'?lang='.$key; ?>" hreflang="<?php echo $key; ?>" />
+        <link rel="alternate" href="<?php echo System::getFullDomain(true) . '?lang=' . $key; ?>" hreflang="<?php echo $key; ?>" />
         <?php } ?>
 	<title>RUNALYZE</title>
 
@@ -39,7 +39,7 @@
                 <li>
                     <?php if (\Runalyze\Configuration::Privacy()->listIsPublic()) { ?>
                     <a target="_blank" href="<?php echo $this->get('router')->generate('shared-athlete', [
-                        'username' => $username
+                        'username' => $username,
                     ]); ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></a>
                     <?php } else { ?>
                     <span class="no-link cursor-not-allowed unimportant" title="<?php _e('Your public athlete page is deactivated.') ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></span>

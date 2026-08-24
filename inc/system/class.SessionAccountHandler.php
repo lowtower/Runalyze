@@ -14,12 +14,13 @@ declare(strict_types=1);
  * @package Runalyze\System
  * @deprecated since v3.0
  */
-class SessionAccountHandler {
+class SessionAccountHandler
+{
 	/**
 	 * Array containing userrow from database
 	 * @var array
 	 */
-	private static $Account = array();
+	private static $Account = [];
 
     /**
      * Is anyone logged in?
@@ -33,7 +34,7 @@ class SessionAccountHandler {
 	 * Set internal account-data
 	 * @param array $Account
 	 */
-	public static function setAccount($Account = array()) {
+	public static function setAccount($Account = []) {
 		self::$Account = $Account;
 	}
 
@@ -42,7 +43,7 @@ class SessionAccountHandler {
 	 */
 	public static function setAccountFromRequest() {
 		if (empty(self::$Account)) {
-			self::$Account = DB::getInstance()->query('SELECT * FROM `'.PREFIX.'account` WHERE `id`="'.(int) SharedLinker::getUserId().'" LIMIT 1')->fetch();
+			self::$Account = DB::getInstance()->query('SELECT * FROM `' . PREFIX . 'account` WHERE `id`="' . (int) SharedLinker::getUserId() . '" LIMIT 1')->fetch();
 		}
 	}
 

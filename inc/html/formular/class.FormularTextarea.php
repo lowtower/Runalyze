@@ -9,7 +9,8 @@
  * @author Hannes Christiansen
  * @package Runalyze\HTML\Formular
  */
-class FormularTextarea extends FormularField {
+class FormularTextarea extends FormularField
+{
 	/**
 	 * Prepare for beeing displayed
 	 */
@@ -21,7 +22,7 @@ class FormularTextarea extends FormularField {
      * Display this field
      */
     protected function getFieldCode(): string {
-		return '<label for="'.$this->name.'">'.$this->label.'</label> <textarea '.$this->attributes().'>'.$this->value.'</textarea>';
+		return '<label for="' . $this->name . '">' . $this->label . '</label> <textarea ' . $this->attributes() . '>' . $this->value . '</textarea>';
 	}
 
 	/**

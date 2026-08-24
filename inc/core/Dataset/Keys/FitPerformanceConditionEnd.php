@@ -23,7 +23,7 @@ class FitPerformanceConditionEnd extends AbstractKey
      */
     public function label(): string
 	{
-        return __('Performance Condition').' '.__('at the end').' '.__('(by file)');
+        return __('Performance Condition') . ' ' . __('at the end') . ' ' . __('(by file)');
 	}
 
     /**
@@ -40,7 +40,7 @@ class FitPerformanceConditionEnd extends AbstractKey
     public function description(): string
 	{
 		return __(
-		    'The performance condition is an assessment, detected by some Garmin devices, '.
+		    'The performance condition is an assessment, detected by some Garmin devices, ' .
 			'of your ability to perform compared to your average fitness level.'
 		);
 	}

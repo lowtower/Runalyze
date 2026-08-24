@@ -14,17 +14,12 @@ use Runalyze\View\Activity\Linker;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View\Section
  */
-class SectionLapsRowManual extends TrainingViewSectionRow {
-	/**
-	 * Set plot
-	 */
+class SectionLapsRowManual extends TrainingViewSectionRow
+{
 	protected function setPlot() {
 		$this->Plot = new Activity\Plot\LapsManual($this->Context);
 	}
 
-	/**
-	 * Set content
-	 */
 	protected function setContent() {
 		$this->withShadow = true;
 		$this->addInfoLink();
@@ -39,14 +34,11 @@ class SectionLapsRowManual extends TrainingViewSectionRow {
 		$this->Code = $Table->getCode();
 	}
 
-	/**
-	 * Add info link
-	 */
 	protected function addInfoLink() {
 		// #TSC for implementing Strength-training, why not allow the show more lap-details like HR
 		if (! Request::isOnSharedPage()) {
 			$Linker = new Linker($this->Context->activity());
-			$InfoLink = Ajax::window('<a href="'.$Linker->urlToRoundsInfo().'">'.__('More details about your laps').'</a>', 'big');
+			$InfoLink = Ajax::window('<a href="' . $Linker->urlToRoundsInfo() . '">' . __('More details about your laps') . '</a>', 'big');
 
 			$this->Header = HTML::info( $InfoLink );
 		}

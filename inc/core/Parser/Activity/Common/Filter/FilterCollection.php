@@ -8,10 +8,14 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class FilterCollection
 {
-    /** @var FilterInterface[] */
+    /**
+     * @var FilterInterface[]
+     */
     protected $Filter = [];
 
-    /** @var LoggerInterface|null */
+    /**
+     * @var LoggerInterface|null
+     */
     protected $Logger;
 
     public function __construct(?LoggerInterface $logger = null)
@@ -21,7 +25,7 @@ class FilterCollection
 
     public function add(FilterInterface $filter)
     {
-        if (null !== $this->Logger && $filter instanceof LoggerAwareInterface) {
+        if ($this->Logger !== null && $filter instanceof LoggerAwareInterface) {
             $filter->setLogger($this->Logger);
         }
 

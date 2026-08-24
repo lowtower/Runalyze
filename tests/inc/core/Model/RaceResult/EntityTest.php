@@ -11,7 +11,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 {
 	public function testEmptyObject()
 	{
-		$RaceResult = new Entity(array());
+		$RaceResult = new Entity([]);
 
 		$this->assertFalse($RaceResult->officiallyMeasured());
 		$this->assertNull($RaceResult->placeTotal());
@@ -24,7 +24,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 
 	public function testSimpleObject()
 	{
-		$RaceResult = new Entity(array(
+		$RaceResult = new Entity([
 		    Entity::OFFICIAL_DISTANCE => '10.50',
 		    Entity::OFFICIAL_TIME => 2400,
 		    Entity::OFFICIALLY_MEASURED => '1',
@@ -34,8 +34,8 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 		    Entity::PARTICIPANTS_TOTAL => '1033',
 		    Entity::PARTICIPANTS_GENDER => '100',
 		    Entity::PARTICIPANTS_AGECLASS => '15',
-		    Entity::ACTIVITY_ID => 2
-		));
+		    Entity::ACTIVITY_ID => 2,
+		]);
 
 		$this->assertEquals(10.50, $RaceResult->officialDistance());
 		$this->assertEquals(2400, $RaceResult->officialTime());
@@ -48,5 +48,4 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(15, $RaceResult->participantsAgeclass());
 		$this->assertEquals(2, $RaceResult->activityId());
 	}
-
 }

@@ -18,28 +18,44 @@ class FitTrainingEffectBenefit extends AbstractEnum
 {
     // respect the order by number!
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const RECOVERY = 1; // Erholung
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const BASE = 2; // Basis
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const PACE = 3; // Tempo
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const THRESHOLD = 4; // Schwelle
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const VO2MAX = 5; // VO2Max
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const ANAEROBIC = 6; // Anaerobic
 
-    /** @var int */
+    /**
+     * @var int
+     */
     const SPRINT = 7; // Sprint
 
-    /** @var array */
+    /**
+     * @var array
+     */
     const COLORS = [
         '#0aa476', // 1 green
         '#0aa476', // 2
@@ -121,7 +137,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      */
     public static function descriptionFromNum($num): string
     {
-        if (is_numeric($num) && (int) $num > 0&& (int) $num <= 7) {
+        if (is_numeric($num) && (int) $num > 0 && (int) $num <= 7) {
             $col = self::COLORS[$num - 1];
         } else {
             $col = '#ffff00';

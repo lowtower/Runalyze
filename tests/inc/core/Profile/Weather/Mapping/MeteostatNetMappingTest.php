@@ -32,7 +32,7 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
             [20, WeatherConditionProfile::SNOWING],
             [25, WeatherConditionProfile::THUNDERSTORM],
             [27, WeatherConditionProfile::WINDY],
-            [999, WeatherConditionProfile::UNKNOWN]
+            [999, WeatherConditionProfile::UNKNOWN],
         ];
     }
 }

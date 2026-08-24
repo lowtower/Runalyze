@@ -39,28 +39,27 @@ abstract class AbstractSharer extends AbstractExporter
      * Get text for sharing
      */
     final protected function text() {
-        $Text  = __('I did sport: ');
+        $Text = __('I did sport: ');
 
         if ($this->Context->activity()->distance() > 0) {
             $Text .= $this->Context->dataview()
-                ->distance().' ';
+                ->distance() . ' ';
             $Text .= $this->Context->dataview()
-                ->titleByTypeOrSport().__(' in ');
+                ->titleByTypeOrSport() . __(' in ');
             $Text .= $this->Context->dataview()
                 ->duration()
-                ->string().' ';
-            $Text .= '('.$this->Context->dataview()->pace()->valueWithAppendix().')';
+                ->string() . ' ';
+            $Text .= '(' . $this->Context->dataview()->pace()->valueWithAppendix() . ')';
         } else {
             $Text .= $this->Context->dataview()
                 ->duration()
-                ->string().' ';
+                ->string() . ' ';
             $Text .= $this->Context->dataview()
                 ->titleByTypeOrSport();
         }
 
-
         if ($this->Context->activity()->title() != '') {
-            $Text .= ' - '.$this->Context->activity()->title();
+            $Text .= ' - ' . $this->Context->activity()->title();
         }
 
         return strip_tags(str_replace('&nbsp;', '', $Text));
@@ -84,7 +83,7 @@ abstract class AbstractSharer extends AbstractExporter
             $text = $this->name();
         }
 
-        return '<a href="'.$this->url().'" target="_blank" style="display:block!important"><i class="fa '.$this->iconClass().'"></i> <strong>'.$text.'</strong></a>';
+        return '<a href="' . $this->url() . '" target="_blank" style="display:block!important"><i class="fa ' . $this->iconClass() . '"></i> <strong>' . $text . '</strong></a>';
     }
 
     /**
@@ -94,7 +93,7 @@ abstract class AbstractSharer extends AbstractExporter
     final protected function errorForLocalhost() {
         if (System::isAtLocalhost()) {
             return HTML::error(
-                __('Runalyze is running on a local server.').' '.
+                __('Runalyze is running on a local server.') . ' ' .
                 __('Linking your activity in a social network does not make sense - nobody will be able to see your activity.')
             );
         }

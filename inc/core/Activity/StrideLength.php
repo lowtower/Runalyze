@@ -41,7 +41,6 @@ class StrideLength implements ValueInterface
 
 	/**
 	 * @param int $centimeter
-	 * @param \Runalyze\Parameter\Application\DistanceUnitSystem $unitSystem
 	 */
 	public function __construct($centimeter = 0, ?DistanceUnitSystem $unitSystem = null)
 	{
@@ -57,9 +56,6 @@ class StrideLength implements ValueInterface
 		return __('Stride length');
 	}
 
-    /**
-     * Unit
-     */
     public function unit(): string
 	{
 		if ($this->UnitSystem->isImperial()) {
@@ -172,7 +168,7 @@ class StrideLength implements ValueInterface
      */
     public function stringMeter($withUnit = true): string
 	{
-		return number_format($this->Centimeter/100, 2).($withUnit ? '&nbsp;'.DistanceUnitSystem::METER : '');
+		return number_format($this->Centimeter / 100, 2) . ($withUnit ? '&nbsp;' . DistanceUnitSystem::METER : '');
 	}
 
     /**
@@ -180,7 +176,7 @@ class StrideLength implements ValueInterface
      */
     public function stringCM($withUnit = true): string
 	{
-		return number_format($this->Centimeter, 0).($withUnit ? '&nbsp;'.DistanceUnitSystem::CM : '');
+		return number_format($this->Centimeter, 0) . ($withUnit ? '&nbsp;' . DistanceUnitSystem::CM : '');
 	}
 
     /**
@@ -188,6 +184,6 @@ class StrideLength implements ValueInterface
      */
     public function stringFeet($withUnit = true): string
 	{
-		return number_format($this->feet(), 1, '.', '').($withUnit ? '&nbsp;'.DistanceUnitSystem::FEET : '');
+		return number_format($this->feet(), 1, '.', '') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
 	}
 }

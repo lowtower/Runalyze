@@ -19,7 +19,7 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
         $location->setPosition(54.347, 10.1125);
 
         $darkSky = new DarkSky('', $this->getMockForResponses([
-            new Response(200, [], '')
+            new Response(200, [], ''),
         ]));
 
         $result = $darkSky->loadForecast($location);
@@ -51,7 +51,7 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
                   "pressure":1012.66,
                   "ozone":264.7
                }
-		    }')
+		    }'),
         ]));
 
         $location = new Location();

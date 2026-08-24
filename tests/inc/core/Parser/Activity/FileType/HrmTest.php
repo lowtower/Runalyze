@@ -10,7 +10,9 @@ use Runalyze\Util\LocalTime;
  */
 class HrmTest extends AbstractActivityParserTestCase
 {
-    /** @var Hrm */
+    /**
+     * @var Hrm
+     */
     protected $Parser;
 
     protected function setUp(): void
@@ -42,7 +44,7 @@ class HrmTest extends AbstractActivityParserTestCase
             [371, 1.014],
             [360, 1.015],
             [356, 1.024],
-            [370, 1.018]
+            [370, 1.018],
         ], 0.5, 0.001);
     }
 

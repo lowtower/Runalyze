@@ -17,7 +17,8 @@ use Runalyze\Model\Trackdata;
  * @author Hannes Christiansen
  * @package Runalyze\DataObjects\Training\View
  */
-class TableZonesPace extends TableZonesAbstract {
+class TableZonesPace extends TableZonesAbstract
+{
 	/**
 	 * Step size to smooth pace date
 	 * @var int
@@ -32,11 +33,8 @@ class TableZonesPace extends TableZonesAbstract {
     /**
      * Get title for average
      */
-    public function titleForAverage(): string { return __('avg.').'&nbsp;'.__('HR'); }
+    public function titleForAverage(): string { return __('avg.') . '&nbsp;' . __('HR'); }
 
-	/**
-	 * Init data
-	 */
 	protected function initData() {
 		$this->PaceUnit = $this->Context->sport()
 		    ->legacyPaceUnit();
@@ -52,12 +50,12 @@ class TableZonesPace extends TableZonesAbstract {
 				$Pace->setTime($paceInSeconds);
 				$HR->setBPM($Info['time'] > 0 ? $Info['hr'] / $Info['time'] : 0);
 
-				$this->Data[] = array(
-    'zone'     => $paceInSeconds == 0 ? __('faster') : '&gt; '.$Pace->valueWithAppendix(),
-				    'time'     => $Info['time'],
+				$this->Data[] = [
+    'zone' => $paceInSeconds == 0 ? __('faster') : '&gt; ' . $Pace->valueWithAppendix(),
+				    'time' => $Info['time'],
 				    'distance' => $Info['distance'],
-				    'average'  => $HR->asBPM() > 0 ? $HR->string() : '-'
-);
+				    'average' => $HR->asBPM() > 0 ? $HR->string() : '-',
+];
 			}
 		}
 	}
@@ -66,7 +64,7 @@ class TableZonesPace extends TableZonesAbstract {
 		// TODO
 		// - move this a calculation class
 		// - make zones configurable
-		$Zones = array();
+		$Zones = [];
 		$SmoothTrackdata = clone $this->Context->trackdata();
 		$Smoother = new PaceSmoother($SmoothTrackdata, true);
 		$SmoothTrackdata->set(Trackdata\Entity::PACE, $Smoother->smooth(self::STEP_SIZE, PaceSmoother::MODE_STEP));
@@ -76,8 +74,8 @@ class TableZonesPace extends TableZonesAbstract {
 		$Distribution = new TimeSeriesForTrackdata(
 		    $SmoothTrackdata,
 		    Trackdata\Entity::PACE,
-		    array(Trackdata\Entity::DISTANCE),
-		    $hasHR ? array(Trackdata\Entity::HEARTRATE) : array()
+		    [Trackdata\Entity::DISTANCE],
+		    $hasHR ? [Trackdata\Entity::HEARTRATE] : []
 		);
 		$Data = $Distribution->data();
 
@@ -85,11 +83,11 @@ class TableZonesPace extends TableZonesAbstract {
 			$pace = $this->zoneFor($paceInSeconds);
 
 			if (! isset($Zones[$pace])) {
-				$Zones[$pace] = array(
+				$Zones[$pace] = [
 				    'time' => $seconds,
 				    'distance' => $Data[$paceInSeconds][Trackdata\Entity::DISTANCE],
 				    'hr' => $hasHR ? $Data[$paceInSeconds][Trackdata\Entity::HEARTRATE] * $seconds : 0,
-				);
+				];
 			} else {
 				$Zones[$pace]['time'] += $seconds;
 				$Zones[$pace]['distance'] += $Data[$paceInSeconds][Trackdata\Entity::DISTANCE];

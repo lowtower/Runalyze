@@ -29,7 +29,7 @@ class NotificationRepository extends EntityRepository
             ->setParameter('account', $account)
             ->orderBy('n.createdAt', 'DESC');
 
-        if (null !== $timestamp && 0 !== $timestamp) {
+        if ($timestamp !== null && $timestamp !== 0) {
             $queryBuilder
                 ->andWhere('n.wasRead = 0') // Only necessary as long as headline menu is filled via request with $timestamp = 1
                 ->andWhere('n.createdAt > :time')

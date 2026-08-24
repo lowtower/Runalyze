@@ -5,12 +5,9 @@ namespace Runalyze\Calculation;
 use Runalyze\Configuration;
 use Runalyze\Util\LocalTime;
 use Runalyze\Util\Time;
-
 use DB;
 
 /**
- * BasicEndurance
- *
  * This class can calculated a value for the basic endurance.
  * A value of 100 represents a fully sufficient training for an optimal marathon.
  * The requirements for a sufficient basic endurance are calculated from the given VO2max.
@@ -31,10 +28,14 @@ class BasicEndurance
      */
     private static $CONST_VALUE = false;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     protected $EffectiveVO2max = 0.0;
 
     /**
@@ -109,8 +110,6 @@ class BasicEndurance
     }
 
     /**
-     * Set minimal distance for longjogs
-     *
      * Only trainings above a given distance are treated as "longjogs".
      *
      * @param float $km minimal distance for longjog
@@ -183,8 +182,6 @@ class BasicEndurance
     }
 
     /**
-     * Set percentage for week kilometer
-     *
      * Percentage has to be between 0 and 1. A value higher than 1 will be treated as 1.
      *
      * @param int $percentage percentage between 0 and 1
@@ -204,8 +201,6 @@ class BasicEndurance
     }
 
     /**
-     * Set percentage for longjogs
-     *
      * Percentage has to be between 0 and 1. A value higher than 1 will be treated as 1.
      *
      * @param int $percentage percentage between 0 and 1
@@ -236,7 +231,7 @@ class BasicEndurance
 
         // If you change the algorithm, remember to change *info* in 'RunalyzePluginPanel_Rechenspiele'.
         $DataSum = $data !== [] ? $data : DB::getInstance()->query($this->getQuery($timestamp))->fetch();
-        $Result = array();
+        $Result = [];
         $Result['weekkm-result'] = $DataSum['km'] ?? 0;
         $Result['longjog-result'] = $DataSum['sum'] ?? 0;
 
@@ -268,7 +263,7 @@ class BasicEndurance
      */
     public function valueInPercent($timestamp = 0): string
     {
-        return min(100, max(0, $this->value($timestamp))).' &#37;';
+        return min(100, max(0, $this->value($timestamp))) . ' &#37;';
     }
 
     /**
@@ -293,34 +288,34 @@ class BasicEndurance
 					`time`,
 					`distance`,
 					IF (
-						`distance` > '.$this->MIN_KM_FOR_LONGJOG.' AND time >= '.$StartTimeForLongjogs.',
+						`distance` > ' . $this->MIN_KM_FOR_LONGJOG . ' AND time >= ' . $StartTimeForLongjogs . ',
 						(
-							(2 - (2/'.$this->DAYS_FOR_LONGJOGS.') * FLOOR( ('.$timestamp.' - `time`) / '.DAY_IN_S.' ) )
-							* POW((`distance`-'.$this->MIN_KM_FOR_LONGJOG.')/'.$this->getTargetLongjogKmPerWeek().',2)
+							(2 - (2/' . $this->DAYS_FOR_LONGJOGS . ') * FLOOR( (' . $timestamp . ' - `time`) / ' . DAY_IN_S . ' ) )
+							* POW((`distance`-' . $this->MIN_KM_FOR_LONGJOG . ')/' . $this->getTargetLongjogKmPerWeek() . ',2)
 						),
 						0
 					) as `points`
-				FROM '.PREFIX.'training
-				WHERE `accountid`='.\SessionAccountHandler::getId().' AND `time` BETWEEN '.$StartTimeForLongjogs.' AND '.$timestamp.' AND `sportid`='.Configuration::General()->runningSport().' AND distance>'.$this->MIN_KM_FOR_LONGJOG;
+				FROM ' . PREFIX . 'training
+				WHERE `accountid`=' . \SessionAccountHandler::getId() . ' AND `time` BETWEEN ' . $StartTimeForLongjogs . ' AND ' . $timestamp . ' AND `sportid`=' . Configuration::General()->runningSport() . ' AND distance>' . $this->MIN_KM_FOR_LONGJOG;
         }
 
         return '
 			SELECT
 				SUM(
-					IF (time >= '.$StartTimeForWeekKm.', `distance`, 0)
+					IF (time >= ' . $StartTimeForWeekKm . ', `distance`, 0)
 				) as `km`,
 				SUM(
 					IF (
-						`distance` > '.$this->MIN_KM_FOR_LONGJOG.' AND time >= '.$StartTimeForLongjogs.',
+						`distance` > ' . $this->MIN_KM_FOR_LONGJOG . ' AND time >= ' . $StartTimeForLongjogs . ',
 						(
-							(2 - (2/'.$this->DAYS_FOR_LONGJOGS.') * FLOOR( ('.$timestamp.' - `time`) / '.DAY_IN_S.' ) )
-							* POW((`distance`-'.$this->MIN_KM_FOR_LONGJOG.')/'.$this->getTargetLongjogKmPerWeek().',2)
+							(2 - (2/' . $this->DAYS_FOR_LONGJOGS . ') * FLOOR( (' . $timestamp . ' - `time`) / ' . DAY_IN_S . ' ) )
+							* POW((`distance`-' . $this->MIN_KM_FOR_LONGJOG . ')/' . $this->getTargetLongjogKmPerWeek() . ',2)
 						),
 						0
 					)
 				) as `sum`
-			FROM '.PREFIX.'training
-			WHERE `accountid`='.\SessionAccountHandler::getId().' AND `time` BETWEEN '.min($StartTimeForLongjogs, $StartTimeForWeekKm).' AND '.$timestamp.' AND `sportid`='.Configuration::General()->runningSport().'
+			FROM ' . PREFIX . 'training
+			WHERE `accountid`=' . \SessionAccountHandler::getId() . ' AND `time` BETWEEN ' . min($StartTimeForLongjogs, $StartTimeForWeekKm) . ' AND ' . $timestamp . ' AND `sportid`=' . Configuration::General()->runningSport() . '
 			GROUP BY accountid
 			LIMIT 1';
     }
@@ -350,7 +345,7 @@ class BasicEndurance
 
         return [
             'km' => $km,
-            'sum' => $points
+            'sum' => $points,
         ];
     }
 
@@ -376,7 +371,6 @@ class BasicEndurance
     }
 
     /**
-     * Get target longjog km per week
      * PAY ATTENTION: $MIN_KM_FOR_LONGJOG is already subtracted!
      */
     public function getTargetLongjogKmPerWeek(): float

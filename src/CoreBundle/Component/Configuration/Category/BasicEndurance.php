@@ -6,7 +6,9 @@ namespace Runalyze\Bundle\CoreBundle\Component\Configuration\Category;
 
 class BasicEndurance extends AbstractCategory
 {
-    /** @var float [ml/kg/min] */
+    /**
+     * @var float [ml/kg/min]
+     */
     const MINIMAL_EFFECTIVE_VO2MAX = 25.0;
 
     public function getDefaultVariables(): array
@@ -35,7 +37,7 @@ class BasicEndurance extends AbstractCategory
      */
     public function getDaysToConsiderForWeeklyMileage($numberOfDaysSinceFirstActivity = null)
     {
-        if (null !== $numberOfDaysSinceFirstActivity) {
+        if ($numberOfDaysSinceFirstActivity !== null) {
             return max(
                 min((int) $this->Variables['BE_DAYS_FOR_WEEK_KM'], $numberOfDaysSinceFirstActivity),
                 (int) $this->Variables['BE_DAYS_FOR_WEEK_KM_MIN']

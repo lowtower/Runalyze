@@ -6,7 +6,9 @@ use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
 class MinettiTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Minetti */
+    /**
+     * @var Minetti
+     */
     protected $Minetti;
 
     protected function setUp(): void
@@ -85,8 +87,8 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
     protected function assertPaceEquivalence(string $achievedPace, $gradient, $flatPace)
     {
         $this->assertEqualsWithDelta(
-            60 * (int) $flatPace[0] + (int) ($flatPace[2].$flatPace[3]),
-            $this->Minetti->adjustPace(60 * (int) $achievedPace[0] + (int) ($achievedPace[2].$achievedPace[3]), $gradient),
+            60 * (int) $flatPace[0] + (int) ($flatPace[2] . $flatPace[3]),
+            $this->Minetti->adjustPace(60 * (int) $achievedPace[0] + (int) ($achievedPace[2] . $achievedPace[3]), $gradient),
             0.5,
             sprintf('Pace equivalence does not match for %s @ %d %%', $achievedPace, 100 * $gradient)
         );

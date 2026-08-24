@@ -14,7 +14,8 @@ use League\Geotools\Geotools;
  * @author Hannes Christiansen
  * @package Runalyze\View\Leaflet
  */
-class Route {
+class Route
+{
 	/**
 	 * ID
 	 * @var string
@@ -25,13 +26,13 @@ class Route {
 	 * JS-marker
 	 * @var string[]
 	 */
-	protected $Marker = array();
+	protected $Marker = [];
 
 	/**
 	 * Paths
 	 * @var array
 	 */
-	protected $Paths = array();
+	protected $Paths = [];
 
 	/**
 	 * Infos
@@ -41,7 +42,7 @@ class Route {
 	 *
 	 * @var array
 	 */
-	protected $Infos = array();
+	protected $Infos = [];
 
 	/**
 	 * Labels for infos
@@ -50,19 +51,19 @@ class Route {
 	 *
 	 * @var array
 	 */
-	protected $InfoLabels = array();
+	protected $InfoLabels = [];
 
 	/**
 	 * Functions to style info
 	 * @var array
 	 */
-	protected $InfoFunctions = array();
+	protected $InfoFunctions = [];
 
 	/**
 	 * Options
 	 * @var array
 	 */
-	protected $Options = array();
+	protected $Options = [];
 
 	/**
 	 * Construct new route
@@ -73,7 +74,6 @@ class Route {
 	}
 
 	/**
-	 * ID
 	 * @return int
 	 */
 	final public function id() {
@@ -88,25 +88,24 @@ class Route {
      * Get JS
      */
     final public function js(): string {
-		$Options = 'segments: '.json_encode($this->Paths);
+		$Options = 'segments: ' . json_encode($this->Paths);
 
 		if (count($this->Paths) === count($this->Infos)) {
-			$Options .= ', segmentsInfoLabels: '.json_encode($this->InfoLabels);
-			$Options .= ', segmentsInfo: '.json_encode($this->Infos);
-			$Options .= ', segmentsInfoFunctions: ['.implode(',', $this->InfoFunctions).']';
+			$Options .= ', segmentsInfoLabels: ' . json_encode($this->InfoLabels);
+			$Options .= ', segmentsInfo: ' . json_encode($this->Infos);
+			$Options .= ', segmentsInfoFunctions: [' . implode(',', $this->InfoFunctions) . ']';
 		}
 
-		$Options .= ', markertopush: ['.implode(',', $this->Marker).']';
+		$Options .= ', markertopush: [' . implode(',', $this->Marker) . ']';
 
 		foreach ($this->Options as $property => $value) {
-			$Options .= ', '.$property.': '.json_encode($value);
+			$Options .= ', ' . $property . ': ' . json_encode($value);
 		}
 
-		return "RunalyzeLeaflet.Routes.addRoute('".$this->id."', {".$Options.'});';
+		return "RunalyzeLeaflet.Routes.addRoute('" . $this->id . "', {" . $Options . '});';
 	}
 
 	/**
-	 * Add option
 	 * @param string $property
 	 * @param mixed $value
 	 */
@@ -115,13 +114,11 @@ class Route {
 	}
 
     /**
-     * Add segment
-     *
      * Caution: Set infos for all paths or for none!
      *
      * @param array $Info [optional] must be of the same size as $Path
      */
-    final public function addSegment(array $Path, array $Info = array()) {
+    final public function addSegment(array $Path, array $Info = []) {
 		if ($Path === [])
 			return;
 
@@ -132,14 +129,13 @@ class Route {
 	}
 
 	/**
-	 * Add marker
 	 * @param float $Lat
 	 * @param float $Lng
 	 * @param string $Icon JS-icon
 	 * @param string $Tooltip [optional]
 	 */
 	final public function addMarker($Lat, $Lng, $Icon, $Tooltip = '') {
-		$this->Marker[] = 'L.marker(['.$Lat.','.$Lng.'], {icon: '.$Icon.', tooltip: '.json_encode($Tooltip).'})';
+		$this->Marker[] = 'L.marker([' . $Lat . ',' . $Lng . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
 	}
 
 	/**
@@ -149,7 +145,7 @@ class Route {
 	 * @param string $Tooltip [optional]
 	 */
 	final public function addMarkerGeohash($geohash, $Icon, $Tooltip = '') {
-	    if ('7zzzzzzzzzzz' == $geohash) {
+	    if ($geohash == '7zzzzzzzzzzz') {
 	        return;
         }
 
@@ -157,34 +153,24 @@ class Route {
 		    ->decode($geohash)
 		    ->getCoordinate();
 
-		$this->Marker[] = 'L.marker(['.$coordinate->getLatitude().','.$coordinate->getLongitude().'], {icon: '.$Icon.', tooltip: '.json_encode($Tooltip).'})';
+		$this->Marker[] = 'L.marker([' . $coordinate->getLatitude() . ',' . $coordinate->getLongitude() . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
 	}
 
     /**
-     * Dist icon
      * @param int $km
      */
     final public function distIcon($km): string {
-		return 'RunalyzeLeaflet.Routes.distIcon('.(int) $km.')';
+		return 'RunalyzeLeaflet.Routes.distIcon(' . (int) $km . ')';
 	}
 
-    /**
-     * Start icon
-     */
     final public function startIcon(): string {
 		return 'RunalyzeLeaflet.Routes.startIcon()';
 	}
 
-    /**
-     * End icon
-     */
     final public function endIcon(): string {
 		return 'RunalyzeLeaflet.Routes.endIcon()';
 	}
 
-    /**
-     * Pause icon
-     */
     final public function pauseIcon(): string {
 		return 'RunalyzeLeaflet.Routes.pauseIcon()';
 	}

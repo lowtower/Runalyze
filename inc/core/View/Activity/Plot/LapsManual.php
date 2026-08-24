@@ -19,7 +19,8 @@ use Runalyze\View\Activity;
  * @author Hannes Christiansen
  * @package Runalyze\View\Activity\Plot
  */
-class LapsManual extends Laps {
+class LapsManual extends Laps
+{
 	/**
 	 * Set key and title for this plot
 	 */
@@ -28,9 +29,6 @@ class LapsManual extends Laps {
 		$this->title = __('Manual Laps');
 	}
 
-    /**
-     * Load data
-     */
     protected function loadData(Activity\Context $context) {
 		$Splits = $context->activity()
 		    ->splits();
@@ -74,13 +72,13 @@ class LapsManual extends Laps {
 
 		foreach ($this->Data as $key => $val) {
 			if ($num > 35) {
-				$this->Labels[$key] = array($key, round($this->Labels[$key], 1));
+				$this->Labels[$key] = [$key, round($this->Labels[$key], 1)];
 			} elseif ($num >= 15) {
-				$this->Labels[$key] = array($key, number_format($this->Labels[$key], 1, '.', ''));
+				$this->Labels[$key] = [$key, number_format($this->Labels[$key], 1, '.', '')];
 			} elseif ($num > 10) {
-				$this->Labels[$key] = array($key, $this->Labels[$key].$distanceUnit);
+				$this->Labels[$key] = [$key, $this->Labels[$key] . $distanceUnit];
 			} else {
-				$this->Labels[$key] = array($key, $this->Labels[$key].' '.$distanceUnit);
+				$this->Labels[$key] = [$key, $this->Labels[$key] . ' ' . $distanceUnit];
 			}
 
 			$Pace->setTime($val);
@@ -92,9 +90,9 @@ class LapsManual extends Laps {
 			}
 		}
 
-		$this->Plot->Data[] = array(
+		$this->Plot->Data[] = [
 		    'label' => $this->title,
-		    'data' => $this->Data
-		);
+		    'data' => $this->Data,
+		];
 	}
 }

@@ -7,13 +7,19 @@ use Runalyze\Model\Trackdata;
 
 class TimeSeriesStatistics
 {
-    /** @var Trackdata\Entity */
+    /**
+     * @var Trackdata\Entity
+     */
     protected $Trackdata;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $AvailableKeys = [];
 
-    /** @var MultipleTimeSeries|null */
+    /**
+     * @var MultipleTimeSeries|null
+     */
     protected $MultipleTimeSeries;
 
     /**
@@ -54,7 +60,7 @@ class TimeSeriesStatistics
             Trackdata\Entity::SMO2_0,
             Trackdata\Entity::SMO2_1,
             Trackdata\Entity::THB_0,
-            Trackdata\Entity::THB_1
+            Trackdata\Entity::THB_1,
         ];
 
         foreach ($potentialKeys as $key) {
@@ -72,7 +78,7 @@ class TimeSeriesStatistics
             Trackdata\Entity::BRAKING_GS_LEFT => 10,
             Trackdata\Entity::BRAKING_GS_RIGHT => 10,
             Trackdata\Entity::PRONATION_EXCURSION_LEFT => 10,
-            Trackdata\Entity::PRONATION_EXCURSION_RIGHT => 10
+            Trackdata\Entity::PRONATION_EXCURSION_RIGHT => 10,
         ];
         $hasNonIntegerKeys = false;
 

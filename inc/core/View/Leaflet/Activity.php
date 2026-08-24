@@ -22,7 +22,8 @@ use League\Geotools\Geotools;
  * @author Hannes Christiansen
  * @package Runalyze\View\Leaflet
  */
-class Activity extends LeafletRoute {
+class Activity extends LeafletRoute
+{
 	/**
 	 * Route
 	 * @var \Runalyze\Model\Route\Entity
@@ -51,13 +52,13 @@ class Activity extends LeafletRoute {
 	 * Path
 	 * @var array
 	 */
-	protected $Path = array();
+	protected $Path = [];
 
 	/**
 	 * Info
 	 * @var array
 	 */
-	protected $Info = array();
+	protected $Info = [];
 
 	/**
 	 * Distance
@@ -111,16 +112,13 @@ class Activity extends LeafletRoute {
 		$this->Trackdata = $trackdata;
 		$this->addIconsAndInfo = $addIconsAndInfo;
 
-        $this->addOption('options', array(
-            'color' => '#FF5500'
-        ));
+        $this->addOption('options', [
+            'color' => '#FF5500',
+        ]);
 
 		$this->createRoute();
 	}
 
-	/**
-	 * Create route
-	 */
 	protected function createRoute() {
 		$this->prepareLoops();
 		$this->findLimitForPauses();
@@ -142,9 +140,6 @@ class Activity extends LeafletRoute {
 		$this->defineInfoLabels();
 	}
 
-	/**
-	 * Prepare loops
-	 */
 	protected function prepareLoops() {
 		$stepSize = (int) Configuration::ActivityView()->routePrecision()->value();
 
@@ -152,7 +147,7 @@ class Activity extends LeafletRoute {
 		$this->RouteLoop->setStepSize($stepSize);
 
 		if (
-			null !== $this->Trackdata
+			$this->Trackdata !== null
 			&& ($this->Route->num() == $this->Trackdata->num())
 			&& $this->Trackdata->has(Trackdata\Entity::TIME)
 		) {
@@ -165,11 +160,10 @@ class Activity extends LeafletRoute {
      * Has trackdata loop?
      */
     protected function hasTrackdataLoop(): bool {
-		return null !== $this->TrackdataLoop;
+		return $this->TrackdataLoop !== null;
 	}
 
 	/**
-	 * Next step
 	 * @return bool
 	 */
 	protected function nextStep() {
@@ -191,9 +185,6 @@ class Activity extends LeafletRoute {
         $this->RouteLoop->goToIndex($index);
     }
 
-	/**
-	 * Fill current segment
-	 */
 	protected function fillCurrentSegment() {
 		$geohash = (new Geotools())->geohash()
 		    ->decode($this->RouteLoop->geohash());
@@ -201,13 +192,13 @@ class Activity extends LeafletRoute {
 			return;
 		}
 
-		$this->Path[] = array((float) $geohash->getCoordinate()->getLatitude(), (float) $geohash->getCoordinate()->getLongitude());
+		$this->Path[] = [(float) $geohash->getCoordinate()->getLatitude(), (float) $geohash->getCoordinate()->getLongitude()];
 
 		if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
-			$this->Info[] = array(
+			$this->Info[] = [
 			    (float) $this->TrackdataLoop->distance(),
-			    (int) $this->TrackdataLoop->time()
-			);
+			    (int) $this->TrackdataLoop->time(),
+			];
 		}
 	}
 
@@ -216,20 +207,17 @@ class Activity extends LeafletRoute {
 	 */
 	protected function defineInfoLabels() {
 		if ($this->addIconsAndInfo && $this->hasTrackdataLoop()) {
-			$this->InfoLabels = array(
+			$this->InfoLabels = [
 			    __('Distance'),
-			    __('Time')
-			);
-			$this->InfoFunctions = array(
-			    'function(v){return (v*'.Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor().').toFixed(2)+"&nbsp;'.Configuration::General()->distanceUnitSystem()->distanceUnit().'";}',
-			    'function(v){return (new Date(v * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];}'
-			);
+			    __('Time'),
+			];
+			$this->InfoFunctions = [
+			    'function(v){return (v*' . Configuration::General()->distanceUnitSystem()->distanceToPreferredUnitFactor() . ').toFixed(2)+"&nbsp;' . Configuration::General()->distanceUnitSystem()->distanceUnit() . '";}',
+			    'function(v){return (new Date(v * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];}',
+			];
 		}
 	}
 
-	/**
-	 * Check for distance marker
-	 */
 	protected function checkForDistanceMarker() {
 		if (! $this->addIconsAndInfo || ! $this->hasTrackdataLoop()) {
 			return;
@@ -238,7 +226,7 @@ class Activity extends LeafletRoute {
 		if (round((new Distance($this->TrackdataLoop->distance()))->valueInPreferredUnit(), 2) >= $this->Dist) {
 			$Pace = new Pace($this->TrackdataLoop->time() - $this->Time);
 
-			$Tooltip = sprintf( __('<strong>%s. %s</strong> in %s'), $this->Dist, Configuration::General()->distanceUnitSystem()->distanceUnit(), $Pace->asMinPerKm() ).'<br>';
+			$Tooltip = sprintf( __('<strong>%s. %s</strong> in %s'), $this->Dist, Configuration::General()->distanceUnitSystem()->distanceUnit(), $Pace->asMinPerKm() ) . '<br>';
 			$Tooltip .= sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->TrackdataLoop->time()) );
 
 			$this->addMarkerGeohash(
@@ -252,9 +240,6 @@ class Activity extends LeafletRoute {
 		}
 	}
 
-	/**
-	 * Add start and end icon
-	 */
 	protected function addStartAndEndIcon() {
 		if (! $this->addIconsAndInfo) {
 			return;
@@ -269,7 +254,7 @@ class Activity extends LeafletRoute {
 
 		if ($this->hasTrackdataLoop()) {
 			$Tooltip = sprintf( __('<strong>Total:</strong> %s'), Distance::format($this->TrackdataLoop->distance()) );
-			$Tooltip .= '<br>'.sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->TrackdataLoop->time()) );
+			$Tooltip .= '<br>' . sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->TrackdataLoop->time()) );
 		} else {
 			$Tooltip = '';
 		}
@@ -281,37 +266,28 @@ class Activity extends LeafletRoute {
 		);
 	}
 
-	/**
-	 * Add current segment
-	 */
 	protected function addCurrentSegment() {
 		$this->addSegment($this->Path, $this->Info);
 
-		$this->Path = array();
-		$this->Info = array();
+		$this->Path = [];
+		$this->Info = [];
 	}
 
-	/**
-	 * Find limit for pauses
-	 */
 	protected function findLimitForPauses() {
-		if (null !== $this->Trackdata && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
+		if ($this->Trackdata !== null && $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
 			$SecondsForDist = (int) Configuration::ActivityView()->routeBreak()->value();
 			$AveragePace = $this->Trackdata->totalDistance() > 0 ? $this->Trackdata->totalTime() / $this->Trackdata->totalDistance() : 0;
 
 			if ($AveragePace > 0) {
-				$this->PauseLimit = max($this->PauseLimit, $SecondsForDist/$AveragePace);
+				$this->PauseLimit = max($this->PauseLimit, $SecondsForDist / $AveragePace);
 			}
 		}
 
 		$this->PauseLimit *= (int) Configuration::ActivityView()->routePrecision()->value();
 	}
 
-	/**
-	 * Check for pause
-	 */
 	protected function checkForPause() {
-		if (null !== $this->Trackdata && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
+		if ($this->Trackdata !== null && $this->Trackdata->hasPauses() && $this->hasTrackdataLoop()) {
 			if (
 				$this->PauseIndex < $this->Trackdata->pauses()
 				    ->num() &&
@@ -357,11 +333,11 @@ class Activity extends LeafletRoute {
 
 		// #TSC: add also pause-index to the tooltip
 		$Tooltip = sprintf( '<strong>%d.</strong> ' . __('<strong>Pause</strong> of %s'), $this->PauseIndex + 1, Duration::format($Pause->duration()));
-		$Tooltip .= '<br>'.sprintf( __('<strong>Distance:</strong> %s'), Distance::format($this->Trackdata->at($Index, Trackdata\Entity::DISTANCE)) );
-		$Tooltip .= '<br>'.sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->Trackdata->at($Index, Trackdata\Entity::TIME)) );
+		$Tooltip .= '<br>' . sprintf( __('<strong>Distance:</strong> %s'), Distance::format($this->Trackdata->at($Index, Trackdata\Entity::DISTANCE)) );
+		$Tooltip .= '<br>' . sprintf( __('<strong>Time:</strong> %s'), Duration::format($this->Trackdata->at($Index, Trackdata\Entity::TIME)) );
 
 		if ($Pause->hasHeartRateInfo()) {
-			$Tooltip .= '<br>'.sprintf( __('<strong>Heart rate:</strong>').' '.__('%s to %s'), $Pause->hrStart(), $Pause->hrEnd().' bpm' );
+			$Tooltip .= '<br>' . sprintf( __('<strong>Heart rate:</strong>') . ' ' . __('%s to %s'), $Pause->hrStart(), $Pause->hrEnd() . ' bpm' );
 		}
 
 		$this->addMarkerGeohash(

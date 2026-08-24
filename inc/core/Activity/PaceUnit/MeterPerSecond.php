@@ -16,7 +16,6 @@ namespace Runalyze\Activity\PaceUnit;
 class MeterPerSecond extends AbstractDecimalUnit
 {
     /**
-     * Unit
      * @codeCoverageIgnore
      */
     public function unit(): int
@@ -25,7 +24,6 @@ class MeterPerSecond extends AbstractDecimalUnit
 	}
 
     /**
-     * Appendix
      * @codeCoverageIgnore
      */
     public function appendix(): string
