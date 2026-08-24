@@ -24,7 +24,7 @@ class RunalyzePauseArray extends Type
         return self::RUNALYZE_PAUSE_ARRAY;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

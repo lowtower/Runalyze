@@ -48,4 +48,9 @@ class PipeDelimitedArrayString extends PipeDelimitedArray
     {
         return self::PIPE_ARRAY;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }

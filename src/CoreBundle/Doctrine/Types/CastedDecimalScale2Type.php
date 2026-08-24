@@ -26,4 +26,9 @@ class CastedDecimalScale2Type extends DecimalType
     {
         return self::CASTED_DECIMAL_2;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }

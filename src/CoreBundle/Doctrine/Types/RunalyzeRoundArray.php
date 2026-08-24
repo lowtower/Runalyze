@@ -26,7 +26,7 @@ class RunalyzeRoundArray extends Type
         return self::RUNALYZE_ROUND_ARRAY;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

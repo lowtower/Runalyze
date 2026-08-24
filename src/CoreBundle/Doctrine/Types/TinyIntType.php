@@ -28,4 +28,9 @@ class TinyIntType extends SmallIntType
     {
         return self::TINYINT;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }

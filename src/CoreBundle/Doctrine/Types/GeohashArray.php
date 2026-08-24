@@ -43,7 +43,7 @@ class GeohashArray extends Type
         return self::GEOHASH_ARRAY;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }
