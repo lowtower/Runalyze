@@ -13,7 +13,7 @@ class PluginConf
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -38,7 +38,7 @@ class PluginConf
      *
      * @ORM\ManyToOne(targetEntity="Plugin")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pluginid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="pluginid", referencedColumnName="id", nullable=false)
      * })
      */
     private $plugin;

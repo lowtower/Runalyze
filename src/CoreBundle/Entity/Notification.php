@@ -16,7 +16,7 @@ class Notification implements AccountRelatedEntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -27,21 +27,21 @@ class Notification implements AccountRelatedEntityInterface
      *
      * @see \Runalyze\Profile\Notifications\MessageTypeProfile
      *
-     * @ORM\Column(name="messageType", columnDefinition="tinyint unsigned not null", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="messageType", columnDefinition="tinyint unsigned not null", nullable=false, options={"unsigned"=true})
      */
     private $messageType;
 
     /**
      * @var int [timestamp]
      *
-     * @ORM\Column(name="createdAt", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="createdAt", type="integer", nullable=false, options={"unsigned"=true})
      */
     private $createdAt;
 
     /**
      * @var null|int [timestamp]
      *
-     * @ORM\Column(name="expirationAt", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="expirationAt", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $expirationAt;
 
@@ -64,7 +64,7 @@ class Notification implements AccountRelatedEntityInterface
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

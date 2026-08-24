@@ -17,7 +17,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -33,7 +33,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var string
      *
-     * @ORM\Column(name="abbr", type="string", length=5, nullable=false, options={"default":""})
+     * @ORM\Column(name="abbr", type="string", length=5, nullable=false, options={"default"=""})
      */
     private $abbr = '';
 
@@ -42,7 +42,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
      *
      * @ORM\ManyToOne(targetEntity="Sport", inversedBy="types")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sportid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="sportid", referencedColumnName="id", nullable=false)
      * })
      */
     private $sport;
@@ -50,7 +50,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var int
      *
-     * @ORM\Column(name="short", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="short", type="tinyint", options={"unsigned"=true})
      *
      * @see \Runalyze\Profile\View\DataBrowserRowProfile
      */
@@ -59,7 +59,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
     /**
      * @var int [bpm]
      *
-     * @ORM\Column(name="hr_avg", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="hr_avg", type="tinyint", options={"unsigned"=true})
      */
     private $hrAvg = 100;
 
@@ -82,7 +82,7 @@ class Type implements IdentifiableEntityInterface, NamedEntityInterface, Account
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="activityTypes")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

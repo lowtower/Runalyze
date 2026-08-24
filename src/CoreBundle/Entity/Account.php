@@ -24,8 +24,8 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @var string
      * @Assert\Length(
-     *     min = 8,
-     *     minMessage = "Your password must be at least {{ limit }} characters long"
+     *     min=8,
+     *     minMessage="Your password must be at least {{ limit }} characters long"
      * )
      */
     private $plainPassword;
@@ -33,7 +33,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", precision=10, unique=true, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", precision=10, unique=true, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -41,16 +41,16 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     /**
      * @var string
-     * @Assert\NotBlank(message = "You need to enter a username.")
+     * @Assert\NotBlank(message="You need to enter a username.")
      * @Assert\Length(
-     *     min = 3,
-     *     max = 32,
-     *     minMessage = "Your username must be at least {{ limit }} characters long",
-     *     maxMessage = "Your username cannot be longer than {{ limit }} characters")
+     *     min=3,
+     *     max=32,
+     *     minMessage="Your username must be at least {{ limit }} characters long",
+     *     maxMessage="Your username cannot be longer than {{ limit }} characters")
      * @Assert\Regex(
-     *     pattern  = "#[^a-zA-Z0-9\.\_\-]#i",
-     *     match    = false,
-     *     message  = "Besides digits and letters, only the following characters are allowed: . _ -"
+     *     pattern="#[^a-zA-Z0-9\.\_\-]#i",
+     *     match=false,
+     *     message="Besides digits and letters, only the following characters are allowed: . _ -"
      * )
      * @ORM\Column(name="username", type="string", length=60, nullable=false, unique=true)
      */
@@ -59,7 +59,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50, options={"default":""})
+     * @ORM\Column(name="name", type="string", length=50, options={"default"=""})
      */
     private $name = '';
 
@@ -67,7 +67,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @var string
      * @Assert\NotBlank()
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
+     *     message="The email '{{ value }}' is not a valid email.",
      * )
      * @RunalyzeAssert\ContainsDisposableMailAddress()
      * @ORM\Column(name="mail", type="string", length=100, nullable=false)
@@ -77,7 +77,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @var string
      * @Assert\NotBlank()
-     * @ORM\Column(name="language", type="string", length=5, nullable=false, options={"default":"en"})
+     * @ORM\Column(name="language", type="string", length=5, nullable=false, options={"default"="en"})
      */
     private $language = 'en';
 
@@ -86,76 +86,76 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @Assert\NotBlank()
      * @Assert\Type("int")
      * @RunalyzeAssert\IsValidTimezone()
-     * @ORM\Column(name="timezone", type="smallint", nullable=false, options={"unsigned":true, "default":0})
+     * @ORM\Column(name="timezone", type="smallint", nullable=false, options={"unsigned"=true, "default"=0})
      */
     private $timezone = Timezone::UTC;
 
     /**
      * @var int enum, see \Runalyze\Profile\Athlete\Gender
      * @Assert\Type("int")
-     * @ORM\Column(name="gender", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="gender", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $gender = Gender::NONE;
 
     /**
      * @var int|null
      * @Assert\Type("int")
-     * @ORM\Column(name="birthyear", type="smallint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="birthyear", type="smallint", nullable=true, options={"unsigned"=true})
      */
     private $birthyear;
 
     /**
      * @var string
-     * @ORM\Column(name="password", type="string", length=64, nullable=false, options={"default": ""})
+     * @ORM\Column(name="password", type="string", length=64, nullable=false, options={"default"=""})
      */
     private $password = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="salt", type="string", length=64, nullable=false, options={"fixed" = true, "default":""})
+     * @ORM\Column(name="salt", type="string", length=64, nullable=false, options={"fixed"=true, "default"=""})
      */
     private $salt = '';
 
     /**
      * @var int|null [timestamp]
      * @Assert\Type("int")
-     * @ORM\Column(name="registerdate", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="registerdate", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $registerdate;
 
     /**
      * @var int|null [timestmap]
      * @Assert\Type("int")
-     * @ORM\Column(name="lastaction", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="lastaction", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $lastaction;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="changepw_hash", type="string", length=32, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="changepw_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
     private $changepwHash;
 
     /**
      * @var int|null [timestamp]
      *
-     * @ORM\Column(name="changepw_timelimit", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="changepw_timelimit", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $changepwTimelimit;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="activation_hash", type="string", length=32, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="activation_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
     private $activationHash;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="deletion_hash", type="string", length=32, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="deletion_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
     private $deletionHash;
 
@@ -191,7 +191,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Tag", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"tag" = "ASC"})
+     * @ORM\OrderBy({"tag"="ASC"})
      */
     protected $tags;
 
@@ -212,7 +212,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     /**
      * @var int
      *
-     * @ORM\Column(name="role", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="role", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $role = UserRole::ROLE_USER;
 

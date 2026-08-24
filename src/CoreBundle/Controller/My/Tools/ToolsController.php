@@ -272,7 +272,7 @@ class ToolsController extends Controller
     }
 
     /**
-     * @Route("/my/tools/poster/{name}", name="poster-download", requirements={"name": ".+"})
+     * @Route("/my/tools/poster/{name}", name="poster-download", requirements={"name"=".+"})
      * @Security("has_role('ROLE_USER')")
      */
     public function posterDownloadAction(Account $account, $name)

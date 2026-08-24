@@ -17,7 +17,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -40,21 +40,21 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
     /**
      * @var float [km]
      *
-     * @ORM\Column(name="distance", type="casted_decimal_2", precision=8, scale=2, options={"unsigned":true})
+     * @ORM\Column(name="distance", type="casted_decimal_2", precision=8, scale=2, options={"unsigned"=true})
      */
     private $distance = 0.00;
 
     /**
      * @var int [s]
      *
-     * @ORM\Column(name="time", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="time", type="integer", nullable=false, options={"unsigned"=true})
      */
     private $time = 0;
 
     /**
      * @var int [km]
      *
-     * @ORM\Column(name="additional_km", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="additional_km", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $additionalKm = 0;
 
@@ -77,7 +77,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType", inversedBy="equipment")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="typeid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="typeid", referencedColumnName="id", nullable=false)
      * })
      */
     private $type;
@@ -87,12 +87,12 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      *
      * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", inversedBy="equipment")
      * @ORM\JoinTable(name="equipment_spor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="sportid", referencedColumnName="id")
-     *   }
+     *     joinColumns={
+     *         @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *         @ORM\JoinColumn(name="sportid", referencedColumnName="id")
+     *     }
      * )
      */
     private $sport;
@@ -102,7 +102,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="equipment")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

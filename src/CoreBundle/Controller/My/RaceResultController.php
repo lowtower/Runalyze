@@ -30,7 +30,7 @@ class RaceResultController extends Controller
     }
 
     /**
-     * @Route("/{activityId}", name="raceresult-form", requirements={"activityId" = "\d+"})
+     * @Route("/{activityId}", name="raceresult-form", requirements={"activityId"="\d+"})
      * @param int $activityId
      */
     public function raceresultFormAction($activityId, Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
@@ -79,7 +79,7 @@ class RaceResultController extends Controller
     }
 
     /**
-     * @Route("/{activityId}/delete", name="raceresult-delete", requirements={"activityId" = "\d+"})
+     * @Route("/{activityId}/delete", name="raceresult-delete", requirements={"activityId"="\d+"})
      */
     public function raceresultDeleteAction($activityId, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {

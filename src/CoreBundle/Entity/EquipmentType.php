@@ -25,7 +25,7 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -41,21 +41,21 @@ class EquipmentType implements AccountRelatedEntityInterface
     /**
      * @var int see self::CHOICE_SINGLE and self::CHOICE_MULTIPLE
      *
-     * @ORM\Column(name="input", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="input", type="tinyint", options={"unsigned"=true})
      */
     private $input = 0;
 
     /**
      * @var null|int [km]
      *
-     * @ORM\Column(name="max_km", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="max_km", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $maxKm;
 
     /**
      * @var null|int [s]
      *
-     * @ORM\Column(name="max_time", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="max_time", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $maxTime;
 
@@ -64,7 +64,7 @@ class EquipmentType implements AccountRelatedEntityInterface
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="equipmentTypes")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;
@@ -74,12 +74,12 @@ class EquipmentType implements AccountRelatedEntityInterface
      *
      * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", inversedBy="equipmentType")
      * @ORM\JoinTable(name="equipment_sport",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="equipment_typeid", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="sportid", referencedColumnName="id")
-     *   }
+     *     joinColumns={
+     *         @ORM\JoinColumn(name="equipment_typeid", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *         @ORM\JoinColumn(name="sportid", referencedColumnName="id")
+     *     }
      * )
      */
     private $sport;

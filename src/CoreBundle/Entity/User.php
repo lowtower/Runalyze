@@ -17,7 +17,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -26,36 +26,36 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="time", type="integer", precision=11, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="time", type="integer", precision=11, nullable=false, options={"unsigned"=true})
      */
     private $time;
 
     /**
      * @var float|null [kg]
      *
-     * @ORM\Column(name="weight", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="weight", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
     private $weight;
 
     /**
      * @var int|null [bpm]
      *
-     * @ORM\Column(name="pulse_rest", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="pulse_rest", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $pulseRest;
 
     /**
      * @var int|null [bpm]
      *
-     * @ORM\Column(name="pulse_max", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="pulse_max", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $pulseMax;
 
     /**
      * @var float|null [%]
      * @Assert\Range(
-     *     min = 0,
-     *     max = 100)
+     *     min=0,
+     *     max=100)
      * @ORM\Column(name="fat", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
     private $fat;
@@ -63,8 +63,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @var float|null [%]
      * @Assert\Range(
-     *     min = 0,
-     *     max = 100)
+     *     min=0,
+     *     max=100)
      * @ORM\Column(name="water", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
     private $water;
@@ -73,8 +73,8 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      * @var float|null [%]
      *
      * @Assert\Range(
-     *     min = 0,
-     *     max = 100)
+     *     min=0,
+     *     max=100)
      * @ORM\Column(name="muscles", type="casted_decimal_1", precision=3, scale=1, nullable=true)
      */
     private $muscles;
@@ -82,7 +82,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
     /**
      * @var int|null [min]
      *
-     * @ORM\Column(name="sleep_duration", type="smallint", precision=3, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="sleep_duration", type="smallint", precision=3, nullable=true, options={"unsigned"=true})
      */
     private $sleepDuration;
 
@@ -98,7 +98,7 @@ class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

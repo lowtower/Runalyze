@@ -67,7 +67,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid" = "\d+"})
+     * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid"="\d+"})
      */
     public function typeAddAction(Request $request, $sportid, Account $account)
     {
@@ -101,7 +101,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id" = "\d+"})
+     * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id"="\d+"})
      * @ParamConverter("type", class="CoreBundle:Type")
      */
     public function typeEditAction(Request $request, Type $type, Account $account)
@@ -136,7 +136,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id" = "\d+"})
+     * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id"="\d+"})
      * @ParamConverter("type", class="CoreBundle:Type")
      */
     public function deleteSportTypeAction(Request $request, Type $type, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
@@ -167,7 +167,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/add/{internalType}", name="sport-add", requirements={"internalType" = "\d+"})
+     * @Route("/add/{internalType}", name="sport-add", requirements={"internalType"="\d+"})
      * @Route("/add/custom", name="sport-add-custom")
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -208,7 +208,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="sport-edit", requirements={"id" = "\d+"})
+     * @Route("/{id}/edit", name="sport-edit", requirements={"id"="\d+"})
      * @ParamConverter("sport", class="CoreBundle:Sport")
      */
     public function sportEditAction(Request $request, Sport $sport, Account $account)
@@ -245,7 +245,7 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="sport-delete", requirements={"id" = "\d+"})
+     * @Route("/{id}/delete", name="sport-delete", requirements={"id"="\d+"})
      * @ParamConverter("sport", class="CoreBundle:Sport")
      */
     public function sportDeleteAction(Request $request, Sport $sport, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse

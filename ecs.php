@@ -53,7 +53,7 @@ return ECSConfig::configure()
         SetList::DOCBLOCK,
         SetList::NAMESPACES,
         SetList::SPACES,
-        # SetList::DOCTRINE_ANNOTATIONS,
+        SetList::DOCTRINE_ANNOTATIONS,
     ])
 
     ->withSkip([

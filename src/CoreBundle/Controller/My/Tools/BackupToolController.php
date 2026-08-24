@@ -26,7 +26,7 @@ class BackupToolController extends Controller
     }
 
     /**
-     * @Route("/download/{filename}", name="tools-backup-download", requirements={"filename": ".+"})
+     * @Route("/download/{filename}", name="tools-backup-download", requirements={"filename"=".+"})
      * @Security("has_role('ROLE_USER')")
      *
      * @param string $filename

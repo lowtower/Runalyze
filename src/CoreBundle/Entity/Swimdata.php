@@ -28,7 +28,7 @@ class Swimdata implements AccountRelatedEntityInterface
     /**
      * @var int [cm]
      *
-     * @ORM\Column(name="pool_length", type="smallint", precision=5, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="pool_length", type="smallint", precision=5, nullable=false, options={"unsigned"=true})
      */
     private $poolLength = 0;
 
@@ -39,7 +39,7 @@ class Swimdata implements AccountRelatedEntityInterface
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id")
      * })
      */
     private $account;
@@ -49,9 +49,9 @@ class Swimdata implements AccountRelatedEntityInterface
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Training", inversedBy = "swimdata")
+     * @ORM\OneToOne(targetEntity="Training", inversedBy="swimdata")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activityid", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="activityid", referencedColumnName="id")
      * })
      */
     private $activity;

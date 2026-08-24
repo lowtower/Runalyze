@@ -26,7 +26,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash": "[[:xdigit:]]{32}"})
+     * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash"="[[:xdigit:]]{32}"})
      */
     public function deleteAccountConfirmedAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
@@ -43,7 +43,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/delete/{hash}", name="account_delete", requirements={"hash": "[[:xdigit:]]{32}"})
+     * @Route("/delete/{hash}", name="account_delete", requirements={"hash"="[[:xdigit:]]{32}"})
      */
     public function deleteAccountAction($hash): \Symfony\Component\HttpFoundation\Response
     {
@@ -64,7 +64,7 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash": "[[:xdigit:]]{32}"})
+     * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
      */
     public function recoverForHashAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
     {
@@ -145,8 +145,8 @@ class AccountController extends Controller
     }
 
     /**
-     * @Route("/activate/{hash}", requirements={"hash": "[[:xdigit:]]{32}"})
-     * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash": "[[:xdigit:]]{32}"})
+     * @Route("/activate/{hash}", requirements={"hash"="[[:xdigit:]]{32}"})
+     * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash"="[[:xdigit:]]{32}"})
      */
     public function activateAccountAction($hash, $username = null): \Symfony\Component\HttpFoundation\Response
     {

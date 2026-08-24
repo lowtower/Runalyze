@@ -36,49 +36,49 @@ class Raceresult implements AccountRelatedEntityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50, nullable=false, options={"default":""})
+     * @ORM\Column(name="name", type="string", length=50, nullable=false, options={"default"=""})
      */
     private $name = '';
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="place_total", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="place_total", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $placeTotal;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="place_gender", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="place_gender", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $placeGender;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="place_ageclass", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="place_ageclass", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $placeAgeclass;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="participants_total", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="participants_total", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $participantsTotal;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="participants_gender", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="participants_gender", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $participantsGender;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="participants_ageclass", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="participants_ageclass", type="integer", nullable=true, options={"unsigned"=true})
      */
     private $participantsAgeclass;
 
@@ -89,7 +89,7 @@ class Raceresult implements AccountRelatedEntityInterface
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id")
      * })
      */
     private $account;
@@ -101,7 +101,7 @@ class Raceresult implements AccountRelatedEntityInterface
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="Training", inversedBy="raceresult")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
      * })
      */
     private $activity;

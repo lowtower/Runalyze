@@ -37,7 +37,7 @@ class EditController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
@@ -134,7 +134,7 @@ class EditController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
@@ -153,7 +153,7 @@ class EditController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */

@@ -40,7 +40,7 @@ class EquipmentController extends Controller
     }
 
     /**
-     * @Route("/category/{typeid}/table", name="equipment-category-table", requirements={"typeid" = "\d+"})
+     * @Route("/category/{typeid}/table", name="equipment-category-table", requirements={"typeid"="\d+"})
      */
     public function categoryTableAction($typeid, Account $account): \Symfony\Component\HttpFoundation\Response
     {
@@ -177,7 +177,7 @@ class EquipmentController extends Controller
     }
 
     /**
-     * @Route("/add/{id}", name="equipment-add", requirements={"id" = "\d+"})
+     * @Route("/add/{id}", name="equipment-add", requirements={"id"="\d+"})
      * @ParamConverter("equipmentType", class="CoreBundle:EquipmentType")
      */
     public function equipmentAddAction(Request $request, EquipmentType $equipmentType, Account $account)

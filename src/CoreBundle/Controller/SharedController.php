@@ -26,10 +26,10 @@ class SharedController extends Controller
     }
 
     /**
-     * @Route("/shared/{activityHash}&{foo}&{bar}&{baz}", requirements={"activityHash": "[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}&{foo}&{bar}", requirements={"activityHash": "[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}&{foo}", requirements={"activityHash": "[a-zA-Z0-9]+"})
-     * @Route("/shared/{activityHash}", requirements={"activityHash": "[a-zA-Z0-9]+"}, name="shared-activity")
+     * @Route("/shared/{activityHash}&{foo}&{bar}&{baz}", requirements={"activityHash"="[a-zA-Z0-9]+"})
+     * @Route("/shared/{activityHash}&{foo}&{bar}", requirements={"activityHash"="[a-zA-Z0-9]+"})
+     * @Route("/shared/{activityHash}&{foo}", requirements={"activityHash"="[a-zA-Z0-9]+"})
+     * @Route("/shared/{activityHash}", requirements={"activityHash"="[a-zA-Z0-9]+"}, name="shared-activity")
      */
     public function sharedTrainingAction($activityHash, Request $request): \Symfony\Component\HttpFoundation\Response
     {

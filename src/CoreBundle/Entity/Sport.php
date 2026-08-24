@@ -23,7 +23,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -39,7 +39,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var string
      *
-     * @ORM\Column(name="img", type="string", length=100, nullable=false, options={"default":"icons8-Sports-Mode"})
+     * @ORM\Column(name="img", type="string", length=100, nullable=false, options={"default"="icons8-Sports-Mode"})
      */
     private $img = 'icons8-Sports-Mode';
 
@@ -53,14 +53,14 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var int [kcal/h]
      *
-     * @ORM\Column(name="kcal", type="smallint", precision=4, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="kcal", type="smallint", precision=4, nullable=false, options={"unsigned"=true})
      */
     private $kcal = 0;
 
     /**
      * @var int [bpm]
      *
-     * @ORM\Column(name="HFavg", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="HFavg", type="tinyint", options={"unsigned"=true})
      */
     private $hfavg = 120;
 
@@ -74,7 +74,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var int see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      *
-     * @ORM\Column(name="speed", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="speed", type="tinyint", options={"unsigned"=true})
      */
     private $speed = 6;
 
@@ -111,7 +111,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="main_equipmenttypeid", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="main_equipmenttypeid", referencedColumnName="id")
      * })
      */
     private $mainEquipmenttype;
@@ -121,7 +121,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="default_typeid", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="default_typeid", referencedColumnName="id")
      * })
      */
     private $defaultType;
@@ -136,7 +136,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     /**
      * @var int|null see \Runalyze\Profile\Sport\SportProfile
      *
-     * @ORM\Column(name="internal_sport_id", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="internal_sport_id", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $internalSportId;
 
@@ -150,7 +150,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account", inversedBy="sports")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

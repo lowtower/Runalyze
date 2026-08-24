@@ -41,7 +41,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}", name="ActivityShow", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
@@ -95,7 +95,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/splits-info", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/splits-info", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
     public function splitsInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
@@ -115,7 +115,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/elevation-info", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/elevation-info", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
     public function elevationInfoAction($id, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
@@ -149,7 +149,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/time-series-info", requirements={"id" = "\d+"}, name="activity-tool-time-series-info")
+     * @Route("/activity/{id}/time-series-info", requirements={"id"="\d+"}, name="activity-tool-time-series-info")
      * @Security("has_role('ROLE_USER')")
      */
     public function timeSeriesInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
@@ -180,7 +180,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/sub-segments-info", requirements={"id" = "\d+"}, name="activity-tool-sub-segments-info")
+     * @Route("/activity/{id}/sub-segments-info", requirements={"id"="\d+"}, name="activity-tool-sub-segments-info")
      * @Security("has_role('ROLE_USER')")
      */
     public function subSegmentInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
@@ -213,7 +213,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/climb-score", requirements={"id" = "\d+"}, name="activity-tool-climb-score")
+     * @Route("/activity/{id}/climb-score", requirements={"id"="\d+"}, name="activity-tool-climb-score")
      * @ParamConverter("activity", class="CoreBundle:Training")
      */
     public function climbScoreAction(Training $activity, ?Account $account = null): \Symfony\Component\HttpFoundation\Response

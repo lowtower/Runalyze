@@ -25,7 +25,7 @@ class Weathercache
     /**
      * @var string
      *
-     * @ORM\Column(name="geohash", type="string", length=5, nullable=false, options={"fixed" = true})
+     * @ORM\Column(name="geohash", type="string", length=5, nullable=false, options={"fixed"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
@@ -50,28 +50,28 @@ class Weathercache
     /**
      * @var int|null [km/h]
      *
-     * @ORM\Column(name="wind_speed", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="wind_speed", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $windSpeed;
 
     /**
      * @var int|null [°]
      *
-     * @ORM\Column(name="wind_deg", type="smallint", precision=3, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="wind_deg", type="smallint", precision=3, nullable=true, options={"unsigned"=true})
      */
     private $windDeg;
 
     /**
      * @var int|null [%]
      *
-     * @ORM\Column(name="humidity", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="humidity", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $humidity;
 
     /**
      * @var int [hPa]
      *
-     * @ORM\Column(name="pressure", type="smallint", precision=4, nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="pressure", type="smallint", precision=4, nullable=true, options={"unsigned"=true})
      */
     private $pressure;
 
@@ -85,7 +85,7 @@ class Weathercache
     /**
      * @var int|null
      *
-     * @ORM\Column(name="weather_source", type="tinyint", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="weather_source", type="tinyint", nullable=true, options={"unsigned"=true})
      */
     private $weatherSource;
 

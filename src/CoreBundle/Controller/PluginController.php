@@ -47,7 +47,7 @@ class PluginController extends AbstractPluginsAwareController
     }
 
     /**
-     * @Route("/my/plugin/{id}", requirements={"id" = "\d+"}, name="plugin-display")
+     * @Route("/my/plugin/{id}", requirements={"id"="\d+"}, name="plugin-display")
      * @Security("has_role('ROLE_USER')")
      */
     public function pluginDisplayAction($id, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response

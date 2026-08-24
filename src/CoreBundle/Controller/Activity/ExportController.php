@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ExportController extends Controller
 {
     /**
-     * @Route("/activity/{id}/export/social/{typeid}", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/export/social/{typeid}", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
     public function exporterExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response
@@ -34,7 +34,7 @@ class ExportController extends Controller
     }
 
     /**
-     * @Route("/activity/{id}/export/file/{typeid}", requirements={"id" = "\d+"})
+     * @Route("/activity/{id}/export/file/{typeid}", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
     public function fileExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response

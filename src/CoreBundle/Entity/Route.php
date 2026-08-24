@@ -30,7 +30,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -39,42 +39,42 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false, options={"default":""})
+     * @ORM\Column(name="name", type="string", length=255, nullable=false, options={"default"=""})
      */
     private $name = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cities", type="string", length=255, nullable=false, options={"default":""})
+     * @ORM\Column(name="cities", type="string", length=255, nullable=false, options={"default"=""})
      */
     private $cities = '';
 
     /**
      * @var float [km]
      *
-     * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, options={"unsigned":true})
+     * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, options={"unsigned"=true})
      */
     private $distance = 0.0;
 
     /**
      * @var int [m]
      *
-     * @ORM\Column(name="elevation", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="elevation", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $elevation = 0;
 
     /**
      * @var int [m]
      *
-     * @ORM\Column(name="elevation_up", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="elevation_up", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $elevationUp = 0;
 
     /**
      * @var int [m]
      *
-     * @ORM\Column(name="elevation_down", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="elevation_down", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $elevationDown = 0;
 
@@ -102,7 +102,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="elevations_source", type="string", length=255, nullable=false, options={"default" = ""})
+     * @ORM\Column(name="elevations_source", type="string", length=255, nullable=false, options={"default"=""})
      */
     private $elevationsSource = '';
 
@@ -116,28 +116,28 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @var string|null [geohash]
      *
-     * @ORM\Column(name="startpoint", type="string", length=10, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="startpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
     private $startpoint;
 
     /**
      * @var string|null [geohash]
      *
-     * @ORM\Column(name="endpoint", type="string", length=10, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="endpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
     private $endpoint;
 
     /**
      * @var string|null [geohash]
      *
-     * @ORM\Column(name="min", type="string", length=10, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="min", type="string", length=10, nullable=true, options={"fixed"=true})
      */
     private $min;
 
     /**
      * @var string|null [geohash]
      *
-     * @ORM\Column(name="max", type="string", length=10, nullable=true, options={"fixed" = true})
+     * @ORM\Column(name="max", type="string", length=10, nullable=true, options={"fixed"=true})
      */
     private $max;
 
@@ -153,7 +153,7 @@ class Route implements AccountRelatedEntityInterface
      *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
     private $account;

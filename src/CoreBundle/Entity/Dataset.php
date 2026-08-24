@@ -17,7 +17,7 @@ class Dataset implements AccountRelatedEntityInterface
      *
      * @ORM\ManyToOne(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Account")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
+     *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      * @Orm\Id
      */
@@ -26,7 +26,7 @@ class Dataset implements AccountRelatedEntityInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="keyid", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="keyid", type="tinyint", options={"unsigned"=true})
      * @ORM\Id
      */
     private $keyid;
@@ -41,14 +41,14 @@ class Dataset implements AccountRelatedEntityInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="style", type="string", length=100, nullable=false, options={"default":""})
+     * @ORM\Column(name="style", type="string", length=100, nullable=false, options={"default"=""})
      */
     private $style = '';
 
     /**
      * @var int
      *
-     * @ORM\Column(name="position", type="tinyint", options={"unsigned":true})
+     * @ORM\Column(name="position", type="tinyint", options={"unsigned"=true})
      */
     private $position = 0;
 
