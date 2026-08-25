@@ -33,7 +33,7 @@ class Triweight extends AbstractKernel
     protected function atTransformed($u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
-            return pow(1 - $u * $u, 3);
+            return (1 - $u * $u) ** 3;
         }
 
         return 0.0;

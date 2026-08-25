@@ -76,7 +76,7 @@ class WindChillFactor implements ValueInterface
         }
 
         if ($kmh >= 5) {
-            $calc = 13.12 + 0.6215 * $temperature->celsius() - 11.37 * pow($kmh, 0.16) + 0.3965 * $temperature->celsius() * pow($kmh, 0.16);
+            $calc = 13.12 + 0.6215 * $temperature->celsius() - 11.37 * $kmh ** 0.16 + 0.3965 * $temperature->celsius() * $kmh ** 0.16;
         }
 
         $this->AdjustedTemperature = clone $temperature;

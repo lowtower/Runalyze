@@ -494,11 +494,7 @@ class JsonImporter
      */
     private function correctID(string $table, $id)
     {
-        if (isset($this->ReplaceIDs[$table][$id])) {
-            return $this->ReplaceIDs[$table][$id];
-        }
-
-        return 0;
+        return $this->ReplaceIDs[$table][$id] ?? 0;
     }
 
     /**

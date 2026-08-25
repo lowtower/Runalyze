@@ -34,10 +34,6 @@ class EnglishLanguageMapping implements ToInternalMappingInterface
     {
         $value = mb_strtolower($value);
 
-        if (isset($this->Mapping[$value])) {
-            return $this->Mapping[$value];
-        }
-
-        return SportProfile::GENERIC;
+        return $this->Mapping[$value] ?? SportProfile::GENERIC;
     }
 }

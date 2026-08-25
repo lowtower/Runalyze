@@ -82,7 +82,7 @@ class Bock implements PrognosisInterface
         }
 
         $this->E = log($time2 / $time1) / log($distance2 / $distance1);
-        $this->K = $time2 / pow($distance2, $this->E);
+        $this->K = $time2 / $distance2 ** $this->E;
 
         return $this;
     }
@@ -102,7 +102,7 @@ class Bock implements PrognosisInterface
 
     public function getSeconds($distance)
     {
-        $seconds = $this->K * pow($distance, $this->E);
+        $seconds = $this->K * $distance ** $this->E;
 
         return ($distance > 3.0) ? round($seconds) : $seconds;
     }

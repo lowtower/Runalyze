@@ -115,7 +115,7 @@ class Duration
             $num = count($parts);
 
             foreach ($parts as $i => $part) {
-                $this->Time += (int) $part * pow(60, $num - $i - 1);
+                $this->Time += (int) $part * 60 ** ($num - $i - 1);
             }
         }
 
@@ -193,7 +193,7 @@ class Duration
     protected function formatString($format, $decimals = 2): string
     {
         if (substr($format, -1) == 'u') {
-            $fraction = str_pad(round(fmod($this->Time, 1) * pow(10, $decimals)), $decimals, '0', STR_PAD_LEFT);
+            $fraction = str_pad(round(fmod($this->Time, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
             return $this->formatString(substr($format, 0, -1)) . $fraction;
         }
 

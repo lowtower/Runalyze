@@ -31,7 +31,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         $this->truncateTables();
         \Cache::clean();
 
-        $this->accountID = rand(2, 100);
+        $this->accountID = random_int(2, 100);
         $this->DB->exec('INSERT INTO `runalyze_account` (`id`, `username`, `mail`) VALUES(' . $this->accountID . ', "ModelFactoryTest", "model@factory.test")');
         $this->object = new Factory($this->accountID);
         $this->object->clearCache();

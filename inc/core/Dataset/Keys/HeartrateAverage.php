@@ -112,8 +112,8 @@ class HeartrateAverage extends AbstractKey
     public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
     {
         $hrBpm = $hr->inBPM();
-        $hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;
-        $hrMax = $hr->getHRmax() ? $hr->getHRmax() : self::HR_MAX;
+        $hrMin = $hr->getHRrest() ?: self::HR_MIN;
+        $hrMax = $hr->getHRmax() ?: self::HR_MAX;
 
         if (isset($hr) && $hrBpm > 0) {
             $v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));

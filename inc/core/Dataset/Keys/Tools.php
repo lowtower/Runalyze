@@ -71,7 +71,7 @@ class Tools extends AbstractKey
     public function stringFor(Context $context): string
     {
         if (! \Request::isOnSharedPage() && $context->activity()->id() > 0) {
-            return $this->getCodeForDropdown($this->inlineDropdownWithRealLinks($context));
+            return $this->getCodeForDropdown(static::inlineDropdownWithRealLinks($context));
         }
 
         return '';
@@ -79,7 +79,7 @@ class Tools extends AbstractKey
 
     public function stringForExample(Context $context): string
     {
-        return $this->getCodeForDropdown($this->inlineDropdownWithFakeLinks($context));
+        return $this->getCodeForDropdown(static::inlineDropdownWithFakeLinks($context));
     }
 
     /**

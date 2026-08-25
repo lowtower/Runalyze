@@ -21,7 +21,7 @@ abstract class AbstractEnergyCostAlgorithm implements AlgorithmInterface
             return 0.0;
         }
 
-        return pow(1.0 / $energyCost, self::TIME_ADJUSTMENT_EXPONENT);
+        return (1.0 / $energyCost) ** self::TIME_ADJUSTMENT_EXPONENT;
     }
 
     public function adjustPace($paceInSecondsPerKilometer, $gradientInPercent)

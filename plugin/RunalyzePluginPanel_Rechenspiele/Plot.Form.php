@@ -174,11 +174,11 @@ if ($Year >= START_YEAR && $Year <= date('Y') && time() != START_TIME) {
 
             for ($i = 0; $i <= $BElongjogsDays; ++$i) {
                 foreach ($Longjogs_raw[$d - $i] as $longjog) {
-                    $longJogPoints += 2 * (1 - $i / $BElongjogsDays) * pow($longjog - $MinKmOfLongJogs, 2);
+                    $longJogPoints += 2 * (1 - $i / $BElongjogsDays) * ($longjog - $MinKmOfLongJogs) ** 2;
                 }
             }
 
-            $longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
+            $longJogPoints /= $BasicEnduranceObj->getTargetLongjogKmPerWeek() ** 2;
             $BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
                 'km' => $currentKmSum,
                 'sum' => $longJogPoints,

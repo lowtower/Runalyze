@@ -58,7 +58,7 @@ class FilenameHandler
             self::FILENAME_PREFIX,
             date('Ymd-Hi'),
             $this->RunalyzeVersion,
-            substr(uniqid(rand()), -4),
+            substr(uniqid(random_int(0, mt_getrandmax())), -4),
             $extension
         );
     }

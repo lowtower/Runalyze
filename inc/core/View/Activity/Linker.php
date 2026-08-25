@@ -187,7 +187,7 @@ class Linker
     {
         $PrevTraining = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'training` WHERE ((`time`<"' . $timestampInNoTimezone . '" AND `id`!=' . $id . ') OR (`time`="' . $timestampInNoTimezone . '" AND `id`<' . $id . ')) AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` DESC, `id` DESC LIMIT 1')->fetch();
 
-        return (isset($PrevTraining['id'])) ? $PrevTraining['id'] : false;
+        return $PrevTraining['id'] ?? false;
     }
 
     /**
@@ -199,6 +199,6 @@ class Linker
     {
         $NextTraining = DB::getInstance()->query('SELECT `id` FROM `' . PREFIX . 'training` WHERE ((`time`>"' . $timestampInNoTimezone . '" AND `id`!=' . $id . ') OR (`time`="' . $timestampInNoTimezone . '" AND `id`>' . $id . ')) AND `accountid` = ' . SessionAccountHandler::getId() . ' ORDER BY `time` ASC, `id` ASC LIMIT 1')->fetch();
 
-        return (isset($NextTraining['id'])) ? $NextTraining['id'] : false;
+        return $NextTraining['id'] ?? false;
     }
 }

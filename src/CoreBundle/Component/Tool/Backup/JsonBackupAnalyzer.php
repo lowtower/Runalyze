@@ -55,11 +55,7 @@ class JsonBackupAnalyzer
      */
     public function count($tableName)
     {
-        if (isset($this->NumberOf[$tableName])) {
-            return $this->NumberOf[$tableName];
-        }
-
-        return 0;
+        return $this->NumberOf[$tableName] ?? 0;
     }
 
     public function fileIsOkay(): bool

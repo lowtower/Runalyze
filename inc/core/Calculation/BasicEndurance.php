@@ -332,7 +332,7 @@ class BasicEndurance
 
         $startTimeForLongjogs = $timestamp - $this->DAYS_FOR_LONGJOGS * DAY_IN_S;
         $startTimeForWeekKm = $timestamp - $this->DAYS_FOR_WEEK_KM * DAY_IN_S;
-        $targetLongJogSquared = pow($this->getTargetLongjogKmPerWeek(), 2);
+        $targetLongJogSquared = $this->getTargetLongjogKmPerWeek() ** 2;
 
         foreach ($activityData as $data) {
             if ($data['time'] > $startTimeForWeekKm) {
@@ -340,7 +340,7 @@ class BasicEndurance
             }
 
             if ($data['time'] > $startTimeForLongjogs && $data['distance'] > $this->MIN_KM_FOR_LONGJOG) {
-                $points += (2 - 2 / $this->DAYS_FOR_LONGJOGS * floor(($timestamp - $data['time']) / DAY_IN_S)) * pow($data['distance'] - $this->MIN_KM_FOR_LONGJOG, 2) / $targetLongJogSquared;
+                $points += (2 - 2 / $this->DAYS_FOR_LONGJOGS * floor(($timestamp - $data['time']) / DAY_IN_S)) * ($data['distance'] - $this->MIN_KM_FOR_LONGJOG) ** 2 / $targetLongJogSquared;
             }
         }
 
@@ -370,7 +370,7 @@ class BasicEndurance
 
     public function getTargetWeekKm(): float
     {
-        return pow(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX), 1.135);
+        return max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX) ** 1.135;
     }
 
     /**

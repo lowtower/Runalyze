@@ -303,11 +303,7 @@ class Factory
             $this->fetchStaticCache($tablename);
         }
 
-        if (isset(self::$StaticCache[$tablename][$id])) {
-            return self::$StaticCache[$tablename][$id];
-        }
-
-        return [];
+        return self::$StaticCache[$tablename][$id] ?? [];
     }
 
     /**

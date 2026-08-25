@@ -171,11 +171,7 @@ class Language implements InterfaceChoosable
             }
         }
 
-        if (isset($_COOKIE[self::COOKIE_KEY])) {
-            return $_COOKIE[self::COOKIE_KEY];
-        }
-
-        return $this->getBrowserLanguage(self::$AVAILABLE_LANGUAGES);
+        return $_COOKIE[self::COOKIE_KEY] ?? $this->getBrowserLanguage(self::$AVAILABLE_LANGUAGES);
     }
 
     /**

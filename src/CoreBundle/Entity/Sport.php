@@ -510,7 +510,7 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     public function getInternalSport()
     {
         if ($this->internalSport === null) {
-            $id = $this->internalSportId === null ? SportProfile::GENERIC : $this->internalSportId;
+            $id = $this->internalSportId ?? SportProfile::GENERIC;
 
             try {
                 $this->internalSport = SportProfile::get($id);

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../inc/data/class.Splits.php';
+require_once __DIR__ . '/../../../inc/data/class.Splits.php';
 
 /**
  * Test class for Splits.

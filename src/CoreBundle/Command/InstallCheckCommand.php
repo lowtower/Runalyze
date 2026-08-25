@@ -144,7 +144,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         switch ($returnCode) {
             case self::WARNING:
                 $tag = 'comment';
-                $message = $message ? $message : 'warning';
+                $message = $message ?: 'warning';
                 break;
             case self::ERROR:
                 $tag = 'error';
@@ -152,10 +152,10 @@ class InstallCheckCommand extends ContainerAwareCommand
             case self::OKAY:
             default:
                 $tag = 'info';
-                $message = $message ? $message : 'ok';
+                $message = $message ?: 'ok';
         }
 
-        return '<' . $tag . '>' . ($message ? $message : $tag) . '</' . $tag . '>';
+        return '<' . $tag . '>' . ($message ?: $tag) . '</' . $tag . '>';
     }
 
     protected function checkPhpVersion(): int

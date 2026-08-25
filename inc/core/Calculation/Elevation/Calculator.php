@@ -70,7 +70,7 @@ class Calculator
     {
         $this->ElevationPoints = $ElevationPoints;
         $this->Method = $Method instanceof \Runalyze\Parameter\Application\ElevationMethod ? $Method : Configuration::ActivityView()->elevationMethod();
-        $this->Threshold = $Threshold !== null ? $Threshold : Configuration::ActivityView()->elevationMinDiff();
+        $this->Threshold = $Threshold ?? Configuration::ActivityView()->elevationMinDiff();
     }
 
     /**

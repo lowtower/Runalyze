@@ -75,7 +75,7 @@ class Frontend
     private function initSystem()
     {
         define('RUNALYZE', true);
-        define('FRONTEND_PATH', dirname(__FILE__) . '/');
+        define('FRONTEND_PATH', __DIR__ . '/');
 
         $this->setAutoloader();
         $this->initCache();

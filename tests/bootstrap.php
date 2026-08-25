@@ -14,7 +14,7 @@ if (! defined('RUNALYZE_TEST')) {
 }
 
 if (! defined('FRONTEND_PATH')) {
-    define('FRONTEND_PATH', dirname(__FILE__) . '/../inc/');
+    define('FRONTEND_PATH', __DIR__ . '/../inc/');
 }
 
 define('TESTS_ROOT', __DIR__);

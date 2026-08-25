@@ -33,7 +33,7 @@ class Quartic extends AbstractKernel
     protected function atTransformed($u): float
     {
         if ($u >= -1.0 && $u <= 1.0) {
-            return pow(1 - $u * $u, 2);
+            return (1 - $u * $u) ** 2;
         }
 
         return 0.0;

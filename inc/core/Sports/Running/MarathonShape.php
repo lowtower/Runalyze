@@ -62,7 +62,7 @@ class MarathonShape
      */
     public function getTargetForWeeklyMileage(): float
     {
-        return pow(max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX), 1.135);
+        return max($this->EffectiveVO2max, self::MINIMAL_EFFECTIVE_VO2MAX) ** 1.135;
     }
 
     /**

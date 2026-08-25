@@ -63,15 +63,7 @@ class Request
      */
     public static function sendId()
     {
-        if (isset($_GET['id'])) {
-            return $_GET['id'];
-        }
-
-        if (isset($_POST['id'])) {
-            return $_POST['id'];
-        }
-
-        return false;
+        return $_GET['id'] ?? $_POST['id'] ?? false;
     }
 
     /**
@@ -81,14 +73,6 @@ class Request
      */
     public static function param($key)
     {
-        if (isset($_GET[$key])) {
-            return $_GET[$key];
-        }
-
-        if (isset($_POST[$key])) {
-            return $_POST[$key];
-        }
-
-        return '';
+        return $_GET[$key] ?? $_POST[$key] ?? '';
     }
 }

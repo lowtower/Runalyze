@@ -46,7 +46,7 @@ class VO2maxVelocity
             return 0.0;
         }
 
-        return -876.0 + pow(876.0 * 876.0 + (4.6 + $effectiveVO2max) / 0.000104, 0.5);
+        return -876.0 + (876.0 * 876.0 + (4.6 + $effectiveVO2max) / 0.000104) ** 0.5;
     }
 
     /**

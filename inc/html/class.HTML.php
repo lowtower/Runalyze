@@ -306,7 +306,7 @@ class HTML
             $displayedText = $text;
 
             if (is_array($text)) {
-                $displayedText = (isset($text['text'])) ? $text['text'] : '?';
+                $displayedText = $text['text'] ?? '?';
 
                 foreach ($text as $attr => $attrVal) {
                     if ($attr != 'text') {

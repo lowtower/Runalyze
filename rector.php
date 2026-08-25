@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Set\ValueObject\SetList;
+use Rector\Set\ValueObject\LevelSetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 
 return RectorConfig::configure()
@@ -17,7 +17,7 @@ return RectorConfig::configure()
         __DIR__ . '/web',
     ])
     ->withSets([
-        SetList::PHP_74,
+        LevelSetList::UP_TO_PHP_74,
     ])
     ->withTypeCoverageLevel(72)         # max level 72
     ->withTypeCoverageDocblockLevel(14) # max level 14

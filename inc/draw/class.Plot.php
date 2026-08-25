@@ -636,7 +636,7 @@ class Plot
         if ($autoscale) {
             $diff = $max - $min;
             if ($factor == 'auto') {
-                $factor = pow(10, round(log10($diff)) - 1);
+                $factor = 10 ** (round(log10($diff)) - 1);
 
                 if ($factor > 10) {
                     $factor = 10;

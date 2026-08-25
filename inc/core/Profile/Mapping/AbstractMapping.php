@@ -26,11 +26,7 @@ abstract class AbstractMapping implements ToInternalMappingInterface, ToExternal
      */
     public function toInternal($value)
     {
-        if (isset($this->Mapping[$value])) {
-            return $this->Mapping[$value];
-        }
-
-        return $this->internalDefault();
+        return $this->Mapping[$value] ?? $this->internalDefault();
     }
 
     /**
@@ -39,11 +35,7 @@ abstract class AbstractMapping implements ToInternalMappingInterface, ToExternal
      */
     public function toExternal($value)
     {
-        if (isset($this->FlippedMapping[$value])) {
-            return $this->FlippedMapping[$value];
-        }
-
-        return $this->externalDefault();
+        return $this->FlippedMapping[$value] ?? $this->externalDefault();
     }
 
     /**

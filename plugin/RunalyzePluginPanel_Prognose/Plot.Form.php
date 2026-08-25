@@ -106,11 +106,11 @@ if (time() != START_TIME) {
                 $longJogPoints = 0;
 
                 for ($i = $currentFirstIndexForLongJogs; $i <= $currentIndex; ++$i) {
-                    $longJogPoints += 2 * (1 - ($currentData['date_age'] - $Data[$i]['date_age']) / $maxAgeOfLongJogs) * pow(max(0, $Data[$i]['distance'] - $minKmOfLongJogs), 2);
+                    $longJogPoints += 2 * (1 - ($currentData['date_age'] - $Data[$i]['date_age']) / $maxAgeOfLongJogs) * max(0, $Data[$i]['distance'] - $minKmOfLongJogs) ** 2;
                 }
 
                 $BasicEnduranceObj->setEffectiveVO2max($Data[$currentIndex]['vo2max']);
-                $longJogPoints /= pow($BasicEnduranceObj->getTargetLongjogKmPerWeek(), 2);
+                $longJogPoints /= $BasicEnduranceObj->getTargetLongjogKmPerWeek() ** 2;
                 $BasicEndurance[$index] = $BasicEnduranceObj->asArray(0, [
                     'km' => $currentKmSum,
                     'sum' => $longJogPoints,

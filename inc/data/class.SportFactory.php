@@ -28,11 +28,7 @@ class SportFactory
     {
         $Sports = self::AllSports();
 
-        if (isset($Sports[$id])) {
-            return $Sports[$id];
-        }
-
-        return self::defaultArray();
+        return $Sports[$id] ?? self::defaultArray();
     }
 
     /**

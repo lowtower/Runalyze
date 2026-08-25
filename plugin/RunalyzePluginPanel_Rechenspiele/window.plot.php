@@ -21,7 +21,7 @@ $TimeRangeLabels = [
     'lastyear' => __('Last year'),
 ];
 
-$CurrentYear = (isset($TimeRangeLabels[$timerange])) ? $TimeRangeLabels[$timerange] : $timerange;
+$CurrentYear = $TimeRangeLabels[$timerange] ?? $timerange;
 
 $link = 'plugin/RunalyzePluginPanel_Rechenspiele/window.plot.php?y=all&m=' . $perfmodel;
 $Submenu = '<li' . ($timerange == 'all' ? ' class="active"' : '') . '>' . Ajax::window('<a href="' . $link . '">' . $TimeRangeLabels['all'] . '</a>') . '</li>';

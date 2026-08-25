@@ -128,7 +128,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
 
     public function testNonUniformRationalCurveFromOriginalSource()
     {
-        $w = pow(0.5, 0.5);
+        $w = 0.5 ** 0.5;
         $spline = new BSplineInterpolation(2);
         $spline->setPoints([
             [0.0, -0.5],
