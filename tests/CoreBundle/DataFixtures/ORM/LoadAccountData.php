@@ -7,19 +7,19 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * @var ContainerInterface|null
+     * @var UserPasswordEncoderInterface|UserPasswordHasherInterface|null
      */
-    protected $Container;
+    private $passwordEncoder;
 
-    public function setContainer(?ContainerInterface $container = null)
-    {
-        $this->Container = $container;
+    public function __construct(
+        ?UserPasswordEncoderInterface $passwordEncoder = null
+    ) {
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager)
@@ -58,8 +58,16 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 
     protected function registerAccount(ObjectManager $manager, Account $account, $password): \Runalyze\Bundle\CoreBundle\Component\Account\Registration
     {
-        $registration = new Registration($manager, $account);
-        $registration->setPassword($password, $this->Container->get('security.encoder_factory'));
+        $registration = new Registration($manager, $account, $this->passwordEncoder);
+
+        if ($this->passwordEncoder) {
+            #            $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
+            $account->setPassword($this->passwordEncoder->encodePassword($account, $password));
+        } else {
+            // Fallback for testing environments where the encoder factory is not available
+            $account->setPassword(password_hash($password, PASSWORD_BCRYPT));
+        }
+
         $registration->registerAccount();
 
         return $registration;

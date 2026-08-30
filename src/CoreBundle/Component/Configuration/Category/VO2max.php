@@ -44,10 +44,7 @@ class VO2max extends AbstractCategory
         return (int) $this->Variables['VO2MAX_CORRECTION_NEGATIVE_ELEVATION'];
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\VO2max
-     */
-    public function getLegacyCategory()
+    public function getLegacyCategory(): \Runalyze\Configuration\Category
     {
         return parent::getLegacyCategory();
     }

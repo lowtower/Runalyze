@@ -7,36 +7,44 @@ use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
 use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Metrics\HeartRate\Unit\BeatsPerMinute;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/my/body-values")
  * @Security("has_role('ROLE_USER')")
  */
-class BodyValuesController extends Controller
+class BodyValuesController extends AbstractController
 {
-    /**
-     * @return UserRepository
-     */
-    protected function getUserRepository()
-    {
-        return $this->getDoctrine()
-            ->getRepository('CoreBundle:User');
+    public AutomaticReloadFlagSetter $reloadFlagSetter;
+
+    private ConfigurationManager $configurationManager;
+
+    private UserRepository $userRepository;
+
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        AutomaticReloadFlagSetter $reloadFlagSetter,
+        UserRepository $userRepository
+    ) {
+        $this->configurationManager = $configurationManager;
+        $this->reloadFlagSetter = $reloadFlagSetter;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * @Route("/add", name="body-values-add")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addAction(Request $request, Account $account)
+    public function addAction(Request $request, Account $account): Response
     {
         /** @var User $oldUser */
-        $oldUser = $this->getUserRepository()
+        $oldUser = $this->userRepository
             ->getLatestEntryFor($account);
         $user = $oldUser ? $oldUser->cloneObjectForForm() : (new User())->setAccount($account)
             ->setCurrentTimestamp();
@@ -47,9 +55,9 @@ class BodyValuesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUserRepository()
+            $this->userRepository
                 ->save($user, $account);
-            $this->get('app.automatic_reload_flag_setter')
+            $this->reloadFlagSetter
                 ->set(AutomaticReloadFlagSetter::FLAG_ALL);
             return $this->redirectToRoute('body-values-table');
         }
@@ -57,18 +65,18 @@ class BodyValuesController extends Controller
         return $this->render('my/body-values/form.html.twig', [
             'form' => $form->createView(),
             'isNew' => true,
+            'reloadRequested' => true,
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="body-values-edit")
-     * @ParamConverter("user", class="CoreBundle:User")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, User $user, Account $account)
+    public function editAction(Request $request, int $id, Account $account): Response
     {
-        if ($user->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $user = $this->userRepository->find($id);
+        if ($user === null || $user->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('No user entry found.');
         }
 
         $form = $this->createForm(BodyValuesType::class, $user, [
@@ -79,32 +87,30 @@ class BodyValuesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUserRepository()
-                ->save($user, $account);
-            $this->get('app.automatic_reload_flag_setter')
-                ->set(AutomaticReloadFlagSetter::FLAG_ALL);
+            $this->userRepository->save($user, $account);
+            $this->reloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
             return $this->redirectToRoute('body-values-table');
         }
 
         return $this->render('my/body-values/form.html.twig', [
             'form' => $form->createView(),
+            'isNew' => false,
+            'reloadRequested' => true,
         ]);
     }
 
     /**
      * @Route("/{id}/delete", name="body-values-delete")
-     * @ParamConverter("user", class="CoreBundle:User")
      */
-    public function deleteAction(User $user, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteAction(int $id, Account $account): RedirectResponse
     {
-        if ($user->getAccount()->getId() != $account->getId()) {
+        $user = $this->userRepository->find($id);
+        if ($user === null || $user->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException('No user entry found.');
         }
 
-        $this->getUserRepository()
-            ->remove($user);
-        $this->get('app.automatic_reload_flag_setter')
-            ->set(AutomaticReloadFlagSetter::FLAG_ALL);
+        $this->userRepository->remove($user);
+        $this->reloadFlagSetter->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
         return $this->redirectToRoute('body-values-table');
     }
@@ -112,16 +118,17 @@ class BodyValuesController extends Controller
     /**
      * @Route("/table", name="body-values-table")
      */
-    public function tableAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function tableAction(Account $account): Response
     {
         return $this->render('my/body-values/table.html.twig', [
-            'values' => $this->getUserRepository()
+            'values' => $this->userRepository
                 ->findAllFor($account),
-            'unitWeight' => $this->get('app.configuration_manager')
+            'unitWeight' => $this->configurationManager
                 ->getList()
                 ->getUnitSystem()
                 ->getWeightUnit(),
             'unitHeartRate' => new BeatsPerMinute(),
+            'reloadRequested' => false,
         ]);
     }
 }

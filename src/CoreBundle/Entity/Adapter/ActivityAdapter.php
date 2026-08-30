@@ -181,7 +181,7 @@ class ActivityAdapter
             $energyConsumption = $this->Activity->getSport()
                 ->getKcal() * $this->Activity->getS() / 3600.0;
 
-            $this->Activity->setKcal($energyConsumption > 0 ? $energyConsumption : null);
+            $this->Activity->setKcal($energyConsumption > 0 ? (int) $energyConsumption : null);
         }
     }
 
@@ -201,7 +201,7 @@ class ActivityAdapter
      * @param int $correctionForPositiveElevation [m]
      * @param int $correctionForNegativeElevation [m]
      */
-    public function calculateEffectiveVO2max($heartRateMaximum, $correctionForPositiveElevation, $correctionForNegativeElevation)
+    public function calculateEffectiveVO2max(int $heartRateMaximum, int $correctionForPositiveElevation, int $correctionForNegativeElevation)
     {
         $calculator = new VO2maxCalculator();
         $calculator->calculateFor($this->Activity, $heartRateMaximum, $correctionForPositiveElevation, $correctionForNegativeElevation);
@@ -394,9 +394,10 @@ class ActivityAdapter
                 ->getStartpoint();
 
             if ($startPoint !== null) {
-                $coordinate = (new Geohash())->decode($startPoint)
-                    ->getCoordinate();
-                $timezone = $timezoneLookup->getTimezoneForCoordinate($coordinate->getLongitude(), $coordinate->getLatitude());
+                /** @var Geohash $geohashObj */
+                $geohashObj = (new Geohash())->decode($startPoint);
+                $coordinate = $geohashObj->getCoordinate();
+                $timezone = $timezoneLookup->getTimezoneForCoordinate((float) $coordinate->getLongitude(), (float) $coordinate->getLatitude());
                 $this->updateTimezoneForActivity($timezone);
             }
         }
@@ -411,7 +412,7 @@ class ActivityAdapter
             return;
         }
 
-        $newOffset = (new \DateTime(null, new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())
+        $newOffset = (new \DateTime('', new \DateTimeZone($timezone)))->setTimestamp($this->Activity->getTime())
             ->getOffset() / 60;
 
         if ($this->Activity->getTimezoneOffset() !== null) {

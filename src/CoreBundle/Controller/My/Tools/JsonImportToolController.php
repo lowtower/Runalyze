@@ -7,27 +7,42 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route("/my/tools/backup-import")
  */
-class JsonImportToolController extends Controller
+class JsonImportToolController extends AbstractController
 {
+    private TokenStorageInterface $tokenStorage;
+
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag
+    ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+    }
+
     protected function getImportFilePath(): string
     {
-        return $this->getParameter('data_directory') . '/backup-tool/import/';
+        return $this->parameterBag->get('app.data_directory') . '/backup-tool/import/';
     }
 
     /**
      * @Route("/upload", name="tools-backup-json-upload")
      * @Security("has_role('ROLE_USER')")
      */
-    public function backupUploadAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
+    public function backupUploadAction(Request $request): JsonResponse
     {
         $backupFile = $request->files->get('qqfile');
 
@@ -76,7 +91,7 @@ class JsonImportToolController extends Controller
         $filePath = $this->getImportFilePath();
         $filename = $sessionFlashBag->get('json-import.file')[0];
         $fileInfo = new \SplFileInfo($filePath . $filename);
-        $analyzer = new JsonBackupAnalyzer($filePath . $filename, $this->getParameter('runalyze_version'));
+        $analyzer = new JsonBackupAnalyzer($filePath . $filename, $this->parameterBag->get('RUNALYZE_VERSION'));
 
         if (! $analyzer->fileIsOkay()) {
             (new Filesystem())->remove($filePath . $filename);
@@ -84,7 +99,7 @@ class JsonImportToolController extends Controller
             return $this->render('tools/backup/import_bad_file.html.twig', [
                 'file' => $fileInfo,
                 'versionIsOkay' => $analyzer->versionIsOkay(),
-                'runalyzeVersion' => $this->getParameter('runalyze_version'),
+                'runalyzeVersion' => $this->parameterBag->get('RUNALYZE_VERSION'),
                 'runalyzeVersionFile' => $analyzer->fileVersion(),
             ]);
         }
@@ -104,7 +119,7 @@ class JsonImportToolController extends Controller
      */
     public function backupImportDoAction(Request $request, Account $account)
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $sessionFlashBag = $this->get('session')
             ->getFlashBag();
@@ -120,7 +135,7 @@ class JsonImportToolController extends Controller
             $filePath . $filename,
             \DB::getInstance(),
             $account->getId(),
-            $this->getParameter('database_prefix')
+            $this->parameterBag->get('app.database_prefix')
         );
 
         if ($request->request->get('delete_trainings')) {
@@ -148,7 +163,7 @@ class JsonImportToolController extends Controller
     public function uploadFormAction(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('tools/backup/upload_form.html.twig', [
-            'runalyzeVersion' => $this->getParameter('runalyze_version'),
+            'runalyzeVersion' => $this->parameterBag->get('RUNALYZE_VERSION'),
         ]);
     }
 }

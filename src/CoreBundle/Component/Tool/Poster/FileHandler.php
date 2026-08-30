@@ -42,7 +42,7 @@ class FileHandler
         $list = [];
 
         foreach ($finder as $file) {
-            $list[substr($file->getBasename(), strlen($account->getId()) + 1)] = $file->getSize();
+            $list[substr($file->getBasename(), strlen((string) $account->getId()) + 1)] = $file->getSize();
         }
 
         return $list;

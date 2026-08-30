@@ -45,7 +45,7 @@ class RaceContainer
      */
     public function __construct($sportId, ?PDO $pdo = null)
     {
-        $this->PDO = (! $pdo instanceof \PDO) ? DB::getInstance() : $pdo;
+        $this->PDO = ($pdo instanceof \PDO) ? $pdo : DB::getInstance();
         $this->SportId = $sportId;
     }
 

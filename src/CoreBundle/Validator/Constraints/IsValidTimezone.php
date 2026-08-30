@@ -11,5 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class IsValidTimezone extends Constraint
 {
-    public $message = 'Invalid timezone';
+    #    public string $message = 'Invalid timezone';
+    public string $message = 'Invalid timezone: "{{ value }}"';
 }

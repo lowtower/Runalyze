@@ -3,6 +3,7 @@
  * Window for routenet
  * @package Runalyze\Plugins\Stats
  */
+use League\Geotools\Geohash\Geohash;
 use Runalyze\Activity\Distance;
 use Runalyze\Model;
 use Runalyze\Util\LocalTime;
@@ -66,11 +67,16 @@ $countPoints = 0;
 
 while ($RouteData = $Routes->fetch()) {
     // only the first 4 "columns" are relevant for the GPS positions itself
-    $Route = Model\Route\Entity::createWithIntervalClearing(array_slice($RouteData, 0, 4), $positioninterval);
+    $slicedData = array_slice($RouteData, 0, 4);
+    $Route = Model\Route\Entity::createWithIntervalClearing($slicedData, $positioninterval);
 
     if ($RouteData['min'] !== null && $RouteData['max'] !== null) {
-        $MinCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['min'])->getCoordinate();
-        $MaxCoordinate = (new League\Geotools\Geohash\Geohash())->decode($RouteData['max'])->getCoordinate();
+        /** @var Geohash $geohashObjMin */
+        $geohashObjMin = (new Geohash())->decode($RouteData['min']);
+        $MinCoordinate = $geohashObjMin->getCoordinate();
+        /** @var Geohash $geohashObjMax */
+        $geohashObjMax = (new Geohash())->decode($RouteData['max']);
+        $MaxCoordinate = $geohashObjMin->getCoordinate();
 
         $minLat = $MinCoordinate->getLatitude() != 0 ? min($minLat, $MinCoordinate->getLatitude()) : $minLat;
         $minLng = $MinCoordinate->getLongitude() != 0 ? min($minLng, $MinCoordinate->getLongitude()) : $minLng;

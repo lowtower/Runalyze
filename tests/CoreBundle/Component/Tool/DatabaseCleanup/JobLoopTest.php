@@ -4,12 +4,13 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\DatabaseCleanup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobLoop;
 use Runalyze\Configuration;
+use Runalyze\Tests\DatabaseTestCase;
 
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JobLoopTest extends \PHPUnit\Framework\TestCase
+class JobLoopTest extends DatabaseTestCase
 {
     /**
      * @var \PDO
@@ -18,6 +19,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->PDO = \DB::getInstance();
         $this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
         $this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');
@@ -26,6 +29,8 @@ class JobLoopTest extends \PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
         $this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');
         $this->PDO->exec('DELETE FROM `runalyze_training`');

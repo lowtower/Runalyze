@@ -2,20 +2,36 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\TemplateBasedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class CreateNotificationCommand extends ContainerAwareCommand
+class CreateNotificationCommand extends Command
 {
+    private ParameterBagInterface $parameterBag;
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        ManagerRegistry $doctrine
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->doctrine = $doctrine;
+    }
+
     protected function configure()
     {
         $this
@@ -34,21 +50,19 @@ class CreateNotificationCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->validateInput($input, $output)) {
             return 1;
         }
 
         if (! ($input->getOption('force'))) {
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return null;
+                return 0;
             }
         }
 
@@ -71,7 +85,7 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $output->writeln(sprintf('<info>%u notifications have been created.</info>', $num));
         $output->writeln('');
 
-        return null;
+        return 0;
     }
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
@@ -114,9 +128,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
         return true;
     }
 
-    /**
-     * @param string|bool|string[] $lang
-     */
     protected function validateLanguage(array $lang): bool
     {
         return array_reduce(
@@ -128,9 +139,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
         );
     }
 
-    /**
-     * @param string|bool|string[] $accountIds
-     */
     protected function validateAccountIds(array $accountIds): bool
     {
         return array_reduce(
@@ -142,44 +150,26 @@ class CreateNotificationCommand extends ContainerAwareCommand
         );
     }
 
-    /**
-     * @param null|string $lifetime
-     */
-    protected function validateLifetime($lifetime): bool
+    protected function validateLifetime(?string $lifetime): bool
     {
         return $lifetime === null || ctype_digit($lifetime);
     }
 
-    /**
-     * @param string $template
-     * @param int|null $lifetime [days]
-     */
-    protected function createNotification($template, $lifetime): \Runalyze\Bundle\CoreBundle\Entity\Notification
+    protected function createNotification(string $template, ?int $lifetime): \Runalyze\Bundle\CoreBundle\Entity\Notification
     {
-        if ($lifetime !== null) {
-            $lifetime = (int) $lifetime;
-        }
-
         return Notification::createFromMessage(
             new TemplateBasedMessage($template, $lifetime),
             new Account()
         );
     }
 
-    /**
-     * @param string|bool|non-empty-array<string> $accountIds
-     */
     protected function insertSingleNotifications(Notification $notification, array $accountIds): int
     {
         /** @var NotificationRepository $notificationRepository */
-        $notificationRepository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Notification');
+        $notificationRepository = $this->doctrine->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class);
 
         /** @var AccountRepository $accountRepository */
-        $accountRepository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Account');
+        $accountRepository = $this->doctrine->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
         $num = 0;
 
         foreach ($accountIds as $id) {
@@ -198,8 +188,6 @@ class CreateNotificationCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param string|bool|string[] $lang
-     * @param string|bool|string[] $excludeLang
      * @param mixed $lastActionBefore
      * @param mixed $lastActionAfter
      * @param mixed $registrationBefore
@@ -214,16 +202,14 @@ class CreateNotificationCommand extends ContainerAwareCommand
         $lastActionAfter,
         $registrationBefore,
         $registrationAfter
-    ) {
-        $prefix = $this->getContainer()
-            ->getParameter('database_prefix');
+    ): int {
+        $prefix = $this->parameterBag->get('app.database_prefix');
         $accountWhere = $this->getWhereToFindRelevantAccounts($lang, $excludeLang, $lastActionBefore, $lastActionAfter, $registrationBefore, $registrationAfter);
 
-        $statement = $this->getContainer()
-            ->get('doctrine.dbal.default_connection')
+        $statement = $this->doctrine->getConnection()
             ->prepare(
                 'INSERT INTO `' . $prefix . 'notification` (`messageType`, `createdAt`, `expirationAt`, `data`, `account_id`) ' .
-                        'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere
+                                    'SELECT ?, ?, ?, ?, `a`.`id` FROM `' . $prefix . 'account` AS `a` WHERE ' . $accountWhere
             );
 
         $statement->execute([

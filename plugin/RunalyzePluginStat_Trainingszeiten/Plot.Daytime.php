@@ -22,7 +22,7 @@ $yAxis = [];
 // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
 if ($this->sportid > 0) {
     // @phpstan-ignore property.protected (called only per include from this class, $this is bound)
-    $Sports = [SportFactory::DataFor((int) $this->sportid)];
+    $Sports = [SportFactory::DataFor($this->sportid)];
 } else {
     $Sports = SportFactory::AllSports();
 }

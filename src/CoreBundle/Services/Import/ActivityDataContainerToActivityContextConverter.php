@@ -79,7 +79,7 @@ class ActivityDataContainerToActivityContextConverter
         $this->Account = $account;
     }
 
-    public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Entity\Training
+    public function getActivityFor(ActivityDataContainer $container, ?Account $account = null): Training
     {
         if ($account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
             $this->Account = $account;
@@ -98,7 +98,7 @@ class ActivityDataContainerToActivityContextConverter
         return $activity;
     }
 
-    public function getContextFor(ActivityDataContainer $container, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
+    public function getContextFor(ActivityDataContainer $container, ?Account $account = null): ActivityContext
     {
         $activity = $this->getActivityFor($container, $account);
 
@@ -425,9 +425,9 @@ class ActivityDataContainerToActivityContextConverter
         $route = new Route();
         $route->setDistance($container->ActivityData->Distance ?: 0.0);
         $route->setName($container->Metadata->getRouteDescription());
-        $route->setElevation($container->ActivityData->Elevation);
-        $route->setElevationUp($container->ActivityData->ElevationAscent);
-        $route->setElevationDown($container->ActivityData->ElevationDescent);
+        $route->setElevation((int) $container->ActivityData->Elevation);
+        $route->setElevationUp((int) $container->ActivityData->ElevationAscent);
+        $route->setElevationDown((int) $container->ActivityData->ElevationDescent);
 
         // #TSC store Altitude-Barometric flag
         $route->setAltitudeBarometric($container->ContinuousData->IsAltitudeDataBarometric);

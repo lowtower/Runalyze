@@ -28,165 +28,135 @@ class Route implements AccountRelatedEntityInterface
     public const BOUNDARIES_GEOHASH_PRECISION = 10;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer", precision=10, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, nullable=false, options={"default"=""})
      */
-    private $name = '';
+    private string $name = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="cities", type="string", length=255, nullable=false, options={"default"=""})
      */
-    private $cities = '';
+    private string $cities = '';
 
     /**
      * @var float [km]
      *
      * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, options={"unsigned"=true})
      */
-    private $distance = 0.0;
+    private ?float $distance = 0.0;
 
     /**
      * @var int [m]
      *
      * @ORM\Column(name="elevation", type="smallint", nullable=false, options={"unsigned"=true})
      */
-    private $elevation = 0;
+    private int $elevation = 0;
 
     /**
      * @var int [m]
      *
      * @ORM\Column(name="elevation_up", type="smallint", nullable=false, options={"unsigned"=true})
      */
-    private $elevationUp = 0;
+    private int $elevationUp = 0;
 
     /**
      * @var int [m]
      *
      * @ORM\Column(name="elevation_down", type="smallint", nullable=false, options={"unsigned"=true})
      */
-    private $elevationDown = 0;
+    private int $elevationDown = 0;
 
     /**
-     * @var array|null
-     *
      * @ORM\Column(name="geohashes", type="geohash_array", nullable=true)
      */
-    private $geohashes;
+    private ?array $geohashes = null;
 
     /**
      * @var array|null [m]
      *
      * @ORM\Column(name="elevations_original", type="pipe_array", nullable=true)
      */
-    private $elevationsOriginal;
+    private ?array $elevationsOriginal = null;
 
     /**
      * @var array|null [m]
      *
      * @ORM\Column(name="elevations_corrected", type="pipe_array", nullable=true)
      */
-    private $elevationsCorrected;
+    private ?array $elevationsCorrected = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="elevations_source", type="string", length=255, nullable=false, options={"default"=""})
      */
-    private $elevationsSource = '';
+    private string $elevationsSource = '';
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="altitude_barometric", type="boolean")
      */
-    private $altitudeBarometric = false;
+    private bool $altitudeBarometric = false;
 
     /**
      * @var string|null [geohash]
      *
      * @ORM\Column(name="startpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
-    private $startpoint;
+    private ?string $startpoint = null;
 
     /**
      * @var string|null [geohash]
      *
      * @ORM\Column(name="endpoint", type="string", length=10, nullable=true, options={"fixed"=true})
      */
-    private $endpoint;
+    private ?string $endpoint = null;
 
     /**
      * @var string|null [geohash]
      *
      * @ORM\Column(name="min", type="string", length=10, nullable=true, options={"fixed"=true})
      */
-    private $min;
+    private ?string $min = null;
 
     /**
      * @var string|null [geohash]
      *
      * @ORM\Column(name="max", type="string", length=10, nullable=true, options={"fixed"=true})
      */
-    private $max;
+    private ?string $max = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="in_routenet", type="boolean")
      */
-    private $inRoutenet = false;
+    private bool $inRoutenet = false;
 
     /**
-     * @var Account
-     *
      * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(name="accountid", referencedColumnName="id", nullable=false)
      * })
      */
-    private $account;
+    private Account $account;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="`lock`", type="boolean")
      */
-    private $lock = false;
+    private bool $lock = false;
 
-    /**
-     * @var bool
-     */
-    private $areMinMaxSynchronized = true;
+    private bool $areMinMaxSynchronized = true;
 
-    /**
-     * @var RouteAdapter
-     */
-    private $Adapter;
+    private RouteAdapter $Adapter;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name ?: '';
         $this->cities = $name ?: '';
@@ -194,18 +164,12 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $cities
-     */
-    public function setCities($cities): self
+    public function setCities(string $cities): self
     {
         $this->cities = $cities ?: '';
         $this->name = $cities ?: '';
@@ -213,10 +177,7 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCities()
+    public function getCities(): string
     {
         return $this->cities;
     }
@@ -224,7 +185,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param float $distance [km]
      */
-    public function setDistance($distance): self
+    public function setDistance(float $distance): self
     {
         $this->distance = $distance;
 
@@ -234,7 +195,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return float [km]
      */
-    public function getDistance()
+    public function getDistance(): float
     {
         return $this->distance;
     }
@@ -242,7 +203,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param int $elevation [m]
      */
-    public function setElevation($elevation): self
+    public function setElevation(int $elevation): self
     {
         $this->elevation = $elevation;
 
@@ -252,7 +213,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return int [m]
      */
-    public function getElevation()
+    public function getElevation(): int
     {
         return $this->elevation;
     }
@@ -260,7 +221,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param int $elevationUp [m]
      */
-    public function setElevationUp($elevationUp): self
+    public function setElevationUp(int $elevationUp): self
     {
         $this->elevationUp = $elevationUp;
 
@@ -270,7 +231,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return int [m]
      */
-    public function getElevationUp()
+    public function getElevationUp(): int
     {
         return $this->elevationUp;
     }
@@ -278,7 +239,7 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @param int $elevationDown [m]
      */
-    public function setElevationDown($elevationDown): self
+    public function setElevationDown(int $elevationDown): self
     {
         $this->elevationDown = $elevationDown;
 
@@ -288,25 +249,19 @@ class Route implements AccountRelatedEntityInterface
     /**
      * @return int [m]
      */
-    public function getElevationDown()
+    public function getElevationDown(): int
     {
         return $this->elevationDown;
     }
 
-    /**
-     * @param int $altitudeBarometric boolean
-     */
-    public function setAltitudeBarometric($altitudeBarometric): self
+    public function setAltitudeBarometric(bool $altitudeBarometric): self
     {
         $this->altitudeBarometric = $altitudeBarometric;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAltitudeBarometric()
+    public function getAltitudeBarometric(): bool
     {
         return $this->altitudeBarometric;
     }
@@ -319,10 +274,7 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getGeohashes()
+    public function getGeohashes(): ?array
     {
         return $this->geohashes;
     }
@@ -351,10 +303,12 @@ class Route implements AccountRelatedEntityInterface
         $this->geohashes = [];
 
         for ($i = 0; $i < $size; ++$i) {
-            $this->geohashes[] = (new Geohash())->encode(
+            /** @var Geohash $geohashObj */
+            $geohashObj = (new Geohash())->encode(
                 new Coordinate([$latitudes[$i], $longitudes[$i]]),
                 self::PATH_GEOHASH_PRECISION
-            )->getGeohash();
+            );
+            $this->geohashes[] = $geohashObj->getGeohash();
         }
 
         return $this;
@@ -371,9 +325,11 @@ class Route implements AccountRelatedEntityInterface
             $size = count($this->geohashes);
 
             for ($i = 0; $i < $size; $i++) {
-                $coordinate = (new Geohash())->decode($this->geohashes[$i])->getCoordinate();
-                $coordinates[0][] = round($coordinate->getLatitude(), 6);
-                $coordinates[1][] = round($coordinate->getLongitude(), 6);
+                /** @var Geohash $geohashObj */
+                $geohashObj = (new Geohash())->decode($this->geohashes[$i]);
+                $coordinate = $geohashObj->getCoordinate();
+                $coordinates[0][] = round((float) $coordinate->getLatitude(), 6);
+                $coordinates[1][] = round((float) $coordinate->getLongitude(), 6);
             }
         }
 
@@ -469,10 +425,7 @@ class Route implements AccountRelatedEntityInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getElevationsSource()
+    public function getElevationsSource(): string
     {
         return $this->elevationsSource;
     }
@@ -582,20 +535,14 @@ class Route implements AccountRelatedEntityInterface
         return $this->account;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setLock($flag): self
+    public function setLock(bool $flag): self
     {
-        $this->lock = (bool) $flag;
+        $this->lock = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLock()
+    public function getLock(): bool
     {
         return $this->lock;
     }
@@ -611,8 +558,8 @@ class Route implements AccountRelatedEntityInterface
     public function isEmpty(): bool
     {
         return
-            $this->name == '' &&
-            $this->cities == '' &&
+            $this->name === '' &&
+            $this->cities === '' &&
             ($this->geohashes === null || empty($this->geohashes)) &&
             ($this->elevationsOriginal === null || empty($this->elevationsOriginal)) &&
             ($this->elevationsCorrected === null || empty($this->elevationsCorrected))
@@ -632,9 +579,7 @@ class Route implements AccountRelatedEntityInterface
      */
     public function getAdapter()
     {
-        if ($this->Adapter === null) {
-            $this->Adapter = new RouteAdapter($this);
-        }
+        $this->Adapter = new RouteAdapter($this);
 
         return $this->Adapter;
     }
@@ -673,8 +618,12 @@ class Route implements AccountRelatedEntityInterface
             $minCoordinate = new Coordinate([min($latitudes), min($longitudes)]);
             $maxCoordinate = new Coordinate([max($latitudes), max($longitudes)]);
 
-            $this->min = (new Geohash())->encode($minCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
-            $this->max = (new Geohash())->encode($maxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
+            /** @var Geohash $geohashObjMin */
+            $geohashObjMin = (new Geohash())->encode($minCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $this->min = $geohashObjMin->getGeohash();
+            /** @var Geohash $geohashObjMax */
+            $geohashObjMax = (new Geohash())->encode($maxCoordinate, self::BOUNDARIES_GEOHASH_PRECISION);
+            $this->max = $geohashObjMax->getGeohash();
         }
 
         $this->areMinMaxSynchronized = true;

@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Form\AbstractTokenStorageAwareType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SportChoiceType extends AbstractTokenStorageAwareType
 {
@@ -19,7 +19,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
      */
     protected $SportRepository;
 
-    public function __construct(TokenStorage $tokenStorage, SportRepository $sportRepository)
+    public function __construct(TokenStorageInterface $tokenStorage, SportRepository $sportRepository)
     {
         parent::__construct($tokenStorage);
 
@@ -51,7 +51,7 @@ class SportChoiceType extends AbstractTokenStorageAwareType
                 return $sport->getName();
             },
             'choice_value' => function (?Sport $sport = null) {
-                return $sport ? $sport->getId() : '';
+                return $sport instanceof \Runalyze\Bundle\CoreBundle\Entity\Sport ? $sport->getId() : '';
             },
             'choice_attr' => function ($sport, $key, $index) use ($sportToEquipmentCategoryRelations): array {
                 /** @var Sport $sport */

@@ -25,7 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SportType extends AbstractType
 {
@@ -45,20 +45,20 @@ class SportType extends AbstractType
     protected $EquipmentTypeRepository;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
-    protected $TokenStorage;
+    protected $TokenStorageInterface;
 
     public function __construct(
         TypeRepository $typeRepository,
         SportRepository $sportRepository,
         EquipmentTypeRepository $equipmentTypeRepository,
-        TokenStorage $tokenStorage
+        TokenStorageInterface $tokenStorage
     ) {
         $this->TypeRepository = $typeRepository;
         $this->SportRepository = $sportRepository;
         $this->EquipmentTypeRepository = $equipmentTypeRepository;
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
     }
 
     /**
@@ -66,7 +66,7 @@ class SportType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

@@ -2,6 +2,10 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services\Import;
 
+/**
+ * @implements \ArrayAccess<int, FileImportResult>
+ * @implements \Iterator<int, FileImportResult>
+ */
 class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
 {
     /**
@@ -67,12 +71,12 @@ class FileImportResultCollection implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * @param int $offset
+     * @param ?int $offset
      * @param FileImportResult $value
      *
      * @throws \InvalidArgumentException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (! ($value instanceof FileImportResult)) {
             throw new \InvalidArgumentException('FileImportResultCollection does only accept instances of FileImportResult as elements.');

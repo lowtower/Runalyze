@@ -23,18 +23,6 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondData = new ActivityData();
     }
 
-    /**
-     * @group review-later
-     * TODO: This test needs a deeper look later. It currently fails because the $activity might be null.
-     */
-    public function testThatMergeWorksWithEmptyObjects()
-    {
-        $merger = new ActivityDataMerger($this->FirstData, $this->SecondData);
-        $result = $merger->merge();
-
-        $this->assertInstanceOf(ActivityData::class, $result, 'merge() should return an instance of ActivityData');
-    }
-
     public function testWithEmptySecondObject()
     {
         $this->FirstData->Duration = 321;

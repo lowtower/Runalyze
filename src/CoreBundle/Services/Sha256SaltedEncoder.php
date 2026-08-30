@@ -9,9 +9,8 @@ class Sha256SaltedEncoder implements PasswordEncoderInterface
     /**
      * @param string $raw
      * @param string $salt
-     * @return string
      */
-    public function encodePassword($raw, $salt)
+    public function encodePassword($raw, $salt): string
     {
         return hash('sha256', trim($raw) . $salt); // Custom function for password encrypt
     }
@@ -20,10 +19,21 @@ class Sha256SaltedEncoder implements PasswordEncoderInterface
      * @param string $encoded
      * @param string $raw
      * @param string $salt
-     * @return bool
      */
-    public function isPasswordValid($encoded, $raw, $salt)
+    public function isPasswordValid($encoded, $raw, $salt): bool
     {
         return $encoded === $this->encodePassword($raw, $salt);
+    }
+
+    /**
+     * Checks if the given hash requires a rehash.
+     *
+     * @param string $encoded The encoded password
+     *
+     * @return bool true if the password needs to be rehashed, false otherwise
+     */
+    public function needsRehash(string $encoded): bool
+    {
+        return true;
     }
 }

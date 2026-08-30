@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Notifications\Message;
 
 use Runalyze\Profile\Notifications\MessageTypeProfile;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class PosterGeneratedMessage implements MessageInterface
 {
@@ -50,7 +49,7 @@ class PosterGeneratedMessage implements MessageInterface
         return 5;
     }
 
-    public function getText(TranslatorInterface $translator)
+    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
         switch ($this->State) {
             case self::STATE_PARTIAL:

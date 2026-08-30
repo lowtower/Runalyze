@@ -73,7 +73,11 @@ class GeneratePoster
      */
     public function generate(): string
     {
-        $builder = new Process($this->Python3Path . ' create_poster.py ' . implode(' ', $this->Parameter));
+        $command = array_merge(
+            [$this->Python3Path, 'create_poster.py'],
+            $this->Parameter
+        );
+        $builder = new Process($command);
         $builder->setWorkingDirectory($this->pathToRepository())
             ->run();
 
@@ -84,19 +88,13 @@ class GeneratePoster
         return $this->pathToSvgDirectory() . $this->Filename;
     }
 
-    /**
-     * @param string $type
-     * @param string $jsonDir
-     * @param int $year
-     * @param null|string $title
-     */
-    public function buildCommand($type, $jsonDir, $year, Account $account, Sport $sport, $title, $backgroundColor, $trackColor, $textColor, $raceColor)
+    public function buildCommand(string $type, string $jsonDir, int $year, Account $account, Sport $sport, ?string $title, $backgroundColor, $trackColor, $textColor, $raceColor)
     {
-        $this->generateRandomFileName($account->getUsername(), $year);
+        $this->generateRandomFileName($account->getUsername(), (string) $year);
 
         $this->Parameter[] = '--json-dir ' . $jsonDir;
         $this->Parameter[] = '--athlete ' . $account->getUsername();
-        $this->Parameter[] = '--year ' . (int) $year;
+        $this->Parameter[] = '--year ' . $year;
         $this->Parameter[] = '--output ' . $this->pathToSvgDirectory() . $this->Filename;
         $this->Parameter[] = '--type ' . $type;
         $this->Parameter[] = '--title ' . escapeshellarg($title);
@@ -112,10 +110,7 @@ class GeneratePoster
         }
     }
 
-    /**
-     * @param int $year
-     */
-    private function addStatsParameter(Account $account, Sport $sport, $year)
+    private function addStatsParameter(Account $account, Sport $sport, int $year)
     {
         $stats = $this->TrainingRepository->getStatsForPoster($account, $sport, $year)
             ->getArrayResult();

@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Form\ConfigurationManagerAwareTrait;
@@ -45,7 +46,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
                     'class' => Equipment::class,
                     'choices' => $equipment[$category->getId()],
                     'choice_label' => 'name',
-                    'choice_attr' => function (\Runalyze\Bundle\CoreBundle\Entity\Equipment $eqp, $key, $index): array {
+                    'choice_attr' => function (Equipment $eqp, $key, $index): array {
                         /** @var Equipment $eqp */
                         return $this->getChoiceAttributesForEquipment($eqp);
                     },
@@ -64,15 +65,14 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
 
     /**
      * @param  mixed $value
-     * @return array
      */
-    public function transform($value)
+    public function transform($value): ?array
     {
-        if (! ($value instanceof \Doctrine\Common\Collections\Collection)) {
+        if (! ($value instanceof Collection)) {
             return null;
         }
 
-        /** @var Equipment[] $value */
+        /** @var Collection $value */
         $categories = [];
 
         foreach ($value as $equipment) {
@@ -92,15 +92,14 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
 
     /**
      * @param  mixed $value
-     * @return ArrayCollection
      */
-    public function reverseTransform($value)
+    public function reverseTransform($value): ArrayCollection
     {
         $equipment = new ArrayCollection();
 
         if (is_array($value)) {
             foreach ($value as $subValue) {
-                if ($subValue instanceof \Doctrine\Common\Collections\Collection) {
+                if ($subValue instanceof Collection) {
                     foreach ($subValue as $object) {
                         $equipment[] = $object;
                     }

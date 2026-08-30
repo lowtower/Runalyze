@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit;
 
 class Distance extends AbstractOneColumnValue
 {
@@ -14,10 +13,7 @@ class Distance extends AbstractOneColumnValue
         return 'distance';
     }
 
-    /**
-     * @return AbstractDistanceUnit
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit
     {
         return $unitSystem->getDistanceUnit();
     }

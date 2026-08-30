@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TrendAnalysisType extends AbstractType
 {
@@ -29,9 +29,9 @@ class TrendAnalysisType extends AbstractType
     protected $TypeRepository;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
-    protected $TokenStorage;
+    protected $TokenStorageInterface;
 
     /**
      * @var ConfigurationManager
@@ -41,12 +41,12 @@ class TrendAnalysisType extends AbstractType
     public function __construct(
         SportRepository $sportRepository,
         TypeRepository $typeRepository,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         ConfigurationManager $configurationManager
     ) {
         $this->SportRepository = $sportRepository;
         $this->TypeRepository = $typeRepository;
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
         $this->ConfigurationManager = $configurationManager;
     }
 
@@ -55,7 +55,7 @@ class TrendAnalysisType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

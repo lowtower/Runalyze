@@ -46,7 +46,7 @@ class RaceresultRepository extends EntityRepository
                 'r',
                 't.time'
             )
-            ->from('CoreBundle:Raceresult', 'r')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class, 'r')
             ->join('r.activity', 't')
             ->where('r.account = :account')
             ->andWhere('t.sport = :sport')

@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Notifications\Message;
 
 use Runalyze\Profile\Notifications\MessageTypeProfile;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class TemplateBasedMessage implements MessageInterface
@@ -60,7 +59,7 @@ class TemplateBasedMessage implements MessageInterface
         return $this->Lifetime;
     }
 
-    public function getText(?TranslatorInterface $translator = null)
+    public function getText(?\Symfony\Contracts\Translation\TranslatorInterface $translator = null)
     {
         $this->loadTemplateIfNotDoneYet();
 

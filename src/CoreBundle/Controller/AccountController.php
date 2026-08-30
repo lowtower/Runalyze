@@ -5,30 +5,34 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/{_locale}/account")
  */
-class AccountController extends Controller
+class AccountController extends AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @return AccountRepository
      */
     protected function getAccountRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Account');
+            ->getRepository(Account::class);
     }
 
     /**
      * @Route("/delete/{hash}/confirmed", name="account_delete_confirmed", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function deleteAccountConfirmedAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function deleteAccountConfirmedAction($hash, Request $request): Response
     {
         if ($this->getAccountRepository()->deleteByHash($hash)) {
             $this->get('security.token_storage')
@@ -45,7 +49,7 @@ class AccountController extends Controller
     /**
      * @Route("/delete/{hash}", name="account_delete", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function deleteAccountAction($hash): \Symfony\Component\HttpFoundation\Response
+    public function deleteAccountAction($hash): Response
     {
         /** @var Account|null $account */
         $account = $this->getAccountRepository()
@@ -66,7 +70,7 @@ class AccountController extends Controller
     /**
      * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function recoverForHashAction($hash, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function recoverForHashAction($hash, Request $request): Response
     {
         /** @var Account|null $account */
         $account = $this->getAccountRepository()
@@ -106,7 +110,7 @@ class AccountController extends Controller
     /**
      * @Route("/recover", name="account_recover")
      */
-    public function recoverAction(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function recoverAction(Request $request, TranslatorInterface $translator): Response
     {
         $form = $this->createFormBuilder()
             ->add('username', TextType::class, [
@@ -120,13 +124,11 @@ class AccountController extends Controller
         if ($form->isSubmitted()) {
             /** @var Account|null $account */
             $account = $this->getAccountRepository()
-                ->loadUserByUsername([
-                    $request->request->get($form->getName())['username'],
-                ]);
+                ->loadUserByUsername($request->request->get($form->getName())['username']);
 
             if ($account === null) {
                 $form->get('username')
-                    ->addError(new FormError($this->get('translator')->trans('The username is not known.')));
+                    ->addError(new FormError($translator->trans('The username is not known.')));
             } else {
                 $account->setNewChangePasswordHash();
                 $this->getAccountRepository()
@@ -148,7 +150,7 @@ class AccountController extends Controller
      * @Route("/activate/{hash}", requirements={"hash"="[[:xdigit:]]{32}"})
      * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function activateAccountAction($hash, $username = null): \Symfony\Component\HttpFoundation\Response
+    public function activateAccountAction($hash, $username = null): Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {
             return $this->render('account/activate/success.html.twig');

@@ -6,17 +6,19 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\TagType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/settings/tags")
  * @Security("has_role('ROLE_USER')")
  */
-class TagsController extends Controller
+class TagsController extends AbstractController
 {
     /**
      * @return TagRepository
@@ -24,13 +26,13 @@ class TagsController extends Controller
     protected function getTagRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Tag');
+            ->getRepository(Tag::class);
     }
 
     /**
      * @Route("", name="settings-tags")
      */
-    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function overviewAction(Account $account): Response
     {
         return $this->render('settings/tag/overview.html.twig', [
             'tags' => $this->getTagRepository()
@@ -40,14 +42,13 @@ class TagsController extends Controller
 
     /**
      * @Route("/{id}/edit", name="settings-tags-edit")
-     * @ParamConverter("tag", class="CoreBundle:Tag")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function tagEditAction(Request $request, Tag $tag, Account $account)
+    public function tagEditAction(Request $request, int $id, Account $account): Response
     {
-        if ($tag->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $tag = $this->getTagRepository()
+            ->find($id);
+        if ($tag === null || $tag->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Tag not found or access denied.');
         }
 
         $form = $this->createForm(TagType::class, $tag, [
@@ -71,25 +72,26 @@ class TagsController extends Controller
 
     /**
      * @Route("/{id}/delete", name="settings-tags-delete")
-     * @ParamConverter("tag", class="CoreBundle:Tag")
      */
-    public function tagDeleteAction(Request $request, Tag $tag, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function tagDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
-            $this->addFlash('notice', $this->get('translator')->trans('Invalid token.'));
+            $this->addFlash('notice', $translator->trans('Invalid token.'));
 
-            return $this->redirect($this->generateUrl('settings-tags'));
+            return $this->redirectToRoute('settings-tags');
         }
 
-        if ($tag->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $tag = $this->getTagRepository()
+            ->find($id);
+        if ($tag === null || $tag->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Tag not found or access denied.');
         }
 
         $this->getTagRepository()
             ->remove($tag);
 
-        $this->addFlash('notice', $this->get('translator')->trans('Tag has been deleted.'));
+        $this->addFlash('notice', $translator->trans('Tag has been deleted.'));
 
-        return $this->redirect($this->generateUrl('settings-tags'));
+        return $this->redirectToRoute('settings-tags');
     }
 }

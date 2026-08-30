@@ -75,7 +75,7 @@
                         ->generate('glossary-index'); ?>"><i class="fa fa-fw fa-book"></i>&nbsp;<?php _e('Glossary'); ?></a></li>
                 <li><a href="https://help.runalyze.com"><i class="fa fa-fw fa-book"></i>&nbsp;<?php _e('Documentation'); ?></a></li>
                 <li class="separator"></li>
-                <?php if (method_exists($this, 'getParameter') && ! empty($this->getParameter('feedback_mail'))) { ?>
+                <?php if (method_exists($this, 'getParameter') && ! empty($this->getParameter('app.feedback_mail'))) { ?>
                 <li><a class="window" href="<?php echo $this->get('router')
                     ->generate('feedback'); ?>"><i class="fa fa-fw fa-cogs"></i>&nbsp;<?php _e('Feedback'); ?></a></li>
                 <?php } ?>

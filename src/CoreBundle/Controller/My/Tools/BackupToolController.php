@@ -7,7 +7,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Form\Tools\BackupExportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -18,11 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/my/tools/backup")
  */
-class BackupToolController extends Controller
+class BackupToolController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     protected function getPathToBackupFiles(): string
     {
-        return $this->getParameter('data_directory') . '/backup-tool/backup/';
+        return $this->getParameter('app.data_directory') . '/backup-tool/backup/';
     }
 
     /**
@@ -65,11 +64,11 @@ class BackupToolController extends Controller
     {
         $lockedRoutes = $this->getDoctrine()
             ->getManager()
-            ->getRepository('CoreBundle:Route')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)
             ->accountHasLockedRoutes($account);
         $hasLockedTrainings = $this->getDoctrine()
             ->getManager()
-            ->getRepository('CoreBundle:Training')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
             ->accountHasLockedTrainings($account);
 
         $form = $this->createForm(BackupExportType::class);

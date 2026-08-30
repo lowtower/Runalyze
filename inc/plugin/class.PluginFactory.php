@@ -18,15 +18,13 @@ class PluginFactory
 
     /**
      * Array with all keys
-     * @var array|null
      */
-    private static $Plugins;
+    private static ?array $Plugins = null;
 
     /**
      * Array with complete plugin data
-     * @return array
      */
-    private static function Plugins()
+    private static function Plugins(): array
     {
         if (self::$Plugins === null) {
             self::$Plugins = self::fetchAllPlugins();
@@ -42,7 +40,7 @@ class PluginFactory
     {
         $data = Cache::get(self::CACHE_KEY);
 
-        if ($data === null) {
+        if ($data === null || $data == []) {
             $data = self::fetchAllPluginsFrom(DB::getInstance(), SessionAccountHandler::getId());
             Cache::set(self::CACHE_KEY, $data, '3600');
         }
@@ -58,10 +56,8 @@ class PluginFactory
 
     /**
      * Fetch complete list from database
-     * @param int $accountID
-     * @return array
      */
-    private static function fetchAllPluginsFrom(PDO $PDO, $accountID)
+    private static function fetchAllPluginsFrom(PDO $PDO, int $accountID): array
     {
         return $PDO->query(
             'SELECT * FROM `' . PREFIX . 'plugin` ' .
@@ -70,11 +66,7 @@ class PluginFactory
         )->fetchAll();
     }
 
-    /**
-     * @param int $id
-     * @return array
-     */
-    public static function dataFor($id)
+    public static function dataFor(int $id): array
     {
         foreach (self::Plugins() as $data) {
             if ($data['id'] == $id) {
@@ -99,9 +91,8 @@ class PluginFactory
     /**
      * Complete plugin data
      * @param string|bool $type [optional]
-     * @return array
      */
-    public function completeData($type = false)
+    public function completeData($type = false): array
     {
         if ($type === false) {
             return self::Plugins();
@@ -119,11 +110,9 @@ class PluginFactory
 
     /**
      * New instance for key
-     * @param string $pluginkey
-     * @return Plugin
      * @throws \InvalidArgumentException
      */
-    public function newInstance($pluginkey)
+    public function newInstance(string $pluginkey): Plugin
     {
         foreach (self::Plugins() as $plugin) {
             if ($plugin['key'] == $pluginkey) {
@@ -136,29 +125,24 @@ class PluginFactory
 
     /**
      * New instance for id
-     * @param int $id
-     * @return Plugin
      */
-    public function newInstanceFor($id)
+    public function newInstanceFor(int $id): Plugin
     {
-        return $this->newInstance(self::keyFor((int) $id));
+        return $this->newInstance(self::keyFor($id));
     }
 
     /**
      * New instance for key
-     * @param string $Pluginkey
-     * @return Plugin
      */
-    public function newInstallerInstance($Pluginkey): object
+    public function newInstallerInstance(string $Pluginkey): Plugin
     {
         return new $Pluginkey(PluginInstaller::ID);
     }
 
     /**
      * Is the plugin already installed?
-     * @param string $key
      */
-    public function isInstalled($key): bool
+    public function isInstalled(string $key): bool
     {
         return in_array($key, $this->allPlugins());
     }
@@ -260,9 +244,8 @@ class PluginFactory
 
     /**
      * Install a new plugin
-     * @param string $Pluginkey
      */
-    public function installPlugin($Pluginkey)
+    public function installPlugin(string $Pluginkey)
     {
         $Plugin = new $Pluginkey(PluginInstaller::ID);
         $Plugin->key = $Pluginkey;
@@ -272,11 +255,9 @@ class PluginFactory
 
     /**
      * Get the PLUGINKEY for a given ID from database
-     * @param int $id
-     * @return string
      * @throws \InvalidArgumentException
      */
-    public static function keyFor($id)
+    public static function keyFor(int $id): string
     {
         foreach (self::Plugins() as $plugin) {
             if ($id == $plugin['id']) {

@@ -47,10 +47,7 @@ class GenerateJsonData
         return $this->KernelRootDir . '/../var/tmp/' . $this->Directory;
     }
 
-    /**
-     * @param int $year
-     */
-    public function createJsonFilesFor(Account $account, Sport $sport, $year)
+    public function createJsonFilesFor(Account $account, Sport $sport, int $year)
     {
         $this->Directory = md5($account->getId() . strtotime('now'));
 
@@ -60,9 +57,9 @@ class GenerateJsonData
         $counter = 0;
 
         $query = $this->TrainingRepository->getQueryForJsonPosterData($account, $sport, $year);
-        $result = $query->iterate(null, Query::HYDRATE_SCALAR);
+        $result = $query->toIterable(null, Query::HYDRATE_SCALAR);
 
-        while ($data = $result->next()) {
+        foreach ($result as $data) {
             $data = $data[0];
             $json = [
                 'start' => date('Y-m-d H:i:s', $data['time']),

@@ -2,14 +2,30 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class CleanupPostersCommand extends ContainerAwareCommand
+class CleanupPostersCommand extends Command
 {
+    private ParameterBagInterface $parameterBag;
+
+    private Filesystem $filesystem;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        Filesystem $filesystem
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->filesystem = $filesystem;
+    }
+
     protected function configure()
     {
         $this
@@ -19,30 +35,22 @@ class CleanupPostersCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $days = $input->getArgument('days') ?: $this->getContainer()
-            ->getParameter('poster_storage_period');
+        $days = $input->getArgument('days') ?: $this->parameterBag->get('app.poster_storage_period');
         $output->writeln(sprintf('<info>Delete all posters older than %s days</info>', $days));
-
-        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
-        $filesystem = $this->getContainer()
-            ->get('filesystem');
 
         $finder = new Finder();
         $finder
             ->files()
             ->name('*.png')
-            ->in($this->getContainer()->getParameter('data_directory') . '/poster/')
+            ->in($this->parameterBag->get('app.data_directory') . '/poster/')
             ->date(sprintf('until %s days ago', $days));
 
         $deleted = $finder->count();
 
         foreach ($finder as $file) {
-            $filesystem->remove($file);
+            $this->filesystem->remove($file);
         }
 
         $output->writeln(sprintf('<info>%s deleted posters</info>', $deleted));

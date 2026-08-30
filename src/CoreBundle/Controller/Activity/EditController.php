@@ -4,29 +4,31 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview;
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
+use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class EditController extends Controller
+class EditController extends AbstractController
 {
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepository()
+    use AppServiceSubscriberTrait;
+
+    protected function getTrainingRepository(): TrainingRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Training');
+            ->getRepository(Training::class);
     }
 
     protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
@@ -39,13 +41,17 @@ class EditController extends Controller
     /**
      * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function activityEditAction(Request $request, Training $activity, Account $account)
+    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator)
     {
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
+
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
-        $repository = $this->getTrainingRepository();
         $form = $this->createForm(ActivityType::class, $activity, [
             'action' => $this->generateUrl('activity-edit', [
                 'id' => $activity->getId(),
@@ -63,17 +69,19 @@ class EditController extends Controller
                 $raceResult = (new Raceresult())->fillFromActivity($activity);
                 $activity->setRaceresult($raceResult);
             } elseif (! $form->get('is_race')->getData() && $activity->hasRaceresult()) {
-                $this->getDoctrine()
-                    ->getRepository('CoreBundle:Raceresult')
-                    ->delete($activity->getRaceresult());
+                /** @var RaceresultRepository $repository */
+                $repository = $this->getDoctrine()
+                    ->getRepository(Raceresult::class);
+                $repository->delete($activity->getRaceresult());
                 $activity->setRaceresult();
             }
 
-            $repository->save($activity);
+            $this->getTrainingRepository()
+                ->save($activity);
             $this->get('app.legacy_cache')
                 ->clearActivityCache($activity);
 
-            $this->addFlash('success', $this->get('translator')->trans('Changes have been saved.'));
+            $this->addFlash('success', $translator->trans('Changes have been saved.'));
             $this->get('app.automatic_reload_flag_setter')
                 ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
@@ -97,8 +105,10 @@ class EditController extends Controller
             'isMulti' => (bool) $request->get('multi', false),
             'decorator' => new ActivityDecorator($context),
             'activity_id' => $activity->getId(),
-            'prev_activity_id' => $repository->getIdOfPreviousActivity($activity),
-            'next_activity_id' => $repository->getIdOfNextActivity($activity),
+            'prev_activity_id' => $this->getTrainingRepository()
+                ->getIdOfPreviousActivity($activity),
+            'next_activity_id' => $this->getTrainingRepository()
+                ->getIdOfNextActivity($activity),
             'showElevationCorrectionLink' => $activity->hasRoute() && $activity->getRoute()
                 ->hasGeohashes() && ! $activity->getRoute()
                 ->hasCorrectedElevations(),
@@ -110,7 +120,7 @@ class EditController extends Controller
      * @Route("/activity/multi-editor", name="multi-editor")
      * @Security("has_role('ROLE_USER')")
      */
-    public function multiEditorAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function multiEditorAction(Request $request, Account $account): Response
     {
         $ids = array_filter(explode(',', $request->get('ids', '')));
 
@@ -119,11 +129,10 @@ class EditController extends Controller
 
     /**
      * @param string[] $activityIds
-     * @return Response
      */
-    protected function getResponseForMultiEditor(array $activityIds, Account $account)
+    protected function getResponseForMultiEditor(array $activityIds, Account $account): Response
     {
-        $previews = array_map(function (Training $activity): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview {
+        $previews = array_map(function (Training $activity): ActivityPreview {
             return new ActivityPreview($activity);
         }, $this->getTrainingRepository()
             ->getPartialEntitiesForPreview($activityIds, $account, 20));
@@ -136,32 +145,43 @@ class EditController extends Controller
     /**
      * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function deleteAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function deleteAction(int $id, Account $account): Response
     {
-        $activityId = $activity->getId();
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
 
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
         $this->getTrainingRepository()
             ->remove($activity);
+        $this->get('app.legacy_cache')
+            ->clearActivityCache($activity);
+        $this->get('app.automatic_reload_flag_setter')
+            ->set(AutomaticReloadFlagSetter::FLAG_ALL);
 
-        return $this->render('activity/activity_has_been_removed.html.twig', [
-            'multiEditorId' => (int) $activityId,
-        ]);
+        $this->addFlash('success', 'Activity has been deleted.');
+
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
      * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function elevationCorrectionAction(Request $request, Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function elevationCorrectionAction(Request $request, int $id, Account $account, TranslatorInterface $translator): Response
     {
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
+
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
-        $translator = $this->get('translator');
         $success = false;
 
         if ($activity->hasRoute()) {
@@ -221,20 +241,17 @@ class EditController extends Controller
             ->set(AutomaticReloadFlagSetter::FLAG_TRAINING_AND_DATA_BROWSER);
     }
 
-    /**
-     * @return null|\Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface
-     */
-    protected function getElevationCorrectionStrategyFromRequest($string)
+    protected function getElevationCorrectionStrategyFromRequest(string $string): ?StrategyInterface
     {
-        if ($string == 'GeoTIFF') {
+        if ($string === 'GeoTIFF') {
             return $this->get('app.elevation_correction.geotiff');
         }
 
-        if ($string == 'Geonames') {
+        if ($string === 'Geonames') {
             return $this->get('app.elevation_correction.geonames');
         }
 
-        if ($string == 'GoogleMaps') {
+        if ($string === 'GoogleMaps') {
             return $this->get('app.elevation_correction.google_maps');
         }
 

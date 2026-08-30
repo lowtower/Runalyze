@@ -58,7 +58,7 @@ class UserRepository extends EntityRepository
     public function save(User $user, Account $account)
     {
         $this->_em->persist($user);
-        $this->_em->flush($user);
+        $this->_em->flush();
     }
 
     /**
@@ -78,6 +78,6 @@ class UserRepository extends EntityRepository
     public function remove(User $user)
     {
         $this->_em->remove($user);
-        $this->_em->flush($user);
+        $this->_em->flush();
     }
 }

@@ -2,23 +2,21 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Console\Application
-     */
-    protected $Application;
+    protected ?Application $Application;
 
     /**
-     * @var array
+     * @var array<mixed, array<string, string>>
      */
-    protected $Commands = [
+    protected array $Commands = [
         [
             'command' => 'check',
             'message' => 'Check requirements',
@@ -68,10 +66,7 @@ class InstallCommand extends ContainerAwareCommand
         }
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Installing RUNALYZE...</info>');
         $output->writeln('');

@@ -2,19 +2,33 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
+use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
+use Runalyze\Bundle\CoreBundle\Entity\User;
+use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
+use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
+use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerFilter;
+use Runalyze\Bundle\CoreBundle\Services\Import\ActivityDataContainerToActivityContextConverter;
+use Runalyze\Bundle\CoreBundle\Services\Import\FileImporter;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult;
+use Runalyze\Parameter\Boolean;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -23,24 +37,27 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class MaxZoneHR
 {
-    private $import;
+    private bool $import;
+
+    private ManagerRegistry $doctrine;
 
     // is import allowed by configuration
-    public $MaxHR = 0;
+    public int $MaxHR = 0;
 
     // max HR of all imported activities
-    public $Time; // timestamp of the first highest HR
+    public ?int $Time; // timestamp of the first highest HR
 
-    public function __construct($account, $container)
+    public function __construct(\Runalyze\Bundle\CoreBundle\Entity\Account $account, ManagerRegistry $doctrine)
     {
         // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()
         // so read the conf via repository
-        $repository = $container->get('doctrine')
-            ->getRepository('CoreBundle:Conf');
+        $this->doctrine = $doctrine;
+        /** @var ConfRepository $repository */
+        $repository = $this->doctrine->getRepository(Conf::class);
 
         $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
-        $bool = new \Runalyze\Parameter\Boolean(false);
+        $bool = new Boolean(false);
         $bool->setFromString($conf === null ? '' : $conf->getValue());
 
         $this->import = $bool->value();
@@ -52,8 +69,11 @@ class MaxZoneHR
         // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
         // 2. its the main sport (in normal cases 'running')
         // 3. a MaxZoneHR is in the import/FIT and its the highest of all the imported
-        if ($this->import && $activity->getSport()->isMain() &&
-            isset($container->ActivityData->MaxHeartRateUser) && $container->ActivityData->MaxHeartRateUser > $this->MaxHR) {
+        if ($this->import
+            && method_exists($activity, 'getSport') && $activity->getSport()
+                ->isMain()
+            && isset($container->ActivityData->MaxHeartRateUser)
+            && $container->ActivityData->MaxHeartRateUser > $this->MaxHR) {
             $this->MaxHR = $container->ActivityData->MaxHeartRateUser;
             $this->Time = $container->Metadata->getTimestamp();
         }
@@ -65,18 +85,57 @@ class MaxZoneHR
     }
 }
 
-class ActivityBulkImportCommand extends ContainerAwareCommand
+class ActivityBulkImportCommand extends Command
 {
     // move files after import to "this"-folder
-    private $moveFolder;
+    private ?string $moveFolder = null;
 
-    /**
-     * @var array
-     */
-    protected $FailedImports = [];
+    protected array $FailedImports = [];
 
     // 2 dim-array with 1-Idx=sportId & 2-Idx=Equipment
-    private $sportEquipment = [];
+    private array $sportEquipment = [];
+
+    private ParameterBagInterface $parameterBag;
+
+    private ManagerRegistry $doctrine;
+
+    private TokenStorageInterface $tokenStorage;
+
+    private Filesystem $filesystem;
+
+    private FileImporter $fileImporter;
+
+    private ActivityDataContainerFilter $activityDataContainerFilter;
+
+    private ActivityDataContainerToActivityContextConverter $activityDataContainerConverter;
+
+    private ActivityContextAdapterFactory $activityContextAdapterFactory;
+
+    private ConfigurationManager $configurationManager;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        ManagerRegistry $doctrine,
+        TokenStorageInterface $tokenStorage,
+        Filesystem $filesystem,
+        FileImporter $fileImporter,
+        ActivityDataContainerFilter $activityDataContainerFilter,
+        ActivityDataContainerToActivityContextConverter $activityDataContainerConverter,
+        ActivityContextAdapterFactory $activityContextAdapterFactory,
+        ConfigurationManager $configurationManager
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->doctrine = $doctrine;
+        $this->tokenStorage = $tokenStorage;
+        $this->filesystem = $filesystem;
+        $this->fileImporter = $fileImporter;
+        $this->activityDataContainerFilter = $activityDataContainerFilter;
+        $this->activityDataContainerConverter = $activityDataContainerConverter;
+        $this->activityContextAdapterFactory = $activityContextAdapterFactory;
+        $this->configurationManager = $configurationManager;
+    }
 
     protected function configure()
     {
@@ -91,24 +150,15 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             ->addOption('move', null, InputOption::VALUE_OPTIONAL, 'Move imported files to specified folder');
     }
 
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepository()
+    protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Training');
+        return $this->doctrine->getRepository(Training::class);
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Account');
+        /** @var AccountRepository $repository */
+        $repository = $this->doctrine->getRepository(Account::class);
         $user = $repository->loadUserByUsername($input->getArgument('username'));
 
         if ($user === null) {
@@ -121,14 +171,9 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $this->createEquiqmentArray($user, $output);
 
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $this->getContainer()
-            ->get('security.token_storage')
-            ->setToken($token);
+        $this->tokenStorage->setToken($token);
 
-        $importer = $this->getContainer()
-            ->get('app.file_importer');
-        $dataDirectory = $this->getContainer()
-            ->getParameter('data_directory');
+        $dataDirectory = $this->parameterBag->get('app.data_directory');
         $path = $input->getArgument('path');
 
         // #TSC - new arguments/options
@@ -144,7 +189,6 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         }
 
         $it = new \FilesystemIterator($path);
-        $fs = new Filesystem();
 
         $files = [];
 
@@ -158,27 +202,24 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             // TSC: do not use "'bulk-import'.uniqid()" for bulk uploads, because the filename is set in the activity title
             // $filename = 'bulk-import'.uniqid().$file;
             $filename = $file;
-            $fs->copy($path . '/' . $file, $dataDirectory . '/import/' . $filename);
+            $this->filesystem->copy($path . '/' . $file, $dataDirectory . '/import/' . $filename);
             $files[] = $dataDirectory . '/import/' . $filename;
         }
 
         asort($files);
 
-        $importResult = $importer->importFiles($files);
-        $importResult->completeAndFilterResults($this->getContainer()->get('app.activity_data_container.filter'));
+        $importResult = $this->fileImporter->importFiles($files);
+        $importResult->completeAndFilterResults($this->activityDataContainerFilter);
 
-        $contextAdapterFactory = $this->getContainer()
-            ->get('app.activity_context_adapter_factory');
-        $defaultLocation = $this->getContainer()
-            ->get('app.configuration_manager')
+        $defaultLocation = $this->configurationManager
             ->getList()
             ->getActivityForm()
             ->getDefaultLocationForWeatherForecast();
 
-        $maxZoneHR = new MaxZoneHR($user, $this->getContainer());
+        $maxZoneHR = new MaxZoneHR($user, $this->doctrine);
 
+        /** @var FileImportResult $result */
         foreach ($importResult as $result) {
-            /** @var $result FileImportResult */
             foreach ($result->getContainer() as $container) {
 
                 // #TSC override the sportname to set the sport profile
@@ -192,7 +233,7 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                 $this->setEquipmentIfPossible($activity, $output);
 
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
-                $contextAdapter = $contextAdapterFactory->getAdapterFor($context);
+                $contextAdapter = $this->activityContextAdapterFactory->getAdapterFor($context);
                 $output->writeln('<info>' . $result->getOriginalFileName() . '</info>');
 
                 if ($contextAdapter->isPossibleDuplicate()) {
@@ -229,7 +270,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
 
         $output->writeln('');
         $output->writeln('Done.');
-        return null;
+
+        return 0;
     }
 
     /**
@@ -249,14 +291,9 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         }
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\Training
-     */
-    protected function containerToActivity(ActivityDataContainer $container, Account $account)
+    protected function containerToActivity(ActivityDataContainer $container, Account $account): Training
     {
-        return $this->getContainer()
-            ->get('app.activity_data_container.converter')
-            ->getActivityFor($container, $account);
+        return $this->activityDataContainerConverter->getActivityFor($container, $account);
     }
 
     /**
@@ -346,12 +383,10 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
      * #TSC
      * Check if the reported max pulse differs from the current one. If yes, create new "User" entity.
      */
-    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, \Runalyze\Bundle\CoreBundle\Command\MaxZoneHR $maxZoneHR)
+    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, MaxZoneHR $maxZoneHR)
     {
-        // same logic as BodyValuesController.addAction
-        $repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:User');
+        /** @var UserRepository $repository */
+        $repository = $this->doctrine->getRepository(User::class);
         $oldUser = $repository->getLatestEntryFor($account);
 
         // if new max differs from the stored one

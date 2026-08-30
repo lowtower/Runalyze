@@ -34,13 +34,8 @@ class DB
 
     /**
      * Create connection
-     * @param string $host
-     * @param string $port
-     * @param string $user
-     * @param string $password
-     * @param string $database
      */
-    public static function connect($host, $port, $user, $password, $database)
+    public static function connect(string $host, string $port, string $user, string $password, string $database)
     {
         self::$PDO = new PDOforRunalyze('mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . ';charset=utf8', $user, $password);
         self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -29,7 +29,7 @@ class System
      */
     public static function getFullDomain($onlyToRunalyze = true): string
     {
-        // TODO: correct handling of /web
+        // TODO: correct handling of /public
 
         $path = self::getDomain() . substr($_SERVER['SCRIPT_NAME'], 0, strripos($_SERVER['SCRIPT_NAME'], '/')) . '/';
 

@@ -21,19 +21,12 @@ abstract class AbstractCategory
      */
     abstract public function getDefaultVariables();
 
-    /**
-     * @return string
-     */
-    abstract protected function getLegacyCategoryName();
+    abstract protected function getLegacyCategoryName(): string;
 
-    /**
-     * @return \Runalyze\Configuration\Category
-     */
     public function getLegacyCategory()
     {
         $className = $this->getLegacyCategoryName();
 
-        /** @var \Runalyze\Configuration\Category $category */
         $category = new $className();
         $category->setValues($this->Variables);
 

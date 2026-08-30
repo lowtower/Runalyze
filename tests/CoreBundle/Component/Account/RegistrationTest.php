@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Account;
 
 use Doctrine\ORM\EntityManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
@@ -16,8 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Client;
  */
 class RegistrationTest extends WebTestCase
 {
-    use FixturesTrait;
-
     /**
      * @var Client
      */
@@ -35,7 +33,11 @@ class RegistrationTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures([])->getReferenceRepository();
+        parent::setUp();
+
+        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class);
+        $databaseTool->get()
+            ->loadFixtures([])->getReferenceRepository();
 
         $this->Client = $this->getContainer()
             ->get('test.client');
@@ -46,9 +48,9 @@ class RegistrationTest extends WebTestCase
             ->getManager();
         $this->EntityManager->clear();
 
-        $this->AccountRepository = $this->EntityManager->getRepository('CoreBundle:Account');
-
-        parent::setUp();
+        $this->AccountRepository = $this->EntityManager->getRepository(
+            \Runalyze\Bundle\CoreBundle\Entity\Account::class
+        );
     }
 
     public function testThatRegistrationProcessWorks()
@@ -57,9 +59,12 @@ class RegistrationTest extends WebTestCase
         $account->setUsername('foobar');
         $account->setMail('foo@bar.com');
 
-        $registration = new Registration($this->EntityManager, $account);
+        $passwordEncoder = $this->getContainer()
+            ->get('security.user_password_encoder.generic');
+
+        $registration = new Registration($this->EntityManager, $account, $passwordEncoder);
         $registration->requireAccountActivation();
-        $registration->setPassword('Pa$$w0rd', $this->getContainer()->get('security.encoder_factory'));
+        $registration->setPassword('Pa$$w0rd');
 
         $registeredAccount = $registration->registerAccount();
 

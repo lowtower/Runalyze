@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager;
 
@@ -18,17 +17,17 @@ class RaceResultListener
         $this->RecalculationManager = $manager;
     }
 
-    public function postPersist(Raceresult $race, LifecycleEventArgs $args)
+    public function postPersist(Raceresult $race, \Doctrine\ORM\Event\PostPersistEventArgs $args)
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }
 
-    public function postUpdate(Raceresult $race, LifecycleEventArgs $args)
+    public function postUpdate(Raceresult $race, \Doctrine\ORM\Event\PostUpdateEventArgs $args)
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }
 
-    public function postRemove(Raceresult $race, LifecycleEventArgs $args)
+    public function postRemove(Raceresult $race, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
     {
         $this->scheduleCorrectionFactorRecalculationIfRequired($race);
     }

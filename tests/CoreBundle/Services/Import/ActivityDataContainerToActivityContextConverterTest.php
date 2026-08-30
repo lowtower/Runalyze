@@ -38,11 +38,11 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         );
         $this->Container = new ActivityDataContainer();
         $this->Converter = new ActivityDataContainerToActivityContextConverter(
-            $this->EntityManager->getRepository('CoreBundle:Sport'),
-            $this->EntityManager->getRepository('CoreBundle:Type'),
-            $this->EntityManager->getRepository('CoreBundle:Equipment'),
+            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class),
+            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Type::class),
+            $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class),
             new ConfigurationManager(
-                $this->EntityManager->getRepository('CoreBundle:Conf'),
+                $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class),
                 $tokenStorage
             ),
             $this->getDefaultAccount()
@@ -86,7 +86,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
 
         $backupDefaultType = $this->getDefaultAccountsRunningSport()
             ->getDefaultType();
-        $defaultType = $this->EntityManager->getRepository('CoreBundle:Type')
+        $defaultType = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Type::class)
             ->findBy([
                 'name' => 'Fartlek',
             ])[0];

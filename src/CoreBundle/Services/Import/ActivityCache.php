@@ -142,6 +142,6 @@ class ActivityCache
 
     protected function getRandomHash(?Account $account = null): string
     {
-        return hash('sha256', ($account ? $account->getName() : '') . uniqid());
+        return hash('sha256', ($account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account ? $account->getName() : '') . uniqid());
     }
 }

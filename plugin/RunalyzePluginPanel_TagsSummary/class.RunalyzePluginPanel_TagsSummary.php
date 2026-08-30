@@ -16,16 +16,13 @@ use Runalyze\Model;
  */
 class RunalyzePluginPanel_TagsSummary extends PluginPanel
 {
-    /**
-     * @var array
-     */
-    protected $AllSports = [];
+    protected array $AllSports = [];
 
     /**
      * Timescale in months.
-     * @var array
+     * @var string[]
      */
-    protected $Timescale = [
+    protected array $Timescale = [
         '1' => '1',
         '3' => '3',
         '6' => '6',
@@ -43,7 +40,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         return __('Summarises your tags for the selected sport.');
     }
 
-    protected $sportid;
+    protected int $sportid;
 
     protected $timescale;
 
@@ -84,7 +81,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
 
     protected function initPlugin()
     {
-        $this->sportid = $this->Configuration()
+        $this->sportid = (int) $this->Configuration()
             ->value('sport');
         if (empty($this->sportid)) {
             $this->sportid = $this->defaultSport();
@@ -108,7 +105,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
         $TimescaleLinks = [];
 
         foreach ($this->AllSports as $id => $name) {
-            $active = $id == (int) $this->sportid;
+            $active = $id == $this->sportid;
             $SportLinks[] = '<li' . ($active ? ' class="active"' : '') . '>' . Ajax::link($name, 'panel-' . $this->id(), Plugin::$DISPLAY_URL . '/' . $this->id() . '?sport=' . $id) . '</li>';
 
             if ($active) {
@@ -143,7 +140,7 @@ class RunalyzePluginPanel_TagsSummary extends PluginPanel
     protected function displayContent()
     {
         $Factory = \Runalyze\Context::Factory();
-        $Sport = $Factory->sport((int) $this->sportid);
+        $Sport = $Factory->sport($this->sportid);
 
         echo $this->getStyle();
         echo '<div id="tags-summary">';

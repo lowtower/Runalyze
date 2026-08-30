@@ -61,7 +61,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
 
         $this->assertEquals([1, 2, 3], $this->FirstData->Time);
-        $this->assertNull($this->FirstData->IsAltitudeDataBarometric);
+        $this->assertFalse($this->FirstData->IsAltitudeDataBarometric);
     }
 
     public function testThatBarometricAltitudeFromFirstObjectIsPreferred()

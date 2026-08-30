@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Service;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Parser\Activity\Common\Data\WeatherData;
@@ -9,7 +10,6 @@ use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Service\WeatherForecast\Location;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,8 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/_internal/service/weather")
  */
-class WeatherController extends Controller
+class WeatherController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @Route("", name="internal-service-weather")
      * @Security("has_role('ROLE_USER')")
@@ -42,8 +44,8 @@ class WeatherController extends Controller
             'empty' => $weather->isEmpty(),
             'location' => [
                 'name' => $location->getLocationName(),
-                'lat' => $location->hasPosition() ? $location->getLatitude() : '',
-                'lng' => $location->hasPosition() ? $location->getLongitude() : '',
+                'lat' => $location->getLatitude(),
+                'lng' => $location->getLongitude(),
                 'date' => $location->hasDateTime() ? $location->getDateTime()
                     ->format('c') : '',
             ],
@@ -70,7 +72,7 @@ class WeatherController extends Controller
             $latLng = explode(',', $request->query->get('latlng'));
 
             if (count($latLng) === 2) {
-                $location->setPosition($latLng[0], $latLng[1]);
+                $location->setPosition((float) $latLng[0], (float) $latLng[1]);
             }
         }
 

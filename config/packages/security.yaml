@@ -1,0 +1,52 @@
+security:
+    encoders:
+        Runalyze\Bundle\CoreBundle\Entity\Account:
+            id: app.sha256salted_encoder
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        users_in_memory: { memory: null }
+        runalyzeuser:
+            entity:
+                class: Runalyze\Bundle\CoreBundle\Entity\Account
+    firewalls:
+        default:
+            anonymous: lazy
+            http_basic: ~
+            # user_checker: App\Security\UserChecker
+            provider: runalyzeuser
+            switch_user: { role: ROLE_ADMIN, parameter: _switch_user }
+            user_checker: Runalyze\Bundle\CoreBundle\Services\AccountChecker
+            logout:
+                path: /logout
+                target: /
+            stateless: false
+            form_login:
+                login_path: login
+                check_path: login_check
+                csrf_token_generator: security.csrf.token_manager
+                use_referer: true
+            remember_me:
+                secret: '%app.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+        externalapi:
+            pattern:  ^/api
+            anonymous: false
+            http_basic: true
+            provider:  runalyzeuser
+            stateless: true
+            user_checker: Runalyze\Bundle\CoreBundle\Services\AccountChecker
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        setup:
+            pattern: ^/(update|install)
+            security: false
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+

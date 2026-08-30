@@ -27,10 +27,7 @@ class PluginInstaller
      */
     protected $Key;
 
-    /**
-     * @param string $Key
-     */
-    public function __construct($Key)
+    public function __construct(string $Key)
     {
         $this->Key = $Key;
     }
@@ -64,11 +61,10 @@ class PluginInstaller
     /**
      * Get install link
      * @param string $name [optional] default: add-icon
-     * @return string
      */
-    public static function link($key, $name = '')
+    public static function link(string $key, string $name = ''): string
     {
-        if ($name == '') {
+        if ($name === '') {
             $name = Icon::$ADD;
         }
 

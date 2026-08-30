@@ -51,6 +51,6 @@ class WeathercacheRepository extends EntityRepository implements DatabaseCacheIn
     public function save(Weathercache $cache)
     {
         $this->_em->persist($cache);
-        $this->_em->flush($cache);
+        $this->_em->flush();
     }
 }

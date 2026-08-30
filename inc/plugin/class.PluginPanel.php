@@ -15,32 +15,25 @@ abstract class PluginPanel extends Plugin
 {
     /**
      * Internal flag: Show surrounding div
-     * @var bool
      */
-    public $SurroundingDivIsVisible = true;
+    public bool $SurroundingDivIsVisible = true;
 
     /**
      * Boolean flag: Don't reload if config has changed
-     * @var bool
      */
-    protected $dontReloadForConfig = false;
+    protected bool $dontReloadForConfig = false;
 
     /**
      * Boolean flag: Don't reload if a training has changed
-     * @var bool
      */
-    protected $dontReloadForTraining = false;
+    protected bool $dontReloadForTraining = false;
 
     /**
      * Boolean flag: Remove padding from panel-content
-     * @var bool
      */
-    protected $removePanelContentPadding = false;
+    protected bool $removePanelContentPadding = false;
 
-    /**
-     * @return int
-     */
-    final public function type()
+    final public function type(): int
     {
         return PluginType::PANEL;
     }
@@ -48,7 +41,7 @@ abstract class PluginPanel extends Plugin
     /**
      * Method for getting the right symbol(s) (implemented in each plugin)
      */
-    protected function getRightSymbol()
+    protected function getRightSymbol(): string
     {
         return '';
     }
@@ -110,18 +103,16 @@ abstract class PluginPanel extends Plugin
 
     /**
      * Set flag for visibility of the surrounding div
-     * @param bool $value
      */
-    public function setSurroundingDivVisible($value = true)
+    public function setSurroundingDivVisible(bool $value = true)
     {
         $this->SurroundingDivIsVisible = $value;
     }
 
     /**
      * Returns the html-link to this plugin for tab-navigation
-     * @return string
      */
-    public function getLink()
+    public function getLink(): string
     {
         throw new BadMethodCallException('PluginPanel does not support getLink().');
     }
@@ -132,9 +123,8 @@ abstract class PluginPanel extends Plugin
      * @param int $sport id of sport, default $this->sportid
      * @param int $year year, default $this->year
      * @param string $dat optional dat-parameter
-     * @return string
      */
-    protected function getInnerLink($name, $sport = 0, $year = 0, $dat = '')
+    protected function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = ''): string
     {
         throw new BadMethodCallException('PluginPanel does not support getInnerLink().');
     }

@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
 // use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -26,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * #TSC
  */
-class ImportActivityController extends Controller
+class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public const IMPORT_CMD = 'runalyze:activity:bulk-import';
 

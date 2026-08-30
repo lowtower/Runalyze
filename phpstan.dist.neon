@@ -1,0 +1,28 @@
+includes:
+    - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+    level: 5
+    phpVersion: 70433
+
+    bootstrapFiles:
+        - vendor/autoload.php
+        - inc/class.Helper.php
+        - inc/system/define.consts.php
+
+    paths:
+#        - bin/
+#        - config/
+#        - inc/
+#        - lib/
+#        - plugin/
+#        - public/
+        - src/
+#        - tests/
+
+    doctrine:
+        repositoryClass: null
+
+    treatPhpDocTypesAsCertain: false

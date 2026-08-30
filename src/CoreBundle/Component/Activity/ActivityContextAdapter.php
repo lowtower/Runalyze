@@ -117,10 +117,7 @@ class ActivityContextAdapter
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPossibleDuplicate()
+    public function isPossibleDuplicate(): bool
     {
         return $this->DuplicateFinder->isPossibleDuplicate($this->Context->getActivity());
     }

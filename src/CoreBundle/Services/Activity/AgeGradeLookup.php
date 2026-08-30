@@ -7,15 +7,15 @@ use Runalyze\AgeGrade\Table\FemaleTable;
 use Runalyze\AgeGrade\Table\MaleTable;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Services\TokenStorageAwareServiceTrait;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AgeGradeLookup
 {
     use TokenStorageAwareServiceTrait;
 
-    public function __construct(TokenStorage $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
     }
 
     public function isLookupPossible(?Account $account = null): bool

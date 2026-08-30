@@ -2,14 +2,26 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\KernelInterface;
 
-class InstallFilesystemCommand extends ContainerAwareCommand
+class InstallFilesystemCommand extends Command
 {
+    private Filesystem $filesystem;
+
+    private KernelInterface $kernel;
+
+    public function __construct(Filesystem $filesystem, KernelInterface $kernel)
+    {
+        parent::__construct();
+        $this->filesystem = $filesystem;
+        $this->kernel = $kernel;
+    }
+
     protected function configure()
     {
         $this
@@ -18,10 +30,7 @@ class InstallFilesystemCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Setup RUNALYZE file system...</info>');
         $output->writeln('');
@@ -30,6 +39,7 @@ class InstallFilesystemCommand extends ContainerAwareCommand
 
         $output->writeln('<info>... done.</info>');
         $output->writeln('');
+        return 0;
     }
 
     protected function tryToCopyHtaccess(OutputInterface $output)
@@ -37,11 +47,8 @@ class InstallFilesystemCommand extends ContainerAwareCommand
         $output->writeln('  <info>Copying .htaccess.dist to .htaccess ...</info>');
 
         try {
-            $root = $this->getContainer()
-                ->get('kernel')
-                ->getRootDir() . '/../';
-            $FileSystem = new Filesystem();
-            $FileSystem->copy($root . '.htaccess.dist', $root . '.htaccess');
+            $root = $this->kernel->getProjectDir() . '/';
+            $this->filesystem->copy($root . '.htaccess.dist', $root . '.htaccess');
         } catch (IOException $ioException) {
             $output->writeln(sprintf('  <comment>%s</comment>', $ioException->getMessage()));
         }

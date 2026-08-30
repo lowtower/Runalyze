@@ -4,35 +4,39 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Runalyze\Bundle\CoreBundle\Entity\Notification;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/_internal/notifications")
  */
-class NotificationsController extends Controller
+class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\NotificationRepository
-     */
-    protected function getNotificationsRepository()
+    private TranslatorInterface $translator;
+
+    private RouterInterface $router;
+
+    private NotificationRepository $notificationRepository;
+
+    public function __construct(TranslatorInterface $translator, RouterInterface $router, NotificationRepository $notificationRepository)
     {
-        return $this->getDoctrine()
-            ->getRepository('CoreBundle:Notification');
+        $this->translator = $translator;
+        $this->router = $router;
+        $this->notificationRepository = $notificationRepository;
     }
 
     /**
      * @Route("/read/all", name="internal-notifications-read-all")
      * @Security("has_role('ROLE_USER')")
      */
-    public function readAllNotificationsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
+    public function readAllNotificationsAction(Account $account): JsonResponse
     {
-        $this->getNotificationsRepository()
+        $this->notificationRepository
             ->markAllAsRead($account);
 
         return new JsonResponse();
@@ -40,16 +44,16 @@ class NotificationsController extends Controller
 
     /**
      * @Route("/read/{id}", name="internal-notifications-read")
-     * @ParamConverter("notification", class="CoreBundle:Notification")
      * @Security("has_role('ROLE_USER')")
      */
-    public function readNotificationAction(Notification $notification, Account $account)
+    public function readNotificationAction(int $id, Account $account): JsonResponse
     {
-        if ($notification->getAccount()->getId() != $account->getId()) {
-            return $this->createAccessDeniedException();
+        $notification = $this->notificationRepository->find($id);
+        if ($notification === null || $notification->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException();
         }
 
-        $this->getNotificationsRepository()
+        $this->notificationRepository
             ->markAsRead($notification);
 
         return new JsonResponse();
@@ -59,21 +63,19 @@ class NotificationsController extends Controller
      * @Route("", name="internal-notifications-list")
      * @Security("has_role('ROLE_USER')")
      */
-    public function newNotificationsAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
+    public function newNotificationsAction(Request $request, Account $account): JsonResponse
     {
         $messages = [];
         $factory = new MessageFactory();
-        $router = $this->get('router');
-        $translator = $this->get('translator.default');
-        $notifications = $this->getNotificationsRepository()
+        $notifications = $this->notificationRepository
             ->findAllSince($request->query->getInt('last_request'), $account);
 
         foreach ($notifications as $notification) {
             $message = $factory->getMessage($notification);
             $messages[] = [
                 'id' => $notification->getId(),
-                'link' => $message->hasLink() ? $message->getLink($router) : '',
-                'text' => $message->getText($translator),
+                'link' => $message->hasLink() ? $message->getLink($this->router) : '',
+                'text' => $message->getText($this->translator),
                 'size' => $message->isLinkInternal() ? $message->getWindowSizeForInternalLink() : 'external',
                 'createdAt' => $notification->getCreatedAt(),
             ];

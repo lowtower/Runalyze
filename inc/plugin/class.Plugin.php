@@ -64,66 +64,57 @@ abstract class Plugin
 
     /**
      * Internal ID from database
-     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
      * Pluginkey
-     * @var string
      */
-    private $key;
+    private string $key;
 
     /**
      * Integer flag: Is this statistic acitve?
-     * @var int
      */
-    private $active;
+    private int $active;
 
     /**
      * Integer position of plugins
-     * @var int
      */
-    private $order;
+    private int $order;
 
     /**
      * Internal sport-ID from database
-     * @var int
      */
-    protected $sportid;
+    protected int $sportid;
 
     /**
      * Displayed year (-1: 'all', 6/12: 'last 6/12 months')
-     * @var int
      */
-    protected $year;
+    protected int $year;
 
     /**
      * Internal data from database
-     * @var string
      */
-    protected $dat;
+    protected string $dat;
 
     /**
      * Configuration
-     * @var PluginConfiguration
      */
-    private $Configuration;
+    private PluginConfiguration $Configuration;
 
     /**
      * Constructor (needs ID)
-     * @param int $id
      */
-    public function __construct($id)
+    public function __construct(int $id)
     {
         $this->id = $id;
         $this->key = static::class;
 
-        if ($id == PluginInstaller::ID) {
+        if ($id === PluginInstaller::ID) {
             return;
         }
 
-        if (! is_numeric($id) || $id <= 0) {
+        if ($id <= 0) {
             throw new RuntimeException('Invalid id "' . $id . '" given to create a plugin.');
         }
 
@@ -154,9 +145,8 @@ abstract class Plugin
      *
      * This method call will force the configuration object to catch its values
      * from the database if not already done.
-     * @return PluginConfiguration
      */
-    final public function &Configuration()
+    final public function &Configuration(): PluginConfiguration
     {
         $this->Configuration->catchValuesFromDatabaseIfNotDoneYet();
 
@@ -165,17 +155,13 @@ abstract class Plugin
 
     /**
      * Plugin key
-     * @return string
      */
-    final public function key()
+    final public function key(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return int
-     */
-    final public function id()
+    final public function id(): int
     {
         return $this->id;
     }
@@ -197,44 +183,37 @@ abstract class Plugin
 
     /**
      * Type as string
-     * @return string
      */
-    final public function typeString()
+    final public function typeString(): string
     {
         return PluginType::string($this->type());
     }
 
     /**
      * Is active?
-     * @return bool
      */
-    final public function isActive()
+    final public function isActive(): bool
     {
-        return $this->active == self::ACTIVE;
+        return $this->active === self::ACTIVE;
     }
 
     /**
      * Is inactive?
-     * @return bool
      */
-    final public function isInActive()
+    final public function isInActive(): bool
     {
-        return $this->active == self::ACTIVE_NOT;
+        return $this->active === self::ACTIVE_NOT;
     }
 
     /**
      * Is hidden/various?
-     * @return bool
      */
-    final public function isHidden()
+    final public function isHidden(): bool
     {
-        return $this->active == self::ACTIVE_VARIOUS;
+        return $this->active === self::ACTIVE_VARIOUS;
     }
 
-    /**
-     * @return int
-     */
-    final public function order()
+    final public function order(): int
     {
         return $this->order;
     }
@@ -277,7 +256,7 @@ abstract class Plugin
      * @param string $dat optional dat-parameter
      * @return string
      */
-    abstract protected function getInnerLink($name, $sport = 0, $year = 0, $dat = '');
+    abstract protected function getInnerLink(string $name, int $sport = 0, int $year = 0, string $dat = '');
 
     /**
      * Display description, can be overwritten for displaying a longer description
@@ -289,11 +268,10 @@ abstract class Plugin
 
     /**
      * Install this plugin
-     * @return bool
      */
-    final public function install()
+    final public function install(): bool
     {
-        if ($this->id() != PluginInstaller::ID) {
+        if ($this->id() !== PluginInstaller::ID) {
             return false;
         }
 
@@ -317,7 +295,7 @@ abstract class Plugin
      */
     final protected function initVars()
     {
-        if ($this->id() == PluginInstaller::ID) {
+        if ($this->id() === PluginInstaller::ID) {
             return;
         }
 
@@ -346,44 +324,29 @@ abstract class Plugin
         }
     }
 
-    /**
-     * @return bool
-     */
-    final protected function showsAllYears()
+    final protected function showsAllYears(): bool
     {
-        return $this->year == -1;
+        return $this->year === -1;
     }
 
-    /**
-     * @return bool
-     */
-    final protected function showsSpecificYear()
+    final protected function showsSpecificYear(): bool
     {
-        return ! in_array($this->year, [-1, 6, 12]);
+        return ! in_array($this->year, [-1, 6, 12], true);
     }
 
-    /**
-     * @return bool
-     */
-    final protected function showsTimeRange()
+    final protected function showsTimeRange(): bool
     {
-        return ($this->year == 6) || ($this->year == 12);
+        return ($this->year === 6) || ($this->year === 12);
     }
 
-    /**
-     * @return bool
-     */
-    final protected function showsLast6Months()
+    final protected function showsLast6Months(): bool
     {
-        return $this->year == 6;
+        return $this->year === 6;
     }
 
-    /**
-     * @return bool
-     */
-    final protected function showsLast12Months()
+    final protected function showsLast12Months(): bool
     {
-        return $this->year == 12;
+        return $this->year === 12;
     }
 
     /**
@@ -392,7 +355,7 @@ abstract class Plugin
      *
      * @return int sportid, can be -1 for all sports
      */
-    protected function defaultSport()
+    protected function defaultSport(): int
     {
         return Configuration::General()->mainSport();
     }
@@ -408,10 +371,7 @@ abstract class Plugin
         return date('Y');
     }
 
-    /**
-     * @return string
-     */
-    protected function titleForAllYears()
+    protected function titleForAllYears(): string
     {
         return __('Year on year');
     }
@@ -421,9 +381,9 @@ abstract class Plugin
      * @param string $name [optional], default: settings-icon
      * @param string $add_param [optional] additional parameter starting with '&...'
      */
-    final public function getConfigLink($name = '', $add_param = ''): ?string
+    final public function getConfigLink(string $name = '', string $add_param = ''): ?string
     {
-        if ($name == '') {
+        if ($name === '') {
             $name = Icon::$CONF;
         }
 
@@ -436,9 +396,8 @@ abstract class Plugin
 
     /**
      * Get reload-link
-     * @return string
      */
-    final public function getReloadLink()
+    final public function getReloadLink(): string
     {
         return '<span class="link" onclick="Runalyze.reloadPlugin(\'' . $this->id() . '\');">' . Icon::$REFRESH_SMALL . '</span>';
     }
@@ -469,9 +428,8 @@ abstract class Plugin
 
     /**
      * Function to (in)activate the plugin
-     * @param int $active
      */
-    final public function setActive($active = 1)
+    final public function setActive(int $active = 1)
     {
         DB::getInstance()->update('plugin', $this->id(), 'active', $active);
         $this->active = $active;

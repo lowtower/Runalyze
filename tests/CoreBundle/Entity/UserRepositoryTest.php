@@ -25,7 +25,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->UserRepository = $this->EntityManager->getRepository('CoreBundle:User');
+        $this->UserRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\User::class);
         $this->Account = $this->getDefaultAccount();
     }
 
@@ -63,8 +63,8 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(197, $this->UserRepository->getCurrentMaximalHeartRate($this->Account));
         $this->assertEquals(48, $this->UserRepository->getCurrentRestingHeartRate($this->Account));
 
-        $this->assertEquals('197', $this->EntityManager->getRepository('CoreBundle:Conf')->findByAccountAndKey($this->Account, 'HF_MAX')->getValue());
-        $this->assertEquals('48', $this->EntityManager->getRepository('CoreBundle:Conf')->findByAccountAndKey($this->Account, 'HF_REST')->getValue());
+        $this->assertEquals('197', $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class)->findByAccountAndKey($this->Account, 'HF_MAX')->getValue());
+        $this->assertEquals('48', $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class)->findByAccountAndKey($this->Account, 'HF_REST')->getValue());
     }
 
     public function testThatZeroesAreIgnored()

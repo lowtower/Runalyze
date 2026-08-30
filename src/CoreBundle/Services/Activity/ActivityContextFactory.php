@@ -40,7 +40,7 @@ class ActivityContextFactory
      */
     public function getContextById($activityId, $accountId): \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext
     {
-        $activity = $this->EntityManager->getRepository('CoreBundle:Training')
+        $activity = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
             ->findForAccount($activityId, $accountId);
 
         if ($activity === null) {

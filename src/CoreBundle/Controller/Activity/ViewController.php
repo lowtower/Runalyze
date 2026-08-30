@@ -6,8 +6,11 @@ use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityDecorator;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\BestSubSegmentsStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\Tool\TimeSeriesStatistics;
 use Runalyze\Bundle\CoreBundle\Component\Activity\VO2maxCalculationDetailsDecorator;
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
+use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
+use Runalyze\Bundle\CoreBundle\Entity\TrackdataRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
@@ -15,22 +18,34 @@ use Runalyze\Model\Activity;
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Window\Laps\Window;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ViewController extends Controller
+class ViewController extends AbstractController
 {
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepository()
+    use AppServiceSubscriberTrait;
+
+    private TokenStorageInterface $tokenStorage;
+
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag
+    ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+    }
+
+    protected function getTrainingRepository(): TrainingRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Training');
+            ->getRepository(Training::class);
     }
 
     protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
@@ -43,10 +58,15 @@ class ViewController extends Controller
     /**
      * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function displayAction(Request $request, Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function displayAction(Request $request, int $id, Account $account): Response
     {
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
+
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
         switch ($request->query->get('action')) {
@@ -64,7 +84,7 @@ class ViewController extends Controller
         }
 
         if (! $request->query->get('silent')) {
-            $frontend = new \Frontend(true, $this->get('security.token_storage'));
+            $frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
             $context = new Context($activity->getId(), $account->getId());
 
             $view = new \TrainingView($context);
@@ -76,11 +96,16 @@ class ViewController extends Controller
 
     /**
      * @Route("/activity/{id}/vo2max-info")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      * @Security("has_role('ROLE_USER')")
      */
-    public function vo2maxInfoAction(Training $activity, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function vo2maxInfoAction(int $id, Account $account): Response
     {
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('Activity not found.');
+        }
+
         $this->checkThatEntityBelongsToActivity($activity, $account);
 
         $configList = $this->get('app.configuration_manager')
@@ -98,9 +123,9 @@ class ViewController extends Controller
      * @Route("/activity/{id}/splits-info", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function splitsInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function splitsInfoAction(int $id, Account $account): Response
     {
-        $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -118,7 +143,7 @@ class ViewController extends Controller
      * @Route("/activity/{id}/elevation-info", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function elevationInfoAction($id, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function elevationInfoAction(int $id, Request $request, Account $account): Response
     {
         if ($request->get('use-calculated-value') == 'true') {
             /** @var Training $activity */
@@ -134,7 +159,7 @@ class ViewController extends Controller
                 ->save($activity);
         }
 
-        $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         $context = new Context($id, $account->getId());
 
@@ -152,11 +177,12 @@ class ViewController extends Controller
      * @Route("/activity/{id}/time-series-info", requirements={"id"="\d+"}, name="activity-tool-time-series-info")
      * @Security("has_role('ROLE_USER')")
      */
-    public function timeSeriesInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function timeSeriesInfoAction(int $id, Account $account): Response
     {
-        $trackdata = $this->getDoctrine()
-            ->getRepository('CoreBundle:Trackdata')
-            ->findByActivity($id, $account);
+        /** @var TrackdataRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getRepository(Trackdata::class);
+        $trackdata = $repository->findByActivity($id, $account);
 
         if ($trackdata === null) {
             return $this->render('activity/tool/not_possible.html.twig');
@@ -183,11 +209,12 @@ class ViewController extends Controller
      * @Route("/activity/{id}/sub-segments-info", requirements={"id"="\d+"}, name="activity-tool-sub-segments-info")
      * @Security("has_role('ROLE_USER')")
      */
-    public function subSegmentInfoAction($id, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function subSegmentInfoAction(int $id, Account $account): Response
     {
-        $trackdata = $this->getDoctrine()
-            ->getRepository('CoreBundle:Trackdata')
-            ->findByActivity($id, $account);
+        /** @var TrackdataRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getRepository(Trackdata::class);
+        $trackdata = $repository->findByActivity($id, $account);
 
         if ($trackdata === null) {
             return $this->render('activity/tool/not_possible.html.twig');
@@ -214,14 +241,19 @@ class ViewController extends Controller
 
     /**
      * @Route("/activity/{id}/climb-score", requirements={"id"="\d+"}, name="activity-tool-climb-score")
-     * @ParamConverter("activity", class="CoreBundle:Training")
      */
-    public function climbScoreAction(Training $activity, ?Account $account = null): \Symfony\Component\HttpFoundation\Response
+    public function climbScoreAction(int $id, ?Account $account = null): Response
     {
+        $activity = $this->getTrainingRepository()
+            ->find($id);
+        if ($activity === null) {
+            throw $this->createNotFoundException('No activity found.');
+        }
+
         $activityContext = $this->get('app.activity_context.factory')
             ->getContext($activity);
 
-        if (! $activity->isPublic() && ! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account) {
+        if (! $activity->isPublic() && ! $account instanceof Account) {
             throw $this->createNotFoundException('No activity found.');
         }
 

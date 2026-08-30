@@ -61,13 +61,13 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
     private function formatDuration($seconds, string $format, $decimals = 0)
     {
         if (substr($format, -1) == 'u') {
-            $time = \DateTime::createFromFormat('!U', (int) floor($seconds), new \DateTimeZone('UTC'));
-            $fraction = str_pad(round(fmod($seconds, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
+            $time = \DateTime::createFromFormat('!U', (string) (int) floor($seconds), new \DateTimeZone('UTC'));
+            $fraction = str_pad((string) round(fmod($seconds, 1) * 10 ** $decimals), $decimals, '0', STR_PAD_LEFT);
 
             return $time->format(substr($format, 0, -1)) . $fraction;
         }
 
-        $time = \DateTime::createFromFormat('!U', (int) round($seconds), new \DateTimeZone('UTC'));
+        $time = \DateTime::createFromFormat('!U', (string) (int) round($seconds), new \DateTimeZone('UTC'));
 
         return $time->format($format);
     }
@@ -83,10 +83,10 @@ class UtilityExtension extends \Twig\Extension\AbstractExtension
 
         $FS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        return number_format($bytes / 1024 ** (($I = floor(log($bytes, 1024)))), ($I >= 1) ? 2 : 0, '.', '') . ' ' . $FS[$I];
+        return number_format($bytes / 1024 ** (($I = floor(log($bytes, 1024)))), ($I >= 1) ? 2 : 0, '.', '') . ' ' . $FS[(string) $I];
     }
 
-    public function md5($value): string
+    public function md5(string $value): string
     {
         return md5($value);
     }

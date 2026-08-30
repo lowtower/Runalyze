@@ -3,18 +3,20 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\StrictArrayParamDimFetchRector;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/app',
+        __DIR__ . '/bin',
+        __DIR__ . '/config',
         __DIR__ . '/inc',
         __DIR__ . '/lib',
         __DIR__ . '/plugin',
+        __DIR__ . '/public',
         __DIR__ . '/src',
         __DIR__ . '/tests',
-        __DIR__ . '/web',
     ])
     ->withSets([
         LevelSetList::UP_TO_PHP_74,
@@ -27,6 +29,9 @@ return RectorConfig::configure()
     ->withSkip([
         StrictArrayParamDimFetchRector::class => [
             __DIR__ . '/inc/system/class.PDOforRunalyze.php',
+        ],
+        RenameClassRector::class => [
+            __DIR__ . '/src/CoreBundle/EventListener/SwitchUserListener.php',
         ],
     ])
     ->withComposerBased(

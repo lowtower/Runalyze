@@ -77,7 +77,7 @@ class AnovaDataQuery
     {
         $unit = $this->getValueUnit($unitSystem);
         $iterator = $this->buildQuery($trainingRepository, $account)
-            ->iterate(null, AbstractQuery::HYDRATE_ARRAY);
+            ->toIterable(null, AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($iterator as $row) {
             $data = array_shift($row);

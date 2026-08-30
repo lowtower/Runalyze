@@ -16,7 +16,7 @@ class DurationNullableType extends DurationType
 
     /**
      * @param  string|null $duration
-     * @return float
+     * @return ?float
      * @throws TransformationFailedException if $duration is null but required
      */
     public function reverseTransform($duration)

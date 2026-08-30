@@ -2,15 +2,17 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ActivityMatcherController extends Controller
+class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @Route("/_internal/activity/matcher", name="internal-activity-matcher")
      * @Security("has_role('ROLE_USER')")

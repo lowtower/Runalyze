@@ -133,10 +133,7 @@ class RaceAnalysis
         return sprintf('%01.2f', $difference);
     }
 
-    /**
-     * @return float
-     */
-    public function getCorrectionFactor()
+    public function getCorrectionFactor(): float
     {
         return (new LegacyEffectiveVO2maxCorrector())->fromActivity($this->Activity);
     }
@@ -146,7 +143,7 @@ class RaceAnalysis
      * @param float $distance [km]
      * @return float [s]
      */
-    protected function prognosisInSecondsFor($vo2max, $distance)
+    protected function prognosisInSecondsFor(float $vo2max, float $distance): float
     {
         return (new VO2max($vo2max))->getSeconds($distance);
     }
@@ -155,15 +152,15 @@ class RaceAnalysis
      * @param float $vo2max [ml/kg/min]
      * @param float $distance [km]
      */
-    protected function prognosisFor($vo2max, $distance): string
+    protected function prognosisFor(float $vo2max, float $distance): string
     {
-        return $this->formatTime($this->prognosisInSecondsFor($vo2max, $distance));
+        return $this->formatTime((int) $this->prognosisInSecondsFor($vo2max, $distance));
     }
 
     /**
      * @param int $seconds [s]
      */
-    protected function formatTime($seconds): string
+    protected function formatTime(int $seconds): string
     {
         $Duration = new Duration($seconds);
 

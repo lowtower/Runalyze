@@ -10,15 +10,9 @@ use Runalyze\Parser\Activity\Common\Filter\NegativeTimeStepFilter;
 
 class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var NegativeTimeStepFilter
-     */
-    protected $Filter;
+    protected NegativeTimeStepFilter $Filter;
 
-    /**
-     * @var ActivityDataContainer
-     */
-    protected $Container;
+    protected ActivityDataContainer $Container;
 
     protected function setUp(): void
     {
@@ -26,18 +20,12 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    /**
-     * @group review-later
-     * TODO: This test needs a deeper look later. It currently fails because $result might return null.
-     */
     public function testEmptyContainer()
     {
-        $result = $this->Filter->filter($this->Container);
-        $this->assertInstanceOf(
-            ActivityDataContainer::class,
-            $result,
-            'filter() should return an instance of ActivityDataContainer'
-        );
+        $originalContainer = clone $this->Container;
+        $this->Filter->filter($this->Container);
+
+        $this->assertEquals($originalContainer, $this->Container);
     }
 
     public function testExampleWithoutAnyInvalidTimeSteps()

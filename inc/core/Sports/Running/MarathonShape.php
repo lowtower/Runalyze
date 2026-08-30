@@ -16,13 +16,10 @@ class MarathonShape
      */
     protected $EffectiveVO2max;
 
-    /**
-     * @var BasicEndurance
-     */
-    protected $Configuration;
+    protected BasicEndurance $Configuration;
 
     /**
-     * @param float [ml/kg/min] $effectiveVO2max
+     * @param float $effectiveVO2max [ml/kg/min]
      */
     public function __construct($effectiveVO2max, BasicEndurance $configuration)
     {
@@ -31,9 +28,9 @@ class MarathonShape
     }
 
     /**
-     * @param float [ml/kg/min] $effectiveVO2max
+     * @param float $effectiveVO2max [ml/kg/min]
      */
-    public function setEffectiveVO2max($effectiveVO2max): self
+    public function setEffectiveVO2max(float $effectiveVO2max): self
     {
         $this->EffectiveVO2max = $effectiveVO2max;
 
@@ -43,10 +40,10 @@ class MarathonShape
     /**
      * @param float $totalDistanceInTimePeriod [km]
      * @param float $totalWeightedRelativeLongJogPoints one point per week matches the target
-     * @param int|null $numberOfDaysSinceFirstActivity
+     * @param int|float $numberOfDaysSinceFirstActivity
      * @return int [0, inf)
      */
-    public function getShapeFor($totalDistanceInTimePeriod, $totalWeightedRelativeLongJogPoints, $numberOfDaysSinceFirstActivity = null): int
+    public function getShapeFor(float $totalDistanceInTimePeriod, float $totalWeightedRelativeLongJogPoints, ?float $numberOfDaysSinceFirstActivity = null): int
     {
         $percentageWeekly = $totalDistanceInTimePeriod * 7.0 / $this->Configuration->getDaysToConsiderForWeeklyMileage($numberOfDaysSinceFirstActivity) / $this->getTargetForWeeklyMileage();
         $percentageLongJogs = $totalWeightedRelativeLongJogPoints * 7.0 / $this->Configuration->getDaysToConsiderForLongJogs();

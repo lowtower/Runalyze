@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
@@ -70,7 +69,7 @@ class ActivityListener
             ->getDaysToConsider();
     }
 
-    public function prePersist(Training $activity, LifecycleEventArgs $args)
+    public function prePersist(Training $activity, \Doctrine\ORM\Event\PrePersistEventArgs $args)
     {
         $this->setActivityIdIfEmpty($activity);
         $this->checkRelatedEntitiesForConsistency($activity);
@@ -85,7 +84,7 @@ class ActivityListener
         $this->guessTimezoneBasedOnCoordinates($activity);
     }
 
-    public function postPersist(Training $activity, LifecycleEventArgs $args)
+    public function postPersist(Training $activity, \Doctrine\ORM\Event\PostPersistEventArgs $args)
     {
         $this->addStatisticsToEquipment($activity);
         $this->scheduleRunningRelatedRecalculationsIfRequired($activity);
@@ -125,7 +124,7 @@ class ActivityListener
         }
     }
 
-    public function postRemove(Training $activity, LifecycleEventArgs $args)
+    public function postRemove(Training $activity, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
     {
         $this->removeStatisticsFromEquipment($activity);
 
@@ -142,11 +141,11 @@ class ActivityListener
 
     protected function checkRelatedEntitiesForConsistency(Training $activity, ?PreUpdateEventArgs $args = null)
     {
-        if (! $args instanceof \Doctrine\ORM\Event\PreUpdateEventArgs || $args->hasChangedField('sport')) {
+        if (! $args instanceof PreUpdateEventArgs || $args->hasChangedField('sport')) {
             $this->setSportIfEmpty($activity);
         }
 
-        if (! $args instanceof \Doctrine\ORM\Event\PreUpdateEventArgs || $args->hasChangedField('sport') || $args->hasChangedField('type')) {
+        if (! $args instanceof PreUpdateEventArgs || $args->hasChangedField('sport') || $args->hasChangedField('type')) {
             $this->removeTypeIfInvalidForSport($activity);
         }
     }
@@ -410,9 +409,9 @@ class ActivityListener
 
     protected function recomputeOwnChangeSet(Training $activity, PreUpdateEventArgs $args)
     {
-        $metaData = $args->getEntityManager()
+        $metaData = $args->getObjectManager()
             ->getClassMetadata(Training::class);
-        $unitOfWork = $args->getEntityManager()
+        $unitOfWork = $args->getObjectManager()
             ->getUnitOfWork();
         $unitOfWork->recomputeSingleEntityChangeSet($metaData, $activity);
     }

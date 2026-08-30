@@ -5,10 +5,11 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 use Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Runalyze\Bundle\CoreBundle\Entity\PluginRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,28 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PluginController extends AbstractPluginsAwareController
 {
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\PluginRepository
-     */
-    protected function getPluginRepository()
+    protected function getPluginRepository(): PluginRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Plugin');
+            ->getRepository(Plugin::class);
     }
 
     /**
      * @Route("/toggle/{id}", name="internal-plugin-toggle")
-     * @ParamConverter("plugin", class="CoreBundle:Plugin")
      * @Security("has_role('ROLE_USER')")
      */
-    public function togglePanelAction(Plugin $plugin, Account $account)
+    public function togglePanelAction(int $id, Account $account): JsonResponse
     {
-        if ($plugin->getAccount()->getId() != $account->getId()) {
-            return $this->createAccessDeniedException();
+        $plugin = $this->getPluginRepository()
+            ->find($id);
+        if ($plugin === null || $plugin->getAccount()->getId() != $account->getId()) {
+            throw $this->createAccessDeniedException();
         }
 
         // Only as long as PluginFactory's cache is in use
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         \PluginFactory::clearCache();
 
         $this->getPluginRepository()
@@ -48,17 +47,19 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/move/{id}/up", name="internal-plugin-move-up")
-     * @ParamConverter("plugin", class="CoreBundle:Plugin")
      * @Security("has_role('ROLE_USER')")
      */
-    public function movePanelUpAction(Plugin $plugin, Account $account)
+    public function movePanelUpAction(int $id, Account $account): JsonResponse
     {
-        if ($plugin->getAccount()->getId() != $account->getId()) {
-            return $this->createAccessDeniedException();
+        $plugin = $this->getPluginRepository()
+            ->find($id);
+
+        if ($plugin === null || $plugin->getAccount()->getId() != $account->getId()) {
+            throw $this->createAccessDeniedException();
         }
 
         // Only as long as PluginFactory's cache is in use
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         \PluginFactory::clearCache();
 
         $this->getPluginRepository()
@@ -69,17 +70,20 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/move/{id}/down", name="internal-plugin-move-down")
-     * @ParamConverter("plugin", class="CoreBundle:Plugin")
      * @Security("has_role('ROLE_USER')")
      */
-    public function movePanelDownAction(Plugin $plugin, Account $account)
+    public function movePanelDownAction(int $id, Account $account): JsonResponse
     {
-        if ($plugin->getAccount()->getId() != $account->getId()) {
-            return $this->createAccessDeniedException();
+        // Plugin manuell aus der Datenbank laden
+        $plugin = $this->getPluginRepository()
+            ->find($id);
+
+        if ($plugin === null || $plugin->getAccount()->getId() != $account->getId()) {
+            throw $this->createAccessDeniedException();
         }
 
         // Only as long as PluginFactory's cache is in use
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         \PluginFactory::clearCache();
 
         $this->getPluginRepository()
@@ -92,9 +96,9 @@ class PluginController extends AbstractPluginsAwareController
      * @Route("/all-panels", name="internal-plugin-all-panels")
      * @Security("has_role('ROLE_USER')")
      */
-    public function contentPanelsAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function contentPanelsAction(Request $request, Account $account): Response
     {
-        $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         return $this->getResponseForAllEnabledPanels($request, $account);
     }

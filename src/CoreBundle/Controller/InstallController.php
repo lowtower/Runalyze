@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Runalyze\Bundle\CoreBundle\Console\Formatter\HtmlOutputFormatter;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,10 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Bundle\CoreBundle\Controller
  */
-class InstallController extends Controller
+class InstallController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
+    private KernelInterface $kernel;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     /**
-     * @Route("/install", name="install", condition="'%update_disabled%' == 'no'")
+     * @Route("/install", name="install", condition="'%app.update_disabled%' == 'no'")
      */
     public function installAction(Request $request)
     {
@@ -28,7 +39,7 @@ class InstallController extends Controller
             return $this->redirectToRoute('install_finish');
         }
 
-        $app = new Application($this->get('kernel'));
+        $app = new Application($this->kernel);
         $app->setAutoExit(false);
 
         $input = new StringInput('runalyze:install:check');
@@ -45,7 +56,7 @@ class InstallController extends Controller
     }
 
     /**
-     * @Route("/install/start", name="install_start", condition="'%update_disabled%' == 'no'")
+     * @Route("/install/start", name="install_start", condition="'%app.update_disabled%' == 'no'")
      */
     public function startAction(Request $request)
     {
@@ -59,7 +70,7 @@ class InstallController extends Controller
             return $this->redirectToRoute('install_finish');
         }
 
-        $app = new Application($this->get('kernel'));
+        $app = new Application($this->kernel);
         $app->setAutoExit(false);
 
         $input = new StringInput('runalyze:install --skip=check');
@@ -82,7 +93,7 @@ class InstallController extends Controller
     }
 
     /**
-     * @Route("/install/finish", name="install_finish", condition="'%update_disabled%' == 'no'")
+     * @Route("/install/finish", name="install_finish", condition="'%app.update_disabled%' == 'no'")
      */
     public function finishAction(Request $request)
     {

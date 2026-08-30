@@ -8,14 +8,17 @@ use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Sport\SportProfile;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Registration
 {
+    protected UserPasswordEncoderInterface $passwordEncoder;
+
     /**
      * @var Account
      */
@@ -31,10 +34,11 @@ class Registration
      */
     protected $specialVars;
 
-    public function __construct(\Doctrine\Persistence\ObjectManager $em, Account $account)
+    public function __construct(\Doctrine\Persistence\ObjectManager $em, Account $account, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->em = $em;
         $this->Account = $account;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -65,13 +69,9 @@ class Registration
         $this->Account->setLanguage($locale);
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword($password, EncoderFactoryInterface $encoderFactory)
+    public function setPassword(string $password)
     {
-        $encoder = $encoderFactory->getEncoder($this->Account);
-        $this->Account->setPassword($encoder->encodePassword($password, $this->Account->getSalt()));
+        $this->Account->setPassword($this->passwordEncoder->encodePassword($this->Account, $password));
     }
 
     private function setEmptyData()
@@ -138,11 +138,11 @@ class Registration
     private function setSportData()
     {
         $sportData = [
-            [__('Running'), 'icons8-Running', 0, 880, 140, 1, PaceEnum::SECONDS_PER_KILOMETER, 0, 1, true, SportProfile::RUNNING],
-            [__('Swimming'), 'icons8-Swimming', 0, 743, 130, 1, PaceEnum::SECONDS_PER_100M, 0, 0, true, SportProfile::SWIMMING],
-            [__('Biking'), 'icons8-Regular-Biking', 0, 770, 120, 1, PaceEnum::KILOMETER_PER_HOUR, 1, 1, true, SportProfile::CYCLING],
-            [__('Gymnastics'), 'icons8-Yoga', 1, 280, 100, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null],
-            [__('Other'), 'icons8-Sports-Mode', 0, 500, 120, 0, PaceEnum::KILOMETER_PER_HOUR, 0, 0, false, null],
+            [__('Running'), 'icons8-Running', false, 880, 140, true, PaceEnum::SECONDS_PER_KILOMETER, false, true, true, SportProfile::RUNNING],
+            [__('Swimming'), 'icons8-Swimming', false, 743, 130, true, PaceEnum::SECONDS_PER_100M, false, false, true, SportProfile::SWIMMING],
+            [__('Biking'), 'icons8-Regular-Biking', false, 770, 120, true, PaceEnum::KILOMETER_PER_HOUR, true, true, true, SportProfile::CYCLING],
+            [__('Gymnastics'), 'icons8-Yoga', true, 280, 100, false, PaceEnum::KILOMETER_PER_HOUR, false, false, false, null],
+            [__('Other'), 'icons8-Sports-Mode', false, 500, 120, true, PaceEnum::KILOMETER_PER_HOUR, false, false, false, null],
         ];
 
         foreach ($sportData as $sData) {
@@ -169,16 +169,16 @@ class Registration
     private function setTypeData()
     {
         $TypeData = [
-            [__('Jogging'), __('JOG'), 143, 0],
-            [__('Fartlek'), __('FL'), 150, 1],
-            [__('Interval training'), __('IT'), 165, 1],
-            [__('Tempo Run'), __('TR'), 165, 1],
-            [__('Race'), __('RC'), 190, 1],
-            [__('Regeneration Run'), __('RG'), 128, 0],
-            [__('Long Slow Distance'), __('LSD'), 150, 1],
-            [__('Warm-up'), __('WU'), 128, 0],
-            [__('Pace Goal'), __('PG'), 150, 1],
-            [__('Grundlagenausdauer'), __('GA'), 130, 0],
+            [__('Jogging'), __('JOG'), 143, false],
+            [__('Fartlek'), __('FL'), 150, true],
+            [__('Interval training'), __('IT'), 165, true],
+            [__('Tempo Run'), __('TR'), 165, true],
+            [__('Race'), __('RC'), 190, true],
+            [__('Regeneration Run'), __('RG'), 128, false],
+            [__('Long Slow Distance'), __('LSD'), 150, true],
+            [__('Warm-up'), __('WU'), 128, false],
+            [__('Pace Goal'), __('PG'), 150, true],
+            [__('Grundlagenausdauer'), __('GA'), 130, false],
         ];
 
         foreach ($TypeData as $tData) {
@@ -197,9 +197,10 @@ class Registration
 
     private function collectSpecialVars()
     {
+        /** @var SportRepository $repository */
+        $repository = $this->em->getRepository(Sport::class);
         /** @var Sport[] $sport */
-        $sport = $this->em->getRepository('CoreBundle:Sport')
-            ->findByAccount($this->Account);
+        $sport = $repository->findAllFor($this->Account);
 
         foreach ($sport as $item) {
             switch ($item->getImg()) {
@@ -212,7 +213,7 @@ class Registration
             }
         }
 
-        $equipmentType = $this->em->getRepository('CoreBundle:EquipmentType');
+        $equipmentType = $this->em->getRepository(EquipmentType::class);
         $equipmentClothes = $equipmentType->findOneBy([
             'name' => __('Clothes'),
             'account' => $this->Account->getId(),

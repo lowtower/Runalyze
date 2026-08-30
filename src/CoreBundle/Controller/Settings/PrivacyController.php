@@ -2,24 +2,37 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyData;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyType;
+use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PrivacyController extends Controller
+class PrivacyController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    /**
-     * @return ConfRepository
-     */
-    protected function getConfRepository()
+    use AppServiceSubscriberTrait;
+
+    private ConfigurationUpdater $configurationUpdater;
+
+    private TranslatorInterface $translator;
+
+    public function __construct(
+        ConfigurationUpdater $configurationUpdater,
+        TranslatorInterface $translator
+    ) {
+        $this->configurationUpdater = $configurationUpdater;
+        $this->translator = $translator;
+    }
+
+    protected function getConfRepository(): ConfRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Conf');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class);
     }
 
     /**
@@ -41,10 +54,9 @@ class PrivacyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.configuration_updater')
-                ->updatePrivacyDetails($account, $privacy->getDataForConfiguration());
+            $this->configurationUpdater->updatePrivacyDetails($account, $privacy->getDataForConfiguration());
 
-            $this->addFlash('success', $this->get('translator')->trans('Your changes have been saved!'));
+            $this->addFlash('success', $this->translator->trans('Your changes have been saved!'));
         }
 
         return $this->render('settings/privacy.html.twig', [

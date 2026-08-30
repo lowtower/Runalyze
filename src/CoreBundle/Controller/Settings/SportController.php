@@ -2,9 +2,12 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
@@ -12,49 +15,44 @@ use Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\View\DataBrowserRowProfile;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/settings/sport")
  * @Security("has_role('ROLE_USER')")
  */
-class SportController extends Controller
+class SportController extends AbstractController
 {
-    /**
-     * @return SportRepository
-     */
-    protected function getSportRepository()
+    use AppServiceSubscriberTrait;
+
+    protected function getSportRepository(): SportRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Sport');
+            ->getRepository(Sport::class);
     }
 
-    /**
-     * @return TypeRepository
-     */
-    protected function getTypeRepository()
+    protected function getTypeRepository(): TypeRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Type');
+            ->getRepository(Type::class);
     }
 
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepository()
+    protected function getTrainingRepository(): TrainingRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Training');
+            ->getRepository(Training::class);
     }
 
     /**
      * @Route("", name="settings-sports")
      */
-    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function overviewAction(Account $account): Response
     {
         return $this->render('settings/sport/overview.html.twig', [
             'sports' => $this->getSportRepository()
@@ -69,8 +67,9 @@ class SportController extends Controller
     /**
      * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid"="\d+"})
      */
-    public function typeAddAction(Request $request, $sportid, Account $account)
+    public function typeAddAction(Request $request, int $sportid, Account $account)
     {
+        /** @var EntityManagerInterface $em */
         $em = $this->getDoctrine()
             ->getManager();
         $type = new Type();
@@ -84,7 +83,7 @@ class SportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $type->setSport($em->getReference('CoreBundle:Sport', $sportid));
+            $type->setSport($em->getReference(Sport::class, $sportid));
             $this->getTypeRepository()
                 ->save($type);
             $this->get('app.automatic_reload_flag_setter')
@@ -102,12 +101,13 @@ class SportController extends Controller
 
     /**
      * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id"="\d+"})
-     * @ParamConverter("type", class="CoreBundle:Type")
      */
-    public function typeEditAction(Request $request, Type $type, Account $account)
+    public function typeEditAction(Request $request, int $id, Account $account)
     {
-        if ($type->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $type = $this->getTypeRepository()
+            ->find($id);
+        if ($type === null || $type->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Type not found or access denied.');
         }
 
         $form = $this->createForm(Form\Settings\SportTypeType::class, $type, [
@@ -137,41 +137,41 @@ class SportController extends Controller
 
     /**
      * @Route("/type/{id}/delete", name="sport-type-delete", requirements={"id"="\d+"})
-     * @ParamConverter("type", class="CoreBundle:Type")
      */
-    public function deleteSportTypeAction(Request $request, Type $type, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteSportTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
-            $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
-
-            return $this->redirect($this->generateUrl('settings-sports'));
+            $this->addFlash('error', $translator->trans('Invalid token.'));
+            return $this->redirectToRoute('settings-sports');
         }
 
-        if ($type->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $type = $this->getTypeRepository()
+            ->find($id);
+        if ($type === null || $type->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Type not found or access denied.');
         }
 
-        if ($type->getTrainings()->count() == null) {
+        if ($type->getTrainings()->count() == 0) {
+            /** @var EntityManagerInterface $em */
             $em = $this->getDoctrine()
                 ->getManager();
             $em->remove($type);
             $em->flush();
             $this->get('app.automatic_reload_flag_setter')
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
-            $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
+            $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
-            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.') . ' ' . $this->get('translator')->trans('You have activities associated with this type.'));
+            $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this type.'));
         }
 
-        return $this->redirect($this->generateUrl('settings-sports'));
+        return $this->redirectToRoute('settings-sports');
     }
 
     /**
      * @Route("/add/{internalType}", name="sport-add", requirements={"internalType"="\d+"})
      * @Route("/add/custom", name="sport-add-custom")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function sportAddAction(Request $request, Account $account, $internalType = null)
+    public function sportAddAction(Request $request, Account $account, $internalType = null): Response
     {
         $sport = new Sport();
         $sport->setAccount($account);
@@ -209,12 +209,13 @@ class SportController extends Controller
 
     /**
      * @Route("/{id}/edit", name="sport-edit", requirements={"id"="\d+"})
-     * @ParamConverter("sport", class="CoreBundle:Sport")
      */
-    public function sportEditAction(Request $request, Sport $sport, Account $account)
+    public function sportEditAction(Request $request, int $id, Account $account)
     {
-        if ($sport->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $sport = $this->getSportRepository()
+            ->find($id);
+        if ($sport === null || $sport->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Sport not found or access denied.');
         }
 
         $form = $this->createForm(Form\Settings\SportType::class, $sport, [
@@ -246,32 +247,33 @@ class SportController extends Controller
 
     /**
      * @Route("/{id}/delete", name="sport-delete", requirements={"id"="\d+"})
-     * @ParamConverter("sport", class="CoreBundle:Sport")
      */
-    public function sportDeleteAction(Request $request, Sport $sport, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function sportDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
-            $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
-
-            return $this->redirect($this->generateUrl('sport-edit', [
-                'id' => $sport->getId(),
-            ]));
+            $this->addFlash('error', $translator->trans('Invalid token.'));
+            return $this->redirectToRoute('settings-sports');
         }
 
-        if ($sport->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $sport = $this->getSportRepository()
+            ->find($id);
+        if ($sport === null || $sport->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Sport not found or access denied.');
         }
 
-        if ($sport->getTrainings()->count() == 0) {
-            $this->getSportRepository()
-                ->remove($sport);
+        if ($sport->getTrainings()->count() === 0) {
+            /** @var EntityManagerInterface $em */
+            $em = $this->getDoctrine()
+                ->getManager();
+            $em->remove($sport);
+            $em->flush();
             $this->get('app.automatic_reload_flag_setter')
                 ->set(AutomaticReloadFlagSetter::FLAG_DATA_BROWSER);
-            $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
+            $this->addFlash('success', $translator->trans('The object has been deleted.'));
         } else {
-            $this->addFlash('error', $this->get('translator')->trans('Object cannot be deleted.') . ' ' . $this->get('translator')->trans('You have activities associated with this type.'));
+            $this->addFlash('error', $translator->trans('Object cannot be deleted.') . ' ' . $translator->trans('You have activities associated with this sport.'));
         }
 
-        return $this->redirect($this->generateUrl('settings-sports'));
+        return $this->redirectToRoute('settings-sports');
     }
 }

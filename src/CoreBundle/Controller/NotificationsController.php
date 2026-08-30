@@ -1,24 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/notifications")
  */
-class NotificationsController extends Controller
+class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @return \Runalyze\Bundle\CoreBundle\Entity\NotificationRepository
      */
     protected function getNotificationsRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Notification');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class);
     }
 
     /**

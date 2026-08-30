@@ -80,10 +80,7 @@ class DataBrowser
      */
     protected $Sports = [];
 
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
     /**
      * @var \PDOforRunalyze
@@ -197,7 +194,7 @@ class DataBrowser
         $Statement = $this->DatasetQuery->statementToFetchActivities($this->TimestampStart, $this->TimestampEnd, $this->SportId);
 
         while ($Training = $Statement->fetch()) {
-            $w = Time::diffInDays($Training['time'], $this->TimestampStart);
+            $w = (int) Time::diffInDays($Training['time'], $this->TimestampStart);
 
             if (
                 in_array($Training['typeid'], $this->TypesShort) ||
@@ -257,7 +254,7 @@ class DataBrowser
     /**
      * Display links to navigate in calendar
      */
-    protected function displayNavigationLinks()
+    public function displayNavigationLinks()
     {
         // #TSC more space between for better usablility on small devices
         // #TSC use fa-lg for larger icons in the navigation (better for tablets)
@@ -267,7 +264,7 @@ class DataBrowser
         echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
     }
 
-    protected function displayTitle()
+    public function displayTitle()
     {
         $now = (new LocalTime())->getTimestamp();
         $timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
@@ -281,7 +278,7 @@ class DataBrowser
     /**
      * Display specific icon-links
      */
-    protected function displayIconLinks()
+    public function displayIconLinks()
     {
         echo '<ul>';
         echo '<li>' . $this->getSharedListLink() . '</li>';
@@ -291,18 +288,78 @@ class DataBrowser
         echo '</ul>';
     }
 
-    protected function displayHoverLinks()
+    public function displayHoverLinks()
     {
         echo $this->getConfigLink();
         echo $this->getRefreshLink();
     }
 
+    public function getAccountId(): int
+    {
+        return $this->AccountID;
+    }
+
+    public function getAdditionalColumns(): int
+    {
+        return $this->AdditionalColumns;
+    }
+
+    public function getAllDaysEmpty(): bool
+    {
+        return $this->AllDaysEmpty;
+    }
+
+    public function getDatasetConfig(): Dataset\Configuration
+    {
+        return $this->DatasetConfig;
+    }
+
+    public function getDatasetQuery(): Dataset\Query
+    {
+        return $this->DatasetQuery;
+    }
+
+    public function getDayCount(): int
+    {
+        return $this->DayCount;
+    }
+
+    public function getDays(): array
+    {
+        return $this->Days;
+    }
+
+    public function getFactory(): Factory
+    {
+        return $this->Factory;
+    }
+
+    public function getSportId(): ?int
+    {
+        return $this->SportId;
+    }
+
+    public function getSports(): array
+    {
+        return $this->Sports;
+    }
+
+    public function getTimestampEnd(): int
+    {
+        return $this->TimestampEnd;
+    }
+
+    public function getTimestampStart(): int
+    {
+        return $this->TimestampStart;
+    }
+
     /**
      * Display config link
      */
-    protected function getConfigLink()
+    protected function getConfigLink(): string
     {
-        echo Ajax::window('<a class="tab" href="settings/dataset">' . Icon::$CONF . '</a>');
+        return Ajax::window('<a class="tab" href="settings/dataset">' . Icon::$CONF . '</a>');
     }
 
     /**
@@ -347,7 +404,7 @@ class DataBrowser
      * Get link including the selection of one sport.
      * @param $active the link was clicked and is active
      */
-    protected function getSportLink(int $sportId, string $name, string $icon, bool $active): string
+    public function getSportLink(int $sportId, string $name, string $icon, bool $active): string
     {
         $style = 'padding-left: 2px; padding-right: 2px;';
         if ($active) {
@@ -383,7 +440,7 @@ class DataBrowser
      * Show year links for the previous 20 years
      * #TSC
      */
-    protected function getYearLinks()
+    public function getYearLinks()
     {
         $t = new DateTime('now', new DateTimeZone('UTC'));
         $oneYear = new DateInterval('P1Y');
@@ -456,7 +513,7 @@ class DataBrowser
      * Get date string for given timestamp
      * @param int $timestampInNoTimezone
      */
-    protected function dateString($timestampInNoTimezone): string
+    public function dateString($timestampInNoTimezone): string
     {
         $localTime = new LocalTime($timestampInNoTimezone);
         $addLink = '';
@@ -477,7 +534,7 @@ class DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
+    public function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
     {
         return '';
     }

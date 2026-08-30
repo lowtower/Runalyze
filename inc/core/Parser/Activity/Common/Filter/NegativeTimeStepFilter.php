@@ -19,12 +19,10 @@ class NegativeTimeStepFilter extends AbstractFilter
 
     /**
      * @param array<int, mixed> $time
-     * @param bool $strict
      * @return array [time array index => duration]
-     *
      * @throws InvalidDataException
      */
-    protected function detectNegativeTimeSteps(array $time, $strict): array
+    protected function detectNegativeTimeSteps(array $time, bool $strict): array
     {
         $negativeTimeSteps = [];
         $numberOfPoints = count($time);

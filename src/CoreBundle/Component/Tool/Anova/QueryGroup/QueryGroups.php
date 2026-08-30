@@ -15,22 +15,22 @@ final class QueryGroups extends AbstractEnum
     public const MONTH = 'month';
 
     /**
-     * @var int
+     * @var string
      */
     public const YEAR = 'year';
 
     /**
-     * @var int
+     * @var string
      */
     public const SPORT = 'sport';
 
     /**
-     * @var int
+     * @var string
      */
     public const TYPE = 'type';
 
     /**
-     * @var int
+     * @var string
      */
     public const EQUIPMENT_TYPE = 'equipment';
 
@@ -39,10 +39,7 @@ final class QueryGroups extends AbstractEnum
         return self::EQUIPMENT_TYPE . '_' . $equipmentType->getId();
     }
 
-    /**
-     * @return QueryGroupInterface
-     */
-    public static function getGroup($enum)
+    public static function getGroup($enum): QueryGroupInterface
     {
         if (substr($enum, 0, strlen(self::EQUIPMENT_TYPE) + 1) == self::EQUIPMENT_TYPE . '_') {
             return new EquipmentType(substr($enum, strlen(self::EQUIPMENT_TYPE) + 1));

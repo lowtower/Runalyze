@@ -1,0 +1,42 @@
+monolog:
+    channels: ['queue', 'console', 'external_services', 'activity_uploads']
+    handlers:
+        applog:
+            type: rotating_file
+            path: '%kernel.project_dir%/var/log/symfony.log'
+            level: error
+            max_files: 7
+        main:
+            type: fingers_crossed
+            action_level: warning
+            handler: file
+        file:
+            type: stream
+            level: debug
+        syslog:
+            type: syslog
+            level: error
+        queue_file:
+            type: rotating_file
+            level: debug
+            path: '%kernel.project_dir%/var/log/queue.log'
+            max_files: 7
+            channels: ['queue']
+        console_file:
+            type: rotating_file
+            level: error
+            path: '%kernel.project_dir%/var/log/console.log'
+            max_files: 7
+            channels: ['console']
+        external_services_file:
+            type: rotating_file
+            level: warning
+            path: '%kernel.project_dir%/var/log/external_services.log'
+            max_files: 7
+            channels: ['external_services']
+        activity_uploads_file:
+            type: rotating_file
+            level: debug
+            path: '%kernel.project_dir%/var/log/activity_uploads.log'
+            max_files: 7
+            channels: ['activity_uploads']

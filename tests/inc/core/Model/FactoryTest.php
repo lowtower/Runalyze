@@ -4,26 +4,19 @@ declare(strict_types=1);
 
 namespace Runalyze\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class FactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends TestCase
 {
-    /**
-     * @var Factory
-     */
-    protected $object;
+    protected Factory $object;
 
-    /**
-     * @var int
-     */
-    protected $accountID;
+    protected int $accountID;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
     protected function setUp(): void
     {
@@ -39,9 +32,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
-        if ($this->object !== null) {
-            $this->object->clearCache();
-        }
+        $this->object->clearCache();
 
         $this->truncateTables();
         \Cache::clean();

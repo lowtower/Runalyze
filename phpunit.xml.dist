@@ -24,15 +24,10 @@
         <ini name="display_errors" value="1"/>
         <ini name="error_reporting" value="-1"/>
 
-        <env name="APP_ENV" value="test" force="true"/>
-        <env name="SYMFONY_ENV" value="test" force="true"/>
-
         <server name="APP_ENV" value="test" force="true"/>
-        <server name="SYMFONY_ENV" value="test" force="true"/>
+        <server name="APP_DEBUG" value="1" force="true"/>
 
-        <env name="APP_DEBUG" value="1" force="true"/>
-
-        <server name="KERNEL_DIR" value="./app" />
+        <env name="KERNEL_CLASS" value="App\Kernel" />
 
         <!-- Symfony deprecation handling -->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose"/>
@@ -58,7 +53,7 @@
 	</filter>
 
 	<logging>
-		<log type="junit" target="./var/logs/phpunit-junit.xml"/>
+		<log type="junit" target="./var/log/phpunit-junit.xml"/>
 	</logging>
 
 </phpunit>

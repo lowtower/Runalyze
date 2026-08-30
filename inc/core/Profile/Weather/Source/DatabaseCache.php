@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Profile\Weather\Source;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 class DatabaseCache extends AbstractSource
 {
     public function getInternalProfileEnum(): int
@@ -18,7 +16,7 @@ class DatabaseCache extends AbstractSource
         return false;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator)
+    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
         return $translator->trans('internal database');
     }

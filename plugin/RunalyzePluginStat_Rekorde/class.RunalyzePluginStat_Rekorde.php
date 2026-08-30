@@ -145,7 +145,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
 
         $i = 0;
         // Years
-        if ($this->year == -1) {
+        if ($this->year === -1) {
             echo '<tr class="r"><td class="c b">' . __('per year') . '</td>';
             foreach ($this->years as $i => $year) {
                 $link = DataBrowserLinker::yearLink(Distance::format($year['km']), $year['time'], false);

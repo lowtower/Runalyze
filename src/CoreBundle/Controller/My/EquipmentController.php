@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Equipment;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository;
@@ -9,40 +10,38 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/my/equipment")
  * @Security("has_role('ROLE_USER')")
  */
-class EquipmentController extends Controller
+class EquipmentController extends AbstractController
 {
-    /**
-     * @return EquipmentRepository
-     */
-    protected function getEquipmentRepository()
+    use AppServiceSubscriberTrait;
+
+    protected function getEquipmentRepository(): EquipmentRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Equipment');
+            ->getRepository(Equipment::class);
     }
 
-    /**
-     * @return EquipmentTypeRepository
-     */
-    protected function getEquipmentTypeRepository()
+    protected function getEquipmentTypeRepository(): EquipmentTypeRepository
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:EquipmentType');
+            ->getRepository(EquipmentType::class);
     }
 
     /**
      * @Route("/category/{typeid}/table", name="equipment-category-table", requirements={"typeid"="\d+"})
      */
-    public function categoryTableAction($typeid, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function categoryTableAction(int $typeid, Account $account, TranslatorInterface $translator): Response
     {
         /** @var EquipmentType $equipmentType */
         $equipmentType = $this->getEquipmentTypeRepository()
@@ -54,7 +53,8 @@ class EquipmentController extends Controller
             ->getStatisticsForType($typeid, $account);
 
         if ($equipmentType === null) {
-            throw $this->createAccessDeniedException();
+            $this->addFlash('error', $translator->trans('EquipmentType not found or access denied.'));
+            return $this->redirectToRoute('equipment-overview');
         }
 
         $unitSystem = $this->get('app.configuration_manager')
@@ -75,7 +75,7 @@ class EquipmentController extends Controller
     /**
      * @Route("/overview", name="equipment-overview")
      */
-    public function overviewAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function overviewAction(Account $account): Response
     {
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()
@@ -85,9 +85,8 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/category/add", name="equipment-category-add")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function typeAddAction(Request $request, Account $account)
+    public function typeAddAction(Request $request, Account $account): Response
     {
         $equipmentType = new EquipmentType();
         $equipmentType->setAccount($account);
@@ -115,14 +114,13 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/category/{id}/edit", name="equipment-category-edit")
-     * @ParamConverter("equipmentType", class="CoreBundle:EquipmentType")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function typeEditAction(Request $request, EquipmentType $equipmentType, Account $account)
+    public function typeEditAction(Request $request, int $id, Account $account): Response
     {
-        if ($equipmentType->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $equipmentType = $this->getEquipmentTypeRepository()
+            ->find($id);
+        if ($equipmentType === null || $equipmentType->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('EquipmentType not found or access denied.');
         }
 
         $form = $this->createForm(Form\EquipmentCategoryType::class, $equipmentType, [
@@ -152,18 +150,19 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/category/{id}/delete", name="equipment-category-delete")
-     * @ParamConverter("equipmentType", class="CoreBundle:EquipmentType")
      */
-    public function deleteEquipmentTypeAction(Request $request, EquipmentType $equipmentType, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteEquipmentTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
-            $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
+            $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-overview');
         }
 
-        if ($equipmentType->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $equipmentType = $this->getEquipmentTypeRepository()
+            ->find($id);
+        if ($equipmentType === null || $equipmentType->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('EquipmentType not found or access denied.');
         }
 
         $this->getEquipmentTypeRepository()
@@ -171,17 +170,23 @@ class EquipmentController extends Controller
 
         $this->get('app.automatic_reload_flag_setter')
             ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
-        $this->addFlash('success', $this->get('translator')->trans('The category has been deleted.'));
+        $this->addFlash('success', $translator->trans('The category has been deleted.'));
 
         return $this->redirectToRoute('equipment-overview');
     }
 
     /**
      * @Route("/add/{id}", name="equipment-add", requirements={"id"="\d+"})
-     * @ParamConverter("equipmentType", class="CoreBundle:EquipmentType")
      */
-    public function equipmentAddAction(Request $request, EquipmentType $equipmentType, Account $account)
+    public function equipmentAddAction(Request $request, int $id, Account $account)
     {
+        $equipmentType = $this->getEquipmentTypeRepository()
+            ->find($id);
+
+        if ($equipmentType === null || $equipmentType->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('EquipmentType not found or access denied.');
+        }
+
         $equipment = new Equipment();
         $equipment->setAccount($account);
         $equipment->setType($equipmentType);
@@ -214,13 +219,13 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/{id}/edit", name="equipment-edit")
-     * @ParamConverter("equipment", class="CoreBundle:Equipment")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function equipmentEditAction(Request $request, Equipment $equipment, Account $account)
+    public function equipmentEditAction(Request $request, int $id, Account $account): Response
     {
-        if ($equipment->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $equipment = $this->getEquipmentRepository()
+            ->find($id);
+        if ($equipment === null || $equipment->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Equipment not found or access denied.');
         }
 
         $form = $this->createForm(Form\EquipmentType::class, $equipment, [
@@ -251,28 +256,28 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/{id}/delete", name="equipment-delete")
-     * @ParamConverter("equipment", class="CoreBundle:Equipment")
      */
-    public function deleteEquipmentAction(Request $request, Equipment $equipment, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteEquipmentAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
         if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
-            $this->addFlash('error', $this->get('translator')->trans('Invalid token.'));
+            $this->addFlash('error', $translator->trans('Invalid token.'));
 
             return $this->redirectToRoute('equipment-category-edit', [
-                'id' => $equipment->getType()
-                    ->getId(),
+                'id' => $id,
             ]);
         }
 
-        if ($equipment->getAccount()->getId() != $account->getId()) {
-            throw $this->createNotFoundException();
+        $equipment = $this->getEquipmentRepository()
+            ->find($id);
+        if ($equipment === null || $equipment->getAccount()->getId() != $account->getId()) {
+            throw $this->createNotFoundException('Equipment not found or access denied.');
         }
 
         $this->getEquipmentRepository()
             ->remove($equipment);
         $this->get('app.automatic_reload_flag_setter')
             ->set(AutomaticReloadFlagSetter::FLAG_PLUGINS);
-        $this->addFlash('success', $this->get('translator')->trans('The object has been deleted.'));
+        $this->addFlash('success', $translator->trans('The object has been deleted.'));
 
         return $this->redirectToRoute('equipment-category-edit', [
             'id' => $equipment->getType()

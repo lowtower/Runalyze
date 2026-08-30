@@ -2,9 +2,11 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Settings;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Dataset;
+use Runalyze\Bundle\CoreBundle\Entity\DatasetRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\AccountType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangeMailType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangePasswordType;
@@ -16,28 +18,51 @@ use Runalyze\Dataset\DefaultConfiguration;
 use Runalyze\Dataset\Keys;
 use Runalyze\Language;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SettingsController extends Controller
+class SettingsController extends AbstractController
 {
+    use AppServiceSubscriberTrait;
+
+    private TranslatorInterface $translator;
+
+    private TokenStorageInterface $tokenStorage;
+
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(
+        TranslatorInterface $translator,
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag
+    ) {
+        $this->translator = $translator;
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+    }
+
     /**
      * @return AccountRepository
      */
     protected function getAccountRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Account');
+            ->getRepository(Account::class);
     }
 
     /**
      * @Route("/settings/account", name="settings-account")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsAccountAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function settingsAccountAction(Request $request, Account $account): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $currentLanguage = $account->getLanguage();
         $form = $this->createForm(AccountType::class, $account, [
@@ -50,7 +75,7 @@ class SettingsController extends Controller
 
             if (isset($formdata['reset_configuration'])) {
                 Configuration::resetConfiguration($account->getId());
-                $this->addFlash('success', $this->get('translator')->trans('Default configuration has been restored!'));
+                $this->addFlash('success', $this->translator->trans('Default configuration has been restored!'));
 
                 $this->get('app.automatic_reload_flag_setter')
                     ->set(AutomaticReloadFlagSetter::FLAG_ALL);
@@ -70,7 +95,7 @@ class SettingsController extends Controller
             $this->getAccountRepository()
                 ->save($account);
 
-            $this->addFlash('success', $this->get('translator')->trans('Your changes have been saved!'));
+            $this->addFlash('success', $this->translator->trans('Your changes have been saved!'));
         }
 
         return $this->render('settings/account.html.twig', [
@@ -83,7 +108,7 @@ class SettingsController extends Controller
      * @Route("/settings/password", name="settings-password")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsPasswordAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function settingsPasswordAction(Request $request, Account $account): Response
     {
         $form = $this->createForm(ChangePasswordType::class, $account, [
             'action' => $this->generateUrl('settings-password'),
@@ -97,7 +122,7 @@ class SettingsController extends Controller
             $this->getAccountRepository()
                 ->save($account);
 
-            $this->addFlash('success', $this->get('translator')->trans('Your new password has been saved!'));
+            $this->addFlash('success', $this->translator->trans('Your new password has been saved!'));
         }
 
         return $this->render('settings/account-password.html.twig', [
@@ -109,7 +134,7 @@ class SettingsController extends Controller
      * @Route("/settings/mail", name="settings-mail")
      * @Security("has_role('ROLE_USER')")
      */
-    public function settingsMailAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function settingsMailAction(Request $request, Account $account): Response
     {
         $form = $this->createForm(ChangeMailType::class, $account, [
             'action' => $this->generateUrl('settings-mail'),
@@ -119,7 +144,7 @@ class SettingsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getAccountRepository()
                 ->save($account);
-            $this->addFlash('success', $this->get('translator')->trans('Your mail address has been changed!'));
+            $this->addFlash('success', $this->translator->trans('Your mail address has been changed!'));
         }
 
         return $this->render('settings/account-mail.html.twig', [
@@ -140,7 +165,7 @@ class SettingsController extends Controller
      * @Route("/settings/account/delete", name="settings-account-delete")
      * @Security("has_role('ROLE_USER')")
      */
-    public function windowDeleteAction(Account $account): \Symfony\Component\HttpFoundation\Response
+    public function windowDeleteAction(Account $account): Response
     {
         $account->setNewDeletionHash();
         $this->getAccountRepository()
@@ -156,13 +181,15 @@ class SettingsController extends Controller
      * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function datasetPostAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function datasetPostAction(Account $account, Request $request): RedirectResponse
     {
         $em = $this->getDoctrine()
             ->getManager();
 
-        $dataset = $em->getRepository('CoreBundle:Dataset')
-            ->findAllFor($account);
+        /** @var DatasetRepository $repository */
+        $repository = $em->getRepository(Dataset::class);
+
+        $dataset = $repository->findAllFor($account);
 
         $form = $this->createForm(DatasetCollectionType::class, [
             'datasets' => $dataset,
@@ -188,15 +215,16 @@ class SettingsController extends Controller
      * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function datasetAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function datasetAction(Account $account, Request $request): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        /** @var Dataset[] $dataset */
-        $dataset = $this->getDoctrine()
+        /** @var DatasetRepository $repository */
+        $repository = $this->getDoctrine()
             ->getManager()
-            ->getRepository('CoreBundle:Dataset')
-            ->findAllFor($account);
+            ->getRepository(Dataset::class);
+        /** @var Dataset[] $dataset */
+        $dataset = $repository->findAllFor($account);
         $missingKeyObjects = array_flip(RunalyzeDataset\Keys::getEnum());
         $numberOfExistingKeys = count($dataset);
 
@@ -311,7 +339,7 @@ class SettingsController extends Controller
     protected function exampleTagID(Account $account): string
     {
         $tag = $this->getDoctrine()
-            ->getRepository('CoreBundle:Tag')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Tag::class)
             ->findBy([
                 'account' => $account->getId(),
             ], null, 1);
@@ -327,7 +355,7 @@ class SettingsController extends Controller
     {
         $ids = [];
         $equipment = $this->getDoctrine()
-            ->getRepository('CoreBundle:Equipment')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
             ->findBy([
                 'account' => $account->getId(),
             ], null, 2);

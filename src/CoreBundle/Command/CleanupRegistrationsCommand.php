@@ -2,13 +2,26 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Persistence\ManagerRegistry;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CleanupRegistrationsCommand extends ContainerAwareCommand
+class CleanupRegistrationsCommand extends Command
 {
+    private ManagerRegistry $doctrine;
+
+    public function __construct(
+        ManagerRegistry $doctrine
+    ) {
+        parent::__construct();
+
+        $this->doctrine = $doctrine;
+    }
+
     protected function configure()
     {
         $this
@@ -18,21 +31,17 @@ class CleanupRegistrationsCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $days = $input->getArgument('days') ?: 7;
 
         $output->writeln('<info>Delete all not activated accounts older than ' . $days . ' days</info>');
         $output->writeln('');
 
-        $repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Account');
+        /** @var AccountRepository $repository */
+        $repository = $this->doctrine->getRepository(Account::class);
         $delete = $repository->deleteNotActivatedAccounts($days);
-        $output->writeln('<info>' . $delete . ' deleted accounts</info>');
+        $output->writeln('<info>' . count($delete) . ' deleted accounts</info>');
         $output->writeln('');
 
         return 0;

@@ -44,7 +44,7 @@ class HrZoneBoundType extends AbstractType implements DataTransformerInterface
 
     /**
      * @param  string|null $zone
-     * @return string
+     * @return ?string
      * @throws TransformationFailedException if $zone is null
      */
     public function reverseTransform($zone)

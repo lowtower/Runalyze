@@ -4,27 +4,22 @@ namespace Runalyze\Model\Equipment;
 
 use DB;
 use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase
+class StatisticsUpdaterTest extends TestCase
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
+
+    protected int $Typeid;
 
     /**
-     * @var int
+     * @var string[]|bool[]
      */
-    protected $Typeid;
-
-    /**
-     * @var array
-     */
-    protected $EquipmentIDs = [];
+    protected array $EquipmentIDs = [];
 
     protected function setUp(): void
     {
@@ -48,7 +43,7 @@ class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `' . PREFIX . 'training`');
     }
 
-    public function testStatistics()
+    public function testStatistics(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` (`distance`, `s`, `accountid`, `sportid`, `time`) VALUES (10, 3600, 1, 0, 1477843525)');
         $firstActivity = $this->PDO->lastInsertId();

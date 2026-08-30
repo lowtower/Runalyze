@@ -33,8 +33,8 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->RaceresultRepository = $this->EntityManager->getRepository('CoreBundle:Raceresult');
-        $this->TrainingRepository = $this->EntityManager->getRepository('CoreBundle:Training');
+        $this->RaceresultRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class);
+        $this->TrainingRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 

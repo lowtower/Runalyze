@@ -27,7 +27,7 @@ class FeedbackType extends AbstractType
             ]);
     }
 
-    public function setDefaultOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'error_bubbling' => true,

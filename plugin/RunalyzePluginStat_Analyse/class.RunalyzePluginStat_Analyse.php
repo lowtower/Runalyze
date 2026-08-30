@@ -119,15 +119,15 @@ class RunalyzePluginStat_Analyse extends PluginStat
     private function setAnalysisNavigation()
     {
         $LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
-        $LinkList .= '<li' . ($this->dat == '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('in percent'), $this->sportid, $this->year, '') . '</li>';
+        $LinkList .= '<li' . ($this->dat === '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('in percent'), $this->sportid, $this->year, '') . '</li>';
 
         if ($this->Sport->usesDistance()) {
-            $LinkList .= '<li' . ($this->dat == 'km' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('by distance'), $this->sportid, $this->year, 'km') . '</li>';
-        } elseif ($this->dat == 'km') {
+            $LinkList .= '<li' . ($this->dat === 'km' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('by distance'), $this->sportid, $this->year, 'km') . '</li>';
+        } elseif ($this->dat === 'km') {
             $this->dat = '';
         }
 
-        $LinkList .= '<li' . ($this->dat == 's' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('by time'), $this->sportid, $this->year, 's') . '</li>';
+        $LinkList .= '<li' . ($this->dat === 's' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('by time'), $this->sportid, $this->year, 's') . '</li>';
         $LinkList .= '</ul></li>';
 
         $this->setToolbarNavigationLinks([$LinkList]);
@@ -160,7 +160,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     private function initTimer()
     {
         if ($this->showsSpecificYear()) {
-            $this->WhereTime = "AND `time` BETWEEN UNIX_TIMESTAMP('" . (int) $this->year . "-01-01') AND UNIX_TIMESTAMP('" . ((int) $this->year + 1) . "-01-01')-1";
+            $this->WhereTime = "AND `time` BETWEEN UNIX_TIMESTAMP('" . $this->year . "-01-01') AND UNIX_TIMESTAMP('" . ($this->year + 1) . "-01-01')-1";
             $this->GroupTime = 'MONTH(FROM_UNIXTIME(`time`))';
             $this->Timer = 'MONTH';
             $this->TimerStart = 1;
@@ -234,7 +234,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
                             $dist = $Data['array'][$Each['id']][$t]['distance'];
                             $time = $Data['array'][$Each['id']][$t]['s'];
 
-                            if ($this->dat == 'km') {
+                            if ($this->dat === 'km') {
                                 $percent = $Data['array']['timer_sum_km'][$t] > 0 ? round(100 * $dist / $Data['array']['timer_sum_km'][$t], 1) : 0;
                             } else {
                                 $percent = $Data['array']['timer_sum_s'][$t] > 0 ? round(100 * $time / $Data['array']['timer_sum_s'][$t], 1) : 0;
@@ -251,7 +251,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
                         $time = $Data['array']['id_sum_s'][$Each['id']];
                         $dist = $Data['array']['id_sum_km'][$Each['id']];
 
-                        if ($this->dat == 'km') {
+                        if ($this->dat === 'km') {
                             $percent = $Data['array']['all_sum_km'] > 0 ? round(100 * $dist / $Data['array']['all_sum_km'], 1) : 0;
                         } else {
                             $percent = $Data['array']['all_sum_s'] > 0 ? round(100 * $time / $Data['array']['all_sum_s'], 1) : 0;
@@ -270,7 +270,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
 
                     for ($t = $this->TimerStart; $t <= $this->TimerEnd; $t++) {
                         if (isset($Data['array']['timer_sum_km'][$t])) {
-                            if ($this->Sport->usesDistance() && $this->dat != 's') {
+                            if ($this->Sport->usesDistance() && $this->dat !== 's') {
                                 echo '<td>' . Distance::format($Data['array']['timer_sum_km'][$t], true, 0) . '</td>';
                             } else {
                                 echo '<td>' . Duration::format($Data['array']['timer_sum_s'][$t]) . '</td>';
@@ -280,7 +280,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
                         }
                     }
 
-                    if ($this->Sport->usesDistance() && $this->dat != 's') {
+                    if ($this->Sport->usesDistance() && $this->dat !== 's') {
                         echo '<td>' . Distance::format($Data['array']['all_sum_km'], true, 0) . '</td></tr>';
                     } else {
                         echo '<td>' . Duration::format($Data['array']['all_sum_s']) . '</td></tr>';
@@ -304,10 +304,10 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $tooltip = $num . 'x';
         $number = number_format($percent, 1) . ' &#37;';
 
-        if ($this->dat == 'km') {
+        if ($this->dat === 'km') {
             $number = Distance::format($dist, true, 0);
             $tooltip .= ', ' . Duration::format($time);
-        } elseif ($this->dat == 's') {
+        } elseif ($this->dat === 's') {
             $number = Duration::format($time);
         } else {
             $number = number_format($percent, 1) . ' &#37;';

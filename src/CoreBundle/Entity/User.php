@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements IdentifiableEntityInterface, AccountRelatedEntityInterface
 {
     /**
-     * @var int
+     * @var ?int
      *
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id

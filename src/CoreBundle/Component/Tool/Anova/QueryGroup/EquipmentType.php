@@ -39,7 +39,7 @@ class EquipmentType implements QueryGroupInterface
     {
         $groups = [];
 
-        foreach ($entityManager->getRepository('CoreBundle:Equipment')->findByTypeId($this->EquipmentTypeId, $account) as $equipment) {
+        foreach ($entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)->findByTypeId($this->EquipmentTypeId, $account) as $equipment) {
             $groups[$equipment->getId()] = $equipment->getName();
         }
 

@@ -552,9 +552,8 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Get linked icon for this competition
      * @param int $id ID of the training
-     * @return string
      */
-    private function getIconForCompetition($id)
+    private function getIconForCompetition($id): string
     {
         if ($this->isFunCompetition($id)) {
             $tag = 'nofun';

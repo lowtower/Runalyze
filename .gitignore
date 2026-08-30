@@ -8,7 +8,7 @@
 php.ini
 
 #Runalyze
-app/config/config_test.yml
+config/config_test.yml
 data/config.yml
 data/cache*/
 data/sessions/
@@ -24,20 +24,44 @@ vendor/
 
 #assets
 node_modules/
-#web/assets/v2.x/img/backgrounds/My-*
-#web/assets/css/*.css
-#web/assets/js/*.js
-#web/assets/js/*.map
-#web/bundles/
-#web/vendor/
+#public/assets/v2.x/img/backgrounds/My-*
+#public/assets/css/*.css
+#public/assets/js/*.js
+#public/assets/js/*.map
+#public/bundles/
+#public/vendor/
 npm-debug.log
 package-lock.json
 #symfony
 var/
 !var/cache/.gitkeep
-!var/logs/.gitkeep
+!var/log/.gitkeep
 
 !.gitkeep
 
-#Testing
+#testing
 .phpunit.result.cache
+
+#environment
+/.env.local
+/.env.local.php
+/.env.*.local
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

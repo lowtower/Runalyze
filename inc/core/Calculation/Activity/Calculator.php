@@ -123,12 +123,12 @@ class Calculator
 
             if ($this->Activity->typeid() > 0) {
                 $data = [
-                    $Factory->type($this->Activity->typeid())
+                    $Factory->type((int) $this->Activity->typeid())
                         ->hrAvg() => $this->Activity->duration(),
                 ];
             } else {
                 $data = [
-                    $Factory->sport($this->Activity->sportid())
+                    $Factory->sport((int) $this->Activity->sportid())
                         ->avgHR() => $this->Activity->duration(),
                 ];
             }

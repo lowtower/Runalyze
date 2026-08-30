@@ -22,7 +22,7 @@ ENV APP_ENV=${APP_ENV} \
     LC_ALL=C.UTF-8 \
     COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_CACHE_DIR=/tmp/composer-cache \
-    APACHE_DOCUMENT_ROOT=/var/www/html/web
+    APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Install Packages
 RUN set -eux; \

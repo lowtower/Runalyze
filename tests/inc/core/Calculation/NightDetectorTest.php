@@ -66,6 +66,8 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
 
     public function testThatDurationIsRespected()
     {
+        /** @var Geohash $geohashObj */
+        $geohashObj = (new Geohash())->encode(new Coordinate([49.44, 7.45]));
         $Detector = new NightDetector();
         $Context = FakeContext::withDefaultSport(
             new Activity\Entity([
@@ -75,7 +77,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
             new Trackdata\Entity([]),
             new Route\Entity([
                 Route\Entity::GEOHASHES => [
-                    (new Geohash())->encode(new Coordinate([49.44, 7.45]))->getGeohash(),
+                    $geohashObj->getGeohash(),
                 ],
             ])
         );

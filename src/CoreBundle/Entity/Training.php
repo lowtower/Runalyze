@@ -62,21 +62,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="timezone_offset", type="smallint", nullable=true)
      */
-    private $timezoneOffset;
+    private ?int $timezoneOffset = null;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="created", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $created;
+    private ?int $created = null;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="edited", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $edited;
+    private ?int $edited = null;
 
     /**
      * @var bool
@@ -104,57 +104,57 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="distance", type="casted_decimal_2", precision=6, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $distance;
+    private ?float $distance = null;
 
     /**
-     * @var float [s]
+     * @var ?float [s]
      *
      * @Assert\GreaterThan(0)
      * @ORM\Column(name="s", type="casted_decimal_2", precision=8, scale=2, options={"unsigned"=true})
      */
-    private $s;
+    private ?float $s = 0.0;
 
     /**
      * @var int|null [s]
      *
      * @ORM\Column(name="elapsed_time", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $elapsedTime;
+    private ?int $elapsedTime = null;
 
     /**
      * @var int|null [m]
      *
      * @ORM\Column(name="elevation", type="smallint", nullable=true, options={"unsigned"=true})
      */
-    private $elevation;
+    private ?int $elevation = null;
 
     /**
      * @var float|null [0.0 .. 10.0]
      *
      * @ORM\Column(name="climb_score", type="casted_decimal_1", precision=3, scale=1, nullable=true, options={"unsigned"=true})
      */
-    private $climbScore;
+    private ?float $climbScore = null;
 
     /**
      * @var float|null [0.00 .. 1.00]
      *
      * @ORM\Column(name="percentage_hilly", type="casted_decimal_2", precision=3, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $percentageHilly;
+    private ?float $percentageHilly = null;
 
     /**
      * @var int|null [kcal]
      *
      * @ORM\Column(name="kcal", type="smallint", nullable=true, options={"unsigned"=true})
      */
-    private $kcal;
+    private ?int $kcal = null;
 
     /**
      * @var int|null [kcal]
      *
      * @ORM\Column(name="kcal_rest", type="smallint", nullable=true, options={"unsigned"=true})
      */
-    private $kcalInRest;
+    private ?int $kcalInRest = null;
 
     /**
      * @var int|null [bpm]
@@ -168,7 +168,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="pulse_avg", type="tinyint", nullable=true, options={"unsigned"=true})
      */
-    private $pulseAvg;
+    private ?int $pulseAvg = null;
 
     /**
      * @var int|null [bpm]
@@ -222,21 +222,21 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="vo2max", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $vo2max;
+    private ?float $vo2max;
 
     /**
      * @var float|null [ml/kg/min]
      *
      * @ORM\Column(name="vo2max_by_time", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $vo2maxByTime;
+    private ?float $vo2maxByTime;
 
     /**
      * @var float|null [ml/kg/min]
      *
      * @ORM\Column(name="vo2max_with_elevation", type="casted_decimal_2", precision=5, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $vo2maxWithElevation;
+    private ?float $vo2maxWithElevation;
 
     /**
      * @var bool
@@ -250,7 +250,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_vo2max_estimate", type="casted_decimal_2", precision=4, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $fitVO2maxEstimate;
+    private ?float $fitVO2maxEstimate = null;
 
     /**
      * @var int|null [min]
@@ -278,7 +278,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned"=true})
      */
-    private $fitTrainingEffect;
+    private ?float $fitTrainingEffect = null;
 
     /**
      * @var float|null [0.0 .. 5.0]
@@ -287,7 +287,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_anaerobic_training_effect", type="casted_decimal_1", precision=2, scale=1, nullable=true, options={"unsigned"=true})
      */
-    private $fitAnaerobicTrainingEffect;
+    private ?float $fitAnaerobicTrainingEffect = null;
 
     /**
      * @var int|null
@@ -315,7 +315,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      *
      * @ORM\Column(name="fit_lactate_threshold_pace_ms", type="casted_decimal_2", precision=4, scale=2, nullable=true, options={"unsigned"=true})
      */
-    private $fitLactateThresholdPace;
+    private ?float $fitLactateThresholdPace = null;
 
     /**
      * @var int|null [m]
@@ -451,7 +451,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private $swolf;
 
     /**
-     * @var bool|null [cm]
+     * @var int|null [cm]
      *
      * @ORM\Column(name="stride_length", type="tinyint", nullable=true, options={"unsigned"=true})
      */
@@ -945,20 +945,14 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->isPublic;
     }
 
-    /**
-     * @param bool $isTrack
-     */
-    public function setTrack($isTrack): self
+    public function setTrack(bool $isTrack): self
     {
-        $this->isTrack = (bool) $isTrack;
+        $this->isTrack = $isTrack;
 
         return $this;
     }
 
-    /**
-     * @param bool $isTrack
-     */
-    public function setIsTrack($isTrack): self
+    public function setIsTrack(bool $isTrack): self
     {
         return $this->setTrack($isTrack);
     }
@@ -971,20 +965,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->isTrack;
     }
 
-    /**
-     * @param bool $withGoal
-     *
-     * @return $this
-     */
-    public function setWithGoal($withGoal)
+    public function setWithGoal(bool $withGoal): self
     {
-        return $this->withGoal = (bool) ($withGoal);
+        $this->withGoal = $withGoal;
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isWithGoal()
+    public function isWithGoal(): bool
     {
         return $this->withGoal;
     }
@@ -992,7 +979,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $distance [km]
      */
-    public function setDistance($distance): self
+    public function setDistance(?float $distance): self
     {
         $this->distance = $distance;
 
@@ -1002,17 +989,17 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [km]
      */
-    public function getDistance()
+    public function getDistance(): ?float
     {
         return $this->distance;
     }
 
     /**
-     * @param float $s [s]
+     * @param ?float $s [s]
      */
-    public function setS($s): self
+    public function setS(?float $s): self
     {
-        $this->s = (float) $s;
+        $this->s = $s;
 
         return $this;
     }
@@ -1020,7 +1007,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return float [s]
      */
-    public function getS()
+    public function getS(): float
     {
         return $this->s;
     }
@@ -1028,7 +1015,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|int $elapsedTime [s]
      */
-    public function setElapsedTime($elapsedTime): self
+    public function setElapsedTime(?int $elapsedTime): self
     {
         $this->elapsedTime = $elapsedTime;
 
@@ -1038,7 +1025,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|int [s]
      */
-    public function getElapsedTime()
+    public function getElapsedTime(): ?int
     {
         return $this->elapsedTime;
     }
@@ -1046,9 +1033,9 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|int $elevation [m]
      */
-    public function setElevation($elevation): self
+    public function setElevation(?int $elevation): self
     {
-        $this->elevation = $elevation === null ? null : (int) $elevation;
+        $this->elevation = $elevation ?? null;
 
         return $this;
     }
@@ -1056,7 +1043,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|int [m]
      */
-    public function getElevation()
+    public function getElevation(): ?int
     {
         return $this->elevation;
     }
@@ -1064,7 +1051,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $score [0.0 .. 10.0]
      */
-    public function setClimbScore($score): self
+    public function setClimbScore(?float $score): self
     {
         $this->climbScore = $score;
 
@@ -1074,7 +1061,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [0.0 .. 10.0]
      */
-    public function getClimbScore()
+    public function getClimbScore(): ?float
     {
         return $this->climbScore;
     }
@@ -1082,7 +1069,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|float $percentage [0.00 .. 1.00]
      */
-    public function setPercentageHilly($percentage): self
+    public function setPercentageHilly(?float $percentage): self
     {
         $this->percentageHilly = $percentage;
 
@@ -1092,7 +1079,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [0.00 .. 1.00]
      */
-    public function getPercentageHilly()
+    public function getPercentageHilly(): ?float
     {
         return $this->percentageHilly;
     }
@@ -1100,7 +1087,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|float [0.00 .. 1.00]
      */
-    public function getPercentageFlat()
+    public function getPercentageFlat(): ?float
     {
         return $this->percentageHilly !== null ? 1.0 - $this->percentageHilly : null;
     }
@@ -1108,7 +1095,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|int $kcal [kcal]
      */
-    public function setKcal($kcal): self
+    public function setKcal(?int $kcal): self
     {
         $this->kcal = $kcal;
 
@@ -1118,7 +1105,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|int [kcal]
      */
-    public function getKcal()
+    public function getKcal(): ?int
     {
         return $this->kcal;
     }
@@ -1126,7 +1113,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|int [kcal]
      */
-    public function getKcalInRest()
+    public function getKcalInRest(): ?int
     {
         return $this->kcalInRest;
     }
@@ -1134,7 +1121,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|int $kcalInRest [kcal]
      */
-    public function setKcalInRest($kcalInRest): self
+    public function setKcalInRest(?int $kcalInRest): self
     {
         $this->kcalInRest = $kcalInRest;
 
@@ -1828,7 +1815,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @param null|int $strideLength [cm]
      */
-    public function setStrideLength($strideLength): self
+    public function setStrideLength(?int $strideLength): self
     {
         $this->strideLength = $strideLength;
 
@@ -1838,7 +1825,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     /**
      * @return null|int [cm]
      */
-    public function getStrideLength()
+    public function getStrideLength(): ?int
     {
         return $this->strideLength;
     }
@@ -2447,10 +2434,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         return $this->activityId;
     }
 
-    /**
-     * @param bool $lock
-     */
-    public function setLock($lock): self
+    public function setLock(bool $lock): self
     {
         $this->lock = $lock;
 
@@ -2640,7 +2624,7 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     public function useElevationFromRouteIfEmpty()
     {
-        if ($this->elevation === null || $this->elevation == 0) {
+        if ($this->elevation === null || $this->elevation === 0) {
             $this->getAdapter()
                 ->useElevationFromRoute();
         }

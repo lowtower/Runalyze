@@ -5,8 +5,11 @@
  * @package Runalyze\Frontend
  */
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Configuration;
 use Runalyze\Timezone;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -29,28 +32,28 @@ class Frontend
 {
     /**
      * Symfony token storage for user
-     * @var null|\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage
      */
-    protected $symfonyToken;
+    protected ?TokenStorageInterface $symfonyToken = null;
+
+    protected ?ParameterBagInterface $parameterBag = null;
 
     /**
      * Yaml Configuration
-     * @var array
      */
-    protected $yamlConfig = [];
+    protected array $yamlConfig = [];
 
-    protected $HideFooter = false;
+    protected bool $HideFooter = false;
 
     /**
      * Constructing a new Frontend includes all files and sets the correct header.
      * Runalyze is not usable without setting up the environment with this class.
      *
      * @param bool $hideHeaderAndFooter By default a html-header is directly shown
-     * @param null|\Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage $symfonyToken
      */
-    public function __construct($hideHeaderAndFooter = false, $symfonyToken = null)
+    public function __construct(bool $hideHeaderAndFooter = false, ?TokenStorageInterface $symfonyToken = null, ?ParameterBagInterface $parameterBag = null)
     {
         $this->symfonyToken = $symfonyToken;
+        $this->parameterBag = $parameterBag;
 
         $this->initSystem();
         $this->defineConsts();
@@ -99,13 +102,35 @@ class Frontend
      */
     private function initConfig()
     {
-        $this->yamlConfig = array_merge(
-            Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/config.yml'))['parameters'],
-            Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/expert_config.yml'))['parameters'],
-            Yaml::parse(file_get_contents(FRONTEND_PATH . '/../app/config/default_config.yml'))['parameters'],
-            Yaml::parse(file_get_contents(FRONTEND_PATH . '/../data/config.yml'))['parameters']
-        );
+        // Get parameters from the parameter bag
+        $this->yamlConfig = [
+            'RUNALYZE_VERSION' => $this->parameterBag->get('RUNALYZE_VERSION'),
+            'RUNALYZE_DATE' => $this->parameterBag->get('RUNALYZE_DATE'),
+            'weather_proxy' => $this->parameterBag->get('app.weather_proxy'),
+            'darksky_api_key' => $this->parameterBag->get('app.darksky_api_key'),
+            'openweathermap_api_key' => $this->parameterBag->get('app.openweathermap_api_key'),
+            'meteostatnet_api_key' => $this->parameterBag->get('app.meteostatnet_api_key'),
+            'nokia_here_appid' => $this->parameterBag->get('app.nokia_here_appid'),
+            'nokia_here_token' => $this->parameterBag->get('app.nokia_here_token'),
+            'thunderforest_api_key' => $this->parameterBag->get('app.thunderforest_api_key'),
+            'mapbox_api_key' => $this->parameterBag->get('app.mapbox_api_key'),
+            'perl_path' => $this->parameterBag->get('app.perl_path'),
+            'ttbin_path' => $this->parameterBag->get('app.ttbin_path'),
+            'geonames_username' => $this->parameterBag->get('app.geonames_username'),
+            'user_disable_account_activation' => $this->parameterBag->get('app.user_disable_account_activation'),
+            'sqlite_mod_spatialite' => $this->parameterBag->get('app.sqlite_mod_spatialite'),
+            'data_directory' => $this->parameterBag->get('app.data_directory'),
+            'osm_overpass_url' => $this->parameterBag->get('app.osm_overpass_url'),
+            'osm_overpass_proxy' => $this->parameterBag->get('app.osm_overpass_proxy'),
+            'database_prefix' => $this->parameterBag->get('app.database_prefix'),
+            'database_host' => $this->parameterBag->get('app.database_host'),
+            'database_port' => $this->parameterBag->get('app.database_port'),
+            'database_user' => $this->parameterBag->get('app.database_user'),
+            'database_password' => $this->parameterBag->get('app.database_password'),
+            'database_name' => $this->parameterBag->get('app.database_name'),
+        ];
 
+        // Define constants
         define('WEATHER_PROXY', $this->yamlConfig['weather_proxy']);
         define('DARKSKY_API_KEY', $this->yamlConfig['darksky_api_key']);
         define('OPENWEATHERMAP_API_KEY', $this->yamlConfig['openweathermap_api_key']);
@@ -121,7 +146,7 @@ class Frontend
         define('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
         define('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
         define('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
-        define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../app', $this->yamlConfig['data_directory']));
+        define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH . '/../src', $this->yamlConfig['data_directory']));
         define('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
         define('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
     }
@@ -177,8 +202,8 @@ class Frontend
     {
         new SessionAccountHandler();
 
-        if ($this->symfonyToken !== null && $this->symfonyToken->getToken()->getUser() != 'anon.') {
-            /** @var \Runalyze\Bundle\CoreBundle\Entity\Account $user */
+        if ($this->symfonyToken instanceof TokenStorageInterface && $this->symfonyToken->getToken() !== null && $this->symfonyToken->getToken()->getUser() != 'anon.') {
+            /** @var Account $user */
             $user = $this->symfonyToken->getToken()
                 ->getUser();
 

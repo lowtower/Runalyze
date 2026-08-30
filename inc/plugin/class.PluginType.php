@@ -25,9 +25,8 @@ abstract class PluginType
 
     /**
      * @param int $Type enum
-     * @return string
      */
-    public static function string($Type)
+    public static function string(int $Type): string
     {
         switch ($Type) {
             case self::PANEL:
@@ -41,9 +40,8 @@ abstract class PluginType
 
     /**
      * @param int $Type enum
-     * @return string
      */
-    public static function readableString($Type)
+    public static function readableString(int $Type): string
     {
         switch ($Type) {
             case self::PANEL:

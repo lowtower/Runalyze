@@ -1,0 +1,11 @@
+
+services:
+###> symfony/mailer ###
+  mailhog:
+    image: docker.io/mailhog/mailhog:v1.0.1
+    container_name: runalyze43-mailhog
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_UI_PORT:-8025}:8025"
+    restart: unless-stopped
+###< symfony/mailer ###

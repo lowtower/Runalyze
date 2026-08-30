@@ -2,16 +2,18 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class InstallCheckCommand extends ContainerAwareCommand
+class InstallCheckCommand extends Command
 {
     /**
      * @var string
      */
-    public const REQUIRED_PHP_VERSION = '5.5.9';
+    public const REQUIRED_PHP_VERSION = '7.4.0';
 
     /**
      * @var int exit code
@@ -74,11 +76,25 @@ class InstallCheckCommand extends ContainerAwareCommand
         'data/poster/',
         'data/sessions/',
         'var/cache/',
-        'var/logs/',
+        'var/log/',
         'var/poster/',
         'var/queue/',
         'var/tmp/',
     ];
+
+    private ParameterBagInterface $parameterBag;
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        ManagerRegistry $doctrine
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->doctrine = $doctrine;
+    }
 
     protected function configure()
     {
@@ -88,10 +104,7 @@ class InstallCheckCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Check requirements...</info>');
         $output->writeln('');
@@ -119,7 +132,7 @@ class InstallCheckCommand extends ContainerAwareCommand
             return self::CHECK_FAILED;
         }
 
-        return null;
+        return 0;
     }
 
     protected function getFinalMessage(): string
@@ -166,11 +179,8 @@ class InstallCheckCommand extends ContainerAwareCommand
     protected function prefixIsNotUsed(): int
     {
         /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = $this->getContainer()
-            ->get('doctrine')
-            ->getConnection();
-        $prefix = $this->getContainer()
-            ->getParameter('database_prefix');
+        $connection = $this->doctrine->getConnection();
+        $prefix = $this->parameterBag->get('app.database_prefix');
 
         if ($connection->executeQuery('SHOW TABLES LIKE "' . $prefix . '%"')->rowCount() !== 0) {
             return self::ERROR;
@@ -181,8 +191,7 @@ class InstallCheckCommand extends ContainerAwareCommand
 
     protected function directoriesAreWritable(): int
     {
-        $root = $this->getContainer()
-            ->getParameter('kernel.root_dir') . '/../';
+        $root = $this->parameterBag->get('kernel.root_dir') . '/../';
 
         foreach ($this->DirectoriesThatMustBeWritable as $directory) {
             if (! is_writable($root . $directory)) {

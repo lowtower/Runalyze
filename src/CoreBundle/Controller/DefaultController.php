@@ -5,27 +5,55 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Runalyze\Activity\Distance;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
+use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * @package Runalyze\Bundle\CoreBundle\Controller
  */
 class DefaultController extends AbstractPluginsAwareController
 {
-    /**
-     * @param string $file
-     * @param bool $initFrontend
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function includeOldScript($file, $initFrontend = true)
+    private AuthorizationCheckerInterface $authorizationChecker;
+
+    private AuthenticationUtils $authenticationUtils;
+
+    private MailerInterface $mailer;
+
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        AuthenticationUtils $authenticationUtils,
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag,
+        MailerInterface $mailer
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->authenticationUtils = $authenticationUtils;
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+        $this->mailer = $mailer;
+    }
+
+    protected function includeOldScript(string $file, bool $initFrontend = true): Response
     {
         if ($initFrontend) {
-            $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+            $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         }
 
         include $file;
@@ -37,9 +65,9 @@ class DefaultController extends AbstractPluginsAwareController
      * @Route("/dashboard", name="dashboard")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function dashboardAction(Request $request, Account $account): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
             ->getContent();
@@ -52,24 +80,21 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/", name="base_url")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): RedirectResponse
     {
-        $securityContext = $this->container->get('security.authorization_checker');
-
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY') || $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('dashboard'));
+        if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY') || $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirectToRoute('dashboard');
         }
 
-        // #TSC set default page login, not register
-        return $this->forward('CoreBundle:Default:login', $request->attributes->all());
+        return $this->redirectToRoute('login');
     }
 
     /**
      * @Route("/{_locale}/register", name="register")
      */
-    public function registerAction(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, Environment $twig, TranslatorInterface $translator): Response
     {
-        if (! $this->getParameter('user_can_register')) {
+        if (! $this->parameterBag->get('app.user_can_register')) {
             return $this->render('register/disabled.html.twig');
         }
 
@@ -78,25 +103,28 @@ class DefaultController extends AbstractPluginsAwareController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registration = new Registration($this->getDoctrine()->getManager(), $account);
+            $registration = new Registration($this->getDoctrine()->getManager(), $account, $passwordEncoder);
             $formdata = $request->request->get($form->getName());
 
             $registration->setLocale($request->getLocale());
             $registration->setTimezoneByName($formdata['textTimezone']);
 
-            if (! $this->getParameter('user_disable_account_activation')) {
+            if (! $this->parameterBag->get('app.user_disable_account_activation')) {
                 $registration->requireAccountActivation();
             }
 
-            $registration->setPassword($account->getPlainPassword(), $this->get('security.encoder_factory'));
+            $registration->setPassword($account->getPlainPassword());
             $account = $registration->registerAccount();
 
-            if ($this->getParameter('user_disable_account_activation')) {
-                return $this->render('account/activate/success.html.twig');
+            if ($this->parameterBag->get('app.user_disable_account_activation')) {
+                return $this->render('account/activate/success.html.twig', [
+                    'username' => $account->getUsername(),
+                    'alreadyActivated' => false,
+                ]);
             }
 
-            $this->get('app.mailer.account')
-                ->sendActivationLinkTo($account);
+            $accountMailer = new AccountMailer($this->mailer, $twig, $translator);
+            $accountMailer->sendActivationLinkTo($account);
 
             return $this->render('register/mail_delivered.html.twig');
         }
@@ -110,18 +138,18 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/{_locale}/login", name="login")
      */
-    public function loginAction(Request $request)
-    {
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirect($this->generateUrl('dashboard'));
+    public function loginAction(
+        Request $request
+    ) {
+        if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('dashboard');
         }
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('login/ajax_not_logged_in.html.twig');
         }
 
-        $authenticationUtils = $this->get('security.authentication_utils');
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $this->authenticationUtils->getLastAuthenticationError();
 
         return $this->render('login/form.html.twig', [
             'error' => $error,
@@ -139,7 +167,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction(): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function logoutAction(): RedirectResponse
     {
         return $this->redirectToRoute('login');
     }
@@ -149,12 +177,14 @@ class DefaultController extends AbstractPluginsAwareController
      */
     protected function collectStatistics(): array
     {
+        /** @var AccountRepository $repository */
         $repository = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account');
+            ->getRepository(Account::class);
         $numUser = $repository->getAmountOfActivatedUsers();
 
+        /** @var TrainingRepository $repository */
         $repository = $this->getDoctrine()
-            ->getRepository('CoreBundle:Training');
+            ->getRepository(Training::class);
         $numDistance = $repository->getAmountOfLoggedKilometers();
 
         return [
@@ -166,7 +196,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/plugin/{plugin}/{file}")
      */
-    public function pluginAction($plugin, $file): \Symfony\Component\HttpFoundation\Response
+    public function pluginAction(string $plugin, string $file): Response
     {
         return $this->includeOldScript('../plugin/' . $plugin . '/' . $file);
     }
@@ -177,12 +207,12 @@ class DefaultController extends AbstractPluginsAwareController
     public function indexPhpAction(Request $request, Account $account)
     {
         if ($request->isXmlHttpRequest()) {
-            $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+            $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
             $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
                 ->getContent();
 
-            include $this->getParameter('kernel.root_dir') . '/../dashboard.php';
+            include $this->parameterBag->get('kernel.root_dir') . '/../dashboard.php';
 
             return new Response();
         }
@@ -193,7 +223,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/login.php")
      */
-    public function loginPhpAction(): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function loginPhpAction(): RedirectResponse
     {
         return $this->redirectToRoute('dashboard');
     }
@@ -201,15 +231,15 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}", name="unsubscribe-mail")
      */
-    public function unsubscribeMailAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
+    public function unsubscribeMailAction(string $mail, string $hash): Response
     {
         $repo = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
         $account = $repo->findOneBy([
             'mail' => $mail,
         ]);
 
-        if ($account !== null && $hash == md5($account->getUsername())) {
+        if ($account !== null && $hash === md5($account->getUsername())) {
             return $this->render('account/unsubscribe_info.html.twig', [
                 'mail' => $mail,
                 'hash' => $hash,
@@ -222,17 +252,18 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/unsubscribe/{mail}/{hash}/confirm", name="unsubscribe-mail-confirm")
      */
-    public function unsubscribeMailConfirmAction($mail, $hash): \Symfony\Component\HttpFoundation\Response
+    public function unsubscribeMailConfirmAction(string $mail, string $hash): Response
     {
-        $repo = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account');
-        $account = $repo->findOneBy([
+        /** @var AccountRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getRepository(Account::class);
+        $account = $repository->findOneBy([
             'mail' => $mail,
         ]);
 
-        if ($account !== null && $hash == md5($account->getUsername())) {
+        if ($account !== null && $hash === md5($account->getUsername())) {
             $account->setAllowMails(false);
-            $repo->save($account);
+            $repository->save($account);
 
             return $this->render('account/unsubscribe_success.html.twig');
         }
@@ -244,9 +275,9 @@ class DefaultController extends AbstractPluginsAwareController
      * @Route("/feedback", name="feedback")
      * @Security("has_role('ROLE_USER')")
      */
-    public function feedbackAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function feedbackAction(Request $request, Account $account): Response
     {
-        if (! empty($this->getParameter('feedback_mail'))) {
+        if (! empty($this->parameterBag->get('app.feedback_mail'))) {
             $form = $this->createForm(FeedbackType::class, null, [
                 'action' => $this->generateUrl('feedback'),
             ]);
@@ -254,8 +285,8 @@ class DefaultController extends AbstractPluginsAwareController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->get('app.mailer.account')
-                    ->sendCustomFeedbackToSystem($account, $this->getParameter('feedback_mail'), $form->getData()['message']);
+                $this->get('mailer.account')
+                    ->sendCustomFeedbackToSystem($account, $this->parameterBag->get('app.feedback_mail'), $form->getData()['message']);
                 return $this->render('feedback.html.twig', [
                     'form' => $form->createView(),
                 ]);

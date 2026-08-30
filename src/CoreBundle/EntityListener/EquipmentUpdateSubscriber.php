@@ -24,9 +24,9 @@ class EquipmentUpdateSubscriber implements EventSubscriber
 
     public function onFlush(OnFlushEventArgs $args)
     {
-        $entityManager = $args->getEntityManager();
+        $entityManager = $args->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();
-        $this->EquipmentRepository = $entityManager->getRepository('CoreBundle:Equipment');
+        $this->EquipmentRepository = $entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class);
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
             if ($entity instanceof Training) {
@@ -44,7 +44,7 @@ class EquipmentUpdateSubscriber implements EventSubscriber
     {
         $newEquipment = [];
         $removedEquipment = [];
-        $updates = $args->getEntityManager()
+        $updates = $args->getObjectManager()
             ->getUnitOfWork()
             ->getScheduledCollectionUpdates();
 
@@ -91,9 +91,9 @@ class EquipmentUpdateSubscriber implements EventSubscriber
             $this->EquipmentRepository->updateEquipment($unchangedEquipment, $durationChange, $distanceChange, false);
         }
 
-        $metaData = $args->getEntityManager()
+        $metaData = $args->getObjectManager()
             ->getClassMetadata(Equipment::class);
-        $unitOfWork = $args->getEntityManager()
+        $unitOfWork = $args->getObjectManager()
             ->getUnitOfWork();
 
         foreach (array_merge($removedEquipment, $newEquipment, $unchangedEquipment) as $equipment) {

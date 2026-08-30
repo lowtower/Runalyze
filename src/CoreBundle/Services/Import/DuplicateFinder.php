@@ -19,10 +19,7 @@ class DuplicateFinder
         $this->TrainingRepository = $repository;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPossibleDuplicate(Training $activity)
+    public function isPossibleDuplicate(Training $activity): bool
     {
         $activity->getAdapter()
             ->setActivityIdIfEmpty();

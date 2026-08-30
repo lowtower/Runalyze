@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class MaintenanceListener
 {
@@ -18,7 +17,7 @@ class MaintenanceListener
         $this->container = $container;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(\Symfony\Component\HttpKernel\Event\RequestEvent $event)
     {
         $maintenance = $this->container->hasParameter('maintenance') ? $this->container->getParameter('maintenance') : false;
 

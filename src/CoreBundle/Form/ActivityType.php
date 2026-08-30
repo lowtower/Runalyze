@@ -41,7 +41,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ActivityType extends AbstractType
 {
@@ -51,15 +51,15 @@ class ActivityType extends AbstractType
     protected $TagRepository;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
-    protected $TokenStorage;
+    protected $TokenStorageInterface;
 
     public function __construct(
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         TagRepository $tagRepository
     ) {
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
         $this->TagRepository = $tagRepository;
     }
 
@@ -68,7 +68,7 @@ class ActivityType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {
@@ -301,8 +301,9 @@ class ActivityType extends AbstractType
             }
 
             if ($activity->getRoute()->getStartpoint() !== null) {
-                $coordinate = (new Geohash())->decode($activity->getRoute()->getStartpoint())
-                    ->getCoordinate();
+                /** @var Geohash $geohashObj */
+                $geohashObj = (new Geohash())->decode($activity->getRoute()->getStartpoint());
+                $coordinate = $geohashObj->getCoordinate();
                 $data = $coordinate->getLatitude() . ',' . $coordinate->getLongitude();
             }
         }

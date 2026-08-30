@@ -11,11 +11,7 @@ use Runalyze\Sports\Running\MarathonShape;
 
 class TrainingRepository extends EntityRepository
 {
-    /**
-     * @param bool $cache
-     * @return float
-     */
-    public function getAmountOfLoggedKilometers($cache = true)
+    public function getAmountOfLoggedKilometers(bool $cache = true): float
     {
         return $this->createQueryBuilder('t')
             ->select('SUM(t.distance)')
@@ -26,16 +22,14 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param int $activityid
-     * @param int $accountid
      * @return mixed
      * @see \Runalyze\Metrics\Velocity\Unit\PaceEnum
      */
-    public function getSpeedUnitFor($activityid, $accountid)
+    public function getSpeedUnitFor(int $activityid, int $accountid)
     {
         return $this->_em->createQueryBuilder()
             ->select('s.speed')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->join('t.sport', 's')
             ->where('t.id = :id AND t.account = :account')
             ->setParameter('id', $activityid)
@@ -44,10 +38,7 @@ class TrainingRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
-    /**
-     * @return bool
-     */
-    public function isPossibleDuplicate(Training $activity)
+    public function isPossibleDuplicate(Training $activity): bool
     {
         if ($activity->getAccount() === null || ! is_numeric($activity->getAccount()->getId()) || $activity->getActivityId() == null) {
             return false;
@@ -63,10 +54,7 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult() !== null;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getIdOfNextActivity(Training $activity)
+    public function getIdOfNextActivity(Training $activity): ?int
     {
         return $this->createQueryBuilder('t')
             ->select('t.id')
@@ -83,10 +71,7 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
-    /**
-     * @return null|int
-     */
-    public function getIdOfPreviousActivity(Training $activity)
+    public function getIdOfPreviousActivity(Training $activity): ?int
     {
         return $this->createQueryBuilder('t')
             ->select('t.id')
@@ -104,14 +89,13 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param null|int $sportid
      * @return array
      */
-    public function getActiveYearsFor(Account $account, $sportid = null, $minimumActivities = null)
+    public function getActiveYearsFor(Account $account, ?int $sportid = null, $minimumActivities = null)
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('YEAR(FROM_UNIXTIME(t.time)) AS year')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->addGroupBy('year');
@@ -132,16 +116,11 @@ class TrainingRepository extends EntityRepository
             ->getResult('COLUMN_HYDRATOR');
     }
 
-    /**
-     * @param null|int $year
-     * @param null|int $sportid
-     * @return array
-     */
-    public function getNumberOfActivitiesFor(Account $account, $year = null, $sportid = null)
+    public function getNumberOfActivitiesFor(Account $account, ?int $year = null, ?int $sportid = null): int
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(1) as num')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId());
 
@@ -158,18 +137,18 @@ class TrainingRepository extends EntityRepository
                 ->setParameter('sportid', $sportid);
         }
 
-        return $queryBuilder->getQuery()
+        return (int) $queryBuilder->getQuery()
             ->getSingleScalarResult();
     }
 
     /**
-     * @return array
+     * @return bool|float|int|string|null
      */
     public function getNumberOfActivitiesWithActivityType(Type $type)
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(1) as num')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.type = :typeid')
             ->setParameter('typeid', $type->getId());
 
@@ -185,7 +164,7 @@ class TrainingRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.type)')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->andWhere($qb->expr()->isNotNull('t.type'))
             ->addGroupBy('t.type')
@@ -202,7 +181,7 @@ class TrainingRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.sport)')
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->andWhere($qb->expr()->isNotNull('t.sport'))
             ->addGroupBy('t.sport')
@@ -212,18 +191,16 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param null|string $column
-     * @param null|int $sportid
      * @return array
      */
-    public function getMonthlyStatsFor(Account $account, $column = null, $sportid = null)
+    public function getMonthlyStatsFor(Account $account, ?string $column = null, ?int $sportid = null)
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select(
                 'YEAR(FROM_UNIXTIME(t.time)) AS year',
                 'MONTH(FROM_UNIXTIME(t.time)) AS month'
             )
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->addGroupBy('year')
@@ -245,12 +222,7 @@ class TrainingRepository extends EntityRepository
             ->getArrayResult();
     }
 
-    /**
-     * @param int $activityId
-     * @param int $accountId
-     * @return null|Training
-     */
-    public function findForAccount($activityId, $accountId)
+    public function findForAccount(int $activityId, int $accountId): ?Training
     {
         return $this->findOneBy([
             'id' => $activityId,
@@ -268,7 +240,7 @@ class TrainingRepository extends EntityRepository
                 'SUM(t.distance) as distance',
                 'SUM(t.s) as duration'
             )
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->getQuery()
@@ -284,10 +256,9 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param int $year
      * @return \Doctrine\ORM\Query
      */
-    public function getQueryForJsonPosterData(Account $account, Sport $sport, $year)
+    public function getQueryForJsonPosterData(Account $account, Sport $sport, int $year)
     {
         return $this->_em->createQueryBuilder()
             ->select(
@@ -296,7 +267,7 @@ class TrainingRepository extends EntityRepository
                 't.distance',
                 'r.geohashes'
             )
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->join('t.route', 'r')
             ->where('t.account = :account')
             ->andWhere('t.sport = :sport')
@@ -312,10 +283,9 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param int $year
      * @return \Doctrine\ORM\Query
      */
-    public function getStatsForPoster(Account $account, Sport $sport, $year)
+    public function getStatsForPoster(Account $account, Sport $sport, int $year)
     {
         return $this->_em->createQueryBuilder()
             ->select(
@@ -324,7 +294,7 @@ class TrainingRepository extends EntityRepository
                 'MIN(t.distance) as min_distance',
                 'MAX(t.distance) as max_distance'
             )
-            ->from('CoreBundle:Training', 't')
+            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
             ->where('t.account = :account')
             ->andWhere('t.sport = :sport')
             ->andWhere('t.time BETWEEN :startTime and :endTime')
@@ -349,11 +319,9 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param int $limit
-     * @param bool $onlyPublic
      * @return Training[]
      */
-    public function getLatestActivities(Account $account, $limit = 20, $onlyPublic = false)
+    public function getLatestActivities(Account $account, int $limit = 20, bool $onlyPublic = false)
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('t')
@@ -371,20 +339,18 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param int $limit
      * @return Training[]
      */
-    public function getLatestPublicActivities(Account $account, $limit = 20)
+    public function getLatestPublicActivities(Account $account, int $limit = 20)
     {
         return $this->getLatestActivities($account, $limit, true);
     }
 
     /**
      * @param int[] $ids
-     * @param int $limit
      * @return Training[]
      */
-    public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, $limit = 20)
+    public function getPartialEntitiesForPreview(array $ids, ?Account $account = null, int $limit = 20)
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('partial t.{id, time, s, distance, pulseAvg, splits, route, title}');
@@ -407,10 +373,7 @@ class TrainingRepository extends EntityRepository
             ->getResult();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getStartTime(Account $account)
+    public function getStartTime(Account $account): ?int
     {
         $result = $this->createQueryBuilder('t')
             ->select('MIN(t.time)')
@@ -423,12 +386,7 @@ class TrainingRepository extends EntityRepository
         return $result === null ? $result : (int) $result;
     }
 
-    /**
-     * @param int $sportId
-     * @param int $timestamp
-     * @return int [0, inf)
-     */
-    public function calculateVO2maxShape(Account $account, VO2max $configuration, $sportId, $timestamp): float
+    public function calculateVO2maxShape(Account $account, VO2max $configuration, int $sportId, int $timestamp): float
     {
         $vo2maxColumn = $configuration->useCorrectionForElevation() ? 'vo2maxWithElevation' : 'vo2max';
 
@@ -456,14 +414,7 @@ class TrainingRepository extends EntityRepository
         return round((float) $result['value'] / (float) $result['ssum'], 5);
     }
 
-    /**
-     * @param float $effectiveVO2max
-     * @param int $sportId
-     * @param int $timestamp
-     * @param int|null $timestampOfFirstActivity
-     * @return int [0, inf)
-     */
-    public function calculateMarathonShape(Account $account, BasicEndurance $configuration, $effectiveVO2max, $sportId, $timestamp, $timestampOfFirstActivity = null)
+    public function calculateMarathonShape(Account $account, BasicEndurance $configuration, float $effectiveVO2max, int $sportId, int $timestamp, ?int $timestampOfFirstActivity = null): int
     {
         $startTimeForLongJogs = $timestamp - $configuration->getDaysToConsiderForLongJogs() * 86400;
         $startTimeForWeeklyMileage = $timestamp - $configuration->getDaysToConsiderForWeeklyMileage() * 86400;
@@ -502,7 +453,7 @@ class TrainingRepository extends EntityRepository
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SCALAR);
 
         if ($result === null) {
-            return 0.0;
+            return 0;
         }
 
         return $marathonShape->getShapeFor($result['km'], $result['points'], $numberOfDaysSinceFirstActivity);

@@ -8,21 +8,20 @@ use Runalyze\Util\LocalTime;
 
 class NightDetector
 {
-    /**
-     * @return bool|null
-     */
-    public function isActivityAtNight(Training $activity)
+    public function isActivityAtNight(Training $activity): ?bool
     {
         if (! $activity->hasRoute() || ! $activity->getRoute()->hasGeohashes()) {
             return null;
         }
 
         // TODO use activity's offset if known
+        /** @var Geohash $geohashObj */
+        $geohashObj = (new Geohash())->decode($activity->getRoute()->getStartpoint());
         $detector = new \Runalyze\Calculation\NightDetector();
         $detector->setFrom(
-            (new LocalTime($activity->getTime()))->toServerTimestamp() + 0.5 * $activity->getS(),
-            (new Geohash())->decode($activity->getRoute()->getStartpoint())
-                ->getCoordinate()
+            (int) ((new LocalTime($activity->getTime()))
+                ->toServerTimestamp() + 0.5 * $activity->getS()),
+            $geohashObj->getCoordinate()
         );
 
         return $detector->isNight();

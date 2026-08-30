@@ -25,7 +25,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setRoute(new Route());
     }
 
-    protected function setDataToActivity($duration, $distance, $heartRate)
+    protected function setDataToActivity(float $duration, ?float $distance, ?int $heartRate)
     {
         $this->Activity->setS($duration);
         $this->Activity->setDistance($distance);

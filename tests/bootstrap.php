@@ -7,6 +7,9 @@
  */
 // ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../php/PEAR');
 
+use App\Kernel;
+use Symfony\Component\Dotenv\Dotenv;
+
 error_reporting(E_ALL);
 
 if (! defined('RUNALYZE_TEST')) {
@@ -19,7 +22,18 @@ if (! defined('FRONTEND_PATH')) {
 
 define('TESTS_ROOT', __DIR__);
 
-require_once FRONTEND_PATH . '../app/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'test';
+$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '1';
+
+// Load environment variables
+(new Dotenv())->loadEnv(dirname(__DIR__) . '/.env');
+
+// Boot Kernel, to get access to the container
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel->boot();
+$container = $kernel->getContainer();
 
 require_once FRONTEND_PATH . 'system/define.consts.php';
 
@@ -36,7 +50,7 @@ if (! defined('NBSP')) {
 }
 
 if (! defined('PREFIX')) {
-    define('PREFIX', 'runalyze_');
+    define('PREFIX', $container->getParameter('database_prefix.unittest'));
 }
 
 if (! defined('PERL_PATH')) {
@@ -66,22 +80,17 @@ if (! defined('DAY_IN_S')) {
 $_SERVER['REQUEST_URI'] = '/runalyze/index.php';
 $_SERVER['SCRIPT_NAME'] = '/runalyze/index.php';
 
-// Load and clean database
-$databaseHost = getenv('DB_TEST_HOST') ?: getenv('DB_HOST') ?: 'db';
-$databasePort = getenv('DB_TEST_PORT') ?: getenv('DB_PORT') ?: '3306';
-$databaseUser = getenv('DB_TEST_USER') ?: 'runalyze_test';
-$databasePassword = getenv('DB_TEST_PASSWORD') ?: 'password';
-if ($databasePassword === false) {
-    $databasePassword = 'password';
-}
+// Read DB-Connection-Parameters from container instead of getenv()
+$unittestConnection = $container->get('doctrine')
+    ->getConnection('unittest');
+$connectionParams = $unittestConnection->getParams();
 
-$databaseName = getenv('DB_UNITTEST_NAME') ?: 'runalyze_unittest';
 DB::connect(
-    $databaseHost,
-    $databasePort,
-    $databaseUser,
-    $databasePassword,
-    $databaseName
+    $connectionParams['host'],
+    $connectionParams['port'],
+    $connectionParams['user'],
+    $connectionParams['password'],
+    $connectionParams['dbname']
 );
 DB::getInstance()->exec('SET SESSION sql_mode="TRADITIONAL"');
 DB::getInstance()->exec('DELETE FROM `runalyze_account`');
@@ -97,6 +106,7 @@ SessionAccountHandler::setAccount([
     'timezone' => '43',
     'mail' => 'noreply@runalyze.com',
 ]);
+
 // Define RUNALYZE_TEST_TZ_LOOKUP
 try {
     $lookup = new \Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
@@ -109,23 +119,23 @@ try {
 
 // Language functions
 if (! function_exists('__')) {
-    function __($text, $domain = 'runalyze')
+    function __(string $text, $domain = 'runalyze'): string
     {
         return $text;
     }
 }
 
 if (! function_exists('_e')) {
-    function _e($text, $domain = 'runalyze')
+    function _e(string $text, $domain = 'runalyze')
     {
         echo $text;
     }
 }
 
 if (! function_exists('_n')) {
-    function _n($msg1, $msg2, $n, $domain = 'runalyze')
+    function _n(string $msg1, string $msg2, int $n, $domain = 'runalyze'): string
     {
-        if ($n == 1) {
+        if ($n === 1) {
             return $msg1;
         }
 
@@ -134,9 +144,9 @@ if (! function_exists('_n')) {
 }
 
 if (! function_exists('_ne')) {
-    function _ne($msg1, $msg2, $n, $domain = 'runalyze')
+    function _ne(string $msg1, string $msg2, int $n, $domain = 'runalyze')
     {
-        if ($n == 1) {
+        if ($n === 1) {
             echo $msg1;
         }
 
@@ -154,11 +164,3 @@ Helper::Unknown('');
 
 // Load test helper
 require_once FRONTEND_PATH . '../tests/fake/FakeContext.php';
-
-// Add doctrine types (required for test cases that do not use the kernel)
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType::TINYINT, \Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType::class);
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray::PIPE_ARRAY, \Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray::class);
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString::PIPE_ARRAY, \Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString::class);
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray::GEOHASH_ARRAY, \Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray::class);
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY, \Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray::class);
-\Doctrine\DBAL\Types\Type::addType(\Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY, \Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray::class);

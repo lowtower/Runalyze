@@ -28,7 +28,7 @@ class Query
     public const MONTH_TIMERANGE = 2678400; // 31 * 86400
 
     /**
-     * @var \Runalyze\Dataset\Configuration
+     * @var Configuration
      */
     protected $Configuration;
 
@@ -37,15 +37,9 @@ class Query
      */
     protected $PDO;
 
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
-    /**
-     * @var bool
-     */
-    protected $ShowOnlyPublicActivites = false;
+    protected bool $ShowOnlyPublicActivites = false;
 
     /**
      * @var array
@@ -57,31 +51,22 @@ class Query
      */
     protected $JoinTables = [];
 
-    /**
-     * @param int $accountID
-     */
-    public function __construct(Configuration $configuration, \PDO $pdo, $accountID)
+    public function __construct(Configuration $configuration, \PDO $pdo, int $accountID)
     {
         $this->Configuration = $configuration;
         $this->PDO = $pdo;
         $this->AccountID = $accountID;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function showOnlyPublicActivities($flag = true)
+    public function showOnlyPublicActivities(bool $flag = true)
     {
         $this->ShowOnlyPublicActivites = $flag;
     }
 
     /**
-     * @param int $timeStart
-     * @param int $timeEnd
-     * @param bool $allKeys
      * @return \PDOStatement
      */
-    public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId = null, $allKeys = false)
+    public function statementToFetchActivities(int $timeStart, int $timeEnd, ?int $sportId = null, bool $allKeys = false)
     {
         $this->resetJoins();
 
@@ -101,7 +86,7 @@ class Query
 			' . $this->queryToJoinTables() . '
 			WHERE
 				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
-				`t`.`accountid` = ' . (int) $this->AccountID . ' AND
+				`t`.`accountid` = ' . $this->AccountID . ' AND
 				' . $whereSport . '
 				' . $this->wherePrivacyIsOkay() . '
 			' . $this->queryToGroupByActivity() . '
@@ -111,12 +96,10 @@ class Query
 
     /**
      * Gets the sports for the timerange where activities exists. List is limited so not all sports are available.
-     * @param int $timeStart
-     * @param int $timeEnd
      * @param null|int $sportIdSelected set if user has selected a sport; means this must be included in the result
      * @return \PDOStatement
      */
-    public function statementToFetchActivitySports($timeStart, $timeEnd, ? int $sportIdSelected)
+    public function statementToFetchActivitySports(int $timeStart, int $timeEnd, ?int $sportIdSelected)
     {
         // this is needed to ensure, that the current selected sportId is included
         $addSelected = $sportIdSelected === null ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
@@ -129,7 +112,7 @@ class Query
 				JOIN ' . PREFIX . 'training AS t ON s.id = t.sportid
 				WHERE
 					' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
-					t.accountid = ' . (int) $this->AccountID . ' AND
+					t.accountid = ' . $this->AccountID . ' AND
 					' . $this->wherePrivacyIsOkay() . '
 				GROUP BY s.id, s.name, s.img ORDER BY c DESC LIMIT 7) AS sub
 			' . $addSelected . '
@@ -174,12 +157,11 @@ class Query
     }
 
     /**
-     * @param int $sportid
      * @param int $timeStart default 0
      * @param int $timeEnd   default time()
      * @return array array with summary for given sportid and timerange
      */
-    public function fetchSummaryForSport($sportid, $timeStart = 0, $timeEnd = false)
+    public function fetchSummaryForSport(int $sportid, int $timeStart = 0, $timeEnd = false)
     {
         return $this->PDO->query(
             'SELECT
@@ -190,8 +172,8 @@ class Query
 				' . $this->queryToSummarizeActiveKeys() . '
 			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				`sportid` = ' . (int) $sportid . ' AND
-				`accountid` = ' . (int) $this->AccountID . ' AND
+				`sportid` = ' . $sportid . ' AND
+				`accountid` = ' . $this->AccountID . ' AND
 				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
 				' . $this->wherePrivacyIsOkay() . '
 			GROUP BY `sportid`
@@ -204,7 +186,7 @@ class Query
      * @param int $timeEnd   default time()
      * @return array array with summary for each sportid and given timerange
      */
-    public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId = null)
+    public function fetchSummaryForAllSport(int $timeStart = 0, $timeEnd = false, ?int $sportId = null)
     {
         $whereSport = $sportId === null ? '' : '`t`.`sportid` = ' . $sportId . ' AND ';
 
@@ -217,7 +199,7 @@ class Query
 				' . $this->queryToSummarizeActiveKeys() . '
 			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				`accountid` = ' . (int) $this->AccountID . ' AND
+				`accountid` = ' . $this->AccountID . ' AND
 				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
 				' . $whereSport . '
 				' . $this->wherePrivacyIsOkay() . '
@@ -227,29 +209,28 @@ class Query
 
     /**
      * Get summary for a given timerange
-     * @param int $sportid
      * @param int $timerange default 7*24*60*60
      * @param int $timeStart default 0
      * @param int $timeEnd   default time()
      * @return array array of summaries for different timeranges
      */
-    public function fetchSummaryForTimerange($sportid, $timerange = 604800, $timeStart = 0, $timeEnd = false)
+    public function fetchSummaryForTimerange(int $sportid, int $timerange = 604800, int $timeStart = 0, $timeEnd = false)
     {
         $Query = '
 		        SELECT
-				' . (((int) $sportid > 0) ? '`sportid`' : '0') . ',
+				' . (($sportid > 0) ? '`sportid`' : '0') . ',
 				SUM(IF(`distance`>0,`s`,0)) as `' . Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY . '`,
 				SUM(1) as `num`,
 				' . $this->queryToSummarizeActiveKeys() . ',
 				' . $this->queryToSelectTimerange($timerange, $timeEnd, 'timerange') . '
 			FROM `' . PREFIX . 'training` AS `t`
 			WHERE
-				' . (((int) $sportid > 0) ? '`sportid` = ' . (int) $sportid . ' AND' : '') . '
-				`accountid` = ' . (int) $this->AccountID . ' AND
+				' . (($sportid > 0) ? '`sportid` = ' . $sportid . ' AND' : '') . '
+				`accountid` = ' . $this->AccountID . ' AND
 				' . $this->whereTimeIsBetween($timeStart, $timeEnd) . ' AND
 				' . $this->wherePrivacyIsOkay() . '
 				GROUP BY `timerange`
-				' . (((int) $sportid > 0) ? ', `sportid`' : '') . '
+				' . (($sportid > 0) ? ', `sportid`' : '') . '
 				ORDER BY `timerange` ASC';
 
         return $this->PDO->query($Query)
@@ -343,15 +324,15 @@ class Query
      * @param int $timeEnd last timestamp to consider
      * @param string $asColumn optional column key that is used in returned data row
      */
-    protected function queryToSelectTimerange($timerange, $timeEnd = false, $asColumn = 'timerange'): string
+    protected function queryToSelectTimerange(int $timerange, $timeEnd = false, string $asColumn = 'timerange'): string
     {
         $timeEnd = $timeEnd ?: LocalTime::now();
 
-        if ($timerange == self::YEAR_TIMERANGE) {
+        if ($timerange === self::YEAR_TIMERANGE) {
             return LocalTime::date('Y', $timeEnd) . ' - YEAR(FROM_UNIXTIME(`t`.`time`)) as `' . $asColumn . '`';
         }
 
-        if ($timerange == self::MONTH_TIMERANGE) {
+        if ($timerange === self::MONTH_TIMERANGE) {
             return LocalTime::date('m', $timeEnd) . ' - MONTH(FROM_UNIXTIME(`t`.`time`)) + 12*(' . LocalTime::date('Y', $timeEnd) . ' - YEAR(FROM_UNIXTIME(`t`.`time`))) as `' . $asColumn . '`';
         }
 
@@ -362,7 +343,7 @@ class Query
      * @param int $timeStart default: 0
      * @param int|bool $timeEnd default: LocalTime::now()
      */
-    protected function whereTimeIsBetween($timeStart = 0, $timeEnd = false): string
+    protected function whereTimeIsBetween(int $timeStart = 0, $timeEnd = false): string
     {
         $timeEnd = $timeEnd ?: LocalTime::now();
 

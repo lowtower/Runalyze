@@ -25,11 +25,17 @@ class RsvgConverter extends AbstractSvgToPngConverter
         $this->Parameter[] = '-w ' . (int) $width;
     }
 
-    public function callConverter($source, $target)
+    public function callConverter($source, $target): int
     {
         if ((new Filesystem())->exists($source)) {
-            $builder = new Process($this->Command . ' -f png ' . implode(' ', $this->Parameter) . ' ' . $source . ' -o ' . $target);
-            return $builder->run();
+            $command = array_merge(
+                [$this->Command, '-f', 'png'],
+                $this->Parameter,
+                [$source, '-o', $target]
+            );
+            $builder = new Process($command);
+            $builder->run();
+            return $builder->getExitCode() ?? 1;
         }
 
         return 1;

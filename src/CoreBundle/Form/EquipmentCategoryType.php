@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class EquipmentCategoryType extends AbstractType
 {
@@ -25,12 +25,9 @@ class EquipmentCategoryType extends AbstractType
      */
     protected $SportRepository;
 
-    /**
-     * @var TokenStorage
-     */
-    protected $TokenStorage;
+    protected TokenStorageInterface $TokenStorage;
 
-    public function __construct(SportRepository $SportRepository, TokenStorage $tokenStorage)
+    public function __construct(SportRepository $SportRepository, TokenStorageInterface $tokenStorage)
     {
         $this->SportRepository = $SportRepository;
         $this->TokenStorage = $tokenStorage;

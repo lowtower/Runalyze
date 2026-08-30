@@ -47,8 +47,8 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     protected function setOwnNavigation()
     {
         $LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
-        $LinkList .= '<li' . ($this->dat == '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('General overview'), $this->sportid, $this->year, '') . '</li>';
-        $LinkList .= '<li' . ($this->dat == 'allWeeks' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks') . '</li>';
+        $LinkList .= '<li' . ($this->dat === '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('General overview'), $this->sportid, $this->year, '') . '</li>';
+        $LinkList .= '<li' . ($this->dat === 'allWeeks' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('All training weeks'), $this->sportid, (! $this->showsSpecificYear()) ? date('Y') : $this->year, 'allWeeks') . '</li>';
 
         $LinkList .= '</ul></li>';
 
@@ -142,7 +142,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
      */
     private function wantToShowAllWeeks(): bool
     {
-        return $this->dat == 'allWeeks';
+        return $this->dat === 'allWeeks';
     }
 
     /**
@@ -150,14 +150,14 @@ class RunalyzePluginStat_Statistiken extends PluginStat
      */
     private function displayYearTable()
     {
-        if ($this->year == -1) {
+        if ($this->year === -1) {
             $SummaryTable = new SummaryTableAllYears($this->DatasetConfig, $this->sportid, $this->year);
         } else {
             $SummaryTable = new SummaryTableMonths($this->DatasetConfig, $this->sportid, $this->year);
 
-            if ($this->year == 6) {
+            if ($this->year === 6) {
                 $SummaryTable->setMode(SummaryTableMonths::MODE_LAST_6);
-            } elseif ($this->year == 12) {
+            } elseif ($this->year === 12) {
                 $SummaryTable->setMode(SummaryTableMonths::MODE_LAST_12);
             } else {
                 $SummaryTable->setMode(SummaryTableMonths::MODE_YEAR);

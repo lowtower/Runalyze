@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
+use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Language;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -27,7 +28,7 @@ class UserLocaleListener
         $user = $event->getAuthenticationToken()
             ->getUser();
 
-        if ($user->getLanguage() !== null) {
+        if ($user instanceof Account && $user->getLanguage() !== null) {
             $this->session->set('_locale', $user->getLanguage());
             new Language($user->getLanguage());
         }

@@ -3,7 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
 
 class ConsoleExceptionListener
 {
@@ -17,22 +17,22 @@ class ConsoleExceptionListener
         $this->Logger = $logger;
     }
 
-    public function onConsoleException(ConsoleExceptionEvent $event)
+    public function onConsoleError(ConsoleErrorEvent $event)
     {
         $command = $event->getCommand();
-        $exception = $event->getException();
+        $error = $event->getError();
 
         $message = sprintf(
             '%s: %s (uncaught exception) at %s line %s while running console command `%s`',
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine(),
-            $command->getName()
+            get_class($error),
+            $error->getMessage(),
+            $error->getFile(),
+            $error->getLine(),
+            $command !== null ? $command->getName() : 'n/a'
         );
 
         $this->Logger->error($message, [
-            'exception' => $exception,
+            'exception' => $error,
         ]);
     }
 }

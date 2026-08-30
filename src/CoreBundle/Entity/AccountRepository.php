@@ -73,10 +73,9 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * @param bool $cache
      * @return mixed number of accounts
      */
-    public function getAmountOfActivatedUsers($cache = true)
+    public function getAmountOfActivatedUsers(bool $cache = true)
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id)')
@@ -86,20 +85,25 @@ class AccountRepository extends EntityRepository implements UserLoaderInterface
             ->getSingleScalarResult();
     }
 
-    /**
-     * @param int $days
-     * @return array
-     */
-    public function deleteNotActivatedAccounts($days = 7)
+    public function deleteNotActivatedAccounts(int $days = 7): array
     {
         $minimumAge = time() - $days * 86400;
 
-        return $this->createQueryBuilder('u')
+        $deletedAccounts = $this->createQueryBuilder('u')
+            ->select('u.id')
+            ->where('u.activationHash IS NOT NULL AND u.registerdate < :minimumAge')
+            ->setParameter('minimumAge', $minimumAge)
+            ->getQuery()
+            ->getResult('COLUMN_HYDRATOR');
+
+        $this->createQueryBuilder('u')
             ->delete()
             ->where('u.activationHash IS NOT NULL AND u.registerdate < :minimumAge')
             ->setParameter('minimumAge', $minimumAge)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->execute();
+
+        return $deletedAccounts;
     }
 
     public function existsOneWith(array $criteria): bool

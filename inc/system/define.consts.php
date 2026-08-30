@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 /**
  * Maximum value for integers
- * @var int
  */
 define('INFINITY', PHP_INT_MAX);
 

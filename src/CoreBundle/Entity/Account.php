@@ -10,7 +10,7 @@ use Runalyze\Model\Account\UserRole;
 use Runalyze\Parameter\Application\Timezone;
 use Runalyze\Profile\Athlete\Gender;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,16 +19,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("mail", message="This mail address is already in use")
  * @UniqueEntity("username", message="This username is already in use")
  */
-class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntityInterface
+class Account implements UserInterface, \Serializable, IdentifiableEntityInterface
 {
     /**
-     * @var string
      * @Assert\Length(
      *     min=8,
      *     minMessage="Your password must be at least {{ limit }} characters long"
      * )
      */
-    private $plainPassword;
+    private string $plainPassword;
 
     /**
      * @var int
@@ -408,20 +407,14 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->password;
     }
 
-    /**
-     * @param string $plainPassword
-     */
-    public function setPlainPassword($plainPassword): self
+    public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPlainPassword()
+    public function getPlainPassword(): string
     {
         return $this->plainPassword;
     }
@@ -639,10 +632,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         return $this->allowSupport;
     }
 
-    /**
-     * @param string $role
-     */
-    public function setRole($role): self
+    public function setRole(int $role): self
     {
         $this->role = $role;
 
@@ -650,7 +640,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
     }
 
     /**
-     * @return string
+     * @return ?int
      */
     public function getRole()
     {
@@ -659,13 +649,13 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
 
     public function eraseCredentials()
     {
-        $this->setPlainPassword(null);
+        $this->setPlainPassword('');
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return [UserRole::getRoleName($this->role)];
     }
@@ -742,22 +732,7 @@ class Account implements AdvancedUserInterface, \Serializable, IdentifiableEntit
         ] = unserialize($serialized);
     }
 
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return empty($this->getActivationHash());
     }

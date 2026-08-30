@@ -75,7 +75,7 @@ class Context
         $this->RaceResult = $Factory->raceResult((int) $activityID);
         $this->Route = $this->Activity->get(Activity\Entity::ROUTEID) ? $Factory->route($this->Activity->get(Activity\Entity::ROUTEID)) : null;
         $this->HRV = $Factory->hrv((int) $activityID);
-        $this->Sport = $Factory->sport($this->Activity->sportid());
+        $this->Sport = $Factory->sport((int) $this->Activity->sportid());
 
         $this->Swimdata->fillDistanceArray($this->Trackdata);
         $this->Swimdata->fillSwolfArray($this->Trackdata);

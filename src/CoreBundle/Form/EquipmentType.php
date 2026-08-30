@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class EquipmentType extends AbstractType
 {
@@ -25,14 +25,14 @@ class EquipmentType extends AbstractType
     protected $EquipmentRepository;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
-    protected $TokenStorage;
+    protected $TokenStorageInterface;
 
-    public function __construct(EquipmentTypeRepository $equipmentTypeRepository, TokenStorage $tokenStorage)
+    public function __construct(EquipmentTypeRepository $equipmentTypeRepository, TokenStorageInterface $tokenStorage)
     {
         $this->EquipmentRepository = $equipmentTypeRepository;
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
     }
 
     /**
@@ -40,7 +40,7 @@ class EquipmentType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

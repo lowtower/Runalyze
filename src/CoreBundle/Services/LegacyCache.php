@@ -24,7 +24,7 @@ class LegacyCache
     }
 
     /**
-     * @param string|bool $accountId
+     * @param int|bool $accountId
      */
     public function delete(string $keyword, $accountId = false): bool
     {

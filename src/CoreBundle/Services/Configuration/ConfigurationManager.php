@@ -6,31 +6,22 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Services\TokenStorageAwareServiceTrait;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ConfigurationManager
 {
     use TokenStorageAwareServiceTrait;
 
-    /**
-     * @var ConfRepository
-     */
-    protected $Repository;
+    protected ConfRepository $Repository;
 
-    /**
-     * @var null|RunalyzeConfigurationList
-     */
-    protected $CurrentConfigurationList;
+    protected ?RunalyzeConfigurationList $CurrentConfigurationList = null;
 
-    /**
-     * @var null|RunalyzeConfigurationList
-     */
-    protected $DefaultList;
+    protected ?RunalyzeConfigurationList $DefaultList = null;
 
-    public function __construct(ConfRepository $repository, TokenStorage $tokenStorage)
+    public function __construct(ConfRepository $repository, TokenStorageInterface $tokenStorage)
     {
         $this->Repository = $repository;
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
     }
 
     /**
@@ -40,7 +31,7 @@ class ConfigurationManager
     public function getList(?Account $account = null)
     {
         if (! $account instanceof \Runalyze\Bundle\CoreBundle\Entity\Account || ($this->knowsUser() && $account->getId() == $this->getUser()->getId())) {
-            if ($this->CurrentConfigurationList === null) {
+            if (! $this->CurrentConfigurationList instanceof \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList) {
                 $this->setListForCurrentUser();
             }
 

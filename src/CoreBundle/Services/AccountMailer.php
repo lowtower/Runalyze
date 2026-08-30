@@ -3,104 +3,89 @@
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class AccountMailer
 {
-    /**
-     * @var \Swift_Mailer
-     */
-    protected $Mailer;
+    protected MailerInterface $mailer;
+
+    protected Environment $twig;
+
+    protected TranslatorInterface $translator;
 
     /**
-     * @var \Twig\Environment
+     * @var string|Address|null
      */
-    protected $Twig;
+    protected $sender;
 
-    /**
-     * @var TranslatorInterface
-     */
-    protected $Translator;
+    public function __construct(
+        MailerInterface $mailer,
+        Environment $twig,
+        TranslatorInterface $translator
+    ) {
+        $this->mailer = $mailer;
+        $this->twig = $twig;
+        $this->translator = $translator;
+    }
 
-    /**
-     * @var array
-     */
-    protected $Sender = [];
-
-    public function __construct(\Swift_Mailer $mailer, \Twig\Environment $twig, TranslatorInterface $translator)
+    public function setFrom(string $senderMail, string $senderName): void
     {
-        $this->Mailer = $mailer;
-        $this->Twig = $twig;
-        $this->Translator = $translator;
+        $this->sender = new Address($senderMail, $senderName);
     }
 
     /**
-     * @param string $senderMail
-     * @param string $senderName
-     */
-    public function setFrom($senderMail, $senderName)
-    {
-        $this->Sender = [
-            $senderMail => $senderName,
-        ];
-    }
-
-    /**
-     * @param string $subject
-     * @param string $template
      * @param array<string, string>|array<string, null> $templateData
      */
-    public function sendMailTo(Account $account, $subject, $template, array $templateData)
+    public function sendMailTo(Account $account, string $subject, string $template, array $templateData): void
     {
         $template = $this->customLanguageTemplates($template, $account->getLanguage());
-        $message = (new \Swift_Message($subject))
-            ->setTo([
-                $account->getMail() => $account->getUsername(),
-            ])
-            ->setFrom($this->Sender);
-        $message->setBody($this->Twig->render($template, $templateData), 'text/html');
 
-        $this->Mailer->send($message);
+        $email = (new Email())
+            ->from($this->sender)
+            ->to($account->getMail(), $account->getUsername())
+            ->subject($subject)
+            ->html($this->twig->render($template, $templateData));
+
+        $this->mailer->send($email);
     }
 
-    /**
-     * @param string $mailTo
-     * @param string $customText
-     */
-    public function sendCustomFeedbackToSystem(Account $account, $mailTo, $customText)
+    public function sendCustomFeedbackToSystem(Account $account, string $mailTo, string $customText): void
     {
-        $subject = 'RUNALYZE - ' . $this->Translator->trans('Customer feedback');
+        $subject = 'RUNALYZE - ' . $this->translator->trans('Customer feedback');
         $content = 'Username: ' . $account->getUsername() . "\n";
         $content .= 'Mail: ' . $account->getMail() . "\n";
         $content .= 'Message:' . "\n" . $customText;
 
-        $message = (new \Swift_Message($subject))
-            ->setTo($mailTo)
-            ->setFrom($this->Sender)
-            ->setReplyTo([
-                $account->getMail() => $account->getUsername(),
-            ]);
-        $message->setBody($content, 'text/plain');
+        $email = (new Email())
+            ->subject($subject)
+            ->from($this->sender)
+            ->to($mailTo)
+            ->replyTo($account->getMail(), $account->getUsername())
+            ->text($content);
 
-        $this->Mailer->send($message);
+        $this->mailer->send($email);
     }
 
-    protected function customLanguageTemplates($template, $language)
+    protected function customLanguageTemplates(string $template, string $language): string
     {
         $template = str_replace('html.twig', '', $template);
         try {
-            $this->Twig->render($template . $language . '.html.twig');
+            $this->twig->render($template . $language . '.html.twig');
             return $template . $language . '.html.twig';
         } catch (\Exception $exception) {
             return $template . 'html.twig';
         }
     }
 
-    public function sendActivationLinkTo(Account $account)
+    public function sendActivationLinkTo(Account $account): void
     {
         $this->sendMailTo(
             $account,
-            $this->Translator->trans('Please activate your RUNALYZE account'),
+            $this->translator->trans('Please activate your RUNALYZE account'),
             'mail/account/registration.html.twig',
             [
                 'username' => $account->getUsername(),
@@ -109,11 +94,11 @@ class AccountMailer
         );
     }
 
-    public function sendRecoverPasswordLinkTo(Account $account)
+    public function sendRecoverPasswordLinkTo(Account $account): void
     {
         $this->sendMailTo(
             $account,
-            $this->Translator->trans('Reset your RUNALYZE password'),
+            $this->translator->trans('Reset your RUNALYZE password'),
             'mail/account/recoverPassword.html.twig',
             [
                 'username' => $account->getUsername(),
@@ -122,11 +107,11 @@ class AccountMailer
         );
     }
 
-    public function sendDeleteLinkTo(Account $account)
+    public function sendDeleteLinkTo(Account $account): void
     {
         $this->sendMailTo(
             $account,
-            $this->Translator->trans('Deletion request of your RUNALYZE account'),
+            $this->translator->trans('Deletion request of your RUNALYZE account'),
             'mail/account/deleteAccountRequest.html.twig',
             [
                 'username' => $account->getUsername(),

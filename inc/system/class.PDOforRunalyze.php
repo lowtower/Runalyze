@@ -17,9 +17,8 @@ class PDOforRunalyze extends PDO
 {
     /**
      * Boolean flag: add accountid
-     * @var bool
      */
-    protected $addsAccountID = true;
+    protected bool $addsAccountID = true;
 
     /**
      * Accountid
@@ -37,20 +36,19 @@ class PDOforRunalyze extends PDO
         $this->addsAccountID = false;
     }
 
-    /**
-     * @param int $ID
-     */
-    public function setAccountID($ID)
+    public function setAccountID(int $ID)
     {
         $this->accountID = $ID;
     }
 
-    /**
-     * @param string $statement
-     */
-    protected function addAccountIDtoStatement(&$statement)
+    protected function addAccountIDtoStatement(string &$statement)
     {
-        if (! is_numeric($this->accountID) || strpos($statement, 'SET NAMES') !== false || strpos($statement, 'TRUNCATE') !== false || strpos($statement, 'accountid')) {
+        if (! is_numeric($this->accountID)
+            || strpos($statement, 'SET NAMES') !== false
+            || strpos($statement, 'TRUNCATE') !== false
+            || strpos($statement, 'accountid') !== false
+            || strpos($statement, 'FROM') === false
+        ) {
             return;
         }
 
@@ -68,10 +66,11 @@ class PDOforRunalyze extends PDO
         ) {
             if (strpos($statement, 'WHERE') >= 7) {
                 $statement = str_replace('WHERE', 'WHERE `accountid`=' . (int) $this->accountID . ' AND ', $statement);
-            } elseif (strpos($statement, 'GROUP BY') >= 7) {
-                $statement = str_replace('GROUP BY', 'WHERE `accountid`=' . (int) $this->accountID . ' GROUP BY ', $statement);
-            } elseif (strpos($statement, 'ORDER BY') >= 7) {
-                $statement = str_replace('ORDER BY', 'WHERE `accountid`=' . (int) $this->accountID . ' ORDER BY ', $statement);
+            } elseif (preg_match('/\b(GROUP BY|HAVING|ORDER BY|LIMIT)\b/i', $statement, $matches, PREG_OFFSET_CAPTURE)) {
+                $pos = $matches[0][1];
+                $statement = substr($statement, 0, $pos)
+                    . 'WHERE `accountid`=' . (int) $this->accountID . ' '
+                    . substr($statement, $pos);
             } else {
                 $statement = $statement . ' WHERE `accountid`=' . (int) $this->accountID;
             }
@@ -81,42 +80,37 @@ class PDOforRunalyze extends PDO
     /**
      * Fetch row by id
      * @param string $table without PREFIX
-     * @param int $ID
      * @return array
      */
-    public function fetchByID($table, $ID)
+    public function fetchByID(string $table, int $ID)
     {
         $table = str_replace(PREFIX, '', $table);
 
         if ($table == 'account' || $table == 'plugin_conf') {
-            return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' LIMIT 1')->fetch();
+            return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . $ID . ' LIMIT 1')->fetch();
         }
 
-        return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' AND `accountid`="' . SessionAccountHandler::getId() . '" LIMIT 1')->fetch();
-
+        return $this->query('SELECT * FROM `' . PREFIX . $table . '` WHERE `id`=' . $ID . ' AND `accountid`="' . SessionAccountHandler::getId() . '" LIMIT 1')->fetch();
     }
 
     /**
      * Fetch row by id
      * @param string $table without PREFIX
-     * @param int $ID
-     * @return array
      */
-    public function deleteByID($table, $ID)
+    public function deleteByID(string $table, int $ID): PDOStatement
     {
         $table = str_replace(PREFIX, '', $table);
 
-        return $this->query('DELETE FROM `' . PREFIX . $table . '` WHERE `id`=' . (int) $ID . ' LIMIT 1');
+        return $this->query('DELETE FROM `' . PREFIX . $table . '` WHERE `id`=' . $ID . ' LIMIT 1');
     }
 
     /**
      * Updates a table for a given ID.
      * @param string  $table without PREFIX
-     * @param int     $id
      * @param mixed   $column might be an array
      * @param mixed   $value  might be an array
      */
-    public function update($table, $id, $column, $value)
+    public function update(string $table, int $id, $column, $value): void
     {
         $this->updateWhere($table, '`id`="' . $id . '" LIMIT 1', $column, $value);
     }
@@ -124,11 +118,10 @@ class PDOforRunalyze extends PDO
     /**
      * Update all rows for a given where-clause
      * @param string  $table without PREFIX
-     * @param string  $where
      * @param mixed   $column might be an array
      * @param mixed   $value  might be an array
      */
-    public function updateWhere($table, $where, $column, $value)
+    public function updateWhere(string $table, string $where, $column, $value)
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -153,7 +146,7 @@ class PDOforRunalyze extends PDO
      * @param array  $values
      * @return int       ID of inserted row
      */
-    public function insert($table, $columns, $values)
+    public function insert(string $table, $columns, $values): int
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -188,10 +181,9 @@ class PDOforRunalyze extends PDO
      *    - Sets strings to "$value"
      * @param mixed $values might be an array
      * @param bool $quotes  true for adding quotes for strings
-     * @param bool $forceAsString
      * @return mixed        safe value(s)
      */
-    public function escape($values, $quotes = true, $forceAsString = false)
+    public function escape($values, bool $quotes = true, bool $forceAsString = false)
     {
         if (is_array($values)) {
             foreach ($values as $key => $value) {
@@ -271,7 +263,7 @@ class PDOforRunalyze extends PDO
      * @return PDOStatement <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
      * on failure.
      */
-    public function query($statement)
+    public function query(string $statement)
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);

@@ -26,18 +26,12 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    /**
-     * @group review-later
-     * TODO: This test needs a deeper look later. It currently fails because the $result might be null.
-     */
     public function testEmptyContainer()
     {
-        $result = $this->Filter->filter($this->Container);
-        $this->assertInstanceOf(
-            ActivityDataContainer::class,
-            $result,
-            'filter() should return an instance of ActivityDataContainer'
-        );
+        $originalContainer = clone $this->Container;
+        $this->Filter->filter($this->Container);
+
+        $this->assertEquals($originalContainer, $this->Container);
     }
 
     public function testExampleWithoutAnyInvalidDistanceSteps()

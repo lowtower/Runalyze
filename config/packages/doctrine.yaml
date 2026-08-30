@@ -1,0 +1,66 @@
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     '%env(DATABASE_HOST)%'
+                port:     '%env(int:DATABASE_PORT)%'
+                dbname:   '%env(DATABASE_NAME)%'
+                user:     '%env(DATABASE_USER)%'
+                password: '%env(DATABASE_PASSWORD)%'
+                server_version: '%env(DATABASE_SERVER_VERSION)%'
+                charset:  UTF8
+                options: {1002: "SET time_zone = '+00:00'"}
+                mapping_types:
+                    enum: string
+                use_savepoints: true
+        types:
+            casted_decimal_1: Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale1Type
+            casted_decimal_2: Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale2Type
+            tinyint: Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType
+            pipe_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray
+            pipe_array_str: Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString
+            geohash_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray
+            runalyze_pause_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray
+            runalyze_round_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+        resolve_target_entities: ~
+        metadata_cache_driver:
+            type: pool
+            pool: doctrine.system_cache_pool
+        result_cache_driver:
+            type: pool
+            pool: doctrine.result_cache_pool
+        query_cache_driver:
+            type: pool
+            pool: doctrine.system_cache_pool
+        hydrators:
+            COLUMN_HYDRATOR: Runalyze\Bundle\CoreBundle\Doctrine\Hydrator\ColumnHydrator
+        dql:
+            datetime_functions:
+                from_unixtime: DoctrineExtensions\Query\Mysql\FromUnixtime
+                month: DoctrineExtensions\Query\Mysql\Month
+                week: DoctrineExtensions\Query\Mysql\Week
+                year: DoctrineExtensions\Query\Mysql\Year
+            numeric_functions:
+                round: DoctrineExtensions\Query\Mysql\Round
+
+framework:
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system

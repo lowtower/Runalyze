@@ -14,8 +14,8 @@ use Runalyze\Util\LocalTime;
 	<div class="hover-icons"><?php $this->displayHoverLinks(); ?></div>
 	<div style="max-width: 148px; display: inline-block; white-space: nowrap;">
 		<?php
-        foreach ($this->Sports as $id => $val) { // #TSC shows the sport icons for the timerange
-            echo $this->getSportLink($id, $val['name'], $val['icon'], $this->SportId == $id);
+        foreach ($this->getSports() as $id => $val) { // #TSC shows the sport icons for the timerange
+            echo $this->getSportLink($id, $val['name'], $val['icon'], $this->getSportId() == $id);
         }
 ?>
 	</div>
@@ -37,8 +37,8 @@ use Runalyze\Util\LocalTime;
 		</table>
 
 		<span id="calendar-result" class="hide"><?php _e('Choose a date ...'); ?></span>
-		<input id="calendar-start" type="hidden" value="<?php echo $this->TimestampStart; ?>000">
-		<input id="calendar-end" type="hidden" value="<?php echo $this->TimestampEnd; ?>000">
+		<input id="calendar-start" type="hidden" value="<?php echo $this->getTimestampStart(); ?>000">
+		<input id="calendar-end" type="hidden" value="<?php echo $this->getTimestampEnd(); ?>000">
 
         <input id="calendar-locale" type="hidden" value="<?php
 
@@ -72,7 +72,7 @@ echo htmlspecialchars(json_encode($locale)) ?>">
 	</div>
 
 <?php
-if ($this->DayCount < 25) {
+if ($this->getDayCount() < 25) {
     $weekSeparator = ' top-separated';
     $monthSeparator = ' top-separated-light';
 } else {
@@ -80,8 +80,8 @@ if ($this->DayCount < 25) {
     $monthSeparator = ' top-separated';
 }
 
-$Context = new \Runalyze\Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->AccountID);
-$Table = new \Runalyze\View\Dataset\Table($this->DatasetConfig);
+$Context = new \Runalyze\Dataset\Context(new Runalyze\Model\Activity\Entity(), $this->getAccountId());
+$Table = new \Runalyze\View\Dataset\Table($this->getDatasetConfig());
 ?>
 
 	<div id="data-browser-container">
@@ -89,7 +89,7 @@ $Table = new \Runalyze\View\Dataset\Table($this->DatasetConfig);
 			<?php if (\Runalyze\Configuration::DataBrowser()->showLabels()) { ?>
 			<thead class="data-browser-labels">
 				<tr class="small">
-					<td colspan="<?php echo $this->AdditionalColumns; ?>"></td>
+					<td colspan="<?php echo $this->getAdditionalColumns(); ?>"></td>
 					<?php echo $Table->codeForColumnLabels(); ?>
 				</tr>
 			</thead>
@@ -98,7 +98,7 @@ $Table = new \Runalyze\View\Dataset\Table($this->DatasetConfig);
 <?php
 $currentWeek = null;
 $currentMonth = null;
-foreach ($this->Days as $i => $day) {
+foreach ($this->getDays() as $i => $day) {
     $trClass = '';
     $week = (int) \Runalyze\Configuration::General()->weekStart()->phpWeek($day['date'], true);
     $month = (int) LocalTime::date('n', $day['date']);
@@ -114,7 +114,8 @@ foreach ($this->Days as $i => $day) {
     if (! empty($day['trainings'])) {
         foreach ($day['trainings'] as $t => $Training) {
             $id = $Training['id'];
-            $Sport = $this->Factory->sport($id);
+            $Sport = $this->getFactory()
+                ->sport($id);
             $wk_class = ($Training['is_race']) ? ' wk' : '';
             $trClass = ($t == 0) ? $trClass : '';
 
@@ -171,7 +172,7 @@ foreach ($this->Days as $i => $day) {
 
         echo '</td>
 				<td class="l as-small-as-possible">' . $this->dateString($day['date']) . '</td>
-				<td colspan="' . ($Table->numColumns() + $this->AdditionalColumns - 2) . '"></td>
+				<td colspan="' . ($Table->numColumns() + $this->getAdditionalColumns() - 2) . '"></td>
 			</tr>';
 
         $currentWeek = $week;
@@ -179,21 +180,23 @@ foreach ($this->Days as $i => $day) {
     }
 }
 
-if ($this->AllDaysEmpty && \Runalyze\Configuration::DataBrowser()->showActiveDaysOnly()) {
-    echo '<tr><td colspan="' . ($Table->numColumns() + $this->AdditionalColumns) . '"><em>' . __('There are no activities for this time range.') . '</em></td></tr>';
+if ($this->getAllDaysEmpty() && \Runalyze\Configuration::DataBrowser()->showActiveDaysOnly()) {
+    echo '<tr><td colspan="' . ($Table->numColumns() + $this->getAdditionalColumns()) . '"><em>' . __('There are no activities for this time range.') . '</em></td></tr>';
 }
 
 echo '</tbody>';
 echo '<tbody>';
 
-$Summary = $this->DatasetQuery->fetchSummaryForAllSport($this->TimestampStart, $this->TimestampEnd, $this->SportId);
+$Summary = $this->getDatasetQuery()
+    ->fetchSummaryForAllSport($this->getTimestampStart(), $this->getTimestampEnd(), $this->getSportId());
 
 foreach ($Summary as $data) {
-    $Sport = $this->Factory->sport($data['sportid']);
+    $Sport = $this->getFactory()
+        ->sport($data['sportid']);
     $Context->setActivityData($data);
 
     echo '<tr class="r no-zebra">';
-    echo '<td colspan="' . $this->AdditionalColumns . '"><small>' . $data['num'] . 'x</small> ' . $Sport->name() . '</td>';
+    echo '<td colspan="' . $this->getAdditionalColumns() . '"><small>' . $data['num'] . 'x</small> ' . $Sport->name() . '</td>';
     echo $Table->codeForColumns($Context, [Runalyze\Dataset\Keys::SPORT]);
     echo '</tr>';
 }

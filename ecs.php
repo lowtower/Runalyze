@@ -11,13 +11,14 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return ECSConfig::configure()
     ->withPaths([
-        __DIR__ . '/app',
+        __DIR__ . '/bin',
+        __DIR__ . '/config',
         __DIR__ . '/inc',
         __DIR__ . '/lib',
         __DIR__ . '/plugin',
+        __DIR__ . '/public',
         __DIR__ . '/src',
         __DIR__ . '/tests',
-        __DIR__ . '/web',
     ])
     // include *.php files in the root directory
     ->withRootFiles()

@@ -3,18 +3,15 @@
 namespace Runalyze\Bundle\CoreBundle\Services;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 trait TokenStorageAwareServiceTrait
 {
-    /**
-     * @var TokenStorage
-     */
-    protected $TokenStorage;
+    protected TokenStorageInterface $TokenStorageInterface;
 
     protected function knowsUser(): bool
     {
-        return $this->TokenStorage->getToken() !== null && $this->TokenStorage->getToken()
+        return $this->TokenStorageInterface->getToken() !== null && $this->TokenStorageInterface->getToken()
             ->getUser() instanceof Account;
     }
 
@@ -23,7 +20,12 @@ trait TokenStorageAwareServiceTrait
      */
     protected function getUser()
     {
-        return $this->knowsUser() ? $this->TokenStorage->getToken()
-            ->getUser() : null;
+        if (! $this->knowsUser()) {
+            return null;
+        }
+
+        $user = $this->TokenStorageInterface->getToken()
+            ->getUser();
+        return $user instanceof Account ? $user : null;
     }
 }

@@ -3,9 +3,10 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Util\LocalTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/_internal/panel")
  */
-class PanelController extends Controller
+class PanelController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @Route("/sport", name="internal-sport-panel")
@@ -21,14 +22,15 @@ class PanelController extends Controller
      */
     public function sportStatAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
+        /** @var SportRepository $sportRepository */
         $sportRepository = $this->getDoctrine()
-            ->getRepository('CoreBundle:Sport');
+            ->getRepository(Sport::class);
         $today = (new LocalTime())->setTime(0, 0, 0);
 
         return new JsonResponse([
             'weekStatistics' => $sportRepository->getSportStatisticsSince($today->weekstart(), $account, true),
-            'monthStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), $today->format('m'), 1)->getTimestamp(), $account, true),
-            'yearStatistics' => $sportRepository->getSportStatisticsSince($today->setDate($today->format('Y'), 1, 1)->getTimestamp(), $account, true),
+            'monthStatistics' => $sportRepository->getSportStatisticsSince($today->setDate((int) $today->format('Y'), (int) $today->format('m'), 1)->getTimestamp(), $account, true),
+            'yearStatistics' => $sportRepository->getSportStatisticsSince($today->setDate((int) $today->format('Y'), 1, 1)->getTimestamp(), $account, true),
             'totalStatistics' => $sportRepository->getSportStatisticsSince(null, $account, true),
         ]);
     }

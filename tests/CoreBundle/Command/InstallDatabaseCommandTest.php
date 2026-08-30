@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Command;
 
-use Runalyze\Bundle\CoreBundle\Command\InstallDatabaseCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -49,12 +48,16 @@ class InstallDatabaseCommandTest extends KernelTestCase
     protected function dropAllTables()
     {
         if ($this->Connection !== null) {
-            $stmt = $this->Connection->executeQuery('SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"');
+            $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
+            $stmt = $this->Connection->executeQuery($query);
             $tables = $stmt->fetchFirstColumn();
 
             if (! empty($tables)) {
                 $this->Connection->executeStatement('SET foreign_key_checks = 0');
-                $this->Connection->executeQuery('DROP TABLE `' . implode('`, `', $tables) . '`');
+                foreach ($tables as $table) {
+                    $this->Connection->executeStatement('DROP TABLE `' . $table . '`');
+                }
+
                 $this->Connection->executeStatement('SET foreign_key_checks = 1');
             }
         }
@@ -63,16 +66,15 @@ class InstallDatabaseCommandTest extends KernelTestCase
     public function testExecute()
     {
         $application = new Application(static::$kernel);
-        $application->add(new InstallDatabaseCommand());
 
         $command = $application->find('runalyze:install:database');
         $commandTester = new CommandTester($command);
         $commandTester->execute([]);
 
-        $this->assertEquals(24, $this->Connection->executeQuery(
-            'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"'
-        )->rowCount());
+        $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
+        $tableCount = count($this->Connection->executeQuery($query)->fetchAllAssociative());
 
+        $this->assertEquals(24, $tableCount);
         $this->assertRegExp('/Database has been successfully initialized./', $commandTester->getDisplay());
     }
 }

@@ -11,5 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class ContainsDisposableMailAddress extends Constraint
 {
-    public $message = 'Disposable email addresses are not permitted.';
+    #   public string $message = 'Disposable email addresses are not permitted.';
+    public string $message = 'Disposable email addresses are not permitted: "{{ value }}"';
 }

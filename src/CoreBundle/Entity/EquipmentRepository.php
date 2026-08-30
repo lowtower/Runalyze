@@ -70,7 +70,7 @@ class EquipmentRepository extends EntityRepository
         }
 
         if ($flush) {
-            $this->_em->flush($equipment);
+            $this->_em->flush();
         }
     }
 

@@ -1,35 +1,4 @@
 services:
-  db:
-    image: docker.io/library/mariadb:12.3
-    container_name: runalyze43-db
-    environment:
-      MYSQL_DATABASE: ${DB_NAME:-runalyze}
-      MYSQL_USER: ${DB_USER:-runalyze}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-runalyze}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
-      TZ: ${TZ:-Europe/Berlin}
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-      - --sql-mode=TRADITIONAL
-      - --innodb-file-format=Barracuda
-      - --innodb-file-per-table=1
-      - --innodb-large-prefix=1
-      - --wait-timeout=36000
-      - --max-allowed-packet=134217728
-    ports:
-      - "${DB_PORT:-3307}:3306"
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./docker/mysql:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
-      interval: 5s
-      timeout: 3s
-      retries: 30
-      start_period: 20s
-    restart: unless-stopped
-
   redis:
     image: docker.io/library/redis:6.2-alpine
     container_name: runalyze43-redis
@@ -43,14 +12,6 @@ services:
       retries: 20
     restart: unless-stopped
 
-  mailhog:
-    image: docker.io/mailhog/mailhog:v1.0.1
-    container_name: runalyze43-mailhog
-    ports:
-      - "${MAILHOG_SMTP_PORT:-1025}:1025"
-      - "${MAILHOG_UI_PORT:-8025}:8025"
-    restart: unless-stopped
-
   app:
     build:
       context: .
@@ -60,9 +21,8 @@ services:
       LANG: C.UTF-8
       LANGUAGE: C.UTF-8
       LC_ALL: C.UTF-8
-      APP_ENV: dev
-      SYMFONY_ENV: dev
       TZ: ${TZ:-Europe/Berlin}
+      APP_ENV: ${APP_ENV:-dev}
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: ${DB_NAME:-runalyze}
@@ -119,8 +79,44 @@ services:
       - node-modules:/var/www/html/node_modules
     command: ["bash", "-lc", "set -e && npm install --ignore-scripts && npm run bower:install && npm run build"]
 
+###> doctrine/doctrine-bundle ###
+  db:
+    image: docker.io/library/mariadb:12.3
+    container_name: runalyze43-db
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-runalyze}
+      MYSQL_USER: ${DB_USER:-runalyze}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-runalyze}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      TZ: ${TZ:-Europe/Berlin}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --sql-mode=TRADITIONAL
+      - --innodb-file-format=Barracuda
+      - --innodb-file-per-table=1
+      - --innodb-large-prefix=1
+      - --wait-timeout=36000
+      - --max-allowed-packet=134217728
+    ports:
+      - "${DB_PORT:-3307}:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+###< doctrine/doctrine-bundle ###
+
 volumes:
-  db-data:
   redis-data:
   composer-cache:
   node-modules:
+
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

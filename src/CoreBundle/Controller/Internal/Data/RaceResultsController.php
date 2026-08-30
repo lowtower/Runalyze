@@ -2,25 +2,27 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Data;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Util\LocalTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/_internal/data/race-results")
  */
-class RaceResultsController extends Controller
+class RaceResultsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @return \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository
      */
     protected function getRaceResultRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Raceresult');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class);
     }
 
     /**
@@ -36,7 +38,7 @@ class RaceResultsController extends Controller
             ->getLookup() ?: $this->get('app.age_grade_lookup')
             ->getDefaultLookup();
         $funIds = $this->getDoctrine()
-            ->getRepository('CoreBundle:PluginConf')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\PluginConf::class)
             ->getAllActivityIdsOfFunRaces($account);
 
         foreach ($races as $race) {

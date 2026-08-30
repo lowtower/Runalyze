@@ -10,5 +10,5 @@ $CHMOD_FOLDERS = [
     'data/log/',
     'data/sessions/',
     'var/cache/',
-    'var/logs/',
+    'var/log/',
 ];

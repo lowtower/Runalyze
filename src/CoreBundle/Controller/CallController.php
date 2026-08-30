@@ -3,21 +3,37 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class CallController extends Controller
+class CallController extends AbstractController
 {
+    use AppServiceSubscriberTrait;
+
+    private TokenStorageInterface $tokenStorage;
+
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag
+    ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+    }
+
     /**
      * @Route("/call/call.DataBrowser.display.php")
      * @Route("databrowser", name="databrowser")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dataBrowserAction(): \Symfony\Component\HttpFoundation\Response
+    public function dataBrowserAction(): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         $DataBrowser = new \DataBrowser();
         $DataBrowser->display();
 
@@ -29,10 +45,10 @@ class CallController extends Controller
      * @Route("/upload/garminCommunicator")
      * @Security("has_role('ROLE_USER')")
      */
-    public function garminCommunicatorAction(): \Symfony\Component\HttpFoundation\Response
+    public function garminCommunicatorAction(): Response
     {
         return $this->render('import/garmin_communicator.html.twig', [
-            'garminAPIKey' => $this->getParameter('garmin_api_key'),
+            'garminAPIKey' => $this->parameterBag->get('app.garmin_api_key'),
         ]);
     }
 
@@ -40,7 +56,7 @@ class CallController extends Controller
      * @Route("/call/savePng.php", methods={"POST"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function savePngAction(): \Symfony\Component\HttpFoundation\Response
+    public function savePngAction(): Response
     {
         header('Content-type: image/png');
         header('Content-Disposition: attachment; filename=' . strtolower(str_replace(' ', '_', $_POST['filename'])));
@@ -54,9 +70,9 @@ class CallController extends Controller
      * @Route("/settings", name="settings")
      * @Security("has_role('ROLE_USER')")
      */
-    public function windowConfigAction(Request $request): \Symfony\Component\HttpFoundation\Response
+    public function windowConfigAction(Request $request): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         $ConfigTabs = new \ConfigTabs();
         $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
         $ConfigTabs->addTab(new \ConfigTabPlugins());
@@ -71,9 +87,9 @@ class CallController extends Controller
      * @Route("/call/ajax.change.Config.php", methods={"GET"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function ajaxChanceConfigAction(): \Symfony\Component\HttpFoundation\Response
+    public function ajaxChanceConfigAction(): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         switch ($_GET['key']) {
             case 'garmin-ignore':
@@ -100,7 +116,7 @@ class CallController extends Controller
      */
     public function windowSearchAction()
     {
-        $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $showResults = ! empty($_POST);
 
         if (isset($_GET['get']) && $_GET['get'] == 'true') {
@@ -149,9 +165,9 @@ class CallController extends Controller
     /**
      * @Route("/call/window.plotSumData.php")
      */
-    public function windowsPlotSumDataAction(): \Symfony\Component\HttpFoundation\Response
+    public function windowsPlotSumDataAction(): Response
     {
-        $Frontend = new \Frontend(false, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $this->getPlotSumData()
             ->display();
 
@@ -161,7 +177,7 @@ class CallController extends Controller
     /**
      * @Route("/call/login.php")
      */
-    public function loginAction(): \Symfony\Component\HttpFoundation\Response
+    public function loginAction(): Response
     {
         return $this->render('login/ajax_not_logged_in.html.twig');
     }

@@ -40,9 +40,9 @@ class VO2maxCalculator
      */
     public function calculateFor(
         Training $activity,
-        $heartRateMaximum,
-        $correctionForPositiveElevation,
-        $correctionForNegativeElevation
+        int $heartRateMaximum,
+        int $correctionForPositiveElevation,
+        int $correctionForNegativeElevation
     ) {
         $this->Activity = $activity;
         $this->HeartRateMaximum = $heartRateMaximum;
@@ -60,14 +60,14 @@ class VO2maxCalculator
      */
     protected function estimateVO2maxByTime(): float
     {
-        return $this->EstimationFormula->estimateFromRaceResult($this->Activity->getDistance(), $this->Activity->getS());
+        return $this->EstimationFormula->estimateFromRaceResult($this->Activity->getDistance(), (int) $this->Activity->getS());
     }
 
     /**
      * @param float|null $distance [km]
      * @return float [ml/kg/min]
      */
-    protected function estimateVO2maxByHeartRate($distance = null): float
+    protected function estimateVO2maxByHeartRate(?float $distance = null): float
     {
         $duration = $this->Activity->getS();
         $distance = $distance ?: $this->Activity->getDistance();

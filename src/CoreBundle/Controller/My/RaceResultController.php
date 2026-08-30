@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My;
 
+use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
@@ -10,7 +11,6 @@ use Runalyze\Bundle\CoreBundle\Form\RaceResultType;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Sports\Running\VO2max\Estimation\DanielsGilbertFormula;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,15 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/my/raceresult")
  * @Security("has_role('ROLE_USER')")
  */
-class RaceResultController extends Controller
+class RaceResultController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @return RaceresultRepository
      */
     protected function getRaceresultRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Raceresult');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class);
     }
 
     /**
@@ -37,7 +39,7 @@ class RaceResultController extends Controller
     {
         /** @var null|Training $activity */
         $activity = $this->getDoctrine()
-            ->getRepository('CoreBundle:Training')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
             ->findForAccount($activityId, $account->getId());
 
         if ($activity === null) {
@@ -120,7 +122,7 @@ class RaceResultController extends Controller
 
         return $this->render('my/raceresult/performance_chart.html.twig', [
             'runningSportId' => $this->getDoctrine()
-                ->getRepository('CoreBundle:Sport')
+                ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class)
                 ->findRunningFor($account)
                 ->getId(),
             'mainDistances' => $distances,

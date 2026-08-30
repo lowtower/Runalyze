@@ -4,7 +4,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Tool\Anova\QueryValue;
 
 use Doctrine\ORM\QueryBuilder;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem;
-use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 
 class Pace implements QueryValueInterface
 {
@@ -15,10 +14,7 @@ class Pace implements QueryValueInterface
             ->andWhere(sprintf('%s.distance IS NOT NULL', $alias));
     }
 
-    /**
-     * @return AbstractPaceUnit
-     */
-    public function getValueUnit(UnitSystem $unitSystem)
+    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit
     {
         return $unitSystem->getPaceUnit();
     }

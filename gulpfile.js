@@ -52,7 +52,7 @@ function scripts() {
 scripts.description = 'Combine and minify javascript files.';
 
 function tests() {
-    return gulp.src('./tests/config.xml')
+    return gulp.src('./phpunit.xml.dist')
         .pipe(phpunit('./vendor/bin/phpunit', { bootstrap: './tests/bootstrap.php', statusLine: false }));
 }
 tests.description = 'Run phpunit.';

@@ -67,13 +67,13 @@ class DataBrowserShared extends DataBrowser
     /**
      * Display specific icon-links
      */
-    protected function displayIconLinks()
+    public function displayIconLinks()
     {
         echo $this->getMonthKmLink();
         echo $this->getWeekKmLink();
     }
 
-    protected function displayHoverLinks()
+    public function displayHoverLinks()
     {
         echo $this->getRefreshLink();
     }
@@ -133,7 +133,7 @@ class DataBrowserShared extends DataBrowser
      * Additional columns that are shown next to date columns
      * @return string html string that must contain `$this->AdditionalColumns - 2` columns
      */
-    protected function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
+    public function codeForAdditionalColumnsForActivity(View\Dataset\Table $table, Dataset\Context $context): string
     {
         return $table->codeForPublicIcon($context);
     }

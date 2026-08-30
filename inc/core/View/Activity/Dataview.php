@@ -136,7 +136,7 @@ class Dataview
                 ->name();
         }
 
-        return $Factory->sport($this->Activity->sportid())
+        return $Factory->sport((int) $this->Activity->sportid())
             ->name();
     }
 

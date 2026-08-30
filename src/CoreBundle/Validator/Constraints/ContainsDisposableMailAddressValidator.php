@@ -10,7 +10,12 @@ class ContainsDisposableMailAddressValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if ((new \EmailValidator\Validator())->isDisposable($value)) {
+            if (! $constraint instanceof ContainsDisposableMailAddress) {
+                throw new \InvalidArgumentException('Expected constraint of type ContainsDisposableMailAddress.');
+            }
+
             $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', (string) $value)
                 ->addViolation();
         }
     }

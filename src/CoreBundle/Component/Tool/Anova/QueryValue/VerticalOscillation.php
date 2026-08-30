@@ -15,10 +15,7 @@ class VerticalOscillation extends AbstractOneColumnValue
         return 'verticalOscillation';
     }
 
-    /**
-     * @return UnitInterface
-     */
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\Common\Unit\Factorial
+    public function getValueUnit(UnitSystem $unitSystem): UnitInterface
     {
         return new Factorial('cm', 0.1);
     }

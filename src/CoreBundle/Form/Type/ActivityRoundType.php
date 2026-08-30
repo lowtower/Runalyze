@@ -40,7 +40,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
 
     /**
      * @param  mixed $value
-     * @return array
+     * @return ?array
      */
     public function transform($value)
     {

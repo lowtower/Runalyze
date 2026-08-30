@@ -21,7 +21,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         parent::setUp();
 
-        $this->AccountRepository = $this->EntityManager->getRepository('CoreBundle:Account');
+        $this->AccountRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
     }
 
     /**
@@ -87,7 +87,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->EntityManager->persist($this->getNewAccount('todays_user')->setActivationHash(bin2hex(random_bytes(16)))->setRegisterdate(time()));
         $this->EntityManager->flush();
 
-        $this->assertEquals(3, $this->AccountRepository->deleteNotActivatedAccounts(7));
+        $this->assertEquals(3, count($this->AccountRepository->deleteNotActivatedAccounts(7)));
         $this->assertNotNull($this->AccountRepository->loadUserByUsername('foobar'));
         $this->assertNotNull($this->AccountRepository->loadUserByUsername('todays_user'));
     }

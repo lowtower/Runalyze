@@ -100,9 +100,8 @@ class RunalyzePluginStat_Wetter extends PluginStat
     /**
      * Timer for year or ordered months
      * @param bool $addTableName must be used if query contains joins
-     * @return string
      */
-    protected function getTimerForOrderingInQuery($addTableName = false)
+    protected function getTimerForOrderingInQuery(bool $addTableName = false): string
     {
         $time = $addTableName ? '`' . PREFIX . 'training`.`time`' : '`time`';
 

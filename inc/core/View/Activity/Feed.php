@@ -11,7 +11,6 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Util\LocalTime;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class Feed
 {
@@ -26,7 +25,7 @@ class Feed
     protected $FeedBuilder;
 
     /**
-     * @var TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     protected $Translator;
 
@@ -50,7 +49,7 @@ class Feed
      */
     protected $UnitSystem;
 
-    public function __construct(TranslatorInterface $translator, ActivityContextFactory $activityContextFactory, UrlGeneratorInterface $urlGenerator, ConfigurationManager $configurationManager)
+    public function __construct(\Symfony\Contracts\Translation\TranslatorInterface $translator, ActivityContextFactory $activityContextFactory, UrlGeneratorInterface $urlGenerator, ConfigurationManager $configurationManager)
     {
         $this->FeedBuilder = new Rss20FeedBuilder();
         $this->ActivityContextFactory = $activityContextFactory;
@@ -62,7 +61,7 @@ class Feed
             ->getUnitSystem();
     }
 
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(\Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
         $this->Translator = $translator;
     }

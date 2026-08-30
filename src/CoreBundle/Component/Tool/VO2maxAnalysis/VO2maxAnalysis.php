@@ -8,25 +8,13 @@ use Runalyze\Model;
 
 class VO2maxAnalysis
 {
-    /**
-     * @var float
-     */
-    protected $VO2maxFactor;
+    protected float $VO2maxFactor;
 
-    /**
-     * @var int
-     */
-    protected $AccountId;
+    protected int $AccountId;
 
-    /**
-     * @var int
-     */
-    protected $RunningSportId;
+    protected int $RunningSportId;
 
-    /**
-     * @var Configuration\Category\VO2max
-     */
-    protected $VO2maxConfig;
+    protected Configuration\Category\VO2max $VO2maxConfig;
 
     public function __construct(Configuration\Category\VO2max $vo2maxConfig)
     {
@@ -83,12 +71,9 @@ class VO2maxAnalysis
     /**
      * Load shape
      *
-     * @param int $time
-     * @return float
-     *
      * @TODO use Doctrine
      */
-    protected function loadUncorrectedShape($time)
+    protected function loadUncorrectedShape(int $time): float
     {
         $Shape = new Shape(
             \DB::getInstance(),

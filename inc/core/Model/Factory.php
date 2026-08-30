@@ -20,32 +20,28 @@ class Factory
 {
     /**
      * Database
-     * @var \PDOforRunalyze
      */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
     /**
      * Account ID
-     * @var int
      */
-    protected $AccountID;
+    protected int $AccountID;
 
     /**
      * Array with tablenames that should be cached statically
-     * @var array
      */
-    protected $UseStaticCacheAndFullFetch = [];
+    protected array $UseStaticCacheAndFullFetch = [];
 
     /**
      * Static cache to not read file-cache every time
-     * @var array
      */
-    public static $StaticCache = [];
+    public static array $StaticCache = [];
 
     /**
      * @param int $accountID [optional]
      */
-    public function __construct($accountID = null)
+    public function __construct(?int $accountID = null)
     {
         $this->DB = DB::getInstance();
         $this->AccountID = $accountID;
@@ -66,70 +62,49 @@ class Factory
         return $this->AccountID !== null;
     }
 
-    /**
-     * @param int $activityid
-     */
-    public function activity($activityid): \Runalyze\Model\Activity\Entity
+    public function activity(int $activityid): \Runalyze\Model\Activity\Entity
     {
         return new Activity\Entity(
             $this->arrayByPK('training', $activityid)
         );
     }
 
-    /**
-     * @param int $activityid
-     */
-    public function trackdata($activityid): \Runalyze\Model\Trackdata\Entity
+    public function trackdata(int $activityid): \Runalyze\Model\Trackdata\Entity
     {
         return new Trackdata\Entity(
             $this->arrayByPK('trackdata', $activityid)
         );
     }
 
-    /**
-     * @param int $activityid
-     */
-    public function swimdata($activityid): \Runalyze\Model\Swimdata\Entity
+    public function swimdata(int $activityid): \Runalyze\Model\Swimdata\Entity
     {
         return new Swimdata\Entity(
             $this->arrayByPK('swimdata', $activityid)
         );
     }
 
-    /**
-     * @param int $routeid
-     */
-    public function route($routeid): \Runalyze\Model\Route\Entity
+    public function route(int $routeid): \Runalyze\Model\Route\Entity
     {
         return new Route\Entity(
             $this->arrayByPK('route', $routeid)
         );
     }
 
-    /**
-     * @param int $activityid
-     */
-    public function hrv($activityid): \Runalyze\Model\HRV\Entity
+    public function hrv(int $activityid): \Runalyze\Model\HRV\Entity
     {
         return new HRV\Entity(
             $this->arrayByPK('hrv', $activityid)
         );
     }
 
-    /**
-     * @param int $activityid
-     */
-    public function raceResult($activityid): \Runalyze\Model\RaceResult\Entity
+    public function raceResult(int $activityid): \Runalyze\Model\RaceResult\Entity
     {
         return new RaceResult\Entity(
             $this->arrayByPK('raceresult', $activityid)
         );
     }
 
-    /**
-     * @param int $typeid
-     */
-    public function type($typeid): \Runalyze\Model\Type\Entity
+    public function type(int $typeid): \Runalyze\Model\Type\Entity
     {
         return new Type\Entity(
             $this->arrayByPK('type', $typeid)
@@ -148,10 +123,9 @@ class Factory
     }
 
     /**
-     * @param int $sportid
      * @return \Runalyze\Model\Type\Entity[]
      */
-    public function typeForSport($sportid): array
+    public function typeForSport(int $sportid): array
     {
         $Types = $this->allTypes();
         $SportTypes = [];
@@ -165,10 +139,7 @@ class Factory
         return $SportTypes;
     }
 
-    /**
-     * @param int $sportid
-     */
-    public function sport($sportid): \Runalyze\Model\Sport\Entity
+    public function sport(int $sportid): \Runalyze\Model\Sport\Entity
     {
         return new Sport\Entity(
             $this->arrayByPK('sport', $sportid)
@@ -186,20 +157,14 @@ class Factory
         });
     }
 
-    /**
-     * @param int $equipmentTypeid
-     */
-    public function equipmentType($equipmentTypeid): \Runalyze\Model\EquipmentType\Entity
+    public function equipmentType(int $equipmentTypeid): \Runalyze\Model\EquipmentType\Entity
     {
         return new EquipmentType\Entity(
             $this->arrayByPK('equipment_type', $equipmentTypeid)
         );
     }
 
-    /**
-     * @param int $equipmentid
-     */
-    public function equipment($equipmentid): \Runalyze\Model\Equipment\Entity
+    public function equipment(int $equipmentid): \Runalyze\Model\Equipment\Entity
     {
         return new Equipment\Entity(
             $this->arrayByPK('equipment', $equipmentid)
@@ -207,11 +172,10 @@ class Factory
     }
 
     /**
-     * @param int $activityid
      * @param bool $onlyIDs [optional]
      * @return int[]|\Runalyze\Model\Equipment\Entity[]
      */
-    public function equipmentForActivity($activityid, $onlyIDs = false)
+    public function equipmentForActivity(int $activityid, bool $onlyIDs = false)
     {
         $Equipment = [];
 
@@ -228,10 +192,7 @@ class Factory
         return $Equipment;
     }
 
-    /**
-     * @param int $tagid
-     */
-    public function tag($tagid): \Runalyze\Model\Tag\Entity
+    public function tag(int $tagid): \Runalyze\Model\Tag\Entity
     {
         return new Tag\Entity(
             $this->arrayByPK('tag', $tagid)
@@ -250,11 +211,10 @@ class Factory
     }
 
     /**
-     * @param int $activityid
      * @param bool $onlyIDs [optional]
      * @return int[]|\Runalyze\Model\Tag\Entity[]
      */
-    public function tagForActivity($activityid, $onlyIDs = false)
+    public function tagForActivity(int $activityid, bool $onlyIDs = false)
     {
         $Tag = [];
 
@@ -273,12 +233,10 @@ class Factory
 
     /**
      * Array by primary key
-     * @param string $tablename
-     * @param int $id
      * @param int $cachetime [optional]
      * @return array
      */
-    protected function arrayByPK($tablename, $id, $cachetime = 3600)
+    protected function arrayByPK(string $tablename, int $id, int $cachetime = 3600)
     {
         if (! $cachetime) {
             return $this->fetch($tablename, $id);
@@ -293,11 +251,9 @@ class Factory
 
     /**
      * Array by primary key from static cache
-     * @param string $tablename
-     * @param int $id
      * @return array
      */
-    protected function arrayByPKfromStaticCache($tablename, $id)
+    protected function arrayByPKfromStaticCache(string $tablename, int $id)
     {
         if (! isset(self::$StaticCache[$tablename])) {
             $this->fetchStaticCache($tablename);
@@ -306,10 +262,7 @@ class Factory
         return self::$StaticCache[$tablename][$id] ?? [];
     }
 
-    /**
-     * @param string $tablename
-     */
-    protected function fetchStaticCache($tablename)
+    protected function fetchStaticCache(string $tablename)
     {
         $pk = $this->primaryKey($tablename);
         $allData = $this->fetch($tablename, 0, true);
@@ -322,12 +275,10 @@ class Factory
 
     /**
      * Array by primary key from cache class
-     * @param string $tablename
-     * @param int $id
      * @param int $cachetime [optional]
      * @return array
      */
-    protected function arrayByPKfromCache($tablename, $id, $cachetime)
+    protected function arrayByPKfromCache(string $tablename, int $id, int $cachetime)
     {
         $data = Cache::get($tablename . $id);
 
@@ -341,11 +292,10 @@ class Factory
     }
 
     /**
-     * @param string $tablename
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function allData($tablename)
+    protected function allData(string $tablename)
     {
         if (! isset($this->UseStaticCacheAndFullFetch[$tablename])) {
             throw new \InvalidArgumentException('The table "' . $tablename . '" does not provide a full fetch');
@@ -359,10 +309,9 @@ class Factory
     }
 
     /**
-     * @param string $tablename
      * @return \Runalyze\Model\Entity[]
      */
-    public function allObjects($tablename, \Closure $constructor): array
+    public function allObjects(string $tablename, \Closure $constructor): array
     {
         $allObjects = [];
         $allData = $this->allData($tablename);
@@ -382,8 +331,8 @@ class Factory
     public function clearCache($tablename = false, $id = false)
     {
         if ($tablename === false) {
-            foreach (array_keys($this->UseStaticCacheAndFullFetch) as $tablename) {
-                $this->clearCache($tablename);
+            foreach (array_keys($this->UseStaticCacheAndFullFetch) as $tablename_cached) {
+                $this->clearCache($tablename_cached);
             }
 
             return;
@@ -402,20 +351,17 @@ class Factory
 
     /**
      * Fetch data
-     * @param string $tablename
-     * @param int $id
-     * @param bool $fullFetch
      * @return array
      */
-    protected function fetch($tablename, $id, $fullFetch = false)
+    protected function fetch(string $tablename, int $id, bool $fullFetch = false)
     {
         $field = $this->primaryKey($tablename);
-        $AndAccountID = $this->hasAccountID() && $this->tableHasAccountid($tablename) ? 'AND `accountid`=' . (int) $this->AccountID : '';
+        $AndAccountID = $this->hasAccountID() && $this->tableHasAccountid($tablename) ? 'AND `accountid`=' . $this->AccountID : '';
 
         if ($fullFetch) {
             $result = $this->DB->query('SELECT * FROM `' . PREFIX . $tablename . '` WHERE 1 ' . $AndAccountID . ' ' . $this->orderBy($tablename))->fetchAll();
         } else {
-            $result = $this->DB->query('SELECT * FROM `' . PREFIX . $tablename . '` WHERE `' . $field . '`=' . (int) $id . ' ' . $AndAccountID . ' LIMIT 1')->fetch();
+            $result = $this->DB->query('SELECT * FROM `' . PREFIX . $tablename . '` WHERE `' . $field . '`=' . $id . ' ' . $AndAccountID . ' LIMIT 1')->fetch();
         }
 
         if (! is_array($result)) {
@@ -427,9 +373,8 @@ class Factory
 
     /**
      * Get primary key
-     * @param string $tablename
      */
-    protected function primaryKey($tablename): string
+    protected function primaryKey(string $tablename): string
     {
         switch ($tablename) {
             case 'trackdata':
@@ -445,9 +390,8 @@ class Factory
 
     /**
      * Has the table a column 'accountid'?
-     * @param string $tablename
      */
-    protected function tableHasAccountid($tablename): bool
+    protected function tableHasAccountid(string $tablename): bool
     {
         switch ($tablename) {
             case 'account':
@@ -460,9 +404,8 @@ class Factory
 
     /**
      * Order for full fetch
-     * @param string $tablename
      */
-    protected function orderBy($tablename): string
+    protected function orderBy(string $tablename): string
     {
         switch ($tablename) {
             case 'sport':

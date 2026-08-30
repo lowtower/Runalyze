@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Profile\Weather\Source;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 /**
  * #TSC new source of meteostat.net
  */
@@ -16,7 +14,7 @@ class MeteostatNet extends AbstractSource
         return WeatherSourceProfile::METEOSTAT_NET;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator): string
+    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator): string
     {
         return 'meteostat.net';
     }

@@ -98,11 +98,11 @@ class Calculator
      * @author Nils Frohberg
      * @author Hannes Christiansen
      * @see http://www.blog.ultracycle.net/2010/05/cycling-power-calculations
-     * @param int $weight [kg] Weight of rider and bike
+     * @param float $weight [kg] Weight of rider and bike
      * @param float $powerFactor constant factor
      * @return array
      */
-    public function calculate($weight = 75, $powerFactor = 1.0)
+    public function calculate(float $weight = 75.0, float $powerFactor = 1.0)
     {
         if (! $this->Trackdata->has(Trackdata\Entity::TIME) || ! $this->Trackdata->has(Trackdata\Entity::DISTANCE)) {
             return [];

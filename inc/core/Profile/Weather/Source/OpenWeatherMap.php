@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Profile\Weather\Source;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 class OpenWeatherMap extends AbstractSource
 {
     public function getInternalProfileEnum(): int
@@ -13,7 +11,7 @@ class OpenWeatherMap extends AbstractSource
         return WeatherSourceProfile::OPEN_WEATHER_MAP;
     }
 
-    public function getAttributionLabel(TranslatorInterface $translator): string
+    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator): string
     {
         return 'openweathermap.org';
     }

@@ -44,7 +44,7 @@ class DurationType extends AbstractType implements DataTransformerInterface
 
     /**
      * @param  string|null $duration
-     * @return float
+     * @return ?float
      * @throws TransformationFailedException if $duration is null
      */
     public function reverseTransform($duration)

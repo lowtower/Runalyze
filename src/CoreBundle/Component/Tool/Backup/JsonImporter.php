@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
+use PDOforRunalyze;
 use Runalyze\Configuration;
 use Runalyze\Util\File\GZipReader;
 
@@ -12,62 +13,33 @@ class JsonImporter
      */
     protected $Reader;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected PDOforRunalyze $DB;
+
+    protected int $AccountID;
+
+    protected string $DatabasePrefix;
 
     /**
-     * @var int
-     */
-    protected $AccountID;
-
-    /**
-     * @var string
-     */
-    protected $DatabasePrefix;
-
-    /**
-     * @var array[table][oldID] = newID
+     * @var array<string, array<int, int>> Maps [table][oldID] = newID
      */
     protected $ReplaceIDs = [];
 
-    /**
-     * @var array
-     */
-    protected $ExistingData = [];
+    protected array $ExistingData = [];
 
-    /**
-     * @var array
-     */
-    protected $InternalSportIds = [];
+    protected array $InternalSportIds = [];
 
-    /**
-     * @var JsonImporterResults
-     */
-    protected $Results;
+    protected JsonImporterResults $Results;
 
-    /**
-     * @var bool
-     */
-    protected $OverwriteConfig = false;
+    protected bool $OverwriteConfig = false;
 
-    /**
-     * @var bool
-     */
-    protected $OverwriteDataset = false;
+    protected bool $OverwriteDataset = false;
 
-    /**
-     * @var bool
-     */
-    protected $OverwritePlugins = false;
+    protected bool $OverwritePlugins = false;
 
     /**
      * @param string $fileName absolute path
-     * @param int $accountID
-     * @param string $databasePrefix
      */
-    public function __construct($fileName, \PDO $pdo, $accountID, $databasePrefix)
+    public function __construct(string $fileName, \PDOforRunalyze $pdo, int $accountID, string $databasePrefix)
     {
         $this->Reader = new GZipReader($fileName);
         $this->DB = $pdo;
@@ -81,26 +53,17 @@ class JsonImporter
         return $this->Results->completeString();
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function enableOverwritingConfig($flag = true)
+    public function enableOverwritingConfig(bool $flag = true)
     {
         $this->OverwriteConfig = $flag;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function enableOverwritingDataset($flag = true)
+    public function enableOverwritingDataset(bool $flag = true)
     {
         $this->OverwriteDataset = $flag;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function enableOverwritingPlugins($flag = true)
+    public function enableOverwritingPlugins(bool $flag = true)
     {
         $this->OverwritePlugins = $flag;
     }
@@ -189,10 +152,7 @@ class JsonImporter
         }
     }
 
-    /**
-     * @param string $tableName
-     */
-    private function readTable($tableName)
+    private function readTable(string $tableName)
     {
         $tableSettings = [
             'import' => [
@@ -221,7 +181,7 @@ class JsonImporter
             ],
         ];
 
-        if (in_array($tableName, $tableSettings['import'])) {
+        if (in_array($tableName, $tableSettings['import'], true)) {
             $this->importTable($tableName);
         } elseif (isset($tableSettings['update'][$tableName]) && $tableSettings['update'][$tableName]) {
             $this->updateTable($tableName);
@@ -236,12 +196,16 @@ class JsonImporter
             return;
         }
 
-        $this->DB->beginTransaction();
+        $startedTransaction = ! $this->DB->inTransaction();
+        if ($startedTransaction) {
+            $this->DB->beginTransaction();
+        }
+
         $statement = $this->prepareUpdateStatement($tableName);
 
         while (is_string($line) && $line !== '' && $line[0] === '{') {
             $completeRow = json_decode($line, true);
-            $id = key($completeRow);
+            $id = (int) key($completeRow);
             $row = current($completeRow);
 
             $this->runPreparedStatement($tableName, $statement, $id, $row);
@@ -249,7 +213,9 @@ class JsonImporter
             $line = $this->Reader->readLine();
         }
 
-        $this->DB->commit();
+        if ($startedTransaction) {
+            $this->DB->commit();
+        }
     }
 
     /**
@@ -281,10 +247,9 @@ class JsonImporter
     }
 
     /**
-     * @param int $id
      * @param array<string, mixed> $row
      */
-    private function runPreparedStatement(string $tableName, \PDOStatement $statement, $id, array $row)
+    private function runPreparedStatement(string $tableName, \PDOStatement $statement, int $id, array $row)
     {
         switch ($tableName) {
             case 'runalyze_conf':
@@ -309,7 +274,12 @@ class JsonImporter
                 break;
 
             case 'runalyze_plugin_conf':
-                $statement->execute([$row['value'], $this->ExistingData['runalyze_plugin'][$row['pluginid']], $row['config']]);
+                $pluginId = $this->ExistingData['runalyze_plugin'][$row['pluginid']] ?? null;
+                if ($pluginId === null) {
+                    break;
+                }
+
+                $statement->execute([$row['value'], $pluginId, $row['config']]);
                 break;
 
             default:
@@ -398,11 +368,7 @@ class JsonImporter
 
     }
 
-    /**
-     * @param int $sportid
-     * @param int $equipmentTypeid
-     */
-    protected function equipmentSportRelationDoesExist($sportid, $equipmentTypeid): bool
+    protected function equipmentSportRelationDoesExist(int $sportid, int $equipmentTypeid): bool
     {
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
             isset($this->ReplaceIDs['runalyze_equipment_type'][$equipmentTypeid]) &&
@@ -412,11 +378,7 @@ class JsonImporter
             );
     }
 
-    /**
-     * @param int $sportid
-     * @param int $equipmentId
-     */
-    protected function equipmentSporRelationDoesExist($sportid, $equipmentId): bool
+    protected function equipmentSporRelationDoesExist(int $sportid, int $equipmentId): bool
     {
         return isset($this->ReplaceIDs['runalyze_sport'][$sportid]) &&
             isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
@@ -489,10 +451,9 @@ class JsonImporter
     }
 
     /**
-     * @param int $id
      * @return int
      */
-    private function correctID(string $table, $id)
+    private function correctID(string $table, int $id)
     {
         return $this->ReplaceIDs[$table][$id] ?? 0;
     }

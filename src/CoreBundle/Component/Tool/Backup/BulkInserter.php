@@ -55,10 +55,10 @@ class BulkInserter
     /**
      * @return int last inserted ID
      */
-    public function insert(array $values)
+    public function insert(array $values): int
     {
         $this->Statement->execute($values);
 
-        return $this->DB->lastInsertId();
+        return (int) $this->DB->lastInsertId();
     }
 }

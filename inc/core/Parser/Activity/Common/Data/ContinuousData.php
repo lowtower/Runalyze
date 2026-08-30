@@ -29,10 +29,7 @@ class ContinuousData
      */
     public $Altitude = [];
 
-    /**
-     * @var bool|null
-     */
-    public $IsAltitudeDataBarometric;
+    public bool $IsAltitudeDataBarometric = false;
 
     /**
      * @var array [bpm]

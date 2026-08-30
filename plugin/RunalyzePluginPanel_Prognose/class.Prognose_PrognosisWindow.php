@@ -14,6 +14,11 @@ use Runalyze\Calculation\JD\LegacyEffectiveVO2max;
 use Runalyze\Calculation\Prognosis;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
+use Runalyze\Sports\Running\Prognosis\Bock;
+use Runalyze\Sports\Running\Prognosis\Cameron;
+use Runalyze\Sports\Running\Prognosis\PrognosisInterface;
+use Runalyze\Sports\Running\Prognosis\Steffny;
+use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Util\LocalTime;
 
 /**
@@ -50,7 +55,7 @@ class Prognose_PrognosisWindow
 
     /**
      * Prognosis object
-     * @var \Runalyze\Sports\Running\Prognosis\PrognosisInterface
+     * @var PrognosisInterface
      */
     protected $PrognosisObject;
 
@@ -78,10 +83,7 @@ class Prognose_PrognosisWindow
      */
     protected $InfoLines = [];
 
-    /**
-     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected DistanceUnitSystem $UnitSystem;
 
     public function __construct()
     {
@@ -102,6 +104,7 @@ class Prognose_PrognosisWindow
 
         if (empty($_POST)) {
             $Factory = new PluginFactory();
+            /** @var RunalyzePluginPanel_Prognose $Plugin */
             $Plugin = $Factory->newInstance('RunalyzePluginPanel_Prognose');
 
             $_POST['model'] = 'vo2max';
@@ -170,8 +173,8 @@ class Prognose_PrognosisWindow
     protected function distanceValuesToKm(array $values)
     {
         if ($this->UnitSystem->isImperial()) {
-            return array_map(function ($val) {
-                return round($val / DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
+            return array_map(function ($val): float {
+                return round((float) $val / DistanceUnitSystem::MILE_MULTIPLIER, self::DISTANCE_PRECISION);
             }, $values);
         }
 
@@ -194,7 +197,7 @@ class Prognose_PrognosisWindow
 
     protected function setupEffectiveVO2maxPrognosis()
     {
-        $this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\VO2max(
+        $this->PrognosisObject = new VO2max(
             (float) Helper::CommaToPoint($_POST['vo2max']),
             isset($_POST['endurance']),
             (int) $_POST['endurance-value']
@@ -203,7 +206,7 @@ class Prognose_PrognosisWindow
 
     protected function setupBockPrognosis()
     {
-        $this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\Bock(
+        $this->PrognosisObject = new Bock(
             $_POST['best-result-km'],
             (new Duration($_POST['best-result-time']))->seconds(),
             $_POST['second-best-result-km'],
@@ -213,7 +216,7 @@ class Prognose_PrognosisWindow
 
     protected function setupSteffnyPrognosis()
     {
-        $this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\Steffny(
+        $this->PrognosisObject = new Steffny(
             (new Duration($_POST['best-result-time']))->seconds(),
             $_POST['best-result-km']
         );
@@ -221,7 +224,7 @@ class Prognose_PrognosisWindow
 
     protected function setupCameronPrognosis()
     {
-        $this->PrognosisObject = new \Runalyze\Sports\Running\Prognosis\Cameron(
+        $this->PrognosisObject = new Cameron(
             (new Duration($_POST['best-result-time']))->seconds(),
             $_POST['best-result-km']
         );
@@ -326,24 +329,24 @@ class Prognose_PrognosisWindow
     {
         $this->ResultTable .= '</tbody></table>';
 
-        if ($_POST['model'] == 'robert-bock' && $this->PrognosisObject instanceof \Runalyze\Sports\Running\Prognosis\Bock) {
+        if ($_POST['model'] == 'robert-bock' && $this->PrognosisObject instanceof Bock) {
             $this->addHintsForRobertBock($this->PrognosisObject);
-        } elseif ($_POST['model'] == 'vo2max' && $this->PrognosisObject instanceof \Runalyze\Sports\Running\Prognosis\VO2max) {
+        } elseif ($_POST['model'] == 'vo2max' && $this->PrognosisObject instanceof VO2max) {
             $this->addHintsForEffectiveVO2max();
         }
     }
 
-    protected function addHintsForRobertBock(\Runalyze\Sports\Running\Prognosis\Bock $prognosis)
+    protected function addHintsForRobertBock(Bock $prognosis)
     {
         $this->ResultTable .= HTML::info(sprintf(__('The results give the constants K = %f and e = %f.'), $prognosis->getK(), $prognosis->getE())) . '<br>';
 
         if (! $this->PrognosisObject->areValuesValid()) {
             $this->ResultTable .= HTML::warning(sprintf(
                 __('K must be between %u and %u, e between %f and %f.'),
-                \Runalyze\Sports\Running\Prognosis\Bock::K_LOWER_BOUND,
-                \Runalyze\Sports\Running\Prognosis\Bock::K_UPPER_BOUND,
-                \Runalyze\Sports\Running\Prognosis\Bock::E_LOWER_BOUND,
-                \Runalyze\Sports\Running\Prognosis\Bock::E_UPPER_BOUND
+                Bock::K_LOWER_BOUND,
+                Bock::K_UPPER_BOUND,
+                Bock::E_LOWER_BOUND,
+                Bock::E_UPPER_BOUND
             ));
         }
     }
@@ -353,8 +356,8 @@ class Prognose_PrognosisWindow
         if (! $this->PrognosisObject->areValuesValid()) {
             $this->ResultTable .= HTML::warning(sprintf(
                 __('Effective VO2max must be between %u and %u.'),
-                \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MINIMUM,
-                \Runalyze\Sports\Running\Prognosis\VO2max::REASONABLE_VO2MAX_MAXIMUM
+                VO2max::REASONABLE_VO2MAX_MINIMUM,
+                VO2max::REASONABLE_VO2MAX_MAXIMUM
             ));
         }
     }

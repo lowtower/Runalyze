@@ -3,44 +3,39 @@
 namespace Runalyze\Dataset;
 
 use DB;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class QueryTest extends \PHPUnit\Framework\TestCase
+class QueryTest extends TestCase
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
-    /**
-     * @var \Runalyze\Dataset\Query
-     */
-    protected $Query;
+    protected Query $Query;
 
-    /**
-     * @var int
-     */
-    protected $Running;
+    protected int $Running;
 
     protected function setUp(): void
     {
         $this->PDO = DB::getInstance();
+        $this->PDO->beginTransaction();
+
         $this->Query = new Query(new DefaultConfiguration(), $this->PDO, 1);
         $this->Running = \Runalyze\Configuration::General()->runningSport();
     }
 
     protected function tearDown(): void
     {
-        $this->PDO->exec('DELETE FROM `runalyze_training`');
+        # $this->PDO->exec('DELETE FROM `runalyze_training`');
+        $this->PDO->rollBack();
     }
 
     /**
      * @param array<string, int>|array<string, string>|array<string, bool> $data
      */
-    protected function insertActivity(array $data)
+    protected function insertActivity(array $data): void
     {
         if (! isset($data['accountid'])) {
             $data['accountid'] = 1;
@@ -57,7 +52,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->PDO->query('INSERT INTO `runalyze_training` (`' . implode('`, `', array_keys($data)) . '`) VALUES ("' . implode('", "', $data) . '")');
     }
 
-    public function testThatMethodsWorkForDefaultConfiguration()
+    public function testThatMethodsWorkForDefaultConfiguration(): void
     {
         $this->insertActivity([
             'time' => time() - DAY_IN_S,
@@ -80,7 +75,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectActiveKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
     }
 
-    public function testTimerangeAndPrivacyForSingleActivities()
+    public function testTimerangeAndPrivacyForSingleActivities(): void
     {
         $this->insertActivity([
             'time' => time() - DAY_IN_S,
@@ -106,7 +101,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(300, $allActivities[0]['s']);
     }
 
-    public function testDurationSumWithDistance()
+    public function testDurationSumWithDistance(): void
     {
         $this->insertActivity([
             'time' => time() - DAY_IN_S,
@@ -124,7 +119,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(600, $Context->data(Keys\Pace::DURATION_SUM_WITH_DISTANCE_KEY));
     }
 
-    public function testSummary()
+    public function testSummary(): void
     {
         $this->insertActivity([
             'time' => time() - DAY_IN_S,
@@ -157,7 +152,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([100, 323, 500], array_map(function (array $data) { return $data['s']; }, $summary));
     }
 
-    public function testSummaryForWeekTimerange()
+    public function testSummaryForWeekTimerange(): void
     {
         $this->insertActivity([
             'time' => time() - DAY_IN_S,
@@ -184,7 +179,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(500, $summary[1]['s']);
     }
 
-    public function testSummaryForMonthTimerange()
+    public function testSummaryForMonthTimerange(): void
     {
         $this->insertActivity([
             'time' => mktime(12, 0, 0, 6, 15, 2015),
@@ -211,7 +206,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(500, $summary[1]['s']);
     }
 
-    public function testSummaryForYearTimerange()
+    public function testSummaryForYearTimerange(): void
     {
         $this->insertActivity([
             'time' => mktime(12, 0, 0, 6, 15, 2015),

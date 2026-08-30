@@ -7,23 +7,36 @@ use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ExportController extends Controller
+class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    private TokenStorageInterface $tokenStorage;
+
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        ParameterBagInterface $parameterBag
+    ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->parameterBag = $parameterBag;
+    }
+
     /**
      * @Route("/activity/{id}/export/social/{typeid}", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function exporterExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function exporterExportAction(int $id, int $typeid, Account $account): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        if (Share\Types::isValidValue((int) $typeid)) {
-            $context = new Context((int) $id, $account->getId());
-            $exporter = Share\Types::get((int) $typeid, $context);
+        if (Share\Types::isValidValue($typeid)) {
+            $context = new Context($id, $account->getId());
+            $exporter = Share\Types::get($typeid, $context);
 
             if ($exporter instanceof Share\AbstractSnippetSharer) {
                 $exporter->display();
@@ -37,13 +50,13 @@ class ExportController extends Controller
      * @Route("/activity/{id}/export/file/{typeid}", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function fileExportAction($id, $typeid, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function fileExportAction(int $id, int $typeid, Account $account): Response
     {
-        $Frontend = new \Frontend(true, $this->get('security.token_storage'));
+        $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        if (File\Types::isValidValue((int) $typeid)) {
-            $context = new Context((int) $id, $account->getId());
-            $exporter = File\Types::get((int) $typeid, $context);
+        if (File\Types::isValidValue($typeid)) {
+            $context = new Context($id, $account->getId());
+            $exporter = File\Types::get($typeid, $context);
 
             if ($exporter instanceof File\AbstractFileExporter) {
                 $exporter->downloadFile();

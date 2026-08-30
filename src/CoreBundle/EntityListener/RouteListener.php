@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Route;
@@ -29,7 +28,7 @@ class RouteListener
         $this->ElevationCorrection = $elevationCorrection;
     }
 
-    public function prePersist(Route $route, LifecycleEventArgs $args)
+    public function prePersist(Route $route, \Doctrine\ORM\Event\PrePersistEventArgs $args)
     {
         // #TSC if we have barometric data, no correction will be done (although the user wants it)
         if ($route->getElevationsCorrected() === null

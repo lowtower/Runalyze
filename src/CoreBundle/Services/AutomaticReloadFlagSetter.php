@@ -41,10 +41,7 @@ class AutomaticReloadFlagSetter
      */
     public const FLAG_PAGE = 6;
 
-    /**
-     * @var FlashBagInterface
-     */
-    protected $FlashBag;
+    protected FlashBagInterface $FlashBag;
 
     public function __construct(FlashBagInterface $flashBag)
     {

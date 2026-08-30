@@ -13,10 +13,7 @@ class GroundContactBalance extends AbstractOneColumnValue
         return 'groundcontactBalance';
     }
 
-    /**
-     * @return AbstractGroundContactBalanceUnit
-     */
-    public function getValueUnit(UnitSystem $unitSystem): \Runalyze\Metrics\GroundContactBalance\Unit\PercentLeft
+    public function getValueUnit(UnitSystem $unitSystem): AbstractGroundContactBalanceUnit
     {
         return new PercentLeft();
     }

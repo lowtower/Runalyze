@@ -1,0 +1,27 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
+    session:
+        handler_id: '%session.handler_id%'
+        save_path: '%app.data_directory%/sessions'
+
+    form: ~
+
+    csrf_protection: true
+
+    assets: ~
+
+    translator:
+        fallbacks: ['%locale%']
+        paths:
+            - '%kernel.root_dir%/../vendor/runalyze/translations/xlf'
+            - '%kernel.root_dir%/../vendor/runalyze/translations/gettext'
+
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+

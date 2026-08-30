@@ -2,8 +2,6 @@
 
 namespace Runalyze\Profile\Weather\Source;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 abstract class AbstractSource implements SourceInterface
 {
     public function requiresAttribution()
@@ -11,7 +9,7 @@ abstract class AbstractSource implements SourceInterface
         return true;
     }
 
-    public function getAttribution(TranslatorInterface $translator, $withLink = true)
+    public function getAttribution(\Symfony\Contracts\Translation\TranslatorInterface $translator, $withLink = true)
     {
         if ($withLink && $this->hasAttributionUrl()) {
             return sprintf('<a href="%s" target="_blank">%s</a>', $this->getAttributionUrl(), $this->getAttributionLabel($translator));

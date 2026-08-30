@@ -126,7 +126,7 @@ class Language implements InterfaceChoosable
     private static function readAvailableLanguages()
     {
         $languages = [];
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../app/config/languages.yml'));
+        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config/packages/languages.yaml'));
 
         if (is_array($config) && isset($config['parameters']) && isset($config['parameters']['locales'])) {
             foreach ($config['parameters']['locales'] as $short => $lang) {

@@ -4,7 +4,6 @@ namespace Runalyze\Tests\Profile\Weather\Source;
 
 use Runalyze\Profile\Weather\Source\MeteostatNet;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,7 +13,7 @@ class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(WeatherSourceProfile::METEOSTAT_NET, $source->getInternalProfileEnum());
 
-        $this->assertEquals('meteostat.net', $source->getAttributionLabel($this->createMock(TranslatorInterface::class)));
+        $this->assertEquals('meteostat.net', $source->getAttributionLabel($this->createMock(\Symfony\Contracts\Translation\TranslatorInterface::class)));
 
         $this->assertEquals('https://meteostat.net/', $source->getAttributionUrl());
     }

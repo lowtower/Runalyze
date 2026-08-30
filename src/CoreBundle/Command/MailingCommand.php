@@ -3,26 +3,49 @@
 namespace Runalyze\Bundle\CoreBundle\Command;
 
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Persistence\ManagerRegistry;
+use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
+use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class MailingCommand extends ContainerAwareCommand
+class MailingCommand extends Command
 {
     /**
      * @var string
      */
     protected $customMailDirectory = '/mail/custom/';
 
+    private ParameterBagInterface $parameterBag;
+
+    private AccountMailer $mailer;
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        AccountMailer $mailer,
+        ManagerRegistry $doctrine
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->mailer = $mailer;
+        $this->doctrine = $doctrine;
+    }
+
     protected function configure()
     {
         $this
             ->setName('runalyze:mails:send')
-            ->setDescription('Send out a mails to users with custom templates in data/vies/mail/custom')
+            ->setDescription('Send out a mails to users with custom templates in data/views/mail/custom')
             ->addArgument('template', InputArgument::REQUIRED, 'Template file')
             ->addOption('subject', null, InputOption::VALUE_REQUIRED, 'Mail subject')
             ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'Languages to select accounts')
@@ -32,14 +55,10 @@ class MailingCommand extends ContainerAwareCommand
             ->addOption('last-action-before', null, InputOption::VALUE_OPTIONAL, 'Last action before x (timestamp)')
             ->addOption('last-action-after', null, InputOption::VALUE_OPTIONAL, 'Last action after x (timestamp)')
             ->addOption('registration-before', null, InputOption::VALUE_OPTIONAL, 'Registration before x (timestamp)')
-            ->addOption('registration-after', null, InputOption::VALUE_OPTIONAL, 'Registration after x (timestamp)')
-        ;
+            ->addOption('registration-after', null, InputOption::VALUE_OPTIONAL, 'Registration after x (timestamp)');
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! $this->validateInput($input, $output)) {
             return 1;
@@ -47,40 +66,39 @@ class MailingCommand extends ContainerAwareCommand
 
         $accounts = $this->buildQuery($input);
 
-        if (! ($input->getOption('force'))) {
+        if (! $input->getOption('force')) {
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $output->writeln(sprintf('<info>%u mail(s) will be sent.</info>', count($accounts)));
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);
 
             if (! $helper->ask($input, $output, $question)) {
-                return null;
+                return 0;
             }
         }
 
-        $mailer = $this->getContainer()
-            ->get('app.mailer.account');
         foreach ($accounts as $account) {
-            /** Account $account */
-            $mailer->sendMailTo($account, $input->getOption('subject'), $this->customMailDirectory . $input->getArgument('template'), [
-                'account' => $account,
-            ]);
+            /** @var Account $account */
+            $this->mailer->sendMailTo(
+                $account,
+                $input->getOption('subject'),
+                $this->customMailDirectory . $input->getArgument('template'),
+                [
+                    'account' => $account,
+                ]
+            );
         }
 
         $output->writeln(sprintf('<info>%u mail(s) have been sent.</info>', count($accounts)));
         $output->writeln('');
 
-        return null;
+        return 0;
     }
 
-    /**
-     * @return array
-     */
-    private function buildQuery(InputInterface $input)
+    private function buildQuery(InputInterface $input): array
     {
-        $repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Account');
-
+        /** @var AccountRepository $repository */
+        $repository = $this->doctrine->getRepository(Account::class);
         /** @var QueryBuilder $query */
         $query = $repository->createQueryBuilder('a');
         $exclude = false;
@@ -120,23 +138,18 @@ class MailingCommand extends ContainerAwareCommand
 
         return $query->getQuery()
             ->getResult();
-
     }
 
     protected function validateInput(InputInterface $input, OutputInterface $output): bool
     {
-        return
-            $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
-            $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
-            $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
-            $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
+        return $this->checkValidation($this->validateTemplate($input->getArgument('template')), $output, 'Template must exist in /data/views/mail/custom.') &&
+               $this->checkValidation($this->validateLanguage($input->getOption('lang')), $output, 'Language keys must be alphabetic strings.') &&
+               $this->checkValidation($this->validateLanguage($input->getOption('exclude-lang')), $output, 'Language keys to exclude must be alphabetic strings.') &&
+               $this->checkValidation($this->validateAccountIds($input->getOption('account')), $output, 'Account IDs must be integers.')
         ;
     }
 
-    /**
-     * @param bool $success
-     */
-    protected function checkValidation($success, OutputInterface $output, string $messageOnError): bool
+    protected function checkValidation(bool $success, OutputInterface $output, string $messageOnError): bool
     {
         if (! $success) {
             $output->writeln(sprintf('<error>Invalid input: %s</error>', $messageOnError));
@@ -148,25 +161,13 @@ class MailingCommand extends ContainerAwareCommand
         return true;
     }
 
-    /**
-     * @param string $templateName
-     * @return bool
-     */
-    protected function validateTemplate($templateName)
+    protected function validateTemplate(string $templateName): bool
     {
-        $source = $this->getContainer()
-            ->getParameter('data_directory') . '/views' . $this->customMailDirectory . $templateName;
-        if ((new Filesystem())->exists($source)) {
-            return true;
-        }
-
-        return null;
+        $source = $this->parameterBag->get('app.data_directory') . '/views' . $this->customMailDirectory . $templateName;
+        return (new Filesystem())->exists($source);
 
     }
 
-    /**
-     * @param string|bool|string[] $lang
-     */
     protected function validateLanguage(array $lang): bool
     {
         return array_reduce(
@@ -178,9 +179,6 @@ class MailingCommand extends ContainerAwareCommand
         );
     }
 
-    /**
-     * @param string|bool|string[] $accountIds
-     */
     protected function validateAccountIds(array $accountIds): bool
     {
         return array_reduce(
@@ -192,10 +190,7 @@ class MailingCommand extends ContainerAwareCommand
         );
     }
 
-    /**
-     * @param null|string $lifetime
-     */
-    protected function validateLifetime($lifetime): bool
+    protected function validateLifetime(?string $lifetime): bool
     {
         return $lifetime === null || ctype_digit($lifetime);
     }

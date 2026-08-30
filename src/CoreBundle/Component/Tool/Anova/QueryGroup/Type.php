@@ -27,7 +27,7 @@ class Type implements QueryGroupInterface
         $groups = [];
         $sports = $anovaData->getSport();
 
-        foreach ($entityManager->getRepository('CoreBundle:Type')->findAllFor($account) as $type) {
+        foreach ($entityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Type::class)->findAllFor($account) as $type) {
             foreach ($sports as $sport) {
                 if ($sport->getId() == $type->getSport()->getId()) {
                     $groups[$type->getId()] = $type->getName();

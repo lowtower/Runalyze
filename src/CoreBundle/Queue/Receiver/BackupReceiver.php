@@ -10,22 +10,23 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\SqlBackup;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Notification;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class BackupReceiver
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container)
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(ContainerInterface $container, ParameterBagInterface $parameterBag)
     {
         $this->container = $container;
+        $this->parameterBag = $parameterBag;
     }
 
     protected function getPathToBackupFiles(): string
     {
-        return $this->container->getParameter('data_directory') . '/backup-tool/backup/';
+        return $this->parameterBag->get('app.data_directory') . '/backup-tool/backup/';
     }
 
     public function userBackup(DefaultMessage $message)
@@ -33,11 +34,11 @@ class BackupReceiver
         $Frontend = new \FrontendShared(true);
 
         $fileHandler = new FilenameHandler($message->get('accountid'));
-        $fileHandler->setRunalyzeVersion($this->container->getParameter('runalyze_version'));
+        $fileHandler->setRunalyzeVersion($this->container->getParameter('RUNALYZE_VERSION'));
 
         /** @var Account $account */
         $account = $this->container->get('doctrine.orm.entity_manager')
-            ->getRepository('CoreBundle:Account')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
             ->find($message->get('accountid'));
 
         if ($message->get('export-type') == 'json') {
@@ -45,8 +46,8 @@ class BackupReceiver
                 $this->getPathToBackupFiles() . $fileHandler->generateInternalFilename(FilenameHandler::JSON_FORMAT),
                 $message->get('accountid'),
                 \DB::getInstance(),
-                $this->container->getParameter('database_prefix'),
-                $this->container->getParameter('runalyze_version')
+                $this->container->getParameter('app.database_prefix'),
+                $this->container->getParameter('RUNALYZE_VERSION')
             );
             $Backup->run();
         } else {
@@ -54,14 +55,14 @@ class BackupReceiver
                 $this->getPathToBackupFiles() . $fileHandler->generateInternalFilename(FilenameHandler::SQL_FORMAT),
                 $message->get('accountid'),
                 \DB::getInstance(),
-                $this->container->getParameter('database_prefix'),
-                $this->container->getParameter('runalyze_version')
+                $this->container->getParameter('app.database_prefix'),
+                $this->container->getParameter('RUNALYZE_VERSION')
             );
             $Backup->run();
         }
 
         $this->container->get('doctrine')
-            ->getRepository('CoreBundle:Notification')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class)
             ->save(
                 Notification::createFromMessage(new BackupReadyMessage(), $account)
             );

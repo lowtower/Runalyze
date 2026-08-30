@@ -2,22 +2,47 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Runalyze\Bundle\CoreBundle\Component\Activity\ActivityContext;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Runalyze\Bundle\CoreBundle\Services\Import\ActivityContextAdapterFactory;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Command to update activities with details of a route.
  */
-class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
+class ActivityBulkRouteNameEvaluationCommand extends Command
 {
-    private $override = false;
+    private bool $override = false;
+
+    private ManagerRegistry $doctrine;
+
+    private ParameterBagInterface $parameterBag;
+
+    private TrainingRepository $trainingRepository;
+
+    private ActivityContextAdapterFactory $activityContextAdapterFactory;
+
+    public function __construct(
+        ManagerRegistry $doctrine,
+        ParameterBagInterface $parameterBag,
+        TrainingRepository $trainingRepository,
+        ActivityContextAdapterFactory $activityContextAdapterFactory
+    ) {
+        parent::__construct();
+        $this->doctrine = $doctrine;
+        $this->parameterBag = $parameterBag;
+        $this->trainingRepository = $trainingRepository;
+        $this->activityContextAdapterFactory = $activityContextAdapterFactory;
+    }
 
     protected function configure()
     {
@@ -30,28 +55,19 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
             ->addOption('override', null, InputOption::VALUE_NONE, 'Override existing route informations');
     }
 
-    /**
-     * @return TrainingRepository
-     */
-    protected function getTrainingRepository()
+    protected function getTrainingRepository(): TrainingRepository
     {
-        return $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Training');
+        return $this->trainingRepository;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository('CoreBundle:Account');
+        /** @var AccountRepository $repository */
+        $repository = $this->doctrine->getRepository(Account::class);
         $user = $repository->loadUserByUsername($input->getArgument('username'));
-        $activityId = $input->getArgument('id');
-        $nexted = empty($input->getOption('nexted')) ? 0 : 1;
-        $this->override = ! empty($input->getOption('override'));
+        $activityId = (int) $input->getArgument('id');
+        $nexted = $input->getOption('nexted') ? 1 : 0;
+        $this->override = (bool) $input->getOption('override');
 
         if ($user === null) {
             $output->writeln('<fg=red>Unknown User</>');
@@ -59,7 +75,7 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
             return 1;
         }
 
-        if (empty($this->getContainer()->getParameter('osm_overpass_url'))) {
+        if (empty($this->parameterBag->get('osm_overpass_url'))) {
             $output->writeln('<fg=red>Set parameter osm_overpass_url</>');
             return 1;
         }
@@ -74,20 +90,18 @@ class ActivityBulkRouteNameEvaluationCommand extends ContainerAwareCommand
 
         $output->writeln('');
         $output->writeln('Done.');
-        return null;
+        return 0;
     }
 
-    protected function processActivity(OutputInterface &$output, int $activityId, Account $user): Training
+    protected function processActivity(OutputInterface $output, int $activityId, Account $user): Training
     {
         $activity = $this->getTrainingRepository()
-            ->findForAccount($activityId, $user);
+            ->findForAccount($activityId, $user->getId());
 
         if ($activity->hasRoute()) {
             if (empty($activity->getRouteName()) || $this->override) {
-                $contextAdapterFactory = $this->getContainer()
-                    ->get('app.activity_context_adapter_factory');
                 $context = new ActivityContext($activity, null, null, $activity->getRoute());
-                $contextAdapter = $contextAdapterFactory->getAdapterFor($context);
+                $contextAdapter = $this->activityContextAdapterFactory->getAdapterFor($context);
 
                 $updated = $contextAdapter->guessRouteDetails();
 

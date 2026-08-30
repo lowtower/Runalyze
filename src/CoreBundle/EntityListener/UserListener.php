@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\EntityListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\User;
 use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
@@ -26,24 +25,27 @@ class UserListener
         $this->UserRepository = $repository;
     }
 
-    public function postPersist(User $user, LifecycleEventArgs $args)
+    public function postPersist(User $user, \Doctrine\ORM\Event\PostPersistEventArgs $args)
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }
 
-    public function postUpdate(User $user, LifecycleEventArgs $args)
+    public function postUpdate(User $user, \Doctrine\ORM\Event\PostUpdateEventArgs $args)
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }
 
-    public function postRemove(User $user, LifecycleEventArgs $args)
+    public function postRemove(User $user, \Doctrine\ORM\Event\PostRemoveEventArgs $args)
     {
         $this->updateHeartRateStatsInDataConfiguration($args, $user->getAccount());
     }
 
-    protected function updateHeartRateStatsInDataConfiguration(LifecycleEventArgs $args, Account $account)
+    protected function updateHeartRateStatsInDataConfiguration(\Doctrine\Persistence\Event\LifecycleEventArgs $args, Account $account)
     {
-        if ($args->getEntityManager()->getUnitOfWork()->isScheduledForDelete($account)) {
+        /** @var \Doctrine\ORM\EntityManagerInterface $em */
+        $em = $args->getObjectManager();
+
+        if ($em->getUnitOfWork()->isScheduledForDelete($account)) {
             return;
         }
 

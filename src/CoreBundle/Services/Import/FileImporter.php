@@ -176,10 +176,13 @@ class FileImporter implements LoggerAwareInterface
                 $results[$secondIndex]->getContainer(0)
             );
 
-            $results[] = new FileImportResult(
-                [$merger->getResultingContainer()],
-                $results[$firstIndex]->getFileName(),
-                $results[$firstIndex]->getOriginalFileName()
+            $results->offsetSet(
+                null,
+                new FileImportResult(
+                    [$merger->getResultingContainer()],
+                    $results[$firstIndex]->getFileName(),
+                    $results[$firstIndex]->getOriginalFileName()
+                )
             );
 
             $this->remove($results[$secondIndex]->getFileName());

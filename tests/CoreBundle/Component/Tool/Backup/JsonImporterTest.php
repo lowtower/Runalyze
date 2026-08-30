@@ -4,60 +4,34 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Backup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
 use Runalyze\Configuration;
+use Runalyze\Tests\DatabaseTestCase;
 
 /**
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JsonImporterTest extends \PHPUnit\Framework\TestCase
+class JsonImporterTest extends DatabaseTestCase
 {
-    /**
-     * @var string
-     */
-    protected $Base;
+    protected string $Base;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
-    /**
-     * @var string
-     */
-    protected $Prefix = 'runalyze_';
+    protected string $Prefix = 'runalyze_';
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->Base = __DIR__ . '/../../../../testfiles/backup/';
         $this->DB = \DB::getInstance();
         $this->AccountID = 1;
-        $this->truncateTables();
     }
 
     protected function tearDown(): void
     {
-        $this->truncateTables();
-    }
-
-    private function truncateTables()
-    {
-        $this->DB->exec('DELETE FROM `runalyze_training`');
-        $this->DB->exec('DELETE FROM `runalyze_equipment_type`');
-        $this->DB->exec('DELETE FROM `runalyze_tag`');
-        $this->DB->exec('DELETE FROM `runalyze_user`');
-
-        $this->DB->exec('DELETE FROM `runalyze_conf` WHERE `key`="TEST_CONF"');
-        $this->DB->exec('DELETE FROM `runalyze_plugin` WHERE `key`="RunalyzePluginTool_TEST"');
-        $this->DB->exec('DELETE FROM `runalyze_plugin_conf` WHERE `config`="test_one"');
-        $this->DB->exec('DELETE FROM `runalyze_plugin_conf` WHERE `config`="test_two"');
-
-        $this->DB->exec('DELETE FROM `runalyze_sport`');
-        $this->DB->exec('DELETE FROM `runalyze_type`');
+        parent::tearDown();
     }
 
     private function fillDummyTrainings(): int

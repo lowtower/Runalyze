@@ -99,7 +99,7 @@ class PersonalBest
             self::$PBs[(float) $km] = false;
         }
 
-        $PDO = ! $pdo instanceof \PDO ? DB::getInstance() : $pdo;
+        $PDO = $pdo instanceof \PDO ? $pdo : DB::getInstance();
         $Data = $PDO->query(self::groupedQuery($distances, $sportid, $withDetails))->fetchAll();
 
         foreach ($Data as $result) {
@@ -146,7 +146,7 @@ class PersonalBest
     public function __construct($distance, $sportid, ?PDO $pdo = null, $autoLookup = true, $withDetails = false)
     {
         $this->Distance = $distance;
-        $this->PDO = ! $pdo instanceof \PDO ? DB::getInstance() : $pdo;
+        $this->PDO = $pdo instanceof \PDO ? $pdo : DB::getInstance();
         $this->SportId = $sportid;
 
         if ($autoLookup) {

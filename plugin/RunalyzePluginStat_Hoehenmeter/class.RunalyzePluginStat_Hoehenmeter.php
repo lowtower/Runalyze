@@ -54,7 +54,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
 
     protected function displayContent()
     {
-        if ($this->year == -1) {
+        if ($this->year === -1) {
             $this->displayElevationData();
         }
 

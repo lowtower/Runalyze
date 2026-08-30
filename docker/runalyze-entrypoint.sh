@@ -18,12 +18,12 @@ mkdir -p \
   data/sessions \
   data/views \
   var/cache \
-  var/logs \
+  var/log \
   var/poster \
   var/queue \
   var/sessions \
   var/tmp \
-  web/uploads \
+  public/uploads \
   /tmp/composer-cache
 
 echo "Cleaning caches, logs and sessions ..."
@@ -31,37 +31,37 @@ for dir in \
     data/cache \
     data/sessions \
     var/cache \
-    var/logs \
+    var/log \
     var/sessions
 do
     find "$dir" -mindepth 1 -not -name ".gitignore" -not -name ".gitkeep" -delete
 done
 
-chown -R www-data:www-data data var web || true
-find data var web -type d -exec chmod 2775 {} +
-find data var web -type f -exec chmod  664 {} +
+chown -R www-data:www-data data var public || true
+find data var public -type d -exec chmod 2775 {} +
+find data var public -type f -exec chmod  664 {} +
 
-setfacl -R -m   u:www-data:rwx data var web
-setfacl -R -m d:u:www-data:rwx data var web
-setfacl -R -m   g:www-data:rwx data var web
-setfacl -R -m d:g:www-data:rwx data var web
+setfacl -R -m   u:www-data:rwx data var public
+setfacl -R -m d:u:www-data:rwx data var public
+setfacl -R -m   g:www-data:rwx data var public
+setfacl -R -m d:g:www-data:rwx data var public
 
 # The old Travis CI setup did exactly this:
 #   cp app/config/default_config.yml data/config.yml
-if [ ! -f data/config.yml ] && [ -f app/config/default_config.yml ]; then
-  echo "[runalyze] Creating data/config.yml from app/config/default_config.yml ..."
-  cp app/config/default_config.yml data/config.yml
+if [ ! -f data/config.yaml ] && [ -f config/default_config.yaml ]; then
+  echo "[runalyze] Creating data/config.yaml from config/default_config.yaml ..."
+  cp config/default_config.yaml data/config.yaml
 fi
 
 # Adjust RUNALYZE legacy config for the container network.
-if [ -f data/config.yml ]; then
-  echo "[runalyze] Updating data/config.yml for container services ..."
+if [ -f data/config.yaml ]; then
+  echo "[runalyze] Updating data/config.yaml for container services ..."
 
-  sed -i "s/database_host:.*/database_host:         ${DB_HOST:-db}/"           data/config.yml || true
-  sed -i "s/database_port:.*/database_port:         ${DB_PORT:-3306}/"         data/config.yml || true
-  sed -i "s/database_name:.*/database_name:         ${DB_NAME:-runalyze}/"     data/config.yml || true
-  sed -i "s/database_user:.*/database_user:         ${DB_USER:-runalyze}/"     data/config.yml || true
-  sed -i "s/database_password:.*/database_password: ${DB_PASSWORD:-runalyze}/" data/config.yml || true
+  sed -i "s/database_host:.*/database_host:         ${DB_HOST:-db}/"           data/config.yaml || true
+  sed -i "s/database_port:.*/database_port:         ${DB_PORT:-3306}/"         data/config.yaml || true
+  sed -i "s/database_name:.*/database_name:         ${DB_NAME:-runalyze}/"     data/config.yaml || true
+  sed -i "s/database_user:.*/database_user:         ${DB_USER:-runalyze}/"     data/config.yaml || true
+  sed -i "s/database_password:.*/database_password: ${DB_PASSWORD:-runalyze}/" data/config.yaml || true
 fi
 
 # Downloading timezone database

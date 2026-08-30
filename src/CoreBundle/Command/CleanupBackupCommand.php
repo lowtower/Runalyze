@@ -2,14 +2,30 @@
 
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class CleanupBackupCommand extends ContainerAwareCommand
+class CleanupBackupCommand extends Command
 {
+    private ParameterBagInterface $parameterBag;
+
+    private Filesystem $filesystem;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        Filesystem $filesystem
+    ) {
+        parent::__construct();
+
+        $this->parameterBag = $parameterBag;
+        $this->filesystem = $filesystem;
+    }
+
     protected function configure()
     {
         $this
@@ -19,30 +35,25 @@ class CleanupBackupCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $days = $input->getArgument('days') ?: $this->getContainer()
-            ->getParameter('backup_storage_period');
+        $days = $input->getArgument('days') ?: $this->parameterBag->get('app.backup_storage_period');
         $output->writeln(sprintf('<info>Delete all backups older than %s days</info>', $days));
 
-        /** @var \Symfony\Component\Filesystem\Filesystem $filesystem */
-        $filesystem = $this->getContainer()
-            ->get('filesystem');
+        $dataDirectory = $this->parameterBag->get('app.data_directory');
+        $backupPath = $dataDirectory . '/backup-tool/backup';
 
         $finder = new Finder();
         $finder
             ->files()
             ->name('*.gz')
-            ->in($this->getContainer()->getParameter('data_directory') . '/backup-tool/backup')
+            ->in($backupPath)
             ->date(sprintf('until %s days ago', $days));
 
         $deleted = $finder->count();
 
         foreach ($finder as $file) {
-            $filesystem->remove($file);
+            $this->filesystem->remove($file);
         }
 
         $output->writeln(sprintf('<info>%s deleted backups</info>', $deleted));

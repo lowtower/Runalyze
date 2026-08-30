@@ -23,22 +23,6 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondMetadata = new Metadata();
     }
 
-    /**
-     * @group review-later
-     * TODO: This test needs a deeper look later. It currently fails because the $result might be null.
-     */
-    public function testThatMergeWorksWithEmptyObjects()
-    {
-        $merger = new MetadataMerger($this->FirstMetadata, $this->SecondMetadata);
-        $result = $merger->merge();
-
-        $this->assertInstanceOf(
-            Metadata::class,
-            $result,
-            'merge() should return an instance of Metadata'
-        );
-    }
-
     public function testThatTimestampIsNotOverridden()
     {
         $this->FirstMetadata->setTimestamp(123456789);

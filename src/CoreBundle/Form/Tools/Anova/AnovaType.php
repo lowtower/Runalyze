@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnovaType extends AbstractType
 {
@@ -36,9 +36,9 @@ class AnovaType extends AbstractType
     protected $EquipmentTypeRepository;
 
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
-    protected $TokenStorage;
+    protected $TokenStorageInterface;
 
     /**
      * @var ConfigurationManager
@@ -49,13 +49,13 @@ class AnovaType extends AbstractType
         SportRepository $sportRepository,
         TypeRepository $typeRepository,
         EquipmentTypeRepository $equipmentTypeRepository,
-        TokenStorage $tokenStorage,
+        TokenStorageInterface $tokenStorage,
         ConfigurationManager $configurationManager
     ) {
         $this->SportRepository = $sportRepository;
         $this->TypeRepository = $typeRepository;
         $this->EquipmentTypeRepository = $equipmentTypeRepository;
-        $this->TokenStorage = $tokenStorage;
+        $this->TokenStorageInterface = $tokenStorage;
         $this->ConfigurationManager = $configurationManager;
 
     }
@@ -65,7 +65,7 @@ class AnovaType extends AbstractType
      */
     protected function getAccount()
     {
-        $account = $this->TokenStorage->getToken() ? $this->TokenStorage->getToken()
+        $account = $this->TokenStorageInterface->getToken() ? $this->TokenStorageInterface->getToken()
             ->getUser() : null;
 
         if (! ($account instanceof Account)) {

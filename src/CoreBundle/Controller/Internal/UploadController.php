@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/_internal/upload")
  */
-class UploadController extends Controller
+class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      * @Route("", name="internal-activity-upload")
@@ -33,7 +32,7 @@ class UploadController extends Controller
 
             try {
                 $file->move(
-                    $this->getParameter('data_directory') . '/import',
+                    $this->getParameter('app.data_directory') . '/import',
                     $newFileName
                 );
 
@@ -73,7 +72,7 @@ class UploadController extends Controller
 
         try {
             $filesystem->appendToFile(
-                $this->getParameter('data_directory') . '/import/' . $fileName,
+                $this->getParameter('app.data_directory') . '/import/' . $fileName,
                 $request->request->get('data')
             );
 

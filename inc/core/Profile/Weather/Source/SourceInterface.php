@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Runalyze\Profile\Weather\Source;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 interface SourceInterface
 {
     /**
@@ -24,13 +22,13 @@ interface SourceInterface
      * @return string
      * @codeCoverageIgnore
      */
-    public function getAttribution(TranslatorInterface $translator, $withLink = true);
+    public function getAttribution(\Symfony\Contracts\Translation\TranslatorInterface $translator, $withLink = true);
 
     /**
      * @return string
      * @codeCoverageIgnore
      */
-    public function getAttributionLabel(TranslatorInterface $translator);
+    public function getAttributionLabel(\Symfony\Contracts\Translation\TranslatorInterface $translator);
 
     /**
      * @return string|null

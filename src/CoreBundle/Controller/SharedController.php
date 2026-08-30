@@ -8,21 +8,22 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Export\Share\Facebook;
 use Runalyze\View\Activity\Context;
 use Runalyze\View\Activity\Linker;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SharedController extends Controller
+class SharedController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
+    use AppServiceSubscriberTrait;
+
     /**
      * @return TrainingRepository
      */
     protected function getTrainingRepository()
     {
         return $this->getDoctrine()
-            ->getRepository('CoreBundle:Training');
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
     }
 
     /**
@@ -35,7 +36,7 @@ class SharedController extends Controller
     {
         /** @var null|Training $activity */
         $activity = $this->getDoctrine()
-            ->getRepository('CoreBundle:Training')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
             ->find((int) base_convert((string) $activityHash, 35, 10));
 
         if ($activity === null || ! $activity->isPublic()) {
@@ -44,7 +45,7 @@ class SharedController extends Controller
 
         $_GET['user'] = $activity->getAccount()->getUsername();
         $account = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
             ->findByUsername($activity->getAccount()->getUsername());
         $publicList = $this->get('app.configuration_manager')
             ->getList($account)
@@ -90,9 +91,9 @@ class SharedController extends Controller
      */
     public function oldSharedUserAction($username): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->redirect($this->generateUrl('shared-athlete', [
+        return $this->redirectToRoute('shared-athlete', [
             'username' => $username,
-        ]), 301);
+        ], 301);
     }
 
     /**
@@ -102,7 +103,7 @@ class SharedController extends Controller
     {
         /** @var null|Account $account */
         $account = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
             ->findByUsername($username);
         $privacy = $this->get('app.configuration_manager')
             ->getList($account)
@@ -125,7 +126,7 @@ class SharedController extends Controller
 
         if ($privacy->isListWithStatistics()) {
             $accountStatistics = $this->getDoctrine()
-                ->getRepository('CoreBundle:Training')
+                ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
                 ->getAccountStatistics($account);
             $legacyStatistics = new \FrontendSharedStatistics();
         } else {
@@ -148,7 +149,7 @@ class SharedController extends Controller
     {
         /** @var null|Account $account */
         $account = $this->getDoctrine()
-            ->getRepository('CoreBundle:Account')
+            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
             ->findByUsername($username);
         $privacy = $this->get('app.configuration_manager')
             ->getList($account)

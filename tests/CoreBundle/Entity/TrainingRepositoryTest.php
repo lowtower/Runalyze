@@ -38,7 +38,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->TrainingRepository = $this->EntityManager->getRepository('CoreBundle:Training');
+        $this->TrainingRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 
@@ -155,11 +155,11 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->assertEquals(4, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account));
         $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2015));
-        $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2015, $this->getDefaultAccountsRunningSport()));
-        $this->assertEquals(0, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2015, $this->getDefaultAccountsCyclingSport()));
+        $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2015, $this->getDefaultAccountsRunningSport()->getId()));
+        $this->assertEquals(0, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2015, $this->getDefaultAccountsCyclingSport()->getId()));
         $this->assertEquals(3, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016));
-        $this->assertEquals(2, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016, $this->getDefaultAccountsRunningSport()));
-        $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016, $this->getDefaultAccountsCyclingSport()));
+        $this->assertEquals(2, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016, $this->getDefaultAccountsRunningSport()->getId()));
+        $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016, $this->getDefaultAccountsCyclingSport()->getId()));
     }
 
     public function testAccountStatisticsWithoutData()
@@ -311,9 +311,9 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             ->getId();
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository('CoreBundle:Route')->find($routeId));
-        $this->assertNull($this->EntityManager->getRepository('CoreBundle:Trackdata')->findByActivity($activity->getId(), $this->getDefaultAccount()));
-        $this->assertNull($this->EntityManager->getRepository('CoreBundle:Hrv')->findByActivity($activity->getId()));
+        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)->find($routeId));
+        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Trackdata::class)->findByActivity($activity->getId(), $this->getDefaultAccount()));
+        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class)->findByActivity($activity->getId()));
     }
 
     public function testThatPowerIsNotRemovedAtUpdate()
@@ -371,7 +371,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository('CoreBundle:Raceresult')->findByActivity($activity->getId()));
+        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class)->findByActivity($activity->getId()));
     }
 
     public function testActivityWithSwimData()
@@ -397,7 +397,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->remove($activity);
 
-        $this->assertNull($this->EntityManager->getRepository('CoreBundle:Swimdata')->findByActivity($activity->getId()));
+        $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Swimdata::class)->findByActivity($activity->getId()));
     }
 
     /**
@@ -626,7 +626,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
     public function testEquipmentStatistics()
     {
-        $someEquipment = $this->EntityManager->getRepository('CoreBundle:Equipment')
+        $someEquipment = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
             ->findBy(
                 [
                     'account' => $this->getDefaultAccount(),

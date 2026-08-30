@@ -6,7 +6,6 @@ namespace Runalyze\Bundle\CoreBundle\Component\Notifications\Message;
 
 use Runalyze\Profile\Notifications\MessageTypeProfile;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class BackupReadyMessage implements MessageInterface
 {
@@ -25,7 +24,7 @@ class BackupReadyMessage implements MessageInterface
         return 5;
     }
 
-    public function getText(TranslatorInterface $translator)
+    public function getText(\Symfony\Contracts\Translation\TranslatorInterface $translator)
     {
         return $translator->trans('Your backup has been generated and is now available for download.');
     }

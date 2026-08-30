@@ -1,27 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class QueueConsumeCommand extends ContainerAwareCommand
+class QueueConsumeCommand extends Command
 {
+    protected static $defaultName = 'runalyze:queue:consume';
+
     /**
-     * @var array Array of all available queues has to be maintained manually
+     * @var string[] Array of all available queues has to be maintained manually
      */
-    protected $InternalQueues = [
+    protected array $InternalQueues = [
         'user-backup',
         'poster-generator',
     ];
 
     /**
-     * @var array
+     * @var string[]
      */
-    protected $BernardOptions = [
+    protected array $BernardOptions = [
         'max-runtime',
         'max-messages',
         'stop-when-empty',
@@ -31,7 +35,6 @@ class QueueConsumeCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('runalyze:queue:consume')
             ->setDescription('Listen on all available queues')
             ->addOption('max-runtime', null, InputOption::VALUE_OPTIONAL, 'Maximum time in seconds the consumer will run.')
             ->addOption('max-messages', null, InputOption::VALUE_OPTIONAL, 'Maximum number of messages that should be consumed.')
@@ -40,24 +43,22 @@ class QueueConsumeCommand extends ContainerAwareCommand
         ;
     }
 
-    /**
-     * @return null|int null or 0 if everything went fine, or an error code
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $arguments = [
-            'command' => 'bernard:consume',
-            'queue' => $this->InternalQueues,
-        ];
+        throw new \Exception('Queue consumption is currently disabled, until bernard is replaced with symfony/messenger!', 1);
+        // $arguments = [
+        //     'command' => 'bernard:consume',
+        //     'queue' => $this->InternalQueues,
+        // ];
 
-        foreach ($this->BernardOptions as $option) {
-            if ($input->getOption($option) !== null && $input->getOption($option) !== false) {
-                $arguments['--' . $option] = $input->getOption($option);
-            }
-        }
+        // foreach ($this->BernardOptions as $option) {
+        //     if ($input->getOption($option) !== null && $input->getOption($option) !== false) {
+        //         $arguments['--' . $option] = $input->getOption($option);
+        //     }
+        // }
 
-        return $this->getApplication()
-            ->find('bernard:consume')
-            ->run(new ArrayInput($arguments), $output);
+        // return $this->getApplication()
+        //     ->find('bernard:consume')
+        //     ->run(new ArrayInput($arguments), $output);
     }
 }
