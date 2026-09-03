@@ -132,11 +132,11 @@ class JsonImporter
             $this->ExistingData['runalyze_equipment_sport'][] = $Relation;
         }
 
-        $FetchEquipmentSporRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_id`) FROM `' . $this->DatabasePrefix . 'equipment_spor`');
-        $this->ExistingData['runalyze_equipment_spor'] = [];
+        $FetchEquipmentSporRelation = $this->DB->query('SELECT CONCAT(`sportid`, "-", `equipment_id`) FROM `' . $this->DatabasePrefix . 'equipment_to_sport`');
+        $this->ExistingData['runalyze_equipment_to_sport'] = [];
 
         while ($Relation = $FetchEquipmentSporRelation->fetchColumn()) {
-            $this->ExistingData['runalyze_equipment_spor'][] = $Relation;
+            $this->ExistingData['runalyze_equipment_to_sport'][] = $Relation;
         }
     }
 
@@ -161,7 +161,7 @@ class JsonImporter
                 'runalyze_user',
                 'runalyze_equipment_type',
                 'runalyze_equipment_sport',
-                'runalyze_equipment_spor',
+                'runalyze_equipment_to_sport',
                 'runalyze_equipment',
                 'runalyze_route',
                 'runalyze_training',
@@ -347,7 +347,7 @@ class JsonImporter
             ) {
                 // Hint: Don't insert this relation, it does exist already!
             } elseif (
-                $tableName === 'runalyze_equipment_spor' &&
+                $tableName === 'runalyze_equipment_to_sport' &&
                 $this->equipmentSporRelationDoesExist($row['sportid'], $row['equipment_id'])
             ) {
                 // Hint: Don't insert this relation, it does exist already!
@@ -384,7 +384,7 @@ class JsonImporter
             isset($this->ReplaceIDs['runalyze_equipment'][$equipmentId]) &&
             in_array(
                 $this->ReplaceIDs['runalyze_sport'][$sportid] . '-' . $this->ReplaceIDs['runalyze_equipment'][$equipmentId],
-                $this->ExistingData['runalyze_equipment_spor']
+                $this->ExistingData['runalyze_equipment_to_sport']
             );
     }
 
@@ -418,7 +418,7 @@ class JsonImporter
         } elseif ($tableName === 'runalyze_equipment_sport') {
             $row['sportid'] = $this->correctID('runalyze_sport', $row['sportid']);
             $row['equipment_typeid'] = $this->correctID('runalyze_equipment_type', $row['equipment_typeid']);
-        } elseif ($tableName === 'runalyze_equipment_spor') {
+        } elseif ($tableName === 'runalyze_equipment_to_sport') {
             $row['sportid'] = $this->correctID('runalyze_sport', $row['sportid']);
             $row['equipment_id'] = $this->correctID('runalyze_equipment', $row['equipment_id']);
         } elseif ($tableName === 'runalyze_activity_equipment') {
