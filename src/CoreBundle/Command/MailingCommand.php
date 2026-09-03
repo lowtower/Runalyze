@@ -8,6 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,10 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class MailingCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected $customMailDirectory = '/mail/custom/';
+    protected string $customMailDirectory = '/mail/custom/';
 
     private ParameterBagInterface $parameterBag;
 
@@ -67,7 +65,7 @@ class MailingCommand extends Command
         $accounts = $this->buildQuery($input);
 
         if (! $input->getOption('force')) {
-            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+            /** @var QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $output->writeln(sprintf('<info>%u mail(s) will be sent.</info>', count($accounts)));
             $question = new ConfirmationQuestion('Continue with this action? (y/n)', false);

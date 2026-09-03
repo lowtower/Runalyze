@@ -56,6 +56,37 @@ services:
       start_period: 60s
     restart: unless-stopped
 
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: runalyze43-worker
+    entrypoint: ["/usr/local/bin/runalyze-entrypoint.sh"]
+    command: ["php", "bin/console", "messenger:consume", "async", "--time-limit=3600", "--memory-limit=256M", "--no-interaction"]
+    environment:
+      LANG: C.UTF-8
+      LANGUAGE: C.UTF-8
+      LC_ALL: C.UTF-8
+      TZ: ${TZ:-Europe/Berlin}
+      APP_ENV: ${APP_ENV:-dev}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-runalyze}
+      DB_USER: ${DB_USER:-runalyze}
+      DB_PASSWORD: ${DB_PASSWORD:-runalyze}
+      SQLITE_MOD_SPATIALITE: mod_spatialite.so
+      MAILER_HOST: mailhog
+      MAILER_PORT: 1025
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+      - composer-cache:/tmp/composer/cache
+    restart: unless-stopped
+
   phpmyadmin:
     image: docker.io/phpmyadmin/phpmyadmin:5.2
     container_name: runalyze43-phpmyadmin

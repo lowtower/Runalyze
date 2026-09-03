@@ -122,13 +122,16 @@ class EditController extends AbstractController
      */
     public function multiEditorAction(Request $request, Account $account): Response
     {
-        $ids = array_filter(explode(',', $request->get('ids', '')));
+        $ids = array_map(
+            'intval',
+            array_filter(explode(',', $request->get('ids', '')))
+        );
 
         return $this->getResponseForMultiEditor($ids, $account);
     }
 
     /**
-     * @param string[] $activityIds
+     * @param int[] $activityIds
      */
     protected function getResponseForMultiEditor(array $activityIds, Account $account): Response
     {

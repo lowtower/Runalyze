@@ -62,6 +62,10 @@ RUN set -eux; \
       libmcrypt-dev \
       libcurl4-openssl-dev \
       libonig-dev \
+      python3 \
+      python3-pip \
+      librsvg2-bin \
+      inkscape \
     ; \
     a2enmod rewrite headers expires; \
     rm -rf /var/lib/apt/lists/*
@@ -112,6 +116,10 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY composer.* ./
 RUN composer install --no-progress || true \
     composer --version
+
+# Python dependencies for gpxtrackposter
+RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
+# RUN pip3 install --no-cache-dir "pint<=0.17"
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini

@@ -4,67 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce20b440768f662eb8facef5d9eed1fd",
+    "content-hash": "bfa176e88e43c565219d28159948e72f",
     "packages": [
-        {
-            "name": "beberlei/assert",
-            "version": "v2.9.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/beberlei/assert.git",
-                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/124317de301b7c91d5fce34c98bba2c6925bec95",
-                "reference": "124317de301b7c91d5fce34c98bba2c6925bec95",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.1.1",
-                "phpunit/phpunit": "^4.8.35|^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/Assert/functions.php"
-                ],
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Collaborator"
-                }
-            ],
-            "description": "Thin assertion library for input validation in business models.",
-            "keywords": [
-                "assert",
-                "assertion",
-                "validation"
-            ],
-            "support": {
-                "issues": "https://github.com/beberlei/assert/issues",
-                "source": "https://github.com/beberlei/assert/tree/v2.9.9"
-            },
-            "time": "2019-05-28T15:27:37+00:00"
-        },
         {
             "name": "beberlei/doctrineextensions",
             "version": "v1.5.0",
@@ -126,181 +67,6 @@
                 "source": "https://github.com/beberlei/DoctrineExtensions/tree/v1.5.0"
             },
             "time": "2024-03-03T17:55:15+00:00"
-        },
-        {
-            "name": "bernard/bernard",
-            "version": "1.0.0-alpha9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bernardphp/bernard.git",
-                "reference": "1144b4dd9b87f22091dfceabb91d74f295ade034"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bernardphp/bernard/zipball/1144b4dd9b87f22091dfceabb91d74f295ade034",
-                "reference": "1144b4dd9b87f22091dfceabb91d74f295ade034",
-                "shasum": ""
-            },
-            "require": {
-                "beberlei/assert": "~2.1",
-                "bernard/normalt": "~1.0",
-                "php": "^5.6 || ^7.0",
-                "symfony/event-dispatcher": "^2.7|^3.0|^4.0"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php": "~2.4|~3.0",
-                "doctrine/dbal": "~2.3",
-                "iron-io/iron_mq": "~4.0",
-                "league/container": "~2.3",
-                "pda/pheanstalk": "~3.0",
-                "php-amqplib/php-amqplib": "~2.5",
-                "phpspec/phpspec": "^2.4",
-                "phpunit/phpunit": "^5.5|^6.0",
-                "pimple/pimple": "~1.0",
-                "predis/predis": "~0.8",
-                "psr/log": "~1.0",
-                "queue-interop/amqp-interop": "^0.6",
-                "queue-interop/queue-interop": "^0.6",
-                "symfony/console": "^2.7|^3.0|^4.0",
-                "symfony/dependency-injection": "^2.7|^3.0|^4.0"
-            },
-            "suggest": {
-                "aws/aws-sdk-php": "Allow sending messages to AWS services like Simple Queue Service",
-                "doctrine/dbal": "Allow sending messages to simulated message queue in a database via doctrine dbal",
-                "iron-io/iron_mq": "Allow sending messages to IronMQ",
-                "mongodb/mongodb": "Allow sending messages to a MongoDB server via PHP Driver",
-                "pda/pheanstalk": "Allow sending messages to Beanstalk using pheanstalk",
-                "php-amqplib/php-amqplib": "Allow sending messages to an AMQP server using php-amqplib",
-                "predis/predis": "Allow sending messages to Redis using predis",
-                "queue-interop/amqp-interop": "Allow sending messages using amqp interop compatible transports",
-                "queue-interop/queue-interop": "Allow sending messages using queue interop compatible transports"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Bernard\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Message queue abstraction layer",
-            "homepage": "https://github.com/bernardphp/bernard",
-            "keywords": [
-                "bernard",
-                "message",
-                "message queue",
-                "queue"
-            ],
-            "support": {
-                "issues": "https://github.com/bernardphp/bernard/issues",
-                "source": "https://github.com/bernardphp/bernard/tree/master"
-            },
-            "time": "2018-02-13T07:52:58+00:00"
-        },
-        {
-            "name": "bernard/bernard-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bernardphp/BernardBundle.git",
-                "reference": "95ba0996003f1d6209026e3e5af97f69045bca48"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bernardphp/BernardBundle/zipball/95ba0996003f1d6209026e3e5af97f69045bca48",
-                "reference": "95ba0996003f1d6209026e3e5af97f69045bca48",
-                "shasum": ""
-            },
-            "require": {
-                "bernard/bernard": "1.0.0-alpha9",
-                "php": "^5.6|^7.0",
-                "symfony/framework-bundle": "^2.8|^3.2|^4.0|^5.0"
-            },
-            "require-dev": {
-                "symfony/console": "^2.8|^3.0|^4.0",
-                "symfony/finder": "^2.8|^3.0|^4.0",
-                "symfony/phpunit-bridge": "^3.3"
-            },
-            "default-branch": true,
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Bernard\\BernardBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Integrates Bernard into a Symfony2 application.",
-            "homepage": "http://bernard.readthedocs.org/",
-            "support": {
-                "issues": "https://github.com/bernardphp/BernardBundle/issues",
-                "source": "https://github.com/bernardphp/BernardBundle/tree/master"
-            },
-            "time": "2022-04-21T11:02:41+00:00"
-        },
-        {
-            "name": "bernard/normalt",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bernardphp/normalt.git",
-                "reference": "9ed9b6bbc657bb1e5a52ff4da6607e32152b390e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bernardphp/normalt/zipball/9ed9b6bbc657bb1e5a52ff4da6607e32152b390e",
-                "reference": "9ed9b6bbc657bb1e5a52ff4da6607e32152b390e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6||^7.0",
-                "symfony/serializer": "^2.3 || ^3.0 || ^4.0"
-            },
-            "require-dev": {
-                "doctrine/common": "^2.1",
-                "phpspec/phpspec": "^2.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Normalt\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Normalt is a extension to Symfony Serializer that only implements the Normalization part",
-            "keywords": [
-                "denormalization",
-                "normalization"
-            ],
-            "support": {
-                "source": "https://github.com/bernardphp/normalt/tree/master"
-            },
-            "time": "2018-01-13T09:47:09+00:00"
         },
         {
             "name": "cache/adapter-common",
@@ -4044,18 +3810,18 @@
             "version": "v4.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/codeproducer198/Runalyze-Glossary.git",
+                "url": "https://github.com/lowtower/Runalyze-Glossary.git",
                 "reference": "v4.3.0"
             },
             "type": "library"
         },
         {
             "name": "runalyze/gpxtrackposter",
-            "version": "1.0.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/codeproducer198/GpxTrackPoster.git",
-                "reference": "8b337ca89e1cf9552dc0bbb08d8b81bc55335c45"
+                "url": "https://github.com/lowtower/GpxTrackPoster.git",
+                "reference": "runalyze"
             },
             "type": "library"
         },
@@ -6352,6 +6118,94 @@
                 }
             ],
             "time": "2022-11-04T06:30:35+00:00"
+        },
+        {
+            "name": "symfony/messenger",
+            "version": "v4.4.49",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/messenger.git",
+                "reference": "03818ffc4bdf22466b7fdfbced0a031e373dd253"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/03818ffc4bdf22466b7fdfbced0a031e373dd253",
+                "reference": "03818ffc4bdf22466b7fdfbced0a031e373dd253",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.3",
+                "psr/log": "^1|^2|^3",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "conflict": {
+                "doctrine/dbal": "<2.7",
+                "doctrine/persistence": "<1.3",
+                "symfony/event-dispatcher": "<4.3",
+                "symfony/framework-bundle": "<4.4",
+                "symfony/http-kernel": "<4.4"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.7|^3.0",
+                "doctrine/persistence": "^1.3|^2|^3",
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "symfony/console": "^3.4|^4.0|^5.0",
+                "symfony/dependency-injection": "^3.4.19|^4.1.8|^5.0",
+                "symfony/event-dispatcher": "^4.3|^5.0",
+                "symfony/http-kernel": "^4.4",
+                "symfony/process": "^3.4|^4.0|^5.0",
+                "symfony/property-access": "^3.4|^4.0|^5.0",
+                "symfony/serializer": "^3.4|^4.0|^5.0",
+                "symfony/service-contracts": "^1.1|^2",
+                "symfony/stopwatch": "^3.4|^4.0|^5.0",
+                "symfony/validator": "^3.4|^4.0|^5.0"
+            },
+            "suggest": {
+                "enqueue/messenger-adapter": "For using the php-enqueue library as a transport."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Messenger\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Roze",
+                    "email": "samuel.roze@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Helps applications send and receive messages to/from other applications or via message queues",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/messenger/tree/v4.4.49"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-11-14T10:08:49+00:00"
         },
         {
             "name": "symfony/mime",
@@ -10066,16 +9920,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.6.5",
+            "version": "2.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "f8686605798c755456327a3597201c3b5be76294"
+                "reference": "ca069d6c79feaa6651b423c15d101a27a436093e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/f8686605798c755456327a3597201c3b5be76294",
-                "reference": "f8686605798c755456327a3597201c3b5be76294",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ca069d6c79feaa6651b423c15d101a27a436093e",
+                "reference": "ca069d6c79feaa6651b423c15d101a27a436093e",
                 "shasum": ""
             },
             "require": {
@@ -10111,7 +9965,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.6.5"
+                "source": "https://github.com/rectorphp/rector/tree/2.6.6"
             },
             "funding": [
                 {
@@ -10119,7 +9973,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-30T22:02:04+00:00"
+            "time": "2026-09-02T09:38:46+00:00"
         },
         {
             "name": "rector/swiss-knife",

@@ -7,43 +7,19 @@ use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractBackup
 {
-    /**
-     * @var \Runalyze\Util\File\GZipWriter
-     */
-    protected $Writer;
+    protected GZipWriter $Writer;
 
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
-    /**
-     * @var string
-     */
-    protected $Prefix;
+    protected string $Prefix;
 
-    /**
-     * @var string
-     */
-    protected $RunalyzeVersion;
+    protected string $RunalyzeVersion;
 
-    /**
-     * @var string
-     */
-    protected $Filename;
+    protected string $Filename;
 
-    /**
-     * @param string $filename
-     * @param int $accountid
-     * @param string $databaseTablePrefix
-     * @param string $runalyzeVersion
-     */
-    public function __construct($filename, $accountid, \PDO $databaseConnection, $databaseTablePrefix, $runalyzeVersion)
+    public function __construct(string $filename, int $accountid, \PDO $databaseConnection, string $databaseTablePrefix, string $runalyzeVersion)
     {
         $this->Writer = new GZipWriter(md5($filename));
         $this->AccountID = $accountid;
@@ -162,10 +138,7 @@ abstract class AbstractBackup
         return $ids;
     }
 
-    /**
-     * @param string $tableName
-     */
-    protected function startTableRows($tableName)
+    protected function startTableRows(string $tableName)
     {
     }
 
@@ -173,40 +146,25 @@ abstract class AbstractBackup
     {
     }
 
-    /**
-     * @return array
-     */
-    private function fetchPluginIDs()
+    private function fetchPluginIDs(): array
     {
         return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'plugin` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
     }
 
-    /**
-     * @return array
-     */
-    private function fetchEquipmentIDs()
+    private function fetchEquipmentIDs(): array
     {
         return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'equipment` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
     }
 
-    /**
-     * @return array
-     */
-    private function fetchTagIDs()
+    private function fetchTagIDs(): array
     {
         return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'tag` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
     }
 
-    /**
-     * @return array
-     */
-    private function fetchEquipmentTypeIDs()
+    private function fetchEquipmentTypeIDs(): array
     {
         return $this->PDO->query('SELECT `id` FROM `' . $this->Prefix . 'equipment_type` WHERE `accountid`=' . $this->AccountID)->fetchAll(\PDO::FETCH_COLUMN);
     }
 
-    /**
-     * @param string $tableName
-     */
-    abstract protected function saveRowsFromStatement($tableName, array $columnInfo, \PDOStatement $statement);
+    abstract protected function saveRowsFromStatement(string $tableName, array $columnInfo, \PDOStatement $statement);
 }

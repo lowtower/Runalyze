@@ -1,20 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Component\Tool\Backup;
 
 class JsonBackup extends AbstractBackup
 {
-    /**
-     * @var bool
-     */
-    protected $TablesStarted = false;
+    protected bool $TablesStarted = false;
 
     protected function startBackup()
     {
         $this->Writer->addToFile('version=' . $this->RunalyzeVersion . "\n\n");
     }
 
-    protected function startTableRows($tableName)
+    protected function startTableRows(string $tableName)
     {
         $tableName = str_replace($this->Prefix, 'runalyze_', $tableName);
         $this->Writer->addToFile('{"TABLE":"' . $tableName . '"}' . "\n");
@@ -25,9 +24,9 @@ class JsonBackup extends AbstractBackup
         $this->Writer->addToFile("\n");
     }
 
-    protected function saveRowsFromStatement($tableName, array $columnInfo, \PDOStatement $statement)
+    protected function saveRowsFromStatement(string $tableName, array $columnInfo, \PDOStatement $statement)
     {
-        if ($tableName == $this->Prefix . 'account') {
+        if ($tableName === $this->Prefix . 'account') {
             return;
         }
 

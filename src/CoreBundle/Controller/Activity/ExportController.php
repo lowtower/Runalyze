@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Bundle\CoreBundle\Controller\Activity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;

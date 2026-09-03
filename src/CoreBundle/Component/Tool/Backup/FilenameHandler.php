@@ -19,38 +19,24 @@ class FilenameHandler
      */
     public const SQL_FORMAT = 'sql.gz';
 
-    /**
-     * @var int
-     */
-    protected $AccountId;
+    protected int $AccountId;
+
+    protected string $RunalyzeVersion = 'x';
 
     /**
-     * @var string
-     */
-    protected $RunalyzeVersion = 'x';
-
-    /**
-     * @param int $accountId
-     *
      * @TODO realize as service using DI
      */
-    public function __construct($accountId)
+    public function __construct(int $accountId)
     {
-        $this->AccountId = (int) $accountId;
+        $this->AccountId = $accountId;
     }
 
-    /**
-     * @param string $version
-     */
-    public function setRunalyzeVersion($version)
+    public function setRunalyzeVersion(string $version)
     {
         $this->RunalyzeVersion = $version;
     }
 
-    /**
-     * @param string $extension
-     */
-    public function generateInternalFilename($extension): string
+    public function generateInternalFilename(string $extension): string
     {
         return sprintf(
             '%s-%s-%s-%s-%s.%s',
@@ -58,49 +44,34 @@ class FilenameHandler
             self::FILENAME_PREFIX,
             date('Ymd-Hi'),
             $this->RunalyzeVersion,
-            substr(uniqid(random_int(0, mt_getrandmax())), -4),
+            substr(uniqid((string) random_int(0, mt_getrandmax())), -4),
             $extension
         );
     }
 
-    /**
-     * @param string $extension
-     */
-    public function isValidImportExtension($extension): bool
+    public function isValidImportExtension(string $extension): bool
     {
         return $extension === self::JSON_FORMAT;
     }
 
-    /**
-     * @param string $extension
-     */
-    public function isValidExportExtension($extension): bool
+    public function isValidExportExtension(string $extension): bool
     {
-        return in_array($extension, [self::JSON_FORMAT, self::SQL_FORMAT]);
+        return in_array($extension, [self::JSON_FORMAT, self::SQL_FORMAT], true);
     }
 
-    /**
-     * @param string $internalFilename
-     */
-    public function validateInternalFilename($internalFilename): bool
+    public function validateInternalFilename(string $internalFilename): bool
     {
         return $this->validateInternalPrefix($internalFilename) && self::validateFileExtension($internalFilename);
     }
 
-    /**
-     * @param string $internalFilename
-     */
-    protected function validateInternalPrefix($internalFilename): bool
+    protected function validateInternalPrefix(string $internalFilename): bool
     {
         $expectedPrefix = $this->AccountId . '-' . self::FILENAME_PREFIX;
 
         return substr($internalFilename, 0, strlen($expectedPrefix)) === $expectedPrefix;
     }
 
-    /**
-     * @param string $completeFilename
-     */
-    public static function validateFileExtension($completeFilename): bool
+    public static function validateFileExtension(string $completeFilename): bool
     {
         return
             substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT ||
@@ -108,35 +79,22 @@ class FilenameHandler
         ;
     }
 
-    /**
-     * @param string $completeFilename
-     */
-    public static function validateImportFileExtension($completeFilename): bool
+    public static function validateImportFileExtension(string $completeFilename): bool
     {
         return substr($completeFilename, -strlen(self::JSON_FORMAT)) === self::JSON_FORMAT;
     }
 
-    /**
-     * @param string $internalFilename
-     * @return string
-     */
-    public function generatePublicFilename($internalFilename)
+    public function generatePublicFilename(string $internalFilename): string
     {
         return substr($internalFilename, strlen($this->AccountId . '-' . self::FILENAME_PREFIX));
     }
 
-    /**
-     * @param string $publicFilename
-     */
-    public function validatePublicFilename($publicFilename): bool
+    public function validatePublicFilename(string $publicFilename): bool
     {
         return $this->validateInternalFilename($this->transformPublicToInternalFilename($publicFilename));
     }
 
-    /**
-     * @param string $publicFilename
-     */
-    public function transformPublicToInternalFilename($publicFilename): string
+    public function transformPublicToInternalFilename(string $publicFilename): string
     {
         return $this->AccountId . '-' . self::FILENAME_PREFIX . '-' . $publicFilename;
     }

@@ -21,11 +21,11 @@ return RectorConfig::configure()
     ->withSets([
         LevelSetList::UP_TO_PHP_74,
     ])
-    ->withTypeCoverageLevel(72)         # max level 72
-    ->withTypeCoverageDocblockLevel(14) # max level 14
-    ->withDeadCodeLevel(73)             # max level 73
-    ->withCodeQualityLevel(73)          # max level 73
-    ->withCodingStyleLevel(18)          # max level 18
+    ->withTypeCoverageLevel(75)         # max level 75
+    ->withTypeCoverageDocblockLevel(15) # max level 15
+    ->withDeadCodeLevel(74)             # max level 74
+    ->withCodeQualityLevel(79)          # max level 79
+    ->withCodingStyleLevel(21)          # max level 21
     ->withSkip([
         StrictArrayParamDimFetchRector::class => [
             __DIR__ . '/inc/system/class.PDOforRunalyze.php',

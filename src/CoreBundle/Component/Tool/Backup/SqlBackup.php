@@ -12,10 +12,7 @@ class SqlBackup extends AbstractBackup
         $this->Writer->addToFile('-- Version: ' . $this->RunalyzeVersion . "\n\n");
     }
 
-    /**
-     * @param string $tableName
-     */
-    protected function saveRowsFromStatement($tableName, array $columnInfo, \PDOStatement $statement)
+    protected function saveRowsFromStatement(string $tableName, array $columnInfo, \PDOStatement $statement)
     {
         while ($row = $statement->fetch(\PDO::FETCH_NUM)) {
             $values = '';

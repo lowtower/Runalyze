@@ -57,10 +57,9 @@ class GenerateJsonData
         $counter = 0;
 
         $query = $this->TrainingRepository->getQueryForJsonPosterData($account, $sport, $year);
-        $result = $query->toIterable(null, Query::HYDRATE_SCALAR);
+        $result = $query->toIterable([], Query::HYDRATE_SCALAR);
 
         foreach ($result as $data) {
-            $data = $data[0];
             $json = [
                 'start' => date('Y-m-d H:i:s', $data['time']),
                 'end' => date('Y-m-d H:i:s', $data['time'] + $data['s']),

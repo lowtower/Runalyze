@@ -8,7 +8,10 @@ use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
 use Runalyze\Bundle\CoreBundle\Entity\Route as EntityRoute;
+use Runalyze\Bundle\CoreBundle\Entity\Sport;
+use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Form\MultiImporterType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
@@ -23,12 +26,14 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Util\LocalTime;
 use Runalyze\Util\ServerParams;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Form\Form;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class CreateController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
@@ -64,20 +69,17 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         $this->translator = $translator;
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\TrainingRepository
-     */
-    protected function getTrainingRepository()
+    protected function getTrainingRepository(): TrainingRepository
     {
         return $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
+            ->getRepository(Training::class);
     }
 
     /**
      * @Route("/activity/add", name="activity-add")
      * @Security("has_role('ROLE_USER')")
      */
-    public function createAction(): \Symfony\Component\HttpFoundation\Response
+    public function createAction(): Response
     {
         $defaultUploadMode = $this->configurationManager
             ->getList()
@@ -99,7 +101,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/activity/communicator", name="activity-communicator")
      * @Security("has_role('ROLE_USER')")
      */
-    public function communicatorAction(): \Symfony\Component\HttpFoundation\Response
+    public function communicatorAction(): Response
     {
         return $this->render('activity/import_garmin_communicator.html.twig');
     }
@@ -108,7 +110,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/activity/communicator/iframe", name="activity-communicator-iframe")
      * @Security("has_role('ROLE_USER')")
      */
-    public function communicatorIFrameAction(): \Symfony\Component\HttpFoundation\Response
+    public function communicatorIFrameAction(): Response
     {
         return $this->render('import/garmin_communicator.html.twig', [
             'garminAPIKey' => $this->getParameter('app.garmin_api_key'),
@@ -119,7 +121,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/activity/upload", name="activity-upload")
      * @Security("has_role('ROLE_USER')")
      */
-    public function uploadAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function uploadAction(Request $request, Account $account): Response
     {
         $importResult = null;
         $importDir = $this->getParameter('app.data_directory') . '/import/';
@@ -144,7 +146,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         return $this->getUploadFormResponse();
     }
 
-    protected function getResponseForImportResults(FileImportResultCollection $results, Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
+    protected function getResponseForImportResults(FileImportResultCollection $results, Account $account, Request $request): Response
     {
         $results->completeAndFilterResults($this->activityDataContainerFilter);
 
@@ -170,7 +172,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         return $this->getUploadFormResponse();
     }
 
-    protected function getUploadFormResponse(): \Symfony\Component\HttpFoundation\Response
+    protected function getUploadFormResponse(): Response
     {
         $serverParams = new ServerParams();
         $maxFileSize = min($serverParams->getPostMaxSizeInBytes(), $serverParams->getUploadMaxFilesize());
@@ -180,12 +182,12 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         ]);
     }
 
-    protected function containerToActivity(ActivityDataContainer $container, Account $account): \Runalyze\Bundle\CoreBundle\Entity\Training
+    protected function containerToActivity(ActivityDataContainer $container, Account $account): Training
     {
         return $this->activityDataContainerToActivityContextConverter->getActivityFor($container, $account);
     }
 
-    protected function getResponseForMultipleNewActivities(FileImportResultCollection $results, Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    protected function getResponseForMultipleNewActivities(FileImportResultCollection $results, Request $request, Account $account): Response
     {
         $activityHashes = [];
         $errors = [];
@@ -276,7 +278,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/activity/new", name="activity-new")
      * @Security("has_role('ROLE_USER')")
      */
-    public function newAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
+    public function newAction(Request $request, Account $account): Response
     {
         if ($request->query->has('date')) {
             $time = LocalTime::fromString($request->query->get('date'))->getTimestamp();
@@ -291,7 +293,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         );
     }
 
-    protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, $setCache = true): \Symfony\Component\HttpFoundation\Response
+    protected function getResponseForNewSingleActivity(Training $activity, ?Request $request = null, $setCache = true): Response
     {
         $form = $this->createForm(ActivityType::class, $activity, [
             'action' => $this->generateUrl('activity-new'),
@@ -325,7 +327,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         ]);
     }
 
-    protected function handleSubmitOfNewActivityForm(Training $newActivity, Form $form)
+    protected function handleSubmitOfNewActivityForm(Training $newActivity, FormInterface $form)
     {
         $activity = $this->activityCache->get($form->get('temporaryHash')->getData(), $newActivity, true);
 
@@ -352,10 +354,7 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
             ->save($activity);
     }
 
-    /**
-     * @param int|null $time
-     */
-    protected function getDefaultNewActivity(Account $account, $time = null): \Runalyze\Bundle\CoreBundle\Entity\Training
+    protected function getDefaultNewActivity(Account $account, ?int $time = null): Training
     {
         $activity = new Training();
         $activity->setAccount($account);
@@ -370,18 +369,16 @@ class CreateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         return $activity;
     }
 
-    /**
-     * @return null|\Runalyze\Bundle\CoreBundle\Entity\Sport
-     */
-    protected function getMainSport(Account $account)
+    protected function getMainSport(Account $account): ?Sport
     {
         $mainSportId = $this->configurationManager
             ->getList()
             ->getGeneral()
             ->getMainSport();
-        $sport = $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class)
-            ->findThisOrAny($mainSportId, $account);
+        /** @var SportRepository $repository */
+        $repository = $this->getDoctrine()
+            ->getRepository(Sport::class);
+        $sport = $repository->findThisOrAny($mainSportId, $account);
 
         if ($sport === null || $account->getId() != $sport->getAccount()->getId()) {
             return null;

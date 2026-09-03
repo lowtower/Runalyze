@@ -9,40 +9,25 @@ class JsonImporterResults
      */
     protected $Results = [];
 
-    /**
-     * @param string $tableName
-     * @param int $counter
-     */
-    public function addUpdates($tableName, $counter)
+    public function addUpdates(string $tableName, int $counter)
     {
         $this->add($tableName, $counter, 'update');
     }
 
-    /**
-     * @param string $tableName
-     * @param int $counter
-     */
-    public function addDeletes($tableName, $counter)
+    public function addDeletes(string $tableName, int $counter)
     {
         $this->add($tableName, $counter, 'delete');
     }
 
-    /**
-     * @param string $tableName
-     * @param int $counter
-     */
-    public function addInserts($tableName, $counter)
+    public function addInserts(string $tableName, int $counter)
     {
         $this->add($tableName, $counter, 'insert');
     }
 
     /**
      * Increase internal counter
-     * @param string $tableName
-     * @param int $counter
-     * @param string $key
      */
-    protected function add($tableName, $counter, $key)
+    protected function add(string $tableName, int $counter, string $key)
     {
         if (! isset($this->Results[$tableName])) {
             $this->Results[$tableName] = [
@@ -57,11 +42,8 @@ class JsonImporterResults
 
     /**
      * Get internal counter
-     * @param string $tableName
-     * @param string $key
-     * @return int
      */
-    protected function get($tableName, $key)
+    protected function get(string $tableName, string $key): int
     {
         if (isset($this->Results[$tableName])) {
             return $this->Results[$tableName][$key];
@@ -72,10 +54,8 @@ class JsonImporterResults
 
     /**
      * Are there results?
-     * @param string $tableName
-     * @return bool
      */
-    public function hasResultsFor($tableName)
+    public function hasResultsFor(string $tableName): bool
     {
         if (isset($this->Results[$tableName])) {
             return
@@ -110,9 +90,8 @@ class JsonImporterResults
 
     /**
      * Get result string
-     * @param string $tableName
      */
-    protected function stringFor($tableName, string $string): string
+    protected function stringFor(string $tableName, string $string): string
     {
         $format = '<strong>%s</strong>: %d deleted, %d updated, %d inserted';
 

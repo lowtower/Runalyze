@@ -6,15 +6,9 @@ use Runalyze\Util\File\GZipReader;
 
 class JsonBackupAnalyzer
 {
-    /**
-     * @var string
-     */
-    protected $VersionString = '';
+    protected string $VersionString = '';
 
-    /**
-     * @var string
-     */
-    protected $RunalyzeVersion = '';
+    protected string $RunalyzeVersion = '';
 
     /**
      * @var array ['table' => #rows]
@@ -26,7 +20,7 @@ class JsonBackupAnalyzer
      * @param string $fileName absolute path
      * @param string $runalyzeVersion runalyze version string
      */
-    public function __construct($fileName, $runalyzeVersion)
+    public function __construct(string $fileName, string $runalyzeVersion)
     {
         $this->RunalyzeVersion = $runalyzeVersion;
 
@@ -50,10 +44,8 @@ class JsonBackupAnalyzer
 
     /**
      * Count rows for table
-     * @param string $tableName
-     * @return int
      */
-    public function count($tableName)
+    public function count(string $tableName): int
     {
         return $this->NumberOf[$tableName] ?? 0;
     }
@@ -70,7 +62,7 @@ class JsonBackupAnalyzer
 
     public function fileVersion(): string
     {
-        if ($this->VersionString == '') {
+        if ($this->VersionString === '') {
             return 'unknown';
         }
 
@@ -136,9 +128,8 @@ class JsonBackupAnalyzer
 
     /**
      * Extract major and minor version, i.e. 'X.Y' of any 'X.Y[.Z][-abc]'
-     * @param string $versionString
      */
-    public static function extractMajorAndMinorVersion($versionString): string
+    public static function extractMajorAndMinorVersion(string $versionString): string
     {
         if (preg_match('/^(\d+\.\d+)/', $versionString, $matches)) {
             return $matches[1];

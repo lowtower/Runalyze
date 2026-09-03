@@ -2,23 +2,37 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
-use Bernard\Message\DefaultMessage;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\Route as RunalyzeRoute;
+use Runalyze\Bundle\CoreBundle\Entity\RouteRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Training;
+use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\BackupExportType;
+use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/my/tools/backup")
  */
-class BackupToolController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class BackupToolController extends AbstractController
 {
+    private MessageBusInterface $messageBus;
+
+    public function __construct(MessageBusInterface $messageBus)
+    {
+        $this->messageBus = $messageBus;
+    }
+
     protected function getPathToBackupFiles(): string
     {
         return $this->getParameter('app.data_directory') . '/backup-tool/backup/';
@@ -30,7 +44,7 @@ class BackupToolController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
      *
      * @param string $filename
      */
-    public function downloadBackupAction($filename, Account $account): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function downloadBackupAction($filename, Account $account): BinaryFileResponse
     {
         $fileSystem = new Filesystem();
         $fileHandler = new FilenameHandler($account->getId());
@@ -60,27 +74,28 @@ class BackupToolController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
      * @Route("", name="tools-backup")
      * @Security("has_role('ROLE_USER')")
      */
-    public function backupAction(Account $account, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function backupAction(Account $account, Request $request): Response
     {
-        $lockedRoutes = $this->getDoctrine()
+        /** @var RouteRepository $repository */
+        $repository = $this->getDoctrine()
             ->getManager()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Route::class)
-            ->accountHasLockedRoutes($account);
-        $hasLockedTrainings = $this->getDoctrine()
+            ->getRepository(RunalyzeRoute::class);
+        $lockedRoutes = $repository->accountHasLockedRoutes($account);
+        /** @var TrainingRepository $repository */
+        $repository = $this->getDoctrine()
             ->getManager()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class)
-            ->accountHasLockedTrainings($account);
+            ->getRepository(Training::class);
+        $hasLockedTrainings = $repository->accountHasLockedTrainings($account);
 
         $form = $this->createForm(BackupExportType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $formdata = $request->request->get($form->getName());
-            $this->get('bernard.producer')
-                ->produce(new DefaultMessage('userBackup', [
-                    'accountid' => $account->getId(),
-                    'export-type' => $formdata['fileFormat'],
-                ]));
+            $this->messageBus->dispatch(new BackupGenerationMessage(
+                $account->getId(),
+                $formdata['fileFormat']
+            ));
             $this->get('session')
                 ->getFlashBag()
                 ->set('runalyze.backupjob.created', true);

@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\VO2max;
 use Runalyze\Bundle\CoreBundle\Model\Account\AccountStatistics;
@@ -29,7 +30,7 @@ class TrainingRepository extends EntityRepository
     {
         return $this->_em->createQueryBuilder()
             ->select('s.speed')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->join('t.sport', 's')
             ->where('t.id = :id AND t.account = :account')
             ->setParameter('id', $activityid)
@@ -95,7 +96,7 @@ class TrainingRepository extends EntityRepository
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('YEAR(FROM_UNIXTIME(t.time)) AS year')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->addGroupBy('year');
@@ -120,7 +121,7 @@ class TrainingRepository extends EntityRepository
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(1) as num')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId());
 
@@ -148,7 +149,7 @@ class TrainingRepository extends EntityRepository
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(1) as num')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.type = :typeid')
             ->setParameter('typeid', $type->getId());
 
@@ -156,15 +157,12 @@ class TrainingRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
-    /**
-     * @return array
-     */
-    public function getTypesWithTraining(Account $account)
+    public function getTypesWithTraining(Account $account): array
     {
         $qb = $this->_em->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.type)')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->andWhere($qb->expr()->isNotNull('t.type'))
             ->addGroupBy('t.type')
@@ -173,15 +171,12 @@ class TrainingRepository extends EntityRepository
             ->getResult('COLUMN_HYDRATOR');
     }
 
-    /**
-     * @return array
-     */
-    public function getSportsWithTraining(Account $account)
+    public function getSportsWithTraining(Account $account): array
     {
         $qb = $this->_em->createQueryBuilder();
         $queryBuilder = $qb
             ->select('IDENTITY(t.sport)')
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->andWhere($qb->expr()->isNotNull('t.sport'))
             ->addGroupBy('t.sport')
@@ -190,17 +185,14 @@ class TrainingRepository extends EntityRepository
             ->getResult('COLUMN_HYDRATOR');
     }
 
-    /**
-     * @return array
-     */
-    public function getMonthlyStatsFor(Account $account, ?string $column = null, ?int $sportid = null)
+    public function getMonthlyStatsFor(Account $account, ?string $column = null, ?int $sportid = null): array
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select(
                 'YEAR(FROM_UNIXTIME(t.time)) AS year',
                 'MONTH(FROM_UNIXTIME(t.time)) AS month'
             )
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->addGroupBy('year')
@@ -240,7 +232,7 @@ class TrainingRepository extends EntityRepository
                 'SUM(t.distance) as distance',
                 'SUM(t.s) as duration'
             )
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->setParameter('account', $account->getId())
             ->getQuery()
@@ -255,10 +247,7 @@ class TrainingRepository extends EntityRepository
         return $statistics;
     }
 
-    /**
-     * @return \Doctrine\ORM\Query
-     */
-    public function getQueryForJsonPosterData(Account $account, Sport $sport, int $year)
+    public function getQueryForJsonPosterData(Account $account, Sport $sport, int $year): Query
     {
         return $this->_em->createQueryBuilder()
             ->select(
@@ -267,7 +256,7 @@ class TrainingRepository extends EntityRepository
                 't.distance',
                 'r.geohashes'
             )
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->join('t.route', 'r')
             ->where('t.account = :account')
             ->andWhere('t.sport = :sport')
@@ -283,7 +272,7 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function getStatsForPoster(Account $account, Sport $sport, int $year)
     {
@@ -294,7 +283,7 @@ class TrainingRepository extends EntityRepository
                 'MIN(t.distance) as min_distance',
                 'MAX(t.distance) as max_distance'
             )
-            ->from(\Runalyze\Bundle\CoreBundle\Entity\Training::class, 't')
+            ->from(Training::class, 't')
             ->where('t.account = :account')
             ->andWhere('t.sport = :sport')
             ->andWhere('t.time BETWEEN :startTime and :endTime')
@@ -460,10 +449,9 @@ class TrainingRepository extends EntityRepository
     }
 
     /**
-     * @param bool $ensureThatSportAndTypeAreManaged
      * @return int activity id
      */
-    public function save(Training $training, $ensureThatSportAndTypeAreManaged = false)
+    public function save(Training $training, bool $ensureThatSportAndTypeAreManaged = false): int
     {
         if ($ensureThatSportAndTypeAreManaged) {
             $this->ensureThatSportAndTypeAreManaged($training);

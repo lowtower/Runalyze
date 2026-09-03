@@ -6,27 +6,18 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Availability
 {
-    /**
-     * @var string
-     */
-    protected $RsvgPath;
+    protected string $RsvgPath;
 
-    /**
-     * @var string
-     */
-    protected $InkscapePath;
+    protected string $InkscapePath;
 
-    /**
-     * @var string
-     */
-    protected $Python3Path;
+    protected string $Python3Path;
 
     /**
      * @param string $rsvgPath absolute path of rsvg[-convert]
      * @param string $inkscapePath absolute path of inkscape
      * @param string $python3Path absolute path of Python3
      */
-    public function __construct($rsvgPath, $inkscapePath, $python3Path)
+    public function __construct(string $rsvgPath, string $inkscapePath, string $python3Path)
     {
         $this->RsvgPath = $rsvgPath;
         $this->InkscapePath = $inkscapePath;
@@ -38,26 +29,17 @@ class Availability
         return $this->isPythonAvailable() && $this->isRsvgConverterAvailable();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isInkscapeAvailable()
+    protected function isInkscapeAvailable(): bool
     {
         return (new Filesystem())->exists($this->InkscapePath);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isRsvgConverterAvailable()
+    protected function isRsvgConverterAvailable(): bool
     {
         return (new Filesystem())->exists($this->RsvgPath);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isPythonAvailable()
+    protected function isPythonAvailable(): bool
     {
         return (new Filesystem())->exists($this->Python3Path);
     }

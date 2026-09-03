@@ -11,15 +11,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class FileHandler
 {
-    /**
-     * @var string
-     */
-    protected $DataDir;
+    protected string $DataDir;
 
-    /**
-     * @param string $dataDir
-     */
-    public function __construct($dataDir)
+    public function __construct(string $dataDir)
     {
         $this->DataDir = $dataDir;
     }
@@ -49,11 +43,9 @@ class FileHandler
     }
 
     /**
-     * @param string $filename
-     * @return Response
      * @throws ResourceNotFoundException
      */
-    public function getPosterDownloadResponse(Account $account, $filename)
+    public function getPosterDownloadResponse(Account $account, string $filename): Response
     {
         $fs = new Filesystem();
         $filename = $account->getId() . '-' . $filename;
@@ -63,7 +55,7 @@ class FileHandler
             $response->headers->set('Cache-Control', 'private');
             $response->headers->set('Content-type', 'image/png');
             $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($filename) . '";');
-            $response->headers->set('Content-length', filesize($this->pathToImages() . $filename));
+            $response->headers->set('Content-length', (string) filesize($this->pathToImages() . $filename));
             $response->setContent(file_get_contents($this->pathToImages() . $filename));
 
             return $response;
@@ -74,10 +66,9 @@ class FileHandler
 
     /**
      * @param string|int $year
-     * @param string $type
      * @param string|int $size
      */
-    public function buildFinalFileName(Account $account, Sport $sport, $year, $type, $size): string
+    public function buildFinalFileName(Account $account, Sport $sport, $year, string $type, $size): string
     {
         return sprintf(
             '%s-%s-%s-%s-%s-%s.%s',
@@ -91,11 +82,7 @@ class FileHandler
         );
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
-    protected function filesystemFriendlyName($string)
+    protected function filesystemFriendlyName(string $string): string
     {
         return preg_replace('~[^a-zA-Z0-9]+~', '', $string);
     }

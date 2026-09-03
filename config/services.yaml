@@ -126,39 +126,47 @@ services:
       class: Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver
       tags:
         - { name: controller.argument_value_resolver, priority: 50 }
+    Runalyze\Bundle\CoreBundle\ArgumentResolver\AccountValueResolver: '@app.value_resolver.account'
     app.listener.console_exception:
       class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener
       tags:
         - { name: kernel.event_listener, event: console.exception }
+    Runalyze\Bundle\CoreBundle\EventListener\ConsoleExceptionListener: '@app.listener.console_exception'
     app.listener.console_error_status:
       class: Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener
       tags:
         - { name: kernel.event_listener, event: console.terminate }
+    Runalyze\Bundle\CoreBundle\EventListener\ConsoleErrorStatusListener: '@app.listener.console_error_status'
     app.locale_listener:
       class: Runalyze\Bundle\CoreBundle\EventListener\LocaleListener
       arguments: ['%kernel.default_locale%']
       tags:
         - { name: kernel.event_subscriber }
+    Runalyze\Bundle\CoreBundle\EventListener\LocaleListener: '@app.locale_listener'
     app.listener.user_timezone:
       class: Runalyze\Bundle\CoreBundle\EventListener\UserTimezoneListener
       arguments: ["@security.token_storage"]
       tags:
         - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    Runalyze\Bundle\CoreBundle\EventListener\UserTimezoneListener: '@app.listener.user_timezone'
     app.user_locale_listener:
       class: Runalyze\Bundle\CoreBundle\EventListener\UserLocaleListener
       arguments: ['@session']
       tags:
         - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+    Runalyze\Bundle\CoreBundle\EventListener\UserLocaleListener: '@app.user_locale_listener'
     app.account_last_action_listener:
       class: Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener
       arguments: ['@security.token_storage']
       tags:
         - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
+    Runalyze\Bundle\CoreBundle\EventListener\AccountLastActionListener: '@app.account_last_action_listener'
     app.listener.recalculation_tasks_performer_listener:
       class: Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener
       arguments: ["@app.recalculation_manager"]
       tags:
         - { name: kernel.event_listener, event: kernel.terminate, method: onTerminate }
+    Runalyze\Bundle\CoreBundle\EventListener\RecalculationTasksPerformerListener: '@app.listener.recalculation_tasks_performer_listener'
     app.sha256salted_encoder:
       class: Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder
       public: true
@@ -169,10 +177,12 @@ services:
       arguments: ['%app.database_prefix%']
       tags:
         - { name: doctrine.event_subscriber }
+    Runalyze\Bundle\CoreBundle\EventListener\TablePrefixSubscriber: '@app.event.doctrine.table_prefix_subscriber'
     app.listener.maintenance:
       class: Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener
       tags:
         - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    Runalyze\Bundle\CoreBundle\EventListener\MaintenanceListener: '@app.listener.maintenance'
 
     Runalyze\Bundle\CoreBundle\Services\AccountMailer:
         arguments:
@@ -185,6 +195,7 @@ services:
     app.legacy_cache:
       class: Runalyze\Bundle\CoreBundle\Services\LegacyCache
       arguments: ["%app.data_directory%"]
+    Runalyze\Bundle\CoreBundle\Services\LegacyCache: '@app.legacy_cache'
 
     Runalyze\Bundle\CoreBundle\Tests\DataFixtures\ORM\LoadAccountData:
         arguments:
@@ -201,18 +212,22 @@ services:
       class: Runalyze\Bundle\CoreBundle\Entity\AccountRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Account]
+    Runalyze\Bundle\CoreBundle\Entity\AccountRepository: '@app.repository.account'
     app.repository.conf:
       class: Runalyze\Bundle\CoreBundle\Entity\ConfRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Conf]
+    Runalyze\Bundle\CoreBundle\Entity\ConfRepository: '@app.repository.conf'
     app.repository.equipment:
       class: Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Equipment]
+    Runalyze\Bundle\CoreBundle\Entity\EquipmentRepository: '@app.repository.equipment'
     app.repository.equipment_type:
       class: Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\EquipmentType]
+    Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository: '@app.repository.equipment_type'
 
     Runalyze\Bundle\CoreBundle\Entity\NotificationRepository:
         class: Runalyze\Bundle\CoreBundle\Entity\NotificationRepository
@@ -223,18 +238,22 @@ services:
       class: Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Raceresult]
+    Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository: '@app.repository.race_result'
     app.repository.sport:
       class: Runalyze\Bundle\CoreBundle\Entity\SportRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Sport]
+    Runalyze\Bundle\CoreBundle\Entity\SportRepository: '@app.repository.sport'
     app.repository.tag:
       class: Runalyze\Bundle\CoreBundle\Entity\TagRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Tag]
+    Runalyze\Bundle\CoreBundle\Entity\TagRepository: '@app.repository.tag'
     app.repository.type:
       class: Runalyze\Bundle\CoreBundle\Entity\TypeRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Type]
+    Runalyze\Bundle\CoreBundle\Entity\TypeRepository: '@app.repository.type'
     app.repository.training:
       class: Runalyze\Bundle\CoreBundle\Entity\TrainingRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
@@ -250,15 +269,18 @@ services:
       class: Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository
       factory: ["@doctrine.orm.entity_manager", getRepository]
       arguments: [Runalyze\Bundle\CoreBundle\Entity\Weathercache]
+    Runalyze\Bundle\CoreBundle\Entity\WeathercacheRepository: '@app.repository.weathercache'
     app.entity_listener.activity:
       class: Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener
       arguments: ["@app.recalculation_manager", "@app.configuration_manager", "@app.repository.sport", "@app.repository.equipment", "@app.timezone_lookup"]
       tags:
       - { name: doctrine.orm.entity_listener, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\ActivityListener: '@app.entity_listener.activity'
     app.entity_subscriber.equipment_update:
       class: Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber
       tags:
       - { name: doctrine.event_subscriber, connection: default, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\EquipmentUpdateSubscriber: '@app.entity_subscriber.equipment_update'
     app.entity_listener.user:
       class: Runalyze\Bundle\CoreBundle\EntityListener\UserListener
       arguments:
@@ -266,25 +288,30 @@ services:
         - '@Runalyze\Bundle\CoreBundle\Entity\UserRepository'
       tags:
         - { name: doctrine.orm.entity_listener, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\UserListener: '@app.entity_listener.user'
     app.entity_listener.race_result:
       class: Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener
       arguments: ["@app.recalculation_manager"]
       tags:
       - { name: doctrine.orm.entity_listener, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\RaceResultListener: '@app.entity_listener.race_result'
     app.entity_listener.route:
       class: Runalyze\Bundle\CoreBundle\EntityListener\RouteListener
       arguments: ["@app.configuration_manager", "@app.elevation_correction"]
       tags:
       - { name: doctrine.orm.entity_listener, lazy: true }
+    Runalyze\Bundle\CoreBundle\EntityListener\RouteListener: '@app.entity_listener.route'
     app.form.activity:
       class: Runalyze\Bundle\CoreBundle\Form\ActivityType
       arguments: ["@security.token_storage", "@app.repository.tag"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\ActivityType: '@app.form.activity'
     app.form.multi_importer:
       class: Runalyze\Bundle\CoreBundle\Form\MultiImporterType
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\MultiImporterType: '@app.form.multi_importer'
     app.form.activity.equipment:
       class: Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType
       arguments: ["@security.token_storage"]
@@ -292,72 +319,87 @@ services:
       - [setConfigurationManager, ["@app.configuration_manager"]]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\ActivityEquipmentType: '@app.form.activity.equipment'
     app.form.anova:
       class: Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType
       arguments: ["@app.repository.sport", "@app.repository.type", "@app.repository.equipment_type", "@security.token_storage", "@app.configuration_manager"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Tools\Anova\AnovaType: '@app.form.anova'
     app.form.trend_analysis:
       class: Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType
       arguments: ["@app.repository.sport", "@app.repository.type", "@security.token_storage", "@app.configuration_manager"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType: '@app.form.trend_analysis'
     app.form.poster:
       class: Runalyze\Bundle\CoreBundle\Form\Tools\PosterType
       arguments: ["@app.repository.sport", "@app.repository.training", "@security.token_storage"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Tools\PosterType: '@app.form.poster'
     app.form.equipment:
       class: Runalyze\Bundle\CoreBundle\Form\EquipmentType
       arguments: ["@app.repository.equipment_type", "@security.token_storage"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\EquipmentType: '@app.form.equipment'
     app.form.equipment_category:
       class: Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType
       arguments: ["@app.repository.sport", "@security.token_storage"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\EquipmentCategoryType: '@app.form.equipment_category'
     app.form.sport_setting:
       class: Runalyze\Bundle\CoreBundle\Form\Settings\SportType
       arguments: ["@app.repository.type", "@app.repository.sport", "@app.repository.equipment_type", "@security.token_storage"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Settings\SportType: '@app.form.sport_setting'
     app.form.sport_types_setting:
       class: Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType
       arguments: ["@security.token_storage"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Settings\SportTypeType: '@app.form.sport_types_setting'
     app.form.race_result:
       class: Runalyze\Bundle\CoreBundle\Form\RaceResultType
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\RaceResultType: '@app.form.race_result'
     app.form.type.body_values:
       class: Runalyze\Bundle\CoreBundle\Form\BodyValuesType
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\BodyValuesType: '@app.form.type.body_values'
     app.form.type.distance:
       class: Runalyze\Bundle\CoreBundle\Form\Type\DistanceType
       arguments: ["@app.unit_system.distance"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\DistanceType: '@app.form.type.distance'
     app.form.type.elevation:
       class: Runalyze\Bundle\CoreBundle\Form\Type\ElevationType
       arguments: ["@app.unit_system.elevation"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\ElevationType: '@app.form.type.elevation'
     app.form.type.energy:
       class: Runalyze\Bundle\CoreBundle\Form\Type\EnergyType
       arguments: ["@app.unit_system.energy"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\EnergyType: '@app.form.type.energy'
     app.form.type.energy_kcal:
       class: Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType: '@app.form.type.energy_kcal'
     app.form.type.power:
       class: Runalyze\Bundle\CoreBundle\Form\Type\PowerType
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\PowerType: '@app.form.type.power'
     app.form.type.sport:
       class: Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType
       arguments: ["@security.token_storage", "@app.repository.sport"]
@@ -365,6 +407,7 @@ services:
       - [setConfigurationManager, ["@app.configuration_manager"]]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\SportChoiceType: '@app.form.type.sport'
     app.form.type.activity_type:
       class: Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType
       arguments: ["@security.token_storage"]
@@ -372,6 +415,7 @@ services:
       - [setConfigurationManager, ["@app.configuration_manager"]]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\ActivityTypeChoiceType: '@app.form.type.activity_type'
     app.form.type.activity_lapintensity:
       class: Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType
       arguments: ["@security.token_storage"]
@@ -379,26 +423,31 @@ services:
       - [setConfigurationManager, ["@app.configuration_manager"]]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType: '@app.form.type.activity_lapintensity'
     app.form.type.temperature:
       class: Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType
       arguments: ["@app.unit_system.temperature"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType: '@app.form.type.temperature'
     app.form.type.wind_speed:
       class: Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType
       arguments: ["@app.unit_system.wind_speed"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType: '@app.form.type.wind_speed'
     app.form.type.weight:
       class: Runalyze\Bundle\CoreBundle\Form\Type\WeightType
       arguments: ["@app.unit_system.weight"]
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\WeightType: '@app.form.type.weight'
     app.form.type.hrzonebound:
       class: Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType
       arguments: []
       tags:
       - { name: form.type }
+    Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType: '@app.form.type.hrzonebound'
 
     app.automatic_reload_flag_setter:
       class: Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter
@@ -408,6 +457,7 @@ services:
     app.privacy_guard:
       class: Runalyze\Bundle\CoreBundle\Services\PrivacyGuard
       arguments: ["@security.token_storage", "@app.configuration_manager"]
+    Runalyze\Bundle\CoreBundle\Services\PrivacyGuard: '@app.privacy_guard'
     Runalyze\Bundle\CoreBundle\Services\Activity\ActivityContextFactory:
       arguments: ["@doctrine.orm.entity_manager"]
     app.activity_context.factory:
@@ -427,6 +477,7 @@ services:
       class: Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager
       arguments: ["@app.configuration_manager", "@app.configuration_updater", "@app.repository.training", "@app.repository.race_result"]
       lazy: true
+    Runalyze\Bundle\CoreBundle\Services\Recalculation\RecalculationManager: '@app.recalculation_manager'
     app.sport_selection_factory:
       class: Runalyze\Bundle\CoreBundle\Services\Selection\SportSelectionFactory
       arguments: ["@app.repository.sport", "@app.configuration_manager", "@security.token_storage"]
@@ -434,6 +485,7 @@ services:
 
     app.unit_system_factory:
       class: Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory
+    Runalyze\Bundle\CoreBundle\Services\UnitSystemFactory: '@app.unit_system_factory'
     app.unit_system.distance:
       class: Runalyze\Metrics\Distance\Unit\AbstractDistanceUnit
       factory: ["@app.unit_system_factory", "getDistanceUnit"]
@@ -460,43 +512,53 @@ services:
       class: Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit
       factory: ["@app.unit_system_factory", "getWindSpeedUnit"]
       arguments: ["@app.configuration_manager"]
+    Runalyze\Metrics\Velocity\Unit\AbstractPaceInDecimalFormatUnit: '@app.unit_system.wind_speed'
     app.unit_system.weight:
       class: Runalyze\Metrics\Weight\Unit\AbstractWeightUnit
       factory: ["@app.unit_system_factory", "getWeightUnit"]
       arguments: ["@app.configuration_manager"]
+    Runalyze\Metrics\Weight\Unit\AbstractWeightUnit: '@app.unit_system.weight'
     app.twig_configuration_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension
       public: false
       arguments: ["@app.configuration_manager"]
       tags:
         - { name: twig.extension }
+    Runalyze\Bundle\CoreBundle\Twig\ConfigurationExtension: '@app.twig_configuration_extension'
     app.twig_html_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\HtmlExtension
       public: false
       tags:
         - { name: twig.extension }
+    Runalyze\Bundle\CoreBundle\Twig\HtmlExtension: '@app.twig_html_extension'
     app.twig_utility_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\UtilityExtension
       public: false
       tags:
         - { name: twig.extension }
+    Runalyze\Bundle\CoreBundle\Twig\UtilityExtension: '@app.twig_utility_extension'
     app.twig_value_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\ValueExtension
       public: false
       arguments: ["@app.configuration_manager"]
       tags:
         - { name: twig.extension }
+    Runalyze\Bundle\CoreBundle\Twig\ValueExtension: '@app.twig_value_extension'
     app.twig_automatic_reload_flag_extension:
       class: Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension
       public: false
       tags:
         - { name: twig.extension }
+    Runalyze\Bundle\CoreBundle\Twig\AutomaticReloadFlagExtension: '@app.twig_automatic_reload_flag_extension'
     app.poster.generate_json:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData
       arguments: ["@app.repository.training", "@app.repository.race_result", "%kernel.root_dir%"]
+    Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GenerateJsonData: '@app.poster.generate_json'
+
     app.poster.generate_poster:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster
-      arguments: ["%kernel.root_dir%", "%python3_path%", "@app.repository.training"]
+      arguments: ["%kernel.root_dir%", "%app.python3_path%", "@app.repository.training"]
+    Runalyze\Bundle\CoreBundle\Component\Tool\Poster\GeneratePoster: '@app.poster.generate_poster'
 
     app.poster.availability:
       class: Runalyze\Bundle\CoreBundle\Component\Tool\Poster\Availability
@@ -508,38 +570,47 @@ services:
       arguments: ["%app.data_directory%"]
     Runalyze\Bundle\CoreBundle\Component\Tool\Poster\FileHandler: '@app.poster.filehandler'
 
-    Runalyze\Bundle\CoreBundle\Queue\Receiver\BackupReceiver:
-        class: Runalyze\Bundle\CoreBundle\Queue\Receiver\BackupReceiver
-        tags:
-            - { name: bernard.receiver, message: userBackup }
+    Runalyze\Bundle\CoreBundle\MessageHandler\BackupGenerationMessageHandler:
+        arguments:
+            $accountRepository: '@app.repository.account'
+            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Entity\NotificationRepository'
+            $parameterBag: '@parameter_bag'
+            $accountMailer: '@Runalyze\Bundle\CoreBundle\Services\AccountMailer'
+            $dataDirectory: '%app.data_directory%'
+            $databasePrefix: '%app.database_prefix%'
+            $runalyzeVersion: '%RUNALYZE_VERSION%'
 
-    Runalyze\Bundle\CoreBundle\Queue\Receiver\PosterReceiver:
-        class: Runalyze\Bundle\CoreBundle\Queue\Receiver\PosterReceiver
+    Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver: ~
+
+    Runalyze\Bundle\CoreBundle\MessageHandler\PosterGenerationMessageHandler:
         arguments:
             $logger: '@monolog.logger.queue'
             $accountRepository: '@app.repository.account'
             $sportRepository: '@app.repository.sport'
-            $notificationRepository: '@app.repository.notification'
+            $notificationRepository: '@Runalyze\Bundle\CoreBundle\Entity\NotificationRepository'
             $generateJsonData: '@app.poster.generate_json'
             $generatePoster: '@app.poster.generate_poster'
             $posterFileHandler: '@app.poster.filehandler'
             $accountMailer: '@Runalyze\Bundle\CoreBundle\Services\AccountMailer'
-            $dataDir: '%app.data_directory%'
+            $stateResolver: '@Runalyze\Bundle\CoreBundle\Component\Tool\Poster\PosterGenerationStateResolver'
+            $dataDirectory: '%app.data_directory%'
             $rsvgPath: '%app.rsvg_path%'
             $inkscapePath: '%app.inkscape_path%'
-        tags:
-            - { name: bernard.receiver, message: posterGenerator }
 
     app.activity.feed:
       class: Runalyze\View\Activity\Feed
+    Runalyze\View\Activity\Feed: '@app.activity.feed'
     app.http_client:
       class: GuzzleHttp\Client
+    GuzzleHttp\Client: '@app.http_client'
     app.file_converter.fit:
       class: Runalyze\Parser\Activity\Converter\FitConverter
       arguments: ["%app.perl_path%", "%kernel.root_dir%/../call/perl/fittorunalyze.pl"]
+    Runalyze\Parser\Activity\Converter\FitConverter: '@app.file_converter.fit'
     app.file_converter.ttbin:
       class: Runalyze\Parser\Activity\Converter\TtbinConverter
       arguments: ["%kernel.root_dir%/%app.ttbin_path%"]
+    Runalyze\Parser\Activity\Converter\TtbinConverter: '@app.file_converter.ttbin'
     app.file_importer:
       class: Runalyze\Bundle\CoreBundle\Services\Import\FileImporter
       arguments: ["@app.file_converter.fit", "@app.file_converter.ttbin", "%app.data_directory%/import/activity/failed", "@logger"]
@@ -577,27 +648,33 @@ services:
     app.data_series_remover:
       class: Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover
       arguments: ["@doctrine.orm.entity_manager"]
+    Runalyze\Bundle\CoreBundle\Services\Activity\DataSeriesRemover: '@app.data_series_remover'
     app.age_grade_lookup:
       class: Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup
       arguments: ["@security.token_storage"]
+    Runalyze\Bundle\CoreBundle\Services\Activity\AgeGradeLookup: '@app.age_grade_lookup'
     app.weather_forecast.darksky:
       class: Runalyze\Service\WeatherForecast\Strategy\DarkSky
       arguments: ["%app.darksky_api_key%", "@app.http_client", "@logger"]
       tags:
         - { name: monolog.logger, channel: external_services }
+    Runalyze\Service\WeatherForecast\Strategy\DarkSky: '@app.weather_forecast.darksky'
     app.weather_forecast.openweathermap:
       class: Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap
       arguments: ["%app.openweathermap_api_key%", "%app.weather_proxy%", "@app.http_client", "@logger"]
       tags:
         - { name: monolog.logger, channel: external_services }
+    Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap: '@app.weather_forecast.openweathermap'
     app.weather_forecast.meteostatnet:
       class: Runalyze\Service\WeatherForecast\Strategy\MeteostatNet
       arguments: ["%app.meteostatnet_api_key%", "%app.weather_proxy%", "@app.http_client", "@logger"]
       tags:
         - { name: monolog.logger, channel: external_services }
+    Runalyze\Service\WeatherForecast\Strategy\MeteostatNet: '@app.weather_forecast.meteostatnet'
     app.weather_forecast.cache:
       class: Runalyze\Service\WeatherForecast\Strategy\DatabaseCache
       arguments: ["@app.repository.weathercache"]
+    Runalyze\Service\WeatherForecast\Strategy\DatabaseCache: '@app.weather_forecast.cache'
     app.weather_forecast:
       class: Runalyze\Bundle\CoreBundle\Services\Import\WeatherForecast
       arguments: ["@app.weather_forecast.cache", "@app.weather_forecast.darksky", "@app.weather_forecast.openweathermap", "@app.weather_forecast.meteostatnet", "@app.repository.weathercache"]
@@ -630,19 +707,23 @@ services:
     app.elevation_correction:
       class: Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection
       arguments: ["@app.elevation_correction.geotiff", "@app.elevation_correction.geonames", "@app.elevation_correction.google_maps"]
+    Runalyze\Bundle\CoreBundle\Services\Import\ElevationCorrection: '@app.elevation_correction'
     app.routename_elevation.routename_elevation_factory:
       class: Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory
       arguments: ["@app.routename_elevation.routename_elevation_osm"]
       tags:
         - { name: monolog.logger, channel: external_services }
+    Runalyze\Service\RouteNameEvaluation\RouteNameEvalFactory: '@app.routename_elevation.routename_elevation_factory'
     app.routename_elevation.routename_elevation_osm:
       class: Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm
       arguments: ["%app.osm_overpass_url%", "%app.osm_overpass_proxy%", "@app.http_client", "@logger"]
       tags:
         - { name: monolog.logger, channel: external_services }
+    Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm: '@app.routename_elevation.routename_elevation_osm'
     app.timezone_lookup:
       class: Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup
       arguments: ["%app.data_directory%/timezone.sqlite", "%app.sqlite_mod_spatialite%", true]
+    Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookup: '@app.timezone_lookup'
     Runalyze\Bundle\CoreBundle\Services\SessionRequestProcessor:
       autowire: true
       tags:

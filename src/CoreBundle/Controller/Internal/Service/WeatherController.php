@@ -10,16 +10,25 @@ use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Service\WeatherForecast\Location;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/_internal/service/weather")
  */
-class WeatherController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class WeatherController extends AbstractController
 {
     use AppServiceSubscriberTrait;
+
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * @Route("", name="internal-service-weather")
@@ -51,7 +60,7 @@ class WeatherController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             ],
             'source' => [
                 'id' => $weather->Source,
-                'name' => $source !== null ? $source->getAttribution($this->get('translator.default')) : '',
+                'name' => $source !== null ? $source->getAttribution($this->translator) : '',
             ],
             'weatherid' => $weather->InternalConditionId,
             'temperature' => $weather->Temperature,
@@ -62,7 +71,7 @@ class WeatherController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         ]);
     }
 
-    private function getLocationForRequest(Request $request, Account $account): \Runalyze\Service\WeatherForecast\Location
+    private function getLocationForRequest(Request $request, Account $account): Location
     {
         $location = new Location();
 

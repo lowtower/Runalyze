@@ -48,11 +48,7 @@ class AutomaticReloadFlagSetter
         $this->FlashBag = $flashBag;
     }
 
-    /**
-     * @param int $flag
-     * @return int
-     */
-    public function set($flag)
+    public function set(int $flag): int
     {
         $currentFlag = $this->FlashBag->get(self::FLASH_BAG_KEY);
 
@@ -60,16 +56,15 @@ class AutomaticReloadFlagSetter
             $flag = $this->mergeFlags([$currentFlag[0], $flag]);
         }
 
-        $this->FlashBag->set(self::FLASH_BAG_KEY, $flag);
+        $this->FlashBag->set(self::FLASH_BAG_KEY, (string) $flag);
 
         return $flag;
     }
 
     /**
      * @param int[] $flags
-     * @return int
      */
-    protected function mergeFlags(array $flags)
+    protected function mergeFlags(array $flags): int
     {
         if (min($flags) == self::FLAG_DATA_BROWSER) {
             if (max($flags) == self::FLAG_PLUGINS) {

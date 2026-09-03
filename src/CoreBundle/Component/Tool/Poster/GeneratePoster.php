@@ -11,38 +11,22 @@ use Symfony\Component\Process\Process;
 
 class GeneratePoster
 {
-    public $Python3Path;
+    public string $Python3Path;
 
     /**
      * @var array
      */
     protected $Parameter = [];
 
-    /**
-     * @var string
-     */
-    protected $KernelRootDir;
+    protected string $KernelRootDir;
 
-    /**
-     * @var string
-     */
-    protected $Python3path;
+    protected string $Python3path;
 
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
+    protected TrainingRepository $TrainingRepository;
 
-    /**
-     * @var string
-     */
-    protected $Filename;
+    protected string $Filename;
 
-    /**
-     * @param string $kernelRootDir
-     * @param string $python3Path
-     */
-    public function __construct($kernelRootDir, $python3Path, TrainingRepository $trainingRepository)
+    public function __construct(string $kernelRootDir, string $python3Path, TrainingRepository $trainingRepository)
     {
         $this->KernelRootDir = $kernelRootDir;
         $this->Python3Path = $python3Path;
@@ -59,11 +43,7 @@ class GeneratePoster
         return $this->KernelRootDir . '/../var/poster/';
     }
 
-    /**
-     * @param string $athlete
-     * @param string $year
-     */
-    protected function generateRandomFileName($athlete, $year)
+    protected function generateRandomFileName(string $athlete, string $year)
     {
         $this->Filename = md5($athlete . $year . strtotime('now')) . '.svg';
     }
@@ -74,7 +54,7 @@ class GeneratePoster
     public function generate(): string
     {
         $command = array_merge(
-            [$this->Python3Path, 'create_poster.py'],
+            [$this->Python3Path, '-m', 'gpxtrackposter.cli'],
             $this->Parameter
         );
         $builder = new Process($command);
@@ -88,7 +68,7 @@ class GeneratePoster
         return $this->pathToSvgDirectory() . $this->Filename;
     }
 
-    public function buildCommand(string $type, string $jsonDir, int $year, Account $account, Sport $sport, ?string $title, $backgroundColor, $trackColor, $textColor, $raceColor)
+    public function buildCommand(string $type, string $jsonDir, int $year, Account $account, Sport $sport, ?string $title, string $backgroundColor, string $trackColor, string $textColor, string $raceColor)
     {
         $this->generateRandomFileName($account->getUsername(), (string) $year);
 

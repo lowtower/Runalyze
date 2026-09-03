@@ -42,7 +42,7 @@ class ActivityEquipmentType extends AbstractType implements DataTransformerInter
             if (isset($equipment[$category->getId()])) {
                 $isSingleChoice = $category->getInput() == EquipmentType::CHOICE_SINGLE;
 
-                $builder->add($category->getId(), EntityType::class, [
+                $builder->add((string) $category->getId(), EntityType::class, [
                     'class' => Equipment::class,
                     'choices' => $equipment[$category->getId()],
                     'choice_label' => 'name',

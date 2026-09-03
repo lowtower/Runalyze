@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Services;
 
+use Runalyze\Bundle\CoreBundle\Component\Notifications\Message\PosterGeneratedMessage;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -38,7 +39,7 @@ class AccountMailer
     }
 
     /**
-     * @param array<string, string>|array<string, null> $templateData
+     * @param array<string, scalar|object|null> $templateData
      */
     public function sendMailTo(Account $account, string $subject, string $template, array $templateData): void
     {
@@ -46,7 +47,7 @@ class AccountMailer
 
         $email = (new Email())
             ->from($this->sender)
-            ->to($account->getMail(), $account->getUsername())
+            ->to(new Address($account->getMail(), $account->getUsername()))
             ->subject($subject)
             ->html($this->twig->render($template, $templateData));
 
@@ -116,6 +117,31 @@ class AccountMailer
             [
                 'username' => $account->getUsername(),
                 'deletion_hash' => $account->getDeletionHash(),
+            ]
+        );
+    }
+
+    public function sendPosterGeneratedTo(Account $account, int $state): void
+    {
+        $this->sendMailTo(
+            $account,
+            $this->translator->trans('Your RUNALYZE posters are ready'),
+            'mail/tools/posterGenerated.html.twig',
+            [
+                'username' => $account->getUsername(),
+                'partial' => $state === PosterGeneratedMessage::STATE_PARTIAL,
+            ]
+        );
+    }
+
+    public function sendBackupGeneratedTo(Account $account): void
+    {
+        $this->sendMailTo(
+            $account,
+            $this->translator->trans('Your RUNALYZE backup is ready'),
+            'mail/tools/backupGenerated.html.twig',
+            [
+                'username' => $account->getUsername(),
             ]
         );
     }

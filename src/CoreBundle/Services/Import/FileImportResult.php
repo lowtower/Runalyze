@@ -91,7 +91,7 @@ class FileImportResult
         return $this->Exception;
     }
 
-    public function completeAndFilterContainer(ActivityDataContainerFilter $filter)
+    public function completeAndFilterContainer(ActivityDataContainerFilter $filter): void
     {
         if ($this->isFailed()) {
             return;

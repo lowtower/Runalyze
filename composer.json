@@ -10,7 +10,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "~1.3",
-        "bernard/bernard-bundle": "^2.0",
         "doctrine/annotations": "^1.14",
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^2.2",
@@ -41,6 +40,7 @@
         "symfony/form": "^4.4",
         "symfony/framework-bundle": "4.4.*",
         "symfony/mailer": "^4.4",
+        "symfony/messenger": "4.4.*",
         "symfony/monolog-bundle": "^3.8",
         "symfony/process": "^4.4",
         "symfony/security-bundle": "^4.4",
@@ -99,11 +99,11 @@
             "type": "package",
             "package": {
                 "name": "runalyze/gpxtrackposter",
-                "version": "1.0.2",
+                "version": "1.0.0",
                 "source": {
-                    "url": "https://github.com/codeproducer198/GpxTrackPoster.git",
+                    "url": "https://github.com/lowtower/GpxTrackPoster.git",
                     "type": "git",
-                    "reference": "8b337ca89e1cf9552dc0bbb08d8b81bc55335c45"
+                    "reference": "runalyze"
                 }
             }
         },
@@ -113,7 +113,7 @@
                 "name": "runalyze/glossary",
                 "version": "v4.3.0",
                 "source": {
-                    "url": "https://github.com/codeproducer198/Runalyze-Glossary.git",
+                    "url": "https://github.com/lowtower/Runalyze-Glossary.git",
                     "type": "git",
                     "reference": "v4.3.0"
                 }

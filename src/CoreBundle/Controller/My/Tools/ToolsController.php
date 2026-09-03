@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\My\Tools;
 
-use Bernard\Message\DefaultMessage;
 use Doctrine\ORM\EntityManager;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Anova\AnovaDataQuery;
 use Runalyze\Bundle\CoreBundle\Component\Tool\DatabaseCleanup\JobGeneral;
@@ -23,6 +22,7 @@ use Runalyze\Bundle\CoreBundle\Form\Tools\DatabaseCleanupType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\PosterType;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisData;
 use Runalyze\Bundle\CoreBundle\Form\Tools\TrendAnalysis\TrendAnalysisType;
+use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
@@ -32,6 +32,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -50,18 +51,22 @@ class ToolsController extends AbstractController
 
     private FileHandler $fileHandler;
 
+    private MessageBusInterface $messageBus;
+
     public function __construct(
         Availability $posterAvailability,
         TranslatorInterface $translator,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        FileHandler $fileHandler
+        FileHandler $fileHandler,
+        MessageBusInterface $messageBus
     ) {
         $this->posterAvailability = $posterAvailability;
         $this->translator = $translator;
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
         $this->fileHandler = $fileHandler;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -289,20 +294,18 @@ class ToolsController extends AbstractController
             if ($numberOfActivities <= 1) {
                 $this->addFlash('error', $this->translator->trans('There are not enough activities to generate a poster. Please change your selection.'));
             } else {
-                $message = new DefaultMessage('posterGenerator', [
-                    'accountid' => $account->getId(),
-                    'year' => $formdata['year'],
-                    'types' => $formdata['postertype'],
-                    'sportid' => $formdata['sport'],
-                    'title' => $formdata['title'],
-                    'size' => $formdata['size'],
-                    'backgroundColor' => $formdata['backgroundColor'],
-                    'trackColor' => $formdata['trackColor'],
-                    'textColor' => $formdata['textColor'],
-                    'raceColor' => $formdata['raceColor'],
-                ]);
-                $this->get('bernard.producer')
-                    ->produce($message);
+                $this->messageBus->dispatch(new PosterGenerationMessage(
+                    $account->getId(),
+                    (int) $formdata['year'],
+                    $formdata['postertype'],
+                    (int) $formdata['sport'],
+                    $formdata['title'],
+                    $formdata['size'],
+                    $formdata['backgroundColor'],
+                    $formdata['trackColor'],
+                    $formdata['textColor'],
+                    $formdata['raceColor']
+                ));
 
                 return $this->render('tools/poster_success.html.twig', [
                     'posterStoragePeriod' => $this->parameterBag->get('app.poster_storage_period'),
