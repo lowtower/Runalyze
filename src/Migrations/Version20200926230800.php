@@ -21,7 +21,7 @@ class Version20200926230800 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `fit_anaerobic_training_effect` DECIMAL(2,1) UNSIGNED DEFAULT NULL AFTER `fit_training_effect`;
@@ -30,7 +30,7 @@ class Version20200926230800 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `fit_anaerobic_training_effect`;
                                 ');

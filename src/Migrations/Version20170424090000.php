@@ -24,13 +24,13 @@ class Version20170424090000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('CREATE UNIQUE INDEX unique_key ON `' . $prefix . 'dataset` (`accountid`, `keyid`)');
     }
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER table `' . $prefix . 'dataset` DROP INDEX `unique_key`');
     }
 }

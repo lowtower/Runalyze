@@ -21,7 +21,7 @@ class Version20200928150400 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `fit_lactate_threshold_hr` TINYINT(3) UNSIGNED DEFAULT NULL AFTER `fit_performance_condition_end`,
@@ -32,7 +32,7 @@ class Version20200928150400 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `fit_lactate_threshold_hr`,
                                 DROP `fit_total_ascent`,

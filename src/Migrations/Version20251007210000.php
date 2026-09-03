@@ -21,7 +21,7 @@ class Version20251007210000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `with_goal` TINYINT(1) UNSIGNED DEFAULT "0" AFTER `is_track`,
@@ -35,7 +35,7 @@ class Version20251007210000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `with_goal`,
                                 DROP `kcal_rest`,

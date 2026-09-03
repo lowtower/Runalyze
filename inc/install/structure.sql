@@ -131,10 +131,10 @@ CREATE TABLE IF NOT EXISTS `runalyze_equipment_sport` (
 
 -- --------------------------------------------------------
 --
--- Tabellenstruktur für Tabelle `runalyze_equipment_spor`
+-- Tabellenstruktur für Tabelle `runalyze_equipment_to_sport`
 --
 
-CREATE TABLE IF NOT EXISTS `runalyze_equipment_spor` (
+CREATE TABLE IF NOT EXISTS `runalyze_equipment_to_sport` (
   `sportid` int(10) unsigned NOT NULL,
   `equipment_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -584,9 +584,9 @@ ALTER TABLE `runalyze_equipment_sport`
  ADD PRIMARY KEY (`sportid`,`equipment_typeid`), ADD KEY `equipment_typeid` (`equipment_typeid`);
 
 --
--- Indizes für die Tabelle `runalyze_equipment_spor`
+-- Indizes für die Tabelle `runalyze_equipment_to_sport`
 --
-ALTER TABLE `runalyze_equipment_spor`
+ALTER TABLE `runalyze_equipment_to_sport`
  ADD PRIMARY KEY (`sportid`,`equipment_id`), ADD KEY `equipment_id` (`equipment_id`);
 
 --
@@ -781,9 +781,9 @@ ADD CONSTRAINT `runalyze_equipment_sport_ibfk_1` FOREIGN KEY (`sportid`) REFEREN
 ADD CONSTRAINT `runalyze_equipment_sport_ibfk_2` FOREIGN KEY (`equipment_typeid`) REFERENCES `runalyze_equipment_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints der Tabelle `runalyze_equipment_spor`
+-- Constraints der Tabelle `runalyze_equipment_to_sport`
 --
-ALTER TABLE `runalyze_equipment_spor`
+ALTER TABLE `runalyze_equipment_to_sport`
 ADD CONSTRAINT `runalyze_equipment_spor_ibfk_1` FOREIGN KEY (`sportid`) REFERENCES `runalyze_sport` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `runalyze_equipment_spor_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `runalyze_equipment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 

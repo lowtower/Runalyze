@@ -21,7 +21,7 @@ class Version20221204190000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training` 
                                 ADD `total_cycles` smallint(5) unsigned DEFAULT NULL AFTER `stride_length`');
@@ -29,7 +29,7 @@ class Version20221204190000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `total_cycles`;');
     }

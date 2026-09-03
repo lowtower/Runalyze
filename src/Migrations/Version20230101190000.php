@@ -25,7 +25,7 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('CREATE TABLE IF NOT EXISTS `' . $prefix . 'equipment_spor` (
                 `sportid` int(10) unsigned NOT NULL,
@@ -42,7 +42,7 @@ class Version20230101190000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('DROP TABLE `' . $prefix . 'equipment_spor`');
     }
 }

@@ -86,7 +86,7 @@ class Equipment implements IdentifiableEntityInterface, NamedEntityInterface, Ac
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", inversedBy="equipment")
-     * @ORM\JoinTable(name="equipment_spor",
+     * @ORM\JoinTable(name="equipment_sport",
      *     joinColumns={
      *         @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
      *     },

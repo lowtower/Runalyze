@@ -24,7 +24,7 @@ class Version20230201200000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `splits_additional` JSON DEFAULT NULL AFTER `splits`;
@@ -33,7 +33,7 @@ class Version20230201200000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `splits_additional`;
                                 ');

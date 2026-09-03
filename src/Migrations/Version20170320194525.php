@@ -21,7 +21,7 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('CREATE TABLE IF NOT EXISTS `' . $prefix . 'notification` (
                           `id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -39,7 +39,7 @@ class Version20170320194525 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('DROP TABLE `' . $prefix . 'notification`');
     }

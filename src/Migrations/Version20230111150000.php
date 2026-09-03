@@ -24,7 +24,7 @@ class Version20230111150000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         // migrate existing rpe (6-20) to 1-10
         $this->addSql('update `' . $prefix . 'training` t set t.rpe = round((t.rpe / 1.5) - 3.5) where t.rpe is not null;');
@@ -43,7 +43,7 @@ class Version20230111150000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('update `' . $prefix . 'training` t set t.rpe = round((t.rpe * 1.5) + 4.5) where t.rpe is not null;');
 

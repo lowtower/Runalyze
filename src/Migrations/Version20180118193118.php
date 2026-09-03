@@ -21,7 +21,7 @@ class Version20180118193118 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 ADD `avg_impact_gs_left` FLOAT DEFAULT NULL AFTER `vertical_ratio`,
@@ -37,7 +37,7 @@ class Version20180118193118 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'training`
                                 DROP `avg_impact_gs_left`,
                                 DROP `avg_impact_gs_right`,

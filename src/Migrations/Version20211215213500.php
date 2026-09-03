@@ -21,7 +21,7 @@ class Version20211215213500 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'trackdata` ADD `performance_condition` longtext AFTER `pronation_excursion_right`,
                                                           ADD `respiration_rate` longtext AFTER `performance_condition`');
@@ -29,7 +29,7 @@ class Version20211215213500 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'trackdata`
                                 DROP `performance_condition`,
                                 DROP `respiration_rate`;

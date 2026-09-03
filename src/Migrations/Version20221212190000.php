@@ -21,7 +21,7 @@ class Version20221212190000 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE `' . $prefix . 'route`
                                 ADD `altitude_barometric` tinyint(1) unsigned DEFAULT 0 AFTER `elevations_source`;
@@ -30,7 +30,7 @@ class Version20221212190000 extends AbstractMigration implements ContainerAwareI
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
         $this->addSql('ALTER TABLE `' . $prefix . 'route`
                                 DROP `altitude_barometric`;
                                 ');

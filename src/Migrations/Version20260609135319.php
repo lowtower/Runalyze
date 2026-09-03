@@ -25,7 +25,7 @@ final class Version20260609135319 extends AbstractMigration implements Container
 
     public function up(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE ' . $prefix . 'equipment_spor DROP FOREIGN KEY runalyze_equipment_spor_ibfk_1');
         $this->addSql('ALTER TABLE ' . $prefix . 'equipment_spor DROP FOREIGN KEY runalyze_equipment_spor_ibfk_2');
@@ -46,7 +46,7 @@ final class Version20260609135319 extends AbstractMigration implements Container
 
     public function down(Schema $schema): void
     {
-        $prefix = $this->container->getParameter('database_prefix');
+        $prefix = $this->container->getParameter('app.database_prefix');
 
         $this->addSql('ALTER TABLE ' . $prefix . 'equipment_spor DROP FOREIGN KEY FK_equipment');
         $this->addSql('ALTER TABLE ' . $prefix . 'equipment_spor DROP FOREIGN KEY FK_sport');
