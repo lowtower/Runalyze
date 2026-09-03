@@ -3,62 +3,44 @@ set -euo pipefail
 
 mkdir -p data/srtm
 
-# Downloading SRTM files with retry logic
-echo "Downloading SRTM files database ..."
-
-# List of SRTM files to download
-srtm_files=(
-    "srtm_38_03 srtm_38_02 srtm_67_19 srtm_36_02 srtm_40_17 srtm_22_04"
-    "n40_w075 n49_e007 n51_w001 s23_e017 s34_e151"
-)
-
-for group in "${srtm_files[@]}"; do
-    for file in $group; do
-        if [[ $file == *"_1arc_v3.tif" ]]; then
-            # Handle files with _1arc_v3.tif suffix
-            output_file="data/srtm/${file}"
-            url="https://cdn.runalyze.com/static/srtm1/${file}"
-        else
-            # Handle regular SRTM files
-            output_file="data/srtm/${file}.tif"
-            url="https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/${file}.zip"
-        fi
-
-        if [ ! -f "$output_file" ]; then
-            attempt=1
-            success=false
-
-            while [ $attempt -le 3 ]; do
-                if [[ $file == *"_1arc_v3.tif" ]]; then
-                    if wget --progress=bar:force -O "$output_file" "$url"; then
-                        echo "✓ Downloaded ${file} successfully"
-                        success=true
-                        break
-                    fi
-                else
-                    tmp_zip="data/srtm/${file}.zip"
-                    if curl -L "$url" -o "$tmp_zip"; then
-                        if unzip -o "$tmp_zip" "${file}.tif" -d data/srtm; then
-                            rm -f "$tmp_zip"
-                            echo "✓ Downloaded and extracted ${file} successfully"
-                            success=true
-                            break
-                        fi
-                    fi
+for file in srtm_38_03 srtm_38_02 srtm_67_19 srtm_36_02 srtm_40_17 srtm_22_04
+do
+    for i in {1..3}; do
+        tmp="data/srtm/${file}.zip"
+        domain="https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/${file}.zip"
+        if [ ! -f data/srtm/${file}.tif ]; then
+            if wget --progress=bar:force -O "$tmp" "$domain"; then
+                if unzip -o data/srtm/${file}.zip ${file}.tif -d data/srtm; then
+                    echo "✓ Downloaded srtm file < $file > successfully"
                 fi
-
-                if [ $attempt -lt 3 ]; then
-                    echo "⚠ Attempt $attempt failed for ${file}, retrying in 5 seconds..."
+            else
+                if [ $i -lt 3 ]; then
+                    echo "⚠ Attempt $i failed, retrying in 5 seconds..."
                     sleep 5
+                else
+                    echo "⚠ Could not download srtm file < $file >"
                 fi
-                ((attempt++))
-            done
-
-            if [ "$success" = false ]; then
-                echo "⚠ Could not download ${file}, skipping..."
             fi
-        else
-            echo "✓ ${file} already exists, skipping download"
+        fi
+    done
+done
+
+for file in n40_w075 n49_e007 n51_w001 s23_e017 s34_e151
+do
+    for i in {1..3}; do
+        tmp="data/srtm/${file}_1arc_v3.tif"
+        domain="https://cdn.runalyze.com/static/srtm1/${file}_1arc_v3.tif"
+        if [ ! -f data/srtm/${file}_1arc_v3.tif ]; then
+            if wget --progress=bar:force -O "$tmp" "$domain"; then
+                echo "✓ Downloaded srtm file < $file > successfully"
+            else
+                if [ $i -lt 3 ]; then
+                    echo "⚠ Attempt $i failed, retrying in 5 seconds..."
+                    sleep 5
+                else
+                    echo "⚠ Could not download srtm file < $file >"
+                fi
+            fi
         fi
     done
 done
