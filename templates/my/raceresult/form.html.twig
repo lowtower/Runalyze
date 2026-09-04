@@ -41,7 +41,7 @@
         {{ form_rest(form) }}
         {{ form_end(form) }}
 
-        {% if isNew not is defined %}
+        {% if not isNew %}
         <form action="{{ url('raceresult-delete', {'activityId': activity.id}) }}" method="post" class="ajax no-automatic-reload">
             <div class="c">
                 <input type="submit" class="danger" value="{% trans %}Delete{% endtrans %}" />

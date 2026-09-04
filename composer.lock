@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac46c49a0fa0f52adfd5b770a19f425e",
+    "content-hash": "4b9b6c1eff01401b99f05a58a63691a7",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3801,7 +3801,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Runalyze/devices.git",
-                "reference": "v0.5.12"
+                "reference": "e00bdfe2b69285f0870394810cc5b26138c8ca19"
             },
             "type": "library"
         },
