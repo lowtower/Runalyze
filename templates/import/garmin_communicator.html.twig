@@ -26,7 +26,7 @@
 		var currentActivity = 0, uploadedActivities = [], display, newIndex = 0;
 		function load() {
 		    display = new Garmin.DeviceDisplay("garminDisplay", {
-				pluginNotUnlocked: "<em>{{ 'The plug-in was not unlocked successfully.' | trans }}</em><br>{{ 'The administrator has to set the correct API-key.' | trans }}",
+				pluginNotUnlocked: "<em>{{ 'The plug-in was not unlocked successfully.'|trans }}</em><br />{{ 'The administrator has to set the correct API-key.'|trans }}",
 				showReadDataElement: true,
 				showProgressBar: true,
 				showFindDevicesElement: true,
@@ -38,31 +38,31 @@
 				autoHideUnusedElements: true,
 				showReadDataTypesSelect: false,
 				readDataTypes: [Garmin.DeviceControl.FILE_TYPES.tcxDir, Garmin.DeviceControl.FILE_TYPES.gpxDir, Garmin.DeviceControl.FILE_TYPES.fitDir],
-				readDataButtonText: "{{ 'Connect' | trans }}",
+				readDataButtonText: "{{ 'Connect'|trans }}",
 				showCancelReadDataButton: false,
-				lookingForDevices: '{{ 'Searching for devices' | trans }}<br><br><img src="{{ asset('assets/v2.x/img/wait.gif') }}">',
-				uploadsFinished: "{{ 'Transfer complete' | trans }}",
+				lookingForDevices: '{{ 'Searching for devices'|trans }}<br /><br /><img src="{{ asset('assets/v2.x/img/wait.gif') }}">',
+				uploadsFinished: "{{ 'Transfer complete'|trans }}",
 				uploadSelectedActivities: true,
 				uploadCompressedData: true,
 				uploadMaximum: 40,
-				browseComputerButtonText: "{{ 'Browse computer' | trans }}",
-				cancelUploadButtonText: "{{ 'Cancel' | trans }}",
-				changeDeviceButtonText: "{{ 'Cancel' | trans }}",
-				connectedDevicesLabel: "{{ 'Connected devices' | trans }}: ",
-				deviceBrowserLabel: "{{ 'Browse devices' | trans }}: ",
-				deviceSelectLabel: "{{ 'Devices' | trans }}: ",
-				findDevicesButtonText: "{{ 'Search for decives' | trans }}",
-				loadingContentText: "{{ 'Retrieving data from #{deviceName}, please wait ...' | trans }}",
-				readSelectedButtonText: "{{ 'Please wait ...' | trans }}",
-				dataFound: "{{ 'Found #{tracks} activities' | trans }}",
-				noDeviceDetectedStatusText: "{{ 'No devices found' | trans }}",
-				singleDeviceDetectedStatusText: "{{ 'Found' | trans }}: ",
-				foundDevice: "{{ 'Found' | trans }}: #{deviceName}",
-				foundDevices: "{{ '#{deviceCount} devices found' | trans }}",
+				browseComputerButtonText: "{{ 'Browse computer'|trans }}",
+				cancelUploadButtonText: "{{ 'Cancel'|trans }}",
+				changeDeviceButtonText: "{{ 'Cancel'|trans }}",
+				connectedDevicesLabel: "{{ 'Connected devices'|trans }}: ",
+				deviceBrowserLabel: "{{ 'Browse devices'|trans }}: ",
+				deviceSelectLabel: "{{ 'Devices'|trans }}: ",
+				findDevicesButtonText: "{{ 'Search for decives'|trans }}",
+				loadingContentText: "{{ 'Retrieving data from #{deviceName}, please wait ...'|trans }}",
+				readSelectedButtonText: "{{ 'Please wait ...'|trans }}",
+				dataFound: "{{ 'Found #{tracks} activities'|trans }}",
+				noDeviceDetectedStatusText: "{{ 'No devices found'|trans }}",
+				singleDeviceDetectedStatusText: "{{ 'Found'|trans }}: ",
+				foundDevice: "{{ 'Found'|trans }}: #{deviceName}",
+				foundDevices: "{{ '#{deviceCount} devices found'|trans }}",
 				showReadDataElementOnDeviceFound: true,
-				getActivityDirectoryHeaderIdLabel: function () { return '{{ 'Date' | trans }}'; },
-				activityDirectoryHeaderDuration: '{{ 'Duration' | trans }}',
-				activityDirectoryHeaderStatus: '{{ 'Status' | trans }}',
+				getActivityDirectoryHeaderIdLabel: function () { return '{{ 'Date'|trans }}'; },
+				activityDirectoryHeaderDuration: '{{ 'Duration'|trans }}',
+				activityDirectoryHeaderStatus: '{{ 'Status'|trans }}',
 				statusCellProcessingImg: 'upload',
 				detectNewActivities: true,
 				syncDataUrl: '{{ url('internal-activity-matcher') }}',
@@ -80,12 +80,12 @@
 						entry.isNew = false;
 						checkbox.checked = false;
 						statusCell.className = statusCell.className + ' upload-exists';
-						statusCell.innerHTML = '{{ 'present' | trans }}';
+						statusCell.innerHTML = '{{ 'present'|trans }}';
 					} else {
 						entry.isNew = true;
 						checkbox.checked = true;
 						statusCell.className = statusCell.className + ' upload-new';
-						statusCell.innerHTML = '{{ 'new' | trans }}<br><small onclick="ignoreID(\''+activityId+'\', this)">[{{ 'ignore' | trans }}]</small>';
+						statusCell.innerHTML = '{{ 'new'|trans }}<br /><small onclick="ignoreID(\''+activityId+'\', this)">[{{ 'ignore'|trans }}]</small>';
 
 						// Rearrange: Put to the top
 						if (index != newIndex) {
@@ -99,7 +99,7 @@
 					}
 				},
 				postActivityHandler: function(activityXml, display) {
-					$("readSelectedButton").value = "{{ 'Import' | trans }}";
+					$("readSelectedButton").value = "{{ 'Import'|trans }}";
 					var currentName = display.activities[currentActivity].attributes.activityName.replace(/:/gi, "-");
 
 					uploadedActivities.push(currentName);
@@ -116,9 +116,9 @@
 					//	window.parent.Runalyze.Training.loadSavedTcxs(uploadedActivities);
 				},
 				afterFinishReadFromDevice: function(dataString, dataDoc, extension, activities, display) {
-					$("readSelectedButton").value = "{{ 'Import' | trans }}";
+					$("readSelectedButton").value = "{{ 'Import'|trans }}";
 
-					$("selectAllHeader").innerHTML = '<a href="#" id="selectAllButton" style="cursor:pointer;">{{ 'all' | trans }}</a>';
+					$("selectAllHeader").innerHTML = '<a href="#" id="selectAllButton" style="cursor:pointer;">{{ 'all'|trans }}</a>';
 
 					var checkboxes = $$("input[type=checkbox]");
 					var cbControl = $("selectAllButton");

@@ -30,7 +30,7 @@
                         </td>
                         <td>{{ tag.tag }}</td>
                         <td class="as-small-as-possible">
-                            <a class="window color-danger" href="{{ url('settings-tags-delete', { 'id': tag.id, 't': csrf_token('deleteTag') }) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{% trans %}Delete{% endtrans %}"></i></a>
+                            <a class="window color-danger" href="{{ url('settings-tags-delete', {'id': tag.id, 't': csrf_token('deleteTag')}) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{% trans %}Delete{% endtrans %}"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -17,10 +17,10 @@
         <div id="upload-container">
             <div class="c button" id="file-upload">{% trans %}Upload file{% endtrans %}</div>
         </div>
-        
+
         <script>
             var submittedFiles = [], completedFiles = 0, uploadedFiles = 0;
-        
+
             new qq.FineUploaderBasic({
                 button: $("#file-upload")[0],
                 request: {
@@ -39,13 +39,13 @@
                     },
                     onComplete: function(id, fileName, responseJSON) {
                         uploadedFiles++;
-        
+
                         if (responseJSON.success) {
                             completedFiles++;
-        
+
                             if (completedFiles == submittedFiles.length) {
                                 $(".appended-by-uploader").remove();
-        
+
                                 if (completedFiles == 1) {
                                     $("#ajax").loadDiv('{{ url('activity-upload') }}?file='+encodeURIComponent(submittedFiles[0]));
                                 } else {
@@ -55,10 +55,10 @@
                         } else {
                             $("#ajax").append('<p class="error appended-by-uploader">{% trans %}There were problems while uploading.{% endtrans %}</p>');
                         }
-        
+
                         if (uploadedFiles == submittedFiles.length) {
                             $("#upload-container").removeClass('loading');
-        
+
                             submittedFiles = [];
                             completedFiles = 0;
                             uploadedFiles = 0;
@@ -66,18 +66,18 @@
                     }
                 }
             });
-        
+
             if (!qq.supportedFeatures.ajaxUploading)
                 $("#ajax").append('<p class="error">{% trans %}Your browser does not seem to support this uploader, see{% endtrans %}<a href="http://docs.fineuploader.com/browser-support.html" target="_blank">http://docs.fineuploader.com/browser-support.html</a>.</p>');
         </script>
-        
+
         <p class="text">
             &nbsp;
         </p>
-        
+
         <p class="info">
             <a href="http://help.runalyze.com/latest/starting-guide/import.html#different-file-types" target="_blank">{% trans %}Supported file extensions{% endtrans %}</a>:
-    
+
             <abbr rel="tooltip" title="{{ "%s-files are supported from: %s"|trans|format("csv", "Epson, Wahoo") }}">*.csv</abbr>,
             *.fit,
             *.fitlog,
@@ -97,7 +97,7 @@
             <abbr rel="tooltip" title="{{ "%s-files are supported from: %s"|trans|format("xml", "Polar, Suunto, RunningAHEAD") }}">*.xml</abbr>,
             *.zip
         </p>
-        
+
         {% if maxFileSize %}
         <p class="info">
             {% trans %}Supported file size:{% endtrans %} {{ maxFileSize|filesize }}

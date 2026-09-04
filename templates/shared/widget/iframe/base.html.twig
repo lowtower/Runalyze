@@ -8,12 +8,12 @@
 {% block content %}
     {# @var activity \Runalyze\Bundle\CoreBundle\Entity\Training #}
     {% set activity = context.activity %}
-    {# @var configList \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList #}
-    {% set configList = config(context.account) %}
+    {# @var config_list \Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList #}
+    {% set config_list = config(context.account) %}
     {# @var units \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem #}
-    {% set units = configList.unitSystem %}
-    {# @var vo2maxObject \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max #}
-    {% set vo2maxObject = vo2maxFor(context, configList) %}
+    {% set units = config_list.unitSystem %}
+    {# @var vo2max_object \Runalyze\Bundle\CoreBundle\Twig\DisplayableVO2max #}
+    {% set vo2max_object = vo2maxFor(context, config_list) %}
 
     <div id="statistics-inner" class="panel" style="width:97%;margin:0 auto;">
         <div class="panel-heading panel-inner-heading">
@@ -38,7 +38,7 @@
                 {{ boxedValue(context.activity.s|duration, '', "Duration"|trans, '20%') }}
                 {{ boxedValue(context.activity.elapsedTime > 0 ? context.activity.elapsedTime|duration : '-', '', "Elapsed time"|trans, '20%') }}
                 {{ boxedValueFor(pace(context.activity.distance > 0 ? context.activity.s / context.activity.distance : 0, units.paceUnit(context.sport)), "Pace"|trans, '20%') }}
-                {{ boxedValueFor(vo2maxObject, "VO<sub>2</sub>max", '20%', vo2maxObject.zero ? '' : vo2maxObject.iconClass) }}
+                {{ boxedValueFor(vo2max_object, "VO<sub>2</sub>max", '20%', vo2max_object.zero ? '' : vo2max_object.iconClass) }}
                 {{ boxedValueFor(elevation(context.activity.elevation, units.elevationUnit), "Elevation"|trans, '20%') }}
                 {{ boxedValueFor(heartRate(context.activity.pulseAvg, units.heartRateUnit), "avg."|trans ~ " " ~ "Heart rate"|trans, '20%') }}
                 {{ boxedValueFor(heartRate(context.activity.pulseMax, units.heartRateUnit), "max."|trans ~ " " ~ "Heart rate"|trans, '20%') }}

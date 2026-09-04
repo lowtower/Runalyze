@@ -14,7 +14,7 @@
 
             <fieldset>
                 <legend>{% trans %}Details{% endtrans %}</legend>
-                {{ form_row(form.fileFormat,  {'div_class': 'w50'}) }}
+                {{ form_row(form.fileFormat, {'div_class': 'w50'}) }}
             </fieldset>
 
             <div class="c">
@@ -23,7 +23,7 @@
 
             <div class="fieldset-messages">
                 <p class="info">
-                    <strong>{% trans %}JSON-format{% endtrans %} (*.json.gz)</strong><br>
+                    <strong>{% trans %}JSON-format{% endtrans %} (*.json.gz)</strong><br />
                     <small>
                         {% trans %}Portable backup of your configuration and data -
                         This file can be imported into any other installation, using this plugin.<br />
@@ -32,7 +32,7 @@
                     </small>
                 </p>
                 <p class="info">
-                    <strong>{% trans %}SQL-format{% endtrans %} (*.sql.gz)</strong><br>
+                    <strong>{% trans %}SQL-format{% endtrans %} (*.sql.gz)</strong><br />
                     <small>
                         {% trans %}Backup of the complete database -
                         This file can be imported manually with e.g. PHPMyAdmin into any database.<br />

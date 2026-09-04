@@ -1,9 +1,9 @@
 {% extends "mail/transactionBase.html.twig" %}
 
 {% if partial %}
-    {% set title = 'Your RUNALYZE posters are ready' | trans %}
+    {% set title = 'Your RUNALYZE posters are ready'|trans %}
 {% else %}
-    {% set title = 'Your RUNALYZE posters are ready' | trans %}
+    {% set title = 'Your RUNALYZE posters are ready'|trans %}
 {% endif %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
@@ -26,7 +26,7 @@
                 <a href="{{ app.request.getSchemeAndHttpHost ~ path('poster') }}" class="btn-primary" itemprop="url" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #348eda; margin: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">{% trans %}Download your posters{% endtrans %}</a>
             </td></tr>
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    {% trans %}If the link does not work, please copy the following URL into the address field of your web browser{% endtrans %}: <br><code>{{ app.request.getSchemeAndHttpHost ~ path('poster') }}</code>
+                    {% trans %}If the link does not work, please copy the following URL into the address field of your web browser{% endtrans %}: <br /><code>{{ app.request.getSchemeAndHttpHost ~ path('poster') }}</code>
             </td></tr>
             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                 &mdash; {% trans %}Your RUNALYZE-Team{% endtrans %}

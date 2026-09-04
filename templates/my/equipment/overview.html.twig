@@ -31,7 +31,7 @@
                         <td>{{ (type.input == 0 ? 'Single choice' : 'Multiple choice')|trans }}</td>
                         <td>{{ type.hasMaximalDistance ? distance(type.maxKm, unitSystem.distanceUnit, 0) : '-' }}</td>
                         <td>{{ type.hasMaximalDuration ? type.maxTime|duration : '-' }}</td>
-                        <td><a class="window color-danger" href="{{ url('equipment-category-delete', { 'id': type.id, 't': csrf_token('deleteEquipmentCategory') }) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{{ 'Delete'|trans }}"></i></a></td>
+                        <td><a class="window color-danger" href="{{ url('equipment-category-delete', {'id': type.id, 't': csrf_token('deleteEquipmentCategory')}) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{{ 'Delete'|trans }}"></i></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

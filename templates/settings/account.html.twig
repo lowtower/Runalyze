@@ -8,7 +8,7 @@
     <div class="panel-content">
         {% include 'flashmessages.html.twig' %}
 
-        {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'} }) }}
+        {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'}}) }}
 
         <fieldset id="legend0">
             <legend onclick="Runalyze.toggleFieldset(this, 'legend0', false, '')">{% trans %}Your acccount{% endtrans %}</legend>
@@ -17,14 +17,14 @@
             {{ form_row(form.mail, {'div_class': 'w100 block'}) }}
             {{ form_row(form.language, {'div_class': 'w100 block'}) }}
             {{ form_row(form.timezone, {'div_class': 'w100 block'}) }}
-            {{ form_row(form.gender, {'info': 'Used for calculating energy consumption and age grading.'|trans , 'div_class': 'w100 block'}) }}
-            {{ form_row(form.birthyear, {'info': 'Used for age grading.'|trans , 'div_class': 'w100 block'}) }}
-            {{ form_row(form.allow_support, {'info': 'Allow admins in case of support requests to have a look at your data.'|trans , 'div_class': 'w100 block'}) }}
+            {{ form_row(form.gender, {'info': 'Used for calculating energy consumption and age grading.'|trans, 'div_class': 'w100 block'}) }}
+            {{ form_row(form.birthyear, {'info': 'Used for age grading.'|trans, 'div_class': 'w100 block'}) }}
+            {{ form_row(form.allow_support, {'info': 'Allow admins in case of support requests to have a look at your data.'|trans, 'div_class': 'w100 block'}) }}
         </fieldset>
 
         <fieldset id="legend1">
             <legend onclick="Runalyze.toggleFieldset(this, 'legend1', false, '')">{% trans %}E-Mail{% endtrans %}</legend>
-            {{ form_row(form.allow_mails, {'info': 'At irregular intervals we are sending mails to you. We will never send you spam or advertisement.'|trans }) }}
+            {{ form_row(form.allow_mails, {'info': 'At irregular intervals we are sending mails to you. We will never send you spam or advertisement.'|trans}) }}
             <div class="fieldset-messages">
                 <p class="info"><a class="window" href="{{ path('settings-mail') }}">{% trans %}Change your mail address{% endtrans %} &raquo;</a></p>
             </div>
@@ -46,7 +46,7 @@
 
         <fieldset id="legend4" class="collapsed">
             <legend onclick="Runalyze.toggleFieldset(this, 'legend4', false, '')">{% trans %}Reset configuration{% endtrans %}</legend>
-            {{ form_row(form.reset_configuration, {'info': 'This will not touch any general settings like gender or main sport.'|trans }) }}
+            {{ form_row(form.reset_configuration, {'info': 'This will not touch any general settings like gender or main sport.'|trans}) }}
         </fieldset>
 
         <fieldset id="legend5" class="collapsed">
@@ -54,8 +54,8 @@
             <div class="fieldset-messages">
                 <p class="warning">
                     <strong><a class="window" href="{{ path('settings-account-delete') }}">Delete your account »</a></strong>
-                    <br>
-                    {% trans %}You'll receive an email with a link to confirm the deletion.{% endtrans %}<br>
+                    <br />
+                    {% trans %}You'll receive an email with a link to confirm the deletion.{% endtrans %}<br />
                     {% trans %}The deletion is permanent and cannot be reversed. Therefore, you should backup your data.{% endtrans %}
                 </p>
             </div>

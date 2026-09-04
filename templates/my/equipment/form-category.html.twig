@@ -14,7 +14,7 @@
     <div class="panel-content">
         {% include 'flashmessages.html.twig' %}
 
-        {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'} }) }}
+        {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'}}) }}
 
         <fieldset class="without-legend">
             {{ form_row(form.name, {'div_class': 'w100 block with50erLabel'}) }}
@@ -22,8 +22,8 @@
             {% if form.vars.data.id is null %}
                 {{ form_row(form.input, {'div_class': 'w100 block with50erLabel'}) }}
                 <p class="info margin-bottom">
-                    {% trans %}Choose the correct type for the equipment{% endtrans %}:<br>
-                    <strong>{% trans %}Single choice{% endtrans %}</strong> - {% trans %}You can choose only one object for an activity{% endtrans %}<br>
+                    {% trans %}Choose the correct type for the equipment{% endtrans %}:<br />
+                    <strong>{% trans %}Single choice{% endtrans %}</strong> - {% trans %}You can choose only one object for an activity{% endtrans %}<br />
                     <strong>{% trans %}Multiple choice{% endtrans %}</strong> - {% trans %}You can select multiple objects for an activity{% endtrans %}
                 </p>
             {% endif %}
@@ -87,7 +87,7 @@
                                 <td>{{ entry.dateEnd ? entry.dateEnd|date('d.m.Y') : '-' }}</td>
                                 <td>{{ entry.notes }}</td>
                                 <td>{% for asport in entry.sport %}<li>{{ asport.name }}</li>{% endfor %}</td>
-                                <td><a class="window color-danger" href="{{ url('equipment-delete', { 'id': entry.id, 't': csrf_token('deleteEquipment') }) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{{ 'Delete'|trans }}"></i></a></td>
+                                <td><a class="window color-danger" href="{{ url('equipment-delete', {'id': entry.id, 't': csrf_token('deleteEquipment')}) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-trash" title="{{ 'Delete'|trans }}"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

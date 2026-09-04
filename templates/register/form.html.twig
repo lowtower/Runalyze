@@ -29,7 +29,7 @@ function reveal_pass(flag){
 
     <div class="w100 checkbox-first small">
         <label for="registration_termsAccepted">
-            {% trans with {'%a%': '<a href="https://blog.runalyze.com/de/nutzungsbedingungen/" target="_blank">', '%b%':'</a>'} %}Accept our %a% terms of use %b%{% endtrans %}
+            {% trans with {'%a%': '<a href="https://blog.runalyze.com/de/nutzungsbedingungen/" target="_blank">', '%b%': '</a>'} %}Accept our %a% terms of use %b%{% endtrans %}
         </label>
         {{ form_widget(form.termsAccepted) }}
         {{ form_errors(form.termsAccepted) }}

@@ -18,7 +18,7 @@
                         </td>
                         <td>
                             {{ preview.dateTime|date('d.m.Y', false) }} - <small>{{ preview.dateTime|date('H:i', false) }}</small>
-                            <br>
+                            <br />
                             <small>{{ preview.duration|duration }} {{ preview.distance > 0 ? distance(preview.distance) : '' }}</small>
                         </td>
                         <td class="multi-edit-icon">{% if preview.hasHeartRate %}<i class="fa fa-fw fa-heart"></i>{% endif %}</td>

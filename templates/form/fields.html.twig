@@ -20,7 +20,7 @@
     {%- if errors|length > 0 -%}
         <p class="error">
             {%- for error in errors -%}
-                {{ error.message }}<br>
+                {{ error.message }}<br />
             {%- endfor -%}
         </p>
     {%- endif -%}
@@ -55,11 +55,11 @@
 
 {%- block form_widget_simple -%}
     {%- if errors|length > 0 -%}
-        {%- set errorClass = 'validation-failed' -%}
+        {%- set error_class = 'validation-failed' -%}
         {%- if attr.class is defined -%}
-            {%- set errorClass = errorClass ~ ' ' ~ attr.class -%}
+            {%- set error_class = error_class ~ ' ' ~ attr.class -%}
         {%- endif -%}
-        {%- set attr = attr|merge({'class': errorClass}) -%}
+        {%- set attr = attr|merge({'class': error_class}) -%}
     {%- endif -%}
     {%- set type = type|default('text') -%}
     {% if input_unit %}<span class="input-with-unit">{% endif %}

@@ -11,9 +11,9 @@
     </div>
     {% endif %}
 
-    {% set formConfig = config().activityForm %}
+    {% set form_config = config().activityForm %}
     {% set collapsed = ' class=collapsed' %}
-    {# @var formConfig \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\ActivityForm #}
+    {# @var form_config \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\ActivityForm #}
 
     <div class="panel-heading">
         {% if isNew %}
@@ -36,7 +36,7 @@
 
         <input type="hidden" name="distance-to-km-factor" value="{{ unitSystem().distanceUnit.toBaseUnit(1) }}">
 
-        <fieldset id="fieldset-sports"{{ formConfig.fieldSetIsCollapsed('SPORT') ? collapsed : '' }}>
+        <fieldset id="fieldset-sports"{{ form_config.fieldSetIsCollapsed('SPORT') ? collapsed : '' }}>
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-sports', false, 'SPORT')">{% trans %}Sport{% endtrans %}</legend>
 
             {{ form_row(form.sport, {'div_class': 'w50'}) }}
@@ -46,26 +46,26 @@
             {{ form_row(form.is_public, {'div_class': 'w50', 'help': 'Public activities will be visible for everybody.'}) }}
         </fieldset>
 
-        <fieldset id="fieldset-general"{{ formConfig.fieldSetIsCollapsed('GENERAL') ? collapsed : '' }}>
+        <fieldset id="fieldset-general"{{ form_config.fieldSetIsCollapsed('GENERAL') ? collapsed : '' }}>
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-general', false, 'GENERAL')">{% trans %}General information{% endtrans %}</legend>
 
             {{ form_row(form.time.date, {'div_class': 'w50', 'attr': {'class': 'pick-a-date', 'data-format': 'Y-m-d'}}) }}
             {{ form_row(form.time.time, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
 
             {{ form_row(form.s, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
-            {{ form_row(form.kcal, {'div_class': 'w50', 'attr': {'class': 'small-size'}, 'help':'This value will be calculated automatically from duration and sport settings (if activated in your configuration) only if you change the duration or the type of sport.'}) }}
+            {{ form_row(form.kcal, {'div_class': 'w50', 'attr': {'class': 'small-size'}, 'help': 'This value will be calculated automatically from duration and sport settings (if activated in your configuration) only if you change the duration or the type of sport.'}) }}
 
             {{ form_row(form.pulseAvg, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
             {{ form_row(form.pulseMax, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
         </fieldset>
 
-        <fieldset id="fieldset-distance" class="only-distances{{ formConfig.fieldSetIsCollapsed('DISTANCE') ? ' collapsed' : '' }}">
+        <fieldset id="fieldset-distance" class="only-distances{{ form_config.fieldSetIsCollapsed('DISTANCE') ? ' collapsed' : '' }}">
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-distance', false, 'DISTANCE')">{% trans %}Distance{% endtrans %}</legend>
 
             {{ form_row(form.distance, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
             {{ form_row(form.is_track, {'div_class': 'w50 only-race', 'help': 'This field is only meant for official track races such that distances can be shown correctly, e.g. as 10.000m. Use tags for all other purposes.'}) }}
 
-            {{ form_row(form.elevation, {'div_class': 'w50 only-outside', 'attr': {'class': 'small-size'}, 'help':'Will be calculated afterwards from the activity\'s elevation profile.'}) }}
+            {{ form_row(form.elevation, {'div_class': 'w50 only-outside', 'attr': {'class': 'small-size'}, 'help': 'Will be calculated afterwards from the activity\'s elevation profile.'}) }}
             {{ form_row(form.pace, {'div_class': 'w50', 'attr': {'class': 'small-size', 'disabled': 'disabled'}}) }}
 
             {{ form_row(form.cadence, {'div_class': 'w50', 'attr': {'class': 'small-size'}}) }}
@@ -77,18 +77,18 @@
             {% endif %}
         </fieldset>
 
-        <fieldset id="fieldset-splits" class="{{ form.splits|length > 0 ? '' : 'only-distances' }}{{ formConfig.fieldSetIsCollapsed('SPLITS') ? ' collapsed' : '' }}">
+        <fieldset id="fieldset-splits" class="{{ form.splits|length > 0 ? '' : 'only-distances' }}{{ form_config.fieldSetIsCollapsed('SPLITS') ? ' collapsed' : '' }}">
 
             <div class="w100 with50erLabel">
                 {{ form_label(form.splits, null, {'help': 'Defining some laps as \'resting\' will hide them in the respective plot.'}) }}
 
                 <div class="full-size left">
                     <ol class="splits">
-                    {% for splitField in form.splits %}
+                    {% for split_field in form.splits %}
                         <li>
-                            <div class="inline split-distance">{{ form_widget(splitField.distance) }}</div> &nbsp;{{ 'in'|trans }}&nbsp;
-                            <div class="inline split-duration">{{ form_widget(splitField.duration) }}</div>
-                            <div class="inline split-intensity">{{ form_widget(splitField.intensity) }}</div> &nbsp;
+                            <div class="inline split-distance">{{ form_widget(split_field.distance) }}</div> &nbsp;{{ 'in'|trans }}&nbsp;
+                            <div class="inline split-duration">{{ form_widget(split_field.duration) }}</div>
+                            <div class="inline split-intensity">{{ form_widget(split_field.intensity) }}</div> &nbsp;
                             <span class="link split-remove"><i class="fa fa-fw fa-times"></i></span>
                             <span class="link split-copy"><i class="fa fa-fw fa-plus"></i></span>
                         </li>
@@ -119,7 +119,7 @@
 		    </div>
         </fieldset>
 
-        <fieldset id="fieldset-other"{{ formConfig.fieldSetIsCollapsed('OTHER') ? collapsed : '' }}>
+        <fieldset id="fieldset-other"{{ form_config.fieldSetIsCollapsed('OTHER') ? collapsed : '' }}>
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-other', false, 'OTHER')">{% trans %}Miscellaneous{% endtrans %}</legend>
 
             {{ form_row(form.use_vo2max, {'div_class': 'w100 with50erLabel only-running'}) }}
@@ -135,13 +135,13 @@
             {{ form_row(form.routename, {'div_class': 'w100 with50erLabel only-outside', 'attr': {'class': 'full-size'}}) }}
         </fieldset>
 
-        <fieldset id="fieldset-notes"{{ formConfig.fieldSetIsCollapsed('NOTES') ? collapsed : '' }}>
+        <fieldset id="fieldset-notes"{{ form_config.fieldSetIsCollapsed('NOTES') ? collapsed : '' }}>
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-notes', false, 'NOTES')">{% trans %}Notes{% endtrans %}</legend>
 
             {{ form_row(form.notes, {'div_class': 'w100 with50erLabel', 'attr': {'class': 'full-size'}}) }}
         </fieldset>
 
-        <fieldset id="fieldset-weather" class="only-outside{{ formConfig.fieldSetIsCollapsed('WEATHER') ? ' collapsed' : '' }}">
+        <fieldset id="fieldset-weather" class="only-outside{{ form_config.fieldSetIsCollapsed('WEATHER') ? ' collapsed' : '' }}">
             <legend onclick="Runalyze.toggleFieldset(this, 'fieldset-weather', false, 'WEATHER')">{% trans %}Weather{% endtrans %}</legend>
 
             <div class="margin-bottom only-outside inline-span-menu">
@@ -182,8 +182,8 @@
 
                 <div class="fieldset-messages">
                     <p class="info">
-                        <a class="ajax" target="gps-results" href="{{ url('activity-elevation-correction', {'id': activity_id}) }}"><strong>{% trans %}Correct elevation data{% endtrans %}</strong></a><br>
-                        <br>
+                        <a class="ajax" target="gps-results" href="{{ url('activity-elevation-correction', {'id': activity_id}) }}"><strong>{% trans %}Correct elevation data{% endtrans %}</strong></a><br />
+                        <br />
                         <small id="gps-results" class="block">
                             {% trans %}Elevation data via GPS is very inaccurate. Therefore you can correct it via some satellite data.{% endtrans %}
                         </small>

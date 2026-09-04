@@ -29,16 +29,16 @@
 
                         {% trans %}or{% endtrans %}
 
-                        {% set startTime = configVar('data.START_TIME') %}
+                        {% set start_time = configVar('data.START_TIME') %}
                         <select id="anova_dateSelect" name="anova_dateSelect">
                             <option disabled selected>{{ 'choose a specific period'|trans }}</option>
-                            <option value="{{ date('-6months')|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'last 6 months'|trans }}</option>
-                            <option value="{{ date('-12months')|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'last 12 months'|trans }}</option>
-                            {% if startTime < date('1. jan') %}
-                                {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y'))  %}
-                                    <option value="{{ '01.01.'~year~'-31.12.'~year }}">{{ year }}</option>
+                            <option value="{{ date('-6months')|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'last 6 months'|trans }}</option>
+                            <option value="{{ date('-12months')|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'last 12 months'|trans }}</option>
+                            {% if start_time < date('1. jan') %}
+                                {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y')) %}
+                                    <option value="{{ '01.01.' ~ year ~ '-31.12.' ~ year }}">{{ year }}</option>
                                 {% endfor %}
-                                <option value="{{ startTime|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'entire period'|trans }}</option>
+                                <option value="{{ start_time|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'entire period'|trans }}</option>
                             {% endif %}
                         </select>
 
@@ -59,7 +59,7 @@
                     <label for="anova_sport">
                         {% trans %}Sport{% endtrans %}
                         <span class="right small">
-                            <span class="link chosen-select-all" data-target="anova_sport">{% trans %}all{% endtrans %}</span> |
+                            <span class="link chosen-select-all" data-target="anova_sport">{% trans %}all{% endtrans %}</span>|
                             <span class="link chosen-select-none" data-target="anova_sport">{% trans %}none{% endtrans %}</span>&nbsp;
                         </span>
                     </label>
@@ -71,7 +71,7 @@
                     <label for="anova_type">
                         {% trans %}Activity type{% endtrans %}
                         <span class="right small">
-                            <span class="link chosen-select-all" data-target="anova_type">{% trans %}all{% endtrans %}</span> |
+                            <span class="link chosen-select-all" data-target="anova_type">{% trans %}all{% endtrans %}</span>|
                             <span class="link chosen-select-none" data-target="anova_type">{% trans %}none{% endtrans %}</span>&nbsp;
                         </span>
                     </label>
@@ -121,9 +121,9 @@
             The middle 50% of all values are within the box itself and the so-called whiskers have a length of at most 1.5-times the interquartile range (i.e. the box's width).
             Data points outside this range are called outliers.
             {% endtrans %}
-            <br>
+            <br />
             {% trans %}This way of presentation allows to compare not only average values (e.g. pace over months) but deviations and outliers between different groupings.{% endtrans %}
-            <br>
+            <br />
             {% trans %}For a detailed explanation of box plots, see <a href="https://en.wikipedia.org/wiki/Box_plot">Wikipedia</a>.{% endtrans %}
         </p>
 
@@ -174,7 +174,7 @@
                             .attr('class', 'tooltip top in')
                             .html(function(d) {
                                 return '<div class="tooltip-arrow"></div><div class="tooltip-inner">' +
-                                    '{% trans %}Median{% endtrans %}: ' + json.tickFormatter(d[1]) + '<br>' +
+                                    '{% trans %}Median{% endtrans %}: ' + json.tickFormatter(d[1]) + '<br />' +
                                     '{% trans %}Quartiles{% endtrans %}: ' + json.tickFormatter(d[0]) + ' - ' + json.tickFormatter(d[2]) +
                                     '</div>';
                             });

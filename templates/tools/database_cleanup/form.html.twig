@@ -23,12 +23,12 @@
 
                     <div class="checkbox">
                         {{ form_widget(form.vo2maxCorrector) }}
-                        {{ form_label(form.vo2maxCorrector, 'Recalculate your effective %VO2max% correction factor'|trans({'%VO2max%': 'VO<sub>2</sub>max'}) ) }}
+                        {{ form_label(form.vo2maxCorrector, 'Recalculate your effective %VO2max% correction factor'|trans({'%VO2max%': 'VO<sub>2</sub>max'})) }}
                     </div>
 
                     <div class="checkbox">
                         {{ form_widget(form.vo2max) }}
-                        {{ form_label(form.vo2max, 'Recalculate your effective %VO2max% shape'|trans({'%VO2max%': 'VO<sub>2</sub>max'}) ) }}
+                        {{ form_label(form.vo2max, 'Recalculate your effective %VO2max% shape'|trans({'%VO2max%': 'VO<sub>2</sub>max'})) }}
                     </div>
 
                     <div class="checkbox">
@@ -57,7 +57,7 @@
             <div class="radio-content transparent-70" data-radio="loop">
                 <div class="margin-10">
                     <p class="info">
-                        {% trans %}These recalculations are only needed if you changed the corresponding settings.{% endtrans %}<br>
+                        {% trans %}These recalculations are only needed if you changed the corresponding settings.{% endtrans %}<br />
                         {% trans %}This task may take some time, since we have to loop through all your activities.{% endtrans %}
                     </p>
                 </div>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="checkbox">
                             {{ form_widget(form.activityVO2max) }}
-                            {{ form_label(form.activityVO2max, 'Recalculate effective %VO2max% values'|trans({'%VO2max%': 'VO<sub>2</sub>max'}) ) }}
+                            {{ form_label(form.activityVO2max, 'Recalculate effective %VO2max% values'|trans({'%VO2max%': 'VO<sub>2</sub>max'})) }}
                     </div>
                     <div class="checkbox">
                             {{ form_widget(form.activityTrimp) }}

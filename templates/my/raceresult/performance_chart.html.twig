@@ -26,7 +26,7 @@
                 <label for="select-year">{% trans %}Year{% endtrans %}:</label>
                 <select id="select-year" name="select-year">
                     <option value="all">{% trans %}Show all years{% endtrans %}</option>
-                    {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y'))  %}
+                    {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y')) %}
                     <option value="{{ year }}">{{ year }}</option>
                     {% endfor %}
                 </select>
@@ -40,7 +40,7 @@
 
     <div class="panel-content margin-top">
         <p class="info">
-            {% trans %}Age standards and personal bests are only considered for the following official distances{% endtrans %}:<br>
+            {% trans %}Age standards and personal bests are only considered for the following official distances{% endtrans %}:<br />
             {% for km in mainDistances %}
                 {{- km <= 3 ? ((km * 1000) ~ "m") : (km|number_format(1, '.') ~ " km") -}}{% if not loop.last %}, {% endif %}
             {% endfor %}

@@ -29,16 +29,16 @@
 
                         {% trans %}or{% endtrans %}
 
-                        {% set startTime = configVar('data.START_TIME') %}
+                        {% set start_time = configVar('data.START_TIME') %}
                         <select id="trend_analysis_dateSelect" name="trend_analysis_dateSelect">
                             <option disabled selected>{{ 'choose a specific period'|trans }}</option>
-                            <option value="{{ date('-6months')|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'last 6 months'|trans }}</option>
-                            <option value="{{ date('-12months')|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'last 12 months'|trans }}</option>
-                            {% if startTime < date('1. jan') %}
-                            {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y'))  %}
-                            <option value="{{ '01.01.'~year~'-31.12.'~year }}">{{ year }}</option>
+                            <option value="{{ date('-6months')|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'last 6 months'|trans }}</option>
+                            <option value="{{ date('-12months')|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'last 12 months'|trans }}</option>
+                            {% if start_time < date('1. jan') %}
+                            {% for year in (date('now')|date('Y'))..(configVar('data.START_TIME')|date('Y')) %}
+                            <option value="{{ '01.01.' ~ year ~ '-31.12.' ~ year }}">{{ year }}</option>
                             {% endfor %}
-                            <option value="{{ startTime|date('d.m.Y')~'-'~date('now')|date('d.m.Y') }}">{{ 'entire period'|trans }}</option>
+                            <option value="{{ start_time|date('d.m.Y') ~ '-' ~ date('now')|date('d.m.Y') }}">{{ 'entire period'|trans }}</option>
                             {% endif %}
                         </select>
 
@@ -58,7 +58,7 @@
                     <label for="trend_analysis_sport">
                         {% trans %}Sport{% endtrans %}
                         <span class="right small">
-                            <span class="link chosen-select-all" data-target="trend_analysis_sport">{% trans %}all{% endtrans %}</span> |
+                            <span class="link chosen-select-all" data-target="trend_analysis_sport">{% trans %}all{% endtrans %}</span>|
                             <span class="link chosen-select-none" data-target="trend_analysis_sport">{% trans %}none{% endtrans %}</span>&nbsp;
                         </span>
                     </label>
@@ -70,7 +70,7 @@
                     <label for="trend_analysis_type">
                         {% trans %}Activity type{% endtrans %}
                         <span class="right small">
-                            <span class="link chosen-select-all" data-target="trend_analysis_type">{% trans %}all{% endtrans %}</span> |
+                            <span class="link chosen-select-all" data-target="trend_analysis_type">{% trans %}all{% endtrans %}</span>|
                             <span class="link chosen-select-none" data-target="trend_analysis_type">{% trans %}none{% endtrans %}</span>&nbsp;
                         </span>
                     </label>

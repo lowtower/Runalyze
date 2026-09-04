@@ -20,7 +20,7 @@
                     {% trans %}There is a problem with your file.{% endtrans %}
 
                     {% if not versionIsOkay %}
-                        <br>
+                        <br />
                         {% trans with {'%runalyzeVersionFile%': runalyzeVersionFile, '%runalyzeVersion%': runalyzeVersion} %}RUNALYZE version v%runalyzeVersionFile% of your backup file does not match current version v%runalyzeVersion%.{% endtrans %}
                     {% endif %}
                 </p>

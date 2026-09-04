@@ -45,7 +45,7 @@
             {{ form_end(form) }}
         </div>
             <p class="info">{% trans %}There are some ideas for future improvements of this tool.{% endtrans %}
-            {% trans with {'%forum%': '<a href="https://forum.runalyze.com/viewtopic.php?f=8&t=604#p2649">forum.runalyze.com</a>'}%}Let us know what is most important for you at %forum%{% endtrans %}</p>
+            {% trans with {'%forum%': '<a href="https://forum.runalyze.com/viewtopic.php?f=8&t=604#p2649">forum.runalyze.com</a>'} %}Let us know what is most important for you at %forum%{% endtrans %}</p>
 
         {% endblock %}
     </div>
@@ -64,7 +64,7 @@
         {% if listing is empty %}
             <p class="file">{% trans %}There are no posters so far.{% endtrans %}</p>
         {% else %}
-            <p class="warning">{% trans with {'%days%': posterStoragePeriod }%}Please download the posters within %days% days.{% endtrans %}</p>
+            <p class="warning">{% trans with {'%days%': posterStoragePeriod} %}Please download the posters within %days% days.{% endtrans %}</p>
         {% endif %}
     </div>
 

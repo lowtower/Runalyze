@@ -27,13 +27,13 @@
                     <th>{% trans %}Time{% endtrans %}</th>
                     <th>VO<sub>2</sub>max</th>
                     <th>{% trans %}HR{% endtrans %}</th>
-                    <th>VO<sub>2</sub>max<br><small>({% trans %}by&nbsp;HR{% endtrans %})</small></th>
-                    <th>{% trans %}Time{% endtrans %}<br><small>({% trans %}by&nbsp;HR{% endtrans %})</small></th>
-                    <th>VO<sub>2</sub>max<br><small>({% trans %}corrected{% endtrans %})</small></th>
-                    <th>{% trans %}Time{% endtrans %}<br><small>({% trans %}corrected{% endtrans %})</small></th>
-                    <th>VO<sub>2</sub>max<br><small>({% trans %}Shape{% endtrans %})</small></th>
-                    <th>{% trans %}Time{% endtrans %}<br><small>({% trans %}Shape{% endtrans %})</small></th>
-                    <th>{% trans %}Deviation{% endtrans %}<br><small>({% trans %}Shape{% endtrans %})</small></th>
+                    <th>VO<sub>2</sub>max<br /><small>({% trans %}by&nbsp;HR{% endtrans %})</small></th>
+                    <th>{% trans %}Time{% endtrans %}<br /><small>({% trans %}by&nbsp;HR{% endtrans %})</small></th>
+                    <th>VO<sub>2</sub>max<br /><small>({% trans %}corrected{% endtrans %})</small></th>
+                    <th>{% trans %}Time{% endtrans %}<br /><small>({% trans %}corrected{% endtrans %})</small></th>
+                    <th>VO<sub>2</sub>max<br /><small>({% trans %}Shape{% endtrans %})</small></th>
+                    <th>{% trans %}Time{% endtrans %}<br /><small>({% trans %}Shape{% endtrans %})</small></th>
+                    <th>{% trans %}Deviation{% endtrans %}<br /><small>({% trans %}Shape{% endtrans %})</small></th>
                     <th>{% trans %}Corrector{% endtrans %}</th>
                 </tr>
             </thead>
@@ -70,17 +70,17 @@
         {% endif %}
 
         <p class="info">
-            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time:</strong> by standard formulas.<br>
+            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time:</strong> by standard formulas.<br />
                 The time is what you could have reached at your maximal possible heart rate over this distance.{% endtrans %}
         </p>
 
         <p class="info">
-            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time (corrected):</strong> after individual correction (factor: %vo2maxFactor%)<br>
+            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time (corrected):</strong> after individual correction (factor: %vo2maxFactor%)<br />
                 The time is what you could have reached at your maximal possible heart rate over this distance.{% endtrans %}
         </p>
 
         <p class="info">
-            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time (Shape):</strong> by your shape at that time<br>
+            {% trans with {'%VO2max%': 'VO<sub>2</sub>max'} %}<strong>%VO2max%/Time (Shape):</strong> by your shape at that time<br />
                 The time is the prognosis by Runalyze.{% endtrans %}
         </p>
 

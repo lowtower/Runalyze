@@ -12,7 +12,7 @@
                 <div class="fieldset-messages">
                     <p class="info">
                         {% trans %}You can specify which values show up in the overview of your
-                        activities.<br>This does not influence the detailed activity view, the form or any
+                        activities.<br />This does not influence the detailed activity view, the form or any
                         plugin.{% endtrans %}
                     </p>
                 </div>
@@ -20,7 +20,7 @@
                 <div>
                     {% include 'flashmessages.html.twig' %}
 
-                    {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'} }) }}
+                    {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'}}) }}
 
                     <table class="c fullwidth zebra-style" id="conf-tab-dataset">
                         <thead>
@@ -39,16 +39,16 @@
                         {% set position = 1 %}
 
                         {% for dataset in form.datasets %}
-                            {% set keyObject = datasetKeys.get(dataset.vars.value.keyid) %}
-                            {# @var keyObject \Runalyze\Dataset\Keys\AbstractKey #}
+                            {% set key_object = datasetKeys.get(dataset.vars.value.keyid) %}
+                            {# @var key_object \Runalyze\Dataset\Keys\AbstractKey #}
                             <tr class="r" id="{{ position }}_tr">
                                 <td class="c">
-                                    {% if keyObject.description() %}
-                                        <i class="fa fa-fw fa-info-circle atRight" rel="tooltip" data-original-title="{{ keyObject.description() }}"></i>
+                                    {% if key_object.description() %}
+                                        <i class="fa fa-fw fa-info-circle atRight" rel="tooltip" data-original-title="{{ key_object.description() }}"></i>
                                     {% endif %}
                                 </td>
                                 <td class="l b">
-                                    {{ keyObject.label() | raw }}
+                                    {{ key_object.label()|raw }}
                                     {% if missingKeys[dataset.vars.value.keyid] is defined and numberOfExistingKeys > 0 %}<sup class="colored-green">{% trans %}new{% endtrans %}</sup>{% endif %}
 
                                     {{ form_widget(dataset.keyId) }}
@@ -57,13 +57,13 @@
                                     {% if numberOfExistingKeys > 0 %}
                                         {{ form_widget(dataset.active) }}
                                     {% else %}
-                                        {{ form_widget(dataset.active, {'checked' : defaultConfiguration[keyObject.id].active }) }}
+                                        {{ form_widget(dataset.active, {'checked': defaultConfiguration[key_object.id].active}) }}
                                     {% endif %}
                                 </td>
                                 <td class="c">
-                                    {% if defaultConfiguration[keyObject.id].privacyOption is defined %}
+                                    {% if defaultConfiguration[key_object.id].privacyOption is defined %}
                                         {% if missingKeys[dataset.vars.value.keyid] is defined and numberOfExistingKeys > 0 %}
-                                            {{ form_widget(dataset.privacy, {'checked' : defaultConfiguration[keyObject.id].privacy }) }}
+                                            {{ form_widget(dataset.privacy, {'checked': defaultConfiguration[key_object.id].privacy}) }}
                                         {% else %}
                                             {{ form_widget(dataset.privacy) }}
                                         {% endif %}
@@ -78,10 +78,10 @@
                                     {% if numberOfExistingKeys > 0 %}
                                         {{ form_widget(dataset.style) }}
                                     {% else %}
-                                        {{ form_widget(dataset.style, {'value' : defaultConfiguration[keyObject.id].style }) }}
+                                        {{ form_widget(dataset.style, {'value': defaultConfiguration[key_object.id].style}) }}
                                     {% endif %}                    </td>
-                                <td class="{{ keyObject.cssClass() | raw }}" style="{{ dataset.style.vars.data }}">
-                                    {{ keyObject.stringForExample(context) | raw }}
+                                <td class="{{ key_object.cssClass()|raw }}" style="{{ dataset.style.vars.data }}">
+                                    {{ key_object.stringForExample(context)|raw }}
                                 </td>
                             </tr>
 

@@ -71,6 +71,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsoftwig/twigcs": "^6.1",
         "liip/functional-test-bundle": "^4.3.0",
         "liip/test-fixtures-bundle": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",
@@ -149,6 +150,7 @@
         "rector": "vendor/bin/rector process --dry-run",
         "rector:fix": "vendor/bin/rector process",
         "analyse": "vendor/bin/phpstan analyse",
+        "twig:lint": "twigcs templates",
         "fix": [
             "@rector:fix",
             "@lint:fix"
@@ -156,6 +158,7 @@
         "qa": [
             "@rector",
             "@lint",
+            "@twig:lint",
             "@analyse"
         ],
         "cache:prod:clear": "php bin/console cache:clear --env=prod --no-warmup",

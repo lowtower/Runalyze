@@ -22,9 +22,9 @@
             </tr>
             </thead>
             <tbody class="c">
-            {% set generalConfig = config().general %}
-            {# @var configList \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\General #}
-            {% set mainSport = generalConfig.getMainSport %}
+            {% set general_config = config().general %}
+            {# @var config_list \Runalyze\Bundle\CoreBundle\Component\Configuration\Category\General #}
+            {% set main_sport = general_config.getmain_sport %}
 
             {% if sports|length > 0 %}
                 {% for sport in sports %}
@@ -42,12 +42,12 @@
                         <td>{% if sport.hrZoneBounds is defined %}<i class="fa fa-check"></i>{% endif %}</td>
                         <td>{{ calendarView.stringFor(sport.short) }}</td>
                         <td>
-                            {% if mainSport == sport.id %}
-                                <i class="fa fa-fw fa-trash unimportant cursor-not-allowed" rel="tooltip" title="{% trans %}Sport cannot be deleted.{% endtrans %}<br>{% trans %}This is your main sport.{% endtrans %}"></i>
+                            {% if main_sport == sport.id %}
+                                <i class="fa fa-fw fa-trash unimportant cursor-not-allowed" rel="tooltip" title="{% trans %}Sport cannot be deleted.{% endtrans %}<br />{% trans %}This is your main sport.{% endtrans %}"></i>
                             {% elseif hasTrainings[sport.id] is not defined %}
-                                <a class="window color-danger" href="{{ url('sport-delete', { 'id': sport.id, 't': csrf_token('deleteSport') }) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-fw fa-trash" title="{% trans %}Delete{% endtrans %}"></i></a>
+                                <a class="window color-danger" href="{{ url('sport-delete', {'id': sport.id, 't': csrf_token('deleteSport')}) }}" data-confirm="{% trans %}Do you really want to delete this?{% endtrans %}"><i class="fa fa-fw fa-trash" title="{% trans %}Delete{% endtrans %}"></i></a>
                             {% else %}
-                                <i class="fa fa-fw fa-trash unimportant cursor-not-allowed" rel="tooltip" title="{% trans %}Sport cannot be deleted.{% endtrans %}<br>{% trans %}You have activities associated with this type.{% endtrans %}"></i>
+                                <i class="fa fa-fw fa-trash unimportant cursor-not-allowed" rel="tooltip" title="{% trans %}Sport cannot be deleted.{% endtrans %}<br />{% trans %}You have activities associated with this type.{% endtrans %}"></i>
                             {% endif %}
                         </td>
                     </tr>

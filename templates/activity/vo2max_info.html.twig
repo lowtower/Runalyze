@@ -82,13 +82,13 @@
             </div>
         </fieldset>
 
-        {% set useElevationAdjustment = conf.useVO2maxCorrectionForElevation %}
-        {% set activityVO2max = context.decorator.effectiveVO2max(conf) %}
-        {% set distanceModifier = details.distanceModifierForElevationAdjustment %}
+        {% set use_elevation_adjustment = conf.useVO2maxCorrectionForElevation %}
+        {% set activity_vO2max = context.decorator.effectiveVO2max(conf) %}
+        {% set distance_modifier = details.distance_modifierForElevationAdjustment %}
         <fieldset>
             <legend>{% trans %}Correction: considering elevation{% endtrans %}</legend>
-            <div{% if not useElevationAdjustment %} class="unimportant"{% endif %}>
-                {% if not useElevationAdjustment %}
+            <div{% if not use_elevation_adjustment %} class="unimportant"{% endif %}>
+                {% if not use_elevation_adjustment %}
                 <p class="warning hide">
                     {% trans %}This correction method is currently unused.{% endtrans %}
                 </p>
@@ -104,17 +104,14 @@
                 </div>
                 <div class="w50">
                     <label>{% trans %}Influence{% endtrans %}</label>
-                    <span class="as-input">{% if distanceModifier.additionalDistance >= 0 %}+{% endif %}{{ distance(distanceModifier.additionalDistance) }} =&gt; {{ distance(distanceModifier.correctedDistance) }}</span>
+                    <span class="as-input">{% if distance_modifier.additionalDistance >= 0 %}+{% endif %}{{ distance(distance_modifier.additionalDistance) }} =&gt; {{ distance(distance_modifier.correctedDistance) }}</span>
                 </div>
             </div>
         </fieldset>
 
-        {% if
-            (useElevationAdjustment and (not (activityVO2max|round(1) == details.correctedVO2maxWithElevationAdjustment|round(1)))) or
-            ((not useElevationAdjustment) and (not (activityVO2max|round(1) == details.correctedVO2max|round(1))))
-        %}
+        {% if (use_elevation_adjustment and (not (activity_vO2max|round(1) == details.correctedVO2maxWithElevationAdjustment|round(1)))) or ((not use_elevation_adjustment) and (not (activity_vO2max|round(1) == details.correctedVO2max|round(1)))) %}
         <p class="warning">
-            {% trans with {'%activityVO2max%': activityVO2max|round(2)} %}The calculated value is not equal to what is saved for the activity (%activityVO2max%).
+            {% trans with {'%activity_vO2max%': activity_vO2max|round(2)} %}The calculated value is not equal to what is saved for the activity (%activity_vO2max%).
             The activity's value has probably been calculated based on other settings.{% endtrans %}
 
             {% trans with {'%linkStart%': '<a href="' ~ url('tools-cleanup') ~ '">', '%linkEnd%': '</a>'} %}You can use the %linkStart%database cleanup%linkEnd% to recalculate the value.{% endtrans %}
