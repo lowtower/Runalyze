@@ -502,27 +502,21 @@ CREATE TABLE IF NOT EXISTS `runalyze_raceresult` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bernard_messages`
+-- Tabellenstruktur für Tabelle `messenger_messages`
 --
 
-CREATE TABLE IF NOT EXISTS `bernard_messages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `queue` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `message` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `visible` tinyint(1) NOT NULL DEFAULT '1',
-  `sentAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_28999D87FFD7F635BADAD2C7AB0E859` (`queue`,`sentAt`,`visible`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Tabellenstruktur für Tabelle `bernard_queues`
---
-
-CREATE TABLE IF NOT EXISTS `bernard_queues` (
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `messenger_messages` (
+  `id` BIGINT AUTO_INCREMENT NOT NULL,
+  `body` LONGTEXT NOT NULL,
+  `headers` LONGTEXT NOT NULL,
+  `queue_name` VARCHAR(190) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `available_at` DATETIME NOT NULL,
+  `delivered_at` DATETIME DEFAULT NULL,
+  INDEX IDX_75EA56E0FB7336F0 (queue_name),
+  INDEX IDX_75EA56E0E3BD61CE (available_at),
+  INDEX IDX_75EA56E016BA31DB (delivered_at),
+  PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
