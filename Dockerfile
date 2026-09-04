@@ -96,10 +96,11 @@ RUN install-php-extensions \
     mcrypt
 # Dev only
 RUN if [ "$APP_ENV" = "dev" ]; then \
-      install-php-extensions xdebug; \
-      touch /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-      echo "zend_extension=xdebug.so"      > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-      echo "xdebug.mode=develop,coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      docker-php-ext-enable xdebug; \
+      echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.mode=develop,coverage"  >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.cli_color=1"            >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
     fi
 # Prod only
 RUN if [ "$APP_ENV" = "prod" ]; then \
