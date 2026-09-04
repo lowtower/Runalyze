@@ -4,7 +4,7 @@
   "dependencies": {
     "jquery": "~3.6.0",
     "leaflet": "^0.7.7",
-    "font-awesome": "~4.7.0",
+    "font-awesome": "~5.15.4",
     "fontIconPicker": "~2.0.0",
     "tablesorter": "jquery.tablesorter#2.31.3",
     "moment": "^2.29.1",

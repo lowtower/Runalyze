@@ -353,7 +353,7 @@ class Dataview
             $hue = 128 - 64 * ($this->Activity->fitHRVscore() / 1000);
             $tooltip = Ajax::tooltip('', __('HRV score') . ': ' . round($this->Activity->fitHRVscore()), false, true);
 
-            return '<i class="fa fa-fw fa-dot-circle-o" style="color:hsl(' . min(128, max(0, round($hue))) . ',74%,44%);" ' . $tooltip . '></i>';
+            return '<i class="fa far fa-fw fa-dot-circle" style="color:hsl(' . min(128, max(0, round($hue))) . ',74%,44%);" ' . $tooltip . '></i>';
         }
 
         return '';

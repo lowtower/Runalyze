@@ -22,7 +22,7 @@ class Twitter extends AbstractSocialSharer
 {
     public function iconClass(): string
     {
-        return 'fa-twitter color-twitter';
+        return 'fab fa-twitter color-twitter';
     }
 
     public function isPossible(): bool

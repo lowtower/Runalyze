@@ -96,7 +96,7 @@ class OpenTab extends AbstractKey
 
     protected function getCodeForIcon(): string
     {
-        return '<i class="fa fa-fw fa-external-link" style="font-weight: 900;"></i>';
+        return '<i class="fa far fa-fw fa-external-link-alt" style="font-weight: 900;"></i>';
     }
 
     /**

@@ -50,7 +50,7 @@ abstract class AbstractFileExporter extends AbstractExporter
      */
     public function iconClass()
     {
-        return 'fa-file-text-o';
+        return 'far fa-file-alt';
     }
 
     /**

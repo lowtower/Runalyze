@@ -28,12 +28,12 @@ class Icon
     /**
      * @var string
      */
-    public const CLOCK = 'fa-clock-o';
+    public const CLOCK = 'far fa-clock';
 
     /**
      * @var string
      */
-    public const CLOCK_GRAY = 'fa-clock-o unimportant';
+    public const CLOCK_GRAY = 'far fa-clock unimportant';
 
     /**
      * @var string

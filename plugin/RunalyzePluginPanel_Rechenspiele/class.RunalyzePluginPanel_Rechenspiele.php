@@ -71,7 +71,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
     {
         $Links = '';
         $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.plot.php" ' . Ajax::tooltip('', __('Show shape'), true, true) . '>' . Icon::$LINE_CHART . '</a>') . '</li>';
-        $Links .= '<li>' . Ajax::window('<a href="my/tools/tables/vo2max-pace" ' . Ajax::tooltip('', __('Show training paces'), true, true) . '><i class="fa fa-fw fa-tachometer"></i></a>') . '</li>';
+        $Links .= '<li>' . Ajax::window('<a href="my/tools/tables/vo2max-pace" ' . Ajax::tooltip('', __('Show training paces'), true, true) . '><i class="fa far fa-fw fa-tachometer-alt"></i></a>') . '</li>';
         $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php" ' . Ajax::tooltip('', __('How are these values calculated?'), true, true) . '>' . Icon::$MAGIC . '</a>') . '</li>';
         $Links .= '<li>' . Ajax::window('<a href="dashboard/help-calculations" ' . Ajax::tooltip('', __('Explanations: What are VO2max and TRIMP?'), true, true) . '>' . Icon::$INFO . '</a>') . '</li>';
 
@@ -134,13 +134,18 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
         $ATLabsolute = $TSBmodel->fatigueAt(0);
         $CTLabsolute = $TSBmodel->fitnessAt(0);
         $TSBabsolute = $TSBmodel->performanceAt(0);
+        $TSB = 0.0;
+        if (max($ATLabsolute, $CTLabsolute, 1) > 0.0) {
+            $TSB = round(100 * $TSBabsolute / max($ATLabsolute, $CTLabsolute, 1));
+        }
+
         $TrimpValues = [
             'ATL' => round(100 * $ATLabsolute / $ATLmax),
             'ATLstring' => Configuration::Trimp()->showInPercent() ? round(100 * $ATLabsolute / $ATLmax) . '&nbsp;&#37;' : $ATLabsolute,
             'CTL' => round(100 * $CTLabsolute / $CTLmax),
             'CTLstring' => Configuration::Trimp()->showInPercent() ? round(100 * $CTLabsolute / $CTLmax) . '&nbsp;&#37;' : $CTLabsolute,
-            'TSB' => round(100 * $TSBabsolute / max($ATLabsolute, $CTLabsolute, 1)),
-            'TSBstring' => Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', round(100 * $TSBabsolute / max($ATLabsolute, $CTLabsolute))) . '&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
+            'TSB' => $TSB,
+            'TSBstring' => Configuration::Trimp()->showTSBinPercent() ? sprintf('%+d', $TSB) . '&nbsp;&#37;' : sprintf('%+d', $TSBabsolute),
         ];
         $TSBisPositive = $TrimpValues['TSB'] > 0;
 
@@ -298,7 +303,7 @@ class RunalyzePluginPanel_Rechenspiele extends PluginPanel
 
                 $Progress = $ProgressBar->getCode();
 
-                $glossaryLink = isset($Value['glossary']) && $Value['glossary'] != '' ? '<a class="window" href="glossary/' . $Value['glossary'] . '"><i class="fa fa-question-circle-o"></i></a>' : '';
+                $glossaryLink = isset($Value['glossary']) && $Value['glossary'] != '' ? '<a class="window" href="glossary/' . $Value['glossary'] . '"><i class="fa far fa-question-circle"></i></a>' : '';
 
                 echo '<tr><td>' . $glossaryLink . '</td><td>' . $Text . '</td><td style="width:99%;vertical-align:middle;">' . $Progress . '</td><td class="r nowrap">' . $Value['value'] . '</td></tr>';
             }

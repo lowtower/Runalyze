@@ -4,7 +4,7 @@ class SectionRunScribeData extends TrainingViewSectionTabbedPlot
 {
     protected function setHeaderAndRows()
     {
-        $this->Header = 'RunScribe <a target="_blank" href="https://runscribe.com/metrics/"><i class="fa fa-question-circle-o"></i></a>';
+        $this->Header = 'RunScribe <a target="_blank" href="https://runscribe.com/metrics/"><i class="fa far fa-question-circle"></i></a>';
 
         $this->appendRowTabbedPlot(new SectionRunScribeDataRow($this->Context));
     }

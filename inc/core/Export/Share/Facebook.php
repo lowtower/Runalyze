@@ -26,7 +26,7 @@ class Facebook extends AbstractSocialSharer
 
     public function iconClass(): string
     {
-        return 'fa-facebook color-facebook';
+        return 'fab fa-facebook color-facebook';
     }
 
     public function isPossible(): bool

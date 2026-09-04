@@ -36,7 +36,7 @@
                     {# @var preview \Runalyze\Bundle\CoreBundle\Component\Activity\ActivityPreview #}
                     {% set preview = previews[loop.index0] %}
                     <tr{% if preview.possibleDuplicate %} class="possible-duplicate"{% endif %}>
-                        <td>{% if preview.possibleDuplicate %}<i class="fa fa-fw fa-warning" rel="tooltip" title="{% trans %}It seems that you already have imported this activity{% endtrans %}."></i>{% endif %}</td>
+                        <td>{% if preview.possibleDuplicate %}<i class="fa far fa-fw fa-exclamation-triangle" rel="tooltip" title="{% trans %}It seems that you already have imported this activity{% endtrans %}."></i>{% endif %}</td>
                         <td>{{ form_widget(activity) }}</td>
                         <td>{{ preview.dateTime|date('d.m.Y', false) }} - <small>{{ preview.dateTime|date('H:i', false) }}</small></td>
                         <td>{{ preview.duration|duration }}</td>
@@ -44,7 +44,7 @@
                         <td>{% if preview.sportIcon %}<i class="{{ preview.sportIcon }}" rel="tooltip" title="{{ preview.sportName }}"></i>{% else %}{{ preview.sportName }}{% endif %}</td>
                         <td>{% if preview.hasHeartRate %}<i class="fa fa-fw fa-heart"></i>{% endif %}</td>
                         <td>{% if preview.hasRoute %}<i class="fa fa-fw fa-location-arrow"></i>{% endif %}</td>
-                        <td>{% if preview.hasRounds %}<i class="fa fa-fw fa-clock-o"></i>{% endif %}</td>
+                        <td>{% if preview.hasRounds %}<i class="fa far fa-fw fa-clock"></i>{% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -22,7 +22,7 @@ class GooglePlus extends AbstractSocialSharer
 {
     public function iconClass(): string
     {
-        return 'fa-google-plus color-google-plus';
+        return 'fab fa-google-plus color-google-plus';
     }
 
     public function isPossible(): bool

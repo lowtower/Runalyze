@@ -25,7 +25,7 @@
                     {# @var tag \Runalyze\Bundle\CoreBundle\Entity\Tag #}
                     <tr>
                         <td class="as-small-as-possible">
-                            <a class="window" href="{{ url('settings-tags-edit', {'id': tag.id}) }}"><i class="fa fa-fw fa-pencil" title="{% trans %}Edit{% endtrans %}"></i></a>
+                            <a class="window" href="{{ url('settings-tags-edit', {'id': tag.id}) }}"><i class="fa far fa-fw fa-pencil-alt" title="{% trans %}Edit{% endtrans %}"></i></a>
                             <a class="window" href="{{ url('my-search') }}?get=true&amp;tagid={{ tag.id }}" data-size="big"><i class="fa fa-fw fa-search" title="{% trans %}Search activities{% endtrans %}"></i></a>
                         </td>
                         <td>{{ tag.tag }}</td>

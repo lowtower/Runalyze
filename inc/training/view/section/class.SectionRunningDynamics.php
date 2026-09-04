@@ -17,7 +17,7 @@ class SectionRunningDynamics extends TrainingViewSectionTabbedPlot
 {
     protected function setHeaderAndRows()
     {
-        $this->Header = __('Running Dynamics') . ' <a class="window" href="glossary/run-dynamics"><i class="fa fa-question-circle-o"></i></a>';
+        $this->Header = __('Running Dynamics') . ' <a class="window" href="glossary/run-dynamics"><i class="fa far fa-question-circle"></i></a>';
 
         $this->appendRowTabbedPlot(new SectionRunningDynamicsRow($this->Context));
     }

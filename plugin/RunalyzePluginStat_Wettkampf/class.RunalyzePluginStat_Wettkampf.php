@@ -207,7 +207,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     private function displayLinkToPerformanceChart()
     {
         echo '<div class="c blocklist blocklist-width-auto margin-top">
-            <a class="window" href="my/raceresult/performance-chart"><i class="fa fa-fw fa-dashboard"></i> <strong>' . __('Performance chart') . '</strong></a>
+            <a class="window" href="my/raceresult/performance-chart"><i class="fa far fa-fw fa-tachometer-alt"></i> <strong>' . __('Performance chart') . '</strong></a>
         </div>';
     }
 
@@ -540,7 +540,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      */
     private function getEditIconForRaceResult($id)
     {
-        $code = (new Icon('fa-pencil'))->code();
+        $code = (new Icon('far fa-pencil-alt'))->code();
 
         $Tooltip = new Tooltip(__('Edit the race result details'));
         $Tooltip->setPosition(Tooltip::POSITION_RIGHT);

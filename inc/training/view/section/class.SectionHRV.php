@@ -15,7 +15,7 @@ class SectionHRV extends TrainingViewSectionTabbedPlot
 {
     protected function setHeaderAndRows()
     {
-        $this->Header = __('Heart rate variability') . ' <a class="window" href="glossary/hrv"><i class="fa fa-question-circle-o"></i></a>';
+        $this->Header = __('Heart rate variability') . ' <a class="window" href="glossary/hrv"><i class="fa far fa-question-circle"></i></a>';
 
         $this->appendRowTabbedPlot(new SectionHRVRow($this->Context));
     }

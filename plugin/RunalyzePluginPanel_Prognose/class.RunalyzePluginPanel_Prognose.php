@@ -94,7 +94,7 @@ class RunalyzePluginPanel_Prognose extends PluginPanel
     protected function getRightSymbol(): string
     {
         $Links = '';
-        $Links .= '<li>' . Ajax::window('<a href="my/raceresult/performance-chart" ' . Ajax::tooltip('', __('Race results') . ': ' . __('Performance chart'), true, true) . '><i class="fa fa-fw fa-dashboard"></i></a>') . '</li>';
+        $Links .= '<li>' . Ajax::window('<a href="my/raceresult/performance-chart" ' . Ajax::tooltip('', __('Race results') . ': ' . __('Performance chart'), true, true) . '><i class="fa far fa-fw fa-tachometer-alt"></i></a>') . '</li>';
         $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.plot.php" ' . Ajax::tooltip('', __('Show prognosis trend'), true, true) . '>' . Icon::$LINE_CHART . '</a>') . '</li>';
         $Links .= '<li>' . Ajax::window('<a href="plugin/' . $this->key() . '/window.php" ' . Ajax::tooltip('', __('Prognosis calculator'), true, true) . '>' . Icon::$CALCULATOR . '</a>') . '</li>';
 

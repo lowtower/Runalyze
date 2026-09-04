@@ -110,7 +110,7 @@ class TrainingView
             $this->Context->trackdata()
                 ->has(Model\Trackdata\Entity::TIME)
         ) {
-            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/splits-info"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Analyze splits') . '</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/splits-info"><i class="fa far fa-fw fa-chart-bar"></i> ' . __('Analyze splits') . '</a></li>';
         }
 
         if ($this->Context->activity()->vo2maxByHeartRate() > 0) {
@@ -118,19 +118,19 @@ class TrainingView
         }
 
         if ($this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
-            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/elevation-info"><i class="fa fa-fw fa-area-chart"></i> ' . __('More about elevation') . '</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/elevation-info"><i class="fa far fa-fw fa-chart-area"></i> ' . __('More about elevation') . '</a></li>';
         }
 
         if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME) && $this->Context->trackdata()->has(Model\Trackdata\Entity::DISTANCE) && $this->Context->hasRoute() && $this->Context->route()->hasElevations()) {
-            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/climb-score"><i class="fa fa-fw fa-area-chart"></i> ' . __('Climb score') . '</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="normal" href="activity/' . $this->Context->activity()->id() . '/climb-score"><i class="fa far fa-fw fa-chart-area"></i> ' . __('Climb score') . '</a></li>';
         }
 
         if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME)) {
-            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/time-series-info"><i class="fa fa-fw fa-line-chart"></i> ' . __('Analyze time series') . '</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/time-series-info"><i class="fa far fa-fw fa-chart-line"></i> ' . __('Analyze time series') . '</a></li>';
         }
 
         if ($this->Context->hasTrackdata() && $this->Context->trackdata()->has(Model\Trackdata\Entity::TIME) && $this->Context->trackdata()->has(Model\Trackdata\Entity::DISTANCE)) {
-            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/sub-segments-info"><i class="fa fa-fw fa-bar-chart"></i> ' . __('Find best sub segments') . '</a></li>';
+            $toolsLinks[] = '<li><a class="window link" data-size="big" href="activity/' . $this->Context->activity()->id() . '/sub-segments-info"><i class="fa far fa-fw fa-chart-bar"></i> ' . __('Find best sub segments') . '</a></li>';
         }
 
         if ($toolsLinks !== []) {

@@ -102,8 +102,8 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
     private function displayActivityRankings()
     {
         echo '<div class="c blocklist blocklist-change-menu blocklist-width-auto margin-top-4x">
-                <a class="change triggered" href="#elevation-ranking-elevation" target="elevation-rankings"><strong><i class="fa fa-fw fa-area-chart"></i> ' . __('Most elevation') . '</strong></a>
-                <a class="change" href="#elevation-ranking-grade" target="elevation-rankings"><strong><i class="fa fa-fw fa-line-chart"></i> ' . __('Steepest routes') . '</strong></a>
+                <a class="change triggered" href="#elevation-ranking-elevation" target="elevation-rankings"><strong><i class="fa far fa-fw fa-chart-area"></i> ' . __('Most elevation') . '</strong></a>
+                <a class="change" href="#elevation-ranking-grade" target="elevation-rankings"><strong><i class="fa far fa-fw fa-chart-line"></i> ' . __('Steepest routes') . '</strong></a>
                 <a class="change" href="#elevation-ranking-cs" target="elevation-rankings"><strong><i class="fa fa-fw fa-trophy"></i> ' . __('Highest Climb Score') . '</strong></a>
             </div>';
 

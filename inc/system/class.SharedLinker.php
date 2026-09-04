@@ -56,7 +56,7 @@ class SharedLinker
     public static function getListLinkForCurrentUser($text = null): string
     {
         if ($text === null) {
-            $text = '<i class="fa fa-fw fa-id-card-o"></i>';
+            $text = '<i class="fa far fa-fw fa-address-card"></i>';
         }
 
         if (! Configuration::Privacy()->listIsPublic()) {

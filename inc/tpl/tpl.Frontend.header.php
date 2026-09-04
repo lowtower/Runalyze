@@ -49,9 +49,9 @@
                     <?php if (\Runalyze\Configuration::Privacy()->listIsPublic()) { ?>
                     <a target="_blank" href="<?php echo $this->get('router')->generate('shared-athlete', [
                         'username' => $username,
-                    ]); ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></a>
+                    ]); ?>"><i class="fa far fa-fw fa-address-card"></i>&nbsp;<?php _e('Public athlete page'); ?></a>
                     <?php } else { ?>
-                    <span class="no-link cursor-not-allowed unimportant" title="<?php _e('Your public athlete page is deactivated.') ?>"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;<?php _e('Public athlete page'); ?></span>
+                    <span class="no-link cursor-not-allowed unimportant" title="<?php _e('Your public athlete page is deactivated.') ?>"><i class="fa far fa-fw fa-address-card"></i>&nbsp;<?php _e('Public athlete page'); ?></span>
                     <?php } ?>
                 </li>
                 <li class="separator"></li>
@@ -60,7 +60,7 @@
                 <li><a class="window" href="<?php echo $this->get('router')
                         ->generate('settings-privacy'); ?>"><i class="fa fa-fw fa-unlock-alt"></i>&nbsp;<?php _e('Privacy settings'); ?></a></li>
                 <li><a class="window" href="<?php echo $this->get('router')
-                        ->generate('logout'); ?>"><i class="fa fa-fw fa-sign-out"></i>&nbsp;<?php _e('Logout'); ?></a></li>
+                        ->generate('logout'); ?>"><i class="fa far fa-fw fa-sign-out-alt"></i>&nbsp;<?php _e('Logout'); ?></a></li>
                 <li class="separator"></li>
                 <li style="text-align: center;">v<?php echo RUNALYZE_VERSION; ?>#<?php echo RUNALYZE_DATE; ?></li>
             </ul>
@@ -143,7 +143,7 @@
         <div class="headline-menu left">
             <div class="submenu-label b">
                 <a class="window" href="<?php echo $this->get('router')
-                    ->generate('tools'); ?>"><i class="fa fa-fw fa-lg fa-dashboard"></i>&nbsp;<?php _e('Tools'); ?></a>
+                    ->generate('tools'); ?>"><i class="fa far fa-fw fa-lg fa-tachometer-alt"></i>&nbsp;<?php _e('Tools'); ?></a>
             </div>
             <ul class="submenu">
                 <li><a class="window" href="<?php echo $this->get('router')

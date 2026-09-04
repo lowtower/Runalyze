@@ -275,7 +275,7 @@ class BoxedValue
 
         $Code = '<div class="' . self::$VALUE_INFO_DIV . '">';
         if (! empty($this->Glossary)) {
-            $Code .= '<a class="window left" href="glossary/' . $this->Glossary . '"><i class="fa fa-question-circle-o"></i></a>';
+            $Code .= '<a class="window left" href="glossary/' . $this->Glossary . '"><i class="fa far fa-question-circle"></i></a>';
         }
 
         $Code .= str_replace(' ', '&nbsp;', $this->Info);

@@ -21,15 +21,15 @@
                         <ul class="submenu right-oriented">
                             <li>
                                 {% if 'true' == configVar('privacy.TRAINING_LIST_PUBLIC') %}
-                                <a target="_blank" href="{{ url('shared-athlete', {'username': app.user.username}) }}"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;{{ 'Public athlete page'|trans }}</a>
+                                <a target="_blank" href="{{ url('shared-athlete', {'username': app.user.username}) }}"><i class="fa far fa-fw fa-address-card"></i>&nbsp;{{ 'Public athlete page'|trans }}</a>
                                 {% else %}
-                                <span class="no-link cursor-not-allowed unimportant" title="{{ 'Your public athlete page is deactivated'|trans }}"><i class="fa fa-fw fa-id-card-o"></i>&nbsp;{{ 'Public athlete page'|trans }}</span>
+                                <span class="no-link cursor-not-allowed unimportant" title="{{ 'Your public athlete page is deactivated'|trans }}"><i class="fa far fa-fw fa-address-card"></i>&nbsp;{{ 'Public athlete page'|trans }}</span>
                                 {% endif %}
                             </li>
                             <li class="separator"></li>
                             <li><a class="window" href="{{ url('settings-account') }}"><i class="fa fa-fw fa-cogs"></i>&nbsp;{% trans %}Account settings{% endtrans %}</a></li>
                             <li><a class="window" href="{{ url('settings-privacy') }}"><i class="fa fa-fw fa-unlock-alt"></i>&nbsp;{% trans %}Privacy settings{% endtrans %}</a></li>
-                            <li><a class="window" href="{{ url('logout') }}"><i class="fa fa-fw fa-sign-out"></i>&nbsp;{% trans %}Logout{% endtrans %}</a></li>
+                            <li><a class="window" href="{{ url('logout') }}"><i class="fa far fa-fw fa-sign-out-alt"></i>&nbsp;{% trans %}Logout{% endtrans %}</a></li>
                         </ul>
                     </div>
 
@@ -77,7 +77,7 @@
 
                     <div class="headline-menu left">
                         <div class="submenu-label b">
-                            <a class="window" href="{{ url('tools') }}"><i class="fa fa-fw fa-lg fa-dashboard"></i>&nbsp;{% trans %}Tools{% endtrans %}</a>
+                            <a class="window" href="{{ url('tools') }}"><i class="fa far fa-fw fa-lg fa-tachometer-alt"></i>&nbsp;{% trans %}Tools{% endtrans %}</a>
                         </div>
                         <ul class="submenu">
                             <li><a class="window" href="{{ url('tools-trend-analysis') }}"><i class="fa fa-fw fa-chevron-right small"></i>&nbsp;{% trans %}Trend analysis{% endtrans %}</a></li>
