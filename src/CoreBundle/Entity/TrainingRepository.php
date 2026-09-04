@@ -12,7 +12,10 @@ use Runalyze\Sports\Running\MarathonShape;
 
 class TrainingRepository extends EntityRepository
 {
-    public function getAmountOfLoggedKilometers(bool $cache = true): float
+    /**
+     * @return bool|float|int|string|null
+     */
+    public function getAmountOfLoggedKilometers(bool $cache = true)
     {
         return $this->createQueryBuilder('t')
             ->select('SUM(t.distance)')
