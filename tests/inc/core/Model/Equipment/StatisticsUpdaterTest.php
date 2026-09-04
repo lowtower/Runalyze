@@ -56,8 +56,8 @@ class StatisticsUpdaterTest extends TestCase
         $Updater = new StatisticsUpdater($this->PDO, 1, PREFIX);
         $this->assertEquals(3, $Updater->run());
 
-        $this->assertEquals([10, 3600], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `id`=' . $this->EquipmentIDs[0])->fetch(PDO::FETCH_NUM));
-        $this->assertEquals([30, 10800], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `id`=' . $this->EquipmentIDs[1])->fetch(PDO::FETCH_NUM));
-        $this->assertEquals([0, 0], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `id`=' . $this->EquipmentIDs[2])->fetch(PDO::FETCH_NUM));
+        $this->assertEquals([10, 3600], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `accountid`=1 AND `id`=' . $this->EquipmentIDs[0])->fetch(PDO::FETCH_NUM));
+        $this->assertEquals([30, 10800], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `accountid`=1 AND `id`=' . $this->EquipmentIDs[1])->fetch(PDO::FETCH_NUM));
+        $this->assertEquals([0, 0], $this->PDO->query('SELECT `distance`, `time` FROM `' . PREFIX . 'equipment` WHERE `accountid`=1 AND `id`=' . $this->EquipmentIDs[2])->fetch(PDO::FETCH_NUM));
     }
 }
