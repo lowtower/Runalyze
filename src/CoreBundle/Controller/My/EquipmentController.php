@@ -80,6 +80,9 @@ class EquipmentController extends AbstractController
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()
                 ->findAllFor($account),
+            'unitSystem' => $this->get('app.configuration_manager')
+                ->getList()
+                ->getUnitSystem(),
         ]);
     }
 

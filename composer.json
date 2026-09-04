@@ -164,8 +164,8 @@
         "cache:dev:warmup": "php bin/console cache:warmup --env=dev",
         "cache:test:clear": "php bin/console cache:clear --env=test --no-warmup",
         "cache:test:warmup": "php bin/console cache:warmup --env=test",
-        "cache:test_empty:clear": "php bin/console cache:clear --env=test --no-warmup",
-        "cache:test_empty:warmup": "php bin/console cache:warmup --env=test",
+        "cache:test_empty:clear": "php bin/console cache:clear --env=test_empty --no-warmup",
+        "cache:test_empty:warmup": "php bin/console cache:warmup --env=test_empty",
         "cache:clear":  [
             "@cache:prod:clear",
             "@cache:dev:clear",
