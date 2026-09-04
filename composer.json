@@ -28,7 +28,7 @@
         "runalyze/dem-reader": "^1.1",
         "runalyze/devices": "v4.3.0",
         "runalyze/glossary": "v4.3.0",
-        "runalyze/gpxtrackposter": "^1.0.0",
+        "runalyze/gpxtrackposter": "v4.3.0",
         "runalyze/translations": "dev-master",
         "sensio/framework-extra-bundle": "~5.4",
         "snc/redis-bundle": "^3.6",
@@ -99,7 +99,7 @@
             "type": "package",
             "package": {
                 "name": "runalyze/gpxtrackposter",
-                "version": "1.0.0",
+                "version": "v4.3.0",
                 "source": {
                     "url": "https://github.com/lowtower/GpxTrackPoster.git",
                     "type": "git",
@@ -164,15 +164,19 @@
         "cache:dev:warmup": "php bin/console cache:warmup --env=dev",
         "cache:test:clear": "php bin/console cache:clear --env=test --no-warmup",
         "cache:test:warmup": "php bin/console cache:warmup --env=test",
+        "cache:test_empty:clear": "php bin/console cache:clear --env=test --no-warmup",
+        "cache:test_empty:warmup": "php bin/console cache:warmup --env=test",
         "cache:clear":  [
             "@cache:prod:clear",
             "@cache:dev:clear",
-            "@cache:test:clear"
+            "@cache:test:clear",
+            "@cache:test_empty:clear"
         ],
         "cache:warmup": [
             "@cache:prod:warmup",
             "@cache:dev:warmup",
-            "@cache:test:warmup"
+            "@cache:test:warmup",
+            "@cache:test_empty:warmup"
         ],
         "test:setup": "bash docker/setup-test-db.sh",
         "test": "php vendor/bin/phpunit -c phpunit.xml.dist",

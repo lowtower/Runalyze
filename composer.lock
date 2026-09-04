@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfa176e88e43c565219d28159948e72f",
+    "content-hash": "ac46c49a0fa0f52adfd5b770a19f425e",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3801,7 +3801,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Runalyze/devices.git",
-                "reference": "e00bdfe2b69285f0870394810cc5b26138c8ca19"
+                "reference": "v0.5.12"
             },
             "type": "library"
         },
@@ -3817,7 +3817,7 @@
         },
         {
             "name": "runalyze/gpxtrackposter",
-            "version": "1.0.0",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lowtower/GpxTrackPoster.git",
