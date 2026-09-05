@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Validator\Constraints as RunalyzeAssert;
@@ -31,7 +32,6 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
 
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer", precision=10, unique=true, nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -39,7 +39,6 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     private $id;
 
     /**
-     * @var string
      * @Assert\NotBlank(message="You need to enter a username.")
      * @Assert\Length(
      *     min=3,
@@ -53,17 +52,14 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      * )
      * @ORM\Column(name="username", type="string", length=60, nullable=false, unique=true)
      */
-    private $username;
+    private string $username = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=50, options={"default"=""})
      */
-    private $name = '';
+    private string $name = '';
 
     /**
-     * @var string
      * @Assert\NotBlank()
      * @Assert\Email(
      *     message="The email '{{ value }}' is not a valid email.",
@@ -71,14 +67,13 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      * @RunalyzeAssert\ContainsDisposableMailAddress()
      * @ORM\Column(name="mail", type="string", length=100, nullable=false)
      */
-    private $mail;
+    private string $mail;
 
     /**
-     * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="language", type="string", length=5, nullable=false, options={"default"="en"})
      */
-    private $language = 'en';
+    private string $language = 'en';
 
     /**
      * @var int enum
@@ -87,133 +82,109 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
      * @RunalyzeAssert\IsValidTimezone()
      * @ORM\Column(name="timezone", type="smallint", nullable=false, options={"unsigned"=true, "default"=0})
      */
-    private $timezone = Timezone::UTC;
+    private int $timezone = Timezone::UTC;
 
     /**
      * @var int enum, see \Runalyze\Profile\Athlete\Gender
      * @Assert\Type("int")
      * @ORM\Column(name="gender", type="tinyint", nullable=true, options={"unsigned"=true})
      */
-    private $gender = Gender::NONE;
+    private ?int $gender = Gender::NONE;
 
     /**
-     * @var int|null
      * @Assert\Type("int")
      * @ORM\Column(name="birthyear", type="smallint", nullable=true, options={"unsigned"=true})
      */
-    private $birthyear;
+    private ?int $birthyear = null;
 
     /**
-     * @var string
      * @ORM\Column(name="password", type="string", length=64, nullable=false, options={"default"=""})
      */
-    private $password = '';
+    private string $password = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="salt", type="string", length=64, nullable=false, options={"fixed"=true, "default"=""})
      */
-    private $salt = '';
+    private string $salt = '';
 
     /**
      * @var int|null [timestamp]
      * @Assert\Type("int")
      * @ORM\Column(name="registerdate", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $registerdate;
+    private ?int $registerdate = null;
 
     /**
      * @var int|null [timestmap]
      * @Assert\Type("int")
      * @ORM\Column(name="lastaction", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $lastaction;
+    private ?int $lastaction = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(name="changepw_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
-    private $changepwHash;
+    private ?string $changepwHash = null;
 
     /**
      * @var int|null [timestamp]
      *
      * @ORM\Column(name="changepw_timelimit", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $changepwTimelimit;
+    private ?int $changepwTimelimit = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(name="activation_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
-    private $activationHash;
+    private ?string $activationHash = null;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(name="deletion_hash", type="string", length=32, nullable=true, options={"fixed"=true})
      */
-    private $deletionHash;
+    private ?string $deletionHash = null;
 
     /**
-     * @var bool
      * @Assert\Type("bool")
      * @ORM\Column(name="allow_mails", type="boolean")
      */
-    private $allowMails = true;
+    private bool $allowMails = true;
 
     /**
-     * @var bool
      * @Assert\Type("bool")
      * @ORM\Column(name="allow_support", type="boolean")
      */
-    private $allowSupport = false;
+    private bool $allowSupport = false;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Sport", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
-    protected $sports;
+    protected Collection $sports;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Type", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
-    protected $activityTypes;
+    protected Collection $activityTypes;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Tag", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"tag"="ASC"})
      */
-    protected $tags;
+    protected Collection $tags;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\Equipment", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
-    protected $equipment;
+    protected Collection $equipment;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="Runalyze\Bundle\CoreBundle\Entity\EquipmentType", mappedBy="account", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
-    protected $equipmentTypes;
+    protected Collection $equipmentTypes;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="role", type="tinyint", nullable=true, options={"unsigned"=true})
      */
-    private $role = UserRole::ROLE_USER;
+    private ?int $role = UserRole::ROLE_USER;
 
     public function __construct()
     {
@@ -226,72 +197,48 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         $this->setNewSalt();
     }
 
-    /**
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param string $username
-     */
-    public function setUsername($username): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $mail
-     */
-    public function setMail($mail): self
+    public function setMail(string $mail): self
     {
         $this->mail = $mail;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMail()
+    public function getMail(): string
     {
         return $this->mail;
     }
 
-    /**
-     * @param string $language
-     */
-    public function setLanguage($language): self
+    public function setLanguage(string $language): self
     {
         $this->language = $language;
 
@@ -300,9 +247,8 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
 
     /**
      * @Assert\Type("string")
-     * @return string
      */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -310,7 +256,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @param int $enum enum
      */
-    public function setTimezone($enum): self
+    public function setTimezone(int $enum): self
     {
         $this->timezone = $enum;
 
@@ -320,7 +266,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @return int enum
      */
-    public function getTimezone()
+    public function getTimezone(): int
     {
         return $this->timezone;
     }
@@ -328,7 +274,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @param int $enum enum, see \Runalyze\Profile\Athlete\Gender
      */
-    public function setGender($enum): self
+    public function setGender(int $enum): self
     {
         $this->gender = $enum;
 
@@ -338,7 +284,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @return int enum, see \Runalyze\Profile\Athlete\Gender
      */
-    public function getGender()
+    public function getGender(): int
     {
         return $this->gender;
     }
@@ -358,20 +304,14 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this->gender == Gender::FEMALE;
     }
 
-    /**
-     * @param int|null $birthYear
-     */
-    public function setBirthyear($birthYear): self
+    public function setBirthyear(?int $birthYear): self
     {
         $this->birthyear = $birthYear;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getBirthyear()
+    public function getBirthyear(): ?int
     {
         return $this->birthyear;
     }
@@ -384,25 +324,19 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @return int|null [years]
      */
-    public function getAge()
+    public function getAge(): ?int
     {
         return $this->knowsBirthYear() ? (int) date('Y') - $this->birthyear : null;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword($password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -424,29 +358,22 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this->setSalt(self::getRandomHash(32));
     }
 
-    /**
-     * @param string $salt
-     */
-    public function setSalt($salt): self
+    public function setSalt(string $salt): self
     {
         $this->salt = $salt;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSalt()
+    public function getSalt(): string
     {
         return $this->salt;
     }
 
     /**
-     * @param int $bytes
      * @return string hash of length 2*$bytes
      */
-    public static function getRandomHash($bytes = 16): string
+    public static function getRandomHash(int $bytes = 16): string
     {
         return bin2hex(openssl_random_pseudo_bytes($bytes));
     }
@@ -454,7 +381,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @param int $registerDate [timestamp]
      */
-    public function setRegisterdate($registerDate): self
+    public function setRegisterdate(int $registerDate): self
     {
         $this->registerdate = $registerDate;
 
@@ -464,7 +391,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @return int [timestamp]
      */
-    public function getRegisterdate()
+    public function getRegisterdate(): int
     {
         return $this->registerdate;
     }
@@ -472,7 +399,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @param int|null $lastAction [timestamp]
      */
-    public function setLastAction($lastAction = null): self
+    public function setLastAction(?int $lastAction = null): self
     {
         if ($lastAction === null) {
             $lastAction = (new \DateTime())->getTimestamp();
@@ -486,7 +413,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @return int [timestamp]
      */
-    public function getLastAction()
+    public function getLastAction(): ?int
     {
         return $this->lastaction;
     }
@@ -507,10 +434,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this;
     }
 
-    /**
-     * @param null|string $changepwHash
-     */
-    public function setChangepwHash($changepwHash): self
+    public function setChangepwHash(?string $changepwHash): self
     {
         $this->changepwHash = $changepwHash;
 
@@ -525,20 +449,14 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this->changepwHash;
     }
 
-    /**
-     * @param null|int $changepwTimelimit
-     */
-    public function setChangepwTimelimit($changepwTimelimit): self
+    public function setChangepwTimelimit(?int $changepwTimelimit): self
     {
         $this->changepwTimelimit = $changepwTimelimit;
 
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getChangepwTimelimit()
+    public function getChangepwTimelimit(): ?int
     {
         return $this->changepwTimelimit;
     }
@@ -555,20 +473,14 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this;
     }
 
-    /**
-     * @param string|null $activationHash
-     */
-    public function setActivationHash($activationHash): self
+    public function setActivationHash(?string $activationHash): self
     {
         $this->activationHash = $activationHash;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getActivationHash()
+    public function getActivationHash(): ?string
     {
         return $this->activationHash;
     }
@@ -578,56 +490,38 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this->setDeletionHash(self::getRandomHash(16));
     }
 
-    /**
-     * @param string|null $deletionHash
-     */
-    public function setDeletionHash($deletionHash): self
+    public function setDeletionHash(?string $deletionHash): self
     {
         $this->deletionHash = $deletionHash;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDeletionHash()
+    public function getDeletionHash(): ?string
     {
         return $this->deletionHash;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setAllowMails($flag): self
+    public function setAllowMails(bool $flag): self
     {
         $this->allowMails = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowMails()
+    public function getAllowMails(): bool
     {
         return $this->allowMails;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setAllowSupport($flag): self
+    public function setAllowSupport(bool $flag): self
     {
         $this->allowSupport = $flag;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowSupport()
+    public function getAllowSupport(): bool
     {
         return $this->allowSupport;
     }
@@ -639,10 +533,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return $this;
     }
 
-    /**
-     * @return ?int
-     */
-    public function getRole()
+    public function getRole(): ?int
     {
         return $this->role;
     }
@@ -660,44 +551,30 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
         return [UserRole::getRoleName($this->role)];
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSports()
+    public function getSports(): Collection
     {
         return $this->sports;
     }
 
     /**
      * Get activity/sport types
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getActivityTypes()
+    public function getActivityTypes(): Collection
     {
         return $this->activityTypes;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags()
+    public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipment()
+    public function getEquipment(): Collection
     {
         return $this->equipment;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEquipmentTypes()
+    public function getEquipmentTypes(): Collection
     {
         return $this->equipmentTypes;
     }
@@ -705,7 +582,7 @@ class Account implements UserInterface, \Serializable, IdentifiableEntityInterfa
     /**
      * @see \Serializable::serialize()
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->id,

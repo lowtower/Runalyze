@@ -18,10 +18,8 @@ class PluginController extends AbstractPluginsAwareController
     {
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $Pluginkey = filter_input(INPUT_GET, 'key');
-        var_dump($Pluginkey);
 
         $Installer = new \PluginInstaller($Pluginkey);
-        var_dump($Installer);
 
         echo '<h1>' . __('Install') . ' ' . $Pluginkey . '</h1>';
 
