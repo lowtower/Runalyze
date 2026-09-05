@@ -84,7 +84,7 @@
 
         {% set use_elevation_adjustment = conf.useVO2maxCorrectionForElevation %}
         {% set activity_vO2max = context.decorator.effectiveVO2max(conf) %}
-        {% set distance_modifier = details.distance_modifierForElevationAdjustment %}
+        {% set distance_modifier = details.distanceModifierForElevationAdjustment %}
         <fieldset>
             <legend>{% trans %}Correction: considering elevation{% endtrans %}</legend>
             <div{% if not use_elevation_adjustment %} class="unimportant"{% endif %}>
