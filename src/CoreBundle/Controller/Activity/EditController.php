@@ -244,7 +244,7 @@ class EditController extends AbstractController
             ->set(AutomaticReloadFlagSetter::FLAG_TRAINING_AND_DATA_BROWSER);
     }
 
-    protected function getElevationCorrectionStrategyFromRequest(string $string): ?StrategyInterface
+    protected function getElevationCorrectionStrategyFromRequest(?string $string): ?StrategyInterface
     {
         if ($string === 'GeoTIFF') {
             return $this->get('app.elevation_correction.geotiff');

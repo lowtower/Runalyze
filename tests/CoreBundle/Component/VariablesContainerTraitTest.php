@@ -11,15 +11,9 @@ class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
      */
     protected $Object;
 
-    /**
-     * @var \ReflectionMethod
-     */
-    protected $GetMethod;
+    protected \ReflectionMethod $GetMethod;
 
-    /**
-     * @var \ReflectionMethod
-     */
-    protected $SetMethod;
+    protected \ReflectionMethod $SetMethod;
 
     protected function setUp(): void
     {

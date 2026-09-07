@@ -14,15 +14,9 @@ class RouteNameEvalResult
 
     public const NOTES_PATTERN = '/(.*)(' . self::NOTES_START . '.*' . self::NOTES_END . ')(.*)/is';
 
-    /**
-     * @var string
-     */
-    protected $names = '';
+    protected string $names = '';
 
-    /**
-     * @var string
-     */
-    protected $notes = '';
+    protected string $notes = '';
 
     public function __construct(string $names, string $notes)
     {
@@ -68,7 +62,7 @@ class RouteNameEvalResult
         return preg_replace(self::NOTES_PATTERN, '$1' . $taggedNote . '$3', $existingNote);
     }
 
-    protected function endsWith($haystack, $needle): bool
+    protected function endsWith(string $haystack, string $needle): bool
     {
         return $needle === '' || (substr($haystack, -strlen($needle)) === $needle);
     }

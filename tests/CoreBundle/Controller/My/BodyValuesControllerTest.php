@@ -13,10 +13,7 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
  */
 class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {

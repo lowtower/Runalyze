@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Service\RouteNameEvaluation;
 
 /**
@@ -9,10 +11,10 @@ namespace Runalyze\Service\RouteNameEvaluation;
  */
 class RouteNameEvalFactory
 {
-    protected $RouteNameEval;
+    protected RouteNameEval $RouteNameEval;
 
     /**
-     * @param a $routeNameEvalOsm implementation
+     * @param $routeNameEvalOsm a RouteNameEvalOsm implementation
      */
     public function __construct(RouteNameEvalOsm $routeNameEvalOsm)
     {

@@ -3,6 +3,7 @@
 namespace Runalyze\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 class PluginConfRepository extends EntityRepository
 {
@@ -11,17 +12,21 @@ class PluginConfRepository extends EntityRepository
      */
     public function getAllActivityIdsOfFunRaces(Account $account): array
     {
-        $result = $this->createQueryBuilder('c')
-            ->innerJoin('c.plugin', 'p')
-            ->select('c.value')
-            ->where('p.account = :account')
-            ->andWhere('p.key = :plugin')
-            ->andWhere('c.config = :config')
-            ->setParameter('account', $account)
-            ->setParameter('plugin', 'RunalyzePluginStat_Wettkampf')
-            ->setParameter('config', 'fun_ids')
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            $result = $this->createQueryBuilder('c')
+                ->innerJoin('c.plugin', 'p')
+                ->select('c.value')
+                ->where('p.account = :account')
+                ->andWhere('p.key = :plugin')
+                ->andWhere('c.config = :config')
+                ->setParameter('account', $account)
+                ->setParameter('plugin', 'RunalyzePluginStat_Wettkampf')
+                ->setParameter('config', 'fun_ids')
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $noResultException) {
+            return [];
+        }
 
         return array_filter(
             array_map(function ($id): int {

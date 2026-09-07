@@ -61,9 +61,7 @@ class TrendAnalysisDataQuery
             ->toIterable([], AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($iterator as $row) {
-            $data = array_shift($row);
-
-            $this->Values[(int) $data['time']] = $unit->fromBaseUnit((float) $data['value']);
+            $this->Values[(int) $row['time']] = $unit->fromBaseUnit((float) $row['value']);
         }
 
         return $this->Values;

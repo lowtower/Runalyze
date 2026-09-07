@@ -15,30 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
-    /**
-     * @var Client
-     */
-    protected $Client;
+    protected Client $Client;
 
-    /**
-     * @var ReferenceRepository
-     */
-    protected $Fixtures;
+    protected ReferenceRepository $Fixtures;
 
-    /**
-     * @var array|null
-     */
-    protected $FixtureClasses;
+    protected ?array $FixtureClasses = null;
 
-    /**
-     * @var EntityManager
-     */
-    protected $EntityManager;
+    protected ?EntityManager $EntityManager = null;
 
-    /**
-     * @var string
-     */
-    private $PreviousPhpTimezone;
+    private string $PreviousPhpTimezone;
 
     /**
      * @var string|false
@@ -97,79 +82,62 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
             $this->restoreTimezone();
         }
 
-        if ($this->EntityManager !== null) {
+        if ($this->EntityManager instanceof EntityManager) {
             $this->EntityManager->close();
             $this->EntityManager = null;
         }
     }
 
-    /**
-     * @return Account
-     */
-    protected function getDefaultAccount()
+    protected function getDefaultAccount(): Account
     {
         $ref = $this->Fixtures->getReference('account-default');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
+        return $this->EntityManager->getRepository(Account::class)
             ->find($ref->getId());
     }
 
-    /**
-     * @return Sport
-     */
-    protected function getDefaultAccountsRunningSport()
+    protected function getDefaultAccountsRunningSport(): Sport
     {
         $ref = $this->Fixtures->getReference('account-default.sport-running');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class)
+        return $this->EntityManager->getRepository(Sport::class)
             ->find($ref->getId());
     }
 
-    /**
-     * @return Sport
-     */
-    protected function getDefaultAccountsCyclingSport()
+    protected function getDefaultAccountsCyclingSport(): Sport
     {
         $ref = $this->Fixtures->getReference('account-default.sport-cycling');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class)
+        return $this->EntityManager->getRepository(Sport::class)
             ->find($ref->getId());
     }
 
-    /**
-     * @return EquipmentType
-     */
-    protected function getDefaultAccountsClothesType()
+    protected function getDefaultAccountsClothesType(): EquipmentType
     {
         $ref = $this->Fixtures->getReference('account-default.equipment-type-clothes');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\EquipmentType::class)
+        return $this->EntityManager->getRepository(EquipmentType::class)
             ->find($ref->getId());
     }
 
-    /**
-     * @return Account
-     */
-    protected function getEmptyAccount()
+    protected function getEmptyAccount(): Account
     {
         $ref = $this->Fixtures->getReference('account-empty');
         // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
-        return $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class)
+        return $this->EntityManager->getRepository(Account::class)
             ->find($ref->getId());
     }
 
     /**
-     * @param int|null $timestamp
      * @param int|float $duration
      * @param float|int|null $distance
-     * @return Training
      */
     protected function getActivityForDefaultAccount(
-        $timestamp = null,
+        ?int $timestamp = null,
         $duration = 3600,
         $distance = null,
         ?Sport $sport = null
-    ) {
+    ): Training {
         return (new Training())
             ->setS($duration)
             ->setTime($timestamp ?: time())

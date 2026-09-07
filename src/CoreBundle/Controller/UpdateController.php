@@ -3,8 +3,10 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -12,14 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Michael Pohl <michael@runalyze.de>
  * @package Runalyze\Bundle\CoreBundle\Controller
  */
-class UpdateController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class UpdateController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
     /**
      * @Route("/update", name="update", condition="'%app.update_disabled%' == 'no'")
      */
-    public function updateAction($entity_manager = 'default'): \Symfony\Component\HttpFoundation\Response
+    public function updateAction($entity_manager = 'default'): Response
     {
         $output = new BufferedOutput();
         $application = new Application($this->get('kernel'));
@@ -58,7 +60,7 @@ class UpdateController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
     /**
      * @Route("/update/start", name="update_start", condition="'%app.update_disabled%' == 'no'")
      */
-    public function updateStartAction(): \Symfony\Component\HttpFoundation\Response
+    public function updateStartAction(): Response
     {
         $output = new BufferedOutput();
         $application = new Application($this->get('kernel'));

@@ -80,9 +80,7 @@ class AnovaDataQuery
             ->toIterable([], AbstractQuery::HYDRATE_ARRAY);
 
         foreach ($iterator as $row) {
-            $data = array_shift($row);
-
-            $this->Groups[(int) $data['grouping']]['data'][] = $unit->fromBaseUnit((float) $data['value']);
+            $this->Groups[(int) $row['grouping']]['data'][] = $unit->fromBaseUnit((float) $row['value']);
         }
 
         $this->filterEmptyGroups();

@@ -36,15 +36,9 @@ class Window
      */
     public const HANDMADE_LIMIT_DISTANCE = 0.2;
 
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
+    protected Context $Context;
 
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected Laps $Laps;
 
     /**
      * Lap distance
@@ -60,27 +54,23 @@ class Window
 
     /**
      * Demanded time
-     * @var \Runalyze\Activity\Duration
      */
-    protected $DemandedTime;
+    protected Duration $DemandedTime;
 
     /**
      * Demanded pace
-     * @var \Runalyze\Activity\Pace
      */
-    protected $DemandedPace;
+    protected Pace $DemandedPace;
 
     /**
      * Manual distances
-     * @var array
      */
-    protected $ManualDistances = [];
+    protected array $ManualDistances = [];
 
     /**
      * Manual times
-     * @var array
      */
-    protected $ManualTimes = [];
+    protected array $ManualTimes = [];
 
     public function __construct(Context $context)
     {
@@ -108,10 +98,9 @@ class Window
     }
 
     /**
-     * @param float $valueInPreferredUnit
      * @return float [km]
      */
-    protected function distanceToKm($valueInPreferredUnit)
+    protected function distanceToKm(float $valueInPreferredUnit): float
     {
         if (Configuration::General()->distanceUnitSystem()->isImperial()) {
             return $valueInPreferredUnit / DistanceUnitSystem::MILE_MULTIPLIER;
@@ -166,10 +155,7 @@ class Window
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function handmadeLapsDiffer()
+    protected function handmadeLapsDiffer(): bool
     {
         if ($this->Context->activity()->splits()->isEmpty()) {
             return false;
@@ -197,8 +183,8 @@ class Window
         $this->Laps->enableCalculationOfAdditionalValues();
 
         if (
-            empty($this->ManualDistances) && $this->LapDistance == 0 &&
-            empty($this->ManualTimes) && $this->LapTime == 0 &&
+            $this->ManualDistances === [] && $this->LapDistance == 0 &&
+            $this->ManualTimes === [] && $this->LapTime == 0 &&
             ! $this->Context->activity()
                 ->splits()
                 ->isEmpty()
@@ -269,7 +255,7 @@ class Window
 
     protected function constructLapsFromTrackdata()
     {
-        if (! empty($this->ManualTimes) || $this->LapTime != 0) {
+        if ($this->ManualTimes !== [] || $this->LapTime != 0) {
             $this->constructLapsFromTrackdataByTimes();
         } else {
             $this->constructLapsFromTrackdataByDistances();
@@ -280,7 +266,7 @@ class Window
     {
         $Times = $this->ManualTimes;
 
-        if (empty($Times)) {
+        if ($Times === []) {
             if ($this->LapTime == 0) {
                 $this->LapTime = 300;
             }
@@ -301,7 +287,7 @@ class Window
     {
         $Distances = $this->ManualDistances;
 
-        if (empty($Distances)) {
+        if ($Distances === []) {
             if ($this->LapDistance == 0) {
                 $this->LapDistance = 1;
             }

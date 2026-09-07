@@ -14,15 +14,9 @@ use Runalyze\Bundle\CoreBundle\Tests\DataFixtures\AbstractFixturesAwareWebTestCa
  */
 class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
 {
-    /**
-     * @var NotificationRepository
-     */
-    protected $NotificationRepository;
+    protected NotificationRepository $NotificationRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {

@@ -96,7 +96,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         ]);
     }
 
-    private function createUploadDir($username)
+    private function createUploadDir(string $username)
     {
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $username . '_' . microtime(true);
         if (mkdir($tmpDir)) {
@@ -106,7 +106,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return null;
     }
 
-    private function processFiles($username, $uploadDir, $allfiles): string
+    private function processFiles(string $username, $uploadDir, $allfiles): string
     {
         $result = '';
 
@@ -138,7 +138,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return $result . PHP_EOL;
     }
 
-    private function processImport($username, $uploadDir)
+    private function processImport(string $username, $uploadDir)
     {
         $kernel = $this->get('kernel');
         $application = new Application($kernel);

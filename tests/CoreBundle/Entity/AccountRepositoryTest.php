@@ -21,16 +21,12 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
 
         parent::setUp();
 
-        $this->AccountRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
+        $this->AccountRepository = $this->EntityManager->getRepository(Account::class);
     }
 
-    /**
-     * @param string $username
-     * @param string $mail
-     */
-    protected function getNewAccount($username, $mail = ''): \Runalyze\Bundle\CoreBundle\Entity\Account
+    protected function getNewAccount(string $username, string $mail = ''): Account
     {
-        if ($mail == '') {
+        if ($mail === '') {
             $mail = $username . '@test.com';
         }
 

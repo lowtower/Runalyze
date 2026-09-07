@@ -12,15 +12,9 @@ use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
  */
 class NotificationRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var NotificationRepository
-     */
-    protected $NotificationRepository;
+    protected NotificationRepository $NotificationRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {

@@ -24,7 +24,7 @@ class UserTimezoneListener
                 ->getUser();
 
             if ($account instanceof Account) {
-                $timezone = (int) $account->getTimezone();
+                $timezone = $account->getTimezone();
 
                 if (Timezone::isValidValue($timezone)) {
                     $timezoneName = Timezone::getFullNameByEnum($timezone);

@@ -115,6 +115,7 @@ class ToolsController extends AbstractController
             ->find($config->getGeneral()->getRunningSport());
 
         return $this->render('tools/tables/vo2max_paces.html.twig', [
+            'activeTable' => 2,
             'currentVo2max' => $config->getCurrentVO2maxShape(),
             'vo2maxVelocity' => new VO2maxVelocity(),
             'paceUnit' => $config->getUnitSystem()
@@ -128,7 +129,9 @@ class ToolsController extends AbstractController
      */
     public function tableGeneralPaceAction(): Response
     {
-        return $this->render('tools/tables/general_paces.html.twig');
+        return $this->render('tools/tables/general_paces.html.twig', [
+            'activeTable' => 3,
+        ]);
     }
 
     /**
@@ -139,6 +142,7 @@ class ToolsController extends AbstractController
     public function tableVo2maxRaceResultAction(): Response
     {
         return $this->render('tools/tables/vo2max.html.twig', [
+            'activeTable' => 1,
             'currentVo2max' => $this->get('app.configuration_manager')
                 ->getList()
                 ->getCurrentVO2maxShape(),

@@ -61,10 +61,7 @@ class Registration
         }
     }
 
-    /**
-     * @param string $locale
-     */
-    public function setLocale($locale)
+    public function setLocale(string $locale)
     {
         $this->Account->setLanguage($locale);
     }

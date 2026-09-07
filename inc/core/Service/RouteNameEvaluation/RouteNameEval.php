@@ -16,7 +16,7 @@ interface RouteNameEval
     /**
      * Retrieves the route-name and some other relevant informations of the route.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult;
 }

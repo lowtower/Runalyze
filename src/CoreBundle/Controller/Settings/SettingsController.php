@@ -86,7 +86,7 @@ class SettingsController extends AbstractController
                     ->set('_locale', $formdata['language']);
                 Language::setLanguage($formdata['language']);
 
-                if ($account->getLanguage() != $currentLanguage) {
+                if ($account->getLanguage() !== $currentLanguage) {
                     $this->get('app.automatic_reload_flag_setter')
                         ->set(AutomaticReloadFlagSetter::FLAG_PAGE);
                 }

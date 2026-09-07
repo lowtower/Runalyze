@@ -33,69 +33,43 @@ class Table
      */
     public const CSS_ID = 'rounds-info-window';
 
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected Laps $Laps;
 
     /**
      * Demanded time
-     * @var \Runalyze\Activity\Duration
      */
-    protected $DemandedTime;
+    protected Duration $DemandedTime;
 
     /**
      * Demanded pace
-     * @var \Runalyze\Activity\Pace
      */
-    protected $DemandedPace;
+    protected Pace $DemandedPace;
 
-    /**
-     * @var \Runalyze\Activity\Pace
-     */
-    protected $AveragePace;
+    protected Pace $AveragePace;
 
-    /**
-     * @var \Runalyze\Activity\Duration
-     */
-    protected $AverageTime;
+    protected Duration $AverageTime;
 
-    /**
-     * @var int
-     */
-    protected $IndexActive = 1;
+    protected int $IndexActive = 1;
 
-    /**
-     * @var int
-     */
-    protected $IndexResting = 1;
+    protected int $IndexResting = 1;
 
-    /**
-     * @var array
-     */
-    protected $AdditionalKeys = [];
+    protected array $AdditionalKeys = [];
 
     /**
      * @var array
      * contains the decoded splits-additional infos as a object array.
      */
-    protected $splitsAdditional;
+    protected array $splitsAdditional = [];
 
-    /**
-     * @var bool
-     */
-    private $showIntensity = false;
+    private bool $showIntensity;
 
-    /**
-     * @param int $internalSportProfileEnum
-     */
-    public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, $internalSportProfileEnum, ?array $splitsAdditional = null)
+    public function __construct(Laps $laps, Duration $demandedTime, Pace $demandedPace, int $internalSportProfileEnum, ?array $splitsAdditional = null)
     {
         $this->Laps = $laps;
         $this->DemandedTime = $demandedTime;
         $this->DemandedPace = $demandedPace;
 
-        $this->defineAdditionalKeys($internalSportProfileEnum == SportProfile::RUNNING);
+        $this->defineAdditionalKeys($internalSportProfileEnum === SportProfile::RUNNING);
 
         // #TSC: parse the additional infos (only if it has the same lap count)
         if (! empty($splitsAdditional) && count($splitsAdditional['data']) === $laps->num()) {
@@ -106,7 +80,7 @@ class Table
         $this->showIntensity = $laps->hasMoreThanActiveOrRestLaps();
     }
 
-    protected function defineAdditionalKeys($isRunning)
+    protected function defineAdditionalKeys(bool $isRunning)
     {
         $additionalKeys = [];
         foreach ($this->Laps->objects() as $lap) {
@@ -191,7 +165,7 @@ class Table
         $Code = '';
 
         // parse the json and select all keys
-        if (! empty($this->splitsAdditional)) {
+        if ($this->splitsAdditional !== []) {
             foreach ($this->splitsAdditional['keys'] as $key) {
                 $Code .= '<th class="small">' . ucfirst($key) . '</th>';
             }
@@ -356,7 +330,7 @@ class Table
     {
         $Code = '';
 
-        if (empty($this->splitsAdditional)) {
+        if ($this->splitsAdditional === []) {
             return $Code;
         }
 
@@ -395,9 +369,9 @@ class Table
     {
         $Code = '<tbody>';
         $Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">' . __('Average') . ':</td>';
-        $Code .= '<td class="c">' . ($this->AverageTime !== null ? $this->AverageTime->string() : '') . '</td>';
+        $Code .= '<td class="c">' . ($this->AverageTime instanceof Duration ? $this->AverageTime->string() : '') . '</td>';
         $Code .= ($this->DemandedTime->isZero() ? '' : '<td></td>');
-        $Code .= '<td class="c">' . ($this->AveragePace !== null ? $this->AveragePace->valueWithAppendix() : '') . '</td>';
+        $Code .= '<td class="c">' . ($this->AveragePace instanceof Pace ? $this->AveragePace->valueWithAppendix() : '') . '</td>';
         $Code .= ($this->DemandedPace->isEmpty() ? '' : '<td></td>');
         $Code .= '<td colspan="' . (3 + count($this->AdditionalKeys)) . '"></td>';
         $Code .= '</tr>';
@@ -409,7 +383,7 @@ class Table
 
     protected function checkboxToToggleInactiveSplits(): string
     {
-        if ($this->IndexActive == 1 || $this->IndexResting == 1) {
+        if ($this->IndexActive === 1 || $this->IndexResting === 1) {
             return '';
         }
 

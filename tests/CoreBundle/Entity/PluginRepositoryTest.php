@@ -11,15 +11,9 @@ use Runalyze\Bundle\CoreBundle\Entity\PluginRepository;
  */
 class PluginRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var PluginRepository
-     */
-    protected $PluginRepository;
+    protected PluginRepository $PluginRepository;
 
-    /**
-     * @var Account
-     */
-    protected $EmptyAccount;
+    protected Account $EmptyAccount;
 
     protected function setUp(): void
     {

@@ -45,51 +45,45 @@ class OsmCsvData
      * node|way|relation
      * But is not needed for the evaluation (more for information or debugging)
      */
-    public $type;
+    public string $type;
+
+    public string $name;
+
+    public ?string $nameDe = null;
 
     /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $nameDe;
-
-    /**
-     * @var string
+     * @var ?string
      * examples: city|suburb|town|village|hamlet|isolated_dwelling
      * https://wiki.openstreetmap.org/wiki/DE:Key:place
      */
-    public $place;
+    public ?string $place = null;
 
     /**
-     * @var string
+     * @var ?string
      * only: city_limit can be on type=node or type=way
      * https://wiki.openstreetmap.org/wiki/DE:Key:traffic_sign
      */
-    public $trafficSign;
+    public ?string $trafficSign = null;
 
     /**
-     * @var string
+     * @var ?string
      * on nodes: information (nicht sehr nützlich, weil auch Weggabelung ... z. B. "Rundwanderweg Derchinger Forst")
      * on nodes, ways: alpine_hut|wilderness_hut
      * possible values (we are filter): https://wiki.openstreetmap.org/wiki/Key:tourism
      */
-    public $tourism;
+    public ?string $tourism = null;
 
     /**
-     * @var string
+     * @var ?string
      * only: forest
      */
-    public $landuse;
+    public ?string $landuse = null;
 
     /**
-     * @var string
+     * @var ?string
      * primary on node: peak|saddle|wood|water
      */
-    public $natural;
+    public ?string $natural = null;
 
     /**
      * @var string
@@ -98,10 +92,10 @@ class OsmCsvData
     public $elevation;
 
     /**
-     * @var string
+     * @var ?string
      * on ways: yes
      */
-    public $hiking;
+    public ?string $hiking = null;
 
     /**
      * @var string
@@ -110,27 +104,27 @@ class OsmCsvData
      * difficult_alpine_hiking,demanding_alpine_hiking,alpine_hiking,demanding_mountain_hiking,mountain_hiking,hiking
      * (https://wiki.openstreetmap.org/wiki/Key:sac_scale)
      */
-    public $sacScale;
+    public string $sacScale;
 
     /**
-     * @var string
+     * @var ?string
      * on node & way:
      * some alphine huts are amenity=restaurant
      * (https://wiki.openstreetmap.org/wiki/Key:amenity)
      */
-    public $amenity;
+    public ?string $amenity = null;
 
     /**
      * @var string
      * Not set by OSM, internal sort-order
      */
-    public $order;
+    public string $order;
 
     /**
      * @var string
      * Not set by OSM, internal category like peak or place (CAT_*)
      */
-    public $category;
+    public string $category;
 
     /**
      * @param string $csvLine Overpass line seperated with |
@@ -155,7 +149,7 @@ class OsmCsvData
     {
         $this->type = $arr[0];
         $this->name = $this->cleanNameChar($arr[1]);
-        $this->nameDe = $arr[2] ? $this->cleanNameChar($arr[2]) : null;
+        $this->nameDe = (string) $arr[2] ? $this->cleanNameChar($arr[2]) : null;
 
         $this->natural = $arr[7] ?: null;
         $this->elevation = $arr[8] ?: null;
@@ -203,16 +197,16 @@ class OsmCsvData
 
     protected function setCategory()
     {
-        if (! empty($this->natural) && ($this->natural == 'peak' || $this->natural == 'saddle')) {
+        if (! empty($this->natural) && ($this->natural === 'peak' || $this->natural === 'saddle')) {
             $this->category = self::$CAT_PEAK;
         } elseif (! empty($this->place) || ! empty($this->trafficSign) ||
-            ! empty($this->landuse) || $this->natural == 'wood' || $this->natural == 'water') {
+            ! empty($this->landuse) || $this->natural === 'wood' || $this->natural === 'water') {
             $this->category = self::$CAT_PLACE;
-        } elseif ($this->tourism == 'alpine_hut' || $this->tourism == 'wilderness_hut' || $this->amenity == 'restaurant') {
+        } elseif ($this->tourism === 'alpine_hut' || $this->tourism === 'wilderness_hut' || $this->amenity === 'restaurant') {
             $this->category = self::$CAT_HUT;
-        } elseif ($this->tourism == 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
+        } elseif ($this->tourism === 'way' || ! empty($this->hiking) || ! empty($this->sacScale)) {
             $this->category = self::$CAT_WAY;
-        } elseif ($this->tourism == 'information') {
+        } elseif ($this->tourism === 'information') {
             $this->category = self::$CAT_INFO;
         }
     }
@@ -238,10 +232,10 @@ class OsmCsvData
         $o .= $this->category == self::$CAT_HUT ? 'ht1.' : 'ht9.';
 
         // sea,lake,water
-        $o .= $this->natural == 'water' ? 'w1.' : 'w9.';
+        $o .= $this->natural === 'water' ? 'w1.' : 'w9.';
 
         // forest/woods
-        $o .= ! empty($this->landuse) || $this->natural == 'wood' ? 'fo1.' : 'fo9.';
+        $o .= ! empty($this->landuse) || $this->natural === 'wood' ? 'fo1.' : 'fo9.';
 
         // any (other) information
         $o .= $this->category == self::$CAT_INFO ? 'in1' : 'in9';

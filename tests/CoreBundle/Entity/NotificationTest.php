@@ -6,10 +6,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Notification;
 
 class NotificationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Notification
-     */
-    protected $Notification;
+    protected Notification $Notification;
 
     protected function setUp(): void
     {

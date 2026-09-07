@@ -50,26 +50,13 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
 
     public const RADIUS_DEFAULT = 20.0;
 
-    /**
-     * @var string
-     */
-    protected $Url;
+    protected string $Url;
 
-    /**
-     * @var string
-     */
-    protected $Proxy;
+    protected string $Proxy;
 
-    /**
-     * @var Client
-     */
-    protected $HttpClient;
+    protected Client $HttpClient;
 
-    /**
-     * @param string $url
-     * @param string $proxy
-     */
-    public function __construct($url, $proxy, Client $client, ?LoggerInterface $logger = null)
+    public function __construct(string $url, string $proxy, Client $client, ?LoggerInterface $logger = null)
     {
         $this->Url = $url;
         $this->Proxy = $proxy;
@@ -80,7 +67,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
     /**
      * Retrieves the route-name and some other relevant informations for the route.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function evaluate(Sport $sport, Route $route, float $distance): ?RouteNameEvalResult
     {
@@ -124,7 +111,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         try {
             $response = $this->HttpClient->request('POST', $this->Url, $param);
             $statusCode = $response->getStatusCode();
-            if ($statusCode != 200) {
+            if ($statusCode !== 200) {
                 $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
                 throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
             }
@@ -185,17 +172,19 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         $osm .= sprintf('[timeout:%d]', self::TIMEOUT);
 
         // set a (bounding)box for better performance
-        $geoMin = (new Geohash())->decode($route->getMin())
-            ->getCoordinate();
-        $geoMax = (new Geohash())->decode($route->getMax())
-            ->getCoordinate();
+        /** @var Geohash $geohashMin */
+        $geohashMin = (new Geohash())->decode($route->getMin());
+        $geoMin = $geohashMin->getCoordinate();
+        /** @var Geohash $geohashMax */
+        $geohashMax = (new Geohash())->decode($route->getMax());
+        $geoMax = $geohashMax->getCoordinate();
         // the bounding-box is "corrected" by the radius to avoid ignore point near the original bounding-box border
         $osm .= sprintf(
             '[bbox:%.6f,%.6f,%.6f,%.6f];',
-            $this->addLatitude($geoMin->getLatitude(), self::BOX_CORR * -1),
-            $this->addLongitude($geoMin->getLongitude(), $geoMin->getLatitude(), self::BOX_CORR * -1),
-            $this->addLatitude($geoMax->getLatitude(), self::BOX_CORR),
-            $this->addLongitude($geoMax->getLongitude(), $geoMax->getLatitude(), self::BOX_CORR)
+            $this->addLatitude((float) $geoMin->getLatitude(), self::BOX_CORR * -1),
+            $this->addLongitude((float) $geoMin->getLongitude(), (float) $geoMin->getLatitude(), self::BOX_CORR * -1),
+            $this->addLatitude((float) $geoMax->getLatitude(), self::BOX_CORR),
+            $this->addLongitude((float) $geoMax->getLongitude(), (float) $geoMax->getLatitude(), self::BOX_CORR)
         );
 
         // build the "around" lat/lon
@@ -226,12 +215,12 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface
         return $osm;
     }
 
-    private function addLatitude($lat, float $add): float
+    private function addLatitude(float $lat, float $add): float
     {
         return $lat + ($add * self::METER_IN_DEGREE);
     }
 
-    private function addLongitude($lon, $lat, float $add): float
+    private function addLongitude(float $lon, float $lat, float $add): float
     {
         return $lon + ($add * self::METER_IN_DEGREE) / cos($lat * (self::PI / 180));
     }

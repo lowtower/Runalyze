@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class StaticController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class StaticController extends AbstractController
 {
     use AppServiceSubscriberTrait;
 
@@ -15,7 +17,7 @@ class StaticController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/dashboard/help", name="help")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardHelpAction(): \Symfony\Component\HttpFoundation\Response
+    public function dashboardHelpAction(): Response
     {
         return $this->render('static/help.html.twig', [
             'version' => $this->getParameter('RUNALYZE_VERSION'),
@@ -26,7 +28,7 @@ class StaticController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
      * @Route("/dashboard/help-calculations", name="help-calculations")
      * @Security("has_role('ROLE_USER')")
      */
-    public function dashboardHelpCalculationsAction(): \Symfony\Component\HttpFoundation\Response
+    public function dashboardHelpCalculationsAction(): Response
     {
         return $this->render('static/help_calculations.html.twig');
     }
