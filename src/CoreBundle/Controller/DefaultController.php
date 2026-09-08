@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -34,20 +33,26 @@ class DefaultController extends AbstractPluginsAwareController
 
     private AuthenticationUtils $authenticationUtils;
 
-    private MailerInterface $mailer;
+    private AccountMailer $accountMailer;
 
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         AuthenticationUtils $authenticationUtils,
         TokenStorageInterface $tokenStorage,
         ParameterBagInterface $parameterBag,
-        MailerInterface $mailer
+        AccountMailer $accountMailer
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->authenticationUtils = $authenticationUtils;
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
-        $this->mailer = $mailer;
+        $this->accountMailer = $accountMailer;
+    }
+
+    protected function getAccountRepository(): AccountRepository
+    {
+        return $this->getDoctrine()
+            ->getRepository(Account::class);
     }
 
     protected function includeOldScript(string $file, bool $initFrontend = true): Response
@@ -123,10 +128,11 @@ class DefaultController extends AbstractPluginsAwareController
                 ]);
             }
 
-            $accountMailer = new AccountMailer($this->mailer, $twig, $translator);
-            $accountMailer->sendActivationLinkTo($account);
+            $this->accountMailer->sendActivationLinkTo($account);
 
-            return $this->render('register/mail_delivered.html.twig');
+            return $this->render('register/mail_delivered.html.twig', [
+                'num' => $this->collectStatistics(),
+            ]);
         }
 
         return $this->render('register/form.html.twig', [
@@ -177,9 +183,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     protected function collectStatistics(): array
     {
-        /** @var AccountRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getRepository(Account::class);
+        $repository = $this->getAccountRepository();
         $numUser = $repository->getAmountOfActivatedUsers();
 
         /** @var TrainingRepository $repository */
@@ -233,9 +237,8 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function unsubscribeMailAction(string $mail, string $hash): Response
     {
-        $repo = $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Account::class);
-        $account = $repo->findOneBy([
+        $repository = $this->getAccountRepository();
+        $account = $repository->findOneBy([
             'mail' => $mail,
         ]);
 
@@ -254,9 +257,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function unsubscribeMailConfirmAction(string $mail, string $hash): Response
     {
-        /** @var AccountRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getRepository(Account::class);
+        $repository = $this->getAccountRepository();
         $account = $repository->findOneBy([
             'mail' => $mail,
         ]);
@@ -285,8 +286,7 @@ class DefaultController extends AbstractPluginsAwareController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->get('mailer.account')
-                    ->sendCustomFeedbackToSystem($account, $this->parameterBag->get('app.feedback_mail'), $form->getData()['message']);
+                $this->accountMailer->sendCustomFeedbackToSystem($account, $this->parameterBag->get('app.feedback_mail'), $form->getData()['message']);
                 return $this->render('feedback.html.twig', [
                     'form' => $form->createView(),
                 ]);

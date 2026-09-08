@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Controller;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
 use Runalyze\Bundle\CoreBundle\Form\RecoverPasswordType;
+use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
@@ -51,7 +52,6 @@ class AccountController extends AbstractController
      */
     public function deleteAccountAction($hash): Response
     {
-        /** @var Account|null $account */
         $account = $this->getAccountRepository()
             ->findOneBy([
                 'deletionHash' => $hash,
@@ -70,9 +70,8 @@ class AccountController extends AbstractController
     /**
      * @Route("/recover/{hash}", name="account_recover_hash", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function recoverForHashAction($hash, Request $request): Response
+    public function recoverForHashAction($hash, Request $request, Sha256SaltedEncoder $sha256SaltedEncoder): Response
     {
-        /** @var Account|null $account */
         $account = $this->getAccountRepository()
             ->findOneBy([
                 'changepwHash' => $hash,
@@ -88,11 +87,8 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $encoder = $this->container->get('security.encoder_factory')
-                ->getEncoder($account);
-
             $account->setNewSalt();
-            $account->setPassword($encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
+            $account->setPassword($sha256SaltedEncoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
             $account->removeChangePasswordHash();
 
             $this->getAccountRepository()
@@ -104,6 +100,7 @@ class AccountController extends AbstractController
         return $this->render('account/recover/form_new_password.html.twig', [
             'recoverHash' => $hash,
             'form' => $form->createView(),
+            'username' => $account->getUsername(),
         ]);
     }
 
@@ -122,7 +119,6 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            /** @var Account|null $account */
             $account = $this->getAccountRepository()
                 ->loadUserByUsername($request->request->get($form->getName())['username']);
 
@@ -150,7 +146,7 @@ class AccountController extends AbstractController
      * @Route("/activate/{hash}", requirements={"hash"="[[:xdigit:]]{32}"})
      * @Route("/activate/{hash}/{username}", name="account_activate", requirements={"hash"="[[:xdigit:]]{32}"})
      */
-    public function activateAccountAction($hash, $username = null): Response
+    public function activateAccountAction($hash, ?string $username = null): Response
     {
         if ($this->getAccountRepository()->activateByHash($hash)) {
             return $this->render('account/activate/success.html.twig');

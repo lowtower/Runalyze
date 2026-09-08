@@ -356,7 +356,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Key: total_cycles
-     * @var ing
+     * @var int
      */
     public const TOTAL_CYCLES = 'total_cycles';
 

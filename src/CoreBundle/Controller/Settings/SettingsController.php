@@ -12,6 +12,7 @@ use Runalyze\Bundle\CoreBundle\Form\Settings\ChangeMailType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\ChangePasswordType;
 use Runalyze\Bundle\CoreBundle\Form\Settings\DatasetCollectionType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
+use Runalyze\Bundle\CoreBundle\Services\Sha256SaltedEncoder;
 use Runalyze\Configuration;
 use Runalyze\Dataset as RunalyzeDataset;
 use Runalyze\Dataset\DefaultConfiguration;
@@ -37,23 +38,30 @@ class SettingsController extends AbstractController
 
     private ParameterBagInterface $parameterBag;
 
+    private Sha256SaltedEncoder $encoder;
+
     public function __construct(
         TranslatorInterface $translator,
         TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        Sha256SaltedEncoder $encoder
     ) {
         $this->translator = $translator;
         $this->tokenStorage = $tokenStorage;
         $this->parameterBag = $parameterBag;
+        $this->encoder = $encoder;
     }
 
-    /**
-     * @return AccountRepository
-     */
-    protected function getAccountRepository()
+    protected function getAccountRepository(): AccountRepository
     {
         return $this->getDoctrine()
             ->getRepository(Account::class);
+    }
+
+    protected function getDatasetRepository(): DatasetRepository
+    {
+        return $this->getDoctrine()
+            ->getRepository(Dataset::class);
     }
 
     /**
@@ -154,11 +162,8 @@ class SettingsController extends AbstractController
 
     protected function encodePassword(Account $account)
     {
-        $encoder = $this->container->get('security.encoder_factory')
-            ->getEncoder($account);
-
         $account->setNewSalt();
-        $account->setPassword($encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
+        $account->setPassword($this->encoder->encodePassword($account->getPlainPassword(), $account->getSalt()));
     }
 
     /**
@@ -186,10 +191,8 @@ class SettingsController extends AbstractController
         $em = $this->getDoctrine()
             ->getManager();
 
-        /** @var DatasetRepository $repository */
-        $repository = $em->getRepository(Dataset::class);
-
-        $dataset = $repository->findAllFor($account);
+        $dataset = $this->getDatasetRepository()
+            ->findAllFor($account);
 
         $form = $this->createForm(DatasetCollectionType::class, [
             'datasets' => $dataset,
@@ -219,12 +222,9 @@ class SettingsController extends AbstractController
     {
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        /** @var DatasetRepository $repository */
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository(Dataset::class);
         /** @var Dataset[] $dataset */
-        $dataset = $repository->findAllFor($account);
+        $dataset = $this->getDatasetRepository()
+            ->findAllFor($account);
         $missingKeyObjects = array_flip(RunalyzeDataset\Keys::getEnum());
         $numberOfExistingKeys = count($dataset);
 
