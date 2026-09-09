@@ -65,7 +65,7 @@ class VO2maxVelocity
      *
      * @return float [s/km]
      */
-    public function getPace($effectiveVO2max = null, $percentage = 1.0): int
+    public function getPace($effectiveVO2max = null, $percentage = 1.0): float
     {
         $velocity = $this->getVelocity($effectiveVO2max, $percentage);
 
@@ -73,7 +73,7 @@ class VO2maxVelocity
             return 0;
         }
 
-        return (int) round(60000 / $velocity);
+        return round(60000 / $velocity);
     }
 
     /**
@@ -81,7 +81,7 @@ class VO2maxVelocity
      *
      * @return float [s/km]
      */
-    public function getPaceAt($percentage): int
+    public function getPaceAt($percentage): float
     {
         return $this->getPace(null, $percentage);
     }

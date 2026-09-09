@@ -2,6 +2,7 @@
 
 namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
+use Runalyze\Bundle\CoreBundle\Entity\Conf;
 use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 
 /**
@@ -15,7 +16,7 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->ConfRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class);
+        $this->ConfRepository = $this->EntityManager->getRepository(Conf::class);
     }
 
     public function testEmptyDatabase()

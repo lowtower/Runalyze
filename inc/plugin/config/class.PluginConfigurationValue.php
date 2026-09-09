@@ -19,9 +19,8 @@ class PluginConfigurationValue
 
     /**
      * Key
-     * @var string
      */
-    protected $Key;
+    protected string $Key;
 
     /**
      * Value
@@ -37,24 +36,21 @@ class PluginConfigurationValue
 
     /**
      * Label
-     * @var string
      */
-    protected $Label;
+    protected string $Label;
 
     /**
      * Tooltip
-     * @var string
      */
-    protected $Tooltip;
+    protected string $Tooltip;
 
     /**
      * Construct
-     * @param string $Key
      * @param string $Label [optional]
      * @param string $Tooltip [optional]
      * @param string $DefaultValue [optional]
      */
-    public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '')
+    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
     {
         $this->Key = $Key;
         $this->Label = $Label;
@@ -62,10 +58,7 @@ class PluginConfigurationValue
         $this->DefaultValue = $DefaultValue;
     }
 
-    /**
-     * @return string
-     */
-    final public function key()
+    final public function key(): string
     {
         return $this->Key;
     }
@@ -78,10 +71,7 @@ class PluginConfigurationValue
         return $this->Value;
     }
 
-    /**
-     * @param string $Label
-     */
-    final public function setLabel($Label)
+    final public function setLabel(string $Label)
     {
         $this->Label = $Label;
     }
@@ -96,9 +86,8 @@ class PluginConfigurationValue
 
     /**
      * Label for form field
-     * @return string
      */
-    final protected function formLabel()
+    final protected function formLabel(): string
     {
         if (! empty($this->Tooltip)) {
             return Ajax::tooltip($this->Label, $this->Tooltip, true);
@@ -130,18 +119,16 @@ class PluginConfigurationValue
 
     /**
      * Has to be overwritten in subclasses.
-     * @param string $Value
      */
-    public function setValueFromString($Value)
+    public function setValueFromString(string $Value)
     {
         $this->Value = $Value;
     }
 
     /**
      * Get value as string
-     * @return string
      */
-    public function valueAsString()
+    public function valueAsString(): string
     {
         return $this->value();
     }
@@ -156,7 +143,7 @@ class PluginConfigurationValue
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularField
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_MIDDLE);

@@ -11,21 +11,15 @@ use Runalyze\Bundle\CoreBundle\Entity\UserRepository;
  */
 class UserRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var UserRepository
-     */
-    protected $UserRepository;
+    protected UserRepository $UserRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->UserRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\User::class);
+        $this->UserRepository = $this->EntityManager->getRepository(User::class);
         $this->Account = $this->getDefaultAccount();
     }
 
@@ -37,13 +31,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEmpty($this->UserRepository->findAllFor(new Account()));
     }
 
-    /**
-     * @param int $heartRateMax
-     * @param int $heartRateRest
-     * @param null|int $timestamp
-     * @return User
-     */
-    protected function insertDataForDefaultAccount($heartRateMax, $heartRateRest, $timestamp = null)
+    protected function insertDataForDefaultAccount(int $heartRateMax, int $heartRateRest, ?int $timestamp = null): User
     {
         $user = (new User())
             ->setPulseMax($heartRateMax)

@@ -14,27 +14,18 @@ use Runalyze\Bundle\CoreBundle\Services\Recalculation\Task\VO2maxCorrectionFacto
  */
 class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var RaceresultRepository
-     */
-    protected $RaceresultRepository;
+    protected RaceresultRepository $RaceresultRepository;
 
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
+    protected TrainingRepository $TrainingRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->RaceresultRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class);
-        $this->TrainingRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
+        $this->RaceresultRepository = $this->EntityManager->getRepository(Raceresult::class);
+        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 

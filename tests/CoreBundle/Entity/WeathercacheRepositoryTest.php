@@ -13,21 +13,15 @@ use Runalyze\Service\WeatherForecast\Location;
  */
 class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var WeathercacheRepository
-     */
-    protected $Repository;
+    protected WeathercacheRepository $Repository;
 
-    /**
-     * @var Location
-     */
-    protected $Location;
+    protected Location $Location;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->Repository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Weathercache::class);
+        $this->Repository = $this->EntityManager->getRepository(Weathercache::class);
 
         $this->Location = new Location();
         $this->Location->setGeohash('u1xjn3n74zxv');

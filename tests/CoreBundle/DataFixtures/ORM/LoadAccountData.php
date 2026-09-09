@@ -11,10 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
 {
-    /**
-     * @var UserPasswordEncoderInterface|UserPasswordHasherInterface|null
-     */
-    private $passwordEncoder;
+    private ?UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(
         ?UserPasswordEncoderInterface $passwordEncoder = null
@@ -60,7 +57,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
     {
         $registration = new Registration($manager, $account, $this->passwordEncoder);
 
-        if ($this->passwordEncoder) {
+        if ($this->passwordEncoder instanceof \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface) {
             #            $account->setPassword($encoder->encodePassword($password, $account->getSalt()));
             $account->setPassword($this->passwordEncoder->encodePassword($account, $password));
         } else {

@@ -73,7 +73,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsoftwig/twigcs": "^6.1",
         "liip/functional-test-bundle": "^4.3.0",
-        "liip/test-fixtures-bundle": "^2.0",
+        "liip/test-fixtures-bundle": "~2.6",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
@@ -158,8 +158,8 @@
         "qa": [
             "@rector",
             "@lint",
-            "@twig:lint",
-            "@analyse"
+            "@analyse",
+            "@twig:lint"
         ],
         "cache:prod:clear": "php bin/console cache:clear --env=prod --no-warmup",
         "cache:prod:warmup": "php bin/console cache:warmup --env=prod",
@@ -191,6 +191,7 @@
         "test:default": "php vendor/bin/phpunit --colors -c phpunit.xml.dist --group default,dependsOn,requiresSqlite --exclude-group import,requiresKernel,requiresDoctrine,requiresClient",
         "test:ci": [
             "@cache:test:clear",
+            "@cache:test_empty:clear",
             "@test:setup",
             "@test"
         ],
@@ -199,6 +200,7 @@
         "test:coverage-text": "XDEBUG_MODE=coverage php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text",
         "test:coverage": [
             "@cache:test:clear",
+            "@cache:test_empty:clear",
             "@test:setup",
             "@test:coverage-html"
         ],

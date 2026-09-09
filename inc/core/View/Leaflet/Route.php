@@ -7,6 +7,7 @@
 
 namespace Runalyze\View\Leaflet;
 
+use League\Geotools\Geohash\Geohash;
 use League\Geotools\Geotools;
 
 /**
@@ -160,9 +161,10 @@ class Route
             return;
         }
 
-        $coordinate = (new Geotools())->geohash()
-            ->decode($geohash)
-            ->getCoordinate();
+        /** @var Geohash $geohashObj */
+        $geohashObj = (new Geotools())->geohash()
+            ->decode($geohash);
+        $coordinate = $geohashObj->getCoordinate();
 
         $this->Marker[] = 'L.marker([' . $coordinate->getLatitude() . ',' . $coordinate->getLongitude() . '], {icon: ' . $Icon . ', tooltip: ' . json_encode($Tooltip) . '})';
     }

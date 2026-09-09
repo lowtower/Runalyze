@@ -20,10 +20,7 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
  */
 class DataCollectorWithSwimdata extends DataCollector
 {
-    /**
-     * @var \Runalyze\Model\Swimdata\Loop;
-     */
-    protected $LoopSwimdata;
+    protected Loop $LoopSwimdata;
 
     /**
      * Construct collector

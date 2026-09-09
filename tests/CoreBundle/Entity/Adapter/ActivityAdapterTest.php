@@ -14,15 +14,9 @@ use Runalyze\Util\LocalTime;
 
 class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Training
-     */
-    protected $Activity;
+    protected Training $Activity;
 
-    /**
-     * @var ActivityAdapter
-     */
-    protected $Adapter;
+    protected ActivityAdapter $Adapter;
 
     protected function setUp(): void
     {

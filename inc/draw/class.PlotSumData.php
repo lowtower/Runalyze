@@ -268,7 +268,7 @@ abstract class PlotSumData extends Plot
     }
 
     /**
-     * @return array<string, string|\non-empty-list<string>>
+     * @return array<string, string|non-empty-list<string>>
      */
     private function getMenuLinksForYears(): array
     {

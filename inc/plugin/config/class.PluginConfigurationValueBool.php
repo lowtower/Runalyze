@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PluginConfigurationValueBool
  * @package Runalyze\Plugin
@@ -13,11 +15,10 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
 {
     /**
      * Has to be overwritten in subclasses.
-     * @param string $Value
      */
-    public function setValueFromString($Value)
+    public function setValueFromString(string $Value)
     {
-        $this->Value = ($Value == '1');
+        $this->Value = ($Value === '1');
     }
 
     /**
@@ -36,7 +37,7 @@ class PluginConfigurationValueBool extends PluginConfigurationValue
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularField
+    public function getFormField(): ?\FormularField
     {
         return new FormularCheckbox($this->Key, $this->formLabel(), $this->valueAsString());
     }

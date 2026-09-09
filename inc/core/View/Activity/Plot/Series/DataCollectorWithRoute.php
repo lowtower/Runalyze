@@ -21,7 +21,7 @@ use Runalyze\Model\Trackdata\Entity as Trackdata;
 class DataCollectorWithRoute extends DataCollector
 {
     /**
-     * @var \Runalyze\Model\Route\Loop;
+     * @var \Runalyze\Model\Route\Loop
      */
     protected $LoopRoute;
 

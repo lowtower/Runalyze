@@ -40,7 +40,7 @@ class DataCollector
     protected $Key;
 
     /**
-     * @var \Runalyze\Model\Trackdata\Loop;
+     * @var \Runalyze\Model\Trackdata\Loop
      */
     protected $Loop;
 

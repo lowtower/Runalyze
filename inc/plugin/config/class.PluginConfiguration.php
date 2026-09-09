@@ -20,24 +20,19 @@ class PluginConfiguration
      * Values
      * @var PluginConfigurationValue[]
      */
-    protected $Values = [];
+    protected array $Values = [];
 
     /**
      * Plugin id
-     * @var int
      */
-    protected $PluginID;
+    protected int $PluginID;
 
     /**
      * Catched values?
-     * @var bool
      */
-    private $CatchedValues = false;
+    private bool $CatchedValues = false;
 
-    /**
-     * @param int $PluginID
-     */
-    public function __construct($PluginID)
+    public function __construct(int $PluginID)
     {
         $this->PluginID = $PluginID;
     }
@@ -129,15 +124,12 @@ class PluginConfiguration
         Cache::delete(self::CACHE_KEY);
     }
 
-    /**
-     * @param string $key
-     */
-    final public function update($key)
+    final public function update(string $key)
     {
         if (isset($this->Values[$key])) {
             DB::getInstance()->updateWhere(
                 'plugin_conf',
-                '`pluginid`=' . (int) $this->PluginID . ' AND `config`="' . $key . '"',
+                '`pluginid`=' . $this->PluginID . ' AND `config`="' . $key . '"',
                 'value',
                 $this->Values[$key]->valueAsString()
             );
@@ -151,11 +143,9 @@ class PluginConfiguration
 
     /**
      * Object for value
-     * @param string $key
-     * @return PluginConfigurationValue
      * @throws InvalidArgumentException
      */
-    final public function object($key)
+    final public function object(string $key): PluginConfigurationValue
     {
         if (isset($this->Values[$key])) {
             return $this->Values[$key];
@@ -182,10 +172,9 @@ class PluginConfiguration
     }
 
     /**
-     * @param string $key
      * @return mixed
      */
-    final public function value($key)
+    final public function value(string $key)
     {
         return $this->object($key)
             ->value();

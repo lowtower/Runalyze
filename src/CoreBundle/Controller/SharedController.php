@@ -140,10 +140,8 @@ class SharedController extends AbstractController
         }
 
         if ($privacy->isListWithStatistics()) {
-            /** @var TrainingRepository $repository */
-            $repository = $this->getDoctrine()
-                ->getRepository(Training::class);
-            $accountStatistics = $repository->getAccountStatistics($account);
+            $accountStatistics = $this->getTrainingRepository()
+                ->getAccountStatistics($account);
             $legacyStatistics = new \FrontendSharedStatistics();
             $publicList = $this->get('app.configuration_manager')
                 ->getList($account)
@@ -152,6 +150,7 @@ class SharedController extends AbstractController
         } else {
             $accountStatistics = null;
             $legacyStatistics = null;
+            $publicList = null;
         }
 
         return $this->render('shared/athlete/base.html.twig', [

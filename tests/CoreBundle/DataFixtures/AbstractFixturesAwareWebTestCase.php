@@ -61,6 +61,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
         $databaseTool = static::getContainer()->get(DatabaseToolCollection::class);
         $this->Fixtures = $databaseTool->get()
+            ->withDatabaseCacheEnabled(false)
             ->loadFixtures($this->FixtureClasses)
             ->getReferenceRepository();
 

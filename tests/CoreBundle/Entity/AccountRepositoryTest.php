@@ -10,10 +10,7 @@ use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
  */
 class AccountRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var AccountRepository
-     */
-    protected $AccountRepository;
+    protected AccountRepository $AccountRepository;
 
     protected function setUp(): void
     {

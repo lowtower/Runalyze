@@ -13,9 +13,8 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
 {
     /**
      * Has to be overwritten in subclasses.
-     * @param string $Value
      */
-    public function setValueFromString($Value)
+    public function setValueFromString(string $Value)
     {
         $this->Value = array_map('trim', explode(',', $Value));
     }
@@ -37,9 +36,8 @@ class PluginConfigurationValueArray extends PluginConfigurationValue
 
     /**
      * Display row for config form
-     * @return FormularField
      */
-    public function getFormField(): \FormularInput
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_FULL_INLINE);

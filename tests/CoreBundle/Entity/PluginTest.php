@@ -6,10 +6,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 
 class PluginTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Plugin
-     */
-    protected $Plugin;
+    protected Plugin $Plugin;
 
     protected function setUp(): void
     {

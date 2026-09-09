@@ -29,7 +29,7 @@ class Window
     /**
      * @var float
      */
-    public const HANDMADE_LIMIT_TIME = 10;
+    public const HANDMADE_LIMIT_TIME = 10.0;
 
     /**
      * @var float

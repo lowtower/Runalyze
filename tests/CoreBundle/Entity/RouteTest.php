@@ -6,10 +6,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 
 class RouteTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Route
-     */
-    protected $Route;
+    protected Route $Route;
 
     protected function setUp(): void
     {

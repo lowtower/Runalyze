@@ -14,42 +14,31 @@ use Runalyze\Profile\Sport\SportProfile;
  */
 class SportRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var SportRepository
-     */
-    protected $SportRepository;
+    protected SportRepository $SportRepository;
 
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
+    protected TrainingRepository $TrainingRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->SportRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Sport::class);
-        $this->TrainingRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
+        $this->SportRepository = $this->EntityManager->getRepository(Sport::class);
+        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 
     /**
-     * @param int|null $timestamp
      * @param int|float $duration
      * @param float|int|null $distance
-     * @return Training
      */
     protected function insertActivityForDefaultAccount(
-        $timestamp = null,
+        ?int $timestamp = null,
         $duration = 3600,
         $distance = null,
         ?Sport $sport = null
-    ) {
+    ): Training {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
 
         $this->TrainingRepository->save($activity);

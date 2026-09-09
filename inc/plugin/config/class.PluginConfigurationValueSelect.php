@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PluginConfigurationValueSelect
  * @package Runalyze\Plugin
@@ -13,9 +15,8 @@ class PluginConfigurationValueSelect extends PluginConfigurationValue
 {
     /**
      * Options
-     * @var array
      */
-    protected $Options = [];
+    protected array $Options = [];
 
     public function setOptions(array $Options)
     {
@@ -24,9 +25,8 @@ class PluginConfigurationValueSelect extends PluginConfigurationValue
 
     /**
      * Display row for config form
-     * @return FormularField
      */
-    public function getFormField(): \FormularSelectBox
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularSelectBox($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setOptions($this->Options);

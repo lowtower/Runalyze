@@ -6,6 +6,7 @@
  */
 
 use Runalyze\Configuration;
+use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Plugin configuration value: array
@@ -19,19 +20,15 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
      */
     public const PRECISION = 2;
 
-    /**
-     * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected ?DistanceUnitSystem $UnitSystem = null;
 
     /**
      * Construct
-     * @param string $Key
      * @param string $Label [optional]
      * @param string $Tooltip [optional]
-     * @param string $DefaultValue [optional]
+     * @param string|array $DefaultValue [optional]
      */
-    public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '')
+    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
     {
         parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
@@ -40,10 +37,8 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
 
     /**
      * Has to be overwritten in subclasses.
-     * @param string $Value
-     * @param bool $transformValues
      */
-    public function setValueFromString($Value, $transformValues = false)
+    public function setValueFromString(string $Value, bool $transformValues = false)
     {
         parent::setValueFromString($Value);
 
@@ -52,20 +47,15 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
 
     /**
      * Get value as string
-     * @param bool $transformValues
      */
-    public function valueAsString($transformValues = false): string
+    public function valueAsString(bool $transformValues = false): string
     {
         $values = $this->roundAndTransformValues($this->Value, $transformValues, false);
 
         return implode(', ', $values);
     }
 
-    /**
-     * @param bool $transformValues
-     * @param bool $toKm
-     */
-    protected function roundAndTransformValues(array $values, $transformValues = false, $toKm = false): array
+    protected function roundAndTransformValues(array $values, bool $transformValues = false, bool $toKm = false): array
     {
         if ($transformValues) {
             $factor = $toKm ? $this->unitSystem()
@@ -92,7 +82,7 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularInput
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
         $Field->setSize(FormularInput::$SIZE_FULL_INLINE);
@@ -107,12 +97,9 @@ class PluginConfigurationValueDistances extends PluginConfigurationValueArray
         return $Field;
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected function unitSystem()
+    protected function unitSystem(): DistanceUnitSystem
     {
-        if ($this->UnitSystem === null) {
+        if (! $this->UnitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) {
             $this->UnitSystem = Configuration::General()->distanceUnitSystem();
         }
 

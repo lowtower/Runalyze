@@ -22,7 +22,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     {
         parent::setUp();
 
-        $this->NotificationRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Notification::class);
+        $this->NotificationRepository = $this->EntityManager->getRepository(Notification::class);
         $this->Account = $this->getDefaultAccount();
     }
 

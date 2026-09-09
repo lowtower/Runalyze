@@ -6,6 +6,7 @@
  */
 
 use Runalyze\Configuration;
+use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 /**
  * Plugin configuration value: float [km|miles]
@@ -19,19 +20,15 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
      */
     public const PRECISION = 1;
 
-    /**
-     * @var null|\Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected ?DistanceUnitSystem $UnitSystem = null;
 
     /**
      * Construct
-     * @param string $Key
      * @param string $Label [optional]
      * @param string $Tooltip [optional]
-     * @param string $DefaultValue [optional]
+     * @param string|array $DefaultValue [optional]
      */
-    public function __construct($Key, $Label = '', $Tooltip = '', $DefaultValue = '')
+    public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
     {
         parent::__construct($Key, $Label, $Tooltip, $DefaultValue);
 
@@ -41,10 +38,8 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
 
     /**
      * Get value as string
-     * @param bool $transformValue
-     * @return string
      */
-    public function valueAsString($transformValue = false)
+    public function valueAsString(bool $transformValue = false): string
     {
         if ($transformValue) {
             return round($this->value() * $this->unitSystem()->distanceToPreferredUnitFactor(), self::PRECISION);
@@ -63,7 +58,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularInput
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString(true));
         $Field->setSize(FormularInput::$SIZE_SMALL);
@@ -77,12 +72,9 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
         return $Field;
     }
 
-    /**
-     * @return \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected function unitSystem()
+    protected function unitSystem(): DistanceUnitSystem
     {
-        if ($this->UnitSystem === null) {
+        if (! $this->UnitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) {
             $this->UnitSystem = Configuration::General()->distanceUnitSystem();
         }
 

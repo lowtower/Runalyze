@@ -65,10 +65,7 @@ class ElevationAlgorithms extends ActivityPlot
         $this->setAxisLimits();
     }
 
-    /**
-     * @return \Runalyze\View\Plot\Series
-     */
-    protected function seriesForCorrectedData(): \Runalyze\View\Activity\Plot\Series\Elevation
+    protected function seriesForCorrectedData(): Activity\Plot\Series\Elevation
     {
         $Series = new Series\Elevation($this->Context);
 
@@ -77,10 +74,7 @@ class ElevationAlgorithms extends ActivityPlot
         return $Series;
     }
 
-    /**
-     * @return \Runalyze\View\Plot\Series
-     */
-    protected function seriesForOriginalData(): \Runalyze\View\Activity\Plot\Series\Elevation
+    protected function seriesForOriginalData(): Activity\Plot\Series\Elevation
     {
         $Series = new Series\Elevation($this->Context, true);
         $Series->setColor('#ccc');

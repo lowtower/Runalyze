@@ -13,9 +13,8 @@ class PluginConfigurationValueFloat extends PluginConfigurationValue
 {
     /**
      * Has to be overwritten in subclasses.
-     * @param string $Value
      */
-    public function setValueFromString($Value)
+    public function setValueFromString(string $Value)
     {
         $this->Value = (float) $Value;
     }
@@ -23,7 +22,7 @@ class PluginConfigurationValueFloat extends PluginConfigurationValue
     /**
      * Display row for config form
      */
-    public function getFormField(): \FormularInput
+    public function getFormField(): ?\FormularField
     {
         $Field = new FormularInput($this->Key, $this->formLabel(), $this->valueAsString());
         $Field->setSize(FormularInput::$SIZE_SMALL);

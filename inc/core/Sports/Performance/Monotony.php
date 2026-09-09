@@ -27,7 +27,7 @@ class Monotony
     /**
      * @var float Critical value
      */
-    public const CRITICAL = 2;
+    public const CRITICAL = 2.0;
 
     /**
      * @var int Number of days

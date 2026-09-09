@@ -15,10 +15,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class UserLocaleListener
 {
-    /**
-     * @var \Symfony\Component\HttpFoundation\Session\Session
-     */
-    private $session;
+    private Session $session;
 
     public function __construct(Session $session)
     {
@@ -30,7 +27,7 @@ class UserLocaleListener
         $user = $event->getAuthenticationToken()
             ->getUser();
 
-        if ($user instanceof Account && $user->getLanguage() !== null) {
+        if ($user instanceof Account) {
             $this->session->set('_locale', $user->getLanguage());
             new Language($user->getLanguage());
         }

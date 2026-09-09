@@ -11,10 +11,7 @@ use Runalyze\Profile\Sport\SportProfile;
 
 class SportTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Sport
-     */
-    protected $Sport;
+    protected Sport $Sport;
 
     protected function setUp(): void
     {

@@ -496,7 +496,7 @@ class Plot
 
     /**
      * Set axis-mode to time
-     * @param int $axis [optional]
+     * @param int|bool $axis [optional]
      */
     public function setYAxisAsTime($axis = false)
     {
@@ -510,7 +510,7 @@ class Plot
     /**
      * Set axis-mode to time with specific format
      * @param string $format
-     * @param int $axis [optional]
+     * @param int|bool $axis [optional]
      */
     public function setYAxisTimeFormat($format, $axis = false)
     {

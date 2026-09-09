@@ -7,6 +7,7 @@
 
 namespace Runalyze\View\Leaflet;
 
+use League\Geotools\Geohash\Geohash;
 use League\Geotools\Geotools;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
@@ -193,6 +194,7 @@ class Activity extends LeafletRoute
 
     protected function fillCurrentSegment()
     {
+        /** @var Geohash $geohash */
         $geohash = (new Geotools())->geohash()
             ->decode($this->RouteLoop->geohash());
         if ($this->RouteLoop->geohash() == '7zzzzzzzzzzz') {

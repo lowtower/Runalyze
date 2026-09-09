@@ -19,15 +19,11 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
     {
         parent::setUp();
 
-        $this->PluginRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Plugin::class);
+        $this->PluginRepository = $this->EntityManager->getRepository(Plugin::class);
         $this->EmptyAccount = $this->getEmptyAccount();
     }
 
-    /**
-     * @param int $position
-     * @param null|string $key
-     */
-    protected function insertPanel($position, $key = null): \Runalyze\Bundle\CoreBundle\Entity\Plugin
+    protected function insertPanel(int $position, ?string $key = null): Plugin
     {
         $panel = new Plugin();
         $panel->setAccount($this->EmptyAccount);

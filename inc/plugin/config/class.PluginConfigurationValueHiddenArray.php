@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PluginConfigurationValueHiddenArray
  * @package Runalyze\Plugin
@@ -13,9 +15,8 @@ class PluginConfigurationValueHiddenArray extends PluginConfigurationValueArray
 {
     /**
      * Display row for config form
-     * @return FormularField
      */
-    public function getFormField(): \FormularInput
+    public function getFormField(): ?\FormularField
     {
         return null;
     }

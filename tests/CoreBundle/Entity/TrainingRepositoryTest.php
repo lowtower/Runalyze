@@ -24,21 +24,15 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  */
 class TrainingRepositoryTest extends AbstractRepositoryTestCase
 {
-    /**
-     * @var TrainingRepository
-     */
-    protected $TrainingRepository;
+    protected TrainingRepository $TrainingRepository;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->TrainingRepository = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Training::class);
+        $this->TrainingRepository = $this->EntityManager->getRepository(Training::class);
         $this->Account = $this->getDefaultAccount();
     }
 

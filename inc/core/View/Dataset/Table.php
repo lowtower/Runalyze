@@ -20,26 +20,19 @@ use Runalyze\View\Tooltip;
  */
 class Table
 {
-    /**
-     * @var \Runalyze\Dataset\Configuration
-     */
-    protected $Configuration;
+    protected Configuration $Configuration;
 
-    /**
-     * @var array
-     */
-    protected $ActiveKeys = [];
+    protected array $ActiveKeys = [];
 
     /**
      * Boolean flag to automatically set distance comparison
-     * @var bool
      */
-    protected $AutomaticDistanceComparison = false;
+    protected bool $AutomaticDistanceComparison = false;
 
     /**
      * @var float [km]
      */
-    protected $LastDistance = 0;
+    protected float $LastDistance = 0.0;
 
     public function __construct(Configuration $configuration)
     {
@@ -64,7 +57,7 @@ class Table
     }
 
     /**
-     * @param string $icon optional icon instead of text
+     * @param string|bool $icon optional icon instead of text
      */
     public function codeForColumnLabels($icon = false): string
     {
