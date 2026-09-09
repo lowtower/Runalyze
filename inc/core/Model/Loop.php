@@ -46,15 +46,14 @@ abstract class Loop
     protected $TotalSize;
 
     /**
-     * Object
-     * @var \Runalyze\Model\Loopable
+     * @var null|Loopable
      */
     protected $Object;
 
     /**
      * Construct
      */
-    public function __construct(Loopable $object)
+    public function __construct(?Loopable $object)
     {
         $this->Object = $object;
 
@@ -295,10 +294,8 @@ abstract class Loop
 
     /**
      * Maximal value for current section
-     * @param string $key
-     * @return float
      */
-    public function max($key)
+    public function max(string $key): ?float
     {
         $max = -PHP_INT_MAX;
 
@@ -323,23 +320,17 @@ abstract class Loop
 
     /**
      * Average value for current section
-     * @param string $key
-     * @return int
      */
-    public function average($key)
+    public function average(string $key): ?float
     {
         if ($this->LastIndex >= $this->Index) {
-            return 0;
+            return null;
         }
 
         return $this->sum($key) / ($this->Index - $this->LastIndex + (int) ($this->LastIndex == 0));
     }
 
-    /**
-     * @param string $key
-     * @return array
-     */
-    public function slice($key)
+    public function slice(string $key): array
     {
         if ($this->Object->has($key)) {
             $start = $this->LastIndex == 0 ? $this->LastIndex : $this->LastIndex + 1;
@@ -351,10 +342,9 @@ abstract class Loop
 
     /**
      * Slice object based on last/current index
-     * @return \Runalyze\Model\Entity
      * @throws \RuntimeException
      */
-    public function sliceObject()
+    public function sliceObject(): \Runalyze\Model\Entity
     {
         if (! $this->Object instanceof \Runalyze\Model\Entity) {
             throw new \RuntimeException('This object cannot be sliced.');
@@ -373,7 +363,6 @@ abstract class Loop
 
     /**
      * @param mixed[][] $data
-     * @return \Runalyze\Model\Entity
      */
-    abstract protected function createNewObject(array $data);
+    abstract protected function createNewObject(array $data): \Runalyze\Model\Entity;
 }

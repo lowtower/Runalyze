@@ -15,15 +15,12 @@ use Runalyze\Model\Trackdata;
  */
 class VerticalRatioCalculator
 {
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
     /**
-     * @var array
+     * @var float[]|null[]
      */
-    protected $VerticalRatio = [];
+    protected array $VerticalRatio = [];
 
     /**
      * Calculator for stride length
@@ -73,7 +70,7 @@ class VerticalRatioCalculator
 
     /**
      * Calculate average Vertical Ratio
-     * @return null|int [%o]
+     * @return null|float [%o]
      */
     public function average()
     {
@@ -94,7 +91,7 @@ class VerticalRatioCalculator
     /**
      * Calculate vertical ratio for activity
      * Use this method if trackdata is not available
-     * @return null|int [%o]
+     * @return null|float [%o]
      */
     public static function forActivity(Activity\Entity $activity)
     {

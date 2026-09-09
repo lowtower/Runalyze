@@ -9,100 +9,73 @@ class FitDetails
     /**
      * @var float|null [ml/kg/min]
      */
-    public $VO2maxEstimate;
+    public ?float $VO2maxEstimate = null;
 
     /**
      * @var int|null [min]
      */
-    public $RecoveryTime;
+    public ?int $RecoveryTime = null;
 
-    /**
-     * @var int|null
-     */
-    public $HrvAnalysis;
+    public ?int $HrvAnalysis = null;
 
     /**
      * @var int|null [0 .. 7] (1=Recovery, 2=Base,3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint)
      */
-    public $TrainingEffectBenefit;
+    public ?int $TrainingEffectBenefit = null;
 
     /**
      * @var float|null [0.0 .. 5.0]
      */
-    public $TrainingEffect;
+    public ?float $TrainingEffect = null;
 
     /**
      * @var float|null [0.0 .. 5.0]
      */
-    public $AnaerobicTrainingEffect; // #TSC: new anaerob
+    public ?float $AnaerobicTrainingEffect = null; // #TSC: new anaerob
 
-    /**
-     * @var int|null
-     */
-    public $PerformanceCondition;
+    public ?int $PerformanceCondition = null;
 
-    /**
-     * @var int|null
-     */
-    public $PerformanceConditionEnd;
+    public ?int $PerformanceConditionEnd = null;
 
-    /**
-     * @var int|null
-     */
-    public $LactateThresholdHR;
+    public ?int $LactateThresholdHR = null;
 
     /**
      * @var int|null [m/s]
      */
-    public $LactateThresholdPace;
+    public ?int $LactateThresholdPace = null;
 
-    /**
-     * @var int|null
-     */
-    public $TotalAscent;
+    public ?int $TotalAscent = null;
 
-    /**
-     * @var int|null
-     */
-    public $TotalDescent;
+    public ?int $TotalDescent = null;
 
-    /**
-     * @var int|null
-     */
-    public $SelfEvaluationFeeling;
+    public ?int $SelfEvaluationFeeling = null;
 
-    /**
-     * @var int|null
-     */
-    public $SelfEvaluationPerceivedEffort;
+    public ?int $SelfEvaluationPerceivedEffort = null;
 
-    /**
-     * @var int|null
-     */
-    public $LoadPeak;
+    public ?int $LoadPeak = null;
 
     /**
      * @var int|null [s]
      */
-    public $RunTime;
+    public ?int $RunTime = null;
 
     /**
      * @var int|null [s]
      */
-    public $WalkTime;
+    public ?int $WalkTime = null;
 
     /**
      * @var int|null [s]
      */
-    public $StandTime;
+    public ?int $StandTime = null;
 
     /**
      * @var array|null [bpm] #TSC
      */
-    public $SecondsInHrZones;
+    public ?array $SecondsInHrZones = null;
 
     /**
      * @var int|null [ml]
      */
-    public $SweatLoss;
+    public ?int $SweatLoss = null;
 }

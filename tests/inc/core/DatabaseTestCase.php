@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -26,6 +28,11 @@ abstract class DatabaseTestCase extends TestCase
             }
         } catch (\Exception $exception) {
             // Ignore errors during rollback
+            throw new \RuntimeException(
+                'catched Exception: ' . $exception->getMessage(),
+                0,
+                $exception
+            );
         }
     }
 }

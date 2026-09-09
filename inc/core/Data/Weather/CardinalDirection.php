@@ -11,25 +11,22 @@ class CardinalDirection
 {
     /**
      * Direction in degree
-     * @var float
      */
-    protected $Value;
+    protected float $Value;
 
     /**
      * Construct wind degree object
-     * @param float $degrees
      */
-    public function __construct($degrees)
+    public function __construct(float $degrees)
     {
         $this->setDegree($degrees);
     }
 
     /**
-     * @param float $degrees
      * @throws \InvalidArgumentException
      * @return \Runalyze\Data\Weather\CardinalDirection $this-reference
      */
-    public function setDegree($degrees): self
+    public function setDegree(float $degrees): self
     {
         if (! is_numeric($degrees)) {
             throw new \InvalidArgumentException('Value must be numeric.');
@@ -40,10 +37,7 @@ class CardinalDirection
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function value()
+    public function value(): float
     {
         return $this->Value;
     }
@@ -55,9 +49,8 @@ class CardinalDirection
 
     /**
      * Get cardinal direction
-     * @param float $bearing
      */
-    public static function getDirection($bearing): string
+    public static function getDirection(float $bearing): string
     {
         if (! is_numeric($bearing)) {
             throw new \InvalidArgumentException('Argument must be numeric');

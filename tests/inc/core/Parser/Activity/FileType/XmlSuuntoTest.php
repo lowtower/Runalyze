@@ -11,10 +11,7 @@ use Runalyze\Util\LocalTime;
  */
 class XmlSuuntoTest extends AbstractActivityParserTestCase
 {
-    /**
-     * @var XmlSuunto
-     */
-    protected $Parser;
+    protected XmlSuunto $Parser;
 
     protected function setUp(): void
     {

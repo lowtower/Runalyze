@@ -7,10 +7,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RoundCollection
-     */
-    protected $Collection;
+    protected RoundCollection $Collection;
 
     protected function setUp(): void
     {
@@ -84,6 +81,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
     public function testOffsetSetWithBadType()
     {
         $this->expectException(\InvalidArgumentException::class);
+        // @phpstan-ignore offsetAssign.dimType, offsetAssign.valueType
         $this->Collection[] = 'foobar';
     }
 

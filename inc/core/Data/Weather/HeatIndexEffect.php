@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Data\Weather;
 
 use Runalyze\Common\Enum\AbstractEnum;
@@ -40,7 +42,7 @@ class HeatIndexEffect extends AbstractEnum
      * @param float $value value (in Fahrenheit)
      * @return int internal enum
      */
-    public static function levelFor($value): int
+    public static function levelFor(float $value): int
     {
         if ($value >= 130) {
             return self::EXTREME_DANGER;
@@ -66,7 +68,7 @@ class HeatIndexEffect extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function label($enum): string
+    public static function label(int $enum): string
     {
         switch ($enum) {
             case self::NO_EFFECT:
@@ -88,7 +90,7 @@ class HeatIndexEffect extends AbstractEnum
      * @param int $enum internal enum
      * @codeCoverageIgnore
      */
-    public static function colorFor($enum): string
+    public static function colorFor(int $enum): string
     {
         switch ($enum) {
             case self::CAUTION:
@@ -109,7 +111,7 @@ class HeatIndexEffect extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function description($enum): string
+    public static function description(int $enum): string
     {
         switch ($enum) {
             case self::NO_EFFECT:
@@ -131,7 +133,7 @@ class HeatIndexEffect extends AbstractEnum
      * @param int $enum internal enum
      * @codeCoverageIgnore
      */
-    public static function icon($enum): string
+    public static function icon(int $enum): string
     {
         $Tooltip = new \Runalyze\View\Tooltip(self::label($enum) . '<br>' . self::description($enum));
 
@@ -142,7 +144,7 @@ class HeatIndexEffect extends AbstractEnum
      * @param int $enum internal enum
      * @codeCoverageIgnore
      */
-    public static function fontIconName($enum): string
+    public static function fontIconName(int $enum): string
     {
         switch ($enum) {
             case self::CAUTION:

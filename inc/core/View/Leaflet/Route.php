@@ -18,11 +18,7 @@ use League\Geotools\Geotools;
  */
 class Route
 {
-    /**
-     * ID
-     * @var string
-     */
-    protected $id = '';
+    protected ?int $id = null;
 
     /**
      * JS-marker
@@ -69,17 +65,13 @@ class Route
 
     /**
      * Construct new route
-     * @param string $id
      */
-    public function __construct($id)
+    public function __construct(string $id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
     }
 
-    /**
-     * @return int
-     */
-    final public function id()
+    final public function id(): int
     {
         return $this->id;
     }

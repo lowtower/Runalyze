@@ -9,7 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    protected $ContinuousData;
+    protected ContinuousData $ContinuousData;
 
     protected function setUp(): void
     {

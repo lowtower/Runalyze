@@ -27,7 +27,6 @@ class StrideLength extends ActivityPointSeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {

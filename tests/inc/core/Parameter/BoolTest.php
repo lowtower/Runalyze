@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter;
 
 /**
@@ -7,10 +9,7 @@ namespace Runalyze\Parameter;
  */
 class ParameterBooleanTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter\Booleanean
-     */
-    protected $object;
+    protected \Runalyze\Parameter\Boolean $object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

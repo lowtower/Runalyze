@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::TrainingEffectLevel
  * @package Runalyze\Activity
@@ -47,13 +49,13 @@ class TrainingEffectLevel extends AbstractEnum
      * @return int internal enum
      * @throws \InvalidArgumentException
      */
-    public static function levelFor($value): int
+    public static function levelFor(float $value): int
     {
         if (! is_numeric($value) || $value < 1.0 || $value > 5.0) {
             throw new \InvalidArgumentException(sprintf('Provided training effect %s is invalid.', $value));
         }
 
-        if ($value == 5.0) {
+        if ($value === 5.0) {
             return self::OVERREACHING;
         }
 
@@ -77,7 +79,7 @@ class TrainingEffectLevel extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function label($enum): string
+    public static function label(int $enum): string
     {
         switch ($enum) {
             case self::EASY:
@@ -100,7 +102,7 @@ class TrainingEffectLevel extends AbstractEnum
      * @throws \InvalidArgumentException
      * @codeCoverageIgnore
      */
-    public static function description($enum): string
+    public static function description(int $enum): string
     {
         switch ($enum) {
             case self::EASY:

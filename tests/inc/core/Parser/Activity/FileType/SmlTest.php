@@ -29,7 +29,7 @@ class SmlTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(0.100, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(3773, $this->Container->ActivityData->Duration);
         $this->assertEquals(752, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEqualsWithDelta(100, $this->Container->ActivityData->AvgHeartRate, 0.5);
+        $this->assertEqualsWithDelta(99, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(113, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);

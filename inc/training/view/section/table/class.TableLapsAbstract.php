@@ -17,21 +17,14 @@ use Runalyze\View\Activity\Context;
  */
 abstract class TableLapsAbstract
 {
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
+    protected \Runalyze\View\Activity\Context $Context;
 
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected \Runalyze\Data\Laps\Laps $Laps;
 
     /**
      * Code
-     * @var string
      */
-    protected $Code = '';
+    protected string $Code = '';
 
     public function __construct(Context $context)
     {
@@ -42,10 +35,7 @@ abstract class TableLapsAbstract
 
     abstract protected function setCode();
 
-    /**
-     * @return string
-     */
-    final public function getCode()
+    final public function getCode(): string
     {
         return $this->Code;
     }

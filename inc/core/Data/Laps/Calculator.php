@@ -23,55 +23,28 @@ use Runalyze\Model\Trackdata;
  */
 class Calculator
 {
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected Laps $Laps;
 
-    /**
-     * @var array
-     */
-    protected $Distances = [];
+    protected array $Distances = [];
 
-    /**
-     * @var array
-     */
-    protected $Times = [];
+    protected array $Times = [];
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Loop
-     */
-    protected $TrackdataLoop;
+    protected \Runalyze\Model\Trackdata\Loop $TrackdataLoop;
 
-    /**
-     * @var \Runalyze\Model\Route\Loop
-     */
-    protected $RouteLoop;
+    protected ?\Runalyze\Model\Route\Loop $RouteLoop = null;
 
-    /**
-     * @var \Runalyze\Model\Swimdata\Loop
-     */
-    protected $SwimdataLoop;
+    protected ?\Runalyze\Model\Swimdata\Loop $SwimdataLoop = null;
 
-    /**
-     * @var bool
-     */
-    protected $CalculateAdditionalValues = false;
+    protected bool $CalculateAdditionalValues = false;
 
-    /**
-     * @var bool
-     */
-    protected $UsePreviousTrackpointForTimeLaps = false;
+    protected bool $UsePreviousTrackpointForTimeLaps = false;
 
     public function __construct(Laps $object)
     {
         $this->Laps = $object;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function calculateAdditionalValues($flag = true)
+    public function calculateAdditionalValues(bool $flag = true)
     {
         $this->CalculateAdditionalValues = $flag;
     }
@@ -102,10 +75,6 @@ class Calculator
         $this->Times = $lapTimes;
     }
 
-    /**
-     * @param \Runalyze\Model\Route\Entity $route
-     * @param \Runalyze\Model\Swimdata\Entity $swimdata
-     */
     public function calculateFrom(Trackdata\Entity $trackdata, ?Route\Entity $route = null, ?Swimdata\Entity $swimdata = null)
     {
         $this->TrackdataLoop = new Trackdata\Loop($trackdata);
@@ -160,9 +129,8 @@ class Calculator
     /**
      * Convert distance comma-separated string to array
      * + at the beginning means treat as intervals
-     * @return array
      */
-    public static function getDistancesFromString($distanceStr)
+    public static function getDistancesFromString(string $distanceStr): array
     {
         if (substr($distanceStr, 0, 1) == '+') {
             $distanceStr = substr($distanceStr, 1);
@@ -187,11 +155,8 @@ class Calculator
      * Convert times from comma-separated string to array
      * + at the beginning means treat as intervals
      * ' means minutes
-     *
-     * @param string $string
-     * @return array
      */
-    public static function getTimesFromString($string)
+    public static function getTimesFromString(string $string): array
     {
         $string = str_replace("'", ':00', $string);
 
@@ -214,14 +179,11 @@ class Calculator
         return $times;
     }
 
-    /**
-     * @param string $commaSeparatedString
-     */
-    private static function explodeTimeStrings($commaSeparatedString): array
+    private static function explodeTimeStrings(string $commaSeparatedString): array
     {
         $timeStrings = explode(',', $commaSeparatedString);
 
-        return array_map(function ($string) {
+        return array_map(function ($string): float {
             $Time = new Duration($string);
             return $Time->seconds();
         }, $timeStrings);
@@ -245,7 +207,7 @@ class Calculator
 
     protected function addElevationFor(Lap $Lap)
     {
-        if ($this->RouteLoop === null) {
+        if (! $this->RouteLoop instanceof \Runalyze\Model\Route\Loop) {
             return;
         }
 
@@ -265,7 +227,7 @@ class Calculator
         $SlicedTrackdata = $this->TrackdataLoop->sliceObject();
         $this->addTrackdataAveragesToDataFrom($SlicedTrackdata, $AdditionalData);
 
-        if ($this->SwimdataLoop !== null) {
+        if ($this->SwimdataLoop instanceof \Runalyze\Model\Swimdata\Loop) {
             $SlicedSwimdata = $this->SwimdataLoop->sliceObject();
             $this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
         }
@@ -350,7 +312,8 @@ class Calculator
 
             // first determine the lanes
             if ($Object->has(Swimdata\Entity::STROKE)) {
-                $AdditionalData['lanes'] = $NewLoop->num(Swimdata\Entity::STROKE);
+                # $AdditionalData['lanes'] = $NewLoop->num(Swimdata\Entity::STROKE);
+                $AdditionalData['lanes'] = $NewLoop->num();
             }
 
             // calculate stroke...swolf
@@ -398,26 +361,20 @@ class Calculator
         }
     }
 
-    /**
-     * @param float $kilometer
-     */
-    protected function moveToDistance($kilometer)
+    protected function moveToDistance(float $kilometer)
     {
         $this->TrackdataLoop->moveToDistance($kilometer);
 
-        if ($this->RouteLoop !== null) {
+        if ($this->RouteLoop instanceof \Runalyze\Model\Route\Loop) {
             $this->RouteLoop->goToIndex($this->TrackdataLoop->index());
         }
 
-        if ($this->SwimdataLoop !== null) {
+        if ($this->SwimdataLoop instanceof \Runalyze\Model\Swimdata\Loop) {
             $this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
         }
     }
 
-    /**
-     * @param int $seconds
-     */
-    protected function moveToTime($seconds)
+    protected function moveToTime(int $seconds)
     {
         if ($this->UsePreviousTrackpointForTimeLaps) {
             $this->TrackdataLoop->moveToTimeBeforeOrAt($seconds);
@@ -425,11 +382,11 @@ class Calculator
             $this->TrackdataLoop->moveToTime($seconds);
         }
 
-        if ($this->RouteLoop !== null) {
+        if ($this->RouteLoop instanceof \Runalyze\Model\Route\Loop) {
             $this->RouteLoop->goToIndex($this->TrackdataLoop->index());
         }
 
-        if ($this->SwimdataLoop !== null) {
+        if ($this->SwimdataLoop instanceof \Runalyze\Model\Swimdata\Loop) {
             $this->SwimdataLoop->goToIndex($this->TrackdataLoop->index());
         }
     }
@@ -438,11 +395,11 @@ class Calculator
     {
         $this->TrackdataLoop->goToEnd();
 
-        if ($this->RouteLoop !== null) {
+        if ($this->RouteLoop instanceof \Runalyze\Model\Route\Loop) {
             $this->RouteLoop->goToEnd();
         }
 
-        if ($this->SwimdataLoop !== null) {
+        if ($this->SwimdataLoop instanceof \Runalyze\Model\Swimdata\Loop) {
             $this->SwimdataLoop->goToEnd();
         }
     }
@@ -479,10 +436,8 @@ class Calculator
      *
      * Intended for swimming data where trackpoints commonly represent
      * complete pool lengths rather than one-second samples.
-     *
-     * @param bool $flag
      */
-    public function usePreviousTrackpointForTimeLaps($flag = true)
+    public function usePreviousTrackpointForTimeLaps(bool $flag = true)
     {
         $this->UsePreviousTrackpointForTimeLaps = $flag;
     }

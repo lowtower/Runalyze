@@ -31,30 +31,20 @@ class Temperature
 
     /**
      * Unit
-     * @var int
      */
-    protected $unit;
+    protected int $unit;
 
     /**
      * Temperature in celsius
-     * @var float
      */
-    protected $inCelsius;
+    protected ?float $inCelsius = null;
 
-    /**
-     * @param float|null $value
-     * @param int|null $unit
-     */
-    public function __construct($value = null, $unit = self::CELSIUS)
+    public function __construct(?float $value = null, ?int $unit = self::CELSIUS)
     {
         $this->setTemperature($value, $unit);
     }
 
-    /**
-     * @param float|null $value
-     * @param int|null $unit
-     */
-    public function setTemperature($value, $unit = null)
+    public function setTemperature(?float $value, ?int $unit = null)
     {
         if ($unit !== null) {
             $this->unit = $unit;
@@ -65,11 +55,8 @@ class Temperature
 
     /**
      * To celsius
-     * @param float|null $value
-     * @param int $unit
-     * @return float
      */
-    protected function toCelsiusFrom($value, $unit)
+    protected function toCelsiusFrom(?float $value, ?int $unit): ?float
     {
         if (! is_numeric($value)) {
             return null;
@@ -87,11 +74,8 @@ class Temperature
 
     /**
      * From celsius
-     * @param float|null $value
-     * @param int $unit
-     * @return float
      */
-    protected function fromCelsiusTo($value, $unit)
+    protected function fromCelsiusTo(?float $value, ?int $unit): ?float
     {
         if ($value === null) {
             return null;
@@ -134,7 +118,7 @@ class Temperature
     /**
      * @return null|float [°F]
      */
-    public function inFahrenheit()
+    public function inFahrenheit(): ?float
     {
         return $this->fromCelsiusTo($this->inCelsius, self::FAHRENHEIT);
     }
@@ -147,10 +131,7 @@ class Temperature
         return $this->inCelsius === null;
     }
 
-    /**
-     * @return null|int
-     */
-    public function value()
+    public function value(): ?float
     {
         return $this->fromCelsiusTo($this->inCelsius, $this->unit);
     }
@@ -166,15 +147,14 @@ class Temperature
     /**
      * As string without unit
      * @param string $stringForUnknown [optional]
-     * @return string
      */
-    public function asStringWithoutUnit($stringForUnknown = '?')
+    public function asStringWithoutUnit(string $stringForUnknown = '?'): string
     {
         if ($this->isUnknown()) {
             return $stringForUnknown;
         }
 
-        return round($this->value());
+        return (string) round($this->value());
     }
 
     public function unit(): string

@@ -45,7 +45,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidArgument()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         $this->Finder->checkForDuplicate('foobar');
     }
 

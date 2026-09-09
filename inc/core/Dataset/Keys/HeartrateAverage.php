@@ -107,9 +107,9 @@ class HeartrateAverage extends AbstractKey
     /**
      * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
      * #TSC
-     * @return array with key "class" and "style"
+     * @return ?array with key "class" and "style"
      */
-    public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray')
+    public static function hrBarCssStyle(?HeartRate $hr, ?string $class = 'bar gray'): ?array
     {
         $hrBpm = $hr->inBPM();
         $hrMin = $hr->getHRrest() ?: self::HR_MIN;

@@ -105,7 +105,7 @@ abstract class Category
     }
 
     /**
-     * @return \Runalyze\Configuration\Fieldset
+     * @return ?\Runalyze\Configuration\Fieldset
      */
     public function Fieldset()
     {
@@ -128,11 +128,10 @@ abstract class Category
 
     /**
      * Get value
-     * @param string $key
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    final protected function get($key)
+    final protected function get(string $key)
     {
         return $this->object($key)
             ->value();
@@ -140,11 +139,9 @@ abstract class Category
 
     /**
      * Get value object
-     * @param string $key
-     * @return \Runalyze\Parameter
      * @throws \InvalidArgumentException
      */
-    final protected function object($key)
+    final protected function object(string $key): Parameter
     {
         if (isset($this->Handles[$key])) {
             return $this->Handles[$key]->object();

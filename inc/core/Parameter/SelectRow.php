@@ -14,17 +14,14 @@ namespace Runalyze\Parameter;
  */
 class SelectRow extends Select
 {
-    /**
-     * @var bool
-     */
-    protected $UseFallback = false;
+    protected bool $UseFallback = false;
 
     /**
      * Construct
      * @param string $default
      * @param array $options [optional]
      */
-    public function __construct($default, $options = [])
+    public function __construct($default, array $options = [])
     {
         $options = array_merge(
             [
@@ -55,9 +52,8 @@ class SelectRow extends Select
 
     /**
      * Value allowed?
-     * @param string $value
      */
-    protected function valueIsAllowed($value): bool
+    protected function valueIsAllowed(string $value): bool
     {
         return true;
     }

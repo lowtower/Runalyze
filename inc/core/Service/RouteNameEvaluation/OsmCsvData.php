@@ -89,7 +89,7 @@ class OsmCsvData
      * @var string
      * on nodes: elevation on peaks or saddles (partly on huts); used for sorting
      */
-    public $elevation;
+    public ?string $elevation;
 
     /**
      * @var ?string
@@ -218,7 +218,7 @@ class OsmCsvData
         // peak/saddle
         if ($this->category == self::$CAT_PEAK) {
             // high must be substract, so if it higher it is upper in the sort
-            $ele = ! empty($this->elevation) ? 9999 - $this->elevation : 9999;
+            $ele = ! empty($this->elevation) ? 9999 - (float) $this->elevation : 9999;
             $o .= sprintf('pk1.hi%04d.', $ele);
         } else {
             $o .= sprintf('pk9.hi%04d.', 9999); // max high

@@ -23,7 +23,7 @@ class HRVwithoutAnomalies extends HRV
      */
     protected function initHRVData(Model\HRV\Entity $hrv)
     {
-        if (count($this->XAxisData) == $hrv->num()) {
+        if (count($this->XAxisData) === $hrv->num()) {
             $this->XAxis = DataCollector::X_AXIS_TIME;
             $this->defineFilteredDataAndAxis($hrv);
         } else {

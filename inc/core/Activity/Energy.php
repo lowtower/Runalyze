@@ -25,21 +25,19 @@ class Energy implements ValueInterface
 
     /**
      * Energy [kcal]
-     * @var int
      */
-    protected $Energy;
+    protected int $Energy;
 
     /**
      * Preferred unit
-     * @var \Runalyze\Parameter\Application\EnergyUnit
      */
-    protected $PreferredUnit;
+    protected EnergyUnit $PreferredUnit;
 
     /**
      * @param float $energy [kcal]
      * @param bool $withUnit [optional] with or without unit
      */
-    public static function format($energy, $withUnit = true): string
+    public static function format(float $energy, bool $withUnit = true): string
     {
         return (new self($energy))->string($withUnit);
     }
@@ -47,7 +45,7 @@ class Energy implements ValueInterface
     /**
      * @param float $energy [kcal]
      */
-    public function __construct($energy = 0, ?EnergyUnit $preferredUnit = null)
+    public function __construct(float $energy = 0, ?EnergyUnit $preferredUnit = null)
     {
         $this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\EnergyUnit) ? $preferredUnit : Configuration::General()->energyUnit();
 
@@ -59,10 +57,7 @@ class Energy implements ValueInterface
         return __('Energy');
     }
 
-    /**
-     * @return string
-     */
-    public function unit()
+    public function unit(): string
     {
         return $this->PreferredUnit->unit();
     }
@@ -84,7 +79,7 @@ class Energy implements ValueInterface
      * @param float $energy [kj]
      * @return \Runalyze\Activity\Energy $this-reference
      */
-    public function setKJ($energy): self
+    public function setKJ(float $energy): self
     {
         $this->Energy = (int) ($energy / self::KJ_MULTIPLIER);
         return $this;
@@ -94,7 +89,7 @@ class Energy implements ValueInterface
      * @param float $energy [mixed unit]
      * @return \Runalyze\Activity\Energy $this-reference
      */
-    public function setInPreferredUnit($energy): self
+    public function setInPreferredUnit(float $energy): self
     {
         if ($this->PreferredUnit->isKJ()) {
             $this->setKJ($energy);
@@ -109,7 +104,7 @@ class Energy implements ValueInterface
      * Format energy as string
      * @param bool $withUnit [optional] show unit?
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->PreferredUnit->isKJ()) {
             return $this->stringKJ($withUnit);
@@ -121,7 +116,7 @@ class Energy implements ValueInterface
     /**
      * @return int [kcal]
      */
-    public function value()
+    public function value(): int
     {
         return $this->Energy;
     }
@@ -129,7 +124,7 @@ class Energy implements ValueInterface
     /**
      * @return int [kcal]
      */
-    public function kcal()
+    public function kcal(): int
     {
         return $this->Energy;
     }
@@ -138,15 +133,15 @@ class Energy implements ValueInterface
      * Energy in Kilojule
      * @return int [kj]
      */
-    public function kj(): float
+    public function kj(): int
     {
-        return round($this->Energy * self::KJ_MULTIPLIER);
+        return (int) round($this->Energy * self::KJ_MULTIPLIER);
     }
 
     /**
      * @return int [mixed unit]
      */
-    public function valueInPreferredUnit()
+    public function valueInPreferredUnit(): int
     {
         if ($this->PreferredUnit->isKJ()) {
             return $this->kj();
@@ -160,7 +155,7 @@ class Energy implements ValueInterface
      * @param bool $withUnit [optional] show unit?
      * @return string with unit
      */
-    public function stringKcal($withUnit = true): string
+    public function stringKcal(bool $withUnit = true): string
     {
         return number_format($this->Energy, 0, '.', '') . ($withUnit ? '&nbsp;' . EnergyUnit::KCAL : '');
     }
@@ -170,7 +165,7 @@ class Energy implements ValueInterface
      * @param bool $withUnit [optional] show unit?
      * @return string with unit
      */
-    public function stringKJ($withUnit = true): string
+    public function stringKJ(bool $withUnit = true): string
     {
         return number_format($this->kj(), 0, '.', '') . ($withUnit ? '&nbsp;' . EnergyUnit::KJ : '');
     }

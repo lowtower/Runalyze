@@ -34,25 +34,23 @@ class DataBrowser
      * Timestamp for first day to be displayed
      * @var int [timestamp without any timezone]
      */
-    protected $TimestampStart;
+    protected int $TimestampStart;
 
     /**
      * Timestamp for last day to be displayed
      * @var int [timestamp without any timezone]
      */
-    protected $TimestampEnd;
+    protected int $TimestampEnd;
 
     /**
      * sportid to be displayed
-     * @var null|int
      */
-    protected $SportId;
+    protected ?int $SportId;
 
     /**
      * Number of days to be displayed
-     * @var int
      */
-    protected $DayCount;
+    protected int $DayCount;
 
     /**
      * Days to be displayed
@@ -82,37 +80,23 @@ class DataBrowser
 
     protected int $AccountID;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
-    /**
-     * @var \Runalyze\Dataset\Configuration
-     */
-    protected $DatasetConfig;
+    protected \Runalyze\Dataset\Configuration $DatasetConfig;
 
-    /**
-     * @var \Runalyze\Dataset\Query
-     */
-    protected $DatasetQuery;
+    protected \Runalyze\Dataset\Query $DatasetQuery;
 
-    /**
-     * @var \Runalyze\Model\Factory
-     */
-    protected $Factory;
+    protected \Runalyze\Model\Factory $Factory;
 
     /**
      * Number of additional columns
-     * @var int
      */
-    protected $AdditionalColumns = 2;
+    protected int $AdditionalColumns = 2;
 
     /**
      * Boolean flag: has current view no activities
-     * @var bool
      */
-    protected $AllDaysEmpty = true;
+    protected bool $AllDaysEmpty = true;
 
     public function __construct()
     {
@@ -156,7 +140,7 @@ class DataBrowser
             $this->TimestampEnd = $_GET['end'];
         }
 
-        $this->DayCount = round(($this->TimestampEnd - $this->TimestampStart) / 86400);
+        $this->DayCount = (int) round(($this->TimestampEnd - $this->TimestampStart) / 86400);
     }
 
     /**

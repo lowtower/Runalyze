@@ -36,49 +36,37 @@ class BasicEndurance
     /**
      * @var float [ml/kg/min]
      */
-    protected $EffectiveVO2max = 0.0;
+    protected float $EffectiveVO2max = 0.0;
 
     /**
      * Minimum distance to be recognized as a longjog
-     *
-     * @var float
      */
-    protected $MIN_KM_FOR_LONGJOG = 13;
+    protected float $MIN_KM_FOR_LONGJOG = 13;
 
     /**
      * Number of days for counting weekkilometer
-     *
-     * @var int
      */
-    protected $DAYS_FOR_WEEK_KM = 182;
+    protected int $DAYS_FOR_WEEK_KM = 182;
 
     /**
      * Minimum number of days for counting weekkilometer
-     *
-     * @var int
      */
-    protected $DAYS_FOR_WEEK_KM_MIN = 70;
+    protected int $DAYS_FOR_WEEK_KM_MIN = 70;
 
     /**
      * Number of days for counting longjogs
-     *
-     * @var int
      */
-    protected $DAYS_FOR_LONGJOGS = 70;
+    protected int $DAYS_FOR_LONGJOGS = 70;
 
     /**
      * Percentage for weekkilometer
-     *
-     * @var float
      */
-    protected $PERCENTAGE_WEEK_KM = 0.67;
+    protected float $PERCENTAGE_WEEK_KM = 0.67;
 
     /**
      * Percentage for longjogs
-     *
-     * @var float
      */
-    protected $PERCENTAGE_LONGJOGS = 0.33;
+    protected float $PERCENTAGE_LONGJOGS = 0.33;
 
     public function readSettingsFromConfiguration()
     {
@@ -96,7 +84,7 @@ class BasicEndurance
     /**
      * @param float $EffectiveVO2max [ml/kg/min]
      */
-    public function setEffectiveVO2max($EffectiveVO2max)
+    public function setEffectiveVO2max(float $EffectiveVO2max)
     {
         $this->EffectiveVO2max = $EffectiveVO2max;
     }
@@ -114,15 +102,12 @@ class BasicEndurance
      *
      * @param float $km minimal distance for longjog
      */
-    public function setMinimalDistanceForLongjogs($km)
+    public function setMinimalDistanceForLongjogs(float $km)
     {
         $this->MIN_KM_FOR_LONGJOG = $km;
     }
 
-    /**
-     * @return int
-     */
-    public function getMinimalDistanceForLongjogs()
+    public function getMinimalDistanceForLongjogs(): float
     {
         return $this->MIN_KM_FOR_LONGJOG;
     }
@@ -131,15 +116,12 @@ class BasicEndurance
      * @see setMinimalDaysToRecognizeForWeekKilometer()
      * @param int $days number of days
      */
-    public function setDaysToRecognizeForWeekKilometer($days)
+    public function setDaysToRecognizeForWeekKilometer(int $days)
     {
         $this->DAYS_FOR_WEEK_KM = $days;
     }
 
-    /**
-     * @return int
-     */
-    public function getDaysToRecognizeForWeekKilometer()
+    public function getDaysToRecognizeForWeekKilometer(): int
     {
         return $this->DAYS_FOR_WEEK_KM;
     }
@@ -152,15 +134,12 @@ class BasicEndurance
      *
      * @param int $days number of days
      */
-    public function setMinimalDaysToRecognizeForWeekKilometer($days)
+    public function setMinimalDaysToRecognizeForWeekKilometer(int $days)
     {
         $this->DAYS_FOR_WEEK_KM_MIN = $days;
     }
 
-    /**
-     * @return int
-     */
-    public function getMinimalDaysToRecognizeForWeekKilometer()
+    public function getMinimalDaysToRecognizeForWeekKilometer(): int
     {
         return $this->DAYS_FOR_WEEK_KM_MIN;
     }
@@ -168,15 +147,12 @@ class BasicEndurance
     /**
      * @param int $days number of days
      */
-    public function setDaysToRecognizeForLongjogs($days)
+    public function setDaysToRecognizeForLongjogs(int $days)
     {
         $this->DAYS_FOR_LONGJOGS = $days;
     }
 
-    /**
-     * @return int
-     */
-    public function getDaysToRecognizeForLongjogs()
+    public function getDaysToRecognizeForLongjogs(): int
     {
         return $this->DAYS_FOR_LONGJOGS;
     }
@@ -184,18 +160,15 @@ class BasicEndurance
     /**
      * Percentage has to be between 0 and 1. A value higher than 1 will be treated as 1.
      *
-     * @param int $percentage percentage between 0 and 1
+     * @param float $percentage percentage between 0 and 1
      */
-    public function setPercentageForWeekKilometer($percentage)
+    public function setPercentageForWeekKilometer(float $percentage)
     {
         $this->PERCENTAGE_WEEK_KM = min(1, abs($percentage));
         $this->PERCENTAGE_LONGJOGS = 1 - $this->PERCENTAGE_WEEK_KM;
     }
 
-    /**
-     * @return float
-     */
-    public function getPercentageForWeekKilometer()
+    public function getPercentageForWeekKilometer(): float
     {
         return $this->PERCENTAGE_WEEK_KM;
     }
@@ -203,18 +176,15 @@ class BasicEndurance
     /**
      * Percentage has to be between 0 and 1. A value higher than 1 will be treated as 1.
      *
-     * @param int $percentage percentage between 0 and 1
+     * @param float $percentage percentage between 0 and 1
      */
-    public function setPercentageForLongjogs($percentage)
+    public function setPercentageForLongjogs(float $percentage)
     {
         $this->PERCENTAGE_LONGJOGS = min(1, abs($percentage));
         $this->PERCENTAGE_WEEK_KM = 1 - $this->PERCENTAGE_LONGJOGS;
     }
 
-    /**
-     * @return float
-     */
-    public function getPercentageForLongjogs()
+    public function getPercentageForLongjogs(): float
     {
         return $this->PERCENTAGE_LONGJOGS;
     }
@@ -224,9 +194,9 @@ class BasicEndurance
      * @param array $data [optional] array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      * @return array array('weekkm-result', 'longjog-result', 'weekkm-percentage', 'longjog-percentage', 'percentage')
      */
-    public function asArray($timestamp = 0, array $data = []): array
+    public function asArray(int $timestamp = 0, array $data = []): array
     {
-        if ($timestamp == 0) {
+        if ($timestamp === 0) {
             $timestamp = time();
         }
 
@@ -252,7 +222,7 @@ class BasicEndurance
      * @param int $timestamp [optional] timestamp
      * @return int calculated value
      */
-    public function value($timestamp = 0)
+    public function value(int $timestamp = 0): int
     {
         $Result = $this->asArray($timestamp);
 
@@ -262,7 +232,7 @@ class BasicEndurance
     /**
      * @param int $timestamp [optional] timestamp
      */
-    public function valueInPercent($timestamp = 0): string
+    public function valueInPercent(int $timestamp = 0): string
     {
         return min(100, max(0, $this->value($timestamp))) . ' &#37;';
     }
@@ -271,9 +241,9 @@ class BasicEndurance
      * @param int $timestamp [optional]
      * @param bool $onlyLongjogs [optional]
      */
-    public function getQuery($timestamp = 0, $onlyLongjogs = false): string
+    public function getQuery(int $timestamp = 0, bool $onlyLongjogs = false): string
     {
-        if ($timestamp == 0) {
+        if ($timestamp === 0) {
             $timestamp = LocalTime::fromServerTime(time())->setTime(23, 59, 59)->getTimestamp();
         } else {
             $timestamp = LocalTime::fromServerTime($timestamp)->setTime(23, 59, 59)->getTimestamp();
@@ -325,7 +295,7 @@ class BasicEndurance
      * @param array $activityData array(array('time' => ..., 'distance' => ...), array(...), ...)
      * @return array<string, int|float> array('km' => km sum in time range, 'sum' => sum of weighted points for long jogs)
      */
-    public function dataFor(array $activityData, $timestamp): array
+    public function dataFor(array $activityData, int $timestamp): array
     {
         $km = 0;
         $points = 0;
@@ -350,10 +320,7 @@ class BasicEndurance
         ];
     }
 
-    /**
-     * @return float
-     */
-    public function getDaysForWeekKm()
+    public function getDaysForWeekKm(): float
     {
         $diff = Time::diffInDays(START_TIME);
 
@@ -387,7 +354,7 @@ class BasicEndurance
     }
 
     /**
-     * @return int
+     * @return int|bool
      */
     public static function getConst()
     {

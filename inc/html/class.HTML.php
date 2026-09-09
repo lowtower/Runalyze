@@ -128,9 +128,8 @@ class HTML
 
     /**
      * Return a header
-     * @param string $text
      */
-    public static function h1($text): string
+    public static function h1(string $text): string
     {
         return '<h1>' . $text . '</h1>';
     }
@@ -145,11 +144,8 @@ class HTML
 
     /**
      * Wrap value in span for plus/minus
-     * @param float $value
-     * @param float $ignorance
-     * @return string
      */
-    public static function plusMinus($value, $ignorance = 0)
+    public static function plusMinus(float $value, float $ignorance = 0.0): string
     {
         if ($value > +$ignorance) {
             return '<span class="plus">' . $value . '</span>';
@@ -159,7 +155,7 @@ class HTML
             return '<span class="minus">' . $value . '</span>';
         }
 
-        return $value;
+        return (string) $value;
     }
 
     /**

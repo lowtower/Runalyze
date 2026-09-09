@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Configuration;
 
 use Runalyze\Parameter\Integer;
@@ -23,7 +25,7 @@ class ConfigurationCategory_MockTester extends Category
         return $this->get('TEST');
     }
 
-    public function Second()
+    public function Second(): \Runalyze\Parameter
     {
         return $this->object('SECOND');
     }
@@ -35,7 +37,7 @@ class ConfigurationCategory_MockTester extends Category
 class ConfigurationCategoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Runalyze\Configuration\Category
+     * @var \Runalyze\Configuration\Category&\Runalyze\Configuration\ConfigurationCategory_MockTester
      */
     protected $object;
 

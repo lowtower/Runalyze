@@ -17,16 +17,13 @@ class GroundcontactBalance implements ValueInterface
 {
     /**
      * Value [%oo L]
-     * @var int
      */
-    protected $BasisPoint;
+    protected int $BasisPoint;
 
     /**
      * Format groundcontact balance
-     * @param int $basispoint
-     * @param bool $withUnit
      */
-    public static function format($basispoint, $withUnit = true): string
+    public static function format(int $basispoint, bool $withUnit = true): string
     {
         return (new self($basispoint))->string($withUnit);
     }
@@ -34,7 +31,7 @@ class GroundcontactBalance implements ValueInterface
     /**
      * @param int $basispoint [%oo L]
      */
-    public function __construct($basispoint = 0)
+    public function __construct(int $basispoint = 0)
     {
         $this->BasisPoint = $basispoint;
     }
@@ -69,9 +66,9 @@ class GroundcontactBalance implements ValueInterface
      * @param float $percent [% L]
      * @return \Runalyze\Activity\GroundcontactBalance $this-reference
      */
-    public function setPercent($percent): self
+    public function setPercent(float $percent): self
     {
-        $this->BasisPoint = 100 * $percent;
+        $this->BasisPoint = (int) (100 * $percent);
 
         return $this;
     }
@@ -80,16 +77,15 @@ class GroundcontactBalance implements ValueInterface
      * Get groundcontact balance
      * @return int [%oo]
      */
-    public function value()
+    public function value(): int
     {
         return $this->BasisPoint;
     }
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->isKnown()) {
             $string = $this->leftInPercent() . 'L/' . $this->rightInPercent() . 'R';

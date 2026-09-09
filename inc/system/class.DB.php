@@ -19,7 +19,7 @@ class DB
 {
     /**
      * Private PDO instance
-     * @var PDO
+     * @var PDOforRunalyze
      */
     private static $PDO;
 
@@ -46,9 +46,8 @@ class DB
 
     /**
      * Returns DB instance or create initial connection
-     * @return PDOforRunalyze
      */
-    public static function getInstance()
+    public static function getInstance(): PDOforRunalyze
     {
         if (! self::$PDO) {
             throw new RuntimeException('No active database connection.');

@@ -22,45 +22,39 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
      */
     protected $CurrentLine = false;
 
-    /**
-     * @var string
-     */
-    protected $CurrentHeader = '';
+    protected string $CurrentHeader = '';
 
     /**
-     * @var int [s]
+     * @var float [s]
      */
-    protected $TotalSplitsTime = 0;
+    protected float $TotalSplitsTime = 0.0;
 
-    /**
-     * @var bool
-     */
-    protected $RecordsAltitude = true;
+    protected bool $RecordsAltitude = true;
 
     /**
      * @var bool uses imperial units (miles, mp/h, ft)
      */
-    protected $UsesImperialUnits = false;
+    protected bool $UsesImperialUnits = false;
 
     /**
      * @var float factor to transform km/h or mph to s/km
      */
-    protected $PaceFactor = 3600.0;
+    protected float $PaceFactor = 3600.0;
 
     /**
      * @var float factor to transform m or ft to m
      */
-    protected $DistanceFactor = 1.0;
+    protected float $DistanceFactor = 1.0;
 
     /**
      * @var int [s]
      */
-    protected $RecordingInterval = 1;
+    protected int $RecordingInterval = 1;
 
     /**
-     * @var int [s]
+     * @var float [s]
      */
-    protected $TotalTime = 0;
+    protected float $TotalTime = 0.0;
 
     public function parse()
     {
@@ -98,11 +92,11 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
             $this->Container->Metadata->setTimestampAndTimezoneOffsetFrom(substr($this->CurrentLine, 5) . ' 00:00');
         } elseif (substr($this->CurrentLine, 0, 9) == 'StartTime') {
             $this->Container->Metadata->setTimestamp(
-                $this->Container->Metadata->getTimestamp() + (new Duration(substr($this->CurrentLine, 10)))->seconds(),
+                $this->Container->Metadata->getTimestamp() + (int) ((new Duration(substr($this->CurrentLine, 10)))->seconds()),
                 $this->Container->Metadata->getTimezoneOffset()
             );
         } elseif (substr($this->CurrentLine, 0, 6) == 'Length') {
-            $this->Container->ActivityData->Duration = (new Duration(substr($this->CurrentLine, 7)))->seconds();
+            $this->Container->ActivityData->Duration = ((new Duration(substr($this->CurrentLine, 7)))->seconds());
         } elseif (substr($this->CurrentLine, 0, 8) == 'Interval') {
             $this->RecordingInterval = (int) trim(substr($this->CurrentLine, 9));
         } elseif (substr($this->CurrentLine, 0, 4) == 'Mode') {
@@ -142,7 +136,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
     {
         $values = preg_split('/[\s]+/', $this->CurrentLine);
 
-        if ($this->RecordingInterval == self::RR_DATA_INTERVAL) {
+        if ($this->RecordingInterval === self::RR_DATA_INTERVAL) {
             $rr = (int) trim($values[0]);
 
             if ($rr <= 0) {
@@ -152,7 +146,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
             $this->TotalTime += $rr / 1000;
 
             $this->Container->ContinuousData->Time[] = round($this->TotalTime);
-            $this->Container->ContinuousData->HeartRate[] = round(60000 / $rr);
+            $this->Container->ContinuousData->HeartRate[] = (int) round(60000 / $rr);
             $this->Container->RRIntervals[] = $rr;
         } else {
             $this->TotalTime += $this->RecordingInterval;

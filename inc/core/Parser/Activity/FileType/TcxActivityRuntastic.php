@@ -6,26 +6,20 @@ use SimpleXMLElement;
 
 class TcxActivityRuntastic extends TcxActivity
 {
-    /**
-     * @var int
-     */
-    protected $CurrentIndex = 0;
+    protected int $CurrentIndex = 0;
 
-    /**
-     * @var int
-     */
-    protected $LastActiveIndex = 0;
+    protected int $LastActiveIndex = 0;
 
     /**
      * @var int [bpm]
      */
-    protected $LastValidHR = 0;
+    protected int $LastValidHR = 0;
 
     protected function parseGeneralValues()
     {
         parent::parseGeneralValues();
 
-        $this->Container->ActivityData->Duration = (string) $this->Xml->Lap->TotalTimeSeconds;
+        $this->Container->ActivityData->Duration = (int) $this->Xml->Lap->TotalTimeSeconds;
     }
 
     protected function parseTrackpoint(SimpleXMLElement &$trackPoint)
@@ -35,7 +29,7 @@ class TcxActivityRuntastic extends TcxActivity
         }
 
         if (! empty($trackPoint->HeartRateBpm)) {
-            $this->LastValidHR = round($trackPoint->HeartRateBpm->Value);
+            $this->LastValidHR = (int) round($trackPoint->HeartRateBpm->Value);
         }
 
         $this->Container->ContinuousData->Time[] = $this->strtotime((string) $trackPoint->Time) - $this->Container->Metadata->getTimestamp();
@@ -59,10 +53,7 @@ class TcxActivityRuntastic extends TcxActivity
         $this->parseExtensionValues($trackPoint);
     }
 
-    /**
-     * @return int
-     */
-    protected function getCurrentPaceForRuntastic()
+    protected function getCurrentPaceForRuntastic(): int
     {
         $currDist = $this->Container->ContinuousData->Distance[$this->CurrentIndex];
         $lastDist = $this->Container->ContinuousData->Distance[$this->LastActiveIndex];
@@ -70,7 +61,7 @@ class TcxActivityRuntastic extends TcxActivity
         $lastTime = $this->Container->ContinuousData->Time[$this->LastActiveIndex];
 
         if ($currDist > $lastDist) {
-            return round(($currTime - $lastTime) / ($currDist - $lastDist));
+            return (int) round(($currTime - $lastTime) / ($currDist - $lastDist));
         }
 
         return 0;

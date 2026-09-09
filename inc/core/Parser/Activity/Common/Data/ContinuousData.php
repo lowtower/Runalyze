@@ -242,9 +242,9 @@ class ContinuousData
     }
 
     /**
-     * @return int|null [s]
+     * @return float|null [s]
      */
-    public function getTotalDuration()
+    public function getTotalDuration(): ?float
     {
         if ($this->Time !== [] && end($this->Time) > 0.0) {
             return end($this->Time);
@@ -256,7 +256,7 @@ class ContinuousData
     /**
      * @return float|null [km]
      */
-    public function getTotalDistance()
+    public function getTotalDistance(): ?float
     {
         if ($this->Distance !== [] && end($this->Distance) > 0.0) {
             return end($this->Distance);
@@ -268,7 +268,7 @@ class ContinuousData
     /**
      * @return int|null [bpm]
      */
-    public function getMaximalHeartRate()
+    public function getMaximalHeartRate(): ?int
     {
         if ($this->HeartRate !== []) {
             return max($this->HeartRate);
@@ -280,7 +280,7 @@ class ContinuousData
     /**
      * @return int|null [W]
      */
-    public function getMaximalPower()
+    public function getMaximalPower(): ?int
     {
         if ($this->Power !== []) {
             return max($this->Power);

@@ -1,37 +1,27 @@
 parameters:
     ignoreErrors:
         -
-            message: '#^Method Runalyze\\Bundle\\CoreBundle\\Component\\Configuration\\RunalyzeConfigurationList::get.*\(\) should return Runalyze\\Bundle\\CoreBundle\\Component\\Configuration\\Category\\\w+ but returns Runalyze\\Bundle\\CoreBundle\\Component\\Configuration\\Category\\AbstractCategory\.$#'
-            count: 10
-            path: src/CoreBundle/Component/Configuration/RunalyzeConfigurationList.php
-
-        -
-            message: '#^Constant PREFIX not found.$#'
-            paths:
-                - inc/
-                - plugin/
-                - src/CoreBundle/Component/Tool/VO2maxAnalysis/VO2maxAnalysis.php
-
-        -
-            message: '#^Constant FRONTEND_PATH not found.$#'
-            paths:
-                - inc/
-                - plugin/
-
-        -
             message: '#^Constant RUNALYZE_DATE not found\.$#'
             identifier: constant.notFound
             count: 1
             path: inc/tpl/tpl.Frontend.header.php
-
         -
             message: '#^Constant RUNALYZE_VERSION not found\.$#'
             identifier: constant.notFound
             count: 3
             path: inc/tpl/tpl.Frontend.header.php
-
         -
             message: '#^Variable \$this might not be defined\.$#'
             identifier: variable.undefined
             count: 1
             path: lib/jquery.form.include.php
+        -
+            message: '#^Call to an undefined method League\\Geotools\\Geohash\\GeohashInterface\:\:getCoordinate\(\)\.$#'
+            identifier: method.notFound
+            paths:
+                - inc/
+        -
+            message: '#^Call to an undefined method League\\Geotools\\Geohash\\GeohashInterface\:\:getGeohash\(\).$#'
+            identifier: method.notFound
+            paths:
+                - inc/

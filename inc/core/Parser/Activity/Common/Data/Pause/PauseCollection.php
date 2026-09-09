@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parser\Activity\Common\Data\Pause;
 
-class PauseCollection implements \Countable, \ArrayAccess
+class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
 {
     /**
      * @var Pause[]
@@ -24,6 +24,11 @@ class PauseCollection implements \Countable, \ArrayAccess
         foreach ($this->Elements as $i => $element) {
             $this->Elements[$i] = clone $element;
         }
+    }
+
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->Elements);
     }
 
     public function add(Pause $pause)
@@ -92,14 +97,11 @@ class PauseCollection implements \Countable, \ArrayAccess
         unset($this->Elements[$offset]);
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalDuration()
+    public function getTotalDuration(): float
     {
         return array_reduce(
             $this->getElements(),
-            function ($carry, Pause $pause) {
+            function ($carry, Pause $pause): float {
                 return $carry + $pause->getDuration();
             },
             0

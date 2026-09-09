@@ -19,13 +19,13 @@ class Pressure implements ValueInterface
     /**
      * @var float [hPa]
      */
-    protected $Value;
+    protected ?float $Value = null;
 
     /**
      * Construct Pressure
      * @param float|null $hectoPascals [hPa]
      */
-    public function __construct($hectoPascals = null)
+    public function __construct(?float $hectoPascals = null)
     {
         $this->set($hectoPascals);
     }
@@ -66,16 +66,15 @@ class Pressure implements ValueInterface
     /**
      * @return null|float [hPa]
      */
-    public function value()
+    public function value(): ?float
     {
         return $this->Value;
     }
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->isUnknown()) {
             return '';

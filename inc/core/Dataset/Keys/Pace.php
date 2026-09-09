@@ -79,7 +79,7 @@ class Pace extends AbstractKey
     public function stringFor(Context $context): string
     {
         $pace = $this->getPace($context);
-        if ($pace === null) {
+        if (! $pace instanceof \Runalyze\Activity\Pace) {
             return '';
         }
 
@@ -102,10 +102,7 @@ class Pace extends AbstractKey
         return 'small';
     }
 
-    /**
-     * @return \Runalyze\Activity\Pace
-     */
-    private function getPace(Context $context)
+    private function getPace(Context $context): ?\Runalyze\Activity\Pace
     {
         if ($context->activity()->distance() > 0) {
             if ($context->hasData(self::DURATION_SUM_WITH_DISTANCE_KEY)) {
@@ -132,7 +129,7 @@ class Pace extends AbstractKey
     /**
      * returns a value dependend CSS class and style.
      * #TSC
-     * @return array with key "class" and "style"
+     * @return ?array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
     {
@@ -141,7 +138,7 @@ class Pace extends AbstractKey
         }
 
         $pace = $this->getPace($context);
-        if ($pace !== null) {
+        if ($pace instanceof \Runalyze\Activity\Pace) {
             $minMax = self::P_MIN_MAX[$context->Sport()->getInternalProfileEnum()];
 
             $kmh = 1 / ($pace->secondsPerKm() / 60 / 60); // kmPerHour

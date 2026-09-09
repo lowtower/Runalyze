@@ -68,7 +68,7 @@ class InverseCalculator
 
         $sum = $trimp / ($hr * exp($Factor->B() * $hr));
 
-        $this->value = 1 / $Factor->A() * $sum * 60;
+        $this->value = (int) (1 / $Factor->A() * $sum * 60);
     }
 
     /**

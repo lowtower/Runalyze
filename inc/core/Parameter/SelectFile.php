@@ -14,23 +14,19 @@ namespace Runalyze\Parameter;
  */
 class SelectFile extends Select
 {
-    /**
-     * @var bool
-     */
-    protected $UseFallback = false;
+    protected bool $UseFallback = false;
 
     /**
      * Boolean flag: allow uppercase variants of file extensions
-     * @var bool
      */
-    protected $AllowUppercaseVariants = true;
+    protected bool $AllowUppercaseVariants = true;
 
     /**
      * Construct
      * @param string $default
      * @param array $options [optional]
      */
-    public function __construct($default, $options = [])
+    public function __construct($default, array $options = [])
     {
         $options = array_merge(
             [
@@ -46,17 +42,13 @@ class SelectFile extends Select
 
     /**
      * Allowed file extensions
-     * @return array
      */
-    public function extensions()
+    public function extensions(): array
     {
         return $this->Options['extensions'];
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function allowUppercaseVariants($flag = true)
+    public function allowUppercaseVariants(bool $flag = true)
     {
         $this->AllowUppercaseVariants = $flag;
     }
@@ -77,9 +69,8 @@ class SelectFile extends Select
 
     /**
      * File allowed?
-     * @param string $fileName
      */
-    protected function valueIsAllowed($fileName): bool
+    protected function valueIsAllowed(string $fileName): bool
     {
         $firstChar = substr($fileName, 0, 1);
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);

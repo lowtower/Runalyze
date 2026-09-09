@@ -25,22 +25,20 @@ class Temperature implements ValueInterface
 
     /**
      * Temperature [°C]
-     * @var float|null
      */
-    protected $Temperature;
+    protected ?float $Temperature = null;
 
     /**
      * Preferred unit
-     * @var \Runalyze\Parameter\Application\TemperatureUnit
      */
-    protected $PreferredUnit;
+    protected TemperatureUnit $PreferredUnit;
 
     /**
      * @param float|null $temperature [°C]
      * @param bool $withUnit [optional] with or without unit
-     * @param int $decimals [optional] number of decimals
+     * @param int|bool $decimals [optional] number of decimals
      */
-    public static function format($temperature, $withUnit = true, $decimals = false): string
+    public static function format(?float $temperature, bool $withUnit = true, $decimals = false): string
     {
         return (new self($temperature))->string($withUnit, $decimals);
     }
@@ -48,9 +46,9 @@ class Temperature implements ValueInterface
     /**
      * @param float|null $temperature [°C]
      */
-    public function __construct($temperature = null, ?TemperatureUnit $preferredUnit = null)
+    public function __construct(?float $temperature = null, ?TemperatureUnit $preferredUnit = null)
     {
-        $this->PreferredUnit = ($preferredUnit instanceof \Runalyze\Parameter\Application\TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
+        $this->PreferredUnit = ($preferredUnit instanceof TemperatureUnit) ? $preferredUnit : Configuration::General()->temperatureUnit();
 
         $this->set($temperature);
     }
@@ -60,10 +58,7 @@ class Temperature implements ValueInterface
         return __('Temperature');
     }
 
-    /**
-     * @return string
-     */
-    public function unit()
+    public function unit(): string
     {
         return $this->PreferredUnit->unit();
     }
@@ -120,7 +115,7 @@ class Temperature implements ValueInterface
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
      */
-    public function string($withUnit = true, $decimals = false): string
+    public function string(bool $withUnit = true, $decimals = false): string
     {
         if ($this->PreferredUnit->isFahrenheit()) {
             return $this->stringFahrenheit($withUnit, $decimals);
@@ -132,7 +127,7 @@ class Temperature implements ValueInterface
     /**
      * @return float|null [°C]
      */
-    public function value()
+    public function value(): ?float
     {
         return $this->Temperature;
     }
@@ -140,7 +135,7 @@ class Temperature implements ValueInterface
     /**
      * @return float|null [°C]
      */
-    public function celsius()
+    public function celsius(): ?float
     {
         return $this->Temperature;
     }
@@ -149,7 +144,7 @@ class Temperature implements ValueInterface
      * Temperature in fahrenheit
      * @return float|null [°F]
      */
-    public function fahrenheit()
+    public function fahrenheit(): ?float
     {
         if ($this->isEmpty()) {
             return null;
@@ -169,7 +164,7 @@ class Temperature implements ValueInterface
     /**
      * @return float|null [mixed unit]
      */
-    public function valueInPreferredUnit()
+    public function valueInPreferredUnit(): ?float
     {
         if ($this->PreferredUnit->isFahrenheit()) {
             return $this->fahrenheit();
@@ -184,7 +179,7 @@ class Temperature implements ValueInterface
      * @param bool|int $decimals [optional] number of decimals
      * @return string with unit
      */
-    public function stringCelsius($withUnit = true, $decimals = false): string
+    public function stringCelsius(bool $withUnit = true, $decimals = false): string
     {
         if ($this->isEmpty()) {
             return '';
@@ -201,7 +196,7 @@ class Temperature implements ValueInterface
      * @param bool|int $decimals [optional] number of decimals
      * @return string with unit
      */
-    public function stringFahrenheit($withUnit = true, $decimals = false): string
+    public function stringFahrenheit(bool $withUnit = true, $decimals = false): string
     {
         if ($this->isEmpty()) {
             return '';

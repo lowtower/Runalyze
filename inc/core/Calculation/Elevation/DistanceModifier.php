@@ -23,43 +23,38 @@ class DistanceModifier
 {
     /**
      * Distance to add for 1m positive elevation
-     * @var int
      */
-    protected $PositiveCorrector = 0;
+    protected int $PositiveCorrector = 0;
 
     /**
      * Distance to add for 1m negative elevation
-     * @var int
      */
-    protected $NegativeCorrector = 0;
+    protected int $NegativeCorrector = 0;
 
     /**
      * Distance
-     * @var float
      */
-    protected $Distance;
+    protected float $Distance;
 
     /**
      * Elevation up
-     * @var int
      */
-    protected $Up;
+    protected int $Up;
 
     /**
      * Elevation down
-     * @var int
      */
-    protected $Down;
+    protected int $Down;
 
     /**
      * Construct
      *
-     *@param float $distance [optional] [km]
-     * @param int $up [optional] [m]
-     * @param int $down [optional] [m]
+     * @param ?float $distance [optional] [km]
+     * @param ?int $up [optional] [m]
+     * @param ?int $down [optional] [m]
      * @param \Runalyze\Configuration\Category\VO2max $config [optional]
      */
-    public function __construct($distance = 0, $up = 0, $down = 0, ?Configuration\Category\VO2max $config = null)
+    public function __construct(?float $distance = 0, ?int $up = 0, ?int $down = 0, ?Configuration\Category\VO2max $config = null)
     {
         if ($config instanceof \Runalyze\Configuration\Category\VO2max) {
             $this->setCorrectionValues($config->correctionForPositiveElevation(), $config->correctionForNegativeElevation());
@@ -71,21 +66,22 @@ class DistanceModifier
 
     /**
      * Distance
-     * @param float $distance [km]
+     * @param ?float $distance [km]
      */
-    public function setDistance($distance)
+    public function setDistance(?float $distance)
     {
-        $this->Distance = $distance;
+        $this->Distance = (float) $distance;
     }
 
     /**
-     * @param int $up [m]
-     * @param int $down [m]
+     * @param ?int $up [m]
+     * @param ?int $down [m]
+     * (int) type casting results in 0 elevation up or down
      */
-    public function setElevation($up, $down)
+    public function setElevation(?int $up, ?int $down)
     {
-        $this->Up = $up;
-        $this->Down = $down;
+        $this->Up = (int) $up;
+        $this->Down = (int) $down;
     }
 
     /**
@@ -101,15 +97,15 @@ class DistanceModifier
     /**
      * @return float [km]
      */
-    public function additionalDistance()
+    public function additionalDistance(): float
     {
-        return ($this->PositiveCorrector * (int) $this->Up + $this->NegativeCorrector * (int) $this->Down) / 1000;
+        return ($this->PositiveCorrector * $this->Up + $this->NegativeCorrector * $this->Down) / 1000;
     }
 
     /**
      * @return float [km]
      */
-    public function correctedDistance()
+    public function correctedDistance(): float
     {
         return $this->Distance + $this->additionalDistance();
     }

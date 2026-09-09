@@ -45,10 +45,7 @@ class RaceAnalysis
         return LocalTime::date('d.m.Y', $this->Activity->timestamp());
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->Activity->title();
     }

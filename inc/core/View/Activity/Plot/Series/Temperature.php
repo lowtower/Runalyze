@@ -26,7 +26,6 @@ class Temperature extends ActivitySeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -67,7 +66,7 @@ class Temperature extends ActivitySeries
      * @param int $decimals [optional]
      * @return int
      */
-    protected function avg($decimals = 1)
+    protected function avg(int $decimals = 1)
     {
         return parent::avg($decimals);
     }

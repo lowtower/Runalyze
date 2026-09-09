@@ -45,10 +45,7 @@ class FitPerformanceConditionStart extends AbstractKey
         );
     }
 
-    /**
-     * @return string
-     */
-    public function stringFor(Context $context)
+    public function stringFor(Context $context): string
     {
         return $context->dataview()
             ->fitPerformanceConditionStart();

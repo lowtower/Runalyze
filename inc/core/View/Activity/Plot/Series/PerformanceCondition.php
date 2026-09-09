@@ -25,7 +25,6 @@ class PerformanceCondition extends ActivitySeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -54,11 +53,11 @@ class PerformanceCondition extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
-        if (! empty($this->Data)) {
+        if ($this->Data !== []) {
             // #TSC different colored areas based on the garmin-connect documentation help
             $Plot->addMarkingArea('y' . $yAxis, 10.5, 20.5, 'rgba( 50, 255, 50, 0.30)'); // excellent
             $Plot->addMarkingArea('y' . $yAxis, 1.5, 10.5, 'rgba( 50, 255, 50, 0.15)'); // good

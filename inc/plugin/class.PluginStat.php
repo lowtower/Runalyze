@@ -297,7 +297,7 @@ abstract class PluginStat extends Plugin
             return __('Last 12 months');
         }
 
-        return $this->year;
+        return (string) $this->year;
     }
 
     /**

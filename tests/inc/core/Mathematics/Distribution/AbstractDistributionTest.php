@@ -7,22 +7,25 @@ use Runalyze\Mathematics\Distribution\AbstractDistribution;
 class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param int[] $histogram
-     * @return AbstractDistribution
+     * Creates a mock object of AbstractDistribution with a predefined histogram.
+     *
+     * @param array<int, int> $histogram
+     * @return AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getMockWithHistogram(array $histogram): \PHPUnit\Framework\MockObject\MockObject
     {
-        $dist = $this->getMockForAbstractClass(AbstractDistribution::class);
-        $dist->expects($this->any())
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $mock */
+        $mock = $this->getMockForAbstractClass(AbstractDistribution::class);
+        $mock->expects($this->any())
             ->method('histogram')
             ->willReturn($histogram);
 
-        /** @var AbstractDistribution $dist */
-        return $dist;
+        return $mock;
     }
 
     public function testSomeHistogram()
     {
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             10 => 1,
             15 => 2,
@@ -42,6 +45,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testAnotherHistogram()
     {
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             0 => 5,
             80 => 10,
@@ -62,6 +66,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyHistogram()
     {
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
         $dist->calculateStatistic();
 
@@ -77,6 +82,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testRequestingNotGeneratedQuantile()
     {
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
 
         $this->expectException(\InvalidArgumentException::class);
@@ -86,6 +92,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 
     public function testQuantiles()
     {
+        /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
             10 => 1,
             20 => 5,

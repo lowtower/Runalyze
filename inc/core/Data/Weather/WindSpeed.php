@@ -25,18 +25,15 @@ class WindSpeed implements ValueInterface
      * Wind Speed
      * @var float|null [km/h]
      */
-    protected $KilometerPerHour;
+    protected ?float $KilometerPerHour = null;
 
-    /**
-     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected DistanceUnitSystem $UnitSystem;
 
     /**
      * Wind speed
      * @param float|null $kilometerPerHour [km/h]
      */
-    public function __construct($kilometerPerHour = null, ?DistanceUnitSystem $unitSystem = null)
+    public function __construct(?float $kilometerPerHour = null, ?DistanceUnitSystem $unitSystem = null)
     {
         $this->set($kilometerPerHour);
         $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
@@ -45,7 +42,7 @@ class WindSpeed implements ValueInterface
     /**
      * @return float [mixed unit]
      */
-    public function valueInPreferredUnit()
+    public function valueInPreferredUnit(): float
     {
         if ($this->UnitSystem->isImperial()) {
             return $this->inMilesPerHour();
@@ -79,7 +76,7 @@ class WindSpeed implements ValueInterface
      * @param float $kilometerPerHour [km/h]
      * @return \Runalyze\Data\Weather\WindSpeed $this-reference
      */
-    public function setKilometerPerHour($kilometerPerHour): self
+    public function setKilometerPerHour(?float $kilometerPerHour): self
     {
         return $this->set($kilometerPerHour);
     }
@@ -89,7 +86,7 @@ class WindSpeed implements ValueInterface
      * @param float $meterPerSecond [m/s]
      * @return \Runalyze\Data\Weather\WindSpeed $this-reference
      */
-    public function setMeterPerSecond($meterPerSecond): self
+    public function setMeterPerSecond(?float $meterPerSecond): self
     {
         $this->KilometerPerHour = $meterPerSecond * 3.6;
 
@@ -101,7 +98,7 @@ class WindSpeed implements ValueInterface
      * @param float $milesPerHour [mph]
      * @return \Runalyze\Data\Weather\WindSpeed $this-reference
      */
-    public function setMilesPerHour($milesPerHour): self
+    public function setMilesPerHour(?float $milesPerHour): self
     {
         $this->KilometerPerHour = $milesPerHour / DistanceUnitSystem::MILE_MULTIPLIER;
 
@@ -112,7 +109,7 @@ class WindSpeed implements ValueInterface
      * @param float $windspeed [mixed unit]
      * @return \Runalyze\Data\Weather\WindSpeed $this-reference
      */
-    public function setInPreferredUnit($windspeed): self
+    public function setInPreferredUnit(?float $windspeed): self
     {
         if ($this->UnitSystem->isImperial()) {
             $this->setMilesPerHour($windspeed);
@@ -134,7 +131,7 @@ class WindSpeed implements ValueInterface
     /**
      * @return null|float [km/h]
      */
-    public function value()
+    public function value(): ?float
     {
         return $this->KilometerPerHour;
     }
@@ -143,7 +140,7 @@ class WindSpeed implements ValueInterface
      * Wind speed in miles per hour
      * @return null|float [km/h]
      */
-    public function inKilometerPerHour()
+    public function inKilometerPerHour(): ?float
     {
         return $this->KilometerPerHour;
     }
@@ -152,7 +149,7 @@ class WindSpeed implements ValueInterface
      * Wind speed in miles per hour
      * @return null|float [mph]
      */
-    public function inMilesPerHour(): float
+    public function inMilesPerHour(): ?float
     {
         return $this->KilometerPerHour * DistanceUnitSystem::MILE_MULTIPLIER;
     }
@@ -166,10 +163,7 @@ class WindSpeed implements ValueInterface
         return PaceUnit::stringFor(PaceUnit::KM_PER_H);
     }
 
-    /*
-     * @return string
-     */
-    public function string($withUnit = true, $decimals = 0): string
+    public function string(bool $withUnit = true, $decimals = 0): string
     {
         if ($this->isUnknown()) {
             return '';

@@ -23,9 +23,6 @@ use Runalyze\View\Plot\Series as PlotSeries;
  */
 class ElevationAlgorithms extends ActivityPlot
 {
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
     protected $Context;
 
     /**

@@ -18,7 +18,7 @@ class Integer extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString($valueAsString)
+    public function setFromString(string $valueAsString)
     {
         $this->set((int) $valueAsString);
     }

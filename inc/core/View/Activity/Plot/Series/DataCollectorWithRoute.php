@@ -27,10 +27,9 @@ class DataCollectorWithRoute extends DataCollector
 
     /**
      * Construct collector
-     * @param int $key
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, $key, Route $route)
+    public function __construct(Trackdata $trackdata, string $key, Route $route)
     {
         if (! $route->has($key)) {
             throw new \InvalidArgumentException('Route has no data for "' . $key . '".');
@@ -55,9 +54,9 @@ class DataCollectorWithRoute extends DataCollector
 
             $value = $this->LoopRoute->average($this->Key);
 
-            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+            if ($this->XAxis === self::X_AXIS_DISTANCE) {
                 $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+            } elseif ($this->XAxis === self::X_AXIS_TIME) {
                 $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
             } else {
                 $this->Data[] = $value;

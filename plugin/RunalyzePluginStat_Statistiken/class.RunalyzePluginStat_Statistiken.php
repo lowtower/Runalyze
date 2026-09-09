@@ -21,15 +21,13 @@ class RunalyzePluginStat_Statistiken extends PluginStat
 {
     /**
      * Sport
-     * @var array
      */
-    protected $Sport = [];
+    protected array $Sport = [];
 
     /**
      * Dataset for converting and showing data
-     * @var \Runalyze\Dataset\Configuration
      */
-    protected $DatasetConfig;
+    protected \Runalyze\Dataset\Configuration $DatasetConfig;
 
     final public function name(): string
     {

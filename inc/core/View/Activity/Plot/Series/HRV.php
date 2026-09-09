@@ -35,7 +35,6 @@ class HRV extends ActivityPointSeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -49,7 +48,7 @@ class HRV extends ActivityPointSeries
      */
     protected function initHRVData(Model\HRV\Entity $hrv)
     {
-        if (count($this->XAxisData) == $hrv->num()) {
+        if (count($this->XAxisData) === $hrv->num()) {
             $this->XAxis = DataCollector::X_AXIS_TIME;
             $this->Data = array_combine($this->XAxisData, $hrv->data());
         } else {
@@ -109,7 +108,7 @@ class HRV extends ActivityPointSeries
      * @param int $decimals [optional]
      * @return int
      */
-    protected function avg($decimals = 2)
+    protected function avg(int $decimals = 2)
     {
         return parent::avg($decimals);
     }

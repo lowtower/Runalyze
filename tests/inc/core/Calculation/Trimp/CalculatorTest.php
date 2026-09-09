@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Calculation\Trimp;
 
 use Runalyze\Athlete;
@@ -79,7 +81,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $adaptedData = [];
         $dataToAdapt = $this->hrData();
         foreach ($dataToAdapt as $hr => $t) {
-            $adaptedData[$hr - 0.5 * (Calculator::DEFAULT_HR_REST - 40)] = $t;
+            $adaptedData[(int) ($hr - 0.5 * (Calculator::DEFAULT_HR_REST - 40))] = $t;
         }
 
         $WithHRrestDefault = new Calculator(new Athlete(null, Calculator::DEFAULT_HR_MAX, Calculator::DEFAULT_HR_REST), $this->hrData());

@@ -8,8 +8,5 @@ use Runalyze\Parser\Activity\Common\ParserInterface;
 
 interface FileContentAwareParserInterface extends ParserInterface
 {
-    /**
-     * @param string $content
-     */
-    public function setFileContent($content);
+    public function setFileContent(string $content);
 }

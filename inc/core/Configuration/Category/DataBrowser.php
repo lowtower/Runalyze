@@ -39,9 +39,11 @@ class DataBrowser extends \Runalyze\Configuration\Category
     /**
      * @return DataBrowserMode
      */
-    public function mode()
+    public function mode(): \Runalyze\Parameter
     {
-        return $this->object('DB_DISPLAY_MODE');
+        /** @var \Runalyze\Parameter\Application\DataBrowserMode $parameter */
+        $parameter = $this->object('DB_DISPLAY_MODE');
+        return $parameter;
     }
 
     /**

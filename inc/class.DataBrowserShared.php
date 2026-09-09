@@ -18,20 +18,15 @@ class DataBrowserShared extends DataBrowser
 {
     /**
      * Number of additional columns
-     * @var int
      */
-    protected $AdditionalColumns = 3;
+    protected int $AdditionalColumns = 3;
 
     /**
      * Boolean flag: show public link for trainings
-     * @var bool
      */
-    protected $ShowPublicLink = true;
+    protected bool $ShowPublicLink = true;
 
-    /**
-     * @var bool
-     */
-    protected $ShowEditLink = false;
+    protected bool $ShowEditLink = false;
 
     /**
      * Init pointer to DB/Error-object
@@ -53,7 +48,7 @@ class DataBrowserShared extends DataBrowser
         $this->TimestampStart = isset($_GET['start']) && is_numeric($_GET['start']) ? $_GET['start'] : LocalTime::fromString('first day of this month 00:00:00')->getTimestamp();
         $this->TimestampEnd = isset($_GET['end']) && is_numeric($_GET['end']) ? $_GET['end'] : LocalTime::fromString('last day of this month 23:59:59')->getTimestamp();
 
-        $this->DayCount = round(($this->TimestampEnd - $this->TimestampStart) / 86400);
+        $this->DayCount = (int) round(($this->TimestampEnd - $this->TimestampStart) / 86400);
     }
 
     /**

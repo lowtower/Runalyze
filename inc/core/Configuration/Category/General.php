@@ -55,9 +55,11 @@ class General extends \Runalyze\Configuration\Category
     /**
      * @return \Runalyze\Parameter\Application\WeekStart
      */
-    public function weekStart()
+    public function weekStart(): \Runalyze\Parameter
     {
-        return $this->object('WEEK_START');
+        /** @var \Runalyze\Parameter\Application\WeekStart $parameter */
+        $parameter = $this->object('WEEK_START');
+        return $parameter;
     }
 
     /**
@@ -72,9 +74,11 @@ class General extends \Runalyze\Configuration\Category
      * Unit system for distances
      * @return \Runalyze\Parameter\Application\DistanceUnitSystem
      */
-    public function distanceUnitSystem()
+    public function distanceUnitSystem(): \Runalyze\Parameter
     {
-        return $this->object('DISTANCE_UNIT_SYSTEM');
+        /** @var \Runalyze\Parameter\Application\DistanceUnitSystem $parameter */
+        $parameter = $this->object('DISTANCE_UNIT_SYSTEM');
+        return $parameter;
     }
 
     /**
@@ -88,9 +92,11 @@ class General extends \Runalyze\Configuration\Category
     /**
      * @return \Runalyze\Parameter\Application\WeightUnit
      */
-    public function weightUnit()
+    public function weightUnit(): \Runalyze\Parameter
     {
-        return $this->object('WEIGHT_UNIT');
+        /** @var \Runalyze\Parameter\Application\WeightUnit $parameter */
+        $parameter = $this->object('WEIGHT_UNIT');
+        return $parameter;
     }
 
     /**
@@ -104,9 +110,11 @@ class General extends \Runalyze\Configuration\Category
     /**
      * @return \Runalyze\Parameter\Application\EnergyUnit
      */
-    public function energyUnit()
+    public function energyUnit(): \Runalyze\Parameter
     {
-        return $this->object('ENERGY_UNIT');
+        /** @var \Runalyze\Parameter\Application\EnergyUnit $parameter */
+        $parameter = $this->object('ENERGY_UNIT');
+        return $parameter;
     }
 
     /**
@@ -120,9 +128,11 @@ class General extends \Runalyze\Configuration\Category
     /**
      * @return \Runalyze\Parameter\Application\TemperatureUnit
      */
-    public function temperatureUnit()
+    public function temperatureUnit(): \Runalyze\Parameter
     {
-        return $this->object('TEMPERATURE_UNIT');
+        /** @var \Runalyze\Parameter\Application\TemperatureUnit $parameter */
+        $parameter = $this->object('TEMPERATURE_UNIT');
+        return $parameter;
     }
 
     /**
@@ -134,11 +144,13 @@ class General extends \Runalyze\Configuration\Category
     }
 
     /**
-     * @return HeartRateUnit
+     * @return \Runalyze\Parameter\Application\HeartRateUnit
      */
-    public function heartRateUnit()
+    public function heartRateUnit(): \Runalyze\Parameter
     {
-        return $this->object('HEART_RATE_UNIT');
+        /** @var \Runalyze\Parameter\Application\HeartRateUnit $parameter */
+        $parameter = $this->object('HEART_RATE_UNIT');
+        return $parameter;
     }
 
     /**

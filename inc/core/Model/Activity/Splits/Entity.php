@@ -62,7 +62,7 @@ class Entity extends StringArrayObject
      * As array
      * @return \Runalyze\Model\Activity\Splits\Split[]
      */
-    public function asArray()
+    public function asArray(): array
     {
         return $this->Elements;
     }
@@ -115,11 +115,10 @@ class Entity extends StringArrayObject
 
     /**
      * Get split
-     * @param int $index
      * @return \Runalyze\Model\Activity\Splits\Split
      * @throws \InvalidArgumentException
      */
-    public function at($index)
+    public function at(int $index)
     {
         return parent::at($index);
     }
@@ -156,9 +155,8 @@ class Entity extends StringArrayObject
 
     /**
      * Is at least one lap active?
-     * @param int $num
      */
-    public function hasActiveLaps($num = 1): bool
+    public function hasActiveLaps(int $num = 1): bool
     {
         $count = 0;
 
@@ -166,7 +164,7 @@ class Entity extends StringArrayObject
             if ($split->isActive()) {
                 $count++;
 
-                if ($count == $num) {
+                if ($count === $num) {
                     return true;
                 }
             }

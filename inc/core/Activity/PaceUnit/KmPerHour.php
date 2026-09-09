@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Activity\PaceUnit;
 
+use Runalyze\Parameter\Application\PaceUnit;
+
 /**
  * Pace unit: km/h
  * @author Hannes Christiansen
@@ -21,7 +23,7 @@ class KmPerHour extends AbstractDecimalUnit
      */
     public function unit(): int
     {
-        return \Runalyze\Parameter\Application\PaceUnit::KM_PER_H;
+        return PaceUnit::KM_PER_H;
     }
 
     /**
@@ -40,8 +42,8 @@ class KmPerHour extends AbstractDecimalUnit
      *
      * @throws \RuntimeException
      */
-    public function dividendForUnit(): int
+    public function dividendForUnit(): float
     {
-        return 3600;
+        return 3600.0;
     }
 }

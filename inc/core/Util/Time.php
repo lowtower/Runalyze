@@ -19,12 +19,11 @@ class Time
 {
     /**
      * Absolute difference in days between two timestamps
-     * @param int $time_1
      * @param int $time_2 optional
      */
-    public static function diffInDays($time_1, $time_2 = 0): float
+    public static function diffInDays(int $time_1, int $time_2 = 0): float
     {
-        if ($time_2 == 0) {
+        if ($time_2 === 0) {
             $time_2 = time();
         }
 
@@ -33,10 +32,8 @@ class Time
 
     /**
      * Calculates the difference in days of two dates (YYYY-mm-dd)
-     * @param string $date1
-     * @param string $date2
      */
-    public static function diffOfDates($date1, $date2): int
+    public static function diffOfDates(string $date1, string $date2): int
     {
         return (int) date_diff(date_create($date1), date_create($date2))
             ->format('%a');
@@ -44,19 +41,16 @@ class Time
 
     /**
      * Is given timestamp from today?
-     * @param int $timestamp
      */
-    public static function isToday($timestamp): bool
+    public static function isToday(int $timestamp): bool
     {
         return date('d.m.Y') === date('d.m.Y', $timestamp);
     }
 
     /**
      * Get the timestamp of the start of the week
-     * @param int $time
-     * @return int
      */
-    public static function weekstart($time)
+    public static function weekstart(int $time): int
     {
         $w = date('w', $time);
 
@@ -68,15 +62,13 @@ class Time
             }
         }
 
-        return mktime(0, 0, 0, date('m', $time), date('d', $time) - $w, date('Y', $time));
+        return mktime(0, 0, 0, (int) date('m', $time), (int) date('d', $time) - $w, (int) date('Y', $time));
     }
 
     /**
      * Get the timestamp of the end of the week
-     * @param int $time
-     * @return int
      */
-    public static function weekend($time)
+    public static function weekend(int $time): int
     {
         $start = self::weekstart($time);
 
@@ -89,9 +81,9 @@ class Time
      * @param bool $short   short version, default: false
      * @codeCoverageIgnore
      */
-    public static function weekday($w, $short = false): string
+    public static function weekday(string $w, bool $short = false): string
     {
-        switch ($w % 7) {
+        switch ((int) $w % 7) {
             case 0: return $short ? __('Sun') : __('Sunday');
             case 1: return $short ? __('Mon') : __('Monday');
             case 2: return $short ? __('Tue') : __('Tuesday');
@@ -109,9 +101,9 @@ class Time
      * @param bool $short   short version, default: false
      * @codeCoverageIgnore
      */
-    public static function month($m, $short = false): string
+    public static function month(string $m, bool $short = false): string
     {
-        switch ($m % 12) {
+        switch ((int) $m % 12) {
             case 1: return $short ? __('Jan') : __('January');
             case 2: return $short ? __('Feb') : __('February');
             case 3: return $short ? __('Mar') : __('March');

@@ -3,18 +3,17 @@
 namespace Runalyze\Data\Weather;
 
 use Runalyze\Activity;
+use Runalyze\Activity\Temperature;
 use Runalyze\Activity\ValueInterface;
+use Runalyze\Data\Weather;
 
 class HeatIndex implements ValueInterface
 {
-    /**
-     * @var Activity\Temperature
-     */
-    protected $HeatIndexTemperature;
+    protected Temperature $HeatIndexTemperature;
 
-    public function __construct(?Activity\Temperature $temperature = null, ?Humidity $humidity = null)
+    public function __construct(?Temperature $temperature = null, ?Humidity $humidity = null)
     {
-        if ($temperature instanceof \Runalyze\Activity\Temperature && $humidity instanceof \Runalyze\Data\Weather\Humidity) {
+        if ($temperature instanceof Temperature && $humidity instanceof Humidity) {
             $this->setFrom($temperature, $humidity);
         } else {
             $this->setUnknown();
@@ -22,7 +21,7 @@ class HeatIndex implements ValueInterface
     }
 
     /**
-     * @param null|float|Activity\Temperature $heatIndex floats are treated as temperature in config's unit
+     * @param null|float|Temperature $heatIndex floats are treated as temperature in config's unit
      *
      * @throws \InvalidArgumentException
      */
@@ -30,10 +29,10 @@ class HeatIndex implements ValueInterface
     {
         if ($heatIndex === null) {
             $this->setUnknown();
-        } elseif ($heatIndex instanceof Activity\Temperature) {
+        } elseif ($heatIndex instanceof Temperature) {
             $this->HeatIndexTemperature = clone $heatIndex;
         } elseif (is_numeric($heatIndex)) {
-            $this->HeatIndexTemperature = new Activity\Temperature($heatIndex);
+            $this->HeatIndexTemperature = new Temperature($heatIndex);
         } else {
             throw new \InvalidArgumentException("Can't handle given argument, must be null, numerical or an instance of Temperature.");
         }
@@ -41,7 +40,7 @@ class HeatIndex implements ValueInterface
         return $this;
     }
 
-    public function setFromWeather(\Runalyze\Data\Weather $weather)
+    public function setFromWeather(Weather $weather)
     {
         $this->setFrom(
             new Activity\Temperature($weather->temperature()->value()),
@@ -49,7 +48,7 @@ class HeatIndex implements ValueInterface
         );
     }
 
-    public function setFrom(Activity\Temperature $temperature, Humidity $humidity)
+    public function setFrom(Temperature $temperature, Humidity $humidity)
     {
         if ($temperature->value() !== null && ! $humidity->isUnknown()) {
             $this->HeatIndexTemperature = clone $temperature;
@@ -63,7 +62,7 @@ class HeatIndex implements ValueInterface
 
     public function setUnknown()
     {
-        $this->HeatIndexTemperature = new Activity\Temperature();
+        $this->HeatIndexTemperature = new Temperature();
     }
 
     /**
@@ -78,7 +77,7 @@ class HeatIndex implements ValueInterface
      * @param int $humidity [0 .. 100]
      * @return float [°F]
      */
-    protected function calculateHeatIndexFor($temperatureInFahrenheit, $humidity): float
+    protected function calculateHeatIndexFor(float $temperatureInFahrenheit, int $humidity): float
     {
         $t = $temperatureInFahrenheit;
         $h = $humidity;
@@ -109,7 +108,7 @@ class HeatIndex implements ValueInterface
     /**
      * @return null|float [°C|°F|K] temperature unit depends on original object
      */
-    public function value()
+    public function value(): ?float
     {
         return $this->HeatIndexTemperature->valueInPreferredUnit();
     }
@@ -119,18 +118,12 @@ class HeatIndex implements ValueInterface
         return $this->HeatIndexTemperature->isEmpty();
     }
 
-    /**
-     * @return string
-     */
-    public function unit()
+    public function unit(): string
     {
         return $this->HeatIndexTemperature->unit();
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         return $this->HeatIndexTemperature->string($withUnit);
     }
@@ -146,7 +139,6 @@ class HeatIndex implements ValueInterface
     }
 
     /**
-     * @return string html code
      * @codeCoverageIgnore
      */
     public function getIcon(): string

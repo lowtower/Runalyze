@@ -15,75 +15,57 @@ use Runalyze\Dataset;
  */
 abstract class SummaryTable
 {
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
-    /**
-     * @var \Runalyze\Dataset\Query
-     */
-    protected $DatasetQuery;
+    protected \Runalyze\Dataset\Query $DatasetQuery;
 
-    /**
-     * @var \Runalyze\View\Dataset\Table
-     */
-    protected $DatasetTable;
+    protected \Runalyze\View\Dataset\Table $DatasetTable;
 
     /**
      * Compare kilometers
-     * @var bool
      */
-    protected $CompareKilometers = false;
+    protected bool $CompareKilometers = false;
 
     /**
      * Sport id
      * @var int sportid - if nothing is selected than -1
      */
-    protected $Sportid;
+    protected int $Sportid;
 
     /**
      * Year
-     * @var int
      */
-    protected $Year;
+    protected int $Year;
 
     /**
      * Title
-     * @var string
      */
-    protected $Title = '';
+    protected string $Title = '';
 
     /**
      * Timerange to group for one row
-     * @var int
      */
-    protected $Timerange = 0;
+    protected int $Timerange = 0;
 
     /**
      * First timestamp to consider
-     * @var int
      */
-    protected $TimeStart = 0;
+    protected int $TimeStart = 0;
 
     /**
      * Last timestamp to consider
-     * @var int
      */
-    protected $TimeEnd = 0;
+    protected int $TimeEnd = 0;
 
     /**
      * Additional columns
-     * @var int
      */
-    protected $AdditionalColumns = 0;
+    protected int $AdditionalColumns = 0;
 
     /**
      * Construct summary table
-     * @param int $sportid
-     * @param int $year
      */
-    public function __construct(Dataset\Configuration $datasetConfig, $sportid, $year)
+    public function __construct(Dataset\Configuration $datasetConfig, int $sportid, int $year)
     {
         $this->AccountID = SessionAccountHandler::getId();
         $this->DatasetQuery = new Dataset\Query($datasetConfig, DB::getInstance(), $this->AccountID);
@@ -93,10 +75,7 @@ abstract class SummaryTable
         $this->Year = $year;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function compareKilometers($flag = true)
+    public function compareKilometers(bool $flag = true)
     {
         $this->CompareKilometers = $flag;
     }
@@ -108,15 +87,10 @@ abstract class SummaryTable
 
     /**
      * Head for row
-     * @param int $index
-     * @return string
      */
-    abstract protected function rowHead($index);
+    abstract protected function rowHead(int $index): string;
 
-    /**
-     * @param array $data
-     */
-    protected function displayAdditionalColumns($data)
+    protected function displayAdditionalColumns(array $data)
     {
     }
 
@@ -125,7 +99,7 @@ abstract class SummaryTable
      */
     private function checkPreparation()
     {
-        if ($this->Timerange == 0 || ($this->TimeStart == 0 && $this->TimeEnd == 0)) {
+        if ($this->Timerange === 0 || ($this->TimeStart === 0 && $this->TimeEnd === 0)) {
             throw new Exception('Timerange, -start and -end have to be properly defined.');
         }
     }

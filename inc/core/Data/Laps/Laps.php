@@ -25,22 +25,15 @@ class Laps
      */
     protected $Objects;
 
-    /**
-     * @var bool
-     */
-    protected $CalculateAdditionalValues = false;
+    protected bool $CalculateAdditionalValues = false;
 
-    /**
-     * @param bool $flag
-     */
-    public function enableCalculationOfAdditionalValues($flag = true)
+    public function enableCalculationOfAdditionalValues(bool $flag = true)
     {
         $this->CalculateAdditionalValues = $flag;
     }
 
     /**
      * @param \Runalyze\Model\Route\Entity $route
-     * @param \Runalyze\Model\Swimdata\Entity $trackdata
      */
     public function calculateFrom(array $distances, Trackdata\Entity $trackdata, ?Route\Entity $route = null)
     {

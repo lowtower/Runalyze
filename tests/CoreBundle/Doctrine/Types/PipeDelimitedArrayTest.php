@@ -8,25 +8,20 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString;
 
 class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PipeDelimitedArray
-     */
-    protected $TypeNumber;
+    protected PipeDelimitedArray $TypeNumber;
 
-    /**
-     * @var PipeDelimitedArrayString
-     */
-    protected $TypeString;
+    protected PipeDelimitedArrayString $TypeString;
 
-    /**
-     * @var AbstractPlatform
-     */
-    protected $PlatformMock;
+    protected AbstractPlatform $PlatformMock;
 
     protected function setUp(): void
     {
-        $this->TypeNumber = PipeDelimitedArray::getType(PipeDelimitedArray::PIPE_ARRAY);
-        $this->TypeString = PipeDelimitedArrayString::getType(PipeDelimitedArrayString::PIPE_ARRAY);
+        /** @var PipeDelimitedArray $typeNumber */
+        $typeNumber = PipeDelimitedArray::getType(PipeDelimitedArray::PIPE_ARRAY);
+        $this->TypeNumber = $typeNumber;
+        /** @var PipeDelimitedArrayString $typeString */
+        $typeString = PipeDelimitedArrayString::getType(PipeDelimitedArrayString::PIPE_ARRAY);
+        $this->TypeString = $typeString;
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 

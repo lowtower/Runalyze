@@ -16,14 +16,11 @@ class LegacyEffectiveVO2max
     private static $Precision = 2;
 
     /**
-     * @var float [ml/kg/min]
+     * @var ?float [ml/kg/min]
      */
-    protected $Value;
+    protected ?float $Value = null;
 
-    /**
-     * @var \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector
-     */
-    protected $Corrector;
+    protected ?LegacyEffectiveVO2maxCorrector $Corrector = null;
 
     /**
      * @param int $decimals number of decimals to display
@@ -34,19 +31,16 @@ class LegacyEffectiveVO2max
     }
 
     /**
-     * @param float $value [optional]
+     * @param ?float $value [optional]
      * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
      */
-    public function __construct($value = 0.0, ?LegacyEffectiveVO2maxCorrector $corrector = null)
+    public function __construct(?float $value = 0.0, ?LegacyEffectiveVO2maxCorrector $corrector = null)
     {
         $this->setValue($value);
         $this->setCorrector($corrector);
     }
 
-    /**
-     * @param float $value
-     */
-    public function setValue($value)
+    public function setValue(?float $value)
     {
         $this->Value = $value;
     }
@@ -62,22 +56,22 @@ class LegacyEffectiveVO2max
     }
 
     /**
-     * @param float $distance [km]
+     * @param ?float $distance [km]
      * @param int $seconds [s]
      */
-    public function fromPace($distance, $seconds)
+    public function fromPace(?float $distance, int $seconds)
     {
         $this->Value = (new DanielsGilbertFormula())->estimateFromRaceResult($distance, $seconds);
     }
 
     /**
-     * @param float $distance [km]
+     * @param ?float $distance [km]
      * @param int $seconds [s]
      * @param float $hrInPercent in [0.0, 1.0]
      */
-    public function fromPaceAndHR($distance, $seconds, $hrInPercent)
+    public function fromPaceAndHR(?float $distance, int $seconds, float $hrInPercent)
     {
-        if ($hrInPercent <= 0.0 || $seconds == 0) {
+        if ($hrInPercent <= 0.0 || $seconds === 0) {
             $this->Value = 0.0;
         } else {
             $speedReallyAchieved = 60 * 1000 * $distance / $seconds;
@@ -89,7 +83,7 @@ class LegacyEffectiveVO2max
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return string [ml/kg/min]
      */
     public function value(): string
     {
@@ -100,17 +94,17 @@ class LegacyEffectiveVO2max
      * @codeCoverageIgnore
      * @return float [ml/kg/min]
      */
-    public function exactValue()
+    public function exactValue(): float
     {
-        if ($this->Corrector !== null) {
+        if ($this->Corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {
             return $this->Corrector->factor() * $this->Value;
         }
 
-        return $this->Value;
+        return $this->Value ?? 0.0;
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return string [ml/kg/min]
      */
     public function uncorrectedValue(): string
     {
@@ -120,7 +114,7 @@ class LegacyEffectiveVO2max
     /**
      * @param float $speed [m/min] speed for 100%vVO2max
      */
-    public function fromSpeed($speed)
+    public function fromSpeed(float $speed)
     {
         $this->Value = (new DanielsGilbertFormula())->estimateFromVelocity($speed);
     }
@@ -140,28 +134,27 @@ class LegacyEffectiveVO2max
      *
      * @return int [s/km]
      */
-    public function pace()
+    public function pace(): int
     {
         if ($this->Value <= 0.0) {
             return 0;
         }
 
-        return round(60 * 1000 / $this->speed());
+        return (int) round(60 * 1000 / $this->speed());
     }
 
     /**
      * Pace at %vVO2max
      *
      * @param float $percentage in (0.0, 1.0]
-     * @return int
      */
-    public function paceAt($percentage)
+    public function paceAt(float $percentage): int
     {
         if ($this->Value <= 0.0) {
             return 0;
         }
 
-        return round(60 * 1000 / ($percentage * $this->speed()));
+        return (int) round(60 * 1000 / ($percentage * $this->speed()));
     }
 
     /**
@@ -172,7 +165,7 @@ class LegacyEffectiveVO2max
      * @param float $percentage in [0.0, 1.0]
      * @return float in [0.0, 1.0]
      */
-    public static function HRat($percentage): float
+    public static function HRat(float $percentage): float
     {
         return 0.68725 * log($percentage) + 1.00466;
     }
@@ -185,7 +178,7 @@ class LegacyEffectiveVO2max
      * @param float $hrInPercent in [0.0, 1.0]
      * @return float in [0.0, 1.0]
      */
-    public static function percentageAt($hrInPercent): float
+    public static function percentageAt(float $hrInPercent): float
     {
         return exp(($hrInPercent - 1.00466) / 0.68725);
     }

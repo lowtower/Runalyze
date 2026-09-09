@@ -9,55 +9,43 @@ abstract class AbstractSport implements ProfileInterface
     /**
      * @var int enum from SportProfile
      */
-    private $Enum;
+    private int $Enum;
 
     /**
      * @param int $enum from SportProfile
      */
-    public function __construct($enum)
+    public function __construct(int $enum)
     {
         $this->Enum = $enum;
     }
 
-    public function getInternalProfileEnum()
+    public function getInternalProfileEnum(): int
     {
         return $this->Enum;
     }
 
-    /**
-     * @return bool
-     */
-    final public function isCustom()
+    final public function isCustom(): bool
     {
-        return $this->Enum == SportProfile::GENERIC;
+        return $this->Enum === SportProfile::GENERIC;
+    }
+
+    final public function isRunning(): bool
+    {
+        return $this->Enum === SportProfile::RUNNING;
+    }
+
+    final public function isCycling(): bool
+    {
+        return $this->Enum === SportProfile::CYCLING || $this->Enum === SportProfile::E_MTB_MOUNTAIN;
+    }
+
+    final public function isSwimming(): bool
+    {
+        return $this->Enum === SportProfile::SWIMMING;
     }
 
     /**
-     * @return bool
-     */
-    final public function isRunning()
-    {
-        return $this->Enum == SportProfile::RUNNING;
-    }
-
-    /**
-     * @return bool
-     */
-    final public function isCycling()
-    {
-        return $this->Enum == SportProfile::CYCLING || $this->Enum == SportProfile::E_MTB_MOUNTAIN;
-    }
-
-    /**
-     * @return bool
-     */
-    final public function isSwimming()
-    {
-        return $this->Enum == SportProfile::SWIMMING;
-    }
-
-    /**
-     * @return int
+     * @return \Runalyze\Activity\PaceUnit\AbstractUnit|int
      * @see \Runalyze\Parameter\Application\PaceUnit
      */
     public function getLegacyPaceUnitEnum()

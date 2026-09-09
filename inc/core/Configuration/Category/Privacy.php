@@ -64,7 +64,9 @@ class Privacy extends \Runalyze\Configuration\Category
      */
     public function RoutePrivacy()
     {
-        return $this->object('TRAINING_MAP_PUBLIC_MODE');
+        /** @var ActivityRoutePrivacy $parameter */
+        $parameter = $this->object('TRAINING_MAP_PUBLIC_MODE');
+        return $parameter;
     }
 
     protected function registerOnchangeEvents()

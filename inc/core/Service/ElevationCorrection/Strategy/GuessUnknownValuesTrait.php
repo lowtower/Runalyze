@@ -4,16 +4,16 @@ namespace Runalyze\Service\ElevationCorrection\Strategy;
 
 trait GuessUnknownValuesTrait
 {
-    protected $GuessUnknown = true;
+    protected bool $GuessUnknown = true;
 
-    public function setGuessUnknownFlag($flag = true)
+    public function setGuessUnknownFlag(bool $flag = true)
     {
         $this->GuessUnknown = $flag;
     }
 
     /**
-     * @param int[]|null $altitudes [m]
-     * @param int $unknownValue
+     * @param array $altitudes [m]
+     * @param int|bool $unknownValue
      */
     public function guessUnknown(?array &$altitudes = null, $unknownValue = -32768)
     {

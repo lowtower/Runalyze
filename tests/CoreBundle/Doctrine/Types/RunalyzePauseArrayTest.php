@@ -9,19 +9,15 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RunalyzePauseArray
-     */
-    protected $Type;
+    protected RunalyzePauseArray $Type;
 
-    /**
-     * @var AbstractPlatform
-     */
-    protected $PlatformMock;
+    protected AbstractPlatform $PlatformMock;
 
     protected function setUp(): void
     {
-        $this->Type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
+        /** @var RunalyzePauseArray $type */
+        $type = RunalyzePauseArray::getType(RunalyzePauseArray::RUNALYZE_PAUSE_ARRAY);
+        $this->Type = $type;
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 

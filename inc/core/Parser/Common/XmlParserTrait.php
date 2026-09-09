@@ -6,10 +6,7 @@ use Runalyze\Import\Exception\UnsupportedFileException;
 
 trait XmlParserTrait
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     public function setXml(\SimpleXMLElement $xml)
     {
@@ -17,11 +14,9 @@ trait XmlParserTrait
     }
 
     /**
-     * @param string $content
-     *
      * @throws UnsupportedFileException
      */
-    public function setFileContent($content)
+    public function setFileContent(string $content)
     {
         libxml_use_internal_errors(true);
 
@@ -38,19 +33,12 @@ trait XmlParserTrait
         }
     }
 
-    /**
-     * @param string $content
-     * @return string
-     */
-    protected function correctXmlNamespace($content)
+    protected function correctXmlNamespace(string $content): string
     {
         return str_replace('xmlns=', 'ns=', $this->removeBomFromFileContent($content));
     }
 
-    /**
-     * @param string $content
-     */
-    protected function removeBomFromFileContent($content): string
+    protected function removeBomFromFileContent(string $content): string
     {
         return mb_substr($content, mb_strpos($content, '<'));
     }

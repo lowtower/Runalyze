@@ -17,16 +17,13 @@ class VerticalRatio implements ValueInterface
 {
     /**
      * Value [%o]
-     * @var int
      */
-    protected $Permille;
+    protected int $Permille;
 
     /**
      * Format vertical ratio
-     * @param int $permille
-     * @param bool $withUnit
      */
-    public static function format($permille, $withUnit = true): string
+    public static function format(int $permille, bool $withUnit = true): string
     {
         return (new self($permille))->string($withUnit);
     }
@@ -34,7 +31,7 @@ class VerticalRatio implements ValueInterface
     /**
      * @param int $permille [%o]
      */
-    public function __construct($permille = 0)
+    public function __construct(int $permille = 0)
     {
         $this->Permille = $permille;
     }
@@ -69,9 +66,9 @@ class VerticalRatio implements ValueInterface
      * @param float $percent [%]
      * @return \Runalyze\Activity\VerticalRatio $this-reference
      */
-    public function setPercent($percent): self
+    public function setPercent(float $percent): self
     {
-        $this->Permille = 10 * $percent;
+        $this->Permille = (int) (10 * $percent);
 
         return $this;
     }
@@ -80,7 +77,7 @@ class VerticalRatio implements ValueInterface
      * Get vertical ratio
      * @return int [%o]
      */
-    public function value()
+    public function value(): int
     {
         return $this->Permille;
     }
@@ -89,16 +86,15 @@ class VerticalRatio implements ValueInterface
      * Get vertical ratio
      * @return float [%]
      */
-    public function inPercent()
+    public function inPercent(): float
     {
         return $this->Permille / 10;
     }
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->Permille > 0) {
             return number_format($this->Permille / 10, 1, '.', '') . ($withUnit ? '&nbsp;%' : '');

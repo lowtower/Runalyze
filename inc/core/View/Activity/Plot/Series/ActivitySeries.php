@@ -25,9 +25,6 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
      */
     protected $XAxis = 0;
 
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
     abstract public function __construct(Context $context);
 
     /**
@@ -76,9 +73,9 @@ abstract class ActivitySeries extends \Runalyze\View\Plot\Series
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return;
         }
 

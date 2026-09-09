@@ -98,7 +98,7 @@ class FormularValueParser
     /**
      * Validator: date-string => timestamp
      * @param string $key
-     * @return bool
+     * @return bool|string
      */
     private static function validateDate($key)
     {
@@ -122,9 +122,8 @@ class FormularValueParser
 
     /**
      * Parse: timestamp => date-string
-     * @param string $value
      */
-    private static function parseDate(&$value)
+    private static function parseDate(string &$value)
     {
         if (is_numeric($value)) {
             $value = date('d.m.Y', $value);
@@ -135,7 +134,7 @@ class FormularValueParser
      * Validator: time-string => time in seconds
      * @param string $key
      * @param array<string, mixed> $options
-     * @return bool
+     * @return bool|string
      */
     private static function validateTime($key, array $options)
     {

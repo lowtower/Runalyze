@@ -18,60 +18,27 @@ use Runalyze\View\Activity\Plot\ActivityPlot;
  */
 class Series
 {
-    /**
-     * @var string
-     */
-    protected $Label;
+    protected string $Label;
 
-    /**
-     * @var string
-     */
-    protected $Color;
+    protected string $Color;
 
-    /**
-     * @var array
-     */
-    protected $Data;
+    protected array $Data;
 
-    /**
-     * @var string
-     */
-    protected $UnitString = '';
+    protected string $UnitString = '';
 
-    /**
-     * @var int
-     */
-    protected $UnitDecimals = 0;
+    protected int $UnitDecimals = 0;
 
-    /**
-     * @var float
-     */
-    protected $UnitFactor = 1;
+    protected float $UnitFactor = 1.0;
 
-    /**
-     * @var int
-     */
-    protected $TickSize = false;
+    protected ?float $TickSize = null;
 
-    /**
-     * @var int
-     */
-    protected $TickDecimals = 0;
+    protected int $TickDecimals = 0;
 
-    /**
-     * @var bool
-     */
-    protected $ShowAverage = false;
+    protected bool $ShowAverage = false;
 
-    /**
-     * @var bool
-     */
-    protected $ShowMaximum = false;
+    protected bool $ShowMaximum = false;
 
-    /**
-     * @var bool
-     */
-    protected $ShowMinimum = false;
+    protected bool $ShowMinimum = false;
 
     /**
      * Manual average
@@ -80,31 +47,19 @@ class Series
      */
     protected $ManualAverage = false;
 
-    /**
-     * @var null|int
-     */
-    protected $YAxis;
+    protected ?int $YAxis = null;
 
-    /**
-     * @param string $label
-     */
-    public function setLabel($label)
+    public function setLabel(string $label)
     {
         $this->Label = $label;
     }
 
-    /**
-     * @return string
-     */
-    public function label()
+    public function label(): string
     {
         return $this->Label;
     }
 
-    /**
-     * @param string $color
-     */
-    public function setColor($color)
+    public function setColor(string $color)
     {
         $this->Color = $color;
     }
@@ -116,7 +71,7 @@ class Series
 
     public function isEmpty(): bool
     {
-        return empty($this->Data);
+        return $this->Data === [];
     }
 
     /**
@@ -124,15 +79,15 @@ class Series
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return;
         }
 
         $this->YAxis = $yAxis;
 
-        if ($this->UnitString == 'time') {
+        if ($this->UnitString === 'time') {
             foreach ($this->Data as $k => $v) {
                 $this->Data[$k] = $v * '1000';
             }
@@ -145,8 +100,8 @@ class Series
             'yaxis' => $yAxis,
         ];
 
-        if ($this->UnitString != '') {
-            if ($this->UnitString == 'time') {
+        if ($this->UnitString !== '') {
+            if ($this->UnitString === 'time') {
                 $Plot->setYAxisAsTime($yAxis);
                 $Plot->setYAxisTimeFormat('%H:%M:%S', $yAxis);
             } else {
@@ -158,7 +113,7 @@ class Series
             $Plot->setYTicks($yAxis, $this->TickSize, $this->TickDecimals);
         }
 
-        if ($addAnnotations && $this->ShowAverage && ! empty($this->Data)) {
+        if ($addAnnotations && $this->ShowAverage && $this->Data !== []) {
             $avg = $this->avg();
 
             $Plot->addThreshold('y' . $yAxis, $avg, 'rgba(0,0,0,0.5)');
@@ -192,7 +147,7 @@ class Series
      * @param int $decimals [optional]
      * @return int|float
      */
-    protected function avg($decimals = 0)
+    protected function avg(int $decimals = 0)
     {
         if ($this->ManualAverage !== false) {
             return $this->ManualAverage;

@@ -38,16 +38,37 @@ class FactoryTest extends TestCase
         \Cache::clean();
     }
 
-    private function truncateTables()
+    private function truncateTables(): void
     {
-        $this->DB->exec('DELETE FROM `runalyze_account` WHERE `username`="ModelFactoryTest"');
-        $this->DB->exec('DELETE FROM `runalyze_training`');
-        $this->DB->exec('DELETE FROM `runalyze_trackdata`');
-        $this->DB->exec('DELETE FROM `runalyze_swimdata`');
-        $this->DB->exec('DELETE FROM `runalyze_route`');
-        $this->DB->exec('DELETE FROM `runalyze_hrv`');
-        $this->DB->exec('DELETE FROM `runalyze_type`');
-        $this->DB->exec('DELETE FROM `runalyze_sport`');
+        $this->DB->stopAddingAccountID();
+        $tables = [
+            'runalyze_account',
+            'runalyze_training',
+            'runalyze_trackdata',
+            'runalyze_swimdata',
+            'runalyze_route',
+            'runalyze_hrv',
+            'runalyze_type',
+            'runalyze_sport',
+            'runalyze_activity_equipment',
+            'runalyze_activity_tag',
+            'runalyze_equipment_to_sport',
+            'runalyze_equipment_sport',
+            'runalyze_equipment',
+            'runalyze_equipment_type',
+            'runalyze_tag',
+        ];
+        foreach ($tables as $table) {
+            $query = "DELETE FROM `{$table}`";
+            if ($table === 'runalyze_account') {
+                $query .= ' WHERE `username`="ModelFactoryTest"';
+            }
+
+            $this->DB->exec($query);
+            $this->DB->exec("ALTER TABLE `{$table}` AUTO_INCREMENT = 1");
+        }
+
+        $this->DB->startAddingAccountID();
     }
 
     public function testThatNothingIsThere()
@@ -71,7 +92,9 @@ class FactoryTest extends TestCase
 
         $this->assertEquals('Test A', $this->object->sport(1)->name());
 
+        $this->DB->stopAddingAccountID();
         $this->DB->exec('DELETE FROM `runalyze_sport` WHERE `id`=2');
+        $this->DB->startAddingAccountID();
         $this->assertEquals('Test B', $this->object->sport(2)->name());
 
         $this->object->clearCache('sport');

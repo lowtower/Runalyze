@@ -27,7 +27,7 @@ class Gender extends AbstractEnum implements InterfaceChoosable
     /**
      * @param int $id id from internal enum
      */
-    public static function stringFor($id): string
+    public static function stringFor(int $id): string
     {
         switch ($id) {
             case self::NONE:

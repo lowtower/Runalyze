@@ -7,7 +7,9 @@
 
 namespace Runalyze\Activity;
 
+use Runalyze\Athlete;
 use Runalyze\Configuration;
+use Runalyze\Parameter\Application\HeartRateUnit;
 
 /**
  * @author Hannes Christiansen
@@ -17,39 +19,32 @@ class HeartRate
 {
     /**
      * Value [bpm]
-     * @var int
      */
-    protected $value;
+    protected ?float $value = null;
 
     /**
      * Athlete
-     * @var \Runalyze\Athlete
      */
-    protected $Athlete;
+    protected ?Athlete $Athlete = null;
 
     /**
      * Preferred heart rate unit
-     * @var \Runalyze\Parameter\Application\HeartRateUnit
      */
-    protected $PreferredUnit;
+    protected HeartRateUnit $PreferredUnit;
 
-    /**
-     * @param int $valueInBPM
-     */
-    public function __construct($valueInBPM, ?\Runalyze\Athlete $Athlete = null)
+    public function __construct(?float $value, ?Athlete $Athlete = null)
     {
-        $this->value = $valueInBPM;
+        $this->setBPM($value);
         $this->Athlete = $Athlete;
         $this->PreferredUnit = Configuration::General()->heartRateUnit();
     }
 
     /**
      * Set value
-     * @param int $valueInBPM
      */
-    public function setBPM($valueInBPM)
+    public function setBPM(?float $value)
     {
-        $this->value = $valueInBPM;
+        $this->value = $value;
     }
 
     /**
@@ -77,7 +72,7 @@ class HeartRate
     }
 
     /**
-     * As %HRmax
+     * As [%HRmax]
      * Check first 'canShowInHRMax'!
      */
     public function asHRmax(): string
@@ -86,7 +81,7 @@ class HeartRate
     }
 
     /**
-     * As %HRrest
+     * As [%HRrest]
      * Check first 'canShowInHRMax'!
      */
     public function asHRrest(): string
@@ -97,9 +92,9 @@ class HeartRate
     /**
      * Value in [bpm]
      */
-    public function inBPM(): float
+    public function inBPM(): int
     {
-        return round($this->value);
+        return (int) round($this->value);
     }
 
     /**
@@ -169,6 +164,6 @@ class HeartRate
      */
     protected function knowsAthlete(): bool
     {
-        return $this->Athlete !== null;
+        return $this->Athlete instanceof Athlete;
     }
 }

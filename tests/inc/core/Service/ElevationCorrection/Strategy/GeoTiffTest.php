@@ -13,15 +13,9 @@ use Runalyze\Service\ElevationCorrection\Strategy\GeoTiff;
  */
 class GeoTiffTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var GeoTiff
-     */
-    protected $GeoTiff;
+    protected GeoTiff $GeoTiff;
 
-    /**
-     * @var string
-     */
-    protected $SrtmRoot;
+    protected string $SrtmRoot;
 
     protected function setUp(): void
     {
@@ -37,10 +31,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         $this->GeoTiff->setPointsToGroup(1);
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkExistenceOf(string $srtmFile)
+    protected function checkExistenceOf(string $srtmFile): bool
     {
         $result = file_exists($this->SrtmRoot . '/' . $srtmFile);
 

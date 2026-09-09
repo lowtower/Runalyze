@@ -33,40 +33,19 @@ class FitActivity extends AbstractSingleParser
      */
     public const APP_ID_RUNSCRIBE_PLUS = '193,245,200,10,90,5,78,138,151,179,253,163,78,149,112,53';
 
-    /**
-     * @var array
-     */
-    protected $Header = [];
+    protected array $Header = [];
 
-    /**
-     * @var array
-     */
-    protected $Values = [];
+    protected array $Values = [];
 
-    /**
-     * @var int
-     */
-    protected $PauseInSeconds = 0;
+    protected int $PauseInSeconds = 0;
 
-    /**
-     * @var int
-     */
-    protected $TimeJumpsInSeconds = 0;
+    protected int $TimeJumpsInSeconds = 0;
 
-    /**
-     * @var bool
-     */
-    protected $IsSwimming = false;
+    protected bool $IsSwimming = false;
 
-    /**
-     * @var bool
-     */
-    protected $IsPaused = false;
+    protected bool $IsPaused = false;
 
-    /**
-     * @var bool
-     */
-    protected $WasPaused = false;
+    protected bool $WasPaused = false;
 
     /**
      * @var int|bool
@@ -76,32 +55,29 @@ class FitActivity extends AbstractSingleParser
     /**
      * @var float [s]
      */
-    protected $CompressedTotalTime = 0.0;
+    protected float $CompressedTotalTime = 0.0;
 
     /**
      * @var float [16m]
      */
-    protected $CompressedTotalDistance16 = 0.0;
+    protected float $CompressedTotalDistance16 = 0.0;
 
     /**
      * @var float [16m]
      */
-    protected $CompressedLastDistance16 = 0.0;
+    protected float $CompressedLastDistance16 = 0.0;
 
-    /**
-     * @var string
-     */
-    protected $SoftwareVersion = '';
+    protected string $SoftwareVersion = '';
 
     /**
      * @var int|null Recovery time from undocumented message 140
      */
-    protected $RecoveryTimeFallback;
+    protected ?int $RecoveryTimeFallback = null;
 
     /**
-     * @var array
+     * @var array<string, array<mixed>>
      */
-    protected $DeveloperFieldMappingForRecord = [
+    protected array $DeveloperFieldMappingForRecord = [
         'Power' => ['power', 1],
         'ContactTime' => ['stance_time', 10],
         'RP_Power' => ['power', 1],
@@ -122,9 +98,9 @@ class FitActivity extends AbstractSingleParser
     ];
 
     /**
-     * @var array
+     * @var array<int, array<string|array<int|string, float|string|int|array<string, int|0.1>>>>
      */
-    protected $NativeFieldMappingForRecord = [
+    protected array $NativeFieldMappingForRecord = [
         // TODO: native fields aller verwendeten Arrays
         3 => ['heart_rate'],
         4 => [
@@ -163,14 +139,14 @@ class FitActivity extends AbstractSingleParser
     ];
 
     /**
-     * @var array
+     * @var array<string, array<mixed>>
      */
-    protected $DeveloperFieldMappingForSession = [];
+    protected array $DeveloperFieldMappingForSession = [];
 
     /**
-     * @var array
+     * @var array<int, array<string|array<string, int>>>
      */
-    protected $NativeFieldMappingForSession = [
+    protected array $NativeFieldMappingForSession = [
         9 => [
             'total_distance', [
                 'default' => 1,
@@ -185,14 +161,14 @@ class FitActivity extends AbstractSingleParser
     ];
 
     /**
-     * @var array
+     * @var array<string, array<mixed>>
      */
-    protected $DeveloperFieldMappingForLap = [];
+    protected array $DeveloperFieldMappingForLap = [];
 
     /**
-     * @var array
+     * @var array<int, array<string|array<string, int>>>
      */
-    protected $NativeFieldMappingForLap = [
+    protected array $NativeFieldMappingForLap = [
         9 => [
             'total_distance', [
                 'default' => 1,
@@ -203,26 +179,35 @@ class FitActivity extends AbstractSingleParser
     /**
      * @var array [developer_data_index => application_id]
      */
-    protected $DeveloperDataAppIds = [];
+    protected array $DeveloperDataAppIds = [];
 
     // #TSC: time of a "record" row
-    protected $RecordTime = [];
+    /**
+     * @var int[]|null[]
+     */
+    protected array $RecordTime = [];
 
     // #TSC: temporary heartrate for swimming. array-index is the lane
-    protected $SwimHeartrate = [];
-
-    protected $SwimTemperature = [];
-
-    // temperatur of the battery block (only as fallback)
-    protected $batteryTemperature = [];
-
-    // additional infos for strength-training
-    protected $fitSplitsAdditionals;
+    /**
+     * @var float[]|null[]
+     */
+    protected array $SwimHeartrate = [];
 
     /**
-     * @var FitWorkoutStep
+     * @var float[]|null[]
      */
-    protected $fitWorkoutStep;
+    protected array $SwimTemperature = [];
+
+    // temperatur of the battery block (only as fallback)
+    /**
+     * @var int[]
+     */
+    protected array $batteryTemperature = [];
+
+    // additional infos for strength-training
+    protected FitSplitsAdditionals $fitSplitsAdditionals;
+
+    protected FitWorkoutStep $fitWorkoutStep;
 
     public function __construct()
     {
@@ -269,7 +254,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         // #TSC: set the
-        if (empty($this->Container->ActivityData->AvgTemperature) && ! empty($this->batteryTemperature)) {
+        if (empty($this->Container->ActivityData->AvgTemperature) && $this->batteryTemperature !== []) {
             $this->Container->ActivityData->AvgTemperature = array_sum($this->batteryTemperature) / count($this->batteryTemperature);
         }
 
@@ -314,6 +299,10 @@ class FitActivity extends AbstractSingleParser
         }
     }
 
+    /**
+     * @param array<int, mixed[]> $nativeFieldMapping
+     * @param array<string, array<mixed>> $fieldMapping
+     */
     protected function readFieldDescriptionFor(array &$nativeFieldMapping, array &$fieldMapping)
     {
         if (isset($this->Values['developer_data_index']) && isset($this->DeveloperDataAppIds[(int) $this->Values['developer_data_index'][0]])) {
@@ -365,9 +354,9 @@ class FitActivity extends AbstractSingleParser
         }
     }
 
-    protected function adjustFieldDescriptionForDeveloperApp($appId)
+    protected function adjustFieldDescriptionForDeveloperApp(string $appId)
     {
-        if ($appId == self::APP_ID_RUNSCRIBE_LIGHT || $appId == self::APP_ID_RUNSCRIBE_PLUS) {
+        if ($appId === self::APP_ID_RUNSCRIBE_LIGHT || $appId === self::APP_ID_RUNSCRIBE_PLUS) {
             $this->adjustFieldDescriptionForRunScribeLight();
         }
     }
@@ -615,11 +604,11 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC add respiration rate AVG + MAX
         if (isset($this->Values['avg_respiration_rate'])) {
-            $this->Container->ActivityData->AvgRespirationRate = round($this->Values['avg_respiration_rate'][0] / 100, 0);
+            $this->Container->ActivityData->AvgRespirationRate = (int) round($this->Values['avg_respiration_rate'][0] / 100, 0);
         }
 
         if (isset($this->Values['max_respiration_rate'])) {
-            $this->Container->ActivityData->MaxRespirationRate = round($this->Values['max_respiration_rate'][0] / 100, 0);
+            $this->Container->ActivityData->MaxRespirationRate = (int) round($this->Values['max_respiration_rate'][0] / 100, 0);
         }
 
         if (isset($this->Values['sport'])) {
@@ -674,7 +663,7 @@ class FitActivity extends AbstractSingleParser
 
         // #TSC: training load peak
         if (isset($this->Values['xxx168']) && $this->Values['xxx168'][0] > 0) {
-            $this->Container->FitDetails->LoadPeak = round($this->Values['xxx168'][0] / 65536, 0);
+            $this->Container->FitDetails->LoadPeak = (int) round($this->Values['xxx168'][0] / 65536, 0);
         }
 
         // #TSC: sweat loss (Schweisverlust)
@@ -757,7 +746,7 @@ class FitActivity extends AbstractSingleParser
     protected function readUndocumentedDataBlob140()
     {
         if (isset($this->Values['performance_condition_end'])) {
-            $this->Container->FitDetails->PerformanceConditionEnd = 100 + (float) $this->Values['performance_condition_end'][1];
+            $this->Container->FitDetails->PerformanceConditionEnd = (int) (100 + (float) $this->Values['performance_condition_end'][1]);
             if ($this->Container->FitDetails->PerformanceCondition === null && $this->Container->FitDetails->HrvAnalysis !== null) {
                 $this->Container->FitDetails->PerformanceCondition = $this->Container->FitDetails->HrvAnalysis;
                 $this->Container->FitDetails->HrvAnalysis = null;
@@ -782,7 +771,7 @@ class FitActivity extends AbstractSingleParser
             // a value of 999 means 99 km/h
             if ($ltp > 0 && $ltp <= 999) {
                 // see https://forum.intervals.icu/t/all-fields-from-garmin-activity/28097
-                $this->Container->FitDetails->LactateThresholdPace = $ltp / 36;
+                $this->Container->FitDetails->LactateThresholdPace = (int) ($ltp / 36);
             }
         }
     }
@@ -863,25 +852,25 @@ class FitActivity extends AbstractSingleParser
      * TSC: list of devices which support Performance Condition
      * Mapping number to device see https://github.com/Runalyze/devices/blob/master/src/Mapping/GarminFitSdkMapping.php
      */
-    protected function hasPerformanceCondition($creator): bool
+    protected function hasPerformanceCondition(string $creator): bool
     {
-        return substr($creator, 0, 5) === 'fr630' || $creator == '2156' || $creator == '2310' || $creator == '2311' ||                             // GARMIN_FORERUNNER_630
-            substr($creator, 0, 5) === 'fr645' || $creator == '2886' || $creator == '3003' || $creator == '2888' || $creator == '3004' ||       // GARMIN_FORERUNNER_645
-            substr($creator, 0, 5) === 'fr935' || $creator == '2691' || $creator == '2833' ||                                                   // GARMIN_FORERUNNER_935
-            $creator == '3113' || $creator == '3441' ||                                                                                         // GARMIN_FORERUNNER_945
-            substr($creator, 0, 7) === 'fr735xt' || $creator == '2158' || $creator == '2533' || $creator == '2534' || $creator == '2158' ||     // GARMIN_FORERUNNER_735_X_T
-                $creator == '2533' || $creator == '2534' ||
+        return substr($creator, 0, 5) === 'fr630' || $creator === '2156' || $creator === '2310' || $creator === '2311' ||                             // GARMIN_FORERUNNER_630
+            substr($creator, 0, 5) === 'fr645' || $creator === '2886' || $creator === '3003' || $creator === '2888' || $creator === '3004' ||       // GARMIN_FORERUNNER_645
+            substr($creator, 0, 5) === 'fr935' || $creator === '2691' || $creator === '2833' ||                                                   // GARMIN_FORERUNNER_935
+            $creator === '3113' || $creator === '3441' ||                                                                                         // GARMIN_FORERUNNER_945
+            substr($creator, 0, 7) === 'fr735xt' || $creator === '2158' || $creator === '2533' || $creator === '2534' || $creator === '2158' ||     // GARMIN_FORERUNNER_735_X_T
+                $creator === '2533' || $creator === '2534' ||
             substr($creator, 0, 6) === 'fenix3' ||                                                                                              // GARMIN_FENIX 3...
-            $creator == '2050' || $creator == '2188' || $creator == '2293' || $creator == '2407' || $creator == '2408' || $creator == '2189' ||
-            $creator == '2375' || $creator == '2432' || $creator == '2413' || $creator == '2473' || $creator == '2474' || $creator == '2475' ||
-            $creator == '2476' || $creator == '2477' ||
+            $creator === '2050' || $creator === '2188' || $creator === '2293' || $creator === '2407' || $creator === '2408' || $creator === '2189' ||
+            $creator === '2375' || $creator === '2432' || $creator === '2413' || $creator === '2473' || $creator === '2474' || $creator === '2475' ||
+            $creator === '2476' || $creator === '2477' ||
             substr($creator, 0, 6) === 'fenix5' ||                                                                                              // GARMIN FENIX 5...
-            $creator == '2697' || $creator == '3110' || $creator == '2796' || $creator == '2797' || $creator == '2544' || $creator == '2604' ||
-            $creator == '2798' || $creator == '3089' || $creator == '3135' || $creator == '2900' || $creator == '3134' || $creator == '3111' ||
-            $creator == '2798' || $creator == '3089' || $creator == '3135' || $creator == '2900' || $creator == '3134' || $creator == '3111' ||
+            $creator === '2697' || $creator === '3110' || $creator === '2796' || $creator === '2797' || $creator === '2544' || $creator === '2604' ||
+            $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
+            $creator === '2798' || $creator === '3089' || $creator === '3135' || $creator === '2900' || $creator === '3134' || $creator === '3111' ||
             substr($creator, 0, 6) === 'fenix6' ||                                                                                              // GARMIN_FENIX 6...
-            $creator == '3287' || $creator == '3288' || $creator == '3289' || $creator == '3290' || $creator == '3291' || $creator == '3512' ||
-            $creator == '3513' || $creator == '3514' || $creator == '3515' || $creator == '3516';
+            $creator === '3287' || $creator === '3288' || $creator === '3289' || $creator === '3290' || $creator === '3291' || $creator === '3512' ||
+            $creator === '3513' || $creator === '3514' || $creator === '3515' || $creator === '3516';
     }
 
     protected function readRecord()
@@ -1007,6 +996,9 @@ class FitActivity extends AbstractSingleParser
         }
     }
 
+    /**
+     * @param array<string, array<float|string|int>> $developerFieldMapping
+     */
     protected function mapDeveloperFieldsToNativeFieldsFor(array $developerFieldMapping)
     {
         foreach ($developerFieldMapping as $devFieldName => $nativeData) {
@@ -1039,11 +1031,15 @@ class FitActivity extends AbstractSingleParser
 
     /**
      * @see FIT SDK, e.g. at https://github.com/dgaff/fitsdk/blob/7f38d911388b7cdc3db7bf0318239352928faa8b/c/examples/decode/decode.c#L132-L146
-     * @return int current time
+     * @return float current time
      */
     protected function parseCompressedSpeedDistance(): float
     {
-        $values = explode(',', $this->Values['compressed_speed_distance'][1]);
+        if (! isset($this->Values['compressed_speed_distance'])) {
+            throw new \RuntimeException('compressed_speed_distance is not set.');
+        }
+
+        $values = array_map('intval', explode(',', $this->Values['compressed_speed_distance'][1]));
 
         if (count($values) === 3) {
             $speed100 = $values[0] | (($values[1] & 0x0F) << 8);
@@ -1078,7 +1074,7 @@ class FitActivity extends AbstractSingleParser
 
                 // #TSC set more detailed intensity (like warmup or recovery) for this lap
                 $v = $this->fitWorkoutStep->getIntensity($i);
-                if ($v !== null) {
+                if ($v instanceof \Runalyze\Activity\LapIntensity) {
                     // special case: if we have a lap with time and distance and its marked as REST we change it to RECOVERY
                     // if i use Fenix6 with interval created on the device, the laps between the intervals are pause - but i want RECOVERY
                     if ($v->isRest()) {
@@ -1105,7 +1101,7 @@ class FitActivity extends AbstractSingleParser
     protected function readSet()
     {
         $round = $this->fitSplitsAdditionals->getSetRoundAndCollect($this->Values);
-        if ($round !== null) {
+        if ($round instanceof \Runalyze\Parser\Activity\Common\Data\Round\Round) {
             $this->Container->Rounds->add($round);
         }
     }
@@ -1285,7 +1281,7 @@ class FitActivity extends AbstractSingleParser
         }
 
         $split_type = $this->Values['split_type'][0];
-        $total_timer_time_s = round((int) ($this->Values['total_timer_time'][0]) / 1000);
+        $total_timer_time_s = (int) (round((int) ($this->Values['total_timer_time'][0]) / 1000));
 
         // pace-pro
         if ($split_type == 0

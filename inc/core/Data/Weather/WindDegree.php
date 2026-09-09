@@ -22,13 +22,12 @@ class WindDegree implements ValueInterface
      * Wind Degree
      * @var float|null [°]
      */
-    protected $Value;
+    protected ?float $Value = null;
 
     /**
      * Wind Degree
-     * @param float|null $degrees
      */
-    public function __construct($degrees = null)
+    public function __construct(?float $degrees = null)
     {
         $this->set($degrees);
     }
@@ -57,27 +56,20 @@ class WindDegree implements ValueInterface
         return __('Wind Degree');
     }
 
-    /**
-     * Label for value
-     */
     public function unit(): string
     {
         return '&deg;';
     }
 
-    /**
-     * @return null|float
-     */
-    public function value()
+    public function value(): ?float
     {
         return $this->Value;
     }
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->isUnknown()) {
             return '';

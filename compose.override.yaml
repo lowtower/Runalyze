@@ -9,3 +9,9 @@ services:
       - "${MAILHOG_UI_PORT:-8025}:8025"
     restart: unless-stopped
 ###< symfony/mailer ###
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "5432"
+###< doctrine/doctrine-bundle ###

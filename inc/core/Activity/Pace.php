@@ -7,6 +7,7 @@
 
 namespace Runalyze\Activity;
 
+use Runalyze\Activity\PaceUnit\AbstractUnit;
 use Runalyze\Metrics\LegacyUnitConverter;
 use Runalyze\Parameter\Application\PaceUnit as PaceUnitOption;
 
@@ -27,20 +28,15 @@ class Pace
 
     /**
      * Time [s]
-     * @var int
      */
-    protected $Time;
+    protected int $Time;
 
     /**
      * Distance [km]
-     * @var float
      */
-    protected $Distance;
+    protected float $Distance;
 
-    /**
-     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-     */
-    protected $UnitObject;
+    protected AbstractUnit $UnitObject;
 
     /**
      * Create pace
@@ -48,7 +44,7 @@ class Pace
      * @param float $distance [optional] [km]
      * @param int $legacyPaceUnitEnum [optional]
      */
-    public function __construct($time, $distance = 1.0, $legacyPaceUnitEnum = self::STANDARD)
+    public function __construct(int $time, float $distance = 1.0, int $legacyPaceUnitEnum = self::STANDARD)
     {
         $this->Time = $time;
         $this->Distance = $distance;
@@ -60,7 +56,7 @@ class Pace
      * Read pace from min/km
      * @param string $string see Duration::fromString()
      */
-    public function fromMinPerKm($string)
+    public function fromMinPerKm(string $string)
     {
         $Duration = new Duration($string);
 
@@ -72,7 +68,7 @@ class Pace
      * @param int $time [s]
      * @return \Runalyze\Activity\Pace $this-reference
      */
-    public function setTime($time): self
+    public function setTime(int $time): self
     {
         $this->Time = $time;
 
@@ -83,7 +79,7 @@ class Pace
      * @param float $distance [km]
      * @return \Runalyze\Activity\Pace $this-reference
      */
-    public function setDistance($distance): self
+    public function setDistance(float $distance): self
     {
         $this->Distance = $distance;
 
@@ -92,9 +88,8 @@ class Pace
 
     /**
      * Unit object
-     * @return \Runalyze\Activity\PaceUnit\AbstractUnit
      */
-    public function unit()
+    public function unit(): AbstractUnit
     {
         return $this->UnitObject;
     }
@@ -103,24 +98,21 @@ class Pace
      * Enum for pace unit
      *
      * This is for example what is saved in sports configuration.
-     *
-     * @return string
      */
-    public function unitEnum()
+    public function unitEnum(): int
     {
         return $this->UnitObject->unit();
     }
 
-    public function setUnit(PaceUnit\AbstractUnit $Unit)
+    public function setUnit(AbstractUnit $Unit)
     {
         $this->UnitObject = $Unit;
     }
 
     /**
      * Set unit
-     * @param int $legacyPaceUnitEnum
      */
-    public function setLegacyUnitEnum($legacyPaceUnitEnum)
+    public function setLegacyUnitEnum(int $legacyPaceUnitEnum)
     {
         $Option = new PaceUnitOption();
         $Option->set($legacyPaceUnitEnum);
@@ -130,18 +122,16 @@ class Pace
 
     /**
      * Set unit
-     * @param int $unitEnum
      */
-    public function setNewUnitEnum($unitEnum)
+    public function setNewUnitEnum(int $unitEnum)
     {
         $this->UnitObject = (new LegacyUnitConverter())->getLegacyPaceUnit($unitEnum);
     }
 
     /**
      * Set unit
-     * @param int $unitEnum
      */
-    public function setUnitEnum($unitEnum)
+    public function setUnitEnum(int $unitEnum)
     {
         // TODO: remove
     }
@@ -151,19 +141,16 @@ class Pace
         return $this->Distance <= 0 || $this->Time <= 0;
     }
 
-    /**
-     * @return float
-     */
-    public function secondsPerKm()
+    public function secondsPerKm(): int
     {
-        return ($this->Distance > 0) ? ($this->Time / $this->Distance) : 0;
+        return ($this->Distance > 0) ? (int) ($this->Time / $this->Distance) : 0;
     }
 
     /**
      * As string, without unit
      * @return string e.g. '12,5', '4:51'
      */
-    public function value()
+    public function value(): string
     {
         return $this->UnitObject->format($this->secondsPerKm());
     }
@@ -175,18 +162,13 @@ class Pace
 
     /**
      * Get appendix
-     * @return string
      */
-    public function appendix()
+    public function appendix(): string
     {
         return $this->UnitObject->appendix();
     }
 
-    /**
-     * @param string $UnitEnum
-     * @return string
-     */
-    public function asUnitEnum($UnitEnum)
+    public function asUnitEnum(string $UnitEnum): string
     {
         $Option = new PaceUnitOption();
         $Option->set($UnitEnum);
@@ -194,28 +176,23 @@ class Pace
         return $this->asUnit($Option->object());
     }
 
-    /**
-     * @return string
-     */
-    public function asUnit(PaceUnit\AbstractUnit $Unit)
+    public function asUnit(AbstractUnit $Unit): string
     {
         return $Unit->format($this->secondsPerKm());
     }
 
     /**
      * As: km/h
-     * @return string
      */
-    public function asKmPerHour()
+    public function asKmPerHour(): string
     {
         return $this->asUnit(new PaceUnit\KmPerHour());
     }
 
     /**
      * As: min/km
-     * @return string
      */
-    public function asMinPerKm()
+    public function asMinPerKm(): string
     {
         return $this->asUnit(new PaceUnit\MinPerKilometer());
     }
@@ -226,13 +203,13 @@ class Pace
      * @param bool $raw [optional]
      * @throws \InvalidArgumentException
      */
-    public function compareTo(self $other, $raw = false): string
+    public function compareTo(self $other, bool $raw = false): string
     {
-        if ($this->unitEnum() != $other->unitEnum()) {
+        if ($this->unitEnum() !== $other->unitEnum()) {
             throw new \InvalidArgumentException('Pace objects must have the same unit.');
         }
 
-        if ($this->secondsPerKm() == 0 || $other->secondsPerKm() == 0) {
+        if ($this->secondsPerKm() === 0 || $other->secondsPerKm() === 0) {
             return '';
         }
 
@@ -248,10 +225,9 @@ class Pace
 
     /**
      * @param string $string e.g. '0:27' or '1,4'
-     * @param bool $isPositive
      * @param bool $raw [optional]
      */
-    protected function formatComparison($string, $isPositive, $raw = false): string
+    protected function formatComparison(string $string, bool $isPositive, bool $raw = false): string
     {
         $class = ($isPositive) ? 'plus' : 'minus';
         $sign = ($isPositive) ? '+' : '-';

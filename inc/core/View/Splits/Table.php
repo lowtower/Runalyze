@@ -21,50 +21,42 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class Table
 {
-    /**
-     * @var \Runalyze\Model\Activity\Splits\Entity
-     */
-    protected $Splits;
+    protected \Runalyze\Model\Activity\Splits\Entity $Splits;
 
     /**
      * Halfs of a competition to display
-     * @var array
      */
-    protected $Halfs = [];
+    protected array $Halfs = [];
 
     /**
      * Demanded pace
-     * @var \Runalyze\Activity\Pace
      */
-    protected $demandedPace;
+    protected Pace $demandedPace;
 
     /**
      * Achieved pace
-     * @var \Runalyze\Activity\Pace
      */
-    protected $achievedPace;
+    protected Pace $achievedPace;
 
     /**
      * Achieved pace (active rounds)
-     * @var \Runalyze\Activity\Pace
      */
-    protected $achievedPaceActive;
+    protected Pace $achievedPaceActive;
 
     /**
-     * @var string enum
+     * @var int enum
      */
-    protected $PaceUnit;
+    protected int $PaceUnit;
 
     /**
      * Code
-     * @var string
      */
-    protected $Code = '';
+    protected string $Code = '';
 
     /**
      * @param int $legacyPaceUnitEnum enum
      */
-    public function __construct(Splits\Entity $splits, $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM)
+    public function __construct(Splits\Entity $splits, int $legacyPaceUnitEnum = PaceUnit::MIN_PER_KM)
     {
         $this->Splits = $splits;
         $this->PaceUnit = $legacyPaceUnitEnum;
@@ -77,10 +69,7 @@ class Table
         echo $this->code();
     }
 
-    /**
-     * @return string
-     */
-    public function code()
+    public function code(): string
     {
         $this->setCode();
 

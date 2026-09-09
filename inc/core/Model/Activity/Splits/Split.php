@@ -77,7 +77,7 @@ class Split extends StringObject
     public function fromString($string)
     {
         $intensity = LapIntensity::fromValue(substr($string, 0, 1));
-        if ($intensity !== null) {
+        if ($intensity instanceof \Runalyze\Activity\LapIntensity) {
             $this->Intensity = $intensity;
             $string = substr($string, 1);
         } else {
@@ -86,8 +86,8 @@ class Split extends StringObject
 
         $Duration = new Duration(substr(strrchr($string, self::SEPARATOR), 1));
 
-        $this->Distance = strstr($string, self::SEPARATOR, true);
-        $this->Time = $Duration->seconds();
+        $this->Distance = (float) strstr($string, self::SEPARATOR, true);
+        $this->Time = (int) $Duration->seconds();
     }
 
     /**

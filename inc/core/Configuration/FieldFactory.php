@@ -21,9 +21,8 @@ class FieldFactory
     /**
      * Add field
      * @param array<string, mixed> $options
-     * @return \FormularField
      */
-    public function FieldFor(Handle $Handle, array $options = [])
+    public function FieldFor(Handle $Handle, array $options = []): \FormularField
     {
         $options = array_merge([
             'label' => $Handle->key(),
@@ -44,10 +43,9 @@ class FieldFactory
 
     /**
      * Create a field
-     * @param string $label
      * @return \FormularField
      */
-    private function createFieldFor(Handle $Handle, $label)
+    private function createFieldFor(Handle $Handle, string $label)
     {
         $Parameter = $Handle->object();
         $Class = 'FormularInput';
@@ -81,11 +79,11 @@ class FieldFactory
      */
     private function setAttributesToField(\FormularField $Field, array &$options)
     {
-        if (! empty($options['unit'])) {
+        if (! empty($options['unit']) && method_exists($Field, 'setUnit')) {
             $Field->setUnit($options['unit']);
         }
 
-        if (! empty($options['size'])) {
+        if (! empty($options['size']) && method_exists($Field, 'setSize')) {
             $Field->setSize($options['size']);
         }
 

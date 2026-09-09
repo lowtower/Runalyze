@@ -35,24 +35,14 @@ class PerformanceCondition implements ValueInterface
      */
     public const UPPER_LIMIT = 120;
 
-    /**
-     * @var int|null
-     */
-    protected $Value;
+    protected ?int $Value;
 
-    /**
-     * @param int|null $value
-     * @return string
-     */
-    public static function format($value)
+    public static function format(?int $value): string
     {
         return (new self($value))->string();
     }
 
-    /**
-     * @param int|null $value
-     */
-    public function __construct($value = null)
+    public function __construct(?int $value = null)
     {
         $this->set($value);
     }
@@ -101,9 +91,8 @@ class PerformanceCondition implements ValueInterface
     /**
      * Format training effect as string
      * @param bool $withUnit [optional] show unit?
-     * @return string
      */
-    public function string($withUnit = true)
+    public function string(bool $withUnit = true): string
     {
         if (! $this->isKnown()) {
             return '';
@@ -113,17 +102,14 @@ class PerformanceCondition implements ValueInterface
 
         if ($baselineValue > 0) {
             $baselineValue = '+' . $baselineValue;
-        } elseif ($baselineValue == 0) {
+        } elseif ($baselineValue === 0) {
             $baselineValue = '&plusmn;0';
         }
 
         return $baselineValue;
     }
 
-    /**
-     * @return int|null
-     */
-    public function value()
+    public function value(): ?int
     {
         return $this->Value;
     }

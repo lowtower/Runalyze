@@ -6,10 +6,7 @@ namespace Runalyze\Service\ElevationCorrection\Strategy;
 
 interface StrategyInterface
 {
-    /**
-     * @return bool
-     */
-    public function isPossible();
+    public function isPossible(): bool;
 
     /**
      * @param float[] $latitudes

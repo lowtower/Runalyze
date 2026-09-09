@@ -11,10 +11,7 @@ class ContinuousDataAdapter
      */
     public const RPM_LIMIT_FOR_CORRECTION = 130;
 
-    /**
-     * @var ContinuousData
-     */
-    protected $ContinuousData;
+    protected ContinuousData $ContinuousData;
 
     public function __construct(ContinuousData $continuousData)
     {
@@ -258,10 +255,8 @@ class ContinuousDataAdapter
 
     /**
      * Returns the average temperature from continuous data if available.
-     *
-     * @return float|null
      */
-    public function getAverageTemperature()
+    public function getAverageTemperature(): ?float
     {
         if ($this->ContinuousData->Temperature === []) {
             return null;

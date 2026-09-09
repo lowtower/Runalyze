@@ -26,10 +26,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    /**
-     * @return int
-     */
-    protected function insertMessageFor(Account $account)
+    protected function insertMessageFor(Account $account): int
     {
         $notification = Notification::createFromMessage(
             new TemplateBasedMessage('../../../tests/CoreBundle/DataFixtures/messages/test-message.yml'),
@@ -54,9 +51,8 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $id = $this->insertMessageFor($this->Account);
 
-        $this->loginAs($this->getEmptyAccount(), 'default');
-
         $client = $this->makeClient();
+        $this->loginClient($client, $this->getEmptyAccount(), 'default');
         $client->request('GET', '/_internal/notifications/read/' . $id);
 
         $this->isSuccessful($client->getResponse(), false);
@@ -66,9 +62,8 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     {
         $id = $this->insertMessageFor($this->Account);
 
-        $this->loginAs($this->getDefaultAccount(), 'default');
-
         $client = $this->makeClient();
+        $this->loginClient($client, $this->getDefaultAccount(), 'default');
         $client->request('GET', '/_internal/notifications/read/' . $id);
 
         $this->isSuccessful($client->getResponse());
@@ -77,18 +72,25 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     public function testThatNewNotificationActionIsEmptyForEmptyAccount()
     {
         $this->insertMessageFor($this->Account);
-        $this->loginAs($this->getEmptyAccount(), 'default');
+
+        $client = $this->makeClient();
+        $this->loginClient($client, $this->getEmptyAccount(), 'default');
+        $client->request('GET', '/_internal/notifications');
 
         $this->assertEquals(
             json_encode([]),
-            $this->fetchContent('/_internal/notifications')
+            $client->getResponse()
+                ->getContent()
         );
     }
 
     public function testThatNewNotificationActionReturnsCorrectTextAndLink()
     {
         $id = $this->insertMessageFor($this->Account);
-        $this->loginAs($this->getDefaultAccount(), 'default');
+
+        $client = $this->makeClient();
+        $this->loginClient($client, $this->getDefaultAccount(), 'default');
+        $client->request('GET', '/_internal/notifications');
 
         $this->assertEquals(
             json_encode([[
@@ -98,7 +100,8 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
                 'size' => 'external',
                 'createdAt' => 10,
             ]]),
-            $this->fetchContent('/_internal/notifications')
+            $client->getResponse()
+                ->getContent()
         );
     }
 }

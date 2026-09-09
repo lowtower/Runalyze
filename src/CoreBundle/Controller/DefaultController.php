@@ -189,7 +189,7 @@ class DefaultController extends AbstractPluginsAwareController
         /** @var TrainingRepository $repository */
         $repository = $this->getDoctrine()
             ->getRepository(Training::class);
-        $numDistance = $repository->getAmountOfLoggedKilometers();
+        $numDistance = (float) $repository->getAmountOfLoggedKilometers();
 
         return [
             'user' => (int) $numUser,

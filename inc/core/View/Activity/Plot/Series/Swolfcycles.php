@@ -25,8 +25,6 @@ class Swolfcycles extends ActivityPointSeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
-     * @var bool [optional]
      */
     public function __construct(Activity\Context $context)
     {
@@ -36,8 +34,6 @@ class Swolfcycles extends ActivityPointSeries
 
     /**
      * Init data
-     * @var \Runalyze\View\Activity\Context
-     * @var bool
      */
     protected function initDataWithSwimdata(Activity\Context $context)
     {
@@ -82,7 +78,7 @@ class Swolfcycles extends ActivityPointSeries
      */
     public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return;
         }
 

@@ -141,7 +141,7 @@ class LogbookActivity extends AbstractSingleParser
         }
 
         if ($heartRateMultipliedByTime > 0 && $this->Container->ActivityData->AvgHeartRate === null && $this->Container->ActivityData->Duration > 0) {
-            $this->Container->ActivityData->AvgHeartRate = $heartRateMultipliedByTime / $this->Container->ActivityData->Duration;
+            $this->Container->ActivityData->AvgHeartRate = intval($heartRateMultipliedByTime / $this->Container->ActivityData->Duration);
         }
     }
 }

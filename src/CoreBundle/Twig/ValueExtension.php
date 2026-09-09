@@ -19,10 +19,7 @@ use Runalyze\Metrics\Weight\Unit\AbstractWeightUnit;
 
 class ValueExtension extends \Twig\Extension\AbstractExtension
 {
-    /**
-     * @var UnitSystem
-     */
-    protected $UnitSystem;
+    protected UnitSystem $UnitSystem;
 
     public function __construct(ConfigurationManager $configurationManager)
     {
@@ -30,11 +27,9 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
     }
 
     /**
-     * @return string
-     *
      * @codeCoverageIgnore
      */
-    public function getName()
+    public function getName(): string
     {
         return 'runalyze.value_extension';
     }
@@ -44,7 +39,7 @@ class ValueExtension extends \Twig\Extension\AbstractExtension
      *
      * @codeCoverageIgnore
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $safeHtmlOptions = [
             'is_safe' => ['html'],

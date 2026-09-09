@@ -20,79 +20,62 @@ class Location
 {
     /**
      * Latitude
-     * @var float|null
      */
-    protected $Latitude;
+    protected ?float $Latitude = null;
 
     /**
      * Longitude
-     * @var float|null
      */
-    protected $Longitude;
+    protected ?float $Longitude = null;
 
     /**
      * DateTime
-     * @var \DateTime|null
      */
-    protected $DateTime;
+    protected ?\DateTime $DateTime = null;
 
     /**
      * Location name
-     * @var string
      */
-    protected $LocationName = '';
+    protected string $LocationName = '';
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     */
-    public function setPosition($latitude, $longitude)
+    public function setPosition(float $latitude, float $longitude)
     {
         $this->Latitude = $latitude;
         $this->Longitude = $longitude;
     }
 
-    /**
-     * @param string $geohash
-     */
-    public function setGeohash($geohash)
+    public function setGeohash(string $geohash)
     {
-        $decoded = (new Geohash())->decode($geohash)
-            ->getCoordinate();
+        /** Geohash $geohashObj */
+        $geohashObj = (new Geohash())->decode($geohash);
+        $decoded = $geohashObj->getCoordinate();
+
         $this->Latitude = $decoded->getLatitude();
         $this->Longitude = $decoded->getLongitude();
     }
 
-    /**
-     * @param \DateTime|null $dateTime
-     */
-    public function setDateTime($dateTime)
+    public function setDateTime(?\DateTime $dateTime)
     {
         $this->DateTime = $dateTime;
     }
 
-    /**
-     * @param string $location
-     */
-    public function setLocationName($location)
+    public function setLocationName(string $location)
     {
         $this->LocationName = $location;
     }
 
     /**
      * Latitude
-     * @return float
      */
-    public function lat()
+    public function lat(): float
     {
         return $this->Latitude;
     }
 
     /**
      * Longitude
-     * @return float
      */
-    public function lon()
+    public function lon(): float
     {
         return $this->Longitude;
     }
@@ -103,31 +86,26 @@ class Location
             return null;
         }
 
-        return (new Geohash())->encode(new Coordinate([(float) $this->lat(), (float) $this->lon()]), 12)->getGeohash();
+        return (new Geohash())->encode(new Coordinate([$this->lat(), $this->lon()]), 12)->getGeohash();
     }
 
     /**
      * Time
-     * @return \DateTime|null
      */
-    public function dateTime()
+    public function dateTime(): ?\DateTime
     {
         return $this->DateTime;
     }
 
-    /**
-     * @return int
-     */
-    public function timestamp()
+    public function timestamp(): int
     {
         return $this->DateTime->getTimestamp();
     }
 
     /**
      * Location name
-     * @return string
      */
-    public function name()
+    public function name(): string
     {
         return $this->LocationName;
     }
@@ -149,7 +127,7 @@ class Location
      */
     public function hasLocationName(): bool
     {
-        return (string) $this->LocationName !== '';
+        return $this->LocationName !== '';
     }
 
     /**
@@ -157,15 +135,14 @@ class Location
      */
     public function hasDateTime(): bool
     {
-        return $this->DateTime !== null;
+        return $this->DateTime instanceof \DateTime;
     }
 
     /**
      * Is the location old?
-     * @param int $seconds
      * @return bool true if the timestamp is older than 24 hours
      */
-    public function isOlderThan($seconds = DAY_IN_S): bool
+    public function isOlderThan(int $seconds = DAY_IN_S): bool
     {
         return $this->hasDateTime() && ($this->timestamp() < time() - $seconds);
     }

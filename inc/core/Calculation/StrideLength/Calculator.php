@@ -90,7 +90,7 @@ class Calculator
         $Series = new TimeSeries($this->Strides, $this->Trackdata->time());
         $Series->calculateStatistic();
 
-        return round($Series->mean());
+        return (int) round($Series->mean());
     }
 
     /**
@@ -107,7 +107,7 @@ class Calculator
             $value = round($activity->distance() * 1000 * 100 / ($activity->cadence() * 2 / 60 * $activity->duration()));
 
             if ($value <= 255) {
-                return $value;
+                return (int) $value;
             }
         }
 

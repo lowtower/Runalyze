@@ -20,10 +20,7 @@ use Runalyze\View\Icon;
  */
 class MaximalHeartRateInPercent extends MaximalHeartRate
 {
-    /**
-     * @param bool $addWarningIfMaximalHeartRateIsExceeded
-     */
-    public function __construct(HeartRate $heartRate, $addWarningIfMaximalHeartRateIsExceeded = false)
+    public function __construct(HeartRate $heartRate, bool $addWarningIfMaximalHeartRateIsExceeded = false)
     {
         parent::__construct($heartRate);
 
@@ -32,13 +29,10 @@ class MaximalHeartRateInPercent extends MaximalHeartRate
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function value(HeartRate $heartRate)
+    protected function value(HeartRate $heartRate): string
     {
         if ($heartRate->inBPM() > 0 && $heartRate->canShowInHRmax()) {
-            return $heartRate->inPercent();
+            return (string) $heartRate->inPercent();
         }
 
         return '-';

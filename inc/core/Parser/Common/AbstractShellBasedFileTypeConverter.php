@@ -8,17 +8,11 @@ abstract class AbstractShellBasedFileTypeConverter implements FileTypeConverterI
 {
     abstract public function getConvertibleFileExtension();
 
-    abstract public function getConvertedFileName($inputFile);
+    abstract public function getConvertedFileName(string $inputFile): string;
 
-    /**
-     * @param string $inputFile
-     * @param string $outputFile
-     *
-     * @return string
-     */
-    abstract protected function buildCommand($inputFile, $outputFile);
+    abstract protected function buildCommand(string $inputFile, string $outputFile): string;
 
-    public function convertFile($inputFile)
+    public function convertFile(string $inputFile): string
     {
         $outputFile = $this->getConvertedFileName($inputFile);
 
@@ -50,8 +44,5 @@ abstract class AbstractShellBasedFileTypeConverter implements FileTypeConverterI
         }
     }
 
-    /**
-     * @param string $firstLine
-     */
-    abstract protected function checkFirstLineOfOutput($firstLine);
+    abstract protected function checkFirstLineOfOutput(string $firstLine);
 }

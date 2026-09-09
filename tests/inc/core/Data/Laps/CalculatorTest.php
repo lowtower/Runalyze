@@ -10,15 +10,9 @@ use Runalyze\Model\Trackdata;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Calculator
-     */
-    protected $object;
+    protected Calculator $object;
 
-    /**
-     * @var \Runalyze\Data\Laps\Laps
-     */
-    protected $Laps;
+    protected \Runalyze\Data\Laps\Laps $Laps;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

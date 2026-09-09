@@ -17,15 +17,14 @@ class GZipReader
 {
     /**
      * Resource for file
-     * @var resource
+     * @var ?resource
      */
     protected $Resource;
 
     /**
-     * @param string $fileName
      * @throws \RuntimeException
      */
-    public function __construct($fileName)
+    public function __construct(string $fileName)
     {
         if (is_readable($fileName)) {
             $this->Resource = gzopen($fileName, 'r');

@@ -22,10 +22,7 @@ class Set extends \Runalyze\Parameter
      */
     public const SEPARATOR = ',';
 
-    /**
-     * @return string
-     */
-    public static function arrayToString(array $array)
+    public static function arrayToString(array $array): string
     {
         $string = '';
         $stringLength = 0;
@@ -54,7 +51,7 @@ class Set extends \Runalyze\Parameter
      * @param array $options [optional]
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $default, $options = [])
+    public function __construct(array $default, array $options = [])
     {
         if (! is_array($default)) {
             // Typehint in constructor does not fetch this
@@ -67,13 +64,13 @@ class Set extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString($valueAsString)
+    public function setFromString(string $valueAsString)
     {
-        $this->set(($valueAsString == 'true'));
+        $this->set(($valueAsString === 'true'));
 
         $valueAsArray = [];
 
-        if ((string) $valueAsString !== '') {
+        if ($valueAsString !== '') {
             $valueAsArray = explode(self::SEPARATOR, $valueAsString);
 
             foreach ($valueAsArray as $key => $value) {
@@ -84,10 +81,7 @@ class Set extends \Runalyze\Parameter
         $this->set($valueAsArray);
     }
 
-    /**
-     * @return string
-     */
-    public function valueAsString()
+    public function valueAsString(): string
     {
         return self::arrayToString($this->value());
     }

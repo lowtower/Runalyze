@@ -8,25 +8,16 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
 {
     use GuessUnknownValuesTrait;
 
-    /**
-     * @var Reader
-     */
-    protected $Reader;
+    protected Reader $Reader;
 
-    /**
-     * @var bool
-     */
-    protected $UseSmoothing = true;
+    protected bool $UseSmoothing = true;
 
     public function __construct(Reader $reader)
     {
         $this->Reader = $reader;
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setUseSmoothing($flag)
+    public function setUseSmoothing(bool $flag)
     {
         $this->UseSmoothing = $flag;
     }
@@ -36,7 +27,7 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
         return true;
     }
 
-    public function loadAltitudeData(array $latitudes, array $longitudes)
+    public function loadAltitudeData(array $latitudes, array $longitudes): ?array
     {
         if ($this->canHandleData($latitudes, $longitudes)) {
             $altitudes = $this->Reader->getElevations($latitudes, $longitudes);
@@ -53,10 +44,8 @@ class GeoTiff extends AbstractStrategy implements StrategyInterface
     /**
      * @param float[] $latitudes
      * @param float[] $longitudes
-     *
-     * @return bool
      */
-    public function canHandleData(array $latitudes, array $longitudes)
+    public function canHandleData(array $latitudes, array $longitudes): bool
     {
         return $this->Reader->hasDataFor($this->getBoundsFor($latitudes, $longitudes));
     }

@@ -37,12 +37,12 @@ class RPE
         ];
     }
 
-    public static function validRPE($value): bool
+    public static function validRPE(int $value): bool
     {
         return $value >= 1 && $value <= 10;
     }
 
-    public static function getString($value)
+    public static function getString(int $value)
     {
         if (self::validRPE($value)) {
             return self::completeList()[$value];

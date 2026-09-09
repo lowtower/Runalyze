@@ -21,9 +21,9 @@ class Ajax
 
     /**
      * ID for plugin to reload, can be empty to reload all plugins
-     * @var int
+     * @var ?int
      */
-    public static $RELOAD_PLUGIN_ID = '';
+    public static $RELOAD_PLUGIN_ID;
 
     /**
      * Enum: Reload flag - no reload
@@ -171,7 +171,7 @@ class Ajax
      * Get html-code for jquery-tooltip
      * @param string $html
      * @param string $tooltip
-     * @param bool $atLeft [optional] can be 'atRight'
+     * @param bool|string $atLeft [optional] can be 'atRight'
      * @param bool $onlyAttributes [optional]
      * @return string
      */
@@ -368,20 +368,18 @@ class Ajax
 
     /**
      * Wrap JavaScript into code block for beeing an unnamed function
-     * @param string $code
      */
-    public static function wrapJSasFunction($code): string
+    public static function wrapJSasFunction(string $code): string
     {
         return self::wrapJS('$(function(){ ' . $code . ' });');
     }
 
     /**
      * JSON encode with function
-     * @param array $funcs
-     * @param int $level
-     * @return string
+     * @param array<string, mixed> $funcs
+     * @return string|array
      */
-    public static function json_encode_jsfunc(array $input, $funcs = [], $level = 0)
+    public static function json_encode_jsfunc(array $input, array $funcs = [], int $level = 0)
     {
         foreach ($input as $key => $value) {
             if (is_array($value)) {
@@ -395,7 +393,7 @@ class Ajax
             }
         }
 
-        if ($level == 1) {
+        if ($level === 1) {
             return [$input, $funcs];
         }
 

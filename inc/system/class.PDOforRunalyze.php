@@ -80,9 +80,8 @@ class PDOforRunalyze extends PDO
     /**
      * Fetch row by id
      * @param string $table without PREFIX
-     * @return array
      */
-    public function fetchByID(string $table, int $ID)
+    public function fetchByID(string $table, int $ID): array
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -141,12 +140,12 @@ class PDOforRunalyze extends PDO
      * Escapes and inserts the given $values to the $columns in $table
      *
      * This methods always adds the accountid (unless something is inserted to the account table)
-     * @param string   $table without PREFIX
+     * @param string $table without PREFIX
      * @param array $columns
-     * @param array  $values
-     * @return int       ID of inserted row
+     * @param array $values
+     * @return int|bool       ID of inserted row
      */
-    public function insert(string $table, $columns, $values): int
+    public function insert(string $table, $columns, $values)
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -171,7 +170,7 @@ class PDOforRunalyze extends PDO
 
         $this->startAddingAccountID();
 
-        return $this->lastInsertId();
+        return (int) $this->lastInsertId();
     }
 
     /**
@@ -249,11 +248,20 @@ class PDOforRunalyze extends PDO
      */
     public function exec($statement)
     {
+        $driver = $this->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);
         }
 
-        return parent::exec($statement);
+        try {
+            return parent::exec($statement);
+        } catch (\PDOException $pdoException) {
+            throw new \RuntimeException(
+                "catched PDOException: error with SQL ({$driver}):\n{$statement}\n\n" . $pdoException->getMessage(),
+                0,
+                $pdoException
+            );
+        }
     }
 
     /**

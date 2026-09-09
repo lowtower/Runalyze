@@ -28,7 +28,7 @@
                     <h1>{% trans with {'%username%': account.username} %}Activity data of %username%{% endtrans %}</h1>
                     <a rel="alternate" type="application/rss+xml" href="{{ url('shared-athlete-feed', {'username': account.username}) }}" title="{% trans with {'%username%': account.username} %}Follow %username% via RSS-Feed{% endtrans %}"><i class="fa fa-fw fa fa-rss"></i></a>
                 </div>
-                {% if accountStatistics is defined %}
+                {% if accountStatistics is defined and accountStatistics is not null %}
                     <div class="panel-content">
                         <div id="statistics-general" class="change">
                             <table class="fullwidth">

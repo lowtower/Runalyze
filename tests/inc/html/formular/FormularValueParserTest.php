@@ -41,7 +41,7 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->object->validatePost('d.m.Y', $Parser));
         $this->assertTrue($this->object->validatePost('date', $Parser));
 
-        $this->assertEquals($_POST['d.m'], mktime(0, 0, 0, 1, 1, date('Y')));
+        $this->assertEquals($_POST['d.m'], mktime(0, 0, 0, 1, 1, (int) date('Y')));
         $this->assertEquals($_POST['d.m.Y'], mktime(0, 0, 0, 4, 13, 2010));
         $this->assertEquals($_POST['date'], mktime(0, 0, 0, 4, 13, 2010));
     }

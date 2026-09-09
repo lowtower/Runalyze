@@ -7,12 +7,9 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     /**
      * @var Round[]
      */
-    protected $Elements = [];
+    protected array $Elements = [];
 
-    /**
-     * @var int
-     */
-    protected $CurrentOffset = 0;
+    protected int $CurrentOffset = 0;
 
     /**
      * @param Round[] $elements
@@ -52,26 +49,25 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function isEmpty(): bool
     {
-        return $this->Elements === [];
+        return $this->getElements() === [];
     }
 
     public function count()
     {
-        return count($this->Elements);
+        return count($this->getElements());
     }
 
     public function offsetExists($offset)
     {
-        return isset($this->Elements[$offset]);
+        return isset($this->getElements()[$offset]);
     }
 
     /**
      * @param int $offset
-     * @return Round
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): Round
     {
-        return $this->Elements[$offset];
+        return $this->getElements()[$offset];
     }
 
     /**
@@ -100,7 +96,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function current()
     {
-        return $this->Elements[$this->CurrentOffset];
+        return $this->getElements()[$this->CurrentOffset];
     }
 
     public function key()
@@ -120,17 +116,14 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function valid()
     {
-        return isset($this->Elements[$this->CurrentOffset]);
+        return isset($this->getElements()[$this->CurrentOffset]);
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalDuration()
+    public function getTotalDuration(): float
     {
         return array_reduce(
             $this->getElements(),
-            function ($carry, Round $round) {
+            function ($carry, Round $round): float {
                 return $carry + $round->getDuration();
             },
             0
@@ -150,7 +143,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
 
     public function roundDurations()
     {
-        foreach ($this->Elements as $round) {
+        foreach ($this->getElements() as $round) {
             $round->roundDuration();
         }
     }
@@ -161,7 +154,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
             return false;
         }
 
-        foreach ($this->Elements as $key => $round) {
+        foreach ($this->getElements() as $key => $round) {
             if (! $round->isEqualTo($other->offsetGet($key))) {
                 return false;
             }
@@ -221,7 +214,7 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
      */
     public function hasInactiveRounds(): bool
     {
-        return count(array_filter($this->Elements, function ($v, $k): bool {
+        return count(array_filter($this->getElements(), function ($v, $k): bool {
             return ! $v->IsActive();
         }, ARRAY_FILTER_USE_BOTH)) > 0;
     }

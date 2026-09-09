@@ -6,20 +6,14 @@ use Runalyze\Import\Exception\ParserException;
 
 trait LineByLineParserTrait
 {
-    /**
-     * @var string
-     */
-    protected $FileName;
+    protected string $FileName;
 
     /**
      * @var resource|null
      */
     protected $Handle;
 
-    /**
-     * @param string $file
-     */
-    public function setFileName($file)
+    public function setFileName(string $file)
     {
         $this->FileName = $file;
     }

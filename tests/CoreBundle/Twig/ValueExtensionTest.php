@@ -21,12 +21,12 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
 
     protected function getExtensionFor(array $configurationListData = []): \Runalyze\Bundle\CoreBundle\Twig\ValueExtension
     {
+        /** @var ConfigurationManager&\PHPUnit\Framework\MockObject\MockObject $configManager */
         $configManager = $this->createMock(ConfigurationManager::class);
         $configManager
             ->method('getList')
             ->willReturn(new RunalyzeConfigurationList($configurationListData));
 
-        /** @var ConfigurationManager $configManager */
         return new ValueExtension($configManager);
     }
 

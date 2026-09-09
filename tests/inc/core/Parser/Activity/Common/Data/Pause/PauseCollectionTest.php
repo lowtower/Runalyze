@@ -7,10 +7,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
 class PauseCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var PauseCollection
-     */
-    protected $Collection;
+    protected PauseCollection $Collection;
 
     protected function setUp(): void
     {
@@ -72,6 +69,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
     public function testOffsetSetWithBadType()
     {
         $this->expectException(\InvalidArgumentException::class);
+        // @phpstan-ignore offsetAssign.valueType
         $this->Collection[] = 'foobar';
     }
 

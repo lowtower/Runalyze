@@ -35,7 +35,7 @@ class PlotMonthSumData extends PlotSumData
     protected function getXLabels(): array
     {
         $months = [];
-        $add = ($this->Year == parent::LAST_6_MONTHS || $this->Year == parent::LAST_12_MONTHS) ? date('m') : 0;
+        $add = ($this->Year === parent::LAST_6_MONTHS || $this->Year === parent::LAST_12_MONTHS) ? date('m') : 0;
         $i = 0;
 
         for ($m = $this->timerStart; $m <= $this->timerEnd; $m++) {
@@ -51,11 +51,11 @@ class PlotMonthSumData extends PlotSumData
      */
     protected function timer(): string
     {
-        if ($this->Year == parent::LAST_6_MONTHS) {
+        if ($this->Year === parent::LAST_6_MONTHS) {
             return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - ' . date('m') . ' - 1)%12 + 1)';
         }
 
-        if ($this->Year == parent::LAST_12_MONTHS) {
+        if ($this->Year === parent::LAST_12_MONTHS) {
             return '((MONTH(FROM_UNIXTIME(`time`)) + 12 - ' . date('m') . ' - 1)%12 + 1)';
         }
 

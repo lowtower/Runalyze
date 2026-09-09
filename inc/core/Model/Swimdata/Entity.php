@@ -81,9 +81,8 @@ class Entity extends Model\Entity implements Model\Loopable
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::STROKE:
@@ -98,11 +97,10 @@ class Entity extends Model\Entity implements Model\Loopable
 
     /**
      * Is the property an array?
-     * @param string $key
      */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
-        return $key != self::ACTIVITYID && $key != self::POOL_LENGTH;
+        return $key !== self::ACTIVITYID && $key !== self::POOL_LENGTH;
     }
 
     /**
@@ -132,9 +130,8 @@ class Entity extends Model\Entity implements Model\Loopable
 
     /**
      * Number of points
-     * @return int
      */
-    public function num()
+    public function num(): int
     {
         return $this->numberOfPoints;
     }
@@ -208,7 +205,7 @@ class Entity extends Model\Entity implements Model\Loopable
      */
     public function fillDistanceArray(Trackdata\Entity $trackdata)
     {
-        if ($this->poollength() && ! $trackdata->has(Trackdata\Entity::DISTANCE) && $this->num() == $trackdata->num()) {
+        if ($this->poollength() && ! $trackdata->has(Trackdata\Entity::DISTANCE) && $this->num() === $trackdata->num()) {
             $length = $this->poollength();
 
             $distance = null;
@@ -238,7 +235,7 @@ class Entity extends Model\Entity implements Model\Loopable
      */
     public function fillSwolfArray(Trackdata\Entity $trackdata)
     {
-        if ($this->stroke() && $trackdata->has(Trackdata\Entity::TIME) && $this->num() == $trackdata->num()) {
+        if ($this->stroke() && $trackdata->has(Trackdata\Entity::TIME) && $this->num() === $trackdata->num()) {
             $TrackLoop = new Trackdata\Loop($trackdata);
             $Loop = new Loop($this);
 

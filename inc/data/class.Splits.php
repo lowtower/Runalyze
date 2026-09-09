@@ -264,6 +264,7 @@ class Splits
     /**
      * Get all times as array
      * @param bool $restingLaps optional
+     * @return float[]
      */
     public function timesAsArray($restingLaps = false): array
     {

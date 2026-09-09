@@ -38,15 +38,9 @@ class Bock implements PrognosisInterface
      */
     public const E_UPPER_BOUND = 2.0;
 
-    /**
-     * @var float
-     */
-    protected $K = 0.0;
+    protected float $K = 0.0;
 
-    /**
-     * @var float
-     */
-    protected $E = 1.0;
+    protected float $E = 1.0;
 
     /**
      * @param float $distance1 [km]
@@ -54,7 +48,7 @@ class Bock implements PrognosisInterface
      * @param float $distance2 [km]
      * @param float $time2 [s]
      */
-    public function __construct($distance1 = 0.0, $time1 = 0.0, $distance2 = 0.0, $time2 = 0.0)
+    public function __construct(float $distance1 = 0.0, float $time1 = 0.0, float $distance2 = 0.0, float $time2 = 0.0)
     {
         $this->setFromResults($distance1, $time1, $distance2, $time2);
     }
@@ -71,7 +65,7 @@ class Bock implements PrognosisInterface
      * @param float $distance2 [km]
      * @param float $time2 [s]
      */
-    public function setFromResults($distance1, $time1, $distance2, $time2): self
+    public function setFromResults(float $distance1, float $time1, float $distance2, float $time2): self
     {
         if ($distance1 <= 0.0 || $distance2 <= 0.0) {
             return $this;
@@ -100,25 +94,19 @@ class Bock implements PrognosisInterface
         ;
     }
 
-    public function getSeconds($distance)
+    public function getSeconds(float $distance): float
     {
         $seconds = $this->K * $distance ** $this->E;
 
         return ($distance > 3.0) ? round($seconds) : $seconds;
     }
 
-    /**
-     * @return float
-     */
-    public function getK()
+    public function getK(): float
     {
         return $this->K;
     }
 
-    /**
-     * @return float
-     */
-    public function getE()
+    public function getE(): float
     {
         return $this->E;
     }

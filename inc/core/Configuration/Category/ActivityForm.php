@@ -54,9 +54,8 @@ class ActivityForm extends \Runalyze\Configuration\Category
      * Show ...?
      * @param string $Key possible values: SPORT, GENERAL, DISTANCE, SPLITS,
      * WEATHER, OTHER, NOTES, PUBLIC, ELEVATION, GPS
-     * @return bool
      */
-    public function show($Key)
+    public function show(string $Key): bool
     {
         return $this->get('FORMULAR_SHOW_' . $Key);
     }
@@ -64,9 +63,8 @@ class ActivityForm extends \Runalyze\Configuration\Category
     /**
      * @param string $Key possible values: SPORT, GENERAL, DISTANCE, SPLITS,
      * WEATHER, OTHER, NOTES, PUBLIC, ELEVATION, GPS
-     * @param bool $flag
      */
-    public function update($Key, $flag)
+    public function update(string $Key, bool $flag)
     {
         $this->object('FORMULAR_SHOW_' . $Key)->setFromString($flag);
         $this->updateValue($this->handle('FORMULAR_SHOW_' . $Key));
@@ -90,81 +88,76 @@ class ActivityForm extends \Runalyze\Configuration\Category
         $this->createHandle('IMPORT_MAX_HR_USER', new Boolean(false)); // #TSC
     }
 
-    /**
-     * @return ActivityCreationMode
-     */
-    public function creationMode()
+    public function creationMode(): ActivityCreationMode
     {
-        return $this->object('TRAINING_CREATE_MODE');
+        /** @var \Runalyze\Parameter\Application\ActivityCreationMode $parameter */
+        $parameter = $this->object('TRAINING_CREATE_MODE');
+        return $parameter;
     }
 
     /**
      * Correct elevation data?
-     * @return bool
      */
-    public function correctElevation()
+    public function correctElevation(): bool
     {
         return $this->get('TRAINING_DO_ELEVATION');
     }
 
     /**
      * Load weather forecast?
-     * @return bool
      */
-    public function loadWeather()
+    public function loadWeather(): bool
     {
         return $this->get('TRAINING_LOAD_WEATHER');
     }
 
     /**
      * Location for weather forecast
-     * @return string
      */
-    public function weatherLocation()
+    public function weatherLocation(): string
     {
         return $this->get('PLZ');
     }
 
-    /**
-     * @return bool
-     */
-    public function computeCalories()
+    public function computeCalories(): bool
     {
         return $this->get('COMPUTE_KCAL');
     }
 
     /**
      * Order: sports
-     * @return DatabaseOrder
      */
-    public function orderSports()
+    public function orderSports(): DatabaseOrder
     {
-        return $this->object('TRAINING_SORT_SPORTS');
+        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        $parameter = $this->object('TRAINING_SORT_SPORTS');
+        return $parameter;
     }
 
     /**
      * Order: types
-     * @return DatabaseOrder
      */
-    public function orderTypes()
+    public function orderTypes(): DatabaseOrder
     {
-        return $this->object('TRAINING_SORT_TYPES');
+        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        $parameter = $this->object('TRAINING_SORT_TYPES');
+        return $parameter;
     }
 
     /**
      * Order: equipment
-     * @return DatabaseOrder
      */
-    public function orderEquipment()
+    public function orderEquipment(): DatabaseOrder
     {
-        return $this->object('TRAINING_SORT_SHOES');
+        /** @var \Runalyze\Parameter\Application\DatabaseOrder $parameter */
+        $parameter = $this->object('TRAINING_SORT_SHOES');
+        return $parameter;
     }
 
     /**
      * Ignored activity IDs from Garmin
-     * @return array
      */
-    public function ignoredActivityIDs()
+    public function ignoredActivityIDs(): array
     {
         return $this->get('GARMIN_IGNORE_IDS');
     }
@@ -175,21 +168,23 @@ class ActivityForm extends \Runalyze\Configuration\Category
      */
     public function ignoreActivityID($ID)
     {
-        $this->object('GARMIN_IGNORE_IDS')
-            ->append($ID);
+        if (method_exists($this->object('GARMIN_IGNORE_IDS'), 'append')) {
+            $this->object('GARMIN_IGNORE_IDS')
+                ->append($ID);
+        }
+
         $this->updateValue($this->handle('GARMIN_IGNORE_IDS'));
     }
 
     /**
      * Automatically detect pauses
-     * @return bool
      */
-    public function detectPauses()
+    public function detectPauses(): bool
     {
         return $this->get('DETECT_PAUSES');
     }
 
-    public function Fieldset(): \Runalyze\Configuration\Fieldset
+    public function Fieldset(): Fieldset
     {
         $Fieldset = new Fieldset(__('Activity form'));
 

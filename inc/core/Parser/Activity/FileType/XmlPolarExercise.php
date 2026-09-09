@@ -10,10 +10,7 @@ use SimpleXMLElement;
 
 class XmlPolarExercise extends AbstractSingleParser
 {
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected SimpleXMLElement $Xml;
 
     public function __construct(SimpleXMLElement $exercise)
     {
@@ -115,8 +112,8 @@ class XmlPolarExercise extends AbstractSingleParser
                         break;
 
                     case 'DISTANCE':
-                        $this->Container->ContinuousData->Distance = array_map(function (string $m) {
-                            return $m / 1000;
+                        $this->Container->ContinuousData->Distance = array_map(function (string $m): float {
+                            return (float) $m / 1000;
                         }, $data);
                         break;
 
@@ -136,7 +133,7 @@ class XmlPolarExercise extends AbstractSingleParser
      * @param string $string "[[[z\d ]H:]i:]s[(.|,)u]"
      * @return float [s]
      */
-    protected function stringToDuration($string)
+    protected function stringToDuration($string): float
     {
         return (new Duration($string))->seconds();
     }

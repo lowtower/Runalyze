@@ -8,51 +8,44 @@ use Runalyze\Profile\Athlete\Gender;
 
 class Athlete
 {
-    /**
-     * @var int
-     */
-    protected $Gender;
+    protected int $Gender;
 
     /**
      * @var null|int [bpm]
      */
-    protected $maximalHR;
+    protected ?int $maximalHR = null;
 
     /**
      * @var null|int [bpm]
      */
-    protected $restingHR;
+    protected ?int $restingHR = null;
 
     /**
      * @var null|float [kg]
      */
-    protected $weight;
+    protected ?float $weight = null;
 
-    /**
-     * @var null|int
-     */
-    protected $birthyear;
+    protected ?int $birthyear = null;
 
     /**
      * @var float [ml/kg/min]
      */
-    protected $vo2max = 0.0;
+    protected float $vo2max = 0.0;
 
     /**
      * @param null|int $Gender see \Runalyze\Profile\Athlete\Gender
      * @param null|int $maximalHR [bpm]
      * @param null|int $restingHR [bpm]
      * @param null|float $weight [kg]
-     * @param null|int $birthyear
      * @param float $vo2max [ml/kg/min]
      */
     public function __construct(
-        $Gender = null,
-        $maximalHR = null,
-        $restingHR = null,
-        $weight = null,
-        $birthyear = null,
-        $vo2max = 0.0
+        ?int $Gender = null,
+        ?int $maximalHR = null,
+        ?int $restingHR = null,
+        ?float $weight = null,
+        ?int $birthyear = null,
+        float $vo2max = 0.0
     ) {
         $this->Gender = $Gender ?: Gender::NONE;
         $this->maximalHR = $maximalHR;
@@ -64,9 +57,8 @@ class Athlete
 
     /**
      * @see \Runalyze\Profile\Athlete\Gender
-     * @return null|int
      */
-    public function gender()
+    public function gender(): ?int
     {
         return $this->Gender;
     }
@@ -74,7 +66,7 @@ class Athlete
     /**
      * @return null|int [bpm]
      */
-    public function maximalHR()
+    public function maximalHR(): ?int
     {
         return $this->maximalHR;
     }
@@ -82,15 +74,15 @@ class Athlete
     /**
      * @return null|int [bpm]
      */
-    public function restingHR()
+    public function restingHR(): ?int
     {
         return $this->restingHR;
     }
 
     /**
-     * @return null|int [kg]
+     * @return null|float [kg]
      */
-    public function weight()
+    public function weight(): ?float
     {
         return $this->weight;
     }
@@ -98,23 +90,17 @@ class Athlete
     /**
      * @return null|int [years]
      */
-    public function age()
+    public function age(): ?int
     {
-        return ($this->birthyear !== null) ? date('Y') - $this->birthyear : null;
+        return ($this->birthyear !== null) ? (int) date('Y') - $this->birthyear : null;
     }
 
-    /**
-     * @return null|int
-     */
-    public function birthyear()
+    public function birthyear(): ?int
     {
         return $this->birthyear;
     }
 
-    /**
-     * @return float
-     */
-    public function vo2max()
+    public function vo2max(): float
     {
         return $this->vo2max;
     }
@@ -126,12 +112,12 @@ class Athlete
 
     public function isMale(): bool
     {
-        return $this->Gender == Gender::MALE;
+        return $this->Gender === Gender::MALE;
     }
 
     public function isFemale(): bool
     {
-        return $this->Gender == Gender::FEMALE;
+        return $this->Gender === Gender::FEMALE;
     }
 
     public function knowsMaximalHeartRate(): bool

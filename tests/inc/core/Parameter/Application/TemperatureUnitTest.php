@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parameter\Application;
 
 /**
@@ -7,10 +9,7 @@ namespace Runalyze\Parameter\Application;
  */
 class TemperatureUnitTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter\Application\Temperature
-     */
-    protected $object;
+    protected TemperatureUnit $object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

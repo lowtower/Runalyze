@@ -22,9 +22,8 @@ class TableSwimLane extends TableLapsAbstract
 {
     /**
      * Data
-     * @var array
      */
-    protected $Data = [];
+    protected array $Data = [];
 
     protected function setCode()
     {
@@ -159,7 +158,7 @@ class TableSwimLane extends TableLapsAbstract
      * writes the summary line with infos about the previous lanes.
      * #TSC
      */
-    protected function writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes)
+    protected function writeSummary(float $Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes)
     {
         $distance = new Distance($Poollength * $intervalLanes);
         $this->Code .= '<tr class="r unimportant">';

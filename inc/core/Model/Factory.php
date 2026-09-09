@@ -38,9 +38,6 @@ class Factory
      */
     public static array $StaticCache = [];
 
-    /**
-     * @param int $accountID [optional]
-     */
     public function __construct(?int $accountID = null)
     {
         $this->DB = DB::getInstance();
@@ -54,9 +51,6 @@ class Factory
         ];
     }
 
-    /**
-     * Has account id?
-     */
     protected function hasAccountID(): bool
     {
         return $this->AccountID !== null;
@@ -172,7 +166,6 @@ class Factory
     }
 
     /**
-     * @param bool $onlyIDs [optional]
      * @return int[]|\Runalyze\Model\Equipment\Entity[]
      */
     public function equipmentForActivity(int $activityid, bool $onlyIDs = false)
@@ -186,7 +179,7 @@ class Factory
         }
 
         foreach ($IDs as $id) {
-            $Equipment[] = $this->equipment($id);
+            $Equipment[] = $this->equipment((int) $id);
         }
 
         return $Equipment;
@@ -211,7 +204,6 @@ class Factory
     }
 
     /**
-     * @param bool $onlyIDs [optional]
      * @return int[]|\Runalyze\Model\Tag\Entity[]
      */
     public function tagForActivity(int $activityid, bool $onlyIDs = false)
@@ -233,10 +225,8 @@ class Factory
 
     /**
      * Array by primary key
-     * @param int $cachetime [optional]
-     * @return array
      */
-    protected function arrayByPK(string $tablename, int $id, int $cachetime = 3600)
+    protected function arrayByPK(string $tablename, int $id, int $cachetime = 3600): array
     {
         if (! $cachetime) {
             return $this->fetch($tablename, $id);
@@ -251,9 +241,8 @@ class Factory
 
     /**
      * Array by primary key from static cache
-     * @return array
      */
-    protected function arrayByPKfromStaticCache(string $tablename, int $id)
+    protected function arrayByPKfromStaticCache(string $tablename, int $id): array
     {
         if (! isset(self::$StaticCache[$tablename])) {
             $this->fetchStaticCache($tablename);
@@ -275,10 +264,8 @@ class Factory
 
     /**
      * Array by primary key from cache class
-     * @param int $cachetime [optional]
-     * @return array
      */
-    protected function arrayByPKfromCache(string $tablename, int $id, int $cachetime)
+    protected function arrayByPKfromCache(string $tablename, int $id, int $cachetime): array
     {
         $data = Cache::get($tablename . $id);
 
@@ -292,10 +279,9 @@ class Factory
     }
 
     /**
-     * @return array
      * @throws \InvalidArgumentException
      */
-    protected function allData(string $tablename)
+    protected function allData(string $tablename): array
     {
         if (! isset($this->UseStaticCacheAndFullFetch[$tablename])) {
             throw new \InvalidArgumentException('The table "' . $tablename . '" does not provide a full fetch');
@@ -309,7 +295,9 @@ class Factory
     }
 
     /**
-     * @return \Runalyze\Model\Entity[]
+     * @template T of \Runalyze\Model\Entity
+     * @param \Closure(array<string, mixed>): T $constructor
+     * @return T[]
      */
     public function allObjects(string $tablename, \Closure $constructor): array
     {
@@ -351,9 +339,8 @@ class Factory
 
     /**
      * Fetch data
-     * @return array
      */
-    protected function fetch(string $tablename, int $id, bool $fullFetch = false)
+    protected function fetch(string $tablename, int $id, bool $fullFetch = false): array
     {
         $field = $this->primaryKey($tablename);
         $AndAccountID = $this->hasAccountID() && $this->tableHasAccountid($tablename) ? 'AND `accountid`=' . $this->AccountID : '';

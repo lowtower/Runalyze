@@ -15,18 +15,18 @@ class Cameron implements PrognosisInterface
     /**
      * @var float [km]
      */
-    protected $ReferenceDistance = 0.0;
+    protected float $ReferenceDistance = 0.0;
 
     /**
      * @var float [s]
      */
-    protected $ReferenceTime = 0.0;
+    protected float $ReferenceTime = 0.0;
 
     /**
      * @param float|int $referenceTime [s]
      * @param float $referenceDistance [km]
      */
-    public function __construct($referenceTime = 0.0, $referenceDistance = 0.0)
+    public function __construct($referenceTime = 0.0, float $referenceDistance = 0.0)
     {
         $this->setReferenceResult($referenceDistance, $referenceTime);
     }
@@ -40,7 +40,7 @@ class Cameron implements PrognosisInterface
      * @param float $distance [km]
      * @param int|float $timeInSeconds [s]
      */
-    public function setReferenceResult($distance, $timeInSeconds): self
+    public function setReferenceResult(float $distance, $timeInSeconds): self
     {
         $this->ReferenceDistance = $distance;
         $this->ReferenceTime = $timeInSeconds;
@@ -48,7 +48,7 @@ class Cameron implements PrognosisInterface
         return $this;
     }
 
-    public function getSeconds($distance)
+    public function getSeconds(float $distance): ?float
     {
         if ($distance <= 0.0 || ! $this->areValuesValid()) {
             return null;
@@ -61,10 +61,7 @@ class Cameron implements PrognosisInterface
         return 60.0 * $minutes * ($meter / $meterReference) * ($this->factorFor($meterReference) / $this->factorFor($meter));
     }
 
-    /**
-     * @param float $distance [m]
-     */
-    protected function factorFor($distance): float
+    protected function factorFor(float $distance): float
     {
         return 13.49681 - (0.000030363 * $distance) + (835.7114 / $distance ** 0.7905);
     }

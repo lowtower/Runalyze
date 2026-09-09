@@ -19,7 +19,6 @@ class Gradient extends ActivitySeries
     protected $KernelWidth;
 
     /**
-     * @var \Runalyze\View\Activity\Context
      * @param int $kernelWidth
      */
     public function __construct(Activity\Context $context, $kernelWidth = 20)
@@ -30,9 +29,6 @@ class Gradient extends ActivitySeries
         $this->initDataWithRoute($context);
     }
 
-    /**
-     * @var \Runalyze\View\Activity\Context
-     */
     protected function initDataWithRoute(Activity\Context $context)
     {
         if (! $context->hasRoute() || ! $context->route()->hasElevations() || ! $context->hasTrackdata() || ! $context->trackdata()->has(Trackdata\Entity::DISTANCE)) {

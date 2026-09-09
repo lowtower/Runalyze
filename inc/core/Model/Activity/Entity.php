@@ -356,7 +356,7 @@ class Entity extends Model\EntityWithID
 
     /**
      * Key: total_cycles
-     * @var int
+     * @var string
      */
     public const TOTAL_CYCLES = 'total_cycles';
 
@@ -541,33 +541,28 @@ class Entity extends Model\EntityWithID
 
     /**
      * Weather
-     * @var \Runalyze\Data\Weather
      */
-    protected $Weather;
+    protected ?\Runalyze\Data\Weather $Weather = null;
 
     /**
      * Splits
-     * @var \Runalyze\Model\Activity\Splits\Entity
      */
-    protected $Splits;
+    protected ?\Runalyze\Model\Activity\Splits\Entity $Splits = null;
 
     /**
      * Splits-additional
-     * @var array
      */
-    protected $SplitsAdditional;
+    protected array $SplitsAdditional;
 
     /**
      * Partner
-     * @var \Runalyze\Model\Activity\Partner
      */
-    protected $Partner;
+    protected ?\Runalyze\Model\Activity\Partner $Partner = null;
 
     /**
      * Pace-Goal
-     * @var array
      */
-    protected $PaceGoal;
+    protected array $PaceGoal;
 
     /**
      * Clone object
@@ -685,18 +680,16 @@ class Entity extends Model\EntityWithID
 
     /**
      * Is the property an array?
-     * @param string $key
      */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
-        return $key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES;
+        return $key === self::HR_ZONE_BOUNDS || $key === self::FIT_SECONDS_HR_ZONES;
     }
 
     /**
      * Can set key?
-     * @param string $key
      */
-    protected function canSet($key): bool
+    protected function canSet(string $key): bool
     {
         switch ($key) {
             case self::TEMPERATURE:
@@ -716,9 +709,8 @@ class Entity extends Model\EntityWithID
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::TYPEID:
@@ -906,12 +898,9 @@ class Entity extends Model\EntityWithID
         $this->Data[self::PARTNER] = $this->partner()->asString();
     }
 
-    /**
-     * @return int
-     */
-    public function timestamp()
+    public function timestamp(): int
     {
-        return $this->Data[self::TIMESTAMP];
+        return (int) $this->Data[self::TIMESTAMP];
     }
 
     public function knowsTimezoneOffset(): bool
@@ -922,25 +911,23 @@ class Entity extends Model\EntityWithID
     /**
      * @return int|null offset in minutes or null if unknown
      */
-    public function timezoneOffset()
+    public function timezoneOffset(): ?int
     {
-        return $this->Data[self::TIMEZONE_OFFSET];
+        if ($this->Data[self::TIMEZONE_OFFSET] === null) {
+            return null;
+        }
+
+        return (int) $this->Data[self::TIMEZONE_OFFSET];
     }
 
-    /**
-     * @return int
-     */
-    public function sportid()
+    public function sportid(): int
     {
-        return $this->Data[self::SPORTID];
+        return (int) $this->Data[self::SPORTID];
     }
 
-    /**
-     * @return null|int
-     */
-    public function typeid()
+    public function typeid(): int
     {
-        return $this->Data[self::TYPEID];
+        return (int) $this->Data[self::TYPEID];
     }
 
     /**
@@ -970,42 +957,58 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|float [km]
      */
-    public function distance()
+    public function distance(): ?float
     {
-        return $this->Data[self::DISTANCE];
+        if ($this->Data[self::DISTANCE] === null) {
+            return null;
+        }
+
+        return (float) $this->Data[self::DISTANCE];
     }
 
     /**
      * Time in seconds
      * @return int [s]
      */
-    public function duration()
+    public function duration(): int
     {
-        return $this->Data[self::TIME_IN_SECONDS];
+        return (int) $this->Data[self::TIME_IN_SECONDS];
     }
 
     /**
      * @return null|int [s]
      */
-    public function elapsedTime()
+    public function elapsedTime(): ?int
     {
-        return $this->Data[self::ELAPSED_TIME];
+        if ($this->Data[self::ELAPSED_TIME] === null) {
+            return null;
+        }
+
+        return (int) $this->Data[self::ELAPSED_TIME];
     }
 
     /**
      * @return null|int [m]
      */
-    public function elevation()
+    public function elevation(): ?int
     {
-        return $this->Data[self::ELEVATION];
+        if ($this->Data[self::ELEVATION] === null) {
+            return null;
+        }
+
+        return (int) $this->Data[self::ELEVATION];
     }
 
     /**
      * @return null|float [0.0 .. 1.0]
      */
-    public function climbScore()
+    public function climbScore(): ?float
     {
-        return $this->Data[self::CLIMB_SCORE];
+        if ($this->Data[self::CLIMB_SCORE] === null) {
+            return null;
+        }
+
+        return (float) $this->Data[self::CLIMB_SCORE];
     }
 
     /**
@@ -1013,7 +1016,11 @@ class Entity extends Model\EntityWithID
      */
     public function percentageHilly()
     {
-        return $this->Data[self::PERCENTAGE_HILLY];
+        if ($this->Data[self::PERCENTAGE_HILLY] === null) {
+            return null;
+        }
+
+        return (float) $this->Data[self::PERCENTAGE_HILLY];
     }
 
     /**
@@ -1518,15 +1525,12 @@ class Entity extends Model\EntityWithID
         return $this->Data[self::AVG_PRONATION_EXCURSION_RIGHT];
     }
 
-    /**
-     * @return \Runalyze\Data\Weather
-     */
-    public function weather()
+    public function weather(): ?\Runalyze\Data\Weather
     {
-        if ($this->Weather === null) {
+        if (! $this->Weather instanceof \Runalyze\Data\Weather) {
             $this->Weather = new Weather(
                 new Weather\Temperature($this->Data[self::TEMPERATURE]),
-                new Weather\Condition($this->Data[self::WEATHERID]),
+                new Weather\Condition((int) $this->Data[self::WEATHERID]),
                 new Weather\WindSpeed($this->Data[self::WINDSPEED]),
                 new Weather\WindDegree($this->Data[self::WINDDEG]),
                 new Weather\Humidity($this->Data[self::HUMIDITY]),
@@ -1550,11 +1554,10 @@ class Entity extends Model\EntityWithID
 
     /**
      * Splits
-     * @return \Runalyze\Model\Activity\Splits\Entity
      */
-    public function splits()
+    public function splits(): ?\Runalyze\Model\Activity\Splits\Entity
     {
-        if ($this->Splits === null) {
+        if (! $this->Splits instanceof \Runalyze\Model\Activity\Splits\Entity) {
             $this->Splits = new Splits\Entity($this->Data[self::SPLITS]);
         }
 
@@ -1570,20 +1573,14 @@ class Entity extends Model\EntityWithID
         return json_decode($this->Data[self::SPLITS_ADDITIONAL], true);
     }
 
-    /**
-     * @return string
-     */
-    public function title()
+    public function title(): string
     {
         return $this->Data[self::TITLE];
     }
 
-    /**
-     * @return \Runalyze\Model\Activity\Partner
-     */
-    public function partner()
+    public function partner(): ?\Runalyze\Model\Activity\Partner
     {
-        if ($this->Partner === null) {
+        if (! $this->Partner instanceof \Runalyze\Model\Activity\Partner) {
             $this->Partner = new Partner($this->Data[self::PARTNER]);
         }
 
@@ -1602,9 +1599,8 @@ class Entity extends Model\EntityWithID
 
     /**
      * Notes
-     * @return string
      */
-    public function notes()
+    public function notes(): ?string
     {
         return $this->Data[self::NOTES];
     }
@@ -1616,19 +1612,15 @@ class Entity extends Model\EntityWithID
         $this->set(self::VO2MAX_WITH_ELEVATION, null);
     }
 
-    /**
-     * @return string
-     */
-    public function creator()
+    public function creator(): string
     {
         return $this->Data[self::CREATOR];
     }
 
     /**
      * creatorDetails
-     * @return string
      */
-    public function creatorDetails()
+    public function creatorDetails(): ?string
     {
         return $this->Data[self::CREATOR_DETAILS];
     }

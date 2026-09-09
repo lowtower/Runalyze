@@ -13,20 +13,14 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
      */
     protected $PDO;
 
-    /**
-     * @var int
-     */
-    protected $ThisAccountID;
+    protected int $ThisAccountID;
+
+    protected int $OtherAccountID;
 
     /**
-     * @var int
+     * @var string[]|bool[]
      */
-    protected $OtherAccountID;
-
-    /**
-     * @var array
-     */
-    protected $ThisIDs = [];
+    protected array $ThisIDs = [];
 
     protected function setUp(): void
     {
@@ -36,7 +30,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
 
         $this->ThisAccountID = \SessionAccountHandler::getId();
         $this->PDO->exec('INSERT INTO `runalyze_account` (`username`, `name`, `mail`) VALUES ("LinkerOther", "LinkerOther", "linker@other.com")');
-        $this->OtherAccountID = $this->PDO->lastInsertId();
+        $this->OtherAccountID = (int) $this->PDO->lastInsertId();
 
         $activities = [
             [0, $this->OtherAccountID],

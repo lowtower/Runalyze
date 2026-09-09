@@ -19,33 +19,27 @@ interface Loopable
 {
     /**
      * Number of points
-     * @return int
      */
-    public function num();
+    public function num(): int;
 
     /**
      * Value at
      *
      * Remark: This method may throw index offsets.
-     * @param int $index
-     * @param int $key enum
      * @return mixed
      */
-    public function at($index, $key);
+    public function at(int $index, string $key);
 
     /**
      * Get array for this key
-     * @param string $key
-     * @return array
+     * @return array|mixed
      * @throws \InvalidArgumentException
      */
-    public function get($key);
+    public function get(string $key);
 
     /**
      * Has array for this key
-     * @param string $key
-     * @return bool
      * @throws \InvalidArgumentException
      */
-    public function has($key);
+    public function has(string $key): bool;
 }

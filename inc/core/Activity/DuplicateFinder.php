@@ -20,32 +20,21 @@ class DuplicateFinder
      */
     public const COLUMN_WITH_ID = 'activity_id';
 
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
-    /**
-     * @var int
-     */
-    protected $AccountId;
+    protected int $AccountId;
 
-    /**
-     * @param int $accountId
-     */
-    public function __construct(PDO $pdo, $accountId)
+    public function __construct(PDO $pdo, int $accountId)
     {
         $this->PDO = $pdo;
-        $this->AccountId = (int) $accountId;
+        $this->AccountId = $accountId;
     }
 
-    /*
+    /**
      * Find duplicate by original activityID (Timestamp)
-     * @param int|null $activityId
-     * @return bool
      * @throws \InvalidArgumentException
      */
-    public function checkForDuplicate($activityId)
+    public function checkForDuplicate(?int $activityId): bool
     {
         if ($activityId === null) {
             return false;

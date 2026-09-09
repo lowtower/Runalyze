@@ -32,24 +32,18 @@ class Query
      */
     protected $Configuration;
 
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     protected int $AccountID;
 
     protected bool $ShowOnlyPublicActivites = false;
 
-    /**
-     * @var array
-     */
-    protected $AdditionalColumns = [];
+    protected array $AdditionalColumns = [];
 
     /**
      * @var array array('table' => array('field' => ..., 'join' => ...))
      */
-    protected $JoinTables = [];
+    protected array $JoinTables = [];
 
     public function __construct(Configuration $configuration, \PDO $pdo, int $accountID)
     {
@@ -63,10 +57,7 @@ class Query
         $this->ShowOnlyPublicActivites = $flag;
     }
 
-    /**
-     * @return \PDOStatement
-     */
-    public function statementToFetchActivities(int $timeStart, int $timeEnd, ?int $sportId = null, bool $allKeys = false)
+    public function statementToFetchActivities(int $timeStart, int $timeEnd, ?int $sportId = null, bool $allKeys = false): \PDOStatement
     {
         $this->resetJoins();
 
@@ -97,9 +88,8 @@ class Query
     /**
      * Gets the sports for the timerange where activities exists. List is limited so not all sports are available.
      * @param null|int $sportIdSelected set if user has selected a sport; means this must be included in the result
-     * @return \PDOStatement
      */
-    public function statementToFetchActivitySports(int $timeStart, int $timeEnd, ?int $sportIdSelected)
+    public function statementToFetchActivitySports(int $timeStart, int $timeEnd, ?int $sportIdSelected): \PDOStatement
     {
         // this is needed to ensure, that the current selected sportId is included
         $addSelected = $sportIdSelected === null ? '' : 'UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = ' . $sportIdSelected;
@@ -149,7 +139,7 @@ class Query
 
     public function queryToGroupByActivity(): string
     {
-        if (! empty($this->JoinTables)) {
+        if ($this->JoinTables !== []) {
             return 'GROUP BY `t`.`id`';
         }
 
@@ -158,7 +148,7 @@ class Query
 
     /**
      * @param int $timeStart default 0
-     * @param int $timeEnd   default time()
+     * @param int|bool $timeEnd   default time()
      * @return array array with summary for given sportid and timerange
      */
     public function fetchSummaryForSport(int $sportid, int $timeStart = 0, $timeEnd = false)
@@ -183,7 +173,7 @@ class Query
 
     /**
      * @param int $timeStart default 0
-     * @param int $timeEnd   default time()
+     * @param int|false $timeEnd   default time()
      * @return array array with summary for each sportid and given timerange
      */
     public function fetchSummaryForAllSport(int $timeStart = 0, $timeEnd = false, ?int $sportId = null)
@@ -211,10 +201,10 @@ class Query
      * Get summary for a given timerange
      * @param int $timerange default 7*24*60*60
      * @param int $timeStart default 0
-     * @param int $timeEnd   default time()
+     * @param int|bool $timeEnd   default time()
      * @return array array of summaries for different timeranges
      */
-    public function fetchSummaryForTimerange(int $sportid, int $timerange = 604800, int $timeStart = 0, $timeEnd = false)
+    public function fetchSummaryForTimerange(int $sportid, int $timerange = 604800, int $timeStart = 0, $timeEnd = false): array
     {
         $Query = '
 		        SELECT
@@ -321,7 +311,7 @@ class Query
 
     /**
      * @param int $timerange length of time range, typically 366* or 31*DAY_IN_S
-     * @param int $timeEnd last timestamp to consider
+     * @param int|false $timeEnd last timestamp to consider
      * @param string $asColumn optional column key that is used in returned data row
      */
     protected function queryToSelectTimerange(int $timerange, $timeEnd = false, string $asColumn = 'timerange'): string

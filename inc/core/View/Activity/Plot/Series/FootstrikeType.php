@@ -34,11 +34,11 @@ class FootstrikeType extends ActivitySeries
         $this->TickDecimals = 0;
     }
 
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
-        if (! empty($this->Data)) {
+        if ($this->Data !== []) {
             $Plot->setYLimits($yAxis, 0, 16.5);
             $Plot->setYAxisLabels($yAxis, [6, 12]);
 

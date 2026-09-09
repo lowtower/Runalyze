@@ -8,6 +8,7 @@
 namespace Runalyze\Model\Route;
 
 use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Coordinate\CoordinateInterface;
 use League\Geotools\Geohash\Geohash;
 use Runalyze\Calculation\Route\GeohashLine;
 use Runalyze\Model;
@@ -146,9 +147,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Flag: ensure arrays to be equally sized
-     * @var bool
      */
-    protected $checkArraySizes = true;
+    protected bool $checkArraySizes = true;
 
     /**
      * Construct
@@ -278,9 +278,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Is the property an array?
-     * @param string $key
      */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
         switch ($key) {
             case self::ELEVATIONS_ORIGINAL:
@@ -294,9 +293,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::ELEVATIONS_ORIGINAL:
@@ -534,9 +532,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Number of points
-     * @return int
      */
-    public function num()
+    public function num(): int
     {
         return $this->numberOfPoints;
     }
@@ -570,36 +567,24 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         return explode(self::CITIES_SEPARATOR, $this->Data[self::CITIES]);
     }
 
-    /**
-     * @return float
-     */
-    public function distance()
+    public function distance(): float
     {
-        return $this->Data[self::DISTANCE];
+        return (float) $this->Data[self::DISTANCE];
     }
 
-    /**
-     * @return int
-     */
-    public function elevation()
+    public function elevation(): int
     {
-        return $this->Data[self::ELEVATION];
+        return (int) $this->Data[self::ELEVATION];
     }
 
-    /**
-     * @return int
-     */
-    public function elevationUp()
+    public function elevationUp(): int
     {
-        return $this->Data[self::ELEVATION_UP];
+        return (int) $this->Data[self::ELEVATION_UP];
     }
 
-    /**
-     * @return int
-     */
-    public function elevationDown()
+    public function elevationDown(): int
     {
-        return $this->Data[self::ELEVATION_DOWN];
+        return (int) $this->Data[self::ELEVATION_DOWN];
     }
 
     /**
@@ -613,18 +598,16 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Has position data?
-     * @return bool
      */
-    public function hasPositionData()
+    public function hasPositionData(): bool
     {
         return $this->has(self::GEOHASHES);
     }
 
     /**
      * Has geohash data?
-     * @return bool
      */
-    public function hasGeohashes()
+    public function hasGeohashes(): bool
     {
         return $this->has(self::GEOHASHES);
     }
@@ -665,20 +648,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         return $this->Data[self::ALTITUDE_BAROMETRIC];
     }
 
-    /**
-     * @return lat|lng
-     */
-    public function min()
+    public function min(): CoordinateInterface
     {
         $geohash = $this->Data[self::MIN];
         return (new Geohash())->decode($geohash)
             ->getCoordinate();
     }
 
-    /**
-     * @return lat|lng
-     */
-    public function max()
+    public function max(): CoordinateInterface
     {
         $geohash = $this->Data[self::MAX];
         return (new Geohash())->decode($geohash)

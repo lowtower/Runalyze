@@ -26,13 +26,11 @@ class Thb extends ActivitySeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
-     * @param int $sensorIndex
      */
-    public function __construct(Activity\Context $context, $sensorIndex = 0)
+    public function __construct(Activity\Context $context, int $sensorIndex = 0)
     {
         $this->initOptions();
-        if ($sensorIndex == 1) {
+        if ($sensorIndex === 1) {
             $trackdataKey = Trackdata::THB_1;
             $this->Label = _('THb') . ' (2)';
         } else {

@@ -10,10 +10,7 @@ use Runalyze\Util\LocalTime;
  */
 class HrmTest extends AbstractActivityParserTestCase
 {
-    /**
-     * @var Hrm
-     */
-    protected $Parser;
+    protected Hrm $Parser;
 
     protected function setUp(): void
     {

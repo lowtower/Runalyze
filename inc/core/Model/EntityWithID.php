@@ -19,9 +19,8 @@ abstract class EntityWithID extends Entity
 {
     /**
      * ID
-     * @var int
      */
-    protected $ID;
+    protected ?int $ID = null;
 
     /**
      * Construct
@@ -31,32 +30,27 @@ abstract class EntityWithID extends Entity
         parent::__construct($data);
 
         if (isset($data['id'])) {
-            $this->ID = $data['id'];
+            $this->ID = (int) $data['id'];
         }
     }
 
     /**
      * Has ID?
-     * @return bool
      */
-    public function hasID()
+    public function hasID(): bool
     {
         return $this->ID !== null;
     }
 
-    /**
-     * @return int
-     */
-    public function id()
+    public function id(): ?int
     {
         return $this->ID;
     }
 
     /**
      * Use this method only if you know what you're doing!
-     * @param int $id
      */
-    public function setID($id)
+    public function setID(int $id)
     {
         $this->ID = $id;
     }

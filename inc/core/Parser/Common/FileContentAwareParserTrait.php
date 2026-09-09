@@ -4,15 +4,9 @@ namespace Runalyze\Parser\Common;
 
 trait FileContentAwareParserTrait
 {
-    /**
-     * @var string
-     */
-    protected $FileContent;
+    protected string $FileContent;
 
-    /**
-     * @param string $content
-     */
-    public function setFileContent($content)
+    public function setFileContent(string $content)
     {
         $this->FileContent = $content;
     }

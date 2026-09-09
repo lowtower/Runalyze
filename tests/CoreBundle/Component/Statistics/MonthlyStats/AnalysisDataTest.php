@@ -25,7 +25,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @param array<int, array<string, int|float>> $results
-     * @return TrainingRepository
+     * @return TrainingRepository&\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getTrainingRepositoryMock(array $results = []): \PHPUnit\Framework\MockObject\MockObject
     {
@@ -33,7 +33,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
         $repository->method('getMonthlyStatsFor')
             ->willReturn($results);
 
-        /** @var TrainingRepository $repository */
+        /** @var TrainingRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         return $repository;
     }
 

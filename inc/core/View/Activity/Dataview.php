@@ -396,18 +396,12 @@ class Dataview
         return '';
     }
 
-    /**
-     * @return string
-     */
-    public function fitPerformanceConditionStart()
+    public function fitPerformanceConditionStart(): string
     {
         return PerformanceCondition::format($this->Activity->fitPerformanceCondition());
     }
 
-    /**
-     * @return string
-     */
-    public function fitPerformanceConditionEnd()
+    public function fitPerformanceConditionEnd(): string
     {
         return PerformanceCondition::format($this->Activity->fitPerformanceConditionEnd());
     }

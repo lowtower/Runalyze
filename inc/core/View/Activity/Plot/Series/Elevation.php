@@ -32,10 +32,8 @@ class Elevation extends ActivitySeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
-     * @var bool [optional]
      */
-    public function __construct(Activity\Context $context, $forceOriginal = false)
+    public function __construct(Activity\Context $context, bool $forceOriginal = false)
     {
         $this->initOptions();
         $this->initDataWithRoute($context, $forceOriginal);
@@ -43,10 +41,8 @@ class Elevation extends ActivitySeries
 
     /**
      * Init data
-     * @var \Runalyze\View\Activity\Context
-     * @var bool
      */
-    protected function initDataWithRoute(Activity\Context $context, $forceOriginal)
+    protected function initDataWithRoute(Activity\Context $context, bool $forceOriginal)
     {
         if (! $context->hasRoute()) {
             $this->Data = [];
@@ -103,9 +99,9 @@ class Elevation extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return;
         }
 

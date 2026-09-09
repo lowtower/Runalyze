@@ -95,7 +95,7 @@ class GenerateJsonData
         $currentSegment = 0;
 
         while ($loop->nextStep()) {
-            if ($loop->geohash() != '7zzzzzzzzzzz') {
+            if ($loop->geohash() !== '7zzzzzzzzzzz') {
                 $coordinate = $loop->coordinate();
                 $segments[$currentSegment][] = [
                     'lat' => (float) $coordinate->getLatitude(),

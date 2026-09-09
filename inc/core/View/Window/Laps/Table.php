@@ -47,7 +47,7 @@ class Table
 
     protected Pace $AveragePace;
 
-    protected Duration $AverageTime;
+    protected ?Duration $AverageTime = null;
 
     protected int $IndexActive = 1;
 

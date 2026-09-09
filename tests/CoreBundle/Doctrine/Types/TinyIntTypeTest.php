@@ -7,19 +7,15 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
 class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TinyIntType
-     */
-    protected $Type;
+    protected TinyIntType $Type;
 
-    /**
-     * @var AbstractPlatform
-     */
-    protected $PlatformMock;
+    protected AbstractPlatform $PlatformMock;
 
     protected function setUp(): void
     {
-        $this->Type = TinyIntType::getType(TinyIntType::TINYINT);
+        /** @var TinyIntType $type */
+        $type = TinyIntType::getType(TinyIntType::TINYINT);
+        $this->Type = $type;
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 

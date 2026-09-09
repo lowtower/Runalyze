@@ -19,10 +19,7 @@ use Runalyze\Model\Trackdata;
  */
 class TrackdataAverages
 {
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
     /**
      * @var string[] enums of requested keys
@@ -34,15 +31,9 @@ class TrackdataAverages
      */
     protected $Averages = [];
 
-    /**
-     * @var bool
-     */
-    protected $IgnoreZeros = true;
+    protected bool $IgnoreZeros = true;
 
-    /**
-     * @var array
-     */
-    protected $KeysThatAllowZero;
+    protected array $KeysThatAllowZero;
 
     /**
      * @param string[] $keys enums
@@ -50,7 +41,7 @@ class TrackdataAverages
      * @param array|bool $keysThatAllowZero some keys may allow 0s, by default: cadence, temperature
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata\Entity $trackdata, array $keys, $ignoreZeros = true, $keysThatAllowZero = false)
+    public function __construct(Trackdata\Entity $trackdata, array $keys, bool $ignoreZeros = true, $keysThatAllowZero = false)
     {
         $this->Trackdata = $trackdata;
         $this->Keys = $keys;
@@ -137,11 +128,9 @@ class TrackdataAverages
     }
 
     /**
-     * @param string $key
-     * @return float|null
      * @throws \InvalidArgumentException
      */
-    public function average($key)
+    public function average(string $key): ?float
     {
         if (! array_key_exists($key, $this->Averages)) {
             throw new \InvalidArgumentException('No average calculated for "' . $key . '".');

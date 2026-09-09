@@ -42,7 +42,7 @@ final class Sources extends AbstractEnum
     /**
      * @param int $sourceId id from internal enum
      */
-    public static function stringFor($sourceId): string
+    public static function stringFor(int $sourceId): string
     {
         switch ($sourceId) {
             case self::DARKSKY:

@@ -40,8 +40,8 @@ class MinPerKilometer extends AbstractTimeUnit
      *
      * @throws \RuntimeException
      */
-    public function factorForUnit(): int
+    public function factorForUnit(): float
     {
-        return 1;
+        return 1.0;
     }
 }

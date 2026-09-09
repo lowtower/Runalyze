@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::FitTrainingEffectBenefit
  * @package Runalyze\Activity
@@ -73,7 +75,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * @return int internal enum
      * @throws \InvalidArgumentException
      */
-    public static function fromFitToEnum($fitValue)
+    public static function fromFitToEnum(float $fitValue): int
     {
         if (! is_numeric($fitValue) || (int) $fitValue < 1 || (int) $fitValue > 7) {
             throw new \InvalidArgumentException(sprintf('Provided TrainingEffect benefit %s is invalid.', $fitValue));
@@ -96,7 +98,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
                 return self::SPRINT;
             default:
                 // return the original value / this results in an unknown "label"
-                return $fitValue;
+                return (int) $fitValue;
         }
     }
 
@@ -106,7 +108,7 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * @param int $num internal enum
      * @codeCoverageIgnore
      */
-    public static function labelOfEnum($num): string
+    public static function labelOfEnum(int $num): string
     {
         switch ($num) {
             case self::RECOVERY:
@@ -132,12 +134,12 @@ class FitTrainingEffectBenefit extends AbstractEnum
      * Gets the label text as a string with color.
      *
      * @param int $num internal enum
-     * @return description with number and texts
+     * @return string description with number and texts
      * @codeCoverageIgnore
      */
-    public static function descriptionFromNum($num): string
+    public static function descriptionFromNum(int $num): string
     {
-        if (is_numeric($num) && (int) $num > 0 && (int) $num <= 7) {
+        if (is_numeric($num) && $num > 0 && $num <= 7) {
             $col = self::COLORS[$num - 1];
         } else {
             $col = '#ffff00';

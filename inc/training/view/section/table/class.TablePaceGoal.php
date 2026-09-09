@@ -20,18 +20,17 @@ use Runalyze\View\Activity\Context;
  */
 class TablePaceGoal
 {
-    public $distance;
+    public Distance $distance;
 
     // Tolerance in % between stored running values and run-values from the plan; if the diff is higher than the tolerance, a warning is shown
-    protected $TolerancePercent = 3.5;
+    protected float $TolerancePercent = 3.5;
 
-    protected $GreenTooltip = '<i class="fa fa-fw fa-info-circle atRight" rel="tooltip" data-original-title="Plus/green means you are faster/better than<br/>your goal. Minus/red you are slower/worse."></i>';
+    protected string $GreenTooltip = '<i class="fa fa-fw fa-info-circle atRight" rel="tooltip" data-original-title="Plus/green means you are faster/better than<br/>your goal. Minus/red you are slower/worse."></i>';
 
     /**
      * Code
-     * @var string
      */
-    protected $Code = '';
+    protected string $Code = '';
 
     public function __construct(Context $context)
     {
@@ -41,10 +40,7 @@ class TablePaceGoal
         $this->setDataToCode($context->activity()->paceGoal(), $context->activity()->duration(), $context->activity()->distance() * 1000);
     }
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->Code;
     }

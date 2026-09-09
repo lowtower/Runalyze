@@ -44,9 +44,8 @@ class Duration
 
     /**
      * Time [s]
-     * @var float
      */
-    protected $Time;
+    protected float $Time;
 
     /**
      * @param float|string|int $input seconds as float or "[[[z\d ]H:]i:]s[(.|,)u]"
@@ -73,11 +72,10 @@ class Duration
 
     /**
      * Set duration from seconds
-     * @param float $seconds
      * @throws \InvalidArgumentException
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function fromSeconds($seconds): self
+    public function fromSeconds(float $seconds): self
     {
         if (! is_numeric($seconds)) {
             throw new \InvalidArgumentException('Parameter $seconds must be of numeric type.');
@@ -92,12 +90,12 @@ class Duration
      * @param string $string format: "[[[z\d ]H:]i:]s[(.|,)u]"
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function fromString($string): self
+    public function fromString(string $string): self
     {
         $this->Time = 0;
 
         // #TSC - fix: only set duration if soming exists in the string
-        if ((string) $string !== '') {
+        if ($string !== '') {
             $split = explode('.', str_replace(',', '.', $string));
 
             if (isset($split[1])) {
@@ -107,7 +105,7 @@ class Duration
             $splitDays = explode('d ', $split[0]);
 
             if (isset($splitDays[1])) {
-                $this->Time += 86400 * $splitDays[0];
+                $this->Time += 86400 * (float) $splitDays[0];
                 $splitDays[0] = $splitDays[1];
             }
 
@@ -115,7 +113,7 @@ class Duration
             $num = count($parts);
 
             foreach ($parts as $i => $part) {
-                $this->Time += (int) $part * 60 ** ($num - $i - 1);
+                $this->Time += (float) $part * 60 ** ($num - $i - 1);
             }
         }
 
@@ -124,9 +122,8 @@ class Duration
 
     /**
      * Seconds
-     * @return float
      */
-    public function seconds()
+    public function seconds(): float
     {
         return $this->Time;
     }
@@ -136,13 +133,13 @@ class Duration
      * @param string $format [optional] format accepted by date()
      * @param int $decimals [optional] number of decimals, only if 'u' is present in $format
      */
-    public function string($format = self::FORMAT_AUTO, $decimals = 2): string
+    public function string(string $format = self::FORMAT_AUTO, int $decimals = 2): string
     {
-        if ($format == self::FORMAT_AUTO) {
+        if ($format === self::FORMAT_AUTO) {
             return $this->autoString($decimals);
         }
 
-        if ($format == self::FORMAT_COMPETITION) {
+        if ($format === self::FORMAT_COMPETITION) {
             return $this->autoCompetitionString($decimals);
         }
 
@@ -153,7 +150,7 @@ class Duration
      * Auto format as string
      * @param int $decimals [optional]
      */
-    protected function autoString($decimals = 2): string
+    protected function autoString(int $decimals = 2): string
     {
         $fraction = (round($this->Time) !== round($this->Time, $decimals) && $decimals > 0) ? self::$DECIMAL_POINT . 'u' : '';
 
@@ -217,10 +214,9 @@ class Duration
 
     /**
      * Multiply time
-     * @param float $factor
      * @return \Runalyze\Activity\Duration $this-reference
      */
-    public function multiply($factor): self
+    public function multiply(float $factor): self
     {
         $this->Time *= $factor;
 
@@ -268,10 +264,9 @@ class Duration
     /**
      * Compare
      * @param bool $invert [optional] by default, larger is 'better'; set to true to invert that
-     * @param bool $raw [optional]
      * @throws \InvalidArgumentException
      */
-    public function compareTo(self $other, $invert = false, $raw = false): string
+    public function compareTo(self $other, bool $invert = false, bool $raw = false): string
     {
         if ($this->seconds() == 0 || $other->seconds() == 0) {
             return '';
@@ -285,10 +280,8 @@ class Duration
 
     /**
      * @param string $string e.g. '0:27'
-     * @param bool $isPositive
-     * @param bool $raw [optional]
      */
-    protected function formatComparison($string, $isPositive, $raw = false): string
+    protected function formatComparison(string $string, bool $isPositive, bool $raw = false): string
     {
         $class = ($isPositive) ? 'plus' : 'minus';
         $sign = ($isPositive) ? '+' : '-';

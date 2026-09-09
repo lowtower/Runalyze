@@ -7,10 +7,7 @@ use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
 class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var StrategyCollection
-     */
-    protected $Collection;
+    protected StrategyCollection $Collection;
 
     protected function setUp(): void
     {
@@ -34,20 +31,21 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
     public function testOneValidStrategy()
     {
         $altitudes = [123, 121, 115];
-        $strategy = $this->getMockForAbstractClass(StrategyInterface::class);
-        $strategy->expects($this->any())
+
+        /** @var StrategyInterface&\PHPUnit\Framework\MockObject\MockObject $mock */
+        $mock = $this->getMockForAbstractClass(StrategyInterface::class);
+        $mock->expects($this->any())
             ->method('isPossible')
             ->willReturn(true);
-        $strategy->expects($this->any())
+        $mock->expects($this->any())
             ->method('loadAltitudeData')
             ->willReturn($altitudes);
 
-        /** @var StrategyInterface $strategy */
-        $this->Collection->add($strategy);
+        $this->Collection->add($mock);
 
         $result = $this->Collection->loadAltitudeData([49.9, 49.8, 49.7], [7.7, 7.6, 7.5]);
 
         $this->assertEquals($altitudes, $result);
-        $this->assertEquals($strategy, $this->Collection->getLastSuccessfulStrategy());
+        $this->assertEquals($mock, $this->Collection->getLastSuccessfulStrategy());
     }
 }

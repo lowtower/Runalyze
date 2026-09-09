@@ -44,7 +44,7 @@ class SummaryTableMonths extends SummaryTable
      * @var int
      * enum
      */
-    protected $Mode = 0;
+    protected int $Mode = 0;
 
     /**
      * @param int $mode - enum
@@ -81,7 +81,7 @@ class SummaryTableMonths extends SummaryTable
                 break;
 
             case self::MODE_YEAR:
-                $this->Title = $this->Year;
+                $this->Title = (string) $this->Year;
                 $this->TimeEnd = LocalTime::mktime(23, 59, 59, 12, 31, $this->Year);
                 $this->TimeStart = LocalTime::mktime(0, 0, 1, 1, 1, $this->Year);
                 break;
@@ -90,9 +90,8 @@ class SummaryTableMonths extends SummaryTable
 
     /**
      * Head for row
-     * @param int $index
      */
-    protected function rowHead($index): string
+    protected function rowHead(int $index): string
     {
         $midOfTimerange = $this->TimeEnd - ($index + 0.5) * 31 * DAY_IN_S;
         $month = date('m', $midOfTimerange);

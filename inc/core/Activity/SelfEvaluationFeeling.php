@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::SelfEvaluationFeeling
  * @package Runalyze\Activity
@@ -50,26 +52,26 @@ class SelfEvaluationFeeling extends AbstractEnum
      * @return int internal enum
      * @throws \InvalidArgumentException
      */
-    public static function fromFitToEnum($fitValue)
+    public static function fromFitToEnum(float $fitValue): int
     {
         if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 100) {
             throw new \InvalidArgumentException(sprintf('Provided evaluation effort %s is invalid.', $fitValue));
         }
 
         switch ((int) $fitValue) {
-            case 0.0:
+            case 0:
                 return self::VERY_WEAK;
-            case 25.0:
+            case 25:
                 return self::WEAK;
-            case 50.0:
+            case 50:
                 return self::NORMAL;
-            case 75.0:
+            case 75:
                 return self::STRONG;
-            case 100.0:
+            case 100:
                 return self::VERY_STRONG;
             default:
-                // return the original value / this results in an unknown "label"
-                return $fitValue;
+                // return the original value as int / this results in an unknown "label"
+                return (int) $fitValue;
         }
     }
 
@@ -79,7 +81,7 @@ class SelfEvaluationFeeling extends AbstractEnum
      * @param int $num internal enum
      * @codeCoverageIgnore
      */
-    public static function labelOfEnum($num): string
+    public static function labelOfEnum(int $num): string
     {
         switch ($num) {
             case self::VERY_WEAK:
@@ -101,10 +103,10 @@ class SelfEvaluationFeeling extends AbstractEnum
      * Gets the number and label text as a string.
      *
      * @param int $num internal enum
-     * @return description with number and texts
+     * @return string description with number and texts
      * @codeCoverageIgnore
      */
-    public static function descriptionFromNum($num): string
+    public static function descriptionFromNum(int $num): string
     {
         return $num . ' ' . self::labelOfEnum($num);
     }

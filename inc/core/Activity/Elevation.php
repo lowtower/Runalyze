@@ -16,33 +16,23 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class Elevation implements ValueInterface
 {
+    protected float $value;
+
     /**
      * Value in m
-     * @var float [m]
      */
-    protected $Meter;
+    protected int $Meter;
 
-    /**
-     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected DistanceUnitSystem $UnitSystem;
 
-    /**
-     * Format elevation
-     * @param int $meter
-     * @param bool $withUnit
-     */
-    public static function format($meter, $withUnit = true): string
+    public static function format(int $meter, bool $withUnit = true): string
     {
         return (new self($meter))->string($withUnit);
     }
 
-    /**
-     * @param int $meter
-     */
-    public function __construct($meter = 0, ?DistanceUnitSystem $unitSystem = null)
+    public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
     {
-        $this->Meter = $meter;
+        $this->set($value);
         $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
     }
 
@@ -65,32 +55,30 @@ class Elevation implements ValueInterface
 
     /**
      * Set elevation
-     * @param int $meter
      * @return \Runalyze\Activity\Elevation $this-reference
      */
-    public function set($meter): self
+    public function set($value): self
     {
-        $this->Meter = $meter;
+        $this->value = $value;
+        $this->Meter = (int) $value;
 
         return $this;
     }
 
     /**
-     * @param int $feet
      * @return \Runalyze\Activity\Elevation $this-reference
      */
-    public function setFeet($feet): self
+    public function setFeet(float $feet): self
     {
-        $this->Meter = $feet / DistanceUnitSystem::FEET_MULTIPLIER * 1000;
+        $this->set($feet / DistanceUnitSystem::FEET_MULTIPLIER * 1000);
 
         return $this;
     }
 
     /**
-     * @param int $elevation [mixed unit]
      * @return \Runalyze\Activity\Elevation $this-reference
      */
-    public function setInPreferredUnit($elevation): self
+    public function setInPreferredUnit(float $elevation): self
     {
         if ($this->UnitSystem->isImperial()) {
             $this->setFeet($elevation);
@@ -103,27 +91,24 @@ class Elevation implements ValueInterface
 
     /**
      * Get elevation
-     * @return int [m]
+     * @return float [m]
      */
     public function value(): float
     {
-        return round($this->Meter);
+        return $this->value;
     }
 
-    public function meter(): float
+    public function meter(): int
     {
-        return round($this->Meter);
+        return $this->Meter;
     }
 
-    public function feet(): float
+    public function feet(): int
     {
-        return round($this->Meter * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
+        return (int) round($this->value * DistanceUnitSystem::FEET_MULTIPLIER / 1000);
     }
 
-    /**
-     * @return int [mixed unit]
-     */
-    public function valueInPreferredUnit(): float
+    public function valueInPreferredUnit(): int
     {
         if ($this->UnitSystem->isImperial()) {
             return $this->feet();
@@ -134,9 +119,8 @@ class Elevation implements ValueInterface
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->UnitSystem->isImperial()) {
             return $this->stringFeet($withUnit);
@@ -145,18 +129,12 @@ class Elevation implements ValueInterface
         return $this->stringMeter($withUnit);
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function stringMeter($withUnit = true): string
+    public function stringMeter(bool $withUnit = true): string
     {
         return number_format($this->Meter, 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::METER : '');
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function stringFeet($withUnit = true): string
+    public function stringFeet(bool $withUnit = true): string
     {
         return number_format($this->feet(), 0, '', '.') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::FEET : '');
     }

@@ -21,9 +21,8 @@ class TableLapsComputed extends TableLapsAbstract
 {
     /**
      * Data
-     * @var array
      */
-    protected $Data = [];
+    protected array $Data = [];
 
     protected function setCode()
     {
@@ -81,13 +80,21 @@ class TableLapsComputed extends TableLapsAbstract
         $unit = $this->Context->sport()
             ->legacyPaceUnit();
         foreach ($this->Laps->objects() as $Lap) {
-            $Lap->pace()
-                ->setUnit($unit);
+            $paceValue = '';
+            $paceAppendix = '';
+            if ($Lap->pace()) {
+                $Lap->pace()
+                    ->setUnit($unit);
+                $paceValue = $Lap->pace()
+                    ->value();
+                $paceAppendix = $Lap->pace()
+                    ->appendix();
+            }
 
             $this->Code .= '<tr class="r">';
             $this->Code .= '<td>' . $Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable) . '</td>';
             $this->Code .= '<td>' . $Lap->trackDuration()->string() . '</td>';
-            $this->Code .= '<td>' . $Lap->pace()->value() . '<small>' . $Lap->pace()->appendix() . '</small></td>';
+            $this->Code .= '<td>' . $paceValue . '<small>' . $paceAppendix . '</small></td>';
             if ($showCellForHeartrate) {
                 $this->Code .= '<td>' . $Lap->HRavg()->inBPM() . '<small>bpm</small></td>';
             }

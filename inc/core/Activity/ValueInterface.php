@@ -19,21 +19,16 @@ interface ValueInterface
 {
     /**
      * Label for value
-     * @return string
      */
-    public function label();
+    public function label(): string;
 
-    /**
-     * @return string
-     */
-    public function unit();
+    public function unit(): string;
 
     /**
      * Set value
-     * @param mixed $value
      * @return \Runalyze\Activity\ValueInterface $this-reference
      */
-    public function set($value);
+    public function set($value): self;
 
     /**
      * Get value
@@ -43,8 +38,6 @@ interface ValueInterface
 
     /**
      * Format value as string
-     * @param bool $withUnit
-     * @return string
      */
-    public function string($withUnit = true);
+    public function string(bool $withUnit = true): string;
 }

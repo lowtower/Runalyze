@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::FloatingPoint
  * @package Runalyze\Parameter
@@ -18,9 +20,9 @@ class FloatingPoint extends \Runalyze\Parameter
 {
     /**
      * Options
-     * @var array
+     * @var array<string, false>
      */
-    protected $Options = [
+    protected array $Options = [
         'min' => false,
         'max' => false,
         'null' => false,
@@ -29,9 +31,9 @@ class FloatingPoint extends \Runalyze\Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString($valueAsString)
+    public function setFromString(string $valueAsString)
     {
-        if ($valueAsString == '' && $this->Options['null']) {
+        if ($valueAsString === '' && $this->Options['null']) {
             $this->set(null);
         } else {
             $this->set((float) Helper::CommaToPoint($valueAsString));

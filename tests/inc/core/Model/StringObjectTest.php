@@ -6,14 +6,14 @@ namespace Runalyze\Model;
 
 class StringObject_MockTester extends StringObject
 {
-    protected $String;
+    protected string $String;
 
-    public function fromString($string)
+    public function fromString(string $string)
     {
         $this->String = $string;
     }
 
-    public function asString()
+    public function asString(): string
     {
         return $this->String;
     }

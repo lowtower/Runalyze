@@ -52,10 +52,7 @@ class LapsManual extends Laps
         $this->manipulateData($num);
     }
 
-    /**
-     * @param bool $showInactive
-     */
-    protected function readDataFromSplits(Splits\Entity $splits, $showInactive)
+    protected function readDataFromSplits(Splits\Entity $splits, bool $showInactive)
     {
         foreach ($splits->asArray() as $split) {
             if (($showInactive || $split->isActive()) && $split->distance() > 0) {
@@ -65,10 +62,7 @@ class LapsManual extends Laps
         }
     }
 
-    /**
-     * @param int $num
-     */
-    protected function manipulateData($num)
+    protected function manipulateData(int $num)
     {
         $distanceUnit = \Runalyze\Configuration::General()->distanceUnitSystem()->distanceUnit();
         $Pace = new PaceObject(0, 1);

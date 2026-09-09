@@ -20,9 +20,8 @@ abstract class AbstractTimeUnit extends AbstractUnit
 {
     /**
      * Pace is displayed as time per distance
-     * @return bool
      */
-    final public function isTimeFormat()
+    final public function isTimeFormat(): bool
     {
         return true;
     }
@@ -33,10 +32,9 @@ abstract class AbstractTimeUnit extends AbstractUnit
      * This should only be used for decimal formats.
      * dividendForUnit() / 's/km' = [decimal pace value]
      *
-     * @return float
      * @throws \RuntimeException
      */
-    public function dividendForUnit()
+    public function dividendForUnit(): float
     {
         throw new \RuntimeException('factorForUnit() must not be used for units in decimal format');
     }
@@ -47,22 +45,19 @@ abstract class AbstractTimeUnit extends AbstractUnit
      * This returns for example a float for decimal units and an integer as 's/km'
      * for time units.
      *
-     * @param int $secondsPerKm
      * @return mixed
      */
-    public function rawValue($secondsPerKm)
+    public function rawValue(int $secondsPerKm)
     {
         return $secondsPerKm * $this->factorForUnit();
     }
 
     /**
      * Format pace
-     * @param int $secondsPerKm
-     * @return string
      */
-    public function format($secondsPerKm)
+    public function format(int $secondsPerKm): string
     {
-        if ($secondsPerKm == 0) {
+        if ($secondsPerKm === 0) {
             return '-:--';
         }
 

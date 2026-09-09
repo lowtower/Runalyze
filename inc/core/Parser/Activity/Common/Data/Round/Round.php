@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\Common\Data\Round;
 
 use Runalyze\Activity\LapIntensity;
@@ -9,27 +11,23 @@ class Round
     /**
      * @var float [km]
      */
-    protected $Distance;
+    protected float $Distance;
 
     /**
-     * @var int|float [s]
+     * @var float [s]
      */
-    protected $Duration;
+    protected float $Duration;
 
-    /**
-     * @var LapIntensity
-     */
-    protected $Intensity;
+    protected LapIntensity $Intensity;
 
     /**
      * @param float $distance [km]
-     * @param int|float $duration [s]
-     * @param bool $isActive
+     * @param float $duration [s]
      */
-    public function __construct($distance, $duration, $isActive = true)
+    public function __construct(float $distance, float $duration, bool $isActive = true)
     {
-        $this->Distance = $distance;
-        $this->Duration = $duration;
+        $this->setDistance($distance);
+        $this->setDuration($duration);
         if ($isActive) {
             $this->Intensity = LapIntensity::getInstanceActive();
         } else {
@@ -42,10 +40,7 @@ class Round
         $this->Intensity = $intensity;
     }
 
-    /**
-     * @return LapIntensity
-     */
-    public function getIntensity()
+    public function getIntensity(): LapIntensity
     {
         return $this->Intensity;
     }
@@ -53,7 +48,7 @@ class Round
     /**
      * @param float $distance [km]
      */
-    public function setDistance($distance)
+    public function setDistance(float $distance)
     {
         $this->Distance = $distance;
     }
@@ -61,36 +56,33 @@ class Round
     /**
      * @return float [km]
      */
-    public function getDistance()
+    public function getDistance(): float
     {
         return $this->Distance;
     }
 
     /**
-     * @param int|float $duration [s]
+     * @param float $duration [s]
      */
-    public function setDuration($duration)
+    public function setDuration(float $duration)
     {
         $this->Duration = $duration;
     }
 
     /**
-     * @return int|float [s]
+     * @return float [s]
      */
-    public function getDuration()
+    public function getDuration(): float
     {
         return $this->Duration;
     }
 
     public function roundDuration()
     {
-        $this->Duration = (int) round($this->Duration);
+        $this->Duration = round($this->Duration);
     }
 
-    /**
-     * @param bool $flag
-     */
-    public function setActive($flag = true)
+    public function setActive(bool $flag = true)
     {
         $this->Intensity = $flag ? LapIntensity::getInstanceActive() : LapIntensity::getInstanceRest();
     }
@@ -103,9 +95,10 @@ class Round
     public function isEqualTo(self $other): bool
     {
         return
-            $this->Duration == $other->getDuration() &&
-            $this->Distance == $other->getDistance() &&
-            $this->Intensity->isEqualTo($other->getIntensity())
+            $this->getDuration() === $other->getDuration() &&
+            $this->getDistance() === $other->getDistance() &&
+            $this->getIntensity()
+                ->isEqualTo($other->getIntensity())
         ;
     }
 }

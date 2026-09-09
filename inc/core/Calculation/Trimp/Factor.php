@@ -28,15 +28,13 @@ class Factor
 {
     /**
      * Gender
-     * @int
      */
-    protected $Gender;
+    protected int $Gender;
 
     /**
      * Construct
-     * @param int $Gender
      */
-    public function __construct($Gender)
+    public function __construct(int $Gender)
     {
         $this->Gender = $Gender;
     }
@@ -46,11 +44,11 @@ class Factor
      */
     public function A(): float
     {
-        if ($this->Gender == Gender::MALE) {
+        if ($this->Gender === Gender::MALE) {
             return 0.64;
         }
 
-        if ($this->Gender == GENDER::FEMALE) {
+        if ($this->Gender === GENDER::FEMALE) {
             return 0.821776;
         }
 
@@ -62,11 +60,11 @@ class Factor
      */
     public function B(): float
     {
-        if ($this->Gender == Gender::MALE) {
+        if ($this->Gender === Gender::MALE) {
             return 1.92;
         }
 
-        if ($this->Gender == Gender::FEMALE) {
+        if ($this->Gender === Gender::FEMALE) {
             return 1.67;
         }
 

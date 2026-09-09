@@ -26,7 +26,7 @@ abstract class StringArrayObject extends StringObject
 
     /**
      * Construct
-     * @param mixed $data string or array
+     * @param string|array|null $data string or array
      */
     public function __construct($data = '')
     {
@@ -38,26 +38,19 @@ abstract class StringArrayObject extends StringObject
     }
 
     /**
-     * @param array[] $data array of elements
+     * @param array $data array of elements
      */
     public function fromArray(array $data)
     {
         $this->Elements = $data;
     }
 
-    /**
-     * As array
-     * @return array
-     */
-    public function asArray()
+    public function asArray(): array
     {
         return $this->Elements;
     }
 
-    /**
-     * @param string $string
-     */
-    public function fromString($string)
+    public function fromString(string $string)
     {
         $json = json_decode($string, true);
 
@@ -68,11 +61,7 @@ abstract class StringArrayObject extends StringObject
         }
     }
 
-    /**
-     * As string
-     * @return string
-     */
-    public function asString()
+    public function asString(): string
     {
         if ($this->isEmpty()) {
             return '';
@@ -88,20 +77,15 @@ abstract class StringArrayObject extends StringObject
 
     /**
      * Number of pauses
-     * @return int
      */
-    public function num()
+    public function num(): int
     {
         return count($this->Elements);
     }
 
-    /**
-     * Is empty
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        return $this->num() == 0;
+        return $this->num() === 0;
     }
 
     /**
@@ -114,11 +98,10 @@ abstract class StringArrayObject extends StringObject
 
     /**
      * Get pause
-     * @param int $index
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function at($index)
+    public function at(int $index)
     {
         if (! isset($this->Elements[$index])) {
             throw new \InvalidArgumentException('Unknown object index.');

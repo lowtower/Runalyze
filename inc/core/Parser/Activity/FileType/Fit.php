@@ -23,15 +23,9 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
      */
     public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
-    /**
-     * @var bool
-     */
-    protected $ParsingStarted = false;
+    protected bool $ParsingStarted = false;
 
-    /**
-     * @var FitActivity
-     */
-    protected $CurrentSubParser;
+    protected FitActivity $CurrentSubParser;
 
     public function __construct()
     {
@@ -46,7 +40,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
         $this->finishCurrentSubParser();
     }
 
-    protected function parseLine($line)
+    protected function parseLine(string $line)
     {
         if (! $this->ParsingStarted) {
             $this->checkFirstLine($line);
@@ -62,7 +56,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
 
     protected function currentContainerIsEmpty(): bool
     {
-        return $this->CurrentSubParser !== null && $this->CurrentSubParser->getActivityDataContainer()
+        return $this->CurrentSubParser instanceof \Runalyze\Parser\Activity\FileType\FitActivity && $this->CurrentSubParser->getActivityDataContainer()
             ->ContinuousData->isEmpty();
     }
 

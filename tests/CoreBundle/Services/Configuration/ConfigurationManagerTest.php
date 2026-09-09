@@ -12,6 +12,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyList()
     {
+        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this->getConfRepositoryMock([]);
         $manager = new ConfigurationManager($repository, new TokenStorage());
         $list = $manager->getList(new Account());
@@ -26,6 +27,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
         $existingConf->setKey('DISTANCE_UNIT_SYSTEM');
         $existingConf->setValue('imperial');
 
+        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this->getConfRepositoryMock([$existingConf]);
         $manager = new ConfigurationManager($repository, new TokenStorage());
         $list = $manager->getList(new Account());
@@ -39,7 +41,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConfRepositoryMock(array $existingData = [])
     {
-        /** @var ConfRepository $repository */
+        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()

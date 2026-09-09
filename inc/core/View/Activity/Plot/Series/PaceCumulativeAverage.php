@@ -23,14 +23,10 @@ class PaceCumulativeAverage extends Pace
      */
     public const COLOR = 'rgb(200,200,255)';
 
-    /**
-     * @var bool
-     */
-    protected $adjustAxis = false;
+    protected bool $adjustAxis = false;
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -51,7 +47,6 @@ class PaceCumulativeAverage extends Pace
 
     /**
      * Calculate cumulative moving average
-     * @var \Runalyze\View\Activity\Context
      */
     protected function adjustTrackdata(Activity\Context $context)
     {

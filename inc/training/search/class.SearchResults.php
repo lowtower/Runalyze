@@ -31,80 +31,52 @@ class SearchResults
 
     /**
      * Allowed keys to search for
-     * @var array
      */
-    protected $AllowedKeys = [];
+    protected array $AllowedKeys = [];
 
-    /**
-     * @var array
-     */
-    protected $KeysThatShouldIgnoreNull = [];
+    protected array $KeysThatShouldIgnoreNull = [];
 
-    /**
-     * @var array
-     */
-    protected $KeysThatShouldIgnoreZero = [];
+    protected array $KeysThatShouldIgnoreZero = [];
 
     /**
      * Colspan
-     * @var int
      */
-    protected $Colspan = 0;
+    protected int $Colspan = 0;
 
     /**
      * Trainings
-     * @var array
      */
-    protected $Trainings = [];
+    protected array $Trainings = [];
 
     /**
      * Total number of trainings
-     * @var int
      */
-    protected $TotalNumberOfTrainings = 0;
+    protected int $TotalNumberOfTrainings = 0;
 
     /**
      * Page
-     * @var int
      */
-    protected $Page = 0;
+    protected int $Page = 0;
 
     /**
      * Search and show trainings=
-     * @var bool
      */
-    protected $WithResults = true;
+    protected bool $WithResults = true;
 
     /**
      * Results per page
-     * @var int
      */
-    protected $ResultsPerPage;
+    protected int $ResultsPerPage;
 
-    /**
-     * @var int
-     */
-    protected $AccountID;
+    protected int $AccountID;
 
-    /**
-     * @var \PDOforRunalyze
-     */
-    protected $DB;
+    protected \PDOforRunalyze $DB;
 
-    /**
-     * @var \Runalyze\Dataset\Configuration
-     */
-    protected $DatasetConfig;
+    protected \Runalyze\Dataset\Configuration $DatasetConfig;
 
-    /**
-     * @var \Runalyze\Dataset\Query
-     */
-    protected $DatasetQuery;
+    protected \Runalyze\Dataset\Query $DatasetQuery;
 
-    /**
-     * @param bool $withResults
-     */
-    public function __construct($withResults = true)
+    public function __construct(bool $withResults = true)
     {
         $this->WithResults = $withResults;
 
@@ -327,9 +299,9 @@ class SearchResults
     }
 
     /**
-     * @param lowercase-string[] $conditions
+     * @param string[] $conditions
      */
-    protected function addSpecialConditions(array &$conditions)
+    protected function addSpecialConditions(array &$conditions): void
     {
         if (isset($_POST['sportid'])) {
             $this->addSportCondition($conditions);
@@ -523,7 +495,7 @@ class SearchResults
     }
 
     /**
-     * @param lowercase-string[] $conditions
+     * @param string[] $conditions
      */
     protected function addSportCondition(array &$conditions)
     {
@@ -701,7 +673,7 @@ class SearchResults
 
     protected function displayHeader()
     {
-        if ($this->Page != 1) {
+        if ($this->Page !== 1) {
             echo '<span id="search-back" class="link">' . Icon::$BACK . '</span>';
         }
 

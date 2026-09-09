@@ -13,10 +13,7 @@ namespace Runalyze\Parameter;
  */
 class Select extends \Runalyze\Parameter
 {
-    /**
-     * @var bool
-     */
-    protected $UseFallback = true;
+    protected bool $UseFallback = true;
 
     /**
      * @var mixed
@@ -28,7 +25,7 @@ class Select extends \Runalyze\Parameter
      * @param string $default
      * @param array $options [optional]
      */
-    public function __construct($default, $options = [])
+    public function __construct($default, array $options = [])
     {
         $this->Default = $default;
         $options = array_merge([
@@ -56,27 +53,24 @@ class Select extends \Runalyze\Parameter
 
     /**
      * Value allowed?
-     * @param string $value
      */
-    protected function valueIsAllowed($value): bool
+    protected function valueIsAllowed(string $value): bool
     {
         return in_array($value, array_keys($this->Options['options']));
     }
 
     /**
      * Long string
-     * @return string
      */
-    public function valueAsLongString()
+    public function valueAsLongString(): string
     {
         return $this->Options['options'][$this->value()];
     }
 
     /**
      * Options
-     * @return array
      */
-    public function options()
+    public function options(): array
     {
         return $this->Options['options'];
     }

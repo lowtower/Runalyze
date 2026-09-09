@@ -62,20 +62,18 @@ class Context
 
     /**
      * Construct context
-     * @var int
-     * @var int
      */
-    public function __construct($activityID, $accountID)
+    public function __construct(int $activityID, int $accountID)
     {
-        $Factory = new Factory((int) $accountID);
+        $Factory = new Factory($accountID);
 
-        $this->Activity = $Factory->activity((int) $activityID);
-        $this->Trackdata = $Factory->trackdata((int) $activityID);
-        $this->Swimdata = $Factory->swimdata((int) $activityID);
-        $this->RaceResult = $Factory->raceResult((int) $activityID);
+        $this->Activity = $Factory->activity($activityID);
+        $this->Trackdata = $Factory->trackdata($activityID);
+        $this->Swimdata = $Factory->swimdata($activityID);
+        $this->RaceResult = $Factory->raceResult($activityID);
         $this->Route = $this->Activity->get(Activity\Entity::ROUTEID) ? $Factory->route($this->Activity->get(Activity\Entity::ROUTEID)) : null;
-        $this->HRV = $Factory->hrv((int) $activityID);
-        $this->Sport = $Factory->sport((int) $this->Activity->sportid());
+        $this->HRV = $Factory->hrv($activityID);
+        $this->Sport = $Factory->sport($this->Activity->sportid());
 
         $this->Swimdata->fillDistanceArray($this->Trackdata);
         $this->Swimdata->fillSwolfArray($this->Trackdata);
@@ -88,7 +86,7 @@ class Context
      */
     public function __clone()
     {
-        foreach ($this as $property => $value) {
+        foreach (get_object_vars($this) as $property => $value) {
             if (is_object($value)) {
                 $this->{$property} = clone $value;
             }

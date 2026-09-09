@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::DataCollectorForStrideLength
  * @package Runalyze\View\Activity\Plot\Series
@@ -44,9 +46,9 @@ class DataCollectorForStrideLength extends DataCollector
                 $value = 0;
             }
 
-            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+            if ($this->XAxis === self::X_AXIS_DISTANCE) {
                 $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+            } elseif ($this->XAxis === self::X_AXIS_TIME) {
                 $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
             } else {
                 $this->Data[] = $value;

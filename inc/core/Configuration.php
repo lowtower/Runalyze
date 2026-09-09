@@ -85,10 +85,7 @@ class Configuration
         }
     }
 
-    /**
-     * @return int
-     */
-    private static function loadAccountID()
+    private static function loadAccountID(): ?int
     {
         if (defined('RUNALYZE_TEST')) {
             return null;
@@ -97,10 +94,7 @@ class Configuration
         return \SessionAccountHandler::getId();
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category
-     */
-    private static function get(string $categoryName)
+    private static function get(string $categoryName): \Runalyze\Configuration\Category
     {
         if (! isset(self::$Categories[$categoryName])) {
             $className = 'Runalyze\\Configuration\\Category\\' . $categoryName;
@@ -118,78 +112,71 @@ class Configuration
      */
     public static function General()
     {
-        return self::get('General');
+        /** @var \Runalyze\Configuration\Category\General $return */
+        $return = self::get('General');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\ActivityView
-     */
-    public static function ActivityView()
+    public static function ActivityView(): \Runalyze\Configuration\Category\ActivityView
     {
-        return self::get('ActivityView');
+        /** @var \Runalyze\Configuration\Category\ActivityView $return */
+        $return = self::get('ActivityView');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\ActivityForm
-     */
-    public static function ActivityForm()
+    public static function ActivityForm(): \Runalyze\Configuration\Category\ActivityForm
     {
-        return self::get('ActivityForm');
+        /** @var \Runalyze\Configuration\Category\ActivityForm $return */
+        $return = self::get('ActivityForm');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\DataBrowser
-     */
-    public static function DataBrowser()
+    public static function DataBrowser(): \Runalyze\Configuration\Category\DataBrowser
     {
-        return self::get('DataBrowser');
+        /** @var \Runalyze\Configuration\Category\DataBrowser $return */
+        $return = self::get('DataBrowser');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\Privacy
-     */
-    public static function Privacy()
+    public static function Privacy(): \Runalyze\Configuration\Category\Privacy
     {
-        return self::get('Privacy');
+        /** @var \Runalyze\Configuration\Category\Privacy $return */
+        $return = self::get('Privacy');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\Design
-     */
-    public static function Design()
+    public static function Design(): \Runalyze\Configuration\Category\Design
     {
-        return self::get('Design');
+        /** @var \Runalyze\Configuration\Category\Design $return */
+        $return = self::get('Design');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\Data
-     */
-    public static function Data()
+    public static function Data(): \Runalyze\Configuration\Category\Data
     {
-        return self::get('Data');
+        /** @var \Runalyze\Configuration\Category\Data $return */
+        $return = self::get('Data');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\VO2max
-     */
-    public static function VO2max()
+    public static function VO2max(): \Runalyze\Configuration\Category\VO2max
     {
-        return self::get('VO2max');
+        /** @var \Runalyze\Configuration\Category\VO2max $return */
+        $return = self::get('VO2max');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\Trimp
-     */
-    public static function Trimp()
+    public static function Trimp(): \Runalyze\Configuration\Category\Trimp
     {
-        return self::get('Trimp');
+        /** @var \Runalyze\Configuration\Category\Trimp $return */
+        $return = self::get('Trimp');
+        return $return;
     }
 
-    /**
-     * @return \Runalyze\Configuration\Category\BasicEndurance
-     */
-    public static function BasicEndurance()
+    public static function BasicEndurance(): \Runalyze\Configuration\Category\BasicEndurance
     {
-        return self::get('BasicEndurance');
+        /** @var \Runalyze\Configuration\Category\BasicEndurance $return */
+        $return = self::get('BasicEndurance');
+        return $return;
     }
 }

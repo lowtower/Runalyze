@@ -87,12 +87,12 @@ class RunalyzePluginStat_Tag extends PluginStat
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    private function getToolbarNavigationLinks()
+    private function getToolbarNavigationLinks(): array
     {
         if ($this->AllTags === []) {
-            return '';
+            return [];
         }
 
         $LinkList = [];

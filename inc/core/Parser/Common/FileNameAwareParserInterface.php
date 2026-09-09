@@ -8,8 +8,5 @@ use Runalyze\Parser\Activity\Common\ParserInterface;
 
 interface FileNameAwareParserInterface extends ParserInterface
 {
-    /**
-     * @param string $file
-     */
-    public function setFileName($file);
+    public function setFileName(string $file);
 }

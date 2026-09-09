@@ -32,7 +32,7 @@ class Handle
 
     /**
      * Onchange callback
-     * @var callable
+     * @var callable|string
      */
     protected $OnchangeCallback = '';
 

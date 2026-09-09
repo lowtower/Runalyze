@@ -28,33 +28,30 @@ class Plot
 
     /**
      * Height of the image
-     * @var int
+     * @var int|bool
      */
     private $height = false;
 
     /**
      * Internal Data, is public for direct access
-     * @var array
      */
-    public $Data = [];
+    public array $Data = [];
 
     /**
      * Array for all options for FLOT
-     * @var array
      */
-    public $Options = [];
+    public array $Options = [];
 
     /**
      * Options only used by Runalyze's plot handler
-     * @var array
      */
-    public $PlotOptions = [];
+    public array $PlotOptions = [];
 
     /**
      * Array containing annotations for this plot
-     * @var array
+     * @var array<mixed, array<string, string|float>>
      */
-    private $Annotations = [];
+    private array $Annotations = [];
 
     /**
      * Error string
@@ -63,21 +60,17 @@ class Plot
     private $ErrorString = '';
 
     /**
-     * @param string $cssID
      * @param mixed $width
      * @param mixed $height
      */
-    public function __construct($cssID, $width = 480, $height = 190)
+    public function __construct(string $cssID, $width = 480, $height = 190)
     {
         $this->width = $width;
         $this->height = $height;
         $this->cssID = $cssID;
     }
 
-    /**
-     * @param string $string
-     */
-    public function raiseError($string)
+    public function raiseError(string $string)
     {
         $this->ErrorString = $string;
     }
@@ -413,10 +406,8 @@ class Plot
 
     /**
      * Set smoothing
-     * @var bool
-     * @var bool [optional]
      */
-    public function smoothing($flag = true, $fit = null)
+    public function smoothing(bool $flag = true, ?bool $fit = null)
     {
         $this->Options['series']['curvedLines']['apply'] = $flag;
         $this->Options['series']['curvedLines']['monotonicFit'] = true;

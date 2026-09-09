@@ -34,48 +34,32 @@ class DataCollector
      */
     public const X_AXIS_DISTANCE = 2;
 
-    /**
-     * @var string
-     */
-    protected $Key;
+    protected string $Key;
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Loop
-     */
-    protected $Loop;
+    protected \Runalyze\Model\Trackdata\Loop $Loop;
 
     /**
      * Step distance
      * @var int [m]
      */
-    protected $StepDistance;
+    protected int $StepDistance;
+
+    protected int $XAxis = 0;
 
     /**
-     * @var int
+     * @var float[]|int[]
      */
-    protected $XAxis = 0;
+    protected array $Data = [];
 
-    /**
-     * @var array
-     */
-    protected $Data = [];
+    protected \Runalyze\Parameter\Application\ActivityPlotPrecision $Precision;
 
-    /**
-     * @var \Runalyze\Parameter\Application\ActivityPlotPrecision
-     */
-    protected $Precision;
-
-    /**
-     * @var bool
-     */
-    protected $KnowsDistance;
+    protected bool $KnowsDistance;
 
     /**
      * Construct collector
-     * @param int $key
      * @throws \InvalidArgumentException
      */
-    public function __construct(Trackdata $trackdata, $key)
+    public function __construct(Trackdata $trackdata, string $key)
     {
         if (! $trackdata->has($key)) {
             throw new \InvalidArgumentException('Trackdata has no data for "' . $key . '".');
@@ -99,9 +83,8 @@ class DataCollector
 
     /**
      * Type of x-axis
-     * @return int
      */
-    public function xAxis()
+    public function xAxis(): int
     {
         return $this->XAxis;
     }
@@ -122,16 +105,16 @@ class DataCollector
      */
     protected function collect()
     {
-        $useCurrentValue = ($this->Key == Trackdata::DISTANCE || $this->Key == Trackdata::TIME);
+        $useCurrentValue = ($this->Key === Trackdata::DISTANCE || $this->Key === Trackdata::TIME);
 
         do {
             $this->move();
 
             $value = $useCurrentValue ? $this->Loop->current($this->Key) : $this->Loop->average($this->Key);
 
-            if ($this->XAxis == self::X_AXIS_DISTANCE) {
+            if ($this->XAxis === self::X_AXIS_DISTANCE) {
                 $this->Data[(string) $this->Loop->current(Trackdata::DISTANCE)] = $value;
-            } elseif ($this->XAxis == self::X_AXIS_TIME) {
+            } elseif ($this->XAxis === self::X_AXIS_TIME) {
                 $this->Data[$this->Loop->current(Trackdata::TIME) . '000'] = $value;
             } else {
                 $this->Data[] = $value;

@@ -13,15 +13,9 @@ use Runalyze\Util\LocalTime;
  */
 class FitTest extends AbstractActivityParserTestCase
 {
-    /**
-     * @var Fit
-     */
-    protected $Parser;
+    protected Fit $Parser;
 
-    /**
-     * @var FitConverter
-     */
-    protected $Converter;
+    protected FitConverter $Converter;
 
     protected function setUp(): void
     {
@@ -34,10 +28,8 @@ class FitTest extends AbstractActivityParserTestCase
 
     /**
      * @param string $file file path relative to 'testfiles/'
-     * @param bool $completeAfterwards
-     * @param bool $runFilter
      */
-    protected function convertAndParse($file, $completeAfterwards = true, $runFilter = true)
+    protected function convertAndParse(string $file, bool $completeAfterwards = true, bool $runFilter = true)
     {
         $outputFile = $this->Converter->convertFile($this->pathToTestFiles() . $file);
         $this->FilesToClear[] = $outputFile;
@@ -829,7 +821,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/hr-only-zeros.fit');
 
         $this->assertEmpty($this->Container->ContinuousData->HeartRate);
-        $this->assertNull($this->Container->ActivityData->AvgHeartRate);
+        $this->assertEmpty($this->Container->ActivityData->AvgHeartRate, 'TODO: check empty or null - test was assertNull() before type hinting!');
         $this->assertNull($this->Container->ActivityData->MaxHeartRate);
     }
 

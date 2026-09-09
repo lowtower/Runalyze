@@ -4,13 +4,14 @@ namespace Runalyze\Data\Weather;
 
 use Runalyze\Profile\Weather\WeatherConditionProfile;
 use Runalyze\View\Icon\Weather;
+use Runalyze\View\Icon\WeatherIcon;
 
 class Condition
 {
     /**
      * @var int see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    protected $identifier;
+    protected int $identifier;
 
     /**
      * @return array
@@ -23,7 +24,7 @@ class Condition
     /**
      * @param int $identifier see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    public function __construct($identifier)
+    public function __construct(int $identifier)
     {
         $this->set($identifier);
     }
@@ -43,20 +44,17 @@ class Condition
     /**
      * @return int see \Runalyze\Profile\Weather\WeatherConditionProfile
      */
-    public function id()
+    public function id(): int
     {
         return $this->identifier;
     }
 
     public function isUnknown(): bool
     {
-        return $this->identifier == WeatherConditionProfile::UNKNOWN;
+        return $this->identifier === WeatherConditionProfile::UNKNOWN;
     }
 
-    /**
-     * @return \Runalyze\View\Icon\WeatherIcon
-     */
-    public function icon()
+    public function icon(): WeatherIcon
     {
         switch ($this->identifier) {
             case WeatherConditionProfile::SUNNY:

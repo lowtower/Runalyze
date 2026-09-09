@@ -24,9 +24,7 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
 
     /**
      * Construct
-     * @param string $Label [optional]
-     * @param string $Tooltip [optional]
-     * @param string|array $DefaultValue [optional]
+     * @param string|array $DefaultValue
      */
     public function __construct(string $Key, string $Label = '', string $Tooltip = '', $DefaultValue = '')
     {
@@ -42,10 +40,10 @@ class PluginConfigurationValueDistance extends PluginConfigurationValueFloat
     public function valueAsString(bool $transformValue = false): string
     {
         if ($transformValue) {
-            return round($this->value() * $this->unitSystem()->distanceToPreferredUnitFactor(), self::PRECISION);
+            return (string) round($this->value() * $this->unitSystem()->distanceToPreferredUnitFactor(), self::PRECISION);
         }
 
-        return round($this->value(), self::PRECISION);
+        return (string) round($this->value(), self::PRECISION);
     }
 
     public function setValueFromPost()

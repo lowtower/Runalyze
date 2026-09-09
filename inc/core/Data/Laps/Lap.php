@@ -11,7 +11,6 @@ use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\HeartRate;
 use Runalyze\Activity\LapIntensity;
-use Runalyze\Activity\Pace;
 use Runalyze\Context;
 
 /**
@@ -22,73 +21,41 @@ use Runalyze\Context;
  */
 class Lap
 {
-    /**
-     * @var \Runalyze\Activity\Duration
-     */
-    protected $LapDuration;
+    protected \Runalyze\Activity\Duration $LapDuration;
 
-    /**
-     * @var \Runalyze\Activity\Distance
-     */
-    protected $LapDistance;
+    protected \Runalyze\Activity\Distance $LapDistance;
 
-    /**
-     * @var \Runalyze\Activity\Pace
-     */
-    protected $LapPace;
+    protected ?\Runalyze\Activity\Pace $LapPace = null;
 
     /**
      * #TSC Mode is the "old" name and i dont want to change it.
      * @var LapIntensity enum
      */
-    protected $Mode;
+    protected ?LapIntensity $Mode = null;
+
+    protected \Runalyze\Activity\Duration $TrackDurationAtEnd;
+
+    protected \Runalyze\Activity\Distance $TrackDistanceAtEnd;
+
+    protected \Runalyze\Activity\HeartRate $HRavg;
+
+    protected \Runalyze\Activity\HeartRate $HRmax;
 
     /**
-     * @var \Runalyze\Activity\Duration
-     */
-    protected $TrackDurationAtEnd;
-
-    /**
-     * @var \Runalyze\Activity\Distance
-     */
-    protected $TrackDistanceAtEnd;
-
-    /**
-     * @var \Runalyze\Activity\HeartRate
-     */
-    protected $HRavg;
-
-    /**
-     * @var \Runalyze\Activity\HeartRate
-     */
-    protected $HRmax;
-
-    /**
-     * @var int [m]
+     * @var int|bool [m]
      */
     protected $ElevationUp = false;
 
     /**
-     * @var int [m]
+     * @var int|bool [m]
      */
     protected $ElevationDown = false;
 
-    /**
-     * @var array
-     */
-    protected $AdditionalValues = [];
+    protected array $AdditionalValues = [];
 
-    /**
-     * @var \Runalyze\Athlete
-     */
-    protected $Athlete;
+    protected \Runalyze\Athlete $Athlete;
 
-    /**
-     * @param int $duration [optional]
-     * @param float $distance [optional]
-     * @param LapIntensity|null $mode [optional]
-     */
-    public function __construct($duration = 0, $distance = 0.0, ?LapIntensity $mode = null)
+    public function __construct(float $duration = 0.0, float $distance = 0.0, ?LapIntensity $mode = null)
     {
         if (! $mode instanceof \Runalyze\Activity\LapIntensity) {
             $mode = LapIntensity::getInstanceActive();
@@ -102,9 +69,9 @@ class Lap
     }
 
     /**
-     * @param int $duration [s]
+     * @param float $duration [s]
      */
-    public function setDuration($duration)
+    public function setDuration(float $duration)
     {
         $this->LapDuration = new Duration($duration);
     }
@@ -112,15 +79,12 @@ class Lap
     /**
      * @param float $distance [km]
      */
-    public function setDistance($distance)
+    public function setDistance(float $distance)
     {
         $this->LapDistance = new Distance($distance);
     }
 
-    /**
-     * @param LapIntensity $mode
-     */
-    public function setMode($mode)
+    public function setMode(LapIntensity $mode)
     {
         $this->Mode = $mode;
     }
@@ -134,9 +98,9 @@ class Lap
     }
 
     /**
-     * @param int $duration [s]
+     * @param float $duration [s]
      */
-    public function setTrackDuration($duration)
+    public function setTrackDuration(float $duration)
     {
         $this->TrackDurationAtEnd = new Duration($duration);
     }
@@ -144,16 +108,12 @@ class Lap
     /**
      * @param float $distance [km]
      */
-    public function setTrackDistance($distance)
+    public function setTrackDistance(float $distance)
     {
         $this->TrackDistanceAtEnd = new Distance($distance);
     }
 
-    /**
-     * @var int
-     * @var int
-     */
-    public function setHR($avg, $max)
+    public function setHR(?float $avg, ?float $max)
     {
         $this->HRavg = new HeartRate($avg, $this->Athlete);
         $this->HRmax = new HeartRate($max, $this->Athlete);
@@ -163,44 +123,28 @@ class Lap
      * @param int $up [m]
      * @param int $down [m]
      */
-    public function setElevation($up, $down)
+    public function setElevation(int $up, int $down)
     {
         $this->ElevationUp = $up;
         $this->ElevationDown = $down;
     }
 
-    /**
-     * @return \Runalyze\Activity\Duration
-     */
-    public function duration()
+    public function duration(): \Runalyze\Activity\Duration
     {
         return $this->LapDuration;
     }
 
-    /**
-     * @return \Runalyze\Activity\Distance
-     */
-    public function distance()
+    public function distance(): \Runalyze\Activity\Distance
     {
         return $this->LapDistance;
     }
 
-    /**
-     * @return \Runalyze\Activity\Pace
-     */
-    public function pace()
+    public function pace(): ?\Runalyze\Activity\Pace
     {
-        if ($this->LapPace === null) {
-            $this->LapPace = new Pace($this->LapDuration->seconds(), $this->LapDistance->kilometer());
-        }
-
         return $this->LapPace;
     }
 
-    /**
-     * @return \Runalyze\Activity\Duration
-     */
-    public function trackDuration()
+    public function trackDuration(): \Runalyze\Activity\Duration
     {
         return $this->TrackDurationAtEnd;
     }
@@ -215,7 +159,7 @@ class Lap
 
     public function hasTrackValues(): bool
     {
-        return $this->TrackDurationAtEnd !== null;
+        return $this->TrackDurationAtEnd instanceof \Runalyze\Activity\Duration;
     }
 
     public function isActive(): bool
@@ -225,21 +169,15 @@ class Lap
 
     public function hasHR(): bool
     {
-        return $this->HRavg !== null;
+        return $this->HRavg instanceof \Runalyze\Activity\HeartRate;
     }
 
-    /**
-     * @return \Runalyze\Activity\HeartRate
-     */
-    public function HRavg()
+    public function HRavg(): \Runalyze\Activity\HeartRate
     {
         return $this->HRavg;
     }
 
-    /**
-     * @return \Runalyze\Activity\HeartRate
-     */
-    public function HRmax()
+    public function HRmax(): \Runalyze\Activity\HeartRate
     {
         return $this->HRmax;
     }
@@ -260,7 +198,7 @@ class Lap
     /**
      * @return int [m]
      */
-    public function elevationDown()
+    public function elevationDown(): int
     {
         return $this->ElevationDown;
     }
@@ -279,27 +217,22 @@ class Lap
     }
 
     /**
-     * @param string $key
      * @param mixed $value
      */
-    public function setAdditionalValue($key, $value)
+    public function setAdditionalValue(string $key, $value)
     {
         $this->AdditionalValues[$key] = $value;
     }
 
-    /**
-     * @param string $key
-     */
-    public function hasAdditionalValue($key): bool
+    public function hasAdditionalValue(string $key): bool
     {
         return isset($this->AdditionalValues[$key]);
     }
 
     /**
-     * @param string $key
      * @return mixed
      */
-    public function additionalValue($key)
+    public function additionalValue(string $key)
     {
         return $this->AdditionalValues[$key];
     }

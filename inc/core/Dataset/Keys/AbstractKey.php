@@ -174,7 +174,7 @@ abstract class AbstractKey
     /**
      * returns a value dependend CSS class and style.
      * #TSC
-     * @return array with key "class" and "style"
+     * @return ?array with key "class" and "style"
      */
     public function valueDependendCssStyle(Context $context)
     {

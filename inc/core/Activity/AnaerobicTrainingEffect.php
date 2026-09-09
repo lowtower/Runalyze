@@ -30,15 +30,9 @@ class AnaerobicTrainingEffect implements ValueInterface
      */
     public const DECIMALS = 1;
 
-    /**
-     * @var float|null
-     */
-    protected $Value;
+    protected ?float $Value = null;
 
-    /**
-     * @param float|null $value
-     */
-    public static function format($value): string
+    public static function format(?float $value): string
     {
         return (new self($value))->string();
     }
@@ -103,7 +97,7 @@ class AnaerobicTrainingEffect implements ValueInterface
      * Format training effect as string
      * @param bool $withUnit [optional] show unit?
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if (! $this->isKnown()) {
             return '';
@@ -112,18 +106,12 @@ class AnaerobicTrainingEffect implements ValueInterface
         return number_format($this->Value, self::DECIMALS);
     }
 
-    /**
-     * @return float|null
-     */
-    public function value()
+    public function value(): ?float
     {
         return $this->Value;
     }
 
-    /**
-     * @return float
-     */
-    public function numericValue()
+    public function numericValue(): float
     {
         return ($this->isKnown()) ? $this->Value : 0.0;
     }
@@ -133,10 +121,7 @@ class AnaerobicTrainingEffect implements ValueInterface
         return $this->Value !== null;
     }
 
-    /**
-     * @return int|null
-     */
-    public function level()
+    public function level(): ?int
     {
         if (! $this->isKnown()) {
             return null;

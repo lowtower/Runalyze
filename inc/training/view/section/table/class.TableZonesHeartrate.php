@@ -26,7 +26,7 @@ class TableZonesHeartrate extends TableZonesAbstract
 
     public const DEFAULT_COLOR = '#c6c5c5';
 
-    private $footerHint;
+    private string $footerHint;
 
     /**
      * Calculator
@@ -51,9 +51,8 @@ class TableZonesHeartrate extends TableZonesAbstract
 
     /**
      * Get hint for footer #TSC
-     * @return string
      */
-    public function footerHint()
+    public function footerHint(): string
     {
         return $this->footerHint;
     }
@@ -87,7 +86,7 @@ class TableZonesHeartrate extends TableZonesAbstract
     /**
      * fill a 2 char number with blanks for a better "column" prepresentation.
      */
-    private function threeNumbers($num): string
+    private function threeNumbers(int $num): string
     {
         return ($num <= 99 ? '&nbsp;&nbsp;' : '') . $num;
     }

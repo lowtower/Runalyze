@@ -97,12 +97,11 @@ class Activity extends LeafletRoute
 
     /**
      * Construct new route
-     * @param string $id
      * @param \Runalyze\Model\Trackdata\Entity $trackdata [optional]
      * @param bool $addIconsAndInfo [optional]
      * @throws \InvalidArgumentException
      */
-    public function __construct($id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true)
+    public function __construct(string $id, Route\Entity $route, ?Trackdata\Entity $trackdata = null, $addIconsAndInfo = true)
     {
         parent::__construct($id);
 

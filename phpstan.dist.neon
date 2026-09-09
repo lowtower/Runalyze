@@ -4,7 +4,7 @@ includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
 
 parameters:
-    level: 5
+    level: 3
     phpVersion: 70433
 
     bootstrapFiles:
@@ -13,14 +13,14 @@ parameters:
         - inc/system/define.consts.php
 
     paths:
-#        - bin/
-#        - config/
-#        - inc/
-#        - lib/
-#        - plugin/
-#        - public/
+        - bin/
+        - config/
+        - inc/
+        - lib/
+        - plugin/
+        - public/
         - src/
-#        - tests/
+        - tests/
 
     doctrine:
         repositoryClass: null

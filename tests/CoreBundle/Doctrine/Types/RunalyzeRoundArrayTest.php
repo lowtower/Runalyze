@@ -9,19 +9,15 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
 class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RunalyzeRoundArray
-     */
-    protected $Type;
+    protected RunalyzeRoundArray $Type;
 
-    /**
-     * @var AbstractPlatform
-     */
-    protected $PlatformMock;
+    protected AbstractPlatform $PlatformMock;
 
     protected function setUp(): void
     {
-        $this->Type = RunalyzeRoundArray::getType(RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY);
+        /** @var RunalyzeRoundArray $type */
+        $type = RunalyzeRoundArray::getType(RunalyzeRoundArray::RUNALYZE_ROUND_ARRAY);
+        $this->Type = $type;
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 

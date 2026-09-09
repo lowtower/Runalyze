@@ -22,36 +22,24 @@ abstract class Laps extends ActivityPlot
 {
     /**
      * Demanded pace in s/km
-     * @var int
      */
-    protected $demandedPace = 0;
+    protected float $demandedPace = 0.0;
 
     /**
      * Achieved pace in s/km
-     * @var int
      */
-    protected $achievedPace = 0;
+    protected float $achievedPace = 0.0;
 
-    /**
-     * @var array
-     */
-    protected $Labels = [];
+    protected array $Labels = [];
 
-    /**
-     * @var bool
-     */
-    protected $SplitsAreNotComplete;
+    protected bool $SplitsAreNotComplete;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     /**
      * Unit
-     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
      */
-    protected $PaceUnit;
+    protected \Runalyze\Activity\PaceUnit\AbstractUnit $PaceUnit;
 
     abstract protected function loadData(Activity\Context $context);
 
@@ -97,7 +85,7 @@ abstract class Laps extends ActivityPlot
     protected function addAnnotations()
     {
         if ($this->demandedPace > 0) {
-            $demandedPace = $this->PaceUnit->rawValue($this->demandedPace);
+            $demandedPace = (float) $this->PaceUnit->rawValue($this->demandedPace);
 
             if ($this->PaceUnit->isTimeFormat()) {
                 $demandedPace *= 1000;
@@ -108,7 +96,7 @@ abstract class Laps extends ActivityPlot
         }
 
         if ($this->achievedPace > 0) {
-            $achievedPace = $this->PaceUnit->rawValue($this->achievedPace);
+            $achievedPace = (float) $this->PaceUnit->rawValue($this->achievedPace);
 
             if ($this->PaceUnit->isTimeFormat()) {
                 $achievedPace *= 1000;
@@ -122,10 +110,8 @@ abstract class Laps extends ActivityPlot
     /**
      * Splits are not complete
      * "Complete" means: all laps are active and fill total distance
-     *
-     * @return bool
      */
-    protected function splitsAreNotComplete(Activity\Context $context)
+    protected function splitsAreNotComplete(Activity\Context $context): bool
     {
         if ($context->activity()->splits()->isEmpty() || $context->activity()->splits()->totalDistance() <= 0) {
             return false;

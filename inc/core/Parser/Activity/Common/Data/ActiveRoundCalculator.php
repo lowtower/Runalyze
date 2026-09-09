@@ -17,9 +17,9 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
  */
 class ActiveRoundCalculator
 {
-    protected $continuousData;
+    protected ContinuousData $continuousData;
 
-    protected $activeIdx;
+    protected array $activeIdx;
 
     public function __construct(ContinuousData $continuousData, RoundCollection $rounds)
     {
@@ -109,11 +109,11 @@ class ActiveRoundCalculator
     /**
      * returns the avg heart-rate of all active rounds.
      */
-    public function calcAvgHeartRate()
+    public function calcAvgHeartRate(): ?int
     {
         $hr = $this->continuousData->HeartRate;
 
-        if (empty($this->activeIdx) || empty($hr)) {
+        if ($this->activeIdx === [] || empty($hr)) {
             return null;
         }
 

@@ -19,10 +19,7 @@ use Runalyze\Activity\ValueInterface;
  */
 class WindChillFactor implements ValueInterface
 {
-    /**
-     * @var \Runalyze\Activity\Temperature
-     */
-    protected $AdjustedTemperature;
+    protected ActivityTemperature $AdjustedTemperature;
 
     /**
      * Construct WindChillFactor
@@ -91,11 +88,7 @@ class WindChillFactor implements ValueInterface
         return __('Wind chill factor');
     }
 
-    /**
-     * Label for value
-     * @return string
-     */
-    public function unit()
+    public function unit(): string
     {
         return $this->AdjustedTemperature->unit();
     }
@@ -103,24 +96,20 @@ class WindChillFactor implements ValueInterface
     /**
      * @return float|null [°C]
      */
-    public function value()
+    public function value(): ?float
     {
         return $this->AdjustedTemperature->value();
     }
 
     /**
      * Uses the same unit as the initially given temperature object.
-     * @return float|null [mixed unit]
      */
-    public function valueInPreferredUnit()
+    public function valueInPreferredUnit(): ?float
     {
         return $this->AdjustedTemperature->valueInPreferredUnit();
     }
 
-    /**
-     * @return \Runalyze\Activity\Temperature
-     */
-    public function adjustedTemperature()
+    public function adjustedTemperature(): ActivityTemperature
     {
         return $this->AdjustedTemperature;
     }
@@ -130,7 +119,7 @@ class WindChillFactor implements ValueInterface
      * @param bool $withUnit [optional] show unit?
      * @param bool|int $decimals [optional] number of decimals
      */
-    public function string($withUnit = true, $decimals = 0): string
+    public function string(bool $withUnit = true, $decimals = 0): string
     {
         return $this->AdjustedTemperature->string($withUnit, $decimals);
     }

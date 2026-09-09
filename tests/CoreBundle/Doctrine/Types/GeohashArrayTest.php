@@ -7,19 +7,15 @@ use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
 class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var GeohashArray
-     */
-    protected $Type;
+    protected GeohashArray $Type;
 
-    /**
-     * @var AbstractPlatform
-     */
-    protected $PlatformMock;
+    protected AbstractPlatform $PlatformMock;
 
     protected function setUp(): void
     {
-        $this->Type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
+        /** @var GeohashArray $type */
+        $type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
+        $this->Type = $type;
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 

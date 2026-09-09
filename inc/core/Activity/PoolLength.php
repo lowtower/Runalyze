@@ -20,37 +20,24 @@ class PoolLength implements ValueInterface
 {
     /**
      * Value [cm]
-     * @var float
      */
-    protected $Centimeter;
+    protected float $value;
 
-    /**
-     * @var \Runalyze\Parameter\Application\DistanceUnitSystem
-     */
-    protected $UnitSystem;
+    protected int $Centimeter;
 
-    /**
-     * Format pool length
-     * @param int $centimeter
-     * @param bool $withUnit
-     */
-    public static function format($centimeter, $withUnit = true): string
+    protected DistanceUnitSystem $UnitSystem;
+
+    public static function format(int $centimeter, bool $withUnit = true): string
     {
         return (new self($centimeter))->string($withUnit);
     }
 
-    /**
-     * @param int $centimeter
-     */
-    public function __construct($centimeter = 0, ?DistanceUnitSystem $unitSystem = null)
+    public function __construct(float $value = 0.0, ?DistanceUnitSystem $unitSystem = null)
     {
-        $this->Centimeter = $centimeter;
-        $this->UnitSystem = ($unitSystem instanceof \Runalyze\Parameter\Application\DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
+        $this->set($value);
+        $this->UnitSystem = ($unitSystem instanceof DistanceUnitSystem) ? $unitSystem : Configuration::General()->distanceUnitSystem();
     }
 
-    /**
-     * Label for pool length
-     */
     public function label(): string
     {
         return __('Pool length');
@@ -67,43 +54,41 @@ class PoolLength implements ValueInterface
 
     /**
      * Set pool length
-     * @param int $centimeter
+     * @param float $value
      * @return \Runalyze\Activity\PoolLength $this-reference
      */
-    public function set($centimeter): self
+    public function set($value): self
     {
-        $this->Centimeter = $centimeter;
+        $this->value = $value;
+        $this->Centimeter = (int) $value;
 
         return $this;
     }
 
     /**
-     * @param float $meter
      * @return \Runalyze\Activity\PoolLength $this-reference
      */
-    public function setMeter($meter): self
+    public function setMeter(float $meter): self
     {
-        $this->Centimeter = $meter * 100;
+        $this->set($meter * 100);
 
         return $this;
     }
 
     /**
-     * @param float $yards
      * @return \Runalyze\Activity\PoolLength $this-reference
      */
-    public function setYards($yards): self
+    public function setYards(float $yards): self
     {
-        $this->Centimeter = $yards / DistanceUnitSystem::YARD_MULTIPLIER * 1000 * 100;
+        $this->set($yards / DistanceUnitSystem::YARD_MULTIPLIER * 1000 * 100);
 
         return $this;
     }
 
     /**
-     * @param int $poolLength [mixed unit]
      * @return \Runalyze\Activity\PoolLength $this-reference
      */
-    public function setInPreferredUnit($poolLength): self
+    public function setInPreferredUnit(float $poolLength): self
     {
         if ($this->UnitSystem->isImperial()) {
             $this->setYards($poolLength);
@@ -116,31 +101,33 @@ class PoolLength implements ValueInterface
 
     /**
      * Get pool length
-     * @return int [cm]
+     * @return float [cm]
      */
     public function value(): float
     {
-        return round($this->Centimeter);
+        return $this->value;
     }
 
-    public function cm(): float
+    public function cm(): int
     {
-        return round($this->Centimeter);
+        return $this->Centimeter;
+    }
+
+    public function centimeter(): int
+    {
+        return $this->Centimeter;
     }
 
     public function meter(): float
     {
-        return round($this->Centimeter / 100, 2);
+        return round($this->value / 100, 2);
     }
 
     public function yards(): float
     {
-        return round($this->Centimeter * DistanceUnitSystem::YARD_MULTIPLIER / 1000 / 100, 2);
+        return round($this->value * DistanceUnitSystem::YARD_MULTIPLIER / 1000 / 100, 2);
     }
 
-    /**
-     * @return mixed [mixed unit]
-     */
     public function valueInPreferredUnit(): float
     {
         if ($this->UnitSystem->isImperial()) {
@@ -152,9 +139,8 @@ class PoolLength implements ValueInterface
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->UnitSystem->isImperial()) {
             return $this->stringYards($withUnit);
@@ -163,26 +149,17 @@ class PoolLength implements ValueInterface
         return $this->stringMeter($withUnit);
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function stringMeter($withUnit = true): string
+    public function stringMeter(bool $withUnit = true): string
     {
         return number_format($this->Centimeter / 100, 0) . ($withUnit ? '&nbsp;' . DistanceUnitSystem::METER : '');
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function stringCM($withUnit = true): string
+    public function stringCM(bool $withUnit = true): string
     {
         return number_format($this->Centimeter, 0, '', '') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::CM : '');
     }
 
-    /**
-     * @param bool $withUnit
-     */
-    public function stringYards($withUnit = true): string
+    public function stringYards(bool $withUnit = true): string
     {
         return number_format($this->yards(), 2, '.', '') . ($withUnit ? '&nbsp;' . DistanceUnitSystem::YARDS : '');
     }

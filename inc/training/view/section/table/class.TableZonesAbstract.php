@@ -22,19 +22,11 @@ abstract class TableZonesAbstract
      */
     public const MINIMUM_TIME_IN_ZONE = 10;
 
-    /**
-     * Context
-     * @var \Runalyze\View\Activity\Context
-     */
-    protected $Context;
+    protected \Runalyze\View\Activity\Context $Context;
 
-    /**
-     * Data
-     * @var array
-     */
-    protected $Data = [];
+    protected array $Data = [];
 
-    private $TitlePercent = ''; // #TSC
+    private string $TitlePercent = ''; // #TSC
 
     public function __construct(Context $context)
     {
@@ -48,9 +40,8 @@ abstract class TableZonesAbstract
 
     /**
      * Get title for average
-     * @return string
      */
-    public function titleForAverage()
+    public function titleForAverage(): string
     {
         return '';
     }
@@ -60,18 +51,17 @@ abstract class TableZonesAbstract
      */
     private function showAverage(): bool
     {
-        return $this->titleForAverage() != '';
+        return $this->titleForAverage() !== '';
     }
 
     abstract protected function initData();
 
     /**
      * Get hint for footer #TSC
-     * @return string
      */
-    public function footerHint()
+    public function footerHint(): string
     {
-        return null;
+        return '';
     }
 
     private function convertData()
@@ -103,9 +93,8 @@ abstract class TableZonesAbstract
 
     /**
      * Display
-     * @return string
      */
-    final public function getCode()
+    final public function getCode(): string
     {
         if ($this->Data === []) {
             return '';

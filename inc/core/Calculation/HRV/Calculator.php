@@ -261,8 +261,8 @@ class Calculator
         foreach ($this->Object->data() as $ms) {
             if ($last) {
                 $diff = abs($ms - $last);
-                $sumSquaredDifferences += $diff * $diff;
-                $sumDifferences += $diff;
+                $sumSquaredDifferences += (int) ($diff * $diff);
+                $sumDifferences += (int) $diff;
 
                 if ($diff > 50) {
                     $this->NN50++;
@@ -272,7 +272,7 @@ class Calculator
                 }
             }
 
-            $sum += $ms;
+            $sum += (int) $ms;
             $last = $ms;
 
             $this->handleSubIntervalForSDANN($ms);

@@ -9,10 +9,7 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 
 class UnitSystemFactory
 {
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
-     */
-    public function getUnitSystem(ConfigurationManager $configurationManager, ?Account $account = null)
+    public function getUnitSystem(ConfigurationManager $configurationManager, ?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
     {
         return $configurationManager->getList($account)
             ->getUnitSystem();

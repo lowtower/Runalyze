@@ -64,17 +64,21 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * @return ActivityRoutePrecision
      */
-    public function routePrecision()
+    public function routePrecision(): \Runalyze\Parameter
     {
-        return $this->object('GMAP_PATH_PRECISION');
+        /** @var \Runalyze\Parameter\Application\ActivityRoutePrecision $parameter */
+        $parameter = $this->object('GMAP_PATH_PRECISION');
+        return $parameter;
     }
 
     /**
      * @return ActivityRouteBreak
      */
-    public function routeBreak()
+    public function routeBreak(): \Runalyze\Parameter
     {
-        return $this->object('GMAP_PATH_BREAK');
+        /** @var \Runalyze\Parameter\Application\ActivityRouteBreak $parameter */
+        $parameter = $this->object('GMAP_PATH_BREAK');
+        return $parameter;
     }
 
     /**
@@ -151,17 +155,21 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * @return ActivityPlotMode
      */
-    public function plotMode()
+    public function plotMode(): \Runalyze\Parameter
     {
-        return $this->object('TRAINING_PLOT_MODE');
+        /** @var \Runalyze\Parameter\Application\ActivityPlotMode $parameter */
+        $parameter = $this->object('TRAINING_PLOT_MODE');
+        return $parameter;
     }
 
     /**
      * @return ActivityPlotPrecision
      */
-    public function plotPrecision()
+    public function plotPrecision(): \Runalyze\Parameter
     {
-        return $this->object('TRAINING_PLOT_PRECISION');
+        /** @var \Runalyze\Parameter\Application\ActivityPlotPrecision $parameter */
+        $parameter = $this->object('TRAINING_PLOT_PRECISION');
+        return $parameter;
     }
 
     /**
@@ -193,27 +201,33 @@ class ActivityView extends \Runalyze\Configuration\Category
      * Pace: Y axis minimum
      * @return PaceAxisMinimum
      */
-    public function paceYaxisMinimum()
+    public function paceYaxisMinimum(): \Runalyze\Parameter
     {
-        return $this->object('PACE_Y_LIMIT_MIN');
+        /** @var \Runalyze\Parameter\Application\PaceAxisMinimum $parameter */
+        $parameter = $this->object('PACE_Y_LIMIT_MIN');
+        return $parameter;
     }
 
     /**
      * Pace: Y axis maximum
      * @return PaceAxisMaximum
      */
-    public function paceYaxisMaximum()
+    public function paceYaxisMaximum(): \Runalyze\Parameter
     {
-        return $this->object('PACE_Y_LIMIT_MAX');
+        /** @var \Runalyze\Parameter\Application\PaceAxisMaximum $parameter */
+        $parameter = $this->object('PACE_Y_LIMIT_MAX');
+        return $parameter;
     }
 
     /**
      * Reverse pace axis
      * @return PaceAxisType
      */
-    public function paceAxisType()
+    public function paceAxisType(): \Runalyze\Parameter
     {
-        return $this->object('PACE_Y_AXIS_TYPE');
+        /** @var \Runalyze\Parameter\Application\PaceAxisType $parameter */
+        $parameter = $this->object('PACE_Y_AXIS_TYPE');
+        return $parameter;
     }
 
     /**
@@ -264,9 +278,11 @@ class ActivityView extends \Runalyze\Configuration\Category
     /**
      * @return ElevationMethod
      */
-    public function elevationMethod()
+    public function elevationMethod(): \Runalyze\Parameter
     {
-        return $this->object('ELEVATION_METHOD');
+        /** @var \Runalyze\Parameter\Application\ElevationMethod $parameter */
+        $parameter = $this->object('ELEVATION_METHOD');
+        return $parameter;
     }
 
     /**

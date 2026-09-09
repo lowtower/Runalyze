@@ -9,16 +9,16 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
     public function testString()
     {
         $Beaufort = new BeaufortScale(new WindSpeed(15));
-        $this->assertEquals('3 btf', $Beaufort->shortString());
+        $this->assertEquals('3 bft', $Beaufort->shortString());
         $this->assertEquals(3, $Beaufort->value());
         $this->assertEquals('3', $Beaufort->string(false));
-        $this->assertEquals('3 btf', $Beaufort->string(true));
-        $this->assertEquals('btf', $Beaufort->unit());
+        $this->assertEquals('3 bft', $Beaufort->string(true));
+        $this->assertEquals('bft', $Beaufort->unit());
     }
 
     public function testStaticMethods()
     {
-        $this->assertEquals('3 btf', BeaufortScale::getShortString(new WindSpeed(15)));
+        $this->assertEquals('3 bft', BeaufortScale::getShortString(new WindSpeed(15)));
     }
 
     public function testSetter()

@@ -17,28 +17,24 @@ namespace Runalyze\Activity\PaceUnit;
 abstract class AbstractUnit
 {
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract public function unit();
+    abstract public function unit(): int;
 
     /**
-     * @return string
      * @codeCoverageIgnore
      */
-    abstract public function appendix();
+    abstract public function appendix(): string;
 
     /**
      * Pace is displayed as time per distance
-     * @return bool
      */
-    abstract public function isTimeFormat();
+    abstract public function isTimeFormat(): bool;
 
     /**
      * Pace is displayed in decimal format
-     * @return bool
      */
-    final public function isDecimalFormat()
+    final public function isDecimalFormat(): bool
     {
         return ! $this->isTimeFormat();
     }
@@ -49,10 +45,9 @@ abstract class AbstractUnit
      * This should only be used for time formats.
      * 's/km' * factorForUnit() = [time in seconds per distance]
      *
-     * @return float
      * @throws \RuntimeException
      */
-    abstract public function factorForUnit();
+    abstract public function factorForUnit(): float;
 
     /**
      * Dividend to transform 's/km' to current unit
@@ -60,10 +55,9 @@ abstract class AbstractUnit
      * This should only be used for decimal formats.
      * dividendForUnit() / 's/km' = [decimal pace value]
      *
-     * @return float
      * @throws \RuntimeException
      */
-    abstract public function dividendForUnit();
+    abstract public function dividendForUnit(): float;
 
     /**
      * Get raw value
@@ -71,17 +65,14 @@ abstract class AbstractUnit
      * This returns for example a float for decimal units and an integer as 's/km'
      * for time units.
      *
-     * @param int $secondsPerKm
      * @return mixed
      */
-    abstract public function rawValue($secondsPerKm);
+    abstract public function rawValue(int $secondsPerKm);
 
     /**
      * Format pace
-     * @param int $secondsPerKm
-     * @return string
      */
-    abstract public function format($secondsPerKm);
+    abstract public function format(int $secondsPerKm): string;
 
     /**
      * Compare two paces

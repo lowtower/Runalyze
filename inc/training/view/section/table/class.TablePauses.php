@@ -20,19 +20,15 @@ class TablePauses
 {
     /**
      * Code
-     * @var string
      */
-    protected $Code = '';
+    protected string $Code = '';
 
     public function __construct(Context $context)
     {
         $this->setDataToCode($context->trackdata()->pauses(), $context->Activity()->elapsedTime());
     }
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->Code;
     }
@@ -74,7 +70,7 @@ class TablePauses
                 $this->Code .= '<td>' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';
 
                 $hr->setBPM(-$pause->hrDiff());
-                $this->Code .= '<td>' . ($hr->inBPM() != 0 ? $hr->string() : '-') . '</td>';
+                $this->Code .= '<td>' . ($hr->inBPM() !== 0 ? $hr->string() : '-') . '</td>';
 
                 $hr->setBPM($pause->HRend());
                 $this->Code .= '<td style="padding-right: 20px;">' . ($hr->inBPM() > 0 ? $hr->string() : '-') . '</td>';

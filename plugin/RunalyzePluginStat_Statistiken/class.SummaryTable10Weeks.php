@@ -28,9 +28,8 @@ class SummaryTable10Weeks extends SummaryTable
 
     /**
      * Head for row
-     * @param int $index
      */
-    protected function rowHead($index): string
+    protected function rowHead(int $index): string
     {
         $time = $this->TimeEnd - ($index + 0.5) * 7 * DAY_IN_S;
         $start = (new LocalTime($time))->weekstart(true);

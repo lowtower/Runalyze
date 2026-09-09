@@ -17,23 +17,14 @@ use Runalyze\Activity\Duration;
  */
 class StringReader
 {
-    /**
-     * @var string
-     */
-    protected $String;
+    protected string $String;
 
-    /**
-     * @param string $string
-     */
-    public function __construct($string = '')
+    public function __construct(string $string = '')
     {
         $this->setString($string);
     }
 
-    /**
-     * @param string $string
-     */
-    public function setString($string): self
+    public function setString(string $string): self
     {
         $this->String = $string;
 
@@ -49,10 +40,9 @@ class StringReader
      * The time string will be interpreted as time per kilometer.
      *
      * @param string $searchPattern [optional] String that must occur directly before the pace
-     * @param string $timePattern
-     * @return int Pace in s/km, 0 if nothing found
+     * @return float Pace in s/km, 0 if nothing found
      */
-    public function findDemandedPace($searchPattern = ' in ', $timePattern = '(\d+[:\d+]*)')
+    public function findDemandedPace(string $searchPattern = ' in ', string $timePattern = '(\d+[:\d+]*)'): float
     {
         $matches = [];
         preg_match('/' . $searchPattern . $timePattern . '/', $this->String, $matches);
@@ -61,6 +51,6 @@ class StringReader
             return (new Duration($matches[1]))->seconds();
         }
 
-        return 0;
+        return 0.0;
     }
 }

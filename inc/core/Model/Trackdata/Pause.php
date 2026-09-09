@@ -37,36 +37,28 @@ class Pause
     /**
      * Timestamp
      * Relative to activity
-     * @var int
      */
-    protected $Time = 0;
+    protected int $Time = 0;
 
     /**
      * Duration
-     * @var int
      */
-    protected $Duration = 0;
+    protected float $Duration = 0.0;
 
     /**
      * HR start
-     * @var int
      */
-    protected $HRstart;
+    protected ?int $HRstart;
 
     /**
      * HR end
-     * @var int
      */
-    protected $HRend;
+    protected ?int $HRend;
 
     /**
      * Construct
-     * @param int $time
-     * @param int $duration
-     * @param int $hrStart
-     * @param int $hrEnd
      */
-    public function __construct($time = 0, $duration = 0, $hrStart = null, $hrEnd = null)
+    public function __construct(int $time = 0, float $duration = 0, ?int $hrStart = null, ?int $hrEnd = null)
     {
         $this->Time = $time;
         $this->Duration = $duration;
@@ -88,7 +80,7 @@ class Pause
 
     /**
      * As array
-     * @return array<string, int>
+     * @return array<string, float|int|null>
      */
     public function asArray(): array
     {
@@ -108,36 +100,28 @@ class Pause
         return $this->HRstart !== null && $this->HRend !== null;
     }
 
-    /**
-     * @return int
-     */
-    public function time()
+    public function time(): int
     {
         return $this->Time;
     }
 
-    /**
-     * @return int
-     */
-    public function duration()
+    public function duration(): float
     {
         return $this->Duration;
     }
 
     /**
      * Heart rate at start
-     * @return int
      */
-    public function hrStart()
+    public function hrStart(): ?int
     {
         return $this->HRstart;
     }
 
     /**
      * Heart rate at end
-     * @return int
      */
-    public function hrEnd()
+    public function hrEnd(): ?int
     {
         return $this->HRend;
     }
@@ -146,7 +130,7 @@ class Pause
      * Heart rate difference
      * @return int A negative value indicates an increase
      */
-    public function hrDiff()
+    public function hrDiff(): int
     {
         return $this->HRstart - $this->HRend;
     }

@@ -62,13 +62,13 @@
         ]
     },
     "jms/translation-bundle": {
-        "version": "1.7.0"
+        "version": "1.9.1"
     },
     "liip/functional-test-bundle": {
-        "version": "4.3.0"
+        "version": "4.9.0"
     },
     "liip/test-fixtures-bundle": {
-        "version": "1.12.0"
+        "version": "2.6.0"
     },
     "php-http/discovery": {
         "version": "1.20",
@@ -109,7 +109,7 @@
         ]
     },
     "sensio/framework-extra-bundle": {
-        "version": "5.4",
+        "version": "5.6",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -191,7 +191,7 @@
         ]
     },
     "symfony/mailer": {
-        "version": "5.4",
+        "version": "4.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -224,7 +224,7 @@
         ]
     },
     "symfony/monolog-bundle": {
-        "version": "3.6",
+        "version": "3.8",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -236,6 +236,21 @@
             "config/packages/prod/deprecations.yaml",
             "config/packages/prod/monolog.yaml",
             "config/packages/test/monolog.yaml"
+        ]
+    },
+    "symfony/phpunit-bridge": {
+        "version": "7.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.1",
+            "ref": "2f91477d6efaed3fb857db87480f7d07d31cbb3e"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
         ]
     },
     "symfony/routing": {
@@ -292,7 +307,7 @@
         ]
     },
     "symfony/validator": {
-        "version": "5.3",
+        "version": "4.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",

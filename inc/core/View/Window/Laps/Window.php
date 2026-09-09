@@ -137,7 +137,7 @@ class Window
         if ((string) Request::param('demanded-pace') !== '') {
             $this->DemandedPace->fromMinPerKm(Request::param('demanded-pace'));
             $this->DemandedTime->fromSeconds($this->LapDistance * $this->DemandedPace->secondsPerKm());
-        } elseif ($this->DemandedPace->secondsPerKm() == 0) {
+        } elseif ($this->DemandedPace->secondsPerKm() === 0) {
             $this->DemandedPace = $this->Context->dataview()
                 ->pace();
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Mathematics\Filter;
 
 /**
@@ -14,20 +16,11 @@ namespace Runalyze\Mathematics\Filter;
  */
 class InfiniteImpulseResponseFilter
 {
-    /**
-     * @var array
-     */
-    protected $InputCoefficients = [];
+    protected array $InputCoefficients = [];
 
-    /**
-     * @var array
-     */
-    protected $OutputCoefficients = [];
+    protected array $OutputCoefficients = [];
 
-    /**
-     * @var int
-     */
-    protected $Order = 0;
+    protected int $Order = 0;
 
     public function __construct(array $inputCoefficients, array $outputCoefficients)
     {
@@ -77,7 +70,8 @@ class InfiniteImpulseResponseFilter
 
     /**
      * @param array<int, mixed> $inputData 0-index numerical array
-     * @param int[] $outputData 0-index numerical array
+     * @param array<int, int> $outputData 0-index numerical array
+     * @param-out array<int, mixed> $outputData
      * @param int $currentSize must equal size of $inputData and $outputData
      */
     protected function enlargeData(array &$inputData, array &$outputData, $currentSize)

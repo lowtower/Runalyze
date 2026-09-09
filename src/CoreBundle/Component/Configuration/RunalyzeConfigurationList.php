@@ -9,17 +9,14 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @var array ['key' => 'className']
      */
-    protected $CategoryMap = [];
+    protected array $CategoryMap = [];
 
     /**
      * @var AbstractCategory[]
      */
-    protected $CategoryPool = [];
+    protected array $CategoryPool = [];
 
-    /**
-     * @var UnitSystem|null
-     */
-    protected $UnitSystem;
+    protected ?UnitSystem $UnitSystem = null;
 
     public function __construct(array $variables = [])
     {
@@ -121,89 +118,106 @@ class RunalyzeConfigurationList extends ConfigurationList
     /**
      * @return Category\ActivityForm This category is not persistent, it's created on each call.
      */
-    public function getActivityForm()
+    public function getActivityForm(): Category\ActivityForm
     {
-        return $this->getCategory('activity-form');
+        /** @var Category\ActivityForm $category */
+        $category = $this->getCategory('activity-form');
+        return $category;
     }
 
     /**
      * @return Category\ActivityView This category is not persistent, it's created on each call.
      */
-    public function getActivityView()
+    public function getActivityView(): Category\ActivityView
     {
-        return $this->getCategory('activity-view');
+        /** @var Category\ActivityView $category */
+        $category = $this->getCategory('activity-view');
+        return $category;
     }
 
     /**
      * @return Category\BasicEndurance This category is not persistent, it's created on each call.
      */
-    public function getBasicEndurance()
+    public function getBasicEndurance(): Category\BasicEndurance
     {
-        return $this->getCategory('basic-endurance');
+        /** @var Category\BasicEndurance $category */
+        $category = $this->getCategory('basic-endurance');
+        return $category;
     }
 
     /**
      * @return Category\Data This category is not persistent, it's created on each call.
      */
-    public function getData()
+    public function getData(): Category\Data
     {
-        return $this->getCategory('data');
+        /** @var Category\Data $category */
+        $category = $this->getCategory('data');
+        return $category;
     }
 
     /**
      * @return Category\DataBrowser This category is not persistent, it's created on each call.
      */
-    public function getDataBrowser()
+    public function getDataBrowser(): Category\DataBrowser
     {
-        return $this->getCategory('data-browser');
+        /** @var Category\DataBrowser $category */
+        $category = $this->getCategory('data-browser');
+        return $category;
     }
 
     /**
      * @return Category\Design This category is not persistent, it's created on each call.
      */
-    public function getDesign()
+    public function getDesign(): Category\Design
     {
-        return $this->getCategory('design');
+        /** @var Category\Design $category */
+        $category = $this->getCategory('design');
+        return $category;
     }
 
     /**
      * @return Category\General This category is not persistent, it's created on each call.
      */
-    public function getGeneral()
+    public function getGeneral(): Category\General
     {
-        return $this->getCategory('general');
+        /** @var Category\General $category */
+        $category = $this->getCategory('general');
+        return $category;
     }
 
     /**
      * @return Category\Privacy This category is not persistent, it's created on each call.
      */
-    public function getPrivacy()
+    public function getPrivacy(): Category\Privacy
     {
-        return $this->getCategory('privacy');
+        /** @var Category\Privacy $category */
+        $category = $this->getCategory('privacy');
+        return $category;
     }
 
     /**
      * @return Category\Trimp This category is not persistent, it's created on each call.
      */
-    public function getTrimp()
+    public function getTrimp(): Category\Trimp
     {
-        return $this->getCategory('trimp');
+        /** @var Category\Trimp $category */
+        $category = $this->getCategory('trimp');
+        return $category;
     }
 
     /**
      * @return Category\VO2max This category is not persistent, it's created on each call.
      */
-    public function getVO2max()
+    public function getVO2max(): Category\VO2max
     {
-        return $this->getCategory('vo2max');
+        /** @var Category\VO2max $category */
+        $category = $this->getCategory('vo2max');
+        return $category;
     }
 
-    /**
-     * @return UnitSystem
-     */
-    public function getUnitSystem()
+    public function getUnitSystem(): UnitSystem
     {
-        if ($this->UnitSystem === null) {
+        if (! $this->UnitSystem instanceof \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem) {
             $this->UnitSystem = new UnitSystem($this);
         }
 

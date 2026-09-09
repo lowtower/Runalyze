@@ -13,54 +13,51 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 class ActivityData
 {
     /**
-     * @var int|float|null [s]
+     * @var float|null [s]
      */
-    public $Duration;
+    public ?float $Duration = null;
 
     /**
-     * @var int|null [s]
+     * @var float|null [s]
      */
-    public $ElapsedTime;
+    public ?float $ElapsedTime = null;
 
     /**
      * @var float|null [km]
      */
-    public $Distance;
+    public ?float $Distance = null;
 
     /**
      * @var int|null [m]
      */
-    public $Elevation;
+    public ?int $Elevation = null;
 
     /**
      * @var int|null [m]
      */
-    public $ElevationAscent;
+    public ?int $ElevationAscent = null;
 
     /**
      * @var int|null [m]
      */
-    public $ElevationDescent;
+    public ?int $ElevationDescent = null;
 
     /**
      * @var int|null [kcal]
      */
-    public $EnergyConsumption;
+    public ?int $EnergyConsumption = null;
 
     /**
      * @var int|null [kcal]
      */
-    public $EnergyInRest;
+    public ?int $EnergyInRest = null;
 
-    /**
-     * @var int|null
-     */
-    public $Trimp;
+    public ?int $Trimp = null;
 
     /**
      * @var int|null [6 .. 20]
      */
-    public $RPE;
+    public ?int $RPE = null;
 
     /**
      * @var int|float|null [W]
@@ -70,27 +67,27 @@ class ActivityData
     /**
      * @var int|null [W]
      */
-    public $MaxPower;
+    public ?int $MaxPower = null;
 
     /**
-     * @var int|float|null [bpm]
+     * @var float|null [bpm]
      */
-    public $AvgHeartRate;
+    public ?float $AvgHeartRate = null;
 
     /**
-     * @var int|float|null [bpm]
+     * @var float|null [bpm]
      */
-    public $AvgHeartRateActive;
-
-    /**
-     * @var int|null [bpm]
-     */
-    public $MaxHeartRate;
+    public ?float $AvgHeartRateActive = null;
 
     /**
      * @var int|null [bpm]
      */
-    public $MaxHeartRateUser;
+    public ?int $MaxHeartRate = null;
+
+    /**
+     * @var int|null [bpm]
+     */
+    public ?int $MaxHeartRateUser = null;
 
     /**
      * @var array|null [bpm]
@@ -138,22 +135,22 @@ class ActivityData
     public $AvgBrakingGsRight;
 
     /**
-     * @var int|null [°]
+     * @var float|null [°]
      */
     public $AvgFootstrikeTypeLeft;
 
     /**
-     * @var int|null [°]
+     * @var float|null [°]
      */
     public $AvgFootstrikeTypeRight;
 
     /**
-     * @var int|null [°]
+     * @var float|null [°]
      */
     public $AvgPronationExcursionLeft;
 
     /**
-     * @var int|null [°]
+     * @var float|null [°]
      */
     public $AvgPronationExcursionRight;
 

@@ -69,10 +69,10 @@ class Distance extends AbstractKey
      * @param float $currentDistance [km]
      * @param float $previousDistance [km]
      */
-    protected function distanceComparison($currentDistance, $previousDistance): string
+    protected function distanceComparison(float $currentDistance, float $previousDistance): string
     {
         $Percentage = $this->distanceComparisonPercentage($currentDistance, $previousDistance);
-        $String = ($Percentage != 0) ? sprintf('%+d', $Percentage) . '&nbsp;&#37;' : '-';
+        $String = ($Percentage !== 0) ? sprintf('%+d', $Percentage) . '&nbsp;&#37;' : '-';
 
         $Stress = new Stresscolor($Percentage);
         $Stress->scale(0, 30);
@@ -84,15 +84,14 @@ class Distance extends AbstractKey
      * Get percentage of last distance
      * @param float $currentDistance [km]
      * @param float $previousDistance [km]
-     * @return int
      */
-    protected function distanceComparisonPercentage($currentDistance, $previousDistance)
+    protected function distanceComparisonPercentage(float $currentDistance, float $previousDistance): int
     {
         if ($previousDistance == 0) {
             return 0;
         }
 
-        return round(100 * ($currentDistance - $previousDistance) / $previousDistance, 1);
+        return (int) round(100 * ($currentDistance - $previousDistance) / $previousDistance, 1);
     }
 
     /**

@@ -62,10 +62,7 @@ class ConfigurationExtension extends \Twig\Extension\AbstractExtension
         return $this->ConfigurationManager->getList($account);
     }
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
-     */
-    public function unitSystem(?Account $account = null)
+    public function unitSystem(?Account $account = null): \Runalyze\Bundle\CoreBundle\Component\Configuration\UnitSystem
     {
         return $this->ConfigurationManager->getList($account)
             ->getUnitSystem();

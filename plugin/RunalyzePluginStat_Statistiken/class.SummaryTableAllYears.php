@@ -31,19 +31,15 @@ class SummaryTableAllYears extends SummaryTable
 
     /**
      * Head for row
-     * @param int $index
      */
-    protected function rowHead($index): string
+    protected function rowHead(int $index): string
     {
         $timestampInMiddelOfYear = $this->TimeEnd - ($index + 0.5) * 366 * DAY_IN_S;
 
         return DataBrowserLinker::yearLink(date('Y', $timestampInMiddelOfYear), $timestampInMiddelOfYear, $this->Sportid > 0 ? $this->Sportid : null);
     }
 
-    /**
-     * @param array $data
-     */
-    protected function displayAdditionalColumns($data)
+    protected function displayAdditionalColumns(array $data)
     {
         if ($this->AdditionalColumns) {
             $startTime = new LocalTime(START_TIME);

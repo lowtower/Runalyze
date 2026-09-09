@@ -26,21 +26,18 @@ abstract class Entity
 
     /**
      * Raw data
-     * @var array
      */
-    protected $Data = [];
+    protected array $Data = [];
 
     /**
      * Number of data points
-     * @var int
      */
-    protected $numberOfPoints = 0;
+    protected int $numberOfPoints = 0;
 
     /**
      * Flag: ensure arrays to be equally sized
-     * @var bool
      */
-    protected $checkArraySizes = false;
+    protected bool $checkArraySizes = false;
 
     /**
      * Construct
@@ -61,7 +58,7 @@ abstract class Entity
      */
     protected function cloneInternalObjects()
     {
-        foreach ($this as $property => $value) {
+        foreach (get_object_vars($this) as $property => $value) {
             if (is_object($value)) {
                 $this->{$property} = clone $value;
             }
@@ -99,9 +96,8 @@ abstract class Entity
 
     /**
      * Number of points
-     * @return int
      */
-    public function num()
+    public function num(): int
     {
         return $this->numberOfPoints;
     }
@@ -125,16 +121,15 @@ abstract class Entity
     }
 
     /**
-     * @param int $num
      * @throws \RuntimeException
      */
-    protected function checkArraySize($num)
+    protected function checkArraySize(int $num)
     {
-        if ($num == 0) {
+        if ($num === 0) {
             return;
         }
 
-        if ($this->numberOfPoints > 0 && $num != $this->numberOfPoints) {
+        if ($this->numberOfPoints > 0 && $num !== $this->numberOfPoints) {
             throw new \RuntimeException('Data arrays must be of the same size. (' . $num . ' != ' . $this->numberOfPoints . ')');
         }
 
@@ -143,9 +138,8 @@ abstract class Entity
 
     /**
      * Properties
-     * @return array
      */
-    abstract public function properties();
+    abstract public function properties(): array;
 
     /**
      * Synchronize internal models
@@ -183,10 +177,8 @@ abstract class Entity
     /**
      * Transforms empty strings to null
      * @param array|string $keyOrKeys key or array of keys to be checked
-     * @param bool $ensureNumericIfNotEmpty
-     * @param bool $treatZeroAsNull
      */
-    protected function ensureNullIfEmpty($keyOrKeys, $ensureNumericIfNotEmpty = false, $treatZeroAsNull = false)
+    protected function ensureNullIfEmpty($keyOrKeys, bool $ensureNumericIfNotEmpty = false, bool $treatZeroAsNull = false)
     {
         if (! is_array($keyOrKeys)) {
             $keyOrKeys = [$keyOrKeys];
@@ -205,30 +197,24 @@ abstract class Entity
 
     /**
      * Can set key?
-     * @param string $key
-     * @return bool
      */
-    protected function canSet($key)
+    protected function canSet(string $key): bool
     {
         return true;
     }
 
     /**
      * Is the property an array?
-     * @param string $key
-     * @return bool
      */
-    public function isArray($key)
+    public function isArray(string $key): bool
     {
         return false;
     }
 
     /**
      * Can be null?
-     * @param string $key
-     * @return bool
      */
-    protected function canBeNull($key)
+    protected function canBeNull(string $key): bool
     {
         return false;
     }
@@ -261,12 +247,9 @@ abstract class Entity
         }
     }
 
-    /**
-     * @param int $num
-     */
-    protected function handleNewArraySize($num)
+    protected function handleNewArraySize(int $num)
     {
-        if ($num != $this->numberOfPoints) {
+        if ($num !== $this->numberOfPoints) {
             if ($this->checkArraySizes) {
                 $this->checkArraySizes();
             } else {
@@ -277,11 +260,10 @@ abstract class Entity
 
     /**
      * Get value for this key
-     * @param string $key
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (! array_key_exists($key, $this->Data)) {
             throw new \InvalidArgumentException('Unknown data index "' . $key . '".');
@@ -292,11 +274,9 @@ abstract class Entity
 
     /**
      * Has array for this key
-     * @param string $key
-     * @return bool
      * @throws \InvalidArgumentException
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         if (! array_key_exists($key, $this->Data)) {
             throw new \InvalidArgumentException('Unknown data index "' . $key . '".');
@@ -320,9 +300,8 @@ abstract class Entity
 
     /**
      * Is this object empty?
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         foreach ($this->properties() as $key) {
             if (! empty($this->Data[$key]) && ! $this->ignoreNonEmptyValue($key)) {
@@ -335,38 +314,32 @@ abstract class Entity
 
     /**
      * Ignore a key while checking for emptiness
-     * @param string $key
-     * @return bool
      */
-    protected function ignoreNonEmptyValue($key)
+    protected function ignoreNonEmptyValue(string $key): bool
     {
         return false;
     }
 
     /**
      * Get complete data
-     * @return array
      */
-    public function completeData()
+    public function completeData(): array
     {
         return $this->Data;
     }
 
     /**
      * Explode string to array
-     * @param string $string
-     * @return array
      */
-    public static function explode($string)
+    public static function explode(string $string): array
     {
         return explode(self::ARRAY_SEPARATOR, $string);
     }
 
     /**
      * Implode array to string
-     * @return string
      */
-    public static function implode(array $data)
+    public static function implode(array $data): string
     {
         return implode(self::ARRAY_SEPARATOR, $data);
     }

@@ -24,46 +24,39 @@ class Weather
 {
     /**
      * Temperature
-     * @var \Runalyze\Data\Weather\Temperature
      */
-    protected $Temperature;
+    protected Temperature $Temperature;
 
     /**
      * Condition
-     * @var \Runalyze\Data\Weather\Condition
      */
-    protected $Condition;
+    protected Condition $Condition;
 
     /**
      * WindSpeed
-     * @var \Runalyze\Data\Weather\WindSpeed
      */
-    protected $WindSpeed;
+    protected WindSpeed $WindSpeed;
 
     /**
      * WindDegree
-     * @var \Runalyze\Data\Weather\WindDegree
      */
-    protected $WindDegree;
+    protected WindDegree $WindDegree;
 
     /**
      * Humidity
-     * @var \Runalyze\Data\Weather\Humidity
      */
-    protected $Humidity;
+    protected Humidity $Humidity;
 
     /**
      * Pressure
-     * @var \Runalyze\Data\Weather\Pressure
      */
-    protected $Pressure;
+    protected Pressure $Pressure;
 
     /**
      * Enum for weather source
      * @see \Runalyze\Data\Weather\Sources
-     * @var null|int
      */
-    protected $SourceId;
+    protected ?int $SourceId = null;
 
     public function __construct(Temperature $Temperature, Condition $Condition, WindSpeed $WindSpeed, WindDegree $WindDegree, Humidity $Humidity, Pressure $Pressure)
     {
@@ -89,75 +82,51 @@ class Weather
     }
 
     /**
-     * @param null|int $sourceId
      * @throws \InvalidArgumentException
      */
-    public function setSource($sourceId)
+    public function setSource(?int $sourceId)
     {
-        if ($sourceId !== null) {
-            $sourceId = (int) $sourceId;
-
-            if (! Sources::isValidValue($sourceId)) {
-                throw new \InvalidArgumentException('Provided source must be null or defined in sources enum.');
-            }
+        if ($sourceId !== null && ! Sources::isValidValue($sourceId)) {
+            throw new \InvalidArgumentException('Provided source must be null or defined in sources enum.');
         }
 
         $this->SourceId = $sourceId;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\Temperature
-     */
-    public function temperature()
+    public function temperature(): Temperature
     {
         return $this->Temperature;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\Condition
-     */
-    public function condition()
+    public function condition(): Condition
     {
         return $this->Condition;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\WindSpeed
-     */
-    public function windSpeed()
+    public function windSpeed(): WindSpeed
     {
         return $this->WindSpeed;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\WindDegree
-     */
-    public function windDegree()
+    public function windDegree(): WindDegree
     {
         return $this->WindDegree;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\Humidity
-     */
-    public function humidity()
+    public function humidity(): Humidity
     {
         return $this->Humidity;
     }
 
-    /**
-     * @return \Runalyze\Data\Weather\Pressure
-     */
-    public function pressure()
+    public function pressure(): Pressure
     {
         return $this->Pressure;
     }
 
     /**
      * @see \Runalyze\Data\Weather\Sources
-     * @return int|null
      */
-    public function source()
+    public function source(): ?int
     {
         if ($this->isEmpty()) {
             $this->SourceId = null;
@@ -182,9 +151,8 @@ class Weather
 
     /**
      * Complete string for the weather conditions with icon, name and temperature.
-     * @param bool $isNight
      */
-    public function fullString($isNight = false): string
+    public function fullString(bool $isNight = false): string
     {
         $icon = $this->Condition->icon();
 

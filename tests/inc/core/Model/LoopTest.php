@@ -22,7 +22,7 @@ class Loopable_MockTester extends Entity implements Loopable
 
     public function num(): int
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return 0;
         }
 
@@ -30,22 +30,16 @@ class Loopable_MockTester extends Entity implements Loopable
         return is_array($firstProperty) ? count($firstProperty) : 0;
     }
 
-    /**
-     * @param string $key
-     */
-    public function has($key): bool
+    public function has(string $key): bool
     {
         return array_key_exists($key, $this->Data);
     }
 
     /**
-     * @param string $key
-     *
      * @return mixed
-     *
      * @throws \InvalidArgumentException
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (! $this->has($key)) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s".', $key));
@@ -54,10 +48,7 @@ class Loopable_MockTester extends Entity implements Loopable
         return $this->Data[$key];
     }
 
-    /**
-     * @param string $key
-     */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
         return $this->has($key) && is_array($this->Data[$key]);
     }
@@ -68,14 +59,11 @@ class Loopable_MockTester extends Entity implements Loopable
     }
 
     /**
-     * @param int $index
-     * @param string $key
-     *
      * @return mixed
      *
      * @throws \InvalidArgumentException
      */
-    public function at($index, $key)
+    public function at(int $index, string $key)
     {
         if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));
@@ -95,10 +83,9 @@ class Loop_MockTest extends Loop
     /**
      * Exposes the normal at-or-after behavior for testing.
      *
-     * @param string $key
      * @param int|float $target
      */
-    public function moveToAtOrAfter($key, $target)
+    public function moveToAtOrAfter(string $key, $target)
     {
         $this->moveTo($key, $target, self::BOUNDARY_AT_OR_AFTER);
     }
@@ -106,10 +93,9 @@ class Loop_MockTest extends Loop
     /**
      * Exposes the before-or-at behavior for testing.
      *
-     * @param string $key
      * @param int|float $target
      */
-    public function moveToBeforeOrAt($key, $target)
+    public function moveToBeforeOrAt(string $key, $target)
     {
         $this->moveTo($key, $target, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
     }
@@ -117,10 +103,9 @@ class Loop_MockTest extends Loop
     /**
      * Exposes the nearest-boundary behavior for testing.
      *
-     * @param string $key
      * @param int|float $target
      */
-    public function moveToNearest($key, $target)
+    public function moveToNearest(string $key, $target)
     {
         $this->moveTo($key, $target, self::BOUNDARY_NEAREST);
     }

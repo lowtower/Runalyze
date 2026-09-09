@@ -18,15 +18,13 @@ class Humidity implements ValueInterface
 {
     /**
      * Humidity in percent
-     * @var float|null
      */
-    protected $Percent;
+    protected ?float $Percent;
 
     /**
      * Construct Humidity
-     * @param float|null $percent
      */
-    public function __construct($percent = null)
+    public function __construct(?float $percent = null)
     {
         $this->set($percent);
     }
@@ -64,19 +62,15 @@ class Humidity implements ValueInterface
         return '&#37;';
     }
 
-    /**
-     * @return null|int
-     */
-    public function value()
+    public function value(): ?float
     {
         return $this->Percent;
     }
 
     /**
      * Format value as string
-     * @param bool $withUnit
      */
-    public function string($withUnit = true): string
+    public function string(bool $withUnit = true): string
     {
         if ($this->isUnknown()) {
             return '';

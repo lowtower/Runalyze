@@ -17,15 +17,14 @@ class GZipWriter
 {
     /**
      * Resource for file
-     * @var resource
+     * @var ?resource
      */
     protected $Resource;
 
     /**
-     * @param string $fileName
      * @throws \RuntimeException
      */
-    public function __construct($fileName)
+    public function __construct(string $fileName)
     {
         $this->Resource = gzopen($fileName, 'wb');
 
@@ -44,9 +43,8 @@ class GZipWriter
 
     /**
      * Add string to file
-     * @param string $string
      */
-    public function addToFile($string)
+    public function addToFile(string $string)
     {
         if ($this->isOpen()) {
             gzwrite($this->Resource, $string);

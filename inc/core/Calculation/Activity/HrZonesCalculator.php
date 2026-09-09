@@ -2,6 +2,8 @@
 
 namespace Runalyze\Calculation\Activity;
 
+use Runalyze\View\Activity\Context;
+
 /**
  * Calculates the HR zones for the zone view.
  * Primarly generate a array with
@@ -32,20 +34,14 @@ class HrZonesCalculator
 
     public const PATTERN_GRP_COLOR = 3;
 
-    private $sourceHint;
+    private string $sourceHint;
+
+    protected ?array $activityZoneBounds = null;
+
+    protected ?array $sportZoneBounds = null;
 
     /**
-     * @var array
-     */
-    protected $activityZoneBounds;
-
-    /**
-     * @var array
-     */
-    protected $sportZoneBounds;
-
-    /**
-     * @param \Runalyze\View\Activity\Context $activityZoneBounds
+     * @param Context[] $activityZoneBounds
      */
     public function __construct(?array $activityZoneBounds, ?array $sportZoneBounds)
     {
@@ -159,7 +155,7 @@ class HrZonesCalculator
         }
     }
 
-    public function getSourceHint()
+    public function getSourceHint(): string
     {
         return $this->sourceHint;
     }

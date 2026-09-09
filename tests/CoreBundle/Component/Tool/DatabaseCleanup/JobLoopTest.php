@@ -12,10 +12,7 @@ use Runalyze\Tests\DatabaseTestCase;
  */
 class JobLoopTest extends DatabaseTestCase
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     protected function setUp(): void
     {

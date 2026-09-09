@@ -7,43 +7,39 @@ class Pause
     /**
      * @var int [s]
      */
-    protected $TimeIndex;
+    protected int $TimeIndex;
 
     /**
-     * @var int [s]
+     * @var float [s]
      */
-    protected $Duration;
-
-    /**
-     * @var int|null [bpm]
-     */
-    protected $HeartRateAtStart;
+    protected float $Duration;
 
     /**
      * @var int|null [bpm]
      */
-    protected $HeartRateAtEnd;
+    protected ?int $HeartRateAtStart = null;
 
     /**
      * @var int|null [bpm]
      */
-    protected $HeartRateAtRecovery;
+    protected ?int $HeartRateAtEnd = null;
+
+    /**
+     * @var int|null [bpm]
+     */
+    protected ?int $HeartRateAtRecovery = null;
 
     /**
      * @var int|null [s]
      */
-    protected $TimeUntilRecovery;
+    protected ?int $TimeUntilRecovery = null;
 
     /**
      * @var int|null relative to current baseline
      */
-    protected $PerformanceCondition;
+    protected ?int $PerformanceCondition = null;
 
-    /**
-     * @param int $timeIndex
-     * @param int $duration
-     */
-    public function __construct($timeIndex, $duration)
+    public function __construct(int $timeIndex, float $duration)
     {
         $this->TimeIndex = $timeIndex;
         $this->Duration = $duration;
@@ -52,15 +48,15 @@ class Pause
     /**
      * @return int [s]
      */
-    public function getTimeIndex()
+    public function getTimeIndex(): int
     {
         return $this->TimeIndex;
     }
 
     /**
-     * @return int [s]
+     * @return float [s]
      */
-    public function getDuration()
+    public function getDuration(): float
     {
         return $this->Duration;
     }
@@ -69,7 +65,7 @@ class Pause
      * @param int|null $atStart [bpm]
      * @param int|null $atEnd [bpm]
      */
-    public function setHeartRateDetails($atStart, $atEnd): self
+    public function setHeartRateDetails(?int $atStart, ?int $atEnd): self
     {
         $this->HeartRateAtStart = $atStart;
         $this->HeartRateAtEnd = $atEnd;
@@ -85,7 +81,7 @@ class Pause
     /**
      * @return int|null [bpm]
      */
-    public function getHeartRateAtStart()
+    public function getHeartRateAtStart(): ?int
     {
         return $this->HeartRateAtStart;
     }
@@ -93,7 +89,7 @@ class Pause
     /**
      * @return int|null [bpm]
      */
-    public function getHeartRateAtEnd()
+    public function getHeartRateAtEnd(): ?int
     {
         return $this->HeartRateAtEnd;
     }
@@ -101,7 +97,7 @@ class Pause
     /**
      * @return int|null [bpm]
      */
-    public function getHeartRateDifference()
+    public function getHeartRateDifference(): ?int
     {
         return $this->HeartRateAtStart - $this->HeartRateAtEnd;
     }
@@ -115,7 +111,7 @@ class Pause
      * @param int|null $heartRate [bpm]
      * @param int|null $timeUntilRecovery [s]
      */
-    public function setRecoveryDetails($heartRate, $timeUntilRecovery): self
+    public function setRecoveryDetails(?int $heartRate, ?int $timeUntilRecovery): self
     {
         $this->HeartRateAtRecovery = $heartRate;
         $this->TimeUntilRecovery = $timeUntilRecovery;
@@ -126,7 +122,7 @@ class Pause
     /**
      * @return int|null [bpm]
      */
-    public function getHeartRateAtRecovery()
+    public function getHeartRateAtRecovery(): ?int
     {
         return $this->HeartRateAtRecovery;
     }
@@ -134,7 +130,7 @@ class Pause
     /**
      * @return int|null [s]
      */
-    public function getTimeUntilRecovery()
+    public function getTimeUntilRecovery(): ?int
     {
         return $this->TimeUntilRecovery;
     }
@@ -142,7 +138,7 @@ class Pause
     /**
      * @param int|null $performanceCondition relative to current baseline
      */
-    public function setPerformanceCondition($performanceCondition): self
+    public function setPerformanceCondition(?int $performanceCondition): self
     {
         $this->PerformanceCondition = $performanceCondition;
 
@@ -157,7 +153,7 @@ class Pause
     /**
      * @return int|null relative to current baseline
      */
-    public function getPerformanceCondition()
+    public function getPerformanceCondition(): ?int
     {
         return $this->PerformanceCondition;
     }

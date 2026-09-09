@@ -14,29 +14,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RecalculationManager
-     */
-    protected $Manager;
+    protected RecalculationManager $Manager;
 
-    /**
-     * @var Account
-     */
-    protected $Account;
+    protected Account $Account;
 
-    /**
-     * @var ConfigurationManager
-     */
-    protected $ConfigurationManager;
+    protected ConfigurationManager $ConfigurationManager;
 
-    /**
-     * @var ConfigurationUpdater
-     */
-    protected $ConfigurationUpdater;
+    protected ConfigurationUpdater $ConfigurationUpdater;
 
     protected function setUp(): void
     {
         $this->Account = new Account();
+        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $confRepository */
         $confRepository = $this->getConfRepositoryMock();
         $tokenStorage = new TokenStorage();
         $tokenStorage->setToken(new PreAuthenticatedToken($this->Account, 'foo', 'bar'));
@@ -159,7 +148,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
 
     protected function getAccountMock()
     {
-        /** @var Account $account */
+        /** @var Account&\PHPUnit\Framework\MockObject\MockObject $account */
         $account = $this
             ->getMockBuilder(Account::class)
             ->onlyMethods(['getId'])
@@ -178,7 +167,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTrainingRepositoryMock()
     {
-        /** @var TrainingRepository $repository */
+        /** @var TrainingRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
             ->getMockBuilder(TrainingRepository::class)
             ->disableOriginalConstructor()
@@ -208,7 +197,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRaceResultRepositoryMock()
     {
-        /** @var RaceresultRepository $repository */
+        /** @var RaceresultRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
             ->getMockBuilder(RaceresultRepository::class)
             ->disableOriginalConstructor()
@@ -228,7 +217,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConfRepositoryMock()
     {
-        /** @var ConfRepository $repository */
+        /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this
             ->getMockBuilder(ConfRepository::class)
             ->disableOriginalConstructor()

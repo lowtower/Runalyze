@@ -24,7 +24,7 @@ class TrainingEffectLevelTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidLevelString()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         TrainingEffectLevel::levelFor('foobar');
     }
 

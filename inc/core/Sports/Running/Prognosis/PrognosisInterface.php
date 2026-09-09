@@ -8,12 +8,9 @@ interface PrognosisInterface
 {
     /**
      * @param float $distance [km]
-     * @return int|null prognosis for given distance [s], null if not possible
+     * @return float|null prognosis for given distance [s], null if not possible
      */
-    public function getSeconds($distance);
+    public function getSeconds(float $distance): ?float;
 
-    /**
-     * @return bool
-     */
-    public function areValuesValid();
+    public function areValuesValid(): bool;
 }

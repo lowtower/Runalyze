@@ -25,9 +25,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
 {
     /**
      * Data
-     * @var array
      */
-    protected $Data = [];
+    protected array $Data = [];
 
     protected function setCode()
     {
@@ -210,8 +209,8 @@ class TableSwimLaneAggregateInterval extends TableLapsAbstract
         return $result;
     }
 
-    // calculates the difference between two values and return the diff with a pritty colored span
-    protected function difference($previous, $new, $beginLap): string
+    // calculates the difference between two values and return the diff with a pretty colored span
+    protected function difference(float $previous, float $new, float $beginLap): string
     {
         $diff = $previous - $new;
         if ($diff > 0) {

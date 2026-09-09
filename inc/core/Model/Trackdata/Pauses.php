@@ -63,11 +63,10 @@ class Pauses extends StringArrayObject
 
     /**
      * Get pause
-     * @param int $index
      * @return \Runalyze\Model\Trackdata\Pause
      * @throws \InvalidArgumentException
      */
-    public function at($index)
+    public function at(int $index)
     {
         return parent::at($index);
     }

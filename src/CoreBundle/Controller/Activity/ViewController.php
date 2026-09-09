@@ -59,13 +59,15 @@ class ViewController extends AbstractController
      * @Route("/activity/{id}", name="ActivityShow", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      */
-    public function displayAction(Request $request, int $id, Account $account): Response
+    public function displayAction(Request $request, int $id): Response
     {
         $activity = $this->getTrainingRepository()
             ->find($id);
         if ($activity === null) {
             throw $this->createNotFoundException('Activity not found.');
         }
+
+        $account = $activity->getAccount();
 
         $this->checkThatEntityBelongsToActivity($activity, $account);
 

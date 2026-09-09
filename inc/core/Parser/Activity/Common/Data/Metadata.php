@@ -9,80 +9,50 @@ class Metadata
     /**
      * @var int|null timestamp in local time, i.e. assuming the activity was in utc
      */
-    protected $Timestamp;
+    protected ?int $Timestamp = null;
 
     /**
      * @var int|null timezone offset in minutes
      */
-    protected $TimezoneOffset;
+    protected ?int $TimezoneOffset = null;
 
-    /**
-     * @var string
-     */
-    protected $SportName = '';
+    protected string $SportName = '';
 
-    /**
-     * @var int|null
-     */
-    protected $InternalSportId;
+    protected ?int $InternalSportId = null;
 
-    /**
-     * @var string
-     */
-    protected $TypeName = '';
+    protected string $TypeName = '';
 
-    /**
-     * @var string
-     */
-    protected $Creator = '';
+    protected string $Creator = '';
 
-    /**
-     * @var string
-     */
-    protected $CreatorDetails = '';
+    protected string $CreatorDetails = '';
 
     /**
      * @var mixed
      */
     protected $ActivityId;
 
-    /**
-     * @var string
-     */
-    protected $Description = '';
+    protected string $Description = '';
+
+    protected string $Notes = '';
+
+    protected string $RouteDescription = '';
 
     /**
-     * @var string
+     * @var string[]
      */
-    protected $Notes = '';
-
-    /**
-     * @var string
-     */
-    protected $RouteDescription = '';
-
-    /**
-     * @var array
-     */
-    protected $EquipmentNames = [];
+    protected array $EquipmentNames = [];
 
     // TSC: save the uploaded-filename
-    /**
-     * @var string
-     */
-    protected $UploadedFilename = '';
+    protected string $UploadedFilename = '';
 
     // TSC: only internal for mapping to
-    /**
-     * @var string
-     */
-    protected $WorkoutName;
+    protected string $WorkoutName = '';
 
     /**
-     * @param int $timestampAssumingUTC timestamp in local time, i.e. assuming the activity was in utc
+     * @param null|int $timestampAssumingUTC timestamp in local time, i.e. assuming the activity was in utc
      * @param null|int $timezoneOffset [min]
      */
-    public function setTimestamp($timestampAssumingUTC, $timezoneOffset = null)
+    public function setTimestamp(?int $timestampAssumingUTC, ?int $timezoneOffset = null)
     {
         $this->Timestamp = $timestampAssumingUTC;
         $this->TimezoneOffset = $timezoneOffset;
@@ -91,7 +61,7 @@ class Metadata
     /**
      * @return int|null timestamp in local time, i.e. assuming the activity was in utc
      */
-    public function getTimestamp()
+    public function getTimestamp(): ?int
     {
         return $this->Timestamp;
     }
@@ -99,7 +69,7 @@ class Metadata
     /**
      * @param null|int $timezoneOffset [min]
      */
-    public function setTimezoneOffset($timezoneOffset)
+    public function setTimezoneOffset(?int $timezoneOffset)
     {
         $this->TimezoneOffset = $timezoneOffset;
     }
@@ -107,24 +77,18 @@ class Metadata
     /**
      * @return int|null timezone offset in minutes
      */
-    public function getTimezoneOffset()
+    public function getTimezoneOffset(): ?int
     {
         return $this->TimezoneOffset;
     }
 
-    /**
-     * @param int $timestamp
-     */
-    public function interpretTimestampAsServerTime($timestamp)
+    public function interpretTimestampAsServerTime(int $timestamp)
     {
-        $this->TimezoneOffset = round((new \DateTime())->setTimestamp($timestamp)->getOffset() / 60);
+        $this->TimezoneOffset = (int) round((new \DateTime())->setTimestamp($timestamp)->getOffset() / 60);
         $this->Timestamp = LocalTime::fromServerTime($timestamp)->getTimestamp();
     }
 
-    /**
-     * @param string $stringWithTimezoneInformation
-     */
-    public function setTimestampAndTimezoneOffsetFrom($stringWithTimezoneInformation)
+    public function setTimestampAndTimezoneOffsetFrom(string $stringWithTimezoneInformation)
     {
         try {
             $dateTime = new \DateTime($stringWithTimezoneInformation);
@@ -141,7 +105,7 @@ class Metadata
     /**
      * @param string $string if this string ends with 'Z', its interpreted as in server timezone
      */
-    public function setTimestampAndTimezoneOffsetWithUtcFixFrom($string)
+    public function setTimestampAndTimezoneOffsetWithUtcFixFrom(string $string)
     {
         if (substr($string, -1) == 'Z') {
             $localTimestamp = LocalTime::fromServerTime(strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
@@ -155,76 +119,48 @@ class Metadata
         }
     }
 
-    /**
-     * @param string $sportName
-     */
-    public function setSportName($sportName)
+    public function setSportName(string $sportName)
     {
         $this->SportName = $sportName;
     }
 
-    /**
-     * @return string
-     */
-    public function getSportName()
+    public function getSportName(): string
     {
         return $this->SportName;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setInternalSportId($id)
+    public function setInternalSportId(?int $id)
     {
         $this->InternalSportId = $id;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getInternalSportId()
+    public function getInternalSportId(): ?int
     {
         return $this->InternalSportId;
     }
 
-    /**
-     * @param string $typeName
-     */
-    public function setTypeName($typeName)
+    public function setTypeName(string $typeName)
     {
         $this->TypeName = $typeName;
     }
 
-    /**
-     * @return string
-     */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return $this->TypeName;
     }
 
-    /**
-     * @param string $creator
-     * @param string $creatorDetails
-     */
-    public function setCreator($creator, $creatorDetails = '')
+    public function setCreator(string $creator, string $creatorDetails = '')
     {
         $this->Creator = $creator;
         $this->CreatorDetails = $creatorDetails;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreator()
+    public function getCreator(): string
     {
         return $this->Creator;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreatorDetails()
+    public function getCreatorDetails(): string
     {
         return $this->CreatorDetails;
     }
@@ -253,87 +189,60 @@ class Metadata
         $this->Description = $description;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->Description;
     }
 
-    /**
-     * @param string $notes
-     */
-    public function setNotes($notes)
+    public function setNotes(string $notes)
     {
         $this->Notes = $notes;
     }
 
-    /**
-     * @return string
-     */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->Notes;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setRouteDescription($description)
+    public function setRouteDescription(string $description)
     {
         $this->RouteDescription = $description;
     }
 
-    /**
-     * @return string
-     */
-    public function getRouteDescription()
+    public function getRouteDescription(): string
     {
         return $this->RouteDescription;
     }
 
-    public function addEquipment($name)
+    public function addEquipment(string $name)
     {
         $this->EquipmentNames[] = $name;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getEquipmentNames()
+    public function getEquipmentNames(): array
     {
         return $this->EquipmentNames;
     }
 
-    /**
-     * @param string $filename
-     */
-    public function setUploadedFilename($filename)
+    public function setUploadedFilename(string $filename)
     {
         $this->UploadedFilename = $filename;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadedFilename()
+    public function getUploadedFilename(): string
     {
         return $this->UploadedFilename;
     }
 
-    /**
-     * @param string $workoutName
-     */
-    public function setWorkoutName($workoutName)
+    public function setWorkoutName(string $workoutName)
     {
         $this->WorkoutName = $workoutName;
     }
 
-    /**
-     * @return string
-     */
-    public function getWorkoutName()
+    public function getWorkoutName(): string
     {
         return $this->WorkoutName;
     }

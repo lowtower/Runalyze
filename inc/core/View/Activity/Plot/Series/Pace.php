@@ -34,29 +34,16 @@ class Pace extends ActivitySeries
      */
     public const COLOR = 'rgb(0,0,136)';
 
-    /**
-     * @var bool
-     */
-    protected $isRunning;
+    protected bool $isRunning;
 
-    /**
-     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-     */
-    protected $paceUnit;
+    protected \Runalyze\Activity\PaceUnit\AbstractUnit $paceUnit;
 
-    /**
-     * @var string
-     */
-    protected $paceUnitEnum;
+    protected int $paceUnitEnum;
 
-    /**
-     * @var bool
-     */
-    protected $adjustAxis = true;
+    protected bool $adjustAxis = true;
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -83,7 +70,7 @@ class Pace extends ActivitySeries
         $this->UnitString = ! $this->paceUnit->isTimeFormat() ? str_replace('&nbsp;', '', $pace->appendix()) : '';
         $this->UnitDecimals = 1;
 
-        $this->TickSize = false;
+        $this->TickSize = null;
 
         $this->ShowAverage = false;
         $this->ShowMaximum = false;
@@ -114,7 +101,7 @@ class Pace extends ActivitySeries
      */
     public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
     {
-        if (empty($this->Data)) {
+        if ($this->Data === []) {
             return;
         }
 
@@ -144,8 +131,8 @@ class Pace extends ActivitySeries
             $num = count($this->Data);
             $sorted = $this->Data;
             sort($sorted);
-            $min = 10 * 1000 * floor($sorted[round((self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num)] / 10 / 1000);
-            $max = 10 * 1000 * ceil($sorted[round((1 - self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num) - 1] / 10 / 1000);
+            $min = 10 * 1000 * floor($sorted[(int) round((self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num)] / 10 / 1000);
+            $max = 10 * 1000 * ceil($sorted[(int) round((1 - self::$CUT_OUTLIER_PERCENTAGE / 2 / 100) * $num) - 1] / 10 / 1000);
         }
 
         if ($max > 50 * 60 * 1000) {
@@ -201,11 +188,11 @@ class Pace extends ActivitySeries
      */
     private function setYAxisForReversePace(Plot $plot, $yAxis, $dataMin, $dataMax, bool $forceMin, bool $forceMax)
     {
-        if ($this->paceUnitEnum == PaceUnit::MIN_PER_MILE) {
+        if ($this->paceUnitEnum === PaceUnit::MIN_PER_MILE) {
             $ticks = [240, 300, 360, 450, 600, 900, 3600];
-        } elseif ($this->paceUnitEnum == PaceUnit::MIN_PER_100M || $this->paceUnitEnum == PaceUnit::MIN_PER_100Y) {
+        } elseif ($this->paceUnitEnum === PaceUnit::MIN_PER_100M || $this->paceUnitEnum === PaceUnit::MIN_PER_100Y) {
             $ticks = [10, 60, 120, 180, 240, 720];
-        } elseif ($this->paceUnitEnum == PaceUnit::MIN_PER_500M || $this->paceUnitEnum == PaceUnit::MIN_PER_500Y) {
+        } elseif ($this->paceUnitEnum === PaceUnit::MIN_PER_500M || $this->paceUnitEnum === PaceUnit::MIN_PER_500Y) {
             $ticks = [60, 120, 180, 240, 720];
         } else { // defaults to min/km;
             $ticks = [120, 180, 240, 300, 360, 480, 600, 3600];

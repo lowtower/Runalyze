@@ -13,10 +13,7 @@ class Parameter_MockTester extends Parameter
  */
 class ParameterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \Runalyze\Parameter
-     */
-    protected $object;
+    protected Parameter $object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

@@ -34,11 +34,7 @@ abstract class Job
      */
     protected $RunningSportId;
 
-    /**
-     * @param int $accountId
-     * @param string $databasePrefix
-     */
-    public function __construct(array $requestData, \PDO $pdo, $accountId, $databasePrefix)
+    public function __construct(array $requestData, \PDO $pdo, int $accountId, string $databasePrefix)
     {
         $this->RequestData = $requestData;
         $this->PDO = $pdo;

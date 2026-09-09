@@ -10,10 +10,7 @@ use Runalyze\Util\LocalTime;
  */
 class TcxTest extends AbstractActivityParserTestCase
 {
-    /**
-     * @var Tcx
-     */
-    protected $Parser;
+    protected Tcx $Parser;
 
     protected function setUp(): void
     {

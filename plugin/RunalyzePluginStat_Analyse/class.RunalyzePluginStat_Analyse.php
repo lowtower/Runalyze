@@ -19,47 +19,29 @@ $PLUGINKEY = 'RunalyzePluginStat_Analyse';
  */
 class RunalyzePluginStat_Analyse extends PluginStat
 {
-    /**
-     * @var string
-     */
-    protected $WhereTime = '';
+    protected string $WhereTime = '';
 
-    /**
-     * @var string
-     */
-    protected $GroupTime = '';
+    protected string $GroupTime = '';
 
-    /**
-     * @var string
-     */
-    protected $Timer = '';
+    protected string $Timer = '';
 
-    /**
-     * @var int
-     */
-    protected $TimerStart = 0;
+    protected int $TimerStart = 0;
 
-    /**
-     * @var int
-     */
-    protected $TimerEnd = 1;
+    protected int $TimerEnd = 1;
 
-    /**
-     * @var int
-     */
-    protected $Colspan = 0;
+    protected int $Colspan = 0;
 
     /**
      * Data
-     * @var array
+     * @var mixed[][]
      */
-    protected $AnalysisData = [];
+    protected array $AnalysisData = [];
 
     /**
      * Empty data array
-     * @var array
+     * @var array<string, int|mixed[]>
      */
-    protected $EmptyData = [
+    protected array $EmptyData = [
         'all_sum_km' => 0,
         'all_sum_s' => 0,
         'timer_sum_km' => [],
@@ -68,11 +50,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         'id_sum_s' => [],
     ];
 
-    /**
-     * Sport
-     * @var Sport
-     */
-    protected $Sport;
+    protected Sport $Sport;
 
     final public function name(): string
     {
@@ -169,8 +147,8 @@ class RunalyzePluginStat_Analyse extends PluginStat
             $this->WhereTime = '';
             $this->GroupTime = 'YEAR(FROM_UNIXTIME(`time`))';
             $this->Timer = 'YEAR';
-            $this->TimerStart = START_YEAR;
-            $this->TimerEnd = YEAR;
+            $this->TimerStart = (int) START_YEAR;
+            $this->TimerEnd = (int) YEAR;
         } else {
             $num = $this->showsLast6Months() ? 6 : 12;
             $this->WhereTime = ' AND `time` > ' . LocalTime::fromString('first day of -' . ($num - 1) . ' months 00:00')->getTimestamp();
@@ -296,10 +274,9 @@ class RunalyzePluginStat_Analyse extends PluginStat
      * Display td
      * @param int $num
      * @param int $time
-     * @param float $dist
      * @param float $percent
      */
-    private function displayTDfor($num, $time, $dist, $percent)
+    private function displayTDfor($num, $time, float $dist, $percent)
     {
         $tooltip = $num . 'x';
         $number = number_format($percent, 1) . ' &#37;';
@@ -549,7 +526,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     }
 
     /**
-     * @param never[][] $data
+     * @param int[]|mixed[][] $data
      * @param array<string, mixed> $result
      */
     private function setGroupData(array &$data, array &$result)
@@ -572,7 +549,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param mixed[][] $data
      * @param array<string, mixed> $result
      */
     private function setSumData(array &$data, array &$result)

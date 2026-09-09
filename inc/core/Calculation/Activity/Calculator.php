@@ -11,20 +11,11 @@ use Runalyze\Model;
 
 class Calculator
 {
-    /**
-     * @var Model\Activity\Entity
-     */
-    protected $Activity;
+    protected ?Model\Activity\Entity $Activity = null;
 
-    /**
-     * @var Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected ?Model\Trackdata\Entity $Trackdata = null;
 
-    /**
-     * @var Model\Route\Entity
-     */
-    protected $Route;
+    protected ?Model\Route\Entity $Route = null;
 
     public function __construct(
         Model\Activity\Entity $activity,
@@ -38,16 +29,16 @@ class Calculator
 
     protected function knowsTrackdata(): bool
     {
-        return $this->Trackdata !== null;
+        return $this->Trackdata instanceof \Runalyze\Model\Trackdata\Entity;
     }
 
     protected function knowsRoute(): bool
     {
-        return $this->Route !== null;
+        return $this->Route instanceof \Runalyze\Model\Route\Entity;
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return string [ml/kg/min]
      */
     public function estimateVO2maxByTime(): string
     {
@@ -59,9 +50,9 @@ class Calculator
 
     /**
      * @param float|null $distance [km]
-     * @return float [ml/kg/min]
+     * @return string [ml/kg/min]
      */
-    public function estimateVO2maxByHeartRate($distance = null): string
+    public function estimateVO2maxByHeartRate(?float $distance = null): string
     {
         if ($distance === null) {
             $distance = $this->Activity->distance();
@@ -78,7 +69,7 @@ class Calculator
     }
 
     /**
-     * @return float [ml/kg/min]
+     * @return string [ml/kg/min]
      */
     public function estimateVO2maxByHeartRateWithElevation(): string
     {
@@ -93,11 +84,7 @@ class Calculator
         return $this->estimateVO2maxByHeartRateWithElevationFor($this->Activity->elevation(), $this->Activity->elevation());
     }
 
-    /**
-     * @param int $up
-     * @param int $down
-     */
-    public function estimateVO2maxByHeartRateWithElevationFor($up, $down): string
+    public function estimateVO2maxByHeartRateWithElevationFor(?int $up, ?int $down): string
     {
         $Modifier = new Elevation\DistanceModifier(
             $this->Activity->distance(),
@@ -123,12 +110,12 @@ class Calculator
 
             if ($this->Activity->typeid() > 0) {
                 $data = [
-                    $Factory->type((int) $this->Activity->typeid())
+                    $Factory->type($this->Activity->typeid())
                         ->hrAvg() => $this->Activity->duration(),
                 ];
             } else {
                 $data = [
-                    $Factory->sport((int) $this->Activity->sportid())
+                    $Factory->sport($this->Activity->sportid())
                         ->avgHR() => $this->Activity->duration(),
                 ];
             }

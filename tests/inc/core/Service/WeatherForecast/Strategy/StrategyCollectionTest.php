@@ -9,10 +9,7 @@ use Runalyze\Service\WeatherForecast\Strategy\StrategyInterface;
 
 class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var StrategyCollection
-     */
-    protected $Collection;
+    protected StrategyCollection $Collection;
 
     protected function setUp(): void
     {
@@ -31,21 +28,21 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
         $exampleData = new WeatherData();
         $exampleData->Temperature = 5;
 
-        $strategy = $this->getMockForAbstractClass(StrategyInterface::class);
-        $strategy->expects($this->any())
+        /** @var StrategyInterface&\PHPUnit\Framework\MockObject\MockObject $mock */
+        $mock = $this->getMockForAbstractClass(StrategyInterface::class);
+        $mock->expects($this->any())
             ->method('isPossible')
             ->willReturn(true);
-        $strategy->expects($this->any())
+        $mock->expects($this->any())
             ->method('loadForecast')
             ->willReturn($exampleData);
 
-        /** @var StrategyInterface $strategy */
-        $this->Collection->add($strategy);
+        $this->Collection->add($mock);
 
         $result = $this->Collection->tryToLoadForecast(new Location());
 
         $this->assertNotNull($result);
         $this->assertEquals(5, $result->Temperature);
-        $this->assertEquals($strategy, $this->Collection->getLastSuccessfulStrategy());
+        $this->assertEquals($mock, $this->Collection->getLastSuccessfulStrategy());
     }
 }

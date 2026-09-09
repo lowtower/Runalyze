@@ -6,7 +6,7 @@ class HumidityTest extends \PHPUnit\Framework\TestCase
 {
     public function testNonNumericValue()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
         new Humidity('foobar');
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\Converter;
 
 use Runalyze\Import\Exception\InstallationSpecificException;
@@ -19,21 +21,11 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
      */
     public const PERL_GENERAL_MESSAGE_START = 'perl: warning:';
 
-    /**
-     * @var string
-     */
-    protected $PathToPerl;
+    protected string $PathToPerl;
 
-    /**
-     * @var string
-     */
-    protected $PathToFitPerlScript;
+    protected string $PathToFitPerlScript;
 
-    /**
-     * @param string $pathToPerl
-     * @param string $pathToFitPerlScript
-     */
-    public function __construct($pathToPerl, $pathToFitPerlScript)
+    public function __construct(string $pathToPerl, string $pathToFitPerlScript)
     {
         $this->PathToPerl = $pathToPerl;
         $this->PathToFitPerlScript = $pathToFitPerlScript;
@@ -44,17 +36,17 @@ class FitConverter extends AbstractShellBasedFileTypeConverter
         return 'fit';
     }
 
-    public function getConvertedFileName($inputFile): string
+    public function getConvertedFileName(string $inputFile): string
     {
         return $inputFile . 'temp';
     }
 
-    protected function buildCommand($inputFile, $outputFile): string
+    protected function buildCommand(string $inputFile, string $outputFile): string
     {
         return sprintf('%s %s "%s" 1>"%s"', $this->PathToPerl, $this->PathToFitPerlScript, $inputFile, $outputFile);
     }
 
-    protected function checkFirstLineOfOutput($firstLine)
+    protected function checkFirstLineOfOutput(string $firstLine)
     {
         if (trim($firstLine) !== 'SUCCESS') {
             $message = 'Reading *.fit-file failed. First line was "' . $firstLine . '".';

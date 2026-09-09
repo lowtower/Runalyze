@@ -8,6 +8,7 @@
 namespace Runalyze\Calculation\Activity;
 
 use Runalyze\Calculation;
+use Runalyze\Model\Route;
 use Runalyze\Model\Trackdata;
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 use Runalyze\View\Activity;
@@ -28,20 +29,11 @@ use Runalyze\View\Activity;
  */
 class GradeAdjustedPaceCalculator
 {
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected Trackdata\Entity $Trackdata;
 
-    /**
-     * @var \Runalyze\Model\Route\Entity
-     */
-    protected $Route;
+    protected Route\Entity $Route;
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Loop
-     */
-    protected $Loop;
+    protected Trackdata\Loop $Loop;
 
     /**
      * @var int|float
@@ -50,12 +42,10 @@ class GradeAdjustedPaceCalculator
 
     /**
      * the result: grade adjusted time
-     *
-     * @var float
      */
-    protected $time;
+    protected ?float $time = null;
 
-    protected $KernelWidth = 20;
+    protected int $KernelWidth = 20;
 
     /**
      * Calculate the pace
@@ -72,10 +62,8 @@ class GradeAdjustedPaceCalculator
     /**
      * get the gradient series from elevation/distance as numbers from -90 to +90.
      * same as GradeAdjustedPace.php.
-     *
-     * @return array
      */
-    protected function getGradientSeries()
+    protected function getGradientSeries(): array
     {
         $gradient = new Calculation\Route\Gradient();
         $gradient->setDataFrom($this->Route, $this->Trackdata);
@@ -114,9 +102,9 @@ class GradeAdjustedPaceCalculator
     }
 
     /**
-     * @return the grade adjusted pace
+     * @return float the grade adjusted pace
      */
-    public function getAdjustedTime()
+    public function getAdjustedTime(): float
     {
         if ($this->time === null) {
             $this->calculate();

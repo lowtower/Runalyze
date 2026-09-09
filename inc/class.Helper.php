@@ -26,10 +26,8 @@ class Helper
 {
     /**
      * Trim all values of an array
-     * @param array $array
-     * @return array
      */
-    public static function arrayTrim($array)
+    public static function arrayTrim(array $array): array
     {
         array_walk($array, 'trimValuesForArray');
 
@@ -38,31 +36,24 @@ class Helper
 
     /**
      * Round to the next lowest factor of $roundForInt
-     * @param float $numberToRound
-     * @param int $roundForInt
-     * @return int
      */
-    public static function floorFor($numberToRound, $roundForInt)
+    public static function floorFor(float $numberToRound, int $roundForInt): int
     {
-        return $roundForInt * floor($numberToRound / $roundForInt);
+        return (int) ($roundForInt * floor($numberToRound / $roundForInt));
     }
 
     /**
      * Round to the next highest factor of $roundForInt
-     * @param float $numberToRound
-     * @param int $roundForInt
-     * @return int
      */
-    public static function ceilFor($numberToRound, $roundForInt)
+    public static function ceilFor(float $numberToRound, int $roundForInt): int
     {
-        return $roundForInt * ceil($numberToRound / $roundForInt);
+        return (int) ($roundForInt * ceil($numberToRound / $roundForInt));
     }
 
     /**
      * Get a leading 0 if $int is lower than 10
-     * @param int $int
      */
-    public static function TwoNumbers($int): string
+    public static function TwoNumbers(int $int): string
     {
         return ($int < 10) ? '0' . $int : (string) $int;
     }
@@ -71,11 +62,10 @@ class Helper
      * Get a special $string if $var is not set
      * @param mixed $var
      * @param string $string string to be displayed instead, default: ?
-     * @return string
      */
-    public static function Unknown($var, $string = '?')
+    public static function Unknown($var, string $string = '?'): string
     {
-        if (! isset($var) || $var === null) {
+        if (! isset($var) || $var == null) {
             return $string;
         }
 
@@ -88,13 +78,11 @@ class Helper
 
     /**
      * Cut a string if it is longer than $cut (default CUT_LENGTH)
-     * @param string $text
      * @param int $cut [optional]
-     * @return string
      */
-    public static function Cut($text, $cut = 0)
+    public static function Cut(string $text, int $cut = 0): string
     {
-        if ($cut == 0) {
+        if ($cut === 0) {
             $cut = CUT_LENGTH;
         }
 
@@ -107,18 +95,16 @@ class Helper
 
     /**
      * Replace every comma with a point
-     * @param string $string
      */
-    public static function CommaToPoint($string): string
+    public static function CommaToPoint(string $string): string
     {
         return str_replace(',', '.', $string);
     }
 
     /**
      * Get const for START_TIME
-     * @return int
      */
-    public static function getStartTime()
+    public static function getStartTime(): int
     {
         if (defined('START_TIME')) {
             return START_TIME;
@@ -134,13 +120,13 @@ class Helper
     /**
      * Recalculate START_TIME
      */
-    public static function recalculateStartTime()
+    public static function recalculateStartTime(): int
     {
         $START_TIME = self::calculateStartTime();
 
         Configuration::Data()->updateStartTime($START_TIME);
 
-        if ($START_TIME == 0) {
+        if ($START_TIME === 0) {
             return time();
         }
 
@@ -151,7 +137,7 @@ class Helper
      * Get timestamp of first training
      * @return int   Timestamp
      */
-    private static function calculateStartTime()
+    private static function calculateStartTime(): int
     {
         $data = DB::getInstance()->query('SELECT MIN(`time`) as `time` FROM `' . PREFIX . 'training` WHERE accountid = ' . SessionAccountHandler::getId())->fetch();
 
@@ -163,7 +149,7 @@ class Helper
             return 0;
         }
 
-        return $data['time'];
+        return (int) $data['time'];
     }
 
     /**
@@ -178,7 +164,7 @@ class Helper
     /**
      * Recalculate HF_MAX
      */
-    public static function recalculateHFmax()
+    public static function recalculateHFmax(): int
     {
         $HF_MAX = self::calculateHFmax();
 
@@ -191,7 +177,7 @@ class Helper
      * Get the HFmax from user-table
      * @return int   HFmax
      */
-    private static function calculateHFmax()
+    private static function calculateHFmax(): int
     {
         // TODO: Move to class::UserData - possible problem in loading order?
         if (SharedLinker::isOnSharedPage()) {
@@ -204,13 +190,13 @@ class Helper
             return 200;
         }
 
-        return $userdata['pulse_max'];
+        return (int) $userdata['pulse_max'];
     }
 
     /**
      * Recalculate HF_REST
      */
-    public static function recalculateHFrest()
+    public static function recalculateHFrest(): int
     {
         $HF_REST = self::calculateHFrest();
 
@@ -223,7 +209,7 @@ class Helper
      * Get the HFrest from user-table
      * @return int   HFrest
      */
-    private static function calculateHFrest()
+    private static function calculateHFrest(): int
     {
         // TODO: Move to class::UserData - possible problem in loading order?
         if (SharedLinker::isOnSharedPage()) {
@@ -236,15 +222,14 @@ class Helper
             return 60;
         }
 
-        return $userdata['pulse_rest'];
+        return (int) $userdata['pulse_rest'];
     }
 }
 
 /**
  * Trimmer function for array_walk
- * @param array $value
  */
-function trimValuesForArray(&$value)
+function trimValuesForArray(string &$value)
 {
     $value = trim($value);
 }

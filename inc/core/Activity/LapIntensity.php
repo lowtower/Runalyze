@@ -57,10 +57,7 @@ class LapIntensity extends AbstractEnum
      */
     private const OTHER = 'O';
 
-    /**
-     * @var string
-     */
-    private $Value;
+    private string $Value;
 
     /**
      * @var LapIntensity
@@ -77,17 +74,14 @@ class LapIntensity extends AbstractEnum
         $this->Value = $value;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->Value;
     }
 
     public function isActive(): bool
     {
-        return $this->Value == self::ACTIVE;
+        return $this->Value === self::ACTIVE;
     }
 
     public function isNotRest(): bool
@@ -97,23 +91,22 @@ class LapIntensity extends AbstractEnum
 
     public function isRest(): bool
     {
-        return $this->Value == self::REST;
+        return $this->Value === self::REST;
     }
 
     public function isEqualTo(self $other): bool
     {
-        return $this->Value == $other->getValue();
+        return $this->Value === $other->getValue();
     }
 
     /**
      * Converts the value from the FIT file to an enum.
      * See com.garmin.fit.Intensity
      *
-     * @param float $fitValue fitValue
-     * @return int internal enum
+     * @return ?LapIntensity internal enum
      * @throws \InvalidArgumentException
      */
-    public static function fromFitToEnum($fitValue)
+    public static function fromFitToEnum(float $fitValue): ?self
     {
         if (! is_numeric($fitValue) || (int) $fitValue < 0 || (int) $fitValue > 6) {
             throw new \InvalidArgumentException(sprintf('Provided workout_step intensity %s is invalid.', $fitValue));
@@ -155,11 +148,9 @@ class LapIntensity extends AbstractEnum
     /**
      * Converts the one chare value to an enum.
      *
-     * @param string $value
-     * @return LapIntensity|null
      * @throws \InvalidArgumentException
      */
-    public static function fromValue($value)
+    public static function fromValue(string $value): ?self
     {
         if (self::isValidValue($value)) {
             return new self($value);
@@ -195,10 +186,8 @@ class LapIntensity extends AbstractEnum
 
     /**
      * Gets a ACTIVE.
-     *
-     * @return LapIntensity
      */
-    public static function getInstanceActive()
+    public static function getInstanceActive(): self
     {
         if (self::$INST_ACTIVE === null) {
             self::$INST_ACTIVE = new self(self::ACTIVE);
@@ -209,10 +198,8 @@ class LapIntensity extends AbstractEnum
 
     /**
      * Gets a REST.
-     *
-     * @return LapIntensity
      */
-    public static function getInstanceRest()
+    public static function getInstanceRest(): self
     {
         if (self::$INST_REST === null) {
             self::$INST_REST = new self(self::REST);

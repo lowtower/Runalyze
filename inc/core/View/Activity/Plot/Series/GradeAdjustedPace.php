@@ -15,10 +15,7 @@ class GradeAdjustedPace extends Pace
      */
     public const COLOR = 'rgb(100,184,100)';
 
-    /**
-     * @var bool
-     */
-    protected $adjustAxis = false;
+    protected bool $adjustAxis = false;
 
     /**
      * @var int

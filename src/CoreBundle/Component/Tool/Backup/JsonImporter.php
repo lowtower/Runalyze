@@ -112,9 +112,9 @@ class JsonImporter
         foreach ($Tables as $Table => $Column) {
             $this->ExistingData['runalyze_' . $Table] = [];
             if ($Table === 'sport') {
-                $statement = $this->DB->query('SELECT `id`, `internal_sport_id`, `' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '`');
+                $statement = $this->DB->query('SELECT `id`, `internal_sport_id`, `' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '` WHERE `accountid`=' . $this->AccountID);
             } else {
-                $statement = $this->DB->query('SELECT `id`,`' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '`');
+                $statement = $this->DB->query('SELECT `id`,`' . $Column . '` FROM `' . $this->DatabasePrefix . $Table . '` WHERE `accountid`=' . $this->AccountID);
             }
 
             while ($row = $statement->fetch()) {

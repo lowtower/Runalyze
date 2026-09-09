@@ -105,9 +105,8 @@ class WeekStart extends \Runalyze\Parameter\Select
     /**
      * @param int|bool $now
      * @param bool $transformToServerTime
-     * @return int
      */
-    public function phpWeek($now = false, $transformToServerTime = false)
+    public function phpWeek($now = false, $transformToServerTime = false): int
     {
         if ($now === false) {
             $now = time();
@@ -123,7 +122,7 @@ class WeekStart extends \Runalyze\Parameter\Select
             return date('W', $now) + 1;
         }
 
-        return date('W', $now);
+        return (int) date('W', $now);
     }
 
     /**

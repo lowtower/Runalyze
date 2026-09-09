@@ -8,6 +8,7 @@
 namespace Runalyze\Model\Trackdata;
 
 use Runalyze\Configuration;
+use Runalyze\Model\Loopable;
 
 /**
  * Loop through trackdata object
@@ -18,42 +19,35 @@ use Runalyze\Configuration;
 class Loop extends \Runalyze\Model\Loop
 {
     /**
-     * Object
-     * @var \Runalyze\Model\Trackdata\Entity
+     * @var null|Entity|Loopable
      */
     protected $Object;
 
-    /**
-     * Construct
-     */
-    public function __construct(Entity $object)
+    public function __construct(?Entity $object)
     {
         parent::__construct($object);
     }
 
     /**
      * Current time
-     * @return int
      */
-    public function time()
+    public function time(): int
     {
         return $this->current(Entity::TIME);
     }
 
     /**
      * Current distance
-     * @return float
      */
-    public function distance()
+    public function distance(): float
     {
         return $this->current(Entity::DISTANCE);
     }
 
     /**
      * Move Distance
-     * @return bool
      */
-    public function nextDistance()
+    public function nextDistance(): bool
     {
         if (Configuration::General()->distanceUnitSystem()->isImperial()) {
             return $this->nextMile();
@@ -64,9 +58,8 @@ class Loop extends \Runalyze\Model\Loop
 
     /**
      * Alias for <code>moveDistance(1.0)</code>
-     * @return bool
      */
-    public function nextKilometer()
+    public function nextKilometer(): bool
     {
         $this->moveDistance(1.0);
 
@@ -75,9 +68,8 @@ class Loop extends \Runalyze\Model\Loop
 
     /**
      * Alias for <code>moveDistance(1.60934)</code>
-     * @return bool
      */
-    public function nextMile()
+    public function nextMile(): bool
     {
         $this->moveDistance(1.60934);
 
@@ -86,51 +78,44 @@ class Loop extends \Runalyze\Model\Loop
 
     /**
      * Move for time
-     * @param int $seconds
      * @throws \RuntimeException for negative values or if time is empty
      */
-    public function moveTime($seconds)
+    public function moveTime(int $seconds)
     {
         $this->move(Entity::TIME, $seconds);
     }
 
     /**
-     * @param int $seconds
      * @throws \RuntimeException for negative values or if time is empty
      */
-    public function moveToTime($seconds)
+    public function moveToTime(int $seconds)
     {
         $this->moveTo(Entity::TIME, $seconds);
     }
 
     /**
      * Move for distance
-     * @param float $kilometer
      * @throws \RuntimeException for negative values or if distance is empty
      */
-    public function moveDistance($kilometer)
+    public function moveDistance(float $kilometer)
     {
         $this->move(Entity::DISTANCE, $kilometer);
     }
 
     /**
-     * @param float $kilometer
      * @throws \RuntimeException for negative values or if distance is empty
      */
-    public function moveToDistance($kilometer)
+    public function moveToDistance(float $kilometer)
     {
         $this->moveTo(Entity::DISTANCE, $kilometer);
     }
 
-    /**
-     * @param string $key
-     * @return float|int
-     */
-    public function average($key)
+    public function average(string $key): ?float
     {
         if ($this->LastIndex < $this->Index && $this->Object->has(Entity::TIME) && $this->Object->has($key)) {
-            if ($key == Entity::PACE) {
-                return $this->Object->hasTheoreticalPace() ? $this->averageTheoreticalPace() : $this->averagePace();
+            if ($key === Entity::PACE) {
+                $hasTheoreticalPace = method_exists($this->Object, 'hasTheoreticalPace') && $this->Object->hasTheoreticalPace();
+                return $hasTheoreticalPace ? $this->averageTheoreticalPace() : $this->averagePace();
             }
 
             $lastTime = $this->Object->at($this->LastIndex, Entity::TIME);

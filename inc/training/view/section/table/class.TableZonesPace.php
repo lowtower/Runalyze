@@ -25,10 +25,7 @@ class TableZonesPace extends TableZonesAbstract
      */
     public const STEP_SIZE = 10;
 
-    /**
-     * @var \Runalyze\Activity\PaceUnit\AbstractUnit
-     */
-    protected $PaceUnit;
+    protected \Runalyze\Activity\PaceUnit\AbstractUnit $PaceUnit;
 
     /**
      * Get title for average
@@ -105,24 +102,20 @@ class TableZonesPace extends TableZonesAbstract
         return $Zones;
     }
 
-    /**
-     * @param int $paceInSeconds
-     * @return int
-     */
-    protected function zoneFor($paceInSeconds)
+    protected function zoneFor(int $paceInSeconds): int
     {
-        if ($paceInSeconds == 0) {
+        if ($paceInSeconds === 0) {
             return 0;
         }
 
         if ($this->PaceUnit->isDecimalFormat()) {
             $dividend = $this->PaceUnit->dividendForUnit();
 
-            return $paceInSeconds > $dividend ? 0 : $dividend / floor($dividend / $paceInSeconds);
+            return $paceInSeconds > $dividend ? 0 : (int) ($dividend / floor($dividend / $paceInSeconds));
         }
 
         $factor = $this->PaceUnit->factorForUnit();
 
-        return round(30 * floor($factor * $paceInSeconds / 30) / $factor);
+        return (int) round(30 * floor($factor * $paceInSeconds / 30) / $factor);
     }
 }

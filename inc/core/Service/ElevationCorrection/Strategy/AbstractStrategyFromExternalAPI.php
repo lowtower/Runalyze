@@ -16,15 +16,9 @@ abstract class AbstractStrategyFromExternalAPI extends AbstractStrategy implemen
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var int
-     */
-    protected $PointsPerCall = 20;
+    protected int $PointsPerCall = 20;
 
-    /**
-     * @var Client
-     */
-    protected $HttpClient;
+    protected Client $HttpClient;
 
     public function __construct(Client $client, ?LoggerInterface $logger = null)
     {

@@ -195,25 +195,17 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Pauses
-     * @var \Runalyze\Model\Trackdata\Pauses
      */
-    protected $Pauses;
+    protected \Runalyze\Model\Trackdata\Pauses $Pauses;
 
-    /**
-     * @var bool
-     */
-    protected $TimeHasBeenRemoved = false;
+    protected bool $TimeHasBeenRemoved = false;
 
     /**
      * Flag: ensure arrays to be equally sized
-     * @var bool
      */
-    protected $checkArraySizes = true;
+    protected bool $checkArraySizes = true;
 
-    /**
-     * @var bool
-     */
-    protected $hasTheoreticalPace = false;
+    protected bool $hasTheoreticalPace = false;
 
     /**
      * Clone object
@@ -263,9 +255,9 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
                     }
 
                     if (($key == self::HEARTRATE || $key == self::CADENCE) && $this->numberOfPoints > 0 && $count > 0) {
-                        if ($count == 1 + $this->numberOfPoints) {
+                        if ($count === 1 + $this->numberOfPoints) {
                             $this->Data[$key] = array_slice($this->Data[$key], 1);
-                        } elseif ($count == $this->numberOfPoints - 1) {
+                        } elseif ($count === $this->numberOfPoints - 1) {
                             array_unshift($this->Data[$key], $this->Data[$key][0]);
                         }
                     } else {
@@ -501,10 +493,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         return $this->Data[self::DISTANCE][$this->numberOfPoints - 1];
     }
 
-    /**
-     * @return float
-     */
-    public function totalPace()
+    public function totalPace(): float
     {
         if (! empty($this->Data[self::DISTANCE])) {
             return $this->totalTime() / $this->totalDistance();
@@ -524,19 +513,15 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Theoretical pace will force the loop to ignore distance data for average pace
-     * @param bool $flag
      */
-    public function setTheoreticalPace(array $data, $flag = true)
+    public function setTheoreticalPace(array $data, bool $flag = true)
     {
         $this->set(self::PACE, $data);
 
         $this->hasTheoreticalPace = $flag;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasTheoreticalPace()
+    public function hasTheoreticalPace(): bool
     {
         return $this->hasTheoreticalPace;
     }

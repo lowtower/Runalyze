@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::Parameter
  * @package Runalyze
@@ -27,16 +29,15 @@ abstract class Parameter
 
     /**
      * Options
-     * @var array
      */
-    protected $Options = [];
+    protected array $Options = [];
 
     /**
      * Construct
      * @param mixed $default
      * @param array $options [optional]
      */
-    public function __construct($default, $options = [])
+    public function __construct($default, array $options = [])
     {
         $this->Value = $default;
         $this->Options = array_merge($this->Options, $options);
@@ -54,7 +55,7 @@ abstract class Parameter
     /**
      * @param string $valueAsString new value
      */
-    public function setFromString($valueAsString)
+    public function setFromString(string $valueAsString)
     {
         $this->set($valueAsString);
     }
@@ -67,10 +68,7 @@ abstract class Parameter
         return $this->Value;
     }
 
-    /**
-     * @return string
-     */
-    public function valueAsString()
+    public function valueAsString(): string
     {
         return (string) $this->Value;
     }

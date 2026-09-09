@@ -6,10 +6,7 @@ namespace Runalyze\Parser\Activity\Common\Data\Round;
 
 class RoundCollectionFiller
 {
-    /**
-     * @var RoundCollection
-     */
-    protected $Rounds;
+    protected RoundCollection $Rounds;
 
     public function __construct(RoundCollection &$rounds)
     {
@@ -30,7 +27,7 @@ class RoundCollectionFiller
      * @param array<int, mixed> $time
      * @param array<int, mixed> $distance
      */
-    protected function fillFromArray(array $time, array $distance, $fillByDistance)
+    protected function fillFromArray(array $time, array $distance, bool $fillByDistance)
     {
         $totalDistance = 0;
         $totalTime = 0;

@@ -41,7 +41,6 @@ class Heartrate extends ActivitySeries
 
     /**
      * Create series
-     * @var \Runalyze\View\Activity\Context
      */
     public function __construct(Activity\Context $context)
     {
@@ -110,13 +109,13 @@ class Heartrate extends ActivitySeries
      * @param int $yAxis
      * @param bool $addAnnotations [optional]
      */
-    public function addTo(\Plot $Plot, $yAxis, $addAnnotations = true)
+    public function addTo(\Plot $Plot, $yAxis, bool $addAnnotations = true)
     {
         parent::addTo($Plot, $yAxis, $addAnnotations);
 
         $max = $this->showsAsPercentage() ? 100 : $this->HRmax;
 
-        if (! empty($this->Data)) {
+        if ($this->Data !== []) {
             $Plot->setYLimits($yAxis, 10 * floor(min($this->Data) / 10), $max);
 
             $Plot->addMarkingArea('y' . $yAxis, $max * 1, $max * 0.9, 'rgba(255,100,100,0.3)');

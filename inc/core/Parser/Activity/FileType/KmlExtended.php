@@ -14,22 +14,19 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @var int [s]
      */
-    protected $PauseInSeconds = 0;
+    protected int $PauseInSeconds = 0;
+
+    protected int $PauseIndex = 0;
 
     /**
-     * @var int
+     * @var int[]
      */
-    protected $PauseIndex = 0;
+    protected array $PauseTimes = [];
 
     /**
-     * @var array
+     * @var string[]|bool[]
      */
-    protected $PauseTimes = [];
-
-    /**
-     * @var array
-     */
-    protected $ResumeTimes = [];
+    protected array $ResumeTimes = [];
 
     public function parse()
     {
@@ -124,7 +121,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedCalories(array $values)
+    protected function parseExtendedCalories($values)
     {
         $kcal = array_pop($values);
 
@@ -134,7 +131,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedDistance(array $values)
+    protected function parseExtendedDistance($values)
     {
         foreach ($values as $value) {
             $this->Container->ContinuousData->Distance[] = (float) $value / 1000;
@@ -144,7 +141,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedHeartRate(array $values)
+    protected function parseExtendedHeartRate($values)
     {
         foreach ($values as $value) {
             $this->Container->ContinuousData->HeartRate[] = (int) $value;
@@ -154,7 +151,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedPower(array $values)
+    protected function parseExtendedPower($values)
     {
         foreach ($values as $value) {
             $this->Container->ContinuousData->Power[] = (int) $value;
@@ -164,7 +161,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedCadence(array $values)
+    protected function parseExtendedCadence($values)
     {
         foreach ($values as $value) {
             $this->Container->ContinuousData->Cadence[] = (int) $value;
@@ -181,7 +178,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
     /**
      * @param \SimpleXMLElement[]|bool $values
      */
-    protected function parseExtendedTemperature(array $values)
+    protected function parseExtendedTemperature($values)
     {
         foreach ($values as $value) {
             $this->Container->ContinuousData->Temperature[] = (int) $value;

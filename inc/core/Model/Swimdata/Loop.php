@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Runalyze\Model\Swimdata;
 
+use Runalyze\Model\Loopable;
+
 /**
  * Loop through swimdata object
  *
@@ -18,15 +20,14 @@ namespace Runalyze\Model\Swimdata;
 class Loop extends \Runalyze\Model\Loop
 {
     /**
-     * Object
-     * @var \Runalyze\Model\Swimdata\Entity
+     * @var null|Entity|Loopable
      */
     protected $Object;
 
     /**
      * Construct
      */
-    public function __construct(Entity $object)
+    public function __construct(?Entity $object)
     {
         parent::__construct($object);
     }
@@ -58,7 +59,7 @@ class Loop extends \Runalyze\Model\Loop
         return $this->current(Entity::SWOLF);
     }
 
-    protected function createNewObject(array $data): \Runalyze\Model\Swimdata\Entity
+    protected function createNewObject(array $data): Entity
     {
         return new Entity($data);
     }

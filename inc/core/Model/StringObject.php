@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::StringObject
  * @package Runalyze\Model
@@ -20,30 +22,19 @@ abstract class StringObject
 {
     /**
      * Construct
-     * @param string $data string
+     * @param string|array|null $data string or array in inheritants
      */
     public function __construct($data = '')
     {
-        $this->fromString($data);
+        $this->fromString((string) $data);
     }
 
-    /**
-     * @param string $string
-     */
-    abstract public function fromString($string);
+    abstract public function fromString(string $string);
 
-    /**
-     * As string
-     * @return string
-     */
-    abstract public function asString();
+    abstract public function asString(): string;
 
-    /**
-     * Is empty
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        return $this->asString() == '';
+        return $this->asString() === '';
     }
 }

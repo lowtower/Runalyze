@@ -12,16 +12,12 @@ interface FileTypeConverterInterface
     public function getConvertibleFileExtension();
 
     /**
-     * @param string $inputFile
-     *
      * @return string|string[]
      */
-    public function getConvertedFileName($inputFile);
+    public function getConvertedFileName(string $inputFile);
 
     /**
-     * @param string $inputFile
-     *
      * @return string|string[] name of output file(s)
      */
-    public function convertFile($inputFile);
+    public function convertFile(string $inputFile);
 }

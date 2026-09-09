@@ -11,55 +11,25 @@ use Runalyze\Parser\Activity\Common\Filter\FilterCollection;
 
 class ActivityDataContainer
 {
-    /**
-     * @var Metadata
-     */
-    public $Metadata;
+    public Metadata $Metadata;
 
-    /**
-     * @var ActivityData
-     */
-    public $ActivityData;
+    public ActivityData $ActivityData;
 
-    /**
-     * @var ContinuousData
-     */
-    public $ContinuousData;
+    public ContinuousData $ContinuousData;
 
-    /**
-     * @var ContinuousDataAdapter
-     */
-    protected $ContinuousDataAdapter;
+    protected ContinuousDataAdapter $ContinuousDataAdapter;
 
-    /**
-     * @var RoundCollection
-     */
-    public $Rounds;
+    public RoundCollection $Rounds;
 
-    /**
-     * @var PauseCollection
-     */
-    public $Pauses;
+    public PauseCollection $Pauses;
 
-    /**
-     * @var PauseCollection
-     */
-    public $PausesToApply;
+    public PauseCollection $PausesToApply;
 
-    /**
-     * @var FitDetails
-     */
-    public $FitDetails;
+    public ?FitDetails $FitDetails = null;
 
-    /**
-     * @var WeatherData
-     */
-    public $WeatherData;
+    public WeatherData $WeatherData;
 
-    /**
-     * @var array
-     */
-    public $RRIntervals = [];
+    public array $RRIntervals = [];
 
     public function __construct()
     {
@@ -128,7 +98,7 @@ class ActivityDataContainer
 
         $fitSelfEvalEffortUsed = false;
         // check that the type belongs to sport "running" not needed here; will be checked further in ActivityDataContainerToActivityContextConverter.tryToSetTypeFor
-        if (empty($this->Metadata->getTypeName()) && ! empty($this->FitDetails)) {
+        if (empty($this->Metadata->getTypeName()) && $this->FitDetails instanceof FitDetails) {
             // #TSC set RG=Regeneration Run
             if ($this->FitDetails->SelfEvaluationPerceivedEffort == 1 // anstrengung=sehr leicht=1
                 && $this->FitDetails->SelfEvaluationFeeling == Activity\SelfEvaluationFeeling::VERY_STRONG) { // gefuehl=sehr stark=5
@@ -148,8 +118,9 @@ class ActivityDataContainer
         }
 
         // #TSC: map FIT SelfEvaluationPerceivedEffort to RPE
-        if (! $fitSelfEvalEffortUsed && ! empty($this->FitDetails) && ! empty($this->FitDetails->SelfEvaluationPerceivedEffort)) {
-            $this->ActivityData->RPE = RPE::getString($this->FitDetails->SelfEvaluationPerceivedEffort);
+        if (! $fitSelfEvalEffortUsed && $this->FitDetails instanceof FitDetails && ! empty($this->FitDetails->SelfEvaluationPerceivedEffort)) {
+            # $this->ActivityData->RPE = RPE::getString($this->FitDetails->SelfEvaluationPerceivedEffort);
+            $this->ActivityData->RPE = $this->FitDetails->SelfEvaluationPerceivedEffort;
         }
 
         // #TSC if a Pace-Goal run, set it if no other type is already set
@@ -167,12 +138,12 @@ class ActivityDataContainer
     protected function completeRoundsIfRequired()
     {
         if (! $this->Rounds->isEmpty() && $this->ContinuousData->Time !== [] && $this->ContinuousData->Distance !== []) {
-            if ($this->Rounds->getTotalDuration() == 0) {
+            if ($this->Rounds->getTotalDuration() === 0.0) {
                 (new RoundCollectionFiller($this->Rounds))->fillTimesFromArray(
                     $this->ContinuousData->Time,
                     $this->ContinuousData->Distance
                 );
-            } elseif ($this->Rounds->getTotalDistance() == 0.0) {
+            } elseif ($this->Rounds->getTotalDistance() === 0.0) {
                 (new RoundCollectionFiller($this->Rounds))->fillDistancesFromArray(
                     $this->ContinuousData->Time,
                     $this->ContinuousData->Distance

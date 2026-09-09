@@ -16,10 +16,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      */
     protected $Container;
 
-    /**
-     * @var int
-     */
-    protected $NumberOfActivities = 0;
+    protected int $NumberOfActivities = 0;
 
     /**
      * @var string[]
@@ -35,10 +32,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function pathToTestFiles()
+    protected function pathToTestFiles(): string
     {
         return TESTS_ROOT . '/testfiles/';
     }
@@ -46,9 +40,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     /**
      * @param string $file file path relative to 'testfiles/'
      * @param string[] $expectedOutputFiles
-     * @param bool $completeAfterwards
      */
-    protected function convertAndParseFile(FileTypeConverterInterface $converter, FileContentAwareParserInterface $parser, $file, array $expectedOutputFiles, $completeAfterwards = true)
+    protected function convertAndParseFile(FileTypeConverterInterface $converter, FileContentAwareParserInterface $parser, string $file, array $expectedOutputFiles, bool $completeAfterwards = true)
     {
         $outputFile = $converter->convertFile($this->pathToTestFiles() . $file);
 
@@ -70,7 +63,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     /**
      * @param string[] $files
      */
-    protected function parseFiles(FileContentAwareParserInterface $parser, array $files, $completeAfterwards = true)
+    protected function parseFiles(FileContentAwareParserInterface $parser, array $files, bool $completeAfterwards = true)
     {
         $tmpContainer = [];
 
@@ -90,18 +83,13 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
     /**
      * @param string $file file path relative to 'testfiles/'
-     * @param bool $completeAfterwards
      */
-    protected function parseFile(FileContentAwareParserInterface $parser, $file, $completeAfterwards = true)
+    protected function parseFile(FileContentAwareParserInterface $parser, string $file, bool $completeAfterwards = true)
     {
         $this->parseFileContent($parser, file_get_contents($this->pathToTestFiles() . $file), $completeAfterwards);
     }
 
-    /**
-     * @param string $fileContent
-     * @param bool $completeAfterwards
-     */
-    protected function parseFileContent(FileContentAwareParserInterface $parser, $fileContent, $completeAfterwards = true)
+    protected function parseFileContent(FileContentAwareParserInterface $parser, string $fileContent, bool $completeAfterwards = true)
     {
         $parser->setFileContent($fileContent);
         $parser->parse();
@@ -109,11 +97,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
         $this->setContainerFrom($parser, $completeAfterwards);
     }
 
-    /**
-     * @param bool $completeAfterwards
-     * @param bool $runFilter
-     */
-    protected function setContainerFrom(ParserInterface $parser, $completeAfterwards = true, $runFilter = true)
+    protected function setContainerFrom(ParserInterface $parser, bool $completeAfterwards = true, bool $runFilter = true)
     {
         $filterCollection = new DefaultFilterCollection();
         $this->NumberOfActivities = $parser->getNumberOfActivities();
@@ -142,22 +126,22 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
     /**
      * @param array $expectedRounds [[duration [s], distance [km]], ...]
-     * @param int $deltaDuration [s]
+     * @param float $deltaDuration [s]
      * @param float $deltaDistance [km]
      */
-    protected function checkExpectedRoundData(array $expectedRounds, $deltaDuration = 0, float $deltaDistance = 0.0)
+    protected function checkExpectedRoundData(array $expectedRounds, float $deltaDuration = 0.0, float $deltaDistance = 0.0)
     {
         $this->checkExpectedRoundDataFor($this->Container, $expectedRounds, $deltaDuration, $deltaDistance);
     }
 
     /**
      * @param array $expectedRounds [[duration [s], distance [km]], ...]
-     * @param int $deltaDuration [s]
+     * @param float $deltaDuration [s]
      * @param float $deltaDistance [km]
      */
-    protected function checkExpectedRoundDataFor(ActivityDataContainer $container, array $expectedRounds, $deltaDuration = 0, float $deltaDistance = 0.0)
+    protected function checkExpectedRoundDataFor(ActivityDataContainer $container, array $expectedRounds, float $deltaDuration = 0.0, float $deltaDistance = 0.0)
     {
-        $this->assertEquals(count($expectedRounds), $container->Rounds->count());
+        $this->assertEquals(count($expectedRounds), $container->Rounds->count(), 'The number of rounds does not match.');
 
         foreach ($expectedRounds as $i => $expectedRoundData) {
             $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #' . $i . ' has wrong duration.');
@@ -167,11 +151,11 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
     /**
      * @param array $expectedPauses [[time index [s], duration [km](, hr start [bpm], hr end [bpm])], ...]
-     * @param int $deltaDuration [s]
+     * @param float $deltaDuration [s]
      */
-    protected function checkExpectedPauseData(array $expectedPauses, $deltaDuration = 0)
+    protected function checkExpectedPauseData(array $expectedPauses, float $deltaDuration = 0.0)
     {
-        $this->assertEquals(count($expectedPauses), $this->Container->Pauses->count());
+        $this->assertEquals(count($expectedPauses), $this->Container->Pauses->count(), 'The number of pauses does not match.');
 
         foreach ($expectedPauses as $i => $expectedPauseData) {
             $this->assertEqualsWithDelta($expectedPauseData[0], $this->Container->Pauses[$i]->getTimeIndex(), $deltaDuration, 'Pause #' . $i . ' has wrong time index.');
@@ -227,7 +211,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
 
         $timestamp = $container->Metadata->getTimestamp();
         $oldOffset = $container->Metadata->getTimezoneOffset();
-        $newOffset = (new \DateTime(null, new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)
+        $newOffset = (new \DateTime('', new \DateTimeZone($timezoneName)))->setTimestamp($timestamp)
             ->getOffset() / 60;
         if ($oldOffset !== null) {
             $timestamp += 60 * ($newOffset - $oldOffset);

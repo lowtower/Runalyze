@@ -7,7 +7,9 @@
 
 namespace Runalyze\Model\Route;
 
+use League\Geotools\Coordinate\CoordinateInterface;
 use League\Geotools\Geohash\Geohash;
+use Runalyze\Model\Loopable;
 
 /**
  * Loop through route object
@@ -18,59 +20,48 @@ use League\Geotools\Geohash\Geohash;
 class Loop extends \Runalyze\Model\Loop
 {
     /**
-     * Object
-     * @var \Runalyze\Model\Route\Entity
+     * @var null|Entity|Loopable
      */
     protected $Object;
 
-    /**
-     * Construct
-     */
-    public function __construct(Entity $object)
+    public function __construct(?Entity $object)
     {
         parent::__construct($object);
     }
 
     /**
      * Current latitude
-     * @return float
      */
-    public function latitude()
+    public function latitude(): float
     {
         return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLatitude();
     }
 
     /**
      * Current longitude
-     * @return float
      */
-    public function longitude()
+    public function longitude(): float
     {
         return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLongitude();
     }
 
     /**
      * Current geohash
-     * @return string
      */
-    public function geohash()
+    public function geohash(): string
     {
-        return $this->current(Entity::GEOHASHES);
+        return (string) $this->current(Entity::GEOHASHES);
     }
 
-    /**
-     * @return \League\Geotools\Coordinate\CoordinateInterface
-     */
-    public function coordinate()
+    public function coordinate(): CoordinateInterface
     {
         return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate();
     }
 
     /**
      * Calculate distance of current step from latitude/longitude
-     * @return float
      */
-    public function calculatedStepDistance()
+    public function calculatedStepDistance(): float
     {
         $LastGeohash = (new Geohash())->decode($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
         $IndexGeohash = (new Geohash())->decode($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
@@ -83,16 +74,13 @@ class Loop extends \Runalyze\Model\Loop
         );
     }
 
-    /**
-     * @return array
-     */
-    public function sliceElevation()
+    public function sliceElevation(): array
     {
-        if ($this->Object->hasCorrectedElevations()) {
+        if (method_exists($this->Object, 'hasCorrectedElevations') && $this->Object->hasCorrectedElevations()) {
             return $this->slice(Entity::ELEVATIONS_CORRECTED);
         }
 
-        if ($this->Object->hasOriginalElevations()) {
+        if (method_exists($this->Object, 'hasOriginalElevations') && $this->Object->hasOriginalElevations()) {
             return $this->slice(Entity::ELEVATIONS_ORIGINAL);
         }
 

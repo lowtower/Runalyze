@@ -45,21 +45,18 @@ class Calculator
 
     /**
      * Athlete
-     * @var \Runalyze\Athlete
      */
-    protected $Athlete;
+    protected \Runalyze\Athlete $Athlete;
 
     /**
      * Data
-     * @var array
      */
-    protected $Data;
+    protected array $Data;
 
     /**
      * Value
-     * @var int
      */
-    protected $value;
+    protected float $value;
 
     /**
      * Construct
@@ -80,6 +77,8 @@ class Calculator
 
     /**
      * Calculation is done for HR in [bpm] and time is transformed from [s] to [min].
+     * TODO: check factor 0.64
+     * TRIMP=tmin​⋅ΔHR⋅0.64⋅e(b⋅ΔHR)
      */
     protected function calculate()
     {
@@ -97,10 +96,7 @@ class Calculator
         $this->value = $Factor->A() * $sum;
     }
 
-    /**
-     * @return int
-     */
-    public function value()
+    public function value(): float
     {
         return $this->value;
     }

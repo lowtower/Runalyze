@@ -19,13 +19,10 @@ use Runalyze\Activity\HeartRate;
  */
 class MaximalHeartRateInBPM extends MaximalHeartRate
 {
-    /**
-     * @return string
-     */
-    protected function value(HeartRate $heartRate)
+    protected function value(HeartRate $heartRate): string
     {
         if ($heartRate->inBPM() > 0) {
-            return $heartRate->inBPM();
+            return (string) $heartRate->inBPM();
         }
 
         return '-';

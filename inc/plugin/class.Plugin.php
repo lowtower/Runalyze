@@ -366,9 +366,9 @@ abstract class Plugin
      *
      * @return int year, can be -1 for no year/comparison of all years
      */
-    protected function defaultYear()
+    protected function defaultYear(): int
     {
-        return date('Y');
+        return (int) date('Y');
     }
 
     protected function titleForAllYears(): string
