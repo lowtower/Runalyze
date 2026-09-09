@@ -89,7 +89,7 @@
       "./public/vendor/fontIconPicker/jquery.fonticonpicker.js",
 
       "./public/vendor/moment/moment.js",
-      "./public/vendor/moment-timezone/builds/moment-timezone-with-data-2012-2022.min.js",
+      "./public/vendor/moment-timezone/builds/moment-timezone-with-data-1970-2030.min.js",
       "./public/vendor/moment-duration-format/lib/moment-duration-format.js",
 
       "./public/vendor/ifvisible.js/src/ifvisible.js",
