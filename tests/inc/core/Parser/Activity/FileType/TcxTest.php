@@ -211,11 +211,53 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/First-point-empty.tcx');
 
-        $this->assertEquals(142, $this->Container->ActivityData->Duration);
+        $this->assertEquals(142.0, $this->Container->ActivityData->Duration);
         $this->assertEqualsWithDelta(0.601, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
+    }
+
+    /**
+     * Regression test for TcxActivity::parseLaps() with exactly one <Lap> element.
+     *
+     * SimpleXMLElement::key() always returns a string. For exactly one <Lap>
+     * child, that string is the tag name ("Lap") instead of an integer index.
+     * parseLaps() used to detect the first lap via a loose "$i == 0"
+     * comparison. Under PHP 7.4, "Lap" == 0 evaluated to true (non-numeric
+     * strings were silently cast to 0 for comparisons), so the check passed
+     * by accident. Since PHP 8.0's "saner string to number comparisons"
+     * (https://wiki.php.net/rfc/string_to_number_comparison), "Lap" == 0
+     * evaluates to false, so the correction of Metadata->Timestamp based on
+     * the earlier (and correct) <Lap StartTime> / first-trackpoint value was
+     * silently skipped for single-lap activities. The later (and incorrect)
+     * <Activity><Id> timestamp remained in place instead, which in turn
+     * shifted every derived value (e.g. ActivityData->Duration).
+     *
+     * This is checked directly on Metadata->getTimestamp(), independent of
+     * ActivityData->Duration, ContinuousData or any filter, since Duration
+     * is only derived from the timestamp several processing stages later
+     * (see AbstractActivityParserTestCase::setContainerFrom()). Asserting
+     * on the root cause directly makes a future regression immediately
+     * diagnosable instead of only showing up as an unexplained Duration
+     * mismatch.
+     *
+     * @see https://wiki.php.net/rfc/string_to_number_comparison
+     */
+    public function testSingleLapUsesEarlierLapStartTimeNotLaterActivityId(): void
+    {
+        $this->parseFile($this->Parser, 'tcx/First-point-empty.tcx');
+
+        // <Id> is 2015-07-09T08:38:46Z (later).
+        // The single <Lap StartTime="2015-07-09T08:38:33Z"> is 13s earlier and must win,
+        // exactly as it already does for multi-lap files.
+        // Last trackpoint is 08:40:55Z, i.e. 142s after the (correct) StartTime baseline.
+        $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
+        $this->assertEquals(
+            '2015-07-09 10:38:33',
+            LocalTime::date('Y-m-d H:i:s', $this->Container->Metadata->getTimestamp())
+        );
+        $this->assertEquals(142.0, $this->Container->ActivityData->Duration);
     }
 
     /**

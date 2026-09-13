@@ -109,8 +109,22 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
     protected function parseLaps()
     {
-        foreach ($this->Xml->Lap as $i => $lap) {
-            if ($i == 0) {
+        // NOTE: SimpleXMLElement::key() always returns a string (see the
+        // SimpleXML manual). When there is exactly one <Lap> element, the
+        // iterator's key is the tag name ("Lap") instead of an integer
+        // index. A loose "== 0" comparison used to silently coerce that
+        // non-numeric string to 0 under PHP 7.4, making the check pass by
+        // accident. Since PHP 8.0's "saner string to number comparisons"
+        // (https://wiki.php.net/rfc/string_to_number_comparison),
+        // 0 == "Lap" evaluates to false, so the correction below was never
+        // executed for single-lap activities, leaving Metadata->Timestamp
+        // at the (later) <Id> value instead of the (earlier, correct)
+        // <Lap StartTime> / first-trackpoint value.
+        // Track the loop position explicitly instead of relying on the
+        // iterator key, since it is not reliably an integer.
+        $lapIndex = 0;
+        foreach ($this->Xml->Lap as $lap) {
+            if ($lapIndex === 0) {
                 if (isset($lap['StartTime'])) {
                     $start = $this->strtotime((string) $lap['StartTime']);
 
@@ -130,6 +144,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             }
 
             $this->parseLap($lap);
+            ++$lapIndex;
         }
     }
 
