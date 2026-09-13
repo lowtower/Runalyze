@@ -7,6 +7,7 @@
 
 use Runalyze\Activity\Pace;
 use Runalyze\Configuration;
+use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 
 /**
  * @deprecated
@@ -46,7 +47,7 @@ class SportFactory
             'kcal' => 600,
             'HFavg' => 140,
             'distances' => 0,
-            'speed' => \Runalyze\Metrics\Velocity\Unit\PaceEnum::KILOMETER_PER_HOUR,
+            'speed' => PaceEnum::KILOMETER_PER_HOUR,
             'power' => 0,
             'outside' => 0,
             'is_main' => 0,
@@ -56,9 +57,8 @@ class SportFactory
 
     /**
      * Get all sports
-     * @return array
      */
-    public static function AllSports()
+    public static function AllSports(): array
     {
         if (self::$AllSports === null) {
             self::initAllSports();
@@ -70,7 +70,7 @@ class SportFactory
     /**
      * Initialize internal sports-array from database
      */
-    private static function initAllSports()
+    private static function initAllSports(): void
     {
         self::$AllSports = [];
         $sports = self::cacheAllSports();
@@ -100,7 +100,7 @@ class SportFactory
     /**
      * Use this method after updating sports table
      */
-    public static function reInitAllSports()
+    public static function reInitAllSports(): void
     {
         Cache::delete('sport');
 
@@ -111,7 +111,7 @@ class SportFactory
      * Get array with all names
      * @return array ids as keys, names as values
      */
-    public static function NamesAsArray()
+    public static function NamesAsArray(): array
     {
         $sports = self::AllSports();
 
@@ -124,10 +124,8 @@ class SportFactory
 
     /**
      * Name of sport
-     * @param string $sportid
-     * @return string
      */
-    public static function name($sportid)
+    public static function name(int $sportid): string
     {
         $Sports = self::AllSports();
 
@@ -140,10 +138,8 @@ class SportFactory
 
     /**
      * Get speed unit for given sportid
-     * @param int $ID
-     * @return int
      */
-    public static function getSpeedUnitFor($ID)
+    public static function getSpeedUnitFor(int $ID): int
     {
         $Sports = self::AllSports();
 

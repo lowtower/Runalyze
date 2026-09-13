@@ -8,7 +8,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Export\File;
 use Runalyze\Export\Share;
 use Runalyze\View\Activity\Context;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,10 +29,11 @@ class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 
     /**
      * @Route("/activity/{id}/export/social/{typeid}", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function exporterExportAction(int $id, int $typeid, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         if (Share\Types::isValidValue($typeid)) {
@@ -50,10 +50,11 @@ class ExportController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 
     /**
      * @Route("/activity/{id}/export/file/{typeid}", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function fileExportAction(int $id, int $typeid, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         if (File\Types::isValidValue($typeid)) {

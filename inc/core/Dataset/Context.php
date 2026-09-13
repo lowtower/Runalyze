@@ -22,57 +22,44 @@ class Context
 {
     /**
      * Factory
-     * @var \Runalyze\Model\Factory
      */
-    protected $Factory;
+    protected Model\Factory $Factory;
 
     /**
      * Activity
-     * @var \Runalyze\Model\Activity\Entity
      */
-    protected $Activity;
+    protected Model\Activity\Entity $Activity;
 
-    /**
-     * @var array
-     */
-    protected $ActivityData = [];
+    protected array $ActivityData = [];
 
     /**
      * Sport
-     * @var \Runalyze\Model\Sport\Entity
      */
-    protected $Sport;
+    protected ?Model\Sport\Entity $Sport = null;
 
     /**
      * Type
-     * @var \Runalyze\Model\Type\Entity
      */
-    protected $Type;
+    protected ?Model\Type\Entity $Type = null;
 
     /**
      * Dataview
-     * @var \Runalyze\View\Activity\Dataview
      */
-    protected $Dataview;
+    protected Dataview $Dataview;
 
     /**
      * Activity linker
-     * @var \Runalyze\View\Activity\Linker
      */
-    protected $Linker;
+    protected Linker $Linker;
 
-    /**
-     * @var bool
-     */
-    protected $IsRunning = false;
+    protected bool $IsRunning = false;
 
     /**
      * Construct dataset context for activity
-     * @param array|\Runalyze\Model\Activity\Entity $dataOrObject
-     * @param int $accountID
+     * @param array|Model\Activity\Entity $dataOrObject
      * @throws \InvalidArgumentException
      */
-    public function __construct($dataOrObject, $accountID)
+    public function __construct($dataOrObject, int $accountID)
     {
         $this->Factory = new Model\Factory($accountID);
 
@@ -85,10 +72,7 @@ class Context
         }
     }
 
-    /**
-     * @param \Runalyze\Model\Activity\Entity $object activity object
-     */
-    public function setActivity(Model\Activity\Entity $object)
+    public function setActivity(Model\Activity\Entity $object): void
     {
         $this->Activity = $object;
         $this->Dataview = new Dataview($object);
@@ -96,14 +80,13 @@ class Context
         $this->Sport = $this->Activity->sportid() > 0 ? $this->Factory->sport($this->Activity->sportid()) : null;
         $this->Type = $this->Activity->typeid() > 0 ? $this->Factory->type($this->Activity->typeid()) : null;
         $this->ActivityData = $this->Activity->completeData();
-        $this->IsRunning = $this->hasSport() && $this->Sport->getInternalProfileEnum() == SportProfile::RUNNING;
+        $this->IsRunning = $this->hasSport() && $this->Sport->getInternalProfileEnum() === SportProfile::RUNNING;
     }
 
     /**
-     * @param array $data activity data
      * @throws \InvalidArgumentException
      */
-    public function setActivityData(array $data)
+    public function setActivityData(array $data): void
     {
         if ($data === []) {
             throw new \InvalidArgumentException('Provided data must not be empty.');
@@ -113,88 +96,63 @@ class Context
         $this->ActivityData = $data;
     }
 
-    /**
-     * @return \Runalyze\Model\Factory
-     */
-    public function factory()
+    public function factory(): Model\Factory
     {
         return $this->Factory;
     }
 
-    /**
-     * @return \Runalyze\Model\Activity\Entity
-     */
-    public function activity()
+    public function activity(): Model\Activity\Entity
     {
         return $this->Activity;
     }
 
-    /**
-     * @return \Runalyze\View\Activity\Dataview
-     */
-    public function dataview()
+    public function dataview(): Dataview
     {
         return $this->Dataview;
     }
 
-    /**
-     * @return \Runalyze\View\Activity\Linker
-     */
-    public function linker()
+    public function linker(): Linker
     {
         return $this->Linker;
     }
 
     public function hasSport(): bool
     {
-        return $this->Sport !== null;
+        return $this->Sport instanceof \Runalyze\Model\Sport\Entity;
     }
 
-    /**
-     * @return \Runalyze\Model\Sport\Entity
-     */
-    public function sport()
+    public function sport(): Model\Sport\Entity
     {
         return $this->Sport;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRunning()
+    public function isRunning(): bool
     {
         return $this->IsRunning;
     }
 
     public function hasType(): bool
     {
-        return $this->Type !== null;
+        return $this->Type instanceof \Runalyze\Model\Type\Entity;
     }
 
-    /**
-     * @return \Runalyze\Model\Type\Entity
-     */
-    public function type()
+    public function type(): Model\Type\Entity
     {
         return $this->Type;
     }
 
-    /**
-     * @param string $key
-     */
-    public function hasData($key): bool
+    public function hasData(string $key): bool
     {
         return isset($this->ActivityData[$key]);
     }
 
     /**
      * Get additional data that is not in the activity object
-     * @param string $key
      * @param bool $returnNullForUnknownKeys set to true to not throw an exception for unknown keys
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    public function data($key, $returnNullForUnknownKeys = false)
+    public function data(string $key, bool $returnNullForUnknownKeys = false)
     {
         if (! isset($this->ActivityData[$key])) {
             if ($returnNullForUnknownKeys) {
@@ -208,10 +166,9 @@ class Context
     }
 
     /**
-     * @param string $key
      * @param mixed $value
      */
-    public function setData($key, $value)
+    public function setData(string $key, $value): void
     {
         $this->ActivityData[$key] = $value;
     }

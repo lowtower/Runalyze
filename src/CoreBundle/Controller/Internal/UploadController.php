@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,10 +16,11 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 {
     /**
      * @Route("", name="internal-activity-upload")
-     * @Security("has_role('ROLE_USER')")
      */
     public function uploadAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if ($request->files->has('qqfile')) {
             /** @var UploadedFile $file */
             $file = $request->files->get('qqfile');
@@ -53,10 +53,11 @@ class UploadController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
 
     /**
      * @Route("/tcx", name="internal-activity-upload-tcx")
-     * @Security("has_role('ROLE_USER')")
      */
     public function ajaxSaveTcxAction(Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $request->request->has('activityId') || ! $request->request->has('data')) {
             return new JsonResponse([
                 'error' => 'No data given.',

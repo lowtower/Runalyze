@@ -17,15 +17,12 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
     use PauseDetectionCapableTrait;
     use StrtotimeWithLocalTimezoneOffsetTrait;
 
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     /**
      * @var int [s]
      */
-    private static $IGNORE_NO_MOVE_UNTIL = 1;
+    private static int $IGNORE_NO_MOVE_UNTIL = 1;
 
     /**
      * @var int [s]
@@ -83,7 +80,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseGeneralValues();
         $this->parseLaps();
@@ -122,11 +119,12 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
                     }
                 }
 
-                if (! empty($lap->Track) && ! empty($lap->Track[0]->Trackpoint[0])) {
-                    $start = $this->strtotime((string) $lap->Track[0]->Trackpoint[0]->Time);
+                if (isset($lap->Track[0]->Trackpoint[0]->Time) && (string) $lap->Track[0]->Trackpoint[0]->Time !== '') {
+                    $firstTrackpointTime = (string) $lap->Track[0]->Trackpoint[0]->Time;
+                    $start = $this->strtotime($firstTrackpointTime);
 
                     if ($start < $this->Container->Metadata->getTimestamp()) {
-                        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $lap->Track[0]->Trackpoint[0]->Time);
+                        $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom($firstTrackpointTime);
                     }
                 }
             }
@@ -206,7 +204,8 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             $tooSlow = false;
         }
 
-        if ((empty($trackPoint->DistanceMeters) && ! $this->IsWithoutDistance) || $noMove || $tooSlow) {
+        $hasDistance = isset($trackPoint->DistanceMeters);
+        if ((! $hasDistance && ! $this->IsWithoutDistance) || $noMove || $tooSlow) {
             $ignored = false;
 
             if ($trackPoint->children()->count() == 1 || $noMove || $tooSlow) {
@@ -224,7 +223,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             }
         }
 
-        if (empty($trackPoint->DistanceMeters) && $this->Container->ContinuousData->Distance !== []) {
+        if (! $hasDistance && $this->Container->ContinuousData->Distance !== []) {
             $trackPoint->DistanceMeters = end($this->Container->ContinuousData->Distance) * 1000;
         }
 
@@ -232,7 +231,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
             $this->Container->Metadata->setTimestampAndTimezoneOffsetWithUtcFixFrom((string) $trackPoint->Time);
         }
 
-        if ($this->LastPointWasEmpty) {
+        if ($this->LastPointWasEmpty && $this->Container->ContinuousData->Time !== []) {
             $OldPauseInSeconds = $this->PauseInSeconds;
             $this->PauseInSeconds = ($this->strtotime((string) $trackPoint->Time) - $this->Container->Metadata->getTimestamp() - end($this->Container->ContinuousData->Time));
             $this->PauseDuration += $this->PauseInSeconds - $OldPauseInSeconds;
@@ -241,7 +240,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
 
         if ($this->WasPause) {
             $pause = new Pause(end($this->Container->ContinuousData->Time), $this->PauseDuration);
-            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), ! empty($trackPoint->HeartRateBpm) ? round($trackPoint->HeartRateBpm->Value) : null);
+            $pause->setHeartRateDetails(end($this->Container->ContinuousData->HeartRate), ! empty($trackPoint->HeartRateBpm) ? round((int) $trackPoint->HeartRateBpm->Value) : null);
 
             $this->Container->Pauses->add($pause);
 
@@ -256,7 +255,7 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
         $this->Container->ContinuousData->Time[] = $this->strtotime((string) $trackPoint->Time) - $this->Container->Metadata->getTimestamp() - $this->PauseInSeconds;
         $this->Container->ContinuousData->Distance[] = (float) $trackPoint->DistanceMeters / 1000;
         $this->Container->ContinuousData->Altitude[] = (int) $trackPoint->AltitudeMeters;
-        $this->Container->ContinuousData->HeartRate[] = (! empty($trackPoint->HeartRateBpm)) ? round($trackPoint->HeartRateBpm->Value) : null;
+        $this->Container->ContinuousData->HeartRate[] = (! empty($trackPoint->HeartRateBpm)) ? round((int) $trackPoint->HeartRateBpm->Value) : null;
 
         if (! empty($trackPoint->Position)) {
             $this->Container->ContinuousData->Latitude[] = (float) $trackPoint->Position->LatitudeDegrees;
@@ -290,30 +289,35 @@ class TcxActivity extends AbstractSingleParser implements PauseDetectionCapableP
                 $power = (int) $point->Extensions->TPX->Watts;
             }
 
-            $this->parsePowerFromExtensionValues($point->Extensions[0], 'ns2', $power, $rpm);
-            $this->parsePowerFromExtensionValues($point->Extensions[0], 'ns3', $power, $rpm);
+            foreach ($point->Extensions[0]->getNamespaces(true) as $uri) {
+                $this->parsePowerFromExtensionValues($point->Extensions[0], $uri, $power, $rpm);
+            }
         }
 
         $this->Container->ContinuousData->Power[] = $power;
         $this->Container->ContinuousData->Cadence[] = $rpm;
     }
 
-    protected function parsePowerFromExtensionValues(SimpleXMLElement &$extensions, $namespace, &$power, &$rpm)
+    protected function parsePowerFromExtensionValues(SimpleXMLElement $extensions, string $namespaceUri, ?int &$power, ?int &$rpm): void
     {
-        if ($extensions->children($namespace, true)->count() > 0) {
-            if (isset($extensions->children($namespace, true)->TPX)) {
-                $trackPointx = $extensions->children($namespace, true)
-                    ->TPX[0];
+        $extensionChildren = $extensions->children($namespaceUri);
+        if (! isset($extensionChildren->TPX)) {
+            return;
+        }
 
-                if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->Watts)) {
-                    $power = (int) $trackPointx->children($namespace, true)
-                        ->Watts;
-                }
+        $trackPointExtension = $extensionChildren->TPX[0];
+        $values = $trackPointExtension->children($namespaceUri);
+        if (isset($values->Watts)) {
+            $watts = trim((string) $values->Watts);
+            if ($watts !== '') {
+                $power = (int) $watts;
+            }
+        }
 
-                if ($trackPointx->children($namespace, true)->count() > 0 && isset($trackPointx->children($namespace, true)->RunCadence)) {
-                    $rpm = (int) $trackPointx->children($namespace, true)
-                        ->RunCadence;
-                }
+        if (isset($values->RunCadence)) {
+            $runCadence = trim((string) $values->RunCadence);
+            if ($runCadence !== '') {
+                $rpm = (int) $runCadence;
             }
         }
     }

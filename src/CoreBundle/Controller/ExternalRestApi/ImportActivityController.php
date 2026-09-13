@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller\ExternalRestApi;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 // use Symfony\Component\Console\Application;
@@ -41,10 +40,11 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
      * - cleanup: remove uploaded files and tmp-folder
      *
      * @Route("/api/import/activity", methods={"POST"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function postImportActivity(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $result = '';
 
         $resultCode = Response::HTTP_OK; // 200
@@ -96,7 +96,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         ]);
     }
 
-    private function createUploadDir(string $username)
+    private function createUploadDir(string $username): ?string
     {
         $tmpDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $username . '_' . microtime(true);
         if (mkdir($tmpDir)) {
@@ -106,7 +106,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return null;
     }
 
-    private function processFiles(string $username, $uploadDir, $allfiles): string
+    private function processFiles(string $username, string $uploadDir, $allfiles): string
     {
         $result = '';
 
@@ -138,7 +138,7 @@ class ImportActivityController extends \Symfony\Bundle\FrameworkBundle\Controlle
         return $result . PHP_EOL;
     }
 
-    private function processImport(string $username, $uploadDir)
+    private function processImport(string $username, string $uploadDir)
     {
         $kernel = $this->get('kernel');
         $application = new Application($kernel);

@@ -19,10 +19,7 @@ use Runalyze\Model\Loopable;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-    /**
-     * @var null|Entity|Loopable
-     */
-    protected $Object;
+    protected ?Loopable $Object = null;
 
     /**
      * Construct
@@ -34,29 +31,26 @@ class Loop extends \Runalyze\Model\Loop
 
     /**
      * Current stroke
-     * @return int
      */
-    public function stroke()
+    public function stroke(): int
     {
-        return $this->current(Entity::STROKE);
+        return (int) $this->current(Entity::STROKE);
     }
 
     /**
      * Current stroke
-     * @return int
      */
-    public function stroketype()
+    public function stroketype(): int
     {
-        return $this->current(Entity::STROKETYPE);
+        return (int) $this->current(Entity::STROKETYPE);
     }
 
     /**
      * Current swolf
-     * @return int
      */
-    public function swolf()
+    public function swolf(): int
     {
-        return $this->current(Entity::SWOLF);
+        return (int) $this->current(Entity::SWOLF);
     }
 
     protected function createNewObject(array $data): Entity

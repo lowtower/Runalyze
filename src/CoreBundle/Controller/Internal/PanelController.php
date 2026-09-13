@@ -6,7 +6,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Runalyze\Bundle\CoreBundle\Entity\SportRepository;
 use Runalyze\Util\LocalTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,10 +17,11 @@ class PanelController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
 {
     /**
      * @Route("/sport", name="internal-sport-panel")
-     * @Security("has_role('ROLE_USER')")
      */
     public function sportStatAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var SportRepository $sportRepository */
         $sportRepository = $this->getDoctrine()
             ->getRepository(Sport::class);

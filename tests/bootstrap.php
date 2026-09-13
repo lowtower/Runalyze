@@ -126,7 +126,7 @@ if (! function_exists('__')) {
 }
 
 if (! function_exists('_e')) {
-    function _e(string $text, $domain = 'runalyze')
+    function _e(string $text, $domain = 'runalyze'): void
     {
         echo $text;
     }
@@ -144,7 +144,7 @@ if (! function_exists('_n')) {
 }
 
 if (! function_exists('_ne')) {
-    function _ne(string $msg1, string $msg2, int $n, $domain = 'runalyze')
+    function _ne(string $msg1, string $msg2, int $n, $domain = 'runalyze'): void
     {
         if ($n === 1) {
             echo $msg1;

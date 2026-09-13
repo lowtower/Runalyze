@@ -16,24 +16,20 @@ class Splits
 {
     /**
      * Splits as string
-     * @var string
      */
-    private $asString = '';
+    private string $asString = '';
 
     /**
      * Splits as array
-     * @var array
+     * @var array<mixed, array<string, string|bool>>
      */
-    private $asArray = [];
+    private array $asArray = [];
 
-    /**
-     * @var bool
-     */
-    protected $transformDistanceUnit = false;
+    protected bool $transformDistanceUnit = false;
 
     /**
      * Construct a new object of Splits
-     * @param string $data [optional]
+     * @param array|string $data [optional]
      * @param array<string, mixed> $options
      */
     public function __construct($data = '', array $options = [])
@@ -49,7 +45,7 @@ class Splits
      * Create splits from POST-data
      * @param mixed $data
      */
-    private function createFromData($data)
+    private function createFromData($data): void
     {
         if (is_array($data)) {
             $this->createFromArray($data);
@@ -68,7 +64,7 @@ class Splits
     /**
      * @param array<string, mixed> $array
      */
-    private function createFromArray(array $array)
+    private function createFromArray(array $array): void
     {
         $this->asArray = [];
         $factor = $this->transformDistanceUnit ? Runalyze\Configuration::General()->distanceUnitSystem()->distanceToKmFactor() : 1;
@@ -95,18 +91,17 @@ class Splits
 
     /**
      * Get splits as array
-     * @return array
+     * @return array<mixed, array<string, string|bool>>
      */
-    public function asArray()
+    public function asArray(): array
     {
         return $this->asArray;
     }
 
     /**
      * Get splits as string
-     * @return string
      */
-    public function asString()
+    public function asString(): string
     {
         return $this->asString;
     }
@@ -116,7 +111,7 @@ class Splits
      * @param int $timeInSeconds seconds
      * @param bool $active optional
      */
-    public function addSplit($km, $timeInSeconds, $active = true)
+    public function addSplit(float $km, int $timeInSeconds, bool $active = true): void
     {
         if ($km <= 0 && $timeInSeconds <= 0) {
             return;
@@ -136,9 +131,8 @@ class Splits
      * calculated as difference between given distance/duration and current sum.
      * @param float $totalDistance [km] should be larger then current sum of splits
      * @param int $totalDuration [s] should be larger then current sum of splits
-     * @param bool $active
      */
-    public function addLastSplitToComplete($totalDistance, $totalDuration, $active = true)
+    public function addLastSplitToComplete(float $totalDistance, int $totalDuration, bool $active = true): void
     {
         $distance = $totalDistance - $this->totalDistance();
         $time = $totalDuration - $this->totalTime();
@@ -148,7 +142,7 @@ class Splits
         }
     }
 
-    public function removeSingleSplits()
+    public function removeSingleSplits(): void
     {
         if (count($this->asArray) === 1) {
             $this->asArray = [];
@@ -160,7 +154,7 @@ class Splits
      * Get splits as readable string
      * @param bool $restingLaps optional
      */
-    public function asReadableString($restingLaps = false): string
+    public function asReadableString(bool $restingLaps = false): string
     {
         $strings = [];
 
@@ -175,9 +169,8 @@ class Splits
 
     /**
      * As icon with tooltip
-     * @return string
      */
-    public function asIconWithTooltip()
+    public function asIconWithTooltip(): string
     {
         if (! $this->areEmpty()) {
             return Ajax::tooltip(Icon::$CLOCK, $this->asReadableString());
@@ -189,13 +182,13 @@ class Splits
     /**
      * Transform splits from internal string to array
      */
-    private function stringToArray()
+    private function stringToArray(): void
     {
         $this->asArray = [];
         $splits = explode('-', str_replace('\r\n', '-', $this->asString));
 
         foreach ($splits as $split) {
-            if (substr($split, 0, 1) == 'R') {
+            if (substr($split, 0, 1) === 'R') {
                 $active = false;
                 $split = substr($split, 1);
             } else {
@@ -215,7 +208,7 @@ class Splits
     /**
      * Clean internal array
      */
-    private function cleanArray()
+    private function cleanArray(): void
     {
         foreach ($this->asArray as $key => $split) {
             // if ($split['km'] <= 0)
@@ -224,25 +217,21 @@ class Splits
             // else
             $this->asArray[$key]['km'] = $this->formatKM($split['km']);
 
-            if (substr($split['time'], -1) == 's') {
-                $this->asArray[$key]['time'] = $this->formatTime(substr($split['time'], 0, -1));
+            if (substr($split['time'], -1) === 's') {
+                $this->asArray[$key]['time'] = $this->formatTime((float) substr($split['time'], 0, -1));
             }
         }
     }
 
     /**
      * Format kilometer
-     * @param float $km
      */
-    private function formatKM($km): string
+    private function formatKM(string $km): string
     {
         return number_format(Helper::CommaToPoint($km), 3, '.', '');
     }
 
-    /**
-     * @param float $seconds
-     */
-    private function formatTime($seconds): string
+    private function formatTime(float $seconds): string
     {
         return Duration::format(round($seconds));
     }
@@ -250,7 +239,7 @@ class Splits
     /**
      * Transform internal array to string
      */
-    private function arrayToString()
+    private function arrayToString(): void
     {
         $strings = [];
 
@@ -266,7 +255,7 @@ class Splits
      * @param bool $restingLaps optional
      * @return float[]
      */
-    public function timesAsArray($restingLaps = false): array
+    public function timesAsArray(bool $restingLaps = false): array
     {
         $times = [];
 
@@ -282,9 +271,8 @@ class Splits
 
     /**
      * Get total time
-     * @return int
      */
-    public function totalTime()
+    public function totalTime(): int
     {
         $time = 0;
 
@@ -298,9 +286,8 @@ class Splits
 
     /**
      * Is at least one lap active?
-     * @param int $num
      */
-    public function hasActiveLaps($num = 1): bool
+    public function hasActiveLaps(int $num = 1): bool
     {
         $count = 0;
         foreach ($this->asArray as $split) {
@@ -308,7 +295,7 @@ class Splits
                 $count++;
             }
 
-            if ($count == $num) {
+            if ($count === $num) {
                 return true;
             }
         }
@@ -338,7 +325,7 @@ class Splits
      * Get all distances as array
      * @param bool $restingLaps optional
      */
-    public function distancesAsArray($restingLaps = false): array
+    public function distancesAsArray(bool $restingLaps = false): array
     {
         $distances = [];
 
@@ -353,9 +340,8 @@ class Splits
 
     /**
      * Get total distance
-     * @return float
      */
-    public function totalDistance()
+    public function totalDistance(): float
     {
         $km = 0;
 
@@ -371,7 +357,7 @@ class Splits
      * @param bool $restingLaps optional
      * @return int[]
      */
-    public function pacesAsArray($restingLaps = false): array
+    public function pacesAsArray(bool $restingLaps = false): array
     {
         $paces = [];
 
@@ -388,7 +374,7 @@ class Splits
     /**
      * Set empty times from array
      */
-    public function fillTimesFromArray(array $Time, array $Distance)
+    public function fillTimesFromArray(array $Time, array $Distance): void
     {
         $this->fillFromArray($Time, $Distance, 'time');
     }
@@ -396,7 +382,7 @@ class Splits
     /**
      * Set empty times from array
      */
-    public function fillDistancesFromArray(array $Time, array $Distance)
+    public function fillDistancesFromArray(array $Time, array $Distance): void
     {
         $this->fillFromArray($Time, $Distance, 'km');
     }
@@ -405,9 +391,8 @@ class Splits
      * Set empty times from array
      * @param array<int, mixed> $Time
      * @param array<int, mixed> $Distance
-     * @param string $mode
      */
-    protected function fillFromArray(array $Time, array $Distance, $mode = 'time')
+    protected function fillFromArray(array $Time, array $Distance, string $mode = 'time')
     {
         $totalDistance = 0;
         $totalTime = 0;
@@ -415,7 +400,7 @@ class Splits
         $i = 0;
 
         foreach ($this->asArray as &$split) {
-            if ($mode == 'km') {
+            if ($mode === 'km') {
                 $Duration = new Duration($split['time']);
 
                 while ($i < $size - 1 && $Duration->seconds() > $Time[$i] - $totalTime) {

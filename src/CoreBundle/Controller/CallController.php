@@ -2,7 +2,6 @@
 
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +28,11 @@ class CallController extends AbstractController
     /**
      * @Route("/call/call.DataBrowser.display.php")
      * @Route("databrowser", name="databrowser")
-     * @Security("has_role('ROLE_USER')")
      */
     public function dataBrowserAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         $DataBrowser = new \DataBrowser();
         $DataBrowser->display();
@@ -43,10 +43,11 @@ class CallController extends AbstractController
     /**
      * @Route("/call/call.garminCommunicator.php")
      * @Route("/upload/garminCommunicator")
-     * @Security("has_role('ROLE_USER')")
      */
     public function garminCommunicatorAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('import/garmin_communicator.html.twig', [
             'garminAPIKey' => $this->parameterBag->get('app.garmin_api_key'),
         ]);
@@ -54,10 +55,11 @@ class CallController extends AbstractController
 
     /**
      * @Route("/call/savePng.php", methods={"POST"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function savePngAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         header('Content-type: image/png');
         header('Content-Disposition: attachment; filename=' . strtolower(str_replace(' ', '_', $_POST['filename'])));
 
@@ -68,10 +70,11 @@ class CallController extends AbstractController
 
     /**
      * @Route("/settings", name="settings")
-     * @Security("has_role('ROLE_USER')")
      */
     public function windowConfigAction(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
         $ConfigTabs = new \ConfigTabs();
         $ConfigTabs->addDefaultTab(new \ConfigTabGeneral());
@@ -85,10 +88,11 @@ class CallController extends AbstractController
 
     /**
      * @Route("/call/ajax.change.Config.php", methods={"GET"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function ajaxChanceConfigAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         switch ($_GET['key']) {
@@ -101,7 +105,7 @@ class CallController extends AbstractController
                 break;
 
             default:
-                if (substr($_GET['key'], 0, 5) == 'show-') {
+                if (substr($_GET['key'], 0, 5) === 'show-') {
                     $key = substr($_GET['key'], 5);
                     \Runalyze\Configuration::ActivityForm()->update($key, $_GET['value']);
                 }
@@ -112,10 +116,11 @@ class CallController extends AbstractController
 
     /**
      * @Route("/my/search", name="my-search")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function windowSearchAction()
+    public function windowSearchAction(): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $showResults = ! empty($_POST);
 
@@ -148,10 +153,7 @@ class CallController extends AbstractController
         return new Response();
     }
 
-    /**
-     * @return \PlotSumData
-     */
-    protected function getPlotSumData()
+    protected function getPlotSumData(): \PlotSumData
     {
         $Request = Request::createFromGlobals();
 

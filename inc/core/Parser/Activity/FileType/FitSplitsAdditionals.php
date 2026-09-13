@@ -13,34 +13,46 @@ use Runalyze\Profile\Mapping\FitSdkExercise;
 class FitSplitsAdditionals
 {
     // additional infos for strength-training
-    private $fitExcerciseMapping;
+    private ?FitSdkExercise $fitExcerciseMapping = null;
 
-    // every element is one lap/round with a sub-array of key/values
-    private $data = [];
+    /**
+     * Every element is one lap/round with a sub-array of key/values
+     *
+     * @var list<array<string, mixed>>
+     */
+    private array $data = [];
 
     public function hasData(): bool
     {
-        return ! empty($this->data) && ! empty($this->getUniqueKeys());
+        return $this->data !== [] && ! empty($this->getUniqueKeys());
     }
 
     /**
-     * gets the splits-additional as a JSON structure.
+     * Gets the split additionals as a JSON-compatible structure.
+     *
+     * @return array{
+     *     keys: list<string>,
+     *     data: list<object>
+     * }|null
      */
     public function getFinishedSplitsAdditional(): ?array
     {
-        // #TSC: Save additional infos of splits (f.e. strong-training) as JSON
-        if ($this->hasData()) {
-            $all['keys'] = $this->getUniqueKeys();
-            $all['data'] = $this->data;
-            return $all;
+        if (! $this->hasData()) {
+            return null;
         }
 
-        return null;
+        // #TSC: Save additional infos of splits (f.e. strong-training) as JSON
+        return [
+            'keys' => array_values($this->getUniqueKeys()),
+            'data' => array_map(
+                static fn (array $row): object => (object) $row,
+                $this->data
+            ),
+        ];
     }
 
     /**
      * #TSC read the sets of a strength-training as "normal" laps
-     * @param array<string, mixed> $values
      */
     public function getSetRoundAndCollect(array &$values): ?Round
     {
@@ -87,8 +99,8 @@ class FitSplitsAdditionals
 
                 $this->data[] = $set;
             } else {
-                // its a rest, use a empty element
-                $this->data[] = json_decode('{}');
+                // its a rest, use an empty element
+                $this->data[] = [];
             }
         }
 
@@ -97,9 +109,8 @@ class FitSplitsAdditionals
 
     /**
      * #TSC collect additional informations of the lap.
-     * @param array<string, mixed> $values
      */
-    public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null)
+    public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null): void
     {
         $i = [];
 
@@ -120,23 +131,22 @@ class FitSplitsAdditionals
         if ($i !== []) {
             $this->data[] = $i;
         } else {
-            // its a rest, use a empty element
-            $this->data[] = json_decode('{}');
+            // its a rest, use an empty element
+            $this->data[] = [];
         }
     }
 
     private function getUniqueKeys(): array
     {
         $keys = [];
-        $counter = count($this->data);
-        for ($i = 0; $i < $counter; $i++) {
-            foreach ($this->data[$i] as $key => $value) {
+        foreach ($this->data as $row) {
+            foreach ($row as $key => $value) {
                 $keys[] = $key;
             }
         }
 
         // make all the keys unique
-        return array_unique($keys);
+        return array_values(array_unique($keys));
     }
 }
 

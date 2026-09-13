@@ -9,7 +9,6 @@ use Runalyze\Bundle\CoreBundle\Form\BodyValuesType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Metrics\HeartRate\Unit\BeatsPerMinute;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/my/body-values")
- * @Security("has_role('ROLE_USER')")
  */
 class BodyValuesController extends AbstractController
 {
@@ -43,6 +41,8 @@ class BodyValuesController extends AbstractController
      */
     public function addAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var User $oldUser */
         $oldUser = $this->userRepository
             ->getLatestEntryFor($account);
@@ -74,6 +74,8 @@ class BodyValuesController extends AbstractController
      */
     public function editAction(Request $request, int $id, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $user = $this->userRepository->find($id);
         if ($user === null || $user->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException('No user entry found.');
@@ -104,6 +106,8 @@ class BodyValuesController extends AbstractController
      */
     public function deleteAction(int $id, Account $account): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $user = $this->userRepository->find($id);
         if ($user === null || $user->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException('No user entry found.');
@@ -120,6 +124,8 @@ class BodyValuesController extends AbstractController
      */
     public function tableAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('my/body-values/table.html.twig', [
             'values' => $this->userRepository
                 ->findAllFor($account),

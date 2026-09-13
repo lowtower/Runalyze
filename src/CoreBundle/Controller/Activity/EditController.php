@@ -14,7 +14,6 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\ActivityType;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +30,12 @@ class EditController extends AbstractController
             ->getRepository(Training::class);
     }
 
+    protected function getTraining(int $id): ?Training
+    {
+        return $this->getTrainingRepository()
+            ->find($id);
+    }
+
     protected function checkThatEntityBelongsToActivity(AccountRelatedEntityInterface $entity, Account $account)
     {
         if ($entity->getAccount()->getId() != $account->getId()) {
@@ -40,13 +45,13 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/edit", name="activity-edit", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_USER')")
      */
-    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator)
+    public function activityEditAction(Request $request, int $id, Account $account, TranslatorInterface $translator): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
-        $activity = $this->getTrainingRepository()
-            ->find($id);
-        if ($activity === null) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $activity = $this->getTraining($id);
+        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -118,10 +123,11 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/multi-editor", name="multi-editor")
-     * @Security("has_role('ROLE_USER')")
      */
     public function multiEditorAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $ids = array_map(
             'intval',
             array_filter(explode(',', $request->get('ids', '')))
@@ -135,9 +141,7 @@ class EditController extends AbstractController
      */
     protected function getResponseForMultiEditor(array $activityIds, Account $account): Response
     {
-        $previews = array_map(function (Training $activity): ActivityPreview {
-            return new ActivityPreview($activity);
-        }, $this->getTrainingRepository()
+        $previews = array_map(fn (Training $activity): ActivityPreview => new ActivityPreview($activity), $this->getTrainingRepository()
             ->getPartialEntitiesForPreview($activityIds, $account, 20));
 
         return $this->render('activity/multi_editor_navigation.html.twig', [
@@ -147,13 +151,13 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/delete", name="activity-delete", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(int $id, Account $account): Response
     {
-        $activity = $this->getTrainingRepository()
-            ->find($id);
-        if ($activity === null) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $activity = $this->getTraining($id);
+        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 
@@ -173,13 +177,13 @@ class EditController extends AbstractController
 
     /**
      * @Route("/activity/{id}/elevation-correction", name="activity-elevation-correction", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function elevationCorrectionAction(Request $request, int $id, Account $account, TranslatorInterface $translator): Response
     {
-        $activity = $this->getTrainingRepository()
-            ->find($id);
-        if ($activity === null) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $activity = $this->getTraining($id);
+        if (! $activity instanceof \Runalyze\Bundle\CoreBundle\Entity\Training) {
             throw $this->createNotFoundException('Activity not found.');
         }
 

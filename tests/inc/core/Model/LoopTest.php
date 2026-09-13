@@ -63,7 +63,7 @@ class Loopable_MockTester extends Entity implements Loopable
      *
      * @throws \InvalidArgumentException
      */
-    public function at(int $index, string $key)
+    public function at(int $index, $key)
     {
         if (! $this->has($key) || ! array_key_exists($index, $this->Data[$key])) {
             throw new \InvalidArgumentException(sprintf('Unknown data index "%s" at position %d.', $key, $index));
@@ -85,7 +85,7 @@ class Loop_MockTest extends Loop
      *
      * @param int|float $target
      */
-    public function moveToAtOrAfter(string $key, $target)
+    public function moveToAtOrAfter(string $key, $target): void
     {
         $this->moveTo($key, $target, self::BOUNDARY_AT_OR_AFTER);
     }
@@ -95,7 +95,7 @@ class Loop_MockTest extends Loop
      *
      * @param int|float $target
      */
-    public function moveToBeforeOrAt(string $key, $target)
+    public function moveToBeforeOrAt(string $key, $target): void
     {
         $this->moveTo($key, $target, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
     }
@@ -105,7 +105,7 @@ class Loop_MockTest extends Loop
      *
      * @param int|float $target
      */
-    public function moveToNearest(string $key, $target)
+    public function moveToNearest(string $key, $target): void
     {
         $this->moveTo($key, $target, self::BOUNDARY_NEAREST);
     }
@@ -128,7 +128,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         return new Loop_MockTest(new Loopable_MockTester());
     }
 
-    public function testSimpleLoop()
+    public function testSimpleLoop(): void
     {
         $Loop = $this->exampleLoop();
 
@@ -156,7 +156,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $Loop->current('bar'));
     }
 
-    public function testObjectSlicing()
+    public function testObjectSlicing(): void
     {
         $Loop = $this->exampleLoop();
         $Loop->setStepSize(2);
@@ -172,7 +172,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([8, 10], $SecondSlice->get('bar'));
     }
 
-    public function testMoveToAtOrAfterUsesFollowingValue()
+    public function testMoveToAtOrAfterUsesFollowingValue(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -180,7 +180,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(642, $Loop->current('foo'));
     }
 
-    public function testMoveToBeforeOrAtUsesPreviousValue()
+    public function testMoveToBeforeOrAtUsesPreviousValue(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -188,7 +188,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(608, $Loop->current('foo'));
     }
 
-    public function testMoveToNearestUsesPreviousValueWhenCloser()
+    public function testMoveToNearestUsesPreviousValueWhenCloser(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -196,7 +196,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(608, $Loop->current('foo'));
     }
 
-    public function testMoveToNearestUsesFollowingValueWhenCloser()
+    public function testMoveToNearestUsesFollowingValueWhenCloser(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -204,7 +204,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(642, $Loop->current('foo'));
     }
 
-    public function testMoveToNearestKeepsExactMatch()
+    public function testMoveToNearestKeepsExactMatch(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -212,7 +212,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(642, $Loop->current('foo'));
     }
 
-    public function testMoveToNearestUsesFollowingValueOnTie()
+    public function testMoveToNearestUsesFollowingValueOnTie(): void
     {
         $Loop = $this->loopWithFooValues([0, 600, 620, 640]);
 
@@ -220,7 +220,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(620, $Loop->current('foo'));
     }
 
-    public function testMoveToNearestDoesNotReusePreviousBoundary()
+    public function testMoveToNearestDoesNotReusePreviousBoundary(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -240,7 +240,7 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(642, $Loop->current('foo'));
     }
 
-    public function testDifferenceAfterMoveToNearest()
+    public function testDifferenceAfterMoveToNearest(): void
     {
         $Loop = $this->loopWithFooValues([0, 569, 608, 642, 680]);
 
@@ -251,14 +251,14 @@ class LoopTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(72, $Loop->difference('foo'));
     }
 
-    public function testMoveToNearestThrowsExceptionForMissingProperty()
+    public function testMoveToNearestThrowsExceptionForMissingProperty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Loop = $this->exampleLoop();
         $Loop->moveToNearest('missing', 10);
     }
 
-    public function testMockSupportsCustomProperties()
+    public function testMockSupportsCustomProperties(): void
     {
         $object = new Loopable_MockTester([
             'foo' => [0, 10, 20],

@@ -18,10 +18,7 @@ use Runalyze\Model\Loopable;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-    /**
-     * @var null|Entity|Loopable
-     */
-    protected $Object;
+    protected ?Loopable $Object = null;
 
     public function __construct(?Entity $object)
     {
@@ -33,7 +30,7 @@ class Loop extends \Runalyze\Model\Loop
      */
     public function time(): int
     {
-        return $this->current(Entity::TIME);
+        return (int) $this->current(Entity::TIME);
     }
 
     /**
@@ -41,7 +38,7 @@ class Loop extends \Runalyze\Model\Loop
      */
     public function distance(): float
     {
-        return $this->current(Entity::DISTANCE);
+        return (float) $this->current(Entity::DISTANCE);
     }
 
     /**
@@ -80,7 +77,7 @@ class Loop extends \Runalyze\Model\Loop
      * Move for time
      * @throws \RuntimeException for negative values or if time is empty
      */
-    public function moveTime(int $seconds)
+    public function moveTime(int $seconds): void
     {
         $this->move(Entity::TIME, $seconds);
     }
@@ -88,7 +85,7 @@ class Loop extends \Runalyze\Model\Loop
     /**
      * @throws \RuntimeException for negative values or if time is empty
      */
-    public function moveToTime(int $seconds)
+    public function moveToTime(int $seconds): void
     {
         $this->moveTo(Entity::TIME, $seconds);
     }
@@ -97,7 +94,7 @@ class Loop extends \Runalyze\Model\Loop
      * Move for distance
      * @throws \RuntimeException for negative values or if distance is empty
      */
-    public function moveDistance(float $kilometer)
+    public function moveDistance(float $kilometer): void
     {
         $this->move(Entity::DISTANCE, $kilometer);
     }
@@ -105,7 +102,7 @@ class Loop extends \Runalyze\Model\Loop
     /**
      * @throws \RuntimeException for negative values or if distance is empty
      */
-    public function moveToDistance(float $kilometer)
+    public function moveToDistance(float $kilometer): void
     {
         $this->moveTo(Entity::DISTANCE, $kilometer);
     }
@@ -152,10 +149,7 @@ class Loop extends \Runalyze\Model\Loop
         return parent::average($key);
     }
 
-    /**
-     * @return float|int
-     */
-    public function averagePace()
+    public function averagePace(): float
     {
         $totalTime = $this->difference(Entity::TIME);
         $totalDistance = $this->difference(Entity::DISTANCE);
@@ -163,10 +157,7 @@ class Loop extends \Runalyze\Model\Loop
         return $totalDistance > 0 ? $totalTime / $totalDistance : 0;
     }
 
-    /**
-     * @return float|int
-     */
-    public function averageTheoreticalPace()
+    public function averageTheoreticalPace(): float
     {
         $lastTime = $this->Object->at($this->LastIndex, Entity::TIME);
         $totalTime = 0;
@@ -195,7 +186,7 @@ class Loop extends \Runalyze\Model\Loop
     /**
      * @param int|float $seconds
      */
-    public function moveToTimeBeforeOrAt($seconds)
+    public function moveToTimeBeforeOrAt($seconds): void
     {
         $this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
     }
@@ -203,7 +194,7 @@ class Loop extends \Runalyze\Model\Loop
     /**
      * @param int|float $kilometer
      */
-    public function moveToDistanceBeforeOrAt($kilometer)
+    public function moveToDistanceBeforeOrAt($kilometer): void
     {
         $this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_AT_OR_BEFORE_IF_POSSIBLE);
     }
@@ -213,7 +204,7 @@ class Loop extends \Runalyze\Model\Loop
      *
      * @param int|float $seconds
      */
-    public function moveToTimeNearest($seconds)
+    public function moveToTimeNearest($seconds): void
     {
         $this->moveTo(Entity::TIME, $seconds, self::BOUNDARY_NEAREST);
     }
@@ -223,7 +214,7 @@ class Loop extends \Runalyze\Model\Loop
      *
      * @param int|float $kilometer
      */
-    public function moveToDistanceNearest($kilometer)
+    public function moveToDistanceNearest($kilometer): void
     {
         $this->moveTo(Entity::DISTANCE, $kilometer, self::BOUNDARY_NEAREST);
     }

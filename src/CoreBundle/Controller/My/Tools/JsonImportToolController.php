@@ -6,7 +6,6 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonImporter;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -40,10 +39,11 @@ class JsonImportToolController extends AbstractController
 
     /**
      * @Route("/upload", name="tools-backup-json-upload")
-     * @Security("has_role('ROLE_USER')")
      */
     public function backupUploadAction(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $backupFile = $request->files->get('qqfile');
 
         if ($backupFile === null) {
@@ -77,10 +77,11 @@ class JsonImportToolController extends AbstractController
 
     /**
      * @Route("/import", name="tools-backup-json-import")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function backupImportAction()
+    public function backupImportAction(): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $sessionFlashBag = $this->get('session')
             ->getFlashBag();
 
@@ -115,10 +116,11 @@ class JsonImportToolController extends AbstractController
 
     /**
      * @Route("/import/do", name="tools-backup-json-import-do")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function backupImportDoAction(Request $request, Account $account)
+    public function backupImportDoAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $sessionFlashBag = $this->get('session')
@@ -158,10 +160,11 @@ class JsonImportToolController extends AbstractController
 
     /**
      * @Route("", name="tools-backup-json")
-     * @Security("has_role('ROLE_USER')")
      */
     public function uploadFormAction(): \Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('tools/backup/upload_form.html.twig', [
             'runalyzeVersion' => $this->parameterBag->get('RUNALYZE_VERSION'),
         ]);

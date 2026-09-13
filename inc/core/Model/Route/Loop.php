@@ -19,10 +19,7 @@ use Runalyze\Model\Loopable;
  */
 class Loop extends \Runalyze\Model\Loop
 {
-    /**
-     * @var null|Entity|Loopable
-     */
-    protected $Object;
+    protected ?Loopable $Object = null;
 
     public function __construct(?Entity $object)
     {
@@ -32,17 +29,19 @@ class Loop extends \Runalyze\Model\Loop
     /**
      * Current latitude
      */
-    public function latitude(): float
+    public function latitude(): string
     {
-        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLatitude();
+        return $this->coordinate()
+            ->getLatitude();
     }
 
     /**
      * Current longitude
      */
-    public function longitude(): float
+    public function longitude(): string
     {
-        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate()->getLongitude();
+        return $this->coordinate()
+            ->getLongitude();
     }
 
     /**
@@ -55,7 +54,9 @@ class Loop extends \Runalyze\Model\Loop
 
     public function coordinate(): CoordinateInterface
     {
-        return (new Geohash())->decode($this->current(Entity::GEOHASHES))->getCoordinate();
+        $decoded = $this->decodedGeohash($this->geohash());
+
+        return $decoded->getCoordinate();
     }
 
     /**
@@ -63,8 +64,8 @@ class Loop extends \Runalyze\Model\Loop
      */
     public function calculatedStepDistance(): float
     {
-        $LastGeohash = (new Geohash())->decode($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
-        $IndexGeohash = (new Geohash())->decode($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
+        $LastGeohash = $this->decodedGeohash($this->Object->at($this->LastIndex, Entity::GEOHASHES))->getCoordinate();
+        $IndexGeohash = $this->decodedGeohash($this->Object->at($this->Index, Entity::GEOHASHES))->getCoordinate();
 
         return Entity::gpsDistance(
             $LastGeohash->getLatitude(),

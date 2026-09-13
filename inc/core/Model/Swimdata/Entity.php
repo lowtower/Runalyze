@@ -111,7 +111,7 @@ class Entity extends Model\Entity implements Model\Loopable
         return static::allProperties();
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -140,52 +140,38 @@ class Entity extends Model\Entity implements Model\Loopable
      * Value at
      *
      * Remark: This method may throw index offsets.
-     * @param int $index
-     * @param string $key
+     * @param int $key enum
      * @return mixed
      */
-    public function at($index, $key)
+    public function at(int $index, $key)
     {
         return $this->Data[$key][$index];
     }
 
-    /**
-     * @return int
-     */
-    public function activityID()
+    public function activityID(): int
     {
-        return $this->Data[self::ACTIVITYID];
+        return (int) $this->Data[self::ACTIVITYID];
     }
 
-    /**
-     * @return array
-     */
-    public function stroke()
+    public function stroke(): array
     {
         return $this->Data[self::STROKE];
     }
 
-    /**
-     * @return array
-     */
-    public function stroketype()
+    public function stroketype(): array
     {
         return $this->Data[self::STROKETYPE];
     }
 
-    /**
-     * @return array
-     */
-    public function swolf()
+    public function swolf(): array
     {
         return $this->Data[self::SWOLF];
     }
 
     /**
      * SWOLFcycles
-     * @return array
      */
-    public function swolfcycles()
+    public function swolfcycles(): array
     {
         return $this->Data[self::SWOLFCYCLES];
     }
@@ -194,16 +180,16 @@ class Entity extends Model\Entity implements Model\Loopable
      * STROKETYPE
      * @return int [cm]
      */
-    public function poollength()
+    public function poollength(): int
     {
-        return $this->Data[self::POOL_LENGTH];
+        return (int) $this->Data[self::POOL_LENGTH];
     }
 
     /*
      * Calculate Distance based on pool length
      * Fills a array like [0.025,0.05,0.075,0.75,0.1 ...]
      */
-    public function fillDistanceArray(Trackdata\Entity $trackdata)
+    public function fillDistanceArray(Trackdata\Entity $trackdata): void
     {
         if ($this->poollength() && ! $trackdata->has(Trackdata\Entity::DISTANCE) && $this->num() === $trackdata->num()) {
             $length = $this->poollength();
@@ -223,7 +209,7 @@ class Entity extends Model\Entity implements Model\Loopable
             }
 
             // from meter to kilometer
-            $distance = array_map(function ($v) { return $v / 100000; }, $distance);
+            $distance = array_map(fn ($v): int|float => $v / 100000, $distance);
             $trackdata->set(Trackdata\Entity::DISTANCE, $distance);
             $trackdata->calculatePaceArray();
         }
@@ -233,7 +219,7 @@ class Entity extends Model\Entity implements Model\Loopable
      * Create swolf array
      * http://marathonswimmers.org/blog/2012/05/stroke-count-games/
      */
-    public function fillSwolfArray(Trackdata\Entity $trackdata)
+    public function fillSwolfArray(Trackdata\Entity $trackdata): void
     {
         if ($this->stroke() && $trackdata->has(Trackdata\Entity::TIME) && $this->num() === $trackdata->num()) {
             $TrackLoop = new Trackdata\Loop($trackdata);

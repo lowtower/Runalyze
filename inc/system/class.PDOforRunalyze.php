@@ -26,17 +26,17 @@ class PDOforRunalyze extends PDO
      */
     protected $accountID = false;
 
-    public function startAddingAccountID()
+    public function startAddingAccountID(): void
     {
         $this->addsAccountID = true;
     }
 
-    public function stopAddingAccountID()
+    public function stopAddingAccountID(): void
     {
         $this->addsAccountID = false;
     }
 
-    public function setAccountID(int $ID)
+    public function setAccountID(int $ID): void
     {
         $this->accountID = $ID;
     }
@@ -120,7 +120,7 @@ class PDOforRunalyze extends PDO
      * @param mixed   $column might be an array
      * @param mixed   $value  might be an array
      */
-    public function updateWhere(string $table, string $where, $column, $value)
+    public function updateWhere(string $table, string $where, $column, $value): void
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -145,7 +145,7 @@ class PDOforRunalyze extends PDO
      * @param array $values
      * @return int|bool       ID of inserted row
      */
-    public function insert(string $table, $columns, $values)
+    public function insert(string $table, $columns, $values): bool|int
     {
         $table = str_replace(PREFIX, '', $table);
 
@@ -196,7 +196,7 @@ class PDOforRunalyze extends PDO
             } elseif (! is_numeric($values) || $forceAsString) {
                 $values = $this->quote($values);
 
-                if ($quotes === false && substr($values, 0, 1) == "'" && substr($values, -1) == "'" && strlen($values) > 2) {
+                if ($quotes === false && substr($values, 0, 1) === "'" && substr($values, -1) === "'" && strlen($values) > 2) {
                     $values = substr($values, 1, -1);
                 }
             }
@@ -271,12 +271,12 @@ class PDOforRunalyze extends PDO
      * @return PDOStatement <b>PDO::query</b> returns a PDOStatement object, or <b>FALSE</b>
      * on failure.
      */
-    public function query(string $statement)
+    public function query(string $statement, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         if ($this->addsAccountID) {
             $this->addAccountIDtoStatement($statement);
         }
 
-        return parent::query($statement);
+        return parent::query($statement, $fetchMode, $fetchModeArgs);
     }
 }

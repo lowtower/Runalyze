@@ -3,7 +3,6 @@
 namespace Runalyze\Bundle\CoreBundle\Controller;
 
 use Runalyze\Bundle\CoreBundle\Entity\Account;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +11,11 @@ class PluginController extends AbstractPluginsAwareController
 {
     /**
      * @Route("/call/call.Plugin.install.php")
-     * @Security("has_role('ROLE_USER')")
      */
     public function pluginInstallAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $Pluginkey = filter_input(INPUT_GET, 'key');
 
@@ -48,10 +48,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/my/plugin/{id}", requirements={"id"="\d+"}, name="plugin-display")
-     * @Security("has_role('ROLE_USER')")
      */
     public function pluginDisplayAction(int $id, Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         return $this->getResponseFor($id, $request, $account);
@@ -59,10 +60,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/call/call.Plugin.config.php", name="plugin-config")
-     * @Security("has_role('ROLE_USER')")
      */
     public function pluginConfigAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
         $Factory = new \PluginFactory();
 

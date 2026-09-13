@@ -15,7 +15,6 @@ use Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
 use Runalyze\Profile\Sport\SportProfile;
 use Runalyze\Profile\View\DataBrowserRowProfile;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +24,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/settings/sport")
- * @Security("has_role('ROLE_USER')")
  */
 class SportController extends AbstractController
 {
@@ -54,6 +52,8 @@ class SportController extends AbstractController
      */
     public function overviewAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('settings/sport/overview.html.twig', [
             'sports' => $this->getSportRepository()
                 ->findAllFor($account),
@@ -67,8 +67,10 @@ class SportController extends AbstractController
     /**
      * @Route("/{sportid}/type/add", name="sport-type-add", requirements={"sportid"="\d+"})
      */
-    public function typeAddAction(Request $request, int $sportid, Account $account)
+    public function typeAddAction(Request $request, int $sportid, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var EntityManagerInterface $em */
         $em = $this->getDoctrine()
             ->getManager();
@@ -102,8 +104,10 @@ class SportController extends AbstractController
     /**
      * @Route("/type/{id}/edit", name="sport-type-edit", requirements={"id"="\d+"})
      */
-    public function typeEditAction(Request $request, int $id, Account $account)
+    public function typeEditAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $type = $this->getTypeRepository()
             ->find($id);
         if ($type === null || $type->getAccount()->getId() != $account->getId()) {
@@ -140,6 +144,8 @@ class SportController extends AbstractController
      */
     public function deleteSportTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $this->isCsrfTokenValid('deleteSportType', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
             return $this->redirectToRoute('settings-sports');
@@ -173,6 +179,8 @@ class SportController extends AbstractController
      */
     public function sportAddAction(Request $request, Account $account, $internalType = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $sport = new Sport();
         $sport->setAccount($account);
 
@@ -210,8 +218,10 @@ class SportController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sport-edit", requirements={"id"="\d+"})
      */
-    public function sportEditAction(Request $request, int $id, Account $account)
+    public function sportEditAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $sport = $this->getSportRepository()
             ->find($id);
         if ($sport === null || $sport->getAccount()->getId() != $account->getId()) {
@@ -250,6 +260,8 @@ class SportController extends AbstractController
      */
     public function sportDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $this->isCsrfTokenValid('deleteSport', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
             return $this->redirectToRoute('settings-sports');

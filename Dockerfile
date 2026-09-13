@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.4.33
+ARG PHP_VERSION=8.0.30
 ARG DEBIAN_FRONTEND=noninteractive
 
 ARG APP_ENV=dev
@@ -20,21 +20,13 @@ ENV APP_ENV=${APP_ENV} \
     LANG=C.UTF-8 \
     LANGUAGE=C.UTF-8 \
     LC_ALL=C.UTF-8 \
-    COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_CACHE_DIR=/tmp/composer-cache \
     APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # Install Packages
 RUN set -eux; \
-    sed -i \
-#      -e 's|deb.debian.org/debian|archive.debian.org/debian|g' \
-      -e 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' \
-      /etc/apt/sources.list; \
-#    sed -i '/stretch-updates/d' /etc/apt/sources.list; \
-    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until; \
-    echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure; \
     apt-get update -o Acquire::AllowInsecureRepositories=true; \
-    apt-get install -y --allow-unauthenticated --no-install-recommends \
+    apt-get install -y --no-install-recommends \
       acl \
       wget \
       locales \
@@ -92,8 +84,7 @@ RUN install-php-extensions \
     xsl \
     zip \
     mysqli \
-    gd \
-    mcrypt
+    gd
 # Dev only
 RUN if [ "$APP_ENV" = "dev" ]; then \
       docker-php-ext-enable xdebug; \
@@ -120,7 +111,6 @@ RUN composer install --no-progress || true \
 
 # Python dependencies for gpxtrackposter
 RUN pip3 install --no-cache-dir -r vendor/runalyze/gpxtrackposter/requirements.txt
-# RUN pip3 install --no-cache-dir "pint<=0.17"
 
 # Apache
 COPY docker/php/runalyze.ini /usr/local/etc/php/conf.d/99-runalyze.ini

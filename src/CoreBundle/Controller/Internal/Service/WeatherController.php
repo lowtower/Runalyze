@@ -9,7 +9,6 @@ use Runalyze\Parser\Activity\Common\Data\WeatherData;
 use Runalyze\Profile\Weather\Source\SourceInterface;
 use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 use Runalyze\Service\WeatherForecast\Location;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,10 +31,11 @@ class WeatherController extends AbstractController
 
     /**
      * @Route("", name="internal-service-weather")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function fetchWeatherDataAction(Request $request, Account $account)
+    public function fetchWeatherDataAction(Request $request, Account $account): ?JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $location = $this->getLocationForRequest($request, $account);
 
         // #TSC: if no location is given, cancel

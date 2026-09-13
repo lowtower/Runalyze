@@ -95,9 +95,8 @@ class Entity extends Model\EntityWithID
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::DATE_START:
@@ -108,7 +107,7 @@ class Entity extends Model\EntityWithID
         return false;
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -127,68 +126,63 @@ class Entity extends Model\EntityWithID
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }
 
     /**
      * Equipment type id
-     * @return int
      */
-    public function typeid()
+    public function typeid(): int
     {
-        return $this->Data[self::TYPEID];
+        return (int) $this->Data[self::TYPEID];
     }
 
     /**
      * Notes
-     * @return string
      */
-    public function notes()
+    public function notes(): string
     {
         return $this->Data[self::NOTES];
     }
 
     /**
-     * @return int [km]
+     * @return float  [km]
      */
-    public function distance()
+    public function distance(): float
     {
-        return $this->Data[self::DISTANCE];
+        return (float) $this->Data[self::DISTANCE];
     }
 
     /**
-     * @return int [s]
+     * @return float [s]
      */
-    public function duration()
+    public function duration(): float
     {
-        return $this->Data[self::TIME];
+        return (float) $this->Data[self::TIME];
     }
 
     /**
-     * @return int [km]
+     * @return float [km]
      */
-    public function additionalDistance()
+    public function additionalDistance(): float
     {
-        return $this->Data[self::ADDITIONAL_KM];
+        return (float) $this->Data[self::ADDITIONAL_KM];
     }
 
     /**
-     * @return int [km]
+     * @return float [km]
      */
-    public function totalDistance()
+    public function totalDistance(): float
     {
-        return $this->Data[self::DISTANCE] + $this->Data[self::ADDITIONAL_KM];
+        return (float) $this->Data[self::DISTANCE] + $this->Data[self::ADDITIONAL_KM];
     }
 
     /**
      * @return string Y-m-d
      */
-    public function startDate()
+    public function startDate(): ?string
     {
         return $this->Data[self::DATE_START];
     }
@@ -204,7 +198,7 @@ class Entity extends Model\EntityWithID
     /**
      * @return string Y-m-d
      */
-    public function endDate()
+    public function endDate(): ?string
     {
         return $this->Data[self::DATE_END];
     }

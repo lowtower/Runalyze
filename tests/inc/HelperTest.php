@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 class HelperTest extends \PHPUnit\Framework\TestCase
 {
-    public function testArrayTrim()
+    public function testArrayTrim(): void
     {
         $this->assertEquals(['a', 'b', 'c', 'd', 1], Helper::arrayTrim([' a', 'b ', ' c ', 'd', 1]));
     }
 
-    public function testFloorFor()
+    public function testFloorFor(): void
     {
         $this->assertEquals(0, Helper::floorFor(4, 5));
         $this->assertEquals(0, Helper::floorFor(9, 20));
@@ -19,7 +19,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(20, Helper::floorFor(29, 20));
     }
 
-    public function testCeilFor()
+    public function testCeilFor(): void
     {
         $this->assertEquals(5, Helper::ceilFor(4, 5));
         $this->assertEquals(20, Helper::ceilFor(9, 20));
@@ -29,7 +29,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(40, Helper::ceilFor(29, 20));
     }
 
-    public function testTwoNumbers()
+    public function testTwoNumbers(): void
     {
         $this->assertEquals('00', Helper::TwoNumbers(0));
         $this->assertEquals('05', Helper::TwoNumbers(5));
@@ -38,7 +38,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('17', Helper::TwoNumbers(17));
     }
 
-    public function testUnknown()
+    public function testUnknown(): void
     {
         $this->assertEquals('?', Helper::Unknown(null));
         $this->assertEquals('-', Helper::Unknown(0, '-'));
@@ -46,7 +46,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test', Helper::Unknown('test', '-'));
     }
 
-    public function testCommaToPoint()
+    public function testCommaToPoint(): void
     {
         $this->assertEquals('17.5', Helper::CommaToPoint('17.5'));
         $this->assertEquals('17.5', Helper::CommaToPoint('17,5'));

@@ -137,27 +137,23 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     /**
      * Is the property an array?
-     * @param string $key
      */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
-        return $key == self::HR_ZONE_BOUNDS;
+        return $key === self::HR_ZONE_BOUNDS;
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->Data[self::NAME];
     }
 
-    public function getInternalProfileEnum()
+    public function getInternalProfileEnum(): int
     {
         return $this->Data[self::INTERNAL_SPORT_ID] ?: SportProfile::GENERIC;
     }
@@ -185,30 +181,28 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     /**
      * Calories per hour
-     * @return int
      */
-    public function caloriesPerHour()
+    public function caloriesPerHour(): int
     {
-        return $this->Data[self::CALORIES_PER_HOUR];
+        return (int) $this->Data[self::CALORIES_PER_HOUR];
     }
 
-    public function getCaloriesPerHour()
+    public function getCaloriesPerHour(): int
     {
-        return $this->Data[self::CALORIES_PER_HOUR];
+        return (int) $this->Data[self::CALORIES_PER_HOUR];
     }
 
     /**
      * Average heartrate
-     * @return int
      */
-    public function avgHR()
+    public function avgHR(): int
     {
-        return $this->Data[self::HR_AVG];
+        return (int) $this->Data[self::HR_AVG];
     }
 
-    public function getAverageHeartRate()
+    public function getAverageHeartRate(): int
     {
-        return $this->Data[self::HR_AVG];
+        return (int) $this->Data[self::HR_AVG];
     }
 
     /**
@@ -224,12 +218,12 @@ class Entity extends Model\EntityWithID implements ProfileInterface
      * Pace unit
      * @return int see \Runalyze\Activity\Pace or \Runalyze\Parameter\Application\PaceUnit
      */
-    public function getLegacyPaceUnitEnum()
+    public function getLegacyPaceUnitEnum(): int
     {
         return (new LegacyUnitConverter())->getLegacyPaceUnit($this->Data[self::PACE_UNIT], true);
     }
 
-    public function getPaceUnitEnum()
+    public function getPaceUnitEnum(): int
     {
         return $this->Data[self::PACE_UNIT];
     }
@@ -269,18 +263,16 @@ class Entity extends Model\EntityWithID implements ProfileInterface
 
     /**
      * ID of main equipment type
-     * @return int
      */
-    public function mainEquipmentTypeID()
+    public function mainEquipmentTypeID(): int
     {
         return $this->Data[self::MAIN_EQUIPMENTTYPEID];
     }
 
     /**
      * ID of default type
-     * @return int
      */
-    public function defaultTypeID()
+    public function defaultTypeID(): int
     {
         return $this->Data[self::DEFAULT_TYPEID];
     }

@@ -3,103 +3,66 @@
 namespace Runalyze\Service\WeatherForecast;
 
 use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Coordinate\CoordinateInterface;
 use League\Geotools\Geohash\Geohash;
 
 class Location
 {
-    /**
-     * @var float|null
-     */
-    protected $Latitude;
+    protected ?float $Latitude = null;
 
-    /**
-     * @var float|null
-     */
-    protected $Longitude;
+    protected ?float $Longitude = null;
 
-    /**
-     * @var \DateTime|null
-     */
-    protected $DateTime;
+    protected ?\DateTime $DateTime = null;
 
-    /**
-     * @var string
-     */
-    protected $LocationName = '';
+    protected string $LocationName = '';
 
-    /**
-     * @var string|null
-     */
-    protected $Timezone;
+    protected ?string $Timezone = null;
 
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     */
-    public function setPosition($latitude, $longitude)
+    public function setPosition(float $latitude, float $longitude): void
     {
         $this->Latitude = $latitude;
         $this->Longitude = $longitude;
     }
 
-    /**
-     * @param string|mixed $geohash
-     */
-    public function setGeohash($geohash)
+    public function setGeohash(string $geohash): void
     {
         try {
-            $decoded = (new Geohash())->decode($geohash)
-                ->getCoordinate();
+            $decoded = $this->coordinate($geohash);
 
-            $this->Latitude = $decoded->getLatitude();
-            $this->Longitude = $decoded->getLongitude();
+            $this->Latitude = (float) $decoded->getLatitude();
+            $this->Longitude = (float) $decoded->getLongitude();
         } catch (\InvalidArgumentException $invalidArgumentException) {
             $this->Latitude = null;
             $this->Longitude = null;
         }
     }
 
-    public function setDateTime(?\DateTime $dateTime = null)
+    public function setDateTime(?\DateTime $dateTime = null): void
     {
         $this->DateTime = $dateTime;
     }
 
-    /**
-     * @param string $location
-     */
-    public function setLocationName($location)
+    public function setLocationName(string $location): void
     {
         $this->LocationName = $location;
     }
 
-    /**
-     * @param string $timezone
-     */
-    public function setTimezone($timezone)
+    public function setTimezone(?string $timezone): void
     {
         $this->Timezone = $timezone;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getLatitude()
+    public function getLatitude(): ?float
     {
         return $this->Latitude;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getLongitude()
+    public function getLongitude(): ?float
     {
         return $this->Longitude;
     }
 
-    /**
-     * @return Coordinate|null
-     */
-    public function getCoordinate()
+    public function getCoordinate(): ?\League\Geotools\Coordinate\Coordinate
     {
         if ($this->hasPosition()) {
             return new Coordinate([(float) $this->getLatitude(), (float) $this->getLongitude()]);
@@ -121,38 +84,26 @@ class Location
         return null;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateTime()
+    public function getDateTime(): ?\DateTime
     {
         return $this->DateTime;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getTimestamp()
+    public function getTimestamp(): ?int
     {
-        if ($this->DateTime === null) {
+        if (! $this->DateTime instanceof \DateTime) {
             return null;
         }
 
         return $this->DateTime->getTimestamp();
     }
 
-    /**
-     * @return string
-     */
-    public function getLocationName()
+    public function getLocationName(): string
     {
         return $this->LocationName;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTimezone()
+    public function getTimezone(): ?string
     {
         return $this->Timezone;
     }
@@ -165,18 +116,18 @@ class Location
         return
             $this->Latitude !== null &&
             $this->Longitude !== null &&
-            ($this->Latitude != 0.0 || $this->Longitude != 0.0)
+            ($this->Latitude !== 0.0 || $this->Longitude !== 0.0)
         ;
     }
 
     public function hasLocationName(): bool
     {
-        return (string) $this->LocationName !== '';
+        return $this->LocationName !== '';
     }
 
     public function hasDateTime(): bool
     {
-        return $this->DateTime !== null;
+        return $this->DateTime instanceof \DateTime;
     }
 
     /**
@@ -194,5 +145,19 @@ class Location
     public function isValid(): bool
     {
         return $this->hasDateTime() && ($this->hasLocationName() || $this->hasPosition());
+    }
+
+    private function coordinate(string $geohash): CoordinateInterface
+    {
+        return $this->decodedGeohash($geohash)
+            ->getCoordinate();
+    }
+
+    private function decodedGeohash(string $geohash): Geohash
+    {
+        /** @var Geohash $decoded */
+        $decoded = (new Geohash())->decode($geohash);
+
+        return $decoded;
     }
 }

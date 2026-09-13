@@ -21,42 +21,27 @@ use SessionAccountHandler;
  */
 class Context
 {
-    /**
-     * Objects
-     * @var array
-     */
-    private static $Objects = [];
+    private static array $Objects = [];
 
-    /**
-     * @return \Runalyze\Athlete
-     */
-    public static function Athlete()
+    public static function Athlete(): \Runalyze\Athlete
     {
-        if (! isset(self::$Objects['athlete'])) {
-            self::$Objects['athlete'] = new Athlete(
-                SessionAccountHandler::getGender(),
-                Configuration::Data()->HRmax(),
-                Configuration::Data()->HRrest(),
-                null,
-                SessionAccountHandler::getBirthYear(),
-                Configuration::Data()->vo2max()
-            );
-        }
+        self::$Objects['athlete'] ??= new Athlete(
+            SessionAccountHandler::getGender(),
+            Configuration::Data()->HRmax(),
+            Configuration::Data()->HRrest(),
+            null,
+            SessionAccountHandler::getBirthYear(),
+            Configuration::Data()->vo2max()
+        );
 
         return self::$Objects['athlete'];
     }
 
-    /**
-     * Athlete
-     * @return \Runalyze\Model\Factory
-     */
-    public static function Factory()
+    public static function Factory(): \Runalyze\Model\Factory
     {
-        if (! isset(self::$Objects['factory'])) {
-            self::$Objects['factory'] = new Model\Factory(
-                SessionAccountHandler::getId()
-            );
-        }
+        self::$Objects['factory'] ??= new Model\Factory(
+            SessionAccountHandler::getId()
+        );
 
         return self::$Objects['factory'];
     }
@@ -64,7 +49,7 @@ class Context
     /**
      * Clear internal cache
      */
-    public static function reset()
+    public static function reset(): void
     {
         self::$Objects = [];
     }

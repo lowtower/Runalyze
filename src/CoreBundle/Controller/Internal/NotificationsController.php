@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 use Runalyze\Bundle\CoreBundle\Component\Notifications\MessageFactory;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\NotificationRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,10 +31,11 @@ class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller
 
     /**
      * @Route("/read/all", name="internal-notifications-read-all")
-     * @Security("has_role('ROLE_USER')")
      */
     public function readAllNotificationsAction(Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $this->notificationRepository
             ->markAllAsRead($account);
 
@@ -44,10 +44,11 @@ class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller
 
     /**
      * @Route("/read/{id}", name="internal-notifications-read")
-     * @Security("has_role('ROLE_USER')")
      */
     public function readNotificationAction(int $id, Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $notification = $this->notificationRepository->find($id);
         if ($notification === null || $notification->getAccount()->getId() != $account->getId()) {
             throw $this->createNotFoundException();
@@ -61,10 +62,11 @@ class NotificationsController extends \Symfony\Bundle\FrameworkBundle\Controller
 
     /**
      * @Route("", name="internal-notifications-list")
-     * @Security("has_role('ROLE_USER')")
      */
     public function newNotificationsAction(Request $request, Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $messages = [];
         $factory = new MessageFactory();
         $notifications = $this->notificationRepository

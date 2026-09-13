@@ -47,10 +47,11 @@ var/
 /.env.local.php
 /.env.*.local
 
-###> phpunit/phpunit ###
-/phpunit.xml
+###> symfony/phpunit-bridge ###
+.phpunit
 .phpunit.result.cache
-###< phpunit/phpunit ###
+/phpunit.xml
+###< symfony/phpunit-bridge ###
 
 ###> phpstan/phpstan ###
 phpstan.neon

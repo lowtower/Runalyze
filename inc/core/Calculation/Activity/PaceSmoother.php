@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file contains class::PaceSmoother
  * @package Runalyze\Calculation\Activity
@@ -32,41 +34,25 @@ class PaceSmoother
      */
     public const MODE_DISTANCE = 2;
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected Trackdata\Entity $Trackdata;
+
+    protected Trackdata\Loop $Loop;
 
     /**
-     * @var \Runalyze\Model\Trackdata\Loop
+     * @var float[]|int[]
      */
-    protected $Loop;
+    protected array $Smoothed = [];
 
-    /**
-     * @var array
-     */
-    protected $Smoothed = [];
+    protected int $Mode = 0;
 
-    /**
-     * @var int
-     */
-    protected $Mode = 0;
+    protected int|float $StepSize = 1;
 
-    /**
-     * @var int|float
-     */
-    protected $StepSize = 1;
-
-    /**
-     * @var bool
-     */
-    protected $KeepArraySize = false;
+    protected bool $KeepArraySize = false;
 
     /**
      * Smoother
-     * @param bool $keepArraySize [optional]
      */
-    public function __construct(Trackdata\Entity $trackdata, $keepArraySize = false)
+    public function __construct(Trackdata\Entity $trackdata, bool $keepArraySize = false)
     {
         $this->Trackdata = $trackdata;
         $this->Loop = new Trackdata\Loop($trackdata);
@@ -76,10 +62,8 @@ class PaceSmoother
     /**
      * Smooth data
      * @param int|float $stepSize integer as steps, float as distance [km], int as time [s]
-     * @param int $mode [optional]
-     * @return array
      */
-    public function smooth($stepSize, $mode = self::MODE_STEP)
+    public function smooth(int|float $stepSize, int $mode = self::MODE_STEP): array
     {
         $this->reset();
         $this->set($stepSize, $mode);
@@ -91,7 +75,7 @@ class PaceSmoother
     /**
      * Reset internals
      */
-    protected function reset()
+    protected function reset(): void
     {
         $this->Smoothed = [];
         $this->Loop->reset();
@@ -99,20 +83,33 @@ class PaceSmoother
 
     /**
      * Set internals
-     * @param int|float $stepSize
-     * @param int $mode
      */
-    protected function set($stepSize, $mode)
+    protected function set($stepSize, int $mode): void
     {
+        if (! is_int($stepSize) && ! is_float($stepSize)) {
+            throw new \InvalidArgumentException('Step size must be an integer or float.');
+        }
+
+        if ($stepSize <= 0) {
+            throw new \InvalidArgumentException('Step size must be greater than zero.');
+        }
+
         $this->StepSize = $stepSize;
         $this->Mode = $mode;
-        $this->Loop->setStepSize($stepSize);
+
+        if ($mode === self::MODE_STEP) {
+            if (! is_int($stepSize)) {
+                throw new \InvalidArgumentException('Step size must be an integer in step mode.');
+            }
+
+            $this->Loop->setStepSize($stepSize);
+        }
     }
 
     /**
-     * @return array
+     * @return float[]|int[]
      */
-    public function result()
+    public function result(): array
     {
         return $this->Smoothed;
     }
@@ -174,17 +171,39 @@ class PaceSmoother
         }
     }
 
-    /**
-     * @param string $key Object key to move
-     */
-    protected function runFastSmoothingForKey($key)
+    protected function runFastSmoothingForKey(string $key): void
     {
         $started = false;
 
         while (! $this->Loop->isAtEnd()) {
+            $previousIndex = $this->Loop->index();
+
             $this->Loop->move($key, $this->StepSize);
-            $dist = $this->Loop->difference(Trackdata\Entity::DISTANCE);
-            $pace = $dist > 0 ? round($this->Loop->difference(Trackdata\Entity::TIME) / $dist) : 0;
+
+            if (
+                ! $this->Loop->isAtEnd()
+                && $this->Loop->index() <= $previousIndex
+            ) {
+                throw new \RuntimeException(sprintf(
+                    'Loop did not advance for key "%s" at index %d '
+                    . 'with step size %s.',
+                    $key,
+                    $previousIndex,
+                    (string) $this->StepSize
+                ));
+            }
+
+            $dist = $this->Loop->difference(
+                Trackdata\Entity::DISTANCE
+            );
+
+            $pace = $dist > 0
+                ? round(
+                    $this->Loop->difference(
+                        Trackdata\Entity::TIME
+                    ) / $dist
+                )
+                : 0;
 
             if ($this->KeepArraySize) {
                 $steps = $this->Loop->currentStepSize();

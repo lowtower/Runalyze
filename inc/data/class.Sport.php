@@ -1,5 +1,7 @@
 <?php
 
+use Runalyze\Profile\Sport\SportProfile;
+
 /**
  * @deprecated
  */
@@ -7,38 +9,29 @@ class Sport
 {
     /**
      * ID for this sport in database
-     * @var int
      */
-    private $id;
+    private int|bool $id;
 
     /**
      * Array with all information from database
-     * @var array
      */
-    private $data;
+    private array $data;
 
-    /**
-     * @param int|bool $id
-     */
-    public function __construct($id = false)
+    public function __construct(int|bool $id = false)
     {
         $this->id = $id;
         $this->data = SportFactory::DataFor($id);
     }
 
-    /**
-     * @return int
-     */
-    public function id()
+    public function id(): int
     {
         return $this->id;
     }
 
     /**
      * Get name
-     * @return string
      */
-    public function name()
+    public function name(): string
     {
         return $this->data['name'];
     }
@@ -57,6 +50,6 @@ class Sport
      */
     public function isRunning(): bool
     {
-        return $this->data['internal_sport_id'] == \Runalyze\Profile\Sport\SportProfile::RUNNING;
+        return $this->data['internal_sport_id'] == SportProfile::RUNNING;
     }
 }

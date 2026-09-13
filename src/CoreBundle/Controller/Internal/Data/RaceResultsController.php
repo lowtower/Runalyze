@@ -4,8 +4,11 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal\Data;
 
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
+use Runalyze\Bundle\CoreBundle\Entity\PluginConf;
+use Runalyze\Bundle\CoreBundle\Entity\PluginConfRepository;
+use Runalyze\Bundle\CoreBundle\Entity\Raceresult;
+use Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository;
 use Runalyze\Util\LocalTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,29 +19,32 @@ class RaceResultsController extends \Symfony\Bundle\FrameworkBundle\Controller\A
 {
     use AppServiceSubscriberTrait;
 
-    /**
-     * @return \Runalyze\Bundle\CoreBundle\Entity\RaceresultRepository
-     */
-    protected function getRaceResultRepository()
+    protected function getRaceResultRepository(): RaceresultRepository
     {
         return $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class);
+            ->getRepository(Raceresult::class);
+    }
+
+    protected function getPluginConfRepository(): PluginConfRepository
+    {
+        return $this->getDoctrine()
+            ->getRepository(PluginConf::class);
     }
 
     /**
      * @Route("/all", name="internal-data-race-results-all")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function allRaceResultsAction(Account $account): \Symfony\Component\HttpFoundation\JsonResponse
+    public function allRaceResultsAction(Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $result = [];
         $races = $this->getRaceResultRepository()
             ->findAllWithActivityStats($account);
         $ageGradeLookup = $this->get('app.age_grade_lookup')
             ->getLookup() ?: $this->get('app.age_grade_lookup')
             ->getDefaultLookup();
-        $funIds = $this->getDoctrine()
-            ->getRepository(\Runalyze\Bundle\CoreBundle\Entity\PluginConf::class)
+        $funIds = $this->getPluginConfRepository()
             ->getAllActivityIdsOfFunRaces($account);
 
         foreach ($races as $race) {

@@ -79,26 +79,17 @@ class Entity extends Model\EntityWithID
         return static::allDatabaseProperties();
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }
 
-    /**
-     * @return string
-     */
-    public function abbreviation()
+    public function abbreviation(): string
     {
         return $this->Data[self::ABBREVIATION];
     }
 
-    /**
-     * @return int
-     */
-    public function sportid()
+    public function sportid(): int
     {
         return $this->Data[self::SPORTID];
     }
@@ -121,9 +112,8 @@ class Entity extends Model\EntityWithID
 
     /**
      * Avg. heart rate
-     * @return int
      */
-    public function hrAvg()
+    public function hrAvg(): int
     {
         return $this->Data[self::HR_AVG];
     }

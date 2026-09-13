@@ -9,7 +9,6 @@ use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyData;
 use Runalyze\Bundle\CoreBundle\Form\Settings\PrivacyType;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationUpdater;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,10 +39,11 @@ class PrivacyController extends AbstractController
 
     /**
      * @Route("/settings/privacy", name="settings-privacy")
-     * @Security("has_role('ROLE_USER')")
      */
     public function settingsAccountAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $privacyConfig = $this->get('app.configuration_manager')
             ->getList()
             ->getPrivacy();

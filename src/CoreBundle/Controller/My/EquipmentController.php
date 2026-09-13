@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentTypeRepository;
 use Runalyze\Bundle\CoreBundle\Form;
 use Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/my/equipment")
- * @Security("has_role('ROLE_USER')")
  */
 class EquipmentController extends AbstractController
 {
@@ -43,6 +41,8 @@ class EquipmentController extends AbstractController
      */
     public function categoryTableAction(int $typeid, Account $account, TranslatorInterface $translator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var EquipmentType $equipmentType */
         $equipmentType = $this->getEquipmentTypeRepository()
             ->findOneBy([
@@ -77,6 +77,8 @@ class EquipmentController extends AbstractController
      */
     public function overviewAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('my/equipment/overview.html.twig', [
             'equipmentTypes' => $this->getEquipmentTypeRepository()
                 ->findAllFor($account),
@@ -91,6 +93,8 @@ class EquipmentController extends AbstractController
      */
     public function typeAddAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $equipmentType = new EquipmentType();
         $equipmentType->setAccount($account);
 
@@ -112,6 +116,9 @@ class EquipmentController extends AbstractController
 
         return $this->render('my/equipment/form-category.html.twig', [
             'form' => $form->createView(),
+            'unitSystem' => $this->get('app.configuration_manager')
+                ->getList()
+                ->getUnitSystem(),
         ]);
     }
 
@@ -120,6 +127,8 @@ class EquipmentController extends AbstractController
      */
     public function typeEditAction(Request $request, int $id, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $equipmentType = $this->getEquipmentTypeRepository()
             ->find($id);
         if ($equipmentType === null || $equipmentType->getAccount()->getId() != $account->getId()) {
@@ -148,6 +157,9 @@ class EquipmentController extends AbstractController
             'form' => $form->createView(),
             'equipment' => $this->getEquipmentRepository()
                 ->findByTypeId($equipmentType->getId(), $account),
+            'unitSystem' => $this->get('app.configuration_manager')
+                ->getList()
+                ->getUnitSystem(),
         ]);
     }
 
@@ -156,6 +168,8 @@ class EquipmentController extends AbstractController
      */
     public function deleteEquipmentTypeAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $this->isCsrfTokenValid('deleteEquipmentCategory', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 
@@ -181,8 +195,10 @@ class EquipmentController extends AbstractController
     /**
      * @Route("/add/{id}", name="equipment-add", requirements={"id"="\d+"})
      */
-    public function equipmentAddAction(Request $request, int $id, Account $account)
+    public function equipmentAddAction(Request $request, int $id, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $equipmentType = $this->getEquipmentTypeRepository()
             ->find($id);
 
@@ -225,6 +241,8 @@ class EquipmentController extends AbstractController
      */
     public function equipmentEditAction(Request $request, int $id, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $equipment = $this->getEquipmentRepository()
             ->find($id);
         if ($equipment === null || $equipment->getAccount()->getId() != $account->getId()) {
@@ -262,6 +280,8 @@ class EquipmentController extends AbstractController
      */
     public function deleteEquipmentAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $this->isCsrfTokenValid('deleteEquipment', $request->get('t'))) {
             $this->addFlash('error', $translator->trans('Invalid token.'));
 

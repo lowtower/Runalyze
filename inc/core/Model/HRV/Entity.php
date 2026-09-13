@@ -83,7 +83,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable
      * Remark: This method may throw index offsets.
      * @return mixed
      */
-    public function at(int $index, string $key)
+    public function at(int $index, $key)
     {
         return $this->Data[$key][$index];
     }

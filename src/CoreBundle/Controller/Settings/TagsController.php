@@ -6,7 +6,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Tag;
 use Runalyze\Bundle\CoreBundle\Entity\TagRepository;
 use Runalyze\Bundle\CoreBundle\Form\Settings\TagType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,14 +15,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/settings/tags")
- * @Security("has_role('ROLE_USER')")
  */
 class TagsController extends AbstractController
 {
-    /**
-     * @return TagRepository
-     */
-    protected function getTagRepository()
+    protected function getTagRepository(): TagRepository
     {
         return $this->getDoctrine()
             ->getRepository(Tag::class);
@@ -34,6 +29,8 @@ class TagsController extends AbstractController
      */
     public function overviewAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('settings/tag/overview.html.twig', [
             'tags' => $this->getTagRepository()
                 ->findAllFor($account),
@@ -45,6 +42,8 @@ class TagsController extends AbstractController
      */
     public function tagEditAction(Request $request, int $id, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $tag = $this->getTagRepository()
             ->find($id);
         if ($tag === null || $tag->getAccount()->getId() != $account->getId()) {
@@ -75,6 +74,8 @@ class TagsController extends AbstractController
      */
     public function tagDeleteAction(Request $request, int $id, Account $account, TranslatorInterface $translator): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! $this->isCsrfTokenValid('deleteTag', $request->get('t'))) {
             $this->addFlash('notice', $translator->trans('Invalid token.'));
 

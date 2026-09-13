@@ -134,7 +134,7 @@ class Entity extends Model\Entity
         ]);
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -157,9 +157,8 @@ class Entity extends Model\Entity
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::PLACE_TOTAL:
@@ -174,7 +173,7 @@ class Entity extends Model\Entity
         return false;
     }
 
-    public function setDefaultValuesFromActivity(Model\Activity\Entity $activity)
+    public function setDefaultValuesFromActivity(Model\Activity\Entity $activity): void
     {
         $this->set(self::OFFICIAL_DISTANCE, $activity->distance());
         $this->set(self::OFFICIAL_TIME, $activity->duration());
@@ -206,10 +205,7 @@ class Entity extends Model\Entity
         return $this->Data[self::OFFICIALLY_MEASURED] == 1;
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }

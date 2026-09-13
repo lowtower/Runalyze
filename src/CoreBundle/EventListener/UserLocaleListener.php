@@ -22,12 +22,12 @@ class UserLocaleListener
         $this->session = $session;
     }
 
-    public function onInteractiveLogin(InteractiveLoginEvent $event)
+    public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $user = $event->getAuthenticationToken()
             ->getUser();
 
-        if ($user instanceof Account) {
+        if ($user instanceof Account && $user->getLanguage() != null) {
             $this->session->set('_locale', $user->getLanguage());
             new Language($user->getLanguage());
         }

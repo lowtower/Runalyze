@@ -793,7 +793,7 @@ class Entity extends Model\EntityWithID
         return false;
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -925,7 +925,7 @@ class Entity extends Model\EntityWithID
         return (int) $this->Data[self::SPORTID];
     }
 
-    public function typeid(): int
+    public function typeid(): ?int
     {
         return (int) $this->Data[self::TYPEID];
     }
@@ -1014,7 +1014,7 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|float [0.00 .. 1.00]
      */
-    public function percentageHilly()
+    public function percentageHilly(): ?float
     {
         if ($this->Data[self::PERCENTAGE_HILLY] === null) {
             return null;
@@ -1026,54 +1026,54 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|int [kcal]
      */
-    public function energy()
+    public function energy(): ?int
     {
-        return $this->Data[self::ENERGY];
+        return (int) $this->Data[self::ENERGY];
     }
 
     /**
      * #TSC
      * @return null|int [kcal]
      */
-    public function energyInRest()
+    public function energyInRest(): ?int
     {
-        return $this->Data[self::ENERGY_REST];
+        return (int) $this->Data[self::ENERGY_REST];
     }
 
     /**
      * Average heart rate
      * @return null|int [bpm]
      */
-    public function hrAvg()
+    public function hrAvg(): ?int
     {
-        return $this->Data[self::HR_AVG];
+        return (int) $this->Data[self::HR_AVG];
     }
 
     /**
      * Maximal heart rate
      * @return null|int [bpm]
      */
-    public function hrMax()
+    public function hrMax(): ?int
     {
-        return $this->Data[self::HR_MAX];
+        return (int) $this->Data[self::HR_MAX];
     }
 
     /**
      * Average heart rate active rounds
      * @return null|int [bpm]
      */
-    public function hrAvgActive()
+    public function hrAvgActive(): ?int
     {
-        return $this->Data[self::HR_AVG_ACTIVE];
+        return (int) $this->Data[self::HR_AVG_ACTIVE];
     }
 
     /**
      * Average max heart rate of the user (general, not while this activity)
      * @return null|int [bpm]
      */
-    public function maxHrUser()
+    public function maxHrUser(): ?int
     {
-        return $this->Data[self::MAX_HR_USER];
+        return (int) $this->Data[self::MAX_HR_USER];
     }
 
     /**
@@ -1088,25 +1088,25 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|float [ml/kg/min]
      */
-    public function vo2maxByHeartRate()
+    public function vo2maxByHeartRate(): ?float
     {
-        return $this->Data[self::VO2MAX];
+        return (float) $this->Data[self::VO2MAX];
     }
 
     /**
      * @return null|float [ml/kg/min]
      */
-    public function vo2maxByTime()
+    public function vo2maxByTime(): ?float
     {
-        return $this->Data[self::VO2MAX_BY_TIME];
+        return (float) $this->Data[self::VO2MAX_BY_TIME];
     }
 
     /**
      * @return null|float [ml/kg/min]
      */
-    public function vo2maxWithElevation()
+    public function vo2maxWithElevation(): ?float
     {
-        return $this->Data[self::VO2MAX_WITH_ELEVATION];
+        return (float) $this->Data[self::VO2MAX_WITH_ELEVATION];
     }
 
     public function usesVO2max(): bool
@@ -1118,161 +1118,144 @@ class Entity extends Model\EntityWithID
      * VO2max estimate from fit file
      * @return null|float [ml/kg/min]
      */
-    public function fitVO2maxEstimate()
+    public function fitVO2maxEstimate(): ?float
     {
-        return $this->Data[self::FIT_VO2MAX_ESTIMATE];
+        return (float) $this->Data[self::FIT_VO2MAX_ESTIMATE];
     }
 
     /**
      * Recovery time advisor from fit file
      * @return null|int [min]
      */
-    public function fitRecoveryTime()
+    public function fitRecoveryTime(): ?int
     {
-        return $this->Data[self::FIT_RECOVERY_TIME];
+        return (int) $this->Data[self::FIT_RECOVERY_TIME];
     }
 
     /**
      * HRV analysis score from fit file
-     * @return null|int
      */
-    public function fitHRVscore()
+    public function fitHRVscore(): ?int
     {
-        return $this->Data[self::FIT_HRV_ANALYSIS];
+        return (int) $this->Data[self::FIT_HRV_ANALYSIS];
     }
 
     /**
      * Total training effect benefit
      * 1=Recovery, 2=Base, 3=Tempo, 4=Threshold, 5=VO2 Max, 6=Anaerobic, 7=Sprint
-     * @return null|int
      */
-    public function fitTrainingEffectBenefit()
+    public function fitTrainingEffectBenefit(): ?int
     {
-        return $this->Data[self::FIT_TRAINING_EFFECT_BENEFIT];
+        return (int) $this->Data[self::FIT_TRAINING_EFFECT_BENEFIT];
     }
 
     /**
      * Total training effect
-     * @return null|float
      */
-    public function fitTrainingEffect()
+    public function fitTrainingEffect(): ?float
     {
-        return $this->Data[self::FIT_TRAINING_EFFECT];
+        return (float) $this->Data[self::FIT_TRAINING_EFFECT];
     }
 
     /**
      * Total anaerobic training effect
-     * @return null|float
      */
-    public function fitAnaerobicTrainingEffect()
+    public function fitAnaerobicTrainingEffect(): ?float
     {
-        return $this->Data[self::FIT_ANAEROBIC_TRAINING_EFFECT];
+        return (float) $this->Data[self::FIT_ANAEROBIC_TRAINING_EFFECT];
     }
 
     /**
      * Performance condition
-     * @return null|int
      */
-    public function fitPerformanceCondition()
+    public function fitPerformanceCondition(): ?int
     {
-        return $this->Data[self::FIT_PERFORMANCE_CONDITION];
+        return (int) $this->Data[self::FIT_PERFORMANCE_CONDITION];
     }
 
     /**
      * Ending performance condition
-     * @return null|int
      */
-    public function fitPerformanceConditionEnd()
+    public function fitPerformanceConditionEnd(): ?int
     {
-        return $this->Data[self::FIT_PERFORMANCE_CONDITION_END];
+        return (int) $this->Data[self::FIT_PERFORMANCE_CONDITION_END];
     }
 
     /**
      * Lactate threshold HR
-     * @return null|int
      */
-    public function fitLactateThresholdHR()
+    public function fitLactateThresholdHR(): ?int
     {
-        return $this->Data[self::FIT_LACTATE_THRESHOLD_HR];
+        return (int) $this->Data[self::FIT_LACTATE_THRESHOLD_HR];
     }
 
     /**
      * Lactate threshold pace (in m/s)
-     * @return null|float
      */
-    public function fitLactateThresholdPace()
+    public function fitLactateThresholdPace(): ?float
     {
-        return $this->Data[self::FIT_LACTATE_THRESHOLD_PACE];
+        return (float) $this->Data[self::FIT_LACTATE_THRESHOLD_PACE];
     }
 
-    /**
-     * @return null|int
-     */
-    public function fitTotalAscent()
+    public function fitTotalAscent(): ?int
     {
-        return $this->Data[self::FIT_TOTAL_ASCENT];
+        return (int) $this->Data[self::FIT_TOTAL_ASCENT];
     }
 
-    /**
-     * @return null|int
-     */
-    public function fitTotalDescent()
+    public function fitTotalDescent(): ?int
     {
-        return $this->Data[self::FIT_TOTAL_DESCENT];
+        return (int) $this->Data[self::FIT_TOTAL_DESCENT];
     }
 
     /**
      * fit fitSelfEvaluationFeeling
-     * @return null|int
      */
-    public function fitSelfEvaluationFeeling()
+    public function fitSelfEvaluationFeeling(): ?int
     {
-        return $this->Data[self::FIT_SELF_ELEVATION_FEELING];
+        return (int) $this->Data[self::FIT_SELF_ELEVATION_FEELING];
     }
 
     /**
      * fit fitSelfEvaluationPerceivedEffort
-     * @return null|int
      */
-    public function fitSelfEvaluationPerceivedEffort()
+    public function fitSelfEvaluationPerceivedEffort(): ?int
     {
-        return $this->Data[self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT];
+        return (int) $this->Data[self::FIT_SELF_ELEVATION_PERCEIVED_EFFORT];
     }
 
     /**
      * fit fitLoadPeak
-     * @return null|int
      */
-    public function fitLoadPeak()
+    public function fitLoadPeak(): ?int
     {
-        return $this->Data[self::FIT_LOAD_PEAK];
+        return (int) $this->Data[self::FIT_LOAD_PEAK];
     }
 
     /**
      * fit RWD run time #TSC
      * @return null|int [s]
      */
-    public function fitRunTime()
+    public function fitRunTime(): ?int
     {
-        return $this->Data[self::FIT_RUN_TIME];
+        return (int) $this->Data[self::FIT_RUN_TIME];
     }
 
     /**
      * fit RWD walk time #TSC
      * @return null|int [s]
      */
-    public function fitWalkTime()
+    public function fitWalkTime(): ?int
     {
-        return $this->Data[self::FIT_WALK_TIME];
+        return (int) $this->Data[self::FIT_WALK_TIME];
     }
 
     /**
      * fit RWD run time #TSC
      * @return null|int [s]
      */
-    public function fitStandTime()
+    public function fitStandTime(): ?int
     {
-        return $this->Data[self::FIT_STAND_TIME];
+        return (int) $this->Data[self::FIT_STAND_TIME];
     }
 
     /**
@@ -1286,65 +1269,49 @@ class Entity extends Model\EntityWithID
 
     /**
      * sweat loss (Schweissverbrauch in ml)
-     * @return null|int
      */
-    public function fitSweetLoss()
+    public function fitSweetLoss(): ?int
     {
-        return $this->Data[self::FIT_SWEAT_LOSS];
+        return (int) $this->Data[self::FIT_SWEAT_LOSS];
     }
 
-    /**
-     * @return null|int
-     */
-    public function avgRespirationRate()
+    public function avgRespirationRate(): ?int
     {
-        return $this->Data[self::AVG_RESPIRATION_RATE];
+        return (int) $this->Data[self::AVG_RESPIRATION_RATE];
     }
 
-    /**
-     * @return null|int
-     */
-    public function maxRespirationRate()
+    public function maxRespirationRate(): ?int
     {
-        return $this->Data[self::MAX_RESPIRATION_RATE];
+        return (int) $this->Data[self::MAX_RESPIRATION_RATE];
     }
 
-    /**
-     * @return null|int
-     */
-    public function rpe()
+    public function rpe(): ?int
     {
-        return $this->Data[self::RPE];
+        return (int) $this->Data[self::RPE];
     }
 
-    /**
-     * @return null|int
-     */
-    public function trimp()
+    public function trimp(): ?int
     {
-        return $this->Data[self::TRIMP];
+        return (int) $this->Data[self::TRIMP];
     }
 
     /**
      * @return null|int [rpm]
      */
-    public function cadence()
+    public function cadence(): ?int
     {
-        return $this->Data[self::CADENCE];
+        return (int) $this->Data[self::CADENCE];
     }
 
     /**
      * @return null|int [W]
      */
-    public function power()
+    public function power(): ?int
     {
-        return $this->Data[self::POWER];
+        return (int) $this->Data[self::POWER];
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isPowerCalculated()
+    public function isPowerCalculated(): ?bool
     {
         return $this->Data[self::IS_POWER_CALCULATED] === null ? null : $this->Data[self::IS_POWER_CALCULATED] == 1;
     }
@@ -1352,98 +1319,88 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|int [cm]
      */
-    public function strideLength()
+    public function strideLength(): ?int
     {
-        return $this->Data[self::STRIDE_LENGTH];
+        return (int) $this->Data[self::STRIDE_LENGTH];
     }
 
-    /**
-     * @return null|int
-     */
-    public function totalStrokes()
+    public function totalStrokes(): ?int
     {
-        return $this->Data[self::TOTAL_STROKES];
+        return (int) $this->Data[self::TOTAL_STROKES];
     }
 
-    /**
-     * @return null|int
-     */
-    public function swolf()
+    public function swolf(): ?int
     {
-        return $this->Data[self::SWOLF];
+        return (int) $this->Data[self::SWOLF];
     }
 
-    /**
-     * #TSC
-     * @return null|int
-     */
-    public function totalCycles()
+    public function totalCycles(): ?int
     {
-        return $this->Data[self::TOTAL_CYCLES];
+        return (int) $this->Data[self::TOTAL_CYCLES];
     }
 
     /**
      * @return null|int [ms]
      */
-    public function groundcontact()
+    public function groundcontact(): ?int
     {
-        return $this->Data[self::GROUNDCONTACT];
+        return (int) $this->Data[self::GROUNDCONTACT];
     }
 
     /**
      * @return null|int [mm]
      */
-    public function verticalOscillation()
+    public function verticalOscillation(): ?int
     {
-        return $this->Data[self::VERTICAL_OSCILLATION];
+        return (int) $this->Data[self::VERTICAL_OSCILLATION];
     }
 
     /**
      * Ground contact time balance
      * @return null|int [%oo]
      */
-    public function groundContactBalance()
+    public function groundContactBalance(): ?int
     {
-        return $this->Data[self::GROUNDCONTACT_BALANCE];
+        return (int) $this->Data[self::GROUNDCONTACT_BALANCE];
     }
 
     /**
      * Ground contact time balance
      * @return null|int [%]
      */
-    public function groundContactBalanceLeft()
+    public function groundContactBalanceLeft(): ?int
     {
-        return $this->Data[self::GROUNDCONTACT_BALANCE];
+        return (int) $this->Data[self::GROUNDCONTACT_BALANCE];
     }
 
     /**
      * Ground contact time balance
      * @return null|int [%]
      */
-    public function groundContactBalanceRight()
+    public function groundContactBalanceRight(): ?int
     {
         if ($this->Data[self::GROUNDCONTACT_BALANCE] === null) {
             return null;
         }
 
-        return 10000 - $this->Data[self::GROUNDCONTACT_BALANCE];
+        return 10000 - (int) $this->Data[self::GROUNDCONTACT_BALANCE];
     }
 
     /**
      * @return null|int [%o]
      */
-    public function verticalRatio()
+    public function verticalRatio(): ?int
     {
-        return $this->Data[self::VERTICAL_RATIO];
+        return (int) $this->Data[self::VERTICAL_RATIO];
     }
 
     /**
      * @return float|null [ms] can be negative for walking
      */
-    public function flightTime()
+    public function flightTime(): ?float
     {
         if ($this->Data[self::CADENCE] > 0 && $this->Data[self::GROUNDCONTACT] > 0) {
-            return 30000.0 / $this->Data[self::CADENCE] - $this->Data[self::GROUNDCONTACT];
+            return 30000.0 / (float) $this->Data[self::CADENCE] - (float) $this->Data[self::GROUNDCONTACT];
         }
 
         return null;
@@ -1452,10 +1409,10 @@ class Entity extends Model\EntityWithID
     /**
      * @return float|null [%] can be negative for walking
      */
-    public function flightRatio()
+    public function flightRatio(): ?float
     {
         if ($this->Data[self::CADENCE] > 0 && $this->Data[self::GROUNDCONTACT] > 0) {
-            return 1.0 - $this->Data[self::CADENCE] * $this->Data[self::GROUNDCONTACT] / 30000.0;
+            return 1.0 - (float) $this->Data[self::CADENCE] * (float) $this->Data[self::GROUNDCONTACT] / 30000.0;
         }
 
         return null;
@@ -1464,65 +1421,65 @@ class Entity extends Model\EntityWithID
     /**
      * @return null|float [G]
      */
-    public function impactGsLeft()
+    public function impactGsLeft(): ?float
     {
-        return $this->Data[self::AVG_IMPACT_GS_LEFT];
+        return (float) $this->Data[self::AVG_IMPACT_GS_LEFT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function impactGsRight()
+    public function impactGsRight(): ?float
     {
-        return $this->Data[self::AVG_IMPACT_GS_RIGHT];
+        return (float) $this->Data[self::AVG_IMPACT_GS_RIGHT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function brakingGsLeft()
+    public function brakingGsLeft(): ?float
     {
-        return $this->Data[self::AVG_BRAKING_GS_LEFT];
+        return (float) $this->Data[self::AVG_BRAKING_GS_LEFT];
     }
 
     /**
      * @return null|float [G]
      */
-    public function brakingGsRight()
+    public function brakingGsRight(): ?float
     {
-        return $this->Data[self::AVG_BRAKING_GS_RIGHT];
+        return (float) $this->Data[self::AVG_BRAKING_GS_RIGHT];
     }
 
     /**
      * @return null|int [°]
      */
-    public function footstrikeTypeLeft()
+    public function footstrikeTypeLeft(): ?int
     {
-        return $this->Data[self::AVG_FOOTSTRIKE_TYPE_LEFT];
+        return (int) $this->Data[self::AVG_FOOTSTRIKE_TYPE_LEFT];
     }
 
     /**
      * @return null|int [°]
      */
-    public function footstrikeTypeRight()
+    public function footstrikeTypeRight(): ?int
     {
-        return $this->Data[self::AVG_FOOTSTRIKE_TYPE_RIGHT];
+        return (int) $this->Data[self::AVG_FOOTSTRIKE_TYPE_RIGHT];
     }
 
     /**
      * @return null|float [°]
      */
-    public function pronationExcursionLeft()
+    public function pronationExcursionLeft(): ?float
     {
-        return $this->Data[self::AVG_PRONATION_EXCURSION_LEFT];
+        return (float) $this->Data[self::AVG_PRONATION_EXCURSION_LEFT];
     }
 
     /**
      * @return null|float [°]
      */
-    public function pronationExcursionRight()
+    public function pronationExcursionRight(): ?float
     {
-        return $this->Data[self::AVG_PRONATION_EXCURSION_RIGHT];
+        return (float) $this->Data[self::AVG_PRONATION_EXCURSION_RIGHT];
     }
 
     public function weather(): ?\Runalyze\Data\Weather
@@ -1567,7 +1524,7 @@ class Entity extends Model\EntityWithID
     /**
      * @return array<string, mixed>
      */
-    public function splitsAdditional()
+    public function splitsAdditional(): mixed
     {
         // #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
         return json_decode($this->Data[self::SPLITS_ADDITIONAL], true);
@@ -1591,7 +1548,7 @@ class Entity extends Model\EntityWithID
      * PaceGoal #TSC
      * @return array<string, mixed>
      */
-    public function paceGoal()
+    public function paceGoal(): mixed
     {
         // #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
         return json_decode($this->Data[self::PACE_GOAL], true);
@@ -1605,7 +1562,7 @@ class Entity extends Model\EntityWithID
         return $this->Data[self::NOTES];
     }
 
-    public function unsetRunningValues()
+    public function unsetRunningValues(): void
     {
         $this->set(self::VO2MAX_BY_TIME, null);
         $this->set(self::VO2MAX, null);

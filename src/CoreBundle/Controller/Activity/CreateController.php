@@ -25,7 +25,6 @@ use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Util\LocalTime;
 use Runalyze\Util\ServerParams;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,10 +76,11 @@ class CreateController extends AbstractController
 
     /**
      * @Route("/activity/add", name="activity-add")
-     * @Security("has_role('ROLE_USER')")
      */
     public function createAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $defaultUploadMode = $this->configurationManager
             ->getList()
             ->getActivityForm()
@@ -99,19 +99,21 @@ class CreateController extends AbstractController
 
     /**
      * @Route("/activity/communicator", name="activity-communicator")
-     * @Security("has_role('ROLE_USER')")
      */
     public function communicatorAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('activity/import_garmin_communicator.html.twig');
     }
 
     /**
      * @Route("/activity/communicator/iframe", name="activity-communicator-iframe")
-     * @Security("has_role('ROLE_USER')")
      */
     public function communicatorIFrameAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('import/garmin_communicator.html.twig', [
             'garminAPIKey' => $this->getParameter('app.garmin_api_key'),
         ]);
@@ -119,10 +121,11 @@ class CreateController extends AbstractController
 
     /**
      * @Route("/activity/upload", name="activity-upload")
-     * @Security("has_role('ROLE_USER')")
      */
     public function uploadAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $importResult = null;
         $importDir = $this->getParameter('app.data_directory') . '/import/';
 
@@ -133,13 +136,11 @@ class CreateController extends AbstractController
         } elseif ($request->query->has('files')) {
             $importer = $this->fileImporter;
             $importResult = $importer->importFiles(
-                array_map(function ($file) use ($importDir): string {
-                    return $importDir . $file;
-                }, explode(';', $request->query->get('files')))
+                array_map(fn ($file): string => $importDir . $file, explode(';', $request->query->get('files')))
             );
         }
 
-        if ($importResult !== null) {
+        if ($importResult instanceof \Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection) {
             return $this->getResponseForImportResults($importResult, $account, $request);
         }
 
@@ -219,10 +220,11 @@ class CreateController extends AbstractController
 
     /**
      * @Route("/activity/multi-import", name="activity-multi-importer")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function multiImporterAction(Request $request, Account $account)
+    public function multiImporterAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(MultiImporterType::class, [], [
             'action' => $this->generateUrl('activity-multi-importer'),
         ]);
@@ -276,10 +278,11 @@ class CreateController extends AbstractController
 
     /**
      * @Route("/activity/new", name="activity-new")
-     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if ($request->query->has('date')) {
             $time = LocalTime::fromString($request->query->get('date'))->getTimestamp();
         } else {

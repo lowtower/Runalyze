@@ -10,7 +10,6 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\Tools\BackupExportType;
 use Runalyze\Bundle\CoreBundle\Message\BackupGenerationMessage;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -40,12 +39,11 @@ class BackupToolController extends AbstractController
 
     /**
      * @Route("/download/{filename}", name="tools-backup-download", requirements={"filename"=".+"})
-     * @Security("has_role('ROLE_USER')")
-     *
-     * @param string $filename
      */
-    public function downloadBackupAction($filename, Account $account): BinaryFileResponse
+    public function downloadBackupAction(string $filename, Account $account): BinaryFileResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $fileSystem = new Filesystem();
         $fileHandler = new FilenameHandler($account->getId());
         $filePath = $this->getPathToBackupFiles();
@@ -72,10 +70,11 @@ class BackupToolController extends AbstractController
 
     /**
      * @Route("", name="tools-backup")
-     * @Security("has_role('ROLE_USER')")
      */
     public function backupAction(Account $account, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var RouteRepository $repository */
         $repository = $this->getDoctrine()
             ->getManager()
@@ -106,12 +105,8 @@ class BackupToolController extends AbstractController
         $finder
             ->files()
             ->in($this->getPathToBackupFiles())
-            ->filter(function (\SplFileInfo $file) use ($fileHandler): bool {
-                return $fileHandler->validateInternalFilename($file->getFilename());
-            })
-            ->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-                return $b->getMTime() - $a->getMTime();
-            });
+            ->filter(fn (\SplFileInfo $file): bool => $fileHandler->validateInternalFilename($file->getFilename()))
+            ->sort(fn (\SplFileInfo $a, \SplFileInfo $b): int|float => $b->getMTime() - $a->getMTime());
 
         return $this->render('tools/backup/export.html.twig', [
             'backupjobWasCreated' => $this->get('session')

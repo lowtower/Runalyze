@@ -28,22 +28,6 @@ return ECSConfig::configure()
         NoUnusedImportsFixer::class,
     ])
 
-    // add sets - group of rules, from easiest to more complex ones
-    // uncomment one, apply one, commit, PR, merge and repeat
-    // ->withSets([
-    //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::SPACES,
-    //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::NAMESPACES,
-    //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::DOCBLOCKS,
-    //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::ARRAYS,
-    //      \Symplify\EasyCodingStandard\ValueObject\Set\SetList::COMMENTS,
-    // ])
-
-    // ...but first: take it step by step
-#    ->withSpacesLevel(22)               # max level 22
-#    ->withArrayLevel(15)                # max level 15
-#    ->withControlStructuresLevel(21)    # max level 21
-#    ->withDocblockLevel(24)             # max level 24
-
     ->withSets([
         SetList::PSR_12,
         SetList::CLEAN_CODE,

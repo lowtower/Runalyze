@@ -7,6 +7,8 @@
 
 namespace Runalyze\Model;
 
+use League\Geotools\Geohash\Geohash;
+
 /**
  * Loop through object
  *
@@ -23,32 +25,25 @@ abstract class Loop
 
     /**
      * Current index
-     * @var int
      */
-    protected $Index = 0;
+    protected int $Index = 0;
 
     /**
      * Last index
-     * @var int
      */
-    protected $LastIndex = 0;
+    protected int $LastIndex = 0;
 
     /**
      * Step size
-     * @var int
      */
-    protected $StepSize = 1;
+    protected int $StepSize = 1;
 
     /**
      * Total size
-     * @var int
      */
-    protected $TotalSize;
+    protected int $TotalSize;
 
-    /**
-     * @var null|Loopable
-     */
-    protected $Object;
+    protected ?Loopable $Object = null;
 
     /**
      * Construct
@@ -66,10 +61,7 @@ abstract class Loop
         $this->TotalSize = $this->Object->num();
     }
 
-    /**
-     * @return int
-     */
-    public function num()
+    public function num(): int
     {
         return $this->TotalSize;
     }
@@ -84,19 +76,19 @@ abstract class Loop
         $this->LastIndex = 0;
     }
 
-    /**
-     * @param int $size
-     */
-    public function setStepSize($size)
+    public function setStepSize(int $size): void
     {
+        if ($size <= 0) {
+            throw new \InvalidArgumentException('Step size must be greater than zero.');
+        }
+
         $this->StepSize = $size;
     }
 
     /**
      * Move index forward
-     * @return bool
      */
-    public function nextStep()
+    public function nextStep(): bool
     {
         $this->LastIndex = $this->Index;
         $this->Index += $this->StepSize;
@@ -111,52 +103,38 @@ abstract class Loop
 
     /**
      * Is at the end?
-     * @return bool
      */
-    public function isAtEnd()
+    public function isAtEnd(): bool
     {
         return $this->Index >= $this->TotalSize - 1;
     }
 
     /**
      * Move pointer
-     * @param string $key
      * @param float $value to move
      * @throws \InvalidArgumentException
      */
-    public function move($key, $value)
+    public function move(string $key, float $value)
     {
-        $this->moveTo($key, $this->Index == 0 && $value > $this->current($key) ? $value : $this->current($key) + $value);
+        $this->moveTo($key, $this->Index === 0 && $value > $this->current($key) ? $value : $this->current($key) + $value);
     }
 
-    /**
-     * @return int
-     */
-    public function index()
+    public function index(): int
     {
         return $this->Index;
     }
 
-    /**
-     * @return int
-     */
-    public function lastIndex()
+    public function lastIndex(): int
     {
         return $this->LastIndex;
     }
 
-    /**
-     * @return int
-     */
-    public function currentStepSize()
+    public function currentStepSize(): int
     {
         return $this->Index - $this->LastIndex;
     }
 
-    /**
-     * @param int $index
-     */
-    public function goToIndex($index)
+    public function goToIndex(int $index)
     {
         $this->LastIndex = $this->Index;
         $this->Index = $index;
@@ -179,13 +157,11 @@ abstract class Loop
      * BOUNDARY_NEAREST selects the value closest to the target, provided
      * that selecting the previous value advances the loop.
      *
-     * @param string $key
      * @param int|float $target
-     * @param int $boundaryMode
      *
      * @throws \InvalidArgumentException
      */
-    protected function moveTo($key, $target, $boundaryMode = self::BOUNDARY_AT_OR_AFTER)
+    protected function moveTo(string $key, $target, int $boundaryMode = self::BOUNDARY_AT_OR_AFTER)
     {
         if (! $this->Object->has($key)) {
             throw new \InvalidArgumentException(sprintf('Cannot move loop: key "%s" is not available.', $key));
@@ -240,10 +216,8 @@ abstract class Loop
 
     /**
      * Current value
-     * @param string $key
-     * @return int
      */
-    public function current($key)
+    public function current(string $key): int|float|string
     {
         if ($this->Object->has($key)) {
             return $this->Object->at($this->Index, $key);
@@ -254,13 +228,11 @@ abstract class Loop
 
     /**
      * Difference for current section
-     * @param string $key
-     * @return float
      */
-    public function difference($key)
+    public function difference(string $key): float
     {
         if ($this->Object->has($key)) {
-            if ($this->LastIndex == 0 && $this->Index == 0) {
+            if ($this->LastIndex === 0 && $this->Index === 0) {
                 return $this->Object->at($this->Index, $key);
             }
 
@@ -272,15 +244,13 @@ abstract class Loop
 
     /**
      * Sum values for current section
-     * @param string $key
-     * @return float
      */
-    public function sum($key)
+    public function sum(string $key): float
     {
         $sum = 0;
 
         if ($this->Object->has($key)) {
-            $start = $this->LastIndex == 0 ? $this->LastIndex : $this->LastIndex + 1;
+            $start = $this->LastIndex === 0 ? $this->LastIndex : $this->LastIndex + 1;
             for ($i = $start; $i <= $this->Index; ++$i) {
                 $v = $this->Object->at($i, $key);
                 if (is_numeric($v)) {
@@ -300,7 +270,7 @@ abstract class Loop
         $max = -PHP_INT_MAX;
 
         if ($this->Object->has($key)) {
-            $start = $this->LastIndex == 0 ? $this->LastIndex : $this->LastIndex + 1;
+            $start = $this->LastIndex === 0 ? $this->LastIndex : $this->LastIndex + 1;
             for ($i = $start; $i <= $this->Index; ++$i) {
                 if ($this->Object->at($i, $key) > $max) {
                     $v = $this->Object->at($i, $key);
@@ -327,13 +297,13 @@ abstract class Loop
             return null;
         }
 
-        return $this->sum($key) / ($this->Index - $this->LastIndex + (int) ($this->LastIndex == 0));
+        return $this->sum($key) / ($this->Index - $this->LastIndex + (int) ($this->LastIndex === 0));
     }
 
     public function slice(string $key): array
     {
         if ($this->Object->has($key)) {
-            $start = $this->LastIndex == 0 ? $this->LastIndex : $this->LastIndex + 1;
+            $start = $this->LastIndex === 0 ? $this->LastIndex : $this->LastIndex + 1;
             return array_slice($this->Object->get($key), $start, $this->Index - $start + 1);
         }
 
@@ -365,4 +335,12 @@ abstract class Loop
      * @param mixed[][] $data
      */
     abstract protected function createNewObject(array $data): \Runalyze\Model\Entity;
+
+    protected function decodedGeohash(string $geohash): Geohash
+    {
+        /** @var Geohash $decoded */
+        $decoded = (new Geohash())->decode($geohash);
+
+        return $decoded;
+    }
 }

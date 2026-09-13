@@ -221,12 +221,11 @@ abstract class Entity
 
     /**
      * Set array
-     * @param string $key
      * @param mixed $value
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         if (! array_key_exists($key, $this->Data)) {
             throw new \InvalidArgumentException('Unkown data index "' . $key . '".');

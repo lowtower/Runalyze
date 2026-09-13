@@ -18,7 +18,6 @@ use Runalyze\Dataset as RunalyzeDataset;
 use Runalyze\Dataset\DefaultConfiguration;
 use Runalyze\Dataset\Keys;
 use Runalyze\Language;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -66,10 +65,11 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/account", name="settings-account")
-     * @Security("has_role('ROLE_USER')")
      */
     public function settingsAccountAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $currentLanguage = $account->getLanguage();
@@ -114,10 +114,11 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/password", name="settings-password")
-     * @Security("has_role('ROLE_USER')")
      */
     public function settingsPasswordAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(ChangePasswordType::class, $account, [
             'action' => $this->generateUrl('settings-password'),
         ]);
@@ -140,10 +141,11 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/mail", name="settings-mail")
-     * @Security("has_role('ROLE_USER')")
      */
     public function settingsMailAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(ChangeMailType::class, $account, [
             'action' => $this->generateUrl('settings-mail'),
         ]);
@@ -168,10 +170,11 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/account/delete", name="settings-account-delete")
-     * @Security("has_role('ROLE_USER')")
      */
     public function windowDeleteAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $account->setNewDeletionHash();
         $this->getAccountRepository()
             ->save($account);
@@ -184,10 +187,11 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/dataset", name="settings-dataset-update", methods={"POST"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function datasetPostAction(Account $account, Request $request): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $em = $this->getDoctrine()
             ->getManager();
 
@@ -216,13 +220,13 @@ class SettingsController extends AbstractController
 
     /**
      * @Route("/settings/dataset", name="settings-dataset", methods={"GET"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function datasetAction(Account $account, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
-        /** @var Dataset[] $dataset */
         $dataset = $this->getDatasetRepository()
             ->findAllFor($account);
         $missingKeyObjects = array_flip(RunalyzeDataset\Keys::getEnum());

@@ -284,7 +284,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         $this->Pauses = new Pauses($this->Data[self::PAUSES]);
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         if ($this->Pauses->isEmpty()) {
             $this->Data[self::PAUSES] = null;
@@ -344,18 +344,16 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Is the property an array?
-     * @param string $key
      */
-    public function isArray($key): bool
+    public function isArray(string $key): bool
     {
-        return $key != self::PAUSES && $key != self::ACTIVITYID;
+        return $key !== self::PAUSES && $key !== self::ACTIVITYID;
     }
 
     /**
      * Can be null?
-     * @param string $key
      */
-    protected function canBeNull($key): bool
+    protected function canBeNull(string $key): bool
     {
         switch ($key) {
             case self::TIME:
@@ -390,9 +388,8 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Is not in Database?
-     * @param string $key
      */
-    protected function notInDatabase($key): bool
+    protected function notInDatabase(string $key): bool
     {
         switch ($key) {
             case self::PACE:
@@ -406,14 +403,13 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Ignore a key while checking for emptiness
-     * @param string $key
      */
-    protected function ignoreNonEmptyValue($key): bool
+    protected function ignoreNonEmptyValue(string $key): bool
     {
-        return $key == self::ACTIVITYID;
+        return $key === self::ACTIVITYID;
     }
 
-    public function clear()
+    public function clear(): void
     {
         parent::clear();
 
@@ -422,22 +418,20 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Can set key?
-     * @param string $key
      */
-    protected function canSet($key): bool
+    protected function canSet(string $key): bool
     {
-        return $key != self::PAUSES;
+        return $key !== self::PAUSES;
     }
 
     /**
      * Value at
      *
      * Remark: This method may throw index offsets.
-     * @param int $index
-     * @param string $key
+     * @param int $key enum
      * @return mixed
      */
-    public function at($index, $key)
+    public function at(int $index, $key)
     {
         if (! isset($this->Data[$key][$index])) {
             throw new \OutOfBoundsException("Undefined offset: {$index}");
@@ -448,9 +442,8 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Get activity id
-     * @return int
      */
-    public function activityID()
+    public function activityID(): int
     {
         return $this->Data[self::ACTIVITYID];
     }
@@ -514,7 +507,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
     /**
      * Theoretical pace will force the loop to ignore distance data for average pace
      */
-    public function setTheoreticalPace(array $data, bool $flag = true)
+    public function setTheoreticalPace(array $data, bool $flag = true): void
     {
         $this->set(self::PACE, $data);
 
@@ -747,9 +740,8 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
 
     /**
      * Get pauses
-     * @return \Runalyze\Model\Trackdata\Pauses
      */
-    public function pauses()
+    public function pauses(): \Runalyze\Model\Trackdata\Pauses
     {
         return $this->Pauses;
     }
@@ -762,7 +754,7 @@ class Entity extends Model\Entity implements Model\Loopable, Model\Common\WithNu
         return ! $this->Pauses->isEmpty();
     }
 
-    public function calculatePaceArray()
+    public function calculatePaceArray(): void
     {
         if (! $this->has(self::PACE)) {
             $PaceCalculator = new PaceCalculator($this);

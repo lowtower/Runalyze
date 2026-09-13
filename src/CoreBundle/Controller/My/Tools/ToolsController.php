@@ -26,7 +26,6 @@ use Runalyze\Bundle\CoreBundle\Message\PosterGenerationMessage;
 use Runalyze\Metrics\Common\JavaScriptFormatter;
 use Runalyze\Sports\Running\Prognosis\VO2max;
 use Runalyze\Sports\Running\VO2max\VO2maxVelocity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -71,10 +70,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/cleanup", name="tools-cleanup")
-     * @Security("has_role('ROLE_USER')")
      */
     public function cleanupAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $prefix = $this->parameterBag->get('app.database_prefix');
 
         $defaultData = [];
@@ -104,10 +104,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/tables/vo2max-pace", name="tools-tables-vo2max-pace")
-     * @Security("has_role('ROLE_USER')")
      */
     public function tableVo2maxPaceAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $config = $this->get('app.configuration_manager')
             ->getList();
         $running = $this->getDoctrine()
@@ -125,10 +126,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/tables/general-pace", name="tools-tables-general-pace")
-     * @Security("has_role('ROLE_USER')")
      */
     public function tableGeneralPaceAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('tools/tables/general_paces.html.twig', [
             'activeTable' => 3,
         ]);
@@ -137,10 +139,11 @@ class ToolsController extends AbstractController
     /**
      * @Route("/my/tools/tables/vo2max", name="tools-tables-vo2max")
      * @Route("/my/tools/tables", name="tools-tables")
-     * @Security("has_role('ROLE_USER')")
      */
     public function tableVo2maxRaceResultAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('tools/tables/vo2max.html.twig', [
             'activeTable' => 1,
             'currentVo2max' => $this->get('app.configuration_manager')
@@ -154,10 +157,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/vo2max-analysis", name="tools-vo2max-analysis")
-     * @Security("has_role('ROLE_USER')")
      */
     public function vo2maxAnalysisAction(Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $configuration = $this->get('app.configuration_manager')
@@ -180,10 +184,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/anova", name="tools-anova")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function anovaAction(Request $request, Account $account)
+    public function anovaAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var SportRepository $repository */
         $repository = $this->getDoctrine()
             ->getRepository(Sport::class);
@@ -228,10 +233,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/trend-analysis", name="tools-trend-analysis")
-     * @Security("has_role('ROLE_USER')")
      */
-    public function trendAnalysisAction(Request $request, Account $account)
+    public function trendAnalysisAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var SportRepository $repository */
         $repository = $this->getDoctrine()
             ->getRepository(Sport::class);
@@ -272,10 +278,11 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/poster", name="poster")
-     * @Security("has_role('ROLE_USER')")
      */
     public function posterAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var TrainingRepository $repository */
         $repository = $this->getDoctrine()
             ->getRepository(Training::class);
@@ -328,19 +335,21 @@ class ToolsController extends AbstractController
 
     /**
      * @Route("/my/tools/poster/{name}", name="poster-download", requirements={"name"=".+"})
-     * @Security("has_role('ROLE_USER')")
      */
     public function posterDownloadAction(Account $account, string $name): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->fileHandler->getPosterDownloadResponse($account, $name);
     }
 
     /**
      * @Route("/my/tools", name="tools")
-     * @Security("has_role('ROLE_USER')")
      */
     public function overviewAction(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('tools/tools_list.html.twig', [
             'posterAvailable' => $this->posterAvailability->isAvailable(),
         ]);

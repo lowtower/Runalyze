@@ -26,13 +26,12 @@ class TableZonesHeartrate extends TableZonesAbstract
 
     public const DEFAULT_COLOR = '#c6c5c5';
 
-    private string $footerHint;
+    private string $footerHint = '';
 
     /**
      * Calculator
-     * @var Runalyze\Calculation\Activity\HrZonesCalculator
      */
-    protected $Calculator;
+    protected \Runalyze\Calculation\Activity\HrZonesCalculator $Calculator;
 
     public function __construct(Context $context)
     {
@@ -94,71 +93,121 @@ class TableZonesHeartrate extends TableZonesAbstract
     protected function computeZones(): array
     {
         if ($this->Context->activity()->maxHrUser() !== null) {
-            $hrMax = (int) $this->Context->activity()
+            $hrMax = $this->Context->activity()
                 ->maxHrUser();
-            $footerHintMaxHr = 'with a maximum users heart-rate of ' . $hrMax . ' from the activity.';
+            $footerHintMaxHr = sprintf(
+                'with a maximum user heart rate of %d from the activity.',
+                $hrMax
+            );
         } else {
-            $hrMax = Runalyze\Configuration::Data()->HRmax();
-            $footerHintMaxHr = 'with a maximum users heart-rate of ' . $hrMax . ' from the users body data.';
+            $hrMax = (int) Runalyze\Configuration::Data()->HRmax();
+            $footerHintMaxHr = sprintf(
+                'with a maximum user heart rate of %d from the user body data.',
+                $hrMax
+            );
         }
 
-        $Zones = [];
+        if ($hrMax <= 0) {
+            $this->footerHint =
+                'Heart-rate zones cannot be calculated because no valid '
+                . 'maximum heart rate is available.';
+
+            return [];
+        }
+
+        $zones = [];
+
         $hasDistance = $this->Context->trackdata()
             ->has(Trackdata\Entity::DISTANCE);
 
-        $Distribution = new TimeSeriesForTrackdata(
+        $distribution = new TimeSeriesForTrackdata(
             $this->Context->trackdata(),
             Trackdata\Entity::HEARTRATE,
             $hasDistance ? [Trackdata\Entity::DISTANCE] : []
         );
-        $Data = $Distribution->data();
 
-        // the histogram of bpm is already "summarized", so a bpm is only one time in the histogram
-        // sort it in key order: key=bpm value=sumarized seconds
-        $sortHist = $Distribution->histogram();
-        ksort($sortHist);
+        $data = $distribution->data();
+        $histogram = $distribution->histogram();
 
-        $defaultZones = $this->getZones(array_key_first($sortHist), array_key_last($sortHist), $hrMax, $footerHintMaxHr);
+        if (empty($histogram)) {
+            $this->footerHint =
+                'Heart-rate zones cannot be calculated because no '
+                . 'heart-rate data is available.';
 
-        foreach ($sortHist as $bpm => $seconds) {
-            // index is 1-n of the relevant key to use
-            $z = $this->zoneFor($bpm, $defaultZones);
+            return [];
+        }
 
-            if (! isset($Zones[$z])) {
-                $startHr = $defaultZones[$z]['hr'];
-                $endHr = $defaultZones[$z + 1]['hr'] - 1; // use the next zone hr as the high bound of this zone
+        ksort($histogram);
 
-                $Zones[$z] = [
-                    'text' => array_key_exists('t', $defaultZones[$z]) ? $defaultZones[$z]['t'] : '',
+        $minHr = array_key_first($histogram);
+        $maxHr = array_key_last($histogram);
+
+        if (! is_int($minHr) && ! ctype_digit((string) $minHr)) {
+            $this->footerHint =
+                'Heart-rate zones cannot be calculated because the '
+                . 'heart-rate data contains invalid values.';
+
+            return [];
+        }
+
+        if (! is_int($maxHr) && ! ctype_digit((string) $maxHr)) {
+            $this->footerHint =
+                'Heart-rate zones cannot be calculated because the '
+                . 'heart-rate data contains invalid values.';
+
+            return [];
+        }
+
+        $defaultZones = $this->getZones(
+            (int) $minHr,
+            (int) $maxHr,
+            $hrMax,
+            $footerHintMaxHr
+        );
+
+        foreach ($histogram as $bpm => $seconds) {
+            $zoneIndex = $this->zoneFor($bpm, $defaultZones);
+
+            if ($zoneIndex === null) {
+                continue;
+            }
+
+            if (
+                ! isset($defaultZones[$zoneIndex]) ||
+                ! isset($defaultZones[$zoneIndex + 1])
+            ) {
+                continue;
+            }
+
+            if (! isset($zones[$zoneIndex])) {
+                $startHr = (int) $defaultZones[$zoneIndex]['hr'];
+                $endHr = (int) $defaultZones[$zoneIndex + 1]['hr'] - 1;
+
+                $zones[$zoneIndex] = [
+                    'text' => $defaultZones[$zoneIndex]['t'] ?? '',
                     '#start' => $startHr,
                     '#end' => $endHr,
-                    '%start' => round(100 / $hrMax * $startHr),
-                    '%end' => round(100 / $hrMax * $endHr),
+                    '%start' => (int) round(100 * $startHr / $hrMax),
+                    '%end' => (int) round(100 * $endHr / $hrMax),
                     'time' => 0,
-                    'distance' => 0,
-                    'color' => array_key_exists('c', $defaultZones[$z]) ? $defaultZones[$z]['c'] : self::DEFAULT_COLOR,
+                    'distance' => 0.0,
+                    'color' => $defaultZones[$zoneIndex]['c']
+                        ?? self::DEFAULT_COLOR,
                 ];
             }
 
-            $Zones[$z]['time'] += $seconds;
-            $Zones[$z]['distance'] += $hasDistance ? $Data[$bpm][Trackdata\Entity::DISTANCE] : 0;
+            $zones[$zoneIndex]['time'] += $seconds;
+            $zones[$zoneIndex]['distance'] += $hasDistance
+                ? ($data[$bpm][Trackdata\Entity::DISTANCE] ?? 0.0)
+                : 0.0;
         }
 
-        foreach ($Zones as &$z) {
-            $z['%start'] = round(100 / $hrMax * $z['#start']);
-            $z['%end'] = round(100 / $hrMax * $z['#end']);
-        }
+        ksort($zones, SORT_NUMERIC);
 
-        ksort($Zones, SORT_NUMERIC);
-
-        return $Zones;
+        return $zones;
     }
 
-    /**
-     * @param int $bpm
-     * @param array $zones
-     */
-    private function zoneFor($bpm, $zones): ?int
+    private function zoneFor(int $bpm, array $zones): ?int
     {
         foreach ($zones as $key => $value) {
             if ($bpm >= $value['hr']) {
@@ -169,7 +218,10 @@ class TableZonesHeartrate extends TableZonesAbstract
         return null;
     }
 
-    private function getZones(int $minHr, int $maxHr, int $hrMaxUser, string $footerHintMaxHr)
+    /**
+     * @return mixed[]
+     */
+    private function getZones(int $minHr, int $maxHr, int $hrMaxUser, string $footerHintMaxHr): array
     {
         $z = $this->Calculator->getZones($minHr, $maxHr, $hrMaxUser);
         $this->footerHint = 'Shows the ' . $this->Calculator->getSourceHint() . ' ' . $footerHintMaxHr;

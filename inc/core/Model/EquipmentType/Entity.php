@@ -75,7 +75,7 @@ class Entity extends Model\EntityWithID
         return static::allDatabaseProperties();
     }
 
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -94,10 +94,7 @@ class Entity extends Model\EntityWithID
         ]);
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }
@@ -131,7 +128,7 @@ class Entity extends Model\EntityWithID
      * Maximal duration
      * @return int [s]
      */
-    public function maxDuration()
+    public function maxDuration(): int
     {
         return $this->Data[self::MAX_TIME];
     }

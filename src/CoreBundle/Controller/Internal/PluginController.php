@@ -6,7 +6,6 @@ use Runalyze\Bundle\CoreBundle\Controller\AbstractPluginsAwareController;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\Plugin;
 use Runalyze\Bundle\CoreBundle\Entity\PluginRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +24,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/toggle/{id}", name="internal-plugin-toggle")
-     * @Security("has_role('ROLE_USER')")
      */
     public function togglePanelAction(int $id, Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $plugin = $this->getPluginRepository()
             ->find($id);
         if ($plugin === null || $plugin->getAccount()->getId() != $account->getId()) {
@@ -47,10 +47,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/move/{id}/up", name="internal-plugin-move-up")
-     * @Security("has_role('ROLE_USER')")
      */
     public function movePanelUpAction(int $id, Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $plugin = $this->getPluginRepository()
             ->find($id);
 
@@ -70,10 +71,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/move/{id}/down", name="internal-plugin-move-down")
-     * @Security("has_role('ROLE_USER')")
      */
     public function movePanelDownAction(int $id, Account $account): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         // Plugin manuell aus der Datenbank laden
         $plugin = $this->getPluginRepository()
             ->find($id);
@@ -94,10 +96,11 @@ class PluginController extends AbstractPluginsAwareController
 
     /**
      * @Route("/all-panels", name="internal-plugin-all-panels")
-     * @Security("has_role('ROLE_USER')")
      */
     public function contentPanelsAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(false, $this->tokenStorage, $this->parameterBag);
 
         return $this->getResponseForAllEnabledPanels($request, $account);

@@ -26,13 +26,14 @@ interface Loopable
      * Value at
      *
      * Remark: This method may throw index offsets.
+     * @param int $key enum
      * @return mixed
      */
-    public function at(int $index, string $key);
+    public function at(int $index, $key);
 
     /**
      * Get array for this key
-     * @return array|mixed
+     * @return array
      * @throws \InvalidArgumentException
      */
     public function get(string $key);

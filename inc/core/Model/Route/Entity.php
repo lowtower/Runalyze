@@ -166,10 +166,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * Construct factory for route data where every x point is used.
      * #TSC This is used to reduce the amount of routes and the shown gps positions; so more routes
      * can be shown with lower resolution.
-     *
-     * @param int $positioninterval
      */
-    public static function createWithIntervalClearing(array &$data, $positioninterval = 1): self
+    public static function createWithIntervalClearing(array &$data, int $positioninterval = 1): self
     {
         $e = new self($data);
 
@@ -314,7 +312,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     /**
      * Synchronize internal models
      */
-    public function synchronize()
+    public function synchronize(): void
     {
         parent::synchronize();
 
@@ -343,26 +341,25 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Set array
-     * @param string $key
      * @param mixed $value
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function set($key, $value)
+    public function set(string $key, $value): void
     {
         parent::set($key, $value);
 
-        if ($key == self::GEOHASHES) {
+        if ($key === self::GEOHASHES) {
             $this->setMinMaxFromGeohashes($value);
         }
     }
 
-    public function setGeohashesWithoutMinMaxRecalculation(array $geohashes)
+    public function setGeohashesWithoutMinMaxRecalculation(array $geohashes): void
     {
         $this->Data[self::GEOHASHES] = $geohashes;
     }
 
-    public function setMinMaxFromGeohashes(?array $geohashes = null)
+    public function setMinMaxFromGeohashes(?array $geohashes = null): void
     {
         if ($geohashes === null) {
             $this->setMinMaxToNull();
@@ -374,8 +371,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $longitudes = [];
 
         foreach ($geohashes as $geohash) {
-            $coordinate = (new Geohash())->decode($geohash)
-                ->getCoordinate();
+            $coordinate = $this->coordinate($geohash);
             $latitudes[] = round($coordinate->getLatitude(), 6);
             $longitudes[] = round($coordinate->getLongitude(), 6);
         }
@@ -383,7 +379,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $this->setMinMaxFromLatitudesLongitudes($latitudes, $longitudes);
     }
 
-    public function forceToSetMinMaxFromGeohashes()
+    public function forceToSetMinMaxFromGeohashes(): void
     {
         $this->setMinMaxFromGeohashes($this->Data[self::GEOHASHES]);
     }
@@ -394,7 +390,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * @param array<int, mixed> $longitudes
      * @throws \InvalidArgumentException
      */
-    public function setLatitudesLongitudes(array $latitudes, array $longitudes)
+    public function setLatitudesLongitudes(array $latitudes, array $longitudes): void
     {
         $size = count($latitudes);
 
@@ -402,8 +398,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
             throw new \InvalidArgumentException('Latitude & Longitude Array cannot have different lenghts');
         }
 
-        $latitudes = array_map(function ($value) { return ($value == '') ? 0 : (float) $value; }, $latitudes);
-        $longitudes = array_map(function ($value) { return ($value == '') ? 0 : (float) $value; }, $longitudes);
+        $latitudes = array_map(fn ($value): float|int => ($value == '') ? 0 : (float) $value, $latitudes);
+        $longitudes = array_map(fn ($value): float|int => ($value == '') ? 0 : (float) $value, $longitudes);
 
         $geohashes = [];
 
@@ -428,7 +424,7 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         $size = count($this->Data[self::GEOHASHES]);
 
         for ($i = 0; $i < $size; $i++) {
-            $geo = (new Geohash())->decode($Geohashes[$i])->getCoordinate();
+            $geo = $this->coordinate($Geohashes[$i]);
             $Coordinates['lat'][] = round($geo->getLatitude(), 6);
             $Coordinates['lng'][] = round($geo->getLongitude(), 6);
         }
@@ -496,26 +492,17 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
     }
 
-    /**
-     * @return string|null
-     */
-    protected function findStartpoint()
+    protected function findStartpoint(): ?string
     {
         return $this->findFirstNonNullGeohash($this->Data[self::GEOHASHES]);
     }
 
-    /**
-     * @return string|null
-     */
-    protected function findEndpoint()
+    protected function findEndpoint(): ?string
     {
         return $this->findFirstNonNullGeohash(array_reverse($this->Data[self::GEOHASHES]));
     }
 
-    /**
-     * @return null|string
-     */
-    protected function findFirstNonNullGeohash(array $geohashes)
+    protected function findFirstNonNullGeohash(array $geohashes): ?string
     {
         $nullGeohash = (new Geohash())->encode(new Coordinate([0, 0]), self::BOUNDARIES_GEOHASH_PRECISION)->getGeohash();
 
@@ -542,19 +529,14 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
      * Value at
      *
      * Remark: This method may throw index offsets.
-     * @param int $index
-     * @param string $key
      * @return mixed
      */
-    public function at($index, $key)
+    public function at(int $index, $key)
     {
         return $this->Data[$key][$index];
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->Data[self::NAME];
     }
@@ -589,9 +571,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Geohashes
-     * @return array
      */
-    public function geohashes()
+    public function geohashes(): array
     {
         return $this->Data[self::GEOHASHES];
     }
@@ -614,36 +595,32 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Original elevations
-     * @return array
      */
-    public function elevationsOriginal()
+    public function elevationsOriginal(): array
     {
         return $this->Data[self::ELEVATIONS_ORIGINAL];
     }
 
     /**
      * Corrected elevations
-     * @return array
      */
-    public function elevationsCorrected()
+    public function elevationsCorrected(): array
     {
         return $this->Data[self::ELEVATIONS_CORRECTED];
     }
 
     /**
      * Strategy name of elevation correction
-     * @return string
      */
-    public function elevationsSource()
+    public function elevationsSource(): string
     {
         return $this->Data[self::ELEVATIONS_SOURCE];
     }
 
     /**
      * Barometric device
-     * @return string
      */
-    public function altitudeBarometric()
+    public function altitudeBarometric(): string
     {
         return $this->Data[self::ALTITUDE_BAROMETRIC];
     }
@@ -651,22 +628,19 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
     public function min(): CoordinateInterface
     {
         $geohash = $this->Data[self::MIN];
-        return (new Geohash())->decode($geohash)
-            ->getCoordinate();
+        return $this->coordinate($geohash);
     }
 
     public function max(): CoordinateInterface
     {
         $geohash = $this->Data[self::MAX];
-        return (new Geohash())->decode($geohash)
-            ->getCoordinate();
+        return $this->coordinate($geohash);
     }
 
     /**
      * Elevations array (corrected or original)
-     * @return array
      */
-    public function elevations()
+    public function elevations(): array
     {
         if ($this->hasCorrectedElevations()) {
             return $this->elevationsCorrected();
@@ -704,13 +678,8 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
 
     /**
      * Calculate distance between two coordinates
-     * @param float $lat1
-     * @param float $lon1
-     * @param float $lat2
-     * @param float $lon2
-     * @return float
      */
-    public static function gpsDistance($lat1, $lon1, $lat2, $lon2)
+    public static function gpsDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
     {
         $rad1 = deg2rad($lat1);
         $rad2 = deg2rad($lat2);
@@ -725,5 +694,19 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
 
         return $miles * 1.609344;
+    }
+
+    private function coordinate(string $geohash): CoordinateInterface
+    {
+        return $this->decodedGeohash($geohash)
+            ->getCoordinate();
+    }
+
+    private function decodedGeohash(string $geohash): Geohash
+    {
+        /** @var Geohash $decoded */
+        $decoded = (new Geohash())->decode($geohash);
+
+        return $decoded;
     }
 }

@@ -5,7 +5,6 @@ namespace Runalyze\Bundle\CoreBundle\Controller\Internal;
 use Runalyze\Bundle\CoreBundle\Controller\AppServiceSubscriberTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,22 +14,23 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
 
     /**
      * @Route("/_internal/activity/matcher", name="internal-activity-matcher")
-     * @Security("has_role('ROLE_USER')")
      */
     public function ajaxActivityMatcher(): \Symfony\Component\HttpFoundation\JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $ids = [];
         $matches = [];
         $input = explode('&', urldecode(file_get_contents('php://input')));
 
         foreach ($input as $line) {
-            if (substr($line, 0, 12) == 'externalIds=') {
+            if (substr($line, 0, 12) === 'externalIds=') {
                 $ids[] = substr($line, 12);
             }
         }
 
         $duplicateFinder = $this->get('app.activity_duplicate_finder');
-        $ignoredActivityIds = array_map(function ($v) {
+        $ignoredActivityIds = array_map(function ($v): float|int {
             try {
                 return (int) floor($this->parserStrtotime($v) / 60.0) * 60.0;
             } catch (\Exception $exception) {
@@ -68,7 +68,7 @@ class ActivityMatcherController extends \Symfony\Bundle\FrameworkBundle\Controll
      */
     private function parserStrtotime($string): int
     {
-        if (substr($string, -1) == 'Z') {
+        if (substr($string, -1) === 'Z') {
             return LocalTime::fromServerTime((int) strtotime(substr($string, 0, -1) . ' UTC'))->getTimestamp();
         }
 

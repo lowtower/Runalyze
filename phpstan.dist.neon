@@ -5,7 +5,7 @@ includes:
 
 parameters:
     level: 3
-    phpVersion: 70433
+    phpVersion: 80030
 
     bootstrapFiles:
         - vendor/autoload.php

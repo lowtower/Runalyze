@@ -25,7 +25,7 @@ class Entity extends StringArrayObject
 
     /**
      * Single objects
-     * @var \Runalyze\Model\Activity\Splits\Split[]
+     * @var Split[]
      */
     protected $Elements = [];
 
@@ -40,10 +40,10 @@ class Entity extends StringArrayObject
     }
 
     /**
-     * @param \Runalyze\Model\Activity\Splits\Split[] $splits
+     * @param Split[] $splits
      * @throws \InvalidArgumentException
      */
-    public function fromArray(array $splits)
+    public function fromArray(array $splits): void
     {
         $this->clear();
 
@@ -60,17 +60,14 @@ class Entity extends StringArrayObject
 
     /**
      * As array
-     * @return \Runalyze\Model\Activity\Splits\Split[]
+     * @return Split[]
      */
     public function asArray(): array
     {
         return $this->Elements;
     }
 
-    /**
-     * @param string $string
-     */
-    public function fromString($string)
+    public function fromString(string $string): void
     {
         $this->clear();
 
@@ -101,10 +98,10 @@ class Entity extends StringArrayObject
 
     /**
      * Add split
-     * @param \Runalyze\Model\Activity\Splits\Split $split
+     * @param Split $split
      * @throws \InvalidArgumentException
      */
-    public function add($split)
+    public function add($split): void
     {
         if (! ($split) instanceof Split) {
             throw new \InvalidArgumentException("Element to add has to be of type 'Split'.");
@@ -115,19 +112,17 @@ class Entity extends StringArrayObject
 
     /**
      * Get split
-     * @return \Runalyze\Model\Activity\Splits\Split
      * @throws \InvalidArgumentException
      */
-    public function at(int $index)
+    public function at(int $index): Split
     {
         return parent::at($index);
     }
 
     /**
      * Get total time
-     * @return int
      */
-    public function totalTime()
+    public function totalTime(): int
     {
         $time = 0;
 
@@ -140,9 +135,8 @@ class Entity extends StringArrayObject
 
     /**
      * Get total distance
-     * @return float
      */
-    public function totalDistance()
+    public function totalDistance(): float
     {
         $distance = 0;
 

@@ -45,10 +45,7 @@ class Entity extends Model\EntityWithID
         return static::allDatabaseProperties();
     }
 
-    /**
-     * @return string
-     */
-    public function tag()
+    public function tag(): string
     {
         return $this->Data[self::TAG];
     }

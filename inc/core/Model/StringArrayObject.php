@@ -28,7 +28,7 @@ abstract class StringArrayObject extends StringObject
      * Construct
      * @param string|array|null $data string or array
      */
-    public function __construct($data = '')
+    public function __construct(string|array|null $data = '')
     {
         if (is_array($data)) {
             $this->fromArray($data);

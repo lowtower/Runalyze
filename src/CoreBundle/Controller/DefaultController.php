@@ -11,7 +11,6 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Form\FeedbackType;
 use Runalyze\Bundle\CoreBundle\Form\RegistrationType;
 use Runalyze\Bundle\CoreBundle\Services\AccountMailer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,10 +67,11 @@ class DefaultController extends AbstractPluginsAwareController
 
     /**
      * @Route("/dashboard", name="dashboard")
-     * @Security("has_role('ROLE_USER')")
      */
     public function dashboardAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
 
         $panelsContent = $this->getResponseForAllEnabledPanels($request, $account)
@@ -146,7 +146,7 @@ class DefaultController extends AbstractPluginsAwareController
      */
     public function loginAction(
         Request $request
-    ) {
+    ): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response {
         if ($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('dashboard');
         }
@@ -208,7 +208,7 @@ class DefaultController extends AbstractPluginsAwareController
     /**
      * @Route("/index.php")
      */
-    public function indexPhpAction(Request $request, Account $account)
+    public function indexPhpAction(Request $request, Account $account): \Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($request->isXmlHttpRequest()) {
             $Frontend = new \Frontend(true, $this->tokenStorage, $this->parameterBag);
@@ -274,10 +274,11 @@ class DefaultController extends AbstractPluginsAwareController
 
     /**
      * @Route("/feedback", name="feedback")
-     * @Security("has_role('ROLE_USER')")
      */
     public function feedbackAction(Request $request, Account $account): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (! empty($this->parameterBag->get('app.feedback_mail'))) {
             $form = $this->createForm(FeedbackType::class, null, [
                 'action' => $this->generateUrl('feedback'),

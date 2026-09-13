@@ -20,7 +20,7 @@ function __($text): string
  * Echo the translation for a textstring
  * @param string $text
  */
-function _e($text)
+function _e($text): void
 {
     echo gettext($text);
 }

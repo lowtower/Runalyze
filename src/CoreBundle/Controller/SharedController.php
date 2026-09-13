@@ -150,7 +150,7 @@ class SharedController extends AbstractController
         } else {
             $accountStatistics = null;
             $legacyStatistics = null;
-            $publicList = null;
+            $publicList = false;
         }
 
         return $this->render('shared/athlete/base.html.twig', [
@@ -207,10 +207,7 @@ class SharedController extends AbstractController
         );
     }
 
-    /**
-     * @return \PlotSumData
-     */
-    protected function getPlotSumData()
+    protected function getPlotSumData(): \PlotSumData
     {
         $Request = Request::createFromGlobals();
 
