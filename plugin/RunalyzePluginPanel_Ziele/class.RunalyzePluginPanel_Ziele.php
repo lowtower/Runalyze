@@ -22,9 +22,9 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
 {
     /**
      * All lines
-     * @var array
+     * @var array<mixed, array<string, mixed>>
      */
-    private $Lines = [];
+    private array $Lines = [];
 
     final public function name(): string
     {
@@ -125,7 +125,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      * @param array<string, mixed> $Timeset
      * @param int $goal
      */
-    private function showTimeset(array &$Timeset, $goal)
+    private function showTimeset(array &$Timeset, $goal): void
     {
         $this->clearLines();
 
@@ -202,7 +202,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
         echo '<small class="right">' . sprintf(__('%s to %s (%d days)'), $start->format('d.m.Y'), $end->format('d.m.Y'), $dauer) . '</small>';
     }
 
-    private function clearLines()
+    private function clearLines(): void
     {
         $this->Lines = [];
     }
@@ -211,7 +211,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      * @param float $distance
      * @param int $num
      */
-    private function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false)
+    private function addHeadline(string $name, $distance = 0, $num = 0, bool $noTopBorder = false): void
     {
         $this->Lines[] = [
             'name' => $name,
@@ -226,7 +226,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      * @param float $distance
      * @param int $num
      */
-    private function addLine(string $name, $distance = 0, $num = 0)
+    private function addLine(string $name, int|float $distance = 0, int|float $num = 0): void
     {
         $this->Lines[] = [
             'name' => $name,
@@ -240,7 +240,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
      * @param float $val
      * @param float $max
      */
-    private function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null)
+    private function addBar(string $name, $val, $max, string $color, $add = null, $addcolor = null): void
     {
         $this->Lines[] = [
             'name' => $name,
@@ -256,7 +256,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     /**
      * @param array<string, mixed> $Array
      */
-    private function showLineOrBar(array &$Array)
+    private function showLineOrBar(array &$Array): void
     {
         if (isset($Array['type']) && $Array['type'] == 'bar') {
             $this->showBar($Array);
@@ -268,7 +268,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     /**
      * @param array<string, mixed> $Bar
      */
-    private function showBar(array &$Bar)
+    private function showBar(array &$Bar): void
     {
         $percentage = min(100, 100 * $Bar['val'] / $Bar['max']);
         $addPercentage = $Bar['add'] ? 100 * $Bar['add'] / $Bar['max'] : 0;
@@ -288,7 +288,7 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     /**
      * @param array<string, mixed> $Line
      */
-    private function showLine(array &$Line)
+    private function showLine(array &$Line): void
     {
         $span_format = isset($Line['lvl']) ? $this->getLevelStyle($Line['lvl']) : 0;
         $p_format = isset($Line['sep']) && $Line['sep'] ? ' style="border-top:1px solid #ccc;"' : '';
@@ -324,9 +324,8 @@ class RunalyzePluginPanel_Ziele extends PluginPanel
     /**
      * Fetch data
      * @param int $timestamp
-     * @return array
      */
-    private function fetchDataSince($timestamp)
+    private function fetchDataSince($timestamp): array
     {
         $Data = DB::getInstance()->query('
 			SELECT

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Model\Route;
 
 class EntityTest extends \PHPUnit\Framework\TestCase
@@ -21,7 +23,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $T = new Entity();
 
@@ -31,7 +33,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($T->inRoutenet());
     }
 
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $T = $this->simpleObject();
 
@@ -48,7 +50,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($T->inRoutenet());
     }
 
-    public function testSynchronization()
+    public function testSynchronization(): void
     {
         $T = $this->simpleObject();
         $T->synchronize();
@@ -63,7 +65,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1172
      */
-    public function testPossibilityOfTooLargeCorrectedElevations()
+    public function testPossibilityOfTooLargeCorrectedElevations(): void
     {
         $Object = new Entity([
             Entity::GEOHASHES => ['u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxfdx0cw', 'u1xjhxffrhw4', 'u1xjhxg4r0du', 'u1xjhxg6p6bq', 'u1xjhxgdn0fk', 'u1xjhxgcvgh0', 'u1xjhxu1tytn', 'u1xjhxu3s0j8'],
@@ -75,7 +77,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(11, count($Object->elevationsCorrected()));
     }
 
-    public function testSetLatitudesLongitudes()
+    public function testSetLatitudesLongitudes(): void
     {
         $Object = new Entity();
         $Object->setLatitudesLongitudes([47.7, 47.8], [7.8, 7.7]);
@@ -87,7 +89,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    public function testThatSetLatitudesLongitudesMustHaveExpectedSize()
+    public function testThatSetLatitudesLongitudesMustHaveExpectedSize(): void
     {
         $this->expectException(\RuntimeException::class);
         $Object = new Entity([
@@ -98,7 +100,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $Object->forceToSetMinMaxFromGeohashes();
     }
 
-    public function testEmptyArraysFromTrainingForm()
+    public function testEmptyArraysFromTrainingForm(): void
     {
         $Object = new Entity();
         $Object->setLatitudesLongitudes([''], ['']);
@@ -106,7 +108,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['7zzzzzzzzzzz'], $Object->get(Entity::GEOHASHES));
     }
 
-    public function testEmptyLocationsSynchronized()
+    public function testEmptyLocationsSynchronized(): void
     {
         $Object = new Entity();
         $Object->setLatitudesLongitudes(['0.0', '0.0', '0.0'], ['0.0', '0.0', '0.0']);
@@ -116,7 +118,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Object->isEmpty());
     }
 
-    public function testSynchronizationOfStartAndEndpoint()
+    public function testSynchronizationOfStartAndEndpoint(): void
     {
         $Object = new Entity([]);
         $Object->setLatitudesLongitudes(

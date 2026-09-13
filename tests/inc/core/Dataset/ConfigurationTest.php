@@ -37,19 +37,19 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DROP TABLE `' . PREFIX . 'dataset`');
     }
 
-    public function testEmptiness()
+    public function testEmptiness(): void
     {
         $this->assertFalse($this->Configuration->isEmpty());
 
         $this->assertTrue((new Configuration($this->PDO, 2, false))->isEmpty());
     }
 
-    public function testFallbackToDefault()
+    public function testFallbackToDefault(): void
     {
         $this->assertFalse((new Configuration($this->PDO, 42))->isEmpty());
     }
 
-    public function testExistance()
+    public function testExistance(): void
     {
         $this->assertFalse($this->Configuration->exists(0));
         $this->assertTrue($this->Configuration->exists(1));
@@ -59,19 +59,19 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Configuration->exists(5));
     }
 
-    public function testInvalidKeyForActive()
+    public function testInvalidKeyForActive(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->Configuration->isActive(5);
     }
 
-    public function testInvalidKeyForStyle()
+    public function testInvalidKeyForStyle(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->Configuration->getStyle(5);
     }
 
-    public function testAllKeys()
+    public function testAllKeys(): void
     {
         $this->assertEquals(
             [2, 1, 3],
@@ -79,7 +79,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testActiveKeys()
+    public function testActiveKeys(): void
     {
         $this->assertEquals(
             [2, 1],
@@ -87,7 +87,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testKeySpecificMethods()
+    public function testKeySpecificMethods(): void
     {
         $this->assertEquals(true, $this->Configuration->isActive(1));
         $this->assertEquals(true, $this->Configuration->isActive(2));

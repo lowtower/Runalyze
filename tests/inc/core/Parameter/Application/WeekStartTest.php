@@ -33,7 +33,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->PDO = \DB::getInstance();
     }
 
-    public function testNoneSet()
+    public function testNoneSet(): void
     {
         $this->assertTrue($this->Object->isMonday());
         $this->assertEquals(1, $this->Object->value());
@@ -41,7 +41,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Object->isSunday());
     }
 
-    public function testMonday()
+    public function testMonday(): void
     {
         $this->Object->set(WeekStart::MONDAY);
 
@@ -51,7 +51,7 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Object->isSunday());
     }
 
-    public function testSunday()
+    public function testSunday(): void
     {
         $this->Object->set(WeekStart::SUNDAY);
 
@@ -61,14 +61,14 @@ class WeekStartTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Object->isSunday());
     }
 
-    public function testWeekNumberForMonday()
+    public function testWeekNumberForMonday(): void
     {
         $this->Object->set(WeekStart::MONDAY);
 
         $this->runTestsForTestData(0);
     }
 
-    public function testWeekNumberForSunday()
+    public function testWeekNumberForSunday(): void
     {
         $this->Object->set(WeekStart::SUNDAY);
 

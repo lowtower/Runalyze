@@ -30,32 +30,32 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function testInvalidParameterForConstructor()
+    public function testInvalidParameterForConstructor(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new LocalTime('today');
     }
 
-    public function testInvalidParameterForServerTime()
+    public function testInvalidParameterForServerTime(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         LocalTime::fromServerTime('today');
     }
 
-    public function testThatConstructorDoesNotChangeTimestamps()
+    public function testThatConstructorDoesNotChangeTimestamps(): void
     {
         $this->assertEqualsWithDelta(time(), (new LocalTime())->getTimestamp(), 1);
         $this->assertEqualsWithDelta(time(), (new LocalTime(time()))->getTimestamp(), 1);
     }
 
-    public function testThatServerTimezoneIsIgnored()
+    public function testThatServerTimezoneIsIgnored(): void
     {
         $this->assertEquals(date('d.m.Y H:i'), LocalTime::fromServerTime(time())->format('d.m.Y H:i'));
         $this->assertEquals('01.03.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 3, 1, 2016))->format('d.m.Y H:i'));
         $this->assertEquals('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
     }
 
-    public function testThatCurrentHourKeepsCurrentHourWithDSTchange()
+    public function testThatCurrentHourKeepsCurrentHourWithDSTchange(): void
     {
         date_default_timezone_set('Europe/Berlin');
 
@@ -63,7 +63,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('01.04.2016 12:34', LocalTime::fromServerTime(mktime(12, 34, 0, 4, 1, 2016))->format('d.m.Y H:i'));
     }
 
-    public function testThatObjectHasUTCTimezone()
+    public function testThatObjectHasUTCTimezone(): void
     {
         $this->assertEquals('UTC', (new LocalTime())->getTimezone()->getName());
         $this->assertEquals('UTC', (new LocalTime(time()))->getTimezone()->getName());
@@ -71,13 +71,13 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('UTC', LocalTime::fromString('2016-01-01 12:00:00+06:00')->getTimezone()->getName());
     }
 
-    public function testThatGivenTimezoneWillBeIgnored()
+    public function testThatGivenTimezoneWillBeIgnored(): void
     {
         $this->assertEquals('13:54:17', LocalTime::fromString('13:54:17GMT-07:30')->format('H:i:s'));
         $this->assertEquals('13:54:17', LocalTime::fromString('13:54:17+0400')->format('H:i:s'));
     }
 
-    public function testConversionToServerTime()
+    public function testConversionToServerTime(): void
     {
         $Object = LocalTime::fromString('2016-01-31 12:34:56');
 
@@ -87,7 +87,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Object->getTimestamp() - 3 * 3600, $Object->toServerTimestamp());
     }
 
-    public function testMonthStartAndEnd()
+    public function testMonthStartAndEnd(): void
     {
         $testArray = [[
             'start' => '2014-01-01 00:00:00',
@@ -118,7 +118,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testYearStartAndEnd()
+    public function testYearStartAndEnd(): void
     {
         $testArray = [[
             'start' => '2016-01-01 00:00:00',
@@ -144,7 +144,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testWeekstartAndWeekendForMonday()
+    public function testWeekstartAndWeekendForMonday(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::MONDAY);
 
@@ -154,7 +154,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('20.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
-    public function testWeekstartAndWeekendForSunday()
+    public function testWeekstartAndWeekendForSunday(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::SUNDAY);
 
@@ -164,7 +164,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('19.09.2015 23:59:50', LocalTime::fromServerTime($today)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
-    public function testWeekstartAndWeekendForSundayThatWasABug()
+    public function testWeekstartAndWeekendForSundayThatWasABug(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::SUNDAY);
 
@@ -177,7 +177,7 @@ class LocalTimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('31.10.2015 23:59:50', LocalTime::fromServerTime($end)->weekend(true)->format('d.m.Y H:i:s'));
     }
 
-    public function testToday()
+    public function testToday(): void
     {
         $this->assertTrue(LocalTime::fromServerTime(time())->isToday());
     }

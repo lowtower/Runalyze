@@ -4,13 +4,13 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class KernelsTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvalidKernel()
+    public function testInvalidKernel(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Kernels::get(-1, 5);
     }
 
-    public function testAllConstructors()
+    public function testAllConstructors(): void
     {
         $expectedClasses = [
             Kernels::UNIFORM => \Runalyze\Calculation\Math\MovingAverage\Kernel\Uniform::class,
@@ -36,7 +36,7 @@ class KernelsTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testNormalizations()
+    public function testNormalizations(): void
     {
         $x = range(-1.0, 1.0, 0.01);
         $num = count($x);

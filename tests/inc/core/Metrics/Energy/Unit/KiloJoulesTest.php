@@ -6,7 +6,7 @@ use Runalyze\Metrics\Energy\Unit\Kilojoules;
 
 class KiloJoulesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Kilojoules();
 

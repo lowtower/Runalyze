@@ -16,7 +16,7 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
         $this->object = new WeightUnit();
     }
 
-    public function testKilograms()
+    public function testKilograms(): void
     {
         $this->object->set(WeightUnit::KG);
 
@@ -25,7 +25,7 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->object->isStones());
     }
 
-    public function testPounds()
+    public function testPounds(): void
     {
         $this->object->set(WeightUnit::POUNDS);
 
@@ -34,7 +34,7 @@ class WeightUnitTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->object->isStones());
     }
 
-    public function testStones()
+    public function testStones(): void
     {
         $this->object->set(WeightUnit::STONES);
 

@@ -16,7 +16,7 @@ class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
         $this->Cbb = new ClimbByBikeIndex();
     }
 
-    public function testSimpleValues()
+    public function testSimpleValues(): void
     {
         $testMatrix = [
             [1.0, 10, 3.1],
@@ -47,7 +47,7 @@ class ClimbByBikeIndexTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatAltitudeAtTopIsRespected()
+    public function testThatAltitudeAtTopIsRespected(): void
     {
         $this->assertEquals(
             $this->Cbb->getScoreFor(7.0, 350) + 10.0,

@@ -23,7 +23,7 @@ class ParameterStringTest extends \PHPUnit\Framework\TestCase
         $this->object = new Textline('');
     }
 
-    public function testAsString()
+    public function testAsString(): void
     {
         $this->assertEquals('', $this->object->value());
         $this->assertEquals('', $this->object->valueAsString());

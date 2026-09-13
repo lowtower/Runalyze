@@ -39,7 +39,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
     /**
      * @return Pause[]
      */
-    public function getElements()
+    public function getElements(): array
     {
         return $this->Elements;
     }
@@ -59,7 +59,7 @@ class PauseCollection implements \Countable, \ArrayAccess, \IteratorAggregate
         return count($this->Elements);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->Elements[$offset]);
     }

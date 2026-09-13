@@ -56,7 +56,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testPrevAndNext()
+    public function testPrevAndNext(): void
     {
         $this->assertEquals('', Linker::prevId($this->ThisIDs[0], 1));
         $this->assertEquals($this->ThisIDs[0], Linker::prevId($this->ThisIDs[1], 3));
@@ -69,7 +69,7 @@ class LinkerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', Linker::nextId($this->ThisIDs[3], 5));
     }
 
-    public function testPrevAndNextAtEqualTimestamp()
+    public function testPrevAndNextAtEqualTimestamp(): void
     {
         $this->assertEquals($this->ThisIDs[1], Linker::prevId($this->ThisIDs[2], 3));
         $this->assertEquals($this->ThisIDs[2], Linker::nextId($this->ThisIDs[1], 3));

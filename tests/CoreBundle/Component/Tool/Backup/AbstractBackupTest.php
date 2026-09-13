@@ -37,7 +37,7 @@ class AbstractBackupTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatBackupQueriesDoWork()
+    public function testThatBackupQueriesDoWork(): void
     {
         $this->Backup->run();
 

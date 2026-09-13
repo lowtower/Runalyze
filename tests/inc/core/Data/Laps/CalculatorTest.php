@@ -85,7 +85,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $this->object->setDistances(Calculator::getDistancesFromString(
             '+1.0, 0.4, 0.2, 0.4, 0.2'
@@ -103,7 +103,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testWithoutRoute()
+    public function testWithoutRoute(): void
     {
         $this->object->setDistances(Calculator::getDistancesFromString(
             '+1.0, 0.4, 0.2, 0.4, 0.2'
@@ -121,7 +121,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testConsecutiveDistances()
+    public function testConsecutiveDistances(): void
     {
         $this->object->setDistances([
             1.0, 2.0, 3.0,
@@ -137,7 +137,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3.0, $this->Laps->at(2)->trackDistance()->kilometer());
     }
 
-    public function testConsecutiveTimes()
+    public function testConsecutiveTimes(): void
     {
         $this->object->setTimes([
             300, 370, 430, 498, 560, 840,
@@ -156,7 +156,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function shouldReturnAbsoluteDistances()
+    public function shouldReturnAbsoluteDistances(): void
     {
         // given
         $distanceStr = '1,2.5,3';
@@ -171,7 +171,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function shouldTreatDistancesAsIntervalsWithPlus()
+    public function shouldTreatDistancesAsIntervalsWithPlus(): void
     {
         // given
         $distanceStr = '+1,2.5,3';
@@ -186,7 +186,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyWhenNotSorted()
+    public function shouldReturnEmptyWhenNotSorted(): void
     {
         // given
         $distanceStr = '1,3,2.5';
@@ -201,7 +201,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1308
      */
-    public function testSpareData()
+    public function testSpareData(): void
     {
         $this->object->setDistances([
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -250,7 +250,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testTimesFromString()
+    public function testTimesFromString(): void
     {
         $this->assertEquals(
             [15 * 60, 45 * 60 + 30, 3600 + 60 + 1],
@@ -258,7 +258,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testTimesFromStringWithShortNotationForMinutes()
+    public function testTimesFromStringWithShortNotationForMinutes(): void
     {
         $this->assertEquals(
             [5 * 60, 15 * 60, 20 * 60],

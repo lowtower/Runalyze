@@ -26,12 +26,12 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testEmptyCache()
+    public function testEmptyCache(): void
     {
         $this->assertNull($this->Cache->get('foobar'));
     }
 
-    public function testCachingSimpleActivity()
+    public function testCachingSimpleActivity(): void
     {
         $activity = new Training();
         $activity->setDistance(10.0);
@@ -42,7 +42,7 @@ class ActivityCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($activity, $this->Cache->get($hash));
     }
 
-    public function testSimpleMerge()
+    public function testSimpleMerge(): void
     {
         $activityToCache = new Training();
         $activityToCache->setDistance(10.0);

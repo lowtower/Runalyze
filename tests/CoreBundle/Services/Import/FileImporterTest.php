@@ -33,12 +33,12 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         return $handler;
     }
 
-    public function testSupportedFileExtensions()
+    public function testSupportedFileExtensions(): void
     {
         $this->assertContains('zip', $this->Importer->getSupportedFileExtensions());
     }
 
-    public function testThatSingleFailedImportIsLogged()
+    public function testThatSingleFailedImportIsLogged(): void
     {
         $handler = $this->setLoggerToImporter();
         $results = $this->Importer->importSingleFile('idontexist.foo');
@@ -50,7 +50,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasErrorThatContains('idontexist.foo'));
     }
 
-    public function testMultipleNonExistingFiles()
+    public function testMultipleNonExistingFiles(): void
     {
         $handler = $this->setLoggerToImporter();
         $results = $this->Importer->importFiles([
@@ -70,7 +70,7 @@ class FileImporterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasErrorThatContains('test.csv'));
     }
 
-    public function testMergingHrmAndGpx()
+    public function testMergingHrmAndGpx(): void
     {
         $results = $this->Importer->importFiles([
             TESTS_ROOT . '/testfiles/hrm/12010401.gpx',

@@ -30,7 +30,7 @@ class WeatherDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->FirstData->isEmpty());
     }
 
-    public function testMergingWithSomeData()
+    public function testMergingWithSomeData(): void
     {
         $this->FirstData->Temperature = 0;
         $this->SecondData->Temperature = 3;

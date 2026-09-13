@@ -20,7 +20,7 @@ class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
         $this->Mapping = new FitSdkMapping();
     }
 
-    public function testInternalMapping()
+    public function testInternalMapping(): void
     {
         $this->assertEquals(SportProfile::GENERIC, $this->Mapping->toInternal(FitSdk\SportProfile::GENERIC));
         $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal(FitSdk\SportProfile::RUNNING));
@@ -32,12 +32,12 @@ class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(SportProfile::HIKING, $this->Mapping->toInternal(FitSdk\SportProfile::WALKING));
     }
 
-    public function testDefaultInternalMapping()
+    public function testDefaultInternalMapping(): void
     {
         $this->assertEquals(SportProfile::GENERIC, $this->Mapping->toInternal('foobar'));
     }
 
-    public function testExternalMapping()
+    public function testExternalMapping(): void
     {
         $this->assertEquals(FitSdk\SportProfile::GENERIC, $this->Mapping->toExternal(SportProfile::GENERIC));
         $this->assertEquals(FitSdk\SportProfile::RUNNING, $this->Mapping->toExternal(SportProfile::RUNNING));
@@ -47,7 +47,7 @@ class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(FitSdk\SportProfile::HIKING, $this->Mapping->toExternal(SportProfile::HIKING));
     }
 
-    public function testDefaultExternalMapping()
+    public function testDefaultExternalMapping(): void
     {
         $this->assertEquals(FitSdk\SportProfile::GENERIC, $this->Mapping->toExternal('foobar'));
     }

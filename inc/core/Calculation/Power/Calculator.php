@@ -39,20 +39,11 @@ class Calculator
      */
     public const AREA = 0.5;
 
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
-    /**
-     * @var \Runalyze\Model\Route\Entity
-     */
-    protected $Route;
+    protected ?\Runalyze\Model\Route\Entity $Route;
 
-    /**
-     * @var int
-     */
-    protected $Size;
+    protected int $Size;
 
     /**
      * @var array
@@ -75,7 +66,7 @@ class Calculator
 
     protected function knowsRoute(): bool
     {
-        return $this->Route !== null;
+        return $this->Route instanceof \Runalyze\Model\Route\Entity;
     }
 
     /**

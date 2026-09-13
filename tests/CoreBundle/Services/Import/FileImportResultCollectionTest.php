@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class FileImportResultCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testArrayAccessAndIterator()
+    public function testArrayAccessAndIterator(): void
     {
         $collection = new FileImportResultCollection();
         $collection[] = new FileImportResult([], 'a.foo', 'a.foo');
@@ -28,7 +28,7 @@ class FileImportResultCollectionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testFileNames()
+    public function testFileNames(): void
     {
         $collection = new FileImportResultCollection([
             new FileImportResult([], 'a.foo', 'a.foo'),

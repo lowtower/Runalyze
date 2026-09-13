@@ -46,7 +46,7 @@ class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testExampleWithSomeOutOfRangeValues()
+    public function testExampleWithSomeOutOfRangeValues(): void
     {
         $this->Container->ActivityData->AvgHeartRate = 123;
         $this->Container->ActivityData->MaxHeartRate = 257;
@@ -65,7 +65,7 @@ class OutOfRangeValueFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasWarningThatContains('fixed'));
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->ActivityData->Duration = 1234567.89;
 

@@ -16,7 +16,7 @@ class FietsIndexTest extends \PHPUnit\Framework\TestCase
         $this->Fiets = new FietsIndex();
     }
 
-    public function testSimpleValues()
+    public function testSimpleValues(): void
     {
         $testMatrix = [
             [1.0, 10, 0.01],
@@ -47,7 +47,7 @@ class FietsIndexTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatAltitudeAtTopIsRespected()
+    public function testThatAltitudeAtTopIsRespected(): void
     {
         $this->assertEquals(
             $this->Fiets->getScoreFor(7.0, 350) + 0.0,
@@ -70,17 +70,17 @@ class FietsIndexTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testThatAltitudeAtTopCantDominateScore()
+    public function testThatAltitudeAtTopCantDominateScore(): void
     {
         $this->assertEquals(1.5, $this->Fiets->getScoreFor(1.0, 100, 5000));
     }
 
-    public function testManuaKea()
+    public function testManuaKea(): void
     {
         $this->assertEqualsWithDelta(28.48, $this->Fiets->getScoreFor(69.2, 4182, 4213), 0.01);
     }
 
-    public function testAdditiveCalculationForExactProfile()
+    public function testAdditiveCalculationForExactProfile(): void
     {
         $this->assertEquals(
             $this->Fiets->getScoreFor(10.0, 500),

@@ -7,7 +7,7 @@ use Runalyze\Sports\Performance\Model\TsbModel;
 
 class TsbModelTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSingleWorkout()
+    public function testSingleWorkout(): void
     {
         $Model = new TsbModel(
             [
@@ -24,7 +24,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(7.0, $Model->restDaysAt(0), 0.5);
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Model = new TsbModel([
             0 => 150,
@@ -57,7 +57,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(49, $Model->fatigueAt(7));
     }
 
-    public function testSteadyState()
+    public function testSteadyState(): void
     {
         $Model = new TsbModel(array_fill(0, 101, 50), 42, 7);
         $Model->calculate();
@@ -75,7 +75,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(50, $Model->fatigueAt(7), 7.5);
     }
 
-    public function testFutureFitness()
+    public function testFutureFitness(): void
     {
         $Model = new TsbModel([
             0 => 1000,
@@ -99,7 +99,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Model->fitnessAt(100));
     }
 
-    public function testFutureFatigue()
+    public function testFutureFatigue(): void
     {
         $Model = new TsbModel([
             0 => 1000,
@@ -116,7 +116,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Model->fatigueAt(22));
     }
 
-    public function testBadTimeConstants()
+    public function testBadTimeConstants(): void
     {
         $Model = new TsbModel([1000, 500], 14, 14);
         $Model->setRange(0, 10);
@@ -126,7 +126,7 @@ class TsbModelTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Model->maxTrimpToBalanced(50, 100));
     }
 
-    public function testExtremeValuesAtBeginning()
+    public function testExtremeValuesAtBeginning(): void
     {
         $model = new TsbModel([100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0], 42, 7);
         $model->calculate();

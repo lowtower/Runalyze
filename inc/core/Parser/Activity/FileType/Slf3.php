@@ -19,7 +19,7 @@ class Slf3 extends AbstractSingleParser implements FileContentAwareParserInterfa
      */
     protected $PauseInSeconds = 0;
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatXmlIsValid();
 

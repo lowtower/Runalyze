@@ -6,25 +6,25 @@ namespace Runalyze\Calculation\Math;
 
 class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyInput()
+    public function testEmptyInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([], [], []);
     }
 
-    public function testNoSegmentLengths()
+    public function testNoSegmentLengths(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([1, 1, 1], [1, 1, 1], []);
     }
 
-    public function testUnbalancedInputSizes()
+    public function testUnbalancedInputSizes(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([1, 1], [1, 1, 1], [1]);
     }
 
-    public function testEnabledInterpolation()
+    public function testEnabledInterpolation(): void
     {
         $Maximization = new SubSegmentMaximization([42], [5], [1, 2, 3, 4, 5]);
         $Maximization->maximize();
@@ -36,7 +36,7 @@ class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(4));
     }
 
-    public function testDisabledInterpolation()
+    public function testDisabledInterpolation(): void
     {
         $Maximization = new SubSegmentMaximization([42], [5], [1, 2, 3, 4, 5]);
         $Maximization->disableInterpolationForOverlength();
@@ -49,7 +49,7 @@ class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(42, $Maximization->getMaximumForLengthIndex(4));
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Maximization = new SubSegmentMaximization(
             [1, 2, 5, 1, 3, 9, 2, 4, 4, 1, 2, 5, 4, 6, 4, 2, 5, 4, 7, 3, 2],
@@ -66,7 +66,7 @@ class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([10, 19], $Maximization->getIndizesOfMaximumForLengthIndex(2));
     }
 
-    public function testSimpleExampleForMinimization()
+    public function testSimpleExampleForMinimization(): void
     {
         $Maximization = new SubSegmentMaximization(
             [1, 2, 5, 1, 3, 9, 2, 4, 4, 1, 2, 5, 4, 6, 4, 2, 5, 4, 7, 3, 2],
@@ -85,7 +85,7 @@ class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([2, 5, 10], $Maximization->getAvailableSegmentLengths());
     }
 
-    public function testTooShortInputData()
+    public function testTooShortInputData(): void
     {
         $Maximization = new SubSegmentMaximization(
             [1, 2, 5, 1, 3],

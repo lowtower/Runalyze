@@ -33,12 +33,12 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
             ->setPassword('');
     }
 
-    public function testLoadingUnknownUser()
+    public function testLoadingUnknownUser(): void
     {
         $this->assertNull($this->AccountRepository->loadUserByUsername('foobar'));
     }
 
-    public function testLoadingSimpleUser()
+    public function testLoadingSimpleUser(): void
     {
         $this->EntityManager->persist($this->getNewAccount('foobar', 'foo@bar.com'));
         $this->EntityManager->flush();
@@ -50,7 +50,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals($accountInRepository, $this->AccountRepository->loadUserByUsername('foo@bar.com'));
     }
 
-    public function testNumberOfActivatedUsers()
+    public function testNumberOfActivatedUsers(): void
     {
         $activeAccounts = $this->AccountRepository->getAmountOfActivatedUsers(false);
         $activatedAccountNames = ['foo', 'bar', 'baz'];
@@ -65,7 +65,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals($activeAccounts + 3, $this->AccountRepository->getAmountOfActivatedUsers(false));
     }
 
-    public function testDeletingNonActivatedUsers()
+    public function testDeletingNonActivatedUsers(): void
     {
         $notActivatedAccountNames = ['foo', 'bar', 'baz'];
         foreach ($notActivatedAccountNames as $name) {
@@ -85,7 +85,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNotNull($this->AccountRepository->loadUserByUsername('todays_user'));
     }
 
-    public function testDeletingByHash()
+    public function testDeletingByHash(): void
     {
         $deletionHash = bin2hex(random_bytes(16));
         $this->EntityManager->persist($this->getNewAccount('foo')->setDeletionHash($deletionHash));
@@ -98,7 +98,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNotNull($this->AccountRepository->loadUserByUsername('bar'));
     }
 
-    public function testActivatingByHash()
+    public function testActivatingByHash(): void
     {
         $fooAccount = $this->getNewAccount('foo')
             ->setNewActivationHash();
@@ -111,7 +111,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($fooAccount->getActivationHash());
     }
 
-    public function testFindingByLanguage()
+    public function testFindingByLanguage(): void
     {
         $english1 = $this->getNewAccount('en1')
             ->setLanguage('en');

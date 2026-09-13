@@ -20,7 +20,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $T = new Entity();
 
@@ -30,7 +30,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($T->has(Entity::SWOLFCYCLES));
     }
 
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $T = $this->simpleObject();
 
@@ -44,7 +44,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1864
      */
-    public function testFillingDistanceArray()
+    public function testFillingDistanceArray(): void
     {
         foreach ([29, 30, 31, 39, 40, 41] as $num) {
             $Swim = new Entity([

@@ -23,12 +23,10 @@ if (count($Data) === 1) {
     $Data[1] = $Data[0];
 }
 
-if (! empty($Data)) {
-    foreach ($Data as $D) {
-        $Adiposes[$D['time'] . '000'] = $D['fat'];
-        $Water[$D['time'] . '000'] = $D['water'];
-        $Muscles[$D['time'] . '000'] = $D['muscles'];
-    }
+foreach ($Data as $D) {
+    $Adiposes[$D['time'] . '000'] = $D['fat'];
+    $Water[$D['time'] . '000'] = $D['water'];
+    $Muscles[$D['time'] . '000'] = $D['muscles'];
 }
 
 $Labels = array_keys($Water);

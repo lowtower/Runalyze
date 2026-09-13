@@ -23,7 +23,7 @@ class ElevationMethodTest extends \PHPUnit\Framework\TestCase
         $this->object = new ElevationMethod();
     }
 
-    public function testMethods()
+    public function testMethods(): void
     {
         $this->object->set(ElevationMethod::NONE);
         $this->assertTrue($this->object->usesNone());

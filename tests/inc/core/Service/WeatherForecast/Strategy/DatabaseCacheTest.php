@@ -22,14 +22,14 @@ class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
         return $mock;
     }
 
-    public function testEmptyResponse()
+    public function testEmptyResponse(): void
     {
         $cache = new DatabaseCache($this->getMockForResponse());
 
         $this->assertNull($cache->loadForecast(new Location()));
     }
 
-    public function testSimpleResponse()
+    public function testSimpleResponse(): void
     {
         $data = new WeatherData();
         $data->Temperature = 17;

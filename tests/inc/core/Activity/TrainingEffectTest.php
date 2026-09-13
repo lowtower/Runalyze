@@ -4,59 +4,59 @@ namespace Runalyze\Activity;
 
 class TrainingEffectTest extends \PHPUnit\Framework\TestCase
 {
-    public function testLowerBoundary()
+    public function testLowerBoundary(): void
     {
         $effect = new TrainingEffect(0.0);
 
         $this->assertSame(0.0, $effect->value());
     }
 
-    public function testUpperBoundary()
+    public function testUpperBoundary(): void
     {
         $effect = new TrainingEffect(5.0);
 
         $this->assertSame(5.0, $effect->value());
     }
 
-    public function testInvalidValueTooSmall()
+    public function testInvalidValueTooSmall(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(-0.1);
     }
 
-    public function testInvalidValueTooBig()
+    public function testInvalidValueTooBig(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(5.1);
     }
 
-    public function testInvalidValueNonNumeric()
+    public function testInvalidValueNonNumeric(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(false);
     }
 
-    public function testInvalidValueString()
+    public function testInvalidValueString(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect('foobar');
     }
 
-    public function testValidValueZero()
+    public function testValidValueZero(): void
     {
         $effect = new TrainingEffect(0.0);
 
         $this->assertSame(0.0, $effect->value());
     }
 
-    public function testValidCommaValue()
+    public function testValidCommaValue(): void
     {
         $effect = new TrainingEffect('3,5');
 
         $this->assertSame(3.5, $effect->value());
     }
 
-    public function testSimpleValue()
+    public function testSimpleValue(): void
     {
         $Effect = new TrainingEffect(3.1);
 
@@ -70,14 +70,14 @@ class TrainingEffectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Effect->set(null)->isKnown());
     }
 
-    public function testFormattingValues()
+    public function testFormattingValues(): void
     {
         $this->assertEquals('', TrainingEffect::format(null));
         $this->assertEquals('3.1', TrainingEffect::format(3.14));
         $this->assertEquals('5.0', TrainingEffect::format(5.0));
     }
 
-    public function testUnknownValue()
+    public function testUnknownValue(): void
     {
         $Effect = new TrainingEffect();
 

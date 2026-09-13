@@ -6,12 +6,12 @@ namespace Runalyze\Calculation\Math\MovingAverage;
 
 class AbstractMovingAverage_MockTester extends AbstractMovingAverage
 {
-    public function calculateWithIndexData()
+    public function calculateWithIndexData(): void
     {
         $this->MovingAverage = $this->IndexData;
     }
 
-    public function calculateWithoutIndexData()
+    public function calculateWithoutIndexData(): void
     {
         $this->MovingAverage = $this->Data;
     }
@@ -19,20 +19,20 @@ class AbstractMovingAverage_MockTester extends AbstractMovingAverage
 
 class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWrongConstruction()
+    public function testWrongConstruction(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new AbstractMovingAverage_MockTester([1, 2, 3], [1, 2]);
     }
 
-    public function testInvalidAt()
+    public function testInvalidAt(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Object = new AbstractMovingAverage_MockTester([1, 2, 3]);
         $Object->at(1);
     }
 
-    public function testWithIndexData()
+    public function testWithIndexData(): void
     {
         $Object = new AbstractMovingAverage_MockTester([1, 2, 3], [10, 20, 30]);
         $Object->calculate();
@@ -40,7 +40,7 @@ class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([10, 20, 30], $Object->movingAverage());
     }
 
-    public function testWithNonAscendingIndexData()
+    public function testWithNonAscendingIndexData(): void
     {
         $Object = new AbstractMovingAverage_MockTester([1, 2, 3], [10, 10, 10], false);
         $Object->calculate();
@@ -48,7 +48,7 @@ class AbstractMovingAverageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([10, 20, 30], $Object->movingAverage());
     }
 
-    public function testWithoutIndexData()
+    public function testWithoutIndexData(): void
     {
         $Object = new AbstractMovingAverage_MockTester([1, 2, 3]);
         $Object->calculate();

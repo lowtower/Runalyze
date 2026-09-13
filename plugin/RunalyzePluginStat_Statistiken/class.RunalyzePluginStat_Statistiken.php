@@ -65,7 +65,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     /**
      * Init some class variables
      */
-    private function initVariables()
+    private function initVariables(): void
     {
         $this->Sport = SportFactory::DataFor($this->sportid);
         $this->DatasetConfig = new \Runalyze\Dataset\Configuration(DB::getInstance(), SessionAccountHandler::getId());
@@ -146,7 +146,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     /**
      * Display table with data for each month
      */
-    private function displayYearTable()
+    private function displayYearTable(): void
     {
         if ($this->year === -1) {
             $SummaryTable = new SummaryTableAllYears($this->DatasetConfig, $this->sportid, $this->year);
@@ -169,7 +169,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     /**
      * Display table with last week-statistics
      */
-    private function displayWeekTable(bool $showAllWeeks = false)
+    private function displayWeekTable(bool $showAllWeeks = false): void
     {
         if (($this->showsAllYears() || ($this->showsSpecificYear() && $this->year != date('Y'))) && ! $showAllWeeks) {
             return;
@@ -188,7 +188,7 @@ class RunalyzePluginStat_Statistiken extends PluginStat
     /**
      * Display days of streakrunning
      */
-    private function displayStreak()
+    private function displayStreak(): void
     {
         $Query = '
 			SELECT

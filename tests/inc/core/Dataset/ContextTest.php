@@ -6,7 +6,7 @@ use Runalyze\Model\Activity;
 
 class ContextTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllStringMethodsWork()
+    public function testThatAllStringMethodsWork(): void
     {
         $Context = new Context([
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
@@ -26,7 +26,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testContextFromArrayWithoutSportAndType()
+    public function testContextFromArrayWithoutSportAndType(): void
     {
         $Context = new Context([
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
@@ -45,7 +45,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Context->linker() instanceof \Runalyze\View\Activity\Linker);
     }
 
-    public function testContextFromObject()
+    public function testContextFromObject(): void
     {
         $Context = new Context(new Activity\Entity([
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
@@ -54,7 +54,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
     }
 
-    public function testUnknownData()
+    public function testUnknownData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Context = new Context(new Activity\Entity([
@@ -64,7 +64,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $Context->data('non-existing-key');
     }
 
-    public function testUnknownDataWithNull()
+    public function testUnknownDataWithNull(): void
     {
         $Context = new Context(new Activity\Entity([
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),
@@ -74,19 +74,19 @@ class ContextTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($Context->data('null-data', true));
     }
 
-    public function testWrongConstructor()
+    public function testWrongConstructor(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Context(0, 0);
     }
 
-    public function testWrongSetActivityData()
+    public function testWrongSetActivityData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Context([], 0);
     }
 
-    public function testSettingNewActivityAfterConstructor()
+    public function testSettingNewActivityAfterConstructor(): void
     {
         $Context = new Context(new Activity\Entity([
             Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015),

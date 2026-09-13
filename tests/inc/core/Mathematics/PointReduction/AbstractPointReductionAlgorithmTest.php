@@ -8,7 +8,7 @@ use Runalyze\Mathematics\PointReduction\AbstractPointReductionAlgorithm;
 
 class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
 {
-    public function testPerpendicularDistanceForPointsOutsideTheLinesXRegion()
+    public function testPerpendicularDistanceForPointsOutsideTheLinesXRegion(): void
     {
         $this->assertEqualsWithDelta(5.0, AbstractPointReductionAlgorithm::shortestDistance(
             -4.0,
@@ -28,7 +28,7 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
         ), 0.005);
     }
 
-    public function testDistanceForPointsOnTheLine()
+    public function testDistanceForPointsOnTheLine(): void
     {
         $this->assertEqualsWithDelta(0.0, AbstractPointReductionAlgorithm::shortestDistance(
             1.0,
@@ -82,7 +82,7 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
         ), 0.0001);
     }
 
-    public function testDistanceToHorizontalLine()
+    public function testDistanceToHorizontalLine(): void
     {
         $this->assertEqualsWithDelta(2.3, AbstractPointReductionAlgorithm::shortestDistance(
             6.9,
@@ -102,7 +102,7 @@ class AbstractPointReductionAlgorithmTest extends \PHPUnit\Framework\TestCase
         ), 0.0001);
     }
 
-    public function testDistanceToSomeUnspecificLine()
+    public function testDistanceToSomeUnspecificLine(): void
     {
         [$line1x, $line1y, $line2x, $line2y] = [1.0, 1.0, 3.0, 2.0];
 

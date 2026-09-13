@@ -22,7 +22,7 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase
         $_POST = [];
     }
 
-    public function testValidatePostPARSERDATE()
+    public function testValidatePostPARSERDATE(): void
     {
         $Parser = FormularValueParser::$PARSER_DATE;
         $_POST = [
@@ -46,7 +46,7 @@ class FormularValueParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($_POST['date'], mktime(0, 0, 0, 4, 13, 2010));
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $date = time();
         $this->object->parse($date, FormularValueParser::$PARSER_DATE);

@@ -19,7 +19,7 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
         $this->ConfRepository = $this->EntityManager->getRepository(Conf::class);
     }
 
-    public function testEmptyDatabase()
+    public function testEmptyDatabase(): void
     {
         $account = $this->getEmptyAccount();
 
@@ -27,7 +27,7 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->ConfRepository->findByAccountAndKey($account, 'SOME_RANDOM_KEY'));
     }
 
-    public function testInsertingAndUpdatingKey()
+    public function testInsertingAndUpdatingKey(): void
     {
         $account = $this->getEmptyAccount();
 

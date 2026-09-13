@@ -34,7 +34,7 @@ class VerticalRatioCalculator
      * Calculate vertical ratio array
      * @return array [%o]
      */
-    public function calculate()
+    public function calculate(): array
     {
         if (
             ! $this->Trackdata->has(Trackdata\Entity::VERTICAL_OSCILLATION) ||
@@ -63,7 +63,7 @@ class VerticalRatioCalculator
     /**
      * @return array [%o]
      */
-    public function verticalRatioData()
+    public function verticalRatioData(): array
     {
         return $this->VerticalRatio;
     }
@@ -72,7 +72,7 @@ class VerticalRatioCalculator
      * Calculate average Vertical Ratio
      * @return null|float [%o]
      */
-    public function average()
+    public function average(): ?float
     {
         if ($this->VerticalRatio === []) {
             return null;
@@ -93,7 +93,7 @@ class VerticalRatioCalculator
      * Use this method if trackdata is not available
      * @return null|float [%o]
      */
-    public static function forActivity(Activity\Entity $activity)
+    public static function forActivity(Activity\Entity $activity): ?float
     {
         if ($activity->verticalOscillation() > 0 && $activity->strideLength() > 0) {
             return round(100 * $activity->verticalOscillation() / $activity->strideLength());

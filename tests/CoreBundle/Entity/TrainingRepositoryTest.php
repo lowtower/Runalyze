@@ -36,22 +36,19 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    public function testEmptyDatabase()
+    public function testEmptyDatabase(): void
     {
         $this->assertFalse($this->TrainingRepository->accountHasLockedTrainings(new Account()));
         $this->assertEquals(0, $this->TrainingRepository->getNumberOfActivitiesFor(new Account()));
     }
 
     /**
-     * @param int|null $timestamp
-     * @param int|float $duration
-     * @param float|int|null $distance
      * @return Training
      */
     protected function insertActivityForDefaultAccount(
-        $timestamp = null,
-        $duration = 3600,
-        $distance = null,
+        ?int $timestamp = null,
+        float $duration = 3600,
+        ?float $distance = null,
         ?Sport $sport = null
     ) {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
@@ -61,7 +58,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         return $activity;
     }
 
-    public function testThatSportIsSetToDefaultIfEmpty()
+    public function testThatSportIsSetToDefaultIfEmpty(): void
     {
         $activity = new Training();
         $activity->setS(3600);
@@ -73,7 +70,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals($this->getDefaultAccountsRunningSport()->getId(), $activity->getSport()->getId());
     }
 
-    public function testThatTypeIsRemovedIfInvalidForSport()
+    public function testThatTypeIsRemovedIfInvalidForSport(): void
     {
         $type = new Type();
         $type->setName('Easy ride');
@@ -88,7 +85,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($activity->getType());
     }
 
-    public function testPossibleDuplicate()
+    public function testPossibleDuplicate(): void
     {
         $existingActivity = $this->getActivityForDefaultAccount();
         $existingActivity->setActivityId(123456789);
@@ -117,7 +114,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->TrainingRepository->isPossibleDuplicate($activityToCheck));
     }
 
-    public function testSpeedUnit()
+    public function testSpeedUnit(): void
     {
         $this->assertEquals(
             $this->getDefaultAccountsRunningSport()
@@ -140,7 +137,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         );
     }
 
-    public function testNumberOfActivities()
+    public function testNumberOfActivities(): void
     {
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2015));
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016));
@@ -156,7 +153,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(1, $this->TrainingRepository->getNumberOfActivitiesFor($this->Account, 2016, $this->getDefaultAccountsCyclingSport()->getId()));
     }
 
-    public function testAccountStatisticsWithoutData()
+    public function testAccountStatisticsWithoutData(): void
     {
         $statistics = $this->TrainingRepository->getAccountStatistics($this->Account);
 
@@ -165,7 +162,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0.0, $statistics->getTotalDistance());
     }
 
-    public function testAccountStatisticsWithData()
+    public function testAccountStatisticsWithData(): void
     {
         $this->insertActivityForDefaultAccount(null, 3600, 10.0);
         $this->insertActivityForDefaultAccount(null, 3600, 12.0);
@@ -178,7 +175,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(85.5, $statistics->getTotalDistance());
     }
 
-    public function testPosterStats()
+    public function testPosterStats(): void
     {
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2015), 5400, 17.5);
         $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2016), 3600, 12.5);
@@ -218,7 +215,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
             ->getScalarResult()[0]);
     }
 
-    public function testLockedActivities()
+    public function testLockedActivities(): void
     {
         $this->insertActivityForDefaultAccount();
 
@@ -232,7 +229,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($this->TrainingRepository->accountHasLockedTrainings($this->Account));
     }
 
-    public function testThatCreatedAndEditedTimestampsAreUpdatedAutomatically()
+    public function testThatCreatedAndEditedTimestampsAreUpdatedAutomatically(): void
     {
         $activity = $this->insertActivityForDefaultAccount();
 
@@ -250,7 +247,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEqualsWithDelta(time(), $activity->getEdited(), 1);
     }
 
-    public function testThatActivityCanExistWithoutRelatedObjects()
+    public function testThatActivityCanExistWithoutRelatedObjects(): void
     {
         $activity = $this->insertActivityForDefaultAccount();
 
@@ -268,7 +265,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($insertedActivity->getSplits()->isEmpty());
     }
 
-    public function testActivityWithRelatedObjects()
+    public function testActivityWithRelatedObjects(): void
     {
         $activity = $this->getActivityForDefaultAccount(
             123456789,
@@ -310,7 +307,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Hrv::class)->findByActivity($activity->getId()));
     }
 
-    public function testThatPowerIsNotRemovedAtUpdate()
+    public function testThatPowerIsNotRemovedAtUpdate(): void
     {
         $activity = $this->getActivityForDefaultAccount(
             123456789,
@@ -342,7 +339,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($result->isPowerCalculated());
     }
 
-    public function testActivityWithRaceResult()
+    public function testActivityWithRaceResult(): void
     {
         $activity = $this->getActivityForDefaultAccount(
             123456789,
@@ -368,7 +365,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Raceresult::class)->findByActivity($activity->getId()));
     }
 
-    public function testActivityWithSwimData()
+    public function testActivityWithSwimData(): void
     {
         $swimData = new Swimdata();
         $swimData->setPoolLength(5000);
@@ -397,7 +394,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     /**
      * @group idontcare
      */
-    public function testThatVO2maxUpdateInListenerRecalculatesMarathonShape()
+    public function testThatVO2maxUpdateInListenerRecalculatesMarathonShape(): void
     {
         $recalculationManager = $this->getContainer()
             ->get('app.recalculation_manager');
@@ -425,12 +422,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($recalculationManager->isTaskScheduled($this->getDefaultAccount(), MarathonShapeCalculation::class));
     }
 
-    public function testStartTimeForEmptyAccount()
+    public function testStartTimeForEmptyAccount(): void
     {
         $this->assertNull($this->TrainingRepository->getStartTime($this->getDefaultAccount()));
     }
 
-    public function testStartTimeForSimpleExample()
+    public function testStartTimeForSimpleExample(): void
     {
         $this->insertActivityForDefaultAccount(987654321);
         $this->insertActivityForDefaultAccount(123456789);
@@ -438,7 +435,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(123456789, $this->TrainingRepository->getStartTime($this->getDefaultAccount()));
     }
 
-    public function testThatStartTimeForSimpleExampleIsCalculated()
+    public function testThatStartTimeForSimpleExampleIsCalculated(): void
     {
         $this->insertActivityForDefaultAccount(987654321);
         $firstActivity = $this->insertActivityForDefaultAccount(123456789);
@@ -477,7 +474,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(987654321, $configList->get('data.START_TIME'));
     }
 
-    public function testVO2maxShapeCalculationForEmptyAccount()
+    public function testVO2maxShapeCalculationForEmptyAccount(): void
     {
         $this->assertEquals(0.0, $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
@@ -488,7 +485,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
-    public function testVO2maxShapeCalculationForASingleActivity()
+    public function testVO2maxShapeCalculationForASingleActivity(): void
     {
         $activity = $this->getActivityForDefaultAccount(time() - 86400, 3600, 10.0)
             ->setPulseAvg(160);
@@ -504,7 +501,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ), 0.01);
     }
 
-    public function testVO2maxShapeCalculationForSomeActivities()
+    public function testVO2maxShapeCalculationForSomeActivities(): void
     {
         $config = new VO2max();
         $config->set('VO2MAX_USE_CORRECTION_FOR_ELEVATION', 'true');
@@ -531,7 +528,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ), 0.01);
     }
 
-    public function testMarathonShapeCalculationForEmptyAccount()
+    public function testMarathonShapeCalculationForEmptyAccount(): void
     {
         $this->assertEquals(0.0, $this->TrainingRepository->calculateMarathonShape(
             $this->getDefaultAccount(),
@@ -543,7 +540,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
-    public function testMarathonShapeCalculationForOnlyLongJog()
+    public function testMarathonShapeCalculationForOnlyLongJog(): void
     {
         $date = mktime(12, 0, 0, 1, 10, 2015);
         $config = new BasicEndurance();
@@ -563,7 +560,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
-    public function testMarathonShapeCalculationForWithRespectingFirstActivityData()
+    public function testMarathonShapeCalculationForWithRespectingFirstActivityData(): void
     {
         $date = mktime(12, 0, 0, 1, 10, 2015);
         $config = new BasicEndurance();
@@ -594,7 +591,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
-    public function testActivityNavigation()
+    public function testActivityNavigation(): void
     {
         $activity1 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2015));
         $activity2 = $this->insertActivityForDefaultAccount(mktime(12, 0, 0, 6, 1, 2015));
@@ -618,7 +615,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->TrainingRepository->getIdOfNextActivity($activity5));
     }
 
-    public function testEquipmentStatistics()
+    public function testEquipmentStatistics(): void
     {
         $someEquipment = $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Equipment::class)
             ->findBy(

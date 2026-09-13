@@ -15,10 +15,7 @@ namespace Runalyze\Calculation\Math\MovingAverage;
  */
 abstract class AbstractMovingAverage implements MovingAverageInterface
 {
-    /**
-     * @var array
-     */
-    protected $Data = [];
+    protected array $Data = [];
 
     /**
      * @var array
@@ -30,10 +27,7 @@ abstract class AbstractMovingAverage implements MovingAverageInterface
      */
     protected $MovingAverage = [];
 
-    /**
-     * @var int
-     */
-    protected $Length = 0;
+    protected int $Length = 0;
 
     /**
      * @param array $data data to average

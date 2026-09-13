@@ -6,7 +6,7 @@ namespace Runalyze\Util;
 
 class StringReaderTest extends \PHPUnit\Framework\TestCase
 {
-    public function testFindDemandedPace()
+    public function testFindDemandedPace(): void
     {
         $Reader = new StringReader();
 

@@ -9,7 +9,7 @@ use Runalyze\Model\Trackdata\Entity;
  */
 class PaceSmootherTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleStepSmoothing()
+    public function testSimpleStepSmoothing(): void
     {
         $Smoother = new PaceSmoother(new Entity([
             Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
@@ -21,7 +21,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
         ], $Smoother->smooth(2, PaceSmoother::MODE_STEP));
     }
 
-    public function testSmoothingByDistance()
+    public function testSmoothingByDistance(): void
     {
         $Smoother = new PaceSmoother(new Entity([
             Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
@@ -33,7 +33,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
         ], $Smoother->smooth(2, PaceSmoother::MODE_DISTANCE));
     }
 
-    public function testSmoothingByTime()
+    public function testSmoothingByTime(): void
     {
         $Smoother = new PaceSmoother(new Entity([
             Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
@@ -45,7 +45,7 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
         ], $Smoother->smooth(18, PaceSmoother::MODE_TIME));
     }
 
-    public function testKeepingArraySize()
+    public function testKeepingArraySize(): void
     {
         $arraySizes = range(15, 35);
         $stepSizes = range(2, 11);
@@ -71,5 +71,53 @@ class PaceSmootherTest extends \PHPUnit\Framework\TestCase
                 }
             }
         }
+    }
+
+    public function testCurrentKeepsFloatingPointDistance(): void
+    {
+        $trackdata = new \Runalyze\Model\Trackdata\Entity([
+            \Runalyze\Model\Trackdata\Entity::TIME => [
+                30.0,
+                60.0,
+            ],
+            \Runalyze\Model\Trackdata\Entity::DISTANCE => [
+                0.1,
+                0.2,
+            ],
+        ]);
+
+        $loop = new \Runalyze\Model\Trackdata\Loop($trackdata);
+
+        self::assertSame(0.1, $loop->current(
+            \Runalyze\Model\Trackdata\Entity::DISTANCE
+        ));
+    }
+
+    public function testMoveByFractionalDistanceAdvancesLoop(): void
+    {
+        $trackdata = new \Runalyze\Model\Trackdata\Entity([
+            \Runalyze\Model\Trackdata\Entity::TIME => [
+                30.0,
+                60.0,
+                90.0,
+            ],
+            \Runalyze\Model\Trackdata\Entity::DISTANCE => [
+                0.1,
+                0.2,
+                0.3,
+            ],
+        ]);
+
+        $loop = new \Runalyze\Model\Trackdata\Loop($trackdata);
+
+        self::assertSame(0, $loop->index());
+
+        $loop->move(
+            \Runalyze\Model\Trackdata\Entity::DISTANCE,
+            0.001
+        );
+
+        self::assertSame(1, $loop->index());
+        self::assertSame(0, $loop->lastIndex());
     }
 }

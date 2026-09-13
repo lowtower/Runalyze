@@ -23,7 +23,7 @@ class ParameterIntegerTest extends \PHPUnit\Framework\TestCase
         $this->object = new Integer(0);
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals(0, $this->object->value());
         $this->assertEquals('0', $this->object->valueAsString());

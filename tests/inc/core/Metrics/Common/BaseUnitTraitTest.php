@@ -13,7 +13,7 @@ abstract class BaseTraitTestSubject
 
 class BaseUnitTraitTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatConversionWorksAsExpected()
+    public function testThatConversionWorksAsExpected(): void
     {
         /** @var BaseTraitTestSubject&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->getMockForTrait(BaseUnitTrait::class);

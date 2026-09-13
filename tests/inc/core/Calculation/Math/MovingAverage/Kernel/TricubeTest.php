@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class TricubeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForWidth2()
+    public function testSomeValuesForWidth2(): void
     {
         $Kernel = new Tricube(2);
 
@@ -23,7 +23,7 @@ class TricubeTest extends \PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testSomeValuesForWidth10()
+    public function testSomeValuesForWidth10(): void
     {
         $Kernel = new Tricube(10);
 

@@ -26,14 +26,14 @@ class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $this->Filter->filter($this->Container);
 
         $this->assertEquals([], $this->Container->RRIntervals);
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $this->Container->RRIntervals = [723, 751, 0, 739, 760, 0, 747];
 
@@ -42,7 +42,7 @@ class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([723, 751, 739, 760, 747], $this->Container->RRIntervals);
     }
 
-    public function testOnlyZeros()
+    public function testOnlyZeros(): void
     {
         $this->Container->RRIntervals = [0, 0, 0];
 
@@ -51,7 +51,7 @@ class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $this->Container->RRIntervals);
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->RRIntervals = [469, 0, 471];
 
@@ -60,7 +60,7 @@ class InvalidRRIntervalFilterTest extends \PHPUnit\Framework\TestCase
         $this->Filter->filter($this->Container, true);
     }
 
-    public function testLogMessageInNonStrictMode()
+    public function testLogMessageInNonStrictMode(): void
     {
         $handler = new TestHandler();
         $this->Filter->setLogger(new Logger('test', [$handler]));

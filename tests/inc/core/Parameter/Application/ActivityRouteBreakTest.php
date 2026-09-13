@@ -23,7 +23,7 @@ class ActivityRouteBreakTest extends \PHPUnit\Framework\TestCase
         $this->object = new ActivityRouteBreak();
     }
 
-    public function testNever()
+    public function testNever(): void
     {
         $this->assertFalse($this->object->never());
         $this->object->set(ActivityRouteBreak::NO_BREAK);

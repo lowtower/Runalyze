@@ -6,7 +6,7 @@ use Runalyze\Metrics\HeartRate\Unit\HeartRateEnum;
 
 class HeartRateEnumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsCanBeConstructed()
+    public function testThatAllUnitsCanBeConstructed(): void
     {
         foreach (HeartRateEnum::getEnum() as $unit) {
             $heartRateUnit = HeartRateEnum::get($unit, 200, 60);
@@ -14,7 +14,7 @@ class HeartRateEnumTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatUnknownUnitCantBeConstructed()
+    public function testThatUnknownUnitCantBeConstructed(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         HeartRateEnum::get(42, 200, 60);

@@ -21,7 +21,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->Parser = new Gpx();
     }
 
-    public function testStandardFile()
+    public function testStandardFile(): void
     {
         $this->parseFile($this->Parser, 'gpx/standard.gpx');
 
@@ -72,7 +72,7 @@ class GpxTest extends AbstractActivityParserTestCase
 </gpx>';
     }
 
-    public function testExtensions()
+    public function testExtensions(): void
     {
         $this->parseFileContent($this->Parser, $this->getExampleXmlForExtensions());
 
@@ -92,7 +92,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals([28, 26], $this->Container->ContinuousData->Temperature);
     }
 
-    public function testFileFromSpoQ()
+    public function testFileFromSpoQ(): void
     {
         $this->parseFile($this->Parser, 'gpx/SpoQ.gpx');
 
@@ -106,7 +106,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals(132, $this->Container->ActivityData->MaxHeartRate);
     }
 
-    public function testAnotherFileFromSpoQ()
+    public function testAnotherFileFromSpoQ(): void
     {
         $this->parseFile($this->Parser, 'gpx/SpoQ-2.gpx');
 
@@ -120,7 +120,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals(128, $this->Container->ActivityData->MaxHeartRate);
     }
 
-    public function testFileFromNavRun500()
+    public function testFileFromNavRun500(): void
     {
         $this->parseFile($this->Parser, 'gpx/NavRun500.gpx');
 
@@ -150,7 +150,7 @@ class GpxTest extends AbstractActivityParserTestCase
         ]);
     }
 
-    public function testStandardGpxRoute()
+    public function testStandardGpxRoute(): void
     {
         $this->parseFile($this->Parser, 'gpx/Route-only.gpx');
 
@@ -166,7 +166,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1367
      */
-    public function testStravaExport()
+    public function testStravaExport(): void
     {
         $this->parseFile($this->Parser, 'gpx/strava-export.gpx');
 
@@ -182,7 +182,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1936
      */
-    public function testThatMissingHeartRatePointsAreFilled()
+    public function testThatMissingHeartRatePointsAreFilled(): void
     {
         $this->parseFile($this->Parser, 'gpx/hr-not-always-there.gpx');
 
@@ -196,7 +196,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1946
      */
-    public function testThatExtensionsInNs3FromGarminAreParsed()
+    public function testThatExtensionsInNs3FromGarminAreParsed(): void
     {
         $this->parseFile($this->Parser, 'gpx/garmin-ns3-extension.gpx');
 
@@ -210,7 +210,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2064
      */
-    public function testMixedExtensionsFromMovescount()
+    public function testMixedExtensionsFromMovescount(): void
     {
         $this->parseFile($this->Parser, 'gpx/Movescount-mixed-extensions.gpx');
 
@@ -225,7 +225,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2194
      */
-    public function testBreakBetweenTrackSegments()
+    public function testBreakBetweenTrackSegments(): void
     {
         $this->parseFile($this->Parser, 'gpx/break-between-trkseg.gpx');
 
@@ -245,7 +245,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2255
      */
-    public function testNegativeTimeStepsFromRunkeeper()
+    public function testNegativeTimeStepsFromRunkeeper(): void
     {
         $this->parseFile($this->Parser, 'gpx/runkeeper-negative-time-step-at-start.gpx');
 

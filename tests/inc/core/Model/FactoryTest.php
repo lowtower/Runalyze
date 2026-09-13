@@ -71,7 +71,7 @@ class FactoryTest extends TestCase
         $this->DB->startAddingAccountID();
     }
 
-    public function testThatNothingIsThere()
+    public function testThatNothingIsThere(): void
     {
         $this->assertTrue($this->object->activity(1)->isEmpty());
         $this->assertTrue($this->object->trackdata(1)->isEmpty());
@@ -84,7 +84,7 @@ class FactoryTest extends TestCase
         $this->assertTrue($this->object->tag(1)->isEmpty());
     }
 
-    public function testStaticCacheForSport()
+    public function testStaticCacheForSport(): void
     {
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(1, "Test A", ' . $this->accountID . ')');
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(2, "Test B", ' . $this->accountID . ')');
@@ -102,7 +102,7 @@ class FactoryTest extends TestCase
         $this->assertEquals('Test C', $this->object->sport(3)->name());
     }
 
-    public function testTags()
+    public function testTags(): void
     {
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(1, "Sport A", ' . $this->accountID . ')');
         $this->DB->exec('INSERT INTO `runalyze_tag` (`id`, `tag`, `accountid`) VALUES(1, "Tag A1", ' . $this->accountID . ')');
@@ -137,7 +137,7 @@ class FactoryTest extends TestCase
         ], $this->object->allTags());
     }
 
-    public function testEquipment()
+    public function testEquipment(): void
     {
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(1, "Sport A", ' . $this->accountID . ')');
         $this->DB->exec('INSERT INTO `runalyze_sport` (`id`, `name`, `accountid`) VALUES(2, "Sport B", ' . $this->accountID . ')');

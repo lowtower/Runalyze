@@ -18,7 +18,7 @@ class BockTest extends \PHPUnit\Framework\TestCase
         $this->Bock = new Bock();
     }
 
-    public function testWithoutReferenceTime()
+    public function testWithoutReferenceTime(): void
     {
         $this->assertFalse($this->Bock->areValuesValid());
     }
@@ -26,7 +26,7 @@ class BockTest extends \PHPUnit\Framework\TestCase
     /**
      * Remember: Formulas used in Bock's generator do not match to his tables
      */
-    public function testSetFromResultsAndInSeconds()
+    public function testSetFromResultsAndInSeconds(): void
     {
         $this->Bock->setFromResults(10.0, 30 * 60, 21.1, 65 * 60);
         $this->assertEqualsWithDelta(8 * 60 + 37, $this->Bock->getSeconds(3.0), 1);

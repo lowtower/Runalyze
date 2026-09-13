@@ -17,7 +17,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->Type = new DistanceType(new Kilometer());
     }
 
-    public function testTransform()
+    public function testTransform(): void
     {
         $this->assertSame('', $this->Type->transform(null));
 
@@ -36,7 +36,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('1234.500', $this->Type->transform(1234.5));
     }
 
-    public function testReverseTransform()
+    public function testReverseTransform(): void
     {
         $this->assertNull($this->Type->reverseTransform(null));
         $this->assertEqualsWithDelta(1.23, $this->Type->reverseTransform('1.23'), 0.000001);
@@ -44,7 +44,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(7.69, $this->Type->reverseTransform('7,69'), 0.000001);
     }
 
-    public function testRoundingToViewPrecision()
+    public function testRoundingToViewPrecision(): void
     {
         $precision = $this->Type->getViewPrecision();
 
@@ -53,7 +53,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(7.69, round(7.69, $precision));
     }
 
-    public function testTransformWithViewPrecision()
+    public function testTransformWithViewPrecision(): void
     {
         $precision = $this->Type->getViewPrecision();
 
@@ -62,7 +62,7 @@ class DistanceTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(number_format(7.69, $precision, '.', ''), $this->Type->transform(7.69));
     }
 
-    public function testTransformUsesCalculatedViewPrecision()
+    public function testTransformUsesCalculatedViewPrecision(): void
     {
         $values = [1.0, 1.2, 1.23, 1.234, 1.2346, 1234.5];
 

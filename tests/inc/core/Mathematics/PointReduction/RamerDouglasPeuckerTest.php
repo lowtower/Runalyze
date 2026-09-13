@@ -8,7 +8,7 @@ use Runalyze\Mathematics\PointReduction\RamerDouglasPeucker;
 
 class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArrayWithEpsilonEqualsZero()
+    public function testSimpleArrayWithEpsilonEqualsZero(): void
     {
         $algorithm = new RamerDouglasPeucker(
             range(0, 9 * 50, 50),
@@ -21,7 +21,7 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 3, 4, 5, 6, 7, 8, 9], $algorithm->getReducedIndices());
     }
 
-    public function testSimpleArrayWithEpsilonEqualsOne()
+    public function testSimpleArrayWithEpsilonEqualsOne(): void
     {
         $algorithm = new RamerDouglasPeucker(
             range(0, 9 * 50, 50),
@@ -34,7 +34,7 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 3, 4, 5, 6, 8, 9], $algorithm->getReducedIndices());
     }
 
-    public function testSimpleArrayWithEpsilonEqualsTwo()
+    public function testSimpleArrayWithEpsilonEqualsTwo(): void
     {
         $algorithm = new RamerDouglasPeucker(
             range(0, 9 * 50, 50),
@@ -47,7 +47,7 @@ class RamerDouglasPeuckerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 3, 5, 6, 8, 9], $algorithm->getReducedIndices());
     }
 
-    public function testMoreComplicatedExample()
+    public function testMoreComplicatedExample(): void
     {
         $algorithm = new RamerDouglasPeucker(
             range(0, 20 * 50, 50),

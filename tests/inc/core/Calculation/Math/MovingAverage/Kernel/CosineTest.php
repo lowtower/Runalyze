@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class CosineTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForDefaultWidth()
+    public function testSomeValuesForDefaultWidth(): void
     {
         $Kernel = new Cosine(2.0);
 

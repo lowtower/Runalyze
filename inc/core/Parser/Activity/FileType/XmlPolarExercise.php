@@ -28,7 +28,7 @@ class XmlPolarExercise extends AbstractSingleParser
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseGeneralValues();
         $this->parseOptionalValues();

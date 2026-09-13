@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Simple;
 
 class SimpleTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Simple('foo');
 

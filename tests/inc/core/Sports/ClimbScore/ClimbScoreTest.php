@@ -18,7 +18,7 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
         $this->Score = new ClimbScore();
     }
 
-    public function testEmptyConstructor()
+    public function testEmptyConstructor(): void
     {
         $score = new ClimbScore();
 
@@ -26,13 +26,13 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($score->getScore());
     }
 
-    public function testManualScore()
+    public function testManualScore(): void
     {
         $this->assertEquals(3.1, (new ClimbScore(3.1))->getScore());
         $this->assertEquals(4.2, (new ClimbScore())->setScore(4.2)->getScore());
     }
 
-    public function testExampleForCyclingTourInSwitzerland()
+    public function testExampleForCyclingTourInSwitzerland(): void
     {
         $this->Score->setScoreFromClassifiedClimbs(
             [0.6, 0.3, 7.7, 5.9, 0.6, 2.8],
@@ -43,20 +43,20 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(5.9, $this->Score->getScore(), 0.05);
     }
 
-    public function testSumOfFietsIndices()
+    public function testSumOfFietsIndices(): void
     {
         $this->assertEquals(6.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 20.0));
         $this->assertEquals(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([1.0, 2.0, 3.0], 80.0));
     }
 
-    public function testThatVeryShortDistancesDoNotDisturbTheScore()
+    public function testThatVeryShortDistancesDoNotDisturbTheScore(): void
     {
         $this->assertEquals(2.7, $this->Score->getSumOfScoresForClassifiedClimbs([2.7], 0.01));
         $this->assertEquals(3.0, $this->Score->getSumOfScoresForClassifiedClimbs([3.0], 3.0));
         $this->assertEquals(4.2, $this->Score->getSumOfScoresForClassifiedClimbs([4.2], 20.0));
     }
 
-    public function testScaleForSumOfScores()
+    public function testScaleForSumOfScores(): void
     {
         $this->assertEqualsWithDelta(1.17, $this->Score->getScoreForSumOfSingleScores(0.0), 0.01);
         $this->assertEquals(2.0, $this->Score->getScoreForSumOfSingleScores(0.5));
@@ -68,7 +68,7 @@ class ClimbScoreTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10.0, $this->Score->getScoreForSumOfSingleScores(100.0));
     }
 
-    public function testCompensationFactorForFlatParts()
+    public function testCompensationFactorForFlatParts(): void
     {
         $this->assertEqualsWithDelta(0.0, $this->Score->getCompensationForFlatParts(2.50), 0.0001);
         $this->assertEqualsWithDelta(0.0, $this->Score->getCompensationForFlatParts(-1.23), 0.0001);

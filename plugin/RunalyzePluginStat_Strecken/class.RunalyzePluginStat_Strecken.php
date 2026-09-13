@@ -105,7 +105,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
         }
     }
 
-    private function displayRoutes()
+    private function displayRoutes(): void
     {
         if ($this->Configuration()->value('analyze_cities')) {
             echo '<table style="width:70%;" class="left zebra-style">';
@@ -148,7 +148,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
     /**
      * Display most visited cities
      */
-    private function displayCities()
+    private function displayCities(): void
     {
         echo '<table style="width:25%;" class="right zebra-style">';
         echo '<thead><tr><th colspan="2">' . __('Most frequent places') . '</th></tr></thead>';
@@ -179,7 +179,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
     /**
      * Display less visited cities
      */
-    private function displayLonelyCities()
+    private function displayLonelyCities(): void
     {
         echo '<table class="margin-5 fullwidth zebra-style">';
         echo '<thead><tr><th colspan="2">' . __('Rare places') . '</th></tr></thead>';
@@ -223,7 +223,7 @@ class RunalyzePluginStat_Strecken extends PluginStat
     /**
      * Initialize internal array for all cities
      */
-    private function initCities()
+    private function initCities(): void
     {
         $this->Cities = [];
         $statement = DB::getInstance()->query($this->fetchCitiesQuery());

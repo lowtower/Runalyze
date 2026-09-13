@@ -12,7 +12,7 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $Sport = new Entity([
             Entity::NAME => 'Sport name',
@@ -41,7 +41,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1585
      */
-    public function testPaceUnitForEmptySport()
+    public function testPaceUnitForEmptySport(): void
     {
         $Sport = new Entity([]);
         $paceUnit = $Sport->legacyPaceUnit();

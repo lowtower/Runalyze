@@ -37,7 +37,7 @@ class PluginRepositoryTest extends AbstractRepositoryTestCase
         return $panel;
     }
 
-    public function testMoving()
+    public function testMoving(): void
     {
         $firstPanel = $this->insertPanel(1);
         $secondPanel = $this->insertPanel(2);

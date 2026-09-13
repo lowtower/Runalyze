@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class GaussianTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForDefaultWidth()
+    public function testSomeValuesForDefaultWidth(): void
     {
         $Kernel = new Gaussian(6.0);
 

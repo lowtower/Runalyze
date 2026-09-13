@@ -26,7 +26,7 @@ class ParameterSelectRowTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $this->assertEquals('foo', $this->object->value());
 
@@ -34,7 +34,7 @@ class ParameterSelectRowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $this->object->value());
     }
 
-    public function testTableAndColumn()
+    public function testTableAndColumn(): void
     {
         $this->assertEquals('table', $this->object->table());
         $this->assertEquals('col', $this->object->column());

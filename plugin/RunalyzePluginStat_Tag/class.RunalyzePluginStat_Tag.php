@@ -123,7 +123,7 @@ class RunalyzePluginStat_Tag extends PluginStat
     /**
      * Display the table with summed data for every month
      */
-    private function displayData()
+    private function displayData(): void
     {
         echo '<p><strong>' . __('Tag') . ': ' . $this->AllTags[$this->TagId] . '</p>';
         echo '<table class="fullwidth zebra-style r">';
@@ -154,7 +154,7 @@ class RunalyzePluginStat_Tag extends PluginStat
     /**
      * Initialize $this->TagData
      */
-    private function initData()
+    private function initData(): void
     {
         if ($this->TagId > 0) {
             $Statement = DB::getInstance()->query(

@@ -68,7 +68,7 @@ class BasicEndurance
      */
     protected float $PERCENTAGE_LONGJOGS = 0.33;
 
-    public function readSettingsFromConfiguration()
+    public function readSettingsFromConfiguration(): void
     {
         $this->EffectiveVO2max = Configuration::Data()->vo2max();
 
@@ -84,7 +84,7 @@ class BasicEndurance
     /**
      * @param float $EffectiveVO2max [ml/kg/min]
      */
-    public function setEffectiveVO2max(float $EffectiveVO2max)
+    public function setEffectiveVO2max(float $EffectiveVO2max): void
     {
         $this->EffectiveVO2max = $EffectiveVO2max;
     }
@@ -102,7 +102,7 @@ class BasicEndurance
      *
      * @param float $km minimal distance for longjog
      */
-    public function setMinimalDistanceForLongjogs(float $km)
+    public function setMinimalDistanceForLongjogs(float $km): void
     {
         $this->MIN_KM_FOR_LONGJOG = $km;
     }
@@ -116,7 +116,7 @@ class BasicEndurance
      * @see setMinimalDaysToRecognizeForWeekKilometer()
      * @param int $days number of days
      */
-    public function setDaysToRecognizeForWeekKilometer(int $days)
+    public function setDaysToRecognizeForWeekKilometer(int $days): void
     {
         $this->DAYS_FOR_WEEK_KM = $days;
     }
@@ -134,7 +134,7 @@ class BasicEndurance
      *
      * @param int $days number of days
      */
-    public function setMinimalDaysToRecognizeForWeekKilometer(int $days)
+    public function setMinimalDaysToRecognizeForWeekKilometer(int $days): void
     {
         $this->DAYS_FOR_WEEK_KM_MIN = $days;
     }
@@ -147,7 +147,7 @@ class BasicEndurance
     /**
      * @param int $days number of days
      */
-    public function setDaysToRecognizeForLongjogs(int $days)
+    public function setDaysToRecognizeForLongjogs(int $days): void
     {
         $this->DAYS_FOR_LONGJOGS = $days;
     }
@@ -162,7 +162,7 @@ class BasicEndurance
      *
      * @param float $percentage percentage between 0 and 1
      */
-    public function setPercentageForWeekKilometer(float $percentage)
+    public function setPercentageForWeekKilometer(float $percentage): void
     {
         $this->PERCENTAGE_WEEK_KM = min(1, abs($percentage));
         $this->PERCENTAGE_LONGJOGS = 1 - $this->PERCENTAGE_WEEK_KM;
@@ -178,7 +178,7 @@ class BasicEndurance
      *
      * @param float $percentage percentage between 0 and 1
      */
-    public function setPercentageForLongjogs(float $percentage)
+    public function setPercentageForLongjogs(float $percentage): void
     {
         $this->PERCENTAGE_LONGJOGS = min(1, abs($percentage));
         $this->PERCENTAGE_WEEK_KM = 1 - $this->PERCENTAGE_LONGJOGS;
@@ -369,7 +369,7 @@ class BasicEndurance
         return self::$CONST_VALUE;
     }
 
-    public static function recalculateValue()
+    public static function recalculateValue(): void
     {
         $Object = new self();
         $Object->readSettingsFromConfiguration();

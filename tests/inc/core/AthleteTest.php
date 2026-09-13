@@ -11,7 +11,7 @@ use Runalyze\Profile\Athlete\Gender;
  */
 class AthleteTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $Athlete = new Athlete();
 
@@ -24,7 +24,7 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Athlete->knowsEffectiveVO2max());
     }
 
-    public function testGenderAndHRmax()
+    public function testGenderAndHRmax(): void
     {
 
         $Athlete = new Athlete(Gender::MALE, 210);
@@ -40,7 +40,7 @@ class AthleteTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(210, $Athlete->maximalHR());
     }
 
-    public function testAllProperties()
+    public function testAllProperties(): void
     {
 
         $Athlete = new Athlete(Gender::MALE, 210, 45, 70, 1993, 60);

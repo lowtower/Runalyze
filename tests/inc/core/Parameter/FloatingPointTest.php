@@ -6,7 +6,7 @@ namespace Runalyze\Parameter;
 
 class FloatingPointTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSetFromString()
+    public function testSetFromString(): void
     {
         $object = new FloatingPoint(3.14);
 
@@ -21,7 +21,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(17, $object->value());
     }
 
-    public function testMinMaxOptions()
+    public function testMinMaxOptions(): void
     {
         $object = new FloatingPoint(1.23, [
             'min' => 1.0,
@@ -36,7 +36,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2.0, $object->value());
     }
 
-    public function testEmptyStringForNotNull()
+    public function testEmptyStringForNotNull(): void
     {
         $object = new FloatingPoint(3.0, [
             'null' => false,
@@ -48,7 +48,7 @@ class FloatingPointTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals('', $object->valueAsString());
     }
 
-    public function testEmptyStringForNull()
+    public function testEmptyStringForNull(): void
     {
         $object = new FloatingPoint(3.0, [
             'null' => true,

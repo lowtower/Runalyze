@@ -13,7 +13,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 
-    public function testEmptyResponse()
+    public function testEmptyResponse(): void
     {
         $darkSky = new OpenWeatherMap('', null, $this->getMockForResponses([
             new Response(200, [], ''),
@@ -28,7 +28,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($result);
     }
 
-    public function testSimpleResponse()
+    public function testSimpleResponse(): void
     {
         $darkSky = new OpenWeatherMap('', null, $this->getMockForResponses([
             new Response(200, [], '{
@@ -63,7 +63,7 @@ class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
     }
 
-    public function testWindDirectionOf360()
+    public function testWindDirectionOf360(): void
     {
         $darkSky = new OpenWeatherMap('', null, $this->getMockForResponses([
             new Response(200, [], '{

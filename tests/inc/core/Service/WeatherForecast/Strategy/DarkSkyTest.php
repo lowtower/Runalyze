@@ -13,7 +13,7 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 
-    public function testEmptyResponse()
+    public function testEmptyResponse(): void
     {
         $location = new Location();
         $location->setPosition(54.347, 10.1125);
@@ -27,7 +27,7 @@ class DarkSkyTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($result);
     }
 
-    public function testSimpleResponse()
+    public function testSimpleResponse(): void
     {
         $darkSky = new DarkSky('', $this->getMockForResponses([
             new Response(200, [], '{

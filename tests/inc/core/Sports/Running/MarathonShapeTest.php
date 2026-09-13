@@ -14,7 +14,7 @@ class MarathonShapeTest extends \PHPUnit\Framework\TestCase
         return new BasicEndurance();
     }
 
-    public function testThatVerySmallVO2maxValuesAreIgnored()
+    public function testThatVerySmallVO2maxValuesAreIgnored(): void
     {
         $shape = new MarathonShape(1.0, $this->getDefaultConfiguration());
 
@@ -27,7 +27,7 @@ class MarathonShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(38.0, $shape->getTargetForWeeklyMileage(), 1.0);
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $config = $this->getDefaultConfiguration();
         $config->set('BE_DAYS_FOR_LONGJOGS', '7');

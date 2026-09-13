@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyList()
+    public function testEmptyList(): void
     {
         /** @var ConfRepository&\PHPUnit\Framework\MockObject\MockObject $repository */
         $repository = $this->getConfRepositoryMock([]);
@@ -20,7 +20,7 @@ class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('metric', $list->get('general.DISTANCE_UNIT_SYSTEM'));
     }
 
-    public function testSimpleList()
+    public function testSimpleList(): void
     {
         $existingConf = new Conf();
         $existingConf->setCategory('general');

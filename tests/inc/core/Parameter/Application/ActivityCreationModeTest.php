@@ -23,7 +23,7 @@ class ActivityCreationModeTest extends \PHPUnit\Framework\TestCase
         $this->object = new ActivityCreationMode();
     }
 
-    public function testModes()
+    public function testModes(): void
     {
         $this->object->set(ActivityCreationMode::UPLOAD);
         $this->assertEquals(true, $this->object->usesUpload());

@@ -29,14 +29,10 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    /**
-     * @param int|float $duration
-     * @param float|int|null $distance
-     */
     protected function insertActivityForDefaultAccount(
         ?int $timestamp = null,
-        $duration = 3600,
-        $distance = null,
+        float $duration = 3600,
+        ?float $distance = null,
         ?Sport $sport = null
     ): Training {
         $activity = $this->getActivityForDefaultAccount($timestamp, $duration, $distance, $sport);
@@ -46,7 +42,7 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         return $activity;
     }
 
-    public function testEmptyAccount()
+    public function testEmptyAccount(): void
     {
         $account = $this->getEmptyAccount();
 
@@ -64,7 +60,7 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->SportRepository->findThisOrAny(1, $account));
     }
 
-    public function testDefaultAccount()
+    public function testDefaultAccount(): void
     {
         $account = $this->getDefaultAccount();
 
@@ -78,7 +74,7 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNotNull($this->SportRepository->findThisOrAny(-123, $account));
     }
 
-    public function testSportStatisticsWithoutData()
+    public function testSportStatisticsWithoutData(): void
     {
         $statistics = $this->SportRepository->getSportStatisticsSince(null, $this->Account);
 
@@ -86,7 +82,7 @@ class SportRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEmpty($statistics->getStatistics());
     }
 
-    public function testSportStatisticsWithData()
+    public function testSportStatisticsWithData(): void
     {
         $this->insertActivityForDefaultAccount(1400000000, 3600, 10.0, $this->getDefaultAccountsRunningSport());
         $this->insertActivityForDefaultAccount(1500000000, 3400, 12.0, $this->getDefaultAccountsRunningSport());

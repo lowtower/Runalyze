@@ -28,7 +28,7 @@ class Epanechnikov extends AbstractKernel
      * @param float $u
      * @return float
      */
-    protected function atTransformed($u)
+    protected function atTransformed($u): int|float
     {
         if ($u >= -1.0 && $u <= 1.0) {
             return 1 - $u * $u;

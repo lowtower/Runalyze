@@ -16,7 +16,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->Account = new Account();
     }
 
-    public function testDefaultValues()
+    public function testDefaultValues(): void
     {
         $this->assertNotNull($this->Account->getSalt());
 
@@ -29,7 +29,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Account->getAge());
     }
 
-    public function testChangePasswordHash()
+    public function testChangePasswordHash(): void
     {
         $this->Account->setNewChangePasswordHash();
 
@@ -42,7 +42,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Account->getChangepwTimelimit());
     }
 
-    public function testActivationHash()
+    public function testActivationHash(): void
     {
         $this->Account->setNewActivationHash();
 
@@ -53,7 +53,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Account->getActivationHash());
     }
 
-    public function testGender()
+    public function testGender(): void
     {
         $this->Account->setGender(Gender::FEMALE);
 
@@ -68,7 +68,7 @@ class AccountTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Account->isMale());
     }
 
-    public function testAge()
+    public function testAge(): void
     {
         $this->Account->setBirthyear((int) date('Y') - 42);
 

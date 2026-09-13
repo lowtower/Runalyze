@@ -22,7 +22,7 @@ class Cumulative extends AbstractMovingAverage
     /**
      * Calculate if index data is there
      */
-    public function calculateWithIndexData()
+    public function calculateWithIndexData(): void
     {
         $avg = 0;
         $last = 0;
@@ -39,7 +39,7 @@ class Cumulative extends AbstractMovingAverage
     /**
      * Calculate if index data is not there
      */
-    public function calculateWithoutIndexData()
+    public function calculateWithoutIndexData(): void
     {
         $avg = 0;
 

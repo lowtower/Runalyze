@@ -13,7 +13,7 @@ abstract class UnitConversionByFactorTraitTestSubject
 
 class UnitConversionByFactorTraitTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatConversionWorksAsExpected()
+    public function testThatConversionWorksAsExpected(): void
     {
         /** @var UnitConversionByFactorTraitTestSubject&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->getMockForAbstractClass(UnitConversionByFactorTraitTestSubject::class);

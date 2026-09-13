@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class UniformTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForWidth2()
+    public function testSomeValuesForWidth2(): void
     {
         $Kernel = new Uniform(2);
 

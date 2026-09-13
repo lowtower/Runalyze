@@ -28,7 +28,7 @@ class LegacyEffectiveVO2maxCorrector
     /**
      * @param float $factor
      */
-    public static function setGlobalFactor($factor)
+    public static function setGlobalFactor($factor): void
     {
         self::$GlobalFactor = $factor;
     }
@@ -92,10 +92,8 @@ class LegacyEffectiveVO2maxCorrector
      *
      * Simply calculates the ratio of vo2max by time and by heart rate.
      * This method does not regard any other correction (e.g. elevation, ...).
-     *
-     * @return float
      */
-    public function fromActivity(Activity\Entity $activity)
+    public function fromActivity(Activity\Entity $activity): float
     {
         if ($activity->vo2maxByHeartRate() > 0.0) {
             $this->Factor = $activity->vo2maxByTime() / $activity->vo2maxByHeartRate();

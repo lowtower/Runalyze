@@ -44,12 +44,12 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
         $this->Repository->save($cache);
     }
 
-    public function testEmptyCache()
+    public function testEmptyCache(): void
     {
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
     }
 
-    public function testFetchingCachedWeatherData()
+    public function testFetchingCachedWeatherData(): void
     {
         $this->insertExampleWeatherData();
 
@@ -65,7 +65,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
     }
 
-    public function testWrongGeohashOrTime()
+    public function testWrongGeohashOrTime(): void
     {
         $this->insertExampleWeatherData();
 
@@ -79,7 +79,7 @@ class WeathercacheRepositoryTest extends AbstractRepositoryTestCase
         $this->assertNull($this->Repository->getCachedWeatherDataFor($this->Location, 1800));
     }
 
-    public function testTimeTolerance()
+    public function testTimeTolerance(): void
     {
         $this->insertExampleWeatherData();
 

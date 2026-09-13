@@ -6,7 +6,7 @@ use Runalyze\View\RpeColor;
 
 class RpeColorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $object = new RpeColor();
 
@@ -14,7 +14,7 @@ class RpeColorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('transparent', $object->borderColor());
     }
 
-    public function testSetting()
+    public function testSetting(): void
     {
         $viaConstructor = new RpeColor(7);
         $this->assertEquals(7, $viaConstructor->value());
@@ -23,7 +23,7 @@ class RpeColorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(9, $viaSet->setValue(9)->value());
     }
 
-    public function testBackgroundColor()
+    public function testBackgroundColor(): void
     {
         $rpe = new RpeColor();
 
@@ -43,7 +43,7 @@ class RpeColorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('transparent', $rpe->setValue(11)->borderColor());
     }
 
-    public function testInvalidValues()
+    public function testInvalidValues(): void
     {
         $rpe = new RpeColor();
 

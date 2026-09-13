@@ -14,21 +14,21 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection = new StrategyCollection();
     }
 
-    public function testEmptyCollection()
+    public function testEmptyCollection(): void
     {
         $this->assertNull($this->Collection->getLastSuccessfulStrategy());
         $this->assertNull($this->Collection->loadAltitudeData([], []));
         $this->assertNull($this->Collection->getLastSuccessfulStrategy());
     }
 
-    public function testNonMatchingArraySizes()
+    public function testNonMatchingArraySizes(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $this->Collection->loadAltitudeData([49.9, 49.8], [7.7]);
     }
 
-    public function testOneValidStrategy()
+    public function testOneValidStrategy(): void
     {
         $altitudes = [123, 121, 115];
 

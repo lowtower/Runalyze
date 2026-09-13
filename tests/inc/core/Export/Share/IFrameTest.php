@@ -9,7 +9,7 @@ use Runalyze\View\Activity\FakeContext;
 
 class IFrameTest extends \PHPUnit\Framework\TestCase
 {
-    public function checkFeasibility()
+    public function checkFeasibility(): void
     {
         $this->assertFalse((new IFrame(FakeContext::onlyWithActivity(
             new Activity\Entity([
@@ -24,7 +24,7 @@ class IFrameTest extends \PHPUnit\Framework\TestCase
         )))->isPossible());
     }
 
-    public function testThatCodeCanBeCreated()
+    public function testThatCodeCanBeCreated(): void
     {
         ob_start();
 

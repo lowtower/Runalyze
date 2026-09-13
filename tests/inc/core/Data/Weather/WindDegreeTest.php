@@ -4,13 +4,13 @@ namespace Runalyze\Data\Weather;
 
 class WindDegreeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNonNumericValue()
+    public function testNonNumericValue(): void
     {
         $this->expectException(\TypeError::class);
         new WindDegree('foobar');
     }
 
-    public function testNull()
+    public function testNull(): void
     {
         $Degrees = new WindDegree();
 
@@ -19,7 +19,7 @@ class WindDegreeTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Degrees->isUnknown());
     }
 
-    public function testValue()
+    public function testValue(): void
     {
         $Degrees = new WindDegree(120);
 

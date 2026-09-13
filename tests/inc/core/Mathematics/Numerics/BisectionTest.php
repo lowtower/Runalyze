@@ -8,7 +8,7 @@ use Runalyze\Mathematics\Numerics\Bisection;
 
 class BisectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testPerfectStartPoint()
+    public function testPerfectStartPoint(): void
     {
         $Bisection = new Bisection(5, 0, 10, function ($x) {
             return $x;
@@ -17,7 +17,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5, $Bisection->findValue());
     }
 
-    public function testNotEnoughIterations()
+    public function testNotEnoughIterations(): void
     {
         $Bisection = new Bisection(1, 0, 10, function ($x) {
             return $x;
@@ -29,7 +29,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.9375, $Bisection->findValue());
     }
 
-    public function testSimpleApproximation()
+    public function testSimpleApproximation(): void
     {
         $Bisection = new Bisection(1, 0, 10, function ($x) {
             return $x;
@@ -41,7 +41,7 @@ class BisectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(1, $Bisection->findValue(), 0.01);
     }
 
-    public function testCubicFunction()
+    public function testCubicFunction(): void
     {
         $Bisection = new Bisection(7, -50, 20, function ($x) {
             return $x * $x * $x + 6;

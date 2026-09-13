@@ -8,7 +8,7 @@ use Runalyze\Mathematics\Distribution\TimeSeries;
 
 class TimeSeriesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $dist = new TimeSeries(
             [10, 15, 20, 15],

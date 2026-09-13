@@ -12,7 +12,7 @@ use Runalyze\Model\Trackdata;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSingleValue()
+    public function testSingleValue(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -26,7 +26,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $Calculator->average());
     }
 
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -47,7 +47,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1951
      */
-    public function testTooBigValue()
+    public function testTooBigValue(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([

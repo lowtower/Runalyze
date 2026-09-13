@@ -41,47 +41,47 @@ class SummaryModeTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testNoSummary()
+    public function testNoSummary(): void
     {
         $this->assertEquals('', SummaryMode::query(SummaryMode::NO, 'value'));
     }
 
-    public function testAvg()
+    public function testAvg(): void
     {
         $this->insertData([[1, 1], [2, 1], [3, 1]]);
 
         $this->assertEquals(2, $this->fetchResult(SummaryMode::AVG));
     }
 
-    public function testAvgBasedOnDuration()
+    public function testAvgBasedOnDuration(): void
     {
         $this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
         $this->assertEquals(14, $this->fetchResult(SummaryMode::AVG));
     }
 
-    public function testSum()
+    public function testSum(): void
     {
         $this->insertData([[1, 1], [2, 1], [3, 1]]);
 
         $this->assertEquals(6, $this->fetchResult(SummaryMode::SUM));
     }
 
-    public function testMax()
+    public function testMax(): void
     {
         $this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
         $this->assertEquals(513, $this->fetchResult(SummaryMode::MAX));
     }
 
-    public function testMin()
+    public function testMin(): void
     {
         $this->insertData([[10, 7], [20, 2], [30, 1], [513, 0]]);
 
         $this->assertEquals(10, $this->fetchResult(SummaryMode::MIN));
     }
 
-    public function testAvgWithoutNull()
+    public function testAvgWithoutNull(): void
     {
         $this->insertData([[5, 1], [0, 1]]);
 

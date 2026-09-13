@@ -11,5 +11,5 @@ interface FilterInterface
     /**
      * @param bool $strict if disabled the filter tries to fix all issues, otherwise throw exceptions
      */
-    public function filter(ActivityDataContainer $container, $strict = false);
+    public function filter(ActivityDataContainer $container, bool $strict = false);
 }

@@ -23,7 +23,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    public function testEmptyDatabase()
+    public function testEmptyDatabase(): void
     {
         $this->assertNull($this->UserRepository->getCurrentRestingHeartRate(new Account()));
         $this->assertNull($this->UserRepository->getCurrentMaximalHeartRate(new Account()));
@@ -44,7 +44,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         return $user;
     }
 
-    public function testCurrentHeartRateStats()
+    public function testCurrentHeartRateStats(): void
     {
         $this->insertDataForDefaultAccount(197, 48);
 
@@ -55,7 +55,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals('48', $this->EntityManager->getRepository(\Runalyze\Bundle\CoreBundle\Entity\Conf::class)->findByAccountAndKey($this->Account, 'HF_REST')->getValue());
     }
 
-    public function testThatZeroesAreIgnored()
+    public function testThatZeroesAreIgnored(): void
     {
         $this->insertDataForDefaultAccount(0, 0, time());
         $this->insertDataForDefaultAccount(195, 0, time() - 300);

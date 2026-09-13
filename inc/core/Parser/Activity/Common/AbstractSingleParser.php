@@ -11,10 +11,7 @@ abstract class AbstractSingleParser implements ParserInterface, LoggerAwareInter
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var ActivityDataContainer
-     */
-    protected $Container;
+    protected ActivityDataContainer $Container;
 
     public function __construct()
     {
@@ -22,12 +19,12 @@ abstract class AbstractSingleParser implements ParserInterface, LoggerAwareInter
         $this->setLogger(new NullLogger());
     }
 
-    public function getNumberOfActivities()
+    public function getNumberOfActivities(): int
     {
         return 1;
     }
 
-    public function getActivityDataContainer($index = 0)
+    public function getActivityDataContainer(int $index = 0): ActivityDataContainer
     {
         return $this->Container;
     }

@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\MeterPerSecond;
 
 class MeterPerSecondTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new MeterPerSecond();
 

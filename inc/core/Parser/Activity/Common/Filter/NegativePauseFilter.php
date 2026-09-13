@@ -7,7 +7,7 @@ use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 
 class NegativePauseFilter extends AbstractFilter
 {
-    public function filter(ActivityDataContainer $container, $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false)
     {
         foreach ($container->Pauses->getElements() as $key => $pause) {
             if ($pause->getDuration() <= 0) {

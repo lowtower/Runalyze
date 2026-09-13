@@ -8,13 +8,13 @@ use Runalyze\Model\Trackdata;
 
 class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNoTimeData()
+    public function testNoTimeData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrackdataAverages(new Trackdata\Entity([]), []);
     }
 
-    public function testEmptyTimeData()
+    public function testEmptyTimeData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TrackdataAverages(
@@ -25,7 +25,7 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testNoRequestedKeys()
+    public function testNoRequestedKeys(): void
     {
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([
@@ -37,7 +37,7 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $Averages->averages());
     }
 
-    public function testInvalidAverageKey()
+    public function testInvalidAverageKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Averages = new TrackdataAverages(
@@ -52,7 +52,7 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $Averages->average(Trackdata\Entity::CADENCE);
     }
 
-    public function testSimpleAverages()
+    public function testSimpleAverages(): void
     {
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([
@@ -69,7 +69,7 @@ class TrackdataAveragesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $Averages->average(Trackdata\Entity::CADENCE));
     }
 
-    public function testAveragesWithZero()
+    public function testAveragesWithZero(): void
     {
         $Averages = new TrackdataAverages(
             new Trackdata\Entity([

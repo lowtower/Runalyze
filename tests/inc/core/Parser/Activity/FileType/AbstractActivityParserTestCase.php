@@ -21,7 +21,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
     /**
      * @var string[]
      */
-    protected $FilesToClear = [];
+    protected array $FilesToClear = [];
 
     protected function tearDown(): void
     {
@@ -178,7 +178,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCas
      *
      * @return bool true if a timezone was found and applied
      */
-    protected function applyTimezoneLookup(ActivityDataContainer $container)
+    protected function applyTimezoneLookup(ActivityDataContainer $container): bool
     {
         if (! RUNALYZE_TEST_TZ_LOOKUP) {
             return false;

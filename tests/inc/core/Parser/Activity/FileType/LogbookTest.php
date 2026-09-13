@@ -20,7 +20,7 @@ class LogbookTest extends AbstractActivityParserTestCase
         $this->Parser = new Logbook();
     }
 
-    public function testMinifiedLogbook()
+    public function testMinifiedLogbook(): void
     {
         $this->parseFile($this->Parser, 'sporttracks/test.logbook');
 

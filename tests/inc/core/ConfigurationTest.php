@@ -28,20 +28,20 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `' . PREFIX . 'conf`');
     }
 
-    public function testThatResettingRequiresAccountId()
+    public function testThatResettingRequiresAccountId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Configuration::loadAll(null);
         Configuration::resetConfiguration();
     }
 
-    public function testInvalidAccountId()
+    public function testInvalidAccountId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Configuration::resetConfiguration('foo');
     }
 
-    public function testResetConfiguration()
+    public function testResetConfiguration(): void
     {
         Configuration::loadAll(0);
         Configuration::loadAll(1);

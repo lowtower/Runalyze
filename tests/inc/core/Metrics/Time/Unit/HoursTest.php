@@ -6,7 +6,7 @@ use Runalyze\Metrics\Time\Unit\Hours;
 
 class HoursTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Hours();
 

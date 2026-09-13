@@ -20,7 +20,7 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->Parser = new Slf();
     }
 
-    public function testStandardFileWithoutDistance()
+    public function testStandardFileWithoutDistance(): void
     {
         $this->parseFile($this->Parser, 'slf/Standard.slf');
 
@@ -37,7 +37,7 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
 
-    public function testAnotherFile()
+    public function testAnotherFile(): void
     {
         $this->parseFile($this->Parser, 'slf/2012_10_14__13_19_.slf');
 
@@ -51,7 +51,7 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(243, $this->Container->ActivityData->EnergyConsumption, 1);
     }
 
-    public function testVersion4File()
+    public function testVersion4File(): void
     {
         $this->parseFile($this->Parser, 'slf/DatacenterVersion4-HM.slf');
 
@@ -67,7 +67,7 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEquals(14, $this->Container->Rounds->count());
     }
 
-    public function testVersion4WithoutEntriesFile()
+    public function testVersion4WithoutEntriesFile(): void
     {
         $this->parseFile($this->Parser, 'slf/slf4-without-entries-.slf');
 

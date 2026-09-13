@@ -6,7 +6,7 @@ use Runalyze\Metrics\Energy\Unit\EnergyEnum;
 
 class EnergyEnumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsCanBeConstructed()
+    public function testThatAllUnitsCanBeConstructed(): void
     {
         foreach (EnergyEnum::getEnum() as $unit) {
             $energyUnit = EnergyEnum::get($unit);

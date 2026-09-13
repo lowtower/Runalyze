@@ -217,6 +217,9 @@ class ActivityDataContainerToActivityContextConverter
         }
     }
 
+    /**
+     * @param string[] $equipmentNames
+     */
     protected function tryToSetEquipmentFor(Training $activity, array $equipmentNames)
     {
         if ($equipmentNames !== []) {

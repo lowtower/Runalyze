@@ -22,7 +22,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->RouteRepository = $this->EntityManager->getRepository(Route::class);
     }
 
-    public function testCheckingForLockedRoutes()
+    public function testCheckingForLockedRoutes(): void
     {
         $account = $this->getDefaultAccount();
 
@@ -37,7 +37,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($this->RouteRepository->accountHasLockedRoutes($account));
     }
 
-    public function testSynchronizationTasksForOnlyNullGeohashes()
+    public function testSynchronizationTasksForOnlyNullGeohashes(): void
     {
         $route = new Route();
         $route->setAccount($this->getDefaultAccount());
@@ -55,7 +55,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals('', $route->getElevationsSource());
     }
 
-    public function testSynchronizationTasks()
+    public function testSynchronizationTasks(): void
     {
         $route = new Route();
         $route->setAccount($this->getDefaultAccount());
@@ -73,7 +73,7 @@ class RouteRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals('device', $route->getElevationsSource());
     }
 
-    public function testRecalculationOfElevation()
+    public function testRecalculationOfElevation(): void
     {
         $route = new Route();
         $route->setAccount($this->getDefaultAccount());

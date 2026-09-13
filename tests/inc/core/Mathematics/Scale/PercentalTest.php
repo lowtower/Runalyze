@@ -18,12 +18,12 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->Scale = new Percental();
     }
 
-    public function testNoTransformation()
+    public function testNoTransformation(): void
     {
         $this->assertEquals(26, $this->Scale->transform(26));
     }
 
-    public function testMinMax()
+    public function testMinMax(): void
     {
         $this->assertEquals(0, $this->Scale->transform(-10));
         $this->assertEquals(0, $this->Scale->transform(0));
@@ -31,7 +31,7 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $this->Scale->transform(120));
     }
 
-    public function testNewMinimum()
+    public function testNewMinimum(): void
     {
         $this->Scale->setMinimum(-400);
 
@@ -39,7 +39,7 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(80, $this->Scale->transform(0));
     }
 
-    public function testNewMaximum()
+    public function testNewMaximum(): void
     {
         $this->Scale->setMaximum(200);
 
@@ -48,7 +48,7 @@ class PercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $this->Scale->transform(210));
     }
 
-    public function testNewScale()
+    public function testNewScale(): void
     {
         $this->Scale->setMinimum(1);
         $this->Scale->setMaximum(10);

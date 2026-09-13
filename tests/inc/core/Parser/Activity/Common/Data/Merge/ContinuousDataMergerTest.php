@@ -35,7 +35,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testWithDifferentArraySizes()
+    public function testWithDifferentArraySizes(): void
     {
         $this->FirstData->Time = [1, 2, 3];
         $this->SecondData->Distance = [1, 2, 3, 4];
@@ -45,7 +45,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         (new ContinuousDataMerger($this->FirstData, $this->SecondData))->merge(true);
     }
 
-    public function testWithEmptySecondObject()
+    public function testWithEmptySecondObject(): void
     {
         $this->FirstData->Time = [1, 2, 3];
 
@@ -54,7 +54,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([1, 2, 3], $this->FirstData->Time);
     }
 
-    public function testWithEmptyFirstObject()
+    public function testWithEmptyFirstObject(): void
     {
         $this->SecondData->Time = [1, 2, 3];
 
@@ -64,7 +64,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->FirstData->IsAltitudeDataBarometric);
     }
 
-    public function testThatBarometricAltitudeFromFirstObjectIsPreferred()
+    public function testThatBarometricAltitudeFromFirstObjectIsPreferred(): void
     {
         $this->FirstData->Altitude = [120, 125, 120];
         $this->FirstData->IsAltitudeDataBarometric = true;
@@ -77,7 +77,7 @@ class ContinuousDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->FirstData->IsAltitudeDataBarometric);
     }
 
-    public function testThatBarometricAltitudeFromSecondObjectIsPreferred()
+    public function testThatBarometricAltitudeFromSecondObjectIsPreferred(): void
     {
         $this->FirstData->Altitude = [120, 125, 120];
         $this->FirstData->IsAltitudeDataBarometric = false;

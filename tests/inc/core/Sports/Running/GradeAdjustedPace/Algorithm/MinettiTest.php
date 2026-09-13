@@ -16,14 +16,14 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
         $this->Minetti = new Minetti();
     }
 
-    public function testThatFlatGroundDoesNotChangePace()
+    public function testThatFlatGroundDoesNotChangePace(): void
     {
         for ($secPerKm = 150.0; $secPerKm <= 480.0; $secPerKm += 15.0) {
             $this->assertEquals($secPerKm, $this->Minetti->adjustPace($secPerKm, 0.0));
         }
     }
 
-    public function testSomeEnergyCostsVerifiedByOwnSpreadsheet()
+    public function testSomeEnergyCostsVerifiedByOwnSpreadsheet(): void
     {
         $this->assertEqualsWithDelta(0.5099, $this->Minetti->getEnergyCost(-0.15), 0.0001);
         $this->assertEqualsWithDelta(0.5977, $this->Minetti->getEnergyCost(-0.10), 0.0001);
@@ -39,7 +39,7 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(2.0603, $this->Minetti->getEnergyCost(0.15), 0.0001);
     }
 
-    public function testSomeTimeFactorsVerifiedByOwnSpreadsheet()
+    public function testSomeTimeFactorsVerifiedByOwnSpreadsheet(): void
     {
         $this->assertEqualsWithDelta(1.7489, $this->Minetti->getTimeFactor(-0.15), 0.0001);
         $this->assertEqualsWithDelta(1.5329, $this->Minetti->getTimeFactor(-0.10), 0.0001);
@@ -55,7 +55,7 @@ class MinettiTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.5488, $this->Minetti->getTimeFactor(0.15), 0.0001);
     }
 
-    public function testSomeExemplaryPacesVerifiedByOwnSpreadsheet()
+    public function testSomeExemplaryPacesVerifiedByOwnSpreadsheet(): void
     {
         $this->assertPaceEquivalence('3:00', -0.05, '3:45');
         $this->assertPaceEquivalence('3:30', -0.03, '4:00');

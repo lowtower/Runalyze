@@ -16,7 +16,7 @@ class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
         $this->Codifava = new CodifavaIndex();
     }
 
-    public function testSimpleValues()
+    public function testSimpleValues(): void
     {
         $testMatrix = [
             [1.0, 10, 4.1],
@@ -47,7 +47,7 @@ class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testAdditiveCalculationForExactProfile()
+    public function testAdditiveCalculationForExactProfile(): void
     {
         $this->assertEquals(
             $this->Codifava->getScoreFor(10.0, 500),

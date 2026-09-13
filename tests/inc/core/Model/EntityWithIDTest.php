@@ -17,7 +17,7 @@ class EntityWithID_MockTester extends EntityWithID
  */
 class EntityWithIDTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructorWithoutID()
+    public function testConstructorWithoutID(): void
     {
         $O = new EntityWithID_MockTester([
             'foo' => 'bar',
@@ -31,7 +31,7 @@ class EntityWithIDTest extends \PHPUnit\Framework\TestCase
         ], $O->completeData());
     }
 
-    public function testConstructorWithID()
+    public function testConstructorWithID(): void
     {
         $O = new EntityWithID_MockTester([
             'foo' => 'bar',

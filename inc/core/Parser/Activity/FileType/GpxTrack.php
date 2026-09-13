@@ -14,10 +14,7 @@ class GpxTrack extends AbstractSingleParser
      */
     public static $PAUSE_FACTOR_FROM_AVERAGE_INTERVAL = 10;
 
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     /**
      * @var int
@@ -70,7 +67,7 @@ class GpxTrack extends AbstractSingleParser
         }
     }
 
-    public function setExtensionXML(SimpleXMLElement $xml)
+    public function setExtensionXML(SimpleXMLElement $xml): void
     {
         $this->ExtensionXml = $xml;
     }
@@ -78,12 +75,12 @@ class GpxTrack extends AbstractSingleParser
     /**
      * @param bool $flag
      */
-    public function lookForPauses($flag = true)
+    public function lookForPauses($flag = true): void
     {
         $this->LookForPauses = $flag;
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->guessLimitForPauses();
         $this->parseGeneralValues();
@@ -189,10 +186,7 @@ class GpxTrack extends AbstractSingleParser
         }
     }
 
-    /**
-     * @return int
-     */
-    private function getTimeOfPoint(SimpleXMLElement $point)
+    private function getTimeOfPoint(SimpleXMLElement $point): int|float
     {
         $newTimestamp = strtotime((string) $point->time);
         $timeToAdd = $newTimestamp - $this->LastTimestamp;
@@ -205,7 +199,7 @@ class GpxTrack extends AbstractSingleParser
         return $timeToAdd;
     }
 
-    public function parseMetadata(SimpleXMLElement $metadata)
+    public function parseMetadata(SimpleXMLElement $metadata): void
     {
         if (isset($metadata->name)) {
             $this->Container->Metadata->setDescription((string) $metadata->name);
@@ -216,7 +210,7 @@ class GpxTrack extends AbstractSingleParser
         }
     }
 
-    private function parseExtensionValues(SimpleXMLElement $point)
+    private function parseExtensionValues(SimpleXMLElement $point): void
     {
         $currentNum = count($this->Container->ContinuousData->Time);
         $bpm = null;

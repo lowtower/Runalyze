@@ -39,7 +39,7 @@ class ConditionTest extends \PHPUnit\Framework\TestCase
      * @covers Runalyze\Data\Weather\Condition::set
      * @covers Runalyze\Data\Weather\Condition::string
      */
-    public function testConditions()
+    public function testConditions(): void
     {
         foreach (Condition::completeList() as $id) {
             $this->object->set($id);
@@ -50,14 +50,14 @@ class ConditionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testUnknown()
+    public function testUnknown(): void
     {
         $this->object->set(WeatherConditionProfile::UNKNOWN);
 
         $this->assertTrue($this->object->isUnknown());
     }
 
-    public function testWrongId()
+    public function testWrongId(): void
     {
         $this->object->set('foobar');
         $this->assertTrue($this->object->isUnknown());

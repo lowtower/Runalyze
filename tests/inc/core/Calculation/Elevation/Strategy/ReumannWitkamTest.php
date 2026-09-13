@@ -9,7 +9,7 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class ReumannWitkamTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $this->expectException(\RuntimeException::class);
         // This algorithm ist not implemented

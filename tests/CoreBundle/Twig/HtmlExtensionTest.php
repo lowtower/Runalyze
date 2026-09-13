@@ -16,12 +16,12 @@ class HtmlExtensionTest extends \PHPUnit\Framework\TestCase
         $this->Html = new HtmlExtension();
     }
 
-    public function testAddingNoBreakSpaceCharacters()
+    public function testAddingNoBreakSpaceCharacters(): void
     {
         $this->assertEquals('test&nbsp;foo&nbsp;&nbsp;bar', $this->Html->nbsp('test foo  bar'));
     }
 
-    public function testRemovingNoBreakSpaceCharacters()
+    public function testRemovingNoBreakSpaceCharacters(): void
     {
         $this->assertEquals('test foo  bar', $this->Html->nonbsp('test&nbsp;foo&nbsp;&nbsp;bar'));
     }

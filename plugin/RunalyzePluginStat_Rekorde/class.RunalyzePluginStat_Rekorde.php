@@ -20,13 +20,16 @@ $PLUGINKEY = 'RunalyzePluginStat_Rekorde';
  */
 class RunalyzePluginStat_Rekorde extends PluginStat
 {
-    private $rekorde = [];
+    /**
+     * @var array<mixed, array<string, string|bool>>
+     */
+    private array $rekorde = [];
 
-    private $months = [];
+    private array $months = [];
 
-    private $weeks = [];
+    private array $weeks = [];
 
-    private $years = [];
+    private array $years = [];
 
     final public function name(): string
     {
@@ -72,7 +75,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
     /**
      * Display the table with general records
      */
-    private function displayRekorde()
+    private function displayRekorde(): void
     {
         foreach ($this->rekorde as $rekord) {
             echo '<table class="fullwidth zebra-style">';
@@ -129,7 +132,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
     /**
      * Display the table with most kilometer for each year/month/week
      */
-    private function displayMostKilometer()
+    private function displayMostKilometer(): void
     {
         echo '<table class="fullwidth zebra-style">';
         echo '<thead><tr><th colspan="11" class="l">' . __('Most kilometers') . '</th></tr></thead>';
@@ -195,7 +198,7 @@ class RunalyzePluginStat_Rekorde extends PluginStat
     /**
      * Initialize $this->ABCData
      */
-    private function initData()
+    private function initData(): void
     {
         // TODO: Use sport arrays from SportFactory
         $this->rekorde = [];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Import\Exception\UnsupportedFileException;
@@ -9,10 +11,7 @@ use SimpleXMLElement;
 
 class LogbookActivity extends AbstractSingleParser
 {
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     public function __construct(SimpleXMLElement $activity)
     {
@@ -30,7 +29,7 @@ class LogbookActivity extends AbstractSingleParser
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseAttributesForMetadata();
         $this->parseAttributesForActivityData();

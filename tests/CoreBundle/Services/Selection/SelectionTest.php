@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
 class SelectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptySelection()
+    public function testEmptySelection(): void
     {
         $list = new Selection([]);
 
@@ -17,7 +17,7 @@ class SelectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($list->hasCurrentKey());
     }
 
-    public function testSelectionWithoutCurrentKey()
+    public function testSelectionWithoutCurrentKey(): void
     {
         $list = new Selection(['foo', 'bar']);
 
@@ -27,7 +27,7 @@ class SelectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $list->getCurrentLabel());
     }
 
-    public function testSelectionWithCurrentKey()
+    public function testSelectionWithCurrentKey(): void
     {
         $list = new Selection(['foo', 'bar'], 1);
 
@@ -36,7 +36,7 @@ class SelectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $list->getCurrentLabel());
     }
 
-    public function testUnknownCurrentKey()
+    public function testUnknownCurrentKey(): void
     {
         $list = new Selection([
             'foo' => 'bar',

@@ -11,7 +11,7 @@ use Runalyze\Model\Trackdata;
  */
 class TimeSeriesForTrackdataTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $Dist = new TimeSeriesForTrackdata(
             new Trackdata\Entity([

@@ -9,7 +9,7 @@ use Runalyze\Mathematics\Filter\Butterworth\Lowpass2ndOrderCoefficients;
 
 class ButterworthFilterTest extends \PHPUnit\Framework\TestCase
 {
-    public function testOneExample()
+    public function testOneExample(): void
     {
         $filter = new ButterworthFilter(
             new Lowpass2ndOrderCoefficients(0.05)

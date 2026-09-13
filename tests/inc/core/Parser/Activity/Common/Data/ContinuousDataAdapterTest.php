@@ -23,14 +23,14 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Adapter = new ContinuousDataAdapter($this->Data);
     }
 
-    public function testDistanceCalculationForEmptyData()
+    public function testDistanceCalculationForEmptyData(): void
     {
         $this->Adapter->calculateDistancesIfRequired();
 
         $this->assertEmpty($this->Data->Distance);
     }
 
-    public function testDistanceCalculationDoesNotOverwrite()
+    public function testDistanceCalculationDoesNotOverwrite(): void
     {
         $this->Data->Distance = [0.0, 1.0, 2.0];
         $this->Data->Latitude = [49.77, 49.78, 49.79];
@@ -41,7 +41,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0.0, 1.0, 2.0], $this->Data->Distance);
     }
 
-    public function testSimpleDistanceCalculation()
+    public function testSimpleDistanceCalculation(): void
     {
         $this->Data->Latitude = [49.77, 49.78, 49.79];
         $this->Data->Longitude = [7.78, 7.76, 7.75];
@@ -66,7 +66,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->Data->Altitude);
     }
 
-    public function testClearingEmptyArrays()
+    public function testClearingEmptyArrays(): void
     {
         $this->Data->Distance = [0.0, 1.0, 2.0, 3.0];
         $this->Data->HeartRate = [null, 120, 140, null];
@@ -79,7 +79,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->Data->Altitude);
     }
 
-    public function testFilteringUnwantedZeros()
+    public function testFilteringUnwantedZeros(): void
     {
         $this->Data->HeartRate = [0, 120, 140, 0];
 
@@ -88,7 +88,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([null, 120, 140, null], $this->Data->HeartRate);
     }
 
-    public function testClearingEmptyArraysAfterFilteringUnwantedZeros()
+    public function testClearingEmptyArraysAfterFilteringUnwantedZeros(): void
     {
         $this->Data->HeartRate = [0, 0, 0, 0];
 
@@ -98,7 +98,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->Data->HeartRate);
     }
 
-    public function testNullValuesInMiddleAndEndAreReplacedByLastKnownValue()
+    public function testNullValuesInMiddleAndEndAreReplacedByLastKnownValue(): void
     {
         $values = [null, null, 100, 101, null, null, 104, null];
         $this->Adapter->correctArraySurroundedNulls($values);
@@ -106,7 +106,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([100, 100, 100, 101, 101, 101, 104, 104], $values);
     }
 
-    public function testArrayContainingOnlyNullValuesIsNotModified()
+    public function testArrayContainingOnlyNullValuesIsNotModified(): void
     {
         $values = [null, null, null];
         $this->Adapter->correctArraySurroundedNulls($values);
@@ -114,7 +114,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([null, null, null], $values);
     }
 
-    public function testArrayWithoutNullValuesRemainsUnchanged()
+    public function testArrayWithoutNullValuesRemainsUnchanged(): void
     {
         $values = [100, 101, 102];
         $this->Adapter->correctArraySurroundedNulls($values);
@@ -122,7 +122,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([100, 101, 102], $values);
     }
 
-    public function testLeadingNullValuesAreReplacedByFirstKnownValue()
+    public function testLeadingNullValuesAreReplacedByFirstKnownValue(): void
     {
         $values = [null, null, 100, 101];
         $this->Adapter->correctArraySurroundedNulls($values);
@@ -130,7 +130,7 @@ class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([100, 100, 100, 101], $values);
     }
 
-    public function testMidNullValuesAreReplacedByPreviousValue()
+    public function testMidNullValuesAreReplacedByPreviousValue(): void
     {
         $values = [150, 151, null, null, 154];
         $this->Adapter->correctArraySurroundedNulls($values);

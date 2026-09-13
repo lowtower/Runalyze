@@ -23,7 +23,7 @@ class CsvEpsonTest extends AbstractActivityParserTestCase
      * @group importerEpson
      * @see https://github.com/Runalyze/Runalyze/issues/1575
      */
-    public function testEpsonFileWithDifferentArraySizes()
+    public function testEpsonFileWithDifferentArraySizes(): void
     {
         $this->parseFile($this->Parser, 'csv/Epson-different-array-sizes.csv');
 

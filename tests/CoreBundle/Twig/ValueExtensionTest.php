@@ -30,7 +30,7 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
         return new ValueExtension($configManager);
     }
 
-    public function testSimpleValue()
+    public function testSimpleValue(): void
     {
         $value = $this->Extension->value(3.14159, 'pi', 2, ',');
 
@@ -38,36 +38,36 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('pi', $value->getUnit());
     }
 
-    public function testDistanceWithGivenUnit()
+    public function testDistanceWithGivenUnit(): void
     {
         $this->assertEquals('3.14&nbsp;km', $this->Extension->distance(3.14, new Metrics\Distance\Unit\Kilometer())->getWithUnit());
         $this->assertEquals('1.00&nbsp;mi', $this->Extension->distance(1.609, new Metrics\Distance\Unit\Miles())->getWithUnit());
     }
 
-    public function testElevationWithGivenUnit()
+    public function testElevationWithGivenUnit(): void
     {
         $this->assertEquals('247&nbsp;m', $this->Extension->elevation(247, new Metrics\Distance\Unit\Meter())->getWithUnit());
     }
 
-    public function testStrideLengthWithGivenUnit()
+    public function testStrideLengthWithGivenUnit(): void
     {
         $this->assertEquals('1.23&nbsp;m', $this->Extension->strideLength(123, new Metrics\Distance\Unit\Meter())->getWithUnit());
         $this->assertEquals('157&nbsp;cm', $this->Extension->strideLength(157, new Metrics\Distance\Unit\Centimeter(), 0)->getWithUnit());
     }
 
-    public function testEnergyWithGivenUnit()
+    public function testEnergyWithGivenUnit(): void
     {
         $this->assertEquals('512&nbsp;kcal', $this->Extension->energy(512, new Metrics\Energy\Unit\Kilocalories())->getWithUnit());
     }
 
-    public function testHeartRateWithGivenUnit()
+    public function testHeartRateWithGivenUnit(): void
     {
         $this->assertEquals('120&nbsp;bpm', $this->Extension->heartRate(120, new Metrics\HeartRate\Unit\BeatsPerMinute())->getWithUnit());
         $this->assertEquals('84&nbsp;%', $this->Extension->heartRate(168, new Metrics\HeartRate\Unit\PercentMaximum(200))->getWithUnit());
         $this->assertEquals('67&nbsp;%', $this->Extension->heartRate(140, new Metrics\HeartRate\Unit\PercentReserve(180, 60))->getWithUnit());
     }
 
-    public function testHeartRateComparisonWithGivenUnit()
+    public function testHeartRateComparisonWithGivenUnit(): void
     {
         $this->assertEquals('10&nbsp;bpm', $this->Extension->heartRateComparison(130, 120, new Metrics\HeartRate\Unit\BeatsPerMinute())->getWithUnit());
         $this->assertEquals('-7&nbsp;bpm', $this->Extension->heartRateComparison(113, 120, new Metrics\HeartRate\Unit\BeatsPerMinute())->getWithUnit());
@@ -75,24 +75,24 @@ class ValueExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('-15&nbsp;%', $this->Extension->heartRateComparison(122, 140, new Metrics\HeartRate\Unit\PercentReserve(180, 60))->getWithUnit());
     }
 
-    public function testPaceWithGivenUnit()
+    public function testPaceWithGivenUnit(): void
     {
         $this->assertEquals('5:30/km', $this->Extension->pace(330, new Metrics\Velocity\Unit\SecondsPerKilometer())->getWithUnit());
         $this->assertEquals('10.9&nbsp;km/h', $this->Extension->pace(330, new Metrics\Velocity\Unit\KilometerPerHour())->getWithUnit());
     }
 
-    public function testPaceComparisonWithGivenUnit()
+    public function testPaceComparisonWithGivenUnit(): void
     {
         $this->assertEquals('-0:30/km', $this->Extension->paceComparison(300, 330, new Metrics\Velocity\Unit\SecondsPerKilometer())->getWithUnit());
         $this->assertEquals('0.9&nbsp;km/h', $this->Extension->paceComparison(330, 360, new Metrics\Velocity\Unit\KilometerPerHour())->getWithUnit());
     }
 
-    public function testTemperatureWithGivenUnit()
+    public function testTemperatureWithGivenUnit(): void
     {
         $this->assertEquals('13&nbsp;°C', $this->Extension->temperature(13, new Metrics\Temperature\Unit\Celsius())->getWithUnit());
     }
 
-    public function testWeightWithGivenUnit()
+    public function testWeightWithGivenUnit(): void
     {
         $this->assertEquals('87.3&nbsp;kg', $this->Extension->weight(87.332, new Metrics\Weight\Unit\Kilogram())->getWithUnit());
     }

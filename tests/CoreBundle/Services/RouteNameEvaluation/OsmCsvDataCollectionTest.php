@@ -7,7 +7,7 @@ use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
 class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCsvCollectionEmpty()
+    public function testCsvCollectionEmpty(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL;
         $eval = new OsmCsvDataCollection($in);
@@ -18,7 +18,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($eval->hasNames());
     }
 
-    public function testRunningCsvCollection()
+    public function testRunningCsvCollection(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
               'node|Heimathatten|||city_limit|||||||' . PHP_EOL .
@@ -49,7 +49,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedInfoNames, $eval->getNames(OsmCsvData::$CAT_INFO));
     }
 
-    public function testHikingCsvCollectionSpieser()
+    public function testHikingCsvCollectionSpieser(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
                 'node|Spieser||||||peak|1651|||' . PHP_EOL .
@@ -77,7 +77,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['Buchel Alpe', 'Im Steinbest', 'Später Gund', 'Steinpaßsattl'], $eval->getNames(OsmCsvData::$CAT_INFO));
     }
 
-    public function testRunningCsvCollectionOnlyInfo()
+    public function testRunningCsvCollectionOnlyInfo(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
               'node|Bbbb||||information||||||' . PHP_EOL .
@@ -93,7 +93,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedInfoNames, $eval->getNames(OsmCsvData::$CAT_INFO));
     }
 
-    public function testHikingCsvCollection()
+    public function testHikingCsvCollection(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
               'node|Grubistein-Vor-gipfel||||||peak||||' . PHP_EOL .
@@ -116,7 +116,7 @@ class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $eval->getNames(OsmCsvData::$CAT_INFO));
     }
 
-    public function testHikingCsvCollectionKramer()
+    public function testHikingCsvCollectionKramer(): void
     {
         $in = '@type|name|name:de|place|traffic_sign|tourism|landuse|natural|ele|hiking|sac_scale|amenity' . PHP_EOL .
               'node|Kramerspitz||||||peak|1985|||' . PHP_EOL .

@@ -40,7 +40,7 @@ class ElevationsRecalculatorTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DROP TABLE `runalyze_route`');
     }
 
-    public function testSimpleRecalculations()
+    public function testSimpleRecalculations(): void
     {
         $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 1,   0,   0,  0, "100|200|150", "")');
         $this->PDO->exec('INSERT INTO `runalyze_route` VALUES(' . $this->AccountId . ', 2, 100, 100, 50, "100|200|150", "")');

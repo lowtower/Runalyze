@@ -8,13 +8,13 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 class PoolLengthTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStaticFunction()
+    public function testStaticFunction(): void
     {
         $this->assertEquals('25&nbsp;' . DistanceUnitSystem::METER, PoolLength::format(2500, true));
         $this->assertEquals('25', PoolLength::format(2500, false));
     }
 
-    public function testInMeter()
+    public function testInMeter(): void
     {
         $PoolLength = new PoolLength();
         $PoolLength->setMeter(50);
@@ -23,7 +23,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('50&nbsp;' . DistanceUnitSystem::METER, $PoolLength->stringMeter());
     }
 
-    public function testInCentimeter()
+    public function testInCentimeter(): void
     {
         $PoolLength = new PoolLength();
         $PoolLength->set(5000);
@@ -32,7 +32,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('5000&nbsp;' . DistanceUnitSystem::CM, $PoolLength->stringCM());
     }
 
-    public function testInYards()
+    public function testInYards(): void
     {
         $PoolLength = new PoolLength();
         $PoolLength->setYards(27.34);
@@ -41,7 +41,7 @@ class PoolLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('27.34&nbsp;' . DistanceUnitSystem::YARDS, $PoolLength->stringYards());
     }
 
-    public function testSettingInPreferredUnit()
+    public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(25, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(25)->meter());
         $this->assertEquals(54.68, (new PoolLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(54.68)->yards());

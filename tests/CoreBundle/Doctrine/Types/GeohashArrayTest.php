@@ -19,14 +19,14 @@ class GeohashArrayTest extends \PHPUnit\Framework\TestCase
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 
-    public function testEmptyData()
+    public function testEmptyData(): void
     {
         $this->assertNull($this->Type->convertToPHPValue(null, $this->PlatformMock));
         $this->assertNull($this->Type->convertToPHPValue('', $this->PlatformMock));
         $this->assertNull($this->Type->convertToDatabaseValue([], $this->PlatformMock));
     }
 
-    public function testSimpleData()
+    public function testSimpleData(): void
     {
         $longHashes = ['7zzzzzzzzzzz', 'u1xjnxhj49qr', 'u1xjnxhj49qr', 'u1xjnxhjr7wb', '7zzzzzzzzzzz', 'u1xjnxhmqqg2', 'u1xjnxhm6zkm'];
         $shortHashes = implode('|', ['7zzzzzzzzzzz', 'u1xjnxhj49qr', '', 'r7wb', '7zzzzzzzzzzz', 'u1xjnxhmqqg2', '6zkm']);

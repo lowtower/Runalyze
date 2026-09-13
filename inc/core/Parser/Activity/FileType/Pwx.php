@@ -11,7 +11,7 @@ class Pwx extends AbstractMultipleParser implements FileContentAwareParserInterf
 {
     use XmlParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         if (isset($this->Xml->workout)) {
             foreach ($this->Xml->workout as $workout) {

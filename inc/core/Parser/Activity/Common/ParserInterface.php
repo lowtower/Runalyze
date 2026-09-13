@@ -10,14 +10,7 @@ interface ParserInterface
 {
     public function parse();
 
-    /**
-     * @return int
-     */
-    public function getNumberOfActivities();
+    public function getNumberOfActivities(): int;
 
-    /**
-     * @param int $index
-     * @return ActivityDataContainer
-     */
-    public function getActivityDataContainer($index = 0);
+    public function getActivityDataContainer(int $index = 0): ActivityDataContainer;
 }

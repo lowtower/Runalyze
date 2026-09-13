@@ -9,7 +9,7 @@ namespace Runalyze\Model\EquipmentType;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $Type = new Entity([
             Entity::NAME => 'Equipment type name',

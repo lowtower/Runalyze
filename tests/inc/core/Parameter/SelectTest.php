@@ -29,7 +29,7 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $this->assertEquals('a', $this->object->value());
         $this->assertEquals('a', $this->object->valueAsString());
@@ -39,7 +39,7 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('c', $this->object->valueAsString());
     }
 
-    public function testLongString()
+    public function testLongString(): void
     {
         $this->assertEquals('one', $this->object->valueAsLongString());
 
@@ -47,7 +47,7 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('three', $this->object->valueAsLongString());
     }
 
-    public function testOptions()
+    public function testOptions(): void
     {
         $this->assertEquals([
             'a' => 'one',
@@ -56,14 +56,14 @@ class ParameterSelectTest extends \PHPUnit\Framework\TestCase
         ], $this->object->options());
     }
 
-    public function testInvalidOption()
+    public function testInvalidOption(): void
     {
         $this->object->set('foobar');
 
         $this->assertEquals('a', $this->object->value());
     }
 
-    public function testWithoutOptions()
+    public function testWithoutOptions(): void
     {
         $Object = new Select('');
         $this->assertEquals('', $Object->value());

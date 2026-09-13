@@ -22,7 +22,7 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->object->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testStartAddingAccountID()
+    public function testStartAddingAccountID(): void
     {
         $this->object->exec('INSERT INTO `runalyze_training` (`s`, `accountid`, `sportid`, `time`) VALUES(100, 1, 0, 1477843525)');
         $this->object->exec('INSERT INTO `runalyze_training` (`s`, `accountid`, `sportid`, `time`) VALUES(200, 1, 0, 1477843525)');
@@ -49,7 +49,7 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->object->setAccountID(false);
     }
 
-    public function testFetchByID()
+    public function testFetchByID(): void
     {
         $this->assertEquals(0, $this->object->query('SELECT COUNT(*) FROM `runalyze_training`')->fetchColumn());
 
@@ -81,7 +81,7 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->object->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->object->insert('training', ['id', 's', 'distance', 'sportid', 'time'], [1, 600, 1, 0, 1477843525]);
         $this->object->insert('training', ['id', 's', 'distance', 'sportid', 'time'], [2, 900, 1, 0, 1477843525]);
@@ -105,7 +105,7 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->object->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testPrepare()
+    public function testPrepare(): void
     {
         $Insert = $this->object->prepare('INSERT INTO `runalyze_training` (`id`, `s`, `distance`, `accountid`, `sportid`, `time`) VALUES (:id, :s, :distance, :accountid, :sportid, :ttime)');
         $Insert->bindValue('id', 1);
@@ -152,7 +152,7 @@ class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
         $this->object->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testEscape()
+    public function testEscape(): void
     {
         $this->assertEquals('NULL', $this->object->escape(null));
         $this->assertEquals(1, $this->object->escape(true));

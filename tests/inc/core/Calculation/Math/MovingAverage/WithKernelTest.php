@@ -6,14 +6,14 @@ namespace Runalyze\Calculation\Math\MovingAverage;
 
 class WithKernelTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWithoutKernel()
+    public function testWithoutKernel(): void
     {
         $this->expectException(\RuntimeException::class);
         $Object = new WithKernel([1, 2, 3]);
         $Object->calculate();
     }
 
-    public function testWithUniformKernelWithoutIndexData()
+    public function testWithUniformKernelWithoutIndexData(): void
     {
         $Object = new WithKernel([10, 20, 30, 20, 30, 50, 40, 50]);
         $Object->setKernel(new Kernel\Uniform(5));
@@ -31,7 +31,7 @@ class WithKernelTest extends \PHPUnit\Framework\TestCase
         ], $Object->movingAverage(), 0.0001);
     }
 
-    public function testWithUniformKernelWithIndexData()
+    public function testWithUniformKernelWithIndexData(): void
     {
         $Object = new WithKernel(
             [10, 20, 30, 20, 30, 50, 40, 50],

@@ -17,10 +17,7 @@ use Runalyze\Model\HRV\Entity;
  */
 class Calculator
 {
-    /**
-     * @var \Runalyze\Model\HRV\Entity
-     */
-    protected $Object;
+    protected \Runalyze\Model\HRV\Entity $Object;
 
     /**
      * 5 min sub intervals
@@ -115,10 +112,7 @@ class Calculator
         }
     }
 
-    /**
-     * @return \Runalyze\Model\HRV\Entity
-     */
-    public function filteredObject()
+    public function filteredObject(): \Runalyze\Model\HRV\Entity
     {
         return $this->Object;
     }

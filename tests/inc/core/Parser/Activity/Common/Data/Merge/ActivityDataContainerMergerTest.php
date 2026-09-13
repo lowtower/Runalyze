@@ -25,7 +25,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondContainer = new ActivityDataContainer();
     }
 
-    public function testThatMergeWorksWithEmptyObjects()
+    public function testThatMergeWorksWithEmptyObjects(): void
     {
         $merger = new ActivityDataContainerMerger($this->FirstContainer, $this->SecondContainer);
         $this->assertInstanceOf(
@@ -35,7 +35,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testThatObjectsAreCloned()
+    public function testThatObjectsAreCloned(): void
     {
         $merger = new ActivityDataContainerMerger($this->FirstContainer, $this->SecondContainer);
         $newContainer = $merger->getResultingContainer();
@@ -50,7 +50,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($newContainer->Pauses, $this->FirstContainer->Pauses);
     }
 
-    public function testMergingPausesAndRounds()
+    public function testMergingPausesAndRounds(): void
     {
         $this->SecondContainer->Rounds->add(new Round(1.0, 317));
         $this->SecondContainer->Rounds->add(new Round(1.0, 286));
@@ -63,7 +63,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $newContainer->Pauses->count());
     }
 
-    public function testMergingOfRRIntervals()
+    public function testMergingOfRRIntervals(): void
     {
         $this->SecondContainer->RRIntervals = [620, 650, 630, 642];
 

@@ -41,7 +41,7 @@ class HrZonesCalculator
     protected ?array $sportZoneBounds = null;
 
     /**
-     * @param Context[] $activityZoneBounds
+     * @param ?Context[] $activityZoneBounds
      */
     public function __construct(?array $activityZoneBounds, ?array $sportZoneBounds)
     {
@@ -144,7 +144,7 @@ class HrZonesCalculator
      * removes a colon in text and/or color.
      * @param array<int, mixed> $zoneMatch
      */
-    private function removeDelimiter(array &$zoneMatch)
+    private function removeDelimiter(array &$zoneMatch): void
     {
         if ($zoneMatch[self::PATTERN_GRP_TEXT] !== null) {
             $zoneMatch[self::PATTERN_GRP_TEXT] = substr($zoneMatch[self::PATTERN_GRP_TEXT], 0, strlen($zoneMatch[self::PATTERN_GRP_TEXT]) - 1);
@@ -176,22 +176,30 @@ class HrZonesCalculator
 
     /**
      * sorts the zones array ascend of bpm.
+     *
+     * @param string[] $zones
+     * @return string[]
      */
     public static function sortZones(array $zones): array
     {
-        usort($zones, function ($a, $b): int {
-            $oka = preg_match(self::PATTERN, $a, $matchesa, PREG_UNMATCHED_AS_NULL);
-            $okb = preg_match(self::PATTERN, $b, $matchesb, PREG_UNMATCHED_AS_NULL);
-            if ($oka && $okb) {
-                if ($matchesa[self::PATTERN_GRP_HR] == $matchesb[self::PATTERN_GRP_HR]) {
-                    return 0;
-                }
+        usort($zones, static fn (string $a, string $b): int => self::extractHr($a) <=> self::extractHr($b));
 
-                return ($matchesa[self::PATTERN_GRP_HR] < $matchesb[self::PATTERN_GRP_HR]) ? -1 : 1;
-            }
-
-            return 0;
-        });
         return $zones;
+    }
+
+    /**
+     * extracts the raw bpm value of a zone-string, independent of
+     * the strict formatting rules of self::PATTERN (which requires >=2 digits).
+     * used only for internal sorting, not for input validation.
+     */
+    private static function extractHr(string $zone): int
+    {
+        foreach (explode(':', $zone) as $part) {
+            if (ctype_digit($part)) {
+                return (int) $part;
+            }
+        }
+
+        return 0;
     }
 }

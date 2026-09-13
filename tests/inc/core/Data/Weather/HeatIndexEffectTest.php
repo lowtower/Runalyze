@@ -4,7 +4,7 @@ use Runalyze\Data\Weather\HeatIndexEffect;
 
 class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatDescriptionCanBeCalledForAllLevels()
+    public function testThatDescriptionCanBeCalledForAllLevels(): void
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
             $description = HeatIndexEffect::description($level);
@@ -13,7 +13,7 @@ class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatLabelCanBeCalledForAllLevels()
+    public function testThatLabelCanBeCalledForAllLevels(): void
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
             $label = HeatIndexEffect::label($level);
@@ -22,7 +22,7 @@ class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatIconCanBeCalledForAllLevels()
+    public function testThatIconCanBeCalledForAllLevels(): void
     {
         foreach (HeatIndexEffect::getEnum() as $level) {
             $icon = HeatIndexEffect::icon($level);
@@ -32,7 +32,7 @@ class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSomeLevels()
+    public function testSomeLevels(): void
     {
         $this->assertEquals(HeatIndexEffect::NO_EFFECT, HeatIndexEffect::levelFor(79));
         $this->assertEquals(HeatIndexEffect::CAUTION, HeatIndexEffect::levelFor(90));

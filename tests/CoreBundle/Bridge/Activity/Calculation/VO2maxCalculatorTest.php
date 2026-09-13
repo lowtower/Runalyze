@@ -32,7 +32,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Activity->setPulseAvg($heartRate);
     }
 
-    public function testCalculationForEmptyActivity()
+    public function testCalculationForEmptyActivity(): void
     {
         $this->Calculator->calculateFor($this->Activity, 200, 0, 0);
 
@@ -41,7 +41,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.0, $this->Activity->getVO2maxWithElevation());
     }
 
-    public function testCalculationForSimpleActivityAtExpectedHeartRate()
+    public function testCalculationForSimpleActivityAtExpectedHeartRate(): void
     {
         $this->setDataToActivity(2481, 10.0, 190);
         $this->Calculator->calculateFor($this->Activity, 200, 0, 0);
@@ -51,7 +51,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta($this->Activity->getVO2max(), $this->Activity->getVO2maxWithElevation(), 0.01);
     }
 
-    public function testCalculationForSimpleActivityAtLowerHeartRate()
+    public function testCalculationForSimpleActivityAtLowerHeartRate(): void
     {
         $this->setDataToActivity(2481, 10.0, 170);
         $this->Calculator->calculateFor($this->Activity, 200, 0, 0);
@@ -60,7 +60,7 @@ class VO2maxCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan(55.0, $this->Activity->getVO2max());
     }
 
-    public function testCalculationForSimpleElevationCorrection()
+    public function testCalculationForSimpleElevationCorrection(): void
     {
         $this->setDataToActivity(2481, 10.0, 170);
         $this->Activity->setElevation(120);

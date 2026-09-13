@@ -9,7 +9,7 @@ namespace Runalyze\Data\Weather;
  */
 class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsUnknown()
+    public function testIsUnknown(): void
     {
         $Temp = new Temperature();
 
@@ -17,7 +17,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $Temp->value());
     }
 
-    public function testIsUnknownWithUnit()
+    public function testIsUnknownWithUnit(): void
     {
         $Temp = new Temperature(null, Temperature::KELVIN);
 
@@ -25,7 +25,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $Temp->value());
     }
 
-    public function testCelsius()
+    public function testCelsius(): void
     {
         $Temp = new Temperature(17);
         $this->assertEquals(17, $Temp->value());
@@ -40,7 +40,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($TempNegative->isUnknown());
     }
 
-    public function testFahrenheit()
+    public function testFahrenheit(): void
     {
         $Temp = new Temperature(68, Temperature::FAHRENHEIT);
 
@@ -61,7 +61,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(68, $Temp->value());
     }
 
-    public function testKelvin()
+    public function testKelvin(): void
     {
         $Temp = new Temperature(300, Temperature::KELVIN);
 
@@ -78,7 +78,7 @@ class TemperatureTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(280.15, $Temp->value());
     }
 
-    public function testDynamicUnit()
+    public function testDynamicUnit(): void
     {
         $Temp = new Temperature();
         $Temp->setTemperature(20, Temperature::CELSIUS);

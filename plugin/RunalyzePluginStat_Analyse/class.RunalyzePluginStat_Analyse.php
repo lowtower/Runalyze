@@ -94,7 +94,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         $this->setHeader($this->Sport->name() . ' ' . $this->getYearString());
     }
 
-    private function setAnalysisNavigation()
+    private function setAnalysisNavigation(): void
     {
         $LinkList = '<li class="with-submenu"><span class="link">' . $this->getAnalysisType() . '</span><ul class="submenu">';
         $LinkList .= '<li' . ($this->dat === '' ? ' class="active"' : '') . '>' . $this->getInnerLink(__('in percent'), $this->sportid, $this->year, '') . '</li>';
@@ -135,7 +135,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     /**
      * Initialize the internal timer
      */
-    private function initTimer()
+    private function initTimer(): void
     {
         if ($this->showsSpecificYear()) {
             $this->WhereTime = "AND `time` BETWEEN UNIX_TIMESTAMP('" . $this->year . "-01-01') AND UNIX_TIMESTAMP('" . ($this->year + 1) . "-01-01')-1";
@@ -164,7 +164,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     /**
      * Initialize analysis data
      */
-    private function initData()
+    private function initData(): void
     {
         if ($this->Configuration()->value('use_type')) {
             $this->AnalysisData[] = $this->getTypeArray();
@@ -179,7 +179,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         }
     }
 
-    private function displayStyle()
+    private function displayStyle(): void
     {
         echo '<style type="text/css">';
         echo '.analysis-table td { position: relative; }';
@@ -187,7 +187,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
         echo '</style>';
     }
 
-    private function displayAnalysis()
+    private function displayAnalysis(): void
     {
         if ($this->AnalysisData === []) {
             echo HTML::info(__('There is no data for this sport.'));
@@ -276,7 +276,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
      * @param int $time
      * @param float $percent
      */
-    private function displayTDfor($num, $time, float $dist, $percent)
+    private function displayTDfor($num, $time, float $dist, $percent): void
     {
         $tooltip = $num . 'x';
         $number = number_format($percent, 1) . ' &#37;';
@@ -529,7 +529,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
      * @param int[]|mixed[][] $data
      * @param array<string, mixed> $result
      */
-    private function setGroupData(array &$data, array &$result)
+    private function setGroupData(array &$data, array &$result): void
     {
         if (! isset($data[$result['group']])) {
             $data[$result['group']] = [];
@@ -552,7 +552,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
      * @param mixed[][] $data
      * @param array<string, mixed> $result
      */
-    private function setSumData(array &$data, array &$result)
+    private function setSumData(array &$data, array &$result): void
     {
         if (! isset($data['timer_sum_km'][$result['timer']])) {
             $data['timer_sum_km'][$result['timer']] = 0;
@@ -578,7 +578,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
      * Print beginning of the table
      * @param string $name
      */
-    private function printTableStart($name)
+    private function printTableStart($name): void
     {
         echo '<table class="fullwidth zebra-style analysis-table small r"><thead><tr class="c b"><th>' . $name . '</th>';
 
@@ -590,7 +590,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     /**
      * Print header columns for a table
      */
-    private function printTableHeader()
+    private function printTableHeader(): void
     {
         $this->displayTableHeadForTimeRange(false, '7%');
 
@@ -602,7 +602,7 @@ class RunalyzePluginStat_Analyse extends PluginStat
     /**
      * Print the ending of a table for one analysis
      */
-    private function printTableEnd()
+    private function printTableEnd(): void
     {
         echo '</tbody></table>' . HTML::clearBreak();
     }

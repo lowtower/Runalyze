@@ -7,151 +7,149 @@ class ContinuousData
     /**
      * @var array [s]
      */
-    public $Time = [];
+    public array $Time = [];
 
     /**
      * @var array [km]
      */
-    public $Distance = [];
+    public array $Distance = [];
 
     /**
      * @var array [°]
      */
-    public $Latitude = [];
+    public array $Latitude = [];
 
     /**
      * @var array [°]
      */
-    public $Longitude = [];
+    public array $Longitude = [];
 
     /**
      * @var array [m]
      */
-    public $Altitude = [];
+    public array $Altitude = [];
 
     public bool $IsAltitudeDataBarometric = false;
 
     /**
      * @var array [bpm]
      */
-    public $HeartRate = [];
+    public array $HeartRate = [];
 
     /**
      * @var array [rpm]
      */
-    public $Cadence = [];
+    public array $Cadence = [];
 
     /**
      * @var array [W]
      */
-    public $Power = [];
+    public array $Power = [];
 
     /**
      * @var array [°C]
      */
-    public $Temperature = [];
+    public array $Temperature = [];
 
     /**
      * @var array [ms]
      */
-    public $GroundContactTime = [];
+    public array $GroundContactTime = [];
 
     /**
      * @var array [mm]
      */
-    public $VerticalOscillation = [];
+    public array $VerticalOscillation = [];
 
     /**
      * @var array [%ooL]
      */
-    public $GroundContactBalance = [];
+    public array $GroundContactBalance = [];
 
     /**
      * @var array [%SmO2]
      */
-    public $MuscleOxygenation = [];
+    public array $MuscleOxygenation = [];
 
     /**
      * @var array [%SmO2]
      */
-    public $MuscleOxygenation_2 = [];
+    public array $MuscleOxygenation_2 = [];
 
     /**
      * @var array [100 * g/dL]
      */
-    public $TotalHaemoglobin = [];
+    public array $TotalHaemoglobin = [];
 
     /**
      * @var array [100 * g/dL]
      */
-    public $TotalHaemoglobin_2 = [];
+    public array $TotalHaemoglobin_2 = [];
 
     /**
      * @var float[] [G]
      */
-    public $ImpactGsLeft = [];
+    public array $ImpactGsLeft = [];
 
     /**
      * @var float[] [G]
      */
-    public $ImpactGsRight = [];
+    public array $ImpactGsRight = [];
 
     /**
      * @var float[] [G]
      */
-    public $BrakingGsLeft = [];
+    public array $BrakingGsLeft = [];
 
     /**
      * @var float[] [G]
      */
-    public $BrakingGsRight = [];
+    public array $BrakingGsRight = [];
 
     /**
      * @var int[] [°]
      */
-    public $FootstrikeTypeLeft = [];
+    public array $FootstrikeTypeLeft = [];
 
     /**
      * @var int[] [°]
      */
-    public $FootstrikeTypeRight = [];
+    public array $FootstrikeTypeRight = [];
 
     /**
      * @var float[] [°]
      */
-    public $PronationExcursionLeft = [];
+    public array $PronationExcursionLeft = [];
 
     /**
      * @var float[] [°]
      */
-    public $PronationExcursionRight = [];
+    public array $PronationExcursionRight = [];
 
     /**
      * @var int[] [n]
      */
-    public $PerformanceCondition = [];
+    public array $PerformanceCondition = [];
 
     /**
      * @var float[] [pm]
      */
-    public $RespirationRate = [];
+    public array $RespirationRate = [];
 
     /**
      * @var array [%ooL]
      */
-    public $LeftRightBalance = [];
+    public array $LeftRightBalance = [];
 
     /**
      * @var array [-]
      */
-    public $Strokes = [];
+    public array $Strokes = [];
 
     /**
-     * @var array
-     *
      * @see \Runalyze\Profile\FitSdk\StrokeTypeProfile
      */
-    public $StrokeType = [];
+    public array $StrokeType = [];
 
     /**
      * @return array<int, string>

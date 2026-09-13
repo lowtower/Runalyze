@@ -34,7 +34,7 @@ class Fit extends AbstractMultipleParserWithSubParser implements FileNameAwarePa
         $this->CurrentSubParser = new FitActivity();
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseFileLineByLine();
         $this->finishCurrentSubParser();

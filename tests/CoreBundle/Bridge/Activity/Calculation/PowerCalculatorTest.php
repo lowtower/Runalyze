@@ -49,7 +49,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testEmptyActivity()
+    public function testEmptyActivity(): void
     {
         $this->Calculator->calculateFor($this->Activity);
 
@@ -57,7 +57,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->isPowerCalculated());
     }
 
-    public function testActivityWithoutElevation()
+    public function testActivityWithoutElevation(): void
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5]);
 
@@ -68,7 +68,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getTrackdata()->getPower());
     }
 
-    public function testActivityWithWrongSport()
+    public function testActivityWithWrongSport(): void
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], [100, 110, 120, 110, 100]);
         $this->Activity->getSport()
@@ -81,7 +81,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getTrackdata()->getPower());
     }
 
-    public function testThatPowerDataFromDeviceIsNotOverridden()
+    public function testThatPowerDataFromDeviceIsNotOverridden(): void
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], [100, 110, 120, 110, 100]);
         $this->Activity->setPowerCalculated(false);
@@ -96,7 +96,7 @@ class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([42, 42, 42, 42, 42], $this->Activity->getTrackdata()->getPower());
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $this->setDataToActivity([0.1, 0.2, 0.3, 0.4, 0.5], [100, 110, 120, 110, 100]);
 

@@ -18,12 +18,12 @@ class CameronTest extends \PHPUnit\Framework\TestCase
         $this->Cameron = new Cameron();
     }
 
-    public function testWithoutReferenceTime()
+    public function testWithoutReferenceTime(): void
     {
         $this->assertFalse($this->Cameron->areValuesValid());
     }
 
-    public function testSimplePrognosis()
+    public function testSimplePrognosis(): void
     {
         $this->Cameron->setReferenceResult(2.0, 14 * 60 + 20);
 
@@ -31,7 +31,7 @@ class CameronTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(22.357 * 60, $this->Cameron->getSeconds(3.0), 0.1);
     }
 
-    public function testMyCurrentResult()
+    public function testMyCurrentResult(): void
     {
         $this->Cameron->setReferenceResult(5.0, 16 * 60 + 32);
 

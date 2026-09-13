@@ -4,7 +4,7 @@ namespace Runalyze\Dataset;
 
 class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllKeysFromEnumAppearInDefaultConfiguration()
+    public function testThatAllKeysFromEnumAppearInDefaultConfiguration(): void
     {
         $allKeys = (new DefaultConfiguration())->allKeys();
 
@@ -13,7 +13,7 @@ class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatAllKeysFromDefaultConfigurationAreValid()
+    public function testThatAllKeysFromDefaultConfigurationAreValid(): void
     {
         $DefaultConfiguration = new DefaultConfiguration();
 

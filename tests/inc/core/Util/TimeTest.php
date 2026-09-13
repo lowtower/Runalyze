@@ -17,7 +17,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         Configuration::General()->weekStart()->set(WeekStart::MONDAY);
     }
 
-    public function testDiffInDays()
+    public function testDiffInDays(): void
     {
         $this->assertEquals(0, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 5, 2000)));
         $this->assertEquals(0, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(23, 59, 0, 12, 5, 2000)));
@@ -28,7 +28,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(365, Time::diffInDays(mktime(0, 0, 0, 12, 5, 2000), mktime(0, 0, 0, 12, 5, 2001)));
     }
 
-    public function testDiffOfDays()
+    public function testDiffOfDays(): void
     {
         $this->assertEquals(0, Time::diffOfDates('2006-09-07', '2006-09-07'));
         $this->assertEquals(1, Time::diffOfDates('2006-09-06', '2006-09-07'));
@@ -39,7 +39,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, Time::diffOfDates('2014-03-30', '2014-04-01'));
     }
 
-    public function testIsToday()
+    public function testIsToday(): void
     {
         $this->assertTrue(Time::isToday(time()));
         $this->assertTrue(Time::isToday(mktime(0, 0, 0)));
@@ -48,7 +48,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Time::isToday(mktime(24, 10, 0)));
     }
 
-    public function testWeekstartAndWeekend()
+    public function testWeekstartAndWeekend(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::MONDAY);
 
@@ -60,7 +60,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($end, Time::weekend($today));
     }
 
-    public function testWeekstartAndWeekendForSundaySimple()
+    public function testWeekstartAndWeekendForSundaySimple(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::SUNDAY);
 
@@ -72,7 +72,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($end, Time::weekend($today));
     }
 
-    public function testWeekstartAndWeekendForSundayBug()
+    public function testWeekstartAndWeekendForSundayBug(): void
     {
         Configuration::General()->weekStart()->set(WeekStart::SUNDAY);
 

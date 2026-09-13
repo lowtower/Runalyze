@@ -20,7 +20,7 @@ class TrkTest extends AbstractActivityParserTestCase
         $this->Parser = new Trk();
     }
 
-    public function testMinimalExample()
+    public function testMinimalExample(): void
     {
         $this->parseFile($this->Parser, 'trk/minimal-example.trk');
 
@@ -48,7 +48,7 @@ class TrkTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
     }
 
-    public function testFileWithPause()
+    public function testFileWithPause(): void
     {
         $this->parseFile($this->Parser, 'trk/with-pause.trk');
 

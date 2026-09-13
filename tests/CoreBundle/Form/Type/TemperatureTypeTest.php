@@ -7,7 +7,7 @@ use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
 class TemperatureTypeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testReverseTransformWithFahrenheit()
+    public function testReverseTransformWithFahrenheit(): void
     {
         $type = new TemperatureType(new Fahrenheit());
 

@@ -6,7 +6,7 @@ use Runalyze\Metrics\Distance\Unit\Feet;
 
 class FeetTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Feet();
 

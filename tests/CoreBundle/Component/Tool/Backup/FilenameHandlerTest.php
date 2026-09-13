@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\FilenameHandler;
 
 class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatCreatedFilenamesAreUnique()
+    public function testThatCreatedFilenamesAreUnique(): void
     {
         $Handler = new FilenameHandler(42);
 
@@ -18,14 +18,14 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testThatGeneratedInternalFilenameIsValid()
+    public function testThatGeneratedInternalFilenameIsValid(): void
     {
         $Handler = new FilenameHandler(42);
 
         $this->assertTrue($Handler->validateInternalFilename($Handler->generateInternalFilename('sql.gz')));
     }
 
-    public function testThatGeneratedPublicFilenameIsValid()
+    public function testThatGeneratedPublicFilenameIsValid(): void
     {
         $Handler = new FilenameHandler(42);
         $internalFilename = $Handler->generateInternalFilename('sql.gz');
@@ -33,7 +33,7 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Handler->validatePublicFilename($Handler->generatePublicFilename($internalFilename)));
     }
 
-    public function testThatFilenamesAreUserSpecific()
+    public function testThatFilenamesAreUserSpecific(): void
     {
         $HandlerA = new FilenameHandler(42);
         $HandlerB = new FilenameHandler(32);
@@ -46,14 +46,14 @@ class FilenameHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($HandlerB->validateInternalFilename($internalFilenameA));
     }
 
-    public function testValidateFileExtension()
+    public function testValidateFileExtension(): void
     {
         $this->assertTrue(FilenameHandler::validateFileExtension('foobar.' . FilenameHandler::JSON_FORMAT));
         $this->assertTrue(FilenameHandler::validateFileExtension('foobar.' . FilenameHandler::SQL_FORMAT));
         $this->assertFalse(FilenameHandler::validateFileExtension('foobar.txt'));
     }
 
-    public function testValidateImportFileExtension()
+    public function testValidateImportFileExtension(): void
     {
         $this->assertTrue(FilenameHandler::validateImportFileExtension('foobar.' . FilenameHandler::JSON_FORMAT));
         $this->assertFalse(FilenameHandler::validateImportFileExtension('foobar.' . FilenameHandler::SQL_FORMAT));

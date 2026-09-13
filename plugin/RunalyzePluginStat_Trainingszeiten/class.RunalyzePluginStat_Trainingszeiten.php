@@ -78,7 +78,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
     /**
      * Display the images
      */
-    private function displayTable()
+    private function displayTable(): void
     {
         if ($this->sportid > 0) {
             $sports_not_short = $this->sportid . ',';
@@ -151,7 +151,7 @@ class RunalyzePluginStat_Trainingszeiten extends PluginStat
         echo '</p>';
     }
 
-    private function displayImages()
+    private function displayImages(): void
     {
         echo '<div style="max-width:750px;margin:0 auto;">';
         echo '<span class="right">';

@@ -47,7 +47,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testNoScheduledTasks()
+    public function testNoScheduledTasks(): void
     {
         $this->assertEquals(0, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
 
@@ -59,14 +59,14 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('0', $this->ConfigurationManager->getList($this->Account)->get('data.BASIC_ENDURANCE'));
     }
 
-    public function testThatMarathonShapeHasToBeCalculatedIfVO2maxShapeIsCalculated()
+    public function testThatMarathonShapeHasToBeCalculatedIfVO2maxShapeIsCalculated(): void
     {
         $this->Manager->scheduleEffectiveVO2maxShapeCalculation($this->Account);
 
         $this->assertEquals(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
     }
 
-    public function testThatTasksAreNotScheduledMultipleTimes()
+    public function testThatTasksAreNotScheduledMultipleTimes(): void
     {
         $this->Manager->scheduleStartTimeCalculation($this->Account);
         $this->Manager->scheduleStartTimeCalculation($this->Account);
@@ -77,7 +77,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->Manager->getNumberOfScheduledTasksFor($this->Account));
     }
 
-    public function testThatResultsOfTasksAreForwardedToConfiguration()
+    public function testThatResultsOfTasksAreForwardedToConfiguration(): void
     {
         $this->Manager->scheduleEffectiveVO2maxShapeCalculation($this->Account);
         $this->Manager->scheduleMarathonShapeCalculation($this->Account);
@@ -94,7 +94,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('68', $this->ConfigurationManager->getList($this->Account)->get('data.BASIC_ENDURANCE'));
     }
 
-    public function testThatStartTimeCanBeUpdatedWithoutFullRecalculation()
+    public function testThatStartTimeCanBeUpdatedWithoutFullRecalculation(): void
     {
         $this->Manager->addStartTimeCheck($this->Account, 100000000, false);
         $this->Manager->runScheduledTasks();
@@ -102,7 +102,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('100000000', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    public function testThatNewStartTimeAboveCurrentValueDoesNotChangeAnything()
+    public function testThatNewStartTimeAboveCurrentValueDoesNotChangeAnything(): void
     {
         $this->ConfigurationUpdater->updateStartTime($this->Account, 100000000);
 
@@ -113,7 +113,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('100000000', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    public function testMultipleStartTimeUpdates()
+    public function testMultipleStartTimeUpdates(): void
     {
         $this->ConfigurationUpdater->updateStartTime($this->Account, 100000000);
 
@@ -126,7 +126,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('23456789', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    public function testThatStartTimeIsNotChangedIfRemovedActivityIsTooNew()
+    public function testThatStartTimeIsNotChangedIfRemovedActivityIsTooNew(): void
     {
         $this->ConfigurationUpdater->updateStartTime($this->Account, 100000000);
 
@@ -136,7 +136,7 @@ class RecalculationManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('100000000', $this->ConfigurationManager->getList($this->Account)->get('data.START_TIME'));
     }
 
-    public function testThatStartTimeIsChangedIfRemovedActivityWasTheOldestOne()
+    public function testThatStartTimeIsChangedIfRemovedActivityWasTheOldestOne(): void
     {
         $this->ConfigurationUpdater->updateStartTime($this->Account, 100000000);
 

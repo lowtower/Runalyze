@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../../../inc/data/class.Splits.php';
 
 /**
@@ -17,7 +19,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
      * Test empty splits
      * @covers Splits::areEmpty
      */
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $Splits = new Splits();
 
@@ -33,7 +35,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::hasActiveAndInactiveLaps
      */
-    public function testHasActiveAndInactiveLaps()
+    public function testHasActiveAndInactiveLaps(): void
     {
         $Splits = new Splits();
 
@@ -56,7 +58,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
      * Test adding splits
      * @covers Splits::addSplit
      */
-    public function testAddSplit()
+    public function testAddSplit(): void
     {
         $Splits = new Splits();
         $Splits->addSplit(1, 300);
@@ -70,7 +72,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::removeSingleSplits
      */
-    public function testRemoveSingleSplits()
+    public function testRemoveSingleSplits(): void
     {
         $Splits = new Splits();
         $Splits->addSplit(1, 300);
@@ -91,7 +93,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * Test creationg from post without flag
      */
-    public function testNoCreateFromPostWithoutFlag()
+    public function testNoCreateFromPostWithoutFlag(): void
     {
         $_POST['splits'] = '1|4:20-2.4|10:09-10|1:00:00';
 
@@ -103,7 +105,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * Test creation from post
      */
-    public function testCreateFromArray()
+    public function testCreateFromArray(): void
     {
         $Splits = new Splits([
             'km' => [1.2, 0.4, 1],
@@ -127,7 +129,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
      * @covers Splits::totalDistance
      * @covers Splits::totalTime
      */
-    public function testAsArray()
+    public function testAsArray(): void
     {
         $Splits = new Splits('1|4:20-2.4|10:09-10|1:00:00-R1|6:00');
 
@@ -168,7 +170,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::asString
      */
-    public function testAsString()
+    public function testAsString(): void
     {
         $Splits = new Splits('1|4:20-2.4|10:09-10|1:00:00-R1|6:00');
         $this->assertEquals('1.000|4:20-2.400|10:09-10.000|1:00:00-R1.000|6:00', $Splits->asString());
@@ -177,7 +179,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::asReadableString
      */
-    public function testAsReadableString()
+    public function testAsReadableString(): void
     {
         $Splits = new Splits('1|4:20-1|4:09-R1|6:00');
 
@@ -188,7 +190,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::asString
      */
-    public function testRemoveSecondsFormat()
+    public function testRemoveSecondsFormat(): void
     {
         $Splits = new Splits('1|4:20-0.2|35,00s');
 
@@ -210,7 +212,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::fillTimesFromArray
      */
-    public function testFillTimesFromArray()
+    public function testFillTimesFromArray(): void
     {
         $Splits = new Splits('1|0:00-1|0:00-1|0:00');
         $Splits->fillTimesFromArray(
@@ -224,7 +226,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers Splits::fillDistancesFromArray
      */
-    public function testFillDistancesFromArray()
+    public function testFillDistancesFromArray(): void
     {
         $Splits = new Splits('0|4:00-0|3:55-0|4:05');
         $Splits->fillDistancesFromArray(
@@ -235,7 +237,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1.000|4:00-1.100|3:55-0.600|4:05', $Splits->asString());
     }
 
-    public function testHasActiveLaps()
+    public function testHasActiveLaps(): void
     {
         $Splits = new Splits();
         $Splits->addSplit(1, 300, false);
@@ -249,7 +251,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Splits->hasActiveAndInactiveLaps());
     }
 
-    public function testAsIcon()
+    public function testAsIcon(): void
     {
         $Splits = new Splits();
 
@@ -260,7 +262,7 @@ class SplitsTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals('', $Splits->asIconWithTooltip());
     }
 
-    public function testCompletingSplits()
+    public function testCompletingSplits(): void
     {
         $Splits = new Splits();
         $Splits->addSplit(1, 300);

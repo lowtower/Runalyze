@@ -28,7 +28,7 @@ class KmlExtended extends AbstractSingleParser implements FileContentAwareParser
      */
     protected array $ResumeTimes = [];
 
-    public function parse()
+    public function parse(): void
     {
         $this->preparePauses();
         $this->parseGeneralValues();

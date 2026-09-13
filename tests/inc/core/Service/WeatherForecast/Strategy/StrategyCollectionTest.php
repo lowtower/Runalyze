@@ -16,14 +16,14 @@ class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection = new StrategyCollection();
     }
 
-    public function testEmptyCollection()
+    public function testEmptyCollection(): void
     {
         $this->assertNull($this->Collection->getLastSuccessfulStrategy());
         $this->assertNull($this->Collection->tryToLoadForecast(new Location()));
         $this->assertNull($this->Collection->getLastSuccessfulStrategy());
     }
 
-    public function testOneValidStrategy()
+    public function testOneValidStrategy(): void
     {
         $exampleData = new WeatherData();
         $exampleData->Temperature = 5;

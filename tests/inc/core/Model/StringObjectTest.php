@@ -8,7 +8,7 @@ class StringObject_MockTester extends StringObject
 {
     protected string $String;
 
-    public function fromString(string $string)
+    public function fromString(string $string): void
     {
         $this->String = $string;
     }
@@ -24,14 +24,14 @@ class StringObject_MockTester extends StringObject
  */
 class StringObjectTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $String = new StringObject_MockTester('foo');
 
         $this->assertEquals('foo', $String->asString());
     }
 
-    public function testSimpleStringObject()
+    public function testSimpleStringObject(): void
     {
         $String = new StringObject_MockTester();
         $String->fromString('foo');
@@ -40,7 +40,7 @@ class StringObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($String->isEmpty());
     }
 
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $String = new StringObject_MockTester();
 

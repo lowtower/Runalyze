@@ -6,7 +6,7 @@ use Runalyze\Metrics\Weight\Unit\Stones;
 
 class StonesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Stones();
 

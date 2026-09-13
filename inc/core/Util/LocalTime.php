@@ -33,10 +33,10 @@ class LocalTime extends \DateTime
      * @param int|null $timestampInNoTimezone timestamp, it is assumed that this timestamp is correctly shown in +00:00
      * @throws \InvalidArgumentException
      */
-    public function __construct($timestampInNoTimezone = null)
+    public function __construct(?int $timestampInNoTimezone = null)
     {
         if ($timestampInNoTimezone === null) {
-            parent::__construct(null, new \DateTimeZone('UTC'));
+            parent::__construct('', new \DateTimeZone('UTC'));
         } else {
             if (! is_numeric($timestampInNoTimezone)) {
                 throw new \InvalidArgumentException('Given timestamp must be numeric.');
@@ -68,7 +68,7 @@ class LocalTime extends \DateTime
      * @see http://php.net/manual/en/datetime.formats.php
      * @param string $dateTimeString date/time string, any timezone information (like +02:00) will be ignored
      */
-    public static function fromString($dateTimeString): self
+    public static function fromString(string $dateTimeString): self
     {
         $DateTime = new \DateTime($dateTimeString);
 
@@ -91,7 +91,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function weekstart($asObject = false)
+    public function weekstart(bool $asObject = false)
     {
         $Date = clone $this;
         $w = $Date->format('w');
@@ -115,7 +115,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function weekend($asObject = false)
+    public function weekend(bool $asObject = false)
     {
         $Date = $this->weekstart(true);
         $Date->add(new \DateInterval('P6D'));
@@ -137,7 +137,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function monthStart($asObject = false)
+    public function monthStart(bool $asObject = false)
     {
         $Date = clone $this;
         $Date->setDate($this->format('Y'), $this->format('m'), 1)
@@ -151,7 +151,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function monthEnd($asObject = false)
+    public function monthEnd(bool $asObject = false)
     {
         $Date = clone $this;
         $Date->setDate($this->format('Y'), $this->format('m') + 1, 0)
@@ -165,7 +165,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function yearStart($asObject = false)
+    public function yearStart(bool $asObject = false)
     {
         $Date = clone $this;
         $Date->setDate($this->format('Y'), 1, 1)
@@ -179,7 +179,7 @@ class LocalTime extends \DateTime
      * @param bool $asObject set to true to get a new object as result
      * @return int|\Runalyze\Util\LocalTime
      */
-    public function yearEnd($asObject = false)
+    public function yearEnd(bool $asObject = false)
     {
         $Date = clone $this;
         $Date->setDate($this->format('Y'), 12, 31)
@@ -206,10 +206,8 @@ class LocalTime extends \DateTime
 
     /**
      * LocalTime equivalent for date($format[, $timestamp])
-     * @param string $format
-     * @param int|null $timestamp
      */
-    public static function date($format, $timestamp = null): string
+    public static function date(string $format, ?int $timestamp = null): string
     {
         if ($timestamp === null) {
             return self::fromServerTime(time())->format($format);
@@ -220,14 +218,8 @@ class LocalTime extends \DateTime
 
     /**
      * LocalTime equivalent for mktime(...)
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
-     * @param int $month
-     * @param int $day
-     * @param int $year
      */
-    public static function mktime($hour, $minute, $second, $month, $day, $year): int
+    public static function mktime(int $hour, int $minute, int $second, int $month, int $day, int $year): int
     {
         return self::fromServerTime(mktime($hour, $minute, $second, $month, $day, $year))->getTimestamp();
     }

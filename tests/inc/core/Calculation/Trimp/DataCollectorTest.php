@@ -9,7 +9,7 @@ namespace Runalyze\Calculation\Trimp;
  */
 class DataCollectorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSingleValueWithoutDuration()
+    public function testSingleValueWithoutDuration(): void
     {
         $Collector = new DataCollector(
             [140]
@@ -20,7 +20,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase
         ], $Collector->result());
     }
 
-    public function testSingleValueWithDuration()
+    public function testSingleValueWithDuration(): void
     {
         $Collector = new DataCollector(
             [150],
@@ -32,7 +32,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase
         ], $Collector->result());
     }
 
-    public function testArrayWithoutDuration()
+    public function testArrayWithoutDuration(): void
     {
         $Collector = new DataCollector(
             [140, 145, 140, 150, 160, 175, 190, 150, 145, 140]
@@ -48,7 +48,7 @@ class DataCollectorTest extends \PHPUnit\Framework\TestCase
         ], $Collector->result());
     }
 
-    public function testArrayWithDuration()
+    public function testArrayWithDuration(): void
     {
         $Collector = new DataCollector(
             [140, 145, 140, 150, 160, 175, 190, 150, 145, 140],

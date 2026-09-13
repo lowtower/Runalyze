@@ -19,7 +19,7 @@ class CsvEpson extends AbstractSingleParser implements FileContentAwareParserInt
 
     protected string $GraphString = '';
 
-    public function parse()
+    public function parse(): void
     {
         $line = strtok($this->FileContent, "\n");
 

@@ -8,7 +8,7 @@ use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 
 class EmpiricalDistributionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $dist = new EmpiricalDistribution([10, 15, 15, 20]);
 

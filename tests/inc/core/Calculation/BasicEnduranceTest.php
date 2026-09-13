@@ -28,7 +28,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         DB::getInstance()->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testSetterAndGetter()
+    public function testSetterAndGetter(): void
     {
         $this->object->setEffectiveVO2max(50);
         $this->object->setDaysToRecognizeForLongjogs(30);
@@ -43,7 +43,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, $this->object->getMinimalDistanceForLongjogs());
     }
 
-    public function testSetterAndGetterForPercentages()
+    public function testSetterAndGetterForPercentages(): void
     {
         $this->object->setPercentageForLongjogs(0.4);
         $this->assertEquals(0.4, $this->object->getPercentageForLongjogs());
@@ -62,13 +62,13 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $this->object->getPercentageForWeekKilometer());
     }
 
-    public function testThatMinimalVO2maxIsUsed()
+    public function testThatMinimalVO2maxIsUsed(): void
     {
         $this->object->setEffectiveVO2max(20);
         $this->assertEquals(25, $this->object->getUsedEffectiveVO2max());
     }
 
-    public function testTargets()
+    public function testTargets(): void
     {
         $this->object->setMinimalDistanceForLongjogs(10);
 
@@ -97,7 +97,7 @@ class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(36, $this->object->getRealTargetLongjogKmPerWeek(), 1);
     }
 
-    public function testForVO2max30()
+    public function testForVO2max30(): void
     {
         $this->object->setEffectiveVO2max(30);
         $this->object->setDaysToRecognizeForLongjogs(7);

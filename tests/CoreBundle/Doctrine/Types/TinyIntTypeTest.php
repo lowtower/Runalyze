@@ -19,12 +19,12 @@ class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 
-    public function testNull()
+    public function testNull(): void
     {
         $this->assertNull($this->Type->convertToPHPValue(null, $this->PlatformMock));
     }
 
-    public function testSimpleData()
+    public function testSimpleData(): void
     {
         $this->assertEquals(17, $this->Type->convertToPHPValue('17', $this->PlatformMock));
     }

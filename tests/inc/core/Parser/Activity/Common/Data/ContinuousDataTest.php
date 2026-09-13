@@ -16,14 +16,14 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
         $this->Data = new ContinuousData();
     }
 
-    public function testPropertyAccessByName()
+    public function testPropertyAccessByName(): void
     {
         foreach ($this->Data->getPropertyNamesOfArrays() as $name) {
             $this->assertTrue(is_array($this->Data->{$name}), 'Can\'t access property "' . $name . '".');
         }
     }
 
-    public function testTotalDurationAndDistance()
+    public function testTotalDurationAndDistance(): void
     {
         $this->Data->Time = [1, 2, 3, 4, 5, 6];
         $this->Data->Distance = [0.005, 0.011, 0.016, 0.020, 0.024, 0.026];
@@ -32,7 +32,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.026, $this->Data->getTotalDistance());
     }
 
-    public function testTotalDurationAndDistanceIfNotPresent()
+    public function testTotalDurationAndDistanceIfNotPresent(): void
     {
         $this->Data->HeartRate = [126, 128, 129, 130, 130, 133];
 
@@ -40,7 +40,7 @@ class ContinuousDataTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Data->getTotalDistance());
     }
 
-    public function testTotalDurationAndDistanceForEmptyArrays()
+    public function testTotalDurationAndDistanceForEmptyArrays(): void
     {
         $this->Data->Time = [0, 0, 0, 0, 0, 0];
         $this->Data->Distance = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];

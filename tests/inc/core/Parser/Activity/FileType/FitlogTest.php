@@ -21,7 +21,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->Parser = new Fitlog();
     }
 
-    public function testIncorrectXmlFile()
+    public function testIncorrectXmlFile(): void
     {
         $this->Parser->setFileContent('<any><xml><file></file></xml></any>');
 
@@ -30,7 +30,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->Parser->parse();
     }
 
-    public function testSingleActivityWithoutTrackdata()
+    public function testSingleActivityWithoutTrackdata(): void
     {
         $this->parseFileContent($this->Parser, '<?xml version="1.0"?>
 <FitnessWorkbook xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.zonefivesoftware.com/xmlschemas/FitnessLogbook/v2">
@@ -55,7 +55,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertEquals(565, $this->Container->ActivityData->EnergyConsumption);
     }
 
-    public function testFileThatFailedBecauseOfDivisionByZero()
+    public function testFileThatFailedBecauseOfDivisionByZero(): void
     {
         $this->parseFile($this->Parser, 'sporttracks/20110411_Laufeinheit_division_by_zero.fitlog');
 
@@ -78,7 +78,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         ]);
     }
 
-    public function testIndoorSpinning()
+    public function testIndoorSpinning(): void
     {
         $this->parseFile($this->Parser, 'sporttracks/spinning.fitlog');
 
@@ -94,7 +94,7 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
 
-    public function testWithPauses()
+    public function testWithPauses(): void
     {
         $this->parseFile($this->Parser, 'sporttracks/with-pauses.fitlog');
 

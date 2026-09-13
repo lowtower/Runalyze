@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
 class SecondsPerKilometerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatNothingChanges()
+    public function testThatNothingChanges(): void
     {
         $unit = new SecondsPerKilometer();
 

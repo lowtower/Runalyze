@@ -42,13 +42,13 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         return $result;
     }
 
-    public function testImpossibleData()
+    public function testImpossibleData(): void
     {
         $this->assertFalse($this->GeoTiff->canHandleData([90.0], [0.1]));
         $this->assertNull($this->GeoTiff->loadAltitudeData([90.0], [0.1]));
     }
 
-    public function testPossibleData()
+    public function testPossibleData(): void
     {
         if ($this->checkExistenceOf('srtm_38_03.tif')) {
             $this->assertEquals(
@@ -61,7 +61,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testIgnoringEmptyPoints()
+    public function testIgnoringEmptyPoints(): void
     {
         if ($this->checkExistenceOf('srtm_38_03.tif')) {
             $this->assertEquals(
@@ -74,7 +74,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSmoothedPath()
+    public function testSmoothedPath(): void
     {
         if ($this->checkExistenceOf('srtm_38_03.tif')) {
             $this->GeoTiff->setUseSmoothing(false);
@@ -89,7 +89,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSydneyWithGuessingUnknown()
+    public function testSydneyWithGuessingUnknown(): void
     {
         if ($this->checkExistenceOf('srtm_67_19.tif')) {
             $this->GeoTiff->setUseSmoothing(false);
@@ -104,7 +104,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testLondon()
+    public function testLondon(): void
     {
         if ($this->checkExistenceOf('srtm_36_02.tif')) {
             $this->GeoTiff->setUseSmoothing(false);
@@ -119,7 +119,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testWindhoek()
+    public function testWindhoek(): void
     {
         if ($this->checkExistenceOf('srtm_36_02.tif')) {
             $this->GeoTiff->setUseSmoothing(false);
@@ -134,7 +134,7 @@ class GeoTiffTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testNewYork()
+    public function testNewYork(): void
     {
         if ($this->checkExistenceOf('srtm_36_02.tif')) {
             $this->GeoTiff->setUseSmoothing(false);

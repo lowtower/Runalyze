@@ -7,7 +7,7 @@ use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 
 class MeteostatNetSourceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testProfileValues()
+    public function testProfileValues(): void
     {
         $source = new MeteostatNet();
 

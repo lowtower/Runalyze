@@ -7,7 +7,7 @@ use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 
 class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $object = new MultipleTimeSeries();
         $object->generateDistributionsFor([
@@ -21,7 +21,7 @@ class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2.4, $object->getDistribution('bar')->mean());
     }
 
-    public function testAskingForUnknownDistribution()
+    public function testAskingForUnknownDistribution(): void
     {
         $object = new MultipleTimeSeries();
         $object->generateDistributionsFor([

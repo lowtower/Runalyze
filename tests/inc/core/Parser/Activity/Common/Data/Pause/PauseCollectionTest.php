@@ -14,7 +14,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection = new PauseCollection();
     }
 
-    public function testConstructorWithSomeElements()
+    public function testConstructorWithSomeElements(): void
     {
         $this->Collection = new PauseCollection([
             new Pause(100, 10),
@@ -25,7 +25,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(27, $this->Collection->getTotalDuration());
     }
 
-    public function testEmptyCollection()
+    public function testEmptyCollection(): void
     {
         $this->assertEquals(0, $this->Collection->count());
         $this->assertEquals(0, $this->Collection->getTotalDuration());
@@ -34,7 +34,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->Collection->getElements());
     }
 
-    public function testDefaultArrayAccessors()
+    public function testDefaultArrayAccessors(): void
     {
         $this->assertEquals(0, count($this->Collection));
         $this->assertEmpty($this->Collection);
@@ -49,7 +49,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(242, $this->Collection[1]->getTimeIndex());
     }
 
-    public function testAddingPauses()
+    public function testAddingPauses(): void
     {
         $this->Collection->add(new Pause(100, 10));
         $this->Collection->add(new Pause(242, 17));
@@ -57,7 +57,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->Collection->count());
     }
 
-    public function testConstructorWithBadTypes()
+    public function testConstructorWithBadTypes(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new PauseCollection([
@@ -66,14 +66,14 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testOffsetSetWithBadType()
+    public function testOffsetSetWithBadType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         // @phpstan-ignore offsetAssign.valueType
         $this->Collection[] = 'foobar';
     }
 
-    public function testRebasing()
+    public function testRebasing(): void
     {
         $this->Collection->add(new Pause(10, 1));
         $this->Collection->add(new Pause(20, 1));
@@ -87,7 +87,7 @@ class PauseCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(30, $this->Collection[1]->getTimeIndex());
     }
 
-    public function testRebasingWithEmptyCollection()
+    public function testRebasingWithEmptyCollection(): void
     {
         $this->Collection->rebase();
 

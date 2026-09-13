@@ -6,7 +6,7 @@ namespace Runalyze\Activity;
 
 class DistanceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleDistances()
+    public function testSimpleDistances(): void
     {
         $Distance = new Distance();
 
@@ -22,12 +22,12 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Distance->isNegative());
     }
 
-    public function testStaticFormatting()
+    public function testStaticFormatting(): void
     {
         $this->assertEquals('1,000&nbsp;km', Distance::format(1.0));
     }
 
-    public function testAutoFormat()
+    public function testAutoFormat(): void
     {
         $Distance = new Distance();
 
@@ -39,7 +39,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('5,000&nbsp;km', $Distance->set(5)->stringAuto());
     }
 
-    public function testWithoutUnit()
+    public function testWithoutUnit(): void
     {
         $Distance = new Distance();
 

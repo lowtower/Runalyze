@@ -4,7 +4,7 @@ namespace Runalyze\Activity\PaceUnit;
 
 class MinPer100yTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomePaces()
+    public function testSomePaces(): void
     {
         $Pace = new MinPer100y();
 
@@ -12,7 +12,7 @@ class MinPer100yTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(27, $Pace->rawValue(300), 0.5);
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $Pace = new MinPer100y();
 
@@ -21,7 +21,7 @@ class MinPer100yTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0, $Pace->rawValue($Pace->compare(300, 300)), 0.1);
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         $Pace = new MinPer100y();
 

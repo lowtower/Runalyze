@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\AbstractMetric;
 
 class AbstractMetricTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatConversionWorksAsExpected()
+    public function testThatConversionWorksAsExpected(): void
     {
         /** @var AbstractMetric&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->getMockForAbstractClass(AbstractMetric::class);

@@ -13,7 +13,7 @@ class NonMatchingArraySizeFilter extends AbstractFilter
      */
     public const MIN_MAX_TOLERANCE = 2;
 
-    public function filter(ActivityDataContainer $container, $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false)
     {
         $nonEmptyKeys = $this->getNonEmptyContinuousDataKeys($container->ContinuousData);
 
@@ -119,14 +119,13 @@ class NonMatchingArraySizeFilter extends AbstractFilter
     }
 
     /**
-     * @param int $newSize
      * @param int[] $arraySizes
      */
-    protected function reduceArrays($newSize, array $arraySizes, ContinuousData $continuousData)
+    protected function reduceArrays(int $newSize, array $arraySizes, ContinuousData $continuousData)
     {
         foreach ($arraySizes as $key => $size) {
             if ($size != $newSize) {
-                $continuousData->{$key} = array_slice($continuousData->{$key}, 0, $newSize);
+                $continuousData->{(string) $key} = array_slice($continuousData->{(string) $key}, 0, $newSize);
             }
         }
 

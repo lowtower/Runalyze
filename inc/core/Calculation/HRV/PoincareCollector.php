@@ -19,10 +19,7 @@ use Runalyze\Model\HRV\Entity;
  */
 class PoincareCollector
 {
-    /**
-     * @var \Runalyze\Model\HRV\Entity
-     */
-    protected $Object;
+    protected \Runalyze\Model\HRV\Entity $Object;
 
     /**
      * Filter: maximal difference to include in plot

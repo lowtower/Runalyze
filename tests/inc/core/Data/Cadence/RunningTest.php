@@ -6,21 +6,21 @@ namespace Runalyze\Data\Cadence;
 
 class RunningTest extends \PHPUnit\Framework\TestCase
 {
-    public function testValue()
+    public function testValue(): void
     {
         $Cadence = new Running(90);
 
         $this->assertEquals(180, $Cadence->value());
     }
 
-    public function testFactor()
+    public function testFactor(): void
     {
         $Cadence = new Running();
 
         $this->assertEquals(160, $Cadence->useFactor(80));
     }
 
-    public function testManipulatingArray()
+    public function testManipulatingArray(): void
     {
         $array = [70, 80, 90, 100, 105];
         $Cadence = new Running();

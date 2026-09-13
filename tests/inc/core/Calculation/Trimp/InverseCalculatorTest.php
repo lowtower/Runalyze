@@ -13,7 +13,7 @@ class InverseCalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
      */
-    public function testReferenceExample()
+    public function testReferenceExample(): void
     {
 
         // Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
@@ -27,7 +27,7 @@ class InverseCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(30 * 60, $Trimp->value(), 0.01 * 30 * 60);
     }
 
-    public function testViaTrimp()
+    public function testViaTrimp(): void
     {
         $Athlete = new Athlete(null, 205, 45);
 

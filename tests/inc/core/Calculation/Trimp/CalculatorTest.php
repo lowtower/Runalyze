@@ -32,13 +32,13 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Calculator(new Athlete(), []);
     }
 
-    public function testGenderIndependency()
+    public function testGenderIndependency(): void
     {
         $data = [
             1 => 60,
@@ -57,7 +57,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * For a different HRmax, the results should at least be similar
      */
-    public function testHRmaxIndependency()
+    public function testHRmaxIndependency(): void
     {
         $adaptedData = [];
         $dataToAdapt = $this->hrData();
@@ -76,7 +76,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * For a different HRrest, the results should at least be similar
      */
-    public function testHRrestIndependency()
+    public function testHRrestIndependency(): void
     {
         $adaptedData = [];
         $dataToAdapt = $this->hrData();
@@ -92,7 +92,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta($WithHRrestDefault->value(), $WithHRrestAdapted->value(), 0.1 * $WithHRrestDefault->value(), 'Trimp dismatch for adapted data');
     }
 
-    public function testSmallValues()
+    public function testSmallValues(): void
     {
         $Trimp = new Calculator(new Athlete(), [
             1 => 60 * 60,
@@ -101,7 +101,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, round($Trimp->value()));
     }
 
-    public function testExponentialIncrease()
+    public function testExponentialIncrease(): void
     {
         $TrimpLow = new Calculator(new Athlete(), [
             130 => 60 * 60,
@@ -119,7 +119,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
      */
-    public function testReferenceExampleWithoutHRrest()
+    public function testReferenceExampleWithoutHRrest(): void
     {
 
         // Fellrnr's example is with HRrest (max = 200, rest = 40, avg = 130)
@@ -137,7 +137,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://fellrnr.com/wiki/TRIMP#Worked_Example
      */
-    public function testReferenceExample()
+    public function testReferenceExample(): void
     {
 
         $Trimp = new Calculator(new Athlete(

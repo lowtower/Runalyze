@@ -37,7 +37,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
         return $repository;
     }
 
-    public function testEmptyAnalysisData()
+    public function testEmptyAnalysisData(): void
     {
         $data = $this->getAnalysisDataMockWithEmptySelections();
 
@@ -46,7 +46,7 @@ class AnalysisDataTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals(0, $data->getMaximum());
     }
 
-    public function testYearRange()
+    public function testYearRange(): void
     {
         $data = $this->getAnalysisDataMockWithEmptySelections([
             [

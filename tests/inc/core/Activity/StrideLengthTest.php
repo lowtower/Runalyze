@@ -11,13 +11,13 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
  */
 class StrideLengthTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStaticFunction()
+    public function testStaticFunction(): void
     {
         $this->assertEquals('1.23&nbsp;' . DistanceUnitSystem::METER, StrideLength::format(123, true));
         $this->assertEquals('1.23', StrideLength::format(123, false));
     }
 
-    public function testInMeter()
+    public function testInMeter(): void
     {
         $StrideLength = new StrideLength();
         $StrideLength->setMeter(1.07);
@@ -26,7 +26,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1.07&nbsp;' . DistanceUnitSystem::METER, $StrideLength->stringMeter());
     }
 
-    public function testInCentimeter()
+    public function testInCentimeter(): void
     {
         $StrideLength = new StrideLength();
         $StrideLength->set(87);
@@ -35,7 +35,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('87&nbsp;' . DistanceUnitSystem::CM, $StrideLength->stringCM());
     }
 
-    public function testInFeet()
+    public function testInFeet(): void
     {
         $StrideLength = new StrideLength();
         $StrideLength->setFeet(3.2);
@@ -44,7 +44,7 @@ class StrideLengthTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('3.2&nbsp;' . DistanceUnitSystem::FEET, $StrideLength->stringFeet());
     }
 
-    public function testSettingInPreferredUnit()
+    public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(1.23, (new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(1.23)->meter());
         $this->assertEquals(3.2, (new StrideLength(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(3.2)->feet());

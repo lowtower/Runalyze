@@ -20,7 +20,7 @@ class SmlTest extends AbstractActivityParserTestCase
         $this->Parser = new Sml();
     }
 
-    public function testReducedAmbitFile()
+    public function testReducedAmbitFile(): void
     {
         $this->parseFile($this->Parser, 'sml/Suunto-Ambit-reduced.sml');
 
@@ -61,7 +61,7 @@ class SmlTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testIndoorAmbitFile()
+    public function testIndoorAmbitFile(): void
     {
         $this->parseFile($this->Parser, 'sml/Suunto-Ambit-Indoor-reduced.sml');
 
@@ -84,7 +84,7 @@ class SmlTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
     }
 
-    public function testAmbit3FileWithOnlyRRIntervals()
+    public function testAmbit3FileWithOnlyRRIntervals(): void
     {
         $this->parseFile($this->Parser, 'sml/Suunto-Ambit3-only-RR-reduced.sml');
 

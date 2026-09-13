@@ -8,7 +8,7 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 class WindSpeedTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsUnknown()
+    public function testIsUnknown(): void
     {
         $WindSpeed = new WindSpeed();
 
@@ -16,7 +16,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $WindSpeed->value());
     }
 
-    public function testMetric()
+    public function testMetric(): void
     {
         $WindSpeed = new WindSpeed(30);
         $this->assertEquals(30, $WindSpeed->value());
@@ -24,7 +24,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($WindSpeed->isUnknown());
     }
 
-    public function testImperial()
+    public function testImperial(): void
     {
         $WindSpeed = new WindSpeed();
         $WindSpeed->setMilesPerHour(30);
@@ -33,7 +33,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($WindSpeed->isUnknown());
     }
 
-    public function testString()
+    public function testString(): void
     {
         $WindSpeed = new WindSpeed();
 
@@ -43,7 +43,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('12&nbsp;km/h', $WindSpeed->string(true));
     }
 
-    public function testMetricUnit()
+    public function testMetricUnit(): void
     {
         $WindSpeed = new WindSpeed(null, new DistanceUnitSystem(DistanceUnitSystem::METRIC));
         $WindSpeed->setInPreferredUnit(37);
@@ -53,7 +53,7 @@ class WindSpeedTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('37&nbsp;km/h', $WindSpeed->string());
     }
 
-    public function testImperialUnit()
+    public function testImperialUnit(): void
     {
         $WindSpeed = new WindSpeed(null, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL));
         $WindSpeed->setInPreferredUnit(37);

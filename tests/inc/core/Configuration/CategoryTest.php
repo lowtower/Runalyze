@@ -50,7 +50,7 @@ class ConfigurationCategoryTest extends \PHPUnit\Framework\TestCase
         $this->object = new ConfigurationCategory_MockTester();
     }
 
-    public function testAccess()
+    public function testAccess(): void
     {
         $this->assertEquals(42, $this->object->test());
         $this->assertEquals('foobar', $this->object->Second()->value());
@@ -60,7 +60,7 @@ class ConfigurationCategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test', $this->object->Second()->value());
     }
 
-    public function testKeys()
+    public function testKeys(): void
     {
         $this->assertEquals(['TEST', 'SECOND'], $this->object->keys());
     }

@@ -13,17 +13,17 @@ class NotificationTest extends \PHPUnit\Framework\TestCase
         $this->Notification = new Notification();
     }
 
-    public function testThatConstructorSetsCurrentDate()
+    public function testThatConstructorSetsCurrentDate(): void
     {
         $this->assertEquals((new \DateTime('NOW'))->format('d.m.Y'), (new \DateTime())->setTimestamp($this->Notification->getCreatedAt())->format('d.m.Y'));
     }
 
-    public function testSetNoLifetime()
+    public function testSetNoLifetime(): void
     {
         $this->assertNull($this->Notification->setLifetime()->getExpirationAt());
     }
 
-    public function testSetLifetime()
+    public function testSetLifetime(): void
     {
         $this->assertEquals('+2 days', (new \DateTime('NOW'))->diff((new \DateTime())->setTimestamp($this->Notification->setLifetime(2)->getExpirationAt()))->format('%R%a days'));
     }

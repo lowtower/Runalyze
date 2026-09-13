@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\ActivityForm;
 
 class ActivityFormTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIgnoredActivityIds()
+    public function testIgnoredActivityIds(): void
     {
         $config = new ActivityForm();
 

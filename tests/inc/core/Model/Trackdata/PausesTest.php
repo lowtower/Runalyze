@@ -9,7 +9,7 @@ namespace Runalyze\Model\Trackdata;
  */
 class PausesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $P1 = new Pause(60, 10, 120, 100);
         $P2 = new Pause(120, 10, 120, 100);
@@ -29,7 +29,7 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $P->num());
     }
 
-    public function testArrayTransformation()
+    public function testArrayTransformation(): void
     {
         $P1 = new Pauses();
         $P1->add(new Pause(60, 10, 120, 100));
@@ -47,7 +47,7 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($P1->asArray(), $P3->asArray());
     }
 
-    public function testStringTransformation()
+    public function testStringTransformation(): void
     {
         $P1 = new Pauses();
         $P1->add(new Pause(60, 10, 120, 100));
@@ -65,7 +65,7 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($P1->asString(), $P3->asString());
     }
 
-    public function testEmptyPauses()
+    public function testEmptyPauses(): void
     {
         $P = new Pauses('');
         $this->assertEquals(0, $P->num());
@@ -77,7 +77,7 @@ class PausesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $P->asString());
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $P = new Pauses();

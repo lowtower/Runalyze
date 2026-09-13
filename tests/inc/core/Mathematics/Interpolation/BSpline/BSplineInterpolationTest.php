@@ -21,19 +21,19 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testInvalidDegree()
+    public function testInvalidDegree(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation(0);
     }
 
-    public function testNonNumericDegree()
+    public function testNonNumericDegree(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation('foo');
     }
 
-    public function testEvaluationOnEmptyCurve()
+    public function testEvaluationOnEmptyCurve(): void
     {
         $spline = new BSplineInterpolation(2);
 
@@ -42,7 +42,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $spline->evaluateAt(0.5);
     }
 
-    public function testNotEnoughPoints()
+    public function testNotEnoughPoints(): void
     {
         $spline = new BSplineInterpolation(2);
 
@@ -51,7 +51,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $spline->setPoints([1, 2]);
     }
 
-    public function testConstantCurve()
+    public function testConstantCurve(): void
     {
         $spline = new BSplineInterpolation(5);
         $spline->setPoints([42, 42, 42, 42, 42, 42, 42, 42, 42, 42]);
@@ -59,7 +59,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([42, 42, 42, 42, 42, 42, 42, 42, 42, 42], $spline->evaluateAtAllPoints());
     }
 
-    public function testLinearCurve()
+    public function testLinearCurve(): void
     {
         $spline = new BSplineInterpolation(1);
         $spline->setPoints([10, 20, 30, 20, 40, 30, 10]);
@@ -67,7 +67,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([10, 20, 30, 20, 40, 30, 10], $spline->evaluateAtAllPoints());
     }
 
-    public function testCubicCurve()
+    public function testCubicCurve(): void
     {
         $spline = new BSplineInterpolation(2);
         $spline->setPoints([10, 20, 30, 20, 40, 30, 10]);
@@ -76,7 +76,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         $this->assertArraysAreSimilar([10, 23.2, 27.2, 23.8, 35, 32.9, 10], $spline->evaluateAtAllPoints(false), 0.1);
     }
 
-    public function testUniformCurveFromOriginalSource()
+    public function testUniformCurveFromOriginalSource(): void
     {
         $spline = new BSplineInterpolation(2);
         $spline->setPoints([
@@ -101,7 +101,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.01);
     }
 
-    public function testNonUniformCurveFromOriginalSource()
+    public function testNonUniformCurveFromOriginalSource(): void
     {
         $spline = new BSplineInterpolation(2);
         $spline->setPoints([
@@ -126,7 +126,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.1);
     }
 
-    public function testNonUniformRationalCurveFromOriginalSource()
+    public function testNonUniformRationalCurveFromOriginalSource(): void
     {
         $w = 0.5 ** 0.5;
         $spline = new BSplineInterpolation(2);
@@ -157,7 +157,7 @@ class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
         ], $spline->evaluateAt([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]), 0.0001);
     }
 
-    public function testOneDimensionalPoints()
+    public function testOneDimensionalPoints(): void
     {
         $Spline = new BSplineInterpolation(2);
         $Spline->setPoints([1, 2, 3, 4]);

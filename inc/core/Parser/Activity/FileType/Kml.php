@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Import\Exception\UnsupportedFileException;
@@ -11,7 +13,7 @@ class Kml extends AbstractMultipleParserWithSubParser implements FileContentAwar
 {
     use FileContentAwareParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         if ($this->isTomTomFile()) {
             $this->useSubParser(new KmlExtended());

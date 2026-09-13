@@ -16,7 +16,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->Data = new Trackdata();
     }
 
-    public function testEmptyEntity()
+    public function testEmptyEntity(): void
     {
         $this->assertTrue($this->Data->isEmpty());
         $this->assertNull($this->Data->getTime());
@@ -25,7 +25,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Data->getPauses()->isEmpty());
     }
 
-    public function testLazyArraysForEmptyEntity()
+    public function testLazyArraysForEmptyEntity(): void
     {
         $this->assertFalse($this->Data->hasPace());
         $this->assertFalse($this->Data->hasStrideLength());
@@ -38,7 +38,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Data->getVerticalRatio());
     }
 
-    public function testThatPaceIsAlwaysUpToDate()
+    public function testThatPaceIsAlwaysUpToDate(): void
     {
         $this->assertFalse($this->Data->hasPace());
         $this->assertNull($this->Data->getPace());
@@ -50,7 +50,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([300, 300, 360, 240], $this->Data->getPace());
     }
 
-    public function testCalculationOfLazyArrays()
+    public function testCalculationOfLazyArrays(): void
     {
         $this->Data->setTime([0, 300, 600, 900]);
         $this->Data->setDistance([0.0, 1.0, 2.0, 3.0]);
@@ -69,7 +69,7 @@ class TrackdataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([300, 300, 300, 300], $this->Data->getPace());
     }
 
-    public function testCalculationOfGradientAndGradeAdjustedPace()
+    public function testCalculationOfGradientAndGradeAdjustedPace(): void
     {
         $this->Data->setTime(range(0, 900, 15));
         $this->Data->setDistance(range(0.0, 3.0, 0.05));

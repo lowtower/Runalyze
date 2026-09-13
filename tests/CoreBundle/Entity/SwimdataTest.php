@@ -13,7 +13,7 @@ class SwimdataTest extends \PHPUnit\Framework\TestCase
         $this->Data = new Swimdata();
     }
 
-    public function testEmptyEntity()
+    public function testEmptyEntity(): void
     {
         $this->assertTrue($this->Data->isEmpty());
         $this->assertNull($this->Data->getStroke());

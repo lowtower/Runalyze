@@ -31,11 +31,6 @@ class JsonImporterTest extends DatabaseTestCase
         $this->AccountID = 1;
     }
 
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
     private function fillDummyTrainings(): int
     {
         $statement = $this->DB->prepare('INSERT INTO `runalyze_training` (`sportid`, `time`, `distance`, `accountid`, `s`) VALUES (?, ?, ?, ?, ?)');
@@ -57,7 +52,7 @@ class JsonImporterTest extends DatabaseTestCase
     /**
      * Test deletes
      */
-    public function testDeleteActivities()
+    public function testDeleteActivities(): void
     {
         $this->fillDummyTrainings();
         $numUser = $this->fillDummyUser();
@@ -69,7 +64,7 @@ class JsonImporterTest extends DatabaseTestCase
         $this->assertEquals($numUser, $this->DB->query('SELECT COUNT(*) FROM `runalyze_user` WHERE `accountid`=' . $this->AccountID)->fetchColumn());
     }
 
-    public function testDeleteBody()
+    public function testDeleteBody(): void
     {
         $numTrainings = $this->fillDummyTrainings();
         $this->fillDummyUser();
@@ -81,7 +76,7 @@ class JsonImporterTest extends DatabaseTestCase
         $this->assertEquals(0, $this->DB->query('SELECT COUNT(*) FROM `runalyze_user` WHERE `accountid`=' . $this->AccountID)->fetchColumn());
     }
 
-    public function testUpdates()
+    public function testUpdates(): void
     {
         $insertConf = $this->DB->prepare('INSERT INTO `runalyze_conf` (`category`, `key`, `value`, `accountid`) VALUES (?, ?, ?, ?)');
         $insertConf->execute(['test-data', 'TEST_CONF', 'false', $this->AccountID]);
@@ -112,7 +107,7 @@ class JsonImporterTest extends DatabaseTestCase
         $this->assertEquals([0, 'width:auto;', 42], $this->DB->query('SELECT `active`, `style`, `position` FROM `runalyze_dataset` WHERE `accountid`=' . $this->AccountID . ' AND `keyid`=1')->fetch(\PDO::FETCH_NUM));
     }
 
-    public function testInserts()
+    public function testInserts(): void
     {
         $insertSport = $this->DB->prepare('INSERT INTO `runalyze_sport` (`name`, `accountid`) VALUES (?, ?)');
         $insertSport->execute(['ID-Increaser 1', $this->AccountID]);
@@ -166,7 +161,7 @@ class JsonImporterTest extends DatabaseTestCase
         );
     }
 
-    public function testWithEquipment()
+    public function testWithEquipment(): void
     {
         $Importer = new JsonImporter($this->Base . 'with-equipment.json.gz', $this->DB, $this->AccountID, $this->Prefix);
         $Importer->importData();
@@ -208,7 +203,7 @@ class JsonImporterTest extends DatabaseTestCase
         $this->assertEquals([$TagB], $this->DB->query('SELECT `tagid` FROM `runalyze_activity_tag` WHERE `activityid`=' . $Activity3)->fetchAll(\PDO::FETCH_COLUMN));
     }
 
-    public function testWithExistingEquipmentAndTags()
+    public function testWithExistingEquipmentAndTags(): void
     {
         $this->DB->exec('INSERT INTO `runalyze_sport` (`name`, `accountid`) VALUES("Sport A", ' . $this->AccountID . ')');
         $ExistingSportA = $this->DB->lastInsertId();
@@ -245,7 +240,7 @@ class JsonImporterTest extends DatabaseTestCase
             ->fetchAll(\PDO::FETCH_NUM));
     }
 
-    public function testWithExistingInternalSport()
+    public function testWithExistingInternalSport(): void
     {
         $this->DB->exec('INSERT INTO `runalyze_sport` (`name`, `accountid`, `internal_sport_id`) VALUES("Foobar", ' . $this->AccountID . ', 1)');
         $foobarSportId = $this->DB->lastInsertId();
@@ -269,7 +264,7 @@ class JsonImporterTest extends DatabaseTestCase
     /**
      * Test deletes
      */
-    public function testDontDeleteTooMuch()
+    public function testDontDeleteTooMuch(): void
     {
         // Data of account 0
         $this->DB->exec('INSERT INTO `runalyze_equipment_type` (`accountid`,`name`) VALUES(0, "")');

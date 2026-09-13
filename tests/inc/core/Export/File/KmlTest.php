@@ -31,6 +31,6 @@ class KmlTest extends \PHPUnit\Framework\TestCase
         // all 6 trackpoints from the fixture should exist as coordinate line
         $coordinates = trim((string) $xml->Folder->Placemark->MultiGeometry->LineString->coordinates);
         $lines = explode(NL, $coordinates);
-        $this->assertCount(6, array_filter($lines, fn ($line) => $line !== ''));
+        $this->assertCount(6, array_filter($lines, fn ($line): bool => $line !== ''));
     }
 }

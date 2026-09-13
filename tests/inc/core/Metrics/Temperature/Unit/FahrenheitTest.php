@@ -6,7 +6,7 @@ use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
 class FahrenheitTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Fahrenheit();
 

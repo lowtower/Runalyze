@@ -33,12 +33,12 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    public function testDefault()
+    public function testDefault(): void
     {
         $this->assertEquals(null, $this->object->value());
     }
 
-    public function testValue()
+    public function testValue(): void
     {
         $this->object->set(true);
         $this->assertEquals(true, $this->object->value());
@@ -47,7 +47,7 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(false, $this->object->value());
     }
 
-    public function testString()
+    public function testString(): void
     {
         $this->object->set('A string');
         $this->assertEquals('A string', $this->object->value());

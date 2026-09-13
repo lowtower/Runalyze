@@ -12,7 +12,7 @@ class Lowpass2ndOrderCoefficientsTest extends \PHPUnit\Framework\TestCase
      * Values are compared to the following: (but we use different signs for ai and they don't normalize the frequency)
      * @see http://stackoverflow.com/questions/20924868/calculate-coefficients-of-2nd-order-butterworth-low-pass-filter
      */
-    public function testSomeCoefficients()
+    public function testSomeCoefficients(): void
     {
         $coefficients = new Lowpass2ndOrderCoefficients(0.05);
         $inputCoefficients = $coefficients->getInputCoefficients();

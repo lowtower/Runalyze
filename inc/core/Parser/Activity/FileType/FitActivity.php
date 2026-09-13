@@ -224,7 +224,7 @@ class FitActivity extends AbstractSingleParser
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1886
      */
-    public function finishParsing()
+    public function finishParsing(): void
     {
         if ($this->Container->Metadata->getCreator() == 'suunto') {
             $this->Container->ActivityData->Duration = end($this->Container->ContinuousData->Time);
@@ -269,7 +269,7 @@ class FitActivity extends AbstractSingleParser
         }
     }
 
-    public function readMetadataForMultiSessionFrom(Metadata $metadata)
+    public function readMetadataForMultiSessionFrom(Metadata $metadata): void
     {
         $this->Container->Metadata->setCreator($metadata->getCreator(), $metadata->getCreatorDetails());
         $this->Container->Metadata->setTimestamp(PHP_INT_MAX, $metadata->getTimezoneOffset());
@@ -390,7 +390,7 @@ class FitActivity extends AbstractSingleParser
     /**
      * @param string $line
      */
-    public function parseLine($line)
+    public function parseLine($line): void
     {
         if ($line[0] == '=') {
             if ($this->Header === []) {

@@ -16,7 +16,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
         $this->Salite = new SaliteIndex();
     }
 
-    public function testSimpleValues()
+    public function testSimpleValues(): void
     {
         $testMatrix = [
             [1.0, 10, 1],
@@ -32,7 +32,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatAltitudeAtTopDoesNotMatter()
+    public function testThatAltitudeAtTopDoesNotMatter(): void
     {
         $this->assertEquals(
             $this->Salite->getScoreFor(7.0, 350),
@@ -40,7 +40,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testPassoStelvioWithoutExactProfile()
+    public function testPassoStelvioWithoutExactProfile(): void
     {
         $this->assertEqualsWithDelta(1336, $this->Salite->getScoreFor(25.4, 1842), 0.5);
     }
@@ -48,7 +48,7 @@ class SaliteIndexTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://www.salite.ch/struttura/indice_diff.asp
      */
-    public function testPassoStelvioWithExactProfile()
+    public function testPassoStelvioWithExactProfile(): void
     {
         $this->assertEqualsWithDelta(
             1417,

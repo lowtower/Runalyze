@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList
 
 class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $config = new RunalyzeConfigurationList();
         $this->assertInstanceOf(RunalyzeConfigurationList::class, $config);
@@ -18,7 +18,7 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
      * @group review-later
      * TODO: This test needs a deeper look later. It passes, but check if $config->getVO2maxCorrectionFactor() should return float instead of an object.
      */
-    public function testThatAllCategoriesAreAccessible()
+    public function testThatAllCategoriesAreAccessible(): void
     {
         $config = new RunalyzeConfigurationList();
 
@@ -35,7 +35,7 @@ class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
         $this->assertIsFloat($config->getVO2maxCorrectionFactor());
     }
 
-    public function testThatUnitSystemIsPersistent()
+    public function testThatUnitSystemIsPersistent(): void
     {
         $config = new RunalyzeConfigurationList();
 

@@ -8,7 +8,7 @@ use Runalyze\Sports\Performance\Model\BanisterModel;
 
 class BanisterTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSingleWorkout()
+    public function testSingleWorkout(): void
     {
         $Model = new BanisterModel([
             0 => 1000,
@@ -20,7 +20,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(-1000, $Model->performanceAt(0));
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Model = new BanisterModel([
             0 => 150,
@@ -51,7 +51,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(267, $Model->fatigueAt(7));
     }
 
-    public function testNoSteadyState()
+    public function testNoSteadyState(): void
     {
         $Model = new BanisterModel(array_fill(0, 51, 100), 42, 7, 1, 2);
         $Model->calculate();
@@ -69,7 +69,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(751, $Model->fatigueAt(50));
     }
 
-    public function testFutureFitness()
+    public function testFutureFitness(): void
     {
         $Model = new BanisterModel([
             0 => 1000,
@@ -85,7 +85,7 @@ class BanisterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(92, $Model->fitnessAt(100));
     }
 
-    public function testFutureFatigue()
+    public function testFutureFatigue(): void
     {
         $Model = new BanisterModel([
             0 => 1000,

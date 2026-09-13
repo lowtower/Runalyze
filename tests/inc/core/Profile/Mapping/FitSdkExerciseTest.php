@@ -13,64 +13,64 @@ class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase
         $this->underTest = new FitSdkExercise();
     }
 
-    public function testFullMap1()
+    public function testFullMap1(): void
     {
         $this->assertEquals('curl, bench_press', $this->underTest->getFullMapping('7,65534,0', null));
     }
 
-    public function testFullMap2()
+    public function testFullMap2(): void
     {
         $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,65534', '65535,8,65535'));
     }
 
-    public function testFullMapAllMultiple()
+    public function testFullMapAllMultiple(): void
     {
         $this->assertEquals('jumping_jacks', $this->underTest->getFullMapping('2,2,2', '12,12,12'));
     }
 
-    public function testFullMapTwoMultiple()
+    public function testFullMapTwoMultiple(): void
     {
         $this->assertEquals('triceps_extension, ez_bar_pullover', $this->underTest->getFullMapping('30,21,30', '65535,8,65535'));
     }
 
-    public function testFullMapWrongSub()
+    public function testFullMapWrongSub(): void
     {
         $this->assertEquals('triceps_extension, pull_up', $this->underTest->getFullMapping('30,21,65534', '65535'));
     }
 
-    public function testCategory()
+    public function testCategory(): void
     {
         $this->assertEquals('flye', $this->underTest->getMapping(9, null));
         $this->assertEquals('flye', $this->underTest->getMapping(9));
     }
 
-    public function testFailedCategory()
+    public function testFailedCategory(): void
     {
         $this->assertEquals(null, $this->underTest->getMapping(666, null));
     }
 
-    public function testUnknownCategory()
+    public function testUnknownCategory(): void
     {
         $this->assertEquals(null, $this->underTest->getMapping(65534));
     }
 
-    public function testCategoryWithSub1()
+    public function testCategoryWithSub1(): void
     {
         $this->assertEquals('single_leg_decline_push_up', $this->underTest->getMapping(1, 11));
     }
 
-    public function testCategoryWithSub30()
+    public function testCategoryWithSub30(): void
     {
         $this->assertEquals('weighted_dip', $this->underTest->getMapping(30, 40));
     }
 
-    public function testCategoryWithSubNotExists()
+    public function testCategoryWithSubNotExists(): void
     {
         // use only exercise
         $this->assertEquals('calf_raise', $this->underTest->getMapping(1, 99));
     }
 
-    public function testCategoryWithSubUnused()
+    public function testCategoryWithSubUnused(): void
     {
         // use only exercise
         $this->assertEquals('sit_up', $this->underTest->getMapping(27, 65535));

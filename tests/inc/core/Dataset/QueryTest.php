@@ -37,17 +37,11 @@ class QueryTest extends TestCase
      */
     protected function insertActivity(array $data): void
     {
-        if (! isset($data['accountid'])) {
-            $data['accountid'] = 1;
-        }
+        $data['accountid'] ??= 1;
 
-        if (! isset($data['sportid'])) {
-            $data['sportid'] = $this->Running;
-        }
+        $data['sportid'] ??= $this->Running;
 
-        if (! isset($data['is_public'])) {
-            $data['is_public'] = 1;
-        }
+        $data['is_public'] ??= 1;
 
         $this->PDO->query('INSERT INTO `runalyze_training` (`' . implode('`, `', array_keys($data)) . '`) VALUES ("' . implode('", "', $data) . '")');
     }
@@ -69,7 +63,7 @@ class QueryTest extends TestCase
         $this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 366 * DAY_IN_S, time() - 2 * DAY_IN_S, time() + 366 * DAY_IN_S));
     }
 
-    public function testThatSelectQueriesAreValid()
+    public function testThatSelectQueriesAreValid(): void
     {
         $this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectAllKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
         $this->assertNotNull($this->PDO->query('SELECT ' . $this->Query->queryToSelectActiveKeys() . ' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());

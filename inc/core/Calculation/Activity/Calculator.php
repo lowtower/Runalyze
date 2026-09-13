@@ -54,9 +54,7 @@ class Calculator
      */
     public function estimateVO2maxByHeartRate(?float $distance = null): string
     {
-        if ($distance === null) {
-            $distance = $this->Activity->distance();
-        }
+        $distance ??= $this->Activity->distance();
 
         $VO2max = new JD\LegacyEffectiveVO2max();
         $VO2max->fromPaceAndHR(

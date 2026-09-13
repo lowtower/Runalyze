@@ -9,19 +9,19 @@ use Runalyze\Parameter\Application\EnergyUnit;
 
 class EnergyTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEquals('100', (new Energy(100, new EnergyUnit(EnergyUnit::KCAL)))->string(false));
         $this->assertEquals('419', (new Energy(100, new EnergyUnit(EnergyUnit::KJ)))->string(false));
     }
 
-    public function testSettingInPreferredUnit()
+    public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(100, (new Energy(0, new EnergyUnit(EnergyUnit::KCAL)))->setInPreferredUnit(100)->kcal());
         $this->assertEquals(23, (new Energy(0, new EnergyUnit(EnergyUnit::KJ)))->setInPreferredUnit(100)->kcal());
     }
 
-    public function testFromKilocalorie()
+    public function testFromKilocalorie(): void
     {
         $Energy = new Energy();
         $Energy->set(100);
@@ -30,7 +30,7 @@ class EnergyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(419, $Energy->kj());
     }
 
-    public function testFromKilojule()
+    public function testFromKilojule(): void
     {
         $Energy = new Energy();
         $Energy->setKJ(41868);
@@ -39,7 +39,7 @@ class EnergyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(41868, $Energy->kj());
     }
 
-    public function testStaticMethod()
+    public function testStaticMethod(): void
     {
         Configuration::General()->distanceUnitSystem()->set(EnergyUnit::KCAL);
 

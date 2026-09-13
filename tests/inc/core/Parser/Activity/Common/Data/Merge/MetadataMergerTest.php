@@ -23,7 +23,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondMetadata = new Metadata();
     }
 
-    public function testThatTimestampIsNotOverridden()
+    public function testThatTimestampIsNotOverridden(): void
     {
         $this->FirstMetadata->setTimestamp(123456789);
         $this->SecondMetadata->setTimestamp(987654321, 120);
@@ -33,7 +33,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123456789, $this->FirstMetadata->getTimestamp());
     }
 
-    public function testMergingCreatorDetails()
+    public function testMergingCreatorDetails(): void
     {
         $this->FirstMetadata->setCreator('foo');
         $this->SecondMetadata->setCreator('', 'bar');
@@ -44,7 +44,7 @@ class MetadataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $this->FirstMetadata->getCreatorDetails());
     }
 
-    public function testMergingEquipment()
+    public function testMergingEquipment(): void
     {
         $this->FirstMetadata->addEquipment('Foo');
         $this->SecondMetadata->addEquipment('Bar');

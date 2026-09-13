@@ -25,7 +25,7 @@ class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 
-    public function testEmptyData()
+    public function testEmptyData(): void
     {
         $this->assertNull($this->TypeNumber->convertToPHPValue(null, $this->PlatformMock));
         $this->assertNull($this->TypeNumber->convertToPHPValue('', $this->PlatformMock));
@@ -36,7 +36,7 @@ class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->TypeString->convertToDatabaseValue([], $this->PlatformMock));
     }
 
-    public function testSimpleData()
+    public function testSimpleData(): void
     {
         // numeric
         $r = $this->TypeNumber->convertToPHPValue('3.14|42|0', $this->PlatformMock);
@@ -55,7 +55,7 @@ class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('a|b c', $this->TypeString->convertToDatabaseValue(['a', 'b|c'], $this->PlatformMock));
     }
 
-    public function testPartiallyEmptyData()
+    public function testPartiallyEmptyData(): void
     {
         $this->assertEquals('||-12.3|-11.4|-9.8', $this->TypeNumber->convertToDatabaseValue([null, null, -12.3, -11.4, -9.8], $this->PlatformMock));
 

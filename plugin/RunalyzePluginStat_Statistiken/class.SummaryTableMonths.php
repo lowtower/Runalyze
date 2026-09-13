@@ -49,7 +49,7 @@ class SummaryTableMonths extends SummaryTable
     /**
      * @param int $mode - enum
      */
-    public function setMode(int $mode)
+    public function setMode(int $mode): void
     {
         $this->Mode = $mode;
     }

@@ -6,13 +6,13 @@ namespace Runalyze\Activity;
 
 class VerticalRatioTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStaticFunction()
+    public function testStaticFunction(): void
     {
         $this->assertEquals('7.9&nbsp;%', VerticalRatio::format(79, true));
         $this->assertEquals('6.8', VerticalRatio::format(68, false));
     }
 
-    public function testSetter()
+    public function testSetter(): void
     {
         $Ratio = new VerticalRatio(49);
 

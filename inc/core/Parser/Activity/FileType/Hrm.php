@@ -56,7 +56,7 @@ class Hrm extends AbstractSingleParser implements FileContentAwareParserInterfac
      */
     protected float $TotalTime = 0.0;
 
-    public function parse()
+    public function parse(): void
     {
         $this->CurrentLine = strtok($this->FileContent, "\r\n");
 

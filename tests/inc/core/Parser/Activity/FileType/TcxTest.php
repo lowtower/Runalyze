@@ -17,7 +17,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->Parser = new Tcx();
     }
 
-    public function testStandardFile()
+    public function testStandardFile(): void
     {
         $this->parseFile($this->Parser, 'tcx/Standard.tcx');
 
@@ -48,7 +48,7 @@ class TcxTest extends AbstractActivityParserTestCase
         ]);
     }
 
-    public function testSwimTraining()
+    public function testSwimTraining(): void
     {
         $this->parseFile($this->Parser, 'tcx/Swim-without-time_by-Timekiller.tcx');
 
@@ -62,7 +62,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('Forerunner 310XT-000', $this->Container->Metadata->getCreatorDetails());
     }
 
-    public function testIndoorActivity()
+    public function testIndoorActivity(): void
     {
         $this->parseFile($this->Parser, 'tcx/Indoor-Training.tcx');
 
@@ -75,7 +75,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(149, $this->Container->ActivityData->MaxHeartRate, 2);
     }
 
-    public function testMultiSport()
+    public function testMultiSport(): void
     {
         $this->parseFile($this->Parser, 'tcx/Multisport.tcx');
 
@@ -98,7 +98,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(2.355, $this->Container[2]->ActivityData->Distance, 0.1);
     }
 
-    public function testFileFromDakota()
+    public function testFileFromDakota(): void
     {
         $this->parseFile($this->Parser, 'tcx/Dakota.tcx');
 
@@ -115,7 +115,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Power);
     }
 
-    public function testWattExtensionWithoutNamespace()
+    public function testWattExtensionWithoutNamespace(): void
     {
         $this->parseFile($this->Parser, 'tcx/watt-extension-without-namespace.tcx');
 
@@ -131,7 +131,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2012
      */
-    public function testPowerInNS2Extension()
+    public function testPowerInNS2Extension(): void
     {
         $this->parseFile($this->Parser, 'tcx/Power-ns2-extension.tcx');
 
@@ -139,7 +139,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals(210, round($this->Container->ActivityData->AvgPower));
     }
 
-    public function testMissingDistancePoints()
+    public function testMissingDistancePoints(): void
     {
         $this->parseFile($this->Parser, 'tcx/missing-distances.tcx');
 
@@ -153,7 +153,7 @@ class TcxTest extends AbstractActivityParserTestCase
         }
     }
 
-    public function testFileFromRuntastic()
+    public function testFileFromRuntastic(): void
     {
         $this->parseFile($this->Parser, 'tcx/Runtastic.tcx');
 
@@ -177,7 +177,7 @@ class TcxTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testRouteOnly()
+    public function testRouteOnly(): void
     {
         $this->parseFile($this->Parser, 'tcx/Route-only.tcx');
 
@@ -192,7 +192,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1679#issuecomment-169980611
      */
-    public function testDoubledCadence()
+    public function testDoubledCadence(): void
     {
         $this->parseFile($this->Parser, 'tcx/Treadmill-doubled-cadence.tcx');
 
@@ -207,7 +207,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1445
      */
-    public function testFirstPointEmpty()
+    public function testFirstPointEmpty(): void
     {
         $this->parseFile($this->Parser, 'tcx/First-point-empty.tcx');
 
@@ -222,7 +222,7 @@ class TcxTest extends AbstractActivityParserTestCase
      * @see https://github.com/Runalyze/Runalyze/issues/1782
      * @see https://github.com/Runalyze/Runalyze/issues/1779
      */
-    public function testWrongTimeZoneByPolarThatShouldBeFixedWithTimeZoneLookup()
+    public function testWrongTimeZoneByPolarThatShouldBeFixedWithTimeZoneLookup(): void
     {
         $this->parseFile($this->Parser, 'tcx/Wrong-time-zone-by-polar.tcx');
 
@@ -251,7 +251,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1948
      */
-    public function testNegativePauseFromSigma()
+    public function testNegativePauseFromSigma(): void
     {
         $this->parseFile($this->Parser, 'tcx/negative-pause.tcx');
 
@@ -264,7 +264,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /**
      * @see Supportticket #001865
      */
-    public function testIndoorActivityWithDistanceForSingleLap()
+    public function testIndoorActivityWithDistanceForSingleLap(): void
     {
         $this->parseFile($this->Parser, 'tcx/Polar-one-lap-indoor-with-distance.tcx');
 

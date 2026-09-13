@@ -29,10 +29,7 @@ class RaceContainer
      */
     protected $DistanceIDs = [];
 
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var int
@@ -49,7 +46,7 @@ class RaceContainer
         $this->SportId = $sportId;
     }
 
-    public function fetchData()
+    public function fetchData(): void
     {
         $this->Data = $this->fetchDataFromDB();
 

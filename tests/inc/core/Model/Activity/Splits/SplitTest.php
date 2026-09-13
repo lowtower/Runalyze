@@ -9,7 +9,7 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class SplitTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStringConstructor()
+    public function testStringConstructor(): void
     {
         $Split = new Split('R1.00|4:20');
 
@@ -18,7 +18,7 @@ class SplitTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Split->isActive());
     }
 
-    public function testParameterConstructor()
+    public function testParameterConstructor(): void
     {
         $Split = new Split(1.00, 260, false);
 
@@ -27,7 +27,7 @@ class SplitTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Split->isActive());
     }
 
-    public function testSetter()
+    public function testSetter(): void
     {
         $Split = new Split();
 

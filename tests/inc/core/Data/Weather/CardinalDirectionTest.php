@@ -4,13 +4,13 @@ namespace Runalyze\Data\Weather;
 
 class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNonNumericValue()
+    public function testNonNumericValue(): void
     {
         $this->expectException(\TypeError::class);
         new CardinalDirection('foobar');
     }
 
-    public function testValue()
+    public function testValue(): void
     {
         $Direction = new CardinalDirection(90.5);
 
@@ -18,7 +18,7 @@ class CardinalDirectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(12.3, $Direction->setDegree(12.3)->value());
     }
 
-    public function testDirections()
+    public function testDirections(): void
     {
         $directionsToTest = [
             'N' => [337.5, 359, 0, 10, 22.4],

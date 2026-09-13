@@ -14,7 +14,7 @@ use Runalyze\Service\RouteNameEvaluation\RouteNameEvalOsm;
  */
 class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
 {
-    private $underTest;
+    private RouteNameEvalOsm $underTest;
 
     private $coll;
 
@@ -38,7 +38,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         return $s;
     }
 
-    public function testCreateResultAllExists()
+    public function testCreateResultAllExists(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -57,7 +57,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Verpflegung: ahut\nWege: away\nInfo: ainfo\n", $result->getNotes());
     }
 
-    public function testCreateResultOnlyPeak()
+    public function testCreateResultOnlyPeak(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -76,7 +76,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $result->getNotes());
     }
 
-    public function testCreateResultPeakHutMissing()
+    public function testCreateResultPeakHutMissing(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -95,7 +95,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Wege: away\nInfo: ainfo\n", $result->getNotes());
     }
 
-    public function testCreateResultOnlyPlace()
+    public function testCreateResultOnlyPlace(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -114,7 +114,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $result->getNotes());
     }
 
-    public function testCreateResultPeakPlaceMissing()
+    public function testCreateResultPeakPlaceMissing(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -134,7 +134,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Info: ainfo\n", $result->getNotes());
     }
 
-    public function testCreateResultPeakPlaceHutMissing()
+    public function testCreateResultPeakPlaceHutMissing(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -154,7 +154,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Info: ainfo\n", $result->getNotes());
     }
 
-    public function testCreateResultPeakPlaceHutWayMissing()
+    public function testCreateResultPeakPlaceHutWayMissing(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -174,7 +174,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $result->getNotes());
     }
 
-    public function testCreateResultAllMissing()
+    public function testCreateResultAllMissing(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -192,7 +192,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($result);
     }
 
-    public function testCreateResultHutWalking()
+    public function testCreateResultHutWalking(): void
     {
         $this->coll->method('getNames')
             ->will($this->returnValueMap(
@@ -217,7 +217,7 @@ class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $result->getNotes());
     }
 
-    public function testCreateResultLimits()
+    public function testCreateResultLimits(): void
     {
         $a = [];
         // create place array with over 255 length

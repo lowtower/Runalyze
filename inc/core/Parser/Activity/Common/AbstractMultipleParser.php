@@ -14,19 +14,19 @@ abstract class AbstractMultipleParser implements ParserInterface, LoggerAwareInt
     /**
      * @var ActivityDataContainer[]
      */
-    protected $Container = [];
+    protected array $Container = [];
 
     public function __construct()
     {
         $this->setLogger(new NullLogger());
     }
 
-    public function getNumberOfActivities()
+    public function getNumberOfActivities(): int
     {
         return count($this->Container);
     }
 
-    public function getActivityDataContainer($index = 0)
+    public function getActivityDataContainer(int $index = 0): ActivityDataContainer
     {
         return $this->Container[$index];
     }

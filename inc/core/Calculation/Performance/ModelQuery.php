@@ -42,7 +42,7 @@ class ModelQuery
      * @param int|null $from
      * @param int|null $to
      */
-    public function setRange($from, $to)
+    public function setRange($from, $to): void
     {
         $this->From = ($from === null) ? null : LocalTime::fromServerTime($from)->setTime(0, 0, 0)->getTimestamp();
         $this->To = ($to === null) ? null : LocalTime::fromServerTime($to)->setTime(23, 59, 50)->getTimestamp();
@@ -51,7 +51,7 @@ class ModelQuery
     /**
      * @param int $id
      */
-    public function setSportid($id)
+    public function setSportid($id): void
     {
         $this->SportId = $id;
     }
@@ -64,7 +64,7 @@ class ModelQuery
         return $this->Data;
     }
 
-    public function execute(\PDOforRunalyze $DB)
+    public function execute(\PDOforRunalyze $DB): void
     {
         $this->Data = [];
         $Today = LocalTime::fromString('today 23:59');

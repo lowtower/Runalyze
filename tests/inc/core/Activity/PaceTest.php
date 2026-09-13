@@ -11,42 +11,42 @@ use Runalyze\Parameter\Application\PaceUnit;
  */
 class PaceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testDefaultConstructor()
+    public function testDefaultConstructor(): void
     {
         $Pace = new Pace(300);
 
         $this->assertEquals(Pace::STANDARD, $Pace->unitEnum());
     }
 
-    public function testKmh()
+    public function testKmh(): void
     {
         $Pace = new Pace(300, 1, PaceUnit::KM_PER_H);
 
         $this->assertEquals('12,0&nbsp;km/h', $Pace->valueWithAppendix());
     }
 
-    public function testMeterPerSecond()
+    public function testMeterPerSecond(): void
     {
         $Pace = new Pace(10, 0.027, PaceUnit::M_PER_S);
 
         $this->assertEquals('2,7&nbsp;m/s', $Pace->valueWithAppendix());
     }
 
-    public function testMinPerKm()
+    public function testMinPerKm(): void
     {
         $Pace = new Pace(312, 1, PaceUnit::MIN_PER_KM);
 
         $this->assertEquals('5:12/km', $Pace->valueWithAppendix());
     }
 
-    public function testMinPer100m()
+    public function testMinPer100m(): void
     {
         $Pace = new Pace(123, 0.1, PaceUnit::MIN_PER_100M);
 
         $this->assertEquals('2:03/100m', $Pace->valueWithAppendix());
     }
 
-    public function testDifferentUnitsForComparison()
+    public function testDifferentUnitsForComparison(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Pace1 = new Pace(300, 1, PaceUnit::MIN_PER_KM);
@@ -55,7 +55,7 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $Pace1->compareTo($Pace2);
     }
 
-    public function testKmhComparison()
+    public function testKmhComparison(): void
     {
         $Pace1 = new Pace(300, 1, PaceUnit::KM_PER_H);
         $Pace2 = new Pace(360, 1, PaceUnit::KM_PER_H);
@@ -67,7 +67,7 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('-8,0', $Pace1->compareTo($Pace4, true));
     }
 
-    public function testMinPerKmComparison()
+    public function testMinPerKmComparison(): void
     {
         $Pace1 = new Pace(300, 1, PaceUnit::MIN_PER_KM);
         $Pace2 = new Pace(360, 1, PaceUnit::MIN_PER_KM);
@@ -79,7 +79,7 @@ class PaceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('-0:54', $Pace1->compareTo($Pace4, true));
     }
 
-    public function testMethodChaining()
+    public function testMethodChaining(): void
     {
         $Pace = new Pace(0, 1, PaceUnit::MIN_PER_KM);
 

@@ -6,7 +6,7 @@ namespace Runalyze\Activity;
 
 class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testFormattingValues()
+    public function testFormattingValues(): void
     {
         $this->assertEquals('', PerformanceCondition::format(null));
         $this->assertEquals('+2', PerformanceCondition::format(102));
@@ -14,7 +14,7 @@ class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('-3', PerformanceCondition::format(97));
     }
 
-    public function testUnknownValue()
+    public function testUnknownValue(): void
     {
         $Condition = new PerformanceCondition();
 
@@ -23,7 +23,7 @@ class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($Condition->value());
     }
 
-    public function testThatInvalidValuesAreTreatedAsUnknown()
+    public function testThatInvalidValuesAreTreatedAsUnknown(): void
     {
         $Condition = new PerformanceCondition();
 

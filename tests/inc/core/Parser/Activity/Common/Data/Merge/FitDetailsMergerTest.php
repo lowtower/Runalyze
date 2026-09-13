@@ -45,7 +45,7 @@ class FitDetailsMergerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testMergingPerformanceCondition()
+    public function testMergingPerformanceCondition(): void
     {
         $this->FirstDetails->PerformanceCondition = 3;
         $this->SecondDetails->PerformanceConditionEnd = -1;

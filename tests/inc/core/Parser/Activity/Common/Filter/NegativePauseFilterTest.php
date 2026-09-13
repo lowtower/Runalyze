@@ -27,14 +27,14 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $this->Filter->filter($this->Container);
 
         $this->assertEmpty($this->Container->Pauses);
     }
 
-    public function testExampleWithoutAnyInvalidPause()
+    public function testExampleWithoutAnyInvalidPause(): void
     {
         $this->Container->Pauses->add(new Pause(117, 23));
         $this->Container->Pauses->add(new Pause(251, 19));
@@ -45,7 +45,7 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $this->Container->Pauses->count());
     }
 
-    public function testInvalidPause()
+    public function testInvalidPause(): void
     {
         $this->Container->Pauses->add(new Pause(117, -12));
         $this->Container->Pauses->add(new Pause(251, 0));
@@ -57,7 +57,7 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([506, 2], [$this->Container->Pauses[0]->getTimeIndex(), $this->Container->Pauses[0]->getDuration()]);
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->Pauses->add(new Pause(117, -12));
 
@@ -66,7 +66,7 @@ class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
         $this->Filter->filter($this->Container, true);
     }
 
-    public function testLogMessageInNonStrictMode()
+    public function testLogMessageInNonStrictMode(): void
     {
         $handler = new TestHandler();
         $this->Filter->setLogger(new Logger('test', [$handler]));

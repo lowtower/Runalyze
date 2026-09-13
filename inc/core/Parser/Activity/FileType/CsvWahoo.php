@@ -48,7 +48,7 @@ class CsvWahoo extends AbstractSingleParser implements FileContentAwareParserInt
      */
     protected $IsPaused = false;
 
-    public function parse()
+    public function parse(): void
     {
         $line = strtok($this->FileContent, "\n");
 

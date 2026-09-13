@@ -23,7 +23,7 @@ class DataBrowserModeTest extends \PHPUnit\Framework\TestCase
         $this->object = new DataBrowserMode();
     }
 
-    public function testMode()
+    public function testMode(): void
     {
         $this->assertTrue($this->object->showWeek());
         $this->assertFalse($this->object->showMonth());

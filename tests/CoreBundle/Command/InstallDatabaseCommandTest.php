@@ -47,23 +47,30 @@ class InstallDatabaseCommandTest extends KernelTestCase
 
     protected function dropAllTables()
     {
-        if ($this->Connection !== null) {
-            $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
-            $stmt = $this->Connection->executeQuery($query);
-            $tables = $stmt->fetchFirstColumn();
+        if ($this->Connection === null) {
+            return;
+        }
 
-            if (! empty($tables)) {
-                $this->Connection->executeStatement('SET foreign_key_checks = 0');
-                foreach ($tables as $table) {
-                    $this->Connection->executeStatement('DROP TABLE `' . $table . '`');
-                }
+        $query = 'SHOW TABLES LIKE "' . $this->DatabasePrefix . '%"';
+        $tables = $this->Connection->executeQuery($query)
+            ->fetchFirstColumn();
 
-                $this->Connection->executeStatement('SET foreign_key_checks = 1');
+        if (empty($tables)) {
+            return;
+        }
+
+        $this->Connection->executeStatement('SET foreign_key_checks = 0');
+        try {
+            foreach ($tables as $table) {
+                $quotedTable = $this->Connection->quoteIdentifier($table);
+                $this->Connection->executeStatement('DROP TABLE ' . $quotedTable);
             }
+        } finally {
+            $this->Connection->executeStatement('SET foreign_key_checks = 1');
         }
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $application = new Application(static::$kernel);
 
@@ -75,6 +82,6 @@ class InstallDatabaseCommandTest extends KernelTestCase
         $tableCount = count($this->Connection->executeQuery($query)->fetchAllAssociative());
 
         $this->assertEquals(24, $tableCount);
-        $this->assertRegExp('/Database has been successfully initialized./', $commandTester->getDisplay());
+        $this->assertStringContainsString('Database has been successfully initialized.', $commandTester->getDisplay());
     }
 }

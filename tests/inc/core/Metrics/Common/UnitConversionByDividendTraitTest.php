@@ -13,7 +13,7 @@ abstract class UnitConversionByDividendTraitTestSubject
 
 class UnitConversionByDividendTraitTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatConversionWorksAsExpected()
+    public function testThatConversionWorksAsExpected(): void
     {
         /** @var UnitConversionByDividendTraitTestSubject&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->getMockForTrait(UnitConversionByDividendTrait::class);

@@ -17,7 +17,7 @@ class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
         $this->Type = $this->getMockForAbstractClass(AbstractUnitBasedType::class, [new None()]);
     }
 
-    public function testTransform()
+    public function testTransform(): void
     {
         $this->assertEquals('', $this->Type->transform(null));
         $this->assertEquals('1.2', $this->Type->transform(1.234));
@@ -25,7 +25,7 @@ class AbstractUnitBasedTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('7.7', $this->Type->transform('7.69'));
     }
 
-    public function testReverseTransform()
+    public function testReverseTransform(): void
     {
         $this->assertEquals(null, $this->Type->reverseTransform(null));
         $this->assertEquals(1.23, $this->Type->reverseTransform('1.23'));

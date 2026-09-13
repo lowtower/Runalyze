@@ -14,7 +14,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->Collection = new RoundCollection();
     }
 
-    public function testConstructorWithSomeElements()
+    public function testConstructorWithSomeElements(): void
     {
         $this->Collection = new RoundCollection([
             new Round(1.0, 285),
@@ -26,7 +26,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(545, $this->Collection->getTotalDuration());
     }
 
-    public function testDefaultConstructor()
+    public function testDefaultConstructor(): void
     {
         $this->assertEquals(0, $this->Collection->count());
         $this->assertEquals(0.0, $this->Collection->getTotalDistance());
@@ -36,7 +36,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($this->Collection->getElements());
     }
 
-    public function testDefaultArrayAccessors()
+    public function testDefaultArrayAccessors(): void
     {
         $this->assertEquals(0, count($this->Collection));
         $this->assertEmpty($this->Collection);
@@ -51,7 +51,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(260, $this->Collection[1]->getDuration());
     }
 
-    public function testAddingRounds()
+    public function testAddingRounds(): void
     {
         $this->Collection->add(new Round(1.0, 285));
         $this->Collection->add(new Round(1.0, 260));
@@ -59,7 +59,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->Collection->count());
     }
 
-    public function testRoundingDurations()
+    public function testRoundingDurations(): void
     {
         $this->Collection->add(new Round(1.0, 285.12));
         $this->Collection->add(new Round(1.0, 260.74));
@@ -69,7 +69,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(261, $this->Collection[1]->getDuration());
     }
 
-    public function testConstructorWithBadTypes()
+    public function testConstructorWithBadTypes(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new RoundCollection([
@@ -78,14 +78,14 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testOffsetSetWithBadType()
+    public function testOffsetSetWithBadType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         // @phpstan-ignore offsetAssign.dimType, offsetAssign.valueType
         $this->Collection[] = 'foobar';
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $this->Collection->add(new Round(1.0, 285));
         $this->Collection->add(new Round(1.0, 260));
@@ -94,7 +94,7 @@ class RoundCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Collection->isEqualTo(new RoundCollection()));
     }
 
-    public function testClearingCollection()
+    public function testClearingCollection(): void
     {
         $this->Collection->add(new Round(1.0, 285));
         $this->Collection->clear();

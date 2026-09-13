@@ -20,7 +20,7 @@ class ParameterBooleanTest extends \PHPUnit\Framework\TestCase
         $this->object = new Boolean(true);
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals(true, $this->object->value());
         $this->assertEquals('true', $this->object->valueAsString());

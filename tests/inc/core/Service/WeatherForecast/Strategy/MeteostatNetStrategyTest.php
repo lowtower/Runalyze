@@ -45,7 +45,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->GetWeatherDataFromResultMethod->setAccessible(true);
     }
 
-    public function testUrlCreation()
+    public function testUrlCreation(): void
     {
         $location = new Location();
         $location->setPosition(52.4, 10.7);
@@ -61,7 +61,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('tz=Europe/Berlin', $url);
     }
 
-    public function testSelectsCorrectHour()
+    public function testSelectsCorrectHour(): void
     {
         $data = [
             [
@@ -83,7 +83,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(11, $result['temp']);
     }
 
-    public function testWeatherDataConversion()
+    public function testWeatherDataConversion(): void
     {
         $current = [
             'temp' => 15.3,
@@ -103,7 +103,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(WeatherConditionProfile::SUNNY, $weather->InternalConditionId);
     }
 
-    public function testUrlCreationWithoutDateTime()
+    public function testUrlCreationWithoutDateTime(): void
     {
         $location = new Location();
         $location->setPosition(52.4, 10.7);
@@ -126,7 +126,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($hasExpectedEndDate);
     }
 
-    public function testNoMatchingTimestampReturnsEmptyArray()
+    public function testNoMatchingTimestampReturnsEmptyArray(): void
     {
         $data = [
             [
@@ -142,7 +142,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $result);
     }
 
-    public function testUnknownWeatherCondition()
+    public function testUnknownWeatherCondition(): void
     {
         $weather = $this->GetWeatherDataFromResultMethod->invokeArgs($this->Strategy, [[
             'coco' => 9999,
@@ -151,7 +151,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(WeatherConditionProfile::UNKNOWN, $weather->InternalConditionId);
     }
 
-    public function testTemperatureAndWindSpeedAreRounded()
+    public function testTemperatureAndWindSpeedAreRounded(): void
     {
         $current = [
             'temp' => 15.6,
@@ -164,7 +164,7 @@ class MeteostatNetStrategyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(13, $weather->WindSpeed);
     }
 
-    public function testProxyIsPassedToHttpClient()
+    public function testProxyIsPassedToHttpClient(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
         $location = new Location();

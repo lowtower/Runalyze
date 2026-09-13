@@ -11,7 +11,7 @@ class HeartRateBasedEstimatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://fitnowtraining.com/2012/01/formula-for-calories-burned/
      */
-    public function testExampleFromFitNowTraining()
+    public function testExampleFromFitNowTraining(): void
     {
         $estimator = new HeartRateBasedEstimator(
             new Athlete(

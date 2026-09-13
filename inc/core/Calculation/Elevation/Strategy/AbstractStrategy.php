@@ -19,9 +19,8 @@ abstract class AbstractStrategy
 {
     /**
      * Original elevation data
-     * @var array
      */
-    protected $ElevationData = [];
+    protected array $ElevationData = [];
 
     /**
      * Smoothed data

@@ -9,7 +9,7 @@ namespace Runalyze\View;
  */
 class StresscolorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSetting()
+    public function testSetting(): void
     {
         $ViaConstructor = new Stresscolor(17);
         $this->assertEquals(17, $ViaConstructor->value());
@@ -18,7 +18,7 @@ class StresscolorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(23, $ViaSet->setValue(23)->value());
     }
 
-    public function testScale()
+    public function testScale(): void
     {
         $Stress = new Stresscolor();
 
@@ -26,7 +26,7 @@ class StresscolorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(70, $Stress->setValue(57)->scale(50, 60)->value());
     }
 
-    public function testRgb()
+    public function testRgb(): void
     {
         $Stress = new Stresscolor();
 

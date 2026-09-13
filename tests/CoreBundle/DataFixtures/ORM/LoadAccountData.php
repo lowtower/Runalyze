@@ -19,7 +19,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->addEmptyAccount($manager);
         $this->registerDefaultAccount($manager);

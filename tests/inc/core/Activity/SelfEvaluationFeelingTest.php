@@ -9,7 +9,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider fitValuesProvider
      */
-    public function testConversionFromFit(int $fitValue, int $expected)
+    public function testConversionFromFit(int $fitValue, int $expected): void
     {
         $this->assertEquals(
             $expected,
@@ -17,7 +17,7 @@ class SelfEvaluationFeelingTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testInvalidValueThrowsException()
+    public function testInvalidValueThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

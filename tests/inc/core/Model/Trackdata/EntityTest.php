@@ -21,7 +21,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $T = new Entity();
 
@@ -34,7 +34,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($T->pauses()->isEmpty());
     }
 
-    public function testClearing()
+    public function testClearing(): void
     {
         $T = $this->simpleObjectByStrings();
         $T->clear();
@@ -47,7 +47,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($T->hasPauses());
     }
 
-    public function testCreationWithString()
+    public function testCreationWithString(): void
     {
         $T = $this->simpleObjectByStrings();
 
@@ -65,7 +65,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.2, $T->totalDistance());
     }
 
-    public function testCreatingWithArrays()
+    public function testCreatingWithArrays(): void
     {
         $T = new Entity([
             Entity::CADENCE => [180, 185],
@@ -84,7 +84,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([6500, 6430], $T->groundContactBalance());
     }
 
-    public function testWrongArraySizes()
+    public function testWrongArraySizes(): void
     {
         $this->expectException(\RuntimeException::class);
         new Entity([
@@ -93,7 +93,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testWrongArraySizeViaSet()
+    public function testWrongArraySizeViaSet(): void
     {
         $this->expectException(\RuntimeException::class);
         $T = new Entity([
@@ -103,7 +103,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $T->set(Entity::DISTANCE, [0.01, 0.03]);
     }
 
-    public function testSettingPausesDirectly()
+    public function testSettingPausesDirectly(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $P = new Pauses();
@@ -112,7 +112,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $T->set(Entity::PAUSES, $P->asString());
     }
 
-    public function testDirectAccess()
+    public function testDirectAccess(): void
     {
         $T = new Entity([
             Entity::TIME => [1, 2, 3, 5, 10, 20],
@@ -126,7 +126,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(20, $T->at(5, Entity::TIME));
     }
 
-    public function testInvalidAccessIndex()
+    public function testInvalidAccessIndex(): void
     {
         $this->expectException(\OutOfBoundsException::class);
         $T = new Entity([
@@ -136,7 +136,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $T->at(2, Entity::TIME);
     }
 
-    public function testInvalidAccessKey()
+    public function testInvalidAccessKey(): void
     {
         $this->expectException(\OutOfBoundsException::class);
         $T = new Entity([
@@ -146,7 +146,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $T->at(0, Entity::DISTANCE);
     }
 
-    public function testDefectActivitiesFromHRMandGPXimport()
+    public function testDefectActivitiesFromHRMandGPXimport(): void
     {
         $T = new Entity([
             Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
@@ -157,7 +157,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(4, $T->num());
     }
 
-    public function testDefectActivitiesFromSpoQgpx()
+    public function testDefectActivitiesFromSpoQgpx(): void
     {
         $T = new Entity([
             Entity::DISTANCE => [0.05, 1.0, 1.5, 2.0],
@@ -168,7 +168,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(4, $T->num());
     }
 
-    public function testEmptyArrays()
+    public function testEmptyArrays(): void
     {
         $T = new Entity([
             Entity::DISTANCE => [0, 0, 0, 0],
@@ -185,12 +185,63 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($T->has(Entity::HEARTRATE));
     }
 
-    public function testEmptyWithActivityID()
+    public function testEmptyWithActivityID(): void
     {
         $T = new Entity([
             Entity::ACTIVITYID => 42,
         ]);
 
         $this->assertTrue($T->isEmpty());
+    }
+
+    public function testCurrentReturnsFloatingPointDistance(): void
+    {
+        $entity = new \Runalyze\Model\Trackdata\Entity([
+            \Runalyze\Model\Trackdata\Entity::TIME => [30],
+            \Runalyze\Model\Trackdata\Entity::DISTANCE => [0.1],
+        ]);
+
+        $loop = new \Runalyze\Model\Trackdata\Loop($entity);
+
+        self::assertSame(
+            0.1,
+            $loop->current(
+                \Runalyze\Model\Trackdata\Entity::DISTANCE
+            )
+        );
+    }
+
+    public function testCurrentSupportsNumericAndStringValues(): void
+    {
+        $trackdata = new \Runalyze\Model\Trackdata\Entity([
+            \Runalyze\Model\Trackdata\Entity::TIME => [30],
+            \Runalyze\Model\Trackdata\Entity::DISTANCE => [0.1],
+        ]);
+
+        $trackLoop = new \Runalyze\Model\Trackdata\Loop($trackdata);
+
+        self::assertIsFloat(
+            $trackLoop->current(
+                \Runalyze\Model\Trackdata\Entity::DISTANCE
+            )
+        );
+        self::assertSame(
+            0.1,
+            $trackLoop->current(
+                \Runalyze\Model\Trackdata\Entity::DISTANCE
+            )
+        );
+
+        $route = new \Runalyze\Model\Route\Entity([
+            \Runalyze\Model\Route\Entity::GEOHASHES => ['u1h2'],
+        ]);
+
+        $routeLoop = new \Runalyze\Model\Route\Loop($route);
+
+        self::assertIsString(
+            $routeLoop->current(
+                \Runalyze\Model\Route\Entity::GEOHASHES
+            )
+        );
     }
 }

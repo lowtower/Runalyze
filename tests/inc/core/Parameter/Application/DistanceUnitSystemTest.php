@@ -6,7 +6,7 @@ namespace Runalyze\Parameter\Application;
 
 class DistanceUnitSystemTest extends \PHPUnit\Framework\TestCase
 {
-    public function testMetricSystem()
+    public function testMetricSystem(): void
     {
         $UnitSystem = new DistanceUnitSystem(DistanceUnitSystem::METRIC);
 
@@ -14,7 +14,7 @@ class DistanceUnitSystemTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($UnitSystem->isImperial());
     }
 
-    public function testImperialSystem()
+    public function testImperialSystem(): void
     {
         $UnitSystem = new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL);
 

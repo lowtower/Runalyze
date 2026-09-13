@@ -15,7 +15,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see http://www.gribble.org/cycling/power_v_speed.html
      */
-    public function testEmptyExample()
+    public function testEmptyExample(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([]),
@@ -30,7 +30,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Flat Road, 20 mph:  Total Power = 26 +108 = 134 watts
      */
-    public function testFastExampleFromUltracycle()
+    public function testFastExampleFromUltracycle(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -46,7 +46,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Flat Road, 5 mph: Total Power = 6.5 + 1.7 = 8.2 watts
      */
-    public function testSlowExampleFromUltracycle()
+    public function testSlowExampleFromUltracycle(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -62,7 +62,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * Climb, 5 mph, 12% grade: Total Power = 6.5 + 1.7 + 196 = 204 watts
      */
-    public function testClimbExampleFromUltracycle()
+    public function testClimbExampleFromUltracycle(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([
@@ -83,7 +83,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testChangingValues()
+    public function testChangingValues(): void
     {
         $Calculator = new Calculator(
             new Trackdata\Entity([

@@ -24,7 +24,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->Adapter = new ActivityAdapter($this->Activity);
     }
 
-    public function testEmptyActivity()
+    public function testEmptyActivity(): void
     {
         $this->assertFalse($this->Adapter->isRunning());
         $this->assertFalse($this->Adapter->isCycling());
@@ -33,7 +33,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Adapter->isRelevantForCurrentMarathonShape(1));
     }
 
-    public function testCalculationsForEmptyActivity()
+    public function testCalculationsForEmptyActivity(): void
     {
         $this->Adapter->calculatePower();
         $this->Adapter->calculateClimbScore();
@@ -51,7 +51,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $this->Activity->getTrimp());
     }
 
-    public function testAgeOfActivity()
+    public function testAgeOfActivity(): void
     {
         $this->Activity->setTime((new LocalTime())->sub(new \DateInterval('P2D'))->getTimestamp());
 
@@ -59,7 +59,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Adapter->isNotOlderThanXDays(2));
     }
 
-    public function testAgeOfActivityForNow()
+    public function testAgeOfActivityForNow(): void
     {
         $this->Activity->setTime(LocalTime::now());
 
@@ -67,7 +67,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Adapter->isNotOlderThanXDays(0));
     }
 
-    public function testCalculationOfSwimmingValues()
+    public function testCalculationOfSwimmingValues(): void
     {
         $this->Activity->setS(323);
 
@@ -88,7 +88,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(109, $this->Activity->getSwolf());
     }
 
-    public function testCalculationOfSwimmingValuesIgnoresBreaksForSwolf()
+    public function testCalculationOfSwimmingValuesIgnoresBreaksForSwolf(): void
     {
         $this->Activity->setS(323);
 
@@ -110,7 +110,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(109, $this->Activity->getSwolf());
     }
 
-    public function testSwolfIsNullIfOnlyBreakLapsExist()
+    public function testSwolfIsNullIfOnlyBreakLapsExist(): void
     {
         $this->Activity->setS(300);
 
@@ -129,7 +129,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getSwolf());
     }
 
-    public function testCalculationOfSwolfReturnsNullForEmptyTrackdataTime()
+    public function testCalculationOfSwolfReturnsNullForEmptyTrackdataTime(): void
     {
         $this->Activity->setTrackdata(new Trackdata());
         $this->Activity->getTrackdata()
@@ -145,7 +145,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Activity->getSwolf());
     }
 
-    public function testCalculationOfEnergyConsumption()
+    public function testCalculationOfEnergyConsumption(): void
     {
         $this->Activity->setSport(new Sport());
         $this->Activity->getSport()
@@ -163,7 +163,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(371, $this->Activity->getKcal());
     }
 
-    public function testCalculationOfClimbScore()
+    public function testCalculationOfClimbScore(): void
     {
         $this->Activity->setTrackdata(new Trackdata());
         $this->Activity->getTrackdata()
@@ -182,7 +182,7 @@ class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 0, 100, 250, 250, 250], $this->Activity->getRoute()->getElevationsCorrected());
     }
 
-    public function testCalculationOfClimbScoreForStepwiseElevationProfile()
+    public function testCalculationOfClimbScoreForStepwiseElevationProfile(): void
     {
         $this->Activity->setTrackdata(new Trackdata());
         $this->Activity->getTrackdata()

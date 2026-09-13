@@ -10,7 +10,7 @@ use Runalyze\Parameter\Application\TemperatureUnit;
 
 class WindChillFactorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testUnknownInputData()
+    public function testUnknownInputData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new WindChillFactor(
@@ -19,7 +19,7 @@ class WindChillFactorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $WindChill = new WindChillFactor(
             new WindSpeed(20),
@@ -30,7 +30,7 @@ class WindChillFactorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(7.1, $WindChill->value(), 0.1);
     }
 
-    public function testThatObjectIsCloned()
+    public function testThatObjectIsCloned(): void
     {
         $Temperature = new ActivityTemperature(37.16, new TemperatureUnit(TemperatureUnit::FAHRENHEIT));
         $WindChill = new WindChillFactor(

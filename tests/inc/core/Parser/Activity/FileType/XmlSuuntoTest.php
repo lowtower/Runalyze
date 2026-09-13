@@ -18,7 +18,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
         $this->Parser = new XmlSuunto();
     }
 
-    public function testIncorrectXmlFile()
+    public function testIncorrectXmlFile(): void
     {
         $this->Parser->setFileContent('<?xml version="1.0" encoding="utf-8"?><any><xml><file></file></xml></any>');
 
@@ -27,7 +27,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
         $this->Parser->parse();
     }
 
-    public function testReducedAmbitFile()
+    public function testReducedAmbitFile(): void
     {
         $this->parseFile($this->Parser, 'xml/Suunto-Ambit-reduced.xml');
 
@@ -51,7 +51,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(0.264, end($this->Container->ContinuousData->Distance), 0.001);
     }
 
-    public function testReducedAmbitFileWithLaps()
+    public function testReducedAmbitFileWithLaps(): void
     {
         $this->parseFile($this->Parser, 'xml/Suunto-Ambit-with-laps-reduced.xml');
 

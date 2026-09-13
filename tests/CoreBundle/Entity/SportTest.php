@@ -18,7 +18,7 @@ class SportTest extends \PHPUnit\Framework\TestCase
         $this->Sport = new Sport();
     }
 
-    public function testEmptyEntity()
+    public function testEmptyEntity(): void
     {
         $this->assertEquals(PaceEnum::KILOMETER_PER_HOUR, $this->Sport->getSpeed());
 
@@ -27,7 +27,7 @@ class SportTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->Sport->getInternalSport()->isCustom());
     }
 
-    public function testRunningAndCycling()
+    public function testRunningAndCycling(): void
     {
         $this->Sport->setInternalSportId(SportProfile::RUNNING);
 

@@ -13,7 +13,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $this->Plugin = new Plugin();
     }
 
-    public function testMoving()
+    public function testMoving(): void
     {
         $this->Plugin->setOrder(4);
 
@@ -21,7 +21,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(4, $this->Plugin->moveUp()->getOrder());
     }
 
-    public function testTogglingState()
+    public function testTogglingState(): void
     {
         $this->Plugin->setActive(Plugin::STATE_ACTIVE);
 

@@ -6,7 +6,7 @@ use Runalyze\Parser\Common\FileContentAwareParserInterface;
 
 abstract class AbstractMultipleParserWithSubParser extends AbstractMultipleParser
 {
-    protected function useSubParser(ParserInterface $parser)
+    protected function useSubParser(ParserInterface $parser): void
     {
         if (property_exists($this, 'FileContent') && $parser instanceof FileContentAwareParserInterface) {
             $parser->setFileContent($this->FileContent);

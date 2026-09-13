@@ -7,13 +7,13 @@ namespace Runalyze\Model\Activity\Splits;
  */
 class ObjectTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvalidConstructor()
+    public function testInvalidConstructor(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Entity([new \stdClass(), new \stdClass()]);
     }
 
-    public function testStringConstructor()
+    public function testStringConstructor(): void
     {
         $Split1 = new Split(1.00, 260, false);
         $Split2 = new Split(1.00, 200, true);
@@ -29,7 +29,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testArrays()
+    public function testArrays(): void
     {
         $Split1 = new Split(1.00, 260, false);
         $Split2 = new Split(1.00, 200, true);
@@ -43,7 +43,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Splits1->asArray(), $Splits2->asArray());
     }
 
-    public function testSummation()
+    public function testSummation(): void
     {
         $Splits = new Entity([
             new Split(1, 300),
@@ -56,7 +56,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1800, $Splits->totalTime());
     }
 
-    public function testActiveAndInactiveFlags()
+    public function testActiveAndInactiveFlags(): void
     {
         $Split1 = new Split(1.00, 300, false);
         $Split2 = new Split(1.00, 300, false);

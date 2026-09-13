@@ -21,17 +21,9 @@ namespace Runalyze\Calculation\Trimp;
  */
 class InverseCalculator
 {
-    /**
-     * Athlete
-     * @var \Runalyze\Athlete
-     */
-    protected $Athlete;
+    protected \Runalyze\Athlete $Athlete;
 
-    /**
-     * Value
-     * @var int
-     */
-    protected $value;
+    protected int $value;
 
     /**
      * Construct
@@ -71,10 +63,7 @@ class InverseCalculator
         $this->value = (int) (1 / $Factor->A() * $sum * 60);
     }
 
-    /**
-     * @return int
-     */
-    public function value()
+    public function value(): int
     {
         return $this->value;
     }

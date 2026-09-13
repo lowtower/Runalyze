@@ -14,7 +14,7 @@ class ParameterSetTest extends \PHPUnit\Framework\TestCase
         $this->object = new Set([]);
     }
 
-    public function testArrayToString()
+    public function testArrayToString(): void
     {
         $this->assertEquals([], $this->object->value());
         $this->assertEquals('', $this->object->valueAsString());
@@ -27,7 +27,7 @@ class ParameterSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['1', '2', '3'], $this->object->value());
     }
 
-    public function testAppend()
+    public function testAppend(): void
     {
         $this->assertEquals([], $this->object->value());
         $this->assertEquals('', $this->object->valueAsString());
@@ -39,7 +39,7 @@ class ParameterSetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['one', 'two'], $this->object->value());
     }
 
-    public function testMaxLength()
+    public function testMaxLength(): void
     {
         $maxString = str_repeat('a', \Runalyze\Parameter::MAX_LENGTH);
 

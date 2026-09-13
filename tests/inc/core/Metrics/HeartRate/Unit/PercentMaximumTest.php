@@ -8,7 +8,7 @@ use Runalyze\Metrics\HeartRate\Unit\PercentMaximum;
 
 class PercentMaximumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new PercentMaximum(200);
 
@@ -21,7 +21,7 @@ class PercentMaximumTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(150, $unit->toBaseUnit(0.75));
     }
 
-    public function testWithOtherMaximalHeartRate()
+    public function testWithOtherMaximalHeartRate(): void
     {
         $unit = new PercentMaximum(180);
 

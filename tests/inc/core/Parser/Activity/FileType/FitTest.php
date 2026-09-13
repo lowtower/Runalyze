@@ -55,7 +55,7 @@ class FitTest extends AbstractActivityParserTestCase
         }
     }
 
-    public function testStandardFile()
+    public function testStandardFile(): void
     {
         $this->convertAndParse('fit/Standard.fit');
 
@@ -77,7 +77,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertFalse($this->Container->Rounds->isEmpty());
     }
 
-    public function testFenix2File()
+    public function testFenix2File(): void
     {
         $this->convertAndParse('fit/Fenix-2.fit');
 
@@ -106,7 +106,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(816, $this->Container->FitDetails->RecoveryTime);
     }
 
-    public function testFenix2FileWithPauses()
+    public function testFenix2FileWithPauses(): void
     {
         $this->convertAndParse('fit/Fenix-2-pauses.fit');
 
@@ -129,7 +129,7 @@ class FitTest extends AbstractActivityParserTestCase
         ], 1);
     }
 
-    public function testFenix2FileWithNegativeTime()
+    public function testFenix2FileWithNegativeTime(): void
     {
         $this->convertAndParse('fit/Fenix-2-negative-times.fit');
 
@@ -140,7 +140,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertGreaterThanOrEqual(0, min($this->Container->ContinuousData->Time));
     }
 
-    public function testOtherStartEventsInFR920()
+    public function testOtherStartEventsInFR920(): void
     {
         $this->convertAndParse('fit/FR920-additional-start-events.fit');
 
@@ -153,7 +153,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(2 * 3600 + 47 * 60 + 22, end($this->Container->ContinuousData->Time));
     }
 
-    public function testMultisessionFile()
+    public function testMultisessionFile(): void
     {
         $this->convertAndParse('fit/Multisession.fit');
 
@@ -171,7 +171,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(1001, end($this->Container[1]->ContinuousData->Time), 2);
     }
 
-    public function testSimplePauseExample()
+    public function testSimplePauseExample(): void
     {
         $this->convertAndParse('fit/HRV-example.fit');
 
@@ -187,7 +187,7 @@ class FitTest extends AbstractActivityParserTestCase
         ]);
     }
 
-    public function testSimpleSwimmingFileFromFR910XT()
+    public function testSimpleSwimmingFileFromFR910XT(): void
     {
         $this->convertAndParse('fit/swim-25m-lane.fit');
 
@@ -212,7 +212,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEquals(0, $this->Container->ContinuousData->Time[0]);
     }
 
-    public function testSwimmingFileFromFenix3()
+    public function testSwimmingFileFromFenix3(): void
     {
         $this->convertAndParse('fit/swim-fenix-50m.fit');
 
@@ -240,7 +240,7 @@ class FitTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testOutdoorSwimmingFileFromFR910XT()
+    public function testOutdoorSwimmingFileFromFR910XT(): void
     {
         $this->convertAndParse('fit/swim-outdoor.fit');
 
@@ -267,7 +267,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
     }
 
-    public function testFileWithHRVData()
+    public function testFileWithHRVData(): void
     {
         $this->convertAndParse('fit/HRV-example.fit');
 
@@ -279,7 +279,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Distance);
     }
 
-    public function testFileWithPowerDataFromEdge810()
+    public function testFileWithPowerDataFromEdge810(): void
     {
         $this->convertAndParse('fit/with-power.fit');
 
@@ -303,7 +303,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(47.64, $this->Container->FitDetails->VO2maxEstimate);
     }
 
-    public function testMultisportTriathlonFileFromFenix3()
+    public function testMultisportTriathlonFileFromFenix3(): void
     {
         $this->convertAndParse('fit/multisport-triathlon-fenix3.fit');
 
@@ -358,7 +358,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1991
      */
-    public function testMultisessionThatStopsDirectlyAfterTransition()
+    public function testMultisessionThatStopsDirectlyAfterTransition(): void
     {
         $this->convertAndParse('fit/Multisession-stop-after-transition.fit', true, false);
 
@@ -390,7 +390,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(2.083, $this->Container[4]->ActivityData->Distance, 0.001);
     }
 
-    public function testOsynceTimeProblem()
+    public function testOsynceTimeProblem(): void
     {
         $this->convertAndParse('fit/osynce-stop-bug.fit');
 
@@ -414,7 +414,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->checkThatTimeIsStrictIncreasing();
     }
 
-    public function testNewRunningDynamicsFromFenix3()
+    public function testNewRunningDynamicsFromFenix3(): void
     {
         $this->convertAndParse('fit/with-new-dynamics.fit');
 
@@ -434,7 +434,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
     }
 
-    public function testDataFromFR70WithCompressedSpeedDistance()
+    public function testDataFromFR70WithCompressedSpeedDistance(): void
     {
         $this->convertAndParse('fit/FR70-intervals.fit');
 
@@ -463,7 +463,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1798
      */
-    public function testDataFromFR630WithFurtherRunningDataLikeLactateThreshold()
+    public function testDataFromFR630WithFurtherRunningDataLikeLactateThreshold(): void
     {
         $this->convertAndParse('fit/FR630-with-lth.fit');
 
@@ -490,7 +490,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(38, $this->Container->FitDetails->TotalDescent);
     }
 
-    public function testDataFromFR265WithFurtherRunningDataLikeSelfEvaluationFeeling()
+    public function testDataFromFR265WithFurtherRunningDataLikeSelfEvaluationFeeling(): void
     {
         $this->convertAndParse('fit/FR265-with-self-evaluation.fit');
 
@@ -505,7 +505,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(3, $this->Container->FitDetails->SelfEvaluationFeeling);
     }
 
-    public function testSelfEvaluationFeelingConversionFromFitValues()
+    public function testSelfEvaluationFeelingConversionFromFitValues(): void
     {
         $this->assertSame(SelfEvaluationFeeling::VERY_WEAK, SelfEvaluationFeeling::fromFitToEnum(1));
         $this->assertSame(SelfEvaluationFeeling::WEAK, SelfEvaluationFeeling::fromFitToEnum(2));
@@ -517,7 +517,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1886
      */
-    public function testDataFromSuuntoAmbitPeakWithoutFinalLap()
+    public function testDataFromSuuntoAmbitPeakWithoutFinalLap(): void
     {
         $this->convertAndParse('fit/Suunto-Ambit-3-Peak-without-final-lap.fit');
 
@@ -536,7 +536,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1917
      */
-    public function testThatIrregularTimestampsAreIgnored()
+    public function testThatIrregularTimestampsAreIgnored(): void
     {
         $this->convertAndParse('fit/One-second-jump-to-past.fit');
 
@@ -551,7 +551,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1919
      */
-    public function testDeveloperFieldsFromDisabledMoxy()
+    public function testDeveloperFieldsFromDisabledMoxy(): void
     {
         $this->convertAndParse('fit/Fenix-3-with-inactive-Moxy.fit');
 
@@ -576,7 +576,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1919
      */
-    public function testDeveloperFieldsFromStryd()
+    public function testDeveloperFieldsFromStryd(): void
     {
         $this->convertAndParse('fit/FR920xt-with-Stryd.fit');
 
@@ -599,7 +599,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->VerticalOscillation);
     }
 
-    public function testDeveloperFieldsFromMoxy()
+    public function testDeveloperFieldsFromMoxy(): void
     {
         $this->convertAndParse('fit/moxy-2sensors.fit');
 
@@ -625,7 +625,7 @@ class FitTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testDeveloperFieldsFromMoxyByFR735()
+    public function testDeveloperFieldsFromMoxyByFR735(): void
     {
         $this->convertAndParse('fit/moxy-fr735.fit');
 
@@ -648,7 +648,7 @@ class FitTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testThatBadTrainingEffectValuesAreIgnored()
+    public function testThatBadTrainingEffectValuesAreIgnored(): void
     {
         $this->convertAndParse('fit/Zwift-bad-training-effect.fit');
 
@@ -658,7 +658,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->FitDetails->TrainingEffect);
     }
 
-    public function testDeveloperFieldsInSwimFileFromDaniel()
+    public function testDeveloperFieldsInSwimFileFromDaniel(): void
     {
         $this->convertAndParse('fit/swim-via-iq.fit');
 
@@ -667,7 +667,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
     }
 
-    public function testDeveloperFieldsInPoolSwimFileFromDaniel()
+    public function testDeveloperFieldsInPoolSwimFileFromDaniel(): void
     {
         $this->convertAndParse('fit/swim-pool-via-iq.fit');
 
@@ -688,7 +688,7 @@ class FitTest extends AbstractActivityParserTestCase
         ], 500);
     }
 
-    public function testDeveloperFieldsInNewFormatFromMoxy()
+    public function testDeveloperFieldsInNewFormatFromMoxy(): void
     {
         $this->convertAndParse('fit/moxy-float.fit');
 
@@ -711,7 +711,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2066
      */
-    public function testThatZerosInCadenceAreIgnoredForAverage()
+    public function testThatZerosInCadenceAreIgnoredForAverage(): void
     {
         $this->convertAndParse('fit/IPBike-cadence.fit');
 
@@ -719,7 +719,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(76, $this->Container->ActivityData->AvgCadence, 0.5);
     }
 
-    public function testThatLeadingNullAltitudeIsReplaced()
+    public function testThatLeadingNullAltitudeIsReplaced(): void
     {
         $this->convertAndParse('fit/invalid-altitude-and-empty-record-at-end.fit');
 
@@ -732,7 +732,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2077
      */
-    public function testThatTimeJumpIsHandledCorrectly()
+    public function testThatTimeJumpIsHandledCorrectly(): void
     {
         $this->convertAndParse('fit/time-jump.fit');
 
@@ -745,7 +745,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2253
      */
-    public function testThatGarminRunPowerIsReadFromDeveloperFields()
+    public function testThatGarminRunPowerIsReadFromDeveloperFields(): void
     {
         $this->convertAndParse('fit/garmin-runPower.fit');
 
@@ -756,7 +756,7 @@ class FitTest extends AbstractActivityParserTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/2253
      */
-    public function testThatGarminRunPowerIsReadFromDeveloperFieldsIfDeveloperDataIndexIsNotZero()
+    public function testThatGarminRunPowerIsReadFromDeveloperFieldsIfDeveloperDataIndexIsNotZero(): void
     {
         $this->convertAndParse('fit/garmin-runPower-2.fit');
 
@@ -764,7 +764,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(335, $this->Container->ActivityData->AvgPower, 5);
     }
 
-    public function testRunScribeDataForAdditionalFields()
+    public function testRunScribeDataForAdditionalFields(): void
     {
         $this->convertAndParse('fit/Fenix-3-with-runscribe-v1-38.fit');
 
@@ -787,7 +787,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(-7.0, $this->Container->ActivityData->AvgPronationExcursionRight, 0.1);
     }
 
-    public function testRunScribeDataFromPlusDatafieldForAdditionalFields()
+    public function testRunScribeDataFromPlusDatafieldForAdditionalFields(): void
     {
         $this->convertAndParse('fit/FR920xt-with-runscribe-plus.fit');
 
@@ -816,7 +816,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals([5027, 5031, 5023, 5034, 5053, 4975, 4975], array_slice($this->Container->ContinuousData->GroundContactBalance, 0, 7));
     }
 
-    public function testEmptyHeartRateSeries()
+    public function testEmptyHeartRateSeries(): void
     {
         $this->convertAndParse('fit/hr-only-zeros.fit');
 
@@ -825,7 +825,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->ActivityData->MaxHeartRate);
     }
 
-    public function testRunScribeDataViaSupport001885()
+    public function testRunScribeDataViaSupport001885(): void
     {
         $this->convertAndParse('fit/support-001885-rs-pronation.fit');
 
@@ -842,7 +842,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotNull($this->Container->ActivityData->AvgPronationExcursionRight);
     }
 
-    public function testEmptyRunScribeData()
+    public function testEmptyRunScribeData(): void
     {
         $this->convertAndParse('fit/Fenix-3-with-empty-runscribe.fit');
 
@@ -859,7 +859,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->ActivityData->AvgPronationExcursionRight);
     }
 
-    public function testPerformanceConditionFromGarminForerunner735XT()
+    public function testPerformanceConditionFromGarminForerunner735XT(): void
     {
         $this->convertAndParse('fit/FR735XT-with-performance-condition.fit');
 
@@ -875,42 +875,42 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNull($this->Container->FitDetails->HrvAnalysis);
     }
 
-    public function testBoulderingSubSportMapping()
+    public function testBoulderingSubSportMapping(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 
         $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::BOULDERING, $mapping->sportWithSubsportToInternal(31, 69));
     }
 
-    public function testIndoorClimbingSubSportMapping()
+    public function testIndoorClimbingSubSportMapping(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 
         $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::CLIMBING_INDOOR, $mapping->sportWithSubsportToInternal(31, 68));
     }
 
-    public function testUnknownSubSportMappingReturnsNull()
+    public function testUnknownSubSportMappingReturnsNull(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 
         $this->assertNull($mapping->sportWithSubsportToInternal(31, 999));
     }
 
-    public function testBoulderingMapping()
+    public function testBoulderingMapping(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 
         $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::BOULDERING, $mapping->sportWithSubsportToInternal(31, 69));
     }
 
-    public function testIndoorClimbingMapping()
+    public function testIndoorClimbingMapping(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 
         $this->assertEquals(\Runalyze\Profile\Sport\SportProfile::CLIMBING_INDOOR, $mapping->sportWithSubsportToInternal(31, 68));
     }
 
-    public function testUnknownClimbingSubSportReturnsNull()
+    public function testUnknownClimbingSubSportReturnsNull(): void
     {
         $mapping = new \Runalyze\Profile\Sport\Mapping\FitSdkMapping();
 

@@ -6,7 +6,7 @@ use Runalyze\Metrics\Weight\Unit\WeightEnum;
 
 class WeightEnumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsCanBeConstructed()
+    public function testThatAllUnitsCanBeConstructed(): void
     {
         foreach (WeightEnum::getEnum() as $unit) {
             $weightUnit = WeightEnum::get($unit);

@@ -25,7 +25,7 @@ class LegacyEffectiveVO2max
     /**
      * @param int $decimals number of decimals to display
      */
-    public static function setPrecision($decimals)
+    public static function setPrecision($decimals): void
     {
         self::$Precision = $decimals;
     }
@@ -40,7 +40,7 @@ class LegacyEffectiveVO2max
         $this->setCorrector($corrector);
     }
 
-    public function setValue(?float $value)
+    public function setValue(?float $value): void
     {
         $this->Value = $value;
     }
@@ -48,7 +48,7 @@ class LegacyEffectiveVO2max
     /**
      * @param \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector $corrector [optional]
      */
-    public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null)
+    public function setCorrector(?LegacyEffectiveVO2maxCorrector $corrector = null): void
     {
         if ($corrector instanceof \Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector) {
             $this->Corrector = $corrector;
@@ -59,7 +59,7 @@ class LegacyEffectiveVO2max
      * @param ?float $distance [km]
      * @param int $seconds [s]
      */
-    public function fromPace(?float $distance, int $seconds)
+    public function fromPace(?float $distance, int $seconds): void
     {
         $this->Value = (new DanielsGilbertFormula())->estimateFromRaceResult($distance, $seconds);
     }
@@ -69,7 +69,7 @@ class LegacyEffectiveVO2max
      * @param int $seconds [s]
      * @param float $hrInPercent in [0.0, 1.0]
      */
-    public function fromPaceAndHR(?float $distance, int $seconds, float $hrInPercent)
+    public function fromPaceAndHR(?float $distance, int $seconds, float $hrInPercent): void
     {
         if ($hrInPercent <= 0.0 || $seconds === 0) {
             $this->Value = 0.0;
@@ -114,7 +114,7 @@ class LegacyEffectiveVO2max
     /**
      * @param float $speed [m/min] speed for 100%vVO2max
      */
-    public function fromSpeed(float $speed)
+    public function fromSpeed(float $speed): void
     {
         $this->Value = (new DanielsGilbertFormula())->estimateFromVelocity($speed);
     }

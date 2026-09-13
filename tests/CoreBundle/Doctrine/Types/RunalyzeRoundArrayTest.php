@@ -21,7 +21,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 
-    public function testEmptyData()
+    public function testEmptyData(): void
     {
         $this->assertNull($this->Type->convertToDatabaseValue(null, $this->PlatformMock));
         $this->assertNull($this->Type->convertToDatabaseValue('', $this->PlatformMock));
@@ -36,7 +36,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($emptyResult->isEmpty());
     }
 
-    public function testSimpleData()
+    public function testSimpleData(): void
     {
         $collection = new RoundCollection([
             new Round(1.0, 311, false),
@@ -58,7 +58,7 @@ class RunalyzeRoundArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($newCollection[2]->isActive());
     }
 
-    public function testLegacyExample()
+    public function testLegacyExample(): void
     {
         $collection = $this->Type->convertToPHPValue(
             'R1.200|5:20-0.400|1:20-1.000|3:17',

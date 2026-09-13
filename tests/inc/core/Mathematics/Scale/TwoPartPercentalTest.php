@@ -22,7 +22,7 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
     {
     }
 
-    public function testNoTransformation()
+    public function testNoTransformation(): void
     {
         $this->assertEqualsWithDelta(0, $this->Scale->transform(-10), 0.0001);
         $this->assertEqualsWithDelta(26, $this->Scale->transform(26), 0.0001);
@@ -30,7 +30,7 @@ class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(100, $this->Scale->transform(120), 0.0001);
     }
 
-    public function testSimpleScale()
+    public function testSimpleScale(): void
     {
         $this->Scale->setMinimum(1);
         $this->Scale->setInflectionPoint(2);

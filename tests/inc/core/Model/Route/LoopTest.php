@@ -9,7 +9,7 @@ namespace Runalyze\Model\Route;
  */
 class LoopTest extends \PHPUnit\Framework\TestCase
 {
-    public function testRouteLoop()
+    public function testRouteLoop(): void
     {
         $Loop = new Loop(new Entity([
             Entity::GEOHASHES => ['u1xjhxf507s1', 'u1xjhxf6b7s9', 'u1xjhxfd8jyw', 'u1xjhxf6b7s9', 'u1xjhxffrhw4'],

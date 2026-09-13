@@ -16,7 +16,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         LegacyEffectiveVO2max::setPrecision(2);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $Value = new LegacyEffectiveVO2max(50.1234);
 
@@ -24,7 +24,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50.1234, $Value->exactValue());
     }
 
-    public function testWithCorrector()
+    public function testWithCorrector(): void
     {
         $Value = new LegacyEffectiveVO2max(50, new LegacyEffectiveVO2maxCorrector(0.9));
 
@@ -35,7 +35,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $Value->value());
     }
 
-    public function testInvalidResults()
+    public function testInvalidResults(): void
     {
         $Value = new LegacyEffectiveVO2max();
 
@@ -46,7 +46,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Value->value());
     }
 
-    public function test5kResults()
+    public function test5kResults(): void
     {
         $Value = new LegacyEffectiveVO2max();
 
@@ -71,7 +71,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function test10kResults()
+    public function test10kResults(): void
     {
         $Value = new LegacyEffectiveVO2max();
 
@@ -96,7 +96,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function test21kResults()
+    public function test21kResults(): void
     {
         $Value = new LegacyEffectiveVO2max();
 
@@ -121,7 +121,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function test42kResults()
+    public function test42kResults(): void
     {
         $Value = new LegacyEffectiveVO2max();
 
@@ -146,7 +146,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSpeed()
+    public function testSpeed(): void
     {
         // 250 m/min = 4:00 min/km
         // VO2max 48: 3.000m in 11:58
@@ -159,7 +159,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(240, $Value->paceAt(1.0), 0.1);
     }
 
-    public function testVeryLowSpeed()
+    public function testVeryLowSpeed(): void
     {
         // 16.67 m/min = ca. 60 min/km
         $Value = new LegacyEffectiveVO2max();
@@ -170,7 +170,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Value->pace());
     }
 
-    public function testDistanceIndependenceOfEstimateByHR()
+    public function testDistanceIndependenceOfEstimateByHR(): void
     {
         $Value1 = new LegacyEffectiveVO2max();
         $Value1->fromPaceAndHR(10, 40 * 60, 0.75);
@@ -181,7 +181,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Value1->value(), $Value2->value());
     }
 
-    public function testMissingValueForEmptyHR()
+    public function testMissingValueForEmptyHR(): void
     {
         $Value = new LegacyEffectiveVO2max();
         $Value->fromPaceAndHR(10, 40 * 60, 0);
@@ -192,7 +192,7 @@ class LegacyEffectiveVO2maxTest extends \PHPUnit\Framework\TestCase
     /**
      * @see Jack Daniels' Runnig Formula, german edition, table 2.2, p. 42f.
      */
-    public function testHRformula()
+    public function testHRformula(): void
     {
         $Table = [
             // % vVO2max => % HRmax

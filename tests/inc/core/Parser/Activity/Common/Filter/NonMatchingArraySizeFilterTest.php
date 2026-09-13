@@ -26,13 +26,13 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $result = $this->Filter->filter($this->Container);
         $this->assertNull($result, 'filter() should return null for empty container');
     }
 
-    public function testExampleWithoutAnyNonMatchingArraySizes()
+    public function testExampleWithoutAnyNonMatchingArraySizes(): void
     {
         $this->Container->ContinuousData->Time = [300, 600, 900, 1200, 1500];
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 3.0, 4.0, 5.0];
@@ -45,7 +45,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(5, $this->Container->ContinuousData->HeartRate);
     }
 
-    public function testRecoverableNonMatchingArraySize()
+    public function testRecoverableNonMatchingArraySize(): void
     {
         $this->Container->ContinuousData->Time = [300, 600, 900, 1200];
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 3.0, 4.0, 5.0];
@@ -62,7 +62,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasWarningThatContains('fixed'));
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->ContinuousData->Time = [300, 600, 900, 1200];
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 3.0, 4.0, 5.0];
@@ -72,7 +72,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
         $this->Filter->filter($this->Container, true);
     }
 
-    public function testUnrecoverableSizeMismatch()
+    public function testUnrecoverableSizeMismatch(): void
     {
         $this->Container->ContinuousData->Time = range(0.0, 314.0, 1.0);
         $this->Container->ContinuousData->Distance = range(0.01, 0.27, 0.01);

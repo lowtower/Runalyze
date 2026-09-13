@@ -8,20 +8,20 @@ use Runalyze\Mathematics\DataAnalysis\ConstantSegmentFinder;
 
 class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvalidIndexData()
+    public function testInvalidIndexData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new ConstantSegmentFinder([1, 2, 3], [1, 2, 3, 4, 5]);
     }
 
-    public function testEmptyData()
+    public function testEmptyData(): void
     {
         $finder = new ConstantSegmentFinder([]);
 
         $this->assertEquals([], $finder->findConstantSegments());
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $finder = new ConstantSegmentFinder([1, 2, 2, 2, 3, 4, 4, 5, 5, 1]);
 
@@ -32,7 +32,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         ], $finder->findConstantSegments());
     }
 
-    public function testSimpleExampleWithConstantEnd()
+    public function testSimpleExampleWithConstantEnd(): void
     {
         $finder = new ConstantSegmentFinder([1, 2, 2, 2]);
 
@@ -41,7 +41,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         ], $finder->findConstantSegments());
     }
 
-    public function testSimpleExampleWithDelta()
+    public function testSimpleExampleWithDelta(): void
     {
         $finder = new ConstantSegmentFinder([1, 2, 2, 2, 3, 5, 4, 4, 7]);
         $finder->setConstantDelta(1);
@@ -52,7 +52,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         ], $finder->findConstantSegments());
     }
 
-    public function testSimpleExampleWithDeltaAndMinimumIndexDiff()
+    public function testSimpleExampleWithDeltaAndMinimumIndexDiff(): void
     {
         $finder = new ConstantSegmentFinder([1, 2, 3, 3, 0, 5, 4, 3, 3, 7]);
         $finder->setConstantDelta(1);
@@ -64,7 +64,7 @@ class ConstantSegmentFinderTest extends \PHPUnit\Framework\TestCase
         ], $finder->findConstantSegments());
     }
 
-    public function testSimpleExampleWithDeltaAndMinimumAndMaximumIndexDiff()
+    public function testSimpleExampleWithDeltaAndMinimumAndMaximumIndexDiff(): void
     {
         $finder = new ConstantSegmentFinder([1, 1, 1, 1, 2, 2, 5, 6, 5, 6, 5, 4]);
         $finder->setConstantDelta(1);

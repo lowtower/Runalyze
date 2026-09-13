@@ -27,14 +27,14 @@ class TrimpCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->Calculator = new TrimpCalculator(10000, 400);
     }
 
-    public function testEmptyActivity()
+    public function testEmptyActivity(): void
     {
         $this->Calculator->calculateFor($this->Activity, Gender::MALE, 200, 60);
 
         $this->assertEquals(0, $this->Activity->getTrimp());
     }
 
-    public function testInvalidActivity()
+    public function testInvalidActivity(): void
     {
         $this->Activity->setS(1);
         $this->Activity->setPulseAvg(400);

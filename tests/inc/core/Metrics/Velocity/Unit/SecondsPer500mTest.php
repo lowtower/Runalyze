@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPer500m;
 
 class SecondsPer500mTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new SecondsPer500m();
 

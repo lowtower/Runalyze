@@ -4,13 +4,13 @@ namespace Runalyze\Data\Weather;
 
 class PressureTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNonNumericValue()
+    public function testNonNumericValue(): void
     {
         $this->expectException(\TypeError::class);
         new Pressure('foobar');
     }
 
-    public function testNull()
+    public function testNull(): void
     {
         $Pressure = new Pressure();
 
@@ -19,7 +19,7 @@ class PressureTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Pressure->isUnknown());
     }
 
-    public function testValue()
+    public function testValue(): void
     {
         $Pressure = new Pressure(1090);
 

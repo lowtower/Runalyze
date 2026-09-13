@@ -27,7 +27,7 @@ class Exponential extends AbstractMovingAverage
     /**
      * @param float $alpha
      */
-    public function setAlpha($alpha)
+    public function setAlpha($alpha): void
     {
         if (! is_numeric($alpha) || $alpha <= 0.0 || $alpha >= 1.0) {
             throw new \InvalidArgumentException('Alpha value must be a double between 0.0 and 1.0.');
@@ -39,7 +39,7 @@ class Exponential extends AbstractMovingAverage
     /**
      * Calculate if index data is there
      */
-    public function calculateWithIndexData()
+    public function calculateWithIndexData(): void
     {
         $tau = -1 / log(1 - $this->Alpha);
         $avg = $this->Data[0];
@@ -56,7 +56,7 @@ class Exponential extends AbstractMovingAverage
     /**
      * Calculate if index data is not there
      */
-    public function calculateWithoutIndexData()
+    public function calculateWithoutIndexData(): void
     {
         $avg = $this->Data[0];
         $this->MovingAverage[] = $avg;

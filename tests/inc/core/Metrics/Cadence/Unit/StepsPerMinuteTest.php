@@ -6,7 +6,7 @@ use Runalyze\Metrics\Cadence\Unit\StepsPerMinute;
 
 class StepsPerMinuteTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new StepsPerMinute();
 

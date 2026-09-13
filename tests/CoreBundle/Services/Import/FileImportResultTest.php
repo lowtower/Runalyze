@@ -7,7 +7,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
 class FileImportResultTest extends \PHPUnit\Framework\TestCase
 {
-    public function testFailedResult()
+    public function testFailedResult(): void
     {
         $result = new FileImportResult([], 'foo.bar', 'bar.foo', new \Exception('Test'));
 
@@ -15,7 +15,7 @@ class FileImportResultTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Test', $result->getException()->getMessage());
     }
 
-    public function testEmptyResult()
+    public function testEmptyResult(): void
     {
         $result = new FileImportResult([], 'foo.bar', 'bar.foo');
 
@@ -26,7 +26,7 @@ class FileImportResultTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar.foo', $result->getOriginalFileName());
     }
 
-    public function testSimpleResult()
+    public function testSimpleResult(): void
     {
         $containerA = new ActivityDataContainer();
         $containerA->Metadata->setDescription('A');

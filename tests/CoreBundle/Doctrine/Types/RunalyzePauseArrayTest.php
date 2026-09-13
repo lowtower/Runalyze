@@ -21,7 +21,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 
-    public function testEmptyData()
+    public function testEmptyData(): void
     {
         $this->assertNull($this->Type->convertToDatabaseValue(null, $this->PlatformMock));
         $this->assertNull($this->Type->convertToDatabaseValue('', $this->PlatformMock));
@@ -36,7 +36,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($emptyResult->isEmpty());
     }
 
-    public function testSimpleData()
+    public function testSimpleData(): void
     {
         $collection = new PauseCollection([
             new Pause(123, 50),
@@ -57,7 +57,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(-4, $newCollection[3]->getPerformanceCondition());
     }
 
-    public function testLegacyExample()
+    public function testLegacyExample(): void
     {
         $collection = $this->Type->convertToPHPValue(
             '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .
@@ -72,7 +72,7 @@ class RunalyzePauseArrayTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([621, 9, 142, 140], [$collection[2]->getTimeIndex(), $collection[2]->getDuration(), $collection[2]->getHeartRateAtStart(), $collection[2]->getHeartRateAtEnd()]);
     }
 
-    public function testBrokenExample()
+    public function testBrokenExample(): void
     {
         $collection = $this->Type->convertToPHPValue(
             '[{"time":93,"duration":46,"hr-start":136,"hr-end":91},' .

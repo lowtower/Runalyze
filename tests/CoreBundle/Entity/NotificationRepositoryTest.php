@@ -46,7 +46,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         return $notification->getId();
     }
 
-    public function testFindAllNotifications()
+    public function testFindAllNotifications(): void
     {
         $this->insertMessageFor($this->Account);
         $this->insertMessageFor($this->getEmptyAccount());
@@ -57,7 +57,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(1, count($this->NotificationRepository->findAll($this->getEmptyAccount())));
     }
 
-    public function testFindAllNotificationsSince()
+    public function testFindAllNotificationsSince(): void
     {
         $this->insertMessageFor($this->Account, 10);
         $this->insertMessageFor($this->Account, 20);
@@ -69,7 +69,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->assertEquals(0, count($this->NotificationRepository->findAllSince(35, $this->Account)));
     }
 
-    public function testMarkSingleNotificationAsRead()
+    public function testMarkSingleNotificationAsRead(): void
     {
         $idRead = $this->insertMessageFor($this->Account);
         $idNotRead = $this->insertMessageFor($this->Account);
@@ -80,7 +80,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->NotificationRepository->find($idNotRead)->wasRead());
     }
 
-    public function testMarkAllNotificationsAsRead()
+    public function testMarkAllNotificationsAsRead(): void
     {
         $idFirst = $this->insertMessageFor($this->Account);
         $idSecond = $this->insertMessageFor($this->Account);
@@ -93,7 +93,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->NotificationRepository->find($idOtherAccount)->wasRead());
     }
 
-    public function testRemovingExpiredNotifications()
+    public function testRemovingExpiredNotifications(): void
     {
         $idFirst = $this->insertMessageFor($this->Account, 0, time() - 3600);
         $idSecond = $this->insertMessageFor($this->Account, 0, time() - 3600);

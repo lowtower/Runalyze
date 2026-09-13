@@ -42,7 +42,7 @@ class DouglasPeucker extends AbstractStrategy
     /**
      * @param float $epsilon
      */
-    public function setEpsilon($epsilon)
+    public function setEpsilon($epsilon): void
     {
         $this->Epsilon = $epsilon;
     }
@@ -50,7 +50,7 @@ class DouglasPeucker extends AbstractStrategy
     /**
      * Smooth data
      */
-    public function runSmoothing()
+    public function runSmoothing(): void
     {
         $this->SmoothingIndices = [0, count($this->ElevationData) - 1];
         $this->SmoothedData = $this->smoothPart($this->ElevationData);

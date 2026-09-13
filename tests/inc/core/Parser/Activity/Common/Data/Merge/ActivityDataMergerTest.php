@@ -23,7 +23,7 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->SecondData = new ActivityData();
     }
 
-    public function testWithEmptySecondObject()
+    public function testWithEmptySecondObject(): void
     {
         $this->FirstData->Duration = 321;
 
@@ -32,7 +32,7 @@ class ActivityDataMergerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(321, $this->FirstData->Duration);
     }
 
-    public function testWithEmptyFirstObject()
+    public function testWithEmptyFirstObject(): void
     {
         $this->FirstData->Duration = 321;
 

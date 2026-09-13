@@ -4,7 +4,7 @@ namespace Runalyze\Activity\PaceUnit;
 
 class KmPerHourTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomePaces()
+    public function testSomePaces(): void
     {
         $Pace = new KmPerHour();
 
@@ -12,7 +12,7 @@ class KmPerHourTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(12, $Pace->rawValue(300));
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $Pace = new KmPerHour();
 
@@ -21,7 +21,7 @@ class KmPerHourTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Pace->rawValue($Pace->compare(300, 300)));
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         AbstractDecimalUnit::$DecimalSeparator = ',';
         AbstractDecimalUnit::$Decimals = 1;

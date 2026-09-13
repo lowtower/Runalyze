@@ -53,11 +53,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 
         $this->rememberTimezone();
 
-        if ($this->FixtureClasses === null) {
-            $this->FixtureClasses = [
-                LoadAccountData::class,
-            ];
-        }
+        $this->FixtureClasses ??= [
+            LoadAccountData::class,
+        ];
 
         $databaseTool = static::getContainer()->get(DatabaseToolCollection::class);
         $this->Fixtures = $databaseTool->get()
@@ -129,14 +127,10 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
             ->find($ref->getId());
     }
 
-    /**
-     * @param int|float $duration
-     * @param float|int|null $distance
-     */
     protected function getActivityForDefaultAccount(
         ?int $timestamp = null,
-        $duration = 3600,
-        $distance = null,
+        float $duration = 3600,
+        ?float $distance = null,
         ?Sport $sport = null
     ): Training {
         return (new Training())

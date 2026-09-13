@@ -24,7 +24,7 @@ class CsvTest extends AbstractActivityParserTestCase
     /**
      * @group importerEpson
      */
-    public function testStandardEpsonFile()
+    public function testStandardEpsonFile(): void
     {
         $this->parseFile($this->Parser, 'csv/Epson.csv');
 
@@ -68,7 +68,7 @@ class CsvTest extends AbstractActivityParserTestCase
      * @group importerWahoo
      * @see https://github.com/Runalyze/Runalyze/issues/1965
      */
-    public function testStandardWahooFile()
+    public function testStandardWahooFile(): void
     {
         $this->parseFile($this->Parser, 'csv/Wahoo.csv');
 

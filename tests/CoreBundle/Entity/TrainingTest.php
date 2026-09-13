@@ -15,7 +15,7 @@ class TrainingTest extends \PHPUnit\Framework\TestCase
         $this->Activity = new Training();
     }
 
-    public function testCloningSplits()
+    public function testCloningSplits(): void
     {
         $oldSplits = $this->Activity->getSplits();
         $this->Activity->setSplitsToClone();

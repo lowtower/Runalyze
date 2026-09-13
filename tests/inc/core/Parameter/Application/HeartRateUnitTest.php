@@ -23,7 +23,7 @@ class HeartRateUnitTest extends \PHPUnit\Framework\TestCase
         $this->object = new HeartRateUnit();
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertFalse($this->object->isBPM());
         $this->assertTrue($this->object->isHRmax());

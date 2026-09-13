@@ -61,7 +61,7 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         $this->object->calculate();
     }
 
-    public function testRange()
+    public function testRange(): void
     {
         $Model = new AbstractModel_MockTesterEmpty([]);
         $Model->setRange(-3, 4);
@@ -80,7 +80,7 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         ], $Model->getArrays());
     }
 
-    public function testGetArrays()
+    public function testGetArrays(): void
     {
         $this->assertEquals([
             AbstractModel::FITNESS => [
@@ -101,28 +101,28 @@ class ModelTest extends \PHPUnit\Framework\TestCase
         ], $this->object->getArrays());
     }
 
-    public function testFitnessAt()
+    public function testFitnessAt(): void
     {
         $this->assertEquals(10, $this->object->fitnessAt(-1));
         $this->assertEquals(15, $this->object->fitnessAt(0));
         $this->assertEquals(20, $this->object->fitnessAt(+1));
     }
 
-    public function testFatigueAt()
+    public function testFatigueAt(): void
     {
         $this->assertEquals(15, $this->object->fatigueAt(-1));
         $this->assertEquals(20, $this->object->fatigueAt(0));
         $this->assertEquals(15, $this->object->fatigueAt(+1));
     }
 
-    public function testPerformanceAt()
+    public function testPerformanceAt(): void
     {
         $this->assertEquals(-10, $this->object->performanceAt(-1));
         $this->assertEquals(-10, $this->object->performanceAt(0));
         $this->assertEquals(0, $this->object->performanceAt(+1));
     }
 
-    public function testMaximalValues()
+    public function testMaximalValues(): void
     {
         $this->assertEquals(20, $this->object->maxFitness());
         $this->assertEquals(20, $this->object->maxFatigue());

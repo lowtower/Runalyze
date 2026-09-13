@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 
 class PaceEnumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsCanBeConstructed()
+    public function testThatAllUnitsCanBeConstructed(): void
     {
         foreach (PaceEnum::getEnum() as $unit) {
             $paceUnit = PaceEnum::get($unit);

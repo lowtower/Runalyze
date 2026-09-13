@@ -22,7 +22,7 @@ class WithKernel extends AbstractMovingAverage
      */
     protected $Kernel;
 
-    public function setKernel(Kernel\AbstractKernel $kernel)
+    public function setKernel(Kernel\AbstractKernel $kernel): void
     {
         $this->Kernel = $kernel;
     }
@@ -45,7 +45,7 @@ class WithKernel extends AbstractMovingAverage
      *
      * @throws \RuntimeException
      */
-    public function calculateWithIndexData()
+    public function calculateWithIndexData(): void
     {
         $this->checkThatKernelExists();
 
@@ -107,7 +107,7 @@ class WithKernel extends AbstractMovingAverage
      *
      * @throws \RuntimeException
      */
-    public function calculateWithoutIndexData()
+    public function calculateWithoutIndexData(): void
     {
         $this->checkThatKernelExists();
 

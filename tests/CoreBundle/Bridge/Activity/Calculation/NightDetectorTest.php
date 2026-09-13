@@ -29,19 +29,19 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $this->Detector = new NightDetector();
     }
 
-    public function testEmptyActivity()
+    public function testEmptyActivity(): void
     {
         $this->assertNull($this->Detector->isActivityAtNight($this->Activity));
     }
 
-    public function testActivityWithoutRoute()
+    public function testActivityWithoutRoute(): void
     {
         $this->Activity->setRoute();
 
         $this->assertNull($this->Detector->isActivityAtNight($this->Activity));
     }
 
-    public function testSomeValuesFromCentralEurope()
+    public function testSomeValuesFromCentralEurope(): void
     {
         $this->checkData([
             ['2016-01-13 08:00:00', [49.44, 7.45], true], // Kaiserslautern, de
@@ -87,7 +87,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatDurationIsRespected()
+    public function testThatDurationIsRespected(): void
     {
         /** @var Geohash $geohashObj */
         $geohashObj = (new Geohash())->encode(new Coordinate([49.44, 7.45]));

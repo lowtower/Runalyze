@@ -10,7 +10,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\RoundCollectionFiller;
 
 class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEasyCompletionByDistanceArray()
+    public function testEasyCompletionByDistanceArray(): void
     {
         $collection = new RoundCollection([
             new Round(0.0, 100),
@@ -28,7 +28,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.5, $collection[1]->getDistance());
     }
 
-    public function testEasyCompletionByTimeArray()
+    public function testEasyCompletionByTimeArray(): void
     {
         $collection = new RoundCollection([
             new Round(0.4, 0),
@@ -46,7 +46,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(120, $collection[1]->getDuration());
     }
 
-    public function testThatCompletionWithEmptyCollectionDoesNotFail()
+    public function testThatCompletionWithEmptyCollectionDoesNotFail(): void
     {
         $collection = new RoundCollection();
 
@@ -57,7 +57,7 @@ class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(0, $collection, 'Empty collection should remain empty after filling with empty data');
     }
 
-    public function testWithTooShortDistanceArray()
+    public function testWithTooShortDistanceArray(): void
     {
         $collection = new RoundCollection([
             new Round(0.4, 0),

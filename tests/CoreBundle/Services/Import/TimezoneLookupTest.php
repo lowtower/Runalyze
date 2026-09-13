@@ -22,7 +22,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         $this->Lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', SQLITE_MOD_SPATIALITE);
     }
 
-    public function testSilenceConstructor()
+    public function testSilenceConstructor(): void
     {
         $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', SQLITE_MOD_SPATIALITE);
         $lookup->silentExceptions();
@@ -31,7 +31,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($lookup->getTimezoneForCoordinate(13.41, 52.52));
     }
 
-    public function testConstructorWithException()
+    public function testConstructorWithException(): void
     {
         $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', SQLITE_MOD_SPATIALITE);
 
@@ -40,7 +40,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         $lookup->isPossible();
     }
 
-    public function testConstructorWithWrongExtensionName()
+    public function testConstructorWithWrongExtensionName(): void
     {
         $lookup = new TimezoneLookup(TESTS_ROOT . '/../data/timezone.sqlite', 'non-existant-extension.so');
 
@@ -49,7 +49,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         $lookup->isPossible();
     }
 
-    public function testSimpleLocations()
+    public function testSimpleLocations(): void
     {
         try {
             $this->assertEquals('Europe/Berlin', $this->Lookup->getTimezoneForCoordinate(13.41, 52.52));
@@ -59,7 +59,7 @@ class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testInvalidLocations()
+    public function testInvalidLocations(): void
     {
         try {
             $this->assertNull($this->Lookup->getTimezoneForCoordinate('foo', 'bar'));

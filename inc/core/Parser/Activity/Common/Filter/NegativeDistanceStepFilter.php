@@ -10,19 +10,19 @@ class NegativeDistanceStepFilter extends AbstractFilter
     /**
      * @var float [km]
      */
-    protected $LimitForDistanceDifferenceToFix;
+    protected float $LimitForDistanceDifferenceToFix;
 
     /**
      * @param float $limitForDistanceDifferenceToFix [km]
      */
-    public function __construct($limitForDistanceDifferenceToFix = 0.02)
+    public function __construct(float $limitForDistanceDifferenceToFix = 0.02)
     {
         parent::__construct();
 
         $this->LimitForDistanceDifferenceToFix = $limitForDistanceDifferenceToFix;
     }
 
-    public function filter(ActivityDataContainer $container, $strict = false)
+    public function filter(ActivityDataContainer $container, bool $strict = false)
     {
         $numberOfPoints = count($container->ContinuousData->Distance);
 

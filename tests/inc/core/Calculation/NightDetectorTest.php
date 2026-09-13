@@ -12,7 +12,7 @@ use Runalyze\View\Activity\FakeContext;
 
 class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyDetector()
+    public function testEmptyDetector(): void
     {
         $Detector = new NightDetector();
 
@@ -21,14 +21,14 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($Detector->value());
     }
 
-    public function testInvalidTimestamp()
+    public function testInvalidTimestamp(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Detector = new NightDetector();
         $Detector->setFrom('foobar', new Coordinate([0.0, 0.0]));
     }
 
-    public function testSomeValuesFromCentralEurope()
+    public function testSomeValuesFromCentralEurope(): void
     {
         $this->checkData([
             ['2016-01-13 08:00:00', [49.44, 7.45], true], // Kaiserslautern, de
@@ -64,7 +64,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatDurationIsRespected()
+    public function testThatDurationIsRespected(): void
     {
         /** @var Geohash $geohashObj */
         $geohashObj = (new Geohash())->encode(new Coordinate([49.44, 7.45]));
@@ -91,7 +91,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Detector->setFromEntities($Context->activity(), $Context->route())->isNight());
     }
 
-    public function testContextWithoutRoute()
+    public function testContextWithoutRoute(): void
     {
         $Context = FakeContext::onlyWithActivity(
             new Activity\Entity([
@@ -105,7 +105,7 @@ class NightDetectorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($Detector->isKnown());
     }
 
-    public function testRouteWithoutCoordinates()
+    public function testRouteWithoutCoordinates(): void
     {
         $Detector = new NightDetector();
         $Detector->setFromEntities(

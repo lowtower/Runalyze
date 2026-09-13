@@ -9,7 +9,7 @@ namespace Runalyze\Model\RaceResult;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $RaceResult = new Entity([]);
 
@@ -22,7 +22,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($RaceResult->participantsAgeclass());
     }
 
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $RaceResult = new Entity([
             Entity::OFFICIAL_DISTANCE => '10.50',

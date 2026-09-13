@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 
 class BasicEnduranceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testDaysToConsiderForWeeklyMileageAdaptedForFirstActivityDate()
+    public function testDaysToConsiderForWeeklyMileageAdaptedForFirstActivityDate(): void
     {
         $config = new BasicEndurance();
 

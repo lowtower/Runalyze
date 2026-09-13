@@ -9,7 +9,7 @@ namespace Runalyze\Model\Swimdata;
  */
 class LoopTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSwimdataLoop()
+    public function testSwimdataLoop(): void
     {
         $Loop = new Loop(new Entity([
             Entity::STROKE => [25, 20, 15, 20],

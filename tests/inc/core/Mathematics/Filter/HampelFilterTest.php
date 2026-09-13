@@ -16,32 +16,32 @@ class HampelFilterTest extends \PHPUnit\Framework\TestCase
         $this->Filter = new HampelFilter(3);
     }
 
-    public function testInvalidWindowWidth()
+    public function testInvalidWindowWidth(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new HampelFilter(0);
     }
 
-    public function testNonIntegerWindowWidth()
+    public function testNonIntegerWindowWidth(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new HampelFilter(3.14);
     }
 
-    public function testShortArrays()
+    public function testShortArrays(): void
     {
         $this->assertEquals([], $this->Filter->filter([], true));
         $this->assertEquals([1234], $this->Filter->filter([1234], true));
         $this->assertEquals([10, 100, 10, 10, 100, 10], $this->Filter->filter([10, 100, 10, 10, 100, 10], true));
     }
 
-    public function testTrivialExample()
+    public function testTrivialExample(): void
     {
         $this->assertEquals([3], $this->Filter->filter([10, 10, 10, 100, 10, 10, 10]));
         $this->assertEquals([10, 10, 10, 10, 10, 10, 10], $this->Filter->filter([10, 10, 10, 100, 10, 10, 10], true));
     }
 
-    public function testDifferentWindowSizes()
+    public function testDifferentWindowSizes(): void
     {
         $data = [10, 11, 12, 13, 50, 12, 100, 11, 50, 10, 11, 12, 13];
 

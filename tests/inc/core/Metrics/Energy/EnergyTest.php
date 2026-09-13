@@ -16,7 +16,7 @@ class EnergyTest extends \PHPUnit\Framework\TestCase
         $this->Energy = new Energy();
     }
 
-    public function testSettingMetabolicEquivalent()
+    public function testSettingMetabolicEquivalent(): void
     {
         $this->assertEquals(40.0, $this->Energy->setByMetabolicEquivalent(5.0, 80.0, 0.1)->getValue());
     }

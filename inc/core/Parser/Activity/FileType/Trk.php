@@ -31,7 +31,7 @@ class Trk extends AbstractSingleParser implements FileContentAwareParserInterfac
      */
     protected $PauseInSeconds = 0;
 
-    public function parse()
+    public function parse(): void
     {
         $separator = "\r\n";
         $line = strtok($this->FileContent, $separator);

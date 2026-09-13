@@ -21,7 +21,7 @@ class LocationTest extends \PHPUnit\Framework\TestCase
         $this->object = new Location();
     }
 
-    public function testPosition()
+    public function testPosition(): void
     {
         $this->assertFalse($this->object->hasPosition());
         $this->object->setPosition(0, 0);
@@ -30,7 +30,7 @@ class LocationTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->object->hasPosition());
     }
 
-    public function testLocation()
+    public function testLocation(): void
     {
         $this->assertFalse($this->object->hasLocationName());
         $this->object->setLocationName('');
@@ -39,7 +39,7 @@ class LocationTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->object->hasLocationName());
     }
 
-    public function testTimestamps()
+    public function testTimestamps(): void
     {
         $this->assertFalse($this->object->hasDateTime());
 

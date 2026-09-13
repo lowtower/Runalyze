@@ -24,7 +24,7 @@ class TrackdataAverages
     /**
      * @var string[] enums of requested keys
      */
-    protected $Keys;
+    protected array $Keys;
 
     /**
      * @var array ['key' => mean]

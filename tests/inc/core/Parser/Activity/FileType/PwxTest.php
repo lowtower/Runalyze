@@ -20,7 +20,7 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->Parser = new Pwx();
     }
 
-    public function testFileWithoutDistance()
+    public function testFileWithoutDistance(): void
     {
         $this->parseFile($this->Parser, 'pwx/without-dist.pwx');
 
@@ -40,7 +40,7 @@ class PwxTest extends AbstractActivityParserTestCase
      * Test: standard file
      * Filename: "with-dist.pwx"
      */
-    public function testWithDist()
+    public function testWithDist(): void
     {
         $this->parseFile($this->Parser, 'pwx/with-dist.pwx');
 
@@ -60,7 +60,7 @@ class PwxTest extends AbstractActivityParserTestCase
      * Test: standard file
      * Filename: "with-dist-and-hr.pwx"
      */
-    public function testWithDistAndHr()
+    public function testWithDistAndHr(): void
     {
         $this->parseFile($this->Parser, 'pwx/with-dist-and-hr.pwx');
 
@@ -70,7 +70,7 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEqualsWithDelta(174, $this->Container->ActivityData->MaxHeartRate, 2);
     }
 
-    public function testFileWithPower()
+    public function testFileWithPower(): void
     {
         $this->parseFile($this->Parser, 'pwx/with-power.pwx');
 
@@ -80,7 +80,7 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEquals(18, $this->Container->Rounds->count());
     }
 
-    public function testIntervals()
+    public function testIntervals(): void
     {
         $this->parseFile($this->Parser, 'pwx/intervals.pwx');
 

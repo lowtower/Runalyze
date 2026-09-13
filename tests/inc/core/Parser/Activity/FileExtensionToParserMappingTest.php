@@ -18,18 +18,18 @@ class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
         $this->Mapping = new FileExtensionToParserMapping();
     }
 
-    public function testInvalidExtension()
+    public function testInvalidExtension(): void
     {
         $this->assertNull($this->Mapping->getParserClassFor('foobar'));
     }
 
-    public function testThatMappingIsCaseInsensitive()
+    public function testThatMappingIsCaseInsensitive(): void
     {
         $this->assertEquals(Tcx::class, $this->Mapping->getParserClassFor('tcx'));
         $this->assertEquals(Tcx::class, $this->Mapping->getParserClassFor('TCX'));
     }
 
-    public function testThatAllMappedParserExist()
+    public function testThatAllMappedParserExist(): void
     {
         foreach (FileExtensionToParserMapping::MAPPING as $class) {
             $this->assertInstanceOf(ParserInterface::class, new $class());

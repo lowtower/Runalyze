@@ -9,7 +9,7 @@ namespace Runalyze\Model\Activity;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyObject()
+    public function testEmptyObject(): void
     {
         $A = new Entity();
 
@@ -27,7 +27,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($A->partner()->isEmpty());
     }
 
-    public function testEmptyWeatherValues()
+    public function testEmptyWeatherValues(): void
     {
         $A = new Entity([
             Entity::TEMPERATURE => null,
@@ -56,7 +56,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($B->weather()->humidity()->isUnknown());
     }
 
-    public function testSynchronizationOfWeather()
+    public function testSynchronizationOfWeather(): void
     {
         $A = new Entity([
             Entity::TEMPERATURE => null,
@@ -89,7 +89,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1025, $A->get(Entity::PRESSURE));
     }
 
-    public function testIsNight()
+    public function testIsNight(): void
     {
         $EmptyEntity = new Entity([]);
         $this->assertEquals(false, $EmptyEntity->knowsIfItIsNight());

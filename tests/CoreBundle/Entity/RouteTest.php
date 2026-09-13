@@ -13,14 +13,14 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         $this->Route = new Route();
     }
 
-    public function testEmptyEntity()
+    public function testEmptyEntity(): void
     {
         $this->assertTrue($this->Route->isEmpty());
         $this->assertNull($this->Route->getGeohashes());
         $this->assertNull($this->Route->getElevations());
     }
 
-    public function testThatLatitudesAndLongitudesMustBeOfSameSize()
+    public function testThatLatitudesAndLongitudesMustBeOfSameSize(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -30,7 +30,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testLatitudesAndLongitudes()
+    public function testLatitudesAndLongitudes(): void
     {
         $coordinates = [
             [49.778, 49.781, 49.783],
@@ -44,7 +44,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($coordinates[1], $this->Route->getLongitudes());
     }
 
-    public function testFlagForSynchronizedMinMax()
+    public function testFlagForSynchronizedMinMax(): void
     {
         $this->assertTrue($this->Route->areMinMaxGeohashSynchronized());
 
@@ -53,7 +53,7 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->Route->areMinMaxGeohashSynchronized());
     }
 
-    public function testFlagForSynchronizedMinMaxWhenSettingLatitudesAndLongitudes()
+    public function testFlagForSynchronizedMinMaxWhenSettingLatitudesAndLongitudes(): void
     {
         $this->assertTrue($this->Route->areMinMaxGeohashSynchronized());
 

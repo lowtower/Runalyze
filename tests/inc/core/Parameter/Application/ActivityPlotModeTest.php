@@ -23,7 +23,7 @@ class ActivityPlotModeTest extends \PHPUnit\Framework\TestCase
         $this->object = new ActivityPlotMode();
     }
 
-    public function testShowCollection()
+    public function testShowCollection(): void
     {
         $this->assertTrue($this->object->showSeperated());
         $this->assertFalse($this->object->showPaceAndHR());

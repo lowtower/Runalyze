@@ -23,7 +23,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         return $mock;
     }
 
-    public function testSomeHistogram()
+    public function testSomeHistogram(): void
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
@@ -43,7 +43,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(3.5 / 15, $dist->coefficientOfVariation(), 0.1);
     }
 
-    public function testAnotherHistogram()
+    public function testAnotherHistogram(): void
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([
@@ -64,7 +64,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(28.6 / 75, $dist->coefficientOfVariation(), 0.1);
     }
 
-    public function testEmptyHistogram()
+    public function testEmptyHistogram(): void
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
@@ -80,7 +80,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($dist->coefficientOfVariation());
     }
 
-    public function testRequestingNotGeneratedQuantile()
+    public function testRequestingNotGeneratedQuantile(): void
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([]);
@@ -90,7 +90,7 @@ class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
         $dist->quantile(0.1);
     }
 
-    public function testQuantiles()
+    public function testQuantiles(): void
     {
         /** @var AbstractDistribution&\PHPUnit\Framework\MockObject\MockObject $dist */
         $dist = $this->getMockWithHistogram([

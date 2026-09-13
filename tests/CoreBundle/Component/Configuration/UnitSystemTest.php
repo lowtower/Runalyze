@@ -11,7 +11,7 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 
 class UnitSystemTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsAreAccessible()
+    public function testThatAllUnitsAreAccessible(): void
     {
         $unitSystem = new UnitSystem(new RunalyzeConfigurationList());
 
@@ -23,7 +23,7 @@ class UnitSystemTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\Runalyze\Metrics\Weight\Unit\AbstractWeightUnit::class, $unitSystem->getWeightUnit());
     }
 
-    public function testThatPaceUnitCanBeSet()
+    public function testThatPaceUnitCanBeSet(): void
     {
         $unitSystem = new UnitSystem(new RunalyzeConfigurationList());
         $unitSystem->setPaceUnit(new SecondsPer500y());
@@ -31,7 +31,7 @@ class UnitSystemTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(SecondsPer500y::class, $unitSystem->getPaceUnit());
     }
 
-    public function testThatPaceUnitCanBeSetFromSport()
+    public function testThatPaceUnitCanBeSetFromSport(): void
     {
         $sport = new Sport();
         $sport->setSpeed(PaceEnum::SECONDS_PER_MILE);

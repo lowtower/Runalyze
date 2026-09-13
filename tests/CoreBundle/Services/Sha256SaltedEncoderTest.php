@@ -16,7 +16,7 @@ class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
         $this->Encoder = new Sha256SaltedEncoder();
     }
 
-    public function testValidation()
+    public function testValidation(): void
     {
         $this->assertTrue(
             $this->Encoder->isPasswordValid(
@@ -27,7 +27,7 @@ class Sha256SaltedEncoderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testValidationOfWrongPassword()
+    public function testValidationOfWrongPassword(): void
     {
         $this->assertFalse(
             $this->Encoder->isPasswordValid(

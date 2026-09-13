@@ -17,7 +17,7 @@ class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
         $this->Mapping = new EnglishLanguageMapping();
     }
 
-    public function testInternalMapping()
+    public function testInternalMapping(): void
     {
         $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal('Run'));
         $this->assertEquals(SportProfile::RUNNING, $this->Mapping->toInternal('running'));
@@ -30,7 +30,7 @@ class EnglishLanguageMappingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(SportProfile::SWIMMING, $this->Mapping->toInternal('swimming'));
     }
 
-    public function testDefaultInternalMapping()
+    public function testDefaultInternalMapping(): void
     {
         $this->assertEquals(SportProfile::GENERIC, $this->Mapping->toInternal('foobar'));
     }

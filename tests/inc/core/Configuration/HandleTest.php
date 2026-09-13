@@ -25,19 +25,19 @@ class ConfigurationHandleTest extends \PHPUnit\Framework\TestCase
         $this->object = new Handle('key', new Integer(42));
     }
 
-    public function testKey()
+    public function testKey(): void
     {
         $this->assertEquals('key', $this->object->key());
     }
 
-    public function testObject()
+    public function testObject(): void
     {
         $this->object->object()
             ->set(1337);
         $this->assertEquals(1337, $this->object->object()->value());
     }
 
-    public function testValue()
+    public function testValue(): void
     {
         $this->assertEquals(42, $this->object->value());
     }

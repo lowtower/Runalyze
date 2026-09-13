@@ -6,13 +6,13 @@ namespace Runalyze\Activity;
 
 class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStaticFunction()
+    public function testStaticFunction(): void
     {
         $this->assertEquals('49.5L/50.5R&nbsp;%', GroundcontactBalance::format(4950, true));
         $this->assertEquals('49.5L/50.5R', GroundcontactBalance::format(4950, false));
     }
 
-    public function testSetter()
+    public function testSetter(): void
     {
         $Balance = new GroundcontactBalance(4950);
 
@@ -27,7 +27,7 @@ class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5050, $Balance->value());
     }
 
-    public function testIsKnown()
+    public function testIsKnown(): void
     {
         $Balance = new GroundcontactBalance(0);
         $this->assertFalse($Balance->isKnown());

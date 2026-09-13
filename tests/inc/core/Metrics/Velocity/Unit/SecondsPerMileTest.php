@@ -6,7 +6,7 @@ use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 
 class SecondsPerMileTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new SecondsPerMile();
 

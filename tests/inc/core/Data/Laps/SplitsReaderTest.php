@@ -41,7 +41,7 @@ class SplitsReaderTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Splits = new Splits\Entity();
         $Splits->add(new Splits\Split(3.0, 1000, false));

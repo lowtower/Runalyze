@@ -20,15 +20,14 @@ class Calculator
 {
     /**
      * Elevation points
-     * @var array
      */
-    protected $ElevationPoints = [];
+    protected array $ElevationPoints = [];
 
     /**
      * Elevation method
      * @var \Runalyze\Parameter\Application\ElevationMethod
      */
-    protected $Method;
+    protected \Runalyze\Parameter $Method;
 
     /**
      * Threshold
@@ -76,12 +75,12 @@ class Calculator
     /**
      * @param int $threshold
      */
-    public function setThreshold($threshold)
+    public function setThreshold($threshold): void
     {
         $this->Threshold = $threshold;
     }
 
-    public function setMethod(ElevationMethod $Method)
+    public function setMethod(ElevationMethod $Method): void
     {
         $this->Method = $Method;
     }
@@ -112,7 +111,7 @@ class Calculator
         return $this->Down;
     }
 
-    public function calculate()
+    public function calculate(): void
     {
         $this->chooseStrategy();
 

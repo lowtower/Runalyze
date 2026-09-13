@@ -6,7 +6,7 @@ use Runalyze\Metrics\Time\Unit\Miliseconds;
 
 class MilisecondsTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Miliseconds();
 

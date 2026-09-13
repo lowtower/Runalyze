@@ -29,7 +29,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    public function testEmptyDatabase()
+    public function testEmptyDatabase(): void
     {
         $this->assertNull($this->RaceresultRepository->findByActivity(1));
         $this->assertNull($this->RaceresultRepository->findForAccount(1, 1));
@@ -41,7 +41,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         ));
     }
 
-    public function testSingleRace()
+    public function testSingleRace(): void
     {
         $raceActivity = $this->getActivityForDefaultAccount(mktime(3, 14, 15, 9, 26, 2016), 2400, 10.0);
         $race = $this->insertRace('Awesome pirace', $raceActivity);
@@ -67,7 +67,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $this->assertFalse($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
     }
 
-    public function testFindingVO2maxCorrectionFactorForSingleRace()
+    public function testFindingVO2maxCorrectionFactorForSingleRace(): void
     {
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 10.0);
         $activity->setPulseAvg(160)
@@ -85,7 +85,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
     }
 
-    public function testFindingVO2maxCorrectionFactorForMultipleRaces()
+    public function testFindingVO2maxCorrectionFactorForMultipleRaces(): void
     {
         $activity = $this->getActivityForDefaultAccount(time(), 2400, 10.0);
         $activity->setPulseAvg(160)

@@ -6,7 +6,7 @@ use Runalyze\Sports\ClimbCategory\ClimbCategory;
 
 class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllCategoriesCanBeConvertedToString()
+    public function testThatAllCategoriesCanBeConvertedToString(): void
     {
         $object = new ClimbCategory();
 
@@ -17,7 +17,7 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatInvalidCategoryIsFetched()
+    public function testThatInvalidCategoryIsFetched(): void
     {
         $object = new ClimbCategory();
 
@@ -26,7 +26,7 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
         $object->setCategory(-1);
     }
 
-    public function testCategoryMapping()
+    public function testCategoryMapping(): void
     {
         $categoryLimits = [10.0, 7.5, 5.0, 3.0, 2.0, 1.0];
 
@@ -39,7 +39,7 @@ class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('-', ClimbCategory::getCategoryFor(0.4, $categoryLimits)->getString());
     }
 
-    public function testThatCategoryMappingIgnoresAdditionalLimits()
+    public function testThatCategoryMappingIgnoresAdditionalLimits(): void
     {
         $this->assertFalse(ClimbCategory::getCategoryFor(0.5, [10, 7, 5, 3, 2, 1, 0, -2])->isClassified());
     }

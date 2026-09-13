@@ -8,13 +8,13 @@ use Runalyze\Mathematics\Filter\InfiniteImpulseResponseFilter;
 
 class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvalidCoefficients()
+    public function testInvalidCoefficients(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new InfiniteImpulseResponseFilter([1, 2], [1, 2, 3]);
     }
 
-    public function testSimpleFilter()
+    public function testSimpleFilter(): void
     {
         $filter = new InfiniteImpulseResponseFilter(
             [1.0, 0.0],
@@ -27,7 +27,7 @@ class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSimpleFilterEnlarged()
+    public function testSimpleFilterEnlarged(): void
     {
         $filter = new InfiniteImpulseResponseFilter(
             [0.5, 0.5],
@@ -40,7 +40,7 @@ class InfiniteImpulseResponseFilterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testForwardAndBackwardFilter()
+    public function testForwardAndBackwardFilter(): void
     {
         $filter = new InfiniteImpulseResponseFilter(
             [0.5, 0.5],

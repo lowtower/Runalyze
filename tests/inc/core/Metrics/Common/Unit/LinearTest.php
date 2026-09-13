@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Linear;
 
 class LinearTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleFunction()
+    public function testSimpleFunction(): void
     {
         $unit = new Linear(
             function ($value): float { return 2.0 * $value + 5.0; },

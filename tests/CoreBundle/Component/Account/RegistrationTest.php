@@ -53,7 +53,7 @@ class RegistrationTest extends WebTestCase
         );
     }
 
-    public function testThatRegistrationProcessWorks()
+    public function testThatRegistrationProcessWorks(): void
     {
         $account = new Account();
         $account->setUsername('foobar');

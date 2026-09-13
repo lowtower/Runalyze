@@ -10,10 +10,7 @@ use SimpleXMLElement;
 
 class FitlogActivity extends AbstractSingleParser
 {
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     /**
      * @var string
@@ -36,7 +33,7 @@ class FitlogActivity extends AbstractSingleParser
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseGeneralValues();
         $this->parseLaps();

@@ -33,12 +33,12 @@ class DataCollector
     /**
      * @var array [bpm]
      */
-    protected $HeartRate;
+    protected array $HeartRate;
 
     /**
      * @var array [s] ascending
      */
-    protected $Duration;
+    protected array $Duration;
 
     /**
      * @var array

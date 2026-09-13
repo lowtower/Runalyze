@@ -9,7 +9,7 @@ namespace Runalyze\Model\Activity;
  */
 class PartnerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStringConstructor()
+    public function testStringConstructor(): void
     {
         $Partner = new Partner('Max, Moritz');
 
@@ -19,7 +19,7 @@ class PartnerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['Max', 'Moritz'], $Partner->asArray());
     }
 
-    public function testTrimming()
+    public function testTrimming(): void
     {
         $Partner = new Partner(' Max,   Moritz,Martina');
 

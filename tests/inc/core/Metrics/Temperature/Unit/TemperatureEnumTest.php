@@ -6,7 +6,7 @@ use Runalyze\Metrics\Temperature\Unit\TemperatureEnum;
 
 class TemperatureEnumTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllUnitsCanBeConstructed()
+    public function testThatAllUnitsCanBeConstructed(): void
     {
         foreach (TemperatureEnum::getEnum() as $unit) {
             $temperatureUnit = TemperatureEnum::get($unit);

@@ -68,7 +68,7 @@ class DistanceModifier
      * Distance
      * @param ?float $distance [km]
      */
-    public function setDistance(?float $distance)
+    public function setDistance(?float $distance): void
     {
         $this->Distance = (float) $distance;
     }
@@ -78,17 +78,17 @@ class DistanceModifier
      * @param ?int $down [m]
      * (int) type casting results in 0 elevation up or down
      */
-    public function setElevation(?int $up, ?int $down)
+    public function setElevation(?int $up, ?int $down): void
     {
         $this->Up = (int) $up;
         $this->Down = (int) $down;
     }
 
     /**
-     * @param int $positiveCorrection
+     * @param int $positiveCorrection [m]
      * @param int $negativeCorrection [m]
      */
-    public function setCorrectionValues($positiveCorrection, $negativeCorrection)
+    public function setCorrectionValues(int $positiveCorrection, int $negativeCorrection): void
     {
         $this->PositiveCorrector = $positiveCorrection;
         $this->NegativeCorrector = $negativeCorrection;

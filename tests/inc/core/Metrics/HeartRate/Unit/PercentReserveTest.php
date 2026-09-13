@@ -8,7 +8,7 @@ use Runalyze\Metrics\HeartRate\Unit\PercentReserve;
 
 class PercentReserveTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new PercentReserve(200, 60);
 
@@ -22,7 +22,7 @@ class PercentReserveTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(159.4, $unit->toBaseUnit(0.71), 0.01);
     }
 
-    public function testWithOtherMaximalHeartRate()
+    public function testWithOtherMaximalHeartRate(): void
     {
         $unit = new PercentReserve(175, 75);
 

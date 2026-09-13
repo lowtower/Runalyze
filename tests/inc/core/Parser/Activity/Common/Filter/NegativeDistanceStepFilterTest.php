@@ -26,7 +26,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $originalContainer = clone $this->Container;
         $this->Filter->filter($this->Container);
@@ -34,7 +34,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($originalContainer, $this->Container);
     }
 
-    public function testExampleWithoutAnyInvalidDistanceSteps()
+    public function testExampleWithoutAnyInvalidDistanceSteps(): void
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 3.0, 4.0, 5.0];
 
@@ -43,7 +43,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(5, $this->Container->ContinuousData->Distance);
     }
 
-    public function testFixMissingDistanceStep()
+    public function testFixMissingDistanceStep(): void
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 0.0, 4.0, 5.0];
 
@@ -56,7 +56,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasWarningThatContains('fixed'));
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 0.0, 4.0, 5.0];
 
@@ -65,7 +65,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Filter->filter($this->Container, true);
     }
 
-    public function testUnrecoverableDistanceStep()
+    public function testUnrecoverableDistanceStep(): void
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 1.4, 1.6, 4.0, 5.0];
 

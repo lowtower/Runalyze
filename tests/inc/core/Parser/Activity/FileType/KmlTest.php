@@ -22,7 +22,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->Parser = new Kml();
     }
 
-    public function testIncorrectXmlFile()
+    public function testIncorrectXmlFile(): void
     {
         $this->Parser->setFileContent('<any><xml><file></file></xml></any>');
 
@@ -31,7 +31,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->Parser->parse();
     }
 
-    public function testStandardFileWithRouteOnly()
+    public function testStandardFileWithRouteOnly(): void
     {
         $this->parseFile($this->Parser, 'kml/Route-only.kml');
 
@@ -45,7 +45,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Time);
     }
 
-    public function testStandardFileWithRouteOnlyWithZeros()
+    public function testStandardFileWithRouteOnlyWithZeros(): void
     {
         $this->parseFile($this->Parser, 'kml/Route-only-with-zeros.kml');
 
@@ -54,7 +54,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertEquals(11, count($this->Container->ContinuousData->Distance));
     }
 
-    public function testStandardFileMultiLineWithoutAltitude()
+    public function testStandardFileMultiLineWithoutAltitude(): void
     {
         $this->parseFile($this->Parser, 'kml/multi-line-without-altitude.kml');
 
@@ -68,7 +68,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container->ContinuousData->Altitude);
     }
 
-    public function testTomTomFile()
+    public function testTomTomFile(): void
     {
         $this->parseFile($this->Parser, 'kml/TomTom.kml');
 
@@ -88,7 +88,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
     }
 
-    public function testTomTomFileWithoutDistance()
+    public function testTomTomFileWithoutDistance(): void
     {
         $this->parseFile($this->Parser, 'kml/TomTom-without-distance-extension.kml');
 
@@ -105,7 +105,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
     }
 
-    public function testSpartanUltraFileWithTemperature()
+    public function testSpartanUltraFileWithTemperature(): void
     {
         $this->parseFile($this->Parser, 'kml/Suunto-Spartan-Ultra.kml');
 
@@ -120,7 +120,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
     }
 
-    public function testZippedFile()
+    public function testZippedFile(): void
     {
         $this->convertAndParseFile(new KmzConverter(), $this->Parser, 'kmz/Baechenstock.kmz', [
             'kmz/Baechenstock.kmz.doc.kml',

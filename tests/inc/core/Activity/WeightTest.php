@@ -12,21 +12,21 @@ use Runalyze\Parameter\Application\WeightUnit;
  */
 class WeightTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEquals('75.0', (new Weight(75, new WeightUnit(WeightUnit::KG)))->string(false, 1));
         $this->assertEquals('165.3', (new Weight(75, new WeightUnit(WeightUnit::POUNDS)))->string(false, 1));
         $this->assertEquals('11.8', (new Weight(75, new WeightUnit(WeightUnit::STONES)))->string(false, 1));
     }
 
-    public function testSettingInPreferredUnit()
+    public function testSettingInPreferredUnit(): void
     {
         $this->assertEqualsWithDelta(10, (new Weight(0, new WeightUnit(WeightUnit::KG)))->setInPreferredUnit(10)->kg(), 0.1);
         $this->assertEqualsWithDelta(4.54, (new Weight(0, new WeightUnit(WeightUnit::POUNDS)))->setInPreferredUnit(10)->kg(), 0.1);
         $this->assertEqualsWithDelta(63.5, (new Weight(0, new WeightUnit(WeightUnit::STONES)))->setInPreferredUnit(10)->kg(), 0.1);
     }
 
-    public function testFromKilograms()
+    public function testFromKilograms(): void
     {
         $Weight = new Weight();
         $Weight->set(10);
@@ -36,7 +36,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(1.57, $Weight->stones(), 0.01);
     }
 
-    public function testFromPounds()
+    public function testFromPounds(): void
     {
         $Weight = new Weight();
         $Weight->setPounds(10);
@@ -46,7 +46,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.71, $Weight->stones(), 0.01);
     }
 
-    public function testFromStones()
+    public function testFromStones(): void
     {
         $Weight = new Weight();
         $Weight->setStones(10);
@@ -56,7 +56,7 @@ class WeightTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(140.0, $Weight->pounds(), 0.01);
     }
 
-    public function testStaticMethod()
+    public function testStaticMethod(): void
     {
         Configuration::General()->weightUnit()->set(WeightUnit::KG);
         $unit = '&nbsp;' . Configuration::General()->weightUnit()->unit();

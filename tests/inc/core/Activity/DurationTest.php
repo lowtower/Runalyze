@@ -9,7 +9,7 @@ namespace Runalyze\Activity;
  */
 class DurationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testFromSeconds()
+    public function testFromSeconds(): void
     {
         $Time = new Duration(17.23);
 
@@ -17,7 +17,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(127, $Time->fromSeconds(127)->seconds());
     }
 
-    public function testFromString()
+    public function testFromString(): void
     {
         $Time = new Duration('1:17:21');
 
@@ -28,7 +28,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10.05, $Time->fromString('10.05')->seconds());
     }
 
-    public function testAddAndSubtract()
+    public function testAddAndSubtract(): void
     {
         $Time = new Duration(100);
 
@@ -36,14 +36,14 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(150, $Time->subtract(new Duration(50))->seconds());
     }
 
-    public function testMultiply()
+    public function testMultiply(): void
     {
         $Time = new Duration(10);
 
         $this->assertEquals(20, $Time->multiply(2)->seconds());
     }
 
-    public function testIsFlags()
+    public function testIsFlags(): void
     {
         $Time = new Duration();
 
@@ -56,7 +56,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($Time->isNegative());
     }
 
-    public function testAutoFormat()
+    public function testAutoFormat(): void
     {
         $Time = new Duration();
 
@@ -72,7 +72,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('0:41', $Time->fromString('   41')->string());
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         $Time = new Duration();
 
@@ -82,12 +82,12 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('00:01', $Time->fromString('3601')->string('i:s'));
     }
 
-    public function testStaticMethod()
+    public function testStaticMethod(): void
     {
         $this->assertEquals('1d 09:13:41', Duration::format('33:13:41,4'));
     }
 
-    public function testExactLimits()
+    public function testExactLimits(): void
     {
         $Time = new Duration();
 
@@ -98,7 +98,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1:00', $Time->fromString('    1:00')->string());
     }
 
-    public function testStrangeResults()
+    public function testStrangeResults(): void
     {
         $Time = new Duration();
 
@@ -106,7 +106,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1:26', $Time->fromSeconds(172 * 0.2 / 0.4)->string(Duration::FORMAT_AUTO, 1));
     }
 
-    public function testCompetitionResults()
+    public function testCompetitionResults(): void
     {
         $Time = new Duration();
 
@@ -115,7 +115,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1:03', $Time->fromSeconds(63.00)->string(Duration::FORMAT_COMPETITION, 2));
     }
 
-    public function testHourFormat()
+    public function testHourFormat(): void
     {
         $Time = new Duration();
 
@@ -123,7 +123,7 @@ class DurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('27:13:08', $Time->fromSeconds(27 * 3600 + 13 * 60 + 8)->string(Duration::FORMAT_WITH_HOURS));
     }
 
-    public function testEmptyTime()
+    public function testEmptyTime(): void
     {
         $Time = new Duration(0);
 

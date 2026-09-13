@@ -19,7 +19,7 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $this->Analyzer = new FlatOrHillyAnalyzer();
     }
 
-    public function testThatElevationsAreRequired()
+    public function testThatElevationsAreRequired(): void
     {
         $trackdata = new Trackdata();
         $trackdata->setDistance(range(0.0, 13.5, 1.0));
@@ -33,7 +33,7 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Analyzer->calculatePercentageHillyFor($activity));
     }
 
-    public function testThatDistancesAreRequired()
+    public function testThatDistancesAreRequired(): void
     {
         $route = new Route();
         $route->setElevationsCorrected([100, 200, 350, 512, 270]);
@@ -47,7 +47,7 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Analyzer->calculatePercentageHillyFor($activity));
     }
 
-    public function testSimpleActivity()
+    public function testSimpleActivity(): void
     {
         $trackdata = new Trackdata();
         $trackdata->setDistance([0.0, 1.0, 2.2, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]);
@@ -64,7 +64,7 @@ class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0.78, $this->Analyzer->calculatePercentageHillyFor($activity, 0.03));
     }
 
-    public function testArrayWithShortPeak()
+    public function testArrayWithShortPeak(): void
     {
         $this->assertEquals(0.625, $this->Analyzer->calculatePercentageFlatForArrays(
             [0.00, 0.01, 0.05, 0.10, 0.20, 1.00, 1.60],

@@ -23,7 +23,7 @@ class ActivityRoutePrivacyTest extends \PHPUnit\Framework\TestCase
         $this->object = new ActivityRoutePrivacy();
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals(true, $this->object->showAlways());
         $this->assertEquals(false, $this->object->showNever());

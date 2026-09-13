@@ -7,7 +7,7 @@ use Runalyze\Profile\Weather\Source\WeatherSourceProfile;
 
 class WeatherSourceProfileTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatAllClassesExist()
+    public function testThatAllClassesExist(): void
     {
         foreach (WeatherSourceProfile::getEnum() as $enum) {
             /** @var SourceInterface $source */

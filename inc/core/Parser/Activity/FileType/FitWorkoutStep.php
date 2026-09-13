@@ -55,7 +55,7 @@ class FitWorkoutStep
      *
      * @param array<string, mixed> $values
      */
-    public function collectWorkoutstep(array &$values)
+    public function collectWorkoutstep(array &$values): void
     {
         // intensity (like warmup, cooldown ...)
         if (isset($values['intensity'][0])) {

@@ -4,15 +4,9 @@ namespace Runalyze\Parser\Activity\Common;
 
 trait PauseDetectionCapableTrait
 {
-    /**
-     * @var bool
-     */
-    protected $DetectPauses = true;
+    protected bool $DetectPauses = true;
 
-    /**
-     * @param bool $flag
-     */
-    public function activatePauseDetection($flag = true)
+    public function activatePauseDetection(bool $flag = true)
     {
         $this->DetectPauses = $flag;
     }

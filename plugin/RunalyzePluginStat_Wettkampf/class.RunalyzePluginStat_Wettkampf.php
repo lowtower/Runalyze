@@ -135,7 +135,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * Get table for year comparison - not to use within this plugin!
      * @return string
      */
-    public function getYearComparisonTable()
+    public function getYearComparisonTable(): string|false
     {
         ob_start();
         $this->loadRaces();
@@ -146,7 +146,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display all divs
      */
-    private function displayDivs()
+    private function displayDivs(): void
     {
         echo HTML::clearBreak();
 
@@ -160,7 +160,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         echo '</div>';
     }
 
-    private function displayAllCompetitions()
+    private function displayAllCompetitions(): void
     {
         $this->displayTableStart('all-competitions-table');
 
@@ -178,7 +178,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display all personal bests
      */
-    private function displayPersonalBests()
+    private function displayPersonalBests(): void
     {
         $this->displayTableStart('pb-table');
         $this->displayPersonalBestsTRs();
@@ -196,7 +196,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         $this->displayPersonalBestYears();
     }
 
-    private function displayHintForPersonalBests()
+    private function displayHintForPersonalBests(): void
     {
         echo HTML::info(
             __('This list shows all distances selected for yearly comparison or with at least two results.') . '<br>' .
@@ -204,7 +204,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         );
     }
 
-    private function displayLinkToPerformanceChart()
+    private function displayLinkToPerformanceChart(): void
     {
         echo '<div class="c blocklist blocklist-width-auto margin-top">
             <a class="window" href="my/raceresult/performance-chart"><i class="fa far fa-fw fa-tachometer-alt"></i> <strong>' . __('Performance chart') . '</strong></a>
@@ -214,7 +214,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display all table-rows for personal bests
      */
-    private function displayPersonalBestsTRs()
+    private function displayPersonalBestsTRs(): void
     {
         $this->PBdistances = [];
         $AllDistances = $this->RaceContainer->distances();
@@ -248,7 +248,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display all image-links for personal bests
      */
-    private function displayPersonalBestsImages()
+    private function displayPersonalBestsImages(): void
     {
         $display_km = $this->PBdistances[0];
         if (in_array($this->Configuration()->value('main_distance'), $this->PBdistances)) {
@@ -292,7 +292,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display comparison for all years for personal bests
      */
-    private function displayPersonalBestYears()
+    private function displayPersonalBestYears(): void
     {
         $year = [];
         $dists = [];
@@ -394,7 +394,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
         echo '</table>';
     }
 
-    private function displayTableStart(string $id)
+    private function displayTableStart(string $id): void
     {
         echo '<table class="fullwidth zebra-style" id="' . $id . '">
 				<thead>
@@ -427,7 +427,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * Display table-row for a competition
      * @param array<string, mixed> $data
      */
-    private function displayWKTr(array $data)
+    private function displayWKTr(array $data): void
     {
         $Activity = new Activity\Entity($data);
 
@@ -472,12 +472,12 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * Display an empty table-row
      * @param string $text [optional]
      */
-    private function displayEmptyTr(string $text = '')
+    private function displayEmptyTr(string $text = ''): void
     {
         echo '<tr class="a"><td colspan="11">' . $text . '</td></tr>';
     }
 
-    private function displayTableEnd(string $id)
+    private function displayTableEnd(string $id): void
     {
         echo '</tbody>';
         echo '</table>';
@@ -494,7 +494,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Display statistics for weather
      */
-    private function displayWeatherStatistics()
+    private function displayWeatherStatistics(): void
     {
         $Condition = new Weather\Condition(0);
         $Strings = [];
@@ -538,7 +538,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
      * @param int $id ID of the training
      * @return string
      */
-    private function getEditIconForRaceResult($id)
+    private function getEditIconForRaceResult($id): string|array|null
     {
         $code = (new Icon('far fa-pencil-alt'))->code();
 
@@ -571,7 +571,7 @@ class RunalyzePluginStat_Wettkampf extends PluginStat
     /**
      * Handle data from get-variables
      */
-    private function handleGetData()
+    private function handleGetData(): void
     {
         if (isset($_GET['dat']) && (string) $_GET['dat'] !== '') {
             $parts = explode('-', $_GET['dat']);

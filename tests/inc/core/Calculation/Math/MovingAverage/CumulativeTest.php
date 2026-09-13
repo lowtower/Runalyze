@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage;
 
 class CumulativeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Object = new Cumulative([5, 3, 4, 8, 10, 6, -1]);
         $Object->calculate();
@@ -14,7 +14,7 @@ class CumulativeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([5, 4, 4, 5, 6, 6, 5], $Object->movingAverage());
     }
 
-    public function testWithTrivialIndexData()
+    public function testWithTrivialIndexData(): void
     {
         $Object = new Cumulative([0, 1, 2], [1, 1, 1], false);
         $Object->calculate();
@@ -22,7 +22,7 @@ class CumulativeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 0.5, 1], $Object->movingAverage());
     }
 
-    public function testWithIndexData()
+    public function testWithIndexData(): void
     {
         $Object = new Cumulative([6, 12, 14, 15], [1, 2, 1, 4], false);
         $Object->calculate();

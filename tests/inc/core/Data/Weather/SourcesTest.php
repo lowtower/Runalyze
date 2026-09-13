@@ -4,7 +4,7 @@ namespace Runalyze\Data\Weather;
 
 class SourcesTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatStringsAreDefined()
+    public function testThatStringsAreDefined(): void
     {
         foreach (Sources::getEnum() as $id) {
             $stringValue = Sources::stringFor($id);

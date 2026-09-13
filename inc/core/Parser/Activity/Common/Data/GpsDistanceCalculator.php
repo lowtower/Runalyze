@@ -19,13 +19,7 @@ class GpsDistanceCalculator
         }
     }
 
-    /**
-     * @param float $lat1
-     * @param float $lon1
-     * @param float $lat2
-     * @param float $lon2
-     */
-    public static function gpsDistance($lat1, $lon1, $lat2, $lon2): float
+    public static function gpsDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
     {
         $rad1 = deg2rad($lat1);
         $rad2 = deg2rad($lat2);

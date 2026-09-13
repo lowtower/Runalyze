@@ -36,7 +36,7 @@ class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
         $this->underTest->collectWorkoutstep($valLap2);
     }
 
-    public function testLap0Speed()
+    public function testLap0Speed(): void
     {
         $lap = 0;
         $this->assertEquals(LapIntensity::getInstanceActive(), $this->underTest->getIntensity($lap));
@@ -46,14 +46,14 @@ class FitWorkoutStepTest extends \PHPUnit\Framework\TestCase
         ], $this->underTest->getSplitAdditionals($lap));
     }
 
-    public function testLap1Speed()
+    public function testLap1Speed(): void
     {
         $lap = 1;
         $this->assertNull($this->underTest->getIntensity($lap));
         $this->assertNull($this->underTest->getSplitAdditionals($lap));
     }
 
-    public function testLap2Hr()
+    public function testLap2Hr(): void
     {
         $lap = 2;
         $this->assertEquals(LapIntensity::getInstanceRest(), $this->underTest->getIntensity($lap));

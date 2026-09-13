@@ -38,7 +38,7 @@ class ModelQueryTest extends \PHPUnit\Framework\TestCase
         $this->DB->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testSimpleQuery()
+    public function testSimpleQuery(): void
     {
         $Query = new ModelQuery();
         $Query->execute($this->DB);
@@ -51,7 +51,7 @@ class ModelQueryTest extends \PHPUnit\Framework\TestCase
         ], $Query->data());
     }
 
-    public function testTimeRange()
+    public function testTimeRange(): void
     {
         $WeekAgo = new \DateTime('-1 week');
         $Yesterday = new \DateTime('yesterday');
@@ -66,7 +66,7 @@ class ModelQueryTest extends \PHPUnit\Framework\TestCase
         ], $Query->data());
     }
 
-    public function testSportid()
+    public function testSportid(): void
     {
         $Query = new ModelQuery();
         $Query->setSportid(1);

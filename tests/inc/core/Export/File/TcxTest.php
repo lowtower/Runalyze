@@ -10,7 +10,7 @@ use Runalyze\View\Activity\FakeContext;
 
 class TcxTest extends \PHPUnit\Framework\TestCase
 {
-    public function testThatEmptyContextIsNotPossible()
+    public function testThatEmptyContextIsNotPossible(): void
     {
         $Exporter = new Tcx(FakeContext::emptyContext());
 
@@ -84,7 +84,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertStringNotContainsString('<Extensions>', $content);
     }
 
-    public function testMinimalExampleWithOnlyTime()
+    public function testMinimalExampleWithOnlyTime(): void
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
             new Activity\Entity([
@@ -108,7 +108,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);
     }
 
-    public function testMinimalExampleWithTimeAndHeartrate()
+    public function testMinimalExampleWithTimeAndHeartrate(): void
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
             new Activity\Entity([
@@ -132,7 +132,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->HeartRate);
     }
 
-    public function testMinimalExampleWithCompleteTrackdata()
+    public function testMinimalExampleWithCompleteTrackdata(): void
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
             new Activity\Entity([
@@ -162,7 +162,7 @@ class TcxTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($parser->getActivityDataContainer()->ContinuousData->Power);
     }
 
-    public function testMinimalExampleWithOnlyElevationForRoute()
+    public function testMinimalExampleWithOnlyElevationForRoute(): void
     {
         $Exporter = new Tcx(FakeContext::withDefaultSport(
             new Activity\Entity([

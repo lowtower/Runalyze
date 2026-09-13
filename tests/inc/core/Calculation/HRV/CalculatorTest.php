@@ -11,7 +11,7 @@ use Runalyze\Model\HRV\Entity;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleExample()
+    public function testSimpleExample(): void
     {
         $Calculator = new Calculator(new Entity([
             Entity::DATA => [
@@ -28,7 +28,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(5.77, $Calculator->SDSD(), 0.1);
     }
 
-    public function test5minAverages()
+    public function test5minAverages(): void
     {
         // This should generate averages of 1000/1010/1020/1030/1040 for five 5-min-intervals
         $data = [];
@@ -51,7 +51,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(15.8, $Calculator->SDANN(), 0.1);
     }
 
-    public function testCountings()
+    public function testCountings(): void
     {
         $Calculator = new Calculator(new Entity([
             Entity::DATA => [500, 510, 550, 650, 610, 510, 500, 500, 400, 500],
@@ -62,7 +62,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(4 / 10, $Calculator->pNN50());
     }
 
-    public function testFiltering()
+    public function testFiltering(): void
     {
         $CalculatorWithoutFilter = new Calculator(new Entity([
             Entity::DATA => [300, 350, 400, 701, 99, 400, 350, 300],
@@ -89,7 +89,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1902
      */
-    public function testThatInvalidDataWithZerosDoesNotThrowErrors()
+    public function testThatInvalidDataWithZerosDoesNotThrowErrors(): void
     {
         $Calculator = new Calculator(new Entity([
             Entity::DATA => explode('|', '56909|17|18340|8193|16|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|0|0|0|0|54921|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0|4|18897|14|49021|0'),
@@ -104,7 +104,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1899
      */
-    public function testThatLargeValuesAreIgnored()
+    public function testThatLargeValuesAreIgnored(): void
     {
         $Calculator = new Calculator(new Entity([
             Entity::DATA => [333, 337, 330, 338, 337, 336, 361, 321, 385, 5123],

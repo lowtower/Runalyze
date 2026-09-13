@@ -8,7 +8,7 @@ use Runalyze\Metrics\Common\Unit\Factorial;
 
 class FactorialTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeEasyValues()
+    public function testSomeEasyValues(): void
     {
         $unit = new Factorial('foo', 10);
 
@@ -17,7 +17,7 @@ class FactorialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', $unit->getAppendix());
     }
 
-    public function testDecimals()
+    public function testDecimals(): void
     {
         $this->assertEquals(2, (new Factorial('foo', 0.01))->getDecimals());
         $this->assertEquals(1, (new Factorial('foo', 0.2))->getDecimals());

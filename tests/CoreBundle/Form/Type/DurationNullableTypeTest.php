@@ -16,7 +16,7 @@ class DurationNullableTypeTest extends \PHPUnit\Framework\TestCase
         $this->Type = new DurationNullableType();
     }
 
-    public function testReverseTransform()
+    public function testReverseTransform(): void
     {
         $this->assertNull($this->Type->reverseTransform('0:00'));
     }

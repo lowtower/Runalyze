@@ -18,9 +18,9 @@ $PLUGINKEY = 'RunalyzePluginStat_Hoehenmeter';
  */
 class RunalyzePluginStat_Hoehenmeter extends PluginStat
 {
-    private $ElevationData = [];
+    private array $ElevationData = [];
 
-    private $IsFirstChangeTable = true;
+    private bool $IsFirstChangeTable = true;
 
     final public function name(): string
     {
@@ -63,7 +63,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         echo HTML::clearBreak();
     }
 
-    private function displayElevationData()
+    private function displayElevationData(): void
     {
         echo '<table class="fullwidth zebra-style r">';
         echo '<thead>' . HTML::monthTr(8, 1, 'td', true) . '</thead>';
@@ -99,7 +99,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         echo '</tbody></table>';
     }
 
-    private function displayActivityRankings()
+    private function displayActivityRankings(): void
     {
         echo '<div class="c blocklist blocklist-change-menu blocklist-width-auto margin-top-4x">
                 <a class="change triggered" href="#elevation-ranking-elevation" target="elevation-rankings"><strong><i class="fa far fa-fw fa-chart-area"></i> ' . __('Most elevation') . '</strong></a>
@@ -144,7 +144,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         echo '</div>';
     }
 
-    private function displayData(string $title, string $changeId, array $data, \Closure $functionToDisplayElevation)
+    private function displayData(string $title, string $changeId, array $data, \Closure $functionToDisplayElevation): void
     {
         echo '<table class="fullwidth zebra-style more-padding change" id="elevation-ranking-' . $changeId . '"' . (! $this->IsFirstChangeTable ? ' style="display:none;"' : '') . '>';
         echo '<thead><tr class="b c"><th colspan="4">' . $title . '</th><th><abbr title="Climb Score">CS</abbr></th></tr></thead>';
@@ -197,7 +197,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         return '<em>' . __('unlabeled') . '</em>';
     }
 
-    private function initElevationData()
+    private function initElevationData(): void
     {
         $result = DB::getInstance()->query(
             '
@@ -219,7 +219,7 @@ class RunalyzePluginStat_Hoehenmeter extends PluginStat
         }
     }
 
-    private function getData(string $order, $limit = 10)
+    private function getData(string $order, $limit = 10): array
     {
         return DB::getInstance()->query(
             '

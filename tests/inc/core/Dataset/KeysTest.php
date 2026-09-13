@@ -4,14 +4,14 @@ namespace Runalyze\Dataset;
 
 class KeysTest extends \PHPUnit\Framework\TestCase
 {
-    public function testAllIDs()
+    public function testAllIDs(): void
     {
         foreach (Keys::getEnum() as $id) {
             $this->assertEquals($id, Keys::get($id)->id());
         }
     }
 
-    public function testThatIDsAreUnique()
+    public function testThatIDsAreUnique(): void
     {
         $this->assertEquals(
             Keys::getEnum(),
@@ -19,7 +19,7 @@ class KeysTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testThatSummaryWorksForAllKeys()
+    public function testThatSummaryWorksForAllKeys(): void
     {
         foreach (Keys::getEnum() as $key) {
             $KeyObject = Keys::get($key);
@@ -34,14 +34,14 @@ class KeysTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatLabelIsNeverEmpty()
+    public function testThatLabelIsNeverEmpty(): void
     {
         foreach (Keys::getEnum() as $id) {
             $this->assertNotEmpty(Keys::get($id)->label());
         }
     }
 
-    public function testEmptyKeysForValuesNotInDatabase()
+    public function testEmptyKeysForValuesNotInDatabase(): void
     {
         foreach (Keys::getEnum() as $id) {
             $Key = Keys::get($id);
@@ -52,7 +52,7 @@ class KeysTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testInvalidKeyForGet()
+    public function testInvalidKeyForGet(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Keys::get('key-ids-are-integers');

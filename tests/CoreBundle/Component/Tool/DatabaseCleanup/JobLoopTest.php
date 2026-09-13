@@ -33,7 +33,7 @@ class JobLoopTest extends DatabaseTestCase
         $this->PDO->exec('DELETE FROM `runalyze_training`');
     }
 
-    public function testNoLoopForSingleActivity()
+    public function testNoLoopForSingleActivity(): void
     {
         $this->PDO->exec(
             'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) ' .
@@ -52,7 +52,7 @@ class JobLoopTest extends DatabaseTestCase
         $this->assertEquals(0, $data['trimp']);
     }
 
-    public function testCompleteLoopForSingleActivity()
+    public function testCompleteLoopForSingleActivity(): void
     {
         $this->PDO->exec(
             'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) ' .
@@ -75,7 +75,7 @@ class JobLoopTest extends DatabaseTestCase
         $this->assertNotEquals(0, $data['trimp']);
     }
 
-    public function testOverwriteElevation()
+    public function testOverwriteElevation(): void
     {
         $this->PDO->exec('INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `elevation`, `routeid`, `accountid`, `sportid`, `time`) VALUES (1, 10, 3600, 42, 1, 0, ' . Configuration::General()->runningSport() . ', 1477839906)');
         $this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (1, 123, 123, 123, 0)');
@@ -91,7 +91,7 @@ class JobLoopTest extends DatabaseTestCase
         )->fetchColumn());
     }
 
-    public function testDontOverwriteElevation()
+    public function testDontOverwriteElevation(): void
     {
         $this->PDO->exec('INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `elevation`, `routeid`, `accountid`, `sportid`, `time`) VALUES (1, 10, 3600, 42, 1, 0, ' . Configuration::General()->runningSport() . ', 1477839906)');
         $this->PDO->exec('INSERT INTO `runalyze_route` (`id`, `elevation`, `elevation_up`, `elevation_down`, `accountid`) VALUES (1, 123, 123, 123, 0)');
@@ -106,7 +106,7 @@ class JobLoopTest extends DatabaseTestCase
         )->fetchColumn());
     }
 
-    public function testUsageOfCorrectElevation()
+    public function testUsageOfCorrectElevation(): void
     {
         $this->PDO->exec(
             'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) ' .
@@ -140,7 +140,7 @@ class JobLoopTest extends DatabaseTestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1970
      */
-    public function testUsageOfCorrectElevationForVO2max()
+    public function testUsageOfCorrectElevationForVO2max(): void
     {
         $this->PDO->exec(
             'INSERT INTO `runalyze_training` (`id`, `routeid`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) ' .
@@ -166,7 +166,7 @@ class JobLoopTest extends DatabaseTestCase
         $this->assertGreaterThan($vo2maxElevationDown, $vo2maxElevationUp);
     }
 
-    public function testIgnoreVO2maxForNotRunning()
+    public function testIgnoreVO2maxForNotRunning(): void
     {
         $this->PDO->exec(
             'INSERT INTO `runalyze_training` (`id`, `distance`, `s`, `pulse_avg`, `sportid`, `accountid`, `time`) ' .

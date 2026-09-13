@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Activity;
 
 class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testValidateInput()
+    public function testValidateInput(): void
     {
         // ok
         $this->assertFalse(HrZonesCalculator::validateInputZone('t1:130:#12345f'));
@@ -40,7 +40,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(HrZonesCalculator::validateInputZone('12345678901234567890123456:80')); // to long
     }
 
-    public function testSorting()
+    public function testSorting(): void
     {
         $expected = [
             '1',
@@ -54,7 +54,63 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testFitZones()
+    /**
+     * Zones with an identical BPM value (e.g. two sources deliver the same
+     * boundary) must not be shuffled.
+     */
+    public function testSortingWithEqualBpm(): void
+    {
+        $input = [
+            't1:100:#000000',
+            't2:100',
+            '100:#111111',
+            't3:100',
+        ];
+
+        // equal BPM values => order stays as in the input (stable sort)
+        $this->assertEquals($input, HrZonesCalculator::sortZones($input));
+
+        // mixed with one actually smaller value: only that one moves to the front,
+        // the mutually equal elements keep their relative order
+        $input2 = [
+            't1:100:#000000',
+            't2:50',
+            't3:100',
+        ];
+        $this->assertEquals([
+            't2:50',
+            't1:100:#000000',
+            't3:100',
+        ], HrZonesCalculator::sortZones($input2));
+    }
+
+    /**
+     * Values that contain no extractable BPM number (e.g. an empty string or
+     * plain text without digits) must not cause sortZones() to abort with an
+     * exception/TypeError, nor distort the order of the remaining valid
+     * values. They are deterministically treated as BPM=0 and therefore end
+     * up at the beginning of the ascending sorted list.
+     */
+    public function testSortingWithInvalidValues(): void
+    {
+        $input = [
+            't1:130:#000000',
+            'invalid',
+            't2:13',
+            '',
+            '1',
+        ];
+
+        $this->assertEquals([
+            'invalid',
+            '',
+            '1',
+            't2:13',
+            't1:130:#000000',
+        ], HrZonesCalculator::sortZones($input));
+    }
+
+    public function testFitZones(): void
     {
         // we need 6 zones without text&color
         $underTest = new HrZonesCalculator(['90', '100', '120', '130', '135', '180'], null);
@@ -145,7 +201,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('activity stored zones', $underTest->getSourceHint());
     }
 
-    public function testDefaultZones()
+    public function testDefaultZones(): void
     {
         $underTest = new HrZonesCalculator(null, null);
         $result = $underTest->getZones(5, 80, 100);
@@ -235,7 +291,7 @@ class HrZonesCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('default zones', $underTest->getSourceHint());
     }
 
-    public function testSportZones()
+    public function testSportZones(): void
     {
         $underTest = new HrZonesCalculator(null, ['t1:70:#000011', '100:#002200', 't3:120']);
         $result = $underTest->getZones(71, 110, 150);

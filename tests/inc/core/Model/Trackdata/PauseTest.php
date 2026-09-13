@@ -9,7 +9,7 @@ namespace Runalyze\Model\Trackdata;
  */
 class PauseTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $P = new Pause();
 
@@ -20,7 +20,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($P->hrEnd());
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $P = new Pause(60, 10, 120, 100);
 
@@ -32,7 +32,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(20, $P->hrDiff());
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $array = [
             Pause::TIME => 60,

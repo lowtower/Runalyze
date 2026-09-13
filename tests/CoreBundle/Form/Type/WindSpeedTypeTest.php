@@ -8,7 +8,7 @@ use Runalyze\Metrics\Velocity\Unit\MilesPerHour;
 
 class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testTransformWithKilometerPerHour()
+    public function testTransformWithKilometerPerHour(): void
     {
         $type = new WindSpeedType(new KilometerPerHour());
 
@@ -19,7 +19,7 @@ class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(81, $type->transform(81));
     }
 
-    public function testReverseTransformWithKilometerPerHour()
+    public function testReverseTransformWithKilometerPerHour(): void
     {
         $type = new WindSpeedType(new KilometerPerHour());
 
@@ -30,7 +30,7 @@ class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(81, $type->reverseTransform('81'));
     }
 
-    public function testTransformWithMilesPerHour()
+    public function testTransformWithMilesPerHour(): void
     {
         $type = new WindSpeedType(new MilesPerHour());
 
@@ -41,7 +41,7 @@ class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $type->transform(81));
     }
 
-    public function testReverseTransformWithMilesPerHour()
+    public function testReverseTransformWithMilesPerHour(): void
     {
         $type = new WindSpeedType(new MilesPerHour());
 

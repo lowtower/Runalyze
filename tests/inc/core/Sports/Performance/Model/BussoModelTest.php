@@ -9,7 +9,7 @@ use Runalyze\Sports\Performance\Model\BussoModel;
 
 class BussoModelTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEquivalenceWithBanister()
+    public function testEquivalenceWithBanister(): void
     {
         $data = [
             0 => 150,

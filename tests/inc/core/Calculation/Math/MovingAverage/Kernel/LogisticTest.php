@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class LogisticTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForDefaultWidth()
+    public function testSomeValuesForDefaultWidth(): void
     {
         $Kernel = new Logistic(10.0);
 

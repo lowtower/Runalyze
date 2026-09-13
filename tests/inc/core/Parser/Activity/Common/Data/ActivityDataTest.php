@@ -21,7 +21,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->Data = new ActivityData();
     }
 
-    public function testCompletionFromEmptyContinuousData()
+    public function testCompletionFromEmptyContinuousData(): void
     {
         $this->Data->completeFromContinuousData(new ContinuousData(), new RoundCollection());
 
@@ -37,7 +37,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Data->AvgGroundContactBalance);
     }
 
-    public function testCompletionFromTimeInContinuousDataOnly()
+    public function testCompletionFromTimeInContinuousDataOnly(): void
     {
         $continuousData = new ContinuousData();
         $continuousData->Time = range(0, 10);
@@ -71,7 +71,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         return $continuousData;
     }
 
-    public function testCompletionFromContinuousData()
+    public function testCompletionFromContinuousData(): void
     {
         $this->Data->completeFromContinuousData($this->getExampleForFilledContinuousData(), new RoundCollection());
 
@@ -87,7 +87,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5000, $this->Data->AvgGroundContactBalance);
     }
 
-    public function testCompletionFromContinuousDataDoesNotOverwrite()
+    public function testCompletionFromContinuousDataDoesNotOverwrite(): void
     {
         $this->Data->Duration = 120;
         $this->Data->Distance = 0.5;
@@ -114,7 +114,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5015, $this->Data->AvgGroundContactBalance);
     }
 
-    public function testCompletionFromEmptyPauses()
+    public function testCompletionFromEmptyPauses(): void
     {
         $this->Data->Duration = 123;
         $this->Data->completeFromPauses(new PauseCollection());
@@ -122,14 +122,14 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123, $this->Data->ElapsedTime);
     }
 
-    public function testCompletionFromEmptyPausesWithNoDuration()
+    public function testCompletionFromEmptyPausesWithNoDuration(): void
     {
         $this->Data->completeFromPauses(new PauseCollection());
 
         $this->assertNull($this->Data->ElapsedTime);
     }
 
-    public function testCompletionFromPauses()
+    public function testCompletionFromPauses(): void
     {
         $this->Data->Duration = 123;
         $this->Data->completeFromPauses(new PauseCollection([
@@ -140,7 +140,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(182, $this->Data->ElapsedTime);
     }
 
-    public function testThatPausesCanNotOverwrite()
+    public function testThatPausesCanNotOverwrite(): void
     {
         $this->Data->Duration = 123;
         $this->Data->ElapsedTime = 125;
@@ -151,7 +151,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(125, $this->Data->ElapsedTime);
     }
 
-    public function testCompletionFromEmptyRounds()
+    public function testCompletionFromEmptyRounds(): void
     {
         $this->Data->completeFromRounds(new RoundCollection());
 
@@ -159,7 +159,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Data->Distance);
     }
 
-    public function testCompletionFromRounds()
+    public function testCompletionFromRounds(): void
     {
         $this->Data->completeFromRounds(new RoundCollection([
             new Round(0.4, 61),
@@ -171,7 +171,7 @@ class ActivityDataTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1.0, $this->Data->Distance);
     }
 
-    public function testThatRoundsCanNotOverwrite()
+    public function testThatRoundsCanNotOverwrite(): void
     {
         $this->Data->Duration = 127;
         $this->Data->Distance = 0.8;

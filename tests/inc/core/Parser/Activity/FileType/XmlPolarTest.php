@@ -20,7 +20,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->Parser = new XmlPolar();
     }
 
-    public function testStandardFile()
+    public function testStandardFile(): void
     {
         $this->parseFile($this->Parser, 'xml/Polar.xml');
 
@@ -36,7 +36,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
 
-    public function testFileWithArrays()
+    public function testFileWithArrays(): void
     {
         $this->parseFile($this->Parser, 'xml/Polar-with-arrays.xml');
 
@@ -58,7 +58,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->checkExpectedRoundData(array_fill(0, 20, [300, 1.000]), 300, 0.001);
     }
 
-    public function testFileWithArraysAndAdditionalCommaAtTheEnd()
+    public function testFileWithArraysAndAdditionalCommaAtTheEnd(): void
     {
         $this->parseFile($this->Parser, 'xml/Polar-additional-comma.xml');
 
@@ -66,7 +66,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertSameSize($this->Container->ContinuousData->HeartRate, $this->Container->ContinuousData->Cadence);
     }
 
-    public function testFileWithMultipleActivities()
+    public function testFileWithMultipleActivities(): void
     {
         $this->parseFile($this->Parser, 'xml/Multiple-Polar.xml');
 
@@ -107,7 +107,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         );
     }
 
-    public function testFileWithLapsWithoutDistance()
+    public function testFileWithLapsWithoutDistance(): void
     {
         $this->parseFile($this->Parser, 'xml/Polar-lap-without-distance.xml');
 

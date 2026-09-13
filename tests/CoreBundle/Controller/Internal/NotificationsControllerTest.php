@@ -39,7 +39,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         return $notification->getId();
     }
 
-    public function testThatReadNotificationThrowsAccessDeniedForUnknownId()
+    public function testThatReadNotificationThrowsAccessDeniedForUnknownId(): void
     {
         $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/_internal/notifications/read/314159');
@@ -47,7 +47,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(404, $client);
     }
 
-    public function testThatReadNotificationThrowsAccessDeniedForWrongUser()
+    public function testThatReadNotificationThrowsAccessDeniedForWrongUser(): void
     {
         $id = $this->insertMessageFor($this->Account);
 
@@ -58,7 +58,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($client->getResponse(), false);
     }
 
-    public function testThatReadNotificationWorksForCorrectUser()
+    public function testThatReadNotificationWorksForCorrectUser(): void
     {
         $id = $this->insertMessageFor($this->Account);
 
@@ -69,7 +69,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         $this->isSuccessful($client->getResponse());
     }
 
-    public function testThatNewNotificationActionIsEmptyForEmptyAccount()
+    public function testThatNewNotificationActionIsEmptyForEmptyAccount(): void
     {
         $this->insertMessageFor($this->Account);
 
@@ -84,7 +84,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
         );
     }
 
-    public function testThatNewNotificationActionReturnsCorrectTextAndLink()
+    public function testThatNewNotificationActionReturnsCorrectTextAndLink(): void
     {
         $id = $this->insertMessageFor($this->Account);
 

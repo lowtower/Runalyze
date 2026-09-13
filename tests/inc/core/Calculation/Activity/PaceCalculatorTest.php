@@ -11,7 +11,7 @@ use Runalyze\Model\Trackdata\Entity;
  */
 class PaceCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNoDistanceGiven()
+    public function testNoDistanceGiven(): void
     {
         $Calculator = new PaceCalculator(new Entity([
             Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
@@ -20,7 +20,7 @@ class PaceCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $Calculator->calculate());
     }
 
-    public function testNothingSpecialToDo()
+    public function testNothingSpecialToDo(): void
     {
         $Calculator = new PaceCalculator(new Entity([
             Entity::TIME => [0, 7, 16, 20, 24, 25, 30, 40, 60, 66],
@@ -32,7 +32,7 @@ class PaceCalculatorTest extends \PHPUnit\Framework\TestCase
         ], $Calculator->calculate());
     }
 
-    public function testSmoothPaceForRuntasticData()
+    public function testSmoothPaceForRuntasticData(): void
     {
         $Calculator = new PaceCalculator(new Entity([
             Entity::TIME => [0, 25, 27, 31, 32, 35, 37, 39, 45, 50],

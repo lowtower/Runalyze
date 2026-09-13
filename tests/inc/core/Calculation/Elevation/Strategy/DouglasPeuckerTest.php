@@ -9,7 +9,7 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class DouglasPeuckerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $DP = new DouglasPeucker([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], 0);
         $DP->runSmoothing();
@@ -30,7 +30,7 @@ class DouglasPeuckerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([0, 3, 5, 6, 8, 9], $DP->smoothingIndices());
     }
 
-    public function testComplicatedIndices()
+    public function testComplicatedIndices(): void
     {
         $DP = new DouglasPeucker([0, 2, 4, 6, 15, 27, 25, 18, 13, 58, 95, 94, 91, 100, 105, 127, 15, 125, 67, 65, 0], 10);
         $DP->runSmoothing();

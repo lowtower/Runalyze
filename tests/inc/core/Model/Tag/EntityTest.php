@@ -9,7 +9,7 @@ namespace Runalyze\Model\Tag;
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $Tag = new Entity([
             Entity::TAG => 'Tag Test',

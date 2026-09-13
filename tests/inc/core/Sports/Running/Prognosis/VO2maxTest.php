@@ -18,12 +18,12 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
         $this->VO2max = new VO2max();
     }
 
-    public function testWithoutReferenceTime()
+    public function testWithoutReferenceTime(): void
     {
         $this->assertFalse($this->VO2max->areValuesValid());
     }
 
-    public function testInSeconds()
+    public function testInSeconds(): void
     {
         $this->VO2max->adjustForMarathonShape(false);
 
@@ -55,7 +55,7 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testGetAdjustedVO2maxForDistanceIfWanted()
+    public function testGetAdjustedVO2maxForDistanceIfWanted(): void
     {
         $this->VO2max->setEffectiveVO2max(30.0);
         $this->VO2max->adjustForMarathonShape(true);
@@ -70,7 +70,7 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(30.0, $this->VO2max->getAdjustedVO2maxForDistanceIfWanted(50.0));
     }
 
-    public function testGetAdjustedVO2maxForDistance()
+    public function testGetAdjustedVO2maxForDistance(): void
     {
         $this->VO2max->setEffectiveVO2max(30.0);
         $this->VO2max->setMarathonShape(0.0);
@@ -95,7 +95,7 @@ class VO2maxTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(60 * 0.91, $this->VO2max->getAdjustedVO2maxForDistance(50.0), 0.2);
     }
 
-    public function testGetAdjustmentFactor()
+    public function testGetAdjustmentFactor(): void
     {
         $this->VO2max->setMarathonShape(0.0);
 

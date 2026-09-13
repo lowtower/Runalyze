@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
 class QuarticTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomeValuesForWidth2()
+    public function testSomeValuesForWidth2(): void
     {
         $Kernel = new Quartic(2);
 
@@ -23,7 +23,7 @@ class QuarticTest extends \PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testSomeValuesForWidth10()
+    public function testSomeValuesForWidth10(): void
     {
         $Kernel = new Quartic(10);
 

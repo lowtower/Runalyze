@@ -12,7 +12,7 @@ use Runalyze\Model;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGeneralFunctionality()
+    public function testGeneralFunctionality(): void
     {
         $Calculator = new Calculator(new Model\Activity\Entity([
             Model\Activity\Entity::DISTANCE => 10,
@@ -28,7 +28,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan($Calculator->estimateVO2maxByTime(), $Calculator->estimateVO2maxByHeartRate());
     }
 
-    public function testEmptyValues()
+    public function testEmptyValues(): void
     {
         $Calculator = new Calculator(new Model\Activity\Entity());
 
@@ -38,7 +38,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Calculator->calculateTrimp());
     }
 
-    public function testCalculationsWithElevation()
+    public function testCalculationsWithElevation(): void
     {
         $Activity = new Model\Activity\Entity([
             Model\Activity\Entity::DISTANCE => 10,
@@ -92,7 +92,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testCalculationsWithTrackdata()
+    public function testCalculationsWithTrackdata(): void
     {
         $Activity = new Model\Activity\Entity([
             Model\Activity\Entity::DISTANCE => 10,
@@ -109,7 +109,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan($CalculatorOnlyActivity->calculateTrimp(), $CalculatorWithTrackdata->calculateTrimp());
     }
 
-    public function testCalculationWithEmptyHeartrateArray()
+    public function testCalculationWithEmptyHeartrateArray(): void
     {
         $Activity = new Model\Activity\Entity([
             Model\Activity\Entity::DISTANCE => 10,

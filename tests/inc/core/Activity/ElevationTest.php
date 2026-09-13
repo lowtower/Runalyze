@@ -9,19 +9,19 @@ use Runalyze\Parameter\Application\DistanceUnitSystem;
 
 class ElevationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEquals('100', (new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->string(false));
         $this->assertEquals('328', (new Elevation(100, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->string(false));
     }
 
-    public function testSettingInPreferredUnit()
+    public function testSettingInPreferredUnit(): void
     {
         $this->assertEquals(100, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::METRIC)))->setInPreferredUnit(100)->meter());
         $this->assertEquals(30, (new Elevation(0, new DistanceUnitSystem(DistanceUnitSystem::IMPERIAL)))->setInPreferredUnit(100)->meter());
     }
 
-    public function testFromMeter()
+    public function testFromMeter(): void
     {
         $Elevation = new Elevation();
         $Elevation->set(100);
@@ -30,7 +30,7 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(328, $Elevation->feet());
     }
 
-    public function testFromFeet()
+    public function testFromFeet(): void
     {
         $Elevation = new Elevation();
         $Elevation->setFeet(100);
@@ -39,7 +39,7 @@ class ElevationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $Elevation->feet());
     }
 
-    public function testStaticMethod()
+    public function testStaticMethod(): void
     {
         Configuration::General()->distanceUnitSystem()->set(DistanceUnitSystem::METRIC);
 

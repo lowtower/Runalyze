@@ -7,7 +7,7 @@ use Runalyze\Parameter\Application\TemperatureUnit;
 
 class HeatIndexTest extends \PHPUnit\Framework\TestCase
 {
-    public function testUnknownHeatIndex()
+    public function testUnknownHeatIndex(): void
     {
         $obj = new HeatIndex();
 
@@ -15,7 +15,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $obj->string());
     }
 
-    public function testManualSetting()
+    public function testManualSetting(): void
     {
         $obj = new HeatIndex();
         $obj->set(42);
@@ -23,7 +23,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(42, $obj->value());
     }
 
-    public function testTryingToSetInvalidValue()
+    public function testTryingToSetInvalidValue(): void
     {
         $obj = new HeatIndex();
 
@@ -32,7 +32,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
         $obj->set('foobar');
     }
 
-    public function testSomeValues()
+    public function testSomeValues(): void
     {
         // [temperature, humidity, heatIndex]
         $valuesToTest = [
@@ -61,7 +61,7 @@ class HeatIndexTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSettingFromWeather()
+    public function testSettingFromWeather(): void
     {
         $heatIndex = new HeatIndex();
         $heatIndex->setFromWeather(

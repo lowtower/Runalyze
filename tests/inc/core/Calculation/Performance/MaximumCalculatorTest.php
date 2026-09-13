@@ -18,14 +18,14 @@ class FakeAbstractModel extends AbstractModel
 
 class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWrongClosure()
+    public function testWrongClosure(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new MaximumCalculator(function () {
+        new MaximumCalculator(function (): void {
         }, []);
     }
 
-    public function testNoModelInClosure()
+    public function testNoModelInClosure(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new MaximumCalculator(function (): \stdClass {
@@ -33,7 +33,7 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
         }, []);
     }
 
-    public function testTSBclosure()
+    public function testTSBclosure(): void
     {
         $Calc = new MaximumCalculator(function (array $array): \Runalyze\Sports\Performance\Model\TsbModel {
             return new TsbModel($array);
@@ -44,7 +44,7 @@ class MaximumCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Calc->maxTrimp());
     }
 
-    public function testFakeModel()
+    public function testFakeModel(): void
     {
         $Calc = new MaximumCalculator(function (array $array): \Runalyze\Calculation\Performance\FakeAbstractModel {
             return new FakeAbstractModel($array);

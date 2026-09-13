@@ -20,7 +20,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->Container = new ActivityDataContainer();
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $originalContainer = clone $this->Container;
         $this->Filter->filter($this->Container);
@@ -28,7 +28,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($originalContainer, $this->Container);
     }
 
-    public function testExampleWithoutAnyInvalidTimeSteps()
+    public function testExampleWithoutAnyInvalidTimeSteps(): void
     {
         $this->Container->ContinuousData->Time = [1, 2, 3, 4, 5];
         $this->Container->ContinuousData->HeartRate = [120, 122, 121, 122, 120];
@@ -39,7 +39,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(5, $this->Container->ContinuousData->HeartRate);
     }
 
-    public function testRemovingShortInvalidTimeSteps()
+    public function testRemovingShortInvalidTimeSteps(): void
     {
         $this->Container->ContinuousData->Time = [1, 2, 1, 2, 3];
         $this->Container->ContinuousData->HeartRate = [120, 122, 99, 122, 120];
@@ -54,7 +54,7 @@ class NegativeTimeStepFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->hasWarningThatContains('of -1s removed'));
     }
 
-    public function testStrictMode()
+    public function testStrictMode(): void
     {
         $this->Container->ContinuousData->Time = [1, 2, 1, 2, 3];
 

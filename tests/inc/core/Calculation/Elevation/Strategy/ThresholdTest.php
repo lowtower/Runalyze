@@ -9,7 +9,7 @@ namespace Runalyze\Calculation\Elevation\Strategy;
  */
 class ThresholdTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $DP = new Threshold([0, 2, 4, 6, 5, 7, 4, 8, 10, 0], 0);
         $DP->runSmoothing();

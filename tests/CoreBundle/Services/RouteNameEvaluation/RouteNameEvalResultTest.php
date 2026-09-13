@@ -15,7 +15,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     {
     }
 
-    public function testAppendNotesExistingNull()
+    public function testAppendNotesExistingNull(): void
     {
         $r = new RouteNameEvalResult('thename', 'thenote');
 
@@ -24,7 +24,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes but eval-note is empty -> use only existing one
-    public function testAppendNotesExistNewNoteEmpty()
+    public function testAppendNotesExistNewNoteEmpty(): void
     {
         $r = new RouteNameEvalResult('thename', '');
 
@@ -33,7 +33,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // no existing notes exists -> set evaluation note as new
-    public function testAppendNotesExistIsEmpty()
+    public function testAppendNotesExistIsEmpty(): void
     {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 
@@ -42,7 +42,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes exists, but no evaluation note -> append evaluation note to the end
-    public function testAppendNotesExistNotEmpty01()
+    public function testAppendNotesExistNotEmpty01(): void
     {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes");
 
@@ -53,7 +53,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes exists, but no evaluation note -> append evaluation note to the end
-    public function testAppendNotesExistNotEmpty02()
+    public function testAppendNotesExistNotEmpty02(): void
     {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes");
 
@@ -64,7 +64,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes with existing evaluation not exists -> replace eval note
-    public function testAppendNotesExist01()
+    public function testAppendNotesExist01(): void
     {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 
@@ -76,7 +76,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes with existing evaluation not exists; with further text after the eval note -> replace eval note
-    public function testAppendNotesExist02()
+    public function testAppendNotesExist02(): void
     {
         $r = new RouteNameEvalResult('thename', 'new');
 
@@ -91,7 +91,7 @@ class RouteNameEvalResultTest extends \PHPUnit\Framework\TestCase
     }
 
     // existing notes with existing evaluation exists -> replace eval note
-    public function testAppendNotesExist03()
+    public function testAppendNotesExist03(): void
     {
         $r = new RouteNameEvalResult('thename', "multi\nline\nnotes\n");
 

@@ -46,7 +46,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         return $activityId;
     }
 
-    public function testAutoLookup()
+    public function testAutoLookup(): void
     {
         $this->insert(1, 200);
 
@@ -61,7 +61,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(180, $NoLookup->lookup()->seconds());
     }
 
-    public function testStaticCache()
+    public function testStaticCache(): void
     {
         $this->insert(1, 200);
 
@@ -78,7 +78,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(180, $PB->lookup()->seconds());
     }
 
-    public function testDetails()
+    public function testDetails(): void
     {
         $this->insert(1, 200, mktime(0, 0, 0, 1, 1, 2010));
 
@@ -90,7 +90,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(mktime(0, 0, 0, 1, 1, 2010), $PB->timestamp());
     }
 
-    public function testMultiLookup()
+    public function testMultiLookup(): void
     {
         PersonalBest::activateStaticCache();
 
@@ -114,7 +114,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1100, $PB5k->seconds());
     }
 
-    public function testMultiLookupWithDetails()
+    public function testMultiLookupWithDetails(): void
     {
         PersonalBest::activateStaticCache();
         $date = mktime(12, 0, 0, 6, 1, 2010);
@@ -143,7 +143,7 @@ class PersonalBestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($date, $PB5k->timestamp());
     }
 
-    public function testMultiLookupWithDetailsForIdenticalResults()
+    public function testMultiLookupWithDetailsForIdenticalResults(): void
     {
         PersonalBest::activateStaticCache();
         $date1 = mktime(12, 0, 0, 6, 1, 2010);

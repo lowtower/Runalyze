@@ -7,7 +7,7 @@ use Runalyze\Configuration\Category;
 
 class ShapeFake extends Shape
 {
-    public function calculate()
+    public function calculate(): void
     {
         $this->Value = 50;
     }
@@ -59,7 +59,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DROP TABLE `' . PREFIX . 'training`');
     }
 
-    public function testWithoutData()
+    public function testWithoutData(): void
     {
         $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
         $Shape->calculate();
@@ -67,7 +67,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Shape->value());
     }
 
-    public function testSimpleCalculation()
+    public function testSimpleCalculation(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
@@ -79,7 +79,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(62.5, $Shape->value());
     }
 
-    public function testSimpleCalculationWithElevation()
+    public function testSimpleCalculationWithElevation(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 60)');
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 2, 1, 60, 70)');
@@ -91,7 +91,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(70, $Shape->value());
     }
 
-    public function testIDs()
+    public function testIDs(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 2, ' . time() . ', 1, 1, 80, 0)');
@@ -103,7 +103,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $Shape->value());
     }
 
-    public function testVO2maxDays()
+    public function testVO2maxDays(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . (time() - 10 * DAY_IN_S) . ', 1, 1, 80, 0)');
@@ -114,7 +114,7 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $Shape->value());
     }
 
-    public function testUseFlag()
+    public function testUseFlag(): void
     {
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 1, 50, 0)');
         $this->PDO->exec('INSERT INTO `' . PREFIX . 'training` VALUES(1, 1, ' . time() . ', 1, 0, 80, 0)');
@@ -125,14 +125,14 @@ class ShapeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(50, $Shape->value());
     }
 
-    public function testCallWithoutCalculation()
+    public function testCallWithoutCalculation(): void
     {
         $this->expectException(\RuntimeException::class);
         $Shape = new Shape($this->PDO, 1, 1, new CategoryFake());
         $Shape->value();
     }
 
-    public function testCorrector()
+    public function testCorrector(): void
     {
         $Shape = new ShapeFake($this->PDO, 1, 1, new CategoryFake());
         $Shape->setCorrector(new LegacyEffectiveVO2maxCorrector(0.9));

@@ -23,7 +23,7 @@ class ActivityPlotPrecisionTest extends \PHPUnit\Framework\TestCase
         $this->object = new ActivityPlotPrecision();
     }
 
-    public function testAssigns()
+    public function testAssigns(): void
     {
         $this->object->set('100m');
         $this->assertTrue($this->object->byDistance());

@@ -18,7 +18,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->Pause = new Pause(42, 314);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEquals(42, $this->Pause->getTimeIndex());
         $this->assertEquals(314, $this->Pause->getDuration());
@@ -35,7 +35,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->Pause->getPerformanceCondition());
     }
 
-    public function testHeartRateDetails()
+    public function testHeartRateDetails(): void
     {
         $this->Pause->setHeartRateDetails(163, 142);
 
@@ -44,7 +44,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(142, $this->Pause->getHeartRateAtEnd());
     }
 
-    public function testHeartRateRecoveryDetails()
+    public function testHeartRateRecoveryDetails(): void
     {
         $this->Pause->setRecoveryDetails(112, 120);
 
@@ -53,7 +53,7 @@ class PauseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(120, $this->Pause->getTimeUntilRecovery());
     }
 
-    public function testPerformanceCondition()
+    public function testPerformanceCondition(): void
     {
         $this->Pause->setPerformanceCondition(-4);
 

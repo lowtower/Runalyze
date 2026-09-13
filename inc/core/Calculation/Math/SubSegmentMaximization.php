@@ -22,30 +22,15 @@ namespace Runalyze\Calculation\Math;
  */
 class SubSegmentMaximization
 {
-    /**
-     * @var array
-     */
-    protected $Data;
+    protected array $Data;
 
-    /**
-     * @var array
-     */
-    protected $IndexData;
+    protected array $IndexData;
 
-    /**
-     * @var int
-     */
-    protected $NumData;
+    protected int $NumData;
 
-    /**
-     * @var array
-     */
-    protected $SegmentLengths;
+    protected array $SegmentLengths;
 
-    /**
-     * @var int
-     */
-    protected $NumSegmentLengths;
+    protected int $NumSegmentLengths;
 
     /**
      * @var array
@@ -120,7 +105,7 @@ class SubSegmentMaximization
      *
      * @param bool $flag
      */
-    public function disableInterpolationForOverlength($flag = false)
+    public function disableInterpolationForOverlength($flag = false): void
     {
         $this->InterpolateOverlength = $flag;
     }
@@ -130,11 +115,11 @@ class SubSegmentMaximization
      */
     protected function checkInputData()
     {
-        if ($this->NumData == 0 || $this->NumSegmentLengths == 0) {
+        if ($this->NumData === 0 || $this->NumSegmentLengths === 0) {
             throw new \InvalidArgumentException('Input data must not be empty.');
         }
 
-        if ($this->NumData != count($this->IndexData)) {
+        if ($this->NumData !== count($this->IndexData)) {
             throw new \InvalidArgumentException('Input data and index data must be of same size.');
         }
     }
@@ -154,7 +139,7 @@ class SubSegmentMaximization
         }
     }
 
-    public function maximize()
+    public function maximize(): void
     {
         $this->prepareInternalVariables();
 
@@ -185,7 +170,7 @@ class SubSegmentMaximization
         }
     }
 
-    public function minimize()
+    public function minimize(): void
     {
         $this->MinimizationFactor = -1;
 

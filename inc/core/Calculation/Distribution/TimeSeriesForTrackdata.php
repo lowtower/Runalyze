@@ -10,10 +10,7 @@ use Runalyze\Model\Trackdata;
  */
 class TimeSeriesForTrackdata extends TimeSeries
 {
-    /**
-     * @var Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
     /**
      * @var string enum
@@ -23,12 +20,12 @@ class TimeSeriesForTrackdata extends TimeSeries
     /**
      * @var string[] enums
      */
-    protected $SumDifferencesKeys;
+    protected array $SumDifferencesKeys;
 
     /**
      * @var string[] enums
      */
-    protected $AvgValuesKeys;
+    protected array $AvgValuesKeys;
 
     /**
      * @var array

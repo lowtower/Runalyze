@@ -13,7 +13,7 @@ class ActivityTest extends \PHPUnit\Framework\TestCase
      * @group review-later
      * TODO: This test needs a deeper look later. It currently fails because the $activity might be null.
      */
-    public function testThatMapWorksWithPausesButWithoutTimeArray()
+    public function testThatMapWorksWithPausesButWithoutTimeArray(): void
     {
         $Context = FakeContext::outdoorContext();
         $Context->trackdata()

@@ -4,7 +4,7 @@ namespace Runalyze\Activity\PaceUnit;
 
 class MinPer500mTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomePaces()
+    public function testSomePaces(): void
     {
         $Pace = new MinPer500m();
 
@@ -12,7 +12,7 @@ class MinPer500mTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(150, $Pace->rawValue(300));
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $Pace = new MinPer500m();
 
@@ -21,7 +21,7 @@ class MinPer500mTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Pace->rawValue($Pace->compare(300, 300)));
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         $Pace = new MinPer500m();
 

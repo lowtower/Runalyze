@@ -17,7 +17,7 @@ class DurationTypeTest extends \PHPUnit\Framework\TestCase
         $this->Type = new DurationType();
     }
 
-    public function testTransform()
+    public function testTransform(): void
     {
         $this->assertEquals('0:00', $this->Type->transform(null));
         $this->assertEquals('0:00', $this->Type->transform(0));
@@ -26,7 +26,7 @@ class DurationTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1d 00:00:12', $this->Type->transform(86412));
     }
 
-    public function testThatNullIsNotPossible()
+    public function testThatNullIsNotPossible(): void
     {
         $this->expectException(TransformationFailedException::class);
 
@@ -34,7 +34,7 @@ class DurationTypeTest extends \PHPUnit\Framework\TestCase
         $this->Type->reverseTransform(null);
     }
 
-    public function testReverseTransform()
+    public function testReverseTransform(): void
     {
         $this->assertEquals(0, $this->Type->reverseTransform('0:00'));
         $this->assertEquals(194, $this->Type->reverseTransform('3:14'));

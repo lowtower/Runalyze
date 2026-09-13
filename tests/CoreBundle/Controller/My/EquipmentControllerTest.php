@@ -22,7 +22,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $this->Account = $this->getDefaultAccount();
     }
 
-    public function testOverviewAction()
+    public function testOverviewAction(): void
     {
         $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/my/equipment/overview');
@@ -30,7 +30,7 @@ class EquipmentControllerTest extends AbstractFixturesAwareWebTestCase
         $this->assertStatusCode(200, $client);
     }
 
-    public function testCategoryAction()
+    public function testCategoryAction(): void
     {
         $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/my/equipment/category/add');

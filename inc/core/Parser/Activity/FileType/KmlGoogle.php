@@ -35,12 +35,12 @@ class KmlGoogle extends AbstractSingleParser implements FileContentAwareParserIn
     /**
      * @param string $namespace
      */
-    public function setNamespace($namespace = 'kml')
+    public function setNamespace($namespace = 'kml'): void
     {
         $this->CoordinatesXPath = '//' . ($namespace !== null ? $namespace . ':.' : '') . 'coordinates';
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatThereAreCoordinates();
         $this->parseCoordinates();

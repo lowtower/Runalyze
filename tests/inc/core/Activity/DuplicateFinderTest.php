@@ -33,28 +33,28 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         $this->PDO->exec('DELETE FROM `' . PREFIX . 'training`');
     }
 
-    public function testDuplicate()
+    public function testDuplicate(): void
     {
         $this->assertTrue($this->Finder->checkForDuplicate(1448797800));
     }
 
-    public function testNewActivity()
+    public function testNewActivity(): void
     {
         $this->assertFalse($this->Finder->checkForDuplicate(1234567890));
     }
 
-    public function testInvalidArgument()
+    public function testInvalidArgument(): void
     {
         $this->expectException(\TypeError::class);
         $this->Finder->checkForDuplicate('foobar');
     }
 
-    public function testSingleNull()
+    public function testSingleNull(): void
     {
         $this->assertFalse($this->Finder->checkForDuplicate(null));
     }
 
-    public function testDuplicates()
+    public function testDuplicates(): void
     {
         $this->assertEquals(
             [
@@ -74,7 +74,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDuplicatesWithNull()
+    public function testDuplicatesWithNull(): void
     {
         $this->assertEquals(
             [
@@ -91,7 +91,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testDuplicatesWithOnlyNull()
+    public function testDuplicatesWithOnlyNull(): void
     {
         $this->assertEquals(
             [
@@ -104,7 +104,7 @@ class DuplicateFinderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testInvalidArgumentForDuplicates()
+    public function testInvalidArgumentForDuplicates(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->Finder->checkForDuplicates([

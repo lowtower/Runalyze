@@ -11,7 +11,7 @@ use Runalyze\Parameter\Application\ElevationMethod;
  */
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyArray()
+    public function testEmptyArray(): void
     {
         $Calculator = new Calculator([]);
         $Calculator->calculate();
@@ -21,7 +21,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Calculator->elevationDown());
     }
 
-    public function testValuesSimple()
+    public function testValuesSimple(): void
     {
         $Method = new ElevationMethod();
         $Method->set(ElevationMethod::NONE);
@@ -34,7 +34,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(31, $Calc->elevationDown());
     }
 
-    public function testValuesOnlyUp()
+    public function testValuesOnlyUp(): void
     {
         $Method = new ElevationMethod();
         $Method->set(ElevationMethod::NONE);
@@ -47,7 +47,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Calc->elevationDown());
     }
 
-    public function testValuesOnlyDown()
+    public function testValuesOnlyDown(): void
     {
         $Method = new ElevationMethod();
         $Method->set(ElevationMethod::NONE);
@@ -60,7 +60,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(35, $Calc->elevationDown());
     }
 
-    public function testAlgorithmTreshold()
+    public function testAlgorithmTreshold(): void
     {
         $Method = new ElevationMethod();
         $Method->set(ElevationMethod::THRESHOLD);
@@ -73,7 +73,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, $Calc->elevationDown());
     }
 
-    public function testAlgorithmDouglasPeucker()
+    public function testAlgorithmDouglasPeucker(): void
     {
         $Method = new ElevationMethod();
         $Method->set(ElevationMethod::DOUGLAS_PEUCKER);

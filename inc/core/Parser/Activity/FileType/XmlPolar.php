@@ -12,7 +12,7 @@ class XmlPolar extends AbstractMultipleParser implements FileContentAwareParserI
 {
     use XmlParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatXmlIsValid();
 

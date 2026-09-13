@@ -9,7 +9,7 @@ use Runalyze\Model\Trackdata;
 
 class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testForActivity()
+    public function testForActivity(): void
     {
         $this->assertEquals(53.0, VerticalRatioCalculator::forActivity(new Activity\Entity([
             Activity\Entity::VERTICAL_OSCILLATION => 53,
@@ -17,7 +17,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
         ])));
     }
 
-    public function testSingleValue()
+    public function testSingleValue(): void
     {
         $Calculator = new VerticalRatioCalculator(
             new Trackdata\Entity([
@@ -30,7 +30,7 @@ class VerticalRatioCalculatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(100, $Calculator->average());
     }
 
-    public function testSimpleArray()
+    public function testSimpleArray(): void
     {
         $Calculator = new VerticalRatioCalculator(
             new Trackdata\Entity([

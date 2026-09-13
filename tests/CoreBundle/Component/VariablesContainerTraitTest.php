@@ -22,20 +22,20 @@ class VariablesContainerTraitTest extends \PHPUnit\Framework\TestCase
         $this->SetMethod = new \ReflectionMethod($this->Object, 'set');
     }
 
-    public function testGettingUnknownKey()
+    public function testGettingUnknownKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->GetMethod->invoke($this->Object, 'foobar');
     }
 
-    public function testStoringValue()
+    public function testStoringValue(): void
     {
         $this->SetMethod->invoke($this->Object, 'foo', 'bar');
 
         $this->assertEquals('bar', $this->GetMethod->invoke($this->Object, 'foo'));
     }
 
-    public function testOverwritingValue()
+    public function testOverwritingValue(): void
     {
         $this->SetMethod->invoke($this->Object, 'foo', 'bar');
         $this->SetMethod->invoke($this->Object, 'foo', 'baz');

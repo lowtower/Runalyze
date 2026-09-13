@@ -10,10 +10,7 @@ use SimpleXMLElement;
 
 class PwxWorkout extends AbstractSingleParser
 {
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     public function __construct(SimpleXMLElement $workout)
     {
@@ -31,7 +28,7 @@ class PwxWorkout extends AbstractSingleParser
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->parseGeneralValues();
         $this->parseLaps();

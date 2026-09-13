@@ -16,12 +16,9 @@ class Tcx extends AbstractMultipleParser implements FileContentAwareParserInterf
     use XmlParserTrait;
     use PauseDetectionCapableTrait;
 
-    /**
-     * @var bool
-     */
-    protected $IsFromRuntastic = false;
+    protected bool $IsFromRuntastic = false;
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkOrigin();
         $this->parseMultiSportSessions();

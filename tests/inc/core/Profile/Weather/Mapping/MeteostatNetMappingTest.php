@@ -10,7 +10,7 @@ class MeteostatNetMappingTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider conditionProvider
      */
-    public function testMapping(int $meteostatCode, int $expected)
+    public function testMapping(int $meteostatCode, int $expected): void
     {
         $mapping = new MeteostatNetMapping();
 

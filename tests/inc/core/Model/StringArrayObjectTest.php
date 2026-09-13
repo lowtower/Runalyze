@@ -13,7 +13,7 @@ class StringArrayObject_MockTester extends StringArrayObject
  */
 class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
 {
-    public function testArrayConstructor()
+    public function testArrayConstructor(): void
     {
         $Array = new StringArrayObject_MockTester(['foo', 'bar']);
 
@@ -23,7 +23,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['foo', 'bar'], $Array->asArray());
     }
 
-    public function testStringConstructor()
+    public function testStringConstructor(): void
     {
         $Array = new StringArrayObject_MockTester('[1,2,3]');
 
@@ -31,7 +31,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([1, 2, 3], $Array->asArray());
     }
 
-    public function testFromAssociativeString()
+    public function testFromAssociativeString(): void
     {
         $Array = new StringArrayObject_MockTester('{"a":"foo","b":"bar"}');
 
@@ -42,7 +42,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         ], $Array->asArray());
     }
 
-    public function testAddingElements()
+    public function testAddingElements(): void
     {
         $Array = new StringArrayObject_MockTester();
 
@@ -55,7 +55,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $Array->num());
     }
 
-    public function testClearing()
+    public function testClearing(): void
     {
         $Array = new StringArrayObject_MockTester([1, 2, 3]);
         $Array->clear();
@@ -64,7 +64,7 @@ class StringArrayObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $Array->num());
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $Array = new StringArrayObject_MockTester();

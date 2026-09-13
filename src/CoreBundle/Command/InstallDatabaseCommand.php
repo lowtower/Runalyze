@@ -61,29 +61,24 @@ class InstallDatabaseCommand extends Command
     /**
      * @throws \Exception
      */
-    protected function importDatabaseStructure()
+    protected function importDatabaseStructure(): void
     {
         $fileName = $this->parameterBag->get('kernel.root_dir') . '/../' . self::DATABASE_STRUCTURE_FILE;
         $queries = $this->getSqlFileAsArray($fileName, $this->parameterBag->get('app.database_prefix'));
 
-        /** @var \Doctrine\DBAL\Connection $em */
-        $em = $this->doctrine->getConnection();
-        $em->beginTransaction();
+        if ($queries === []) {
+            throw new \RuntimeException(sprintf('Database structure file "%s" contains no executable statements.', $fileName));
+        }
 
-        try {
-            foreach ($queries as $query) {
-                $em->executeQuery($query);
-            }
+        /** @var \Doctrine\DBAL\Connection $connection */
+        $connection = $this->doctrine->getConnection();
 
-            $em->commit();
-        } catch (\Exception $exception) {
-            $em->rollBack();
-
-            throw $exception;
+        foreach ($queries as $query) {
+            $connection->executeStatement($query);
         }
     }
 
-    private function addAllMigrationsToDatabase()
+    private function addAllMigrationsToDatabase(): void
     {
         $app = $this->getApplication();
         $app->setAutoExit(false);

@@ -8,10 +8,7 @@ use SimpleXMLElement;
 
 class TcxCourse extends AbstractSingleParser
 {
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $Xml;
+    protected \SimpleXMLElement $Xml;
 
     public function __construct(SimpleXMLElement $activity)
     {
@@ -29,7 +26,7 @@ class TcxCourse extends AbstractSingleParser
         }
     }
 
-    public function parse()
+    public function parse(): void
     {
         foreach ($this->Xml->Track as $track) {
             foreach ($track->Trackpoint as $TP) {

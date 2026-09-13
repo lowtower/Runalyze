@@ -17,10 +17,7 @@ use Runalyze\Activity\Temperature;
  */
 class MinMaxTableForEquipment
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var int
@@ -51,7 +48,7 @@ class MinMaxTableForEquipment
     /**
      * @param string $query
      */
-    public function setDependency($query)
+    public function setDependency($query): void
     {
         $this->DependencyQuery = $query;
     }
@@ -84,7 +81,7 @@ class MinMaxTableForEquipment
     /**
      * Display table
      */
-    public function display()
+    public function display(): void
     {
         $this->displayHead();
         $this->displayBody();

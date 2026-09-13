@@ -16,7 +16,7 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
         $this->Utility = new UtilityExtension();
     }
 
-    public function testDuration()
+    public function testDuration(): void
     {
         $this->assertEquals('0:09.58', $this->Utility->duration(9.579, 2, '.'));
         $this->assertEquals('2:41,03', $this->Utility->duration(161.03, 2, ','));
@@ -28,7 +28,7 @@ class UtilityExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('1d 01:03:05', $this->Utility->duration(90185));
     }
 
-    public function testFilesizeAsString()
+    public function testFilesizeAsString(): void
     {
         $this->assertEquals('3 B', $this->Utility->filesizeAsString(3.14));
         $this->assertEquals('1.00 kB', $this->Utility->filesizeAsString(1024));

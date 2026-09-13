@@ -6,7 +6,7 @@ namespace Runalyze\Data\Weather;
 
 class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 {
-    public function testString()
+    public function testString(): void
     {
         $Beaufort = new BeaufortScale(new WindSpeed(15));
         $this->assertEquals('3 bft', $Beaufort->shortString());
@@ -16,12 +16,12 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bft', $Beaufort->unit());
     }
 
-    public function testStaticMethods()
+    public function testStaticMethods(): void
     {
         $this->assertEquals('3 bft', BeaufortScale::getShortString(new WindSpeed(15)));
     }
 
-    public function testSetter()
+    public function testSetter(): void
     {
         $object = new BeaufortScale();
 
@@ -29,12 +29,12 @@ class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(9, $object->setFromWindSpeed(new WindSpeed(80))->value());
     }
 
-    public function testInvalidValue()
+    public function testInvalidValue(): void
     {
         $this->assertFalse((new BeaufortScale())->set(42)->isValid());
     }
 
-    public function testLimits()
+    public function testLimits(): void
     {
         $object = new BeaufortScale();
         $wind = new WindSpeed();

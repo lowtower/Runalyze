@@ -19,10 +19,7 @@ use Runalyze\Model\Trackdata;
  */
 class Calculator
 {
-    /**
-     * @var \Runalyze\Model\Trackdata\Entity
-     */
-    protected $Trackdata;
+    protected \Runalyze\Model\Trackdata\Entity $Trackdata;
 
     /**
      * @var array
@@ -81,7 +78,7 @@ class Calculator
      * Calculate average stride length
      * @return null|int [cm]
      */
-    public function average()
+    public function average(): ?int
     {
         if ($this->Strides === []) {
             return null;
@@ -101,7 +98,7 @@ class Calculator
      *
      * @return null|int [cm]
      */
-    public static function forActivity(Activity\Entity $activity)
+    public static function forActivity(Activity\Entity $activity): ?int
     {
         if ($activity->cadence() > 0 && $activity->duration() > 0) {
             $value = round($activity->distance() * 1000 * 100 / ($activity->cadence() * 2 / 60 * $activity->duration()));

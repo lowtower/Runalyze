@@ -49,7 +49,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         );
     }
 
-    public function testEmptyContainer()
+    public function testEmptyContainer(): void
     {
         $activityContext = $this->Converter->getContextFor($this->Container);
 
@@ -65,7 +65,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEmpty($activityContext->getActivity()->getEquipment());
     }
 
-    public function testThatSportTypeAndEquipmentCanBeGuessedByName()
+    public function testThatSportTypeAndEquipmentCanBeGuessedByName(): void
     {
         $this->Container->Metadata->setSportName('Running');
         $this->Container->Metadata->setTypeName('Fartlek');
@@ -80,7 +80,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEquals('singlet', $activityContext->getActivity()->getEquipment()[0]->getName());
     }
 
-    public function testThatSportsDefaultTypeIsUsed()
+    public function testThatSportsDefaultTypeIsUsed(): void
     {
         $this->Container->Metadata->setSportName('Running');
 
@@ -103,7 +103,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
             ->setDefaultType($backupDefaultType);
     }
 
-    public function testThatSwimmingCanBeGuessedByName()
+    public function testThatSwimmingCanBeGuessedByName(): void
     {
         $this->Container->Metadata->setSportName('Swimming');
         $this->Container->Metadata->setTypeName('bathtub party');
@@ -118,7 +118,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEmpty($activityContext->getActivity()->getEquipment());
     }
 
-    public function testThatLatitudesAndLongitudesAreTreatedFine()
+    public function testThatLatitudesAndLongitudesAreTreatedFine(): void
     {
         $this->Container->ContinuousData->Latitude = [49.78, 49.79, 49.80];
         $this->Container->ContinuousData->Longitude = [7.77, 7.77, 7.77];
@@ -131,7 +131,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEquals($this->Container->ContinuousData->Longitude, $activityContext->getRoute()->getLongitudes());
     }
 
-    public function testThatBarometricAltitudeDataIsStoredAsOriginalOnly()
+    public function testThatBarometricAltitudeDataIsStoredAsOriginalOnly(): void
     {
         $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
         $this->Container->ContinuousData->Altitude = [117, 117, 119, 124, 123, 120];
@@ -144,7 +144,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());
     }
 
-    public function testThatAltitudeBarometricFlagIsTransferred()
+    public function testThatAltitudeBarometricFlagIsTransferred(): void
     {
         $this->Container->ContinuousData->IsAltitudeDataBarometric = true;
         $this->Container->ContinuousData->Altitude = [117, 118];
@@ -153,7 +153,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertTrue($activityContext->getRoute()->getAltitudeBarometric());
     }
 
-    public function testThatRRIntervalsAreConverted()
+    public function testThatRRIntervalsAreConverted(): void
     {
         $this->Container->RRIntervals = [731, 746, 740, 752];
 
@@ -162,7 +162,7 @@ class ActivityDataContainerToActivityContextConverterTest extends AbstractFixtur
         $this->assertEquals($this->Container->RRIntervals, $activityContext->getHrv()->getData());
     }
 
-    public function testDistanceRounding()
+    public function testDistanceRounding(): void
     {
         $this->Container->ContinuousData->Distance = [0.12345678, 0.98765432];
 

@@ -8,10 +8,7 @@ use Runalyze\Util\LocalTime;
 
 class Shape
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var int
@@ -23,10 +20,7 @@ class Shape
      */
     protected $RunningID;
 
-    /**
-     * @var \Runalyze\Configuration\Category\VO2max
-     */
-    protected $Configuration;
+    protected \Runalyze\Configuration\Category\VO2max $Configuration;
 
     /**
      * @var null|\Runalyze\Calculation\JD\LegacyEffectiveVO2maxCorrector
@@ -50,12 +44,12 @@ class Shape
         $this->Configuration = $config;
     }
 
-    public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector)
+    public function setCorrector(LegacyEffectiveVO2maxCorrector $corrector): void
     {
         $this->Corrector = $corrector;
     }
 
-    public function calculate()
+    public function calculate(): void
     {
         $this->calculateAt(time());
     }
@@ -63,7 +57,7 @@ class Shape
     /**
      * @param int $timestampInServerTimezone timestamp
      */
-    public function calculateAt($timestampInServerTimezone)
+    public function calculateAt($timestampInServerTimezone): void
     {
         $time = LocalTime::fromServerTime($timestampInServerTimezone)->setTime(23, 59, 59)->getTimestamp();
 
@@ -126,13 +120,11 @@ class Shape
      * This value is already corrected.
      * If no corrector was set, the global/static one is used.
      *
-     * @return float [ml/kg/min]
+     * @return int|float [ml/kg/min]
      */
-    public function value()
+    public function value(): int|float
     {
-        if ($this->Corrector === null) {
-            $this->Corrector = new LegacyEffectiveVO2maxCorrector();
-        }
+        $this->Corrector ??= new LegacyEffectiveVO2maxCorrector();
 
         return $this->uncorrectedValue() * $this->Corrector->factor();
     }

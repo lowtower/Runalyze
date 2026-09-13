@@ -17,7 +17,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->Parser = new Hrm();
     }
 
-    public function testSimpleExampleFile()
+    public function testSimpleExampleFile(): void
     {
         $this->parseFile($this->Parser, 'hrm/12011801.hrm');
 
@@ -45,7 +45,7 @@ class HrmTest extends AbstractActivityParserTestCase
         ], 0.5, 0.001);
     }
 
-    public function testFileWithoutPaceData()
+    public function testFileWithoutPaceData(): void
     {
         $this->parseFile($this->Parser, 'hrm/15031101.spinning.hrm');
 
@@ -58,7 +58,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
 
-    public function testFileWithoutPaceDataAgain()
+    public function testFileWithoutPaceDataAgain(): void
     {
         $this->parseFile($this->Parser, 'hrm/15031801.spinning.hrm');
 
@@ -71,7 +71,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
 
-    public function testFileWithRRData()
+    public function testFileWithRRData(): void
     {
         $this->parseFile($this->Parser, 'hrm/hrv.hrm');
 

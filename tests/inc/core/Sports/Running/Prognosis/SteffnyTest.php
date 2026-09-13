@@ -18,12 +18,12 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
         $this->Steffny = new Steffny();
     }
 
-    public function testWithoutReferenceTime()
+    public function testWithoutReferenceTime(): void
     {
         $this->assertFalse($this->Steffny->areValuesValid());
     }
 
-    public function testSetReferenceFrom10kTime()
+    public function testSetReferenceFrom10kTime(): void
     {
         $this->Steffny->setReferenceFrom10kTime(41 * 60);
 
@@ -33,7 +33,7 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(20 * 60, $this->Steffny->getSeconds(5.0));
     }
 
-    public function testSetReferenceResult()
+    public function testSetReferenceResult(): void
     {
         $this->Steffny->setReferenceResult(9.9, 40 * 60 + 35);
         $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
@@ -67,7 +67,7 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(41 * 60, $this->Steffny->getSeconds(10.0), 1);
     }
 
-    public function testInSeconds()
+    public function testInSeconds(): void
     {
         $this->Steffny->setReferenceResult(1.5, 4 * 60 + 30);
 
@@ -83,7 +83,7 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
     /**
      * Test halfmarathon table, see page 148.
      */
-    public function testHalfmarathonTable()
+    public function testHalfmarathonTable(): void
     {
         $Requirements = [
             [[62, 30], [2, 18, 0]],
@@ -118,7 +118,7 @@ class SteffnyTest extends \PHPUnit\Framework\TestCase
     /**
      * Test marathon table, see page 183.
      */
-    public function testMarathonTable()
+    public function testMarathonTable(): void
     {
         $Requirements = [
             [[62, 30], [4, 55, 0]],

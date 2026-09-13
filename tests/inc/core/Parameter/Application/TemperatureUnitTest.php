@@ -20,7 +20,7 @@ class TemperatureUnitTest extends \PHPUnit\Framework\TestCase
         $this->object = new TemperatureUnit();
     }
 
-    public function testHasTemperature()
+    public function testHasTemperature(): void
     {
 
         $this->object->set(TemperatureUnit::CELSIUS);

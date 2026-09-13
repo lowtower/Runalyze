@@ -6,7 +6,7 @@ namespace Runalyze\Calculation\Math\MovingAverage;
 
 class ExponentialTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleExampleWithAlpha50percent()
+    public function testSimpleExampleWithAlpha50percent(): void
     {
         $Object = new Exponential([10, 20, 30, 20, 10]);
         $Object->setAlpha(0.5);
@@ -21,7 +21,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         ], $Object->movingAverage());
     }
 
-    public function testSimpleExampleWithAlpha75percent()
+    public function testSimpleExampleWithAlpha75percent(): void
     {
         $Object = new Exponential([10, 20, 30, 20, 10]);
         $Object->setAlpha(0.75);
@@ -36,7 +36,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         ], $Object->movingAverage());
     }
 
-    public function testSimpleExampleWithAlpha25percent()
+    public function testSimpleExampleWithAlpha25percent(): void
     {
         $Object = new Exponential([10, 20, 30, 20, 10]);
         $Object->setAlpha(0.25);
@@ -51,7 +51,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         ], $Object->movingAverage());
     }
 
-    public function testWithIndexDataEvenlySpaced()
+    public function testWithIndexDataEvenlySpaced(): void
     {
         $Indexed = new Exponential(
             [10, 20, 30, 20, 10],
@@ -69,7 +69,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($NotIndexed->movingAverage(), $Indexed->movingAverage());
     }
 
-    public function testWithIndexDataUnevenlySpaced()
+    public function testWithIndexDataUnevenlySpaced(): void
     {
         $Object = new Exponential(
             [10, 20, 30, 20, 10],

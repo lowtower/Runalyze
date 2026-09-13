@@ -6,7 +6,7 @@ namespace Runalyze\Data\Cadence;
 
 class GeneralTest extends \PHPUnit\Framework\TestCase
 {
-    public function testValue()
+    public function testValue(): void
     {
         $Cadence = new General(90);
 

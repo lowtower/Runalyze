@@ -23,7 +23,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->object = new DatabaseOrder();
     }
 
-    public function testAsQuery()
+    public function testAsQuery(): void
     {
         $this->object->set(DatabaseOrder::ASC);
         $this->assertEquals('ORDER BY `id` ASC', $this->object->asQuery());
@@ -35,7 +35,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('ORDER BY `name` ASC', $this->object->asQuery());
     }
 
-    public function testAscendingOrdering()
+    public function testAscendingOrdering(): void
     {
         $array = [
             '3' => [
@@ -77,7 +77,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         ], $array);
     }
 
-    public function testDescendingOrdering()
+    public function testDescendingOrdering(): void
     {
         $array = [
             '3' => [
@@ -119,7 +119,7 @@ class DatabaseOrderTest extends \PHPUnit\Framework\TestCase
         ], $array);
     }
 
-    public function testAlphabeticalOrdering()
+    public function testAlphabeticalOrdering(): void
     {
         $array = [
             'f' => [

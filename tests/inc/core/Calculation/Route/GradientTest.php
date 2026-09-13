@@ -9,7 +9,7 @@ use Runalyze\Model;
 
 class GradientTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWithoutInputData()
+    public function testWithoutInputData(): void
     {
         $gradient = new Gradient();
         $gradient->calculate();
@@ -17,7 +17,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($gradient->getSeries());
     }
 
-    public function testWithUnbalancedInputData()
+    public function testWithUnbalancedInputData(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new Gradient(
@@ -26,7 +26,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testWithEmptyTrackdata()
+    public function testWithEmptyTrackdata(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $gradient = new Gradient();
@@ -38,7 +38,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testWithDataFromModel()
+    public function testWithDataFromModel(): void
     {
         $gradient = new Gradient();
         $gradient->setDataFrom(
@@ -57,7 +57,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testWithDataFromSetter()
+    public function testWithDataFromSetter(): void
     {
         $gradient = new Gradient();
         $gradient->setData(
@@ -72,7 +72,7 @@ class GradientTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testWithKernel()
+    public function testWithKernel(): void
     {
         $gradient = new Gradient(
             [10, 20, 50, 40, 75, 100, 150, 120, 125, 110],

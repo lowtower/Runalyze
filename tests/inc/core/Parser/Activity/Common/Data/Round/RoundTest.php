@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
 class RoundTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleRound()
+    public function testSimpleRound(): void
     {
         $round = new Round(1.0, 265);
 
@@ -17,14 +17,14 @@ class RoundTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($round->isActive());
     }
 
-    public function testRestingRound()
+    public function testRestingRound(): void
     {
         $round = new Round(1.0, 265, false);
 
         $this->assertFalse($round->isActive());
     }
 
-    public function testSetter()
+    public function testSetter(): void
     {
         $round = new Round(1.0, 105, false);
         $round->setDistance(0.5);
@@ -39,7 +39,7 @@ class RoundTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getProviderForComparison
      */
-    public function testComparison(bool $expectedComparison, float $distanceFirst, int $durationFirst, bool $isActiveFirst, float $distanceSecond, int $durationSecond, bool $isActiveSecond)
+    public function testComparison(bool $expectedComparison, float $distanceFirst, int $durationFirst, bool $isActiveFirst, float $distanceSecond, int $durationSecond, bool $isActiveSecond): void
     {
         $this->assertEquals(
             $expectedComparison,

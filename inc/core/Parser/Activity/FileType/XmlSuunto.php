@@ -76,7 +76,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
     /**
      * @param string $content
      */
-    public function setFileContent($content)
+    public function setFileContent($content): void
     {
         $this->setFileContentInTrait($this->addRootElement($content));
     }
@@ -91,7 +91,7 @@ class XmlSuunto extends AbstractSingleParser implements FileContentAwareParserIn
         return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>" . $fileContent . '</root>';
     }
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatXmlIsValid();
         $this->setHeader();

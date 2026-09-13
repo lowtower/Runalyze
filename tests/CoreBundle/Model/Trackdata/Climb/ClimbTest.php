@@ -14,7 +14,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         return new Climb(1.0, 50);
     }
 
-    public function testConstructorWithoutIndices()
+    public function testConstructorWithoutIndices(): void
     {
         $climb = new Climb(1.0, 50);
 
@@ -29,7 +29,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($climb->getTrackdataEndIndex());
     }
 
-    public function testConstructorWithIndices()
+    public function testConstructorWithIndices(): void
     {
         $climb = new Climb(1.0, 50, 42, 123);
 
@@ -39,7 +39,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123, $climb->getTrackdataEndIndex());
     }
 
-    public function testAltitudeAtTop()
+    public function testAltitudeAtTop(): void
     {
         $climb = $this->getDefaultClimb()
             ->setAltitudeAtTop(1234);
@@ -48,7 +48,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1234, $climb->getAltitudeAtTop());
     }
 
-    public function testGradient()
+    public function testGradient(): void
     {
         $this->assertEquals(0.05, (new Climb(1.0, 50))->getGradient());
         $this->assertEquals(0.16, (new Climb(0.2, 32))->getGradient());
@@ -56,7 +56,7 @@ class ClimbTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.033, (new Climb(3.0, 100))->getGradient(), 0.001);
     }
 
-    public function testClimbProfile()
+    public function testClimbProfile(): void
     {
         $climbProfile = new ClimbProfile();
         $climb = $this->getDefaultClimb();

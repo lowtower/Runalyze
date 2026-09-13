@@ -4,13 +4,13 @@ namespace Runalyze\Parameter\Application;
 
 class TimezoneTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvalidEnum()
+    public function testInvalidEnum(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Timezone::getFullNameByEnum(-1);
     }
 
-    public function testThatThereIsAMapping()
+    public function testThatThereIsAMapping(): void
     {
         $this->assertNotEmpty(Timezone::getMapping());
     }
@@ -40,7 +40,7 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testThatAllEnumsCanBeFoundByOriginalName()
+    public function testThatAllEnumsCanBeFoundByOriginalName(): void
     {
         foreach (Timezone::getEnum() as $enum) {
             $identifier = Timezone::getFullNameByEnum($enum);
@@ -50,7 +50,7 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testInvalidOriginalName()
+    public function testInvalidOriginalName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         Timezone::getEnumByOriginalName('Horsehead_Nebula/Magrathea');

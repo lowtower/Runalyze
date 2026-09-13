@@ -12,7 +12,7 @@ class Fitlog extends AbstractMultipleParser implements FileContentAwareParserInt
 {
     use XmlParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatXmlIsValid();
 

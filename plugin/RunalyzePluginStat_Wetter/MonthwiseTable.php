@@ -21,10 +21,7 @@ use Runalyze\Util\Time;
  */
 class MonthwiseTable
 {
-    /**
-     * @var \PDO
-     */
-    protected $PDO;
+    protected \PDO $PDO;
 
     /**
      * @var int
@@ -70,7 +67,7 @@ class MonthwiseTable
     /**
      * @param string $query
      */
-    public function setDependency($query)
+    public function setDependency($query): void
     {
         $this->DependencyQuery = $query;
     }
@@ -78,7 +75,7 @@ class MonthwiseTable
     /**
      * @param string $query
      */
-    public function setGroupBy($query)
+    public function setGroupBy($query): void
     {
         $this->GroupByQuery = $query;
     }
@@ -86,7 +83,7 @@ class MonthwiseTable
     /**
      * @param string $query
      */
-    public function setOrderBy($query)
+    public function setOrderBy($query): void
     {
         $this->OrderByQuery = $query;
     }
@@ -94,7 +91,7 @@ class MonthwiseTable
     /**
      * @param int $offset
      */
-    public function setMonthOffset($offset)
+    public function setMonthOffset($offset): void
     {
         $this->MonthOffsetForHeader = $offset;
     }
@@ -112,7 +109,7 @@ class MonthwiseTable
     /**
      * Display table
      */
-    public function display()
+    public function display(): void
     {
         $this->displayHead();
         $this->displayBody();
@@ -195,7 +192,7 @@ class MonthwiseTable
     /**
      * @return \PDOStatement
      */
-    protected function createStatementToFetchAverageTemperatures()
+    protected function createStatementToFetchAverageTemperatures(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT
@@ -240,7 +237,7 @@ class MonthwiseTable
     /**
      * @return \PDOStatement
      */
-    protected function createStatementToFetchWeatherConditions()
+    protected function createStatementToFetchWeatherConditions(): \PDOStatement|false
     {
         return $this->PDO->prepare(
             'SELECT
@@ -269,9 +266,7 @@ class MonthwiseTable
         $Statement = $this->createStatementToFetchEquipment();
 
         while ($data = $Statement->fetch()) {
-            if (! isset($RowsByID[$data['equipmentid']])) {
-                $RowsByID[$data['equipmentid']] = [];
-            }
+            $RowsByID[$data['equipmentid']] ??= [];
 
             $RowsByID[$data['equipmentid']][$data['m']] = $data['num'] . 'x';
         }
@@ -286,7 +281,7 @@ class MonthwiseTable
     /**
      * @return \PDOStatement
      */
-    protected function createStatementToFetchEquipment()
+    protected function createStatementToFetchEquipment(): \PDOStatement|false
     {
         return $this->PDO->query(
             'SELECT

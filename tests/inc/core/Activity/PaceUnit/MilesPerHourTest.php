@@ -4,7 +4,7 @@ namespace Runalyze\Activity\PaceUnit;
 
 class MilesPerHourTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSomePaces()
+    public function testSomePaces(): void
     {
         $Pace = new MilesPerHour();
 
@@ -12,7 +12,7 @@ class MilesPerHourTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(7.46, $Pace->rawValue(300), 0.01);
     }
 
-    public function testComparison()
+    public function testComparison(): void
     {
         $Pace = new MilesPerHour();
 
@@ -21,7 +21,7 @@ class MilesPerHourTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta(0.00, $Pace->rawValue($Pace->compare(300, 300)), 0.01);
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         AbstractDecimalUnit::$DecimalSeparator = ',';
         AbstractDecimalUnit::$Decimals = 1;

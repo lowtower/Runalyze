@@ -12,7 +12,7 @@ class Logbook extends AbstractMultipleParser implements FileContentAwareParserIn
 {
     use XmlParserTrait;
 
-    public function parse()
+    public function parse(): void
     {
         $this->checkThatXmlIsValid();
 

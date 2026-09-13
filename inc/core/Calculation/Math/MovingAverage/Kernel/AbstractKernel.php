@@ -17,15 +17,9 @@ namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
  */
 abstract class AbstractKernel
 {
-    /**
-     * @var float
-     */
-    private $TransformationFactor;
+    private float $TransformationFactor;
 
-    /**
-     * @var float
-     */
-    protected $Width;
+    protected float $Width;
 
     /**
      * @var float

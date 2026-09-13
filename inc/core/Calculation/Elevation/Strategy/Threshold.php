@@ -31,10 +31,7 @@ class Threshold extends AbstractStrategy
         $this->setEpsilon($epsilon);
     }
 
-    /**
-     * @param float $epsilon
-     */
-    public function setEpsilon($epsilon)
+    public function setEpsilon(float $epsilon): void
     {
         $this->Epsilon = $epsilon;
     }
@@ -42,7 +39,7 @@ class Threshold extends AbstractStrategy
     /**
      * Smooth data
      */
-    public function runSmoothing()
+    public function runSmoothing(): void
     {
         $i = 0;
         $max = count($this->ElevationData);

@@ -11,7 +11,7 @@ use Runalyze\Athlete;
  */
 class HeartRateTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWithoutAthlete()
+    public function testWithoutAthlete(): void
     {
         $HR = new HeartRate(150);
 
@@ -20,7 +20,7 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(150, $HR->inBPM());
     }
 
-    public function testDynamicSetting()
+    public function testDynamicSetting(): void
     {
         $HR = new HeartRate(150);
         $this->assertEquals(150, $HR->inBPM());
@@ -29,7 +29,7 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(120, $HR->inBPM());
     }
 
-    public function testWithAthlete()
+    public function testWithAthlete(): void
     {
         $HR = new HeartRate(160, new Athlete(null, 200, 40));
 
@@ -39,7 +39,7 @@ class HeartRateTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(75, $HR->inHRrest());
     }
 
-    public function testWithOnlyHRmax()
+    public function testWithOnlyHRmax(): void
     {
         $HR = new HeartRate(150, new Athlete(null, 200));
 

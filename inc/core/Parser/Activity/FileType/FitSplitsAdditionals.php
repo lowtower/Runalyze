@@ -53,6 +53,7 @@ class FitSplitsAdditionals
 
     /**
      * #TSC read the sets of a strength-training as "normal" laps
+     * @param array<string, mixed> $values
      */
     public function getSetRoundAndCollect(array &$values): ?Round
     {
@@ -109,6 +110,7 @@ class FitSplitsAdditionals
 
     /**
      * #TSC collect additional informations of the lap.
+     * @param array<string, mixed> $values
      */
     public function collectLap(array &$values, bool $isActiveLap, bool $isSwimming, ?array $adds = null): void
     {

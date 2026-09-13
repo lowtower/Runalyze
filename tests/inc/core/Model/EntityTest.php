@@ -35,7 +35,7 @@ class ObjectWithEmptyNumerics_MockTester extends Entity
         return ['int', 'string'];
     }
 
-    public function synchronize($default = 0)
+    public function synchronize($default = 0): void
     {
         $this->ensureNumericValue('int', $default);
     }
@@ -46,13 +46,13 @@ class ObjectWithEmptyNumerics_MockTester extends Entity
  */
 class EntityTest extends \PHPUnit\Framework\TestCase
 {
-    public function testStaticArrayMethods()
+    public function testStaticArrayMethods(): void
     {
         $TestArray = [1, 2, 3];
         $this->assertEquals($TestArray, Entity::explode(Entity::implode($TestArray)));
     }
 
-    public function testSimpleObject()
+    public function testSimpleObject(): void
     {
         $O = new Object_MockTester([
             'a' => 1,
@@ -77,7 +77,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $O->num());
     }
 
-    public function testSimpleObjectWithArray()
+    public function testSimpleObjectWithArray(): void
     {
         $O = new ObjectWithArrays_MockTester([
             'a' => 1,
@@ -94,7 +94,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $O->num());
     }
 
-    public function testClearing()
+    public function testClearing(): void
     {
         $O = new ObjectWithArrays_MockTester([
             'a' => 1,
@@ -111,7 +111,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($O->isEmpty());
     }
 
-    public function testSimpleObjectWithArrayAsString()
+    public function testSimpleObjectWithArrayAsString(): void
     {
         $O = new ObjectWithArrays_MockTester([
             'b' => '1' . Entity::ARRAY_SEPARATOR . '2' . Entity::ARRAY_SEPARATOR . '3',
@@ -120,7 +120,7 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([1, 2, 3], $O->get('b'));
     }
 
-    public function testDefaultValues()
+    public function testDefaultValues(): void
     {
         $O = new ObjectWithArrays_MockTester();
 
@@ -131,42 +131,42 @@ class EntityTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($O->isEmpty());
     }
 
-    public function testHasException()
+    public function testHasException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $O = new Object_MockTester();
         $O->has('foo');
     }
 
-    public function testGetException()
+    public function testGetException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $O = new Object_MockTester();
         $O->get('foo');
     }
 
-    public function testSetException()
+    public function testSetException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $O = new Object_MockTester();
         $O->set('foo', 'bar');
     }
 
-    public function testInvalidSetException()
+    public function testInvalidSetException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $O = new ObjectWithArrays_MockTester();
         $O->set('c', 'd');
     }
 
-    public function testArraySetException()
+    public function testArraySetException(): void
     {
         $this->expectException(\RuntimeException::class);
         $O = new ObjectWithArrays_MockTester();
         $O->set('b', 'no-array');
     }
 
-    public function testEnsuringNumericalValues()
+    public function testEnsuringNumericalValues(): void
     {
         $O = new ObjectWithEmptyNumerics_MockTester();
         $this->assertEquals('', $O->get('int'));

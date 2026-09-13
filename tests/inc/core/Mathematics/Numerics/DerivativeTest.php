@@ -6,19 +6,19 @@ use Runalyze\Mathematics\Numerics\Derivative;
 
 class DerivativeTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyArrays()
+    public function testEmptyArrays(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         (new Derivative())->calculate([], []);
     }
 
-    public function testWrongArraySizes()
+    public function testWrongArraySizes(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         (new Derivative())->calculate([1, 2, 3], [1, 2]);
     }
 
-    public function testConstantFunction()
+    public function testConstantFunction(): void
     {
         $this->assertEquals(
             [0.0, 0.0, 0.0, 0.0, 0.0],
@@ -29,7 +29,7 @@ class DerivativeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testConstantGradient()
+    public function testConstantGradient(): void
     {
         $this->assertEquals(
             [1.0, 1.0, 1.0, 1.0, 1.0],
@@ -40,7 +40,7 @@ class DerivativeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSimpleFunction()
+    public function testSimpleFunction(): void
     {
         $this->assertEquals(
             [1.0, 1.0, 2.0, 2.5, -3.0, 6.0, -4.0, 0.0, -5.0],
@@ -54,7 +54,7 @@ class DerivativeTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1952
      */
-    public function testConstantPartsForX()
+    public function testConstantPartsForX(): void
     {
         $this->assertEquals(
             [1.0, 1.0, 1.0, 0.0, 0.0],
@@ -68,7 +68,7 @@ class DerivativeTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/Runalyze/Runalyze/issues/1952
      */
-    public function testConstantPartsAtBeginningForX()
+    public function testConstantPartsAtBeginningForX(): void
     {
         $this->assertEquals(
             [0.0, 0.0, 0.0, 4.0, 2.0],

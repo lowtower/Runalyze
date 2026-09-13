@@ -9,7 +9,7 @@ namespace Runalyze\Calculation\Elevation;
  */
 class DistanceModifierTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleModification()
+    public function testSimpleModification(): void
     {
         $Modifier = new DistanceModifier(10, 200, 100);
         $Modifier->setCorrectionValues(+2, -1);
@@ -18,7 +18,7 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10.3, $Modifier->correctedDistance());
     }
 
-    public function testNoModification()
+    public function testNoModification(): void
     {
         $Modifier = new DistanceModifier(10);
 
@@ -26,7 +26,7 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10.0, $Modifier->correctedDistance());
     }
 
-    public function testNegativeModification()
+    public function testNegativeModification(): void
     {
         $Modifier = new DistanceModifier(10, 200, 500);
         $Modifier->setCorrectionValues(+2, -1);
@@ -35,7 +35,7 @@ class DistanceModifierTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(9.9, $Modifier->correctedDistance());
     }
 
-    public function testConfigurationSettings()
+    public function testConfigurationSettings(): void
     {
         $VO2maxConfig = new \Runalyze\Configuration\Category\VO2max();
         $Modifier = new DistanceModifier(10, 100, 100, $VO2maxConfig);

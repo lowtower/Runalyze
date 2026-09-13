@@ -6,7 +6,7 @@ use Runalyze\Bundle\CoreBundle\Component\Configuration\ConfigurationList;
 
 class ConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimpleConstructor()
+    public function testSimpleConstructor(): void
     {
         $list = new ConfigurationList([
             'foo' => 'bar',
@@ -15,7 +15,7 @@ class ConfigurationListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('bar', $list->get('foo'));
     }
 
-    public function testMerging()
+    public function testMerging(): void
     {
         $list = new ConfigurationList([
             'foo' => 1,
